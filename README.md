@@ -1,4 +1,4 @@
-# C2CS
+# C-2-CS
 
 C to C# code generator. In go `.h` file, out come `.cs`.
 
