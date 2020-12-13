@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- MSBuild project settings -->
+    <PropertyGroup>
+    </PropertyGroup>
+
+    <!-- Custom project settings -->
+    <PropertyGroup>
+        <EnableAnalyzers>true</EnableAnalyzers>
+        <IncludeAnalyzersStyleCop>true</IncludeAnalyzersStyleCop>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="ClangSharp" Version="10.0.0-beta" />
+        <PackageReference Include="libclang" Version="10.0.0" />
+        <PackageReference Include="libclang.runtime.osx-x64" Version="10.0.0" />
+        <PackageReference Include="libclang.runtime.win-x64" Version="10.0.0" />
+        <PackageReference Include="libClangSharp" Version="10.0.0-beta2" />
+        <PackageReference Include="libClangSharp.runtime.osx-x64" Version="10.0.0-beta2" />
+        <PackageReference Include="libClangSharp.runtime.win-x64" Version="10.0.0-beta2" />
+        <PackageReference Include="libLLVM" Version="10.0.0" />
+        <PackageReference Include="libLLVM.runtime.osx-x64" Version="10.0.0" />
+        <PackageReference Include="libLLVM.runtime.win-x64" Version="10.0.0" />
+        <PackageReference Include="LLVMSharp" Version="10.0.0-beta" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Compilers" Version="3.6.0-3.final" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.6.0-3.final" />
+    </ItemGroup>
+
+</Project>

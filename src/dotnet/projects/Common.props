@@ -1,0 +1,33 @@
+<Project>
+
+    <!-- Custom project settings -->
+    <PropertyGroup>
+        <IncludeStyleCop>false</IncludeStyleCop>
+        <RepositoryPath>$(MSBuildThisFileDirectory)../../../</RepositoryPath>
+    </PropertyGroup>
+
+    <!-- MSBuild project settings -->
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <PlatformTarget>x64</PlatformTarget>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <OutputPath>$(RepositoryPath)bin/$(MSBuildProjectName)/$(Configuration)</OutputPath>
+        <BaseIntermediateOutputPath>$(RepositoryPath)obj/$(MSBuildProjectName)/$(Configuration)</BaseIntermediateOutputPath>
+        <!-- <BaseIntermediateOutputPath>$(RepositoryPath)obj/$(ProjectName)/$(Configuration)</BaseIntermediateOutputPath> -->
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
+    </PropertyGroup>
+
+    <!-- NuGet -->
+    <PropertyGroup>
+        <IsPackable>false</IsPackable>
+        <PackageOutputPath>$(RepositoryPath)nupkg</PackageOutputPath>
+        <IncludeSymbols>false</IncludeSymbols>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="$(MSBuildThisFileDirectory)NuGet.config" Link="Properties/NuGet.config" />
+    </ItemGroup>
+
+</Project>

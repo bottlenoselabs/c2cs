@@ -1,0 +1,40 @@
+// Copyright (c) Craftwork Games. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
+
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+
+namespace C2CS
+{
+    internal static class FieldDeclarationSyntaxExtensions
+    {
+        internal static FieldDeclarationSyntax WithAttributeFieldOffset(
+            this FieldDeclarationSyntax fieldDeclarationSyntax,
+            int offset,
+            int size,
+            int padding)
+        {
+            return fieldDeclarationSyntax.WithAttributeLists(
+                SingletonList(
+                    AttributeList(
+                            SingletonSeparatedList(
+                                Attribute(
+                                    IdentifierName("FieldOffset"),
+                                    AttributeArgumentList(
+                                        SeparatedList(new[]
+                                        {
+                                            AttributeArgument(
+                                                LiteralExpression(
+                                                    SyntaxKind.NumericLiteralExpression,
+                                                    Literal(offset))),
+                                        })))))
+                        .WithCloseBracketToken(
+                            Token(
+                                TriviaList(),
+                                SyntaxKind.CloseBracketToken,
+                                TriviaList(
+                                    Comment($"/* size = {size}, padding = {padding} */"))))));
+        }
+    }
+}

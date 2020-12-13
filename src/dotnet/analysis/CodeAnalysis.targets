@@ -1,0 +1,27 @@
+<Project>
+
+    <!-- Ruleset -->
+    <PropertyGroup Condition=" '$(EnableAnalyzers)' == 'true' ">
+        <CodeAnalysisRuleSetFileName>Default.ruleset</CodeAnalysisRuleSetFileName>
+        <CodeAnalysisRuleSetFilePath>$(MSBuildThisFileDirectory)/$(CodeAnalysisRuleSetFileName)</CodeAnalysisRuleSetFilePath>
+        <!-- NOTE: Rosyln expects a variable named `CodeAnalysisRuleSet` to exist and will use it! Do NOT change the name of this variable! -->
+        <CodeAnalysisRuleSet>$(CodeAnalysisRuleSetFilePath)</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <ItemGroup Condition=" '$(EnableAnalyzers)' == 'true' ">
+        <AdditionalFiles Include="$(CodeAnalysisRuleSetFilePath)" Visible="false" />
+        <None Include="$(CodeAnalysisRuleSetFilePath)" Link="Properties/$(CodeAnalysisRuleSetFileName)" />
+    </ItemGroup>
+    
+    <!-- StyleCop -->
+    <PropertyGroup Condition=" '$(EnableAnalyzers)' == 'true' AND '$(IncludeAnalyzersStyleCop)' == 'true' ">
+        <StyleCopSettingsFileName>StyleCop.json</StyleCopSettingsFileName>
+        <StyleCopSettingsFilePath>$(MSBuildThisFileDirectory)/StyleCop/$(StyleCopSettingsFileName)</StyleCopSettingsFilePath>
+    </PropertyGroup>
+    <ItemGroup Condition=" '$(EnableAnalyzers)' == 'true' AND '$(IncludeAnalyzersStyleCop)' == 'true' ">
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.261" PrivateAssets="all" />
+        <AdditionalFiles Include="$(StyleCopSettingsFilePath)" Visible="false" />
+        <None Include="$(StyleCopSettingsFilePath)" Link="Properties/$(StyleCopSettingsFileName)" />
+    </ItemGroup>
+
+
+</Project>

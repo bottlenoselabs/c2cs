@@ -1,0 +1,6 @@
+<RuleSet Name="Ankura" Description="Code analysis rules for Ankura C# projects." ToolsVersion="15.0">
+   
+   <!-- StyleCop -->
+   <Include Path="./StyleCop/StyleCop-NoDocumentation.ruleset" Action="Default" />
+
+</RuleSet>

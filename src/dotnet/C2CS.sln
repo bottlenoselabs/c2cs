@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Core", "projects\production\C2CS.Core\C2CS.Core.csproj", "{7A349F33-43CD-4014-8D75-FE062CD1F68C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.CommandLine", "projects\production\C2CS.CommandLine\C2CS.CommandLine.csproj", "{ED3834B9-F112-40BC-88BA-2E9D40C6B424}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A349F33-43CD-4014-8D75-FE062CD1F68C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A349F33-43CD-4014-8D75-FE062CD1F68C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A349F33-43CD-4014-8D75-FE062CD1F68C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A349F33-43CD-4014-8D75-FE062CD1F68C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED3834B9-F112-40BC-88BA-2E9D40C6B424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED3834B9-F112-40BC-88BA-2E9D40C6B424}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED3834B9-F112-40BC-88BA-2E9D40C6B424}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED3834B9-F112-40BC-88BA-2E9D40C6B424}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal

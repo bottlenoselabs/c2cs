@@ -1,0 +1,228 @@
+// Copyright (c) Craftwork Games. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using ClangSharp;
+using ClangSharp.Interop;
+using ClangCursor = ClangSharp.Cursor;
+using Type = ClangSharp.Type;
+
+namespace C2CS
+{
+    internal class CodeCExplorer
+    {
+        private readonly HashSet<ClangCursor> _visitedCursors = new HashSet<ClangCursor>();
+        private string _filePath = string.Empty;
+
+        public event CodeCFoundEnumDelegate? EnumFound;
+
+        public event CodeCFoundRecordDelegate? RecordFound;
+
+        public event CodeCFoundFunctionDelegate? FunctionFound;
+
+        public event CodeCFoundTypeAliasDelegate? TypeAliasFound;
+
+        public void Explore(TranslationUnit translationUnit)
+        {
+            var translationUnitDeclaration = translationUnit.TranslationUnitDecl;
+            _filePath = Path.GetFullPath(translationUnitDeclaration.Spelling);
+
+            foreach (var declaration in translationUnitDeclaration.Decls)
+            {
+                if (declaration.Kind != CX_DeclKind.CX_DeclKind_Function)
+                {
+                    continue;
+                }
+
+                if (declaration.Handle.Linkage != CXLinkageKind.CXLinkage_External)
+                {
+                    continue;
+                }
+
+                VisitCursor(declaration);
+            }
+        }
+
+        private CodeCExploreResult VisitFunction(FunctionDecl function)
+        {
+            var allIgnored = true;
+
+            var result = VisitType(function.ReturnType);
+            if (result == CodeCExploreResult.Processed)
+            {
+                allIgnored = false;
+            }
+
+            // ReSharper disable once ForCanBeConvertedToForeach
+            for (var i = 0; i < function.Parameters.Count; i++)
+            {
+                var param = function.Parameters[i];
+                var result2 = VisitCursor(param);
+                if (result2 == CodeCExploreResult.Processed)
+                {
+                    allIgnored = false;
+                }
+            }
+
+            OnFoundFunction(function);
+
+            return allIgnored ? CodeCExploreResult.Ignored : CodeCExploreResult.Processed;
+        }
+
+        private CodeCExploreResult VisitEnum(EnumDecl @enum)
+        {
+            OnFoundEnum(@enum);
+            return CodeCExploreResult.Processed;
+        }
+
+        private CodeCExploreResult VisitRecord(RecordDecl record)
+        {
+            OnFoundRecord(record);
+            return CodeCExploreResult.Processed;
+        }
+
+        private CodeCExploreResult VisitTypeAlias(TypedefDecl typeAlias)
+        {
+            var underlingType = typeAlias.UnderlyingType;
+            if (underlingType is PointerType pointerType)
+            {
+                underlingType = pointerType.PointeeType;
+            }
+
+            if (underlingType is BuiltinType)
+            {
+                OnFoundTypeAlias(typeAlias);
+            }
+
+            return VisitType(typeAlias.UnderlyingType);
+        }
+
+        [SuppressMessage("ReSharper", "TailRecursiveCall", Justification = "Easier to read.")]
+        private CodeCExploreResult VisitCursor(Cursor cursor)
+        {
+            var cursorFilePath = cursor.GetFilePath();
+
+            if (cursorFilePath != _filePath)
+            {
+                if (cursorFilePath.StartsWith("/Applications/Xcode.app/"))
+                {
+                    return CodeCExploreResult.Ignored;
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            if (!CanVisitCursor(cursor))
+            {
+                return CodeCExploreResult.Ignored;
+            }
+
+            return cursor switch
+            {
+                Decl declaration => VisitDeclaration(declaration),
+                BinaryOperator _ => CodeCExploreResult.Ignored,
+                IntegerLiteral _ => CodeCExploreResult.Ignored,
+                _ => VisitUnsupportedCursor(cursor)
+            };
+        }
+
+        private bool CanVisitCursor(ClangCursor cursor)
+        {
+            if (_visitedCursors.Contains(cursor))
+            {
+                return false;
+            }
+
+            _visitedCursors.Add(cursor);
+
+            return true;
+        }
+
+        private CodeCExploreResult VisitDeclaration(Decl declaration)
+        {
+            return declaration switch
+            {
+                EnumDecl @enum => VisitEnum(@enum),
+                RecordDecl record => VisitRecord(record),
+                TypedefDecl alias => VisitTypeAlias(alias),
+                FunctionDecl function => VisitFunction(function),
+                ParmVarDecl parameter => VisitType(parameter.Type),
+                _ => VisitUnsupportedDeclaration(declaration)
+            };
+        }
+
+        private CodeCExploreResult VisitType(Type type)
+        {
+            return type switch
+            {
+                AttributedType attributedType => VisitType(attributedType.ModifiedType),
+                ElaboratedType elaboratedType => VisitType(elaboratedType.NamedType),
+                PointerType pointerType => VisitType(pointerType.PointeeType),
+                ReferenceType referenceType => VisitType(referenceType.PointeeType),
+                TypedefType definitionType => VisitCursor(definitionType.Decl),
+                IncompleteArrayType arrayType => VisitType(arrayType.ElementType),
+                BuiltinType _ => CodeCExploreResult.Ignored,
+                FunctionProtoType functionType => VisitFunctionType(functionType),
+                RecordType recordType => VisitCursor(recordType.Decl),
+                EnumType enumType => VisitCursor(enumType.Decl),
+                ConstantArrayType arrayType => VisitType(arrayType.ElementType),
+                _ => VisitUnsupportedType(type)
+            };
+        }
+
+        private CodeCExploreResult VisitFunctionType(FunctionProtoType functionType)
+        {
+            var allIgnored = true;
+            foreach (var parameterType in functionType.ParamTypes)
+            {
+                var result = VisitType(parameterType);
+                if (result == CodeCExploreResult.Processed)
+                {
+                    allIgnored = false;
+                }
+            }
+
+            return allIgnored ? CodeCExploreResult.Ignored : CodeCExploreResult.Processed;
+        }
+
+        private void OnFoundEnum(EnumDecl enumDeclaration)
+        {
+            EnumFound?.Invoke(enumDeclaration);
+        }
+
+        private void OnFoundRecord(RecordDecl recordDeclaration)
+        {
+            RecordFound?.Invoke(recordDeclaration);
+        }
+
+        private void OnFoundFunction(FunctionDecl functionDeclaration)
+        {
+            FunctionFound?.Invoke(functionDeclaration);
+        }
+
+        private void OnFoundTypeAlias(TypedefDecl typeAlias)
+        {
+            TypeAliasFound?.Invoke(typeAlias);
+        }
+
+        private static CodeCExploreResult VisitUnsupportedCursor(Cursor cursor)
+        {
+            throw new NotImplementedException($"Not yet supported '{cursor}'.");
+        }
+
+        private static CodeCExploreResult VisitUnsupportedDeclaration(Decl declaration)
+        {
+            throw new NotImplementedException($"Not yet supported '{declaration}'.");
+        }
+
+        private static CodeCExploreResult VisitUnsupportedType(Type type)
+        {
+            throw new NotImplementedException($"Not yet supported '{type}'.");
+        }
+    }
+}
