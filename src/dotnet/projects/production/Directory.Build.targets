@@ -1,5 +1,5 @@
 <Project>
 
-    <Import Project="../Common.targets" />
+    <Import Project="$(MSBuildThisFileDirectory)../../../../ext/cs-build/cs-build.targets" />
 
 </Project>

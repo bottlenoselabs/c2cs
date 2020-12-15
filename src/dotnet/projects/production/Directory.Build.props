@@ -1,5 +1,5 @@
 <Project>
 
-    <Import Project="../Common.props" />
+    <Import Project="$(MSBuildThisFileDirectory)../../../../ext/cs-build/cs-build.props" />
 
 </Project>
