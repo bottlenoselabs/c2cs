@@ -1,3 +1,0 @@
-[submodule "ext/cs-build"]
-	path = ext/cs-build
-	url = https://github.com/lithiumtoast/cs-build
