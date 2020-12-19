@@ -13,6 +13,3 @@ obj/
 
 # macOS
 .DS_Store
-
-# NuGet package artifacts
-nupkg/
