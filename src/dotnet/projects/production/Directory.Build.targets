@@ -1,5 +1,3 @@
 <Project>
-
-    <Import Project="$(MSBuildThisFileDirectory)../../../../ext/cs-build/cs-build.targets" />
-
+    <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), .gitignore))/ext/my-msbuild/my-msbuild.targets" />
 </Project>
