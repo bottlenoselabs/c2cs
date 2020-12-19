@@ -1,4 +1,4 @@
-// Copyright (c) Craftwork Games. All rights reserved.
+// Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
@@ -17,7 +17,7 @@ namespace C2CS
     internal sealed class CodeCSharpGenerator
     {
         private readonly string _libraryName;
-        private readonly Dictionary<string, TypeSyntax> _typesByCNames = new Dictionary<string, TypeSyntax>();
+        private readonly Dictionary<string, TypeSyntax> _typesByCNames = new();
 
         public CodeCSharpGenerator(string libraryName)
         {

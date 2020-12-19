@@ -1,4 +1,4 @@
-// Copyright (c) Craftwork Games. All rights reserved.
+// Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
@@ -11,7 +11,7 @@ namespace C2CS
 {
     internal class CodeCStructLayoutCalculator
     {
-        private static readonly Dictionary<Decl, DeclLayout> _layoutsByDeclaration = new Dictionary<Decl, DeclLayout>();
+        private static readonly Dictionary<Decl, DeclLayout> _layoutsByDeclaration = new();
 
         public DeclLayout GetLayout(Decl declaration)
         {

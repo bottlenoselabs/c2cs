@@ -2,6 +2,7 @@
 
     <!-- MSBuild project settings -->
     <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
         <OutputType>Exe</OutputType>
     </PropertyGroup>
 
@@ -14,10 +15,6 @@
     <!-- NuGet packaage references -->
     <ItemGroup>
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20574.7" />
-        <PackageReference Include="My-MSBuild" Version="0.1.0-alpha0014">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
     </ItemGroup>
     
     <!-- Project references -->

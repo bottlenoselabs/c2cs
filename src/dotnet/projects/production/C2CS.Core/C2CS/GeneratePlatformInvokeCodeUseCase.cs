@@ -1,4 +1,4 @@
-// Copyright (c) Craftwork Games. All rights reserved.
+// Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Generic;
@@ -12,14 +12,14 @@ namespace C2CS
 {
     public class GeneratePlatformInvokeCodeUseCase
     {
-        private readonly CodeCExplorer _explorer = new CodeCExplorer();
-        private readonly CodeCStructLayoutCalculator _layoutCalculator = new CodeCStructLayoutCalculator();
+        private readonly CodeCExplorer _explorer = new();
+        private readonly CodeCStructLayoutCalculator _layoutCalculator = new();
         private readonly CodeCSharpGenerator _codeGenerator;
 
-        private readonly List<FieldDeclarationSyntax> _fields = new List<FieldDeclarationSyntax>();
-        private readonly List<EnumDeclarationSyntax> _enums = new List<EnumDeclarationSyntax>();
-        private readonly List<StructDeclarationSyntax> _structs = new List<StructDeclarationSyntax>();
-        private readonly List<MethodDeclarationSyntax> _methods = new List<MethodDeclarationSyntax>();
+        private readonly List<FieldDeclarationSyntax> _fields = new();
+        private readonly List<EnumDeclarationSyntax> _enums = new();
+        private readonly List<StructDeclarationSyntax> _structs = new();
+        private readonly List<MethodDeclarationSyntax> _methods = new();
 
         public GeneratePlatformInvokeCodeUseCase(string libraryName)
         {
