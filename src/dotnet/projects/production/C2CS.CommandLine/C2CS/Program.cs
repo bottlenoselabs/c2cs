@@ -184,7 +184,7 @@ namespace C2CS
             Console.WriteLine("Generating C# code...");
 
             var generator = new GeneratePlatformInvokeCodeUseCase(_state.LibraryName!);
-            var code = generator.GenerateCode(translationUnit, _state.LibraryName!);
+            var code = generator.GenerateCode(translationUnit, _state.LibraryName!, _state.IncludeDirectories);
 
             Console.WriteLine("Generating C# code... finished");
             return code;

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using ClangSharp;
 using ClangSharp.Interop;
 using ClangCursor = ClangSharp.Cursor;
@@ -14,7 +15,8 @@ namespace C2CS
 {
     internal class CodeCExplorer
     {
-        private readonly HashSet<ClangCursor> _visitedCursors = new HashSet<ClangCursor>();
+        private readonly HashSet<ClangCursor> _visitedCursors = new();
+        private string[] _includeDirectories;
         private string _filePath = string.Empty;
 
         public event CodeCFoundEnumDelegate? EnumFound;
@@ -25,10 +27,11 @@ namespace C2CS
 
         public event CodeCFoundTypeAliasDelegate? TypeAliasFound;
 
-        public void Explore(TranslationUnit translationUnit)
+        public void Explore(TranslationUnit translationUnit, IEnumerable<string>? includeDirectories)
         {
             var translationUnitDeclaration = translationUnit.TranslationUnitDecl;
             _filePath = Path.GetFullPath(translationUnitDeclaration.Spelling);
+            _includeDirectories = includeDirectories?.ToArray() ?? Array.Empty<string>();
 
             foreach (var declaration in translationUnitDeclaration.Decls)
             {
@@ -44,6 +47,44 @@ namespace C2CS
 
                 VisitCursor(declaration);
             }
+        }
+
+        [SuppressMessage("ReSharper", "TailRecursiveCall", Justification = "Easier to read.")]
+        private CodeCExploreResult VisitCursor(Cursor cursor)
+        {
+            var cursorFilePath = cursor.GetFilePath();
+
+            if (cursorFilePath != _filePath)
+            {
+                if (cursorFilePath.StartsWith("/Applications/Xcode.app/"))
+                {
+                    return CodeCExploreResult.Ignored;
+                }
+
+                // ReSharper disable once LoopCanBeConvertedToQuery
+                foreach (var includeDirectory in _includeDirectories)
+                {
+                    if (cursorFilePath.StartsWith(includeDirectory))
+                    {
+                        return CodeCExploreResult.Ignored;
+                    }
+                }
+
+                throw new NotImplementedException();
+            }
+
+            if (!CanVisitCursor(cursor))
+            {
+                return CodeCExploreResult.Ignored;
+            }
+
+            return cursor switch
+            {
+                Decl declaration => VisitDeclaration(declaration),
+                BinaryOperator _ => CodeCExploreResult.Ignored,
+                IntegerLiteral _ => CodeCExploreResult.Ignored,
+                _ => VisitUnsupportedCursor(cursor)
+            };
         }
 
         private CodeCExploreResult VisitFunction(FunctionDecl function)
@@ -80,8 +121,20 @@ namespace C2CS
 
         private CodeCExploreResult VisitRecord(RecordDecl record)
         {
+            var allIgnored = true;
+
+            foreach (var field in record.Fields)
+            {
+                var result = VisitCursor(field);
+                if (result == CodeCExploreResult.Processed)
+                {
+                    allIgnored = false;
+                }
+            }
+
             OnFoundRecord(record);
-            return CodeCExploreResult.Processed;
+
+            return allIgnored ? CodeCExploreResult.Ignored : CodeCExploreResult.Processed;
         }
 
         private CodeCExploreResult VisitTypeAlias(TypedefDecl typeAlias)
@@ -98,37 +151,6 @@ namespace C2CS
             }
 
             return VisitType(typeAlias.UnderlyingType);
-        }
-
-        [SuppressMessage("ReSharper", "TailRecursiveCall", Justification = "Easier to read.")]
-        private CodeCExploreResult VisitCursor(Cursor cursor)
-        {
-            var cursorFilePath = cursor.GetFilePath();
-
-            if (cursorFilePath != _filePath)
-            {
-                if (cursorFilePath.StartsWith("/Applications/Xcode.app/"))
-                {
-                    return CodeCExploreResult.Ignored;
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
-            }
-
-            if (!CanVisitCursor(cursor))
-            {
-                return CodeCExploreResult.Ignored;
-            }
-
-            return cursor switch
-            {
-                Decl declaration => VisitDeclaration(declaration),
-                BinaryOperator _ => CodeCExploreResult.Ignored,
-                IntegerLiteral _ => CodeCExploreResult.Ignored,
-                _ => VisitUnsupportedCursor(cursor)
-            };
         }
 
         private bool CanVisitCursor(ClangCursor cursor)
@@ -152,6 +174,7 @@ namespace C2CS
                 TypedefDecl alias => VisitTypeAlias(alias),
                 FunctionDecl function => VisitFunction(function),
                 ParmVarDecl parameter => VisitType(parameter.Type),
+                FieldDecl field => VisitType(field.Type),
                 _ => VisitUnsupportedDeclaration(declaration)
             };
         }

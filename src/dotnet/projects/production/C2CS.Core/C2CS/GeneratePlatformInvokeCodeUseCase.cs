@@ -30,9 +30,9 @@ namespace C2CS
             _explorer.TypeAliasFound += TranspileTypeAlias;
         }
 
-        public string GenerateCode(TranslationUnit translationUnit, string libraryName)
+        public string GenerateCode(TranslationUnit translationUnit, string libraryName, IEnumerable<string>? includeDirectories)
         {
-            _explorer.Explore(translationUnit);
+            _explorer.Explore(translationUnit, includeDirectories);
 
             const string comment = @"
 //-------------------------------------------------------------------------------------
