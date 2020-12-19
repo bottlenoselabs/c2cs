@@ -1,0 +1,3 @@
+[submodule "ext/my-msbuild"]
+	path = ext/my-msbuild
+	url = git@github.com:lithiumtoast/my-msbuild.git
