@@ -203,6 +203,7 @@ namespace C2CS
             {
                 ArrayType arrayType => arrayType.ElementType,
                 ElaboratedType elaboratedType => elaboratedType.NamedType,
+                TypedefType typedefType => typedefType.Decl.UnderlyingType,
                 _ => fieldC.Type
             };
 
@@ -212,30 +213,41 @@ namespace C2CS
                 type = elaboratedType2.NamedType;
             }
 
-            if (type is RecordType recordType && recordType.Decl.Handle.IsAnonymous)
+            if (type is RecordType recordType)
             {
-                var recordC = (RecordDecl)recordType.Decl;
-                if (recordC.IsStruct)
+                if (recordType.Decl.Handle.IsAnonymous)
                 {
-                    typeName = $"Anonymous_Struct_{fieldC.Name}";
-                }
-                else if (recordC.IsUnion)
-                {
-                    typeName = $"Anonymous_Union_{fieldC.Name}";
+                    var recordC = (RecordDecl)recordType.Decl;
+                    if (recordC.IsStruct)
+                    {
+                        typeName = $"Anonymous_Struct_{fieldC.Name}";
+                    }
+                    else if (recordC.IsUnion)
+                    {
+                        typeName = $"Anonymous_Union_{fieldC.Name}";
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException();
+                    }
+
+                    if (recordC.IsStruct)
+                    {
+                        var anonStruct = CreateStruct(typeName, recordC, structLayoutCalculator);
+                        members.Add(anonStruct);
+                    }
+                    else if (recordC.IsUnion)
+                    {
+                        CreateStructHelperAddUnionFields(parentStructSyntax, recordC, members, structLayoutCalculator);
+                    }
                 }
                 else
                 {
-                    throw new InvalidOperationException();
-                }
-
-                if (recordC.IsStruct)
-                {
-                    var anonStruct = CreateStruct(typeName, recordC, structLayoutCalculator);
-                    members.Add(anonStruct);
-                }
-                else if (recordC.IsUnion)
-                {
-                    CreateStructHelperAddUnionFields(parentStructSyntax, recordC, members, structLayoutCalculator);
+                    typeName = type.AsString;
+                    if (typeName.StartsWith("struct "))
+                    {
+                        typeName = typeName.Substring(7);
+                    }
                 }
             }
             else
