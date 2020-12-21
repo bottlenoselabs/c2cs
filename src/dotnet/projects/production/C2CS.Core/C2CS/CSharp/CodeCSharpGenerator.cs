@@ -449,7 +449,13 @@ namespace C2CS
         // ReSharper disable once SuggestBaseTypeForParameter
         private ParameterSyntax CreateMethodParameter(ParmVarDecl parameterC)
         {
-            var parameter = Parameter(Identifier(parameterC.Name));
+            var parameterName = parameterC.Name;
+            if (parameterName == "lock")
+            {
+                parameterName = $"@{parameterName}";
+            }
+
+            var parameter = Parameter(Identifier(parameterName));
             var type = GetTypeSyntax(parameterC.Type.AsString, out var isReadOnly, out _);
 
             if (isReadOnly)
