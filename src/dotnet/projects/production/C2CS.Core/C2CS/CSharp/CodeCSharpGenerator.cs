@@ -631,10 +631,12 @@ namespace C2CS
             _typesByCNames.Add("long long int", PredefinedType(Token(SyntaxKind.LongKeyword)));
             _typesByCNames.Add("signed long long", PredefinedType(Token(SyntaxKind.LongKeyword)));
             _typesByCNames.Add("signed long long int", PredefinedType(Token(SyntaxKind.LongKeyword)));
+            _typesByCNames.Add("int64_t", PredefinedType(Token(SyntaxKind.ULongKeyword)));
 
             // unsigned 64-bit integer
             _typesByCNames.Add("unsigned long long", PredefinedType(Token(SyntaxKind.ULongKeyword)));
             _typesByCNames.Add("unsigned long long int", PredefinedType(Token(SyntaxKind.ULongKeyword)));
+            _typesByCNames.Add("uint64_t", PredefinedType(Token(SyntaxKind.ULongKeyword)));
 
             // signed 32-bit integer
             _typesByCNames.Add("int", PredefinedType(Token(SyntaxKind.IntKeyword)));
@@ -671,6 +673,10 @@ namespace C2CS
             _typesByCNames.Add("char", PredefinedType(Token(SyntaxKind.ByteKeyword)));
             _typesByCNames.Add("unsigned char", PredefinedType(Token(SyntaxKind.ByteKeyword)));
             _typesByCNames.Add("uint8_t", PredefinedType(Token(SyntaxKind.ByteKeyword)));
+
+            // pointer types
+            _typesByCNames.Add("intptr_t", ParseTypeName("IntPtr"));
+            _typesByCNames.Add("uintptr_t", ParseTypeName("UIntPtr"));
         }
     }
 }
