@@ -16,7 +16,7 @@ namespace C2CS
     internal class CodeCExplorer
     {
         private readonly HashSet<ClangCursor> _visitedCursors = new();
-        private string[] _includeDirectories;
+        private string[] _includeDirectories = null!;
         private string _filePath = string.Empty;
 
         public event CodeCFoundEnumDelegate? EnumFound;
@@ -26,6 +26,8 @@ namespace C2CS
         public event CodeCFoundFunctionDelegate? FunctionFound;
 
         public event CodeCFoundTypeAliasDelegate? TypeAliasFound;
+
+        public event CodeCFoundFunctionProtoDelegate? FunctionProtoFound;
 
         public void Explore(TranslationUnit translationUnit, IEnumerable<string>? includeDirectories)
         {
@@ -145,9 +147,14 @@ namespace C2CS
                 underlingType = pointerType.PointeeType;
             }
 
-            if (underlingType is BuiltinType)
+            switch (underlingType)
             {
-                OnFoundTypeAlias(typeAlias);
+                case BuiltinType:
+                    OnFoundTypeAlias(typeAlias);
+                    break;
+                case FunctionProtoType functionProtoType:
+                    OnFoundFunctionPointer(functionProtoType);
+                    break;
             }
 
             return VisitType(typeAlias.UnderlyingType);
@@ -231,6 +238,11 @@ namespace C2CS
         private void OnFoundTypeAlias(TypedefDecl typeAlias)
         {
             TypeAliasFound?.Invoke(typeAlias);
+        }
+
+        private void OnFoundFunctionPointer(FunctionProtoType functionProtoType)
+        {
+            FunctionProtoFound?.Invoke(functionProtoType);
         }
 
         private static CodeCExploreResult VisitUnsupportedCursor(Cursor cursor)

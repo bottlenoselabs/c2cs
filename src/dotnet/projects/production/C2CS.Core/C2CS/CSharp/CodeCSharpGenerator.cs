@@ -53,7 +53,8 @@ namespace C2CS
             IEnumerable<FieldDeclarationSyntax> fields,
             IEnumerable<EnumDeclarationSyntax> enums,
             IEnumerable<StructDeclarationSyntax> structs,
-            IEnumerable<MethodDeclarationSyntax> methods)
+            IEnumerable<MethodDeclarationSyntax> methods,
+            IEnumerable<MemberDeclarationSyntax> functionPointers)
         {
             var members = new List<MemberDeclarationSyntax>();
 
@@ -213,9 +214,16 @@ namespace C2CS
                 type = elaboratedType2.NamedType;
             }
 
-            if (type is RecordType recordType)
+            switch (type)
             {
-                if (recordType.Decl.Handle.IsAnonymous)
+                case PointerType {PointeeType: FunctionProtoType}:
+                {
+                    // TODO: Use delegate / function pointer; https://github.com/lithiumtoast/c2cs/issues/2
+                    typeName = "IntPtr";
+                    break;
+                }
+
+                case RecordType recordType when recordType.Decl.Handle.IsAnonymous:
                 {
                     var recordC = (RecordDecl)recordType.Decl;
                     if (recordC.IsStruct)
@@ -240,19 +248,26 @@ namespace C2CS
                     {
                         CreateStructHelperAddUnionFields(parentStructSyntax, recordC, members, structLayoutCalculator);
                     }
+
+                    break;
                 }
-                else
+
+                case RecordType:
                 {
                     typeName = type.AsString;
                     if (typeName.StartsWith("struct "))
                     {
                         typeName = typeName.Substring(7);
                     }
+
+                    break;
                 }
-            }
-            else
-            {
-                typeName = fieldC.Type.AsString;
+
+                default:
+                {
+                    typeName = fieldC.Type.AsString;
+                    break;
+                }
             }
 
             if (typeName.StartsWith("volatile "))

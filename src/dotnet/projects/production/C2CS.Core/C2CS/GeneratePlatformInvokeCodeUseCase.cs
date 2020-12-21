@@ -20,6 +20,7 @@ namespace C2CS
         private readonly List<EnumDeclarationSyntax> _enums = new();
         private readonly List<StructDeclarationSyntax> _structs = new();
         private readonly List<MethodDeclarationSyntax> _methods = new();
+        private readonly List<MemberDeclarationSyntax> _functionPointers = new();
 
         public GeneratePlatformInvokeCodeUseCase(string libraryName)
         {
@@ -28,6 +29,7 @@ namespace C2CS
             _explorer.FunctionFound += TranspileFunction;
             _explorer.RecordFound += TranspileRecord;
             _explorer.TypeAliasFound += TranspileTypeAlias;
+            _explorer.FunctionProtoFound += TranspileFunctionProto;
         }
 
         public string GenerateCode(TranslationUnit translationUnit, string libraryName, IEnumerable<string>? includeDirectories)
@@ -46,6 +48,7 @@ namespace C2CS
 // ReSharper disable All
 //-------------------------------------------------------------------------------------
 
+using System;
 using System.Runtime.InteropServices;";
             var commentFormatted = comment.TrimStart() + "\r\n";
 
@@ -56,7 +59,8 @@ using System.Runtime.InteropServices;";
                     _fields,
                     _enums,
                     _structs,
-                    _methods)
+                    _methods,
+                    _functionPointers)
                 .WithLeadingTrivia(SyntaxFactory.Comment(commentFormatted));
 
             return @class
@@ -119,6 +123,11 @@ using System.Runtime.InteropServices;";
         private void TranspileTypeAlias(TypedefDecl typeAlias)
         {
             _codeGenerator.AddAlias(typeAlias);
+        }
+
+        private void TranspileFunctionProto(FunctionProtoType functionProto)
+        {
+            // TODO: Create delegate / function pointer; https://github.com/lithiumtoast/c2cs/issues/2
         }
     }
 }
