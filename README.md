@@ -17,7 +17,7 @@ Auto generate the bindings by parsing a C `.h` file, essentially transpiling the
 ### Prerequisites
 
 1. Download and install [.NET 5](https://dotnet.microsoft.com/download).
-2. Clone the repository.
+2. Clone the repository with submodules: `git clone --recurse-submodules git@github.com:lithiumtoast/c2cs.git`.
 
 ### Visual Studio / Rider / MonoDevelop
 
