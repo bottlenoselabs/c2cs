@@ -192,7 +192,26 @@ Install CommandLineTools if you have not already:
 xcode-select --install
 ```
 
-Use the following as an include directory: `/Library/Developer/CommandLineTools/usr/lib/clang/12.0.0/include`
+Then use the following as an include directory:
+```bash
+/Library/Developer/CommandLineTools/usr/lib/clang/12.0.0/include
+```
+
+## Lessons learned
+
+### Marshalling
+
+There exist hidden costs for interoperability in C#. How to avoid them?
+
+For C#, the Common Language Runtime (CLR) marshals data between managed and unmanaged contexts (forwards and possibly backwards). In layman's terms, marshalling is transforming the bit representation of a data structure to be correct for the target programming language. For best performance, at worse, marshalling should be minimal, and at best, marshalling should be pass-through. Pass through is the ideal situation when considering performance because both languages agree on the bit representation of data structures without any further processing. C# calls such data structures "blittable" after the bit-block transfer (bit-blit) data operation commonly found in computer graphics. However, to achieve blittable data structures in C#, the garbage collector (GC) is avoided. Why? Because class instances in C# are objects which the allocation of bits can't be controlled precisely by the developer; it's an "implementation detail."
+
+### The garbage collector is a software industry hack
+
+The software industry's attitude, especially business-developers and web-developers, to say that memory is an "implementation detail" and then ignore memory ultimately is very dangerous.
+
+A function call that changes the state of the system is a side effect. Humans are imperfect at reasoning about side effects, to reason about non-linear systems. An example of a side effect is calling `fopen` in C because it leaves a file in an open state. `malloc` in C is another example of a side effect because it leaves a block of memory allocated. Notice that side effects come in pairs. To close a file, `fclose` is called. To deallocate a block of memory, `free` is called. Other languages have their versions of such function pairs. Some languages went as far as inventing language-specific features, some of which become part of our software programs, so we are dear mortal, stupid, and humans don't have to deal with such pairs of functions. In theory, this is a great idea. And thus, we invented garbage collection to take us to the promised land of never having to deal with the specific pair of functions malloc and free ever again.
+
+In practice, using garbage collection to manage your memory automatically turns out to be a horrible idea if you ever worked on an extensive enough system with the need for real-time responsiveness. In fairness, most applications don't require real-time responsiveness, and it is a lot easier to write safe programs with a garbage collector. However, this is where I think the problem starts. The problem is that developers have become ignorant of why good memory management is essential. This "Oh, the system will take care of it, don't worry." attitude is like a disease that spreads like wild-fire in the industry. The reason is simple: it lowers the bar of experience + knowledge + time required to write safe software. The consequence is that a large number of developers have learned to use a [Golden Hammer](https://en.wikipedia.org/wiki/Law_of_the_instrument). They have learned to ignore how the hardware operates when solving problems, even up to the extreme point that hardware even exists. Optimizing code for performance has become an exercise of stumbling around in the pitch-black dark until you find something of interest; it's an afterthought. Even if the developer does find something of interest, it likely opposes his/her worldview of understandable code. C# is a useful tool, but you have to admit it's mostly a Golden Hammer akin to Java. Just inspect the source code that this tool generates for native bindings as proof of this fact. From my experience, a fair amount of C# developers don't spend their time with such code, don't know how to use structs properly, or even what blittable data structures are.
 
 ## License
 
