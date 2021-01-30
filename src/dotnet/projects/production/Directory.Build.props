@@ -1,3 +1,11 @@
 <Project>
-    <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), .gitignore))/ext/my-msbuild/my-msbuild.props" />
+
+    <Import Project="../../Common.props" />
+
+    <PropertyGroup>
+        <IsPackable>true</IsPackable>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    </PropertyGroup>
+
 </Project>

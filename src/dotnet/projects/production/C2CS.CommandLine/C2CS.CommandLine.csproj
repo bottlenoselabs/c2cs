@@ -10,7 +10,7 @@
     <!-- Custom project settings -->
     <PropertyGroup>
         <EnableAnalyzers>true</EnableAnalyzers>
-        <IncludeAnalyzersStyleCop>true</IncludeAnalyzersStyleCop>
+        <EnableAnalyzersStyleCop>true</EnableAnalyzersStyleCop>
     </PropertyGroup>
     
     <!-- NuGet packaage references -->

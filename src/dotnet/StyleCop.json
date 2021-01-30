@@ -1,0 +1,31 @@
+{
+    "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+    "settings": {
+      "indentation": {
+        "useTabs": true
+      },
+      "documentationRules": {
+        "companyName": "Lucas Girouard-Stranks (https://github.com/lithiumtoast)",
+        "copyrightText": "Copyright (c) {companyName}. All rights reserved.\nLicensed under the {licenseName} license. See {licenseFile} file in the Git repository root directory ({githubUrl}) for full license information.",
+        "variables": {
+          "licenseName": "MIT",
+          "licenseFile": "LICENSE",
+          "githubUrl": "https://github.com/lithiumtoast/c2cs"
+        },
+        "xmlHeader": false,
+        "documentInternalElements": false
+      },
+      "orderingRules": {
+        "usingDirectivesPlacement": "outsideNamespace",
+        "elementOrder": [
+          "kind",
+          "accessibility",
+          "constant",
+          "readonly"
+        ]
+      },
+      "layoutRules": {
+        "newlineAtEndOfFile": "require"
+      }
+    }
+  }

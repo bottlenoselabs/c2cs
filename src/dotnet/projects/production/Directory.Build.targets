@@ -1,3 +1,5 @@
 <Project>
-    <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), .gitignore))/ext/my-msbuild/my-msbuild.targets" />
+
+    <Import Project="../../Common.targets" />
+
 </Project>

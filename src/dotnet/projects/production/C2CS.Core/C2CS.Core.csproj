@@ -4,12 +4,13 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <RootNamespace />
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <!-- Custom project settings -->
     <PropertyGroup>
         <EnableAnalyzers>true</EnableAnalyzers>
-        <IncludeAnalyzersStyleCop>true</IncludeAnalyzersStyleCop>
+        <EnableAnalyzersStyleCop>true</EnableAnalyzersStyleCop>
     </PropertyGroup>
 
     <ItemGroup>
