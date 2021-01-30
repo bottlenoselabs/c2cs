@@ -1,5 +1,5 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
 
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace C2CS
 				EnumDecl @enum => GetLayoutForEnum(@enum),
 				FieldDecl field => GetLayoutForField(field),
 				RecordDecl record => GetLayoutForRecord(record),
-				_ => throw new Exception($"Declaration is not yet supported: {declaration}")
+				_ => throw new NotImplementedException($"Declaration is not yet supported: {declaration}")
 			};
 
 			_layoutsByDeclaration.Add(declaration, layout);
@@ -75,7 +75,7 @@ namespace C2CS
 				case RecordType record:
 					return GetLayout(record.Decl);
 				default:
-					throw new Exception($"Type is not yet supported: {type}");
+					throw new NotImplementedException($"Type is not yet supported: {type}");
 			}
 		}
 
@@ -135,7 +135,7 @@ namespace C2CS
 						{
 							var nextAlignedAddressOvershoot = nextFieldAddress + layout.Alignment;
 							var nextAlignedAddress =
-								nextAlignedAddressOvershoot - nextAlignedAddressOvershoot % layout.Alignment;
+								nextAlignedAddressOvershoot - (nextAlignedAddressOvershoot % layout.Alignment);
 
 							fieldPadding = nextAlignedAddress - nextFieldAddress;
 							currentPackedSize = 0;
@@ -171,7 +171,7 @@ namespace C2CS
 				structSize = fieldAddress + previousLayout.Size;
 				if (structSize % alignment != 0)
 				{
-					var packedUnits = structSize / alignment + 1;
+					var packedUnits = (structSize / alignment) + 1;
 					var actualStructSize = packedUnits * alignment;
 					var trailingFieldPadding = actualStructSize - structSize;
 					previousLayout.FieldPadding = trailingFieldPadding;

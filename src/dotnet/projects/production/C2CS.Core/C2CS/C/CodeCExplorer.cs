@@ -1,5 +1,5 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
 
 using System;
 using System.Collections.Generic;
@@ -58,7 +58,7 @@ namespace C2CS
 
 			if (cursorFilePath != _filePath)
 			{
-				if (cursorFilePath.StartsWith("/Applications/Xcode.app/"))
+				if (cursorFilePath.StartsWith("/Applications/Xcode.app/", StringComparison.Ordinal))
 				{
 					return CodeCExploreResult.Ignored;
 				}
@@ -66,7 +66,7 @@ namespace C2CS
 				// ReSharper disable once LoopCanBeConvertedToQuery
 				foreach (var includeDirectory in _includeDirectories)
 				{
-					if (cursorFilePath.StartsWith(includeDirectory))
+					if (cursorFilePath.StartsWith(includeDirectory, StringComparison.Ordinal))
 					{
 						return CodeCExploreResult.Ignored;
 					}

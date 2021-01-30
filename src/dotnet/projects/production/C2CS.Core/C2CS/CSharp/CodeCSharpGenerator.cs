@@ -1,5 +1,5 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
 
 using System;
 using System.Collections.Generic;
@@ -41,7 +41,7 @@ namespace C2CS
 					TokenList(Token(SyntaxKind.PrivateKeyword), Token(SyntaxKind.ConstKeyword)));
 
 			newMembers.Add(libraryNameField);
-			
+
 			var membersSorted = members
 				.OrderBy(x => x is FieldDeclarationSyntax)
 				.ThenBy(x => x is EnumDeclarationSyntax)
@@ -231,7 +231,7 @@ namespace C2CS
 				case RecordType:
 				{
 					typeName = type.AsString;
-					if (typeName.StartsWith("struct "))
+					if (typeName.StartsWith("struct ", StringComparison.Ordinal))
 					{
 						typeName = typeName.Substring(7);
 					}
@@ -246,7 +246,7 @@ namespace C2CS
 				}
 			}
 
-			if (typeName.StartsWith("volatile "))
+			if (typeName.StartsWith("volatile ", StringComparison.Ordinal))
 			{
 				typeName = typeName.Substring(9);
 			}
@@ -352,7 +352,7 @@ namespace C2CS
 						2 => SyntaxKind.UShortKeyword,
 						4 => SyntaxKind.UIntKeyword,
 						8 => SyntaxKind.ULongKeyword,
-						_ => throw new ArgumentOutOfRangeException()
+						_ => throw new ArgumentException("Invalid field alignment.")
 					};
 
 					type = PredefinedType(Token(typeTokenSyntaxKind));
@@ -404,9 +404,9 @@ namespace C2CS
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
 				.WithAttributeFieldOffset(0, 8, 1);
 			@struct = @struct.AddMembers(field);
-			
+
 			AddTypeMapping(aliasTypeString);
-			
+
 			return @struct;
 		}
 
@@ -460,11 +460,11 @@ namespace C2CS
 		{
 			var parameterName = parameterC.Name;
 			if (string.IsNullOrWhiteSpace(parameterName))
-			{ 
+			{
 				// HACK: "handle" is meant for opaque types which are usually the first param for C functions exposing C++ functions
 				parameterName = "handle";
 			}
-			
+
 			if (parameterName == "lock")
 			{
 				parameterName = $"@{parameterName}";
@@ -494,7 +494,7 @@ namespace C2CS
 			{
 				CXTypeKind.CXType_Int => SyntaxKind.IntKeyword,
 				CXTypeKind.CXType_UInt => SyntaxKind.UIntKeyword,
-				_ => throw new Exception($@"The enum type is not yet supported: {enumTypeKindC}.")
+				_ => throw new NotImplementedException($@"The enum type is not yet supported: {enumTypeKindC}.")
 			};
 		}
 
@@ -505,7 +505,7 @@ namespace C2CS
 			{
 				SyntaxKind.IntKeyword => Literal((int)value),
 				SyntaxKind.UIntKeyword => Literal((uint)value),
-				_ => throw new Exception($"The syntax kind is not yet supported: {typeKind}.")
+				_ => throw new NotImplementedException($"The syntax kind is not yet supported: {typeKind}.")
 			};
 
 			return EqualsValueClause(
@@ -521,7 +521,7 @@ namespace C2CS
 			{
 				"short" => Literal((short)enumConstant.InitVal),
 				"int" => Literal((int)enumConstant.InitVal),
-				_ => throw new Exception(
+				_ => throw new NotImplementedException(
 					$@"The enum constant literal expression is not yet supported: {enumConstant.InitExpr.CursorKind}.")
 			};
 
