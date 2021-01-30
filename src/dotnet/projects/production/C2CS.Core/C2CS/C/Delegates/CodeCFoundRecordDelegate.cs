@@ -5,5 +5,5 @@ using ClangSharp;
 
 namespace C2CS
 {
-    internal delegate void CodeCFoundRecordDelegate(RecordDecl record);
+	internal delegate void CodeCFoundRecordDelegate(RecordDecl record);
 }

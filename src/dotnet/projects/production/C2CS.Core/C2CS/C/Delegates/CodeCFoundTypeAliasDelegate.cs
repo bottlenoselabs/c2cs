@@ -5,5 +5,5 @@ using ClangSharp;
 
 namespace C2CS
 {
-    internal delegate void CodeCFoundTypeAliasDelegate(TypedefDecl typeAlias);
+	internal delegate void CodeCFoundTypeAliasDelegate(TypedefDecl typeAlias);
 }

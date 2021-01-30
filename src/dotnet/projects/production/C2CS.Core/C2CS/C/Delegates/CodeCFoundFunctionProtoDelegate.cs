@@ -5,5 +5,5 @@ using ClangSharp;
 
 namespace C2CS
 {
-    internal delegate void CodeCFoundFunctionProtoDelegate(FunctionProtoType functionProto);
+	internal delegate void CodeCFoundFunctionProtoDelegate(FunctionProtoType functionProto);
 }

@@ -6,18 +6,18 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace C2CS
 {
-    internal static class ParameterSyntaxExtensions
-    {
-        internal static ParameterSyntax WithAttribute(
-            this ParameterSyntax parameterSyntax,
-            string name)
-        {
-            return parameterSyntax.WithAttributeLists(
-                SingletonList(
-                    AttributeList(
-                        SingletonSeparatedList(
-                            Attribute(
-                                IdentifierName(name))))));
-        }
-    }
+	internal static class ParameterSyntaxExtensions
+	{
+		internal static ParameterSyntax WithAttribute(
+			this ParameterSyntax parameterSyntax,
+			string name)
+		{
+			return parameterSyntax.WithAttributeLists(
+				SingletonList(
+					AttributeList(
+						SingletonSeparatedList(
+							Attribute(
+								IdentifierName(name))))));
+		}
+	}
 }

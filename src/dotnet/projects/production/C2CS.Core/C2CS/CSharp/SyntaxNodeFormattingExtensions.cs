@@ -8,104 +8,105 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace C2CS
 {
-    internal static class SyntaxNodeFormattingExtensions
-    {
-        public static ClassDeclarationSyntax Format(this ClassDeclarationSyntax rootNode)
-        {
-            rootNode = rootNode
-                .NormalizeWhitespace()
-                .TwoNewLinesForLastField()
-                .RemoveLeadingTriviaForPointers()
-                .AddSpaceTriviaForPointers()
-                .TwoNewLinesForEveryExternMethodExceptLast()
-                .TwoNewLinesForEveryStructFieldExceptLast();
-            return rootNode;
-        }
+	internal static class SyntaxNodeFormattingExtensions
+	{
+		public static ClassDeclarationSyntax Format(this ClassDeclarationSyntax rootNode)
+		{
+			rootNode = rootNode
+				.NormalizeWhitespace()
+				.TwoNewLinesForLastField()
+				.RemoveLeadingTriviaForPointers()
+				.AddSpaceTriviaForPointers()
+				.TwoNewLinesForEveryExternMethodExceptLast()
+				.TwoNewLinesForEveryStructFieldExceptLast();
 
-        private static TNode TwoNewLinesForLastField<TNode>(this TNode rootNode)
-            where TNode : SyntaxNode
-        {
-            var lastField = rootNode.ChildNodes().OfType<FieldDeclarationSyntax>().Last();
-            var lastNode = rootNode.ChildNodes().Last();
-            if (lastNode != lastField)
-            {
-                rootNode = rootNode.ReplaceNode(lastField, lastField
-                    .WithTrailingTrivia(CarriageReturnLineFeed, CarriageReturnLineFeed));
-            }
+			return rootNode;
+		}
 
-            return rootNode;
-        }
+		private static TNode TwoNewLinesForLastField<TNode>(this TNode rootNode)
+			where TNode : SyntaxNode
+		{
+			var lastField = rootNode.ChildNodes().OfType<FieldDeclarationSyntax>().Last();
+			var lastNode = rootNode.ChildNodes().Last();
+			if (lastNode != lastField)
+			{
+				rootNode = rootNode.ReplaceNode(lastField, lastField
+					.WithTrailingTrivia(CarriageReturnLineFeed, CarriageReturnLineFeed));
+			}
 
-        private static TNode RemoveLeadingTriviaForPointers<TNode>(this TNode rootNode)
-            where TNode : SyntaxNode
-        {
-            return rootNode.ReplaceNodes(
-                rootNode.DescendantNodes()
-                    .OfType<PointerTypeSyntax>().Select(x => x.ElementType),
-                (_, node) => node.WithoutTrailingTrivia());
-        }
+			return rootNode;
+		}
 
-        private static TNode AddSpaceTriviaForPointers<TNode>(this TNode rootNode)
-            where TNode : SyntaxNode
-        {
-            return rootNode.ReplaceNodes(
-                rootNode.DescendantNodes().OfType<PointerTypeSyntax>(),
-                (_, node) => node.WithTrailingTrivia(Space));
-        }
+		private static TNode RemoveLeadingTriviaForPointers<TNode>(this TNode rootNode)
+			where TNode : SyntaxNode
+		{
+			return rootNode.ReplaceNodes(
+				rootNode.DescendantNodes()
+					.OfType<PointerTypeSyntax>().Select(x => x.ElementType),
+				(_, node) => node.WithoutTrailingTrivia());
+		}
 
-        private static TNode TwoNewLinesForEveryExternMethodExceptLast<TNode>(this TNode rootNode)
-            where TNode : SyntaxNode
-        {
-            var methods = rootNode.ChildNodes().OfType<MethodDeclarationSyntax>().ToArray();
-            var lastNode = rootNode.ChildNodes().Last();
-            return rootNode.ReplaceNodes(
-                methods,
-                (_, method) =>
-                {
-                    if (method == lastNode)
-                    {
-                        return method;
-                    }
+		private static TNode AddSpaceTriviaForPointers<TNode>(this TNode rootNode)
+			where TNode : SyntaxNode
+		{
+			return rootNode.ReplaceNodes(
+				rootNode.DescendantNodes().OfType<PointerTypeSyntax>(),
+				(_, node) => node.WithTrailingTrivia(Space));
+		}
 
-                    var triviaToAdd = new[]
-                    {
-                        CarriageReturnLineFeed
-                    };
+		private static TNode TwoNewLinesForEveryExternMethodExceptLast<TNode>(this TNode rootNode)
+			where TNode : SyntaxNode
+		{
+			var methods = rootNode.ChildNodes().OfType<MethodDeclarationSyntax>().ToArray();
+			var lastNode = rootNode.ChildNodes().Last();
+			return rootNode.ReplaceNodes(
+				methods,
+				(_, method) =>
+				{
+					if (method == lastNode)
+					{
+						return method;
+					}
 
-                    var trailingTrivia = method.GetTrailingTrivia();
+					var triviaToAdd = new[]
+					{
+						CarriageReturnLineFeed
+					};
 
-                    return trailingTrivia.Count == 0
-                        ? method.WithTrailingTrivia(triviaToAdd)
-                        : method.InsertTriviaAfter(trailingTrivia.Last(), triviaToAdd);
-                });
-        }
+					var trailingTrivia = method.GetTrailingTrivia();
 
-        private static TNode TwoNewLinesForEveryStructFieldExceptLast<TNode>(this TNode rootNode)
-            where TNode : SyntaxNode
-        {
-            var fields = rootNode.DescendantNodes().OfType<FieldDeclarationSyntax>().ToArray();
-            return rootNode.ReplaceNodes(
-                fields,
-                (_, field) =>
-                {
-                    if (!(field.Parent is StructDeclarationSyntax @struct))
-                    {
-                        return field;
-                    }
+					return trailingTrivia.Count == 0
+						? method.WithTrailingTrivia(triviaToAdd)
+						: method.InsertTriviaAfter(trailingTrivia.Last(), triviaToAdd);
+				});
+		}
 
-                    var lastNode = @struct.ChildNodes().OfType<FieldDeclarationSyntax>().Last();
-                    if (field == lastNode)
-                    {
-                        return field;
-                    }
+		private static TNode TwoNewLinesForEveryStructFieldExceptLast<TNode>(this TNode rootNode)
+			where TNode : SyntaxNode
+		{
+			var fields = rootNode.DescendantNodes().OfType<FieldDeclarationSyntax>().ToArray();
+			return rootNode.ReplaceNodes(
+				fields,
+				(_, field) =>
+				{
+					if (!(field.Parent is StructDeclarationSyntax @struct))
+					{
+						return field;
+					}
 
-                    var triviaToAdd = new[]
-                    {
-                        CarriageReturnLineFeed
-                    };
+					var lastNode = @struct.ChildNodes().OfType<FieldDeclarationSyntax>().Last();
+					if (field == lastNode)
+					{
+						return field;
+					}
 
-                    return field.InsertTriviaAfter(field.GetTrailingTrivia().Last(), triviaToAdd);
-                });
-        }
-    }
+					var triviaToAdd = new[]
+					{
+						CarriageReturnLineFeed
+					};
+
+					return field.InsertTriviaAfter(field.GetTrailingTrivia().Last(), triviaToAdd);
+				});
+		}
+	}
 }

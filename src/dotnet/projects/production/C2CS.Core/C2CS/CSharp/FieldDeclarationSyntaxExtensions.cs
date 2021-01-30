@@ -7,34 +7,34 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace C2CS
 {
-    internal static class FieldDeclarationSyntaxExtensions
-    {
-        internal static FieldDeclarationSyntax WithAttributeFieldOffset(
-            this FieldDeclarationSyntax fieldDeclarationSyntax,
-            int offset,
-            int size,
-            int padding)
-        {
-            return fieldDeclarationSyntax.WithAttributeLists(
-                SingletonList(
-                    AttributeList(
-                            SingletonSeparatedList(
-                                Attribute(
-                                    IdentifierName("FieldOffset"),
-                                    AttributeArgumentList(
-                                        SeparatedList(new[]
-                                        {
-                                            AttributeArgument(
-                                                LiteralExpression(
-                                                    SyntaxKind.NumericLiteralExpression,
-                                                    Literal(offset))),
-                                        })))))
-                        .WithCloseBracketToken(
-                            Token(
-                                TriviaList(),
-                                SyntaxKind.CloseBracketToken,
-                                TriviaList(
-                                    Comment($"/* size = {size}, padding = {padding} */"))))));
-        }
-    }
+	internal static class FieldDeclarationSyntaxExtensions
+	{
+		internal static FieldDeclarationSyntax WithAttributeFieldOffset(
+			this FieldDeclarationSyntax fieldDeclarationSyntax,
+			int offset,
+			int size,
+			int padding)
+		{
+			return fieldDeclarationSyntax.WithAttributeLists(
+				SingletonList(
+					AttributeList(
+							SingletonSeparatedList(
+								Attribute(
+									IdentifierName("FieldOffset"),
+									AttributeArgumentList(
+										SeparatedList(new[]
+										{
+											AttributeArgument(
+												LiteralExpression(
+													SyntaxKind.NumericLiteralExpression,
+													Literal(offset)))
+										})))))
+						.WithCloseBracketToken(
+							Token(
+								TriviaList(),
+								SyntaxKind.CloseBracketToken,
+								TriviaList(
+									Comment($"/* size = {size}, padding = {padding} */"))))));
+		}
+	}
 }

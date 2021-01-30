@@ -5,5 +5,5 @@ using ClangSharp;
 
 namespace C2CS
 {
-    internal delegate void CodeCFoundEnumDelegate(EnumDecl @enum);
+	internal delegate void CodeCFoundEnumDelegate(EnumDecl @enum);
 }

@@ -6,22 +6,22 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace C2CS
 {
-    internal static class MethodDeclarationSyntaxExtensions
-    {
-        internal static MethodDeclarationSyntax WithDllImportAttribute(this MethodDeclarationSyntax methodDeclarationSyntax)
-        {
-            return methodDeclarationSyntax.WithAttributeLists(
-                SingletonList(
-                    AttributeList(
-                        SingletonSeparatedList(
-                            Attribute(
-                                IdentifierName("DllImport"),
-                                AttributeArgumentList(
-                                    SeparatedList(new[]
-                                    {
-                                        AttributeArgument(
-                                            IdentifierName("LibraryName"))
-                                    })))))));
-        }
-    }
+	internal static class MethodDeclarationSyntaxExtensions
+	{
+		internal static MethodDeclarationSyntax WithDllImportAttribute(this MethodDeclarationSyntax methodDeclarationSyntax)
+		{
+			return methodDeclarationSyntax.WithAttributeLists(
+				SingletonList(
+					AttributeList(
+						SingletonSeparatedList(
+							Attribute(
+								IdentifierName("DllImport"),
+								AttributeArgumentList(
+									SeparatedList(new[]
+									{
+										AttributeArgument(
+											IdentifierName("LibraryName"))
+									})))))));
+		}
+	}
 }
