@@ -3,6 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using System.Runtime.InteropServices;
 using ClangSharp;
 using ClangSharp.Interop;
@@ -21,41 +23,12 @@ namespace C2CS
 		public CodeCSharpGenerator(string libraryName)
 		{
 			_libraryName = libraryName;
-			AddKnownTypes();
+			AddKnownBuiltinTypes();
 		}
 
-		public void AddAlias(TypedefDecl typeAlias)
+		public ClassDeclarationSyntax CreatePInvokeClass(string name, ImmutableArray<MemberDeclarationSyntax> members)
 		{
-			var aliasTypeString = typeAlias.Spelling;
-			var underlyingType = typeAlias.UnderlyingType;
-			if (underlyingType is PointerType pointerType)
-			{
-				underlyingType = pointerType.PointeeType;
-			}
-
-			var underlyingTypeSyntax = GetTypeSyntax(underlyingType.AsString, out _, out _);
-			var underlyingTypeString = underlyingTypeSyntax.ToFullString();
-
-			// ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-			if (_typesByCNames.TryGetValue(underlyingTypeString, out var typeSyntax))
-			{
-				_typesByCNames.Add(aliasTypeString, typeSyntax);
-			}
-			else
-			{
-				_typesByCNames.Add(aliasTypeString, underlyingTypeSyntax);
-			}
-		}
-
-		public ClassDeclarationSyntax CreatePInvokeClass(
-			string name,
-			IEnumerable<FieldDeclarationSyntax> fields,
-			IEnumerable<EnumDeclarationSyntax> enums,
-			IEnumerable<StructDeclarationSyntax> structs,
-			IEnumerable<MethodDeclarationSyntax> methods,
-			IEnumerable<MemberDeclarationSyntax> functionPointers)
-		{
-			var members = new List<MemberDeclarationSyntax>();
+			var newMembers = new List<MemberDeclarationSyntax>();
 
 			var libraryNameField = FieldDeclaration(
 					VariableDeclaration(PredefinedType(Token(SyntaxKind.StringKeyword)))
@@ -67,11 +40,14 @@ namespace C2CS
 				.WithModifiers(
 					TokenList(Token(SyntaxKind.PrivateKeyword), Token(SyntaxKind.ConstKeyword)));
 
-			members.Add(libraryNameField);
-			members.AddRange(fields);
-			members.AddRange(enums);
-			members.AddRange(structs);
-			members.AddRange(methods);
+			newMembers.Add(libraryNameField);
+			
+			var membersSorted = members
+				.OrderBy(x => x is FieldDeclarationSyntax)
+				.ThenBy(x => x is EnumDeclarationSyntax)
+				.ThenBy(x => x is StructDeclarationSyntax)
+				.ThenBy(x => x is MethodDeclarationSyntax);
+			newMembers.AddRange(membersSorted);
 
 			return ClassDeclaration(name)
 				.AddModifiers(
@@ -79,7 +55,7 @@ namespace C2CS
 					Token(SyntaxKind.StaticKeyword),
 					Token(SyntaxKind.UnsafeKeyword))
 				.WithMembers(List(
-					members));
+					newMembers));
 		}
 
 		public MethodDeclarationSyntax CreateExternMethod(FunctionDecl function)
@@ -129,7 +105,7 @@ namespace C2CS
 				enumNameC = enumDeclarationC.TypeForDecl.AsString;
 			}
 
-			_typesByCNames.Add(enumNameC, ParseTypeName(enumNameC));
+			AddTypeMapping(enumNameC);
 
 			var enumTypeKindCSharp = GetEnumSyntaxKind(enumDeclarationC);
 
@@ -160,10 +136,9 @@ namespace C2CS
 			RecordDecl recordC,
 			CodeCStructLayoutCalculator structLayoutCalculator)
 		{
-			var typeSyntax = ParseTypeName(name);
 			if (!recordC.Handle.IsAnonymous)
 			{
-				_typesByCNames.Add(name, typeSyntax);
+				AddTypeMapping(name);
 			}
 
 			var layout = structLayoutCalculator.GetLayout(recordC);
@@ -338,21 +313,6 @@ namespace C2CS
 			}
 		}
 
-		// private static IEnumerable<int> ExtractTypeArrayDimensions(string typeString)
-		// {
-		//     var bracketOpenIndex = typeString.IndexOf('[');
-		//     while (bracketOpenIndex > 0)
-		//     {
-		//         var bracketClosedIndex = typeString.IndexOf(']', bracketOpenIndex);
-		//         var sizeStringLength = bracketClosedIndex - (bracketOpenIndex + 1);
-		//         var sizeString = typeString.AsSpan(bracketOpenIndex + 1, sizeStringLength);
-		//         var size = int.Parse(sizeString);
-		//         yield return size;
-		//
-		//         bracketOpenIndex = typeString.IndexOf('[', bracketClosedIndex);
-		//     }
-		// }
-
 		// ReSharper disable once SuggestBaseTypeForParameter
 		private FieldDeclarationSyntax CreateStructField(
 			string name,
@@ -428,6 +388,53 @@ namespace C2CS
 			return field;
 		}
 
+		public StructDeclarationSyntax CreateOpaqueStruct(TypedefDecl typeAlias)
+		{
+			var aliasTypeString = typeAlias.Spelling;
+
+			var @struct = StructDeclaration(aliasTypeString)
+				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
+				.WithAttributeStructLayout(LayoutKind.Explicit, 8, 1);
+
+			var fieldType = ParseTypeName("IntPtr");
+			var variable = VariableDeclarator(Identifier("Handle"));
+			var field = FieldDeclaration(
+					VariableDeclaration(fieldType)
+						.WithVariables(SingletonSeparatedList(variable)))
+				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
+				.WithAttributeFieldOffset(0, 8, 1);
+			@struct = @struct.AddMembers(field);
+			
+			AddTypeMapping(aliasTypeString);
+			
+			return @struct;
+		}
+
+		public void AddAlias(TypedefDecl typeAlias)
+		{
+			var aliasTypeString = typeAlias.Spelling;
+			var underlyingType = typeAlias.UnderlyingType;
+			if (underlyingType is PointerType pointerType)
+			{
+				underlyingType = pointerType.PointeeType;
+			}
+
+			var underlyingTypeSyntax = GetTypeSyntax(underlyingType.AsString, out _, out _);
+			var underlyingTypeString = underlyingTypeSyntax.ToFullString();
+
+			// ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+			if (_typesByCNames.TryGetValue(underlyingTypeString, out var typeSyntax))
+			{
+				// TODO: Don't use "Core" method directly
+				AddTypeMappingCore(aliasTypeString, typeSyntax);
+			}
+			else
+			{
+				// TODO: Don't use "Core" method directly
+				AddTypeMappingCore(aliasTypeString, underlyingTypeSyntax);
+			}
+		}
+
 		private static bool IsValidFixedCSharpType(string typeString)
 		{
 			return typeString switch
@@ -452,6 +459,12 @@ namespace C2CS
 		private ParameterSyntax CreateMethodParameter(ParmVarDecl parameterC)
 		{
 			var parameterName = parameterC.Name;
+			if (string.IsNullOrWhiteSpace(parameterName))
+			{ 
+				// HACK: "handle" is meant for opaque types which are usually the first param for C functions exposing C++ functions
+				parameterName = "handle";
+			}
+			
 			if (parameterName == "lock")
 			{
 				parameterName = $"@{parameterName}";
@@ -619,66 +632,108 @@ namespace C2CS
 			return isPointer ? PointerType(type) : type;
 		}
 
-		private void AddKnownTypes()
+		private void AddKnownBuiltinTypes()
 		{
-			_typesByCNames.Add("void", PredefinedType(Token(SyntaxKind.VoidKeyword)));
-			_typesByCNames.Add("float", PredefinedType(Token(SyntaxKind.FloatKeyword)));
+			AddKnownPointerTypes();
+			AddKnownBooleanTypes();
+			AddKnownFloatTypes();
+			AddKnownInteger8BitTypes();
+			AddKnownInteger16BitTypes();
+			AddKnownInteger32BitTypes();
+			AddKnownInteger64BitTypes();
+		}
 
-			// boolean
-			_typesByCNames.Add("_Bool", ParseTypeName("BlittableBoolean"));
-			_typesByCNames.Add("bool", ParseTypeName("BlittableBoolean"));
+		private void AddKnownPointerTypes()
+		{
+			AddTypeMapping("void", SyntaxKind.VoidKeyword);
+			AddTypeMapping("intptr_t", "IntPtr");
+			AddTypeMapping("uintptr_t", "UIntPtr");
+		}
 
-			// signed 64-bit integer
-			_typesByCNames.Add("long long", PredefinedType(Token(SyntaxKind.LongKeyword)));
-			_typesByCNames.Add("long long int", PredefinedType(Token(SyntaxKind.LongKeyword)));
-			_typesByCNames.Add("signed long long", PredefinedType(Token(SyntaxKind.LongKeyword)));
-			_typesByCNames.Add("signed long long int", PredefinedType(Token(SyntaxKind.LongKeyword)));
-			_typesByCNames.Add("int64_t", PredefinedType(Token(SyntaxKind.ULongKeyword)));
+		private void AddKnownBooleanTypes()
+		{
+			AddTypeMapping("_Bool", "BlittableBoolean");
+			AddTypeMapping("bool", "BlittableBoolean");
+		}
 
-			// unsigned 64-bit integer
-			_typesByCNames.Add("unsigned long long", PredefinedType(Token(SyntaxKind.ULongKeyword)));
-			_typesByCNames.Add("unsigned long long int", PredefinedType(Token(SyntaxKind.ULongKeyword)));
-			_typesByCNames.Add("uint64_t", PredefinedType(Token(SyntaxKind.ULongKeyword)));
+		private void AddKnownFloatTypes()
+		{
+			AddTypeMapping("float", SyntaxKind.FloatKeyword);
+		}
 
-			// signed 32-bit integer
-			_typesByCNames.Add("int", PredefinedType(Token(SyntaxKind.IntKeyword)));
-			_typesByCNames.Add("signed int", PredefinedType(Token(SyntaxKind.IntKeyword)));
-			_typesByCNames.Add("long", PredefinedType(Token(SyntaxKind.IntKeyword)));
-			_typesByCNames.Add("long int", PredefinedType(Token(SyntaxKind.IntKeyword)));
-			_typesByCNames.Add("signed long", PredefinedType(Token(SyntaxKind.IntKeyword)));
-			_typesByCNames.Add("signed long int", PredefinedType(Token(SyntaxKind.IntKeyword)));
-			_typesByCNames.Add("int32_t", PredefinedType(Token(SyntaxKind.IntKeyword)));
+		private void AddKnownInteger8BitTypes()
+		{
+			AddTypeMapping("signed char", SyntaxKind.SByteKeyword);
+			AddTypeMapping("int8_t", SyntaxKind.SByteKeyword);
 
-			// unsigned 32-bit integer
-			_typesByCNames.Add("unsigned long", PredefinedType(Token(SyntaxKind.UIntKeyword)));
-			_typesByCNames.Add("unsigned long int", PredefinedType(Token(SyntaxKind.UIntKeyword)));
-			_typesByCNames.Add("unsigned int", PredefinedType(Token(SyntaxKind.UIntKeyword)));
-			_typesByCNames.Add("uint32_t", PredefinedType(Token(SyntaxKind.UIntKeyword)));
+			AddTypeMapping("char", SyntaxKind.ByteKeyword);
+			AddTypeMapping("unsigned char", SyntaxKind.ByteKeyword);
+			AddTypeMapping("uint8_t", SyntaxKind.ByteKeyword);
+		}
 
-			// signed 16-bit integer
-			_typesByCNames.Add("short", PredefinedType(Token(SyntaxKind.ShortKeyword)));
-			_typesByCNames.Add("short int", PredefinedType(Token(SyntaxKind.ShortKeyword)));
-			_typesByCNames.Add("signed short", PredefinedType(Token(SyntaxKind.ShortKeyword)));
-			_typesByCNames.Add("signed short int", PredefinedType(Token(SyntaxKind.ShortKeyword)));
-			_typesByCNames.Add("int16_t", PredefinedType(Token(SyntaxKind.ShortKeyword)));
+		private void AddKnownInteger16BitTypes()
+		{
+			AddTypeMapping("short", SyntaxKind.ShortKeyword);
+			AddTypeMapping("short int", SyntaxKind.ShortKeyword);
+			AddTypeMapping("signed short", SyntaxKind.ShortKeyword);
+			AddTypeMapping("signed short int", SyntaxKind.ShortKeyword);
+			AddTypeMapping("int16_t", SyntaxKind.ShortKeyword);
 
-			// unsigned 16-bit integer
-			_typesByCNames.Add("unsigned short", PredefinedType(Token(SyntaxKind.UShortKeyword)));
-			_typesByCNames.Add("unsigned short int", PredefinedType(Token(SyntaxKind.UShortKeyword)));
-			_typesByCNames.Add("uint16_t", PredefinedType(Token(SyntaxKind.UShortKeyword)));
+			AddTypeMapping("unsigned short", SyntaxKind.UShortKeyword);
+			AddTypeMapping("unsigned short int", SyntaxKind.UShortKeyword);
+			AddTypeMapping("uint16_t", SyntaxKind.UShortKeyword);
+		}
 
-			// signed 8-bit integer
-			_typesByCNames.Add("signed char", PredefinedType(Token(SyntaxKind.SByteKeyword)));
-			_typesByCNames.Add("int8_t", PredefinedType(Token(SyntaxKind.SByteKeyword)));
+		private void AddKnownInteger32BitTypes()
+		{
+			AddTypeMapping("int", SyntaxKind.IntKeyword);
+			AddTypeMapping("signed int", SyntaxKind.IntKeyword);
+			AddTypeMapping("long", SyntaxKind.IntKeyword);
+			AddTypeMapping("long int", SyntaxKind.IntKeyword);
+			AddTypeMapping("signed long", SyntaxKind.IntKeyword);
+			AddTypeMapping("signed long int", SyntaxKind.IntKeyword);
+			AddTypeMapping("int32_t", SyntaxKind.IntKeyword);
 
-			// unsigned 8-bit integer
-			_typesByCNames.Add("char", PredefinedType(Token(SyntaxKind.ByteKeyword)));
-			_typesByCNames.Add("unsigned char", PredefinedType(Token(SyntaxKind.ByteKeyword)));
-			_typesByCNames.Add("uint8_t", PredefinedType(Token(SyntaxKind.ByteKeyword)));
+			AddTypeMapping("unsigned long", SyntaxKind.UIntKeyword);
+			AddTypeMapping("unsigned long int", SyntaxKind.UIntKeyword);
+			AddTypeMapping("unsigned int", SyntaxKind.UIntKeyword);
+			AddTypeMapping("uint32_t", SyntaxKind.UIntKeyword);
+		}
 
-			// pointer types
-			_typesByCNames.Add("intptr_t", ParseTypeName("IntPtr"));
-			_typesByCNames.Add("uintptr_t", ParseTypeName("UIntPtr"));
+		private void AddKnownInteger64BitTypes()
+		{
+			AddTypeMapping("long long", SyntaxKind.LongKeyword);
+			AddTypeMapping("long long int", SyntaxKind.LongKeyword);
+			AddTypeMapping("signed long long", SyntaxKind.LongKeyword);
+			AddTypeMapping("signed long long int", SyntaxKind.LongKeyword);
+			AddTypeMapping("int64_t", SyntaxKind.ULongKeyword);
+
+			AddTypeMapping("unsigned long long", SyntaxKind.ULongKeyword);
+			AddTypeMapping("unsigned long long int", SyntaxKind.ULongKeyword);
+			AddTypeMapping("uint64_t", SyntaxKind.ULongKeyword);
+		}
+
+		private void AddTypeMapping(string nameC)
+		{
+			var typeSyntax = ParseTypeName(nameC);
+			AddTypeMappingCore(nameC, typeSyntax);
+		}
+
+		private void AddTypeMapping(string nameC, string nameCSharp)
+		{
+			var typeSyntax = ParseTypeName(nameCSharp);
+			AddTypeMappingCore(nameC, typeSyntax);
+		}
+
+		private void AddTypeMapping(string nameC, SyntaxKind syntaxKind)
+		{
+			var typeSyntax = PredefinedType(Token(syntaxKind));
+			AddTypeMappingCore(nameC, typeSyntax);
+		}
+
+		private void AddTypeMappingCore(string nameC, TypeSyntax typeSyntax)
+		{
+			_typesByCNames.Add(nameC, typeSyntax);
 		}
 	}
 }

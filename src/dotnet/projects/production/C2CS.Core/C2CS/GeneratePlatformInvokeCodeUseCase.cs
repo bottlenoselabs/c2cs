@@ -1,9 +1,12 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using ClangSharp;
+using ClangSharp.Interop;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -55,13 +58,15 @@ using System.Runtime.InteropServices;";
 
 			var className = Path.GetFileNameWithoutExtension(libraryName);
 
-			var @class = _codeGenerator.CreatePInvokeClass(
-					className,
-					_fields,
-					_enums,
-					_structs,
-					_methods,
-					_functionPointers)
+			var membersBuilder = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
+			membersBuilder.AddRange(_fields);
+			membersBuilder.AddRange(_enums);
+			membersBuilder.AddRange(_structs);
+			membersBuilder.AddRange(_methods);
+			membersBuilder.AddRange(_functionPointers);
+			var members = membersBuilder.ToImmutableArray();
+			
+			var @class = _codeGenerator.CreatePInvokeClass(className, members)
 				.WithLeadingTrivia(SyntaxFactory.Comment(commentFormatted));
 
 			return @class
@@ -123,7 +128,15 @@ using System.Runtime.InteropServices;";
 
 		private void TranspileTypeAlias(TypedefDecl typeAlias)
 		{
-			_codeGenerator.AddAlias(typeAlias);
+			if (typeAlias.UnderlyingType is PointerType pointerType && pointerType.PointeeType.Kind == CXTypeKind.CXType_Void)
+			{
+				var @struct = _codeGenerator.CreateOpaqueStruct(typeAlias);
+				_structs.Add(@struct);
+			}
+			else
+			{
+				_codeGenerator.AddAlias(typeAlias);
+			}
 		}
 
 		private void TranspileFunctionProto(FunctionProtoType functionProto)

@@ -174,11 +174,6 @@ namespace C2CS
 
 		private CodeCExploreResult VisitDeclaration(Decl declaration)
 		{
-			if (declaration.Spelling == "clang_disposeIndex")
-			{
-				Console.WriteLine();
-			}
-			
 			return declaration switch
 			{
 				EnumDecl @enum => VisitEnum(@enum),
