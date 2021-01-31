@@ -590,6 +590,11 @@ namespace C2CS
 
 		private TypeSyntax GetTypeSyntax(string typeString, out bool isReadOnly, out bool isArray)
 		{
+			if (typeString.StartsWith("enum", StringComparison.Ordinal))
+			{
+				typeString = typeString.Substring(4).Trim();
+			}
+
 			if (typeString.Contains("["))
 			{
 				isArray = true;
