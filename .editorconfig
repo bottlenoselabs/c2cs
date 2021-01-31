@@ -13,6 +13,10 @@ trim_trailing_whitespace = true
 # File Extension Settings
 ##########################################
 
+# C# files
+[*.cs]
+indent_style = tab
+
 # Visual Studio Solution files
 [*.sln]
 indent_style = tab
