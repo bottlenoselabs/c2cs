@@ -89,6 +89,20 @@ namespace C2CS
 			};
 		}
 
+		private CodeCExploreResult VisitDeclaration(Decl declaration)
+		{
+			return declaration switch
+			{
+				EnumDecl @enum => VisitEnum(@enum),
+				RecordDecl record => VisitRecord(record),
+				TypedefDecl alias => VisitTypeAlias(alias),
+				FunctionDecl function => VisitFunction(function),
+				ParmVarDecl parameter => VisitType(parameter.Type),
+				FieldDecl field => VisitType(field.Type),
+				_ => VisitUnsupportedDeclaration(declaration)
+			};
+		}
+
 		private CodeCExploreResult VisitFunction(FunctionDecl function)
 		{
 			var allIgnored = true;
@@ -170,20 +184,6 @@ namespace C2CS
 			_visitedCursors.Add(cursor);
 
 			return true;
-		}
-
-		private CodeCExploreResult VisitDeclaration(Decl declaration)
-		{
-			return declaration switch
-			{
-				EnumDecl @enum => VisitEnum(@enum),
-				RecordDecl record => VisitRecord(record),
-				TypedefDecl alias => VisitTypeAlias(alias),
-				FunctionDecl function => VisitFunction(function),
-				ParmVarDecl parameter => VisitType(parameter.Type),
-				FieldDecl field => VisitType(field.Type),
-				_ => VisitUnsupportedDeclaration(declaration)
-			};
 		}
 
 		private CodeCExploreResult VisitType(Type type)
