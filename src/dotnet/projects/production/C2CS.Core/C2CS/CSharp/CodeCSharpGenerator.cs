@@ -12,6 +12,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+using Type = ClangSharp.Type;
 
 namespace C2CS
 {
@@ -60,7 +61,12 @@ namespace C2CS
 
 		public MethodDeclarationSyntax CreateExternMethod(FunctionDecl function)
 		{
-			var returnType = GetTypeSyntax(function.ReturnType.AsString, out _, out _);
+			if (function.Name == "clang_parseTranslationUnit")
+			{
+				Console.WriteLine();
+			}
+
+			var returnType = GetTypeSyntax(function.ReturnType, out _, out _);
 			var method = MethodDeclaration(returnType, function.Name)
 				.WithDllImportAttribute()
 				.WithModifiers(TokenList(
@@ -146,7 +152,7 @@ namespace C2CS
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
 				.WithAttributeStructLayout(LayoutKind.Explicit, layout.Size, layout.Alignment);
 
-			var structTypeSyntax = GetTypeSyntax(recordC.Name, out _, out _);
+			var structTypeSyntax = GetTypeSyntax(recordC.TypeForDecl, out _, out _);
 
 			var members = new List<MemberDeclarationSyntax>();
 
@@ -164,7 +170,7 @@ namespace C2CS
 		{
 			var typeString = fieldC.Type.ToString();
 			typeString = typeString.Substring(0, typeString.IndexOf('[')).Trim();
-			var fieldType = GetTypeSyntax(typeString, out _, out _);
+			var fieldType = GetTypeSyntax(fieldC.Type, out _, out _);
 			return CreateStructFieldWrapperMethod(structTypeSyntax, fieldType, fieldC);
 		}
 
@@ -223,17 +229,6 @@ namespace C2CS
 					else if (recordC.IsUnion)
 					{
 						CreateStructHelperAddUnionFields(parentStructSyntax, recordC, members, structLayoutCalculator);
-					}
-
-					break;
-				}
-
-				case RecordType:
-				{
-					typeName = type.AsString;
-					if (typeName.StartsWith("struct ", StringComparison.Ordinal))
-					{
-						typeName = typeName.Substring(7);
 					}
 
 					break;
@@ -419,7 +414,7 @@ namespace C2CS
 				underlyingType = pointerType.PointeeType;
 			}
 
-			var underlyingTypeSyntax = GetTypeSyntax(underlyingType.AsString, out _, out _);
+			var underlyingTypeSyntax = GetTypeSyntax(underlyingType, out _, out _);
 			var underlyingTypeString = underlyingTypeSyntax.ToFullString();
 
 			// ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
@@ -471,7 +466,7 @@ namespace C2CS
 			}
 
 			var parameter = Parameter(Identifier(parameterName));
-			var type = GetTypeSyntax(parameterC.Type.AsString, out var isReadOnly, out _);
+			var type = GetTypeSyntax(parameterC.Type, out var isReadOnly, out _);
 
 			if (isReadOnly)
 			{
@@ -514,7 +509,7 @@ namespace C2CS
 
 		private VariableDeclarationSyntax CreateConstantVariable(EnumConstantDecl enumConstant)
 		{
-			var type = GetTypeSyntax(enumConstant.Type.AsString, out _, out _);
+			var type = GetTypeSyntax(enumConstant.Type, out _, out _);
 
 			var typeString = type.ToFullString();
 			var literalSyntaxToken = typeString switch
@@ -588,11 +583,18 @@ namespace C2CS
 				.WithBody(body);
 		}
 
-		private TypeSyntax GetTypeSyntax(string typeString, out bool isReadOnly, out bool isArray)
+		private TypeSyntax GetTypeSyntax(Type typeC, out bool isReadOnly, out bool isArray)
 		{
-			if (typeString.StartsWith("enum", StringComparison.Ordinal))
+			var typeString = typeC.AsString;
+
+			if (typeString.Contains("enum", StringComparison.Ordinal))
 			{
-				typeString = typeString.Substring(4).Trim();
+				typeString = typeString.Replace("enum", string.Empty).Trim();
+			}
+
+			if (typeString.Contains("struct", StringComparison.Ordinal))
+			{
+				typeString = typeString.Replace("struct", string.Empty).Trim();
 			}
 
 			if (typeString.Contains("["))
