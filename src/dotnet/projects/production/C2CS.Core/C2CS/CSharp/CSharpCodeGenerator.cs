@@ -761,7 +761,7 @@ namespace C2CS
 					name = name.Replace("enum ", string.Empty).Trim();
 				}
 
-				if (name == "lock" || name == "string" || name == "base")
+				if (name == "lock" || name == "string" || name == "base" || name == "ref")
 				{
 					name = $"@{name}";
 				}
