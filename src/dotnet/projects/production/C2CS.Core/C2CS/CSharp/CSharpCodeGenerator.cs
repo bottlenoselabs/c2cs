@@ -64,11 +64,23 @@ namespace C2CS
 		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "API decision.")]
 		public MethodDeclarationSyntax CreateExternMethod(CXCursor function)
 		{
+			// TODO: Other calling conventions
+			var clangCallingConvention = function.Type.FunctionTypeCallingConv;
+			CallingConvention cSharpCallingConvention;
+			switch (clangCallingConvention)
+			{
+				case CXCallingConv.CXCallingConv_C:
+					cSharpCallingConvention = CallingConvention.Cdecl;
+					break;
+				default:
+					throw new NotImplementedException();
+			}
+
 			var typeClang = function.ResultType;
 			var baseTypeClang = GetClangBaseType(typeClang);
 			var returnType = GetTypeSyntax(typeClang, baseTypeClang);
 			var method = MethodDeclaration(returnType, function.Spelling.CString)
-				.WithDllImportAttribute()
+				.WithDllImportAttribute(cSharpCallingConvention)
 				.WithModifiers(TokenList(
 					Token(SyntaxKind.PublicKeyword),
 					Token(SyntaxKind.StaticKeyword),

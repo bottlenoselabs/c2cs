@@ -52,7 +52,9 @@ namespace C2CS
 								IdentifierName(name))))));
 		}
 
-		internal static MethodDeclarationSyntax WithDllImportAttribute(this MethodDeclarationSyntax methodDeclarationSyntax)
+		internal static MethodDeclarationSyntax WithDllImportAttribute(
+			this MethodDeclarationSyntax methodDeclarationSyntax,
+			CallingConvention callingConvention)
 		{
 			return methodDeclarationSyntax.WithAttributeLists(
 				SingletonList(
@@ -71,7 +73,7 @@ namespace C2CS
 													MemberAccessExpression(
 														SyntaxKind.SimpleMemberAccessExpression,
 														IdentifierName("CallingConvention"),
-														IdentifierName("Cdecl")))
+														IdentifierName(callingConvention.ToString())))
 												.WithNameEquals(
 													NameEquals(
 														IdentifierName("CallingConvention")))
