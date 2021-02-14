@@ -70,7 +70,7 @@ namespace C2CS
 			GC.Collect();
 			GC.WaitForPendingFinalizers();
 			GC.Collect();
-			Console.WriteLine($"Parsing C code... finished in {_state.Stopwatch.Elapsed}");
+			Console.WriteLine($"Parsing C code... finished in {_state.Stopwatch.Elapsed.TotalMilliseconds} ms");
 			return translationUnit;
 		}
 
@@ -86,7 +86,7 @@ namespace C2CS
 			GC.Collect();
 			GC.WaitForPendingFinalizers();
 			GC.Collect();
-			Console.WriteLine($"Generating C# code... finished in {_state.Stopwatch.Elapsed}");
+			Console.WriteLine($"Generating C# code... finished in {_state.Stopwatch.Elapsed.TotalMilliseconds} ms");
 			return code;
 		}
 
@@ -101,7 +101,7 @@ namespace C2CS
 			GC.Collect();
 			GC.WaitForPendingFinalizers();
 			GC.Collect();
-			Console.WriteLine($"Writing generated code to file... finished in {_state.Stopwatch.Elapsed}");
+			Console.WriteLine($"Writing generated code to file... finished in {_state.Stopwatch.Elapsed.TotalMilliseconds} ms");
 			Console.WriteLine($"Output: {_state.OutputFilePath}");
 		}
 	}
