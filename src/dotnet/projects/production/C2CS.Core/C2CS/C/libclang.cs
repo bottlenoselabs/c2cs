@@ -986,7 +986,6 @@ public static unsafe class libclang
     {
     }
 
-    /* Original opaque type is `CXIndex` */
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIndex
     {
@@ -994,7 +993,6 @@ public static unsafe class libclang
         public IntPtr Handle;
     }
 
-    /* Original opaque type is `CXFile` */
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXFile
     {
@@ -1002,7 +1000,6 @@ public static unsafe class libclang
         public IntPtr Handle;
     }
 
-    /* Original opaque type is `CXTranslationUnit` */
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXTranslationUnit
     {
@@ -1010,7 +1007,6 @@ public static unsafe class libclang
         public IntPtr Handle;
     }
 
-    /* Original opaque type is `CXDiagnosticSet` */
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXDiagnosticSet
     {
@@ -1018,7 +1014,6 @@ public static unsafe class libclang
         public IntPtr Handle;
     }
 
-    /* Original opaque type is `CXDiagnostic` */
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXDiagnostic
     {
@@ -1026,7 +1021,6 @@ public static unsafe class libclang
         public IntPtr Handle;
     }
 
-    /* Original opaque type is `CXTargetInfo` */
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXTargetInfo
     {
@@ -1034,7 +1028,6 @@ public static unsafe class libclang
         public IntPtr Handle;
     }
 
-    /* Original opaque type is `CXCursorSet` */
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXCursorSet
     {
@@ -1042,7 +1035,6 @@ public static unsafe class libclang
         public IntPtr Handle;
     }
 
-    /* Original opaque type is `CXClientData` */
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXClientData
     {
@@ -1050,7 +1042,6 @@ public static unsafe class libclang
         public IntPtr Handle;
     }
 
-    /* Original opaque type is `CXPrintingPolicy` */
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXPrintingPolicy
     {
@@ -1058,7 +1049,6 @@ public static unsafe class libclang
         public IntPtr Handle;
     }
 
-    /* Original opaque type is `CXModule` */
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXModule
     {
@@ -1066,7 +1056,6 @@ public static unsafe class libclang
         public IntPtr Handle;
     }
 
-    /* Original opaque type is `CXCompletionString` */
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXCompletionString
     {
@@ -1074,7 +1063,6 @@ public static unsafe class libclang
         public IntPtr Handle;
     }
 
-    /* Original opaque type is `CXEvalResult` */
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXEvalResult
     {
@@ -1082,7 +1070,6 @@ public static unsafe class libclang
         public IntPtr Handle;
     }
 
-    /* Original opaque type is `CXRemapping` */
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXRemapping
     {
@@ -1090,7 +1077,6 @@ public static unsafe class libclang
         public IntPtr Handle;
     }
 
-    /* Original opaque type is `CXIdxClientContainer` */
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIdxClientContainer
     {
@@ -1098,7 +1084,6 @@ public static unsafe class libclang
         public IntPtr Handle;
     }
 
-    /* Original opaque type is `CXIdxClientEntity` */
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIdxClientEntity
     {
@@ -1106,7 +1091,6 @@ public static unsafe class libclang
         public IntPtr Handle;
     }
 
-    /* Original opaque type is `CXIndexAction` */
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIndexAction
     {
@@ -1114,7 +1098,6 @@ public static unsafe class libclang
         public IntPtr Handle;
     }
 
-    /* Original opaque type is `CXIdxClientFile` */
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIdxClientFile
     {
@@ -1122,7 +1105,6 @@ public static unsafe class libclang
         public IntPtr Handle;
     }
 
-    /* Original opaque type is `CXIdxClientASTFile` */
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIdxClientASTFile
     {
