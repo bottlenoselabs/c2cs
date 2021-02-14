@@ -1,9 +1,9 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
 
-using ClangSharp;
+using ClangSharp.Interop;
 
 namespace C2CS
 {
-	internal delegate void CodeCFoundTypeAliasDelegate(TypedefDecl typeAlias);
+	internal delegate void ClangFoundFunctionDelegate(CXCursor function);
 }

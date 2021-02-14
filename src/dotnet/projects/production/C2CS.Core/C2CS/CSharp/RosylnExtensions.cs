@@ -2,14 +2,112 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
 
 using System.Linq;
+using System.Runtime.InteropServices;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace C2CS
 {
-	internal static class SyntaxNodeFormattingExtensions
+	internal static class RosylnExtensions
 	{
+		internal static FieldDeclarationSyntax WithAttributeFieldOffset(
+			this FieldDeclarationSyntax fieldDeclarationSyntax,
+			int offset,
+			int size,
+			int padding)
+		{
+			return fieldDeclarationSyntax.WithAttributeLists(
+				SingletonList(
+					AttributeList(
+							SingletonSeparatedList(
+								Attribute(
+									IdentifierName("FieldOffset"),
+									AttributeArgumentList(
+										SeparatedList(new[]
+										{
+											AttributeArgument(
+												LiteralExpression(
+													SyntaxKind.NumericLiteralExpression,
+													Literal(offset)))
+										})))))
+						.WithCloseBracketToken(
+							Token(
+								TriviaList(),
+								SyntaxKind.CloseBracketToken,
+								TriviaList(
+									Comment($"/* size = {size}, padding = {padding} */"))))));
+		}
+
+		internal static ParameterSyntax WithAttribute(
+			this ParameterSyntax parameterSyntax,
+			string name)
+		{
+			return parameterSyntax.WithAttributeLists(
+				SingletonList(
+					AttributeList(
+						SingletonSeparatedList(
+							Attribute(
+								IdentifierName(name))))));
+		}
+
+		internal static MethodDeclarationSyntax WithDllImportAttribute(this MethodDeclarationSyntax methodDeclarationSyntax)
+		{
+			return methodDeclarationSyntax.WithAttributeLists(
+				SingletonList(
+					AttributeList(
+						SingletonSeparatedList(
+							Attribute(
+								IdentifierName("DllImport"),
+								AttributeArgumentList(
+									SeparatedList(new[]
+									{
+										AttributeArgument(
+											IdentifierName("LibraryName"))
+									})))))));
+		}
+
+		internal static StructDeclarationSyntax WithAttributeStructLayout(
+			this StructDeclarationSyntax structDeclarationSyntax,
+			LayoutKind layoutKind,
+			int size,
+			int pack)
+		{
+			var layoutKindMemberAccessExpression = MemberAccessExpression(
+				SyntaxKind.SimpleMemberAccessExpression,
+				IdentifierName(
+					"LayoutKind"),
+				IdentifierName(
+					$@"{layoutKind}"));
+
+			var sizeAssignmentExpression =
+				AssignmentExpression(
+					SyntaxKind.SimpleAssignmentExpression,
+					IdentifierName("Size"),
+					LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(size)));
+
+			var packAssignmentExpression =
+				AssignmentExpression(
+					SyntaxKind.SimpleAssignmentExpression,
+					IdentifierName("Pack"),
+					LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(pack)));
+
+			return structDeclarationSyntax.WithAttributeLists(
+				SingletonList(
+					AttributeList(
+						SingletonSeparatedList(
+							Attribute(
+								IdentifierName("StructLayout"),
+								AttributeArgumentList(
+									SeparatedList(new[]
+									{
+										AttributeArgument(layoutKindMemberAccessExpression),
+										AttributeArgument(sizeAssignmentExpression),
+										AttributeArgument(packAssignmentExpression)
+									})))))));
+		}
+
 		public static ClassDeclarationSyntax Format(this ClassDeclarationSyntax rootNode)
 		{
 			rootNode = rootNode

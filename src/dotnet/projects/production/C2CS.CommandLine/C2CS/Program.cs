@@ -3,9 +3,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using ClangSharp;
 using ClangSharp.Interop;
 
 namespace C2CS
@@ -76,7 +76,7 @@ namespace C2CS
 			}
 		}
 
-		private TranslationUnit ParseCodeC()
+		private CXTranslationUnit ParseCodeC()
 		{
 			var commandLineArgs = new[]
 			{
@@ -111,7 +111,8 @@ namespace C2CS
 
 			Console.WriteLine("Parsing C code... libclang arguments: " + string.Join(" ", commandLineArgs));
 
-			var codeParser = new CodeCParser();
+			var codeParser = new ClangCodeParser();
+			_state.Stopwatch.Restart();
 
 			if (!codeParser.TryParseFile(_state.InputFilePath, commandLineArgs, out var translationUnit))
 			{
@@ -120,14 +121,14 @@ namespace C2CS
 			}
 
 			var canContinue = true;
-			var clangDiagnosticsCount = translationUnit.Handle.NumDiagnostics;
+			var clangDiagnosticsCount = translationUnit.NumDiagnostics;
 			if (clangDiagnosticsCount != 0)
 			{
 				Console.WriteLine($"Clang diagnostics for: {_state.InputFilePath}");
 
 				for (uint i = 0; i < clangDiagnosticsCount; ++i)
 				{
-					using var diagnostic = translationUnit.Handle.GetDiagnostic(i);
+					using var diagnostic = translationUnit.GetDiagnostic(i);
 
 					Console.Write("    ");
 					Console.WriteLine(diagnostic.Format(CXDiagnostic.DefaultDisplayOptions).ToString());
@@ -146,28 +147,42 @@ namespace C2CS
 				Environment.Exit(-1);
 			}
 
-			Console.WriteLine("Parsing C code... finished");
+			_state.Stopwatch.Stop();
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+			GC.Collect();
+			Console.WriteLine($"Parsing C code... finished in {_state.Stopwatch.Elapsed}");
 			return translationUnit;
 		}
 
-		private string GenerateCodeCSharp(TranslationUnit translationUnit)
+		private string GenerateCodeCSharp(CXTranslationUnit translationUnit)
 		{
 			Console.WriteLine("Generating C# code...");
+			_state.Stopwatch.Restart();
 
 			var generator = new GeneratePlatformInvokeCodeUseCase(_state.LibraryName!);
 			var code = generator.GenerateCode(translationUnit, _state.LibraryName!, _state.IncludeDirectories);
 
-			Console.WriteLine("Generating C# code... finished");
+			_state.Stopwatch.Stop();
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+			GC.Collect();
+			Console.WriteLine($"Generating C# code... finished in {_state.Stopwatch.Elapsed}");
 			return code;
 		}
 
 		private void WriteToFileCodeCSharp(string code)
 		{
 			Console.WriteLine("Writing generated code to file...");
+			_state.Stopwatch.Restart();
 
 			File.WriteAllText(_state.OutputFilePath, code);
 
-			Console.WriteLine("Writing generated code to file... finished");
+			_state.Stopwatch.Stop();
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+			GC.Collect();
+			Console.WriteLine($"Writing generated code to file... finished in {_state.Stopwatch.Elapsed}");
 			Console.WriteLine($"Output: {_state.OutputFilePath}");
 		}
 
@@ -180,6 +195,7 @@ namespace C2CS
 			public readonly IEnumerable<string>? IncludeDirectories;
 			public readonly IEnumerable<string>? DefineMacros;
 			public readonly IEnumerable<string>? AdditionalArgs;
+			public readonly Stopwatch Stopwatch;
 
 			public State(
 				string inputFilePath,
@@ -197,6 +213,7 @@ namespace C2CS
 				IncludeDirectories = includeDirectories;
 				DefineMacros = defineMacros;
 				AdditionalArgs = additionalArgs;
+				Stopwatch = new Stopwatch();
 			}
 		}
 	}

@@ -2,21 +2,20 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
 
 using System;
-using ClangSharp;
 using ClangSharp.Interop;
 
 namespace C2CS
 {
-	public class CodeCParser
+	public class ClangCodeParser
 	{
 		private readonly CXIndex _index;
 
-		public CodeCParser()
+		public ClangCodeParser()
 		{
 			_index = CXIndex.Create();
 		}
 
-		public bool TryParseFile(string filePath, string[] commandLineArgs, out TranslationUnit translationUnit)
+		public bool TryParseFile(string filePath, string[] commandLineArgs, out CXTranslationUnit translationUnit)
 		{
 			// https://clang.llvm.org/doxygen/group__CINDEX__TRANSLATION__UNIT.html#ga4c8b0a3c559d14f80f78aba8c185e711
 			// ReSharper disable BitwiseOperatorOnEnumWithoutFlags
@@ -31,16 +30,15 @@ namespace C2CS
 				commandLineArgs,
 				Array.Empty<CXUnsavedFile>(),
 				flags,
-				out var handle);
+				out translationUnit);
 
-			if (errorCode != CXErrorCode.CXError_Success)
-			{
-				translationUnit = null!;
-				return false;
-			}
+			if (errorCode == CXErrorCode.CXError_Success)
+            {
+                return translationUnit != null;
+            }
 
-			translationUnit = TranslationUnit.GetOrCreate(handle);
-			return translationUnit != null;
+			translationUnit = null!;
+			return false;
 		}
 	}
 }
