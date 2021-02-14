@@ -10,7 +10,11 @@ When creating applications with C# (especially games), it's sometimes necessary 
 
 ### Solution
 
-Auto generate the bindings by parsing a C `.h` file, essentially transpiling the C API to C#. This includes all functions (`static`s in C#) and all types (`struct`s in C#). This is accomplished by using [libclang](https://clang.llvm.org/docs/Tooling.html) for C and [Roslyn](https://github.com/dotnet/roslyn) for C#. All naming is left as found in the header file of the C code.
+Automatically generate the bindings by compiling/parsing a C `.h` file. Essentially, the C public API for the target operating system + architecture is transpiled to C#. 
+
+This includes all C extern functions which are transpiled to `static` extern methods in C#. Also includes transpiling all the C types to C# which are found through transitive property to the extern functions such as `struct`s, `enum`s, and `const`s. C# `struct`s are generated instead of `class`es on purpose to achieve 1-1 bit-representation of C to C# types called *blittable* types. The reason for blittable types is to achieve pass-through marshalling and active avoidance of the Garbage Collector in C# for best possible runtime performance when doing interoperability with C. 
+
+This is all accomplished by using [libclang](https://clang.llvm.org/docs/Tooling.html) for parsing C and [Roslyn](https://github.com/dotnet/roslyn) for generating C#. All naming is left as found in the header file of the C code.
 
 ## Developers: Building from Source
 
