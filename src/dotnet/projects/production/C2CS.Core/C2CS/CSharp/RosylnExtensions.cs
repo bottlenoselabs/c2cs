@@ -61,11 +61,21 @@ namespace C2CS
 							Attribute(
 								IdentifierName("DllImport"),
 								AttributeArgumentList(
-									SeparatedList(new[]
-									{
-										AttributeArgument(
-											IdentifierName("LibraryName"))
-									})))))));
+									SeparatedList<AttributeArgumentSyntax>(
+										new SyntaxNodeOrToken[]
+										{
+											AttributeArgument(
+												IdentifierName("LibraryName")),
+											Token(SyntaxKind.CommaToken),
+											AttributeArgument(
+													MemberAccessExpression(
+														SyntaxKind.SimpleMemberAccessExpression,
+														IdentifierName("CallingConvention"),
+														IdentifierName("Cdecl")))
+												.WithNameEquals(
+													NameEquals(
+														IdentifierName("CallingConvention")))
+										})))))));
 		}
 
 		internal static StructDeclarationSyntax WithAttributeStructLayout(

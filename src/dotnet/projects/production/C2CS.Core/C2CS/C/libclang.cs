@@ -16,1009 +16,1009 @@ public static unsafe partial class libclang
 {
     private const string LibraryName = "libclang";
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern sbyte* clang_getCString(CXString @string);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeString(CXString @string);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeStringSet(CXStringSet* set);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong clang_getBuildSessionTimestamp();
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXVirtualFileOverlay clang_VirtualFileOverlay_create(uint options);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXErrorCode clang_VirtualFileOverlay_addFileMapping(CXVirtualFileOverlay handle, [In] sbyte* virtualPath, [In] sbyte* realPath);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXErrorCode clang_VirtualFileOverlay_setCaseSensitivity(CXVirtualFileOverlay handle, int caseSensitive);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXErrorCode clang_VirtualFileOverlay_writeToBuffer(CXVirtualFileOverlay handle, uint options, sbyte* * out_buffer_ptr, uint* out_buffer_size);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_free(void* buffer);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_VirtualFileOverlay_dispose(CXVirtualFileOverlay handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXModuleMapDescriptor clang_ModuleMapDescriptor_create(uint options);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXErrorCode clang_ModuleMapDescriptor_setFrameworkModuleName(CXModuleMapDescriptor handle, [In] sbyte* name);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXErrorCode clang_ModuleMapDescriptor_setUmbrellaHeader(CXModuleMapDescriptor handle, [In] sbyte* name);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXErrorCode clang_ModuleMapDescriptor_writeToBuffer(CXModuleMapDescriptor handle, uint options, sbyte* * out_buffer_ptr, uint* out_buffer_size);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_ModuleMapDescriptor_dispose(CXModuleMapDescriptor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIndex clang_createIndex(int excludeDeclarationsFromPCH, int displayDiagnostics);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeIndex(CXIndex index);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_CXIndex_setGlobalOptions(CXIndex handle, uint options);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXIndex_getGlobalOptions(CXIndex handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_CXIndex_setInvocationEmissionPathOption(CXIndex handle, [In] sbyte* Path);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getFileName(CXFile SFile);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern time_t clang_getFileTime(CXFile SFile);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_getFileUniqueID(CXFile file, CXFileUniqueID* outID);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isFileMultipleIncludeGuarded(CXTranslationUnit tu, CXFile file);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXFile clang_getFile(CXTranslationUnit tu, [In] sbyte* file_name);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern sbyte* clang_getFileContents(CXTranslationUnit tu, CXFile file, size_t* size);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_File_isEqual(CXFile file1, CXFile file2);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_File_tryGetRealPathName(CXFile file);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceLocation clang_getNullLocation();
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_equalLocations(CXSourceLocation loc1, CXSourceLocation loc2);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceLocation clang_getLocation(CXTranslationUnit tu, CXFile file, uint line, uint column);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceLocation clang_getLocationForOffset(CXTranslationUnit tu, CXFile file, uint offset);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Location_isInSystemHeader(CXSourceLocation location);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Location_isFromMainFile(CXSourceLocation location);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRange clang_getNullRange();
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRange clang_getRange(CXSourceLocation begin, CXSourceLocation end);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_equalRanges(CXSourceRange range1, CXSourceRange range2);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Range_isNull(CXSourceRange range);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_getExpansionLocation(CXSourceLocation location, CXFile* file, uint* line, uint* column, uint* offset);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_getPresumedLocation(CXSourceLocation location, CXString* filename, uint* line, uint* column);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_getInstantiationLocation(CXSourceLocation location, CXFile* file, uint* line, uint* column, uint* offset);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_getSpellingLocation(CXSourceLocation location, CXFile* file, uint* line, uint* column, uint* offset);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_getFileLocation(CXSourceLocation location, CXFile* file, uint* line, uint* column, uint* offset);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceLocation clang_getRangeStart(CXSourceRange range);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceLocation clang_getRangeEnd(CXSourceRange range);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRangeList* clang_getSkippedRanges(CXTranslationUnit tu, CXFile file);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRangeList* clang_getAllSkippedRanges(CXTranslationUnit tu);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeSourceRangeList(CXSourceRangeList* ranges);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getNumDiagnosticsInSet(CXDiagnosticSet Diags);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXDiagnostic clang_getDiagnosticInSet(CXDiagnosticSet Diags, uint Index);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXDiagnosticSet clang_loadDiagnostics([In] sbyte* file, CXLoadDiag_Error* error, CXString* errorString);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeDiagnosticSet(CXDiagnosticSet Diags);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXDiagnosticSet clang_getChildDiagnostics(CXDiagnostic D);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getNumDiagnostics(CXTranslationUnit Unit);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXDiagnostic clang_getDiagnostic(CXTranslationUnit Unit, uint Index);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXDiagnosticSet clang_getDiagnosticSetFromTU(CXTranslationUnit Unit);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeDiagnostic(CXDiagnostic Diagnostic);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_formatDiagnostic(CXDiagnostic Diagnostic, uint Options);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_defaultDiagnosticDisplayOptions();
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXDiagnosticSeverity clang_getDiagnosticSeverity(CXDiagnostic handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceLocation clang_getDiagnosticLocation(CXDiagnostic handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getDiagnosticSpelling(CXDiagnostic handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getDiagnosticOption(CXDiagnostic Diag, CXString* Disable);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getDiagnosticCategory(CXDiagnostic handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getDiagnosticCategoryName(uint Category);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getDiagnosticCategoryText(CXDiagnostic handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getDiagnosticNumRanges(CXDiagnostic handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRange clang_getDiagnosticRange(CXDiagnostic Diagnostic, uint Range);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getDiagnosticNumFixIts(CXDiagnostic Diagnostic);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getDiagnosticFixIt(CXDiagnostic Diagnostic, uint FixIt, CXSourceRange* ReplacementRange);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getTranslationUnitSpelling(CXTranslationUnit CTUnit);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXTranslationUnit clang_createTranslationUnitFromSourceFile(CXIndex CIdx, [In] sbyte* source_filename, int num_clang_command_line_args, [In] sbyte* * clang_command_line_args, uint num_unsaved_files, CXUnsavedFile* unsaved_files);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXTranslationUnit clang_createTranslationUnit(CXIndex CIdx, [In] sbyte* ast_filename);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXErrorCode clang_createTranslationUnit2(CXIndex CIdx, [In] sbyte* ast_filename, CXTranslationUnit* out_TU);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_defaultEditingTranslationUnitOptions();
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXTranslationUnit clang_parseTranslationUnit(CXIndex CIdx, [In] sbyte* source_filename, [In] sbyte* * command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXErrorCode clang_parseTranslationUnit2(CXIndex CIdx, [In] sbyte* source_filename, [In] sbyte* * command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXErrorCode clang_parseTranslationUnit2FullArgv(CXIndex CIdx, [In] sbyte* source_filename, [In] sbyte* * command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_defaultSaveOptions(CXTranslationUnit TU);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_saveTranslationUnit(CXTranslationUnit TU, [In] sbyte* FileName, uint options);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_suspendTranslationUnit(CXTranslationUnit handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeTranslationUnit(CXTranslationUnit handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_defaultReparseOptions(CXTranslationUnit TU);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_reparseTranslationUnit(CXTranslationUnit TU, uint num_unsaved_files, CXUnsavedFile* unsaved_files, uint options);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern sbyte* clang_getTUResourceUsageName(CXTUResourceUsageKind kind);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXTUResourceUsage clang_getCXTUResourceUsage(CXTranslationUnit TU);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeCXTUResourceUsage(CXTUResourceUsage usage);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXTargetInfo clang_getTranslationUnitTargetInfo(CXTranslationUnit CTUnit);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_TargetInfo_dispose(CXTargetInfo Info);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_TargetInfo_getTriple(CXTargetInfo Info);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_TargetInfo_getPointerWidth(CXTargetInfo Info);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getNullCursor();
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getTranslationUnitCursor(CXTranslationUnit handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_equalCursors(CXCursor handle, CXCursor handle2);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Cursor_isNull(CXCursor cursor);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_hashCursor(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursorKind clang_getCursorKind(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isDeclaration(CXCursorKind handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isInvalidDeclaration(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isReference(CXCursorKind handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isExpression(CXCursorKind handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isStatement(CXCursorKind handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isAttribute(CXCursorKind handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_hasAttrs(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isInvalid(CXCursorKind handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isTranslationUnit(CXCursorKind handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isPreprocessing(CXCursorKind handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isUnexposed(CXCursorKind handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXLinkageKind clang_getCursorLinkage(CXCursor cursor);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXVisibilityKind clang_getCursorVisibility(CXCursor cursor);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXAvailabilityKind clang_getCursorAvailability(CXCursor cursor);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_getCursorPlatformAvailability(CXCursor cursor, int* always_deprecated, CXString* deprecated_message, int* always_unavailable, CXString* unavailable_message, CXPlatformAvailability* availability, int availability_size);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeCXPlatformAvailability(CXPlatformAvailability* availability);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_Cursor_getVarDeclInitializer(CXCursor cursor);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Cursor_hasVarDeclGlobalStorage(CXCursor cursor);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Cursor_hasVarDeclExternalStorage(CXCursor cursor);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXLanguageKind clang_getCursorLanguage(CXCursor cursor);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXTLSKind clang_getCursorTLSKind(CXCursor cursor);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXTranslationUnit clang_Cursor_getTranslationUnit(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursorSet clang_createCXCursorSet();
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeCXCursorSet(CXCursorSet cset);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXCursorSet_contains(CXCursorSet cset, CXCursor cursor);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXCursorSet_insert(CXCursorSet cset, CXCursor cursor);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getCursorSemanticParent(CXCursor cursor);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getCursorLexicalParent(CXCursor cursor);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_getOverriddenCursors(CXCursor cursor, CXCursor* * overridden, uint* num_overridden);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeOverriddenCursors(CXCursor* overridden);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXFile clang_getIncludedFile(CXCursor cursor);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getCursor(CXTranslationUnit handle, CXSourceLocation handle2);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceLocation clang_getCursorLocation(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRange clang_getCursorExtent(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getCursorType(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getTypeSpelling(CXType CT);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getTypedefDeclUnderlyingType(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getEnumDeclIntegerType(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern long clang_getEnumConstantDeclValue(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong clang_getEnumConstantDeclUnsignedValue(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_getFieldDeclBitWidth(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Cursor_getNumArguments(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_Cursor_getArgument(CXCursor C, uint i);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Cursor_getNumTemplateArguments(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXTemplateArgumentKind clang_Cursor_getTemplateArgumentKind(CXCursor C, uint I);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_Cursor_getTemplateArgumentType(CXCursor C, uint I);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern long clang_Cursor_getTemplateArgumentValue(CXCursor C, uint I);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong clang_Cursor_getTemplateArgumentUnsignedValue(CXCursor C, uint I);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_equalTypes(CXType A, CXType B);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getCanonicalType(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isConstQualifiedType(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isMacroFunctionLike(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isMacroBuiltin(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isFunctionInlined(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isVolatileQualifiedType(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isRestrictQualifiedType(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getAddressSpace(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getTypedefName(CXType CT);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getPointeeType(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getTypeDeclaration(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getDeclObjCTypeEncoding(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_Type_getObjCEncoding(CXType type);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getTypeKindSpelling(CXTypeKind K);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCallingConv clang_getFunctionTypeCallingConv(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getResultType(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_getExceptionSpecificationType(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_getNumArgTypes(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getArgType(CXType T, uint i);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_Type_getObjCObjectBaseType(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Type_getNumObjCProtocolRefs(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_Type_getObjCProtocolDecl(CXType T, uint i);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Type_getNumObjCTypeArgs(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_Type_getObjCTypeArg(CXType T, uint i);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isFunctionTypeVariadic(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getCursorResultType(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_getCursorExceptionSpecificationType(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isPODType(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getElementType(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern long clang_getNumElements(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getArrayElementType(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern long clang_getArraySize(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_Type_getNamedType(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Type_isTransparentTagTypedef(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXTypeNullabilityKind clang_Type_getNullability(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern long clang_Type_getAlignOf(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_Type_getClassType(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern long clang_Type_getSizeOf(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern long clang_Type_getOffsetOf(CXType T, [In] sbyte* S);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_Type_getModifiedType(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_Type_getValueType(CXType CT);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern long clang_Cursor_getOffsetOfField(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isAnonymous(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isAnonymousRecordDecl(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isInlineNamespace(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Type_getNumTemplateArguments(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_Type_getTemplateArgumentAsType(CXType T, uint i);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXRefQualifierKind clang_Type_getCXXRefQualifier(CXType T);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isBitField(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isVirtualBase(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CX_CXXAccessSpecifier clang_getCXXAccessSpecifier(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CX_StorageClass clang_Cursor_getStorageClass(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getNumOverloadedDecls(CXCursor cursor);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getOverloadedDecl(CXCursor cursor, uint index);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getIBOutletCollectionType(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_visitChildren(CXCursor parent, void* visitor, CXClientData client_data);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCursorUSR(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_constructUSR_ObjCClass([In] sbyte* class_name);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_constructUSR_ObjCCategory([In] sbyte* class_name, [In] sbyte* category_name);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_constructUSR_ObjCProtocol([In] sbyte* protocol_name);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_constructUSR_ObjCIvar([In] sbyte* name, CXString classUSR);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_constructUSR_ObjCMethod([In] sbyte* name, uint isInstanceMethod, CXString classUSR);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_constructUSR_ObjCProperty([In] sbyte* property, CXString classUSR);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCursorSpelling(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRange clang_Cursor_getSpellingNameRange(CXCursor handle, uint pieceIndex, uint options);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_PrintingPolicy_getProperty(CXPrintingPolicy Policy, CXPrintingPolicyProperty Property);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_PrintingPolicy_setProperty(CXPrintingPolicy Policy, CXPrintingPolicyProperty Property, uint Value);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXPrintingPolicy clang_getCursorPrintingPolicy(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_PrintingPolicy_dispose(CXPrintingPolicy Policy);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCursorPrettyPrinted(CXCursor Cursor, CXPrintingPolicy Policy);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCursorDisplayName(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getCursorReferenced(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getCursorDefinition(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isCursorDefinition(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getCanonicalCursor(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Cursor_getObjCSelectorIndex(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Cursor_isDynamicCall(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_Cursor_getReceiverType(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_getObjCPropertyAttributes(CXCursor C, uint reserved);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_Cursor_getObjCPropertyGetterName(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_Cursor_getObjCPropertySetterName(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_getObjCDeclQualifiers(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isObjCOptional(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isVariadic(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isExternalSymbol(CXCursor C, CXString* language, CXString* definedIn, uint* isGenerated);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRange clang_Cursor_getCommentRange(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_Cursor_getRawCommentText(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_Cursor_getBriefCommentText(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_Cursor_getMangling(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXStringSet* clang_Cursor_getCXXManglings(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXStringSet* clang_Cursor_getObjCManglings(CXCursor handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXModule clang_Cursor_getModule(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXModule clang_getModuleForFile(CXTranslationUnit handle, CXFile handle2);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXFile clang_Module_getASTFile(CXModule Module);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXModule clang_Module_getParent(CXModule Module);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_Module_getName(CXModule Module);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_Module_getFullName(CXModule Module);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Module_isSystem(CXModule Module);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Module_getNumTopLevelHeaders(CXTranslationUnit handle, CXModule Module);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXFile clang_Module_getTopLevelHeader(CXTranslationUnit handle, CXModule Module, uint Index);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXConstructor_isConvertingConstructor(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXConstructor_isCopyConstructor(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXConstructor_isDefaultConstructor(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXConstructor_isMoveConstructor(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXField_isMutable(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXMethod_isDefaulted(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXMethod_isPureVirtual(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXMethod_isStatic(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXMethod_isVirtual(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXRecord_isAbstract(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_EnumDecl_isScoped(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXMethod_isConst(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursorKind clang_getTemplateCursorKind(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getSpecializedCursorTemplate(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRange clang_getCursorReferenceNameRange(CXCursor C, uint NameFlags, uint PieceIndex);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXToken* clang_getToken(CXTranslationUnit TU, CXSourceLocation Location);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXTokenKind clang_getTokenKind(CXToken handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getTokenSpelling(CXTranslationUnit handle, CXToken handle2);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceLocation clang_getTokenLocation(CXTranslationUnit handle, CXToken handle2);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRange clang_getTokenExtent(CXTranslationUnit handle, CXToken handle2);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_tokenize(CXTranslationUnit TU, CXSourceRange Range, CXToken* * Tokens, uint* NumTokens);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_annotateTokens(CXTranslationUnit TU, CXToken* Tokens, uint NumTokens, CXCursor* Cursors);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeTokens(CXTranslationUnit TU, CXToken* Tokens, uint NumTokens);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCursorKindSpelling(CXCursorKind Kind);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_getDefinitionSpellingAndExtent(CXCursor handle, [In] sbyte* * startBuf, [In] sbyte* * endBuf, uint* startLine, uint* startColumn, uint* endLine, uint* endColumn);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_enableStackTraces();
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_executeOnThread(void* fn, void* user_data, uint stack_size);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCompletionChunkKind clang_getCompletionChunkKind(CXCompletionString completion_string, uint chunk_number);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCompletionChunkText(CXCompletionString completion_string, uint chunk_number);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCompletionString clang_getCompletionChunkCompletionString(CXCompletionString completion_string, uint chunk_number);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getNumCompletionChunks(CXCompletionString completion_string);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getCompletionPriority(CXCompletionString completion_string);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXAvailabilityKind clang_getCompletionAvailability(CXCompletionString completion_string);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getCompletionNumAnnotations(CXCompletionString completion_string);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCompletionAnnotation(CXCompletionString completion_string, uint annotation_number);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCompletionParent(CXCompletionString completion_string, CXCursorKind* kind);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCompletionBriefComment(CXCompletionString completion_string);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCompletionString clang_getCursorCompletionString(CXCursor cursor);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getCompletionNumFixIts(CXCodeCompleteResults* results, uint completion_index);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCompletionFixIt(CXCodeCompleteResults* results, uint completion_index, uint fixit_index, CXSourceRange* replacement_range);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_defaultCodeCompleteOptions();
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCodeCompleteResults* clang_codeCompleteAt(CXTranslationUnit TU, [In] sbyte* complete_filename, uint complete_line, uint complete_column, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_sortCodeCompletionResults(CXCompletionResult* Results, uint NumResults);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeCodeCompleteResults(CXCodeCompleteResults* Results);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_codeCompleteGetNumDiagnostics(CXCodeCompleteResults* Results);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXDiagnostic clang_codeCompleteGetDiagnostic(CXCodeCompleteResults* Results, uint Index);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong clang_codeCompleteGetContexts(CXCodeCompleteResults* Results);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursorKind clang_codeCompleteGetContainerKind(CXCodeCompleteResults* Results, uint* IsIncomplete);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_codeCompleteGetContainerUSR(CXCodeCompleteResults* Results);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_codeCompleteGetObjCSelector(CXCodeCompleteResults* Results);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getClangVersion();
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_toggleCrashRecovery(uint isEnabled);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_getInclusions(CXTranslationUnit tu, void* visitor, CXClientData client_data);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXEvalResult clang_Cursor_Evaluate(CXCursor C);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXEvalResultKind clang_EvalResult_getKind(CXEvalResult E);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_EvalResult_getAsInt(CXEvalResult E);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern long clang_EvalResult_getAsLongLong(CXEvalResult E);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_EvalResult_isUnsignedInt(CXEvalResult E);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong clang_EvalResult_getAsUnsigned(CXEvalResult E);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern double clang_EvalResult_getAsDouble(CXEvalResult E);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern sbyte* clang_EvalResult_getAsStr(CXEvalResult E);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_EvalResult_dispose(CXEvalResult E);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXRemapping clang_getRemappings([In] sbyte* path);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXRemapping clang_getRemappingsFromFileList([In] sbyte* * filePaths, uint numFiles);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_remap_getNumFiles(CXRemapping handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_remap_getFilenames(CXRemapping handle, uint index, CXString* original, CXString* transformed);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_remap_dispose(CXRemapping handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXResult clang_findReferencesInFile(CXCursor cursor, CXFile file, CXCursorAndRangeVisitor visitor);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXResult clang_findIncludesInFile(CXTranslationUnit TU, CXFile file, CXCursorAndRangeVisitor visitor);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_index_isEntityObjCContainerKind(CXIdxEntityKind handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIdxObjCContainerDeclInfo* clang_index_getObjCContainerDeclInfo(CXIdxDeclInfo* handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIdxObjCInterfaceDeclInfo* clang_index_getObjCInterfaceDeclInfo(CXIdxDeclInfo* handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIdxObjCCategoryDeclInfo* clang_index_getObjCCategoryDeclInfo(CXIdxDeclInfo* handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIdxObjCProtocolRefListInfo* clang_index_getObjCProtocolRefListInfo(CXIdxDeclInfo* handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIdxObjCPropertyDeclInfo* clang_index_getObjCPropertyDeclInfo(CXIdxDeclInfo* handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIdxIBOutletCollectionAttrInfo* clang_index_getIBOutletCollectionAttrInfo(CXIdxAttrInfo* handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIdxCXXClassDeclInfo* clang_index_getCXXClassDeclInfo(CXIdxDeclInfo* handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIdxClientContainer clang_index_getClientContainer(CXIdxContainerInfo* handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_index_setClientContainer(CXIdxContainerInfo* handle, CXIdxClientContainer handle2);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIdxClientEntity clang_index_getClientEntity(CXIdxEntityInfo* handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_index_setClientEntity(CXIdxEntityInfo* handle, CXIdxClientEntity handle2);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIndexAction clang_IndexAction_create(CXIndex CIdx);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_IndexAction_dispose(CXIndexAction handle);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_indexSourceFile(CXIndexAction handle, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, [In] sbyte* source_filename, [In] sbyte* * command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_indexSourceFileFullArgv(CXIndexAction handle, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, [In] sbyte* source_filename, [In] sbyte* * command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_indexTranslationUnit(CXIndexAction handle, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CXTranslationUnit handle2);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_indexLoc_getFileLocation(CXIdxLoc loc, CXIdxClientFile* indexFile, CXFile* file, uint* line, uint* column, uint* offset);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceLocation clang_indexLoc_getCXSourceLocation(CXIdxLoc loc);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Type_visitFields(CXType T, void* visitor, CXClientData client_data);
 
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
