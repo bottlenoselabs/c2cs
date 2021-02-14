@@ -12,9 +12,54 @@
 using System;
 using System.Runtime.InteropServices;
 
-public static unsafe class libclang
+public static unsafe partial class libclang
 {
     private const string LibraryName = "libclang";
+
+    [DllImport(LibraryName)]
+    public static extern sbyte* clang_getCString(CXString @string);
+
+    [DllImport(LibraryName)]
+    public static extern void clang_disposeString(CXString @string);
+
+    [DllImport(LibraryName)]
+    public static extern void clang_disposeStringSet(CXStringSet* set);
+
+    [DllImport(LibraryName)]
+    public static extern ulong clang_getBuildSessionTimestamp();
+
+    [DllImport(LibraryName)]
+    public static extern CXVirtualFileOverlay clang_VirtualFileOverlay_create(uint options);
+
+    [DllImport(LibraryName)]
+    public static extern CXErrorCode clang_VirtualFileOverlay_addFileMapping(CXVirtualFileOverlay handle, [In] sbyte* virtualPath, [In] sbyte* realPath);
+
+    [DllImport(LibraryName)]
+    public static extern CXErrorCode clang_VirtualFileOverlay_setCaseSensitivity(CXVirtualFileOverlay handle, int caseSensitive);
+
+    [DllImport(LibraryName)]
+    public static extern CXErrorCode clang_VirtualFileOverlay_writeToBuffer(CXVirtualFileOverlay handle, uint options, sbyte* * out_buffer_ptr, uint* out_buffer_size);
+
+    [DllImport(LibraryName)]
+    public static extern void clang_free(void* buffer);
+
+    [DllImport(LibraryName)]
+    public static extern void clang_VirtualFileOverlay_dispose(CXVirtualFileOverlay handle);
+
+    [DllImport(LibraryName)]
+    public static extern CXModuleMapDescriptor clang_ModuleMapDescriptor_create(uint options);
+
+    [DllImport(LibraryName)]
+    public static extern CXErrorCode clang_ModuleMapDescriptor_setFrameworkModuleName(CXModuleMapDescriptor handle, [In] sbyte* name);
+
+    [DllImport(LibraryName)]
+    public static extern CXErrorCode clang_ModuleMapDescriptor_setUmbrellaHeader(CXModuleMapDescriptor handle, [In] sbyte* name);
+
+    [DllImport(LibraryName)]
+    public static extern CXErrorCode clang_ModuleMapDescriptor_writeToBuffer(CXModuleMapDescriptor handle, uint options, sbyte* * out_buffer_ptr, uint* out_buffer_size);
+
+    [DllImport(LibraryName)]
+    public static extern void clang_ModuleMapDescriptor_dispose(CXModuleMapDescriptor handle);
 
     [DllImport(LibraryName)]
     public static extern CXIndex clang_createIndex(int excludeDeclarationsFromPCH, int displayDiagnostics);
@@ -987,6 +1032,20 @@ public static unsafe class libclang
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXVirtualFileOverlay
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXModuleMapDescriptor
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIndex
     {
         [FieldOffset(0)] /* size = 8, padding = 1 */
@@ -1120,6 +1179,16 @@ public static unsafe class libclang
 
         [FieldOffset(8)] /* size = 4, padding = 4 */
         public uint private_flags;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct CXStringSet
+    {
+        [FieldOffset(0)] /* size = 8, padding = 0 */
+        public CXString* Strings;
+
+        [FieldOffset(8)] /* size = 4, padding = 4 */
+        public uint Count;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
@@ -1292,16 +1361,6 @@ public static unsafe class libclang
                 return ref *(pointer + pointerOffset);
             }
         }
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct CXStringSet
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public CXString* Strings;
-
-        [FieldOffset(8)] /* size = 4, padding = 4 */
-        public uint Count;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
@@ -1603,6 +1662,15 @@ public static unsafe class libclang
         public void* indexEntityReference;
     }
 
+    public enum CXErrorCode : uint
+    {
+        CXError_Success = 0U,
+        CXError_Failure = 1U,
+        CXError_Crashed = 2U,
+        CXError_InvalidArguments = 3U,
+        CXError_ASTReadError = 4U
+    }
+
     public enum CXLoadDiag_Error : uint
     {
         CXLoadDiag_None = 0U,
@@ -1618,15 +1686,6 @@ public static unsafe class libclang
         CXDiagnostic_Warning = 2U,
         CXDiagnostic_Error = 3U,
         CXDiagnostic_Fatal = 4U
-    }
-
-    public enum CXErrorCode : uint
-    {
-        CXError_Success = 0U,
-        CXError_Failure = 1U,
-        CXError_Crashed = 2U,
-        CXError_InvalidArguments = 3U,
-        CXError_ASTReadError = 4U
     }
 
     public enum CXTUResourceUsageKind : uint

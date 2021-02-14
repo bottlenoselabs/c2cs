@@ -55,7 +55,8 @@ namespace C2CS
 				.AddModifiers(
 					Token(SyntaxKind.PublicKeyword),
 					Token(SyntaxKind.StaticKeyword),
-					Token(SyntaxKind.UnsafeKeyword))
+					Token(SyntaxKind.UnsafeKeyword),
+					Token(SyntaxKind.PartialKeyword))
 				.WithMembers(List(
 					newMembers));
 		}

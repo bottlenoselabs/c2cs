@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -50,15 +51,26 @@ namespace C2CS
 
 			_includeDirectories = includeDirectories?.ToArray() ?? Array.Empty<string>();
 
+			var clangExternalFunctionsBuilder = ImmutableArray.CreateBuilder<CXCursor>();
 			_translationUnit.Cursor.VisitChildren(child =>
 			{
-				var explorer = _instance;
-
-				if (child.Location.IsFromMainFile && child.Kind == CXCursorKind.CXCursor_FunctionDecl && child.Linkage == CXLinkageKind.CXLinkage_External)
+				if (child.Kind == CXCursorKind.CXCursor_FunctionDecl && child.Linkage == CXLinkageKind.CXLinkage_External)
 				{
-					explorer.VisitCursor(child);
+					child.Location.GetFileLocation(out var file, out _, out _, out _);
+					var cursorFilePath = file.TryGetRealPathName().CString;
+					var cursorDirectoryPath = Path.GetDirectoryName(cursorFilePath);
+					if (cursorDirectoryPath == _directoryPath)
+					{
+						clangExternalFunctionsBuilder.Add(child);
+					}
 				}
 			});
+			var clangExternalFunctions = clangExternalFunctionsBuilder.ToImmutable();
+
+			foreach (var clangFunction in clangExternalFunctions)
+			{
+				VisitCursor(clangFunction);
+			}
 
 			foreach (var typedefDecl in _opaqueRecordsC)
 			{
