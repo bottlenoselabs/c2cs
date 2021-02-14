@@ -66,13 +66,6 @@ Input:
 ```c
 ...
 
-SOKOL_GFX_API_DECL void sg_begin_default_pass(const sg_pass_action* pass_action, int width, int height);
-SOKOL_GFX_API_DECL void sg_begin_pass(sg_pass pass, const sg_pass_action* pass_action);
-SOKOL_GFX_API_DECL void sg_apply_viewport(int x, int y, int width, int height, bool origin_top_left);
-SOKOL_GFX_API_DECL void sg_apply_scissor_rect(int x, int y, int width, int height, bool origin_top_left);
-SOKOL_GFX_API_DECL void sg_apply_pipeline(sg_pipeline pip);
-SOKOL_GFX_API_DECL void sg_apply_bindings(const sg_bindings* bindings);
-SOKOL_GFX_API_DECL void sg_apply_uniforms(sg_shader_stage stage, int ub_index, const void* data, int num_bytes);
 SOKOL_GFX_API_DECL void sg_draw(int base_element, int num_elements, int num_instances);
 SOKOL_GFX_API_DECL void sg_end_pass(void);
 SOKOL_GFX_API_DECL void sg_commit(void);
@@ -91,34 +84,13 @@ public static unsafe class sokol_gfx
 {
     ...
 
-    [DllImport(LibraryName)]
-    public static extern void sg_begin_default_pass([In] sg_pass_action* pass_action, int width, int height);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_begin_pass(sg_pass pass, [In] sg_pass_action* pass_action);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_apply_viewport(int x, int y, int width, int height, BlittableBoolean origin_top_left);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_apply_scissor_rect(int x, int y, int width, int height, BlittableBoolean origin_top_left);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_apply_pipeline(sg_pipeline pip);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_apply_bindings([In] sg_bindings* bindings);
-
-    [DllImport(LibraryName)]
-    public static extern void sg_apply_uniforms(sg_shader_stage stage, int ub_index, [In] void* data, int num_bytes);
-
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_draw(int base_element, int num_elements, int num_instances);
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_end_pass();
 
-    [DllImport(LibraryName)]
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_commit();
 
     ...
@@ -131,7 +103,7 @@ public static unsafe class sokol_gfx
 Input:
 ```bash
 -i
-"/PATH/TO/soloud/include/soloud_c.h"
+"/PATH/TO/SOLOUD/include/soloud_c.h"
 -o
 "./soloud.cs"
 -u
@@ -162,20 +134,20 @@ public static unsafe class soloud
 {
     private const string LibraryName = "soloud";
 
-    [DllImport(LibraryName)]
-    public static extern void Soloud_destroy(void* aSoloud);
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern void Soloud_destroy(Soloud* aSoloud);
 
-    [DllImport(LibraryName)]
-    public static extern void* Soloud_create();
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern Soloud* Soloud_create();
 
-    [DllImport(LibraryName)]
-    public static extern int Soloud_init(void* aSoloud);
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern int Soloud_init(Soloud* aSoloud);
 
-    [DllImport(LibraryName)]
-    public static extern int Soloud_initEx(void* aSoloud, uint aFlags, uint aBackend, uint aSamplerate, uint aBufferSize, uint aChannels);
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern int Soloud_initEx(Soloud* aSoloud, uint aFlags, uint aBackend, uint aSamplerate, uint aBufferSize, uint aChannels);
 
-    [DllImport(LibraryName)]
-    public static extern void Soloud_deinit(void* aSoloud);
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern void Soloud_deinit(Soloud* aSoloud);
 
     ...
 }
@@ -186,15 +158,14 @@ public static unsafe class soloud
 Input:
 ```bash
 -i
-"/PATH/TO/clang/include/clang-c/Index.h"
+"PATH/TO/CLANG/include/clang-c/Index.h"
 -o
 "./libclang.cs"
 -u
 -l
 "libclang"
 -s
-"/PATH/TO/clang/include"
-"/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include"
+"PATH/TO/CLANG/include"
 -a
 "-fno-blocks"
 ```
@@ -218,8 +189,8 @@ Output:
 using System.Runtime.InteropServices;
 
 ...
-    [DllImport(LibraryName)]
-    public static extern CXTranslationUnit clang_parseTranslationUnit(CXIndex CIdx, [In] byte* source_filename, [In] byte* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern CXTranslationUnit clang_parseTranslationUnit(CXIndex CIdx, [In] sbyte* source_filename, [In] sbyte* * command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
 ...
 ```
 
