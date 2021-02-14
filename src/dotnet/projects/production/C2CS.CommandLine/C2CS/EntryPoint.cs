@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
 
+using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 
@@ -26,7 +28,6 @@ namespace C2CS
 			{
 				IsRequired = true
 			};
-
 			rootCommand.AddOption(inputFilePathOption);
 
 			var outputFilePathOption = new Option<string>(
@@ -35,7 +36,6 @@ namespace C2CS
 			{
 				IsRequired = true
 			};
-
 			rootCommand.AddOption(outputFilePathOption);
 
 			var unattendedOption = new Option<bool>(
@@ -44,16 +44,14 @@ namespace C2CS
 			{
 				IsRequired = false
 			};
-
 			rootCommand.AddOption(unattendedOption);
 
-			var libraryNameOption = new Option<string?>(
+			var libraryNameOption = new Option<string>(
 				new[] {"--libraryName", "-l"},
-				"The name of the library. Default value is the file name of the input file path.")
+				"The name of the dynamic link library.")
 			{
 				IsRequired = false
 			};
-
 			rootCommand.AddOption(libraryNameOption);
 
 			var includeDirectoriesOption = new Option<IEnumerable<string>?>(
@@ -62,7 +60,6 @@ namespace C2CS
 			{
 				IsRequired = false
 			};
-
 			rootCommand.AddOption(includeDirectoriesOption);
 
 			var defineMacrosOption = new Option<IEnumerable<string>?>(
@@ -92,29 +89,37 @@ namespace C2CS
 			string inputFilePath,
 			string outputFilePath,
 			bool unattended,
-			string? libraryName = null,
+			string libraryName,
 			IEnumerable<string>? includeDirectories = null,
 			IEnumerable<string>? defineMacros = null,
 			IEnumerable<string>? additionalArgs = null)
 		{
-			var programState = new Program.State(
-				inputFilePath,
-				outputFilePath,
-				unattended,
-				libraryName,
-				includeDirectories,
-				defineMacros,
-				additionalArgs);
+			try
+			{
+				var programState = new ProgramState(
+					inputFilePath,
+					outputFilePath,
+					unattended,
+					libraryName,
+					includeDirectories?.ToImmutableArray(),
+					defineMacros?.ToImmutableArray(),
+					additionalArgs?.ToImmutableArray());
 
-			var program = new Program(programState);
-			program.Execute();
+				var program = new Program(programState);
+				program.Execute();
+			}
+			catch (ProgramException e)
+			{
+				Console.Error.WriteLine(e.Message);
+				Environment.Exit(-1);
+			}
 		}
 
 		private delegate void StartDelegate(
 			string inputFilePath,
 			string outputFilePath,
 			bool unattended,
-			string? libraryName = null,
+			string libraryName,
 			IEnumerable<string>? includeDirectories = null,
 			IEnumerable<string>? defineMacros = null,
 			IEnumerable<string>? additionalArgs = null);

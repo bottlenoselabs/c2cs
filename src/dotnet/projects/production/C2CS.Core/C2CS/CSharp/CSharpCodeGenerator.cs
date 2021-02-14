@@ -45,10 +45,10 @@ namespace C2CS
 			newMembers.Add(libraryNameField);
 
 			var membersSorted = members
-				.OrderBy(x => x is FieldDeclarationSyntax)
-				.ThenBy(x => x is EnumDeclarationSyntax)
-				.ThenBy(x => x is StructDeclarationSyntax)
-				.ThenBy(x => x is MethodDeclarationSyntax);
+				.OrderByDescending(x => x is FieldDeclarationSyntax)
+				.ThenByDescending(x => x is MethodDeclarationSyntax)
+				.ThenByDescending(x => x is StructDeclarationSyntax)
+				.ThenByDescending(x => x is EnumDeclarationSyntax);
 			newMembers.AddRange(membersSorted);
 
 			return ClassDeclaration(name)

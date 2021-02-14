@@ -1021,156 +1021,6 @@ public static unsafe partial class libclang
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Type_visitFields(CXType T, void* visitor, CXClientData client_data);
 
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct time_t
-    {
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct size_t
-    {
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXVirtualFileOverlay
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXModuleMapDescriptor
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIndex
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXFile
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXTranslationUnit
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXDiagnosticSet
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXDiagnostic
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXTargetInfo
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXCursorSet
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXClientData
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXPrintingPolicy
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXModule
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXCompletionString
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXEvalResult
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXRemapping
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIdxClientContainer
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIdxClientEntity
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIndexAction
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIdxClientFile
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIdxClientASTFile
-    {
-        [FieldOffset(0)] /* size = 8, padding = 1 */
-        public IntPtr Handle;
-    }
-
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXString
     {
@@ -1660,6 +1510,156 @@ public static unsafe partial class libclang
 
         [FieldOffset(56)] /* size = 8, padding = 0 */
         public void* indexEntityReference;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXVirtualFileOverlay
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXModuleMapDescriptor
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXIndex
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXFile
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXTranslationUnit
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXDiagnosticSet
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXDiagnostic
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXTargetInfo
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXCursorSet
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXClientData
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXPrintingPolicy
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXModule
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXCompletionString
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXEvalResult
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXRemapping
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXIdxClientContainer
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXIdxClientEntity
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXIndexAction
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXIdxClientFile
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXIdxClientASTFile
+    {
+        [FieldOffset(0)] /* size = 8, padding = 1 */
+        public IntPtr Handle;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct time_t
+    {
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct size_t
+    {
     }
 
     public enum CXErrorCode : uint

@@ -157,14 +157,7 @@ namespace C2CS
 					if (layout.Cursor.kind == CXCursorKind.CXCursor_UnionDecl)
 					{
 						var union = layout.Cursor;
-						var unionFields = new List<CXCursor>();
-						layout.Cursor.VisitChildren(child =>
-						{
-							if (child.kind == CXCursorKind.CXCursor_FieldDecl)
-							{
-								unionFields.Add(child);
-							}
-						});
+						var unionFields = layout.Cursor.ChildrenOfKind(CXCursorKind.CXCursor_FieldDecl);
 						foreach (var field in unionFields)
 						{
 							var unionFieldLayout = CalculateLayout(field);
@@ -175,14 +168,7 @@ namespace C2CS
 					previousLayout.FieldPadding = fieldPadding;
 					if (previousLayout.Cursor.kind == CXCursorKind.CXCursor_UnionDecl)
 					{
-						var unionFields = new List<CXCursor>();
-						layout.Cursor.VisitChildren(child =>
-						{
-							if (child.kind == CXCursorKind.CXCursor_FieldDecl)
-							{
-								unionFields.Add(child);
-							}
-						});
+						var unionFields = layout.Cursor.ChildrenOfKind(CXCursorKind.CXCursor_FieldDecl);
 						foreach (var field in unionFields)
 						{
 							var unionFieldLayout = CalculateLayout(field);

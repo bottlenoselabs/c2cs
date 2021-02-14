@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using ClangSharp.Interop;
 
 namespace C2CS
@@ -19,37 +18,25 @@ namespace C2CS
 
 		private string _filePath = string.Empty;
 		private string _directoryPath = string.Empty;
-		private string[] _includeDirectories = null!;
 		private static ClangCodeExplorer _instance = null!;
 
-		private readonly List<CXCursor> _opaqueRecordsC = new();
-		private readonly List<CXCursor> _enumsC = new();
-		private readonly List<CXCursor> _recordsC = new();
-		private readonly List<CXCursor> _functionsC = new();
-
-		public event ClangFoundEnumDelegate? EnumFound;
-
-		public event ClangFoundRecordDelegate? RecordFound;
-
-		public event ClangFoundFunctionDelegate? FunctionFound;
-
-		public event ClangFoundOpaqueTypeDelegate? OpaqueTypeFound;
-
-		public event ClangFoundExternalTypeDelegate? ExternalTypeFound;
+		private readonly List<CXCursor> _clangFunctions = new();
+		private readonly List<CXCursor> _clangEnums = new();
+		private readonly List<CXCursor> _clangRecords = new();
+		private readonly List<CXCursor> _clangOpaqueTypes = new();
+		private readonly List<CXCursor> _clangExternalTypes = new();
 
 		public ClangCodeExplorer()
 		{
 			_instance = this;
 		}
 
-		public void Explore(CXTranslationUnit translationUnit, IEnumerable<string>? includeDirectories)
+		public ClangCodeExploreResult Explore(CXTranslationUnit translationUnit)
 		{
 			_translationUnit = translationUnit;
 
 			_filePath = Path.GetFullPath(_translationUnit.Spelling.CString);
 			_directoryPath = Path.GetDirectoryName(_filePath) ?? string.Empty;
-
-			_includeDirectories = includeDirectories?.ToArray() ?? Array.Empty<string>();
 
 			var clangExternalFunctionsBuilder = ImmutableArray.CreateBuilder<CXCursor>();
 			_translationUnit.Cursor.VisitChildren(child =>
@@ -72,25 +59,24 @@ namespace C2CS
 				VisitCursor(clangFunction);
 			}
 
-			foreach (var typedefDecl in _opaqueRecordsC)
+			var result = new ClangCodeExploreResult()
 			{
-				OnFoundOpaqueType(typedefDecl);
-			}
+				Functions = _clangFunctions.ToImmutableArray(),
+				Records = _clangRecords.ToImmutableArray(),
+				Enums = _clangEnums.ToImmutableArray(),
+				OpaqueTypes = _clangOpaqueTypes.ToImmutableArray(),
+				ExternalTypes = _clangExternalTypes.ToImmutableArray()
+			};
 
-			foreach (var @enum in _enumsC)
-			{
-				OnFoundEnum(@enum);
-			}
+			_visitedCursors.Clear();
+			_visitedTypes.Clear();
+			_clangFunctions.Clear();
+			_clangRecords.Clear();
+			_clangEnums.Clear();
+			_clangOpaqueTypes.Clear();
+			_clangExternalTypes.Clear();
 
-			foreach (var record in _recordsC)
-			{
-				OnFoundRecord(record);
-			}
-
-			foreach (var function in _functionsC)
-			{
-				OnFoundFunction(function);
-			}
+			return result;
 		}
 
 		private bool CanVisitCursor(CXCursor cursor)
@@ -216,12 +202,12 @@ namespace C2CS
 				explorer.VisitCursor(child);
 			});
 
-			_functionsC.Add(function);
+			_clangFunctions.Add(function);
 		}
 
 		private void VisitEnum(CXCursor @enum)
 		{
-			_enumsC.Add(@enum);
+			_clangEnums.Add(@enum);
 		}
 
 		private void VisitRecord(CXCursor record)
@@ -238,7 +224,7 @@ namespace C2CS
 				explorer.VisitCursor(child);
 			});
 
-			_recordsC.Add(record);
+			_clangRecords.Add(record);
 		}
 
 		private void VisitTypedef(CXCursor typedef)
@@ -249,7 +235,7 @@ namespace C2CS
 
 				if (pointerType.PointeeType.kind == CXTypeKind.CXType_Void)
 				{
-					_opaqueRecordsC.Add(typedef);
+					_clangOpaqueTypes.Add(typedef);
 				}
 
 				if (pointerType.PointeeType.TypeClass == CX_TypeClass.CX_TypeClass_Elaborated)
@@ -266,7 +252,7 @@ namespace C2CS
 						});
 						if (childrenCount == 0)
 						{
-							_opaqueRecordsC.Add(typedef);
+							_clangOpaqueTypes.Add(typedef);
 						}
 					}
 				}
@@ -287,18 +273,7 @@ namespace C2CS
 			var cursorDirectoryPath = Path.GetDirectoryName(cursorFilePath);
 			if (cursorDirectoryPath != _directoryPath)
 			{
-				// ReSharper disable once LoopCanBeConvertedToQuery
-				foreach (var includeDirectory in _includeDirectories)
-				{
-					if (!cursorFilePath.StartsWith(includeDirectory, StringComparison.Ordinal))
-					{
-						continue;
-					}
-
-					VisitExternalType(typedef);
-					break;
-				}
-
+				VisitExternalType(typedef);
 				return;
 			}
 
@@ -307,7 +282,7 @@ namespace C2CS
 
 		private void VisitExternalType(CXCursor typedef)
 		{
-			OnFoundExternalType(typedef);
+			_clangExternalTypes.Add(typedef);
 		}
 
 		private void VisitFunctionProto(CXType functionProto)
@@ -319,31 +294,6 @@ namespace C2CS
 				var explorer = _instance;
 				explorer.VisitType(child.Type);
 			});
-		}
-
-		private void OnFoundEnum(CXCursor enumDeclaration)
-		{
-			EnumFound?.Invoke(enumDeclaration);
-		}
-
-		private void OnFoundRecord(CXCursor recordDeclaration)
-		{
-			RecordFound?.Invoke(recordDeclaration);
-		}
-
-		private void OnFoundFunction(CXCursor functionDeclaration)
-		{
-			FunctionFound?.Invoke(functionDeclaration);
-		}
-
-		private void OnFoundOpaqueType(CXCursor typedef)
-		{
-			OpaqueTypeFound?.Invoke(typedef);
-		}
-
-		private void OnFoundExternalType(CXCursor typedef)
-		{
-			ExternalTypeFound?.Invoke(typedef);
 		}
 
 		private static Exception UnsupportedDeclaration(CXCursor declaration)

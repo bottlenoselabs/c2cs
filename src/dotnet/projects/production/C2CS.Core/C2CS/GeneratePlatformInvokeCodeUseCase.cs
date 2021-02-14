@@ -28,25 +28,45 @@ namespace C2CS
 		private readonly ClangCodeExplorer _codeExplorer = new();
 		private readonly ClangLayoutCalculator _layoutCalculator = new();
 
-		private readonly List<EnumCSharp> _enums = new();
-		private readonly List<FieldCSharp> _fields = new();
-		private readonly List<MemberCSharp> _functionPointers = new();
+		private readonly List<FieldCSharp> _constants = new();
 		private readonly List<MethodCSharp> _methods = new();
 		private readonly List<StructCSharp> _structs = new();
+		private readonly List<EnumCSharp> _enums = new();
+		private readonly List<MemberCSharp> _functionPointers = new();
 
 		public GeneratePlatformInvokeCodeUseCase(string libraryName)
 		{
 			_cSharpCodeGenerator = new CSharpCodeGenerator(libraryName, _layoutCalculator);
-			_codeExplorer.EnumFound += TranspileEnum;
-			_codeExplorer.FunctionFound += TranspileFunction;
-			_codeExplorer.RecordFound += TranspileRecord;
-			_codeExplorer.OpaqueTypeFound += TranspileOpaqueType;
-			_codeExplorer.ExternalTypeFound += TranspileExternalType;
 		}
 
-		public string GenerateCode(CXTranslationUnit translationUnit, string libraryName, IEnumerable<string>? includeDirectories)
+		public string GenerateCode(CXTranslationUnit translationUnit, string libraryName)
 		{
-			_codeExplorer.Explore(translationUnit, includeDirectories);
+			var exploreResult = _codeExplorer.Explore(translationUnit);
+
+			foreach (var clangFunction in exploreResult.Functions)
+			{
+				TranspileFunction(clangFunction);
+			}
+
+			foreach (var clangRecord in exploreResult.Records)
+			{
+				TranspileRecord(clangRecord);
+			}
+
+			foreach (var clangEnum in exploreResult.Enums)
+			{
+				TranspileEnum(clangEnum);
+			}
+
+			foreach (var clangOpaqueType in exploreResult.OpaqueTypes)
+			{
+				TranspileOpaqueType(clangOpaqueType);
+			}
+
+			foreach (var clangExternalType in exploreResult.ExternalTypes)
+			{
+				TranspileExternalType(clangExternalType);
+			}
 
 			const string comment = @"
 //-------------------------------------------------------------------------------------
@@ -68,10 +88,10 @@ using System.Runtime.InteropServices;";
 			var className = Path.GetFileNameWithoutExtension(libraryName);
 
 			var membersBuilder = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
-			membersBuilder.AddRange(_fields);
-			membersBuilder.AddRange(_enums);
-			membersBuilder.AddRange(_structs);
+			membersBuilder.AddRange(_constants);
 			membersBuilder.AddRange(_methods);
+			membersBuilder.AddRange(_structs);
+			membersBuilder.AddRange(_enums);
 			membersBuilder.AddRange(_functionPointers);
 			var members = membersBuilder.ToImmutableArray();
 
@@ -98,7 +118,7 @@ using System.Runtime.InteropServices;";
 		private void TranspileConstant(CXCursor clangConstant)
 		{
 			var cSharpConstant = _cSharpCodeGenerator.CreateConstant(clangConstant);
-			_fields.Add(cSharpConstant);
+			_constants.Add(cSharpConstant);
 		}
 
 		private void TranspileEnum(CXCursor clangEnum)
