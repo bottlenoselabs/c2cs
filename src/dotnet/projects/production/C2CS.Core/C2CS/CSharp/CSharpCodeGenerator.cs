@@ -354,7 +354,7 @@ namespace C2CS
 					VariableDeclaration(cSharpFieldType)
 						.WithVariables(SingletonSeparatedList(cSharpFieldVariable)))
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-				.WithAttributeFieldOffset(0, 8, 1);
+				.WithAttributeFieldOffset(0, (int)clangTypedef.Type.SizeOf, 0);
 			cSharpStruct = cSharpStruct.AddMembers(cSharpField);
 
 			return cSharpStruct;
