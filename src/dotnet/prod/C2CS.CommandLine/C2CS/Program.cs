@@ -39,6 +39,7 @@ namespace C2CS
 				Environment.Exit(-1);
 			}
 
+			_state.Stopwatch.Stop();
 			var canContinue = true;
 			var clangDiagnosticsCount = translationUnit.NumDiagnostics;
 			if (clangDiagnosticsCount != 0)
@@ -66,7 +67,6 @@ namespace C2CS
 				Environment.Exit(-1);
 			}
 
-			_state.Stopwatch.Stop();
 			GC.Collect();
 			GC.WaitForPendingFinalizers();
 			GC.Collect();
@@ -77,9 +77,9 @@ namespace C2CS
 		private string GenerateCodeCSharp(CXTranslationUnit translationUnit)
 		{
 			Console.WriteLine("Generating C# code...");
+			var generator = new GeneratePlatformInvokeCodeUseCase(_state.LibraryName!);
 			_state.Stopwatch.Restart();
 
-			var generator = new GeneratePlatformInvokeCodeUseCase(_state.LibraryName!);
 			var code = generator.GenerateCode(translationUnit, _state.LibraryName!);
 
 			_state.Stopwatch.Stop();
