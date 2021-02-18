@@ -16,6 +16,18 @@ This includes all C extern functions which are transpiled to `static` extern met
 
 This is all accomplished by using [libclang](https://clang.llvm.org/docs/Tooling.html) for parsing C and [Roslyn](https://github.com/dotnet/roslyn) for generating C#. All naming is left as found in the header file of the C code.
 
+### Other solutions
+
+#### For tricky C libraries
+
+This project does not work for every C library. This is due to some technical limitations where some C libraries are not "bindgen-friendly". For such libraries I recommend you take a look at: https://github.com/InfectedLibraries/Biohazrd
+
+#### Other similar projects
+
+Other similar projects are mentioned here for completeness.
+
+- https://github.com/rds1983/Sichem
+
 ## Developers: Building from Source
 
 ### Prerequisites
