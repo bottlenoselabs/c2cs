@@ -20,7 +20,7 @@ namespace C2CS
 		private static Command CreateRootCommand()
 		{
 			// Create a root command with some options
-			var rootCommand = new RootCommand("C# Platform Invoke Code Generator");
+			var rootCommand = new RootCommand("C2CS - C to C# bindings code generator.");
 
 			var inputFilePathOption = new Option<string>(
 				new[] {"--inputFilePath", "-i"},
