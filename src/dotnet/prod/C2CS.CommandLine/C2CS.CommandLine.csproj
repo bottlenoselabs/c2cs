@@ -20,7 +20,7 @@
     
     <!-- Project references -->
     <ItemGroup>
-        <ProjectReference Include="..\C2CS.Core\C2CS.Core.csproj" />
+        <ProjectReference Include="../C2CS.Core/C2CS.Core.csproj" />
     </ItemGroup>
 
     <!-- NuGet tool -->
