@@ -26,6 +26,8 @@ This project does not work for every C library. This is due to some technical li
 
 Other similar projects are mentioned here for completeness.
 
+- https://github.com/microsoft/ClangSharp
+- https://github.com/SharpGenTools/SharpGenTools
 - https://github.com/rds1983/Sichem
 
 ## Developers: Building from Source
