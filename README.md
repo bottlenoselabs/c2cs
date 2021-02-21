@@ -20,11 +20,20 @@ This is all accomplished by using [libclang](https://clang.llvm.org/docs/Tooling
 
 #### For tricky C libraries
 
-This project does not work for every C library. This is due to some technical limitations where some C libraries are not "bindgen-friendly". For such libraries I recommend you take a look at: https://github.com/InfectedLibraries/Biohazrd
+This project does not work for every C library. This is due to some technical limitations where some C libraries are not "bindgen-friendly".
+
+##### "Bindgen-friendly"
+
+Note that this list only applies to the **external linkage** of the C API; the internal guts of the C library is irrelevant.
+
+- No macros.
+- (This list may be updated as more things are discovered...)
+
+For such tricky libraries which are not "bindgen-friendly" I recommend you take a look at: https://github.com/InfectedLibraries/Biohazrd
 
 #### Other similar projects
 
-Other similar projects are mentioned here for completeness.
+Mentioned here for completeness.
 
 - https://github.com/microsoft/ClangSharp
 - https://github.com/SharpGenTools/SharpGenTools
