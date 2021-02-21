@@ -35,7 +35,6 @@ namespace C2CS
 		{
 			var maxSize = 0;
 
-			// ReSharper disable once LoopCanBeConvertedToQuery
 			clangEnum.VisitChildren(child =>
 			{
 				if (child.kind != CXCursorKind.CXCursor_EnumConstantDecl)
@@ -50,7 +49,7 @@ namespace C2CS
 				}
 			});
 
-			return new ClangLayout(clangEnum, maxSize, Math.Min(maxSize, 8));
+			return new ClangLayout(clangEnum, maxSize, maxSize);
 		}
 
 		private ClangLayout GetLayoutForField(CXCursor field)
@@ -81,7 +80,6 @@ namespace C2CS
 			}
 		}
 
-		// ReSharper disable once SuggestBaseTypeForParameter
 		private ClangLayout GetLayoutForRecord(CXCursor record)
 		{
 			var declarations = new List<CXCursor>();
@@ -99,98 +97,112 @@ namespace C2CS
 			}
 
 			var alignment = 1;
-			var structSize = 0;
+			var size = 0;
 			if (record.kind == CXCursorKind.CXCursor_UnionDecl)
+			{
+				CalculateSizeAndAlignmentForUnion();
+			}
+			else
+			{
+				CalculateSizeAndAlignmentForStruct();
+			}
+
+			return new ClangLayout(record, size, alignment);
+
+			void CalculateSizeAndAlignmentForUnion()
 			{
 				// ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
 				foreach (var declaration in declarations)
 				{
-					var layout = CalculateLayout(declaration);
-					structSize = Math.Max(structSize, layout.Size);
-					alignment = Math.Max(alignment, layout.Alignment);
+					CalculateSizeAndAlignmentForUnionField(declaration);
 				}
 			}
-			else
-			{
-				var fieldAddress = 0;
-				var layout = CalculateLayout(declarations[0]);
-				var currentPackedSize = layout.Size;
-				var previousLayout = layout;
-				alignment = Math.Max(alignment, layout.Alignment);
 
+			void CalculateSizeAndAlignmentForUnionField(CXCursor declaration)
+			{
+				var fieldLayout = CalculateLayout(declaration);
+				size = Math.Max(size, fieldLayout.Size);
+				alignment = Math.Max(alignment, fieldLayout.Alignment);
+			}
+
+			void CalculateSizeAndAlignmentForStruct()
+			{
+				var fieldLayout = CalculateLayout(declarations[0]);
+				var previousMemberLayout = fieldLayout;
+				alignment = Math.Max(alignment, fieldLayout.Alignment);
+
+				var packedSize = fieldLayout.Size;
+				var fieldAddress = 0;
 				for (var i = 1; i < declarations.Count; i++)
 				{
 					var declaration = declarations[i];
-					layout = CalculateLayout(declaration);
-
-					alignment = Math.Max(alignment, layout.Alignment);
-
-					var nextPackedSize = currentPackedSize + layout.Size;
-					var nextFieldAddress = fieldAddress + previousLayout.Size;
-					var fieldPadding = 0;
-
-					if (nextPackedSize < layout.Alignment)
-					{
-						currentPackedSize = nextPackedSize;
-						fieldAddress = nextFieldAddress;
-					}
-					else
-					{
-						if (nextFieldAddress % layout.Alignment == 0)
-						{
-							currentPackedSize = 0;
-							fieldAddress = nextFieldAddress;
-						}
-						else
-						{
-							var nextAlignedAddressOvershoot = nextFieldAddress + layout.Alignment;
-							var nextAlignedAddress =
-								nextAlignedAddressOvershoot - (nextAlignedAddressOvershoot % layout.Alignment);
-
-							fieldPadding = nextAlignedAddress - nextFieldAddress;
-							currentPackedSize = 0;
-							fieldAddress = nextFieldAddress + fieldPadding;
-						}
-					}
-
-					layout.FieldAddress = fieldAddress;
-					if (layout.Cursor.kind == CXCursorKind.CXCursor_UnionDecl)
-					{
-						var union = layout.Cursor;
-						var unionFields = layout.Cursor.ChildrenOfKind(CXCursorKind.CXCursor_FieldDecl);
-						foreach (var field in unionFields)
-						{
-							var unionFieldLayout = CalculateLayout(field);
-							unionFieldLayout.FieldAddress = fieldAddress;
-						}
-					}
-
-					previousLayout.FieldPadding = fieldPadding;
-					if (previousLayout.Cursor.kind == CXCursorKind.CXCursor_UnionDecl)
-					{
-						var unionFields = layout.Cursor.ChildrenOfKind(CXCursorKind.CXCursor_FieldDecl);
-						foreach (var field in unionFields)
-						{
-							var unionFieldLayout = CalculateLayout(field);
-							unionFieldLayout.FieldPadding = fieldPadding;
-						}
-					}
-
-					previousLayout = layout;
+					fieldLayout = CalculateLayout(declaration);
+					alignment = Math.Max(alignment, fieldLayout.Alignment);
+					CalculatePackForStructField(fieldLayout, previousMemberLayout, ref fieldAddress, ref packedSize);
+					previousMemberLayout = fieldLayout;
 				}
 
-				structSize = fieldAddress + previousLayout.Size;
-				if (structSize % alignment != 0)
+				size = fieldAddress + previousMemberLayout.Size;
+				if (size % alignment != 0)
 				{
-					var packedUnits = (structSize / alignment) + 1;
+					var packedUnits = (size / alignment) + 1;
 					var actualStructSize = packedUnits * alignment;
-					var trailingFieldPadding = actualStructSize - structSize;
-					previousLayout.FieldPadding = trailingFieldPadding;
-					structSize = actualStructSize;
+					var trailingFieldPadding = actualStructSize - size;
+					previousMemberLayout.FieldPadding = trailingFieldPadding;
+					size = actualStructSize;
 				}
 			}
 
-			return new ClangLayout(record, structSize, alignment);
+			void CalculatePackForStructField(ClangLayout fieldLayout, ClangLayout previousFieldLayout, ref int fieldAddress, ref int packSize)
+			{
+				fieldAddress += previousFieldLayout.Size;
+				var previousFieldPadding = 0;
+
+				if (packSize + fieldLayout.Size < fieldLayout.Alignment)
+				{
+					packSize += fieldLayout.Size;
+				}
+				else
+				{
+					if (fieldAddress % fieldLayout.Alignment == 0)
+					{
+						packSize = 0;
+					}
+					else
+					{
+						packSize = 0;
+						var alignedAddressOvershoot = fieldAddress + fieldLayout.Alignment;
+						var alignedAddress = alignedAddressOvershoot - (alignedAddressOvershoot % fieldLayout.Alignment);
+						previousFieldPadding = alignedAddress - fieldAddress;
+						fieldAddress += previousFieldPadding;
+					}
+				}
+
+				if (fieldLayout.Cursor.kind == CXCursorKind.CXCursor_UnionDecl)
+				{
+					var unionFields = fieldLayout.Cursor.ChildrenOfKind(CXCursorKind.CXCursor_FieldDecl);
+					// ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+					foreach (var field in unionFields)
+					{
+						var unionFieldLayout = CalculateLayout(field);
+						unionFieldLayout.FieldAddress = fieldAddress;
+					}
+				}
+
+				if (previousFieldLayout.Cursor.kind == CXCursorKind.CXCursor_UnionDecl)
+				{
+					var unionFields = fieldLayout.Cursor.ChildrenOfKind(CXCursorKind.CXCursor_FieldDecl);
+					// ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+					foreach (var field in unionFields)
+					{
+						var unionFieldLayout = CalculateLayout(field);
+						unionFieldLayout.FieldPadding = previousFieldPadding;
+					}
+				}
+
+				fieldLayout.FieldAddress = fieldAddress;
+				previousFieldLayout.FieldPadding = previousFieldPadding;
+			}
 		}
 
 		public class ClangLayout
@@ -201,9 +213,9 @@ namespace C2CS
 			public int FieldAddress;
 			public int FieldPadding;
 
-			internal ClangLayout(CXCursor record, int size, int alignment)
+			internal ClangLayout(CXCursor cursor, int size, int alignment)
 			{
-				Cursor = record;
+				Cursor = cursor;
 				Size = size;
 				Alignment = alignment;
 			}
