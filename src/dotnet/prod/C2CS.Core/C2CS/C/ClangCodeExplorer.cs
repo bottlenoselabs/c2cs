@@ -18,18 +18,12 @@ namespace C2CS
 
 		private string _filePath = string.Empty;
 		private string _directoryPath = string.Empty;
-		private static ClangCodeExplorer _instance = null!;
 
 		private readonly List<CXCursor> _clangFunctions = new();
 		private readonly List<CXCursor> _clangEnums = new();
 		private readonly List<CXCursor> _clangRecords = new();
 		private readonly List<CXCursor> _clangOpaqueTypes = new();
 		private readonly List<CXCursor> _clangExternalTypes = new();
-
-		public ClangCodeExplorer()
-		{
-			_instance = this;
-		}
 
 		public ClangCodeExploreResult Explore(CXTranslationUnit translationUnit)
 		{
@@ -38,22 +32,7 @@ namespace C2CS
 			_filePath = Path.GetFullPath(_translationUnit.Spelling.CString);
 			_directoryPath = Path.GetDirectoryName(_filePath) ?? string.Empty;
 
-			var clangExternalFunctionsBuilder = ImmutableArray.CreateBuilder<CXCursor>();
-			_translationUnit.Cursor.VisitChildren(child =>
-			{
-				if (child.Kind == CXCursorKind.CXCursor_FunctionDecl && child.Linkage == CXLinkageKind.CXLinkage_External)
-				{
-					child.Location.GetFileLocation(out var file, out _, out _, out _);
-					var cursorFilePath = file.TryGetRealPathName().CString;
-					var cursorDirectoryPath = Path.GetDirectoryName(cursorFilePath);
-					if (cursorDirectoryPath == _directoryPath)
-					{
-						clangExternalFunctionsBuilder.Add(child);
-					}
-				}
-			});
-			var clangExternalFunctions = clangExternalFunctionsBuilder.ToImmutable();
-
+			var clangExternalFunctions = GetExternFunctions();
 			foreach (var clangFunction in clangExternalFunctions)
 			{
 				VisitCursor(clangFunction);
@@ -77,6 +56,28 @@ namespace C2CS
 			_clangExternalTypes.Clear();
 
 			return result;
+		}
+
+		private ImmutableArray<CXCursor> GetExternFunctions()
+		{
+			var externFunctions = new List<CXCursor>();
+			_translationUnit.Cursor.VisitChildren(child =>
+			{
+				if (child.Kind != CXCursorKind.CXCursor_FunctionDecl ||
+				    child.Linkage != CXLinkageKind.CXLinkage_External)
+				{
+					return;
+				}
+
+				if (IsExternalCursor(child))
+                {
+                    return;
+                }
+
+				externFunctions.Add(child);
+			});
+
+			return externFunctions.ToImmutableArray();
 		}
 
 		private bool CanVisitCursor(CXCursor cursor)
@@ -195,13 +196,7 @@ namespace C2CS
 		private void VisitFunction(CXCursor function)
 		{
 			VisitType(function.ResultType);
-
-			function.VisitChildren(child =>
-			{
-				var explorer = _instance;
-				explorer.VisitCursor(child);
-			});
-
+			function.VisitChildren(VisitCursor);
 			_clangFunctions.Add(function);
 		}
 
@@ -218,12 +213,7 @@ namespace C2CS
 				return;
 			}
 
-			record.VisitChildren(child =>
-			{
-				var explorer = _instance;
-				explorer.VisitCursor(child);
-			});
-
+			record.VisitChildren(VisitCursor);
 			_clangRecords.Add(record);
 		}
 
@@ -231,53 +221,56 @@ namespace C2CS
 		{
 			if (typedef.TypedefDeclUnderlyingType.TypeClass == CX_TypeClass.CX_TypeClass_Pointer)
 			{
-				var pointerType = typedef.TypedefDeclUnderlyingType;
-
-				if (pointerType.PointeeType.kind == CXTypeKind.CXType_Void)
+				var pointeeType = typedef.TypedefDeclUnderlyingType.PointeeType;
+				if (pointeeType.kind == CXTypeKind.CXType_Void)
 				{
-					_clangOpaqueTypes.Add(typedef);
+					VisitOpaqueType(typedef);
 				}
-
-				if (pointerType.PointeeType.TypeClass == CX_TypeClass.CX_TypeClass_Elaborated)
+				else if (pointeeType.TypeClass == CX_TypeClass.CX_TypeClass_Elaborated)
 				{
-					var elaboratedType = pointerType.PointeeType;
-					var namedType = elaboratedType.NamedType;
+					var namedType = pointeeType.NamedType;
 					if (namedType.kind == CXTypeKind.CXType_Record)
 					{
 						var recordType = namedType;
 						var childrenCount = 0;
-						recordType.Declaration.VisitChildren(_ =>
-						{
-							childrenCount += 1;
-						});
+						recordType.Declaration.VisitChildren(_ => childrenCount += 1);
 						if (childrenCount == 0)
 						{
-							_clangOpaqueTypes.Add(typedef);
+							VisitOpaqueType(typedef);
 						}
 					}
 				}
-				else if (pointerType.PointeeType.TypeClass == CX_TypeClass.CX_TypeClass_FunctionProto)
+				else if (pointeeType.TypeClass == CX_TypeClass.CX_TypeClass_FunctionProto)
 				{
-					var functionProtoType = pointerType.PointeeType;
-					VisitType(functionProtoType.ResultType);
-					functionProtoType.VisitChildren(child =>
-					{
-						var explorer = _instance;
-						explorer.VisitType(child.Type);
-					});
+					VisitFunctionProto(pointeeType);
+				}
+				else
+				{
+					throw new NotImplementedException();
 				}
 			}
 
-			typedef.Location.GetFileLocation(out var file, out _, out _, out _);
-			var cursorFilePath = file.TryGetRealPathName().CString;
-			var cursorDirectoryPath = Path.GetDirectoryName(cursorFilePath);
-			if (cursorDirectoryPath != _directoryPath)
+			if (IsExternalCursor(typedef))
 			{
 				VisitExternalType(typedef);
-				return;
 			}
+			else
+			{
+				VisitType(typedef.TypedefDeclUnderlyingType);
+			}
+		}
 
-			VisitType(typedef.TypedefDeclUnderlyingType);
+		private bool IsExternalCursor(CXCursor cursor)
+		{
+			cursor.Location.GetFileLocation(out var file, out _, out _, out _);
+			var cursorFilePath = file.TryGetRealPathName().CString;
+			var cursorDirectoryPath = Path.GetDirectoryName(cursorFilePath);
+			return cursorDirectoryPath != _directoryPath;
+		}
+
+		private void VisitOpaqueType(CXCursor opaqueType)
+		{
+			_clangOpaqueTypes.Add(opaqueType);
 		}
 
 		private void VisitExternalType(CXCursor typedef)
@@ -288,12 +281,7 @@ namespace C2CS
 		private void VisitFunctionProto(CXType functionProto)
 		{
 			VisitType(functionProto.ResultType);
-
-			functionProto.VisitChildren(child =>
-			{
-				var explorer = _instance;
-				explorer.VisitType(child.Type);
-			});
+			functionProto.VisitChildren(child => VisitType(child.Type));
 		}
 
 		private static Exception UnsupportedDeclaration(CXCursor declaration)
