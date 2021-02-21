@@ -22,7 +22,9 @@ namespace C2CS
 			// ReSharper disable BitwiseOperatorOnEnumWithoutFlags
 			const CXTranslationUnit_Flags flags = CXTranslationUnit_Flags.CXTranslationUnit_None |
 			                                      CXTranslationUnit_Flags.CXTranslationUnit_IncludeAttributedTypes |
-			                                      CXTranslationUnit_Flags.CXTranslationUnit_VisitImplicitAttributes;
+			                                      CXTranslationUnit_Flags.CXTranslationUnit_VisitImplicitAttributes |
+			                                      CXTranslationUnit_Flags.CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles |
+			                                      CXTranslationUnit_Flags.CXTranslationUnit_SkipFunctionBodies;
 			// ReSharper restore BitwiseOperatorOnEnumWithoutFlags
 
 			var errorCode = CXTranslationUnit.TryParse(
