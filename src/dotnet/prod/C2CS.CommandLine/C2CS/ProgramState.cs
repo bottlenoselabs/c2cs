@@ -7,6 +7,7 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace C2CS
 {
@@ -95,40 +96,98 @@ namespace C2CS
             ImmutableArray<string>? defineMacros,
             ImmutableArray<string>? additionalArgs)
         {
-            var commandLineArgs = new List<string>
-            {
-                "--language=c",
-                "--std=c11",
-                "-Wno-pragma-once-outside-header"
-            };
+            var commandLineArgs = new List<string>();
+            AddDefaultArgs(commandLineArgs);
+            AddSystemIncludes(commandLineArgs);
+            AddUserIncludes(commandLineArgs);
+            AddUserMacroDefinitions(commandLineArgs);
+            AddUserArgs(commandLineArgs);
+            return commandLineArgs.ToImmutableArray();
 
-            if (includeDirectories != null)
+            static void AddDefaultArgs(ICollection<string> args)
             {
+                args.Add("--language=c");
+                args.Add("--std=c11");
+                args.Add("-Wno-pragma-once-outside-header");
+                args.Add("-fno-blocks");
+            }
+
+            void AddUserIncludes(ICollection<string> args)
+            {
+                if (includeDirectories == null)
+                {
+                    return;
+                }
+
                 foreach (var includeDirectory in includeDirectories)
                 {
                     var commandLineArg = "--include-directory=" + includeDirectory;
-                    commandLineArgs.Add(commandLineArg);
+                    args.Add(commandLineArg);
                 }
             }
 
-            if (defineMacros != null)
+            static void AddSystemIncludes(ICollection<string> commandLineArgs)
             {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    AddSystemIncludesForMac(commandLineArgs);
+                }
+            }
+
+            static void AddSystemIncludesForMac(ICollection<string> commandLineArgs)
+            {
+                if (!Directory.Exists("/Library/Developer/CommandLineTools"))
+                {
+                    throw new NotSupportedException("Please install CommandLineTools for macOS: `xcode-select --install`.");
+                }
+
+                var processStartInfo = new ProcessStartInfo
+                {
+                    FileName = "xcrun",
+                    Arguments = "--sdk macosx --show-sdk-path",
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true
+                };
+                var process = Process.Start(processStartInfo)!;
+                var softwareDevelopmentKitDirectoryPath =
+                    process.StandardOutput.ReadToEnd().Replace(Environment.NewLine, string.Empty);
+                process.WaitForExit();
+
+                var systemIncludeDirectoryPath = $"{softwareDevelopmentKitDirectoryPath}/usr/include";
+                var systemIncludeCommandLineArg = $"--include-directory={systemIncludeDirectoryPath}";
+                commandLineArgs.Add(systemIncludeCommandLineArg);
+
+                const string clangIncludeDirectoryPath = "/Library/Developer/CommandLineTools/usr/lib/clang/12.0.0/include";
+                var clangIncludeCommandLineArg = $"--include-directory={clangIncludeDirectoryPath}";
+                commandLineArgs.Add(clangIncludeCommandLineArg);
+            }
+
+            void AddUserMacroDefinitions(ICollection<string> args)
+            {
+                if (defineMacros == null)
+                {
+                    return;
+                }
+
                 foreach (var defineMacro in defineMacros)
                 {
                     var commandLineArg = "--define-macro=" + defineMacro;
-                    commandLineArgs.Add(commandLineArg);
+                    args.Add(commandLineArg);
                 }
             }
 
-            if (additionalArgs != null)
+            void AddUserArgs(ICollection<string> args)
             {
+                if (additionalArgs == null)
+                {
+                    return;
+                }
+
                 foreach (var commandLineArg in additionalArgs)
                 {
-                    commandLineArgs.Add(commandLineArg);
+                    args.Add(commandLineArg);
                 }
             }
-
-            return commandLineArgs.ToImmutableArray();
         }
     }
 }

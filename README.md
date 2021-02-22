@@ -221,20 +221,6 @@ using System.Runtime.InteropServices;
 ...
 ```
 
-## Troubleshooting
-
-1. macOS: `fatal error: 'stdint.h' file not found` or `fatal error: 'stdbool.h' file not found`
-
-Install CommandLineTools if you have not already:
-```bash
-xcode-select --install
-```
-
-Then use the following as an include directory:
-```bash
-/Library/Developer/CommandLineTools/usr/lib/clang/12.0.0/include
-```
-
 ## Lessons learned
 
 ### Marshalling
