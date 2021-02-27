@@ -19,7 +19,7 @@ namespace C2CS
             public readonly ImmutableArray<CXCursor>.Builder Enums;
             public readonly ImmutableArray<CXCursor>.Builder Records;
             public readonly ImmutableArray<CXCursor>.Builder OpaqueTypes;
-            public readonly ImmutableArray<CXCursor>.Builder SystemTypes;
+            public readonly ImmutableArray<CXCursor>.Builder SystemCursors;
 
             public State()
             {
@@ -29,7 +29,7 @@ namespace C2CS
                 Enums = ImmutableArray.CreateBuilder<CXCursor>();
                 Records = ImmutableArray.CreateBuilder<CXCursor>();
                 OpaqueTypes = ImmutableArray.CreateBuilder<CXCursor>();
-                SystemTypes = ImmutableArray.CreateBuilder<CXCursor>();
+                SystemCursors = ImmutableArray.CreateBuilder<CXCursor>();
             }
         }
 
@@ -49,7 +49,7 @@ namespace C2CS
                 Records = _state.Records.ToImmutableArray(),
                 Enums = _state.Enums.ToImmutableArray(),
                 OpaqueTypes = _state.OpaqueTypes.ToImmutableArray(),
-                ExternalTypes = _state.SystemTypes.ToImmutableArray()
+                SystemCursors = _state.SystemCursors.ToImmutableArray()
             };
 
             _state.VisitedCursors.Clear();
@@ -88,7 +88,6 @@ namespace C2CS
             }
 
             _state.VisitedCursors.Add(cursor);
-
             return true;
         }
 
@@ -100,13 +99,26 @@ namespace C2CS
                 return;
             }
 
-            if (cursor.IsDeclaration)
+            if (IsSystemCursor(cursor))
+            {
+                VisitSystemCursor(cursor);
+            }
+            else if (cursor.IsDeclaration)
             {
                 VisitDeclaration(cursor);
             }
             else if (cursor.IsReference)
             {
                 VisitCursor(cursor.Type.Declaration);
+            }
+            else if (cursor.IsAttribute)
+            {
+                // Ignore
+            }
+            else
+            {
+                var up = UnexpectedScenario();
+                throw up;
             }
         }
 
@@ -118,7 +130,6 @@ namespace C2CS
             }
 
             _state.VisitedTypes.Add(type);
-
             return true;
         }
 
@@ -163,7 +174,8 @@ namespace C2CS
                     // Ignored
                     break;
                 default:
-                    throw UnsupportedType(type);
+                    var up = UnsupportedType(type);
+                    throw up;
             }
         }
 
@@ -207,58 +219,100 @@ namespace C2CS
 
         private void VisitRecord(CXCursor record)
         {
-            var isTypeForward = record != record.Definition;
-            if (isTypeForward)
-            {
-                return;
-            }
+            RecordVisitChildren();
 
             if (record.IsAnonymous)
             {
                 return;
             }
 
-            record.VisitChildren(VisitCursor);
             _state.Records.Add(record);
+
+            void RecordVisitChildren()
+            {
+                if (record.kind == CXCursorKind.CXCursor_TypedefDecl)
+                {
+                    var type = record.TypedefDeclUnderlyingType;
+                    if (type.TypeClass == CX_TypeClass.CX_TypeClass_Elaborated)
+                    {
+                        var namedType = type.NamedType;
+                        var namedRecord = namedType.Declaration;
+                        namedRecord.VisitChildren(VisitCursor);
+                    }
+                    else
+                    {
+                        var underlyingRecord = type.Declaration;
+                        underlyingRecord.VisitChildren(VisitCursor);
+                    }
+                }
+                else
+                {
+                    record.VisitChildren(VisitCursor);
+                }
+            }
         }
 
         private void VisitTypedef(CXCursor typedef)
         {
             var underlyingType = typedef.TypedefDeclUnderlyingType;
-
-            if (underlyingType.TypeClass == CX_TypeClass.CX_TypeClass_Pointer)
+            switch (underlyingType.TypeClass)
             {
-                var pointeeType = typedef.TypedefDeclUnderlyingType.PointeeType;
+                case CX_TypeClass.CX_TypeClass_Pointer:
+                    VisitTypedefPointer(underlyingType.PointeeType);
+                    break;
+                case CX_TypeClass.CX_TypeClass_Elaborated:
+                    VisitTypedefElaborated(underlyingType.NamedType);
+                    break;
+                default:
+                    VisitType(typedef.TypedefDeclUnderlyingType);
+                    break;
+            }
+
+            void VisitTypedefPointer(CXType pointeeType)
+            {
                 if (pointeeType.kind == CXTypeKind.CXType_Void)
                 {
                     VisitOpaqueType(typedef);
                 }
-                else if (pointeeType.TypeClass == CX_TypeClass.CX_TypeClass_Elaborated)
-                {
-                    var namedType = pointeeType.NamedType;
-                    if (namedType.kind == CXTypeKind.CXType_Record)
-                    {
-                        var recordType = namedType;
-                        var childrenCount = 0;
-                        recordType.Declaration.VisitChildren(_ => childrenCount += 1);
-                        if (childrenCount == 0)
-                        {
-                            VisitOpaqueType(typedef);
-                        }
-                    }
-                }
-                else if (pointeeType.TypeClass == CX_TypeClass.CX_TypeClass_FunctionProto)
-                {
-                    VisitFunctionProto(pointeeType);
-                }
                 else
                 {
-                    throw new NotImplementedException();
+                    switch (pointeeType.TypeClass)
+                    {
+                        case CX_TypeClass.CX_TypeClass_Elaborated:
+                        {
+                            var namedType = pointeeType.NamedType;
+                            if (namedType.kind == CXTypeKind.CXType_Record)
+                            {
+                                var recordType = namedType;
+                                var childrenCount = 0;
+                                recordType.Declaration.VisitChildren(_ => childrenCount += 1);
+                                if (childrenCount == 0)
+                                {
+                                    VisitOpaqueType(typedef);
+                                }
+                            }
+
+                            break;
+                        }
+
+                        case CX_TypeClass.CX_TypeClass_FunctionProto:
+                            VisitFunctionProto(pointeeType);
+                            break;
+                        default:
+                            var up = UnexpectedScenario();
+                            throw up;
+                    }
                 }
             }
-            else if (underlyingType.TypeClass == CX_TypeClass.CX_TypeClass_Elaborated)
+
+            void VisitTypedefElaborated(CXType namedType)
             {
-                var namedType = underlyingType.NamedType;
+                var namedCursor = namedType.Declaration;
+                if (!CanVisitType(namedType) || !CanVisitCursor(namedCursor))
+                {
+                    return;
+                }
+
                 switch (namedType.TypeClass)
                 {
                     case CX_TypeClass.CX_TypeClass_Record:
@@ -268,17 +322,9 @@ namespace C2CS
                         VisitEnum(typedef);
                         break;
                     default:
-                        throw new NotImplementedException();
+                        var up = UnexpectedScenario();
+                        throw up;
                 }
-            }
-            else if (IsSystemCursor(typedef))
-            {
-                VisitSystemType(typedef);
-            }
-            else
-            {
-                Console.WriteLine(typedef.Spelling.CString);
-                VisitType(typedef.TypedefDeclUnderlyingType);
             }
         }
 
@@ -292,9 +338,9 @@ namespace C2CS
             _state.OpaqueTypes.Add(opaqueType);
         }
 
-        private void VisitSystemType(CXCursor typedef)
+        private void VisitSystemCursor(CXCursor systemCursor)
         {
-            _state.SystemTypes.Add(typedef);
+            _state.SystemCursors.Add(systemCursor);
         }
 
         private void VisitFunctionProto(CXType functionProto)
@@ -312,6 +358,11 @@ namespace C2CS
         private static Exception UnsupportedType(CXType type)
         {
             return new NotImplementedException($"Not yet supported type class `{type.TypeClass}`: '{type}'.");
+        }
+
+        private static Exception UnexpectedScenario()
+        {
+            return new NotImplementedException($"The header file used has unforeseen conditions. Please create an issue on GitHub with the stack trace along with the header file.");
         }
     }
 }

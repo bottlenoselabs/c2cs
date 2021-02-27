@@ -16,6 +16,6 @@ namespace C2CS
 
         public ImmutableArray<CXCursor> OpaqueTypes;
 
-        public ImmutableArray<CXCursor> ExternalTypes;
+        public ImmutableArray<CXCursor> SystemCursors;
     }
 }

@@ -118,14 +118,15 @@ namespace C2CS
 		}
 
 		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "API decision.")]
-		public EnumDeclarationSyntax CreateEnum(CXCursor clangEnum)
+		public EnumDeclarationSyntax CreateEnum(CXCursor cursor)
 		{
-			var cSharpEnumName = ClangName(clangEnum);
-			var cSharpEnumType = GetEnumSyntaxKind(clangEnum);
+			var cSharpEnumName = ClangName(cursor);
+			var cSharpEnumType = GetCSharpEnumType(cursor);
 			var cSharpEnum = EnumDeclaration(cSharpEnumName)
 				.AddModifiers(Token(SyntaxKind.PublicKeyword))
 				.AddBaseListTypes(SimpleBaseType(ParseTypeName(cSharpEnumType)));
 
+			var clangEnum = ClangEnum(cursor);
 			var clangEnumMembers = clangEnum.ChildrenOfKind(CXCursorKind.CXCursor_EnumConstantDecl);
 			var cSharpEnumMembers = new EnumMemberDeclarationSyntax[clangEnumMembers.Length];
 			for (var i = 0; i < clangEnumMembers.Length; i++)
@@ -140,14 +141,47 @@ namespace C2CS
 			}
 
 			return cSharpEnum.AddMembers(cSharpEnumMembers);
+
+			static string GetCSharpEnumType(CXCursor clangEnum)
+			{
+				var clangEnumType = clangEnum.kind == CXCursorKind.CXCursor_TypedefDecl
+					? clangEnum.TypedefDeclUnderlyingType.Declaration.EnumDecl_IntegerType
+					: clangEnum.EnumDecl_IntegerType;
+
+				var enumTypeKind = clangEnumType.kind;
+				return enumTypeKind switch
+				{
+					CXTypeKind.CXType_Int => "int",
+					CXTypeKind.CXType_UInt => "uint",
+					_ => throw new NotImplementedException($@"The enum type is not yet supported: {enumTypeKind}.")
+				};
+			}
+
+			static CXCursor ClangEnum(CXCursor cursor)
+			{
+				if (cursor.kind != CXCursorKind.CXCursor_TypedefDecl)
+				{
+					return cursor;
+				}
+
+				var underlyingType = cursor.TypedefDeclUnderlyingType;
+				// ReSharper disable once ConvertIfStatementToReturnStatement
+				if (underlyingType.TypeClass == CX_TypeClass.CX_TypeClass_Elaborated)
+				{
+					return underlyingType.NamedType.Declaration;
+				}
+
+				return underlyingType.Declaration;
+			}
 		}
 
-		public StructDeclarationSyntax CreateStruct(CXCursor clangRecord)
+		public StructDeclarationSyntax CreateStruct(CXCursor cursor)
 		{
-			var cSharpName = ClangName(clangRecord);
-			var clangLayout = _layoutCalculator.CalculateLayout(clangRecord);
-			var clangType = clangRecord.Type;
+			var cSharpName = ClangName(cursor);
+			var clangLayout = _layoutCalculator.CalculateLayout(cursor);
+			var clangType = cursor.Type;
 			var cSharpType = GetCSharpType(clangType);
+			var clangRecord = ClangRecord(cursor);
 
 			var cSharpStruct = StructDeclaration(cSharpName)
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
@@ -190,6 +224,23 @@ namespace C2CS
 				var cSharpTypeArrayElement = GetCSharpType(clangType);
 				var cSharpTypeField = PointerType(cSharpTypeArrayElement);
 				return CreateStructFieldWrapperMethod(structTypeSyntax, cSharpTypeField, fieldC);
+			}
+
+			static CXCursor ClangRecord(CXCursor cursor)
+			{
+				if (cursor.kind != CXCursorKind.CXCursor_TypedefDecl)
+				{
+					return cursor;
+				}
+
+				var underlyingType = cursor.TypedefDeclUnderlyingType;
+				// ReSharper disable once ConvertIfStatementToReturnStatement
+				if (underlyingType.TypeClass == CX_TypeClass.CX_TypeClass_Elaborated)
+				{
+					return underlyingType.NamedType.Declaration;
+				}
+
+				return underlyingType.Declaration;
 			}
 		}
 
@@ -371,21 +422,6 @@ namespace C2CS
 				.WithType(cSharpType);
 
 			return cSharpMethodParameter;
-		}
-
-		private static string GetEnumSyntaxKind(CXCursor clangEnum)
-		{
-			var clangEnumType = clangEnum.kind == CXCursorKind.CXCursor_TypedefDecl
-				? clangEnum.TypedefDeclUnderlyingType.Declaration.EnumDecl_IntegerType
-				: clangEnum.EnumDecl_IntegerType;
-
-			var enumTypeKind = clangEnumType.kind;
-			return enumTypeKind switch
-			{
-				CXTypeKind.CXType_Int => "int",
-				CXTypeKind.CXType_UInt => "uint",
-				_ => throw new NotImplementedException($@"The enum type is not yet supported: {enumTypeKind}.")
-			};
 		}
 
 		private static EqualsValueClauseSyntax CreateEqualsValueClause(long value, string type)

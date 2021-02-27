@@ -57,7 +57,7 @@ namespace C2CS
                 TranspileOpaqueType(clangOpaqueType);
             }
 
-            foreach (var clangExternalType in extractedCursors.ExternalTypes)
+            foreach (var clangExternalType in extractedCursors.SystemCursors)
             {
                 TranspileExternalType(clangExternalType);
             }
