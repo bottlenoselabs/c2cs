@@ -1,6 +1,7 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -32,34 +33,45 @@ namespace C2CS
         private readonly List<EnumCSharp> _enums = new();
         private readonly List<MemberCSharp> _functionPointers = new();
 
-        public string GenerateCSharpCode(string libraryName, BindgenClangExtractedCursors extractedCursors)
+        public string GenerateCSharpCode(string libraryName, ClangExtractedAbstractSyntaxTree extractedAbstractSyntaxTree)
         {
             _layoutCalculator = new ClangLayoutCalculator();
             _cSharpCodeGenerator = new CSharpCodeGenerator(libraryName, _layoutCalculator);
 
-            foreach (var clangSystemCursor in extractedCursors.SystemCursors)
+            foreach (var cursor in extractedAbstractSyntaxTree.SystemCursors)
             {
-                _cSharpCodeGenerator.AddSystemType(clangSystemCursor);
+                var name = extractedAbstractSyntaxTree.NamesByCursor[cursor];
+                _cSharpCodeGenerator.AddSystemType(cursor, name);
             }
 
-            foreach (var clangFunction in extractedCursors.Functions)
+            foreach (var cursor in extractedAbstractSyntaxTree.ForwardTypes)
             {
-                TranspileFunction(clangFunction);
+                var name = extractedAbstractSyntaxTree.NamesByCursor[cursor];
+                _cSharpCodeGenerator.AddForwardType(cursor, name);
             }
 
-            foreach (var clangRecord in extractedCursors.Records)
+            foreach (var cursor in extractedAbstractSyntaxTree.Functions)
             {
-                TranspileRecord(clangRecord);
+                var name = extractedAbstractSyntaxTree.NamesByCursor[cursor];
+                TranspileFunction(name, cursor);
             }
 
-            foreach (var clangEnum in extractedCursors.Enums)
+            foreach (var cursor in extractedAbstractSyntaxTree.Records)
             {
-                TranspileEnum(clangEnum);
+                var name = extractedAbstractSyntaxTree.NamesByCursor[cursor];
+                TranspileRecord(name, cursor);
             }
 
-            foreach (var clangOpaqueType in extractedCursors.OpaqueTypes)
+            foreach (var cursor in extractedAbstractSyntaxTree.Enums)
             {
-                TranspileOpaqueType(clangOpaqueType);
+                var name = extractedAbstractSyntaxTree.NamesByCursor[cursor];
+                TranspileEnum(name, cursor);
+            }
+
+            foreach (var cursor in extractedAbstractSyntaxTree.OpaqueTypes)
+            {
+                var name = extractedAbstractSyntaxTree.NamesByCursor[cursor];
+                TranspileOpaqueType(name, cursor);
             }
 
             const string comment = @"
@@ -96,15 +108,15 @@ using System.Runtime.InteropServices;";
                 .ToFullString();
         }
 
-        private void TranspileRecord(CXCursor clangRecord)
+        private void TranspileRecord(string name, CXCursor clangRecord)
         {
-            var cSharpStruct = _cSharpCodeGenerator.CreateStruct(clangRecord);
+            var cSharpStruct = _cSharpCodeGenerator.CreateStruct(name, clangRecord);
             _structs.Add(cSharpStruct);
         }
 
-        private void TranspileFunction(CXCursor clangFunction)
+        private void TranspileFunction(string name, CXCursor clangFunction)
         {
-            var cSharpMethod = _cSharpCodeGenerator.CreateExternMethod(clangFunction);
+            var cSharpMethod = _cSharpCodeGenerator.CreateExternMethod(name, clangFunction);
             _methods.Add(cSharpMethod);
         }
 
@@ -114,9 +126,8 @@ using System.Runtime.InteropServices;";
             _constants.Add(cSharpConstant);
         }
 
-        private void TranspileEnum(CXCursor clangEnum)
+        private void TranspileEnum(string name, CXCursor clangEnum)
         {
-            var name = clangEnum.Spelling.CString;
             if (string.IsNullOrEmpty(name))
             {
                 name = clangEnum.Type.Spelling.CString;
@@ -128,14 +139,14 @@ using System.Runtime.InteropServices;";
             }
             else
             {
-                var cSharpEnum = _cSharpCodeGenerator.CreateEnum(clangEnum);
+                var cSharpEnum = _cSharpCodeGenerator.CreateEnum(name, clangEnum);
                 _enums.Add(cSharpEnum);
             }
         }
 
-        private void TranspileOpaqueType(CXCursor cursor)
+        private void TranspileOpaqueType(string name, CXCursor cursor)
         {
-            var cSharpStruct = _cSharpCodeGenerator.CreateOpaqueStruct(cursor);
+            var cSharpStruct = _cSharpCodeGenerator.CreateOpaqueStruct(name, cursor);
             _structs.Add(cSharpStruct);
         }
     }

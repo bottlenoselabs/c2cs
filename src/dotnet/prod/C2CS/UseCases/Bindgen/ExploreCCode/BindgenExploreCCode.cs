@@ -19,7 +19,10 @@ namespace C2CS
             public readonly ImmutableArray<CXCursor>.Builder Enums;
             public readonly ImmutableArray<CXCursor>.Builder Records;
             public readonly ImmutableArray<CXCursor>.Builder OpaqueTypes;
-            public readonly ImmutableArray<CXCursor>.Builder SystemCursors;
+            public readonly ImmutableArray<CXCursor>.Builder ForwardTypes;
+            public readonly ImmutableArray<CXCursor>.Builder FunctionPointers;
+            public readonly ImmutableArray<CXCursor>.Builder SystemTypes;
+            public readonly ImmutableDictionary<CXCursor, string>.Builder NamesByCursor;
 
             public State()
             {
@@ -29,13 +32,16 @@ namespace C2CS
                 Enums = ImmutableArray.CreateBuilder<CXCursor>();
                 Records = ImmutableArray.CreateBuilder<CXCursor>();
                 OpaqueTypes = ImmutableArray.CreateBuilder<CXCursor>();
-                SystemCursors = ImmutableArray.CreateBuilder<CXCursor>();
+                ForwardTypes = ImmutableArray.CreateBuilder<CXCursor>();
+                FunctionPointers = ImmutableArray.CreateBuilder<CXCursor>();
+                SystemTypes = ImmutableArray.CreateBuilder<CXCursor>();
+                NamesByCursor = ImmutableDictionary.CreateBuilder<CXCursor, string>();
             }
         }
 
         private readonly State _state = new();
 
-        public BindgenClangExtractedCursors ExtractClangAbstractSyntaxTree(CXTranslationUnit translationUnit)
+        public ClangExtractedAbstractSyntaxTree ExtractClangAbstractSyntaxTree(CXTranslationUnit translationUnit)
         {
             var externalFunctions = GetExternFunctions(translationUnit);
             foreach (var function in externalFunctions)
@@ -43,13 +49,16 @@ namespace C2CS
                 VisitCursor(function);
             }
 
-            var result = new BindgenClangExtractedCursors
+            var result = new ClangExtractedAbstractSyntaxTree
             {
                 Functions = _state.Functions.ToImmutableArray(),
                 Records = _state.Records.ToImmutableArray(),
                 Enums = _state.Enums.ToImmutableArray(),
                 OpaqueTypes = _state.OpaqueTypes.ToImmutableArray(),
-                SystemCursors = _state.SystemCursors.ToImmutableArray()
+                ForwardTypes = _state.ForwardTypes.ToImmutableArray(),
+                FunctionPointers = _state.FunctionPointers.ToImmutableArray(),
+                SystemCursors = _state.SystemTypes.ToImmutableArray(),
+                NamesByCursor = _state.NamesByCursor.ToImmutable()
             };
 
             _state.VisitedCursors.Clear();
@@ -101,7 +110,7 @@ namespace C2CS
 
             if (cursor.IsInSystem())
             {
-                VisitSystemCursor(cursor);
+                VisitSystemType(cursor);
             }
             else if (cursor.IsDeclaration)
             {
@@ -160,9 +169,6 @@ namespace C2CS
                 case CX_TypeClass.CX_TypeClass_IncompleteArray:
                     VisitType(type.ElementType);
                     break;
-                case CX_TypeClass.CX_TypeClass_FunctionProto:
-                    VisitFunctionProto(type);
-                    break;
                 case CX_TypeClass.CX_TypeClass_Record:
                 case CX_TypeClass.CX_TypeClass_Enum:
                     VisitCursor(type.Declaration);
@@ -209,11 +215,14 @@ namespace C2CS
         {
             VisitType(function.ResultType);
             function.VisitChildren(VisitCursor);
+
+            _state.NamesByCursor.Add(function, function.Spelling.CString);
             _state.Functions.Add(function);
         }
 
         private void VisitEnum(CXCursor @enum)
         {
+            _state.NamesByCursor.Add(@enum, @enum.Spelling.CString);
             _state.Enums.Add(@enum);
         }
 
@@ -226,6 +235,7 @@ namespace C2CS
                 return;
             }
 
+            _state.NamesByCursor.Add(record, record.Spelling.CString);
             _state.Records.Add(record);
 
             void RecordVisitChildren()
@@ -254,6 +264,7 @@ namespace C2CS
 
         private void VisitTypedef(CXCursor typedef)
         {
+            var typedefName = typedef.Type.TypedefName.CString;
             var underlyingType = typedef.TypedefDeclUnderlyingType;
             switch (underlyingType.TypeClass)
             {
@@ -264,7 +275,7 @@ namespace C2CS
                     VisitTypedefElaborated(underlyingType.NamedType);
                     break;
                 default:
-                    VisitType(typedef.TypedefDeclUnderlyingType);
+                    VisitForwardType(typedef);
                     break;
             }
 
@@ -296,8 +307,16 @@ namespace C2CS
                         }
 
                         case CX_TypeClass.CX_TypeClass_FunctionProto:
-                            VisitFunctionProto(pointeeType);
+                        {
+                            if (!CanVisitCursor(pointeeType.Declaration))
+                            {
+                                break;
+                            }
+
+                            VisitFunctionProto(pointeeType, typedef, typedefName);
                             break;
+                        }
+
                         default:
                             var up = UnexpectedScenario();
                             throw up;
@@ -310,6 +329,15 @@ namespace C2CS
                 var namedCursor = namedType.Declaration;
                 if (!CanVisitType(namedType) || !CanVisitCursor(namedCursor))
                 {
+                    if (typedefName != namedType.Spelling.CString)
+                    {
+                        _state.NamesByCursor.Remove(namedType.Declaration);
+                        _state.NamesByCursor.Add(namedType.Declaration, typedefName);
+
+                        _state.NamesByCursor.Remove(namedCursor);
+                        _state.NamesByCursor.Add(namedCursor, typedefName);
+                    }
+
                     return;
                 }
 
@@ -328,20 +356,31 @@ namespace C2CS
             }
         }
 
+        private void VisitForwardType(CXCursor forwardType)
+        {
+            _state.NamesByCursor.Add(forwardType, forwardType.Spelling.CString);
+            _state.ForwardTypes.Add(forwardType);
+        }
+
         private void VisitOpaqueType(CXCursor opaqueType)
         {
+            _state.NamesByCursor.Add(opaqueType, opaqueType.Spelling.CString);
             _state.OpaqueTypes.Add(opaqueType);
         }
 
-        private void VisitSystemCursor(CXCursor systemCursor)
+        private void VisitSystemType(CXCursor systemType)
         {
-            _state.SystemCursors.Add(systemCursor);
+            _state.NamesByCursor.Add(systemType, systemType.Spelling.CString);
+            _state.SystemTypes.Add(systemType);
         }
 
-        private void VisitFunctionProto(CXType functionProto)
+        private void VisitFunctionProto(CXType functionProto, CXCursor cursor, string name)
         {
             VisitType(functionProto.ResultType);
             functionProto.VisitChildren(child => VisitType(child.Type));
+
+            _state.NamesByCursor.Add(cursor, name);
+            _state.FunctionPointers.Add(functionProto.Declaration);
         }
 
         private static Exception UnsupportedDeclaration(CXCursor declaration)

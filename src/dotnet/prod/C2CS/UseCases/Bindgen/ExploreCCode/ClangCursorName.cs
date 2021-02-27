@@ -5,10 +5,15 @@ using ClangSharp.Interop;
 
 namespace C2CS
 {
-    public struct BindgenUseCaseState
+    public class ClangCursorName
     {
-        public CXTranslationUnit ClangTranslationUnit;
-        public ClangExtractedAbstractSyntaxTree ClangExtractedAbstractSyntaxTree;
-        public string GeneratedCSharpCode;
+        public CXCursor Cursor;
+        public string Name;
+
+        public ClangCursorName(CXCursor cursor, string name)
+        {
+            Cursor = cursor;
+            Name = name;
+        }
     }
 }

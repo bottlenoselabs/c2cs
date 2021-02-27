@@ -22,7 +22,6 @@ namespace C2CS
 	{
 		private readonly string _libraryName;
 		private readonly ClangLayoutCalculator _layoutCalculator;
-		private readonly Dictionary<CXType, TypeSyntax> _cSharpTypesByClangType = new();
 		private readonly Dictionary<CXCursor, string> _cSharpNamesByClangCursor = new();
 
 		public CSharpCodeGenerator(string libraryName, ClangLayoutCalculator layoutCalculator)
@@ -64,7 +63,7 @@ namespace C2CS
 					newMembers));
 		}
 
-		public MethodDeclarationSyntax CreateExternMethod(CXCursor function)
+		public MethodDeclarationSyntax CreateExternMethod(string name, CXCursor function)
 		{
 			// TODO: Other calling conventions
 			var clangCallingConvention = function.Type.FunctionTypeCallingConv;
@@ -80,7 +79,7 @@ namespace C2CS
 
 			var typeClang = function.ResultType;
 			var returnType = GetCSharpType(typeClang);
-			var method = MethodDeclaration(returnType, function.Spelling.CString)
+			var method = MethodDeclaration(returnType, name)
 				.WithDllImportAttribute(cSharpCallingConvention)
 				.WithModifiers(TokenList(
 					Token(SyntaxKind.PublicKeyword),
@@ -116,11 +115,10 @@ namespace C2CS
 			return constFieldDeclarationCSharp;
 		}
 
-		public EnumDeclarationSyntax CreateEnum(CXCursor cursor)
+		public EnumDeclarationSyntax CreateEnum(string name, CXCursor cursor)
 		{
-			var cSharpEnumName = ClangName(cursor);
 			var cSharpEnumType = GetCSharpEnumType(cursor);
-			var cSharpEnum = EnumDeclaration(cSharpEnumName)
+			var cSharpEnum = EnumDeclaration(name)
 				.AddModifiers(Token(SyntaxKind.PublicKeyword))
 				.AddBaseListTypes(SimpleBaseType(ParseTypeName(cSharpEnumType)));
 
@@ -130,7 +128,7 @@ namespace C2CS
 			for (var i = 0; i < clangEnumMembers.Length; i++)
 			{
 				var clangEnumConstant = clangEnumMembers[i];
-				var clangEnumMemberName = ClangName(clangEnumConstant).Replace($"{cSharpEnumName}_", string.Empty);
+				var clangEnumMemberName = ClangName(clangEnumConstant).Replace($"{name}_", string.Empty);
 				var clangEnumValue = clangEnumConstant.EnumConstantDeclValue;
 
 				var cSharpEqualsValueClause = CreateEqualsValueClause(clangEnumValue, cSharpEnumType);
@@ -173,15 +171,14 @@ namespace C2CS
 			}
 		}
 
-		public StructDeclarationSyntax CreateStruct(CXCursor cursor)
+		public StructDeclarationSyntax CreateStruct(string name, CXCursor cursor)
 		{
-			var cSharpName = ClangName(cursor);
 			var clangLayout = _layoutCalculator.CalculateLayout(cursor);
 			var clangType = cursor.Type;
 			var cSharpType = GetCSharpType(clangType);
 			var clangRecord = ClangRecord(cursor);
 
-			var cSharpStruct = StructDeclaration(cSharpName)
+			var cSharpStruct = StructDeclaration(name)
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
 				.WithAttributeStructLayout(LayoutKind.Explicit, clangLayout.Size, clangLayout.Alignment);
 
@@ -200,7 +197,8 @@ namespace C2CS
 				if (clangField.Type.Declaration.IsAnonymous)
 				{
 					var clangFieldType = clangField.Type.Declaration;
-					var anonymousStruct = CreateStruct(clangFieldType);
+					var cSharpNameFieldStructName = ClangName(clangFieldType);
+					var anonymousStruct = CreateStruct(cSharpNameFieldStructName, clangFieldType);
 					cSharpStructMembers.Add(anonymousStruct);
 				}
 
@@ -323,12 +321,11 @@ namespace C2CS
 			return field;
 		}
 
-		public StructDeclarationSyntax CreateOpaqueStruct(CXCursor clangTypedef)
+		public StructDeclarationSyntax CreateOpaqueStruct(string name, CXCursor clangTypedef)
 		{
 			var clangType = clangTypedef.Type;
-			var cSharpName = ClangName(clangTypedef);
 
-			var cSharpStruct = StructDeclaration(cSharpName)
+			var cSharpStruct = StructDeclaration(name)
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
 				.WithAttributeStructLayout(LayoutKind.Explicit, (int)clangType.SizeOf, (int)clangType.AlignOf);
 
@@ -548,9 +545,9 @@ namespace C2CS
 
 		private TypeSyntax GetCSharpType(CXType clangType, CXType? baseClangType = null)
 		{
-			if (_cSharpTypesByClangType.TryGetValue(clangType, out var cSharpType))
+			if (_cSharpNamesByClangCursor.TryGetValue(clangType.Declaration, out var cSharpName))
 			{
-				return cSharpType;
+				return ParseTypeName(cSharpName);
 			}
 
 			if (baseClangType == null)
@@ -571,12 +568,11 @@ namespace C2CS
 
 			if (clangType.Declaration.IsAnonymous)
 			{
-				var clangName = ClangName(clangType.Declaration);
-				cSharpType = ParseTypeName(clangName);
+				cSharpName = ClangName(clangType.Declaration);
 			}
 			else
 			{
-				cSharpType = clangType.TypeClass switch
+				var cSharpType = clangType.TypeClass switch
 				{
 					CX_TypeClass.CX_TypeClass_Pointer when baseClangType.Value == default => PointerType(ParseTypeName(baseClangTypeSpelling)),
 					CX_TypeClass.CX_TypeClass_Typedef when baseClangType.Value == default => PointerType(ParseTypeName(baseClangTypeSpelling)),
@@ -592,10 +588,11 @@ namespace C2CS
 					CX_TypeClass.CX_TypeClass_ConstantArray => ParseTypeName(baseClangTypeSpelling),
 					_ => throw new NotImplementedException()
 				};
+
+				return cSharpType;
 			}
 
-			_cSharpTypesByClangType.Add(clangType, cSharpType);
-			return cSharpType;
+			return ParseTypeName(cSharpName);
 		}
 
 		private static bool IsValidCSharpTypeSpellingForFixedBuffer(string typeString)
@@ -739,15 +736,40 @@ namespace C2CS
 			return name;
 		}
 
-		public void AddSystemType(CXCursor cursor)
+		public void AddSystemType(CXCursor cursor, string name)
 		{
 			var type = cursor.Type;
 			var underlyingSystemType = type.CanonicalType;
 			if (underlyingSystemType.TypeClass == CX_TypeClass.CX_TypeClass_Builtin)
 			{
-				var name = ClangTypeToCSharpTypeString(underlyingSystemType);
-				_cSharpNamesByClangCursor.Add(cursor, name);
-				_cSharpTypesByClangType.Add(type, ParseTypeName(name));
+				var cSharpName = ClangTypeToCSharpTypeString(underlyingSystemType);
+				_cSharpNamesByClangCursor.Add(cursor, cSharpName);
+			}
+			else
+			{
+				if (name == "FILE")
+				{
+					_cSharpNamesByClangCursor.Add(cursor, "IntPtr");
+				}
+				else
+				{
+					throw new NotImplementedException();
+				}
+			}
+		}
+
+		public void AddForwardType(CXCursor cursor, string name)
+		{
+			var type = cursor.Type;
+			var underlyingSystemType = type.CanonicalType;
+			if (underlyingSystemType.TypeClass == CX_TypeClass.CX_TypeClass_Builtin)
+			{
+				var cSharpName = ClangTypeToCSharpTypeString(underlyingSystemType);
+				_cSharpNamesByClangCursor.Add(cursor, cSharpName);
+			}
+			else if (underlyingSystemType.TypeClass == CX_TypeClass.CX_TypeClass_Pointer)
+			{
+				_cSharpNamesByClangCursor.Add(cursor, "IntPtr");
 			}
 			else
 			{

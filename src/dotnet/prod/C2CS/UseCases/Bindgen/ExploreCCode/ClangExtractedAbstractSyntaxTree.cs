@@ -6,7 +6,7 @@ using ClangSharp.Interop;
 
 namespace C2CS
 {
-    public struct BindgenClangExtractedCursors
+    public struct ClangExtractedAbstractSyntaxTree
     {
         public ImmutableArray<CXCursor> Functions;
 
@@ -16,6 +16,12 @@ namespace C2CS
 
         public ImmutableArray<CXCursor> OpaqueTypes;
 
+        public ImmutableArray<CXCursor> ForwardTypes;
+
+        public ImmutableArray<CXCursor> FunctionPointers;
+
         public ImmutableArray<CXCursor> SystemCursors;
+
+        public ImmutableDictionary<CXCursor, string> NamesByCursor;
     }
 }
