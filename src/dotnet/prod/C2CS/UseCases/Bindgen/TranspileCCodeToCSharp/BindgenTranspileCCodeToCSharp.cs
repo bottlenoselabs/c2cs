@@ -37,6 +37,11 @@ namespace C2CS
             _layoutCalculator = new ClangLayoutCalculator();
             _cSharpCodeGenerator = new CSharpCodeGenerator(libraryName, _layoutCalculator);
 
+            foreach (var clangSystemCursor in extractedCursors.SystemCursors)
+            {
+                _cSharpCodeGenerator.AddSystemType(clangSystemCursor);
+            }
+
             foreach (var clangFunction in extractedCursors.Functions)
             {
                 TranspileFunction(clangFunction);
@@ -55,11 +60,6 @@ namespace C2CS
             foreach (var clangOpaqueType in extractedCursors.OpaqueTypes)
             {
                 TranspileOpaqueType(clangOpaqueType);
-            }
-
-            foreach (var clangExternalType in extractedCursors.SystemCursors)
-            {
-                TranspileExternalType(clangExternalType);
             }
 
             const string comment = @"
@@ -133,15 +133,9 @@ using System.Runtime.InteropServices;";
             }
         }
 
-        private void TranspileOpaqueType(CXCursor clangTypedef)
+        private void TranspileOpaqueType(CXCursor cursor)
         {
-            var cSharpStruct = _cSharpCodeGenerator.CreateOpaqueStruct(clangTypedef);
-            _structs.Add(cSharpStruct);
-        }
-
-        private void TranspileExternalType(CXCursor clangTypedef)
-        {
-            var cSharpStruct = _cSharpCodeGenerator.CreateExternalStruct(clangTypedef);
+            var cSharpStruct = _cSharpCodeGenerator.CreateOpaqueStruct(cursor);
             _structs.Add(cSharpStruct);
         }
     }

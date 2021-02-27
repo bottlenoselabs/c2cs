@@ -49,5 +49,10 @@ namespace C2CS
 			});
 			return childrenBuilder.ToImmutable();
 		}
+
+		public static bool IsInSystem(this CXCursor cursor)
+		{
+			return cursor.Location.IsInSystemHeader;
+		}
 	}
 }

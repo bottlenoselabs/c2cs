@@ -69,7 +69,7 @@ namespace C2CS
                     return;
                 }
 
-                if (IsSystemCursor(child))
+                if (child.IsInSystem())
                 {
                     return;
                 }
@@ -99,7 +99,7 @@ namespace C2CS
                 return;
             }
 
-            if (IsSystemCursor(cursor))
+            if (cursor.IsInSystem())
             {
                 VisitSystemCursor(cursor);
             }
@@ -326,11 +326,6 @@ namespace C2CS
                         throw up;
                 }
             }
-        }
-
-        private bool IsSystemCursor(CXCursor cursor)
-        {
-            return cursor.Location.IsInSystemHeader;
         }
 
         private void VisitOpaqueType(CXCursor opaqueType)

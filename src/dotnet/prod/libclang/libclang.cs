@@ -79,7 +79,7 @@ public static unsafe partial class libclang
     public static extern CXString clang_getFileName(CXFile SFile);
 
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern time_t clang_getFileTime(CXFile SFile);
+    public static extern long clang_getFileTime(CXFile SFile);
 
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_getFileUniqueID(CXFile file, CXFileUniqueID* outID);
@@ -91,7 +91,7 @@ public static unsafe partial class libclang
     public static extern CXFile clang_getFile(CXTranslationUnit tu, [In] sbyte* file_name);
 
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern sbyte* clang_getFileContents(CXTranslationUnit tu, CXFile file, size_t* size);
+    public static extern sbyte* clang_getFileContents(CXTranslationUnit tu, CXFile file, ulong* size);
 
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_File_isEqual(CXFile file1, CXFile file2);
@@ -1649,16 +1649,6 @@ public static unsafe partial class libclang
     {
         [FieldOffset(0)] /* size = 8, padding = 0 */
         public IntPtr Handle;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct time_t
-    {
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct size_t
-    {
     }
 
     public enum CXErrorCode : uint

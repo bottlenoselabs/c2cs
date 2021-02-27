@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -65,7 +64,6 @@ namespace C2CS
 					newMembers));
 		}
 
-		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "API decision.")]
 		public MethodDeclarationSyntax CreateExternMethod(CXCursor function)
 		{
 			// TODO: Other calling conventions
@@ -106,7 +104,6 @@ namespace C2CS
 			return method;
 		}
 
-		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "API decision.")]
 		public FieldDeclarationSyntax CreateConstant(CXCursor enumConstant)
 		{
 			var variableDeclarationCSharp = CreateConstantVariable(enumConstant);
@@ -119,7 +116,6 @@ namespace C2CS
 			return constFieldDeclarationCSharp;
 		}
 
-		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "API decision.")]
 		public EnumDeclarationSyntax CreateEnum(CXCursor cursor)
 		{
 			var cSharpEnumName = ClangName(cursor);
@@ -327,7 +323,6 @@ namespace C2CS
 			return field;
 		}
 
-		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "API decision.")]
 		public StructDeclarationSyntax CreateOpaqueStruct(CXCursor clangTypedef)
 		{
 			var clangType = clangTypedef.Type;
@@ -345,19 +340,6 @@ namespace C2CS
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
 				.WithAttributeFieldOffset(0, (int)clangTypedef.Type.SizeOf, 0);
 			cSharpStruct = cSharpStruct.AddMembers(cSharpField);
-
-			return cSharpStruct;
-		}
-
-		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "API decision.")]
-		public StructDeclarationSyntax CreateExternalStruct(CXCursor clangTypedef)
-		{
-			var clangType = clangTypedef.Type;
-			var cSharpName = ClangName(clangTypedef);
-
-			var cSharpStruct = StructDeclaration(cSharpName)
-				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-				.WithAttributeStructLayout(LayoutKind.Explicit, (int)clangType.SizeOf, (int)clangType.AlignOf);
 
 			return cSharpStruct;
 		}
@@ -672,7 +654,19 @@ namespace C2CS
 				return name;
 			}
 
-			if (cursor.IsAnonymous)
+			if (cursor.IsInSystem())
+			{
+				var systemUnderlyingType = cursor.Type.CanonicalType;
+				if (systemUnderlyingType.TypeClass == CX_TypeClass.CX_TypeClass_Builtin)
+				{
+					name = ClangTypeToCSharpTypeString(systemUnderlyingType);
+				}
+				else
+				{
+					throw new NotImplementedException();
+				}
+			}
+			else if (cursor.IsAnonymous)
 			{
 				var fieldName = string.Empty;
 				var parent = cursor.SemanticParent;
@@ -743,6 +737,22 @@ namespace C2CS
 			}
 
 			return name;
+		}
+
+		public void AddSystemType(CXCursor cursor)
+		{
+			var type = cursor.Type;
+			var underlyingSystemType = type.CanonicalType;
+			if (underlyingSystemType.TypeClass == CX_TypeClass.CX_TypeClass_Builtin)
+			{
+				var name = ClangTypeToCSharpTypeString(underlyingSystemType);
+				_cSharpNamesByClangCursor.Add(cursor, name);
+				_cSharpTypesByClangType.Add(type, ParseTypeName(name));
+			}
+			else
+			{
+				throw new NotImplementedException();
+			}
 		}
 	}
 }
