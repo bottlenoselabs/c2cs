@@ -17,6 +17,8 @@ using ClangType = ClangSharp.Type;
 
 namespace C2CS
 {
+	// TODO: Clean up this class; remove clang types from the responsibility of generating C# code.
+
 	internal sealed class CSharpCodeGenerator
 	{
 		private readonly string _libraryName;
