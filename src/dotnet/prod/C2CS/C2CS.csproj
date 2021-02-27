@@ -7,7 +7,7 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
-    <!-- Custom project settings -->
+    <!-- My-MSBuild project settings -->
     <PropertyGroup>
         <EnableAnalyzers>true</EnableAnalyzers>
         <EnableAnalyzersStyleCop>true</EnableAnalyzersStyleCop>

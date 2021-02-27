@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS", "prod\C2CS\C2CS.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.CommandLine", "prod\C2CS.CommandLine\C2CS.CommandLine.csproj", "{579857C9-5374-458A-84E0-0564ECA99237}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libclang", "prod\libclang\libclang.csproj", "{26E061A9-DA84-47CD-A9E7-868F1F26F568}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +20,10 @@ Global
 		{579857C9-5374-458A-84E0-0564ECA99237}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{579857C9-5374-458A-84E0-0564ECA99237}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{579857C9-5374-458A-84E0-0564ECA99237}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26E061A9-DA84-47CD-A9E7-868F1F26F568}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26E061A9-DA84-47CD-A9E7-868F1F26F568}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26E061A9-DA84-47CD-A9E7-868F1F26F568}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26E061A9-DA84-47CD-A9E7-868F1F26F568}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
