@@ -58,21 +58,22 @@ Open `./src/dotnet/C2CS.sln`
 
 ```
 C2CS.CommandLine:
-  C# Platform Invoke Code Generator
+  C2CS - C to C# bindings code generator.
 
 Usage:
   C2CS.CommandLine [options]
 
 Options:
-  -i, --inputFilePath <inputFilePath> (REQUIRED)      File path of the input .h file.
-  -o, --outputFilePath <outputFilePath> (REQUIRED)    File path of the output .cs file.
-  -u, --unattended                                    Don't ask for further input.
-  -l, --libraryName <libraryName>                     The name of the library. Default value is the file name of the input file path.
-  -s, --includeDirectories <includeDirectories>       Include directories to use for parsing C code.
-  -d, --defineMacros <defineMacros>                   Macros to define for parsing C code.
-  -a, --additionalArgs <additionalArgs>               Additional arguments for parsing C code.
-  --version                                           Show version information
-  -?, -h, --help                                      Show help and usage information
+  -i, --inputFilePath <inputFilePath> (REQUIRED)       File path of the input .h file.
+  -p, --additionalInputPaths <additionalInputPaths>    Directory paths and/or file paths of additional .h files to bundle together before parsing C code.
+  -o, --outputFilePath <outputFilePath> (REQUIRED)     File path of the output .cs file.
+  -u, --unattended                                     Don't ask for further input.
+  -l, --libraryName <libraryName>                      The name of the dynamic link library (without the file extension) used for P/Invoke with C#.
+  -s, --includeDirectories <includeDirectories>        Search directories for `#include` usages to use when parsing C code.
+  -d, --defines <defines>                              Object-like macros to use when parsing C code.
+  -a, --clangArgs <clangArgs>                          Additional Clang arguments to use when parsing C code.
+  --version                                            Show version information
+  -?, -h, --help                                       Show help and usage information
 ```
 
 ## Examples

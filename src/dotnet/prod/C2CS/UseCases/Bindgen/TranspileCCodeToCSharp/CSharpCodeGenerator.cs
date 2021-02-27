@@ -21,6 +21,8 @@ namespace C2CS
 	{
 		private readonly string _libraryName;
 		private readonly ClangLayoutCalculator _layoutCalculator;
+		private readonly Dictionary<CXType, TypeSyntax> _cSharpTypesByClangType = new();
+		private readonly Dictionary<CXCursor, string> _cSharpNamesByClangCursor = new();
 
 		public CSharpCodeGenerator(string libraryName, ClangLayoutCalculator layoutCalculator)
 		{
@@ -77,8 +79,7 @@ namespace C2CS
 			}
 
 			var typeClang = function.ResultType;
-			var baseTypeClang = GetClangBaseType(typeClang);
-			var returnType = GetTypeSyntax(typeClang, baseTypeClang);
+			var returnType = GetCSharpType(typeClang);
 			var method = MethodDeclaration(returnType, function.Spelling.CString)
 				.WithDllImportAttribute(cSharpCallingConvention)
 				.WithModifiers(TokenList(
@@ -119,7 +120,7 @@ namespace C2CS
 		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "API decision.")]
 		public EnumDeclarationSyntax CreateEnum(CXCursor clangEnum)
 		{
-			var cSharpEnumName = ClangDisplayName(clangEnum);
+			var cSharpEnumName = ClangName(clangEnum);
 			var cSharpEnumType = GetEnumSyntaxKind(clangEnum);
 			var cSharpEnum = EnumDeclaration(cSharpEnumName)
 				.AddModifiers(Token(SyntaxKind.PublicKeyword))
@@ -130,7 +131,7 @@ namespace C2CS
 			for (var i = 0; i < clangEnumMembers.Length; i++)
 			{
 				var clangEnumConstant = clangEnumMembers[i];
-				var clangEnumMemberName = ClangDisplayName(clangEnumConstant).Replace($"{cSharpEnumName}_", string.Empty);
+				var clangEnumMemberName = ClangName(clangEnumConstant).Replace($"{cSharpEnumName}_", string.Empty);
 				var clangEnumValue = clangEnumConstant.EnumConstantDeclValue;
 
 				var cSharpEqualsValueClause = CreateEqualsValueClause(clangEnumValue, cSharpEnumType);
@@ -143,104 +144,52 @@ namespace C2CS
 
 		public StructDeclarationSyntax CreateStruct(CXCursor clangRecord)
 		{
-			if (clangRecord.IsAnonymous)
-			{
-				// TODO: Anon structs/unions
-				throw new NotImplementedException();
-			}
-
-			var cSharpName = ClangDisplayName(clangRecord);
+			var cSharpName = ClangName(clangRecord);
 			var clangLayout = _layoutCalculator.CalculateLayout(clangRecord);
 			var clangType = clangRecord.Type;
-			var clangBaseType = GetClangBaseType(clangType);
-			var cSharpType = GetTypeSyntax(clangType, clangBaseType);
+			var cSharpType = GetCSharpType(clangType);
 
 			var cSharpStruct = StructDeclaration(cSharpName)
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
 				.WithAttributeStructLayout(LayoutKind.Explicit, clangLayout.Size, clangLayout.Alignment);
 
-			var clangRecordFieldMembers = clangRecord.ChildrenOfKind(CXCursorKind.CXCursor_FieldDecl);
-			var members = new List<MemberDeclarationSyntax>(clangRecordFieldMembers.Length);
-			for (var i = 0; i < clangRecordFieldMembers.Length; i++)
+			var clangFields = clangRecord.ChildrenOfKind(CXCursorKind.CXCursor_FieldDecl);
+			var cSharpStructMembers = new List<MemberDeclarationSyntax>(clangFields.Length);
+			foreach (var fieldC in clangFields)
 			{
-				var fieldC = clangRecordFieldMembers[i];
-				CreateStructHelperAddField(cSharpType, fieldC, members);
+				AddField(cSharpType, fieldC);
 			}
 
-			cSharpStruct = cSharpStruct.AddMembers(members.ToArray());
-
+			cSharpStruct = cSharpStruct.AddMembers(cSharpStructMembers.ToArray());
 			return cSharpStruct;
-		}
 
-		private static MethodDeclarationSyntax CreateStructHelperCreateWrappedFieldMethod(CXCursor fieldC, TypeSyntax structTypeSyntax)
-		{
-			var typeClang = fieldC.Type;
-			var baseTypeClang = GetClangBaseType(typeClang);
-			var arrayElementTypeSyntax = GetTypeSyntax(typeClang, baseTypeClang);
-			var fieldTypeSyntax = PointerType(arrayElementTypeSyntax);
-			return CreateStructFieldWrapperMethod(structTypeSyntax, fieldTypeSyntax, fieldC);
-		}
-
-		private void CreateStructHelperAddField(
-			TypeSyntax parentStructSyntax,
-			CXCursor clangField,
-			ICollection<MemberDeclarationSyntax> members)
-		{
-			var clangType = clangField.Type;
-			var type = clangType.TypeClass switch
+			void AddField(TypeSyntax parentStructSyntax, CXCursor clangField)
 			{
-				CX_TypeClass.CX_TypeClass_ConstantArray => clangType.ElementType,
-				CX_TypeClass.CX_TypeClass_Elaborated => clangType.NamedType,
-				CX_TypeClass.CX_TypeClass_Typedef => clangType.Declaration.TypedefDeclUnderlyingType,
-				_ => clangField.Type
-			};
+				if (clangField.Type.Declaration.IsAnonymous)
+				{
+					var clangFieldType = clangField.Type.Declaration;
+					var anonymousStruct = CreateStruct(clangFieldType);
+					cSharpStructMembers.Add(anonymousStruct);
+				}
 
-			// it's possible to have an array of an anon
-			if (type.TypeClass == CX_TypeClass.CX_TypeClass_Elaborated)
-			{
-				type = type.NamedType;
+				var field = CreateStructField(clangField, out var needsToBeWrapped);
+				cSharpStructMembers.Add(field);
+
+				if (!needsToBeWrapped)
+                {
+                    return;
+                }
+
+				var method = AddWrappedFieldMethod(clangField, parentStructSyntax);
+				cSharpStructMembers.Add(method);
 			}
 
-			switch (type.TypeClass)
+			MethodDeclarationSyntax AddWrappedFieldMethod(CXCursor fieldC, TypeSyntax structTypeSyntax)
 			{
-				case CX_TypeClass.CX_TypeClass_Pointer:
-				{
-					// TODO: Use delegate / function pointer; https://github.com/lithiumtoast/c2cs/issues/2
-					// typeName = "IntPtr";
-					break;
-				}
-
-				case CX_TypeClass.CX_TypeClass_Record when type.Declaration.IsAnonymous:
-				{
-					var recordC = type.Declaration;
-					if (recordC.kind == CXCursorKind.CXCursor_StructDecl)
-					{
-						var anonStruct = CreateStruct(recordC);
-						members.Add(anonStruct);
-					}
-					else if (recordC.kind == CXCursorKind.CXCursor_UnionDecl)
-					{
-						throw new NotImplementedException();
-					}
-
-					break;
-				}
-
-				default:
-				{
-					// typeName = fieldC.Type.AsString;
-					break;
-				}
-			}
-
-			var field = CreateStructField(clangField, out var needsToBeWrapped);
-
-			members.Add(field);
-
-			if (needsToBeWrapped)
-			{
-				var method = CreateStructHelperCreateWrappedFieldMethod(clangField, parentStructSyntax);
-				members.Add(method);
+				var clangType = fieldC.Type;
+				var cSharpTypeArrayElement = GetCSharpType(clangType);
+				var cSharpTypeField = PointerType(cSharpTypeArrayElement);
+				return CreateStructFieldWrapperMethod(structTypeSyntax, cSharpTypeField, fieldC);
 			}
 		}
 
@@ -248,23 +197,9 @@ namespace C2CS
 		private FieldDeclarationSyntax CreateStructField(CXCursor clangField, out bool needsToBeWrapped)
 		{
 			var typeClang = clangField.Type;
-			var cSharpName = ClangDisplayName(clangField);
-			TypeSyntax type;
-
-			// TODO: Function pointers
-			if (typeClang.TypeClass == CX_TypeClass.CX_TypeClass_Pointer &&
-			    typeClang.PointeeType.TypeClass == CX_TypeClass.CX_TypeClass_FunctionProto)
-			{
-				// Function pointers not implemented yet
-				type = PointerType(ParseTypeName("void"));
-			}
-			else
-			{
-				var baseTypeClang = GetClangBaseType(typeClang);
-				type = GetTypeSyntax(typeClang, baseTypeClang);
-			}
-
-			var typeFullString = type.ToFullString();
+			var cSharpName = ClangName(clangField);
+			var cSharpType = GetCSharpType(typeClang);
+			var cSharpTypeString = cSharpType.ToFullString();
 
 			needsToBeWrapped = false;
 
@@ -277,7 +212,7 @@ namespace C2CS
 			}
 			else
 			{
-				var isValidFixedType = IsValidCSharpTypeSpellingForFixedBuffer(typeFullString);
+				var isValidFixedType = IsValidCSharpTypeSpellingForFixedBuffer(cSharpTypeString);
 				if (isValidFixedType)
 				{
 					cSharpName = SanitizeName(cSharpName);
@@ -304,7 +239,7 @@ namespace C2CS
 						_ => throw new ArgumentException("Invalid field alignment.")
 					};
 
-					type = PredefinedType(Token(typeTokenSyntaxKind));
+					cSharpType = PredefinedType(Token(typeTokenSyntaxKind));
 					variable = VariableDeclarator(Identifier($"_{cSharpName}"))
 						.WithArgumentList(BracketedArgumentList(SingletonSeparatedList(
 							Argument(
@@ -322,8 +257,9 @@ namespace C2CS
 			}
 
 			var layout = _layoutCalculator.CalculateLayout(clangField);
+
 			var field = FieldDeclaration(
-					VariableDeclaration(type)
+					VariableDeclaration(cSharpType)
 						.WithVariables(SingletonSeparatedList(variable)))
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
 				.WithAttributeFieldOffset(layout.FieldAddress, layout.Size, layout.FieldPadding);
@@ -342,7 +278,7 @@ namespace C2CS
 		public StructDeclarationSyntax CreateOpaqueStruct(CXCursor clangTypedef)
 		{
 			var clangType = clangTypedef.Type;
-			var cSharpName = ClangDisplayName(clangTypedef);
+			var cSharpName = ClangName(clangTypedef);
 
 			var cSharpStruct = StructDeclaration(cSharpName)
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
@@ -364,7 +300,7 @@ namespace C2CS
 		public StructDeclarationSyntax CreateExternalStruct(CXCursor clangTypedef)
 		{
 			var clangType = clangTypedef.Type;
-			var cSharpName = ClangDisplayName(clangTypedef);
+			var cSharpName = ClangName(clangTypedef);
 
 			var cSharpStruct = StructDeclaration(cSharpName)
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
@@ -373,7 +309,7 @@ namespace C2CS
 			return cSharpStruct;
 		}
 
-		private static IEnumerable<ParameterSyntax> CreateMethodParameters(IReadOnlyCollection<CXCursor> clangFunctionParameters)
+		private IEnumerable<ParameterSyntax> CreateMethodParameters(IReadOnlyCollection<CXCursor> clangFunctionParameters)
 		{
 			var cSharpMethodParameters = new List<ParameterSyntax>(clangFunctionParameters.Count);
 			var cSharpMethodParameterNames = new HashSet<string>();
@@ -418,20 +354,19 @@ namespace C2CS
 			}
 		}
 
-		private static ParameterSyntax CreateMethodParameter(CXCursor clangMethodParameter, string parameterName)
+		private ParameterSyntax CreateMethodParameter(CXCursor clangMethodParameter, string parameterName)
 		{
 			var cSharpMethodParameter = Parameter(Identifier(parameterName));
 
 			var clangType = clangMethodParameter.Type;
 			var baseClangType = GetClangBaseType(clangType);
-			var cSharpType = GetTypeSyntax(clangType, baseClangType);
-
 			if (baseClangType != default && baseClangType.IsConstQualified)
 			{
 				cSharpMethodParameter = cSharpMethodParameter
 					.WithAttribute("In");
 			}
 
+			var cSharpType = GetCSharpType(clangType);
 			cSharpMethodParameter = cSharpMethodParameter
 				.WithType(cSharpType);
 
@@ -440,9 +375,11 @@ namespace C2CS
 
 		private static string GetEnumSyntaxKind(CXCursor clangEnum)
 		{
-			var enumTypeKind = clangEnum.EnumDecl_IntegerType.kind;
+			var clangEnumType = clangEnum.kind == CXCursorKind.CXCursor_TypedefDecl
+				? clangEnum.TypedefDeclUnderlyingType.Declaration.EnumDecl_IntegerType
+				: clangEnum.EnumDecl_IntegerType;
 
-			// ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
+			var enumTypeKind = clangEnumType.kind;
 			return enumTypeKind switch
 			{
 				CXTypeKind.CXType_Int => "int",
@@ -465,11 +402,10 @@ namespace C2CS
 				LiteralExpression(SyntaxKind.NumericLiteralExpression, literalToken));
 		}
 
-		private static VariableDeclarationSyntax CreateConstantVariable(CXCursor clangEnumConstant)
+		private VariableDeclarationSyntax CreateConstantVariable(CXCursor clangEnumConstant)
 		{
 			var clangType = clangEnumConstant.Type;
-			var baseClangType = GetClangBaseType(clangType);
-			var cSharpType = GetTypeSyntax(clangType, baseClangType);
+			var cSharpType = GetCSharpType(clangType);
 
 			var cSharpTypeString = cSharpType.ToFullString();
 			var literalSyntaxToken = cSharpTypeString switch
@@ -480,7 +416,7 @@ namespace C2CS
 					$@"The enum constant literal expression is not yet supported: {cSharpTypeString}.")
 			};
 
-			var cSharpName = ClangDisplayName(clangEnumConstant);
+			var cSharpName = ClangName(clangEnumConstant);
 			var variable = VariableDeclaration(cSharpType)
 				.WithVariables(
 					SingletonSeparatedList(
@@ -590,88 +526,79 @@ namespace C2CS
 			}
 		}
 
-		private static TypeSyntax GetTypeSyntax(CXType typeClang, CXType baseTypeClang)
+		private TypeSyntax GetCSharpType(CXType clangType, CXType? baseClangType = null)
 		{
-			string baseTypeClangSpelling;
-
-			// TODO: Function pointers
-			if (baseTypeClang == default)
+			if (_cSharpTypesByClangType.TryGetValue(clangType, out var cSharpType))
 			{
-				baseTypeClangSpelling = "void";
+				return cSharpType;
+			}
+
+			if (baseClangType == null)
+			{
+				baseClangType = GetClangBaseType(clangType);
+			}
+
+			string baseClangTypeSpelling;
+			// TODO: Function pointers
+			if (baseClangType.Value == default)
+			{
+				baseClangTypeSpelling = "void";
 			}
 			else
 			{
-				baseTypeClangSpelling = ConvertClangTypeToCSharpTypeString(baseTypeClang);
+				baseClangTypeSpelling = ClangTypeToCSharpTypeString(baseClangType.Value);
 			}
 
-			switch (typeClang.TypeClass)
+			if (clangType.Declaration.IsAnonymous)
 			{
-				case CX_TypeClass.CX_TypeClass_Pointer:
-				{
-					// TODO: Function pointers
-					if (baseTypeClang == default)
-					{
-						return PointerType(ParseTypeName("void"));
-					}
-
-					var pointeeTypeSyntax = GetTypeSyntax(typeClang.PointeeType, baseTypeClang);
-					var pointerTypeSyntax = PointerType(pointeeTypeSyntax);
-					return pointerTypeSyntax;
-				}
-
-				case CX_TypeClass.CX_TypeClass_Enum:
-				{
-					baseTypeClangSpelling = baseTypeClangSpelling.Replace("enum ", string.Empty).Trim();
-					var enumTypeSyntax = ParseTypeName(baseTypeClangSpelling);
-					return enumTypeSyntax;
-				}
-
-				case CX_TypeClass.CX_TypeClass_Record:
-				{
-					baseTypeClangSpelling = baseTypeClangSpelling.Replace("struct ", string.Empty).Trim();
-					var recordTypeSyntax = ParseTypeName(baseTypeClangSpelling);
-					return recordTypeSyntax;
-				}
-
-				case CX_TypeClass.CX_TypeClass_Elaborated:
-				{
-					var elaboratedTypeSyntax = GetTypeSyntax(typeClang.NamedType, baseTypeClang);
-					return elaboratedTypeSyntax;
-				}
-
-				case CX_TypeClass.CX_TypeClass_Builtin:
-				{
-					var typeCSharpString = ConvertClangTypeToCSharpTypeString(baseTypeClang);
-					var builtinTypeSyntax = ParseTypeName(typeCSharpString);
-					return builtinTypeSyntax;
-				}
-
-				case CX_TypeClass.CX_TypeClass_ConstantArray:
-				{
-					// Just return the base type which is the array element type
-					var baseTypeSyntax = ParseTypeName(baseTypeClangSpelling);
-					return baseTypeSyntax;
-				}
-
-				case CX_TypeClass.CX_TypeClass_Typedef:
-				{
-					// TODO: Function pointers
-					if (baseTypeClang == default)
-					{
-						return PointerType(ParseTypeName("void"));
-					}
-
-					var typeClangSpelling = typeClang.Spelling.CString.Replace("const ", string.Empty).Trim();
-					var typedefSyntax = ParseTypeName(typeClangSpelling);
-					return typedefSyntax;
-				}
-
-				default:
-					throw new NotImplementedException();
+				var clangName = ClangName(clangType.Declaration);
+				cSharpType = ParseTypeName(clangName);
 			}
+			else
+			{
+				cSharpType = clangType.TypeClass switch
+				{
+					CX_TypeClass.CX_TypeClass_Pointer when baseClangType.Value == default => PointerType(ParseTypeName(baseClangTypeSpelling)),
+					CX_TypeClass.CX_TypeClass_Typedef when baseClangType.Value == default => PointerType(ParseTypeName(baseClangTypeSpelling)),
+					CX_TypeClass.CX_TypeClass_Pointer => PointerType(GetCSharpType(clangType.PointeeType, baseClangType)),
+					CX_TypeClass.CX_TypeClass_Typedef => ParseTypeName(clangType.Spelling.CString
+						.Replace("const ", string.Empty).Trim()),
+					CX_TypeClass.CX_TypeClass_Enum => ParseTypeName(baseClangTypeSpelling.Replace("enum ", string.Empty)
+						.Trim()),
+					CX_TypeClass.CX_TypeClass_Record => ParseTypeName(baseClangTypeSpelling.Replace("struct ", string.Empty)
+						.Trim()),
+					CX_TypeClass.CX_TypeClass_Elaborated => GetCSharpType(clangType.NamedType, baseClangType),
+					CX_TypeClass.CX_TypeClass_Builtin => ParseTypeName(ClangTypeToCSharpTypeString(baseClangType!.Value)),
+					CX_TypeClass.CX_TypeClass_ConstantArray => ParseTypeName(baseClangTypeSpelling),
+					_ => throw new NotImplementedException()
+				};
+			}
+
+			_cSharpTypesByClangType.Add(clangType, cSharpType);
+			return cSharpType;
 		}
 
-		private static string ConvertClangTypeToCSharpTypeString(CXType clangType)
+		private static bool IsValidCSharpTypeSpellingForFixedBuffer(string typeString)
+		{
+			return typeString switch
+			{
+				"bool" => true,
+				"byte" => true,
+				"char" => true,
+				"short" => true,
+				"int" => true,
+				"long" => true,
+				"sbyte" => true,
+				"ushort" => true,
+				"uint" => true,
+				"ulong" => true,
+				"float" => true,
+				"double" => true,
+				_ => false
+			};
+		}
+
+		private static string ClangTypeToCSharpTypeString(CXType clangType)
 		{
 			var result = clangType.kind switch
 			{
@@ -700,40 +627,50 @@ namespace C2CS
 			return result;
 		}
 
-		private static bool IsValidCSharpTypeSpellingForFixedBuffer(string typeString)
+		private string ClangName(CXCursor cursor)
 		{
-			return typeString switch
+			if (_cSharpNamesByClangCursor.TryGetValue(cursor, out var name))
 			{
-				"bool" => true,
-				"byte" => true,
-				"char" => true,
-				"short" => true,
-				"int" => true,
-				"long" => true,
-				"sbyte" => true,
-				"ushort" => true,
-				"uint" => true,
-				"ulong" => true,
-				"float" => true,
-				"double" => true,
-				_ => false
-			};
-		}
-
-		public static string ClangDisplayName(CXCursor cursor)
-		{
-			var name = cursor.Spelling.CString;
-			if (string.IsNullOrEmpty(name))
-			{
-				var clangType = cursor.Type;
-				if (clangType.kind == CXTypeKind.CXType_Pointer)
-				{
-					clangType = clangType.PointeeType;
-				}
-
-				name = clangType.Spelling.CString;
+				return name;
 			}
 
+			if (cursor.IsAnonymous)
+			{
+				var fieldName = string.Empty;
+				var parent = cursor.SemanticParent;
+				parent.VisitChildren(child =>
+				{
+					if (child.kind == CXCursorKind.CXCursor_FieldDecl && child.Type.Declaration == cursor)
+					{
+						fieldName = child.Spelling.CString;
+					}
+				});
+
+				if (cursor.kind == CXCursorKind.CXCursor_UnionDecl)
+				{
+					name = $"Anonymous_Union_{fieldName}";
+				}
+				else
+				{
+					name = $"Anonymous_Struct_{fieldName}";
+				}
+			}
+			else
+			{
+				name = cursor.Spelling.CString;
+				if (string.IsNullOrEmpty(name))
+				{
+					var clangType = cursor.Type;
+					if (clangType.kind == CXTypeKind.CXType_Pointer)
+					{
+						clangType = clangType.PointeeType;
+					}
+
+					name = clangType.Spelling.CString;
+				}
+			}
+
+			_cSharpNamesByClangCursor.Add(cursor, name);
 			return name;
 		}
 

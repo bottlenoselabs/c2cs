@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.Diagnostics;
 
 namespace C2CS
 {
-	internal static class EntryPoint
+	internal static class Program
 	{
 		private static int Main(string[] args)
 		{
@@ -30,6 +31,14 @@ namespace C2CS
 			};
 			rootCommand.AddOption(inputFilePathOption);
 
+			var additionalPathsOption = new Option<string>(
+				new[] {"--additionalInputPaths", "-p"},
+				"Directory paths and/or file paths of additional .h files to bundle together before parsing C code.")
+			{
+				IsRequired = false
+			};
+			rootCommand.AddOption(additionalPathsOption);
+
 			var outputFilePathOption = new Option<string>(
 				new[] {"--outputFilePath", "-o"},
 				"File path of the output .cs file.")
@@ -48,7 +57,7 @@ namespace C2CS
 
 			var libraryNameOption = new Option<string>(
 				new[] {"--libraryName", "-l"},
-				"The name of the dynamic link library.")
+				"The name of the dynamic link library (without the file extension) used for P/Invoke with C#.")
 			{
 				IsRequired = false
 			};
@@ -56,29 +65,27 @@ namespace C2CS
 
 			var includeDirectoriesOption = new Option<IEnumerable<string>?>(
 				new[] {"--includeDirectories", "-s"},
-				"Include directories to use for parsing C code.")
+				"Search directories for `#include` usages to use when parsing C code.")
 			{
 				IsRequired = false
 			};
 			rootCommand.AddOption(includeDirectoriesOption);
 
-			var defineMacrosOption = new Option<IEnumerable<string>?>(
-				new[] {"--defineMacros", "-d"},
-				"Macros to define for parsing C code.")
+			var definesOption = new Option<IEnumerable<string>?>(
+				new[] {"--defines", "-d"},
+				"Object-like macros to use when parsing C code.")
 			{
 				IsRequired = false
 			};
+			rootCommand.AddOption(definesOption);
 
-			rootCommand.AddOption(defineMacrosOption);
-
-			var additionalArgsOption = new Option<IEnumerable<string>?>(
-				new[] {"--additionalArgs", "-a"},
-				"Additional arguments for parsing C code.")
+			var clangArgsOption = new Option<IEnumerable<string>?>(
+				new[] {"--clangArgs", "-a"},
+				"Additional Clang arguments to use when parsing C code.")
 			{
 				IsRequired = false
 			};
-
-			rootCommand.AddOption(additionalArgsOption);
+			rootCommand.AddOption(clangArgsOption);
 
 			var startDelegate = new StartDelegate(Start);
 			rootCommand.Handler = CommandHandler.Create(startDelegate);
@@ -91,26 +98,28 @@ namespace C2CS
 			bool unattended,
 			string libraryName,
 			IEnumerable<string>? includeDirectories = null,
-			IEnumerable<string>? defineMacros = null,
-			IEnumerable<string>? additionalArgs = null)
+			IEnumerable<string>? defines = null,
+			IEnumerable<string>? clangArgs = null,
+			IEnumerable<string>? additionalInputPaths = null)
 		{
 			try
 			{
-				var programState = new ProgramState(
+				var request = new BindgenUseCaseRequest(
 					inputFilePath,
 					outputFilePath,
 					unattended,
 					libraryName,
-					includeDirectories?.ToImmutableArray(),
-					defineMacros?.ToImmutableArray(),
-					additionalArgs?.ToImmutableArray());
+					includeDirectories?.ToImmutableArray() ?? ImmutableArray<string>.Empty,
+					defines?.ToImmutableArray() ?? ImmutableArray<string>.Empty,
+					clangArgs?.ToImmutableArray() ?? ImmutableArray<string>.Empty,
+					additionalInputPaths?.ToImmutableArray() ?? ImmutableArray<string>.Empty);
 
-				var program = new Program(programState);
-				program.Execute();
+				var useCase = new BindgenUseCase();
+				var response = useCase.Execute(request);
+				Debug.Assert(response.OutputFilePath == request.OutputFilePath, "equal");
 			}
-			catch (ProgramException e)
+			catch (UseCaseException)
 			{
-				Console.Error.WriteLine(e.Message);
 				Environment.Exit(-1);
 			}
 		}
@@ -121,7 +130,8 @@ namespace C2CS
 			bool unattended,
 			string libraryName,
 			IEnumerable<string>? includeDirectories = null,
-			IEnumerable<string>? defineMacros = null,
-			IEnumerable<string>? additionalArgs = null);
+			IEnumerable<string>? defines = null,
+			IEnumerable<string>? clangArgs = null,
+			IEnumerable<string>? additionalInputPaths = null);
 	}
 }

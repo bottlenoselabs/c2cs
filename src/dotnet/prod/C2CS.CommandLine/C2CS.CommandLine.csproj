@@ -4,7 +4,7 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <OutputType>Exe</OutputType>
-        <RootNamespace />
+        <RootNamespace>C2CS</RootNamespace>
     </PropertyGroup>
 
     <!-- Custom project settings -->
@@ -17,11 +17,11 @@
     <ItemGroup>
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20574.7" />
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\C2CS\C2CS.csproj" />
+    </ItemGroup>
     
     <!-- Project references -->
-    <ItemGroup>
-        <ProjectReference Include="../C2CS.Core/C2CS.Core.csproj" />
-    </ItemGroup>
 
     <!-- NuGet tool -->
     <PropertyGroup>
