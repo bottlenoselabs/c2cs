@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace C2CS
+namespace C2CS.Bindgen
 {
     public readonly struct BindgenUseCaseRequest
     {

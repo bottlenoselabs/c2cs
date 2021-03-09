@@ -5,9 +5,9 @@ using System;
 using System.Collections.Immutable;
 using ClangSharp.Interop;
 
-namespace C2CS
+namespace C2CS.Bindgen.ParseCCode
 {
-    public class BindgenParseCCode
+    public class MainModule
     {
         public CXTranslationUnit ParseClangTranslationUnit(
             string headerFilePath,

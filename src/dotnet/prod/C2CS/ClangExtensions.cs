@@ -2,26 +2,37 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Runtime.InteropServices;
 using ClangSharp.Interop;
 
 namespace C2CS
 {
-	internal static class ClangExtensions
+	internal static unsafe class ClangExtensions
 	{
+		public delegate void VisitChildCursorAction(CXCursor child, CXCursor parent);
+
 		public delegate void VisitChildAction(CXCursor child);
 
-		public static unsafe void VisitChildren(this CXCursor cursor, VisitChildAction visitAction)
+		private static readonly CXCursorVisitor Visit = Visitor;
+
+		public static void VisitChildren(this CXCursor cursor, VisitChildCursorAction visitAction)
 		{
-			var clientData = new CXClientData(IntPtr.Zero);
+			var handle = GCHandle.Alloc(visitAction);
+			var clientData = new CXClientData((IntPtr)handle);
 
-			cursor.VisitChildren(Visitor, clientData);
+			cursor.VisitChildren(Visit, clientData);
 
-			CXChildVisitResult Visitor(CXCursor childCursor, CXCursor childParent, void* data)
-			{
-				visitAction(childCursor);
-				return CXChildVisitResult.CXChildVisit_Continue;
-			}
+			handle.Free();
+		}
+
+		private static CXChildVisitResult Visitor(CXCursor childCursor, CXCursor childParent, void* data)
+		{
+			var handle = (GCHandle)(IntPtr)data;
+			var action = (VisitChildCursorAction)handle.Target!;
+			action(childCursor, childParent);
+			return CXChildVisitResult.CXChildVisit_Continue;
 		}
 
 		public static unsafe void VisitChildren(this CXType type, VisitChildAction visitAction)
@@ -40,7 +51,7 @@ namespace C2CS
 		public static ImmutableArray<CXCursor> ChildrenOfKind(this CXCursor cursor, CXCursorKind kind)
 		{
 			var childrenBuilder = ImmutableArray.CreateBuilder<CXCursor>();
-			cursor.VisitChildren(child =>
+			cursor.VisitChildren((child, _) =>
 			{
 				if (child.kind == kind)
 				{

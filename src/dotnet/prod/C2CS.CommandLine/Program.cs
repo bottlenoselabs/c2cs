@@ -7,6 +7,7 @@ using System.Collections.Immutable;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.Diagnostics;
+using C2CS.Bindgen;
 
 namespace C2CS
 {
@@ -118,8 +119,13 @@ namespace C2CS
 				var response = useCase.Execute(request);
 				Debug.Assert(response.OutputFilePath == request.OutputFilePath, "equal");
 			}
-			catch (UseCaseException)
+			catch (Exception)
 			{
+				if (Debugger.IsAttached)
+				{
+					throw;
+				}
+
 				Environment.Exit(-1);
 			}
 		}

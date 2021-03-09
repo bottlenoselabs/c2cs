@@ -1,19 +1,11 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
 
-using ClangSharp.Interop;
-
-namespace C2CS
+namespace C2CS.Bindgen.ExploreCCode
 {
-    public class ClangCursorName
+    public enum CFunctionCallingConvention
     {
-        public CXCursor Cursor;
-        public string Name;
-
-        public ClangCursorName(CXCursor cursor, string name)
-        {
-            Cursor = cursor;
-            Name = name;
-        }
+        Unknown,
+        C,
     }
 }

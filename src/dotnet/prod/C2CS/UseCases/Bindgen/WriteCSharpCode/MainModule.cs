@@ -3,9 +3,9 @@
 
 using System.IO;
 
-namespace C2CS
+namespace C2CS.Bindgen.WriteCSharpCode
 {
-    public class BindgenWriteCSharpCode
+    public class MainModule
     {
         public void WriteCSharpToDisk(string filePath, string cSharpCode)
         {
