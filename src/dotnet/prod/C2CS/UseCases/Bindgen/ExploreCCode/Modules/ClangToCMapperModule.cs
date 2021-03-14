@@ -374,9 +374,6 @@ namespace C2CS.Bindgen.ExploreCCode
                 CX_TypeClass.CX_TypeClass_Enum => MapTypeNameEnum(clangType),
                 CX_TypeClass.CX_TypeClass_ConstantArray => MapTypeNameConstArray(clangType),
                 CX_TypeClass.CX_TypeClass_FunctionProto => MapTypeNameFunctionProto(clangType),
-                // CX_TypeClass.CX_TypeClass_Record => ParseTypeName(baseClangTypeSpelling.Replace("struct ", string.Empty)
-                //     .Trim()),
-                // CX_TypeClass.CX_TypeClass_Elaborated => GetCSharpType(clangType.NamedType, baseClangType),
                 _ => throw new NotImplementedException()
             };
 
@@ -416,9 +413,9 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private static string MapTypeNameRecordNonAnonymous(CXCursor clangRecord)
+        private string MapTypeNameRecordNonAnonymous(CXCursor clangRecord)
         {
-            var result = clangRecord.Type.Spelling.CString;
+            var result = _namesByCursor[clangRecord];
             if (result.Contains("struct "))
             {
                 result = result.Replace("struct ", string.Empty);
@@ -595,9 +592,9 @@ namespace C2CS.Bindgen.ExploreCCode
             return 0;
         }
 
-        private string MapName(CXCursor clangFunctionParameter)
+        private string MapName(CXCursor clangCursor)
         {
-            return _namesByCursor[clangFunctionParameter];
+            return _namesByCursor[clangCursor];
         }
 
         private CTypeLayout MapLayout(CXType clangType)
