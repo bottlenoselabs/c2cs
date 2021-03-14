@@ -346,11 +346,6 @@ namespace C2CS.Bindgen.ExploreCCode
 
                         case CX_TypeClass.CX_TypeClass_FunctionProto:
                         {
-                            if (!CanVisitType(pointeeType))
-                            {
-                                break;
-                            }
-
                             VisitFunctionProto(typedef, pointeeType, typedef.SemanticParent);
                             break;
                         }

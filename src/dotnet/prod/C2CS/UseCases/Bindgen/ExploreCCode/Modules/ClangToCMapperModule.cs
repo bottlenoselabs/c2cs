@@ -473,15 +473,37 @@ namespace C2CS.Bindgen.ExploreCCode
         private string MapTypeNamePointer(CXType clangType)
         {
             var clangPointeeType = clangType.PointeeType;
-            if (clangPointeeType.TypeClass == CX_TypeClass.CX_TypeClass_FunctionProto)
+
+            if (TryMapTypeNameFunctionPointer(clangPointeeType, out string functionPointerName))
             {
-                return "void*";
+                return functionPointerName;
             }
 
             var pointeeTypeName = MapTypeName(clangPointeeType);
             var result = pointeeTypeName + "*";
 
             return result;
+        }
+
+        private static bool TryMapTypeNameFunctionPointer(CXType clangPointeeType, out string functionPointerName)
+        {
+            if (clangPointeeType.kind != CXTypeKind.CXType_Typedef)
+            {
+                functionPointerName = string.Empty;
+                return false;
+            }
+
+            var clangPointeeTypeCanonical = clangPointeeType.CanonicalType;
+
+            if (clangPointeeTypeCanonical.TypeClass != CX_TypeClass.CX_TypeClass_Pointer ||
+                clangPointeeTypeCanonical.PointeeType.kind != CXTypeKind.CXType_FunctionProto)
+            {
+                functionPointerName = string.Empty;
+                return false;
+            }
+
+            functionPointerName = clangPointeeType.Spelling.CString;
+            return true;
         }
 
         private string MapTypeNameTypedef(CXType clangType)
@@ -523,7 +545,6 @@ namespace C2CS.Bindgen.ExploreCCode
         private static string MapTypeNameTypedefNonSystem(CXType clangType)
         {
             var result = clangType.TypedefName.CString;
-
             return result;
         }
 
