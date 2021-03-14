@@ -1379,7 +1379,7 @@ public static unsafe partial class libclang
         public void* Pointer;
     }
 
-    // FunctionPointer @ BuildSystem.h:39 01/28/2021 00:34:01
+    // OpaqueType @ BuildSystem.h:39 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXVirtualFileOverlay
     {
@@ -1387,7 +1387,7 @@ public static unsafe partial class libclang
         public IntPtr Handle;
     }
 
-    // FunctionPointer @ BuildSystem.h:100 01/28/2021 00:34:01
+    // OpaqueType @ BuildSystem.h:100 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXModuleMapDescriptor
     {
@@ -1395,7 +1395,7 @@ public static unsafe partial class libclang
         public IntPtr Handle;
     }
 
-    // FunctionPointer @ Index.h:75 01/28/2021 00:34:01
+    // OpaqueType @ Index.h:75 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIndex
     {
@@ -1403,7 +1403,7 @@ public static unsafe partial class libclang
         public IntPtr Handle;
     }
 
-    // FunctionPointer @ Index.h:353 01/28/2021 00:34:01
+    // OpaqueType @ Index.h:353 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXFile
     {
@@ -1411,7 +1411,7 @@ public static unsafe partial class libclang
         public IntPtr Handle;
     }
 
-    // FunctionPointer @ Index.h:86 01/28/2021 00:34:01
+    // OpaqueType @ Index.h:86 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXTranslationUnit
     {
@@ -1419,7 +1419,7 @@ public static unsafe partial class libclang
         public IntPtr Handle;
     }
 
-    // FunctionPointer @ Index.h:780 01/28/2021 00:34:01
+    // OpaqueType @ Index.h:780 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXDiagnosticSet
     {
@@ -1427,7 +1427,7 @@ public static unsafe partial class libclang
         public IntPtr Handle;
     }
 
-    // FunctionPointer @ Index.h:775 01/28/2021 00:34:01
+    // OpaqueType @ Index.h:775 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXDiagnostic
     {
@@ -1435,7 +1435,7 @@ public static unsafe partial class libclang
         public IntPtr Handle;
     }
 
-    // FunctionPointer @ Index.h:81 01/28/2021 00:34:01
+    // OpaqueType @ Index.h:81 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXTargetInfo
     {
@@ -1443,7 +1443,7 @@ public static unsafe partial class libclang
         public IntPtr Handle;
     }
 
-    // FunctionPointer @ Index.h:2998 01/28/2021 00:34:01
+    // OpaqueType @ Index.h:2998 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXCursorSet
     {
@@ -1451,7 +1451,7 @@ public static unsafe partial class libclang
         public IntPtr Handle;
     }
 
-    // FunctionPointer @ Index.h:92 01/28/2021 00:34:01
+    // OpaqueType @ Index.h:92 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXClientData
     {
@@ -1459,7 +1459,7 @@ public static unsafe partial class libclang
         public IntPtr Handle;
     }
 
-    // FunctionPointer @ Index.h:4332 01/28/2021 00:34:01
+    // OpaqueType @ Index.h:4332 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXPrintingPolicy
     {
@@ -1467,7 +1467,7 @@ public static unsafe partial class libclang
         public IntPtr Handle;
     }
 
-    // FunctionPointer @ Index.h:4679 01/28/2021 00:34:01
+    // OpaqueType @ Index.h:4679 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXModule
     {
@@ -1475,7 +1475,7 @@ public static unsafe partial class libclang
         public IntPtr Handle;
     }
 
-    // FunctionPointer @ Index.h:5124 01/28/2021 00:34:01
+    // OpaqueType @ Index.h:5124 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXCompletionString
     {
@@ -1483,7 +1483,7 @@ public static unsafe partial class libclang
         public IntPtr Handle;
     }
 
-    // FunctionPointer @ Index.h:5959 01/28/2021 00:34:01
+    // OpaqueType @ Index.h:5959 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXEvalResult
     {
@@ -1491,7 +1491,7 @@ public static unsafe partial class libclang
         public IntPtr Handle;
     }
 
-    // FunctionPointer @ Index.h:6030 01/28/2021 00:34:01
+    // OpaqueType @ Index.h:6030 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXRemapping
     {
@@ -1499,7 +1499,7 @@ public static unsafe partial class libclang
         public IntPtr Handle;
     }
 
-    // FunctionPointer @ Index.h:6174 01/28/2021 00:34:01
+    // OpaqueType @ Index.h:6174 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIdxClientContainer
     {
@@ -1507,7 +1507,7 @@ public static unsafe partial class libclang
         public IntPtr Handle;
     }
 
-    // FunctionPointer @ Index.h:6168 01/28/2021 00:34:01
+    // OpaqueType @ Index.h:6168 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIdxClientEntity
     {
@@ -1515,7 +1515,7 @@ public static unsafe partial class libclang
         public IntPtr Handle;
     }
 
-    // FunctionPointer @ Index.h:6594 01/28/2021 00:34:01
+    // OpaqueType @ Index.h:6594 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIndexAction
     {
@@ -1523,7 +1523,7 @@ public static unsafe partial class libclang
         public IntPtr Handle;
     }
 
-    // FunctionPointer @ Index.h:6163 01/28/2021 00:34:01
+    // OpaqueType @ Index.h:6163 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIdxClientFile
     {
