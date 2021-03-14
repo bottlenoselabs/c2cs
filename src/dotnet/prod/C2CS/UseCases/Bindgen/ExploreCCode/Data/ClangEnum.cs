@@ -1,32 +1,28 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
 
+using System.Collections.Immutable;
 using ClangSharp.Interop;
 
 namespace C2CS.Bindgen.ExploreCCode
 {
-    public readonly struct ClangFunctionPointer
+    public readonly struct ClangEnum
     {
         public readonly string Name;
-        public readonly CXType Type;
         public readonly CXCursor Cursor;
-        public readonly CXCursor Parent;
+        public readonly CXType Type;
+        public readonly ImmutableArray<ClangEnumValue> Values;
 
-        public ClangFunctionPointer(
+        public ClangEnum(
             string name,
-            CXType type,
             CXCursor cursor,
-            CXCursor parent)
+            CXType type,
+            ImmutableArray<ClangEnumValue> values)
         {
             Name = name;
-            Type = type;
             Cursor = cursor;
-            Parent = parent;
-        }
-
-        public override string ToString()
-        {
-            return Name ?? string.Empty;
+            Type = type;
+            Values = values;
         }
     }
 }

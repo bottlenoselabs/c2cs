@@ -20,5 +20,10 @@ namespace C2CS.Bindgen.ExploreCCode
             Cursor = cursor;
             UnderlyingType = underlyingType;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

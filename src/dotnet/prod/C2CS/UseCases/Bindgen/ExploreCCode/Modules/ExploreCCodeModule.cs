@@ -15,16 +15,14 @@ namespace C2CS.Bindgen.ExploreCCode
         private readonly HashSet<CXCursor> _visitedCursors = new();
         private readonly HashSet<CXType> _visitedTypes = new();
         private readonly List<CXCursor> _functions = new();
-        private readonly List<CXCursor> _enums = new();
-        private readonly List<ClangRecord> _records = new();
+        private readonly List<ClangEnum> _enums = new();
+        private readonly List<ClangStruct> _records = new();
         private readonly List<CXCursor> _opaqueTypes = new();
         private readonly List<ClangForwardType> _forwardTypes = new();
         private readonly List<ClangFunctionPointer> _functionPointers = new();
         private readonly List<CXCursor> _systemTypes = new();
         private readonly Dictionary<CXCursor, string> _namesByCursor = new();
         private readonly Dictionary<CXCursor, List<CXCursor>> _functionParametersByFunction = new();
-        private readonly Dictionary<CXCursor, List<CXCursor>> _recordFieldsByRecord = new();
-        private readonly Dictionary<CXCursor, List<CXCursor>> _enumValuesByEnum = new();
 
         public ExploreCCodeModule()
         {
@@ -52,18 +50,10 @@ namespace C2CS.Bindgen.ExploreCCode
             var functionParametersByFunction = _functionParametersByFunction.ToImmutableDictionary(
                 kvp => kvp.Key,
                 kvp => kvp.Value.ToImmutableArray());
-            var recordFieldsByRecord = _recordFieldsByRecord.ToImmutableDictionary(
-                kvp => kvp.Key,
-                kvp => kvp.Value.ToImmutableArray());
-            var enumValuesByEnum =_enumValuesByEnum.ToImmutableDictionary(
-                kvp => kvp.Key,
-                kvp => kvp.Value.ToImmutableArray());
 
             var mapper = new ClangCodeToGenericCodeMapperModule(
                 namesByCursor,
-                functionParametersByFunction,
-                recordFieldsByRecord,
-                enumValuesByEnum);
+                functionParametersByFunction);
 
             var result = mapper.MapSyntaxTree(
                 _functions.ToImmutableArray(),
@@ -193,7 +183,7 @@ namespace C2CS.Bindgen.ExploreCCode
                     break;
                 case CX_TypeClass.CX_TypeClass_FunctionProto:
                     // Assume parent is closest match of function proto
-                    VisitFunctionProto(null, type, parent, grandParent);
+                    VisitFunctionProto(string.Empty, type, parent, grandParent);
                     break;
                 default:
                     var up = UnsupportedType(type);
@@ -206,7 +196,7 @@ namespace C2CS.Bindgen.ExploreCCode
             switch (declaration.DeclKind)
             {
                 case CX_DeclKind.CX_DeclKind_Enum:
-                    VisitEnum(declaration.Spelling.CString, declaration, declaration.Type, declaration);
+                    VisitEnum(declaration.Spelling.CString, declaration, declaration.EnumDecl_IntegerType, declaration);
                     break;
                 case CX_DeclKind.CX_DeclKind_Record:
                     VisitRecord(declaration.Spelling.CString, declaration, declaration.Type, declaration);
@@ -219,12 +209,6 @@ namespace C2CS.Bindgen.ExploreCCode
                     break;
                 case CX_DeclKind.CX_DeclKind_ParmVar:
                     VisitFunctionParameter(parent, declaration);
-                    break;
-                case CX_DeclKind.CX_DeclKind_Field:
-                    VisitRecordField(parent, declaration);
-                    break;
-                case CX_DeclKind.CX_DeclKind_EnumConstant:
-                    VisitType(declaration.Type, parent, parent.SemanticParent);
                     break;
                 default:
                     var up = UnsupportedDeclaration(declaration);
@@ -252,16 +236,16 @@ namespace C2CS.Bindgen.ExploreCCode
 
         private void VisitEnum(string name, CXCursor cursor, CXType type, CXCursor underlyingCursor)
         {
-            if (cursor != underlyingCursor)
-            {
-                _enumValuesByEnum.Remove(underlyingCursor);
-            }
-
-            var enumValues = new List<CXCursor>();
-            _enumValuesByEnum.Add(underlyingCursor, enumValues);
-            _enums.Add(cursor);
+            var enumValues = new List<ClangEnumValue>();
 
             underlyingCursor.VisitChildren(VisitEnumValues);
+
+            var clangEnum = new ClangEnum(
+                name,
+                cursor,
+                type,
+                enumValues.ToImmutableArray());
+            _enums.Add(clangEnum);
 
             void VisitEnumValues(CXCursor child, CXCursor parent)
             {
@@ -270,41 +254,48 @@ namespace C2CS.Bindgen.ExploreCCode
                     return;
                 }
 
-                enumValues.Add(child);
-                VisitCursor(child, parent);
+                var clangEnumValue = new ClangEnumValue(
+                    child.Spelling.CString,
+                    child.EnumConstantDeclValue);
+                enumValues.Add(clangEnumValue);
             }
         }
 
         private void VisitRecord(string name, CXCursor cursor, CXType type, CXCursor underlyingCursor)
         {
-            if (cursor != underlyingCursor)
-            {
-                _recordFieldsByRecord.Remove(underlyingCursor);
-            }
+            var recordFields = new List<ClangStructField>();
 
-            var recordFields = new List<CXCursor>();
-            _recordFieldsByRecord.Add(underlyingCursor, recordFields);
+            underlyingCursor.VisitChildren(VisitStructFields);
 
             if (!cursor.IsAnonymous)
             {
-                var record = new ClangRecord(
+                var record = new ClangStruct(
                     name,
                     type,
                     cursor,
-                    underlyingCursor);
+                    recordFields.ToImmutableArray());
 
                 _records.Add(record);
             }
 
-            underlyingCursor.VisitChildren(_visitCursor);
+            void VisitStructFields(CXCursor child, CXCursor parent)
+            {
+                if (child.kind != CXCursorKind.CXCursor_FieldDecl)
+                {
+                    return;
+                }
+
+                var structField = VisitRecordField(child.Spelling.CString, parent, child);
+                recordFields.Add(structField);
+            }
         }
 
-        private void VisitRecordField(CXCursor record, CXCursor recordField)
+        private ClangStructField VisitRecordField(string name, CXCursor record, CXCursor recordField)
         {
             VisitType(recordField.Type, recordField, record);
 
-            var recordFields = _recordFieldsByRecord[record];
-            recordFields.Add(recordField);
+            var structField = new ClangStructField(name, recordField, recordField.Type);
+            return structField;
         }
 
         private void VisitTypedef(CXCursor typedef)
@@ -324,7 +315,7 @@ namespace C2CS.Bindgen.ExploreCCode
                     VisitRecord(typedefName, typedef, underlyingType, underlyingType.Declaration);
                     break;
                 case CX_TypeClass.CX_TypeClass_Enum:
-                    VisitEnum(typedefName, typedef, underlyingType, underlyingType.Declaration);
+                    VisitEnum(typedefName, typedef, underlyingType.Declaration.EnumDecl_IntegerType, underlyingType.Declaration);
                     break;
                 default:
                     var up = UnexpectedScenario();
@@ -395,11 +386,18 @@ namespace C2CS.Bindgen.ExploreCCode
             _systemTypes.Add(systemType);
         }
 
-        private void VisitFunctionProto(string? name, CXType type, CXCursor cursor, CXCursor parent)
+        private void VisitFunctionProto(string name, CXType type, CXCursor cursor, CXCursor parent)
         {
             var grandParent = parent.SemanticParent;
             VisitType(type.ResultType, parent, grandParent);
             type.VisitChildren(child => VisitType(child.Type, parent, grandParent));
+
+            if (string.IsNullOrEmpty(name))
+            {
+                var cursorName = _namesByCursor[cursor];
+                var parentName = _namesByCursor[parent];
+                name = $"{parentName}_{cursorName}";
+            }
 
             var clangFunctionPointer = new ClangFunctionPointer(
                 name,
