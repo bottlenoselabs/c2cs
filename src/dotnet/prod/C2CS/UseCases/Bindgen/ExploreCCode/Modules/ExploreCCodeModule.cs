@@ -69,7 +69,7 @@ namespace C2CS.Bindgen.ExploreCCode
             var cStructs = mapper.MapStructs(_records.ToImmutableArray());
             var cEnums = mapper.MapEnums(_enums.ToImmutableArray());
             var cOpaqueTypes = mapper.MapOpaqueTypes(_opaqueTypes.ToImmutableArray());
-            var cForwardTypes = _forwardTypes.ToImmutableArray();
+            var cForwardTypes = mapper.MapForwardTypes(_forwardTypes.ToImmutableArray());
             var cFunctionPointers = mapper.MapFunctionPointers(_functionPointers.ToImmutableArray());
             var cSystemTypes = _systemTypes.ToImmutableArray();
 
@@ -397,7 +397,6 @@ namespace C2CS.Bindgen.ExploreCCode
 
         private void VisitForwardType(CXCursor forwardType)
         {
-            _namesByCursor.Add(forwardType, forwardType.Spelling.CString);
             _forwardTypes.Add(forwardType);
         }
 

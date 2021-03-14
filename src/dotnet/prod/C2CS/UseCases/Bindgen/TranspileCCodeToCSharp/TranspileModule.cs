@@ -32,15 +32,14 @@ namespace C2CS.Bindgen.TranspileCCodeToCSharp
                 _cSharpCodeGenerator.AddSystemType(cursor, name);
             }
 
-            foreach (var cursor in abstractSyntaxTree.ForwardTypes)
-            {
-                var name = abstractSyntaxTree.NamesByCursor[cursor];
-                _cSharpCodeGenerator.AddForwardType(cursor, name);
-            }
-
             foreach (var function in abstractSyntaxTree.Functions)
             {
                 TranspileFunction(function);
+            }
+
+            foreach (var forwardType in abstractSyntaxTree.ForwardTypes)
+            {
+                TranspileForwardType(forwardType);
             }
 
             foreach (var functionPointer in abstractSyntaxTree.FunctionPointers)
@@ -71,6 +70,12 @@ namespace C2CS.Bindgen.TranspileCCodeToCSharp
             return @class.ToFullString();
         }
 
+        private void TranspileForwardType(CForwardType forwardType)
+        {
+            var cSharpStruct = _cSharpCodeGenerator.CreateForwardStruct(forwardType);
+            _members.Add(cSharpStruct);
+        }
+
         private void TranspileFunctionPointer(CFunctionPointer functionPointer)
         {
             var cSharpFunctionPointer = _cSharpCodeGenerator.CreateFunctionPointer(functionPointer);
@@ -91,8 +96,8 @@ namespace C2CS.Bindgen.TranspileCCodeToCSharp
 
         private void TranspileConstant(CXCursor clangConstant)
         {
-            var cSharpConstant = _cSharpCodeGenerator.CreateConstant(clangConstant);
-            _members.Add(cSharpConstant);
+            // var cSharpConstant = _cSharpCodeGenerator.CreateConstant(clangConstant);
+            // _members.Add(cSharpConstant);
         }
 
         private void TranspileEnum(CEnum @enum)

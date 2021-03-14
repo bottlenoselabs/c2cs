@@ -41,7 +41,6 @@ namespace C2CS.Bindgen.ExploreCCode
             }
 
             var result = builder.ToImmutable();
-
             return result;
         }
 
@@ -56,7 +55,6 @@ namespace C2CS.Bindgen.ExploreCCode
             }
 
             var result = builder.ToImmutable();
-
             return result;
         }
 
@@ -71,7 +69,6 @@ namespace C2CS.Bindgen.ExploreCCode
             }
 
             var result = builder.ToImmutable();
-
             return result;
         }
 
@@ -86,7 +83,20 @@ namespace C2CS.Bindgen.ExploreCCode
             }
 
             var result = builder.ToImmutable();
+            return result;
+        }
 
+        public ImmutableArray<CForwardType> MapForwardTypes(ImmutableArray<CXCursor> clangForwardTypes)
+        {
+            var builder = ImmutableArray.CreateBuilder<CForwardType>(clangForwardTypes.Length);
+
+            foreach (var clangForwardType in clangForwardTypes)
+            {
+                var cForwardType = MapForwardType(clangForwardType);
+                builder.Add(cForwardType);
+            }
+
+            var result = builder.ToImmutable();
             return result;
         }
 
@@ -101,7 +111,6 @@ namespace C2CS.Bindgen.ExploreCCode
             }
 
             var result = builder.ToImmutable();
-
             return result;
         }
 
@@ -157,7 +166,7 @@ namespace C2CS.Bindgen.ExploreCCode
         private COpaqueType MapOpaqueType(CXCursor clangOpaqueType)
         {
             var name = MapTypeName(clangOpaqueType.Type);
-            var info = MapInfo(clangOpaqueType, CKind.OpaqueType);
+            var info = MapInfo(clangOpaqueType, CKind.Opaque);
             var type = MapType(clangOpaqueType.Type);
 
             var result = new COpaqueType(
@@ -165,6 +174,21 @@ namespace C2CS.Bindgen.ExploreCCode
                 info,
                 type);
 
+            return result;
+        }
+
+        private CForwardType MapForwardType(CXCursor clangForwardType)
+        {
+            var name = MapTypeName(clangForwardType.Type);
+            var info = MapInfo(clangForwardType, CKind.Forward);
+            var type = MapType(clangForwardType.Type);
+            var underlyingType = MapType(clangForwardType.Type.CanonicalType);
+
+            var result = new CForwardType(
+                name,
+                info,
+                type,
+                underlyingType);
             return result;
         }
 

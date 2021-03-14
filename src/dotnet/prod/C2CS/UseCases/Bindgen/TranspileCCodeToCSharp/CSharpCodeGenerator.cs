@@ -133,17 +133,17 @@ using System.Runtime.InteropServices;";
 			return Comment(comment);
 		}
 
-		public FieldDeclarationSyntax CreateConstant(CXCursor enumConstant)
-		{
-			var variableDeclarationCSharp = CreateConstantVariable(enumConstant);
-			var constFieldDeclarationCSharp = FieldDeclaration(variableDeclarationCSharp)
-				.WithModifiers(
-					TokenList(
-						Token(SyntaxKind.PublicKeyword),
-						Token(SyntaxKind.ConstKeyword)));
-
-			return constFieldDeclarationCSharp;
-		}
+		// public FieldDeclarationSyntax CreateConstant(CXCursor enumConstant)
+		// {
+		// 	var variableDeclarationCSharp = CreateConstantVariable(enumConstant);
+		// 	var constFieldDeclarationCSharp = FieldDeclaration(variableDeclarationCSharp)
+		// 		.WithModifiers(
+		// 			TokenList(
+		// 				Token(SyntaxKind.PublicKeyword),
+		// 				Token(SyntaxKind.ConstKeyword)));
+		//
+		// 	return constFieldDeclarationCSharp;
+		// }
 
 		public EnumDeclarationSyntax CreateEnum(CEnum @enum)
 		{
@@ -314,6 +314,26 @@ using System.Runtime.InteropServices;";
 			return cSharpStruct;
 		}
 
+		public MemberDeclarationSyntax CreateForwardStruct(CForwardType cForwardType)
+		{
+			var cSharpStruct = StructDeclaration(cForwardType.Name)
+				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
+				.WithAttributeStructLayout(LayoutKind.Explicit, cForwardType.Type.Layout.Size, cForwardType.Type.Layout.Alignment);
+
+			var cSharpFieldType = ParseTypeName(cForwardType.UnderlyingType.Name);
+			var cSharpFieldVariable = VariableDeclarator(Identifier("Data"));
+			var cSharpField = FieldDeclaration(
+					VariableDeclaration(cSharpFieldType)
+						.WithVariables(SingletonSeparatedList(cSharpFieldVariable)))
+				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
+				.WithAttributeFieldOffset(0, cForwardType.Type.Layout.Size, 0);
+			cSharpStruct = cSharpStruct
+				.AddMembers(cSharpField)
+				.WithLeadingTrivia(CInfoComment(cForwardType.Info));
+
+			return cSharpStruct;
+		}
+
 		private ImmutableArray<ParameterSyntax> CreateMethodParameters(ImmutableArray<CFunctionParameter> functionParameters)
 		{
 			var cSharpMethodParameters = ImmutableArray.CreateBuilder<ParameterSyntax>();
@@ -388,32 +408,32 @@ using System.Runtime.InteropServices;";
 				LiteralExpression(SyntaxKind.NumericLiteralExpression, literalToken));
 		}
 
-		private VariableDeclarationSyntax CreateConstantVariable(CXCursor clangEnumConstant)
-		{
-			var clangType = clangEnumConstant.Type;
-			var cSharpType = GetCSharpType(clangType);
-
-			var cSharpTypeString = cSharpType.ToFullString();
-			var literalSyntaxToken = cSharpTypeString switch
-			{
-				"short" => Literal((short)clangEnumConstant.EnumConstantDeclValue),
-				"int" => Literal((int)clangEnumConstant.EnumConstantDeclValue),
-				_ => throw new NotImplementedException(
-					$@"The enum constant literal expression is not yet supported: {cSharpTypeString}.")
-			};
-
-			var cSharpName = ClangName(clangEnumConstant);
-			var variable = VariableDeclaration(cSharpType)
-				.WithVariables(
-					SingletonSeparatedList(
-						VariableDeclarator(
-								Identifier(cSharpName))
-							.WithInitializer(
-								EqualsValueClause(LiteralExpression(
-									SyntaxKind.NumericLiteralExpression, literalSyntaxToken)))));
-
-			return variable;
-		}
+		// private VariableDeclarationSyntax CreateConstantVariable(CXCursor clangEnumConstant)
+		// {
+		// 	var clangType = clangEnumConstant.Type;
+		// 	var cSharpType = GetCSharpType(clangType);
+		//
+		// 	var cSharpTypeString = cSharpType.ToFullString();
+		// 	var literalSyntaxToken = cSharpTypeString switch
+		// 	{
+		// 		"short" => Literal((short)clangEnumConstant.EnumConstantDeclValue),
+		// 		"int" => Literal((int)clangEnumConstant.EnumConstantDeclValue),
+		// 		_ => throw new NotImplementedException(
+		// 			$@"The enum constant literal expression is not yet supported: {cSharpTypeString}.")
+		// 	};
+		//
+		// 	var cSharpName = ClangName(clangEnumConstant);
+		// 	var variable = VariableDeclaration(cSharpType)
+		// 		.WithVariables(
+		// 			SingletonSeparatedList(
+		// 				VariableDeclarator(
+		// 						Identifier(cSharpName))
+		// 					.WithInitializer(
+		// 						EqualsValueClause(LiteralExpression(
+		// 							SyntaxKind.NumericLiteralExpression, literalSyntaxToken)))));
+		//
+		// 	return variable;
+		// }
 
 		private static MethodDeclarationSyntax CreateStructFieldWrapperMethod(string structName, CStructField cStructField)
 		{
@@ -511,57 +531,57 @@ using System.Runtime.InteropServices;";
 			}
 		}
 
-		private TypeSyntax GetCSharpType(CXType clangType, CXType? baseClangType = null)
-		{
-			if (_cSharpNamesByClangCursor.TryGetValue(clangType.Declaration, out var cSharpName))
-			{
-				return ParseTypeName(cSharpName);
-			}
-
-			if (baseClangType == null)
-			{
-				baseClangType = GetClangBaseType(clangType);
-			}
-
-			string baseClangTypeSpelling;
-			// TODO: Function pointers
-			if (baseClangType.Value == default)
-			{
-				baseClangTypeSpelling = "void";
-			}
-			else
-			{
-				baseClangTypeSpelling = ClangTypeToCSharpTypeString(baseClangType.Value);
-			}
-
-			if (clangType.Declaration.IsAnonymous)
-			{
-				cSharpName = ClangName(clangType.Declaration);
-			}
-			else
-			{
-				var cSharpType = clangType.TypeClass switch
-				{
-					CX_TypeClass.CX_TypeClass_Pointer when baseClangType.Value == default => PointerType(ParseTypeName(baseClangTypeSpelling)),
-					CX_TypeClass.CX_TypeClass_Typedef when baseClangType.Value == default => PointerType(ParseTypeName(baseClangTypeSpelling)),
-					CX_TypeClass.CX_TypeClass_Pointer => PointerType(GetCSharpType(clangType.PointeeType, baseClangType)),
-					CX_TypeClass.CX_TypeClass_Typedef => ParseTypeName(clangType.Spelling.CString
-						.Replace("const ", string.Empty).Trim()),
-					CX_TypeClass.CX_TypeClass_Enum => ParseTypeName(baseClangTypeSpelling.Replace("enum ", string.Empty)
-						.Trim()),
-					CX_TypeClass.CX_TypeClass_Record => ParseTypeName(baseClangTypeSpelling.Replace("struct ", string.Empty)
-						.Trim()),
-					CX_TypeClass.CX_TypeClass_Elaborated => GetCSharpType(clangType.NamedType, baseClangType),
-					CX_TypeClass.CX_TypeClass_Builtin => ParseTypeName(ClangTypeToCSharpTypeString(baseClangType!.Value)),
-					CX_TypeClass.CX_TypeClass_ConstantArray => ParseTypeName(baseClangTypeSpelling),
-					_ => throw new NotImplementedException()
-				};
-
-				return cSharpType;
-			}
-
-			return ParseTypeName(cSharpName);
-		}
+		// private TypeSyntax GetCSharpType(CXType clangType, CXType? baseClangType = null)
+		// {
+		// 	if (_cSharpNamesByClangCursor.TryGetValue(clangType.Declaration, out var cSharpName))
+		// 	{
+		// 		return ParseTypeName(cSharpName);
+		// 	}
+		//
+		// 	if (baseClangType == null)
+		// 	{
+		// 		baseClangType = GetClangBaseType(clangType);
+		// 	}
+		//
+		// 	string baseClangTypeSpelling;
+		// 	// TODO: Function pointers
+		// 	if (baseClangType.Value == default)
+		// 	{
+		// 		baseClangTypeSpelling = "void";
+		// 	}
+		// 	else
+		// 	{
+		// 		baseClangTypeSpelling = ClangTypeToCSharpTypeString(baseClangType.Value);
+		// 	}
+		//
+		// 	if (clangType.Declaration.IsAnonymous)
+		// 	{
+		// 		cSharpName = ClangName(clangType.Declaration);
+		// 	}
+		// 	else
+		// 	{
+		// 		var cSharpType = clangType.TypeClass switch
+		// 		{
+		// 			CX_TypeClass.CX_TypeClass_Pointer when baseClangType.Value == default => PointerType(ParseTypeName(baseClangTypeSpelling)),
+		// 			CX_TypeClass.CX_TypeClass_Typedef when baseClangType.Value == default => PointerType(ParseTypeName(baseClangTypeSpelling)),
+		// 			CX_TypeClass.CX_TypeClass_Pointer => PointerType(GetCSharpType(clangType.PointeeType, baseClangType)),
+		// 			CX_TypeClass.CX_TypeClass_Typedef => ParseTypeName(clangType.Spelling.CString
+		// 				.Replace("const ", string.Empty).Trim()),
+		// 			CX_TypeClass.CX_TypeClass_Enum => ParseTypeName(baseClangTypeSpelling.Replace("enum ", string.Empty)
+		// 				.Trim()),
+		// 			CX_TypeClass.CX_TypeClass_Record => ParseTypeName(baseClangTypeSpelling.Replace("struct ", string.Empty)
+		// 				.Trim()),
+		// 			CX_TypeClass.CX_TypeClass_Elaborated => GetCSharpType(clangType.NamedType, baseClangType),
+		// 			CX_TypeClass.CX_TypeClass_Builtin => ParseTypeName(ClangTypeToCSharpTypeString(baseClangType!.Value)),
+		// 			CX_TypeClass.CX_TypeClass_ConstantArray => ParseTypeName(baseClangTypeSpelling),
+		// 			_ => throw new NotImplementedException()
+		// 		};
+		//
+		// 		return cSharpType;
+		// 	}
+		//
+		// 	return ParseTypeName(cSharpName);
+		// }
 
 		private static bool IsValidCSharpTypeSpellingForFixedBuffer(string typeString)
 		{
@@ -583,111 +603,64 @@ using System.Runtime.InteropServices;";
 			};
 		}
 
-		private static string ClangTypeToCSharpTypeString(CXType clangType)
-		{
-			var result = clangType.kind switch
-			{
-				CXTypeKind.CXType_Void => "void",
-				CXTypeKind.CXType_Bool => "CBool",
-				CXTypeKind.CXType_Char_S => "sbyte",
-				CXTypeKind.CXType_Char_U => "byte",
-				CXTypeKind.CXType_UChar => "byte",
-				CXTypeKind.CXType_UShort => "ushort",
-				CXTypeKind.CXType_UInt => "uint",
-				CXTypeKind.CXType_ULong => clangType.SizeOf == 8 ? "ulong" : "uint",
-				CXTypeKind.CXType_ULongLong => "ulong",
-				CXTypeKind.CXType_Short => "short",
-				CXTypeKind.CXType_Int => "int",
-				CXTypeKind.CXType_Long => clangType.SizeOf == 8 ? "long" : "int",
-				CXTypeKind.CXType_LongLong => "long",
-				CXTypeKind.CXType_Float => "float",
-				CXTypeKind.CXType_Double => "double",
-				CXTypeKind.CXType_Record => clangType.Spelling.CString.Replace("struct ", string.Empty).Trim(),
-				CXTypeKind.CXType_Enum => clangType.Spelling.CString.Replace("enum ", string.Empty).Trim(),
-				_ => throw new NotImplementedException()
-			};
-
-			result = result.Replace("const ", string.Empty).Trim();
-
-			return result;
-		}
-
-		private string ClangName(CXCursor cursor)
-		{
-			if (_cSharpNamesByClangCursor.TryGetValue(cursor, out var name))
-			{
-				return name;
-			}
-
-			if (cursor.IsInSystem())
-			{
-				var systemUnderlyingType = cursor.Type.CanonicalType;
-				if (systemUnderlyingType.TypeClass == CX_TypeClass.CX_TypeClass_Builtin)
-				{
-					name = ClangTypeToCSharpTypeString(systemUnderlyingType);
-				}
-				else
-				{
-					throw new NotImplementedException();
-				}
-			}
-			else if (cursor.IsAnonymous)
-			{
-				var fieldName = string.Empty;
-				var parent = cursor.SemanticParent;
-				parent.VisitChildren((child, _) =>
-				{
-					if (child.kind == CXCursorKind.CXCursor_FieldDecl && child.Type.Declaration == cursor)
-					{
-						fieldName = child.Spelling.CString;
-					}
-				});
-
-				if (cursor.kind == CXCursorKind.CXCursor_UnionDecl)
-				{
-					name = $"Anonymous_Union_{fieldName}";
-				}
-				else
-				{
-					name = $"Anonymous_Struct_{fieldName}";
-				}
-			}
-			else
-			{
-				name = cursor.Spelling.CString;
-				if (string.IsNullOrEmpty(name))
-				{
-					var clangType = cursor.Type;
-					if (clangType.kind == CXTypeKind.CXType_Pointer)
-					{
-						clangType = clangType.PointeeType;
-					}
-
-					name = clangType.Spelling.CString;
-				}
-			}
-
-			_cSharpNamesByClangCursor.Add(cursor, name);
-			return name;
-		}
-
-		private static string SanitizeName(string name)
-		{
-			if (string.IsNullOrWhiteSpace(name))
-			{
-				// HACK: "handle" is meant for opaque types which are usually the first param for C functions exposing C++ functions
-				name = "handle";
-			}
-			else
-			{
-				if (name == "lock" || name == "string" || name == "base" || name == "ref")
-				{
-					name = $"@{name}";
-				}
-			}
-
-			return name;
-		}
+		// private string ClangName(CXCursor cursor)
+		// {
+		// 	if (_cSharpNamesByClangCursor.TryGetValue(cursor, out var name))
+		// 	{
+		// 		return name;
+		// 	}
+		//
+		// 	if (cursor.IsInSystem())
+		// 	{
+		// 		var systemUnderlyingType = cursor.Type.CanonicalType;
+		// 		if (systemUnderlyingType.TypeClass == CX_TypeClass.CX_TypeClass_Builtin)
+		// 		{
+		// 			name = ClangTypeToCSharpTypeString(systemUnderlyingType);
+		// 		}
+		// 		else
+		// 		{
+		// 			throw new NotImplementedException();
+		// 		}
+		// 	}
+		// 	else if (cursor.IsAnonymous)
+		// 	{
+		// 		var fieldName = string.Empty;
+		// 		var parent = cursor.SemanticParent;
+		// 		parent.VisitChildren((child, _) =>
+		// 		{
+		// 			if (child.kind == CXCursorKind.CXCursor_FieldDecl && child.Type.Declaration == cursor)
+		// 			{
+		// 				fieldName = child.Spelling.CString;
+		// 			}
+		// 		});
+		//
+		// 		if (cursor.kind == CXCursorKind.CXCursor_UnionDecl)
+		// 		{
+		// 			name = $"Anonymous_Union_{fieldName}";
+		// 		}
+		// 		else
+		// 		{
+		// 			name = $"Anonymous_Struct_{fieldName}";
+		// 		}
+		// 	}
+		// 	else
+		// 	{
+		// 		name = cursor.Spelling.CString;
+		// 		if (string.IsNullOrEmpty(name))
+		// 		{
+		// 			var clangType = cursor.Type;
+		// 			if (clangType.kind == CXTypeKind.CXType_Pointer)
+		// 			{
+		// 				clangType = clangType.PointeeType;
+		// 			}
+		//
+		// 			name = clangType.Spelling.CString;
+		// 		}
+		// 	}
+		//
+		// 	_cSharpNamesByClangCursor.Add(cursor, name);
+		// 	return name;
+		// }
 
 		private static string SanitizeIdentifierName(string name)
 		{
@@ -703,43 +676,24 @@ using System.Runtime.InteropServices;";
 
 		public void AddSystemType(CXCursor cursor, string name)
 		{
-			var type = cursor.Type;
-			var underlyingSystemType = type.CanonicalType;
-			if (underlyingSystemType.TypeClass == CX_TypeClass.CX_TypeClass_Builtin)
-			{
-				var cSharpName = ClangTypeToCSharpTypeString(underlyingSystemType);
-				_cSharpNamesByClangCursor.Add(cursor, cSharpName);
-			}
-			else
-			{
-				if (name == "FILE")
-				{
-					_cSharpNamesByClangCursor.Add(cursor, "IntPtr");
-				}
-				else
-				{
-					throw new NotImplementedException();
-				}
-			}
-		}
-
-		public void AddForwardType(CXCursor cursor, string name)
-		{
-			var type = cursor.Type;
-			var underlyingSystemType = type.CanonicalType;
-			if (underlyingSystemType.TypeClass == CX_TypeClass.CX_TypeClass_Builtin)
-			{
-				var cSharpName = ClangTypeToCSharpTypeString(underlyingSystemType);
-				_cSharpNamesByClangCursor.Add(cursor, cSharpName);
-			}
-			else if (underlyingSystemType.TypeClass == CX_TypeClass.CX_TypeClass_Pointer)
-			{
-				_cSharpNamesByClangCursor.Add(cursor, "IntPtr");
-			}
-			else
-			{
-				throw new NotImplementedException();
-			}
+			// var type = cursor.Type;
+			// var underlyingSystemType = type.CanonicalType;
+			// if (underlyingSystemType.TypeClass == CX_TypeClass.CX_TypeClass_Builtin)
+			// {
+			// 	var cSharpName = ClangTypeToCSharpTypeString(underlyingSystemType);
+			// 	_cSharpNamesByClangCursor.Add(cursor, cSharpName);
+			// }
+			// else
+			// {
+			// 	if (name == "FILE")
+			// 	{
+			// 		_cSharpNamesByClangCursor.Add(cursor, "IntPtr");
+			// 	}
+			// 	else
+			// 	{
+			// 		throw new NotImplementedException();
+			// 	}
+			// }
 		}
 
 		private static CallingConvention CSharpCallingConvention(CFunctionCallingConvention callingConvention)

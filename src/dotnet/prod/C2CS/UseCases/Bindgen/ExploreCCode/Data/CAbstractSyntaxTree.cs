@@ -16,7 +16,7 @@ namespace C2CS.Bindgen.ExploreCCode
 
         public readonly ImmutableArray<COpaqueType> OpaqueTypes;
 
-        public readonly ImmutableArray<CXCursor> ForwardTypes;
+        public readonly ImmutableArray<CForwardType> ForwardTypes;
 
         public readonly ImmutableArray<CFunctionPointer> FunctionPointers;
 
@@ -29,7 +29,7 @@ namespace C2CS.Bindgen.ExploreCCode
             ImmutableArray<CStruct> structs,
             ImmutableArray<CEnum> enums,
             ImmutableArray<COpaqueType> opaqueTypes,
-            ImmutableArray<CXCursor> forwardTypes,
+            ImmutableArray<CForwardType> forwardTypes,
             ImmutableArray<CFunctionPointer> functionPointers,
             ImmutableArray<CXCursor> systemTypes,
             ImmutableDictionary<CXCursor, string> namesByCursor)
