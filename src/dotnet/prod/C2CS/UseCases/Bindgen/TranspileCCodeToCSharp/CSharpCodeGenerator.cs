@@ -74,7 +74,7 @@ using System.Runtime.InteropServices;";
 			return result;
 		}
 
-		public MethodDeclarationSyntax CreateExternMethod(CFunctionExtern functionExtern)
+		public MethodDeclarationSyntax CreateExternMethod(GenericCodeFunctionExtern functionExtern)
 		{
 			var functionName = functionExtern.Name;
 			var functionReturnTypeName = functionExtern.ReturnType.Name;
@@ -99,7 +99,7 @@ using System.Runtime.InteropServices;";
 			return cSharpMethod;
 		}
 
-		public MemberDeclarationSyntax CreateFunctionPointer(CFunctionPointer functionPointer)
+		public MemberDeclarationSyntax CreateFunctionPointer(GenericCodeFunctionPointer functionPointer)
 		{
 			var cSharpStruct = StructDeclaration(functionPointer.Name)
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
@@ -122,7 +122,7 @@ using System.Runtime.InteropServices;";
 			return cSharpStruct;
 		}
 
-		private static SyntaxTrivia CInfoComment(CInfo info)
+		private static SyntaxTrivia CInfoComment(GenericCodeInfo info)
 		{
 			var kind = info.Kind;
 			var location = info.Location;
@@ -145,7 +145,7 @@ using System.Runtime.InteropServices;";
 		// 	return constFieldDeclarationCSharp;
 		// }
 
-		public EnumDeclarationSyntax CreateEnum(CEnum @enum)
+		public EnumDeclarationSyntax CreateEnum(GenericCodeEnum @enum)
 		{
 			var cSharpEnumType = @enum.Type.Name;
 			var cSharpEnum = EnumDeclaration(@enum.Name)
@@ -166,7 +166,7 @@ using System.Runtime.InteropServices;";
 				.WithLeadingTrivia(CInfoComment(@enum.Info));
 		}
 
-		public StructDeclarationSyntax CreateStruct(CStruct cStruct)
+		public StructDeclarationSyntax CreateStruct(GenericCodeStruct cStruct)
 		{
 			var structName = cStruct.Name;
 			var structSize = cStruct.Type.Layout.Size;
@@ -199,7 +199,7 @@ using System.Runtime.InteropServices;";
 		}
 
 		private FieldDeclarationSyntax CreateStructField(
-			CStructField cStructField,
+			GenericCodeStructField cStructField,
 			out bool needsWrap)
 		{
 			FieldDeclarationSyntax result;
@@ -217,7 +217,7 @@ using System.Runtime.InteropServices;";
 			return result;
 		}
 
-		private static FieldDeclarationSyntax CreateStructFieldNormal(CStructField cStructField)
+		private static FieldDeclarationSyntax CreateStructFieldNormal(GenericCodeStructField cStructField)
 		{
 			var cSharpFieldName = SanitizeIdentifierName(cStructField.Name);
 			var cSharpVariable = VariableDeclarator(Identifier(cSharpFieldName));
@@ -232,7 +232,7 @@ using System.Runtime.InteropServices;";
 		}
 
 		private FieldDeclarationSyntax CreateStructFieldFixedArray(
-			CStructField cStructField,
+			GenericCodeStructField cStructField,
 			out bool needsWrap)
 		{
 			var cSharpFieldName = SanitizeIdentifierName(cStructField.Name);
@@ -294,7 +294,7 @@ using System.Runtime.InteropServices;";
 			return cSharpField;
 		}
 
-		public StructDeclarationSyntax CreateOpaqueStruct(COpaqueType cOpaqueType)
+		public StructDeclarationSyntax CreateOpaqueStruct(GenericCodeOpaqueType cOpaqueType)
 		{
 			var cSharpStruct = StructDeclaration(cOpaqueType.Name)
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
@@ -314,7 +314,7 @@ using System.Runtime.InteropServices;";
 			return cSharpStruct;
 		}
 
-		public MemberDeclarationSyntax CreateForwardStruct(CForwardType cForwardType)
+		public MemberDeclarationSyntax CreateForwardStruct(GenericCodeForwardType cForwardType)
 		{
 			var cSharpStruct = StructDeclaration(cForwardType.Name)
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
@@ -334,7 +334,7 @@ using System.Runtime.InteropServices;";
 			return cSharpStruct;
 		}
 
-		private ImmutableArray<ParameterSyntax> CreateMethodParameters(ImmutableArray<CFunctionParameter> functionParameters)
+		private ImmutableArray<ParameterSyntax> CreateMethodParameters(ImmutableArray<GenericCodeFunctionParameter> functionParameters)
 		{
 			var cSharpMethodParameters = ImmutableArray.CreateBuilder<ParameterSyntax>();
 			var cSharpMethodParameterNames = new HashSet<string>();
@@ -379,7 +379,7 @@ using System.Runtime.InteropServices;";
 			}
 		}
 
-		private ParameterSyntax CreateMethodParameter(CFunctionParameter functionParameter, string parameterName)
+		private ParameterSyntax CreateMethodParameter(GenericCodeFunctionParameter functionParameter, string parameterName)
 		{
 			var methodParameter = Parameter(Identifier(parameterName));
 			if (functionParameter.IsReadOnly)
@@ -435,7 +435,7 @@ using System.Runtime.InteropServices;";
 		// 	return variable;
 		// }
 
-		private static MethodDeclarationSyntax CreateStructFieldWrapperMethod(string structName, CStructField cStructField)
+		private static MethodDeclarationSyntax CreateStructFieldWrapperMethod(string structName, GenericCodeStructField cStructField)
 		{
 			var cSharpMethodName = SanitizeIdentifierName(cStructField.Name);
 			var cSharpFieldName = $"_{cStructField.Name}";
@@ -696,12 +696,12 @@ using System.Runtime.InteropServices;";
 			// }
 		}
 
-		private static CallingConvention CSharpCallingConvention(CFunctionCallingConvention callingConvention)
+		private static CallingConvention CSharpCallingConvention(GenericCodeFunctionCallingConvention callingConvention)
 		{
 			return callingConvention switch
 			{
-				CFunctionCallingConvention.Unknown => CallingConvention.Winapi,
-				CFunctionCallingConvention.C => CallingConvention.Cdecl,
+				GenericCodeFunctionCallingConvention.Unknown => CallingConvention.Winapi,
+				GenericCodeFunctionCallingConvention.C => CallingConvention.Cdecl,
 				_ => throw new ArgumentOutOfRangeException(nameof(callingConvention), callingConvention, null)
 			};
 		}

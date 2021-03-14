@@ -3,25 +3,17 @@
 
 namespace C2CS.Bindgen.ExploreCCode
 {
-    public readonly struct COpaqueType
+    public readonly struct GenericCodeValue
     {
         public readonly string Name;
-        public readonly CInfo Info;
-        public readonly CType Type;
+        public readonly long Value;
 
-        public COpaqueType(
+        public GenericCodeValue(
             string name,
-            CInfo info,
-            CType type)
+            long value)
         {
             Name = name;
-            Info = info;
-            Type = type;
-        }
-
-        public override string ToString()
-        {
-            return Name;
+            Value = value;
         }
     }
 }

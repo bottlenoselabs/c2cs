@@ -35,7 +35,7 @@ namespace C2CS
 			return CXChildVisitResult.CXChildVisit_Continue;
 		}
 
-		public static unsafe void VisitChildren(this CXType type, VisitChildAction visitAction)
+		public static void VisitChildren(this CXType type, VisitChildAction visitAction)
 		{
 			var clientData = new CXClientData(IntPtr.Zero);
 

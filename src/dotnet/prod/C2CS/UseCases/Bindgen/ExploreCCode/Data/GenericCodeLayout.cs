@@ -3,14 +3,15 @@
 
 namespace C2CS.Bindgen.ExploreCCode
 {
-    public enum CKind
+    public readonly struct GenericCodeLayout
     {
-        Unknown = 0,
-        FunctionExtern,
-        Struct,
-        Enum,
-        FunctionPointer,
-        Opaque,
-        Forward,
+        public readonly int Size;
+        public readonly int Alignment;
+
+        public GenericCodeLayout(int size, int alignment)
+        {
+            Size = size;
+            Alignment = alignment;
+        }
     }
 }

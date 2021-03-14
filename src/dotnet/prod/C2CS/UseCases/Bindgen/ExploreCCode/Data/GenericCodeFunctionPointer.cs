@@ -3,23 +3,25 @@
 
 namespace C2CS.Bindgen.ExploreCCode
 {
-    public readonly struct CForwardType
+    public readonly struct GenericCodeFunctionPointer
     {
         public readonly string Name;
-        public readonly CInfo Info;
-        public readonly CType Type;
-        public readonly CType UnderlyingType;
+        public readonly GenericCodeInfo Info;
+        public readonly GenericCodeType Type;
 
-        public CForwardType(
+        public GenericCodeFunctionPointer(
             string name,
-            CInfo info,
-            CType type,
-            CType underlyingType)
+            GenericCodeInfo info,
+            GenericCodeType type)
         {
             Name = name;
             Info = info;
             Type = type;
-            UnderlyingType = underlyingType;
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

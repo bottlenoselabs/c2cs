@@ -3,9 +3,14 @@
 
 namespace C2CS.Bindgen.ExploreCCode
 {
-    public enum CFunctionCallingConvention
+    public enum GenericCodeKind
     {
-        Unknown,
-        C,
+        Unknown = 0,
+        FunctionExtern,
+        Struct,
+        Enum,
+        FunctionPointer,
+        Opaque,
+        Forward,
     }
 }

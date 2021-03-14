@@ -25,13 +25,13 @@ namespace C2CS.Bindgen
         private static void ExploreCCode(BindgenUseCaseRequest request, ref BindgenUseCaseState state)
         {
             var obj = new ExploreCCode.ExploreCCodeModule();
-            state.CAbstractSyntaxTree = obj.ExtractClangAbstractSyntaxTree(state.ClangTranslationUnit);
+            state.GenericCodeAbstractSyntaxTree = obj.ExtractClangAbstractSyntaxTree(state.ClangTranslationUnit);
         }
 
         private static void TranspileCCodeToCSharp(BindgenUseCaseRequest request, ref BindgenUseCaseState state)
         {
             var obj = new TranspileCCodeToCSharp.TranspileModule();
-            state.GeneratedCSharpCode = obj.GenerateCSharpCode(request.LibraryName, state.CAbstractSyntaxTree);
+            state.GeneratedCSharpCode = obj.GenerateCSharpCode(request.LibraryName, state.GenericCodeAbstractSyntaxTree);
         }
 
         private static void WriteCSharpCode(BindgenUseCaseRequest request, ref BindgenUseCaseState state)

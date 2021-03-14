@@ -9,7 +9,7 @@ namespace C2CS.Bindgen
     public struct BindgenUseCaseState
     {
         public CXTranslationUnit ClangTranslationUnit;
-        public CAbstractSyntaxTree CAbstractSyntaxTree;
+        public GenericCodeAbstractSyntaxTree GenericCodeAbstractSyntaxTree;
         public string GeneratedCSharpCode;
     }
 }

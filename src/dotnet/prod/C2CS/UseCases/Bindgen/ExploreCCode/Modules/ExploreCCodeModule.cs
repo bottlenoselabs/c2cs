@@ -19,7 +19,7 @@ namespace C2CS.Bindgen.ExploreCCode
         private readonly List<CXCursor> _records = new();
         private readonly List<CXCursor> _opaqueTypes = new();
         private readonly List<CXCursor> _forwardTypes = new();
-        private readonly List<CXCursor> _functionPointers = new();
+        private readonly List<ClangFunctionPointer> _functionPointers = new();
         private readonly List<CXCursor> _systemTypes = new();
         private readonly Dictionary<CXCursor, string> _namesByCursor = new();
         private readonly Dictionary<CXCursor, List<CXCursor>> _functionParametersByFunction = new();
@@ -31,7 +31,7 @@ namespace C2CS.Bindgen.ExploreCCode
             _visitCursor = VisitCursor;
         }
 
-        public CAbstractSyntaxTree ExtractClangAbstractSyntaxTree(CXTranslationUnit translationUnit)
+        public GenericCodeAbstractSyntaxTree ExtractClangAbstractSyntaxTree(CXTranslationUnit translationUnit)
         {
             ExploreAbstractSyntaxTree(translationUnit);
             return CollectExtractedData();
@@ -46,7 +46,7 @@ namespace C2CS.Bindgen.ExploreCCode
             }
         }
 
-        private CAbstractSyntaxTree CollectExtractedData()
+        private GenericCodeAbstractSyntaxTree CollectExtractedData()
         {
             var namesByCursor = _namesByCursor.ToImmutableDictionary();
             var functionParametersByFunction = _functionParametersByFunction.ToImmutableDictionary(
@@ -59,29 +59,21 @@ namespace C2CS.Bindgen.ExploreCCode
                 kvp => kvp.Key,
                 kvp => kvp.Value.ToImmutableArray());
 
-            var mapper = new ClangToCMapperModule(
+            var mapper = new ClangCodeToGenericCodeMapperModule(
                 namesByCursor,
                 functionParametersByFunction,
                 recordFieldsByRecord,
                 enumValuesByEnum);
 
-            var cFunctions = mapper.MapFunctionExterns(_functions.ToImmutableArray());
-            var cStructs = mapper.MapStructs(_records.ToImmutableArray());
-            var cEnums = mapper.MapEnums(_enums.ToImmutableArray());
-            var cOpaqueTypes = mapper.MapOpaqueTypes(_opaqueTypes.ToImmutableArray());
-            var cForwardTypes = mapper.MapForwardTypes(_forwardTypes.ToImmutableArray());
-            var cFunctionPointers = mapper.MapFunctionPointers(_functionPointers.ToImmutableArray());
-            var cSystemTypes = _systemTypes.ToImmutableArray();
-
-            var result = new CAbstractSyntaxTree(
-                cFunctions,
-                cStructs,
-                cEnums,
-                cOpaqueTypes,
-                cForwardTypes,
-                cFunctionPointers,
-                cSystemTypes,
-                _namesByCursor.ToImmutableDictionary());
+            var result = mapper.MapSyntaxTree(
+                _functions.ToImmutableArray(),
+                _records.ToImmutableArray(),
+                _enums.ToImmutableArray(),
+                _opaqueTypes.ToImmutableArray(),
+                _forwardTypes.ToImmutableArray(),
+                _functionPointers.ToImmutableArray(),
+                _systemTypes.ToImmutableArray(),
+                _namesByCursor);
 
             return result;
         }
@@ -163,7 +155,7 @@ namespace C2CS.Bindgen.ExploreCCode
         }
 
         [SuppressMessage("ReSharper", "TailRecursiveCall", Justification = "Easier to read.")]
-        private void VisitType(CXType type, CXCursor parent)
+        private void VisitType(CXType type, CXCursor parent, CXCursor grandParent)
         {
             if (!CanVisitType(type))
             {
@@ -173,34 +165,35 @@ namespace C2CS.Bindgen.ExploreCCode
             switch (type.TypeClass)
             {
                 case CX_TypeClass.CX_TypeClass_Attributed:
-                    VisitType(type.ModifiedType, parent);
+                    VisitType(type.ModifiedType, parent, grandParent);
                     break;
                 case CX_TypeClass.CX_TypeClass_Elaborated:
-                    VisitType(type.NamedType, parent);
+                    VisitType(type.NamedType, parent, grandParent);
                     break;
                 case CX_TypeClass.CX_TypeClass_Pointer:
                 case CX_TypeClass.CX_TypeClass_LValueReference:
                 case CX_TypeClass.CX_TypeClass_RValueReference:
-                    VisitType(type.PointeeType, parent);
+                    VisitType(type.PointeeType, parent, grandParent);
                     break;
                 case CX_TypeClass.CX_TypeClass_Typedef:
                     VisitCursor(type.Declaration, parent);
                     break;
                 case CX_TypeClass.CX_TypeClass_IncompleteArray:
-                    VisitType(type.ElementType, parent);
+                    VisitType(type.ElementType, parent, grandParent);
                     break;
                 case CX_TypeClass.CX_TypeClass_Record:
                 case CX_TypeClass.CX_TypeClass_Enum:
                     VisitCursor(type.Declaration, parent);
                     break;
                 case CX_TypeClass.CX_TypeClass_ConstantArray:
-                    VisitType(type.ElementType, parent);
+                    VisitType(type.ElementType, parent, grandParent);
                     break;
                 case CX_TypeClass.CX_TypeClass_Builtin:
                     // Ignored
                     break;
                 case CX_TypeClass.CX_TypeClass_FunctionProto:
-                    // Ignored
+                    // Assume parent is closest match of function proto
+                    VisitFunctionProto(null, type, parent, grandParent);
                     break;
                 default:
                     var up = UnsupportedType(type);
@@ -231,7 +224,7 @@ namespace C2CS.Bindgen.ExploreCCode
                     VisitRecordField(parent, declaration);
                     break;
                 case CX_DeclKind.CX_DeclKind_EnumConstant:
-                    VisitType(declaration.Type, parent);
+                    VisitType(declaration.Type, parent, parent.SemanticParent);
                     break;
                 default:
                     var up = UnsupportedDeclaration(declaration);
@@ -243,7 +236,7 @@ namespace C2CS.Bindgen.ExploreCCode
         {
             _functionParametersByFunction.Add(function, new List<CXCursor>());
 
-            VisitType(function.ResultType, function);
+            VisitType(function.ResultType, function, function.SemanticParent);
             function.VisitChildren(_visitCursor);
 
             _functions.Add(function);
@@ -251,7 +244,7 @@ namespace C2CS.Bindgen.ExploreCCode
 
         private void VisitFunctionParameter(CXCursor function, CXCursor functionParameter)
         {
-            VisitType(functionParameter.Type, functionParameter);
+            VisitType(functionParameter.Type, functionParameter, function);
 
             var functionParameters = _functionParametersByFunction[function];
             functionParameters.Add(functionParameter);
@@ -294,7 +287,7 @@ namespace C2CS.Bindgen.ExploreCCode
 
         private void VisitRecordField(CXCursor record, CXCursor recordField)
         {
-            VisitType(recordField.Type, record);
+            VisitType(recordField.Type, recordField, record);
 
             var recordFields = _recordFieldsByRecord[record];
             recordFields.Add(recordField);
@@ -346,7 +339,7 @@ namespace C2CS.Bindgen.ExploreCCode
 
                         case CX_TypeClass.CX_TypeClass_FunctionProto:
                         {
-                            VisitFunctionProto(typedef, pointeeType, typedef.SemanticParent);
+                            VisitFunctionProto(typedefName, pointeeType, typedef, typedef.SemanticParent);
                             break;
                         }
 
@@ -405,12 +398,18 @@ namespace C2CS.Bindgen.ExploreCCode
             _systemTypes.Add(systemType);
         }
 
-        private void VisitFunctionProto(CXCursor functionProto, CXType functionProtoType, CXCursor parent)
+        private void VisitFunctionProto(string? name, CXType type, CXCursor cursor, CXCursor parent)
         {
-            VisitType(functionProtoType.ResultType, parent);
-            functionProtoType.VisitChildren(child => VisitType(child.Type, parent));
+            var grandParent = parent.SemanticParent;
+            VisitType(type.ResultType, parent, grandParent);
+            type.VisitChildren(child => VisitType(child.Type, parent, grandParent));
 
-            _functionPointers.Add(functionProto);
+            var clangFunctionPointer = new ClangFunctionPointer(
+                name,
+                type,
+                cursor,
+                parent);
+            _functionPointers.Add(clangFunctionPointer);
         }
 
         private static Exception UnsupportedDeclaration(CXCursor declaration)

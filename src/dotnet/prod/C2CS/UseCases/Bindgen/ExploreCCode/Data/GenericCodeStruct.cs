@@ -1,27 +1,27 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
 
+using System.Collections.Immutable;
+
 namespace C2CS.Bindgen.ExploreCCode
 {
-    public readonly struct CType
+    public readonly struct GenericCodeStruct
     {
         public readonly string Name;
-        public readonly string OriginalName;
-        public readonly int ArraySize;
-        public readonly CTypeLayout Layout;
+        public readonly GenericCodeInfo Info;
+        public readonly GenericCodeType Type;
+        public readonly ImmutableArray<GenericCodeStructField> Fields;
 
-        public bool IsArray => ArraySize > 0;
-
-        public CType(
+        public GenericCodeStruct(
             string name,
-            string originalName,
-            int arraySize,
-            CTypeLayout layout)
+            GenericCodeInfo location,
+            GenericCodeType type,
+            ImmutableArray<GenericCodeStructField> fields)
         {
             Name = name;
-            OriginalName = originalName;
-            ArraySize = arraySize;
-            Layout = layout;
+            Info = location;
+            Type = type;
+            Fields = fields;
         }
 
         public override string ToString()

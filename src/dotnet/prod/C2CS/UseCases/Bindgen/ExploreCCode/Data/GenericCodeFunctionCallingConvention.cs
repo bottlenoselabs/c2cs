@@ -3,17 +3,9 @@
 
 namespace C2CS.Bindgen.ExploreCCode
 {
-    public readonly struct CEnumValue
+    public enum GenericCodeFunctionCallingConvention
     {
-        public readonly string Name;
-        public readonly long Value;
-
-        public CEnumValue(
-            string name,
-            long value)
-        {
-            Name = name;
-            Value = value;
-        }
+        Unknown,
+        C,
     }
 }

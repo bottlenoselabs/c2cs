@@ -3,20 +3,20 @@
 
 namespace C2CS.Bindgen.ExploreCCode
 {
-    public readonly struct CFunctionPointer
+    public readonly struct GenericCodeFunctionParameter
     {
         public readonly string Name;
-        public readonly CInfo Info;
-        public readonly CType Type;
+        public readonly GenericCodeType Type;
+        public readonly bool IsReadOnly;
 
-        public CFunctionPointer(
+        public GenericCodeFunctionParameter(
             string name,
-            CInfo info,
-            CType type)
+            GenericCodeType type,
+            bool isReadOnly)
         {
             Name = name;
-            Info = info;
             Type = type;
+            IsReadOnly = isReadOnly;
         }
 
         public override string ToString()

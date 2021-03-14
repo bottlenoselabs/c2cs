@@ -22,7 +22,7 @@ namespace C2CS.Bindgen.TranspileCCodeToCSharp
 
         private readonly List<MemberDeclarationSyntax> _members = new();
 
-        public string GenerateCSharpCode(string libraryName, CAbstractSyntaxTree abstractSyntaxTree)
+        public string GenerateCSharpCode(string libraryName, GenericCodeAbstractSyntaxTree abstractSyntaxTree)
         {
             _cSharpCodeGenerator = new CSharpCodeGenerator(libraryName);
 
@@ -70,25 +70,25 @@ namespace C2CS.Bindgen.TranspileCCodeToCSharp
             return @class.ToFullString();
         }
 
-        private void TranspileForwardType(CForwardType forwardType)
+        private void TranspileForwardType(GenericCodeForwardType forwardType)
         {
             var cSharpStruct = _cSharpCodeGenerator.CreateForwardStruct(forwardType);
             _members.Add(cSharpStruct);
         }
 
-        private void TranspileFunctionPointer(CFunctionPointer functionPointer)
+        private void TranspileFunctionPointer(GenericCodeFunctionPointer functionPointer)
         {
             var cSharpFunctionPointer = _cSharpCodeGenerator.CreateFunctionPointer(functionPointer);
             _members.Add(cSharpFunctionPointer);
         }
 
-        private void TranspileRecord(CStruct @struct)
+        private void TranspileRecord(GenericCodeStruct @struct)
         {
             var cSharpStruct = _cSharpCodeGenerator.CreateStruct(@struct);
             _members.Add(cSharpStruct);
         }
 
-        private void TranspileFunction(CFunctionExtern functionExtern)
+        private void TranspileFunction(GenericCodeFunctionExtern functionExtern)
         {
             var cSharpMethod = _cSharpCodeGenerator.CreateExternMethod(functionExtern);
             _members.Add(cSharpMethod);
@@ -100,13 +100,13 @@ namespace C2CS.Bindgen.TranspileCCodeToCSharp
             // _members.Add(cSharpConstant);
         }
 
-        private void TranspileEnum(CEnum @enum)
+        private void TranspileEnum(GenericCodeEnum @enum)
         {
             var cSharpEnum = _cSharpCodeGenerator.CreateEnum(@enum);
             _members.Add(cSharpEnum);
         }
 
-        private void TranspileOpaqueType(COpaqueType opaqueType)
+        private void TranspileOpaqueType(GenericCodeOpaqueType opaqueType)
         {
             var cSharpStruct = _cSharpCodeGenerator.CreateOpaqueStruct(opaqueType);
             _members.Add(cSharpStruct);

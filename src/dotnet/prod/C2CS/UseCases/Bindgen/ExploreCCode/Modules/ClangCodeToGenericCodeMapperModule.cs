@@ -9,15 +9,16 @@ using ClangSharp.Interop;
 
 namespace C2CS.Bindgen.ExploreCCode
 {
-    public class ClangToCMapperModule
+    public class ClangCodeToGenericCodeMapperModule
     {
         private readonly ImmutableDictionary<CXCursor, string> _namesByCursor;
         private readonly ImmutableDictionary<CXCursor, ImmutableArray<CXCursor>> _functionParametersByFunction;
         private readonly ImmutableDictionary<CXCursor, ImmutableArray<CXCursor>> _recordFieldsByRecord;
         private readonly ImmutableDictionary<CXCursor, ImmutableArray<CXCursor>> _enumValuesByEnum;
-        private readonly Dictionary<CXType, CTypeLayout> _layoutsByClangType = new();
+        private readonly Dictionary<CXType, GenericCodeLayout> _layoutsByClangType = new();
+        private readonly Dictionary<CXType, string> _functionPointerNamesByClangType = new();
 
-        public ClangToCMapperModule(
+        public ClangCodeToGenericCodeMapperModule(
             ImmutableDictionary<CXCursor, string> namesByCursor,
             ImmutableDictionary<CXCursor, ImmutableArray<CXCursor>> functionParametersByFunction,
             ImmutableDictionary<CXCursor, ImmutableArray<CXCursor>> recordFieldsByRecord,
@@ -29,92 +30,62 @@ namespace C2CS.Bindgen.ExploreCCode
             _enumValuesByEnum = enumValuesByEnum;
         }
 
-        public ImmutableArray<CFunctionExtern> MapFunctionExterns(ImmutableArray<CXCursor> clangFunctions)
+        public GenericCodeAbstractSyntaxTree MapSyntaxTree(
+            ImmutableArray<CXCursor> clangFunctions,
+            ImmutableArray<CXCursor> clangRecords,
+            ImmutableArray<CXCursor> clangEnums,
+            ImmutableArray<CXCursor> clangOpaqueTypes,
+            ImmutableArray<CXCursor> clangForwardTypes,
+            ImmutableArray<ClangFunctionPointer> clangFunctionPointers,
+            ImmutableArray<CXCursor> clangSystemTypes,
+            Dictionary<CXCursor, string> clangNamesByCursor)
         {
-            var builder = ImmutableArray.CreateBuilder<CFunctionExtern>(clangFunctions.Length);
+            var namesByCursor = clangNamesByCursor.ToImmutableDictionary();
+            var functionParametersByFunction = _functionParametersByFunction.ToImmutableDictionary(
+                kvp => kvp.Key,
+                kvp => kvp.Value);
+            var recordFieldsByRecord = _recordFieldsByRecord.ToImmutableDictionary(
+                kvp => kvp.Key,
+                kvp => kvp.Value);
+            var enumValuesByEnum =_enumValuesByEnum.ToImmutableDictionary(
+                kvp => kvp.Key,
+                kvp => kvp.Value);
 
-            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var clangFunction in clangFunctions)
-            {
-                var cFunction = MapFunctionExtern(clangFunction);
-                builder.Add(cFunction);
-            }
+            var functionPointers = MapFunctionPointers(clangFunctionPointers);
+            var functions = MapFunctionExterns(clangFunctions);
+            var structs = MapStructs(clangRecords);
+            var enums = MapEnums(clangEnums);
+            var opaqueTypes = MapOpaqueTypes(clangOpaqueTypes);
+            var forwardTypes = MapForwardTypes(clangForwardTypes);
+            var systemTypes = clangSystemTypes;
 
-            var result = builder.ToImmutable();
+            var result = new GenericCodeAbstractSyntaxTree(
+                functions,
+                structs,
+                enums,
+                opaqueTypes,
+                forwardTypes,
+                functionPointers,
+                systemTypes,
+                namesByCursor);
             return result;
         }
 
-        public ImmutableArray<CStruct> MapStructs(ImmutableArray<CXCursor> clangRecords)
+        private ImmutableArray<GenericCodeEnum> MapEnums(ImmutableArray<CXCursor> clangEnums)
         {
-            var builder = ImmutableArray.CreateBuilder<CStruct>(clangRecords.Length);
-
-            foreach (var clangRecord in clangRecords)
-            {
-                var cStruct = MapStruct(clangRecord);
-                builder.Add(cStruct);
-            }
-
-            var result = builder.ToImmutable();
-            return result;
-        }
-
-        public ImmutableArray<CFunctionPointer> MapFunctionPointers(ImmutableArray<CXCursor> clangFunctionProtos)
-        {
-            var builder = ImmutableArray.CreateBuilder<CFunctionPointer>(clangFunctionProtos.Length);
-
-            foreach (var clangFunctionProto in clangFunctionProtos)
-            {
-                var cFunctionPointer = MapFunctionPointer(clangFunctionProto);
-                builder.Add(cFunctionPointer);
-            }
-
-            var result = builder.ToImmutable();
-            return result;
-        }
-
-        public ImmutableArray<COpaqueType> MapOpaqueTypes(ImmutableArray<CXCursor> clangOpaqueTypes)
-        {
-            var builder = ImmutableArray.CreateBuilder<COpaqueType>(clangOpaqueTypes.Length);
-
-            foreach (var clangOpaqueType in clangOpaqueTypes)
-            {
-                var cOpaqueType = MapOpaqueType(clangOpaqueType);
-                builder.Add(cOpaqueType);
-            }
-
-            var result = builder.ToImmutable();
-            return result;
-        }
-
-        public ImmutableArray<CForwardType> MapForwardTypes(ImmutableArray<CXCursor> clangForwardTypes)
-        {
-            var builder = ImmutableArray.CreateBuilder<CForwardType>(clangForwardTypes.Length);
-
-            foreach (var clangForwardType in clangForwardTypes)
-            {
-                var cForwardType = MapForwardType(clangForwardType);
-                builder.Add(cForwardType);
-            }
-
-            var result = builder.ToImmutable();
-            return result;
-        }
-
-        public ImmutableArray<CEnum> MapEnums(ImmutableArray<CXCursor> clangEnums)
-        {
-            var builder = ImmutableArray.CreateBuilder<CEnum>(clangEnums.Length);
+            var builder = ImmutableArray.CreateBuilder<GenericCodeEnum>(clangEnums.Length);
 
             foreach (var clangEnum in clangEnums)
             {
-                var cEnum = MapEnum(clangEnum);
-                builder.Add(cEnum);
+                var @enum = MapEnum(clangEnum);
+                builder.Add(@enum);
             }
 
             var result = builder.ToImmutable();
             return result;
         }
 
-        private CEnum MapEnum(CXCursor clangEnum)
+        private GenericCodeEnum MapEnum(CXCursor clangEnum)
         {
             var clangUnderlyingEnum = clangEnum;
             if (clangEnum.kind == CXCursorKind.CXCursor_TypedefDecl)
@@ -123,11 +94,11 @@ namespace C2CS.Bindgen.ExploreCCode
             }
 
             var name = _namesByCursor[clangEnum];
-            var info = MapInfo(clangEnum, CKind.Enum);
+            var info = MapInfo(clangEnum, GenericCodeKind.Enum);
             var type = MapType(clangUnderlyingEnum.EnumDecl_IntegerType);
             var enumValues = MapEnumValues(clangUnderlyingEnum);
 
-            var result = new CEnum(
+            var result = new GenericCodeEnum(
                 name,
                 info,
                 type,
@@ -136,10 +107,10 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private ImmutableArray<CEnumValue> MapEnumValues(CXCursor clangEnum)
+        private ImmutableArray<GenericCodeValue> MapEnumValues(CXCursor clangEnum)
         {
             var clangEnumValues = _enumValuesByEnum[clangEnum];
-            var builder = ImmutableArray.CreateBuilder<CEnumValue>(clangEnumValues.Length);
+            var builder = ImmutableArray.CreateBuilder<GenericCodeValue>(clangEnumValues.Length);
 
             foreach (var clangEnumValue in clangEnumValues)
             {
@@ -151,25 +122,39 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private CEnumValue MapEnumValue(CXCursor clangEnumValue)
+        private GenericCodeValue MapEnumValue(CXCursor clangEnumValue)
         {
             var name = clangEnumValue.Spelling.CString;
             var value = clangEnumValue.EnumConstantDeclValue;
 
-            var result = new CEnumValue(
+            var result = new GenericCodeValue(
                 name,
                 value);
 
             return result;
         }
 
-        private COpaqueType MapOpaqueType(CXCursor clangOpaqueType)
+        private ImmutableArray<GenericCodeOpaqueType> MapOpaqueTypes(ImmutableArray<CXCursor> clangOpaqueTypes)
+        {
+            var builder = ImmutableArray.CreateBuilder<GenericCodeOpaqueType>(clangOpaqueTypes.Length);
+
+            foreach (var clangOpaqueType in clangOpaqueTypes)
+            {
+                var opaqueType = MapOpaqueType(clangOpaqueType);
+                builder.Add(opaqueType);
+            }
+
+            var result = builder.ToImmutable();
+            return result;
+        }
+
+        private GenericCodeOpaqueType MapOpaqueType(CXCursor clangOpaqueType)
         {
             var name = MapTypeName(clangOpaqueType.Type);
-            var info = MapInfo(clangOpaqueType, CKind.Opaque);
+            var info = MapInfo(clangOpaqueType, GenericCodeKind.Opaque);
             var type = MapType(clangOpaqueType.Type);
 
-            var result = new COpaqueType(
+            var result = new GenericCodeOpaqueType(
                 name,
                 info,
                 type);
@@ -177,14 +162,28 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private CForwardType MapForwardType(CXCursor clangForwardType)
+        public ImmutableArray<GenericCodeForwardType> MapForwardTypes(ImmutableArray<CXCursor> clangForwardTypes)
+        {
+            var builder = ImmutableArray.CreateBuilder<GenericCodeForwardType>(clangForwardTypes.Length);
+
+            foreach (var clangForwardType in clangForwardTypes)
+            {
+                var forwardType = MapForwardType(clangForwardType);
+                builder.Add(forwardType);
+            }
+
+            var result = builder.ToImmutable();
+            return result;
+        }
+
+        private GenericCodeForwardType MapForwardType(CXCursor clangForwardType)
         {
             var name = MapTypeName(clangForwardType.Type);
-            var info = MapInfo(clangForwardType, CKind.Forward);
+            var info = MapInfo(clangForwardType, GenericCodeKind.Forward);
             var type = MapType(clangForwardType.Type);
             var underlyingType = MapType(clangForwardType.Type.CanonicalType);
 
-            var result = new CForwardType(
+            var result = new GenericCodeForwardType(
                 name,
                 info,
                 type,
@@ -192,13 +191,32 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private CFunctionPointer MapFunctionPointer(CXCursor clangFunctionProto)
+        private ImmutableArray<GenericCodeFunctionPointer> MapFunctionPointers(
+            ImmutableArray<ClangFunctionPointer> clangFunctionPointers)
         {
-            var name = _namesByCursor[clangFunctionProto];
-            var info = MapInfo(clangFunctionProto, CKind.FunctionPointer);
-            var type = MapType(clangFunctionProto.Type);
+            var builder = ImmutableArray.CreateBuilder<GenericCodeFunctionPointer>(clangFunctionPointers.Length);
 
-            var result = new CFunctionPointer(
+            foreach (var clangFunctionPointer in clangFunctionPointers)
+            {
+                var functionPointer = MapFunctionPointer(clangFunctionPointer);
+                builder.Add(functionPointer);
+            }
+
+            var result = builder.ToImmutable();
+            return result;
+        }
+
+        private GenericCodeFunctionPointer MapFunctionPointer(ClangFunctionPointer clangFunctionPointer)
+        {
+            var name = MapFunctionPointerName(
+                clangFunctionPointer.Name,
+                clangFunctionPointer.Type,
+                clangFunctionPointer.Cursor,
+                clangFunctionPointer.Parent);
+            var info = MapInfo(clangFunctionPointer.Cursor, GenericCodeKind.FunctionPointer);
+            var type = MapType(clangFunctionPointer.Cursor.Type);
+
+            var result = new GenericCodeFunctionPointer(
                 name,
                 info,
                 type);
@@ -206,15 +224,61 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private CFunctionExtern MapFunctionExtern(CXCursor clangFunction)
+        private string MapFunctionPointerName(string? name, CXType type, CXCursor cursor, CXCursor parent)
+        {
+            var typeCanonical = type.CanonicalType;
+            if (_functionPointerNamesByClangType.TryGetValue(typeCanonical, out var result))
+            {
+                return result;
+            }
+
+            if (string.IsNullOrEmpty(name))
+            {
+                var cursorName = MapCursorName(cursor);
+                var parentName = MapCursorName(parent);
+                if (string.IsNullOrEmpty(cursorName) && string.IsNullOrEmpty(parentName))
+                {
+                    var guidString = Guid.NewGuid().ToString("N");
+                    result = $"FunctionPointer_{guidString}";
+                }
+                else
+                {
+                    result = $"FunctionPointer_{parentName}_{cursorName}";
+                }
+            }
+            else
+            {
+                result = $"FunctionPointer_{name}";
+            }
+
+            _functionPointerNamesByClangType.Add(typeCanonical, result);
+            return result;
+        }
+
+        private ImmutableArray<GenericCodeFunctionExtern> MapFunctionExterns(ImmutableArray<CXCursor> clangFunctions)
+        {
+            var builder = ImmutableArray.CreateBuilder<GenericCodeFunctionExtern>(clangFunctions.Length);
+
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var clangFunction in clangFunctions)
+            {
+                var function = MapFunctionExtern(clangFunction);
+                builder.Add(function);
+            }
+
+            var result = builder.ToImmutable();
+            return result;
+        }
+
+        private GenericCodeFunctionExtern MapFunctionExtern(CXCursor clangFunction)
         {
             var name = MapName(clangFunction);
-            var info = MapInfo(clangFunction, CKind.FunctionExtern);
+            var info = MapInfo(clangFunction, GenericCodeKind.FunctionExtern);
             var returnType = MapType(clangFunction.ResultType);
             var callingConvention = MapFunctionCallingConvention(clangFunction);
             var parameters = MapFunctionParameters(clangFunction);
 
-            var result = new CFunctionExtern(
+            var result = new GenericCodeFunctionExtern(
                 name,
                 info,
                 returnType,
@@ -224,29 +288,29 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private CFunctionCallingConvention MapFunctionCallingConvention(CXCursor clangFunction)
+        private GenericCodeFunctionCallingConvention MapFunctionCallingConvention(CXCursor clangFunction)
         {
             var clangCallingConvention = clangFunction.Type.FunctionTypeCallingConv;
 
             var callingConvention = clangCallingConvention switch
             {
-                CXCallingConv.CXCallingConv_C => CFunctionCallingConvention.C,
+                CXCallingConv.CXCallingConv_C => GenericCodeFunctionCallingConvention.C,
                 _ => throw new NotImplementedException()
             };
 
             return callingConvention;
         }
 
-        private ImmutableArray<CFunctionParameter> MapFunctionParameters(CXCursor clangFunction)
+        private ImmutableArray<GenericCodeFunctionParameter> MapFunctionParameters(CXCursor clangFunction)
         {
             var clangFunctionParameters = _functionParametersByFunction[clangFunction];
 
-            var builder = ImmutableArray.CreateBuilder<CFunctionParameter>(clangFunctionParameters.Length);
+            var builder = ImmutableArray.CreateBuilder<GenericCodeFunctionParameter>(clangFunctionParameters.Length);
             for (var i = 0; i < clangFunctionParameters.Length; i++)
             {
                 var clangFunctionParameter = clangFunctionParameters[i];
-                var cFunctionParameter = MapFunctionParameter(clangFunctionParameter, i);
-                builder.Add(cFunctionParameter);
+                var functionParameter = MapFunctionParameter(clangFunctionParameter, i);
+                builder.Add(functionParameter);
             }
 
             var result = builder.ToImmutable();
@@ -254,7 +318,7 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private CFunctionParameter MapFunctionParameter(CXCursor clangFunctionParameter, int index)
+        private GenericCodeFunctionParameter MapFunctionParameter(CXCursor clangFunctionParameter, int index)
         {
             var functionParameterName = MapName(clangFunctionParameter);
             if (string.IsNullOrEmpty(functionParameterName))
@@ -272,7 +336,7 @@ namespace C2CS.Bindgen.ExploreCCode
             var functionParameterType = MapType(clangFunctionParameter.Type);
             var functionIsReadOnly = clangFunctionParameter.Type.IsConstQualified;
 
-            var result = new CFunctionParameter(
+            var result = new GenericCodeFunctionParameter(
                 functionParameterName,
                 functionParameterType,
                 functionIsReadOnly);
@@ -280,7 +344,21 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private CStruct MapStruct(CXCursor clangRecord)
+        private ImmutableArray<GenericCodeStruct> MapStructs(ImmutableArray<CXCursor> clangRecords)
+        {
+            var builder = ImmutableArray.CreateBuilder<GenericCodeStruct>(clangRecords.Length);
+
+            foreach (var clangRecord in clangRecords)
+            {
+                var @struct = MapStruct(clangRecord);
+                builder.Add(@struct);
+            }
+
+            var result = builder.ToImmutable();
+            return result;
+        }
+
+        private GenericCodeStruct MapStruct(CXCursor clangRecord)
         {
             var clangUnderlyingRecord = clangRecord;
             if (clangRecord.kind == CXCursorKind.CXCursor_TypedefDecl)
@@ -289,12 +367,12 @@ namespace C2CS.Bindgen.ExploreCCode
             }
 
             var name = MapName(clangRecord);
-            var info = MapInfo(clangUnderlyingRecord, CKind.Struct);
+            var info = MapInfo(clangUnderlyingRecord, GenericCodeKind.Struct);
             var type = MapType(clangUnderlyingRecord.Type);
 
             var fields = MapStructFields(clangUnderlyingRecord, type.Layout.Alignment);
 
-            var result = new CStruct(
+            var result = new GenericCodeStruct(
                 name,
                 info,
                 type,
@@ -303,28 +381,28 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private ImmutableArray<CStructField> MapStructFields(CXCursor clangRecord, int alignment)
+        private ImmutableArray<GenericCodeStructField> MapStructFields(CXCursor clangRecord, int alignment)
         {
             var clangRecordFields = _recordFieldsByRecord[clangRecord];
 
-            var builder = ImmutableArray.CreateBuilder<CStructField>();
+            var builder = ImmutableArray.CreateBuilder<GenericCodeStructField>();
             for (var i = 0; i < clangRecordFields.Length; i++)
             {
                 var clangRecordField = clangRecordFields[i];
-                var cField = MapStructField(clangRecordField);
+                var field = MapStructField(clangRecordField);
 
                 if (i > 0)
                 {
                     var cFieldPrevious = builder[i - 1];
                     var expectedFieldOffset = cFieldPrevious.Offset + cFieldPrevious.Type.Layout.Size;
-                    if (cField.Offset != expectedFieldOffset)
+                    if (field.Offset != expectedFieldOffset)
                     {
-                        var padding = cField.Offset - expectedFieldOffset;
-                        builder[i - 1] = new CStructField(cFieldPrevious, padding);
+                        var padding = field.Offset - expectedFieldOffset;
+                        builder[i - 1] = new GenericCodeStructField(cFieldPrevious, padding);
                     }
                 }
 
-                builder.Add(cField);
+                builder.Add(field);
             }
 
             var result = builder.ToImmutable();
@@ -332,13 +410,13 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private CStructField MapStructField(CXCursor clangRecordField)
+        private GenericCodeStructField MapStructField(CXCursor clangRecordField)
         {
             var name = MapName(clangRecordField);
             var type = MapType(clangRecordField.Type);
             var offset = (int)(clangRecordField.OffsetOfField / 8);
 
-            var result = new CStructField(
+            var result = new GenericCodeStructField(
                 name,
                 type,
                 offset);
@@ -346,14 +424,14 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private CType MapType(CXType clangType)
+        private GenericCodeType MapType(CXType clangType)
         {
             var name = MapTypeName(clangType);
             var originalName = clangType.Spelling.CString;
             var arraySize = MapTypeArraySize(clangType);
             var layout = MapLayout(clangType);
 
-            var result = new CType(
+            var result = new GenericCodeType(
                 name,
                 originalName,
                 arraySize,
@@ -387,7 +465,8 @@ namespace C2CS.Bindgen.ExploreCCode
 
         private string MapTypeNameFunctionProto(CXType clangType)
         {
-            return "void*";
+            var clangTypeCanonical = clangType.CanonicalType;
+            return _functionPointerNamesByClangType[clangTypeCanonical];
         }
 
         private string MapTypeNameRecord(CXType clangType)
@@ -474,9 +553,9 @@ namespace C2CS.Bindgen.ExploreCCode
         {
             var clangPointeeType = clangType.PointeeType;
 
-            if (TryMapTypeNameFunctionPointer(clangPointeeType, out string functionPointerName))
+            if (TryClangGetFunctionPointerName(clangPointeeType, out string functionPointerName))
             {
-                return functionPointerName;
+                return _functionPointerNamesByClangType[clangPointeeType];
             }
 
             var pointeeTypeName = MapTypeName(clangPointeeType);
@@ -485,15 +564,15 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private static bool TryMapTypeNameFunctionPointer(CXType clangPointeeType, out string functionPointerName)
+        private static bool TryClangGetFunctionPointerName(CXType clangType, out string functionPointerName)
         {
-            if (clangPointeeType.kind != CXTypeKind.CXType_Typedef)
+            if (clangType.kind != CXTypeKind.CXType_Typedef)
             {
                 functionPointerName = string.Empty;
                 return false;
             }
 
-            var clangPointeeTypeCanonical = clangPointeeType.CanonicalType;
+            var clangPointeeTypeCanonical = clangType.CanonicalType;
 
             if (clangPointeeTypeCanonical.TypeClass != CX_TypeClass.CX_TypeClass_Pointer ||
                 clangPointeeTypeCanonical.PointeeType.kind != CXTypeKind.CXType_FunctionProto)
@@ -502,7 +581,8 @@ namespace C2CS.Bindgen.ExploreCCode
                 return false;
             }
 
-            functionPointerName = clangPointeeType.Spelling.CString;
+            functionPointerName = clangType.Spelling.CString;
+
             return true;
         }
 
@@ -542,8 +622,16 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private static string MapTypeNameTypedefNonSystem(CXType clangType)
+        private string MapTypeNameTypedefNonSystem(CXType clangType)
         {
+            var clangTypeCanonical = clangType.CanonicalType;
+
+            if (clangTypeCanonical.TypeClass == CX_TypeClass.CX_TypeClass_Pointer &&
+                clangTypeCanonical.PointeeType.kind == CXTypeKind.CXType_FunctionProto)
+            {
+                return _functionPointerNamesByClangType[clangTypeCanonical.PointeeType];
+            }
+
             var result = clangType.TypedefName.CString;
             return result;
         }
@@ -618,7 +706,7 @@ namespace C2CS.Bindgen.ExploreCCode
             return _namesByCursor[clangCursor];
         }
 
-        private CTypeLayout MapLayout(CXType clangType)
+        private GenericCodeLayout MapLayout(CXType clangType)
         {
             if (_layoutsByClangType.TryGetValue(clangType, out var layout))
             {
@@ -643,37 +731,37 @@ namespace C2CS.Bindgen.ExploreCCode
             return layout;
         }
 
-        private CTypeLayout MapLayoutForType(CXType clangType)
+        private GenericCodeLayout MapLayoutForType(CXType clangType)
         {
             var size = (int)clangType.SizeOf;
             var alignment = (int)clangType.AlignOf;
-            var result = new CTypeLayout(
+            var result = new GenericCodeLayout(
                 size,
                 alignment);
             return result;
         }
 
-        private CTypeLayout MapLayoutForConstArray(CXType type)
+        private GenericCodeLayout MapLayoutForConstArray(CXType type)
         {
             var elementLayout = MapLayout(type.ElementType);
             var size = (int)(elementLayout.Size * type.ArraySize);
-            var result = new CTypeLayout(
+            var result = new GenericCodeLayout(
                 size,
                 elementLayout.Alignment);
             return result;
         }
 
-        private static CInfo MapInfo(CXCursor clangCursor, CKind kind)
+        private static GenericCodeInfo MapInfo(CXCursor clangCursor, GenericCodeKind kind)
         {
             var location = MapInfoLocation(clangCursor);
 
-            var result = new CInfo(
+            var result = new GenericCodeInfo(
                 kind,
                 location);
             return result;
         }
 
-        private static CLocation MapInfoLocation(CXCursor clangCursor)
+        private static GenericCodeLocation MapInfoLocation(CXCursor clangCursor)
         {
             clangCursor.Location.GetFileLocation(
                 out var file, out var line, out var column, out var offset);
@@ -688,7 +776,7 @@ namespace C2CS.Bindgen.ExploreCCode
             var fileColumn = (int)column;
             var dateTime = new DateTime(1970, 1, 1).AddSeconds(file.Time);
 
-            var result = new CLocation(
+            var result = new GenericCodeLocation(
                 fileName,
                 fileLine,
                 fileColumn,

@@ -3,14 +3,14 @@
 
 namespace C2CS.Bindgen.ExploreCCode
 {
-    public readonly struct CInfo
+    public readonly struct GenericCodeInfo
     {
-        public readonly CKind Kind;
-        public readonly CLocation Location;
+        public readonly GenericCodeKind Kind;
+        public readonly GenericCodeLocation Location;
 
-        public CInfo(
-            CKind kind,
-            CLocation location)
+        public GenericCodeInfo(
+            GenericCodeKind kind,
+            GenericCodeLocation location)
         {
             Kind = kind;
             Location = location;

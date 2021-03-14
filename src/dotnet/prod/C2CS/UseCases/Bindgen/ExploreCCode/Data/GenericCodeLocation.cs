@@ -5,14 +5,14 @@ using System;
 
 namespace C2CS.Bindgen.ExploreCCode
 {
-    public readonly struct CLocation
+    public readonly struct GenericCodeLocation
     {
         public readonly string FileName;
         public readonly int FileLine;
         public readonly int FileColumn;
         public readonly DateTime DateTime;
 
-        public CLocation(
+        public GenericCodeLocation(
             string fileName,
             int fileLine,
             int fileColumn,

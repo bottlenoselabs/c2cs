@@ -5,20 +5,20 @@ using System.Collections.Immutable;
 
 namespace C2CS.Bindgen.ExploreCCode
 {
-    public readonly struct CFunctionExtern
+    public readonly struct GenericCodeFunctionExtern
     {
         public readonly string Name;
-        public readonly CInfo Info;
-        public readonly CType ReturnType;
-        public readonly CFunctionCallingConvention CallingConvention;
-        public readonly ImmutableArray<CFunctionParameter> Parameters;
+        public readonly GenericCodeInfo Info;
+        public readonly GenericCodeType ReturnType;
+        public readonly GenericCodeFunctionCallingConvention CallingConvention;
+        public readonly ImmutableArray<GenericCodeFunctionParameter> Parameters;
 
-        public CFunctionExtern(
+        public GenericCodeFunctionExtern(
             string name,
-            CInfo info,
-            CType returnType,
-            CFunctionCallingConvention callingConvention,
-            ImmutableArray<CFunctionParameter> parameters)
+            GenericCodeInfo info,
+            GenericCodeType returnType,
+            GenericCodeFunctionCallingConvention callingConvention,
+            ImmutableArray<GenericCodeFunctionParameter> parameters)
         {
             Name = name;
             Info = info;

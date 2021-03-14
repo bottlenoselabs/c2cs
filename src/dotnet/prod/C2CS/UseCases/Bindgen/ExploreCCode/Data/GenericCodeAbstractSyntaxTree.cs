@@ -6,31 +6,31 @@ using ClangSharp.Interop;
 
 namespace C2CS.Bindgen.ExploreCCode
 {
-    public readonly struct CAbstractSyntaxTree
+    public readonly struct GenericCodeAbstractSyntaxTree
     {
-        public readonly ImmutableArray<CFunctionExtern> Functions;
+        public readonly ImmutableArray<GenericCodeFunctionExtern> Functions;
 
-        public readonly ImmutableArray<CStruct> Structs;
+        public readonly ImmutableArray<GenericCodeStruct> Structs;
 
-        public readonly ImmutableArray<CEnum> Enums;
+        public readonly ImmutableArray<GenericCodeEnum> Enums;
 
-        public readonly ImmutableArray<COpaqueType> OpaqueTypes;
+        public readonly ImmutableArray<GenericCodeOpaqueType> OpaqueTypes;
 
-        public readonly ImmutableArray<CForwardType> ForwardTypes;
+        public readonly ImmutableArray<GenericCodeForwardType> ForwardTypes;
 
-        public readonly ImmutableArray<CFunctionPointer> FunctionPointers;
+        public readonly ImmutableArray<GenericCodeFunctionPointer> FunctionPointers;
 
         public readonly ImmutableArray<CXCursor> SystemTypes;
 
         public readonly ImmutableDictionary<CXCursor, string> NamesByCursor;
 
-        public CAbstractSyntaxTree(
-            ImmutableArray<CFunctionExtern> functions,
-            ImmutableArray<CStruct> structs,
-            ImmutableArray<CEnum> enums,
-            ImmutableArray<COpaqueType> opaqueTypes,
-            ImmutableArray<CForwardType> forwardTypes,
-            ImmutableArray<CFunctionPointer> functionPointers,
+        public GenericCodeAbstractSyntaxTree(
+            ImmutableArray<GenericCodeFunctionExtern> functions,
+            ImmutableArray<GenericCodeStruct> structs,
+            ImmutableArray<GenericCodeEnum> enums,
+            ImmutableArray<GenericCodeOpaqueType> opaqueTypes,
+            ImmutableArray<GenericCodeForwardType> forwardTypes,
+            ImmutableArray<GenericCodeFunctionPointer> functionPointers,
             ImmutableArray<CXCursor> systemTypes,
             ImmutableDictionary<CXCursor, string> namesByCursor)
         {

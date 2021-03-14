@@ -81,11 +81,11 @@ public static unsafe partial class test
 
     // FunctionExtern @ Bc78yGg5.h:1034 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void dds_set_log_file(__sFILE* file);
+    public static extern void dds_set_log_file(void* file);
 
     // FunctionExtern @ Bc78yGg5.h:1041 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void dds_set_trace_file(__sFILE* file);
+    public static extern void dds_set_trace_file(void* file);
 
     // FunctionExtern @ Bc78yGg5.h:1061 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -97,7 +97,7 @@ public static unsafe partial class test
 
     // FunctionExtern @ Bc78yGg5.h:1111 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void dds_log_cfg_init(ddsrt_log_cfg* cfg, uint domid, uint tracemask, __sFILE* log_fp, __sFILE* trace_fp);
+    public static extern void dds_log_cfg_init(ddsrt_log_cfg* cfg, uint domid, uint tracemask, void* log_fp, void* trace_fp);
 
     // FunctionExtern @ Bc78yGg5.h:1126 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -141,7 +141,7 @@ public static unsafe partial class test
 
     // FunctionExtern @ Bc78yGg5.h:1413 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void dds_sample_free(void* sample, dds_topic_descriptor* desc, dds_free_op_t op);
+    public static extern void dds_sample_free(void* sample, dds_topic_descriptor_t* desc, dds_free_op_t op);
 
     // FunctionExtern @ Bc78yGg5.h:1633 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -549,55 +549,55 @@ public static unsafe partial class test
 
     // FunctionExtern @ Bc78yGg5.h:3389 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void dds_lget_inconsistent_topic(dds_listener_t* listener, dds_on_inconsistent_topic_fn* callback);
+    public static extern void dds_lget_inconsistent_topic(dds_listener_t* listener, dds_on_inconsistent_topic_fn callback);
 
     // FunctionExtern @ Bc78yGg5.h:3397 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void dds_lget_liveliness_lost(dds_listener_t* listener, dds_on_liveliness_lost_fn* callback);
+    public static extern void dds_lget_liveliness_lost(dds_listener_t* listener, dds_on_liveliness_lost_fn callback);
 
     // FunctionExtern @ Bc78yGg5.h:3405 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void dds_lget_offered_deadline_missed(dds_listener_t* listener, dds_on_offered_deadline_missed_fn* callback);
+    public static extern void dds_lget_offered_deadline_missed(dds_listener_t* listener, dds_on_offered_deadline_missed_fn callback);
 
     // FunctionExtern @ Bc78yGg5.h:3413 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void dds_lget_offered_incompatible_qos(dds_listener_t* listener, dds_on_offered_incompatible_qos_fn* callback);
+    public static extern void dds_lget_offered_incompatible_qos(dds_listener_t* listener, dds_on_offered_incompatible_qos_fn callback);
 
     // FunctionExtern @ Bc78yGg5.h:3421 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void dds_lget_data_on_readers(dds_listener_t* listener, dds_on_data_on_readers_fn* callback);
+    public static extern void dds_lget_data_on_readers(dds_listener_t* listener, dds_on_data_on_readers_fn callback);
 
     // FunctionExtern @ Bc78yGg5.h:3429 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void dds_lget_sample_lost(dds_listener_t* listener, dds_on_sample_lost_fn* callback);
+    public static extern void dds_lget_sample_lost(dds_listener_t* listener, dds_on_sample_lost_fn callback);
 
     // FunctionExtern @ Bc78yGg5.h:3437 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void dds_lget_data_available(dds_listener_t* listener, dds_on_data_available_fn* callback);
+    public static extern void dds_lget_data_available(dds_listener_t* listener, dds_on_data_available_fn callback);
 
     // FunctionExtern @ Bc78yGg5.h:3445 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void dds_lget_sample_rejected(dds_listener_t* listener, dds_on_sample_rejected_fn* callback);
+    public static extern void dds_lget_sample_rejected(dds_listener_t* listener, dds_on_sample_rejected_fn callback);
 
     // FunctionExtern @ Bc78yGg5.h:3453 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void dds_lget_liveliness_changed(dds_listener_t* listener, dds_on_liveliness_changed_fn* callback);
+    public static extern void dds_lget_liveliness_changed(dds_listener_t* listener, dds_on_liveliness_changed_fn callback);
 
     // FunctionExtern @ Bc78yGg5.h:3461 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void dds_lget_requested_deadline_missed(dds_listener_t* listener, dds_on_requested_deadline_missed_fn* callback);
+    public static extern void dds_lget_requested_deadline_missed(dds_listener_t* listener, dds_on_requested_deadline_missed_fn callback);
 
     // FunctionExtern @ Bc78yGg5.h:3469 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void dds_lget_requested_incompatible_qos(dds_listener_t* listener, dds_on_requested_incompatible_qos_fn* callback);
+    public static extern void dds_lget_requested_incompatible_qos(dds_listener_t* listener, dds_on_requested_incompatible_qos_fn callback);
 
     // FunctionExtern @ Bc78yGg5.h:3477 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void dds_lget_publication_matched(dds_listener_t* listener, dds_on_publication_matched_fn* callback);
+    public static extern void dds_lget_publication_matched(dds_listener_t* listener, dds_on_publication_matched_fn callback);
 
     // FunctionExtern @ Bc78yGg5.h:3485 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void dds_lget_subscription_matched(dds_listener_t* listener, dds_on_subscription_matched_fn* callback);
+    public static extern void dds_lget_subscription_matched(dds_listener_t* listener, dds_on_subscription_matched_fn callback);
 
     // FunctionExtern @ Bc78yGg5.h:3728 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -761,7 +761,7 @@ public static unsafe partial class test
 
     // FunctionExtern @ Bc78yGg5.h:4815 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern dds_return_t dds_get_topic_filter_and_arg(dds_entity_t topic, dds_topic_filter_arg_fn* fn, void* * arg);
+    public static extern dds_return_t dds_get_topic_filter_and_arg(dds_entity_t topic, dds_topic_filter_arg_fn fn, void* * arg);
 
     // FunctionExtern @ Bc78yGg5.h:4831 02/21/2021 06:30:19
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -1075,6 +1075,78 @@ public static unsafe partial class test
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern dds_return_t dds_domain_set_deafmute(dds_entity_t entity, CBool deaf, CBool mute, dds_duration_t reset_after);
 
+    // Forward @ Bc78yGg5.h:331 02/21/2021 06:30:19
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct dds_time_t
+    {
+        [FieldOffset(0)] /* size = 8, padding = 0 */
+        public long Data;
+    }
+
+    // Forward @ Bc78yGg5.h:334 02/21/2021 06:30:19
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct dds_duration_t
+    {
+        [FieldOffset(0)] /* size = 8, padding = 0 */
+        public long Data;
+    }
+
+    // Forward @ Bc78yGg5.h:656 02/21/2021 06:30:19
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct dds_return_t
+    {
+        [FieldOffset(0)] /* size = 4, padding = 0 */
+        public int Data;
+    }
+
+    // Forward @ Bc78yGg5.h:127 02/21/2021 06:30:19
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct dds_entity_t
+    {
+        [FieldOffset(0)] /* size = 4, padding = 0 */
+        public int Data;
+    }
+
+    // Forward @ Bc78yGg5.h:1510 02/21/2021 06:30:19
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct dds_instance_handle_t
+    {
+        [FieldOffset(0)] /* size = 8, padding = 0 */
+        public ulong Data;
+    }
+
+    // Forward @ Bc78yGg5.h:1511 02/21/2021 06:30:19
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct dds_domainid_t
+    {
+        [FieldOffset(0)] /* size = 4, padding = 0 */
+        public uint Data;
+    }
+
+    // Forward @ Bc78yGg5.h:4695 02/21/2021 06:30:19
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct dds_topic_filter_fn
+    {
+        [FieldOffset(0)] /* size = 8, padding = 0 */
+        public void* * Data;
+    }
+
+    // Forward @ Bc78yGg5.h:4696 02/21/2021 06:30:19
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct dds_topic_filter_arg_fn
+    {
+        [FieldOffset(0)] /* size = 8, padding = 0 */
+        public void* * Data;
+    }
+
+    // Forward @ Bc78yGg5.h:5686 02/21/2021 06:30:19
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct dds_attach_t
+    {
+        [FieldOffset(0)] /* size = 8, padding = 0 */
+        public long Data;
+    }
+
     // FunctionPointer @ Bc78yGg5.h:980 02/21/2021 06:30:19
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct dds_log_write_fn_t
@@ -1126,6 +1198,14 @@ public static unsafe partial class test
     // FunctionPointer @ Bc78yGg5.h:3211 02/21/2021 06:30:19
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct dds_on_sample_lost_fn
+    {
+        [FieldOffset(0)] /* size = 8, padding = 0 */
+        public void* Pointer;
+    }
+
+    // FunctionPointer @ Bc78yGg5.h:3212 02/21/2021 06:30:19
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct dds_on_data_available_fn
     {
         [FieldOffset(0)] /* size = 8, padding = 0 */
         public void* Pointer;
@@ -1211,76 +1291,12 @@ public static unsafe partial class test
         public void* Pointer;
     }
 
-    // Forward @ Bc78yGg5.h:331 02/21/2021 06:30:19
+    // FunctionPointer @ Bc78yGg5.h:5561 02/21/2021 06:30:19
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct dds_time_t
+    public struct dds_querycondition_filter_fn
     {
         [FieldOffset(0)] /* size = 8, padding = 0 */
-        public long Data;
-    }
-
-    // Forward @ Bc78yGg5.h:334 02/21/2021 06:30:19
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct dds_duration_t
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public long Data;
-    }
-
-    // Forward @ Bc78yGg5.h:656 02/21/2021 06:30:19
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct dds_return_t
-    {
-        [FieldOffset(0)] /* size = 4, padding = 0 */
-        public int Data;
-    }
-
-    // Forward @ Bc78yGg5.h:127 02/21/2021 06:30:19
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct dds_entity_t
-    {
-        [FieldOffset(0)] /* size = 4, padding = 0 */
-        public int Data;
-    }
-
-    // Forward @ Bc78yGg5.h:1510 02/21/2021 06:30:19
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct dds_instance_handle_t
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public ulong Data;
-    }
-
-    // Forward @ Bc78yGg5.h:1511 02/21/2021 06:30:19
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct dds_domainid_t
-    {
-        [FieldOffset(0)] /* size = 4, padding = 0 */
-        public uint Data;
-    }
-
-    // Forward @ Bc78yGg5.h:4695 02/21/2021 06:30:19
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct dds_topic_filter_fn
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public void* Data;
-    }
-
-    // Forward @ Bc78yGg5.h:4696 02/21/2021 06:30:19
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct dds_topic_filter_arg_fn
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public void* Data;
-    }
-
-    // Forward @ Bc78yGg5.h:5686 02/21/2021 06:30:19
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct dds_attach_t
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public long Data;
+        public void* Pointer;
     }
 
     // Struct @ Bc78yGg5.h:366 02/21/2021 06:30:19
@@ -1610,7 +1626,7 @@ public static unsafe partial class test
         public dds_topic_filter_mode mode;
 
         [FieldOffset(8)] /* size = 8, padding = 0 */
-        public union dds_topic_filter_function_union  f;
+        public dds_topic_filter_function_union f;
 
         [FieldOffset(16)] /* size = 8, padding = 0 */
         public void* arg;
