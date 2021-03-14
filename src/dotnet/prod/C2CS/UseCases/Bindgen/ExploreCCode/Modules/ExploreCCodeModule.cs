@@ -11,10 +11,9 @@ namespace C2CS.Bindgen.ExploreCCode
 {
     public class ExploreCCodeModule
     {
-        private readonly ClangExtensions.VisitChildCursorAction _visitCursor;
         private readonly HashSet<CXCursor> _visitedCursors = new();
         private readonly HashSet<CXType> _visitedTypes = new();
-        private readonly List<CXCursor> _functions = new();
+        private readonly List<ClangFunctionExtern> _functions = new();
         private readonly List<ClangEnum> _enums = new();
         private readonly List<ClangStruct> _records = new();
         private readonly List<CXCursor> _opaqueTypes = new();
@@ -22,12 +21,6 @@ namespace C2CS.Bindgen.ExploreCCode
         private readonly List<ClangFunctionPointer> _functionPointers = new();
         private readonly List<CXCursor> _systemTypes = new();
         private readonly Dictionary<CXCursor, string> _namesByCursor = new();
-        private readonly Dictionary<CXCursor, List<CXCursor>> _functionParametersByFunction = new();
-
-        public ExploreCCodeModule()
-        {
-            _visitCursor = VisitCursor;
-        }
 
         public GenericCodeAbstractSyntaxTree ExtractClangAbstractSyntaxTree(CXTranslationUnit translationUnit)
         {
@@ -47,13 +40,9 @@ namespace C2CS.Bindgen.ExploreCCode
         private GenericCodeAbstractSyntaxTree CollectExtractedData()
         {
             var namesByCursor = _namesByCursor.ToImmutableDictionary();
-            var functionParametersByFunction = _functionParametersByFunction.ToImmutableDictionary(
-                kvp => kvp.Key,
-                kvp => kvp.Value.ToImmutableArray());
 
             var mapper = new ClangCodeToGenericCodeMapperModule(
-                namesByCursor,
-                functionParametersByFunction);
+                namesByCursor);
 
             var result = mapper.MapSyntaxTree(
                 _functions.ToImmutableArray(),
@@ -207,9 +196,6 @@ namespace C2CS.Bindgen.ExploreCCode
                 case CX_DeclKind.CX_DeclKind_Function:
                     VisitFunction(declaration);
                     break;
-                case CX_DeclKind.CX_DeclKind_ParmVar:
-                    VisitFunctionParameter(parent, declaration);
-                    break;
                 default:
                     var up = UnsupportedDeclaration(declaration);
                     throw up;
@@ -218,20 +204,42 @@ namespace C2CS.Bindgen.ExploreCCode
 
         private void VisitFunction(CXCursor function)
         {
-            _functionParametersByFunction.Add(function, new List<CXCursor>());
-
             VisitType(function.ResultType, function, function.SemanticParent);
-            function.VisitChildren(_visitCursor);
 
-            _functions.Add(function);
+            var parameters = new List<ClangFunctionParameter>();
+            function.VisitChildren(VisitFunctionParameters);
+
+            var clangFunction = new ClangFunctionExtern(
+                function.Spelling.CString,
+                function,
+                function.ResultType,
+                parameters.ToImmutableArray());
+            _functions.Add(clangFunction);
+
+            void VisitFunctionParameters(CXCursor child, CXCursor parent)
+            {
+                if (child.kind != CXCursorKind.CXCursor_ParmDecl)
+                {
+                    return;
+                }
+
+                VisitType(child.Type, parent, function);
+
+                var clangFunctionParameter = new ClangFunctionParameter(
+                    child.Spelling.CString,
+                    child.Type);
+                parameters.Add(clangFunctionParameter);
+            }
         }
 
-        private void VisitFunctionParameter(CXCursor function, CXCursor functionParameter)
+        private ClangFunctionParameter VisitFunctionParameter(CXCursor function, CXCursor cursor)
         {
-            VisitType(functionParameter.Type, functionParameter, function);
+            VisitType(cursor.Type, cursor, function);
 
-            var functionParameters = _functionParametersByFunction[function];
-            functionParameters.Add(functionParameter);
+            var functionParameter = new ClangFunctionParameter(
+                cursor.Spelling.CString,
+                cursor.Type);
+            return functionParameter;
         }
 
         private void VisitEnum(string name, CXCursor cursor, CXType type, CXCursor underlyingCursor)

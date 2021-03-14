@@ -12,21 +12,17 @@ namespace C2CS.Bindgen.ExploreCCode
     public class ClangCodeToGenericCodeMapperModule
     {
         private readonly ImmutableDictionary<CXCursor, string> _namesByCursor;
-        private readonly ImmutableDictionary<CXCursor, ImmutableArray<CXCursor>> _functionParametersByFunction;
         private readonly Dictionary<CXType, GenericCodeLayout> _layoutsByClangType = new();
         private readonly Dictionary<CXType, string> _functionPointerNamesByClangType = new();
-        private readonly Random _random = new(0);
 
         public ClangCodeToGenericCodeMapperModule(
-            ImmutableDictionary<CXCursor, string> namesByCursor,
-            ImmutableDictionary<CXCursor, ImmutableArray<CXCursor>> functionParametersByFunction)
+            ImmutableDictionary<CXCursor, string> namesByCursor)
         {
             _namesByCursor = namesByCursor;
-            _functionParametersByFunction = functionParametersByFunction;
         }
 
         public GenericCodeAbstractSyntaxTree MapSyntaxTree(
-            ImmutableArray<CXCursor> clangFunctions,
+            ImmutableArray<ClangFunctionExtern> clangFunctions,
             ImmutableArray<ClangStruct> clangRecords,
             ImmutableArray<ClangEnum> clangEnums,
             ImmutableArray<CXCursor> clangOpaqueTypes,
@@ -216,7 +212,8 @@ namespace C2CS.Bindgen.ExploreCCode
             return name;
         }
 
-        private ImmutableArray<GenericCodeFunctionExtern> MapFunctionExterns(ImmutableArray<CXCursor> clangFunctions)
+        private ImmutableArray<GenericCodeFunctionExtern> MapFunctionExterns(
+            ImmutableArray<ClangFunctionExtern> clangFunctions)
         {
             var builder = ImmutableArray.CreateBuilder<GenericCodeFunctionExtern>(clangFunctions.Length);
 
@@ -232,13 +229,13 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private GenericCodeFunctionExtern MapFunctionExtern(CXCursor clangFunction)
+        private GenericCodeFunctionExtern MapFunctionExtern(ClangFunctionExtern clangFunction)
         {
-            var name = MapName(clangFunction);
-            var info = MapInfo(clangFunction, GenericCodeKind.FunctionExtern);
-            var returnType = MapType(clangFunction.ResultType);
-            var callingConvention = MapFunctionCallingConvention(clangFunction);
-            var parameters = MapFunctionParameters(clangFunction);
+            var name = clangFunction.Name;
+            var info = MapInfo(clangFunction.Cursor, GenericCodeKind.FunctionExtern);
+            var returnType = MapType(clangFunction.ReturnType);
+            var callingConvention = MapFunctionCallingConvention(clangFunction.Cursor);
+            var parameters = MapFunctionParameters(clangFunction.Parameters);
 
             var result = new GenericCodeFunctionExtern(
                 name,
@@ -263,10 +260,9 @@ namespace C2CS.Bindgen.ExploreCCode
             return callingConvention;
         }
 
-        private ImmutableArray<GenericCodeFunctionParameter> MapFunctionParameters(CXCursor clangFunction)
+        private ImmutableArray<GenericCodeFunctionParameter> MapFunctionParameters(
+            ImmutableArray<ClangFunctionParameter> clangFunctionParameters)
         {
-            var clangFunctionParameters = _functionParametersByFunction[clangFunction];
-
             var builder = ImmutableArray.CreateBuilder<GenericCodeFunctionParameter>(clangFunctionParameters.Length);
             for (var i = 0; i < clangFunctionParameters.Length; i++)
             {
@@ -279,9 +275,9 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private GenericCodeFunctionParameter MapFunctionParameter(CXCursor clangFunctionParameter, int index)
+        private GenericCodeFunctionParameter MapFunctionParameter(ClangFunctionParameter clangFunctionParameter, int index)
         {
-            var functionParameterName = MapName(clangFunctionParameter);
+            var functionParameterName = clangFunctionParameter.Name;
             if (string.IsNullOrEmpty(functionParameterName))
             {
                 if (index == 0)
@@ -747,14 +743,6 @@ namespace C2CS.Bindgen.ExploreCCode
                 dateTime);
 
             return result;
-        }
-
-        private string CreatePseudoRandomName()
-        {
-            var bytes = (Span<byte>)stackalloc byte[16];
-            _random.NextBytes(bytes);
-            var guid = new Guid(bytes);
-            return guid.ToString("N");
         }
     }
 }

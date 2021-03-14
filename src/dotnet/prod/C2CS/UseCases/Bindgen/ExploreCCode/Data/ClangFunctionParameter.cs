@@ -5,23 +5,17 @@ using ClangSharp.Interop;
 
 namespace C2CS.Bindgen.ExploreCCode
 {
-    public readonly struct ClangFunctionPointer
+    public readonly struct ClangFunctionParameter
     {
         public readonly string Name;
         public readonly CXType Type;
-        public readonly CXCursor Cursor;
-        public readonly CXCursor Parent;
 
-        public ClangFunctionPointer(
+        public ClangFunctionParameter(
             string name,
-            CXType type,
-            CXCursor cursor,
-            CXCursor parent)
+            CXType type)
         {
             Name = name;
             Type = type;
-            Cursor = cursor;
-            Parent = parent;
         }
 
         public override string ToString()

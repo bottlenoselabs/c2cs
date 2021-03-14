@@ -24,5 +24,10 @@ namespace C2CS.Bindgen.ExploreCCode
             Type = type;
             Values = values;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

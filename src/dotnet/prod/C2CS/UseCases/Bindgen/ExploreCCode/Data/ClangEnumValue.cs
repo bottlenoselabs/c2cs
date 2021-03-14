@@ -15,5 +15,10 @@ namespace C2CS.Bindgen.ExploreCCode
             Name = name;
             Value = value;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
