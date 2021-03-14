@@ -20,7 +20,6 @@ namespace C2CS.Bindgen.TranspileCCodeToCSharp
 	internal sealed class CSharpCodeGenerator
 	{
 		private readonly string _libraryName;
-		private readonly Dictionary<CXCursor, string> _cSharpNamesByClangCursor = new();
 
 		public CSharpCodeGenerator(string libraryName)
 		{

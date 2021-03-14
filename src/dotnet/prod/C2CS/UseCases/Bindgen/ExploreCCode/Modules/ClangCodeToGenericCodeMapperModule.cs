@@ -82,6 +82,7 @@ namespace C2CS.Bindgen.ExploreCCode
                 builder.Add(@enum);
             }
 
+            builder.Sort();
             var result = builder.ToImmutable();
             return result;
         }
@@ -145,6 +146,7 @@ namespace C2CS.Bindgen.ExploreCCode
                 builder.Add(opaqueType);
             }
 
+            builder.Sort();
             var result = builder.ToImmutable();
             return result;
         }
@@ -173,6 +175,7 @@ namespace C2CS.Bindgen.ExploreCCode
                 builder.Add(forwardType);
             }
 
+            builder.Sort();
             var result = builder.ToImmutable();
             return result;
         }
@@ -203,6 +206,7 @@ namespace C2CS.Bindgen.ExploreCCode
                 builder.Add(functionPointer);
             }
 
+            builder.Sort();
             var result = builder.ToImmutable();
             return result;
         }
@@ -267,6 +271,7 @@ namespace C2CS.Bindgen.ExploreCCode
                 builder.Add(function);
             }
 
+            builder.Sort();
             var result = builder.ToImmutable();
             return result;
         }
@@ -315,7 +320,6 @@ namespace C2CS.Bindgen.ExploreCCode
             }
 
             var result = builder.ToImmutable();
-
             return result;
         }
 
@@ -355,6 +359,7 @@ namespace C2CS.Bindgen.ExploreCCode
                 builder.Add(@struct);
             }
 
+            builder.Sort();
             var result = builder.ToImmutable();
             return result;
         }
@@ -418,7 +423,6 @@ namespace C2CS.Bindgen.ExploreCCode
             }
 
             var result = builder.ToImmutable();
-
             return result;
         }
 
@@ -565,9 +569,9 @@ namespace C2CS.Bindgen.ExploreCCode
         {
             var clangPointeeType = clangType.PointeeType;
 
-            if (TryClangGetFunctionPointerName(clangPointeeType, out string functionPointerName))
+            if (TryClangGetFunctionPointerType(clangPointeeType, out CXType clangFunctionPointerType))
             {
-                return _functionPointerNamesByClangType[clangPointeeType];
+                return _functionPointerNamesByClangType[clangFunctionPointerType];
             }
 
             var pointeeTypeName = MapTypeName(clangPointeeType);
@@ -576,11 +580,11 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private static bool TryClangGetFunctionPointerName(CXType clangType, out string functionPointerName)
+        private static bool TryClangGetFunctionPointerType(CXType clangType, out CXType typeCanonical)
         {
             if (clangType.kind != CXTypeKind.CXType_Typedef)
             {
-                functionPointerName = string.Empty;
+                typeCanonical = default;
                 return false;
             }
 
@@ -589,12 +593,11 @@ namespace C2CS.Bindgen.ExploreCCode
             if (clangPointeeTypeCanonical.TypeClass != CX_TypeClass.CX_TypeClass_Pointer ||
                 clangPointeeTypeCanonical.PointeeType.kind != CXTypeKind.CXType_FunctionProto)
             {
-                functionPointerName = string.Empty;
+                typeCanonical = default;
                 return false;
             }
 
-            functionPointerName = clangType.Spelling.CString;
-
+            typeCanonical = clangPointeeTypeCanonical.PointeeType.CanonicalType;
             return true;
         }
 
