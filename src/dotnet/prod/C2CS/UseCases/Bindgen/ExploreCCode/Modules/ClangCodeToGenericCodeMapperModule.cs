@@ -17,6 +17,7 @@ namespace C2CS.Bindgen.ExploreCCode
         private readonly ImmutableDictionary<CXCursor, ImmutableArray<CXCursor>> _enumValuesByEnum;
         private readonly Dictionary<CXType, GenericCodeLayout> _layoutsByClangType = new();
         private readonly Dictionary<CXType, string> _functionPointerNamesByClangType = new();
+        private readonly Random _random = new(0);
 
         public ClangCodeToGenericCodeMapperModule(
             ImmutableDictionary<CXCursor, string> namesByCursor,
@@ -236,10 +237,10 @@ namespace C2CS.Bindgen.ExploreCCode
             {
                 var cursorName = MapCursorName(cursor);
                 var parentName = MapCursorName(parent);
-                if (string.IsNullOrEmpty(cursorName) && string.IsNullOrEmpty(parentName))
+                if (string.IsNullOrEmpty(cursorName) || string.IsNullOrEmpty(parentName))
                 {
-                    var guidString = Guid.NewGuid().ToString("N");
-                    result = $"FunctionPointer_{guidString}";
+                    var randomName = CreatePseudoRandomName();
+                    result = $"FunctionPointer_{randomName}";
                 }
                 else
                 {
@@ -783,6 +784,14 @@ namespace C2CS.Bindgen.ExploreCCode
                 dateTime);
 
             return result;
+        }
+
+        private string CreatePseudoRandomName()
+        {
+            var bytes = (Span<byte>)stackalloc byte[16];
+            _random.NextBytes(bytes);
+            var guid = new Guid(bytes);
+            return guid.ToString("N");
         }
     }
 }
