@@ -65,7 +65,7 @@ namespace C2CS.Bindgen.ExploreCCode
                 recordFieldsByRecord,
                 enumValuesByEnum);
 
-            var cFunctions = mapper.MapFunctions(_functions.ToImmutableArray());
+            var cFunctions = mapper.MapFunctionExterns(_functions.ToImmutableArray());
             var cStructs = mapper.MapStructs(_records.ToImmutableArray());
             var cEnums = mapper.MapEnums(_enums.ToImmutableArray());
             var cOpaqueTypes = mapper.MapOpaqueTypes(_opaqueTypes.ToImmutableArray());

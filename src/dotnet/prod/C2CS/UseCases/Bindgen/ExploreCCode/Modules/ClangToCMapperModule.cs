@@ -29,7 +29,7 @@ namespace C2CS.Bindgen.ExploreCCode
             _enumValuesByEnum = enumValuesByEnum;
         }
 
-        public ImmutableArray<CFunctionExtern> MapFunctions(ImmutableArray<CXCursor> clangFunctions)
+        public ImmutableArray<CFunctionExtern> MapFunctionExterns(ImmutableArray<CXCursor> clangFunctions)
         {
             var builder = ImmutableArray.CreateBuilder<CFunctionExtern>(clangFunctions.Length);
 
@@ -489,11 +489,25 @@ namespace C2CS.Bindgen.ExploreCCode
 
         private string MapTypeNameTypedef(CXType clangType)
         {
+            string result;
+
             var isInSystem = clangType.Declaration.IsInSystem();
 
-            var result = isInSystem
-                ? MapTypeNameTypedefSystem(clangType)
-                : MapTypeNameTypedefNonSystem(clangType);
+            if (isInSystem)
+            {
+                if (clangType.Spelling.CString == "FILE")
+                {
+                    result = "void";
+                }
+                else
+                {
+                    result = MapTypeNameTypedefSystem(clangType);
+                }
+            }
+            else
+            {
+                result = MapTypeNameTypedefNonSystem(clangType);
+            }
 
             return result;
         }
