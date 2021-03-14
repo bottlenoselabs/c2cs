@@ -1626,7 +1626,7 @@ public static unsafe partial class libclang
         [FieldOffset(0)] /* size = 8, padding = 0 */
         public void* data;
 
-        [FieldOffset(8)] /* size = 4, padding = 0 */
+        [FieldOffset(8)] /* size = 4, padding = 4 */
         public uint private_flags;
     }
 
@@ -1637,7 +1637,7 @@ public static unsafe partial class libclang
         [FieldOffset(0)] /* size = 8, padding = 0 */
         public CXString* Strings;
 
-        [FieldOffset(8)] /* size = 4, padding = 0 */
+        [FieldOffset(8)] /* size = 4, padding = 4 */
         public uint Count;
     }
 
@@ -1666,7 +1666,7 @@ public static unsafe partial class libclang
             }
         }
 
-        [FieldOffset(16)] /* size = 4, padding = 0 */
+        [FieldOffset(16)] /* size = 4, padding = 4 */
         public uint int_data;
     }
 
@@ -1853,7 +1853,7 @@ public static unsafe partial class libclang
         [FieldOffset(0)] /* size = 8, padding = 0 */
         public CXCompletionResult* Results;
 
-        [FieldOffset(8)] /* size = 4, padding = 0 */
+        [FieldOffset(8)] /* size = 4, padding = 4 */
         public uint NumResults;
     }
 
@@ -1885,7 +1885,7 @@ public static unsafe partial class libclang
             }
         }
 
-        [FieldOffset(16)] /* size = 4, padding = 0 */
+        [FieldOffset(16)] /* size = 4, padding = 4 */
         public uint int_data;
     }
 
@@ -1928,7 +1928,7 @@ public static unsafe partial class libclang
         [FieldOffset(64)] /* size = 8, padding = 0 */
         public CXIdxAttrInfo* * attributes;
 
-        [FieldOffset(72)] /* size = 4, padding = 0 */
+        [FieldOffset(72)] /* size = 4, padding = 4 */
         public uint numAttributes;
     }
 
@@ -1991,7 +1991,7 @@ public static unsafe partial class libclang
         [FieldOffset(0)] /* size = 8, padding = 0 */
         public CXIdxDeclInfo* declInfo;
 
-        [FieldOffset(8)] /* size = 4, padding = 0 */
+        [FieldOffset(8)] /* size = 4, padding = 4 */
         public CXIdxObjCContainerKind kind;
     }
 
@@ -2030,7 +2030,7 @@ public static unsafe partial class libclang
         [FieldOffset(0)] /* size = 8, padding = 0 */
         public CXIdxObjCProtocolRefInfo* * protocols;
 
-        [FieldOffset(8)] /* size = 4, padding = 0 */
+        [FieldOffset(8)] /* size = 4, padding = 4 */
         public uint numProtocols;
     }
 
@@ -2109,7 +2109,7 @@ public static unsafe partial class libclang
         [FieldOffset(8)] /* size = 8, padding = 0 */
         public CXIdxBaseClassInfo* * bases;
 
-        [FieldOffset(16)] /* size = 4, padding = 0 */
+        [FieldOffset(16)] /* size = 4, padding = 4 */
         public uint numBases;
     }
 

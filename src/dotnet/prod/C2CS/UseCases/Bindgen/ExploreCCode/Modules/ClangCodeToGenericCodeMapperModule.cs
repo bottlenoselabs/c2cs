@@ -371,7 +371,7 @@ namespace C2CS.Bindgen.ExploreCCode
             var info = MapInfo(clangUnderlyingRecord, GenericCodeKind.Struct);
             var type = MapType(clangUnderlyingRecord.Type);
 
-            var fields = MapStructFields(clangUnderlyingRecord, type.Layout.Alignment);
+            var fields = MapStructFields(clangUnderlyingRecord, type.Layout.Size);
 
             var result = new GenericCodeStruct(
                 name,
@@ -382,7 +382,7 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private ImmutableArray<GenericCodeStructField> MapStructFields(CXCursor clangRecord, int alignment)
+        private ImmutableArray<GenericCodeStructField> MapStructFields(CXCursor clangRecord, int recordSize)
         {
             var clangRecordFields = _recordFieldsByRecord[clangRecord];
 
@@ -394,16 +394,27 @@ namespace C2CS.Bindgen.ExploreCCode
 
                 if (i > 0)
                 {
-                    var cFieldPrevious = builder[i - 1];
-                    var expectedFieldOffset = cFieldPrevious.Offset + cFieldPrevious.Type.Layout.Size;
+                    var fieldPrevious = builder[i - 1];
+                    var expectedFieldOffset = fieldPrevious.Offset + fieldPrevious.Type.Layout.Size;
                     if (field.Offset != expectedFieldOffset)
                     {
                         var padding = field.Offset - expectedFieldOffset;
-                        builder[i - 1] = new GenericCodeStructField(cFieldPrevious, padding);
+                        builder[i - 1] = new GenericCodeStructField(fieldPrevious, padding);
                     }
                 }
 
                 builder.Add(field);
+            }
+
+            if (builder.Count >= 1)
+            {
+                var fieldLast = builder[^1];
+                var expectedLastFieldOffset = recordSize - fieldLast.Type.Layout.Size;
+                if (fieldLast.Offset != expectedLastFieldOffset)
+                {
+                    var padding = expectedLastFieldOffset - fieldLast.Offset;
+                    builder[^1] = new GenericCodeStructField(fieldLast, padding);
+                }
             }
 
             var result = builder.ToImmutable();
