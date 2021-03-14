@@ -10,5 +10,6 @@ namespace C2CS.Bindgen.ExploreCCode
         Struct,
         Enum,
         FunctionPointer,
+        OpaqueType
     }
 }

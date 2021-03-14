@@ -36,7 +36,7 @@ namespace C2CS.Bindgen.ExploreCCode
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangFunction in clangFunctions)
             {
-                var cFunction = MapFunction(clangFunction);
+                var cFunction = MapFunctionExtern(clangFunction);
                 builder.Add(cFunction);
             }
 
@@ -114,7 +114,7 @@ namespace C2CS.Bindgen.ExploreCCode
             }
 
             var name = _namesByCursor[clangEnum];
-            var info = MapInfo(clangEnum);
+            var info = MapInfo(clangEnum, CKind.Enum);
             var type = MapType(clangUnderlyingEnum.EnumDecl_IntegerType);
             var enumValues = MapEnumValues(clangUnderlyingEnum);
 
@@ -157,7 +157,7 @@ namespace C2CS.Bindgen.ExploreCCode
         private COpaqueType MapOpaqueType(CXCursor clangOpaqueType)
         {
             var name = MapTypeName(clangOpaqueType.Type);
-            var info = MapInfo(clangOpaqueType);
+            var info = MapInfo(clangOpaqueType, CKind.OpaqueType);
             var type = MapType(clangOpaqueType.Type);
 
             var result = new COpaqueType(
@@ -171,7 +171,7 @@ namespace C2CS.Bindgen.ExploreCCode
         private CFunctionPointer MapFunctionPointer(CXCursor clangFunctionProto)
         {
             var name = _namesByCursor[clangFunctionProto];
-            var info = MapInfo(clangFunctionProto);
+            var info = MapInfo(clangFunctionProto, CKind.FunctionPointer);
             var type = MapType(clangFunctionProto.Type);
 
             var result = new CFunctionPointer(
@@ -182,10 +182,10 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private CFunctionExtern MapFunction(CXCursor clangFunction)
+        private CFunctionExtern MapFunctionExtern(CXCursor clangFunction)
         {
             var name = MapName(clangFunction);
-            var info = MapInfo(clangFunction);
+            var info = MapInfo(clangFunction, CKind.FunctionExtern);
             var returnType = MapType(clangFunction.ResultType);
             var callingConvention = MapFunctionCallingConvention(clangFunction);
             var parameters = MapFunctionParameters(clangFunction);
@@ -265,7 +265,7 @@ namespace C2CS.Bindgen.ExploreCCode
             }
 
             var name = MapName(clangRecord);
-            var info = MapInfo(clangUnderlyingRecord);
+            var info = MapInfo(clangUnderlyingRecord, CKind.Struct);
             var type = MapType(clangUnderlyingRecord.Type);
 
             var fields = MapStructFields(clangUnderlyingRecord, type.Layout.Alignment);
@@ -607,42 +607,13 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private static CInfo MapInfo(CXCursor clangCursor)
+        private static CInfo MapInfo(CXCursor clangCursor, CKind kind)
         {
-            var kind = MapInfoKindCursor(clangCursor);
             var location = MapInfoLocation(clangCursor);
 
             var result = new CInfo(
                 kind,
                 location);
-            return result;
-        }
-
-        private static CKind MapInfoKindCursor(CXCursor clangCursor)
-        {
-            var result = clangCursor.kind switch
-            {
-                CXCursorKind.CXCursor_FunctionDecl => CKind.FunctionExtern,
-                CXCursorKind.CXCursor_StructDecl => CKind.Struct,
-                CXCursorKind.CXCursor_EnumDecl => CKind.Enum,
-                CXCursorKind.CXCursor_TypedefDecl => MapInfoKindType(clangCursor.TypedefDeclUnderlyingType),
-                _ => throw new NotImplementedException()
-            };
-
-            return result;
-        }
-
-        private static CKind MapInfoKindType(CXType clangType)
-        {
-            var result = clangType.kind switch
-            {
-                CXTypeKind.CXType_Record => CKind.Struct,
-                CXTypeKind.CXType_Enum => CKind.Enum,
-                CXTypeKind.CXType_Pointer => CKind.FunctionPointer,
-                CXTypeKind.CXType_Elaborated => MapInfoKindType(clangType.NamedType),
-                _ => throw new NotImplementedException()
-            };
-
             return result;
         }
 
