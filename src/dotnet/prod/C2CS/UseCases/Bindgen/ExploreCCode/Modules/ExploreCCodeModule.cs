@@ -366,11 +366,6 @@ namespace C2CS.Bindgen.ExploreCCode
             {
                 var namedCursor = namedType.Declaration;
 
-                if (typedefName == "CXEvalResultKind")
-                {
-                    Console.WriteLine();
-                }
-
                 if (!CanVisitType(namedType) || !CanVisitCursor(namedCursor))
                 {
                     if (typedefName != namedType.Spelling.CString)
