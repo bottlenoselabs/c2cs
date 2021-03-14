@@ -8,7 +8,7 @@ namespace C2CS.Bindgen.ExploreCCode
 {
     public readonly struct CAbstractSyntaxTree
     {
-        public readonly ImmutableArray<CFunction> Functions;
+        public readonly ImmutableArray<CFunctionExtern> Functions;
 
         public readonly ImmutableArray<CStruct> Structs;
 
@@ -25,7 +25,7 @@ namespace C2CS.Bindgen.ExploreCCode
         public readonly ImmutableDictionary<CXCursor, string> NamesByCursor;
 
         public CAbstractSyntaxTree(
-            ImmutableArray<CFunction> functions,
+            ImmutableArray<CFunctionExtern> functions,
             ImmutableArray<CStruct> structs,
             ImmutableArray<CEnum> enums,
             ImmutableArray<COpaqueType> opaqueTypes,

@@ -8,18 +8,18 @@ namespace C2CS.Bindgen.ExploreCCode
     public readonly struct CStruct
     {
         public readonly string Name;
-        public readonly CLocation Location;
+        public readonly CInfo Info;
         public readonly CType Type;
         public readonly ImmutableArray<CStructField> Fields;
 
         public CStruct(
             string name,
-            CLocation location,
+            CInfo location,
             CType type,
             ImmutableArray<CStructField> fields)
         {
             Name = name;
-            Location = location;
+            Info = location;
             Type = type;
             Fields = fields;
         }

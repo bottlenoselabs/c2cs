@@ -7,13 +7,26 @@ namespace C2CS.Bindgen.ExploreCCode
     {
         public readonly string Name;
         public readonly CType Type;
+        public readonly int Offset;
+        public readonly int Padding;
 
         public CStructField(
             string name,
-            CType type)
+            CType type,
+            int offset)
         {
             Name = name;
             Type = type;
+            Offset = offset;
+            Padding = 0;
+        }
+
+        public CStructField(CStructField previous, int padding)
+        {
+            Name = previous.Name;
+            Type = previous.Type;
+            Offset = previous.Offset;
+            Padding = padding;
         }
 
         public override string ToString()

@@ -6,16 +6,16 @@ namespace C2CS.Bindgen.ExploreCCode
     public readonly struct COpaqueType
     {
         public readonly string Name;
-        public readonly CLocation Location;
+        public readonly CInfo Info;
         public readonly CType Type;
 
         public COpaqueType(
             string name,
-            CLocation location,
+            CInfo info,
             CType type)
         {
             Name = name;
-            Location = location;
+            Info = info;
             Type = type;
         }
 

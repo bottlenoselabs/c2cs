@@ -260,14 +260,8 @@ namespace C2CS.Bindgen.ExploreCCode
         private void VisitEnum(CXCursor @enum, CXCursor underlyingEnum)
         {
             var enumValues = new List<CXCursor>();
-            _enumValuesByEnum.Add(@enum, enumValues);
-
-            if (@enum != underlyingEnum)
-            {
-                _enumValuesByEnum.Add(underlyingEnum, enumValues);
-            }
-
-            _enums.Add(underlyingEnum);
+            _enumValuesByEnum.Add(@enum != underlyingEnum ? underlyingEnum : @enum, enumValues);
+            _enums.Add(@enum);
 
             underlyingEnum.VisitChildren(VisitEnumValues);
 
@@ -286,12 +280,7 @@ namespace C2CS.Bindgen.ExploreCCode
         private void VisitRecord(CXCursor record, CXCursor underlyingRecord)
         {
             var recordFields = new List<CXCursor>();
-            _recordFieldsByRecord.Add(record, recordFields);
-
-            if (record != underlyingRecord)
-            {
-                _recordFieldsByRecord.Add(underlyingRecord, recordFields);
-            }
+            _recordFieldsByRecord.Add(record != underlyingRecord ? underlyingRecord : record, recordFields);
 
             underlyingRecord.VisitChildren(_visitCursor);
 
@@ -376,6 +365,12 @@ namespace C2CS.Bindgen.ExploreCCode
             void VisitTypedefElaborated(CXType namedType)
             {
                 var namedCursor = namedType.Declaration;
+
+                if (typedefName == "CXEvalResultKind")
+                {
+                    Console.WriteLine();
+                }
+
                 if (!CanVisitType(namedType) || !CanVisitCursor(namedCursor))
                 {
                     if (typedefName != namedType.Spelling.CString)

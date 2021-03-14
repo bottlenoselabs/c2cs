@@ -83,9 +83,9 @@ namespace C2CS.Bindgen.TranspileCCodeToCSharp
             _members.Add(cSharpStruct);
         }
 
-        private void TranspileFunction(CFunction function)
+        private void TranspileFunction(CFunctionExtern functionExtern)
         {
-            var cSharpMethod = _cSharpCodeGenerator.CreateExternMethod(function);
+            var cSharpMethod = _cSharpCodeGenerator.CreateExternMethod(functionExtern);
             _members.Add(cSharpMethod);
         }
 

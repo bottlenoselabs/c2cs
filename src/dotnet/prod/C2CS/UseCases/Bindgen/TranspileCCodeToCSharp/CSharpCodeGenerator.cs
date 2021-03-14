@@ -74,13 +74,13 @@ using System.Runtime.InteropServices;";
 			return result;
 		}
 
-		public MethodDeclarationSyntax CreateExternMethod(CFunction function)
+		public MethodDeclarationSyntax CreateExternMethod(CFunctionExtern functionExtern)
 		{
-			var functionName = function.Name;
-			var functionReturnTypeName = function.ReturnType.Name;
+			var functionName = functionExtern.Name;
+			var functionReturnTypeName = functionExtern.ReturnType.Name;
 			var functionReturnType = ParseTypeName(functionReturnTypeName);
-			var functionCallingConvention = CSharpCallingConvention(function.CallingConvention);
-			var functionParameters = function.Parameters;
+			var functionCallingConvention = CSharpCallingConvention(functionExtern.CallingConvention);
+			var functionParameters = functionExtern.Parameters;
 
 			var cSharpMethod = MethodDeclaration(functionReturnType, functionName)
 				.WithDllImportAttribute(functionCallingConvention)
@@ -94,7 +94,7 @@ using System.Runtime.InteropServices;";
 
 			cSharpMethod = cSharpMethod
 				.AddParameterListParameters(parameters.ToArray())
-				.WithLeadingTrivia(CInfoComment("ExternFunction", function.Location));
+				.WithLeadingTrivia(CInfoComment(functionExtern.Info));
 
 			return cSharpMethod;
 		}
@@ -117,13 +117,16 @@ using System.Runtime.InteropServices;";
 
 			cSharpStruct = cSharpStruct
 				.WithMembers(new SyntaxList<MemberDeclarationSyntax>(cSharpField))
-				.WithLeadingTrivia(CInfoComment("FunctionPointer", functionPointer.Location));
+				.WithLeadingTrivia(CInfoComment(functionPointer.Info));
 
 			return cSharpStruct;
 		}
 
-		private static SyntaxTrivia CInfoComment(string kind, CLocation location)
+		private static SyntaxTrivia CInfoComment(CInfo info)
 		{
+			var kind = info.Kind;
+			var location = info.Location;
+
 			var comment =
 				$"// {kind} @ {location.FileName}:{location.FileLine} {location.DateTime}";
 
@@ -160,39 +163,7 @@ using System.Runtime.InteropServices;";
 			}
 
 			return cSharpEnum.AddMembers(cSharpEnumMembers.ToArray())
-				.WithLeadingTrivia(CInfoComment("Enum", @enum.Location));
-
-			// static string GetCSharpEnumType(CXCursor clangEnum)
-			// {
-			// 	var clangEnumType = clangEnum.kind == CXCursorKind.CXCursor_TypedefDecl
-			// 		? clangEnum.TypedefDeclUnderlyingType.Declaration.EnumDecl_IntegerType
-			// 		: clangEnum.EnumDecl_IntegerType;
-			//
-			// 	var enumTypeKind = clangEnumType.kind;
-			// 	return enumTypeKind switch
-			// 	{
-			// 		CXTypeKind.CXType_Int => "int",
-			// 		CXTypeKind.CXType_UInt => "uint",
-			// 		_ => throw new NotImplementedException($@"The enum type is not yet supported: {enumTypeKind}.")
-			// 	};
-			// }
-
-			// static CXCursor ClangEnum(CXCursor cursor)
-			// {
-			// 	if (cursor.kind != CXCursorKind.CXCursor_TypedefDecl)
-			// 	{
-			// 		return cursor;
-			// 	}
-			//
-			// 	var underlyingType = cursor.TypedefDeclUnderlyingType;
-			// 	// ReSharper disable once ConvertIfStatementToReturnStatement
-			// 	if (underlyingType.TypeClass == CX_TypeClass.CX_TypeClass_Elaborated)
-			// 	{
-			// 		return underlyingType.NamedType.Declaration;
-			// 	}
-			//
-			// 	return underlyingType.Declaration;
-			// }
+				.WithLeadingTrivia(CInfoComment(@enum.Info));
 		}
 
 		public StructDeclarationSyntax CreateStruct(CStruct cStruct)
@@ -223,7 +194,7 @@ using System.Runtime.InteropServices;";
 
 			cSharpStruct = cSharpStruct
 				.AddMembers(cSharpStructMembers.ToArray())
-				.WithLeadingTrivia(CInfoComment("Struct", cStruct.Location));
+				.WithLeadingTrivia(CInfoComment(cStruct.Info));
 			return cSharpStruct;
 		}
 
@@ -255,7 +226,7 @@ using System.Runtime.InteropServices;";
 				.WithVariables(SingletonSeparatedList(cSharpVariable)));
 
 			cSharpField = cSharpField.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-				.WithAttributeFieldOffset(0, cStructField.Type.Layout.Size, 0);
+				.WithAttributeFieldOffset(cStructField.Offset, cStructField.Type.Layout.Size, cStructField.Padding);
 
 			return cSharpField;
 		}
@@ -315,7 +286,7 @@ using System.Runtime.InteropServices;";
 
 			cSharpField = cSharpField
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-				.WithAttributeFieldOffset(0, cStructField.Type.Layout.Size, 0)
+				.WithAttributeFieldOffset(cStructField.Offset, cStructField.Type.Layout.Size, cStructField.Padding)
 				.AddModifiers(Token(SyntaxKind.FixedKeyword))
 				.WithSemicolonToken(Token(TriviaList(), SyntaxKind.SemicolonToken, TriviaList(
 					Comment($"/* original type is `{cStructField.Type.OriginalName}` */"))));
@@ -338,7 +309,7 @@ using System.Runtime.InteropServices;";
 				.WithAttributeFieldOffset(0, cOpaqueType.Type.Layout.Size, 0);
 			cSharpStruct = cSharpStruct
 				.AddMembers(cSharpField)
-				.WithLeadingTrivia(CInfoComment("OpaqueType", cOpaqueType.Location));
+				.WithLeadingTrivia(CInfoComment(cOpaqueType.Info));
 
 			return cSharpStruct;
 		}

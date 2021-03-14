@@ -8,18 +8,18 @@ namespace C2CS.Bindgen.ExploreCCode
     public readonly struct CEnum
     {
         public readonly string Name;
-        public readonly CLocation Location;
+        public readonly CInfo Info;
         public readonly CType Type;
         public readonly ImmutableArray<CEnumValue> Values;
 
         public CEnum(
             string name,
-            CLocation location,
+            CInfo info,
             CType type,
             ImmutableArray<CEnumValue> values)
         {
             Name = name;
-            Location = location;
+            Info = info;
             Type = type;
             Values = values;
         }

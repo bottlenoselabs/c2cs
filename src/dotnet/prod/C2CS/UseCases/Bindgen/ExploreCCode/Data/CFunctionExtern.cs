@@ -5,23 +5,23 @@ using System.Collections.Immutable;
 
 namespace C2CS.Bindgen.ExploreCCode
 {
-    public readonly struct CFunction
+    public readonly struct CFunctionExtern
     {
         public readonly string Name;
-        public readonly CLocation Location;
+        public readonly CInfo Info;
         public readonly CType ReturnType;
         public readonly CFunctionCallingConvention CallingConvention;
         public readonly ImmutableArray<CFunctionParameter> Parameters;
 
-        public CFunction(
+        public CFunctionExtern(
             string name,
-            CLocation location,
+            CInfo info,
             CType returnType,
             CFunctionCallingConvention callingConvention,
             ImmutableArray<CFunctionParameter> parameters)
         {
             Name = name;
-            Location = location;
+            Info = info;
             ReturnType = returnType;
             CallingConvention = callingConvention;
             Parameters = parameters;
