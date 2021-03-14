@@ -317,7 +317,7 @@ using System.Runtime.InteropServices;";
 		{
 			var cSharpStruct = StructDeclaration(cForwardType.Name)
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-				.WithAttributeStructLayout(LayoutKind.Explicit, cForwardType.Type.Layout.Size, cForwardType.Type.Layout.Alignment);
+				.WithAttributeStructLayout(LayoutKind.Explicit, cForwardType.UnderlyingType.Layout.Size, cForwardType.UnderlyingType.Layout.Alignment);
 
 			var cSharpFieldType = ParseTypeName(cForwardType.UnderlyingType.Name);
 			var cSharpFieldVariable = VariableDeclarator(Identifier("Data"));
@@ -325,7 +325,7 @@ using System.Runtime.InteropServices;";
 					VariableDeclaration(cSharpFieldType)
 						.WithVariables(SingletonSeparatedList(cSharpFieldVariable)))
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-				.WithAttributeFieldOffset(0, cForwardType.Type.Layout.Size, 0);
+				.WithAttributeFieldOffset(0, cForwardType.UnderlyingType.Layout.Size, 0);
 			cSharpStruct = cSharpStruct
 				.AddMembers(cSharpField)
 				.WithLeadingTrivia(CInfoComment(cForwardType.Info));

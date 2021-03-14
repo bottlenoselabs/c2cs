@@ -33,10 +33,10 @@ namespace C2CS.Bindgen.ExploreCCode
 
         public GenericCodeAbstractSyntaxTree MapSyntaxTree(
             ImmutableArray<CXCursor> clangFunctions,
-            ImmutableArray<CXCursor> clangRecords,
+            ImmutableArray<ClangRecord> clangRecords,
             ImmutableArray<CXCursor> clangEnums,
             ImmutableArray<CXCursor> clangOpaqueTypes,
-            ImmutableArray<CXCursor> clangForwardTypes,
+            ImmutableArray<ClangForwardType> clangForwardTypes,
             ImmutableArray<ClangFunctionPointer> clangFunctionPointers,
             ImmutableArray<CXCursor> clangSystemTypes,
             Dictionary<CXCursor, string> clangNamesByCursor)
@@ -165,7 +165,7 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        public ImmutableArray<GenericCodeForwardType> MapForwardTypes(ImmutableArray<CXCursor> clangForwardTypes)
+        public ImmutableArray<GenericCodeForwardType> MapForwardTypes(ImmutableArray<ClangForwardType> clangForwardTypes)
         {
             var builder = ImmutableArray.CreateBuilder<GenericCodeForwardType>(clangForwardTypes.Length);
 
@@ -180,18 +180,16 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private GenericCodeForwardType MapForwardType(CXCursor clangForwardType)
+        private GenericCodeForwardType MapForwardType(ClangForwardType clangForwardType)
         {
-            var name = MapTypeName(clangForwardType.Type);
-            var info = MapInfo(clangForwardType, GenericCodeKind.Forward);
-            var type = MapType(clangForwardType.Type);
-            var underlyingType = MapType(clangForwardType.Type.CanonicalType);
+            var name = clangForwardType.Name;
+            var info = MapInfo(clangForwardType.Cursor, GenericCodeKind.Forward);
+            var type = MapType(clangForwardType.UnderlyingType);
 
             var result = new GenericCodeForwardType(
                 name,
                 info,
-                type,
-                underlyingType);
+                type);
             return result;
         }
 
@@ -349,7 +347,7 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private ImmutableArray<GenericCodeStruct> MapStructs(ImmutableArray<CXCursor> clangRecords)
+        private ImmutableArray<GenericCodeStruct> MapStructs(ImmutableArray<ClangRecord> clangRecords)
         {
             var builder = ImmutableArray.CreateBuilder<GenericCodeStruct>(clangRecords.Length);
 
@@ -364,19 +362,13 @@ namespace C2CS.Bindgen.ExploreCCode
             return result;
         }
 
-        private GenericCodeStruct MapStruct(CXCursor clangRecord)
+        private GenericCodeStruct MapStruct(ClangRecord clangRecord)
         {
-            var clangUnderlyingRecord = clangRecord;
-            if (clangRecord.kind == CXCursorKind.CXCursor_TypedefDecl)
-            {
-                clangUnderlyingRecord = clangRecord.TypedefDeclUnderlyingType.Declaration;
-            }
+            var name = clangRecord.Name;
+            var info = MapInfo(clangRecord.Cursor, GenericCodeKind.Struct);
+            var type = MapType(clangRecord.Type);
 
-            var name = MapName(clangRecord);
-            var info = MapInfo(clangUnderlyingRecord, GenericCodeKind.Struct);
-            var type = MapType(clangUnderlyingRecord.Type);
-
-            var fields = MapStructFields(clangUnderlyingRecord, type.Layout.Size);
+            var fields = MapStructFields(clangRecord.UnderlyingCursor, type.Layout.Size);
 
             var result = new GenericCodeStruct(
                 name,
@@ -510,7 +502,7 @@ namespace C2CS.Bindgen.ExploreCCode
 
         private string MapTypeNameRecordNonAnonymous(CXCursor clangRecord)
         {
-            var result = _namesByCursor[clangRecord];
+            var result = clangRecord.Spelling.CString;
             if (result.Contains("struct "))
             {
                 result = result.Replace("struct ", string.Empty);

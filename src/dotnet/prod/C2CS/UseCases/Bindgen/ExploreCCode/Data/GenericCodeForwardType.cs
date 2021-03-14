@@ -9,18 +9,15 @@ namespace C2CS.Bindgen.ExploreCCode
     {
         public readonly string Name;
         public readonly GenericCodeInfo Info;
-        public readonly GenericCodeType Type;
         public readonly GenericCodeType UnderlyingType;
 
         public GenericCodeForwardType(
             string name,
             GenericCodeInfo info,
-            GenericCodeType type,
             GenericCodeType underlyingType)
         {
             Name = name;
             Info = info;
-            Type = type;
             UnderlyingType = underlyingType;
         }
 
