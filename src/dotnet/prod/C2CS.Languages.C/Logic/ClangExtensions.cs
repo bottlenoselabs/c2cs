@@ -65,6 +65,7 @@ namespace C2CS.Languages.C
 				case CXTypeKind.CXType_Elaborated:
 				case CXTypeKind.CXType_Record:
 				case CXTypeKind.CXType_Enum:
+				case CXTypeKind.CXType_FunctionProto:
 					return IsSystemCursor(type.Declaration);
 				default:
 					throw new NotImplementedException();
