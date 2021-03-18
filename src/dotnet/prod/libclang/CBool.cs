@@ -7,8 +7,8 @@ using System.Diagnostics.CodeAnalysis;
 
 /// <summary>
 ///     A boolean value type with the same memory layout as a <see cref="byte" /> in both managed and unmanaged
-///     contexts; equivalent to a standard bool (_Bool) found in C/C++/ObjC where <c>0</c> is <c>false</c> and <c>1</c> is
-///     <c>true</c>.
+///     contexts; equivalent to a standard bool (_Bool) found in C/C++/ObjC where <c>0</c> is <c>false</c> and <c>1</c>
+///     is <c>true</c>.
 /// </summary>
 /// <remarks>
 ///     <para>
@@ -17,8 +17,8 @@ using System.Diagnostics.CodeAnalysis;
 ///         representation in both managed and unmanaged contexts. The <see cref="bool" /> found in .NET is not
 ///         blittable (!). If data types have the same bit representation between contexts they can be "blitted"
 ///         (block bit transfer) between the contexts with minimal to zero overhead. Understanding the difference
-///         between blittable and non-blittable types help in having correct and highly performant interoperability between
-///         managed (.NET) applications/libraries and unmanaged (C/C++/ObjC) applications/libraries.
+///         between blittable and non-blittable types help in having correct and highly performant interoperability
+///         between managed (.NET) applications/libraries and unmanaged (C/C++/ObjC) applications/libraries.
 ///     </para>
 /// </remarks>
 [SuppressMessage("ReSharper", "CheckNamespace", Justification = "Wants to be a builtin type.")]
