@@ -5,28 +5,39 @@ using System.Collections.Immutable;
 
 namespace C2CS.CSharp
 {
-    public readonly struct CSharpStruct
+    public record CSharpStruct : CSharpCommon
     {
-        public readonly string Name;
-        public readonly string OriginalCodeLocationComment;
         public readonly CSharpType Type;
         public readonly ImmutableArray<CSharpStructField> Fields;
+        public readonly ImmutableArray<CSharpStruct> NestedStructs;
 
         public CSharpStruct(
             string name,
             string originalCodeLocationComment,
             CSharpType type,
             ImmutableArray<CSharpStructField> fields)
+            : this(name, originalCodeLocationComment, type, fields, ImmutableArray<CSharpStruct>.Empty)
         {
-            Name = name;
-            OriginalCodeLocationComment = originalCodeLocationComment;
-            Type = type;
-            Fields = fields;
         }
 
+        public CSharpStruct(
+            string name,
+            string originalCodeLocationComment,
+            CSharpType type,
+            ImmutableArray<CSharpStructField> fields,
+            ImmutableArray<CSharpStruct> nestedStructs)
+            : base(name, originalCodeLocationComment)
+        {
+            Type = type;
+            Fields = fields;
+            NestedStructs = nestedStructs;
+        }
+
+        // Required for debugger string with records
+        // ReSharper disable once RedundantOverriddenMember
         public override string ToString()
         {
-            return Name;
+            return base.ToString();
         }
     }
 }

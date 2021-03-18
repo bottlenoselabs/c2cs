@@ -3,17 +3,24 @@
 
 namespace C2CS.CSharp
 {
-    public readonly struct CSharpEnumValue
+    public record CSharpEnumValue : CSharpCommon
     {
-        public readonly string Name;
         public readonly long Value;
 
         public CSharpEnumValue(
             string name,
+            string originalLocationComment,
             long value)
+            : base(name, originalLocationComment)
         {
-            Name = name;
             Value = value;
+        }
+
+        // Required for debugger string with records
+        // ReSharper disable once RedundantOverriddenMember
+        public override string ToString()
+        {
+            return base.ToString();
         }
     }
 }

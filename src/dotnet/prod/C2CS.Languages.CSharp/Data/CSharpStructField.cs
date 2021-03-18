@@ -3,28 +3,30 @@
 
 namespace C2CS.CSharp
 {
-    public readonly struct CSharpStructField
+    public record CSharpStructField : CSharpCommon
     {
-        public readonly string Name;
         public readonly CSharpType Type;
         public readonly int Offset;
         public readonly int Padding;
 
         public CSharpStructField(
             string name,
+            string originalCodeLocationComment,
             CSharpType type,
             int offset,
             int padding)
+            : base(name, originalCodeLocationComment)
         {
-            Name = name;
             Type = type;
             Offset = offset;
             Padding = padding;
         }
 
+        // Required for debugger string with records
+        // ReSharper disable once RedundantOverriddenMember
         public override string ToString()
         {
-            return Name;
+            return base.ToString();
         }
     }
 }

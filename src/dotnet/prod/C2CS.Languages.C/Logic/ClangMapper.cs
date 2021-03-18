@@ -86,11 +86,14 @@ namespace C2CS.Languages.C
             var name = cursor.Spelling.CString;
             var type = MapType(cursor.Type, cursor);
             var recordFields = MapRecordFields(cursor);
+            var recordNestedRecords = MapNestedRecords(cursor);
+
             var result = new ClangRecord(
                 name,
                 codeLocation,
                 type,
-                recordFields);
+                recordFields,
+                recordNestedRecords);
 
             return result;
         }
@@ -103,11 +106,6 @@ namespace C2CS.Languages.C
             if (cursor.kind == CXCursorKind.CXCursor_TypedefDecl)
             {
                 underlyingCursor = cursor.TypedefDeclUnderlyingType.NamedType.Declaration;
-                if (underlyingCursor.kind != CXCursorKind.CXCursor_StructDecl)
-                {
-                    var up = new ClangMapperUnexpectedException();
-                    throw up;
-                }
             }
 
             underlyingCursor.VisitChildren((child, _) =>
@@ -136,7 +134,8 @@ namespace C2CS.Languages.C
                 var recordField = builder[i];
                 var fieldPrevious = builder[i - 1];
                 var expectedFieldOffset = fieldPrevious.Offset + fieldPrevious.Type.SizeOf;
-                if (recordField.Offset == expectedFieldOffset)
+                var hasPadding = recordField.Offset != 0 && recordField.Offset == expectedFieldOffset;
+                if (!hasPadding)
                 {
                     continue;
                 }
@@ -171,6 +170,59 @@ namespace C2CS.Languages.C
                 codeLocation,
                 type,
                 offset);
+
+            return result;
+        }
+
+        private ImmutableArray<ClangRecord> MapNestedRecords(CXCursor cursor)
+        {
+            var builder = ImmutableArray.CreateBuilder<ClangRecord>();
+
+            var underlyingCursor = cursor;
+            if (cursor.kind == CXCursorKind.CXCursor_TypedefDecl)
+            {
+                underlyingCursor = cursor.TypedefDeclUnderlyingType.NamedType.Declaration;
+            }
+
+            underlyingCursor.VisitChildren((child, _) =>
+            {
+                if (child.kind != CXCursorKind.CXCursor_FieldDecl)
+                {
+                    return;
+                }
+
+                var type = child.Type;
+                var typeDeclaration = type.Declaration;
+                var isAnonymous = typeDeclaration.IsAnonymous;
+                if (!isAnonymous)
+                {
+                    return;
+                }
+
+                var record = MapNestedRecord(child);
+                builder.Add(record);
+            });
+
+            var result = builder.ToImmutable();
+            return result;
+        }
+
+        private ClangRecord MapNestedRecord(CXCursor cursor)
+        {
+            var cursorType = cursor.Type;
+            var declaration = cursorType.Declaration;
+            var codeLocation = MapCodeLocation(ClangKind.RecordNested, declaration);
+            var type = MapType(cursor.Type, cursor);
+            var name = type.Name;
+            var recordFields = MapRecordFields(declaration);
+            var recordNestedRecords = MapNestedRecords(declaration);
+
+            var result = new ClangRecord(
+                name,
+                codeLocation,
+                type,
+                recordFields,
+                recordNestedRecords);
 
             return result;
         }
@@ -218,11 +270,6 @@ namespace C2CS.Languages.C
             if (cursor.kind == CXCursorKind.CXCursor_TypedefDecl)
             {
                 underlyingCursor = cursor.TypedefDeclUnderlyingType.NamedType.Declaration;
-                if (underlyingCursor.kind != CXCursorKind.CXCursor_EnumDecl)
-                {
-                    var up = new ClangMapperUnexpectedException();
-                    throw up;
-                }
             }
 
             underlyingCursor.VisitChildren((child, cursorParent) =>
@@ -275,20 +322,6 @@ namespace C2CS.Languages.C
             var underlyingType = MapType(cursor.Type.CanonicalType, cursor);
 
             var result = new ClangForwardDataType(
-                name,
-                codeLocation,
-                underlyingType);
-
-            return result;
-        }
-
-        public ClangSystemDataType MapSystemDataType(CXCursor cursor)
-        {
-            var codeLocation = MapCodeLocation(ClangKind.SystemDataType, cursor);
-            var name = cursor.Spelling.CString;
-            var underlyingType = MapType(cursor.Type.CanonicalType, cursor);
-
-            var result = new ClangSystemDataType(
                 name,
                 codeLocation,
                 underlyingType);

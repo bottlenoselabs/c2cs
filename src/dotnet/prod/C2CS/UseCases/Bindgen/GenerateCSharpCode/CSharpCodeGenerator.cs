@@ -120,18 +120,6 @@ using System.Runtime.InteropServices;";
 			return cSharpStruct;
 		}
 
-		// public FieldDeclarationSyntax CreateConstant(CXCursor enumConstant)
-		// {
-		// 	var variableDeclarationCSharp = CreateConstantVariable(enumConstant);
-		// 	var constFieldDeclarationCSharp = FieldDeclaration(variableDeclarationCSharp)
-		// 		.WithModifiers(
-		// 			TokenList(
-		// 				Token(SyntaxKind.PublicKeyword),
-		// 				Token(SyntaxKind.ConstKeyword)));
-		//
-		// 	return constFieldDeclarationCSharp;
-		// }
-
 		public EnumDeclarationSyntax CreateEnum(CSharpEnum @enum)
 		{
 			var cSharpEnumType = @enum.Type.Name;
@@ -142,7 +130,7 @@ using System.Runtime.InteropServices;";
 			var cSharpEnumMembers = ImmutableArray.CreateBuilder<EnumMemberDeclarationSyntax>(@enum.Values.Length);
 			foreach (var cEnumValue in @enum.Values)
 			{
-				var cSharpEqualsValueClause = CreateEqualsValueClause(cEnumValue.Value, cSharpEnumType);
+				var cSharpEqualsValueClause = CreateEnumEqualsValueClause(cEnumValue.Value, cSharpEnumType);
 				var cSharpEnumMember = EnumMemberDeclaration(cEnumValue.Name)
 					.WithEqualsValue(cSharpEqualsValueClause);
 
@@ -163,24 +151,30 @@ using System.Runtime.InteropServices;";
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
 				.WithAttributeStructLayout(LayoutKind.Explicit, structSize, structAlignment);
 
-			var cSharpStructMembers = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
+			var structMembers = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
 
-			foreach (var cStructField in cSharpStruct.Fields)
+			foreach (var cSharpField in cSharpStruct.Fields)
 			{
-				var cSharpStructField = CreateStructField(cStructField, out var needsWrap);
-				cSharpStructMembers.Add(cSharpStructField);
+				var field = CreateStructField(cSharpField, out var needsWrap);
+				structMembers.Add(field);
 
 				if (!needsWrap)
 				{
 					continue;
 				}
 
-				var cSharpStructFieldWrappedMethod = CreateStructFieldWrapperMethod(cSharpStruct.Name, cStructField);
-				cSharpStructMembers.Add(cSharpStructFieldWrappedMethod);
+				var wrappedMethod = CreateStructFieldWrapperMethod(cSharpStruct.Name, cSharpField);
+				structMembers.Add(wrappedMethod);
+			}
+
+			foreach (var cSharpStructNested in cSharpStruct.NestedStructs)
+			{
+				var structNested = CreateStruct(cSharpStructNested);
+				structMembers.Add(structNested);
 			}
 
 			@struct = @struct
-				.AddMembers(cSharpStructMembers.ToArray())
+				.AddMembers(structMembers.ToArray())
 				.WithLeadingTrivia(Comment(cSharpStruct.OriginalCodeLocationComment));
 			return @struct;
 		}
@@ -360,7 +354,7 @@ using System.Runtime.InteropServices;";
 			return methodParameter;
 		}
 
-		private static EqualsValueClauseSyntax CreateEqualsValueClause(long value, string type)
+		private static EqualsValueClauseSyntax CreateEnumEqualsValueClause(long value, string type)
 		{
 			// ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
 			var literalToken = type switch

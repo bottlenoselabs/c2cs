@@ -5,10 +5,8 @@ using System.Collections.Immutable;
 
 namespace C2CS.CSharp
 {
-    public readonly struct CSharpEnum
+    public record CSharpEnum : CSharpCommon
     {
-        public readonly string Name;
-        public readonly string OriginalCodeLocationComment;
         public readonly CSharpType Type;
         public readonly ImmutableArray<CSharpEnumValue> Values;
 
@@ -17,16 +15,17 @@ namespace C2CS.CSharp
             string originalCodeLocationComment,
             CSharpType type,
             ImmutableArray<CSharpEnumValue> values)
+            : base(name, originalCodeLocationComment)
         {
-            Name = name;
-            OriginalCodeLocationComment = originalCodeLocationComment;
             Type = type;
             Values = values;
         }
 
+        // Required for debugger string with records
+        // ReSharper disable once RedundantOverriddenMember
         public override string ToString()
         {
-            return Name;
+            return base.ToString();
         }
     }
 }

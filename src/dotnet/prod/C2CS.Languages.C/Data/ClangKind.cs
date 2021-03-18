@@ -11,6 +11,7 @@ namespace C2CS.Languages.C
         FunctionPointer,
         FunctionPointerParameter,
         Record,
+        RecordNested,
         RecordField,
         Enum,
         EnumValue,

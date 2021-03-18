@@ -3,25 +3,24 @@
 
 namespace C2CS.CSharp
 {
-    public readonly struct CSharpFunctionPointer
+    public record CSharpFunctionPointer : CSharpCommon
     {
-        public readonly string Name;
-        public readonly string OriginalCodeLocationComment;
         public readonly CSharpType Type;
 
         public CSharpFunctionPointer(
             string name,
             string originalCodeLocationComment,
             CSharpType type)
+            : base(name, originalCodeLocationComment)
         {
-            Name = name;
-            OriginalCodeLocationComment = originalCodeLocationComment;
             Type = type;
         }
 
+        // Required for debugger string with records
+        // ReSharper disable once RedundantOverriddenMember
         public override string ToString()
         {
-            return Name;
+            return base.ToString();
         }
     }
 }

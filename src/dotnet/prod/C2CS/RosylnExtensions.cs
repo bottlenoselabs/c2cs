@@ -38,7 +38,7 @@ namespace C2CS
 								TriviaList(),
 								SyntaxKind.CloseBracketToken,
 								TriviaList(
-									Comment($"/* size = {size}, padding = {padding} */"))))));
+									Comment($"// size = {size}, padding = {padding}"))))));
 		}
 
 		internal static ParameterSyntax WithAttribute(

@@ -9,16 +9,19 @@ namespace C2CS.Languages.C
     {
         public readonly ClangType Type;
         public readonly ImmutableArray<ClangRecordField> Fields;
+        public readonly ImmutableArray<ClangRecord> NestedRecords;
 
         internal ClangRecord(
             string name,
             ClangCodeLocation codeLocation,
             ClangType type,
-            ImmutableArray<ClangRecordField> fields)
+            ImmutableArray<ClangRecordField> fields,
+            ImmutableArray<ClangRecord> nestedRecords)
             : base(name, codeLocation)
         {
             Type = type;
             Fields = fields;
+            NestedRecords = nestedRecords;
         }
 
         // Required for debugger string with records

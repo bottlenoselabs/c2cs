@@ -1,26 +1,26 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
 
-namespace C2CS.Languages.C
+namespace C2CS.CSharp
 {
-    public record ClangSystemDataType : ClangCommon
+    public record CSharpCommon
     {
-        public readonly ClangType UnderlyingType;
+        public readonly string Name;
+        public readonly string OriginalCodeLocationComment;
 
-        internal ClangSystemDataType(
+        public CSharpCommon(
             string name,
-            ClangCodeLocation codeLocation,
-            ClangType underlyingType)
-            : base(name, codeLocation)
+            string originalLocationComment)
         {
-            UnderlyingType = underlyingType;
+            Name = name;
+            OriginalCodeLocationComment = originalLocationComment;
         }
 
         // Required for debugger string with records
         // ReSharper disable once RedundantOverriddenMember
         public override string ToString()
         {
-            return base.ToString();
+            return $"{Name} {OriginalCodeLocationComment}";
         }
     }
 }

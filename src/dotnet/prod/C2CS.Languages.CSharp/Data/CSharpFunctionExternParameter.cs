@@ -3,25 +3,27 @@
 
 namespace C2CS.CSharp
 {
-    public readonly struct CSharpFunctionExternParameter
+    public record CSharpFunctionExternParameter : CSharpCommon
     {
-        public readonly string Name;
         public readonly CSharpType Type;
         public readonly bool IsReadOnly;
 
         public CSharpFunctionExternParameter(
             string name,
+            string originalCodeLocationComment,
             CSharpType type,
             bool isReadOnly)
+            : base(name, originalCodeLocationComment)
         {
-            Name = name;
             Type = type;
             IsReadOnly = isReadOnly;
         }
 
+        // Required for debugger string with records
+        // ReSharper disable once RedundantOverriddenMember
         public override string ToString()
         {
-            return Name;
+            return base.ToString();
         }
     }
 }

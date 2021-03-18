@@ -75,11 +75,13 @@ namespace C2CS.CSharp
             ClangFunctionExternParameter clangFunctionExternParameter)
         {
             var name = SanitizeIdentifierName(clangFunctionExternParameter.Name);
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangFunctionExternParameter.CodeLocation);
             var type = MapType(clangFunctionExternParameter.Type);
             var isReadOnly = clangFunctionExternParameter.IsReadOnly;
 
             var result = new CSharpFunctionExternParameter(
                 name,
+                originalCodeLocationComment,
                 type,
                 isReadOnly);
 
@@ -118,16 +120,15 @@ namespace C2CS.CSharp
         public ImmutableArray<CSharpStruct> MapStructs(
             ImmutableArray<ClangRecord> records,
             ImmutableArray<ClangOpaqueDataType> opaqueDataTypes,
-            ImmutableArray<ClangForwardDataType> forwardDataTypes,
-            ImmutableArray<ClangSystemDataType> systemDataTypes)
+            ImmutableArray<ClangForwardDataType> forwardDataTypes)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpStruct>(
-                records.Length + opaqueDataTypes.Length + systemDataTypes.Length);
+                records.Length + opaqueDataTypes.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangRecord in records)
             {
-                var @struct = MapRecord(clangRecord);
+                var @struct = MapStruct(clangRecord);
                 builder.Add(@struct);
             }
 
@@ -145,41 +146,36 @@ namespace C2CS.CSharp
                 builder.Add(@struct);
             }
 
-            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var clangSystemDataType in systemDataTypes)
-            {
-                var @struct = MapSystemDataType(clangSystemDataType);
-                builder.Add(@struct);
-            }
-
             var result = builder.ToImmutable();
             return result;
         }
 
-        private CSharpStruct MapRecord(ClangRecord clangRecord)
+        private CSharpStruct MapStruct(ClangRecord clangRecord)
         {
             var name = clangRecord.Name;
             var originalCodeLocationComment = MapOriginalCodeLocationComment(clangRecord.CodeLocation);
             var type = MapType(clangRecord.Type);
-            var fields = MapRecordFields(clangRecord.Fields);
+            var fields = MapStructFields(clangRecord.Fields);
+            var nestedStructs = MapNestedStructs(clangRecord.NestedRecords);
 
             var result = new CSharpStruct(
                 name,
                 originalCodeLocationComment,
                 type,
-                fields);
+                fields,
+                nestedStructs);
 
             return result;
         }
 
-        private ImmutableArray<CSharpStructField> MapRecordFields(ImmutableArray<ClangRecordField> clangRecordFields)
+        private ImmutableArray<CSharpStructField> MapStructFields(ImmutableArray<ClangRecordField> clangRecordFields)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpStructField>(clangRecordFields.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangRecordField in clangRecordFields)
             {
-                var structField = MapRecordField(clangRecordField);
+                var structField = MapStructField(clangRecordField);
                 builder.Add(structField);
             }
 
@@ -187,19 +183,36 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private CSharpStructField MapRecordField(ClangRecordField clangRecordField)
+        private CSharpStructField MapStructField(ClangRecordField clangRecordField)
         {
             var name = SanitizeIdentifierName(clangRecordField.Name);
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangRecordField.CodeLocation);
             var type = MapType(clangRecordField.Type);
             var offset = clangRecordField.Offset;
             var padding = clangRecordField.Padding;
 
             var result = new CSharpStructField(
                 name,
+                originalCodeLocationComment,
                 type,
                 offset,
                 padding);
 
+            return result;
+        }
+
+        private ImmutableArray<CSharpStruct> MapNestedStructs(ImmutableArray<ClangRecord> clangNestedRecords)
+        {
+            var builder = ImmutableArray.CreateBuilder<CSharpStruct>(clangNestedRecords.Length);
+
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var clangRecordNestedRecord in clangNestedRecords)
+            {
+                var nestedRecord = MapStruct(clangRecordNestedRecord);
+                builder.Add(nestedRecord);
+            }
+
+            var result = builder.ToImmutable();
             return result;
         }
 
@@ -224,7 +237,7 @@ namespace C2CS.CSharp
             var name = clangForwardDataType.Name;
             var originalCodeLocationComment = MapOriginalCodeLocationComment(clangForwardDataType.CodeLocation);
             var type = MapType(clangForwardDataType.UnderlyingType);
-            var fields = MapSystemDataTypeFields(clangForwardDataType.UnderlyingType);
+            var fields = MapForwardDataTypeFields(clangForwardDataType.UnderlyingType, originalCodeLocationComment);
 
             var result = new CSharpStruct(
                 name,
@@ -235,27 +248,12 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private CSharpStruct MapSystemDataType(ClangSystemDataType clangSystemDataType)
-        {
-            var name = clangSystemDataType.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangSystemDataType.CodeLocation);
-            var type = MapType(clangSystemDataType.UnderlyingType);
-            var fields = MapSystemDataTypeFields(clangSystemDataType.UnderlyingType);
-
-            var result = new CSharpStruct(
-                name,
-                originalCodeLocationComment,
-                type,
-                fields);
-
-            return result;
-        }
-
-        private ImmutableArray<CSharpStructField> MapSystemDataTypeFields(ClangType clangType)
+        private ImmutableArray<CSharpStructField> MapForwardDataTypeFields(ClangType clangType, string originalCodeLocationComment)
         {
             var type = MapType(clangType);
             var structField = new CSharpStructField(
                 "Data",
+                originalCodeLocationComment,
                 type,
                 0,
                 0);
@@ -312,10 +310,12 @@ namespace C2CS.CSharp
         private CSharpEnumValue MapEnumValue(ClangEnumValue clangEnumValue)
         {
             var name = clangEnumValue.Name;
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangEnumValue.CodeLocation);
             var value = clangEnumValue.Value;
 
             var result = new CSharpEnumValue(
                 name,
+                originalCodeLocationComment,
                 value);
 
             return result;

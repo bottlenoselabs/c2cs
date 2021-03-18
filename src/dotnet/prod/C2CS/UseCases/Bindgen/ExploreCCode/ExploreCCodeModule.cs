@@ -21,7 +21,6 @@ namespace C2CS.Bindgen.ExploreCCode
         private readonly List<ClangRecord> _records = new();
         private readonly List<ClangOpaqueDataType> _opaqueDataTypes = new();
         private readonly List<ClangForwardDataType> _forwardDataTypes = new();
-        private readonly List<ClangSystemDataType> _systemDataTypes = new();
         private readonly List<ClangFunctionPointer> _functionPointers = new();
 
         public ClangAbstractSyntaxTree ExtractAbstractSyntaxTree(CXTranslationUnit translationUnit)
@@ -32,22 +31,27 @@ namespace C2CS.Bindgen.ExploreCCode
 
         private void ExploreAbstractSyntaxTree(CXTranslationUnit translationUnit)
         {
+            CXCursor translationUnitCursor;
+            unsafe
+            {
+                translationUnitCursor = clang.getTranslationUnitCursor(translationUnit);
+            }
+
             var externalFunctions = GetExternFunctions(translationUnit);
             foreach (var function in externalFunctions)
             {
-                VisitCursor(function, function.TranslationUnit.Cursor);
+                VisitCursor(function, translationUnitCursor);
             }
         }
 
         private ClangAbstractSyntaxTree CollectExtractedData()
         {
-            var functionExterns = _functions.ToImmutableArray();
-            var functionPointers = _functionPointers.ToImmutableArray();
-            var records = _records.ToImmutableArray();
-            var enums = _enums.ToImmutableArray();
-            var opaqueDataTypes = _opaqueDataTypes.ToImmutableArray();
-            var forwardDataTypes = _forwardDataTypes.ToImmutableArray();
-            var systemDataTypes = _systemDataTypes.ToImmutableArray();
+            var functionExterns = _functions.ToImmutableArray().Sort();
+            var functionPointers = _functionPointers.ToImmutableArray().Sort();
+            var records = _records.ToImmutableArray().Sort();
+            var enums = _enums.ToImmutableArray().Sort();
+            var opaqueDataTypes = _opaqueDataTypes.ToImmutableArray().Sort();
+            var forwardDataTypes = _forwardDataTypes.ToImmutableArray().Sort();
 
             var result = new ClangAbstractSyntaxTree(
                 functionExterns,
@@ -55,8 +59,7 @@ namespace C2CS.Bindgen.ExploreCCode
                 records,
                 enums,
                 opaqueDataTypes,
-                forwardDataTypes,
-                systemDataTypes);
+                forwardDataTypes);
 
             return result;
         }
@@ -66,13 +69,23 @@ namespace C2CS.Bindgen.ExploreCCode
             var externFunctions = new List<CXCursor>();
             translationUnit.Cursor.VisitChildren((child, _) =>
             {
-                if (child.Kind != CXCursorKind.CXCursor_FunctionDecl ||
-                    child.Linkage != CXLinkageKind.CXLinkage_External)
+                var kind = child.kind;
+                var isFunctionDeclaration = kind == CXCursorKind.CXCursor_FunctionDecl;
+
+                if (!isFunctionDeclaration)
                 {
                     return;
                 }
 
-                if (child.IsInSystem())
+                var linkage = clang.getCursorLinkage(child);
+                var isExternallyLinked = linkage == CXLinkageKind.CXLinkage_External;
+                if (!isExternallyLinked)
+                {
+                    return;
+                }
+
+                var isSystemCursor = child.IsInSystem();
+                if (isSystemCursor)
                 {
                     return;
                 }
@@ -83,9 +96,39 @@ namespace C2CS.Bindgen.ExploreCCode
             return externFunctions.ToImmutableArray();
         }
 
+        private bool IgnoreCursor(CXCursor cursor)
+        {
+            var canVisitCursor = CanVisitCursor(cursor);
+            if (!canVisitCursor)
+            {
+                return true;
+            }
+
+            var isSystemCursor = cursor.IsInSystem();
+            if (isSystemCursor)
+            {
+                return true;
+            }
+
+            var isCursorAttribute = clang.isAttribute(cursor.kind) > 0U;
+            if (isCursorAttribute)
+            {
+                return true;
+            }
+
+            var cursorKind = cursor.kind;
+            if (cursorKind == CXCursorKind.CXCursor_IntegerLiteral)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private bool CanVisitCursor(CXCursor cursor)
         {
-            if (_visitedCursors.Contains(cursor))
+            var alreadyVisitedCursor = _visitedCursors.Contains(cursor);
+            if (alreadyVisitedCursor)
             {
                 return false;
             }
@@ -97,42 +140,30 @@ namespace C2CS.Bindgen.ExploreCCode
         [SuppressMessage("ReSharper", "TailRecursiveCall", Justification = "Easier to read.")]
         private void VisitCursor(CXCursor cursor, CXCursor cursorParent)
         {
-            if (!CanVisitCursor(cursor))
+            var ignoreCursor = IgnoreCursor(cursor);
+            if (ignoreCursor)
             {
                 return;
             }
 
-            if (cursor.IsInSystem())
-            {
-                VisitSystemDataType(cursor);
-            }
-            else if (cursor.IsDeclaration)
+            var cursorKind = cursor.kind;
+            var isDeclaration = clang.isDeclaration(cursorKind) > 0U;
+            var isReference = clang.isReference(cursorKind) > 0U;
+
+            if (isDeclaration)
             {
                 VisitDeclaration(cursor, cursorParent);
             }
-            else if (cursor.IsReference)
+            else if (isReference)
             {
-                VisitCursor(cursor.Type.Declaration, cursorParent);
-            }
-            else if (cursor.IsAttribute)
-            {
-                // Ignore
+                var cursorType = clang.getCursorType(cursor);
+                var cursorTypeDeclaration = clang.getTypeDeclaration(cursorType);
+                VisitCursor(cursorTypeDeclaration, cursorParent);
             }
             else
             {
-                switch (cursor.kind)
-                {
-                    case CXCursorKind.CXCursor_FirstExpr:
-                    case CXCursorKind.CXCursor_IntegerLiteral:
-                    case CXCursorKind.CXCursor_BinaryOperator:
-                        // Ignore
-                        break;
-                    default:
-                    {
-                        var up = new ExploreUnexpectedException();
-                        throw up;
-                    }
-                }
+                var up = new ExploreUnexpectedException();
+                throw up;
             }
         }
 
@@ -148,54 +179,58 @@ namespace C2CS.Bindgen.ExploreCCode
         }
 
         [SuppressMessage("ReSharper", "TailRecursiveCall", Justification = "Easier to read.")]
-        private void VisitType(CXType type, CXCursor parent)
+        private void VisitType(CXType type, CXCursor parentCursor)
         {
             if (!CanVisitType(type))
             {
                 return;
             }
 
-            switch (type.TypeClass)
+            var typeClass = clangsharp.Type_getTypeClass(type);
+            switch (typeClass)
             {
                 case CX_TypeClass.CX_TypeClass_Attributed:
-                    VisitType(type.ModifiedType, parent);
+                    var modifiedType = clang.Type_getModifiedType(type);
+                    VisitType(modifiedType, parentCursor);
                     break;
                 case CX_TypeClass.CX_TypeClass_Elaborated:
-                    VisitType(type.NamedType, parent);
+                    var namedType = clang.Type_getNamedType(type);
+                    VisitType(namedType, parentCursor);
                     break;
                 case CX_TypeClass.CX_TypeClass_Pointer:
                 case CX_TypeClass.CX_TypeClass_LValueReference:
                 case CX_TypeClass.CX_TypeClass_RValueReference:
-                    VisitType(type.PointeeType, parent);
-                    break;
-                case CX_TypeClass.CX_TypeClass_Typedef:
-                    VisitCursor(type.Declaration, parent);
-                    break;
-                case CX_TypeClass.CX_TypeClass_IncompleteArray:
-                    VisitType(type.ElementType, parent);
+                    var pointeeType = clang.getPointeeType(type);
+                    VisitType(pointeeType, parentCursor);
                     break;
                 case CX_TypeClass.CX_TypeClass_Record:
                 case CX_TypeClass.CX_TypeClass_Enum:
-                    VisitCursor(type.Declaration, parent);
+                case CX_TypeClass.CX_TypeClass_Typedef:
+                    var declaration = clang.getTypeDeclaration(type);
+                    VisitCursor(declaration, parentCursor);
                     break;
                 case CX_TypeClass.CX_TypeClass_ConstantArray:
-                    VisitType(type.ElementType, parent);
+                case CX_TypeClass.CX_TypeClass_IncompleteArray:
+                    var elementType = clang.getElementType(type);
+                    VisitType(elementType, parentCursor);
                     break;
                 case CX_TypeClass.CX_TypeClass_Builtin:
                     // Ignored
                     break;
                 case CX_TypeClass.CX_TypeClass_FunctionProto:
-                    VisitFunctionProto(parent, parent.SemanticParent);
+                    var grandParentCursor = clang.getCursorSemanticParent(parentCursor);
+                    VisitFunctionProto(parentCursor, grandParentCursor);
                     break;
                 default:
-                    var up = UnsupportedType(type);
+                    var up = new ExploreUnexpectedException();
                     throw up;
             }
         }
 
         private void VisitDeclaration(CXCursor cursor, CXCursor cursorParent)
         {
-            switch (cursor.DeclKind)
+            var declarationKind = clangsharp.Cursor_getDeclKind(cursor);
+            switch (declarationKind)
             {
                 case CX_DeclKind.CX_DeclKind_Enum:
                     VisitEnum(cursor);
@@ -219,14 +254,15 @@ namespace C2CS.Bindgen.ExploreCCode
                     VisitParameter(cursor, cursorParent);
                     break;
                 default:
-                    var up = UnsupportedDeclaration(cursor);
+                    var up = new ExploreUnexpectedException();
                     throw up;
             }
         }
 
         private void VisitFunction(CXCursor cursor, CXCursor cursorParent)
         {
-            VisitType(cursor.ResultType, cursorParent);
+            var resultType = clang.getCursorResultType(cursor);
+            VisitType(resultType, cursorParent);
 
             cursor.VisitChildren(VisitCursor);
 
@@ -236,7 +272,8 @@ namespace C2CS.Bindgen.ExploreCCode
 
         private void VisitParameter(CXCursor cursor, CXCursor cursorParent)
         {
-            VisitType(cursor.Type, cursorParent);
+            var type = clang.getCursorType(cursor);
+            VisitType(type, cursorParent);
 
             cursor.VisitChildren(VisitCursor);
         }
@@ -244,9 +281,11 @@ namespace C2CS.Bindgen.ExploreCCode
         private void VisitEnum(CXCursor cursor)
         {
             var underlyingCursor = cursor;
-            if (underlyingCursor.kind == CXCursorKind.CXCursor_TypedefDecl)
+            if (cursor.kind == CXCursorKind.CXCursor_TypedefDecl)
             {
-                underlyingCursor = cursor.TypedefDeclUnderlyingType.NamedType.Declaration;
+                var underlyingType = clang.getTypedefDeclUnderlyingType(cursor);
+                var namedType = clang.Type_getNamedType(underlyingType);
+                underlyingCursor = clang.getTypeDeclaration(namedType);
             }
 
             underlyingCursor.VisitChildren((child, cursorParent) =>
@@ -265,17 +304,18 @@ namespace C2CS.Bindgen.ExploreCCode
 
         private void VisitEnumConstant(CXCursor cursor, CXCursor cursorParent)
         {
-            VisitType(cursorParent.EnumDecl_IntegerType, cursorParent);
-
-            cursor.VisitChildren(VisitCursor);
+            var integerType = clang.getEnumDeclIntegerType(cursorParent);
+            VisitType(integerType, cursorParent);
         }
 
         private void VisitRecord(CXCursor cursor)
         {
             var underlyingCursor = cursor;
-            if (underlyingCursor.kind == CXCursorKind.CXCursor_TypedefDecl)
+            if (cursor.kind == CXCursorKind.CXCursor_TypedefDecl)
             {
-                underlyingCursor = cursor.TypedefDeclUnderlyingType.NamedType.Declaration;
+                var underlyingType = clang.getTypedefDeclUnderlyingType(cursor);
+                var namedType = clang.Type_getNamedType(underlyingType);
+                underlyingCursor = clang.getTypeDeclaration(namedType);
             }
 
             underlyingCursor.VisitChildren((child, cursorParent) =>
@@ -288,7 +328,8 @@ namespace C2CS.Bindgen.ExploreCCode
                 VisitCursor(child, cursorParent);
             });
 
-            if (cursor.IsAnonymous)
+            var isAnonymousCursor = clang.Cursor_isAnonymous(cursor) > 0U;
+            if (isAnonymousCursor)
             {
                 return;
             }
@@ -299,28 +340,32 @@ namespace C2CS.Bindgen.ExploreCCode
 
         private void VisitField(CXCursor cursor, CXCursor cursorParent)
         {
-            VisitType(cursor.Type, cursorParent);
+            var type = clang.getCursorType(cursor);
+            VisitType(type, cursorParent);
 
             cursor.VisitChildren(VisitCursor);
         }
 
-        private void VisitTypedef(CXCursor typedef)
+        private void VisitTypedef(CXCursor cursor)
         {
-            var underlyingType = typedef.TypedefDeclUnderlyingType.CanonicalType;
+            var underlyingType = clang.getTypedefDeclUnderlyingType(cursor);
+            var underlyingTypeCanonical = clang.getCanonicalType(underlyingType);
+            var typeClass = clangsharp.Type_getTypeClass(underlyingTypeCanonical);
 
-            switch (underlyingType.TypeClass)
+            switch (typeClass)
             {
                 case CX_TypeClass.CX_TypeClass_Pointer:
-                    VisitTypedefPointer(typedef, underlyingType.PointeeType);
+                    var pointeeType = clang.getPointeeType(underlyingTypeCanonical);
+                    VisitTypedefPointer(cursor, pointeeType);
                     break;
                 case CX_TypeClass.CX_TypeClass_Builtin:
-                    VisitForwardDataType(typedef);
+                    VisitForwardDataType(cursor);
                     break;
                 case CX_TypeClass.CX_TypeClass_Record:
-                    VisitRecord(typedef);
+                    VisitRecord(cursor);
                     break;
                 case CX_TypeClass.CX_TypeClass_Enum:
-                    VisitEnum(typedef);
+                    VisitEnum(cursor);
                     break;
                 default:
                     var up = new ExploreUnexpectedException();
@@ -330,16 +375,19 @@ namespace C2CS.Bindgen.ExploreCCode
 
         private void VisitTypedefPointer(CXCursor typedef, CXType pointeeType)
         {
-            if (pointeeType.kind == CXTypeKind.CXType_Void)
+            var kind = pointeeType.kind;
+            if (kind == CXTypeKind.CXType_Void)
             {
                 VisitOpaqueDataType(typedef);
             }
             else
             {
-                switch (pointeeType.TypeClass)
+                var pointeeTypeClass = clangsharp.Type_getTypeClass(pointeeType);
+                switch (pointeeTypeClass)
                 {
                     case CX_TypeClass.CX_TypeClass_Elaborated:
-                        VisitTypedefElaborated(typedef, pointeeType.NamedType);
+                        var namedType = clang.Type_getNamedType(pointeeType);
+                        VisitTypedefElaborated(typedef, namedType);
                         break;
                     case CX_TypeClass.CX_TypeClass_FunctionProto:
                         VisitTypedefFunctionProto(typedef, pointeeType);
@@ -351,26 +399,29 @@ namespace C2CS.Bindgen.ExploreCCode
             }
         }
 
-        private void VisitTypedefFunctionProto(CXCursor typedef, CXType functionProtoType)
+        private void VisitTypedefFunctionProto(CXCursor cursor, CXType functionProtoType)
         {
             if (!CanVisitType(functionProtoType))
             {
                 return;
             }
 
-            VisitFunctionProto(typedef, typedef.SemanticParent);
+            var cursorParent = clang.getCursorSemanticParent(cursor);
+            VisitFunctionProto(cursor, cursorParent);
         }
 
-        private void VisitTypedefElaborated(CXCursor typedef, CXType namedType)
+        private void VisitTypedefElaborated(CXCursor cursor, CXType namedType)
         {
-            if (namedType.kind == CXTypeKind.CXType_Record)
+            var kind = namedType.kind;
+            if (kind == CXTypeKind.CXType_Record)
             {
                 var recordType = namedType;
-                var childrenCount = 0;
-                recordType.Declaration.VisitChildren((_, _) => childrenCount += 1);
-                if (childrenCount == 0)
+                var declaration = clang.getTypeDeclaration(recordType);
+                var isOpaqueDataType = IsRecordOpaqueDataType(declaration);
+
+                if (isOpaqueDataType)
                 {
-                    VisitOpaqueDataType(typedef);
+                    VisitOpaqueDataType(cursor);
                 }
             }
             else
@@ -378,6 +429,22 @@ namespace C2CS.Bindgen.ExploreCCode
                 var up = new ExploreUnexpectedException();
                 throw up;
             }
+        }
+
+        private static bool IsRecordOpaqueDataType(CXCursor cursor)
+        {
+            var count = 0;
+
+            cursor.VisitChildren((child, _) =>
+            {
+                var childKind = child.kind;
+                if (childKind == CXCursorKind.CXCursor_FieldDecl)
+                {
+                    count += 1;
+                }
+            });
+
+            return count == 0;
         }
 
         private void VisitForwardDataType(CXCursor cursor)
@@ -390,17 +457,6 @@ namespace C2CS.Bindgen.ExploreCCode
         {
             var opaqueDataType = _mapper.MapOpaqueDataType(cursor);
             _opaqueDataTypes.Add(opaqueDataType);
-        }
-
-        private void VisitSystemDataType(CXCursor cursor)
-        {
-            if (cursor.Spelling.CString == "FILE")
-            {
-                return;
-            }
-
-            var systemDataType = _mapper.MapSystemDataType(cursor);
-            _systemDataTypes.Add(systemDataType);
         }
 
         private void VisitFunctionProto(CXCursor cursor, CXCursor cursorParent)
@@ -430,24 +486,14 @@ namespace C2CS.Bindgen.ExploreCCode
                 result = clang.getCursorResultType(cursor);
             }
 
-            if (result.kind != CXTypeKind.CXType_Invalid)
+            // ReSharper disable once InvertIf
+            if (result.kind == CXTypeKind.CXType_Invalid)
             {
-                return result;
+                var up = new ExploreUnexpectedException();
+                throw up;
             }
 
-            var up = new ExploreUnexpectedException();
-            throw up;
-        }
-
-        private static Exception UnsupportedDeclaration(CXCursor declaration)
-        {
-            return new NotImplementedException(
-                $"Not yet supported declaration kind `{declaration.DeclKind}`: '{declaration}'.");
-        }
-
-        private static Exception UnsupportedType(CXType type)
-        {
-            return new NotImplementedException($"Not yet supported type class `{type.TypeClass}`: '{type}'.");
+            return result;
         }
 
         private class ExploreUnexpectedException : Exception

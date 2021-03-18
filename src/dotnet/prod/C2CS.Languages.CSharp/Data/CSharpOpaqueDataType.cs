@@ -3,25 +3,24 @@
 
 namespace C2CS.CSharp
 {
-    public readonly struct CSharpOpaqueDataType
+    public record CSharpOpaqueDataType : CSharpCommon
     {
-        public readonly string Name;
-        public readonly string OriginalCodeLocationComment;
         public readonly CSharpType Type;
 
         public CSharpOpaqueDataType(
             string name,
             string originalCodeLocationComment,
             CSharpType type)
+            : base(name, originalCodeLocationComment)
         {
-            Name = name;
-            OriginalCodeLocationComment = originalCodeLocationComment;
             Type = type;
         }
 
+        // Required for debugger string with records
+        // ReSharper disable once RedundantOverriddenMember
         public override string ToString()
         {
-            return Name;
+            return base.ToString();
         }
     }
 }
