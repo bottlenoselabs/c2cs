@@ -1,8 +1,10 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
 
-using C2CS.Bindgen.GenerateCSharpCode;
-using C2CS.Bindgen.WriteCSharpCode;
+using System;
+using System.IO;
+using C2CS.CSharp;
+using C2CS.Languages.C;
 
 namespace C2CS.Bindgen
 {
@@ -22,32 +24,30 @@ namespace C2CS.Bindgen
 
         private static void ParseCCode(BindgenUseCaseRequest request, ref BindgenUseCaseState state)
         {
-            var obj = new ParseCCode.ParseCCodeModule();
-            state.ClangTranslationUnit = obj.ParseClangTranslationUnit(request.InputFilePath, request.ClangArgs);
+            state.ClangTranslationUnit = ClangParser.ParseTranslationUnit(request.InputFilePath, request.ClangArgs);
         }
 
         private static void ExploreCCode(BindgenUseCaseRequest request, ref BindgenUseCaseState state)
         {
-            var obj = new ExploreCCode.ExploreCCodeModule();
-            state.ClangAbstractSyntaxTree = obj.ExtractAbstractSyntaxTree(state.ClangTranslationUnit);
+            var clangExplorer = new ClangExplorer();
+            state.ClangAbstractSyntaxTree = clangExplorer.ExtractAbstractSyntaxTree(state.ClangTranslationUnit);
         }
 
         public static void MapCAbstractSyntaxTreeToCSharp(BindgenUseCaseRequest request, ref BindgenUseCaseState state)
         {
-            var obj = new MapCCodeToCSharp.MapCCodeToCSharpModule();
-            state.CSharpAbstractSyntaxTree = obj.GetAbstractSyntaxTree(state.ClangAbstractSyntaxTree);
+            state.CSharpAbstractSyntaxTree = CSharpMapper.GetAbstractSyntaxTree(state.ClangAbstractSyntaxTree);
         }
 
         private static void GenerateCSharpCode(BindgenUseCaseRequest request, ref BindgenUseCaseState state)
         {
-            var obj = new GenerateCSharpCodeModule();
-            state.GeneratedCSharpCode = obj.GenerateCSharpCode(request.LibraryName, state.CSharpAbstractSyntaxTree);
+            state.GeneratedCSharpCode = CSharpCodeGenerator.GenerateFile(
+                request.LibraryName, state.CSharpAbstractSyntaxTree);
         }
 
         private static void WriteCSharpCode(BindgenUseCaseRequest request, ref BindgenUseCaseState state)
         {
-            var obj = new WriteCSharpCode.WriteCSharpCodeModule();
-            WriteCSharpCodeModule.WriteCSharpToDisk(request.OutputFilePath, state.GeneratedCSharpCode);
+            File.WriteAllText(request.OutputFilePath, state.GeneratedCSharpCode);
+            Console.WriteLine(request.OutputFilePath);
         }
 
         protected override BindgenUseCaseResponse ReturnResult(

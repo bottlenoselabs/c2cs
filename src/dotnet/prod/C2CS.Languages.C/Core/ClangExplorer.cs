@@ -5,12 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
-using C2CS.Languages.C;
 using ClangSharp.Interop;
 
-namespace C2CS.Bindgen.ExploreCCode
+namespace C2CS.Languages.C
 {
-    public class ExploreCCodeModule
+    public class ClangExplorer
     {
         private readonly HashSet<CXCursor> _visitedCursors = new();
         private readonly HashSet<CXType> _visitedTypes = new();

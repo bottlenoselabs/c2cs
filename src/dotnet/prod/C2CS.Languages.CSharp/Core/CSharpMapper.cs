@@ -7,9 +7,34 @@ using C2CS.Languages.C;
 
 namespace C2CS.CSharp
 {
-    public class CSharpMapper
+    public static class CSharpMapper
     {
-        public ImmutableArray<CSharpFunctionExtern> MapFunctionExterns(ImmutableArray<ClangFunctionExtern> clangFunctionExterns)
+        public static CSharpAbstractSyntaxTree GetAbstractSyntaxTree(
+            ClangAbstractSyntaxTree clangAbstractSyntaxTree)
+        {
+            var functionExterns = MapFunctionExterns(
+                clangAbstractSyntaxTree.FunctionExterns);
+            var functionPointers = MapFunctionPointers(
+                clangAbstractSyntaxTree.FunctionPointers);
+            var structs = MapStructs(
+                clangAbstractSyntaxTree.Records,
+                clangAbstractSyntaxTree.AliasDataTypes);
+            var opaqueDataTypes = MapOpaqueDataTypes(
+                clangAbstractSyntaxTree.OpaqueDataTypes);
+            var enums = MapEnums(
+                clangAbstractSyntaxTree.Enums);
+
+            var result = new CSharpAbstractSyntaxTree(
+                functionExterns,
+                functionPointers,
+                structs,
+                opaqueDataTypes,
+                enums);
+
+            return result;
+        }
+
+        private static ImmutableArray<CSharpFunctionExtern> MapFunctionExterns(ImmutableArray<ClangFunctionExtern> clangFunctionExterns)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpFunctionExtern>(clangFunctionExterns.Length);
 
@@ -24,7 +49,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private CSharpFunctionExtern MapFunctionExtern(ClangFunctionExtern clangFunctionExtern)
+        private static CSharpFunctionExtern MapFunctionExtern(ClangFunctionExtern clangFunctionExtern)
         {
             var name = clangFunctionExtern.Name;
             var originalCodeLocationComment = MapOriginalCodeLocationComment(clangFunctionExtern.CodeLocation);
@@ -42,7 +67,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private CSharpFunctionExternCallingConvention MapFunctionCallingConvention(
+        private static CSharpFunctionExternCallingConvention MapFunctionCallingConvention(
             ClangFunctionExternCallingConvention clangFunctionCallingConvention)
         {
             var result = clangFunctionCallingConvention switch
@@ -55,7 +80,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private ImmutableArray<CSharpFunctionExternParameter> MapFunctionExternParameters(
+        private static ImmutableArray<CSharpFunctionExternParameter> MapFunctionExternParameters(
             ImmutableArray<ClangFunctionExternParameter> clangFunctionExternParameters)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpFunctionExternParameter>(clangFunctionExternParameters.Length);
@@ -71,7 +96,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private CSharpFunctionExternParameter MapFunctionExternParameter(
+        private static CSharpFunctionExternParameter MapFunctionExternParameter(
             ClangFunctionExternParameter clangFunctionExternParameter)
         {
             var name = SanitizeIdentifierName(clangFunctionExternParameter.Name);
@@ -88,7 +113,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        public ImmutableArray<CSharpFunctionPointer> MapFunctionPointers(ImmutableArray<ClangFunctionPointer> clangFunctionPointers)
+        private static ImmutableArray<CSharpFunctionPointer> MapFunctionPointers(ImmutableArray<ClangFunctionPointer> clangFunctionPointers)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpFunctionPointer>(clangFunctionPointers.Length);
 
@@ -103,7 +128,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private CSharpFunctionPointer MapFunctionPointer(ClangFunctionPointer clangFunctionPointer)
+        private static CSharpFunctionPointer MapFunctionPointer(ClangFunctionPointer clangFunctionPointer)
         {
             var name = clangFunctionPointer.Name;
             var originalCodeLocationComment = MapOriginalCodeLocationComment(clangFunctionPointer.CodeLocation);
@@ -117,7 +142,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        public ImmutableArray<CSharpStruct> MapStructs(
+        private static ImmutableArray<CSharpStruct> MapStructs(
             ImmutableArray<ClangRecord> records,
             ImmutableArray<ClangAliasType> aliasDataTypes)
         {
@@ -142,7 +167,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private CSharpStruct MapStruct(ClangRecord clangRecord)
+        private static CSharpStruct MapStruct(ClangRecord clangRecord)
         {
             var name = clangRecord.Name;
             var originalCodeLocationComment = MapOriginalCodeLocationComment(clangRecord.CodeLocation);
@@ -160,7 +185,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private ImmutableArray<CSharpStructField> MapStructFields(ImmutableArray<ClangRecordField> clangRecordFields)
+        private static ImmutableArray<CSharpStructField> MapStructFields(ImmutableArray<ClangRecordField> clangRecordFields)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpStructField>(clangRecordFields.Length);
 
@@ -175,7 +200,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private CSharpStructField MapStructField(ClangRecordField clangRecordField)
+        private static CSharpStructField MapStructField(ClangRecordField clangRecordField)
         {
             var name = SanitizeIdentifierName(clangRecordField.Name);
             var originalCodeLocationComment = MapOriginalCodeLocationComment(clangRecordField.CodeLocation);
@@ -193,7 +218,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private ImmutableArray<CSharpStruct> MapNestedStructs(ImmutableArray<ClangRecord> clangNestedRecords)
+        private static ImmutableArray<CSharpStruct> MapNestedStructs(ImmutableArray<ClangRecord> clangNestedRecords)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpStruct>(clangNestedRecords.Length);
 
@@ -208,7 +233,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        public ImmutableArray<CSharpOpaqueDataType> MapOpaqueDataTypes(ImmutableArray<ClangOpaqueDataType> opaqueDataTypes)
+        private static ImmutableArray<CSharpOpaqueDataType> MapOpaqueDataTypes(ImmutableArray<ClangOpaqueDataType> opaqueDataTypes)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpOpaqueDataType>(opaqueDataTypes.Length);
 
@@ -223,7 +248,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private CSharpOpaqueDataType MapOpaqueDataType(ClangOpaqueDataType clangOpaqueDataType)
+        private static CSharpOpaqueDataType MapOpaqueDataType(ClangOpaqueDataType clangOpaqueDataType)
         {
             var name = clangOpaqueDataType.Name;
             var originalCodeLocationComment = MapOriginalCodeLocationComment(clangOpaqueDataType.CodeLocation);
@@ -235,7 +260,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private CSharpStruct MapAliasDataType(ClangAliasType clangAliasType)
+        private static CSharpStruct MapAliasDataType(ClangAliasType clangAliasType)
         {
             var name = clangAliasType.Name;
             var originalCodeLocationComment = MapOriginalCodeLocationComment(clangAliasType.CodeLocation);
@@ -251,7 +276,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private ImmutableArray<CSharpStructField> MapAliasDataTypeFields(ClangType clangType, string originalCodeLocationComment)
+        private static ImmutableArray<CSharpStructField> MapAliasDataTypeFields(ClangType clangType, string originalCodeLocationComment)
         {
             var type = MapType(clangType);
             var structField = new CSharpStructField(
@@ -265,7 +290,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        public ImmutableArray<CSharpEnum> MapEnums(ImmutableArray<ClangEnum> clangEnums)
+        public static ImmutableArray<CSharpEnum> MapEnums(ImmutableArray<ClangEnum> clangEnums)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpEnum>(clangEnums.Length);
 
@@ -280,7 +305,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private CSharpEnum MapEnum(ClangEnum clangEnum)
+        private static CSharpEnum MapEnum(ClangEnum clangEnum)
         {
             var name = clangEnum.Name;
             var originalCodeLocationComment = MapOriginalCodeLocationComment(clangEnum.CodeLocation);
@@ -295,7 +320,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private ImmutableArray<CSharpEnumValue> MapEnumValues(ImmutableArray<ClangEnumValue> clangEnumValues)
+        private static ImmutableArray<CSharpEnumValue> MapEnumValues(ImmutableArray<ClangEnumValue> clangEnumValues)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpEnumValue>(clangEnumValues.Length);
 
@@ -310,7 +335,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private CSharpEnumValue MapEnumValue(ClangEnumValue clangEnumValue)
+        private static CSharpEnumValue MapEnumValue(ClangEnumValue clangEnumValue)
         {
             var name = clangEnumValue.Name;
             var originalCodeLocationComment = MapOriginalCodeLocationComment(clangEnumValue.CodeLocation);
@@ -324,7 +349,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private CSharpType MapType(ClangType clangType)
+        private static CSharpType MapType(ClangType clangType)
         {
             var name = MapTypeName(clangType);
             var originalName = clangType.OriginalName;
@@ -353,7 +378,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private string MapOriginalCodeLocationComment(ClangCodeLocation codeLocation)
+        private static string MapOriginalCodeLocationComment(ClangCodeLocation codeLocation)
         {
             var kind = codeLocation.Kind;
             var fileName = codeLocation.FileName;

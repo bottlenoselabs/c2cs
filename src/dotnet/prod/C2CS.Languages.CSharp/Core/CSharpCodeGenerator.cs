@@ -5,28 +5,61 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using C2CS.CSharp;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace C2CS.Bindgen.GenerateCSharpCode
+namespace C2CS.CSharp
 {
-	internal sealed class CSharpCodeGenerator
+	public static class CSharpCodeGenerator
 	{
-		private readonly string _libraryName;
-
-		public CSharpCodeGenerator(string libraryName)
+		public static string GenerateFile(string libraryName, CSharpAbstractSyntaxTree abstractSyntaxTree)
 		{
-			_libraryName = libraryName;
+			var members = new List<MemberDeclarationSyntax>();
+
+			foreach (var functionExtern in abstractSyntaxTree.FunctionExterns)
+			{
+				var member = CreateExternMethod(functionExtern);
+				members.Add(member);
+			}
+
+			foreach (var functionPointer in abstractSyntaxTree.FunctionPointers)
+			{
+				var member = CSharpCodeGenerator.CreateFunctionPointer(functionPointer);
+				members.Add(member);
+			}
+
+			foreach (var @struct in abstractSyntaxTree.Structs)
+			{
+				var member = CreateStruct(@struct);
+				members.Add(member);
+			}
+
+			foreach (var opaqueDataType in abstractSyntaxTree.OpaqueDataTypes)
+			{
+				var member = CreateOpaqueStruct(opaqueDataType);
+				members.Add(member);
+			}
+
+			foreach (var @enum in abstractSyntaxTree.Enums)
+			{
+				var member = CreateEnum(@enum);
+				members.Add(member);
+			}
+
+			var @class = CreatePInvokeClass(libraryName, members.ToImmutableArray());
+			return @class.ToFullString();
 		}
 
-		public ClassDeclarationSyntax CreatePInvokeClass(string name, ImmutableArray<MemberDeclarationSyntax> members)
+		private static ClassDeclarationSyntax CreatePInvokeClass(string libraryName, ImmutableArray<MemberDeclarationSyntax> members)
 		{
+			var className = Path.GetFileNameWithoutExtension(libraryName);
+
 			var newMembers = new List<MemberDeclarationSyntax>();
 
 			var libraryNameField = FieldDeclaration(
@@ -35,7 +68,7 @@ namespace C2CS.Bindgen.GenerateCSharpCode
 							.WithInitializer(
 								EqualsValueClause(LiteralExpression(
 									SyntaxKind.StringLiteralExpression,
-									Literal(_libraryName)))))))
+									Literal(libraryName)))))))
 				.WithModifiers(
 					TokenList(Token(SyntaxKind.PrivateKeyword), Token(SyntaxKind.ConstKeyword)));
 
@@ -58,7 +91,7 @@ using System.Runtime.InteropServices;";
 
 			var commentFormatted = comment.TrimStart() + "\r\n";
 
-			var result = ClassDeclaration(name)
+			var result = ClassDeclaration(className)
 				.AddModifiers(
 					Token(SyntaxKind.PublicKeyword),
 					Token(SyntaxKind.StaticKeyword),
@@ -72,7 +105,7 @@ using System.Runtime.InteropServices;";
 			return result;
 		}
 
-		public MethodDeclarationSyntax CreateExternMethod(CSharpFunctionExtern functionExtern)
+		private static MethodDeclarationSyntax CreateExternMethod(CSharpFunctionExtern functionExtern)
 		{
 			var functionName = functionExtern.Name;
 			var functionReturnTypeName = functionExtern.ReturnType.Name;
@@ -120,7 +153,7 @@ using System.Runtime.InteropServices;";
 			return cSharpStruct;
 		}
 
-		public EnumDeclarationSyntax CreateEnum(CSharpEnum @enum)
+		private static EnumDeclarationSyntax CreateEnum(CSharpEnum @enum)
 		{
 			var cSharpEnumType = @enum.Type.Name;
 			var cSharpEnum = EnumDeclaration(@enum.Name)
@@ -141,7 +174,7 @@ using System.Runtime.InteropServices;";
 				.WithLeadingTrivia(Comment(@enum.OriginalCodeLocationComment));
 		}
 
-		public StructDeclarationSyntax CreateStruct(CSharpStruct cSharpStruct)
+		private static StructDeclarationSyntax CreateStruct(CSharpStruct cSharpStruct)
 		{
 			var structName = cSharpStruct.Name;
 			var structSize = cSharpStruct.Type.SizeOf;
@@ -179,7 +212,7 @@ using System.Runtime.InteropServices;";
 			return @struct;
 		}
 
-		private FieldDeclarationSyntax CreateStructField(
+		private static FieldDeclarationSyntax CreateStructField(
 			CSharpStructField cStructField,
 			out bool needsWrap)
 		{
@@ -212,7 +245,7 @@ using System.Runtime.InteropServices;";
 			return cSharpField;
 		}
 
-		private FieldDeclarationSyntax CreateStructFieldFixedArray(
+		private static FieldDeclarationSyntax CreateStructFieldFixedArray(
 			CSharpStructField cStructField,
 			out bool needsWrap)
 		{
@@ -275,7 +308,7 @@ using System.Runtime.InteropServices;";
 			return cSharpField;
 		}
 
-		public StructDeclarationSyntax CreateOpaqueStruct(CSharpOpaqueDataType cSharpOpaqueDataType)
+		private static StructDeclarationSyntax CreateOpaqueStruct(CSharpOpaqueDataType cSharpOpaqueDataType)
 		{
 			var @struct = StructDeclaration(cSharpOpaqueDataType.Name)
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
@@ -287,7 +320,7 @@ using System.Runtime.InteropServices;";
 			return @struct;
 		}
 
-		private ImmutableArray<ParameterSyntax> CreateMethodParameters(ImmutableArray<CSharpFunctionExternParameter> functionParameters)
+		private static ImmutableArray<ParameterSyntax> CreateMethodParameters(ImmutableArray<CSharpFunctionExternParameter> functionParameters)
 		{
 			var cSharpMethodParameters = ImmutableArray.CreateBuilder<ParameterSyntax>();
 			var cSharpMethodParameterNames = new HashSet<string>();
@@ -331,7 +364,7 @@ using System.Runtime.InteropServices;";
 			}
 		}
 
-		private ParameterSyntax CreateMethodParameter(CSharpFunctionExternParameter functionParameter, string parameterName)
+		private static ParameterSyntax CreateMethodParameter(CSharpFunctionExternParameter functionParameter, string parameterName)
 		{
 			var methodParameter = Parameter(Identifier(parameterName));
 			if (functionParameter.IsReadOnly)

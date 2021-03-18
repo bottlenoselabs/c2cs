@@ -5,11 +5,11 @@ using System;
 using System.Collections.Immutable;
 using ClangSharp.Interop;
 
-namespace C2CS.Bindgen.ParseCCode
+namespace C2CS.Languages.C
 {
-    public class ParseCCodeModule
+    public static class ClangParser
     {
-        public CXTranslationUnit ParseClangTranslationUnit(
+        public static CXTranslationUnit ParseTranslationUnit(
             string headerFilePath,
             ImmutableArray<string> clangArgs)
         {
@@ -18,7 +18,7 @@ namespace C2CS.Bindgen.ParseCCode
 
             if (!TryParseTranslationUnit(headerFilePath, clangArgs, out var translationUnit))
             {
-                throw new UseCaseException("libclang failed.");
+                throw new ClangParserException("libclang failed.");
             }
 
             var diagnostics = GetCompilationDiagnostics(translationUnit);
@@ -44,13 +44,13 @@ namespace C2CS.Bindgen.ParseCCode
 
             if (hasErrors)
             {
-                throw new UseCaseException("Clang parsing errors.");
+                throw new ClangParserException("Clang parsing errors.");
             }
 
             return translationUnit;
         }
 
-        private bool TryParseTranslationUnit(
+        private static bool TryParseTranslationUnit(
             string filePath,
             ImmutableArray<string> commandLineArgs,
             out CXTranslationUnit translationUnit)
@@ -79,7 +79,7 @@ namespace C2CS.Bindgen.ParseCCode
             return false;
         }
 
-        private ImmutableArray<CXDiagnostic> GetCompilationDiagnostics(CXTranslationUnit translationUnit)
+        private static ImmutableArray<CXDiagnostic> GetCompilationDiagnostics(CXTranslationUnit translationUnit)
         {
             var diagnosticsCount = (int)translationUnit.NumDiagnostics;
             var builder = ImmutableArray.CreateBuilder<CXDiagnostic>(diagnosticsCount);
@@ -91,6 +91,14 @@ namespace C2CS.Bindgen.ParseCCode
             }
 
             return builder.ToImmutable();
+        }
+
+        public class ClangParserException : Exception
+        {
+            public ClangParserException(string message)
+                : base(message)
+            {
+            }
         }
     }
 }

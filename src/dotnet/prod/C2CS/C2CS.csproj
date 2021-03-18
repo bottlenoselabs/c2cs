@@ -13,11 +13,7 @@
         <EnableAnalyzersStyleCop>true</EnableAnalyzersStyleCop>
     </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.Compilers" Version="3.6.0-3.final" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.6.0-3.final" />
-    </ItemGroup>
-
+    <!-- Project references -->
     <ItemGroup>
       <ProjectReference Include="..\C2CS.Languages.CSharp\C2CS.Languages.CSharp.csproj" />
       <ProjectReference Include="..\C2CS.Languages.C\C2CS.Languages.C.csproj" />
