@@ -14,7 +14,7 @@ namespace C2CS.Bindgen
             : base(new UseCaseStep[]
             {
                 new("Parse C code from disk using libclang", ParseCCode),
-                new("Extract Clang AST", ExploreCCode),
+                new("Extract Clang abstract syntax tree", ExploreCCode),
                 new("Map Clang to C#", MapCAbstractSyntaxTreeToCSharp),
                 new("Generate C# code", GenerateCSharpCode),
                 new("Write C# code to disk", WriteCSharpCode)
