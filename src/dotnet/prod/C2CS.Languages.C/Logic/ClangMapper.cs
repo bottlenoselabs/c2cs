@@ -358,7 +358,7 @@ namespace C2CS.Languages.C
             var alignOf = (int) clang.Type_getAlignOf(type);
             var arraySize = (int) type.ArraySize;
             var isReadOnly = clang.isConstQualifiedType(type) > 0U;
-            var isSystem = cursor.IsInSystem();
+            var isSystemType = type.IsSystemType();
 
             var result = new ClangType(
                 typeName,
@@ -367,7 +367,7 @@ namespace C2CS.Languages.C
                 alignOf,
                 arraySize,
                 isReadOnly,
-                isSystem);
+                isSystemType);
 
             return result;
         }
@@ -500,7 +500,7 @@ namespace C2CS.Languages.C
         {
             string result;
 
-            var isInSystem = clangType.Declaration.IsInSystem();
+            var isInSystem = clangType.Declaration.IsSystemCursor();
 
             if (isInSystem)
             {

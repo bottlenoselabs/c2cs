@@ -11,7 +11,7 @@ namespace C2CS.Languages.C
         public readonly int AlignOf;
         public readonly int ArraySize;
         public readonly bool IsReadOnly;
-        public readonly bool IsSystem;
+        public readonly bool IsSystemType;
 
         internal ClangType(
             string name,
@@ -20,7 +20,7 @@ namespace C2CS.Languages.C
             int alignOf,
             int arraySize,
             bool isReadOnly,
-            bool isSystem)
+            bool isSystemType)
         {
             Name = name;
             OriginalName = originalName;
@@ -28,7 +28,7 @@ namespace C2CS.Languages.C
             AlignOf = alignOf;
             ArraySize = arraySize;
             IsReadOnly = isReadOnly;
-            IsSystem = isSystem;
+            IsSystemType = isSystemType;
         }
 
         public override string ToString()

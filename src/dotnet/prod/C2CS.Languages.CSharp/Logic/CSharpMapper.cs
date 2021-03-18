@@ -326,7 +326,7 @@ namespace C2CS.CSharp
 
         private CSharpType MapType(ClangType clangType)
         {
-            var name = clangType.Name;
+            var name = MapTypeName(clangType);
             var originalName = clangType.OriginalName;
             var sizeOf = clangType.SizeOf;
             var alignOf = clangType.AlignOf;
@@ -337,6 +337,18 @@ namespace C2CS.CSharp
                 0,
                 sizeOf,
                 alignOf);
+
+            return result;
+        }
+
+        private static string MapTypeName(ClangType clangType)
+        {
+            string result = clangType.Name;
+
+            if (clangType.IsSystemType && clangType.Name == "bool")
+            {
+                result = "CBool";
+            }
 
             return result;
         }

@@ -31,9 +31,44 @@ namespace C2CS.Languages.C
 			return CXChildVisitResult.CXChildVisit_Continue;
 		}
 
-		public static bool IsInSystem(this CXCursor cursor)
+		public static bool IsSystemCursor(this CXCursor cursor)
 		{
 			return cursor.Location.IsInSystemHeader;
+		}
+
+		public static bool IsSystemType(this CXType type)
+		{
+			var kind = type.kind;
+
+			switch (kind)
+			{
+				case CXTypeKind.CXType_Void:
+				case CXTypeKind.CXType_Bool:
+				case CXTypeKind.CXType_Char_S:
+				case CXTypeKind.CXType_Char_U:
+				case CXTypeKind.CXType_UChar:
+				case CXTypeKind.CXType_UShort:
+				case CXTypeKind.CXType_UInt:
+				case CXTypeKind.CXType_ULong:
+				case CXTypeKind.CXType_ULongLong:
+				case CXTypeKind.CXType_Short:
+				case CXTypeKind.CXType_Int:
+				case CXTypeKind.CXType_Long:
+				case CXTypeKind.CXType_LongLong:
+				case CXTypeKind.CXType_Float:
+				case CXTypeKind.CXType_Double:
+					return true;
+				case CXTypeKind.CXType_Pointer:
+					return IsSystemType(type.PointeeType);
+				case CXTypeKind.CXType_ConstantArray:
+				case CXTypeKind.CXType_Typedef:
+				case CXTypeKind.CXType_Elaborated:
+				case CXTypeKind.CXType_Record:
+				case CXTypeKind.CXType_Enum:
+					return IsSystemCursor(type.Declaration);
+				default:
+					throw new NotImplementedException();
+			}
 		}
 	}
 }

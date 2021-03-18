@@ -84,7 +84,7 @@ namespace C2CS.Bindgen.ExploreCCode
                     return;
                 }
 
-                var isSystemCursor = child.IsInSystem();
+                var isSystemCursor = child.IsSystemCursor();
                 if (isSystemCursor)
                 {
                     return;
@@ -104,7 +104,7 @@ namespace C2CS.Bindgen.ExploreCCode
                 return true;
             }
 
-            var isSystemCursor = cursor.IsInSystem();
+            var isSystemCursor = cursor.IsSystemCursor();
             if (isSystemCursor)
             {
                 return true;
