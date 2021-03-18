@@ -275,24 +275,16 @@ using System.Runtime.InteropServices;";
 			return cSharpField;
 		}
 
-		public StructDeclarationSyntax CreateOpaqueStruct(CSharpOpaqueDataType cOpaqueType)
+		public StructDeclarationSyntax CreateOpaqueStruct(CSharpOpaqueDataType cSharpOpaqueDataType)
 		{
-			var cSharpStruct = StructDeclaration(cOpaqueType.Name)
+			var @struct = StructDeclaration(cSharpOpaqueDataType.Name)
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-				.WithAttributeStructLayout(LayoutKind.Explicit, cOpaqueType.Type.SizeOf, cOpaqueType.Type.AlignOf);
+				.WithAttributeStructLayout(LayoutKind.Sequential);
 
-			var cSharpFieldType = ParseTypeName("IntPtr");
-			var cSharpFieldVariable = VariableDeclarator(Identifier("Handle"));
-			var cSharpField = FieldDeclaration(
-					VariableDeclaration(cSharpFieldType)
-						.WithVariables(SingletonSeparatedList(cSharpFieldVariable)))
-				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-				.WithAttributeFieldOffset(0, cOpaqueType.Type.SizeOf, 0);
-			cSharpStruct = cSharpStruct
-				.AddMembers(cSharpField)
-				.WithLeadingTrivia(Comment(cOpaqueType.OriginalCodeLocationComment));
+			@struct = @struct
+				.WithLeadingTrivia(Comment(cSharpOpaqueDataType.OriginalCodeLocationComment));
 
-			return cSharpStruct;
+			return @struct;
 		}
 
 		private ImmutableArray<ParameterSyntax> CreateMethodParameters(ImmutableArray<CSharpFunctionExternParameter> functionParameters)

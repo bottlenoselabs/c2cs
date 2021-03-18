@@ -16,7 +16,6 @@ namespace C2CS.Languages.C
         Enum,
         EnumValue,
         OpaqueDataType,
-        ForwardDataType,
-        SystemDataType,
+        AliasDataType
     }
 }

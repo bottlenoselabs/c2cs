@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Microsoft.CodeAnalysis;
@@ -84,8 +85,8 @@ namespace C2CS
 		internal static StructDeclarationSyntax WithAttributeStructLayout(
 			this StructDeclarationSyntax structDeclarationSyntax,
 			LayoutKind layoutKind,
-			int size,
-			int pack)
+			int? size = null,
+			int? pack = null)
 		{
 			var layoutKindMemberAccessExpression = MemberAccessExpression(
 				SyntaxKind.SimpleMemberAccessExpression,
@@ -94,17 +95,28 @@ namespace C2CS
 				IdentifierName(
 					$@"{layoutKind}"));
 
-			var sizeAssignmentExpression =
-				AssignmentExpression(
-					SyntaxKind.SimpleAssignmentExpression,
-					IdentifierName("Size"),
-					LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(size)));
+			var attributeArguments = new List<AttributeArgumentSyntax>();
+			var layoutKindAttributeArgument = AttributeArgument(layoutKindMemberAccessExpression);
+			attributeArguments.Add(layoutKindAttributeArgument);
 
-			var packAssignmentExpression =
-				AssignmentExpression(
-					SyntaxKind.SimpleAssignmentExpression,
-					IdentifierName("Pack"),
-					LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(pack)));
+			if (layoutKind != LayoutKind.Sequential)
+			{
+				var sizeAssignmentExpression =
+					AssignmentExpression(
+						SyntaxKind.SimpleAssignmentExpression,
+						IdentifierName("Size"),
+						LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(size ?? 0)));
+				var sizeAttributeArgument = AttributeArgument(sizeAssignmentExpression);
+				attributeArguments.Add(sizeAttributeArgument);
+
+				var packAssignmentExpression =
+					AssignmentExpression(
+						SyntaxKind.SimpleAssignmentExpression,
+						IdentifierName("Pack"),
+						LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(pack ?? 0)));
+				var packAttributeArgument = AttributeArgument(packAssignmentExpression);
+				attributeArguments.Add(packAttributeArgument);
+			}
 
 			return structDeclarationSyntax.WithAttributeLists(
 				SingletonList(
@@ -113,12 +125,7 @@ namespace C2CS
 							Attribute(
 								IdentifierName("StructLayout"),
 								AttributeArgumentList(
-									SeparatedList(new[]
-									{
-										AttributeArgument(layoutKindMemberAccessExpression),
-										AttributeArgument(sizeAssignmentExpression),
-										AttributeArgument(packAssignmentExpression)
-									})))))));
+									SeparatedList(attributeArguments)))))));
 		}
 
 		public static ClassDeclarationSyntax Format(this ClassDeclarationSyntax rootNode)

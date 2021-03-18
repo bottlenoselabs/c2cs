@@ -13,17 +13,21 @@ namespace C2CS.CSharp
 
         public readonly ImmutableArray<CSharpStruct> Structs;
 
+        public readonly ImmutableArray<CSharpOpaqueDataType> OpaqueDataTypes;
+
         public readonly ImmutableArray<CSharpEnum> Enums;
 
         public CSharpAbstractSyntaxTree(
             ImmutableArray<CSharpFunctionExtern> functionExterns,
             ImmutableArray<CSharpFunctionPointer> functionPointers,
             ImmutableArray<CSharpStruct> structs,
+            ImmutableArray<CSharpOpaqueDataType> opaqueDataTypes,
             ImmutableArray<CSharpEnum> enums)
         {
             FunctionExterns = functionExterns;
             FunctionPointers = functionPointers;
             Structs = structs;
+            OpaqueDataTypes = opaqueDataTypes;
             Enums = enums;
         }
     }

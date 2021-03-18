@@ -305,23 +305,21 @@ namespace C2CS.Languages.C
         {
             var codeLocation = MapCodeLocation(ClangKind.OpaqueDataType, cursor);
             var name = cursor.Spelling.CString;
-            var type = MapType(cursor.Type, cursor);
 
             var result = new ClangOpaqueDataType(
                 name,
-                codeLocation,
-                type);
+                codeLocation);
 
             return result;
         }
 
-        public ClangForwardDataType MapForwardDataType(CXCursor cursor)
+        public ClangAliasType MapAliasDataType(CXCursor cursor)
         {
-            var codeLocation = MapCodeLocation(ClangKind.ForwardDataType, cursor);
+            var codeLocation = MapCodeLocation(ClangKind.AliasDataType, cursor);
             var name = cursor.Spelling.CString;
             var underlyingType = MapType(cursor.Type.CanonicalType, cursor);
 
-            var result = new ClangForwardDataType(
+            var result = new ClangAliasType(
                 name,
                 codeLocation,
                 underlyingType);

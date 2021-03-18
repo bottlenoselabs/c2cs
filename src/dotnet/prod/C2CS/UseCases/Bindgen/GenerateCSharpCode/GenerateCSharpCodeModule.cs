@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using C2CS.CSharp;
-using ClangSharp.Interop;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace C2CS.Bindgen.GenerateCSharpCode
@@ -14,68 +13,45 @@ namespace C2CS.Bindgen.GenerateCSharpCode
     {
         private CSharpCodeGenerator _cSharpCodeGenerator = null!;
 
-        private readonly List<MemberDeclarationSyntax> _members = new();
-
         public string GenerateCSharpCode(string libraryName, CSharpAbstractSyntaxTree abstractSyntaxTree)
         {
             _cSharpCodeGenerator = new CSharpCodeGenerator(libraryName);
 
+            var members = new List<MemberDeclarationSyntax>();
+
             foreach (var functionExtern in abstractSyntaxTree.FunctionExterns)
             {
-                TranspileFunctionExtern(functionExtern);
+                var member = _cSharpCodeGenerator.CreateExternMethod(functionExtern);
+                members.Add(member);
             }
 
             foreach (var functionPointer in abstractSyntaxTree.FunctionPointers)
             {
-                TranspileFunctionPointer(functionPointer);
+                var member = CSharpCodeGenerator.CreateFunctionPointer(functionPointer);
+                members.Add(member);
             }
 
             foreach (var @struct in abstractSyntaxTree.Structs)
             {
-                TranspileRecord(@struct);
+                var member = _cSharpCodeGenerator.CreateStruct(@struct);
+                members.Add(member);
+            }
+
+            foreach (var opaqueDataType in abstractSyntaxTree.OpaqueDataTypes)
+            {
+                var member = _cSharpCodeGenerator.CreateOpaqueStruct(opaqueDataType);
+                members.Add(member);
             }
 
             foreach (var @enum in abstractSyntaxTree.Enums)
             {
-                TranspileEnum(@enum);
+                var member = _cSharpCodeGenerator.CreateEnum(@enum);
+                members.Add(member);
             }
 
             var className = Path.GetFileNameWithoutExtension(libraryName);
-            var members = _members.ToImmutableArray();
-
-            var @class = _cSharpCodeGenerator.CreatePInvokeClass(className, members);
-
+            var @class = _cSharpCodeGenerator.CreatePInvokeClass(className, members.ToImmutableArray());
             return @class.ToFullString();
-        }
-
-        private void TranspileFunctionPointer(CSharpFunctionPointer functionPointer)
-        {
-            var cSharpFunctionPointer = CSharpCodeGenerator.CreateFunctionPointer(functionPointer);
-            _members.Add(cSharpFunctionPointer);
-        }
-
-        private void TranspileRecord(CSharpStruct @struct)
-        {
-            var cSharpStruct = _cSharpCodeGenerator.CreateStruct(@struct);
-            _members.Add(cSharpStruct);
-        }
-
-        private void TranspileFunctionExtern(CSharpFunctionExtern functionExtern)
-        {
-            var cSharpMethod = _cSharpCodeGenerator.CreateExternMethod(functionExtern);
-            _members.Add(cSharpMethod);
-        }
-
-        private void TranspileConstant(CXCursor clangConstant)
-        {
-            // var cSharpConstant = _cSharpCodeGenerator.CreateConstant(clangConstant);
-            // _members.Add(cSharpConstant);
-        }
-
-        private void TranspileEnum(CSharpEnum @enum)
-        {
-            var cSharpEnum = _cSharpCodeGenerator.CreateEnum(@enum);
-            _members.Add(cSharpEnum);
         }
     }
 }

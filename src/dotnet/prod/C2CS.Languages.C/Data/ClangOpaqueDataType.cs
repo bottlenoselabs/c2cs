@@ -5,15 +5,11 @@ namespace C2CS.Languages.C
 {
     public record ClangOpaqueDataType : ClangCommon
     {
-        public readonly ClangType PointerType;
-
         public ClangOpaqueDataType(
             string name,
-            ClangCodeLocation codeLocation,
-            ClangType pointerType)
+            ClangCodeLocation codeLocation)
             : base(name, codeLocation)
         {
-            PointerType = pointerType;
         }
 
         // Required for debugger string with records

@@ -119,11 +119,10 @@ namespace C2CS.CSharp
 
         public ImmutableArray<CSharpStruct> MapStructs(
             ImmutableArray<ClangRecord> records,
-            ImmutableArray<ClangOpaqueDataType> opaqueDataTypes,
-            ImmutableArray<ClangForwardDataType> forwardDataTypes)
+            ImmutableArray<ClangAliasType> aliasDataTypes)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpStruct>(
-                records.Length + opaqueDataTypes.Length);
+                records.Length + aliasDataTypes.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangRecord in records)
@@ -133,16 +132,9 @@ namespace C2CS.CSharp
             }
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var clangOpaqueDataType in opaqueDataTypes)
+            foreach (var clangAliasDataType in aliasDataTypes)
             {
-                var @struct = MapOpaqueDataType(clangOpaqueDataType);
-                builder.Add(@struct);
-            }
-
-            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var clangForwardDataType in forwardDataTypes)
-            {
-                var @struct = MapForwardDataType(clangForwardDataType);
+                var @struct = MapAliasDataType(clangAliasDataType);
                 builder.Add(@struct);
             }
 
@@ -216,28 +208,39 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private CSharpStruct MapOpaqueDataType(ClangOpaqueDataType clangOpaqueDataType)
+        public ImmutableArray<CSharpOpaqueDataType> MapOpaqueDataTypes(ImmutableArray<ClangOpaqueDataType> opaqueDataTypes)
+        {
+            var builder = ImmutableArray.CreateBuilder<CSharpOpaqueDataType>(opaqueDataTypes.Length);
+
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var clangOpaqueDataType in opaqueDataTypes)
+            {
+                var opaqueDataType = MapOpaqueDataType(clangOpaqueDataType);
+                builder.Add(opaqueDataType);
+            }
+
+            var result = builder.ToImmutable();
+            return result;
+        }
+
+        private CSharpOpaqueDataType MapOpaqueDataType(ClangOpaqueDataType clangOpaqueDataType)
         {
             var name = clangOpaqueDataType.Name;
             var originalCodeLocationComment = MapOriginalCodeLocationComment(clangOpaqueDataType.CodeLocation);
-            var type = MapType(clangOpaqueDataType.PointerType);
-            var fields = ImmutableArray<CSharpStructField>.Empty;
 
-            var result = new CSharpStruct(
+            var result = new CSharpOpaqueDataType(
                 name,
-                originalCodeLocationComment,
-                type,
-                fields);
+                originalCodeLocationComment);
 
             return result;
         }
 
-        private CSharpStruct MapForwardDataType(ClangForwardDataType clangForwardDataType)
+        private CSharpStruct MapAliasDataType(ClangAliasType clangAliasType)
         {
-            var name = clangForwardDataType.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangForwardDataType.CodeLocation);
-            var type = MapType(clangForwardDataType.UnderlyingType);
-            var fields = MapForwardDataTypeFields(clangForwardDataType.UnderlyingType, originalCodeLocationComment);
+            var name = clangAliasType.Name;
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangAliasType.CodeLocation);
+            var type = MapType(clangAliasType.UnderlyingType);
+            var fields = MapAliasDataTypeFields(clangAliasType.UnderlyingType, originalCodeLocationComment);
 
             var result = new CSharpStruct(
                 name,
@@ -248,7 +251,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private ImmutableArray<CSharpStructField> MapForwardDataTypeFields(ClangType clangType, string originalCodeLocationComment)
+        private ImmutableArray<CSharpStructField> MapAliasDataTypeFields(ClangType clangType, string originalCodeLocationComment)
         {
             var type = MapType(clangType);
             var structField = new CSharpStructField(

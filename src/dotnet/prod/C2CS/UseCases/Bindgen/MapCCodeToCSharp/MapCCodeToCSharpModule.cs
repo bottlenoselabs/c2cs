@@ -19,8 +19,9 @@ namespace C2CS.Bindgen.MapCCodeToCSharp
                 clangAbstractSyntaxTree.FunctionPointers);
             var structs = _mapper.MapStructs(
                 clangAbstractSyntaxTree.Records,
-                clangAbstractSyntaxTree.OpaqueDataTypes,
-                clangAbstractSyntaxTree.ForwardDataTypes);
+                clangAbstractSyntaxTree.AliasDataTypes);
+            var opaqueDataTypes = _mapper.MapOpaqueDataTypes(
+                clangAbstractSyntaxTree.OpaqueDataTypes);
             var enums = _mapper.MapEnums(
                 clangAbstractSyntaxTree.Enums);
 
@@ -28,6 +29,7 @@ namespace C2CS.Bindgen.MapCCodeToCSharp
                 functionExterns,
                 functionPointers,
                 structs,
+                opaqueDataTypes,
                 enums);
 
             return result;

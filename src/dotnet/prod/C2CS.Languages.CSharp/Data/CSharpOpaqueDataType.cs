@@ -5,15 +5,11 @@ namespace C2CS.CSharp
 {
     public record CSharpOpaqueDataType : CSharpCommon
     {
-        public readonly CSharpType Type;
-
         public CSharpOpaqueDataType(
             string name,
-            string originalCodeLocationComment,
-            CSharpType type)
+            string originalCodeLocationComment)
             : base(name, originalCodeLocationComment)
         {
-            Type = type;
         }
 
         // Required for debugger string with records

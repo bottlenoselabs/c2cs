@@ -20,7 +20,7 @@ namespace C2CS.Bindgen.ExploreCCode
         private readonly List<ClangEnum> _enums = new();
         private readonly List<ClangRecord> _records = new();
         private readonly List<ClangOpaqueDataType> _opaqueDataTypes = new();
-        private readonly List<ClangForwardDataType> _forwardDataTypes = new();
+        private readonly List<ClangAliasType> _aliasDataTypes = new();
         private readonly List<ClangFunctionPointer> _functionPointers = new();
 
         public ClangAbstractSyntaxTree ExtractAbstractSyntaxTree(CXTranslationUnit translationUnit)
@@ -51,7 +51,7 @@ namespace C2CS.Bindgen.ExploreCCode
             var records = _records.ToImmutableArray().Sort();
             var enums = _enums.ToImmutableArray().Sort();
             var opaqueDataTypes = _opaqueDataTypes.ToImmutableArray().Sort();
-            var forwardDataTypes = _forwardDataTypes.ToImmutableArray().Sort();
+            var aliasDataTypes = _aliasDataTypes.ToImmutableArray().Sort();
 
             var result = new ClangAbstractSyntaxTree(
                 functionExterns,
@@ -59,7 +59,7 @@ namespace C2CS.Bindgen.ExploreCCode
                 records,
                 enums,
                 opaqueDataTypes,
-                forwardDataTypes);
+                aliasDataTypes);
 
             return result;
         }
@@ -229,33 +229,43 @@ namespace C2CS.Bindgen.ExploreCCode
 
         private void VisitDeclaration(CXCursor cursor, CXCursor cursorParent)
         {
-            var declarationKind = clangsharp.Cursor_getDeclKind(cursor);
-            switch (declarationKind)
+            var cursorType = clang.getCursorType(cursor);
+            var sizeOf = clang.Type_getSizeOf(cursorType);
+            if (sizeOf == -2)
             {
-                case CX_DeclKind.CX_DeclKind_Enum:
-                    VisitEnum(cursor);
-                    break;
-                case CX_DeclKind.CX_DeclKind_EnumConstant:
-                    VisitEnumConstant(cursor, cursorParent);
-                    break;
-                case CX_DeclKind.CX_DeclKind_Record:
-                    VisitRecord(cursor);
-                    break;
-                case CX_DeclKind.CX_DeclKind_Field:
-                    VisitField(cursor, cursorParent);
-                    break;
-                case CX_DeclKind.CX_DeclKind_Typedef:
-                    VisitTypedef(cursor);
-                    break;
-                case CX_DeclKind.CX_DeclKind_Function:
-                    VisitFunction(cursor, cursorParent);
-                    break;
-                case CX_DeclKind.CX_DeclKind_ParmVar:
-                    VisitParameter(cursor, cursorParent);
-                    break;
-                default:
-                    var up = new ExploreUnexpectedException();
-                    throw up;
+                // -2 = CXTypeLayoutError_Incomplete
+                VisitOpaqueDataType(cursor);
+            }
+            else
+            {
+                var declarationKind = clangsharp.Cursor_getDeclKind(cursor);
+                switch (declarationKind)
+                {
+                    case CX_DeclKind.CX_DeclKind_Enum:
+                        VisitEnum(cursor);
+                        break;
+                    case CX_DeclKind.CX_DeclKind_EnumConstant:
+                        VisitEnumConstant(cursor, cursorParent);
+                        break;
+                    case CX_DeclKind.CX_DeclKind_Record:
+                        VisitRecord(cursor);
+                        break;
+                    case CX_DeclKind.CX_DeclKind_Field:
+                        VisitField(cursor, cursorParent);
+                        break;
+                    case CX_DeclKind.CX_DeclKind_Typedef:
+                        VisitTypedef(cursor);
+                        break;
+                    case CX_DeclKind.CX_DeclKind_Function:
+                        VisitFunction(cursor, cursorParent);
+                        break;
+                    case CX_DeclKind.CX_DeclKind_ParmVar:
+                        VisitParameter(cursor, cursorParent);
+                        break;
+                    default:
+                        var up = new ExploreUnexpectedException();
+                        throw up;
+                }
             }
         }
 
@@ -359,7 +369,7 @@ namespace C2CS.Bindgen.ExploreCCode
                     VisitTypedefPointer(cursor, pointeeType);
                     break;
                 case CX_TypeClass.CX_TypeClass_Builtin:
-                    VisitForwardDataType(cursor);
+                    VisitAliasDataType(cursor);
                     break;
                 case CX_TypeClass.CX_TypeClass_Record:
                     VisitRecord(cursor);
@@ -447,10 +457,10 @@ namespace C2CS.Bindgen.ExploreCCode
             return count == 0;
         }
 
-        private void VisitForwardDataType(CXCursor cursor)
+        private void VisitAliasDataType(CXCursor cursor)
         {
-            var forwardType = _mapper.MapForwardDataType(cursor);
-            _forwardDataTypes.Add(forwardType);
+            var aliasDataType = _mapper.MapAliasDataType(cursor);
+            _aliasDataTypes.Add(aliasDataType);
         }
 
         private void VisitOpaqueDataType(CXCursor cursor)
