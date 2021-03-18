@@ -15,18 +15,6 @@ public static unsafe partial class libclang
 {
     private const string LibraryName = "libclang";
 
-    // FunctionExtern @ CXString.h:50 01/28/2021 00:34:01
-    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern sbyte* clang_getCString(CXString @string);
-
-    // FunctionExtern @ CXString.h:55 01/28/2021 00:34:01
-    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_disposeString(CXString @string);
-
-    // FunctionExtern @ CXString.h:60 01/28/2021 00:34:01
-    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_disposeStringSet(CXStringSet* set);
-
     // FunctionExtern @ BuildSystem.h:33 01/28/2021 00:34:01
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong clang_getBuildSessionTimestamp();
@@ -74,6 +62,18 @@ public static unsafe partial class libclang
     // FunctionExtern @ BuildSystem.h:144 01/28/2021 00:34:01
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_ModuleMapDescriptor_dispose(CXModuleMapDescriptor param);
+
+    // FunctionExtern @ CXString.h:50 01/28/2021 00:34:01
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern sbyte* clang_getCString(CXString @string);
+
+    // FunctionExtern @ CXString.h:55 01/28/2021 00:34:01
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern void clang_disposeString(CXString @string);
+
+    // FunctionExtern @ CXString.h:60 01/28/2021 00:34:01
+    [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern void clang_disposeStringSet(CXStringSet* set);
 
     // FunctionExtern @ Index.h:266 01/28/2021 00:34:01
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -821,7 +821,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:4217 01/28/2021 00:34:01
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_visitChildren(CXCursor parent, FunctionPointer_CXCursorVisitor visitor, CXClientData client_data);
+    public static extern uint clang_visitChildren(CXCursor parent, CXCursorVisitor visitor, CXClientData client_data);
 
     // FunctionExtern @ Index.h:4268 01/28/2021 00:34:01
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -1105,7 +1105,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:5092 01/28/2021 00:34:01
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_executeOnThread(FunctionPointer_clang_executeOnThread_fn* fn, void* user_data, uint stack_size);
+    public static extern void clang_executeOnThread(fn fn, void* user_data, uint stack_size);
 
     // FunctionExtern @ Index.h:5330 01/28/2021 00:34:01
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -1209,7 +1209,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:5940 01/28/2021 00:34:01
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_getInclusions(CXTranslationUnit tu, FunctionPointer_CXInclusionVisitor visitor, CXClientData client_data);
+    public static extern void clang_getInclusions(CXTranslationUnit tu, CXInclusionVisitor visitor, CXClientData client_data);
 
     // FunctionExtern @ Index.h:5967 01/28/2021 00:34:01
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -1341,7 +1341,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:6711 01/28/2021 00:34:01
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_indexTranslationUnit(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CXTranslationUnit param6);
+    public static extern int clang_indexTranslationUnit(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CXTranslationUnit param2);
 
     // FunctionExtern @ Index.h:6723 01/28/2021 00:34:01
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -1353,793 +1353,771 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:6768 01/28/2021 00:34:01
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Type_visitFields(CXType T, FunctionPointer_CXFieldVisitor visitor, CXClientData client_data);
+    public static extern uint clang_Type_visitFields(CXType T, CXFieldVisitor visitor, CXClientData client_data);
 
     // FunctionPointer @ Index.h:4191 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct FunctionPointer_CXCursorVisitor
+    public struct CXCursorVisitor
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
     }
 
     // FunctionPointer @ Index.h:5092 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct FunctionPointer_clang_executeOnThread_fn
+    public struct fn
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
     }
 
     // FunctionPointer @ Index.h:5929 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct FunctionPointer_CXInclusionVisitor
+    public struct CXInclusionVisitor
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
     }
 
     // FunctionPointer @ Index.h:6091 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct FunctionPointer_CXCursorAndRangeVisitor_visit
+    public struct visit
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
     }
 
     // FunctionPointer @ Index.h:6498 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct FunctionPointer_IndexerCallbacks_abortQuery
+    public struct abortQuery
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
     }
 
     // FunctionPointer @ Index.h:6503 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct FunctionPointer_IndexerCallbacks_diagnostic
+    public struct diagnostic
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
     }
 
     // FunctionPointer @ Index.h:6505 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct FunctionPointer_IndexerCallbacks_enteredMainFile
+    public struct enteredMainFile
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
     }
 
     // FunctionPointer @ Index.h:6511 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct FunctionPointer_IndexerCallbacks_ppIncludedFile
+    public struct ppIncludedFile
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
     }
 
     // FunctionPointer @ Index.h:6522 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct FunctionPointer_IndexerCallbacks_importedASTFile
+    public struct importedASTFile
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
     }
 
     // FunctionPointer @ Index.h:6528 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct FunctionPointer_IndexerCallbacks_startedTranslationUnit
+    public struct startedTranslationUnit
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
     }
 
     // FunctionPointer @ Index.h:6531 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct FunctionPointer_IndexerCallbacks_indexDeclaration
+    public struct indexDeclaration
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
     }
 
     // FunctionPointer @ Index.h:6536 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct FunctionPointer_IndexerCallbacks_indexEntityReference
+    public struct indexEntityReference
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
     }
 
     // FunctionPointer @ Index.h:6746 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct FunctionPointer_CXFieldVisitor
+    public struct CXFieldVisitor
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
     }
 
-    // Opaque @ BuildSystem.h:39 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXVirtualFileOverlay
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ BuildSystem.h:100 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXModuleMapDescriptor
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ Index.h:75 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIndex
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ Index.h:353 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXFile
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ Index.h:86 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXTranslationUnit
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ Index.h:780 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXDiagnosticSet
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ Index.h:775 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXDiagnostic
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ Index.h:81 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXTargetInfo
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ Index.h:2998 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXCursorSet
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ Index.h:92 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXClientData
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ Index.h:4332 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXPrintingPolicy
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ Index.h:4679 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXModule
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ Index.h:5124 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXCompletionString
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ Index.h:5959 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXEvalResult
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ Index.h:6030 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXRemapping
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ Index.h:6174 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIdxClientContainer
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ Index.h:6168 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIdxClientEntity
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ Index.h:6594 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIndexAction
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ Index.h:6163 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIdxClientFile
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Opaque @ Index.h:6180 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIdxClientASTFile
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public IntPtr Handle;
-    }
-
-    // Struct @ CXString.h:37 01/28/2021 00:34:01
+    // Record @ CXString.h:40 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXString
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* data;
 
-        [FieldOffset(8)] /* size = 4, padding = 4 */
+        [FieldOffset(8)] // size = 4, padding = 4
         public uint private_flags;
     }
 
-    // Struct @ CXString.h:42 01/28/2021 00:34:01
+    // Record @ CXString.h:45 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXStringSet
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 8, padding = 0
         public CXString* Strings;
 
-        [FieldOffset(8)] /* size = 4, padding = 4 */
+        [FieldOffset(8)] // size = 4, padding = 4
         public uint Count;
     }
 
-    // Struct @ Index.h:369 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXFileUniqueID
-    {
-        [FieldOffset(0)] /* size = 24, padding = 0 */
-        public fixed ulong data[3]; /* original type is `unsigned long long [3]` */
-    }
-
-    // Struct @ Index.h:456 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXSourceLocation
-    {
-        [FieldOffset(0)] /* size = 16, padding = 0 */
-        public fixed ulong _ptr_data[16 / 8]; /* original type is `const void *[2]` */
-
-        public ref void* ptr_data(int index = 0)
-        {
-            fixed (CXSourceLocation* @this = &this)
-            {
-                var pointer = (void* * )&@this->_ptr_data[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
-            }
-        }
-
-        [FieldOffset(16)] /* size = 4, padding = 4 */
-        public uint int_data;
-    }
-
-    // Struct @ Index.h:467 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXSourceRange
-    {
-        [FieldOffset(0)] /* size = 16, padding = 0 */
-        public fixed ulong _ptr_data[16 / 8]; /* original type is `const void *[2]` */
-
-        public ref void* ptr_data(int index = 0)
-        {
-            fixed (CXSourceRange* @this = &this)
-            {
-                var pointer = (void* * )&@this->_ptr_data[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
-            }
-        }
-
-        [FieldOffset(16)] /* size = 4, padding = 0 */
-        public uint begin_int_data;
-
-        [FieldOffset(20)] /* size = 4, padding = 0 */
-        public uint end_int_data;
-    }
-
-    // Struct @ Index.h:693 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct CXSourceRangeList
-    {
-        [FieldOffset(0)] /* size = 4, padding = 4 */
-        public uint count;
-
-        [FieldOffset(8)] /* size = 8, padding = 0 */
-        public CXSourceRange* ranges;
-    }
-
-    // Struct @ Index.h:101 01/28/2021 00:34:01
+    // Record @ Index.h:101 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXUnsavedFile
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 8, padding = 0
         public sbyte* Filename;
 
-        [FieldOffset(8)] /* size = 8, padding = 0 */
+        [FieldOffset(8)] // size = 8, padding = 0
         public sbyte* Contents;
 
-        [FieldOffset(16)] /* size = 8, padding = 0 */
+        [FieldOffset(16)] // size = 8, padding = 0
         public ulong Length;
     }
 
-    // Struct @ Index.h:1639 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct CXTUResourceUsageEntry
-    {
-        [FieldOffset(0)] /* size = 4, padding = 4 */
-        public CXTUResourceUsageKind kind;
-
-        [FieldOffset(8)] /* size = 8, padding = 0 */
-        public ulong amount;
-    }
-
-    // Struct @ Index.h:1650 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXTUResourceUsage
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public void* data;
-
-        [FieldOffset(8)] /* size = 4, padding = 4 */
-        public uint numEntries;
-
-        [FieldOffset(16)] /* size = 8, padding = 0 */
-        public CXTUResourceUsageEntry* entries;
-    }
-
-    // Struct @ Index.h:2682 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
-    public struct CXCursor
-    {
-        [FieldOffset(0)] /* size = 4, padding = 0 */
-        public CXCursorKind kind;
-
-        [FieldOffset(4)] /* size = 4, padding = 0 */
-        public int xdata;
-
-        [FieldOffset(8)] /* size = 24, padding = 0 */
-        public fixed ulong _data[24 / 8]; /* original type is `const void *[3]` */
-        public ref void* data(int index = 0)
-        {
-            fixed (CXCursor* @this = &this)
-            {
-                var pointer = (void* * )&@this->_data[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
-            }
-        }
-    }
-
-    // Struct @ Index.h:149 01/28/2021 00:34:01
+    // Record @ Index.h:167 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct CXVersion
     {
-        [FieldOffset(0)] /* size = 4, padding = 0 */
+        [FieldOffset(0)] // size = 4, padding = 0
         public int Major;
 
-        [FieldOffset(4)] /* size = 4, padding = 0 */
+        [FieldOffset(4)] // size = 4, padding = 0
         public int Minor;
 
-        [FieldOffset(8)] /* size = 4, padding = 0 */
+        [FieldOffset(8)] // size = 4, padding = 0
         public int Subminor;
     }
 
-    // Struct @ Index.h:2863 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8)]
-    public struct CXPlatformAvailability
+    // Record @ Index.h:371 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct CXFileUniqueID
     {
-        [FieldOffset(0)] /* size = 16, padding = 0 */
-        public CXString Platform;
-
-        [FieldOffset(16)] /* size = 12, padding = 0 */
-        public CXVersion Introduced;
-
-        [FieldOffset(28)] /* size = 12, padding = 0 */
-        public CXVersion Deprecated;
-
-        [FieldOffset(40)] /* size = 12, padding = 0 */
-        public CXVersion Obsoleted;
-
-        [FieldOffset(52)] /* size = 4, padding = 0 */
-        public int Unavailable;
-
-        [FieldOffset(56)] /* size = 16, padding = 0 */
-        public CXString Message;
+        [FieldOffset(0)] // size = 24, padding = 0
+        public ulong data;
     }
 
-    // Struct @ Index.h:3406 01/28/2021 00:34:01
+    // Record @ Index.h:459 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXType
+    public struct CXSourceLocation
     {
-        [FieldOffset(0)] /* size = 4, padding = 4 */
-        public CXTypeKind kind;
-
-        [FieldOffset(8)] /* size = 16, padding = 0 */
-        public fixed ulong _data[16 / 8]; /* original type is `void *[2]` */
-        public ref void* data(int index = 0)
-        {
-            fixed (CXType* @this = &this)
-            {
-                var pointer = (void* * )&@this->_data[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
-            }
-        }
-    }
-
-    // Struct @ Index.h:4971 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXToken
-    {
-        [FieldOffset(0)] /* size = 16, padding = 0 */
-        public fixed uint int_data[4]; /* original type is `unsigned int [4]` */
-
-        [FieldOffset(16)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 16, padding = 0
         public void* ptr_data;
-    }
 
-    // Struct @ Index.h:5129 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct CXCompletionResult
-    {
-        [FieldOffset(0)] /* size = 4, padding = 4 */
-        public CXCursorKind CursorKind;
-
-        [FieldOffset(8)] /* size = 8, padding = 0 */
-        public CXCompletionString CompletionString;
-    }
-
-    // Struct @ Index.h:5463 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct CXCodeCompleteResults
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public CXCompletionResult* Results;
-
-        [FieldOffset(8)] /* size = 4, padding = 4 */
-        public uint NumResults;
-    }
-
-    // Struct @ Index.h:6089 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct CXCursorAndRangeVisitor
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public void* context;
-
-        [FieldOffset(8)] /* size = 8, padding = 0 */
-        public FunctionPointer_CXCursorAndRangeVisitor_visit* visit;
-    }
-
-    // Struct @ Index.h:6185 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXIdxLoc
-    {
-        [FieldOffset(0)] /* size = 16, padding = 0 */
-        public fixed ulong _ptr_data[16 / 8]; /* original type is `void *[2]` */
-
-        public ref void* ptr_data(int index = 0)
-        {
-            fixed (CXIdxLoc* @this = &this)
-            {
-                var pointer = (void* * )&@this->_ptr_data[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
-            }
-        }
-
-        [FieldOffset(16)] /* size = 4, padding = 4 */
+        [FieldOffset(16)] // size = 4, padding = 4
         public uint int_data;
     }
 
-    // Struct @ Index.h:6306 01/28/2021 00:34:01
+    // Record @ Index.h:471 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct CXSourceRange
+    {
+        [FieldOffset(0)] // size = 16, padding = 0
+        public void* ptr_data;
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public uint begin_int_data;
+
+        [FieldOffset(20)] // size = 4, padding = 0
+        public uint end_int_data;
+    }
+
+    // Record @ Index.h:700 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct CXSourceRangeList
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint count;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CXSourceRange* ranges;
+    }
+
+    // Record @ Index.h:1645 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct CXTUResourceUsageEntry
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public CXTUResourceUsageKind kind;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ulong amount;
+    }
+
+    // Record @ Index.h:1661 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct CXTUResourceUsage
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* data;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public uint numEntries;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public CXTUResourceUsageEntry* entries;
+    }
+
+    // Record @ Index.h:2686 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
+    public struct CXCursor
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public CXCursorKind kind;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int xdata;
+
+        [FieldOffset(8)] // size = 24, padding = 0
+        public void* data;
+    }
+
+    // Record @ Index.h:2894 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8)]
+    public struct CXPlatformAvailability
+    {
+        [FieldOffset(0)] // size = 16, padding = 0
+        public CXString Platform;
+
+        [FieldOffset(16)] // size = 12, padding = 0
+        public CXVersion Introduced;
+
+        [FieldOffset(28)] // size = 12, padding = 0
+        public CXVersion Deprecated;
+
+        [FieldOffset(40)] // size = 12, padding = 0
+        public CXVersion Obsoleted;
+
+        [FieldOffset(52)] // size = 4, padding = 0
+        public int Unavailable;
+
+        [FieldOffset(56)] // size = 16, padding = 0
+        public CXString Message;
+    }
+
+    // Record @ Index.h:3409 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct CXType
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public CXTypeKind kind;
+
+        [FieldOffset(8)] // size = 16, padding = 0
+        public void* data;
+    }
+
+    // Record @ Index.h:4974 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct CXToken
+    {
+        [FieldOffset(0)] // size = 16, padding = 0
+        public uint int_data;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public void* ptr_data;
+    }
+
+    // Record @ Index.h:5147 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct CXCompletionResult
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public CXCursorKind CursorKind;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CXCompletionString CompletionString;
+    }
+
+    // Record @ Index.h:5474 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct CXCodeCompleteResults
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXCompletionResult* Results;
+
+        [FieldOffset(8)] // size = 4, padding = 4
+        public uint NumResults;
+    }
+
+    // Record @ Index.h:6092 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct CXCursorAndRangeVisitor
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* context;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public visit visit;
+    }
+
+    // Record @ Index.h:6188 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct CXIdxLoc
+    {
+        [FieldOffset(0)] // size = 16, padding = 0
+        public void* ptr_data;
+
+        [FieldOffset(16)] // size = 4, padding = 4
+        public uint int_data;
+    }
+
+    // Record @ Index.h:6213 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
+    public struct CXIdxIncludedFileInfo
+    {
+        [FieldOffset(0)] // size = 24, padding = 0
+        public CXIdxLoc hashLoc;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public sbyte* filename;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public CXFile file;
+
+        [FieldOffset(40)] // size = 4, padding = 0
+        public int isImport;
+
+        [FieldOffset(44)] // size = 4, padding = 0
+        public int isAngled;
+
+        [FieldOffset(48)] // size = 4, padding = 4
+        public int isModuleImport;
+    }
+
+    // Record @ Index.h:6237 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
+    public struct CXIdxImportedASTFileInfo
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXFile file;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CXModule module;
+
+        [FieldOffset(16)] // size = 24, padding = 0
+        public CXIdxLoc loc;
+
+        [FieldOffset(40)] // size = 4, padding = 4
+        public int isImplicit;
+    }
+
+    // Record @ Index.h:6310 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
     public struct CXIdxAttrInfo
     {
-        [FieldOffset(0)] /* size = 4, padding = 4 */
+        [FieldOffset(0)] // size = 4, padding = 0
         public CXIdxAttrKind kind;
 
-        [FieldOffset(8)] /* size = 32, padding = 0 */
+        [FieldOffset(8)] // size = 32, padding = 0
         public CXCursor cursor;
 
-        [FieldOffset(40)] /* size = 24, padding = 0 */
+        [FieldOffset(40)] // size = 24, padding = 0
         public CXIdxLoc loc;
     }
 
-    // Struct @ Index.h:6312 01/28/2021 00:34:01
+    // Record @ Index.h:6321 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8)]
     public struct CXIdxEntityInfo
     {
-        [FieldOffset(0)] /* size = 4, padding = 0 */
+        [FieldOffset(0)] // size = 4, padding = 0
         public CXIdxEntityKind kind;
 
-        [FieldOffset(4)] /* size = 4, padding = 0 */
+        [FieldOffset(4)] // size = 4, padding = 0
         public CXIdxEntityCXXTemplateKind templateKind;
 
-        [FieldOffset(8)] /* size = 4, padding = 4 */
+        [FieldOffset(8)] // size = 4, padding = 0
         public CXIdxEntityLanguage lang;
 
-        [FieldOffset(16)] /* size = 8, padding = 0 */
+        [FieldOffset(16)] // size = 8, padding = 0
         public sbyte* name;
 
-        [FieldOffset(24)] /* size = 8, padding = 0 */
+        [FieldOffset(24)] // size = 8, padding = 0
         public sbyte* USR;
 
-        [FieldOffset(32)] /* size = 32, padding = 0 */
+        [FieldOffset(32)] // size = 32, padding = 0
         public CXCursor cursor;
 
-        [FieldOffset(64)] /* size = 8, padding = 0 */
+        [FieldOffset(64)] // size = 8, padding = 0
         public CXIdxAttrInfo* * attributes;
 
-        [FieldOffset(72)] /* size = 4, padding = 4 */
+        [FieldOffset(72)] // size = 4, padding = 4
         public uint numAttributes;
     }
 
-    // Struct @ Index.h:6323 01/28/2021 00:34:01
+    // Record @ Index.h:6325 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
     public struct CXIdxContainerInfo
     {
-        [FieldOffset(0)] /* size = 32, padding = 0 */
+        [FieldOffset(0)] // size = 32, padding = 0
         public CXCursor cursor;
     }
 
-    // Struct @ Index.h:6336 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 128, Pack = 8)]
-    public struct CXIdxDeclInfo
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public CXIdxEntityInfo* entityInfo;
-
-        [FieldOffset(8)] /* size = 32, padding = 0 */
-        public CXCursor cursor;
-
-        [FieldOffset(40)] /* size = 24, padding = 0 */
-        public CXIdxLoc loc;
-
-        [FieldOffset(64)] /* size = 8, padding = 0 */
-        public CXIdxContainerInfo* semanticContainer;
-
-        [FieldOffset(72)] /* size = 8, padding = 0 */
-        public CXIdxContainerInfo* lexicalContainer;
-
-        [FieldOffset(80)] /* size = 4, padding = 0 */
-        public int isRedeclaration;
-
-        [FieldOffset(84)] /* size = 4, padding = 0 */
-        public int isDefinition;
-
-        [FieldOffset(88)] /* size = 4, padding = 4 */
-        public int isContainer;
-
-        [FieldOffset(96)] /* size = 8, padding = 0 */
-        public CXIdxContainerInfo* declAsContainer;
-
-        [FieldOffset(104)] /* size = 4, padding = 4 */
-        public int isImplicit;
-
-        [FieldOffset(112)] /* size = 8, padding = 0 */
-        public CXIdxAttrInfo* * attributes;
-
-        [FieldOffset(120)] /* size = 4, padding = 0 */
-        public uint numAttributes;
-
-        [FieldOffset(124)] /* size = 4, padding = 0 */
-        public uint flags;
-    }
-
-    // Struct @ Index.h:6368 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct CXIdxObjCContainerDeclInfo
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public CXIdxDeclInfo* declInfo;
-
-        [FieldOffset(8)] /* size = 4, padding = 4 */
-        public CXIdxObjCContainerKind kind;
-    }
-
-    // Struct @ Index.h:6373 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
-    public struct CXIdxBaseClassInfo
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public CXIdxEntityInfo* @base;
-
-        [FieldOffset(8)] /* size = 32, padding = 0 */
-        public CXCursor cursor;
-
-        [FieldOffset(40)] /* size = 24, padding = 0 */
-        public CXIdxLoc loc;
-    }
-
-    // Struct @ Index.h:6379 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
-    public struct CXIdxObjCProtocolRefInfo
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public CXIdxEntityInfo* protocol;
-
-        [FieldOffset(8)] /* size = 32, padding = 0 */
-        public CXCursor cursor;
-
-        [FieldOffset(40)] /* size = 24, padding = 0 */
-        public CXIdxLoc loc;
-    }
-
-    // Struct @ Index.h:6385 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct CXIdxObjCProtocolRefListInfo
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public CXIdxObjCProtocolRefInfo* * protocols;
-
-        [FieldOffset(8)] /* size = 4, padding = 4 */
-        public uint numProtocols;
-    }
-
-    // Struct @ Index.h:6390 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXIdxObjCInterfaceDeclInfo
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public CXIdxObjCContainerDeclInfo* containerInfo;
-
-        [FieldOffset(8)] /* size = 8, padding = 0 */
-        public CXIdxBaseClassInfo* superInfo;
-
-        [FieldOffset(16)] /* size = 8, padding = 0 */
-        public CXIdxObjCProtocolRefListInfo* protocols;
-    }
-
-    // Struct @ Index.h:6396 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8)]
-    public struct CXIdxObjCCategoryDeclInfo
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public CXIdxObjCContainerDeclInfo* containerInfo;
-
-        [FieldOffset(8)] /* size = 8, padding = 0 */
-        public CXIdxEntityInfo* objcClass;
-
-        [FieldOffset(16)] /* size = 32, padding = 0 */
-        public CXCursor classCursor;
-
-        [FieldOffset(48)] /* size = 24, padding = 0 */
-        public CXIdxLoc classLoc;
-
-        [FieldOffset(72)] /* size = 8, padding = 0 */
-        public CXIdxObjCProtocolRefListInfo* protocols;
-    }
-
-    // Struct @ Index.h:6404 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXIdxObjCPropertyDeclInfo
-    {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public CXIdxDeclInfo* declInfo;
-
-        [FieldOffset(8)] /* size = 8, padding = 0 */
-        public CXIdxEntityInfo* getter;
-
-        [FieldOffset(16)] /* size = 8, padding = 0 */
-        public CXIdxEntityInfo* setter;
-    }
-
-    // Struct @ Index.h:6327 01/28/2021 00:34:01
+    // Record @ Index.h:6332 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8)]
     public struct CXIdxIBOutletCollectionAttrInfo
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 8, padding = 0
         public CXIdxAttrInfo* attrInfo;
 
-        [FieldOffset(8)] /* size = 8, padding = 0 */
+        [FieldOffset(8)] // size = 8, padding = 0
         public CXIdxEntityInfo* objcClass;
 
-        [FieldOffset(16)] /* size = 32, padding = 0 */
+        [FieldOffset(16)] // size = 32, padding = 0
         public CXCursor classCursor;
 
-        [FieldOffset(48)] /* size = 24, padding = 0 */
+        [FieldOffset(48)] // size = 24, padding = 0
         public CXIdxLoc classLoc;
     }
 
-    // Struct @ Index.h:6410 01/28/2021 00:34:01
+    // Record @ Index.h:6360 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 128, Pack = 8)]
+    public struct CXIdxDeclInfo
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXIdxEntityInfo* entityInfo;
+
+        [FieldOffset(8)] // size = 32, padding = 0
+        public CXCursor cursor;
+
+        [FieldOffset(40)] // size = 24, padding = 0
+        public CXIdxLoc loc;
+
+        [FieldOffset(64)] // size = 8, padding = 0
+        public CXIdxContainerInfo* semanticContainer;
+
+        [FieldOffset(72)] // size = 8, padding = 0
+        public CXIdxContainerInfo* lexicalContainer;
+
+        [FieldOffset(80)] // size = 4, padding = 0
+        public int isRedeclaration;
+
+        [FieldOffset(84)] // size = 4, padding = 0
+        public int isDefinition;
+
+        [FieldOffset(88)] // size = 4, padding = 0
+        public int isContainer;
+
+        [FieldOffset(96)] // size = 8, padding = 0
+        public CXIdxContainerInfo* declAsContainer;
+
+        [FieldOffset(104)] // size = 4, padding = 0
+        public int isImplicit;
+
+        [FieldOffset(112)] // size = 8, padding = 0
+        public CXIdxAttrInfo* * attributes;
+
+        [FieldOffset(120)] // size = 4, padding = 0
+        public uint numAttributes;
+
+        [FieldOffset(124)] // size = 4, padding = 0
+        public uint flags;
+    }
+
+    // Record @ Index.h:6371 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct CXIdxObjCContainerDeclInfo
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXIdxDeclInfo* declInfo;
+
+        [FieldOffset(8)] // size = 4, padding = 4
+        public CXIdxObjCContainerKind kind;
+    }
+
+    // Record @ Index.h:6377 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
+    public struct CXIdxBaseClassInfo
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXIdxEntityInfo* @base;
+
+        [FieldOffset(8)] // size = 32, padding = 0
+        public CXCursor cursor;
+
+        [FieldOffset(40)] // size = 24, padding = 0
+        public CXIdxLoc loc;
+    }
+
+    // Record @ Index.h:6383 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
+    public struct CXIdxObjCProtocolRefInfo
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXIdxEntityInfo* protocol;
+
+        [FieldOffset(8)] // size = 32, padding = 0
+        public CXCursor cursor;
+
+        [FieldOffset(40)] // size = 24, padding = 0
+        public CXIdxLoc loc;
+    }
+
+    // Record @ Index.h:6388 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct CXIdxObjCProtocolRefListInfo
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXIdxObjCProtocolRefInfo* * protocols;
+
+        [FieldOffset(8)] // size = 4, padding = 4
+        public uint numProtocols;
+    }
+
+    // Record @ Index.h:6394 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct CXIdxObjCInterfaceDeclInfo
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXIdxObjCContainerDeclInfo* containerInfo;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CXIdxBaseClassInfo* superInfo;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public CXIdxObjCProtocolRefListInfo* protocols;
+    }
+
+    // Record @ Index.h:6402 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8)]
+    public struct CXIdxObjCCategoryDeclInfo
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXIdxObjCContainerDeclInfo* containerInfo;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CXIdxEntityInfo* objcClass;
+
+        [FieldOffset(16)] // size = 32, padding = 0
+        public CXCursor classCursor;
+
+        [FieldOffset(48)] // size = 24, padding = 0
+        public CXIdxLoc classLoc;
+
+        [FieldOffset(72)] // size = 8, padding = 0
+        public CXIdxObjCProtocolRefListInfo* protocols;
+    }
+
+    // Record @ Index.h:6408 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct CXIdxObjCPropertyDeclInfo
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXIdxDeclInfo* declInfo;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CXIdxEntityInfo* getter;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public CXIdxEntityInfo* setter;
+    }
+
+    // Record @ Index.h:6414 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXIdxCXXClassDeclInfo
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
+        [FieldOffset(0)] // size = 8, padding = 0
         public CXIdxDeclInfo* declInfo;
 
-        [FieldOffset(8)] /* size = 8, padding = 0 */
+        [FieldOffset(8)] // size = 8, padding = 0
         public CXIdxBaseClassInfo* * bases;
 
-        [FieldOffset(16)] /* size = 4, padding = 4 */
+        [FieldOffset(16)] // size = 4, padding = 4
         public uint numBases;
     }
 
-    // Struct @ Index.h:6493 01/28/2021 00:34:01
+    // Record @ Index.h:6487 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 96, Pack = 8)]
+    public struct CXIdxEntityRefInfo
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public CXIdxEntityRefKind kind;
+
+        [FieldOffset(8)] // size = 32, padding = 0
+        public CXCursor cursor;
+
+        [FieldOffset(40)] // size = 24, padding = 0
+        public CXIdxLoc loc;
+
+        [FieldOffset(64)] // size = 8, padding = 0
+        public CXIdxEntityInfo* referencedEntity;
+
+        [FieldOffset(72)] // size = 8, padding = 0
+        public CXIdxEntityInfo* parentEntity;
+
+        [FieldOffset(80)] // size = 8, padding = 0
+        public CXIdxContainerInfo* container;
+
+        [FieldOffset(88)] // size = 4, padding = 4
+        public CXSymbolRole role;
+    }
+
+    // Record @ Index.h:6539 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
     public struct IndexerCallbacks
     {
-        [FieldOffset(0)] /* size = 8, padding = 0 */
-        public FunctionPointer_IndexerCallbacks_abortQuery* abortQuery;
+        [FieldOffset(0)] // size = 8, padding = 0
+        public abortQuery abortQuery;
 
-        [FieldOffset(8)] /* size = 8, padding = 0 */
-        public FunctionPointer_IndexerCallbacks_diagnostic* diagnostic;
+        [FieldOffset(8)] // size = 8, padding = 0
+        public diagnostic diagnostic;
 
-        [FieldOffset(16)] /* size = 8, padding = 0 */
-        public FunctionPointer_IndexerCallbacks_enteredMainFile* enteredMainFile;
+        [FieldOffset(16)] // size = 8, padding = 0
+        public enteredMainFile enteredMainFile;
 
-        [FieldOffset(24)] /* size = 8, padding = 0 */
-        public FunctionPointer_IndexerCallbacks_ppIncludedFile* ppIncludedFile;
+        [FieldOffset(24)] // size = 8, padding = 0
+        public ppIncludedFile ppIncludedFile;
 
-        [FieldOffset(32)] /* size = 8, padding = 0 */
-        public FunctionPointer_IndexerCallbacks_importedASTFile* importedASTFile;
+        [FieldOffset(32)] // size = 8, padding = 0
+        public importedASTFile importedASTFile;
 
-        [FieldOffset(40)] /* size = 8, padding = 0 */
-        public FunctionPointer_IndexerCallbacks_startedTranslationUnit* startedTranslationUnit;
+        [FieldOffset(40)] // size = 8, padding = 0
+        public startedTranslationUnit startedTranslationUnit;
 
-        [FieldOffset(48)] /* size = 8, padding = 0 */
-        public FunctionPointer_IndexerCallbacks_indexDeclaration* indexDeclaration;
+        [FieldOffset(48)] // size = 8, padding = 0
+        public indexDeclaration indexDeclaration;
 
-        [FieldOffset(56)] /* size = 8, padding = 0 */
-        public FunctionPointer_IndexerCallbacks_indexEntityReference* indexEntityReference;
+        [FieldOffset(56)] // size = 8, padding = 0
+        public indexEntityReference indexEntityReference;
+    }
+
+    // OpaqueDataType @ BuildSystem.h:39 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXVirtualFileOverlay
+    {
+    }
+
+    // OpaqueDataType @ BuildSystem.h:100 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXModuleMapDescriptor
+    {
+    }
+
+    // OpaqueDataType @ Index.h:75 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXIndex
+    {
+    }
+
+    // OpaqueDataType @ Index.h:81 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXTargetInfo
+    {
+    }
+
+    // OpaqueDataType @ Index.h:86 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXTranslationUnit
+    {
+    }
+
+    // OpaqueDataType @ Index.h:92 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXClientData
+    {
+    }
+
+    // OpaqueDataType @ Index.h:353 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXFile
+    {
+    }
+
+    // OpaqueDataType @ Index.h:775 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXDiagnostic
+    {
+    }
+
+    // OpaqueDataType @ Index.h:780 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXDiagnosticSet
+    {
+    }
+
+    // OpaqueDataType @ Index.h:2998 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXCursorSet
+    {
+    }
+
+    // OpaqueDataType @ Index.h:4332 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXPrintingPolicy
+    {
+    }
+
+    // OpaqueDataType @ Index.h:4679 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXModule
+    {
+    }
+
+    // OpaqueDataType @ Index.h:5124 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXCompletionString
+    {
+    }
+
+    // OpaqueDataType @ Index.h:5959 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXEvalResult
+    {
+    }
+
+    // OpaqueDataType @ Index.h:6030 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXRemapping
+    {
+    }
+
+    // OpaqueDataType @ Index.h:6163 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXIdxClientFile
+    {
+    }
+
+    // OpaqueDataType @ Index.h:6168 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXIdxClientEntity
+    {
+    }
+
+    // OpaqueDataType @ Index.h:6174 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXIdxClientContainer
+    {
+    }
+
+    // OpaqueDataType @ Index.h:6180 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXIdxClientASTFile
+    {
+    }
+
+    // OpaqueDataType @ Index.h:6594 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXIndexAction
+    {
     }
 
     // Enum @ CXErrorCode.h:28 01/28/2021 00:34:01
@@ -2152,13 +2130,13 @@ public static unsafe partial class libclang
         CXError_ASTReadError = 4U
     }
 
-    // Enum @ Index.h:803 01/28/2021 00:34:01
-    public enum CXLoadDiag_Error : uint
+    // Enum @ Index.h:125 01/28/2021 00:34:01
+    public enum CXAvailabilityKind : uint
     {
-        CXLoadDiag_None = 0U,
-        CXLoadDiag_Unknown = 1U,
-        CXLoadDiag_CannotLoad = 2U,
-        CXLoadDiag_InvalidFile = 3U
+        CXAvailability_Available = 0U,
+        CXAvailability_Deprecated = 1U,
+        CXAvailability_NotAvailable = 2U,
+        CXAvailability_NotAccessible = 3U
     }
 
     // Enum @ Index.h:739 01/28/2021 00:34:01
@@ -2169,6 +2147,15 @@ public static unsafe partial class libclang
         CXDiagnostic_Warning = 2U,
         CXDiagnostic_Error = 3U,
         CXDiagnostic_Fatal = 4U
+    }
+
+    // Enum @ Index.h:803 01/28/2021 00:34:01
+    public enum CXLoadDiag_Error : uint
+    {
+        CXLoadDiag_None = 0U,
+        CXLoadDiag_Unknown = 1U,
+        CXLoadDiag_CannotLoad = 2U,
+        CXLoadDiag_InvalidFile = 3U
     }
 
     // Enum @ Index.h:1609 01/28/2021 00:34:01
@@ -2483,15 +2470,6 @@ public static unsafe partial class libclang
         CXVisibility_Default = 3U
     }
 
-    // Enum @ Index.h:125 01/28/2021 00:34:01
-    public enum CXAvailabilityKind : uint
-    {
-        CXAvailability_Available = 0U,
-        CXAvailability_Deprecated = 1U,
-        CXAvailability_NotAvailable = 2U,
-        CXAvailability_NotAccessible = 3U
-    }
-
     // Enum @ Index.h:2966 01/28/2021 00:34:01
     public enum CXLanguageKind : uint
     {
@@ -2634,21 +2612,6 @@ public static unsafe partial class libclang
         CXType_Atomic = 177U
     }
 
-    // Enum @ Index.h:3492 01/28/2021 00:34:01
-    public enum CXTemplateArgumentKind : uint
-    {
-        CXTemplateArgumentKind_Null = 0U,
-        CXTemplateArgumentKind_Type = 1U,
-        CXTemplateArgumentKind_Declaration = 2U,
-        CXTemplateArgumentKind_NullPtr = 3U,
-        CXTemplateArgumentKind_Integral = 4U,
-        CXTemplateArgumentKind_Template = 5U,
-        CXTemplateArgumentKind_TemplateExpansion = 6U,
-        CXTemplateArgumentKind_Expression = 7U,
-        CXTemplateArgumentKind_Pack = 8U,
-        CXTemplateArgumentKind_Invalid = 9U
-    }
-
     // Enum @ Index.h:3377 01/28/2021 00:34:01
     public enum CXCallingConv : uint
     {
@@ -2672,6 +2635,21 @@ public static unsafe partial class libclang
         CXCallingConv_AArch64VectorCall = 16U,
         CXCallingConv_Invalid = 100U,
         CXCallingConv_Unexposed = 200U
+    }
+
+    // Enum @ Index.h:3492 01/28/2021 00:34:01
+    public enum CXTemplateArgumentKind : uint
+    {
+        CXTemplateArgumentKind_Null = 0U,
+        CXTemplateArgumentKind_Type = 1U,
+        CXTemplateArgumentKind_Declaration = 2U,
+        CXTemplateArgumentKind_NullPtr = 3U,
+        CXTemplateArgumentKind_Integral = 4U,
+        CXTemplateArgumentKind_Template = 5U,
+        CXTemplateArgumentKind_TemplateExpansion = 6U,
+        CXTemplateArgumentKind_Expression = 7U,
+        CXTemplateArgumentKind_Pack = 8U,
+        CXTemplateArgumentKind_Invalid = 9U
     }
 
     // Enum @ Index.h:3845 01/28/2021 00:34:01
@@ -2802,19 +2780,19 @@ public static unsafe partial class libclang
         CXEval_UnExposed = 0U
     }
 
+    // Enum @ Index.h:6087 01/28/2021 00:34:01
+    public enum CXVisitorResult : uint
+    {
+        CXVisit_Break = 0U,
+        CXVisit_Continue = 1U
+    }
+
     // Enum @ Index.h:6109 01/28/2021 00:34:01
     public enum CXResult : uint
     {
         CXResult_Success = 0U,
         CXResult_Invalid = 1U,
         CXResult_VisitBreak = 2U
-    }
-
-    // Enum @ Index.h:6087 01/28/2021 00:34:01
-    public enum CXVisitorResult : uint
-    {
-        CXVisit_Break = 0U,
-        CXVisit_Continue = 1U
     }
 
     // Enum @ Index.h:6272 01/28/2021 00:34:01
@@ -2849,15 +2827,6 @@ public static unsafe partial class libclang
         CXIdxEntity_CXXInterface = 26U
     }
 
-    // Enum @ Index.h:6297 01/28/2021 00:34:01
-    public enum CXIdxEntityCXXTemplateKind : uint
-    {
-        CXIdxEntity_NonTemplate = 0U,
-        CXIdxEntity_Template = 1U,
-        CXIdxEntity_TemplatePartialSpecialization = 2U,
-        CXIdxEntity_TemplateSpecialization = 3U
-    }
-
     // Enum @ Index.h:6280 01/28/2021 00:34:01
     public enum CXIdxEntityLanguage : uint
     {
@@ -2866,6 +2835,15 @@ public static unsafe partial class libclang
         CXIdxEntityLang_ObjC = 2U,
         CXIdxEntityLang_CXX = 3U,
         CXIdxEntityLang_Swift = 4U
+    }
+
+    // Enum @ Index.h:6297 01/28/2021 00:34:01
+    public enum CXIdxEntityCXXTemplateKind : uint
+    {
+        CXIdxEntity_NonTemplate = 0U,
+        CXIdxEntity_Template = 1U,
+        CXIdxEntity_TemplatePartialSpecialization = 2U,
+        CXIdxEntity_TemplateSpecialization = 3U
     }
 
     // Enum @ Index.h:6304 01/28/2021 00:34:01
@@ -2883,5 +2861,27 @@ public static unsafe partial class libclang
         CXIdxObjCContainer_ForwardRef = 0U,
         CXIdxObjCContainer_Interface = 1U,
         CXIdxObjCContainer_Implementation = 2U
+    }
+
+    // Enum @ Index.h:6432 01/28/2021 00:34:01
+    public enum CXIdxEntityRefKind : uint
+    {
+        CXIdxEntityRef_Direct = 1U,
+        CXIdxEntityRef_Implicit = 2U
+    }
+
+    // Enum @ Index.h:6451 01/28/2021 00:34:01
+    public enum CXSymbolRole : uint
+    {
+        CXSymbolRole_None = 0U,
+        CXSymbolRole_Declaration = 1U,
+        CXSymbolRole_Definition = 2U,
+        CXSymbolRole_Reference = 4U,
+        CXSymbolRole_Read = 8U,
+        CXSymbolRole_Write = 16U,
+        CXSymbolRole_Call = 32U,
+        CXSymbolRole_Dynamic = 64U,
+        CXSymbolRole_AddressOf = 128U,
+        CXSymbolRole_Implicit = 256U
     }
 }
