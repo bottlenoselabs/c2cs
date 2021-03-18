@@ -12,6 +12,7 @@ namespace C2CS.Languages.C
         public readonly ImmutableArray<ClangRecord> Records;
         public readonly ImmutableArray<ClangEnum> Enums;
         public readonly ImmutableArray<ClangOpaqueDataType> OpaqueDataTypes;
+        public readonly ImmutableArray<ClangForwardDataType> ForwardDataTypes;
         public readonly ImmutableArray<ClangSystemDataType> SystemDataTypes;
 
         public ClangAbstractSyntaxTree(
@@ -20,6 +21,7 @@ namespace C2CS.Languages.C
             ImmutableArray<ClangRecord> records,
             ImmutableArray<ClangEnum> enums,
             ImmutableArray<ClangOpaqueDataType> opaqueDataTypes,
+            ImmutableArray<ClangForwardDataType> forwardDataTypes,
             ImmutableArray<ClangSystemDataType> systemDataTypes)
         {
             FunctionExterns = functionExternExterns;
@@ -27,6 +29,7 @@ namespace C2CS.Languages.C
             Records = records;
             Enums = enums;
             OpaqueDataTypes = opaqueDataTypes;
+            ForwardDataTypes = forwardDataTypes;
             SystemDataTypes = systemDataTypes;
         }
     }

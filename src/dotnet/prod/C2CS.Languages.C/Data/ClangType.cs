@@ -9,20 +9,26 @@ namespace C2CS.Languages.C
         public readonly string OriginalName;
         public readonly int SizeOf;
         public readonly int AlignOf;
+        public readonly int ArraySize;
         public readonly bool IsReadOnly;
+        public readonly bool IsSystem;
 
         internal ClangType(
             string name,
             string originalName,
             int sizeOf,
             int alignOf,
-            bool isReadOnly)
+            int arraySize,
+            bool isReadOnly,
+            bool isSystem)
         {
             Name = name;
             OriginalName = originalName;
             SizeOf = sizeOf;
             AlignOf = alignOf;
+            ArraySize = arraySize;
             IsReadOnly = isReadOnly;
+            IsSystem = isSystem;
         }
 
         public override string ToString()

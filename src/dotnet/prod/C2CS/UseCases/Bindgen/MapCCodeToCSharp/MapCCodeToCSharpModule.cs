@@ -20,6 +20,7 @@ namespace C2CS.Bindgen.MapCCodeToCSharp
             var structs = _mapper.MapStructs(
                 clangAbstractSyntaxTree.Records,
                 clangAbstractSyntaxTree.OpaqueDataTypes,
+                clangAbstractSyntaxTree.ForwardDataTypes,
                 clangAbstractSyntaxTree.SystemDataTypes);
             var enums = _mapper.MapEnums(
                 clangAbstractSyntaxTree.Enums);

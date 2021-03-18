@@ -20,6 +20,7 @@ namespace C2CS.Bindgen.ExploreCCode
         private readonly List<ClangEnum> _enums = new();
         private readonly List<ClangRecord> _records = new();
         private readonly List<ClangOpaqueDataType> _opaqueDataTypes = new();
+        private readonly List<ClangForwardDataType> _forwardDataTypes = new();
         private readonly List<ClangSystemDataType> _systemDataTypes = new();
         private readonly List<ClangFunctionPointer> _functionPointers = new();
 
@@ -45,6 +46,7 @@ namespace C2CS.Bindgen.ExploreCCode
             var records = _records.ToImmutableArray();
             var enums = _enums.ToImmutableArray();
             var opaqueDataTypes = _opaqueDataTypes.ToImmutableArray();
+            var forwardDataTypes = _forwardDataTypes.ToImmutableArray();
             var systemDataTypes = _systemDataTypes.ToImmutableArray();
 
             var result = new ClangAbstractSyntaxTree(
@@ -53,6 +55,7 @@ namespace C2CS.Bindgen.ExploreCCode
                 records,
                 enums,
                 opaqueDataTypes,
+                forwardDataTypes,
                 systemDataTypes);
 
             return result;
@@ -101,7 +104,7 @@ namespace C2CS.Bindgen.ExploreCCode
 
             if (cursor.IsInSystem())
             {
-                VisitSystemType(cursor);
+                VisitSystemDataType(cursor);
             }
             else if (cursor.IsDeclaration)
             {
@@ -311,7 +314,7 @@ namespace C2CS.Bindgen.ExploreCCode
                     VisitTypedefPointer(typedef, underlyingType.PointeeType);
                     break;
                 case CX_TypeClass.CX_TypeClass_Builtin:
-                    VisitForwardType(typedef);
+                    VisitForwardDataType(typedef);
                     break;
                 case CX_TypeClass.CX_TypeClass_Record:
                     VisitRecord(typedef);
@@ -329,7 +332,7 @@ namespace C2CS.Bindgen.ExploreCCode
         {
             if (pointeeType.kind == CXTypeKind.CXType_Void)
             {
-                VisitOpaqueType(typedef);
+                VisitOpaqueDataType(typedef);
             }
             else
             {
@@ -367,7 +370,7 @@ namespace C2CS.Bindgen.ExploreCCode
                 recordType.Declaration.VisitChildren((_, _) => childrenCount += 1);
                 if (childrenCount == 0)
                 {
-                    VisitOpaqueType(typedef);
+                    VisitOpaqueDataType(typedef);
                 }
             }
             else
@@ -377,20 +380,25 @@ namespace C2CS.Bindgen.ExploreCCode
             }
         }
 
-        private void VisitForwardType(CXCursor cursor)
+        private void VisitForwardDataType(CXCursor cursor)
         {
-            var forwardType = _mapper.MapSystemDataType(cursor);
-            _systemDataTypes.Add(forwardType);
+            var forwardType = _mapper.MapForwardDataType(cursor);
+            _forwardDataTypes.Add(forwardType);
         }
 
-        private void VisitOpaqueType(CXCursor cursor)
+        private void VisitOpaqueDataType(CXCursor cursor)
         {
             var opaqueDataType = _mapper.MapOpaqueDataType(cursor);
             _opaqueDataTypes.Add(opaqueDataType);
         }
 
-        private void VisitSystemType(CXCursor cursor)
+        private void VisitSystemDataType(CXCursor cursor)
         {
+            if (cursor.Spelling.CString == "FILE")
+            {
+                return;
+            }
+
             var systemDataType = _mapper.MapSystemDataType(cursor);
             _systemDataTypes.Add(systemDataType);
         }
@@ -402,7 +410,7 @@ namespace C2CS.Bindgen.ExploreCCode
 
             cursor.VisitChildren(VisitCursor);
 
-            var clangFunctionPointer = _mapper.MapFunctionPointer(cursor, cursorParent);
+            var clangFunctionPointer = _mapper.MapFunctionPointer(cursor);
             _functionPointers.Add(clangFunctionPointer);
         }
 

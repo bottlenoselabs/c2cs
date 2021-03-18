@@ -74,7 +74,7 @@ namespace C2CS.CSharp
         private CSharpFunctionExternParameter MapFunctionExternParameter(
             ClangFunctionExternParameter clangFunctionExternParameter)
         {
-            var name = clangFunctionExternParameter.Name;
+            var name = SanitizeIdentifierName(clangFunctionExternParameter.Name);
             var type = MapType(clangFunctionExternParameter.Type);
             var isReadOnly = clangFunctionExternParameter.IsReadOnly;
 
@@ -118,6 +118,7 @@ namespace C2CS.CSharp
         public ImmutableArray<CSharpStruct> MapStructs(
             ImmutableArray<ClangRecord> records,
             ImmutableArray<ClangOpaqueDataType> opaqueDataTypes,
+            ImmutableArray<ClangForwardDataType> forwardDataTypes,
             ImmutableArray<ClangSystemDataType> systemDataTypes)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpStruct>(
@@ -137,6 +138,14 @@ namespace C2CS.CSharp
                 builder.Add(@struct);
             }
 
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var clangForwardDataType in forwardDataTypes)
+            {
+                var @struct = MapForwardDataType(clangForwardDataType);
+                builder.Add(@struct);
+            }
+
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangSystemDataType in systemDataTypes)
             {
                 var @struct = MapSystemDataType(clangSystemDataType);
@@ -180,7 +189,7 @@ namespace C2CS.CSharp
 
         private CSharpStructField MapRecordField(ClangRecordField clangRecordField)
         {
-            var name = clangRecordField.Name;
+            var name = SanitizeIdentifierName(clangRecordField.Name);
             var type = MapType(clangRecordField.Type);
             var offset = clangRecordField.Offset;
             var padding = clangRecordField.Padding;
@@ -210,12 +219,12 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private CSharpStruct MapSystemDataType(ClangSystemDataType clangSystemDataType)
+        private CSharpStruct MapForwardDataType(ClangForwardDataType clangForwardDataType)
         {
-            var name = clangSystemDataType.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangSystemDataType.CodeLocation);
-            var type = MapType(clangSystemDataType.UnderlyingType);
-            var fields = ImmutableArray<CSharpStructField>.Empty;
+            var name = clangForwardDataType.Name;
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangForwardDataType.CodeLocation);
+            var type = MapType(clangForwardDataType.UnderlyingType);
+            var fields = MapSystemDataTypeFields(clangForwardDataType.UnderlyingType);
 
             var result = new CSharpStruct(
                 name,
@@ -223,6 +232,35 @@ namespace C2CS.CSharp
                 type,
                 fields);
 
+            return result;
+        }
+
+        private CSharpStruct MapSystemDataType(ClangSystemDataType clangSystemDataType)
+        {
+            var name = clangSystemDataType.Name;
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangSystemDataType.CodeLocation);
+            var type = MapType(clangSystemDataType.UnderlyingType);
+            var fields = MapSystemDataTypeFields(clangSystemDataType.UnderlyingType);
+
+            var result = new CSharpStruct(
+                name,
+                originalCodeLocationComment,
+                type,
+                fields);
+
+            return result;
+        }
+
+        private ImmutableArray<CSharpStructField> MapSystemDataTypeFields(ClangType clangType)
+        {
+            var type = MapType(clangType);
+            var structField = new CSharpStructField(
+                "Data",
+                type,
+                0,
+                0);
+
+            var result = ImmutableArray.Create(structField);
             return result;
         }
 
@@ -308,6 +346,97 @@ namespace C2CS.CSharp
             var dateTime = codeLocation.DateTime;
 
             var result = $"// {kind} @ {fileName}:{fileLineNumber} {dateTime}";
+
+            return result;
+        }
+
+        private static string SanitizeIdentifierName(string name)
+        {
+            var result = name;
+
+            switch (name)
+            {
+                case "abstract":
+                case "as":
+                case "base":
+                case "bool":
+                case "break":
+                case "byte":
+                case "case":
+                case "catch":
+                case "char":
+                case "checked":
+                case "class":
+                case "const":
+                case "continue":
+                case "decimal":
+                case "default":
+                case "delegate":
+                case "do":
+                case "double":
+                case "else":
+                case "enum":
+                case "event":
+                case "explicit":
+                case "extern":
+                case "false":
+                case "finally":
+                case "fixed":
+                case "float":
+                case "for":
+                case "foreach":
+                case "goto":
+                case "if":
+                case "implicit":
+                case "in":
+                case "int":
+                case "interface":
+                case "internal":
+                case "is":
+                case "lock":
+                case "long":
+                case "namespace":
+                case "new":
+                case "null":
+                case "object":
+                case "operator":
+                case "out":
+                case "override":
+                case "params":
+                case "private":
+                case "protected":
+                case "public":
+                case "readonly":
+                case "record":
+                case "ref":
+                case "return":
+                case "sbyte":
+                case "sealed":
+                case "short":
+                case "sizeof":
+                case "stackalloc":
+                case "static":
+                case "string":
+                case "struct":
+                case "switch":
+                case "this":
+                case "throw":
+                case "true":
+                case "try":
+                case "typeof":
+                case "uint":
+                case "ulong":
+                case "unchecked":
+                case "unsafe":
+                case "ushort":
+                case "using":
+                case "virtual":
+                case "void":
+                case "volatile":
+                case "while":
+                    result = $"@{name}";
+                    break;
+            }
 
             return result;
         }

@@ -48,12 +48,6 @@ namespace C2CS.Bindgen.GenerateCSharpCode
             return @class.ToFullString();
         }
 
-        private void TranspileForwardType(CSharpSystemDataType forwardType)
-        {
-            var cSharpStruct = _cSharpCodeGenerator.CreateForwardStruct(forwardType);
-            _members.Add(cSharpStruct);
-        }
-
         private void TranspileFunctionPointer(CSharpFunctionPointer functionPointer)
         {
             var cSharpFunctionPointer = CSharpCodeGenerator.CreateFunctionPointer(functionPointer);
@@ -82,12 +76,6 @@ namespace C2CS.Bindgen.GenerateCSharpCode
         {
             var cSharpEnum = _cSharpCodeGenerator.CreateEnum(@enum);
             _members.Add(cSharpEnum);
-        }
-
-        private void TranspileOpaqueType(CSharpOpaqueDataType opaqueType)
-        {
-            var cSharpStruct = _cSharpCodeGenerator.CreateOpaqueStruct(opaqueType);
-            _members.Add(cSharpStruct);
         }
     }
 }

@@ -8,9 +8,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using C2CS.Bindgen.ExploreCCode;
 using C2CS.CSharp;
-using ClangSharp.Interop;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -106,7 +104,7 @@ using System.Runtime.InteropServices;";
 				.WithAttributeStructLayout(
 					LayoutKind.Explicit, functionPointer.Type.SizeOf, functionPointer.Type.AlignOf);
 
-			var cSharpFieldName = SanitizeIdentifierName("Pointer");
+			var cSharpFieldName = "Pointer";
 			var cSharpVariable = VariableDeclarator(Identifier(cSharpFieldName));
 			var cSharpFieldType = ParseTypeName("void*");
 			var cSharpField = FieldDeclaration(VariableDeclaration(cSharpFieldType)
@@ -208,7 +206,7 @@ using System.Runtime.InteropServices;";
 
 		private static FieldDeclarationSyntax CreateStructFieldNormal(CSharpStructField cStructField)
 		{
-			var cSharpFieldName = SanitizeIdentifierName(cStructField.Name);
+			var cSharpFieldName = cStructField.Name;
 			var cSharpVariable = VariableDeclarator(Identifier(cSharpFieldName));
 			var cSharpFieldType = ParseTypeName(cStructField.Type.Name);
 			var cSharpField = FieldDeclaration(VariableDeclaration(cSharpFieldType)
@@ -224,7 +222,7 @@ using System.Runtime.InteropServices;";
 			CSharpStructField cStructField,
 			out bool needsWrap)
 		{
-			var cSharpFieldName = SanitizeIdentifierName(cStructField.Name);
+			var cSharpFieldName = cStructField.Name;
 			var cSharpFieldType = ParseTypeName(cStructField.Type.Name);
 			VariableDeclaratorSyntax cSharpVariable;
 
@@ -303,26 +301,6 @@ using System.Runtime.InteropServices;";
 			return cSharpStruct;
 		}
 
-		public MemberDeclarationSyntax CreateForwardStruct(CSharpSystemDataType cForwardType)
-		{
-			var cSharpStruct = StructDeclaration(cForwardType.Name)
-				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-				.WithAttributeStructLayout(LayoutKind.Explicit, cForwardType.UnderlyingType.SizeOf, cForwardType.UnderlyingType.AlignOf);
-
-			var cSharpFieldType = ParseTypeName(cForwardType.UnderlyingType.Name);
-			var cSharpFieldVariable = VariableDeclarator(Identifier("Data"));
-			var cSharpField = FieldDeclaration(
-					VariableDeclaration(cSharpFieldType)
-						.WithVariables(SingletonSeparatedList(cSharpFieldVariable)))
-				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-				.WithAttributeFieldOffset(0, cForwardType.UnderlyingType.SizeOf, 0);
-			cSharpStruct = cSharpStruct
-				.AddMembers(cSharpField)
-				.WithLeadingTrivia(Comment(cForwardType.OriginalCodeLocationComment));
-
-			return cSharpStruct;
-		}
-
 		private ImmutableArray<ParameterSyntax> CreateMethodParameters(ImmutableArray<CSharpFunctionExternParameter> functionParameters)
 		{
 			var cSharpMethodParameters = ImmutableArray.CreateBuilder<ParameterSyntax>();
@@ -330,8 +308,7 @@ using System.Runtime.InteropServices;";
 
 			foreach (var clangFunctionParameter in functionParameters)
 			{
-				// var clangDisplayName = ClangDisplayName(clangFunctionParameter);
-				var cSharpMethodParameterName = SanitizeIdentifierName(clangFunctionParameter.Name);
+				var cSharpMethodParameterName = clangFunctionParameter.Name;
 
 				while (cSharpMethodParameterNames.Contains(cSharpMethodParameterName))
 				{
@@ -397,36 +374,9 @@ using System.Runtime.InteropServices;";
 				LiteralExpression(SyntaxKind.NumericLiteralExpression, literalToken));
 		}
 
-		// private VariableDeclarationSyntax CreateConstantVariable(CXCursor clangEnumConstant)
-		// {
-		// 	var clangType = clangEnumConstant.Type;
-		// 	var cSharpType = GetCSharpType(clangType);
-		//
-		// 	var cSharpTypeString = cSharpType.ToFullString();
-		// 	var literalSyntaxToken = cSharpTypeString switch
-		// 	{
-		// 		"short" => Literal((short)clangEnumConstant.EnumConstantDeclValue),
-		// 		"int" => Literal((int)clangEnumConstant.EnumConstantDeclValue),
-		// 		_ => throw new NotImplementedException(
-		// 			$@"The enum constant literal expression is not yet supported: {cSharpTypeString}.")
-		// 	};
-		//
-		// 	var cSharpName = ClangName(clangEnumConstant);
-		// 	var variable = VariableDeclaration(cSharpType)
-		// 		.WithVariables(
-		// 			SingletonSeparatedList(
-		// 				VariableDeclarator(
-		// 						Identifier(cSharpName))
-		// 					.WithInitializer(
-		// 						EqualsValueClause(LiteralExpression(
-		// 							SyntaxKind.NumericLiteralExpression, literalSyntaxToken)))));
-		//
-		// 	return variable;
-		// }
-
 		private static MethodDeclarationSyntax CreateStructFieldWrapperMethod(string structName, CSharpStructField cStructField)
 		{
-			var cSharpMethodName = SanitizeIdentifierName(cStructField.Name);
+			var cSharpMethodName = cStructField.Name;
 			var cSharpFieldName = $"_{cStructField.Name}";
 			var cSharpStructTypeName = ParseTypeName(structName);
 			var cSharpFieldType = ParseTypeName(cStructField.Type.Name);
@@ -474,104 +424,6 @@ using System.Runtime.InteropServices;";
 				.WithBody(body);
 		}
 
-		private static CXType GetClangBaseType(CXType typeClang)
-		{
-			switch (typeClang.TypeClass)
-			{
-				case CX_TypeClass.CX_TypeClass_Pointer:
-				{
-					var pointeeType = GetClangBaseType(typeClang.PointeeType);
-					return pointeeType;
-				}
-
-				case CX_TypeClass.CX_TypeClass_Typedef:
-				{
-					var underlyingType = GetClangBaseType(typeClang.Declaration.TypedefDeclUnderlyingType);
-					return underlyingType;
-				}
-
-				case CX_TypeClass.CX_TypeClass_Elaborated:
-				{
-					var elaboratedType = GetClangBaseType(typeClang.NamedType);
-					return elaboratedType;
-				}
-
-				case CX_TypeClass.CX_TypeClass_ConstantArray:
-				{
-					var elementType = GetClangBaseType(typeClang.ArrayElementType);
-					return elementType;
-				}
-
-				case CX_TypeClass.CX_TypeClass_Enum:
-				case CX_TypeClass.CX_TypeClass_Record:
-				case CX_TypeClass.CX_TypeClass_Builtin:
-				{
-					return typeClang;
-				}
-
-				case CX_TypeClass.CX_TypeClass_FunctionProto:
-				{
-					// TODO: Function pointers
-					return default;
-				}
-
-				default:
-					throw new NotImplementedException();
-			}
-		}
-
-		// private TypeSyntax GetCSharpType(CXType clangType, CXType? baseClangType = null)
-		// {
-		// 	if (_cSharpNamesByClangCursor.TryGetValue(clangType.Declaration, out var cSharpName))
-		// 	{
-		// 		return ParseTypeName(cSharpName);
-		// 	}
-		//
-		// 	if (baseClangType == null)
-		// 	{
-		// 		baseClangType = GetClangBaseType(clangType);
-		// 	}
-		//
-		// 	string baseClangTypeSpelling;
-		// 	// TODO: Function pointers
-		// 	if (baseClangType.Value == default)
-		// 	{
-		// 		baseClangTypeSpelling = "void";
-		// 	}
-		// 	else
-		// 	{
-		// 		baseClangTypeSpelling = ClangTypeToCSharpTypeString(baseClangType.Value);
-		// 	}
-		//
-		// 	if (clangType.Declaration.IsAnonymous)
-		// 	{
-		// 		cSharpName = ClangName(clangType.Declaration);
-		// 	}
-		// 	else
-		// 	{
-		// 		var cSharpType = clangType.TypeClass switch
-		// 		{
-		// 			CX_TypeClass.CX_TypeClass_Pointer when baseClangType.Value == default => PointerType(ParseTypeName(baseClangTypeSpelling)),
-		// 			CX_TypeClass.CX_TypeClass_Typedef when baseClangType.Value == default => PointerType(ParseTypeName(baseClangTypeSpelling)),
-		// 			CX_TypeClass.CX_TypeClass_Pointer => PointerType(GetCSharpType(clangType.PointeeType, baseClangType)),
-		// 			CX_TypeClass.CX_TypeClass_Typedef => ParseTypeName(clangType.Spelling.CString
-		// 				.Replace("const ", string.Empty).Trim()),
-		// 			CX_TypeClass.CX_TypeClass_Enum => ParseTypeName(baseClangTypeSpelling.Replace("enum ", string.Empty)
-		// 				.Trim()),
-		// 			CX_TypeClass.CX_TypeClass_Record => ParseTypeName(baseClangTypeSpelling.Replace("struct ", string.Empty)
-		// 				.Trim()),
-		// 			CX_TypeClass.CX_TypeClass_Elaborated => GetCSharpType(clangType.NamedType, baseClangType),
-		// 			CX_TypeClass.CX_TypeClass_Builtin => ParseTypeName(ClangTypeToCSharpTypeString(baseClangType!.Value)),
-		// 			CX_TypeClass.CX_TypeClass_ConstantArray => ParseTypeName(baseClangTypeSpelling),
-		// 			_ => throw new NotImplementedException()
-		// 		};
-		//
-		// 		return cSharpType;
-		// 	}
-		//
-		// 	return ParseTypeName(cSharpName);
-		// }
-
 		private static bool IsValidCSharpTypeSpellingForFixedBuffer(string typeString)
 		{
 			return typeString switch
@@ -590,18 +442,6 @@ using System.Runtime.InteropServices;";
 				"double" => true,
 				_ => false
 			};
-		}
-
-		private static string SanitizeIdentifierName(string name)
-		{
-			var result = name;
-
-			if (name == "lock" || name == "string" || name == "base" || name == "ref")
-			{
-				result = $"@{name}";
-			}
-
-			return result;
 		}
 
 		private static CallingConvention CSharpCallingConvention(CSharpFunctionExternCallingConvention callingConvention)

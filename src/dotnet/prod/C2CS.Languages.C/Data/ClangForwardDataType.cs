@@ -3,11 +3,11 @@
 
 namespace C2CS.Languages.C
 {
-    public record ClangSystemDataType : ClangCommon
+    public record ClangForwardDataType : ClangCommon
     {
         public readonly ClangType UnderlyingType;
 
-        internal ClangSystemDataType(
+        internal ClangForwardDataType(
             string name,
             ClangCodeLocation codeLocation,
             ClangType underlyingType)
