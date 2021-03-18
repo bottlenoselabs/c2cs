@@ -355,6 +355,11 @@ namespace C2CS.CSharp
 
         private static string SanitizeIdentifierName(string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                return "param";
+            }
+
             var result = name;
 
             switch (name)
