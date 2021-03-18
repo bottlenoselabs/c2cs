@@ -10,8 +10,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Languages.C", "prod\C2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Languages.CSharp", "prod\C2CS.Languages.CSharp\C2CS.Languages.CSharp.csproj", "{A11004B3-2325-4742-99F7-A9D46BE97B3C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Languages", "Languages", "{EB2EB41A-7F54-4045-A50E-F8F0436E67D8}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
