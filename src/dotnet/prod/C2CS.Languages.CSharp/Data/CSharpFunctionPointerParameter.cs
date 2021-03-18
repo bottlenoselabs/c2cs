@@ -3,12 +3,12 @@
 
 namespace C2CS.CSharp
 {
-    public record CSharpFunctionParameter : CSharpCommon
+    public record CSharpFunctionPointerParameter : CSharpCommon
     {
         public readonly CSharpType Type;
         public readonly bool IsReadOnly;
 
-        public CSharpFunctionParameter(
+        public CSharpFunctionPointerParameter(
             string name,
             string originalCodeLocationComment,
             CSharpType type,
