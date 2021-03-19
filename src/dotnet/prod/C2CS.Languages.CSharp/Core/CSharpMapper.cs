@@ -394,11 +394,12 @@ namespace C2CS.CSharp
             var originalName = clangType.OriginalName;
             var sizeOf = clangType.SizeOf;
             var alignOf = clangType.AlignOf;
+            var arraySize = clangType.ArraySize;
 
             var result = new CSharpType(
                 name,
                 originalName,
-                0,
+                arraySize,
                 sizeOf,
                 alignOf);
 
