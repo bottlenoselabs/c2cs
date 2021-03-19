@@ -170,6 +170,11 @@ namespace C2CS.Languages.C
                 var cursorTypeDeclaration = clang.getTypeDeclaration(cursorType);
                 VisitCursor(cursorTypeDeclaration, cursorParent);
             }
+            else if (cursorKind == CXCursorKind.CXCursor_DeclRefExpr)
+            {
+                var cursorReferenced = clang.getCursorReferenced(cursor);
+                VisitCursor(cursorReferenced, cursorParent);
+            }
             else
             {
                 var up = new ExploreUnexpectedException();
@@ -323,7 +328,19 @@ namespace C2CS.Languages.C
 
         private void VisitEnumConstant(CXCursor cursor, CXCursor cursorParent)
         {
-            var integerType = clang.getEnumDeclIntegerType(cursorParent);
+            CXCursor cursorEnum;
+
+            var cursorParentKind = cursor.kind;
+            if (cursorParentKind != CXCursorKind.CXCursor_EnumDecl)
+            {
+                cursorEnum = clang.getCursorSemanticParent(cursor);
+            }
+            else
+            {
+                cursorEnum = cursorParent;
+            }
+
+            var integerType = clang.getEnumDeclIntegerType(cursorEnum);
             VisitType(integerType, cursor, cursorParent);
         }
 
