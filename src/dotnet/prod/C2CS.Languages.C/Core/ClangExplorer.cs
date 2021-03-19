@@ -296,14 +296,14 @@ namespace C2CS.Languages.C
                 underlyingCursor = clang.getTypeDeclaration(namedType);
             }
 
-            underlyingCursor.VisitChildren((child, cursorParent) =>
+            underlyingCursor.VisitChildren((child, parent) =>
             {
                 if (child.kind != CXCursorKind.CXCursor_EnumConstantDecl)
                 {
                     return;
                 }
 
-                VisitCursor(child, cursorParent);
+                VisitCursor(child, parent);
             });
 
             var clangEnum = _mapper.MapEnum(cursor);
@@ -326,16 +326,14 @@ namespace C2CS.Languages.C
                 underlyingCursor = clang.getTypeDeclaration(namedType);
             }
 
-            var fieldCount = 0;
-            underlyingCursor.VisitChildren((child, cursorParent) =>
+            underlyingCursor.VisitChildren((child, _) =>
             {
                 if (child.kind != CXCursorKind.CXCursor_FieldDecl)
                 {
                     return;
                 }
 
-                fieldCount++;
-                VisitCursor(child, cursorParent);
+                VisitCursor(child, cursor);
             });
 
             var isAnonymousCursor = clang.Cursor_isAnonymous(cursor) > 0U;
@@ -344,15 +342,8 @@ namespace C2CS.Languages.C
                 return;
             }
 
-            if (fieldCount == 0)
-            {
-                VisitAliasDataType(cursor);
-            }
-            else
-            {
-                var record = _mapper.MapRecord(cursor);
-                _records.Add(record);
-            }
+            var record = _mapper.MapRecord(cursor);
+            _records.Add(record);
         }
 
         private void VisitField(CXCursor cursor, CXCursor cursorParent)
@@ -393,7 +384,9 @@ namespace C2CS.Languages.C
         private void VisitTypedefPointer(CXCursor cursor, CXType pointeeType)
         {
             var kind = pointeeType.kind;
-            if (kind == CXTypeKind.CXType_Void)
+            var pointeeTypeSizeOf = pointeeType.SizeOf;
+
+            if (kind == CXTypeKind.CXType_Void || pointeeTypeSizeOf == -2)
             {
                 VisitAliasDataType(cursor);
             }
@@ -405,10 +398,6 @@ namespace C2CS.Languages.C
                     case CX_TypeClass.CX_TypeClass_Record:
                         VisitRecord(cursor);
                         break;
-                    // case CX_TypeClass.CX_TypeClass_Elaborated:
-                    //     var namedType = clang.Type_getNamedType(pointeeType);
-                    //     VisitTypedefElaborated(cursor, namedType);
-                    //     break;
                     case CX_TypeClass.CX_TypeClass_FunctionProto:
                         VisitTypedefFunctionProto(cursor, pointeeType);
                         break;
@@ -430,43 +419,6 @@ namespace C2CS.Languages.C
             VisitFunctionProto(cursor, cursorParent);
         }
 
-        // private void VisitTypedefElaborated(CXCursor cursor, CXType namedType)
-        // {
-        //     var kind = namedType.kind;
-        //     if (kind == CXTypeKind.CXType_Record)
-        //     {
-        //         var recordType = namedType;
-        //         var declaration = clang.getTypeDeclaration(recordType);
-        //         var isOpaqueDataType = IsRecordOpaqueDataType(declaration);
-        //
-        //         if (isOpaqueDataType)
-        //         {
-        //             VisitOpaqueDataType(cursor);
-        //         }
-        //     }
-        //     else
-        //     {
-        //         var up = new ExploreUnexpectedException();
-        //         throw up;
-        //     }
-        // }
-
-        // private static bool IsRecordOpaqueDataType(CXCursor cursor)
-        // {
-        //     var count = 0;
-        //
-        //     cursor.VisitChildren((child, _) =>
-        //     {
-        //         var childKind = child.kind;
-        //         if (childKind == CXCursorKind.CXCursor_FieldDecl)
-        //         {
-        //             count += 1;
-        //         }
-        //     });
-        //
-        //     return count == 0;
-        // }
-
         private void VisitAliasDataType(CXCursor cursor)
         {
             var aliasDataType = _mapper.MapAliasDataType(cursor);
@@ -486,7 +438,7 @@ namespace C2CS.Languages.C
 
             cursor.VisitChildren(VisitCursor);
 
-            var clangFunctionPointer = _mapper.MapFunctionPointer(cursor);
+            var clangFunctionPointer = _mapper.MapFunctionPointer(cursor, cursorParent);
             _functionPointers.Add(clangFunctionPointer);
         }
 

@@ -1105,7 +1105,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:5092 01/28/2021 00:34:01
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_executeOnThread(fn fn, void* user_data, uint stack_size);
+    public static extern void clang_executeOnThread(clang_executeOnThread_fn fn, void* user_data, uint stack_size);
 
     // FunctionExtern @ Index.h:5330 01/28/2021 00:34:01
     [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
@@ -1365,7 +1365,7 @@ public static unsafe partial class libclang
 
     // FunctionPointer @ Index.h:5092 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct fn
+    public struct clang_executeOnThread_fn
     {
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
@@ -1381,7 +1381,7 @@ public static unsafe partial class libclang
 
     // FunctionPointer @ Index.h:6091 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct visit
+    public struct CXCursorAndRangeVisitor_visit
     {
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
@@ -1389,7 +1389,7 @@ public static unsafe partial class libclang
 
     // FunctionPointer @ Index.h:6498 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct abortQuery
+    public struct IndexerCallbacks_abortQuery
     {
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
@@ -1397,7 +1397,7 @@ public static unsafe partial class libclang
 
     // FunctionPointer @ Index.h:6503 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct diagnostic
+    public struct IndexerCallbacks_diagnostic
     {
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
@@ -1405,7 +1405,7 @@ public static unsafe partial class libclang
 
     // FunctionPointer @ Index.h:6505 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct enteredMainFile
+    public struct IndexerCallbacks_enteredMainFile
     {
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
@@ -1413,7 +1413,7 @@ public static unsafe partial class libclang
 
     // FunctionPointer @ Index.h:6511 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct ppIncludedFile
+    public struct IndexerCallbacks_ppIncludedFile
     {
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
@@ -1421,7 +1421,7 @@ public static unsafe partial class libclang
 
     // FunctionPointer @ Index.h:6522 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct importedASTFile
+    public struct IndexerCallbacks_importedASTFile
     {
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
@@ -1429,7 +1429,7 @@ public static unsafe partial class libclang
 
     // FunctionPointer @ Index.h:6528 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct startedTranslationUnit
+    public struct IndexerCallbacks_startedTranslationUnit
     {
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
@@ -1437,7 +1437,7 @@ public static unsafe partial class libclang
 
     // FunctionPointer @ Index.h:6531 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct indexDeclaration
+    public struct IndexerCallbacks_indexDeclaration
     {
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
@@ -1445,7 +1445,7 @@ public static unsafe partial class libclang
 
     // FunctionPointer @ Index.h:6536 01/28/2021 00:34:01
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct indexEntityReference
+    public struct IndexerCallbacks_indexEntityReference
     {
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Pointer;
@@ -1667,7 +1667,7 @@ public static unsafe partial class libclang
         public void* context;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public visit visit;
+        public CXCursorAndRangeVisitor_visit visit;
     }
 
     // Record @ Index.h:6188 01/28/2021 00:34:01
@@ -1976,28 +1976,28 @@ public static unsafe partial class libclang
     public struct IndexerCallbacks
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public abortQuery abortQuery;
+        public IndexerCallbacks_abortQuery abortQuery;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public diagnostic diagnostic;
+        public IndexerCallbacks_diagnostic diagnostic;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public enteredMainFile enteredMainFile;
+        public IndexerCallbacks_enteredMainFile enteredMainFile;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public ppIncludedFile ppIncludedFile;
+        public IndexerCallbacks_ppIncludedFile ppIncludedFile;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public importedASTFile importedASTFile;
+        public IndexerCallbacks_importedASTFile importedASTFile;
 
         [FieldOffset(40)] // size = 8, padding = 0
-        public startedTranslationUnit startedTranslationUnit;
+        public IndexerCallbacks_startedTranslationUnit startedTranslationUnit;
 
         [FieldOffset(48)] // size = 8, padding = 0
-        public indexDeclaration indexDeclaration;
+        public IndexerCallbacks_indexDeclaration indexDeclaration;
 
         [FieldOffset(56)] // size = 8, padding = 0
-        public indexEntityReference indexEntityReference;
+        public IndexerCallbacks_indexEntityReference indexEntityReference;
     }
 
     // AliasDataType @ BuildSystem.h:39 01/28/2021 00:34:01

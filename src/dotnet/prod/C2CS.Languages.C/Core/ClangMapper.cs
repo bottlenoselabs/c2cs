@@ -77,10 +77,10 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        public ClangFunctionPointer MapFunctionPointer(CXCursor cursor)
+        public ClangFunctionPointer MapFunctionPointer(CXCursor cursor, CXCursor cursorParent)
         {
             var codeLocation = MapCodeLocation(ClangKind.FunctionPointer, cursor);
-            var name = MapFunctionPointerName(cursor);
+            var name = MapFunctionPointerName(cursor, cursorParent);
             var type = MapType(cursor.Type, cursor);
 
             var result = new ClangFunctionPointer(
@@ -418,19 +418,26 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        private string MapFunctionPointerName(CXCursor cursor)
+        private string MapFunctionPointerName(CXCursor cursor, CXCursor cursorParent)
         {
+            string result;
+
             var cursorName = cursor.Spelling.CString;
 
-            if (string.IsNullOrEmpty(cursorName))
+            if (cursorParent.IsTranslationUnit)
             {
-                throw new NotImplementedException();
+                result = cursorName;
+            }
+            else
+            {
+                var cursorParentName = cursorParent.Spelling.CString;
+                result = $"{cursorParentName}_{cursorName}";
             }
 
             var typeCanonical = cursor.Type.CanonicalType.PointeeType;
-            _functionPointerNamesByClangType.Add(typeCanonical, cursorName);
+            _functionPointerNamesByClangType.Add(typeCanonical, result);
 
-            return cursorName;
+            return result;
         }
 
         private string MapTypeName(CXType clangType, string cursorName)
