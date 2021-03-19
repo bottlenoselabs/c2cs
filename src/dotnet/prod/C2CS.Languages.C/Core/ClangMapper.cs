@@ -144,8 +144,9 @@ namespace C2CS.Languages.C
             {
                 var recordField = builder[i];
                 var fieldPrevious = builder[i - 1];
+
                 var expectedFieldOffset = fieldPrevious.Offset + fieldPrevious.Type.SizeOf;
-                var hasPadding = recordField.Offset != 0 && recordField.Offset == expectedFieldOffset;
+                var hasPadding = recordField.Offset != 0 && recordField.Offset != expectedFieldOffset;
                 if (!hasPadding)
                 {
                     continue;
