@@ -1,0 +1,26 @@
+// Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
+
+namespace C2CS.CSharp
+{
+    public record CSharpEnumValue : CSharpCommon
+    {
+        public readonly long Value;
+
+        public CSharpEnumValue(
+            string name,
+            string originalLocationComment,
+            long value)
+            : base(name, originalLocationComment)
+        {
+            Value = value;
+        }
+
+        // Required for debugger string with records
+        // ReSharper disable once RedundantOverriddenMember
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+    }
+}
