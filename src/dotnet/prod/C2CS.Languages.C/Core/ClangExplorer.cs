@@ -19,6 +19,7 @@ namespace C2CS.Languages.C
         private readonly List<ClangEnum> _enums = new();
         private readonly List<ClangRecord> _records = new();
         private readonly List<ClangOpaqueDataType> _opaqueDataTypes = new();
+        private readonly List<ClangOpaquePointer> _opaquePointers = new();
         private readonly List<ClangAliasType> _aliasDataTypes = new();
         private readonly List<ClangFunctionPointer> _functionPointers = new();
 
@@ -45,12 +46,21 @@ namespace C2CS.Languages.C
 
         private ClangAbstractSyntaxTree CollectExtractedData()
         {
-            var functionExterns = _functions.ToImmutableArray().Sort();
-            var functionPointers = _functionPointers.ToImmutableArray().Sort();
-            var records = _records.ToImmutableArray().Sort();
-            var enums = _enums.ToImmutableArray().Sort();
-            var opaqueDataTypes = _opaqueDataTypes.ToImmutableArray().Sort();
-            var aliasDataTypes = _aliasDataTypes.ToImmutableArray().Sort();
+            _functions.Sort();
+            _functionPointers.Sort();
+            _records.Sort();
+            _enums.Sort();
+            _opaqueDataTypes.Sort();
+            _opaquePointers.Sort();
+            _aliasDataTypes.Sort();
+
+            var functionExterns = _functions.ToImmutableArray();
+            var functionPointers = _functionPointers.ToImmutableArray();
+            var records = _records.ToImmutableArray();
+            var enums = _enums.ToImmutableArray();
+            var opaqueDataTypes = _opaqueDataTypes.ToImmutableArray();
+            var opaquePointers = _opaquePointers.ToImmutableArray();
+            var aliasDataTypes = _aliasDataTypes.ToImmutableArray();
 
             var result = new ClangAbstractSyntaxTree(
                 functionExterns,
@@ -58,6 +68,7 @@ namespace C2CS.Languages.C
                 records,
                 enums,
                 opaqueDataTypes,
+                opaquePointers,
                 aliasDataTypes);
 
             return result;
@@ -388,7 +399,7 @@ namespace C2CS.Languages.C
 
             if (kind == CXTypeKind.CXType_Void || pointeeTypeSizeOf == -2)
             {
-                VisitAliasDataType(cursor);
+                VisitOpaquePointer(cursor);
             }
             else
             {
@@ -423,6 +434,12 @@ namespace C2CS.Languages.C
         {
             var aliasDataType = _mapper.MapAliasDataType(cursor);
             _aliasDataTypes.Add(aliasDataType);
+        }
+
+        private void VisitOpaquePointer(CXCursor cursor)
+        {
+            var opaquePointerType = _mapper.MapOpaquePointer(cursor);
+            _opaquePointers.Add(opaquePointerType);
         }
 
         private void VisitOpaqueDataType(CXCursor cursor)

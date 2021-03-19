@@ -18,7 +18,8 @@ namespace C2CS.CSharp
                 clangAbstractSyntaxTree.FunctionPointers);
             var structs = MapStructs(
                 clangAbstractSyntaxTree.Records,
-                clangAbstractSyntaxTree.AliasDataTypes);
+                clangAbstractSyntaxTree.AliasDataTypes,
+                clangAbstractSyntaxTree.OpaquePointers);
             var opaqueDataTypes = MapOpaqueDataTypes(
                 clangAbstractSyntaxTree.OpaqueDataTypes);
             var enums = MapEnums(
@@ -144,7 +145,8 @@ namespace C2CS.CSharp
 
         private static ImmutableArray<CSharpStruct> MapStructs(
             ImmutableArray<ClangRecord> records,
-            ImmutableArray<ClangAliasType> aliasDataTypes)
+            ImmutableArray<ClangAliasType> aliasDataTypes,
+            ImmutableArray<ClangOpaquePointer> opaquePointers)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpStruct>(
                 records.Length + aliasDataTypes.Length);
@@ -160,6 +162,13 @@ namespace C2CS.CSharp
             foreach (var clangAliasDataType in aliasDataTypes)
             {
                 var @struct = MapAliasDataType(clangAliasDataType);
+                builder.Add(@struct);
+            }
+
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var clangOpaquePointer in opaquePointers)
+            {
+                var @struct = MapOpaquePointer(clangOpaquePointer);
                 builder.Add(@struct);
             }
 
@@ -257,6 +266,36 @@ namespace C2CS.CSharp
                 name,
                 originalCodeLocationComment);
 
+            return result;
+        }
+
+        private static CSharpStruct MapOpaquePointer(ClangOpaquePointer clangOpaquePointer)
+        {
+            var name = clangOpaquePointer.Name;
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangOpaquePointer.CodeLocation);
+            var type = MapType(clangOpaquePointer.PointerType);
+            var fields = MapOpaquePointerFields(clangOpaquePointer.PointerType, originalCodeLocationComment);
+
+            var result = new CSharpStruct(
+                name,
+                originalCodeLocationComment,
+                type,
+                fields);
+
+            return result;
+        }
+
+        private static ImmutableArray<CSharpStructField> MapOpaquePointerFields(ClangType clangType, string originalCodeLocationComment)
+        {
+            var type = MapType(clangType);
+            var structField = new CSharpStructField(
+                "Pointer",
+                originalCodeLocationComment,
+                type,
+                0,
+                0);
+
+            var result = ImmutableArray.Create(structField);
             return result;
         }
 

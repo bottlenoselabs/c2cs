@@ -16,6 +16,7 @@ namespace C2CS.Languages.C
         Enum,
         EnumValue,
         OpaqueDataType,
+        OpaquePointer,
         AliasDataType
     }
 }

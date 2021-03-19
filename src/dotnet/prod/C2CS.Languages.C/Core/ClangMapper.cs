@@ -323,30 +323,30 @@ namespace C2CS.Languages.C
             return result;
         }
 
+        public ClangOpaquePointer MapOpaquePointer(CXCursor cursor)
+        {
+            var codeLocation = MapCodeLocation(ClangKind.OpaquePointer, cursor);
+            var name = cursor.Spelling.CString;
+            var pointerType = MapTypeOpaquePointer(cursor.Type.CanonicalType);
+
+            var result = new ClangOpaquePointer(
+                name,
+                codeLocation,
+                pointerType);
+
+            return result;
+        }
+
         public ClangAliasType MapAliasDataType(CXCursor cursor)
         {
             var codeLocation = MapCodeLocation(ClangKind.AliasDataType, cursor);
             var name = cursor.Spelling.CString;
-            var underlyingType = MapAliasDataTypeUnderlyingType(cursor.Type.CanonicalType, cursor);
+            var underlyingType = MapType(cursor.Type.CanonicalType, cursor);
 
             var result = new ClangAliasType(
                 name,
                 codeLocation,
                 underlyingType);
-
-            return result;
-        }
-
-        private ClangType MapAliasDataTypeUnderlyingType(CXType type, CXCursor cursor)
-        {
-            var underlyingType = type;
-            if (type.kind == CXTypeKind.CXType_Pointer)
-            {
-                underlyingType = type.PointeeType;
-            }
-
-            var sizeOf = underlyingType.SizeOf;
-            var result = sizeOf == -2 ? MapPointerType(type, cursor) : MapType(type, cursor);
 
             return result;
         }
@@ -396,9 +396,9 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        private ClangType MapPointerType(CXType type, CXCursor cursor)
+        private ClangType MapTypeOpaquePointer(CXType type)
         {
-            var typeName = "void*";
+            const string typeName = "void*";
             var originalName = type.Spelling.CString;
             var sizeOf = (int) clang.Type_getSizeOf(type);
             var alignOf = (int) clang.Type_getAlignOf(type);
@@ -500,7 +500,7 @@ namespace C2CS.Languages.C
 
             var clangPointeeType = clangType.PointeeType;
             var pointeeTypeName = MapTypeName(clangPointeeType, cursorName);
-            var result = pointeeTypeName + "*";
+            string result = pointeeTypeName + "*";
 
             return result;
         }
