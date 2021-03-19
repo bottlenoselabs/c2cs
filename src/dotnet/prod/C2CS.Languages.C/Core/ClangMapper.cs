@@ -31,6 +31,17 @@ namespace C2CS.Languages.C
             return result;
         }
 
+        private ClangFunctionExternCallingConvention MapFunctionCallingConvention(CXCallingConv callingConvention)
+        {
+            var result = callingConvention switch
+            {
+                CXCallingConv.CXCallingConv_C => ClangFunctionExternCallingConvention.C,
+                _ => throw new ArgumentOutOfRangeException(nameof(callingConvention), callingConvention, null)
+            };
+
+            return result;
+        }
+
         private ImmutableArray<ClangFunctionExternParameter> MapFunctionExternParameters(CXCursor cursor)
         {
             var builder = ImmutableArray.CreateBuilder<ClangFunctionExternParameter>();
@@ -305,7 +316,6 @@ namespace C2CS.Languages.C
         {
             var codeLocation = MapCodeLocation(ClangKind.OpaqueDataType, cursor);
             var name = cursor.Spelling.CString;
-
             var result = new ClangOpaqueDataType(
                 name,
                 codeLocation);
@@ -317,12 +327,26 @@ namespace C2CS.Languages.C
         {
             var codeLocation = MapCodeLocation(ClangKind.AliasDataType, cursor);
             var name = cursor.Spelling.CString;
-            var underlyingType = MapType(cursor.Type.CanonicalType, cursor);
+            var underlyingType = MapAliasDataTypeUnderlyingType(cursor.Type.CanonicalType, cursor);
 
             var result = new ClangAliasType(
                 name,
                 codeLocation,
                 underlyingType);
+
+            return result;
+        }
+
+        private ClangType MapAliasDataTypeUnderlyingType(CXType type, CXCursor cursor)
+        {
+            var underlyingType = type;
+            if (type.kind == CXTypeKind.CXType_Pointer)
+            {
+                underlyingType = type.PointeeType;
+            }
+
+            var sizeOf = underlyingType.SizeOf;
+            var result = sizeOf == -2 ? MapPointerType(type, cursor) : MapType(type, cursor);
 
             return result;
         }
@@ -372,13 +396,24 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        private ClangFunctionExternCallingConvention MapFunctionCallingConvention(CXCallingConv callingConvention)
+        private ClangType MapPointerType(CXType type, CXCursor cursor)
         {
-            var result = callingConvention switch
-            {
-                CXCallingConv.CXCallingConv_C => ClangFunctionExternCallingConvention.C,
-                _ => throw new ArgumentOutOfRangeException(nameof(callingConvention), callingConvention, null)
-            };
+            var typeName = "void*";
+            var originalName = type.Spelling.CString;
+            var sizeOf = (int) clang.Type_getSizeOf(type);
+            var alignOf = (int) clang.Type_getAlignOf(type);
+            var arraySize = (int) type.ArraySize;
+            var isReadOnly = clang.isConstQualifiedType(type) > 0U;
+            var isSystemType = type.IsSystemType();
+
+            var result = new ClangType(
+                typeName,
+                originalName,
+                sizeOf,
+                alignOf,
+                arraySize,
+                isReadOnly,
+                isSystemType);
 
             return result;
         }

@@ -346,7 +346,7 @@ namespace C2CS.Languages.C
 
             if (fieldCount == 0)
             {
-                VisitOpaqueDataType(cursor);
+                VisitAliasDataType(cursor);
             }
             else
             {
@@ -395,7 +395,7 @@ namespace C2CS.Languages.C
             var kind = pointeeType.kind;
             if (kind == CXTypeKind.CXType_Void)
             {
-                VisitOpaqueDataType(cursor);
+                VisitAliasDataType(cursor);
             }
             else
             {

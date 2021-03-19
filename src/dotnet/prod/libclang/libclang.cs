@@ -2000,124 +2000,164 @@ public static unsafe partial class libclang
         public indexEntityReference indexEntityReference;
     }
 
-    // OpaqueDataType @ BuildSystem.h:39 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ BuildSystem.h:39 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXVirtualFileOverlay
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ BuildSystem.h:100 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ BuildSystem.h:100 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXModuleMapDescriptor
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ Index.h:75 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ Index.h:75 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIndex
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ Index.h:81 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ Index.h:81 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXTargetInfo
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ Index.h:86 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ Index.h:86 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXTranslationUnit
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ Index.h:92 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ Index.h:92 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXClientData
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ Index.h:353 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ Index.h:353 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXFile
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ Index.h:775 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ Index.h:775 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXDiagnostic
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ Index.h:780 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ Index.h:780 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXDiagnosticSet
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ Index.h:2998 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ Index.h:2998 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXCursorSet
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ Index.h:4332 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ Index.h:4332 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXPrintingPolicy
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ Index.h:4679 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ Index.h:4679 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXModule
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ Index.h:5124 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ Index.h:5124 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXCompletionString
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ Index.h:5959 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ Index.h:5959 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXEvalResult
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ Index.h:6030 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ Index.h:6030 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXRemapping
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ Index.h:6163 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ Index.h:6163 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIdxClientFile
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ Index.h:6168 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ Index.h:6168 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIdxClientEntity
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ Index.h:6174 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ Index.h:6174 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIdxClientContainer
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ Index.h:6180 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ Index.h:6180 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIdxClientASTFile
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
-    // OpaqueDataType @ Index.h:6594 01/28/2021 00:34:01
-    [StructLayout(LayoutKind.Sequential)]
+    // AliasDataType @ Index.h:6594 01/28/2021 00:34:01
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIndexAction
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
     }
 
     // Enum @ CXErrorCode.h:28 01/28/2021 00:34:01
