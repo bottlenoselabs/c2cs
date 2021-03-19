@@ -1514,7 +1514,7 @@ public static unsafe partial class libclang
     public struct CXFileUniqueID
     {
         [FieldOffset(0)] // size = 24, padding = 0
-        public ulong data;
+        public fixed ulong data[3]; /* original type is `unsigned long long [3]` */
     }
 
     // Record @ Index.h:459 01/28/2021 00:34:01
@@ -1522,7 +1522,17 @@ public static unsafe partial class libclang
     public struct CXSourceLocation
     {
         [FieldOffset(0)] // size = 16, padding = 0
-        public void* ptr_data;
+        public fixed ulong _ptr_data[16 / 8]; /* original type is `const void *[2]` */
+
+        public ref void* ptr_data(int index = 0)
+        {
+            fixed (CXSourceLocation* @this = &this)
+            {
+                var pointer = (void* * )&@this->_ptr_data[0];
+                var pointerOffset = index;
+                return ref *(pointer + pointerOffset);
+            }
+        }
 
         [FieldOffset(16)] // size = 4, padding = 4
         public uint int_data;
@@ -1533,7 +1543,17 @@ public static unsafe partial class libclang
     public struct CXSourceRange
     {
         [FieldOffset(0)] // size = 16, padding = 0
-        public void* ptr_data;
+        public fixed ulong _ptr_data[16 / 8]; /* original type is `const void *[2]` */
+
+        public ref void* ptr_data(int index = 0)
+        {
+            fixed (CXSourceRange* @this = &this)
+            {
+                var pointer = (void* * )&@this->_ptr_data[0];
+                var pointerOffset = index;
+                return ref *(pointer + pointerOffset);
+            }
+        }
 
         [FieldOffset(16)] // size = 4, padding = 0
         public uint begin_int_data;
@@ -1546,7 +1566,7 @@ public static unsafe partial class libclang
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXSourceRangeList
     {
-        [FieldOffset(0)] // size = 4, padding = 0
+        [FieldOffset(0)] // size = 4, padding = 4
         public uint count;
 
         [FieldOffset(8)] // size = 8, padding = 0
@@ -1557,7 +1577,7 @@ public static unsafe partial class libclang
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXTUResourceUsageEntry
     {
-        [FieldOffset(0)] // size = 4, padding = 0
+        [FieldOffset(0)] // size = 4, padding = 4
         public CXTUResourceUsageKind kind;
 
         [FieldOffset(8)] // size = 8, padding = 0
@@ -1571,7 +1591,7 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public void* data;
 
-        [FieldOffset(8)] // size = 4, padding = 0
+        [FieldOffset(8)] // size = 4, padding = 4
         public uint numEntries;
 
         [FieldOffset(16)] // size = 8, padding = 0
@@ -1589,7 +1609,16 @@ public static unsafe partial class libclang
         public int xdata;
 
         [FieldOffset(8)] // size = 24, padding = 0
-        public void* data;
+        public fixed ulong _data[24 / 8]; /* original type is `const void *[3]` */
+        public ref void* data(int index = 0)
+        {
+            fixed (CXCursor* @this = &this)
+            {
+                var pointer = (void* * )&@this->_data[0];
+                var pointerOffset = index;
+                return ref *(pointer + pointerOffset);
+            }
+        }
     }
 
     // Record @ Index.h:2894 01/28/2021 00:34:01
@@ -1619,11 +1648,20 @@ public static unsafe partial class libclang
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXType
     {
-        [FieldOffset(0)] // size = 4, padding = 0
+        [FieldOffset(0)] // size = 4, padding = 4
         public CXTypeKind kind;
 
         [FieldOffset(8)] // size = 16, padding = 0
-        public void* data;
+        public fixed ulong _data[16 / 8]; /* original type is `void *[2]` */
+        public ref void* data(int index = 0)
+        {
+            fixed (CXType* @this = &this)
+            {
+                var pointer = (void* * )&@this->_data[0];
+                var pointerOffset = index;
+                return ref *(pointer + pointerOffset);
+            }
+        }
     }
 
     // Record @ Index.h:4974 01/28/2021 00:34:01
@@ -1631,7 +1669,7 @@ public static unsafe partial class libclang
     public struct CXToken
     {
         [FieldOffset(0)] // size = 16, padding = 0
-        public uint int_data;
+        public fixed uint int_data[4]; /* original type is `unsigned int [4]` */
 
         [FieldOffset(16)] // size = 8, padding = 0
         public void* ptr_data;
@@ -1641,7 +1679,7 @@ public static unsafe partial class libclang
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXCompletionResult
     {
-        [FieldOffset(0)] // size = 4, padding = 0
+        [FieldOffset(0)] // size = 4, padding = 4
         public CXCursorKind CursorKind;
 
         [FieldOffset(8)] // size = 8, padding = 0
@@ -1675,7 +1713,17 @@ public static unsafe partial class libclang
     public struct CXIdxLoc
     {
         [FieldOffset(0)] // size = 16, padding = 0
-        public void* ptr_data;
+        public fixed ulong _ptr_data[16 / 8]; /* original type is `void *[2]` */
+
+        public ref void* ptr_data(int index = 0)
+        {
+            fixed (CXIdxLoc* @this = &this)
+            {
+                var pointer = (void* * )&@this->_ptr_data[0];
+                var pointerOffset = index;
+                return ref *(pointer + pointerOffset);
+            }
+        }
 
         [FieldOffset(16)] // size = 4, padding = 4
         public uint int_data;
@@ -1725,7 +1773,7 @@ public static unsafe partial class libclang
     [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
     public struct CXIdxAttrInfo
     {
-        [FieldOffset(0)] // size = 4, padding = 0
+        [FieldOffset(0)] // size = 4, padding = 4
         public CXIdxAttrKind kind;
 
         [FieldOffset(8)] // size = 32, padding = 0
@@ -1745,7 +1793,7 @@ public static unsafe partial class libclang
         [FieldOffset(4)] // size = 4, padding = 0
         public CXIdxEntityCXXTemplateKind templateKind;
 
-        [FieldOffset(8)] // size = 4, padding = 0
+        [FieldOffset(8)] // size = 4, padding = 4
         public CXIdxEntityLanguage lang;
 
         [FieldOffset(16)] // size = 8, padding = 0
@@ -1814,13 +1862,13 @@ public static unsafe partial class libclang
         [FieldOffset(84)] // size = 4, padding = 0
         public int isDefinition;
 
-        [FieldOffset(88)] // size = 4, padding = 0
+        [FieldOffset(88)] // size = 4, padding = 4
         public int isContainer;
 
         [FieldOffset(96)] // size = 8, padding = 0
         public CXIdxContainerInfo* declAsContainer;
 
-        [FieldOffset(104)] // size = 4, padding = 0
+        [FieldOffset(104)] // size = 4, padding = 4
         public int isImplicit;
 
         [FieldOffset(112)] // size = 8, padding = 0
@@ -1949,7 +1997,7 @@ public static unsafe partial class libclang
     [StructLayout(LayoutKind.Explicit, Size = 96, Pack = 8)]
     public struct CXIdxEntityRefInfo
     {
-        [FieldOffset(0)] // size = 4, padding = 0
+        [FieldOffset(0)] // size = 4, padding = 4
         public CXIdxEntityRefKind kind;
 
         [FieldOffset(8)] // size = 32, padding = 0
