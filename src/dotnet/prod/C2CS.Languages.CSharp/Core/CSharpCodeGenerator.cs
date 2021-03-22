@@ -281,7 +281,7 @@ using System.Runtime.InteropServices;";
 				var field = CreateStructField(cSharpField);
 				builder.Add(field);
 
-				var isWrapped = cSharpField.Type.FixedBufferIsWrapped;
+				var isWrapped = cSharpField.IsWrapped;
 				if (isWrapped)
 				{
 					var wrappedMethod = CreateStructFieldFixedBufferWrapperMethod(structName, cSharpField);
@@ -336,13 +336,13 @@ using System.Runtime.InteropServices;";
 			var fieldSizeOf = cSharpStructField.Type.SizeOf;
 			var fieldAlignOf = cSharpStructField.Type.AlignOf;
 			var fieldPadding = cSharpStructField.Padding;
-			var fieldFixedBufferIsWrapped = cSharpStructField.Type.FixedBufferIsWrapped;
+			var fieldIsWrapped = cSharpStructField.IsWrapped;
 			var fieldOffset = cSharpStructField.Offset;
 
 			var fieldType = ParseTypeName(fieldTypeName);
 			VariableDeclaratorSyntax fieldVariable;
 
-			if (fieldFixedBufferIsWrapped)
+			if (fieldIsWrapped)
 			{
 				var typeSyntaxKind = fieldAlignOf switch
 				{

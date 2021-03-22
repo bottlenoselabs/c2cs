@@ -9,6 +9,7 @@ namespace C2CS.CSharp
         public readonly CSharpType Type;
         public readonly int Offset;
         public readonly int Padding;
+        public readonly bool IsWrapped;
 
         public CSharpStructField(
             string name,
@@ -16,13 +17,15 @@ namespace C2CS.CSharp
             string codeLocationComment,
             CSharpType type,
             int offset,
-            int padding)
+            int padding,
+            bool isWrapped)
             : base(name, codeLocationComment)
         {
             OriginalName = originalName;
             Type = type;
             Offset = offset;
             Padding = padding;
+            IsWrapped = isWrapped;
         }
 
         // Required for debugger string with records

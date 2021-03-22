@@ -260,6 +260,7 @@ namespace C2CS.CSharp
             var type = MapType(clangRecordField.Type);
             var offset = clangRecordField.Offset;
             var padding = clangRecordField.Padding;
+            var isWrapped = type.IsArray && !IsValidFixedBufferType(type.Name);
 
             var result = new CSharpStructField(
                 name,
@@ -267,7 +268,8 @@ namespace C2CS.CSharp
                 originalCodeLocationComment,
                 type,
                 offset,
-                padding);
+                padding,
+                isWrapped);
 
             return result;
         }
@@ -339,7 +341,8 @@ namespace C2CS.CSharp
                 originalCodeLocationComment,
                 type,
                 0,
-                0);
+                0,
+                false);
 
             var result = ImmutableArray.Create(structField);
             return result;
@@ -370,7 +373,8 @@ namespace C2CS.CSharp
                 originalCodeLocationComment,
                 type,
                 0,
-                0);
+                0,
+                false);
 
             var result = ImmutableArray.Create(structField);
             return result;
@@ -442,15 +446,13 @@ namespace C2CS.CSharp
             var sizeOf = clangType.SizeOf;
             var alignOf = clangType.AlignOf;
             var fixedBufferSize = clangType.ArraySize;
-            var fixedBufferIsWrapped = fixedBufferSize > 0 && !IsValidFixedBufferType(clangType.Name);
 
             var result = new CSharpType(
                 name,
                 originalName,
                 sizeOf,
                 alignOf,
-                fixedBufferSize,
-                fixedBufferIsWrapped);
+                fixedBufferSize);
 
             return result;
         }
