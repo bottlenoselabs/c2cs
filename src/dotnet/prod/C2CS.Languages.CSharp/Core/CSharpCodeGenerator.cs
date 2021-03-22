@@ -56,7 +56,8 @@ namespace C2CS.CSharp
 			return @class.ToFullString();
 		}
 
-		private static ClassDeclarationSyntax CreatePInvokeClass(string libraryName, ImmutableArray<MemberDeclarationSyntax> members)
+		private static ClassDeclarationSyntax CreatePInvokeClass(
+			string libraryName, ImmutableArray<MemberDeclarationSyntax> members)
 		{
 			var className = Path.GetFileNameWithoutExtension(libraryName);
 
@@ -105,73 +106,148 @@ using System.Runtime.InteropServices;";
 			return result;
 		}
 
-		private static MethodDeclarationSyntax CreateExternMethod(CSharpFunctionExtern functionExtern)
+		private static MethodDeclarationSyntax CreateExternMethod(CSharpFunctionExtern cSharpFunctionExtern)
 		{
-			var functionName = functionExtern.Name;
-			var functionReturnTypeName = functionExtern.ReturnType.Name;
+			var functionName = cSharpFunctionExtern.Name;
+			var functionReturnTypeName = cSharpFunctionExtern.ReturnType.Name;
 			var functionReturnType = ParseTypeName(functionReturnTypeName);
-			var functionCallingConvention = CSharpCallingConvention(functionExtern.CallingConvention);
-			var functionParameters = functionExtern.Parameters;
+			var functionCallingConvention = CallingConvention(cSharpFunctionExtern.CallingConvention);
+			var functionParameters = cSharpFunctionExtern.Parameters;
 
-			var cSharpMethod = MethodDeclaration(functionReturnType, functionName)
+			var methodParameters = CreateMethodParameters(functionParameters);
+
+			var method = MethodDeclaration(functionReturnType, functionName)
 				.WithDllImportAttribute(functionCallingConvention)
 				.WithModifiers(TokenList(
 					Token(SyntaxKind.PublicKeyword),
 					Token(SyntaxKind.StaticKeyword),
 					Token(SyntaxKind.ExternKeyword)))
-				.WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
+				.WithSemicolonToken(Token(SyntaxKind.SemicolonToken))
+				.AddParameterListParameters(methodParameters.ToArray())
+				.WithLeadingTrivia(Comment(cSharpFunctionExtern.CodeLocationComment));
 
-			var parameters = CreateMethodParameters(functionParameters);
-
-			cSharpMethod = cSharpMethod
-				.AddParameterListParameters(parameters.ToArray())
-				.WithLeadingTrivia(Comment(functionExtern.OriginalCodeLocationComment));
-
-			return cSharpMethod;
+			return method;
 		}
 
-		public static MemberDeclarationSyntax CreateFunctionPointer(CSharpFunctionPointer functionPointer)
+		private static CallingConvention CallingConvention(CSharpFunctionExternCallingConvention callingConvention)
 		{
-			var cSharpStruct = StructDeclaration(functionPointer.Name)
-				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-				.WithAttributeStructLayout(
-					LayoutKind.Explicit, functionPointer.Type.SizeOf, functionPointer.Type.AlignOf);
-
-			var cSharpFieldName = "Pointer";
-			var cSharpVariable = VariableDeclarator(Identifier(cSharpFieldName));
-			var cSharpFieldType = ParseTypeName("void*");
-			var cSharpField = FieldDeclaration(VariableDeclaration(cSharpFieldType)
-				.WithVariables(SingletonSeparatedList(cSharpVariable)));
-
-			cSharpField = cSharpField.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-				.WithAttributeFieldOffset(0, functionPointer.Type.SizeOf, 0);
-
-			cSharpStruct = cSharpStruct
-				.WithMembers(new SyntaxList<MemberDeclarationSyntax>(cSharpField))
-				.WithLeadingTrivia(Comment(functionPointer.OriginalCodeLocationComment));
-
-			return cSharpStruct;
-		}
-
-		private static EnumDeclarationSyntax CreateEnum(CSharpEnum @enum)
-		{
-			var cSharpEnumType = @enum.Type.Name;
-			var cSharpEnum = EnumDeclaration(@enum.Name)
-				.AddModifiers(Token(SyntaxKind.PublicKeyword))
-				.AddBaseListTypes(SimpleBaseType(ParseTypeName(cSharpEnumType)));
-
-			var cSharpEnumMembers = ImmutableArray.CreateBuilder<EnumMemberDeclarationSyntax>(@enum.Values.Length);
-			foreach (var cEnumValue in @enum.Values)
+			return callingConvention switch
 			{
-				var cSharpEqualsValueClause = CreateEnumEqualsValueClause(cEnumValue.Value, cSharpEnumType);
-				var cSharpEnumMember = EnumMemberDeclaration(cEnumValue.Name)
-					.WithEqualsValue(cSharpEqualsValueClause);
+				CSharpFunctionExternCallingConvention.Unknown => System.Runtime.InteropServices.CallingConvention.Winapi,
+				CSharpFunctionExternCallingConvention.C => System.Runtime.InteropServices.CallingConvention.Cdecl,
+				_ => throw new ArgumentOutOfRangeException(nameof(callingConvention), callingConvention, null)
+			};
+		}
 
-				cSharpEnumMembers.Add(cSharpEnumMember);
+		private static ImmutableArray<ParameterSyntax> CreateMethodParameters(ImmutableArray<CSharpFunctionExternParameter> functionParameters)
+		{
+			var cSharpMethodParameters = ImmutableArray.CreateBuilder<ParameterSyntax>();
+
+			foreach (var functionParameter in functionParameters)
+			{
+				var cSharpMethodParameter = CreateMethodParameter(functionParameter);
+				cSharpMethodParameters.Add(cSharpMethodParameter);
 			}
 
-			return cSharpEnum.AddMembers(cSharpEnumMembers.ToArray())
-				.WithLeadingTrivia(Comment(@enum.OriginalCodeLocationComment));
+			return cSharpMethodParameters.ToImmutable();
+		}
+
+		private static ParameterSyntax CreateMethodParameter(CSharpFunctionExternParameter cSharpFunctionParameter)
+		{
+			var parameterName = cSharpFunctionParameter.Name;
+			var parameterTypeName = cSharpFunctionParameter.Type.Name;
+			var parameterIsReadOnly = cSharpFunctionParameter.IsReadOnly;
+
+			var parameterIdentifier = Identifier(parameterName);
+			var parameterType = ParseTypeName(parameterTypeName);
+			var parameter = Parameter(parameterIdentifier)
+				.WithType(parameterType);
+
+			if (parameterIsReadOnly)
+			{
+				parameter = parameter.WithAttribute("In");
+			}
+
+			return parameter;
+		}
+
+		public static MemberDeclarationSyntax CreateFunctionPointer(CSharpFunctionPointer cSharpFunctionPointer)
+		{
+			var structName = cSharpFunctionPointer.Name;
+			var structSizeOf = cSharpFunctionPointer.Type.SizeOf;
+			var structAlignOf = cSharpFunctionPointer.Type.AlignOf;
+
+			var fieldIdentifier = Identifier("Pointer");
+			var fieldType = ParseTypeName("void*");
+			var fieldVariable = VariableDeclarator(fieldIdentifier);
+			var fieldVariableDeclaration = VariableDeclaration(fieldType)
+				.WithVariables(SingletonSeparatedList(fieldVariable));
+			var field = FieldDeclaration(fieldVariableDeclaration)
+				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
+				.WithAttributeFieldOffset(0, structSizeOf, 0);
+
+			var @struct = StructDeclaration(structName)
+				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
+				.WithAttributeStructLayout(LayoutKind.Explicit, structSizeOf, structAlignOf)
+				.WithMembers(new SyntaxList<MemberDeclarationSyntax>(field))
+				.WithLeadingTrivia(Comment(cSharpFunctionPointer.CodeLocationComment));
+
+			return @struct;
+		}
+
+		private static EnumDeclarationSyntax CreateEnum(CSharpEnum cSharpEnum)
+		{
+			var values = CreateEnumValues(cSharpEnum.Type.Name, cSharpEnum.Values);
+
+			var @enum = EnumDeclaration(cSharpEnum.Name)
+				.AddModifiers(Token(SyntaxKind.PublicKeyword))
+				.AddBaseListTypes(SimpleBaseType(ParseTypeName(cSharpEnum.Type.Name)))
+				.WithLeadingTrivia(Comment(cSharpEnum.CodeLocationComment))
+				.AddMembers(values);
+
+			return @enum;
+		}
+
+		private static EnumMemberDeclarationSyntax[] CreateEnumValues(
+			string enumTypeName, ImmutableArray<CSharpEnumValue> values)
+		{
+			var builder = ImmutableArray.CreateBuilder<EnumMemberDeclarationSyntax>(values.Length);
+
+			foreach (var value in values)
+			{
+				var enumEqualsValue = CreateEnumEqualsValue(value.Value, enumTypeName);
+				var member = EnumMemberDeclaration(value.Name)
+					.WithEqualsValue(enumEqualsValue);
+
+				builder.Add(member);
+			}
+
+			return builder.ToArray();
+		}
+
+		private static EqualsValueClauseSyntax CreateEnumEqualsValue(long value, string enumTypeName)
+		{
+			var literalToken = enumTypeName switch
+			{
+				"int" => Literal((int)value),
+				"uint" => Literal((uint)value),
+				_ => throw new NotImplementedException($"The enum type is not yet supported: {enumTypeName}.")
+			};
+
+			return EqualsValueClause(LiteralExpression(SyntaxKind.NumericLiteralExpression, literalToken));
+		}
+
+		private static StructDeclarationSyntax CreateOpaqueStruct(CSharpOpaqueDataType cSharpOpaqueDataType)
+		{
+			var structName = cSharpOpaqueDataType.Name;
+			var codeLocationComment = cSharpOpaqueDataType.CodeLocationComment;
+
+			var @struct = StructDeclaration(structName)
+				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
+				.WithAttributeStructLayout(LayoutKind.Sequential)
+				.WithLeadingTrivia(Comment(codeLocationComment));
+
+			return @struct;
 		}
 
 		private static StructDeclarationSyntax CreateStruct(CSharpStruct cSharpStruct)
@@ -179,85 +255,121 @@ using System.Runtime.InteropServices;";
 			var structName = cSharpStruct.Name;
 			var structSize = cSharpStruct.Type.SizeOf;
 			var structAlignment = cSharpStruct.Type.AlignOf;
+			var codeLocationComment = cSharpStruct.CodeLocationComment;
+
+			var structMembers = CreateStructMembers(
+				structName, cSharpStruct.Fields, cSharpStruct.NestedStructs);
 
 			var @struct = StructDeclaration(structName)
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-				.WithAttributeStructLayout(LayoutKind.Explicit, structSize, structAlignment);
+				.WithAttributeStructLayout(LayoutKind.Explicit, structSize, structAlignment)
+				.WithLeadingTrivia(Comment(codeLocationComment))
+				.AddMembers(structMembers);
 
-			var structMembers = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
-
-			foreach (var cSharpField in cSharpStruct.Fields)
-			{
-				var field = CreateStructField(cSharpField, out var needsWrap);
-				structMembers.Add(field);
-
-				if (!needsWrap)
-				{
-					continue;
-				}
-
-				var wrappedMethod = CreateStructFieldWrapperMethod(cSharpStruct.Name, cSharpField);
-				structMembers.Add(wrappedMethod);
-			}
-
-			foreach (var cSharpStructNested in cSharpStruct.NestedStructs)
-			{
-				var structNested = CreateStruct(cSharpStructNested);
-				structMembers.Add(structNested);
-			}
-
-			@struct = @struct
-				.AddMembers(structMembers.ToArray())
-				.WithLeadingTrivia(Comment(cSharpStruct.OriginalCodeLocationComment));
 			return @struct;
 		}
 
-		private static FieldDeclarationSyntax CreateStructField(
-			CSharpStructField cStructField,
-			out bool needsWrap)
+		private static MemberDeclarationSyntax[] CreateStructMembers(
+			string structName,
+			ImmutableArray<CSharpStructField> fields,
+			ImmutableArray<CSharpStruct> nestedStructs)
 		{
-			FieldDeclarationSyntax result;
+			var builder = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
 
-			if (cStructField.Type.IsArray)
+			foreach (var cSharpField in fields)
 			{
-				result = CreateStructFieldFixedArray(cStructField, out needsWrap);
-			}
-			else
-			{
-				result = CreateStructFieldNormal(cStructField);
-				needsWrap = false;
+				var field = CreateStructField(cSharpField);
+				builder.Add(field);
+
+				var isWrapped = cSharpField.Type.FixedBufferIsWrapped;
+				if (isWrapped)
+				{
+					var wrappedMethod = CreateStructFieldFixedBufferWrapperMethod(structName, cSharpField);
+					builder.Add(wrappedMethod);
+				}
 			}
 
+			foreach (var cSharpStructNested in nestedStructs)
+			{
+				var structNested = CreateStruct(cSharpStructNested);
+				builder.Add(structNested);
+			}
+
+			var structMembers = builder.ToArray();
+			return structMembers;
+		}
+
+		private static FieldDeclarationSyntax CreateStructField(CSharpStructField cSharpStructField)
+		{
+			var isArray = cSharpStructField.Type.IsArray;
+			var result = isArray ?
+				CreateStructFieldFixedBuffer(cSharpStructField) :
+				CreateStructFieldNormal(cSharpStructField);
 			return result;
 		}
 
-		private static FieldDeclarationSyntax CreateStructFieldNormal(CSharpStructField cStructField)
+		private static FieldDeclarationSyntax CreateStructFieldNormal(CSharpStructField cSharpStructField)
 		{
-			var cSharpFieldName = cStructField.Name;
-			var cSharpVariable = VariableDeclarator(Identifier(cSharpFieldName));
-			var cSharpFieldType = ParseTypeName(cStructField.Type.Name);
-			var cSharpField = FieldDeclaration(VariableDeclaration(cSharpFieldType)
-				.WithVariables(SingletonSeparatedList(cSharpVariable)));
+			var fieldName = cSharpStructField.Name;
+			var fieldTypeName = cSharpStructField.Type.Name;
+			var fieldOffset = cSharpStructField.Offset;
+			var fieldSizeOf = cSharpStructField.Type.SizeOf;
+			var fieldPadding = cSharpStructField.Padding;
 
-			cSharpField = cSharpField.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-				.WithAttributeFieldOffset(cStructField.Offset, cStructField.Type.SizeOf, cStructField.Padding);
+			var fieldNameIdentifier = Identifier(fieldName);
+			var fieldType = ParseTypeName(fieldTypeName);
+			var fieldVariable = VariableDeclarator(fieldNameIdentifier);
+			var fieldVariableDeclaration = VariableDeclaration(fieldType)
+				.WithVariables(SingletonSeparatedList(fieldVariable));
+			var field = FieldDeclaration(fieldVariableDeclaration)
+				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
+				.WithAttributeFieldOffset(fieldOffset, fieldSizeOf, fieldPadding);
 
-			return cSharpField;
+			return field;
 		}
 
-		private static FieldDeclarationSyntax CreateStructFieldFixedArray(
-			CSharpStructField cStructField,
-			out bool needsWrap)
+		private static FieldDeclarationSyntax CreateStructFieldFixedBuffer(CSharpStructField cSharpStructField)
 		{
-			var cSharpFieldName = cStructField.Name;
-			var cSharpFieldType = ParseTypeName(cStructField.Type.Name);
-			VariableDeclaratorSyntax cSharpVariable;
+			var fieldName = cSharpStructField.Name;
+			var fieldOriginalName = cSharpStructField.OriginalName;
+			var fieldTypeName = cSharpStructField.Type.Name;
+			var fieldSizeOf = cSharpStructField.Type.SizeOf;
+			var fieldAlignOf = cSharpStructField.Type.AlignOf;
+			var fieldPadding = cSharpStructField.Padding;
+			var fieldFixedBufferIsWrapped = cSharpStructField.Type.FixedBufferIsWrapped;
+			var fieldOffset = cSharpStructField.Offset;
 
-			var isValidFixedType = IsValidCSharpTypeSpellingForFixedBuffer(cStructField.Type.Name);
-			if (isValidFixedType)
+			var fieldType = ParseTypeName(fieldTypeName);
+			VariableDeclaratorSyntax fieldVariable;
+
+			if (fieldFixedBufferIsWrapped)
 			{
-				var arraySize = cStructField.Type.SizeOf / cStructField.Type.AlignOf;
-				cSharpVariable = VariableDeclarator(Identifier(cSharpFieldName))
+				var typeSyntaxKind = fieldAlignOf switch
+				{
+					1 => SyntaxKind.ByteKeyword,
+					2 => SyntaxKind.UShortKeyword,
+					4 => SyntaxKind.UIntKeyword,
+					8 => SyntaxKind.ULongKeyword,
+					_ => throw new InvalidOperationException()
+				};
+
+				fieldType = PredefinedType(Token(typeSyntaxKind));
+				fieldVariable = VariableDeclarator(Identifier($"_{fieldOriginalName}"))
+					.WithArgumentList(BracketedArgumentList(SingletonSeparatedList(
+						Argument(
+							BinaryExpression(
+								SyntaxKind.DivideExpression,
+								LiteralExpression(
+									SyntaxKind.NumericLiteralExpression,
+									Literal(fieldSizeOf)),
+								LiteralExpression(
+									SyntaxKind.NumericLiteralExpression,
+									Literal(fieldAlignOf)))))));
+			}
+			else
+			{
+				var arraySize = fieldSizeOf / fieldAlignOf;
+				fieldVariable = VariableDeclarator(Identifier(fieldName))
 					.WithArgumentList(
 						BracketedArgumentList(
 							SingletonSeparatedList(
@@ -265,140 +377,28 @@ using System.Runtime.InteropServices;";
 									LiteralExpression(
 										SyntaxKind.NumericLiteralExpression,
 										Literal(arraySize))))));
-
-				needsWrap = false;
-			}
-			else
-			{
-				var typeTokenSyntaxKind = cStructField.Type.AlignOf switch
-				{
-					1 => SyntaxKind.ByteKeyword,
-					2 => SyntaxKind.UShortKeyword,
-					4 => SyntaxKind.UIntKeyword,
-					8 => SyntaxKind.ULongKeyword,
-					_ => throw new ArgumentException("Invalid field alignment.")
-				};
-
-				cSharpFieldType = PredefinedType(Token(typeTokenSyntaxKind));
-				cSharpVariable = VariableDeclarator(Identifier($"_{cStructField.Name}"))
-					.WithArgumentList(BracketedArgumentList(SingletonSeparatedList(
-						Argument(
-							BinaryExpression(
-								SyntaxKind.DivideExpression,
-								LiteralExpression(
-									SyntaxKind.NumericLiteralExpression,
-									Literal(cStructField.Type.SizeOf)),
-								LiteralExpression(
-									SyntaxKind.NumericLiteralExpression,
-									Literal(cStructField.Type.AlignOf)))))));
-
-				needsWrap = true;
 			}
 
-			var cSharpField = FieldDeclaration(VariableDeclaration(cSharpFieldType)
-				.WithVariables(SingletonSeparatedList(cSharpVariable)));
-
-			cSharpField = cSharpField
-				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-				.WithAttributeFieldOffset(cStructField.Offset, cStructField.Type.SizeOf, cStructField.Padding)
-				.AddModifiers(Token(SyntaxKind.FixedKeyword))
+			var field = FieldDeclaration(VariableDeclaration(fieldType)
+				.WithVariables(SingletonSeparatedList(fieldVariable)))
+				.WithModifiers(TokenList(
+					Token(SyntaxKind.PublicKeyword),
+					Token(SyntaxKind.FixedKeyword)))
+				.WithAttributeFieldOffset(fieldOffset, fieldSizeOf, fieldPadding)
 				.WithSemicolonToken(Token(TriviaList(), SyntaxKind.SemicolonToken, TriviaList(
-					Comment($"/* original type is `{cStructField.Type.OriginalName}` */"))));
+					Comment($"// original type is `{cSharpStructField.Type.OriginalName}`"))));
 
-			return cSharpField;
+			return field;
 		}
 
-		private static StructDeclarationSyntax CreateOpaqueStruct(CSharpOpaqueDataType cSharpOpaqueDataType)
+		private static MethodDeclarationSyntax CreateStructFieldFixedBufferWrapperMethod(
+			string structName,
+			CSharpStructField cSharpStructField)
 		{
-			var @struct = StructDeclaration(cSharpOpaqueDataType.Name)
-				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-				.WithAttributeStructLayout(LayoutKind.Sequential);
-
-			@struct = @struct
-				.WithLeadingTrivia(Comment(cSharpOpaqueDataType.OriginalCodeLocationComment));
-
-			return @struct;
-		}
-
-		private static ImmutableArray<ParameterSyntax> CreateMethodParameters(ImmutableArray<CSharpFunctionExternParameter> functionParameters)
-		{
-			var cSharpMethodParameters = ImmutableArray.CreateBuilder<ParameterSyntax>();
-			var cSharpMethodParameterNames = new HashSet<string>();
-
-			foreach (var clangFunctionParameter in functionParameters)
-			{
-				var cSharpMethodParameterName = clangFunctionParameter.Name;
-
-				while (cSharpMethodParameterNames.Contains(cSharpMethodParameterName))
-				{
-					var numberSuffixMatch = Regex.Match(cSharpMethodParameterName, "\\d$");
-					if (numberSuffixMatch.Success)
-					{
-						var parameterNameWithoutSuffix = cSharpMethodParameterName.Substring(0, numberSuffixMatch.Index);
-						cSharpMethodParameterName = ParameterNameUniqueSuffix(parameterNameWithoutSuffix, numberSuffixMatch.Value);
-					}
-					else
-					{
-						cSharpMethodParameterName = ParameterNameUniqueSuffix(cSharpMethodParameterName, string.Empty);
-					}
-				}
-
-				cSharpMethodParameterNames.Add(cSharpMethodParameterName);
-				var cSharpMethodParameter = CreateMethodParameter(clangFunctionParameter, cSharpMethodParameterName);
-				cSharpMethodParameters.Add(cSharpMethodParameter);
-			}
-
-			return cSharpMethodParameters.ToImmutable();
-
-			static string ParameterNameUniqueSuffix(string parameterNameWithoutSuffix, string parameterSuffix)
-			{
-				if (parameterSuffix == string.Empty)
-				{
-					return parameterNameWithoutSuffix + "2";
-				}
-
-				var parameterSuffixNumber = int.Parse(parameterSuffix, NumberStyles.Integer, CultureInfo.InvariantCulture);
-				parameterSuffixNumber += 1;
-				var parameterName = parameterNameWithoutSuffix + parameterSuffixNumber;
-				return parameterName;
-			}
-		}
-
-		private static ParameterSyntax CreateMethodParameter(CSharpFunctionExternParameter functionParameter, string parameterName)
-		{
-			var methodParameter = Parameter(Identifier(parameterName));
-			if (functionParameter.IsReadOnly)
-			{
-				methodParameter = methodParameter.WithAttribute("In");
-			}
-
-			var typeName = functionParameter.Type.Name;
-			var type = ParseTypeName(typeName);
-			methodParameter = methodParameter.WithType(type);
-
-			return methodParameter;
-		}
-
-		private static EqualsValueClauseSyntax CreateEnumEqualsValueClause(long value, string type)
-		{
-			// ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
-			var literalToken = type switch
-			{
-				"int" => Literal((int)value),
-				"uint" => Literal((uint)value),
-				_ => throw new NotImplementedException($"The syntax kind is not yet supported: {type}.")
-			};
-
-			return EqualsValueClause(
-				LiteralExpression(SyntaxKind.NumericLiteralExpression, literalToken));
-		}
-
-		private static MethodDeclarationSyntax CreateStructFieldWrapperMethod(string structName, CSharpStructField cStructField)
-		{
-			var cSharpMethodName = cStructField.Name;
-			var cSharpFieldName = $"_{cStructField.Name}";
+			var cSharpMethodName = cSharpStructField.Name;
+			var cSharpFieldName = $"_{cSharpStructField.OriginalName}";
 			var cSharpStructTypeName = ParseTypeName(structName);
-			var cSharpFieldType = ParseTypeName(cStructField.Type.Name);
+			var cSharpFieldType = ParseTypeName(cSharpStructField.Type.Name);
 
 			var body = Block(SingletonList<StatementSyntax>(FixedStatement(
 				VariableDeclaration(PointerType(cSharpStructTypeName))
@@ -441,36 +441,6 @@ using System.Runtime.InteropServices;";
 							SyntaxKind.NumericLiteralExpression,
 							Literal(0)))))))
 				.WithBody(body);
-		}
-
-		private static bool IsValidCSharpTypeSpellingForFixedBuffer(string typeString)
-		{
-			return typeString switch
-			{
-				"bool" => true,
-				"byte" => true,
-				"char" => true,
-				"short" => true,
-				"int" => true,
-				"long" => true,
-				"sbyte" => true,
-				"ushort" => true,
-				"uint" => true,
-				"ulong" => true,
-				"float" => true,
-				"double" => true,
-				_ => false
-			};
-		}
-
-		private static CallingConvention CSharpCallingConvention(CSharpFunctionExternCallingConvention callingConvention)
-		{
-			return callingConvention switch
-			{
-				CSharpFunctionExternCallingConvention.Unknown => CallingConvention.Winapi,
-				CSharpFunctionExternCallingConvention.C => CallingConvention.Cdecl,
-				_ => throw new ArgumentOutOfRangeException(nameof(callingConvention), callingConvention, null)
-			};
 		}
 	}
 }

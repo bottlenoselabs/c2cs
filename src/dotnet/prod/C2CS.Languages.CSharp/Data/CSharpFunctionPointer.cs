@@ -9,9 +9,9 @@ namespace C2CS.CSharp
 
         public CSharpFunctionPointer(
             string name,
-            string originalCodeLocationComment,
+            string codeLocationComment,
             CSharpType type)
-            : base(name, originalCodeLocationComment)
+            : base(name, codeLocationComment)
         {
             Type = type;
         }

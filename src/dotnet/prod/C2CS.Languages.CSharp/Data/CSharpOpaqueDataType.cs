@@ -7,8 +7,8 @@ namespace C2CS.CSharp
     {
         public CSharpOpaqueDataType(
             string name,
-            string originalCodeLocationComment)
-            : base(name, originalCodeLocationComment)
+            string codeLocationComment)
+            : base(name, codeLocationComment)
         {
         }
 

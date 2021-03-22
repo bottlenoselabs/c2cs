@@ -6,21 +6,21 @@ namespace C2CS.CSharp
     public record CSharpCommon
     {
         public readonly string Name;
-        public readonly string OriginalCodeLocationComment;
+        public readonly string CodeLocationComment;
 
         public CSharpCommon(
             string name,
-            string originalLocationComment)
+            string locationComment)
         {
             Name = name;
-            OriginalCodeLocationComment = originalLocationComment;
+            CodeLocationComment = locationComment;
         }
 
         // Required for debugger string with records
         // ReSharper disable once RedundantOverriddenMember
         public override string ToString()
         {
-            return $"{Name} {OriginalCodeLocationComment}";
+            return $"{Name} {CodeLocationComment}";
         }
     }
 }

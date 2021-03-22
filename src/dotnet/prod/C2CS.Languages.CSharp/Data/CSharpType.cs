@@ -7,24 +7,27 @@ namespace C2CS.CSharp
     {
         public readonly string Name;
         public readonly string OriginalName;
-        public readonly int ArraySize;
         public readonly int SizeOf;
         public readonly int AlignOf;
+        public readonly int FixedBufferSize;
+        public readonly bool FixedBufferIsWrapped;
 
-        public bool IsArray => ArraySize > 0;
+        public bool IsArray => FixedBufferSize > 0;
 
         public CSharpType(
             string name,
             string originalName,
-            int arraySize,
             int sizeOf,
-            int alignOf)
+            int alignOf,
+            int fixedBufferSize,
+            bool fixedBufferIsWrapped)
         {
             Name = name;
             OriginalName = originalName;
-            ArraySize = arraySize;
             SizeOf = sizeOf;
             AlignOf = alignOf;
+            FixedBufferSize = fixedBufferSize;
+            FixedBufferIsWrapped = fixedBufferIsWrapped;
         }
 
         public override string ToString()

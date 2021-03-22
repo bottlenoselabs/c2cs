@@ -10,10 +10,10 @@ namespace C2CS.CSharp
 
         public CSharpFunctionPointerParameter(
             string name,
-            string originalCodeLocationComment,
+            string codeLocationComment,
             CSharpType type,
             bool isReadOnly)
-            : base(name, originalCodeLocationComment)
+            : base(name, codeLocationComment)
         {
             Type = type;
             IsReadOnly = isReadOnly;

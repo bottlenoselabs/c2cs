@@ -2,7 +2,10 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using C2CS.Languages.C;
 
 namespace C2CS.CSharp
@@ -85,11 +88,14 @@ namespace C2CS.CSharp
             ImmutableArray<ClangFunctionExternParameter> clangFunctionExternParameters)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpFunctionExternParameter>(clangFunctionExternParameters.Length);
+            var parameterNames = new List<string>();
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangFunctionExternParameter in clangFunctionExternParameters)
             {
-                var functionExternParameter = MapFunctionExternParameter(clangFunctionExternParameter);
+                var parameterName = MapUniqueParameterName(clangFunctionExternParameter.Name, parameterNames);
+                parameterNames.Add(parameterName);
+                var functionExternParameter = MapFunctionExternParameter(clangFunctionExternParameter, parameterName);
                 builder.Add(functionExternParameter);
             }
 
@@ -97,10 +103,47 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpFunctionExternParameter MapFunctionExternParameter(
-            ClangFunctionExternParameter clangFunctionExternParameter)
+        private static string MapUniqueParameterName(string parameterName, List<string> parameterNames)
         {
-            var name = SanitizeIdentifierName(clangFunctionExternParameter.Name);
+            if (string.IsNullOrEmpty(parameterName))
+            {
+                parameterName = "param";
+            }
+
+            while (parameterNames.Contains(parameterName))
+            {
+                var numberSuffixMatch = Regex.Match(parameterName, "\\d$");
+                if (numberSuffixMatch.Success)
+                {
+                    var parameterNameWithoutSuffix = parameterName.Substring(0, numberSuffixMatch.Index);
+                    parameterName = ParameterNameUniqueSuffix(parameterNameWithoutSuffix, numberSuffixMatch.Value);
+                }
+                else
+                {
+                    parameterName = ParameterNameUniqueSuffix(parameterName, string.Empty);
+                }
+            }
+
+            return parameterName;
+
+            static string ParameterNameUniqueSuffix(string parameterNameWithoutSuffix, string parameterSuffix)
+            {
+                if (parameterSuffix == string.Empty)
+                {
+                    return parameterNameWithoutSuffix + "2";
+                }
+
+                var parameterSuffixNumber = int.Parse(parameterSuffix, NumberStyles.Integer, CultureInfo.InvariantCulture);
+                parameterSuffixNumber += 1;
+                var parameterName = parameterNameWithoutSuffix + parameterSuffixNumber;
+                return parameterName;
+            }
+        }
+
+        private static CSharpFunctionExternParameter MapFunctionExternParameter(
+            ClangFunctionExternParameter clangFunctionExternParameter, string parameterName)
+        {
+            var name = SanitizeIdentifierName(parameterName);
             var originalCodeLocationComment = MapOriginalCodeLocationComment(clangFunctionExternParameter.CodeLocation);
             var type = MapType(clangFunctionExternParameter.Type);
             var isReadOnly = clangFunctionExternParameter.IsReadOnly;
@@ -212,6 +255,7 @@ namespace C2CS.CSharp
         private static CSharpStructField MapStructField(ClangRecordField clangRecordField)
         {
             var name = SanitizeIdentifierName(clangRecordField.Name);
+            var originalName = clangRecordField.Name;
             var originalCodeLocationComment = MapOriginalCodeLocationComment(clangRecordField.CodeLocation);
             var type = MapType(clangRecordField.Type);
             var offset = clangRecordField.Offset;
@@ -219,6 +263,7 @@ namespace C2CS.CSharp
 
             var result = new CSharpStructField(
                 name,
+                originalName,
                 originalCodeLocationComment,
                 type,
                 offset,
@@ -290,6 +335,7 @@ namespace C2CS.CSharp
             var type = MapType(clangType);
             var structField = new CSharpStructField(
                 "Pointer",
+                string.Empty,
                 originalCodeLocationComment,
                 type,
                 0,
@@ -320,6 +366,7 @@ namespace C2CS.CSharp
             var type = MapType(clangType);
             var structField = new CSharpStructField(
                 "Data",
+                string.Empty,
                 originalCodeLocationComment,
                 type,
                 0,
@@ -394,14 +441,16 @@ namespace C2CS.CSharp
             var originalName = clangType.OriginalName;
             var sizeOf = clangType.SizeOf;
             var alignOf = clangType.AlignOf;
-            var arraySize = clangType.ArraySize;
+            var fixedBufferSize = clangType.ArraySize;
+            var fixedBufferIsWrapped = fixedBufferSize > 0 && !IsValidFixedBufferType(clangType.Name);
 
             var result = new CSharpType(
                 name,
                 originalName,
-                arraySize,
                 sizeOf,
-                alignOf);
+                alignOf,
+                fixedBufferSize,
+                fixedBufferIsWrapped);
 
             return result;
         }
@@ -432,11 +481,6 @@ namespace C2CS.CSharp
 
         private static string SanitizeIdentifierName(string name)
         {
-            if (string.IsNullOrEmpty(name))
-            {
-                return "param";
-            }
-
             var result = name;
 
             switch (name)
@@ -524,6 +568,26 @@ namespace C2CS.CSharp
             }
 
             return result;
+        }
+
+        private static bool IsValidFixedBufferType(string typeString)
+        {
+            return typeString switch
+            {
+                "bool" => true,
+                "byte" => true,
+                "char" => true,
+                "short" => true,
+                "int" => true,
+                "long" => true,
+                "sbyte" => true,
+                "ushort" => true,
+                "uint" => true,
+                "ulong" => true,
+                "float" => true,
+                "double" => true,
+                _ => false
+            };
         }
     }
 }

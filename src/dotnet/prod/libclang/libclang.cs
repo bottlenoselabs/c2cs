@@ -1514,7 +1514,7 @@ public static unsafe partial class libclang
     public struct CXFileUniqueID
     {
         [FieldOffset(0)] // size = 24, padding = 0
-        public fixed ulong data[3]; /* original type is `unsigned long long [3]` */
+        public fixed ulong data[3]; // original type is `unsigned long long [3]`
     }
 
     // Record @ Index.h:459 01/28/2021 00:34:01
@@ -1522,7 +1522,7 @@ public static unsafe partial class libclang
     public struct CXSourceLocation
     {
         [FieldOffset(0)] // size = 16, padding = 0
-        public fixed ulong _ptr_data[16 / 8]; /* original type is `const void *[2]` */
+        public fixed ulong _ptr_data[16 / 8]; // original type is `const void *[2]`
 
         public ref void* ptr_data(int index = 0)
         {
@@ -1543,7 +1543,7 @@ public static unsafe partial class libclang
     public struct CXSourceRange
     {
         [FieldOffset(0)] // size = 16, padding = 0
-        public fixed ulong _ptr_data[16 / 8]; /* original type is `const void *[2]` */
+        public fixed ulong _ptr_data[16 / 8]; // original type is `const void *[2]`
 
         public ref void* ptr_data(int index = 0)
         {
@@ -1609,7 +1609,7 @@ public static unsafe partial class libclang
         public int xdata;
 
         [FieldOffset(8)] // size = 24, padding = 0
-        public fixed ulong _data[24 / 8]; /* original type is `const void *[3]` */
+        public fixed ulong _data[24 / 8]; // original type is `const void *[3]`
         public ref void* data(int index = 0)
         {
             fixed (CXCursor* @this = &this)
@@ -1652,7 +1652,7 @@ public static unsafe partial class libclang
         public CXTypeKind kind;
 
         [FieldOffset(8)] // size = 16, padding = 0
-        public fixed ulong _data[16 / 8]; /* original type is `void *[2]` */
+        public fixed ulong _data[16 / 8]; // original type is `void *[2]`
         public ref void* data(int index = 0)
         {
             fixed (CXType* @this = &this)
@@ -1669,7 +1669,7 @@ public static unsafe partial class libclang
     public struct CXToken
     {
         [FieldOffset(0)] // size = 16, padding = 0
-        public fixed uint int_data[4]; /* original type is `unsigned int [4]` */
+        public fixed uint int_data[4]; // original type is `unsigned int [4]`
 
         [FieldOffset(16)] // size = 8, padding = 0
         public void* ptr_data;
@@ -1713,7 +1713,7 @@ public static unsafe partial class libclang
     public struct CXIdxLoc
     {
         [FieldOffset(0)] // size = 16, padding = 0
-        public fixed ulong _ptr_data[16 / 8]; /* original type is `void *[2]` */
+        public fixed ulong _ptr_data[16 / 8]; // original type is `void *[2]`
 
         public ref void* ptr_data(int index = 0)
         {

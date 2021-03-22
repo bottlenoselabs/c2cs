@@ -12,10 +12,10 @@ namespace C2CS.CSharp
 
         public CSharpEnum(
             string name,
-            string originalCodeLocationComment,
+            string codeLocationComment,
             CSharpType type,
             ImmutableArray<CSharpEnumValue> values)
-            : base(name, originalCodeLocationComment)
+            : base(name, codeLocationComment)
         {
             Type = type;
             Values = values;

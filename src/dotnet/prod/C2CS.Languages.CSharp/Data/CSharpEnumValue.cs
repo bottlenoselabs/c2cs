@@ -9,9 +9,9 @@ namespace C2CS.CSharp
 
         public CSharpEnumValue(
             string name,
-            string originalLocationComment,
+            string locationComment,
             long value)
-            : base(name, originalLocationComment)
+            : base(name, locationComment)
         {
             Value = value;
         }

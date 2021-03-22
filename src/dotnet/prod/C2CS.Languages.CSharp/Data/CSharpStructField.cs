@@ -5,18 +5,21 @@ namespace C2CS.CSharp
 {
     public record CSharpStructField : CSharpCommon
     {
+        public readonly string OriginalName;
         public readonly CSharpType Type;
         public readonly int Offset;
         public readonly int Padding;
 
         public CSharpStructField(
             string name,
-            string originalCodeLocationComment,
+            string originalName,
+            string codeLocationComment,
             CSharpType type,
             int offset,
             int padding)
-            : base(name, originalCodeLocationComment)
+            : base(name, codeLocationComment)
         {
+            OriginalName = originalName;
             Type = type;
             Offset = offset;
             Padding = padding;

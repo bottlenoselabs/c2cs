@@ -13,20 +13,20 @@ namespace C2CS.CSharp
 
         public CSharpStruct(
             string name,
-            string originalCodeLocationComment,
+            string codeLocationComment,
             CSharpType type,
             ImmutableArray<CSharpStructField> fields)
-            : this(name, originalCodeLocationComment, type, fields, ImmutableArray<CSharpStruct>.Empty)
+            : this(name, codeLocationComment, type, fields, ImmutableArray<CSharpStruct>.Empty)
         {
         }
 
         public CSharpStruct(
             string name,
-            string originalCodeLocationComment,
+            string codeLocationComment,
             CSharpType type,
             ImmutableArray<CSharpStructField> fields,
             ImmutableArray<CSharpStruct> nestedStructs)
-            : base(name, originalCodeLocationComment)
+            : base(name, codeLocationComment)
         {
             Type = type;
             Fields = fields;

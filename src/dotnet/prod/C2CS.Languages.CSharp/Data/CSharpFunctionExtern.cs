@@ -13,11 +13,11 @@ namespace C2CS.CSharp
 
         public CSharpFunctionExtern(
             string name,
-            string originalCodeLocationComment,
+            string codeLocationComment,
             CSharpFunctionExternCallingConvention callingConvention,
             CSharpType returnType,
             ImmutableArray<CSharpFunctionExternParameter> parameters)
-            : base(name, originalCodeLocationComment)
+            : base(name, codeLocationComment)
         {
             ReturnType = returnType;
             CallingConvention = callingConvention;
