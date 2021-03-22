@@ -117,7 +117,7 @@ using System.Runtime.InteropServices;";
 			var methodParameters = CreateMethodParameters(functionParameters);
 
 			var method = MethodDeclaration(functionReturnType, functionName)
-				.WithDllImportAttribute(functionCallingConvention)
+				.WithDllImportAttribute(functionName, functionCallingConvention)
 				.WithModifiers(TokenList(
 					Token(SyntaxKind.PublicKeyword),
 					Token(SyntaxKind.StaticKeyword),

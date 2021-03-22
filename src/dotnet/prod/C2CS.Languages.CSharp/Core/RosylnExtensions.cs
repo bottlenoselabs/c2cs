@@ -56,6 +56,7 @@ namespace C2CS
 
 		internal static MethodDeclarationSyntax WithDllImportAttribute(
 			this MethodDeclarationSyntax methodDeclarationSyntax,
+			string functionName,
 			CallingConvention callingConvention)
 		{
 			return methodDeclarationSyntax.WithAttributeLists(
@@ -70,6 +71,14 @@ namespace C2CS
 										{
 											AttributeArgument(
 												IdentifierName("LibraryName")),
+											Token(SyntaxKind.CommaToken),
+											AttributeArgument(
+													LiteralExpression(
+														SyntaxKind.StringLiteralExpression,
+														ParseToken($"\"{functionName}\"")))
+												.WithNameEquals(
+													NameEquals(
+														IdentifierName("EntryPoint"))),
 											Token(SyntaxKind.CommaToken),
 											AttributeArgument(
 													MemberAccessExpression(
