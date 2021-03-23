@@ -27,6 +27,7 @@ This project does not work for every C library. This is due to some technical li
 Note that this list only applies to the **external linkage** of the C API; the internal guts of the C library is irrelevant.
 
 - No macros.
+- No C++.
 - (This list may be updated as more things are discovered...)
 
 For such tricky libraries which are not "bindgen-friendly" I recommend you take a look at: https://github.com/InfectedLibraries/Biohazrd
