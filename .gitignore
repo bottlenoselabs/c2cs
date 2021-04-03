@@ -11,5 +11,8 @@
 bin/
 obj/
 
+# CMake
+cmake-build*/
+
 # macOS
 .DS_Store
