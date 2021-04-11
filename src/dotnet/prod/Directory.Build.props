@@ -2,10 +2,4 @@
 
     <Import Project="../Common.props" />
 
-    <PropertyGroup>
-        <IsPackable>true</IsPackable>
-        <IncludeSymbols>true</IncludeSymbols>
-        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    </PropertyGroup>
-
 </Project>

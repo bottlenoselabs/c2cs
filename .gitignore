@@ -13,6 +13,7 @@ cmake-build*/
 # C# build artifacts
 bin/
 obj/
+nupkg/
 
 # C build artifacts
 lib/
