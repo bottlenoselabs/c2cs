@@ -3,7 +3,7 @@
 cmake_minimum_required(VERSION 3.17)
 
 # The project name followed by the language. It is recommended that the folder for this file have the same name as the project.
-project(shared-library-minimum C)
+project(library-minimum C)
 
 # The C standard whose features are requested to build this target. Supported values are 90, 99 and 11.
 # If you don't care use the latest, 11.
