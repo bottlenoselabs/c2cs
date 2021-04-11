@@ -1,6 +1,0 @@
-<RuleSet Name="C2CS" Description="Code analysis rules for C2CS C# projects." ToolsVersion="15.0">
-   
-   <!-- StyleCop -->
-   <Include Path="./StyleCop.ruleset" Action="Default" />
-
-</RuleSet>
