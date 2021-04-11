@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS", "prod\C2CS\C2CS.csproj", "{963D484D-D78C-45F7-87FD-D948290E86E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Core", "prod\C2CS.Core\C2CS.Core.csproj", "{963D484D-D78C-45F7-87FD-D948290E86E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.CommandLine", "prod\C2CS.CommandLine\C2CS.CommandLine.csproj", "{579857C9-5374-458A-84E0-0564ECA99237}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS", "prod\C2CS\C2CS.csproj", "{579857C9-5374-458A-84E0-0564ECA99237}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libclang", "prod\libclang\libclang.csproj", "{26E061A9-DA84-47CD-A9E7-868F1F26F568}"
 EndProject

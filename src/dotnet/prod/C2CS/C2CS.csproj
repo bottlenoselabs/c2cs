@@ -3,8 +3,18 @@
     <!-- MSBuild project settings -->
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <OutputType>Exe</OutputType>
         <RootNamespace>C2CS</RootNamespace>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Version>0.2</Version>
+    </PropertyGroup>
+
+    <!-- NuGet -->
+    <PropertyGroup>
+        <IsPackable>true</IsPackable>
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>c2cs</ToolCommandName>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
 
     <!-- My-MSBuild project settings -->
@@ -12,11 +22,15 @@
         <EnableAnalyzers>true</EnableAnalyzers>
         <EnableAnalyzersStyleCop>true</EnableAnalyzersStyleCop>
     </PropertyGroup>
-
-    <!-- Project references -->
+    
+    <!-- NuGet packaage references -->
     <ItemGroup>
-      <ProjectReference Include="..\C2CS.Languages.CSharp\C2CS.Languages.CSharp.csproj" />
-      <ProjectReference Include="..\C2CS.Languages.C\C2CS.Languages.C.csproj" />
+        <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20574.7" />
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\C2CS.Core\C2CS.Core.csproj" />
+    </ItemGroup>
+    
+    <!-- Project references -->
 
 </Project>
