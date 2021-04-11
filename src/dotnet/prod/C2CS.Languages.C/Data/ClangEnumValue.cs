@@ -11,7 +11,7 @@ namespace C2CS.Languages.C
             string name,
             ClangCodeLocation codeLocation,
             long value)
-            : base(name, codeLocation)
+            : base(ClangKind.EnumValue, name, codeLocation)
         {
             Value = value;
         }

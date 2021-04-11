@@ -1360,7 +1360,7 @@ public static unsafe partial class libclang
     public struct CXCursorVisitor
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public delegate *unmanaged <CXCursor, CXCursor, CXClientData, CXChildVisitResult> Pointer;
     }
 
     // FunctionPointer @ Index.h:5092 01/28/2021 00:34:01
@@ -1368,7 +1368,7 @@ public static unsafe partial class libclang
     public struct clang_executeOnThread_fn
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public delegate *unmanaged <void*, void> Pointer;
     }
 
     // FunctionPointer @ Index.h:5929 01/28/2021 00:34:01
@@ -1376,7 +1376,7 @@ public static unsafe partial class libclang
     public struct CXInclusionVisitor
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public delegate *unmanaged <CXFile, CXSourceLocation*, uint, CXClientData, void> Pointer;
     }
 
     // FunctionPointer @ Index.h:6091 01/28/2021 00:34:01
@@ -1384,7 +1384,7 @@ public static unsafe partial class libclang
     public struct CXCursorAndRangeVisitor_visit
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public delegate *unmanaged <void*, CXCursor, CXSourceRange, CXVisitorResult> Pointer;
     }
 
     // FunctionPointer @ Index.h:6498 01/28/2021 00:34:01
@@ -1392,7 +1392,7 @@ public static unsafe partial class libclang
     public struct IndexerCallbacks_abortQuery
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public delegate *unmanaged <CXClientData, void*, int> Pointer;
     }
 
     // FunctionPointer @ Index.h:6503 01/28/2021 00:34:01
@@ -1400,7 +1400,7 @@ public static unsafe partial class libclang
     public struct IndexerCallbacks_diagnostic
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public delegate *unmanaged <CXClientData, CXDiagnosticSet, void*, void> Pointer;
     }
 
     // FunctionPointer @ Index.h:6505 01/28/2021 00:34:01
@@ -1408,7 +1408,7 @@ public static unsafe partial class libclang
     public struct IndexerCallbacks_enteredMainFile
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public delegate *unmanaged <CXClientData, CXFile, void*, CXIdxClientFile> Pointer;
     }
 
     // FunctionPointer @ Index.h:6511 01/28/2021 00:34:01
@@ -1416,7 +1416,7 @@ public static unsafe partial class libclang
     public struct IndexerCallbacks_ppIncludedFile
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public delegate *unmanaged <CXClientData, CXIdxIncludedFileInfo*, CXIdxClientFile> Pointer;
     }
 
     // FunctionPointer @ Index.h:6522 01/28/2021 00:34:01
@@ -1424,7 +1424,7 @@ public static unsafe partial class libclang
     public struct IndexerCallbacks_importedASTFile
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public delegate *unmanaged <CXClientData, CXIdxImportedASTFileInfo*, CXIdxClientASTFile> Pointer;
     }
 
     // FunctionPointer @ Index.h:6528 01/28/2021 00:34:01
@@ -1432,7 +1432,7 @@ public static unsafe partial class libclang
     public struct IndexerCallbacks_startedTranslationUnit
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public delegate *unmanaged <CXClientData, void*, CXIdxClientContainer> Pointer;
     }
 
     // FunctionPointer @ Index.h:6531 01/28/2021 00:34:01
@@ -1440,7 +1440,7 @@ public static unsafe partial class libclang
     public struct IndexerCallbacks_indexDeclaration
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public delegate *unmanaged <CXClientData, CXIdxDeclInfo*, void> Pointer;
     }
 
     // FunctionPointer @ Index.h:6536 01/28/2021 00:34:01
@@ -1448,7 +1448,7 @@ public static unsafe partial class libclang
     public struct IndexerCallbacks_indexEntityReference
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public delegate *unmanaged <CXClientData, CXIdxEntityRefInfo*, void> Pointer;
     }
 
     // FunctionPointer @ Index.h:6746 01/28/2021 00:34:01
@@ -1456,7 +1456,7 @@ public static unsafe partial class libclang
     public struct CXFieldVisitor
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public delegate *unmanaged <CXCursor, CXClientData, CXVisitorResult> Pointer;
     }
 
     // Record @ CXString.h:40 01/28/2021 00:34:01

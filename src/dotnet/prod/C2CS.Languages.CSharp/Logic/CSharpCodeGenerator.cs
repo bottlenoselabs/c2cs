@@ -4,11 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -18,7 +16,10 @@ namespace C2CS.CSharp
 {
 	public static class CSharpCodeGenerator
 	{
-		public static string GenerateFile(string libraryName, CSharpAbstractSyntaxTree abstractSyntaxTree)
+		public static string GenerateFile(
+			string className,
+			string libraryName,
+			CSharpAbstractSyntaxTree abstractSyntaxTree)
 		{
 			var members = new List<MemberDeclarationSyntax>();
 
@@ -52,15 +53,13 @@ namespace C2CS.CSharp
 				members.Add(member);
 			}
 
-			var @class = CreatePInvokeClass(libraryName, members.ToImmutableArray());
+			var @class = CreatePInvokeClass(className, libraryName, members.ToImmutableArray());
 			return @class.ToFullString();
 		}
 
 		private static ClassDeclarationSyntax CreatePInvokeClass(
-			string libraryName, ImmutableArray<MemberDeclarationSyntax> members)
+			string className, string libraryName, ImmutableArray<MemberDeclarationSyntax> members)
 		{
-			var className = Path.GetFileNameWithoutExtension(libraryName);
-
 			var newMembers = new List<MemberDeclarationSyntax>();
 
 			var libraryNameField = FieldDeclaration(
@@ -114,7 +113,7 @@ using System.Runtime.InteropServices;";
 			var functionCallingConvention = CallingConvention(cSharpFunctionExtern.CallingConvention);
 			var functionParameters = cSharpFunctionExtern.Parameters;
 
-			var methodParameters = CreateMethodParameters(functionParameters);
+			var methodParameters = CreateExternMethodParameters(functionParameters);
 
 			var method = MethodDeclaration(functionReturnType, functionName)
 				.WithDllImportAttribute(functionName, functionCallingConvention)
@@ -139,27 +138,26 @@ using System.Runtime.InteropServices;";
 			};
 		}
 
-		private static ImmutableArray<ParameterSyntax> CreateMethodParameters(ImmutableArray<CSharpFunctionExternParameter> functionParameters)
+		private static ImmutableArray<ParameterSyntax> CreateExternMethodParameters(
+			ImmutableArray<CSharpFunctionExternParameter> functionParameters)
 		{
 			var cSharpMethodParameters = ImmutableArray.CreateBuilder<ParameterSyntax>();
 
 			foreach (var functionParameter in functionParameters)
 			{
-				var cSharpMethodParameter = CreateMethodParameter(functionParameter);
+				var cSharpMethodParameter = CreateExternMethodParameter(functionParameter);
 				cSharpMethodParameters.Add(cSharpMethodParameter);
 			}
 
 			return cSharpMethodParameters.ToImmutable();
 		}
 
-		private static ParameterSyntax CreateMethodParameter(CSharpFunctionExternParameter cSharpFunctionParameter)
+		private static ParameterSyntax CreateExternMethodParameter(CSharpFunctionExternParameter functionParameter)
 		{
-			var parameterName = cSharpFunctionParameter.Name;
-			var parameterTypeName = cSharpFunctionParameter.Type.Name;
-			var parameterIsReadOnly = cSharpFunctionParameter.IsReadOnly;
+			var parameterIsReadOnly = functionParameter.IsReadOnly;
 
-			var parameterIdentifier = Identifier(parameterName);
-			var parameterType = ParseTypeName(parameterTypeName);
+			var parameterIdentifier = Identifier(functionParameter.Name);
+			var parameterType = ParseTypeName(functionParameter.Type.Name);
 			var parameter = Parameter(parameterIdentifier)
 				.WithType(parameterType);
 
@@ -168,27 +166,52 @@ using System.Runtime.InteropServices;";
 				parameter = parameter.WithAttribute("In");
 			}
 
+			if (parameterType is PointerTypeSyntax)
+			{
+				parameter = parameter.WithTrailingTrivia(Space);
+			}
+
 			return parameter;
 		}
 
 		public static MemberDeclarationSyntax CreateFunctionPointer(CSharpFunctionPointer cSharpFunctionPointer)
 		{
 			var structName = cSharpFunctionPointer.Name;
-			var structSizeOf = cSharpFunctionPointer.Type.SizeOf;
-			var structAlignOf = cSharpFunctionPointer.Type.AlignOf;
+			var pointerSize = cSharpFunctionPointer.PointerSize;
+
+			List<SyntaxNodeOrToken> functionPointerParameterList = new();
+
+			foreach (var functionPointerParameter in cSharpFunctionPointer.Parameters)
+			{
+				var parameterType = ParseTypeName(functionPointerParameter.Type.Name);
+				var parameter = FunctionPointerParameter(parameterType);
+				functionPointerParameterList.Add(parameter);
+				functionPointerParameterList.Add(Token(SyntaxKind.CommaToken));
+			}
+
+			var returnType = ParseTypeName(cSharpFunctionPointer.ReturnType.Name);
+			functionPointerParameterList.Add(FunctionPointerParameter(returnType));
+
+			var functionPointer = FunctionPointerType()
+				.WithCallingConvention(
+					FunctionPointerCallingConvention(
+						Token(SyntaxKind.UnmanagedKeyword)))
+				.WithParameterList(
+					FunctionPointerParameterList(
+						SeparatedList<FunctionPointerParameterSyntax>(functionPointerParameterList.ToArray())));
 
 			var fieldIdentifier = Identifier("Pointer");
-			var fieldType = ParseTypeName("void*");
+			var fieldType = functionPointer;
 			var fieldVariable = VariableDeclarator(fieldIdentifier);
 			var fieldVariableDeclaration = VariableDeclaration(fieldType)
 				.WithVariables(SingletonSeparatedList(fieldVariable));
 			var field = FieldDeclaration(fieldVariableDeclaration)
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-				.WithAttributeFieldOffset(0, structSizeOf, 0);
+				.WithAttributeFieldOffset(0, pointerSize, 0);
 
 			var @struct = StructDeclaration(structName)
 				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-				.WithAttributeStructLayout(LayoutKind.Explicit, structSizeOf, structAlignOf)
+				.WithAttributeStructLayout(LayoutKind.Explicit, pointerSize, pointerSize)
 				.WithMembers(new SyntaxList<MemberDeclarationSyntax>(field))
 				.WithLeadingTrivia(Comment(cSharpFunctionPointer.CodeLocationComment));
 

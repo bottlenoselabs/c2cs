@@ -41,7 +41,7 @@ namespace C2CS.Bindgen
         private static void GenerateCSharpCode(BindgenUseCaseRequest request, ref BindgenUseCaseState state)
         {
             state.GeneratedCSharpCode = CSharpCodeGenerator.GenerateFile(
-                request.LibraryName, state.CSharpAbstractSyntaxTree);
+                request.ClassName, request.LibraryName, state.CSharpAbstractSyntaxTree);
         }
 
         private static void WriteCSharpCode(BindgenUseCaseRequest request, ref BindgenUseCaseState state)

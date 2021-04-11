@@ -20,7 +20,7 @@ namespace C2CS.Languages.C
         private readonly List<ClangRecord> _records = new();
         private readonly List<ClangOpaqueDataType> _opaqueDataTypes = new();
         private readonly List<ClangOpaquePointer> _opaquePointers = new();
-        private readonly List<ClangAliasType> _aliasDataTypes = new();
+        private readonly List<ClangAliasDataType> _aliasDataTypes = new();
         private readonly List<ClangFunctionPointer> _functionPointers = new();
 
         public ClangAbstractSyntaxTree ExtractAbstractSyntaxTree(CXTranslationUnit translationUnit)

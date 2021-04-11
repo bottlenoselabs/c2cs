@@ -145,7 +145,8 @@ namespace C2CS
 				.RemoveLeadingTriviaForPointers()
 				.AddSpaceTriviaForPointers()
 				.TwoNewLinesForEveryExternMethodExceptLast()
-				.TwoNewLinesForEveryStructFieldExceptLast();
+				.TwoNewLinesForEveryStructFieldExceptLast()
+				.AddSpaceForFunctionPointerIdentifier();
 
 			return rootNode;
 		}
@@ -178,7 +179,15 @@ namespace C2CS
 		{
 			return rootNode.ReplaceNodes(
 				rootNode.DescendantNodes().OfType<PointerTypeSyntax>(),
-				(_, node) => node.WithTrailingTrivia(Space));
+				(_, node) =>
+				{
+					if (node.Parent is FunctionPointerParameterSyntax)
+					{
+						return node;
+					}
+
+					return node.WithTrailingTrivia(Space);
+				});
 		}
 
 		private static TNode TwoNewLinesForEveryExternMethodExceptLast<TNode>(this TNode rootNode)
@@ -234,6 +243,15 @@ namespace C2CS
 
 					return field.InsertTriviaAfter(field.GetTrailingTrivia().Last(), triviaToAdd);
 				});
+		}
+
+		private static TNode AddSpaceForFunctionPointerIdentifier<TNode>(this TNode rootNode)
+			where TNode : SyntaxNode
+		{
+			return rootNode.ReplaceNodes(
+				rootNode.DescendantNodes()
+					.OfType<FunctionPointerTypeSyntax>(),
+				(_, node) => node.WithTrailingTrivia(Space));
 		}
 	}
 }

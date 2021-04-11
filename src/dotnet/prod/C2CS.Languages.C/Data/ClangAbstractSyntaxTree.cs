@@ -13,7 +13,7 @@ namespace C2CS.Languages.C
         public readonly ImmutableArray<ClangEnum> Enums;
         public readonly ImmutableArray<ClangOpaqueDataType> OpaqueDataTypes;
         public readonly ImmutableArray<ClangOpaquePointer> OpaquePointers;
-        public readonly ImmutableArray<ClangAliasType> AliasDataTypes;
+        public readonly ImmutableArray<ClangAliasDataType> AliasDataTypes;
 
         public ClangAbstractSyntaxTree(
             ImmutableArray<ClangFunctionExtern> functionExternExterns,
@@ -22,7 +22,7 @@ namespace C2CS.Languages.C
             ImmutableArray<ClangEnum> enums,
             ImmutableArray<ClangOpaqueDataType> opaqueDataTypes,
             ImmutableArray<ClangOpaquePointer> opaquePointers,
-            ImmutableArray<ClangAliasType> aliasDataTypes)
+            ImmutableArray<ClangAliasDataType> aliasDataTypes)
         {
             FunctionExterns = functionExternExterns;
             FunctionPointers = functionPointers;

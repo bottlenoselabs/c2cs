@@ -14,7 +14,7 @@ namespace C2CS.Languages.C
             ClangCodeLocation codeLocation,
             ClangType type,
             int offset)
-            : base(name, codeLocation)
+            : base(ClangKind.RecordField, name, codeLocation)
         {
             Type = type;
             Offset = offset;

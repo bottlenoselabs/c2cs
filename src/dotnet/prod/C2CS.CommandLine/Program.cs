@@ -11,9 +11,9 @@ using C2CS.Bindgen;
 
 namespace C2CS
 {
-	internal static class Program
+	public static class Program
 	{
-		private static int Main(string[] args)
+		public static int Main(string[] args)
 		{
 			var rootCommand = CreateRootCommand();
 			return rootCommand.InvokeAsync(args).Result;
@@ -56,6 +56,14 @@ namespace C2CS
 			};
 			rootCommand.AddOption(unattendedOption);
 
+			var classNameOption = new Option<string>(
+				new[] {"--className", "-c"},
+				"The name of the generated C# class name.")
+			{
+				IsRequired = false
+			};
+			rootCommand.AddOption(classNameOption);
+
 			var libraryNameOption = new Option<string>(
 				new[] {"--libraryName", "-l"},
 				"The name of the dynamic link library (without the file extension) used for P/Invoke with C#.")
@@ -97,6 +105,7 @@ namespace C2CS
 			string inputFilePath,
 			string outputFilePath,
 			bool unattended,
+			string className,
 			string libraryName,
 			IEnumerable<string>? includeDirectories = null,
 			IEnumerable<string>? defines = null,
@@ -109,6 +118,7 @@ namespace C2CS
 					inputFilePath,
 					outputFilePath,
 					unattended,
+					className,
 					libraryName,
 					includeDirectories?.ToImmutableArray() ?? ImmutableArray<string>.Empty,
 					defines?.ToImmutableArray() ?? ImmutableArray<string>.Empty,
@@ -134,6 +144,7 @@ namespace C2CS
 			string inputFilePath,
 			string outputFilePath,
 			bool unattended,
+			string className,
 			string libraryName,
 			IEnumerable<string>? includeDirectories = null,
 			IEnumerable<string>? defines = null,

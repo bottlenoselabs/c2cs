@@ -15,7 +15,7 @@ namespace C2CS.Languages.C
             ClangCodeLocation codeLocation,
             ClangType integerType,
             ImmutableArray<ClangEnumValue> values)
-            : base(name, codeLocation)
+            : base(ClangKind.Enum, name, codeLocation)
         {
             IntegerType = integerType;
             Values = values;

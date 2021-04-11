@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.IO;
 using ClangSharp.Interop;
 
@@ -15,7 +16,7 @@ namespace C2CS.Languages.C
 
         public ClangFunctionExtern MapFunctionExtern(CXCursor cursor)
         {
-            var codeLocation = MapCodeLocation(ClangKind.FunctionExtern, cursor);
+            var codeLocation = MapCodeLocation(cursor);
             var name = cursor.Spelling.CString;
             var callingConvention = MapFunctionCallingConvention(cursor.Type.FunctionTypeCallingConv);
             var returnType = MapType(cursor.ResultType, cursor);
@@ -63,12 +64,87 @@ namespace C2CS.Languages.C
 
         private ClangFunctionExternParameter MapFunctionExternParameter(CXCursor cursor)
         {
-            var codeLocation = MapCodeLocation(ClangKind.FunctionExternParameter, cursor);
+            var codeLocation = MapCodeLocation(cursor);
+            var name = cursor.Spelling.CString;
+            var type = MapType(cursor.Type, cursor);
+            var isReadOnly = cursor.Type.CanonicalType.IsConstQualified;
+            var isFunctionPointer = cursor.Type.kind == CXTypeKind.CXType_Pointer &&
+                                    cursor.Type.PointeeType.kind == CXTypeKind.CXType_FunctionProto;
+
+            var result = new ClangFunctionExternParameter(
+                name,
+                codeLocation,
+                type,
+                isReadOnly,
+                isFunctionPointer);
+
+            return result;
+        }
+
+        public ClangFunctionPointer MapFunctionPointer(CXCursor cursor, CXCursor cursorParent)
+        {
+            var cursorType = GetFunctionProtoType(cursor);
+            var codeLocation = MapCodeLocation(cursor);
+            var name = MapFunctionPointerName(cursor, cursorParent);
+            var pointerSize = (int)cursor.Type.SizeOf;
+            var returnType = MapType(cursorType.ResultType, cursor);
+            var parameters = MapFunctionPointerParameters(cursor);
+
+            var result = new ClangFunctionPointer(
+                name,
+                codeLocation,
+                pointerSize,
+                returnType,
+                parameters);
+
+            return result;
+        }
+
+        private static CXType GetFunctionProtoType(CXCursor cursor)
+        {
+            var type = cursor.Type;
+            if (type.kind == CXTypeKind.CXType_Typedef)
+            {
+                type = cursor.TypedefDeclUnderlyingType;
+            }
+
+            if (type.kind == CXTypeKind.CXType_Pointer)
+            {
+                type = type.PointeeType;
+            }
+
+            Debug.Assert(type.kind == CXTypeKind.CXType_FunctionProto, "expected function proto");
+
+            return type;
+        }
+
+        private ImmutableArray<ClangFunctionPointerParameter> MapFunctionPointerParameters(CXCursor cursor)
+        {
+            var builder = ImmutableArray.CreateBuilder<ClangFunctionPointerParameter>();
+
+            cursor.VisitChildren((child, _) =>
+            {
+                if (child.kind != CXCursorKind.CXCursor_ParmDecl)
+                {
+                    return;
+                }
+
+                var functionPointerParameter = MapFunctionPointerParameter(child);
+                builder.Add(functionPointerParameter);
+            });
+
+            var result = builder.ToImmutable();
+            return result;
+        }
+
+        private ClangFunctionPointerParameter MapFunctionPointerParameter(CXCursor cursor)
+        {
+            var codeLocation = MapCodeLocation(cursor);
             var name = cursor.Spelling.CString;
             var type = MapType(cursor.Type, cursor);
             var isReadOnly = cursor.Type.CanonicalType.IsConstQualified;
 
-            var result = new ClangFunctionExternParameter(
+            var result = new ClangFunctionPointerParameter(
                 name,
                 codeLocation,
                 type,
@@ -77,23 +153,9 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        public ClangFunctionPointer MapFunctionPointer(CXCursor cursor, CXCursor cursorParent)
-        {
-            var codeLocation = MapCodeLocation(ClangKind.FunctionPointer, cursor);
-            var name = MapFunctionPointerName(cursor, cursorParent);
-            var type = MapType(cursor.Type, cursor);
-
-            var result = new ClangFunctionPointer(
-                name,
-                codeLocation,
-                type);
-
-            return result;
-        }
-
         public ClangRecord MapRecord(CXCursor cursor)
         {
-            var codeLocation = MapCodeLocation(ClangKind.Record, cursor);
+            var codeLocation = MapCodeLocation(cursor);
             var name = cursor.Spelling.CString;
             var type = MapType(cursor.Type, cursor);
             var recordFields = MapRecordFields(cursor);
@@ -171,7 +233,7 @@ namespace C2CS.Languages.C
 
         private ClangRecordField MapRecordField(CXCursor cursor)
         {
-            var codeLocation = MapCodeLocation(ClangKind.RecordField, cursor);
+            var codeLocation = MapCodeLocation(cursor);
             var recordFieldType = clang.getCursorType(cursor);
             var name = cursor.Spelling.CString;
             var type = MapType(recordFieldType, cursor);
@@ -223,7 +285,7 @@ namespace C2CS.Languages.C
         {
             var cursorType = cursor.Type;
             var declaration = cursorType.Declaration;
-            var codeLocation = MapCodeLocation(ClangKind.RecordNested, declaration);
+            var codeLocation = MapCodeLocation(declaration);
             var type = MapType(cursor.Type, cursor);
             var name = type.Name;
             var recordFields = MapRecordFields(declaration);
@@ -241,7 +303,7 @@ namespace C2CS.Languages.C
 
         public ClangEnum MapEnum(CXCursor cursor)
         {
-            var codeLocation = MapCodeLocation(ClangKind.Enum, cursor);
+            var codeLocation = MapCodeLocation(cursor);
             var name = cursor.Spelling.CString;
             var integerType = MapEnumIntegerType(cursor);
             var enumValues = MapEnumValues(cursor);
@@ -301,7 +363,7 @@ namespace C2CS.Languages.C
 
         private ClangEnumValue MapEnumValue(CXCursor cursor)
         {
-            var codeLocation = MapCodeLocation(ClangKind.EnumValue, cursor);
+            var codeLocation = MapCodeLocation(cursor);
             var name = cursor.Spelling.CString;
             var value = cursor.EnumConstantDeclValue;
 
@@ -315,7 +377,7 @@ namespace C2CS.Languages.C
 
         public ClangOpaqueDataType MapOpaqueDataType(CXCursor cursor)
         {
-            var codeLocation = MapCodeLocation(ClangKind.OpaqueDataType, cursor);
+            var codeLocation = MapCodeLocation(cursor);
             var name = cursor.Spelling.CString;
             var result = new ClangOpaqueDataType(
                 name,
@@ -326,7 +388,7 @@ namespace C2CS.Languages.C
 
         public ClangOpaquePointer MapOpaquePointer(CXCursor cursor)
         {
-            var codeLocation = MapCodeLocation(ClangKind.OpaquePointer, cursor);
+            var codeLocation = MapCodeLocation(cursor);
             var name = cursor.Spelling.CString;
             var pointerType = MapTypeOpaquePointer(cursor.Type.CanonicalType);
 
@@ -338,13 +400,13 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        public ClangAliasType MapAliasDataType(CXCursor cursor)
+        public ClangAliasDataType MapAliasDataType(CXCursor cursor)
         {
-            var codeLocation = MapCodeLocation(ClangKind.AliasDataType, cursor);
+            var codeLocation = MapCodeLocation(cursor);
             var name = cursor.Spelling.CString;
             var underlyingType = MapType(cursor.Type.CanonicalType, cursor);
 
-            var result = new ClangAliasType(
+            var result = new ClangAliasDataType(
                 name,
                 codeLocation,
                 underlyingType);
@@ -352,7 +414,7 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        private ClangCodeLocation MapCodeLocation(ClangKind clangKind, CXCursor cursor)
+        private ClangCodeLocation MapCodeLocation(CXCursor cursor)
         {
             cursor.Location.GetFileLocation(
                 out var file, out var lineNumber, out _, out _);
@@ -367,7 +429,6 @@ namespace C2CS.Languages.C
             var dateTime = new DateTime(1970, 1, 1).AddSeconds(file.Time);
 
             var result = new ClangCodeLocation(
-                clangKind,
                 fileName,
                 fileLine,
                 dateTime);

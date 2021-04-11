@@ -14,6 +14,7 @@ namespace C2CS.Bindgen
     {
         public readonly string InputFilePath;
         public readonly string OutputFilePath;
+        public readonly string ClassName;
         public readonly string LibraryName;
         public readonly ImmutableArray<string> ClangArgs;
 
@@ -21,6 +22,7 @@ namespace C2CS.Bindgen
             string inputFilePath,
             string outputFilePath,
             bool isUnattended,
+            string className,
             string libraryName,
             ImmutableArray<string> searchDirectories,
             ImmutableArray<string> defineMacros,
@@ -29,6 +31,7 @@ namespace C2CS.Bindgen
         {
             InputFilePath = ProcessInputPaths(inputFilePath);
             OutputFilePath = ProcessOutputFilePath(outputFilePath, isUnattended);
+            ClassName = ProcessClassName(className);
             LibraryName = ProcessLibraryName(libraryName);
             ClangArgs = ProcessClangArgs(
                 inputFilePath, searchDirectories, defineMacros, additionalArgs, additionalInputPaths);
@@ -36,7 +39,7 @@ namespace C2CS.Bindgen
 
         private static string ProcessInputPaths(string inputFilePath)
         {
-            var path = Path.GetFullPath(inputFilePath);
+            var path = Path.GetFullPath(inputFilePath.Trim());
             if (!File.Exists(path))
             {
                 throw new UseCaseException($"File does not exist: {path}");
@@ -47,7 +50,7 @@ namespace C2CS.Bindgen
 
         private static string ProcessOutputFilePath(string outputFilePath, bool isUnattended)
         {
-            outputFilePath = Path.GetFullPath(outputFilePath);
+            outputFilePath = Path.GetFullPath(outputFilePath.Trim());
 
             if (!File.Exists(outputFilePath))
             {
@@ -75,11 +78,25 @@ namespace C2CS.Bindgen
             return outputFilePath;
         }
 
+        private static string ProcessClassName(string className)
+        {
+            var value = className.Trim();
+
+            if (!string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            throw new UseCaseException("C# class name can't be empty.");
+        }
+
         private static string ProcessLibraryName(string libraryName)
         {
-            if (!string.IsNullOrEmpty(libraryName))
+            var value = libraryName.Trim();
+
+            if (!string.IsNullOrEmpty(value))
             {
-                return libraryName;
+                return value;
             }
 
             throw new UseCaseException("Dynamic link library name can't be empty.");

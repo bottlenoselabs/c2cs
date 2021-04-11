@@ -5,8 +5,7 @@ namespace C2CS.CSharp
 {
     public enum CSharpTypeKind
     {
-        DoNotCare,
-        FixedBuffer,
+        Unknown = 0,
         FunctionCallback
     }
 }

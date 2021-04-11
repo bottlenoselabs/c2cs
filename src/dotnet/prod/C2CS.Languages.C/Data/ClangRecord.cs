@@ -17,7 +17,7 @@ namespace C2CS.Languages.C
             ClangType type,
             ImmutableArray<ClangRecordField> fields,
             ImmutableArray<ClangRecord> nestedRecords)
-            : base(name, codeLocation)
+            : base(ClangKind.Record, name, codeLocation)
         {
             Type = type;
             Fields = fields;

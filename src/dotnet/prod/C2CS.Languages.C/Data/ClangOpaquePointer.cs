@@ -11,7 +11,7 @@ namespace C2CS.Languages.C
             string name,
             ClangCodeLocation codeLocation,
             ClangType pointerType)
-            : base(name, codeLocation)
+            : base(ClangKind.OpaquePointer, name, codeLocation)
         {
             PointerType = pointerType;
         }

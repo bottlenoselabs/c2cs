@@ -7,15 +7,19 @@ namespace C2CS.Languages.C
     {
         public readonly ClangType Type;
         public bool IsReadOnly;
+        public bool IsFunctionPointer;
 
         internal ClangFunctionExternParameter(
             string name,
             ClangCodeLocation codeLocation,
             ClangType type,
-            bool isReadOnly)
-            : base(name, codeLocation)
+            bool isReadOnly,
+            bool isFunctionPointer)
+            : base(ClangKind.FunctionExternParameter, name, codeLocation)
         {
             Type = type;
+            IsReadOnly = isReadOnly;
+            IsFunctionPointer = isFunctionPointer;
         }
 
         // Required for debugger string with records

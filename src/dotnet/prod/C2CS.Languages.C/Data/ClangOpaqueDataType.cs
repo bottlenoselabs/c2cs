@@ -8,7 +8,7 @@ namespace C2CS.Languages.C
         public ClangOpaqueDataType(
             string name,
             ClangCodeLocation codeLocation)
-            : base(name, codeLocation)
+            : base(ClangKind.OpaqueDataType, name, codeLocation)
         {
         }
 

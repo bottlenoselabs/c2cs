@@ -16,7 +16,8 @@ namespace C2CS.CSharp
             string codeLocationComment,
             CSharpFunctionExternCallingConvention callingConvention,
             CSharpType returnType,
-            ImmutableArray<CSharpFunctionExternParameter> parameters)
+            ImmutableArray<CSharpFunctionExternParameter> parameters,
+            bool isWrapped)
             : base(name, codeLocationComment)
         {
             ReturnType = returnType;

@@ -7,18 +7,15 @@ namespace C2CS.Languages.C
 {
     public readonly struct ClangCodeLocation : IComparable<ClangCodeLocation>
     {
-        public readonly ClangKind Kind;
         public readonly string FileName;
         public readonly int FileLineNumber;
         public readonly DateTime DateTime;
 
         internal ClangCodeLocation(
-            ClangKind kind,
             string fileName,
             int fileLineNumber,
             DateTime dateTime)
         {
-            Kind = kind;
             FileName = fileName;
             FileLineNumber = fileLineNumber;
             DateTime = dateTime;
@@ -26,7 +23,7 @@ namespace C2CS.Languages.C
 
         public override string ToString()
         {
-            return $"{Kind} @ {FileName}:{FileLineNumber} {DateTime}";
+            return $"{FileName}:{FileLineNumber} {DateTime}";
         }
 
         public bool Equals(ClangCodeLocation other)

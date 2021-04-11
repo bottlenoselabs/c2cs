@@ -20,8 +20,8 @@
     
     <!-- NuGet package references -->
     <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.Compilers" Version="3.6.0-3.final" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.6.0-3.final" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Compilers" Version="3.10.0-1.final" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0-1.final" />
     </ItemGroup>
 
 </Project>

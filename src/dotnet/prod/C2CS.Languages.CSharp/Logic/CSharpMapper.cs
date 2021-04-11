@@ -56,17 +56,27 @@ namespace C2CS.CSharp
         private static CSharpFunctionExtern MapFunctionExtern(ClangFunctionExtern clangFunctionExtern)
         {
             var name = clangFunctionExtern.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangFunctionExtern.CodeLocation);
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangFunctionExtern);
             var returnType = MapType(clangFunctionExtern.ReturnType);
             var callingConvention = MapFunctionCallingConvention(clangFunctionExtern.CallingConvention);
             var parameters = MapFunctionExternParameters(clangFunctionExtern.Parameters);
+
+            var isWrapped = false;
+            foreach (var parameter in parameters)
+            {
+                if (parameter.IsFunctionPointer)
+                {
+                    isWrapped = true;
+                }
+            }
 
             var result = new CSharpFunctionExtern(
                 name,
                 originalCodeLocationComment,
                 callingConvention,
                 returnType,
-                parameters);
+                parameters,
+                isWrapped);
 
             return result;
         }
@@ -144,20 +154,23 @@ namespace C2CS.CSharp
             ClangFunctionExternParameter clangFunctionExternParameter, string parameterName)
         {
             var name = SanitizeIdentifierName(parameterName);
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangFunctionExternParameter.CodeLocation);
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangFunctionExternParameter);
             var type = MapType(clangFunctionExternParameter.Type);
             var isReadOnly = clangFunctionExternParameter.IsReadOnly;
+            var isFunctionPointer = clangFunctionExternParameter.IsFunctionPointer;
 
             var result = new CSharpFunctionExternParameter(
                 name,
                 originalCodeLocationComment,
                 type,
-                isReadOnly);
+                isReadOnly,
+                isFunctionPointer);
 
             return result;
         }
 
-        private static ImmutableArray<CSharpFunctionPointer> MapFunctionPointers(ImmutableArray<ClangFunctionPointer> clangFunctionPointers)
+        private static ImmutableArray<CSharpFunctionPointer> MapFunctionPointers(
+            ImmutableArray<ClangFunctionPointer> clangFunctionPointers)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpFunctionPointer>(clangFunctionPointers.Length);
 
@@ -175,20 +188,60 @@ namespace C2CS.CSharp
         private static CSharpFunctionPointer MapFunctionPointer(ClangFunctionPointer clangFunctionPointer)
         {
             var name = clangFunctionPointer.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangFunctionPointer.CodeLocation);
-            var type = MapType(clangFunctionPointer.Type);
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangFunctionPointer);
+            var pointerSize = clangFunctionPointer.PointerSize;
+            var returnType = MapType(clangFunctionPointer.ReturnType);
+            var parameters = MapFunctionPointerParameters(clangFunctionPointer.Parameters);
 
             var result = new CSharpFunctionPointer(
                 name,
                 originalCodeLocationComment,
-                type);
+                pointerSize,
+                returnType,
+                parameters);
+
+            return result;
+        }
+
+        private static ImmutableArray<CSharpFunctionPointerParameter> MapFunctionPointerParameters(
+            ImmutableArray<ClangFunctionPointerParameter> clangFunctionPointerParameters)
+        {
+            var builder = ImmutableArray.CreateBuilder<CSharpFunctionPointerParameter>(clangFunctionPointerParameters.Length);
+            var parameterNames = new List<string>();
+
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var clangFunctionPointerParameter in clangFunctionPointerParameters)
+            {
+                var parameterName = MapUniqueParameterName(clangFunctionPointerParameter.Name, parameterNames);
+                parameterNames.Add(parameterName);
+                var functionExternParameter = MapFunctionPointerParameter(clangFunctionPointerParameter, parameterName);
+                builder.Add(functionExternParameter);
+            }
+
+            var result = builder.ToImmutable();
+            return result;
+        }
+
+        private static CSharpFunctionPointerParameter MapFunctionPointerParameter(
+            ClangFunctionPointerParameter clangFunctionPointerParameter, string parameterName)
+        {
+            var name = SanitizeIdentifierName(parameterName);
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangFunctionPointerParameter);
+            var type = MapType(clangFunctionPointerParameter.Type);
+            var isReadOnly = clangFunctionPointerParameter.IsReadOnly;
+
+            var result = new CSharpFunctionPointerParameter(
+                name,
+                originalCodeLocationComment,
+                type,
+                isReadOnly);
 
             return result;
         }
 
         private static ImmutableArray<CSharpStruct> MapStructs(
             ImmutableArray<ClangRecord> records,
-            ImmutableArray<ClangAliasType> aliasDataTypes,
+            ImmutableArray<ClangAliasDataType> aliasDataTypes,
             ImmutableArray<ClangOpaquePointer> opaquePointers)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpStruct>(
@@ -222,7 +275,7 @@ namespace C2CS.CSharp
         private static CSharpStruct MapStruct(ClangRecord clangRecord)
         {
             var name = clangRecord.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangRecord.CodeLocation);
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangRecord);
             var type = MapType(clangRecord.Type);
             var fields = MapStructFields(clangRecord.Fields);
             var nestedStructs = MapNestedStructs(clangRecord.NestedRecords);
@@ -256,7 +309,7 @@ namespace C2CS.CSharp
         {
             var name = SanitizeIdentifierName(clangRecordField.Name);
             var originalName = clangRecordField.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangRecordField.CodeLocation);
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangRecordField);
             var type = MapType(clangRecordField.Type);
             var offset = clangRecordField.Offset;
             var padding = clangRecordField.Padding;
@@ -307,7 +360,7 @@ namespace C2CS.CSharp
         private static CSharpOpaqueDataType MapOpaqueDataType(ClangOpaqueDataType clangOpaqueDataType)
         {
             var name = clangOpaqueDataType.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangOpaqueDataType.CodeLocation);
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangOpaqueDataType);
 
             var result = new CSharpOpaqueDataType(
                 name,
@@ -319,7 +372,7 @@ namespace C2CS.CSharp
         private static CSharpStruct MapOpaquePointer(ClangOpaquePointer clangOpaquePointer)
         {
             var name = clangOpaquePointer.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangOpaquePointer.CodeLocation);
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangOpaquePointer);
             var type = MapType(clangOpaquePointer.PointerType);
             var fields = MapOpaquePointerFields(clangOpaquePointer.PointerType, originalCodeLocationComment);
 
@@ -348,12 +401,12 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpStruct MapAliasDataType(ClangAliasType clangAliasType)
+        private static CSharpStruct MapAliasDataType(ClangAliasDataType clangAliasDataType)
         {
-            var name = clangAliasType.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangAliasType.CodeLocation);
-            var type = MapType(clangAliasType.UnderlyingType);
-            var fields = MapAliasDataTypeFields(clangAliasType.UnderlyingType, originalCodeLocationComment);
+            var name = clangAliasDataType.Name;
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangAliasDataType);
+            var type = MapType(clangAliasDataType.UnderlyingType);
+            var fields = MapAliasDataTypeFields(clangAliasDataType.UnderlyingType, originalCodeLocationComment);
 
             var result = new CSharpStruct(
                 name,
@@ -398,7 +451,7 @@ namespace C2CS.CSharp
         private static CSharpEnum MapEnum(ClangEnum clangEnum)
         {
             var name = clangEnum.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangEnum.CodeLocation);
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangEnum);
             var type = MapType(clangEnum.IntegerType);
             var values = MapEnumValues(clangEnum.Values);
 
@@ -428,7 +481,7 @@ namespace C2CS.CSharp
         private static CSharpEnumValue MapEnumValue(ClangEnumValue clangEnumValue)
         {
             var name = clangEnumValue.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangEnumValue.CodeLocation);
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangEnumValue);
             var value = clangEnumValue.Value;
 
             var result = new CSharpEnumValue(
@@ -469,9 +522,11 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static string MapOriginalCodeLocationComment(ClangCodeLocation codeLocation)
+        private static string MapOriginalCodeLocationComment(ClangCommon common)
         {
-            var kind = codeLocation.Kind;
+            var kind = common.Kind;
+            var codeLocation = common.CodeLocation;
+
             var fileName = codeLocation.FileName;
             var fileLineNumber = codeLocation.FileLineNumber;
             var dateTime = codeLocation.DateTime;

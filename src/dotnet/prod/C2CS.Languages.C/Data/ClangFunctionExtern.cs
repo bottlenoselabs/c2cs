@@ -17,7 +17,7 @@ namespace C2CS.Languages.C
             ClangFunctionExternCallingConvention callingConvention,
             ClangType returnType,
             ImmutableArray<ClangFunctionExternParameter> parameters)
-            : base(name, codeLocation)
+            : base(ClangKind.FunctionExtern, name, codeLocation)
         {
             CallingConvention = callingConvention;
             ReturnType = returnType;

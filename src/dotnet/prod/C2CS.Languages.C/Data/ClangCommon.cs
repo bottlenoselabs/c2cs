@@ -7,20 +7,23 @@ namespace C2CS.Languages.C
 {
     public record ClangCommon : IComparable<ClangCommon>
     {
+        public readonly ClangKind Kind;
         public readonly string Name;
         public readonly ClangCodeLocation CodeLocation;
 
         public ClangCommon(
+            ClangKind kind,
             string name,
             ClangCodeLocation codeLocation)
         {
+            Kind = kind;
             Name = name;
             CodeLocation = codeLocation;
         }
 
         public override string ToString()
         {
-            return $"{Name} <{CodeLocation.ToString()}>";
+            return $"{Name}:{Kind} <{CodeLocation.ToString()}>";
         }
 
         public int CompareTo(ClangCommon? other)

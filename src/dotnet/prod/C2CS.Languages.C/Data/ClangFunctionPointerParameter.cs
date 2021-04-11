@@ -6,12 +6,14 @@ namespace C2CS.Languages.C
     public record ClangFunctionPointerParameter : ClangCommon
     {
         public readonly ClangType Type;
+        public readonly bool IsReadOnly;
 
         internal ClangFunctionPointerParameter(
             string name,
             ClangCodeLocation codeLocation,
-            ClangType type)
-            : base(name, codeLocation)
+            ClangType type,
+            bool isReadOnly)
+            : base(ClangKind.FunctionPointerParameter, name, codeLocation)
         {
             Type = type;
         }
