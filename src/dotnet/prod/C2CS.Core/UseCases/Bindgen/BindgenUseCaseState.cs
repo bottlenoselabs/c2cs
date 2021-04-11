@@ -3,7 +3,7 @@
 
 using C2CS.CSharp;
 using C2CS.Languages.C;
-using ClangSharp.Interop;
+using static libclang;
 
 namespace C2CS.Bindgen
 {

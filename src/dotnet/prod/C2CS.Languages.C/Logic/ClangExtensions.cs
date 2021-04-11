@@ -3,37 +3,70 @@
 
 using System;
 using System.Runtime.InteropServices;
-using ClangSharp.Interop;
+using System.Threading;
+using static libclang;
 
 namespace C2CS.Languages.C
 {
 	public static unsafe class ClangExtensions
 	{
-		public delegate void VisitChildCursorAction(CXCursor child, CXCursor parent);
+		private static VisitData[] _visits = Array.Empty<VisitData>();
+		private static int _visitsCount;
 
-		private static readonly CXCursorVisitor Visit = Visitor;
-
-		public static void VisitChildren(this CXCursor cursor, VisitChildCursorAction visitAction)
+		private readonly struct VisitData
 		{
-			var handle = GCHandle.Alloc(visitAction);
-			var clientData = new CXClientData((IntPtr)handle);
+			public readonly VisitChildCursorAction Action;
+			public readonly int Depth;
 
-			cursor.VisitChildren(Visit, clientData);
-
-			handle.Free();
+			public VisitData(VisitChildCursorAction action, int depth)
+			{
+				Action = action;
+				Depth = depth;
+			}
 		}
 
-		private static CXChildVisitResult Visitor(CXCursor childCursor, CXCursor childParent, void* data)
+		public delegate void VisitChildCursorAction(CXCursor child, CXCursor parent, int depth);
+
+		private static readonly CXCursorVisitor Visit;
+
+		static ClangExtensions()
 		{
-			var handle = (GCHandle)(IntPtr)data;
-			var action = (VisitChildCursorAction)handle.Target!;
-			action(childCursor, childParent);
+			Visit.Pointer = &Visitor;
+		}
+
+		public static bool VisitChildren(this CXCursor cursor, int depth, VisitChildCursorAction visitAction)
+		{
+			var visitData = new VisitData(visitAction, depth);
+			var visitsCount = Interlocked.Increment(ref _visitsCount);
+			if (visitsCount > _visits.Length)
+			{
+				Array.Resize(ref _visits, visitsCount * 2);
+			}
+
+			_visits[visitsCount - 1] = visitData;
+
+			var clientData = default(CXClientData);
+			clientData.Pointer = (void*) _visitsCount;
+			var didBreak = clang_visitChildren(cursor, Visit, clientData) != 0;
+
+			Interlocked.Decrement(ref _visitsCount);
+			return didBreak;
+		}
+
+		[UnmanagedCallersOnly]
+		private static CXChildVisitResult Visitor(CXCursor childCursor, CXCursor childParent, CXClientData data)
+		{
+			var visitIndex = (int)data.Pointer;
+			var visitData = _visits[visitIndex - 1];
+			visitData.Action(childCursor, childParent, visitData.Depth);
 			return CXChildVisitResult.CXChildVisit_Continue;
 		}
 
 		public static bool IsSystemCursor(this CXCursor cursor)
 		{
-			return cursor.Location.IsInSystemHeader;
+			var location = clang_getCursorLocation(cursor);
+			var isInSystemHeader = clang_Location_isInSystemHeader(location) > 0U;
+			return isInSystemHeader;
 		}
 
 		public static bool IsSystemType(this CXType type)
@@ -59,17 +92,70 @@ namespace C2CS.Languages.C
 				case CXTypeKind.CXType_Double:
 					return true;
 				case CXTypeKind.CXType_Pointer:
-					return IsSystemType(type.PointeeType);
+					var pointeeType = clang_getPointeeType(type);
+					return IsSystemType(pointeeType);
 				case CXTypeKind.CXType_ConstantArray:
 				case CXTypeKind.CXType_Typedef:
 				case CXTypeKind.CXType_Elaborated:
 				case CXTypeKind.CXType_Record:
 				case CXTypeKind.CXType_Enum:
 				case CXTypeKind.CXType_FunctionProto:
-					return IsSystemCursor(type.Declaration);
+					var declaration = clang_getTypeDeclaration(type);
+					return IsSystemCursor(declaration);
 				default:
 					throw new NotImplementedException();
 			}
+		}
+
+		public static (string FilePath, int LineNumber, int LineColumn) GetLocation(this CXCursor clangCursor)
+		{
+			var location = clang_getCursorLocation(clangCursor);
+			CXFile file;
+			uint lineNumber;
+			uint lineColumn;
+			uint offset;
+			clang_getFileLocation(location, &file, &lineNumber, &lineColumn, &offset);
+
+			var handle = (IntPtr)file.Pointer;
+			if (handle == IntPtr.Zero)
+			{
+				return (string.Empty, 0, 0);
+			}
+
+			var fileName = clang_getFileName(file);
+			var cString = clang_getCString(fileName);
+			var fileNamePath = Unmanaged.MapString(cString);
+
+			var result = (fileNamePath, (int)lineNumber, (int)lineColumn);
+			return result;
+		}
+
+		public static string GetName(this CXCursor clangCursor)
+		{
+			var spelling = clang_getCursorSpelling(clangCursor);
+
+			var cString = clang_getCString(spelling);
+			if ((IntPtr) cString == IntPtr.Zero)
+			{
+				return string.Empty;
+			}
+
+			var result = Unmanaged.MapString(cString);
+			return result;
+		}
+
+		public static string GetName(this CXType clangType)
+		{
+			var spelling = clang_getTypeSpelling(clangType);
+
+			var cString = clang_getCString(spelling);
+			if ((IntPtr) cString == IntPtr.Zero)
+			{
+				return string.Empty;
+			}
+
+			var result = Unmanaged.MapString(cString);
+			return result;
 		}
 	}
 }

@@ -72,6 +72,14 @@ namespace C2CS
 			};
 			rootCommand.AddOption(libraryNameOption);
 
+			var printSyntaxTreeOption = new Option<bool>(
+				new[] {"--printAbstractSyntaxTree", "-t"},
+				"Print the Clang abstract syntax tree as it is explored to standard out; useful for troubleshooting, especially when libclang crashes.")
+			{
+				IsRequired = false
+			};
+			rootCommand.AddOption(printSyntaxTreeOption);
+
 			var includeDirectoriesOption = new Option<IEnumerable<string>?>(
 				new[] {"--includeDirectories", "-s"},
 				"Search directories for `#include` usages to use when parsing C code.")
@@ -107,6 +115,7 @@ namespace C2CS
 			bool unattended,
 			string className,
 			string libraryName,
+			bool printAbstractSyntaxTree,
 			IEnumerable<string>? includeDirectories = null,
 			IEnumerable<string>? defines = null,
 			IEnumerable<string>? clangArgs = null,
@@ -120,6 +129,7 @@ namespace C2CS
 					unattended,
 					className,
 					libraryName,
+					printAbstractSyntaxTree,
 					includeDirectories?.ToImmutableArray() ?? ImmutableArray<string>.Empty,
 					defines?.ToImmutableArray() ?? ImmutableArray<string>.Empty,
 					clangArgs?.ToImmutableArray() ?? ImmutableArray<string>.Empty,
@@ -146,6 +156,7 @@ namespace C2CS
 			bool unattended,
 			string className,
 			string libraryName,
+			bool printAbstractSyntaxTree,
 			IEnumerable<string>? includeDirectories = null,
 			IEnumerable<string>? defines = null,
 			IEnumerable<string>? clangArgs = null,

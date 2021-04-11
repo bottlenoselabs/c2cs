@@ -16,6 +16,7 @@ namespace C2CS.Bindgen
         public readonly string OutputFilePath;
         public readonly string ClassName;
         public readonly string LibraryName;
+        public readonly bool PrintAbstractSyntaxTree;
         public readonly ImmutableArray<string> ClangArgs;
 
         public BindgenUseCaseRequest(
@@ -24,6 +25,7 @@ namespace C2CS.Bindgen
             bool isUnattended,
             string className,
             string libraryName,
+            bool printAbstractSyntaxTree,
             ImmutableArray<string> searchDirectories,
             ImmutableArray<string> defineMacros,
             ImmutableArray<string> additionalArgs,
@@ -35,6 +37,7 @@ namespace C2CS.Bindgen
             LibraryName = ProcessLibraryName(libraryName);
             ClangArgs = ProcessClangArgs(
                 inputFilePath, searchDirectories, defineMacros, additionalArgs, additionalInputPaths);
+            PrintAbstractSyntaxTree = printAbstractSyntaxTree;
         }
 
         private static string ProcessInputPaths(string inputFilePath)

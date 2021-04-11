@@ -27,10 +27,10 @@
     <ItemGroup>
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20574.7" />
     </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\C2CS.Core\C2CS.Core.csproj" />
-    </ItemGroup>
     
     <!-- Project references -->
+    <ItemGroup>
+        <ProjectReference Include="..\C2CS.Core\C2CS.Core.csproj" />
+    </ItemGroup>
 
 </Project>

@@ -30,10 +30,12 @@ namespace C2CS.Bindgen
         private static void ExploreCCode(BindgenUseCaseRequest request, ref BindgenUseCaseState state)
         {
             var clangExplorer = new ClangExplorer();
-            state.ClangAbstractSyntaxTree = clangExplorer.ExtractAbstractSyntaxTree(state.ClangTranslationUnit);
+            state.ClangAbstractSyntaxTree = clangExplorer.ExtractAbstractSyntaxTree(
+                state.ClangTranslationUnit,
+                request.PrintAbstractSyntaxTree);
         }
 
-        public static void MapCAbstractSyntaxTreeToCSharp(BindgenUseCaseRequest request, ref BindgenUseCaseState state)
+        private static void MapCAbstractSyntaxTreeToCSharp(BindgenUseCaseRequest request, ref BindgenUseCaseState state)
         {
             state.CSharpAbstractSyntaxTree = CSharpMapper.GetAbstractSyntaxTree(state.ClangAbstractSyntaxTree);
         }

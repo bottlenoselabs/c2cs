@@ -241,7 +241,7 @@ namespace C2CS.CSharp
 
         private static ImmutableArray<CSharpStruct> MapStructs(
             ImmutableArray<ClangRecord> records,
-            ImmutableArray<ClangAliasDataType> aliasDataTypes,
+            ImmutableArray<ClangAlias> aliasDataTypes,
             ImmutableArray<ClangOpaquePointer> opaquePointers)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpStruct>(
@@ -401,12 +401,12 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpStruct MapAliasDataType(ClangAliasDataType clangAliasDataType)
+        private static CSharpStruct MapAliasDataType(ClangAlias clangAlias)
         {
-            var name = clangAliasDataType.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangAliasDataType);
-            var type = MapType(clangAliasDataType.UnderlyingType);
-            var fields = MapAliasDataTypeFields(clangAliasDataType.UnderlyingType, originalCodeLocationComment);
+            var name = clangAlias.Name;
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangAlias);
+            var type = MapType(clangAlias.UnderlyingType);
+            var fields = MapAliasDataTypeFields(clangAlias.UnderlyingType, originalCodeLocationComment);
 
             var result = new CSharpStruct(
                 name,

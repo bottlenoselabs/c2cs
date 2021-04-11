@@ -3,13 +3,13 @@
 
 using System;
 using System.Collections.Immutable;
-using ClangSharp.Interop;
+using static libclang;
 
 namespace C2CS.Languages.C
 {
     public static class ClangParser
     {
-        public static CXTranslationUnit ParseTranslationUnit(
+        public static unsafe CXTranslationUnit ParseTranslationUnit(
             string headerFilePath,
             ImmutableArray<string> clangArgs)
         {
@@ -27,14 +27,18 @@ namespace C2CS.Languages.C
                 return translationUnit;
             }
 
+            var defaultDisplayOptions = clang_defaultDiagnosticDisplayOptions();
             Console.Error.WriteLine("Clang diagnostics:");
             var hasErrors = false;
             foreach (var diagnostic in diagnostics)
             {
                 Console.Error.Write("\t");
-                Console.Error.WriteLine(diagnostic.Format(CXDiagnostic.DefaultDisplayOptions).ToString());
+                var clangString = clang_formatDiagnostic(diagnostic, defaultDisplayOptions);
+                var cString = clang_getCString(clangString);
+                var diagnosticString = Unmanaged.MapString(cString);
+                Console.Error.WriteLine(diagnosticString);
 
-                var severity = diagnostic.Severity;
+                var severity = clang_getDiagnosticSeverity(diagnostic);
                 if (severity == CXDiagnosticSeverity.CXDiagnostic_Error ||
                     severity == CXDiagnosticSeverity.CXDiagnostic_Fatal)
                 {
@@ -50,43 +54,48 @@ namespace C2CS.Languages.C
             return translationUnit;
         }
 
-        private static bool TryParseTranslationUnit(
+        private static unsafe bool TryParseTranslationUnit(
             string filePath,
             ImmutableArray<string> commandLineArgs,
             out CXTranslationUnit translationUnit)
         {
             // ReSharper disable BitwiseOperatorOnEnumWithoutFlags
-            var flags = CXTranslationUnit_Flags.CXTranslationUnit_IncludeAttributedTypes |
-                        CXTranslationUnit_Flags.CXTranslationUnit_VisitImplicitAttributes |
-                        CXTranslationUnit_Flags.CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles |
-                        CXTranslationUnit_Flags.CXTranslationUnit_SkipFunctionBodies;
+            const uint options = 0x00001000 | // CXTranslationUnit_IncludeAttributedTypes
+                                 0x00002000 | // CXTranslationUnit_VisitImplicitAttributes
+                                 0x00004000 | // CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles
+                                 0x00000040 | // CXTranslationUnit_SkipFunctionBodies
+                                 0x0;
 
-            var index = CXIndex.Create();
-            var errorCode = CXTranslationUnit.TryParse(
-                index,
-                filePath,
-                commandLineArgs.AsSpan(),
-                Array.Empty<CXUnsavedFile>(),
-                flags,
-                out translationUnit);
+            var index = clang_createIndex(0, 0);
+            var cSourceFilePath = Unmanaged.MapCString(filePath);
+            var cCommandLineArgs = Unmanaged.MapCStringArray(commandLineArgs);
 
-            if (errorCode == CXErrorCode.CXError_Success)
+            CXErrorCode errorCode;
+            fixed (CXTranslationUnit* translationUnitPointer = &translationUnit)
             {
-                return translationUnit != null;
+                errorCode = clang_parseTranslationUnit2(
+                    index,
+                    cSourceFilePath,
+                    (sbyte**)cCommandLineArgs,
+                    commandLineArgs.Length,
+                    (CXUnsavedFile*) IntPtr.Zero,
+                    0,
+                    options,
+                    translationUnitPointer);
             }
 
-            translationUnit = null!;
-            return false;
+            var result = errorCode == CXErrorCode.CXError_Success;
+            return result;
         }
 
         private static ImmutableArray<CXDiagnostic> GetCompilationDiagnostics(CXTranslationUnit translationUnit)
         {
-            var diagnosticsCount = (int)translationUnit.NumDiagnostics;
+            var diagnosticsCount = (int)clang_getNumDiagnostics(translationUnit);
             var builder = ImmutableArray.CreateBuilder<CXDiagnostic>(diagnosticsCount);
 
             for (uint i = 0; i < diagnosticsCount; ++i)
             {
-                var diagnostic = translationUnit.GetDiagnostic(i);
+                var diagnostic = clang_getDiagnostic(translationUnit, i);
                 builder.Add(diagnostic);
             }
 

@@ -22,12 +22,13 @@ This is all accomplished by using [libclang](https://clang.llvm.org/docs/Tooling
 
 This project does not work for every C library. This is due to some technical limitations where some C libraries are not "bindgen-friendly".
 
-##### "Bindgen-friendly"
+##### Bindgen-friendly
 
 Note that this list only applies to the **external linkage** of the C API; the internal guts of the C library is irrelevant.
 
 - No macros.
 - No C++.
+- No implicit types, types must be explicit so they can be found; e.g. it is not possible to transpile an enum if it is never part of the public facing API.
 - (This list may be updated as more things are discovered...)
 
 For such tricky libraries which are not "bindgen-friendly" I recommend you take a look at: https://github.com/InfectedLibraries/Biohazrd
@@ -58,23 +59,26 @@ Open `./src/dotnet/C2CS.sln`
 ## Using C2CS
 
 ```
-C2CS.CommandLine:
+C2CS:
   C2CS - C to C# bindings code generator.
 
 Usage:
-  C2CS.CommandLine [options]
+  C2CS [options]
 
 Options:
   -i, --inputFilePath <inputFilePath> (REQUIRED)       File path of the input .h file.
   -p, --additionalInputPaths <additionalInputPaths>    Directory paths and/or file paths of additional .h files to bundle together before parsing C code.
   -o, --outputFilePath <outputFilePath> (REQUIRED)     File path of the output .cs file.
   -u, --unattended                                     Don't ask for further input.
+  -c, --className <className>                          The name of the generated C# class name.
   -l, --libraryName <libraryName>                      The name of the dynamic link library (without the file extension) used for P/Invoke with C#.
+  -t, --printAbstractSyntaxTree                        Print the Clang abstract syntax tree as it is explored to standard out; useful for troubleshooting, especially when libclang crashes.
   -s, --includeDirectories <includeDirectories>        Search directories for `#include` usages to use when parsing C code.
   -d, --defines <defines>                              Object-like macros to use when parsing C code.
   -a, --clangArgs <clangArgs>                          Additional Clang arguments to use when parsing C code.
   --version                                            Show version information
   -?, -h, --help                                       Show help and usage information
+
 ```
 
 ## Examples
