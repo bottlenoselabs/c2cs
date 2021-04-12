@@ -13,4 +13,14 @@
         <EnableAnalyzersStyleCop>false</EnableAnalyzersStyleCop>
     </PropertyGroup>
 
+    <!-- NativeTools -->
+    <PropertyGroup>
+        <NativeToolsSourcePath>$(RootPath)ext/native-tools-cs/src</NativeToolsSourcePath>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="$(NativeToolsSourcePath)/**/*">
+            <Link>native-tools-cs/%(Filename)%(Extension)</Link>
+        </Compile>
+    </ItemGroup>
+
 </Project>

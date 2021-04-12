@@ -7,6 +7,7 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using lithiumtoast.NativeTools;
 // using ClangSharp.Interop;
 using static libclang;
 
@@ -384,7 +385,7 @@ namespace C2CS.Languages.C
                 return string.Empty;
             }
 
-            var result = Unmanaged.MapString(cString);
+            var result = Native.MapString(cString);
             return result;
         }
 
@@ -398,7 +399,7 @@ namespace C2CS.Languages.C
                 return string.Empty;
             }
 
-            var result = Unmanaged.MapString(cString);
+            var result = Native.MapString(cString);
             return result;
         }
 
@@ -419,7 +420,7 @@ namespace C2CS.Languages.C
 
             var fileName = clang_getFileName(file);
             var cString = clang_getCString(fileName);
-            var fileNamePath = Unmanaged.MapString(cString);
+            var fileNamePath = Native.MapString(cString);
             var fileNamePathFileName = Path.GetFileName(fileNamePath);
             var fileLine = (int) lineNumber;
             var fileTime = clang_getFileTime(file);
@@ -752,7 +753,7 @@ namespace C2CS.Languages.C
 
             var typedefName = clang_getTypedefName(clangType);
             var cString = clang_getCString(typedefName);
-            var result = Unmanaged.MapString(cString);
+            var result = Native.MapString(cString);
             return result;
         }
 
