@@ -1,17 +1,19 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 namespace C2CS.Languages.C
 {
     public record ClangFunctionPointerParameter : ClangCommon
     {
         public readonly ClangType Type;
+        public readonly bool IsReadOnly;
 
         internal ClangFunctionPointerParameter(
             string name,
             ClangCodeLocation codeLocation,
-            ClangType type)
-            : base(name, codeLocation)
+            ClangType type,
+            bool isReadOnly)
+            : base(ClangKind.FunctionPointerParameter, name, codeLocation)
         {
             Type = type;
         }

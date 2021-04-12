@@ -1,5 +1,5 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
 
@@ -17,7 +17,7 @@ namespace C2CS.Languages.C
             ClangType type,
             ImmutableArray<ClangRecordField> fields,
             ImmutableArray<ClangRecord> nestedRecords)
-            : base(name, codeLocation)
+            : base(ClangKind.Record, name, codeLocation)
         {
             Type = type;
             Fields = fields;

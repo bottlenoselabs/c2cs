@@ -7,9 +7,16 @@
 # User-specific files
 *.user
 
+# CMake
+cmake-build*/
+
 # C# build artifacts
 bin/
 obj/
+nupkg/
+
+# C build artifacts
+lib/
 
 # macOS
 .DS_Store

@@ -1,5 +1,5 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the Git repository root directory (https://github.com/lithiumtoast/c2cs) for full license information.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
 
@@ -13,7 +13,7 @@ namespace C2CS.Languages.C
         public readonly ImmutableArray<ClangEnum> Enums;
         public readonly ImmutableArray<ClangOpaqueDataType> OpaqueDataTypes;
         public readonly ImmutableArray<ClangOpaquePointer> OpaquePointers;
-        public readonly ImmutableArray<ClangAliasType> AliasDataTypes;
+        public readonly ImmutableArray<ClangAlias> AliasDataTypes;
 
         public ClangAbstractSyntaxTree(
             ImmutableArray<ClangFunctionExtern> functionExternExterns,
@@ -22,7 +22,7 @@ namespace C2CS.Languages.C
             ImmutableArray<ClangEnum> enums,
             ImmutableArray<ClangOpaqueDataType> opaqueDataTypes,
             ImmutableArray<ClangOpaquePointer> opaquePointers,
-            ImmutableArray<ClangAliasType> aliasDataTypes)
+            ImmutableArray<ClangAlias> aliasDataTypes)
         {
             FunctionExterns = functionExternExterns;
             FunctionPointers = functionPointers;

@@ -1,3 +1,6 @@
 [submodule "ext/my-msbuild"]
 	path = ext/my-msbuild
 	url = https://github.com/lithiumtoast/my-msbuild.git
+[submodule "ext/native-tools-cs"]
+	path = ext/native-tools-cs
+	url = https://github.com/lithiumtoast/native-tools-cs.git

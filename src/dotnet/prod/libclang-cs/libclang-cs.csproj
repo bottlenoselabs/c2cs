@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- MSBuild project settings -->
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace />
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <!-- My-MSBuild project settings -->
+    <PropertyGroup>
+        <EnableAnalyzers>false</EnableAnalyzers>
+        <EnableAnalyzersStyleCop>false</EnableAnalyzersStyleCop>
+    </PropertyGroup>
+
+    <!-- NuGet packaage references -->
+    <ItemGroup>
+        <PackageReference Include="libclang" Version="10.0.0" />
+        <PackageReference Include="libclang.runtime.freebsd.11-x64" Version="10.0.0" Condition="$([MSBuild]::IsOsPlatform('FreeBSD'))" />
+        <PackageReference Include="libclang.runtime.osx-x64" Version="10.0.0" Condition="$([MSBuild]::IsOsPlatform('OSX'))" />
+        <PackageReference Include="libclang.runtime.ubuntu.16.04-x64" Version="10.0.0" Condition="$([MSBuild]::IsOsPlatform('Linux'))" />
+        <PackageReference Include="libclang.runtime.win-x64" Version="10.0.0" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
+    </ItemGroup>
+
+    <!-- NativeTools -->
+    <PropertyGroup>
+        <NativeToolsSourcePath>$(RootPath)ext/native-tools-cs/src</NativeToolsSourcePath>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="$(NativeToolsSourcePath)/**/*">
+            <Link>native-tools-cs/%(Filename)%(Extension)</Link>
+        </Compile>
+    </ItemGroup>
+
+</Project>
