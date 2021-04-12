@@ -11,9 +11,9 @@
 using System;
 using System.Runtime.InteropServices;
 
-public static unsafe partial class library_minimal
+public static unsafe partial class minimal_c
 {
-    private const string LibraryName = "library-minimal";
+    private const string LibraryName = "minimal-c";
 
     // FunctionExtern @ library.h:3 04/12/2021 00:50:58
     [DllImport(LibraryName, EntryPoint = "hello_world", CallingConvention = CallingConvention.Cdecl)]

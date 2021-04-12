@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prod", "prod", "{0B6FBBF3-2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{E5C474A9-491B-4719-B253-09F93D5CEA5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "library-minimal-cs", "samples\library-minimal-cs\library-minimal-cs.csproj", "{68D63D33-1DAF-4849-A625-4E8931D39DF8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "minimal-c-cs", "samples\minimal-c-cs\minimal-c-cs.csproj", "{68D63D33-1DAF-4849-A625-4E8931D39DF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
