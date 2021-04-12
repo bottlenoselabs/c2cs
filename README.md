@@ -83,6 +83,24 @@ Options:
 
 ## Examples
 
+### libclang: https://github.com/llvm/llvm-project/tree/main/clang/include/clang-c
+
+One complete example is `libclang` because `C2CS` uses bindings generated for `libclang` that were previously generated with `C2CS`. You can browse [C# project here](./src/dotnet/prod/libclang/). The input used:
+
+```bash
+-i
+"/PATH/TO/clang/include/clang-c/Index.h"
+-s
+"/PATH/TO/clang/include"
+-o
+"/Users/lstranks/Programming/c2cs/src/dotnet/prod/libclang/libclang.cs"
+-u
+-l
+"libclang"
+-c
+"libclang"
+```
+
 ### sokol_gfx: https://github.com/floooh/sokol
 
 Input:
