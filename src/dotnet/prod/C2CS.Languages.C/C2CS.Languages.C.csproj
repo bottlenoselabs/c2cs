@@ -14,7 +14,7 @@
 
     <!-- Project references -->
     <ItemGroup>
-        <ProjectReference Include="..\libclang\libclang.csproj" />
+        <ProjectReference Include="..\libclang-cs\libclang-cs.csproj" />
     </ItemGroup>
 
 </Project>

@@ -14,10 +14,12 @@ Minimal example of a C shared library that can be called from C#.
 
 ```bash
 -i
-"/PATH/TO/sokol/sokol_gfx.h"
+"/PATH/TO/library-minimal/include/library.h"
 -o
-"./sokol_gfx.cs"
+"./library-minimal.cs"
 -u
 -l
-"sokol_gfx"
+"library-minimal"
+-c
+"library_minimal"
 ```

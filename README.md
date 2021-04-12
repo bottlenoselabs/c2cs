@@ -81,11 +81,15 @@ Options:
 
 ```
 
-## Examples
+## Samples
+
+### library-minimal
+
+For a minimal sample of using a C library from C# see [this C project](./src/c/samples/library-minimal) and [this C# project](./src/dotnet/samples/library-minimal-cs).
 
 ### libclang: https://github.com/llvm/llvm-project/tree/main/clang/include/clang-c
 
-One complete example is `libclang` because `C2CS` uses bindings generated for `libclang` that were previously generated with `C2CS`. You can browse [C# project here](./src/dotnet/prod/libclang/). The input used:
+One complete sample is `libclang` because `C2CS` uses bindings generated for `libclang` that were previously generated with `C2CS`. You can browse [C# project here](./src/dotnet/prod/libclang-cs/). The input used:
 
 ```bash
 -i
