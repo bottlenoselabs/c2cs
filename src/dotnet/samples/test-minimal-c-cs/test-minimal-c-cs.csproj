@@ -9,7 +9,6 @@
     </PropertyGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\prod\C2CS.Tools\C2CS.Tools.csproj" />
-      <ProjectReference Include="..\..\prod\C2CS\C2CS.csproj" />
     </ItemGroup>
 
 </Project>

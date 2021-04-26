@@ -15,11 +15,9 @@
 
     <!-- NuGet packaage references -->
     <ItemGroup>
-        <PackageReference Include="libclang" Version="10.0.0" />
-        <PackageReference Include="libclang.runtime.freebsd.11-x64" Version="10.0.0" />
-        <PackageReference Include="libclang.runtime.osx-x64" Version="10.0.0" />
-        <PackageReference Include="libclang.runtime.ubuntu.16.04-x64" Version="10.0.0" />
-        <PackageReference Include="libclang.runtime.win-x64" Version="10.0.0" />
+        <PackageReference Include="libclang.runtime.osx-x64" Version="10.0.0" Condition="$([MSBuild]::IsOsPlatform('OSX'))" />
+        <PackageReference Include="libclang.runtime.ubuntu.16.04-x64" Version="10.0.0" Condition="$([MSBuild]::IsOsPlatform('Linux'))" />
+        <PackageReference Include="libclang.runtime.win-x64" Version="10.0.0" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
     </ItemGroup>
 
     <!-- NativeTools -->

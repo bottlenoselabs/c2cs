@@ -54,7 +54,7 @@ minimal_c
 
         private static void UseLibraryBindings()
         {
-            // minimal_c.hello_world();
+            minimal_c.hello_world();
         }
     }
 }
