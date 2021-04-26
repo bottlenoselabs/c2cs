@@ -3,8 +3,7 @@
     <!-- MSBuild project settings -->
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>C2CS.CSharp</RootNamespace>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <RootNamespace>C2CS.Tools</RootNamespace>
     </PropertyGroup>
 
     <!-- My-MSBuild project settings -->
@@ -12,15 +11,8 @@
         <EnableAnalyzers>true</EnableAnalyzers>
         <EnableAnalyzersStyleCop>true</EnableAnalyzersStyleCop>
     </PropertyGroup>
-    
-    <!-- Project references -->
     <ItemGroup>
-      <ProjectReference Include="..\C2CS.Languages.C\C2CS.Languages.C.csproj" />
-    </ItemGroup>
-    
-    <!-- NuGet package references -->
-    <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0-1.final" />
+      <ProjectReference Include="..\..\prod\C2CS\C2CS.csproj" />
     </ItemGroup>
 
 </Project>

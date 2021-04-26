@@ -85,7 +85,7 @@ Options:
 
 ### library-minimal
 
-For a minimal sample of using a C library from C# see [this C project](./src/c/samples/library-minimal) and [this C# project](./src/dotnet/samples/library-minimal-cs).
+For a minimal sample of using a C library from C# see [this C project](./src/c/samples/library-minimal) and [this C# project](./src/dotnet/samples/library-minimal-cs). The C# program has some bootstrap code to demonstrate how to build the C library using CMake. 
 
 ### libclang: https://github.com/llvm/llvm-project/tree/main/clang/include/clang-c
 
@@ -230,4 +230,6 @@ In practice, using garbage collection to manage your memory automatically turns 
 
 ## License
 
-C2CS is licensed under the MIT License (`MIT`). See the [LICENSE](LICENSE) file for details.
+C2CS is licensed under the MIT License (`MIT`). There are a few exceptions to this detailed below. See the [LICENSE](LICENSE) file for more details on this main product's license.
+
+C2CS uses libclang which the header files are included as part of the repository under [`ext/clang`](./ext/clang). These files are licensed under the Apache License v2.0 with LLVM Exceptions; see the [ext/clang/LICENSE.txt](./ext/clang/LICENSE.txt) for more details.

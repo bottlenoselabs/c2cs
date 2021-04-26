@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using C2CS.Tools;
 
-namespace Minimal_C
+namespace Exhaustive_C
 {
     internal static class Program
     {
@@ -23,7 +23,7 @@ namespace Minimal_C
         
         private static void BuildLibrary(string rootDirectory)
         {
-            var cMakeDirectoryPath = Path.Combine(rootDirectory, "src/c/samples/minimal-c");
+            var cMakeDirectoryPath = Path.Combine(rootDirectory, "src/c/samples/exhaustive-c");
             var currentApplicationBaseDirectoryPath = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location);
 
             "cmake -S . -B build-temp -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release".Bash(cMakeDirectoryPath);
@@ -36,23 +36,23 @@ namespace Minimal_C
         {
             var arguments = @$"
 -i
-{rootDirectory}/src/c/samples/minimal-c/include/library.h
+{rootDirectory}/src/c/samples/exhaustive-c/include/library.h
 -s
-{rootDirectory}/src/c/samples/minimal-c/include
+{rootDirectory}/src/c/samples/exhaustive-c/include
 -o
-{rootDirectory}/src/dotnet/samples/minimal-c-cs/minimal-c.cs
+{rootDirectory}/src/dotnet/samples/exhaustive-c-cs/exhaustive-c.cs
 -u
 -l
-minimal-c
+exhaustive-c
 -c
-minimal_c
+exhaustive_c
 ";
             CSharp.GenerateBindings(arguments);  
         }
 
         private static void UseLibraryBindings()
         {
-            minimal_c.hello_world();
+            exhaustive_c.hello_world();
         }
     }
 }

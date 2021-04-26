@@ -6,16 +6,14 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
-using System.Text;
 using lithiumtoast.NativeTools;
-// using ClangSharp.Interop;
 using static libclang;
 
 namespace C2CS.Languages.C
 {
     public class ClangMapper
     {
-        private readonly Dictionary<CXType, string> _functionPointerNamesByClangType = new();
+        private readonly Dictionary<uint, string> _functionPointerNamesByCursorHash = new();
 
         public ClangFunctionExtern MapFunctionExtern(CXCursor cursor)
         {
@@ -443,8 +441,7 @@ namespace C2CS.Languages.C
 
         private ClangType MapType(CXType type, CXCursor cursor)
         {
-            var cursorName = MapName(cursor);
-            var typeName = MapTypeName(type, cursorName);
+            var typeName = MapTypeName(type, cursor);
             var originalName = type.GetName();
             var sizeOf = (int) clang_Type_getSizeOf(type);
             var alignOf = (int) clang_Type_getAlignOf(type);
@@ -531,7 +528,12 @@ namespace C2CS.Languages.C
 
         private string MapFunctionPointerName(CXCursor cursor, CXCursor cursorParent)
         {
-            string result;
+            var hash = clang_hashCursor(cursor);
+            if (_functionPointerNamesByCursorHash.TryGetValue(hash, out var result))
+            {
+                return result;
+            }
+
             var cursorName = MapName(cursor);
 
             var parentIsTranslationUnit = clang_isTranslationUnit(cursorParent.kind) > 0;
@@ -545,15 +547,12 @@ namespace C2CS.Languages.C
                 result = $"{parentName}_{cursorName}";
             }
 
-            var cursorType = clang_getCursorType(cursor);
-            var cursorTypeCanonical = clang_getCanonicalType(cursorType);
-            var pointeeType = clang_getPointeeType(cursorTypeCanonical);
-            _functionPointerNamesByClangType.Add(pointeeType, result);
+            _functionPointerNamesByCursorHash.Add(hash, result);
 
             return result;
         }
 
-        private string MapTypeName(CXType clangType, string cursorName)
+        private string MapTypeName(CXType clangType, CXCursor cursor)
         {
             var result = clangType.kind switch
             {
@@ -572,13 +571,13 @@ namespace C2CS.Languages.C
                 CXTypeKind.CXType_LongLong => MapTypeNameBuiltIn(clangType),
                 CXTypeKind.CXType_Float => MapTypeNameBuiltIn(clangType),
                 CXTypeKind.CXType_Double => MapTypeNameBuiltIn(clangType),
-                CXTypeKind.CXType_Pointer => MapTypeNamePointer(clangType, cursorName),
-                CXTypeKind.CXType_Typedef => MapTypeNameTypedef(clangType, cursorName),
-                CXTypeKind.CXType_Elaborated => MapTypeNameElaborated(clangType, cursorName),
-                CXTypeKind.CXType_Record => MapTypeNameRecord(clangType, cursorName),
+                CXTypeKind.CXType_Pointer => MapTypeNamePointer(clangType, cursor),
+                CXTypeKind.CXType_Typedef => MapTypeNameTypedef(clangType, cursor),
+                CXTypeKind.CXType_Elaborated => MapTypeNameElaborated(clangType, cursor),
+                CXTypeKind.CXType_Record => MapTypeNameRecord(clangType, cursor),
                 CXTypeKind.CXType_Enum => MapTypeNameEnum(clangType),
-                CXTypeKind.CXType_ConstantArray => MapTypeNameConstArray(clangType, cursorName),
-                CXTypeKind.CXType_FunctionProto => MapTypeNameFunctionProto(clangType),
+                CXTypeKind.CXType_ConstantArray => MapTypeNameConstArray(clangType, cursor),
+                CXTypeKind.CXType_FunctionProto => MapTypeNameFunctionProto(clangType, cursor),
                 _ => throw new ClangMapperUnexpectedException()
             };
 
@@ -621,61 +620,22 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        private string MapTypeNamePointer(CXType clangType, string cursorName)
+        private string MapTypeNamePointer(CXType clangType, CXCursor cursor)
         {
-            if (TryClangGetFunctionPointerType(clangType, out CXType clangFunctionPointerType))
+            var hash = clang_hashCursor(cursor);
+            if (_functionPointerNamesByCursorHash.TryGetValue(hash, out var functionPointerName))
             {
-                return _functionPointerNamesByClangType[clangFunctionPointerType];
+                return functionPointerName;
             }
 
             var clangPointeeType = clang_getPointeeType(clangType);
-            var pointeeTypeName = MapTypeName(clangPointeeType, cursorName);
+            var pointeeTypeName = MapTypeName(clangPointeeType, cursor);
             string result = pointeeTypeName + "*";
 
             return result;
         }
 
-        private static bool TryClangGetFunctionPointerType(CXType clangType, out CXType typeCanonical)
-        {
-            var underlyingType = clangType;
-            if (clangType.kind == CXTypeKind.CXType_Pointer)
-            {
-                underlyingType = clang_getCanonicalType(underlyingType);
-                underlyingType = clang_getPointeeType(underlyingType);
-            }
-
-            if (underlyingType.kind == CXTypeKind.CXType_FunctionProto)
-            {
-                typeCanonical = clang_getCanonicalType(underlyingType);
-                return true;
-            }
-
-            if (underlyingType.kind != CXTypeKind.CXType_Typedef)
-            {
-                typeCanonical = default;
-                return false;
-            }
-
-            var clangPointeeTypeCanonical = clang_getCanonicalType(underlyingType);
-
-            if (clangPointeeTypeCanonical.kind != CXTypeKind.CXType_Pointer)
-            {
-                typeCanonical = default;
-                return false;
-            }
-
-            var pointeeType = clang_getPointeeType(clangPointeeTypeCanonical);
-            if (pointeeType.kind != CXTypeKind.CXType_FunctionProto)
-            {
-                typeCanonical = default;
-                return false;
-            }
-
-            typeCanonical = clangPointeeTypeCanonical;
-            return true;
-        }
-
-        private string MapTypeNameTypedef(CXType clangType, string cursorName)
+        private string MapTypeNameTypedef(CXType clangType, CXCursor cursor)
         {
             string result;
 
@@ -691,7 +651,7 @@ namespace C2CS.Languages.C
                 }
                 else
                 {
-                    result = MapTypeNameTypedefSystem(clangType, cursorName);
+                    result = MapTypeNameTypedefSystem(clangType, cursor);
                 }
             }
             else
@@ -702,7 +662,7 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        private string MapTypeNameTypedefSystem(CXType clangType, string parentName)
+        private string MapTypeNameTypedefSystem(CXType clangType, CXCursor parentCursor)
         {
             var clangDeclaration = clang_getTypeDeclaration(clangType);
             var clangUnderlyingType = clang_getTypedefDeclUnderlyingType(clangDeclaration);
@@ -731,7 +691,7 @@ namespace C2CS.Languages.C
                     break;
                 default:
                     var canonicalType = clang_getCanonicalType(clangType);
-                    result = MapTypeName(canonicalType, parentName);
+                    result = MapTypeName(canonicalType, parentCursor);
                     break;
             }
 
@@ -744,11 +704,9 @@ namespace C2CS.Languages.C
 
             if (clangTypeCanonical.kind == CXTypeKind.CXType_Pointer)
             {
-                var pointeeType = clang_getPointeeType(clangTypeCanonical);
-                if (pointeeType.kind == CXTypeKind.CXType_FunctionProto)
-                {
-                    return _functionPointerNamesByClangType[pointeeType];
-                }
+                var cursor = clang_getTypeDeclaration(clangType);
+                var parent = clang_getCursorSemanticParent(cursor);
+                return MapFunctionPointerName(cursor, parent);
             }
 
             var typedefName = clang_getTypedefName(clangType);
@@ -757,19 +715,20 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        private string MapTypeNameElaborated(CXType clangType, string cursorName)
+        private string MapTypeNameElaborated(CXType clangType, CXCursor cursor)
         {
             var clangNamedType = clang_Type_getNamedType(clangType);
-            var result = MapTypeName(clangNamedType, cursorName);
+            var result = MapTypeName(clangNamedType, cursor);
 
             return result;
         }
 
-        private string MapTypeNameRecord(CXType clangType, string cursorName)
+        private string MapTypeNameRecord(CXType clangType, CXCursor cursor)
         {
             string result;
             var clangRecord = clang_getTypeDeclaration(clangType);
             var name = MapName(clangType);
+            var cursorName = MapName(cursor);
 
             // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             var isAnonymous = clang_Cursor_isAnonymous(clangRecord) > 0;
@@ -815,18 +774,18 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        private string MapTypeNameConstArray(CXType clangType, string cursorName)
+        private string MapTypeNameConstArray(CXType clangType, CXCursor cursor)
         {
             var elementType = clang_getArrayElementType(clangType);
-            var result = MapTypeName(elementType, cursorName);
+            var result = MapTypeName(elementType, cursor);
 
             return result;
         }
 
-        private string MapTypeNameFunctionProto(CXType clangType)
+        private string MapTypeNameFunctionProto(CXType clangType, CXCursor cursor)
         {
-            var canonicalType = clang_getCanonicalType(clangType);
-            return _functionPointerNamesByClangType[canonicalType];
+            var hash = clang_hashCursor(cursor);
+            return _functionPointerNamesByCursorHash[hash];
         }
 
         private ClangFunctionExternCallingConvention MapFunctionCallingConvention(CXCursor cursor)

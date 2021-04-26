@@ -248,6 +248,7 @@ namespace C2CS.Languages.C
                     case CXCursorKind.CXCursor_EnumConstantDecl:
                         VisitEnumConstant(cursor, cursorParent, depth);
                         break;
+                    case CXCursorKind.CXCursor_UnionDecl:
                     case CXCursorKind.CXCursor_StructDecl:
                         VisitRecord(cursor, depth);
                         break;

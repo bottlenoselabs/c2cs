@@ -13,8 +13,9 @@
         <IsPackable>true</IsPackable>
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>c2cs</ToolCommandName>
-        <IncludeSymbols>true</IncludeSymbols>
-        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <RepositoryUrl>https://github.com/lithiumtoast/c2cs</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageDescription>Generate C# bindings from a C header.</PackageDescription>
     </PropertyGroup>
 
     <!-- My-MSBuild project settings -->
