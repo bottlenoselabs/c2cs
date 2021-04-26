@@ -11,8 +11,5 @@
         <EnableAnalyzers>true</EnableAnalyzers>
         <EnableAnalyzersStyleCop>true</EnableAnalyzersStyleCop>
     </PropertyGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\..\prod\C2CS\C2CS.csproj" />
-    </ItemGroup>
 
 </Project>
