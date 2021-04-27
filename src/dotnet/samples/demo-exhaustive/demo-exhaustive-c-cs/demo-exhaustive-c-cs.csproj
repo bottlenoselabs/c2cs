@@ -4,11 +4,8 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>Minimal_C</RootNamespace>
+        <RootNamespace />
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\..\prod\C2CS.Tools\C2CS.Tools.csproj" />
-    </ItemGroup>
 
 </Project>

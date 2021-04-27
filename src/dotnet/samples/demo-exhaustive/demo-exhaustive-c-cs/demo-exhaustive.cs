@@ -11,9 +11,9 @@
 using System;
 using System.Runtime.InteropServices;
 
-public static unsafe partial class exhaustive_c
+public static unsafe partial class demo_exhaustive
 {
-    private const string LibraryName = "exhaustive-c";
+    private const string LibraryName = "demo-exhaustive";
 
     // FunctionExtern @ library.h:3 04/17/2021 12:59:35
     [DllImport(LibraryName, EntryPoint = "hello_world", CallingConvention = CallingConvention.Cdecl)]

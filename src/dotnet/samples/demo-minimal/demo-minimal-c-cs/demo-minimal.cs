@@ -11,11 +11,11 @@
 using System;
 using System.Runtime.InteropServices;
 
-public static unsafe partial class exhaustive_c
+public static unsafe partial class demo_minimal
 {
-    private const string LibraryName = "exhaustive-c";
+    private const string LibraryName = "demo-minimal";
 
-    // FunctionExtern @ library.h:3 04/17/2021 12:59:35
+    // FunctionExtern @ library.h:3 04/12/2021 00:50:58
     [DllImport(LibraryName, EntryPoint = "hello_world", CallingConvention = CallingConvention.Cdecl)]
     public static extern void hello_world();
 }
