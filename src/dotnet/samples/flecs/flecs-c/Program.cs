@@ -37,7 +37,7 @@ internal static class Program
 -i
 {rootDirectory}/ext/flecs/flecs.h
 -o
-{rootDirectory}/src/dotnet/samples/flecs/flecs-c-cs/flecs.cs
+{rootDirectory}/src/dotnet/samples/flecs/flecs-cs/flecs.cs
 -u
 -l
 flecs

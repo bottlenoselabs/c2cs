@@ -39,7 +39,7 @@ internal static class Program
 -s
 {rootDirectory}/src/c/samples/demo-minimal/include
 -o
-{rootDirectory}/src/dotnet/samples/demo-minimal/demo-minimal-c-cs/demo-minimal.cs
+{rootDirectory}/src/dotnet/samples/demo-minimal/demo-minimal-cs/demo-minimal.cs
 -u
 -l
 demo-minimal

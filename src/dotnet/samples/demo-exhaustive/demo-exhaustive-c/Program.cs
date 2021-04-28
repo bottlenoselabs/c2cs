@@ -39,7 +39,7 @@ internal static class Program
 -s
 {rootDirectory}/src/c/samples/demo-exhaustive/include
 -o
-{rootDirectory}/src/dotnet/samples/demo-exhaustive/demo-exhaustive-c-cs/demo-exhaustive.cs
+{rootDirectory}/src/dotnet/samples/demo-exhaustive/demo-exhaustive-cs/demo-exhaustive.cs
 -u
 -l
 demo-exhaustive

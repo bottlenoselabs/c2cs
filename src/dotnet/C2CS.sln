@@ -14,23 +14,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prod", "prod", "{0B6FBBF3-2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{E5C474A9-491B-4719-B253-09F93D5CEA5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libclang-cs-bindgen", "prod\libclang-cs-bindgen\libclang-cs-bindgen.csproj", "{F7949436-2F7D-45F6-9C4E-D5F9027EF24B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libclang-c", "prod\libclang-c\libclang-c.csproj", "{F7949436-2F7D-45F6-9C4E-D5F9027EF24B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo-exhaustive", "demo-exhaustive", "{8F40E229-6D43-450C-B484-2EE3F8676658}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demo-exhaustive-c", "samples\demo-exhaustive\demo-exhaustive-c\demo-exhaustive-c.csproj", "{05C67482-C4CF-4504-89F4-E4F5DA64296E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demo-exhaustive-c-cs", "samples\demo-exhaustive\demo-exhaustive-c-cs\demo-exhaustive-c-cs.csproj", "{97E87C64-FA7C-4699-9C69-E53AF6EE36A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demo-exhaustive-cs", "samples\demo-exhaustive\demo-exhaustive-cs\demo-exhaustive-cs.csproj", "{97E87C64-FA7C-4699-9C69-E53AF6EE36A9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo-minimal", "demo-minimal", "{D9BE6E44-3F94-4246-992F-547711677EE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demo-minimal-c-cs", "samples\demo-minimal\demo-minimal-c-cs\demo-minimal-c-cs.csproj", "{08686461-00B5-4910-A066-7089DEF4ACF8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demo-minimal-cs", "samples\demo-minimal\demo-minimal-cs\demo-minimal-cs.csproj", "{08686461-00B5-4910-A066-7089DEF4ACF8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demo-minimal-c", "samples\demo-minimal\demo-minimal-c\demo-minimal-c.csproj", "{AD20CF3D-EE1E-4C36-8B1F-38E98C58FA2E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "flecs", "flecs", "{9DF4EA4F-7358-4EC3-BFB0-DE25E5E6DE6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flecs-c-cs", "samples\flecs\flecs-c-cs\flecs-c-cs.csproj", "{834366A9-6C9B-4327-83D7-68E6F03E40A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flecs-cs", "samples\flecs\flecs-cs\flecs-cs.csproj", "{834366A9-6C9B-4327-83D7-68E6F03E40A8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flecs-c", "samples\flecs\flecs-c\flecs-c.csproj", "{C326F2F3-F68D-442C-9829-ACCF52A8CEE3}"
 EndProject
