@@ -4,3 +4,6 @@
 [submodule "ext/native-tools-cs"]
 	path = ext/native-tools-cs
 	url = https://github.com/lithiumtoast/native-tools-cs.git
+[submodule "ext/flecs"]
+	path = ext/flecs
+	url = https://github.com/SanderMertens/flecs.git
