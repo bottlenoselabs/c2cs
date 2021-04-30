@@ -21,7 +21,7 @@ namespace C2CS.CSharp
                 clangAbstractSyntaxTree.FunctionPointers);
             var structs = MapStructs(
                 clangAbstractSyntaxTree.Records,
-                clangAbstractSyntaxTree.AliasDataTypes,
+                clangAbstractSyntaxTree.Typedefs,
                 clangAbstractSyntaxTree.OpaquePointers);
             var opaqueDataTypes = MapOpaqueDataTypes(
                 clangAbstractSyntaxTree.OpaqueDataTypes);
@@ -241,11 +241,11 @@ namespace C2CS.CSharp
 
         private static ImmutableArray<CSharpStruct> MapStructs(
             ImmutableArray<ClangRecord> records,
-            ImmutableArray<ClangAlias> aliasDataTypes,
+            ImmutableArray<ClangTypedef> typedefs,
             ImmutableArray<ClangOpaquePointer> opaquePointers)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpStruct>(
-                records.Length + aliasDataTypes.Length);
+                records.Length + typedefs.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangRecord in records)
@@ -255,9 +255,9 @@ namespace C2CS.CSharp
             }
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var clangAliasDataType in aliasDataTypes)
+            foreach (var typedef in typedefs)
             {
-                var @struct = MapAliasDataType(clangAliasDataType);
+                var @struct = MapTypedef(typedef);
                 builder.Add(@struct);
             }
 
@@ -401,12 +401,12 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpStruct MapAliasDataType(ClangAlias clangAlias)
+        private static CSharpStruct MapTypedef(ClangTypedef clangTypedef)
         {
-            var name = clangAlias.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangAlias);
-            var type = MapType(clangAlias.UnderlyingType);
-            var fields = MapAliasDataTypeFields(clangAlias.UnderlyingType, originalCodeLocationComment);
+            var name = clangTypedef.Name;
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangTypedef);
+            var type = MapType(clangTypedef.UnderlyingType);
+            var fields = MapTypedefFields(clangTypedef.UnderlyingType, originalCodeLocationComment);
 
             var result = new CSharpStruct(
                 name,
@@ -417,7 +417,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static ImmutableArray<CSharpStructField> MapAliasDataTypeFields(ClangType clangType, string originalCodeLocationComment)
+        private static ImmutableArray<CSharpStructField> MapTypedefFields(ClangType clangType, string originalCodeLocationComment)
         {
             var type = MapType(clangType);
             var structField = new CSharpStructField(

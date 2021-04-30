@@ -24,7 +24,7 @@ namespace C2CS.Languages.C
         private readonly List<ClangRecord> _records = new();
         private readonly List<ClangOpaqueDataType> _opaqueDataTypes = new();
         private readonly List<ClangOpaquePointer> _opaquePointers = new();
-        private readonly List<ClangAlias> _aliases = new();
+        private readonly List<ClangTypedef> _typedefs = new();
         private readonly List<ClangFunctionPointer> _functionPointers = new();
         private readonly StringBuilder _logBuilder = new();
 
@@ -91,7 +91,7 @@ namespace C2CS.Languages.C
             _enums.Sort();
             _opaqueDataTypes.Sort();
             _opaquePointers.Sort();
-            _aliases.Sort();
+            _typedefs.Sort();
 
             var functionExterns = _functions.ToImmutableArray();
             var functionPointers = _functionPointers.ToImmutableArray();
@@ -99,7 +99,7 @@ namespace C2CS.Languages.C
             var enums = _enums.ToImmutableArray();
             var opaqueDataTypes = _opaqueDataTypes.ToImmutableArray();
             var opaquePointers = _opaquePointers.ToImmutableArray();
-            var aliasDataTypes = _aliases.ToImmutableArray();
+            var typedefs = _typedefs.ToImmutableArray();
 
             var result = new ClangAbstractSyntaxTree(
                 functionExterns,
@@ -108,7 +108,7 @@ namespace C2CS.Languages.C
                 enums,
                 opaqueDataTypes,
                 opaquePointers,
-                aliasDataTypes);
+                typedefs);
 
             return result;
         }
@@ -439,7 +439,7 @@ namespace C2CS.Languages.C
             {
                 case CXTypeKind.CXType_Pointer:
                     var pointeeType = clang_getPointeeType(underlyingTypeCanonical);
-                    VisitTypedefPointer(cursor, pointeeType, depth);
+                    VisitTypedefPointer(cursor, pointeeType, underlyingType, depth);
                     break;
                 case CXTypeKind.CXType_Void:
                 case CXTypeKind.CXType_Bool:
@@ -456,7 +456,7 @@ namespace C2CS.Languages.C
                 case CXTypeKind.CXType_LongLong:
                 case CXTypeKind.CXType_Float:
                 case CXTypeKind.CXType_Double:
-                    VisitAlias(cursor, depth);
+                    VisitTypedefAlias(cursor, underlyingType, depth);
                     break;
                 case CXTypeKind.CXType_Record:
                     VisitRecord(cursor, depth);
@@ -470,7 +470,7 @@ namespace C2CS.Languages.C
             }
         }
 
-        private void VisitTypedefPointer(CXCursor cursor, CXType pointeeType, int depth)
+        private void VisitTypedefPointer(CXCursor cursor, CXType pointeeType, CXType underlyingType, int depth)
         {
             var kind = pointeeType.kind;
             var pointeeTypeSizeOf = clang_Type_getSizeOf(pointeeType);
@@ -484,7 +484,7 @@ namespace C2CS.Languages.C
                 switch (pointeeType.kind)
                 {
                     case CXTypeKind.CXType_Record:
-                        VisitRecord(cursor, depth);
+                        VisitTypedefAlias(cursor, underlyingType, depth);
                         break;
                     case CXTypeKind.CXType_FunctionProto:
                         var cursorParent = clang_getCursorSemanticParent(cursor);
@@ -497,15 +497,15 @@ namespace C2CS.Languages.C
             }
         }
 
-        private void VisitAlias(CXCursor cursor, int depth)
+        private void VisitTypedefAlias(CXCursor cursor, CXType underlyingType, int depth)
         {
             if (_printAbstractSyntaxTree)
             {
-                LogVisit(cursor, null, "Alias", depth);
+                LogVisit(cursor, underlyingType, "Typedef", depth);
             }
 
-            var aliasDataType = _mapper.MapAlias(cursor);
-            _aliases.Add(aliasDataType);
+            var typedef = _mapper.MapTypedef(cursor);
+            _typedefs.Add(typedef);
         }
 
         private void VisitOpaquePointer(CXCursor cursor, int depth)
@@ -639,11 +639,6 @@ namespace C2CS.Languages.C
             if (string.IsNullOrEmpty(name))
             {
                 name = "???";
-            }
-
-            if (name == "fini_")
-            {
-                Console.WriteLine();
             }
 
             var typeName = type.HasValue ? type.Value.GetName() : string.Empty;

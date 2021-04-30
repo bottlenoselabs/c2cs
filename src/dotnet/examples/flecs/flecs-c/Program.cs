@@ -17,13 +17,13 @@ internal static class Program
 
     private static void BuildLibrary(string rootDirectory)
     {
-        var cMakeDirectoryPath = Path.Combine(rootDirectory, "src/c/samples/flecs");
+        var cMakeDirectoryPath = Path.Combine(rootDirectory, "src/c/examples/flecs");
         if (!Directory.Exists(cMakeDirectoryPath))
         {
             throw new DirectoryNotFoundException(cMakeDirectoryPath);
         }
 
-        var targetLibraryDirectoryPath = $"{rootDirectory}/src/dotnet/samples/flecs/flecs-cs/";
+        var targetLibraryDirectoryPath = $"{rootDirectory}/src/dotnet/examples/flecs/flecs-cs/";
 
         "cmake -S . -B build-temp -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release".Bash(cMakeDirectoryPath);
         "make -C ./build-temp".Bash(cMakeDirectoryPath);
@@ -38,7 +38,7 @@ internal static class Program
 -i
 {rootDirectory}/ext/flecs/flecs.h
 -o
-{rootDirectory}/src/dotnet/samples/flecs/flecs-cs/flecs.cs
+{rootDirectory}/src/dotnet/examples/flecs/flecs-cs/flecs.cs
 -u
 -t
 -l

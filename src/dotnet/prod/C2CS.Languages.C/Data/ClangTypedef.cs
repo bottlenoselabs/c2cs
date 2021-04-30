@@ -3,15 +3,15 @@
 
 namespace C2CS.Languages.C
 {
-    public record ClangAlias : ClangCommon
+    public record ClangTypedef : ClangCommon
     {
         public readonly ClangType UnderlyingType;
 
-        internal ClangAlias(
+        internal ClangTypedef(
             string name,
             ClangCodeLocation codeLocation,
             ClangType underlyingType)
-            : base(ClangKind.AliasDataType, name, codeLocation)
+            : base(ClangKind.Typedef, name, codeLocation)
         {
             UnderlyingType = underlyingType;
         }

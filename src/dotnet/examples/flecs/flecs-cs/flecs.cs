@@ -2236,12 +2236,6 @@ public static unsafe partial class flecs
         public ecs_os_api_module_to_path_t module_to_etc_;
     }
 
-    // Record @ flecs.h:2229 04/28/2021 15:27:04
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct ecs_type_t
-    {
-    }
-
     // Record @ flecs.h:2238 04/28/2021 15:27:04
     [StructLayout(LayoutKind.Explicit, Size = 224, Pack = 8)]
     public struct ecs_iter_t
@@ -3080,6 +3074,14 @@ public static unsafe partial class flecs
     {
         [FieldOffset(0)] // size = 8, padding = 0
         public ulong Data;
+    }
+
+    // AliasDataType @ flecs.h:2229 04/28/2021 15:27:04
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct ecs_type_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_vector_t* Data;
     }
 
     // OpaqueDataType @ flecs.h:986 04/28/2021 15:27:04

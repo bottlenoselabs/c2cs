@@ -373,13 +373,13 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        public ClangAlias MapAlias(CXCursor cursor)
+        public ClangTypedef MapTypedef(CXCursor cursor)
         {
             var codeLocation = MapCodeLocation(cursor);
             var name = MapName(cursor);
-            var underlyingType = MapAliasDataType(cursor);
+            var underlyingType = MapTypedefType(cursor);
 
-            var result = new ClangAlias(
+            var result = new ClangTypedef(
                 name,
                 codeLocation,
                 underlyingType);
@@ -508,7 +508,7 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        private ClangType MapAliasDataType(CXCursor cursor)
+        private ClangType MapTypedefType(CXCursor cursor)
         {
             var cursorType = clang_getCursorType(cursor);
             var canonicalType = clang_getCanonicalType(cursorType);

@@ -47,7 +47,7 @@ namespace C2CS.CSharp
 
 			foreach (var functionPointer in abstractSyntaxTree.FunctionPointers)
 			{
-				var member = CSharpCodeGenerator.CreateFunctionPointer(functionPointer);
+				var member = CreateFunctionPointer(functionPointer);
 				members.Add(member);
 			}
 

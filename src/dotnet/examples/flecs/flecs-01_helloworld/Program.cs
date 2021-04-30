@@ -33,7 +33,9 @@ internal static class Program
         var component = ecs_new_component(world, default, Components.PositionComponent.Id, Components.PositionComponent.Size, Components.PositionComponent.Alignment);
 
         /* Create a new empty entity  */
-        var entity = ecs_new_entity(world, default, Entities.MyEntity, (sbyte*) 0);
+        var entity = ecs_new_w_type(world, 0);
+        ecs_new_entity(world, default, (sbyte*) 0, (sbyte*) 0);
+        ecs_set_ptr_w_id(world, Entities.MyEntity)
 
         /* Set the Position component on the entity */
         var position = new Components.PositionComponent
