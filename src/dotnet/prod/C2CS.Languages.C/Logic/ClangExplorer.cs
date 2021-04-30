@@ -16,6 +16,8 @@ namespace C2CS.Languages.C
         private bool _printAbstractSyntaxTree;
         private readonly HashSet<CXCursor> _visitedCursors = new();
         private readonly HashSet<CXType> _visitedTypes = new();
+        private readonly HashSet<string> _visitedRecordNames = new();
+        private readonly HashSet<string> _visitedFunctionProtoNames = new();
         private readonly ClangMapper _mapper = new();
         private readonly List<ClangFunctionExtern> _functions = new();
         private readonly List<ClangEnum> _enums = new();
@@ -133,22 +135,29 @@ namespace C2CS.Languages.C
                 var cursorTypeDeclaration = clang_getTypeDeclaration(cursorType);
                 VisitCursor(cursorTypeDeclaration, cursorParent, depth);
             }
-            else if (cursorKind == CXCursorKind.CXCursor_DeclRefExpr)
-            {
-                var cursorReferenced = clang_getCursorReferenced(cursor);
-                VisitCursor(cursorReferenced, cursorParent, depth);
-            }
             else
             {
-                var up = new ExploreUnexpectedException(cursor);
-                throw up;
+                switch (cursorKind)
+                {
+                    case CXCursorKind.CXCursor_DeclRefExpr: // An expression that refers to some value declaration, e.g. a function, variable, or enumerator.
+                        var cursorReferenced = clang_getCursorReferenced(cursor);
+                        VisitCursor(cursorReferenced, cursorParent, depth);
+                        break;
+                    case CXCursorKind.CXCursor_BinaryOperator: // A builtin binary operation expression, e.g. "x + y"
+                    case CXCursorKind.CXCursor_ParenExpr: // A parenthesized expression, e.g. "(1)"
+                        // Ignore
+                        break;
+                    default:
+                        var up = new ExploreUnexpectedException(cursor);
+                        throw up;
+                }
             }
         }
 
         private bool CanVisitCursor(CXCursor cursor)
         {
-            var alreadyVisitedCursor = _visitedCursors.Contains(cursor);
-            if (alreadyVisitedCursor)
+            var hasAlreadyVisitedCursor = _visitedCursors.Contains(cursor);
+            if (hasAlreadyVisitedCursor)
             {
                 return false;
             }
@@ -354,8 +363,27 @@ namespace C2CS.Languages.C
             VisitType(integerType, cursor, cursorParent, depth + 1);
         }
 
+        private bool CanVisitRecord(CXCursor cursor)
+        {
+            // NOTE: It's possible that a record has a field which is a pointer of type itself
+
+            var recordName = cursor.GetName();
+            if (_visitedRecordNames.Contains(recordName))
+            {
+                return false;
+            }
+
+            _visitedRecordNames.Add(recordName);
+            return true;
+        }
+
         private void VisitRecord(CXCursor cursor, int depth)
         {
+            if (!CanVisitRecord(cursor))
+            {
+                return;
+            }
+
             if (_printAbstractSyntaxTree)
             {
                 LogVisit(cursor, null, "Record", depth);
@@ -414,6 +442,20 @@ namespace C2CS.Languages.C
                     VisitTypedefPointer(cursor, pointeeType, depth);
                     break;
                 case CXTypeKind.CXType_Void:
+                case CXTypeKind.CXType_Bool:
+                case CXTypeKind.CXType_Char_S:
+                case CXTypeKind.CXType_Char_U:
+                case CXTypeKind.CXType_UChar:
+                case CXTypeKind.CXType_UShort:
+                case CXTypeKind.CXType_UInt:
+                case CXTypeKind.CXType_ULong:
+                case CXTypeKind.CXType_ULongLong:
+                case CXTypeKind.CXType_Short:
+                case CXTypeKind.CXType_Int:
+                case CXTypeKind.CXType_Long:
+                case CXTypeKind.CXType_LongLong:
+                case CXTypeKind.CXType_Float:
+                case CXTypeKind.CXType_Double:
                     VisitAlias(cursor, depth);
                     break;
                 case CXTypeKind.CXType_Record:
@@ -445,24 +487,14 @@ namespace C2CS.Languages.C
                         VisitRecord(cursor, depth);
                         break;
                     case CXTypeKind.CXType_FunctionProto:
-                        VisitTypedefFunctionProto(cursor, pointeeType, depth);
+                        var cursorParent = clang_getCursorSemanticParent(cursor);
+                        VisitFunctionProto(cursor, cursorParent, depth);
                         break;
                     default:
                         var up = new ExploreUnexpectedException(cursor);
                         throw up;
                 }
             }
-        }
-
-        private void VisitTypedefFunctionProto(CXCursor cursor, CXType functionProtoType, int depth)
-        {
-            if (!CanVisitType(functionProtoType))
-            {
-                return;
-            }
-
-            var cursorParent = clang_getCursorSemanticParent(cursor);
-            VisitFunctionProto(cursor, cursorParent, depth);
         }
 
         private void VisitAlias(CXCursor cursor, int depth)
@@ -498,8 +530,25 @@ namespace C2CS.Languages.C
             _opaqueDataTypes.Add(opaqueDataType);
         }
 
+        private bool CanVisitFunctionProto(CXCursor cursor)
+        {
+            var functionProtoName = cursor.GetName();
+            if (_visitedFunctionProtoNames.Contains(functionProtoName))
+            {
+                return false;
+            }
+
+            _visitedFunctionProtoNames.Add(functionProtoName);
+            return true;
+        }
+
         private void VisitFunctionProto(CXCursor cursor, CXCursor cursorParent, int depth)
         {
+            if (!CanVisitFunctionProto(cursor))
+            {
+                return;
+            }
+
             var resultType = GetFunctionProtoResultType(cursor);
             if (_printAbstractSyntaxTree)
             {
@@ -584,7 +633,7 @@ namespace C2CS.Languages.C
             }
         }
 
-        private void LogVisit(CXCursor cursor, CXType? type, string cursorKind, int depth)
+        private void LogVisit(CXCursor cursor, CXType? type, string cursorKindString, int depth)
         {
             var name = cursor.GetName();
             if (string.IsNullOrEmpty(name))
@@ -592,7 +641,7 @@ namespace C2CS.Languages.C
                 name = "???";
             }
 
-            if (name == "clang_ModuleMapDescriptor_dispose")
+            if (name == "fini_")
             {
                 Console.WriteLine();
             }
@@ -608,7 +657,7 @@ namespace C2CS.Languages.C
                 _logBuilder.Append("  ");
             }
 
-            _logBuilder.Append(cursorKind);
+            _logBuilder.Append(cursorKindString);
             _logBuilder.Append(' ');
             _logBuilder.Append('\'');
             _logBuilder.Append(name);

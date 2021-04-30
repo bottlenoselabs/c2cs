@@ -23,11 +23,12 @@ internal static class Program
             throw new DirectoryNotFoundException(cMakeDirectoryPath);
         }
 
-        var currentApplicationBaseDirectoryPath = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location);
+        var targetLibraryDirectoryPath = $"{rootDirectory}/src/dotnet/samples/flecs/flecs-cs/";
 
         "cmake -S . -B build-temp -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release".Bash(cMakeDirectoryPath);
         "make -C ./build-temp".Bash(cMakeDirectoryPath);
-        $"cp -a {cMakeDirectoryPath}/lib/* {currentApplicationBaseDirectoryPath}".Bash();
+        $"mkdir -p {targetLibraryDirectoryPath}".Bash();
+        $"cp -a {cMakeDirectoryPath}/lib/* {targetLibraryDirectoryPath}".Bash();
         "rm -rf ./build-temp".Bash(cMakeDirectoryPath);
     }
 
@@ -39,6 +40,7 @@ internal static class Program
 -o
 {rootDirectory}/src/dotnet/samples/flecs/flecs-cs/flecs.cs
 -u
+-t
 -l
 flecs
 -c

@@ -96,6 +96,7 @@ namespace C2CS.Languages.C
 					var pointeeType = clang_getPointeeType(type);
 					return IsSystemType(pointeeType);
 				case CXTypeKind.CXType_ConstantArray:
+				case CXTypeKind.CXType_IncompleteArray:
 				case CXTypeKind.CXType_Typedef:
 				case CXTypeKind.CXType_Elaborated:
 				case CXTypeKind.CXType_Record:

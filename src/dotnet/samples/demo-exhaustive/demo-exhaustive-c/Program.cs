@@ -41,6 +41,7 @@ internal static class Program
 -o
 {rootDirectory}/src/dotnet/samples/demo-exhaustive/demo-exhaustive-cs/demo-exhaustive.cs
 -u
+-t
 -l
 demo-exhaustive
 -c

@@ -93,6 +93,9 @@ namespace C2CS.Languages.C
         {
             var builder = ImmutableArray.CreateBuilder<ClangFunctionPointerParameter>();
 
+            // https://github.com/lithiumtoast/c2cs/issues/15
+            var shouldIgnore = false;
+
             cursor.VisitChildren(0, (child, _, _) =>
             {
                 if (child.kind != CXCursorKind.CXCursor_ParmDecl)
@@ -101,8 +104,19 @@ namespace C2CS.Languages.C
                 }
 
                 var functionPointerParameter = MapFunctionPointerParameter(child);
+                if (functionPointerParameter.Type.Name == "__va_list_tag")
+                {
+                    shouldIgnore = true;
+                    return;
+                }
+
                 builder.Add(functionPointerParameter);
             });
+
+            if (shouldIgnore)
+            {
+                return ImmutableArray<ClangFunctionPointerParameter>.Empty;
+            }
 
             var result = builder.ToImmutable();
             return result;
@@ -554,32 +568,53 @@ namespace C2CS.Languages.C
 
         private string MapTypeName(CXType clangType, CXCursor cursor)
         {
-            var result = clangType.kind switch
+            string? result;
+            switch (clangType.kind)
             {
-                CXTypeKind.CXType_Void => MapTypeNameBuiltIn(clangType),
-                CXTypeKind.CXType_Bool => MapTypeNameBuiltIn(clangType),
-                CXTypeKind.CXType_Char_S => MapTypeNameBuiltIn(clangType),
-                CXTypeKind.CXType_Char_U => MapTypeNameBuiltIn(clangType),
-                CXTypeKind.CXType_UChar => MapTypeNameBuiltIn(clangType),
-                CXTypeKind.CXType_UShort => MapTypeNameBuiltIn(clangType),
-                CXTypeKind.CXType_UInt => MapTypeNameBuiltIn(clangType),
-                CXTypeKind.CXType_ULong => MapTypeNameBuiltIn(clangType),
-                CXTypeKind.CXType_ULongLong => MapTypeNameBuiltIn(clangType),
-                CXTypeKind.CXType_Short => MapTypeNameBuiltIn(clangType),
-                CXTypeKind.CXType_Int => MapTypeNameBuiltIn(clangType),
-                CXTypeKind.CXType_Long => MapTypeNameBuiltIn(clangType),
-                CXTypeKind.CXType_LongLong => MapTypeNameBuiltIn(clangType),
-                CXTypeKind.CXType_Float => MapTypeNameBuiltIn(clangType),
-                CXTypeKind.CXType_Double => MapTypeNameBuiltIn(clangType),
-                CXTypeKind.CXType_Pointer => MapTypeNamePointer(clangType, cursor),
-                CXTypeKind.CXType_Typedef => MapTypeNameTypedef(clangType, cursor),
-                CXTypeKind.CXType_Elaborated => MapTypeNameElaborated(clangType, cursor),
-                CXTypeKind.CXType_Record => MapTypeNameRecord(clangType, cursor),
-                CXTypeKind.CXType_Enum => MapTypeNameEnum(clangType),
-                CXTypeKind.CXType_ConstantArray => MapTypeNameConstArray(clangType, cursor),
-                CXTypeKind.CXType_FunctionProto => MapTypeNameFunctionProto(clangType, cursor),
-                _ => throw new ClangMapperUnexpectedException()
-            };
+                case CXTypeKind.CXType_Void:
+                case CXTypeKind.CXType_Bool:
+                case CXTypeKind.CXType_Char_S:
+                case CXTypeKind.CXType_Char_U:
+                case CXTypeKind.CXType_UChar:
+                case CXTypeKind.CXType_UShort:
+                case CXTypeKind.CXType_UInt:
+                case CXTypeKind.CXType_ULong:
+                case CXTypeKind.CXType_ULongLong:
+                case CXTypeKind.CXType_Short:
+                case CXTypeKind.CXType_Int:
+                case CXTypeKind.CXType_Long:
+                case CXTypeKind.CXType_LongLong:
+                case CXTypeKind.CXType_Float:
+                case CXTypeKind.CXType_Double:
+                    result = MapTypeNameBuiltIn(clangType);
+                    break;
+                case CXTypeKind.CXType_Pointer:
+                    result = MapTypeNamePointer(clangType, cursor);
+                    break;
+                case CXTypeKind.CXType_Typedef:
+                    result = MapTypeNameTypedef(clangType, cursor);
+                    break;
+                case CXTypeKind.CXType_Elaborated:
+                    result = MapTypeNameElaborated(clangType, cursor);
+                    break;
+                case CXTypeKind.CXType_Record:
+                    result = MapTypeNameRecord(clangType, cursor);
+                    break;
+                case CXTypeKind.CXType_Enum:
+                    result = MapTypeNameEnum(clangType);
+                    break;
+                case CXTypeKind.CXType_ConstantArray:
+                    result = MapTypeNameConstArray(clangType, cursor);
+                    break;
+                case CXTypeKind.CXType_IncompleteArray:
+                    result = MapTypeNameIncompleteArray(clangType, cursor);
+                    break;
+                case CXTypeKind.CXType_FunctionProto:
+                    result = MapTypeNameFunctionProto(clangType, cursor);
+                    break;
+                default:
+                    throw new ClangMapperUnexpectedException();
+            }
 
             var isReadOnly = clang_isConstQualifiedType(clangType) > 0;
             if (isReadOnly)
@@ -780,6 +815,14 @@ namespace C2CS.Languages.C
             var result = MapTypeName(elementType, cursor);
 
             return result;
+        }
+
+        private string MapTypeNameIncompleteArray(CXType clangType, CXCursor cursor)
+        {
+            var elementType = clang_getArrayElementType(clangType);
+            var result = MapTypeName(elementType, cursor);
+
+            return result + "*";
         }
 
         private string MapTypeNameFunctionProto(CXType clangType, CXCursor cursor)

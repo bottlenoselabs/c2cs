@@ -74,7 +74,7 @@ namespace C2CS
 
 			var printSyntaxTreeOption = new Option<bool>(
 				new[] {"--printAbstractSyntaxTree", "-t"},
-				"Print the Clang abstract syntax tree as it is explored to standard out; useful for troubleshooting, especially when libclang crashes.")
+				"Print the Clang abstract syntax tree as it is discovered to standard out. Note that it does not print parts of the abstract syntax tree which are already discovered. This option is useful for troubleshooting.")
 			{
 				IsRequired = false
 			};

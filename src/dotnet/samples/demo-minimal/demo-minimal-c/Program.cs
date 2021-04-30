@@ -41,6 +41,7 @@ internal static class Program
 -o
 {rootDirectory}/src/dotnet/samples/demo-minimal/demo-minimal-cs/demo-minimal.cs
 -u
+-t
 -l
 demo-minimal
 -c

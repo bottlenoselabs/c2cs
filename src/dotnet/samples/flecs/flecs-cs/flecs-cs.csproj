@@ -2,10 +2,26 @@
 
     <!-- MSBuild project settings -->
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
         <RootNamespace />
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
+
+    <!-- NativeTools -->
+    <PropertyGroup>
+        <NativeToolsSourcePath>$(RootPath)ext/native-tools-cs/src</NativeToolsSourcePath>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="$(NativeToolsSourcePath)/**/*">
+            <Link>native-tools-cs/%(Filename)%(Extension)</Link>
+        </Compile>
+    </ItemGroup>
+    
+    <!-- Copy native libraries -->
+    <ItemGroup>
+        <None Update="**/*.dylib">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 
 </Project>

@@ -25,6 +25,22 @@ namespace C2CS.CSharp
 
 			foreach (var functionExtern in abstractSyntaxTree.FunctionExterns)
 			{
+				// https://github.com/lithiumtoast/c2cs/issues/15
+				var shouldIgnore = false;
+				foreach (var parameter in functionExtern.Parameters)
+				{
+					if (parameter.Type.Name == "__va_list_tag")
+					{
+						shouldIgnore = true;
+						break;
+					}
+				}
+
+				if (shouldIgnore)
+				{
+					continue;
+				}
+
 				var member = CreateExternMethod(functionExtern);
 				members.Add(member);
 			}
