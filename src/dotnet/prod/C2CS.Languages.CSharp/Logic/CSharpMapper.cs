@@ -421,7 +421,7 @@ namespace C2CS.CSharp
         {
             var type = MapType(clangType);
             var structField = new CSharpStructField(
-                "Data",
+                "Alias",
                 string.Empty,
                 originalCodeLocationComment,
                 type,

@@ -3012,7 +3012,7 @@ public static unsafe partial class flecs
         public ecs_map_t* system_stats;
     }
 
-    // AliasDataType @ flecs.h:151 04/28/2021 15:27:04
+    // Typedef @ flecs.h:151 04/28/2021 15:27:04
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct ecs_size_t
     {
@@ -3020,7 +3020,7 @@ public static unsafe partial class flecs
         public int Data;
     }
 
-    // AliasDataType @ flecs.h:1269 04/28/2021 15:27:04
+    // Typedef @ flecs.h:1269 04/28/2021 15:27:04
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_map_key_t
     {
@@ -3028,7 +3028,7 @@ public static unsafe partial class flecs
         public ulong Data;
     }
 
-    // AliasDataType @ flecs.h:1825 04/28/2021 15:27:04
+    // Typedef @ flecs.h:1825 04/28/2021 15:27:04
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_os_thread_t
     {
@@ -3036,7 +3036,7 @@ public static unsafe partial class flecs
         public ulong Data;
     }
 
-    // AliasDataType @ flecs.h:1826 04/28/2021 15:27:04
+    // Typedef @ flecs.h:1826 04/28/2021 15:27:04
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_os_cond_t
     {
@@ -3044,7 +3044,7 @@ public static unsafe partial class flecs
         public ulong Data;
     }
 
-    // AliasDataType @ flecs.h:1827 04/28/2021 15:27:04
+    // Typedef @ flecs.h:1827 04/28/2021 15:27:04
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_os_mutex_t
     {
@@ -3052,7 +3052,7 @@ public static unsafe partial class flecs
         public ulong Data;
     }
 
-    // AliasDataType @ flecs.h:1828 04/28/2021 15:27:04
+    // Typedef @ flecs.h:1828 04/28/2021 15:27:04
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_os_dl_t
     {
@@ -3060,7 +3060,7 @@ public static unsafe partial class flecs
         public ulong Data;
     }
 
-    // AliasDataType @ flecs.h:2222 04/28/2021 15:27:04
+    // Typedef @ flecs.h:2222 04/28/2021 15:27:04
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_entity_t
     {
@@ -3068,7 +3068,7 @@ public static unsafe partial class flecs
         public ulong Data;
     }
 
-    // AliasDataType @ flecs.h:2226 04/28/2021 15:27:04
+    // Typedef @ flecs.h:2226 04/28/2021 15:27:04
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_id_t
     {
@@ -3076,7 +3076,7 @@ public static unsafe partial class flecs
         public ulong Data;
     }
 
-    // AliasDataType @ flecs.h:2229 04/28/2021 15:27:04
+    // Typedef @ flecs.h:2229 04/28/2021 15:27:04
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_type_t
     {
