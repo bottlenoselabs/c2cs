@@ -1,26 +1,25 @@
-﻿using System;
-using lithiumtoast.NativeTools;
+﻿using lithiumtoast.NativeTools;
 using static flecs;
 
 internal static class Program
 {
-    public unsafe static class Components
-    {
-        public struct PositionComponent
-        {
-            public double X;
-            public double Y;
-            
-            public static readonly sbyte* Id = Native.MapCString("Position");
-            public const ulong Size = 8;
-            public const ulong Alignment = 8;
-        }
-    }
-
-    public unsafe static class Entities
-    {
-        public static sbyte* MyEntity = Native.MapCString("MyEntity");
-    }
+    // public unsafe static class Components
+    // {
+    //     public struct PositionComponent
+    //     {
+    //         public double X;
+    //         public double Y;
+    //         
+    //         public static readonly sbyte* Id = Native.MapCString("Position");
+    //         public const ulong Size = 8;
+    //         public const ulong Alignment = 8;
+    //     }
+    // }
+    //
+    // public unsafe static class Entities
+    // {
+    //     public static sbyte* MyEntity = Native.MapCString("MyEntity");
+    // }
 
     private static unsafe int Main(string[] args)
     {
@@ -29,11 +28,11 @@ internal static class Program
         var argv = Native.MapCStringArray(args);
         var world = ecs_init_w_args(args.Length, (sbyte**) argv);
 
-        /* Register a component with the world. */
-        var component = ecs_new_component(world, default, Components.PositionComponent.Id, Components.PositionComponent.Size, Components.PositionComponent.Alignment);
+        // /* Register a component with the world. */
+        // var component = ecs_new_component(world, default, Components.PositionComponent.Id, Components.PositionComponent.Size, Components.PositionComponent.Alignment);
 
         /* Create a new empty entity  */
-        var entity = ecs_new_entity(world, default, (sbyte*) 0, (sbyte*) 0);
+        // var entity = ecs_new_entity(world, default, (sbyte*) 0, (sbyte*) 0);
         // ecs_set_ptr_w_id(world, Entities.MyEntity, 6, )
         //
         // /* Set the Position component on the entity */

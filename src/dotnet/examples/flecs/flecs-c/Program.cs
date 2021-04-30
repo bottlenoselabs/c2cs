@@ -36,7 +36,7 @@ internal static class Program
     {
         var arguments = @$"
 -i
-{rootDirectory}/ext/flecs/flecs.h
+{rootDirectory}/ext/flecs/include/flecs.h
 -o
 {rootDirectory}/src/dotnet/examples/flecs/flecs-cs/flecs.cs
 -u
