@@ -17,7 +17,7 @@ internal static class Program
 
     private static void BuildLibrary(string rootDirectory)
     {
-        var cMakeDirectoryPath = Path.Combine(rootDirectory, "src/c/samples/demo-minimal");
+        var cMakeDirectoryPath = Path.Combine(rootDirectory, "src/c/examples/demo-minimal");
         if (!Directory.Exists(cMakeDirectoryPath))
         {
             throw new DirectoryNotFoundException(cMakeDirectoryPath);
@@ -35,11 +35,11 @@ internal static class Program
     {
         var arguments = @$"
 -i
-{rootDirectory}/src/c/samples/demo-minimal/include/library.h
+{rootDirectory}/src/c/examples/demo-minimal/include/library.h
 -s
-{rootDirectory}/src/c/samples/demo-minimal/include
+{rootDirectory}/src/c/examples/demo-minimal/include
 -o
-{rootDirectory}/src/dotnet/samples/demo-minimal/demo-minimal-cs/demo-minimal.cs
+{rootDirectory}/src/dotnet/examples/demo-minimal/demo-minimal-cs/demo-minimal.cs
 -u
 -t
 -l
