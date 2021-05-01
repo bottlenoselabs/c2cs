@@ -1,19 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
 
-macro(ADD_FRAMEWORK fwname target)
-    find_library(FRAMEWORK_${fwname}
-    NAMES ${fwname}
-    PATHS ${CMAKE_OSX_SYSROOT}/System/Library
-    PATH_SUFFIXES Frameworks
-    NO_DEFAULT_PATH)
-    if( ${FRAMEWORK_${fwname}} STREQUAL FRAMEWORK_${fwname}-NOTFOUND)
-        MESSAGE(ERROR ": Framework ${fwname} not found")
-    else()
-        TARGET_LINK_LIBRARIES(${target} "${FRAMEWORK_${fwname}}/${fwname}")
-        MESSAGE(STATUS "Framework ${fwname} found at ${FRAMEWORK_${fwname}}")
-    endif()
-endmacro(ADD_FRAMEWORK)
-
 project(sokol)
 
 set(CMAKE_C_STANDARD 11)
@@ -38,8 +24,9 @@ endif()
 add_library(sokol SHARED ${SOURCES})
 
 if (APPLE)
-    add_framework(Cocoa sokol)
-    add_framework(QuartzCore sokol)
-    add_framework(Metal sokol)
-    add_framework(MetalKit sokol)
+    target_link_libraries(sokol "-framework Cocoa")
+    target_link_libraries(sokol "-framework QuartzCore")
+    target_link_libraries(sokol "-framework Metal")
+    target_link_libraries(sokol "-framework MetalKit")
+    set_target_properties(sokol PROPERTIES LINK_FLAGS "-Wl,-F/Library/Frameworks")
 endif()
