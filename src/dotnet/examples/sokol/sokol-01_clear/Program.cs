@@ -21,7 +21,7 @@ internal static unsafe class Program
     }   
     
     [UnmanagedCallersOnly]
-    public static void Initialize()
+    private static void Initialize()
     {
         var desc = default(sg_desc);
         desc.context = sapp_sgcontext();
