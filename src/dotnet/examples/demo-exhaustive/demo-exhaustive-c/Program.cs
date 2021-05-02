@@ -25,10 +25,10 @@ internal static class Program
 
         var currentApplicationBaseDirectoryPath = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location);
 
-        "cmake -S . -B build-temp -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release".Bash(cMakeDirectoryPath);
-        "make -C ./build-temp".Bash(cMakeDirectoryPath);
+        "cmake -S . -B cmake-build-release -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release".Bash(cMakeDirectoryPath);
+        "make -C ./cmake-build-release".Bash(cMakeDirectoryPath);
         $"cp -a {cMakeDirectoryPath}/lib/* {currentApplicationBaseDirectoryPath}".Bash();
-        "rm -rf ./build-temp".Bash(cMakeDirectoryPath);
+        "rm -rf ./cmake-build-release".Bash(cMakeDirectoryPath);
     }
 
     private static void GenerateLibraryBindings(string rootDirectory)

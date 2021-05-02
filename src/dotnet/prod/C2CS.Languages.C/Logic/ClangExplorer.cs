@@ -15,7 +15,6 @@ namespace C2CS.Languages.C
     {
         private bool _printAbstractSyntaxTree;
         private readonly HashSet<CXCursor> _visitedCursors = new();
-        private readonly HashSet<CXType> _visitedTypes = new();
         private readonly HashSet<string> _visitedRecordNames = new();
         private readonly HashSet<string> _visitedFunctionProtoNames = new();
         private readonly ClangMapper _mapper = new();
@@ -185,25 +184,9 @@ namespace C2CS.Languages.C
             return true;
         }
 
-        private bool CanVisitType(CXType type)
-        {
-            if (_visitedTypes.Contains(type))
-            {
-                return false;
-            }
-
-            _visitedTypes.Add(type);
-            return true;
-        }
-
         [SuppressMessage("ReSharper", "TailRecursiveCall", Justification = "Easier to read.")]
         private void VisitType(CXType type, CXCursor cursor, CXCursor parentCursor, int depth)
         {
-            if (!CanVisitType(type))
-            {
-                return;
-            }
-
             switch (type.kind)
             {
                 case CXTypeKind.CXType_Attributed:
@@ -232,7 +215,24 @@ namespace C2CS.Languages.C
                 case CXTypeKind.CXType_FunctionProto:
                     VisitFunctionProto(cursor, parentCursor, depth);
                     break;
-                case CXTypeKind.CXType_Invalid:
+                case CXTypeKind.CXType_Void:
+                case CXTypeKind.CXType_Bool:
+                case CXTypeKind.CXType_Char_S:
+                case CXTypeKind.CXType_Char_U:
+                case CXTypeKind.CXType_UChar:
+                case CXTypeKind.CXType_UShort:
+                case CXTypeKind.CXType_UInt:
+                case CXTypeKind.CXType_ULong:
+                case CXTypeKind.CXType_ULongLong:
+                case CXTypeKind.CXType_Short:
+                case CXTypeKind.CXType_Int:
+                case CXTypeKind.CXType_Long:
+                case CXTypeKind.CXType_LongLong:
+                case CXTypeKind.CXType_Float:
+                case CXTypeKind.CXType_Double:
+                    // Ignore
+                    break;
+                default:
                     var up = new ExploreUnexpectedException(type, cursor);
                     throw up;
             }
@@ -530,21 +530,24 @@ namespace C2CS.Languages.C
             _opaqueDataTypes.Add(opaqueDataType);
         }
 
-        private bool CanVisitFunctionProto(CXCursor cursor)
+        private bool CanVisitFunctionProto(CXCursor cursor, CXCursor parent)
         {
             var functionProtoName = cursor.GetName();
-            if (_visitedFunctionProtoNames.Contains(functionProtoName))
+            var parentName = parent.GetName();
+            var fullFunctionProtoName = $"{parentName}_{functionProtoName}";
+
+            if (_visitedFunctionProtoNames.Contains(fullFunctionProtoName))
             {
                 return false;
             }
 
-            _visitedFunctionProtoNames.Add(functionProtoName);
+            _visitedFunctionProtoNames.Add(fullFunctionProtoName);
             return true;
         }
 
         private void VisitFunctionProto(CXCursor cursor, CXCursor cursorParent, int depth)
         {
-            if (!CanVisitFunctionProto(cursor))
+            if (!CanVisitFunctionProto(cursor, cursorParent))
             {
                 return;
             }

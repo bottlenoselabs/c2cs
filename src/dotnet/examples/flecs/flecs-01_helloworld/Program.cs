@@ -30,10 +30,10 @@ internal static class Program
 
         // /* Register a component with the world. */
         // var component = ecs_new_component(world, default, Components.PositionComponent.Id, Components.PositionComponent.Size, Components.PositionComponent.Alignment);
-
-        /* Create a new empty entity  */
+        //
+        // /* Create a new empty entity  */
         // var entity = ecs_new_entity(world, default, (sbyte*) 0, (sbyte*) 0);
-        // ecs_set_ptr_w_id(world, Entities.MyEntity, 6, )
+        // ecs_set_ptr_w_id(world, Entities.MyEntity, 6,  )
         //
         // /* Set the Position component on the entity */
         // var position = new Components.PositionComponent
@@ -43,7 +43,7 @@ internal static class Program
         // };
         // var id = new ecs_id_t { Data = component.Data };
         // ecs_set_ptr_w_id(world, entity, id, Components.PositionComponent.Size, &position);
-
+        //
         // /* Get the Position component */
         // var p = (Components.PositionComponent*) ecs_get_w_id(world, component, id);
         //

@@ -3,7 +3,6 @@
 
 using System;
 using System.IO;
-using System.Reflection;
 using C2CS.Tools;
 
 internal static class Program
@@ -25,11 +24,11 @@ internal static class Program
 
         var targetLibraryDirectoryPath = $"{rootDirectory}/src/dotnet/examples/flecs/flecs-cs/";
 
-        "cmake -S . -B build-temp -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release".Bash(cMakeDirectoryPath);
-        "make -C ./build-temp".Bash(cMakeDirectoryPath);
+        "cmake -S . -B cmake-build-release -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release".Bash(cMakeDirectoryPath);
+        "make -C ./cmake-build-release".Bash(cMakeDirectoryPath);
         $"mkdir -p {targetLibraryDirectoryPath}".Bash();
         $"cp -a {cMakeDirectoryPath}/lib/* {targetLibraryDirectoryPath}".Bash();
-        "rm -rf ./build-temp".Bash(cMakeDirectoryPath);
+        "rm -rf ./cmake-build-release".Bash(cMakeDirectoryPath);
     }
 
     private static void GenerateLibraryBindings(string rootDirectory)

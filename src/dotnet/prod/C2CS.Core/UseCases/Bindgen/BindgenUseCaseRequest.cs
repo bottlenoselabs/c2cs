@@ -5,8 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
+using C2CS.Tools;
 
 namespace C2CS.Bindgen
 {
@@ -161,26 +164,38 @@ namespace C2CS.Bindgen
                         "Please install CommandLineTools for macOS: `xcode-select --install`.");
                 }
 
-                var processStartInfo = new ProcessStartInfo
+                const string commandLineToolsClangDirectoryPath = "/Library/Developer/CommandLineTools/usr/lib/clang";
+                var clangVersionDirectoryPaths = Directory.EnumerateDirectories(commandLineToolsClangDirectoryPath);
+
+                var clangNewestVersionDirectoryPath = string.Empty;
+                Version clangNewestVersion = Version.Parse("0.0.0");
+
+                foreach (var directoryPath in clangVersionDirectoryPaths)
                 {
-                    FileName = "xcrun",
-                    Arguments = "--sdk macosx --show-sdk-path",
-                    CreateNoWindow = true,
-                    RedirectStandardOutput = true
-                };
-                var process = Process.Start(processStartInfo)!;
-                var softwareDevelopmentKitDirectoryPath =
-                    process.StandardOutput.ReadToEnd().Replace(Environment.NewLine, string.Empty);
-                process.WaitForExit();
+                    var versionStringIndex = directoryPath.LastIndexOf(Path.DirectorySeparatorChar);
+                    var versionString = directoryPath[(versionStringIndex + 1)..];
+                    var version = Version.Parse(versionString);
+                    if (version < clangNewestVersion)
+                    {
+                        continue;
+                    }
 
-                var systemIncludeDirectoryPath = $"{softwareDevelopmentKitDirectoryPath}/usr/include";
-                var systemIncludeCommandLineArg = $"-isystem{systemIncludeDirectoryPath}";
-                commandLineArgs.Add(systemIncludeCommandLineArg);
+                    clangNewestVersion = version;
+                    clangNewestVersionDirectoryPath = directoryPath;
+                }
 
-                const string clangIncludeDirectoryPath =
-                    "/Library/Developer/CommandLineTools/usr/lib/clang/12.0.0/include";
-                var clangIncludeCommandLineArg = $"-isystem{clangIncludeDirectoryPath}";
-                commandLineArgs.Add(clangIncludeCommandLineArg);
+                var systemIncludeCommandLineArgClang = $"-isystem{clangNewestVersionDirectoryPath}/include";
+                commandLineArgs.Add(systemIncludeCommandLineArgClang);
+
+                var softwareDevelopmentKitDirectoryPath = "xcrun --sdk macosx --show-sdk-path".Bash();
+                if (!Directory.Exists(softwareDevelopmentKitDirectoryPath))
+                {
+                    throw new UseCaseException(
+                        "Please install XCode for macOS.");
+                }
+
+                var systemIncludeCommandLineArgSdk = $"-isystem{softwareDevelopmentKitDirectoryPath}/usr/include";
+                commandLineArgs.Add(systemIncludeCommandLineArgSdk);
             }
 
             static void AddArgsUserDefines(ICollection<string> args, ImmutableArray<string> defineMacros)

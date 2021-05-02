@@ -828,6 +828,7 @@ namespace C2CS.Languages.C
         private string MapTypeNameFunctionProto(CXType clangType, CXCursor cursor)
         {
             var hash = clang_hashCursor(cursor);
+            var name = cursor.GetName();
             return _functionPointerNamesByCursorHash[hash];
         }
 

@@ -34,7 +34,7 @@ namespace C2CS.Tools
             };
 
             process.Start();
-            var result = process.StandardOutput.ReadToEnd();
+            var result = process.StandardOutput.ReadToEnd().TrimEnd('\n', '\r');
             process.WaitForExit();
 
             return result;

@@ -3,8 +3,9 @@
 
 using System;
 using System.IO;
-using System.Reflection;
+using System.Linq;
 using C2CS.Tools;
+using lithiumtoast.NativeTools;
 
 internal static class Program
 {
@@ -17,17 +18,18 @@ internal static class Program
 
     private static void BuildLibrary(string rootDirectory)
     {
-        var cMakeDirectoryPath = Path.Combine(rootDirectory, "src/c/examples/demo-minimal");
+        var cMakeDirectoryPath = Path.Combine(rootDirectory, "src/c/examples/sokol");
         if (!Directory.Exists(cMakeDirectoryPath))
         {
             throw new DirectoryNotFoundException(cMakeDirectoryPath);
         }
 
-        var currentApplicationBaseDirectoryPath = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location);
+        var targetLibraryDirectoryPath = $"{rootDirectory}/src/dotnet/examples/sokol/sokol-cs/";
 
         "cmake -S . -B cmake-build-release -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release".Bash(cMakeDirectoryPath);
         "make -C ./cmake-build-release".Bash(cMakeDirectoryPath);
-        $"cp -a {cMakeDirectoryPath}/lib/* {currentApplicationBaseDirectoryPath}".Bash();
+        $"mkdir -p {targetLibraryDirectoryPath}".Bash();
+        $"cp -a {cMakeDirectoryPath}/lib/* {targetLibraryDirectoryPath}".Bash();
         "rm -rf ./cmake-build-release".Bash(cMakeDirectoryPath);
     }
 
@@ -35,18 +37,19 @@ internal static class Program
     {
         var arguments = @$"
 -i
-{rootDirectory}/src/c/examples/demo-minimal/include/library.h
+{rootDirectory}/src/c/examples/sokol/sokol.h
 -s
-{rootDirectory}/src/c/examples/demo-minimal/include
+{rootDirectory}/ext/sokol
 -o
-{rootDirectory}/src/dotnet/examples/demo-minimal/demo-minimal-cs/demo-minimal.cs
+{rootDirectory}/src/dotnet/examples/sokol/sokol-cs/sokol.cs
 -u
 -t
 -l
-demo-minimal
+sokol
 -c
-demo_minimal
+sokol
 ";
+
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
