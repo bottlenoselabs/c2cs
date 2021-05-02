@@ -17,17 +17,17 @@ internal static class Program
 
     private static void BuildLibrary(string rootDirectory)
     {
-        var cMakeDirectoryPath = Path.Combine(rootDirectory, "src/c/examples/demo-minimal");
+        var cMakeDirectoryPath = Path.Combine(rootDirectory, "src/c/examples/helloworld");
         if (!Directory.Exists(cMakeDirectoryPath))
         {
             throw new DirectoryNotFoundException(cMakeDirectoryPath);
         }
 
-        var currentApplicationBaseDirectoryPath = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location);
+        var targetLibraryDirectoryPath = $"{rootDirectory}/src/dotnet/examples/helloworld/helloworld-cs";
 
         "cmake -S . -B cmake-build-release -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release".Bash(cMakeDirectoryPath);
         "make -C ./cmake-build-release".Bash(cMakeDirectoryPath);
-        $"cp -a {cMakeDirectoryPath}/lib/* {currentApplicationBaseDirectoryPath}".Bash();
+        $"cp -a {cMakeDirectoryPath}/lib/* {targetLibraryDirectoryPath}".Bash();
         "rm -rf ./cmake-build-release".Bash(cMakeDirectoryPath);
     }
 
@@ -35,17 +35,17 @@ internal static class Program
     {
         var arguments = @$"
 -i
-{rootDirectory}/src/c/examples/demo-minimal/include/library.h
+{rootDirectory}/src/c/examples/helloworld/include/library.h
 -s
-{rootDirectory}/src/c/examples/demo-minimal/include
+{rootDirectory}/src/c/examples/helloworld/include
 -o
-{rootDirectory}/src/dotnet/examples/demo-minimal/demo-minimal-cs/demo-minimal.cs
+{rootDirectory}/src/dotnet/examples/helloworld/helloworld-cs/helloworld.cs
 -u
 -t
 -l
-demo-minimal
+helloworld
 -c
-demo_minimal
+helloworld
 ";
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);

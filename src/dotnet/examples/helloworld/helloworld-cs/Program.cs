@@ -2,6 +2,6 @@
 {
     private static void Main()
     {
-        demo_exhaustive.hello_world();
+        helloworld.hello_world();
     }
 }
