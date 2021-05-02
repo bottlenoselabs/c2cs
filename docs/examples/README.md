@@ -14,6 +14,6 @@ C2CS uses bindings generated for libclang using C2CS. In this sense, the C2CS pr
 
 Examples of using https://github.com/floooh/sokol with C#.
 
-## [3: flecs](.003_FLECS.md)
+## [3: flecs](./003_FLECS.md)
 
  Examples of using https://github.com/SanderMertens/flecs with C#.
