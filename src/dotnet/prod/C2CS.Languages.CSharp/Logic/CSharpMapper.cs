@@ -529,9 +529,8 @@ namespace C2CS.CSharp
 
             var fileName = codeLocation.FileName;
             var fileLineNumber = codeLocation.FileLineNumber;
-            var dateTime = codeLocation.DateTime;
 
-            var result = $"// {kind} @ {fileName}:{fileLineNumber} {dateTime}";
+            var result = $"// {kind} @ {fileName}:{fileLineNumber}";
 
             return result;
         }

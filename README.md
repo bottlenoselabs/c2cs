@@ -43,9 +43,23 @@ Mentioned here for completeness.
 
 ## Developers: Building from Source
 
+This includes building and running the examples.
+
 ### Prerequisites
 
-1. Download and install [.NET 5](https://dotnet.microsoft.com/download).
+1. Install [.NET 5](https://dotnet.microsoft.com/download).
+2. Install build tools for C/C++.
+    - Windows:
+      1. Install [Windows Subsystem for Linux v2](https://docs.microsoft.com/en-us/windows/wsl/install-win10) (WSL2).
+      2. Install Ubuntu for WSL2.
+      3. Install build tools for Ubuntu: ```wsl sudo apt-get update && sudo apt-get install cmake gcc clang gdb mingw-w64```
+      4. Install build tools for Ubuntu to cross-compile to Windows: ```wsl sudo apt-get update && sudo apt-get mingw-w64```
+    - macOS:
+      1. Install XCode CommandLineTools (gcc, clang, etc): ```xcode-select --install```
+      2. Install XCode through the App Store (necessary for SDKs).
+      3. Install CMake: ```brew install cmake```
+    - Linux:
+      1. Install the software build tools for your distro including GCC, Clang, and CMake.
 2. Clone the repository with submodules: `git clone --recurse-submodules https://github.com/lithiumtoast/c2cs.git`.
 
 ### Visual Studio / Rider / MonoDevelop

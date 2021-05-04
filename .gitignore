@@ -17,6 +17,7 @@ nupkg/
 
 # C build artifacts
 lib/
+*.dll
 *.dylib
 
 # macOS

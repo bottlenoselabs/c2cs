@@ -15,563 +15,563 @@ public static unsafe partial class sokol
 {
     private const string LibraryName = "sokol";
 
-    // FunctionExtern @ sokol_app.h:1399 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1399
     [DllImport(LibraryName, EntryPoint = "sokol_main", CallingConvention = CallingConvention.Cdecl)]
     public static extern sapp_desc sokol_main(int argc, sbyte* * argv);
 
-    // FunctionExtern @ sokol_app.h:1402 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1402
     [DllImport(LibraryName, EntryPoint = "sapp_isvalid", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool sapp_isvalid();
 
-    // FunctionExtern @ sokol_app.h:1404 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1404
     [DllImport(LibraryName, EntryPoint = "sapp_width", CallingConvention = CallingConvention.Cdecl)]
     public static extern int sapp_width();
 
-    // FunctionExtern @ sokol_app.h:1406 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1406
     [DllImport(LibraryName, EntryPoint = "sapp_widthf", CallingConvention = CallingConvention.Cdecl)]
     public static extern float sapp_widthf();
 
-    // FunctionExtern @ sokol_app.h:1408 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1408
     [DllImport(LibraryName, EntryPoint = "sapp_height", CallingConvention = CallingConvention.Cdecl)]
     public static extern int sapp_height();
 
-    // FunctionExtern @ sokol_app.h:1410 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1410
     [DllImport(LibraryName, EntryPoint = "sapp_heightf", CallingConvention = CallingConvention.Cdecl)]
     public static extern float sapp_heightf();
 
-    // FunctionExtern @ sokol_app.h:1412 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1412
     [DllImport(LibraryName, EntryPoint = "sapp_color_format", CallingConvention = CallingConvention.Cdecl)]
     public static extern int sapp_color_format();
 
-    // FunctionExtern @ sokol_app.h:1414 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1414
     [DllImport(LibraryName, EntryPoint = "sapp_depth_format", CallingConvention = CallingConvention.Cdecl)]
     public static extern int sapp_depth_format();
 
-    // FunctionExtern @ sokol_app.h:1416 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1416
     [DllImport(LibraryName, EntryPoint = "sapp_sample_count", CallingConvention = CallingConvention.Cdecl)]
     public static extern int sapp_sample_count();
 
-    // FunctionExtern @ sokol_app.h:1418 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1418
     [DllImport(LibraryName, EntryPoint = "sapp_high_dpi", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool sapp_high_dpi();
 
-    // FunctionExtern @ sokol_app.h:1420 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1420
     [DllImport(LibraryName, EntryPoint = "sapp_dpi_scale", CallingConvention = CallingConvention.Cdecl)]
     public static extern float sapp_dpi_scale();
 
-    // FunctionExtern @ sokol_app.h:1422 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1422
     [DllImport(LibraryName, EntryPoint = "sapp_show_keyboard", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_show_keyboard(CBool show);
 
-    // FunctionExtern @ sokol_app.h:1424 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1424
     [DllImport(LibraryName, EntryPoint = "sapp_keyboard_shown", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool sapp_keyboard_shown();
 
-    // FunctionExtern @ sokol_app.h:1426 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1426
     [DllImport(LibraryName, EntryPoint = "sapp_is_fullscreen", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool sapp_is_fullscreen();
 
-    // FunctionExtern @ sokol_app.h:1428 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1428
     [DllImport(LibraryName, EntryPoint = "sapp_toggle_fullscreen", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_toggle_fullscreen();
 
-    // FunctionExtern @ sokol_app.h:1430 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1430
     [DllImport(LibraryName, EntryPoint = "sapp_show_mouse", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_show_mouse(CBool show);
 
-    // FunctionExtern @ sokol_app.h:1432 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1432
     [DllImport(LibraryName, EntryPoint = "sapp_mouse_shown", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool sapp_mouse_shown();
 
-    // FunctionExtern @ sokol_app.h:1434 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1434
     [DllImport(LibraryName, EntryPoint = "sapp_lock_mouse", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_lock_mouse(CBool @lock);
 
-    // FunctionExtern @ sokol_app.h:1436 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1436
     [DllImport(LibraryName, EntryPoint = "sapp_mouse_locked", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool sapp_mouse_locked();
 
-    // FunctionExtern @ sokol_app.h:1438 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1438
     [DllImport(LibraryName, EntryPoint = "sapp_userdata", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_userdata();
 
-    // FunctionExtern @ sokol_app.h:1440 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1440
     [DllImport(LibraryName, EntryPoint = "sapp_query_desc", CallingConvention = CallingConvention.Cdecl)]
     public static extern sapp_desc sapp_query_desc();
 
-    // FunctionExtern @ sokol_app.h:1442 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1442
     [DllImport(LibraryName, EntryPoint = "sapp_request_quit", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_request_quit();
 
-    // FunctionExtern @ sokol_app.h:1444 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1444
     [DllImport(LibraryName, EntryPoint = "sapp_cancel_quit", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_cancel_quit();
 
-    // FunctionExtern @ sokol_app.h:1446 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1446
     [DllImport(LibraryName, EntryPoint = "sapp_quit", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_quit();
 
-    // FunctionExtern @ sokol_app.h:1448 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1448
     [DllImport(LibraryName, EntryPoint = "sapp_consume_event", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_consume_event();
 
-    // FunctionExtern @ sokol_app.h:1450 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1450
     [DllImport(LibraryName, EntryPoint = "sapp_frame_count", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong sapp_frame_count();
 
-    // FunctionExtern @ sokol_app.h:1452 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1452
     [DllImport(LibraryName, EntryPoint = "sapp_set_clipboard_string", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_set_clipboard_string(sbyte* str);
 
-    // FunctionExtern @ sokol_app.h:1454 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1454
     [DllImport(LibraryName, EntryPoint = "sapp_get_clipboard_string", CallingConvention = CallingConvention.Cdecl)]
     public static extern sbyte* sapp_get_clipboard_string();
 
-    // FunctionExtern @ sokol_app.h:1456 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1456
     [DllImport(LibraryName, EntryPoint = "sapp_set_window_title", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_set_window_title(sbyte* str);
 
-    // FunctionExtern @ sokol_app.h:1458 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1458
     [DllImport(LibraryName, EntryPoint = "sapp_set_icon", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_set_icon(sapp_icon_desc* icon_desc);
 
-    // FunctionExtern @ sokol_app.h:1460 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1460
     [DllImport(LibraryName, EntryPoint = "sapp_get_num_dropped_files", CallingConvention = CallingConvention.Cdecl)]
     public static extern int sapp_get_num_dropped_files();
 
-    // FunctionExtern @ sokol_app.h:1462 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1462
     [DllImport(LibraryName, EntryPoint = "sapp_get_dropped_file_path", CallingConvention = CallingConvention.Cdecl)]
     public static extern sbyte* sapp_get_dropped_file_path(int index);
 
-    // FunctionExtern @ sokol_app.h:1465 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1465
     [DllImport(LibraryName, EntryPoint = "sapp_run", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_run(sapp_desc* desc);
 
-    // FunctionExtern @ sokol_app.h:1468 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1468
     [DllImport(LibraryName, EntryPoint = "sapp_gles2", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool sapp_gles2();
 
-    // FunctionExtern @ sokol_app.h:1471 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1471
     [DllImport(LibraryName, EntryPoint = "sapp_html5_ask_leave_site", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_html5_ask_leave_site(CBool ask);
 
-    // FunctionExtern @ sokol_app.h:1473 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1473
     [DllImport(LibraryName, EntryPoint = "sapp_html5_get_dropped_file_size", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint sapp_html5_get_dropped_file_size(int index);
 
-    // FunctionExtern @ sokol_app.h:1475 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1475
     [DllImport(LibraryName, EntryPoint = "sapp_html5_fetch_dropped_file", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_html5_fetch_dropped_file(sapp_html5_fetch_request* request);
 
-    // FunctionExtern @ sokol_app.h:1478 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1478
     [DllImport(LibraryName, EntryPoint = "sapp_metal_get_device", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_metal_get_device();
 
-    // FunctionExtern @ sokol_app.h:1480 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1480
     [DllImport(LibraryName, EntryPoint = "sapp_metal_get_renderpass_descriptor", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_metal_get_renderpass_descriptor();
 
-    // FunctionExtern @ sokol_app.h:1482 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1482
     [DllImport(LibraryName, EntryPoint = "sapp_metal_get_drawable", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_metal_get_drawable();
 
-    // FunctionExtern @ sokol_app.h:1484 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1484
     [DllImport(LibraryName, EntryPoint = "sapp_macos_get_window", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_macos_get_window();
 
-    // FunctionExtern @ sokol_app.h:1486 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1486
     [DllImport(LibraryName, EntryPoint = "sapp_ios_get_window", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_ios_get_window();
 
-    // FunctionExtern @ sokol_app.h:1489 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1489
     [DllImport(LibraryName, EntryPoint = "sapp_d3d11_get_device", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_d3d11_get_device();
 
-    // FunctionExtern @ sokol_app.h:1491 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1491
     [DllImport(LibraryName, EntryPoint = "sapp_d3d11_get_device_context", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_d3d11_get_device_context();
 
-    // FunctionExtern @ sokol_app.h:1493 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1493
     [DllImport(LibraryName, EntryPoint = "sapp_d3d11_get_swap_chain", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_d3d11_get_swap_chain();
 
-    // FunctionExtern @ sokol_app.h:1495 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1495
     [DllImport(LibraryName, EntryPoint = "sapp_d3d11_get_render_target_view", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_d3d11_get_render_target_view();
 
-    // FunctionExtern @ sokol_app.h:1497 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1497
     [DllImport(LibraryName, EntryPoint = "sapp_d3d11_get_depth_stencil_view", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_d3d11_get_depth_stencil_view();
 
-    // FunctionExtern @ sokol_app.h:1499 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1499
     [DllImport(LibraryName, EntryPoint = "sapp_win32_get_hwnd", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_win32_get_hwnd();
 
-    // FunctionExtern @ sokol_app.h:1502 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1502
     [DllImport(LibraryName, EntryPoint = "sapp_wgpu_get_device", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_wgpu_get_device();
 
-    // FunctionExtern @ sokol_app.h:1504 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1504
     [DllImport(LibraryName, EntryPoint = "sapp_wgpu_get_render_view", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_wgpu_get_render_view();
 
-    // FunctionExtern @ sokol_app.h:1506 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1506
     [DllImport(LibraryName, EntryPoint = "sapp_wgpu_get_resolve_view", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_wgpu_get_resolve_view();
 
-    // FunctionExtern @ sokol_app.h:1508 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1508
     [DllImport(LibraryName, EntryPoint = "sapp_wgpu_get_depth_stencil_view", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_wgpu_get_depth_stencil_view();
 
-    // FunctionExtern @ sokol_app.h:1511 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_app.h:1511
     [DllImport(LibraryName, EntryPoint = "sapp_android_get_native_activity", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_android_get_native_activity();
 
-    // FunctionExtern @ sokol_gfx.h:2268 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2268
     [DllImport(LibraryName, EntryPoint = "sg_setup", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_setup(sg_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2269 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2269
     [DllImport(LibraryName, EntryPoint = "sg_shutdown", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_shutdown();
 
-    // FunctionExtern @ sokol_gfx.h:2270 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2270
     [DllImport(LibraryName, EntryPoint = "sg_isvalid", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool sg_isvalid();
 
-    // FunctionExtern @ sokol_gfx.h:2271 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2271
     [DllImport(LibraryName, EntryPoint = "sg_reset_state_cache", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_reset_state_cache();
 
-    // FunctionExtern @ sokol_gfx.h:2272 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2272
     [DllImport(LibraryName, EntryPoint = "sg_install_trace_hooks", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_trace_hooks sg_install_trace_hooks(sg_trace_hooks* trace_hooks);
 
-    // FunctionExtern @ sokol_gfx.h:2273 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2273
     [DllImport(LibraryName, EntryPoint = "sg_push_debug_group", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_push_debug_group(sbyte* name);
 
-    // FunctionExtern @ sokol_gfx.h:2274 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2274
     [DllImport(LibraryName, EntryPoint = "sg_pop_debug_group", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_pop_debug_group();
 
-    // FunctionExtern @ sokol_gfx.h:2277 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2277
     [DllImport(LibraryName, EntryPoint = "sg_make_buffer", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_buffer sg_make_buffer(sg_buffer_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2278 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2278
     [DllImport(LibraryName, EntryPoint = "sg_make_image", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_image sg_make_image(sg_image_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2279 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2279
     [DllImport(LibraryName, EntryPoint = "sg_make_shader", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_shader sg_make_shader(sg_shader_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2280 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2280
     [DllImport(LibraryName, EntryPoint = "sg_make_pipeline", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_pipeline sg_make_pipeline(sg_pipeline_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2281 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2281
     [DllImport(LibraryName, EntryPoint = "sg_make_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_pass sg_make_pass(sg_pass_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2282 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2282
     [DllImport(LibraryName, EntryPoint = "sg_destroy_buffer", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_destroy_buffer(sg_buffer buf);
 
-    // FunctionExtern @ sokol_gfx.h:2283 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2283
     [DllImport(LibraryName, EntryPoint = "sg_destroy_image", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_destroy_image(sg_image img);
 
-    // FunctionExtern @ sokol_gfx.h:2284 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2284
     [DllImport(LibraryName, EntryPoint = "sg_destroy_shader", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_destroy_shader(sg_shader shd);
 
-    // FunctionExtern @ sokol_gfx.h:2285 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2285
     [DllImport(LibraryName, EntryPoint = "sg_destroy_pipeline", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_destroy_pipeline(sg_pipeline pip);
 
-    // FunctionExtern @ sokol_gfx.h:2286 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2286
     [DllImport(LibraryName, EntryPoint = "sg_destroy_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_destroy_pass(sg_pass pass);
 
-    // FunctionExtern @ sokol_gfx.h:2287 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2287
     [DllImport(LibraryName, EntryPoint = "sg_update_buffer", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_update_buffer(sg_buffer buf, sg_range* data);
 
-    // FunctionExtern @ sokol_gfx.h:2288 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2288
     [DllImport(LibraryName, EntryPoint = "sg_update_image", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_update_image(sg_image img, sg_image_data* data);
 
-    // FunctionExtern @ sokol_gfx.h:2289 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2289
     [DllImport(LibraryName, EntryPoint = "sg_append_buffer", CallingConvention = CallingConvention.Cdecl)]
     public static extern int sg_append_buffer(sg_buffer buf, sg_range* data);
 
-    // FunctionExtern @ sokol_gfx.h:2290 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2290
     [DllImport(LibraryName, EntryPoint = "sg_query_buffer_overflow", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool sg_query_buffer_overflow(sg_buffer buf);
 
-    // FunctionExtern @ sokol_gfx.h:2293 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2293
     [DllImport(LibraryName, EntryPoint = "sg_begin_default_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_begin_default_pass(sg_pass_action* pass_action, int width, int height);
 
-    // FunctionExtern @ sokol_gfx.h:2294 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2294
     [DllImport(LibraryName, EntryPoint = "sg_begin_default_passf", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_begin_default_passf(sg_pass_action* pass_action, float width, float height);
 
-    // FunctionExtern @ sokol_gfx.h:2295 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2295
     [DllImport(LibraryName, EntryPoint = "sg_begin_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_begin_pass(sg_pass pass, sg_pass_action* pass_action);
 
-    // FunctionExtern @ sokol_gfx.h:2296 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2296
     [DllImport(LibraryName, EntryPoint = "sg_apply_viewport", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_apply_viewport(int x, int y, int width, int height, CBool origin_top_left);
 
-    // FunctionExtern @ sokol_gfx.h:2297 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2297
     [DllImport(LibraryName, EntryPoint = "sg_apply_viewportf", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_apply_viewportf(float x, float y, float width, float height, CBool origin_top_left);
 
-    // FunctionExtern @ sokol_gfx.h:2298 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2298
     [DllImport(LibraryName, EntryPoint = "sg_apply_scissor_rect", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_apply_scissor_rect(int x, int y, int width, int height, CBool origin_top_left);
 
-    // FunctionExtern @ sokol_gfx.h:2299 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2299
     [DllImport(LibraryName, EntryPoint = "sg_apply_scissor_rectf", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_apply_scissor_rectf(float x, float y, float width, float height, CBool origin_top_left);
 
-    // FunctionExtern @ sokol_gfx.h:2300 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2300
     [DllImport(LibraryName, EntryPoint = "sg_apply_pipeline", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_apply_pipeline(sg_pipeline pip);
 
-    // FunctionExtern @ sokol_gfx.h:2301 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2301
     [DllImport(LibraryName, EntryPoint = "sg_apply_bindings", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_apply_bindings(sg_bindings* bindings);
 
-    // FunctionExtern @ sokol_gfx.h:2302 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2302
     [DllImport(LibraryName, EntryPoint = "sg_apply_uniforms", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_apply_uniforms(sg_shader_stage stage, int ub_index, sg_range* data);
 
-    // FunctionExtern @ sokol_gfx.h:2303 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2303
     [DllImport(LibraryName, EntryPoint = "sg_draw", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_draw(int base_element, int num_elements, int num_instances);
 
-    // FunctionExtern @ sokol_gfx.h:2304 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2304
     [DllImport(LibraryName, EntryPoint = "sg_end_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_end_pass();
 
-    // FunctionExtern @ sokol_gfx.h:2305 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2305
     [DllImport(LibraryName, EntryPoint = "sg_commit", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_commit();
 
-    // FunctionExtern @ sokol_gfx.h:2308 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2308
     [DllImport(LibraryName, EntryPoint = "sg_query_desc", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_desc sg_query_desc();
 
-    // FunctionExtern @ sokol_gfx.h:2309 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2309
     [DllImport(LibraryName, EntryPoint = "sg_query_backend", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_backend sg_query_backend();
 
-    // FunctionExtern @ sokol_gfx.h:2310 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2310
     [DllImport(LibraryName, EntryPoint = "sg_query_features", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_features sg_query_features();
 
-    // FunctionExtern @ sokol_gfx.h:2311 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2311
     [DllImport(LibraryName, EntryPoint = "sg_query_limits", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_limits sg_query_limits();
 
-    // FunctionExtern @ sokol_gfx.h:2312 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2312
     [DllImport(LibraryName, EntryPoint = "sg_query_pixelformat", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_pixelformat_info sg_query_pixelformat(sg_pixel_format fmt);
 
-    // FunctionExtern @ sokol_gfx.h:2314 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2314
     [DllImport(LibraryName, EntryPoint = "sg_query_buffer_state", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_resource_state sg_query_buffer_state(sg_buffer buf);
 
-    // FunctionExtern @ sokol_gfx.h:2315 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2315
     [DllImport(LibraryName, EntryPoint = "sg_query_image_state", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_resource_state sg_query_image_state(sg_image img);
 
-    // FunctionExtern @ sokol_gfx.h:2316 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2316
     [DllImport(LibraryName, EntryPoint = "sg_query_shader_state", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_resource_state sg_query_shader_state(sg_shader shd);
 
-    // FunctionExtern @ sokol_gfx.h:2317 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2317
     [DllImport(LibraryName, EntryPoint = "sg_query_pipeline_state", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_resource_state sg_query_pipeline_state(sg_pipeline pip);
 
-    // FunctionExtern @ sokol_gfx.h:2318 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2318
     [DllImport(LibraryName, EntryPoint = "sg_query_pass_state", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_resource_state sg_query_pass_state(sg_pass pass);
 
-    // FunctionExtern @ sokol_gfx.h:2320 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2320
     [DllImport(LibraryName, EntryPoint = "sg_query_buffer_info", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_buffer_info sg_query_buffer_info(sg_buffer buf);
 
-    // FunctionExtern @ sokol_gfx.h:2321 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2321
     [DllImport(LibraryName, EntryPoint = "sg_query_image_info", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_image_info sg_query_image_info(sg_image img);
 
-    // FunctionExtern @ sokol_gfx.h:2322 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2322
     [DllImport(LibraryName, EntryPoint = "sg_query_shader_info", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_shader_info sg_query_shader_info(sg_shader shd);
 
-    // FunctionExtern @ sokol_gfx.h:2323 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2323
     [DllImport(LibraryName, EntryPoint = "sg_query_pipeline_info", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_pipeline_info sg_query_pipeline_info(sg_pipeline pip);
 
-    // FunctionExtern @ sokol_gfx.h:2324 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2324
     [DllImport(LibraryName, EntryPoint = "sg_query_pass_info", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_pass_info sg_query_pass_info(sg_pass pass);
 
-    // FunctionExtern @ sokol_gfx.h:2326 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2326
     [DllImport(LibraryName, EntryPoint = "sg_query_buffer_defaults", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_buffer_desc sg_query_buffer_defaults(sg_buffer_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2327 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2327
     [DllImport(LibraryName, EntryPoint = "sg_query_image_defaults", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_image_desc sg_query_image_defaults(sg_image_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2328 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2328
     [DllImport(LibraryName, EntryPoint = "sg_query_shader_defaults", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_shader_desc sg_query_shader_defaults(sg_shader_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2329 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2329
     [DllImport(LibraryName, EntryPoint = "sg_query_pipeline_defaults", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_pipeline_desc sg_query_pipeline_defaults(sg_pipeline_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2330 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2330
     [DllImport(LibraryName, EntryPoint = "sg_query_pass_defaults", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_pass_desc sg_query_pass_defaults(sg_pass_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2333 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2333
     [DllImport(LibraryName, EntryPoint = "sg_alloc_buffer", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_buffer sg_alloc_buffer();
 
-    // FunctionExtern @ sokol_gfx.h:2334 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2334
     [DllImport(LibraryName, EntryPoint = "sg_alloc_image", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_image sg_alloc_image();
 
-    // FunctionExtern @ sokol_gfx.h:2335 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2335
     [DllImport(LibraryName, EntryPoint = "sg_alloc_shader", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_shader sg_alloc_shader();
 
-    // FunctionExtern @ sokol_gfx.h:2336 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2336
     [DllImport(LibraryName, EntryPoint = "sg_alloc_pipeline", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_pipeline sg_alloc_pipeline();
 
-    // FunctionExtern @ sokol_gfx.h:2337 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2337
     [DllImport(LibraryName, EntryPoint = "sg_alloc_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_pass sg_alloc_pass();
 
-    // FunctionExtern @ sokol_gfx.h:2338 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2338
     [DllImport(LibraryName, EntryPoint = "sg_dealloc_buffer", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_dealloc_buffer(sg_buffer buf_id);
 
-    // FunctionExtern @ sokol_gfx.h:2339 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2339
     [DllImport(LibraryName, EntryPoint = "sg_dealloc_image", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_dealloc_image(sg_image img_id);
 
-    // FunctionExtern @ sokol_gfx.h:2340 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2340
     [DllImport(LibraryName, EntryPoint = "sg_dealloc_shader", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_dealloc_shader(sg_shader shd_id);
 
-    // FunctionExtern @ sokol_gfx.h:2341 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2341
     [DllImport(LibraryName, EntryPoint = "sg_dealloc_pipeline", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_dealloc_pipeline(sg_pipeline pip_id);
 
-    // FunctionExtern @ sokol_gfx.h:2342 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2342
     [DllImport(LibraryName, EntryPoint = "sg_dealloc_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_dealloc_pass(sg_pass pass_id);
 
-    // FunctionExtern @ sokol_gfx.h:2343 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2343
     [DllImport(LibraryName, EntryPoint = "sg_init_buffer", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_init_buffer(sg_buffer buf_id, sg_buffer_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2344 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2344
     [DllImport(LibraryName, EntryPoint = "sg_init_image", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_init_image(sg_image img_id, sg_image_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2345 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2345
     [DllImport(LibraryName, EntryPoint = "sg_init_shader", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_init_shader(sg_shader shd_id, sg_shader_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2346 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2346
     [DllImport(LibraryName, EntryPoint = "sg_init_pipeline", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_init_pipeline(sg_pipeline pip_id, sg_pipeline_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2347 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2347
     [DllImport(LibraryName, EntryPoint = "sg_init_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_init_pass(sg_pass pass_id, sg_pass_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2348 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2348
     [DllImport(LibraryName, EntryPoint = "sg_uninit_buffer", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool sg_uninit_buffer(sg_buffer buf_id);
 
-    // FunctionExtern @ sokol_gfx.h:2349 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2349
     [DllImport(LibraryName, EntryPoint = "sg_uninit_image", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool sg_uninit_image(sg_image img_id);
 
-    // FunctionExtern @ sokol_gfx.h:2350 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2350
     [DllImport(LibraryName, EntryPoint = "sg_uninit_shader", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool sg_uninit_shader(sg_shader shd_id);
 
-    // FunctionExtern @ sokol_gfx.h:2351 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2351
     [DllImport(LibraryName, EntryPoint = "sg_uninit_pipeline", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool sg_uninit_pipeline(sg_pipeline pip_id);
 
-    // FunctionExtern @ sokol_gfx.h:2352 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2352
     [DllImport(LibraryName, EntryPoint = "sg_uninit_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool sg_uninit_pass(sg_pass pass_id);
 
-    // FunctionExtern @ sokol_gfx.h:2353 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2353
     [DllImport(LibraryName, EntryPoint = "sg_fail_buffer", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_fail_buffer(sg_buffer buf_id);
 
-    // FunctionExtern @ sokol_gfx.h:2354 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2354
     [DllImport(LibraryName, EntryPoint = "sg_fail_image", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_fail_image(sg_image img_id);
 
-    // FunctionExtern @ sokol_gfx.h:2355 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2355
     [DllImport(LibraryName, EntryPoint = "sg_fail_shader", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_fail_shader(sg_shader shd_id);
 
-    // FunctionExtern @ sokol_gfx.h:2356 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2356
     [DllImport(LibraryName, EntryPoint = "sg_fail_pipeline", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_fail_pipeline(sg_pipeline pip_id);
 
-    // FunctionExtern @ sokol_gfx.h:2357 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2357
     [DllImport(LibraryName, EntryPoint = "sg_fail_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_fail_pass(sg_pass pass_id);
 
-    // FunctionExtern @ sokol_gfx.h:2360 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2360
     [DllImport(LibraryName, EntryPoint = "sg_setup_context", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_context sg_setup_context();
 
-    // FunctionExtern @ sokol_gfx.h:2361 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2361
     [DllImport(LibraryName, EntryPoint = "sg_activate_context", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_activate_context(sg_context ctx_id);
 
-    // FunctionExtern @ sokol_gfx.h:2362 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2362
     [DllImport(LibraryName, EntryPoint = "sg_discard_context", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_discard_context(sg_context ctx_id);
 
-    // FunctionExtern @ sokol_gfx.h:2371 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2371
     [DllImport(LibraryName, EntryPoint = "sg_d3d11_device", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sg_d3d11_device();
 
-    // FunctionExtern @ sokol_gfx.h:2374 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2374
     [DllImport(LibraryName, EntryPoint = "sg_mtl_device", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sg_mtl_device();
 
-    // FunctionExtern @ sokol_gfx.h:2377 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_gfx.h:2377
     [DllImport(LibraryName, EntryPoint = "sg_mtl_render_command_encoder", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sg_mtl_render_command_encoder();
 
-    // FunctionExtern @ sokol_glue.h:97 04/30/2021 02:16:13
+    // FunctionExtern @ sokol_glue.h:97
     [DllImport(LibraryName, EntryPoint = "sapp_sgcontext", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_context_desc sapp_sgcontext();
 
-    // FunctionPointer @ sokol_app.h:1329 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_app.h:1329
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sapp_desc_init_cb
     {
@@ -579,7 +579,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void> Pointer;
     }
 
-    // FunctionPointer @ sokol_app.h:1330 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_app.h:1330
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sapp_desc_frame_cb
     {
@@ -587,7 +587,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void> Pointer;
     }
 
-    // FunctionPointer @ sokol_app.h:1331 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_app.h:1331
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sapp_desc_cleanup_cb
     {
@@ -595,7 +595,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void> Pointer;
     }
 
-    // FunctionPointer @ sokol_app.h:1332 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_app.h:1332
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sapp_desc_event_cb
     {
@@ -603,7 +603,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sapp_event*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_app.h:1333 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_app.h:1333
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sapp_desc_fail_cb
     {
@@ -611,7 +611,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sbyte*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_app.h:1336 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_app.h:1336
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sapp_desc_init_userdata_cb
     {
@@ -619,7 +619,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_app.h:1337 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_app.h:1337
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sapp_desc_frame_userdata_cb
     {
@@ -627,7 +627,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_app.h:1338 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_app.h:1338
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sapp_desc_cleanup_userdata_cb
     {
@@ -635,7 +635,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_app.h:1339 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_app.h:1339
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sapp_desc_event_userdata_cb
     {
@@ -643,7 +643,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sapp_event*, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_app.h:1340 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_app.h:1340
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sapp_desc_fail_userdata_cb
     {
@@ -651,7 +651,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sbyte*, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_app.h:1392 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_app.h:1392
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sapp_html5_fetch_request_callback
     {
@@ -659,7 +659,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sapp_html5_fetch_response*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1977 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1977
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_reset_state_cache
     {
@@ -667,7 +667,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1978 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1978
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_make_buffer
     {
@@ -675,7 +675,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_buffer_desc*, sg_buffer, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1979 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1979
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_make_image
     {
@@ -683,7 +683,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_image_desc*, sg_image, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1980 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1980
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_make_shader
     {
@@ -691,7 +691,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_shader_desc*, sg_shader, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1981 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1981
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_make_pipeline
     {
@@ -699,7 +699,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_pipeline_desc*, sg_pipeline, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1982 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1982
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_make_pass
     {
@@ -707,7 +707,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_pass_desc*, sg_pass, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1983 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1983
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_destroy_buffer
     {
@@ -715,7 +715,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_buffer, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1984 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1984
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_destroy_image
     {
@@ -723,7 +723,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_image, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1985 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1985
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_destroy_shader
     {
@@ -731,7 +731,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_shader, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1986 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1986
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_destroy_pipeline
     {
@@ -739,7 +739,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_pipeline, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1987 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1987
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_destroy_pass
     {
@@ -747,7 +747,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_pass, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1988 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1988
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_update_buffer
     {
@@ -755,7 +755,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_buffer, sg_range*, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1989 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1989
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_update_image
     {
@@ -763,7 +763,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_image, sg_image_data*, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1990 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1990
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_append_buffer
     {
@@ -771,7 +771,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_buffer, sg_range*, int, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1991 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1991
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_begin_default_pass
     {
@@ -779,7 +779,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_pass_action*, int, int, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1992 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1992
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_begin_pass
     {
@@ -787,7 +787,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_pass, sg_pass_action*, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1993 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1993
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_apply_viewport
     {
@@ -795,7 +795,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <int, int, int, int, CBool, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1994 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1994
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_apply_scissor_rect
     {
@@ -803,7 +803,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <int, int, int, int, CBool, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1995 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1995
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_apply_pipeline
     {
@@ -811,7 +811,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_pipeline, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1996 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1996
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_apply_bindings
     {
@@ -819,7 +819,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_bindings*, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1997 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1997
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_apply_uniforms
     {
@@ -827,7 +827,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_shader_stage, int, sg_range*, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1998 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1998
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_draw
     {
@@ -835,7 +835,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <int, int, int, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:1999 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:1999
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_end_pass
     {
@@ -843,7 +843,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2000 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2000
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_commit
     {
@@ -851,7 +851,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2001 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2001
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_alloc_buffer
     {
@@ -859,7 +859,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_buffer, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2002 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2002
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_alloc_image
     {
@@ -867,7 +867,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_image, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2003 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2003
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_alloc_shader
     {
@@ -875,7 +875,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_shader, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2004 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2004
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_alloc_pipeline
     {
@@ -883,7 +883,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_pipeline, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2005 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2005
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_alloc_pass
     {
@@ -891,7 +891,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_pass, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2006 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2006
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_dealloc_buffer
     {
@@ -899,7 +899,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_buffer, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2007 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2007
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_dealloc_image
     {
@@ -907,7 +907,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_image, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2008 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2008
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_dealloc_shader
     {
@@ -915,7 +915,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_shader, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2009 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2009
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_dealloc_pipeline
     {
@@ -923,7 +923,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_pipeline, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2010 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2010
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_dealloc_pass
     {
@@ -931,7 +931,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_pass, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2011 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2011
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_init_buffer
     {
@@ -939,7 +939,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_buffer, sg_buffer_desc*, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2012 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2012
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_init_image
     {
@@ -947,7 +947,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_image, sg_image_desc*, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2013 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2013
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_init_shader
     {
@@ -955,7 +955,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_shader, sg_shader_desc*, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2014 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2014
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_init_pipeline
     {
@@ -963,7 +963,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_pipeline, sg_pipeline_desc*, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2015 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2015
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_init_pass
     {
@@ -971,7 +971,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_pass, sg_pass_desc*, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2016 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2016
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_uninit_buffer
     {
@@ -979,7 +979,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_buffer, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2017 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2017
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_uninit_image
     {
@@ -987,7 +987,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_image, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2018 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2018
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_uninit_shader
     {
@@ -995,7 +995,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_shader, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2019 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2019
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_uninit_pipeline
     {
@@ -1003,7 +1003,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_pipeline, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2020 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2020
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_uninit_pass
     {
@@ -1011,7 +1011,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_pass, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2021 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2021
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_fail_buffer
     {
@@ -1019,7 +1019,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_buffer, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2022 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2022
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_fail_image
     {
@@ -1027,7 +1027,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_image, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2023 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2023
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_fail_shader
     {
@@ -1035,7 +1035,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_shader, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2024 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2024
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_fail_pipeline
     {
@@ -1043,7 +1043,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_pipeline, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2025 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2025
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_fail_pass
     {
@@ -1051,7 +1051,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_pass, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2026 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2026
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_push_debug_group
     {
@@ -1059,7 +1059,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sbyte*, void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2027 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2027
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_pop_debug_group
     {
@@ -1067,7 +1067,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2028 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2028
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_err_buffer_pool_exhausted
     {
@@ -1075,7 +1075,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2029 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2029
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_err_image_pool_exhausted
     {
@@ -1083,7 +1083,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2030 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2030
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_err_shader_pool_exhausted
     {
@@ -1091,7 +1091,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2031 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2031
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_err_pipeline_pool_exhausted
     {
@@ -1099,7 +1099,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2032 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2032
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_err_pass_pool_exhausted
     {
@@ -1107,7 +1107,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2033 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2033
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_err_context_mismatch
     {
@@ -1115,7 +1115,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2034 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2034
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_err_pass_invalid
     {
@@ -1123,7 +1123,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2035 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2035
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_err_draw_invalid
     {
@@ -1131,7 +1131,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2036 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2036
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_trace_hooks_err_bindings_invalid
     {
@@ -1139,7 +1139,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, void> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2214 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2214
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_metal_context_desc_renderpass_descriptor_cb
     {
@@ -1147,7 +1147,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_metal_context_desc_renderpass_descriptor_cb> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2215 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2215
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_metal_context_desc_renderpass_descriptor_userdata_cb
     {
@@ -1155,7 +1155,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, sg_metal_context_desc_renderpass_descriptor_userdata_cb> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2216 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2216
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_metal_context_desc_drawable_cb
     {
@@ -1163,7 +1163,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_metal_context_desc_drawable_cb> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2217 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2217
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_metal_context_desc_drawable_userdata_cb
     {
@@ -1171,7 +1171,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, sg_metal_context_desc_drawable_userdata_cb> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2224 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2224
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_d3d11_context_desc_render_target_view_cb
     {
@@ -1179,7 +1179,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_d3d11_context_desc_render_target_view_cb> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2225 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2225
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_d3d11_context_desc_render_target_view_userdata_cb
     {
@@ -1187,7 +1187,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, sg_d3d11_context_desc_render_target_view_userdata_cb> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2226 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2226
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_d3d11_context_desc_depth_stencil_view_cb
     {
@@ -1195,7 +1195,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_d3d11_context_desc_depth_stencil_view_cb> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2227 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2227
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_d3d11_context_desc_depth_stencil_view_userdata_cb
     {
@@ -1203,7 +1203,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, sg_d3d11_context_desc_depth_stencil_view_userdata_cb> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2233 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2233
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_wgpu_context_desc_render_view_cb
     {
@@ -1211,7 +1211,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_wgpu_context_desc_render_view_cb> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2234 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2234
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_wgpu_context_desc_render_view_userdata_cb
     {
@@ -1219,7 +1219,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, sg_wgpu_context_desc_render_view_userdata_cb> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2235 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2235
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_wgpu_context_desc_resolve_view_cb
     {
@@ -1227,7 +1227,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_wgpu_context_desc_resolve_view_cb> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2236 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2236
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_wgpu_context_desc_resolve_view_userdata_cb
     {
@@ -1235,7 +1235,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, sg_wgpu_context_desc_resolve_view_userdata_cb> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2237 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2237
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_wgpu_context_desc_depth_stencil_view_cb
     {
@@ -1243,7 +1243,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <sg_wgpu_context_desc_depth_stencil_view_cb> Pointer;
     }
 
-    // FunctionPointer @ sokol_gfx.h:2238 04/30/2021 02:16:13
+    // FunctionPointer @ sokol_gfx.h:2238
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct sg_wgpu_context_desc_depth_stencil_view_userdata_cb
     {
@@ -1251,7 +1251,7 @@ public static unsafe partial class sokol
         public delegate *unmanaged <void*, sg_wgpu_context_desc_depth_stencil_view_userdata_cb> Pointer;
     }
 
-    // Record @ sokol_app.h:1206 04/30/2021 02:16:13
+    // Record @ sokol_app.h:1206
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct sapp_touchpoint
     {
@@ -1268,7 +1268,7 @@ public static unsafe partial class sokol
         public CBool changed;
     }
 
-    // Record @ sokol_app.h:1264 04/30/2021 02:16:13
+    // Record @ sokol_app.h:1264
     [StructLayout(LayoutKind.Explicit, Size = 272, Pack = 8)]
     public struct sapp_event
     {
@@ -1340,7 +1340,7 @@ public static unsafe partial class sokol
         public int framebuffer_height;
     }
 
-    // Record @ sokol_app.h:1275 04/30/2021 02:16:13
+    // Record @ sokol_app.h:1275
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct sapp_range
     {
@@ -1351,7 +1351,7 @@ public static unsafe partial class sokol
         public ulong size;
     }
 
-    // Record @ sokol_app.h:1302 04/30/2021 02:16:13
+    // Record @ sokol_app.h:1302
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct sapp_image_desc
     {
@@ -1365,7 +1365,7 @@ public static unsafe partial class sokol
         public sapp_range pixels;
     }
 
-    // Record @ sokol_app.h:1325 04/30/2021 02:16:13
+    // Record @ sokol_app.h:1325
     [StructLayout(LayoutKind.Explicit, Size = 200, Pack = 8)]
     public struct sapp_icon_desc
     {
@@ -1385,7 +1385,7 @@ public static unsafe partial class sokol
         }
     }
 
-    // Record @ sokol_app.h:1369 04/30/2021 02:16:13
+    // Record @ sokol_app.h:1369
     [StructLayout(LayoutKind.Explicit, Size = 368, Pack = 8)]
     public struct sapp_desc
     {
@@ -1498,7 +1498,7 @@ public static unsafe partial class sokol
         public CBool ios_keyboard_resizes_canvas;
     }
 
-    // Record @ sokol_app.h:1388 04/30/2021 02:16:13
+    // Record @ sokol_app.h:1388
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
     public struct sapp_html5_fetch_response
     {
@@ -1524,7 +1524,7 @@ public static unsafe partial class sokol
         public void* user_data;
     }
 
-    // Record @ sokol_app.h:1396 04/30/2021 02:16:13
+    // Record @ sokol_app.h:1396
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
     public struct sapp_html5_fetch_request
     {
@@ -1544,7 +1544,7 @@ public static unsafe partial class sokol
         public void* user_data;
     }
 
-    // Record @ sokol_gfx.h:628 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:628
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct sg_buffer
     {
@@ -1552,7 +1552,7 @@ public static unsafe partial class sokol
         public uint id;
     }
 
-    // Record @ sokol_gfx.h:629 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:629
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct sg_image
     {
@@ -1560,7 +1560,7 @@ public static unsafe partial class sokol
         public uint id;
     }
 
-    // Record @ sokol_gfx.h:630 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:630
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct sg_shader
     {
@@ -1568,7 +1568,7 @@ public static unsafe partial class sokol
         public uint id;
     }
 
-    // Record @ sokol_gfx.h:631 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:631
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct sg_pipeline
     {
@@ -1576,7 +1576,7 @@ public static unsafe partial class sokol
         public uint id;
     }
 
-    // Record @ sokol_gfx.h:632 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:632
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct sg_pass
     {
@@ -1584,7 +1584,7 @@ public static unsafe partial class sokol
         public uint id;
     }
 
-    // Record @ sokol_gfx.h:633 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:633
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct sg_context
     {
@@ -1592,7 +1592,7 @@ public static unsafe partial class sokol
         public uint id;
     }
 
-    // Record @ sokol_gfx.h:645 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:645
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct sg_range
     {
@@ -1603,7 +1603,7 @@ public static unsafe partial class sokol
         public ulong size;
     }
 
-    // Record @ sokol_gfx.h:680 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:680
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct sg_color
     {
@@ -1620,7 +1620,7 @@ public static unsafe partial class sokol
         public float a;
     }
 
-    // Record @ sokol_gfx.h:844 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:844
     [StructLayout(LayoutKind.Explicit, Size = 6, Pack = 1)]
     public struct sg_pixelformat_info
     {
@@ -1643,7 +1643,7 @@ public static unsafe partial class sokol
         public CBool depth;
     }
 
-    // Record @ sokol_gfx.h:863 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:863
     [StructLayout(LayoutKind.Explicit, Size = 9, Pack = 1)]
     public struct sg_features
     {
@@ -1675,7 +1675,7 @@ public static unsafe partial class sokol
         public CBool mrt_independent_write_mask;
     }
 
-    // Record @ sokol_gfx.h:875 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:875
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
     public struct sg_limits
     {
@@ -1698,7 +1698,7 @@ public static unsafe partial class sokol
         public int max_vertex_attrs;
     }
 
-    // Record @ sokol_gfx.h:1459 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1459
     [StructLayout(LayoutKind.Explicit, Size = 20, Pack = 4)]
     public struct sg_color_attachment_action
     {
@@ -1709,7 +1709,7 @@ public static unsafe partial class sokol
         public sg_color value;
     }
 
-    // Record @ sokol_gfx.h:1464 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1464
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct sg_depth_attachment_action
     {
@@ -1720,7 +1720,7 @@ public static unsafe partial class sokol
         public float value;
     }
 
-    // Record @ sokol_gfx.h:1469 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1469
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct sg_stencil_attachment_action
     {
@@ -1731,7 +1731,7 @@ public static unsafe partial class sokol
         public byte value;
     }
 
-    // Record @ sokol_gfx.h:1477 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1477
     [StructLayout(LayoutKind.Explicit, Size = 104, Pack = 4)]
     public struct sg_pass_action
     {
@@ -1761,7 +1761,7 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // Record @ sokol_gfx.h:1511 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1511
     [StructLayout(LayoutKind.Explicit, Size = 176, Pack = 4)]
     public struct sg_bindings
     {
@@ -1820,7 +1820,7 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // Record @ sokol_gfx.h:1582 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1582
     [StructLayout(LayoutKind.Explicit, Size = 96, Pack = 8)]
     public struct sg_buffer_desc
     {
@@ -1868,7 +1868,7 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // Record @ sokol_gfx.h:1593 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1593
     [StructLayout(LayoutKind.Explicit, Size = 1536, Pack = 8)]
     public struct sg_image_data
     {
@@ -1885,7 +1885,7 @@ public static unsafe partial class sokol
         }
     }
 
-    // Record @ sokol_gfx.h:1698 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1698
     [StructLayout(LayoutKind.Explicit, Size = 1688, Pack = 8)]
     public struct sg_image_desc
     {
@@ -1984,7 +1984,7 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // Record @ sokol_gfx.h:1738 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1738
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct sg_shader_attr_desc
     {
@@ -1998,7 +1998,7 @@ public static unsafe partial class sokol
         public int sem_index;
     }
 
-    // Record @ sokol_gfx.h:1744 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1744
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct sg_shader_uniform_desc
     {
@@ -2012,7 +2012,7 @@ public static unsafe partial class sokol
         public int array_count;
     }
 
-    // Record @ sokol_gfx.h:1749 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1749
     [StructLayout(LayoutKind.Explicit, Size = 264, Pack = 8)]
     public struct sg_shader_uniform_block_desc
     {
@@ -2032,7 +2032,7 @@ public static unsafe partial class sokol
         }
     }
 
-    // Record @ sokol_gfx.h:1755 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1755
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct sg_shader_image_desc
     {
@@ -2046,7 +2046,7 @@ public static unsafe partial class sokol
         public sg_sampler_type sampler_type;
     }
 
-    // Record @ sokol_gfx.h:1764 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1764
     [StructLayout(LayoutKind.Explicit, Size = 1288, Pack = 8)]
     public struct sg_shader_stage_desc
     {
@@ -2088,7 +2088,7 @@ public static unsafe partial class sokol
         }
     }
 
-    // Record @ sokol_gfx.h:1773 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1773
     [StructLayout(LayoutKind.Explicit, Size = 2984, Pack = 8)]
     public struct sg_shader_desc
     {
@@ -2121,7 +2121,7 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // Record @ sokol_gfx.h:1851 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1851
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_buffer_layout_desc
     {
@@ -2135,7 +2135,7 @@ public static unsafe partial class sokol
         public int step_rate;
     }
 
-    // Record @ sokol_gfx.h:1860 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1860
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_vertex_attr_desc
     {
@@ -2149,7 +2149,7 @@ public static unsafe partial class sokol
         public sg_vertex_format format;
     }
 
-    // Record @ sokol_gfx.h:1865 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1865
     [StructLayout(LayoutKind.Explicit, Size = 288, Pack = 4)]
     public struct sg_layout_desc
     {
@@ -2179,7 +2179,7 @@ public static unsafe partial class sokol
         }
     }
 
-    // Record @ sokol_gfx.h:1872 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1872
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct sg_stencil_face_state
     {
@@ -2196,7 +2196,7 @@ public static unsafe partial class sokol
         public sg_stencil_op pass_op;
     }
 
-    // Record @ sokol_gfx.h:1881 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1881
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 4)]
     public struct sg_stencil_state
     {
@@ -2219,7 +2219,7 @@ public static unsafe partial class sokol
         public byte @ref;
     }
 
-    // Record @ sokol_gfx.h:1890 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1890
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
     public struct sg_depth_state
     {
@@ -2242,7 +2242,7 @@ public static unsafe partial class sokol
         public float bias_clamp;
     }
 
-    // Record @ sokol_gfx.h:1900 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1900
     [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
     public struct sg_blend_state
     {
@@ -2268,7 +2268,7 @@ public static unsafe partial class sokol
         public sg_blend_op op_alpha;
     }
 
-    // Record @ sokol_gfx.h:1906 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1906
     [StructLayout(LayoutKind.Explicit, Size = 36, Pack = 4)]
     public struct sg_color_state
     {
@@ -2282,7 +2282,7 @@ public static unsafe partial class sokol
         public sg_blend_state blend;
     }
 
-    // Record @ sokol_gfx.h:1925 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1925
     [StructLayout(LayoutKind.Explicit, Size = 568, Pack = 8)]
     public struct sg_pipeline_desc
     {
@@ -2345,7 +2345,7 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // Record @ sokol_gfx.h:1953 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1953
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_pass_attachment_desc
     {
@@ -2359,7 +2359,7 @@ public static unsafe partial class sokol
         public int slice;
     }
 
-    // Record @ sokol_gfx.h:1961 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:1961
     [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8)]
     public struct sg_pass_desc
     {
@@ -2389,7 +2389,7 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // Record @ sokol_gfx.h:2037 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:2037
     [StructLayout(LayoutKind.Explicit, Size = 488, Pack = 8)]
     public struct sg_trace_hooks
     {
@@ -2577,7 +2577,7 @@ public static unsafe partial class sokol
         public sg_trace_hooks_err_bindings_invalid err_bindings_invalid;
     }
 
-    // Record @ sokol_gfx.h:2064 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:2064
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_slot_info
     {
@@ -2591,7 +2591,7 @@ public static unsafe partial class sokol
         public uint ctx_id;
     }
 
-    // Record @ sokol_gfx.h:2074 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:2074
     [StructLayout(LayoutKind.Explicit, Size = 36, Pack = 4)]
     public struct sg_buffer_info
     {
@@ -2617,7 +2617,7 @@ public static unsafe partial class sokol
         public int active_slot;
     }
 
-    // Record @ sokol_gfx.h:2083 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:2083
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 4)]
     public struct sg_image_info
     {
@@ -2640,7 +2640,7 @@ public static unsafe partial class sokol
         public int height;
     }
 
-    // Record @ sokol_gfx.h:2087 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:2087
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_shader_info
     {
@@ -2648,7 +2648,7 @@ public static unsafe partial class sokol
         public sg_slot_info slot;
     }
 
-    // Record @ sokol_gfx.h:2091 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:2091
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_pipeline_info
     {
@@ -2656,7 +2656,7 @@ public static unsafe partial class sokol
         public sg_slot_info slot;
     }
 
-    // Record @ sokol_gfx.h:2095 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:2095
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_pass_info
     {
@@ -2664,7 +2664,7 @@ public static unsafe partial class sokol
         public sg_slot_info slot;
     }
 
-    // Record @ sokol_gfx.h:2210 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:2210
     [StructLayout(LayoutKind.Explicit, Size = 1, Pack = 1)]
     public struct sg_gl_context_desc
     {
@@ -2672,7 +2672,7 @@ public static unsafe partial class sokol
         public CBool force_gles2;
     }
 
-    // Record @ sokol_gfx.h:2219 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:2219
     [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
     public struct sg_metal_context_desc
     {
@@ -2695,7 +2695,7 @@ public static unsafe partial class sokol
         public void* user_data;
     }
 
-    // Record @ sokol_gfx.h:2229 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:2229
     [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
     public struct sg_d3d11_context_desc
     {
@@ -2721,7 +2721,7 @@ public static unsafe partial class sokol
         public void* user_data;
     }
 
-    // Record @ sokol_gfx.h:2240 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:2240
     [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
     public struct sg_wgpu_context_desc
     {
@@ -2750,7 +2750,7 @@ public static unsafe partial class sokol
         public void* user_data;
     }
 
-    // Record @ sokol_gfx.h:2250 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:2250
     [StructLayout(LayoutKind.Explicit, Size = 184, Pack = 8)]
     public struct sg_context_desc
     {
@@ -2776,7 +2776,7 @@ public static unsafe partial class sokol
         public sg_wgpu_context_desc wgpu;
     }
 
-    // Record @ sokol_gfx.h:2265 04/30/2021 02:16:13
+    // Record @ sokol_gfx.h:2265
     [StructLayout(LayoutKind.Explicit, Size = 232, Pack = 8)]
     public struct sg_desc
     {
@@ -2817,554 +2817,554 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // OpaqueDataType @ sokol_app.h:1399 04/30/2021 02:16:13
+    // OpaqueDataType @ sokol_app.h:1399
     [StructLayout(LayoutKind.Sequential)]
     public struct argv
     {
     }
 
-    // Enum @ sokol_app.h:1058 04/30/2021 02:16:13
-    public enum sapp_event_type : uint
+    // Enum @ sokol_app.h:1058
+    public enum sapp_event_type : int
     {
-        SAPP_EVENTTYPE_INVALID = 0U,
-        SAPP_EVENTTYPE_KEY_DOWN = 1U,
-        SAPP_EVENTTYPE_KEY_UP = 2U,
-        SAPP_EVENTTYPE_CHAR = 3U,
-        SAPP_EVENTTYPE_MOUSE_DOWN = 4U,
-        SAPP_EVENTTYPE_MOUSE_UP = 5U,
-        SAPP_EVENTTYPE_MOUSE_SCROLL = 6U,
-        SAPP_EVENTTYPE_MOUSE_MOVE = 7U,
-        SAPP_EVENTTYPE_MOUSE_ENTER = 8U,
-        SAPP_EVENTTYPE_MOUSE_LEAVE = 9U,
-        SAPP_EVENTTYPE_TOUCHES_BEGAN = 10U,
-        SAPP_EVENTTYPE_TOUCHES_MOVED = 11U,
-        SAPP_EVENTTYPE_TOUCHES_ENDED = 12U,
-        SAPP_EVENTTYPE_TOUCHES_CANCELLED = 13U,
-        SAPP_EVENTTYPE_RESIZED = 14U,
-        SAPP_EVENTTYPE_ICONIFIED = 15U,
-        SAPP_EVENTTYPE_RESTORED = 16U,
-        SAPP_EVENTTYPE_SUSPENDED = 17U,
-        SAPP_EVENTTYPE_RESUMED = 18U,
-        SAPP_EVENTTYPE_UPDATE_CURSOR = 19U,
-        SAPP_EVENTTYPE_QUIT_REQUESTED = 20U,
-        SAPP_EVENTTYPE_CLIPBOARD_PASTED = 21U,
-        SAPP_EVENTTYPE_FILES_DROPPED = 22U,
-        _SAPP_EVENTTYPE_NUM = 23U,
-        _SAPP_EVENTTYPE_FORCE_U32 = 2147483647U
+        SAPP_EVENTTYPE_INVALID = 0,
+        SAPP_EVENTTYPE_KEY_DOWN = 1,
+        SAPP_EVENTTYPE_KEY_UP = 2,
+        SAPP_EVENTTYPE_CHAR = 3,
+        SAPP_EVENTTYPE_MOUSE_DOWN = 4,
+        SAPP_EVENTTYPE_MOUSE_UP = 5,
+        SAPP_EVENTTYPE_MOUSE_SCROLL = 6,
+        SAPP_EVENTTYPE_MOUSE_MOVE = 7,
+        SAPP_EVENTTYPE_MOUSE_ENTER = 8,
+        SAPP_EVENTTYPE_MOUSE_LEAVE = 9,
+        SAPP_EVENTTYPE_TOUCHES_BEGAN = 10,
+        SAPP_EVENTTYPE_TOUCHES_MOVED = 11,
+        SAPP_EVENTTYPE_TOUCHES_ENDED = 12,
+        SAPP_EVENTTYPE_TOUCHES_CANCELLED = 13,
+        SAPP_EVENTTYPE_RESIZED = 14,
+        SAPP_EVENTTYPE_ICONIFIED = 15,
+        SAPP_EVENTTYPE_RESTORED = 16,
+        SAPP_EVENTTYPE_SUSPENDED = 17,
+        SAPP_EVENTTYPE_RESUMED = 18,
+        SAPP_EVENTTYPE_UPDATE_CURSOR = 19,
+        SAPP_EVENTTYPE_QUIT_REQUESTED = 20,
+        SAPP_EVENTTYPE_CLIPBOARD_PASTED = 21,
+        SAPP_EVENTTYPE_FILES_DROPPED = 22,
+        _SAPP_EVENTTYPE_NUM = 23,
+        _SAPP_EVENTTYPE_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_app.h:1190 04/30/2021 02:16:13
-    public enum sapp_keycode : uint
+    // Enum @ sokol_app.h:1190
+    public enum sapp_keycode : int
     {
-        SAPP_KEYCODE_INVALID = 0U,
-        SAPP_KEYCODE_SPACE = 32U,
-        SAPP_KEYCODE_APOSTROPHE = 39U,
-        SAPP_KEYCODE_COMMA = 44U,
-        SAPP_KEYCODE_MINUS = 45U,
-        SAPP_KEYCODE_PERIOD = 46U,
-        SAPP_KEYCODE_SLASH = 47U,
-        SAPP_KEYCODE_0 = 48U,
-        SAPP_KEYCODE_1 = 49U,
-        SAPP_KEYCODE_2 = 50U,
-        SAPP_KEYCODE_3 = 51U,
-        SAPP_KEYCODE_4 = 52U,
-        SAPP_KEYCODE_5 = 53U,
-        SAPP_KEYCODE_6 = 54U,
-        SAPP_KEYCODE_7 = 55U,
-        SAPP_KEYCODE_8 = 56U,
-        SAPP_KEYCODE_9 = 57U,
-        SAPP_KEYCODE_SEMICOLON = 59U,
-        SAPP_KEYCODE_EQUAL = 61U,
-        SAPP_KEYCODE_A = 65U,
-        SAPP_KEYCODE_B = 66U,
-        SAPP_KEYCODE_C = 67U,
-        SAPP_KEYCODE_D = 68U,
-        SAPP_KEYCODE_E = 69U,
-        SAPP_KEYCODE_F = 70U,
-        SAPP_KEYCODE_G = 71U,
-        SAPP_KEYCODE_H = 72U,
-        SAPP_KEYCODE_I = 73U,
-        SAPP_KEYCODE_J = 74U,
-        SAPP_KEYCODE_K = 75U,
-        SAPP_KEYCODE_L = 76U,
-        SAPP_KEYCODE_M = 77U,
-        SAPP_KEYCODE_N = 78U,
-        SAPP_KEYCODE_O = 79U,
-        SAPP_KEYCODE_P = 80U,
-        SAPP_KEYCODE_Q = 81U,
-        SAPP_KEYCODE_R = 82U,
-        SAPP_KEYCODE_S = 83U,
-        SAPP_KEYCODE_T = 84U,
-        SAPP_KEYCODE_U = 85U,
-        SAPP_KEYCODE_V = 86U,
-        SAPP_KEYCODE_W = 87U,
-        SAPP_KEYCODE_X = 88U,
-        SAPP_KEYCODE_Y = 89U,
-        SAPP_KEYCODE_Z = 90U,
-        SAPP_KEYCODE_LEFT_BRACKET = 91U,
-        SAPP_KEYCODE_BACKSLASH = 92U,
-        SAPP_KEYCODE_RIGHT_BRACKET = 93U,
-        SAPP_KEYCODE_GRAVE_ACCENT = 96U,
-        SAPP_KEYCODE_WORLD_1 = 161U,
-        SAPP_KEYCODE_WORLD_2 = 162U,
-        SAPP_KEYCODE_ESCAPE = 256U,
-        SAPP_KEYCODE_ENTER = 257U,
-        SAPP_KEYCODE_TAB = 258U,
-        SAPP_KEYCODE_BACKSPACE = 259U,
-        SAPP_KEYCODE_INSERT = 260U,
-        SAPP_KEYCODE_DELETE = 261U,
-        SAPP_KEYCODE_RIGHT = 262U,
-        SAPP_KEYCODE_LEFT = 263U,
-        SAPP_KEYCODE_DOWN = 264U,
-        SAPP_KEYCODE_UP = 265U,
-        SAPP_KEYCODE_PAGE_UP = 266U,
-        SAPP_KEYCODE_PAGE_DOWN = 267U,
-        SAPP_KEYCODE_HOME = 268U,
-        SAPP_KEYCODE_END = 269U,
-        SAPP_KEYCODE_CAPS_LOCK = 280U,
-        SAPP_KEYCODE_SCROLL_LOCK = 281U,
-        SAPP_KEYCODE_NUM_LOCK = 282U,
-        SAPP_KEYCODE_PRINT_SCREEN = 283U,
-        SAPP_KEYCODE_PAUSE = 284U,
-        SAPP_KEYCODE_F1 = 290U,
-        SAPP_KEYCODE_F2 = 291U,
-        SAPP_KEYCODE_F3 = 292U,
-        SAPP_KEYCODE_F4 = 293U,
-        SAPP_KEYCODE_F5 = 294U,
-        SAPP_KEYCODE_F6 = 295U,
-        SAPP_KEYCODE_F7 = 296U,
-        SAPP_KEYCODE_F8 = 297U,
-        SAPP_KEYCODE_F9 = 298U,
-        SAPP_KEYCODE_F10 = 299U,
-        SAPP_KEYCODE_F11 = 300U,
-        SAPP_KEYCODE_F12 = 301U,
-        SAPP_KEYCODE_F13 = 302U,
-        SAPP_KEYCODE_F14 = 303U,
-        SAPP_KEYCODE_F15 = 304U,
-        SAPP_KEYCODE_F16 = 305U,
-        SAPP_KEYCODE_F17 = 306U,
-        SAPP_KEYCODE_F18 = 307U,
-        SAPP_KEYCODE_F19 = 308U,
-        SAPP_KEYCODE_F20 = 309U,
-        SAPP_KEYCODE_F21 = 310U,
-        SAPP_KEYCODE_F22 = 311U,
-        SAPP_KEYCODE_F23 = 312U,
-        SAPP_KEYCODE_F24 = 313U,
-        SAPP_KEYCODE_F25 = 314U,
-        SAPP_KEYCODE_KP_0 = 320U,
-        SAPP_KEYCODE_KP_1 = 321U,
-        SAPP_KEYCODE_KP_2 = 322U,
-        SAPP_KEYCODE_KP_3 = 323U,
-        SAPP_KEYCODE_KP_4 = 324U,
-        SAPP_KEYCODE_KP_5 = 325U,
-        SAPP_KEYCODE_KP_6 = 326U,
-        SAPP_KEYCODE_KP_7 = 327U,
-        SAPP_KEYCODE_KP_8 = 328U,
-        SAPP_KEYCODE_KP_9 = 329U,
-        SAPP_KEYCODE_KP_DECIMAL = 330U,
-        SAPP_KEYCODE_KP_DIVIDE = 331U,
-        SAPP_KEYCODE_KP_MULTIPLY = 332U,
-        SAPP_KEYCODE_KP_SUBTRACT = 333U,
-        SAPP_KEYCODE_KP_ADD = 334U,
-        SAPP_KEYCODE_KP_ENTER = 335U,
-        SAPP_KEYCODE_KP_EQUAL = 336U,
-        SAPP_KEYCODE_LEFT_SHIFT = 340U,
-        SAPP_KEYCODE_LEFT_CONTROL = 341U,
-        SAPP_KEYCODE_LEFT_ALT = 342U,
-        SAPP_KEYCODE_LEFT_SUPER = 343U,
-        SAPP_KEYCODE_RIGHT_SHIFT = 344U,
-        SAPP_KEYCODE_RIGHT_CONTROL = 345U,
-        SAPP_KEYCODE_RIGHT_ALT = 346U,
-        SAPP_KEYCODE_RIGHT_SUPER = 347U,
-        SAPP_KEYCODE_MENU = 348U
+        SAPP_KEYCODE_INVALID = 0,
+        SAPP_KEYCODE_SPACE = 32,
+        SAPP_KEYCODE_APOSTROPHE = 39,
+        SAPP_KEYCODE_COMMA = 44,
+        SAPP_KEYCODE_MINUS = 45,
+        SAPP_KEYCODE_PERIOD = 46,
+        SAPP_KEYCODE_SLASH = 47,
+        SAPP_KEYCODE_0 = 48,
+        SAPP_KEYCODE_1 = 49,
+        SAPP_KEYCODE_2 = 50,
+        SAPP_KEYCODE_3 = 51,
+        SAPP_KEYCODE_4 = 52,
+        SAPP_KEYCODE_5 = 53,
+        SAPP_KEYCODE_6 = 54,
+        SAPP_KEYCODE_7 = 55,
+        SAPP_KEYCODE_8 = 56,
+        SAPP_KEYCODE_9 = 57,
+        SAPP_KEYCODE_SEMICOLON = 59,
+        SAPP_KEYCODE_EQUAL = 61,
+        SAPP_KEYCODE_A = 65,
+        SAPP_KEYCODE_B = 66,
+        SAPP_KEYCODE_C = 67,
+        SAPP_KEYCODE_D = 68,
+        SAPP_KEYCODE_E = 69,
+        SAPP_KEYCODE_F = 70,
+        SAPP_KEYCODE_G = 71,
+        SAPP_KEYCODE_H = 72,
+        SAPP_KEYCODE_I = 73,
+        SAPP_KEYCODE_J = 74,
+        SAPP_KEYCODE_K = 75,
+        SAPP_KEYCODE_L = 76,
+        SAPP_KEYCODE_M = 77,
+        SAPP_KEYCODE_N = 78,
+        SAPP_KEYCODE_O = 79,
+        SAPP_KEYCODE_P = 80,
+        SAPP_KEYCODE_Q = 81,
+        SAPP_KEYCODE_R = 82,
+        SAPP_KEYCODE_S = 83,
+        SAPP_KEYCODE_T = 84,
+        SAPP_KEYCODE_U = 85,
+        SAPP_KEYCODE_V = 86,
+        SAPP_KEYCODE_W = 87,
+        SAPP_KEYCODE_X = 88,
+        SAPP_KEYCODE_Y = 89,
+        SAPP_KEYCODE_Z = 90,
+        SAPP_KEYCODE_LEFT_BRACKET = 91,
+        SAPP_KEYCODE_BACKSLASH = 92,
+        SAPP_KEYCODE_RIGHT_BRACKET = 93,
+        SAPP_KEYCODE_GRAVE_ACCENT = 96,
+        SAPP_KEYCODE_WORLD_1 = 161,
+        SAPP_KEYCODE_WORLD_2 = 162,
+        SAPP_KEYCODE_ESCAPE = 256,
+        SAPP_KEYCODE_ENTER = 257,
+        SAPP_KEYCODE_TAB = 258,
+        SAPP_KEYCODE_BACKSPACE = 259,
+        SAPP_KEYCODE_INSERT = 260,
+        SAPP_KEYCODE_DELETE = 261,
+        SAPP_KEYCODE_RIGHT = 262,
+        SAPP_KEYCODE_LEFT = 263,
+        SAPP_KEYCODE_DOWN = 264,
+        SAPP_KEYCODE_UP = 265,
+        SAPP_KEYCODE_PAGE_UP = 266,
+        SAPP_KEYCODE_PAGE_DOWN = 267,
+        SAPP_KEYCODE_HOME = 268,
+        SAPP_KEYCODE_END = 269,
+        SAPP_KEYCODE_CAPS_LOCK = 280,
+        SAPP_KEYCODE_SCROLL_LOCK = 281,
+        SAPP_KEYCODE_NUM_LOCK = 282,
+        SAPP_KEYCODE_PRINT_SCREEN = 283,
+        SAPP_KEYCODE_PAUSE = 284,
+        SAPP_KEYCODE_F1 = 290,
+        SAPP_KEYCODE_F2 = 291,
+        SAPP_KEYCODE_F3 = 292,
+        SAPP_KEYCODE_F4 = 293,
+        SAPP_KEYCODE_F5 = 294,
+        SAPP_KEYCODE_F6 = 295,
+        SAPP_KEYCODE_F7 = 296,
+        SAPP_KEYCODE_F8 = 297,
+        SAPP_KEYCODE_F9 = 298,
+        SAPP_KEYCODE_F10 = 299,
+        SAPP_KEYCODE_F11 = 300,
+        SAPP_KEYCODE_F12 = 301,
+        SAPP_KEYCODE_F13 = 302,
+        SAPP_KEYCODE_F14 = 303,
+        SAPP_KEYCODE_F15 = 304,
+        SAPP_KEYCODE_F16 = 305,
+        SAPP_KEYCODE_F17 = 306,
+        SAPP_KEYCODE_F18 = 307,
+        SAPP_KEYCODE_F19 = 308,
+        SAPP_KEYCODE_F20 = 309,
+        SAPP_KEYCODE_F21 = 310,
+        SAPP_KEYCODE_F22 = 311,
+        SAPP_KEYCODE_F23 = 312,
+        SAPP_KEYCODE_F24 = 313,
+        SAPP_KEYCODE_F25 = 314,
+        SAPP_KEYCODE_KP_0 = 320,
+        SAPP_KEYCODE_KP_1 = 321,
+        SAPP_KEYCODE_KP_2 = 322,
+        SAPP_KEYCODE_KP_3 = 323,
+        SAPP_KEYCODE_KP_4 = 324,
+        SAPP_KEYCODE_KP_5 = 325,
+        SAPP_KEYCODE_KP_6 = 326,
+        SAPP_KEYCODE_KP_7 = 327,
+        SAPP_KEYCODE_KP_8 = 328,
+        SAPP_KEYCODE_KP_9 = 329,
+        SAPP_KEYCODE_KP_DECIMAL = 330,
+        SAPP_KEYCODE_KP_DIVIDE = 331,
+        SAPP_KEYCODE_KP_MULTIPLY = 332,
+        SAPP_KEYCODE_KP_SUBTRACT = 333,
+        SAPP_KEYCODE_KP_ADD = 334,
+        SAPP_KEYCODE_KP_ENTER = 335,
+        SAPP_KEYCODE_KP_EQUAL = 336,
+        SAPP_KEYCODE_LEFT_SHIFT = 340,
+        SAPP_KEYCODE_LEFT_CONTROL = 341,
+        SAPP_KEYCODE_LEFT_ALT = 342,
+        SAPP_KEYCODE_LEFT_SUPER = 343,
+        SAPP_KEYCODE_RIGHT_SHIFT = 344,
+        SAPP_KEYCODE_RIGHT_CONTROL = 345,
+        SAPP_KEYCODE_RIGHT_ALT = 346,
+        SAPP_KEYCODE_RIGHT_SUPER = 347,
+        SAPP_KEYCODE_MENU = 348
     }
 
-    // Enum @ sokol_app.h:1219 04/30/2021 02:16:13
-    public enum sapp_mousebutton : uint
+    // Enum @ sokol_app.h:1219
+    public enum sapp_mousebutton : int
     {
-        SAPP_MOUSEBUTTON_LEFT = 0U,
-        SAPP_MOUSEBUTTON_RIGHT = 1U,
-        SAPP_MOUSEBUTTON_MIDDLE = 2U,
-        SAPP_MOUSEBUTTON_INVALID = 256U
+        SAPP_MOUSEBUTTON_LEFT = 0,
+        SAPP_MOUSEBUTTON_RIGHT = 1,
+        SAPP_MOUSEBUTTON_MIDDLE = 2,
+        SAPP_MOUSEBUTTON_INVALID = 256
     }
 
-    // Enum @ sokol_app.h:1378 04/30/2021 02:16:13
-    public enum sapp_html5_fetch_error : uint
+    // Enum @ sokol_app.h:1378
+    public enum sapp_html5_fetch_error : int
     {
-        SAPP_HTML5_FETCH_ERROR_NO_ERROR = 0U,
-        SAPP_HTML5_FETCH_ERROR_BUFFER_TOO_SMALL = 1U,
-        SAPP_HTML5_FETCH_ERROR_OTHER = 2U
+        SAPP_HTML5_FETCH_ERROR_NO_ERROR = 0,
+        SAPP_HTML5_FETCH_ERROR_BUFFER_TOO_SMALL = 1,
+        SAPP_HTML5_FETCH_ERROR_OTHER = 2
     }
 
-    // Enum @ sokol_gfx.h:702 04/30/2021 02:16:13
-    public enum sg_backend : uint
+    // Enum @ sokol_gfx.h:702
+    public enum sg_backend : int
     {
-        SG_BACKEND_GLCORE33 = 0U,
-        SG_BACKEND_GLES2 = 1U,
-        SG_BACKEND_GLES3 = 2U,
-        SG_BACKEND_D3D11 = 3U,
-        SG_BACKEND_METAL_IOS = 4U,
-        SG_BACKEND_METAL_MACOS = 5U,
-        SG_BACKEND_METAL_SIMULATOR = 6U,
-        SG_BACKEND_WGPU = 7U,
-        SG_BACKEND_DUMMY = 8U
+        SG_BACKEND_GLCORE33 = 0,
+        SG_BACKEND_GLES2 = 1,
+        SG_BACKEND_GLES3 = 2,
+        SG_BACKEND_D3D11 = 3,
+        SG_BACKEND_METAL_IOS = 4,
+        SG_BACKEND_METAL_MACOS = 5,
+        SG_BACKEND_METAL_SIMULATOR = 6,
+        SG_BACKEND_WGPU = 7,
+        SG_BACKEND_DUMMY = 8
     }
 
-    // Enum @ sokol_gfx.h:828 04/30/2021 02:16:13
-    public enum sg_pixel_format : uint
+    // Enum @ sokol_gfx.h:828
+    public enum sg_pixel_format : int
     {
-        _SG_PIXELFORMAT_DEFAULT = 0U,
-        SG_PIXELFORMAT_NONE = 1U,
-        SG_PIXELFORMAT_R8 = 2U,
-        SG_PIXELFORMAT_R8SN = 3U,
-        SG_PIXELFORMAT_R8UI = 4U,
-        SG_PIXELFORMAT_R8SI = 5U,
-        SG_PIXELFORMAT_R16 = 6U,
-        SG_PIXELFORMAT_R16SN = 7U,
-        SG_PIXELFORMAT_R16UI = 8U,
-        SG_PIXELFORMAT_R16SI = 9U,
-        SG_PIXELFORMAT_R16F = 10U,
-        SG_PIXELFORMAT_RG8 = 11U,
-        SG_PIXELFORMAT_RG8SN = 12U,
-        SG_PIXELFORMAT_RG8UI = 13U,
-        SG_PIXELFORMAT_RG8SI = 14U,
-        SG_PIXELFORMAT_R32UI = 15U,
-        SG_PIXELFORMAT_R32SI = 16U,
-        SG_PIXELFORMAT_R32F = 17U,
-        SG_PIXELFORMAT_RG16 = 18U,
-        SG_PIXELFORMAT_RG16SN = 19U,
-        SG_PIXELFORMAT_RG16UI = 20U,
-        SG_PIXELFORMAT_RG16SI = 21U,
-        SG_PIXELFORMAT_RG16F = 22U,
-        SG_PIXELFORMAT_RGBA8 = 23U,
-        SG_PIXELFORMAT_RGBA8SN = 24U,
-        SG_PIXELFORMAT_RGBA8UI = 25U,
-        SG_PIXELFORMAT_RGBA8SI = 26U,
-        SG_PIXELFORMAT_BGRA8 = 27U,
-        SG_PIXELFORMAT_RGB10A2 = 28U,
-        SG_PIXELFORMAT_RG11B10F = 29U,
-        SG_PIXELFORMAT_RG32UI = 30U,
-        SG_PIXELFORMAT_RG32SI = 31U,
-        SG_PIXELFORMAT_RG32F = 32U,
-        SG_PIXELFORMAT_RGBA16 = 33U,
-        SG_PIXELFORMAT_RGBA16SN = 34U,
-        SG_PIXELFORMAT_RGBA16UI = 35U,
-        SG_PIXELFORMAT_RGBA16SI = 36U,
-        SG_PIXELFORMAT_RGBA16F = 37U,
-        SG_PIXELFORMAT_RGBA32UI = 38U,
-        SG_PIXELFORMAT_RGBA32SI = 39U,
-        SG_PIXELFORMAT_RGBA32F = 40U,
-        SG_PIXELFORMAT_DEPTH = 41U,
-        SG_PIXELFORMAT_DEPTH_STENCIL = 42U,
-        SG_PIXELFORMAT_BC1_RGBA = 43U,
-        SG_PIXELFORMAT_BC2_RGBA = 44U,
-        SG_PIXELFORMAT_BC3_RGBA = 45U,
-        SG_PIXELFORMAT_BC4_R = 46U,
-        SG_PIXELFORMAT_BC4_RSN = 47U,
-        SG_PIXELFORMAT_BC5_RG = 48U,
-        SG_PIXELFORMAT_BC5_RGSN = 49U,
-        SG_PIXELFORMAT_BC6H_RGBF = 50U,
-        SG_PIXELFORMAT_BC6H_RGBUF = 51U,
-        SG_PIXELFORMAT_BC7_RGBA = 52U,
-        SG_PIXELFORMAT_PVRTC_RGB_2BPP = 53U,
-        SG_PIXELFORMAT_PVRTC_RGB_4BPP = 54U,
-        SG_PIXELFORMAT_PVRTC_RGBA_2BPP = 55U,
-        SG_PIXELFORMAT_PVRTC_RGBA_4BPP = 56U,
-        SG_PIXELFORMAT_ETC2_RGB8 = 57U,
-        SG_PIXELFORMAT_ETC2_RGB8A1 = 58U,
-        SG_PIXELFORMAT_ETC2_RGBA8 = 59U,
-        SG_PIXELFORMAT_ETC2_RG11 = 60U,
-        SG_PIXELFORMAT_ETC2_RG11SN = 61U,
-        _SG_PIXELFORMAT_NUM = 62U,
-        _SG_PIXELFORMAT_FORCE_U32 = 2147483647U
+        _SG_PIXELFORMAT_DEFAULT = 0,
+        SG_PIXELFORMAT_NONE = 1,
+        SG_PIXELFORMAT_R8 = 2,
+        SG_PIXELFORMAT_R8SN = 3,
+        SG_PIXELFORMAT_R8UI = 4,
+        SG_PIXELFORMAT_R8SI = 5,
+        SG_PIXELFORMAT_R16 = 6,
+        SG_PIXELFORMAT_R16SN = 7,
+        SG_PIXELFORMAT_R16UI = 8,
+        SG_PIXELFORMAT_R16SI = 9,
+        SG_PIXELFORMAT_R16F = 10,
+        SG_PIXELFORMAT_RG8 = 11,
+        SG_PIXELFORMAT_RG8SN = 12,
+        SG_PIXELFORMAT_RG8UI = 13,
+        SG_PIXELFORMAT_RG8SI = 14,
+        SG_PIXELFORMAT_R32UI = 15,
+        SG_PIXELFORMAT_R32SI = 16,
+        SG_PIXELFORMAT_R32F = 17,
+        SG_PIXELFORMAT_RG16 = 18,
+        SG_PIXELFORMAT_RG16SN = 19,
+        SG_PIXELFORMAT_RG16UI = 20,
+        SG_PIXELFORMAT_RG16SI = 21,
+        SG_PIXELFORMAT_RG16F = 22,
+        SG_PIXELFORMAT_RGBA8 = 23,
+        SG_PIXELFORMAT_RGBA8SN = 24,
+        SG_PIXELFORMAT_RGBA8UI = 25,
+        SG_PIXELFORMAT_RGBA8SI = 26,
+        SG_PIXELFORMAT_BGRA8 = 27,
+        SG_PIXELFORMAT_RGB10A2 = 28,
+        SG_PIXELFORMAT_RG11B10F = 29,
+        SG_PIXELFORMAT_RG32UI = 30,
+        SG_PIXELFORMAT_RG32SI = 31,
+        SG_PIXELFORMAT_RG32F = 32,
+        SG_PIXELFORMAT_RGBA16 = 33,
+        SG_PIXELFORMAT_RGBA16SN = 34,
+        SG_PIXELFORMAT_RGBA16UI = 35,
+        SG_PIXELFORMAT_RGBA16SI = 36,
+        SG_PIXELFORMAT_RGBA16F = 37,
+        SG_PIXELFORMAT_RGBA32UI = 38,
+        SG_PIXELFORMAT_RGBA32SI = 39,
+        SG_PIXELFORMAT_RGBA32F = 40,
+        SG_PIXELFORMAT_DEPTH = 41,
+        SG_PIXELFORMAT_DEPTH_STENCIL = 42,
+        SG_PIXELFORMAT_BC1_RGBA = 43,
+        SG_PIXELFORMAT_BC2_RGBA = 44,
+        SG_PIXELFORMAT_BC3_RGBA = 45,
+        SG_PIXELFORMAT_BC4_R = 46,
+        SG_PIXELFORMAT_BC4_RSN = 47,
+        SG_PIXELFORMAT_BC5_RG = 48,
+        SG_PIXELFORMAT_BC5_RGSN = 49,
+        SG_PIXELFORMAT_BC6H_RGBF = 50,
+        SG_PIXELFORMAT_BC6H_RGBUF = 51,
+        SG_PIXELFORMAT_BC7_RGBA = 52,
+        SG_PIXELFORMAT_PVRTC_RGB_2BPP = 53,
+        SG_PIXELFORMAT_PVRTC_RGB_4BPP = 54,
+        SG_PIXELFORMAT_PVRTC_RGBA_2BPP = 55,
+        SG_PIXELFORMAT_PVRTC_RGBA_4BPP = 56,
+        SG_PIXELFORMAT_ETC2_RGB8 = 57,
+        SG_PIXELFORMAT_ETC2_RGB8A1 = 58,
+        SG_PIXELFORMAT_ETC2_RGBA8 = 59,
+        SG_PIXELFORMAT_ETC2_RG11 = 60,
+        SG_PIXELFORMAT_ETC2_RG11SN = 61,
+        _SG_PIXELFORMAT_NUM = 62,
+        _SG_PIXELFORMAT_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:902 04/30/2021 02:16:13
-    public enum sg_resource_state : uint
+    // Enum @ sokol_gfx.h:902
+    public enum sg_resource_state : int
     {
-        SG_RESOURCESTATE_INITIAL = 0U,
-        SG_RESOURCESTATE_ALLOC = 1U,
-        SG_RESOURCESTATE_VALID = 2U,
-        SG_RESOURCESTATE_FAILED = 3U,
-        SG_RESOURCESTATE_INVALID = 4U,
-        _SG_RESOURCESTATE_FORCE_U32 = 2147483647U
+        SG_RESOURCESTATE_INITIAL = 0,
+        SG_RESOURCESTATE_ALLOC = 1,
+        SG_RESOURCESTATE_VALID = 2,
+        SG_RESOURCESTATE_FAILED = 3,
+        SG_RESOURCESTATE_INVALID = 4,
+        _SG_RESOURCESTATE_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:945 04/30/2021 02:16:13
-    public enum sg_usage : uint
+    // Enum @ sokol_gfx.h:945
+    public enum sg_usage : int
     {
-        _SG_USAGE_DEFAULT = 0U,
-        SG_USAGE_IMMUTABLE = 1U,
-        SG_USAGE_DYNAMIC = 2U,
-        SG_USAGE_STREAM = 3U,
-        _SG_USAGE_NUM = 4U,
-        _SG_USAGE_FORCE_U32 = 2147483647U
+        _SG_USAGE_DEFAULT = 0,
+        SG_USAGE_IMMUTABLE = 1,
+        SG_USAGE_DYNAMIC = 2,
+        SG_USAGE_STREAM = 3,
+        _SG_USAGE_NUM = 4,
+        _SG_USAGE_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:961 04/30/2021 02:16:13
-    public enum sg_buffer_type : uint
+    // Enum @ sokol_gfx.h:961
+    public enum sg_buffer_type : int
     {
-        _SG_BUFFERTYPE_DEFAULT = 0U,
-        SG_BUFFERTYPE_VERTEXBUFFER = 1U,
-        SG_BUFFERTYPE_INDEXBUFFER = 2U,
-        _SG_BUFFERTYPE_NUM = 3U,
-        _SG_BUFFERTYPE_FORCE_U32 = 2147483647U
+        _SG_BUFFERTYPE_DEFAULT = 0,
+        SG_BUFFERTYPE_VERTEXBUFFER = 1,
+        SG_BUFFERTYPE_INDEXBUFFER = 2,
+        _SG_BUFFERTYPE_NUM = 3,
+        _SG_BUFFERTYPE_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:980 04/30/2021 02:16:13
-    public enum sg_index_type : uint
+    // Enum @ sokol_gfx.h:980
+    public enum sg_index_type : int
     {
-        _SG_INDEXTYPE_DEFAULT = 0U,
-        SG_INDEXTYPE_NONE = 1U,
-        SG_INDEXTYPE_UINT16 = 2U,
-        SG_INDEXTYPE_UINT32 = 3U,
-        _SG_INDEXTYPE_NUM = 4U,
-        _SG_INDEXTYPE_FORCE_U32 = 2147483647U
+        _SG_INDEXTYPE_DEFAULT = 0,
+        SG_INDEXTYPE_NONE = 1,
+        SG_INDEXTYPE_UINT16 = 2,
+        SG_INDEXTYPE_UINT32 = 3,
+        _SG_INDEXTYPE_NUM = 4,
+        _SG_INDEXTYPE_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:1002 04/30/2021 02:16:13
-    public enum sg_image_type : uint
+    // Enum @ sokol_gfx.h:1002
+    public enum sg_image_type : int
     {
-        _SG_IMAGETYPE_DEFAULT = 0U,
-        SG_IMAGETYPE_2D = 1U,
-        SG_IMAGETYPE_CUBE = 2U,
-        SG_IMAGETYPE_3D = 3U,
-        SG_IMAGETYPE_ARRAY = 4U,
-        _SG_IMAGETYPE_NUM = 5U,
-        _SG_IMAGETYPE_FORCE_U32 = 2147483647U
+        _SG_IMAGETYPE_DEFAULT = 0,
+        SG_IMAGETYPE_2D = 1,
+        SG_IMAGETYPE_CUBE = 2,
+        SG_IMAGETYPE_3D = 3,
+        SG_IMAGETYPE_ARRAY = 4,
+        _SG_IMAGETYPE_NUM = 5,
+        _SG_IMAGETYPE_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:1019 04/30/2021 02:16:13
-    public enum sg_sampler_type : uint
+    // Enum @ sokol_gfx.h:1019
+    public enum sg_sampler_type : int
     {
-        _SG_SAMPLERTYPE_DEFAULT = 0U,
-        SG_SAMPLERTYPE_FLOAT = 1U,
-        SG_SAMPLERTYPE_SINT = 2U,
-        SG_SAMPLERTYPE_UINT = 3U
+        _SG_SAMPLERTYPE_DEFAULT = 0,
+        SG_SAMPLERTYPE_FLOAT = 1,
+        SG_SAMPLERTYPE_SINT = 2,
+        SG_SAMPLERTYPE_UINT = 3
     }
 
-    // Enum @ sokol_gfx.h:1053 04/30/2021 02:16:13
-    public enum sg_shader_stage : uint
+    // Enum @ sokol_gfx.h:1053
+    public enum sg_shader_stage : int
     {
-        SG_SHADERSTAGE_VS = 0U,
-        SG_SHADERSTAGE_FS = 1U,
-        _SG_SHADERSTAGE_FORCE_U32 = 2147483647U
+        SG_SHADERSTAGE_VS = 0,
+        SG_SHADERSTAGE_FS = 1,
+        _SG_SHADERSTAGE_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:1073 04/30/2021 02:16:13
-    public enum sg_primitive_type : uint
+    // Enum @ sokol_gfx.h:1073
+    public enum sg_primitive_type : int
     {
-        _SG_PRIMITIVETYPE_DEFAULT = 0U,
-        SG_PRIMITIVETYPE_POINTS = 1U,
-        SG_PRIMITIVETYPE_LINES = 2U,
-        SG_PRIMITIVETYPE_LINE_STRIP = 3U,
-        SG_PRIMITIVETYPE_TRIANGLES = 4U,
-        SG_PRIMITIVETYPE_TRIANGLE_STRIP = 5U,
-        _SG_PRIMITIVETYPE_NUM = 6U,
-        _SG_PRIMITIVETYPE_FORCE_U32 = 2147483647U
+        _SG_PRIMITIVETYPE_DEFAULT = 0,
+        SG_PRIMITIVETYPE_POINTS = 1,
+        SG_PRIMITIVETYPE_LINES = 2,
+        SG_PRIMITIVETYPE_LINE_STRIP = 3,
+        SG_PRIMITIVETYPE_TRIANGLES = 4,
+        SG_PRIMITIVETYPE_TRIANGLE_STRIP = 5,
+        _SG_PRIMITIVETYPE_NUM = 6,
+        _SG_PRIMITIVETYPE_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:1094 04/30/2021 02:16:13
-    public enum sg_filter : uint
+    // Enum @ sokol_gfx.h:1094
+    public enum sg_filter : int
     {
-        _SG_FILTER_DEFAULT = 0U,
-        SG_FILTER_NEAREST = 1U,
-        SG_FILTER_LINEAR = 2U,
-        SG_FILTER_NEAREST_MIPMAP_NEAREST = 3U,
-        SG_FILTER_NEAREST_MIPMAP_LINEAR = 4U,
-        SG_FILTER_LINEAR_MIPMAP_NEAREST = 5U,
-        SG_FILTER_LINEAR_MIPMAP_LINEAR = 6U,
-        _SG_FILTER_NUM = 7U,
-        _SG_FILTER_FORCE_U32 = 2147483647U
+        _SG_FILTER_DEFAULT = 0,
+        SG_FILTER_NEAREST = 1,
+        SG_FILTER_LINEAR = 2,
+        SG_FILTER_NEAREST_MIPMAP_NEAREST = 3,
+        SG_FILTER_NEAREST_MIPMAP_LINEAR = 4,
+        SG_FILTER_LINEAR_MIPMAP_NEAREST = 5,
+        SG_FILTER_LINEAR_MIPMAP_LINEAR = 6,
+        _SG_FILTER_NUM = 7,
+        _SG_FILTER_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:1132 04/30/2021 02:16:13
-    public enum sg_wrap : uint
+    // Enum @ sokol_gfx.h:1132
+    public enum sg_wrap : int
     {
-        _SG_WRAP_DEFAULT = 0U,
-        SG_WRAP_REPEAT = 1U,
-        SG_WRAP_CLAMP_TO_EDGE = 2U,
-        SG_WRAP_CLAMP_TO_BORDER = 3U,
-        SG_WRAP_MIRRORED_REPEAT = 4U,
-        _SG_WRAP_NUM = 5U,
-        _SG_WRAP_FORCE_U32 = 2147483647U
+        _SG_WRAP_DEFAULT = 0,
+        SG_WRAP_REPEAT = 1,
+        SG_WRAP_CLAMP_TO_EDGE = 2,
+        SG_WRAP_CLAMP_TO_BORDER = 3,
+        SG_WRAP_MIRRORED_REPEAT = 4,
+        _SG_WRAP_NUM = 5,
+        _SG_WRAP_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:1149 04/30/2021 02:16:13
-    public enum sg_border_color : uint
+    // Enum @ sokol_gfx.h:1149
+    public enum sg_border_color : int
     {
-        _SG_BORDERCOLOR_DEFAULT = 0U,
-        SG_BORDERCOLOR_TRANSPARENT_BLACK = 1U,
-        SG_BORDERCOLOR_OPAQUE_BLACK = 2U,
-        SG_BORDERCOLOR_OPAQUE_WHITE = 3U,
-        _SG_BORDERCOLOR_NUM = 4U,
-        _SG_BORDERCOLOR_FORCE_U32 = 2147483647U
+        _SG_BORDERCOLOR_DEFAULT = 0,
+        SG_BORDERCOLOR_TRANSPARENT_BLACK = 1,
+        SG_BORDERCOLOR_OPAQUE_BLACK = 2,
+        SG_BORDERCOLOR_OPAQUE_WHITE = 3,
+        _SG_BORDERCOLOR_NUM = 4,
+        _SG_BORDERCOLOR_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:1176 04/30/2021 02:16:13
-    public enum sg_vertex_format : uint
+    // Enum @ sokol_gfx.h:1176
+    public enum sg_vertex_format : int
     {
-        SG_VERTEXFORMAT_INVALID = 0U,
-        SG_VERTEXFORMAT_FLOAT = 1U,
-        SG_VERTEXFORMAT_FLOAT2 = 2U,
-        SG_VERTEXFORMAT_FLOAT3 = 3U,
-        SG_VERTEXFORMAT_FLOAT4 = 4U,
-        SG_VERTEXFORMAT_BYTE4 = 5U,
-        SG_VERTEXFORMAT_BYTE4N = 6U,
-        SG_VERTEXFORMAT_UBYTE4 = 7U,
-        SG_VERTEXFORMAT_UBYTE4N = 8U,
-        SG_VERTEXFORMAT_SHORT2 = 9U,
-        SG_VERTEXFORMAT_SHORT2N = 10U,
-        SG_VERTEXFORMAT_USHORT2N = 11U,
-        SG_VERTEXFORMAT_SHORT4 = 12U,
-        SG_VERTEXFORMAT_SHORT4N = 13U,
-        SG_VERTEXFORMAT_USHORT4N = 14U,
-        SG_VERTEXFORMAT_UINT10_N2 = 15U,
-        _SG_VERTEXFORMAT_NUM = 16U,
-        _SG_VERTEXFORMAT_FORCE_U32 = 2147483647U
+        SG_VERTEXFORMAT_INVALID = 0,
+        SG_VERTEXFORMAT_FLOAT = 1,
+        SG_VERTEXFORMAT_FLOAT2 = 2,
+        SG_VERTEXFORMAT_FLOAT3 = 3,
+        SG_VERTEXFORMAT_FLOAT4 = 4,
+        SG_VERTEXFORMAT_BYTE4 = 5,
+        SG_VERTEXFORMAT_BYTE4N = 6,
+        SG_VERTEXFORMAT_UBYTE4 = 7,
+        SG_VERTEXFORMAT_UBYTE4N = 8,
+        SG_VERTEXFORMAT_SHORT2 = 9,
+        SG_VERTEXFORMAT_SHORT2N = 10,
+        SG_VERTEXFORMAT_USHORT2N = 11,
+        SG_VERTEXFORMAT_SHORT4 = 12,
+        SG_VERTEXFORMAT_SHORT4N = 13,
+        SG_VERTEXFORMAT_USHORT4N = 14,
+        SG_VERTEXFORMAT_UINT10_N2 = 15,
+        _SG_VERTEXFORMAT_NUM = 16,
+        _SG_VERTEXFORMAT_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:1195 04/30/2021 02:16:13
-    public enum sg_vertex_step : uint
+    // Enum @ sokol_gfx.h:1195
+    public enum sg_vertex_step : int
     {
-        _SG_VERTEXSTEP_DEFAULT = 0U,
-        SG_VERTEXSTEP_PER_VERTEX = 1U,
-        SG_VERTEXSTEP_PER_INSTANCE = 2U,
-        _SG_VERTEXSTEP_NUM = 3U,
-        _SG_VERTEXSTEP_FORCE_U32 = 2147483647U
+        _SG_VERTEXSTEP_DEFAULT = 0,
+        SG_VERTEXSTEP_PER_VERTEX = 1,
+        SG_VERTEXSTEP_PER_INSTANCE = 2,
+        _SG_VERTEXSTEP_NUM = 3,
+        _SG_VERTEXSTEP_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:1213 04/30/2021 02:16:13
-    public enum sg_uniform_type : uint
+    // Enum @ sokol_gfx.h:1213
+    public enum sg_uniform_type : int
     {
-        SG_UNIFORMTYPE_INVALID = 0U,
-        SG_UNIFORMTYPE_FLOAT = 1U,
-        SG_UNIFORMTYPE_FLOAT2 = 2U,
-        SG_UNIFORMTYPE_FLOAT3 = 3U,
-        SG_UNIFORMTYPE_FLOAT4 = 4U,
-        SG_UNIFORMTYPE_MAT4 = 5U,
-        _SG_UNIFORMTYPE_NUM = 6U,
-        _SG_UNIFORMTYPE_FORCE_U32 = 2147483647U
+        SG_UNIFORMTYPE_INVALID = 0,
+        SG_UNIFORMTYPE_FLOAT = 1,
+        SG_UNIFORMTYPE_FLOAT2 = 2,
+        SG_UNIFORMTYPE_FLOAT3 = 3,
+        SG_UNIFORMTYPE_FLOAT4 = 4,
+        SG_UNIFORMTYPE_MAT4 = 5,
+        _SG_UNIFORMTYPE_NUM = 6,
+        _SG_UNIFORMTYPE_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:1231 04/30/2021 02:16:13
-    public enum sg_cull_mode : uint
+    // Enum @ sokol_gfx.h:1231
+    public enum sg_cull_mode : int
     {
-        _SG_CULLMODE_DEFAULT = 0U,
-        SG_CULLMODE_NONE = 1U,
-        SG_CULLMODE_FRONT = 2U,
-        SG_CULLMODE_BACK = 3U,
-        _SG_CULLMODE_NUM = 4U,
-        _SG_CULLMODE_FORCE_U32 = 2147483647U
+        _SG_CULLMODE_DEFAULT = 0,
+        SG_CULLMODE_NONE = 1,
+        SG_CULLMODE_FRONT = 2,
+        SG_CULLMODE_BACK = 3,
+        _SG_CULLMODE_NUM = 4,
+        _SG_CULLMODE_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:1248 04/30/2021 02:16:13
-    public enum sg_face_winding : uint
+    // Enum @ sokol_gfx.h:1248
+    public enum sg_face_winding : int
     {
-        _SG_FACEWINDING_DEFAULT = 0U,
-        SG_FACEWINDING_CCW = 1U,
-        SG_FACEWINDING_CW = 2U,
-        _SG_FACEWINDING_NUM = 3U,
-        _SG_FACEWINDING_FORCE_U32 = 2147483647U
+        _SG_FACEWINDING_DEFAULT = 0,
+        SG_FACEWINDING_CCW = 1,
+        SG_FACEWINDING_CW = 2,
+        _SG_FACEWINDING_NUM = 3,
+        _SG_FACEWINDING_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:1278 04/30/2021 02:16:13
-    public enum sg_compare_func : uint
+    // Enum @ sokol_gfx.h:1278
+    public enum sg_compare_func : int
     {
-        _SG_COMPAREFUNC_DEFAULT = 0U,
-        SG_COMPAREFUNC_NEVER = 1U,
-        SG_COMPAREFUNC_LESS = 2U,
-        SG_COMPAREFUNC_EQUAL = 3U,
-        SG_COMPAREFUNC_LESS_EQUAL = 4U,
-        SG_COMPAREFUNC_GREATER = 5U,
-        SG_COMPAREFUNC_NOT_EQUAL = 6U,
-        SG_COMPAREFUNC_GREATER_EQUAL = 7U,
-        SG_COMPAREFUNC_ALWAYS = 8U,
-        _SG_COMPAREFUNC_NUM = 9U,
-        _SG_COMPAREFUNC_FORCE_U32 = 2147483647U
+        _SG_COMPAREFUNC_DEFAULT = 0,
+        SG_COMPAREFUNC_NEVER = 1,
+        SG_COMPAREFUNC_LESS = 2,
+        SG_COMPAREFUNC_EQUAL = 3,
+        SG_COMPAREFUNC_LESS_EQUAL = 4,
+        SG_COMPAREFUNC_GREATER = 5,
+        SG_COMPAREFUNC_NOT_EQUAL = 6,
+        SG_COMPAREFUNC_GREATER_EQUAL = 7,
+        SG_COMPAREFUNC_ALWAYS = 8,
+        _SG_COMPAREFUNC_NUM = 9,
+        _SG_COMPAREFUNC_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:1312 04/30/2021 02:16:13
-    public enum sg_stencil_op : uint
+    // Enum @ sokol_gfx.h:1312
+    public enum sg_stencil_op : int
     {
-        _SG_STENCILOP_DEFAULT = 0U,
-        SG_STENCILOP_KEEP = 1U,
-        SG_STENCILOP_ZERO = 2U,
-        SG_STENCILOP_REPLACE = 3U,
-        SG_STENCILOP_INCR_CLAMP = 4U,
-        SG_STENCILOP_DECR_CLAMP = 5U,
-        SG_STENCILOP_INVERT = 6U,
-        SG_STENCILOP_INCR_WRAP = 7U,
-        SG_STENCILOP_DECR_WRAP = 8U,
-        _SG_STENCILOP_NUM = 9U,
-        _SG_STENCILOP_FORCE_U32 = 2147483647U
+        _SG_STENCILOP_DEFAULT = 0,
+        SG_STENCILOP_KEEP = 1,
+        SG_STENCILOP_ZERO = 2,
+        SG_STENCILOP_REPLACE = 3,
+        SG_STENCILOP_INCR_CLAMP = 4,
+        SG_STENCILOP_DECR_CLAMP = 5,
+        SG_STENCILOP_INVERT = 6,
+        SG_STENCILOP_INCR_WRAP = 7,
+        SG_STENCILOP_DECR_WRAP = 8,
+        _SG_STENCILOP_NUM = 9,
+        _SG_STENCILOP_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:1350 04/30/2021 02:16:13
-    public enum sg_blend_factor : uint
+    // Enum @ sokol_gfx.h:1350
+    public enum sg_blend_factor : int
     {
-        _SG_BLENDFACTOR_DEFAULT = 0U,
-        SG_BLENDFACTOR_ZERO = 1U,
-        SG_BLENDFACTOR_ONE = 2U,
-        SG_BLENDFACTOR_SRC_COLOR = 3U,
-        SG_BLENDFACTOR_ONE_MINUS_SRC_COLOR = 4U,
-        SG_BLENDFACTOR_SRC_ALPHA = 5U,
-        SG_BLENDFACTOR_ONE_MINUS_SRC_ALPHA = 6U,
-        SG_BLENDFACTOR_DST_COLOR = 7U,
-        SG_BLENDFACTOR_ONE_MINUS_DST_COLOR = 8U,
-        SG_BLENDFACTOR_DST_ALPHA = 9U,
-        SG_BLENDFACTOR_ONE_MINUS_DST_ALPHA = 10U,
-        SG_BLENDFACTOR_SRC_ALPHA_SATURATED = 11U,
-        SG_BLENDFACTOR_BLEND_COLOR = 12U,
-        SG_BLENDFACTOR_ONE_MINUS_BLEND_COLOR = 13U,
-        SG_BLENDFACTOR_BLEND_ALPHA = 14U,
-        SG_BLENDFACTOR_ONE_MINUS_BLEND_ALPHA = 15U,
-        _SG_BLENDFACTOR_NUM = 16U,
-        _SG_BLENDFACTOR_FORCE_U32 = 2147483647U
+        _SG_BLENDFACTOR_DEFAULT = 0,
+        SG_BLENDFACTOR_ZERO = 1,
+        SG_BLENDFACTOR_ONE = 2,
+        SG_BLENDFACTOR_SRC_COLOR = 3,
+        SG_BLENDFACTOR_ONE_MINUS_SRC_COLOR = 4,
+        SG_BLENDFACTOR_SRC_ALPHA = 5,
+        SG_BLENDFACTOR_ONE_MINUS_SRC_ALPHA = 6,
+        SG_BLENDFACTOR_DST_COLOR = 7,
+        SG_BLENDFACTOR_ONE_MINUS_DST_COLOR = 8,
+        SG_BLENDFACTOR_DST_ALPHA = 9,
+        SG_BLENDFACTOR_ONE_MINUS_DST_ALPHA = 10,
+        SG_BLENDFACTOR_SRC_ALPHA_SATURATED = 11,
+        SG_BLENDFACTOR_BLEND_COLOR = 12,
+        SG_BLENDFACTOR_ONE_MINUS_BLEND_COLOR = 13,
+        SG_BLENDFACTOR_BLEND_ALPHA = 14,
+        SG_BLENDFACTOR_ONE_MINUS_BLEND_ALPHA = 15,
+        _SG_BLENDFACTOR_NUM = 16,
+        _SG_BLENDFACTOR_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:1374 04/30/2021 02:16:13
-    public enum sg_blend_op : uint
+    // Enum @ sokol_gfx.h:1374
+    public enum sg_blend_op : int
     {
-        _SG_BLENDOP_DEFAULT = 0U,
-        SG_BLENDOP_ADD = 1U,
-        SG_BLENDOP_SUBTRACT = 2U,
-        SG_BLENDOP_REVERSE_SUBTRACT = 3U,
-        _SG_BLENDOP_NUM = 4U,
-        _SG_BLENDOP_FORCE_U32 = 2147483647U
+        _SG_BLENDOP_DEFAULT = 0,
+        SG_BLENDOP_ADD = 1,
+        SG_BLENDOP_SUBTRACT = 2,
+        SG_BLENDOP_REVERSE_SUBTRACT = 3,
+        _SG_BLENDOP_NUM = 4,
+        _SG_BLENDOP_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:1408 04/30/2021 02:16:13
-    public enum sg_color_mask : uint
+    // Enum @ sokol_gfx.h:1408
+    public enum sg_color_mask : int
     {
-        _SG_COLORMASK_DEFAULT = 0U,
-        SG_COLORMASK_NONE = 16U,
-        SG_COLORMASK_R = 1U,
-        SG_COLORMASK_G = 2U,
-        SG_COLORMASK_RG = 3U,
-        SG_COLORMASK_B = 4U,
-        SG_COLORMASK_RB = 5U,
-        SG_COLORMASK_GB = 6U,
-        SG_COLORMASK_RGB = 7U,
-        SG_COLORMASK_A = 8U,
-        SG_COLORMASK_RA = 9U,
-        SG_COLORMASK_GA = 10U,
-        SG_COLORMASK_RGA = 11U,
-        SG_COLORMASK_BA = 12U,
-        SG_COLORMASK_RBA = 13U,
-        SG_COLORMASK_GBA = 14U,
-        SG_COLORMASK_RGBA = 15U,
-        _SG_COLORMASK_FORCE_U32 = 2147483647U
+        _SG_COLORMASK_DEFAULT = 0,
+        SG_COLORMASK_NONE = 16,
+        SG_COLORMASK_R = 1,
+        SG_COLORMASK_G = 2,
+        SG_COLORMASK_RG = 3,
+        SG_COLORMASK_B = 4,
+        SG_COLORMASK_RB = 5,
+        SG_COLORMASK_GB = 6,
+        SG_COLORMASK_RGB = 7,
+        SG_COLORMASK_A = 8,
+        SG_COLORMASK_RA = 9,
+        SG_COLORMASK_GA = 10,
+        SG_COLORMASK_RGA = 11,
+        SG_COLORMASK_BA = 12,
+        SG_COLORMASK_RBA = 13,
+        SG_COLORMASK_GBA = 14,
+        SG_COLORMASK_RGBA = 15,
+        _SG_COLORMASK_FORCE_U32 = 2147483647
     }
 
-    // Enum @ sokol_gfx.h:1435 04/30/2021 02:16:13
-    public enum sg_action : uint
+    // Enum @ sokol_gfx.h:1435
+    public enum sg_action : int
     {
-        _SG_ACTION_DEFAULT = 0U,
-        SG_ACTION_CLEAR = 1U,
-        SG_ACTION_LOAD = 2U,
-        SG_ACTION_DONTCARE = 3U,
-        _SG_ACTION_NUM = 4U,
-        _SG_ACTION_FORCE_U32 = 2147483647U
+        _SG_ACTION_DEFAULT = 0,
+        SG_ACTION_CLEAR = 1,
+        SG_ACTION_LOAD = 2,
+        SG_ACTION_DONTCARE = 3,
+        _SG_ACTION_NUM = 4,
+        _SG_ACTION_FORCE_U32 = 2147483647
     }
 }

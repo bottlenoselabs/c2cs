@@ -3,7 +3,6 @@
 
 using System;
 using System.IO;
-using System.Reflection;
 using C2CS.Tools;
 
 internal static class Program
@@ -17,18 +16,9 @@ internal static class Program
 
     private static void BuildLibrary(string rootDirectory)
     {
-        var cMakeDirectoryPath = Path.Combine(rootDirectory, "src/c/examples/helloworld");
-        if (!Directory.Exists(cMakeDirectoryPath))
-        {
-            throw new DirectoryNotFoundException(cMakeDirectoryPath);
-        }
-
-        var targetLibraryDirectoryPath = $"{rootDirectory}/src/dotnet/examples/helloworld/helloworld-cs";
-
-        "cmake -S . -B cmake-build-release -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release".Bash(cMakeDirectoryPath);
-        "make -C ./cmake-build-release".Bash(cMakeDirectoryPath);
-        $"cp -a {cMakeDirectoryPath}/lib/* {targetLibraryDirectoryPath}".Bash();
-        "rm -rf ./cmake-build-release".Bash(cMakeDirectoryPath);
+        var cMakeDirectoryPath = Path.GetFullPath(Path.Combine(rootDirectory, "src/c/examples/helloworld"));
+        var targetLibraryDirectoryPath = Path.GetFullPath($"{rootDirectory}/src/dotnet/examples/helloworld/helloworld-cs");
+        Shell.CMake(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
     }
 
     private static void GenerateLibraryBindings(string rootDirectory)
@@ -41,6 +31,7 @@ internal static class Program
 -o
 {rootDirectory}/src/dotnet/examples/helloworld/helloworld-cs/helloworld.cs
 -u
+-f
 -t
 -l
 helloworld

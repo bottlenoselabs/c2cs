@@ -1,5 +1,4 @@
-﻿using lithiumtoast.NativeTools;
-using static flecs;
+﻿using static flecs;
 
 internal static class Program
 {
@@ -10,7 +9,7 @@ internal static class Program
     //         public double X;
     //         public double Y;
     //         
-    //         public static readonly sbyte* Id = Native.MapCString("Position");
+    //         public static readonly sbyte* Id = NativeTools.MapCString("Position");
     //         public const ulong Size = 8;
     //         public const ulong Alignment = 8;
     //     }
@@ -18,14 +17,14 @@ internal static class Program
     //
     // public unsafe static class Entities
     // {
-    //     public static sbyte* MyEntity = Native.MapCString("MyEntity");
+    //     public static sbyte* MyEntity = NativeTools.MapCString("MyEntity");
     // }
 
     private static unsafe int Main(string[] args)
     {
         /* Create the world, pass arguments for overriding the number of threads,fps
          * or for starting the admin dashboard (see flecs.h for details). */
-        var argv = Native.MapCStringArray(args);
+        var argv = NativeTools.MapCStringArray(args);
         var world = ecs_init_w_args(args.Length, (sbyte**) argv);
 
         // /* Register a component with the world. */
@@ -48,7 +47,7 @@ internal static class Program
         // var p = (Components.PositionComponent*) ecs_get_w_id(world, component, id);
         //
         // var nameCString = ecs_get_name(world, entity);
-        // var nameString = Native.MapString(nameCString);
+        // var nameString = NativeTools.MapString(nameCString);
         //
         // Console.WriteLine($"Position of {nameString} is {p->X}, {p->Y}\n");
 

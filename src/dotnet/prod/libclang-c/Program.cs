@@ -22,6 +22,7 @@ internal static class Program
 -o
 {rootDirectory}/src/dotnet/prod/libclang-cs/libclang.cs
 -u
+-f
 -l
 libclang
 -c

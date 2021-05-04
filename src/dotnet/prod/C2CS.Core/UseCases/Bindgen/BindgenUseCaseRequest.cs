@@ -4,11 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
 using C2CS.Tools;
 
 namespace C2CS.Bindgen
@@ -29,6 +25,7 @@ namespace C2CS.Bindgen
             string className,
             string libraryName,
             bool printAbstractSyntaxTree,
+            bool autoFindSdk,
             ImmutableArray<string> searchDirectories,
             ImmutableArray<string> defineMacros,
             ImmutableArray<string> additionalArgs,
@@ -39,7 +36,7 @@ namespace C2CS.Bindgen
             ClassName = ProcessClassName(className);
             LibraryName = ProcessLibraryName(libraryName);
             ClangArgs = ProcessClangArgs(
-                inputFilePath, searchDirectories, defineMacros, additionalArgs, additionalInputPaths);
+                inputFilePath, autoFindSdk, searchDirectories, defineMacros, additionalArgs, additionalInputPaths);
             PrintAbstractSyntaxTree = printAbstractSyntaxTree;
         }
 
@@ -110,6 +107,7 @@ namespace C2CS.Bindgen
 
         private static ImmutableArray<string> ProcessClangArgs(
             string inputFilePath,
+            bool autoFindSdk,
             ImmutableArray<string> includeDirectories,
             ImmutableArray<string> defines,
             ImmutableArray<string> clangArgs,
@@ -118,7 +116,12 @@ namespace C2CS.Bindgen
             var commandLineArgs = new List<string>();
 
             AddArgsDefault(commandLineArgs);
-            AddArgsSystemIncludes(commandLineArgs);
+
+            if (autoFindSdk)
+            {
+                AddSdkSystemIncludes(commandLineArgs);
+            }
+
             AddArgsUserIncludes(commandLineArgs, includeDirectories);
             AddArgsUserDefines(commandLineArgs, defines);
             AddArgsUserClangArgs(commandLineArgs, clangArgs);
@@ -134,11 +137,19 @@ namespace C2CS.Bindgen
                 args.Add("-fno-blocks");
             }
 
-            static void AddArgsSystemIncludes(ICollection<string> commandLineArgs)
+            static void AddSdkSystemIncludes(ICollection<string> commandLineArgs)
             {
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                var runtime = NativeTools.RuntimePlatform;
+                switch (runtime)
                 {
-                    AddSystemIncludesForMac(commandLineArgs);
+                    case NativeRuntimePlatform.Windows:
+                        AddSystemIncludesWindows(commandLineArgs);
+                        break;
+                    case NativeRuntimePlatform.macOS:
+                        AddSystemIncludesMac(commandLineArgs);
+                        break;
+                    default:
+                        throw new NotImplementedException();
                 }
             }
 
@@ -156,7 +167,42 @@ namespace C2CS.Bindgen
                 }
             }
 
-            static void AddSystemIncludesForMac(ICollection<string> commandLineArgs)
+            static void AddSystemIncludesWindows(ICollection<string> commandLineArgs)
+            {
+                var sdkDirectoryPath =
+                    Environment.ExpandEnvironmentVariables(@"%ProgramFiles(x86)%\Windows Kits\10\Include");
+                if (string.IsNullOrEmpty(sdkDirectoryPath))
+                {
+                    throw new UseCaseException(
+                        "Please install the software development kit (SDK) for Windows 10: https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk/");
+                }
+
+                var sdkHighestVersionDirectoryPath = GetHighestVersionDirectoryPathFrom(sdkDirectoryPath);
+                var systemIncludeCommandLineArgSdk = $@"-isystem{sdkHighestVersionDirectoryPath}\ucrt";
+                commandLineArgs.Add(systemIncludeCommandLineArgSdk);
+
+                var vsWhereFilePath = Environment.ExpandEnvironmentVariables(@"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe");
+                if (!File.Exists(vsWhereFilePath))
+                {
+                    throw new UseCaseException(
+                        "Please install Visual Studio 2017 or later (community, professional, or enterprise).");
+                }
+
+                var visualStudioInstallationDirectoryPath = "-latest -property installationPath".ShCaptureStandardOutput(fileName: vsWhereFilePath);
+                var mscvVersionsDirectoryPath = Path.Combine(visualStudioInstallationDirectoryPath, @"VC\Tools\MSVC");
+                var mscvHighestVersionDirectoryPath = GetHighestVersionDirectoryPathFrom(mscvVersionsDirectoryPath);
+                var mscvIncludeDirectoryPath = Path.Combine(mscvHighestVersionDirectoryPath, "include");
+                if (!Directory.Exists(mscvIncludeDirectoryPath))
+                {
+                    throw new UseCaseException(
+                        "Please install the Microsoft Visual C++ (MSCV) build tool through Visual Studio installer (modification of Visual Studio installed components).");
+                }
+
+                var systemIncludeCommandLineArg = $"-isystem{mscvIncludeDirectoryPath}";
+                commandLineArgs.Add(systemIncludeCommandLineArg);
+            }
+
+            static void AddSystemIncludesMac(ICollection<string> commandLineArgs)
             {
                 if (!Directory.Exists("/Library/Developer/CommandLineTools"))
                 {
@@ -165,33 +211,15 @@ namespace C2CS.Bindgen
                 }
 
                 const string commandLineToolsClangDirectoryPath = "/Library/Developer/CommandLineTools/usr/lib/clang";
-                var clangVersionDirectoryPaths = Directory.EnumerateDirectories(commandLineToolsClangDirectoryPath);
-
-                var clangNewestVersionDirectoryPath = string.Empty;
-                Version clangNewestVersion = Version.Parse("0.0.0");
-
-                foreach (var directoryPath in clangVersionDirectoryPaths)
-                {
-                    var versionStringIndex = directoryPath.LastIndexOf(Path.DirectorySeparatorChar);
-                    var versionString = directoryPath[(versionStringIndex + 1)..];
-                    var version = Version.Parse(versionString);
-                    if (version < clangNewestVersion)
-                    {
-                        continue;
-                    }
-
-                    clangNewestVersion = version;
-                    clangNewestVersionDirectoryPath = directoryPath;
-                }
-
-                var systemIncludeCommandLineArgClang = $"-isystem{clangNewestVersionDirectoryPath}/include";
+                var clangHighestVersionDirectoryPath = GetHighestVersionDirectoryPathFrom(commandLineToolsClangDirectoryPath);
+                var systemIncludeCommandLineArgClang = $"-isystem{clangHighestVersionDirectoryPath}/include";
                 commandLineArgs.Add(systemIncludeCommandLineArgClang);
 
-                var softwareDevelopmentKitDirectoryPath = "xcrun --sdk macosx --show-sdk-path".Bash();
+                var softwareDevelopmentKitDirectoryPath = "xcrun --sdk macosx --show-sdk-path".ShCaptureStandardOutput();
                 if (!Directory.Exists(softwareDevelopmentKitDirectoryPath))
                 {
                     throw new UseCaseException(
-                        "Please install XCode for macOS.");
+                        "Please install XCode for macOS to get the software development kit (SDK) to get access to common C/C++/ObjC headers.");
                 }
 
                 var systemIncludeCommandLineArgSdk = $"-isystem{softwareDevelopmentKitDirectoryPath}/usr/include";
@@ -265,6 +293,29 @@ namespace C2CS.Bindgen
                     }
                 }
             }
+        }
+
+        private static string GetHighestVersionDirectoryPathFrom(string sdkDirectoryPath)
+        {
+            var versionDirectoryPaths = Directory.EnumerateDirectories(sdkDirectoryPath);
+            var result = string.Empty;
+            Version highestVersion = Version.Parse("0.0.0");
+
+            foreach (var directoryPath in versionDirectoryPaths)
+            {
+                var versionStringIndex = directoryPath.LastIndexOf(Path.DirectorySeparatorChar);
+                var versionString = directoryPath[(versionStringIndex + 1)..];
+                var version = Version.Parse(versionString);
+                if (version < highestVersion)
+                {
+                    continue;
+                }
+
+                highestVersion = version;
+                result = directoryPath;
+            }
+
+            return result;
         }
     }
 }

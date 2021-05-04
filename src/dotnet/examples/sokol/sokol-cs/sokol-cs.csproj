@@ -7,18 +7,16 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
-    <!-- NativeTools -->
-    <PropertyGroup>
-        <NativeToolsSourcePath>$(RootPath)ext/native-tools-cs/src</NativeToolsSourcePath>
-    </PropertyGroup>
+    <!-- Project references -->
     <ItemGroup>
-        <Compile Include="$(NativeToolsSourcePath)/**/*">
-            <Link>native-tools-cs/%(Filename)%(Extension)</Link>
-        </Compile>
+      <ProjectReference Include="..\..\..\prod\C2CS.NativeTools\C2CS.NativeTools.csproj" />
     </ItemGroup>
-    
+
     <!-- Copy native libraries -->
     <ItemGroup>
+        <None Update="**/*.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
         <None Update="**/*.dylib">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>

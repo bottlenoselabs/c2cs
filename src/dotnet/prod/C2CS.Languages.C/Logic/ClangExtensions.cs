@@ -4,7 +4,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
-using lithiumtoast.NativeTools;
+using C2CS.Tools;
 using static libclang;
 
 namespace C2CS.Languages.C
@@ -126,7 +126,7 @@ namespace C2CS.Languages.C
 
 			var fileName = clang_getFileName(file);
 			var cString = clang_getCString(fileName);
-			var fileNamePath = Native.MapString(cString);
+			var fileNamePath = NativeTools.MapString(cString);
 
 			var result = (fileNamePath, (int)lineNumber, (int)lineColumn);
 			return result;
@@ -142,7 +142,7 @@ namespace C2CS.Languages.C
 				return string.Empty;
 			}
 
-			var result = Native.MapString(cString);
+			var result = NativeTools.MapString(cString);
 			return result;
 		}
 
@@ -156,7 +156,7 @@ namespace C2CS.Languages.C
 				return string.Empty;
 			}
 
-			var result = Native.MapString(cString);
+			var result = NativeTools.MapString(cString);
 			return result;
 		}
 	}

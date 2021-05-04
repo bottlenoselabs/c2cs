@@ -80,6 +80,14 @@ namespace C2CS
 			};
 			rootCommand.AddOption(printSyntaxTreeOption);
 
+			var findSdksOption = new Option<bool>(
+				new[] {"--autoFindSDK", "-f"},
+				"Automatically find the latest C/C++ software development kit for the current operating system and include the common C/C++ headers of the SDK as system headers.")
+			{
+				IsRequired = false
+			};
+			rootCommand.AddOption(findSdksOption);
+
 			var includeDirectoriesOption = new Option<IEnumerable<string>?>(
 				new[] {"--includeDirectories", "-s"},
 				"Search directories for `#include` usages to use when parsing C code.")
@@ -116,6 +124,7 @@ namespace C2CS
 			string className,
 			string libraryName,
 			bool printAbstractSyntaxTree,
+			bool autoFindSdk,
 			IEnumerable<string>? includeDirectories = null,
 			IEnumerable<string>? defines = null,
 			IEnumerable<string>? clangArgs = null,
@@ -130,6 +139,7 @@ namespace C2CS
 					className,
 					libraryName,
 					printAbstractSyntaxTree,
+					autoFindSdk,
 					includeDirectories?.ToImmutableArray() ?? ImmutableArray<string>.Empty,
 					defines?.ToImmutableArray() ?? ImmutableArray<string>.Empty,
 					clangArgs?.ToImmutableArray() ?? ImmutableArray<string>.Empty,
@@ -157,6 +167,7 @@ namespace C2CS
 			string className,
 			string libraryName,
 			bool printAbstractSyntaxTree,
+			bool findSdks,
 			IEnumerable<string>? includeDirectories = null,
 			IEnumerable<string>? defines = null,
 			IEnumerable<string>? clangArgs = null,

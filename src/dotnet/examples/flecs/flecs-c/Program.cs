@@ -10,25 +10,19 @@ internal static class Program
     private static void Main()
     {
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
-        BuildLibrary(rootDirectory);
         GenerateLibraryBindings(rootDirectory);
+        BuildLibrary(rootDirectory);
     }
 
     private static void BuildLibrary(string rootDirectory)
     {
         var cMakeDirectoryPath = Path.Combine(rootDirectory, "src/c/examples/flecs");
-        if (!Directory.Exists(cMakeDirectoryPath))
-        {
-            throw new DirectoryNotFoundException(cMakeDirectoryPath);
-        }
-
         var targetLibraryDirectoryPath = $"{rootDirectory}/src/dotnet/examples/flecs/flecs-cs/";
-
-        "cmake -S . -B cmake-build-release -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release".Bash(cMakeDirectoryPath);
-        "make -C ./cmake-build-release".Bash(cMakeDirectoryPath);
-        $"mkdir -p {targetLibraryDirectoryPath}".Bash();
-        $"cp -a {cMakeDirectoryPath}/lib/* {targetLibraryDirectoryPath}".Bash();
-        "rm -rf ./cmake-build-release".Bash(cMakeDirectoryPath);
+        var isSuccess = Shell.CMake(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
+        if (!isSuccess)
+        {
+            Environment.Exit(1);
+        }
     }
 
     private static void GenerateLibraryBindings(string rootDirectory)

@@ -1,6 +1,5 @@
 # Minimum required version of CMake to be installed in order to build this project.
-# It is recommended you take the latest version and then don't change it until you are ready for the possibility of things breaking.
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.16)
 
 # The project name followed by the language. It is recommended that the folder for this file have the same name as the project.
 project(helloworld C)
@@ -12,7 +11,7 @@ set(CMAKE_C_STANDARD 11)
 # Change the output directories for artifacts.
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
 # Add directories so header files can be found
 include_directories(helloworld PRIVATE include)

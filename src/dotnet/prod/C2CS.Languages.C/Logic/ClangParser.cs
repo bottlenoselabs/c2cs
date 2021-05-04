@@ -3,7 +3,7 @@
 
 using System;
 using System.Collections.Immutable;
-using lithiumtoast.NativeTools;
+using C2CS.Tools;
 using static libclang;
 
 namespace C2CS.Languages.C
@@ -36,7 +36,7 @@ namespace C2CS.Languages.C
                 Console.Error.Write("\t");
                 var clangString = clang_formatDiagnostic(diagnostic, defaultDisplayOptions);
                 var cString = clang_getCString(clangString);
-                var diagnosticString = Native.MapString(cString);
+                var diagnosticString = NativeTools.MapString(cString);
                 Console.Error.WriteLine(diagnosticString);
 
                 var severity = clang_getDiagnosticSeverity(diagnostic);
@@ -68,8 +68,8 @@ namespace C2CS.Languages.C
                                  0x0;
 
             var index = clang_createIndex(0, 0);
-            var cSourceFilePath = Native.MapCString(filePath);
-            var cCommandLineArgs = Native.MapCStringArray(commandLineArgs.AsSpan());
+            var cSourceFilePath = NativeTools.MapCString(filePath);
+            var cCommandLineArgs = NativeTools.MapCStringArray(commandLineArgs.AsSpan());
 
             CXErrorCode errorCode;
             fixed (CXTranslationUnit* translationUnitPointer = &translationUnit)
