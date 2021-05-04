@@ -3,41 +3,41 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using C2CS.Tools;
 
-namespace C2CS.Tools
+/// <summary>
+///     The collection of utilities for interoperability with native libraries in C#.
+/// </summary>
+[SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
+[SuppressMessage("ReSharper", "CheckNamespace", Justification = "Wants to be builtin.")]
+[SuppressMessage("ReSharper", "CA1050:DeclareTypesInNamespaces", Justification = "Wants to be builtin.")]
+public static partial class NativeTools
 {
     /// <summary>
-    ///     The collection of utilities for interoperability with native libraries in C#.
+    ///     Gets the current <see cref="NativeRuntimePlatform" />.
     /// </summary>
-    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
-    public static partial class NativeTools
+    public static NativeRuntimePlatform RuntimePlatform { get; } = GetRuntimePlatform();
+
+    private static NativeRuntimePlatform GetRuntimePlatform()
     {
-        /// <summary>
-        ///     Gets the current <see cref="NativeRuntimePlatform" />.
-        /// </summary>
-        public static NativeRuntimePlatform RuntimePlatform { get; } = GetRuntimePlatform();
-
-        private static NativeRuntimePlatform GetRuntimePlatform()
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                return NativeRuntimePlatform.Windows;
-            }
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                return NativeRuntimePlatform.macOS;
-            }
-
-            // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                return NativeRuntimePlatform.Linux;
-            }
-
-            // TODO: iOS, Android, etc
-
-            return NativeRuntimePlatform.Unknown;
+            return NativeRuntimePlatform.Windows;
         }
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            return NativeRuntimePlatform.macOS;
+        }
+
+        // ReSharper disable once ConvertIfStatementToReturnStatement
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            return NativeRuntimePlatform.Linux;
+        }
+
+        // TODO: iOS, Android, etc
+
+        return NativeRuntimePlatform.Unknown;
     }
 }
