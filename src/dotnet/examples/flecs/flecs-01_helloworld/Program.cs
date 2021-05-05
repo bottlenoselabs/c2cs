@@ -30,16 +30,20 @@ internal static class Program
         var world = ecs_init_w_args(args.Length, (sbyte**) argv);
 
         /* Register a component with the world. */
-        var componentDescriptor = default(ecs_component_desc_t);
-        componentDescriptor.entity.name = Components.PositionComponent.Name;
-        componentDescriptor.size = Components.PositionComponent.Size;
-        componentDescriptor.alignment = Components.PositionComponent.Alignment;
+        var componentDescriptor = new ecs_component_desc_t
+        {
+            entity = {name = Components.PositionComponent.Name},
+            size = Components.PositionComponent.Size,
+            alignment = Components.PositionComponent.Alignment
+        };
         var component = ecs_component_init(world, &componentDescriptor);
         var componentId = *(ecs_id_t*)(&component); // TODO: Remove this nasty type cast
 
         /* Create a new empty entity  */
-        var entityDescriptor = default(ecs_entity_desc_t);
-        entityDescriptor.name = Entities.MyEntity;
+        var entityDescriptor = new ecs_entity_desc_t
+        {
+            name = Entities.MyEntity
+        };
         entityDescriptor.add(0) = componentId; // TODO: Switch to index property to get [] instead of () notation
         var entity = ecs_entity_init(world, &entityDescriptor);
 
