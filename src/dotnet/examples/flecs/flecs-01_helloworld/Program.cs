@@ -32,8 +32,8 @@ internal static class Program
         /* Register a component with the world. */
         var componentDescriptor = default(ecs_component_desc_t);
         componentDescriptor.entity.name = Components.PositionComponent.Name;
-        componentDescriptor.size = (ulong) Marshal.SizeOf<Components.PositionComponent>();
-        componentDescriptor.alignment = 8;
+        componentDescriptor.size = Components.PositionComponent.Size;
+        componentDescriptor.alignment = Components.PositionComponent.Alignment;
         var component = ecs_component_init(world, &componentDescriptor);
         var componentId = *(ecs_id_t*)(&component); // TODO: Remove this nasty type cast
 
