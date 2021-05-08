@@ -95,11 +95,8 @@ public static unsafe partial class flecs
         _EcsPreStore = NativeTools.LibraryGetExport(_libraryHandle, "EcsPreStore");
         _EcsOnStore = NativeTools.LibraryGetExport(_libraryHandle, "EcsOnStore");
         _EcsPostFrame = NativeTools.LibraryGetExport(_libraryHandle, "EcsPostFrame");
-        _FLECS__TEcsTrigger = NativeTools.LibraryGetExport(_libraryHandle, "FLECS__TEcsTrigger");
         _FLECS__TEcsSystem = NativeTools.LibraryGetExport(_libraryHandle, "FLECS__TEcsSystem");
         _FLECS__TEcsTickSource = NativeTools.LibraryGetExport(_libraryHandle, "FLECS__TEcsTickSource");
-        _FLECS__TEcsIterAction = NativeTools.LibraryGetExport(_libraryHandle, "FLECS__TEcsIterAction");
-        _FLECS__TEcsContext = NativeTools.LibraryGetExport(_libraryHandle, "FLECS__TEcsContext");
         _FLECS__TEcsTimer = NativeTools.LibraryGetExport(_libraryHandle, "FLECS__TEcsTimer");
         _FLECS__TEcsRateFilter = NativeTools.LibraryGetExport(_libraryHandle, "FLECS__TEcsRateFilter");
     }
@@ -157,11 +154,8 @@ public static unsafe partial class flecs
         _EcsPreStore = IntPtr.Zero;
         _EcsOnStore = IntPtr.Zero;
         _EcsPostFrame = IntPtr.Zero;
-        _FLECS__TEcsTrigger = IntPtr.Zero;
         _FLECS__TEcsSystem = IntPtr.Zero;
         _FLECS__TEcsTickSource = IntPtr.Zero;
-        _FLECS__TEcsIterAction = IntPtr.Zero;
-        _FLECS__TEcsContext = IntPtr.Zero;
         _FLECS__TEcsTimer = IntPtr.Zero;
         _FLECS__TEcsRateFilter = IntPtr.Zero;
     }
@@ -171,30 +165,22 @@ public static unsafe partial class flecs
     public static extern ecs_entity_t ecs_new_module(ecs_world_t* world, ecs_entity_t e, sbyte* name, ulong size, ulong alignment);
 
     // FunctionExtern @ api_support.h:60
-    [DllImport(LibraryName, EntryPoint = "ecs_new_system", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_new_system(ecs_world_t* world, ecs_entity_t e, sbyte* name, ecs_entity_t phase, sbyte* signature, ecs_iter_action_t action);
-
-    // FunctionExtern @ api_support.h:69
-    [DllImport(LibraryName, EntryPoint = "ecs_new_pipeline", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_new_pipeline(ecs_world_t* world, ecs_entity_t e, sbyte* name, sbyte* expr);
-
-    // FunctionExtern @ api_support.h:76
     [DllImport(LibraryName, EntryPoint = "ecs_module_path_from_c", CallingConvention = CallingConvention.Cdecl)]
     public static extern sbyte* ecs_module_path_from_c(sbyte* c_name);
 
-    // FunctionExtern @ api_support.h:80
+    // FunctionExtern @ api_support.h:64
     [DllImport(LibraryName, EntryPoint = "ecs_component_has_actions", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_component_has_actions(ecs_world_t* world, ecs_entity_t component);
 
-    // FunctionExtern @ api_support.h:88
+    // FunctionExtern @ api_support.h:72
     [DllImport(LibraryName, EntryPoint = "ecs_identifier_is_0", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_identifier_is_0(sbyte* id);
 
-    // FunctionExtern @ api_support.h:91
+    // FunctionExtern @ api_support.h:75
     [DllImport(LibraryName, EntryPoint = "ecs_identifier_is_var", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_identifier_is_var(sbyte* id);
 
-    // FunctionExtern @ api_support.h:96
+    // FunctionExtern @ api_support.h:80
     [DllImport(LibraryName, EntryPoint = "ecs_query_get_filter", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_filter_t* ecs_query_get_filter(ecs_query_t* query);
 
@@ -242,199 +228,203 @@ public static unsafe partial class flecs
     [DllImport(LibraryName, EntryPoint = "ecs_dbg_table", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_dbg_table(ecs_world_t* world, ecs_table_t* table, ecs_dbg_table_t* dbg_out);
 
-    // FunctionExtern @ deprecated.h:205
+    // FunctionExtern @ deprecated.h:208
     [DllImport(LibraryName, EntryPoint = "ecs_dim_type", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_dim_type(ecs_world_t* world, ecs_type_t type, int entity_count);
 
-    // FunctionExtern @ deprecated.h:212
+    // FunctionExtern @ deprecated.h:215
     [DllImport(LibraryName, EntryPoint = "ecs_new_w_type", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_new_w_type(ecs_world_t* world, ecs_type_t type);
 
-    // FunctionExtern @ deprecated.h:218
+    // FunctionExtern @ deprecated.h:221
     [DllImport(LibraryName, EntryPoint = "ecs_bulk_new_w_type", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t* ecs_bulk_new_w_type(ecs_world_t* world, ecs_type_t type, int count);
 
-    // FunctionExtern @ deprecated.h:225
+    // FunctionExtern @ deprecated.h:228
     [DllImport(LibraryName, EntryPoint = "ecs_add_type", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_add_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t type);
 
-    // FunctionExtern @ deprecated.h:232
+    // FunctionExtern @ deprecated.h:235
     [DllImport(LibraryName, EntryPoint = "ecs_remove_type", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_remove_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t type);
 
-    // FunctionExtern @ deprecated.h:239
+    // FunctionExtern @ deprecated.h:242
     [DllImport(LibraryName, EntryPoint = "ecs_add_remove_type", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_add_remove_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t to_add, ecs_type_t to_remove);
 
-    // FunctionExtern @ deprecated.h:247
+    // FunctionExtern @ deprecated.h:250
     [DllImport(LibraryName, EntryPoint = "ecs_has_type", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_has_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t type);
 
-    // FunctionExtern @ deprecated.h:254
+    // FunctionExtern @ deprecated.h:257
     [DllImport(LibraryName, EntryPoint = "ecs_count_type", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_count_type(ecs_world_t* world, ecs_type_t type);
 
-    // FunctionExtern @ deprecated.h:260
+    // FunctionExtern @ deprecated.h:263
     [DllImport(LibraryName, EntryPoint = "ecs_count_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_count_entity(ecs_world_t* world, ecs_id_t entity);
 
-    // FunctionExtern @ deprecated.h:266
+    // FunctionExtern @ deprecated.h:269
     [DllImport(LibraryName, EntryPoint = "ecs_count_w_filter", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_count_w_filter(ecs_world_t* world, ecs_filter_t* filter);
 
-    // FunctionExtern @ deprecated.h:272
+    // FunctionExtern @ deprecated.h:275
     [DllImport(LibraryName, EntryPoint = "ecs_set_component_actions_w_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_set_component_actions_w_entity(ecs_world_t* world, ecs_id_t id, EcsComponentLifecycle* actions);
 
-    // FunctionExtern @ deprecated.h:279
+    // FunctionExtern @ deprecated.h:282
     [DllImport(LibraryName, EntryPoint = "ecs_new_w_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_new_w_entity(ecs_world_t* world, ecs_id_t id);
 
-    // FunctionExtern @ deprecated.h:285
+    // FunctionExtern @ deprecated.h:288
     [DllImport(LibraryName, EntryPoint = "ecs_bulk_new_w_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t* ecs_bulk_new_w_entity(ecs_world_t* world, ecs_id_t id, int count);
 
-    // FunctionExtern @ deprecated.h:292
+    // FunctionExtern @ deprecated.h:295
     [DllImport(LibraryName, EntryPoint = "ecs_enable_component_w_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_enable_component_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, CBool enable);
 
-    // FunctionExtern @ deprecated.h:300
+    // FunctionExtern @ deprecated.h:303
     [DllImport(LibraryName, EntryPoint = "ecs_is_component_enabled_w_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_is_component_enabled_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
-    // FunctionExtern @ deprecated.h:307
+    // FunctionExtern @ deprecated.h:310
+    [DllImport(LibraryName, EntryPoint = "ecs_get_w_id", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void* ecs_get_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
+
+    // FunctionExtern @ deprecated.h:317
     [DllImport(LibraryName, EntryPoint = "ecs_get_w_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* ecs_get_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
-    // FunctionExtern @ deprecated.h:314
+    // FunctionExtern @ deprecated.h:324
     [DllImport(LibraryName, EntryPoint = "ecs_get_ref_w_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* ecs_get_ref_w_entity(ecs_world_t* world, ecs_ref_t* @ref, ecs_entity_t entity, ecs_id_t id);
 
-    // FunctionExtern @ deprecated.h:322
+    // FunctionExtern @ deprecated.h:332
     [DllImport(LibraryName, EntryPoint = "ecs_get_mut_w_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* ecs_get_mut_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, bool* is_added);
 
-    // FunctionExtern @ deprecated.h:330
+    // FunctionExtern @ deprecated.h:340
     [DllImport(LibraryName, EntryPoint = "ecs_modified_w_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_modified_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
-    // FunctionExtern @ deprecated.h:337
+    // FunctionExtern @ deprecated.h:347
     [DllImport(LibraryName, EntryPoint = "ecs_set_ptr_w_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_set_ptr_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, ulong size, void* ptr);
 
-    // FunctionExtern @ deprecated.h:346
+    // FunctionExtern @ deprecated.h:356
     [DllImport(LibraryName, EntryPoint = "ecs_has_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_has_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
-    // FunctionExtern @ deprecated.h:353
+    // FunctionExtern @ deprecated.h:363
     [DllImport(LibraryName, EntryPoint = "ecs_entity_str", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong ecs_entity_str(ecs_world_t* world, ecs_id_t entity, sbyte* buffer, ulong buffer_len);
 
-    // FunctionExtern @ deprecated.h:361
+    // FunctionExtern @ deprecated.h:371
     [DllImport(LibraryName, EntryPoint = "ecs_get_parent_w_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_get_parent_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
-    // FunctionExtern @ deprecated.h:371
+    // FunctionExtern @ deprecated.h:381
     [DllImport(LibraryName, EntryPoint = "ecs_get_thread_index", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_get_thread_index(ecs_world_t* world);
 
-    // FunctionExtern @ deprecated.h:376
+    // FunctionExtern @ deprecated.h:386
     [DllImport(LibraryName, EntryPoint = "ecs_add_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_add_entity(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t entity_add);
 
-    // FunctionExtern @ deprecated.h:383
+    // FunctionExtern @ deprecated.h:393
     [DllImport(LibraryName, EntryPoint = "ecs_remove_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_remove_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
-    // FunctionExtern @ deprecated.h:390
+    // FunctionExtern @ deprecated.h:400
     [DllImport(LibraryName, EntryPoint = "ecs_add_remove_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_add_remove_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id_add, ecs_id_t id_remove);
 
-    // FunctionExtern @ deprecated.h:398
+    // FunctionExtern @ deprecated.h:408
     [DllImport(LibraryName, EntryPoint = "ecs_type_from_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_type_t ecs_type_from_entity(ecs_world_t* world, ecs_entity_t entity);
 
-    // FunctionExtern @ deprecated.h:404
+    // FunctionExtern @ deprecated.h:414
     [DllImport(LibraryName, EntryPoint = "ecs_type_to_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_type_to_entity(ecs_world_t* world, ecs_type_t type);
 
-    // FunctionExtern @ deprecated.h:410
+    // FunctionExtern @ deprecated.h:420
     [DllImport(LibraryName, EntryPoint = "ecs_type_has_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_type_has_entity(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity);
 
-    // FunctionExtern @ deprecated.h:417
+    // FunctionExtern @ deprecated.h:427
     [DllImport(LibraryName, EntryPoint = "ecs_type_owns_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_type_owns_entity(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity, CBool owned);
 
-    // FunctionExtern @ deprecated.h:425
+    // FunctionExtern @ deprecated.h:435
     [DllImport(LibraryName, EntryPoint = "ecs_column_w_size", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* ecs_column_w_size(ecs_iter_t* it, ulong size, int column);
 
-    // FunctionExtern @ deprecated.h:435
+    // FunctionExtern @ deprecated.h:445
     [DllImport(LibraryName, EntryPoint = "ecs_column_index_from_name", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_column_index_from_name(ecs_iter_t* it, sbyte* name);
 
-    // FunctionExtern @ deprecated.h:441
+    // FunctionExtern @ deprecated.h:451
     [DllImport(LibraryName, EntryPoint = "ecs_element_w_size", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* ecs_element_w_size(ecs_iter_t* it, ulong size, int column, int row);
 
-    // FunctionExtern @ deprecated.h:452
+    // FunctionExtern @ deprecated.h:462
     [DllImport(LibraryName, EntryPoint = "ecs_column_source", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_column_source(ecs_iter_t* it, int column);
 
-    // FunctionExtern @ deprecated.h:458
+    // FunctionExtern @ deprecated.h:468
     [DllImport(LibraryName, EntryPoint = "ecs_column_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_column_entity(ecs_iter_t* it, int column);
 
-    // FunctionExtern @ deprecated.h:464
+    // FunctionExtern @ deprecated.h:474
     [DllImport(LibraryName, EntryPoint = "ecs_column_type", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_type_t ecs_column_type(ecs_iter_t* it, int column);
 
-    // FunctionExtern @ deprecated.h:470
+    // FunctionExtern @ deprecated.h:480
     [DllImport(LibraryName, EntryPoint = "ecs_column_size", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong ecs_column_size(ecs_iter_t* it, int column);
 
-    // FunctionExtern @ deprecated.h:476
+    // FunctionExtern @ deprecated.h:486
     [DllImport(LibraryName, EntryPoint = "ecs_is_readonly", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_is_readonly(ecs_iter_t* it, int column);
 
-    // FunctionExtern @ deprecated.h:482
+    // FunctionExtern @ deprecated.h:492
     [DllImport(LibraryName, EntryPoint = "ecs_is_owned", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_is_owned(ecs_iter_t* it, int column);
 
-    // FunctionExtern @ deprecated.h:488
+    // FunctionExtern @ deprecated.h:498
     [DllImport(LibraryName, EntryPoint = "ecs_table_column", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* ecs_table_column(ecs_iter_t* it, int column);
 
-    // FunctionExtern @ deprecated.h:494
+    // FunctionExtern @ deprecated.h:504
     [DllImport(LibraryName, EntryPoint = "ecs_table_column_size", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong ecs_table_column_size(ecs_iter_t* it, int column);
 
-    // FunctionExtern @ deprecated.h:500
+    // FunctionExtern @ deprecated.h:510
     [DllImport(LibraryName, EntryPoint = "ecs_table_component_index", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_table_component_index(ecs_iter_t* it, ecs_entity_t component);
 
-    // FunctionExtern @ deprecated.h:506
+    // FunctionExtern @ deprecated.h:516
     [DllImport(LibraryName, EntryPoint = "ecs_set_rate_filter", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_set_rate_filter(ecs_world_t* world, ecs_entity_t filter, int rate, ecs_entity_t source);
 
-    // FunctionExtern @ deprecated.h:514
+    // FunctionExtern @ deprecated.h:524
     [DllImport(LibraryName, EntryPoint = "ecs_query_new", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_query_t* ecs_query_new(ecs_world_t* world, sbyte* sig);
 
-    // FunctionExtern @ deprecated.h:520
+    // FunctionExtern @ deprecated.h:530
     [DllImport(LibraryName, EntryPoint = "ecs_subquery_new", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_query_t* ecs_subquery_new(ecs_world_t* world, ecs_query_t* parent, sbyte* sig);
 
-    // FunctionExtern @ deprecated.h:527
+    // FunctionExtern @ deprecated.h:537
     [DllImport(LibraryName, EntryPoint = "ecs_query_free", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_query_free(ecs_query_t* query);
 
-    // FunctionExtern @ deprecated.h:532
+    // FunctionExtern @ deprecated.h:542
     [DllImport(LibraryName, EntryPoint = "ecs_query_order_by", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_query_order_by(ecs_world_t* world, ecs_query_t* query, ecs_entity_t component, ecs_compare_action_t compare);
 
-    // FunctionExtern @ deprecated.h:540
+    // FunctionExtern @ deprecated.h:550
     [DllImport(LibraryName, EntryPoint = "ecs_query_group_by", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_query_group_by(ecs_world_t* world, ecs_query_t* query, ecs_entity_t component, ecs_rank_type_action_t rank_action);
 
@@ -498,531 +488,543 @@ public static unsafe partial class flecs
     [DllImport(LibraryName, EntryPoint = "ecs_record_move_to", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_record_move_to(ecs_world_t* world, ecs_record_t* r, int column, ulong size, void* value, int count);
 
-    // FunctionExtern @ flecs.h:857
+    // FunctionExtern @ flecs.h:886
     [DllImport(LibraryName, EntryPoint = "ecs_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_world_t* ecs_init();
 
-    // FunctionExtern @ flecs.h:864
+    // FunctionExtern @ flecs.h:893
     [DllImport(LibraryName, EntryPoint = "ecs_mini", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_world_t* ecs_mini();
 
-    // FunctionExtern @ flecs.h:874
+    // FunctionExtern @ flecs.h:903
     [DllImport(LibraryName, EntryPoint = "ecs_init_w_args", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_world_t* ecs_init_w_args(int argc, sbyte** argv);
 
-    // FunctionExtern @ flecs.h:885
+    // FunctionExtern @ flecs.h:914
     [DllImport(LibraryName, EntryPoint = "ecs_fini", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_fini(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:896
+    // FunctionExtern @ flecs.h:925
     [DllImport(LibraryName, EntryPoint = "ecs_atfini", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_atfini(ecs_world_t* world, ecs_fini_action_t action, void* ctx);
 
-    // FunctionExtern @ flecs.h:909
+    // FunctionExtern @ flecs.h:938
     [DllImport(LibraryName, EntryPoint = "ecs_run_post_frame", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_run_post_frame(ecs_world_t* world, ecs_fini_action_t action, void* ctx);
 
-    // FunctionExtern @ flecs.h:921
+    // FunctionExtern @ flecs.h:950
     [DllImport(LibraryName, EntryPoint = "ecs_quit", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_quit(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:929
+    // FunctionExtern @ flecs.h:958
     [DllImport(LibraryName, EntryPoint = "ecs_should_quit", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_should_quit(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:939
+    // FunctionExtern @ flecs.h:968
     [DllImport(LibraryName, EntryPoint = "ecs_set_component_actions_w_id", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_set_component_actions_w_id(ecs_world_t* world, ecs_id_t id, EcsComponentLifecycle* actions);
 
-    // FunctionExtern @ flecs.h:957
+    // FunctionExtern @ flecs.h:986
     [DllImport(LibraryName, EntryPoint = "ecs_set_context", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_set_context(ecs_world_t* world, void* ctx);
 
-    // FunctionExtern @ flecs.h:969
+    // FunctionExtern @ flecs.h:998
     [DllImport(LibraryName, EntryPoint = "ecs_get_context", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* ecs_get_context(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:979
+    // FunctionExtern @ flecs.h:1008
     [DllImport(LibraryName, EntryPoint = "ecs_get_world_info", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_world_info_t* ecs_get_world_info(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:992
+    // FunctionExtern @ flecs.h:1021
     [DllImport(LibraryName, EntryPoint = "ecs_dim", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_dim(ecs_world_t* world, int entity_count);
 
-    // FunctionExtern @ flecs.h:1012
+    // FunctionExtern @ flecs.h:1041
     [DllImport(LibraryName, EntryPoint = "ecs_set_entity_range", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_set_entity_range(ecs_world_t* world, ecs_entity_t id_start, ecs_entity_t id_end);
 
-    // FunctionExtern @ flecs.h:1028
+    // FunctionExtern @ flecs.h:1057
     [DllImport(LibraryName, EntryPoint = "ecs_enable_range_check", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_enable_range_check(ecs_world_t* world, CBool enable);
 
-    // FunctionExtern @ flecs.h:1049
+    // FunctionExtern @ flecs.h:1078
     [DllImport(LibraryName, EntryPoint = "ecs_enable_locking", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_enable_locking(ecs_world_t* world, CBool enable);
 
-    // FunctionExtern @ flecs.h:1059
+    // FunctionExtern @ flecs.h:1088
     [DllImport(LibraryName, EntryPoint = "ecs_lock", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_lock(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:1068
+    // FunctionExtern @ flecs.h:1097
     [DllImport(LibraryName, EntryPoint = "ecs_unlock", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_unlock(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:1082
+    // FunctionExtern @ flecs.h:1111
     [DllImport(LibraryName, EntryPoint = "ecs_begin_wait", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_begin_wait(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:1092
+    // FunctionExtern @ flecs.h:1121
     [DllImport(LibraryName, EntryPoint = "ecs_end_wait", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_end_wait(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:1113
+    // FunctionExtern @ flecs.h:1142
     [DllImport(LibraryName, EntryPoint = "ecs_tracing_enable", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_tracing_enable(int level);
 
-    // FunctionExtern @ flecs.h:1127
+    // FunctionExtern @ flecs.h:1156
     [DllImport(LibraryName, EntryPoint = "ecs_measure_frame_time", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_measure_frame_time(ecs_world_t* world, CBool enable);
 
-    // FunctionExtern @ flecs.h:1141
+    // FunctionExtern @ flecs.h:1170
     [DllImport(LibraryName, EntryPoint = "ecs_measure_system_time", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_measure_system_time(ecs_world_t* world, CBool enable);
 
-    // FunctionExtern @ flecs.h:1161
+    // FunctionExtern @ flecs.h:1190
     [DllImport(LibraryName, EntryPoint = "ecs_set_target_fps", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_set_target_fps(ecs_world_t* world, float fps);
 
-    // FunctionExtern @ flecs.h:1167
+    // FunctionExtern @ flecs.h:1196
     [DllImport(LibraryName, EntryPoint = "ecs_get_threads", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_get_threads(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:1184
+    // FunctionExtern @ flecs.h:1213
     [DllImport(LibraryName, EntryPoint = "ecs_new_id", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_new_id(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:1197
+    // FunctionExtern @ flecs.h:1226
     [DllImport(LibraryName, EntryPoint = "ecs_new_component_id", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_new_component_id(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:1209
+    // FunctionExtern @ flecs.h:1238
     [DllImport(LibraryName, EntryPoint = "ecs_new_w_id", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_new_w_id(ecs_world_t* world, ecs_id_t id);
 
-    // FunctionExtern @ flecs.h:1228
+    // FunctionExtern @ flecs.h:1274
     [DllImport(LibraryName, EntryPoint = "ecs_entity_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_entity_init(ecs_world_t* world, ecs_entity_desc_t* desc);
 
-    // FunctionExtern @ flecs.h:1234
+    // FunctionExtern @ flecs.h:1292
     [DllImport(LibraryName, EntryPoint = "ecs_component_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_component_init(ecs_world_t* world, ecs_component_desc_t* desc);
 
-    // FunctionExtern @ flecs.h:1240
+    // FunctionExtern @ flecs.h:1315
     [DllImport(LibraryName, EntryPoint = "ecs_type_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_type_init(ecs_world_t* world, ecs_type_desc_t* desc);
 
-    // FunctionExtern @ flecs.h:1254
+    // FunctionExtern @ flecs.h:1329
     [DllImport(LibraryName, EntryPoint = "ecs_bulk_new_w_id", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t* ecs_bulk_new_w_id(ecs_world_t* world, ecs_id_t id, int count);
 
-    // FunctionExtern @ flecs.h:1272
+    // FunctionExtern @ flecs.h:1347
     [DllImport(LibraryName, EntryPoint = "ecs_bulk_new_w_data", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t* ecs_bulk_new_w_data(ecs_world_t* world, int count, ecs_entities_t* component_ids, void* data);
 
-    // FunctionExtern @ flecs.h:1304
+    // FunctionExtern @ flecs.h:1379
     [DllImport(LibraryName, EntryPoint = "ecs_clone", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_clone(ecs_world_t* world, ecs_entity_t dst, ecs_entity_t src, CBool copy_value);
 
-    // FunctionExtern @ flecs.h:1327
+    // FunctionExtern @ flecs.h:1402
     [DllImport(LibraryName, EntryPoint = "ecs_add_id", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_add_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
-    // FunctionExtern @ flecs.h:1359
+    // FunctionExtern @ flecs.h:1434
     [DllImport(LibraryName, EntryPoint = "ecs_remove_id", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_remove_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
-    // FunctionExtern @ flecs.h:1403
+    // FunctionExtern @ flecs.h:1478
     [DllImport(LibraryName, EntryPoint = "ecs_enable_component_w_id", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_enable_component_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, CBool enable);
 
-    // FunctionExtern @ flecs.h:1423
+    // FunctionExtern @ flecs.h:1498
     [DllImport(LibraryName, EntryPoint = "ecs_is_component_enabled_w_id", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_is_component_enabled_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
-    // FunctionExtern @ flecs.h:1447
+    // FunctionExtern @ flecs.h:1522
     [DllImport(LibraryName, EntryPoint = "ecs_make_pair", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_id_t ecs_make_pair(ecs_entity_t relation, ecs_entity_t @object);
 
-    // FunctionExtern @ flecs.h:1646
+    // FunctionExtern @ flecs.h:1721
     [DllImport(LibraryName, EntryPoint = "ecs_clear", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_clear(ecs_world_t* world, ecs_entity_t entity);
 
-    // FunctionExtern @ flecs.h:1660
+    // FunctionExtern @ flecs.h:1735
     [DllImport(LibraryName, EntryPoint = "ecs_delete", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_delete(ecs_world_t* world, ecs_entity_t entity);
 
-    // FunctionExtern @ flecs.h:1673
+    // FunctionExtern @ flecs.h:1748
     [DllImport(LibraryName, EntryPoint = "ecs_delete_children", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_delete_children(ecs_world_t* world, ecs_entity_t parent);
 
-    // FunctionExtern @ flecs.h:1695
-    [DllImport(LibraryName, EntryPoint = "ecs_get_w_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* ecs_get_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
+    // FunctionExtern @ flecs.h:1770
+    [DllImport(LibraryName, EntryPoint = "ecs_get_id", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void* ecs_get_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
-    // FunctionExtern @ flecs.h:1725
+    // FunctionExtern @ flecs.h:1800
     [DllImport(LibraryName, EntryPoint = "ecs_get_ref_w_id", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* ecs_get_ref_w_id(ecs_world_t* world, ecs_ref_t* @ref, ecs_entity_t entity, ecs_id_t id);
 
-    // FunctionExtern @ flecs.h:1753
+    // FunctionExtern @ flecs.h:1828
     [DllImport(LibraryName, EntryPoint = "ecs_get_case", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_get_case(ecs_world_t* world, ecs_entity_t e, ecs_entity_t sw);
 
-    // FunctionExtern @ flecs.h:1781
+    // FunctionExtern @ flecs.h:1856
     [DllImport(LibraryName, EntryPoint = "ecs_get_mut_w_id", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* ecs_get_mut_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, bool* is_added);
 
-    // FunctionExtern @ flecs.h:1810
+    // FunctionExtern @ flecs.h:1885
     [DllImport(LibraryName, EntryPoint = "ecs_modified_w_id", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_modified_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
-    // FunctionExtern @ flecs.h:1839
-    [DllImport(LibraryName, EntryPoint = "ecs_set_ptr_w_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_set_ptr_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, ulong size, void* ptr);
-
     // FunctionExtern @ flecs.h:1914
+    [DllImport(LibraryName, EntryPoint = "ecs_set_id", CallingConvention = CallingConvention.Cdecl)]
+    public static extern ecs_entity_t ecs_set_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, ulong size, void* ptr);
+
+    // FunctionExtern @ flecs.h:1989
     [DllImport(LibraryName, EntryPoint = "ecs_has_id", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_has_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
-    // FunctionExtern @ flecs.h:1965
+    // FunctionExtern @ flecs.h:2040
     [DllImport(LibraryName, EntryPoint = "ecs_is_valid", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_is_valid(ecs_world_t* world, ecs_entity_t e);
 
-    // FunctionExtern @ flecs.h:1976
+    // FunctionExtern @ flecs.h:2051
     [DllImport(LibraryName, EntryPoint = "ecs_is_alive", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_is_alive(ecs_world_t* world, ecs_entity_t e);
 
-    // FunctionExtern @ flecs.h:1997
+    // FunctionExtern @ flecs.h:2072
     [DllImport(LibraryName, EntryPoint = "ecs_get_alive", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_get_alive(ecs_world_t* world, ecs_entity_t e);
 
-    // FunctionExtern @ flecs.h:2025
+    // FunctionExtern @ flecs.h:2100
     [DllImport(LibraryName, EntryPoint = "ecs_ensure", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_ensure(ecs_world_t* world, ecs_entity_t e);
 
-    // FunctionExtern @ flecs.h:2037
+    // FunctionExtern @ flecs.h:2112
     [DllImport(LibraryName, EntryPoint = "ecs_exists", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_exists(ecs_world_t* world, ecs_entity_t e);
 
-    // FunctionExtern @ flecs.h:2048
+    // FunctionExtern @ flecs.h:2123
     [DllImport(LibraryName, EntryPoint = "ecs_get_type", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_type_t ecs_get_type(ecs_world_t* world, ecs_entity_t entity);
 
-    // FunctionExtern @ flecs.h:2059
+    // FunctionExtern @ flecs.h:2134
     [DllImport(LibraryName, EntryPoint = "ecs_get_typeid", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_get_typeid(ecs_world_t* world, ecs_entity_t e);
 
-    // FunctionExtern @ flecs.h:2071
+    // FunctionExtern @ flecs.h:2146
     [DllImport(LibraryName, EntryPoint = "ecs_get_name", CallingConvention = CallingConvention.Cdecl)]
     public static extern sbyte* ecs_get_name(ecs_world_t* world, ecs_entity_t entity);
 
-    // FunctionExtern @ flecs.h:2083
+    // FunctionExtern @ flecs.h:2158
     [DllImport(LibraryName, EntryPoint = "ecs_role_str", CallingConvention = CallingConvention.Cdecl)]
     public static extern sbyte* ecs_role_str(ecs_entity_t entity);
 
-    // FunctionExtern @ flecs.h:2096
+    // FunctionExtern @ flecs.h:2171
     [DllImport(LibraryName, EntryPoint = "ecs_id_str", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong ecs_id_str(ecs_world_t* world, ecs_id_t entity, sbyte* buffer, ulong buffer_len);
 
-    // FunctionExtern @ flecs.h:2114
+    // FunctionExtern @ flecs.h:2189
     [DllImport(LibraryName, EntryPoint = "ecs_get_object_w_id", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_get_object_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t rel, ecs_id_t id);
 
-    // FunctionExtern @ flecs.h:2143
+    // FunctionExtern @ flecs.h:2218
     [DllImport(LibraryName, EntryPoint = "ecs_enable", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_enable(ecs_world_t* world, ecs_entity_t entity, CBool enabled);
 
-    // FunctionExtern @ flecs.h:2156
+    // FunctionExtern @ flecs.h:2231
     [DllImport(LibraryName, EntryPoint = "ecs_count_id", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_count_id(ecs_world_t* world, ecs_id_t entity);
 
-    // FunctionExtern @ flecs.h:2178
+    // FunctionExtern @ flecs.h:2253
     [DllImport(LibraryName, EntryPoint = "ecs_count_filter", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_count_filter(ecs_world_t* world, ecs_filter_t* filter);
 
-    // FunctionExtern @ flecs.h:2199
+    // FunctionExtern @ flecs.h:2274
     [DllImport(LibraryName, EntryPoint = "ecs_lookup", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_lookup(ecs_world_t* world, sbyte* name);
 
-    // FunctionExtern @ flecs.h:2213
+    // FunctionExtern @ flecs.h:2288
     [DllImport(LibraryName, EntryPoint = "ecs_lookup_child", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_lookup_child(ecs_world_t* world, ecs_entity_t parent, sbyte* name);
 
-    // FunctionExtern @ flecs.h:2237
+    // FunctionExtern @ flecs.h:2312
     [DllImport(LibraryName, EntryPoint = "ecs_lookup_path_w_sep", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_lookup_path_w_sep(ecs_world_t* world, ecs_entity_t parent, sbyte* path, sbyte* sep, sbyte* prefix, CBool recursive);
 
-    // FunctionExtern @ flecs.h:2278
+    // FunctionExtern @ flecs.h:2353
     [DllImport(LibraryName, EntryPoint = "ecs_lookup_symbol", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_lookup_symbol(ecs_world_t* world, sbyte* name);
 
-    // FunctionExtern @ flecs.h:2284
+    // FunctionExtern @ flecs.h:2359
     [DllImport(LibraryName, EntryPoint = "ecs_use", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_use(ecs_world_t* world, ecs_entity_t entity, sbyte* name);
 
-    // FunctionExtern @ flecs.h:2316
+    // FunctionExtern @ flecs.h:2391
     [DllImport(LibraryName, EntryPoint = "ecs_get_path_w_sep", CallingConvention = CallingConvention.Cdecl)]
     public static extern sbyte* ecs_get_path_w_sep(ecs_world_t* world, ecs_entity_t parent, ecs_entity_t child, ecs_entity_t component, sbyte* sep, sbyte* prefix);
 
-    // FunctionExtern @ flecs.h:2365
+    // FunctionExtern @ flecs.h:2440
     [DllImport(LibraryName, EntryPoint = "ecs_new_from_path_w_sep", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_new_from_path_w_sep(ecs_world_t* world, ecs_entity_t parent, sbyte* path, sbyte* sep, sbyte* prefix);
 
-    // FunctionExtern @ flecs.h:2409
+    // FunctionExtern @ flecs.h:2484
     [DllImport(LibraryName, EntryPoint = "ecs_add_path_w_sep", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_add_path_w_sep(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t parent, sbyte* path, sbyte* sep, sbyte* prefix);
 
-    // FunctionExtern @ flecs.h:2456
+    // FunctionExtern @ flecs.h:2531
     [DllImport(LibraryName, EntryPoint = "ecs_get_child_count", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_get_child_count(ecs_world_t* world, ecs_entity_t entity);
 
-    // FunctionExtern @ flecs.h:2469
+    // FunctionExtern @ flecs.h:2544
     [DllImport(LibraryName, EntryPoint = "ecs_scope_iter", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_iter_t ecs_scope_iter(ecs_world_t* world, ecs_entity_t parent);
 
-    // FunctionExtern @ flecs.h:2481
+    // FunctionExtern @ flecs.h:2556
     [DllImport(LibraryName, EntryPoint = "ecs_scope_iter_w_filter", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_iter_t ecs_scope_iter_w_filter(ecs_world_t* world, ecs_entity_t parent, ecs_filter_t* filter);
 
-    // FunctionExtern @ flecs.h:2495
+    // FunctionExtern @ flecs.h:2570
     [DllImport(LibraryName, EntryPoint = "ecs_scope_next", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_scope_next(ecs_iter_t* it);
 
-    // FunctionExtern @ flecs.h:2510
+    // FunctionExtern @ flecs.h:2585
     [DllImport(LibraryName, EntryPoint = "ecs_set_scope", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_set_scope(ecs_world_t* world, ecs_entity_t scope);
 
-    // FunctionExtern @ flecs.h:2522
+    // FunctionExtern @ flecs.h:2597
     [DllImport(LibraryName, EntryPoint = "ecs_get_scope", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_get_scope(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:2535
+    // FunctionExtern @ flecs.h:2610
     [DllImport(LibraryName, EntryPoint = "ecs_set_name_prefix", CallingConvention = CallingConvention.Cdecl)]
     public static extern sbyte* ecs_set_name_prefix(ecs_world_t* world, sbyte* prefix);
 
-    // FunctionExtern @ flecs.h:2559
+    // FunctionExtern @ flecs.h:2634
     [DllImport(LibraryName, EntryPoint = "ecs_term_is_set", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_term_is_set(ecs_term_t* term);
 
-    // FunctionExtern @ flecs.h:2586
+    // FunctionExtern @ flecs.h:2661
     [DllImport(LibraryName, EntryPoint = "ecs_term_is_trivial", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_term_is_trivial(ecs_term_t* term);
 
-    // FunctionExtern @ flecs.h:2610
+    // FunctionExtern @ flecs.h:2685
     [DllImport(LibraryName, EntryPoint = "ecs_term_finalize", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_term_finalize(ecs_world_t* world, sbyte* name, sbyte* expr, ecs_term_t* term);
 
-    // FunctionExtern @ flecs.h:2625
+    // FunctionExtern @ flecs.h:2700
     [DllImport(LibraryName, EntryPoint = "ecs_term_copy", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_term_copy(ecs_term_t* dst, ecs_term_t* src);
+    public static extern ecs_term_t ecs_term_copy(ecs_term_t* src);
 
-    // FunctionExtern @ flecs.h:2636
+    // FunctionExtern @ flecs.h:2714
+    [DllImport(LibraryName, EntryPoint = "ecs_term_move", CallingConvention = CallingConvention.Cdecl)]
+    public static extern ecs_term_t ecs_term_move(ecs_term_t* src);
+
+    // FunctionExtern @ flecs.h:2724
     [DllImport(LibraryName, EntryPoint = "ecs_term_fini", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_term_fini(ecs_term_t* term);
 
-    // FunctionExtern @ flecs.h:2668
+    // FunctionExtern @ flecs.h:2735
+    [DllImport(LibraryName, EntryPoint = "ecs_id_match", CallingConvention = CallingConvention.Cdecl)]
+    public static extern CBool ecs_id_match(ecs_id_t id, ecs_id_t pattern);
+
+    // FunctionExtern @ flecs.h:2768
     [DllImport(LibraryName, EntryPoint = "ecs_filter_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_filter_init(ecs_world_t* world, ecs_filter_t* filter_out, ecs_filter_desc_t* desc);
 
-    // FunctionExtern @ flecs.h:2679
+    // FunctionExtern @ flecs.h:2779
     [DllImport(LibraryName, EntryPoint = "ecs_filter_fini", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_filter_fini(ecs_filter_t* filter);
 
-    // FunctionExtern @ flecs.h:2696
+    // FunctionExtern @ flecs.h:2796
     [DllImport(LibraryName, EntryPoint = "ecs_filter_finalize", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_filter_finalize(ecs_world_t* world, ecs_filter_t* filter);
 
-    // FunctionExtern @ flecs.h:2705
+    // FunctionExtern @ flecs.h:2805
     [DllImport(LibraryName, EntryPoint = "ecs_filter_str", CallingConvention = CallingConvention.Cdecl)]
     public static extern sbyte* ecs_filter_str(ecs_world_t* world, ecs_filter_t* filter);
 
-    // FunctionExtern @ flecs.h:2725
+    // FunctionExtern @ flecs.h:2825
     [DllImport(LibraryName, EntryPoint = "ecs_filter_match_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_filter_match_entity(ecs_world_t* world, ecs_filter_t* filter, ecs_entity_t e);
 
-    // FunctionExtern @ flecs.h:2740
+    // FunctionExtern @ flecs.h:2840
     [DllImport(LibraryName, EntryPoint = "ecs_filter_iter", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_iter_t ecs_filter_iter(ecs_world_t* world, ecs_filter_t* filter);
 
-    // FunctionExtern @ flecs.h:2754
+    // FunctionExtern @ flecs.h:2854
     [DllImport(LibraryName, EntryPoint = "ecs_filter_next", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_filter_next(ecs_iter_t* iter);
 
-    // FunctionExtern @ flecs.h:2799
+    // FunctionExtern @ flecs.h:2900
     [DllImport(LibraryName, EntryPoint = "ecs_query_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_query_t* ecs_query_init(ecs_world_t* world, ecs_query_desc_t* desc);
 
-    // FunctionExtern @ flecs.h:2810
+    // FunctionExtern @ flecs.h:2912
     [DllImport(LibraryName, EntryPoint = "ecs_query_fini", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_query_fini(ecs_query_t* query);
 
-    // FunctionExtern @ flecs.h:2840
+    // FunctionExtern @ flecs.h:2942
     [DllImport(LibraryName, EntryPoint = "ecs_query_iter", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_iter_t ecs_query_iter(ecs_query_t* query);
 
-    // FunctionExtern @ flecs.h:2853
+    // FunctionExtern @ flecs.h:2955
     [DllImport(LibraryName, EntryPoint = "ecs_query_iter_page", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_iter_t ecs_query_iter_page(ecs_query_t* query, int offset, int limit);
 
-    // FunctionExtern @ flecs.h:2868
+    // FunctionExtern @ flecs.h:2970
     [DllImport(LibraryName, EntryPoint = "ecs_query_next", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_query_next(ecs_iter_t* iter);
 
-    // FunctionExtern @ flecs.h:2880
+    // FunctionExtern @ flecs.h:2982
     [DllImport(LibraryName, EntryPoint = "ecs_query_next_w_filter", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_query_next_w_filter(ecs_iter_t* iter, ecs_filter_t* filter);
 
-    // FunctionExtern @ flecs.h:2900
+    // FunctionExtern @ flecs.h:3002
     [DllImport(LibraryName, EntryPoint = "ecs_query_next_worker", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_query_next_worker(ecs_iter_t* it, int stage_current, int stage_count);
 
-    // FunctionExtern @ flecs.h:2916
+    // FunctionExtern @ flecs.h:3018
     [DllImport(LibraryName, EntryPoint = "ecs_query_changed", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_query_changed(ecs_query_t* query);
 
-    // FunctionExtern @ flecs.h:2928
+    // FunctionExtern @ flecs.h:3030
     [DllImport(LibraryName, EntryPoint = "ecs_query_orphaned", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_query_orphaned(ecs_query_t* query);
 
-    // FunctionExtern @ flecs.h:2940
+    // FunctionExtern @ flecs.h:3055
     [DllImport(LibraryName, EntryPoint = "ecs_trigger_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_trigger_init(ecs_world_t* world, ecs_trigger_desc_t* desc);
 
-    // FunctionExtern @ flecs.h:2976
+    // FunctionExtern @ flecs.h:3068
+    [DllImport(LibraryName, EntryPoint = "ecs_get_trigger_ctx", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void* ecs_get_trigger_ctx(ecs_world_t* world, ecs_entity_t trigger);
+
+    // FunctionExtern @ flecs.h:3104
     [DllImport(LibraryName, EntryPoint = "ecs_term_w_size", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* ecs_term_w_size(ecs_iter_t* it, ulong size, int index);
 
-    // FunctionExtern @ flecs.h:2995
+    // FunctionExtern @ flecs.h:3123
     [DllImport(LibraryName, EntryPoint = "ecs_term_id", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_id_t ecs_term_id(ecs_iter_t* it, int index);
 
-    // FunctionExtern @ flecs.h:3013
+    // FunctionExtern @ flecs.h:3141
     [DllImport(LibraryName, EntryPoint = "ecs_term_source", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_term_source(ecs_iter_t* it, int index);
 
-    // FunctionExtern @ flecs.h:3025
+    // FunctionExtern @ flecs.h:3153
     [DllImport(LibraryName, EntryPoint = "ecs_term_size", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong ecs_term_size(ecs_iter_t* it, int index);
 
-    // FunctionExtern @ flecs.h:3038
+    // FunctionExtern @ flecs.h:3166
     [DllImport(LibraryName, EntryPoint = "ecs_term_is_readonly", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_term_is_readonly(ecs_iter_t* it, int index);
 
-    // FunctionExtern @ flecs.h:3052
+    // FunctionExtern @ flecs.h:3180
     [DllImport(LibraryName, EntryPoint = "ecs_term_is_owned", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_term_is_owned(ecs_iter_t* it, int index);
 
-    // FunctionExtern @ flecs.h:3064
+    // FunctionExtern @ flecs.h:3192
     [DllImport(LibraryName, EntryPoint = "ecs_iter_type", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_type_t ecs_iter_type(ecs_iter_t* it);
 
-    // FunctionExtern @ flecs.h:3087
+    // FunctionExtern @ flecs.h:3215
     [DllImport(LibraryName, EntryPoint = "ecs_iter_find_column", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_iter_find_column(ecs_iter_t* it, ecs_id_t id);
 
-    // FunctionExtern @ flecs.h:3119
+    // FunctionExtern @ flecs.h:3247
     [DllImport(LibraryName, EntryPoint = "ecs_iter_column_w_size", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* ecs_iter_column_w_size(ecs_iter_t* it, ulong size, int index);
 
-    // FunctionExtern @ flecs.h:3137
+    // FunctionExtern @ flecs.h:3265
     [DllImport(LibraryName, EntryPoint = "ecs_iter_column_size", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong ecs_iter_column_size(ecs_iter_t* it, int index);
 
-    // FunctionExtern @ flecs.h:3168
+    // FunctionExtern @ flecs.h:3296
     [DllImport(LibraryName, EntryPoint = "ecs_frame_begin", CallingConvention = CallingConvention.Cdecl)]
     public static extern float ecs_frame_begin(ecs_world_t* world, float delta_time);
 
-    // FunctionExtern @ flecs.h:3179
+    // FunctionExtern @ flecs.h:3307
     [DllImport(LibraryName, EntryPoint = "ecs_frame_end", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_frame_end(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:3202
+    // FunctionExtern @ flecs.h:3330
     [DllImport(LibraryName, EntryPoint = "ecs_staging_begin", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_staging_begin(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:3215
+    // FunctionExtern @ flecs.h:3343
     [DllImport(LibraryName, EntryPoint = "ecs_staging_end", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_staging_end(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:3229
+    // FunctionExtern @ flecs.h:3357
     [DllImport(LibraryName, EntryPoint = "ecs_merge", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_merge(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:3242
+    // FunctionExtern @ flecs.h:3370
     [DllImport(LibraryName, EntryPoint = "ecs_defer_begin", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_defer_begin(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:3254
+    // FunctionExtern @ flecs.h:3382
     [DllImport(LibraryName, EntryPoint = "ecs_defer_end", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_defer_end(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:3274
+    // FunctionExtern @ flecs.h:3402
     [DllImport(LibraryName, EntryPoint = "ecs_set_automerge", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_set_automerge(ecs_world_t* world, CBool automerge);
 
-    // FunctionExtern @ flecs.h:3292
+    // FunctionExtern @ flecs.h:3420
     [DllImport(LibraryName, EntryPoint = "ecs_set_stages", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_set_stages(ecs_world_t* world, int stages);
 
-    // FunctionExtern @ flecs.h:3303
+    // FunctionExtern @ flecs.h:3431
     [DllImport(LibraryName, EntryPoint = "ecs_get_stage_count", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_get_stage_count(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:3314
+    // FunctionExtern @ flecs.h:3442
     [DllImport(LibraryName, EntryPoint = "ecs_get_stage_id", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_get_stage_id(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:3333
+    // FunctionExtern @ flecs.h:3461
     [DllImport(LibraryName, EntryPoint = "ecs_get_stage", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_world_t* ecs_get_stage(ecs_world_t* world, int stage_id);
 
-    // FunctionExtern @ flecs.h:3342
+    // FunctionExtern @ flecs.h:3470
     [DllImport(LibraryName, EntryPoint = "ecs_get_world", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_world_t* ecs_get_world(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:3353
+    // FunctionExtern @ flecs.h:3481
     [DllImport(LibraryName, EntryPoint = "ecs_stage_is_readonly", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_stage_is_readonly(ecs_world_t* stage);
 
-    // FunctionExtern @ flecs.h:3375
+    // FunctionExtern @ flecs.h:3503
     [DllImport(LibraryName, EntryPoint = "ecs_async_stage_new", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_world_t* ecs_async_stage_new(ecs_world_t* world);
 
-    // FunctionExtern @ flecs.h:3385
+    // FunctionExtern @ flecs.h:3513
     [DllImport(LibraryName, EntryPoint = "ecs_async_stage_free", CallingConvention = CallingConvention.Cdecl)]
     public static extern void ecs_async_stage_free(ecs_world_t* stage);
 
-    // FunctionExtern @ flecs.h:3395
+    // FunctionExtern @ flecs.h:3523
     [DllImport(LibraryName, EntryPoint = "ecs_stage_is_async", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_stage_is_async(ecs_world_t* stage);
 
-    // FunctionExtern @ flecs.h:3417
+    // FunctionExtern @ flecs.h:3545
     [DllImport(LibraryName, EntryPoint = "ecs_table_from_str", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_table_t* ecs_table_from_str(ecs_world_t* world, sbyte* type);
 
-    // FunctionExtern @ flecs.h:3429
+    // FunctionExtern @ flecs.h:3557
     [DllImport(LibraryName, EntryPoint = "ecs_table_from_type", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_table_t* ecs_table_from_type(ecs_world_t* world, ecs_type_t type);
 
-    // FunctionExtern @ flecs.h:3439
+    // FunctionExtern @ flecs.h:3567
     [DllImport(LibraryName, EntryPoint = "ecs_table_get_type", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_type_t ecs_table_get_type(ecs_table_t* table);
 
-    // FunctionExtern @ flecs.h:3465
+    // FunctionExtern @ flecs.h:3593
     [DllImport(LibraryName, EntryPoint = "ecs_table_insert", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_record_t ecs_table_insert(ecs_world_t* world, ecs_table_t* table, ecs_entity_t entity, ecs_record_t* @record);
 
-    // FunctionExtern @ flecs.h:3481
+    // FunctionExtern @ flecs.h:3609
     [DllImport(LibraryName, EntryPoint = "ecs_table_count", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_table_count(ecs_table_t* table);
 
@@ -1406,47 +1408,51 @@ public static unsafe partial class flecs
     [DllImport(LibraryName, EntryPoint = "ecs_strbuf_list_appendstr", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_strbuf_list_appendstr(ecs_strbuf_t* buffer, sbyte* str);
 
-    // FunctionExtern @ system.h:144
+    // FunctionExtern @ system.h:125
+    [DllImport(LibraryName, EntryPoint = "ecs_system_init", CallingConvention = CallingConvention.Cdecl)]
+    public static extern ecs_entity_t ecs_system_init(ecs_world_t* world, ecs_system_desc_t* desc);
+
+    // FunctionExtern @ system.h:183
     [DllImport(LibraryName, EntryPoint = "ecs_run", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_run(ecs_world_t* world, ecs_entity_t system, float delta_time, void* param);
 
-    // FunctionExtern @ system.h:161
+    // FunctionExtern @ system.h:200
     [DllImport(LibraryName, EntryPoint = "ecs_run_worker", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_run_worker(ecs_world_t* world, ecs_entity_t system, int stage_current, int stage_count, float delta_time, void* param);
 
-    // FunctionExtern @ system.h:191
+    // FunctionExtern @ system.h:230
     [DllImport(LibraryName, EntryPoint = "ecs_run_w_filter", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_entity_t ecs_run_w_filter(ecs_world_t* world, ecs_entity_t system, float delta_time, int offset, int limit, ecs_filter_t* filter, void* param);
 
-    // FunctionExtern @ system.h:239
-    [DllImport(LibraryName, EntryPoint = "ecs_set_system_status_action", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_set_system_status_action(ecs_world_t* world, ecs_entity_t system, ecs_system_status_action_t action, void* ctx);
-
-    // FunctionExtern @ system.h:255
+    // FunctionExtern @ system.h:249
     [DllImport(LibraryName, EntryPoint = "ecs_get_query", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_query_t* ecs_get_query(ecs_world_t* world, ecs_entity_t system);
 
-    // FunctionExtern @ system.h:273
+    // FunctionExtern @ system.h:262
+    [DllImport(LibraryName, EntryPoint = "ecs_get_system_ctx", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void* ecs_get_system_ctx(ecs_world_t* world, ecs_entity_t system);
+
+    // FunctionExtern @ system.h:280
     [DllImport(LibraryName, EntryPoint = "ecs_dbg_system", CallingConvention = CallingConvention.Cdecl)]
     public static extern int ecs_dbg_system(ecs_world_t* world, ecs_entity_t system, ecs_dbg_system_t* dbg_out);
 
-    // FunctionExtern @ system.h:279
+    // FunctionExtern @ system.h:286
     [DllImport(LibraryName, EntryPoint = "ecs_dbg_get_active_table", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_table_t* ecs_dbg_get_active_table(ecs_world_t* world, ecs_dbg_system_t* dbg, int index);
 
-    // FunctionExtern @ system.h:285
+    // FunctionExtern @ system.h:292
     [DllImport(LibraryName, EntryPoint = "ecs_dbg_get_inactive_table", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_table_t* ecs_dbg_get_inactive_table(ecs_world_t* world, ecs_dbg_system_t* dbg, int index);
 
-    // FunctionExtern @ system.h:291
+    // FunctionExtern @ system.h:298
     [DllImport(LibraryName, EntryPoint = "ecs_dbg_get_column_type", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_type_t ecs_dbg_get_column_type(ecs_world_t* world, ecs_entity_t system, int column_index);
 
-    // FunctionExtern @ system.h:297
+    // FunctionExtern @ system.h:304
     [DllImport(LibraryName, EntryPoint = "ecs_dbg_match_entity", CallingConvention = CallingConvention.Cdecl)]
     public static extern CBool ecs_dbg_match_entity(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t system, ecs_match_failure_t* failure_info_out);
 
-    // FunctionExtern @ system.h:314
+    // FunctionExtern @ system.h:321
     [DllImport(LibraryName, EntryPoint = "FlecsSystemImport", CallingConvention = CallingConvention.Cdecl)]
     public static extern void FlecsSystemImport(ecs_world_t* world);
 
@@ -1547,8 +1553,8 @@ public static unsafe partial class flecs
     public static extern int ecs_type_index_of(ecs_type_t type, ecs_entity_t component);
 
     // FunctionExtern @ type.h:109
-    [DllImport(LibraryName, EntryPoint = "ecs_type_pair_index_of", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_type_pair_index_of(ecs_type_t type, int start_index, ecs_entity_t pair);
+    [DllImport(LibraryName, EntryPoint = "ecs_type_match", CallingConvention = CallingConvention.Cdecl)]
+    public static extern int ecs_type_match(ecs_type_t type, int start_index, ecs_entity_t pair);
 
     // FunctionExtern @ vector.h:98
     [DllImport(LibraryName, EntryPoint = "_ecs_vector_new", CallingConvention = CallingConvention.Cdecl)]
@@ -1658,7 +1664,7 @@ public static unsafe partial class flecs
     [DllImport(LibraryName, EntryPoint = "_ecs_vector_copy", CallingConvention = CallingConvention.Cdecl)]
     public static extern ecs_vector_t* _ecs_vector_copy(ecs_vector_t* src, ecs_size_t elem_size, short offset);
 
-    // FunctionPointer @ api_types.h:207
+    // FunctionPointer @ api_types.h:209
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_xtor_t
     {
@@ -1666,7 +1672,7 @@ public static unsafe partial class flecs
         public delegate* unmanaged<ecs_world_t*, ecs_entity_t, ecs_entity_t*, void*, ulong, int, void*, void> Pointer;
     }
 
-    // FunctionPointer @ api_types.h:217
+    // FunctionPointer @ api_types.h:219
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_copy_t
     {
@@ -1674,7 +1680,7 @@ public static unsafe partial class flecs
         public delegate* unmanaged<ecs_world_t*, ecs_entity_t, ecs_entity_t*, ecs_entity_t*, void*, void*, ulong, int, void*, void> Pointer;
     }
 
-    // FunctionPointer @ api_types.h:229
+    // FunctionPointer @ api_types.h:231
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_move_t
     {
@@ -1728,6 +1734,14 @@ public static unsafe partial class flecs
     {
         [FieldOffset(0)] // size = 8, padding = 0
         public delegate* unmanaged<ecs_world_t*, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ flecs.h:150
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct ecs_ctx_free_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public delegate* unmanaged<void*, void> Pointer;
     }
 
     // FunctionPointer @ os_api.h:58
@@ -1954,7 +1968,7 @@ public static unsafe partial class flecs
         public delegate* unmanaged<sbyte*, ecs_os_api_module_to_path_t> Pointer;
     }
 
-    // FunctionPointer @ system.h:209
+    // FunctionPointer @ system.h:77
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_system_status_action_t
     {
@@ -2100,7 +2114,7 @@ public static unsafe partial class flecs
         public ecs_iter_table_t table;
     }
 
-    // Record @ api_types.h:200
+    // Record @ api_types.h:202
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct ecs_match_failure_t
     {
@@ -2164,7 +2178,7 @@ public static unsafe partial class flecs
     }
 
     // Record @ flecs.h:89
-    [StructLayout(LayoutKind.Explicit, Size = 288, Pack = 8)]
+    [StructLayout(LayoutKind.Explicit, Size = 304, Pack = 8)]
     public struct ecs_iter_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
@@ -2206,38 +2220,44 @@ public static unsafe partial class flecs
         [FieldOffset(88)] // size = 8, padding = 0
         public void* param;
 
-        [FieldOffset(96)] // size = 4, padding = 0
-        public float delta_time;
+        [FieldOffset(96)] // size = 8, padding = 0
+        public void* ctx;
 
-        [FieldOffset(100)] // size = 4, padding = 0
-        public float delta_system_time;
-
-        [FieldOffset(104)] // size = 4, padding = 0
-        public float world_time;
-
-        [FieldOffset(108)] // size = 4, padding = 0
-        public int frame_offset;
+        [FieldOffset(104)] // size = 8, padding = 0
+        public void* binding_ctx;
 
         [FieldOffset(112)] // size = 4, padding = 0
-        public int offset;
+        public float delta_time;
 
         [FieldOffset(116)] // size = 4, padding = 0
+        public float delta_system_time;
+
+        [FieldOffset(120)] // size = 4, padding = 0
+        public float world_time;
+
+        [FieldOffset(124)] // size = 4, padding = 0
+        public int frame_offset;
+
+        [FieldOffset(128)] // size = 4, padding = 0
+        public int offset;
+
+        [FieldOffset(132)] // size = 4, padding = 0
         public int count;
 
-        [FieldOffset(120)] // size = 4, padding = 4
+        [FieldOffset(136)] // size = 4, padding = 4
         public int total_count;
 
-        [FieldOffset(128)] // size = 8, padding = 0
+        [FieldOffset(144)] // size = 8, padding = 0
         public ecs_entities_t* triggered_by;
 
-        [FieldOffset(136)] // size = 8, padding = 0
+        [FieldOffset(152)] // size = 8, padding = 0
         public ecs_entity_t interrupted_by;
 
-        [FieldOffset(144)] // size = 144, padding = 0
+        [FieldOffset(160)] // size = 144, padding = 0
         public Anonymous_Union_iter iter;
 
 
-        // Record @ api_types.h:168
+        // Record @ api_types.h:170
         [StructLayout(LayoutKind.Explicit, Size = 144, Pack = 8)]
         public struct Anonymous_Union_iter
         {
@@ -2282,7 +2302,24 @@ public static unsafe partial class flecs
         public void* ptr;
     }
 
-    // Record @ flecs.h:207
+    // Record @ flecs.h:205
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct ecs_term_set_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_entity_t relation;
+
+        [FieldOffset(8)] // size = 1, padding = 3
+        public byte mask;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public int min_depth;
+
+        [FieldOffset(16)] // size = 4, padding = 4
+        public int max_depth;
+    }
+
+    // Record @ flecs.h:214
     [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
     public struct ecs_term_id_t
     {
@@ -2293,22 +2330,13 @@ public static unsafe partial class flecs
         public sbyte* name;
 
         [FieldOffset(16)] // size = 4, padding = 4
-        public ecs_var_kind_t var_kind;
+        public ecs_var_kind_t var;
 
-        [FieldOffset(24)] // size = 8, padding = 0
-        public ecs_entity_t relation;
-
-        [FieldOffset(32)] // size = 1, padding = 3
-        public byte set;
-
-        [FieldOffset(36)] // size = 4, padding = 0
-        public int min_depth;
-
-        [FieldOffset(40)] // size = 4, padding = 4
-        public int max_depth;
+        [FieldOffset(24)] // size = 24, padding = 0
+        public ecs_term_set_t set;
     }
 
-    // Record @ flecs.h:225
+    // Record @ flecs.h:236
     [StructLayout(LayoutKind.Explicit, Size = 192, Pack = 8)]
     public struct ecs_term_t
     {
@@ -2343,11 +2371,14 @@ public static unsafe partial class flecs
         [FieldOffset(176)] // size = 8, padding = 0
         public sbyte* name;
 
-        [FieldOffset(184)] // size = 4, padding = 4
+        [FieldOffset(184)] // size = 4, padding = 0
         public int index;
+
+        [FieldOffset(188)] // size = 1, padding = 3
+        public CBool move;
     }
 
-    // Record @ flecs.h:250
+    // Record @ flecs.h:261
     [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
     public struct ecs_filter_t
     {
@@ -2379,7 +2410,7 @@ public static unsafe partial class flecs
         public ecs_match_kind_t exclude_kind;
     }
 
-    // Record @ flecs.h:316
+    // Record @ flecs.h:332
     [StructLayout(LayoutKind.Explicit, Size = 568, Pack = 8)]
     public struct ecs_entity_desc_t
     {
@@ -2431,7 +2462,7 @@ public static unsafe partial class flecs
         public sbyte* remove_expr;
     }
 
-    // Record @ flecs.h:324
+    // Record @ flecs.h:340
     [StructLayout(LayoutKind.Explicit, Size = 584, Pack = 8)]
     public struct ecs_component_desc_t
     {
@@ -2445,7 +2476,7 @@ public static unsafe partial class flecs
         public ulong alignment;
     }
 
-    // Record @ flecs.h:332
+    // Record @ flecs.h:348
     [StructLayout(LayoutKind.Explicit, Size = 832, Pack = 8)]
     public struct ecs_type_desc_t
     {
@@ -2469,7 +2500,7 @@ public static unsafe partial class flecs
         public sbyte* ids_expr;
     }
 
-    // Record @ flecs.h:351
+    // Record @ flecs.h:371
     [StructLayout(LayoutKind.Explicit, Size = 3104, Pack = 8)]
     public struct ecs_filter_desc_t
     {
@@ -2489,8 +2520,11 @@ public static unsafe partial class flecs
         [FieldOffset(3072)] // size = 8, padding = 0
         public ecs_term_t* terms_buffer;
 
-        [FieldOffset(3080)] // size = 4, padding = 4
+        [FieldOffset(3080)] // size = 4, padding = 0
         public int terms_buffer_count;
+
+        [FieldOffset(3084)] // size = 1, padding = 3
+        public CBool substitute_default;
 
         [FieldOffset(3088)] // size = 8, padding = 0
         public sbyte* expr;
@@ -2499,7 +2533,7 @@ public static unsafe partial class flecs
         public sbyte* name;
     }
 
-    // Record @ flecs.h:385
+    // Record @ flecs.h:405
     [StructLayout(LayoutKind.Explicit, Size = 3152, Pack = 8)]
     public struct ecs_query_desc_t
     {
@@ -2525,8 +2559,8 @@ public static unsafe partial class flecs
         public ecs_entity_t system;
     }
 
-    // Record @ flecs.h:411
-    [StructLayout(LayoutKind.Explicit, Size = 856, Pack = 8)]
+    // Record @ flecs.h:440
+    [StructLayout(LayoutKind.Explicit, Size = 880, Pack = 8)]
     public struct ecs_trigger_desc_t
     {
         [FieldOffset(0)] // size = 568, padding = 0
@@ -2559,9 +2593,18 @@ public static unsafe partial class flecs
 
         [FieldOffset(848)] // size = 8, padding = 0
         public void* ctx;
+
+        [FieldOffset(856)] // size = 8, padding = 0
+        public void* binding_ctx;
+
+        [FieldOffset(864)] // size = 8, padding = 0
+        public ecs_ctx_free_t ctx_free;
+
+        [FieldOffset(872)] // size = 8, padding = 0
+        public ecs_ctx_free_t binding_ctx_free;
     }
 
-    // Record @ flecs.h:450
+    // Record @ flecs.h:479
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
     public struct EcsComponentLifecycle
     {
@@ -2581,7 +2624,7 @@ public static unsafe partial class flecs
         public void* ctx;
     }
 
-    // Record @ flecs.h:491
+    // Record @ flecs.h:520
     [StructLayout(LayoutKind.Explicit, Size = 88, Pack = 8)]
     public struct ecs_world_info_t
     {
@@ -2832,7 +2875,7 @@ public static unsafe partial class flecs
     }
 
     // Record @ reader_writer.h:91
-    [StructLayout(LayoutKind.Explicit, Size = 712, Pack = 8)]
+    [StructLayout(LayoutKind.Explicit, Size = 744, Pack = 8)]
     public struct ecs_reader_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
@@ -2841,19 +2884,19 @@ public static unsafe partial class flecs
         [FieldOffset(8)] // size = 4, padding = 4
         public ecs_blob_header_kind_t state;
 
-        [FieldOffset(16)] // size = 288, padding = 0
+        [FieldOffset(16)] // size = 304, padding = 0
         public ecs_iter_t data_iter;
 
-        [FieldOffset(304)] // size = 8, padding = 0
+        [FieldOffset(320)] // size = 8, padding = 0
         public ecs_iter_next_action_t data_next;
 
-        [FieldOffset(312)] // size = 288, padding = 0
+        [FieldOffset(328)] // size = 304, padding = 0
         public ecs_iter_t component_iter;
 
-        [FieldOffset(600)] // size = 8, padding = 0
+        [FieldOffset(632)] // size = 8, padding = 0
         public ecs_iter_next_action_t component_next;
 
-        [FieldOffset(608)] // size = 104, padding = 0
+        [FieldOffset(640)] // size = 104, padding = 0
         public ecs_table_reader_t table;
     }
 
@@ -3187,7 +3230,51 @@ public static unsafe partial class flecs
         public int list_sp;
     }
 
-    // Record @ system.h:270
+    // Record @ system.h:121
+    [StructLayout(LayoutKind.Explicit, Size = 3800, Pack = 8)]
+    public struct ecs_system_desc_t
+    {
+        [FieldOffset(0)] // size = 568, padding = 0
+        public ecs_entity_desc_t entity;
+
+        [FieldOffset(568)] // size = 3152, padding = 0
+        public ecs_query_desc_t query;
+
+        [FieldOffset(3720)] // size = 8, padding = 0
+        public ecs_iter_action_t callback;
+
+        [FieldOffset(3728)] // size = 8, padding = 0
+        public ecs_system_status_action_t status_callback;
+
+        [FieldOffset(3736)] // size = 8, padding = 0
+        public void* ctx;
+
+        [FieldOffset(3744)] // size = 8, padding = 0
+        public void* status_ctx;
+
+        [FieldOffset(3752)] // size = 8, padding = 0
+        public void* binding_ctx;
+
+        [FieldOffset(3760)] // size = 8, padding = 0
+        public ecs_ctx_free_t ctx_free;
+
+        [FieldOffset(3768)] // size = 8, padding = 0
+        public ecs_ctx_free_t status_ctx_free;
+
+        [FieldOffset(3776)] // size = 8, padding = 0
+        public ecs_ctx_free_t binding_ctx_free;
+
+        [FieldOffset(3784)] // size = 4, padding = 0
+        public float interval;
+
+        [FieldOffset(3788)] // size = 4, padding = 0
+        public int rate;
+
+        [FieldOffset(3792)] // size = 8, padding = 0
+        public ecs_entity_t tick_source;
+    }
+
+    // Record @ system.h:277
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
     public struct ecs_dbg_system_t
     {
@@ -3326,7 +3413,7 @@ public static unsafe partial class flecs
     {
     }
 
-    // OpaqueDataType @ flecs.h:876
+    // OpaqueDataType @ flecs.h:905
     [StructLayout(LayoutKind.Sequential)]
     public struct argv
     {
@@ -3365,7 +3452,7 @@ public static unsafe partial class flecs
         EcsQuerySwitchIter = 3U
     }
 
-    // Enum @ api_types.h:195
+    // Enum @ api_types.h:197
     public enum EcsMatchFailureReason : uint
     {
         EcsMatchOk = 0U,
@@ -3388,7 +3475,7 @@ public static unsafe partial class flecs
         EcsMatchNotFromContainer = 17U
     }
 
-    // Enum @ flecs.h:171
+    // Enum @ flecs.h:176
     public enum ecs_inout_kind_t : uint
     {
         EcsInOutDefault = 0U,
@@ -3397,7 +3484,7 @@ public static unsafe partial class flecs
         EcsOut = 3U
     }
 
-    // Enum @ flecs.h:178
+    // Enum @ flecs.h:183
     public enum ecs_var_kind_t : uint
     {
         EcsVarDefault = 0U,
@@ -3405,7 +3492,7 @@ public static unsafe partial class flecs
         EcsVarIsVariable = 2U
     }
 
-    // Enum @ flecs.h:189
+    // Enum @ flecs.h:194
     public enum ecs_oper_kind_t : uint
     {
         EcsAnd = 0U,
@@ -3417,7 +3504,7 @@ public static unsafe partial class flecs
         EcsNotFrom = 6U
     }
 
-    // Enum @ flecs.h:233
+    // Enum @ flecs.h:244
     public enum ecs_match_kind_t : uint
     {
         EcsMatchDefault = 0U,
@@ -3446,7 +3533,7 @@ public static unsafe partial class flecs
         EcsStreamFooter = 14U
     }
 
-    // Enum @ system.h:207
+    // Enum @ system.h:52
     public enum ecs_system_status_t : uint
     {
         EcsSystemStatusNone = 0U,
@@ -3600,7 +3687,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:523
+    // Variable @ flecs.h:552
     private static IntPtr _ECS_CASE;
     public static ecs_id_t ECS_CASE
     {
@@ -3616,7 +3703,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:526
+    // Variable @ flecs.h:555
     private static IntPtr _ECS_SWITCH;
     public static ecs_id_t ECS_SWITCH
     {
@@ -3632,7 +3719,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:529
+    // Variable @ flecs.h:558
     private static IntPtr _ECS_PAIR;
     public static ecs_id_t ECS_PAIR
     {
@@ -3648,7 +3735,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:532
+    // Variable @ flecs.h:561
     private static IntPtr _ECS_OWNED;
     public static ecs_id_t ECS_OWNED
     {
@@ -3664,7 +3751,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:535
+    // Variable @ flecs.h:564
     private static IntPtr _ECS_DISABLED;
     public static ecs_id_t ECS_DISABLED
     {
@@ -3680,7 +3767,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:546
+    // Variable @ flecs.h:575
     private static IntPtr _EcsFlecs;
     public static ecs_entity_t EcsFlecs
     {
@@ -3696,7 +3783,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:549
+    // Variable @ flecs.h:578
     private static IntPtr _EcsFlecsCore;
     public static ecs_entity_t EcsFlecsCore
     {
@@ -3712,7 +3799,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:552
+    // Variable @ flecs.h:581
     private static IntPtr _EcsWorld;
     public static ecs_entity_t EcsWorld
     {
@@ -3728,7 +3815,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:555
+    // Variable @ flecs.h:584
     private static IntPtr _EcsWildcard;
     public static ecs_entity_t EcsWildcard
     {
@@ -3744,7 +3831,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:558
+    // Variable @ flecs.h:587
     private static IntPtr _EcsThis;
     public static ecs_entity_t EcsThis
     {
@@ -3760,7 +3847,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:561
+    // Variable @ flecs.h:590
     private static IntPtr _EcsTransitive;
     public static ecs_entity_t EcsTransitive
     {
@@ -3776,7 +3863,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:567
+    // Variable @ flecs.h:596
     private static IntPtr _EcsFinal;
     public static ecs_entity_t EcsFinal
     {
@@ -3792,7 +3879,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:570
+    // Variable @ flecs.h:599
     private static IntPtr _EcsChildOf;
     public static ecs_entity_t EcsChildOf
     {
@@ -3808,7 +3895,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:591
+    // Variable @ flecs.h:620
     private static IntPtr _EcsIsA;
     public static ecs_entity_t EcsIsA
     {
@@ -3824,7 +3911,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:594
+    // Variable @ flecs.h:623
     private static IntPtr _EcsModule;
     public static ecs_entity_t EcsModule
     {
@@ -3840,7 +3927,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:598
+    // Variable @ flecs.h:627
     private static IntPtr _EcsPrefab;
     public static ecs_entity_t EcsPrefab
     {
@@ -3856,7 +3943,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:601
+    // Variable @ flecs.h:630
     private static IntPtr _EcsDisabled;
     public static ecs_entity_t EcsDisabled
     {
@@ -3872,7 +3959,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:606
+    // Variable @ flecs.h:635
     private static IntPtr _EcsHidden;
     public static ecs_entity_t EcsHidden
     {
@@ -3888,7 +3975,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:609
+    // Variable @ flecs.h:638
     private static IntPtr _EcsOnAdd;
     public static ecs_entity_t EcsOnAdd
     {
@@ -3904,7 +3991,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:612
+    // Variable @ flecs.h:641
     private static IntPtr _EcsOnRemove;
     public static ecs_entity_t EcsOnRemove
     {
@@ -3920,7 +4007,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:615
+    // Variable @ flecs.h:644
     private static IntPtr _EcsOnSet;
     public static ecs_entity_t EcsOnSet
     {
@@ -3936,7 +4023,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:618
+    // Variable @ flecs.h:647
     private static IntPtr _EcsUnSet;
     public static ecs_entity_t EcsUnSet
     {
@@ -3952,7 +4039,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:630
+    // Variable @ flecs.h:659
     private static IntPtr _EcsOnDelete;
     public static ecs_entity_t EcsOnDelete
     {
@@ -3968,7 +4055,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:639
+    // Variable @ flecs.h:668
     private static IntPtr _EcsOnDeleteObject;
     public static ecs_entity_t EcsOnDeleteObject
     {
@@ -3984,7 +4071,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:643
+    // Variable @ flecs.h:672
     private static IntPtr _EcsRemove;
     public static ecs_entity_t EcsRemove
     {
@@ -4000,7 +4087,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:648
+    // Variable @ flecs.h:677
     private static IntPtr _EcsDelete;
     public static ecs_entity_t EcsDelete
     {
@@ -4016,7 +4103,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:653
+    // Variable @ flecs.h:682
     private static IntPtr _EcsThrow;
     public static ecs_entity_t EcsThrow
     {
@@ -4032,7 +4119,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:656
+    // Variable @ flecs.h:685
     private static IntPtr _EcsOnDemand;
     public static ecs_entity_t EcsOnDemand
     {
@@ -4048,7 +4135,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:657
+    // Variable @ flecs.h:686
     private static IntPtr _EcsMonitor;
     public static ecs_entity_t EcsMonitor
     {
@@ -4064,7 +4151,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:658
+    // Variable @ flecs.h:687
     private static IntPtr _EcsDisabledIntern;
     public static ecs_entity_t EcsDisabledIntern
     {
@@ -4080,7 +4167,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:659
+    // Variable @ flecs.h:688
     private static IntPtr _EcsInactive;
     public static ecs_entity_t EcsInactive
     {
@@ -4096,7 +4183,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:662
+    // Variable @ flecs.h:691
     private static IntPtr _EcsPipeline;
     public static ecs_entity_t EcsPipeline
     {
@@ -4112,7 +4199,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:663
+    // Variable @ flecs.h:692
     private static IntPtr _EcsPreFrame;
     public static ecs_entity_t EcsPreFrame
     {
@@ -4128,7 +4215,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:664
+    // Variable @ flecs.h:693
     private static IntPtr _EcsOnLoad;
     public static ecs_entity_t EcsOnLoad
     {
@@ -4144,7 +4231,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:665
+    // Variable @ flecs.h:694
     private static IntPtr _EcsPostLoad;
     public static ecs_entity_t EcsPostLoad
     {
@@ -4160,7 +4247,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:666
+    // Variable @ flecs.h:695
     private static IntPtr _EcsPreUpdate;
     public static ecs_entity_t EcsPreUpdate
     {
@@ -4176,7 +4263,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:667
+    // Variable @ flecs.h:696
     private static IntPtr _EcsOnUpdate;
     public static ecs_entity_t EcsOnUpdate
     {
@@ -4192,7 +4279,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:668
+    // Variable @ flecs.h:697
     private static IntPtr _EcsOnValidate;
     public static ecs_entity_t EcsOnValidate
     {
@@ -4208,7 +4295,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:669
+    // Variable @ flecs.h:698
     private static IntPtr _EcsPostUpdate;
     public static ecs_entity_t EcsPostUpdate
     {
@@ -4224,7 +4311,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:670
+    // Variable @ flecs.h:699
     private static IntPtr _EcsPreStore;
     public static ecs_entity_t EcsPreStore
     {
@@ -4240,7 +4327,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:671
+    // Variable @ flecs.h:700
     private static IntPtr _EcsOnStore;
     public static ecs_entity_t EcsOnStore
     {
@@ -4256,7 +4343,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ flecs.h:672
+    // Variable @ flecs.h:701
     private static IntPtr _EcsPostFrame;
     public static ecs_entity_t EcsPostFrame
     {
@@ -4273,22 +4360,6 @@ public static unsafe partial class flecs
     }
 
     // Variable @ system.h:32
-    private static IntPtr _FLECS__TEcsTrigger;
-    public static ecs_type_t FLECS__TEcsTrigger
-    {
-        get
-        {
-            if (_FLECS__TEcsTrigger == IntPtr.Zero)
-            {
-                return default(ecs_type_t);
-            }
-
-            var value = NativeTools.MemoryRead<ecs_type_t>(_FLECS__TEcsTrigger);
-            return value;
-        }
-    }
-
-    // Variable @ system.h:33
     private static IntPtr _FLECS__TEcsSystem;
     public static ecs_type_t FLECS__TEcsSystem
     {
@@ -4304,7 +4375,7 @@ public static unsafe partial class flecs
         }
     }
 
-    // Variable @ system.h:34
+    // Variable @ system.h:33
     private static IntPtr _FLECS__TEcsTickSource;
     public static ecs_type_t FLECS__TEcsTickSource
     {
@@ -4316,38 +4387,6 @@ public static unsafe partial class flecs
             }
 
             var value = NativeTools.MemoryRead<ecs_type_t>(_FLECS__TEcsTickSource);
-            return value;
-        }
-    }
-
-    // Variable @ system.h:35
-    private static IntPtr _FLECS__TEcsIterAction;
-    public static ecs_type_t FLECS__TEcsIterAction
-    {
-        get
-        {
-            if (_FLECS__TEcsIterAction == IntPtr.Zero)
-            {
-                return default(ecs_type_t);
-            }
-
-            var value = NativeTools.MemoryRead<ecs_type_t>(_FLECS__TEcsIterAction);
-            return value;
-        }
-    }
-
-    // Variable @ system.h:36
-    private static IntPtr _FLECS__TEcsContext;
-    public static ecs_type_t FLECS__TEcsContext
-    {
-        get
-        {
-            if (_FLECS__TEcsContext == IntPtr.Zero)
-            {
-                return default(ecs_type_t);
-            }
-
-            var value = NativeTools.MemoryRead<ecs_type_t>(_FLECS__TEcsContext);
             return value;
         }
     }
