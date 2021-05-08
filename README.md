@@ -115,9 +115,9 @@ Options:
   -?, -h, --help                                       Show help and usage information
 ```
 
-## [Examples](docs/examples/README.md)
+### [Examples](docs/examples/README.md)
 
-## Troubleshooting
+### Troubleshooting
 
 For troubleshooting use the `-t` option to print the Clang abstract syntax tree as the header file(s) are parsed. If you find a problem or need help you can reach out by creating a GitHub issue.
 
