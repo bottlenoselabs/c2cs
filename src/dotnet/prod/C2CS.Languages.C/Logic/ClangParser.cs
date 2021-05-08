@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Immutable;
-using C2CS.Tools;
 using static libclang;
 
 namespace C2CS.Languages.C

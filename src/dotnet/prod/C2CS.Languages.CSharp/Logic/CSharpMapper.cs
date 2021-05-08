@@ -25,15 +25,16 @@ namespace C2CS.CSharp
                 clangAbstractSyntaxTree.OpaquePointers);
             var opaqueDataTypes = MapOpaqueDataTypes(
                 clangAbstractSyntaxTree.OpaqueDataTypes);
-            var enums = MapEnums(
-                clangAbstractSyntaxTree.Enums);
+            var enums = MapEnums(clangAbstractSyntaxTree.Enums);
+            var variables = MapVariablesExtern(clangAbstractSyntaxTree.Variables);
 
             var result = new CSharpAbstractSyntaxTree(
                 functionExterns,
                 functionPointers,
                 structs,
                 opaqueDataTypes,
-                enums);
+                enums,
+                variables);
 
             return result;
         }
@@ -86,8 +87,8 @@ namespace C2CS.CSharp
         {
             var result = clangFunctionCallingConvention switch
             {
-                ClangFunctionExternCallingConvention.C => CSharpFunctionExternCallingConvention.C,
-                ClangFunctionExternCallingConvention.Unknown => CSharpFunctionExternCallingConvention.Unknown,
+                ClangFunctionExternCallingConvention.C => CSharpFunctionExternCallingConvention.Cdecl,
+                ClangFunctionExternCallingConvention.Unknown => CSharpFunctionExternCallingConvention.WinApi,
                 _ => throw new ArgumentOutOfRangeException(nameof(clangFunctionCallingConvention), clangFunctionCallingConvention, null)
             };
 
@@ -489,6 +490,31 @@ namespace C2CS.CSharp
                 originalCodeLocationComment,
                 value);
 
+            return result;
+        }
+
+        private static ImmutableArray<CSharpVariable> MapVariablesExtern(ImmutableArray<ClangVariable> clangVariables)
+        {
+            var builder = ImmutableArray.CreateBuilder<CSharpVariable>(clangVariables.Length);
+
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var clangVariable in clangVariables)
+            {
+                var variable = MapVariable(clangVariable);
+                builder.Add(variable);
+            }
+
+            var result = builder.ToImmutable();
+            return result;
+        }
+
+        private static CSharpVariable MapVariable(ClangVariable clangVariable)
+        {
+            var name = clangVariable.Name;
+            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangVariable);
+            var type = MapType(clangVariable.Type);
+
+            var result = new CSharpVariable(name, originalCodeLocationComment, type);
             return result;
         }
 

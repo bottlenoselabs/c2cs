@@ -17,6 +17,7 @@ namespace C2CS.Languages.C
         private readonly HashSet<CXCursor> _visitedCursors = new();
         private readonly HashSet<string> _visitedRecordNames = new();
         private readonly HashSet<string> _visitedFunctionProtoNames = new();
+        private readonly HashSet<string> _visitedOpaqueNames = new();
         private readonly ClangMapper _mapper = new();
         private readonly List<ClangFunctionExtern> _functions = new();
         private readonly List<ClangEnum> _enums = new();
@@ -25,6 +26,7 @@ namespace C2CS.Languages.C
         private readonly List<ClangOpaquePointer> _opaquePointers = new();
         private readonly List<ClangTypedef> _typedefs = new();
         private readonly List<ClangFunctionPointer> _functionPointers = new();
+        private readonly List<ClangVariable> _variables = new();
         private readonly StringBuilder _logBuilder = new();
 
         public ClangAbstractSyntaxTree ExtractAbstractSyntaxTree(
@@ -40,43 +42,41 @@ namespace C2CS.Languages.C
         {
             var translationUnitCursor = clang_getTranslationUnitCursor(translationUnit);
 
-            var externalFunctions = GetExternFunctions(translationUnit);
-            foreach (var function in externalFunctions)
+            var externs = GetExternCursors(translationUnit);
+            foreach (var @extern in externs)
             {
-                VisitCursor(function, translationUnitCursor, 1);
+                VisitCursor(@extern, translationUnitCursor, 1);
             }
         }
 
-        private static ImmutableArray<CXCursor> GetExternFunctions(CXTranslationUnit translationUnit)
+        private static ImmutableArray<CXCursor> GetExternCursors(CXTranslationUnit translationUnit)
         {
             var externFunctions = new List<CXCursor>();
 
             var translationUnitCursor = clang_getTranslationUnitCursor(translationUnit);
 
-            translationUnitCursor.VisitChildren(0, (child, _, _) =>
+            translationUnitCursor.VisitChildren(0, (cursor, _, _) =>
             {
-                var kind = child.kind;
-                var isFunctionDeclaration = kind == CXCursorKind.CXCursor_FunctionDecl;
-
-                if (!isFunctionDeclaration)
+                var kind = clang_getCursorKind(cursor);
+                if (kind != CXCursorKind.CXCursor_FunctionDecl && kind != CXCursorKind.CXCursor_VarDecl)
                 {
                     return;
                 }
 
-                var linkage = clang_getCursorLinkage(child);
+                var linkage = clang_getCursorLinkage(cursor);
                 var isExternallyLinked = linkage == CXLinkageKind.CXLinkage_External;
                 if (!isExternallyLinked)
                 {
                     return;
                 }
 
-                var isSystemCursor = child.IsSystemCursor();
+                var isSystemCursor = cursor.IsSystemCursor();
                 if (isSystemCursor)
                 {
                     return;
                 }
 
-                externFunctions.Add(child);
+                externFunctions.Add(cursor);
             });
 
             return externFunctions.ToImmutableArray();
@@ -99,6 +99,7 @@ namespace C2CS.Languages.C
             var opaqueDataTypes = _opaqueDataTypes.ToImmutableArray();
             var opaquePointers = _opaquePointers.ToImmutableArray();
             var typedefs = _typedefs.ToImmutableArray();
+            var variables = _variables.ToImmutableArray();
 
             var result = new ClangAbstractSyntaxTree(
                 functionExterns,
@@ -107,7 +108,8 @@ namespace C2CS.Languages.C
                 enums,
                 opaqueDataTypes,
                 opaquePointers,
-                typedefs);
+                typedefs,
+                variables);
 
             return result;
         }
@@ -273,6 +275,9 @@ namespace C2CS.Languages.C
                     case CXCursorKind.CXCursor_ParmDecl:
                         VisitParameter(cursor, cursorParent, depth);
                         break;
+                    case CXCursorKind.CXCursor_VarDecl:
+                        VisitVariable(cursor, cursorParent, depth);
+                        break;
                     default:
                         var up = new ExploreUnexpectedException(cursor);
                         throw up;
@@ -308,6 +313,21 @@ namespace C2CS.Languages.C
             VisitType(type, cursor, cursorParent, depth + 1);
 
             cursor.VisitChildren(depth + 1, VisitCursor);
+        }
+
+        private void VisitVariable(CXCursor cursor, CXCursor cursorParent, int depth)
+        {
+            var type = clang_getCursorType(cursor);
+
+            if (_printAbstractSyntaxTree)
+            {
+                LogVisit(cursor, type, "Variable", depth);
+            }
+
+            VisitType(type, cursor, cursorParent, depth + 1);
+
+            var clangVariable = _mapper.MapVariable(cursor);
+            _variables.Add(clangVariable);
         }
 
         private void VisitEnum(CXCursor cursor, int depth)
@@ -519,8 +539,25 @@ namespace C2CS.Languages.C
             _opaquePointers.Add(opaquePointerType);
         }
 
+        private bool CanVisitOpaque(CXCursor cursor)
+        {
+            var name = cursor.GetName();
+            if (_visitedOpaqueNames.Contains(name))
+            {
+                return false;
+            }
+
+            _visitedOpaqueNames.Add(name);
+            return true;
+        }
+
         private void VisitOpaque(CXCursor cursor, int depth)
         {
+            if (!CanVisitOpaque(cursor))
+            {
+                return;
+            }
+
             if (_printAbstractSyntaxTree)
             {
                 LogVisit(cursor, null, "Opaque", depth);

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
-using C2CS.Tools;
 using static libclang;
 
 namespace C2CS.Languages.C
@@ -383,6 +382,20 @@ namespace C2CS.Languages.C
                 name,
                 codeLocation,
                 underlyingType);
+
+            return result;
+        }
+
+        public ClangVariable MapVariable(CXCursor cursor)
+        {
+            var codeLocation = MapCodeLocation(cursor);
+            var name = MapName(cursor);
+            var type = MapType(cursor);
+
+            var result = new ClangVariable(
+                name,
+                codeLocation,
+                type);
 
             return result;
         }

@@ -4,7 +4,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
-using C2CS.Tools;
 using static libclang;
 
 namespace C2CS.Languages.C

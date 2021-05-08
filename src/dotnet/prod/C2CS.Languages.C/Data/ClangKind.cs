@@ -16,6 +16,7 @@ namespace C2CS.Languages.C
         EnumValue,
         OpaqueDataType,
         OpaquePointer,
-        Typedef
+        Typedef,
+        Variable
     }
 }

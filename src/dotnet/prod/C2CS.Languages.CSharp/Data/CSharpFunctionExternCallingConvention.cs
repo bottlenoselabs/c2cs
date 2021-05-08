@@ -5,7 +5,7 @@ namespace C2CS.CSharp
 {
     public enum CSharpFunctionExternCallingConvention
     {
-        Unknown,
-        C,
+        WinApi = 0,
+        Cdecl,
     }
 }

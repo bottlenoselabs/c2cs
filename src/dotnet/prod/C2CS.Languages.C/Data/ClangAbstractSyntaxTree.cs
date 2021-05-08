@@ -14,6 +14,7 @@ namespace C2CS.Languages.C
         public readonly ImmutableArray<ClangOpaqueDataType> OpaqueDataTypes;
         public readonly ImmutableArray<ClangOpaquePointer> OpaquePointers;
         public readonly ImmutableArray<ClangTypedef> Typedefs;
+        public readonly ImmutableArray<ClangVariable> Variables;
 
         public ClangAbstractSyntaxTree(
             ImmutableArray<ClangFunctionExtern> functionExternExterns,
@@ -22,7 +23,8 @@ namespace C2CS.Languages.C
             ImmutableArray<ClangEnum> enums,
             ImmutableArray<ClangOpaqueDataType> opaqueDataTypes,
             ImmutableArray<ClangOpaquePointer> opaquePointers,
-            ImmutableArray<ClangTypedef> typedefs)
+            ImmutableArray<ClangTypedef> typedefs,
+            ImmutableArray<ClangVariable> variables)
         {
             FunctionExterns = functionExternExterns;
             FunctionPointers = functionPointers;
@@ -31,6 +33,7 @@ namespace C2CS.Languages.C
             OpaqueDataTypes = opaqueDataTypes;
             OpaquePointers = opaquePointers;
             Typedefs = typedefs;
+            Variables = variables;
         }
     }
 }

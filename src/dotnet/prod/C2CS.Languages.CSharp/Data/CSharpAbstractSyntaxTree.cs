@@ -17,18 +17,22 @@ namespace C2CS.CSharp
 
         public readonly ImmutableArray<CSharpEnum> Enums;
 
+        public readonly ImmutableArray<CSharpVariable> VariablesExtern;
+
         public CSharpAbstractSyntaxTree(
             ImmutableArray<CSharpFunctionExtern> functionExterns,
             ImmutableArray<CSharpFunctionPointer> functionPointers,
             ImmutableArray<CSharpStruct> structs,
             ImmutableArray<CSharpOpaqueDataType> opaqueDataTypes,
-            ImmutableArray<CSharpEnum> enums)
+            ImmutableArray<CSharpEnum> enums,
+            ImmutableArray<CSharpVariable> variablesExtern)
         {
             FunctionExterns = functionExterns;
             FunctionPointers = functionPointers;
             Structs = structs;
             OpaqueDataTypes = opaqueDataTypes;
             Enums = enums;
+            VariablesExtern = variablesExtern;
         }
     }
 }
