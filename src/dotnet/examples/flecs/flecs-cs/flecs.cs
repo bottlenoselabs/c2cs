@@ -3413,12 +3413,6 @@ public static unsafe partial class flecs
     {
     }
 
-    // OpaqueDataType @ flecs.h:905
-    [StructLayout(LayoutKind.Sequential)]
-    public struct argv
-    {
-    }
-
     // OpaqueDataType @ map.h:36
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_map_t

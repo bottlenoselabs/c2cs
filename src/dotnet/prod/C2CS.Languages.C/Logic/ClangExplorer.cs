@@ -244,9 +244,9 @@ namespace C2CS.Languages.C
         {
             var cursorType = clang_getCursorType(cursor);
             var sizeOf = clang_Type_getSizeOf(cursorType);
-            if (sizeOf == -2)
+            if (sizeOf == -2 && // -2 = CXTypeLayoutError_Incomplete
+                cursorType.kind != CXTypeKind.CXType_IncompleteArray)
             {
-                // -2 = CXTypeLayoutError_Incomplete
                 VisitOpaque(cursor, depth);
             }
             else

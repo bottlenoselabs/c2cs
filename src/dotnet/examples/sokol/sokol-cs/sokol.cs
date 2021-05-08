@@ -2859,12 +2859,6 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // OpaqueDataType @ sokol_app.h:1399
-    [StructLayout(LayoutKind.Sequential)]
-    public struct argv
-    {
-    }
-
     // Enum @ sokol_app.h:1058
     public enum sapp_event_type : uint
     {
