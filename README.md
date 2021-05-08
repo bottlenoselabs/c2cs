@@ -119,6 +119,10 @@ In practice, using garbage collection to manage your memory automatically turns 
 
 ## License
 
-C2CS is licensed under the MIT License (`MIT`). There are a few exceptions to this detailed below. See the [LICENSE](LICENSE) file for more details on this main product's license.
+`C2CS` is licensed under the MIT License (`MIT`). There are a few exceptions to this detailed below. See the [LICENSE](LICENSE) file for more details on this main product's license. The main product, when packaged using NuGet, only has source code that is compiled to a binary to which that source code is 100% licensed under the MIT license.
 
-C2CS uses libclang which the header files are included as part of the repository under [`ext/clang`](./ext/clang). These files are licensed under the Apache License v2.0 with LLVM Exceptions; see the [ext/clang/LICENSE.txt](./ext/clang/LICENSE.txt) for more details.
+`C2CS` uses `libclang` which the header files are included as part of the repository under [`ext/clang`](./ext/clang). This is because `C2CS` generates bindings for `libclang` to which `C2CS` generates bindings for libclang and other C libraries. The C header files for `libclang` are included for convience of a source-of-truth for re-generating the bindings. These files are licensed under the Apache License v2.0 with LLVM Exceptions; see the [ext/clang/LICENSE.txt](./ext/clang/LICENSE.txt) for more details. The packaged binaries for `libclang` are used from and maintained by https://github.com/microsoft/ClangSharp. 
+
+`C2CS` has Git submodules to various C libraries which are included as part of this repository for purposes of testing and demonstrating by examples. The source code for these projects can be found under the `ext` folder. Each of these libraries have their own license and they are not used by `C2CS` directly.
+
+
