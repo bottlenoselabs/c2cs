@@ -340,7 +340,7 @@ public struct {@struct.Name}
 		private static FieldDeclarationSyntax CreateStructFieldNormal(CSharpStructField field)
 		{
 			var code = $@"
-[FieldOffset({field.Offset})] // size = {field.Type.SizeOf}, padding = {field.Type.AlignOf}
+[FieldOffset({field.Offset})] // size = {field.Type.SizeOf}, padding = {field.Padding}
 public {field.Type.Name} {field.Name};
 ".Trim();
 

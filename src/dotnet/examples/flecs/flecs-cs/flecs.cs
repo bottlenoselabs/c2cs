@@ -1974,7 +1974,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct ecs_record_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_table_t* table;
 
         [FieldOffset(8)] // size = 4, padding = 4
@@ -1985,7 +1985,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct ecs_entities_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_entity_t* array;
 
         [FieldOffset(8)] // size = 4, padding = 4
@@ -1996,13 +1996,13 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct ecs_page_iter_t
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public int offset;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public int limit;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public int remaining;
     }
 
@@ -2010,22 +2010,22 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
     public struct ecs_iter_table_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public int* columns;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public ecs_table_t* table;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public ecs_data_t* data;
 
-        [FieldOffset(24)] // size = 8, padding = 8
+        [FieldOffset(24)] // size = 8, padding = 0
         public ecs_entity_t* components;
 
-        [FieldOffset(32)] // size = 8, padding = 8
+        [FieldOffset(32)] // size = 8, padding = 0
         public ecs_type_t* types;
 
-        [FieldOffset(40)] // size = 8, padding = 8
+        [FieldOffset(40)] // size = 8, padding = 0
         public ecs_ref_t* references;
     }
 
@@ -2033,16 +2033,16 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 144, Pack = 8)]
     public struct ecs_scope_iter_t
     {
-        [FieldOffset(0)] // size = 56, padding = 8
+        [FieldOffset(0)] // size = 56, padding = 0
         public ecs_filter_t filter;
 
-        [FieldOffset(56)] // size = 32, padding = 8
+        [FieldOffset(56)] // size = 32, padding = 0
         public ecs_map_iter_t tables;
 
         [FieldOffset(88)] // size = 4, padding = 4
         public int index;
 
-        [FieldOffset(96)] // size = 48, padding = 8
+        [FieldOffset(96)] // size = 48, padding = 0
         public ecs_iter_table_t table;
     }
 
@@ -2050,16 +2050,16 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 120, Pack = 8)]
     public struct ecs_filter_iter_t
     {
-        [FieldOffset(0)] // size = 56, padding = 8
+        [FieldOffset(0)] // size = 56, padding = 0
         public ecs_filter_t filter;
 
-        [FieldOffset(56)] // size = 8, padding = 8
+        [FieldOffset(56)] // size = 8, padding = 0
         public ecs_sparse_t* tables;
 
         [FieldOffset(64)] // size = 4, padding = 4
         public int index;
 
-        [FieldOffset(72)] // size = 48, padding = 8
+        [FieldOffset(72)] // size = 48, padding = 0
         public ecs_iter_table_t table;
     }
 
@@ -2067,19 +2067,19 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
     public struct ecs_query_iter_t
     {
-        [FieldOffset(0)] // size = 12, padding = 4
+        [FieldOffset(0)] // size = 12, padding = 0
         public ecs_page_iter_t page_iter;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public int index;
 
-        [FieldOffset(16)] // size = 4, padding = 4
+        [FieldOffset(16)] // size = 4, padding = 0
         public int sparse_smallest;
 
-        [FieldOffset(20)] // size = 4, padding = 4
+        [FieldOffset(20)] // size = 4, padding = 0
         public int sparse_first;
 
-        [FieldOffset(24)] // size = 4, padding = 4
+        [FieldOffset(24)] // size = 4, padding = 0
         public int bitset_first;
     }
 
@@ -2087,16 +2087,16 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 120, Pack = 8)]
     public struct ecs_snapshot_iter_t
     {
-        [FieldOffset(0)] // size = 56, padding = 8
+        [FieldOffset(0)] // size = 56, padding = 0
         public ecs_filter_t filter;
 
-        [FieldOffset(56)] // size = 8, padding = 8
+        [FieldOffset(56)] // size = 8, padding = 0
         public ecs_vector_t* tables;
 
         [FieldOffset(64)] // size = 4, padding = 4
         public int index;
 
-        [FieldOffset(72)] // size = 48, padding = 8
+        [FieldOffset(72)] // size = 48, padding = 0
         public ecs_iter_table_t table;
     }
 
@@ -2104,10 +2104,10 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct ecs_match_failure_t
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public EcsMatchFailureReason reason;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public int column;
     }
 
@@ -2115,19 +2115,19 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
     public struct ecs_dbg_entity_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_entity_t entity;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public ecs_table_t* table;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public ecs_type_t type;
 
-        [FieldOffset(24)] // size = 4, padding = 4
+        [FieldOffset(24)] // size = 4, padding = 0
         public int row;
 
-        [FieldOffset(28)] // size = 1, padding = 1
+        [FieldOffset(28)] // size = 1, padding = 3
         public CBool is_watched;
     }
 
@@ -2135,28 +2135,28 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8)]
     public struct ecs_dbg_table_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_table_t* table;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public ecs_type_t type;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public ecs_type_t shared;
 
-        [FieldOffset(24)] // size = 8, padding = 8
+        [FieldOffset(24)] // size = 8, padding = 0
         public ecs_type_t container;
 
-        [FieldOffset(32)] // size = 8, padding = 8
+        [FieldOffset(32)] // size = 8, padding = 0
         public ecs_type_t parent_entities;
 
-        [FieldOffset(40)] // size = 8, padding = 8
+        [FieldOffset(40)] // size = 8, padding = 0
         public ecs_type_t base_entities;
 
-        [FieldOffset(48)] // size = 8, padding = 8
+        [FieldOffset(48)] // size = 8, padding = 0
         public ecs_vector_t* systems_matched;
 
-        [FieldOffset(56)] // size = 8, padding = 8
+        [FieldOffset(56)] // size = 8, padding = 0
         public ecs_entity_t* entities;
 
         [FieldOffset(64)] // size = 4, padding = 4
@@ -2167,73 +2167,73 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 288, Pack = 8)]
     public struct ecs_iter_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_world_t* world;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public ecs_world_t* real_world;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public ecs_entity_t system;
 
-        [FieldOffset(24)] // size = 8, padding = 8
+        [FieldOffset(24)] // size = 8, padding = 0
         public ecs_entity_t @event;
 
         [FieldOffset(32)] // size = 4, padding = 4
         public ecs_query_iter_kind_t kind;
 
-        [FieldOffset(40)] // size = 8, padding = 8
+        [FieldOffset(40)] // size = 8, padding = 0
         public ecs_iter_table_t* table;
 
-        [FieldOffset(48)] // size = 8, padding = 8
+        [FieldOffset(48)] // size = 8, padding = 0
         public ecs_query_t* query;
 
-        [FieldOffset(56)] // size = 4, padding = 4
+        [FieldOffset(56)] // size = 4, padding = 0
         public int table_count;
 
-        [FieldOffset(60)] // size = 4, padding = 4
+        [FieldOffset(60)] // size = 4, padding = 0
         public int inactive_table_count;
 
         [FieldOffset(64)] // size = 4, padding = 4
         public int column_count;
 
-        [FieldOffset(72)] // size = 8, padding = 8
+        [FieldOffset(72)] // size = 8, padding = 0
         public void* table_columns;
 
-        [FieldOffset(80)] // size = 8, padding = 8
+        [FieldOffset(80)] // size = 8, padding = 0
         public ecs_entity_t* entities;
 
-        [FieldOffset(88)] // size = 8, padding = 8
+        [FieldOffset(88)] // size = 8, padding = 0
         public void* param;
 
-        [FieldOffset(96)] // size = 4, padding = 4
+        [FieldOffset(96)] // size = 4, padding = 0
         public float delta_time;
 
-        [FieldOffset(100)] // size = 4, padding = 4
+        [FieldOffset(100)] // size = 4, padding = 0
         public float delta_system_time;
 
-        [FieldOffset(104)] // size = 4, padding = 4
+        [FieldOffset(104)] // size = 4, padding = 0
         public float world_time;
 
-        [FieldOffset(108)] // size = 4, padding = 4
+        [FieldOffset(108)] // size = 4, padding = 0
         public int frame_offset;
 
-        [FieldOffset(112)] // size = 4, padding = 4
+        [FieldOffset(112)] // size = 4, padding = 0
         public int offset;
 
-        [FieldOffset(116)] // size = 4, padding = 4
+        [FieldOffset(116)] // size = 4, padding = 0
         public int count;
 
         [FieldOffset(120)] // size = 4, padding = 4
         public int total_count;
 
-        [FieldOffset(128)] // size = 8, padding = 8
+        [FieldOffset(128)] // size = 8, padding = 0
         public ecs_entities_t* triggered_by;
 
-        [FieldOffset(136)] // size = 8, padding = 8
+        [FieldOffset(136)] // size = 8, padding = 0
         public ecs_entity_t interrupted_by;
 
-        [FieldOffset(144)] // size = 144, padding = 8
+        [FieldOffset(144)] // size = 144, padding = 0
         public Anonymous_Union_iter iter;
 
 
@@ -2241,16 +2241,16 @@ public static unsafe partial class flecs
         [StructLayout(LayoutKind.Explicit, Size = 144, Pack = 8)]
         public struct Anonymous_Union_iter
         {
-            [FieldOffset(0)] // size = 144, padding = 8
+            [FieldOffset(0)] // size = 144, padding = 0
             public ecs_scope_iter_t parent;
 
-            [FieldOffset(0)] // size = 120, padding = 8
+            [FieldOffset(0)] // size = 120, padding = 0
             public ecs_filter_iter_t filter;
 
-            [FieldOffset(0)] // size = 28, padding = 4
+            [FieldOffset(0)] // size = 28, padding = 0
             public ecs_query_iter_t query;
 
-            [FieldOffset(0)] // size = 120, padding = 8
+            [FieldOffset(0)] // size = 120, padding = 24
             public ecs_snapshot_iter_t snapshot;
         }
 
@@ -2260,25 +2260,25 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
     public struct ecs_ref_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_entity_t entity;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public ecs_entity_t component;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public void* table;
 
-        [FieldOffset(24)] // size = 4, padding = 4
+        [FieldOffset(24)] // size = 4, padding = 0
         public int row;
 
-        [FieldOffset(28)] // size = 4, padding = 4
+        [FieldOffset(28)] // size = 4, padding = 0
         public int alloc_count;
 
-        [FieldOffset(32)] // size = 8, padding = 8
+        [FieldOffset(32)] // size = 8, padding = 0
         public ecs_record_t* @record;
 
-        [FieldOffset(40)] // size = 8, padding = 8
+        [FieldOffset(40)] // size = 8, padding = 0
         public void* ptr;
     }
 
@@ -2286,22 +2286,22 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
     public struct ecs_term_id_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_entity_t entity;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public sbyte* name;
 
         [FieldOffset(16)] // size = 4, padding = 4
         public ecs_var_kind_t var_kind;
 
-        [FieldOffset(24)] // size = 8, padding = 8
+        [FieldOffset(24)] // size = 8, padding = 0
         public ecs_entity_t relation;
 
-        [FieldOffset(32)] // size = 1, padding = 1
+        [FieldOffset(32)] // size = 1, padding = 3
         public byte set;
 
-        [FieldOffset(36)] // size = 4, padding = 4
+        [FieldOffset(36)] // size = 4, padding = 0
         public int min_depth;
 
         [FieldOffset(40)] // size = 4, padding = 4
@@ -2312,13 +2312,13 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 192, Pack = 8)]
     public struct ecs_term_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_id_t id;
 
         [FieldOffset(8)] // size = 4, padding = 4
         public ecs_inout_kind_t inout;
 
-        [FieldOffset(16)] // size = 48, padding = 8
+        [FieldOffset(16)] // size = 48, padding = 0
         public ecs_term_id_t pred;
 
         [FieldOffset(64)] // size = 96, padding = 0
@@ -2337,10 +2337,10 @@ public static unsafe partial class flecs
         [FieldOffset(160)] // size = 4, padding = 4
         public ecs_oper_kind_t oper;
 
-        [FieldOffset(168)] // size = 8, padding = 8
+        [FieldOffset(168)] // size = 8, padding = 0
         public ecs_id_t role;
 
-        [FieldOffset(176)] // size = 8, padding = 8
+        [FieldOffset(176)] // size = 8, padding = 0
         public sbyte* name;
 
         [FieldOffset(184)] // size = 4, padding = 4
@@ -2351,31 +2351,31 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
     public struct ecs_filter_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_term_t* terms;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public int term_count;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public int term_count_actual;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public sbyte* name;
 
-        [FieldOffset(24)] // size = 8, padding = 8
+        [FieldOffset(24)] // size = 8, padding = 0
         public sbyte* expr;
 
-        [FieldOffset(32)] // size = 8, padding = 8
+        [FieldOffset(32)] // size = 8, padding = 0
         public ecs_type_t include;
 
-        [FieldOffset(40)] // size = 8, padding = 8
+        [FieldOffset(40)] // size = 8, padding = 0
         public ecs_type_t exclude;
 
-        [FieldOffset(48)] // size = 4, padding = 4
+        [FieldOffset(48)] // size = 4, padding = 0
         public ecs_match_kind_t include_kind;
 
-        [FieldOffset(52)] // size = 4, padding = 4
+        [FieldOffset(52)] // size = 4, padding = 0
         public ecs_match_kind_t exclude_kind;
     }
 
@@ -2383,19 +2383,19 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 568, Pack = 8)]
     public struct ecs_entity_desc_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_entity_t entity;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public sbyte* name;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public sbyte* sep;
 
-        [FieldOffset(24)] // size = 8, padding = 8
+        [FieldOffset(24)] // size = 8, padding = 0
         public sbyte* symbol;
 
-        [FieldOffset(32)] // size = 1, padding = 1
+        [FieldOffset(32)] // size = 1, padding = 7
         public CBool use_low_id;
 
         [FieldOffset(40)] // size = 256, padding = 0
@@ -2424,10 +2424,10 @@ public static unsafe partial class flecs
             }
         }
 
-        [FieldOffset(552)] // size = 8, padding = 8
+        [FieldOffset(552)] // size = 8, padding = 0
         public sbyte* add_expr;
 
-        [FieldOffset(560)] // size = 8, padding = 8
+        [FieldOffset(560)] // size = 8, padding = 0
         public sbyte* remove_expr;
     }
 
@@ -2435,13 +2435,13 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 584, Pack = 8)]
     public struct ecs_component_desc_t
     {
-        [FieldOffset(0)] // size = 568, padding = 8
+        [FieldOffset(0)] // size = 568, padding = 0
         public ecs_entity_desc_t entity;
 
-        [FieldOffset(568)] // size = 8, padding = 8
+        [FieldOffset(568)] // size = 8, padding = 0
         public ulong size;
 
-        [FieldOffset(576)] // size = 8, padding = 8
+        [FieldOffset(576)] // size = 8, padding = 0
         public ulong alignment;
     }
 
@@ -2449,7 +2449,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 832, Pack = 8)]
     public struct ecs_type_desc_t
     {
-        [FieldOffset(0)] // size = 568, padding = 8
+        [FieldOffset(0)] // size = 568, padding = 0
         public ecs_entity_desc_t entity;
 
         [FieldOffset(568)] // size = 256, padding = 0
@@ -2465,7 +2465,7 @@ public static unsafe partial class flecs
             }
         }
 
-        [FieldOffset(824)] // size = 8, padding = 8
+        [FieldOffset(824)] // size = 8, padding = 0
         public sbyte* ids_expr;
     }
 
@@ -2486,16 +2486,16 @@ public static unsafe partial class flecs
             }
         }
 
-        [FieldOffset(3072)] // size = 8, padding = 8
+        [FieldOffset(3072)] // size = 8, padding = 0
         public ecs_term_t* terms_buffer;
 
         [FieldOffset(3080)] // size = 4, padding = 4
         public int terms_buffer_count;
 
-        [FieldOffset(3088)] // size = 8, padding = 8
+        [FieldOffset(3088)] // size = 8, padding = 0
         public sbyte* expr;
 
-        [FieldOffset(3096)] // size = 8, padding = 8
+        [FieldOffset(3096)] // size = 8, padding = 0
         public sbyte* name;
     }
 
@@ -2503,25 +2503,25 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 3152, Pack = 8)]
     public struct ecs_query_desc_t
     {
-        [FieldOffset(0)] // size = 3104, padding = 8
+        [FieldOffset(0)] // size = 3104, padding = 0
         public ecs_filter_desc_t filter;
 
-        [FieldOffset(3104)] // size = 8, padding = 8
+        [FieldOffset(3104)] // size = 8, padding = 0
         public ecs_id_t order_by_id;
 
-        [FieldOffset(3112)] // size = 8, padding = 8
+        [FieldOffset(3112)] // size = 8, padding = 0
         public ecs_compare_action_t order_by;
 
-        [FieldOffset(3120)] // size = 8, padding = 8
+        [FieldOffset(3120)] // size = 8, padding = 0
         public ecs_id_t group_by_id;
 
-        [FieldOffset(3128)] // size = 8, padding = 8
+        [FieldOffset(3128)] // size = 8, padding = 0
         public ecs_rank_type_action_t group_by;
 
-        [FieldOffset(3136)] // size = 8, padding = 8
+        [FieldOffset(3136)] // size = 8, padding = 0
         public ecs_query_t* parent;
 
-        [FieldOffset(3144)] // size = 8, padding = 8
+        [FieldOffset(3144)] // size = 8, padding = 0
         public ecs_entity_t system;
     }
 
@@ -2529,16 +2529,16 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 856, Pack = 8)]
     public struct ecs_trigger_desc_t
     {
-        [FieldOffset(0)] // size = 568, padding = 8
+        [FieldOffset(0)] // size = 568, padding = 0
         public ecs_entity_desc_t entity;
 
-        [FieldOffset(568)] // size = 192, padding = 8
+        [FieldOffset(568)] // size = 192, padding = 0
         public ecs_term_t term;
 
-        [FieldOffset(760)] // size = 8, padding = 8
+        [FieldOffset(760)] // size = 8, padding = 0
         public sbyte* name;
 
-        [FieldOffset(768)] // size = 8, padding = 8
+        [FieldOffset(768)] // size = 8, padding = 0
         public sbyte* expr;
 
         [FieldOffset(776)] // size = 64, padding = 0
@@ -2554,10 +2554,10 @@ public static unsafe partial class flecs
             }
         }
 
-        [FieldOffset(840)] // size = 8, padding = 8
+        [FieldOffset(840)] // size = 8, padding = 0
         public ecs_iter_action_t callback;
 
-        [FieldOffset(848)] // size = 8, padding = 8
+        [FieldOffset(848)] // size = 8, padding = 0
         public void* ctx;
     }
 
@@ -2565,19 +2565,19 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
     public struct EcsComponentLifecycle
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_xtor_t ctor;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public ecs_xtor_t dtor;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public ecs_copy_t copy;
 
-        [FieldOffset(24)] // size = 8, padding = 8
+        [FieldOffset(24)] // size = 8, padding = 0
         public ecs_move_t move;
 
-        [FieldOffset(32)] // size = 8, padding = 8
+        [FieldOffset(32)] // size = 8, padding = 0
         public void* ctx;
     }
 
@@ -2585,52 +2585,52 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 88, Pack = 8)]
     public struct ecs_world_info_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_entity_t last_component_id;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public ecs_entity_t last_id;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public ecs_entity_t min_id;
 
-        [FieldOffset(24)] // size = 8, padding = 8
+        [FieldOffset(24)] // size = 8, padding = 0
         public ecs_entity_t max_id;
 
-        [FieldOffset(32)] // size = 4, padding = 4
+        [FieldOffset(32)] // size = 4, padding = 0
         public float delta_time_raw;
 
-        [FieldOffset(36)] // size = 4, padding = 4
+        [FieldOffset(36)] // size = 4, padding = 0
         public float delta_time;
 
-        [FieldOffset(40)] // size = 4, padding = 4
+        [FieldOffset(40)] // size = 4, padding = 0
         public float time_scale;
 
-        [FieldOffset(44)] // size = 4, padding = 4
+        [FieldOffset(44)] // size = 4, padding = 0
         public float target_fps;
 
-        [FieldOffset(48)] // size = 4, padding = 4
+        [FieldOffset(48)] // size = 4, padding = 0
         public float frame_time_total;
 
-        [FieldOffset(52)] // size = 4, padding = 4
+        [FieldOffset(52)] // size = 4, padding = 0
         public float system_time_total;
 
-        [FieldOffset(56)] // size = 4, padding = 4
+        [FieldOffset(56)] // size = 4, padding = 0
         public float merge_time_total;
 
-        [FieldOffset(60)] // size = 4, padding = 4
+        [FieldOffset(60)] // size = 4, padding = 0
         public float world_time_total;
 
-        [FieldOffset(64)] // size = 4, padding = 4
+        [FieldOffset(64)] // size = 4, padding = 0
         public float world_time_total_raw;
 
-        [FieldOffset(68)] // size = 4, padding = 4
+        [FieldOffset(68)] // size = 4, padding = 0
         public int frame_count_total;
 
-        [FieldOffset(72)] // size = 4, padding = 4
+        [FieldOffset(72)] // size = 4, padding = 0
         public int merge_count_total;
 
-        [FieldOffset(76)] // size = 4, padding = 4
+        [FieldOffset(76)] // size = 4, padding = 0
         public int pipeline_build_count_total;
 
         [FieldOffset(80)] // size = 4, padding = 4
@@ -2641,19 +2641,19 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
     public struct ecs_map_iter_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_map_t* map;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public ecs_bucket_t* bucket;
 
-        [FieldOffset(16)] // size = 4, padding = 4
+        [FieldOffset(16)] // size = 4, padding = 0
         public int bucket_index;
 
-        [FieldOffset(20)] // size = 4, padding = 4
+        [FieldOffset(20)] // size = 4, padding = 0
         public int element_index;
 
-        [FieldOffset(24)] // size = 8, padding = 8
+        [FieldOffset(24)] // size = 8, padding = 0
         public void* payload;
     }
 
@@ -2661,10 +2661,10 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct ecs_time_t
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public uint sec;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public uint nanosec;
     }
 
@@ -2672,100 +2672,100 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 256, Pack = 8)]
     public struct ecs_os_api_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_os_api_init_t init_;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public ecs_os_api_fini_t fini_;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public ecs_os_api_malloc_t malloc_;
 
-        [FieldOffset(24)] // size = 8, padding = 8
+        [FieldOffset(24)] // size = 8, padding = 0
         public ecs_os_api_realloc_t realloc_;
 
-        [FieldOffset(32)] // size = 8, padding = 8
+        [FieldOffset(32)] // size = 8, padding = 0
         public ecs_os_api_calloc_t calloc_;
 
-        [FieldOffset(40)] // size = 8, padding = 8
+        [FieldOffset(40)] // size = 8, padding = 0
         public ecs_os_api_free_t free_;
 
-        [FieldOffset(48)] // size = 8, padding = 8
+        [FieldOffset(48)] // size = 8, padding = 0
         public ecs_os_api_strdup_t strdup_;
 
-        [FieldOffset(56)] // size = 8, padding = 8
+        [FieldOffset(56)] // size = 8, padding = 0
         public ecs_os_api_thread_new_t thread_new_;
 
-        [FieldOffset(64)] // size = 8, padding = 8
+        [FieldOffset(64)] // size = 8, padding = 0
         public ecs_os_api_thread_join_t thread_join_;
 
-        [FieldOffset(72)] // size = 8, padding = 8
+        [FieldOffset(72)] // size = 8, padding = 0
         public ecs_os_api_ainc_t ainc_;
 
-        [FieldOffset(80)] // size = 8, padding = 8
+        [FieldOffset(80)] // size = 8, padding = 0
         public ecs_os_api_ainc_t adec_;
 
-        [FieldOffset(88)] // size = 8, padding = 8
+        [FieldOffset(88)] // size = 8, padding = 0
         public ecs_os_api_mutex_new_t mutex_new_;
 
-        [FieldOffset(96)] // size = 8, padding = 8
+        [FieldOffset(96)] // size = 8, padding = 0
         public ecs_os_api_mutex_free_t mutex_free_;
 
-        [FieldOffset(104)] // size = 8, padding = 8
+        [FieldOffset(104)] // size = 8, padding = 0
         public ecs_os_api_mutex_lock_t mutex_lock_;
 
-        [FieldOffset(112)] // size = 8, padding = 8
+        [FieldOffset(112)] // size = 8, padding = 0
         public ecs_os_api_mutex_lock_t mutex_unlock_;
 
-        [FieldOffset(120)] // size = 8, padding = 8
+        [FieldOffset(120)] // size = 8, padding = 0
         public ecs_os_api_cond_new_t cond_new_;
 
-        [FieldOffset(128)] // size = 8, padding = 8
+        [FieldOffset(128)] // size = 8, padding = 0
         public ecs_os_api_cond_free_t cond_free_;
 
-        [FieldOffset(136)] // size = 8, padding = 8
+        [FieldOffset(136)] // size = 8, padding = 0
         public ecs_os_api_cond_signal_t cond_signal_;
 
-        [FieldOffset(144)] // size = 8, padding = 8
+        [FieldOffset(144)] // size = 8, padding = 0
         public ecs_os_api_cond_broadcast_t cond_broadcast_;
 
-        [FieldOffset(152)] // size = 8, padding = 8
+        [FieldOffset(152)] // size = 8, padding = 0
         public ecs_os_api_cond_wait_t cond_wait_;
 
-        [FieldOffset(160)] // size = 8, padding = 8
+        [FieldOffset(160)] // size = 8, padding = 0
         public ecs_os_api_sleep_t sleep_;
 
-        [FieldOffset(168)] // size = 8, padding = 8
+        [FieldOffset(168)] // size = 8, padding = 0
         public ecs_os_api_get_time_t get_time_;
 
-        [FieldOffset(176)] // size = 8, padding = 8
+        [FieldOffset(176)] // size = 8, padding = 0
         public ecs_os_api_log_t log_;
 
-        [FieldOffset(184)] // size = 8, padding = 8
+        [FieldOffset(184)] // size = 8, padding = 0
         public ecs_os_api_log_t log_error_;
 
-        [FieldOffset(192)] // size = 8, padding = 8
+        [FieldOffset(192)] // size = 8, padding = 0
         public ecs_os_api_log_t log_debug_;
 
-        [FieldOffset(200)] // size = 8, padding = 8
+        [FieldOffset(200)] // size = 8, padding = 0
         public ecs_os_api_log_t log_warning_;
 
-        [FieldOffset(208)] // size = 8, padding = 8
+        [FieldOffset(208)] // size = 8, padding = 0
         public ecs_os_api_abort_t abort_;
 
-        [FieldOffset(216)] // size = 8, padding = 8
+        [FieldOffset(216)] // size = 8, padding = 0
         public ecs_os_api_dlopen_t dlopen_;
 
-        [FieldOffset(224)] // size = 8, padding = 8
+        [FieldOffset(224)] // size = 8, padding = 0
         public ecs_os_api_dlproc_t dlproc_;
 
-        [FieldOffset(232)] // size = 8, padding = 8
+        [FieldOffset(232)] // size = 8, padding = 0
         public ecs_os_api_dlclose_t dlclose_;
 
-        [FieldOffset(240)] // size = 8, padding = 8
+        [FieldOffset(240)] // size = 8, padding = 0
         public ecs_os_api_module_to_path_t module_to_dl_;
 
-        [FieldOffset(248)] // size = 8, padding = 8
+        [FieldOffset(248)] // size = 8, padding = 0
         public ecs_os_api_module_to_path_t module_to_etc_;
     }
 
@@ -2773,61 +2773,61 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 104, Pack = 8)]
     public struct ecs_table_reader_t
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public ecs_blob_header_kind_t state;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public int table_index;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public ecs_table_t* table;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public ecs_data_t* data;
 
         [FieldOffset(24)] // size = 4, padding = 4
         public ecs_size_t type_written;
 
-        [FieldOffset(32)] // size = 8, padding = 8
+        [FieldOffset(32)] // size = 8, padding = 0
         public ecs_type_t type;
 
-        [FieldOffset(40)] // size = 8, padding = 8
+        [FieldOffset(40)] // size = 8, padding = 0
         public ecs_vector_t* column_vector;
 
-        [FieldOffset(48)] // size = 4, padding = 4
+        [FieldOffset(48)] // size = 4, padding = 0
         public int column_index;
 
-        [FieldOffset(52)] // size = 4, padding = 4
+        [FieldOffset(52)] // size = 4, padding = 0
         public int total_columns;
 
-        [FieldOffset(56)] // size = 8, padding = 8
+        [FieldOffset(56)] // size = 8, padding = 0
         public void* column_data;
 
-        [FieldOffset(64)] // size = 2, padding = 2
+        [FieldOffset(64)] // size = 2, padding = 0
         public short column_size;
 
-        [FieldOffset(66)] // size = 2, padding = 2
+        [FieldOffset(66)] // size = 2, padding = 0
         public short column_alignment;
 
-        [FieldOffset(68)] // size = 4, padding = 4
+        [FieldOffset(68)] // size = 4, padding = 0
         public ecs_size_t column_written;
 
-        [FieldOffset(72)] // size = 4, padding = 4
+        [FieldOffset(72)] // size = 4, padding = 0
         public int row_index;
 
-        [FieldOffset(76)] // size = 4, padding = 4
+        [FieldOffset(76)] // size = 4, padding = 0
         public int row_count;
 
-        [FieldOffset(80)] // size = 8, padding = 8
+        [FieldOffset(80)] // size = 8, padding = 0
         public sbyte* name;
 
-        [FieldOffset(88)] // size = 4, padding = 4
+        [FieldOffset(88)] // size = 4, padding = 0
         public ecs_size_t name_len;
 
-        [FieldOffset(92)] // size = 4, padding = 4
+        [FieldOffset(92)] // size = 4, padding = 0
         public ecs_size_t name_written;
 
-        [FieldOffset(96)] // size = 1, padding = 1
+        [FieldOffset(96)] // size = 1, padding = 7
         public CBool has_next_table;
     }
 
@@ -2835,25 +2835,25 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 712, Pack = 8)]
     public struct ecs_reader_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_world_t* world;
 
         [FieldOffset(8)] // size = 4, padding = 4
         public ecs_blob_header_kind_t state;
 
-        [FieldOffset(16)] // size = 288, padding = 8
+        [FieldOffset(16)] // size = 288, padding = 0
         public ecs_iter_t data_iter;
 
-        [FieldOffset(304)] // size = 8, padding = 8
+        [FieldOffset(304)] // size = 8, padding = 0
         public ecs_iter_next_action_t data_next;
 
-        [FieldOffset(312)] // size = 288, padding = 8
+        [FieldOffset(312)] // size = 288, padding = 0
         public ecs_iter_t component_iter;
 
-        [FieldOffset(600)] // size = 8, padding = 8
+        [FieldOffset(600)] // size = 8, padding = 0
         public ecs_iter_next_action_t component_next;
 
-        [FieldOffset(608)] // size = 104, padding = 8
+        [FieldOffset(608)] // size = 104, padding = 0
         public ecs_table_reader_t table;
     }
 
@@ -2861,13 +2861,13 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct ecs_name_writer_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public sbyte* name;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public int written;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public int len;
 
         [FieldOffset(16)] // size = 4, padding = 4
@@ -2881,46 +2881,46 @@ public static unsafe partial class flecs
         [FieldOffset(0)] // size = 4, padding = 4
         public ecs_blob_header_kind_t state;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public ecs_table_t* table;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public ecs_vector_t* column_vector;
 
-        [FieldOffset(24)] // size = 4, padding = 4
+        [FieldOffset(24)] // size = 4, padding = 0
         public int type_count;
 
-        [FieldOffset(28)] // size = 4, padding = 4
+        [FieldOffset(28)] // size = 4, padding = 0
         public int type_max_count;
 
         [FieldOffset(32)] // size = 4, padding = 4
         public ecs_size_t type_written;
 
-        [FieldOffset(40)] // size = 8, padding = 8
+        [FieldOffset(40)] // size = 8, padding = 0
         public ecs_entity_t* type_array;
 
-        [FieldOffset(48)] // size = 4, padding = 4
+        [FieldOffset(48)] // size = 4, padding = 0
         public int column_index;
 
-        [FieldOffset(52)] // size = 2, padding = 2
+        [FieldOffset(52)] // size = 2, padding = 0
         public short column_size;
 
-        [FieldOffset(54)] // size = 2, padding = 2
+        [FieldOffset(54)] // size = 2, padding = 0
         public short column_alignment;
 
         [FieldOffset(56)] // size = 4, padding = 4
         public ecs_size_t column_written;
 
-        [FieldOffset(64)] // size = 8, padding = 8
+        [FieldOffset(64)] // size = 8, padding = 0
         public void* column_data;
 
-        [FieldOffset(72)] // size = 4, padding = 4
+        [FieldOffset(72)] // size = 4, padding = 0
         public int row_count;
 
-        [FieldOffset(76)] // size = 4, padding = 4
+        [FieldOffset(76)] // size = 4, padding = 0
         public int row_index;
 
-        [FieldOffset(80)] // size = 24, padding = 8
+        [FieldOffset(80)] // size = 24, padding = 0
         public ecs_name_writer_t name;
     }
 
@@ -2928,13 +2928,13 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 128, Pack = 8)]
     public struct ecs_writer_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_world_t* world;
 
         [FieldOffset(8)] // size = 4, padding = 4
         public ecs_blob_header_kind_t state;
 
-        [FieldOffset(16)] // size = 104, padding = 8
+        [FieldOffset(16)] // size = 104, padding = 0
         public ecs_table_writer_t table;
 
         [FieldOffset(120)] // size = 4, padding = 4
@@ -2959,7 +2959,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 960, Pack = 4)]
     public struct ecs_counter_t
     {
-        [FieldOffset(0)] // size = 720, padding = 4
+        [FieldOffset(0)] // size = 720, padding = 0
         public ecs_gauge_t rate;
 
         [FieldOffset(720)] // size = 240, padding = 0
@@ -2970,94 +2970,94 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 24248, Pack = 4)]
     public struct ecs_world_stats_t
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public int dummy_;
 
-        [FieldOffset(4)] // size = 720, padding = 4
+        [FieldOffset(4)] // size = 720, padding = 0
         public ecs_gauge_t entity_count;
 
-        [FieldOffset(724)] // size = 720, padding = 4
+        [FieldOffset(724)] // size = 720, padding = 0
         public ecs_gauge_t component_count;
 
-        [FieldOffset(1444)] // size = 720, padding = 4
+        [FieldOffset(1444)] // size = 720, padding = 0
         public ecs_gauge_t query_count;
 
-        [FieldOffset(2164)] // size = 720, padding = 4
+        [FieldOffset(2164)] // size = 720, padding = 0
         public ecs_gauge_t system_count;
 
-        [FieldOffset(2884)] // size = 720, padding = 4
+        [FieldOffset(2884)] // size = 720, padding = 0
         public ecs_gauge_t table_count;
 
-        [FieldOffset(3604)] // size = 720, padding = 4
+        [FieldOffset(3604)] // size = 720, padding = 0
         public ecs_gauge_t empty_table_count;
 
-        [FieldOffset(4324)] // size = 720, padding = 4
+        [FieldOffset(4324)] // size = 720, padding = 0
         public ecs_gauge_t singleton_table_count;
 
-        [FieldOffset(5044)] // size = 720, padding = 4
+        [FieldOffset(5044)] // size = 720, padding = 0
         public ecs_gauge_t matched_entity_count;
 
-        [FieldOffset(5764)] // size = 720, padding = 4
+        [FieldOffset(5764)] // size = 720, padding = 0
         public ecs_gauge_t matched_table_count;
 
-        [FieldOffset(6484)] // size = 960, padding = 4
+        [FieldOffset(6484)] // size = 960, padding = 0
         public ecs_counter_t new_count;
 
-        [FieldOffset(7444)] // size = 960, padding = 4
+        [FieldOffset(7444)] // size = 960, padding = 0
         public ecs_counter_t bulk_new_count;
 
-        [FieldOffset(8404)] // size = 960, padding = 4
+        [FieldOffset(8404)] // size = 960, padding = 0
         public ecs_counter_t delete_count;
 
-        [FieldOffset(9364)] // size = 960, padding = 4
+        [FieldOffset(9364)] // size = 960, padding = 0
         public ecs_counter_t clear_count;
 
-        [FieldOffset(10324)] // size = 960, padding = 4
+        [FieldOffset(10324)] // size = 960, padding = 0
         public ecs_counter_t add_count;
 
-        [FieldOffset(11284)] // size = 960, padding = 4
+        [FieldOffset(11284)] // size = 960, padding = 0
         public ecs_counter_t remove_count;
 
-        [FieldOffset(12244)] // size = 960, padding = 4
+        [FieldOffset(12244)] // size = 960, padding = 0
         public ecs_counter_t set_count;
 
-        [FieldOffset(13204)] // size = 960, padding = 4
+        [FieldOffset(13204)] // size = 960, padding = 0
         public ecs_counter_t discard_count;
 
-        [FieldOffset(14164)] // size = 960, padding = 4
+        [FieldOffset(14164)] // size = 960, padding = 0
         public ecs_counter_t world_time_total_raw;
 
-        [FieldOffset(15124)] // size = 960, padding = 4
+        [FieldOffset(15124)] // size = 960, padding = 0
         public ecs_counter_t world_time_total;
 
-        [FieldOffset(16084)] // size = 960, padding = 4
+        [FieldOffset(16084)] // size = 960, padding = 0
         public ecs_counter_t frame_time_total;
 
-        [FieldOffset(17044)] // size = 960, padding = 4
+        [FieldOffset(17044)] // size = 960, padding = 0
         public ecs_counter_t system_time_total;
 
-        [FieldOffset(18004)] // size = 960, padding = 4
+        [FieldOffset(18004)] // size = 960, padding = 0
         public ecs_counter_t merge_time_total;
 
-        [FieldOffset(18964)] // size = 720, padding = 4
+        [FieldOffset(18964)] // size = 720, padding = 0
         public ecs_gauge_t fps;
 
-        [FieldOffset(19684)] // size = 720, padding = 4
+        [FieldOffset(19684)] // size = 720, padding = 0
         public ecs_gauge_t delta_time;
 
-        [FieldOffset(20404)] // size = 960, padding = 4
+        [FieldOffset(20404)] // size = 960, padding = 0
         public ecs_counter_t frame_count_total;
 
-        [FieldOffset(21364)] // size = 960, padding = 4
+        [FieldOffset(21364)] // size = 960, padding = 0
         public ecs_counter_t merge_count_total;
 
-        [FieldOffset(22324)] // size = 960, padding = 4
+        [FieldOffset(22324)] // size = 960, padding = 0
         public ecs_counter_t pipeline_build_count_total;
 
-        [FieldOffset(23284)] // size = 960, padding = 4
+        [FieldOffset(23284)] // size = 960, padding = 0
         public ecs_counter_t systems_ran_frame;
 
-        [FieldOffset(24244)] // size = 4, padding = 4
+        [FieldOffset(24244)] // size = 4, padding = 0
         public int t;
     }
 
@@ -3065,16 +3065,16 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 2164, Pack = 4)]
     public struct ecs_query_stats_t
     {
-        [FieldOffset(0)] // size = 720, padding = 4
+        [FieldOffset(0)] // size = 720, padding = 0
         public ecs_gauge_t matched_table_count;
 
-        [FieldOffset(720)] // size = 720, padding = 4
+        [FieldOffset(720)] // size = 720, padding = 0
         public ecs_gauge_t matched_empty_table_count;
 
-        [FieldOffset(1440)] // size = 720, padding = 4
+        [FieldOffset(1440)] // size = 720, padding = 0
         public ecs_gauge_t matched_entity_count;
 
-        [FieldOffset(2160)] // size = 4, padding = 4
+        [FieldOffset(2160)] // size = 4, padding = 0
         public int t;
     }
 
@@ -3082,19 +3082,19 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 5524, Pack = 4)]
     public struct ecs_system_stats_t
     {
-        [FieldOffset(0)] // size = 2164, padding = 4
+        [FieldOffset(0)] // size = 2164, padding = 0
         public ecs_query_stats_t query_stats;
 
-        [FieldOffset(2164)] // size = 960, padding = 4
+        [FieldOffset(2164)] // size = 960, padding = 0
         public ecs_counter_t time_spent;
 
-        [FieldOffset(3124)] // size = 960, padding = 4
+        [FieldOffset(3124)] // size = 960, padding = 0
         public ecs_counter_t invoke_count;
 
-        [FieldOffset(4084)] // size = 720, padding = 4
+        [FieldOffset(4084)] // size = 720, padding = 0
         public ecs_gauge_t active;
 
-        [FieldOffset(4804)] // size = 720, padding = 4
+        [FieldOffset(4804)] // size = 720, padding = 0
         public ecs_gauge_t enabled;
     }
 
@@ -3102,10 +3102,10 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct ecs_pipeline_stats_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_vector_t* systems;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public ecs_map_t* system_stats;
     }
 
@@ -3113,16 +3113,16 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct ecs_strbuf_element
     {
-        [FieldOffset(0)] // size = 1, padding = 1
+        [FieldOffset(0)] // size = 1, padding = 3
         public CBool buffer_embedded;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public int pos;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public sbyte* buf;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public ecs_strbuf_element* next;
     }
 
@@ -3130,7 +3130,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 536, Pack = 8)]
     public struct ecs_strbuf_element_embedded
     {
-        [FieldOffset(0)] // size = 24, padding = 8
+        [FieldOffset(0)] // size = 24, padding = 0
         public ecs_strbuf_element super;
 
         [FieldOffset(24)] // size = 512, padding = 0
@@ -3144,7 +3144,7 @@ public static unsafe partial class flecs
         [FieldOffset(0)] // size = 4, padding = 4
         public int count;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public sbyte* separator;
     }
 
@@ -3152,22 +3152,22 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 1088, Pack = 8)]
     public struct ecs_strbuf_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public sbyte* buf;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public int max;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public int size;
 
         [FieldOffset(16)] // size = 4, padding = 4
         public int elementCount;
 
-        [FieldOffset(24)] // size = 536, padding = 8
+        [FieldOffset(24)] // size = 536, padding = 0
         public ecs_strbuf_element_embedded firstElement;
 
-        [FieldOffset(560)] // size = 8, padding = 8
+        [FieldOffset(560)] // size = 8, padding = 0
         public ecs_strbuf_element* current;
 
         [FieldOffset(568)] // size = 512, padding = 0
@@ -3191,22 +3191,22 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
     public struct ecs_dbg_system_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_entity_t system;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public int entities_matched_count;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public int active_table_count;
 
-        [FieldOffset(16)] // size = 4, padding = 4
+        [FieldOffset(16)] // size = 4, padding = 0
         public int inactive_table_count;
 
-        [FieldOffset(20)] // size = 1, padding = 1
+        [FieldOffset(20)] // size = 1, padding = 3
         public CBool enabled;
 
-        [FieldOffset(24)] // size = 8, padding = 8
+        [FieldOffset(24)] // size = 8, padding = 0
         public void* system_data;
     }
 
@@ -3214,13 +3214,13 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct ecs_vector_t
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public int count;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public int size;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public long elem_size;
     }
 
@@ -3228,7 +3228,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct ecs_size_t
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public int Alias;
     }
 
@@ -3236,7 +3236,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_id_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ulong Alias;
     }
 
@@ -3244,7 +3244,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_entity_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ulong Alias;
     }
 
@@ -3252,7 +3252,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_type_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ecs_vector_t* Alias;
     }
 
@@ -3260,7 +3260,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_map_key_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ulong Alias;
     }
 
@@ -3268,7 +3268,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_os_thread_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ulong Alias;
     }
 
@@ -3276,7 +3276,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_os_cond_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ulong Alias;
     }
 
@@ -3284,7 +3284,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_os_mutex_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ulong Alias;
     }
 
@@ -3292,7 +3292,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_os_dl_t
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ulong Alias;
     }
 

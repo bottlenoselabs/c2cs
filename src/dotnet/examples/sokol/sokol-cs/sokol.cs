@@ -1292,16 +1292,16 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct sapp_touchpoint
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ulong identifier;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public float pos_x;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public float pos_y;
 
-        [FieldOffset(16)] // size = 1, padding = 1
+        [FieldOffset(16)] // size = 1, padding = 7
         public CBool changed;
     }
 
@@ -1309,43 +1309,43 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 272, Pack = 8)]
     public struct sapp_event
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ulong frame_count;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public sapp_event_type type;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public sapp_keycode key_code;
 
-        [FieldOffset(16)] // size = 4, padding = 4
+        [FieldOffset(16)] // size = 4, padding = 0
         public uint char_code;
 
-        [FieldOffset(20)] // size = 1, padding = 1
+        [FieldOffset(20)] // size = 1, padding = 3
         public CBool key_repeat;
 
-        [FieldOffset(24)] // size = 4, padding = 4
+        [FieldOffset(24)] // size = 4, padding = 0
         public uint modifiers;
 
-        [FieldOffset(28)] // size = 4, padding = 4
+        [FieldOffset(28)] // size = 4, padding = 0
         public sapp_mousebutton mouse_button;
 
-        [FieldOffset(32)] // size = 4, padding = 4
+        [FieldOffset(32)] // size = 4, padding = 0
         public float mouse_x;
 
-        [FieldOffset(36)] // size = 4, padding = 4
+        [FieldOffset(36)] // size = 4, padding = 0
         public float mouse_y;
 
-        [FieldOffset(40)] // size = 4, padding = 4
+        [FieldOffset(40)] // size = 4, padding = 0
         public float mouse_dx;
 
-        [FieldOffset(44)] // size = 4, padding = 4
+        [FieldOffset(44)] // size = 4, padding = 0
         public float mouse_dy;
 
-        [FieldOffset(48)] // size = 4, padding = 4
+        [FieldOffset(48)] // size = 4, padding = 0
         public float scroll_x;
 
-        [FieldOffset(52)] // size = 4, padding = 4
+        [FieldOffset(52)] // size = 4, padding = 0
         public float scroll_y;
 
         [FieldOffset(56)] // size = 4, padding = 4
@@ -1364,16 +1364,16 @@ public static unsafe partial class sokol
             }
         }
 
-        [FieldOffset(256)] // size = 4, padding = 4
+        [FieldOffset(256)] // size = 4, padding = 0
         public int window_width;
 
-        [FieldOffset(260)] // size = 4, padding = 4
+        [FieldOffset(260)] // size = 4, padding = 0
         public int window_height;
 
-        [FieldOffset(264)] // size = 4, padding = 4
+        [FieldOffset(264)] // size = 4, padding = 0
         public int framebuffer_width;
 
-        [FieldOffset(268)] // size = 4, padding = 4
+        [FieldOffset(268)] // size = 4, padding = 0
         public int framebuffer_height;
     }
 
@@ -1381,10 +1381,10 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct sapp_range
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* ptr;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public ulong size;
     }
 
@@ -1392,13 +1392,13 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct sapp_image_desc
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public int width;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public int height;
 
-        [FieldOffset(8)] // size = 16, padding = 8
+        [FieldOffset(8)] // size = 16, padding = 0
         public sapp_range pixels;
     }
 
@@ -1406,7 +1406,7 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 200, Pack = 8)]
     public struct sapp_icon_desc
     {
-        [FieldOffset(0)] // size = 1, padding = 1
+        [FieldOffset(0)] // size = 1, padding = 7
         public CBool sokol_default;
 
         [FieldOffset(8)] // size = 192, padding = 0
@@ -1427,112 +1427,112 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 368, Pack = 8)]
     public struct sapp_desc
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public sapp_desc_init_cb init_cb;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public sapp_desc_frame_cb frame_cb;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public sapp_desc_cleanup_cb cleanup_cb;
 
-        [FieldOffset(24)] // size = 8, padding = 8
+        [FieldOffset(24)] // size = 8, padding = 0
         public sapp_desc_event_cb event_cb;
 
-        [FieldOffset(32)] // size = 8, padding = 8
+        [FieldOffset(32)] // size = 8, padding = 0
         public sapp_desc_fail_cb fail_cb;
 
-        [FieldOffset(40)] // size = 8, padding = 8
+        [FieldOffset(40)] // size = 8, padding = 0
         public void* user_data;
 
-        [FieldOffset(48)] // size = 8, padding = 8
+        [FieldOffset(48)] // size = 8, padding = 0
         public sapp_desc_init_userdata_cb init_userdata_cb;
 
-        [FieldOffset(56)] // size = 8, padding = 8
+        [FieldOffset(56)] // size = 8, padding = 0
         public sapp_desc_frame_userdata_cb frame_userdata_cb;
 
-        [FieldOffset(64)] // size = 8, padding = 8
+        [FieldOffset(64)] // size = 8, padding = 0
         public sapp_desc_cleanup_userdata_cb cleanup_userdata_cb;
 
-        [FieldOffset(72)] // size = 8, padding = 8
+        [FieldOffset(72)] // size = 8, padding = 0
         public sapp_desc_event_userdata_cb event_userdata_cb;
 
-        [FieldOffset(80)] // size = 8, padding = 8
+        [FieldOffset(80)] // size = 8, padding = 0
         public sapp_desc_fail_userdata_cb fail_userdata_cb;
 
-        [FieldOffset(88)] // size = 4, padding = 4
+        [FieldOffset(88)] // size = 4, padding = 0
         public int width;
 
-        [FieldOffset(92)] // size = 4, padding = 4
+        [FieldOffset(92)] // size = 4, padding = 0
         public int height;
 
-        [FieldOffset(96)] // size = 4, padding = 4
+        [FieldOffset(96)] // size = 4, padding = 0
         public int sample_count;
 
-        [FieldOffset(100)] // size = 4, padding = 4
+        [FieldOffset(100)] // size = 4, padding = 0
         public int swap_interval;
 
-        [FieldOffset(104)] // size = 1, padding = 1
+        [FieldOffset(104)] // size = 1, padding = 0
         public CBool high_dpi;
 
-        [FieldOffset(105)] // size = 1, padding = 1
+        [FieldOffset(105)] // size = 1, padding = 0
         public CBool fullscreen;
 
-        [FieldOffset(106)] // size = 1, padding = 1
+        [FieldOffset(106)] // size = 1, padding = 5
         public CBool alpha;
 
-        [FieldOffset(112)] // size = 8, padding = 8
+        [FieldOffset(112)] // size = 8, padding = 0
         public sbyte* window_title;
 
-        [FieldOffset(120)] // size = 1, padding = 1
+        [FieldOffset(120)] // size = 1, padding = 0
         public CBool user_cursor;
 
-        [FieldOffset(121)] // size = 1, padding = 1
+        [FieldOffset(121)] // size = 1, padding = 2
         public CBool enable_clipboard;
 
-        [FieldOffset(124)] // size = 4, padding = 4
+        [FieldOffset(124)] // size = 4, padding = 0
         public int clipboard_size;
 
-        [FieldOffset(128)] // size = 1, padding = 1
+        [FieldOffset(128)] // size = 1, padding = 3
         public CBool enable_dragndrop;
 
-        [FieldOffset(132)] // size = 4, padding = 4
+        [FieldOffset(132)] // size = 4, padding = 0
         public int max_dropped_files;
 
         [FieldOffset(136)] // size = 4, padding = 4
         public int max_dropped_file_path_length;
 
-        [FieldOffset(144)] // size = 200, padding = 8
+        [FieldOffset(144)] // size = 200, padding = 0
         public sapp_icon_desc icon;
 
-        [FieldOffset(344)] // size = 1, padding = 1
+        [FieldOffset(344)] // size = 1, padding = 0
         public CBool gl_force_gles2;
 
-        [FieldOffset(345)] // size = 1, padding = 1
+        [FieldOffset(345)] // size = 1, padding = 0
         public CBool win32_console_utf8;
 
-        [FieldOffset(346)] // size = 1, padding = 1
+        [FieldOffset(346)] // size = 1, padding = 0
         public CBool win32_console_create;
 
-        [FieldOffset(347)] // size = 1, padding = 1
+        [FieldOffset(347)] // size = 1, padding = 4
         public CBool win32_console_attach;
 
-        [FieldOffset(352)] // size = 8, padding = 8
+        [FieldOffset(352)] // size = 8, padding = 0
         public sbyte* html5_canvas_name;
 
-        [FieldOffset(360)] // size = 1, padding = 1
+        [FieldOffset(360)] // size = 1, padding = 0
         public CBool html5_canvas_resize;
 
-        [FieldOffset(361)] // size = 1, padding = 1
+        [FieldOffset(361)] // size = 1, padding = 0
         public CBool html5_preserve_drawing_buffer;
 
-        [FieldOffset(362)] // size = 1, padding = 1
+        [FieldOffset(362)] // size = 1, padding = 0
         public CBool html5_premultiplied_alpha;
 
-        [FieldOffset(363)] // size = 1, padding = 1
+        [FieldOffset(363)] // size = 1, padding = 0
         public CBool html5_ask_leave_site;
 
-        [FieldOffset(364)] // size = 1, padding = 1
+        [FieldOffset(364)] // size = 1, padding = 3
         public CBool ios_keyboard_resizes_canvas;
     }
 
@@ -1540,25 +1540,25 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
     public struct sapp_html5_fetch_response
     {
-        [FieldOffset(0)] // size = 1, padding = 1
+        [FieldOffset(0)] // size = 1, padding = 3
         public CBool succeeded;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public sapp_html5_fetch_error error_code;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public int file_index;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public uint fetched_size;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public void* buffer_ptr;
 
         [FieldOffset(24)] // size = 4, padding = 4
         public uint buffer_size;
 
-        [FieldOffset(32)] // size = 8, padding = 8
+        [FieldOffset(32)] // size = 8, padding = 0
         public void* user_data;
     }
 
@@ -1569,16 +1569,16 @@ public static unsafe partial class sokol
         [FieldOffset(0)] // size = 4, padding = 4
         public int dropped_file_index;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public sapp_html5_fetch_request_callback callback;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public void* buffer_ptr;
 
         [FieldOffset(24)] // size = 4, padding = 4
         public uint buffer_size;
 
-        [FieldOffset(32)] // size = 8, padding = 8
+        [FieldOffset(32)] // size = 8, padding = 0
         public void* user_data;
     }
 
@@ -1586,7 +1586,7 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct sg_buffer
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public uint id;
     }
 
@@ -1594,7 +1594,7 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct sg_image
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public uint id;
     }
 
@@ -1602,7 +1602,7 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct sg_shader
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public uint id;
     }
 
@@ -1610,7 +1610,7 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct sg_pipeline
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public uint id;
     }
 
@@ -1618,7 +1618,7 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct sg_pass
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public uint id;
     }
 
@@ -1626,7 +1626,7 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct sg_context
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public uint id;
     }
 
@@ -1634,10 +1634,10 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct sg_range
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* ptr;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public ulong size;
     }
 
@@ -1645,16 +1645,16 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct sg_color
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public float r;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public float g;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public float b;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public float a;
     }
 
@@ -1662,22 +1662,22 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 6, Pack = 1)]
     public struct sg_pixelformat_info
     {
-        [FieldOffset(0)] // size = 1, padding = 1
+        [FieldOffset(0)] // size = 1, padding = 0
         public CBool sample;
 
-        [FieldOffset(1)] // size = 1, padding = 1
+        [FieldOffset(1)] // size = 1, padding = 0
         public CBool filter;
 
-        [FieldOffset(2)] // size = 1, padding = 1
+        [FieldOffset(2)] // size = 1, padding = 0
         public CBool render;
 
-        [FieldOffset(3)] // size = 1, padding = 1
+        [FieldOffset(3)] // size = 1, padding = 0
         public CBool blend;
 
-        [FieldOffset(4)] // size = 1, padding = 1
+        [FieldOffset(4)] // size = 1, padding = 0
         public CBool msaa;
 
-        [FieldOffset(5)] // size = 1, padding = 1
+        [FieldOffset(5)] // size = 1, padding = 0
         public CBool depth;
     }
 
@@ -1685,31 +1685,31 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 9, Pack = 1)]
     public struct sg_features
     {
-        [FieldOffset(0)] // size = 1, padding = 1
+        [FieldOffset(0)] // size = 1, padding = 0
         public CBool instancing;
 
-        [FieldOffset(1)] // size = 1, padding = 1
+        [FieldOffset(1)] // size = 1, padding = 0
         public CBool origin_top_left;
 
-        [FieldOffset(2)] // size = 1, padding = 1
+        [FieldOffset(2)] // size = 1, padding = 0
         public CBool multiple_render_targets;
 
-        [FieldOffset(3)] // size = 1, padding = 1
+        [FieldOffset(3)] // size = 1, padding = 0
         public CBool msaa_render_targets;
 
-        [FieldOffset(4)] // size = 1, padding = 1
+        [FieldOffset(4)] // size = 1, padding = 0
         public CBool imagetype_3d;
 
-        [FieldOffset(5)] // size = 1, padding = 1
+        [FieldOffset(5)] // size = 1, padding = 0
         public CBool imagetype_array;
 
-        [FieldOffset(6)] // size = 1, padding = 1
+        [FieldOffset(6)] // size = 1, padding = 0
         public CBool image_clamp_to_border;
 
-        [FieldOffset(7)] // size = 1, padding = 1
+        [FieldOffset(7)] // size = 1, padding = 0
         public CBool mrt_independent_blend_state;
 
-        [FieldOffset(8)] // size = 1, padding = 1
+        [FieldOffset(8)] // size = 1, padding = 0
         public CBool mrt_independent_write_mask;
     }
 
@@ -1717,22 +1717,22 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
     public struct sg_limits
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public int max_image_size_2d;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public int max_image_size_cube;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public int max_image_size_3d;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public int max_image_size_array;
 
-        [FieldOffset(16)] // size = 4, padding = 4
+        [FieldOffset(16)] // size = 4, padding = 0
         public int max_image_array_layers;
 
-        [FieldOffset(20)] // size = 4, padding = 4
+        [FieldOffset(20)] // size = 4, padding = 0
         public int max_vertex_attrs;
     }
 
@@ -1740,10 +1740,10 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 20, Pack = 4)]
     public struct sg_color_attachment_action
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public sg_action action;
 
-        [FieldOffset(4)] // size = 16, padding = 4
+        [FieldOffset(4)] // size = 16, padding = 0
         public sg_color value;
     }
 
@@ -1751,10 +1751,10 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct sg_depth_attachment_action
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public sg_action action;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public float value;
     }
 
@@ -1762,10 +1762,10 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct sg_stencil_attachment_action
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public sg_action action;
 
-        [FieldOffset(4)] // size = 1, padding = 1
+        [FieldOffset(4)] // size = 1, padding = 3
         public byte value;
     }
 
@@ -1773,7 +1773,7 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 104, Pack = 4)]
     public struct sg_pass_action
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public uint _start_canary;
 
         [FieldOffset(4)] // size = 80, padding = 0
@@ -1789,13 +1789,13 @@ public static unsafe partial class sokol
             }
         }
 
-        [FieldOffset(84)] // size = 8, padding = 4
+        [FieldOffset(84)] // size = 8, padding = 0
         public sg_depth_attachment_action depth;
 
-        [FieldOffset(92)] // size = 8, padding = 4
+        [FieldOffset(92)] // size = 8, padding = 0
         public sg_stencil_attachment_action stencil;
 
-        [FieldOffset(100)] // size = 4, padding = 4
+        [FieldOffset(100)] // size = 4, padding = 0
         public uint _end_canary;
     }
 
@@ -1803,7 +1803,7 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 176, Pack = 4)]
     public struct sg_bindings
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public uint _start_canary;
 
         [FieldOffset(4)] // size = 32, padding = 0
@@ -1822,10 +1822,10 @@ public static unsafe partial class sokol
         [FieldOffset(36)] // size = 32, padding = 0
         public fixed int _vertex_buffer_offsets[32 / 4]; // original type is `int [8]`
 
-        [FieldOffset(68)] // size = 4, padding = 4
+        [FieldOffset(68)] // size = 4, padding = 0
         public sg_buffer index_buffer;
 
-        [FieldOffset(72)] // size = 4, padding = 4
+        [FieldOffset(72)] // size = 4, padding = 0
         public int index_buffer_offset;
 
         [FieldOffset(76)] // size = 48, padding = 0
@@ -1854,7 +1854,7 @@ public static unsafe partial class sokol
             }
         }
 
-        [FieldOffset(172)] // size = 4, padding = 4
+        [FieldOffset(172)] // size = 4, padding = 0
         public uint _end_canary;
     }
 
@@ -1865,19 +1865,19 @@ public static unsafe partial class sokol
         [FieldOffset(0)] // size = 4, padding = 4
         public uint _start_canary;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public ulong size;
 
-        [FieldOffset(16)] // size = 4, padding = 4
+        [FieldOffset(16)] // size = 4, padding = 0
         public sg_buffer_type type;
 
-        [FieldOffset(20)] // size = 4, padding = 4
+        [FieldOffset(20)] // size = 4, padding = 0
         public sg_usage usage;
 
-        [FieldOffset(24)] // size = 16, padding = 8
+        [FieldOffset(24)] // size = 16, padding = 0
         public sg_range data;
 
-        [FieldOffset(40)] // size = 8, padding = 8
+        [FieldOffset(40)] // size = 8, padding = 0
         public sbyte* label;
 
         [FieldOffset(48)] // size = 8, padding = 0
@@ -1896,10 +1896,10 @@ public static unsafe partial class sokol
             }
         }
 
-        [FieldOffset(72)] // size = 8, padding = 8
+        [FieldOffset(72)] // size = 8, padding = 0
         public void* d3d11_buffer;
 
-        [FieldOffset(80)] // size = 8, padding = 8
+        [FieldOffset(80)] // size = 8, padding = 0
         public void* wgpu_buffer;
 
         [FieldOffset(88)] // size = 4, padding = 4
@@ -1928,67 +1928,67 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 1688, Pack = 8)]
     public struct sg_image_desc
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public uint _start_canary;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public sg_image_type type;
 
-        [FieldOffset(8)] // size = 1, padding = 1
+        [FieldOffset(8)] // size = 1, padding = 3
         public CBool render_target;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public int width;
 
-        [FieldOffset(16)] // size = 4, padding = 4
+        [FieldOffset(16)] // size = 4, padding = 0
         public int height;
 
-        [FieldOffset(20)] // size = 4, padding = 4
+        [FieldOffset(20)] // size = 4, padding = 0
         public int num_slices;
 
-        [FieldOffset(24)] // size = 4, padding = 4
+        [FieldOffset(24)] // size = 4, padding = 0
         public int num_mipmaps;
 
-        [FieldOffset(28)] // size = 4, padding = 4
+        [FieldOffset(28)] // size = 4, padding = 0
         public sg_usage usage;
 
-        [FieldOffset(32)] // size = 4, padding = 4
+        [FieldOffset(32)] // size = 4, padding = 0
         public sg_pixel_format pixel_format;
 
-        [FieldOffset(36)] // size = 4, padding = 4
+        [FieldOffset(36)] // size = 4, padding = 0
         public int sample_count;
 
-        [FieldOffset(40)] // size = 4, padding = 4
+        [FieldOffset(40)] // size = 4, padding = 0
         public sg_filter min_filter;
 
-        [FieldOffset(44)] // size = 4, padding = 4
+        [FieldOffset(44)] // size = 4, padding = 0
         public sg_filter mag_filter;
 
-        [FieldOffset(48)] // size = 4, padding = 4
+        [FieldOffset(48)] // size = 4, padding = 0
         public sg_wrap wrap_u;
 
-        [FieldOffset(52)] // size = 4, padding = 4
+        [FieldOffset(52)] // size = 4, padding = 0
         public sg_wrap wrap_v;
 
-        [FieldOffset(56)] // size = 4, padding = 4
+        [FieldOffset(56)] // size = 4, padding = 0
         public sg_wrap wrap_w;
 
-        [FieldOffset(60)] // size = 4, padding = 4
+        [FieldOffset(60)] // size = 4, padding = 0
         public sg_border_color border_color;
 
-        [FieldOffset(64)] // size = 4, padding = 4
+        [FieldOffset(64)] // size = 4, padding = 0
         public uint max_anisotropy;
 
-        [FieldOffset(68)] // size = 4, padding = 4
+        [FieldOffset(68)] // size = 4, padding = 0
         public float min_lod;
 
         [FieldOffset(72)] // size = 4, padding = 4
         public float max_lod;
 
-        [FieldOffset(80)] // size = 1536, padding = 8
+        [FieldOffset(80)] // size = 1536, padding = 0
         public sg_image_data data;
 
-        [FieldOffset(1616)] // size = 8, padding = 8
+        [FieldOffset(1616)] // size = 8, padding = 0
         public sbyte* label;
 
         [FieldOffset(1624)] // size = 8, padding = 0
@@ -2010,13 +2010,13 @@ public static unsafe partial class sokol
             }
         }
 
-        [FieldOffset(1656)] // size = 8, padding = 8
+        [FieldOffset(1656)] // size = 8, padding = 0
         public void* d3d11_texture;
 
-        [FieldOffset(1664)] // size = 8, padding = 8
+        [FieldOffset(1664)] // size = 8, padding = 0
         public void* d3d11_shader_resource_view;
 
-        [FieldOffset(1672)] // size = 8, padding = 8
+        [FieldOffset(1672)] // size = 8, padding = 0
         public void* wgpu_texture;
 
         [FieldOffset(1680)] // size = 4, padding = 4
@@ -2027,10 +2027,10 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct sg_shader_attr_desc
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public sbyte* name;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public sbyte* sem_name;
 
         [FieldOffset(16)] // size = 4, padding = 4
@@ -2041,13 +2041,13 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct sg_shader_uniform_desc
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public sbyte* name;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public sg_uniform_type type;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public int array_count;
     }
 
@@ -2055,7 +2055,7 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 264, Pack = 8)]
     public struct sg_shader_uniform_block_desc
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public ulong size;
 
         [FieldOffset(8)] // size = 256, padding = 0
@@ -2076,13 +2076,13 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct sg_shader_image_desc
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public sbyte* name;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public sg_image_type image_type;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public sg_sampler_type sampler_type;
     }
 
@@ -2090,16 +2090,16 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 1288, Pack = 8)]
     public struct sg_shader_stage_desc
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public sbyte* source;
 
-        [FieldOffset(8)] // size = 16, padding = 8
+        [FieldOffset(8)] // size = 16, padding = 0
         public sg_range bytecode;
 
-        [FieldOffset(24)] // size = 8, padding = 8
+        [FieldOffset(24)] // size = 8, padding = 0
         public sbyte* entry;
 
-        [FieldOffset(32)] // size = 8, padding = 8
+        [FieldOffset(32)] // size = 8, padding = 0
         public sbyte* d3d11_target;
 
         [FieldOffset(40)] // size = 1056, padding = 0
@@ -2149,13 +2149,13 @@ public static unsafe partial class sokol
             }
         }
 
-        [FieldOffset(392)] // size = 1288, padding = 8
+        [FieldOffset(392)] // size = 1288, padding = 0
         public sg_shader_stage_desc vs;
 
-        [FieldOffset(1680)] // size = 1288, padding = 8
+        [FieldOffset(1680)] // size = 1288, padding = 0
         public sg_shader_stage_desc fs;
 
-        [FieldOffset(2968)] // size = 8, padding = 8
+        [FieldOffset(2968)] // size = 8, padding = 0
         public sbyte* label;
 
         [FieldOffset(2976)] // size = 4, padding = 4
@@ -2166,13 +2166,13 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_buffer_layout_desc
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public int stride;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public sg_vertex_step step_func;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public int step_rate;
     }
 
@@ -2180,13 +2180,13 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_vertex_attr_desc
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public int buffer_index;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public int offset;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public sg_vertex_format format;
     }
 
@@ -2225,16 +2225,16 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct sg_stencil_face_state
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public sg_compare_func compare;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public sg_stencil_op fail_op;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public sg_stencil_op depth_fail_op;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public sg_stencil_op pass_op;
     }
 
@@ -2242,19 +2242,19 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 4)]
     public struct sg_stencil_state
     {
-        [FieldOffset(0)] // size = 1, padding = 1
+        [FieldOffset(0)] // size = 1, padding = 3
         public CBool enabled;
 
-        [FieldOffset(4)] // size = 16, padding = 4
+        [FieldOffset(4)] // size = 16, padding = 0
         public sg_stencil_face_state front;
 
-        [FieldOffset(20)] // size = 16, padding = 4
+        [FieldOffset(20)] // size = 16, padding = 0
         public sg_stencil_face_state back;
 
-        [FieldOffset(36)] // size = 1, padding = 1
+        [FieldOffset(36)] // size = 1, padding = 0
         public byte read_mask;
 
-        [FieldOffset(37)] // size = 1, padding = 1
+        [FieldOffset(37)] // size = 1, padding = 0
         public byte write_mask;
 
         [FieldOffset(38)] // size = 1, padding = 1
@@ -2265,22 +2265,22 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
     public struct sg_depth_state
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public sg_pixel_format pixel_format;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public sg_compare_func compare;
 
-        [FieldOffset(8)] // size = 1, padding = 1
+        [FieldOffset(8)] // size = 1, padding = 3
         public CBool write_enabled;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public float bias;
 
-        [FieldOffset(16)] // size = 4, padding = 4
+        [FieldOffset(16)] // size = 4, padding = 0
         public float bias_slope_scale;
 
-        [FieldOffset(20)] // size = 4, padding = 4
+        [FieldOffset(20)] // size = 4, padding = 0
         public float bias_clamp;
     }
 
@@ -2288,25 +2288,25 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
     public struct sg_blend_state
     {
-        [FieldOffset(0)] // size = 1, padding = 1
+        [FieldOffset(0)] // size = 1, padding = 3
         public CBool enabled;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public sg_blend_factor src_factor_rgb;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public sg_blend_factor dst_factor_rgb;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public sg_blend_op op_rgb;
 
-        [FieldOffset(16)] // size = 4, padding = 4
+        [FieldOffset(16)] // size = 4, padding = 0
         public sg_blend_factor src_factor_alpha;
 
-        [FieldOffset(20)] // size = 4, padding = 4
+        [FieldOffset(20)] // size = 4, padding = 0
         public sg_blend_factor dst_factor_alpha;
 
-        [FieldOffset(24)] // size = 4, padding = 4
+        [FieldOffset(24)] // size = 4, padding = 0
         public sg_blend_op op_alpha;
     }
 
@@ -2314,13 +2314,13 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 36, Pack = 4)]
     public struct sg_color_state
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public sg_pixel_format pixel_format;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public sg_color_mask write_mask;
 
-        [FieldOffset(8)] // size = 28, padding = 4
+        [FieldOffset(8)] // size = 28, padding = 0
         public sg_blend_state blend;
     }
 
@@ -2328,22 +2328,22 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 568, Pack = 8)]
     public struct sg_pipeline_desc
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public uint _start_canary;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public sg_shader shader;
 
-        [FieldOffset(8)] // size = 288, padding = 4
+        [FieldOffset(8)] // size = 288, padding = 0
         public sg_layout_desc layout;
 
-        [FieldOffset(296)] // size = 24, padding = 4
+        [FieldOffset(296)] // size = 24, padding = 0
         public sg_depth_state depth;
 
-        [FieldOffset(320)] // size = 40, padding = 4
+        [FieldOffset(320)] // size = 40, padding = 0
         public sg_stencil_state stencil;
 
-        [FieldOffset(360)] // size = 4, padding = 4
+        [FieldOffset(360)] // size = 4, padding = 0
         public int color_count;
 
         [FieldOffset(364)] // size = 144, padding = 0
@@ -2359,28 +2359,28 @@ public static unsafe partial class sokol
             }
         }
 
-        [FieldOffset(508)] // size = 4, padding = 4
+        [FieldOffset(508)] // size = 4, padding = 0
         public sg_primitive_type primitive_type;
 
-        [FieldOffset(512)] // size = 4, padding = 4
+        [FieldOffset(512)] // size = 4, padding = 0
         public sg_index_type index_type;
 
-        [FieldOffset(516)] // size = 4, padding = 4
+        [FieldOffset(516)] // size = 4, padding = 0
         public sg_cull_mode cull_mode;
 
-        [FieldOffset(520)] // size = 4, padding = 4
+        [FieldOffset(520)] // size = 4, padding = 0
         public sg_face_winding face_winding;
 
-        [FieldOffset(524)] // size = 4, padding = 4
+        [FieldOffset(524)] // size = 4, padding = 0
         public int sample_count;
 
-        [FieldOffset(528)] // size = 16, padding = 4
+        [FieldOffset(528)] // size = 16, padding = 0
         public sg_color blend_color;
 
-        [FieldOffset(544)] // size = 1, padding = 1
+        [FieldOffset(544)] // size = 1, padding = 7
         public CBool alpha_to_coverage_enabled;
 
-        [FieldOffset(552)] // size = 8, padding = 8
+        [FieldOffset(552)] // size = 8, padding = 0
         public sbyte* label;
 
         [FieldOffset(560)] // size = 4, padding = 4
@@ -2391,13 +2391,13 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_pass_attachment_desc
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public sg_image image;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public int mip_level;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public int slice;
     }
 
@@ -2405,7 +2405,7 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8)]
     public struct sg_pass_desc
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public uint _start_canary;
 
         [FieldOffset(4)] // size = 48, padding = 0
@@ -2421,10 +2421,10 @@ public static unsafe partial class sokol
             }
         }
 
-        [FieldOffset(52)] // size = 12, padding = 4
+        [FieldOffset(52)] // size = 12, padding = 0
         public sg_pass_attachment_desc depth_stencil_attachment;
 
-        [FieldOffset(64)] // size = 8, padding = 8
+        [FieldOffset(64)] // size = 8, padding = 0
         public sbyte* label;
 
         [FieldOffset(72)] // size = 4, padding = 4
@@ -2435,187 +2435,187 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 488, Pack = 8)]
     public struct sg_trace_hooks
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* user_data;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public sg_trace_hooks_reset_state_cache reset_state_cache;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public sg_trace_hooks_make_buffer make_buffer;
 
-        [FieldOffset(24)] // size = 8, padding = 8
+        [FieldOffset(24)] // size = 8, padding = 0
         public sg_trace_hooks_make_image make_image;
 
-        [FieldOffset(32)] // size = 8, padding = 8
+        [FieldOffset(32)] // size = 8, padding = 0
         public sg_trace_hooks_make_shader make_shader;
 
-        [FieldOffset(40)] // size = 8, padding = 8
+        [FieldOffset(40)] // size = 8, padding = 0
         public sg_trace_hooks_make_pipeline make_pipeline;
 
-        [FieldOffset(48)] // size = 8, padding = 8
+        [FieldOffset(48)] // size = 8, padding = 0
         public sg_trace_hooks_make_pass make_pass;
 
-        [FieldOffset(56)] // size = 8, padding = 8
+        [FieldOffset(56)] // size = 8, padding = 0
         public sg_trace_hooks_destroy_buffer destroy_buffer;
 
-        [FieldOffset(64)] // size = 8, padding = 8
+        [FieldOffset(64)] // size = 8, padding = 0
         public sg_trace_hooks_destroy_image destroy_image;
 
-        [FieldOffset(72)] // size = 8, padding = 8
+        [FieldOffset(72)] // size = 8, padding = 0
         public sg_trace_hooks_destroy_shader destroy_shader;
 
-        [FieldOffset(80)] // size = 8, padding = 8
+        [FieldOffset(80)] // size = 8, padding = 0
         public sg_trace_hooks_destroy_pipeline destroy_pipeline;
 
-        [FieldOffset(88)] // size = 8, padding = 8
+        [FieldOffset(88)] // size = 8, padding = 0
         public sg_trace_hooks_destroy_pass destroy_pass;
 
-        [FieldOffset(96)] // size = 8, padding = 8
+        [FieldOffset(96)] // size = 8, padding = 0
         public sg_trace_hooks_update_buffer update_buffer;
 
-        [FieldOffset(104)] // size = 8, padding = 8
+        [FieldOffset(104)] // size = 8, padding = 0
         public sg_trace_hooks_update_image update_image;
 
-        [FieldOffset(112)] // size = 8, padding = 8
+        [FieldOffset(112)] // size = 8, padding = 0
         public sg_trace_hooks_append_buffer append_buffer;
 
-        [FieldOffset(120)] // size = 8, padding = 8
+        [FieldOffset(120)] // size = 8, padding = 0
         public sg_trace_hooks_begin_default_pass begin_default_pass;
 
-        [FieldOffset(128)] // size = 8, padding = 8
+        [FieldOffset(128)] // size = 8, padding = 0
         public sg_trace_hooks_begin_pass begin_pass;
 
-        [FieldOffset(136)] // size = 8, padding = 8
+        [FieldOffset(136)] // size = 8, padding = 0
         public sg_trace_hooks_apply_viewport apply_viewport;
 
-        [FieldOffset(144)] // size = 8, padding = 8
+        [FieldOffset(144)] // size = 8, padding = 0
         public sg_trace_hooks_apply_scissor_rect apply_scissor_rect;
 
-        [FieldOffset(152)] // size = 8, padding = 8
+        [FieldOffset(152)] // size = 8, padding = 0
         public sg_trace_hooks_apply_pipeline apply_pipeline;
 
-        [FieldOffset(160)] // size = 8, padding = 8
+        [FieldOffset(160)] // size = 8, padding = 0
         public sg_trace_hooks_apply_bindings apply_bindings;
 
-        [FieldOffset(168)] // size = 8, padding = 8
+        [FieldOffset(168)] // size = 8, padding = 0
         public sg_trace_hooks_apply_uniforms apply_uniforms;
 
-        [FieldOffset(176)] // size = 8, padding = 8
+        [FieldOffset(176)] // size = 8, padding = 0
         public sg_trace_hooks_draw draw;
 
-        [FieldOffset(184)] // size = 8, padding = 8
+        [FieldOffset(184)] // size = 8, padding = 0
         public sg_trace_hooks_end_pass end_pass;
 
-        [FieldOffset(192)] // size = 8, padding = 8
+        [FieldOffset(192)] // size = 8, padding = 0
         public sg_trace_hooks_commit commit;
 
-        [FieldOffset(200)] // size = 8, padding = 8
+        [FieldOffset(200)] // size = 8, padding = 0
         public sg_trace_hooks_alloc_buffer alloc_buffer;
 
-        [FieldOffset(208)] // size = 8, padding = 8
+        [FieldOffset(208)] // size = 8, padding = 0
         public sg_trace_hooks_alloc_image alloc_image;
 
-        [FieldOffset(216)] // size = 8, padding = 8
+        [FieldOffset(216)] // size = 8, padding = 0
         public sg_trace_hooks_alloc_shader alloc_shader;
 
-        [FieldOffset(224)] // size = 8, padding = 8
+        [FieldOffset(224)] // size = 8, padding = 0
         public sg_trace_hooks_alloc_pipeline alloc_pipeline;
 
-        [FieldOffset(232)] // size = 8, padding = 8
+        [FieldOffset(232)] // size = 8, padding = 0
         public sg_trace_hooks_alloc_pass alloc_pass;
 
-        [FieldOffset(240)] // size = 8, padding = 8
+        [FieldOffset(240)] // size = 8, padding = 0
         public sg_trace_hooks_dealloc_buffer dealloc_buffer;
 
-        [FieldOffset(248)] // size = 8, padding = 8
+        [FieldOffset(248)] // size = 8, padding = 0
         public sg_trace_hooks_dealloc_image dealloc_image;
 
-        [FieldOffset(256)] // size = 8, padding = 8
+        [FieldOffset(256)] // size = 8, padding = 0
         public sg_trace_hooks_dealloc_shader dealloc_shader;
 
-        [FieldOffset(264)] // size = 8, padding = 8
+        [FieldOffset(264)] // size = 8, padding = 0
         public sg_trace_hooks_dealloc_pipeline dealloc_pipeline;
 
-        [FieldOffset(272)] // size = 8, padding = 8
+        [FieldOffset(272)] // size = 8, padding = 0
         public sg_trace_hooks_dealloc_pass dealloc_pass;
 
-        [FieldOffset(280)] // size = 8, padding = 8
+        [FieldOffset(280)] // size = 8, padding = 0
         public sg_trace_hooks_init_buffer init_buffer;
 
-        [FieldOffset(288)] // size = 8, padding = 8
+        [FieldOffset(288)] // size = 8, padding = 0
         public sg_trace_hooks_init_image init_image;
 
-        [FieldOffset(296)] // size = 8, padding = 8
+        [FieldOffset(296)] // size = 8, padding = 0
         public sg_trace_hooks_init_shader init_shader;
 
-        [FieldOffset(304)] // size = 8, padding = 8
+        [FieldOffset(304)] // size = 8, padding = 0
         public sg_trace_hooks_init_pipeline init_pipeline;
 
-        [FieldOffset(312)] // size = 8, padding = 8
+        [FieldOffset(312)] // size = 8, padding = 0
         public sg_trace_hooks_init_pass init_pass;
 
-        [FieldOffset(320)] // size = 8, padding = 8
+        [FieldOffset(320)] // size = 8, padding = 0
         public sg_trace_hooks_uninit_buffer uninit_buffer;
 
-        [FieldOffset(328)] // size = 8, padding = 8
+        [FieldOffset(328)] // size = 8, padding = 0
         public sg_trace_hooks_uninit_image uninit_image;
 
-        [FieldOffset(336)] // size = 8, padding = 8
+        [FieldOffset(336)] // size = 8, padding = 0
         public sg_trace_hooks_uninit_shader uninit_shader;
 
-        [FieldOffset(344)] // size = 8, padding = 8
+        [FieldOffset(344)] // size = 8, padding = 0
         public sg_trace_hooks_uninit_pipeline uninit_pipeline;
 
-        [FieldOffset(352)] // size = 8, padding = 8
+        [FieldOffset(352)] // size = 8, padding = 0
         public sg_trace_hooks_uninit_pass uninit_pass;
 
-        [FieldOffset(360)] // size = 8, padding = 8
+        [FieldOffset(360)] // size = 8, padding = 0
         public sg_trace_hooks_fail_buffer fail_buffer;
 
-        [FieldOffset(368)] // size = 8, padding = 8
+        [FieldOffset(368)] // size = 8, padding = 0
         public sg_trace_hooks_fail_image fail_image;
 
-        [FieldOffset(376)] // size = 8, padding = 8
+        [FieldOffset(376)] // size = 8, padding = 0
         public sg_trace_hooks_fail_shader fail_shader;
 
-        [FieldOffset(384)] // size = 8, padding = 8
+        [FieldOffset(384)] // size = 8, padding = 0
         public sg_trace_hooks_fail_pipeline fail_pipeline;
 
-        [FieldOffset(392)] // size = 8, padding = 8
+        [FieldOffset(392)] // size = 8, padding = 0
         public sg_trace_hooks_fail_pass fail_pass;
 
-        [FieldOffset(400)] // size = 8, padding = 8
+        [FieldOffset(400)] // size = 8, padding = 0
         public sg_trace_hooks_push_debug_group push_debug_group;
 
-        [FieldOffset(408)] // size = 8, padding = 8
+        [FieldOffset(408)] // size = 8, padding = 0
         public sg_trace_hooks_pop_debug_group pop_debug_group;
 
-        [FieldOffset(416)] // size = 8, padding = 8
+        [FieldOffset(416)] // size = 8, padding = 0
         public sg_trace_hooks_err_buffer_pool_exhausted err_buffer_pool_exhausted;
 
-        [FieldOffset(424)] // size = 8, padding = 8
+        [FieldOffset(424)] // size = 8, padding = 0
         public sg_trace_hooks_err_image_pool_exhausted err_image_pool_exhausted;
 
-        [FieldOffset(432)] // size = 8, padding = 8
+        [FieldOffset(432)] // size = 8, padding = 0
         public sg_trace_hooks_err_shader_pool_exhausted err_shader_pool_exhausted;
 
-        [FieldOffset(440)] // size = 8, padding = 8
+        [FieldOffset(440)] // size = 8, padding = 0
         public sg_trace_hooks_err_pipeline_pool_exhausted err_pipeline_pool_exhausted;
 
-        [FieldOffset(448)] // size = 8, padding = 8
+        [FieldOffset(448)] // size = 8, padding = 0
         public sg_trace_hooks_err_pass_pool_exhausted err_pass_pool_exhausted;
 
-        [FieldOffset(456)] // size = 8, padding = 8
+        [FieldOffset(456)] // size = 8, padding = 0
         public sg_trace_hooks_err_context_mismatch err_context_mismatch;
 
-        [FieldOffset(464)] // size = 8, padding = 8
+        [FieldOffset(464)] // size = 8, padding = 0
         public sg_trace_hooks_err_pass_invalid err_pass_invalid;
 
-        [FieldOffset(472)] // size = 8, padding = 8
+        [FieldOffset(472)] // size = 8, padding = 0
         public sg_trace_hooks_err_draw_invalid err_draw_invalid;
 
-        [FieldOffset(480)] // size = 8, padding = 8
+        [FieldOffset(480)] // size = 8, padding = 0
         public sg_trace_hooks_err_bindings_invalid err_bindings_invalid;
     }
 
@@ -2623,13 +2623,13 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_slot_info
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public sg_resource_state state;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public uint res_id;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public uint ctx_id;
     }
 
@@ -2637,25 +2637,25 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 36, Pack = 4)]
     public struct sg_buffer_info
     {
-        [FieldOffset(0)] // size = 12, padding = 4
+        [FieldOffset(0)] // size = 12, padding = 0
         public sg_slot_info slot;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public uint update_frame_index;
 
-        [FieldOffset(16)] // size = 4, padding = 4
+        [FieldOffset(16)] // size = 4, padding = 0
         public uint append_frame_index;
 
-        [FieldOffset(20)] // size = 4, padding = 4
+        [FieldOffset(20)] // size = 4, padding = 0
         public int append_pos;
 
-        [FieldOffset(24)] // size = 1, padding = 1
+        [FieldOffset(24)] // size = 1, padding = 3
         public CBool append_overflow;
 
-        [FieldOffset(28)] // size = 4, padding = 4
+        [FieldOffset(28)] // size = 4, padding = 0
         public int num_slots;
 
-        [FieldOffset(32)] // size = 4, padding = 4
+        [FieldOffset(32)] // size = 4, padding = 0
         public int active_slot;
     }
 
@@ -2663,22 +2663,22 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 4)]
     public struct sg_image_info
     {
-        [FieldOffset(0)] // size = 12, padding = 4
+        [FieldOffset(0)] // size = 12, padding = 0
         public sg_slot_info slot;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public uint upd_frame_index;
 
-        [FieldOffset(16)] // size = 4, padding = 4
+        [FieldOffset(16)] // size = 4, padding = 0
         public int num_slots;
 
-        [FieldOffset(20)] // size = 4, padding = 4
+        [FieldOffset(20)] // size = 4, padding = 0
         public int active_slot;
 
-        [FieldOffset(24)] // size = 4, padding = 4
+        [FieldOffset(24)] // size = 4, padding = 0
         public int width;
 
-        [FieldOffset(28)] // size = 4, padding = 4
+        [FieldOffset(28)] // size = 4, padding = 0
         public int height;
     }
 
@@ -2686,7 +2686,7 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_shader_info
     {
-        [FieldOffset(0)] // size = 12, padding = 4
+        [FieldOffset(0)] // size = 12, padding = 0
         public sg_slot_info slot;
     }
 
@@ -2694,7 +2694,7 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_pipeline_info
     {
-        [FieldOffset(0)] // size = 12, padding = 4
+        [FieldOffset(0)] // size = 12, padding = 0
         public sg_slot_info slot;
     }
 
@@ -2702,7 +2702,7 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_pass_info
     {
-        [FieldOffset(0)] // size = 12, padding = 4
+        [FieldOffset(0)] // size = 12, padding = 0
         public sg_slot_info slot;
     }
 
@@ -2710,7 +2710,7 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 1, Pack = 1)]
     public struct sg_gl_context_desc
     {
-        [FieldOffset(0)] // size = 1, padding = 1
+        [FieldOffset(0)] // size = 1, padding = 0
         public CBool force_gles2;
     }
 
@@ -2718,22 +2718,22 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
     public struct sg_metal_context_desc
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* device;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public sg_metal_context_desc_renderpass_descriptor_cb renderpass_descriptor_cb;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public sg_metal_context_desc_renderpass_descriptor_userdata_cb renderpass_descriptor_userdata_cb;
 
-        [FieldOffset(24)] // size = 8, padding = 8
+        [FieldOffset(24)] // size = 8, padding = 0
         public sg_metal_context_desc_drawable_cb drawable_cb;
 
-        [FieldOffset(32)] // size = 8, padding = 8
+        [FieldOffset(32)] // size = 8, padding = 0
         public sg_metal_context_desc_drawable_userdata_cb drawable_userdata_cb;
 
-        [FieldOffset(40)] // size = 8, padding = 8
+        [FieldOffset(40)] // size = 8, padding = 0
         public void* user_data;
     }
 
@@ -2741,25 +2741,25 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
     public struct sg_d3d11_context_desc
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* device;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public void* device_context;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public sg_d3d11_context_desc_render_target_view_cb render_target_view_cb;
 
-        [FieldOffset(24)] // size = 8, padding = 8
+        [FieldOffset(24)] // size = 8, padding = 0
         public sg_d3d11_context_desc_render_target_view_userdata_cb render_target_view_userdata_cb;
 
-        [FieldOffset(32)] // size = 8, padding = 8
+        [FieldOffset(32)] // size = 8, padding = 0
         public sg_d3d11_context_desc_depth_stencil_view_cb depth_stencil_view_cb;
 
-        [FieldOffset(40)] // size = 8, padding = 8
+        [FieldOffset(40)] // size = 8, padding = 0
         public sg_d3d11_context_desc_depth_stencil_view_userdata_cb depth_stencil_view_userdata_cb;
 
-        [FieldOffset(48)] // size = 8, padding = 8
+        [FieldOffset(48)] // size = 8, padding = 0
         public void* user_data;
     }
 
@@ -2767,28 +2767,28 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
     public struct sg_wgpu_context_desc
     {
-        [FieldOffset(0)] // size = 8, padding = 8
+        [FieldOffset(0)] // size = 8, padding = 0
         public void* device;
 
-        [FieldOffset(8)] // size = 8, padding = 8
+        [FieldOffset(8)] // size = 8, padding = 0
         public sg_wgpu_context_desc_render_view_cb render_view_cb;
 
-        [FieldOffset(16)] // size = 8, padding = 8
+        [FieldOffset(16)] // size = 8, padding = 0
         public sg_wgpu_context_desc_render_view_userdata_cb render_view_userdata_cb;
 
-        [FieldOffset(24)] // size = 8, padding = 8
+        [FieldOffset(24)] // size = 8, padding = 0
         public sg_wgpu_context_desc_resolve_view_cb resolve_view_cb;
 
-        [FieldOffset(32)] // size = 8, padding = 8
+        [FieldOffset(32)] // size = 8, padding = 0
         public sg_wgpu_context_desc_resolve_view_userdata_cb resolve_view_userdata_cb;
 
-        [FieldOffset(40)] // size = 8, padding = 8
+        [FieldOffset(40)] // size = 8, padding = 0
         public sg_wgpu_context_desc_depth_stencil_view_cb depth_stencil_view_cb;
 
-        [FieldOffset(48)] // size = 8, padding = 8
+        [FieldOffset(48)] // size = 8, padding = 0
         public sg_wgpu_context_desc_depth_stencil_view_userdata_cb depth_stencil_view_userdata_cb;
 
-        [FieldOffset(56)] // size = 8, padding = 8
+        [FieldOffset(56)] // size = 8, padding = 0
         public void* user_data;
     }
 
@@ -2796,25 +2796,25 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 184, Pack = 8)]
     public struct sg_context_desc
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public sg_pixel_format color_format;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public sg_pixel_format depth_format;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public int sample_count;
 
-        [FieldOffset(12)] // size = 1, padding = 1
+        [FieldOffset(12)] // size = 1, padding = 3
         public sg_gl_context_desc gl;
 
-        [FieldOffset(16)] // size = 48, padding = 8
+        [FieldOffset(16)] // size = 48, padding = 0
         public sg_metal_context_desc metal;
 
-        [FieldOffset(64)] // size = 56, padding = 8
+        [FieldOffset(64)] // size = 56, padding = 0
         public sg_d3d11_context_desc d3d11;
 
-        [FieldOffset(120)] // size = 64, padding = 8
+        [FieldOffset(120)] // size = 64, padding = 0
         public sg_wgpu_context_desc wgpu;
     }
 
@@ -2822,37 +2822,37 @@ public static unsafe partial class sokol
     [StructLayout(LayoutKind.Explicit, Size = 232, Pack = 8)]
     public struct sg_desc
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public uint _start_canary;
 
-        [FieldOffset(4)] // size = 4, padding = 4
+        [FieldOffset(4)] // size = 4, padding = 0
         public int buffer_pool_size;
 
-        [FieldOffset(8)] // size = 4, padding = 4
+        [FieldOffset(8)] // size = 4, padding = 0
         public int image_pool_size;
 
-        [FieldOffset(12)] // size = 4, padding = 4
+        [FieldOffset(12)] // size = 4, padding = 0
         public int shader_pool_size;
 
-        [FieldOffset(16)] // size = 4, padding = 4
+        [FieldOffset(16)] // size = 4, padding = 0
         public int pipeline_pool_size;
 
-        [FieldOffset(20)] // size = 4, padding = 4
+        [FieldOffset(20)] // size = 4, padding = 0
         public int pass_pool_size;
 
-        [FieldOffset(24)] // size = 4, padding = 4
+        [FieldOffset(24)] // size = 4, padding = 0
         public int context_pool_size;
 
-        [FieldOffset(28)] // size = 4, padding = 4
+        [FieldOffset(28)] // size = 4, padding = 0
         public int uniform_buffer_size;
 
-        [FieldOffset(32)] // size = 4, padding = 4
+        [FieldOffset(32)] // size = 4, padding = 0
         public int staging_buffer_size;
 
-        [FieldOffset(36)] // size = 4, padding = 4
+        [FieldOffset(36)] // size = 4, padding = 0
         public int sampler_cache_size;
 
-        [FieldOffset(40)] // size = 184, padding = 8
+        [FieldOffset(40)] // size = 184, padding = 0
         public sg_context_desc context;
 
         [FieldOffset(224)] // size = 4, padding = 4
