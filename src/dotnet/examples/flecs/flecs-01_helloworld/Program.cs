@@ -6,7 +6,7 @@ internal static unsafe class Program
 {
     private static class Components
     {
-        [StructLayout(LayoutKind.Sequential)] // Sequential necessary so C# compiler is not allowed to reorganize struct
+        [StructLayout(LayoutKind.Sequential)] // Sequential necessary so C# is not allowed to reorganize the struct
         public struct Position
         {
             public double X;
@@ -56,7 +56,7 @@ internal static unsafe class Program
             X = 10,
             Y = 20
         };
-        ecs_set_ptr_w_id(world, entity, componentId, Components.Position.Size, &position);
+        ecs_set_id(world, entity, componentId, Components.Position.Size, &position);
 
         /* Get the Position component */
         var p = (Components.Position*) ecs_get_w_id(world, entity, componentId);

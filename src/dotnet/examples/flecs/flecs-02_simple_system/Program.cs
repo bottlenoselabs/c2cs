@@ -6,7 +6,7 @@ internal static unsafe class Program
 {
     private static class Components
     {
-        [StructLayout(LayoutKind.Sequential)] // Sequential necessary so C# compiler is not allowed to reorganize struct
+        [StructLayout(LayoutKind.Sequential)] // Sequential necessary so C# is not allowed to reorganize the struct
         public struct Message
         {
             public sbyte* Text;
@@ -16,25 +16,33 @@ internal static unsafe class Program
             public const ulong Alignment = 8;
         }
     }
+
+    private static class Systems
+    {
+        public static class PrintMessage
+        {
+            [UnmanagedCallersOnly]
+            public static void Callback(ecs_iter_t* iterator)
+            {
+                /* Get a pointer to the array of the first column in the system. The order
+                 * of columns is the same as the one provided in the system signature. */
+                var msg = (Components.Message*)ecs_term_w_size(iterator, Components.Message.Size, 1);
+    
+                /* Iterate all the messages */
+                for (var i = 0; i < iterator->count; i++)
+                {
+                    var text = NativeTools.MapString(msg[i].Text);
+                    Console.WriteLine(text);
+                }
+            }
+            
+            public static readonly sbyte* Name = NativeTools.MapCString("PrintMessage");
+        }
+    }
     
     public static class Entities
     {
         public static readonly sbyte* MyEntity = NativeTools.MapCString("MyEntity");
-    }
-    
-    [UnmanagedCallersOnly]
-    private static void PrintMessage(ecs_iter_t* iterator)
-    {
-        /* Get a pointer to the array of the first column in the system. The order
-         * of columns is the same as the one provided in the system signature. */
-        var msg = (Components.Message*)ecs_term_w_size(iterator, Components.Message.Size, 1);
-    
-        /* Iterate all the messages */
-        for (var i = 0; i < iterator->count; i ++)
-        {
-            var text = NativeTools.MapString(msg[i].Text);
-            Console.WriteLine(text);
-        }
     }
 
     private static int Main(string[] args)
@@ -58,11 +66,18 @@ internal static unsafe class Program
 
         /* Define a system called PrintMessage that is executed every frame, and
          * subscribes for the 'Message' component */
-        var systemName = NativeTools.MapCString("PrintMessage");
-        var systemSignature = NativeTools.MapCString("Message");
-        var systemCallback = new ecs_iter_action_t { Pointer = &PrintMessage }; // TODO: Add an implicit cast operator
-        var onUpdate = EcsOnUpdate;
-        ecs_new_system(world, default, systemName, onUpdate, systemSignature, systemCallback);
+        var systemDescriptor = new ecs_system_desc_t
+        {
+            entity = new ecs_entity_desc_t { name = Systems.PrintMessage.Name }
+        };
+        var ecsOnUpdate = EcsOnUpdate; // TODO: Remove this temp variable
+        systemDescriptor.entity.add(0) = *(ecs_id_t*)(&ecsOnUpdate); // TODO: Remove this nasty type cast
+        systemDescriptor.query.filter.terms(0) = new ecs_term_t
+        {
+            id = componentId
+        };
+        systemDescriptor.callback.Pointer = &Systems.PrintMessage.Callback; // TODO: Add an implicit cast operator
+        ecs_system_init(world, &systemDescriptor);
         
         /* Create new entity, add the component to the entity */
         var entityDescriptor = new ecs_entity_desc_t
@@ -77,7 +92,7 @@ internal static unsafe class Program
         {
             Text = NativeTools.MapCString("Hello Flecs!")
         };
-        ecs_set_ptr_w_id(world, entity, componentId, Components.Message.Size, &message);
+        ecs_set_id(world, entity, componentId, Components.Message.Size, &message);
         
         /* Set target FPS for main loop to 1 frame per second */
         ecs_set_target_fps(world, 1);
