@@ -22,12 +22,19 @@ This is all accomplished by using [libclang](https://clang.llvm.org/docs/Tooling
 
 This project does not work for every C library. This is due to some technical limitations where some C libraries are not "bindgen-friendly".
 
-#### What does it mean for a C library to be bindgen-friendly?
+#### What does it mean for a library to be bindgen-friendly?
 
-Everything in the **external linkage** of the C API, the public API of the C library exposed through a header, is subject to the following conditions. Note that the internal guts of the C library is irrelevant and this list does not apply. This list may be updated as more things are discovered/standardized.
+Everything in the **external linkage** of the C API, the public API of the C library exposed through a header, is subject to the following table. Note that the internal guts of the C library is irrelevant and to which this list does not apply. This list may be updated as more things are discovered/standardized.
 
-|Supported?|Description|
+|Supported|Description|
 |:-:|-|
+|:white_check_mark:|Function externs.|
+|:white_check_mark:|Variable externs.|
+|:white_check_mark:|Function prototypes.|
+|:white_check_mark:|Enums.|
+|:white_check_mark:|Structs.|
+|:white_check_mark:|Opaque types.|
+|:white_check_mark:|Typedefs.|
 |:o:|Function-like macros<sup>1</sup>.|
 |:o:|Object-like macros.<sup>2</sup>|
 |:x:|C++.|
@@ -38,8 +45,13 @@ Everything in the **external linkage** of the C API, the public API of the C lib
 <sup>2</sup>: Possible if the type can inferred 100% of the time during preprocessor; otherwise, not possible. Not yet implemented.  
 <sup>3</sup>: Types must be explicit so they can be found. E.g., it is not possible to transpile an enum if it is never discovered through transitive property of an object-like macro or externally linked function/variable.
 
-For such tricky libraries which are not bindgen-friendly, I recommend you take a look at: https://github.com/InfectedLibraries/Biohazrd
+#### What do I do if I want to generate bindings for a non-bindgen-friendly library?
 
+Options:
+
+1. Change the library to become bindgen-friendly. E.g. removing C++, removing macros, etc.
+2. Use https://github.com/InfectedLibraries/Biohazrd as a framework to generate bindings; requires more setup and is not as straightforward, but it works for C++.
+ 
 #### Other similar projects
 
 Mentioned here for completeness.
@@ -60,7 +72,7 @@ This includes building and running the examples.
     - Windows:
       1. Install [Windows Subsystem for Linux v2](https://docs.microsoft.com/en-us/windows/wsl/install-win10) (WSL2).
       2. Install Ubuntu for WSL2.
-      3. Install build tools for Ubuntu: ```wsl sudo apt-get update && sudo apt-get install cmake gcc clang gdb mingw-w64```
+      3. Install build tools for Ubuntu: ```wsl sudo apt-get update && sudo apt-get install cmake gcc clang gdb```
       4. Install build tools for Ubuntu to cross-compile to Windows: ```wsl sudo apt-get update && sudo apt-get mingw-w64```
     - macOS:
       1. Install XCode CommandLineTools (gcc, clang, etc): ```xcode-select --install```
@@ -68,7 +80,7 @@ This includes building and running the examples.
       3. Install CMake: ```brew install cmake```
     - Linux:
       1. Install the software build tools for your distro including GCC, Clang, and CMake.
-2. Clone the repository with submodules: `git clone --recurse-submodules https://github.com/lithiumtoast/c2cs.git`.
+3. Clone the repository with submodules: `git clone --recurse-submodules https://github.com/lithiumtoast/c2cs.git`.
 
 ### Visual Studio / Rider / MonoDevelop
 
