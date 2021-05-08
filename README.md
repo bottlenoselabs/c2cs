@@ -22,16 +22,23 @@ This is all accomplished by using [libclang](https://clang.llvm.org/docs/Tooling
 
 This project does not work for every C library. This is due to some technical limitations where some C libraries are not "bindgen-friendly".
 
-##### Bindgen-friendly
+#### What does it mean for a C library to be bindgen-friendly?
 
-Note that this list only applies to the **external linkage** of the C API; the internal guts of the C library is irrelevant.
+Everything in the **external linkage** of the C API, the public API of the C library exposed through a header, is subject to the following conditions. Note that the internal guts of the C library is irrelevant and this list does not apply. This list may be updated as more things are discovered/standardized.
 
-- No macros.
-- No C++.
-- No implicit types, types must be explicit so they can be found; e.g. it is not possible to transpile an enum if it is never part of the public facing API.
-- (This list may be updated as more things are discovered...)
+|Supported?|Description|
+|:-:|-|
+|:o:|Function-like macros<sup>1</sup>.|
+|:o:|Object-like macros.<sup>2</sup>|
+|:x:|C++.|
+|:x:|ObjC.|
+|:x:|Implicit types<sup>3</sup>.|
 
-For such tricky libraries which are not "bindgen-friendly" I recommend you take a look at: https://github.com/InfectedLibraries/Biohazrd
+<sup>1</sup>: Possible if the parameters' types can be inferred 100% of the time during preprocessor; otherwise, not possible. Not yet implemented.  
+<sup>2</sup>: Possible if the type can inferred 100% of the time during preprocessor; otherwise, not possible. Not yet implemented.  
+<sup>3</sup>: Types must be explicit so they can be found. E.g., it is not possible to transpile an enum if it is never discovered through transitive property of an object-like macro or externally linked function/variable.
+
+For such tricky libraries which are not bindgen-friendly, I recommend you take a look at: https://github.com/InfectedLibraries/Biohazrd
 
 #### Other similar projects
 
@@ -39,6 +46,7 @@ Mentioned here for completeness.
 
 - https://github.com/microsoft/ClangSharp
 - https://github.com/SharpGenTools/SharpGenTools
+- https://github.com/xoofx/CppAst.NET
 - https://github.com/rds1983/Sichem
 
 ## Developers: Building from Source
