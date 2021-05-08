@@ -17,5 +17,8 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\prod\C2CS.NativeTools\C2CS.NativeTools.csproj" />
+    </ItemGroup>
 
 </Project>
