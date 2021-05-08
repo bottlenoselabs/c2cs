@@ -33,6 +33,7 @@ internal static class Program
 -o
 {rootDirectory}/src/dotnet/examples/flecs/flecs-cs/flecs.cs
 -u
+-f
 -t
 -l
 flecs

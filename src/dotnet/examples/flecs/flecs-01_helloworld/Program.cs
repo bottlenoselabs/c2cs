@@ -2,28 +2,31 @@
 using System.Runtime.InteropServices;
 using static flecs;
 
-internal static class Program
+internal static unsafe class Program
 {
-    private static unsafe class Components
+    private static class Components
     {
-        public struct PositionComponent
+        [StructLayout(LayoutKind.Sequential)] // Sequential necessary so C# compiler is not allowed to reorganize struct
+        public struct Position
         {
             public double X;
             public double Y;
             
-            public static readonly sbyte* Name = NativeTools.MapCString("Position");
-            public static ulong Size = (ulong)Marshal.SizeOf<PositionComponent>();
-            public const ulong Alignment = 8;
+            public static readonly sbyte* Name = NativeTools.MapCString(nameof(Position));
+            public static readonly ulong Size = (ulong)Marshal.SizeOf<Position>();
+            public const ulong Alignment = 8; // TODO: Find a way to get alignment of sequential struct.
         }
     }
     
-    public static unsafe class Entities
+    public static class Entities
     {
-        public static sbyte* MyEntity = NativeTools.MapCString("MyEntity");
+        public static readonly sbyte* MyEntity = NativeTools.MapCString("MyEntity");
     }
 
-    private static unsafe int Main(string[] args)
+    private static int Main(string[] args)
     {
+        LoadApi();
+        
         /* Create the world, pass arguments for overriding the number of threads,fps
          * or for starting the admin dashboard (see flecs.h for details). */
         var argv = NativeTools.MapCStringArray(args);
@@ -32,9 +35,9 @@ internal static class Program
         /* Register a component with the world. */
         var componentDescriptor = new ecs_component_desc_t
         {
-            entity = {name = Components.PositionComponent.Name},
-            size = Components.PositionComponent.Size,
-            alignment = Components.PositionComponent.Alignment
+            entity = {name = Components.Position.Name},
+            size = Components.Position.Size,
+            alignment = Components.Position.Alignment
         };
         var component = ecs_component_init(world, &componentDescriptor);
         var componentId = *(ecs_id_t*)(&component); // TODO: Remove this nasty type cast
@@ -48,20 +51,20 @@ internal static class Program
         var entity = ecs_entity_init(world, &entityDescriptor);
 
         /* Set the Position component on the entity */
-        var position = new Components.PositionComponent
+        var position = new Components.Position
         {
             X = 10,
             Y = 20
         };
-        ecs_set_ptr_w_id(world, entity, componentId, Components.PositionComponent.Size, &position);
+        ecs_set_ptr_w_id(world, entity, componentId, Components.Position.Size, &position);
 
         /* Get the Position component */
-        var p = (Components.PositionComponent*) ecs_get_w_id(world, entity, componentId);
+        var p = (Components.Position*) ecs_get_w_id(world, entity, componentId);
 
         var nameCString = ecs_get_name(world, entity);
         var nameString = NativeTools.MapString(nameCString);
         
-        Console.WriteLine($"Position of {nameString} is {p->X}, {p->Y}\n");
+        Console.WriteLine($"Position of {nameString} is {p->X}, {p->Y}");
 
         /* Cleanup */
         return ecs_fini(world);
