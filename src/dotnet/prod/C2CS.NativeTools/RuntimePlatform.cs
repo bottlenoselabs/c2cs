@@ -3,53 +3,50 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-namespace C2CS.Tools
+/// <summary>
+///     Defines the native runtime platforms (operating system + computer architecture).
+/// </summary>
+[SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "Public API.")]
+public enum NativeRuntimePlatform
 {
     /// <summary>
-    ///     Defines the native runtime platforms (operating system + computer architecture).
+    ///     Unknown target platform.
     /// </summary>
-    [SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "Public API.")]
-    public enum NativeRuntimePlatform
-    {
-        /// <summary>
-        ///     Unknown target platform.
-        /// </summary>
-        Unknown = 0,
+    Unknown = 0,
 
-        /// <summary>
-        ///     Desktop versions of Windows on 64-bit computing architecture.
-        /// </summary>
-        Windows = 1,
+    /// <summary>
+    ///     Desktop versions of Windows on 64-bit computing architecture.
+    /// </summary>
+    Windows = 1,
 
-        /// <summary>
-        ///     Desktop versions of macOS on 64-bit computing architecture.
-        /// </summary>
-        [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Product name.")]
-        [SuppressMessage("StyleCop.Naming", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Product name.")]
-        macOS = 2,
+    /// <summary>
+    ///     Desktop versions of macOS on 64-bit computing architecture.
+    /// </summary>
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Product name.")]
+    [SuppressMessage("StyleCop.Naming", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Product name.")]
+    macOS = 2,
 
-        /// <summary>
-        ///     Desktop distributions of the Linux operating system on 64-bit computing architecture.
-        /// </summary>
-        Linux = 3,
+    /// <summary>
+    ///     Desktop distributions of the Linux operating system on 64-bit computing architecture.
+    /// </summary>
+    Linux = 3,
 
-        /// <summary>
-        ///     Mobile versions of Android on 64-bit computing architecture.
-        /// </summary>
-        Android = 4,
+    /// <summary>
+    ///     Mobile versions of Android on 64-bit computing architecture.
+    /// </summary>
+    Android = 4,
 
-        /// <summary>
-        ///     Mobile versions of iOS (Apple) on 64-bit computing architecture.
-        /// </summary>
-        [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Product name.")]
-        [SuppressMessage("StyleCop.Naming", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Product name.")]
-        iOS = 5,
+    /// <summary>
+    ///     Mobile versions of iOS (Apple) on 64-bit computing architecture.
+    /// </summary>
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Product name.")]
+    [SuppressMessage("StyleCop.Naming", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Product name.")]
+    iOS = 5,
 
-        /// <summary>
-        ///     Versions of WebAssembly (64-bit) on some WASI (WebAssembly System Interface) compliant host program such as a modern web browser.
-        /// </summary>
-        Web,
+    /// <summary>
+    ///     Versions of WebAssembly (64-bit) on some WASI (WebAssembly System Interface) compliant host program such as a modern web browser.
+    /// </summary>
+    Web,
 
-        // TODO: tvOS, RaspberryPi, WebAssembly, PlayStation4, PlayStationVita, Switch etc
-    }
+    // TODO: tvOS, RaspberryPi, WebAssembly, PlayStation4, PlayStationVita, Switch etc
 }

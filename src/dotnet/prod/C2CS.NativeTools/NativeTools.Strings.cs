@@ -3,13 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 #nullable enable
 
-[SuppressMessage("ReSharper", "CheckNamespace", Justification = "Wants to be builtin.")]
-[SuppressMessage("ReSharper", "CA1050:DeclareTypesInNamespaces", Justification = "Wants to be builtin.")]
 public static unsafe partial class NativeTools
 {
     private static readonly Dictionary<uint, IntPtr> StringHashesToPointers = new();
