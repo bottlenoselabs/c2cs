@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Languages.CSharp", "pr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prod", "prod", "{0B6FBBF3-28F7-4374-9CDD-3C8B1DFD2AB8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{E5C474A9-491B-4719-B253-09F93D5CEA5B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{E5C474A9-491B-4719-B253-09F93D5CEA5B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libclang-c", "prod\libclang-c\libclang-c.csproj", "{F7949436-2F7D-45F6-9C4E-D5F9027EF24B}"
 EndProject
