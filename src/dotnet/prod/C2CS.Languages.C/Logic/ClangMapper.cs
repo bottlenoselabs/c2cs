@@ -523,9 +523,8 @@ namespace C2CS.Languages.C
 
         private ClangType MapTypedefType(CXCursor cursor)
         {
-            var cursorType = clang_getCursorType(cursor);
-            var canonicalType = clang_getCanonicalType(cursorType);
-            var result = MapType(canonicalType, cursor);
+            var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
+            var result = MapType(underlyingType, cursor);
             return result;
         }
 

@@ -28,6 +28,7 @@ namespace C2CS.CSharp
 			AddFunctionPointers(builder, abstractSyntaxTree.FunctionPointers);
 			AddStructs(builder, abstractSyntaxTree.Structs);
 			AddOpaqueDataTypes(builder, abstractSyntaxTree.OpaqueDataTypes);
+			AddTypedefs(builder, abstractSyntaxTree.Typedefs);
 			AddEnums(builder, abstractSyntaxTree.Enums);
 			AddVariableExterns(builder, abstractSyntaxTree.VariablesExtern);
 
@@ -421,6 +422,35 @@ public struct {opaqueDataType.Name}
 			return @struct;
 		}
 
+		private static void AddTypedefs(
+			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
+			ImmutableArray<CSharpTypedef> typedefs)
+		{
+			foreach (var typedef in typedefs)
+			{
+				var member = CreateTypedef(typedef);
+				builder.Add(member);
+			}
+		}
+
+		private static StructDeclarationSyntax CreateTypedef(CSharpTypedef typedef)
+		{
+			var code = $@"
+{typedef.CodeLocationComment}
+[StructLayout(LayoutKind.Explicit, Size = {typedef.UnderlyingType.SizeOf}, Pack = {typedef.UnderlyingType.AlignOf})]
+public struct {typedef.Name}
+{{
+	[FieldOffset(0)] // size = {typedef.UnderlyingType.SizeOf}, padding = 0
+    public {typedef.UnderlyingType.Name} Data;
+
+	public unsafe static implicit operator {typedef.UnderlyingType.Name}({typedef.Name} data) => *(({typedef.UnderlyingType.Name}*)&data);
+}}
+";
+
+			var member = (StructDeclarationSyntax)ParseMemberDeclaration(code)!;
+			return member;
+		}
+
 		private static void AddEnums(
 			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
 			ImmutableArray<CSharpEnum> enums)
@@ -477,22 +507,6 @@ public enum {@enum.Name} : {@enum.Type}
 			};
 
 			return EqualsValueClause(LiteralExpression(SyntaxKind.NumericLiteralExpression, literalToken));
-		}
-
-		private static MemberDeclarationSyntax CreateExternAddressField(CSharpVariable variable)
-		{
-			var code = $@"
-private static IntPtr _{variable.Name};
-".Trim();
-
-			var result = ParseMemberDeclaration(code);
-			if (result != null)
-			{
-				return result;
-			}
-
-			var up = new GeneratorUnexpectedException(variable);
-			throw up;
 		}
 
 		private class GeneratorUnexpectedException : Exception

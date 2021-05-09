@@ -13,6 +13,8 @@ namespace C2CS.CSharp
 
         public readonly ImmutableArray<CSharpStruct> Structs;
 
+        public readonly ImmutableArray<CSharpTypedef> Typedefs;
+
         public readonly ImmutableArray<CSharpOpaqueDataType> OpaqueDataTypes;
 
         public readonly ImmutableArray<CSharpEnum> Enums;
@@ -23,6 +25,7 @@ namespace C2CS.CSharp
             ImmutableArray<CSharpFunctionExtern> functionExterns,
             ImmutableArray<CSharpFunctionPointer> functionPointers,
             ImmutableArray<CSharpStruct> structs,
+            ImmutableArray<CSharpTypedef> typedefs,
             ImmutableArray<CSharpOpaqueDataType> opaqueDataTypes,
             ImmutableArray<CSharpEnum> enums,
             ImmutableArray<CSharpVariable> variablesExtern)
@@ -30,6 +33,7 @@ namespace C2CS.CSharp
             FunctionExterns = functionExterns;
             FunctionPointers = functionPointers;
             Structs = structs;
+            Typedefs = typedefs;
             OpaqueDataTypes = opaqueDataTypes;
             Enums = enums;
             VariablesExtern = variablesExtern;

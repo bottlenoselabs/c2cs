@@ -3311,78 +3311,6 @@ public static unsafe partial class flecs
         public long elem_size;
     }
 
-    // Typedef @ api_defines.h:67
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct ecs_size_t
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int Alias;
-    }
-
-    // Typedef @ flecs.h:71
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct ecs_id_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ulong Alias;
-    }
-
-    // Typedef @ flecs.h:74
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct ecs_entity_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ulong Alias;
-    }
-
-    // Typedef @ flecs.h:77
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct ecs_type_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_vector_t* Alias;
-    }
-
-    // Typedef @ map.h:38
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct ecs_map_key_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ulong Alias;
-    }
-
-    // Typedef @ os_api.h:52
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct ecs_os_thread_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ulong Alias;
-    }
-
-    // Typedef @ os_api.h:53
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct ecs_os_cond_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ulong Alias;
-    }
-
-    // Typedef @ os_api.h:54
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct ecs_os_mutex_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ulong Alias;
-    }
-
-    // Typedef @ os_api.h:55
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct ecs_os_dl_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ulong Alias;
-    }
-
     // OpaqueDataType @ api_types.h:28
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_table_t
@@ -3435,6 +3363,96 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_snapshot_t
     {
+    }
+
+    // Typedef @ api_defines.h:67
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct ecs_size_t
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int Data;
+
+        public unsafe static implicit operator int(ecs_size_t data) => *((int*)&data);
+    }
+
+    // Typedef @ flecs.h:71
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct ecs_id_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ulong Data;
+
+        public unsafe static implicit operator ulong(ecs_id_t data) => *((ulong*)&data);
+    }
+
+    // Typedef @ flecs.h:74
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct ecs_entity_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_id_t Data;
+
+        public unsafe static implicit operator ecs_id_t(ecs_entity_t data) => *((ecs_id_t*)&data);
+    }
+
+    // Typedef @ flecs.h:77
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct ecs_type_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_vector_t* Data;
+
+        public unsafe static implicit operator ecs_vector_t*(ecs_type_t data) => *((ecs_vector_t**)&data);
+    }
+
+    // Typedef @ map.h:38
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct ecs_map_key_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ulong Data;
+
+        public unsafe static implicit operator ulong(ecs_map_key_t data) => *((ulong*)&data);
+    }
+
+    // Typedef @ os_api.h:52
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct ecs_os_thread_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ulong Data;
+
+        public unsafe static implicit operator ulong(ecs_os_thread_t data) => *((ulong*)&data);
+    }
+
+    // Typedef @ os_api.h:53
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct ecs_os_cond_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ulong Data;
+
+        public unsafe static implicit operator ulong(ecs_os_cond_t data) => *((ulong*)&data);
+    }
+
+    // Typedef @ os_api.h:54
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct ecs_os_mutex_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ulong Data;
+
+        public unsafe static implicit operator ulong(ecs_os_mutex_t data) => *((ulong*)&data);
+    }
+
+    // Typedef @ os_api.h:55
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct ecs_os_dl_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ulong Data;
+
+        public unsafe static implicit operator ulong(ecs_os_dl_t data) => *((ulong*)&data);
     }
 
     // Enum @ api_types.h:114

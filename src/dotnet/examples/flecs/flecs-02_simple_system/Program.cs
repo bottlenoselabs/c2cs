@@ -62,7 +62,6 @@ internal static unsafe class Program
             alignment = Components.Message.Alignment
         };
         var component = ecs_component_init(world, &componentDescriptor);
-        var componentId = *(ecs_id_t*)(&component); // TODO: Remove this nasty type cast
 
         /* Define a system called PrintMessage that is executed every frame, and
          * subscribes for the 'Message' component */
@@ -70,11 +69,10 @@ internal static unsafe class Program
         {
             entity = new ecs_entity_desc_t { name = Systems.PrintMessage.Name }
         };
-        var ecsOnUpdate = EcsOnUpdate; // TODO: Remove this temp variable
-        systemDescriptor.entity.add(0) = *(ecs_id_t*)(&ecsOnUpdate); // TODO: Remove this nasty type cast
+        systemDescriptor.entity.add(0) = EcsOnUpdate;
         systemDescriptor.query.filter.terms(0) = new ecs_term_t
         {
-            id = componentId
+            id = component
         };
         systemDescriptor.callback.Pointer = &Systems.PrintMessage.Callback; // TODO: Add an implicit cast operator
         ecs_system_init(world, &systemDescriptor);
@@ -84,7 +82,7 @@ internal static unsafe class Program
         {
             name = Entities.MyEntity
         };
-        entityDescriptor.add(0) = componentId; // TODO: Switch to index property to get [] instead of () notation
+        entityDescriptor.add(0) = component; // TODO: Switch to index property to get [] instead of () notation
         var entity = ecs_entity_init(world, &entityDescriptor);
 
         /* Set the Position component on the entity */
@@ -92,7 +90,7 @@ internal static unsafe class Program
         {
             Text = NativeTools.MapCString("Hello Flecs!")
         };
-        ecs_set_id(world, entity, componentId, Components.Message.Size, &message);
+        ecs_set_id(world, entity, component, Components.Message.Size, &message);
         
         /* Set target FPS for main loop to 1 frame per second */
         ecs_set_target_fps(world, 1);

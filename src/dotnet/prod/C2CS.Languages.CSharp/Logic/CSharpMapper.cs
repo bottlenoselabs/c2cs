@@ -23,6 +23,7 @@ namespace C2CS.CSharp
                 clangAbstractSyntaxTree.Records,
                 clangAbstractSyntaxTree.Typedefs,
                 clangAbstractSyntaxTree.OpaquePointers);
+            var typedefs = MapTypedefs(clangAbstractSyntaxTree.Typedefs);
             var opaqueDataTypes = MapOpaqueDataTypes(
                 clangAbstractSyntaxTree.OpaqueDataTypes);
             var enums = MapEnums(clangAbstractSyntaxTree.Enums);
@@ -32,10 +33,26 @@ namespace C2CS.CSharp
                 functionExterns,
                 functionPointers,
                 structs,
+                typedefs,
                 opaqueDataTypes,
                 enums,
                 variables);
 
+            return result;
+        }
+
+        private static ImmutableArray<CSharpTypedef> MapTypedefs(ImmutableArray<ClangTypedef> typedefs)
+        {
+            var builder = ImmutableArray.CreateBuilder<CSharpTypedef>(typedefs.Length);
+
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var clangTypedef in typedefs)
+            {
+                var typedef = MapTypedef(clangTypedef);
+                builder.Add(typedef);
+            }
+
+            var result = builder.ToImmutable();
             return result;
         }
 
@@ -256,13 +273,6 @@ namespace C2CS.CSharp
             }
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var typedef in typedefs)
-            {
-                var @struct = MapTypedef(typedef);
-                builder.Add(@struct);
-            }
-
-            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangOpaquePointer in opaquePointers)
             {
                 var @struct = MapOpaquePointer(clangOpaquePointer);
@@ -402,35 +412,17 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpStruct MapTypedef(ClangTypedef clangTypedef)
+        private static CSharpTypedef MapTypedef(ClangTypedef clangTypedef)
         {
             var name = clangTypedef.Name;
             var originalCodeLocationComment = MapOriginalCodeLocationComment(clangTypedef);
             var type = MapType(clangTypedef.UnderlyingType);
-            var fields = MapTypedefFields(clangTypedef.UnderlyingType, originalCodeLocationComment);
 
-            var result = new CSharpStruct(
+            var result = new CSharpTypedef(
                 name,
                 originalCodeLocationComment,
-                type,
-                fields);
+                type);
 
-            return result;
-        }
-
-        private static ImmutableArray<CSharpStructField> MapTypedefFields(ClangType clangType, string originalCodeLocationComment)
-        {
-            var type = MapType(clangType);
-            var structField = new CSharpStructField(
-                "Alias",
-                string.Empty,
-                originalCodeLocationComment,
-                type,
-                0,
-                0,
-                false);
-
-            var result = ImmutableArray.Create(structField);
             return result;
         }
 
