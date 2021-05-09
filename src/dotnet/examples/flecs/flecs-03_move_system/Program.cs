@@ -96,10 +96,11 @@ internal static unsafe class Program
         {
             entity = new ecs_entity_desc_t { name = Systems.Move.Name }
         };
-        systemDescriptor.entity.add(0) = EcsOnUpdate;
-        systemDescriptor.query.filter.terms(0).id = positionComponent;
-        systemDescriptor.query.filter.terms(1).id = velocityComponent;
-        systemDescriptor.callback.Pointer = &Systems.Move.Callback; // TODO: Add an implicit cast operator
+        systemDescriptor.entity.add[0] = EcsOnUpdate;
+        var queryFilterTerms = systemDescriptor.query.filter.terms;
+        queryFilterTerms[0].id = positionComponent;
+        queryFilterTerms[1].id = velocityComponent;
+        systemDescriptor.callback.Pointer = &Systems.Move.Callback;
         ecs_system_init(world, &systemDescriptor);
         
         /* Create new entity, add the component to the entity */
@@ -107,8 +108,8 @@ internal static unsafe class Program
         {
             name = Entities.MyEntity
         };
-        entityDescriptor.add(0) = positionComponent; // TODO: Switch to index property to get [] instead of () notation
-        entityDescriptor.add(1) = velocityComponent;
+        entityDescriptor.add[0] = positionComponent;
+        entityDescriptor.add[1] = velocityComponent;
         var entity = ecs_entity_init(world, &entityDescriptor);
 
         /* Initialize values for the entity */

@@ -2350,15 +2350,18 @@ public static unsafe partial class flecs
         public ecs_term_id_t pred;
 
         [FieldOffset(64)] // size = 96, padding = 0
-        public fixed ulong _args[96 / 8]; // original type is `ecs_term_id_t [2]`
+        public fixed ulong _args[96 / 8]; // ecs_term_id_t [2]
 
-        public ref ecs_term_id_t args(int index = 0)
+        public Span<ecs_term_id_t> args
         {
-            fixed (ecs_term_t* @this = &this)
+            get
             {
-                var pointer = (ecs_term_id_t*)&@this->_args[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (ecs_term_t* @this = &this)
+                {
+                    var pointer = &@this->_args[0];
+                    var span = new Span<ecs_term_id_t>(pointer, 2);
+                    return span;
+                }
             }
         }
 
@@ -2430,28 +2433,34 @@ public static unsafe partial class flecs
         public CBool use_low_id;
 
         [FieldOffset(40)] // size = 256, padding = 0
-        public fixed ulong _add[256 / 8]; // original type is `ecs_id_t [32]`
+        public fixed ulong _add[256 / 8]; // ecs_id_t [32]
 
-        public ref ecs_id_t add(int index = 0)
+        public Span<ecs_id_t> add
         {
-            fixed (ecs_entity_desc_t* @this = &this)
+            get
             {
-                var pointer = (ecs_id_t*)&@this->_add[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (ecs_entity_desc_t* @this = &this)
+                {
+                    var pointer = &@this->_add[0];
+                    var span = new Span<ecs_id_t>(pointer, 32);
+                    return span;
+                }
             }
         }
 
         [FieldOffset(296)] // size = 256, padding = 0
-        public fixed ulong _remove[256 / 8]; // original type is `ecs_id_t [32]`
+        public fixed ulong _remove[256 / 8]; // ecs_id_t [32]
 
-        public ref ecs_id_t remove(int index = 0)
+        public Span<ecs_id_t> remove
         {
-            fixed (ecs_entity_desc_t* @this = &this)
+            get
             {
-                var pointer = (ecs_id_t*)&@this->_remove[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (ecs_entity_desc_t* @this = &this)
+                {
+                    var pointer = &@this->_remove[0];
+                    var span = new Span<ecs_id_t>(pointer, 32);
+                    return span;
+                }
             }
         }
 
@@ -2484,15 +2493,18 @@ public static unsafe partial class flecs
         public ecs_entity_desc_t entity;
 
         [FieldOffset(568)] // size = 256, padding = 0
-        public fixed ulong _ids[256 / 8]; // original type is `ecs_id_t [32]`
+        public fixed ulong _ids[256 / 8]; // ecs_id_t [32]
 
-        public ref ecs_id_t ids(int index = 0)
+        public Span<ecs_id_t> ids
         {
-            fixed (ecs_type_desc_t* @this = &this)
+            get
             {
-                var pointer = (ecs_id_t*)&@this->_ids[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (ecs_type_desc_t* @this = &this)
+                {
+                    var pointer = &@this->_ids[0];
+                    var span = new Span<ecs_id_t>(pointer, 32);
+                    return span;
+                }
             }
         }
 
@@ -2505,15 +2517,18 @@ public static unsafe partial class flecs
     public struct ecs_filter_desc_t
     {
         [FieldOffset(0)] // size = 3072, padding = 0
-        public fixed ulong _terms[3072 / 8]; // original type is `ecs_term_t [16]`
+        public fixed ulong _terms[3072 / 8]; // ecs_term_t [16]
 
-        public ref ecs_term_t terms(int index = 0)
+        public Span<ecs_term_t> terms
         {
-            fixed (ecs_filter_desc_t* @this = &this)
+            get
             {
-                var pointer = (ecs_term_t*)&@this->_terms[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (ecs_filter_desc_t* @this = &this)
+                {
+                    var pointer = &@this->_terms[0];
+                    var span = new Span<ecs_term_t>(pointer, 16);
+                    return span;
+                }
             }
         }
 
@@ -2576,15 +2591,18 @@ public static unsafe partial class flecs
         public sbyte* expr;
 
         [FieldOffset(776)] // size = 64, padding = 0
-        public fixed ulong _events[64 / 8]; // original type is `ecs_entity_t [8]`
+        public fixed ulong _events[64 / 8]; // ecs_entity_t [8]
 
-        public ref ecs_entity_t events(int index = 0)
+        public Span<ecs_entity_t> events
         {
-            fixed (ecs_trigger_desc_t* @this = &this)
+            get
             {
-                var pointer = (ecs_entity_t*)&@this->_events[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (ecs_trigger_desc_t* @this = &this)
+                {
+                    var pointer = &@this->_events[0];
+                    var span = new Span<ecs_entity_t>(pointer, 8);
+                    return span;
+                }
             }
         }
 
@@ -2989,13 +3007,52 @@ public static unsafe partial class flecs
     public struct ecs_gauge_t
     {
         [FieldOffset(0)] // size = 240, padding = 0
-        public fixed float _avg[240 / 4]; // original type is `float [60]`
+        public fixed float _avg[240 / 4]; // float [60]
+
+        public Span<float> avg
+        {
+            get
+            {
+                fixed (ecs_gauge_t* @this = &this)
+                {
+                    var pointer = &@this->_avg[0];
+                    var span = new Span<float>(pointer, 60);
+                    return span;
+                }
+            }
+        }
 
         [FieldOffset(240)] // size = 240, padding = 0
-        public fixed float _min[240 / 4]; // original type is `float [60]`
+        public fixed float _min[240 / 4]; // float [60]
+
+        public Span<float> min
+        {
+            get
+            {
+                fixed (ecs_gauge_t* @this = &this)
+                {
+                    var pointer = &@this->_min[0];
+                    var span = new Span<float>(pointer, 60);
+                    return span;
+                }
+            }
+        }
 
         [FieldOffset(480)] // size = 240, padding = 0
-        public fixed float _max[240 / 4]; // original type is `float [60]`
+        public fixed float _max[240 / 4]; // float [60]
+
+        public Span<float> max
+        {
+            get
+            {
+                fixed (ecs_gauge_t* @this = &this)
+                {
+                    var pointer = &@this->_max[0];
+                    var span = new Span<float>(pointer, 60);
+                    return span;
+                }
+            }
+        }
     }
 
     // Record @ stats.h:35
@@ -3006,7 +3063,20 @@ public static unsafe partial class flecs
         public ecs_gauge_t rate;
 
         [FieldOffset(720)] // size = 240, padding = 0
-        public fixed float _value[240 / 4]; // original type is `float [60]`
+        public fixed float _value[240 / 4]; // float [60]
+
+        public Span<float> value
+        {
+            get
+            {
+                fixed (ecs_counter_t* @this = &this)
+                {
+                    var pointer = &@this->_value[0];
+                    var span = new Span<float>(pointer, 60);
+                    return span;
+                }
+            }
+        }
     }
 
     // Record @ stats.h:78
@@ -3177,7 +3247,20 @@ public static unsafe partial class flecs
         public ecs_strbuf_element super;
 
         [FieldOffset(24)] // size = 512, padding = 0
-        public fixed sbyte _buf[512 / 1]; // original type is `char [512]`
+        public fixed sbyte _buf[512 / 1]; // char [512]
+
+        public Span<sbyte> buf
+        {
+            get
+            {
+                fixed (ecs_strbuf_element_embedded* @this = &this)
+                {
+                    var pointer = &@this->_buf[0];
+                    var span = new Span<sbyte>(pointer, 512);
+                    return span;
+                }
+            }
+        }
     }
 
     // Record @ strbuf.h:50
@@ -3214,15 +3297,18 @@ public static unsafe partial class flecs
         public ecs_strbuf_element* current;
 
         [FieldOffset(568)] // size = 512, padding = 0
-        public fixed ulong _list_stack[512 / 8]; // original type is `ecs_strbuf_list_elem [32]`
+        public fixed ulong _list_stack[512 / 8]; // ecs_strbuf_list_elem [32]
 
-        public ref ecs_strbuf_list_elem list_stack(int index = 0)
+        public Span<ecs_strbuf_list_elem> list_stack
         {
-            fixed (ecs_strbuf_t* @this = &this)
+            get
             {
-                var pointer = (ecs_strbuf_list_elem*)&@this->_list_stack[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (ecs_strbuf_t* @this = &this)
+                {
+                    var pointer = &@this->_list_stack[0];
+                    var span = new Span<ecs_strbuf_list_elem>(pointer, 32);
+                    return span;
+                }
             }
         }
 

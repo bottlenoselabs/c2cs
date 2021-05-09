@@ -67,14 +67,17 @@ internal static unsafe class Program
          * subscribes for the 'Message' component */
         var systemDescriptor = new ecs_system_desc_t
         {
-            entity = new ecs_entity_desc_t { name = Systems.PrintMessage.Name }
+            entity = new ecs_entity_desc_t
+            {
+                name = Systems.PrintMessage.Name
+            }
         };
-        systemDescriptor.entity.add(0) = EcsOnUpdate;
-        systemDescriptor.query.filter.terms(0) = new ecs_term_t
+        systemDescriptor.entity.add[0] = EcsOnUpdate;
+        systemDescriptor.query.filter.terms[0] = new ecs_term_t
         {
             id = component
         };
-        systemDescriptor.callback.Pointer = &Systems.PrintMessage.Callback; // TODO: Add an implicit cast operator
+        systemDescriptor.callback.Pointer = &Systems.PrintMessage.Callback;
         ecs_system_init(world, &systemDescriptor);
         
         /* Create new entity, add the component to the entity */
@@ -82,7 +85,7 @@ internal static unsafe class Program
         {
             name = Entities.MyEntity
         };
-        entityDescriptor.add(0) = component; // TODO: Switch to index property to get [] instead of () notation
+        entityDescriptor.add[0] = component;
         var entity = ecs_entity_init(world, &entityDescriptor);
 
         /* Set the Position component on the entity */

@@ -308,14 +308,19 @@ public struct {@struct.Name}
 
 			foreach (var field in fields)
 			{
-				var member = CreateStructField(field);
-				builder.Add(member);
-
-				var isWrapped = field.IsWrapped;
-				if (isWrapped)
+				if (!field.Type.IsArray)
 				{
-					var wrappedMethod = CreateStructFieldFixedBufferWrapperMethod(structName, field);
-					builder.Add(wrappedMethod);
+					var fieldMember = CreateStructField(field);
+					builder.Add(fieldMember);
+				}
+				else
+				{
+					var fieldMember = CreateStructFieldFixedBuffer(field);
+					builder.Add(fieldMember);
+
+					var methodMember = CreateStructFieldFixedBufferProperty(
+						structName, field);
+					builder.Add(methodMember);
 				}
 			}
 
@@ -329,16 +334,7 @@ public struct {@struct.Name}
 			return structMembers;
 		}
 
-		private static FieldDeclarationSyntax CreateStructField(CSharpStructField cSharpStructField)
-		{
-			var isArray = cSharpStructField.Type.IsArray;
-			var result = isArray ?
-				CreateStructFieldFixedBuffer(cSharpStructField) :
-				CreateStructFieldNormal(cSharpStructField);
-			return result;
-		}
-
-		private static FieldDeclarationSyntax CreateStructFieldNormal(CSharpStructField field)
+		private static FieldDeclarationSyntax CreateStructField(CSharpStructField field)
 		{
 			var code = $@"
 [FieldOffset({field.Offset})] // size = {field.Type.SizeOf}, padding = {field.Padding}
@@ -349,7 +345,8 @@ public {field.Type.Name} {field.Name};
 			return member;
 		}
 
-		private static FieldDeclarationSyntax CreateStructFieldFixedBuffer(CSharpStructField field)
+		private static FieldDeclarationSyntax CreateStructFieldFixedBuffer(
+			CSharpStructField field)
 		{
 			string typeName;
 
@@ -371,30 +368,33 @@ public {field.Type.Name} {field.Name};
 
 			var code = $@"
 [FieldOffset({field.Offset})] // size = {field.Type.SizeOf}, padding = {field.Padding}
-public fixed {typeName} _{field.OriginalName}[{field.Type.SizeOf}/{field.Type.AlignOf}]; // original type is `{field.Type.OriginalName}`
+public fixed {typeName} _{field.Name}[{field.Type.SizeOf}/{field.Type.AlignOf}]; // {field.Type.OriginalName}
 ".Trim();
 
 			var member = (FieldDeclarationSyntax)ParseMemberDeclaration(code)!;
 			return member;
 		}
 
-		private static MethodDeclarationSyntax CreateStructFieldFixedBufferWrapperMethod(
+		private static PropertyDeclarationSyntax CreateStructFieldFixedBufferProperty(
 			string structName,
 			CSharpStructField field)
 		{
-			var code = @$"
-public ref {field.Type.Name} {field.Name}(int index = 0)
+			var code = $@"
+public Span<{field.Type.Name}> {field.Name}
 {{
-	fixed ({structName}* @this = &this)
+	get
 	{{
-		var pointer = ({field.Type.Name}*)&@this->_{field.OriginalName}[0];
-		var pointerOffset = index;
-		return ref *(pointer + pointerOffset);
+		fixed ({structName}*@this = &this)
+		{{
+			var pointer = &@this->_{field.Name}[0];
+			var span = new Span<{field.Type.Name}>(pointer, {field.Type.ArraySize});
+			return span;
+		}}
 	}}
 }}
 ".Trim();
 
-			var member = (MethodDeclarationSyntax)ParseMemberDeclaration(code)!;
+			var member = (PropertyDeclarationSyntax)ParseMemberDeclaration(code)!;
 			return member;
 		}
 

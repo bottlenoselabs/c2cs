@@ -44,9 +44,11 @@ internal static unsafe class Program
         /* Create a new empty entity  */
         var entityDescriptor = new ecs_entity_desc_t
         {
-            name = Entities.MyEntity
+            name = Entities.MyEntity,
         };
-        entityDescriptor.add(0) = component; // TODO: Switch to index property to get [] instead of () notation
+
+        entityDescriptor.add[0] = component;
+        // TODO: Switch to index property to get [] instead of () notation
         var entity = ecs_entity_init(world, &entityDescriptor);
 
         /* Set the Position component on the entity */
