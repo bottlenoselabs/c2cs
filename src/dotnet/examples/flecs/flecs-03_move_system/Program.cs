@@ -81,8 +81,7 @@ internal static unsafe class Program
             alignment = Components.Position.Alignment
         };
         var positionComponent = ecs_component_init(world, &positionComponentDescriptor);
-        var positionComponentId = *(ecs_id_t*)(&positionComponent); // TODO: Remove this nasty type cast
-        
+
         var velocityComponentDescriptor = new ecs_component_desc_t
         {
             entity = {name = Components.Velocity.Name},
@@ -90,7 +89,6 @@ internal static unsafe class Program
             alignment = Components.Velocity.Alignment
         };
         var velocityComponent = ecs_component_init(world, &velocityComponentDescriptor);
-        var velocityComponentId = *(ecs_id_t*)(&velocityComponent); // TODO: Remove this nasty type cast
 
         /* Define a system called Move that is executed every frame, and subscribes
          * for the 'Position' and 'Velocity' components */
@@ -98,10 +96,9 @@ internal static unsafe class Program
         {
             entity = new ecs_entity_desc_t { name = Systems.Move.Name }
         };
-        var ecsOnUpdate = EcsOnUpdate; // TODO: Remove this temp variable
-        systemDescriptor.entity.add(0) = *(ecs_id_t*)(&ecsOnUpdate); // TODO: Remove this nasty type cast
-        systemDescriptor.query.filter.terms(0).id = positionComponentId;
-        systemDescriptor.query.filter.terms(1).id = velocityComponentId;
+        systemDescriptor.entity.add(0) = EcsOnUpdate;
+        systemDescriptor.query.filter.terms(0).id = positionComponent;
+        systemDescriptor.query.filter.terms(1).id = velocityComponent;
         systemDescriptor.callback.Pointer = &Systems.Move.Callback; // TODO: Add an implicit cast operator
         ecs_system_init(world, &systemDescriptor);
         
@@ -110,8 +107,8 @@ internal static unsafe class Program
         {
             name = Entities.MyEntity
         };
-        entityDescriptor.add(0) = positionComponentId; // TODO: Switch to index property to get [] instead of () notation
-        entityDescriptor.add(1) = velocityComponentId;
+        entityDescriptor.add(0) = positionComponent; // TODO: Switch to index property to get [] instead of () notation
+        entityDescriptor.add(1) = velocityComponent;
         var entity = ecs_entity_init(world, &entityDescriptor);
 
         /* Initialize values for the entity */
@@ -125,8 +122,8 @@ internal static unsafe class Program
             X = 1,
             Y = 1
         };
-        ecs_set_id(world, entity, positionComponentId, Components.Position.Size, &position);
-        ecs_set_id(world, entity, velocityComponentId, Components.Velocity.Size, &velocity);
+        ecs_set_id(world, entity, positionComponent, Components.Position.Size, &position);
+        ecs_set_id(world, entity, velocityComponent, Components.Velocity.Size, &velocity);
         
         /* Set target FPS for main loop to 1 frame per second */
         ecs_set_target_fps(world, 1);
