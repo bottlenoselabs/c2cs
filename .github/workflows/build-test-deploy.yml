@@ -10,10 +10,9 @@ on:
   push:
     branches: [develop]
     tags: [v*]
+    paths-ignore: ['**/*.md']
   pull_request_target:
     branches: [develop]
-  paths-ignore:
-    - '**/*.md'
 
 jobs:
 
