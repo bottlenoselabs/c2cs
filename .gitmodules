@@ -7,3 +7,6 @@
 [submodule "ext/sokol"]
 	path = ext/sokol
 	url = https://github.com/floooh/sokol
+[submodule "ext/libuv"]
+	path = ext/libuv
+	url = https://github.com/libuv/libuv.git
