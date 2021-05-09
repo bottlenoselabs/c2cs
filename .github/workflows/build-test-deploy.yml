@@ -12,6 +12,8 @@ on:
     tags: [v*]
   pull_request_target:
     branches: [develop]
+  paths-ignore:
+    - '**/*.md'
 
 jobs:
 
