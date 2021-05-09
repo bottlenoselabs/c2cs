@@ -1,6 +1,6 @@
 # Examples
 
-Here you will find a catalog of C libraries that have working examples to demonstrate how to use C2CS.
+Here you will find a catalog of C libraries that have working examples to demonstrate how to use `C2CS`.
 
 ## [0: Hello world](./000_HELLOWORLD.md)
 
@@ -8,7 +8,7 @@ Hello world example of calling a C function from C#. This is meant to be minimal
 
 ## [1: libclang](./001_LIBCLANG.md)
 
-C2CS uses bindings generated for libclang using C2CS. In this sense, the C2CS project eats it's own dogfood.
+`C2CS` uses bindings generated for libclang using `C2CS`. In this sense, the `C2CS` project eats it's own dogfood.
 
 ## [2: sokol](./002_SOKOL.md)
 

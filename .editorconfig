@@ -45,6 +45,7 @@ indent_size = 2
 [*.md]
 indent_style = space
 trim_trailing_whitespace = false
+indent_size = 4
 
 # Web files
 [*.{htm,html,js,jsm,ts,tsx,css,sass,scss,less,svg,vue}]
