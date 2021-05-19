@@ -24,11 +24,11 @@ public static unsafe partial class libclang
         UnloadApi();
         if (libraryFilePath == null)
         {
-            var libraryFileNamePrefix = NativeTools.LibraryFileNamePrefix;
-            var libraryFileNameExtension = NativeTools.LibraryFileNameExtension;
+            var libraryFileNamePrefix = NativeRuntime.LibraryFileNamePrefix;
+            var libraryFileNameExtension = NativeRuntime.LibraryFileNameExtension;
             libraryFilePath = $@"{libraryFileNamePrefix}{LibraryName}{libraryFileNameExtension}";
         }
-        _libraryHandle = NativeTools.LibraryLoad(libraryFilePath);
+        _libraryHandle = NativeRuntime.LibraryLoad(libraryFilePath);
         if (_libraryHandle == IntPtr.Zero)
             throw new Exception($"Failed to load library: {libraryFilePath}");
         LoadExports();
@@ -39,7 +39,7 @@ public static unsafe partial class libclang
         if (_libraryHandle == IntPtr.Zero)
             return;
         UnloadExports();
-        NativeTools.LibraryUnload(_libraryHandle);
+        NativeRuntime.LibraryUnload(_libraryHandle);
     }
 
     private static void LoadExports()
