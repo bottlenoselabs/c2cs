@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- MSBuild project settings -->
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace />
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <!-- My-MSBuild project settings -->
+    <PropertyGroup>
+        <EnableAnalyzers>false</EnableAnalyzers>
+        <EnableAnalyzersStyleCop>false</EnableAnalyzersStyleCop>
+    </PropertyGroup>
+
+    <!-- NuGet packaage references -->
+    <ItemGroup>
+        <PackageReference Include="libclang.runtime.osx-x64" Version="10.0.0" Condition="$([MSBuild]::IsOsPlatform('OSX'))" />
+        <PackageReference Include="libclang.runtime.ubuntu.16.04-x64" Version="10.0.0" Condition="$([MSBuild]::IsOsPlatform('Linux'))" />
+        <PackageReference Include="libclang.runtime.win-x64" Version="10.0.0" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\C2CS.NativeRuntime\C2CS.NativeRuntime.csproj" />
+    </ItemGroup>
+
+</Project>
