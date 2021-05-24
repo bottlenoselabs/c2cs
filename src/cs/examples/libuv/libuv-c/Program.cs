@@ -11,12 +11,12 @@ internal static class Program
     {
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
         GenerateLibraryBindings(rootDirectory);
-        // BuildLibrary(rootDirectory);
+        BuildLibrary(rootDirectory);
     }
 
     private static void BuildLibrary(string rootDirectory)
     {
-        var cMakeDirectoryPath = Path.Combine(rootDirectory, "ext/libuv");
+        var cMakeDirectoryPath = Path.Combine(rootDirectory, "src/c/examples/libuv");
         var targetLibraryDirectoryPath = $"{rootDirectory}/src/cs/examples/libuv/libuv-cs/";
         var isSuccess = Shell.CMake(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
         if (!isSuccess)
