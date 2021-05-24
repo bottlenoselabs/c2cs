@@ -17,5 +17,10 @@ namespace C2CS
             Summary = exception.Message;
             StackTrace = exception.StackTrace;
         }
+
+        public override string ToString()
+        {
+            return $"{GetDiagnosticSeverityShortString()}: {Summary}\n{StackTrace}";
+        }
     }
 }

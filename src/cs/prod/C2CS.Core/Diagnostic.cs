@@ -36,7 +36,7 @@ namespace C2CS
             return $"{GetDiagnosticSeverityShortString()}: {Summary}";
         }
 
-        private string GetDiagnosticSeverityShortString()
+        protected string GetDiagnosticSeverityShortString()
         {
             return Severity switch
             {
