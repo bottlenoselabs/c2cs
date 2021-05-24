@@ -480,13 +480,31 @@ public Span<{fieldTypeName}> {field.Name}
 
 		private static StructDeclarationSyntax CreateOpaqueStruct(CSharpOpaqueType opaqueType)
 		{
-			var code = $@"
+			string code;
+
+			if (opaqueType.SizeOf > 0)
+			{
+				code = $@"
+{opaqueType.CodeLocationComment}
+[StructLayout(LayoutKind.Explicit, Size = {opaqueType.SizeOf}, Pack = {opaqueType.AlignOf})]
+public struct {opaqueType.Name}
+{{
+	[FieldOffset(0)]
+	public fixed byte Data[{opaqueType.SizeOf}];
+}}
+";
+			}
+			else
+			{
+				code = $@"
 {opaqueType.CodeLocationComment}
 [StructLayout(LayoutKind.Sequential)]
 public struct {opaqueType.Name}
 {{
 }}
 ";
+			}
+
 			var member = ParseMemberDeclaration(code)!;
 			if (member is StructDeclarationSyntax syntax)
 			{

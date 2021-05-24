@@ -1950,207 +1950,275 @@ public static unsafe partial class uv
     }
 
     // OpaqueType @ uv.h:209
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 1072, Pack = 8)]
     public struct uv_loop_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[1072];
     }
 
     // OpaqueType @ uv.h:210
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 96, Pack = 8)]
     public struct uv_handle_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[96];
     }
 
     // OpaqueType @ uv.h:232
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8)]
     public struct uv_shutdown_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[80];
     }
 
     // OpaqueType @ uv.h:212
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 264, Pack = 8)]
     public struct uv_stream_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[264];
     }
 
     // OpaqueType @ uv.h:229
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
     public struct uv_req_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[64];
     }
 
     // OpaqueType @ uv.h:233
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 192, Pack = 8)]
     public struct uv_write_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[192];
     }
 
     // OpaqueType @ uv.h:213
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 264, Pack = 8)]
     public struct uv_tcp_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[264];
     }
 
     // OpaqueType @ uv.h:234
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 96, Pack = 8)]
     public struct uv_connect_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[96];
     }
 
     // OpaqueType @ uv.h:214
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 224, Pack = 8)]
     public struct uv_udp_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[224];
     }
 
     // OpaqueType @ uv.h:235
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 320, Pack = 8)]
     public struct uv_udp_send_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[320];
     }
 
     // OpaqueType @ uv.h:216
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 344, Pack = 8)]
     public struct uv_tty_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[344];
     }
 
     // OpaqueType @ uv.h:215
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 280, Pack = 8)]
     public struct uv_pipe_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[280];
     }
 
     // OpaqueType @ uv.h:217
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 168, Pack = 8)]
     public struct uv_poll_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[168];
     }
 
     // OpaqueType @ uv.h:219
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 120, Pack = 8)]
     public struct uv_prepare_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[120];
     }
 
     // OpaqueType @ uv.h:220
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 120, Pack = 8)]
     public struct uv_check_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[120];
     }
 
     // OpaqueType @ uv.h:221
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 120, Pack = 8)]
     public struct uv_idle_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[120];
     }
 
     // OpaqueType @ uv.h:222
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 128, Pack = 8)]
     public struct uv_async_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[128];
     }
 
     // OpaqueType @ uv.h:218
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 152, Pack = 8)]
     public struct uv_timer_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[152];
     }
 
     // OpaqueType @ uv.h:230
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 160, Pack = 8)]
     public struct uv_getaddrinfo_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[160];
     }
 
     // OpaqueType @ uv.h:231
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 1320, Pack = 8)]
     public struct uv_getnameinfo_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[1320];
     }
 
     // OpaqueType @ uv.h:237
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 128, Pack = 8)]
     public struct uv_work_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[128];
     }
 
     // OpaqueType @ uv.h:236
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 440, Pack = 8)]
     public struct uv_fs_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[440];
     }
 
     // OpaqueType @ uv.h:211
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
     public struct uv_dir_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[56];
     }
 
     // OpaqueType @ uv.h:225
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 104, Pack = 8)]
     public struct uv_fs_poll_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[104];
     }
 
     // OpaqueType @ uv.h:226
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 152, Pack = 8)]
     public struct uv_signal_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[152];
     }
 
     // OpaqueType @ uv.h:224
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 304, Pack = 8)]
     public struct uv_fs_event_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[304];
     }
 
     // OpaqueType @ uv.h:238
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 144, Pack = 8)]
     public struct uv_random_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[144];
     }
 
     // OpaqueType @ unix.h:137
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
     public struct uv_mutex_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[64];
     }
 
     // OpaqueType @ unix.h:138
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 200, Pack = 8)]
     public struct uv_rwlock_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[200];
     }
 
     // OpaqueType @ unix.h:139
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct uv_sem_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[4];
     }
 
     // OpaqueType @ unix.h:140
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
     public struct uv_cond_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[48];
     }
 
     // OpaqueType @ unix.h:162
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct uv_barrier_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[8];
     }
 
     // OpaqueType @ unix.h:135
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct uv_once_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[16];
     }
 
     // OpaqueType @ unix.h:141
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct uv_key_t
     {
+        [FieldOffset(0)]
+        public fixed byte Data[8];
     }
 
     // Typedef @ unix.h:130

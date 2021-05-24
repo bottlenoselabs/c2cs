@@ -6,13 +6,19 @@ namespace C2CS.Languages.C
     public record ClangOpaqueType : ClangNode
     {
         public readonly string Name;
+        public readonly int SizeOf;
+        public readonly int AlignOf;
 
         public ClangOpaqueType(
             string name,
-            ClangCodeLocation codeLocation)
+            ClangCodeLocation codeLocation,
+            int sizeOf,
+            int alignOf)
             : base(ClangNodeKind.OpaqueType, codeLocation)
         {
             Name = name;
+            SizeOf = sizeOf;
+            AlignOf = alignOf;
         }
 
         public override string ToString()

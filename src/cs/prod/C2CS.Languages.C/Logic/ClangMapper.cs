@@ -377,14 +377,18 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        public ClangOpaqueType ClangOpaqueDataType(CXCursor cursor, CXType type, int depth)
+        public ClangOpaqueType ClangOpaqueDataType(CXCursor cursor, CXType type)
         {
             var location = new ClangCodeLocation(cursor);
             var name = type.GetName();
+            var sizeOf = (int) clang_Type_getSizeOf(type);
+            var alignOf = (int) clang_Type_getAlignOf(type);
 
             var result = new ClangOpaqueType(
                 name,
-                location);
+                location,
+                sizeOf,
+                alignOf);
 
             return result;
         }

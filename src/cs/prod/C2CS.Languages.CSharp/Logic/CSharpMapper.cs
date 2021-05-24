@@ -367,7 +367,9 @@ namespace C2CS.CSharp
 
             var result = new CSharpOpaqueType(
                 name,
-                originalCodeLocationComment);
+                originalCodeLocationComment,
+                clangOpaqueType.SizeOf,
+                clangOpaqueType.AlignOf);
 
             return result;
         }

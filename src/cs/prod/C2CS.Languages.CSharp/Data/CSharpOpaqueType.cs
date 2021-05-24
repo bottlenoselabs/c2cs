@@ -5,11 +5,18 @@ namespace C2CS.CSharp
 {
     public record CSharpOpaqueType : CSharpNode
     {
+        public int SizeOf;
+        public int AlignOf;
+
         public CSharpOpaqueType(
             string name,
-            string codeLocationComment)
+            string codeLocationComment,
+            int sizeOf,
+            int alignOf)
             : base(name, codeLocationComment)
         {
+            SizeOf = sizeOf;
+            AlignOf = alignOf;
         }
 
         // Required for debugger string with records

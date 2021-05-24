@@ -231,7 +231,7 @@ namespace C2CS.Languages.C
 
             LogVisit(ClangNodeKind.OpaqueType, string.Empty, typeName, cursor, depth);
 
-            var opaqueType = _mapper.ClangOpaqueDataType(cursor, type, depth);
+            var opaqueType = _mapper.ClangOpaqueDataType(cursor, type);
             _opaqueDataTypes.Add(opaqueType);
         }
 
