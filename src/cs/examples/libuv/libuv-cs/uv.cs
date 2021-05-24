@@ -1440,97 +1440,6 @@ public static unsafe partial class uv
         public ulong len;
     }
 
-    // Record @ uv.h:1064
-    [StructLayout(LayoutKind.Explicit, Size = 136, Pack = 8)]
-    public struct uv_process_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* data;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public uv_loop_t* loop;
-
-        [FieldOffset(16)] // size = 4, padding = 4
-        public uv_handle_type type;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public uv_close_cb close_cb;
-
-        [FieldOffset(32)] // size = 16, padding = 0
-        public fixed ulong _handle_queue[16 / 8]; // void *[2]
-
-        public Span<IntPtr> handle_queue
-        {
-            get
-            {
-                fixed (uv_process_t* @this = &this)
-                {
-                    var pointer = &@this->_handle_queue[0];
-                    var span = new Span<IntPtr>(pointer, 2);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(48)] // size = 32, padding = 0
-        public AnonymousUnion_u u;
-
-        [FieldOffset(80)] // size = 8, padding = 0
-        public uv_handle_t* next_closing;
-
-        [FieldOffset(88)] // size = 4, padding = 4
-        public uint flags;
-
-        [FieldOffset(96)] // size = 8, padding = 0
-        public uv_exit_cb exit_cb;
-
-        [FieldOffset(104)] // size = 4, padding = 4
-        public int pid;
-
-        [FieldOffset(112)] // size = 16, padding = 0
-        public fixed ulong _queue[16 / 8]; // void *[2]
-
-        public Span<IntPtr> queue
-        {
-            get
-            {
-                fixed (uv_process_t* @this = &this)
-                {
-                    var pointer = &@this->_queue[0];
-                    var span = new Span<IntPtr>(pointer, 2);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(128)] // size = 4, padding = 4
-        public int status;
-
-        // Record @ uv.h:1065
-        [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
-        public struct AnonymousUnion_u
-        {
-            [FieldOffset(0)] // size = 4, padding = 0
-            public int fd;
-
-            [FieldOffset(0)] // size = 32, padding = 0
-            public fixed ulong _reserved[32 / 8]; // void *[4]
-
-            public Span<IntPtr> reserved
-            {
-                get
-                {
-                    fixed (AnonymousUnion_u* @this = &this)
-                    {
-                        var pointer = &@this->_reserved[0];
-                        var span = new Span<IntPtr>(pointer, 4);
-                        return span;
-                    }
-                }
-            }
-        }
-    }
-
     // Record @ uv.h:958
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct uv_stdio_container_t
@@ -2107,6 +2016,14 @@ public static unsafe partial class uv
     {
         [FieldOffset(0)]
         public fixed byte Data[1320];
+    }
+
+    // OpaqueType @ uv.h:223
+    [StructLayout(LayoutKind.Explicit, Size = 136, Pack = 8)]
+    public struct uv_process_t
+    {
+        [FieldOffset(0)]
+        public fixed byte Data[136];
     }
 
     // OpaqueType @ uv.h:237

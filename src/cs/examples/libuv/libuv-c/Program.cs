@@ -56,7 +56,7 @@ uv_prepare_t
 uv_check_t
 uv_idle_t
 uv_async_t
-uv_process_t;
+uv_process_t
 uv_fs_event_t
 uv_fs_poll_t
 uv_signal_t
