@@ -35,7 +35,7 @@ namespace C2CS.Languages.C
                 Console.Error.Write("\t");
                 var clangString = clang_formatDiagnostic(diagnostic, defaultDisplayOptions);
                 var cString = clang_getCString(clangString);
-                var diagnosticString = NativeRuntime.MapString(cString);
+                var diagnosticString = NativeRuntime.GetString(cString);
                 Console.Error.WriteLine(diagnosticString);
 
                 var severity = clang_getDiagnosticSeverity(diagnostic);
@@ -67,8 +67,8 @@ namespace C2CS.Languages.C
                                  0x0;
 
             var index = clang_createIndex(0, 0);
-            var cSourceFilePath = NativeRuntime.MapCString(filePath);
-            var cCommandLineArgs = NativeRuntime.MapCStringArray(commandLineArgs.AsSpan());
+            var cSourceFilePath = NativeRuntime.GetCString(filePath);
+            var cCommandLineArgs = NativeRuntime.GetCStringArray(commandLineArgs.AsSpan());
 
             CXErrorCode errorCode;
             fixed (CXTranslationUnit* translationUnitPointer = &translationUnit)

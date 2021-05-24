@@ -159,7 +159,7 @@ namespace C2CS.Languages.C
 
 			var fileName = clang_getFileName(file);
 			var cString = clang_getCString(fileName);
-			var fileNamePath = NativeRuntime.MapString(cString);
+			var fileNamePath = NativeRuntime.GetString(cString);
 
 			var result = (fileNamePath, (int)lineNumber, (int)lineColumn);
 			return result;
@@ -175,7 +175,7 @@ namespace C2CS.Languages.C
 				return string.Empty;
 			}
 
-			var result = NativeRuntime.MapString(cString);
+			var result = NativeRuntime.GetString(cString);
 			return result;
 		}
 
@@ -189,7 +189,7 @@ namespace C2CS.Languages.C
 				return string.Empty;
 			}
 
-			var result = NativeRuntime.MapString(cString);
+			var result = NativeRuntime.GetString(cString);
 			if (result.Contains("struct "))
 			{
 				result = result.Replace("struct ", string.Empty);

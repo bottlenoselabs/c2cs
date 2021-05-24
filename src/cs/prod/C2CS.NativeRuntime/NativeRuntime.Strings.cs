@@ -19,7 +19,7 @@ public static unsafe partial class NativeRuntime
     /// </summary>
     /// <param name="cString">A pointer to the C string.</param>
     /// <returns>A <see cref="string" /> equivalent to the C string pointed by <paramref name="cString" />.</returns>
-    public static string MapString(byte* cString)
+    public static string GetString(byte* cString)
     {
         var pointer = (IntPtr) cString;
         if (PointersToStrings.TryGetValue(pointer, out var result))
@@ -53,7 +53,7 @@ public static unsafe partial class NativeRuntime
     /// </summary>
     /// <param name="string">A <see cref="string" />.</param>
     /// <returns>A C string pointer.</returns>
-    public static byte* MapCString(string @string)
+    public static byte* GetCString(string @string)
     {
         var hash = Crc32B(@string);
         if (StringHashesToPointers.TryGetValue(hash, out var pointer))
@@ -75,7 +75,7 @@ public static unsafe partial class NativeRuntime
     /// </summary>
     /// <param name="values">The strings.</param>
     /// <returns>An array pointer of C string pointers.</returns>
-    public static void** MapCStringArray(ReadOnlySpan<string> values)
+    public static void** GetCStringArray(ReadOnlySpan<string> values)
     {
         var pointerSize = IntPtr.Size;
         var bytes = (byte*) Marshal.AllocHGlobal(pointerSize * values.Length);
@@ -84,7 +84,7 @@ public static unsafe partial class NativeRuntime
         for (var i = 0; i < values.Length; ++i)
         {
             var @string = values[i];
-            var cString = MapCString(@string);
+            var cString = GetCString(@string);
             result[i] = cString;
         }
 
@@ -93,8 +93,8 @@ public static unsafe partial class NativeRuntime
 
     /// <summary>
     ///     Frees the memory for all allocated C strings and releases references to all <see cref="string" />
-    ///     objects which happened during <see cref="MapString" />, <see cref="MapCString" />,
-    ///     or <see cref="MapCStringArray" />. Does <b>not</b> garbage collect.
+    ///     objects which happened during <see cref="GetString" />, <see cref="GetCString" />,
+    ///     or <see cref="GetCStringArray" />. Does <b>not</b> garbage collect.
     /// </summary>
     public static void ClearStrings()
     {

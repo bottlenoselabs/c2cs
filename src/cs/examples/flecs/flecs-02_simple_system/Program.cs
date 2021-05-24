@@ -11,7 +11,7 @@ internal static unsafe class Program
         {
             public byte* Text;
             
-            public static readonly byte* Name = NativeRuntime.MapCString(nameof(Message));
+            public static readonly byte* Name = NativeRuntime.GetCString(nameof(Message));
             public static readonly ulong Size = (ulong)Marshal.SizeOf<Message>();
             public const ulong Alignment = 8;
         }
@@ -31,18 +31,18 @@ internal static unsafe class Program
                 /* Iterate all the messages */
                 for (var i = 0; i < iterator->count; i++)
                 {
-                    var text = NativeRuntime.MapString(msg[i].Text);
+                    var text = NativeRuntime.GetString(msg[i].Text);
                     Console.WriteLine(text);
                 }
             }
             
-            public static readonly byte* Name = NativeRuntime.MapCString("PrintMessage");
+            public static readonly byte* Name = NativeRuntime.GetCString("PrintMessage");
         }
     }
     
     public static class Entities
     {
-        public static readonly byte* MyEntity = NativeRuntime.MapCString("MyEntity");
+        public static readonly byte* MyEntity = NativeRuntime.GetCString("MyEntity");
     }
 
     private static int Main(string[] args)
@@ -51,7 +51,7 @@ internal static unsafe class Program
         
         /* Create the world, pass arguments for overriding the number of threads,fps
          * or for starting the admin dashboard (see flecs.h for details). */
-        var argv = NativeRuntime.MapCStringArray(args);
+        var argv = NativeRuntime.GetCStringArray(args);
         var world = ecs_init_w_args(args.Length, (byte**) argv);
 
         /* Define component */
@@ -91,7 +91,7 @@ internal static unsafe class Program
         /* Set the Position component on the entity */
         var message = new Components.Message
         {
-            Text = NativeRuntime.MapCString("Hello Flecs!")
+            Text = NativeRuntime.GetCString("Hello Flecs!")
         };
         ecs_set_id(world, entity, component, Components.Message.Size, &message);
         

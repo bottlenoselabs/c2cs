@@ -13,7 +13,7 @@ internal static unsafe class Program
             public float X;
             public float Y;
             
-            public static readonly byte* Name = NativeRuntime.MapCString(nameof(Position));
+            public static readonly byte* Name = NativeRuntime.GetCString(nameof(Position));
             public static readonly ulong Size = (ulong)Marshal.SizeOf<Position>();
             public const ulong Alignment = 8;
         }
@@ -24,7 +24,7 @@ internal static unsafe class Program
             public float X;
             public float Y;
             
-            public static readonly byte* Name = NativeRuntime.MapCString(nameof(Velocity));
+            public static readonly byte* Name = NativeRuntime.GetCString(nameof(Velocity));
             public static readonly ulong Size = (ulong)Marshal.SizeOf<Velocity>();
             public const ulong Alignment = 8;
         }
@@ -50,18 +50,18 @@ internal static unsafe class Program
                     /* Print something to the console so we can see the system is being
                      * invoked */
                     var nameCString = ecs_get_name(iterator->world, iterator->entities[i]);
-                    var nameString = NativeRuntime.MapString(nameCString);
+                    var nameString = NativeRuntime.GetString(nameCString);
                     Console.WriteLine($"{nameString} moved to {{.x = {p[i].X}, .y = {p[i].Y}}}");
                 }
             }
             
-            public static readonly byte* Name = NativeRuntime.MapCString("PrintMessage");
+            public static readonly byte* Name = NativeRuntime.GetCString("PrintMessage");
         }
     }
 
     public static class Entities
     {
-        public static readonly byte* MyEntity = NativeRuntime.MapCString("MyEntity");
+        public static readonly byte* MyEntity = NativeRuntime.GetCString("MyEntity");
     }
 
     private static int Main(string[] args)
@@ -70,7 +70,7 @@ internal static unsafe class Program
         
         /* Create the world, pass arguments for overriding the number of threads,fps
          * or for starting the admin dashboard (see flecs.h for details). */
-        var argv = NativeRuntime.MapCStringArray(args);
+        var argv = NativeRuntime.GetCStringArray(args);
         var world = ecs_init_w_args(args.Length, (byte**) argv);
 
         /* Register components */
