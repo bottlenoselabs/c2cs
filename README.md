@@ -16,7 +16,7 @@ This includes all C extern functions which are transpiled to `static` extern met
 
 This is all accomplished by using [libclang](https://clang.llvm.org/docs/Tooling.html) for parsing C and [Roslyn](https://github.com/dotnet/roslyn) for generating C#. All naming is left as found in the header file of the C code.
 
-### Issues with the solution
+### Limitations
 
 This solution does not work for every C library. This is due to some technical limitations where some C libraries are not "bindgen-friendly".
 
