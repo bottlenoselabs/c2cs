@@ -147,18 +147,15 @@ namespace C2CS
             }
 
             var outputDirectoryPath = Path.Combine(cMakeDirectoryPath, "lib");
-            var outputFilePaths = Directory.EnumerateFiles(outputDirectoryPath, "*.*", SearchOption.AllDirectories);
+            if (!Directory.Exists(outputDirectoryPath))
+            {
+                return false;
+            }
+
+            var outputFilePaths = Directory.EnumerateFiles(
+                outputDirectoryPath, $"*{NativeRuntime.LibraryFileNameExtension}", SearchOption.AllDirectories);
             foreach (var outputFilePath in outputFilePaths)
             {
-                var fileExtension = Path.GetExtension(outputFilePath);
-                if (platform == RuntimePlatform.Windows)
-                {
-                    if (fileExtension != ".dll")
-                    {
-                        continue;
-                    }
-                }
-
                 var targetFilePath = outputFilePath.Replace(outputDirectoryPath, targetLibraryDirectoryPath);
                 var targetFileName = Path.GetFileName(targetFilePath);
 
