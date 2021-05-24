@@ -3420,7 +3420,8 @@ public static unsafe partial class flecs
         [FieldOffset(0)] // size = 4, padding = 0
         public int Data;
 
-        public static unsafe implicit operator int(ecs_size_t data) => *((int*)&data);
+        public static implicit operator int(ecs_size_t data) => data.Data;
+        public static implicit operator ecs_size_t(int data) => new() { Data = data };
     }
 
     // Typedef @ map.h:38
@@ -3430,7 +3431,8 @@ public static unsafe partial class flecs
         [FieldOffset(0)] // size = 8, padding = 0
         public ulong Data;
 
-        public static unsafe implicit operator ulong(ecs_map_key_t data) => *((ulong*)&data);
+        public static implicit operator ulong(ecs_map_key_t data) => data.Data;
+        public static implicit operator ecs_map_key_t(ulong data) => new() { Data = data };
     }
 
     // Typedef @ os_api.h:52
@@ -3440,7 +3442,8 @@ public static unsafe partial class flecs
         [FieldOffset(0)] // size = 8, padding = 0
         public UIntPtr Data;
 
-        public static unsafe implicit operator UIntPtr(ecs_os_thread_t data) => *((UIntPtr*)&data);
+        public static implicit operator UIntPtr(ecs_os_thread_t data) => data.Data;
+        public static implicit operator ecs_os_thread_t(UIntPtr data) => new() { Data = data };
     }
 
     // Typedef @ os_api.h:54
@@ -3450,7 +3453,8 @@ public static unsafe partial class flecs
         [FieldOffset(0)] // size = 8, padding = 0
         public UIntPtr Data;
 
-        public static unsafe implicit operator UIntPtr(ecs_os_mutex_t data) => *((UIntPtr*)&data);
+        public static implicit operator UIntPtr(ecs_os_mutex_t data) => data.Data;
+        public static implicit operator ecs_os_mutex_t(UIntPtr data) => new() { Data = data };
     }
 
     // Typedef @ os_api.h:53
@@ -3460,7 +3464,8 @@ public static unsafe partial class flecs
         [FieldOffset(0)] // size = 8, padding = 0
         public UIntPtr Data;
 
-        public static unsafe implicit operator UIntPtr(ecs_os_cond_t data) => *((UIntPtr*)&data);
+        public static implicit operator UIntPtr(ecs_os_cond_t data) => data.Data;
+        public static implicit operator ecs_os_cond_t(UIntPtr data) => new() { Data = data };
     }
 
     // Typedef @ os_api.h:55
@@ -3470,7 +3475,8 @@ public static unsafe partial class flecs
         [FieldOffset(0)] // size = 8, padding = 0
         public UIntPtr Data;
 
-        public static unsafe implicit operator UIntPtr(ecs_os_dl_t data) => *((UIntPtr*)&data);
+        public static implicit operator UIntPtr(ecs_os_dl_t data) => data.Data;
+        public static implicit operator ecs_os_dl_t(UIntPtr data) => new() { Data = data };
     }
 
     // Typedef @ flecs.h:77
@@ -3480,7 +3486,8 @@ public static unsafe partial class flecs
         [FieldOffset(0)] // size = 8, padding = 0
         public ecs_vector_t* Data;
 
-        public static unsafe implicit operator ecs_vector_t*(ecs_type_t data) => *((ecs_vector_t**)&data);
+        public static implicit operator ecs_vector_t*(ecs_type_t data) => data.Data;
+        public static implicit operator ecs_type_t(ecs_vector_t* data) => new() { Data = data };
     }
 
     // Typedef @ flecs.h:71
@@ -3490,7 +3497,8 @@ public static unsafe partial class flecs
         [FieldOffset(0)] // size = 8, padding = 0
         public ulong Data;
 
-        public static unsafe implicit operator ulong(ecs_id_t data) => *((ulong*)&data);
+        public static implicit operator ulong(ecs_id_t data) => data.Data;
+        public static implicit operator ecs_id_t(ulong data) => new() { Data = data };
     }
 
     // Typedef @ flecs.h:74
@@ -3500,7 +3508,8 @@ public static unsafe partial class flecs
         [FieldOffset(0)] // size = 8, padding = 0
         public ecs_id_t Data;
 
-        public static unsafe implicit operator ecs_id_t(ecs_entity_t data) => *((ecs_id_t*)&data);
+        public static implicit operator ecs_id_t(ecs_entity_t data) => data.Data;
+        public static implicit operator ecs_entity_t(ecs_id_t data) => new() { Data = data };
     }
 
     // Enum @ flecs.h:171

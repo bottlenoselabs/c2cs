@@ -266,12 +266,12 @@ public static extern {function.ReturnType.Name} {function.Name}({parameters});
 		{
 			foreach (var functionPointer in functionPointers)
 			{
-				var member = CreateFunctionPointer(functionPointer);
+				var member = CreatePointerFunction(functionPointer);
 				builder.Add(member);
 			}
 		}
 
-		public static StructDeclarationSyntax CreateFunctionPointer(
+		public static StructDeclarationSyntax CreatePointerFunction(
 			CSharpPointerFunction pointerFunction, bool isNested = false)
 		{
 			var parameterStrings = pointerFunction.Parameters
@@ -298,7 +298,7 @@ public struct {pointerFunction.Name}
 				return syntax;
 			}
 
-			var up = new CSharpCodeGenerationException("Error generating C# function pointer.");
+			var up = new CSharpCodeGenerationException("Error generating C# pointer function.");
 			throw up;
 		}
 
@@ -340,7 +340,7 @@ public struct {@struct.Name}
 				return syntax;
 			}
 
-			var up = new CSharpCodeGenerationException("Error generating C# function pointer.");
+			var up = new CSharpCodeGenerationException("Error generating C# struct.");
 			throw up;
 		}
 
@@ -374,7 +374,7 @@ public struct {@struct.Name}
 				var syntax = nestedNode switch
 				{
 					CSharpStruct nestedStruct => CreateStruct(nestedStruct, true),
-					CSharpPointerFunction nestedFunctionPointer => CreateFunctionPointer(nestedFunctionPointer, true),
+					CSharpPointerFunction nestedFunctionPointer => CreatePointerFunction(nestedFunctionPointer, true),
 					_ => throw new NotImplementedException()
 				};
 
@@ -518,7 +518,8 @@ public struct {typedef.Name}
 	[FieldOffset(0)] // size = {typedef.UnderlyingType.SizeOf}, padding = 0
     public {typedef.UnderlyingType.Name} Data;
 
-	public static unsafe implicit operator {typedef.UnderlyingType.Name}({typedef.Name} data) => *(({typedef.UnderlyingType.Name}*)&data);
+	public static implicit operator {typedef.UnderlyingType.Name}({typedef.Name} data) => data.Data;
+	public static implicit operator {typedef.Name}({typedef.UnderlyingType.Name} data) => new() {{Data = data}};
 }}
 ";
 

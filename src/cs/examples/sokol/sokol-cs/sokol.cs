@@ -52,559 +52,559 @@ public static unsafe partial class sokol
 
     }
 
-    // FunctionExtern @ sokol_app.h:1399
+    // Function @ sokol_app.h:1399
     [DllImport(LibraryName, EntryPoint = "sokol_main", CallingConvention = CallingConvention.Cdecl)]
     public static extern sapp_desc sokol_main(int argc, byte** argv);
 
-    // FunctionExtern @ sokol_app.h:1402
+    // Function @ sokol_app.h:1402
     [DllImport(LibraryName, EntryPoint = "sapp_isvalid", CallingConvention = CallingConvention.Cdecl)]
     public static extern _Bool sapp_isvalid();
 
-    // FunctionExtern @ sokol_app.h:1404
+    // Function @ sokol_app.h:1404
     [DllImport(LibraryName, EntryPoint = "sapp_width", CallingConvention = CallingConvention.Cdecl)]
     public static extern int sapp_width();
 
-    // FunctionExtern @ sokol_app.h:1406
+    // Function @ sokol_app.h:1406
     [DllImport(LibraryName, EntryPoint = "sapp_widthf", CallingConvention = CallingConvention.Cdecl)]
     public static extern float sapp_widthf();
 
-    // FunctionExtern @ sokol_app.h:1408
+    // Function @ sokol_app.h:1408
     [DllImport(LibraryName, EntryPoint = "sapp_height", CallingConvention = CallingConvention.Cdecl)]
     public static extern int sapp_height();
 
-    // FunctionExtern @ sokol_app.h:1410
+    // Function @ sokol_app.h:1410
     [DllImport(LibraryName, EntryPoint = "sapp_heightf", CallingConvention = CallingConvention.Cdecl)]
     public static extern float sapp_heightf();
 
-    // FunctionExtern @ sokol_app.h:1412
+    // Function @ sokol_app.h:1412
     [DllImport(LibraryName, EntryPoint = "sapp_color_format", CallingConvention = CallingConvention.Cdecl)]
     public static extern int sapp_color_format();
 
-    // FunctionExtern @ sokol_app.h:1414
+    // Function @ sokol_app.h:1414
     [DllImport(LibraryName, EntryPoint = "sapp_depth_format", CallingConvention = CallingConvention.Cdecl)]
     public static extern int sapp_depth_format();
 
-    // FunctionExtern @ sokol_app.h:1416
+    // Function @ sokol_app.h:1416
     [DllImport(LibraryName, EntryPoint = "sapp_sample_count", CallingConvention = CallingConvention.Cdecl)]
     public static extern int sapp_sample_count();
 
-    // FunctionExtern @ sokol_app.h:1418
+    // Function @ sokol_app.h:1418
     [DllImport(LibraryName, EntryPoint = "sapp_high_dpi", CallingConvention = CallingConvention.Cdecl)]
     public static extern _Bool sapp_high_dpi();
 
-    // FunctionExtern @ sokol_app.h:1420
+    // Function @ sokol_app.h:1420
     [DllImport(LibraryName, EntryPoint = "sapp_dpi_scale", CallingConvention = CallingConvention.Cdecl)]
     public static extern float sapp_dpi_scale();
 
-    // FunctionExtern @ sokol_app.h:1422
+    // Function @ sokol_app.h:1422
     [DllImport(LibraryName, EntryPoint = "sapp_show_keyboard", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_show_keyboard(_Bool show);
 
-    // FunctionExtern @ sokol_app.h:1424
+    // Function @ sokol_app.h:1424
     [DllImport(LibraryName, EntryPoint = "sapp_keyboard_shown", CallingConvention = CallingConvention.Cdecl)]
     public static extern _Bool sapp_keyboard_shown();
 
-    // FunctionExtern @ sokol_app.h:1426
+    // Function @ sokol_app.h:1426
     [DllImport(LibraryName, EntryPoint = "sapp_is_fullscreen", CallingConvention = CallingConvention.Cdecl)]
     public static extern _Bool sapp_is_fullscreen();
 
-    // FunctionExtern @ sokol_app.h:1428
+    // Function @ sokol_app.h:1428
     [DllImport(LibraryName, EntryPoint = "sapp_toggle_fullscreen", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_toggle_fullscreen();
 
-    // FunctionExtern @ sokol_app.h:1430
+    // Function @ sokol_app.h:1430
     [DllImport(LibraryName, EntryPoint = "sapp_show_mouse", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_show_mouse(_Bool show);
 
-    // FunctionExtern @ sokol_app.h:1432
+    // Function @ sokol_app.h:1432
     [DllImport(LibraryName, EntryPoint = "sapp_mouse_shown", CallingConvention = CallingConvention.Cdecl)]
     public static extern _Bool sapp_mouse_shown();
 
-    // FunctionExtern @ sokol_app.h:1434
+    // Function @ sokol_app.h:1434
     [DllImport(LibraryName, EntryPoint = "sapp_lock_mouse", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_lock_mouse(_Bool @lock);
 
-    // FunctionExtern @ sokol_app.h:1436
+    // Function @ sokol_app.h:1436
     [DllImport(LibraryName, EntryPoint = "sapp_mouse_locked", CallingConvention = CallingConvention.Cdecl)]
     public static extern _Bool sapp_mouse_locked();
 
-    // FunctionExtern @ sokol_app.h:1438
+    // Function @ sokol_app.h:1438
     [DllImport(LibraryName, EntryPoint = "sapp_userdata", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_userdata();
 
-    // FunctionExtern @ sokol_app.h:1440
+    // Function @ sokol_app.h:1440
     [DllImport(LibraryName, EntryPoint = "sapp_query_desc", CallingConvention = CallingConvention.Cdecl)]
     public static extern sapp_desc sapp_query_desc();
 
-    // FunctionExtern @ sokol_app.h:1442
+    // Function @ sokol_app.h:1442
     [DllImport(LibraryName, EntryPoint = "sapp_request_quit", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_request_quit();
 
-    // FunctionExtern @ sokol_app.h:1444
+    // Function @ sokol_app.h:1444
     [DllImport(LibraryName, EntryPoint = "sapp_cancel_quit", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_cancel_quit();
 
-    // FunctionExtern @ sokol_app.h:1446
+    // Function @ sokol_app.h:1446
     [DllImport(LibraryName, EntryPoint = "sapp_quit", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_quit();
 
-    // FunctionExtern @ sokol_app.h:1448
+    // Function @ sokol_app.h:1448
     [DllImport(LibraryName, EntryPoint = "sapp_consume_event", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_consume_event();
 
-    // FunctionExtern @ sokol_app.h:1450
+    // Function @ sokol_app.h:1450
     [DllImport(LibraryName, EntryPoint = "sapp_frame_count", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong sapp_frame_count();
 
-    // FunctionExtern @ sokol_app.h:1452
+    // Function @ sokol_app.h:1452
     [DllImport(LibraryName, EntryPoint = "sapp_set_clipboard_string", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_set_clipboard_string(byte* str);
 
-    // FunctionExtern @ sokol_app.h:1454
+    // Function @ sokol_app.h:1454
     [DllImport(LibraryName, EntryPoint = "sapp_get_clipboard_string", CallingConvention = CallingConvention.Cdecl)]
     public static extern byte* sapp_get_clipboard_string();
 
-    // FunctionExtern @ sokol_app.h:1456
+    // Function @ sokol_app.h:1456
     [DllImport(LibraryName, EntryPoint = "sapp_set_window_title", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_set_window_title(byte* str);
 
-    // FunctionExtern @ sokol_app.h:1458
+    // Function @ sokol_app.h:1458
     [DllImport(LibraryName, EntryPoint = "sapp_set_icon", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_set_icon(sapp_icon_desc* icon_desc);
 
-    // FunctionExtern @ sokol_app.h:1460
+    // Function @ sokol_app.h:1460
     [DllImport(LibraryName, EntryPoint = "sapp_get_num_dropped_files", CallingConvention = CallingConvention.Cdecl)]
     public static extern int sapp_get_num_dropped_files();
 
-    // FunctionExtern @ sokol_app.h:1462
+    // Function @ sokol_app.h:1462
     [DllImport(LibraryName, EntryPoint = "sapp_get_dropped_file_path", CallingConvention = CallingConvention.Cdecl)]
     public static extern byte* sapp_get_dropped_file_path(int index);
 
-    // FunctionExtern @ sokol_app.h:1465
+    // Function @ sokol_app.h:1465
     [DllImport(LibraryName, EntryPoint = "sapp_run", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_run(sapp_desc* desc);
 
-    // FunctionExtern @ sokol_app.h:1468
+    // Function @ sokol_app.h:1468
     [DllImport(LibraryName, EntryPoint = "sapp_gles2", CallingConvention = CallingConvention.Cdecl)]
     public static extern _Bool sapp_gles2();
 
-    // FunctionExtern @ sokol_app.h:1471
+    // Function @ sokol_app.h:1471
     [DllImport(LibraryName, EntryPoint = "sapp_html5_ask_leave_site", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_html5_ask_leave_site(_Bool ask);
 
-    // FunctionExtern @ sokol_app.h:1473
+    // Function @ sokol_app.h:1473
     [DllImport(LibraryName, EntryPoint = "sapp_html5_get_dropped_file_size", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint sapp_html5_get_dropped_file_size(int index);
 
-    // FunctionExtern @ sokol_app.h:1475
+    // Function @ sokol_app.h:1475
     [DllImport(LibraryName, EntryPoint = "sapp_html5_fetch_dropped_file", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sapp_html5_fetch_dropped_file(sapp_html5_fetch_request* request);
 
-    // FunctionExtern @ sokol_app.h:1478
+    // Function @ sokol_app.h:1478
     [DllImport(LibraryName, EntryPoint = "sapp_metal_get_device", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_metal_get_device();
 
-    // FunctionExtern @ sokol_app.h:1480
+    // Function @ sokol_app.h:1480
     [DllImport(LibraryName, EntryPoint = "sapp_metal_get_renderpass_descriptor", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_metal_get_renderpass_descriptor();
 
-    // FunctionExtern @ sokol_app.h:1482
+    // Function @ sokol_app.h:1482
     [DllImport(LibraryName, EntryPoint = "sapp_metal_get_drawable", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_metal_get_drawable();
 
-    // FunctionExtern @ sokol_app.h:1484
+    // Function @ sokol_app.h:1484
     [DllImport(LibraryName, EntryPoint = "sapp_macos_get_window", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_macos_get_window();
 
-    // FunctionExtern @ sokol_app.h:1486
+    // Function @ sokol_app.h:1486
     [DllImport(LibraryName, EntryPoint = "sapp_ios_get_window", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_ios_get_window();
 
-    // FunctionExtern @ sokol_app.h:1489
+    // Function @ sokol_app.h:1489
     [DllImport(LibraryName, EntryPoint = "sapp_d3d11_get_device", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_d3d11_get_device();
 
-    // FunctionExtern @ sokol_app.h:1491
+    // Function @ sokol_app.h:1491
     [DllImport(LibraryName, EntryPoint = "sapp_d3d11_get_device_context", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_d3d11_get_device_context();
 
-    // FunctionExtern @ sokol_app.h:1493
+    // Function @ sokol_app.h:1493
     [DllImport(LibraryName, EntryPoint = "sapp_d3d11_get_swap_chain", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_d3d11_get_swap_chain();
 
-    // FunctionExtern @ sokol_app.h:1495
+    // Function @ sokol_app.h:1495
     [DllImport(LibraryName, EntryPoint = "sapp_d3d11_get_render_target_view", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_d3d11_get_render_target_view();
 
-    // FunctionExtern @ sokol_app.h:1497
+    // Function @ sokol_app.h:1497
     [DllImport(LibraryName, EntryPoint = "sapp_d3d11_get_depth_stencil_view", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_d3d11_get_depth_stencil_view();
 
-    // FunctionExtern @ sokol_app.h:1499
+    // Function @ sokol_app.h:1499
     [DllImport(LibraryName, EntryPoint = "sapp_win32_get_hwnd", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_win32_get_hwnd();
 
-    // FunctionExtern @ sokol_app.h:1502
+    // Function @ sokol_app.h:1502
     [DllImport(LibraryName, EntryPoint = "sapp_wgpu_get_device", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_wgpu_get_device();
 
-    // FunctionExtern @ sokol_app.h:1504
+    // Function @ sokol_app.h:1504
     [DllImport(LibraryName, EntryPoint = "sapp_wgpu_get_render_view", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_wgpu_get_render_view();
 
-    // FunctionExtern @ sokol_app.h:1506
+    // Function @ sokol_app.h:1506
     [DllImport(LibraryName, EntryPoint = "sapp_wgpu_get_resolve_view", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_wgpu_get_resolve_view();
 
-    // FunctionExtern @ sokol_app.h:1508
+    // Function @ sokol_app.h:1508
     [DllImport(LibraryName, EntryPoint = "sapp_wgpu_get_depth_stencil_view", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_wgpu_get_depth_stencil_view();
 
-    // FunctionExtern @ sokol_app.h:1511
+    // Function @ sokol_app.h:1511
     [DllImport(LibraryName, EntryPoint = "sapp_android_get_native_activity", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sapp_android_get_native_activity();
 
-    // FunctionExtern @ sokol_gfx.h:2268
+    // Function @ sokol_gfx.h:2268
     [DllImport(LibraryName, EntryPoint = "sg_setup", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_setup(sg_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2269
+    // Function @ sokol_gfx.h:2269
     [DllImport(LibraryName, EntryPoint = "sg_shutdown", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_shutdown();
 
-    // FunctionExtern @ sokol_gfx.h:2270
+    // Function @ sokol_gfx.h:2270
     [DllImport(LibraryName, EntryPoint = "sg_isvalid", CallingConvention = CallingConvention.Cdecl)]
     public static extern _Bool sg_isvalid();
 
-    // FunctionExtern @ sokol_gfx.h:2271
+    // Function @ sokol_gfx.h:2271
     [DllImport(LibraryName, EntryPoint = "sg_reset_state_cache", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_reset_state_cache();
 
-    // FunctionExtern @ sokol_gfx.h:2272
+    // Function @ sokol_gfx.h:2272
     [DllImport(LibraryName, EntryPoint = "sg_install_trace_hooks", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_trace_hooks sg_install_trace_hooks(sg_trace_hooks* trace_hooks);
 
-    // FunctionExtern @ sokol_gfx.h:2273
+    // Function @ sokol_gfx.h:2273
     [DllImport(LibraryName, EntryPoint = "sg_push_debug_group", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_push_debug_group(byte* name);
 
-    // FunctionExtern @ sokol_gfx.h:2274
+    // Function @ sokol_gfx.h:2274
     [DllImport(LibraryName, EntryPoint = "sg_pop_debug_group", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_pop_debug_group();
 
-    // FunctionExtern @ sokol_gfx.h:2277
+    // Function @ sokol_gfx.h:2277
     [DllImport(LibraryName, EntryPoint = "sg_make_buffer", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_buffer sg_make_buffer(sg_buffer_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2278
+    // Function @ sokol_gfx.h:2278
     [DllImport(LibraryName, EntryPoint = "sg_make_image", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_image sg_make_image(sg_image_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2279
+    // Function @ sokol_gfx.h:2279
     [DllImport(LibraryName, EntryPoint = "sg_make_shader", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_shader sg_make_shader(sg_shader_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2280
+    // Function @ sokol_gfx.h:2280
     [DllImport(LibraryName, EntryPoint = "sg_make_pipeline", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_pipeline sg_make_pipeline(sg_pipeline_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2281
+    // Function @ sokol_gfx.h:2281
     [DllImport(LibraryName, EntryPoint = "sg_make_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_pass sg_make_pass(sg_pass_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2282
+    // Function @ sokol_gfx.h:2282
     [DllImport(LibraryName, EntryPoint = "sg_destroy_buffer", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_destroy_buffer(sg_buffer buf);
 
-    // FunctionExtern @ sokol_gfx.h:2283
+    // Function @ sokol_gfx.h:2283
     [DllImport(LibraryName, EntryPoint = "sg_destroy_image", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_destroy_image(sg_image img);
 
-    // FunctionExtern @ sokol_gfx.h:2284
+    // Function @ sokol_gfx.h:2284
     [DllImport(LibraryName, EntryPoint = "sg_destroy_shader", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_destroy_shader(sg_shader shd);
 
-    // FunctionExtern @ sokol_gfx.h:2285
+    // Function @ sokol_gfx.h:2285
     [DllImport(LibraryName, EntryPoint = "sg_destroy_pipeline", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_destroy_pipeline(sg_pipeline pip);
 
-    // FunctionExtern @ sokol_gfx.h:2286
+    // Function @ sokol_gfx.h:2286
     [DllImport(LibraryName, EntryPoint = "sg_destroy_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_destroy_pass(sg_pass pass);
 
-    // FunctionExtern @ sokol_gfx.h:2287
+    // Function @ sokol_gfx.h:2287
     [DllImport(LibraryName, EntryPoint = "sg_update_buffer", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_update_buffer(sg_buffer buf, sg_range* data);
 
-    // FunctionExtern @ sokol_gfx.h:2288
+    // Function @ sokol_gfx.h:2288
     [DllImport(LibraryName, EntryPoint = "sg_update_image", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_update_image(sg_image img, sg_image_data* data);
 
-    // FunctionExtern @ sokol_gfx.h:2289
+    // Function @ sokol_gfx.h:2289
     [DllImport(LibraryName, EntryPoint = "sg_append_buffer", CallingConvention = CallingConvention.Cdecl)]
     public static extern int sg_append_buffer(sg_buffer buf, sg_range* data);
 
-    // FunctionExtern @ sokol_gfx.h:2290
+    // Function @ sokol_gfx.h:2290
     [DllImport(LibraryName, EntryPoint = "sg_query_buffer_overflow", CallingConvention = CallingConvention.Cdecl)]
     public static extern _Bool sg_query_buffer_overflow(sg_buffer buf);
 
-    // FunctionExtern @ sokol_gfx.h:2293
+    // Function @ sokol_gfx.h:2293
     [DllImport(LibraryName, EntryPoint = "sg_begin_default_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_begin_default_pass(sg_pass_action* pass_action, int width, int height);
 
-    // FunctionExtern @ sokol_gfx.h:2294
+    // Function @ sokol_gfx.h:2294
     [DllImport(LibraryName, EntryPoint = "sg_begin_default_passf", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_begin_default_passf(sg_pass_action* pass_action, float width, float height);
 
-    // FunctionExtern @ sokol_gfx.h:2295
+    // Function @ sokol_gfx.h:2295
     [DllImport(LibraryName, EntryPoint = "sg_begin_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_begin_pass(sg_pass pass, sg_pass_action* pass_action);
 
-    // FunctionExtern @ sokol_gfx.h:2296
+    // Function @ sokol_gfx.h:2296
     [DllImport(LibraryName, EntryPoint = "sg_apply_viewport", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_apply_viewport(int x, int y, int width, int height, _Bool origin_top_left);
 
-    // FunctionExtern @ sokol_gfx.h:2297
+    // Function @ sokol_gfx.h:2297
     [DllImport(LibraryName, EntryPoint = "sg_apply_viewportf", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_apply_viewportf(float x, float y, float width, float height, _Bool origin_top_left);
 
-    // FunctionExtern @ sokol_gfx.h:2298
+    // Function @ sokol_gfx.h:2298
     [DllImport(LibraryName, EntryPoint = "sg_apply_scissor_rect", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_apply_scissor_rect(int x, int y, int width, int height, _Bool origin_top_left);
 
-    // FunctionExtern @ sokol_gfx.h:2299
+    // Function @ sokol_gfx.h:2299
     [DllImport(LibraryName, EntryPoint = "sg_apply_scissor_rectf", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_apply_scissor_rectf(float x, float y, float width, float height, _Bool origin_top_left);
 
-    // FunctionExtern @ sokol_gfx.h:2300
+    // Function @ sokol_gfx.h:2300
     [DllImport(LibraryName, EntryPoint = "sg_apply_pipeline", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_apply_pipeline(sg_pipeline pip);
 
-    // FunctionExtern @ sokol_gfx.h:2301
+    // Function @ sokol_gfx.h:2301
     [DllImport(LibraryName, EntryPoint = "sg_apply_bindings", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_apply_bindings(sg_bindings* bindings);
 
-    // FunctionExtern @ sokol_gfx.h:2302
+    // Function @ sokol_gfx.h:2302
     [DllImport(LibraryName, EntryPoint = "sg_apply_uniforms", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_apply_uniforms(sg_shader_stage stage, int ub_index, sg_range* data);
 
-    // FunctionExtern @ sokol_gfx.h:2303
+    // Function @ sokol_gfx.h:2303
     [DllImport(LibraryName, EntryPoint = "sg_draw", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_draw(int base_element, int num_elements, int num_instances);
 
-    // FunctionExtern @ sokol_gfx.h:2304
+    // Function @ sokol_gfx.h:2304
     [DllImport(LibraryName, EntryPoint = "sg_end_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_end_pass();
 
-    // FunctionExtern @ sokol_gfx.h:2305
+    // Function @ sokol_gfx.h:2305
     [DllImport(LibraryName, EntryPoint = "sg_commit", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_commit();
 
-    // FunctionExtern @ sokol_gfx.h:2308
+    // Function @ sokol_gfx.h:2308
     [DllImport(LibraryName, EntryPoint = "sg_query_desc", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_desc sg_query_desc();
 
-    // FunctionExtern @ sokol_gfx.h:2309
+    // Function @ sokol_gfx.h:2309
     [DllImport(LibraryName, EntryPoint = "sg_query_backend", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_backend sg_query_backend();
 
-    // FunctionExtern @ sokol_gfx.h:2310
+    // Function @ sokol_gfx.h:2310
     [DllImport(LibraryName, EntryPoint = "sg_query_features", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_features sg_query_features();
 
-    // FunctionExtern @ sokol_gfx.h:2311
+    // Function @ sokol_gfx.h:2311
     [DllImport(LibraryName, EntryPoint = "sg_query_limits", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_limits sg_query_limits();
 
-    // FunctionExtern @ sokol_gfx.h:2312
+    // Function @ sokol_gfx.h:2312
     [DllImport(LibraryName, EntryPoint = "sg_query_pixelformat", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_pixelformat_info sg_query_pixelformat(sg_pixel_format fmt);
 
-    // FunctionExtern @ sokol_gfx.h:2314
+    // Function @ sokol_gfx.h:2314
     [DllImport(LibraryName, EntryPoint = "sg_query_buffer_state", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_resource_state sg_query_buffer_state(sg_buffer buf);
 
-    // FunctionExtern @ sokol_gfx.h:2315
+    // Function @ sokol_gfx.h:2315
     [DllImport(LibraryName, EntryPoint = "sg_query_image_state", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_resource_state sg_query_image_state(sg_image img);
 
-    // FunctionExtern @ sokol_gfx.h:2316
+    // Function @ sokol_gfx.h:2316
     [DllImport(LibraryName, EntryPoint = "sg_query_shader_state", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_resource_state sg_query_shader_state(sg_shader shd);
 
-    // FunctionExtern @ sokol_gfx.h:2317
+    // Function @ sokol_gfx.h:2317
     [DllImport(LibraryName, EntryPoint = "sg_query_pipeline_state", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_resource_state sg_query_pipeline_state(sg_pipeline pip);
 
-    // FunctionExtern @ sokol_gfx.h:2318
+    // Function @ sokol_gfx.h:2318
     [DllImport(LibraryName, EntryPoint = "sg_query_pass_state", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_resource_state sg_query_pass_state(sg_pass pass);
 
-    // FunctionExtern @ sokol_gfx.h:2320
+    // Function @ sokol_gfx.h:2320
     [DllImport(LibraryName, EntryPoint = "sg_query_buffer_info", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_buffer_info sg_query_buffer_info(sg_buffer buf);
 
-    // FunctionExtern @ sokol_gfx.h:2321
+    // Function @ sokol_gfx.h:2321
     [DllImport(LibraryName, EntryPoint = "sg_query_image_info", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_image_info sg_query_image_info(sg_image img);
 
-    // FunctionExtern @ sokol_gfx.h:2322
+    // Function @ sokol_gfx.h:2322
     [DllImport(LibraryName, EntryPoint = "sg_query_shader_info", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_shader_info sg_query_shader_info(sg_shader shd);
 
-    // FunctionExtern @ sokol_gfx.h:2323
+    // Function @ sokol_gfx.h:2323
     [DllImport(LibraryName, EntryPoint = "sg_query_pipeline_info", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_pipeline_info sg_query_pipeline_info(sg_pipeline pip);
 
-    // FunctionExtern @ sokol_gfx.h:2324
+    // Function @ sokol_gfx.h:2324
     [DllImport(LibraryName, EntryPoint = "sg_query_pass_info", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_pass_info sg_query_pass_info(sg_pass pass);
 
-    // FunctionExtern @ sokol_gfx.h:2326
+    // Function @ sokol_gfx.h:2326
     [DllImport(LibraryName, EntryPoint = "sg_query_buffer_defaults", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_buffer_desc sg_query_buffer_defaults(sg_buffer_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2327
+    // Function @ sokol_gfx.h:2327
     [DllImport(LibraryName, EntryPoint = "sg_query_image_defaults", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_image_desc sg_query_image_defaults(sg_image_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2328
+    // Function @ sokol_gfx.h:2328
     [DllImport(LibraryName, EntryPoint = "sg_query_shader_defaults", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_shader_desc sg_query_shader_defaults(sg_shader_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2329
+    // Function @ sokol_gfx.h:2329
     [DllImport(LibraryName, EntryPoint = "sg_query_pipeline_defaults", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_pipeline_desc sg_query_pipeline_defaults(sg_pipeline_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2330
+    // Function @ sokol_gfx.h:2330
     [DllImport(LibraryName, EntryPoint = "sg_query_pass_defaults", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_pass_desc sg_query_pass_defaults(sg_pass_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2333
+    // Function @ sokol_gfx.h:2333
     [DllImport(LibraryName, EntryPoint = "sg_alloc_buffer", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_buffer sg_alloc_buffer();
 
-    // FunctionExtern @ sokol_gfx.h:2334
+    // Function @ sokol_gfx.h:2334
     [DllImport(LibraryName, EntryPoint = "sg_alloc_image", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_image sg_alloc_image();
 
-    // FunctionExtern @ sokol_gfx.h:2335
+    // Function @ sokol_gfx.h:2335
     [DllImport(LibraryName, EntryPoint = "sg_alloc_shader", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_shader sg_alloc_shader();
 
-    // FunctionExtern @ sokol_gfx.h:2336
+    // Function @ sokol_gfx.h:2336
     [DllImport(LibraryName, EntryPoint = "sg_alloc_pipeline", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_pipeline sg_alloc_pipeline();
 
-    // FunctionExtern @ sokol_gfx.h:2337
+    // Function @ sokol_gfx.h:2337
     [DllImport(LibraryName, EntryPoint = "sg_alloc_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_pass sg_alloc_pass();
 
-    // FunctionExtern @ sokol_gfx.h:2338
+    // Function @ sokol_gfx.h:2338
     [DllImport(LibraryName, EntryPoint = "sg_dealloc_buffer", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_dealloc_buffer(sg_buffer buf_id);
 
-    // FunctionExtern @ sokol_gfx.h:2339
+    // Function @ sokol_gfx.h:2339
     [DllImport(LibraryName, EntryPoint = "sg_dealloc_image", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_dealloc_image(sg_image img_id);
 
-    // FunctionExtern @ sokol_gfx.h:2340
+    // Function @ sokol_gfx.h:2340
     [DllImport(LibraryName, EntryPoint = "sg_dealloc_shader", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_dealloc_shader(sg_shader shd_id);
 
-    // FunctionExtern @ sokol_gfx.h:2341
+    // Function @ sokol_gfx.h:2341
     [DllImport(LibraryName, EntryPoint = "sg_dealloc_pipeline", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_dealloc_pipeline(sg_pipeline pip_id);
 
-    // FunctionExtern @ sokol_gfx.h:2342
+    // Function @ sokol_gfx.h:2342
     [DllImport(LibraryName, EntryPoint = "sg_dealloc_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_dealloc_pass(sg_pass pass_id);
 
-    // FunctionExtern @ sokol_gfx.h:2343
+    // Function @ sokol_gfx.h:2343
     [DllImport(LibraryName, EntryPoint = "sg_init_buffer", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_init_buffer(sg_buffer buf_id, sg_buffer_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2344
+    // Function @ sokol_gfx.h:2344
     [DllImport(LibraryName, EntryPoint = "sg_init_image", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_init_image(sg_image img_id, sg_image_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2345
+    // Function @ sokol_gfx.h:2345
     [DllImport(LibraryName, EntryPoint = "sg_init_shader", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_init_shader(sg_shader shd_id, sg_shader_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2346
+    // Function @ sokol_gfx.h:2346
     [DllImport(LibraryName, EntryPoint = "sg_init_pipeline", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_init_pipeline(sg_pipeline pip_id, sg_pipeline_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2347
+    // Function @ sokol_gfx.h:2347
     [DllImport(LibraryName, EntryPoint = "sg_init_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_init_pass(sg_pass pass_id, sg_pass_desc* desc);
 
-    // FunctionExtern @ sokol_gfx.h:2348
+    // Function @ sokol_gfx.h:2348
     [DllImport(LibraryName, EntryPoint = "sg_uninit_buffer", CallingConvention = CallingConvention.Cdecl)]
     public static extern _Bool sg_uninit_buffer(sg_buffer buf_id);
 
-    // FunctionExtern @ sokol_gfx.h:2349
+    // Function @ sokol_gfx.h:2349
     [DllImport(LibraryName, EntryPoint = "sg_uninit_image", CallingConvention = CallingConvention.Cdecl)]
     public static extern _Bool sg_uninit_image(sg_image img_id);
 
-    // FunctionExtern @ sokol_gfx.h:2350
+    // Function @ sokol_gfx.h:2350
     [DllImport(LibraryName, EntryPoint = "sg_uninit_shader", CallingConvention = CallingConvention.Cdecl)]
     public static extern _Bool sg_uninit_shader(sg_shader shd_id);
 
-    // FunctionExtern @ sokol_gfx.h:2351
+    // Function @ sokol_gfx.h:2351
     [DllImport(LibraryName, EntryPoint = "sg_uninit_pipeline", CallingConvention = CallingConvention.Cdecl)]
     public static extern _Bool sg_uninit_pipeline(sg_pipeline pip_id);
 
-    // FunctionExtern @ sokol_gfx.h:2352
+    // Function @ sokol_gfx.h:2352
     [DllImport(LibraryName, EntryPoint = "sg_uninit_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern _Bool sg_uninit_pass(sg_pass pass_id);
 
-    // FunctionExtern @ sokol_gfx.h:2353
+    // Function @ sokol_gfx.h:2353
     [DllImport(LibraryName, EntryPoint = "sg_fail_buffer", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_fail_buffer(sg_buffer buf_id);
 
-    // FunctionExtern @ sokol_gfx.h:2354
+    // Function @ sokol_gfx.h:2354
     [DllImport(LibraryName, EntryPoint = "sg_fail_image", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_fail_image(sg_image img_id);
 
-    // FunctionExtern @ sokol_gfx.h:2355
+    // Function @ sokol_gfx.h:2355
     [DllImport(LibraryName, EntryPoint = "sg_fail_shader", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_fail_shader(sg_shader shd_id);
 
-    // FunctionExtern @ sokol_gfx.h:2356
+    // Function @ sokol_gfx.h:2356
     [DllImport(LibraryName, EntryPoint = "sg_fail_pipeline", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_fail_pipeline(sg_pipeline pip_id);
 
-    // FunctionExtern @ sokol_gfx.h:2357
+    // Function @ sokol_gfx.h:2357
     [DllImport(LibraryName, EntryPoint = "sg_fail_pass", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_fail_pass(sg_pass pass_id);
 
-    // FunctionExtern @ sokol_gfx.h:2360
+    // Function @ sokol_gfx.h:2360
     [DllImport(LibraryName, EntryPoint = "sg_setup_context", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_context sg_setup_context();
 
-    // FunctionExtern @ sokol_gfx.h:2361
+    // Function @ sokol_gfx.h:2361
     [DllImport(LibraryName, EntryPoint = "sg_activate_context", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_activate_context(sg_context ctx_id);
 
-    // FunctionExtern @ sokol_gfx.h:2362
+    // Function @ sokol_gfx.h:2362
     [DllImport(LibraryName, EntryPoint = "sg_discard_context", CallingConvention = CallingConvention.Cdecl)]
     public static extern void sg_discard_context(sg_context ctx_id);
 
-    // FunctionExtern @ sokol_gfx.h:2371
+    // Function @ sokol_gfx.h:2371
     [DllImport(LibraryName, EntryPoint = "sg_d3d11_device", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sg_d3d11_device();
 
-    // FunctionExtern @ sokol_gfx.h:2374
+    // Function @ sokol_gfx.h:2374
     [DllImport(LibraryName, EntryPoint = "sg_mtl_device", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sg_mtl_device();
 
-    // FunctionExtern @ sokol_gfx.h:2377
+    // Function @ sokol_gfx.h:2377
     [DllImport(LibraryName, EntryPoint = "sg_mtl_render_command_encoder", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* sg_mtl_render_command_encoder();
 
-    // FunctionExtern @ sokol_glue.h:97
+    // Function @ sokol_glue.h:97
     [DllImport(LibraryName, EntryPoint = "sapp_sgcontext", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_context_desc sapp_sgcontext();
 
@@ -861,70 +861,70 @@ public static unsafe partial class sokol
         [FieldOffset(364)] // size = 1, padding = 3
         public _Bool ios_keyboard_resizes_canvas;
 
-        // FunctionPointer @ sokol_app.h:1329
+        // PointerFunction @ sokol_app.h:1329
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_init_cb
         {
             public delegate* unmanaged<void> Pointer;
         }
 
-        // FunctionPointer @ sokol_app.h:1330
+        // PointerFunction @ sokol_app.h:1330
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_frame_cb
         {
             public delegate* unmanaged<void> Pointer;
         }
 
-        // FunctionPointer @ sokol_app.h:1331
+        // PointerFunction @ sokol_app.h:1331
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_cleanup_cb
         {
             public delegate* unmanaged<void> Pointer;
         }
 
-        // FunctionPointer @ sokol_app.h:1332
+        // PointerFunction @ sokol_app.h:1332
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_event_cb
         {
             public delegate* unmanaged<sapp_event*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_app.h:1333
+        // PointerFunction @ sokol_app.h:1333
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_fail_cb
         {
             public delegate* unmanaged<byte*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_app.h:1336
+        // PointerFunction @ sokol_app.h:1336
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_init_userdata_cb
         {
             public delegate* unmanaged<void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_app.h:1337
+        // PointerFunction @ sokol_app.h:1337
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_frame_userdata_cb
         {
             public delegate* unmanaged<void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_app.h:1338
+        // PointerFunction @ sokol_app.h:1338
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_cleanup_userdata_cb
         {
             public delegate* unmanaged<void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_app.h:1339
+        // PointerFunction @ sokol_app.h:1339
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_event_userdata_cb
         {
             public delegate* unmanaged<sapp_event*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_app.h:1340
+        // PointerFunction @ sokol_app.h:1340
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_fail_userdata_cb
         {
@@ -977,7 +977,7 @@ public static unsafe partial class sokol
         [FieldOffset(32)] // size = 8, padding = 0
         public void* user_data;
 
-        // FunctionPointer @ sokol_app.h:1392
+        // PointerFunction @ sokol_app.h:1392
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_callback
         {
@@ -1015,28 +1015,28 @@ public static unsafe partial class sokol
         [FieldOffset(40)] // size = 8, padding = 0
         public void* user_data;
 
-        // FunctionPointer @ sokol_gfx.h:2214
+        // PointerFunction @ sokol_gfx.h:2214
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_renderpass_descriptor_cb
         {
             public delegate* unmanaged<void*> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2215
+        // PointerFunction @ sokol_gfx.h:2215
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_renderpass_descriptor_userdata_cb
         {
             public delegate* unmanaged<void*, void*> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2216
+        // PointerFunction @ sokol_gfx.h:2216
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_drawable_cb
         {
             public delegate* unmanaged<void*> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2217
+        // PointerFunction @ sokol_gfx.h:2217
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_drawable_userdata_cb
         {
@@ -1069,28 +1069,28 @@ public static unsafe partial class sokol
         [FieldOffset(48)] // size = 8, padding = 0
         public void* user_data;
 
-        // FunctionPointer @ sokol_gfx.h:2224
+        // PointerFunction @ sokol_gfx.h:2224
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_render_target_view_cb
         {
             public delegate* unmanaged<void*> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2225
+        // PointerFunction @ sokol_gfx.h:2225
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_render_target_view_userdata_cb
         {
             public delegate* unmanaged<void*, void*> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2226
+        // PointerFunction @ sokol_gfx.h:2226
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_depth_stencil_view_cb
         {
             public delegate* unmanaged<void*> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2227
+        // PointerFunction @ sokol_gfx.h:2227
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_depth_stencil_view_userdata_cb
         {
@@ -1126,42 +1126,42 @@ public static unsafe partial class sokol
         [FieldOffset(56)] // size = 8, padding = 0
         public void* user_data;
 
-        // FunctionPointer @ sokol_gfx.h:2233
+        // PointerFunction @ sokol_gfx.h:2233
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_render_view_cb
         {
             public delegate* unmanaged<void*> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2234
+        // PointerFunction @ sokol_gfx.h:2234
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_render_view_userdata_cb
         {
             public delegate* unmanaged<void*, void*> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2235
+        // PointerFunction @ sokol_gfx.h:2235
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_resolve_view_cb
         {
             public delegate* unmanaged<void*> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2236
+        // PointerFunction @ sokol_gfx.h:2236
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_resolve_view_userdata_cb
         {
             public delegate* unmanaged<void*, void*> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2237
+        // PointerFunction @ sokol_gfx.h:2237
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_depth_stencil_view_cb
         {
             public delegate* unmanaged<void*> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2238
+        // PointerFunction @ sokol_gfx.h:2238
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_depth_stencil_view_userdata_cb
         {
@@ -2270,420 +2270,420 @@ public static unsafe partial class sokol
         [FieldOffset(480)] // size = 8, padding = 0
         public NativeCallbackPointerVoid err_bindings_invalid;
 
-        // FunctionPointer @ sokol_gfx.h:1977
+        // PointerFunction @ sokol_gfx.h:1977
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_reset_state_cache
         {
             public delegate* unmanaged<void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1978
+        // PointerFunction @ sokol_gfx.h:1978
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_make_buffer
         {
             public delegate* unmanaged<sg_buffer_desc*, sg_buffer, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1979
+        // PointerFunction @ sokol_gfx.h:1979
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_make_image
         {
             public delegate* unmanaged<sg_image_desc*, sg_image, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1980
+        // PointerFunction @ sokol_gfx.h:1980
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_make_shader
         {
             public delegate* unmanaged<sg_shader_desc*, sg_shader, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1981
+        // PointerFunction @ sokol_gfx.h:1981
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_make_pipeline
         {
             public delegate* unmanaged<sg_pipeline_desc*, sg_pipeline, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1982
+        // PointerFunction @ sokol_gfx.h:1982
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_make_pass
         {
             public delegate* unmanaged<sg_pass_desc*, sg_pass, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1983
+        // PointerFunction @ sokol_gfx.h:1983
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_destroy_buffer
         {
             public delegate* unmanaged<sg_buffer, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1984
+        // PointerFunction @ sokol_gfx.h:1984
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_destroy_image
         {
             public delegate* unmanaged<sg_image, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1985
+        // PointerFunction @ sokol_gfx.h:1985
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_destroy_shader
         {
             public delegate* unmanaged<sg_shader, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1986
+        // PointerFunction @ sokol_gfx.h:1986
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_destroy_pipeline
         {
             public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1987
+        // PointerFunction @ sokol_gfx.h:1987
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_destroy_pass
         {
             public delegate* unmanaged<sg_pass, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1988
+        // PointerFunction @ sokol_gfx.h:1988
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_update_buffer
         {
             public delegate* unmanaged<sg_buffer, sg_range*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1989
+        // PointerFunction @ sokol_gfx.h:1989
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_update_image
         {
             public delegate* unmanaged<sg_image, sg_image_data*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1990
+        // PointerFunction @ sokol_gfx.h:1990
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_append_buffer
         {
             public delegate* unmanaged<sg_buffer, sg_range*, int, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1991
+        // PointerFunction @ sokol_gfx.h:1991
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_begin_default_pass
         {
             public delegate* unmanaged<sg_pass_action*, int, int, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1992
+        // PointerFunction @ sokol_gfx.h:1992
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_begin_pass
         {
             public delegate* unmanaged<sg_pass, sg_pass_action*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1993
+        // PointerFunction @ sokol_gfx.h:1993
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_apply_viewport
         {
             public delegate* unmanaged<int, int, int, int, _Bool, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1994
+        // PointerFunction @ sokol_gfx.h:1994
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_apply_scissor_rect
         {
             public delegate* unmanaged<int, int, int, int, _Bool, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1995
+        // PointerFunction @ sokol_gfx.h:1995
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_apply_pipeline
         {
             public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1996
+        // PointerFunction @ sokol_gfx.h:1996
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_apply_bindings
         {
             public delegate* unmanaged<sg_bindings*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1997
+        // PointerFunction @ sokol_gfx.h:1997
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_apply_uniforms
         {
             public delegate* unmanaged<sg_shader_stage, int, sg_range*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1998
+        // PointerFunction @ sokol_gfx.h:1998
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_draw
         {
             public delegate* unmanaged<int, int, int, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1999
+        // PointerFunction @ sokol_gfx.h:1999
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_end_pass
         {
             public delegate* unmanaged<void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2000
+        // PointerFunction @ sokol_gfx.h:2000
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_commit
         {
             public delegate* unmanaged<void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2001
+        // PointerFunction @ sokol_gfx.h:2001
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_alloc_buffer
         {
             public delegate* unmanaged<sg_buffer, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2002
+        // PointerFunction @ sokol_gfx.h:2002
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_alloc_image
         {
             public delegate* unmanaged<sg_image, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2003
+        // PointerFunction @ sokol_gfx.h:2003
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_alloc_shader
         {
             public delegate* unmanaged<sg_shader, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2004
+        // PointerFunction @ sokol_gfx.h:2004
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_alloc_pipeline
         {
             public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2005
+        // PointerFunction @ sokol_gfx.h:2005
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_alloc_pass
         {
             public delegate* unmanaged<sg_pass, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2006
+        // PointerFunction @ sokol_gfx.h:2006
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_dealloc_buffer
         {
             public delegate* unmanaged<sg_buffer, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2007
+        // PointerFunction @ sokol_gfx.h:2007
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_dealloc_image
         {
             public delegate* unmanaged<sg_image, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2008
+        // PointerFunction @ sokol_gfx.h:2008
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_dealloc_shader
         {
             public delegate* unmanaged<sg_shader, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2009
+        // PointerFunction @ sokol_gfx.h:2009
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_dealloc_pipeline
         {
             public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2010
+        // PointerFunction @ sokol_gfx.h:2010
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_dealloc_pass
         {
             public delegate* unmanaged<sg_pass, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2011
+        // PointerFunction @ sokol_gfx.h:2011
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_init_buffer
         {
             public delegate* unmanaged<sg_buffer, sg_buffer_desc*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2012
+        // PointerFunction @ sokol_gfx.h:2012
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_init_image
         {
             public delegate* unmanaged<sg_image, sg_image_desc*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2013
+        // PointerFunction @ sokol_gfx.h:2013
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_init_shader
         {
             public delegate* unmanaged<sg_shader, sg_shader_desc*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2014
+        // PointerFunction @ sokol_gfx.h:2014
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_init_pipeline
         {
             public delegate* unmanaged<sg_pipeline, sg_pipeline_desc*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2015
+        // PointerFunction @ sokol_gfx.h:2015
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_init_pass
         {
             public delegate* unmanaged<sg_pass, sg_pass_desc*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2016
+        // PointerFunction @ sokol_gfx.h:2016
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_uninit_buffer
         {
             public delegate* unmanaged<sg_buffer, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2017
+        // PointerFunction @ sokol_gfx.h:2017
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_uninit_image
         {
             public delegate* unmanaged<sg_image, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2018
+        // PointerFunction @ sokol_gfx.h:2018
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_uninit_shader
         {
             public delegate* unmanaged<sg_shader, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2019
+        // PointerFunction @ sokol_gfx.h:2019
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_uninit_pipeline
         {
             public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2020
+        // PointerFunction @ sokol_gfx.h:2020
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_uninit_pass
         {
             public delegate* unmanaged<sg_pass, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2021
+        // PointerFunction @ sokol_gfx.h:2021
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_fail_buffer
         {
             public delegate* unmanaged<sg_buffer, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2022
+        // PointerFunction @ sokol_gfx.h:2022
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_fail_image
         {
             public delegate* unmanaged<sg_image, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2023
+        // PointerFunction @ sokol_gfx.h:2023
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_fail_shader
         {
             public delegate* unmanaged<sg_shader, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2024
+        // PointerFunction @ sokol_gfx.h:2024
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_fail_pipeline
         {
             public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2025
+        // PointerFunction @ sokol_gfx.h:2025
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_fail_pass
         {
             public delegate* unmanaged<sg_pass, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2026
+        // PointerFunction @ sokol_gfx.h:2026
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_push_debug_group
         {
             public delegate* unmanaged<byte*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2027
+        // PointerFunction @ sokol_gfx.h:2027
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_pop_debug_group
         {
             public delegate* unmanaged<void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2028
+        // PointerFunction @ sokol_gfx.h:2028
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_err_buffer_pool_exhausted
         {
             public delegate* unmanaged<void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2029
+        // PointerFunction @ sokol_gfx.h:2029
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_err_image_pool_exhausted
         {
             public delegate* unmanaged<void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2030
+        // PointerFunction @ sokol_gfx.h:2030
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_err_shader_pool_exhausted
         {
             public delegate* unmanaged<void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2031
+        // PointerFunction @ sokol_gfx.h:2031
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_err_pipeline_pool_exhausted
         {
             public delegate* unmanaged<void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2032
+        // PointerFunction @ sokol_gfx.h:2032
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_err_pass_pool_exhausted
         {
             public delegate* unmanaged<void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2033
+        // PointerFunction @ sokol_gfx.h:2033
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_err_context_mismatch
         {
             public delegate* unmanaged<void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2034
+        // PointerFunction @ sokol_gfx.h:2034
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_err_pass_invalid
         {
             public delegate* unmanaged<void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2035
+        // PointerFunction @ sokol_gfx.h:2035
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_err_draw_invalid
         {
             public delegate* unmanaged<void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2036
+        // PointerFunction @ sokol_gfx.h:2036
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_err_bindings_invalid
         {

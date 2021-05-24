@@ -52,7 +52,7 @@ public static unsafe partial class helloworld
 
     }
 
-    // FunctionExtern @ library.h:6
+    // Function @ library.h:6
     [DllImport(LibraryName, EntryPoint = "hello_world", CallingConvention = CallingConvention.Cdecl)]
     public static extern void hello_world();
 }

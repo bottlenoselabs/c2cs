@@ -52,1377 +52,1377 @@ public static unsafe partial class uv
 
     }
 
-    // FunctionExtern @ uv.h:261
+    // Function @ uv.h:261
     [DllImport(LibraryName, EntryPoint = "uv_version", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint uv_version();
 
-    // FunctionExtern @ uv.h:262
+    // Function @ uv.h:262
     [DllImport(LibraryName, EntryPoint = "uv_version_string", CallingConvention = CallingConvention.Cdecl)]
     public static extern byte* uv_version_string();
 
-    // FunctionExtern @ uv.h:269
+    // Function @ uv.h:269
     [DllImport(LibraryName, EntryPoint = "uv_library_shutdown", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_library_shutdown();
 
-    // FunctionExtern @ uv.h:271
+    // Function @ uv.h:271
     [DllImport(LibraryName, EntryPoint = "uv_replace_allocator", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_replace_allocator(uv_malloc_func malloc_func, uv_realloc_func realloc_func, uv_calloc_func calloc_func, uv_free_func free_func);
 
-    // FunctionExtern @ uv.h:276
+    // Function @ uv.h:276
     [DllImport(LibraryName, EntryPoint = "uv_default_loop", CallingConvention = CallingConvention.Cdecl)]
     public static extern uv_loop_t* uv_default_loop();
 
-    // FunctionExtern @ uv.h:277
+    // Function @ uv.h:277
     [DllImport(LibraryName, EntryPoint = "uv_loop_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_loop_init(uv_loop_t* loop);
 
-    // FunctionExtern @ uv.h:278
+    // Function @ uv.h:278
     [DllImport(LibraryName, EntryPoint = "uv_loop_close", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_loop_close(uv_loop_t* loop);
 
-    // FunctionExtern @ uv.h:284
+    // Function @ uv.h:284
     [DllImport(LibraryName, EntryPoint = "uv_loop_new", CallingConvention = CallingConvention.Cdecl)]
     public static extern uv_loop_t* uv_loop_new();
 
-    // FunctionExtern @ uv.h:290
+    // Function @ uv.h:290
     [DllImport(LibraryName, EntryPoint = "uv_loop_delete", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_loop_delete(uv_loop_t* param);
 
-    // FunctionExtern @ uv.h:291
+    // Function @ uv.h:291
     [DllImport(LibraryName, EntryPoint = "uv_loop_size", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong uv_loop_size();
 
-    // FunctionExtern @ uv.h:292
+    // Function @ uv.h:292
     [DllImport(LibraryName, EntryPoint = "uv_loop_alive", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_loop_alive(uv_loop_t* loop);
 
-    // FunctionExtern @ uv.h:293
+    // Function @ uv.h:293
     [DllImport(LibraryName, EntryPoint = "uv_loop_configure", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_loop_configure(uv_loop_t* loop, uv_loop_option option);
 
-    // FunctionExtern @ uv.h:294
+    // Function @ uv.h:294
     [DllImport(LibraryName, EntryPoint = "uv_loop_fork", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_loop_fork(uv_loop_t* loop);
 
-    // FunctionExtern @ uv.h:296
+    // Function @ uv.h:296
     [DllImport(LibraryName, EntryPoint = "uv_run", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_run(uv_loop_t* param, uv_run_mode mode);
 
-    // FunctionExtern @ uv.h:297
+    // Function @ uv.h:297
     [DllImport(LibraryName, EntryPoint = "uv_stop", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_stop(uv_loop_t* param);
 
-    // FunctionExtern @ uv.h:299
+    // Function @ uv.h:299
     [DllImport(LibraryName, EntryPoint = "uv_ref", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_ref(uv_handle_t* param);
 
-    // FunctionExtern @ uv.h:300
+    // Function @ uv.h:300
     [DllImport(LibraryName, EntryPoint = "uv_unref", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_unref(uv_handle_t* param);
 
-    // FunctionExtern @ uv.h:301
+    // Function @ uv.h:301
     [DllImport(LibraryName, EntryPoint = "uv_has_ref", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_has_ref(uv_handle_t* param);
 
-    // FunctionExtern @ uv.h:303
+    // Function @ uv.h:303
     [DllImport(LibraryName, EntryPoint = "uv_update_time", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_update_time(uv_loop_t* param);
 
-    // FunctionExtern @ uv.h:304
+    // Function @ uv.h:304
     [DllImport(LibraryName, EntryPoint = "uv_now", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong uv_now(uv_loop_t* param);
 
-    // FunctionExtern @ uv.h:306
+    // Function @ uv.h:306
     [DllImport(LibraryName, EntryPoint = "uv_backend_fd", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_backend_fd(uv_loop_t* param);
 
-    // FunctionExtern @ uv.h:307
+    // Function @ uv.h:307
     [DllImport(LibraryName, EntryPoint = "uv_backend_timeout", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_backend_timeout(uv_loop_t* param);
 
-    // FunctionExtern @ uv.h:388
+    // Function @ uv.h:388
     [DllImport(LibraryName, EntryPoint = "uv_translate_sys_error", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_translate_sys_error(int sys_errno);
 
-    // FunctionExtern @ uv.h:390
+    // Function @ uv.h:390
     [DllImport(LibraryName, EntryPoint = "uv_strerror", CallingConvention = CallingConvention.Cdecl)]
     public static extern byte* uv_strerror(int err);
 
-    // FunctionExtern @ uv.h:391
+    // Function @ uv.h:391
     [DllImport(LibraryName, EntryPoint = "uv_strerror_r", CallingConvention = CallingConvention.Cdecl)]
     public static extern byte* uv_strerror_r(int err, byte* buf, ulong buflen);
 
-    // FunctionExtern @ uv.h:393
+    // Function @ uv.h:393
     [DllImport(LibraryName, EntryPoint = "uv_err_name", CallingConvention = CallingConvention.Cdecl)]
     public static extern byte* uv_err_name(int err);
 
-    // FunctionExtern @ uv.h:394
+    // Function @ uv.h:394
     [DllImport(LibraryName, EntryPoint = "uv_err_name_r", CallingConvention = CallingConvention.Cdecl)]
     public static extern byte* uv_err_name_r(int err, byte* buf, ulong buflen);
 
-    // FunctionExtern @ uv.h:416
+    // Function @ uv.h:416
     [DllImport(LibraryName, EntryPoint = "uv_shutdown", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_shutdown(uv_shutdown_t* req, uv_stream_t* handle, uv_shutdown_cb cb);
 
-    // FunctionExtern @ uv.h:448
+    // Function @ uv.h:448
     [DllImport(LibraryName, EntryPoint = "uv_handle_size", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong uv_handle_size(uv_handle_type type);
 
-    // FunctionExtern @ uv.h:449
+    // Function @ uv.h:449
     [DllImport(LibraryName, EntryPoint = "uv_handle_get_type", CallingConvention = CallingConvention.Cdecl)]
     public static extern uv_handle_type uv_handle_get_type(uv_handle_t* handle);
 
-    // FunctionExtern @ uv.h:450
+    // Function @ uv.h:450
     [DllImport(LibraryName, EntryPoint = "uv_handle_type_name", CallingConvention = CallingConvention.Cdecl)]
     public static extern byte* uv_handle_type_name(uv_handle_type type);
 
-    // FunctionExtern @ uv.h:451
+    // Function @ uv.h:451
     [DllImport(LibraryName, EntryPoint = "uv_handle_get_data", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* uv_handle_get_data(uv_handle_t* handle);
 
-    // FunctionExtern @ uv.h:452
+    // Function @ uv.h:452
     [DllImport(LibraryName, EntryPoint = "uv_handle_get_loop", CallingConvention = CallingConvention.Cdecl)]
     public static extern uv_loop_t* uv_handle_get_loop(uv_handle_t* handle);
 
-    // FunctionExtern @ uv.h:453
+    // Function @ uv.h:453
     [DllImport(LibraryName, EntryPoint = "uv_handle_set_data", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_handle_set_data(uv_handle_t* handle, void* data);
 
-    // FunctionExtern @ uv.h:455
+    // Function @ uv.h:455
     [DllImport(LibraryName, EntryPoint = "uv_req_size", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong uv_req_size(uv_req_type type);
 
-    // FunctionExtern @ uv.h:456
+    // Function @ uv.h:456
     [DllImport(LibraryName, EntryPoint = "uv_req_get_data", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* uv_req_get_data(uv_req_t* req);
 
-    // FunctionExtern @ uv.h:457
+    // Function @ uv.h:457
     [DllImport(LibraryName, EntryPoint = "uv_req_set_data", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_req_set_data(uv_req_t* req, void* data);
 
-    // FunctionExtern @ uv.h:458
+    // Function @ uv.h:458
     [DllImport(LibraryName, EntryPoint = "uv_req_get_type", CallingConvention = CallingConvention.Cdecl)]
     public static extern uv_req_type uv_req_get_type(uv_req_t* req);
 
-    // FunctionExtern @ uv.h:459
+    // Function @ uv.h:459
     [DllImport(LibraryName, EntryPoint = "uv_req_type_name", CallingConvention = CallingConvention.Cdecl)]
     public static extern byte* uv_req_type_name(uv_req_type type);
 
-    // FunctionExtern @ uv.h:461
+    // Function @ uv.h:461
     [DllImport(LibraryName, EntryPoint = "uv_is_active", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_is_active(uv_handle_t* handle);
 
-    // FunctionExtern @ uv.h:463
+    // Function @ uv.h:463
     [DllImport(LibraryName, EntryPoint = "uv_walk", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_walk(uv_loop_t* loop, uv_walk_cb walk_cb, void* arg);
 
-    // FunctionExtern @ uv.h:466
+    // Function @ uv.h:466
     [DllImport(LibraryName, EntryPoint = "uv_print_all_handles", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_print_all_handles(uv_loop_t* loop, FILE* stream);
 
-    // FunctionExtern @ uv.h:467
+    // Function @ uv.h:467
     [DllImport(LibraryName, EntryPoint = "uv_print_active_handles", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_print_active_handles(uv_loop_t* loop, FILE* stream);
 
-    // FunctionExtern @ uv.h:469
+    // Function @ uv.h:469
     [DllImport(LibraryName, EntryPoint = "uv_close", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_close(uv_handle_t* handle, uv_close_cb close_cb);
 
-    // FunctionExtern @ uv.h:471
+    // Function @ uv.h:471
     [DllImport(LibraryName, EntryPoint = "uv_send_buffer_size", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_send_buffer_size(uv_handle_t* handle, long* value);
 
-    // FunctionExtern @ uv.h:472
+    // Function @ uv.h:472
     [DllImport(LibraryName, EntryPoint = "uv_recv_buffer_size", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_recv_buffer_size(uv_handle_t* handle, long* value);
 
-    // FunctionExtern @ uv.h:474
+    // Function @ uv.h:474
     [DllImport(LibraryName, EntryPoint = "uv_fileno", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fileno(uv_handle_t* handle, uv_os_fd_t* fd);
 
-    // FunctionExtern @ uv.h:476
+    // Function @ uv.h:476
     [DllImport(LibraryName, EntryPoint = "uv_buf_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern uv_buf_t uv_buf_init(byte* @base, uint len);
 
-    // FunctionExtern @ uv.h:478
+    // Function @ uv.h:478
     [DllImport(LibraryName, EntryPoint = "uv_pipe", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_pipe(uv_file fds, int read_flags, int write_flags);
 
-    // FunctionExtern @ uv.h:479
+    // Function @ uv.h:479
     [DllImport(LibraryName, EntryPoint = "uv_socketpair", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_socketpair(int type, int protocol, uv_os_sock_t socket_vector, int flags0, int flags1);
 
-    // FunctionExtern @ uv.h:505
+    // Function @ uv.h:505
     [DllImport(LibraryName, EntryPoint = "uv_stream_get_write_queue_size", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong uv_stream_get_write_queue_size(uv_stream_t* stream);
 
-    // FunctionExtern @ uv.h:507
+    // Function @ uv.h:507
     [DllImport(LibraryName, EntryPoint = "uv_listen", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_listen(uv_stream_t* stream, int backlog, uv_connection_cb cb);
 
-    // FunctionExtern @ uv.h:508
+    // Function @ uv.h:508
     [DllImport(LibraryName, EntryPoint = "uv_accept", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_accept(uv_stream_t* server, uv_stream_t* client);
 
-    // FunctionExtern @ uv.h:510
+    // Function @ uv.h:510
     [DllImport(LibraryName, EntryPoint = "uv_read_start", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_read_start(uv_stream_t* param, uv_alloc_cb alloc_cb, uv_read_cb read_cb);
 
-    // FunctionExtern @ uv.h:513
+    // Function @ uv.h:513
     [DllImport(LibraryName, EntryPoint = "uv_read_stop", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_read_stop(uv_stream_t* param);
 
-    // FunctionExtern @ uv.h:515
+    // Function @ uv.h:515
     [DllImport(LibraryName, EntryPoint = "uv_write", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_write(uv_write_t* req, uv_stream_t* handle, uv_buf_t* bufs, uint nbufs, uv_write_cb cb);
 
-    // FunctionExtern @ uv.h:520
+    // Function @ uv.h:520
     [DllImport(LibraryName, EntryPoint = "uv_write2", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_write2(uv_write_t* req, uv_stream_t* handle, uv_buf_t* bufs, uint nbufs, uv_stream_t* send_handle, uv_write_cb cb);
 
-    // FunctionExtern @ uv.h:526
+    // Function @ uv.h:526
     [DllImport(LibraryName, EntryPoint = "uv_try_write", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_try_write(uv_stream_t* handle, uv_buf_t* bufs, uint nbufs);
 
-    // FunctionExtern @ uv.h:540
+    // Function @ uv.h:540
     [DllImport(LibraryName, EntryPoint = "uv_is_readable", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_is_readable(uv_stream_t* handle);
 
-    // FunctionExtern @ uv.h:541
+    // Function @ uv.h:541
     [DllImport(LibraryName, EntryPoint = "uv_is_writable", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_is_writable(uv_stream_t* handle);
 
-    // FunctionExtern @ uv.h:543
+    // Function @ uv.h:543
     [DllImport(LibraryName, EntryPoint = "uv_stream_set_blocking", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_stream_set_blocking(uv_stream_t* handle, int blocking);
 
-    // FunctionExtern @ uv.h:545
+    // Function @ uv.h:545
     [DllImport(LibraryName, EntryPoint = "uv_is_closing", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_is_closing(uv_handle_t* handle);
 
-    // FunctionExtern @ uv.h:559
+    // Function @ uv.h:559
     [DllImport(LibraryName, EntryPoint = "uv_tcp_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_tcp_init(uv_loop_t* param, uv_tcp_t* handle);
 
-    // FunctionExtern @ uv.h:560
+    // Function @ uv.h:560
     [DllImport(LibraryName, EntryPoint = "uv_tcp_init_ex", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_tcp_init_ex(uv_loop_t* param, uv_tcp_t* handle, uint flags);
 
-    // FunctionExtern @ uv.h:561
+    // Function @ uv.h:561
     [DllImport(LibraryName, EntryPoint = "uv_tcp_open", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_tcp_open(uv_tcp_t* handle, uv_os_sock_t sock);
 
-    // FunctionExtern @ uv.h:562
+    // Function @ uv.h:562
     [DllImport(LibraryName, EntryPoint = "uv_tcp_nodelay", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_tcp_nodelay(uv_tcp_t* handle, int enable);
 
-    // FunctionExtern @ uv.h:563
+    // Function @ uv.h:563
     [DllImport(LibraryName, EntryPoint = "uv_tcp_keepalive", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_tcp_keepalive(uv_tcp_t* handle, int enable, uint delay);
 
-    // FunctionExtern @ uv.h:566
+    // Function @ uv.h:566
     [DllImport(LibraryName, EntryPoint = "uv_tcp_simultaneous_accepts", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_tcp_simultaneous_accepts(uv_tcp_t* handle, int enable);
 
-    // FunctionExtern @ uv.h:573
+    // Function @ uv.h:573
     [DllImport(LibraryName, EntryPoint = "uv_tcp_bind", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_tcp_bind(uv_tcp_t* handle, sockaddr* addr, uint flags);
 
-    // FunctionExtern @ uv.h:576
+    // Function @ uv.h:576
     [DllImport(LibraryName, EntryPoint = "uv_tcp_getsockname", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_tcp_getsockname(uv_tcp_t* handle, sockaddr* name, long* namelen);
 
-    // FunctionExtern @ uv.h:579
+    // Function @ uv.h:579
     [DllImport(LibraryName, EntryPoint = "uv_tcp_getpeername", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_tcp_getpeername(uv_tcp_t* handle, sockaddr* name, long* namelen);
 
-    // FunctionExtern @ uv.h:582
+    // Function @ uv.h:582
     [DllImport(LibraryName, EntryPoint = "uv_tcp_close_reset", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_tcp_close_reset(uv_tcp_t* handle, uv_close_cb close_cb);
 
-    // FunctionExtern @ uv.h:583
+    // Function @ uv.h:583
     [DllImport(LibraryName, EntryPoint = "uv_tcp_connect", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_tcp_connect(uv_connect_t* req, uv_tcp_t* handle, sockaddr* addr, uv_connect_cb cb);
 
-    // FunctionExtern @ uv.h:674
+    // Function @ uv.h:674
     [DllImport(LibraryName, EntryPoint = "uv_udp_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_init(uv_loop_t* param, uv_udp_t* handle);
 
-    // FunctionExtern @ uv.h:675
+    // Function @ uv.h:675
     [DllImport(LibraryName, EntryPoint = "uv_udp_init_ex", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_init_ex(uv_loop_t* param, uv_udp_t* handle, uint flags);
 
-    // FunctionExtern @ uv.h:676
+    // Function @ uv.h:676
     [DllImport(LibraryName, EntryPoint = "uv_udp_open", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_open(uv_udp_t* handle, uv_os_sock_t sock);
 
-    // FunctionExtern @ uv.h:677
+    // Function @ uv.h:677
     [DllImport(LibraryName, EntryPoint = "uv_udp_bind", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_bind(uv_udp_t* handle, sockaddr* addr, uint flags);
 
-    // FunctionExtern @ uv.h:680
+    // Function @ uv.h:680
     [DllImport(LibraryName, EntryPoint = "uv_udp_connect", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_connect(uv_udp_t* handle, sockaddr* addr);
 
-    // FunctionExtern @ uv.h:682
+    // Function @ uv.h:682
     [DllImport(LibraryName, EntryPoint = "uv_udp_getpeername", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_getpeername(uv_udp_t* handle, sockaddr* name, long* namelen);
 
-    // FunctionExtern @ uv.h:685
+    // Function @ uv.h:685
     [DllImport(LibraryName, EntryPoint = "uv_udp_getsockname", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_getsockname(uv_udp_t* handle, sockaddr* name, long* namelen);
 
-    // FunctionExtern @ uv.h:688
+    // Function @ uv.h:688
     [DllImport(LibraryName, EntryPoint = "uv_udp_set_membership", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_set_membership(uv_udp_t* handle, byte* multicast_addr, byte* interface_addr, uv_membership membership);
 
-    // FunctionExtern @ uv.h:692
+    // Function @ uv.h:692
     [DllImport(LibraryName, EntryPoint = "uv_udp_set_source_membership", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_set_source_membership(uv_udp_t* handle, byte* multicast_addr, byte* interface_addr, byte* source_addr, uv_membership membership);
 
-    // FunctionExtern @ uv.h:697
+    // Function @ uv.h:697
     [DllImport(LibraryName, EntryPoint = "uv_udp_set_multicast_loop", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_set_multicast_loop(uv_udp_t* handle, int on);
 
-    // FunctionExtern @ uv.h:698
+    // Function @ uv.h:698
     [DllImport(LibraryName, EntryPoint = "uv_udp_set_multicast_ttl", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_set_multicast_ttl(uv_udp_t* handle, int ttl);
 
-    // FunctionExtern @ uv.h:699
+    // Function @ uv.h:699
     [DllImport(LibraryName, EntryPoint = "uv_udp_set_multicast_interface", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_set_multicast_interface(uv_udp_t* handle, byte* interface_addr);
 
-    // FunctionExtern @ uv.h:701
+    // Function @ uv.h:701
     [DllImport(LibraryName, EntryPoint = "uv_udp_set_broadcast", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_set_broadcast(uv_udp_t* handle, int on);
 
-    // FunctionExtern @ uv.h:702
+    // Function @ uv.h:702
     [DllImport(LibraryName, EntryPoint = "uv_udp_set_ttl", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_set_ttl(uv_udp_t* handle, int ttl);
 
-    // FunctionExtern @ uv.h:703
+    // Function @ uv.h:703
     [DllImport(LibraryName, EntryPoint = "uv_udp_send", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_send(uv_udp_send_t* req, uv_udp_t* handle, uv_buf_t* bufs, uint nbufs, sockaddr* addr, uv_udp_send_cb send_cb);
 
-    // FunctionExtern @ uv.h:709
+    // Function @ uv.h:709
     [DllImport(LibraryName, EntryPoint = "uv_udp_try_send", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_try_send(uv_udp_t* handle, uv_buf_t* bufs, uint nbufs, sockaddr* addr);
 
-    // FunctionExtern @ uv.h:713
+    // Function @ uv.h:713
     [DllImport(LibraryName, EntryPoint = "uv_udp_recv_start", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_recv_start(uv_udp_t* handle, uv_alloc_cb alloc_cb, uv_udp_recv_cb recv_cb);
 
-    // FunctionExtern @ uv.h:716
+    // Function @ uv.h:716
     [DllImport(LibraryName, EntryPoint = "uv_udp_using_recvmmsg", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_using_recvmmsg(uv_udp_t* handle);
 
-    // FunctionExtern @ uv.h:717
+    // Function @ uv.h:717
     [DllImport(LibraryName, EntryPoint = "uv_udp_recv_stop", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_udp_recv_stop(uv_udp_t* handle);
 
-    // FunctionExtern @ uv.h:718
+    // Function @ uv.h:718
     [DllImport(LibraryName, EntryPoint = "uv_udp_get_send_queue_size", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong uv_udp_get_send_queue_size(uv_udp_t* handle);
 
-    // FunctionExtern @ uv.h:719
+    // Function @ uv.h:719
     [DllImport(LibraryName, EntryPoint = "uv_udp_get_send_queue_count", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong uv_udp_get_send_queue_count(uv_udp_t* handle);
 
-    // FunctionExtern @ uv.h:755
+    // Function @ uv.h:755
     [DllImport(LibraryName, EntryPoint = "uv_tty_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_tty_init(uv_loop_t* param, uv_tty_t* param2, uv_file fd, int readable);
 
-    // FunctionExtern @ uv.h:756
+    // Function @ uv.h:756
     [DllImport(LibraryName, EntryPoint = "uv_tty_set_mode", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_tty_set_mode(uv_tty_t* param, uv_tty_mode_t mode);
 
-    // FunctionExtern @ uv.h:757
+    // Function @ uv.h:757
     [DllImport(LibraryName, EntryPoint = "uv_tty_reset_mode", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_tty_reset_mode();
 
-    // FunctionExtern @ uv.h:758
+    // Function @ uv.h:758
     [DllImport(LibraryName, EntryPoint = "uv_tty_get_winsize", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_tty_get_winsize(uv_tty_t* param, long* width, long* height);
 
-    // FunctionExtern @ uv.h:759
+    // Function @ uv.h:759
     [DllImport(LibraryName, EntryPoint = "uv_tty_set_vterm_state", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_tty_set_vterm_state(uv_tty_vtermstate_t state);
 
-    // FunctionExtern @ uv.h:760
+    // Function @ uv.h:760
     [DllImport(LibraryName, EntryPoint = "uv_tty_get_vterm_state", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_tty_get_vterm_state(uv_tty_vtermstate_t* state);
 
-    // FunctionExtern @ uv.h:772
+    // Function @ uv.h:772
     [DllImport(LibraryName, EntryPoint = "uv_guess_handle", CallingConvention = CallingConvention.Cdecl)]
     public static extern uv_handle_type uv_guess_handle(uv_file file);
 
-    // FunctionExtern @ uv.h:787
+    // Function @ uv.h:787
     [DllImport(LibraryName, EntryPoint = "uv_pipe_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_pipe_init(uv_loop_t* param, uv_pipe_t* handle, int ipc);
 
-    // FunctionExtern @ uv.h:788
+    // Function @ uv.h:788
     [DllImport(LibraryName, EntryPoint = "uv_pipe_open", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_pipe_open(uv_pipe_t* param, uv_file file);
 
-    // FunctionExtern @ uv.h:789
+    // Function @ uv.h:789
     [DllImport(LibraryName, EntryPoint = "uv_pipe_bind", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_pipe_bind(uv_pipe_t* handle, byte* name);
 
-    // FunctionExtern @ uv.h:790
+    // Function @ uv.h:790
     [DllImport(LibraryName, EntryPoint = "uv_pipe_connect", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_pipe_connect(uv_connect_t* req, uv_pipe_t* handle, byte* name, uv_connect_cb cb);
 
-    // FunctionExtern @ uv.h:794
+    // Function @ uv.h:794
     [DllImport(LibraryName, EntryPoint = "uv_pipe_getsockname", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_pipe_getsockname(uv_pipe_t* handle, byte* buffer, ulong* size);
 
-    // FunctionExtern @ uv.h:797
+    // Function @ uv.h:797
     [DllImport(LibraryName, EntryPoint = "uv_pipe_getpeername", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_pipe_getpeername(uv_pipe_t* handle, byte* buffer, ulong* size);
 
-    // FunctionExtern @ uv.h:800
+    // Function @ uv.h:800
     [DllImport(LibraryName, EntryPoint = "uv_pipe_pending_instances", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_pipe_pending_instances(uv_pipe_t* handle, int count);
 
-    // FunctionExtern @ uv.h:801
+    // Function @ uv.h:801
     [DllImport(LibraryName, EntryPoint = "uv_pipe_pending_count", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_pipe_pending_count(uv_pipe_t* handle);
 
-    // FunctionExtern @ uv.h:802
+    // Function @ uv.h:802
     [DllImport(LibraryName, EntryPoint = "uv_pipe_pending_type", CallingConvention = CallingConvention.Cdecl)]
     public static extern uv_handle_type uv_pipe_pending_type(uv_pipe_t* handle);
 
-    // FunctionExtern @ uv.h:803
+    // Function @ uv.h:803
     [DllImport(LibraryName, EntryPoint = "uv_pipe_chmod", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_pipe_chmod(uv_pipe_t* handle, int flags);
 
-    // FunctionExtern @ uv.h:819
+    // Function @ uv.h:819
     [DllImport(LibraryName, EntryPoint = "uv_poll_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_poll_init(uv_loop_t* loop, uv_poll_t* handle, int fd);
 
-    // FunctionExtern @ uv.h:820
+    // Function @ uv.h:820
     [DllImport(LibraryName, EntryPoint = "uv_poll_init_socket", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_poll_init_socket(uv_loop_t* loop, uv_poll_t* handle, uv_os_sock_t socket);
 
-    // FunctionExtern @ uv.h:823
+    // Function @ uv.h:823
     [DllImport(LibraryName, EntryPoint = "uv_poll_start", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_poll_start(uv_poll_t* handle, int events, uv_poll_cb cb);
 
-    // FunctionExtern @ uv.h:824
+    // Function @ uv.h:824
     [DllImport(LibraryName, EntryPoint = "uv_poll_stop", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_poll_stop(uv_poll_t* handle);
 
-    // FunctionExtern @ uv.h:832
+    // Function @ uv.h:832
     [DllImport(LibraryName, EntryPoint = "uv_prepare_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_prepare_init(uv_loop_t* param, uv_prepare_t* prepare);
 
-    // FunctionExtern @ uv.h:833
+    // Function @ uv.h:833
     [DllImport(LibraryName, EntryPoint = "uv_prepare_start", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_prepare_start(uv_prepare_t* prepare, uv_prepare_cb cb);
 
-    // FunctionExtern @ uv.h:834
+    // Function @ uv.h:834
     [DllImport(LibraryName, EntryPoint = "uv_prepare_stop", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_prepare_stop(uv_prepare_t* prepare);
 
-    // FunctionExtern @ uv.h:842
+    // Function @ uv.h:842
     [DllImport(LibraryName, EntryPoint = "uv_check_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_check_init(uv_loop_t* param, uv_check_t* check);
 
-    // FunctionExtern @ uv.h:843
+    // Function @ uv.h:843
     [DllImport(LibraryName, EntryPoint = "uv_check_start", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_check_start(uv_check_t* check, uv_check_cb cb);
 
-    // FunctionExtern @ uv.h:844
+    // Function @ uv.h:844
     [DllImport(LibraryName, EntryPoint = "uv_check_stop", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_check_stop(uv_check_t* check);
 
-    // FunctionExtern @ uv.h:852
+    // Function @ uv.h:852
     [DllImport(LibraryName, EntryPoint = "uv_idle_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_idle_init(uv_loop_t* param, uv_idle_t* idle);
 
-    // FunctionExtern @ uv.h:853
+    // Function @ uv.h:853
     [DllImport(LibraryName, EntryPoint = "uv_idle_start", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_idle_start(uv_idle_t* idle, uv_idle_cb cb);
 
-    // FunctionExtern @ uv.h:854
+    // Function @ uv.h:854
     [DllImport(LibraryName, EntryPoint = "uv_idle_stop", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_idle_stop(uv_idle_t* idle);
 
-    // FunctionExtern @ uv.h:862
+    // Function @ uv.h:862
     [DllImport(LibraryName, EntryPoint = "uv_async_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_async_init(uv_loop_t* param, uv_async_t* async, uv_async_cb async_cb);
 
-    // FunctionExtern @ uv.h:865
+    // Function @ uv.h:865
     [DllImport(LibraryName, EntryPoint = "uv_async_send", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_async_send(uv_async_t* async);
 
-    // FunctionExtern @ uv.h:878
+    // Function @ uv.h:878
     [DllImport(LibraryName, EntryPoint = "uv_timer_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_timer_init(uv_loop_t* param, uv_timer_t* handle);
 
-    // FunctionExtern @ uv.h:879
+    // Function @ uv.h:879
     [DllImport(LibraryName, EntryPoint = "uv_timer_start", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_timer_start(uv_timer_t* handle, uv_timer_cb cb, ulong timeout, ulong repeat);
 
-    // FunctionExtern @ uv.h:883
+    // Function @ uv.h:883
     [DllImport(LibraryName, EntryPoint = "uv_timer_stop", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_timer_stop(uv_timer_t* handle);
 
-    // FunctionExtern @ uv.h:884
+    // Function @ uv.h:884
     [DllImport(LibraryName, EntryPoint = "uv_timer_again", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_timer_again(uv_timer_t* handle);
 
-    // FunctionExtern @ uv.h:885
+    // Function @ uv.h:885
     [DllImport(LibraryName, EntryPoint = "uv_timer_set_repeat", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_timer_set_repeat(uv_timer_t* handle, ulong repeat);
 
-    // FunctionExtern @ uv.h:886
+    // Function @ uv.h:886
     [DllImport(LibraryName, EntryPoint = "uv_timer_get_repeat", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong uv_timer_get_repeat(uv_timer_t* handle);
 
-    // FunctionExtern @ uv.h:887
+    // Function @ uv.h:887
     [DllImport(LibraryName, EntryPoint = "uv_timer_get_due_in", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong uv_timer_get_due_in(uv_timer_t* handle);
 
-    // FunctionExtern @ uv.h:904
+    // Function @ uv.h:904
     [DllImport(LibraryName, EntryPoint = "uv_getaddrinfo", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_getaddrinfo(uv_loop_t* loop, uv_getaddrinfo_t* req, uv_getaddrinfo_cb getaddrinfo_cb, byte* node, byte* service, addrinfo* hints);
 
-    // FunctionExtern @ uv.h:910
+    // Function @ uv.h:910
     [DllImport(LibraryName, EntryPoint = "uv_freeaddrinfo", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_freeaddrinfo(addrinfo* ai);
 
-    // FunctionExtern @ uv.h:926
+    // Function @ uv.h:926
     [DllImport(LibraryName, EntryPoint = "uv_getnameinfo", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_getnameinfo(uv_loop_t* loop, uv_getnameinfo_t* req, uv_getnameinfo_cb getnameinfo_cb, sockaddr* addr, int flags);
 
-    // FunctionExtern @ uv.h:1071
+    // Function @ uv.h:1071
     [DllImport(LibraryName, EntryPoint = "uv_spawn", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_spawn(uv_loop_t* loop, uv_process_t* handle, uv_process_options_t* options);
 
-    // FunctionExtern @ uv.h:1074
+    // Function @ uv.h:1074
     [DllImport(LibraryName, EntryPoint = "uv_process_kill", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_process_kill(uv_process_t* param, int signum);
 
-    // FunctionExtern @ uv.h:1075
+    // Function @ uv.h:1075
     [DllImport(LibraryName, EntryPoint = "uv_kill", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_kill(int pid, int signum);
 
-    // FunctionExtern @ uv.h:1076
+    // Function @ uv.h:1076
     [DllImport(LibraryName, EntryPoint = "uv_process_get_pid", CallingConvention = CallingConvention.Cdecl)]
     public static extern uv_pid_t uv_process_get_pid(uv_process_t* param);
 
-    // FunctionExtern @ uv.h:1090
+    // Function @ uv.h:1090
     [DllImport(LibraryName, EntryPoint = "uv_queue_work", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_queue_work(uv_loop_t* loop, uv_work_t* req, uv_work_cb work_cb, uv_after_work_cb after_work_cb);
 
-    // FunctionExtern @ uv.h:1095
+    // Function @ uv.h:1095
     [DllImport(LibraryName, EntryPoint = "uv_cancel", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_cancel(uv_req_t* req);
 
-    // FunctionExtern @ uv.h:1171
+    // Function @ uv.h:1171
     [DllImport(LibraryName, EntryPoint = "uv_setup_args", CallingConvention = CallingConvention.Cdecl)]
     public static extern byte** uv_setup_args(int argc, byte** argv);
 
-    // FunctionExtern @ uv.h:1172
+    // Function @ uv.h:1172
     [DllImport(LibraryName, EntryPoint = "uv_get_process_title", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_get_process_title(byte* buffer, ulong size);
 
-    // FunctionExtern @ uv.h:1173
+    // Function @ uv.h:1173
     [DllImport(LibraryName, EntryPoint = "uv_set_process_title", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_set_process_title(byte* title);
 
-    // FunctionExtern @ uv.h:1174
+    // Function @ uv.h:1174
     [DllImport(LibraryName, EntryPoint = "uv_resident_set_memory", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_resident_set_memory(ulong* rss);
 
-    // FunctionExtern @ uv.h:1175
+    // Function @ uv.h:1175
     [DllImport(LibraryName, EntryPoint = "uv_uptime", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_uptime(double* uptime);
 
-    // FunctionExtern @ uv.h:1176
+    // Function @ uv.h:1176
     [DllImport(LibraryName, EntryPoint = "uv_get_osfhandle", CallingConvention = CallingConvention.Cdecl)]
     public static extern uv_os_fd_t uv_get_osfhandle(int fd);
 
-    // FunctionExtern @ uv.h:1177
+    // Function @ uv.h:1177
     [DllImport(LibraryName, EntryPoint = "uv_open_osfhandle", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_open_osfhandle(uv_os_fd_t os_fd);
 
-    // FunctionExtern @ uv.h:1208
+    // Function @ uv.h:1208
     [DllImport(LibraryName, EntryPoint = "uv_getrusage", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_getrusage(uv_rusage_t* rusage);
 
-    // FunctionExtern @ uv.h:1210
+    // Function @ uv.h:1210
     [DllImport(LibraryName, EntryPoint = "uv_os_homedir", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_os_homedir(byte* buffer, ulong* size);
 
-    // FunctionExtern @ uv.h:1211
+    // Function @ uv.h:1211
     [DllImport(LibraryName, EntryPoint = "uv_os_tmpdir", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_os_tmpdir(byte* buffer, ulong* size);
 
-    // FunctionExtern @ uv.h:1212
+    // Function @ uv.h:1212
     [DllImport(LibraryName, EntryPoint = "uv_os_get_passwd", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_os_get_passwd(uv_passwd_t* pwd);
 
-    // FunctionExtern @ uv.h:1213
+    // Function @ uv.h:1213
     [DllImport(LibraryName, EntryPoint = "uv_os_free_passwd", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_os_free_passwd(uv_passwd_t* pwd);
 
-    // FunctionExtern @ uv.h:1214
+    // Function @ uv.h:1214
     [DllImport(LibraryName, EntryPoint = "uv_os_getpid", CallingConvention = CallingConvention.Cdecl)]
     public static extern uv_pid_t uv_os_getpid();
 
-    // FunctionExtern @ uv.h:1215
+    // Function @ uv.h:1215
     [DllImport(LibraryName, EntryPoint = "uv_os_getppid", CallingConvention = CallingConvention.Cdecl)]
     public static extern uv_pid_t uv_os_getppid();
 
-    // FunctionExtern @ uv.h:1234
+    // Function @ uv.h:1234
     [DllImport(LibraryName, EntryPoint = "uv_os_getpriority", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_os_getpriority(uv_pid_t pid, long* priority);
 
-    // FunctionExtern @ uv.h:1235
+    // Function @ uv.h:1235
     [DllImport(LibraryName, EntryPoint = "uv_os_setpriority", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_os_setpriority(uv_pid_t pid, int priority);
 
-    // FunctionExtern @ uv.h:1237
+    // Function @ uv.h:1237
     [DllImport(LibraryName, EntryPoint = "uv_cpu_info", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_cpu_info(uv_cpu_info_t** cpu_infos, long* count);
 
-    // FunctionExtern @ uv.h:1238
+    // Function @ uv.h:1238
     [DllImport(LibraryName, EntryPoint = "uv_free_cpu_info", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_free_cpu_info(uv_cpu_info_t* cpu_infos, int count);
 
-    // FunctionExtern @ uv.h:1240
+    // Function @ uv.h:1240
     [DllImport(LibraryName, EntryPoint = "uv_interface_addresses", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_interface_addresses(uv_interface_address_t** addresses, long* count);
 
-    // FunctionExtern @ uv.h:1242
+    // Function @ uv.h:1242
     [DllImport(LibraryName, EntryPoint = "uv_free_interface_addresses", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_free_interface_addresses(uv_interface_address_t* addresses, int count);
 
-    // FunctionExtern @ uv.h:1250
+    // Function @ uv.h:1250
     [DllImport(LibraryName, EntryPoint = "uv_os_environ", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_os_environ(uv_env_item_t** envitems, long* count);
 
-    // FunctionExtern @ uv.h:1251
+    // Function @ uv.h:1251
     [DllImport(LibraryName, EntryPoint = "uv_os_free_environ", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_os_free_environ(uv_env_item_t* envitems, int count);
 
-    // FunctionExtern @ uv.h:1252
+    // Function @ uv.h:1252
     [DllImport(LibraryName, EntryPoint = "uv_os_getenv", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_os_getenv(byte* name, byte* buffer, ulong* size);
 
-    // FunctionExtern @ uv.h:1253
+    // Function @ uv.h:1253
     [DllImport(LibraryName, EntryPoint = "uv_os_setenv", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_os_setenv(byte* name, byte* value);
 
-    // FunctionExtern @ uv.h:1254
+    // Function @ uv.h:1254
     [DllImport(LibraryName, EntryPoint = "uv_os_unsetenv", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_os_unsetenv(byte* name);
 
-    // FunctionExtern @ uv.h:1267
+    // Function @ uv.h:1267
     [DllImport(LibraryName, EntryPoint = "uv_os_gethostname", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_os_gethostname(byte* buffer, ulong* size);
 
-    // FunctionExtern @ uv.h:1269
+    // Function @ uv.h:1269
     [DllImport(LibraryName, EntryPoint = "uv_os_uname", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_os_uname(uv_utsname_t* buffer);
 
-    // FunctionExtern @ uv.h:1271
+    // Function @ uv.h:1271
     [DllImport(LibraryName, EntryPoint = "uv_metrics_idle_time", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong uv_metrics_idle_time(uv_loop_t* loop);
 
-    // FunctionExtern @ uv.h:1334
+    // Function @ uv.h:1334
     [DllImport(LibraryName, EntryPoint = "uv_fs_get_type", CallingConvention = CallingConvention.Cdecl)]
     public static extern uv_fs_type uv_fs_get_type(uv_fs_t* param);
 
-    // FunctionExtern @ uv.h:1335
+    // Function @ uv.h:1335
     [DllImport(LibraryName, EntryPoint = "uv_fs_get_result", CallingConvention = CallingConvention.Cdecl)]
     public static extern long uv_fs_get_result(uv_fs_t* param);
 
-    // FunctionExtern @ uv.h:1336
+    // Function @ uv.h:1336
     [DllImport(LibraryName, EntryPoint = "uv_fs_get_system_error", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_get_system_error(uv_fs_t* param);
 
-    // FunctionExtern @ uv.h:1337
+    // Function @ uv.h:1337
     [DllImport(LibraryName, EntryPoint = "uv_fs_get_ptr", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* uv_fs_get_ptr(uv_fs_t* param);
 
-    // FunctionExtern @ uv.h:1338
+    // Function @ uv.h:1338
     [DllImport(LibraryName, EntryPoint = "uv_fs_get_path", CallingConvention = CallingConvention.Cdecl)]
     public static extern byte* uv_fs_get_path(uv_fs_t* param);
 
-    // FunctionExtern @ uv.h:1339
+    // Function @ uv.h:1339
     [DllImport(LibraryName, EntryPoint = "uv_fs_get_statbuf", CallingConvention = CallingConvention.Cdecl)]
     public static extern uv_stat_t* uv_fs_get_statbuf(uv_fs_t* param);
 
-    // FunctionExtern @ uv.h:1341
+    // Function @ uv.h:1341
     [DllImport(LibraryName, EntryPoint = "uv_fs_req_cleanup", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_fs_req_cleanup(uv_fs_t* req);
 
-    // FunctionExtern @ uv.h:1342
+    // Function @ uv.h:1342
     [DllImport(LibraryName, EntryPoint = "uv_fs_close", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_close(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1346
+    // Function @ uv.h:1346
     [DllImport(LibraryName, EntryPoint = "uv_fs_open", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_open(uv_loop_t* loop, uv_fs_t* req, byte* path, int flags, int mode, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1352
+    // Function @ uv.h:1352
     [DllImport(LibraryName, EntryPoint = "uv_fs_read", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_read(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_buf_t* bufs, uint nbufs, long offset, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1359
+    // Function @ uv.h:1359
     [DllImport(LibraryName, EntryPoint = "uv_fs_unlink", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_unlink(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1363
+    // Function @ uv.h:1363
     [DllImport(LibraryName, EntryPoint = "uv_fs_write", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_write(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_buf_t* bufs, uint nbufs, long offset, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1388
+    // Function @ uv.h:1388
     [DllImport(LibraryName, EntryPoint = "uv_fs_copyfile", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_copyfile(uv_loop_t* loop, uv_fs_t* req, byte* path, byte* new_path, int flags, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1394
+    // Function @ uv.h:1394
     [DllImport(LibraryName, EntryPoint = "uv_fs_mkdir", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_mkdir(uv_loop_t* loop, uv_fs_t* req, byte* path, int mode, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1399
+    // Function @ uv.h:1399
     [DllImport(LibraryName, EntryPoint = "uv_fs_mkdtemp", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_mkdtemp(uv_loop_t* loop, uv_fs_t* req, byte* tpl, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1403
+    // Function @ uv.h:1403
     [DllImport(LibraryName, EntryPoint = "uv_fs_mkstemp", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_mkstemp(uv_loop_t* loop, uv_fs_t* req, byte* tpl, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1407
+    // Function @ uv.h:1407
     [DllImport(LibraryName, EntryPoint = "uv_fs_rmdir", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_rmdir(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1411
+    // Function @ uv.h:1411
     [DllImport(LibraryName, EntryPoint = "uv_fs_scandir", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_scandir(uv_loop_t* loop, uv_fs_t* req, byte* path, int flags, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1416
+    // Function @ uv.h:1416
     [DllImport(LibraryName, EntryPoint = "uv_fs_scandir_next", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_scandir_next(uv_fs_t* req, uv_dirent_t* ent);
 
-    // FunctionExtern @ uv.h:1418
+    // Function @ uv.h:1418
     [DllImport(LibraryName, EntryPoint = "uv_fs_opendir", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_opendir(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1422
+    // Function @ uv.h:1422
     [DllImport(LibraryName, EntryPoint = "uv_fs_readdir", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_readdir(uv_loop_t* loop, uv_fs_t* req, uv_dir_t* dir, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1426
+    // Function @ uv.h:1426
     [DllImport(LibraryName, EntryPoint = "uv_fs_closedir", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_closedir(uv_loop_t* loop, uv_fs_t* req, uv_dir_t* dir, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1430
+    // Function @ uv.h:1430
     [DllImport(LibraryName, EntryPoint = "uv_fs_stat", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_stat(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1434
+    // Function @ uv.h:1434
     [DllImport(LibraryName, EntryPoint = "uv_fs_fstat", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_fstat(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1438
+    // Function @ uv.h:1438
     [DllImport(LibraryName, EntryPoint = "uv_fs_rename", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_rename(uv_loop_t* loop, uv_fs_t* req, byte* path, byte* new_path, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1443
+    // Function @ uv.h:1443
     [DllImport(LibraryName, EntryPoint = "uv_fs_fsync", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_fsync(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1447
+    // Function @ uv.h:1447
     [DllImport(LibraryName, EntryPoint = "uv_fs_fdatasync", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_fdatasync(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1451
+    // Function @ uv.h:1451
     [DllImport(LibraryName, EntryPoint = "uv_fs_ftruncate", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_ftruncate(uv_loop_t* loop, uv_fs_t* req, uv_file file, long offset, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1456
+    // Function @ uv.h:1456
     [DllImport(LibraryName, EntryPoint = "uv_fs_sendfile", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_sendfile(uv_loop_t* loop, uv_fs_t* req, uv_file out_fd, uv_file in_fd, long in_offset, ulong length, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1463
+    // Function @ uv.h:1463
     [DllImport(LibraryName, EntryPoint = "uv_fs_access", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_access(uv_loop_t* loop, uv_fs_t* req, byte* path, int mode, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1468
+    // Function @ uv.h:1468
     [DllImport(LibraryName, EntryPoint = "uv_fs_chmod", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_chmod(uv_loop_t* loop, uv_fs_t* req, byte* path, int mode, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1473
+    // Function @ uv.h:1473
     [DllImport(LibraryName, EntryPoint = "uv_fs_utime", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_utime(uv_loop_t* loop, uv_fs_t* req, byte* path, double atime, double mtime, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1479
+    // Function @ uv.h:1479
     [DllImport(LibraryName, EntryPoint = "uv_fs_futime", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_futime(uv_loop_t* loop, uv_fs_t* req, uv_file file, double atime, double mtime, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1485
+    // Function @ uv.h:1485
     [DllImport(LibraryName, EntryPoint = "uv_fs_lutime", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_lutime(uv_loop_t* loop, uv_fs_t* req, byte* path, double atime, double mtime, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1491
+    // Function @ uv.h:1491
     [DllImport(LibraryName, EntryPoint = "uv_fs_lstat", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_lstat(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1495
+    // Function @ uv.h:1495
     [DllImport(LibraryName, EntryPoint = "uv_fs_link", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_link(uv_loop_t* loop, uv_fs_t* req, byte* path, byte* new_path, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1513
+    // Function @ uv.h:1513
     [DllImport(LibraryName, EntryPoint = "uv_fs_symlink", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_symlink(uv_loop_t* loop, uv_fs_t* req, byte* path, byte* new_path, int flags, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1519
+    // Function @ uv.h:1519
     [DllImport(LibraryName, EntryPoint = "uv_fs_readlink", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_readlink(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1523
+    // Function @ uv.h:1523
     [DllImport(LibraryName, EntryPoint = "uv_fs_realpath", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_realpath(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1527
+    // Function @ uv.h:1527
     [DllImport(LibraryName, EntryPoint = "uv_fs_fchmod", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_fchmod(uv_loop_t* loop, uv_fs_t* req, uv_file file, int mode, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1532
+    // Function @ uv.h:1532
     [DllImport(LibraryName, EntryPoint = "uv_fs_chown", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_chown(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1538
+    // Function @ uv.h:1538
     [DllImport(LibraryName, EntryPoint = "uv_fs_fchown", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_fchown(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1544
+    // Function @ uv.h:1544
     [DllImport(LibraryName, EntryPoint = "uv_fs_lchown", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_lchown(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1550
+    // Function @ uv.h:1550
     [DllImport(LibraryName, EntryPoint = "uv_fs_statfs", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_statfs(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_fs_cb cb);
 
-    // FunctionExtern @ uv.h:1579
+    // Function @ uv.h:1579
     [DllImport(LibraryName, EntryPoint = "uv_fs_poll_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_poll_init(uv_loop_t* loop, uv_fs_poll_t* handle);
 
-    // FunctionExtern @ uv.h:1580
+    // Function @ uv.h:1580
     [DllImport(LibraryName, EntryPoint = "uv_fs_poll_start", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_poll_start(uv_fs_poll_t* handle, uv_fs_poll_cb poll_cb, byte* path, uint interval);
 
-    // FunctionExtern @ uv.h:1584
+    // Function @ uv.h:1584
     [DllImport(LibraryName, EntryPoint = "uv_fs_poll_stop", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_poll_stop(uv_fs_poll_t* handle);
 
-    // FunctionExtern @ uv.h:1585
+    // Function @ uv.h:1585
     [DllImport(LibraryName, EntryPoint = "uv_fs_poll_getpath", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_poll_getpath(uv_fs_poll_t* handle, byte* buffer, ulong* size);
 
-    // FunctionExtern @ uv.h:1597
+    // Function @ uv.h:1597
     [DllImport(LibraryName, EntryPoint = "uv_signal_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_signal_init(uv_loop_t* loop, uv_signal_t* handle);
 
-    // FunctionExtern @ uv.h:1598
+    // Function @ uv.h:1598
     [DllImport(LibraryName, EntryPoint = "uv_signal_start", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_signal_start(uv_signal_t* handle, uv_signal_cb signal_cb, int signum);
 
-    // FunctionExtern @ uv.h:1601
+    // Function @ uv.h:1601
     [DllImport(LibraryName, EntryPoint = "uv_signal_start_oneshot", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_signal_start_oneshot(uv_signal_t* handle, uv_signal_cb signal_cb, int signum);
 
-    // FunctionExtern @ uv.h:1604
+    // Function @ uv.h:1604
     [DllImport(LibraryName, EntryPoint = "uv_signal_stop", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_signal_stop(uv_signal_t* handle);
 
-    // FunctionExtern @ uv.h:1606
+    // Function @ uv.h:1606
     [DllImport(LibraryName, EntryPoint = "uv_loadavg", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_loadavg(double avg);
 
-    // FunctionExtern @ uv.h:1640
+    // Function @ uv.h:1640
     [DllImport(LibraryName, EntryPoint = "uv_fs_event_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_event_init(uv_loop_t* loop, uv_fs_event_t* handle);
 
-    // FunctionExtern @ uv.h:1641
+    // Function @ uv.h:1641
     [DllImport(LibraryName, EntryPoint = "uv_fs_event_start", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_event_start(uv_fs_event_t* handle, uv_fs_event_cb cb, byte* path, uint flags);
 
-    // FunctionExtern @ uv.h:1645
+    // Function @ uv.h:1645
     [DllImport(LibraryName, EntryPoint = "uv_fs_event_stop", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_event_stop(uv_fs_event_t* handle);
 
-    // FunctionExtern @ uv.h:1646
+    // Function @ uv.h:1646
     [DllImport(LibraryName, EntryPoint = "uv_fs_event_getpath", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_fs_event_getpath(uv_fs_event_t* handle, byte* buffer, ulong* size);
 
-    // FunctionExtern @ uv.h:1650
+    // Function @ uv.h:1650
     [DllImport(LibraryName, EntryPoint = "uv_ip4_addr", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_ip4_addr(byte* ip, int port, sockaddr_in* addr);
 
-    // FunctionExtern @ uv.h:1651
+    // Function @ uv.h:1651
     [DllImport(LibraryName, EntryPoint = "uv_ip6_addr", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_ip6_addr(byte* ip, int port, sockaddr_in6* addr);
 
-    // FunctionExtern @ uv.h:1653
+    // Function @ uv.h:1653
     [DllImport(LibraryName, EntryPoint = "uv_ip4_name", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_ip4_name(sockaddr_in* src, byte* dst, ulong size);
 
-    // FunctionExtern @ uv.h:1654
+    // Function @ uv.h:1654
     [DllImport(LibraryName, EntryPoint = "uv_ip6_name", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_ip6_name(sockaddr_in6* src, byte* dst, ulong size);
 
-    // FunctionExtern @ uv.h:1656
+    // Function @ uv.h:1656
     [DllImport(LibraryName, EntryPoint = "uv_inet_ntop", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_inet_ntop(int af, void* src, byte* dst, ulong size);
 
-    // FunctionExtern @ uv.h:1657
+    // Function @ uv.h:1657
     [DllImport(LibraryName, EntryPoint = "uv_inet_pton", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_inet_pton(int af, byte* src, void* dst);
 
-    // FunctionExtern @ uv.h:1672
+    // Function @ uv.h:1672
     [DllImport(LibraryName, EntryPoint = "uv_random", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_random(uv_loop_t* loop, uv_random_t* req, void* buf, ulong buflen, uint flags, uv_random_cb cb);
 
-    // FunctionExtern @ uv.h:1687
+    // Function @ uv.h:1687
     [DllImport(LibraryName, EntryPoint = "uv_if_indextoname", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_if_indextoname(uint ifindex, byte* buffer, ulong* size);
 
-    // FunctionExtern @ uv.h:1690
+    // Function @ uv.h:1690
     [DllImport(LibraryName, EntryPoint = "uv_if_indextoiid", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_if_indextoiid(uint ifindex, byte* buffer, ulong* size);
 
-    // FunctionExtern @ uv.h:1694
+    // Function @ uv.h:1694
     [DllImport(LibraryName, EntryPoint = "uv_exepath", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_exepath(byte* buffer, ulong* size);
 
-    // FunctionExtern @ uv.h:1696
+    // Function @ uv.h:1696
     [DllImport(LibraryName, EntryPoint = "uv_cwd", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_cwd(byte* buffer, ulong* size);
 
-    // FunctionExtern @ uv.h:1698
+    // Function @ uv.h:1698
     [DllImport(LibraryName, EntryPoint = "uv_chdir", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_chdir(byte* dir);
 
-    // FunctionExtern @ uv.h:1700
+    // Function @ uv.h:1700
     [DllImport(LibraryName, EntryPoint = "uv_get_free_memory", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong uv_get_free_memory();
 
-    // FunctionExtern @ uv.h:1701
+    // Function @ uv.h:1701
     [DllImport(LibraryName, EntryPoint = "uv_get_total_memory", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong uv_get_total_memory();
 
-    // FunctionExtern @ uv.h:1702
+    // Function @ uv.h:1702
     [DllImport(LibraryName, EntryPoint = "uv_get_constrained_memory", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong uv_get_constrained_memory();
 
-    // FunctionExtern @ uv.h:1704
+    // Function @ uv.h:1704
     [DllImport(LibraryName, EntryPoint = "uv_hrtime", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong uv_hrtime();
 
-    // FunctionExtern @ uv.h:1705
+    // Function @ uv.h:1705
     [DllImport(LibraryName, EntryPoint = "uv_sleep", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_sleep(uint msec);
 
-    // FunctionExtern @ uv.h:1707
+    // Function @ uv.h:1707
     [DllImport(LibraryName, EntryPoint = "uv_disable_stdio_inheritance", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_disable_stdio_inheritance();
 
-    // FunctionExtern @ uv.h:1709
+    // Function @ uv.h:1709
     [DllImport(LibraryName, EntryPoint = "uv_dlopen", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_dlopen(byte* filename, uv_lib_t* lib);
 
-    // FunctionExtern @ uv.h:1710
+    // Function @ uv.h:1710
     [DllImport(LibraryName, EntryPoint = "uv_dlclose", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_dlclose(uv_lib_t* lib);
 
-    // FunctionExtern @ uv.h:1711
+    // Function @ uv.h:1711
     [DllImport(LibraryName, EntryPoint = "uv_dlsym", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_dlsym(uv_lib_t* lib, byte* name, void** ptr);
 
-    // FunctionExtern @ uv.h:1712
+    // Function @ uv.h:1712
     [DllImport(LibraryName, EntryPoint = "uv_dlerror", CallingConvention = CallingConvention.Cdecl)]
     public static extern byte* uv_dlerror(uv_lib_t* lib);
 
-    // FunctionExtern @ uv.h:1714
+    // Function @ uv.h:1714
     [DllImport(LibraryName, EntryPoint = "uv_mutex_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_mutex_init(uv_mutex_t* handle);
 
-    // FunctionExtern @ uv.h:1715
+    // Function @ uv.h:1715
     [DllImport(LibraryName, EntryPoint = "uv_mutex_init_recursive", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_mutex_init_recursive(uv_mutex_t* handle);
 
-    // FunctionExtern @ uv.h:1716
+    // Function @ uv.h:1716
     [DllImport(LibraryName, EntryPoint = "uv_mutex_destroy", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_mutex_destroy(uv_mutex_t* handle);
 
-    // FunctionExtern @ uv.h:1717
+    // Function @ uv.h:1717
     [DllImport(LibraryName, EntryPoint = "uv_mutex_lock", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_mutex_lock(uv_mutex_t* handle);
 
-    // FunctionExtern @ uv.h:1718
+    // Function @ uv.h:1718
     [DllImport(LibraryName, EntryPoint = "uv_mutex_trylock", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_mutex_trylock(uv_mutex_t* handle);
 
-    // FunctionExtern @ uv.h:1719
+    // Function @ uv.h:1719
     [DllImport(LibraryName, EntryPoint = "uv_mutex_unlock", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_mutex_unlock(uv_mutex_t* handle);
 
-    // FunctionExtern @ uv.h:1721
+    // Function @ uv.h:1721
     [DllImport(LibraryName, EntryPoint = "uv_rwlock_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_rwlock_init(uv_rwlock_t* rwlock);
 
-    // FunctionExtern @ uv.h:1722
+    // Function @ uv.h:1722
     [DllImport(LibraryName, EntryPoint = "uv_rwlock_destroy", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_rwlock_destroy(uv_rwlock_t* rwlock);
 
-    // FunctionExtern @ uv.h:1723
+    // Function @ uv.h:1723
     [DllImport(LibraryName, EntryPoint = "uv_rwlock_rdlock", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_rwlock_rdlock(uv_rwlock_t* rwlock);
 
-    // FunctionExtern @ uv.h:1724
+    // Function @ uv.h:1724
     [DllImport(LibraryName, EntryPoint = "uv_rwlock_tryrdlock", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_rwlock_tryrdlock(uv_rwlock_t* rwlock);
 
-    // FunctionExtern @ uv.h:1725
+    // Function @ uv.h:1725
     [DllImport(LibraryName, EntryPoint = "uv_rwlock_rdunlock", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_rwlock_rdunlock(uv_rwlock_t* rwlock);
 
-    // FunctionExtern @ uv.h:1726
+    // Function @ uv.h:1726
     [DllImport(LibraryName, EntryPoint = "uv_rwlock_wrlock", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_rwlock_wrlock(uv_rwlock_t* rwlock);
 
-    // FunctionExtern @ uv.h:1727
+    // Function @ uv.h:1727
     [DllImport(LibraryName, EntryPoint = "uv_rwlock_trywrlock", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_rwlock_trywrlock(uv_rwlock_t* rwlock);
 
-    // FunctionExtern @ uv.h:1728
+    // Function @ uv.h:1728
     [DllImport(LibraryName, EntryPoint = "uv_rwlock_wrunlock", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_rwlock_wrunlock(uv_rwlock_t* rwlock);
 
-    // FunctionExtern @ uv.h:1730
+    // Function @ uv.h:1730
     [DllImport(LibraryName, EntryPoint = "uv_sem_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_sem_init(uv_sem_t* sem, uint value);
 
-    // FunctionExtern @ uv.h:1731
+    // Function @ uv.h:1731
     [DllImport(LibraryName, EntryPoint = "uv_sem_destroy", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_sem_destroy(uv_sem_t* sem);
 
-    // FunctionExtern @ uv.h:1732
+    // Function @ uv.h:1732
     [DllImport(LibraryName, EntryPoint = "uv_sem_post", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_sem_post(uv_sem_t* sem);
 
-    // FunctionExtern @ uv.h:1733
+    // Function @ uv.h:1733
     [DllImport(LibraryName, EntryPoint = "uv_sem_wait", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_sem_wait(uv_sem_t* sem);
 
-    // FunctionExtern @ uv.h:1734
+    // Function @ uv.h:1734
     [DllImport(LibraryName, EntryPoint = "uv_sem_trywait", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_sem_trywait(uv_sem_t* sem);
 
-    // FunctionExtern @ uv.h:1736
+    // Function @ uv.h:1736
     [DllImport(LibraryName, EntryPoint = "uv_cond_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_cond_init(uv_cond_t* cond);
 
-    // FunctionExtern @ uv.h:1737
+    // Function @ uv.h:1737
     [DllImport(LibraryName, EntryPoint = "uv_cond_destroy", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_cond_destroy(uv_cond_t* cond);
 
-    // FunctionExtern @ uv.h:1738
+    // Function @ uv.h:1738
     [DllImport(LibraryName, EntryPoint = "uv_cond_signal", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_cond_signal(uv_cond_t* cond);
 
-    // FunctionExtern @ uv.h:1739
+    // Function @ uv.h:1739
     [DllImport(LibraryName, EntryPoint = "uv_cond_broadcast", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_cond_broadcast(uv_cond_t* cond);
 
-    // FunctionExtern @ uv.h:1741
+    // Function @ uv.h:1741
     [DllImport(LibraryName, EntryPoint = "uv_barrier_init", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_barrier_init(uv_barrier_t* barrier, uint count);
 
-    // FunctionExtern @ uv.h:1742
+    // Function @ uv.h:1742
     [DllImport(LibraryName, EntryPoint = "uv_barrier_destroy", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_barrier_destroy(uv_barrier_t* barrier);
 
-    // FunctionExtern @ uv.h:1743
+    // Function @ uv.h:1743
     [DllImport(LibraryName, EntryPoint = "uv_barrier_wait", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_barrier_wait(uv_barrier_t* barrier);
 
-    // FunctionExtern @ uv.h:1745
+    // Function @ uv.h:1745
     [DllImport(LibraryName, EntryPoint = "uv_cond_wait", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_cond_wait(uv_cond_t* cond, uv_mutex_t* mutex);
 
-    // FunctionExtern @ uv.h:1746
+    // Function @ uv.h:1746
     [DllImport(LibraryName, EntryPoint = "uv_cond_timedwait", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_cond_timedwait(uv_cond_t* cond, uv_mutex_t* mutex, ulong timeout);
 
-    // FunctionExtern @ uv.h:1750
+    // Function @ uv.h:1750
     [DllImport(LibraryName, EntryPoint = "uv_once", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_once(uv_once_t* guard, NativeCallbackVoid callback);
 
-    // FunctionExtern @ uv.h:1752
+    // Function @ uv.h:1752
     [DllImport(LibraryName, EntryPoint = "uv_key_create", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_key_create(uv_key_t* key);
 
-    // FunctionExtern @ uv.h:1753
+    // Function @ uv.h:1753
     [DllImport(LibraryName, EntryPoint = "uv_key_delete", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_key_delete(uv_key_t* key);
 
-    // FunctionExtern @ uv.h:1754
+    // Function @ uv.h:1754
     [DllImport(LibraryName, EntryPoint = "uv_key_get", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* uv_key_get(uv_key_t* key);
 
-    // FunctionExtern @ uv.h:1755
+    // Function @ uv.h:1755
     [DllImport(LibraryName, EntryPoint = "uv_key_set", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_key_set(uv_key_t* key, void* value);
 
-    // FunctionExtern @ uv.h:1757
+    // Function @ uv.h:1757
     [DllImport(LibraryName, EntryPoint = "uv_gettimeofday", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_gettimeofday(uv_timeval64_t* tv);
 
-    // FunctionExtern @ uv.h:1761
+    // Function @ uv.h:1761
     [DllImport(LibraryName, EntryPoint = "uv_thread_create", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_thread_create(uv_thread_t* tid, uv_thread_cb entry, void* arg);
 
-    // FunctionExtern @ uv.h:1776
+    // Function @ uv.h:1776
     [DllImport(LibraryName, EntryPoint = "uv_thread_create_ex", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_thread_create_ex(uv_thread_t* tid, uv_thread_options_t* @params, uv_thread_cb entry, void* arg);
 
-    // FunctionExtern @ uv.h:1780
+    // Function @ uv.h:1780
     [DllImport(LibraryName, EntryPoint = "uv_thread_self", CallingConvention = CallingConvention.Cdecl)]
     public static extern uv_thread_t uv_thread_self();
 
-    // FunctionExtern @ uv.h:1781
+    // Function @ uv.h:1781
     [DllImport(LibraryName, EntryPoint = "uv_thread_join", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_thread_join(uv_thread_t* tid);
 
-    // FunctionExtern @ uv.h:1782
+    // Function @ uv.h:1782
     [DllImport(LibraryName, EntryPoint = "uv_thread_equal", CallingConvention = CallingConvention.Cdecl)]
     public static extern int uv_thread_equal(uv_thread_t* t1, uv_thread_t* t2);
 
-    // FunctionExtern @ uv.h:1813
+    // Function @ uv.h:1813
     [DllImport(LibraryName, EntryPoint = "uv_loop_get_data", CallingConvention = CallingConvention.Cdecl)]
     public static extern void* uv_loop_get_data(uv_loop_t* param);
 
-    // FunctionExtern @ uv.h:1814
+    // Function @ uv.h:1814
     [DllImport(LibraryName, EntryPoint = "uv_loop_set_data", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_loop_set_data(uv_loop_t* param, void* data);
 
-    // FunctionPointer @ uv.h:264
+    // PointerFunction @ uv.h:264
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_malloc_func
     {
         public delegate* unmanaged<ulong, void*> Pointer;
     }
 
-    // FunctionPointer @ uv.h:265
+    // PointerFunction @ uv.h:265
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_realloc_func
     {
         public delegate* unmanaged<void*, ulong, void*> Pointer;
     }
 
-    // FunctionPointer @ uv.h:266
+    // PointerFunction @ uv.h:266
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_calloc_func
     {
         public delegate* unmanaged<ulong, ulong, void*> Pointer;
     }
 
-    // FunctionPointer @ uv.h:267
+    // PointerFunction @ uv.h:267
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_free_func
     {
         public delegate* unmanaged<void*, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:317
+    // PointerFunction @ uv.h:317
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_shutdown_cb
     {
         public delegate* unmanaged<uv_shutdown_t*, int, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:327
+    // PointerFunction @ uv.h:327
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_walk_cb
     {
         public delegate* unmanaged<uv_handle_t*, void*, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:319
+    // PointerFunction @ uv.h:319
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_close_cb
     {
         public delegate* unmanaged<uv_handle_t*, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:318
+    // PointerFunction @ uv.h:318
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_connection_cb
     {
         public delegate* unmanaged<uv_stream_t*, int, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:309
+    // PointerFunction @ uv.h:309
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_alloc_cb
     {
         public delegate* unmanaged<uv_handle_t*, ulong, uv_buf_t*, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:312
+    // PointerFunction @ uv.h:312
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_read_cb
     {
         public delegate* unmanaged<uv_stream_t*, long, uv_buf_t*, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:315
+    // PointerFunction @ uv.h:315
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_write_cb
     {
         public delegate* unmanaged<uv_write_t*, int, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:316
+    // PointerFunction @ uv.h:316
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_connect_cb
     {
         public delegate* unmanaged<uv_connect_t*, int, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:643
+    // PointerFunction @ uv.h:643
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_udp_send_cb
     {
         public delegate* unmanaged<uv_udp_send_t*, int, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:644
+    // PointerFunction @ uv.h:644
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_udp_recv_cb
     {
         public delegate* unmanaged<uv_udp_t*, long, uv_buf_t*, sockaddr*, uint, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:320
+    // PointerFunction @ uv.h:320
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_poll_cb
     {
         public delegate* unmanaged<uv_poll_t*, int, int, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:323
+    // PointerFunction @ uv.h:323
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_prepare_cb
     {
         public delegate* unmanaged<uv_prepare_t*, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:324
+    // PointerFunction @ uv.h:324
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_check_cb
     {
         public delegate* unmanaged<uv_check_t*, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:325
+    // PointerFunction @ uv.h:325
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_idle_cb
     {
         public delegate* unmanaged<uv_idle_t*, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:322
+    // PointerFunction @ uv.h:322
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_async_cb
     {
         public delegate* unmanaged<uv_async_t*, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:321
+    // PointerFunction @ uv.h:321
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_timer_cb
     {
         public delegate* unmanaged<uv_timer_t*, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:331
+    // PointerFunction @ uv.h:331
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_getaddrinfo_cb
     {
         public delegate* unmanaged<uv_getaddrinfo_t*, int, addrinfo*, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:334
+    // PointerFunction @ uv.h:334
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_getnameinfo_cb
     {
         public delegate* unmanaged<uv_getnameinfo_t*, int, byte*, byte*, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:326
+    // PointerFunction @ uv.h:326
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_exit_cb
     {
         public delegate* unmanaged<uv_process_t*, long, int, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:329
+    // PointerFunction @ uv.h:329
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_work_cb
     {
         public delegate* unmanaged<uv_work_t*, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:330
+    // PointerFunction @ uv.h:330
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_after_work_cb
     {
         public delegate* unmanaged<uv_work_t*, int, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:328
+    // PointerFunction @ uv.h:328
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_fs_cb
     {
         public delegate* unmanaged<uv_fs_t*, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:374
+    // PointerFunction @ uv.h:374
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_fs_poll_cb
     {
         public delegate* unmanaged<uv_fs_poll_t*, int, uv_stat_t*, uv_stat_t*, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:379
+    // PointerFunction @ uv.h:379
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_signal_cb
     {
         public delegate* unmanaged<uv_signal_t*, int, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:369
+    // PointerFunction @ uv.h:369
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_fs_event_cb
     {
         public delegate* unmanaged<uv_fs_event_t*, byte*, int, int, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:338
+    // PointerFunction @ uv.h:338
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_random_cb
     {
         public delegate* unmanaged<uv_random_t*, int, void*, ulong, void> Pointer;
     }
 
-    // FunctionPointer @ uv.h:1759
+    // PointerFunction @ uv.h:1759
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_thread_cb
     {
@@ -2160,7 +2160,8 @@ public static unsafe partial class uv
         [FieldOffset(0)] // size = 4, padding = 0
         public int Data;
 
-        public static unsafe implicit operator int(uv_os_fd_t data) => *((int*)&data);
+        public static implicit operator int(uv_os_fd_t data) => data.Data;
+        public static implicit operator uv_os_fd_t(int data) => new() { Data = data };
     }
 
     // Typedef @ unix.h:128
@@ -2170,7 +2171,8 @@ public static unsafe partial class uv
         [FieldOffset(0)] // size = 4, padding = 0
         public int Data;
 
-        public static unsafe implicit operator int(uv_file data) => *((int*)&data);
+        public static implicit operator int(uv_file data) => data.Data;
+        public static implicit operator uv_file(int data) => new() { Data = data };
     }
 
     // Typedef @ unix.h:129
@@ -2180,7 +2182,8 @@ public static unsafe partial class uv
         [FieldOffset(0)] // size = 4, padding = 0
         public int Data;
 
-        public static unsafe implicit operator int(uv_os_sock_t data) => *((int*)&data);
+        public static implicit operator int(uv_os_sock_t data) => data.Data;
+        public static implicit operator uv_os_sock_t(int data) => new() { Data = data };
     }
 
     // Typedef @ unix.h:169
@@ -2190,7 +2193,8 @@ public static unsafe partial class uv
         [FieldOffset(0)] // size = 4, padding = 0
         public uid_t Data;
 
-        public static unsafe implicit operator uid_t(uv_uid_t data) => *((uid_t*)&data);
+        public static implicit operator uid_t(uv_uid_t data) => data.Data;
+        public static implicit operator uv_uid_t(uid_t data) => new() { Data = data };
     }
 
     // Typedef @ unix.h:168
@@ -2200,7 +2204,8 @@ public static unsafe partial class uv
         [FieldOffset(0)] // size = 4, padding = 0
         public gid_t Data;
 
-        public static unsafe implicit operator gid_t(uv_gid_t data) => *((gid_t*)&data);
+        public static implicit operator gid_t(uv_gid_t data) => data.Data;
+        public static implicit operator uv_gid_t(gid_t data) => new() { Data = data };
     }
 
     // Typedef @ unix.h:131
@@ -2210,7 +2215,8 @@ public static unsafe partial class uv
         [FieldOffset(0)] // size = 4, padding = 0
         public pid_t Data;
 
-        public static unsafe implicit operator pid_t(uv_pid_t data) => *((pid_t*)&data);
+        public static implicit operator pid_t(uv_pid_t data) => data.Data;
+        public static implicit operator uv_pid_t(pid_t data) => new() { Data = data };
     }
 
     // Typedef @ unix.h:136
@@ -2220,7 +2226,8 @@ public static unsafe partial class uv
         [FieldOffset(0)] // size = 8, padding = 0
         public pthread_t Data;
 
-        public static unsafe implicit operator pthread_t(uv_thread_t data) => *((pthread_t*)&data);
+        public static implicit operator pthread_t(uv_thread_t data) => data.Data;
+        public static implicit operator uv_thread_t(pthread_t data) => new() { Data = data };
     }
 
     // Enum @ uv.h:249
