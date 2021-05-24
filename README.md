@@ -30,15 +30,15 @@ Everything in the [**external linkage**](https://stackoverflow.com/questions/135
 |:white_check_mark:|Variable externs.|
 |:white_check_mark:|Function prototypes. (A.k.a., function pointers.)|
 |:white_check_mark:|Enums.|
-|:white_check_mark:|Structs<sup>1</sup>.|
-|:white_check_mark:|Opaque types<sup>2</sup>.|
+|:white_check_mark:|Structs.<sup>1</sup>|
+|:white_check_mark:|Opaque types.<sup>2</sup>|
 |:white_check_mark:|Typedefs. (A.k.a, type aliases.)|
-|:o:|Function-like macros<sup>3</sup>.|
+|:o:|Function-like macros.<sup>3</sup>|
 |:o:|Object-like macros.<sup>4</sup>|
 |:x:|C++.|
 |:x:|Objective-C.|
-|:x:|Implicit types<sup>5</sup>.|
-|:x:|`va_list`<sup>6</sup>.|
+|:x:|Implicit types.<sup>5</sup>|
+|:x:|`va_list`.<sup>6</sup>|
 
 <sup>1</sup>: For structs, distinguishing between public/private fields is not possible. If the struct is transtive to a function extern or variable extern then it will be transpiled as if all the fields were public. In some cases this may not be appropriate to which there is the following options. Either, (1) use proper information hiding with C headers so the private fields are not in transtive property to a public function extern or variable extern, or (2) use pointers to access the struct and manually specify the struct as an opaque type for input to `C2CS`. Option 2 is the approach taken for generating bindings for https://github.com/libuv/libuv because `libuv` makes use of mixing public/private struct fields and struct inheritance.
 
