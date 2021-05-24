@@ -8,6 +8,11 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
+    <!-- Project references -->
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\prod\C2CS.NativeRuntime\C2CS.NativeRuntime.csproj" />
+    </ItemGroup>
+
     <!-- Copy native libraries -->
     <ItemGroup>
         <None Update="**/*.dll">
@@ -16,9 +21,6 @@
         <None Update="**/*.dylib">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\..\..\prod\C2CS.NativeRuntime\C2CS.NativeRuntime.csproj" />
     </ItemGroup>
 
 </Project>
