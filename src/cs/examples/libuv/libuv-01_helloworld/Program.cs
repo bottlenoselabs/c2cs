@@ -6,32 +6,38 @@ internal static class Program
 {
     private static unsafe void Main()
     {
-        var loop = (uv_loop_t*) Marshal.AllocHGlobal(Marshal.SizeOf<uv_loop_t>());
+        var loop = (uv_loop_t*) Marshal.AllocHGlobal((int) uv_loop_size());
         var errorCode = uv_loop_init(loop);
         if (errorCode < 0)
         {
-            var cStringErrorName = uv_err_name(errorCode);
-            var stringErrorName = NativeRuntime.GetString(cStringErrorName);
-            Console.WriteLine(stringErrorName);
+            PrintErrorCode(errorCode);
         }
 
-        Console.WriteLine("Now quitting.\n");
+        Console.WriteLine("Hello world.");
         errorCode = uv_run(loop, uv_run_mode.UV_RUN_DEFAULT);
         if (errorCode < 0)
         {
-            var cStringErrorName = uv_err_name(errorCode);
-            var stringErrorName = NativeRuntime.GetString(cStringErrorName);
-            Console.WriteLine(stringErrorName);
+            PrintErrorCode(errorCode);
         }
 
         errorCode = uv_loop_close(loop);
         if (errorCode < 0)
         {
-            var cStringErrorName = uv_err_name(errorCode);
-            var stringErrorName = NativeRuntime.GetString(cStringErrorName);
-            Console.WriteLine(stringErrorName);
+            PrintErrorCode(errorCode);
         }
         
         Marshal.FreeHGlobal((IntPtr) loop);
+    }
+    
+    private static unsafe void PrintErrorCode(int errorCode)
+    {
+        var cStringErrorName = uv_err_name(errorCode);
+        var stringErrorName = NativeRuntime.GetString(cStringErrorName);
+
+        var errorDescriptionBuffer = stackalloc byte[512];
+        var cStringErrorDescription = uv_strerror_r(errorCode, errorDescriptionBuffer, 512);
+        var stringErrorDescription = NativeRuntime.GetString(cStringErrorDescription);
+        
+        Console.WriteLine($"Error {stringErrorName}: {stringErrorDescription}");
     }
 }
