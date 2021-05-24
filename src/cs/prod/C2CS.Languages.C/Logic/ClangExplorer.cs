@@ -52,7 +52,7 @@ namespace C2CS.Languages.C
                         VisitFunctionExtern(node.Cursor, node.CursorParent, type, 1);
                         break;
                     case CXCursorKind.CXCursor_VarDecl:
-                        ExploreVariableExtern(node.Cursor, node.CursorParent, type, 1);
+                        VisitVariableExtern(node.Cursor, node.CursorParent, type, 1);
                         break;
                     default:
                         var up = new ClangExplorerException($"Unexpected extern kind '{node.Cursor.kind}'.");
@@ -99,12 +99,16 @@ namespace C2CS.Languages.C
             return !isSystemCursor;
         }
 
-        private void ExploreVariableExtern(CXCursor cursor, CXCursor cursorParent, CXType type, int depth)
+        private void VisitVariableExtern(CXCursor cursor, CXCursor cursorParent, CXType type, int depth)
         {
-            var variable = _mapper.ClangVariableExtern(cursor, cursorParent, type);
-            _variables.Add(variable);
+            var name = cursor.GetName();
+            var typeName = type.GetName();
+            LogVisit(ClangNodeKind.Variable, name, typeName, cursor, depth);
 
             VisitType(type, cursor, cursorParent, depth + 1);
+
+            var variable = _mapper.ClangVariableExtern(cursor, cursorParent, type);
+            _variables.Add(variable);
         }
 
         private void VisitFunctionExtern(CXCursor cursor, CXCursor cursorParent, CXType type, int depth)
@@ -172,18 +176,6 @@ namespace C2CS.Languages.C
             _records.Add(record);
         }
 
-        private bool TypeIsAlreadyVisited(string typeName)
-        {
-            var alreadyVisited = _visitedTypeNames.Contains(typeName);
-            if (alreadyVisited)
-            {
-                return true;
-            }
-
-            _visitedTypeNames.Add(typeName);
-            return false;
-        }
-
         private void VisitTypedef(
             CXType originalType, CXType type, CXCursor cursorParent, int depth)
         {
@@ -200,17 +192,12 @@ namespace C2CS.Languages.C
                 var pointeeType = clang_getPointeeType(underlyingType);
                 if (pointeeType.kind == CXTypeKind.CXType_FunctionProto)
                 {
-                    VisitFunctionPointer(cursor, cursorParent, cursor, originalType, pointeeType, depth);
+                    VisitPointerFunction(cursor, cursorParent, cursor, originalType, pointeeType, depth);
                     return;
                 }
             }
 
             var typeName = type.GetName();
-
-            if (typeName.Contains("darwin"))
-            {
-                Console.WriteLine();
-            }
 
             var isValid = IsValidTypeName(type, cursor, depth, typeName);
             if (!isValid)
@@ -227,6 +214,8 @@ namespace C2CS.Languages.C
                 return;
             }
 
+            LogVisit(ClangNodeKind.Typedef, string.Empty, typeName, cursor, depth);
+
             var typedef = _mapper.ClangTypedef(cursor, cursorParent, type, underlyingType);
             _typedefs.Add(typedef);
         }
@@ -240,26 +229,15 @@ namespace C2CS.Languages.C
                 return;
             }
 
+            LogVisit(ClangNodeKind.OpaqueType, string.Empty, typeName, cursor, depth);
+
             var opaqueType = _mapper.ClangOpaqueDataType(cursor, type, depth);
             _opaqueDataTypes.Add(opaqueType);
         }
 
-        private void VisitFunctionPointer(
+        private void VisitPointerFunction(
             CXCursor cursor, CXCursor cursorParent, CXCursor originalCursor, CXType originalType, CXType type, int depth)
         {
-            var name = originalCursor.GetName();
-            var typeName = type.GetName();
-            LogVisit(ClangNodeKind.PointerFunction, name, typeName, originalCursor, depth);
-
-            if (typeName.Contains("sapp_html5_fetch_response"))
-            {
-                Console.WriteLine();
-            }
-
-            var resultType = clang_getResultType(type);
-            VisitType(resultType, cursor, cursorParent, depth);
-            VisitFunctionPointerParameters(cursor, depth + 1);
-
             if (originalType.kind == CXTypeKind.CXType_Typedef)
             {
                 var typedefName = originalType.GetName();
@@ -270,7 +248,16 @@ namespace C2CS.Languages.C
                 }
             }
 
+            var name = originalCursor.GetName();
+            var typeName = type.GetName();
+            LogVisit(ClangNodeKind.PointerFunction, name, typeName, originalCursor, depth);
+
+            var resultType = clang_getResultType(type);
+            VisitType(resultType, cursor, cursorParent, depth);
+            VisitPointerFunctionParameters(cursor, depth + 1);
+
             // typedefs always have name; otherwise the function pointer won't have a name
+            //  to which we should not add it directly; instead the function pointer will be added when mapping the nested struct
             var canVisit = originalType.kind == CXTypeKind.CXType_Typedef;
             if (!canVisit)
             {
@@ -362,16 +349,16 @@ namespace C2CS.Languages.C
             // function pointers don't have names; typedef, param, or field will have an identifier instead
             else if (type.kind == CXTypeKind.CXType_FunctionProto)
             {
-                VisitFunctionPointer(cursor, cursorParent, originalCursor, originalType, type, depth);
+                VisitPointerFunction(cursor, cursorParent, originalCursor, originalType, type, depth);
             }
             else
             {
-                VisitTypeRecursiveNamed(originalType, type, originalCursor, cursor, cursorParent, depth);
+                VisitTypeRecursiveNamed(originalType, type, cursor, cursorParent, depth);
             }
         }
 
         private void VisitTypeRecursiveNamed(
-            CXType originalType, CXType type, CXCursor originalCursor, CXCursor cursor, CXCursor cursorParent, int depth)
+            CXType originalType, CXType type, CXCursor cursor, CXCursor cursorParent, int depth)
         {
             switch (type.kind)
             {
@@ -479,7 +466,7 @@ namespace C2CS.Languages.C
             VisitType(type, cursor, cursorParent, depth + 1);
         }
 
-        private void VisitFunctionPointerParameters(CXCursor cursor, int depth)
+        private void VisitPointerFunctionParameters(CXCursor cursor, int depth)
         {
             var nodes = cursor.GetDescendents((child, _) =>
                 child.kind == CXCursorKind.CXCursor_ParmDecl);
@@ -496,16 +483,21 @@ namespace C2CS.Languages.C
             VisitType(type, cursor, cursorParent, depth + 1);
         }
 
-        private void VisitTypeElaborated(CXType type, CXCursor cursorParent, int depth)
-        {
-            var namedType = clang_Type_getNamedType(type);
-            var namedCursor = clang_getTypeDeclaration(namedType);
-            VisitType(namedType, namedCursor, cursorParent, depth);
-        }
-
         private bool TypeIsOverridenOpaqueType(string typeName)
         {
             return _overrideOpaqueTypeNames.Contains(typeName);
+        }
+
+        private bool TypeIsAlreadyVisited(string typeName)
+        {
+            var alreadyVisited = _visitedTypeNames.Contains(typeName);
+            if (alreadyVisited)
+            {
+                return true;
+            }
+
+            _visitedTypeNames.Add(typeName);
+            return false;
         }
 
         private static bool TypeIsSystemIgnored(string typeName, CXType type)
