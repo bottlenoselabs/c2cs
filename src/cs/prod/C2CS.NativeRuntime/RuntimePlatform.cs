@@ -2,11 +2,12 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
 
 /// <summary>
 ///     Defines the native runtime platforms (operating system + computer architecture).
 /// </summary>
-[SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "Public API.")]
+[PublicAPI]
 public enum RuntimePlatform
 {
     /// <summary>

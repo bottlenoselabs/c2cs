@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
 
 [assembly: SuppressMessage("ReSharper", "CheckNamespace", Justification = "Wants to be builtin.")]
 [assembly: SuppressMessage("Microsoft.Design", "CA1050:DeclareTypesInNamespaces", Justification = "Wants to be builtin.")]
@@ -14,6 +15,7 @@ using System.Diagnostics.CodeAnalysis;
 ///     The collection of utilities for interoperability with native libraries in C#. Used by code which is generated
 ///     using the C2CS tool: https://github.com/lithiumtoast/c2cs.
 /// </summary>
+[PublicAPI]
 public static partial class NativeRuntime
 {
 }
