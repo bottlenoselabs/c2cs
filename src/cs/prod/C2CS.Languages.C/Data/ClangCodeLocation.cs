@@ -12,19 +12,25 @@ namespace C2CS.Languages.C
         public readonly string FileName;
         public readonly int FileLineNumber;
         public readonly int FileLineColumn;
-        public readonly DateTime DateTime;
+        public readonly DateTime? DateTime;
         public readonly bool IsSystem;
 
-        public unsafe ClangCodeLocation(CXCursor cursor)
+        public unsafe ClangCodeLocation(CXCursor cursor, bool useFullPath = false, bool useDateTime = true)
         {
+            if (cursor.kind == CXCursorKind.CXCursor_NoDeclFound || cursor.kind == CXCursorKind.CXCursor_FirstInvalid)
+            {
+                Console.WriteLine();
+            }
+
             var location = clang_getCursorLocation(cursor);
             CXFile file;
-            uint lineNumber;
-            uint columnNumber;
-            uint offset;
+            ulong lineNumber;
+            ulong columnNumber;
+            ulong offset;
+
             clang_getFileLocation(location, &file, &lineNumber, &columnNumber, &offset);
 
-            var handle = (IntPtr) file.Pointer;
+            var handle = (IntPtr) file.Data;
             if (handle == IntPtr.Zero)
             {
                 FileName = string.Empty;
@@ -36,17 +42,29 @@ namespace C2CS.Languages.C
             var fileName = clang_getFileName(file);
             var cString = clang_getCString(fileName);
             var fileNamePath = NativeRuntime.MapString(cString);
-            FileName = Path.GetFileName(fileNamePath);
+
+            FileName = useFullPath ? fileNamePath : Path.GetFileName(fileNamePath);
             FileLineNumber = (int) lineNumber;
             FileLineColumn = (int) columnNumber;
-            var fileTime = clang_getFileTime(file);
-            DateTime = new DateTime(1970, 1, 1).AddSeconds(fileTime);
+
+            if (useDateTime)
+            {
+                var fileTime = clang_getFileTime(file);
+                DateTime = new DateTime(1970, 1, 1).AddSeconds(fileTime);
+            }
+            else
+            {
+                DateTime = null;
+            }
+
             IsSystem = cursor.IsSystem();
         }
 
         public override string ToString()
         {
-            return $"{FileName}:{FileLineNumber}:{FileLineColumn} {DateTime}";
+            return DateTime != null ?
+                $"{FileName}:{FileLineNumber}:{FileLineColumn} {DateTime}" :
+                $"{FileName}:{FileLineNumber}:{FileLineColumn}";
         }
 
         public bool Equals(ClangCodeLocation other)

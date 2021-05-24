@@ -9,25 +9,23 @@ namespace C2CS.Languages.C
     {
         public readonly ClangType Type;
         public readonly ImmutableArray<ClangRecordField> Fields;
-        public readonly ImmutableArray<ClangRecord> NestedRecords;
+        public readonly ImmutableArray<ClangNode> NestedNodes;
 
         internal ClangRecord(
             ClangCodeLocation codeLocation,
             ClangType type,
             ImmutableArray<ClangRecordField> fields,
-            ImmutableArray<ClangRecord> nestedRecords)
-            : base(ClangNodeKind.Record, type.Name, codeLocation)
+            ImmutableArray<ClangNode> nestedNodes)
+            : base(ClangNodeKind.Record, codeLocation)
         {
             Type = type;
             Fields = fields;
-            NestedRecords = nestedRecords;
+            NestedNodes = nestedNodes;
         }
 
-        // Required for debugger string with records
-        // ReSharper disable once RedundantOverriddenMember
         public override string ToString()
         {
-            return base.ToString();
+            return $"Record {Type.Name} @ {CodeLocation.ToString()}";
         }
     }
 }

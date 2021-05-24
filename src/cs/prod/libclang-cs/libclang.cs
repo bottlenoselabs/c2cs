@@ -52,6 +52,18 @@ public static unsafe partial class libclang
 
     }
 
+    // FunctionExtern @ CXString.h:50
+    [DllImport(LibraryName, EntryPoint = "clang_getCString", CallingConvention = CallingConvention.Cdecl)]
+    public static extern byte* clang_getCString(CXString @string);
+
+    // FunctionExtern @ CXString.h:55
+    [DllImport(LibraryName, EntryPoint = "clang_disposeString", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void clang_disposeString(CXString @string);
+
+    // FunctionExtern @ CXString.h:60
+    [DllImport(LibraryName, EntryPoint = "clang_disposeStringSet", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void clang_disposeStringSet(CXStringSet* set);
+
     // FunctionExtern @ BuildSystem.h:33
     [DllImport(LibraryName, EntryPoint = "clang_getBuildSessionTimestamp", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong clang_getBuildSessionTimestamp();
@@ -62,7 +74,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ BuildSystem.h:56
     [DllImport(LibraryName, EntryPoint = "clang_VirtualFileOverlay_addFileMapping", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_VirtualFileOverlay_addFileMapping(CXVirtualFileOverlay param, sbyte* virtualPath, sbyte* realPath);
+    public static extern CXErrorCode clang_VirtualFileOverlay_addFileMapping(CXVirtualFileOverlay param, byte* virtualPath, byte* realPath);
 
     // FunctionExtern @ BuildSystem.h:67
     [DllImport(LibraryName, EntryPoint = "clang_VirtualFileOverlay_setCaseSensitivity", CallingConvention = CallingConvention.Cdecl)]
@@ -70,7 +82,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ BuildSystem.h:80
     [DllImport(LibraryName, EntryPoint = "clang_VirtualFileOverlay_writeToBuffer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_VirtualFileOverlay_writeToBuffer(CXVirtualFileOverlay param, uint options, sbyte** out_buffer_ptr, uint* out_buffer_size);
+    public static extern CXErrorCode clang_VirtualFileOverlay_writeToBuffer(CXVirtualFileOverlay param, uint options, byte** out_buffer_ptr, ulong* out_buffer_size);
 
     // FunctionExtern @ BuildSystem.h:90
     [DllImport(LibraryName, EntryPoint = "clang_free", CallingConvention = CallingConvention.Cdecl)]
@@ -86,31 +98,19 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ BuildSystem.h:116
     [DllImport(LibraryName, EntryPoint = "clang_ModuleMapDescriptor_setFrameworkModuleName", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_ModuleMapDescriptor_setFrameworkModuleName(CXModuleMapDescriptor param, sbyte* name);
+    public static extern CXErrorCode clang_ModuleMapDescriptor_setFrameworkModuleName(CXModuleMapDescriptor param, byte* name);
 
     // FunctionExtern @ BuildSystem.h:124
     [DllImport(LibraryName, EntryPoint = "clang_ModuleMapDescriptor_setUmbrellaHeader", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_ModuleMapDescriptor_setUmbrellaHeader(CXModuleMapDescriptor param, sbyte* name);
+    public static extern CXErrorCode clang_ModuleMapDescriptor_setUmbrellaHeader(CXModuleMapDescriptor param, byte* name);
 
     // FunctionExtern @ BuildSystem.h:137
     [DllImport(LibraryName, EntryPoint = "clang_ModuleMapDescriptor_writeToBuffer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_ModuleMapDescriptor_writeToBuffer(CXModuleMapDescriptor param, uint options, sbyte** out_buffer_ptr, uint* out_buffer_size);
+    public static extern CXErrorCode clang_ModuleMapDescriptor_writeToBuffer(CXModuleMapDescriptor param, uint options, byte** out_buffer_ptr, ulong* out_buffer_size);
 
     // FunctionExtern @ BuildSystem.h:144
     [DllImport(LibraryName, EntryPoint = "clang_ModuleMapDescriptor_dispose", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_ModuleMapDescriptor_dispose(CXModuleMapDescriptor param);
-
-    // FunctionExtern @ CXString.h:50
-    [DllImport(LibraryName, EntryPoint = "clang_getCString", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sbyte* clang_getCString(CXString @string);
-
-    // FunctionExtern @ CXString.h:55
-    [DllImport(LibraryName, EntryPoint = "clang_disposeString", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_disposeString(CXString @string);
-
-    // FunctionExtern @ CXString.h:60
-    [DllImport(LibraryName, EntryPoint = "clang_disposeStringSet", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_disposeStringSet(CXStringSet* set);
 
     // FunctionExtern @ Index.h:266
     [DllImport(LibraryName, EntryPoint = "clang_createIndex", CallingConvention = CallingConvention.Cdecl)]
@@ -130,7 +130,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:342
     [DllImport(LibraryName, EntryPoint = "clang_CXIndex_setInvocationEmissionPathOption", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_CXIndex_setInvocationEmissionPathOption(CXIndex param, sbyte* Path);
+    public static extern void clang_CXIndex_setInvocationEmissionPathOption(CXIndex param, byte* Path);
 
     // FunctionExtern @ Index.h:358
     [DllImport(LibraryName, EntryPoint = "clang_getFileName", CallingConvention = CallingConvention.Cdecl)]
@@ -138,7 +138,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:363
     [DllImport(LibraryName, EntryPoint = "clang_getFileTime", CallingConvention = CallingConvention.Cdecl)]
-    public static extern long clang_getFileTime(CXFile SFile);
+    public static extern time_t clang_getFileTime(CXFile SFile);
 
     // FunctionExtern @ Index.h:381
     [DllImport(LibraryName, EntryPoint = "clang_getFileUniqueID", CallingConvention = CallingConvention.Cdecl)]
@@ -150,11 +150,11 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:401
     [DllImport(LibraryName, EntryPoint = "clang_getFile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXFile clang_getFile(CXTranslationUnit tu, sbyte* file_name);
+    public static extern CXFile clang_getFile(CXTranslationUnit tu, byte* file_name);
 
     // FunctionExtern @ Index.h:416
     [DllImport(LibraryName, EntryPoint = "clang_getFileContents", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sbyte* clang_getFileContents(CXTranslationUnit tu, CXFile file, ulong* size);
+    public static extern byte* clang_getFileContents(CXTranslationUnit tu, CXFile file, ulong* size);
 
     // FunctionExtern @ Index.h:423
     [DllImport(LibraryName, EntryPoint = "clang_File_isEqual", CallingConvention = CallingConvention.Cdecl)]
@@ -206,23 +206,23 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:562
     [DllImport(LibraryName, EntryPoint = "clang_getExpansionLocation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_getExpansionLocation(CXSourceLocation location, CXFile* file, uint* line, uint* column, uint* offset);
+    public static extern void clang_getExpansionLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset);
 
     // FunctionExtern @ Index.h:607
     [DllImport(LibraryName, EntryPoint = "clang_getPresumedLocation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_getPresumedLocation(CXSourceLocation location, CXString* filename, uint* line, uint* column);
+    public static extern void clang_getPresumedLocation(CXSourceLocation location, CXString* filename, ulong* line, ulong* column);
 
     // FunctionExtern @ Index.h:619
     [DllImport(LibraryName, EntryPoint = "clang_getInstantiationLocation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_getInstantiationLocation(CXSourceLocation location, CXFile* file, uint* line, uint* column, uint* offset);
+    public static extern void clang_getInstantiationLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset);
 
     // FunctionExtern @ Index.h:646
     [DllImport(LibraryName, EntryPoint = "clang_getSpellingLocation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_getSpellingLocation(CXSourceLocation location, CXFile* file, uint* line, uint* column, uint* offset);
+    public static extern void clang_getSpellingLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset);
 
     // FunctionExtern @ Index.h:674
     [DllImport(LibraryName, EntryPoint = "clang_getFileLocation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_getFileLocation(CXSourceLocation location, CXFile* file, uint* line, uint* column, uint* offset);
+    public static extern void clang_getFileLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset);
 
     // FunctionExtern @ Index.h:682
     [DllImport(LibraryName, EntryPoint = "clang_getRangeStart", CallingConvention = CallingConvention.Cdecl)]
@@ -254,7 +254,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:841
     [DllImport(LibraryName, EntryPoint = "clang_loadDiagnostics", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXDiagnosticSet clang_loadDiagnostics(sbyte* file, CXLoadDiag_Error* error, CXString* errorString);
+    public static extern CXDiagnosticSet clang_loadDiagnostics(byte* file, CXLoadDiag_Error* error, CXString* errorString);
 
     // FunctionExtern @ Index.h:847
     [DllImport(LibraryName, EntryPoint = "clang_disposeDiagnosticSet", CallingConvention = CallingConvention.Cdecl)]
@@ -338,15 +338,15 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:1166
     [DllImport(LibraryName, EntryPoint = "clang_createTranslationUnitFromSourceFile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTranslationUnit clang_createTranslationUnitFromSourceFile(CXIndex CIdx, sbyte* source_filename, int num_clang_command_line_args, sbyte** clang_command_line_args, uint num_unsaved_files, CXUnsavedFile* unsaved_files);
+    public static extern CXTranslationUnit clang_createTranslationUnitFromSourceFile(CXIndex CIdx, byte* source_filename, int num_clang_command_line_args, byte** clang_command_line_args, uint num_unsaved_files, CXUnsavedFile* unsaved_files);
 
     // FunctionExtern @ Index.h:1178
     [DllImport(LibraryName, EntryPoint = "clang_createTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTranslationUnit clang_createTranslationUnit(CXIndex CIdx, sbyte* ast_filename);
+    public static extern CXTranslationUnit clang_createTranslationUnit(CXIndex CIdx, byte* ast_filename);
 
     // FunctionExtern @ Index.h:1189
     [DllImport(LibraryName, EntryPoint = "clang_createTranslationUnit2", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_createTranslationUnit2(CXIndex CIdx, sbyte* ast_filename, CXTranslationUnit* out_TU);
+    public static extern CXErrorCode clang_createTranslationUnit2(CXIndex CIdx, byte* ast_filename, CXTranslationUnit* out_TU);
 
     // FunctionExtern @ Index.h:1360
     [DllImport(LibraryName, EntryPoint = "clang_defaultEditingTranslationUnitOptions", CallingConvention = CallingConvention.Cdecl)]
@@ -354,15 +354,15 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:1368
     [DllImport(LibraryName, EntryPoint = "clang_parseTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTranslationUnit clang_parseTranslationUnit(CXIndex CIdx, sbyte* source_filename, sbyte** command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
+    public static extern CXTranslationUnit clang_parseTranslationUnit(CXIndex CIdx, byte* source_filename, byte** command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
 
     // FunctionExtern @ Index.h:1418
     [DllImport(LibraryName, EntryPoint = "clang_parseTranslationUnit2", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_parseTranslationUnit2(CXIndex CIdx, sbyte* source_filename, sbyte** command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
+    public static extern CXErrorCode clang_parseTranslationUnit2(CXIndex CIdx, byte* source_filename, byte** command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
 
     // FunctionExtern @ Index.h:1429
     [DllImport(LibraryName, EntryPoint = "clang_parseTranslationUnit2FullArgv", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_parseTranslationUnit2FullArgv(CXIndex CIdx, sbyte* source_filename, sbyte** command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
+    public static extern CXErrorCode clang_parseTranslationUnit2FullArgv(CXIndex CIdx, byte* source_filename, byte** command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
 
     // FunctionExtern @ Index.h:1458
     [DllImport(LibraryName, EntryPoint = "clang_defaultSaveOptions", CallingConvention = CallingConvention.Cdecl)]
@@ -370,7 +370,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:1518
     [DllImport(LibraryName, EntryPoint = "clang_saveTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_saveTranslationUnit(CXTranslationUnit TU, sbyte* FileName, uint options);
+    public static extern int clang_saveTranslationUnit(CXTranslationUnit TU, byte* FileName, uint options);
 
     // FunctionExtern @ Index.h:1529
     [DllImport(LibraryName, EntryPoint = "clang_suspendTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
@@ -390,7 +390,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:1637
     [DllImport(LibraryName, EntryPoint = "clang_getTUResourceUsageName", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sbyte* clang_getTUResourceUsageName(CXTUResourceUsageKind kind);
+    public static extern byte* clang_getTUResourceUsageName(CXTUResourceUsageKind kind);
 
     // FunctionExtern @ Index.h:1668
     [DllImport(LibraryName, EntryPoint = "clang_getCXTUResourceUsage", CallingConvention = CallingConvention.Cdecl)]
@@ -498,7 +498,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:2932
     [DllImport(LibraryName, EntryPoint = "clang_getCursorPlatformAvailability", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_getCursorPlatformAvailability(CXCursor cursor, int* always_deprecated, CXString* deprecated_message, int* always_unavailable, CXString* unavailable_message, CXPlatformAvailability* availability, int availability_size);
+    public static extern int clang_getCursorPlatformAvailability(CXCursor cursor, long* always_deprecated, CXString* deprecated_message, long* always_unavailable, CXString* unavailable_message, CXPlatformAvailability* availability, int availability_size);
 
     // FunctionExtern @ Index.h:2941
     [DllImport(LibraryName, EntryPoint = "clang_disposeCXPlatformAvailability", CallingConvention = CallingConvention.Cdecl)]
@@ -554,7 +554,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:3140
     [DllImport(LibraryName, EntryPoint = "clang_getOverriddenCursors", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_getOverriddenCursors(CXCursor cursor, CXCursor** overridden, uint* num_overridden);
+    public static extern void clang_getOverriddenCursors(CXCursor cursor, CXCursor** overridden, ulong* num_overridden);
 
     // FunctionExtern @ Index.h:3148
     [DllImport(LibraryName, EntryPoint = "clang_disposeOverriddenCursors", CallingConvention = CallingConvention.Cdecl)]
@@ -790,7 +790,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:3960
     [DllImport(LibraryName, EntryPoint = "clang_Type_getOffsetOf", CallingConvention = CallingConvention.Cdecl)]
-    public static extern long clang_Type_getOffsetOf(CXType T, sbyte* S);
+    public static extern long clang_Type_getOffsetOf(CXType T, byte* S);
 
     // FunctionExtern @ Index.h:3967
     [DllImport(LibraryName, EntryPoint = "clang_Type_getModifiedType", CallingConvention = CallingConvention.Cdecl)]
@@ -866,27 +866,27 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:4273
     [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCClass", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCClass(sbyte* class_name);
+    public static extern CXString clang_constructUSR_ObjCClass(byte* class_name);
 
     // FunctionExtern @ Index.h:4278
     [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCCategory", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCCategory(sbyte* class_name, sbyte* category_name);
+    public static extern CXString clang_constructUSR_ObjCCategory(byte* class_name, byte* category_name);
 
     // FunctionExtern @ Index.h:4285
     [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCProtocol", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCProtocol(sbyte* protocol_name);
+    public static extern CXString clang_constructUSR_ObjCProtocol(byte* protocol_name);
 
     // FunctionExtern @ Index.h:4291
     [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCIvar", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCIvar(sbyte* name, CXString classUSR);
+    public static extern CXString clang_constructUSR_ObjCIvar(byte* name, CXString classUSR);
 
     // FunctionExtern @ Index.h:4298
     [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCMethod", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCMethod(sbyte* name, uint isInstanceMethod, CXString classUSR);
+    public static extern CXString clang_constructUSR_ObjCMethod(byte* name, uint isInstanceMethod, CXString classUSR);
 
     // FunctionExtern @ Index.h:4306
     [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCProperty", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCProperty(sbyte* property, CXString classUSR);
+    public static extern CXString clang_constructUSR_ObjCProperty(byte* property, CXString classUSR);
 
     // FunctionExtern @ Index.h:4312
     [DllImport(LibraryName, EntryPoint = "clang_getCursorSpelling", CallingConvention = CallingConvention.Cdecl)]
@@ -974,7 +974,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:4616
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_isExternalSymbol", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Cursor_isExternalSymbol(CXCursor C, CXString* language, CXString* definedIn, uint* isGenerated);
+    public static extern uint clang_Cursor_isExternalSymbol(CXCursor C, CXString* language, CXString* definedIn, ulong* isGenerated);
 
     // FunctionExtern @ Index.h:4626
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getCommentRange", CallingConvention = CallingConvention.Cdecl)]
@@ -1118,7 +1118,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:5031
     [DllImport(LibraryName, EntryPoint = "clang_tokenize", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_tokenize(CXTranslationUnit TU, CXSourceRange Range, CXToken** Tokens, uint* NumTokens);
+    public static extern void clang_tokenize(CXTranslationUnit TU, CXSourceRange Range, CXToken** Tokens, ulong* NumTokens);
 
     // FunctionExtern @ Index.h:5064
     [DllImport(LibraryName, EntryPoint = "clang_annotateTokens", CallingConvention = CallingConvention.Cdecl)]
@@ -1134,7 +1134,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:5088
     [DllImport(LibraryName, EntryPoint = "clang_getDefinitionSpellingAndExtent", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_getDefinitionSpellingAndExtent(CXCursor param, sbyte** startBuf, sbyte** endBuf, uint* startLine, uint* startColumn, uint* endLine, uint* endColumn);
+    public static extern void clang_getDefinitionSpellingAndExtent(CXCursor param, byte** startBuf, byte** endBuf, ulong* startLine, ulong* startColumn, ulong* endLine, ulong* endColumn);
 
     // FunctionExtern @ Index.h:5091
     [DllImport(LibraryName, EntryPoint = "clang_enableStackTraces", CallingConvention = CallingConvention.Cdecl)]
@@ -1142,7 +1142,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:5092
     [DllImport(LibraryName, EntryPoint = "clang_executeOnThread", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_executeOnThread(clang_executeOnThread_fn fn, void* user_data, uint stack_size);
+    public static extern void clang_executeOnThread(NativeCallbackPointerVoid fn, void* user_data, uint stack_size);
 
     // FunctionExtern @ Index.h:5330
     [DllImport(LibraryName, EntryPoint = "clang_getCompletionChunkKind", CallingConvention = CallingConvention.Cdecl)]
@@ -1202,7 +1202,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:5792
     [DllImport(LibraryName, EntryPoint = "clang_codeCompleteAt", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCodeCompleteResults* clang_codeCompleteAt(CXTranslationUnit TU, sbyte* complete_filename, uint complete_line, uint complete_column, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
+    public static extern CXCodeCompleteResults* clang_codeCompleteAt(CXTranslationUnit TU, byte* complete_filename, uint complete_line, uint complete_column, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
 
     // FunctionExtern @ Index.h:5805
     [DllImport(LibraryName, EntryPoint = "clang_sortCodeCompletionResults", CallingConvention = CallingConvention.Cdecl)]
@@ -1226,7 +1226,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:5865
     [DllImport(LibraryName, EntryPoint = "clang_codeCompleteGetContainerKind", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursorKind clang_codeCompleteGetContainerKind(CXCodeCompleteResults* Results, uint* IsIncomplete);
+    public static extern CXCursorKind clang_codeCompleteGetContainerKind(CXCodeCompleteResults* Results, ulong* IsIncomplete);
 
     // FunctionExtern @ Index.h:5878
     [DllImport(LibraryName, EntryPoint = "clang_codeCompleteGetContainerUSR", CallingConvention = CallingConvention.Cdecl)]
@@ -1278,7 +1278,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:6012
     [DllImport(LibraryName, EntryPoint = "clang_EvalResult_getAsStr", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sbyte* clang_EvalResult_getAsStr(CXEvalResult E);
+    public static extern byte* clang_EvalResult_getAsStr(CXEvalResult E);
 
     // FunctionExtern @ Index.h:6017
     [DllImport(LibraryName, EntryPoint = "clang_EvalResult_dispose", CallingConvention = CallingConvention.Cdecl)]
@@ -1286,11 +1286,11 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:6040
     [DllImport(LibraryName, EntryPoint = "clang_getRemappings", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXRemapping clang_getRemappings(sbyte* path);
+    public static extern CXRemapping clang_getRemappings(byte* path);
 
     // FunctionExtern @ Index.h:6053
     [DllImport(LibraryName, EntryPoint = "clang_getRemappingsFromFileList", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXRemapping clang_getRemappingsFromFileList(sbyte** filePaths, uint numFiles);
+    public static extern CXRemapping clang_getRemappingsFromFileList(byte** filePaths, uint numFiles);
 
     // FunctionExtern @ Index.h:6059
     [DllImport(LibraryName, EntryPoint = "clang_remap_getNumFiles", CallingConvention = CallingConvention.Cdecl)]
@@ -1370,11 +1370,11 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:6676
     [DllImport(LibraryName, EntryPoint = "clang_indexSourceFile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_indexSourceFile(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, sbyte* source_filename, sbyte** command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
+    public static extern int clang_indexSourceFile(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, byte* source_filename, byte** command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
 
     // FunctionExtern @ Index.h:6688
     [DllImport(LibraryName, EntryPoint = "clang_indexSourceFileFullArgv", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_indexSourceFileFullArgv(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, sbyte* source_filename, sbyte** command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
+    public static extern int clang_indexSourceFileFullArgv(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, byte* source_filename, byte** command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
 
     // FunctionExtern @ Index.h:6711
     [DllImport(LibraryName, EntryPoint = "clang_indexTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
@@ -1382,7 +1382,7 @@ public static unsafe partial class libclang
 
     // FunctionExtern @ Index.h:6723
     [DllImport(LibraryName, EntryPoint = "clang_indexLoc_getFileLocation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_indexLoc_getFileLocation(CXIdxLoc loc, CXIdxClientFile* indexFile, CXFile* file, uint* line, uint* column, uint* offset);
+    public static extern void clang_indexLoc_getFileLocation(CXIdxLoc loc, CXIdxClientFile* indexFile, CXFile* file, ulong* line, ulong* column, ulong* offset);
 
     // FunctionExtern @ Index.h:6733
     [DllImport(LibraryName, EntryPoint = "clang_indexLoc_getCXSourceLocation", CallingConvention = CallingConvention.Cdecl)]
@@ -1393,110 +1393,27 @@ public static unsafe partial class libclang
     public static extern uint clang_Type_visitFields(CXType T, CXFieldVisitor visitor, CXClientData client_data);
 
     // FunctionPointer @ Index.h:4191
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct CXCursorVisitor
     {
-        [FieldOffset(0)] // size = 8, padding = 0
         public delegate* unmanaged<CXCursor, CXCursor, CXClientData, CXChildVisitResult> Pointer;
     }
 
-    // FunctionPointer @ Index.h:5092
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct clang_executeOnThread_fn
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, void> Pointer;
-    }
-
     // FunctionPointer @ Index.h:5929
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct CXInclusionVisitor
     {
-        [FieldOffset(0)] // size = 8, padding = 0
         public delegate* unmanaged<CXFile, CXSourceLocation*, uint, CXClientData, void> Pointer;
     }
 
-    // FunctionPointer @ Index.h:6091
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXCursorAndRangeVisitor_visit
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, CXCursor, CXSourceRange, CXVisitorResult> Pointer;
-    }
-
-    // FunctionPointer @ Index.h:6498
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct IndexerCallbacks_abortQuery
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<CXClientData, void*, int> Pointer;
-    }
-
-    // FunctionPointer @ Index.h:6503
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct IndexerCallbacks_diagnostic
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<CXClientData, CXDiagnosticSet, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ Index.h:6505
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct IndexerCallbacks_enteredMainFile
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<CXClientData, CXFile, void*, CXIdxClientFile> Pointer;
-    }
-
-    // FunctionPointer @ Index.h:6511
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct IndexerCallbacks_ppIncludedFile
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<CXClientData, CXIdxIncludedFileInfo*, CXIdxClientFile> Pointer;
-    }
-
-    // FunctionPointer @ Index.h:6522
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct IndexerCallbacks_importedASTFile
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<CXClientData, CXIdxImportedASTFileInfo*, CXIdxClientASTFile> Pointer;
-    }
-
-    // FunctionPointer @ Index.h:6528
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct IndexerCallbacks_startedTranslationUnit
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<CXClientData, void*, CXIdxClientContainer> Pointer;
-    }
-
-    // FunctionPointer @ Index.h:6531
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct IndexerCallbacks_indexDeclaration
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<CXClientData, CXIdxDeclInfo*, void> Pointer;
-    }
-
-    // FunctionPointer @ Index.h:6536
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct IndexerCallbacks_indexEntityReference
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<CXClientData, CXIdxEntityRefInfo*, void> Pointer;
-    }
-
     // FunctionPointer @ Index.h:6746
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct CXFieldVisitor
     {
-        [FieldOffset(0)] // size = 8, padding = 0
         public delegate* unmanaged<CXCursor, CXClientData, CXVisitorResult> Pointer;
     }
 
-    // Record @ CXString.h:40
+    // Record @ CXString.h:37
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXString
     {
@@ -1507,7 +1424,7 @@ public static unsafe partial class libclang
         public uint private_flags;
     }
 
-    // Record @ CXString.h:45
+    // Record @ CXString.h:42
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXStringSet
     {
@@ -1518,56 +1435,44 @@ public static unsafe partial class libclang
         public uint Count;
     }
 
-    // Record @ Index.h:101
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXUnsavedFile
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public sbyte* Filename;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public sbyte* Contents;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public ulong Length;
-    }
-
-    // Record @ Index.h:167
-    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
-    public struct CXVersion
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int Major;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public int Minor;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public int Subminor;
-    }
-
-    // Record @ Index.h:371
+    // Record @ Index.h:369
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXFileUniqueID
     {
         [FieldOffset(0)] // size = 24, padding = 0
-        public fixed ulong _data[24 / 8]; // original type is `unsigned long long [3]`
+        public fixed ulong _data[24 / 8]; // unsigned long long [3]
+
+        public Span<ulong> data
+        {
+            get
+            {
+                fixed (CXFileUniqueID* @this = &this)
+                {
+                    var pointer = &@this->_data[0];
+                    var span = new Span<ulong>(pointer, 3);
+                    return span;
+                }
+            }
+        }
     }
 
-    // Record @ Index.h:459
+    // Record @ Index.h:456
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXSourceLocation
     {
         [FieldOffset(0)] // size = 16, padding = 0
-        public fixed ulong _ptr_data[16 / 8]; // original type is `const void *[2]`
+        public fixed ulong _ptr_data[16 / 8]; // void *[2]
 
-        public ref void* ptr_data(int index = 0)
+        public Span<IntPtr> ptr_data
         {
-            fixed (CXSourceLocation* @this = &this)
+            get
             {
-                var pointer = (void**)&@this->_ptr_data[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (CXSourceLocation* @this = &this)
+                {
+                    var pointer = &@this->_ptr_data[0];
+                    var span = new Span<IntPtr>(pointer, 2);
+                    return span;
+                }
             }
         }
 
@@ -1575,20 +1480,23 @@ public static unsafe partial class libclang
         public uint int_data;
     }
 
-    // Record @ Index.h:471
+    // Record @ Index.h:467
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXSourceRange
     {
         [FieldOffset(0)] // size = 16, padding = 0
-        public fixed ulong _ptr_data[16 / 8]; // original type is `const void *[2]`
+        public fixed ulong _ptr_data[16 / 8]; // void *[2]
 
-        public ref void* ptr_data(int index = 0)
+        public Span<IntPtr> ptr_data
         {
-            fixed (CXSourceRange* @this = &this)
+            get
             {
-                var pointer = (void**)&@this->_ptr_data[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (CXSourceRange* @this = &this)
+                {
+                    var pointer = &@this->_ptr_data[0];
+                    var span = new Span<IntPtr>(pointer, 2);
+                    return span;
+                }
             }
         }
 
@@ -1599,7 +1507,7 @@ public static unsafe partial class libclang
         public uint end_int_data;
     }
 
-    // Record @ Index.h:700
+    // Record @ Index.h:693
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXSourceRangeList
     {
@@ -1610,7 +1518,21 @@ public static unsafe partial class libclang
         public CXSourceRange* ranges;
     }
 
-    // Record @ Index.h:1645
+    // Record @ Index.h:101
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct CXUnsavedFile
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public byte* Filename;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public byte* Contents;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public ulong Length;
+    }
+
+    // Record @ Index.h:1639
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXTUResourceUsageEntry
     {
@@ -1621,7 +1543,7 @@ public static unsafe partial class libclang
         public ulong amount;
     }
 
-    // Record @ Index.h:1661
+    // Record @ Index.h:1650
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXTUResourceUsage
     {
@@ -1635,7 +1557,7 @@ public static unsafe partial class libclang
         public CXTUResourceUsageEntry* entries;
     }
 
-    // Record @ Index.h:2686
+    // Record @ Index.h:2682
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
     public struct CXCursor
     {
@@ -1646,20 +1568,37 @@ public static unsafe partial class libclang
         public int xdata;
 
         [FieldOffset(8)] // size = 24, padding = 0
-        public fixed ulong _data[24 / 8]; // original type is `const void *[3]`
+        public fixed ulong _data[24 / 8]; // void *[3]
 
-        public ref void* data(int index = 0)
+        public Span<IntPtr> data
         {
-            fixed (CXCursor* @this = &this)
+            get
             {
-                var pointer = (void**)&@this->_data[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (CXCursor* @this = &this)
+                {
+                    var pointer = &@this->_data[0];
+                    var span = new Span<IntPtr>(pointer, 3);
+                    return span;
+                }
             }
         }
     }
 
-    // Record @ Index.h:2894
+    // Record @ Index.h:149
+    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
+    public struct CXVersion
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int Major;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int Minor;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int Subminor;
+    }
+
+    // Record @ Index.h:2863
     [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8)]
     public struct CXPlatformAvailability
     {
@@ -1682,7 +1621,7 @@ public static unsafe partial class libclang
         public CXString Message;
     }
 
-    // Record @ Index.h:3409
+    // Record @ Index.h:3406
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXType
     {
@@ -1690,31 +1629,47 @@ public static unsafe partial class libclang
         public CXTypeKind kind;
 
         [FieldOffset(8)] // size = 16, padding = 0
-        public fixed ulong _data[16 / 8]; // original type is `void *[2]`
+        public fixed ulong _data[16 / 8]; // void *[2]
 
-        public ref void* data(int index = 0)
+        public Span<IntPtr> data
         {
-            fixed (CXType* @this = &this)
+            get
             {
-                var pointer = (void**)&@this->_data[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (CXType* @this = &this)
+                {
+                    var pointer = &@this->_data[0];
+                    var span = new Span<IntPtr>(pointer, 2);
+                    return span;
+                }
             }
         }
     }
 
-    // Record @ Index.h:4974
+    // Record @ Index.h:4971
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXToken
     {
         [FieldOffset(0)] // size = 16, padding = 0
-        public fixed uint _int_data[16 / 4]; // original type is `unsigned int [4]`
+        public fixed uint _int_data[16 / 4]; // unsigned int [4]
+
+        public Span<uint> int_data
+        {
+            get
+            {
+                fixed (CXToken* @this = &this)
+                {
+                    var pointer = &@this->_int_data[0];
+                    var span = new Span<uint>(pointer, 4);
+                    return span;
+                }
+            }
+        }
 
         [FieldOffset(16)] // size = 8, padding = 0
         public void* ptr_data;
     }
 
-    // Record @ Index.h:5147
+    // Record @ Index.h:5129
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXCompletionResult
     {
@@ -1725,7 +1680,7 @@ public static unsafe partial class libclang
         public CXCompletionString CompletionString;
     }
 
-    // Record @ Index.h:5474
+    // Record @ Index.h:5463
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXCodeCompleteResults
     {
@@ -1736,7 +1691,7 @@ public static unsafe partial class libclang
         public uint NumResults;
     }
 
-    // Record @ Index.h:6092
+    // Record @ Index.h:6089
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXCursorAndRangeVisitor
     {
@@ -1744,23 +1699,33 @@ public static unsafe partial class libclang
         public void* context;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public CXCursorAndRangeVisitor_visit visit;
+        public FunctionPointer_visit visit;
+
+        // FunctionPointer @ Index.h:6091
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_visit
+        {
+            public delegate* unmanaged<void*, CXCursor, CXSourceRange, CXVisitorResult> Pointer;
+        }
     }
 
-    // Record @ Index.h:6188
+    // Record @ Index.h:6185
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXIdxLoc
     {
         [FieldOffset(0)] // size = 16, padding = 0
-        public fixed ulong _ptr_data[16 / 8]; // original type is `void *[2]`
+        public fixed ulong _ptr_data[16 / 8]; // void *[2]
 
-        public ref void* ptr_data(int index = 0)
+        public Span<IntPtr> ptr_data
         {
-            fixed (CXIdxLoc* @this = &this)
+            get
             {
-                var pointer = (void**)&@this->_ptr_data[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (CXIdxLoc* @this = &this)
+                {
+                    var pointer = &@this->_ptr_data[0];
+                    var span = new Span<IntPtr>(pointer, 2);
+                    return span;
+                }
             }
         }
 
@@ -1768,47 +1733,7 @@ public static unsafe partial class libclang
         public uint int_data;
     }
 
-    // Record @ Index.h:6213
-    [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
-    public struct CXIdxIncludedFileInfo
-    {
-        [FieldOffset(0)] // size = 24, padding = 0
-        public CXIdxLoc hashLoc;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public sbyte* filename;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public CXFile file;
-
-        [FieldOffset(40)] // size = 4, padding = 0
-        public int isImport;
-
-        [FieldOffset(44)] // size = 4, padding = 0
-        public int isAngled;
-
-        [FieldOffset(48)] // size = 4, padding = 4
-        public int isModuleImport;
-    }
-
-    // Record @ Index.h:6237
-    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
-    public struct CXIdxImportedASTFileInfo
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CXFile file;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public CXModule module;
-
-        [FieldOffset(16)] // size = 24, padding = 0
-        public CXIdxLoc loc;
-
-        [FieldOffset(40)] // size = 4, padding = 4
-        public int isImplicit;
-    }
-
-    // Record @ Index.h:6310
+    // Record @ Index.h:6306
     [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
     public struct CXIdxAttrInfo
     {
@@ -1822,7 +1747,7 @@ public static unsafe partial class libclang
         public CXIdxLoc loc;
     }
 
-    // Record @ Index.h:6321
+    // Record @ Index.h:6312
     [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8)]
     public struct CXIdxEntityInfo
     {
@@ -1836,10 +1761,10 @@ public static unsafe partial class libclang
         public CXIdxEntityLanguage lang;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public sbyte* name;
+        public byte* name;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public sbyte* USR;
+        public byte* USR;
 
         [FieldOffset(32)] // size = 32, padding = 0
         public CXCursor cursor;
@@ -1851,7 +1776,7 @@ public static unsafe partial class libclang
         public uint numAttributes;
     }
 
-    // Record @ Index.h:6325
+    // Record @ Index.h:6323
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
     public struct CXIdxContainerInfo
     {
@@ -1859,24 +1784,7 @@ public static unsafe partial class libclang
         public CXCursor cursor;
     }
 
-    // Record @ Index.h:6332
-    [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8)]
-    public struct CXIdxIBOutletCollectionAttrInfo
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CXIdxAttrInfo* attrInfo;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public CXIdxEntityInfo* objcClass;
-
-        [FieldOffset(16)] // size = 32, padding = 0
-        public CXCursor classCursor;
-
-        [FieldOffset(48)] // size = 24, padding = 0
-        public CXIdxLoc classLoc;
-    }
-
-    // Record @ Index.h:6360
+    // Record @ Index.h:6336
     [StructLayout(LayoutKind.Explicit, Size = 128, Pack = 8)]
     public struct CXIdxDeclInfo
     {
@@ -1920,7 +1828,7 @@ public static unsafe partial class libclang
         public uint flags;
     }
 
-    // Record @ Index.h:6371
+    // Record @ Index.h:6368
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXIdxObjCContainerDeclInfo
     {
@@ -1931,7 +1839,7 @@ public static unsafe partial class libclang
         public CXIdxObjCContainerKind kind;
     }
 
-    // Record @ Index.h:6377
+    // Record @ Index.h:6373
     [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
     public struct CXIdxBaseClassInfo
     {
@@ -1945,7 +1853,7 @@ public static unsafe partial class libclang
         public CXIdxLoc loc;
     }
 
-    // Record @ Index.h:6383
+    // Record @ Index.h:6379
     [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
     public struct CXIdxObjCProtocolRefInfo
     {
@@ -1959,7 +1867,7 @@ public static unsafe partial class libclang
         public CXIdxLoc loc;
     }
 
-    // Record @ Index.h:6388
+    // Record @ Index.h:6385
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXIdxObjCProtocolRefListInfo
     {
@@ -1970,7 +1878,7 @@ public static unsafe partial class libclang
         public uint numProtocols;
     }
 
-    // Record @ Index.h:6394
+    // Record @ Index.h:6390
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXIdxObjCInterfaceDeclInfo
     {
@@ -1984,7 +1892,7 @@ public static unsafe partial class libclang
         public CXIdxObjCProtocolRefListInfo* protocols;
     }
 
-    // Record @ Index.h:6402
+    // Record @ Index.h:6396
     [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8)]
     public struct CXIdxObjCCategoryDeclInfo
     {
@@ -2004,7 +1912,7 @@ public static unsafe partial class libclang
         public CXIdxObjCProtocolRefListInfo* protocols;
     }
 
-    // Record @ Index.h:6408
+    // Record @ Index.h:6404
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXIdxObjCPropertyDeclInfo
     {
@@ -2018,7 +1926,24 @@ public static unsafe partial class libclang
         public CXIdxEntityInfo* setter;
     }
 
-    // Record @ Index.h:6414
+    // Record @ Index.h:6327
+    [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8)]
+    public struct CXIdxIBOutletCollectionAttrInfo
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXIdxAttrInfo* attrInfo;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CXIdxEntityInfo* objcClass;
+
+        [FieldOffset(16)] // size = 32, padding = 0
+        public CXCursor classCursor;
+
+        [FieldOffset(48)] // size = 24, padding = 0
+        public CXIdxLoc classLoc;
+    }
+
+    // Record @ Index.h:6410
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXIdxCXXClassDeclInfo
     {
@@ -2032,7 +1957,47 @@ public static unsafe partial class libclang
         public uint numBases;
     }
 
-    // Record @ Index.h:6487
+    // Record @ Index.h:6193
+    [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
+    public struct CXIdxIncludedFileInfo
+    {
+        [FieldOffset(0)] // size = 24, padding = 0
+        public CXIdxLoc hashLoc;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public byte* filename;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public CXFile file;
+
+        [FieldOffset(40)] // size = 4, padding = 0
+        public int isImport;
+
+        [FieldOffset(44)] // size = 4, padding = 0
+        public int isAngled;
+
+        [FieldOffset(48)] // size = 4, padding = 4
+        public int isModuleImport;
+    }
+
+    // Record @ Index.h:6218
+    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
+    public struct CXIdxImportedASTFileInfo
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXFile file;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CXModule module;
+
+        [FieldOffset(16)] // size = 24, padding = 0
+        public CXIdxLoc loc;
+
+        [FieldOffset(40)] // size = 4, padding = 4
+        public int isImplicit;
+    }
+
+    // Record @ Index.h:6456
     [StructLayout(LayoutKind.Explicit, Size = 96, Pack = 8)]
     public struct CXIdxEntityRefInfo
     {
@@ -2058,193 +2023,319 @@ public static unsafe partial class libclang
         public CXSymbolRole role;
     }
 
-    // Record @ Index.h:6539
+    // Record @ Index.h:6493
     [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
     public struct IndexerCallbacks
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public IndexerCallbacks_abortQuery abortQuery;
+        public FunctionPointer_abortQuery abortQuery;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public IndexerCallbacks_diagnostic diagnostic;
+        public FunctionPointer_diagnostic diagnostic;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public IndexerCallbacks_enteredMainFile enteredMainFile;
+        public FunctionPointer_enteredMainFile enteredMainFile;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public IndexerCallbacks_ppIncludedFile ppIncludedFile;
+        public FunctionPointer_ppIncludedFile ppIncludedFile;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public IndexerCallbacks_importedASTFile importedASTFile;
+        public FunctionPointer_importedASTFile importedASTFile;
 
         [FieldOffset(40)] // size = 8, padding = 0
-        public IndexerCallbacks_startedTranslationUnit startedTranslationUnit;
+        public FunctionPointer_startedTranslationUnit startedTranslationUnit;
 
         [FieldOffset(48)] // size = 8, padding = 0
-        public IndexerCallbacks_indexDeclaration indexDeclaration;
+        public FunctionPointer_indexDeclaration indexDeclaration;
 
         [FieldOffset(56)] // size = 8, padding = 0
-        public IndexerCallbacks_indexEntityReference indexEntityReference;
+        public FunctionPointer_indexEntityReference indexEntityReference;
+
+        // FunctionPointer @ Index.h:6498
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_abortQuery
+        {
+            public delegate* unmanaged<CXClientData, void*, int> Pointer;
+        }
+
+        // FunctionPointer @ Index.h:6503
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_diagnostic
+        {
+            public delegate* unmanaged<CXClientData, CXDiagnosticSet, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ Index.h:6505
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_enteredMainFile
+        {
+            public delegate* unmanaged<CXClientData, CXFile, void*, CXIdxClientFile> Pointer;
+        }
+
+        // FunctionPointer @ Index.h:6511
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_ppIncludedFile
+        {
+            public delegate* unmanaged<CXClientData, CXIdxIncludedFileInfo*, CXIdxClientFile> Pointer;
+        }
+
+        // FunctionPointer @ Index.h:6522
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_importedASTFile
+        {
+            public delegate* unmanaged<CXClientData, CXIdxImportedASTFileInfo*, CXIdxClientASTFile> Pointer;
+        }
+
+        // FunctionPointer @ Index.h:6528
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_startedTranslationUnit
+        {
+            public delegate* unmanaged<CXClientData, void*, CXIdxClientContainer> Pointer;
+        }
+
+        // FunctionPointer @ Index.h:6531
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_indexDeclaration
+        {
+            public delegate* unmanaged<CXClientData, CXIdxDeclInfo*, void> Pointer;
+        }
+
+        // FunctionPointer @ Index.h:6536
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_indexEntityReference
+        {
+            public delegate* unmanaged<CXClientData, CXIdxEntityRefInfo*, void> Pointer;
+        }
     }
 
-    // OpaquePointer @ BuildSystem.h:39
+    // OpaqueType @ BuildSystem.h:39
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXVirtualFileOverlayImpl
+    {
+    }
+
+    // OpaqueType @ BuildSystem.h:100
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXModuleMapDescriptorImpl
+    {
+    }
+
+    // OpaqueType @ Index.h:86
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXTranslationUnitImpl
+    {
+    }
+
+    // OpaqueType @ Index.h:81
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXTargetInfoImpl
+    {
+    }
+
+    // OpaqueType @ Index.h:2998
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXCursorSetImpl
+    {
+    }
+
+    // Typedef @ BuildSystem.h:39
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXVirtualFileOverlay
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public CXVirtualFileOverlayImpl* Data;
+
+        public static unsafe implicit operator CXVirtualFileOverlayImpl*(CXVirtualFileOverlay data) => *((CXVirtualFileOverlayImpl**)&data);
     }
 
-    // OpaquePointer @ BuildSystem.h:100
+    // Typedef @ BuildSystem.h:100
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXModuleMapDescriptor
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public CXModuleMapDescriptorImpl* Data;
+
+        public static unsafe implicit operator CXModuleMapDescriptorImpl*(CXModuleMapDescriptor data) => *((CXModuleMapDescriptorImpl**)&data);
     }
 
-    // OpaquePointer @ Index.h:75
+    // Typedef @ Index.h:75
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIndex
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public void* Data;
+
+        public static unsafe implicit operator void*(CXIndex data) => *((void**)&data);
     }
 
-    // OpaquePointer @ Index.h:81
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXTargetInfo
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
-    }
-
-    // OpaquePointer @ Index.h:86
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXTranslationUnit
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
-    }
-
-    // OpaquePointer @ Index.h:92
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXClientData
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
-    }
-
-    // OpaquePointer @ Index.h:353
+    // Typedef @ Index.h:353
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXFile
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public void* Data;
+
+        public static unsafe implicit operator void*(CXFile data) => *((void**)&data);
     }
 
-    // OpaquePointer @ Index.h:775
+    // Typedef @ Index.h:86
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXDiagnostic
+    public struct CXTranslationUnit
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public CXTranslationUnitImpl* Data;
+
+        public static unsafe implicit operator CXTranslationUnitImpl*(CXTranslationUnit data) => *((CXTranslationUnitImpl**)&data);
     }
 
-    // OpaquePointer @ Index.h:780
+    // Typedef @ Index.h:780
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXDiagnosticSet
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public void* Data;
+
+        public static unsafe implicit operator void*(CXDiagnosticSet data) => *((void**)&data);
     }
 
-    // OpaquePointer @ Index.h:2998
+    // Typedef @ Index.h:775
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXDiagnostic
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
+
+        public static unsafe implicit operator void*(CXDiagnostic data) => *((void**)&data);
+    }
+
+    // Typedef @ Index.h:81
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXTargetInfo
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXTargetInfoImpl* Data;
+
+        public static unsafe implicit operator CXTargetInfoImpl*(CXTargetInfo data) => *((CXTargetInfoImpl**)&data);
+    }
+
+    // Typedef @ Index.h:2998
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXCursorSet
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public CXCursorSetImpl* Data;
+
+        public static unsafe implicit operator CXCursorSetImpl*(CXCursorSet data) => *((CXCursorSetImpl**)&data);
     }
 
-    // OpaquePointer @ Index.h:4332
+    // Typedef @ Index.h:92
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXClientData
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
+
+        public static unsafe implicit operator void*(CXClientData data) => *((void**)&data);
+    }
+
+    // Typedef @ Index.h:4332
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXPrintingPolicy
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public void* Data;
+
+        public static unsafe implicit operator void*(CXPrintingPolicy data) => *((void**)&data);
     }
 
-    // OpaquePointer @ Index.h:4679
+    // Typedef @ Index.h:4679
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXModule
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public void* Data;
+
+        public static unsafe implicit operator void*(CXModule data) => *((void**)&data);
     }
 
-    // OpaquePointer @ Index.h:5124
+    // Typedef @ Index.h:5124
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXCompletionString
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public void* Data;
+
+        public static unsafe implicit operator void*(CXCompletionString data) => *((void**)&data);
     }
 
-    // OpaquePointer @ Index.h:5959
+    // Typedef @ Index.h:5959
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXEvalResult
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public void* Data;
+
+        public static unsafe implicit operator void*(CXEvalResult data) => *((void**)&data);
     }
 
-    // OpaquePointer @ Index.h:6030
+    // Typedef @ Index.h:6030
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXRemapping
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public void* Data;
+
+        public static unsafe implicit operator void*(CXRemapping data) => *((void**)&data);
     }
 
-    // OpaquePointer @ Index.h:6163
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIdxClientFile
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
-    }
-
-    // OpaquePointer @ Index.h:6168
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIdxClientEntity
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
-    }
-
-    // OpaquePointer @ Index.h:6174
+    // Typedef @ Index.h:6174
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIdxClientContainer
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public void* Data;
+
+        public static unsafe implicit operator void*(CXIdxClientContainer data) => *((void**)&data);
     }
 
-    // OpaquePointer @ Index.h:6180
+    // Typedef @ Index.h:6168
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIdxClientASTFile
+    public struct CXIdxClientEntity
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public void* Data;
+
+        public static unsafe implicit operator void*(CXIdxClientEntity data) => *((void**)&data);
     }
 
-    // OpaquePointer @ Index.h:6594
+    // Typedef @ Index.h:6594
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIndexAction
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* Pointer;
+        public void* Data;
+
+        public static unsafe implicit operator void*(CXIndexAction data) => *((void**)&data);
+    }
+
+    // Typedef @ Index.h:6163
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXIdxClientFile
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
+
+        public static unsafe implicit operator void*(CXIdxClientFile data) => *((void**)&data);
+    }
+
+    // Typedef @ Index.h:6180
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXIdxClientASTFile
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
+
+        public static unsafe implicit operator void*(CXIdxClientASTFile data) => *((void**)&data);
     }
 
     // Enum @ CXErrorCode.h:28
@@ -2257,13 +2348,13 @@ public static unsafe partial class libclang
         CXError_ASTReadError = 4U
     }
 
-    // Enum @ Index.h:125
-    public enum CXAvailabilityKind : uint
+    // Enum @ Index.h:803
+    public enum CXLoadDiag_Error : uint
     {
-        CXAvailability_Available = 0U,
-        CXAvailability_Deprecated = 1U,
-        CXAvailability_NotAvailable = 2U,
-        CXAvailability_NotAccessible = 3U
+        CXLoadDiag_None = 0U,
+        CXLoadDiag_Unknown = 1U,
+        CXLoadDiag_CannotLoad = 2U,
+        CXLoadDiag_InvalidFile = 3U
     }
 
     // Enum @ Index.h:739
@@ -2274,15 +2365,6 @@ public static unsafe partial class libclang
         CXDiagnostic_Warning = 2U,
         CXDiagnostic_Error = 3U,
         CXDiagnostic_Fatal = 4U
-    }
-
-    // Enum @ Index.h:803
-    public enum CXLoadDiag_Error : uint
-    {
-        CXLoadDiag_None = 0U,
-        CXLoadDiag_Unknown = 1U,
-        CXLoadDiag_CannotLoad = 2U,
-        CXLoadDiag_InvalidFile = 3U
     }
 
     // Enum @ Index.h:1609
@@ -2597,6 +2679,15 @@ public static unsafe partial class libclang
         CXVisibility_Default = 3U
     }
 
+    // Enum @ Index.h:125
+    public enum CXAvailabilityKind : uint
+    {
+        CXAvailability_Available = 0U,
+        CXAvailability_Deprecated = 1U,
+        CXAvailability_NotAvailable = 2U,
+        CXAvailability_NotAccessible = 3U
+    }
+
     // Enum @ Index.h:2966
     public enum CXLanguageKind : uint
     {
@@ -2739,6 +2830,21 @@ public static unsafe partial class libclang
         CXType_Atomic = 177U
     }
 
+    // Enum @ Index.h:3492
+    public enum CXTemplateArgumentKind : uint
+    {
+        CXTemplateArgumentKind_Null = 0U,
+        CXTemplateArgumentKind_Type = 1U,
+        CXTemplateArgumentKind_Declaration = 2U,
+        CXTemplateArgumentKind_NullPtr = 3U,
+        CXTemplateArgumentKind_Integral = 4U,
+        CXTemplateArgumentKind_Template = 5U,
+        CXTemplateArgumentKind_TemplateExpansion = 6U,
+        CXTemplateArgumentKind_Expression = 7U,
+        CXTemplateArgumentKind_Pack = 8U,
+        CXTemplateArgumentKind_Invalid = 9U
+    }
+
     // Enum @ Index.h:3377
     public enum CXCallingConv : uint
     {
@@ -2762,21 +2868,6 @@ public static unsafe partial class libclang
         CXCallingConv_AArch64VectorCall = 16U,
         CXCallingConv_Invalid = 100U,
         CXCallingConv_Unexposed = 200U
-    }
-
-    // Enum @ Index.h:3492
-    public enum CXTemplateArgumentKind : uint
-    {
-        CXTemplateArgumentKind_Null = 0U,
-        CXTemplateArgumentKind_Type = 1U,
-        CXTemplateArgumentKind_Declaration = 2U,
-        CXTemplateArgumentKind_NullPtr = 3U,
-        CXTemplateArgumentKind_Integral = 4U,
-        CXTemplateArgumentKind_Template = 5U,
-        CXTemplateArgumentKind_TemplateExpansion = 6U,
-        CXTemplateArgumentKind_Expression = 7U,
-        CXTemplateArgumentKind_Pack = 8U,
-        CXTemplateArgumentKind_Invalid = 9U
     }
 
     // Enum @ Index.h:3845
@@ -2859,7 +2950,7 @@ public static unsafe partial class libclang
         CXPrintingPolicy_LastProperty = 25U
     }
 
-    // Enum @ Index.h:4966
+    // Enum @ Index.h:4941
     public enum CXTokenKind : uint
     {
         CXToken_Punctuation = 0U,
@@ -2895,7 +2986,7 @@ public static unsafe partial class libclang
         CXCompletionChunk_VerticalSpace = 20U
     }
 
-    // Enum @ Index.h:5954
+    // Enum @ Index.h:5944
     public enum CXEvalResultKind : uint
     {
         CXEval_Int = 1U,
@@ -2907,14 +2998,7 @@ public static unsafe partial class libclang
         CXEval_UnExposed = 0U
     }
 
-    // Enum @ Index.h:6087
-    public enum CXVisitorResult : uint
-    {
-        CXVisit_Break = 0U,
-        CXVisit_Continue = 1U
-    }
-
-    // Enum @ Index.h:6109
+    // Enum @ Index.h:6094
     public enum CXResult : uint
     {
         CXResult_Success = 0U,
@@ -2922,7 +3006,14 @@ public static unsafe partial class libclang
         CXResult_VisitBreak = 2U
     }
 
-    // Enum @ Index.h:6272
+    // Enum @ Index.h:6087
+    public enum CXVisitorResult : uint
+    {
+        CXVisit_Break = 0U,
+        CXVisit_Continue = 1U
+    }
+
+    // Enum @ Index.h:6239
     public enum CXIdxEntityKind : uint
     {
         CXIdxEntity_Unexposed = 0U,
@@ -2954,7 +3045,16 @@ public static unsafe partial class libclang
         CXIdxEntity_CXXInterface = 26U
     }
 
-    // Enum @ Index.h:6280
+    // Enum @ Index.h:6292
+    public enum CXIdxEntityCXXTemplateKind : uint
+    {
+        CXIdxEntity_NonTemplate = 0U,
+        CXIdxEntity_Template = 1U,
+        CXIdxEntity_TemplatePartialSpecialization = 2U,
+        CXIdxEntity_TemplateSpecialization = 3U
+    }
+
+    // Enum @ Index.h:6274
     public enum CXIdxEntityLanguage : uint
     {
         CXIdxEntityLang_None = 0U,
@@ -2964,16 +3064,7 @@ public static unsafe partial class libclang
         CXIdxEntityLang_Swift = 4U
     }
 
-    // Enum @ Index.h:6297
-    public enum CXIdxEntityCXXTemplateKind : uint
-    {
-        CXIdxEntity_NonTemplate = 0U,
-        CXIdxEntity_Template = 1U,
-        CXIdxEntity_TemplatePartialSpecialization = 2U,
-        CXIdxEntity_TemplateSpecialization = 3U
-    }
-
-    // Enum @ Index.h:6304
+    // Enum @ Index.h:6299
     public enum CXIdxAttrKind : uint
     {
         CXIdxAttr_Unexposed = 0U,
@@ -2982,7 +3073,7 @@ public static unsafe partial class libclang
         CXIdxAttr_IBOutletCollection = 3U
     }
 
-    // Enum @ Index.h:6366
+    // Enum @ Index.h:6362
     public enum CXIdxObjCContainerKind : uint
     {
         CXIdxObjCContainer_ForwardRef = 0U,
@@ -2990,14 +3081,14 @@ public static unsafe partial class libclang
         CXIdxObjCContainer_Implementation = 2U
     }
 
-    // Enum @ Index.h:6432
+    // Enum @ Index.h:6422
     public enum CXIdxEntityRefKind : uint
     {
         CXIdxEntityRef_Direct = 1U,
         CXIdxEntityRef_Implicit = 2U
     }
 
-    // Enum @ Index.h:6451
+    // Enum @ Index.h:6440
     public enum CXSymbolRole : uint
     {
         CXSymbolRole_None = 0U,

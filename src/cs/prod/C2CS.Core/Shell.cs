@@ -6,9 +6,11 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Threading;
+using JetBrains.Annotations;
 
 namespace C2CS
 {
+    [PublicAPI]
     public static class Shell
     {
         public static string ShCaptureStandardOutput(this string command, string? workingDirectory = null, string? fileName = null)

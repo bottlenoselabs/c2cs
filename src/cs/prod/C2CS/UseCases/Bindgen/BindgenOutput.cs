@@ -1,15 +1,10 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
-
-namespace C2CS.UseCases
+namespace C2CS.UseCases.Bindgen
 {
-    public class UseCaseException : Exception
+    public class BindgenOutput : UseCaseOutput
     {
-        public UseCaseException(string message)
-            : base(message)
-        {
-        }
+        public string OutputFilePath { get; set; } = string.Empty;
     }
 }

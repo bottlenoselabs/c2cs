@@ -5,30 +5,36 @@ using System.Collections.Immutable;
 
 namespace C2CS.Languages.C
 {
-    public record ClangFunctionPointer : ClangNode
+    public record ClangPointerFunction : ClangNode
     {
+        public readonly string Name;
         public readonly int PointerSize;
+        public readonly ClangType Type;
         public readonly ClangType ReturnType;
-        public readonly ImmutableArray<ClangFunctionPointerParameter> Parameters;
+        public readonly ImmutableArray<ClangPointerFunctionParameter> Parameters;
+        public readonly bool IsWrapped;
 
-        internal ClangFunctionPointer(
+        internal ClangPointerFunction(
             string name,
             ClangCodeLocation codeLocation,
             int pointerSize,
+            ClangType type,
             ClangType returnType,
-            ImmutableArray<ClangFunctionPointerParameter> parameters)
-            : base(ClangNodeKind.FunctionPointer, name, codeLocation)
+            ImmutableArray<ClangPointerFunctionParameter> parameters,
+            bool isWrapped)
+            : base(ClangNodeKind.PointerFunction, codeLocation)
         {
+            Name = name;
             PointerSize = pointerSize;
+            Type = type;
             ReturnType = returnType;
             Parameters = parameters;
+            IsWrapped = isWrapped;
         }
 
-        // Required for debugger string with records
-        // ReSharper disable once RedundantOverriddenMember
         public override string ToString()
         {
-            return base.ToString();
+            return $"FunctionPointer {Type.Name} @ {CodeLocation.ToString()}";
         }
     }
 }

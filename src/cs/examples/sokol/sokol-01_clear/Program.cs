@@ -36,8 +36,8 @@ internal static unsafe class Program
         _color.g = g > 1.0f ? 0.0f : g;
 
         var passAction = default(sg_pass_action);
-        passAction.colors(0).action = sg_action.SG_ACTION_CLEAR;
-        passAction.colors(0).value = _color;
+        passAction.colors[0].action = sg_action.SG_ACTION_CLEAR;
+        passAction.colors[0].value = _color;
         sg_begin_default_pass(&passAction, sapp_width(), sapp_height());
         sg_end_pass();
         sg_commit();

@@ -5,22 +5,22 @@ namespace C2CS.Languages.C
 {
     public record ClangEnumValue : ClangNode
     {
+        public readonly string Name;
         public readonly long Value;
 
         internal ClangEnumValue(
             string name,
             ClangCodeLocation codeLocation,
             long value)
-            : base(ClangNodeKind.EnumValue, name, codeLocation)
+            : base(ClangNodeKind.EnumValue, codeLocation)
         {
+            Name = name;
             Value = value;
         }
 
-        // Required for debugger string with records
-        // ReSharper disable once RedundantOverriddenMember
         public override string ToString()
         {
-            return base.ToString();
+            return $"EnumValue '{Name}' = {Value} @ {CodeLocation.ToString()}";
         }
     }
 }

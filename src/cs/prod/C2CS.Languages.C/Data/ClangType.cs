@@ -9,6 +9,7 @@ namespace C2CS.Languages.C
         public readonly string OriginalName;
         public readonly int SizeOf;
         public readonly int AlignOf;
+        public readonly int ElementSize;
         public readonly int ArraySize;
         public readonly bool IsSystemType;
 
@@ -17,6 +18,7 @@ namespace C2CS.Languages.C
             string originalName,
             int sizeOf,
             int alignOf,
+            int elementSize,
             int arraySize,
             bool isSystemType)
         {
@@ -24,6 +26,7 @@ namespace C2CS.Languages.C
             OriginalName = originalName;
             SizeOf = sizeOf;
             AlignOf = alignOf;
+            ElementSize = elementSize;
             ArraySize = arraySize;
             IsSystemType = isSystemType;
         }

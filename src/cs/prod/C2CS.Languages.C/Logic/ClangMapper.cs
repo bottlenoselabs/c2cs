@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using static libclang;
 
@@ -10,48 +9,44 @@ namespace C2CS.Languages.C
 {
     public class ClangMapper
     {
-        private readonly Dictionary<string, string> _systemTypeNameMappings = new();
-
-        public ClangFunctionExtern MapFunctionExtern(CXCursor cursor, CXCursor cursorParent, CXType type)
+        public ClangFunction ClangFunctionExtern(CXCursor cursor, CXCursor cursorParent, CXType type)
         {
-            var identifier = GetIdentifier(ClangNodeKind.VariableExtern, cursor);
-            var callingConvention = MapFunctionCallingConvention(type);
-            var returnType = MapFunctionExternType(cursor, cursorParent);
-            var parameters = MapFunctionExternParameters(cursor);
-            var location = new ClangCodeLocation(cursor);
+            var name = ClangGetIdentifier(ClangNodeKind.Function, cursor);
+            var codeLocation = new ClangCodeLocation(cursor);
+            var callingConvention = ClangFunctionCallingConvention(type);
+            var returnType = ClangFunctionExternType(cursor, cursorParent);
+            var parameters = ClangFunctionExternParameters(cursor);
 
-            var result = new ClangFunctionExtern(
-                identifier,
-                location,
+            return new ClangFunction(
+                name,
+                codeLocation,
                 callingConvention,
                 returnType,
                 parameters);
-
-            return result;
         }
 
-        private static ClangFunctionExternCallingConvention MapFunctionCallingConvention(CXType type)
+        private static ClangFunctionCallingConvention ClangFunctionCallingConvention(CXType type)
         {
             var callingConvention = clang_getFunctionTypeCallingConv(type);
             var result = callingConvention switch
             {
-                CXCallingConv.CXCallingConv_C => ClangFunctionExternCallingConvention.C,
+                CXCallingConv.CXCallingConv_C => C.ClangFunctionCallingConvention.C,
                 _ => throw new ClangExplorerException($"Unknown calling convention '{callingConvention}'.")
             };
 
             return result;
         }
 
-        private ImmutableArray<ClangFunctionExternParameter> MapFunctionExternParameters(CXCursor cursor)
+        private ImmutableArray<ClangFunctionParameter> ClangFunctionExternParameters(CXCursor cursor)
         {
-            var builder = ImmutableArray.CreateBuilder<ClangFunctionExternParameter>();
+            var builder = ImmutableArray.CreateBuilder<ClangFunctionParameter>();
 
             var nodes = cursor.GetDescendents((child, _) =>
                 child.kind == CXCursorKind.CXCursor_ParmDecl);
 
             foreach (var node in nodes)
             {
-                var functionExternParameter = MapFunctionExternParameter(node.Cursor, node.CursorParent);
+                var functionExternParameter = ClangFunctionExternParameter(node.Cursor, node.CursorParent);
                 builder.Add(functionExternParameter);
             }
 
@@ -59,55 +54,56 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        private ClangFunctionExternParameter MapFunctionExternParameter(
+        private ClangFunctionParameter ClangFunctionExternParameter(
             CXCursor cursor, CXCursor cursorParent, string? name = null)
         {
-            name ??= GetIdentifier(ClangNodeKind.FunctionExternParameter, cursor);
-            var type = MapType(cursor, cursorParent);
-            var isFunctionPointer = MapIsFunctionPointer(cursor);
-            var location = new ClangCodeLocation(cursor);
+            name ??= ClangGetIdentifier(ClangNodeKind.FunctionParameter, cursor);
+            var type = ClangType(ClangNodeKind.FunctionParameter, cursor, cursorParent);
+            var codeLocation = new ClangCodeLocation(cursor);
 
-            var result = new ClangFunctionExternParameter(
+            var result = new ClangFunctionParameter(
                 name,
-                location,
-                type,
-                isFunctionPointer);
+                codeLocation,
+                type);
 
             return result;
         }
 
-        public ClangFunctionPointer MapFunctionPointer(CXCursor cursor, CXCursor cursorParent)
+        public ClangPointerFunction ClangFunctionPointer(
+            CXCursor cursor, CXCursor cursorParent, CXType originalType, CXType type)
         {
-            var name = GetTypeName(cursor);
-            var cursorType = clang_getCursorType(cursor);
-            var pointerSize = (int)clang_Type_getSizeOf(cursorType);
-            var returnType = MapType(cursor, cursorParent);
-            var parameters = MapFunctionPointerParameters(cursor);
+            var name = cursor.GetName();
+            var mappedType = ClangType(ClangNodeKind.PointerFunction, cursor, cursorParent);
             var codeLocation = new ClangCodeLocation(cursor);
+            var parameters = ClangFunctionPointerParameters(cursor);
+            var pointerSize = (int)clang_Type_getSizeOf(type);
+            var returnType = clang_getResultType(type);
+            var mappedReturnType = ClangType(ClangNodeKind.PointerFunctionResult, cursor, cursorParent, returnType);
+            var isWrapped = cursorParent.kind == CXCursorKind.CXCursor_StructDecl && originalType.kind != CXTypeKind.CXType_Typedef;
 
-            var result = new ClangFunctionPointer(
+            return new ClangPointerFunction(
                 name,
                 codeLocation,
                 pointerSize,
-                returnType,
-                parameters);
-
-            return result;
+                mappedType,
+                mappedReturnType,
+                parameters,
+                isWrapped);
         }
 
-        private ImmutableArray<ClangFunctionPointerParameter> MapFunctionPointerParameters(CXCursor cursor)
+        private ImmutableArray<ClangPointerFunctionParameter> ClangFunctionPointerParameters(CXCursor cursor)
         {
-            var builder = ImmutableArray.CreateBuilder<ClangFunctionPointerParameter>();
+            var builder = ImmutableArray.CreateBuilder<ClangPointerFunctionParameter>();
 
             var nodes = cursor.GetDescendents((child, _) =>
                 child.kind == CXCursorKind.CXCursor_ParmDecl);
 
             foreach (var node in nodes)
             {
-                var functionPointerParameter = MapFunctionPointerParameter(node.Cursor, node.CursorParent);
+                var functionPointerParameter = ClangFunctionPointerParameter(node.Cursor, node.CursorParent);
                 if (functionPointerParameter.Type.Name == "__va_list_tag")
                 {
-                    return ImmutableArray<ClangFunctionPointerParameter>.Empty;
+                    return ImmutableArray<ClangPointerFunctionParameter>.Empty;
                 }
 
                 builder.Add(functionPointerParameter);
@@ -117,13 +113,13 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        private ClangFunctionPointerParameter MapFunctionPointerParameter(CXCursor cursor, CXCursor cursorParent)
+        private ClangPointerFunctionParameter ClangFunctionPointerParameter(CXCursor cursor, CXCursor cursorParent)
         {
             var codeLocation = new ClangCodeLocation(cursor);
-            var name = GetIdentifier(ClangNodeKind.FunctionPointerParameter, cursor);
-            var type = MapType(cursor, cursorParent);
+            var name = ClangGetIdentifier(ClangNodeKind.PointerFunctionParameter, cursor);
+            var type = ClangType(ClangNodeKind.PointerFunctionParameter, cursor, cursorParent);
 
-            var result = new ClangFunctionPointerParameter(
+            var result = new ClangPointerFunctionParameter(
                 name,
                 codeLocation,
                 type);
@@ -131,51 +127,42 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        public ClangRecord MapRecord(CXCursor cursor, CXCursor cursorParent)
+        public ClangRecord ClangRecord(CXCursor cursor, CXCursor cursorParent, CXType type, string typeName)
         {
             var codeLocation = new ClangCodeLocation(cursor);
-            var type = MapType(cursor, cursorParent);
-            var recordFields = MapRecordFields(cursor);
-            var recordNestedRecords = MapNestedRecords(cursor);
+            var mappedType = ClangType(ClangNodeKind.Record, cursor, cursorParent, type, typeName);
+            var recordFields = ClangRecordFields(cursor);
+            var recordNestedRecords = ClangNestedNodes(cursor);
 
-            var result = new ClangRecord(
+            return new ClangRecord(
                 codeLocation,
-                type,
+                mappedType,
                 recordFields,
                 recordNestedRecords);
-
-            return result;
         }
 
-        private ImmutableArray<ClangRecordField> MapRecordFields(CXCursor cursor)
+        private ImmutableArray<ClangRecordField> ClangRecordFields(CXCursor cursor)
         {
             var builder = ImmutableArray.CreateBuilder<ClangRecordField>();
 
-            var underlyingCursor = MapUnderlyingCursor(cursor);
+            var underlyingCursor = ClangUnderlyingCursor(cursor);
 
-            var nodes = underlyingCursor.GetDescendents((child, parent) =>
-            {
-                if (child.kind != CXCursorKind.CXCursor_FieldDecl)
-                {
-                    return false;
-                }
-
-                return true;
-            });
+            var nodes = underlyingCursor.GetDescendents((child, _) =>
+                child.kind == CXCursorKind.CXCursor_FieldDecl);
 
             foreach (var node in nodes)
             {
-                var recordField = MapRecordField(node.Cursor, node.CursorParent);
+                var recordField = ClangRecordField(node.Cursor, node.CursorParent);
                 builder.Add(recordField);
             }
 
-            CalculatePaddingForStructFields(cursor, builder);
+            ClangCalculatePaddingForStructFields(cursor, builder);
 
             var result = builder.ToImmutable();
             return result;
         }
 
-        private static void CalculatePaddingForStructFields(
+        private static void ClangCalculatePaddingForStructFields(
             CXCursor cursor,
             ImmutableArray<ClangRecordField>.Builder builder)
         {
@@ -209,27 +196,37 @@ namespace C2CS.Languages.C
             }
         }
 
-        private ClangRecordField MapRecordField(CXCursor cursor, CXCursor cursorParent)
+        private ClangRecordField ClangRecordField(CXCursor cursor, CXCursor cursorParent)
         {
+            var name = cursor.GetName();
             var codeLocation = new ClangCodeLocation(cursor);
-            var name = GetIdentifier(ClangNodeKind.RecordField, cursor);
-            var type = MapType(cursor, cursorParent);
+            var mappedType = ClangType(ClangNodeKind.RecordField, cursor, cursorParent);
             var offset = (int) (clang_Cursor_getOffsetOfField(cursor) / 8);
 
-            var result = new ClangRecordField(
+            var isUnNamedFunctionPointer = false;
+            var type = clang_getCursorType(cursor);
+            if (type.kind == CXTypeKind.CXType_Pointer)
+            {
+                var pointeeType = clang_getPointeeType(type);
+                if (pointeeType.kind == CXTypeKind.CXType_FunctionProto)
+                {
+                    isUnNamedFunctionPointer = true;
+                }
+            }
+
+            return new ClangRecordField(
                 name,
                 codeLocation,
-                type,
-                offset);
-
-            return result;
+                mappedType,
+                offset,
+                isUnNamedFunctionPointer);
         }
 
-        private ImmutableArray<ClangRecord> MapNestedRecords(CXCursor cursor)
+        private ImmutableArray<ClangNode> ClangNestedNodes(CXCursor cursor)
         {
-            var builder = ImmutableArray.CreateBuilder<ClangRecord>();
+            var builder = ImmutableArray.CreateBuilder<ClangNode>();
 
-            var underlyingCursor = MapUnderlyingCursor(cursor);
+            var underlyingCursor = ClangUnderlyingCursor(cursor);
 
             var nodes = underlyingCursor.GetDescendents((child, _) =>
             {
@@ -241,17 +238,26 @@ namespace C2CS.Languages.C
                 var type = clang_getCursorType(child);
                 var typeDeclaration = clang_getTypeDeclaration(type);
                 var isAnonymous = clang_Cursor_isAnonymous(typeDeclaration) > 0;
-                if (!isAnonymous)
+                if (isAnonymous)
                 {
-                    return false;
+                    return true;
                 }
 
-                return true;
+                if (type.kind == CXTypeKind.CXType_Pointer)
+                {
+                    var pointeeType = clang_getPointeeType(type);
+                    if (pointeeType.kind == CXTypeKind.CXType_FunctionProto)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
             });
 
             foreach (var node in nodes)
             {
-                var record = MapNestedRecord(node.Cursor, node.CursorParent);
+                var record = ClangNestedNode(node.Cursor, node.CursorParent);
                 builder.Add(record);
             }
 
@@ -259,64 +265,83 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        private ClangRecord MapNestedRecord(CXCursor cursor, CXCursor cursorParent)
+        private ClangNode ClangNestedNode(CXCursor cursor, CXCursor cursorParent)
         {
-            var cursorType = clang_getCursorType(cursor);
+            var type = clang_getCursorType(cursor);
+            var isPointer = type.kind == CXTypeKind.CXType_Pointer;
+            if (!isPointer)
+            {
+                return ClangNestedStruct(cursor, cursorParent, type);
+            }
+
+            var pointeeType = clang_getPointeeType(type);
+            if (pointeeType.kind == CXTypeKind.CXType_FunctionProto)
+            {
+                return ClangFunctionPointer(cursor, cursorParent, type, pointeeType);
+            }
+
+            var up = new ClangMapperException("Unknown mapping for nested node.");
+            throw up;
+        }
+
+        private ClangNode ClangNestedStruct(CXCursor cursor, CXCursor cursorParent, CXType cursorType)
+        {
             var declaration = clang_getTypeDeclaration(cursorType);
             var codeLocation = new ClangCodeLocation(declaration);
-            var type = MapType(cursor, cursorParent);
-            var recordFields = MapRecordFields(declaration);
-            var recordNestedRecords = MapNestedRecords(declaration);
+            var type = ClangType(ClangNodeKind.Record, declaration, cursor);
 
-            var result = new ClangRecord(
+            var recordFields = ClangRecordFields(declaration);
+            var recordNestedRecords = ClangNestedNodes(declaration);
+
+            return new ClangRecord(
                 codeLocation,
                 type,
                 recordFields,
                 recordNestedRecords);
-
-            return result;
         }
 
-        public ClangEnum MapEnum(CXCursor cursor, CXCursor cursorParent, CXType integerType)
+        public ClangEnum ClangEnum(CXCursor cursor, CXCursor cursorParent, int depth)
         {
             var codeLocation = new ClangCodeLocation(cursor);
-            var name = GetTypeName(cursor);
-            var type = MapType(cursor, cursorParent, integerType);
-            var enumValues = MapEnumValues(cursor);
+            var type = clang_getCursorType(cursor);
+            var mappedType = ClangType(ClangNodeKind.Enum, cursor, cursorParent, type);
+            var integerType = clang_getEnumDeclIntegerType(cursor);
+            var mappedIntegerType = ClangType(ClangNodeKind.Enum, cursor, cursorParent, integerType);
+            var enumValues = ClangEnumValues(cursor, depth + 1);
 
             var result = new ClangEnum(
-                name,
                 codeLocation,
-                type,
+                mappedType,
+                mappedIntegerType,
                 enumValues);
 
             return result;
         }
 
-        private ClangType MapEnumIntegerType(CXCursor cursor, CXCursor cursorParent)
-        {
-            CXType enumIntegerType;
+        // private ClangType MapEnumIntegerType(CXCursor cursor, CXCursor cursorParent)
+        // {
+        //     CXType enumIntegerType;
+        //
+        //     if (cursor.kind == CXCursorKind.CXCursor_TypedefDecl)
+        //     {
+        //         var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
+        //         var underlyingTypeDeclaration = clang_getTypeDeclaration(underlyingType);
+        //         enumIntegerType = clang_getEnumDeclIntegerType(underlyingTypeDeclaration);
+        //     }
+        //     else
+        //     {
+        //         enumIntegerType = clang_getEnumDeclIntegerType(cursor);
+        //     }
+        //
+        //     var result = MapType(cursor, cursorParent, enumIntegerType);
+        //     return result;
+        // }
 
-            if (cursor.kind == CXCursorKind.CXCursor_TypedefDecl)
-            {
-                var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
-                var underlyingTypeDeclaration = clang_getTypeDeclaration(underlyingType);
-                enumIntegerType = clang_getEnumDeclIntegerType(underlyingTypeDeclaration);
-            }
-            else
-            {
-                enumIntegerType = clang_getEnumDeclIntegerType(cursor);
-            }
-
-            var result = MapType( cursor, cursorParent, enumIntegerType);
-            return result;
-        }
-
-        private static ImmutableArray<ClangEnumValue> MapEnumValues(CXCursor cursor)
+        private ImmutableArray<ClangEnumValue> ClangEnumValues(CXCursor cursor, int depth)
         {
             var builder = ImmutableArray.CreateBuilder<ClangEnumValue>();
 
-            var underlyingCursor = MapUnderlyingCursor(cursor);
+            var underlyingCursor = ClangUnderlyingCursor(cursor);
 
             var nodes = underlyingCursor.GetDescendents((child, _) =>
             {
@@ -330,7 +355,7 @@ namespace C2CS.Languages.C
 
             foreach (var node in nodes)
             {
-                var enumValue = MapEnumValue(node.Cursor);
+                var enumValue = ClangEnumValue(node.Cursor, node.CursorParent, depth);
                 builder.Add(enumValue);
             }
 
@@ -338,25 +363,24 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        private static ClangEnumValue MapEnumValue(CXCursor cursor, string? name = null)
+        private ClangEnumValue ClangEnumValue(CXCursor cursor, CXCursor cursorParent, int depth, string? name = null)
         {
             var value = clang_getEnumConstantDeclValue(cursor);
-            var location = new ClangCodeLocation(cursor);
-
-            name ??= GetIdentifier(ClangNodeKind.EnumValue, cursor);
+            var codeLocation = new ClangCodeLocation(cursor);
+            name ??= ClangGetIdentifier(ClangNodeKind.EnumValue, cursor);
 
             var result = new ClangEnumValue(
                 name,
-                location,
+                codeLocation,
                 value);
 
             return result;
         }
 
-        public ClangOpaqueType MapOpaqueDataType(CXCursor cursor, CXCursor cursorParent)
+        public ClangOpaqueType ClangOpaqueDataType(CXCursor cursor, CXType type, int depth)
         {
             var location = new ClangCodeLocation(cursor);
-            var name = GetTypeName(cursor);
+            var name = type.GetName();
 
             var result = new ClangOpaqueType(
                 name,
@@ -365,40 +389,27 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        // public ClangOpaquePointer MapOpaquePointer(CXCursor cursor)
-        // {
-        //     var codeLocation = MapCodeLocation(cursor);
-        //     var name = MapName(cursor);
-        //     var pointerType = MapTypeOpaquePointer(cursor);
-        //
-        //     var result = new ClangOpaquePointer(
-        //         name,
-        //         codeLocation,
-        //         pointerType);
-        //
-        //     return result;
-        // }
-
-        public ClangTypedef MapTypedef(CXCursor cursor, CXCursor cursorParent, CXType underlyingType)
+        public ClangTypedef ClangTypedef(CXCursor cursor, CXCursor cursorParent, CXType type, CXType underlyingType)
         {
             var codeLocation = new ClangCodeLocation(cursor);
-
-            var name = GetTypeName(cursor, underlyingType);
-            var type = MapType(cursor, cursorParent, underlyingType);
+            var typeName = type.GetName();
+            var mappedType = ClangType(ClangNodeKind.Typedef, cursor, cursorParent, type, typeName);
+            var mappedUnderlyingType = ClangType(ClangNodeKind.Typedef, cursor, cursorParent, underlyingType);
 
             var result = new ClangTypedef(
-                name,
+                typeName,
                 codeLocation,
-                type);
+                mappedType,
+                mappedUnderlyingType);
 
             return result;
         }
 
-        public ClangVariable MapVariableExtern(CXCursor cursor, CXCursor cursorParent, CXType type)
+        public ClangVariable ClangVariableExtern(CXCursor cursor, CXCursor cursorParent, CXType type)
         {
             var codeLocation = new ClangCodeLocation(cursor);
-            var name = GetIdentifier(ClangNodeKind.VariableExtern, cursor);
-            var clangType = MapType(cursor, cursorParent, type);
+            var name = ClangGetIdentifier(ClangNodeKind.Variable, cursor);
+            var clangType = ClangType(ClangNodeKind.Variable, cursor, cursorParent, type);
 
             var result = new ClangVariable(
                 name,
@@ -408,319 +419,42 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        private static string MapName(CXType clangType)
-        {
-            return clangType
-                .GetName()
-                .Replace("const", string.Empty)
-                .Replace(" ", string.Empty);
-        }
-
-        private static string MapName(CXCursor cursor, CXType clangType)
-        {
-            if (cursor.kind == CXCursorKind.CXCursor_TypedefDecl)
-            {
-                var name = cursor.GetName();
-            }
-
-            return clangType
-                .GetName()
-                .Replace("const ", string.Empty);
-        }
-
-        private static ClangType MapType(CXCursor cursor, CXCursor cursorParent, CXType? type = null)
+        private ClangType ClangType(
+            ClangNodeKind nodeKind, CXCursor cursor, CXCursor cursorParent, CXType? type = null, string? typeName = null)
         {
             var type2 = type ?? clang_getCursorType(cursor);
-            var typeName = GetTypeName(cursor, type2);
+            var typeName2 = typeName ?? ClangNodeTypeName(nodeKind, cursor, cursorParent, type2);
             var originalName = type2.GetName();
             var sizeOf = (int) clang_Type_getSizeOf(type2);
             var alignOf = (int) clang_Type_getAlignOf(type2);
             var arraySize = (int) clang_getArraySize(type2);
             var isSystemType = type2.IsSystem();
 
-            var result = new ClangType(
-                typeName,
-                originalName,
-                sizeOf,
-                alignOf,
-                arraySize,
-                isSystemType);
-
-            return result;
-        }
-
-        private ClangType MapFunctionExternType(CXCursor cursor, CXCursor cursorParent)
-        {
-            var type = clang_getCursorResultType(cursor);
-            var result = MapType(cursor, cursorParent, type);
-            return result;
-        }
-
-        private ClangType MapTypedefType(CXCursor cursor, CXCursor cursorParent)
-        {
-            var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
-            var result = MapType(cursor, cursorParent, underlyingType);
-            return result;
-        }
-
-        private ClangType MapTypeOpaquePointer(CXCursor cursor)
-        {
-            const string typeName = "void*";
-            var cursorType = clang_getCursorType(cursor);
-            var canonicalType = clang_getCanonicalType(cursorType);
-            var originalName = canonicalType.GetName();
-            var sizeOf = (int) clang_Type_getSizeOf(cursorType);
-            var alignOf = (int) clang_Type_getAlignOf(cursorType);
-            var arraySize = (int) clang_getArraySize(cursorType);
-            var isSystemType = cursorType.IsSystem();
-
-            var result = new ClangType(
-                typeName,
-                originalName,
-                sizeOf,
-                alignOf,
-                arraySize,
-                isSystemType);
-
-            return result;
-        }
-
-        // private string MapTypeName(CXType clangType, CXCursor cursor, CXCursor? cursorParent)
-        // {
-        //     string? result;
-        //     switch (clangType.kind)
-        //     {
-        //         case CXTypeKind.CXType_Void:
-        //         case CXTypeKind.CXType_Bool:
-        //         case CXTypeKind.CXType_Char_S:
-        //         case CXTypeKind.CXType_Char_U:
-        //         case CXTypeKind.CXType_UChar:
-        //         case CXTypeKind.CXType_UShort:
-        //         case CXTypeKind.CXType_UInt:
-        //         case CXTypeKind.CXType_ULong:
-        //         case CXTypeKind.CXType_ULongLong:
-        //         case CXTypeKind.CXType_Short:
-        //         case CXTypeKind.CXType_Int:
-        //         case CXTypeKind.CXType_Long:
-        //         case CXTypeKind.CXType_LongLong:
-        //         case CXTypeKind.CXType_Float:
-        //         case CXTypeKind.CXType_Double:
-        //             result = MapTypeNameBuiltIn(clangType);
-        //             break;
-        //         case CXTypeKind.CXType_Pointer:
-        //             result = MapTypeNamePointer(clangType, cursor, cursorParent);
-        //             break;
-        //         case CXTypeKind.CXType_Typedef:
-        //             result = MapTypeNameTypedef(clangType, cursor);
-        //             break;
-        //         case CXTypeKind.CXType_Elaborated:
-        //             result = MapTypeNameElaborated(clangType, cursor, cursorParent);
-        //             break;
-        //         case CXTypeKind.CXType_Record:
-        //             result = MapTypeNameRecord(clangType, cursor);
-        //             break;
-        //         case CXTypeKind.CXType_Enum:
-        //             result = MapTypeNameEnum(clangType);
-        //             break;
-        //         case CXTypeKind.CXType_ConstantArray:
-        //             result = MapTypeNameConstArray(clangType, cursor, cursorParent);
-        //             break;
-        //         case CXTypeKind.CXType_IncompleteArray:
-        //             result = MapTypeNameIncompleteArray(clangType, cursor, cursorParent);
-        //             break;
-        //         case CXTypeKind.CXType_FunctionProto:
-        //             result = MapTypeNameFunctionProto(clangType, cursor, cursorParent);
-        //             break;
-        //         case CXTypeKind.CXType_Attributed:
-        //             var modifiedType = clang_Type_getModifiedType(clangType);
-        //             result = MapTypeName(modifiedType, cursor, cursorParent);
-        //             break;
-        //         default:
-        //             var up = new ClangMapperException();
-        //             throw up;
-        //     }
-        //
-        //     var isReadOnly = clang_isConstQualifiedType(clangType) > 0;
-        //     if (isReadOnly)
-        //     {
-        //         result = result.Replace("const ", string.Empty).Trim();
-        //     }
-        //
-        //     return result;
-        // }
-
-        // private string MapTypeNameTypedefSystem(CXType clangType, CXCursor cursorParent)
-        // {
-        //     var declaration = clang_getTypeDeclaration(clangType);
-        //     var underlyingType = clang_getTypedefDeclUnderlyingType(declaration);
-        //
-        //     var name = MapName(clangType);
-        //     if (_systemTypeNameMappings.TryGetValue(name, out var mappedName))
-        //     {
-        //         return mappedName;
-        //     }
-        //
-        //     string result;
-        //     switch (name)
-        //     {
-        //         case "FILE":
-        //             result = "void";
-        //             break;
-        //         default:
-        //         {
-        //             var kind = underlyingType.kind;
-        //             switch (kind)
-        //             {
-        //                 case CXTypeKind.CXType_Void:
-        //                 case CXTypeKind.CXType_Bool:
-        //                 case CXTypeKind.CXType_Char_S:
-        //                 case CXTypeKind.CXType_Char_U:
-        //                 case CXTypeKind.CXType_UChar:
-        //                 case CXTypeKind.CXType_UShort:
-        //                 case CXTypeKind.CXType_UInt:
-        //                 case CXTypeKind.CXType_ULong:
-        //                 case CXTypeKind.CXType_ULongLong:
-        //                 case CXTypeKind.CXType_Short:
-        //                 case CXTypeKind.CXType_Int:
-        //                 case CXTypeKind.CXType_Long:
-        //                 case CXTypeKind.CXType_LongLong:
-        //                 case CXTypeKind.CXType_Float:
-        //                 case CXTypeKind.CXType_Double:
-        //                     // var underlyingCanonicalType = clang_getCanonicalType(underlyingType);
-        //                     // result = MapTypeNameBuiltIn(underlyingCanonicalType);
-        //                     break;
-        //                 default:
-        //                     // var canonicalType = clang_getCanonicalType(clangType);
-        //                     // result = MapTypeName(canonicalType, cursorParent, null);
-        //                     break;
-        //             }
-        //
-        //             break;
-        //         }
-        //     }
-        //
-        //     // _systemTypeNameMappings.Add(name, result);
-        //
-        //     return result;
-        // }
-
-        // private unsafe string MapTypeNameTypedefNonSystem(CXType clangType)
-        // {
-        //     var clangTypeCanonical = clang_getCanonicalType(clangType);
-        //
-        //     if (clangTypeCanonical.kind == CXTypeKind.CXType_Pointer)
-        //     {
-        //         var cursor = clang_getTypeDeclaration(clangType);
-        //         var parent = clang_getCursorSemanticParent(cursor);
-        //         return MapFunctionPointerName(cursor, parent);
-        //     }
-        //
-        //     var typedefName = clang_getTypedefName(clangType);
-        //     var cString = clang_getCString(typedefName);
-        //     var result = NativeRuntime.MapString(cString);
-        //     return result;
-        // }
-        //
-        // private string MapTypeNameElaborated(CXType clangType, CXCursor cursor, CXCursor? cursorParent)
-        // {
-        //     var clangNamedType = clang_Type_getNamedType(clangType);
-        //     var result = MapTypeName(clangNamedType, cursor, cursorParent);
-        //
-        //     return result;
-        // }
-        //
-        // private string MapTypeNameRecord(CXType clangType, CXCursor cursor)
-        // {
-        //     string result;
-        //     var clangRecord = clang_getTypeDeclaration(clangType);
-        //     var name = MapName(clangType);
-        //     var cursorName = MapName(cursor);
-        //
-        //     // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-        //     var isAnonymous = clang_Cursor_isAnonymous(clangRecord) > 0;
-        //     if (isAnonymous)
-        //     {
-        //         if (clangRecord.kind == CXCursorKind.CXCursor_UnionDecl)
-        //         {
-        //             result = $"Anonymous_Union_{cursorName}";
-        //         }
-        //         else
-        //         {
-        //             result = $"Anonymous_Struct_{cursorName}";
-        //         }
-        //     }
-        //     else
-        //     {
-        //         if (name.Contains("union "))
-        //         {
-        //             result = name.Replace("union ", string.Empty);
-        //         }
-        //         else if (name.Contains("struct "))
-        //         {
-        //             result = name.Replace("struct ", string.Empty);
-        //         }
-        //         else
-        //         {
-        //             result = name;
-        //         }
-        //     }
-        //
-        //     return result;
-        // }
-        //
-        // private string MapTypeNameEnum(CXType clangType)
-        // {
-        //     var result = MapName(clangType);
-        //
-        //     if (result.Contains("enum "))
-        //     {
-        //         result = result.Replace("enum ", string.Empty);
-        //     }
-        //
-        //     return result;
-        // }
-        //
-        // private string MapTypeNameConstArray(CXType clangType, CXCursor cursor, CXCursor? cursorParent)
-        // {
-        //     var elementType = clang_getArrayElementType(clangType);
-        //     var result = MapTypeName(elementType, cursor, cursorParent);
-        //
-        //     return result;
-        // }
-        //
-        // private string MapTypeNameIncompleteArray(CXType clangType, CXCursor cursor, CXCursor? cursorParent)
-        // {
-        //     var elementType = clang_getArrayElementType(clangType);
-        //     var result = MapTypeName(elementType, cursor, cursorParent);
-        //
-        //     return result + "*";
-        // }
-        //
-        // private string MapTypeNameFunctionProto(CXType clangType, CXCursor cursor, CXCursor? cursorParent)
-        // {
-        //     return MapFunctionPointerName(cursor, cursorParent);
-        // }
-
-        private static bool MapIsFunctionPointer(CXCursor cursor)
-        {
-            var cursorType = clang_getCursorType(cursor);
-            var result = MapIsFunctionPointer(cursorType);
-            return result;
-        }
-
-        private static bool MapIsFunctionPointer(CXType cursorType)
-        {
-            if (cursorType.kind != CXTypeKind.CXType_Pointer)
+            var elementSize = sizeOf;
+            if (type2.kind == CXTypeKind.CXType_ConstantArray)
             {
-                return false;
+                var elementType = clang_getElementType(type2);
+                elementSize = (int) clang_Type_getSizeOf(elementType);
             }
 
-            var pointeeType = clang_getPointeeType(cursorType);
-            var result = pointeeType.kind == CXTypeKind.CXType_FunctionProto;
+            return new ClangType(
+                typeName2,
+                originalName,
+                sizeOf,
+                alignOf,
+                elementSize,
+                arraySize,
+                isSystemType);
+        }
+
+        private ClangType ClangFunctionExternType(CXCursor cursor, CXCursor cursorParent)
+        {
+            var type = clang_getCursorResultType(cursor);
+            var result = ClangType(ClangNodeKind.FunctionResult, cursor, cursorParent, type);
             return result;
         }
 
-        private static CXCursor MapUnderlyingCursor(CXCursor cursor)
+        private static CXCursor ClangUnderlyingCursor(CXCursor cursor)
         {
             var underlyingCursor = cursor;
             if (cursor.kind == CXCursorKind.CXCursor_TypedefDecl)
@@ -733,20 +467,15 @@ namespace C2CS.Languages.C
             return underlyingCursor;
         }
 
-        public static string GetIdentifier(ClangNodeKind nodeKind, CXCursor cursor)
+        public static string ClangGetIdentifier(ClangNodeKind nodeKind, CXCursor cursor)
         {
-            if (nodeKind == ClangNodeKind.FunctionExtern)
-            {
-                throw new NotImplementedException();
-            }
-
-            if (nodeKind != ClangNodeKind.FunctionExtern &&
-                nodeKind != ClangNodeKind.FunctionExternParameter &&
-                nodeKind != ClangNodeKind.FunctionPointer &&
-                nodeKind != ClangNodeKind.FunctionPointerParameter &&
+            if (nodeKind != ClangNodeKind.Function &&
+                nodeKind != ClangNodeKind.FunctionParameter &&
+                nodeKind != ClangNodeKind.PointerFunction &&
+                nodeKind != ClangNodeKind.PointerFunctionParameter &&
                 nodeKind != ClangNodeKind.RecordField &&
                 nodeKind != ClangNodeKind.EnumValue &&
-                nodeKind != ClangNodeKind.VariableExtern)
+                nodeKind != ClangNodeKind.Variable)
             {
                 return string.Empty;
             }
@@ -754,77 +483,197 @@ namespace C2CS.Languages.C
             return cursor.GetName();
         }
 
-        public static string GetTypeName(CXCursor cursor, CXType? type = null)
+        public string ClangNodeTypeName(ClangNodeKind nodeKind, CXCursor cursor, CXCursor cursorParent, CXType type)
         {
-            var type2 = type ?? clang_getCursorType(cursor);
+            var result = nodeKind switch
+            {
+                ClangNodeKind.Variable => type.GetName(),
+                ClangNodeKind.Function => cursor.GetName(),
+                ClangNodeKind.FunctionResult => ClangTypeName(nodeKind, cursor, cursorParent, type),
+                ClangNodeKind.FunctionParameter => ClangTypeName(nodeKind, cursor, cursorParent, type),
+                ClangNodeKind.PointerFunction => ClangTypeNameFunctionPointer(type),
+                ClangNodeKind.PointerFunctionResult => ClangTypeName(nodeKind, cursor, cursorParent, type),
+                ClangNodeKind.PointerFunctionParameter => ClangTypeName(nodeKind, cursor, cursorParent, type),
+                ClangNodeKind.Typedef => type.GetName(),
+                ClangNodeKind.Record => ClangTypeNameRecord(cursor, cursorParent, type),
+                ClangNodeKind.RecordField => ClangTypeNameRecordField(nodeKind, cursor, cursorParent, type),
+                ClangNodeKind.Enum => type.GetName(),
+                ClangNodeKind.OpaqueType => type.GetName(),
+                _ => throw new ClangMapperException($"Unexpected node kind '{nodeKind}'.")
+            };
 
-            if (cursor.kind == CXCursorKind.CXCursor_TypedefDecl)
+            var isReadOnly = clang_isConstQualifiedType(type) > 0;
+            if (isReadOnly)
+            {
+                result = result.Replace("const ", string.Empty).Trim();
+            }
+
+            return result;
+        }
+
+        private string ClangTypeNameRecordField(ClangNodeKind nodeKind, CXCursor cursor, CXCursor cursorParent, CXType type)
+        {
+            var isFunctionPointer = type.kind == CXTypeKind.CXType_Pointer &&
+                                    clang_getPointeeType(type).kind == CXTypeKind.CXType_FunctionProto;
+            if (isFunctionPointer)
             {
                 return cursor.GetName();
             }
 
-            var typeCursor = clang_getTypeDeclaration(type2);
-            if (typeCursor.kind == CXCursorKind.CXCursor_NoDeclFound)
-            {
-                return GetTypeNameForType(type2);
-            }
-
-            return typeCursor.GetName();
+            return ClangTypeName(nodeKind, cursor, cursorParent, type);
         }
 
-        private static string GetTypeNameForType(CXType type)
+        private string ClangTypeName(ClangNodeKind nodeKind, CXCursor cursor, CXCursor cursorParent, CXType type)
         {
-            var sizeOf = clang_Type_getSizeOf(type);
-
-            string? result;
+            string result;
             switch (type.kind)
             {
                 case CXTypeKind.CXType_Void:
-                    result = "void";
-                    break;
                 case CXTypeKind.CXType_Bool:
-                    result = "bool";
-                    break;
                 case CXTypeKind.CXType_Char_S:
-                    result = "sbyte";
-                    break;
                 case CXTypeKind.CXType_Char_U:
                 case CXTypeKind.CXType_UChar:
-                    result = "byte";
-                    break;
                 case CXTypeKind.CXType_UShort:
-                    result = "ushort";
-                    break;
                 case CXTypeKind.CXType_UInt:
-                    result = "uint";
-                    break;
                 case CXTypeKind.CXType_ULong:
-                    result = sizeOf == 8 ? "ulong" : "uint";
-                    break;
                 case CXTypeKind.CXType_ULongLong:
-                    result = "ulong";
-                    break;
                 case CXTypeKind.CXType_Short:
-                    result = "short";
-                    break;
                 case CXTypeKind.CXType_Int:
-                    result = "int";
-                    break;
                 case CXTypeKind.CXType_Long:
-                    result = sizeOf == 8 ? "long" : "int";
-                    break;
                 case CXTypeKind.CXType_LongLong:
-                    result = "long";
-                    break;
                 case CXTypeKind.CXType_Float:
-                    result = "float";
-                    break;
                 case CXTypeKind.CXType_Double:
-                    result = "double";
-                    break;
-                default:
                     result = type.GetName();
                     break;
+                case CXTypeKind.CXType_Pointer:
+                    result = ClangTypeNamePointer(nodeKind, cursor, cursorParent, type);
+                    break;
+                case CXTypeKind.CXType_Typedef:
+                    result = ClangTypeNameTypedef(nodeKind, cursor, cursorParent, type);
+                    break;
+                case CXTypeKind.CXType_Elaborated:
+                    var namedTyped = clang_Type_getNamedType(type);
+                    var namedCursor = clang_getTypeDeclaration(namedTyped);
+                    result = ClangTypeName(nodeKind, namedCursor, cursor, namedTyped);
+                    break;
+                case CXTypeKind.CXType_Record:
+                    result = ClangTypeNameRecord(cursor, cursorParent, type);
+                    break;
+                case CXTypeKind.CXType_Enum:
+                    result = cursor.GetName();
+                    break;
+                case CXTypeKind.CXType_ConstantArray:
+                    result = ClangTypeNameConstantArray(nodeKind, cursor, cursorParent, type);
+                    break;
+                case CXTypeKind.CXType_IncompleteArray:
+                    result = ClangTypeNameIncompleteArray(nodeKind, type, cursor, cursorParent);
+                    break;
+                case CXTypeKind.CXType_FunctionProto:
+                    result = ClangTypeNameFunctionProto(cursor);
+                    break;
+                case CXTypeKind.CXType_Attributed:
+                    var modifiedType = clang_Type_getModifiedType(type);
+                    result = ClangTypeName(nodeKind, cursor, cursorParent, modifiedType);
+                    break;
+                default:
+                    var up = new ClangMapperException($"Unexpected Clang type '{type.kind}'.");
+                    throw up;
+            }
+
+            return result;
+        }
+
+        private string ClangTypeNameFunctionProto(CXCursor cursor)
+        {
+            var result = cursor.GetName();
+            return result;
+        }
+
+        private string ClangTypeNameConstantArray(ClangNodeKind nodeKind, CXCursor cursor, CXCursor cursorParent, CXType type)
+        {
+            var elementType = clang_getArrayElementType(type);
+            var result = ClangTypeName(nodeKind, cursor, cursorParent, elementType);
+            return result;
+        }
+
+        private string ClangTypeNameIncompleteArray(ClangNodeKind nodeKind, CXType type, CXCursor cursor, CXCursor cursorParent)
+        {
+            var elementType = clang_getArrayElementType(type);
+            var result = ClangTypeName(nodeKind, cursor, cursorParent, elementType);
+            return $"{result}*";
+        }
+
+        private string ClangTypeNamePointer(ClangNodeKind nodeKind, CXCursor cursor, CXCursor cursorParent, CXType type)
+        {
+            string result;
+
+            var pointeeType = clang_getPointeeType(type);
+            if (pointeeType.kind == CXTypeKind.CXType_FunctionProto)
+            {
+                result = ClangTypeNameFunctionPointer(pointeeType);
+            }
+            else
+            {
+                var pointeeCursor = clang_getTypeDeclaration(pointeeType);
+                var pointeeTypeName = ClangTypeName(nodeKind, pointeeCursor, cursorParent, pointeeType);
+                result = $"{pointeeTypeName}*";
+            }
+
+            return result;
+        }
+
+        private string ClangTypeNameFunctionPointer(CXType type)
+        {
+            return type.GetName();
+        }
+
+        private static string ClangTypeNameTypedef(ClangNodeKind nodeKind, CXCursor cursor, CXCursor cursorParent, CXType type)
+        {
+            var typedef = clang_getTypeDeclaration(type);
+            var result = typedef.GetName();
+            return result;
+        }
+
+        private string ClangTypeNameRecord(CXCursor cursor, CXCursor cursorParent, CXType type)
+        {
+            if (type.kind == CXTypeKind.CXType_Typedef)
+            {
+                return type.GetName();
+            }
+
+            string result;
+            var clangRecord = clang_getTypeDeclaration(type);
+            var name = cursor.GetName();
+
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+            var isAnonymous = clang_Cursor_isAnonymous(clangRecord) > 0;
+            if (isAnonymous)
+            {
+                var parentCursorName = cursorParent.GetName();
+
+                if (clangRecord.kind == CXCursorKind.CXCursor_UnionDecl)
+                {
+                    result = $"AnonymousUnion_{parentCursorName}";
+                }
+                else
+                {
+                    result = $"AnonymousStruct_{parentCursorName}";
+                }
+            }
+            else
+            {
+                if (name.Contains("union "))
+                {
+                    result = name.Replace("union ", string.Empty);
+                }
+                else if (name.Contains("struct "))
+                {
+                    result = name.Replace("struct ", string.Empty);
+                }
+                else
+                {
+                    result = name;
+                }
             }
 
             return result;

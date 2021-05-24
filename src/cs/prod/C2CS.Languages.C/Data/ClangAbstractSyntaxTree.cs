@@ -7,8 +7,8 @@ namespace C2CS.Languages.C
 {
     public record ClangAbstractSyntaxTree
     {
-        public readonly ImmutableArray<ClangFunctionExtern> FunctionExterns;
-        public readonly ImmutableArray<ClangFunctionPointer> FunctionPointers;
+        public readonly ImmutableArray<ClangFunction> FunctionExterns;
+        public readonly ImmutableArray<ClangPointerFunction> FunctionPointers;
         public readonly ImmutableArray<ClangRecord> Records;
         public readonly ImmutableArray<ClangEnum> Enums;
         public readonly ImmutableArray<ClangOpaqueType> OpaqueTypes;
@@ -16,8 +16,8 @@ namespace C2CS.Languages.C
         public readonly ImmutableArray<ClangVariable> Variables;
 
         public ClangAbstractSyntaxTree(
-            ImmutableArray<ClangFunctionExtern> functionExternExterns,
-            ImmutableArray<ClangFunctionPointer> functionPointers,
+            ImmutableArray<ClangFunction> functionExternExterns,
+            ImmutableArray<ClangPointerFunction> functionPointers,
             ImmutableArray<ClangRecord> records,
             ImmutableArray<ClangEnum> enums,
             ImmutableArray<ClangOpaqueType> opaqueTypes,

@@ -2,16 +2,27 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 
+/// <summary>
+///     Process identifier.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 [PublicAPI]
 [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
 [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
-public unsafe struct pid_t
+public struct pid_t
 {
-    public int Value;
+    /// <summary>
+    ///     The identifier value.
+    /// </summary>
+    public uint Value;
 
-    public static implicit operator int(pid_t data) => *(int*)&data;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static implicit operator uint(pid_t value) => value.Value;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static implicit operator pid_t(uint value) => new() {Value = value};
 }

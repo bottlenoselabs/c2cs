@@ -9,9 +9,9 @@ internal static unsafe class Program
         [StructLayout(LayoutKind.Sequential)] // Sequential necessary so C# is not allowed to reorganize the struct
         public struct Message
         {
-            public sbyte* Text;
+            public byte* Text;
             
-            public static readonly sbyte* Name = NativeRuntime.MapCString(nameof(Message));
+            public static readonly byte* Name = NativeRuntime.MapCString(nameof(Message));
             public static readonly ulong Size = (ulong)Marshal.SizeOf<Message>();
             public const ulong Alignment = 8;
         }
@@ -36,13 +36,13 @@ internal static unsafe class Program
                 }
             }
             
-            public static readonly sbyte* Name = NativeRuntime.MapCString("PrintMessage");
+            public static readonly byte* Name = NativeRuntime.MapCString("PrintMessage");
         }
     }
     
     public static class Entities
     {
-        public static readonly sbyte* MyEntity = NativeRuntime.MapCString("MyEntity");
+        public static readonly byte* MyEntity = NativeRuntime.MapCString("MyEntity");
     }
 
     private static int Main(string[] args)
@@ -52,7 +52,7 @@ internal static unsafe class Program
         /* Create the world, pass arguments for overriding the number of threads,fps
          * or for starting the admin dashboard (see flecs.h for details). */
         var argv = NativeRuntime.MapCStringArray(args);
-        var world = ecs_init_w_args(args.Length, (sbyte**) argv);
+        var world = ecs_init_w_args(args.Length, (byte**) argv);
 
         /* Define component */
         var componentDescriptor = new ecs_component_desc_t

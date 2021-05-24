@@ -6,19 +6,18 @@ namespace C2CS.Languages.C
     public enum ClangNodeKind
     {
         Unknown = 0,
-        FunctionExtern,
-        FunctionExternResult,
-        FunctionExternParameter,
-        FunctionPointer,
-        FunctionPointerResult,
-        FunctionPointerParameter,
+        Function,
+        FunctionResult,
+        FunctionParameter,
+        PointerFunction,
+        PointerFunctionResult,
+        PointerFunctionParameter,
         Record,
         RecordField,
         Enum,
         EnumValue,
         OpaqueType,
-        OpaquePointer,
         Typedef,
-        VariableExtern,
+        Variable,
     }
 }

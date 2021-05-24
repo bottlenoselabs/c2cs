@@ -36,8 +36,8 @@ public static partial class NativeRuntime
 #if WINDOWS
         "";
 #elif APPLE
-        ".dylib";
+        "lib";
 #elif LINUX
-        ".so";
+        "lib";
 #endif
 }

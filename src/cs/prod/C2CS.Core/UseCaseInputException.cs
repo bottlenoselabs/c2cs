@@ -1,11 +1,15 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-namespace C2CS.CSharp
+using System;
+
+namespace C2CS
 {
-    public enum CSharpFunctionExternCallingConvention
+    public class UseCaseInputException : Exception
     {
-        WinApi = 0,
-        Cdecl,
+        public UseCaseInputException(string message)
+            : base(message)
+        {
+        }
     }
 }

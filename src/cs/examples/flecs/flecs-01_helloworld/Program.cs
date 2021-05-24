@@ -12,7 +12,7 @@ internal static unsafe class Program
             public double X;
             public double Y;
             
-            public static readonly sbyte* Name = NativeRuntime.MapCString(nameof(Position));
+            public static readonly byte* Name = NativeRuntime.MapCString(nameof(Position));
             public static readonly ulong Size = (ulong)Marshal.SizeOf<Position>();
             public const ulong Alignment = 8; // TODO: Find a way to get alignment of sequential struct.
         }
@@ -20,7 +20,7 @@ internal static unsafe class Program
     
     public static class Entities
     {
-        public static readonly sbyte* MyEntity = NativeRuntime.MapCString("MyEntity");
+        public static readonly byte* MyEntity = NativeRuntime.MapCString("MyEntity");
     }
 
     private static int Main(string[] args)
@@ -30,7 +30,7 @@ internal static unsafe class Program
         /* Create the world, pass arguments for overriding the number of threads,fps
          * or for starting the admin dashboard (see flecs.h for details). */
         var argv = NativeRuntime.MapCStringArray(args);
-        var world = ecs_init_w_args(args.Length, (sbyte**) argv);
+        var world = ecs_init_w_args(args.Length, (byte**) argv);
 
         /* Register a component with the world. */
         var componentDescriptor = new ecs_component_desc_t

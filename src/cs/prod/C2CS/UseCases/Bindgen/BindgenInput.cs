@@ -8,7 +8,7 @@ using System.IO;
 
 namespace C2CS.UseCases.Bindgen
 {
-    public readonly struct Request
+    public readonly struct BindgenInput
     {
         public readonly string InputFilePath;
         public readonly string OutputFilePath;
@@ -18,7 +18,7 @@ namespace C2CS.UseCases.Bindgen
         public readonly IEnumerable<string> OpaqueTypes;
         public readonly ImmutableArray<string> ClangArgs;
 
-        public Request(
+        public BindgenInput(
             string inputFilePath,
             string outputFilePath,
             bool isUnattended,
@@ -45,7 +45,7 @@ namespace C2CS.UseCases.Bindgen
             var path = Path.GetFullPath(inputFilePath.Trim());
             if (!File.Exists(path))
             {
-                throw new UseCaseException($"File does not exist: {path}");
+                throw new FileNotFoundException($"File does not exist: {path}");
             }
 
             return path;
@@ -90,7 +90,7 @@ namespace C2CS.UseCases.Bindgen
                 return value;
             }
 
-            throw new UseCaseException("C# class name can't be empty.");
+            throw new UseCaseInputException("C# class name can't be null or empty.");
         }
 
         private static string ProcessLibraryName(string libraryName)
@@ -102,7 +102,7 @@ namespace C2CS.UseCases.Bindgen
                 return value;
             }
 
-            throw new UseCaseException("Dynamic link library name can't be empty.");
+            throw new UseCaseInputException("Dynamic link library name can't be null or empty.");
         }
 
         private static ImmutableArray<string> ProcessClangArgs(
@@ -170,7 +170,7 @@ namespace C2CS.UseCases.Bindgen
                     Environment.ExpandEnvironmentVariables(@"%ProgramFiles(x86)%\Windows Kits\10\Include");
                 if (string.IsNullOrEmpty(sdkDirectoryPath))
                 {
-                    throw new UseCaseException(
+                    throw new UseCaseInputException(
                         "Please install the software development kit (SDK) for Windows 10: https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk/");
                 }
 
@@ -181,7 +181,7 @@ namespace C2CS.UseCases.Bindgen
                 var vsWhereFilePath = Environment.ExpandEnvironmentVariables(@"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe");
                 if (!File.Exists(vsWhereFilePath))
                 {
-                    throw new UseCaseException(
+                    throw new UseCaseInputException(
                         "Please install Visual Studio 2017 or later (community, professional, or enterprise).");
                 }
 
@@ -191,7 +191,7 @@ namespace C2CS.UseCases.Bindgen
                 var mscvIncludeDirectoryPath = Path.Combine(mscvHighestVersionDirectoryPath, "include");
                 if (!Directory.Exists(mscvIncludeDirectoryPath))
                 {
-                    throw new UseCaseException(
+                    throw new UseCaseInputException(
                         "Please install the Microsoft Visual C++ (MSCV) build tool through Visual Studio installer (modification of Visual Studio installed components).");
                 }
 
@@ -203,7 +203,7 @@ namespace C2CS.UseCases.Bindgen
             {
                 if (!Directory.Exists("/Library/Developer/CommandLineTools"))
                 {
-                    throw new UseCaseException(
+                    throw new UseCaseInputException(
                         "Please install CommandLineTools for macOS: `xcode-select --install`.");
                 }
 
@@ -215,7 +215,7 @@ namespace C2CS.UseCases.Bindgen
                 var softwareDevelopmentKitDirectoryPath = "xcrun --sdk macosx --show-sdk-path".ShCaptureStandardOutput();
                 if (!Directory.Exists(softwareDevelopmentKitDirectoryPath))
                 {
-                    throw new UseCaseException(
+                    throw new UseCaseInputException(
                         "Please install XCode for macOS to get the software development kit (SDK) to get access to common C/C++/ObjC headers.");
                 }
 

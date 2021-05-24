@@ -5,18 +5,19 @@ namespace C2CS.Languages.C
 {
     public record ClangOpaqueType : ClangNode
     {
+        public readonly string Name;
+
         public ClangOpaqueType(
             string name,
             ClangCodeLocation codeLocation)
-            : base(ClangNodeKind.OpaqueType, name, codeLocation)
+            : base(ClangNodeKind.OpaqueType, codeLocation)
         {
+            Name = name;
         }
 
-        // Required for debugger string with records
-        // ReSharper disable once RedundantOverriddenMember
         public override string ToString()
         {
-            return base.ToString();
+            return $"OpaqueType '{Name}' @ {CodeLocation.ToString()}";
         }
     }
 }

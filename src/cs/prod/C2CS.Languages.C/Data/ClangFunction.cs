@@ -5,30 +5,30 @@ using System.Collections.Immutable;
 
 namespace C2CS.Languages.C
 {
-    public record ClangFunctionExtern : ClangNode
+    public record ClangFunction : ClangNode
     {
-        public readonly ClangFunctionExternCallingConvention CallingConvention;
+        public readonly string Name;
+        public readonly ClangFunctionCallingConvention CallingConvention;
         public readonly ClangType ReturnType;
-        public readonly ImmutableArray<ClangFunctionExternParameter> Parameters;
+        public readonly ImmutableArray<ClangFunctionParameter> Parameters;
 
-        internal ClangFunctionExtern(
+        internal ClangFunction(
             string name,
             ClangCodeLocation codeLocation,
-            ClangFunctionExternCallingConvention callingConvention,
+            ClangFunctionCallingConvention callingConvention,
             ClangType returnType,
-            ImmutableArray<ClangFunctionExternParameter> parameters)
-            : base(ClangNodeKind.FunctionExtern, name, codeLocation)
+            ImmutableArray<ClangFunctionParameter> parameters)
+            : base(ClangNodeKind.Function, codeLocation)
         {
+            Name = name;
             CallingConvention = callingConvention;
             ReturnType = returnType;
             Parameters = parameters;
         }
 
-        // Required for debugger string with records
-        // ReSharper disable once RedundantOverriddenMember
         public override string ToString()
         {
-            return base.ToString();
+            return $"FunctionExtern '{Name}' @ {CodeLocation.ToString()}";
         }
     }
 }

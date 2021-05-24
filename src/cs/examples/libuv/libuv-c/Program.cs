@@ -77,8 +77,6 @@ uv_rwlock_t
 uv_sem_t
 uv_cond_t
 uv_barrier_t
-_opaque_pthread_t
-FILE
 ";
 
         var argumentsArray =

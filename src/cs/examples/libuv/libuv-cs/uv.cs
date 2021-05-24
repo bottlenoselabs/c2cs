@@ -58,7 +58,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:262
     [DllImport(LibraryName, EntryPoint = "uv_version_string", CallingConvention = CallingConvention.Cdecl)]
-    public static extern char* uv_version_string();
+    public static extern byte* uv_version_string();
 
     // FunctionExtern @ uv.h:269
     [DllImport(LibraryName, EntryPoint = "uv_library_shutdown", CallingConvention = CallingConvention.Cdecl)]
@@ -90,7 +90,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:291
     [DllImport(LibraryName, EntryPoint = "uv_loop_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern size_t uv_loop_size();
+    public static extern ulong uv_loop_size();
 
     // FunctionExtern @ uv.h:292
     [DllImport(LibraryName, EntryPoint = "uv_loop_alive", CallingConvention = CallingConvention.Cdecl)]
@@ -130,7 +130,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:304
     [DllImport(LibraryName, EntryPoint = "uv_now", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint64_t uv_now(uv_loop_t* param);
+    public static extern ulong uv_now(uv_loop_t* param);
 
     // FunctionExtern @ uv.h:306
     [DllImport(LibraryName, EntryPoint = "uv_backend_fd", CallingConvention = CallingConvention.Cdecl)]
@@ -146,19 +146,19 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:390
     [DllImport(LibraryName, EntryPoint = "uv_strerror", CallingConvention = CallingConvention.Cdecl)]
-    public static extern char* uv_strerror(int err);
+    public static extern byte* uv_strerror(int err);
 
     // FunctionExtern @ uv.h:391
     [DllImport(LibraryName, EntryPoint = "uv_strerror_r", CallingConvention = CallingConvention.Cdecl)]
-    public static extern char* uv_strerror_r(int err, char* buf, size_t buflen);
+    public static extern byte* uv_strerror_r(int err, byte* buf, ulong buflen);
 
     // FunctionExtern @ uv.h:393
     [DllImport(LibraryName, EntryPoint = "uv_err_name", CallingConvention = CallingConvention.Cdecl)]
-    public static extern char* uv_err_name(int err);
+    public static extern byte* uv_err_name(int err);
 
     // FunctionExtern @ uv.h:394
     [DllImport(LibraryName, EntryPoint = "uv_err_name_r", CallingConvention = CallingConvention.Cdecl)]
-    public static extern char* uv_err_name_r(int err, char* buf, size_t buflen);
+    public static extern byte* uv_err_name_r(int err, byte* buf, ulong buflen);
 
     // FunctionExtern @ uv.h:416
     [DllImport(LibraryName, EntryPoint = "uv_shutdown", CallingConvention = CallingConvention.Cdecl)]
@@ -166,7 +166,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:448
     [DllImport(LibraryName, EntryPoint = "uv_handle_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern size_t uv_handle_size(uv_handle_type type);
+    public static extern ulong uv_handle_size(uv_handle_type type);
 
     // FunctionExtern @ uv.h:449
     [DllImport(LibraryName, EntryPoint = "uv_handle_get_type", CallingConvention = CallingConvention.Cdecl)]
@@ -174,7 +174,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:450
     [DllImport(LibraryName, EntryPoint = "uv_handle_type_name", CallingConvention = CallingConvention.Cdecl)]
-    public static extern char* uv_handle_type_name(uv_handle_type type);
+    public static extern byte* uv_handle_type_name(uv_handle_type type);
 
     // FunctionExtern @ uv.h:451
     [DllImport(LibraryName, EntryPoint = "uv_handle_get_data", CallingConvention = CallingConvention.Cdecl)]
@@ -190,7 +190,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:455
     [DllImport(LibraryName, EntryPoint = "uv_req_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern size_t uv_req_size(uv_req_type type);
+    public static extern ulong uv_req_size(uv_req_type type);
 
     // FunctionExtern @ uv.h:456
     [DllImport(LibraryName, EntryPoint = "uv_req_get_data", CallingConvention = CallingConvention.Cdecl)]
@@ -206,7 +206,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:459
     [DllImport(LibraryName, EntryPoint = "uv_req_type_name", CallingConvention = CallingConvention.Cdecl)]
-    public static extern char* uv_req_type_name(uv_req_type type);
+    public static extern byte* uv_req_type_name(uv_req_type type);
 
     // FunctionExtern @ uv.h:461
     [DllImport(LibraryName, EntryPoint = "uv_is_active", CallingConvention = CallingConvention.Cdecl)]
@@ -230,11 +230,11 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:471
     [DllImport(LibraryName, EntryPoint = "uv_send_buffer_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_send_buffer_size(uv_handle_t* handle, int* value);
+    public static extern int uv_send_buffer_size(uv_handle_t* handle, long* value);
 
     // FunctionExtern @ uv.h:472
     [DllImport(LibraryName, EntryPoint = "uv_recv_buffer_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_recv_buffer_size(uv_handle_t* handle, int* value);
+    public static extern int uv_recv_buffer_size(uv_handle_t* handle, long* value);
 
     // FunctionExtern @ uv.h:474
     [DllImport(LibraryName, EntryPoint = "uv_fileno", CallingConvention = CallingConvention.Cdecl)]
@@ -242,19 +242,19 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:476
     [DllImport(LibraryName, EntryPoint = "uv_buf_init", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uv_buf_t uv_buf_init(char* @base, uint len);
+    public static extern uv_buf_t uv_buf_init(byte* @base, uint len);
 
     // FunctionExtern @ uv.h:478
     [DllImport(LibraryName, EntryPoint = "uv_pipe", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_pipe(uv_file[2] fds, int read_flags, int write_flags);
+    public static extern int uv_pipe(uv_file fds, int read_flags, int write_flags);
 
     // FunctionExtern @ uv.h:479
     [DllImport(LibraryName, EntryPoint = "uv_socketpair", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_socketpair(int type, int protocol, uv_os_sock_t[2] socket_vector, int flags0, int flags1);
+    public static extern int uv_socketpair(int type, int protocol, uv_os_sock_t socket_vector, int flags0, int flags1);
 
     // FunctionExtern @ uv.h:505
     [DllImport(LibraryName, EntryPoint = "uv_stream_get_write_queue_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern size_t uv_stream_get_write_queue_size(uv_stream_t* stream);
+    public static extern ulong uv_stream_get_write_queue_size(uv_stream_t* stream);
 
     // FunctionExtern @ uv.h:507
     [DllImport(LibraryName, EntryPoint = "uv_listen", CallingConvention = CallingConvention.Cdecl)]
@@ -274,15 +274,15 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:515
     [DllImport(LibraryName, EntryPoint = "uv_write", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_write(uv_write_t* req, uv_stream_t* handle, uv_buf_t[] bufs, uint nbufs, uv_write_cb cb);
+    public static extern int uv_write(uv_write_t* req, uv_stream_t* handle, uv_buf_t* bufs, uint nbufs, uv_write_cb cb);
 
     // FunctionExtern @ uv.h:520
     [DllImport(LibraryName, EntryPoint = "uv_write2", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_write2(uv_write_t* req, uv_stream_t* handle, uv_buf_t[] bufs, uint nbufs, uv_stream_t* send_handle, uv_write_cb cb);
+    public static extern int uv_write2(uv_write_t* req, uv_stream_t* handle, uv_buf_t* bufs, uint nbufs, uv_stream_t* send_handle, uv_write_cb cb);
 
     // FunctionExtern @ uv.h:526
     [DllImport(LibraryName, EntryPoint = "uv_try_write", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_try_write(uv_stream_t* handle, uv_buf_t[] bufs, uint nbufs);
+    public static extern int uv_try_write(uv_stream_t* handle, uv_buf_t* bufs, uint nbufs);
 
     // FunctionExtern @ uv.h:540
     [DllImport(LibraryName, EntryPoint = "uv_is_readable", CallingConvention = CallingConvention.Cdecl)]
@@ -330,11 +330,11 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:576
     [DllImport(LibraryName, EntryPoint = "uv_tcp_getsockname", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_tcp_getsockname(uv_tcp_t* handle, sockaddr* name, int* namelen);
+    public static extern int uv_tcp_getsockname(uv_tcp_t* handle, sockaddr* name, long* namelen);
 
     // FunctionExtern @ uv.h:579
     [DllImport(LibraryName, EntryPoint = "uv_tcp_getpeername", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_tcp_getpeername(uv_tcp_t* handle, sockaddr* name, int* namelen);
+    public static extern int uv_tcp_getpeername(uv_tcp_t* handle, sockaddr* name, long* namelen);
 
     // FunctionExtern @ uv.h:582
     [DllImport(LibraryName, EntryPoint = "uv_tcp_close_reset", CallingConvention = CallingConvention.Cdecl)]
@@ -366,19 +366,19 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:682
     [DllImport(LibraryName, EntryPoint = "uv_udp_getpeername", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_udp_getpeername(uv_udp_t* handle, sockaddr* name, int* namelen);
+    public static extern int uv_udp_getpeername(uv_udp_t* handle, sockaddr* name, long* namelen);
 
     // FunctionExtern @ uv.h:685
     [DllImport(LibraryName, EntryPoint = "uv_udp_getsockname", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_udp_getsockname(uv_udp_t* handle, sockaddr* name, int* namelen);
+    public static extern int uv_udp_getsockname(uv_udp_t* handle, sockaddr* name, long* namelen);
 
     // FunctionExtern @ uv.h:688
     [DllImport(LibraryName, EntryPoint = "uv_udp_set_membership", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_udp_set_membership(uv_udp_t* handle, char* multicast_addr, char* interface_addr, uv_membership membership);
+    public static extern int uv_udp_set_membership(uv_udp_t* handle, byte* multicast_addr, byte* interface_addr, uv_membership membership);
 
     // FunctionExtern @ uv.h:692
     [DllImport(LibraryName, EntryPoint = "uv_udp_set_source_membership", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_udp_set_source_membership(uv_udp_t* handle, char* multicast_addr, char* interface_addr, char* source_addr, uv_membership membership);
+    public static extern int uv_udp_set_source_membership(uv_udp_t* handle, byte* multicast_addr, byte* interface_addr, byte* source_addr, uv_membership membership);
 
     // FunctionExtern @ uv.h:697
     [DllImport(LibraryName, EntryPoint = "uv_udp_set_multicast_loop", CallingConvention = CallingConvention.Cdecl)]
@@ -390,7 +390,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:699
     [DllImport(LibraryName, EntryPoint = "uv_udp_set_multicast_interface", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_udp_set_multicast_interface(uv_udp_t* handle, char* interface_addr);
+    public static extern int uv_udp_set_multicast_interface(uv_udp_t* handle, byte* interface_addr);
 
     // FunctionExtern @ uv.h:701
     [DllImport(LibraryName, EntryPoint = "uv_udp_set_broadcast", CallingConvention = CallingConvention.Cdecl)]
@@ -402,11 +402,11 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:703
     [DllImport(LibraryName, EntryPoint = "uv_udp_send", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_udp_send(uv_udp_send_t* req, uv_udp_t* handle, uv_buf_t[] bufs, uint nbufs, sockaddr* addr, uv_udp_send_cb send_cb);
+    public static extern int uv_udp_send(uv_udp_send_t* req, uv_udp_t* handle, uv_buf_t* bufs, uint nbufs, sockaddr* addr, uv_udp_send_cb send_cb);
 
     // FunctionExtern @ uv.h:709
     [DllImport(LibraryName, EntryPoint = "uv_udp_try_send", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_udp_try_send(uv_udp_t* handle, uv_buf_t[] bufs, uint nbufs, sockaddr* addr);
+    public static extern int uv_udp_try_send(uv_udp_t* handle, uv_buf_t* bufs, uint nbufs, sockaddr* addr);
 
     // FunctionExtern @ uv.h:713
     [DllImport(LibraryName, EntryPoint = "uv_udp_recv_start", CallingConvention = CallingConvention.Cdecl)]
@@ -422,11 +422,11 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:718
     [DllImport(LibraryName, EntryPoint = "uv_udp_get_send_queue_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern size_t uv_udp_get_send_queue_size(uv_udp_t* handle);
+    public static extern ulong uv_udp_get_send_queue_size(uv_udp_t* handle);
 
     // FunctionExtern @ uv.h:719
     [DllImport(LibraryName, EntryPoint = "uv_udp_get_send_queue_count", CallingConvention = CallingConvention.Cdecl)]
-    public static extern size_t uv_udp_get_send_queue_count(uv_udp_t* handle);
+    public static extern ulong uv_udp_get_send_queue_count(uv_udp_t* handle);
 
     // FunctionExtern @ uv.h:755
     [DllImport(LibraryName, EntryPoint = "uv_tty_init", CallingConvention = CallingConvention.Cdecl)]
@@ -442,7 +442,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:758
     [DllImport(LibraryName, EntryPoint = "uv_tty_get_winsize", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_tty_get_winsize(uv_tty_t* param, int* width, int* height);
+    public static extern int uv_tty_get_winsize(uv_tty_t* param, long* width, long* height);
 
     // FunctionExtern @ uv.h:759
     [DllImport(LibraryName, EntryPoint = "uv_tty_set_vterm_state", CallingConvention = CallingConvention.Cdecl)]
@@ -466,19 +466,19 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:789
     [DllImport(LibraryName, EntryPoint = "uv_pipe_bind", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_pipe_bind(uv_pipe_t* handle, char* name);
+    public static extern int uv_pipe_bind(uv_pipe_t* handle, byte* name);
 
     // FunctionExtern @ uv.h:790
     [DllImport(LibraryName, EntryPoint = "uv_pipe_connect", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void uv_pipe_connect(uv_connect_t* req, uv_pipe_t* handle, char* name, uv_connect_cb cb);
+    public static extern void uv_pipe_connect(uv_connect_t* req, uv_pipe_t* handle, byte* name, uv_connect_cb cb);
 
     // FunctionExtern @ uv.h:794
     [DllImport(LibraryName, EntryPoint = "uv_pipe_getsockname", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_pipe_getsockname(uv_pipe_t* handle, char* buffer, size_t* size);
+    public static extern int uv_pipe_getsockname(uv_pipe_t* handle, byte* buffer, ulong* size);
 
     // FunctionExtern @ uv.h:797
     [DllImport(LibraryName, EntryPoint = "uv_pipe_getpeername", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_pipe_getpeername(uv_pipe_t* handle, char* buffer, size_t* size);
+    public static extern int uv_pipe_getpeername(uv_pipe_t* handle, byte* buffer, ulong* size);
 
     // FunctionExtern @ uv.h:800
     [DllImport(LibraryName, EntryPoint = "uv_pipe_pending_instances", CallingConvention = CallingConvention.Cdecl)]
@@ -562,7 +562,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:879
     [DllImport(LibraryName, EntryPoint = "uv_timer_start", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_timer_start(uv_timer_t* handle, uv_timer_cb cb, uint64_t timeout, uint64_t repeat);
+    public static extern int uv_timer_start(uv_timer_t* handle, uv_timer_cb cb, ulong timeout, ulong repeat);
 
     // FunctionExtern @ uv.h:883
     [DllImport(LibraryName, EntryPoint = "uv_timer_stop", CallingConvention = CallingConvention.Cdecl)]
@@ -574,19 +574,19 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:885
     [DllImport(LibraryName, EntryPoint = "uv_timer_set_repeat", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void uv_timer_set_repeat(uv_timer_t* handle, uint64_t repeat);
+    public static extern void uv_timer_set_repeat(uv_timer_t* handle, ulong repeat);
 
     // FunctionExtern @ uv.h:886
     [DllImport(LibraryName, EntryPoint = "uv_timer_get_repeat", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint64_t uv_timer_get_repeat(uv_timer_t* handle);
+    public static extern ulong uv_timer_get_repeat(uv_timer_t* handle);
 
     // FunctionExtern @ uv.h:887
     [DllImport(LibraryName, EntryPoint = "uv_timer_get_due_in", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint64_t uv_timer_get_due_in(uv_timer_t* handle);
+    public static extern ulong uv_timer_get_due_in(uv_timer_t* handle);
 
     // FunctionExtern @ uv.h:904
     [DllImport(LibraryName, EntryPoint = "uv_getaddrinfo", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_getaddrinfo(uv_loop_t* loop, uv_getaddrinfo_t* req, uv_getaddrinfo_cb getaddrinfo_cb, char* node, char* service, addrinfo* hints);
+    public static extern int uv_getaddrinfo(uv_loop_t* loop, uv_getaddrinfo_t* req, uv_getaddrinfo_cb getaddrinfo_cb, byte* node, byte* service, addrinfo* hints);
 
     // FunctionExtern @ uv.h:910
     [DllImport(LibraryName, EntryPoint = "uv_freeaddrinfo", CallingConvention = CallingConvention.Cdecl)]
@@ -622,19 +622,19 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1171
     [DllImport(LibraryName, EntryPoint = "uv_setup_args", CallingConvention = CallingConvention.Cdecl)]
-    public static extern char** uv_setup_args(int argc, char** argv);
+    public static extern byte** uv_setup_args(int argc, byte** argv);
 
     // FunctionExtern @ uv.h:1172
     [DllImport(LibraryName, EntryPoint = "uv_get_process_title", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_get_process_title(char* buffer, size_t size);
+    public static extern int uv_get_process_title(byte* buffer, ulong size);
 
     // FunctionExtern @ uv.h:1173
     [DllImport(LibraryName, EntryPoint = "uv_set_process_title", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_set_process_title(char* title);
+    public static extern int uv_set_process_title(byte* title);
 
     // FunctionExtern @ uv.h:1174
     [DllImport(LibraryName, EntryPoint = "uv_resident_set_memory", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_resident_set_memory(size_t* rss);
+    public static extern int uv_resident_set_memory(ulong* rss);
 
     // FunctionExtern @ uv.h:1175
     [DllImport(LibraryName, EntryPoint = "uv_uptime", CallingConvention = CallingConvention.Cdecl)]
@@ -654,11 +654,11 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1210
     [DllImport(LibraryName, EntryPoint = "uv_os_homedir", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_os_homedir(char* buffer, size_t* size);
+    public static extern int uv_os_homedir(byte* buffer, ulong* size);
 
     // FunctionExtern @ uv.h:1211
     [DllImport(LibraryName, EntryPoint = "uv_os_tmpdir", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_os_tmpdir(char* buffer, size_t* size);
+    public static extern int uv_os_tmpdir(byte* buffer, ulong* size);
 
     // FunctionExtern @ uv.h:1212
     [DllImport(LibraryName, EntryPoint = "uv_os_get_passwd", CallingConvention = CallingConvention.Cdecl)]
@@ -678,7 +678,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1234
     [DllImport(LibraryName, EntryPoint = "uv_os_getpriority", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_os_getpriority(uv_pid_t pid, int* priority);
+    public static extern int uv_os_getpriority(uv_pid_t pid, long* priority);
 
     // FunctionExtern @ uv.h:1235
     [DllImport(LibraryName, EntryPoint = "uv_os_setpriority", CallingConvention = CallingConvention.Cdecl)]
@@ -686,7 +686,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1237
     [DllImport(LibraryName, EntryPoint = "uv_cpu_info", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_cpu_info(uv_cpu_info_t** cpu_infos, int* count);
+    public static extern int uv_cpu_info(uv_cpu_info_t** cpu_infos, long* count);
 
     // FunctionExtern @ uv.h:1238
     [DllImport(LibraryName, EntryPoint = "uv_free_cpu_info", CallingConvention = CallingConvention.Cdecl)]
@@ -694,7 +694,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1240
     [DllImport(LibraryName, EntryPoint = "uv_interface_addresses", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_interface_addresses(uv_interface_address_t** addresses, int* count);
+    public static extern int uv_interface_addresses(uv_interface_address_t** addresses, long* count);
 
     // FunctionExtern @ uv.h:1242
     [DllImport(LibraryName, EntryPoint = "uv_free_interface_addresses", CallingConvention = CallingConvention.Cdecl)]
@@ -702,7 +702,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1250
     [DllImport(LibraryName, EntryPoint = "uv_os_environ", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_os_environ(uv_env_item_t** envitems, int* count);
+    public static extern int uv_os_environ(uv_env_item_t** envitems, long* count);
 
     // FunctionExtern @ uv.h:1251
     [DllImport(LibraryName, EntryPoint = "uv_os_free_environ", CallingConvention = CallingConvention.Cdecl)]
@@ -710,19 +710,19 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1252
     [DllImport(LibraryName, EntryPoint = "uv_os_getenv", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_os_getenv(char* name, char* buffer, size_t* size);
+    public static extern int uv_os_getenv(byte* name, byte* buffer, ulong* size);
 
     // FunctionExtern @ uv.h:1253
     [DllImport(LibraryName, EntryPoint = "uv_os_setenv", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_os_setenv(char* name, char* value);
+    public static extern int uv_os_setenv(byte* name, byte* value);
 
     // FunctionExtern @ uv.h:1254
     [DllImport(LibraryName, EntryPoint = "uv_os_unsetenv", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_os_unsetenv(char* name);
+    public static extern int uv_os_unsetenv(byte* name);
 
     // FunctionExtern @ uv.h:1267
     [DllImport(LibraryName, EntryPoint = "uv_os_gethostname", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_os_gethostname(char* buffer, size_t* size);
+    public static extern int uv_os_gethostname(byte* buffer, ulong* size);
 
     // FunctionExtern @ uv.h:1269
     [DllImport(LibraryName, EntryPoint = "uv_os_uname", CallingConvention = CallingConvention.Cdecl)]
@@ -730,7 +730,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1271
     [DllImport(LibraryName, EntryPoint = "uv_metrics_idle_time", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint64_t uv_metrics_idle_time(uv_loop_t* loop);
+    public static extern ulong uv_metrics_idle_time(uv_loop_t* loop);
 
     // FunctionExtern @ uv.h:1334
     [DllImport(LibraryName, EntryPoint = "uv_fs_get_type", CallingConvention = CallingConvention.Cdecl)]
@@ -738,7 +738,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1335
     [DllImport(LibraryName, EntryPoint = "uv_fs_get_result", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ssize_t uv_fs_get_result(uv_fs_t* param);
+    public static extern long uv_fs_get_result(uv_fs_t* param);
 
     // FunctionExtern @ uv.h:1336
     [DllImport(LibraryName, EntryPoint = "uv_fs_get_system_error", CallingConvention = CallingConvention.Cdecl)]
@@ -750,7 +750,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1338
     [DllImport(LibraryName, EntryPoint = "uv_fs_get_path", CallingConvention = CallingConvention.Cdecl)]
-    public static extern char* uv_fs_get_path(uv_fs_t* param);
+    public static extern byte* uv_fs_get_path(uv_fs_t* param);
 
     // FunctionExtern @ uv.h:1339
     [DllImport(LibraryName, EntryPoint = "uv_fs_get_statbuf", CallingConvention = CallingConvention.Cdecl)]
@@ -766,43 +766,43 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1346
     [DllImport(LibraryName, EntryPoint = "uv_fs_open", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_open(uv_loop_t* loop, uv_fs_t* req, char* path, int flags, int mode, uv_fs_cb cb);
+    public static extern int uv_fs_open(uv_loop_t* loop, uv_fs_t* req, byte* path, int flags, int mode, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1352
     [DllImport(LibraryName, EntryPoint = "uv_fs_read", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_read(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_buf_t[] bufs, uint nbufs, int64_t offset, uv_fs_cb cb);
+    public static extern int uv_fs_read(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_buf_t* bufs, uint nbufs, long offset, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1359
     [DllImport(LibraryName, EntryPoint = "uv_fs_unlink", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_unlink(uv_loop_t* loop, uv_fs_t* req, char* path, uv_fs_cb cb);
+    public static extern int uv_fs_unlink(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1363
     [DllImport(LibraryName, EntryPoint = "uv_fs_write", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_write(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_buf_t[] bufs, uint nbufs, int64_t offset, uv_fs_cb cb);
+    public static extern int uv_fs_write(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_buf_t* bufs, uint nbufs, long offset, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1388
     [DllImport(LibraryName, EntryPoint = "uv_fs_copyfile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_copyfile(uv_loop_t* loop, uv_fs_t* req, char* path, char* new_path, int flags, uv_fs_cb cb);
+    public static extern int uv_fs_copyfile(uv_loop_t* loop, uv_fs_t* req, byte* path, byte* new_path, int flags, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1394
     [DllImport(LibraryName, EntryPoint = "uv_fs_mkdir", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_mkdir(uv_loop_t* loop, uv_fs_t* req, char* path, int mode, uv_fs_cb cb);
+    public static extern int uv_fs_mkdir(uv_loop_t* loop, uv_fs_t* req, byte* path, int mode, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1399
     [DllImport(LibraryName, EntryPoint = "uv_fs_mkdtemp", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_mkdtemp(uv_loop_t* loop, uv_fs_t* req, char* tpl, uv_fs_cb cb);
+    public static extern int uv_fs_mkdtemp(uv_loop_t* loop, uv_fs_t* req, byte* tpl, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1403
     [DllImport(LibraryName, EntryPoint = "uv_fs_mkstemp", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_mkstemp(uv_loop_t* loop, uv_fs_t* req, char* tpl, uv_fs_cb cb);
+    public static extern int uv_fs_mkstemp(uv_loop_t* loop, uv_fs_t* req, byte* tpl, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1407
     [DllImport(LibraryName, EntryPoint = "uv_fs_rmdir", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_rmdir(uv_loop_t* loop, uv_fs_t* req, char* path, uv_fs_cb cb);
+    public static extern int uv_fs_rmdir(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1411
     [DllImport(LibraryName, EntryPoint = "uv_fs_scandir", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_scandir(uv_loop_t* loop, uv_fs_t* req, char* path, int flags, uv_fs_cb cb);
+    public static extern int uv_fs_scandir(uv_loop_t* loop, uv_fs_t* req, byte* path, int flags, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1416
     [DllImport(LibraryName, EntryPoint = "uv_fs_scandir_next", CallingConvention = CallingConvention.Cdecl)]
@@ -810,7 +810,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1418
     [DllImport(LibraryName, EntryPoint = "uv_fs_opendir", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_opendir(uv_loop_t* loop, uv_fs_t* req, char* path, uv_fs_cb cb);
+    public static extern int uv_fs_opendir(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1422
     [DllImport(LibraryName, EntryPoint = "uv_fs_readdir", CallingConvention = CallingConvention.Cdecl)]
@@ -822,7 +822,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1430
     [DllImport(LibraryName, EntryPoint = "uv_fs_stat", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_stat(uv_loop_t* loop, uv_fs_t* req, char* path, uv_fs_cb cb);
+    public static extern int uv_fs_stat(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1434
     [DllImport(LibraryName, EntryPoint = "uv_fs_fstat", CallingConvention = CallingConvention.Cdecl)]
@@ -830,7 +830,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1438
     [DllImport(LibraryName, EntryPoint = "uv_fs_rename", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_rename(uv_loop_t* loop, uv_fs_t* req, char* path, char* new_path, uv_fs_cb cb);
+    public static extern int uv_fs_rename(uv_loop_t* loop, uv_fs_t* req, byte* path, byte* new_path, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1443
     [DllImport(LibraryName, EntryPoint = "uv_fs_fsync", CallingConvention = CallingConvention.Cdecl)]
@@ -842,23 +842,23 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1451
     [DllImport(LibraryName, EntryPoint = "uv_fs_ftruncate", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_ftruncate(uv_loop_t* loop, uv_fs_t* req, uv_file file, int64_t offset, uv_fs_cb cb);
+    public static extern int uv_fs_ftruncate(uv_loop_t* loop, uv_fs_t* req, uv_file file, long offset, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1456
     [DllImport(LibraryName, EntryPoint = "uv_fs_sendfile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_sendfile(uv_loop_t* loop, uv_fs_t* req, uv_file out_fd, uv_file in_fd, int64_t in_offset, size_t length, uv_fs_cb cb);
+    public static extern int uv_fs_sendfile(uv_loop_t* loop, uv_fs_t* req, uv_file out_fd, uv_file in_fd, long in_offset, ulong length, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1463
     [DllImport(LibraryName, EntryPoint = "uv_fs_access", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_access(uv_loop_t* loop, uv_fs_t* req, char* path, int mode, uv_fs_cb cb);
+    public static extern int uv_fs_access(uv_loop_t* loop, uv_fs_t* req, byte* path, int mode, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1468
     [DllImport(LibraryName, EntryPoint = "uv_fs_chmod", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_chmod(uv_loop_t* loop, uv_fs_t* req, char* path, int mode, uv_fs_cb cb);
+    public static extern int uv_fs_chmod(uv_loop_t* loop, uv_fs_t* req, byte* path, int mode, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1473
     [DllImport(LibraryName, EntryPoint = "uv_fs_utime", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_utime(uv_loop_t* loop, uv_fs_t* req, char* path, double atime, double mtime, uv_fs_cb cb);
+    public static extern int uv_fs_utime(uv_loop_t* loop, uv_fs_t* req, byte* path, double atime, double mtime, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1479
     [DllImport(LibraryName, EntryPoint = "uv_fs_futime", CallingConvention = CallingConvention.Cdecl)]
@@ -866,27 +866,27 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1485
     [DllImport(LibraryName, EntryPoint = "uv_fs_lutime", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_lutime(uv_loop_t* loop, uv_fs_t* req, char* path, double atime, double mtime, uv_fs_cb cb);
+    public static extern int uv_fs_lutime(uv_loop_t* loop, uv_fs_t* req, byte* path, double atime, double mtime, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1491
     [DllImport(LibraryName, EntryPoint = "uv_fs_lstat", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_lstat(uv_loop_t* loop, uv_fs_t* req, char* path, uv_fs_cb cb);
+    public static extern int uv_fs_lstat(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1495
     [DllImport(LibraryName, EntryPoint = "uv_fs_link", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_link(uv_loop_t* loop, uv_fs_t* req, char* path, char* new_path, uv_fs_cb cb);
+    public static extern int uv_fs_link(uv_loop_t* loop, uv_fs_t* req, byte* path, byte* new_path, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1513
     [DllImport(LibraryName, EntryPoint = "uv_fs_symlink", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_symlink(uv_loop_t* loop, uv_fs_t* req, char* path, char* new_path, int flags, uv_fs_cb cb);
+    public static extern int uv_fs_symlink(uv_loop_t* loop, uv_fs_t* req, byte* path, byte* new_path, int flags, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1519
     [DllImport(LibraryName, EntryPoint = "uv_fs_readlink", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_readlink(uv_loop_t* loop, uv_fs_t* req, char* path, uv_fs_cb cb);
+    public static extern int uv_fs_readlink(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1523
     [DllImport(LibraryName, EntryPoint = "uv_fs_realpath", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_realpath(uv_loop_t* loop, uv_fs_t* req, char* path, uv_fs_cb cb);
+    public static extern int uv_fs_realpath(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1527
     [DllImport(LibraryName, EntryPoint = "uv_fs_fchmod", CallingConvention = CallingConvention.Cdecl)]
@@ -894,7 +894,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1532
     [DllImport(LibraryName, EntryPoint = "uv_fs_chown", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_chown(uv_loop_t* loop, uv_fs_t* req, char* path, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb);
+    public static extern int uv_fs_chown(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1538
     [DllImport(LibraryName, EntryPoint = "uv_fs_fchown", CallingConvention = CallingConvention.Cdecl)]
@@ -902,11 +902,11 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1544
     [DllImport(LibraryName, EntryPoint = "uv_fs_lchown", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_lchown(uv_loop_t* loop, uv_fs_t* req, char* path, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb);
+    public static extern int uv_fs_lchown(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1550
     [DllImport(LibraryName, EntryPoint = "uv_fs_statfs", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_statfs(uv_loop_t* loop, uv_fs_t* req, char* path, uv_fs_cb cb);
+    public static extern int uv_fs_statfs(uv_loop_t* loop, uv_fs_t* req, byte* path, uv_fs_cb cb);
 
     // FunctionExtern @ uv.h:1579
     [DllImport(LibraryName, EntryPoint = "uv_fs_poll_init", CallingConvention = CallingConvention.Cdecl)]
@@ -914,7 +914,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1580
     [DllImport(LibraryName, EntryPoint = "uv_fs_poll_start", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_poll_start(uv_fs_poll_t* handle, uv_fs_poll_cb poll_cb, char* path, uint interval);
+    public static extern int uv_fs_poll_start(uv_fs_poll_t* handle, uv_fs_poll_cb poll_cb, byte* path, uint interval);
 
     // FunctionExtern @ uv.h:1584
     [DllImport(LibraryName, EntryPoint = "uv_fs_poll_stop", CallingConvention = CallingConvention.Cdecl)]
@@ -922,7 +922,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1585
     [DllImport(LibraryName, EntryPoint = "uv_fs_poll_getpath", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_poll_getpath(uv_fs_poll_t* handle, char* buffer, size_t* size);
+    public static extern int uv_fs_poll_getpath(uv_fs_poll_t* handle, byte* buffer, ulong* size);
 
     // FunctionExtern @ uv.h:1597
     [DllImport(LibraryName, EntryPoint = "uv_signal_init", CallingConvention = CallingConvention.Cdecl)]
@@ -942,7 +942,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1606
     [DllImport(LibraryName, EntryPoint = "uv_loadavg", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void uv_loadavg(double[3] avg);
+    public static extern void uv_loadavg(double avg);
 
     // FunctionExtern @ uv.h:1640
     [DllImport(LibraryName, EntryPoint = "uv_fs_event_init", CallingConvention = CallingConvention.Cdecl)]
@@ -950,7 +950,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1641
     [DllImport(LibraryName, EntryPoint = "uv_fs_event_start", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_event_start(uv_fs_event_t* handle, uv_fs_event_cb cb, char* path, uint flags);
+    public static extern int uv_fs_event_start(uv_fs_event_t* handle, uv_fs_event_cb cb, byte* path, uint flags);
 
     // FunctionExtern @ uv.h:1645
     [DllImport(LibraryName, EntryPoint = "uv_fs_event_stop", CallingConvention = CallingConvention.Cdecl)]
@@ -958,71 +958,71 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1646
     [DllImport(LibraryName, EntryPoint = "uv_fs_event_getpath", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_event_getpath(uv_fs_event_t* handle, char* buffer, size_t* size);
+    public static extern int uv_fs_event_getpath(uv_fs_event_t* handle, byte* buffer, ulong* size);
 
     // FunctionExtern @ uv.h:1650
     [DllImport(LibraryName, EntryPoint = "uv_ip4_addr", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_ip4_addr(char* ip, int port, sockaddr_in* addr);
+    public static extern int uv_ip4_addr(byte* ip, int port, sockaddr_in* addr);
 
     // FunctionExtern @ uv.h:1651
     [DllImport(LibraryName, EntryPoint = "uv_ip6_addr", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_ip6_addr(char* ip, int port, sockaddr_in6* addr);
+    public static extern int uv_ip6_addr(byte* ip, int port, sockaddr_in6* addr);
 
     // FunctionExtern @ uv.h:1653
     [DllImport(LibraryName, EntryPoint = "uv_ip4_name", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_ip4_name(sockaddr_in* src, char* dst, size_t size);
+    public static extern int uv_ip4_name(sockaddr_in* src, byte* dst, ulong size);
 
     // FunctionExtern @ uv.h:1654
     [DllImport(LibraryName, EntryPoint = "uv_ip6_name", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_ip6_name(sockaddr_in6* src, char* dst, size_t size);
+    public static extern int uv_ip6_name(sockaddr_in6* src, byte* dst, ulong size);
 
     // FunctionExtern @ uv.h:1656
     [DllImport(LibraryName, EntryPoint = "uv_inet_ntop", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_inet_ntop(int af, void* src, char* dst, size_t size);
+    public static extern int uv_inet_ntop(int af, void* src, byte* dst, ulong size);
 
     // FunctionExtern @ uv.h:1657
     [DllImport(LibraryName, EntryPoint = "uv_inet_pton", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_inet_pton(int af, char* src, void* dst);
+    public static extern int uv_inet_pton(int af, byte* src, void* dst);
 
     // FunctionExtern @ uv.h:1672
     [DllImport(LibraryName, EntryPoint = "uv_random", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_random(uv_loop_t* loop, uv_random_t* req, void* buf, size_t buflen, uint flags, uv_random_cb cb);
+    public static extern int uv_random(uv_loop_t* loop, uv_random_t* req, void* buf, ulong buflen, uint flags, uv_random_cb cb);
 
     // FunctionExtern @ uv.h:1687
     [DllImport(LibraryName, EntryPoint = "uv_if_indextoname", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_if_indextoname(uint ifindex, char* buffer, size_t* size);
+    public static extern int uv_if_indextoname(uint ifindex, byte* buffer, ulong* size);
 
     // FunctionExtern @ uv.h:1690
     [DllImport(LibraryName, EntryPoint = "uv_if_indextoiid", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_if_indextoiid(uint ifindex, char* buffer, size_t* size);
+    public static extern int uv_if_indextoiid(uint ifindex, byte* buffer, ulong* size);
 
     // FunctionExtern @ uv.h:1694
     [DllImport(LibraryName, EntryPoint = "uv_exepath", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_exepath(char* buffer, size_t* size);
+    public static extern int uv_exepath(byte* buffer, ulong* size);
 
     // FunctionExtern @ uv.h:1696
     [DllImport(LibraryName, EntryPoint = "uv_cwd", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_cwd(char* buffer, size_t* size);
+    public static extern int uv_cwd(byte* buffer, ulong* size);
 
     // FunctionExtern @ uv.h:1698
     [DllImport(LibraryName, EntryPoint = "uv_chdir", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_chdir(char* dir);
+    public static extern int uv_chdir(byte* dir);
 
     // FunctionExtern @ uv.h:1700
     [DllImport(LibraryName, EntryPoint = "uv_get_free_memory", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint64_t uv_get_free_memory();
+    public static extern ulong uv_get_free_memory();
 
     // FunctionExtern @ uv.h:1701
     [DllImport(LibraryName, EntryPoint = "uv_get_total_memory", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint64_t uv_get_total_memory();
+    public static extern ulong uv_get_total_memory();
 
     // FunctionExtern @ uv.h:1702
     [DllImport(LibraryName, EntryPoint = "uv_get_constrained_memory", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint64_t uv_get_constrained_memory();
+    public static extern ulong uv_get_constrained_memory();
 
     // FunctionExtern @ uv.h:1704
     [DllImport(LibraryName, EntryPoint = "uv_hrtime", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint64_t uv_hrtime();
+    public static extern ulong uv_hrtime();
 
     // FunctionExtern @ uv.h:1705
     [DllImport(LibraryName, EntryPoint = "uv_sleep", CallingConvention = CallingConvention.Cdecl)]
@@ -1034,7 +1034,7 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1709
     [DllImport(LibraryName, EntryPoint = "uv_dlopen", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_dlopen(char* filename, uv_lib_t* lib);
+    public static extern int uv_dlopen(byte* filename, uv_lib_t* lib);
 
     // FunctionExtern @ uv.h:1710
     [DllImport(LibraryName, EntryPoint = "uv_dlclose", CallingConvention = CallingConvention.Cdecl)]
@@ -1042,11 +1042,11 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1711
     [DllImport(LibraryName, EntryPoint = "uv_dlsym", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_dlsym(uv_lib_t* lib, char* name, void** ptr);
+    public static extern int uv_dlsym(uv_lib_t* lib, byte* name, void** ptr);
 
     // FunctionExtern @ uv.h:1712
     [DllImport(LibraryName, EntryPoint = "uv_dlerror", CallingConvention = CallingConvention.Cdecl)]
-    public static extern char* uv_dlerror(uv_lib_t* lib);
+    public static extern byte* uv_dlerror(uv_lib_t* lib);
 
     // FunctionExtern @ uv.h:1714
     [DllImport(LibraryName, EntryPoint = "uv_mutex_init", CallingConvention = CallingConvention.Cdecl)]
@@ -1158,11 +1158,11 @@ public static unsafe partial class uv
 
     // FunctionExtern @ uv.h:1746
     [DllImport(LibraryName, EntryPoint = "uv_cond_timedwait", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_cond_timedwait(uv_cond_t* cond, uv_mutex_t* mutex, uint64_t timeout);
+    public static extern int uv_cond_timedwait(uv_cond_t* cond, uv_mutex_t* mutex, ulong timeout);
 
     // FunctionExtern @ uv.h:1750
     [DllImport(LibraryName, EntryPoint = "uv_once", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void uv_once(uv_once_t* guard, void (*)(void) callback);
+    public static extern void uv_once(uv_once_t* guard, NativeCallbackVoid callback);
 
     // FunctionExtern @ uv.h:1752
     [DllImport(LibraryName, EntryPoint = "uv_key_create", CallingConvention = CallingConvention.Cdecl)]
@@ -1212,1651 +1212,1161 @@ public static unsafe partial class uv
     [DllImport(LibraryName, EntryPoint = "uv_loop_set_data", CallingConvention = CallingConvention.Cdecl)]
     public static extern void uv_loop_set_data(uv_loop_t* param, void* data);
 
-    // FunctionPointer @ uv.h:271
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    // FunctionPointer @ uv.h:264
+    [StructLayout(LayoutKind.Sequential)]
     public struct uv_malloc_func
     {
+        public delegate* unmanaged<ulong, void*> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:265
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_realloc_func
+    {
+        public delegate* unmanaged<void*, ulong, void*> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:266
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_calloc_func
+    {
+        public delegate* unmanaged<ulong, ulong, void*> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:267
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_free_func
+    {
+        public delegate* unmanaged<void*, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:317
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_shutdown_cb
+    {
+        public delegate* unmanaged<uv_shutdown_t*, int, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:327
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_walk_cb
+    {
+        public delegate* unmanaged<uv_handle_t*, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:319
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_close_cb
+    {
+        public delegate* unmanaged<uv_handle_t*, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:318
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_connection_cb
+    {
+        public delegate* unmanaged<uv_stream_t*, int, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:309
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_alloc_cb
+    {
+        public delegate* unmanaged<uv_handle_t*, ulong, uv_buf_t*, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:312
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_read_cb
+    {
+        public delegate* unmanaged<uv_stream_t*, long, uv_buf_t*, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:315
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_write_cb
+    {
+        public delegate* unmanaged<uv_write_t*, int, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:316
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_connect_cb
+    {
+        public delegate* unmanaged<uv_connect_t*, int, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:643
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_udp_send_cb
+    {
+        public delegate* unmanaged<uv_udp_send_t*, int, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:644
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_udp_recv_cb
+    {
+        public delegate* unmanaged<uv_udp_t*, long, uv_buf_t*, sockaddr*, uint, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:320
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_poll_cb
+    {
+        public delegate* unmanaged<uv_poll_t*, int, int, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:323
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_prepare_cb
+    {
+        public delegate* unmanaged<uv_prepare_t*, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:324
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_check_cb
+    {
+        public delegate* unmanaged<uv_check_t*, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:325
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_idle_cb
+    {
+        public delegate* unmanaged<uv_idle_t*, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:322
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_async_cb
+    {
+        public delegate* unmanaged<uv_async_t*, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:321
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_timer_cb
+    {
+        public delegate* unmanaged<uv_timer_t*, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:331
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_getaddrinfo_cb
+    {
+        public delegate* unmanaged<uv_getaddrinfo_t*, int, addrinfo*, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:334
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_getnameinfo_cb
+    {
+        public delegate* unmanaged<uv_getnameinfo_t*, int, byte*, byte*, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:326
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_exit_cb
+    {
+        public delegate* unmanaged<uv_process_t*, long, int, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:329
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_work_cb
+    {
+        public delegate* unmanaged<uv_work_t*, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:330
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_after_work_cb
+    {
+        public delegate* unmanaged<uv_work_t*, int, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:328
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_fs_cb
+    {
+        public delegate* unmanaged<uv_fs_t*, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:374
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_fs_poll_cb
+    {
+        public delegate* unmanaged<uv_fs_poll_t*, int, uv_stat_t*, uv_stat_t*, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:379
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_signal_cb
+    {
+        public delegate* unmanaged<uv_signal_t*, int, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:369
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_fs_event_cb
+    {
+        public delegate* unmanaged<uv_fs_event_t*, byte*, int, int, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:338
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_random_cb
+    {
+        public delegate* unmanaged<uv_random_t*, int, void*, ulong, void> Pointer;
+    }
+
+    // FunctionPointer @ uv.h:1759
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_thread_cb
+    {
+        public delegate* unmanaged<void*, void> Pointer;
+    }
+
+    // Record @ unix.h:123
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct uv_buf_t
+    {
         [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<uv_malloc_func> Pointer;
+        public byte* @base;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ulong len;
     }
 
-    // FunctionPointer @ uv.h:277
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:290
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:293
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:296
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:299
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_handle_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_handle_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:301
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_handle_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_handle_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:304
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:388
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct int
-{
-	[FieldOffset(0)] // size = 4, padding = 0
-	public delegate* unmanaged <int> Pointer;
-}
-
-// FunctionPointer @ uv.h:390
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct int
-{
-	[FieldOffset(0)] // size = 4, padding = 0
-	public delegate* unmanaged <int> Pointer;
-}
-
-// FunctionPointer @ uv.h:391
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct int
-{
-	[FieldOffset(0)] // size = 4, padding = 0
-	public delegate* unmanaged <int> Pointer;
-}
-
-// FunctionPointer @ uv.h:416
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_shutdown_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_shutdown_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:448
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct uv_handle_type
+    // Record @ uv.h:1064
+    [StructLayout(LayoutKind.Explicit, Size = 136, Pack = 8)]
+    public struct uv_process_t
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public delegate* unmanaged<uv_handle_type> Pointer;
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* data;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public uv_loop_t* loop;
+
+        [FieldOffset(16)] // size = 4, padding = 4
+        public uv_handle_type type;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public uv_close_cb close_cb;
+
+        [FieldOffset(32)] // size = 16, padding = 0
+        public fixed ulong _handle_queue[16 / 8]; // void *[2]
+
+        public Span<IntPtr> handle_queue
+        {
+            get
+            {
+                fixed (uv_process_t* @this = &this)
+                {
+                    var pointer = &@this->_handle_queue[0];
+                    var span = new Span<IntPtr>(pointer, 2);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(48)] // size = 32, padding = 0
+        public AnonymousUnion_u u;
+
+        [FieldOffset(80)] // size = 8, padding = 0
+        public uv_handle_t* next_closing;
+
+        [FieldOffset(88)] // size = 4, padding = 4
+        public uint flags;
+
+        [FieldOffset(96)] // size = 8, padding = 0
+        public uv_exit_cb exit_cb;
+
+        [FieldOffset(104)] // size = 4, padding = 4
+        public int pid;
+
+        [FieldOffset(112)] // size = 16, padding = 0
+        public fixed ulong _queue[16 / 8]; // void *[2]
+
+        public Span<IntPtr> queue
+        {
+            get
+            {
+                fixed (uv_process_t* @this = &this)
+                {
+                    var pointer = &@this->_queue[0];
+                    var span = new Span<IntPtr>(pointer, 2);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(128)] // size = 4, padding = 4
+        public int status;
+
+        // Record @ uv.h:1065
+        [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
+        public struct AnonymousUnion_u
+        {
+            [FieldOffset(0)] // size = 4, padding = 0
+            public int fd;
+
+            [FieldOffset(0)] // size = 32, padding = 0
+            public fixed ulong _reserved[32 / 8]; // void *[4]
+
+            public Span<IntPtr> reserved
+            {
+                get
+                {
+                    fixed (AnonymousUnion_u* @this = &this)
+                    {
+                        var pointer = &@this->_reserved[0];
+                        var span = new Span<IntPtr>(pointer, 4);
+                        return span;
+                    }
+                }
+            }
+        }
     }
 
-    // FunctionPointer @ uv.h:449
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_handle_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_handle_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:450
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct uv_handle_type
+    // Record @ uv.h:958
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct uv_stdio_container_t
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public delegate* unmanaged<uv_handle_type> Pointer;
+        [FieldOffset(0)] // size = 4, padding = 4
+        public uv_stdio_flags flags;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public AnonymousUnion_data data;
+
+        // Record @ uv.h:961
+        [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+        public struct AnonymousUnion_data
+        {
+            [FieldOffset(0)] // size = 8, padding = 0
+            public uv_stream_t* stream;
+
+            [FieldOffset(0)] // size = 4, padding = 4
+            public int fd;
+        }
     }
 
-    // FunctionPointer @ uv.h:451
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_handle_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_handle_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:452
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_handle_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_handle_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:453
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_handle_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_handle_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:455
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct uv_req_type
+    // Record @ uv.h:967
+    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
+    public struct uv_process_options_t
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public delegate* unmanaged<uv_req_type> Pointer;
+        [FieldOffset(0)] // size = 8, padding = 0
+        public uv_exit_cb exit_cb;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public byte* file;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public byte** args;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public byte** env;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public byte* cwd;
+
+        [FieldOffset(40)] // size = 4, padding = 0
+        public uint flags;
+
+        [FieldOffset(44)] // size = 4, padding = 0
+        public int stdio_count;
+
+        [FieldOffset(48)] // size = 8, padding = 0
+        public uv_stdio_container_t* stdio;
+
+        [FieldOffset(56)] // size = 4, padding = 0
+        public uv_uid_t uid;
+
+        [FieldOffset(60)] // size = 4, padding = 0
+        public uv_gid_t gid;
     }
 
-    // FunctionPointer @ uv.h:456
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_req_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_req_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:457
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_req_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_req_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:458
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_req_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_req_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:459
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct uv_req_type
+    // Record @ uv.h:1179
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct uv_timeval_t
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public delegate* unmanaged<uv_req_type> Pointer;
+        [FieldOffset(0)] // size = 8, padding = 0
+        public long tv_sec;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public long tv_usec;
     }
 
-    // FunctionPointer @ uv.h:463
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:466
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:469
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_handle_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_handle_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:471
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_handle_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_handle_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:474
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_handle_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_handle_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:476
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct char *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <char *> Pointer;
-}
-
-// FunctionPointer @ uv.h:478
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_file [2]
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_file [2]> Pointer;
-}
-
-// FunctionPointer @ uv.h:479
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct int
-{
-	[FieldOffset(0)] // size = 4, padding = 0
-	public delegate* unmanaged <int> Pointer;
-}
-
-// FunctionPointer @ uv.h:505
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_stream_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_stream_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:507
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_stream_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_stream_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:508
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_stream_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_stream_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:510
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_stream_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_stream_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:513
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_stream_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_stream_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:515
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_write_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_write_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:520
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_write_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_write_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:526
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_stream_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_stream_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:543
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_stream_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_stream_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:559
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:560
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:561
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_tcp_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_tcp_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:562
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_tcp_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_tcp_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:563
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_tcp_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_tcp_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:573
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_tcp_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_tcp_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:576
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_tcp_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_tcp_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:582
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_tcp_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_tcp_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:583
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_connect_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_connect_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:674
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:675
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:676
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_udp_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_udp_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:677
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_udp_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_udp_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:680
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_udp_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_udp_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:682
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_udp_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_udp_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:688
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_udp_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_udp_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:692
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_udp_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_udp_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:697
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_udp_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_udp_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:699
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_udp_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_udp_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:703
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_udp_send_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_udp_send_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:709
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_udp_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_udp_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:713
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_udp_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_udp_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:716
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_udp_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_udp_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:718
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_udp_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_udp_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:755
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:756
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_tty_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_tty_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:758
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_tty_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_tty_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:759
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct uv_tty_vtermstate_t
+    // Record @ uv.h:1189
+    [StructLayout(LayoutKind.Explicit, Size = 144, Pack = 8)]
+    public struct uv_rusage_t
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public delegate* unmanaged<uv_tty_vtermstate_t> Pointer;
+        [FieldOffset(0)] // size = 16, padding = 0
+        public uv_timeval_t ru_utime;
+
+        [FieldOffset(16)] // size = 16, padding = 0
+        public uv_timeval_t ru_stime;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public ulong ru_maxrss;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public ulong ru_ixrss;
+
+        [FieldOffset(48)] // size = 8, padding = 0
+        public ulong ru_idrss;
+
+        [FieldOffset(56)] // size = 8, padding = 0
+        public ulong ru_isrss;
+
+        [FieldOffset(64)] // size = 8, padding = 0
+        public ulong ru_minflt;
+
+        [FieldOffset(72)] // size = 8, padding = 0
+        public ulong ru_majflt;
+
+        [FieldOffset(80)] // size = 8, padding = 0
+        public ulong ru_nswap;
+
+        [FieldOffset(88)] // size = 8, padding = 0
+        public ulong ru_inblock;
+
+        [FieldOffset(96)] // size = 8, padding = 0
+        public ulong ru_oublock;
+
+        [FieldOffset(104)] // size = 8, padding = 0
+        public ulong ru_msgsnd;
+
+        [FieldOffset(112)] // size = 8, padding = 0
+        public ulong ru_msgrcv;
+
+        [FieldOffset(120)] // size = 8, padding = 0
+        public ulong ru_nsignals;
+
+        [FieldOffset(128)] // size = 8, padding = 0
+        public ulong ru_nvcsw;
+
+        [FieldOffset(136)] // size = 8, padding = 0
+        public ulong ru_nivcsw;
     }
 
-    // FunctionPointer @ uv.h:760
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_tty_vtermstate_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_tty_vtermstate_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:772
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct uv_file
+    // Record @ uv.h:1126
+    [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
+    public struct uv_passwd_t
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public delegate* unmanaged<uv_file> Pointer;
+        [FieldOffset(0)] // size = 8, padding = 0
+        public byte* username;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public long uid;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public long gid;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public byte* shell;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public byte* homedir;
     }
 
-    // FunctionPointer @ uv.h:787
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:788
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_pipe_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_pipe_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:789
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_pipe_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_pipe_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:790
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_connect_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_connect_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:794
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_pipe_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_pipe_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:800
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_pipe_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_pipe_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:801
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_pipe_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_pipe_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:802
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_pipe_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_pipe_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:803
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_pipe_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_pipe_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:819
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:820
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:823
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_poll_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_poll_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:824
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_poll_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_poll_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:832
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:833
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_prepare_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_prepare_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:834
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_prepare_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_prepare_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:842
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:843
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_check_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_check_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:844
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_check_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_check_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:852
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:853
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_idle_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_idle_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:854
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_idle_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_idle_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:862
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:865
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_async_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_async_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:878
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:879
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_timer_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_timer_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:883
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_timer_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_timer_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:885
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_timer_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_timer_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:886
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_timer_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_timer_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:904
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:910
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct addrinfo *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <addrinfo *> Pointer;
-}
-
-// FunctionPointer @ uv.h:926
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1071
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1074
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_process_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_process_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1075
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct int
-{
-	[FieldOffset(0)] // size = 4, padding = 0
-	public delegate* unmanaged <int> Pointer;
-}
-
-// FunctionPointer @ uv.h:1076
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_process_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_process_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1090
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1095
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_req_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_req_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1171
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct int
-{
-	[FieldOffset(0)] // size = 4, padding = 0
-	public delegate* unmanaged <int> Pointer;
-}
-
-// FunctionPointer @ uv.h:1172
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct char *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <char *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1173
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct char *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <char *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1174
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct size_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <size_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1175
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct double *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <double *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1176
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct int
-{
-	[FieldOffset(0)] // size = 4, padding = 0
-	public delegate* unmanaged <int> Pointer;
-}
-
-// FunctionPointer @ uv.h:1177
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct uv_os_fd_t
+    // Record @ uv.h:1098
+    [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
+    public struct uv_cpu_times_s
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public delegate* unmanaged<uv_os_fd_t> Pointer;
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ulong user;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ulong nice;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public ulong sys;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public ulong idle;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public ulong irq;
     }
 
-    // FunctionPointer @ uv.h:1208
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_rusage_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_rusage_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1210
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct char *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <char *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1212
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_passwd_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_passwd_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1213
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_passwd_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_passwd_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1234
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct uv_pid_t
+    // Record @ uv.h:1106
+    [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
+    public struct uv_cpu_info_t
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public delegate* unmanaged<uv_pid_t> Pointer;
+        [FieldOffset(0)] // size = 8, padding = 0
+        public byte* model;
+
+        [FieldOffset(8)] // size = 4, padding = 4
+        public int speed;
+
+        [FieldOffset(16)] // size = 40, padding = 0
+        public uv_cpu_times_s cpu_times;
     }
 
-    // FunctionPointer @ uv.h:1235
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct uv_pid_t
+    // Record @ uv.h:1112
+    [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8)]
+    public struct uv_interface_address_t
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public delegate* unmanaged<uv_pid_t> Pointer;
+        [FieldOffset(0)] // size = 8, padding = 0
+        public byte* name;
+
+        [FieldOffset(8)] // size = 6, padding = 2
+        public fixed byte _phys_addr[6 / 1]; // char [6]
+
+        public Span<byte> phys_addr
+        {
+            get
+            {
+                fixed (uv_interface_address_t* @this = &this)
+                {
+                    var pointer = &@this->_phys_addr[0];
+                    var span = new Span<byte>(pointer, 6);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public int is_internal;
+
+        [FieldOffset(20)] // size = 28, padding = 0
+        public AnonymousUnion_address address;
+
+        [FieldOffset(48)] // size = 28, padding = 4
+        public AnonymousUnion_netmask netmask;
+
+        // Record @ uv.h:1116
+        [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
+        public struct AnonymousUnion_address
+        {
+            [FieldOffset(0)] // size = 16, padding = 0
+            public sockaddr_in address4;
+
+            [FieldOffset(0)] // size = 28, padding = 0
+            public sockaddr_in6 address6;
+        }
+
+        // Record @ uv.h:1120
+        [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
+        public struct AnonymousUnion_netmask
+        {
+            [FieldOffset(0)] // size = 16, padding = 0
+            public sockaddr_in netmask4;
+
+            [FieldOffset(0)] // size = 28, padding = 0
+            public sockaddr_in6 netmask6;
+        }
     }
 
-    // FunctionPointer @ uv.h:1237
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_cpu_info_t **
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_cpu_info_t **> Pointer;
-}
-
-// FunctionPointer @ uv.h:1238
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_cpu_info_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_cpu_info_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1240
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_interface_address_t **
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_interface_address_t **> Pointer;
-}
-
-// FunctionPointer @ uv.h:1242
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_interface_address_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_interface_address_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1250
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_env_item_t **
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_env_item_t **> Pointer;
-}
-
-// FunctionPointer @ uv.h:1251
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_env_item_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_env_item_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1252
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct char *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <char *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1253
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct char *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <char *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1269
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_utsname_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_utsname_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1334
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_fs_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_fs_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1335
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_fs_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_fs_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1336
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_fs_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_fs_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1337
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_fs_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_fs_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1338
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_fs_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_fs_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1339
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_fs_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_fs_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1341
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_fs_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_fs_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1342
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1346
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1352
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1359
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1388
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1394
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1416
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_fs_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_fs_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1422
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1438
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1451
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1456
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1473
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1479
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1527
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1532
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1538
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1579
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1580
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_fs_poll_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_fs_poll_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1584
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_fs_poll_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_fs_poll_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1585
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_fs_poll_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_fs_poll_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1597
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1598
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_signal_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_signal_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1604
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_signal_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_signal_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1606
-[StructLayout(LayoutKind.Explicit, Size = 24, Pack = 24)]
-    public struct double [3]
-{
-	[FieldOffset(0)] // size = 24, padding = 0
-	public delegate* unmanaged <double [3]> Pointer;
-}
-
-// FunctionPointer @ uv.h:1640
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1641
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_fs_event_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_fs_event_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1645
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_fs_event_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_fs_event_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1646
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_fs_event_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_fs_event_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1650
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct char *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <char *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1651
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct char *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <char *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1653
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sockaddr_in *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <sockaddr_in *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1654
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sockaddr_in6 *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <sockaddr_in6 *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1656
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct int
-{
-	[FieldOffset(0)] // size = 4, padding = 0
-	public delegate* unmanaged <int> Pointer;
-}
-
-// FunctionPointer @ uv.h:1657
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct int
-{
-	[FieldOffset(0)] // size = 4, padding = 0
-	public delegate* unmanaged <int> Pointer;
-}
-
-// FunctionPointer @ uv.h:1672
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1687
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct uint
-{
-	[FieldOffset(0)] // size = 4, padding = 0
-	public delegate* unmanaged <uint> Pointer;
-}
-
-// FunctionPointer @ uv.h:1705
-[StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct uint
-{
-	[FieldOffset(0)] // size = 4, padding = 0
-	public delegate* unmanaged <uint> Pointer;
-}
-
-// FunctionPointer @ uv.h:1709
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct char *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <char *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1710
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_lib_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_lib_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1711
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_lib_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_lib_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1712
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_lib_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_lib_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1714
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_mutex_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_mutex_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1716
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_mutex_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_mutex_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1721
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_rwlock_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_rwlock_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1722
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_rwlock_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_rwlock_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1730
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_sem_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_sem_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1731
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_sem_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_sem_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1734
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_sem_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_sem_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1736
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_cond_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_cond_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1737
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_cond_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_cond_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1741
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_barrier_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_barrier_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1742
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_barrier_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_barrier_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1743
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_barrier_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_barrier_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1745
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_cond_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_cond_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1746
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_cond_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_cond_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1750
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_once_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_once_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1752
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_key_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_key_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1753
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_key_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_key_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1754
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_key_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_key_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1755
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_key_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_key_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1757
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_timeval64_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_timeval64_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1761
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_thread_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_thread_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1776
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_thread_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_thread_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1781
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_thread_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_thread_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1782
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_thread_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_thread_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1813
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// FunctionPointer @ uv.h:1814
-[StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uv_loop_t *
-{
-	[FieldOffset(0)] // size = 8, padding = 0
-	public delegate* unmanaged <uv_loop_t *> Pointer;
-}
-
-// OpaqueType @ uv.h:209
-[StructLayout(LayoutKind.Sequential)]
+    // Record @ uv.h:1245
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct uv_env_item_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public byte* name;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public byte* value;
+    }
+
+    // Record @ uv.h:1134
+    [StructLayout(LayoutKind.Explicit, Size = 1024, Pack = 1)]
+    public struct uv_utsname_t
+    {
+        [FieldOffset(0)] // size = 256, padding = 0
+        public fixed byte _sysname[256 / 1]; // char [256]
+
+        public Span<byte> sysname
+        {
+            get
+            {
+                fixed (uv_utsname_t* @this = &this)
+                {
+                    var pointer = &@this->_sysname[0];
+                    var span = new Span<byte>(pointer, 256);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(256)] // size = 256, padding = 0
+        public fixed byte _release[256 / 1]; // char [256]
+
+        public Span<byte> release
+        {
+            get
+            {
+                fixed (uv_utsname_t* @this = &this)
+                {
+                    var pointer = &@this->_release[0];
+                    var span = new Span<byte>(pointer, 256);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(512)] // size = 256, padding = 0
+        public fixed byte _version[256 / 1]; // char [256]
+
+        public Span<byte> version
+        {
+            get
+            {
+                fixed (uv_utsname_t* @this = &this)
+                {
+                    var pointer = &@this->_version[0];
+                    var span = new Span<byte>(pointer, 256);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(768)] // size = 256, padding = 0
+        public fixed byte _machine[256 / 1]; // char [256]
+
+        public Span<byte> machine
+        {
+            get
+            {
+                fixed (uv_utsname_t* @this = &this)
+                {
+                    var pointer = &@this->_machine[0];
+                    var span = new Span<byte>(pointer, 256);
+                    return span;
+                }
+            }
+        }
+    }
+
+    // Record @ uv.h:343
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct uv_timespec_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public long tv_sec;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public long tv_nsec;
+    }
+
+    // Record @ uv.h:349
+    [StructLayout(LayoutKind.Explicit, Size = 160, Pack = 8)]
+    public struct uv_stat_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ulong st_dev;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ulong st_mode;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public ulong st_nlink;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public ulong st_uid;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public ulong st_gid;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public ulong st_rdev;
+
+        [FieldOffset(48)] // size = 8, padding = 0
+        public ulong st_ino;
+
+        [FieldOffset(56)] // size = 8, padding = 0
+        public ulong st_size;
+
+        [FieldOffset(64)] // size = 8, padding = 0
+        public ulong st_blksize;
+
+        [FieldOffset(72)] // size = 8, padding = 0
+        public ulong st_blocks;
+
+        [FieldOffset(80)] // size = 8, padding = 0
+        public ulong st_flags;
+
+        [FieldOffset(88)] // size = 8, padding = 0
+        public ulong st_gen;
+
+        [FieldOffset(96)] // size = 16, padding = 0
+        public uv_timespec_t st_atim;
+
+        [FieldOffset(112)] // size = 16, padding = 0
+        public uv_timespec_t st_mtim;
+
+        [FieldOffset(128)] // size = 16, padding = 0
+        public uv_timespec_t st_ctim;
+
+        [FieldOffset(144)] // size = 16, padding = 0
+        public uv_timespec_t st_birthtim;
+    }
+
+    // Record @ uv.h:1166
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct uv_dirent_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public byte* name;
+
+        [FieldOffset(8)] // size = 4, padding = 4
+        public uv_dirent_type_t type;
+    }
+
+    // Record @ unix.h:218
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct uv_lib_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* handle;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public byte* errmsg;
+    }
+
+    // Record @ uv.h:1184
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct uv_timeval64_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public long tv_sec;
+
+        [FieldOffset(8)] // size = 4, padding = 4
+        public int tv_usec;
+    }
+
+    // Record @ uv.h:1768
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct uv_thread_options_t
+    {
+        [FieldOffset(0)] // size = 4, padding = 4
+        public uint flags;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ulong stack_size;
+    }
+
+    // OpaqueType @ uv.h:209
+    [StructLayout(LayoutKind.Sequential)]
     public struct uv_loop_t
     {
     }
 
-    // Typedef @ System
+    // OpaqueType @ uv.h:210
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_handle_t
+    {
+    }
+
+    // OpaqueType @ uv.h:232
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_shutdown_t
+    {
+    }
+
+    // OpaqueType @ uv.h:212
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_stream_t
+    {
+    }
+
+    // OpaqueType @ uv.h:229
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_req_t
+    {
+    }
+
+    // OpaqueType @ uv.h:233
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_write_t
+    {
+    }
+
+    // OpaqueType @ uv.h:213
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_tcp_t
+    {
+    }
+
+    // OpaqueType @ uv.h:234
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_connect_t
+    {
+    }
+
+    // OpaqueType @ uv.h:214
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_udp_t
+    {
+    }
+
+    // OpaqueType @ uv.h:235
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_udp_send_t
+    {
+    }
+
+    // OpaqueType @ uv.h:216
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_tty_t
+    {
+    }
+
+    // OpaqueType @ uv.h:215
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_pipe_t
+    {
+    }
+
+    // OpaqueType @ uv.h:217
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_poll_t
+    {
+    }
+
+    // OpaqueType @ uv.h:219
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_prepare_t
+    {
+    }
+
+    // OpaqueType @ uv.h:220
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_check_t
+    {
+    }
+
+    // OpaqueType @ uv.h:221
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_idle_t
+    {
+    }
+
+    // OpaqueType @ uv.h:222
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_async_t
+    {
+    }
+
+    // OpaqueType @ uv.h:218
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_timer_t
+    {
+    }
+
+    // OpaqueType @ uv.h:230
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_getaddrinfo_t
+    {
+    }
+
+    // OpaqueType @ uv.h:231
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_getnameinfo_t
+    {
+    }
+
+    // OpaqueType @ uv.h:237
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_work_t
+    {
+    }
+
+    // OpaqueType @ uv.h:236
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_fs_t
+    {
+    }
+
+    // OpaqueType @ uv.h:211
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_dir_t
+    {
+    }
+
+    // OpaqueType @ uv.h:225
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_fs_poll_t
+    {
+    }
+
+    // OpaqueType @ uv.h:226
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_signal_t
+    {
+    }
+
+    // OpaqueType @ uv.h:224
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_fs_event_t
+    {
+    }
+
+    // OpaqueType @ uv.h:238
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_random_t
+    {
+    }
+
+    // OpaqueType @ unix.h:137
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_mutex_t
+    {
+    }
+
+    // OpaqueType @ unix.h:138
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_rwlock_t
+    {
+    }
+
+    // OpaqueType @ unix.h:139
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_sem_t
+    {
+    }
+
+    // OpaqueType @ unix.h:140
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_cond_t
+    {
+    }
+
+    // OpaqueType @ unix.h:162
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_barrier_t
+    {
+    }
+
+    // OpaqueType @ unix.h:135
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_once_t
+    {
+    }
+
+    // OpaqueType @ unix.h:141
+    [StructLayout(LayoutKind.Sequential)]
+    public struct uv_key_t
+    {
+    }
+
+    // Typedef @ unix.h:130
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct uv_os_fd_t
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int Data;
+
+        public static unsafe implicit operator int(uv_os_fd_t data) => *((int*)&data);
+    }
+
+    // Typedef @ unix.h:128
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct uv_file
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int Data;
+
+        public static unsafe implicit operator int(uv_file data) => *((int*)&data);
+    }
+
+    // Typedef @ unix.h:129
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct uv_os_sock_t
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int Data;
+
+        public static unsafe implicit operator int(uv_os_sock_t data) => *((int*)&data);
+    }
+
+    // Typedef @ unix.h:169
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct uv_uid_t
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uid_t Data;
+
+        public static unsafe implicit operator uid_t(uv_uid_t data) => *((uid_t*)&data);
+    }
+
+    // Typedef @ unix.h:168
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct uv_gid_t
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public gid_t Data;
+
+        public static unsafe implicit operator gid_t(uv_gid_t data) => *((gid_t*)&data);
+    }
+
+    // Typedef @ unix.h:131
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct uv_pid_t
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public pid_t Data;
+
+        public static unsafe implicit operator pid_t(uv_pid_t data) => *((pid_t*)&data);
+    }
+
+    // Typedef @ unix.h:136
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct uint64_t
+    public struct uv_thread_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public uint64_t Data;
+        public pthread_t Data;
 
-        public unsafe static implicit operator uint64_t(uint64_t data) => *((uint64_t*)&data);
+        public static unsafe implicit operator pthread_t(uv_thread_t data) => *((pthread_t*)&data);
+    }
+
+    // Enum @ uv.h:249
+    public enum uv_loop_option : uint
+    {
+        UV_LOOP_BLOCK_SIGNAL = 0U,
+        UV_METRICS_IDLE_TIME = 1U
+    }
+
+    // Enum @ uv.h:254
+    public enum uv_run_mode : uint
+    {
+        UV_RUN_DEFAULT = 0U,
+        UV_RUN_ONCE = 1U,
+        UV_RUN_NOWAIT = 2U
+    }
+
+    // Enum @ uv.h:189
+    public enum uv_handle_type : uint
+    {
+        UV_UNKNOWN_HANDLE = 0U,
+        UV_ASYNC = 1U,
+        UV_CHECK = 2U,
+        UV_FS_EVENT = 3U,
+        UV_FS_POLL = 4U,
+        UV_HANDLE = 5U,
+        UV_IDLE = 6U,
+        UV_NAMED_PIPE = 7U,
+        UV_POLL = 8U,
+        UV_PREPARE = 9U,
+        UV_PROCESS = 10U,
+        UV_STREAM = 11U,
+        UV_TCP = 12U,
+        UV_TIMER = 13U,
+        UV_TTY = 14U,
+        UV_UDP = 15U,
+        UV_SIGNAL = 16U,
+        UV_FILE = 17U,
+        UV_HANDLE_TYPE_MAX = 18U
+    }
+
+    // Enum @ uv.h:198
+    public enum uv_req_type : uint
+    {
+        UV_UNKNOWN_REQ = 0U,
+        UV_REQ = 1U,
+        UV_CONNECT = 2U,
+        UV_WRITE = 3U,
+        UV_SHUTDOWN = 4U,
+        UV_UDP_SEND = 5U,
+        UV_FS = 6U,
+        UV_WORK = 7U,
+        UV_GETADDRINFO = 8U,
+        UV_GETNAMEINFO = 9U,
+        UV_RANDOM = 10U,
+        UV_REQ_TYPE_MAX = 11U
+    }
+
+    // Enum @ uv.h:382
+    public enum uv_membership : uint
+    {
+        UV_LEAVE_GROUP = 0U,
+        UV_JOIN_GROUP = 1U
+    }
+
+    // Enum @ uv.h:733
+    public enum uv_tty_mode_t : uint
+    {
+        UV_TTY_MODE_NORMAL = 0U,
+        UV_TTY_MODE_RAW = 1U,
+        UV_TTY_MODE_IO = 2U
+    }
+
+    // Enum @ uv.h:742
+    public enum uv_tty_vtermstate_t : uint
+    {
+        UV_TTY_SUPPORTED = 0U,
+        UV_TTY_UNSUPPORTED = 1U
+    }
+
+    // Enum @ uv.h:934
+    public enum uv_stdio_flags : uint
+    {
+        UV_IGNORE = 0U,
+        UV_CREATE_PIPE = 1U,
+        UV_INHERIT_FD = 2U,
+        UV_INHERIT_STREAM = 4U,
+        UV_READABLE_PIPE = 16U,
+        UV_WRITABLE_PIPE = 32U,
+        UV_NONBLOCK_PIPE = 64U,
+        UV_OVERLAPPED_PIPE = 64U
+    }
+
+    // Enum @ uv.h:1273
+    public enum uv_fs_type : int
+    {
+        UV_FS_UNKNOWN = -1,
+        UV_FS_CUSTOM = 0,
+        UV_FS_OPEN = 1,
+        UV_FS_CLOSE = 2,
+        UV_FS_READ = 3,
+        UV_FS_WRITE = 4,
+        UV_FS_SENDFILE = 5,
+        UV_FS_STAT = 6,
+        UV_FS_LSTAT = 7,
+        UV_FS_FSTAT = 8,
+        UV_FS_FTRUNCATE = 9,
+        UV_FS_UTIME = 10,
+        UV_FS_FUTIME = 11,
+        UV_FS_ACCESS = 12,
+        UV_FS_CHMOD = 13,
+        UV_FS_FCHMOD = 14,
+        UV_FS_FSYNC = 15,
+        UV_FS_FDATASYNC = 16,
+        UV_FS_UNLINK = 17,
+        UV_FS_RMDIR = 18,
+        UV_FS_MKDIR = 19,
+        UV_FS_MKDTEMP = 20,
+        UV_FS_RENAME = 21,
+        UV_FS_SCANDIR = 22,
+        UV_FS_LINK = 23,
+        UV_FS_SYMLINK = 24,
+        UV_FS_READLINK = 25,
+        UV_FS_CHOWN = 26,
+        UV_FS_FCHOWN = 27,
+        UV_FS_REALPATH = 28,
+        UV_FS_COPYFILE = 29,
+        UV_FS_LCHOWN = 30,
+        UV_FS_OPENDIR = 31,
+        UV_FS_READDIR = 32,
+        UV_FS_CLOSEDIR = 33,
+        UV_FS_STATFS = 34,
+        UV_FS_MKSTEMP = 35,
+        UV_FS_LUTIME = 36
+    }
+
+    // Enum @ uv.h:1155
+    public enum uv_dirent_type_t : uint
+    {
+        UV_DIRENT_UNKNOWN = 0U,
+        UV_DIRENT_FILE = 1U,
+        UV_DIRENT_DIR = 2U,
+        UV_DIRENT_LINK = 3U,
+        UV_DIRENT_FIFO = 4U,
+        UV_DIRENT_SOCKET = 5U,
+        UV_DIRENT_CHAR = 6U,
+        UV_DIRENT_BLOCK = 7U
     }
 }

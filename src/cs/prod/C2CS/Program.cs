@@ -140,7 +140,7 @@ namespace C2CS
 		{
 			try
 			{
-				var request = new Request(
+				var request = new BindgenInput(
 					inputFilePath,
 					outputFilePath,
 					unattended,
@@ -153,7 +153,7 @@ namespace C2CS
 					defines?.ToImmutableArray() ?? ImmutableArray<string>.Empty,
 					clangArgs?.ToImmutableArray() ?? ImmutableArray<string>.Empty);
 
-				var useCase = new UseCase();
+				var useCase = new BindgenUseCase();
 				var response = useCase.Execute(request);
 				Debug.Assert(response.OutputFilePath == request.OutputFilePath, "equal");
 			}

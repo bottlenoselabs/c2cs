@@ -3,7 +3,7 @@
 
 namespace C2CS.CSharp
 {
-    public record CSharpEnumValue : CSharpCommon
+    public record CSharpEnumValue : CSharpNode
     {
         public readonly long Value;
 

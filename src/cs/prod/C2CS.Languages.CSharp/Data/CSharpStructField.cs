@@ -3,7 +3,7 @@
 
 namespace C2CS.CSharp
 {
-    public record CSharpStructField : CSharpCommon
+    public record CSharpStructField : CSharpNode
     {
         public readonly string OriginalName;
         public readonly CSharpType Type;

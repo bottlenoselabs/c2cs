@@ -3,7 +3,7 @@
 
 namespace C2CS.CSharp
 {
-    public record CSharpVariable : CSharpCommon
+    public record CSharpVariable : CSharpNode
     {
         public CSharpType Type;
 

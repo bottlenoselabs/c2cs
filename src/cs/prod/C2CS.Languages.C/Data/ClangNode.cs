@@ -8,22 +8,14 @@ namespace C2CS.Languages.C
     public record ClangNode : IComparable<ClangNode>
     {
         public readonly ClangNodeKind Kind;
-        public readonly string Name;
         public readonly ClangCodeLocation CodeLocation;
 
         public ClangNode(
             ClangNodeKind kind,
-            string name,
             ClangCodeLocation codeLocation)
         {
             Kind = kind;
-            Name = name;
             CodeLocation = codeLocation;
-        }
-
-        public override string ToString()
-        {
-            return $"{Name}:{Kind} <{CodeLocation.ToString()}>";
         }
 
         public int CompareTo(ClangNode? other)
@@ -38,17 +30,7 @@ namespace C2CS.Languages.C
                 return 1;
             }
 
-            // ReSharper disable once JoinDeclarationAndInitializer
-            int result;
-
-            result = CodeLocation.CompareTo(other.CodeLocation);
-            if (result != 0)
-            {
-                return result;
-            }
-
-            result = string.Compare(Name, other.Name, StringComparison.Ordinal);
-
+            var result = CodeLocation.CompareTo(other.CodeLocation);
             return result;
         }
 

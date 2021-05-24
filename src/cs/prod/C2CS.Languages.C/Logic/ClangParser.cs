@@ -76,7 +76,7 @@ namespace C2CS.Languages.C
                 errorCode = clang_parseTranslationUnit2(
                     index,
                     cSourceFilePath,
-                    (sbyte**)cCommandLineArgs,
+                    (byte**)cCommandLineArgs,
                     commandLineArgs.Length,
                     (CXUnsavedFile*) IntPtr.Zero,
                     0,

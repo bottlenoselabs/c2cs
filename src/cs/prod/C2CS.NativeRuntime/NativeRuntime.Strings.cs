@@ -19,7 +19,7 @@ public static unsafe partial class NativeRuntime
     /// </summary>
     /// <param name="cString">A pointer to the C string.</param>
     /// <returns>A <see cref="string" /> equivalent to the C string pointed by <paramref name="cString" />.</returns>
-    public static string MapString(sbyte* cString)
+    public static string MapString(byte* cString)
     {
         var pointer = (IntPtr) cString;
         if (PointersToStrings.TryGetValue(pointer, out var result))
@@ -53,12 +53,12 @@ public static unsafe partial class NativeRuntime
     /// </summary>
     /// <param name="string">A <see cref="string" />.</param>
     /// <returns>A C string pointer.</returns>
-    public static sbyte* MapCString(string @string)
+    public static byte* MapCString(string @string)
     {
         var hash = Crc32B(@string);
         if (StringHashesToPointers.TryGetValue(hash, out var pointer))
         {
-            return (sbyte*) pointer;
+            return (byte*) pointer;
         }
 
         pointer = Marshal.StringToHGlobalAnsi(@string);
@@ -66,7 +66,7 @@ public static unsafe partial class NativeRuntime
         PointersToStrings.Add(pointer, @string);
         Pointers.Add(pointer);
 
-        return (sbyte*) pointer;
+        return (byte*) pointer;
     }
 
     /// <summary>
@@ -109,7 +109,7 @@ public static unsafe partial class NativeRuntime
     }
 
     // https://stackoverflow.com/questions/21001659/crc32-algorithm-implementation-in-c-without-a-look-up-table-and-with-a-public-li
-    private static uint Crc32B(sbyte* cString)
+    private static uint Crc32B(byte* cString)
     {
         var i = 0;
         var crc = 0xFFFFFFFF;

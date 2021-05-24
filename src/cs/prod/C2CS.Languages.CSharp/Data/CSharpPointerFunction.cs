@@ -1,19 +1,27 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System.Collections.Immutable;
+
 namespace C2CS.CSharp
 {
-    public record CSharpFunctionPointerParameter : CSharpCommon
+    public record CSharpPointerFunction : CSharpNode
     {
-        public readonly CSharpType Type;
+        public readonly int PointerSize;
+        public readonly CSharpType ReturnType;
+        public readonly ImmutableArray<CSharpPointerFunctionParameter> Parameters;
 
-        public CSharpFunctionPointerParameter(
+        public CSharpPointerFunction(
             string name,
             string codeLocationComment,
-            CSharpType type)
+            int pointerSize,
+            CSharpType returnType,
+            ImmutableArray<CSharpPointerFunctionParameter> parameters)
             : base(name, codeLocationComment)
         {
-            Type = type;
+            PointerSize = pointerSize;
+            ReturnType = returnType;
+            Parameters = parameters;
         }
 
         // Required for debugger string with records

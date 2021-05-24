@@ -3,7 +3,7 @@
 
 namespace C2CS.CSharp
 {
-    public record CSharpOpaqueType : CSharpCommon
+    public record CSharpOpaqueType : CSharpNode
     {
         public CSharpOpaqueType(
             string name,

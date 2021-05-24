@@ -5,22 +5,25 @@ namespace C2CS.Languages.C
 {
     public record ClangTypedef : ClangNode
     {
+        public readonly string Name;
+        public readonly ClangType Type;
         public readonly ClangType UnderlyingType;
 
         internal ClangTypedef(
             string name,
             ClangCodeLocation codeLocation,
+            ClangType type,
             ClangType underlyingType)
-            : base(ClangNodeKind.Typedef, name, codeLocation)
+            : base(ClangNodeKind.Typedef, codeLocation)
         {
+            Name = name;
+            Type = type;
             UnderlyingType = underlyingType;
         }
 
-        // Required for debugger string with records
-        // ReSharper disable once RedundantOverriddenMember
         public override string ToString()
         {
-            return base.ToString();
+            return $"Record '{Name}': {UnderlyingType.Name} @ {CodeLocation.ToString()}";
         }
     }
 }

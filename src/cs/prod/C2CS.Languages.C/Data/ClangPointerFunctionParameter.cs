@@ -3,24 +3,24 @@
 
 namespace C2CS.Languages.C
 {
-    public record ClangFunctionPointerParameter : ClangNode
+    public record ClangPointerFunctionParameter : ClangNode
     {
+        public readonly string Name;
         public readonly ClangType Type;
 
-        internal ClangFunctionPointerParameter(
+        internal ClangPointerFunctionParameter(
             string name,
             ClangCodeLocation codeLocation,
             ClangType type)
-            : base(ClangNodeKind.FunctionPointerParameter, name, codeLocation)
+            : base(ClangNodeKind.PointerFunctionParameter, codeLocation)
         {
+            Name = name;
             Type = type;
         }
 
-        // Required for debugger string with records
-        // ReSharper disable once RedundantOverriddenMember
         public override string ToString()
         {
-            return base.ToString();
+            return $"FunctionPointerParameter '{Name}': {Type.Name} @ {CodeLocation.ToString()}";
         }
     }
 }

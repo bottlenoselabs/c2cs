@@ -1,22 +1,19 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-namespace C2CS.Languages.C
+namespace C2CS.CSharp
 {
-    public record ClangFunctionExternParameter : ClangNode
+    public record CSharpFunctionParameter : CSharpNode
     {
-        public readonly ClangType Type;
-        public readonly bool IsFunctionPointer;
+        public readonly CSharpType Type;
 
-        internal ClangFunctionExternParameter(
+        public CSharpFunctionParameter(
             string name,
-            ClangCodeLocation codeLocation,
-            ClangType type,
-            bool isFunctionPointer)
-            : base(ClangNodeKind.FunctionExternParameter, name, codeLocation)
+            string codeLocationComment,
+            CSharpType type)
+            : base(name, codeLocationComment)
         {
             Type = type;
-            IsFunctionPointer = isFunctionPointer;
         }
 
         // Required for debugger string with records

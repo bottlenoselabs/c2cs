@@ -7,9 +7,9 @@ namespace C2CS.CSharp
 {
     public readonly struct CSharpAbstractSyntaxTree
     {
-        public readonly ImmutableArray<CSharpFunctionExtern> FunctionExterns;
+        public readonly ImmutableArray<CSharpFunction> FunctionExterns;
 
-        public readonly ImmutableArray<CSharpFunctionPointer> FunctionPointers;
+        public readonly ImmutableArray<CSharpPointerFunction> FunctionPointers;
 
         public readonly ImmutableArray<CSharpStruct> Structs;
 
@@ -22,8 +22,8 @@ namespace C2CS.CSharp
         public readonly ImmutableArray<CSharpVariable> VariablesExtern;
 
         public CSharpAbstractSyntaxTree(
-            ImmutableArray<CSharpFunctionExtern> functionExterns,
-            ImmutableArray<CSharpFunctionPointer> functionPointers,
+            ImmutableArray<CSharpFunction> functionExterns,
+            ImmutableArray<CSharpPointerFunction> functionPointers,
             ImmutableArray<CSharpStruct> structs,
             ImmutableArray<CSharpTypedef> typedefs,
             ImmutableArray<CSharpOpaqueType> opaqueDataTypes,

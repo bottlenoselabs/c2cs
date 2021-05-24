@@ -5,19 +5,18 @@ using System.Collections.Immutable;
 
 namespace C2CS.CSharp
 {
-    public record CSharpFunctionExtern : CSharpCommon
+    public record CSharpFunction : CSharpNode
     {
         public readonly CSharpType ReturnType;
-        public readonly CSharpFunctionExternCallingConvention CallingConvention;
-        public readonly ImmutableArray<CSharpFunctionExternParameter> Parameters;
+        public readonly CSharpFunctionCallingConvention CallingConvention;
+        public readonly ImmutableArray<CSharpFunctionParameter> Parameters;
 
-        public CSharpFunctionExtern(
+        public CSharpFunction(
             string name,
             string codeLocationComment,
-            CSharpFunctionExternCallingConvention callingConvention,
+            CSharpFunctionCallingConvention callingConvention,
             CSharpType returnType,
-            ImmutableArray<CSharpFunctionExternParameter> parameters,
-            bool isWrapped)
+            ImmutableArray<CSharpFunctionParameter> parameters)
             : base(name, codeLocationComment)
         {
             ReturnType = returnType;

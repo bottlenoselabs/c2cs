@@ -5,22 +5,22 @@ namespace C2CS.Languages.C
 {
     public record ClangVariable : ClangNode
     {
+        public readonly string Name;
         public readonly ClangType Type;
 
         internal ClangVariable(
             string name,
             ClangCodeLocation codeLocation,
             ClangType type)
-            : base(ClangNodeKind.VariableExtern, name, codeLocation)
+            : base(ClangNodeKind.Variable, codeLocation)
         {
+            Name = name;
             Type = type;
         }
 
-        // Required for debugger string with records
-        // ReSharper disable once RedundantOverriddenMember
         public override string ToString()
         {
-            return base.ToString();
+            return $"Record '{Name}': {Type.Name} @ {CodeLocation.ToString()}";
         }
     }
 }

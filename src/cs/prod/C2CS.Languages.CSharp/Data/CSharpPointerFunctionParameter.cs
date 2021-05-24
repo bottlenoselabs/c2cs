@@ -3,20 +3,17 @@
 
 namespace C2CS.CSharp
 {
-    public record CSharpFunctionExternParameter : CSharpCommon
+    public record CSharpPointerFunctionParameter : CSharpNode
     {
         public readonly CSharpType Type;
-        public readonly bool IsFunctionPointer;
 
-        public CSharpFunctionExternParameter(
+        public CSharpPointerFunctionParameter(
             string name,
             string codeLocationComment,
-            CSharpType type,
-            bool isFunctionPointer)
+            CSharpType type)
             : base(name, codeLocationComment)
         {
             Type = type;
-            IsFunctionPointer = isFunctionPointer;
         }
 
         // Required for debugger string with records

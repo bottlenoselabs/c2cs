@@ -61,8 +61,8 @@ namespace C2CS.Languages.C
 
 			_visitInstances[visitsCount - 1] = visitData;
 
-			var clientData = default(CXClientData);
-			clientData.Pointer = (void*) _visitsCount;
+			CXClientData clientData = default(CXClientData);
+			clientData.Data = (void*) _visitsCount;
 			clang_visitChildren(cursor, Visit, clientData);
 
 			Interlocked.Decrement(ref _visitsCount);
@@ -74,7 +74,7 @@ namespace C2CS.Languages.C
 		[UnmanagedCallersOnly]
 		private static CXChildVisitResult Visitor(CXCursor child, CXCursor parent, CXClientData clientData)
 		{
-			var index = (int)clientData.Pointer;
+			var index = (int)clientData.Data;
 			var data = _visitInstances[index - 1];
 
 			var result = data.Predicate(child, parent);
@@ -123,6 +123,8 @@ namespace C2CS.Languages.C
 					return IsSystem(pointeeType);
 				case CXTypeKind.CXType_ConstantArray:
 				case CXTypeKind.CXType_IncompleteArray:
+					var elementType = clang_getElementType(type);
+					return IsSystem(elementType);
 				case CXTypeKind.CXType_Typedef:
 				case CXTypeKind.CXType_Elaborated:
 				case CXTypeKind.CXType_Record:
@@ -130,6 +132,8 @@ namespace C2CS.Languages.C
 				case CXTypeKind.CXType_FunctionProto:
 					var declaration = clang_getTypeDeclaration(type);
 					return IsSystem(declaration);
+				case CXTypeKind.CXType_FunctionNoProto:
+					return false;
 				case CXTypeKind.CXType_Attributed:
 					var modifiedType = clang_Type_getModifiedType(type);
 					return IsSystem(modifiedType);
@@ -142,12 +146,12 @@ namespace C2CS.Languages.C
 		{
 			var location = clang_getCursorLocation(clangCursor);
 			CXFile file;
-			uint lineNumber;
-			uint lineColumn;
-			uint offset;
+			ulong lineNumber;
+			ulong lineColumn;
+			ulong offset;
 			clang_getFileLocation(location, &file, &lineNumber, &lineColumn, &offset);
 
-			var handle = (IntPtr)file.Pointer;
+			var handle = (IntPtr)file.Data;
 			if (handle == IntPtr.Zero)
 			{
 				return (string.Empty, 0, 0);
@@ -191,6 +195,11 @@ namespace C2CS.Languages.C
 				result = result.Replace("struct ", string.Empty);
 			}
 
+			if (result.Contains("enum "))
+			{
+				result = result.Replace("enum ", string.Empty);
+			}
+
 			if (result.Contains("const "))
 			{
 				result = result.Replace("const ", string.Empty);
@@ -199,9 +208,9 @@ namespace C2CS.Languages.C
 			return result;
 		}
 
-		public static bool IsBuiltin(this CXTypeKind typeKind)
+		public static bool IsPrimitive(this CXType type)
 		{
-			return typeKind switch
+			return type.kind switch
 			{
 				CXTypeKind.CXType_Void => true,
 				CXTypeKind.CXType_Bool => true,

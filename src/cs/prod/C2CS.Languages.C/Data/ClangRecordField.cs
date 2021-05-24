@@ -5,35 +5,38 @@ namespace C2CS.Languages.C
 {
     public record ClangRecordField : ClangNode
     {
+        public readonly string Name;
         public readonly ClangType Type;
         public readonly int Offset;
         public readonly int Padding;
+        public readonly bool IsUnNamedFunctionPointer;
 
         internal ClangRecordField(
             string name,
             ClangCodeLocation codeLocation,
             ClangType type,
-            int offset)
-            : base(ClangNodeKind.RecordField, name, codeLocation)
+            int offset,
+            bool isUnNamedFunctionPointer)
+            : base(ClangNodeKind.RecordField, codeLocation)
         {
+            Name = name;
             Type = type;
             Offset = offset;
             Padding = 0;
+            IsUnNamedFunctionPointer = isUnNamedFunctionPointer;
         }
 
         internal ClangRecordField(
             ClangRecordField previous,
             int padding)
-            : this(previous.Name, previous.CodeLocation, previous.Type, previous.Offset)
+            : this(previous.Name, previous.CodeLocation, previous.Type, previous.Offset, previous.IsUnNamedFunctionPointer)
         {
             Padding = padding;
         }
 
-        // Required for debugger string with records
-        // ReSharper disable once RedundantOverriddenMember
         public override string ToString()
         {
-            return base.ToString();
+            return $"RecordField '{Name}': {Type.Name} @ {CodeLocation.ToString()}";
         }
     }
 }

@@ -54,7 +54,7 @@ public static unsafe partial class sokol
 
     // FunctionExtern @ sokol_app.h:1399
     [DllImport(LibraryName, EntryPoint = "sokol_main", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sapp_desc sokol_main(int argc, sbyte** argv);
+    public static extern sapp_desc sokol_main(int argc, byte** argv);
 
     // FunctionExtern @ sokol_app.h:1402
     [DllImport(LibraryName, EntryPoint = "sapp_isvalid", CallingConvention = CallingConvention.Cdecl)]
@@ -158,15 +158,15 @@ public static unsafe partial class sokol
 
     // FunctionExtern @ sokol_app.h:1452
     [DllImport(LibraryName, EntryPoint = "sapp_set_clipboard_string", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sapp_set_clipboard_string(sbyte* str);
+    public static extern void sapp_set_clipboard_string(byte* str);
 
     // FunctionExtern @ sokol_app.h:1454
     [DllImport(LibraryName, EntryPoint = "sapp_get_clipboard_string", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sbyte* sapp_get_clipboard_string();
+    public static extern byte* sapp_get_clipboard_string();
 
     // FunctionExtern @ sokol_app.h:1456
     [DllImport(LibraryName, EntryPoint = "sapp_set_window_title", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sapp_set_window_title(sbyte* str);
+    public static extern void sapp_set_window_title(byte* str);
 
     // FunctionExtern @ sokol_app.h:1458
     [DllImport(LibraryName, EntryPoint = "sapp_set_icon", CallingConvention = CallingConvention.Cdecl)]
@@ -178,7 +178,7 @@ public static unsafe partial class sokol
 
     // FunctionExtern @ sokol_app.h:1462
     [DllImport(LibraryName, EntryPoint = "sapp_get_dropped_file_path", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sbyte* sapp_get_dropped_file_path(int index);
+    public static extern byte* sapp_get_dropped_file_path(int index);
 
     // FunctionExtern @ sokol_app.h:1465
     [DllImport(LibraryName, EntryPoint = "sapp_run", CallingConvention = CallingConvention.Cdecl)]
@@ -286,7 +286,7 @@ public static unsafe partial class sokol
 
     // FunctionExtern @ sokol_gfx.h:2273
     [DllImport(LibraryName, EntryPoint = "sg_push_debug_group", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_push_debug_group(sbyte* name);
+    public static extern void sg_push_debug_group(byte* name);
 
     // FunctionExtern @ sokol_gfx.h:2274
     [DllImport(LibraryName, EntryPoint = "sg_pop_debug_group", CallingConvention = CallingConvention.Cdecl)]
@@ -608,692 +608,12 @@ public static unsafe partial class sokol
     [DllImport(LibraryName, EntryPoint = "sapp_sgcontext", CallingConvention = CallingConvention.Cdecl)]
     public static extern sg_context_desc sapp_sgcontext();
 
-    // FunctionPointer @ sokol_app.h:1329
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sapp_desc_init_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_app.h:1330
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sapp_desc_frame_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_app.h:1331
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sapp_desc_cleanup_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_app.h:1332
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sapp_desc_event_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sapp_event*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_app.h:1333
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sapp_desc_fail_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sbyte*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_app.h:1336
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sapp_desc_init_userdata_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_app.h:1337
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sapp_desc_frame_userdata_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_app.h:1338
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sapp_desc_cleanup_userdata_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_app.h:1339
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sapp_desc_event_userdata_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sapp_event*, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_app.h:1340
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sapp_desc_fail_userdata_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sbyte*, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_app.h:1392
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sapp_html5_fetch_request_callback
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sapp_html5_fetch_response*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1977
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_reset_state_cache
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1978
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_make_buffer
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_buffer_desc*, sg_buffer, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1979
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_make_image
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_image_desc*, sg_image, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1980
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_make_shader
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_shader_desc*, sg_shader, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1981
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_make_pipeline
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_pipeline_desc*, sg_pipeline, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1982
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_make_pass
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_pass_desc*, sg_pass, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1983
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_destroy_buffer
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_buffer, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1984
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_destroy_image
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_image, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1985
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_destroy_shader
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_shader, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1986
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_destroy_pipeline
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1987
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_destroy_pass
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_pass, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1988
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_update_buffer
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_buffer, sg_range*, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1989
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_update_image
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_image, sg_image_data*, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1990
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_append_buffer
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_buffer, sg_range*, int, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1991
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_begin_default_pass
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_pass_action*, int, int, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1992
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_begin_pass
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_pass, sg_pass_action*, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1993
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_apply_viewport
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<int, int, int, int, _Bool, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1994
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_apply_scissor_rect
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<int, int, int, int, _Bool, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1995
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_apply_pipeline
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1996
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_apply_bindings
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_bindings*, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1997
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_apply_uniforms
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_shader_stage, int, sg_range*, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1998
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_draw
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<int, int, int, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:1999
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_end_pass
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2000
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_commit
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2001
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_alloc_buffer
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_buffer, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2002
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_alloc_image
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_image, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2003
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_alloc_shader
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_shader, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2004
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_alloc_pipeline
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2005
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_alloc_pass
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_pass, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2006
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_dealloc_buffer
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_buffer, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2007
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_dealloc_image
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_image, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2008
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_dealloc_shader
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_shader, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2009
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_dealloc_pipeline
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2010
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_dealloc_pass
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_pass, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2011
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_init_buffer
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_buffer, sg_buffer_desc*, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2012
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_init_image
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_image, sg_image_desc*, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2013
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_init_shader
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_shader, sg_shader_desc*, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2014
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_init_pipeline
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_pipeline, sg_pipeline_desc*, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2015
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_init_pass
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_pass, sg_pass_desc*, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2016
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_uninit_buffer
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_buffer, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2017
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_uninit_image
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_image, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2018
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_uninit_shader
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_shader, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2019
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_uninit_pipeline
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2020
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_uninit_pass
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_pass, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2021
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_fail_buffer
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_buffer, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2022
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_fail_image
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_image, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2023
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_fail_shader
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_shader, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2024
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_fail_pipeline
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2025
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_fail_pass
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_pass, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2026
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_push_debug_group
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sbyte*, void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2027
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_pop_debug_group
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2028
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_err_buffer_pool_exhausted
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2029
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_err_image_pool_exhausted
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2030
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_err_shader_pool_exhausted
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2031
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_err_pipeline_pool_exhausted
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2032
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_err_pass_pool_exhausted
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2033
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_err_context_mismatch
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2034
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_err_pass_invalid
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2035
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_err_draw_invalid
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2036
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_trace_hooks_err_bindings_invalid
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, void> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2214
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_metal_context_desc_renderpass_descriptor_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_metal_context_desc_renderpass_descriptor_cb> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2215
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_metal_context_desc_renderpass_descriptor_userdata_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, sg_metal_context_desc_renderpass_descriptor_userdata_cb> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2216
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_metal_context_desc_drawable_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_metal_context_desc_drawable_cb> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2217
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_metal_context_desc_drawable_userdata_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, sg_metal_context_desc_drawable_userdata_cb> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2224
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_d3d11_context_desc_render_target_view_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_d3d11_context_desc_render_target_view_cb> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2225
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_d3d11_context_desc_render_target_view_userdata_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, sg_d3d11_context_desc_render_target_view_userdata_cb> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2226
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_d3d11_context_desc_depth_stencil_view_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_d3d11_context_desc_depth_stencil_view_cb> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2227
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_d3d11_context_desc_depth_stencil_view_userdata_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, sg_d3d11_context_desc_depth_stencil_view_userdata_cb> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2233
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_wgpu_context_desc_render_view_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_wgpu_context_desc_render_view_cb> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2234
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_wgpu_context_desc_render_view_userdata_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, sg_wgpu_context_desc_render_view_userdata_cb> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2235
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_wgpu_context_desc_resolve_view_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_wgpu_context_desc_resolve_view_cb> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2236
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_wgpu_context_desc_resolve_view_userdata_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, sg_wgpu_context_desc_resolve_view_userdata_cb> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2237
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_wgpu_context_desc_depth_stencil_view_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<sg_wgpu_context_desc_depth_stencil_view_cb> Pointer;
-    }
-
-    // FunctionPointer @ sokol_gfx.h:2238
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct sg_wgpu_context_desc_depth_stencil_view_userdata_cb
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public delegate* unmanaged<void*, sg_wgpu_context_desc_depth_stencil_view_userdata_cb> Pointer;
-    }
-
-    // Record @ sokol_app.h:1206
+    // Record @ sokol_app.h:1201
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct sapp_touchpoint
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public ulong identifier;
+        public UIntPtr identifier;
 
         [FieldOffset(8)] // size = 4, padding = 0
         public float pos_x;
@@ -1305,7 +625,7 @@ public static unsafe partial class sokol
         public _Bool changed;
     }
 
-    // Record @ sokol_app.h:1264
+    // Record @ sokol_app.h:1244
     [StructLayout(LayoutKind.Explicit, Size = 272, Pack = 8)]
     public struct sapp_event
     {
@@ -1352,15 +672,18 @@ public static unsafe partial class sokol
         public int num_touches;
 
         [FieldOffset(64)] // size = 192, padding = 0
-        public fixed ulong _touches[192 / 8]; // original type is `sapp_touchpoint [8]`
+        public fixed ulong _touches[192 / 8]; // sapp_touchpoint [8]
 
-        public ref sapp_touchpoint touches(int index = 0)
+        public Span<sapp_touchpoint> touches
         {
-            fixed (sapp_event* @this = &this)
+            get
             {
-                var pointer = (sapp_touchpoint*)&@this->_touches[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (sapp_event* @this = &this)
+                {
+                    var pointer = &@this->_touches[0];
+                    var span = new Span<sapp_touchpoint>(pointer, 8);
+                    return span;
+                }
             }
         }
 
@@ -1377,7 +700,7 @@ public static unsafe partial class sokol
         public int framebuffer_height;
     }
 
-    // Record @ sokol_app.h:1275
+    // Record @ sokol_app.h:1272
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct sapp_range
     {
@@ -1388,7 +711,7 @@ public static unsafe partial class sokol
         public ulong size;
     }
 
-    // Record @ sokol_app.h:1302
+    // Record @ sokol_app.h:1298
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct sapp_image_desc
     {
@@ -1402,7 +725,7 @@ public static unsafe partial class sokol
         public sapp_range pixels;
     }
 
-    // Record @ sokol_app.h:1325
+    // Record @ sokol_app.h:1322
     [StructLayout(LayoutKind.Explicit, Size = 200, Pack = 8)]
     public struct sapp_icon_desc
     {
@@ -1410,55 +733,58 @@ public static unsafe partial class sokol
         public _Bool sokol_default;
 
         [FieldOffset(8)] // size = 192, padding = 0
-        public fixed ulong _images[192 / 8]; // original type is `sapp_image_desc [8]`
+        public fixed ulong _images[192 / 8]; // sapp_image_desc [8]
 
-        public ref sapp_image_desc images(int index = 0)
+        public Span<sapp_image_desc> images
         {
-            fixed (sapp_icon_desc* @this = &this)
+            get
             {
-                var pointer = (sapp_image_desc*)&@this->_images[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (sapp_icon_desc* @this = &this)
+                {
+                    var pointer = &@this->_images[0];
+                    var span = new Span<sapp_image_desc>(pointer, 8);
+                    return span;
+                }
             }
         }
     }
 
-    // Record @ sokol_app.h:1369
+    // Record @ sokol_app.h:1328
     [StructLayout(LayoutKind.Explicit, Size = 368, Pack = 8)]
     public struct sapp_desc
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public sapp_desc_init_cb init_cb;
+        public NativeCallbackVoid init_cb;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public sapp_desc_frame_cb frame_cb;
+        public NativeCallbackVoid frame_cb;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public sapp_desc_cleanup_cb cleanup_cb;
+        public NativeCallbackVoid cleanup_cb;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public sapp_desc_event_cb event_cb;
+        public FunctionPointer_event_cb event_cb;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public sapp_desc_fail_cb fail_cb;
+        public FunctionPointer_fail_cb fail_cb;
 
         [FieldOffset(40)] // size = 8, padding = 0
         public void* user_data;
 
         [FieldOffset(48)] // size = 8, padding = 0
-        public sapp_desc_init_userdata_cb init_userdata_cb;
+        public NativeCallbackPointerVoid init_userdata_cb;
 
         [FieldOffset(56)] // size = 8, padding = 0
-        public sapp_desc_frame_userdata_cb frame_userdata_cb;
+        public NativeCallbackPointerVoid frame_userdata_cb;
 
         [FieldOffset(64)] // size = 8, padding = 0
-        public sapp_desc_cleanup_userdata_cb cleanup_userdata_cb;
+        public NativeCallbackPointerVoid cleanup_userdata_cb;
 
         [FieldOffset(72)] // size = 8, padding = 0
-        public sapp_desc_event_userdata_cb event_userdata_cb;
+        public FunctionPointer_event_userdata_cb event_userdata_cb;
 
         [FieldOffset(80)] // size = 8, padding = 0
-        public sapp_desc_fail_userdata_cb fail_userdata_cb;
+        public FunctionPointer_fail_userdata_cb fail_userdata_cb;
 
         [FieldOffset(88)] // size = 4, padding = 0
         public int width;
@@ -1482,7 +808,7 @@ public static unsafe partial class sokol
         public _Bool alpha;
 
         [FieldOffset(112)] // size = 8, padding = 0
-        public sbyte* window_title;
+        public byte* window_title;
 
         [FieldOffset(120)] // size = 1, padding = 0
         public _Bool user_cursor;
@@ -1518,7 +844,7 @@ public static unsafe partial class sokol
         public _Bool win32_console_attach;
 
         [FieldOffset(352)] // size = 8, padding = 0
-        public sbyte* html5_canvas_name;
+        public byte* html5_canvas_name;
 
         [FieldOffset(360)] // size = 1, padding = 0
         public _Bool html5_canvas_resize;
@@ -1534,9 +860,79 @@ public static unsafe partial class sokol
 
         [FieldOffset(364)] // size = 1, padding = 3
         public _Bool ios_keyboard_resizes_canvas;
+
+        // FunctionPointer @ sokol_app.h:1329
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_init_cb
+        {
+            public delegate* unmanaged<void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_app.h:1330
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_frame_cb
+        {
+            public delegate* unmanaged<void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_app.h:1331
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_cleanup_cb
+        {
+            public delegate* unmanaged<void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_app.h:1332
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_event_cb
+        {
+            public delegate* unmanaged<sapp_event*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_app.h:1333
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_fail_cb
+        {
+            public delegate* unmanaged<byte*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_app.h:1336
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_init_userdata_cb
+        {
+            public delegate* unmanaged<void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_app.h:1337
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_frame_userdata_cb
+        {
+            public delegate* unmanaged<void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_app.h:1338
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_cleanup_userdata_cb
+        {
+            public delegate* unmanaged<void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_app.h:1339
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_event_userdata_cb
+        {
+            public delegate* unmanaged<sapp_event*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_app.h:1340
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_fail_userdata_cb
+        {
+            public delegate* unmanaged<byte*, void*, void> Pointer;
+        }
     }
 
-    // Record @ sokol_app.h:1388
+    // Record @ sokol_app.h:1380
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
     public struct sapp_html5_fetch_response
     {
@@ -1562,7 +958,7 @@ public static unsafe partial class sokol
         public void* user_data;
     }
 
-    // Record @ sokol_app.h:1396
+    // Record @ sokol_app.h:1390
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
     public struct sapp_html5_fetch_request
     {
@@ -1570,7 +966,7 @@ public static unsafe partial class sokol
         public int dropped_file_index;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public sapp_html5_fetch_request_callback callback;
+        public FunctionPointer_callback callback;
 
         [FieldOffset(16)] // size = 8, padding = 0
         public void* buffer_ptr;
@@ -1580,57 +976,267 @@ public static unsafe partial class sokol
 
         [FieldOffset(32)] // size = 8, padding = 0
         public void* user_data;
+
+        // FunctionPointer @ sokol_app.h:1392
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_callback
+        {
+            public delegate* unmanaged<sapp_html5_fetch_response*, void> Pointer;
+        }
     }
 
-    // Record @ sokol_gfx.h:628
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct sg_buffer
+    // Record @ sokol_gfx.h:2208
+    [StructLayout(LayoutKind.Explicit, Size = 1, Pack = 1)]
+    public struct sg_gl_context_desc
+    {
+        [FieldOffset(0)] // size = 1, padding = 0
+        public _Bool force_gles2;
+    }
+
+    // Record @ sokol_gfx.h:2212
+    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
+    public struct sg_metal_context_desc
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* device;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public FunctionPointer_renderpass_descriptor_cb renderpass_descriptor_cb;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public FunctionPointer_renderpass_descriptor_userdata_cb renderpass_descriptor_userdata_cb;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public FunctionPointer_drawable_cb drawable_cb;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public FunctionPointer_drawable_userdata_cb drawable_userdata_cb;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public void* user_data;
+
+        // FunctionPointer @ sokol_gfx.h:2214
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_renderpass_descriptor_cb
+        {
+            public delegate* unmanaged<void*> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2215
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_renderpass_descriptor_userdata_cb
+        {
+            public delegate* unmanaged<void*, void*> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2216
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_drawable_cb
+        {
+            public delegate* unmanaged<void*> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2217
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_drawable_userdata_cb
+        {
+            public delegate* unmanaged<void*, void*> Pointer;
+        }
+    }
+
+    // Record @ sokol_gfx.h:2221
+    [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
+    public struct sg_d3d11_context_desc
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* device;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public void* device_context;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public FunctionPointer_render_target_view_cb render_target_view_cb;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public FunctionPointer_render_target_view_userdata_cb render_target_view_userdata_cb;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public FunctionPointer_depth_stencil_view_cb depth_stencil_view_cb;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public FunctionPointer_depth_stencil_view_userdata_cb depth_stencil_view_userdata_cb;
+
+        [FieldOffset(48)] // size = 8, padding = 0
+        public void* user_data;
+
+        // FunctionPointer @ sokol_gfx.h:2224
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_render_target_view_cb
+        {
+            public delegate* unmanaged<void*> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2225
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_render_target_view_userdata_cb
+        {
+            public delegate* unmanaged<void*, void*> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2226
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_depth_stencil_view_cb
+        {
+            public delegate* unmanaged<void*> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2227
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_depth_stencil_view_userdata_cb
+        {
+            public delegate* unmanaged<void*, void*> Pointer;
+        }
+    }
+
+    // Record @ sokol_gfx.h:2231
+    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
+    public struct sg_wgpu_context_desc
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* device;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public FunctionPointer_render_view_cb render_view_cb;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public FunctionPointer_render_view_userdata_cb render_view_userdata_cb;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public FunctionPointer_resolve_view_cb resolve_view_cb;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public FunctionPointer_resolve_view_userdata_cb resolve_view_userdata_cb;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public FunctionPointer_depth_stencil_view_cb depth_stencil_view_cb;
+
+        [FieldOffset(48)] // size = 8, padding = 0
+        public FunctionPointer_depth_stencil_view_userdata_cb depth_stencil_view_userdata_cb;
+
+        [FieldOffset(56)] // size = 8, padding = 0
+        public void* user_data;
+
+        // FunctionPointer @ sokol_gfx.h:2233
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_render_view_cb
+        {
+            public delegate* unmanaged<void*> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2234
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_render_view_userdata_cb
+        {
+            public delegate* unmanaged<void*, void*> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2235
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_resolve_view_cb
+        {
+            public delegate* unmanaged<void*> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2236
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_resolve_view_userdata_cb
+        {
+            public delegate* unmanaged<void*, void*> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2237
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_depth_stencil_view_cb
+        {
+            public delegate* unmanaged<void*> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2238
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_depth_stencil_view_userdata_cb
+        {
+            public delegate* unmanaged<void*, void*> Pointer;
+        }
+    }
+
+    // Record @ sokol_gfx.h:2242
+    [StructLayout(LayoutKind.Explicit, Size = 184, Pack = 8)]
+    public struct sg_context_desc
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public uint id;
+        public sg_pixel_format color_format;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public sg_pixel_format depth_format;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int sample_count;
+
+        [FieldOffset(12)] // size = 1, padding = 3
+        public sg_gl_context_desc gl;
+
+        [FieldOffset(16)] // size = 48, padding = 0
+        public sg_metal_context_desc metal;
+
+        [FieldOffset(64)] // size = 56, padding = 0
+        public sg_d3d11_context_desc d3d11;
+
+        [FieldOffset(120)] // size = 64, padding = 0
+        public sg_wgpu_context_desc wgpu;
     }
 
-    // Record @ sokol_gfx.h:629
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct sg_image
+    // Record @ sokol_gfx.h:2252
+    [StructLayout(LayoutKind.Explicit, Size = 232, Pack = 8)]
+    public struct sg_desc
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public uint id;
+        public uint _start_canary;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int buffer_pool_size;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int image_pool_size;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public int shader_pool_size;
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public int pipeline_pool_size;
+
+        [FieldOffset(20)] // size = 4, padding = 0
+        public int pass_pool_size;
+
+        [FieldOffset(24)] // size = 4, padding = 0
+        public int context_pool_size;
+
+        [FieldOffset(28)] // size = 4, padding = 0
+        public int uniform_buffer_size;
+
+        [FieldOffset(32)] // size = 4, padding = 0
+        public int staging_buffer_size;
+
+        [FieldOffset(36)] // size = 4, padding = 0
+        public int sampler_cache_size;
+
+        [FieldOffset(40)] // size = 184, padding = 0
+        public sg_context_desc context;
+
+        [FieldOffset(224)] // size = 4, padding = 4
+        public uint _end_canary;
     }
 
-    // Record @ sokol_gfx.h:630
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct sg_shader
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint id;
-    }
-
-    // Record @ sokol_gfx.h:631
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct sg_pipeline
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint id;
-    }
-
-    // Record @ sokol_gfx.h:632
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct sg_pass
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint id;
-    }
-
-    // Record @ sokol_gfx.h:633
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct sg_context
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint id;
-    }
-
-    // Record @ sokol_gfx.h:645
+    // Record @ sokol_gfx.h:642
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct sg_range
     {
@@ -1641,224 +1247,7 @@ public static unsafe partial class sokol
         public ulong size;
     }
 
-    // Record @ sokol_gfx.h:680
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
-    public struct sg_color
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public float r;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public float g;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public float b;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public float a;
-    }
-
-    // Record @ sokol_gfx.h:844
-    [StructLayout(LayoutKind.Explicit, Size = 6, Pack = 1)]
-    public struct sg_pixelformat_info
-    {
-        [FieldOffset(0)] // size = 1, padding = 0
-        public _Bool sample;
-
-        [FieldOffset(1)] // size = 1, padding = 0
-        public _Bool filter;
-
-        [FieldOffset(2)] // size = 1, padding = 0
-        public _Bool render;
-
-        [FieldOffset(3)] // size = 1, padding = 0
-        public _Bool blend;
-
-        [FieldOffset(4)] // size = 1, padding = 0
-        public _Bool msaa;
-
-        [FieldOffset(5)] // size = 1, padding = 0
-        public _Bool depth;
-    }
-
-    // Record @ sokol_gfx.h:863
-    [StructLayout(LayoutKind.Explicit, Size = 9, Pack = 1)]
-    public struct sg_features
-    {
-        [FieldOffset(0)] // size = 1, padding = 0
-        public _Bool instancing;
-
-        [FieldOffset(1)] // size = 1, padding = 0
-        public _Bool origin_top_left;
-
-        [FieldOffset(2)] // size = 1, padding = 0
-        public _Bool multiple_render_targets;
-
-        [FieldOffset(3)] // size = 1, padding = 0
-        public _Bool msaa_render_targets;
-
-        [FieldOffset(4)] // size = 1, padding = 0
-        public _Bool imagetype_3d;
-
-        [FieldOffset(5)] // size = 1, padding = 0
-        public _Bool imagetype_array;
-
-        [FieldOffset(6)] // size = 1, padding = 0
-        public _Bool image_clamp_to_border;
-
-        [FieldOffset(7)] // size = 1, padding = 0
-        public _Bool mrt_independent_blend_state;
-
-        [FieldOffset(8)] // size = 1, padding = 0
-        public _Bool mrt_independent_write_mask;
-    }
-
-    // Record @ sokol_gfx.h:875
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
-    public struct sg_limits
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int max_image_size_2d;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public int max_image_size_cube;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public int max_image_size_3d;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public int max_image_size_array;
-
-        [FieldOffset(16)] // size = 4, padding = 0
-        public int max_image_array_layers;
-
-        [FieldOffset(20)] // size = 4, padding = 0
-        public int max_vertex_attrs;
-    }
-
-    // Record @ sokol_gfx.h:1459
-    [StructLayout(LayoutKind.Explicit, Size = 20, Pack = 4)]
-    public struct sg_color_attachment_action
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public sg_action action;
-
-        [FieldOffset(4)] // size = 16, padding = 0
-        public sg_color value;
-    }
-
-    // Record @ sokol_gfx.h:1464
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
-    public struct sg_depth_attachment_action
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public sg_action action;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public float value;
-    }
-
-    // Record @ sokol_gfx.h:1469
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
-    public struct sg_stencil_attachment_action
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public sg_action action;
-
-        [FieldOffset(4)] // size = 1, padding = 3
-        public byte value;
-    }
-
-    // Record @ sokol_gfx.h:1477
-    [StructLayout(LayoutKind.Explicit, Size = 104, Pack = 4)]
-    public struct sg_pass_action
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint _start_canary;
-
-        [FieldOffset(4)] // size = 80, padding = 0
-        public fixed uint _colors[80 / 4]; // original type is `sg_color_attachment_action [4]`
-
-        public ref sg_color_attachment_action colors(int index = 0)
-        {
-            fixed (sg_pass_action* @this = &this)
-            {
-                var pointer = (sg_color_attachment_action*)&@this->_colors[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
-            }
-        }
-
-        [FieldOffset(84)] // size = 8, padding = 0
-        public sg_depth_attachment_action depth;
-
-        [FieldOffset(92)] // size = 8, padding = 0
-        public sg_stencil_attachment_action stencil;
-
-        [FieldOffset(100)] // size = 4, padding = 0
-        public uint _end_canary;
-    }
-
-    // Record @ sokol_gfx.h:1511
-    [StructLayout(LayoutKind.Explicit, Size = 176, Pack = 4)]
-    public struct sg_bindings
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint _start_canary;
-
-        [FieldOffset(4)] // size = 32, padding = 0
-        public fixed uint _vertex_buffers[32 / 4]; // original type is `sg_buffer [8]`
-
-        public ref sg_buffer vertex_buffers(int index = 0)
-        {
-            fixed (sg_bindings* @this = &this)
-            {
-                var pointer = (sg_buffer*)&@this->_vertex_buffers[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
-            }
-        }
-
-        [FieldOffset(36)] // size = 32, padding = 0
-        public fixed int _vertex_buffer_offsets[32 / 4]; // original type is `int [8]`
-
-        [FieldOffset(68)] // size = 4, padding = 0
-        public sg_buffer index_buffer;
-
-        [FieldOffset(72)] // size = 4, padding = 0
-        public int index_buffer_offset;
-
-        [FieldOffset(76)] // size = 48, padding = 0
-        public fixed uint _vs_images[48 / 4]; // original type is `sg_image [12]`
-
-        public ref sg_image vs_images(int index = 0)
-        {
-            fixed (sg_bindings* @this = &this)
-            {
-                var pointer = (sg_image*)&@this->_vs_images[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
-            }
-        }
-
-        [FieldOffset(124)] // size = 48, padding = 0
-        public fixed uint _fs_images[48 / 4]; // original type is `sg_image [12]`
-
-        public ref sg_image fs_images(int index = 0)
-        {
-            fixed (sg_bindings* @this = &this)
-            {
-                var pointer = (sg_image*)&@this->_fs_images[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
-            }
-        }
-
-        [FieldOffset(172)] // size = 4, padding = 0
-        public uint _end_canary;
-    }
-
-    // Record @ sokol_gfx.h:1582
+    // Record @ sokol_gfx.h:1566
     [StructLayout(LayoutKind.Explicit, Size = 96, Pack = 8)]
     public struct sg_buffer_desc
     {
@@ -1878,21 +1267,37 @@ public static unsafe partial class sokol
         public sg_range data;
 
         [FieldOffset(40)] // size = 8, padding = 0
-        public sbyte* label;
+        public byte* label;
 
         [FieldOffset(48)] // size = 8, padding = 0
-        public fixed uint _gl_buffers[8 / 4]; // original type is `uint32_t [2]`
+        public fixed uint _gl_buffers[8 / 4]; // uint32_t [2]
+
+        public Span<uint> gl_buffers
+        {
+            get
+            {
+                fixed (sg_buffer_desc* @this = &this)
+                {
+                    var pointer = &@this->_gl_buffers[0];
+                    var span = new Span<uint>(pointer, 2);
+                    return span;
+                }
+            }
+        }
 
         [FieldOffset(56)] // size = 16, padding = 0
-        public fixed ulong _mtl_buffers[16 / 8]; // original type is `const void *[2]`
+        public fixed ulong _mtl_buffers[16 / 8]; // void *[2]
 
-        public ref void* mtl_buffers(int index = 0)
+        public Span<IntPtr> mtl_buffers
         {
-            fixed (sg_buffer_desc* @this = &this)
+            get
             {
-                var pointer = (void**)&@this->_mtl_buffers[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (sg_buffer_desc* @this = &this)
+                {
+                    var pointer = &@this->_mtl_buffers[0];
+                    var span = new Span<IntPtr>(pointer, 2);
+                    return span;
+                }
             }
         }
 
@@ -1906,25 +1311,36 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // Record @ sokol_gfx.h:1593
+    // Record @ sokol_gfx.h:628
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct sg_buffer
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint id;
+    }
+
+    // Record @ sokol_gfx.h:1591
     [StructLayout(LayoutKind.Explicit, Size = 1536, Pack = 8)]
     public struct sg_image_data
     {
         [FieldOffset(0)] // size = 1536, padding = 0
-        public fixed ulong _subimage[1536 / 8]; // original type is `sg_range [6][16]`
+        public fixed ulong _subimage[1536 / 8]; // sg_range [6][16]
 
-        public ref sg_range subimage(int index = 0)
+        public Span<sg_range> subimage
         {
-            fixed (sg_image_data* @this = &this)
+            get
             {
-                var pointer = (sg_range*)&@this->_subimage[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (sg_image_data* @this = &this)
+                {
+                    var pointer = &@this->_subimage[0];
+                    var span = new Span<sg_range>(pointer, 6);
+                    return span;
+                }
             }
         }
     }
 
-    // Record @ sokol_gfx.h:1698
+    // Record @ sokol_gfx.h:1665
     [StructLayout(LayoutKind.Explicit, Size = 1688, Pack = 8)]
     public struct sg_image_desc
     {
@@ -1989,24 +1405,40 @@ public static unsafe partial class sokol
         public sg_image_data data;
 
         [FieldOffset(1616)] // size = 8, padding = 0
-        public sbyte* label;
+        public byte* label;
 
         [FieldOffset(1624)] // size = 8, padding = 0
-        public fixed uint _gl_textures[8 / 4]; // original type is `uint32_t [2]`
+        public fixed uint _gl_textures[8 / 4]; // uint32_t [2]
+
+        public Span<uint> gl_textures
+        {
+            get
+            {
+                fixed (sg_image_desc* @this = &this)
+                {
+                    var pointer = &@this->_gl_textures[0];
+                    var span = new Span<uint>(pointer, 2);
+                    return span;
+                }
+            }
+        }
 
         [FieldOffset(1632)] // size = 4, padding = 4
         public uint gl_texture_target;
 
         [FieldOffset(1640)] // size = 16, padding = 0
-        public fixed ulong _mtl_textures[16 / 8]; // original type is `const void *[2]`
+        public fixed ulong _mtl_textures[16 / 8]; // void *[2]
 
-        public ref void* mtl_textures(int index = 0)
+        public Span<IntPtr> mtl_textures
         {
-            fixed (sg_image_desc* @this = &this)
+            get
             {
-                var pointer = (void**)&@this->_mtl_textures[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (sg_image_desc* @this = &this)
+                {
+                    var pointer = &@this->_mtl_textures[0];
+                    var span = new Span<IntPtr>(pointer, 2);
+                    return span;
+                }
             }
         }
 
@@ -2023,26 +1455,34 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // Record @ sokol_gfx.h:1738
+    // Record @ sokol_gfx.h:629
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct sg_image
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint id;
+    }
+
+    // Record @ sokol_gfx.h:1734
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct sg_shader_attr_desc
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public sbyte* name;
+        public byte* name;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public sbyte* sem_name;
+        public byte* sem_name;
 
         [FieldOffset(16)] // size = 4, padding = 4
         public int sem_index;
     }
 
-    // Record @ sokol_gfx.h:1744
+    // Record @ sokol_gfx.h:1740
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct sg_shader_uniform_desc
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public sbyte* name;
+        public byte* name;
 
         [FieldOffset(8)] // size = 4, padding = 0
         public sg_uniform_type type;
@@ -2051,7 +1491,7 @@ public static unsafe partial class sokol
         public int array_count;
     }
 
-    // Record @ sokol_gfx.h:1749
+    // Record @ sokol_gfx.h:1746
     [StructLayout(LayoutKind.Explicit, Size = 264, Pack = 8)]
     public struct sg_shader_uniform_block_desc
     {
@@ -2059,25 +1499,28 @@ public static unsafe partial class sokol
         public ulong size;
 
         [FieldOffset(8)] // size = 256, padding = 0
-        public fixed ulong _uniforms[256 / 8]; // original type is `sg_shader_uniform_desc [16]`
+        public fixed ulong _uniforms[256 / 8]; // sg_shader_uniform_desc [16]
 
-        public ref sg_shader_uniform_desc uniforms(int index = 0)
+        public Span<sg_shader_uniform_desc> uniforms
         {
-            fixed (sg_shader_uniform_block_desc* @this = &this)
+            get
             {
-                var pointer = (sg_shader_uniform_desc*)&@this->_uniforms[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (sg_shader_uniform_block_desc* @this = &this)
+                {
+                    var pointer = &@this->_uniforms[0];
+                    var span = new Span<sg_shader_uniform_desc>(pointer, 16);
+                    return span;
+                }
             }
         }
     }
 
-    // Record @ sokol_gfx.h:1755
+    // Record @ sokol_gfx.h:1751
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct sg_shader_image_desc
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public sbyte* name;
+        public byte* name;
 
         [FieldOffset(8)] // size = 4, padding = 0
         public sg_image_type image_type;
@@ -2086,50 +1529,56 @@ public static unsafe partial class sokol
         public sg_sampler_type sampler_type;
     }
 
-    // Record @ sokol_gfx.h:1764
+    // Record @ sokol_gfx.h:1757
     [StructLayout(LayoutKind.Explicit, Size = 1288, Pack = 8)]
     public struct sg_shader_stage_desc
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public sbyte* source;
+        public byte* source;
 
         [FieldOffset(8)] // size = 16, padding = 0
         public sg_range bytecode;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public sbyte* entry;
+        public byte* entry;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public sbyte* d3d11_target;
+        public byte* d3d11_target;
 
         [FieldOffset(40)] // size = 1056, padding = 0
-        public fixed ulong _uniform_blocks[1056 / 8]; // original type is `sg_shader_uniform_block_desc [4]`
+        public fixed ulong _uniform_blocks[1056 / 8]; // sg_shader_uniform_block_desc [4]
 
-        public ref sg_shader_uniform_block_desc uniform_blocks(int index = 0)
+        public Span<sg_shader_uniform_block_desc> uniform_blocks
         {
-            fixed (sg_shader_stage_desc* @this = &this)
+            get
             {
-                var pointer = (sg_shader_uniform_block_desc*)&@this->_uniform_blocks[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (sg_shader_stage_desc* @this = &this)
+                {
+                    var pointer = &@this->_uniform_blocks[0];
+                    var span = new Span<sg_shader_uniform_block_desc>(pointer, 4);
+                    return span;
+                }
             }
         }
 
         [FieldOffset(1096)] // size = 192, padding = 0
-        public fixed ulong _images[192 / 8]; // original type is `sg_shader_image_desc [12]`
+        public fixed ulong _images[192 / 8]; // sg_shader_image_desc [12]
 
-        public ref sg_shader_image_desc images(int index = 0)
+        public Span<sg_shader_image_desc> images
         {
-            fixed (sg_shader_stage_desc* @this = &this)
+            get
             {
-                var pointer = (sg_shader_image_desc*)&@this->_images[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (sg_shader_stage_desc* @this = &this)
+                {
+                    var pointer = &@this->_images[0];
+                    var span = new Span<sg_shader_image_desc>(pointer, 12);
+                    return span;
+                }
             }
         }
     }
 
-    // Record @ sokol_gfx.h:1773
+    // Record @ sokol_gfx.h:1766
     [StructLayout(LayoutKind.Explicit, Size = 2984, Pack = 8)]
     public struct sg_shader_desc
     {
@@ -2137,15 +1586,18 @@ public static unsafe partial class sokol
         public uint _start_canary;
 
         [FieldOffset(8)] // size = 384, padding = 0
-        public fixed ulong _attrs[384 / 8]; // original type is `sg_shader_attr_desc [16]`
+        public fixed ulong _attrs[384 / 8]; // sg_shader_attr_desc [16]
 
-        public ref sg_shader_attr_desc attrs(int index = 0)
+        public Span<sg_shader_attr_desc> attrs
         {
-            fixed (sg_shader_desc* @this = &this)
+            get
             {
-                var pointer = (sg_shader_attr_desc*)&@this->_attrs[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (sg_shader_desc* @this = &this)
+                {
+                    var pointer = &@this->_attrs[0];
+                    var span = new Span<sg_shader_attr_desc>(pointer, 16);
+                    return span;
+                }
             }
         }
 
@@ -2156,13 +1608,21 @@ public static unsafe partial class sokol
         public sg_shader_stage_desc fs;
 
         [FieldOffset(2968)] // size = 8, padding = 0
-        public sbyte* label;
+        public byte* label;
 
         [FieldOffset(2976)] // size = 4, padding = 4
         public uint _end_canary;
     }
 
-    // Record @ sokol_gfx.h:1851
+    // Record @ sokol_gfx.h:630
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct sg_shader
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint id;
+    }
+
+    // Record @ sokol_gfx.h:1844
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_buffer_layout_desc
     {
@@ -2176,7 +1636,7 @@ public static unsafe partial class sokol
         public int step_rate;
     }
 
-    // Record @ sokol_gfx.h:1860
+    // Record @ sokol_gfx.h:1853
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_vertex_attr_desc
     {
@@ -2190,78 +1650,44 @@ public static unsafe partial class sokol
         public sg_vertex_format format;
     }
 
-    // Record @ sokol_gfx.h:1865
+    // Record @ sokol_gfx.h:1862
     [StructLayout(LayoutKind.Explicit, Size = 288, Pack = 4)]
     public struct sg_layout_desc
     {
         [FieldOffset(0)] // size = 96, padding = 0
-        public fixed uint _buffers[96 / 4]; // original type is `sg_buffer_layout_desc [8]`
+        public fixed uint _buffers[96 / 4]; // sg_buffer_layout_desc [8]
 
-        public ref sg_buffer_layout_desc buffers(int index = 0)
+        public Span<sg_buffer_layout_desc> buffers
         {
-            fixed (sg_layout_desc* @this = &this)
+            get
             {
-                var pointer = (sg_buffer_layout_desc*)&@this->_buffers[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (sg_layout_desc* @this = &this)
+                {
+                    var pointer = &@this->_buffers[0];
+                    var span = new Span<sg_buffer_layout_desc>(pointer, 8);
+                    return span;
+                }
             }
         }
 
         [FieldOffset(96)] // size = 192, padding = 0
-        public fixed uint _attrs[192 / 4]; // original type is `sg_vertex_attr_desc [16]`
+        public fixed uint _attrs[192 / 4]; // sg_vertex_attr_desc [16]
 
-        public ref sg_vertex_attr_desc attrs(int index = 0)
+        public Span<sg_vertex_attr_desc> attrs
         {
-            fixed (sg_layout_desc* @this = &this)
+            get
             {
-                var pointer = (sg_vertex_attr_desc*)&@this->_attrs[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (sg_layout_desc* @this = &this)
+                {
+                    var pointer = &@this->_attrs[0];
+                    var span = new Span<sg_vertex_attr_desc>(pointer, 16);
+                    return span;
+                }
             }
         }
     }
 
-    // Record @ sokol_gfx.h:1872
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
-    public struct sg_stencil_face_state
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public sg_compare_func compare;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public sg_stencil_op fail_op;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public sg_stencil_op depth_fail_op;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public sg_stencil_op pass_op;
-    }
-
-    // Record @ sokol_gfx.h:1881
-    [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 4)]
-    public struct sg_stencil_state
-    {
-        [FieldOffset(0)] // size = 1, padding = 3
-        public _Bool enabled;
-
-        [FieldOffset(4)] // size = 16, padding = 0
-        public sg_stencil_face_state front;
-
-        [FieldOffset(20)] // size = 16, padding = 0
-        public sg_stencil_face_state back;
-
-        [FieldOffset(36)] // size = 1, padding = 0
-        public byte read_mask;
-
-        [FieldOffset(37)] // size = 1, padding = 0
-        public byte write_mask;
-
-        [FieldOffset(38)] // size = 1, padding = 1
-        public byte @ref;
-    }
-
-    // Record @ sokol_gfx.h:1890
+    // Record @ sokol_gfx.h:1883
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
     public struct sg_depth_state
     {
@@ -2284,7 +1710,47 @@ public static unsafe partial class sokol
         public float bias_clamp;
     }
 
-    // Record @ sokol_gfx.h:1900
+    // Record @ sokol_gfx.h:1867
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
+    public struct sg_stencil_face_state
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public sg_compare_func compare;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public sg_stencil_op fail_op;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public sg_stencil_op depth_fail_op;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public sg_stencil_op pass_op;
+    }
+
+    // Record @ sokol_gfx.h:1874
+    [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 4)]
+    public struct sg_stencil_state
+    {
+        [FieldOffset(0)] // size = 1, padding = 3
+        public _Bool enabled;
+
+        [FieldOffset(4)] // size = 16, padding = 0
+        public sg_stencil_face_state front;
+
+        [FieldOffset(20)] // size = 16, padding = 0
+        public sg_stencil_face_state back;
+
+        [FieldOffset(36)] // size = 1, padding = 0
+        public byte read_mask;
+
+        [FieldOffset(37)] // size = 1, padding = 0
+        public byte write_mask;
+
+        [FieldOffset(38)] // size = 1, padding = 1
+        public byte @ref;
+    }
+
+    // Record @ sokol_gfx.h:1892
     [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
     public struct sg_blend_state
     {
@@ -2310,7 +1776,7 @@ public static unsafe partial class sokol
         public sg_blend_op op_alpha;
     }
 
-    // Record @ sokol_gfx.h:1906
+    // Record @ sokol_gfx.h:1902
     [StructLayout(LayoutKind.Explicit, Size = 36, Pack = 4)]
     public struct sg_color_state
     {
@@ -2324,7 +1790,24 @@ public static unsafe partial class sokol
         public sg_blend_state blend;
     }
 
-    // Record @ sokol_gfx.h:1925
+    // Record @ sokol_gfx.h:680
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
+    public struct sg_color
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public float r;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public float g;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public float b;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public float a;
+    }
+
+    // Record @ sokol_gfx.h:1908
     [StructLayout(LayoutKind.Explicit, Size = 568, Pack = 8)]
     public struct sg_pipeline_desc
     {
@@ -2347,15 +1830,18 @@ public static unsafe partial class sokol
         public int color_count;
 
         [FieldOffset(364)] // size = 144, padding = 0
-        public fixed uint _colors[144 / 4]; // original type is `sg_color_state [4]`
+        public fixed uint _colors[144 / 4]; // sg_color_state [4]
 
-        public ref sg_color_state colors(int index = 0)
+        public Span<sg_color_state> colors
         {
-            fixed (sg_pipeline_desc* @this = &this)
+            get
             {
-                var pointer = (sg_color_state*)&@this->_colors[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (sg_pipeline_desc* @this = &this)
+                {
+                    var pointer = &@this->_colors[0];
+                    var span = new Span<sg_color_state>(pointer, 4);
+                    return span;
+                }
             }
         }
 
@@ -2381,13 +1867,21 @@ public static unsafe partial class sokol
         public _Bool alpha_to_coverage_enabled;
 
         [FieldOffset(552)] // size = 8, padding = 0
-        public sbyte* label;
+        public byte* label;
 
         [FieldOffset(560)] // size = 4, padding = 4
         public uint _end_canary;
     }
 
-    // Record @ sokol_gfx.h:1953
+    // Record @ sokol_gfx.h:631
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct sg_pipeline
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint id;
+    }
+
+    // Record @ sokol_gfx.h:1949
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_pass_attachment_desc
     {
@@ -2401,7 +1895,7 @@ public static unsafe partial class sokol
         public int slice;
     }
 
-    // Record @ sokol_gfx.h:1961
+    // Record @ sokol_gfx.h:1955
     [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8)]
     public struct sg_pass_desc
     {
@@ -2409,15 +1903,18 @@ public static unsafe partial class sokol
         public uint _start_canary;
 
         [FieldOffset(4)] // size = 48, padding = 0
-        public fixed uint _color_attachments[48 / 4]; // original type is `sg_pass_attachment_desc [4]`
+        public fixed uint _color_attachments[48 / 4]; // sg_pass_attachment_desc [4]
 
-        public ref sg_pass_attachment_desc color_attachments(int index = 0)
+        public Span<sg_pass_attachment_desc> color_attachments
         {
-            fixed (sg_pass_desc* @this = &this)
+            get
             {
-                var pointer = (sg_pass_attachment_desc*)&@this->_color_attachments[0];
-                var pointerOffset = index;
-                return ref *(pointer + pointerOffset);
+                fixed (sg_pass_desc* @this = &this)
+                {
+                    var pointer = &@this->_color_attachments[0];
+                    var span = new Span<sg_pass_attachment_desc>(pointer, 4);
+                    return span;
+                }
             }
         }
 
@@ -2425,13 +1922,168 @@ public static unsafe partial class sokol
         public sg_pass_attachment_desc depth_stencil_attachment;
 
         [FieldOffset(64)] // size = 8, padding = 0
-        public sbyte* label;
+        public byte* label;
 
         [FieldOffset(72)] // size = 4, padding = 4
         public uint _end_canary;
     }
 
-    // Record @ sokol_gfx.h:2037
+    // Record @ sokol_gfx.h:632
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct sg_pass
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint id;
+    }
+
+    // Record @ sokol_gfx.h:1456
+    [StructLayout(LayoutKind.Explicit, Size = 20, Pack = 4)]
+    public struct sg_color_attachment_action
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public sg_action action;
+
+        [FieldOffset(4)] // size = 16, padding = 0
+        public sg_color value;
+    }
+
+    // Record @ sokol_gfx.h:1461
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
+    public struct sg_depth_attachment_action
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public sg_action action;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public float value;
+    }
+
+    // Record @ sokol_gfx.h:1466
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
+    public struct sg_stencil_attachment_action
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public sg_action action;
+
+        [FieldOffset(4)] // size = 1, padding = 3
+        public byte value;
+    }
+
+    // Record @ sokol_gfx.h:1471
+    [StructLayout(LayoutKind.Explicit, Size = 104, Pack = 4)]
+    public struct sg_pass_action
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint _start_canary;
+
+        [FieldOffset(4)] // size = 80, padding = 0
+        public fixed uint _colors[80 / 4]; // sg_color_attachment_action [4]
+
+        public Span<sg_color_attachment_action> colors
+        {
+            get
+            {
+                fixed (sg_pass_action* @this = &this)
+                {
+                    var pointer = &@this->_colors[0];
+                    var span = new Span<sg_color_attachment_action>(pointer, 4);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(84)] // size = 8, padding = 0
+        public sg_depth_attachment_action depth;
+
+        [FieldOffset(92)] // size = 8, padding = 0
+        public sg_stencil_attachment_action stencil;
+
+        [FieldOffset(100)] // size = 4, padding = 0
+        public uint _end_canary;
+    }
+
+    // Record @ sokol_gfx.h:1502
+    [StructLayout(LayoutKind.Explicit, Size = 176, Pack = 4)]
+    public struct sg_bindings
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint _start_canary;
+
+        [FieldOffset(4)] // size = 32, padding = 0
+        public fixed uint _vertex_buffers[32 / 4]; // sg_buffer [8]
+
+        public Span<sg_buffer> vertex_buffers
+        {
+            get
+            {
+                fixed (sg_bindings* @this = &this)
+                {
+                    var pointer = &@this->_vertex_buffers[0];
+                    var span = new Span<sg_buffer>(pointer, 8);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(36)] // size = 32, padding = 0
+        public fixed int _vertex_buffer_offsets[32 / 4]; // int [8]
+
+        public Span<int> vertex_buffer_offsets
+        {
+            get
+            {
+                fixed (sg_bindings* @this = &this)
+                {
+                    var pointer = &@this->_vertex_buffer_offsets[0];
+                    var span = new Span<int>(pointer, 8);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(68)] // size = 4, padding = 0
+        public sg_buffer index_buffer;
+
+        [FieldOffset(72)] // size = 4, padding = 0
+        public int index_buffer_offset;
+
+        [FieldOffset(76)] // size = 48, padding = 0
+        public fixed uint _vs_images[48 / 4]; // sg_image [12]
+
+        public Span<sg_image> vs_images
+        {
+            get
+            {
+                fixed (sg_bindings* @this = &this)
+                {
+                    var pointer = &@this->_vs_images[0];
+                    var span = new Span<sg_image>(pointer, 12);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(124)] // size = 48, padding = 0
+        public fixed uint _fs_images[48 / 4]; // sg_image [12]
+
+        public Span<sg_image> fs_images
+        {
+            get
+            {
+                fixed (sg_bindings* @this = &this)
+                {
+                    var pointer = &@this->_fs_images[0];
+                    var span = new Span<sg_image>(pointer, 12);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(172)] // size = 4, padding = 0
+        public uint _end_canary;
+    }
+
+    // Record @ sokol_gfx.h:1975
     [StructLayout(LayoutKind.Explicit, Size = 488, Pack = 8)]
     public struct sg_trace_hooks
     {
@@ -2439,187 +2091,685 @@ public static unsafe partial class sokol
         public void* user_data;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public sg_trace_hooks_reset_state_cache reset_state_cache;
+        public NativeCallbackPointerVoid reset_state_cache;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public sg_trace_hooks_make_buffer make_buffer;
+        public FunctionPointer_make_buffer make_buffer;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public sg_trace_hooks_make_image make_image;
+        public FunctionPointer_make_image make_image;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public sg_trace_hooks_make_shader make_shader;
+        public FunctionPointer_make_shader make_shader;
 
         [FieldOffset(40)] // size = 8, padding = 0
-        public sg_trace_hooks_make_pipeline make_pipeline;
+        public FunctionPointer_make_pipeline make_pipeline;
 
         [FieldOffset(48)] // size = 8, padding = 0
-        public sg_trace_hooks_make_pass make_pass;
+        public FunctionPointer_make_pass make_pass;
 
         [FieldOffset(56)] // size = 8, padding = 0
-        public sg_trace_hooks_destroy_buffer destroy_buffer;
+        public FunctionPointer_destroy_buffer destroy_buffer;
 
         [FieldOffset(64)] // size = 8, padding = 0
-        public sg_trace_hooks_destroy_image destroy_image;
+        public FunctionPointer_destroy_image destroy_image;
 
         [FieldOffset(72)] // size = 8, padding = 0
-        public sg_trace_hooks_destroy_shader destroy_shader;
+        public FunctionPointer_destroy_shader destroy_shader;
 
         [FieldOffset(80)] // size = 8, padding = 0
-        public sg_trace_hooks_destroy_pipeline destroy_pipeline;
+        public FunctionPointer_destroy_pipeline destroy_pipeline;
 
         [FieldOffset(88)] // size = 8, padding = 0
-        public sg_trace_hooks_destroy_pass destroy_pass;
+        public FunctionPointer_destroy_pass destroy_pass;
 
         [FieldOffset(96)] // size = 8, padding = 0
-        public sg_trace_hooks_update_buffer update_buffer;
+        public FunctionPointer_update_buffer update_buffer;
 
         [FieldOffset(104)] // size = 8, padding = 0
-        public sg_trace_hooks_update_image update_image;
+        public FunctionPointer_update_image update_image;
 
         [FieldOffset(112)] // size = 8, padding = 0
-        public sg_trace_hooks_append_buffer append_buffer;
+        public FunctionPointer_append_buffer append_buffer;
 
         [FieldOffset(120)] // size = 8, padding = 0
-        public sg_trace_hooks_begin_default_pass begin_default_pass;
+        public FunctionPointer_begin_default_pass begin_default_pass;
 
         [FieldOffset(128)] // size = 8, padding = 0
-        public sg_trace_hooks_begin_pass begin_pass;
+        public FunctionPointer_begin_pass begin_pass;
 
         [FieldOffset(136)] // size = 8, padding = 0
-        public sg_trace_hooks_apply_viewport apply_viewport;
+        public FunctionPointer_apply_viewport apply_viewport;
 
         [FieldOffset(144)] // size = 8, padding = 0
-        public sg_trace_hooks_apply_scissor_rect apply_scissor_rect;
+        public FunctionPointer_apply_scissor_rect apply_scissor_rect;
 
         [FieldOffset(152)] // size = 8, padding = 0
-        public sg_trace_hooks_apply_pipeline apply_pipeline;
+        public FunctionPointer_apply_pipeline apply_pipeline;
 
         [FieldOffset(160)] // size = 8, padding = 0
-        public sg_trace_hooks_apply_bindings apply_bindings;
+        public FunctionPointer_apply_bindings apply_bindings;
 
         [FieldOffset(168)] // size = 8, padding = 0
-        public sg_trace_hooks_apply_uniforms apply_uniforms;
+        public FunctionPointer_apply_uniforms apply_uniforms;
 
         [FieldOffset(176)] // size = 8, padding = 0
-        public sg_trace_hooks_draw draw;
+        public FunctionPointer_draw draw;
 
         [FieldOffset(184)] // size = 8, padding = 0
-        public sg_trace_hooks_end_pass end_pass;
+        public NativeCallbackPointerVoid end_pass;
 
         [FieldOffset(192)] // size = 8, padding = 0
-        public sg_trace_hooks_commit commit;
+        public NativeCallbackPointerVoid commit;
 
         [FieldOffset(200)] // size = 8, padding = 0
-        public sg_trace_hooks_alloc_buffer alloc_buffer;
+        public FunctionPointer_alloc_buffer alloc_buffer;
 
         [FieldOffset(208)] // size = 8, padding = 0
-        public sg_trace_hooks_alloc_image alloc_image;
+        public FunctionPointer_alloc_image alloc_image;
 
         [FieldOffset(216)] // size = 8, padding = 0
-        public sg_trace_hooks_alloc_shader alloc_shader;
+        public FunctionPointer_alloc_shader alloc_shader;
 
         [FieldOffset(224)] // size = 8, padding = 0
-        public sg_trace_hooks_alloc_pipeline alloc_pipeline;
+        public FunctionPointer_alloc_pipeline alloc_pipeline;
 
         [FieldOffset(232)] // size = 8, padding = 0
-        public sg_trace_hooks_alloc_pass alloc_pass;
+        public FunctionPointer_alloc_pass alloc_pass;
 
         [FieldOffset(240)] // size = 8, padding = 0
-        public sg_trace_hooks_dealloc_buffer dealloc_buffer;
+        public FunctionPointer_dealloc_buffer dealloc_buffer;
 
         [FieldOffset(248)] // size = 8, padding = 0
-        public sg_trace_hooks_dealloc_image dealloc_image;
+        public FunctionPointer_dealloc_image dealloc_image;
 
         [FieldOffset(256)] // size = 8, padding = 0
-        public sg_trace_hooks_dealloc_shader dealloc_shader;
+        public FunctionPointer_dealloc_shader dealloc_shader;
 
         [FieldOffset(264)] // size = 8, padding = 0
-        public sg_trace_hooks_dealloc_pipeline dealloc_pipeline;
+        public FunctionPointer_dealloc_pipeline dealloc_pipeline;
 
         [FieldOffset(272)] // size = 8, padding = 0
-        public sg_trace_hooks_dealloc_pass dealloc_pass;
+        public FunctionPointer_dealloc_pass dealloc_pass;
 
         [FieldOffset(280)] // size = 8, padding = 0
-        public sg_trace_hooks_init_buffer init_buffer;
+        public FunctionPointer_init_buffer init_buffer;
 
         [FieldOffset(288)] // size = 8, padding = 0
-        public sg_trace_hooks_init_image init_image;
+        public FunctionPointer_init_image init_image;
 
         [FieldOffset(296)] // size = 8, padding = 0
-        public sg_trace_hooks_init_shader init_shader;
+        public FunctionPointer_init_shader init_shader;
 
         [FieldOffset(304)] // size = 8, padding = 0
-        public sg_trace_hooks_init_pipeline init_pipeline;
+        public FunctionPointer_init_pipeline init_pipeline;
 
         [FieldOffset(312)] // size = 8, padding = 0
-        public sg_trace_hooks_init_pass init_pass;
+        public FunctionPointer_init_pass init_pass;
 
         [FieldOffset(320)] // size = 8, padding = 0
-        public sg_trace_hooks_uninit_buffer uninit_buffer;
+        public FunctionPointer_uninit_buffer uninit_buffer;
 
         [FieldOffset(328)] // size = 8, padding = 0
-        public sg_trace_hooks_uninit_image uninit_image;
+        public FunctionPointer_uninit_image uninit_image;
 
         [FieldOffset(336)] // size = 8, padding = 0
-        public sg_trace_hooks_uninit_shader uninit_shader;
+        public FunctionPointer_uninit_shader uninit_shader;
 
         [FieldOffset(344)] // size = 8, padding = 0
-        public sg_trace_hooks_uninit_pipeline uninit_pipeline;
+        public FunctionPointer_uninit_pipeline uninit_pipeline;
 
         [FieldOffset(352)] // size = 8, padding = 0
-        public sg_trace_hooks_uninit_pass uninit_pass;
+        public FunctionPointer_uninit_pass uninit_pass;
 
         [FieldOffset(360)] // size = 8, padding = 0
-        public sg_trace_hooks_fail_buffer fail_buffer;
+        public FunctionPointer_fail_buffer fail_buffer;
 
         [FieldOffset(368)] // size = 8, padding = 0
-        public sg_trace_hooks_fail_image fail_image;
+        public FunctionPointer_fail_image fail_image;
 
         [FieldOffset(376)] // size = 8, padding = 0
-        public sg_trace_hooks_fail_shader fail_shader;
+        public FunctionPointer_fail_shader fail_shader;
 
         [FieldOffset(384)] // size = 8, padding = 0
-        public sg_trace_hooks_fail_pipeline fail_pipeline;
+        public FunctionPointer_fail_pipeline fail_pipeline;
 
         [FieldOffset(392)] // size = 8, padding = 0
-        public sg_trace_hooks_fail_pass fail_pass;
+        public FunctionPointer_fail_pass fail_pass;
 
         [FieldOffset(400)] // size = 8, padding = 0
-        public sg_trace_hooks_push_debug_group push_debug_group;
+        public FunctionPointer_push_debug_group push_debug_group;
 
         [FieldOffset(408)] // size = 8, padding = 0
-        public sg_trace_hooks_pop_debug_group pop_debug_group;
+        public NativeCallbackPointerVoid pop_debug_group;
 
         [FieldOffset(416)] // size = 8, padding = 0
-        public sg_trace_hooks_err_buffer_pool_exhausted err_buffer_pool_exhausted;
+        public NativeCallbackPointerVoid err_buffer_pool_exhausted;
 
         [FieldOffset(424)] // size = 8, padding = 0
-        public sg_trace_hooks_err_image_pool_exhausted err_image_pool_exhausted;
+        public NativeCallbackPointerVoid err_image_pool_exhausted;
 
         [FieldOffset(432)] // size = 8, padding = 0
-        public sg_trace_hooks_err_shader_pool_exhausted err_shader_pool_exhausted;
+        public NativeCallbackPointerVoid err_shader_pool_exhausted;
 
         [FieldOffset(440)] // size = 8, padding = 0
-        public sg_trace_hooks_err_pipeline_pool_exhausted err_pipeline_pool_exhausted;
+        public NativeCallbackPointerVoid err_pipeline_pool_exhausted;
 
         [FieldOffset(448)] // size = 8, padding = 0
-        public sg_trace_hooks_err_pass_pool_exhausted err_pass_pool_exhausted;
+        public NativeCallbackPointerVoid err_pass_pool_exhausted;
 
         [FieldOffset(456)] // size = 8, padding = 0
-        public sg_trace_hooks_err_context_mismatch err_context_mismatch;
+        public NativeCallbackPointerVoid err_context_mismatch;
 
         [FieldOffset(464)] // size = 8, padding = 0
-        public sg_trace_hooks_err_pass_invalid err_pass_invalid;
+        public NativeCallbackPointerVoid err_pass_invalid;
 
         [FieldOffset(472)] // size = 8, padding = 0
-        public sg_trace_hooks_err_draw_invalid err_draw_invalid;
+        public NativeCallbackPointerVoid err_draw_invalid;
 
         [FieldOffset(480)] // size = 8, padding = 0
-        public sg_trace_hooks_err_bindings_invalid err_bindings_invalid;
+        public NativeCallbackPointerVoid err_bindings_invalid;
+
+        // FunctionPointer @ sokol_gfx.h:1977
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_reset_state_cache
+        {
+            public delegate* unmanaged<void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1978
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_make_buffer
+        {
+            public delegate* unmanaged<sg_buffer_desc*, sg_buffer, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1979
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_make_image
+        {
+            public delegate* unmanaged<sg_image_desc*, sg_image, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1980
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_make_shader
+        {
+            public delegate* unmanaged<sg_shader_desc*, sg_shader, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1981
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_make_pipeline
+        {
+            public delegate* unmanaged<sg_pipeline_desc*, sg_pipeline, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1982
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_make_pass
+        {
+            public delegate* unmanaged<sg_pass_desc*, sg_pass, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1983
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_destroy_buffer
+        {
+            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1984
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_destroy_image
+        {
+            public delegate* unmanaged<sg_image, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1985
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_destroy_shader
+        {
+            public delegate* unmanaged<sg_shader, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1986
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_destroy_pipeline
+        {
+            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1987
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_destroy_pass
+        {
+            public delegate* unmanaged<sg_pass, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1988
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_update_buffer
+        {
+            public delegate* unmanaged<sg_buffer, sg_range*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1989
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_update_image
+        {
+            public delegate* unmanaged<sg_image, sg_image_data*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1990
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_append_buffer
+        {
+            public delegate* unmanaged<sg_buffer, sg_range*, int, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1991
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_begin_default_pass
+        {
+            public delegate* unmanaged<sg_pass_action*, int, int, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1992
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_begin_pass
+        {
+            public delegate* unmanaged<sg_pass, sg_pass_action*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1993
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_apply_viewport
+        {
+            public delegate* unmanaged<int, int, int, int, _Bool, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1994
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_apply_scissor_rect
+        {
+            public delegate* unmanaged<int, int, int, int, _Bool, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1995
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_apply_pipeline
+        {
+            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1996
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_apply_bindings
+        {
+            public delegate* unmanaged<sg_bindings*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1997
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_apply_uniforms
+        {
+            public delegate* unmanaged<sg_shader_stage, int, sg_range*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1998
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_draw
+        {
+            public delegate* unmanaged<int, int, int, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1999
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_end_pass
+        {
+            public delegate* unmanaged<void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2000
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_commit
+        {
+            public delegate* unmanaged<void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2001
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_alloc_buffer
+        {
+            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2002
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_alloc_image
+        {
+            public delegate* unmanaged<sg_image, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2003
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_alloc_shader
+        {
+            public delegate* unmanaged<sg_shader, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2004
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_alloc_pipeline
+        {
+            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2005
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_alloc_pass
+        {
+            public delegate* unmanaged<sg_pass, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2006
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_dealloc_buffer
+        {
+            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2007
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_dealloc_image
+        {
+            public delegate* unmanaged<sg_image, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2008
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_dealloc_shader
+        {
+            public delegate* unmanaged<sg_shader, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2009
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_dealloc_pipeline
+        {
+            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2010
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_dealloc_pass
+        {
+            public delegate* unmanaged<sg_pass, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2011
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_init_buffer
+        {
+            public delegate* unmanaged<sg_buffer, sg_buffer_desc*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2012
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_init_image
+        {
+            public delegate* unmanaged<sg_image, sg_image_desc*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2013
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_init_shader
+        {
+            public delegate* unmanaged<sg_shader, sg_shader_desc*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2014
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_init_pipeline
+        {
+            public delegate* unmanaged<sg_pipeline, sg_pipeline_desc*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2015
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_init_pass
+        {
+            public delegate* unmanaged<sg_pass, sg_pass_desc*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2016
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_uninit_buffer
+        {
+            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2017
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_uninit_image
+        {
+            public delegate* unmanaged<sg_image, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2018
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_uninit_shader
+        {
+            public delegate* unmanaged<sg_shader, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2019
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_uninit_pipeline
+        {
+            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2020
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_uninit_pass
+        {
+            public delegate* unmanaged<sg_pass, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2021
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_fail_buffer
+        {
+            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2022
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_fail_image
+        {
+            public delegate* unmanaged<sg_image, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2023
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_fail_shader
+        {
+            public delegate* unmanaged<sg_shader, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2024
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_fail_pipeline
+        {
+            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2025
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_fail_pass
+        {
+            public delegate* unmanaged<sg_pass, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2026
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_push_debug_group
+        {
+            public delegate* unmanaged<byte*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2027
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_pop_debug_group
+        {
+            public delegate* unmanaged<void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2028
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_err_buffer_pool_exhausted
+        {
+            public delegate* unmanaged<void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2029
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_err_image_pool_exhausted
+        {
+            public delegate* unmanaged<void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2030
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_err_shader_pool_exhausted
+        {
+            public delegate* unmanaged<void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2031
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_err_pipeline_pool_exhausted
+        {
+            public delegate* unmanaged<void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2032
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_err_pass_pool_exhausted
+        {
+            public delegate* unmanaged<void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2033
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_err_context_mismatch
+        {
+            public delegate* unmanaged<void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2034
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_err_pass_invalid
+        {
+            public delegate* unmanaged<void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2035
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_err_draw_invalid
+        {
+            public delegate* unmanaged<void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2036
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FunctionPointer_err_bindings_invalid
+        {
+            public delegate* unmanaged<void*, void> Pointer;
+        }
     }
 
-    // Record @ sokol_gfx.h:2064
+    // Record @ sokol_gfx.h:850
+    [StructLayout(LayoutKind.Explicit, Size = 9, Pack = 1)]
+    public struct sg_features
+    {
+        [FieldOffset(0)] // size = 1, padding = 0
+        public _Bool instancing;
+
+        [FieldOffset(1)] // size = 1, padding = 0
+        public _Bool origin_top_left;
+
+        [FieldOffset(2)] // size = 1, padding = 0
+        public _Bool multiple_render_targets;
+
+        [FieldOffset(3)] // size = 1, padding = 0
+        public _Bool msaa_render_targets;
+
+        [FieldOffset(4)] // size = 1, padding = 0
+        public _Bool imagetype_3d;
+
+        [FieldOffset(5)] // size = 1, padding = 0
+        public _Bool imagetype_array;
+
+        [FieldOffset(6)] // size = 1, padding = 0
+        public _Bool image_clamp_to_border;
+
+        [FieldOffset(7)] // size = 1, padding = 0
+        public _Bool mrt_independent_blend_state;
+
+        [FieldOffset(8)] // size = 1, padding = 0
+        public _Bool mrt_independent_write_mask;
+    }
+
+    // Record @ sokol_gfx.h:868
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
+    public struct sg_limits
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int max_image_size_2d;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int max_image_size_cube;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int max_image_size_3d;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public int max_image_size_array;
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public int max_image_array_layers;
+
+        [FieldOffset(20)] // size = 4, padding = 0
+        public int max_vertex_attrs;
+    }
+
+    // Record @ sokol_gfx.h:834
+    [StructLayout(LayoutKind.Explicit, Size = 6, Pack = 1)]
+    public struct sg_pixelformat_info
+    {
+        [FieldOffset(0)] // size = 1, padding = 0
+        public _Bool sample;
+
+        [FieldOffset(1)] // size = 1, padding = 0
+        public _Bool filter;
+
+        [FieldOffset(2)] // size = 1, padding = 0
+        public _Bool render;
+
+        [FieldOffset(3)] // size = 1, padding = 0
+        public _Bool blend;
+
+        [FieldOffset(4)] // size = 1, padding = 0
+        public _Bool msaa;
+
+        [FieldOffset(5)] // size = 1, padding = 0
+        public _Bool depth;
+    }
+
+    // Record @ sokol_gfx.h:2060
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_slot_info
     {
@@ -2633,7 +2783,7 @@ public static unsafe partial class sokol
         public uint ctx_id;
     }
 
-    // Record @ sokol_gfx.h:2074
+    // Record @ sokol_gfx.h:2066
     [StructLayout(LayoutKind.Explicit, Size = 36, Pack = 4)]
     public struct sg_buffer_info
     {
@@ -2659,7 +2809,7 @@ public static unsafe partial class sokol
         public int active_slot;
     }
 
-    // Record @ sokol_gfx.h:2083
+    // Record @ sokol_gfx.h:2076
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 4)]
     public struct sg_image_info
     {
@@ -2682,7 +2832,7 @@ public static unsafe partial class sokol
         public int height;
     }
 
-    // Record @ sokol_gfx.h:2087
+    // Record @ sokol_gfx.h:2085
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_shader_info
     {
@@ -2690,7 +2840,7 @@ public static unsafe partial class sokol
         public sg_slot_info slot;
     }
 
-    // Record @ sokol_gfx.h:2091
+    // Record @ sokol_gfx.h:2089
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_pipeline_info
     {
@@ -2698,7 +2848,7 @@ public static unsafe partial class sokol
         public sg_slot_info slot;
     }
 
-    // Record @ sokol_gfx.h:2095
+    // Record @ sokol_gfx.h:2093
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_pass_info
     {
@@ -2706,160 +2856,15 @@ public static unsafe partial class sokol
         public sg_slot_info slot;
     }
 
-    // Record @ sokol_gfx.h:2210
-    [StructLayout(LayoutKind.Explicit, Size = 1, Pack = 1)]
-    public struct sg_gl_context_desc
-    {
-        [FieldOffset(0)] // size = 1, padding = 0
-        public _Bool force_gles2;
-    }
-
-    // Record @ sokol_gfx.h:2219
-    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
-    public struct sg_metal_context_desc
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* device;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public sg_metal_context_desc_renderpass_descriptor_cb renderpass_descriptor_cb;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public sg_metal_context_desc_renderpass_descriptor_userdata_cb renderpass_descriptor_userdata_cb;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public sg_metal_context_desc_drawable_cb drawable_cb;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public sg_metal_context_desc_drawable_userdata_cb drawable_userdata_cb;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public void* user_data;
-    }
-
-    // Record @ sokol_gfx.h:2229
-    [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
-    public struct sg_d3d11_context_desc
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* device;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public void* device_context;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public sg_d3d11_context_desc_render_target_view_cb render_target_view_cb;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public sg_d3d11_context_desc_render_target_view_userdata_cb render_target_view_userdata_cb;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public sg_d3d11_context_desc_depth_stencil_view_cb depth_stencil_view_cb;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public sg_d3d11_context_desc_depth_stencil_view_userdata_cb depth_stencil_view_userdata_cb;
-
-        [FieldOffset(48)] // size = 8, padding = 0
-        public void* user_data;
-    }
-
-    // Record @ sokol_gfx.h:2240
-    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
-    public struct sg_wgpu_context_desc
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* device;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public sg_wgpu_context_desc_render_view_cb render_view_cb;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public sg_wgpu_context_desc_render_view_userdata_cb render_view_userdata_cb;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public sg_wgpu_context_desc_resolve_view_cb resolve_view_cb;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public sg_wgpu_context_desc_resolve_view_userdata_cb resolve_view_userdata_cb;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public sg_wgpu_context_desc_depth_stencil_view_cb depth_stencil_view_cb;
-
-        [FieldOffset(48)] // size = 8, padding = 0
-        public sg_wgpu_context_desc_depth_stencil_view_userdata_cb depth_stencil_view_userdata_cb;
-
-        [FieldOffset(56)] // size = 8, padding = 0
-        public void* user_data;
-    }
-
-    // Record @ sokol_gfx.h:2250
-    [StructLayout(LayoutKind.Explicit, Size = 184, Pack = 8)]
-    public struct sg_context_desc
+    // Record @ sokol_gfx.h:633
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct sg_context
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public sg_pixel_format color_format;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public sg_pixel_format depth_format;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public int sample_count;
-
-        [FieldOffset(12)] // size = 1, padding = 3
-        public sg_gl_context_desc gl;
-
-        [FieldOffset(16)] // size = 48, padding = 0
-        public sg_metal_context_desc metal;
-
-        [FieldOffset(64)] // size = 56, padding = 0
-        public sg_d3d11_context_desc d3d11;
-
-        [FieldOffset(120)] // size = 64, padding = 0
-        public sg_wgpu_context_desc wgpu;
+        public uint id;
     }
 
-    // Record @ sokol_gfx.h:2265
-    [StructLayout(LayoutKind.Explicit, Size = 232, Pack = 8)]
-    public struct sg_desc
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint _start_canary;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public int buffer_pool_size;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public int image_pool_size;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public int shader_pool_size;
-
-        [FieldOffset(16)] // size = 4, padding = 0
-        public int pipeline_pool_size;
-
-        [FieldOffset(20)] // size = 4, padding = 0
-        public int pass_pool_size;
-
-        [FieldOffset(24)] // size = 4, padding = 0
-        public int context_pool_size;
-
-        [FieldOffset(28)] // size = 4, padding = 0
-        public int uniform_buffer_size;
-
-        [FieldOffset(32)] // size = 4, padding = 0
-        public int staging_buffer_size;
-
-        [FieldOffset(36)] // size = 4, padding = 0
-        public int sampler_cache_size;
-
-        [FieldOffset(40)] // size = 184, padding = 0
-        public sg_context_desc context;
-
-        [FieldOffset(224)] // size = 4, padding = 4
-        public uint _end_canary;
-    }
-
-    // Enum @ sokol_app.h:1058
+    // Enum @ sokol_app.h:1032
     public enum sapp_event_type : uint
     {
         SAPP_EVENTTYPE_INVALID = 0U,
@@ -2889,7 +2894,7 @@ public static unsafe partial class sokol
         _SAPP_EVENTTYPE_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_app.h:1190
+    // Enum @ sokol_app.h:1068
     public enum sapp_keycode : uint
     {
         SAPP_KEYCODE_INVALID = 0U,
@@ -3015,7 +3020,7 @@ public static unsafe partial class sokol
         SAPP_KEYCODE_MENU = 348U
     }
 
-    // Enum @ sokol_app.h:1219
+    // Enum @ sokol_app.h:1214
     public enum sapp_mousebutton : uint
     {
         SAPP_MOUSEBUTTON_LEFT = 0U,
@@ -3024,7 +3029,7 @@ public static unsafe partial class sokol
         SAPP_MOUSEBUTTON_INVALID = 256U
     }
 
-    // Enum @ sokol_app.h:1378
+    // Enum @ sokol_app.h:1374
     public enum sapp_html5_fetch_error : uint
     {
         SAPP_HTML5_FETCH_ERROR_NO_ERROR = 0U,
@@ -3032,21 +3037,7 @@ public static unsafe partial class sokol
         SAPP_HTML5_FETCH_ERROR_OTHER = 2U
     }
 
-    // Enum @ sokol_gfx.h:702
-    public enum sg_backend : uint
-    {
-        SG_BACKEND_GLCORE33 = 0U,
-        SG_BACKEND_GLES2 = 1U,
-        SG_BACKEND_GLES3 = 2U,
-        SG_BACKEND_D3D11 = 3U,
-        SG_BACKEND_METAL_IOS = 4U,
-        SG_BACKEND_METAL_MACOS = 5U,
-        SG_BACKEND_METAL_SIMULATOR = 6U,
-        SG_BACKEND_WGPU = 7U,
-        SG_BACKEND_DUMMY = 8U
-    }
-
-    // Enum @ sokol_gfx.h:828
+    // Enum @ sokol_gfx.h:755
     public enum sg_pixel_format : uint
     {
         _SG_PIXELFORMAT_DEFAULT = 0U,
@@ -3115,18 +3106,17 @@ public static unsafe partial class sokol
         _SG_PIXELFORMAT_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:902
-    public enum sg_resource_state : uint
+    // Enum @ sokol_gfx.h:955
+    public enum sg_buffer_type : uint
     {
-        SG_RESOURCESTATE_INITIAL = 0U,
-        SG_RESOURCESTATE_ALLOC = 1U,
-        SG_RESOURCESTATE_VALID = 2U,
-        SG_RESOURCESTATE_FAILED = 3U,
-        SG_RESOURCESTATE_INVALID = 4U,
-        _SG_RESOURCESTATE_FORCE_U32 = 2147483647U
+        _SG_BUFFERTYPE_DEFAULT = 0U,
+        SG_BUFFERTYPE_VERTEXBUFFER = 1U,
+        SG_BUFFERTYPE_INDEXBUFFER = 2U,
+        _SG_BUFFERTYPE_NUM = 3U,
+        _SG_BUFFERTYPE_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:945
+    // Enum @ sokol_gfx.h:938
     public enum sg_usage : uint
     {
         _SG_USAGE_DEFAULT = 0U,
@@ -3137,28 +3127,7 @@ public static unsafe partial class sokol
         _SG_USAGE_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:961
-    public enum sg_buffer_type : uint
-    {
-        _SG_BUFFERTYPE_DEFAULT = 0U,
-        SG_BUFFERTYPE_VERTEXBUFFER = 1U,
-        SG_BUFFERTYPE_INDEXBUFFER = 2U,
-        _SG_BUFFERTYPE_NUM = 3U,
-        _SG_BUFFERTYPE_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:980
-    public enum sg_index_type : uint
-    {
-        _SG_INDEXTYPE_DEFAULT = 0U,
-        SG_INDEXTYPE_NONE = 1U,
-        SG_INDEXTYPE_UINT16 = 2U,
-        SG_INDEXTYPE_UINT32 = 3U,
-        _SG_INDEXTYPE_NUM = 4U,
-        _SG_INDEXTYPE_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1002
+    // Enum @ sokol_gfx.h:994
     public enum sg_image_type : uint
     {
         _SG_IMAGETYPE_DEFAULT = 0U,
@@ -3170,37 +3139,7 @@ public static unsafe partial class sokol
         _SG_IMAGETYPE_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1019
-    public enum sg_sampler_type : uint
-    {
-        _SG_SAMPLERTYPE_DEFAULT = 0U,
-        SG_SAMPLERTYPE_FLOAT = 1U,
-        SG_SAMPLERTYPE_SINT = 2U,
-        SG_SAMPLERTYPE_UINT = 3U
-    }
-
-    // Enum @ sokol_gfx.h:1053
-    public enum sg_shader_stage : uint
-    {
-        SG_SHADERSTAGE_VS = 0U,
-        SG_SHADERSTAGE_FS = 1U,
-        _SG_SHADERSTAGE_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1073
-    public enum sg_primitive_type : uint
-    {
-        _SG_PRIMITIVETYPE_DEFAULT = 0U,
-        SG_PRIMITIVETYPE_POINTS = 1U,
-        SG_PRIMITIVETYPE_LINES = 2U,
-        SG_PRIMITIVETYPE_LINE_STRIP = 3U,
-        SG_PRIMITIVETYPE_TRIANGLES = 4U,
-        SG_PRIMITIVETYPE_TRIANGLE_STRIP = 5U,
-        _SG_PRIMITIVETYPE_NUM = 6U,
-        _SG_PRIMITIVETYPE_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1094
+    // Enum @ sokol_gfx.h:1084
     public enum sg_filter : uint
     {
         _SG_FILTER_DEFAULT = 0U,
@@ -3214,7 +3153,7 @@ public static unsafe partial class sokol
         _SG_FILTER_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1132
+    // Enum @ sokol_gfx.h:1124
     public enum sg_wrap : uint
     {
         _SG_WRAP_DEFAULT = 0U,
@@ -3226,7 +3165,7 @@ public static unsafe partial class sokol
         _SG_WRAP_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1149
+    // Enum @ sokol_gfx.h:1142
     public enum sg_border_color : uint
     {
         _SG_BORDERCOLOR_DEFAULT = 0U,
@@ -3237,7 +3176,39 @@ public static unsafe partial class sokol
         _SG_BORDERCOLOR_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1176
+    // Enum @ sokol_gfx.h:1204
+    public enum sg_uniform_type : uint
+    {
+        SG_UNIFORMTYPE_INVALID = 0U,
+        SG_UNIFORMTYPE_FLOAT = 1U,
+        SG_UNIFORMTYPE_FLOAT2 = 2U,
+        SG_UNIFORMTYPE_FLOAT3 = 3U,
+        SG_UNIFORMTYPE_FLOAT4 = 4U,
+        SG_UNIFORMTYPE_MAT4 = 5U,
+        _SG_UNIFORMTYPE_NUM = 6U,
+        _SG_UNIFORMTYPE_FORCE_U32 = 2147483647U
+    }
+
+    // Enum @ sokol_gfx.h:1014
+    public enum sg_sampler_type : uint
+    {
+        _SG_SAMPLERTYPE_DEFAULT = 0U,
+        SG_SAMPLERTYPE_FLOAT = 1U,
+        SG_SAMPLERTYPE_SINT = 2U,
+        SG_SAMPLERTYPE_UINT = 3U
+    }
+
+    // Enum @ sokol_gfx.h:1189
+    public enum sg_vertex_step : uint
+    {
+        _SG_VERTEXSTEP_DEFAULT = 0U,
+        SG_VERTEXSTEP_PER_VERTEX = 1U,
+        SG_VERTEXSTEP_PER_INSTANCE = 2U,
+        _SG_VERTEXSTEP_NUM = 3U,
+        _SG_VERTEXSTEP_FORCE_U32 = 2147483647U
+    }
+
+    // Enum @ sokol_gfx.h:1157
     public enum sg_vertex_format : uint
     {
         SG_VERTEXFORMAT_INVALID = 0U,
@@ -3260,51 +3231,7 @@ public static unsafe partial class sokol
         _SG_VERTEXFORMAT_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1195
-    public enum sg_vertex_step : uint
-    {
-        _SG_VERTEXSTEP_DEFAULT = 0U,
-        SG_VERTEXSTEP_PER_VERTEX = 1U,
-        SG_VERTEXSTEP_PER_INSTANCE = 2U,
-        _SG_VERTEXSTEP_NUM = 3U,
-        _SG_VERTEXSTEP_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1213
-    public enum sg_uniform_type : uint
-    {
-        SG_UNIFORMTYPE_INVALID = 0U,
-        SG_UNIFORMTYPE_FLOAT = 1U,
-        SG_UNIFORMTYPE_FLOAT2 = 2U,
-        SG_UNIFORMTYPE_FLOAT3 = 3U,
-        SG_UNIFORMTYPE_FLOAT4 = 4U,
-        SG_UNIFORMTYPE_MAT4 = 5U,
-        _SG_UNIFORMTYPE_NUM = 6U,
-        _SG_UNIFORMTYPE_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1231
-    public enum sg_cull_mode : uint
-    {
-        _SG_CULLMODE_DEFAULT = 0U,
-        SG_CULLMODE_NONE = 1U,
-        SG_CULLMODE_FRONT = 2U,
-        SG_CULLMODE_BACK = 3U,
-        _SG_CULLMODE_NUM = 4U,
-        _SG_CULLMODE_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1248
-    public enum sg_face_winding : uint
-    {
-        _SG_FACEWINDING_DEFAULT = 0U,
-        SG_FACEWINDING_CCW = 1U,
-        SG_FACEWINDING_CW = 2U,
-        _SG_FACEWINDING_NUM = 3U,
-        _SG_FACEWINDING_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1278
+    // Enum @ sokol_gfx.h:1266
     public enum sg_compare_func : uint
     {
         _SG_COMPAREFUNC_DEFAULT = 0U,
@@ -3320,7 +3247,7 @@ public static unsafe partial class sokol
         _SG_COMPAREFUNC_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1312
+    // Enum @ sokol_gfx.h:1300
     public enum sg_stencil_op : uint
     {
         _SG_STENCILOP_DEFAULT = 0U,
@@ -3336,41 +3263,7 @@ public static unsafe partial class sokol
         _SG_STENCILOP_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1350
-    public enum sg_blend_factor : uint
-    {
-        _SG_BLENDFACTOR_DEFAULT = 0U,
-        SG_BLENDFACTOR_ZERO = 1U,
-        SG_BLENDFACTOR_ONE = 2U,
-        SG_BLENDFACTOR_SRC_COLOR = 3U,
-        SG_BLENDFACTOR_ONE_MINUS_SRC_COLOR = 4U,
-        SG_BLENDFACTOR_SRC_ALPHA = 5U,
-        SG_BLENDFACTOR_ONE_MINUS_SRC_ALPHA = 6U,
-        SG_BLENDFACTOR_DST_COLOR = 7U,
-        SG_BLENDFACTOR_ONE_MINUS_DST_COLOR = 8U,
-        SG_BLENDFACTOR_DST_ALPHA = 9U,
-        SG_BLENDFACTOR_ONE_MINUS_DST_ALPHA = 10U,
-        SG_BLENDFACTOR_SRC_ALPHA_SATURATED = 11U,
-        SG_BLENDFACTOR_BLEND_COLOR = 12U,
-        SG_BLENDFACTOR_ONE_MINUS_BLEND_COLOR = 13U,
-        SG_BLENDFACTOR_BLEND_ALPHA = 14U,
-        SG_BLENDFACTOR_ONE_MINUS_BLEND_ALPHA = 15U,
-        _SG_BLENDFACTOR_NUM = 16U,
-        _SG_BLENDFACTOR_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1374
-    public enum sg_blend_op : uint
-    {
-        _SG_BLENDOP_DEFAULT = 0U,
-        SG_BLENDOP_ADD = 1U,
-        SG_BLENDOP_SUBTRACT = 2U,
-        SG_BLENDOP_REVERSE_SUBTRACT = 3U,
-        _SG_BLENDOP_NUM = 4U,
-        _SG_BLENDOP_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1408
+    // Enum @ sokol_gfx.h:1389
     public enum sg_color_mask : uint
     {
         _SG_COLORMASK_DEFAULT = 0U,
@@ -3393,7 +3286,86 @@ public static unsafe partial class sokol
         _SG_COLORMASK_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1435
+    // Enum @ sokol_gfx.h:1331
+    public enum sg_blend_factor : uint
+    {
+        _SG_BLENDFACTOR_DEFAULT = 0U,
+        SG_BLENDFACTOR_ZERO = 1U,
+        SG_BLENDFACTOR_ONE = 2U,
+        SG_BLENDFACTOR_SRC_COLOR = 3U,
+        SG_BLENDFACTOR_ONE_MINUS_SRC_COLOR = 4U,
+        SG_BLENDFACTOR_SRC_ALPHA = 5U,
+        SG_BLENDFACTOR_ONE_MINUS_SRC_ALPHA = 6U,
+        SG_BLENDFACTOR_DST_COLOR = 7U,
+        SG_BLENDFACTOR_ONE_MINUS_DST_COLOR = 8U,
+        SG_BLENDFACTOR_DST_ALPHA = 9U,
+        SG_BLENDFACTOR_ONE_MINUS_DST_ALPHA = 10U,
+        SG_BLENDFACTOR_SRC_ALPHA_SATURATED = 11U,
+        SG_BLENDFACTOR_BLEND_COLOR = 12U,
+        SG_BLENDFACTOR_ONE_MINUS_BLEND_COLOR = 13U,
+        SG_BLENDFACTOR_BLEND_ALPHA = 14U,
+        SG_BLENDFACTOR_ONE_MINUS_BLEND_ALPHA = 15U,
+        _SG_BLENDFACTOR_NUM = 16U,
+        _SG_BLENDFACTOR_FORCE_U32 = 2147483647U
+    }
+
+    // Enum @ sokol_gfx.h:1367
+    public enum sg_blend_op : uint
+    {
+        _SG_BLENDOP_DEFAULT = 0U,
+        SG_BLENDOP_ADD = 1U,
+        SG_BLENDOP_SUBTRACT = 2U,
+        SG_BLENDOP_REVERSE_SUBTRACT = 3U,
+        _SG_BLENDOP_NUM = 4U,
+        _SG_BLENDOP_FORCE_U32 = 2147483647U
+    }
+
+    // Enum @ sokol_gfx.h:1064
+    public enum sg_primitive_type : uint
+    {
+        _SG_PRIMITIVETYPE_DEFAULT = 0U,
+        SG_PRIMITIVETYPE_POINTS = 1U,
+        SG_PRIMITIVETYPE_LINES = 2U,
+        SG_PRIMITIVETYPE_LINE_STRIP = 3U,
+        SG_PRIMITIVETYPE_TRIANGLES = 4U,
+        SG_PRIMITIVETYPE_TRIANGLE_STRIP = 5U,
+        _SG_PRIMITIVETYPE_NUM = 6U,
+        _SG_PRIMITIVETYPE_FORCE_U32 = 2147483647U
+    }
+
+    // Enum @ sokol_gfx.h:973
+    public enum sg_index_type : uint
+    {
+        _SG_INDEXTYPE_DEFAULT = 0U,
+        SG_INDEXTYPE_NONE = 1U,
+        SG_INDEXTYPE_UINT16 = 2U,
+        SG_INDEXTYPE_UINT32 = 3U,
+        _SG_INDEXTYPE_NUM = 4U,
+        _SG_INDEXTYPE_FORCE_U32 = 2147483647U
+    }
+
+    // Enum @ sokol_gfx.h:1224
+    public enum sg_cull_mode : uint
+    {
+        _SG_CULLMODE_DEFAULT = 0U,
+        SG_CULLMODE_NONE = 1U,
+        SG_CULLMODE_FRONT = 2U,
+        SG_CULLMODE_BACK = 3U,
+        _SG_CULLMODE_NUM = 4U,
+        _SG_CULLMODE_FORCE_U32 = 2147483647U
+    }
+
+    // Enum @ sokol_gfx.h:1242
+    public enum sg_face_winding : uint
+    {
+        _SG_FACEWINDING_DEFAULT = 0U,
+        SG_FACEWINDING_CCW = 1U,
+        SG_FACEWINDING_CW = 2U,
+        _SG_FACEWINDING_NUM = 3U,
+        _SG_FACEWINDING_FORCE_U32 = 2147483647U
+    }
+
+    // Enum @ sokol_gfx.h:1428
     public enum sg_action : uint
     {
         _SG_ACTION_DEFAULT = 0U,
@@ -3402,5 +3374,38 @@ public static unsafe partial class sokol
         SG_ACTION_DONTCARE = 3U,
         _SG_ACTION_NUM = 4U,
         _SG_ACTION_FORCE_U32 = 2147483647U
+    }
+
+    // Enum @ sokol_gfx.h:1049
+    public enum sg_shader_stage : uint
+    {
+        SG_SHADERSTAGE_VS = 0U,
+        SG_SHADERSTAGE_FS = 1U,
+        _SG_SHADERSTAGE_FORCE_U32 = 2147483647U
+    }
+
+    // Enum @ sokol_gfx.h:692
+    public enum sg_backend : uint
+    {
+        SG_BACKEND_GLCORE33 = 0U,
+        SG_BACKEND_GLES2 = 1U,
+        SG_BACKEND_GLES3 = 2U,
+        SG_BACKEND_D3D11 = 3U,
+        SG_BACKEND_METAL_IOS = 4U,
+        SG_BACKEND_METAL_MACOS = 5U,
+        SG_BACKEND_METAL_SIMULATOR = 6U,
+        SG_BACKEND_WGPU = 7U,
+        SG_BACKEND_DUMMY = 8U
+    }
+
+    // Enum @ sokol_gfx.h:895
+    public enum sg_resource_state : uint
+    {
+        SG_RESOURCESTATE_INITIAL = 0U,
+        SG_RESOURCESTATE_ALLOC = 1U,
+        SG_RESOURCESTATE_VALID = 2U,
+        SG_RESOURCESTATE_FAILED = 3U,
+        SG_RESOURCESTATE_INVALID = 4U,
+        _SG_RESOURCESTATE_FORCE_U32 = 2147483647U
     }
 }

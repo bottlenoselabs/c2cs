@@ -3,12 +3,12 @@
 
 namespace C2CS.CSharp
 {
-    public record CSharpCommon
+    public record CSharpNode
     {
         public readonly string Name;
         public readonly string CodeLocationComment;
 
-        public CSharpCommon(
+        public CSharpNode(
             string name,
             string locationComment)
         {

@@ -109,7 +109,7 @@ public static unsafe partial class {className}
 			ImmutableArray<CSharpVariable> variablesExtern)
 		{
 			var statementStrings = variablesExtern.Select(x =>
-				@$"_{x.Name} = NativeTools.LibraryGetExport(_libraryHandle, ""{x.Name}"");");
+				@$"_{x.Name} = NativeRuntime.LibraryGetExport(_libraryHandle, ""{x.Name}"");");
 			var statements = string.Join('\n', statementStrings);
 
 			var code = $@"
@@ -172,7 +172,7 @@ private static void UnloadExports()
 			}
 		}
 
-		private static FieldDeclarationSyntax CreateFieldExternAddress(CSharpCommon @extern)
+		private static FieldDeclarationSyntax CreateFieldExternAddress(CSharpNode @extern)
 		{
 			var code = $@"
 {@extern.CodeLocationComment}
@@ -195,7 +195,7 @@ public static {variable.Type.Name} {variable.Name}
 			return default({variable.Type.Name});
 		}}
 
-		var value = NativeTools.MemoryRead<{variable.Type.Name}>(_{variable.Name});
+		var value = NativeRuntime.MemoryRead<{variable.Type.Name}>(_{variable.Name});
 		return value;
 	}}
 }}
@@ -213,7 +213,7 @@ public static {variable.Type.Name} {variable.Name}
 
 		private static void AddMethodsExterns(
 			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
-			ImmutableArray<CSharpFunctionExtern> functionExterns)
+			ImmutableArray<CSharpFunction> functionExterns)
 		{
 			foreach (var functionExtern in functionExterns)
 			{
@@ -221,7 +221,7 @@ public static {variable.Type.Name} {variable.Name}
 				var shouldIgnore = false;
 				foreach (var cSharpFunctionExternParameter in functionExtern.Parameters)
 				{
-					if (cSharpFunctionExternParameter.Type.Name == "__va_list_tag")
+					if (cSharpFunctionExternParameter.Type.Name == "va_list")
 					{
 						shouldIgnore = true;
 						break;
@@ -238,16 +238,16 @@ public static {variable.Type.Name} {variable.Name}
 			}
 		}
 
-		private static MethodDeclarationSyntax CreateExternMethod(CSharpFunctionExtern functionExtern)
+		private static MethodDeclarationSyntax CreateExternMethod(CSharpFunction function)
 		{
-			var parameterStrings = functionExtern.Parameters
-				.Select(x => $@"{x.Type} {x.Name}");
+			var parameterStrings = function.Parameters.Select(
+				x => $@"{x.Type.Name} {x.Name}");
 			var parameters = string.Join(',', parameterStrings);
 
 			var code = $@"
-{functionExtern.CodeLocationComment}
-[DllImport(LibraryName, EntryPoint = ""{functionExtern.Name}"", CallingConvention = CallingConvention.{functionExtern.CallingConvention})]
-public static extern {functionExtern.ReturnType.Name} {functionExtern.Name}({parameters});
+{function.CodeLocationComment}
+[DllImport(LibraryName, EntryPoint = ""{function.Name}"", CallingConvention = CallingConvention.{function.CallingConvention})]
+public static extern {function.ReturnType.Name} {function.Name}({parameters});
 ";
 
 			var member = ParseMemberDeclaration(code)!;
@@ -262,7 +262,7 @@ public static extern {functionExtern.ReturnType.Name} {functionExtern.Name}({par
 
 		private static void AddFunctionPointers(
 			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
-			ImmutableArray<CSharpFunctionPointer> functionPointers)
+			ImmutableArray<CSharpPointerFunction> functionPointers)
 		{
 			foreach (var functionPointer in functionPointers)
 			{
@@ -271,21 +271,26 @@ public static extern {functionExtern.ReturnType.Name} {functionExtern.Name}({par
 			}
 		}
 
-		public static StructDeclarationSyntax CreateFunctionPointer(CSharpFunctionPointer functionPointer)
+		public static StructDeclarationSyntax CreateFunctionPointer(
+			CSharpPointerFunction pointerFunction, bool isNested = false)
 		{
-			var parameterStrings = functionPointer.Parameters
-				.Select(x => $"{x.Type}").Append($"{functionPointer.ReturnType.Name}");
+			var parameterStrings = pointerFunction.Parameters
+				.Select(x => $"{x.Type}").Append($"{pointerFunction.ReturnType.Name}");
 			var parameters = string.Join(',', parameterStrings);
 
 			var code = $@"
-{functionPointer.CodeLocationComment}
-[StructLayout(LayoutKind.Explicit, Size = {functionPointer.PointerSize}, Pack = {functionPointer.PointerSize})]
-public struct {functionPointer.Name}
+{pointerFunction.CodeLocationComment}
+[StructLayout(LayoutKind.Sequential)]
+public struct {pointerFunction.Name}
 {{
-	[FieldOffset(0)] // size = {functionPointer.PointerSize}, padding = 0
 	public delegate* unmanaged <{parameters}> Pointer;
 }}
 ";
+
+			if (isNested)
+			{
+				code = code.Trim();
+			}
 
 			var member = ParseMemberDeclaration(code)!;
 			if (member is StructDeclarationSyntax syntax)
@@ -311,7 +316,7 @@ public struct {functionPointer.Name}
 		private static StructDeclarationSyntax CreateStruct(CSharpStruct @struct, bool isNested = false)
 		{
 			var memberSyntaxes = CreateStructMembers(
-				@struct.Name, @struct.Fields, @struct.NestedStructs);
+				@struct.Name, @struct.Fields, @struct.NestedNodes);
 			var memberStrings = memberSyntaxes.Select(x => x.ToFullString());
 			var members = string.Join("\n\n", memberStrings);
 
@@ -342,7 +347,7 @@ public struct {@struct.Name}
 		private static MemberDeclarationSyntax[] CreateStructMembers(
 			string structName,
 			ImmutableArray<CSharpStructField> fields,
-			ImmutableArray<CSharpStruct> nestedStructs)
+			ImmutableArray<CSharpNode> nestedNodes)
 		{
 			var builder = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
 
@@ -364,10 +369,16 @@ public struct {@struct.Name}
 				}
 			}
 
-			foreach (var nestedStruct in nestedStructs)
+			foreach (var nestedNode in nestedNodes)
 			{
-				var structNested = CreateStruct(nestedStruct, true);
-				builder.Add(structNested);
+				var syntax = nestedNode switch
+				{
+					CSharpStruct nestedStruct => CreateStruct(nestedStruct, true),
+					CSharpPointerFunction nestedFunctionPointer => CreateFunctionPointer(nestedFunctionPointer, true),
+					_ => throw new NotImplementedException()
+				};
+
+				builder.Add(syntax);
 			}
 
 			var structMembers = builder.ToArray();
@@ -381,8 +392,14 @@ public struct {@struct.Name}
 public {field.Type.Name} {field.Name};
 ".Trim();
 
-			var member = (FieldDeclarationSyntax)ParseMemberDeclaration(code)!;
-			return member;
+			var member = ParseMemberDeclaration(code)!;
+			if (member is FieldDeclarationSyntax syntax)
+			{
+				return syntax;
+			}
+
+			var up = new CSharpCodeGenerationException("Error generating C# field.");
+			throw up;
 		}
 
 		private static FieldDeclarationSyntax CreateStructFieldFixedBuffer(
@@ -501,7 +518,7 @@ public struct {typedef.Name}
 	[FieldOffset(0)] // size = {typedef.UnderlyingType.SizeOf}, padding = 0
     public {typedef.UnderlyingType.Name} Data;
 
-	public unsafe static implicit operator {typedef.UnderlyingType.Name}({typedef.Name} data) => *(({typedef.UnderlyingType.Name}*)&data);
+	public static unsafe implicit operator {typedef.UnderlyingType.Name}({typedef.Name} data) => *(({typedef.UnderlyingType.Name}*)&data);
 }}
 ";
 
@@ -581,7 +598,7 @@ public enum {@enum.Name} : {@enum.Type}
 
 		private class GeneratorUnexpectedException : Exception
 		{
-			public GeneratorUnexpectedException(CSharpCommon data)
+			public GeneratorUnexpectedException(CSharpNode data)
 				: base(data.CodeLocationComment)
 			{
 			}

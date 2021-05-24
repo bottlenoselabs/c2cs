@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 
 namespace C2CS.CSharp
 {
-    public record CSharpEnum : CSharpCommon
+    public record CSharpEnum : CSharpNode
     {
         public readonly CSharpType Type;
         public readonly ImmutableArray<CSharpEnumValue> Values;

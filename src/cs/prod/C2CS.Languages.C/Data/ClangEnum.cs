@@ -7,25 +7,25 @@ namespace C2CS.Languages.C
 {
     public record ClangEnum : ClangNode
     {
+        public readonly ClangType Type;
         public readonly ClangType IntegerType;
         public readonly ImmutableArray<ClangEnumValue> Values;
 
         internal ClangEnum(
-            string name,
             ClangCodeLocation codeLocation,
+            ClangType type,
             ClangType integerType,
             ImmutableArray<ClangEnumValue> values)
-            : base(ClangNodeKind.Enum, name, codeLocation)
+            : base(ClangNodeKind.Enum, codeLocation)
         {
+            Type = type;
             IntegerType = integerType;
             Values = values;
         }
 
-        // Required for debugger string with records
-        // ReSharper disable once RedundantOverriddenMember
         public override string ToString()
         {
-            return base.ToString();
+            return $"Enum '{Type.Name}': {IntegerType.Name} @ {CodeLocation.ToString()}";
         }
     }
 }

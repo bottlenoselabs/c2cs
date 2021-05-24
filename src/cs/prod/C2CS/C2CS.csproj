@@ -5,7 +5,6 @@
         <TargetFramework>net5.0</TargetFramework>
         <OutputType>Exe</OutputType>
         <RootNamespace>C2CS</RootNamespace>
-        <Version>0.2</Version>
     </PropertyGroup>
 
     <!-- NuGet -->

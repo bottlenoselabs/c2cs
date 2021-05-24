@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using static libclang;
 
 namespace C2CS.Languages.C
 {
@@ -12,7 +13,7 @@ namespace C2CS.Languages.C
             Message = message;
         }
 
-        public ClangExplorerException(libclang.CXCursor cursor)
+        public ClangExplorerException(CXCursor cursor)
         {
             var cursorName = cursor.GetName();
             var (filePath, lineNumber, lineColumn) = cursor.GetLocation();
@@ -21,7 +22,7 @@ Unexpected error while exploring Clang header: {cursorName} @ {filePath}:{lineNu
 ".Trim();
         }
 
-        public ClangExplorerException(libclang.CXType type, libclang.CXCursor cursor)
+        public ClangExplorerException(CXType type, CXCursor cursor)
             : this(cursor)
         {
             var typeName = type.GetName();

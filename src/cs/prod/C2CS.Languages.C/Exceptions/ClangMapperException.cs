@@ -7,9 +7,11 @@ namespace C2CS.Languages.C
 {
     public class ClangMapperException : Exception
     {
-        public ClangMapperException()
-            : base("The header file used has unforeseen conditions. Please create an issue on GitHub with the stack trace along with the header file.")
+        public ClangMapperException(string message)
         {
+            Message = message;
         }
+
+        public override string Message { get; }
     }
 }

@@ -15,18 +15,18 @@ namespace C2CS.CSharp
         public static CSharpAbstractSyntaxTree GetAbstractSyntaxTree(
             ClangAbstractSyntaxTree clangAbstractSyntaxTree)
         {
-            var functionExterns = MapFunctionExterns(
+            var functionExterns = CSharpFunctionExterns(
                 clangAbstractSyntaxTree.FunctionExterns);
-            var functionPointers = MapFunctionPointers(
+            var functionPointers = CSharpFunctionPointers(
                 clangAbstractSyntaxTree.FunctionPointers);
-            var structs = MapStructs(
+            var structs = CSharpStructs(
                 clangAbstractSyntaxTree.Records,
                 clangAbstractSyntaxTree.Typedefs);
-            var typedefs = MapTypedefs(clangAbstractSyntaxTree.Typedefs);
-            var opaqueDataTypes = MapOpaqueDataTypes(
+            var typedefs = CSharpTypedefs(clangAbstractSyntaxTree.Typedefs);
+            var opaqueDataTypes = CSharpOpaqueDataTypes(
                 clangAbstractSyntaxTree.OpaqueTypes);
-            var enums = MapEnums(clangAbstractSyntaxTree.Enums);
-            var variables = MapVariablesExtern(clangAbstractSyntaxTree.Variables);
+            var enums = CSharpEnums(clangAbstractSyntaxTree.Enums);
+            var variables = CSharpVariablesExtern(clangAbstractSyntaxTree.Variables);
 
             var result = new CSharpAbstractSyntaxTree(
                 functionExterns,
@@ -40,29 +40,14 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static ImmutableArray<CSharpTypedef> MapTypedefs(ImmutableArray<ClangTypedef> typedefs)
+        private static ImmutableArray<CSharpFunction> CSharpFunctionExterns(ImmutableArray<ClangFunction> clangFunctionExterns)
         {
-            var builder = ImmutableArray.CreateBuilder<CSharpTypedef>(typedefs.Length);
-
-            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var clangTypedef in typedefs)
-            {
-                var typedef = MapTypedef(clangTypedef);
-                builder.Add(typedef);
-            }
-
-            var result = builder.ToImmutable();
-            return result;
-        }
-
-        private static ImmutableArray<CSharpFunctionExtern> MapFunctionExterns(ImmutableArray<ClangFunctionExtern> clangFunctionExterns)
-        {
-            var builder = ImmutableArray.CreateBuilder<CSharpFunctionExtern>(clangFunctionExterns.Length);
+            var builder = ImmutableArray.CreateBuilder<CSharpFunction>(clangFunctionExterns.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangFunctionExtern in clangFunctionExterns)
             {
-                var functionExtern = MapFunctionExtern(clangFunctionExtern);
+                var functionExtern = CSharpFunction(clangFunctionExtern);
                 builder.Add(functionExtern);
             }
 
@@ -70,59 +55,50 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpFunctionExtern MapFunctionExtern(ClangFunctionExtern clangFunctionExtern)
+        private static CSharpFunction CSharpFunction(ClangFunction clangFunction)
         {
-            var name = clangFunctionExtern.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangFunctionExtern);
-            var returnType = MapType(clangFunctionExtern.ReturnType);
-            var callingConvention = MapFunctionCallingConvention(clangFunctionExtern.CallingConvention);
-            var parameters = MapFunctionExternParameters(clangFunctionExtern.Parameters);
+            var name = clangFunction.Name;
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangFunction);
 
-            var isWrapped = false;
-            foreach (var parameter in parameters)
-            {
-                if (parameter.IsFunctionPointer)
-                {
-                    isWrapped = true;
-                }
-            }
+            var returnType = CSharpType(clangFunction.ReturnType);
+            var callingConvention = CSharpFunctionCallingConvention(clangFunction.CallingConvention);
+            var parameters = CSharpFunctionParameters(clangFunction.Parameters);
 
-            var result = new CSharpFunctionExtern(
+            var result = new CSharpFunction(
                 name,
                 originalCodeLocationComment,
                 callingConvention,
                 returnType,
-                parameters,
-                isWrapped);
+                parameters);
 
             return result;
         }
 
-        private static CSharpFunctionExternCallingConvention MapFunctionCallingConvention(
-            ClangFunctionExternCallingConvention clangFunctionCallingConvention)
+        private static CSharpFunctionCallingConvention CSharpFunctionCallingConvention(
+            ClangFunctionCallingConvention clangFunctionCallingConvention)
         {
             var result = clangFunctionCallingConvention switch
             {
-                ClangFunctionExternCallingConvention.C => CSharpFunctionExternCallingConvention.Cdecl,
-                ClangFunctionExternCallingConvention.Unknown => CSharpFunctionExternCallingConvention.WinApi,
+                ClangFunctionCallingConvention.C => CSharp.CSharpFunctionCallingConvention.Cdecl,
+                ClangFunctionCallingConvention.Unknown => CSharp.CSharpFunctionCallingConvention.Default,
                 _ => throw new ArgumentOutOfRangeException(nameof(clangFunctionCallingConvention), clangFunctionCallingConvention, null)
             };
 
             return result;
         }
 
-        private static ImmutableArray<CSharpFunctionExternParameter> MapFunctionExternParameters(
-            ImmutableArray<ClangFunctionExternParameter> clangFunctionExternParameters)
+        private static ImmutableArray<CSharpFunctionParameter> CSharpFunctionParameters(
+            ImmutableArray<ClangFunctionParameter> clangFunctionExternParameters)
         {
-            var builder = ImmutableArray.CreateBuilder<CSharpFunctionExternParameter>(clangFunctionExternParameters.Length);
+            var builder = ImmutableArray.CreateBuilder<CSharpFunctionParameter>(clangFunctionExternParameters.Length);
             var parameterNames = new List<string>();
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangFunctionExternParameter in clangFunctionExternParameters)
             {
-                var parameterName = MapUniqueParameterName(clangFunctionExternParameter.Name, parameterNames);
+                var parameterName = CSharpUniqueParameterName(clangFunctionExternParameter.Name, parameterNames);
                 parameterNames.Add(parameterName);
-                var functionExternParameter = MapFunctionExternParameter(clangFunctionExternParameter, parameterName);
+                var functionExternParameter = CSharpFunctionExternParameter(clangFunctionExternParameter, parameterName);
                 builder.Add(functionExternParameter);
             }
 
@@ -130,7 +106,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static string MapUniqueParameterName(string parameterName, List<string> parameterNames)
+        private static string CSharpUniqueParameterName(string parameterName, List<string> parameterNames)
         {
             if (string.IsNullOrEmpty(parameterName))
             {
@@ -167,32 +143,30 @@ namespace C2CS.CSharp
             }
         }
 
-        private static CSharpFunctionExternParameter MapFunctionExternParameter(
-            ClangFunctionExternParameter clangFunctionExternParameter, string parameterName)
+        private static CSharpFunctionParameter CSharpFunctionExternParameter(
+            ClangFunctionParameter clangFunctionParameter, string parameterName)
         {
-            var name = SanitizeIdentifierName(parameterName);
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangFunctionExternParameter);
-            var type = MapType(clangFunctionExternParameter.Type);
-            var isFunctionPointer = clangFunctionExternParameter.IsFunctionPointer;
+            var name = CSharpSanitizeIdentifier(parameterName);
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangFunctionParameter);
+            var type = CSharpType(clangFunctionParameter.Type);
 
-            var result = new CSharpFunctionExternParameter(
+            var result = new CSharpFunctionParameter(
                 name,
                 originalCodeLocationComment,
-                type,
-                isFunctionPointer);
+                type);
 
             return result;
         }
 
-        private static ImmutableArray<CSharpFunctionPointer> MapFunctionPointers(
-            ImmutableArray<ClangFunctionPointer> clangFunctionPointers)
+        private static ImmutableArray<CSharpPointerFunction> CSharpFunctionPointers(
+            ImmutableArray<ClangPointerFunction> clangFunctionPointers)
         {
-            var builder = ImmutableArray.CreateBuilder<CSharpFunctionPointer>(clangFunctionPointers.Length);
+            var builder = ImmutableArray.CreateBuilder<CSharpPointerFunction>(clangFunctionPointers.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangFunctionPointer in clangFunctionPointers)
             {
-                var functionPointer = MapFunctionPointer(clangFunctionPointer);
+                var functionPointer = CSharpPointerFunction(clangFunctionPointer);
                 builder.Add(functionPointer);
             }
 
@@ -200,15 +174,20 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpFunctionPointer MapFunctionPointer(ClangFunctionPointer clangFunctionPointer)
+        private static CSharpPointerFunction CSharpPointerFunction(ClangPointerFunction clangPointerFunction)
         {
-            var name = clangFunctionPointer.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangFunctionPointer);
-            var pointerSize = clangFunctionPointer.PointerSize;
-            var returnType = MapType(clangFunctionPointer.ReturnType);
-            var parameters = MapFunctionPointerParameters(clangFunctionPointer.Parameters);
+            string name = clangPointerFunction.Name;
+            if (clangPointerFunction.IsWrapped)
+            {
+                name = $"FunctionPointer_{clangPointerFunction.Name}";
+            }
 
-            var result = new CSharpFunctionPointer(
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangPointerFunction);
+            var pointerSize = clangPointerFunction.PointerSize;
+            var returnType = CSharpType(clangPointerFunction.ReturnType);
+            var parameters = CSharpPointerFunctionParameters(clangPointerFunction.Parameters);
+
+            var result = new CSharpPointerFunction(
                 name,
                 originalCodeLocationComment,
                 pointerSize,
@@ -218,18 +197,18 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static ImmutableArray<CSharpFunctionPointerParameter> MapFunctionPointerParameters(
-            ImmutableArray<ClangFunctionPointerParameter> clangFunctionPointerParameters)
+        private static ImmutableArray<CSharpPointerFunctionParameter> CSharpPointerFunctionParameters(
+            ImmutableArray<ClangPointerFunctionParameter> clangFunctionPointerParameters)
         {
-            var builder = ImmutableArray.CreateBuilder<CSharpFunctionPointerParameter>(clangFunctionPointerParameters.Length);
+            var builder = ImmutableArray.CreateBuilder<CSharpPointerFunctionParameter>(clangFunctionPointerParameters.Length);
             var parameterNames = new List<string>();
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangFunctionPointerParameter in clangFunctionPointerParameters)
             {
-                var parameterName = MapUniqueParameterName(clangFunctionPointerParameter.Name, parameterNames);
+                var parameterName = CSharpUniqueParameterName(clangFunctionPointerParameter.Name, parameterNames);
                 parameterNames.Add(parameterName);
-                var functionExternParameter = MapFunctionPointerParameter(clangFunctionPointerParameter, parameterName);
+                var functionExternParameter = CSharpPointerFunctionParameter(clangFunctionPointerParameter, parameterName);
                 builder.Add(functionExternParameter);
             }
 
@@ -237,14 +216,14 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpFunctionPointerParameter MapFunctionPointerParameter(
-            ClangFunctionPointerParameter clangFunctionPointerParameter, string parameterName)
+        private static CSharpPointerFunctionParameter CSharpPointerFunctionParameter(
+            ClangPointerFunctionParameter clangPointerFunctionParameter, string parameterName)
         {
-            var name = SanitizeIdentifierName(parameterName);
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangFunctionPointerParameter);
-            var type = MapType(clangFunctionPointerParameter.Type);
+            var name = CSharpSanitizeIdentifier(parameterName);
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangPointerFunctionParameter);
+            var type = CSharpType(clangPointerFunctionParameter.Type);
 
-            var result = new CSharpFunctionPointerParameter(
+            var result = new CSharpPointerFunctionParameter(
                 name,
                 originalCodeLocationComment,
                 type);
@@ -252,7 +231,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static ImmutableArray<CSharpStruct> MapStructs(
+        private static ImmutableArray<CSharpStruct> CSharpStructs(
             ImmutableArray<ClangRecord> records,
             ImmutableArray<ClangTypedef> typedefs)
         {
@@ -262,7 +241,7 @@ namespace C2CS.CSharp
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangRecord in records)
             {
-                var @struct = MapStruct(clangRecord);
+                var @struct = CSharpStruct(clangRecord);
                 builder.Add(@struct);
             }
 
@@ -277,32 +256,28 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpStruct MapStruct(ClangRecord clangRecord)
+        private static CSharpStruct CSharpStruct(ClangRecord clangRecord)
         {
-            var name = clangRecord.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangRecord);
-            var type = MapType(clangRecord.Type);
-            var fields = MapStructFields(clangRecord.Fields);
-            var nestedStructs = MapNestedStructs(clangRecord.NestedRecords);
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangRecord);
+            var type = CSharpType(clangRecord.Type);
+            var fields = CSharpStructFields(clangRecord.Fields);
+            var nestedNodes = CSharpNestedNodes(clangRecord.NestedNodes);
 
-            var result = new CSharpStruct(
-                name,
+            return new CSharpStruct(
                 originalCodeLocationComment,
                 type,
                 fields,
-                nestedStructs);
-
-            return result;
+                nestedNodes);
         }
 
-        private static ImmutableArray<CSharpStructField> MapStructFields(ImmutableArray<ClangRecordField> clangRecordFields)
+        private static ImmutableArray<CSharpStructField> CSharpStructFields(ImmutableArray<ClangRecordField> clangRecordFields)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpStructField>(clangRecordFields.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangRecordField in clangRecordFields)
             {
-                var structField = MapStructField(clangRecordField);
+                var structField = CSharpStructField(clangRecordField);
                 builder.Add(structField);
             }
 
@@ -310,15 +285,25 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpStructField MapStructField(ClangRecordField clangRecordField)
+        private static CSharpStructField CSharpStructField(ClangRecordField clangRecordField)
         {
-            var name = SanitizeIdentifierName(clangRecordField.Name);
+            var name = CSharpSanitizeIdentifier(clangRecordField.Name);
             var originalName = clangRecordField.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangRecordField);
-            var type = MapType(clangRecordField.Type);
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangRecordField);
+
+            CSharpType type;
+            if (clangRecordField.IsUnNamedFunctionPointer)
+            {
+                type = CSharpType(clangRecordField.Type, $"FunctionPointer_{name}");
+            }
+            else
+            {
+                type = CSharpType(clangRecordField.Type);
+            }
+
             var offset = clangRecordField.Offset;
             var padding = clangRecordField.Padding;
-            var isWrapped = type.IsArray && !IsValidFixedBufferType(type.Name);
+            var isWrapped = type.IsArray && !CSharpIsValidFixedBufferType(type.Name);
 
             var result = new CSharpStructField(
                 name,
@@ -332,29 +317,42 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static ImmutableArray<CSharpStruct> MapNestedStructs(ImmutableArray<ClangRecord> clangNestedRecords)
+        private static ImmutableArray<CSharpNode> CSharpNestedNodes(ImmutableArray<ClangNode> nodes)
         {
-            var builder = ImmutableArray.CreateBuilder<CSharpStruct>(clangNestedRecords.Length);
+            var builder = ImmutableArray.CreateBuilder<CSharpNode>(nodes.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var clangRecordNestedRecord in clangNestedRecords)
+            foreach (var node in nodes)
             {
-                var nestedRecord = MapStruct(clangRecordNestedRecord);
-                builder.Add(nestedRecord);
+                CSharpNode nestedNode;
+
+                switch (node)
+                {
+                    case ClangRecord record:
+                        nestedNode = CSharpStruct(record);
+                        break;
+                    case ClangPointerFunction functionPointer:
+                        nestedNode = CSharpPointerFunction(functionPointer);
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+
+                builder.Add(nestedNode);
             }
 
             var result = builder.ToImmutable();
             return result;
         }
 
-        private static ImmutableArray<CSharpOpaqueType> MapOpaqueDataTypes(ImmutableArray<ClangOpaqueType> opaqueDataTypes)
+        private static ImmutableArray<CSharpOpaqueType> CSharpOpaqueDataTypes(ImmutableArray<ClangOpaqueType> opaqueDataTypes)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpOpaqueType>(opaqueDataTypes.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangOpaqueDataType in opaqueDataTypes)
             {
-                var opaqueDataType = MapOpaqueDataType(clangOpaqueDataType);
+                var opaqueDataType = CSharpOpaqueDataType(clangOpaqueDataType);
                 builder.Add(opaqueDataType);
             }
 
@@ -362,10 +360,10 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpOpaqueType MapOpaqueDataType(ClangOpaqueType clangOpaqueType)
+        private static CSharpOpaqueType CSharpOpaqueDataType(ClangOpaqueType clangOpaqueType)
         {
             var name = clangOpaqueType.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangOpaqueType);
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangOpaqueType);
 
             var result = new CSharpOpaqueType(
                 name,
@@ -374,43 +372,26 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpStruct MapOpaquePointer(ClangOpaquePointer clangOpaquePointer)
+        private static ImmutableArray<CSharpTypedef> CSharpTypedefs(ImmutableArray<ClangTypedef> typedefs)
         {
-            var name = clangOpaquePointer.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangOpaquePointer);
-            var type = MapType(clangOpaquePointer.PointerType);
-            var fields = MapOpaquePointerFields(clangOpaquePointer.PointerType, originalCodeLocationComment);
+            var builder = ImmutableArray.CreateBuilder<CSharpTypedef>(typedefs.Length);
 
-            var result = new CSharpStruct(
-                name,
-                originalCodeLocationComment,
-                type,
-                fields);
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var clangTypedef in typedefs)
+            {
+                var typedef = CSharpTypedef(clangTypedef);
+                builder.Add(typedef);
+            }
 
+            var result = builder.ToImmutable();
             return result;
         }
 
-        private static ImmutableArray<CSharpStructField> MapOpaquePointerFields(ClangType clangType, string originalCodeLocationComment)
-        {
-            var type = MapType(clangType);
-            var structField = new CSharpStructField(
-                "Pointer",
-                string.Empty,
-                originalCodeLocationComment,
-                type,
-                0,
-                0,
-                false);
-
-            var result = ImmutableArray.Create(structField);
-            return result;
-        }
-
-        private static CSharpTypedef MapTypedef(ClangTypedef clangTypedef)
+        private static CSharpTypedef CSharpTypedef(ClangTypedef clangTypedef)
         {
             var name = clangTypedef.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangTypedef);
-            var type = MapType(clangTypedef.UnderlyingType);
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangTypedef);
+            var type = CSharpType(clangTypedef.UnderlyingType);
 
             var result = new CSharpTypedef(
                 name,
@@ -420,14 +401,14 @@ namespace C2CS.CSharp
             return result;
         }
 
-        public static ImmutableArray<CSharpEnum> MapEnums(ImmutableArray<ClangEnum> clangEnums)
+        private static ImmutableArray<CSharpEnum> CSharpEnums(ImmutableArray<ClangEnum> clangEnums)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpEnum>(clangEnums.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangEnum in clangEnums)
             {
-                var @enum = MapEnum(clangEnum);
+                var @enum = CSharpEnum(clangEnum);
                 builder.Add(@enum);
             }
 
@@ -435,12 +416,12 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpEnum MapEnum(ClangEnum clangEnum)
+        private static CSharpEnum CSharpEnum(ClangEnum clangEnum)
         {
-            var name = clangEnum.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangEnum);
-            var type = MapType(clangEnum.IntegerType);
-            var values = MapEnumValues(clangEnum.Values);
+            var name = clangEnum.Type.Name;
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangEnum);
+            var type = CSharpType(clangEnum.IntegerType);
+            var values = CSharpEnumValues(clangEnum.Values);
 
             var result = new CSharpEnum(
                 name,
@@ -450,14 +431,14 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static ImmutableArray<CSharpEnumValue> MapEnumValues(ImmutableArray<ClangEnumValue> clangEnumValues)
+        private static ImmutableArray<CSharpEnumValue> CSharpEnumValues(ImmutableArray<ClangEnumValue> clangEnumValues)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpEnumValue>(clangEnumValues.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangEnumValue in clangEnumValues)
             {
-                var @enum = MapEnumValue(clangEnumValue);
+                var @enum = CSharpEnumValue(clangEnumValue);
                 builder.Add(@enum);
             }
 
@@ -465,10 +446,10 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpEnumValue MapEnumValue(ClangEnumValue clangEnumValue)
+        private static CSharpEnumValue CSharpEnumValue(ClangEnumValue clangEnumValue)
         {
             var name = clangEnumValue.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangEnumValue);
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangEnumValue);
             var value = clangEnumValue.Value;
 
             var result = new CSharpEnumValue(
@@ -479,14 +460,14 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static ImmutableArray<CSharpVariable> MapVariablesExtern(ImmutableArray<ClangVariable> clangVariables)
+        private static ImmutableArray<CSharpVariable> CSharpVariablesExtern(ImmutableArray<ClangVariable> clangVariables)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpVariable>(clangVariables.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangVariable in clangVariables)
             {
-                var variable = MapVariable(clangVariable);
+                var variable = CSharpVariable(clangVariable);
                 builder.Add(variable);
             }
 
@@ -494,26 +475,41 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpVariable MapVariable(ClangVariable clangVariable)
+        private static CSharpVariable CSharpVariable(ClangVariable clangVariable)
         {
             var name = clangVariable.Name;
-            var originalCodeLocationComment = MapOriginalCodeLocationComment(clangVariable);
-            var type = MapType(clangVariable.Type);
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangVariable);
+            var type = CSharpType(clangVariable.Type);
 
             var result = new CSharpVariable(name, originalCodeLocationComment, type);
             return result;
         }
 
-        private static CSharpType MapType(ClangType clangType)
+        private static CSharpType CSharpType(ClangType clangType, string? typeName = null)
         {
-            var name = MapTypeName(clangType);
+            var typeName2 = typeName ?? CSharpTypeName(clangType);
             var originalName = clangType.OriginalName;
             var sizeOf = clangType.SizeOf;
             var alignOf = clangType.AlignOf;
             var fixedBufferSize = clangType.ArraySize;
 
+            if (originalName == "void (*)(void)")
+            {
+                typeName2 = "NativeCallbackVoid";
+            }
+            else if (originalName == "void (*)(void *)")
+            {
+                typeName2 = "NativeCallbackPointerVoid";
+            }
+
+            // https://github.com/lithiumtoast/c2cs/issues/15
+            if (originalName == "va_list")
+            {
+                typeName2 = "IntPtr";
+            }
+
             var result = new CSharpType(
-                name,
+                typeName2,
                 originalName,
                 sizeOf,
                 alignOf,
@@ -522,19 +518,143 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static string MapTypeName(ClangType clangType)
+        private static string CSharpTypeName(ClangType type)
         {
-            string result = clangType.Name;
+            string result = type.Name;
 
-            if (clangType.IsSystemType && clangType.Name == "bool")
+            if (!type.IsSystemType)
             {
-                result = "_Bool";
+                return result;
             }
 
-            return result;
+            var elementTypeName = type.Name.TrimEnd('*');
+            var pointersTypeName = type.Name[elementTypeName.Length..];
+
+            string reMappedElementTypeName;
+            switch (elementTypeName)
+            {
+                case "char":
+                    reMappedElementTypeName = "byte";
+                    break;
+                case "bool":
+                    reMappedElementTypeName = "_Bool";
+                    break;
+                case "int8_t":
+                    reMappedElementTypeName = "sbyte";
+                    break;
+                case "uint8_t":
+                    reMappedElementTypeName = "byte";
+                    break;
+                case "int16_t":
+                    reMappedElementTypeName = "short";
+                    break;
+                case "uint16_t":
+                    reMappedElementTypeName = "ushort";
+                    break;
+                case "int32_t":
+                    reMappedElementTypeName = "int";
+                    break;
+                case "uint32_t":
+                    reMappedElementTypeName = "uint";
+                    break;
+                case "int64_t":
+                    reMappedElementTypeName = "long";
+                    break;
+                case "uint64_t":
+                    reMappedElementTypeName = "ulong";
+                    break;
+                case "uintptr_t":
+                    reMappedElementTypeName = "UIntPtr";
+                    break;
+                case "intptr_t":
+                    reMappedElementTypeName = "IntPtr";
+                    break;
+                case "unsigned char":
+                case "unsigned short":
+                case "unsigned short int":
+                case "unsigned":
+                case "unsigned int":
+                case "unsigned long":
+                case "unsigned long int":
+                case "unsigned long long":
+                case "unsigned long long int":
+                case "size_t":
+                    reMappedElementTypeName = CSharpUnsignedIntegerName(type.ElementSize);
+                    break;
+                case "signed char":
+                case "short":
+                case "short int":
+                case "signed short":
+                case "signed short int":
+                case "int":
+                case "signed":
+                case "signed int":
+                case "long":
+                case "long int":
+                case "signed long":
+                case "signed long int":
+                case "long long":
+                case "long long int":
+                case "signed long long int":
+                case "ssize_t":
+                    reMappedElementTypeName = CSharpSignedIntegerName(type.ElementSize);
+                    break;
+                default:
+                    return result;
+            }
+
+            return reMappedElementTypeName + pointersTypeName;
         }
 
-        private static string MapOriginalCodeLocationComment(ClangNode node)
+        private static string CSharpUnsignedIntegerName(int sizeOf)
+        {
+            string reMappedElementTypeName;
+            switch (sizeOf)
+            {
+                case 1:
+                    reMappedElementTypeName = "byte";
+                    break;
+                case 2:
+                    reMappedElementTypeName = "ushort";
+                    break;
+                case 4:
+                    reMappedElementTypeName = "uint";
+                    break;
+                case 8:
+                    reMappedElementTypeName = "ulong";
+                    break;
+                default:
+                    throw new InvalidOperationException();
+            }
+
+            return reMappedElementTypeName;
+        }
+
+        private static string CSharpSignedIntegerName(int sizeOf)
+        {
+            string reMappedElementTypeName;
+            switch (sizeOf)
+            {
+                case 1:
+                    reMappedElementTypeName = "sbyte";
+                    break;
+                case 2:
+                    reMappedElementTypeName = "short";
+                    break;
+                case 4:
+                    reMappedElementTypeName = "int";
+                    break;
+                case 8:
+                    reMappedElementTypeName = "long";
+                    break;
+                default:
+                    throw new InvalidOperationException();
+            }
+
+            return reMappedElementTypeName;
+        }
+
+        private static string CSharpOriginalCodeLocationComment(ClangNode node)
         {
             var kind = node.Kind;
             var codeLocation = node.CodeLocation;
@@ -555,7 +675,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static string SanitizeIdentifierName(string name)
+        private static string CSharpSanitizeIdentifier(string name)
         {
             var result = name;
 
@@ -646,7 +766,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static bool IsValidFixedBufferType(string typeString)
+        private static bool CSharpIsValidFixedBufferType(string typeString)
         {
             return typeString switch
             {
