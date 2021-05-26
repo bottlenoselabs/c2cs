@@ -40,8 +40,8 @@ namespace C2CS.Languages.C
             }
 
             var fileName = clang_getFileName(file);
-            var cString = clang_getCString(fileName);
-            var fileNamePath = NativeRuntime.GetString(cString);
+            var fileNamePathC = clang_getCString(fileName);
+            var fileNamePath = NativeRuntime.AllocateString(fileNamePathC);
 
             FileName = useFullPath ? fileNamePath : Path.GetFileName(fileNamePath);
             FileLineNumber = (int) lineNumber;

@@ -9,7 +9,7 @@ namespace C2CS.Languages.C
 {
     public static class ClangParser
     {
-        public static unsafe CXTranslationUnit ParseTranslationUnit(
+        public static CXTranslationUnit ParseTranslationUnit(
             string headerFilePath,
             ImmutableArray<string> clangArgs)
         {
@@ -34,8 +34,8 @@ namespace C2CS.Languages.C
             {
                 Console.Error.Write("\t");
                 var clangString = clang_formatDiagnostic(diagnostic, defaultDisplayOptions);
-                var cString = clang_getCString(clangString);
-                var diagnosticString = NativeRuntime.GetString(cString);
+                var diagnosticStringC = clang_getCString(clangString);
+                var diagnosticString = NativeRuntime.AllocateString(diagnosticStringC);
                 Console.Error.WriteLine(diagnosticString);
 
                 var severity = clang_getDiagnosticSeverity(diagnostic);
@@ -67,8 +67,8 @@ namespace C2CS.Languages.C
                                  0x0;
 
             var index = clang_createIndex(0, 0);
-            var cSourceFilePath = NativeRuntime.GetCString(filePath);
-            var cCommandLineArgs = NativeRuntime.GetCStringArray(commandLineArgs.AsSpan());
+            var cSourceFilePath = NativeRuntime.AllocateCString(filePath);
+            var cCommandLineArgs = NativeRuntime.AllocateCStringArray(commandLineArgs.AsSpan());
 
             CXErrorCode errorCode;
             fixed (CXTranslationUnit* translationUnitPointer = &translationUnit)
@@ -76,7 +76,7 @@ namespace C2CS.Languages.C
                 errorCode = clang_parseTranslationUnit2(
                     index,
                     cSourceFilePath,
-                    (byte**)cCommandLineArgs,
+                    cCommandLineArgs,
                     commandLineArgs.Length,
                     (CXUnsavedFile*) IntPtr.Zero,
                     0,

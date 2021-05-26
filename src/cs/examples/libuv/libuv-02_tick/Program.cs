@@ -161,7 +161,7 @@ internal static unsafe class Program
         
         var handleType = uv_handle_get_type(handle);
         var cStringHandleTypeName = uv_handle_type_name(handleType);
-        var handleTypeName = NativeRuntime.GetString(cStringHandleTypeName);
+        var handleTypeName = NativeRuntime.AllocateString(cStringHandleTypeName);
         uv_close(handle, new uv_close_cb {Pointer = &OnHandleClosed});
         Console.WriteLine($"Handle of type '{handleTypeName}' is closing.");
     }
@@ -171,7 +171,7 @@ internal static unsafe class Program
     {
         var handleType = uv_handle_get_type(handle);
         var cStringHandleTypeName = uv_handle_type_name(handleType);
-        var handleTypeName = NativeRuntime.GetString(cStringHandleTypeName);
+        var handleTypeName = NativeRuntime.AllocateString(cStringHandleTypeName);
         Console.WriteLine($"Handle of type '{handleTypeName}' is closed.");
     }
     
@@ -194,7 +194,7 @@ internal static unsafe class Program
     private static string GetErrorCodeName(int errorCode)
     {
         var cString = uv_err_name(errorCode);
-        var result = NativeRuntime.GetString(cString);
+        var result = NativeRuntime.AllocateString(cString);
         return result;
     }
 
@@ -202,7 +202,7 @@ internal static unsafe class Program
     {
         var buffer = stackalloc byte[512];
         var cString = uv_strerror_r(errorCode, buffer, 512);
-        var result = NativeRuntime.GetString(cString);
+        var result = NativeRuntime.AllocateString(cString);
         return result;
     }
 }

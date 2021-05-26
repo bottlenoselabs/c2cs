@@ -12,10 +12,6 @@ internal static unsafe class Program
         {
             public float X;
             public float Y;
-            
-            public static readonly byte* Name = NativeRuntime.GetCString(nameof(Position));
-            public static readonly ulong Size = (ulong)Marshal.SizeOf<Position>();
-            public const ulong Alignment = 8;
         }
         
         [StructLayout(LayoutKind.Sequential)] // Sequential necessary so C# is not allowed to reorganize struct
@@ -23,10 +19,6 @@ internal static unsafe class Program
         {
             public float X;
             public float Y;
-            
-            public static readonly byte* Name = NativeRuntime.GetCString(nameof(Velocity));
-            public static readonly ulong Size = (ulong)Marshal.SizeOf<Velocity>();
-            public const ulong Alignment = 8;
         }
     }
     
@@ -39,8 +31,8 @@ internal static unsafe class Program
             public static void Callback(ecs_iter_t* iterator)
             {
                 /* Get the two columns from the system signature */
-                var p = (Components.Position*)ecs_term_w_size(iterator, Components.Position.Size, 1);
-                var v = (Components.Velocity*)ecs_term_w_size(iterator, Components.Velocity.Size, 2);
+                var p = ecs_term<Components.Position>(iterator, 1);
+                var v = ecs_term<Components.Velocity>(iterator, 2);
     
                 for (var i = 0; i < iterator->count; i++)
                 {
@@ -50,45 +42,31 @@ internal static unsafe class Program
                     /* Print something to the console so we can see the system is being
                      * invoked */
                     var nameCString = ecs_get_name(iterator->world, iterator->entities[i]);
-                    var nameString = NativeRuntime.GetString(nameCString);
+                    var nameString = NativeRuntime.AllocateString(nameCString);
                     Console.WriteLine($"{nameString} moved to {{.x = {p[i].X}, .y = {p[i].Y}}}");
                 }
             }
             
-            public static readonly byte* Name = NativeRuntime.GetCString("PrintMessage");
+            public static readonly AnsiStringPtr Name = "Move";
         }
     }
 
     public static class Entities
     {
-        public static readonly byte* MyEntity = NativeRuntime.GetCString("MyEntity");
+        public static readonly AnsiStringPtr MyEntity = "MyEntity";
     }
 
     private static int Main(string[] args)
     {
         LoadApi();
-        
+
         /* Create the world, pass arguments for overriding the number of threads,fps
          * or for starting the admin dashboard (see flecs.h for details). */
-        var argv = NativeRuntime.GetCStringArray(args);
-        var world = ecs_init_w_args(args.Length, (byte**) argv);
+        var world = ecs_init_w_args(args);
 
         /* Register components */
-        var positionComponentDescriptor = new ecs_component_desc_t
-        {
-            entity = {name = Components.Position.Name},
-            size = Components.Position.Size,
-            alignment = Components.Position.Alignment
-        };
-        var positionComponent = ecs_component_init(world, &positionComponentDescriptor);
-
-        var velocityComponentDescriptor = new ecs_component_desc_t
-        {
-            entity = {name = Components.Velocity.Name},
-            size = Components.Velocity.Size,
-            alignment = Components.Velocity.Alignment
-        };
-        var velocityComponent = ecs_component_init(world, &velocityComponentDescriptor);
+        var positionComponent = ecs_component_init<Components.Position>(world);
+        var velocityComponent = ecs_component_init<Components.Velocity>(world);
 
         /* Define a system called Move that is executed every frame, and subscribes
          * for the 'Position' and 'Velocity' components */
@@ -123,8 +101,8 @@ internal static unsafe class Program
             X = 1,
             Y = 1
         };
-        ecs_set_id(world, entity, positionComponent, Components.Position.Size, &position);
-        ecs_set_id(world, entity, velocityComponent, Components.Velocity.Size, &velocity);
+        ecs_set_id(world, entity, positionComponent, ref position);
+        ecs_set_id(world, entity, velocityComponent, ref velocity);
         
         /* Set target FPS for main loop to 1 frame per second */
         ecs_set_target_fps(world, 1);
@@ -132,7 +110,9 @@ internal static unsafe class Program
         Console.WriteLine("Application move_system is running, press CTRL-C to exit...");
 
         /* Run systems */
-        while ( ecs_progress(world, 0));
+        while (ecs_progress(world, 0))
+        {
+        }
 
         /* Cleanup */
         return ecs_fini(world);

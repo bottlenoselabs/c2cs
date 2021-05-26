@@ -15,31 +15,31 @@ using JetBrains.Annotations;
 [PublicAPI]
 [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
 [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
-public readonly struct _Bool
+public readonly struct CBool
 {
     private readonly byte _value;
 
-    private _Bool(bool value)
+    private CBool(bool value)
     {
         _value = Convert.ToByte(value);
     }
 
     /// <summary>
-    ///     Converts the specified <see cref="bool" /> to a <see cref="_Bool" />.
+    ///     Converts the specified <see cref="bool" /> to a <see cref="CBool" />.
     /// </summary>
     /// <param name="value">The value.</param>
-    /// <returns>A <see cref="_Bool" />.</returns>
-    public static implicit operator _Bool(bool value)
+    /// <returns>A <see cref="CBool" />.</returns>
+    public static implicit operator CBool(bool value)
     {
         return new(value);
     }
 
     /// <summary>
-    ///     Converts the specified <see cref="_Bool" /> to a <see cref="bool" />.
+    ///     Converts the specified <see cref="CBool" /> to a <see cref="bool" />.
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>A <see cref="bool" />.</returns>
-    public static implicit operator bool(_Bool value)
+    public static implicit operator bool(CBool value)
     {
         return Convert.ToBoolean(value._value);
     }

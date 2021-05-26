@@ -158,8 +158,8 @@ namespace C2CS.Languages.C
 			}
 
 			var fileName = clang_getFileName(file);
-			var cString = clang_getCString(fileName);
-			var fileNamePath = NativeRuntime.GetString(cString);
+			var fileNamePathC = clang_getCString(fileName);
+			var fileNamePath = NativeRuntime.AllocateString(fileNamePathC);
 
 			var result = (fileNamePath, (int)lineNumber, (int)lineColumn);
 			return result;
@@ -168,14 +168,8 @@ namespace C2CS.Languages.C
 		public static string GetName(this CXCursor clangCursor)
 		{
 			var spelling = clang_getCursorSpelling(clangCursor);
-
-			var cString = clang_getCString(spelling);
-			if ((IntPtr) cString == IntPtr.Zero)
-			{
-				return string.Empty;
-			}
-
-			var result = NativeRuntime.GetString(cString);
+			var resultC = clang_getCString(spelling);
+			var result = NativeRuntime.AllocateString(resultC);
 			return result;
 		}
 
@@ -183,13 +177,13 @@ namespace C2CS.Languages.C
 		{
 			var spelling = clang_getTypeSpelling(clangType);
 
-			var cString = clang_getCString(spelling);
-			if ((IntPtr) cString == IntPtr.Zero)
+			var resultC = clang_getCString(spelling);
+			var result = NativeRuntime.AllocateString(resultC);
+			if (string.IsNullOrEmpty(result))
 			{
 				return string.Empty;
 			}
 
-			var result = NativeRuntime.GetString(cString);
 			if (result.Contains("struct "))
 			{
 				result = result.Replace("struct ", string.Empty);

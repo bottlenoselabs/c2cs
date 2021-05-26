@@ -3,88 +3,119 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 #nullable enable
 
 public static unsafe partial class NativeRuntime
 {
-    private static readonly Dictionary<uint, IntPtr> StringHashesToPointers = new();
-    private static readonly Dictionary<IntPtr, string> PointersToStrings = new();
-    private static readonly List<IntPtr> Pointers = new();
+    private static readonly Dictionary<uint, AnsiStringPtr> StringHashesToPointers = new();
+
+    private static readonly Dictionary<IntPtr, string>
+        PointersToStrings = new(); // use `IntPtr` as the key for better performance
+
+    // NOTE: On portability, technically `char` in C could be signed or unsigned depending on the computer architecture,
+    //  resulting in technically two different type bindings when transpiling C headers to C#. However, to make piece
+    //  with the world, I settle on a compromise:
+    //      - Use `IntPtr` in C# when exposing public functions of ANSI strings, you should only care it's a pointer :)
 
     /// <summary>
-    ///     Gets a <see cref="string" /> from a C style string (one dimensional <see cref="sbyte" /> array
-    ///     terminated by a <c>0x0</c>).
+    ///     Converts a <see cref="string" /> from a C style string (ANSI encoded one dimensional byte array terminated by a
+    ///     <c>0x0</c>) by allocating and copying.
     /// </summary>
-    /// <param name="cString">A pointer to the C string.</param>
-    /// <returns>A <see cref="string" /> equivalent to the C string pointed by <paramref name="cString" />.</returns>
-    public static string GetString(byte* cString)
+    /// <param name="ptr">A pointer to the C string.</param>
+    /// <returns>A <see cref="string" /> equivalent of <paramref name="ptr" />.</returns>
+    public static string AllocateString(AnsiStringPtr ptr)
     {
-        var pointer = (IntPtr) cString;
-        if (PointersToStrings.TryGetValue(pointer, out var result))
+        if (ptr.IsNull)
+        {
+            return string.Empty;
+        }
+
+        if (PointersToStrings.TryGetValue(ptr, out var result))
         {
             return result;
         }
 
-        var hash = Crc32B(cString);
+        var hash = djb2((byte*) ptr._value);
         if (StringHashesToPointers.TryGetValue(hash, out var pointer2))
         {
             result = PointersToStrings[pointer2];
             return result;
         }
 
-        result = Marshal.PtrToStringAnsi(pointer);
+#if NETCOREAPP
+        // calls ASM/C/C++ functions to calculate length and then "FastAllocate" the string with the GC
+        // https://mattwarren.org/2016/05/31/Strings-and-the-CLR-a-Special-Relationship/
+        result = Marshal.PtrToStringAnsi(ptr);
+#else
+        // if you get here you need to ask yourself:
+        //  (1) how do I calculate the length of a ANSI string?
+        //  (2) how do I convert the ANSI string to a UTF-16 string? Note that each `char` in C# is UTF-16, 2 bytes.
+        //  (3) how and where do I store the memory for the resulting UTF-16 string?
+        throw new NotImplementedException();
+#endif
+
         if (string.IsNullOrEmpty(result))
         {
             return string.Empty;
         }
 
-        StringHashesToPointers.Add(hash, pointer);
-        PointersToStrings.Add(pointer, result);
-        Pointers.Add(pointer);
+        StringHashesToPointers.Add(hash, ptr);
+        PointersToStrings.Add(ptr, result);
 
         return result;
     }
 
     /// <summary>
-    ///     Gets a C string pointer (a one dimensional <see cref="sbyte" /> array terminated by a <c>0x0</c>) from a
-    ///     <see cref="string" />.
+    ///     Converts a C string pointer (ANSI encoded one dimensional byte array terminated by a
+    ///     <c>0x0</c>) for a specified <see cref="string" /> by allocating and copying.
     /// </summary>
-    /// <param name="string">A <see cref="string" />.</param>
+    /// <param name="str">The <see cref="string" />.</param>
     /// <returns>A C string pointer.</returns>
-    public static byte* GetCString(string @string)
+    public static AnsiStringPtr AllocateCString(string str)
     {
-        var hash = Crc32B(@string);
-        if (StringHashesToPointers.TryGetValue(hash, out var pointer))
+        var hash = djb2(str);
+        if (StringHashesToPointers.TryGetValue(hash, out var r))
         {
-            return (byte*) pointer;
+            return r;
         }
 
-        pointer = Marshal.StringToHGlobalAnsi(@string);
-        StringHashesToPointers.Add(hash, pointer);
-        PointersToStrings.Add(pointer, @string);
-        Pointers.Add(pointer);
+        // ReSharper disable once JoinDeclarationAndInitializer
+        IntPtr pointer;
+#if NETCOREAPP
+        pointer = Marshal.StringToHGlobalAnsi(str);
+#else
+        // if you get here you need to ask yourself:
+        //  (1) how do I calculate the number of bytes required for the ANSI string from an UTP-16 C# string?
+        //  (2) how do I convert the UTF-16 string to an ANSI string? Note that each `char` in C# is UTF-16, 2 bytes.
+        //  (3) how and where do I store the memory for the resulting ANSI string?
+        throw new NotImplementedException();
+#endif
+        StringHashesToPointers.Add(hash, new AnsiStringPtr(pointer));
+        PointersToStrings.Add(pointer, str);
 
-        return (byte*) pointer;
+        return new AnsiStringPtr(pointer);
     }
 
     /// <summary>
-    ///     Gets an array pointer of C string pointers (pointer to multiple one dimensional <see cref="sbyte" />
-    ///     arrays, each of which is terminated by a <c>0x0</c>) from a <see cref="ReadOnlySpan{string}" />.
+    ///     Converts an array of strings to an array of C strings (multi-dimensional array of ANSI encoded one
+    ///     dimensional byte arrays each terminated by a <c>0x0</c>) by allocating and copying.
     /// </summary>
+    /// <remarks>
+    ///     <para>Calls <see cref="AllocateCString" />.</para>
+    /// </remarks>
     /// <param name="values">The strings.</param>
-    /// <returns>An array pointer of C string pointers.</returns>
-    public static void** GetCStringArray(ReadOnlySpan<string> values)
+    /// <returns>An array pointer of C string pointers. You are responsible for freeing the returned pointer.</returns>
+    public static AnsiStringPtr* AllocateCStringArray(ReadOnlySpan<string> values)
     {
         var pointerSize = IntPtr.Size;
-        var bytes = (byte*) Marshal.AllocHGlobal(pointerSize * values.Length);
-        Pointers.Add((IntPtr) bytes);
-        var result = (void**) bytes;
+        var result = (AnsiStringPtr*) AllocateMemory(pointerSize * values.Length);
         for (var i = 0; i < values.Length; ++i)
         {
             var @string = values[i];
-            var cString = GetCString(@string);
+            var cString = AllocateCString(@string);
             result[i] = cString;
         }
 
@@ -92,61 +123,97 @@ public static unsafe partial class NativeRuntime
     }
 
     /// <summary>
-    ///     Frees the memory for all allocated C strings and releases references to all <see cref="string" />
-    ///     objects which happened during <see cref="GetString" />, <see cref="GetCString" />,
-    ///     or <see cref="GetCStringArray" />. Does <b>not</b> garbage collect.
+    ///     Frees the memory for all previously allocated C strings and releases references to all <see cref="string" />
+    ///     objects which happened during <see cref="AllocateString" /> or <see cref="AllocateCString" />. Does
+    ///     <b>not</b> garbage collect.
     /// </summary>
-    public static void ClearStrings()
+    public static void FreeAllStrings()
     {
-        foreach (var pointer in Pointers)
+        foreach (var (ptr, _) in PointersToStrings)
         {
-            Marshal.FreeHGlobal(pointer);
+            Marshal.FreeHGlobal(ptr);
         }
+
+        // We can not guarantee that the application has not a strong reference the string since it was allocated,
+        //  so we have to let the GC take the wheel here. Thus, this method should NOT garbage collect; that's
+        //  on the responsibility of the application developer. The best we can do is just remove any and all strong
+        //  references we have here to the strings.
 
         StringHashesToPointers.Clear();
         PointersToStrings.Clear();
-        Pointers.Clear();
     }
 
-    // https://stackoverflow.com/questions/21001659/crc32-algorithm-implementation-in-c-without-a-look-up-table-and-with-a-public-li
-    private static uint Crc32B(byte* cString)
+    /// <summary>
+    ///     Frees the memory for specific previously allocated C strings and releases associated references to
+    ///     <see cref="string" /> objects which happened during <see cref="AllocateString" /> or
+    ///     <see cref="AllocateCString" />. Does <b>not</b> garbage collect.
+    /// </summary>
+    /// <param name="ptrs">The C string pointers.</param>
+    /// <param name="count">The number of C string pointers.</param>
+    public static void FreeCStrings(AnsiStringPtr* ptrs, int count)
     {
-        var i = 0;
-        var crc = 0xFFFFFFFF;
-        while (cString[i] != 0)
+        for (var i = 0; i < count; i++)
         {
-            var @byte = (uint) cString[i];
-            crc ^= @byte;
-            int j;
-            for (j = 7; j >= 0; j--)
-            {
-                // Do eight times.
-                var mask = (uint) -(crc & 1);
-                crc = (crc >> 1) ^ (0xEDB88320 & mask);
-            }
-
-            i += 1;
+            var ptr = ptrs[i];
+            FreeCString(ptr);
         }
 
-        return ~crc;
+        FreeMemory(ptrs);
     }
 
-    private static uint Crc32B(string @string)
+    /// <summary>
+    ///     Frees the memory for the previously C strings and releases reference to the <see cref="string" /> object
+    ///     which happened during <see cref="AllocateString" />, <see cref="AllocateCString" />. Does <b>not</b> garbage
+    ///     collect.
+    /// </summary>
+    /// <param name="ptr">The string.</param>
+    public static void FreeCString(AnsiStringPtr ptr)
     {
-        var crc = 0xFFFFFFFF;
-        foreach (var value in @string)
+        if (!PointersToStrings.ContainsKey(ptr._value))
         {
-            var @byte = (uint) value;
-            crc ^= @byte;
-            int j;
-            for (j = 7; j >= 0; j--)
-            {
-                // Do eight times.
-                var mask = (uint) -(crc & 1);
-                crc = (crc >> 1) ^ (0xEDB88320 & mask);
-            }
+            return;
         }
 
-        return ~crc;
+        Marshal.FreeHGlobal(ptr);
+        var hash = djb2(ptr);
+        StringHashesToPointers.Remove(hash);
+        PointersToStrings.Remove(ptr._value);
+    }
+
+    // From the mind of: https://en.wikipedia.org/wiki/Daniel_J._Bernstein
+    //  References:
+    //  (1) https://stackoverflow.com/a/7666577/2171957
+    //  (2) http://www.cse.yorku.ca/~oz/hash.html
+    //  (3) https://groups.google.com/g/comp.lang.c/c/lSKWXiuNOAk/m/zstZ3SRhCjgJ
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Algorithm name.")]
+    internal static uint djb2(byte* str)
+    {
+        // hash(i) = hash(i - 1) * 33 ^ str[i]
+
+        uint hash = 5381;
+        uint c;
+
+        while ((c = *str++) != 0)
+        {
+            hash = (hash << 5) + hash + c; /* hash * 33 + c */
+        }
+
+        return hash;
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Algorithm name.")]
+    internal static uint djb2(string str)
+    {
+        // hash(i) = hash(i - 1) * 33 ^ str[i]
+
+        uint hash = 5381;
+
+        // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+        foreach (var c in str)
+        {
+            hash = (hash << 5) + hash + c; /* hash * 33 + c */
+        }
+
+        return hash;
     }
 }

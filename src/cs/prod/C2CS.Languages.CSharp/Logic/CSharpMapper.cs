@@ -40,7 +40,8 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static ImmutableArray<CSharpFunction> CSharpFunctionExterns(ImmutableArray<ClangFunction> clangFunctionExterns)
+        private static ImmutableArray<CSharpFunction> CSharpFunctionExterns(
+            ImmutableArray<ClangFunction> clangFunctionExterns)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpFunction>(clangFunctionExterns.Length);
 
@@ -81,7 +82,8 @@ namespace C2CS.CSharp
             {
                 ClangFunctionCallingConvention.C => CSharp.CSharpFunctionCallingConvention.Cdecl,
                 ClangFunctionCallingConvention.Unknown => CSharp.CSharpFunctionCallingConvention.Default,
-                _ => throw new ArgumentOutOfRangeException(nameof(clangFunctionCallingConvention), clangFunctionCallingConvention, null)
+                _ => throw new ArgumentOutOfRangeException(
+                    nameof(clangFunctionCallingConvention), clangFunctionCallingConvention, null)
             };
 
             return result;
@@ -98,7 +100,8 @@ namespace C2CS.CSharp
             {
                 var parameterName = CSharpUniqueParameterName(clangFunctionExternParameter.Name, parameterNames);
                 parameterNames.Add(parameterName);
-                var functionExternParameter = CSharpFunctionExternParameter(clangFunctionExternParameter, parameterName);
+                var functionExternParameter =
+                    CSharpFunctionExternParameter(clangFunctionExternParameter, parameterName);
                 builder.Add(functionExternParameter);
             }
 
@@ -136,7 +139,8 @@ namespace C2CS.CSharp
                     return parameterNameWithoutSuffix + "2";
                 }
 
-                var parameterSuffixNumber = int.Parse(parameterSuffix, NumberStyles.Integer, CultureInfo.InvariantCulture);
+                var parameterSuffixNumber =
+                    int.Parse(parameterSuffix, NumberStyles.Integer, CultureInfo.InvariantCulture);
                 parameterSuffixNumber += 1;
                 var parameterName = parameterNameWithoutSuffix + parameterSuffixNumber;
                 return parameterName;
@@ -200,7 +204,8 @@ namespace C2CS.CSharp
         private static ImmutableArray<CSharpPointerFunctionParameter> CSharpPointerFunctionParameters(
             ImmutableArray<ClangPointerFunctionParameter> clangFunctionPointerParameters)
         {
-            var builder = ImmutableArray.CreateBuilder<CSharpPointerFunctionParameter>(clangFunctionPointerParameters.Length);
+            var builder =
+                ImmutableArray.CreateBuilder<CSharpPointerFunctionParameter>(clangFunctionPointerParameters.Length);
             var parameterNames = new List<string>();
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
@@ -208,7 +213,8 @@ namespace C2CS.CSharp
             {
                 var parameterName = CSharpUniqueParameterName(clangFunctionPointerParameter.Name, parameterNames);
                 parameterNames.Add(parameterName);
-                var functionExternParameter = CSharpPointerFunctionParameter(clangFunctionPointerParameter, parameterName);
+                var functionExternParameter =
+                    CSharpPointerFunctionParameter(clangFunctionPointerParameter, parameterName);
                 builder.Add(functionExternParameter);
             }
 
@@ -270,7 +276,8 @@ namespace C2CS.CSharp
                 nestedNodes);
         }
 
-        private static ImmutableArray<CSharpStructField> CSharpStructFields(ImmutableArray<ClangRecordField> clangRecordFields)
+        private static ImmutableArray<CSharpStructField> CSharpStructFields(
+            ImmutableArray<ClangRecordField> clangRecordFields)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpStructField>(clangRecordFields.Length);
 
@@ -345,7 +352,8 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static ImmutableArray<CSharpOpaqueType> CSharpOpaqueDataTypes(ImmutableArray<ClangOpaqueType> opaqueDataTypes)
+        private static ImmutableArray<CSharpOpaqueType> CSharpOpaqueDataTypes(
+            ImmutableArray<ClangOpaqueType> opaqueDataTypes)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpOpaqueType>(opaqueDataTypes.Length);
 
@@ -462,7 +470,8 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static ImmutableArray<CSharpVariable> CSharpVariablesExtern(ImmutableArray<ClangVariable> clangVariables)
+        private static ImmutableArray<CSharpVariable> CSharpVariablesExtern(
+            ImmutableArray<ClangVariable> clangVariables)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpVariable>(clangVariables.Length);
 
@@ -522,138 +531,101 @@ namespace C2CS.CSharp
 
         private static string CSharpTypeName(ClangType type)
         {
-            string result = type.Name;
-
             if (!type.IsSystemType)
             {
-                return result;
+                return type.Name;
+            }
+
+            if (!type.Name.EndsWith("*", StringComparison.InvariantCulture))
+            {
+                return CSharpTypeNameMapElement(type.Name, type.ElementSize);
+            }
+
+            return CSharpTypeNameMapPointer(type);
+        }
+
+        private static string CSharpTypeNameMapPointer(ClangType type)
+        {
+            if (type.Name.Contains("char*"))
+            {
+                return type.Name.Replace("char*", "AnsiStringPtr");
             }
 
             var elementTypeName = type.Name.TrimEnd('*');
             var pointersTypeName = type.Name[elementTypeName.Length..];
-
-            string reMappedElementTypeName;
-            switch (elementTypeName)
-            {
-                case "char":
-                    reMappedElementTypeName = "byte";
-                    break;
-                case "bool":
-                    reMappedElementTypeName = "_Bool";
-                    break;
-                case "int8_t":
-                    reMappedElementTypeName = "sbyte";
-                    break;
-                case "uint8_t":
-                    reMappedElementTypeName = "byte";
-                    break;
-                case "int16_t":
-                    reMappedElementTypeName = "short";
-                    break;
-                case "uint16_t":
-                    reMappedElementTypeName = "ushort";
-                    break;
-                case "int32_t":
-                    reMappedElementTypeName = "int";
-                    break;
-                case "uint32_t":
-                    reMappedElementTypeName = "uint";
-                    break;
-                case "int64_t":
-                    reMappedElementTypeName = "long";
-                    break;
-                case "uint64_t":
-                    reMappedElementTypeName = "ulong";
-                    break;
-                case "uintptr_t":
-                    reMappedElementTypeName = "UIntPtr";
-                    break;
-                case "intptr_t":
-                    reMappedElementTypeName = "IntPtr";
-                    break;
-                case "unsigned char":
-                case "unsigned short":
-                case "unsigned short int":
-                case "unsigned":
-                case "unsigned int":
-                case "unsigned long":
-                case "unsigned long int":
-                case "unsigned long long":
-                case "unsigned long long int":
-                case "size_t":
-                    reMappedElementTypeName = CSharpUnsignedIntegerName(type.ElementSize);
-                    break;
-                case "signed char":
-                case "short":
-                case "short int":
-                case "signed short":
-                case "signed short int":
-                case "int":
-                case "signed":
-                case "signed int":
-                case "long":
-                case "long int":
-                case "signed long":
-                case "signed long int":
-                case "long long":
-                case "long long int":
-                case "signed long long int":
-                case "ssize_t":
-                    reMappedElementTypeName = CSharpSignedIntegerName(type.ElementSize);
-                    break;
-                default:
-                    return result;
-            }
-
-            return reMappedElementTypeName + pointersTypeName;
+            var mappedElementTypeName = CSharpTypeNameMapElement(elementTypeName, type.ElementSize);
+            return mappedElementTypeName + pointersTypeName;
         }
 
-        private static string CSharpUnsignedIntegerName(int sizeOf)
+        private static string CSharpTypeNameMapElement(string typeName, int sizeOf)
         {
-            string reMappedElementTypeName;
-            switch (sizeOf)
+            return typeName switch
             {
-                case 1:
-                    reMappedElementTypeName = "byte";
-                    break;
-                case 2:
-                    reMappedElementTypeName = "ushort";
-                    break;
-                case 4:
-                    reMappedElementTypeName = "uint";
-                    break;
-                case 8:
-                    reMappedElementTypeName = "ulong";
-                    break;
-                default:
-                    throw new InvalidOperationException();
-            }
-
-            return reMappedElementTypeName;
+                "char" => "byte",
+                "bool" => "CBool",
+                "_Bool" => "CBool",
+                "int8_t" => "sbyte",
+                "uint8_t" => "byte",
+                "int16_t" => "short",
+                "uint16_t" => "ushort",
+                "int32_t" => "int",
+                "uint32_t" => "uint",
+                "int64_t" => "long",
+                "uint64_t" => "ulong",
+                "uintptr_t" => "UIntPtr",
+                "intptr_t" => "IntPtr",
+                "unsigned char" => CSharpTypeNameMapUnsignedInteger(sizeOf),
+                "unsigned short" => CSharpTypeNameMapUnsignedInteger(sizeOf),
+                "unsigned short int" => CSharpTypeNameMapUnsignedInteger(sizeOf),
+                "unsigned" => CSharpTypeNameMapUnsignedInteger(sizeOf),
+                "unsigned int" => CSharpTypeNameMapUnsignedInteger(sizeOf),
+                "unsigned long" => CSharpTypeNameMapUnsignedInteger(sizeOf),
+                "unsigned long int" => CSharpTypeNameMapUnsignedInteger(sizeOf),
+                "unsigned long long" => CSharpTypeNameMapUnsignedInteger(sizeOf),
+                "unsigned long long int" => CSharpTypeNameMapUnsignedInteger(sizeOf),
+                "size_t" => CSharpTypeNameMapUnsignedInteger(sizeOf),
+                "signed char" => CSharpTypeNameMapSignedInteger(sizeOf),
+                "short" => CSharpTypeNameMapSignedInteger(sizeOf),
+                "short int" => CSharpTypeNameMapSignedInteger(sizeOf),
+                "signed short" => CSharpTypeNameMapSignedInteger(sizeOf),
+                "signed short int" => CSharpTypeNameMapSignedInteger(sizeOf),
+                "int" => CSharpTypeNameMapSignedInteger(sizeOf),
+                "signed" => CSharpTypeNameMapSignedInteger(sizeOf),
+                "signed int" => CSharpTypeNameMapSignedInteger(sizeOf),
+                "long" => CSharpTypeNameMapSignedInteger(sizeOf),
+                "long int" => CSharpTypeNameMapSignedInteger(sizeOf),
+                "signed long" => CSharpTypeNameMapSignedInteger(sizeOf),
+                "signed long int" => CSharpTypeNameMapSignedInteger(sizeOf),
+                "long long" => CSharpTypeNameMapSignedInteger(sizeOf),
+                "long long int" => CSharpTypeNameMapSignedInteger(sizeOf),
+                "signed long long int" => CSharpTypeNameMapSignedInteger(sizeOf),
+                "ssize_t" => CSharpTypeNameMapSignedInteger(sizeOf),
+                _ => typeName
+            };
         }
 
-        private static string CSharpSignedIntegerName(int sizeOf)
+        private static string CSharpTypeNameMapUnsignedInteger(int sizeOf)
         {
-            string reMappedElementTypeName;
-            switch (sizeOf)
+            return sizeOf switch
             {
-                case 1:
-                    reMappedElementTypeName = "sbyte";
-                    break;
-                case 2:
-                    reMappedElementTypeName = "short";
-                    break;
-                case 4:
-                    reMappedElementTypeName = "int";
-                    break;
-                case 8:
-                    reMappedElementTypeName = "long";
-                    break;
-                default:
-                    throw new InvalidOperationException();
-            }
+                1 => "byte",
+                2 => "ushort",
+                4 => "uint",
+                8 => "ulong",
+                _ => throw new InvalidOperationException()
+            };
+        }
 
-            return reMappedElementTypeName;
+        private static string CSharpTypeNameMapSignedInteger(int sizeOf)
+        {
+            return sizeOf switch
+            {
+                1 => "sbyte",
+                2 => "short",
+                4 => "int",
+                8 => "long",
+                _ => throw new InvalidOperationException()
+            };
         }
 
         private static string CSharpOriginalCodeLocationComment(ClangNode node)

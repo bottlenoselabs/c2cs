@@ -52,1361 +52,1361 @@ public static unsafe partial class libclang
 
     }
 
-    // FunctionExtern @ CXString.h:50
+    // Function @ CXString.h:50
     [DllImport(LibraryName, EntryPoint = "clang_getCString", CallingConvention = CallingConvention.Cdecl)]
-    public static extern byte* clang_getCString(CXString @string);
+    public static extern AnsiStringPtr clang_getCString(CXString @string);
 
-    // FunctionExtern @ CXString.h:55
+    // Function @ CXString.h:55
     [DllImport(LibraryName, EntryPoint = "clang_disposeString", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeString(CXString @string);
 
-    // FunctionExtern @ CXString.h:60
+    // Function @ CXString.h:60
     [DllImport(LibraryName, EntryPoint = "clang_disposeStringSet", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeStringSet(CXStringSet* set);
 
-    // FunctionExtern @ BuildSystem.h:33
+    // Function @ BuildSystem.h:33
     [DllImport(LibraryName, EntryPoint = "clang_getBuildSessionTimestamp", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong clang_getBuildSessionTimestamp();
 
-    // FunctionExtern @ BuildSystem.h:48
+    // Function @ BuildSystem.h:48
     [DllImport(LibraryName, EntryPoint = "clang_VirtualFileOverlay_create", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXVirtualFileOverlay clang_VirtualFileOverlay_create(uint options);
 
-    // FunctionExtern @ BuildSystem.h:56
+    // Function @ BuildSystem.h:56
     [DllImport(LibraryName, EntryPoint = "clang_VirtualFileOverlay_addFileMapping", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_VirtualFileOverlay_addFileMapping(CXVirtualFileOverlay param, byte* virtualPath, byte* realPath);
+    public static extern CXErrorCode clang_VirtualFileOverlay_addFileMapping(CXVirtualFileOverlay param, AnsiStringPtr virtualPath, AnsiStringPtr realPath);
 
-    // FunctionExtern @ BuildSystem.h:67
+    // Function @ BuildSystem.h:67
     [DllImport(LibraryName, EntryPoint = "clang_VirtualFileOverlay_setCaseSensitivity", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXErrorCode clang_VirtualFileOverlay_setCaseSensitivity(CXVirtualFileOverlay param, int caseSensitive);
 
-    // FunctionExtern @ BuildSystem.h:80
+    // Function @ BuildSystem.h:80
     [DllImport(LibraryName, EntryPoint = "clang_VirtualFileOverlay_writeToBuffer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_VirtualFileOverlay_writeToBuffer(CXVirtualFileOverlay param, uint options, byte** out_buffer_ptr, ulong* out_buffer_size);
+    public static extern CXErrorCode clang_VirtualFileOverlay_writeToBuffer(CXVirtualFileOverlay param, uint options, AnsiStringPtr* out_buffer_ptr, ulong* out_buffer_size);
 
-    // FunctionExtern @ BuildSystem.h:90
+    // Function @ BuildSystem.h:90
     [DllImport(LibraryName, EntryPoint = "clang_free", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_free(void* buffer);
 
-    // FunctionExtern @ BuildSystem.h:95
+    // Function @ BuildSystem.h:95
     [DllImport(LibraryName, EntryPoint = "clang_VirtualFileOverlay_dispose", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_VirtualFileOverlay_dispose(CXVirtualFileOverlay param);
 
-    // FunctionExtern @ BuildSystem.h:109
+    // Function @ BuildSystem.h:109
     [DllImport(LibraryName, EntryPoint = "clang_ModuleMapDescriptor_create", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXModuleMapDescriptor clang_ModuleMapDescriptor_create(uint options);
 
-    // FunctionExtern @ BuildSystem.h:116
+    // Function @ BuildSystem.h:116
     [DllImport(LibraryName, EntryPoint = "clang_ModuleMapDescriptor_setFrameworkModuleName", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_ModuleMapDescriptor_setFrameworkModuleName(CXModuleMapDescriptor param, byte* name);
+    public static extern CXErrorCode clang_ModuleMapDescriptor_setFrameworkModuleName(CXModuleMapDescriptor param, AnsiStringPtr name);
 
-    // FunctionExtern @ BuildSystem.h:124
+    // Function @ BuildSystem.h:124
     [DllImport(LibraryName, EntryPoint = "clang_ModuleMapDescriptor_setUmbrellaHeader", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_ModuleMapDescriptor_setUmbrellaHeader(CXModuleMapDescriptor param, byte* name);
+    public static extern CXErrorCode clang_ModuleMapDescriptor_setUmbrellaHeader(CXModuleMapDescriptor param, AnsiStringPtr name);
 
-    // FunctionExtern @ BuildSystem.h:137
+    // Function @ BuildSystem.h:137
     [DllImport(LibraryName, EntryPoint = "clang_ModuleMapDescriptor_writeToBuffer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_ModuleMapDescriptor_writeToBuffer(CXModuleMapDescriptor param, uint options, byte** out_buffer_ptr, ulong* out_buffer_size);
+    public static extern CXErrorCode clang_ModuleMapDescriptor_writeToBuffer(CXModuleMapDescriptor param, uint options, AnsiStringPtr* out_buffer_ptr, ulong* out_buffer_size);
 
-    // FunctionExtern @ BuildSystem.h:144
+    // Function @ BuildSystem.h:144
     [DllImport(LibraryName, EntryPoint = "clang_ModuleMapDescriptor_dispose", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_ModuleMapDescriptor_dispose(CXModuleMapDescriptor param);
 
-    // FunctionExtern @ Index.h:266
+    // Function @ Index.h:266
     [DllImport(LibraryName, EntryPoint = "clang_createIndex", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIndex clang_createIndex(int excludeDeclarationsFromPCH, int displayDiagnostics);
 
-    // FunctionExtern @ Index.h:275
+    // Function @ Index.h:275
     [DllImport(LibraryName, EntryPoint = "clang_disposeIndex", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeIndex(CXIndex index);
 
-    // FunctionExtern @ Index.h:324
+    // Function @ Index.h:324
     [DllImport(LibraryName, EntryPoint = "clang_CXIndex_setGlobalOptions", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_CXIndex_setGlobalOptions(CXIndex param, uint options);
 
-    // FunctionExtern @ Index.h:332
+    // Function @ Index.h:332
     [DllImport(LibraryName, EntryPoint = "clang_CXIndex_getGlobalOptions", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXIndex_getGlobalOptions(CXIndex param);
 
-    // FunctionExtern @ Index.h:342
+    // Function @ Index.h:342
     [DllImport(LibraryName, EntryPoint = "clang_CXIndex_setInvocationEmissionPathOption", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_CXIndex_setInvocationEmissionPathOption(CXIndex param, byte* Path);
+    public static extern void clang_CXIndex_setInvocationEmissionPathOption(CXIndex param, AnsiStringPtr Path);
 
-    // FunctionExtern @ Index.h:358
+    // Function @ Index.h:358
     [DllImport(LibraryName, EntryPoint = "clang_getFileName", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getFileName(CXFile SFile);
 
-    // FunctionExtern @ Index.h:363
+    // Function @ Index.h:363
     [DllImport(LibraryName, EntryPoint = "clang_getFileTime", CallingConvention = CallingConvention.Cdecl)]
     public static extern time_t clang_getFileTime(CXFile SFile);
 
-    // FunctionExtern @ Index.h:381
+    // Function @ Index.h:381
     [DllImport(LibraryName, EntryPoint = "clang_getFileUniqueID", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_getFileUniqueID(CXFile file, CXFileUniqueID* outID);
 
-    // FunctionExtern @ Index.h:388
+    // Function @ Index.h:388
     [DllImport(LibraryName, EntryPoint = "clang_isFileMultipleIncludeGuarded", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isFileMultipleIncludeGuarded(CXTranslationUnit tu, CXFile file);
 
-    // FunctionExtern @ Index.h:401
+    // Function @ Index.h:401
     [DllImport(LibraryName, EntryPoint = "clang_getFile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXFile clang_getFile(CXTranslationUnit tu, byte* file_name);
+    public static extern CXFile clang_getFile(CXTranslationUnit tu, AnsiStringPtr file_name);
 
-    // FunctionExtern @ Index.h:416
+    // Function @ Index.h:416
     [DllImport(LibraryName, EntryPoint = "clang_getFileContents", CallingConvention = CallingConvention.Cdecl)]
-    public static extern byte* clang_getFileContents(CXTranslationUnit tu, CXFile file, ulong* size);
+    public static extern AnsiStringPtr clang_getFileContents(CXTranslationUnit tu, CXFile file, ulong* size);
 
-    // FunctionExtern @ Index.h:423
+    // Function @ Index.h:423
     [DllImport(LibraryName, EntryPoint = "clang_File_isEqual", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_File_isEqual(CXFile file1, CXFile file2);
 
-    // FunctionExtern @ Index.h:430
+    // Function @ Index.h:430
     [DllImport(LibraryName, EntryPoint = "clang_File_tryGetRealPathName", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_File_tryGetRealPathName(CXFile file);
 
-    // FunctionExtern @ Index.h:476
+    // Function @ Index.h:476
     [DllImport(LibraryName, EntryPoint = "clang_getNullLocation", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceLocation clang_getNullLocation();
 
-    // FunctionExtern @ Index.h:486
+    // Function @ Index.h:486
     [DllImport(LibraryName, EntryPoint = "clang_equalLocations", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_equalLocations(CXSourceLocation loc1, CXSourceLocation loc2);
 
-    // FunctionExtern @ Index.h:493
+    // Function @ Index.h:493
     [DllImport(LibraryName, EntryPoint = "clang_getLocation", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceLocation clang_getLocation(CXTranslationUnit tu, CXFile file, uint line, uint column);
 
-    // FunctionExtern @ Index.h:500
+    // Function @ Index.h:500
     [DllImport(LibraryName, EntryPoint = "clang_getLocationForOffset", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceLocation clang_getLocationForOffset(CXTranslationUnit tu, CXFile file, uint offset);
 
-    // FunctionExtern @ Index.h:507
+    // Function @ Index.h:507
     [DllImport(LibraryName, EntryPoint = "clang_Location_isInSystemHeader", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Location_isInSystemHeader(CXSourceLocation location);
 
-    // FunctionExtern @ Index.h:513
+    // Function @ Index.h:513
     [DllImport(LibraryName, EntryPoint = "clang_Location_isFromMainFile", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Location_isFromMainFile(CXSourceLocation location);
 
-    // FunctionExtern @ Index.h:518
+    // Function @ Index.h:518
     [DllImport(LibraryName, EntryPoint = "clang_getNullRange", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRange clang_getNullRange();
 
-    // FunctionExtern @ Index.h:524
+    // Function @ Index.h:524
     [DllImport(LibraryName, EntryPoint = "clang_getRange", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRange clang_getRange(CXSourceLocation begin, CXSourceLocation end);
 
-    // FunctionExtern @ Index.h:532
+    // Function @ Index.h:532
     [DllImport(LibraryName, EntryPoint = "clang_equalRanges", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_equalRanges(CXSourceRange range1, CXSourceRange range2);
 
-    // FunctionExtern @ Index.h:538
+    // Function @ Index.h:538
     [DllImport(LibraryName, EntryPoint = "clang_Range_isNull", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Range_isNull(CXSourceRange range);
 
-    // FunctionExtern @ Index.h:562
+    // Function @ Index.h:562
     [DllImport(LibraryName, EntryPoint = "clang_getExpansionLocation", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_getExpansionLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset);
 
-    // FunctionExtern @ Index.h:607
+    // Function @ Index.h:607
     [DllImport(LibraryName, EntryPoint = "clang_getPresumedLocation", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_getPresumedLocation(CXSourceLocation location, CXString* filename, ulong* line, ulong* column);
 
-    // FunctionExtern @ Index.h:619
+    // Function @ Index.h:619
     [DllImport(LibraryName, EntryPoint = "clang_getInstantiationLocation", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_getInstantiationLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset);
 
-    // FunctionExtern @ Index.h:646
+    // Function @ Index.h:646
     [DllImport(LibraryName, EntryPoint = "clang_getSpellingLocation", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_getSpellingLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset);
 
-    // FunctionExtern @ Index.h:674
+    // Function @ Index.h:674
     [DllImport(LibraryName, EntryPoint = "clang_getFileLocation", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_getFileLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset);
 
-    // FunctionExtern @ Index.h:682
+    // Function @ Index.h:682
     [DllImport(LibraryName, EntryPoint = "clang_getRangeStart", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceLocation clang_getRangeStart(CXSourceRange range);
 
-    // FunctionExtern @ Index.h:688
+    // Function @ Index.h:688
     [DllImport(LibraryName, EntryPoint = "clang_getRangeEnd", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceLocation clang_getRangeEnd(CXSourceRange range);
 
-    // FunctionExtern @ Index.h:708
+    // Function @ Index.h:708
     [DllImport(LibraryName, EntryPoint = "clang_getSkippedRanges", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRangeList* clang_getSkippedRanges(CXTranslationUnit tu, CXFile file);
 
-    // FunctionExtern @ Index.h:719
+    // Function @ Index.h:719
     [DllImport(LibraryName, EntryPoint = "clang_getAllSkippedRanges", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRangeList* clang_getAllSkippedRanges(CXTranslationUnit tu);
 
-    // FunctionExtern @ Index.h:724
+    // Function @ Index.h:724
     [DllImport(LibraryName, EntryPoint = "clang_disposeSourceRangeList", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeSourceRangeList(CXSourceRangeList* ranges);
 
-    // FunctionExtern @ Index.h:785
+    // Function @ Index.h:785
     [DllImport(LibraryName, EntryPoint = "clang_getNumDiagnosticsInSet", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getNumDiagnosticsInSet(CXDiagnosticSet Diags);
 
-    // FunctionExtern @ Index.h:796
+    // Function @ Index.h:796
     [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticInSet", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXDiagnostic clang_getDiagnosticInSet(CXDiagnosticSet Diags, uint Index);
 
-    // FunctionExtern @ Index.h:841
+    // Function @ Index.h:841
     [DllImport(LibraryName, EntryPoint = "clang_loadDiagnostics", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXDiagnosticSet clang_loadDiagnostics(byte* file, CXLoadDiag_Error* error, CXString* errorString);
+    public static extern CXDiagnosticSet clang_loadDiagnostics(AnsiStringPtr file, CXLoadDiag_Error* error, CXString* errorString);
 
-    // FunctionExtern @ Index.h:847
+    // Function @ Index.h:847
     [DllImport(LibraryName, EntryPoint = "clang_disposeDiagnosticSet", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeDiagnosticSet(CXDiagnosticSet Diags);
 
-    // FunctionExtern @ Index.h:855
+    // Function @ Index.h:855
     [DllImport(LibraryName, EntryPoint = "clang_getChildDiagnostics", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXDiagnosticSet clang_getChildDiagnostics(CXDiagnostic D);
 
-    // FunctionExtern @ Index.h:861
+    // Function @ Index.h:861
     [DllImport(LibraryName, EntryPoint = "clang_getNumDiagnostics", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getNumDiagnostics(CXTranslationUnit Unit);
 
-    // FunctionExtern @ Index.h:872
+    // Function @ Index.h:872
     [DllImport(LibraryName, EntryPoint = "clang_getDiagnostic", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXDiagnostic clang_getDiagnostic(CXTranslationUnit Unit, uint Index);
 
-    // FunctionExtern @ Index.h:882
+    // Function @ Index.h:882
     [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticSetFromTU", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXDiagnosticSet clang_getDiagnosticSetFromTU(CXTranslationUnit Unit);
 
-    // FunctionExtern @ Index.h:887
+    // Function @ Index.h:887
     [DllImport(LibraryName, EntryPoint = "clang_disposeDiagnostic", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeDiagnostic(CXDiagnostic Diagnostic);
 
-    // FunctionExtern @ Index.h:972
+    // Function @ Index.h:972
     [DllImport(LibraryName, EntryPoint = "clang_formatDiagnostic", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_formatDiagnostic(CXDiagnostic Diagnostic, uint Options);
 
-    // FunctionExtern @ Index.h:982
+    // Function @ Index.h:982
     [DllImport(LibraryName, EntryPoint = "clang_defaultDiagnosticDisplayOptions", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_defaultDiagnosticDisplayOptions();
 
-    // FunctionExtern @ Index.h:988
+    // Function @ Index.h:988
     [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticSeverity", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXDiagnosticSeverity clang_getDiagnosticSeverity(CXDiagnostic param);
 
-    // FunctionExtern @ Index.h:996
+    // Function @ Index.h:996
     [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticLocation", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceLocation clang_getDiagnosticLocation(CXDiagnostic param);
 
-    // FunctionExtern @ Index.h:1001
+    // Function @ Index.h:1001
     [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticSpelling", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getDiagnosticSpelling(CXDiagnostic param);
 
-    // FunctionExtern @ Index.h:1015
+    // Function @ Index.h:1015
     [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticOption", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getDiagnosticOption(CXDiagnostic Diag, CXString* Disable);
 
-    // FunctionExtern @ Index.h:1028
+    // Function @ Index.h:1028
     [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticCategory", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getDiagnosticCategory(CXDiagnostic param);
 
-    // FunctionExtern @ Index.h:1041
+    // Function @ Index.h:1041
     [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticCategoryName", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getDiagnosticCategoryName(uint Category);
 
-    // FunctionExtern @ Index.h:1048
+    // Function @ Index.h:1048
     [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticCategoryText", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getDiagnosticCategoryText(CXDiagnostic param);
 
-    // FunctionExtern @ Index.h:1054
+    // Function @ Index.h:1054
     [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticNumRanges", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getDiagnosticNumRanges(CXDiagnostic param);
 
-    // FunctionExtern @ Index.h:1069
+    // Function @ Index.h:1069
     [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticRange", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRange clang_getDiagnosticRange(CXDiagnostic Diagnostic, uint Range);
 
-    // FunctionExtern @ Index.h:1076
+    // Function @ Index.h:1076
     [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticNumFixIts", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getDiagnosticNumFixIts(CXDiagnostic Diagnostic);
 
-    // FunctionExtern @ Index.h:1103
+    // Function @ Index.h:1103
     [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticFixIt", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getDiagnosticFixIt(CXDiagnostic Diagnostic, uint FixIt, CXSourceRange* ReplacementRange);
 
-    // FunctionExtern @ Index.h:1124
+    // Function @ Index.h:1124
     [DllImport(LibraryName, EntryPoint = "clang_getTranslationUnitSpelling", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getTranslationUnitSpelling(CXTranslationUnit CTUnit);
 
-    // FunctionExtern @ Index.h:1166
+    // Function @ Index.h:1166
     [DllImport(LibraryName, EntryPoint = "clang_createTranslationUnitFromSourceFile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTranslationUnit clang_createTranslationUnitFromSourceFile(CXIndex CIdx, byte* source_filename, int num_clang_command_line_args, byte** clang_command_line_args, uint num_unsaved_files, CXUnsavedFile* unsaved_files);
+    public static extern CXTranslationUnit clang_createTranslationUnitFromSourceFile(CXIndex CIdx, AnsiStringPtr source_filename, int num_clang_command_line_args, AnsiStringPtr* clang_command_line_args, uint num_unsaved_files, CXUnsavedFile* unsaved_files);
 
-    // FunctionExtern @ Index.h:1178
+    // Function @ Index.h:1178
     [DllImport(LibraryName, EntryPoint = "clang_createTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTranslationUnit clang_createTranslationUnit(CXIndex CIdx, byte* ast_filename);
+    public static extern CXTranslationUnit clang_createTranslationUnit(CXIndex CIdx, AnsiStringPtr ast_filename);
 
-    // FunctionExtern @ Index.h:1189
+    // Function @ Index.h:1189
     [DllImport(LibraryName, EntryPoint = "clang_createTranslationUnit2", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_createTranslationUnit2(CXIndex CIdx, byte* ast_filename, CXTranslationUnit* out_TU);
+    public static extern CXErrorCode clang_createTranslationUnit2(CXIndex CIdx, AnsiStringPtr ast_filename, CXTranslationUnit* out_TU);
 
-    // FunctionExtern @ Index.h:1360
+    // Function @ Index.h:1360
     [DllImport(LibraryName, EntryPoint = "clang_defaultEditingTranslationUnitOptions", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_defaultEditingTranslationUnitOptions();
 
-    // FunctionExtern @ Index.h:1368
+    // Function @ Index.h:1368
     [DllImport(LibraryName, EntryPoint = "clang_parseTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTranslationUnit clang_parseTranslationUnit(CXIndex CIdx, byte* source_filename, byte** command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
+    public static extern CXTranslationUnit clang_parseTranslationUnit(CXIndex CIdx, AnsiStringPtr source_filename, AnsiStringPtr* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
 
-    // FunctionExtern @ Index.h:1418
+    // Function @ Index.h:1418
     [DllImport(LibraryName, EntryPoint = "clang_parseTranslationUnit2", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_parseTranslationUnit2(CXIndex CIdx, byte* source_filename, byte** command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
+    public static extern CXErrorCode clang_parseTranslationUnit2(CXIndex CIdx, AnsiStringPtr source_filename, AnsiStringPtr* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
 
-    // FunctionExtern @ Index.h:1429
+    // Function @ Index.h:1429
     [DllImport(LibraryName, EntryPoint = "clang_parseTranslationUnit2FullArgv", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_parseTranslationUnit2FullArgv(CXIndex CIdx, byte* source_filename, byte** command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
+    public static extern CXErrorCode clang_parseTranslationUnit2FullArgv(CXIndex CIdx, AnsiStringPtr source_filename, AnsiStringPtr* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
 
-    // FunctionExtern @ Index.h:1458
+    // Function @ Index.h:1458
     [DllImport(LibraryName, EntryPoint = "clang_defaultSaveOptions", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_defaultSaveOptions(CXTranslationUnit TU);
 
-    // FunctionExtern @ Index.h:1518
+    // Function @ Index.h:1518
     [DllImport(LibraryName, EntryPoint = "clang_saveTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_saveTranslationUnit(CXTranslationUnit TU, byte* FileName, uint options);
+    public static extern int clang_saveTranslationUnit(CXTranslationUnit TU, AnsiStringPtr FileName, uint options);
 
-    // FunctionExtern @ Index.h:1529
+    // Function @ Index.h:1529
     [DllImport(LibraryName, EntryPoint = "clang_suspendTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_suspendTranslationUnit(CXTranslationUnit param);
 
-    // FunctionExtern @ Index.h:1534
+    // Function @ Index.h:1534
     [DllImport(LibraryName, EntryPoint = "clang_disposeTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeTranslationUnit(CXTranslationUnit param);
 
-    // FunctionExtern @ Index.h:1560
+    // Function @ Index.h:1560
     [DllImport(LibraryName, EntryPoint = "clang_defaultReparseOptions", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_defaultReparseOptions(CXTranslationUnit TU);
 
-    // FunctionExtern @ Index.h:1602
+    // Function @ Index.h:1602
     [DllImport(LibraryName, EntryPoint = "clang_reparseTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_reparseTranslationUnit(CXTranslationUnit TU, uint num_unsaved_files, CXUnsavedFile* unsaved_files, uint options);
 
-    // FunctionExtern @ Index.h:1637
+    // Function @ Index.h:1637
     [DllImport(LibraryName, EntryPoint = "clang_getTUResourceUsageName", CallingConvention = CallingConvention.Cdecl)]
-    public static extern byte* clang_getTUResourceUsageName(CXTUResourceUsageKind kind);
+    public static extern AnsiStringPtr clang_getTUResourceUsageName(CXTUResourceUsageKind kind);
 
-    // FunctionExtern @ Index.h:1668
+    // Function @ Index.h:1668
     [DllImport(LibraryName, EntryPoint = "clang_getCXTUResourceUsage", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXTUResourceUsage clang_getCXTUResourceUsage(CXTranslationUnit TU);
 
-    // FunctionExtern @ Index.h:1670
+    // Function @ Index.h:1670
     [DllImport(LibraryName, EntryPoint = "clang_disposeCXTUResourceUsage", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeCXTUResourceUsage(CXTUResourceUsage usage);
 
-    // FunctionExtern @ Index.h:1678
+    // Function @ Index.h:1678
     [DllImport(LibraryName, EntryPoint = "clang_getTranslationUnitTargetInfo", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXTargetInfo clang_getTranslationUnitTargetInfo(CXTranslationUnit CTUnit);
 
-    // FunctionExtern @ Index.h:1683
+    // Function @ Index.h:1683
     [DllImport(LibraryName, EntryPoint = "clang_TargetInfo_dispose", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_TargetInfo_dispose(CXTargetInfo Info);
 
-    // FunctionExtern @ Index.h:1690
+    // Function @ Index.h:1690
     [DllImport(LibraryName, EntryPoint = "clang_TargetInfo_getTriple", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_TargetInfo_getTriple(CXTargetInfo Info);
 
-    // FunctionExtern @ Index.h:1697
+    // Function @ Index.h:1697
     [DllImport(LibraryName, EntryPoint = "clang_TargetInfo_getPointerWidth", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_TargetInfo_getPointerWidth(CXTargetInfo Info);
 
-    // FunctionExtern @ Index.h:2697
+    // Function @ Index.h:2697
     [DllImport(LibraryName, EntryPoint = "clang_getNullCursor", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getNullCursor();
 
-    // FunctionExtern @ Index.h:2705
+    // Function @ Index.h:2705
     [DllImport(LibraryName, EntryPoint = "clang_getTranslationUnitCursor", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getTranslationUnitCursor(CXTranslationUnit param);
 
-    // FunctionExtern @ Index.h:2710
+    // Function @ Index.h:2710
     [DllImport(LibraryName, EntryPoint = "clang_equalCursors", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_equalCursors(CXCursor param, CXCursor param2);
 
-    // FunctionExtern @ Index.h:2715
+    // Function @ Index.h:2715
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_isNull", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Cursor_isNull(CXCursor cursor);
 
-    // FunctionExtern @ Index.h:2720
+    // Function @ Index.h:2720
     [DllImport(LibraryName, EntryPoint = "clang_hashCursor", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_hashCursor(CXCursor param);
 
-    // FunctionExtern @ Index.h:2725
+    // Function @ Index.h:2725
     [DllImport(LibraryName, EntryPoint = "clang_getCursorKind", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursorKind clang_getCursorKind(CXCursor param);
 
-    // FunctionExtern @ Index.h:2730
+    // Function @ Index.h:2730
     [DllImport(LibraryName, EntryPoint = "clang_isDeclaration", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isDeclaration(CXCursorKind param);
 
-    // FunctionExtern @ Index.h:2740
+    // Function @ Index.h:2740
     [DllImport(LibraryName, EntryPoint = "clang_isInvalidDeclaration", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isInvalidDeclaration(CXCursor param);
 
-    // FunctionExtern @ Index.h:2750
+    // Function @ Index.h:2750
     [DllImport(LibraryName, EntryPoint = "clang_isReference", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isReference(CXCursorKind param);
 
-    // FunctionExtern @ Index.h:2755
+    // Function @ Index.h:2755
     [DllImport(LibraryName, EntryPoint = "clang_isExpression", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isExpression(CXCursorKind param);
 
-    // FunctionExtern @ Index.h:2760
+    // Function @ Index.h:2760
     [DllImport(LibraryName, EntryPoint = "clang_isStatement", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isStatement(CXCursorKind param);
 
-    // FunctionExtern @ Index.h:2765
+    // Function @ Index.h:2765
     [DllImport(LibraryName, EntryPoint = "clang_isAttribute", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isAttribute(CXCursorKind param);
 
-    // FunctionExtern @ Index.h:2770
+    // Function @ Index.h:2770
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_hasAttrs", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_hasAttrs(CXCursor C);
 
-    // FunctionExtern @ Index.h:2776
+    // Function @ Index.h:2776
     [DllImport(LibraryName, EntryPoint = "clang_isInvalid", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isInvalid(CXCursorKind param);
 
-    // FunctionExtern @ Index.h:2782
+    // Function @ Index.h:2782
     [DllImport(LibraryName, EntryPoint = "clang_isTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isTranslationUnit(CXCursorKind param);
 
-    // FunctionExtern @ Index.h:2788
+    // Function @ Index.h:2788
     [DllImport(LibraryName, EntryPoint = "clang_isPreprocessing", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isPreprocessing(CXCursorKind param);
 
-    // FunctionExtern @ Index.h:2794
+    // Function @ Index.h:2794
     [DllImport(LibraryName, EntryPoint = "clang_isUnexposed", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isUnexposed(CXCursorKind param);
 
-    // FunctionExtern @ Index.h:2820
+    // Function @ Index.h:2820
     [DllImport(LibraryName, EntryPoint = "clang_getCursorLinkage", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXLinkageKind clang_getCursorLinkage(CXCursor cursor);
 
-    // FunctionExtern @ Index.h:2846
+    // Function @ Index.h:2846
     [DllImport(LibraryName, EntryPoint = "clang_getCursorVisibility", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXVisibilityKind clang_getCursorVisibility(CXCursor cursor);
 
-    // FunctionExtern @ Index.h:2857
+    // Function @ Index.h:2857
     [DllImport(LibraryName, EntryPoint = "clang_getCursorAvailability", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXAvailabilityKind clang_getCursorAvailability(CXCursor cursor);
 
-    // FunctionExtern @ Index.h:2932
+    // Function @ Index.h:2932
     [DllImport(LibraryName, EntryPoint = "clang_getCursorPlatformAvailability", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_getCursorPlatformAvailability(CXCursor cursor, long* always_deprecated, CXString* deprecated_message, long* always_unavailable, CXString* unavailable_message, CXPlatformAvailability* availability, int availability_size);
 
-    // FunctionExtern @ Index.h:2941
+    // Function @ Index.h:2941
     [DllImport(LibraryName, EntryPoint = "clang_disposeCXPlatformAvailability", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeCXPlatformAvailability(CXPlatformAvailability* availability);
 
-    // FunctionExtern @ Index.h:2947
+    // Function @ Index.h:2947
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getVarDeclInitializer", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_Cursor_getVarDeclInitializer(CXCursor cursor);
 
-    // FunctionExtern @ Index.h:2954
+    // Function @ Index.h:2954
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_hasVarDeclGlobalStorage", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Cursor_hasVarDeclGlobalStorage(CXCursor cursor);
 
-    // FunctionExtern @ Index.h:2961
+    // Function @ Index.h:2961
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_hasVarDeclExternalStorage", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Cursor_hasVarDeclExternalStorage(CXCursor cursor);
 
-    // FunctionExtern @ Index.h:2976
+    // Function @ Index.h:2976
     [DllImport(LibraryName, EntryPoint = "clang_getCursorLanguage", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXLanguageKind clang_getCursorLanguage(CXCursor cursor);
 
-    // FunctionExtern @ Index.h:2988
+    // Function @ Index.h:2988
     [DllImport(LibraryName, EntryPoint = "clang_getCursorTLSKind", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXTLSKind clang_getCursorTLSKind(CXCursor cursor);
 
-    // FunctionExtern @ Index.h:2993
+    // Function @ Index.h:2993
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXTranslationUnit clang_Cursor_getTranslationUnit(CXCursor param);
 
-    // FunctionExtern @ Index.h:3003
+    // Function @ Index.h:3003
     [DllImport(LibraryName, EntryPoint = "clang_createCXCursorSet", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursorSet clang_createCXCursorSet();
 
-    // FunctionExtern @ Index.h:3008
+    // Function @ Index.h:3008
     [DllImport(LibraryName, EntryPoint = "clang_disposeCXCursorSet", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeCXCursorSet(CXCursorSet cset);
 
-    // FunctionExtern @ Index.h:3015
+    // Function @ Index.h:3015
     [DllImport(LibraryName, EntryPoint = "clang_CXCursorSet_contains", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXCursorSet_contains(CXCursorSet cset, CXCursor cursor);
 
-    // FunctionExtern @ Index.h:3023
+    // Function @ Index.h:3023
     [DllImport(LibraryName, EntryPoint = "clang_CXCursorSet_insert", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXCursorSet_insert(CXCursorSet cset, CXCursor cursor);
 
-    // FunctionExtern @ Index.h:3059
+    // Function @ Index.h:3059
     [DllImport(LibraryName, EntryPoint = "clang_getCursorSemanticParent", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getCursorSemanticParent(CXCursor cursor);
 
-    // FunctionExtern @ Index.h:3095
+    // Function @ Index.h:3095
     [DllImport(LibraryName, EntryPoint = "clang_getCursorLexicalParent", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getCursorLexicalParent(CXCursor cursor);
 
-    // FunctionExtern @ Index.h:3140
+    // Function @ Index.h:3140
     [DllImport(LibraryName, EntryPoint = "clang_getOverriddenCursors", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_getOverriddenCursors(CXCursor cursor, CXCursor** overridden, ulong* num_overridden);
 
-    // FunctionExtern @ Index.h:3148
+    // Function @ Index.h:3148
     [DllImport(LibraryName, EntryPoint = "clang_disposeOverriddenCursors", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeOverriddenCursors(CXCursor* overridden);
 
-    // FunctionExtern @ Index.h:3154
+    // Function @ Index.h:3154
     [DllImport(LibraryName, EntryPoint = "clang_getIncludedFile", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXFile clang_getIncludedFile(CXCursor cursor);
 
-    // FunctionExtern @ Index.h:3186
+    // Function @ Index.h:3186
     [DllImport(LibraryName, EntryPoint = "clang_getCursor", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getCursor(CXTranslationUnit param, CXSourceLocation param2);
 
-    // FunctionExtern @ Index.h:3198
+    // Function @ Index.h:3198
     [DllImport(LibraryName, EntryPoint = "clang_getCursorLocation", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceLocation clang_getCursorLocation(CXCursor param);
 
-    // FunctionExtern @ Index.h:3211
+    // Function @ Index.h:3211
     [DllImport(LibraryName, EntryPoint = "clang_getCursorExtent", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRange clang_getCursorExtent(CXCursor param);
 
-    // FunctionExtern @ Index.h:3414
+    // Function @ Index.h:3414
     [DllImport(LibraryName, EntryPoint = "clang_getCursorType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getCursorType(CXCursor C);
 
-    // FunctionExtern @ Index.h:3422
+    // Function @ Index.h:3422
     [DllImport(LibraryName, EntryPoint = "clang_getTypeSpelling", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getTypeSpelling(CXType CT);
 
-    // FunctionExtern @ Index.h:3430
+    // Function @ Index.h:3430
     [DllImport(LibraryName, EntryPoint = "clang_getTypedefDeclUnderlyingType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getTypedefDeclUnderlyingType(CXCursor C);
 
-    // FunctionExtern @ Index.h:3438
+    // Function @ Index.h:3438
     [DllImport(LibraryName, EntryPoint = "clang_getEnumDeclIntegerType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getEnumDeclIntegerType(CXCursor C);
 
-    // FunctionExtern @ Index.h:3448
+    // Function @ Index.h:3448
     [DllImport(LibraryName, EntryPoint = "clang_getEnumConstantDeclValue", CallingConvention = CallingConvention.Cdecl)]
     public static extern long clang_getEnumConstantDeclValue(CXCursor C);
 
-    // FunctionExtern @ Index.h:3459
+    // Function @ Index.h:3459
     [DllImport(LibraryName, EntryPoint = "clang_getEnumConstantDeclUnsignedValue", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong clang_getEnumConstantDeclUnsignedValue(CXCursor C);
 
-    // FunctionExtern @ Index.h:3466
+    // Function @ Index.h:3466
     [DllImport(LibraryName, EntryPoint = "clang_getFieldDeclBitWidth", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_getFieldDeclBitWidth(CXCursor C);
 
-    // FunctionExtern @ Index.h:3475
+    // Function @ Index.h:3475
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getNumArguments", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Cursor_getNumArguments(CXCursor C);
 
-    // FunctionExtern @ Index.h:3484
+    // Function @ Index.h:3484
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getArgument", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_Cursor_getArgument(CXCursor C, uint i);
 
-    // FunctionExtern @ Index.h:3522
+    // Function @ Index.h:3522
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getNumTemplateArguments", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Cursor_getNumTemplateArguments(CXCursor C);
 
-    // FunctionExtern @ Index.h:3541
+    // Function @ Index.h:3541
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getTemplateArgumentKind", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXTemplateArgumentKind clang_Cursor_getTemplateArgumentKind(CXCursor C, uint I);
 
-    // FunctionExtern @ Index.h:3561
+    // Function @ Index.h:3561
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getTemplateArgumentType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_Cursor_getTemplateArgumentType(CXCursor C, uint I);
 
-    // FunctionExtern @ Index.h:3581
+    // Function @ Index.h:3581
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getTemplateArgumentValue", CallingConvention = CallingConvention.Cdecl)]
     public static extern long clang_Cursor_getTemplateArgumentValue(CXCursor C, uint I);
 
-    // FunctionExtern @ Index.h:3602
+    // Function @ Index.h:3602
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getTemplateArgumentUnsignedValue", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong clang_Cursor_getTemplateArgumentUnsignedValue(CXCursor C, uint I);
 
-    // FunctionExtern @ Index.h:3610
+    // Function @ Index.h:3610
     [DllImport(LibraryName, EntryPoint = "clang_equalTypes", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_equalTypes(CXType A, CXType B);
 
-    // FunctionExtern @ Index.h:3620
+    // Function @ Index.h:3620
     [DllImport(LibraryName, EntryPoint = "clang_getCanonicalType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getCanonicalType(CXType T);
 
-    // FunctionExtern @ Index.h:3627
+    // Function @ Index.h:3627
     [DllImport(LibraryName, EntryPoint = "clang_isConstQualifiedType", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isConstQualifiedType(CXType T);
 
-    // FunctionExtern @ Index.h:3633
+    // Function @ Index.h:3633
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_isMacroFunctionLike", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isMacroFunctionLike(CXCursor C);
 
-    // FunctionExtern @ Index.h:3639
+    // Function @ Index.h:3639
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_isMacroBuiltin", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isMacroBuiltin(CXCursor C);
 
-    // FunctionExtern @ Index.h:3645
+    // Function @ Index.h:3645
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_isFunctionInlined", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isFunctionInlined(CXCursor C);
 
-    // FunctionExtern @ Index.h:3652
+    // Function @ Index.h:3652
     [DllImport(LibraryName, EntryPoint = "clang_isVolatileQualifiedType", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isVolatileQualifiedType(CXType T);
 
-    // FunctionExtern @ Index.h:3659
+    // Function @ Index.h:3659
     [DllImport(LibraryName, EntryPoint = "clang_isRestrictQualifiedType", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isRestrictQualifiedType(CXType T);
 
-    // FunctionExtern @ Index.h:3664
+    // Function @ Index.h:3664
     [DllImport(LibraryName, EntryPoint = "clang_getAddressSpace", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getAddressSpace(CXType T);
 
-    // FunctionExtern @ Index.h:3669
+    // Function @ Index.h:3669
     [DllImport(LibraryName, EntryPoint = "clang_getTypedefName", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getTypedefName(CXType CT);
 
-    // FunctionExtern @ Index.h:3674
+    // Function @ Index.h:3674
     [DllImport(LibraryName, EntryPoint = "clang_getPointeeType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getPointeeType(CXType T);
 
-    // FunctionExtern @ Index.h:3679
+    // Function @ Index.h:3679
     [DllImport(LibraryName, EntryPoint = "clang_getTypeDeclaration", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getTypeDeclaration(CXType T);
 
-    // FunctionExtern @ Index.h:3684
+    // Function @ Index.h:3684
     [DllImport(LibraryName, EntryPoint = "clang_getDeclObjCTypeEncoding", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getDeclObjCTypeEncoding(CXCursor C);
 
-    // FunctionExtern @ Index.h:3689
+    // Function @ Index.h:3689
     [DllImport(LibraryName, EntryPoint = "clang_Type_getObjCEncoding", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_Type_getObjCEncoding(CXType type);
 
-    // FunctionExtern @ Index.h:3694
+    // Function @ Index.h:3694
     [DllImport(LibraryName, EntryPoint = "clang_getTypeKindSpelling", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getTypeKindSpelling(CXTypeKind K);
 
-    // FunctionExtern @ Index.h:3701
+    // Function @ Index.h:3701
     [DllImport(LibraryName, EntryPoint = "clang_getFunctionTypeCallingConv", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCallingConv clang_getFunctionTypeCallingConv(CXType T);
 
-    // FunctionExtern @ Index.h:3708
+    // Function @ Index.h:3708
     [DllImport(LibraryName, EntryPoint = "clang_getResultType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getResultType(CXType T);
 
-    // FunctionExtern @ Index.h:3716
+    // Function @ Index.h:3716
     [DllImport(LibraryName, EntryPoint = "clang_getExceptionSpecificationType", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_getExceptionSpecificationType(CXType T);
 
-    // FunctionExtern @ Index.h:3724
+    // Function @ Index.h:3724
     [DllImport(LibraryName, EntryPoint = "clang_getNumArgTypes", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_getNumArgTypes(CXType T);
 
-    // FunctionExtern @ Index.h:3732
+    // Function @ Index.h:3732
     [DllImport(LibraryName, EntryPoint = "clang_getArgType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getArgType(CXType T, uint i);
 
-    // FunctionExtern @ Index.h:3739
+    // Function @ Index.h:3739
     [DllImport(LibraryName, EntryPoint = "clang_Type_getObjCObjectBaseType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_Type_getObjCObjectBaseType(CXType T);
 
-    // FunctionExtern @ Index.h:3746
+    // Function @ Index.h:3746
     [DllImport(LibraryName, EntryPoint = "clang_Type_getNumObjCProtocolRefs", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Type_getNumObjCProtocolRefs(CXType T);
 
-    // FunctionExtern @ Index.h:3754
+    // Function @ Index.h:3754
     [DllImport(LibraryName, EntryPoint = "clang_Type_getObjCProtocolDecl", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_Type_getObjCProtocolDecl(CXType T, uint i);
 
-    // FunctionExtern @ Index.h:3761
+    // Function @ Index.h:3761
     [DllImport(LibraryName, EntryPoint = "clang_Type_getNumObjCTypeArgs", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Type_getNumObjCTypeArgs(CXType T);
 
-    // FunctionExtern @ Index.h:3769
+    // Function @ Index.h:3769
     [DllImport(LibraryName, EntryPoint = "clang_Type_getObjCTypeArg", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_Type_getObjCTypeArg(CXType T, uint i);
 
-    // FunctionExtern @ Index.h:3774
+    // Function @ Index.h:3774
     [DllImport(LibraryName, EntryPoint = "clang_isFunctionTypeVariadic", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isFunctionTypeVariadic(CXType T);
 
-    // FunctionExtern @ Index.h:3781
+    // Function @ Index.h:3781
     [DllImport(LibraryName, EntryPoint = "clang_getCursorResultType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getCursorResultType(CXCursor C);
 
-    // FunctionExtern @ Index.h:3790
+    // Function @ Index.h:3790
     [DllImport(LibraryName, EntryPoint = "clang_getCursorExceptionSpecificationType", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_getCursorExceptionSpecificationType(CXCursor C);
 
-    // FunctionExtern @ Index.h:3796
+    // Function @ Index.h:3796
     [DllImport(LibraryName, EntryPoint = "clang_isPODType", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isPODType(CXType T);
 
-    // FunctionExtern @ Index.h:3804
+    // Function @ Index.h:3804
     [DllImport(LibraryName, EntryPoint = "clang_getElementType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getElementType(CXType T);
 
-    // FunctionExtern @ Index.h:3812
+    // Function @ Index.h:3812
     [DllImport(LibraryName, EntryPoint = "clang_getNumElements", CallingConvention = CallingConvention.Cdecl)]
     public static extern long clang_getNumElements(CXType T);
 
-    // FunctionExtern @ Index.h:3819
+    // Function @ Index.h:3819
     [DllImport(LibraryName, EntryPoint = "clang_getArrayElementType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getArrayElementType(CXType T);
 
-    // FunctionExtern @ Index.h:3826
+    // Function @ Index.h:3826
     [DllImport(LibraryName, EntryPoint = "clang_getArraySize", CallingConvention = CallingConvention.Cdecl)]
     public static extern long clang_getArraySize(CXType T);
 
-    // FunctionExtern @ Index.h:3833
+    // Function @ Index.h:3833
     [DllImport(LibraryName, EntryPoint = "clang_Type_getNamedType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_Type_getNamedType(CXType T);
 
-    // FunctionExtern @ Index.h:3843
+    // Function @ Index.h:3843
     [DllImport(LibraryName, EntryPoint = "clang_Type_isTransparentTagTypedef", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Type_isTransparentTagTypedef(CXType T);
 
-    // FunctionExtern @ Index.h:3878
+    // Function @ Index.h:3878
     [DllImport(LibraryName, EntryPoint = "clang_Type_getNullability", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXTypeNullabilityKind clang_Type_getNullability(CXType T);
 
-    // FunctionExtern @ Index.h:3927
+    // Function @ Index.h:3927
     [DllImport(LibraryName, EntryPoint = "clang_Type_getAlignOf", CallingConvention = CallingConvention.Cdecl)]
     public static extern long clang_Type_getAlignOf(CXType T);
 
-    // FunctionExtern @ Index.h:3934
+    // Function @ Index.h:3934
     [DllImport(LibraryName, EntryPoint = "clang_Type_getClassType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_Type_getClassType(CXType T);
 
-    // FunctionExtern @ Index.h:3945
+    // Function @ Index.h:3945
     [DllImport(LibraryName, EntryPoint = "clang_Type_getSizeOf", CallingConvention = CallingConvention.Cdecl)]
     public static extern long clang_Type_getSizeOf(CXType T);
 
-    // FunctionExtern @ Index.h:3960
+    // Function @ Index.h:3960
     [DllImport(LibraryName, EntryPoint = "clang_Type_getOffsetOf", CallingConvention = CallingConvention.Cdecl)]
-    public static extern long clang_Type_getOffsetOf(CXType T, byte* S);
+    public static extern long clang_Type_getOffsetOf(CXType T, AnsiStringPtr S);
 
-    // FunctionExtern @ Index.h:3967
+    // Function @ Index.h:3967
     [DllImport(LibraryName, EntryPoint = "clang_Type_getModifiedType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_Type_getModifiedType(CXType T);
 
-    // FunctionExtern @ Index.h:3974
+    // Function @ Index.h:3974
     [DllImport(LibraryName, EntryPoint = "clang_Type_getValueType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_Type_getValueType(CXType CT);
 
-    // FunctionExtern @ Index.h:3989
+    // Function @ Index.h:3989
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getOffsetOfField", CallingConvention = CallingConvention.Cdecl)]
     public static extern long clang_Cursor_getOffsetOfField(CXCursor C);
 
-    // FunctionExtern @ Index.h:3995
+    // Function @ Index.h:3995
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_isAnonymous", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isAnonymous(CXCursor C);
 
-    // FunctionExtern @ Index.h:4001
+    // Function @ Index.h:4001
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_isAnonymousRecordDecl", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isAnonymousRecordDecl(CXCursor C);
 
-    // FunctionExtern @ Index.h:4007
+    // Function @ Index.h:4007
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_isInlineNamespace", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isInlineNamespace(CXCursor C);
 
-    // FunctionExtern @ Index.h:4022
+    // Function @ Index.h:4022
     [DllImport(LibraryName, EntryPoint = "clang_Type_getNumTemplateArguments", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Type_getNumTemplateArguments(CXType T);
 
-    // FunctionExtern @ Index.h:4031
+    // Function @ Index.h:4031
     [DllImport(LibraryName, EntryPoint = "clang_Type_getTemplateArgumentAsType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_Type_getTemplateArgumentAsType(CXType T, uint i);
 
-    // FunctionExtern @ Index.h:4040
+    // Function @ Index.h:4040
     [DllImport(LibraryName, EntryPoint = "clang_Type_getCXXRefQualifier", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXRefQualifierKind clang_Type_getCXXRefQualifier(CXType T);
 
-    // FunctionExtern @ Index.h:4046
+    // Function @ Index.h:4046
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_isBitField", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isBitField(CXCursor C);
 
-    // FunctionExtern @ Index.h:4052
+    // Function @ Index.h:4052
     [DllImport(LibraryName, EntryPoint = "clang_isVirtualBase", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isVirtualBase(CXCursor param);
 
-    // FunctionExtern @ Index.h:4072
+    // Function @ Index.h:4072
     [DllImport(LibraryName, EntryPoint = "clang_getCXXAccessSpecifier", CallingConvention = CallingConvention.Cdecl)]
     public static extern CX_CXXAccessSpecifier clang_getCXXAccessSpecifier(CXCursor param);
 
-    // FunctionExtern @ Index.h:4095
+    // Function @ Index.h:4095
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getStorageClass", CallingConvention = CallingConvention.Cdecl)]
     public static extern CX_StorageClass clang_Cursor_getStorageClass(CXCursor param);
 
-    // FunctionExtern @ Index.h:4106
+    // Function @ Index.h:4106
     [DllImport(LibraryName, EntryPoint = "clang_getNumOverloadedDecls", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getNumOverloadedDecls(CXCursor cursor);
 
-    // FunctionExtern @ Index.h:4122
+    // Function @ Index.h:4122
     [DllImport(LibraryName, EntryPoint = "clang_getOverloadedDecl", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getOverloadedDecl(CXCursor cursor, uint index);
 
-    // FunctionExtern @ Index.h:4140
+    // Function @ Index.h:4140
     [DllImport(LibraryName, EntryPoint = "clang_getIBOutletCollectionType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_getIBOutletCollectionType(CXCursor param);
 
-    // FunctionExtern @ Index.h:4217
+    // Function @ Index.h:4217
     [DllImport(LibraryName, EntryPoint = "clang_visitChildren", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_visitChildren(CXCursor parent, CXCursorVisitor visitor, CXClientData client_data);
 
-    // FunctionExtern @ Index.h:4268
+    // Function @ Index.h:4268
     [DllImport(LibraryName, EntryPoint = "clang_getCursorUSR", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCursorUSR(CXCursor param);
 
-    // FunctionExtern @ Index.h:4273
+    // Function @ Index.h:4273
     [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCClass", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCClass(byte* class_name);
+    public static extern CXString clang_constructUSR_ObjCClass(AnsiStringPtr class_name);
 
-    // FunctionExtern @ Index.h:4278
+    // Function @ Index.h:4278
     [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCCategory", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCCategory(byte* class_name, byte* category_name);
+    public static extern CXString clang_constructUSR_ObjCCategory(AnsiStringPtr class_name, AnsiStringPtr category_name);
 
-    // FunctionExtern @ Index.h:4285
+    // Function @ Index.h:4285
     [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCProtocol", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCProtocol(byte* protocol_name);
+    public static extern CXString clang_constructUSR_ObjCProtocol(AnsiStringPtr protocol_name);
 
-    // FunctionExtern @ Index.h:4291
+    // Function @ Index.h:4291
     [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCIvar", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCIvar(byte* name, CXString classUSR);
+    public static extern CXString clang_constructUSR_ObjCIvar(AnsiStringPtr name, CXString classUSR);
 
-    // FunctionExtern @ Index.h:4298
+    // Function @ Index.h:4298
     [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCMethod", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCMethod(byte* name, uint isInstanceMethod, CXString classUSR);
+    public static extern CXString clang_constructUSR_ObjCMethod(AnsiStringPtr name, uint isInstanceMethod, CXString classUSR);
 
-    // FunctionExtern @ Index.h:4306
+    // Function @ Index.h:4306
     [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCProperty", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCProperty(byte* property, CXString classUSR);
+    public static extern CXString clang_constructUSR_ObjCProperty(AnsiStringPtr property, CXString classUSR);
 
-    // FunctionExtern @ Index.h:4312
+    // Function @ Index.h:4312
     [DllImport(LibraryName, EntryPoint = "clang_getCursorSpelling", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCursorSpelling(CXCursor param);
 
-    // FunctionExtern @ Index.h:4325
+    // Function @ Index.h:4325
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getSpellingNameRange", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRange clang_Cursor_getSpellingNameRange(CXCursor param, uint pieceIndex, uint options);
 
-    // FunctionExtern @ Index.h:4374
+    // Function @ Index.h:4374
     [DllImport(LibraryName, EntryPoint = "clang_PrintingPolicy_getProperty", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_PrintingPolicy_getProperty(CXPrintingPolicy Policy, CXPrintingPolicyProperty Property);
 
-    // FunctionExtern @ Index.h:4381
+    // Function @ Index.h:4381
     [DllImport(LibraryName, EntryPoint = "clang_PrintingPolicy_setProperty", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_PrintingPolicy_setProperty(CXPrintingPolicy Policy, CXPrintingPolicyProperty Property, uint Value);
 
-    // FunctionExtern @ Index.h:4391
+    // Function @ Index.h:4391
     [DllImport(LibraryName, EntryPoint = "clang_getCursorPrintingPolicy", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXPrintingPolicy clang_getCursorPrintingPolicy(CXCursor param);
 
-    // FunctionExtern @ Index.h:4396
+    // Function @ Index.h:4396
     [DllImport(LibraryName, EntryPoint = "clang_PrintingPolicy_dispose", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_PrintingPolicy_dispose(CXPrintingPolicy Policy);
 
-    // FunctionExtern @ Index.h:4409
+    // Function @ Index.h:4409
     [DllImport(LibraryName, EntryPoint = "clang_getCursorPrettyPrinted", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCursorPrettyPrinted(CXCursor Cursor, CXPrintingPolicy Policy);
 
-    // FunctionExtern @ Index.h:4419
+    // Function @ Index.h:4419
     [DllImport(LibraryName, EntryPoint = "clang_getCursorDisplayName", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCursorDisplayName(CXCursor param);
 
-    // FunctionExtern @ Index.h:4431
+    // Function @ Index.h:4431
     [DllImport(LibraryName, EntryPoint = "clang_getCursorReferenced", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getCursorReferenced(CXCursor param);
 
-    // FunctionExtern @ Index.h:4461
+    // Function @ Index.h:4461
     [DllImport(LibraryName, EntryPoint = "clang_getCursorDefinition", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getCursorDefinition(CXCursor param);
 
-    // FunctionExtern @ Index.h:4467
+    // Function @ Index.h:4467
     [DllImport(LibraryName, EntryPoint = "clang_isCursorDefinition", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_isCursorDefinition(CXCursor param);
 
-    // FunctionExtern @ Index.h:4493
+    // Function @ Index.h:4493
     [DllImport(LibraryName, EntryPoint = "clang_getCanonicalCursor", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getCanonicalCursor(CXCursor param);
 
-    // FunctionExtern @ Index.h:4506
+    // Function @ Index.h:4506
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getObjCSelectorIndex", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Cursor_getObjCSelectorIndex(CXCursor param);
 
-    // FunctionExtern @ Index.h:4519
+    // Function @ Index.h:4519
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_isDynamicCall", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Cursor_isDynamicCall(CXCursor C);
 
-    // FunctionExtern @ Index.h:4525
+    // Function @ Index.h:4525
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getReceiverType", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXType clang_Cursor_getReceiverType(CXCursor C);
 
-    // FunctionExtern @ Index.h:4555
+    // Function @ Index.h:4555
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getObjCPropertyAttributes", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_getObjCPropertyAttributes(CXCursor C, uint reserved);
 
-    // FunctionExtern @ Index.h:4561
+    // Function @ Index.h:4561
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getObjCPropertyGetterName", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_Cursor_getObjCPropertyGetterName(CXCursor C);
 
-    // FunctionExtern @ Index.h:4567
+    // Function @ Index.h:4567
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getObjCPropertySetterName", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_Cursor_getObjCPropertySetterName(CXCursor C);
 
-    // FunctionExtern @ Index.h:4589
+    // Function @ Index.h:4589
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getObjCDeclQualifiers", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_getObjCDeclQualifiers(CXCursor C);
 
-    // FunctionExtern @ Index.h:4596
+    // Function @ Index.h:4596
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_isObjCOptional", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isObjCOptional(CXCursor C);
 
-    // FunctionExtern @ Index.h:4601
+    // Function @ Index.h:4601
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_isVariadic", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isVariadic(CXCursor C);
 
-    // FunctionExtern @ Index.h:4616
+    // Function @ Index.h:4616
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_isExternalSymbol", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Cursor_isExternalSymbol(CXCursor C, CXString* language, CXString* definedIn, ulong* isGenerated);
 
-    // FunctionExtern @ Index.h:4626
+    // Function @ Index.h:4626
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getCommentRange", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRange clang_Cursor_getCommentRange(CXCursor C);
 
-    // FunctionExtern @ Index.h:4632
+    // Function @ Index.h:4632
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getRawCommentText", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_Cursor_getRawCommentText(CXCursor C);
 
-    // FunctionExtern @ Index.h:4639
+    // Function @ Index.h:4639
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getBriefCommentText", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_Cursor_getBriefCommentText(CXCursor C);
 
-    // FunctionExtern @ Index.h:4653
+    // Function @ Index.h:4653
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getMangling", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_Cursor_getMangling(CXCursor param);
 
-    // FunctionExtern @ Index.h:4659
+    // Function @ Index.h:4659
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getCXXManglings", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXStringSet* clang_Cursor_getCXXManglings(CXCursor param);
 
-    // FunctionExtern @ Index.h:4665
+    // Function @ Index.h:4665
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getObjCManglings", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXStringSet* clang_Cursor_getObjCManglings(CXCursor param);
 
-    // FunctionExtern @ Index.h:4684
+    // Function @ Index.h:4684
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_getModule", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXModule clang_Cursor_getModule(CXCursor C);
 
-    // FunctionExtern @ Index.h:4690
+    // Function @ Index.h:4690
     [DllImport(LibraryName, EntryPoint = "clang_getModuleForFile", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXModule clang_getModuleForFile(CXTranslationUnit param, CXFile param2);
 
-    // FunctionExtern @ Index.h:4697
+    // Function @ Index.h:4697
     [DllImport(LibraryName, EntryPoint = "clang_Module_getASTFile", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXFile clang_Module_getASTFile(CXModule Module);
 
-    // FunctionExtern @ Index.h:4705
+    // Function @ Index.h:4705
     [DllImport(LibraryName, EntryPoint = "clang_Module_getParent", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXModule clang_Module_getParent(CXModule Module);
 
-    // FunctionExtern @ Index.h:4713
+    // Function @ Index.h:4713
     [DllImport(LibraryName, EntryPoint = "clang_Module_getName", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_Module_getName(CXModule Module);
 
-    // FunctionExtern @ Index.h:4720
+    // Function @ Index.h:4720
     [DllImport(LibraryName, EntryPoint = "clang_Module_getFullName", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_Module_getFullName(CXModule Module);
 
-    // FunctionExtern @ Index.h:4727
+    // Function @ Index.h:4727
     [DllImport(LibraryName, EntryPoint = "clang_Module_isSystem", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_Module_isSystem(CXModule Module);
 
-    // FunctionExtern @ Index.h:4734
+    // Function @ Index.h:4734
     [DllImport(LibraryName, EntryPoint = "clang_Module_getNumTopLevelHeaders", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Module_getNumTopLevelHeaders(CXTranslationUnit param, CXModule Module);
 
-    // FunctionExtern @ Index.h:4745
+    // Function @ Index.h:4745
     [DllImport(LibraryName, EntryPoint = "clang_Module_getTopLevelHeader", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXFile clang_Module_getTopLevelHeader(CXTranslationUnit param, CXModule Module, uint Index);
 
-    // FunctionExtern @ Index.h:4765
+    // Function @ Index.h:4765
     [DllImport(LibraryName, EntryPoint = "clang_CXXConstructor_isConvertingConstructor", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXConstructor_isConvertingConstructor(CXCursor C);
 
-    // FunctionExtern @ Index.h:4770
+    // Function @ Index.h:4770
     [DllImport(LibraryName, EntryPoint = "clang_CXXConstructor_isCopyConstructor", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXConstructor_isCopyConstructor(CXCursor C);
 
-    // FunctionExtern @ Index.h:4775
+    // Function @ Index.h:4775
     [DllImport(LibraryName, EntryPoint = "clang_CXXConstructor_isDefaultConstructor", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXConstructor_isDefaultConstructor(CXCursor C);
 
-    // FunctionExtern @ Index.h:4780
+    // Function @ Index.h:4780
     [DllImport(LibraryName, EntryPoint = "clang_CXXConstructor_isMoveConstructor", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXConstructor_isMoveConstructor(CXCursor C);
 
-    // FunctionExtern @ Index.h:4785
+    // Function @ Index.h:4785
     [DllImport(LibraryName, EntryPoint = "clang_CXXField_isMutable", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXField_isMutable(CXCursor C);
 
-    // FunctionExtern @ Index.h:4790
+    // Function @ Index.h:4790
     [DllImport(LibraryName, EntryPoint = "clang_CXXMethod_isDefaulted", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXMethod_isDefaulted(CXCursor C);
 
-    // FunctionExtern @ Index.h:4796
+    // Function @ Index.h:4796
     [DllImport(LibraryName, EntryPoint = "clang_CXXMethod_isPureVirtual", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXMethod_isPureVirtual(CXCursor C);
 
-    // FunctionExtern @ Index.h:4802
+    // Function @ Index.h:4802
     [DllImport(LibraryName, EntryPoint = "clang_CXXMethod_isStatic", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXMethod_isStatic(CXCursor C);
 
-    // FunctionExtern @ Index.h:4809
+    // Function @ Index.h:4809
     [DllImport(LibraryName, EntryPoint = "clang_CXXMethod_isVirtual", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXMethod_isVirtual(CXCursor C);
 
-    // FunctionExtern @ Index.h:4815
+    // Function @ Index.h:4815
     [DllImport(LibraryName, EntryPoint = "clang_CXXRecord_isAbstract", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXRecord_isAbstract(CXCursor C);
 
-    // FunctionExtern @ Index.h:4820
+    // Function @ Index.h:4820
     [DllImport(LibraryName, EntryPoint = "clang_EnumDecl_isScoped", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_EnumDecl_isScoped(CXCursor C);
 
-    // FunctionExtern @ Index.h:4826
+    // Function @ Index.h:4826
     [DllImport(LibraryName, EntryPoint = "clang_CXXMethod_isConst", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_CXXMethod_isConst(CXCursor C);
 
-    // FunctionExtern @ Index.h:4845
+    // Function @ Index.h:4845
     [DllImport(LibraryName, EntryPoint = "clang_getTemplateCursorKind", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursorKind clang_getTemplateCursorKind(CXCursor C);
 
-    // FunctionExtern @ Index.h:4875
+    // Function @ Index.h:4875
     [DllImport(LibraryName, EntryPoint = "clang_getSpecializedCursorTemplate", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursor clang_getSpecializedCursorTemplate(CXCursor C);
 
-    // FunctionExtern @ Index.h:4895
+    // Function @ Index.h:4895
     [DllImport(LibraryName, EntryPoint = "clang_getCursorReferenceNameRange", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRange clang_getCursorReferenceNameRange(CXCursor C, uint NameFlags, uint PieceIndex);
 
-    // FunctionExtern @ Index.h:4987
+    // Function @ Index.h:4987
     [DllImport(LibraryName, EntryPoint = "clang_getToken", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXToken* clang_getToken(CXTranslationUnit TU, CXSourceLocation Location);
 
-    // FunctionExtern @ Index.h:4993
+    // Function @ Index.h:4993
     [DllImport(LibraryName, EntryPoint = "clang_getTokenKind", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXTokenKind clang_getTokenKind(CXToken param);
 
-    // FunctionExtern @ Index.h:5001
+    // Function @ Index.h:5001
     [DllImport(LibraryName, EntryPoint = "clang_getTokenSpelling", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getTokenSpelling(CXTranslationUnit param, CXToken param2);
 
-    // FunctionExtern @ Index.h:5006
+    // Function @ Index.h:5006
     [DllImport(LibraryName, EntryPoint = "clang_getTokenLocation", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceLocation clang_getTokenLocation(CXTranslationUnit param, CXToken param2);
 
-    // FunctionExtern @ Index.h:5012
+    // Function @ Index.h:5012
     [DllImport(LibraryName, EntryPoint = "clang_getTokenExtent", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceRange clang_getTokenExtent(CXTranslationUnit param, CXToken param2);
 
-    // FunctionExtern @ Index.h:5031
+    // Function @ Index.h:5031
     [DllImport(LibraryName, EntryPoint = "clang_tokenize", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_tokenize(CXTranslationUnit TU, CXSourceRange Range, CXToken** Tokens, ulong* NumTokens);
 
-    // FunctionExtern @ Index.h:5064
+    // Function @ Index.h:5064
     [DllImport(LibraryName, EntryPoint = "clang_annotateTokens", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_annotateTokens(CXTranslationUnit TU, CXToken* Tokens, uint NumTokens, CXCursor* Cursors);
 
-    // FunctionExtern @ Index.h:5070
+    // Function @ Index.h:5070
     [DllImport(LibraryName, EntryPoint = "clang_disposeTokens", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeTokens(CXTranslationUnit TU, CXToken* Tokens, uint NumTokens);
 
-    // FunctionExtern @ Index.h:5087
+    // Function @ Index.h:5087
     [DllImport(LibraryName, EntryPoint = "clang_getCursorKindSpelling", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCursorKindSpelling(CXCursorKind Kind);
 
-    // FunctionExtern @ Index.h:5088
+    // Function @ Index.h:5088
     [DllImport(LibraryName, EntryPoint = "clang_getDefinitionSpellingAndExtent", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_getDefinitionSpellingAndExtent(CXCursor param, byte** startBuf, byte** endBuf, ulong* startLine, ulong* startColumn, ulong* endLine, ulong* endColumn);
+    public static extern void clang_getDefinitionSpellingAndExtent(CXCursor param, AnsiStringPtr* startBuf, AnsiStringPtr* endBuf, ulong* startLine, ulong* startColumn, ulong* endLine, ulong* endColumn);
 
-    // FunctionExtern @ Index.h:5091
+    // Function @ Index.h:5091
     [DllImport(LibraryName, EntryPoint = "clang_enableStackTraces", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_enableStackTraces();
 
-    // FunctionExtern @ Index.h:5092
+    // Function @ Index.h:5092
     [DllImport(LibraryName, EntryPoint = "clang_executeOnThread", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_executeOnThread(NativeCallbackPointerVoid fn, void* user_data, uint stack_size);
 
-    // FunctionExtern @ Index.h:5330
+    // Function @ Index.h:5330
     [DllImport(LibraryName, EntryPoint = "clang_getCompletionChunkKind", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCompletionChunkKind clang_getCompletionChunkKind(CXCompletionString completion_string, uint chunk_number);
 
-    // FunctionExtern @ Index.h:5343
+    // Function @ Index.h:5343
     [DllImport(LibraryName, EntryPoint = "clang_getCompletionChunkText", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCompletionChunkText(CXCompletionString completion_string, uint chunk_number);
 
-    // FunctionExtern @ Index.h:5357
+    // Function @ Index.h:5357
     [DllImport(LibraryName, EntryPoint = "clang_getCompletionChunkCompletionString", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCompletionString clang_getCompletionChunkCompletionString(CXCompletionString completion_string, uint chunk_number);
 
-    // FunctionExtern @ Index.h:5364
+    // Function @ Index.h:5364
     [DllImport(LibraryName, EntryPoint = "clang_getNumCompletionChunks", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getNumCompletionChunks(CXCompletionString completion_string);
 
-    // FunctionExtern @ Index.h:5379
+    // Function @ Index.h:5379
     [DllImport(LibraryName, EntryPoint = "clang_getCompletionPriority", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getCompletionPriority(CXCompletionString completion_string);
 
-    // FunctionExtern @ Index.h:5390
+    // Function @ Index.h:5390
     [DllImport(LibraryName, EntryPoint = "clang_getCompletionAvailability", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXAvailabilityKind clang_getCompletionAvailability(CXCompletionString completion_string);
 
-    // FunctionExtern @ Index.h:5402
+    // Function @ Index.h:5402
     [DllImport(LibraryName, EntryPoint = "clang_getCompletionNumAnnotations", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getCompletionNumAnnotations(CXCompletionString completion_string);
 
-    // FunctionExtern @ Index.h:5415
+    // Function @ Index.h:5415
     [DllImport(LibraryName, EntryPoint = "clang_getCompletionAnnotation", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCompletionAnnotation(CXCompletionString completion_string, uint annotation_number);
 
-    // FunctionExtern @ Index.h:5434
+    // Function @ Index.h:5434
     [DllImport(LibraryName, EntryPoint = "clang_getCompletionParent", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCompletionParent(CXCompletionString completion_string, CXCursorKind* kind);
 
-    // FunctionExtern @ Index.h:5442
+    // Function @ Index.h:5442
     [DllImport(LibraryName, EntryPoint = "clang_getCompletionBriefComment", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCompletionBriefComment(CXCompletionString completion_string);
 
-    // FunctionExtern @ Index.h:5454
+    // Function @ Index.h:5454
     [DllImport(LibraryName, EntryPoint = "clang_getCursorCompletionString", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCompletionString clang_getCursorCompletionString(CXCursor cursor);
 
-    // FunctionExtern @ Index.h:5490
+    // Function @ Index.h:5490
     [DllImport(LibraryName, EntryPoint = "clang_getCompletionNumFixIts", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_getCompletionNumFixIts(CXCodeCompleteResults* results, uint completion_index);
 
-    // FunctionExtern @ Index.h:5536
+    // Function @ Index.h:5536
     [DllImport(LibraryName, EntryPoint = "clang_getCompletionFixIt", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getCompletionFixIt(CXCodeCompleteResults* results, uint completion_index, uint fixit_index, CXSourceRange* replacement_range);
 
-    // FunctionExtern @ Index.h:5720
+    // Function @ Index.h:5720
     [DllImport(LibraryName, EntryPoint = "clang_defaultCodeCompleteOptions", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_defaultCodeCompleteOptions();
 
-    // FunctionExtern @ Index.h:5792
+    // Function @ Index.h:5792
     [DllImport(LibraryName, EntryPoint = "clang_codeCompleteAt", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCodeCompleteResults* clang_codeCompleteAt(CXTranslationUnit TU, byte* complete_filename, uint complete_line, uint complete_column, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
+    public static extern CXCodeCompleteResults* clang_codeCompleteAt(CXTranslationUnit TU, AnsiStringPtr complete_filename, uint complete_line, uint complete_column, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
 
-    // FunctionExtern @ Index.h:5805
+    // Function @ Index.h:5805
     [DllImport(LibraryName, EntryPoint = "clang_sortCodeCompletionResults", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_sortCodeCompletionResults(CXCompletionResult* Results, uint NumResults);
 
-    // FunctionExtern @ Index.h:5812
+    // Function @ Index.h:5812
     [DllImport(LibraryName, EntryPoint = "clang_disposeCodeCompleteResults", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_disposeCodeCompleteResults(CXCodeCompleteResults* Results);
 
-    // FunctionExtern @ Index.h:5819
+    // Function @ Index.h:5819
     [DllImport(LibraryName, EntryPoint = "clang_codeCompleteGetNumDiagnostics", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_codeCompleteGetNumDiagnostics(CXCodeCompleteResults* Results);
 
-    // FunctionExtern @ Index.h:5831
+    // Function @ Index.h:5831
     [DllImport(LibraryName, EntryPoint = "clang_codeCompleteGetDiagnostic", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXDiagnostic clang_codeCompleteGetDiagnostic(CXCodeCompleteResults* Results, uint Index);
 
-    // FunctionExtern @ Index.h:5845
+    // Function @ Index.h:5845
     [DllImport(LibraryName, EntryPoint = "clang_codeCompleteGetContexts", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong clang_codeCompleteGetContexts(CXCodeCompleteResults* Results);
 
-    // FunctionExtern @ Index.h:5865
+    // Function @ Index.h:5865
     [DllImport(LibraryName, EntryPoint = "clang_codeCompleteGetContainerKind", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXCursorKind clang_codeCompleteGetContainerKind(CXCodeCompleteResults* Results, ulong* IsIncomplete);
 
-    // FunctionExtern @ Index.h:5878
+    // Function @ Index.h:5878
     [DllImport(LibraryName, EntryPoint = "clang_codeCompleteGetContainerUSR", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_codeCompleteGetContainerUSR(CXCodeCompleteResults* Results);
 
-    // FunctionExtern @ Index.h:5892
+    // Function @ Index.h:5892
     [DllImport(LibraryName, EntryPoint = "clang_codeCompleteGetObjCSelector", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_codeCompleteGetObjCSelector(CXCodeCompleteResults* Results);
 
-    // FunctionExtern @ Index.h:5908
+    // Function @ Index.h:5908
     [DllImport(LibraryName, EntryPoint = "clang_getClangVersion", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXString clang_getClangVersion();
 
-    // FunctionExtern @ Index.h:5916
+    // Function @ Index.h:5916
     [DllImport(LibraryName, EntryPoint = "clang_toggleCrashRecovery", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_toggleCrashRecovery(uint isEnabled);
 
-    // FunctionExtern @ Index.h:5940
+    // Function @ Index.h:5940
     [DllImport(LibraryName, EntryPoint = "clang_getInclusions", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_getInclusions(CXTranslationUnit tu, CXInclusionVisitor visitor, CXClientData client_data);
 
-    // FunctionExtern @ Index.h:5967
+    // Function @ Index.h:5967
     [DllImport(LibraryName, EntryPoint = "clang_Cursor_Evaluate", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXEvalResult clang_Cursor_Evaluate(CXCursor C);
 
-    // FunctionExtern @ Index.h:5972
+    // Function @ Index.h:5972
     [DllImport(LibraryName, EntryPoint = "clang_EvalResult_getKind", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXEvalResultKind clang_EvalResult_getKind(CXEvalResult E);
 
-    // FunctionExtern @ Index.h:5978
+    // Function @ Index.h:5978
     [DllImport(LibraryName, EntryPoint = "clang_EvalResult_getAsInt", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_EvalResult_getAsInt(CXEvalResult E);
 
-    // FunctionExtern @ Index.h:5985
+    // Function @ Index.h:5985
     [DllImport(LibraryName, EntryPoint = "clang_EvalResult_getAsLongLong", CallingConvention = CallingConvention.Cdecl)]
     public static extern long clang_EvalResult_getAsLongLong(CXEvalResult E);
 
-    // FunctionExtern @ Index.h:5991
+    // Function @ Index.h:5991
     [DllImport(LibraryName, EntryPoint = "clang_EvalResult_isUnsignedInt", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_EvalResult_isUnsignedInt(CXEvalResult E);
 
-    // FunctionExtern @ Index.h:5998
+    // Function @ Index.h:5998
     [DllImport(LibraryName, EntryPoint = "clang_EvalResult_getAsUnsigned", CallingConvention = CallingConvention.Cdecl)]
     public static extern ulong clang_EvalResult_getAsUnsigned(CXEvalResult E);
 
-    // FunctionExtern @ Index.h:6004
+    // Function @ Index.h:6004
     [DllImport(LibraryName, EntryPoint = "clang_EvalResult_getAsDouble", CallingConvention = CallingConvention.Cdecl)]
     public static extern double clang_EvalResult_getAsDouble(CXEvalResult E);
 
-    // FunctionExtern @ Index.h:6012
+    // Function @ Index.h:6012
     [DllImport(LibraryName, EntryPoint = "clang_EvalResult_getAsStr", CallingConvention = CallingConvention.Cdecl)]
-    public static extern byte* clang_EvalResult_getAsStr(CXEvalResult E);
+    public static extern AnsiStringPtr clang_EvalResult_getAsStr(CXEvalResult E);
 
-    // FunctionExtern @ Index.h:6017
+    // Function @ Index.h:6017
     [DllImport(LibraryName, EntryPoint = "clang_EvalResult_dispose", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_EvalResult_dispose(CXEvalResult E);
 
-    // FunctionExtern @ Index.h:6040
+    // Function @ Index.h:6040
     [DllImport(LibraryName, EntryPoint = "clang_getRemappings", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXRemapping clang_getRemappings(byte* path);
+    public static extern CXRemapping clang_getRemappings(AnsiStringPtr path);
 
-    // FunctionExtern @ Index.h:6053
+    // Function @ Index.h:6053
     [DllImport(LibraryName, EntryPoint = "clang_getRemappingsFromFileList", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXRemapping clang_getRemappingsFromFileList(byte** filePaths, uint numFiles);
+    public static extern CXRemapping clang_getRemappingsFromFileList(AnsiStringPtr* filePaths, uint numFiles);
 
-    // FunctionExtern @ Index.h:6059
+    // Function @ Index.h:6059
     [DllImport(LibraryName, EntryPoint = "clang_remap_getNumFiles", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_remap_getNumFiles(CXRemapping param);
 
-    // FunctionExtern @ Index.h:6069
+    // Function @ Index.h:6069
     [DllImport(LibraryName, EntryPoint = "clang_remap_getFilenames", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_remap_getFilenames(CXRemapping param, uint index, CXString* original, CXString* transformed);
 
-    // FunctionExtern @ Index.h:6076
+    // Function @ Index.h:6076
     [DllImport(LibraryName, EntryPoint = "clang_remap_dispose", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_remap_dispose(CXRemapping param);
 
-    // FunctionExtern @ Index.h:6125
+    // Function @ Index.h:6125
     [DllImport(LibraryName, EntryPoint = "clang_findReferencesInFile", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXResult clang_findReferencesInFile(CXCursor cursor, CXFile file, CXCursorAndRangeVisitor visitor);
 
-    // FunctionExtern @ Index.h:6140
+    // Function @ Index.h:6140
     [DllImport(LibraryName, EntryPoint = "clang_findIncludesInFile", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXResult clang_findIncludesInFile(CXTranslationUnit TU, CXFile file, CXCursorAndRangeVisitor visitor);
 
-    // FunctionExtern @ Index.h:6541
+    // Function @ Index.h:6541
     [DllImport(LibraryName, EntryPoint = "clang_index_isEntityObjCContainerKind", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_index_isEntityObjCContainerKind(CXIdxEntityKind param);
 
-    // FunctionExtern @ Index.h:6543
+    // Function @ Index.h:6543
     [DllImport(LibraryName, EntryPoint = "clang_index_getObjCContainerDeclInfo", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIdxObjCContainerDeclInfo* clang_index_getObjCContainerDeclInfo(CXIdxDeclInfo* param);
 
-    // FunctionExtern @ Index.h:6546
+    // Function @ Index.h:6546
     [DllImport(LibraryName, EntryPoint = "clang_index_getObjCInterfaceDeclInfo", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIdxObjCInterfaceDeclInfo* clang_index_getObjCInterfaceDeclInfo(CXIdxDeclInfo* param);
 
-    // FunctionExtern @ Index.h:6550
+    // Function @ Index.h:6550
     [DllImport(LibraryName, EntryPoint = "clang_index_getObjCCategoryDeclInfo", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIdxObjCCategoryDeclInfo* clang_index_getObjCCategoryDeclInfo(CXIdxDeclInfo* param);
 
-    // FunctionExtern @ Index.h:6553
+    // Function @ Index.h:6553
     [DllImport(LibraryName, EntryPoint = "clang_index_getObjCProtocolRefListInfo", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIdxObjCProtocolRefListInfo* clang_index_getObjCProtocolRefListInfo(CXIdxDeclInfo* param);
 
-    // FunctionExtern @ Index.h:6556
+    // Function @ Index.h:6556
     [DllImport(LibraryName, EntryPoint = "clang_index_getObjCPropertyDeclInfo", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIdxObjCPropertyDeclInfo* clang_index_getObjCPropertyDeclInfo(CXIdxDeclInfo* param);
 
-    // FunctionExtern @ Index.h:6559
+    // Function @ Index.h:6559
     [DllImport(LibraryName, EntryPoint = "clang_index_getIBOutletCollectionAttrInfo", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIdxIBOutletCollectionAttrInfo* clang_index_getIBOutletCollectionAttrInfo(CXIdxAttrInfo* param);
 
-    // FunctionExtern @ Index.h:6562
+    // Function @ Index.h:6562
     [DllImport(LibraryName, EntryPoint = "clang_index_getCXXClassDeclInfo", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIdxCXXClassDeclInfo* clang_index_getCXXClassDeclInfo(CXIdxDeclInfo* param);
 
-    // FunctionExtern @ Index.h:6569
+    // Function @ Index.h:6569
     [DllImport(LibraryName, EntryPoint = "clang_index_getClientContainer", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIdxClientContainer clang_index_getClientContainer(CXIdxContainerInfo* param);
 
-    // FunctionExtern @ Index.h:6575
+    // Function @ Index.h:6575
     [DllImport(LibraryName, EntryPoint = "clang_index_setClientContainer", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_index_setClientContainer(CXIdxContainerInfo* param, CXIdxClientContainer param2);
 
-    // FunctionExtern @ Index.h:6582
+    // Function @ Index.h:6582
     [DllImport(LibraryName, EntryPoint = "clang_index_getClientEntity", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIdxClientEntity clang_index_getClientEntity(CXIdxEntityInfo* param);
 
-    // FunctionExtern @ Index.h:6587
+    // Function @ Index.h:6587
     [DllImport(LibraryName, EntryPoint = "clang_index_setClientEntity", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_index_setClientEntity(CXIdxEntityInfo* param, CXIdxClientEntity param2);
 
-    // FunctionExtern @ Index.h:6602
+    // Function @ Index.h:6602
     [DllImport(LibraryName, EntryPoint = "clang_IndexAction_create", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXIndexAction clang_IndexAction_create(CXIndex CIdx);
 
-    // FunctionExtern @ Index.h:6610
+    // Function @ Index.h:6610
     [DllImport(LibraryName, EntryPoint = "clang_IndexAction_dispose", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_IndexAction_dispose(CXIndexAction param);
 
-    // FunctionExtern @ Index.h:6676
+    // Function @ Index.h:6676
     [DllImport(LibraryName, EntryPoint = "clang_indexSourceFile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_indexSourceFile(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, byte* source_filename, byte** command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
+    public static extern int clang_indexSourceFile(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, AnsiStringPtr source_filename, AnsiStringPtr* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
 
-    // FunctionExtern @ Index.h:6688
+    // Function @ Index.h:6688
     [DllImport(LibraryName, EntryPoint = "clang_indexSourceFileFullArgv", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_indexSourceFileFullArgv(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, byte* source_filename, byte** command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
+    public static extern int clang_indexSourceFileFullArgv(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, AnsiStringPtr source_filename, AnsiStringPtr* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
 
-    // FunctionExtern @ Index.h:6711
+    // Function @ Index.h:6711
     [DllImport(LibraryName, EntryPoint = "clang_indexTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
     public static extern int clang_indexTranslationUnit(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CXTranslationUnit param2);
 
-    // FunctionExtern @ Index.h:6723
+    // Function @ Index.h:6723
     [DllImport(LibraryName, EntryPoint = "clang_indexLoc_getFileLocation", CallingConvention = CallingConvention.Cdecl)]
     public static extern void clang_indexLoc_getFileLocation(CXIdxLoc loc, CXIdxClientFile* indexFile, CXFile* file, ulong* line, ulong* column, ulong* offset);
 
-    // FunctionExtern @ Index.h:6733
+    // Function @ Index.h:6733
     [DllImport(LibraryName, EntryPoint = "clang_indexLoc_getCXSourceLocation", CallingConvention = CallingConvention.Cdecl)]
     public static extern CXSourceLocation clang_indexLoc_getCXSourceLocation(CXIdxLoc loc);
 
-    // FunctionExtern @ Index.h:6768
+    // Function @ Index.h:6768
     [DllImport(LibraryName, EntryPoint = "clang_Type_visitFields", CallingConvention = CallingConvention.Cdecl)]
     public static extern uint clang_Type_visitFields(CXType T, CXFieldVisitor visitor, CXClientData client_data);
 
-    // FunctionPointer @ Index.h:4191
+    // PointerFunction @ Index.h:4191
     [StructLayout(LayoutKind.Sequential)]
     public struct CXCursorVisitor
     {
         public delegate* unmanaged<CXCursor, CXCursor, CXClientData, CXChildVisitResult> Pointer;
     }
 
-    // FunctionPointer @ Index.h:5929
+    // PointerFunction @ Index.h:5929
     [StructLayout(LayoutKind.Sequential)]
     public struct CXInclusionVisitor
     {
         public delegate* unmanaged<CXFile, CXSourceLocation*, uint, CXClientData, void> Pointer;
     }
 
-    // FunctionPointer @ Index.h:6746
+    // PointerFunction @ Index.h:6746
     [StructLayout(LayoutKind.Sequential)]
     public struct CXFieldVisitor
     {
@@ -1523,10 +1523,10 @@ public static unsafe partial class libclang
     public struct CXUnsavedFile
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public byte* Filename;
+        public AnsiStringPtr Filename;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public byte* Contents;
+        public AnsiStringPtr Contents;
 
         [FieldOffset(16)] // size = 8, padding = 0
         public ulong Length;
@@ -1701,7 +1701,7 @@ public static unsafe partial class libclang
         [FieldOffset(8)] // size = 8, padding = 0
         public FunctionPointer_visit visit;
 
-        // FunctionPointer @ Index.h:6091
+        // PointerFunction @ Index.h:6091
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_visit
         {
@@ -1761,10 +1761,10 @@ public static unsafe partial class libclang
         public CXIdxEntityLanguage lang;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public byte* name;
+        public AnsiStringPtr name;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public byte* USR;
+        public AnsiStringPtr USR;
 
         [FieldOffset(32)] // size = 32, padding = 0
         public CXCursor cursor;
@@ -1965,7 +1965,7 @@ public static unsafe partial class libclang
         public CXIdxLoc hashLoc;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public byte* filename;
+        public AnsiStringPtr filename;
 
         [FieldOffset(32)] // size = 8, padding = 0
         public CXFile file;
@@ -2051,56 +2051,56 @@ public static unsafe partial class libclang
         [FieldOffset(56)] // size = 8, padding = 0
         public FunctionPointer_indexEntityReference indexEntityReference;
 
-        // FunctionPointer @ Index.h:6498
+        // PointerFunction @ Index.h:6498
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_abortQuery
         {
             public delegate* unmanaged<CXClientData, void*, int> Pointer;
         }
 
-        // FunctionPointer @ Index.h:6503
+        // PointerFunction @ Index.h:6503
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_diagnostic
         {
             public delegate* unmanaged<CXClientData, CXDiagnosticSet, void*, void> Pointer;
         }
 
-        // FunctionPointer @ Index.h:6505
+        // PointerFunction @ Index.h:6505
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_enteredMainFile
         {
             public delegate* unmanaged<CXClientData, CXFile, void*, CXIdxClientFile> Pointer;
         }
 
-        // FunctionPointer @ Index.h:6511
+        // PointerFunction @ Index.h:6511
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_ppIncludedFile
         {
             public delegate* unmanaged<CXClientData, CXIdxIncludedFileInfo*, CXIdxClientFile> Pointer;
         }
 
-        // FunctionPointer @ Index.h:6522
+        // PointerFunction @ Index.h:6522
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_importedASTFile
         {
             public delegate* unmanaged<CXClientData, CXIdxImportedASTFileInfo*, CXIdxClientASTFile> Pointer;
         }
 
-        // FunctionPointer @ Index.h:6528
+        // PointerFunction @ Index.h:6528
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_startedTranslationUnit
         {
             public delegate* unmanaged<CXClientData, void*, CXIdxClientContainer> Pointer;
         }
 
-        // FunctionPointer @ Index.h:6531
+        // PointerFunction @ Index.h:6531
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_indexDeclaration
         {
             public delegate* unmanaged<CXClientData, CXIdxDeclInfo*, void> Pointer;
         }
 
-        // FunctionPointer @ Index.h:6536
+        // PointerFunction @ Index.h:6536
         [StructLayout(LayoutKind.Sequential)]
         public struct FunctionPointer_indexEntityReference
         {
@@ -2145,7 +2145,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public CXVirtualFileOverlayImpl* Data;
 
-        public static unsafe implicit operator CXVirtualFileOverlayImpl*(CXVirtualFileOverlay data) => *((CXVirtualFileOverlayImpl**)&data);
+        public static implicit operator CXVirtualFileOverlayImpl*(CXVirtualFileOverlay data) => data.Data;
+        public static implicit operator CXVirtualFileOverlay(CXVirtualFileOverlayImpl* data) => new() { Data = data };
     }
 
     // Typedef @ BuildSystem.h:100
@@ -2155,7 +2156,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public CXModuleMapDescriptorImpl* Data;
 
-        public static unsafe implicit operator CXModuleMapDescriptorImpl*(CXModuleMapDescriptor data) => *((CXModuleMapDescriptorImpl**)&data);
+        public static implicit operator CXModuleMapDescriptorImpl*(CXModuleMapDescriptor data) => data.Data;
+        public static implicit operator CXModuleMapDescriptor(CXModuleMapDescriptorImpl* data) => new() { Data = data };
     }
 
     // Typedef @ Index.h:75
@@ -2165,7 +2167,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Data;
 
-        public static unsafe implicit operator void*(CXIndex data) => *((void**)&data);
+        public static implicit operator void*(CXIndex data) => data.Data;
+        public static implicit operator CXIndex(void* data) => new() { Data = data };
     }
 
     // Typedef @ Index.h:353
@@ -2175,7 +2178,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Data;
 
-        public static unsafe implicit operator void*(CXFile data) => *((void**)&data);
+        public static implicit operator void*(CXFile data) => data.Data;
+        public static implicit operator CXFile(void* data) => new() { Data = data };
     }
 
     // Typedef @ Index.h:86
@@ -2185,7 +2189,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public CXTranslationUnitImpl* Data;
 
-        public static unsafe implicit operator CXTranslationUnitImpl*(CXTranslationUnit data) => *((CXTranslationUnitImpl**)&data);
+        public static implicit operator CXTranslationUnitImpl*(CXTranslationUnit data) => data.Data;
+        public static implicit operator CXTranslationUnit(CXTranslationUnitImpl* data) => new() { Data = data };
     }
 
     // Typedef @ Index.h:780
@@ -2195,7 +2200,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Data;
 
-        public static unsafe implicit operator void*(CXDiagnosticSet data) => *((void**)&data);
+        public static implicit operator void*(CXDiagnosticSet data) => data.Data;
+        public static implicit operator CXDiagnosticSet(void* data) => new() { Data = data };
     }
 
     // Typedef @ Index.h:775
@@ -2205,7 +2211,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Data;
 
-        public static unsafe implicit operator void*(CXDiagnostic data) => *((void**)&data);
+        public static implicit operator void*(CXDiagnostic data) => data.Data;
+        public static implicit operator CXDiagnostic(void* data) => new() { Data = data };
     }
 
     // Typedef @ Index.h:81
@@ -2215,7 +2222,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public CXTargetInfoImpl* Data;
 
-        public static unsafe implicit operator CXTargetInfoImpl*(CXTargetInfo data) => *((CXTargetInfoImpl**)&data);
+        public static implicit operator CXTargetInfoImpl*(CXTargetInfo data) => data.Data;
+        public static implicit operator CXTargetInfo(CXTargetInfoImpl* data) => new() { Data = data };
     }
 
     // Typedef @ Index.h:2998
@@ -2225,7 +2233,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public CXCursorSetImpl* Data;
 
-        public static unsafe implicit operator CXCursorSetImpl*(CXCursorSet data) => *((CXCursorSetImpl**)&data);
+        public static implicit operator CXCursorSetImpl*(CXCursorSet data) => data.Data;
+        public static implicit operator CXCursorSet(CXCursorSetImpl* data) => new() { Data = data };
     }
 
     // Typedef @ Index.h:92
@@ -2235,7 +2244,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Data;
 
-        public static unsafe implicit operator void*(CXClientData data) => *((void**)&data);
+        public static implicit operator void*(CXClientData data) => data.Data;
+        public static implicit operator CXClientData(void* data) => new() { Data = data };
     }
 
     // Typedef @ Index.h:4332
@@ -2245,7 +2255,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Data;
 
-        public static unsafe implicit operator void*(CXPrintingPolicy data) => *((void**)&data);
+        public static implicit operator void*(CXPrintingPolicy data) => data.Data;
+        public static implicit operator CXPrintingPolicy(void* data) => new() { Data = data };
     }
 
     // Typedef @ Index.h:4679
@@ -2255,7 +2266,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Data;
 
-        public static unsafe implicit operator void*(CXModule data) => *((void**)&data);
+        public static implicit operator void*(CXModule data) => data.Data;
+        public static implicit operator CXModule(void* data) => new() { Data = data };
     }
 
     // Typedef @ Index.h:5124
@@ -2265,7 +2277,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Data;
 
-        public static unsafe implicit operator void*(CXCompletionString data) => *((void**)&data);
+        public static implicit operator void*(CXCompletionString data) => data.Data;
+        public static implicit operator CXCompletionString(void* data) => new() { Data = data };
     }
 
     // Typedef @ Index.h:5959
@@ -2275,7 +2288,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Data;
 
-        public static unsafe implicit operator void*(CXEvalResult data) => *((void**)&data);
+        public static implicit operator void*(CXEvalResult data) => data.Data;
+        public static implicit operator CXEvalResult(void* data) => new() { Data = data };
     }
 
     // Typedef @ Index.h:6030
@@ -2285,7 +2299,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Data;
 
-        public static unsafe implicit operator void*(CXRemapping data) => *((void**)&data);
+        public static implicit operator void*(CXRemapping data) => data.Data;
+        public static implicit operator CXRemapping(void* data) => new() { Data = data };
     }
 
     // Typedef @ Index.h:6174
@@ -2295,7 +2310,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Data;
 
-        public static unsafe implicit operator void*(CXIdxClientContainer data) => *((void**)&data);
+        public static implicit operator void*(CXIdxClientContainer data) => data.Data;
+        public static implicit operator CXIdxClientContainer(void* data) => new() { Data = data };
     }
 
     // Typedef @ Index.h:6168
@@ -2305,7 +2321,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Data;
 
-        public static unsafe implicit operator void*(CXIdxClientEntity data) => *((void**)&data);
+        public static implicit operator void*(CXIdxClientEntity data) => data.Data;
+        public static implicit operator CXIdxClientEntity(void* data) => new() { Data = data };
     }
 
     // Typedef @ Index.h:6594
@@ -2315,7 +2332,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Data;
 
-        public static unsafe implicit operator void*(CXIndexAction data) => *((void**)&data);
+        public static implicit operator void*(CXIndexAction data) => data.Data;
+        public static implicit operator CXIndexAction(void* data) => new() { Data = data };
     }
 
     // Typedef @ Index.h:6163
@@ -2325,7 +2343,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Data;
 
-        public static unsafe implicit operator void*(CXIdxClientFile data) => *((void**)&data);
+        public static implicit operator void*(CXIdxClientFile data) => data.Data;
+        public static implicit operator CXIdxClientFile(void* data) => new() { Data = data };
     }
 
     // Typedef @ Index.h:6180
@@ -2335,7 +2354,8 @@ public static unsafe partial class libclang
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Data;
 
-        public static unsafe implicit operator void*(CXIdxClientASTFile data) => *((void**)&data);
+        public static implicit operator void*(CXIdxClientASTFile data) => data.Data;
+        public static implicit operator CXIdxClientASTFile(void* data) => new() { Data = data };
     }
 
     // Enum @ CXErrorCode.h:28
