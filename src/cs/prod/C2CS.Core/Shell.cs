@@ -169,6 +169,10 @@ namespace C2CS
 
                 var targetFileDirectoryPath = Path.GetDirectoryName(targetFilePath)!;
                 targetFilePath = Path.Combine(targetFileDirectoryPath, targetFileName);
+                if (!Directory.Exists(targetFileDirectoryPath))
+                {
+                    Directory.CreateDirectory(targetFileDirectoryPath);
+                }
 
                 if (File.Exists(targetFilePath))
                 {

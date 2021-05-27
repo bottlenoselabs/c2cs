@@ -49,6 +49,12 @@ namespace C2CS.UseCases.Bindgen
 
         private static void WriteCSharpCode(BindgenInput input, ref BindgenState state, DiagnosticsSink diagnostics)
         {
+            var directoryPath = Path.GetDirectoryName(input.OutputFilePath)!;
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
             File.WriteAllText(input.OutputFilePath, state.GeneratedCSharpCode);
             Console.WriteLine(input.OutputFilePath);
         }
