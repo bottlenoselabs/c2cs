@@ -10,3 +10,6 @@
 [submodule "ext/libuv"]
 	path = ext/libuv
 	url = https://github.com/libuv/libuv.git
+[submodule "ext/SDL"]
+	path = ext/SDL
+	url = https://github.com/libsdl-org/SDL
