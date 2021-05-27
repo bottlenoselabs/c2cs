@@ -7,19 +7,19 @@ namespace C2CS.CSharp
 {
     public record CSharpPointerFunction : CSharpNode
     {
-        public readonly int PointerSize;
+        public readonly bool IsBuiltIn;
         public readonly CSharpType ReturnType;
         public readonly ImmutableArray<CSharpPointerFunctionParameter> Parameters;
 
         public CSharpPointerFunction(
             string name,
+            bool isBuiltIn,
             string codeLocationComment,
-            int pointerSize,
             CSharpType returnType,
             ImmutableArray<CSharpPointerFunctionParameter> parameters)
             : base(name, codeLocationComment)
         {
-            PointerSize = pointerSize;
+            IsBuiltIn = isBuiltIn;
             ReturnType = returnType;
             Parameters = parameters;
         }

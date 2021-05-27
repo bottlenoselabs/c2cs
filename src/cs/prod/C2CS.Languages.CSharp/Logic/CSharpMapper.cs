@@ -12,12 +12,19 @@ namespace C2CS.CSharp
 {
     public static class CSharpMapper
     {
+        private static readonly Dictionary<string, string> BuiltInPointerFunctionMappings = new()
+        {
+            {"void (*)(void)", "FnPtrVoid"},
+            {"void (*)(void *)", "FnPtrVoidPointer"},
+            {"int (*)(void *, void *)", "FnPtrIntPointerPointer"}
+        };
+
         public static CSharpAbstractSyntaxTree GetAbstractSyntaxTree(
             ClangAbstractSyntaxTree clangAbstractSyntaxTree)
         {
-            var functionExterns = CSharpFunctionExterns(
+            var functionExterns = CSharpFunctions(
                 clangAbstractSyntaxTree.FunctionExterns);
-            var functionPointers = CSharpFunctionPointers(
+            var functionPointers = CSharpPointerFunctions(
                 clangAbstractSyntaxTree.FunctionPointers);
             var structs = CSharpStructs(
                 clangAbstractSyntaxTree.Records,
@@ -40,7 +47,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static ImmutableArray<CSharpFunction> CSharpFunctionExterns(
+        private static ImmutableArray<CSharpFunction> CSharpFunctions(
             ImmutableArray<ClangFunction> clangFunctionExterns)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpFunction>(clangFunctionExterns.Length);
@@ -162,7 +169,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static ImmutableArray<CSharpPointerFunction> CSharpFunctionPointers(
+        private static ImmutableArray<CSharpPointerFunction> CSharpPointerFunctions(
             ImmutableArray<ClangPointerFunction> clangFunctionPointers)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpPointerFunction>(clangFunctionPointers.Length);
@@ -170,7 +177,7 @@ namespace C2CS.CSharp
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangFunctionPointer in clangFunctionPointers)
             {
-                var functionPointer = CSharpPointerFunction(clangFunctionPointer);
+                var functionPointer = CSharpPointerFunction(clangFunctionPointer)!;
                 builder.Add(functionPointer);
             }
 
@@ -178,23 +185,29 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpPointerFunction CSharpPointerFunction(ClangPointerFunction clangPointerFunction)
+        private static CSharpPointerFunction? CSharpPointerFunction(ClangPointerFunction clangPointerFunction)
         {
+            if (IsBuiltinPointerFunction(clangPointerFunction.Type.OriginalName))
+            {
+                return null;
+            }
+
             string name = clangPointerFunction.Name;
             if (clangPointerFunction.IsWrapped)
             {
-                name = $"FunctionPointer_{clangPointerFunction.Name}";
+                name = $"FnPtr_{clangPointerFunction.Name}";
             }
 
+            var isBuiltIn = IsBuiltinPointerFunction(clangPointerFunction.Type.OriginalName);
+
             var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangPointerFunction);
-            var pointerSize = clangPointerFunction.PointerSize;
             var returnType = CSharpType(clangPointerFunction.ReturnType);
             var parameters = CSharpPointerFunctionParameters(clangPointerFunction.Parameters);
 
             var result = new CSharpPointerFunction(
                 name,
+                isBuiltIn,
                 originalCodeLocationComment,
-                pointerSize,
                 returnType,
                 parameters);
 
@@ -299,9 +312,9 @@ namespace C2CS.CSharp
             var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangRecordField);
 
             CSharpType type;
-            if (clangRecordField.IsUnNamedFunctionPointer)
+            if (clangRecordField.IsUnNamedFunctionPointer && !IsBuiltinPointerFunction(clangRecordField.Type.OriginalName))
             {
-                type = CSharpType(clangRecordField.Type, $"FunctionPointer_{name}");
+                type = CSharpType(clangRecordField.Type, $"FnPtr_{name}");
             }
             else
             {
@@ -331,21 +344,17 @@ namespace C2CS.CSharp
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var node in nodes)
             {
-                CSharpNode nestedNode;
-
-                switch (node)
+                CSharpNode? nestedNode = node switch
                 {
-                    case ClangRecord record:
-                        nestedNode = CSharpStruct(record);
-                        break;
-                    case ClangPointerFunction functionPointer:
-                        nestedNode = CSharpPointerFunction(functionPointer);
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
+                    ClangRecord record => CSharpStruct(record),
+                    ClangPointerFunction functionPointer => CSharpPointerFunction(functionPointer),
+                    _ => throw new NotImplementedException()
+                };
 
-                builder.Add(nestedNode);
+                if (nestedNode != null)
+                {
+                    builder.Add(nestedNode);
+                }
             }
 
             var result = builder.ToImmutable();
@@ -504,15 +513,6 @@ namespace C2CS.CSharp
             var alignOf = clangType.AlignOf;
             var fixedBufferSize = clangType.ArraySize;
 
-            if (originalName == "void (*)(void)")
-            {
-                typeName2 = "NativeCallbackVoid";
-            }
-            else if (originalName == "void (*)(void *)")
-            {
-                typeName2 = "NativeCallbackPointerVoid";
-            }
-
             // https://github.com/lithiumtoast/c2cs/issues/15
             if (originalName == "va_list")
             {
@@ -531,6 +531,11 @@ namespace C2CS.CSharp
 
         private static string CSharpTypeName(ClangType type)
         {
+            if (type.OriginalName.Contains("(*)("))
+            {
+                return CSharpTypeNameMapPointerFunction(type);
+            }
+
             if (!type.IsSystemType)
             {
                 return type.Name;
@@ -542,6 +547,18 @@ namespace C2CS.CSharp
             }
 
             return CSharpTypeNameMapPointer(type);
+        }
+
+        public static bool IsBuiltinPointerFunction(string originalTypeName)
+        {
+            return BuiltInPointerFunctionMappings.ContainsKey(originalTypeName);
+        }
+
+        private static string CSharpTypeNameMapPointerFunction(ClangType type)
+        {
+            return BuiltInPointerFunctionMappings.TryGetValue(type.OriginalName, out var typeName)
+                ? typeName
+                : type.Name;
         }
 
         private static string CSharpTypeNameMapPointer(ClangType type)

@@ -14,14 +14,6 @@ namespace C2CS.CSharp
         public CSharpStruct(
             string codeLocationComment,
             CSharpType type,
-            ImmutableArray<CSharpStructField> fields)
-            : this(codeLocationComment, type, fields, ImmutableArray<CSharpNode>.Empty)
-        {
-        }
-
-        public CSharpStruct(
-            string codeLocationComment,
-            CSharpType type,
             ImmutableArray<CSharpStructField> fields,
             ImmutableArray<CSharpNode> nestedNodes)
             : base(type.Name, codeLocationComment)

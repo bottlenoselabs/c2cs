@@ -1142,7 +1142,7 @@ public static unsafe partial class libclang
 
     // Function @ Index.h:5092
     [DllImport(LibraryName, EntryPoint = "clang_executeOnThread", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_executeOnThread(NativeCallbackPointerVoid fn, void* user_data, uint stack_size);
+    public static extern void clang_executeOnThread(FnPtrVoidPointer fn, void* user_data, uint stack_size);
 
     // Function @ Index.h:5330
     [DllImport(LibraryName, EntryPoint = "clang_getCompletionChunkKind", CallingConvention = CallingConvention.Cdecl)]
@@ -1699,11 +1699,11 @@ public static unsafe partial class libclang
         public void* context;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public FunctionPointer_visit visit;
+        public FnPtr_visit visit;
 
         // PointerFunction @ Index.h:6091
         [StructLayout(LayoutKind.Sequential)]
-        public struct FunctionPointer_visit
+        public struct FnPtr_visit
         {
             public delegate* unmanaged<void*, CXCursor, CXSourceRange, CXVisitorResult> Pointer;
         }
@@ -2028,81 +2028,81 @@ public static unsafe partial class libclang
     public struct IndexerCallbacks
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public FunctionPointer_abortQuery abortQuery;
+        public FnPtr_abortQuery abortQuery;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public FunctionPointer_diagnostic diagnostic;
+        public FnPtr_diagnostic diagnostic;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public FunctionPointer_enteredMainFile enteredMainFile;
+        public FnPtr_enteredMainFile enteredMainFile;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public FunctionPointer_ppIncludedFile ppIncludedFile;
+        public FnPtr_ppIncludedFile ppIncludedFile;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public FunctionPointer_importedASTFile importedASTFile;
+        public FnPtr_importedASTFile importedASTFile;
 
         [FieldOffset(40)] // size = 8, padding = 0
-        public FunctionPointer_startedTranslationUnit startedTranslationUnit;
+        public FnPtr_startedTranslationUnit startedTranslationUnit;
 
         [FieldOffset(48)] // size = 8, padding = 0
-        public FunctionPointer_indexDeclaration indexDeclaration;
+        public FnPtr_indexDeclaration indexDeclaration;
 
         [FieldOffset(56)] // size = 8, padding = 0
-        public FunctionPointer_indexEntityReference indexEntityReference;
+        public FnPtr_indexEntityReference indexEntityReference;
 
         // PointerFunction @ Index.h:6498
         [StructLayout(LayoutKind.Sequential)]
-        public struct FunctionPointer_abortQuery
+        public struct FnPtr_abortQuery
         {
             public delegate* unmanaged<CXClientData, void*, int> Pointer;
         }
 
         // PointerFunction @ Index.h:6503
         [StructLayout(LayoutKind.Sequential)]
-        public struct FunctionPointer_diagnostic
+        public struct FnPtr_diagnostic
         {
             public delegate* unmanaged<CXClientData, CXDiagnosticSet, void*, void> Pointer;
         }
 
         // PointerFunction @ Index.h:6505
         [StructLayout(LayoutKind.Sequential)]
-        public struct FunctionPointer_enteredMainFile
+        public struct FnPtr_enteredMainFile
         {
             public delegate* unmanaged<CXClientData, CXFile, void*, CXIdxClientFile> Pointer;
         }
 
         // PointerFunction @ Index.h:6511
         [StructLayout(LayoutKind.Sequential)]
-        public struct FunctionPointer_ppIncludedFile
+        public struct FnPtr_ppIncludedFile
         {
             public delegate* unmanaged<CXClientData, CXIdxIncludedFileInfo*, CXIdxClientFile> Pointer;
         }
 
         // PointerFunction @ Index.h:6522
         [StructLayout(LayoutKind.Sequential)]
-        public struct FunctionPointer_importedASTFile
+        public struct FnPtr_importedASTFile
         {
             public delegate* unmanaged<CXClientData, CXIdxImportedASTFileInfo*, CXIdxClientASTFile> Pointer;
         }
 
         // PointerFunction @ Index.h:6528
         [StructLayout(LayoutKind.Sequential)]
-        public struct FunctionPointer_startedTranslationUnit
+        public struct FnPtr_startedTranslationUnit
         {
             public delegate* unmanaged<CXClientData, void*, CXIdxClientContainer> Pointer;
         }
 
         // PointerFunction @ Index.h:6531
         [StructLayout(LayoutKind.Sequential)]
-        public struct FunctionPointer_indexDeclaration
+        public struct FnPtr_indexDeclaration
         {
             public delegate* unmanaged<CXClientData, CXIdxDeclInfo*, void> Pointer;
         }
 
         // PointerFunction @ Index.h:6536
         [StructLayout(LayoutKind.Sequential)]
-        public struct FunctionPointer_indexEntityReference
+        public struct FnPtr_indexEntityReference
         {
             public delegate* unmanaged<CXClientData, CXIdxEntityRefInfo*, void> Pointer;
         }

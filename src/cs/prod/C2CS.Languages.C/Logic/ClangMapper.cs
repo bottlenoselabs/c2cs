@@ -76,7 +76,6 @@ namespace C2CS.Languages.C
             var mappedType = ClangType(ClangNodeKind.PointerFunction, cursor, cursorParent);
             var codeLocation = new ClangCodeLocation(cursor);
             var parameters = ClangFunctionPointerParameters(cursor);
-            var pointerSize = (int)clang_Type_getSizeOf(type);
             var returnType = clang_getResultType(type);
             var mappedReturnType = ClangType(ClangNodeKind.PointerFunctionResult, cursor, cursorParent, returnType);
             var isWrapped = cursorParent.kind == CXCursorKind.CXCursor_StructDecl && originalType.kind != CXTypeKind.CXType_Typedef;
@@ -84,7 +83,6 @@ namespace C2CS.Languages.C
             return new ClangPointerFunction(
                 name,
                 codeLocation,
-                pointerSize,
                 mappedType,
                 mappedReturnType,
                 parameters,

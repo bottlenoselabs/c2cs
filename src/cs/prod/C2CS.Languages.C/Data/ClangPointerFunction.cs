@@ -8,7 +8,6 @@ namespace C2CS.Languages.C
     public record ClangPointerFunction : ClangNode
     {
         public readonly string Name;
-        public readonly int PointerSize;
         public readonly ClangType Type;
         public readonly ClangType ReturnType;
         public readonly ImmutableArray<ClangPointerFunctionParameter> Parameters;
@@ -17,7 +16,6 @@ namespace C2CS.Languages.C
         internal ClangPointerFunction(
             string name,
             ClangCodeLocation codeLocation,
-            int pointerSize,
             ClangType type,
             ClangType returnType,
             ImmutableArray<ClangPointerFunctionParameter> parameters,
@@ -25,7 +23,6 @@ namespace C2CS.Languages.C
             : base(ClangNodeKind.PointerFunction, codeLocation)
         {
             Name = name;
-            PointerSize = pointerSize;
             Type = type;
             ReturnType = returnType;
             Parameters = parameters;

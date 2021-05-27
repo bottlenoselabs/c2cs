@@ -1162,7 +1162,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1750
     [DllImport(LibraryName, EntryPoint = "uv_once", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void uv_once(uv_once_t* guard, NativeCallbackVoid callback);
+    public static extern void uv_once(uv_once_t* guard, FnPtrVoid callback);
 
     // Function @ uv.h:1752
     [DllImport(LibraryName, EntryPoint = "uv_key_create", CallingConvention = CallingConvention.Cdecl)]
