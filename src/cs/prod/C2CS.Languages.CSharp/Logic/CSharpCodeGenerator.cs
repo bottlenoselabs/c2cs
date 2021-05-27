@@ -195,7 +195,7 @@ public static {variable.Type.Name} {variable.Name}
 			return default({variable.Type.Name});
 		}}
 
-		var value = NativeRuntime.MemoryRead<{variable.Type.Name}>(_{variable.Name});
+		var value = NativeRuntime.ReadMemory<{variable.Type.Name}>(_{variable.Name});
 		return value;
 	}}
 }}

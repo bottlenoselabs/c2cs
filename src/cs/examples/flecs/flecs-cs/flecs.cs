@@ -3623,7 +3623,7 @@ public static unsafe partial class flecs
                 return default(long);
             }
 
-            var value = NativeRuntime.MemoryRead<long>(_ecs_os_api_malloc_count);
+            var value = NativeRuntime.ReadMemory<long>(_ecs_os_api_malloc_count);
             return value;
         }
     }
@@ -3639,7 +3639,7 @@ public static unsafe partial class flecs
                 return default(long);
             }
 
-            var value = NativeRuntime.MemoryRead<long>(_ecs_os_api_realloc_count);
+            var value = NativeRuntime.ReadMemory<long>(_ecs_os_api_realloc_count);
             return value;
         }
     }
@@ -3655,7 +3655,7 @@ public static unsafe partial class flecs
                 return default(long);
             }
 
-            var value = NativeRuntime.MemoryRead<long>(_ecs_os_api_calloc_count);
+            var value = NativeRuntime.ReadMemory<long>(_ecs_os_api_calloc_count);
             return value;
         }
     }
@@ -3671,7 +3671,7 @@ public static unsafe partial class flecs
                 return default(long);
             }
 
-            var value = NativeRuntime.MemoryRead<long>(_ecs_os_api_free_count);
+            var value = NativeRuntime.ReadMemory<long>(_ecs_os_api_free_count);
             return value;
         }
     }
@@ -3687,7 +3687,7 @@ public static unsafe partial class flecs
                 return default(ecs_os_api_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_os_api_t>(_ecs_os_api);
+            var value = NativeRuntime.ReadMemory<ecs_os_api_t>(_ecs_os_api);
             return value;
         }
     }
@@ -3703,7 +3703,7 @@ public static unsafe partial class flecs
                 return default(ecs_type_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_type_t>(_FLECS__TEcsComponent);
+            var value = NativeRuntime.ReadMemory<ecs_type_t>(_FLECS__TEcsComponent);
             return value;
         }
     }
@@ -3719,7 +3719,7 @@ public static unsafe partial class flecs
                 return default(ecs_type_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_type_t>(_FLECS__TEcsComponentLifecycle);
+            var value = NativeRuntime.ReadMemory<ecs_type_t>(_FLECS__TEcsComponentLifecycle);
             return value;
         }
     }
@@ -3735,7 +3735,7 @@ public static unsafe partial class flecs
                 return default(ecs_type_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_type_t>(_FLECS__TEcsType);
+            var value = NativeRuntime.ReadMemory<ecs_type_t>(_FLECS__TEcsType);
             return value;
         }
     }
@@ -3751,7 +3751,7 @@ public static unsafe partial class flecs
                 return default(ecs_type_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_type_t>(_FLECS__TEcsName);
+            var value = NativeRuntime.ReadMemory<ecs_type_t>(_FLECS__TEcsName);
             return value;
         }
     }
@@ -3767,7 +3767,7 @@ public static unsafe partial class flecs
                 return default(ecs_id_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_id_t>(_ECS_CASE);
+            var value = NativeRuntime.ReadMemory<ecs_id_t>(_ECS_CASE);
             return value;
         }
     }
@@ -3783,7 +3783,7 @@ public static unsafe partial class flecs
                 return default(ecs_id_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_id_t>(_ECS_SWITCH);
+            var value = NativeRuntime.ReadMemory<ecs_id_t>(_ECS_SWITCH);
             return value;
         }
     }
@@ -3799,7 +3799,7 @@ public static unsafe partial class flecs
                 return default(ecs_id_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_id_t>(_ECS_PAIR);
+            var value = NativeRuntime.ReadMemory<ecs_id_t>(_ECS_PAIR);
             return value;
         }
     }
@@ -3815,7 +3815,7 @@ public static unsafe partial class flecs
                 return default(ecs_id_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_id_t>(_ECS_OWNED);
+            var value = NativeRuntime.ReadMemory<ecs_id_t>(_ECS_OWNED);
             return value;
         }
     }
@@ -3831,7 +3831,7 @@ public static unsafe partial class flecs
                 return default(ecs_id_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_id_t>(_ECS_DISABLED);
+            var value = NativeRuntime.ReadMemory<ecs_id_t>(_ECS_DISABLED);
             return value;
         }
     }
@@ -3847,7 +3847,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsFlecs);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsFlecs);
             return value;
         }
     }
@@ -3863,7 +3863,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsFlecsCore);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsFlecsCore);
             return value;
         }
     }
@@ -3879,7 +3879,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsWorld);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsWorld);
             return value;
         }
     }
@@ -3895,7 +3895,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsWildcard);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsWildcard);
             return value;
         }
     }
@@ -3911,7 +3911,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsThis);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsThis);
             return value;
         }
     }
@@ -3927,7 +3927,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsTransitive);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsTransitive);
             return value;
         }
     }
@@ -3943,7 +3943,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsFinal);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsFinal);
             return value;
         }
     }
@@ -3959,7 +3959,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsChildOf);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsChildOf);
             return value;
         }
     }
@@ -3975,7 +3975,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsIsA);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsIsA);
             return value;
         }
     }
@@ -3991,7 +3991,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsModule);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsModule);
             return value;
         }
     }
@@ -4007,7 +4007,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsPrefab);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsPrefab);
             return value;
         }
     }
@@ -4023,7 +4023,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsDisabled);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsDisabled);
             return value;
         }
     }
@@ -4039,7 +4039,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsHidden);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsHidden);
             return value;
         }
     }
@@ -4055,7 +4055,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsOnAdd);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnAdd);
             return value;
         }
     }
@@ -4071,7 +4071,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsOnRemove);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnRemove);
             return value;
         }
     }
@@ -4087,7 +4087,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsOnSet);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnSet);
             return value;
         }
     }
@@ -4103,7 +4103,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsUnSet);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsUnSet);
             return value;
         }
     }
@@ -4119,7 +4119,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsOnDelete);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnDelete);
             return value;
         }
     }
@@ -4135,7 +4135,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsOnDeleteObject);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnDeleteObject);
             return value;
         }
     }
@@ -4151,7 +4151,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsRemove);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsRemove);
             return value;
         }
     }
@@ -4167,7 +4167,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsDelete);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsDelete);
             return value;
         }
     }
@@ -4183,7 +4183,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsThrow);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsThrow);
             return value;
         }
     }
@@ -4199,7 +4199,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsOnDemand);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnDemand);
             return value;
         }
     }
@@ -4215,7 +4215,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsMonitor);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsMonitor);
             return value;
         }
     }
@@ -4231,7 +4231,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsDisabledIntern);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsDisabledIntern);
             return value;
         }
     }
@@ -4247,7 +4247,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsInactive);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsInactive);
             return value;
         }
     }
@@ -4263,7 +4263,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsPipeline);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsPipeline);
             return value;
         }
     }
@@ -4279,7 +4279,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsPreFrame);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsPreFrame);
             return value;
         }
     }
@@ -4295,7 +4295,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsOnLoad);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnLoad);
             return value;
         }
     }
@@ -4311,7 +4311,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsPostLoad);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsPostLoad);
             return value;
         }
     }
@@ -4327,7 +4327,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsPreUpdate);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsPreUpdate);
             return value;
         }
     }
@@ -4343,7 +4343,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsOnUpdate);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnUpdate);
             return value;
         }
     }
@@ -4359,7 +4359,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsOnValidate);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnValidate);
             return value;
         }
     }
@@ -4375,7 +4375,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsPostUpdate);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsPostUpdate);
             return value;
         }
     }
@@ -4391,7 +4391,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsPreStore);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsPreStore);
             return value;
         }
     }
@@ -4407,7 +4407,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsOnStore);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnStore);
             return value;
         }
     }
@@ -4423,7 +4423,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_entity_t>(_EcsPostFrame);
+            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsPostFrame);
             return value;
         }
     }
@@ -4439,7 +4439,7 @@ public static unsafe partial class flecs
                 return default(ecs_type_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_type_t>(_FLECS__TEcsSystem);
+            var value = NativeRuntime.ReadMemory<ecs_type_t>(_FLECS__TEcsSystem);
             return value;
         }
     }
@@ -4455,7 +4455,7 @@ public static unsafe partial class flecs
                 return default(ecs_type_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_type_t>(_FLECS__TEcsTickSource);
+            var value = NativeRuntime.ReadMemory<ecs_type_t>(_FLECS__TEcsTickSource);
             return value;
         }
     }
@@ -4471,7 +4471,7 @@ public static unsafe partial class flecs
                 return default(ecs_type_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_type_t>(_FLECS__TEcsTimer);
+            var value = NativeRuntime.ReadMemory<ecs_type_t>(_FLECS__TEcsTimer);
             return value;
         }
     }
@@ -4487,7 +4487,7 @@ public static unsafe partial class flecs
                 return default(ecs_type_t);
             }
 
-            var value = NativeRuntime.MemoryRead<ecs_type_t>(_FLECS__TEcsRateFilter);
+            var value = NativeRuntime.ReadMemory<ecs_type_t>(_FLECS__TEcsRateFilter);
             return value;
         }
     }
