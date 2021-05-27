@@ -238,6 +238,11 @@ namespace C2CS.Languages.C
         private void VisitPointerFunction(
             CXCursor cursor, CXCursor cursorParent, CXCursor originalCursor, CXType originalType, CXType type, int depth)
         {
+            if (originalType.kind == CXTypeKind.CXType_ConstantArray)
+            {
+                originalType = clang_getElementType(originalType);
+            }
+
             if (originalType.kind == CXTypeKind.CXType_Typedef)
             {
                 var typedefName = originalType.GetName();

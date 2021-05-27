@@ -424,23 +424,23 @@ namespace C2CS.Languages.C
         private ClangType ClangType(
             ClangNodeKind nodeKind, CXCursor cursor, CXCursor cursorParent, CXType? type = null, string? typeName = null)
         {
-            var type2 = type ?? clang_getCursorType(cursor);
-            var typeName2 = typeName ?? ClangNodeTypeName(nodeKind, cursor, cursorParent, type2);
-            var originalName = type2.GetName();
-            var sizeOf = (int) clang_Type_getSizeOf(type2);
-            var alignOf = (int) clang_Type_getAlignOf(type2);
-            var arraySize = (int) clang_getArraySize(type2);
-            var isSystemType = type2.IsSystem();
+            var cursorType = type ?? clang_getCursorType(cursor);
+            var mappedTypeName = typeName ?? ClangNodeTypeName(nodeKind, cursor, cursorParent, cursorType);
+            var originalName = cursorType.GetName();
+            var sizeOf = (int) clang_Type_getSizeOf(cursorType);
+            var alignOf = (int) clang_Type_getAlignOf(cursorType);
+            var arraySize = (int) clang_getArraySize(cursorType);
+            var isSystemType = cursorType.IsSystem();
 
             var elementSize = sizeOf;
-            if (type2.kind == CXTypeKind.CXType_ConstantArray)
+            if (cursorType.kind == CXTypeKind.CXType_ConstantArray)
             {
-                var elementType = clang_getElementType(type2);
+                var elementType = clang_getElementType(cursorType);
                 elementSize = (int) clang_Type_getSizeOf(elementType);
             }
 
             return new ClangType(
-                typeName2,
+                mappedTypeName,
                 originalName,
                 sizeOf,
                 alignOf,
