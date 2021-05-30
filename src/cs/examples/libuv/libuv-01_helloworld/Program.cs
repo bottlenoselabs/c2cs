@@ -6,6 +6,8 @@ internal static class Program
 {
     private static unsafe void Main()
     {
+        LoadApi();
+        
         var loop = (uv_loop_t*) Marshal.AllocHGlobal((int) uv_loop_size());
         var errorCode = uv_loop_init(loop);
         if (errorCode < 0)
