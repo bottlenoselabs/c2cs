@@ -23,6 +23,18 @@ internal static class Program
         {
             Environment.Exit(1);
         }
+
+        var oldLibraryFilePath = Path.Combine(targetLibraryDirectoryPath, "libSDL2-2.0.dylib");
+        if (File.Exists(oldLibraryFilePath))
+        {
+            var newLibraryFilePath = Path.Combine(targetLibraryDirectoryPath, "libSDL2.dylib");
+            if (File.Exists(newLibraryFilePath))
+            {
+                File.Delete(newLibraryFilePath);
+            }
+
+            File.Move(oldLibraryFilePath, newLibraryFilePath);
+        }
     }
 
     private static void GenerateLibraryBindings()

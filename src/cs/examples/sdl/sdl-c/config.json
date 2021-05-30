@@ -1,6 +1,6 @@
 {
   "inputFilePath": "../../../../ext/SDL/include/SDL.h",
-  "outputFilePath": "../../../../src/cs/examples/sdl/sdl-cs/sdl.cs",
+  "outputFilePath": "../../../../src/cs/examples/sdl/sdl-cs/SDL.cs",
   "parseC": 
   {
     "includeDirectories": [
