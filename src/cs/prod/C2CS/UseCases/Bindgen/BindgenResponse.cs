@@ -3,8 +3,7 @@
 
 namespace C2CS.UseCases.Bindgen
 {
-    public class BindgenOutput : UseCaseOutput
+    public class BindgenResponse : UseCaseResponse
     {
-        public string OutputFilePath { get; set; } = string.Empty;
     }
 }

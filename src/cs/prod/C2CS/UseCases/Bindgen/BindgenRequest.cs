@@ -1,15 +1,15 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
-
-namespace C2CS
+namespace C2CS.UseCases.Bindgen
 {
-    public class UseCaseInputException : Exception
+    public class BindgenRequest
     {
-        public UseCaseInputException(string message)
-            : base(message)
+        public readonly BindgenConfiguration Configuration;
+
+        public BindgenRequest(BindgenConfiguration configuration)
         {
+            Configuration = configuration;
         }
     }
 }

@@ -5,18 +5,18 @@ using System.Collections.Immutable;
 
 namespace C2CS.Languages.C
 {
-    public record ClangRecord : ClangNode
+    public record CRecord : CNode
     {
-        public readonly ClangType Type;
-        public readonly ImmutableArray<ClangRecordField> Fields;
-        public readonly ImmutableArray<ClangNode> NestedNodes;
+        public readonly CType Type;
+        public readonly ImmutableArray<CRecordField> Fields;
+        public readonly ImmutableArray<CNode> NestedNodes;
 
-        internal ClangRecord(
-            ClangCodeLocation codeLocation,
-            ClangType type,
-            ImmutableArray<ClangRecordField> fields,
-            ImmutableArray<ClangNode> nestedNodes)
-            : base(ClangNodeKind.Record, codeLocation)
+        internal CRecord(
+            CCodeLocation codeLocation,
+            CType type,
+            ImmutableArray<CRecordField> fields,
+            ImmutableArray<CNode> nestedNodes)
+            : base(CNodeKind.Record, codeLocation)
         {
             Type = type;
             Fields = fields;

@@ -12,7 +12,7 @@ namespace C2CS
         public string? StackTrace { get; }
 
         public PanicDiagnostic(Exception exception)
-            : base(DiagnosticSeverity.Panic)
+            : base("C2CS001", DiagnosticSeverity.Panic)
         {
             Summary = exception.Message;
             StackTrace = exception.StackTrace;

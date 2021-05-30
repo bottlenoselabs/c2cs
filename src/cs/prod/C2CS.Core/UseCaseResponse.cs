@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 
 namespace C2CS
 {
-    public abstract class UseCaseOutput
+    public abstract class UseCaseResponse
     {
         public UseCaseOutputStatus Status { get; private set; }
 

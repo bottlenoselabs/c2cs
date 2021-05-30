@@ -3,7 +3,7 @@
 
 namespace C2CS.Languages.C
 {
-    public readonly struct ClangType
+    public readonly struct CType
     {
         public readonly string Name;
         public readonly string OriginalName;
@@ -13,7 +13,7 @@ namespace C2CS.Languages.C
         public readonly int ArraySize;
         public readonly bool IsSystemType;
 
-        internal ClangType(
+        internal CType(
             string name,
             string originalName,
             int sizeOf,

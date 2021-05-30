@@ -3,18 +3,18 @@
 
 namespace C2CS.Languages.C
 {
-    public record ClangOpaqueType : ClangNode
+    public record COpaqueType : CNode
     {
         public readonly string Name;
         public readonly int SizeOf;
         public readonly int AlignOf;
 
-        public ClangOpaqueType(
+        public COpaqueType(
             string name,
-            ClangCodeLocation codeLocation,
+            CCodeLocation codeLocation,
             int sizeOf,
             int alignOf)
-            : base(ClangNodeKind.OpaqueType, codeLocation)
+            : base(CNodeKind.OpaqueType, codeLocation)
         {
             Name = name;
             SizeOf = sizeOf;

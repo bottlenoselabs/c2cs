@@ -3,16 +3,16 @@
 
 namespace C2CS.Languages.C
 {
-    public record ClangPointerFunctionParameter : ClangNode
+    public record CFunctionParameter : CNode
     {
         public readonly string Name;
-        public readonly ClangType Type;
+        public readonly CType Type;
 
-        internal ClangPointerFunctionParameter(
+        internal CFunctionParameter(
             string name,
-            ClangCodeLocation codeLocation,
-            ClangType type)
-            : base(ClangNodeKind.PointerFunctionParameter, codeLocation)
+            CCodeLocation codeLocation,
+            CType type)
+            : base(CNodeKind.FunctionParameter, codeLocation)
         {
             Name = name;
             Type = type;
@@ -20,7 +20,7 @@ namespace C2CS.Languages.C
 
         public override string ToString()
         {
-            return $"FunctionPointerParameter '{Name}': {Type.Name} @ {CodeLocation.ToString()}";
+            return $"FunctionExternParameter '{Name}': {Type.Name} @ {CodeLocation.ToString()}";
         }
     }
 }

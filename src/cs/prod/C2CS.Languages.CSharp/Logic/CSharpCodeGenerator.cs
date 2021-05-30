@@ -14,10 +14,9 @@ namespace C2CS.CSharp
 {
 	public static class CSharpCodeGenerator
 	{
-		public static string GenerateFile(
-			string className,
-			string libraryName,
-			CSharpAbstractSyntaxTree abstractSyntaxTree)
+		public static string Generate(
+			CSharpAbstractSyntaxTree abstractSyntaxTree,
+			CSharpPreferencesGenerate cSharpPreferences)
 		{
 			var builder = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
 
@@ -34,8 +33,8 @@ namespace C2CS.CSharp
 
 			var membersToAdd = builder.ToArray();
 			var compilationUnit = CreateCompilationUnit(
-				className,
-				libraryName,
+				cSharpPreferences.ClassName,
+				cSharpPreferences.LibraryFileName,
 				membersToAdd);
 			return compilationUnit.ToFullString();
 		}

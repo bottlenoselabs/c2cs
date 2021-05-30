@@ -19,21 +19,21 @@ namespace C2CS.CSharp
             {"int (*)(void *, void *)", "FnPtrIntPointerPointer"}
         };
 
-        public static CSharpAbstractSyntaxTree GetAbstractSyntaxTree(
-            ClangAbstractSyntaxTree clangAbstractSyntaxTree)
+        public static CSharpAbstractSyntaxTree AbstractSyntaxTree(
+            CAbstractSyntaxTree cAbstractSyntaxTree)
         {
             var functionExterns = CSharpFunctions(
-                clangAbstractSyntaxTree.FunctionExterns);
+                cAbstractSyntaxTree.FunctionExterns);
             var functionPointers = CSharpPointerFunctions(
-                clangAbstractSyntaxTree.FunctionPointers);
+                cAbstractSyntaxTree.FunctionPointers);
             var structs = CSharpStructs(
-                clangAbstractSyntaxTree.Records,
-                clangAbstractSyntaxTree.Typedefs);
-            var typedefs = CSharpTypedefs(clangAbstractSyntaxTree.Typedefs);
+                cAbstractSyntaxTree.Records,
+                cAbstractSyntaxTree.Typedefs);
+            var typedefs = CSharpTypedefs(cAbstractSyntaxTree.Typedefs);
             var opaqueDataTypes = CSharpOpaqueDataTypes(
-                clangAbstractSyntaxTree.OpaqueTypes);
-            var enums = CSharpEnums(clangAbstractSyntaxTree.Enums);
-            var variables = CSharpVariablesExtern(clangAbstractSyntaxTree.Variables);
+                cAbstractSyntaxTree.OpaqueTypes);
+            var enums = CSharpEnums(cAbstractSyntaxTree.Enums);
+            var variables = CSharpVariablesExtern(cAbstractSyntaxTree.Variables);
 
             var result = new CSharpAbstractSyntaxTree(
                 functionExterns,
@@ -48,7 +48,7 @@ namespace C2CS.CSharp
         }
 
         private static ImmutableArray<CSharpFunction> CSharpFunctions(
-            ImmutableArray<ClangFunction> clangFunctionExterns)
+            ImmutableArray<CFunction> clangFunctionExterns)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpFunction>(clangFunctionExterns.Length);
 
@@ -63,14 +63,14 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpFunction CSharpFunction(ClangFunction clangFunction)
+        private static CSharpFunction CSharpFunction(CFunction cFunction)
         {
-            var name = clangFunction.Name;
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangFunction);
+            var name = cFunction.Name;
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cFunction);
 
-            var returnType = CSharpType(clangFunction.ReturnType);
-            var callingConvention = CSharpFunctionCallingConvention(clangFunction.CallingConvention);
-            var parameters = CSharpFunctionParameters(clangFunction.Parameters);
+            var returnType = CSharpType(cFunction.ReturnType);
+            var callingConvention = CSharpFunctionCallingConvention(cFunction.CallingConvention);
+            var parameters = CSharpFunctionParameters(cFunction.Parameters);
 
             var result = new CSharpFunction(
                 name,
@@ -83,21 +83,21 @@ namespace C2CS.CSharp
         }
 
         private static CSharpFunctionCallingConvention CSharpFunctionCallingConvention(
-            ClangFunctionCallingConvention clangFunctionCallingConvention)
+            CFunctionCallingConvention cFunctionCallingConvention)
         {
-            var result = clangFunctionCallingConvention switch
+            var result = cFunctionCallingConvention switch
             {
-                ClangFunctionCallingConvention.C => CSharp.CSharpFunctionCallingConvention.Cdecl,
-                ClangFunctionCallingConvention.Unknown => CSharp.CSharpFunctionCallingConvention.Default,
+                CFunctionCallingConvention.C => CSharp.CSharpFunctionCallingConvention.Cdecl,
+                CFunctionCallingConvention.Unknown => CSharp.CSharpFunctionCallingConvention.Default,
                 _ => throw new ArgumentOutOfRangeException(
-                    nameof(clangFunctionCallingConvention), clangFunctionCallingConvention, null)
+                    nameof(cFunctionCallingConvention), cFunctionCallingConvention, null)
             };
 
             return result;
         }
 
         private static ImmutableArray<CSharpFunctionParameter> CSharpFunctionParameters(
-            ImmutableArray<ClangFunctionParameter> clangFunctionExternParameters)
+            ImmutableArray<CFunctionParameter> clangFunctionExternParameters)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpFunctionParameter>(clangFunctionExternParameters.Length);
             var parameterNames = new List<string>();
@@ -155,11 +155,11 @@ namespace C2CS.CSharp
         }
 
         private static CSharpFunctionParameter CSharpFunctionExternParameter(
-            ClangFunctionParameter clangFunctionParameter, string parameterName)
+            CFunctionParameter cFunctionParameter, string parameterName)
         {
             var name = CSharpSanitizeIdentifier(parameterName);
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangFunctionParameter);
-            var type = CSharpType(clangFunctionParameter.Type);
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cFunctionParameter);
+            var type = CSharpType(cFunctionParameter.Type);
 
             var result = new CSharpFunctionParameter(
                 name,
@@ -170,7 +170,7 @@ namespace C2CS.CSharp
         }
 
         private static ImmutableArray<CSharpPointerFunction> CSharpPointerFunctions(
-            ImmutableArray<ClangPointerFunction> clangFunctionPointers)
+            ImmutableArray<CPointerFunction> clangFunctionPointers)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpPointerFunction>(clangFunctionPointers.Length);
 
@@ -185,24 +185,24 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpPointerFunction? CSharpPointerFunction(ClangPointerFunction clangPointerFunction)
+        private static CSharpPointerFunction? CSharpPointerFunction(CPointerFunction cPointerFunction)
         {
-            if (IsBuiltinPointerFunction(clangPointerFunction.Type.OriginalName))
+            if (IsBuiltinPointerFunction(cPointerFunction.Type.OriginalName))
             {
                 return null;
             }
 
-            string name = clangPointerFunction.Name;
-            if (clangPointerFunction.IsWrapped)
+            string name = cPointerFunction.Name;
+            if (cPointerFunction.IsWrapped)
             {
-                name = $"FnPtr_{clangPointerFunction.Name}";
+                name = $"FnPtr_{cPointerFunction.Name}";
             }
 
-            var isBuiltIn = IsBuiltinPointerFunction(clangPointerFunction.Type.OriginalName);
+            var isBuiltIn = IsBuiltinPointerFunction(cPointerFunction.Type.OriginalName);
 
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangPointerFunction);
-            var returnType = CSharpType(clangPointerFunction.ReturnType);
-            var parameters = CSharpPointerFunctionParameters(clangPointerFunction.Parameters);
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cPointerFunction);
+            var returnType = CSharpType(cPointerFunction.ReturnType);
+            var parameters = CSharpPointerFunctionParameters(cPointerFunction.Parameters);
 
             var result = new CSharpPointerFunction(
                 name,
@@ -215,7 +215,7 @@ namespace C2CS.CSharp
         }
 
         private static ImmutableArray<CSharpPointerFunctionParameter> CSharpPointerFunctionParameters(
-            ImmutableArray<ClangPointerFunctionParameter> clangFunctionPointerParameters)
+            ImmutableArray<CPointerFunctionParameter> clangFunctionPointerParameters)
         {
             var builder =
                 ImmutableArray.CreateBuilder<CSharpPointerFunctionParameter>(clangFunctionPointerParameters.Length);
@@ -236,11 +236,11 @@ namespace C2CS.CSharp
         }
 
         private static CSharpPointerFunctionParameter CSharpPointerFunctionParameter(
-            ClangPointerFunctionParameter clangPointerFunctionParameter, string parameterName)
+            CPointerFunctionParameter cPointerFunctionParameter, string parameterName)
         {
             var name = CSharpSanitizeIdentifier(parameterName);
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangPointerFunctionParameter);
-            var type = CSharpType(clangPointerFunctionParameter.Type);
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cPointerFunctionParameter);
+            var type = CSharpType(cPointerFunctionParameter.Type);
 
             var result = new CSharpPointerFunctionParameter(
                 name,
@@ -251,8 +251,8 @@ namespace C2CS.CSharp
         }
 
         private static ImmutableArray<CSharpStruct> CSharpStructs(
-            ImmutableArray<ClangRecord> records,
-            ImmutableArray<ClangTypedef> typedefs)
+            ImmutableArray<CRecord> records,
+            ImmutableArray<CTypedef> typedefs)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpStruct>(
                 records.Length + typedefs.Length);
@@ -275,12 +275,12 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpStruct CSharpStruct(ClangRecord clangRecord)
+        private static CSharpStruct CSharpStruct(CRecord cRecord)
         {
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangRecord);
-            var type = CSharpType(clangRecord.Type);
-            var fields = CSharpStructFields(clangRecord.Fields);
-            var nestedNodes = CSharpNestedNodes(clangRecord.NestedNodes);
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cRecord);
+            var type = CSharpType(cRecord.Type);
+            var fields = CSharpStructFields(cRecord.Fields);
+            var nestedNodes = CSharpNestedNodes(cRecord.NestedNodes);
 
             return new CSharpStruct(
                 originalCodeLocationComment,
@@ -290,7 +290,7 @@ namespace C2CS.CSharp
         }
 
         private static ImmutableArray<CSharpStructField> CSharpStructFields(
-            ImmutableArray<ClangRecordField> clangRecordFields)
+            ImmutableArray<CRecordField> clangRecordFields)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpStructField>(clangRecordFields.Length);
 
@@ -305,24 +305,24 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpStructField CSharpStructField(ClangRecordField clangRecordField)
+        private static CSharpStructField CSharpStructField(CRecordField cRecordField)
         {
-            var name = CSharpSanitizeIdentifier(clangRecordField.Name);
-            var originalName = clangRecordField.Name;
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangRecordField);
+            var name = CSharpSanitizeIdentifier(cRecordField.Name);
+            var originalName = cRecordField.Name;
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cRecordField);
 
             CSharpType type;
-            if (clangRecordField.IsUnNamedFunctionPointer && !IsBuiltinPointerFunction(clangRecordField.Type.OriginalName))
+            if (cRecordField.IsUnNamedFunctionPointer && !IsBuiltinPointerFunction(cRecordField.Type.OriginalName))
             {
-                type = CSharpType(clangRecordField.Type, $"FnPtr_{name}");
+                type = CSharpType(cRecordField.Type, $"FnPtr_{name}");
             }
             else
             {
-                type = CSharpType(clangRecordField.Type);
+                type = CSharpType(cRecordField.Type);
             }
 
-            var offset = clangRecordField.Offset;
-            var padding = clangRecordField.Padding;
+            var offset = cRecordField.Offset;
+            var padding = cRecordField.Padding;
             var isWrapped = type.IsArray && !CSharpIsValidFixedBufferType(type.Name);
 
             var result = new CSharpStructField(
@@ -337,7 +337,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static ImmutableArray<CSharpNode> CSharpNestedNodes(ImmutableArray<ClangNode> nodes)
+        private static ImmutableArray<CSharpNode> CSharpNestedNodes(ImmutableArray<CNode> nodes)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpNode>(nodes.Length);
 
@@ -346,8 +346,8 @@ namespace C2CS.CSharp
             {
                 CSharpNode? nestedNode = node switch
                 {
-                    ClangRecord record => CSharpStruct(record),
-                    ClangPointerFunction functionPointer => CSharpPointerFunction(functionPointer),
+                    CRecord record => CSharpStruct(record),
+                    CPointerFunction functionPointer => CSharpPointerFunction(functionPointer),
                     _ => throw new NotImplementedException()
                 };
 
@@ -362,7 +362,7 @@ namespace C2CS.CSharp
         }
 
         private static ImmutableArray<CSharpOpaqueType> CSharpOpaqueDataTypes(
-            ImmutableArray<ClangOpaqueType> opaqueDataTypes)
+            ImmutableArray<COpaqueType> opaqueDataTypes)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpOpaqueType>(opaqueDataTypes.Length);
 
@@ -377,21 +377,21 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpOpaqueType CSharpOpaqueDataType(ClangOpaqueType clangOpaqueType)
+        private static CSharpOpaqueType CSharpOpaqueDataType(COpaqueType cOpaqueType)
         {
-            var name = clangOpaqueType.Name;
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangOpaqueType);
+            var name = cOpaqueType.Name;
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cOpaqueType);
 
             var result = new CSharpOpaqueType(
                 name,
                 originalCodeLocationComment,
-                clangOpaqueType.SizeOf,
-                clangOpaqueType.AlignOf);
+                cOpaqueType.SizeOf,
+                cOpaqueType.AlignOf);
 
             return result;
         }
 
-        private static ImmutableArray<CSharpTypedef> CSharpTypedefs(ImmutableArray<ClangTypedef> typedefs)
+        private static ImmutableArray<CSharpTypedef> CSharpTypedefs(ImmutableArray<CTypedef> typedefs)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpTypedef>(typedefs.Length);
 
@@ -406,11 +406,11 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpTypedef CSharpTypedef(ClangTypedef clangTypedef)
+        private static CSharpTypedef CSharpTypedef(CTypedef cTypedef)
         {
-            var name = clangTypedef.Name;
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangTypedef);
-            var type = CSharpType(clangTypedef.UnderlyingType);
+            var name = cTypedef.Name;
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cTypedef);
+            var type = CSharpType(cTypedef.UnderlyingType);
 
             var result = new CSharpTypedef(
                 name,
@@ -420,7 +420,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static ImmutableArray<CSharpEnum> CSharpEnums(ImmutableArray<ClangEnum> clangEnums)
+        private static ImmutableArray<CSharpEnum> CSharpEnums(ImmutableArray<CEnum> clangEnums)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpEnum>(clangEnums.Length);
 
@@ -435,12 +435,12 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpEnum CSharpEnum(ClangEnum clangEnum)
+        private static CSharpEnum CSharpEnum(CEnum cEnum)
         {
-            var name = clangEnum.Type.Name;
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangEnum);
-            var type = CSharpType(clangEnum.IntegerType);
-            var values = CSharpEnumValues(clangEnum.Values);
+            var name = cEnum.Type.Name;
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cEnum);
+            var type = CSharpType(cEnum.IntegerType);
+            var values = CSharpEnumValues(cEnum.Values);
 
             var result = new CSharpEnum(
                 name,
@@ -450,7 +450,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static ImmutableArray<CSharpEnumValue> CSharpEnumValues(ImmutableArray<ClangEnumValue> clangEnumValues)
+        private static ImmutableArray<CSharpEnumValue> CSharpEnumValues(ImmutableArray<CEnumValue> clangEnumValues)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpEnumValue>(clangEnumValues.Length);
 
@@ -465,11 +465,11 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpEnumValue CSharpEnumValue(ClangEnumValue clangEnumValue)
+        private static CSharpEnumValue CSharpEnumValue(CEnumValue cEnumValue)
         {
-            var name = clangEnumValue.Name;
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangEnumValue);
-            var value = clangEnumValue.Value;
+            var name = cEnumValue.Name;
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cEnumValue);
+            var value = cEnumValue.Value;
 
             var result = new CSharpEnumValue(
                 name,
@@ -480,7 +480,7 @@ namespace C2CS.CSharp
         }
 
         private static ImmutableArray<CSharpVariable> CSharpVariablesExtern(
-            ImmutableArray<ClangVariable> clangVariables)
+            ImmutableArray<CVariable> clangVariables)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpVariable>(clangVariables.Length);
 
@@ -495,23 +495,23 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static CSharpVariable CSharpVariable(ClangVariable clangVariable)
+        private static CSharpVariable CSharpVariable(CVariable cVariable)
         {
-            var name = clangVariable.Name;
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(clangVariable);
-            var type = CSharpType(clangVariable.Type);
+            var name = cVariable.Name;
+            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cVariable);
+            var type = CSharpType(cVariable.Type);
 
             var result = new CSharpVariable(name, originalCodeLocationComment, type);
             return result;
         }
 
-        private static CSharpType CSharpType(ClangType clangType, string? typeName = null)
+        private static CSharpType CSharpType(CType cType, string? typeName = null)
         {
-            var typeName2 = typeName ?? CSharpTypeName(clangType);
-            var originalName = clangType.OriginalName;
-            var sizeOf = clangType.SizeOf;
-            var alignOf = clangType.AlignOf;
-            var fixedBufferSize = clangType.ArraySize;
+            var typeName2 = typeName ?? CSharpTypeName(cType);
+            var originalName = cType.OriginalName;
+            var sizeOf = cType.SizeOf;
+            var alignOf = cType.AlignOf;
+            var fixedBufferSize = cType.ArraySize;
 
             // https://github.com/lithiumtoast/c2cs/issues/15
             if (originalName == "va_list")
@@ -529,7 +529,7 @@ namespace C2CS.CSharp
             return result;
         }
 
-        private static string CSharpTypeName(ClangType type)
+        private static string CSharpTypeName(CType type)
         {
             if (type.OriginalName.Contains("(*)("))
             {
@@ -554,14 +554,14 @@ namespace C2CS.CSharp
             return BuiltInPointerFunctionMappings.ContainsKey(originalTypeName);
         }
 
-        private static string CSharpTypeNameMapPointerFunction(ClangType type)
+        private static string CSharpTypeNameMapPointerFunction(CType type)
         {
             return BuiltInPointerFunctionMappings.TryGetValue(type.OriginalName, out var typeName)
                 ? typeName
                 : type.Name;
         }
 
-        private static string CSharpTypeNameMapPointer(ClangType type)
+        private static string CSharpTypeNameMapPointer(CType type)
         {
             if (type.Name.Contains("char*"))
             {
@@ -645,7 +645,7 @@ namespace C2CS.CSharp
             };
         }
 
-        private static string CSharpOriginalCodeLocationComment(ClangNode node)
+        private static string CSharpOriginalCodeLocationComment(CNode node)
         {
             var kind = node.Kind;
             var codeLocation = node.CodeLocation;

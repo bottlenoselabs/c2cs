@@ -1,0 +1,10 @@
+{
+  "inputFilePath": "../../../../src/c/examples/sokol/sokol.h",
+  "outputFilePath": "../../../../src/cs/examples/sokol/sokol-cs/sokol.cs",
+  "parseC": 
+  {
+    "includeDirectories": [
+      "../../../../ext/sokol"
+    ]
+  }
+}

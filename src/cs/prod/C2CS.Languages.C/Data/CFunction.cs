@@ -5,20 +5,20 @@ using System.Collections.Immutable;
 
 namespace C2CS.Languages.C
 {
-    public record ClangFunction : ClangNode
+    public record CFunction : CNode
     {
         public readonly string Name;
-        public readonly ClangFunctionCallingConvention CallingConvention;
-        public readonly ClangType ReturnType;
-        public readonly ImmutableArray<ClangFunctionParameter> Parameters;
+        public readonly CFunctionCallingConvention CallingConvention;
+        public readonly CType ReturnType;
+        public readonly ImmutableArray<CFunctionParameter> Parameters;
 
-        internal ClangFunction(
+        internal CFunction(
             string name,
-            ClangCodeLocation codeLocation,
-            ClangFunctionCallingConvention callingConvention,
-            ClangType returnType,
-            ImmutableArray<ClangFunctionParameter> parameters)
-            : base(ClangNodeKind.Function, codeLocation)
+            CCodeLocation codeLocation,
+            CFunctionCallingConvention callingConvention,
+            CType returnType,
+            ImmutableArray<CFunctionParameter> parameters)
+            : base(CNodeKind.Function, codeLocation)
         {
             Name = name;
             CallingConvention = callingConvention;

@@ -1,0 +1,10 @@
+{
+  "inputFilePath": "../../../../ext/flecs/include/flecs.h",
+  "outputFilePath": "../../../../src/cs/examples/flecs/flecs-cs/flecs.cs",
+  "parseC": 
+  {
+    "includeDirectories": [
+      "../../../../ext/sokol"
+    ]
+  }
+}

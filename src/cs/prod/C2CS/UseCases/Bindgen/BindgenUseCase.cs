@@ -2,66 +2,93 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using System.Collections.Immutable;
 using System.IO;
+using System.Text.Json;
 using C2CS.CSharp;
 using C2CS.Languages.C;
 
 namespace C2CS.UseCases.Bindgen
 {
-    public class BindgenUseCase : UseCase<BindgenInput, BindgenOutput, BindgenState>
+    public class BindgenUseCase : UseCase<BindgenRequest, BindgenResponse>
     {
-        public BindgenUseCase()
-            : base(new UseCaseStep[]
+        protected override void Execute(BindgenRequest request, BindgenResponse response)
+        {
+            TotalSteps(5);
+
+            var translationUnit = Step(
+                "Parse C code from disk",
+                request.Configuration.InputFilePath,
+                request.Configuration.CPreferencesParse,
+                ParseCCode);
+
+            var abstractSyntaxTreeC = Step(
+                "Extract C abstract syntax tree",
+                translationUnit,
+                request.Configuration.CPreferencesExplore,
+                ExploreCCode);
+
+            var abstractSyntaxTreeCSharp = Step(
+                "Map C abstract syntax tree to C#",
+                abstractSyntaxTreeC,
+                MapCToCSharp);
+
+            var codeCSharp = Step(
+                "Generate C# code",
+                abstractSyntaxTreeCSharp,
+                request.Configuration.CSharpPreferencesGenerate,
+                GenerateCSharpCode);
+
+            Step(
+                "Write C# code to disk",
+                request.Configuration.OutputFilePath,
+                codeCSharp,
+                WriteCSharpCode);
+        }
+
+        private libclang.CXTranslationUnit ParseCCode(
+            string headerFilePath, CPreferencesParse preferences)
+        {
+            var clangArgs = ClangArgumentsBuilder.Build(
+                preferences.AutomaticallyFindSoftwareDevelopmentKit,
+                preferences.IncludeDirectories,
+                preferences.Defines,
+                preferences.ClangArguments);
+            return ClangParser.ParseTranslationUnit(headerFilePath, clangArgs);
+        }
+
+        private CAbstractSyntaxTree ExploreCCode(
+            libclang.CXTranslationUnit translationUnit, CPreferencesExplore cPreferences)
+        {
+            var clangExplorer = new ClangExplorer(Diagnostics);
+            return clangExplorer.AbstractSyntaxTree(
+                translationUnit,
+                cPreferences);
+        }
+
+        private static CSharpAbstractSyntaxTree MapCToCSharp(
+            CAbstractSyntaxTree abstractSyntaxTree)
+        {
+            return CSharpMapper.AbstractSyntaxTree(abstractSyntaxTree);
+        }
+
+        private static string GenerateCSharpCode(
+            CSharpAbstractSyntaxTree abstractSyntaxTree, CSharpPreferencesGenerate cSharpPreferences)
+        {
+            return CSharpCodeGenerator.Generate(abstractSyntaxTree, cSharpPreferences);
+        }
+
+        private static void WriteCSharpCode(
+            string outputFilePath, string codeCSharp)
+        {
+            var outputDirectory = Path.GetDirectoryName(outputFilePath)!;
+            if (!Directory.Exists(outputDirectory))
             {
-                new("Parse C code from disk", ParseCCode),
-                new("Extract C abstract syntax tree", ExploreCCode),
-                new("Transpile C to C#", MapCToCSharp),
-                new("Generate C# code", GenerateCSharpCode),
-                new("Write C# code to disk", WriteCSharpCode)
-            })
-        {
-        }
-
-        private static void ParseCCode(BindgenInput input, ref BindgenState state, DiagnosticsSink diagnostics)
-        {
-            state.ClangTranslationUnit = ClangParser.ParseTranslationUnit(input.InputFilePath, input.ClangArgs);
-        }
-
-        private static void ExploreCCode(BindgenInput input, ref BindgenState state, DiagnosticsSink diagnostics)
-        {
-            var clangExplorer = new ClangExplorer(diagnostics);
-            state.ClangAbstractSyntaxTree = clangExplorer.AbstractSyntaxTree(
-                state.ClangTranslationUnit,
-                input.PrintAbstractSyntaxTree,
-                input.OpaqueTypes);
-        }
-
-        private static void MapCToCSharp(BindgenInput input, ref BindgenState state, DiagnosticsSink diagnostics)
-        {
-            state.CSharpAbstractSyntaxTree = CSharpMapper.GetAbstractSyntaxTree(state.ClangAbstractSyntaxTree);
-        }
-
-        private static void GenerateCSharpCode(BindgenInput input, ref BindgenState state, DiagnosticsSink diagnostics)
-        {
-            state.GeneratedCSharpCode = CSharpCodeGenerator.GenerateFile(
-                input.ClassName, input.LibraryName, state.CSharpAbstractSyntaxTree);
-        }
-
-        private static void WriteCSharpCode(BindgenInput input, ref BindgenState state, DiagnosticsSink diagnostics)
-        {
-            var directoryPath = Path.GetDirectoryName(input.OutputFilePath)!;
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
+                Directory.CreateDirectory(outputDirectory);
             }
 
-            File.WriteAllText(input.OutputFilePath, state.GeneratedCSharpCode);
-            Console.WriteLine(input.OutputFilePath);
-        }
-
-        protected override void Finish(BindgenInput input, BindgenOutput output, BindgenState state)
-        {
-            output.OutputFilePath = input.OutputFilePath;
+            File.WriteAllText(outputFilePath, codeCSharp);
+            Console.WriteLine(outputFilePath);
         }
     }
 }

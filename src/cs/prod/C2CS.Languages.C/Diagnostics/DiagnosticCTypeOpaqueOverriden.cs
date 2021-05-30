@@ -7,10 +7,10 @@ namespace C2CS.Languages.C
 {
     // Overriding a type as an opaque type is necessary in some situations to hide implementation or operating system
     //  specific details.
-    public class DiagnosticClangTypeOpaqueOverriden : Diagnostic
+    public class DiagnosticCTypeOpaqueOverriden : Diagnostic
     {
-        public DiagnosticClangTypeOpaqueOverriden(CXType type)
-            : base(DiagnosticSeverity.Information)
+        public DiagnosticCTypeOpaqueOverriden(CXType type)
+            : base("C2CS1002", DiagnosticSeverity.Information)
         {
             while (type.kind == CXTypeKind.CXType_Pointer)
             {
@@ -19,7 +19,7 @@ namespace C2CS.Languages.C
 
             var typeName = type.GetName();
             var cursor = clang_getTypeDeclaration(type);
-            var codeLocation = new ClangCodeLocation(cursor, true, false);
+            var codeLocation = new CCodeLocation(cursor, true, false);
             Summary = $"The type '{typeName}' was overriden to an opaque type. {codeLocation}";
         }
     }

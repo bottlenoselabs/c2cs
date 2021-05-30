@@ -5,22 +5,22 @@ using System.Collections.Immutable;
 
 namespace C2CS.Languages.C
 {
-    public record ClangPointerFunction : ClangNode
+    public record CPointerFunction : CNode
     {
         public readonly string Name;
-        public readonly ClangType Type;
-        public readonly ClangType ReturnType;
-        public readonly ImmutableArray<ClangPointerFunctionParameter> Parameters;
+        public readonly CType Type;
+        public readonly CType ReturnType;
+        public readonly ImmutableArray<CPointerFunctionParameter> Parameters;
         public readonly bool IsWrapped;
 
-        internal ClangPointerFunction(
+        internal CPointerFunction(
             string name,
-            ClangCodeLocation codeLocation,
-            ClangType type,
-            ClangType returnType,
-            ImmutableArray<ClangPointerFunctionParameter> parameters,
+            CCodeLocation codeLocation,
+            CType type,
+            CType returnType,
+            ImmutableArray<CPointerFunctionParameter> parameters,
             bool isWrapped)
-            : base(ClangNodeKind.PointerFunction, codeLocation)
+            : base(CNodeKind.PointerFunction, codeLocation)
         {
             Name = name;
             Type = type;

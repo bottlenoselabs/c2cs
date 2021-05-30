@@ -16,13 +16,13 @@ namespace C2CS.Languages.C
         private readonly HashSet<string> _visitedTypeNames = new();
         private readonly HashSet<string> _knownInvalidTypeNames = new();
         private ImmutableHashSet<string> _overrideOpaqueTypeNames = null!;
-        private readonly List<ClangFunction> _functions = new();
-        private readonly List<ClangEnum> _enums = new();
-        private readonly List<ClangRecord> _records = new();
-        private readonly List<ClangOpaqueType> _opaqueDataTypes = new();
-        private readonly List<ClangTypedef> _typedefs = new();
-        private readonly List<ClangPointerFunction> _functionPointers = new();
-        private readonly List<ClangVariable> _variables = new();
+        private readonly List<CFunction> _functions = new();
+        private readonly List<CEnum> _enums = new();
+        private readonly List<CRecord> _records = new();
+        private readonly List<COpaqueType> _opaqueDataTypes = new();
+        private readonly List<CTypedef> _typedefs = new();
+        private readonly List<CPointerFunction> _functionPointers = new();
+        private readonly List<CVariable> _variables = new();
         private bool _printAbstractSyntaxTree;
         private readonly StringBuilder _logBuilder = new();
 
@@ -31,13 +31,12 @@ namespace C2CS.Languages.C
             _diagnostics = diagnostics;
         }
 
-        public ClangAbstractSyntaxTree AbstractSyntaxTree(
+        public CAbstractSyntaxTree AbstractSyntaxTree(
             CXTranslationUnit translationUnit,
-            bool printAbstractSyntaxTree,
-            IEnumerable<string> opaqueTypeNames)
+            CPreferencesExplore cPreferences)
         {
-            _printAbstractSyntaxTree = printAbstractSyntaxTree;
-            _overrideOpaqueTypeNames = opaqueTypeNames.ToImmutableHashSet();
+            _printAbstractSyntaxTree = cPreferences.PrintAbstractSyntaxTree;
+            _overrideOpaqueTypeNames = cPreferences.OpaqueTypeOverrides.IsDefaultOrEmpty ? ImmutableHashSet<string>.Empty : cPreferences.OpaqueTypeOverrides.ToImmutableHashSet();
             var translationUnitCursor = clang_getTranslationUnitCursor(translationUnit);
 
             var externs = translationUnitCursor.GetDescendents(IsExternCursor);
@@ -68,7 +67,7 @@ namespace C2CS.Languages.C
             var typedefs = _typedefs.ToImmutableArray();
             var variables = _variables.ToImmutableArray();
 
-            var result = new ClangAbstractSyntaxTree(
+            var result = new CAbstractSyntaxTree(
                 functionExterns,
                 functionPointers,
                 records,
@@ -103,7 +102,7 @@ namespace C2CS.Languages.C
         {
             var name = cursor.GetName();
             var typeName = type.GetName();
-            LogVisit(ClangNodeKind.Variable, name, typeName, cursor, depth);
+            LogVisit(CNodeKind.Variable, name, typeName, cursor, depth);
 
             VisitType(type, cursor, cursorParent, depth + 1);
 
@@ -117,7 +116,7 @@ namespace C2CS.Languages.C
 
             var name = cursor.GetName();
             var typeName = type.GetName();
-            LogVisit(ClangNodeKind.Function, name, typeName, cursor, depth);
+            LogVisit(CNodeKind.Function, name, typeName, cursor, depth);
 
             VisitFunctionExternResult(cursor, cursorParent, resultType, depth + 1);
             VisitFunctionExternParameters(cursor, depth + 1);
@@ -141,7 +140,7 @@ namespace C2CS.Languages.C
                 return;
             }
 
-            LogVisit(ClangNodeKind.Enum, string.Empty, typeName, cursor, depth);
+            LogVisit(CNodeKind.Enum, string.Empty, typeName, cursor, depth);
 
             var @enum = _mapper.ClangEnum(cursor, cursorParent, depth);
             _enums.Add(@enum);
@@ -162,7 +161,7 @@ namespace C2CS.Languages.C
                 return;
             }
 
-            LogVisit(ClangNodeKind.Record, string.Empty, typeName, cursor, depth);
+            LogVisit(CNodeKind.Record, string.Empty, typeName, cursor, depth);
 
             VisitRecordFields(cursor, depth + 1);
 
@@ -214,7 +213,7 @@ namespace C2CS.Languages.C
                 return;
             }
 
-            LogVisit(ClangNodeKind.Typedef, string.Empty, typeName, cursor, depth);
+            LogVisit(CNodeKind.Typedef, string.Empty, typeName, cursor, depth);
 
             var typedef = _mapper.ClangTypedef(cursor, cursorParent, type, underlyingType);
             _typedefs.Add(typedef);
@@ -229,7 +228,7 @@ namespace C2CS.Languages.C
                 return;
             }
 
-            LogVisit(ClangNodeKind.OpaqueType, string.Empty, typeName, cursor, depth);
+            LogVisit(CNodeKind.OpaqueType, string.Empty, typeName, cursor, depth);
 
             var opaqueType = _mapper.ClangOpaqueDataType(cursor, type);
             _opaqueDataTypes.Add(opaqueType);
@@ -255,7 +254,7 @@ namespace C2CS.Languages.C
 
             var name = originalCursor.GetName();
             var typeName = type.GetName();
-            LogVisit(ClangNodeKind.PointerFunction, name, typeName, originalCursor, depth);
+            LogVisit(CNodeKind.PointerFunction, name, typeName, originalCursor, depth);
 
             var resultType = clang_getResultType(type);
             VisitType(resultType, cursor, cursorParent, depth);
@@ -393,7 +392,7 @@ namespace C2CS.Languages.C
             var systemIgnore = TypeIsSystemIgnored(typeName, type);
             if (systemIgnore)
             {
-                _diagnostics.Add(new DiagnosticClangSystemTypeIgnored(type));
+                _diagnostics.Add(new DiagnosticCSystemTypeIgnored(type));
                 _knownInvalidTypeNames.Add(typeName);
                 return false;
             }
@@ -401,16 +400,10 @@ namespace C2CS.Languages.C
             var isOverridenOpaqueType = TypeIsOverridenOpaqueType(typeName);
             if (isOverridenOpaqueType)
             {
-                _diagnostics.Add(new DiagnosticClangTypeOpaqueOverriden(type));
+                _diagnostics.Add(new DiagnosticCTypeOpaqueOverriden(type));
                 _knownInvalidTypeNames.Add(typeName);
                 VisitOpaqueType(cursor, type, depth);
                 return false;
-            }
-
-            var isSystemOpaque = TypeIsSystemOpaque(type);
-            if (isSystemOpaque)
-            {
-                _diagnostics.Add(new DiagnosticClangSystemOpaqueTypeInternalsVisited(type));
             }
 
             return true;
@@ -450,7 +443,7 @@ namespace C2CS.Languages.C
         {
             var name = cursor.GetName();
             var typeName = type.GetName();
-            LogVisit(ClangNodeKind.FunctionParameter, name, typeName, cursor, depth);
+            LogVisit(CNodeKind.FunctionParameter, name, typeName, cursor, depth);
             VisitType(type, cursor, cursorParent, depth + 1);
         }
 
@@ -544,44 +537,8 @@ namespace C2CS.Languages.C
             };
         }
 
-        private static bool TypeIsSystemOpaque(CXType type)
-        {
-            var underlyingType = type;
-            while (true)
-            {
-                if (underlyingType.kind == CXTypeKind.CXType_Pointer)
-                {
-                    // pointers are legal
-                    return false;
-                }
-
-                if (underlyingType.kind == CXTypeKind.CXType_Typedef)
-                {
-                    var declaration = clang_getTypeDeclaration(type);
-                    type = clang_getTypedefDeclUnderlyingType(declaration);
-                }
-                else if (type.kind == CXTypeKind.CXType_Elaborated)
-                {
-                    type = clang_Type_getNamedType(type);
-                }
-                else if (!type.IsSystem())
-                {
-                    return false;
-                }
-
-                var typeName = type.GetName();
-                return typeName switch
-                {
-                    "FILE" => true,
-                    "DIR" => true,
-                    "pthread_mutex_t" => true,
-                    _ => false
-                };
-            }
-        }
-
         private void LogVisit(
-            ClangNodeKind nodeKind, string name, string typeName, CXCursor cursor, int depth)
+            CNodeKind nodeKind, string name, string typeName, CXCursor cursor, int depth)
         {
             if (!_printAbstractSyntaxTree)
             {
@@ -610,7 +567,7 @@ namespace C2CS.Languages.C
             _logBuilder.Append('@');
             _logBuilder.Append(' ');
 
-            var codeLocation = new ClangCodeLocation(cursor);
+            var codeLocation = new CCodeLocation(cursor);
             _logBuilder.Append(codeLocation);
 
             Console.WriteLine(_logBuilder);

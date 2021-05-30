@@ -5,18 +5,18 @@ using System.Collections.Immutable;
 
 namespace C2CS.Languages.C
 {
-    public record ClangEnum : ClangNode
+    public record CEnum : CNode
     {
-        public readonly ClangType Type;
-        public readonly ClangType IntegerType;
-        public readonly ImmutableArray<ClangEnumValue> Values;
+        public readonly CType Type;
+        public readonly CType IntegerType;
+        public readonly ImmutableArray<CEnumValue> Values;
 
-        internal ClangEnum(
-            ClangCodeLocation codeLocation,
-            ClangType type,
-            ClangType integerType,
-            ImmutableArray<ClangEnumValue> values)
-            : base(ClangNodeKind.Enum, codeLocation)
+        internal CEnum(
+            CCodeLocation codeLocation,
+            CType type,
+            CType integerType,
+            ImmutableArray<CEnumValue> values)
+            : base(CNodeKind.Enum, codeLocation)
         {
             Type = type;
             IntegerType = integerType;

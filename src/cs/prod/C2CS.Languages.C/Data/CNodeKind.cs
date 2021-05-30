@@ -3,7 +3,7 @@
 
 namespace C2CS.Languages.C
 {
-    public enum ClangNodeKind
+    public enum CNodeKind
     {
         Unknown = 0,
         Function,

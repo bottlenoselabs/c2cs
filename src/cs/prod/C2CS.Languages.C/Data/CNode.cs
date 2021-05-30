@@ -5,20 +5,20 @@ using System;
 
 namespace C2CS.Languages.C
 {
-    public record ClangNode : IComparable<ClangNode>
+    public record CNode : IComparable<CNode>
     {
-        public readonly ClangNodeKind Kind;
-        public readonly ClangCodeLocation CodeLocation;
+        public readonly CNodeKind Kind;
+        public readonly CCodeLocation CodeLocation;
 
-        public ClangNode(
-            ClangNodeKind kind,
-            ClangCodeLocation codeLocation)
+        public CNode(
+            CNodeKind kind,
+            CCodeLocation codeLocation)
         {
             Kind = kind;
             CodeLocation = codeLocation;
         }
 
-        public int CompareTo(ClangNode? other)
+        public int CompareTo(CNode? other)
         {
             if (ReferenceEquals(this, other))
             {
@@ -34,22 +34,22 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        public static bool operator <(ClangNode first, ClangNode second)
+        public static bool operator <(CNode first, CNode second)
         {
             throw new NotImplementedException();
         }
 
-        public static bool operator >(ClangNode first, ClangNode second)
+        public static bool operator >(CNode first, CNode second)
         {
             throw new NotImplementedException();
         }
 
-        public static bool operator >=(ClangNode first, ClangNode second)
+        public static bool operator >=(CNode first, CNode second)
         {
             throw new NotImplementedException();
         }
 
-        public static bool operator <=(ClangNode first, ClangNode second)
+        public static bool operator <=(CNode first, CNode second)
         {
             throw new NotImplementedException();
         }

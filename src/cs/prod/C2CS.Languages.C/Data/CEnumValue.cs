@@ -3,16 +3,16 @@
 
 namespace C2CS.Languages.C
 {
-    public record ClangEnumValue : ClangNode
+    public record CEnumValue : CNode
     {
         public readonly string Name;
         public readonly long Value;
 
-        internal ClangEnumValue(
+        internal CEnumValue(
             string name,
-            ClangCodeLocation codeLocation,
+            CCodeLocation codeLocation,
             long value)
-            : base(ClangNodeKind.EnumValue, codeLocation)
+            : base(CNodeKind.EnumValue, codeLocation)
         {
             Name = name;
             Value = value;

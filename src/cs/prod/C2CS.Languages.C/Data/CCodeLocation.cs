@@ -7,7 +7,7 @@ using static libclang;
 
 namespace C2CS.Languages.C
 {
-    public readonly struct ClangCodeLocation : IComparable<ClangCodeLocation>
+    public readonly struct CCodeLocation : IComparable<CCodeLocation>
     {
         public readonly string FileName;
         public readonly int FileLineNumber;
@@ -15,7 +15,7 @@ namespace C2CS.Languages.C
         public readonly DateTime? DateTime;
         public readonly bool IsSystem;
 
-        public unsafe ClangCodeLocation(CXCursor cursor, bool useFullPath = false, bool useDateTime = true)
+        public unsafe CCodeLocation(CXCursor cursor, bool useFullPath = false, bool useDateTime = true)
         {
             if (cursor.kind == CXCursorKind.CXCursor_NoDeclFound || cursor.kind == CXCursorKind.CXCursor_FirstInvalid)
             {
@@ -43,7 +43,7 @@ namespace C2CS.Languages.C
             var fileNamePathC = clang_getCString(fileName);
             var fileNamePath = NativeRuntime.AllocateString(fileNamePathC);
 
-            FileName = useFullPath ? fileNamePath : Path.GetFileName(fileNamePath);
+            FileName = useFullPath ? Path.GetFullPath(fileNamePath) : Path.GetFileName(fileNamePath);
             FileLineNumber = (int) lineNumber;
             FileLineColumn = (int) columnNumber;
 
@@ -67,14 +67,14 @@ namespace C2CS.Languages.C
                 $"{FileName}:{FileLineNumber}:{FileLineColumn}";
         }
 
-        public bool Equals(ClangCodeLocation other)
+        public bool Equals(CCodeLocation other)
         {
             return FileName == other.FileName && FileLineNumber == other.FileLineNumber && DateTime.Equals(other.DateTime);
         }
 
         public override bool Equals(object? obj)
         {
-            return obj is ClangCodeLocation other && Equals(other);
+            return obj is CCodeLocation other && Equals(other);
         }
 
         public override int GetHashCode()
@@ -82,7 +82,7 @@ namespace C2CS.Languages.C
             return HashCode.Combine(FileName, FileLineNumber, DateTime);
         }
 
-        public int CompareTo(ClangCodeLocation other)
+        public int CompareTo(CCodeLocation other)
         {
             // ReSharper disable once JoinDeclarationAndInitializer
             int result;
@@ -99,32 +99,32 @@ namespace C2CS.Languages.C
             return result;
         }
 
-        public static bool operator ==(ClangCodeLocation first, ClangCodeLocation second)
+        public static bool operator ==(CCodeLocation first, CCodeLocation second)
         {
             return first.Equals(second);
         }
 
-        public static bool operator !=(ClangCodeLocation first, ClangCodeLocation second)
+        public static bool operator !=(CCodeLocation first, CCodeLocation second)
         {
             return !(first == second);
         }
 
-        public static bool operator <(ClangCodeLocation first, ClangCodeLocation second)
+        public static bool operator <(CCodeLocation first, CCodeLocation second)
         {
             throw new NotImplementedException();
         }
 
-        public static bool operator >(ClangCodeLocation first, ClangCodeLocation second)
+        public static bool operator >(CCodeLocation first, CCodeLocation second)
         {
             throw new NotImplementedException();
         }
 
-        public static bool operator >=(ClangCodeLocation first, ClangCodeLocation second)
+        public static bool operator >=(CCodeLocation first, CCodeLocation second)
         {
             throw new NotImplementedException();
         }
 
-        public static bool operator <=(ClangCodeLocation first, ClangCodeLocation second)
+        public static bool operator <=(CCodeLocation first, CCodeLocation second)
         {
             throw new NotImplementedException();
         }

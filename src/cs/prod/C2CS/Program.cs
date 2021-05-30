@@ -2,11 +2,10 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.CommandLine;
 using System.CommandLine.Invocation;
-using System.Diagnostics;
+using System.IO;
+using System.Text.Json;
 using C2CS.UseCases.Bindgen;
 
 namespace C2CS
@@ -16,6 +15,8 @@ namespace C2CS
 		public static int Main(string[] args)
 		{
 			var rootCommand = CreateRootCommand();
+			var startDelegate = new StartDelegate(Start);
+			rootCommand.Handler = CommandHandler.Create(startDelegate);
 			return rootCommand.InvokeAsync(args).Result;
 		}
 
@@ -24,161 +25,32 @@ namespace C2CS
 			// Create a root command with some options
 			var rootCommand = new RootCommand("C2CS - C to C# bindings code generator.");
 
-			var inputFilePathOption = new Option<string>(
-				new[] {"--inputFilePath", "-i"},
-				"File path of the input .h file.")
-			{
-				IsRequired = true
-			};
-			rootCommand.AddOption(inputFilePathOption);
-
-			var additionalPathsOption = new Option<string>(
-				new[] {"--additionalInputPaths", "-p"},
-				"Directory paths and/or file paths of additional .h files to bundle together before parsing C code.")
+			var configFileOption = new Option<string>(
+				new[] {"--configFilePath", "-c"},
+				"Path of the .json configuration file. If not specified, './config.json' is used.")
 			{
 				IsRequired = false
 			};
-			rootCommand.AddOption(additionalPathsOption);
-
-			var outputFilePathOption = new Option<string>(
-				new[] {"--outputFilePath", "-o"},
-				"File path of the output .cs file.")
-			{
-				IsRequired = true
-			};
-			rootCommand.AddOption(outputFilePathOption);
-
-			var unattendedOption = new Option<bool>(
-				new[] {"--unattended", "-u"},
-				"Don't ask for further input.")
-			{
-				IsRequired = false
-			};
-			rootCommand.AddOption(unattendedOption);
-
-			var classNameOption = new Option<string>(
-				new[] {"--className", "-c"},
-				"The name of the generated C# class name.")
-			{
-				IsRequired = false
-			};
-			rootCommand.AddOption(classNameOption);
-
-			var libraryNameOption = new Option<string>(
-				new[] {"--libraryName", "-l"},
-				"The name of the dynamic link library (without the file extension) used for P/Invoke with C#.")
-			{
-				IsRequired = false
-			};
-			rootCommand.AddOption(libraryNameOption);
-
-			var printSyntaxTreeOption = new Option<bool>(
-				new[] {"--printAbstractSyntaxTree", "-t"},
-				"Print the Clang abstract syntax tree as it is discovered to standard out. Note that it does not print parts of the abstract syntax tree which are already discovered. This option is useful for troubleshooting.")
-			{
-				IsRequired = false
-			};
-			rootCommand.AddOption(printSyntaxTreeOption);
-
-			var findSdksOption = new Option<bool>(
-				new[] {"--autoFindSDK", "-f"},
-				"Automatically find the latest C/C++ software development kit for the current operating system and include the common C/C++ headers of the SDK as system headers.")
-			{
-				IsRequired = false
-			};
-			rootCommand.AddOption(findSdksOption);
-
-			var includeDirectoriesOption = new Option<IEnumerable<string>?>(
-				new[] {"--includeDirectories", "-s"},
-				"Search directories for `#include` usages to use when parsing C code.")
-			{
-				IsRequired = false
-			};
-			rootCommand.AddOption(includeDirectoriesOption);
-
-			var definesOption = new Option<IEnumerable<string>?>(
-				new[] {"--defines", "-d"},
-				"Object-like macros to use when parsing C code.")
-			{
-				IsRequired = false
-			};
-			rootCommand.AddOption(definesOption);
-
-			var clangArgsOption = new Option<IEnumerable<string>?>(
-				new[] {"--clangArgs", "-a"},
-				"Additional Clang arguments to use when parsing C code.")
-			{
-				IsRequired = false
-			};
-			rootCommand.AddOption(clangArgsOption);
-
-			var opaqueTypesOption = new Option<IEnumerable<string>?>(
-				new[] {"--opaqueTypes"},
-				"Names of types that should be treated as opaque.")
-			{
-				IsRequired = false
-			};
-			rootCommand.AddOption(opaqueTypesOption);
+			rootCommand.AddOption(configFileOption);
 
 			var startDelegate = new StartDelegate(Start);
 			rootCommand.Handler = CommandHandler.Create(startDelegate);
 			return rootCommand;
 		}
 
-		private static void Start(
-			string inputFilePath,
-			string outputFilePath,
-			bool unattended,
-			string className,
-			string libraryName,
-			bool printAbstractSyntaxTree,
-			bool autoFindSdk,
-			IEnumerable<string>? opaqueTypes = null,
-			IEnumerable<string>? includeDirectories = null,
-			IEnumerable<string>? defines = null,
-			IEnumerable<string>? clangArgs = null)
+		private static void Start(string? configFilePath)
 		{
-			try
+			if (string.IsNullOrEmpty(configFilePath))
 			{
-				var request = new BindgenInput(
-					inputFilePath,
-					outputFilePath,
-					unattended,
-					className,
-					libraryName,
-					printAbstractSyntaxTree,
-					autoFindSdk,
-					opaqueTypes ?? Array.Empty<string>(),
-					includeDirectories?.ToImmutableArray() ?? ImmutableArray<string>.Empty,
-					defines?.ToImmutableArray() ?? ImmutableArray<string>.Empty,
-					clangArgs?.ToImmutableArray() ?? ImmutableArray<string>.Empty);
-
-				var useCase = new BindgenUseCase();
-				var response = useCase.Execute(request);
-				Debug.Assert(response.OutputFilePath == request.OutputFilePath, "equal");
+				configFilePath = Path.Combine(Environment.CurrentDirectory, "config.json");
 			}
-			catch (Exception)
-			{
-				if (Debugger.IsAttached)
-				{
-					throw;
-				}
 
-				Environment.Exit(-1);
-			}
+			var configuration = BindgenConfiguration.LoadFromJson(configFilePath);
+			var request = new BindgenRequest(configuration);
+			var useCase = new BindgenUseCase();
+			var response = useCase.Execute(request);
 		}
 
-		private delegate void StartDelegate(
-			string inputFilePath,
-			string outputFilePath,
-			bool unattended,
-			string className,
-			string libraryName,
-			bool printAbstractSyntaxTree,
-			bool findSdks,
-			IEnumerable<string>? opaqueTypes = null,
-			IEnumerable<string>? includeDirectories = null,
-			IEnumerable<string>? defines = null,
-			IEnumerable<string>? clangArgs = null);
+		private delegate void StartDelegate(string? configFilePath);
 	}
 }

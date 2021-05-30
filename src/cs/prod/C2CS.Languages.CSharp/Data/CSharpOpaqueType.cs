@@ -5,8 +5,8 @@ namespace C2CS.CSharp
 {
     public record CSharpOpaqueType : CSharpNode
     {
-        public int SizeOf;
-        public int AlignOf;
+        public readonly int SizeOf;
+        public readonly int AlignOf;
 
         public CSharpOpaqueType(
             string name,

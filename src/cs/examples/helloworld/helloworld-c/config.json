@@ -1,0 +1,15 @@
+{
+  "inputFilePath": "../../../../src/c/examples/helloworld/include/library.h",
+  "outputFilePath": "../../../../src/cs/examples/helloworld/helloworld-cs/helloworld.cs",
+  "parseC": 
+  {
+    "includeDirectories": [
+      "../../../../src/c/examples/helloworld/include"
+    ]
+  },
+  "generateCSharp":
+  {
+    "className": "helloworld",
+    "libraryFileName": "helloworld"
+  }
+}

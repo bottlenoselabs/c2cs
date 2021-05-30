@@ -3,18 +3,18 @@
 
 namespace C2CS.Languages.C
 {
-    public record ClangTypedef : ClangNode
+    public record CTypedef : CNode
     {
         public readonly string Name;
-        public readonly ClangType Type;
-        public readonly ClangType UnderlyingType;
+        public readonly CType Type;
+        public readonly CType UnderlyingType;
 
-        internal ClangTypedef(
+        internal CTypedef(
             string name,
-            ClangCodeLocation codeLocation,
-            ClangType type,
-            ClangType underlyingType)
-            : base(ClangNodeKind.Typedef, codeLocation)
+            CCodeLocation codeLocation,
+            CType type,
+            CType underlyingType)
+            : base(CNodeKind.Typedef, codeLocation)
         {
             Name = name;
             Type = type;

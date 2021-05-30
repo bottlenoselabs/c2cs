@@ -15,11 +15,18 @@ namespace C2CS
         /// <summary>
         ///     Initializes a new instance of the <see cref="Diagnostic" /> class.
         /// </summary>
+        /// <param name="identifierCode">The identifier code.</param>
         /// <param name="severity">The severity.</param>
-        protected Diagnostic(DiagnosticSeverity severity)
+        protected Diagnostic(string identifierCode, DiagnosticSeverity severity)
         {
+            IdentifierCode = identifierCode;
             Severity = severity;
         }
+
+        /// <summary>
+        ///     The <see cref="string" /> which uniquely identifies the kind of the diagnostic, not the instance.
+        /// </summary>
+        public string IdentifierCode { get; }
 
         /// <summary>
         ///     The severity of the program's runtime feedback.

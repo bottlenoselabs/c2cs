@@ -11,7 +11,7 @@ internal static class Program
     {
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
         BuildLibrary(rootDirectory);
-        GenerateLibraryBindings(rootDirectory);
+        GenerateLibraryBindings();
     }
 
     private static void BuildLibrary(string rootDirectory)
@@ -21,23 +21,13 @@ internal static class Program
         Shell.CMake(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
     }
 
-    private static void GenerateLibraryBindings(string rootDirectory)
+    private static void GenerateLibraryBindings()
     {
         var arguments = @$"
--i
-{rootDirectory}/src/c/examples/helloworld/include/library.h
--s
-{rootDirectory}/src/c/examples/helloworld/include
--o
-{rootDirectory}/src/cs/examples/helloworld/helloworld-cs/helloworld.cs
--u
--f
--t
--l
-helloworld
 -c
-helloworld
+{Environment.CurrentDirectory}/config.json
 ";
+
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);

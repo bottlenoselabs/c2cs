@@ -28,18 +28,10 @@ internal static class Program
     private static void GenerateLibraryBindings(string rootDirectory)
     {
         var arguments = @$"
--i
-{rootDirectory}/ext/flecs/include/flecs.h
--o
-{rootDirectory}/src/cs/examples/flecs/flecs-cs/flecs.cs
--u
--f
--t
--l
-flecs
 -c
-flecs
+{Environment.CurrentDirectory}/config.json
 ";
+
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);

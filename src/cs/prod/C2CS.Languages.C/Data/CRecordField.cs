@@ -3,21 +3,21 @@
 
 namespace C2CS.Languages.C
 {
-    public record ClangRecordField : ClangNode
+    public record CRecordField : CNode
     {
         public readonly string Name;
-        public readonly ClangType Type;
+        public readonly CType Type;
         public readonly int Offset;
         public readonly int Padding;
         public readonly bool IsUnNamedFunctionPointer;
 
-        internal ClangRecordField(
+        internal CRecordField(
             string name,
-            ClangCodeLocation codeLocation,
-            ClangType type,
+            CCodeLocation codeLocation,
+            CType type,
             int offset,
             bool isUnNamedFunctionPointer)
-            : base(ClangNodeKind.RecordField, codeLocation)
+            : base(CNodeKind.RecordField, codeLocation)
         {
             Name = name;
             Type = type;
@@ -26,8 +26,8 @@ namespace C2CS.Languages.C
             IsUnNamedFunctionPointer = isUnNamedFunctionPointer;
         }
 
-        internal ClangRecordField(
-            ClangRecordField previous,
+        internal CRecordField(
+            CRecordField previous,
             int padding)
             : this(previous.Name, previous.CodeLocation, previous.Type, previous.Offset, previous.IsUnNamedFunctionPointer)
         {

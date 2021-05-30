@@ -10,7 +10,7 @@ internal static class Program
     private static void Main()
     {
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
-        GenerateLibraryBindings(rootDirectory);
+        GenerateLibraryBindings();
         BuildLibrary(rootDirectory);
     }
 
@@ -25,22 +25,11 @@ internal static class Program
         }
     }
 
-    private static void GenerateLibraryBindings(string rootDirectory)
+    private static void GenerateLibraryBindings()
     {
         var arguments = @$"
--i
-{rootDirectory}/src/c/examples/sokol/sokol.h
--s
-{rootDirectory}/ext/sokol
--o
-{rootDirectory}/src/cs/examples/sokol/sokol-cs/sokol.cs
--u
--f
--t
--l
-sokol
 -c
-sokol
+{Environment.CurrentDirectory}/config.json
 ";
 
         var argumentsArray =

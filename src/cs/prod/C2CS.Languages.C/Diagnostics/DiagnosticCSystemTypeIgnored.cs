@@ -7,10 +7,10 @@ namespace C2CS.Languages.C
 {
     // Known system types are ignored because they already built-in other languages. If they are not built-in they are
     //  supplemented by a thin runtime because they are so common.
-    public class DiagnosticClangSystemTypeIgnored : Diagnostic
+    public class DiagnosticCSystemTypeIgnored : Diagnostic
     {
-        public DiagnosticClangSystemTypeIgnored(CXType type)
-            : base(DiagnosticSeverity.Information)
+        public DiagnosticCSystemTypeIgnored(CXType type)
+            : base("C2CS1000", DiagnosticSeverity.Information)
         {
             while (type.kind == CXTypeKind.CXType_Pointer)
             {
@@ -19,7 +19,7 @@ namespace C2CS.Languages.C
 
             var cursor = clang_getTypeDeclaration(type);
             var typeName = type.GetName();
-            var codeLocation = new ClangCodeLocation(cursor, true, false);
+            var codeLocation = new CCodeLocation(cursor, true, false);
             Summary = $"The type '{typeName}' is a known system type that is not directly mapped. {codeLocation}";
         }
     }
