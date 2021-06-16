@@ -11,14 +11,14 @@ public static unsafe partial class flecs
 {
     public static ecs_world_t* ecs_init_w_args(ReadOnlySpan<string> args)
     {
-        var argv = NativeRuntime.AllocateCStringArray(args);
+        var argv = Runtime.AllocateCStringArray(args);
         var world = ecs_init_w_args(args.Length, argv);
-        NativeRuntime.FreeCStrings(argv, args.Length);
+        Runtime.FreeCStrings(argv, args.Length);
         return world;
     }
 
     public static ecs_entity_t ecs_entity_init(
-        ecs_world_t* world, AnsiStringPtr name, Span<ecs_id_t> componentIds)
+        ecs_world_t* world, CString name, Span<ecs_id_t> componentIds)
     {
         var entityDescriptor = new ecs_entity_desc_t
         {
@@ -34,7 +34,7 @@ public static unsafe partial class flecs
         return ecs_entity_init(world, &entityDescriptor);
     }
 
-    public static ecs_entity_t ecs_entity_init(ecs_world_t* world, AnsiStringPtr name, ecs_id_t componentId)
+    public static ecs_entity_t ecs_entity_init(ecs_world_t* world, CString name, ecs_id_t componentId)
     {
         var entityDescriptor = new ecs_entity_desc_t
         {
@@ -51,7 +51,7 @@ public static unsafe partial class flecs
     {
         var componentType = typeof(TComponent);
         var componentName = componentType.Name;
-        var componentNameC = NativeRuntime.AllocateCString(componentName);
+        var componentNameC = Runtime.AllocateCString(componentName);
         var structLayoutAttribute = componentType.StructLayoutAttribute;
         CheckStructLayout(structLayoutAttribute);
         var structAlignment = structLayoutAttribute!.Pack;

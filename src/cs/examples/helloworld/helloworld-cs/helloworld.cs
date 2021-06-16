@@ -24,11 +24,11 @@ public static unsafe partial class helloworld
         UnloadApi();
         if (libraryFilePath == null)
         {
-            var libraryFileNamePrefix = NativeRuntime.LibraryFileNamePrefix;
-            var libraryFileNameExtension = NativeRuntime.LibraryFileNameExtension;
+            var libraryFileNamePrefix = Runtime.LibraryFileNamePrefix;
+            var libraryFileNameExtension = Runtime.LibraryFileNameExtension;
             libraryFilePath = $@"{libraryFileNamePrefix}{LibraryName}{libraryFileNameExtension}";
         }
-        _libraryHandle = NativeRuntime.LibraryLoad(libraryFilePath);
+        _libraryHandle = Runtime.LibraryLoad(libraryFilePath);
         if (_libraryHandle == IntPtr.Zero)
             throw new Exception($"Failed to load library: {libraryFilePath}");
         LoadExports();
@@ -39,7 +39,7 @@ public static unsafe partial class helloworld
         if (_libraryHandle == IntPtr.Zero)
             return;
         UnloadExports();
-        NativeRuntime.LibraryUnload(_libraryHandle);
+        Runtime.LibraryUnload(_libraryHandle);
     }
 
     private static void LoadExports()

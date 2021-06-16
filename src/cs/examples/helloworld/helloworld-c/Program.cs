@@ -18,7 +18,7 @@ internal static class Program
     {
         var cMakeDirectoryPath = Path.GetFullPath(Path.Combine(rootDirectory, "src/c/examples/helloworld"));
         var targetLibraryDirectoryPath = Path.GetFullPath($"{rootDirectory}/src/cs/examples/helloworld/helloworld-cs");
-        Shell.CMake(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
+        Terminal.CMake(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
     }
 
     private static void GenerateLibraryBindings()

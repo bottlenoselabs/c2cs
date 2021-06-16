@@ -20,7 +20,7 @@
         <PackageReference Include="libclang.runtime.win-x64" Version="10.0.0" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\C2CS.NativeRuntime\C2CS.NativeRuntime.csproj" />
+      <ProjectReference Include="..\C2CS.Runtime\C2CS.Runtime.csproj" />
     </ItemGroup>
 
 </Project>

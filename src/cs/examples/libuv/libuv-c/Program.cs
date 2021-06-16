@@ -18,7 +18,7 @@ internal static class Program
     {
         var cMakeDirectoryPath = Path.Combine(rootDirectory, "src/c/examples/libuv");
         var targetLibraryDirectoryPath = $"{rootDirectory}/src/cs/examples/libuv/libuv-cs/";
-        var isSuccess = Shell.CMake(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
+        var isSuccess = Terminal.CMake(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
         if (!isSuccess)
         {
             Environment.Exit(1);

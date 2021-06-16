@@ -31,7 +31,7 @@ internal static unsafe class Program
         var p = ecs_get_id<Components.Position>(world, entity, component);
 
         var nameCString = ecs_get_name(world, entity);
-        var nameString = NativeRuntime.AllocateString(nameCString);
+        var nameString = Runtime.AllocateString(nameCString);
 
         Console.WriteLine($"Position of {nameString} is {p.X}, {p.Y}");
 
@@ -51,6 +51,6 @@ internal static unsafe class Program
 
     public static class Entities
     {
-        public static readonly AnsiStringPtr MyEntity = "MyEntity";
+        public static readonly CString MyEntity = "MyEntity";
     }
 }

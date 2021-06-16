@@ -24,11 +24,11 @@ public static unsafe partial class sokol
         UnloadApi();
         if (libraryFilePath == null)
         {
-            var libraryFileNamePrefix = NativeRuntime.LibraryFileNamePrefix;
-            var libraryFileNameExtension = NativeRuntime.LibraryFileNameExtension;
+            var libraryFileNamePrefix = Runtime.LibraryFileNamePrefix;
+            var libraryFileNameExtension = Runtime.LibraryFileNameExtension;
             libraryFilePath = $@"{libraryFileNamePrefix}{LibraryName}{libraryFileNameExtension}";
         }
-        _libraryHandle = NativeRuntime.LibraryLoad(libraryFilePath);
+        _libraryHandle = Runtime.LibraryLoad(libraryFilePath);
         if (_libraryHandle == IntPtr.Zero)
             throw new Exception($"Failed to load library: {libraryFilePath}");
         LoadExports();
@@ -39,7 +39,7 @@ public static unsafe partial class sokol
         if (_libraryHandle == IntPtr.Zero)
             return;
         UnloadExports();
-        NativeRuntime.LibraryUnload(_libraryHandle);
+        Runtime.LibraryUnload(_libraryHandle);
     }
 
     private static void LoadExports()
@@ -54,7 +54,7 @@ public static unsafe partial class sokol
 
     // Function @ sokol_app.h:1399
     [DllImport(LibraryName, EntryPoint = "sokol_main", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sapp_desc sokol_main(int argc, AnsiStringPtr* argv);
+    public static extern sapp_desc sokol_main(int argc, CString* argv);
 
     // Function @ sokol_app.h:1402
     [DllImport(LibraryName, EntryPoint = "sapp_isvalid", CallingConvention = CallingConvention.Cdecl)]
@@ -158,15 +158,15 @@ public static unsafe partial class sokol
 
     // Function @ sokol_app.h:1452
     [DllImport(LibraryName, EntryPoint = "sapp_set_clipboard_string", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sapp_set_clipboard_string(AnsiStringPtr str);
+    public static extern void sapp_set_clipboard_string(CString str);
 
     // Function @ sokol_app.h:1454
     [DllImport(LibraryName, EntryPoint = "sapp_get_clipboard_string", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr sapp_get_clipboard_string();
+    public static extern CString sapp_get_clipboard_string();
 
     // Function @ sokol_app.h:1456
     [DllImport(LibraryName, EntryPoint = "sapp_set_window_title", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sapp_set_window_title(AnsiStringPtr str);
+    public static extern void sapp_set_window_title(CString str);
 
     // Function @ sokol_app.h:1458
     [DllImport(LibraryName, EntryPoint = "sapp_set_icon", CallingConvention = CallingConvention.Cdecl)]
@@ -178,7 +178,7 @@ public static unsafe partial class sokol
 
     // Function @ sokol_app.h:1462
     [DllImport(LibraryName, EntryPoint = "sapp_get_dropped_file_path", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr sapp_get_dropped_file_path(int index);
+    public static extern CString sapp_get_dropped_file_path(int index);
 
     // Function @ sokol_app.h:1465
     [DllImport(LibraryName, EntryPoint = "sapp_run", CallingConvention = CallingConvention.Cdecl)]
@@ -286,7 +286,7 @@ public static unsafe partial class sokol
 
     // Function @ sokol_gfx.h:2273
     [DllImport(LibraryName, EntryPoint = "sg_push_debug_group", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_push_debug_group(AnsiStringPtr name);
+    public static extern void sg_push_debug_group(CString name);
 
     // Function @ sokol_gfx.h:2274
     [DllImport(LibraryName, EntryPoint = "sg_pop_debug_group", CallingConvention = CallingConvention.Cdecl)]
@@ -808,7 +808,7 @@ public static unsafe partial class sokol
         public CBool alpha;
 
         [FieldOffset(112)] // size = 8, padding = 0
-        public AnsiStringPtr window_title;
+        public CString window_title;
 
         [FieldOffset(120)] // size = 1, padding = 0
         public CBool user_cursor;
@@ -844,7 +844,7 @@ public static unsafe partial class sokol
         public CBool win32_console_attach;
 
         [FieldOffset(352)] // size = 8, padding = 0
-        public AnsiStringPtr html5_canvas_name;
+        public CString html5_canvas_name;
 
         [FieldOffset(360)] // size = 1, padding = 0
         public CBool html5_canvas_resize;
@@ -872,7 +872,7 @@ public static unsafe partial class sokol
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_fail_cb
         {
-            public delegate* unmanaged<AnsiStringPtr, void> Pointer;
+            public delegate* unmanaged<CString, void> Pointer;
         }
 
         // PointerFunction @ sokol_app.h:1339
@@ -886,7 +886,7 @@ public static unsafe partial class sokol
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_fail_userdata_cb
         {
-            public delegate* unmanaged<AnsiStringPtr, void*, void> Pointer;
+            public delegate* unmanaged<CString, void*, void> Pointer;
         }
     }
 
@@ -1225,7 +1225,7 @@ public static unsafe partial class sokol
         public sg_range data;
 
         [FieldOffset(40)] // size = 8, padding = 0
-        public AnsiStringPtr label;
+        public CString label;
 
         [FieldOffset(48)] // size = 8, padding = 0
         public fixed uint _gl_buffers[8 / 4]; // uint32_t [2]
@@ -1363,7 +1363,7 @@ public static unsafe partial class sokol
         public sg_image_data data;
 
         [FieldOffset(1616)] // size = 8, padding = 0
-        public AnsiStringPtr label;
+        public CString label;
 
         [FieldOffset(1624)] // size = 8, padding = 0
         public fixed uint _gl_textures[8 / 4]; // uint32_t [2]
@@ -1426,10 +1426,10 @@ public static unsafe partial class sokol
     public struct sg_shader_attr_desc
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public AnsiStringPtr name;
+        public CString name;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public AnsiStringPtr sem_name;
+        public CString sem_name;
 
         [FieldOffset(16)] // size = 4, padding = 4
         public int sem_index;
@@ -1440,7 +1440,7 @@ public static unsafe partial class sokol
     public struct sg_shader_uniform_desc
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public AnsiStringPtr name;
+        public CString name;
 
         [FieldOffset(8)] // size = 4, padding = 0
         public sg_uniform_type type;
@@ -1478,7 +1478,7 @@ public static unsafe partial class sokol
     public struct sg_shader_image_desc
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public AnsiStringPtr name;
+        public CString name;
 
         [FieldOffset(8)] // size = 4, padding = 0
         public sg_image_type image_type;
@@ -1492,16 +1492,16 @@ public static unsafe partial class sokol
     public struct sg_shader_stage_desc
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public AnsiStringPtr source;
+        public CString source;
 
         [FieldOffset(8)] // size = 16, padding = 0
         public sg_range bytecode;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public AnsiStringPtr entry;
+        public CString entry;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public AnsiStringPtr d3d11_target;
+        public CString d3d11_target;
 
         [FieldOffset(40)] // size = 1056, padding = 0
         public fixed ulong _uniform_blocks[1056 / 8]; // sg_shader_uniform_block_desc [4]
@@ -1566,7 +1566,7 @@ public static unsafe partial class sokol
         public sg_shader_stage_desc fs;
 
         [FieldOffset(2968)] // size = 8, padding = 0
-        public AnsiStringPtr label;
+        public CString label;
 
         [FieldOffset(2976)] // size = 4, padding = 4
         public uint _end_canary;
@@ -1825,7 +1825,7 @@ public static unsafe partial class sokol
         public CBool alpha_to_coverage_enabled;
 
         [FieldOffset(552)] // size = 8, padding = 0
-        public AnsiStringPtr label;
+        public CString label;
 
         [FieldOffset(560)] // size = 4, padding = 4
         public uint _end_canary;
@@ -1880,7 +1880,7 @@ public static unsafe partial class sokol
         public sg_pass_attachment_desc depth_stencil_attachment;
 
         [FieldOffset(64)] // size = 8, padding = 0
-        public AnsiStringPtr label;
+        public CString label;
 
         [FieldOffset(72)] // size = 4, padding = 4
         public uint _end_canary;
@@ -2554,7 +2554,7 @@ public static unsafe partial class sokol
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_push_debug_group
         {
-            public delegate* unmanaged<AnsiStringPtr, void*, void> Pointer;
+            public delegate* unmanaged<CString, void*, void> Pointer;
         }
     }
 

@@ -34,11 +34,11 @@ internal static class Program
     private static unsafe void PrintErrorCode(int errorCode)
     {
         var cStringErrorName = uv_err_name(errorCode);
-        var stringErrorName = NativeRuntime.AllocateString(cStringErrorName);
+        var stringErrorName = Runtime.AllocateString(cStringErrorName);
 
         var errorDescriptionBuffer = stackalloc byte[512];
         var cStringErrorDescription = uv_strerror_r(errorCode, errorDescriptionBuffer, 512);
-        var stringErrorDescription = NativeRuntime.AllocateString(cStringErrorDescription);
+        var stringErrorDescription = Runtime.AllocateString(cStringErrorDescription);
         
         Console.WriteLine($"Error {stringErrorName}: {stringErrorDescription}");
     }

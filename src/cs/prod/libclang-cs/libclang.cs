@@ -24,11 +24,11 @@ public static unsafe partial class libclang
         UnloadApi();
         if (libraryFilePath == null)
         {
-            var libraryFileNamePrefix = NativeRuntime.LibraryFileNamePrefix;
-            var libraryFileNameExtension = NativeRuntime.LibraryFileNameExtension;
+            var libraryFileNamePrefix = Runtime.LibraryFileNamePrefix;
+            var libraryFileNameExtension = Runtime.LibraryFileNameExtension;
             libraryFilePath = $@"{libraryFileNamePrefix}{LibraryName}{libraryFileNameExtension}";
         }
-        _libraryHandle = NativeRuntime.LibraryLoad(libraryFilePath);
+        _libraryHandle = Runtime.LibraryLoad(libraryFilePath);
         if (_libraryHandle == IntPtr.Zero)
             throw new Exception($"Failed to load library: {libraryFilePath}");
         LoadExports();
@@ -39,7 +39,7 @@ public static unsafe partial class libclang
         if (_libraryHandle == IntPtr.Zero)
             return;
         UnloadExports();
-        NativeRuntime.LibraryUnload(_libraryHandle);
+        Runtime.LibraryUnload(_libraryHandle);
     }
 
     private static void LoadExports()
@@ -54,7 +54,7 @@ public static unsafe partial class libclang
 
     // Function @ CXString.h:50
     [DllImport(LibraryName, EntryPoint = "clang_getCString", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr clang_getCString(CXString @string);
+    public static extern CString clang_getCString(CXString @string);
 
     // Function @ CXString.h:55
     [DllImport(LibraryName, EntryPoint = "clang_disposeString", CallingConvention = CallingConvention.Cdecl)]
@@ -74,7 +74,7 @@ public static unsafe partial class libclang
 
     // Function @ BuildSystem.h:56
     [DllImport(LibraryName, EntryPoint = "clang_VirtualFileOverlay_addFileMapping", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_VirtualFileOverlay_addFileMapping(CXVirtualFileOverlay param, AnsiStringPtr virtualPath, AnsiStringPtr realPath);
+    public static extern CXErrorCode clang_VirtualFileOverlay_addFileMapping(CXVirtualFileOverlay param, CString virtualPath, CString realPath);
 
     // Function @ BuildSystem.h:67
     [DllImport(LibraryName, EntryPoint = "clang_VirtualFileOverlay_setCaseSensitivity", CallingConvention = CallingConvention.Cdecl)]
@@ -82,7 +82,7 @@ public static unsafe partial class libclang
 
     // Function @ BuildSystem.h:80
     [DllImport(LibraryName, EntryPoint = "clang_VirtualFileOverlay_writeToBuffer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_VirtualFileOverlay_writeToBuffer(CXVirtualFileOverlay param, uint options, AnsiStringPtr* out_buffer_ptr, ulong* out_buffer_size);
+    public static extern CXErrorCode clang_VirtualFileOverlay_writeToBuffer(CXVirtualFileOverlay param, uint options, CString* out_buffer_ptr, ulong* out_buffer_size);
 
     // Function @ BuildSystem.h:90
     [DllImport(LibraryName, EntryPoint = "clang_free", CallingConvention = CallingConvention.Cdecl)]
@@ -98,15 +98,15 @@ public static unsafe partial class libclang
 
     // Function @ BuildSystem.h:116
     [DllImport(LibraryName, EntryPoint = "clang_ModuleMapDescriptor_setFrameworkModuleName", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_ModuleMapDescriptor_setFrameworkModuleName(CXModuleMapDescriptor param, AnsiStringPtr name);
+    public static extern CXErrorCode clang_ModuleMapDescriptor_setFrameworkModuleName(CXModuleMapDescriptor param, CString name);
 
     // Function @ BuildSystem.h:124
     [DllImport(LibraryName, EntryPoint = "clang_ModuleMapDescriptor_setUmbrellaHeader", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_ModuleMapDescriptor_setUmbrellaHeader(CXModuleMapDescriptor param, AnsiStringPtr name);
+    public static extern CXErrorCode clang_ModuleMapDescriptor_setUmbrellaHeader(CXModuleMapDescriptor param, CString name);
 
     // Function @ BuildSystem.h:137
     [DllImport(LibraryName, EntryPoint = "clang_ModuleMapDescriptor_writeToBuffer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_ModuleMapDescriptor_writeToBuffer(CXModuleMapDescriptor param, uint options, AnsiStringPtr* out_buffer_ptr, ulong* out_buffer_size);
+    public static extern CXErrorCode clang_ModuleMapDescriptor_writeToBuffer(CXModuleMapDescriptor param, uint options, CString* out_buffer_ptr, ulong* out_buffer_size);
 
     // Function @ BuildSystem.h:144
     [DllImport(LibraryName, EntryPoint = "clang_ModuleMapDescriptor_dispose", CallingConvention = CallingConvention.Cdecl)]
@@ -130,7 +130,7 @@ public static unsafe partial class libclang
 
     // Function @ Index.h:342
     [DllImport(LibraryName, EntryPoint = "clang_CXIndex_setInvocationEmissionPathOption", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_CXIndex_setInvocationEmissionPathOption(CXIndex param, AnsiStringPtr Path);
+    public static extern void clang_CXIndex_setInvocationEmissionPathOption(CXIndex param, CString Path);
 
     // Function @ Index.h:358
     [DllImport(LibraryName, EntryPoint = "clang_getFileName", CallingConvention = CallingConvention.Cdecl)]
@@ -150,11 +150,11 @@ public static unsafe partial class libclang
 
     // Function @ Index.h:401
     [DllImport(LibraryName, EntryPoint = "clang_getFile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXFile clang_getFile(CXTranslationUnit tu, AnsiStringPtr file_name);
+    public static extern CXFile clang_getFile(CXTranslationUnit tu, CString file_name);
 
     // Function @ Index.h:416
     [DllImport(LibraryName, EntryPoint = "clang_getFileContents", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr clang_getFileContents(CXTranslationUnit tu, CXFile file, ulong* size);
+    public static extern CString clang_getFileContents(CXTranslationUnit tu, CXFile file, ulong* size);
 
     // Function @ Index.h:423
     [DllImport(LibraryName, EntryPoint = "clang_File_isEqual", CallingConvention = CallingConvention.Cdecl)]
@@ -254,7 +254,7 @@ public static unsafe partial class libclang
 
     // Function @ Index.h:841
     [DllImport(LibraryName, EntryPoint = "clang_loadDiagnostics", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXDiagnosticSet clang_loadDiagnostics(AnsiStringPtr file, CXLoadDiag_Error* error, CXString* errorString);
+    public static extern CXDiagnosticSet clang_loadDiagnostics(CString file, CXLoadDiag_Error* error, CXString* errorString);
 
     // Function @ Index.h:847
     [DllImport(LibraryName, EntryPoint = "clang_disposeDiagnosticSet", CallingConvention = CallingConvention.Cdecl)]
@@ -338,15 +338,15 @@ public static unsafe partial class libclang
 
     // Function @ Index.h:1166
     [DllImport(LibraryName, EntryPoint = "clang_createTranslationUnitFromSourceFile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTranslationUnit clang_createTranslationUnitFromSourceFile(CXIndex CIdx, AnsiStringPtr source_filename, int num_clang_command_line_args, AnsiStringPtr* clang_command_line_args, uint num_unsaved_files, CXUnsavedFile* unsaved_files);
+    public static extern CXTranslationUnit clang_createTranslationUnitFromSourceFile(CXIndex CIdx, CString source_filename, int num_clang_command_line_args, CString* clang_command_line_args, uint num_unsaved_files, CXUnsavedFile* unsaved_files);
 
     // Function @ Index.h:1178
     [DllImport(LibraryName, EntryPoint = "clang_createTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTranslationUnit clang_createTranslationUnit(CXIndex CIdx, AnsiStringPtr ast_filename);
+    public static extern CXTranslationUnit clang_createTranslationUnit(CXIndex CIdx, CString ast_filename);
 
     // Function @ Index.h:1189
     [DllImport(LibraryName, EntryPoint = "clang_createTranslationUnit2", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_createTranslationUnit2(CXIndex CIdx, AnsiStringPtr ast_filename, CXTranslationUnit* out_TU);
+    public static extern CXErrorCode clang_createTranslationUnit2(CXIndex CIdx, CString ast_filename, CXTranslationUnit* out_TU);
 
     // Function @ Index.h:1360
     [DllImport(LibraryName, EntryPoint = "clang_defaultEditingTranslationUnitOptions", CallingConvention = CallingConvention.Cdecl)]
@@ -354,15 +354,15 @@ public static unsafe partial class libclang
 
     // Function @ Index.h:1368
     [DllImport(LibraryName, EntryPoint = "clang_parseTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTranslationUnit clang_parseTranslationUnit(CXIndex CIdx, AnsiStringPtr source_filename, AnsiStringPtr* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
+    public static extern CXTranslationUnit clang_parseTranslationUnit(CXIndex CIdx, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
 
     // Function @ Index.h:1418
     [DllImport(LibraryName, EntryPoint = "clang_parseTranslationUnit2", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_parseTranslationUnit2(CXIndex CIdx, AnsiStringPtr source_filename, AnsiStringPtr* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
+    public static extern CXErrorCode clang_parseTranslationUnit2(CXIndex CIdx, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
 
     // Function @ Index.h:1429
     [DllImport(LibraryName, EntryPoint = "clang_parseTranslationUnit2FullArgv", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_parseTranslationUnit2FullArgv(CXIndex CIdx, AnsiStringPtr source_filename, AnsiStringPtr* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
+    public static extern CXErrorCode clang_parseTranslationUnit2FullArgv(CXIndex CIdx, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
 
     // Function @ Index.h:1458
     [DllImport(LibraryName, EntryPoint = "clang_defaultSaveOptions", CallingConvention = CallingConvention.Cdecl)]
@@ -370,7 +370,7 @@ public static unsafe partial class libclang
 
     // Function @ Index.h:1518
     [DllImport(LibraryName, EntryPoint = "clang_saveTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_saveTranslationUnit(CXTranslationUnit TU, AnsiStringPtr FileName, uint options);
+    public static extern int clang_saveTranslationUnit(CXTranslationUnit TU, CString FileName, uint options);
 
     // Function @ Index.h:1529
     [DllImport(LibraryName, EntryPoint = "clang_suspendTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
@@ -390,7 +390,7 @@ public static unsafe partial class libclang
 
     // Function @ Index.h:1637
     [DllImport(LibraryName, EntryPoint = "clang_getTUResourceUsageName", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr clang_getTUResourceUsageName(CXTUResourceUsageKind kind);
+    public static extern CString clang_getTUResourceUsageName(CXTUResourceUsageKind kind);
 
     // Function @ Index.h:1668
     [DllImport(LibraryName, EntryPoint = "clang_getCXTUResourceUsage", CallingConvention = CallingConvention.Cdecl)]
@@ -790,7 +790,7 @@ public static unsafe partial class libclang
 
     // Function @ Index.h:3960
     [DllImport(LibraryName, EntryPoint = "clang_Type_getOffsetOf", CallingConvention = CallingConvention.Cdecl)]
-    public static extern long clang_Type_getOffsetOf(CXType T, AnsiStringPtr S);
+    public static extern long clang_Type_getOffsetOf(CXType T, CString S);
 
     // Function @ Index.h:3967
     [DllImport(LibraryName, EntryPoint = "clang_Type_getModifiedType", CallingConvention = CallingConvention.Cdecl)]
@@ -866,27 +866,27 @@ public static unsafe partial class libclang
 
     // Function @ Index.h:4273
     [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCClass", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCClass(AnsiStringPtr class_name);
+    public static extern CXString clang_constructUSR_ObjCClass(CString class_name);
 
     // Function @ Index.h:4278
     [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCCategory", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCCategory(AnsiStringPtr class_name, AnsiStringPtr category_name);
+    public static extern CXString clang_constructUSR_ObjCCategory(CString class_name, CString category_name);
 
     // Function @ Index.h:4285
     [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCProtocol", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCProtocol(AnsiStringPtr protocol_name);
+    public static extern CXString clang_constructUSR_ObjCProtocol(CString protocol_name);
 
     // Function @ Index.h:4291
     [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCIvar", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCIvar(AnsiStringPtr name, CXString classUSR);
+    public static extern CXString clang_constructUSR_ObjCIvar(CString name, CXString classUSR);
 
     // Function @ Index.h:4298
     [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCMethod", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCMethod(AnsiStringPtr name, uint isInstanceMethod, CXString classUSR);
+    public static extern CXString clang_constructUSR_ObjCMethod(CString name, uint isInstanceMethod, CXString classUSR);
 
     // Function @ Index.h:4306
     [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCProperty", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCProperty(AnsiStringPtr property, CXString classUSR);
+    public static extern CXString clang_constructUSR_ObjCProperty(CString property, CXString classUSR);
 
     // Function @ Index.h:4312
     [DllImport(LibraryName, EntryPoint = "clang_getCursorSpelling", CallingConvention = CallingConvention.Cdecl)]
@@ -1134,7 +1134,7 @@ public static unsafe partial class libclang
 
     // Function @ Index.h:5088
     [DllImport(LibraryName, EntryPoint = "clang_getDefinitionSpellingAndExtent", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_getDefinitionSpellingAndExtent(CXCursor param, AnsiStringPtr* startBuf, AnsiStringPtr* endBuf, ulong* startLine, ulong* startColumn, ulong* endLine, ulong* endColumn);
+    public static extern void clang_getDefinitionSpellingAndExtent(CXCursor param, CString* startBuf, CString* endBuf, ulong* startLine, ulong* startColumn, ulong* endLine, ulong* endColumn);
 
     // Function @ Index.h:5091
     [DllImport(LibraryName, EntryPoint = "clang_enableStackTraces", CallingConvention = CallingConvention.Cdecl)]
@@ -1202,7 +1202,7 @@ public static unsafe partial class libclang
 
     // Function @ Index.h:5792
     [DllImport(LibraryName, EntryPoint = "clang_codeCompleteAt", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCodeCompleteResults* clang_codeCompleteAt(CXTranslationUnit TU, AnsiStringPtr complete_filename, uint complete_line, uint complete_column, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
+    public static extern CXCodeCompleteResults* clang_codeCompleteAt(CXTranslationUnit TU, CString complete_filename, uint complete_line, uint complete_column, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
 
     // Function @ Index.h:5805
     [DllImport(LibraryName, EntryPoint = "clang_sortCodeCompletionResults", CallingConvention = CallingConvention.Cdecl)]
@@ -1278,7 +1278,7 @@ public static unsafe partial class libclang
 
     // Function @ Index.h:6012
     [DllImport(LibraryName, EntryPoint = "clang_EvalResult_getAsStr", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr clang_EvalResult_getAsStr(CXEvalResult E);
+    public static extern CString clang_EvalResult_getAsStr(CXEvalResult E);
 
     // Function @ Index.h:6017
     [DllImport(LibraryName, EntryPoint = "clang_EvalResult_dispose", CallingConvention = CallingConvention.Cdecl)]
@@ -1286,11 +1286,11 @@ public static unsafe partial class libclang
 
     // Function @ Index.h:6040
     [DllImport(LibraryName, EntryPoint = "clang_getRemappings", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXRemapping clang_getRemappings(AnsiStringPtr path);
+    public static extern CXRemapping clang_getRemappings(CString path);
 
     // Function @ Index.h:6053
     [DllImport(LibraryName, EntryPoint = "clang_getRemappingsFromFileList", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXRemapping clang_getRemappingsFromFileList(AnsiStringPtr* filePaths, uint numFiles);
+    public static extern CXRemapping clang_getRemappingsFromFileList(CString* filePaths, uint numFiles);
 
     // Function @ Index.h:6059
     [DllImport(LibraryName, EntryPoint = "clang_remap_getNumFiles", CallingConvention = CallingConvention.Cdecl)]
@@ -1370,11 +1370,11 @@ public static unsafe partial class libclang
 
     // Function @ Index.h:6676
     [DllImport(LibraryName, EntryPoint = "clang_indexSourceFile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_indexSourceFile(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, AnsiStringPtr source_filename, AnsiStringPtr* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
+    public static extern int clang_indexSourceFile(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
 
     // Function @ Index.h:6688
     [DllImport(LibraryName, EntryPoint = "clang_indexSourceFileFullArgv", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_indexSourceFileFullArgv(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, AnsiStringPtr source_filename, AnsiStringPtr* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
+    public static extern int clang_indexSourceFileFullArgv(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
 
     // Function @ Index.h:6711
     [DllImport(LibraryName, EntryPoint = "clang_indexTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
@@ -1523,10 +1523,10 @@ public static unsafe partial class libclang
     public struct CXUnsavedFile
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public AnsiStringPtr Filename;
+        public CString Filename;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public AnsiStringPtr Contents;
+        public CString Contents;
 
         [FieldOffset(16)] // size = 8, padding = 0
         public ulong Length;
@@ -1761,10 +1761,10 @@ public static unsafe partial class libclang
         public CXIdxEntityLanguage lang;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public AnsiStringPtr name;
+        public CString name;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public AnsiStringPtr USR;
+        public CString USR;
 
         [FieldOffset(32)] // size = 32, padding = 0
         public CXCursor cursor;
@@ -1965,7 +1965,7 @@ public static unsafe partial class libclang
         public CXIdxLoc hashLoc;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public AnsiStringPtr filename;
+        public CString filename;
 
         [FieldOffset(32)] // size = 8, padding = 0
         public CXFile file;

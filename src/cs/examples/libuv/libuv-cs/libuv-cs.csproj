@@ -9,7 +9,7 @@
 
     <!-- Project references -->
     <ItemGroup>
-        <ProjectReference Include="..\..\..\prod\C2CS.NativeRuntime\C2CS.NativeRuntime.csproj" />
+        <ProjectReference Include="..\..\..\prod\C2CS.Runtime\C2CS.Runtime.csproj" />
     </ItemGroup>
 
     <!-- Copy native libraries -->

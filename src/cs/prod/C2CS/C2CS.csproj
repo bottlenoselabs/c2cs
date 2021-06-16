@@ -5,6 +5,7 @@
         <TargetFramework>net5.0</TargetFramework>
         <OutputType>Exe</OutputType>
         <RootNamespace>C2CS</RootNamespace>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <!-- NuGet -->
@@ -25,13 +26,17 @@
     
     <!-- NuGet packaage references -->
     <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations" Version="2021.1.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0-2.final" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.10.0-2.final" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="3.10.0-2.final" />
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20574.7" />
     </ItemGroup>
     
     <!-- Project references -->
     <ItemGroup>
-        <ProjectReference Include="..\C2CS.Languages.CSharp\C2CS.Languages.CSharp.csproj" />
-        <ProjectReference Include="..\C2CS.Languages.C\C2CS.Languages.C.csproj" />
+        <ProjectReference Include="..\C2CS.Runtime\C2CS.Runtime.csproj" />
+        <ProjectReference Include="..\libclang-cs\libclang-cs.csproj" />
     </ItemGroup>
 
 </Project>

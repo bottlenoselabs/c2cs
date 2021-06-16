@@ -42,18 +42,18 @@ internal static unsafe class Program
                     /* Print something to the console so we can see the system is being
                      * invoked */
                     var nameCString = ecs_get_name(iterator->world, iterator->entities[i]);
-                    var nameString = NativeRuntime.AllocateString(nameCString);
+                    var nameString = Runtime.AllocateString(nameCString);
                     Console.WriteLine($"{nameString} moved to {{.x = {p[i].X}, .y = {p[i].Y}}}");
                 }
             }
             
-            public static readonly AnsiStringPtr Name = "Move";
+            public static readonly CString Name = "Move";
         }
     }
 
     public static class Entities
     {
-        public static readonly AnsiStringPtr MyEntity = "MyEntity";
+        public static readonly CString MyEntity = "MyEntity";
     }
 
     private static int Main(string[] args)

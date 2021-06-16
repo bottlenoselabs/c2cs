@@ -16,7 +16,7 @@ internal static unsafe class Program
         desc.width = 400;
         desc.height = 300;
         desc.gl_force_gles2 = true;
-        desc.window_title = NativeRuntime.AllocateCString("Clear (sokol app)");
+        desc.window_title = Runtime.AllocateCString("Clear (sokol app)");
         
         sapp_run(&desc);
     }   

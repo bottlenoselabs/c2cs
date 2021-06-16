@@ -18,7 +18,7 @@ internal static class Program
     {
         var cMakeDirectoryPath = Path.Combine(rootDirectory, "src/c/examples/flecs");
         var targetLibraryDirectoryPath = $"{rootDirectory}/src/cs/examples/flecs/flecs-cs/";
-        var isSuccess = Shell.CMake(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
+        var isSuccess = Terminal.CMake(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
         if (!isSuccess)
         {
             Environment.Exit(1);

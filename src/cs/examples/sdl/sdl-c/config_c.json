@@ -1,0 +1,11 @@
+{
+  "ignoredFiles": [
+    "SDL_stdinc.h",
+    "SDL_main.h",
+    "SDL_render.h",
+    "SDL_shape.h"
+  ],
+  "opaqueTypes": [
+    "SDL_RWops"
+  ]
+}

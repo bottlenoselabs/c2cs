@@ -24,11 +24,11 @@ public static unsafe partial class flecs
         UnloadApi();
         if (libraryFilePath == null)
         {
-            var libraryFileNamePrefix = NativeRuntime.LibraryFileNamePrefix;
-            var libraryFileNameExtension = NativeRuntime.LibraryFileNameExtension;
+            var libraryFileNamePrefix = Runtime.LibraryFileNamePrefix;
+            var libraryFileNameExtension = Runtime.LibraryFileNameExtension;
             libraryFilePath = $@"{libraryFileNamePrefix}{LibraryName}{libraryFileNameExtension}";
         }
-        _libraryHandle = NativeRuntime.LibraryLoad(libraryFilePath);
+        _libraryHandle = Runtime.LibraryLoad(libraryFilePath);
         if (_libraryHandle == IntPtr.Zero)
             throw new Exception($"Failed to load library: {libraryFilePath}");
         LoadExports();
@@ -39,66 +39,66 @@ public static unsafe partial class flecs
         if (_libraryHandle == IntPtr.Zero)
             return;
         UnloadExports();
-        NativeRuntime.LibraryUnload(_libraryHandle);
+        Runtime.LibraryUnload(_libraryHandle);
     }
 
     private static void LoadExports()
     {
-        _ecs_os_api_malloc_count = NativeRuntime.LibraryGetExport(_libraryHandle, "ecs_os_api_malloc_count");
-        _ecs_os_api_realloc_count = NativeRuntime.LibraryGetExport(_libraryHandle, "ecs_os_api_realloc_count");
-        _ecs_os_api_calloc_count = NativeRuntime.LibraryGetExport(_libraryHandle, "ecs_os_api_calloc_count");
-        _ecs_os_api_free_count = NativeRuntime.LibraryGetExport(_libraryHandle, "ecs_os_api_free_count");
-        _ecs_os_api = NativeRuntime.LibraryGetExport(_libraryHandle, "ecs_os_api");
-        _FLECS__TEcsComponent = NativeRuntime.LibraryGetExport(_libraryHandle, "FLECS__TEcsComponent");
-        _FLECS__TEcsComponentLifecycle = NativeRuntime.LibraryGetExport(_libraryHandle, "FLECS__TEcsComponentLifecycle");
-        _FLECS__TEcsType = NativeRuntime.LibraryGetExport(_libraryHandle, "FLECS__TEcsType");
-        _FLECS__TEcsName = NativeRuntime.LibraryGetExport(_libraryHandle, "FLECS__TEcsName");
-        _ECS_CASE = NativeRuntime.LibraryGetExport(_libraryHandle, "ECS_CASE");
-        _ECS_SWITCH = NativeRuntime.LibraryGetExport(_libraryHandle, "ECS_SWITCH");
-        _ECS_PAIR = NativeRuntime.LibraryGetExport(_libraryHandle, "ECS_PAIR");
-        _ECS_OWNED = NativeRuntime.LibraryGetExport(_libraryHandle, "ECS_OWNED");
-        _ECS_DISABLED = NativeRuntime.LibraryGetExport(_libraryHandle, "ECS_DISABLED");
-        _EcsFlecs = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsFlecs");
-        _EcsFlecsCore = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsFlecsCore");
-        _EcsWorld = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsWorld");
-        _EcsWildcard = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsWildcard");
-        _EcsThis = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsThis");
-        _EcsTransitive = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsTransitive");
-        _EcsFinal = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsFinal");
-        _EcsChildOf = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsChildOf");
-        _EcsIsA = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsIsA");
-        _EcsModule = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsModule");
-        _EcsPrefab = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsPrefab");
-        _EcsDisabled = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsDisabled");
-        _EcsHidden = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsHidden");
-        _EcsOnAdd = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsOnAdd");
-        _EcsOnRemove = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsOnRemove");
-        _EcsOnSet = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsOnSet");
-        _EcsUnSet = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsUnSet");
-        _EcsOnDelete = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsOnDelete");
-        _EcsOnDeleteObject = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsOnDeleteObject");
-        _EcsRemove = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsRemove");
-        _EcsDelete = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsDelete");
-        _EcsThrow = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsThrow");
-        _EcsOnDemand = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsOnDemand");
-        _EcsMonitor = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsMonitor");
-        _EcsDisabledIntern = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsDisabledIntern");
-        _EcsInactive = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsInactive");
-        _EcsPipeline = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsPipeline");
-        _EcsPreFrame = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsPreFrame");
-        _EcsOnLoad = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsOnLoad");
-        _EcsPostLoad = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsPostLoad");
-        _EcsPreUpdate = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsPreUpdate");
-        _EcsOnUpdate = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsOnUpdate");
-        _EcsOnValidate = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsOnValidate");
-        _EcsPostUpdate = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsPostUpdate");
-        _EcsPreStore = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsPreStore");
-        _EcsOnStore = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsOnStore");
-        _EcsPostFrame = NativeRuntime.LibraryGetExport(_libraryHandle, "EcsPostFrame");
-        _FLECS__TEcsSystem = NativeRuntime.LibraryGetExport(_libraryHandle, "FLECS__TEcsSystem");
-        _FLECS__TEcsTickSource = NativeRuntime.LibraryGetExport(_libraryHandle, "FLECS__TEcsTickSource");
-        _FLECS__TEcsTimer = NativeRuntime.LibraryGetExport(_libraryHandle, "FLECS__TEcsTimer");
-        _FLECS__TEcsRateFilter = NativeRuntime.LibraryGetExport(_libraryHandle, "FLECS__TEcsRateFilter");
+        _ecs_os_api_malloc_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_malloc_count");
+        _ecs_os_api_realloc_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_realloc_count");
+        _ecs_os_api_calloc_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_calloc_count");
+        _ecs_os_api_free_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_free_count");
+        _ecs_os_api = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api");
+        _FLECS__TEcsComponent = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsComponent");
+        _FLECS__TEcsComponentLifecycle = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsComponentLifecycle");
+        _FLECS__TEcsType = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsType");
+        _FLECS__TEcsName = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsName");
+        _ECS_CASE = Runtime.LibraryGetExport(_libraryHandle, "ECS_CASE");
+        _ECS_SWITCH = Runtime.LibraryGetExport(_libraryHandle, "ECS_SWITCH");
+        _ECS_PAIR = Runtime.LibraryGetExport(_libraryHandle, "ECS_PAIR");
+        _ECS_OWNED = Runtime.LibraryGetExport(_libraryHandle, "ECS_OWNED");
+        _ECS_DISABLED = Runtime.LibraryGetExport(_libraryHandle, "ECS_DISABLED");
+        _EcsFlecs = Runtime.LibraryGetExport(_libraryHandle, "EcsFlecs");
+        _EcsFlecsCore = Runtime.LibraryGetExport(_libraryHandle, "EcsFlecsCore");
+        _EcsWorld = Runtime.LibraryGetExport(_libraryHandle, "EcsWorld");
+        _EcsWildcard = Runtime.LibraryGetExport(_libraryHandle, "EcsWildcard");
+        _EcsThis = Runtime.LibraryGetExport(_libraryHandle, "EcsThis");
+        _EcsTransitive = Runtime.LibraryGetExport(_libraryHandle, "EcsTransitive");
+        _EcsFinal = Runtime.LibraryGetExport(_libraryHandle, "EcsFinal");
+        _EcsChildOf = Runtime.LibraryGetExport(_libraryHandle, "EcsChildOf");
+        _EcsIsA = Runtime.LibraryGetExport(_libraryHandle, "EcsIsA");
+        _EcsModule = Runtime.LibraryGetExport(_libraryHandle, "EcsModule");
+        _EcsPrefab = Runtime.LibraryGetExport(_libraryHandle, "EcsPrefab");
+        _EcsDisabled = Runtime.LibraryGetExport(_libraryHandle, "EcsDisabled");
+        _EcsHidden = Runtime.LibraryGetExport(_libraryHandle, "EcsHidden");
+        _EcsOnAdd = Runtime.LibraryGetExport(_libraryHandle, "EcsOnAdd");
+        _EcsOnRemove = Runtime.LibraryGetExport(_libraryHandle, "EcsOnRemove");
+        _EcsOnSet = Runtime.LibraryGetExport(_libraryHandle, "EcsOnSet");
+        _EcsUnSet = Runtime.LibraryGetExport(_libraryHandle, "EcsUnSet");
+        _EcsOnDelete = Runtime.LibraryGetExport(_libraryHandle, "EcsOnDelete");
+        _EcsOnDeleteObject = Runtime.LibraryGetExport(_libraryHandle, "EcsOnDeleteObject");
+        _EcsRemove = Runtime.LibraryGetExport(_libraryHandle, "EcsRemove");
+        _EcsDelete = Runtime.LibraryGetExport(_libraryHandle, "EcsDelete");
+        _EcsThrow = Runtime.LibraryGetExport(_libraryHandle, "EcsThrow");
+        _EcsOnDemand = Runtime.LibraryGetExport(_libraryHandle, "EcsOnDemand");
+        _EcsMonitor = Runtime.LibraryGetExport(_libraryHandle, "EcsMonitor");
+        _EcsDisabledIntern = Runtime.LibraryGetExport(_libraryHandle, "EcsDisabledIntern");
+        _EcsInactive = Runtime.LibraryGetExport(_libraryHandle, "EcsInactive");
+        _EcsPipeline = Runtime.LibraryGetExport(_libraryHandle, "EcsPipeline");
+        _EcsPreFrame = Runtime.LibraryGetExport(_libraryHandle, "EcsPreFrame");
+        _EcsOnLoad = Runtime.LibraryGetExport(_libraryHandle, "EcsOnLoad");
+        _EcsPostLoad = Runtime.LibraryGetExport(_libraryHandle, "EcsPostLoad");
+        _EcsPreUpdate = Runtime.LibraryGetExport(_libraryHandle, "EcsPreUpdate");
+        _EcsOnUpdate = Runtime.LibraryGetExport(_libraryHandle, "EcsOnUpdate");
+        _EcsOnValidate = Runtime.LibraryGetExport(_libraryHandle, "EcsOnValidate");
+        _EcsPostUpdate = Runtime.LibraryGetExport(_libraryHandle, "EcsPostUpdate");
+        _EcsPreStore = Runtime.LibraryGetExport(_libraryHandle, "EcsPreStore");
+        _EcsOnStore = Runtime.LibraryGetExport(_libraryHandle, "EcsOnStore");
+        _EcsPostFrame = Runtime.LibraryGetExport(_libraryHandle, "EcsPostFrame");
+        _FLECS__TEcsSystem = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsSystem");
+        _FLECS__TEcsTickSource = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsTickSource");
+        _FLECS__TEcsTimer = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsTimer");
+        _FLECS__TEcsRateFilter = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsRateFilter");
     }
 
     private static void UnloadExports()
@@ -334,15 +334,15 @@ public static unsafe partial class flecs
 
     // Function @ strbuf.h:80
     [DllImport(LibraryName, EntryPoint = "ecs_strbuf_append", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_strbuf_append(ecs_strbuf_t* buffer, AnsiStringPtr fmt);
+    public static extern CBool ecs_strbuf_append(ecs_strbuf_t* buffer, CString fmt);
 
     // Function @ strbuf.h:88
     [DllImport(LibraryName, EntryPoint = "ecs_strbuf_vappend", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_strbuf_vappend(ecs_strbuf_t* buffer, AnsiStringPtr fmt, IntPtr args);
+    public static extern CBool ecs_strbuf_vappend(ecs_strbuf_t* buffer, CString fmt, IntPtr args);
 
     // Function @ strbuf.h:96
     [DllImport(LibraryName, EntryPoint = "ecs_strbuf_appendstr", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_strbuf_appendstr(ecs_strbuf_t* buffer, AnsiStringPtr str);
+    public static extern CBool ecs_strbuf_appendstr(ecs_strbuf_t* buffer, CString str);
 
     // Function @ strbuf.h:103
     [DllImport(LibraryName, EntryPoint = "ecs_strbuf_mergebuff", CallingConvention = CallingConvention.Cdecl)]
@@ -350,19 +350,19 @@ public static unsafe partial class flecs
 
     // Function @ strbuf.h:110
     [DllImport(LibraryName, EntryPoint = "ecs_strbuf_appendstr_zerocpy", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_strbuf_appendstr_zerocpy(ecs_strbuf_t* buffer, AnsiStringPtr str);
+    public static extern CBool ecs_strbuf_appendstr_zerocpy(ecs_strbuf_t* buffer, CString str);
 
     // Function @ strbuf.h:117
     [DllImport(LibraryName, EntryPoint = "ecs_strbuf_appendstr_zerocpy_const", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_strbuf_appendstr_zerocpy_const(ecs_strbuf_t* buffer, AnsiStringPtr str);
+    public static extern CBool ecs_strbuf_appendstr_zerocpy_const(ecs_strbuf_t* buffer, CString str);
 
     // Function @ strbuf.h:124
     [DllImport(LibraryName, EntryPoint = "ecs_strbuf_appendstrn", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_strbuf_appendstrn(ecs_strbuf_t* buffer, AnsiStringPtr str, int n);
+    public static extern CBool ecs_strbuf_appendstrn(ecs_strbuf_t* buffer, CString str, int n);
 
     // Function @ strbuf.h:131
     [DllImport(LibraryName, EntryPoint = "ecs_strbuf_get", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr ecs_strbuf_get(ecs_strbuf_t* buffer);
+    public static extern CString ecs_strbuf_get(ecs_strbuf_t* buffer);
 
     // Function @ strbuf.h:136
     [DllImport(LibraryName, EntryPoint = "ecs_strbuf_reset", CallingConvention = CallingConvention.Cdecl)]
@@ -370,11 +370,11 @@ public static unsafe partial class flecs
 
     // Function @ strbuf.h:141
     [DllImport(LibraryName, EntryPoint = "ecs_strbuf_list_push", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_strbuf_list_push(ecs_strbuf_t* buffer, AnsiStringPtr list_open, AnsiStringPtr separator);
+    public static extern void ecs_strbuf_list_push(ecs_strbuf_t* buffer, CString list_open, CString separator);
 
     // Function @ strbuf.h:148
     [DllImport(LibraryName, EntryPoint = "ecs_strbuf_list_pop", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_strbuf_list_pop(ecs_strbuf_t* buffer, AnsiStringPtr list_close);
+    public static extern void ecs_strbuf_list_pop(ecs_strbuf_t* buffer, CString list_close);
 
     // Function @ strbuf.h:154
     [DllImport(LibraryName, EntryPoint = "ecs_strbuf_list_next", CallingConvention = CallingConvention.Cdecl)]
@@ -382,11 +382,11 @@ public static unsafe partial class flecs
 
     // Function @ strbuf.h:159
     [DllImport(LibraryName, EntryPoint = "ecs_strbuf_list_append", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_strbuf_list_append(ecs_strbuf_t* buffer, AnsiStringPtr fmt);
+    public static extern CBool ecs_strbuf_list_append(ecs_strbuf_t* buffer, CString fmt);
 
     // Function @ strbuf.h:166
     [DllImport(LibraryName, EntryPoint = "ecs_strbuf_list_appendstr", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_strbuf_list_appendstr(ecs_strbuf_t* buffer, AnsiStringPtr str);
+    public static extern CBool ecs_strbuf_list_appendstr(ecs_strbuf_t* buffer, CString str);
 
     // Function @ os_api.h:257
     [DllImport(LibraryName, EntryPoint = "ecs_os_init", CallingConvention = CallingConvention.Cdecl)]
@@ -406,19 +406,19 @@ public static unsafe partial class flecs
 
     // Function @ os_api.h:360
     [DllImport(LibraryName, EntryPoint = "ecs_os_log", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_os_log(AnsiStringPtr fmt);
+    public static extern void ecs_os_log(CString fmt);
 
     // Function @ os_api.h:363
     [DllImport(LibraryName, EntryPoint = "ecs_os_warn", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_os_warn(AnsiStringPtr fmt);
+    public static extern void ecs_os_warn(CString fmt);
 
     // Function @ os_api.h:366
     [DllImport(LibraryName, EntryPoint = "ecs_os_err", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_os_err(AnsiStringPtr fmt);
+    public static extern void ecs_os_err(CString fmt);
 
     // Function @ os_api.h:369
     [DllImport(LibraryName, EntryPoint = "ecs_os_dbg", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_os_dbg(AnsiStringPtr fmt);
+    public static extern void ecs_os_dbg(CString fmt);
 
     // Function @ os_api.h:385
     [DllImport(LibraryName, EntryPoint = "ecs_sleepf", CallingConvention = CallingConvention.Cdecl)]
@@ -466,11 +466,11 @@ public static unsafe partial class flecs
 
     // Function @ api_support.h:52
     [DllImport(LibraryName, EntryPoint = "ecs_new_module", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_new_module(ecs_world_t* world, ecs_entity_t e, AnsiStringPtr name, ulong size, ulong alignment);
+    public static extern ecs_entity_t ecs_new_module(ecs_world_t* world, ecs_entity_t e, CString name, ulong size, ulong alignment);
 
     // Function @ api_support.h:60
     [DllImport(LibraryName, EntryPoint = "ecs_module_path_from_c", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr ecs_module_path_from_c(AnsiStringPtr c_name);
+    public static extern CString ecs_module_path_from_c(CString c_name);
 
     // Function @ api_support.h:64
     [DllImport(LibraryName, EntryPoint = "ecs_component_has_actions", CallingConvention = CallingConvention.Cdecl)]
@@ -478,11 +478,11 @@ public static unsafe partial class flecs
 
     // Function @ api_support.h:72
     [DllImport(LibraryName, EntryPoint = "ecs_identifier_is_0", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_identifier_is_0(AnsiStringPtr id);
+    public static extern CBool ecs_identifier_is_0(CString id);
 
     // Function @ api_support.h:75
     [DllImport(LibraryName, EntryPoint = "ecs_identifier_is_var", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_identifier_is_var(AnsiStringPtr id);
+    public static extern CBool ecs_identifier_is_var(CString id);
 
     // Function @ api_support.h:80
     [DllImport(LibraryName, EntryPoint = "ecs_query_get_filter", CallingConvention = CallingConvention.Cdecl)]
@@ -490,19 +490,19 @@ public static unsafe partial class flecs
 
     // Function @ log.h:40
     [DllImport(LibraryName, EntryPoint = "_ecs_trace", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void _ecs_trace(int level, AnsiStringPtr file, int line, AnsiStringPtr fmt);
+    public static extern void _ecs_trace(int level, CString file, int line, CString fmt);
 
     // Function @ log.h:48
     [DllImport(LibraryName, EntryPoint = "_ecs_warn", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void _ecs_warn(AnsiStringPtr file, int line, AnsiStringPtr fmt);
+    public static extern void _ecs_warn(CString file, int line, CString fmt);
 
     // Function @ log.h:55
     [DllImport(LibraryName, EntryPoint = "_ecs_err", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void _ecs_err(AnsiStringPtr file, int line, AnsiStringPtr fmt);
+    public static extern void _ecs_err(CString file, int line, CString fmt);
 
     // Function @ log.h:62
     [DllImport(LibraryName, EntryPoint = "_ecs_deprecated", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void _ecs_deprecated(AnsiStringPtr file, int line, AnsiStringPtr msg);
+    public static extern void _ecs_deprecated(CString file, int line, CString msg);
 
     // Function @ log.h:68
     [DllImport(LibraryName, EntryPoint = "ecs_log_push", CallingConvention = CallingConvention.Cdecl)]
@@ -514,19 +514,19 @@ public static unsafe partial class flecs
 
     // Function @ log.h:125
     [DllImport(LibraryName, EntryPoint = "ecs_strerror", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr ecs_strerror(int error_code);
+    public static extern CString ecs_strerror(int error_code);
 
     // Function @ log.h:130
     [DllImport(LibraryName, EntryPoint = "_ecs_abort", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void _ecs_abort(int error_code, AnsiStringPtr param, AnsiStringPtr file, int line);
+    public static extern void _ecs_abort(int error_code, CString param, CString file, int line);
 
     // Function @ log.h:141
     [DllImport(LibraryName, EntryPoint = "_ecs_assert", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void _ecs_assert(CBool condition, int error_code, AnsiStringPtr param, AnsiStringPtr condition_str, AnsiStringPtr file, int line);
+    public static extern void _ecs_assert(CBool condition, int error_code, CString param, CString condition_str, CString file, int line);
 
     // Function @ log.h:158
     [DllImport(LibraryName, EntryPoint = "_ecs_parser_error", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void _ecs_parser_error(AnsiStringPtr name, AnsiStringPtr expr, long column, AnsiStringPtr fmt);
+    public static extern void _ecs_parser_error(CString name, CString expr, long column, CString fmt);
 
     // Function @ type.h:17
     [DllImport(LibraryName, EntryPoint = "ecs_type_from_id", CallingConvention = CallingConvention.Cdecl)]
@@ -538,11 +538,11 @@ public static unsafe partial class flecs
 
     // Function @ type.h:27
     [DllImport(LibraryName, EntryPoint = "ecs_type_str", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr ecs_type_str(ecs_world_t* world, ecs_type_t type);
+    public static extern CString ecs_type_str(ecs_world_t* world, ecs_type_t type);
 
     // Function @ type.h:32
     [DllImport(LibraryName, EntryPoint = "ecs_type_from_str", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_type_t ecs_type_from_str(ecs_world_t* world, AnsiStringPtr expr);
+    public static extern ecs_type_t ecs_type_from_str(ecs_world_t* world, CString expr);
 
     // Function @ type.h:37
     [DllImport(LibraryName, EntryPoint = "ecs_type_find", CallingConvention = CallingConvention.Cdecl)]
@@ -682,7 +682,7 @@ public static unsafe partial class flecs
 
     // Function @ deprecated.h:363
     [DllImport(LibraryName, EntryPoint = "ecs_entity_str", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong ecs_entity_str(ecs_world_t* world, ecs_id_t entity, AnsiStringPtr buffer, ulong buffer_len);
+    public static extern ulong ecs_entity_str(ecs_world_t* world, ecs_id_t entity, CString buffer, ulong buffer_len);
 
     // Function @ deprecated.h:371
     [DllImport(LibraryName, EntryPoint = "ecs_get_parent_w_entity", CallingConvention = CallingConvention.Cdecl)]
@@ -726,7 +726,7 @@ public static unsafe partial class flecs
 
     // Function @ deprecated.h:445
     [DllImport(LibraryName, EntryPoint = "ecs_column_index_from_name", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_column_index_from_name(ecs_iter_t* it, AnsiStringPtr name);
+    public static extern int ecs_column_index_from_name(ecs_iter_t* it, CString name);
 
     // Function @ deprecated.h:451
     [DllImport(LibraryName, EntryPoint = "ecs_element_w_size", CallingConvention = CallingConvention.Cdecl)]
@@ -774,11 +774,11 @@ public static unsafe partial class flecs
 
     // Function @ deprecated.h:524
     [DllImport(LibraryName, EntryPoint = "ecs_query_new", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_query_t* ecs_query_new(ecs_world_t* world, AnsiStringPtr sig);
+    public static extern ecs_query_t* ecs_query_new(ecs_world_t* world, CString sig);
 
     // Function @ deprecated.h:530
     [DllImport(LibraryName, EntryPoint = "ecs_subquery_new", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_query_t* ecs_subquery_new(ecs_world_t* world, ecs_query_t* parent, AnsiStringPtr sig);
+    public static extern ecs_query_t* ecs_subquery_new(ecs_world_t* world, ecs_query_t* parent, CString sig);
 
     // Function @ deprecated.h:537
     [DllImport(LibraryName, EntryPoint = "ecs_query_free", CallingConvention = CallingConvention.Cdecl)]
@@ -802,7 +802,7 @@ public static unsafe partial class flecs
 
     // Function @ flecs.h:903
     [DllImport(LibraryName, EntryPoint = "ecs_init_w_args", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_world_t* ecs_init_w_args(int argc, AnsiStringPtr* argv);
+    public static extern ecs_world_t* ecs_init_w_args(int argc, CString* argv);
 
     // Function @ flecs.h:914
     [DllImport(LibraryName, EntryPoint = "ecs_fini", CallingConvention = CallingConvention.Cdecl)]
@@ -1018,15 +1018,15 @@ public static unsafe partial class flecs
 
     // Function @ flecs.h:2146
     [DllImport(LibraryName, EntryPoint = "ecs_get_name", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr ecs_get_name(ecs_world_t* world, ecs_entity_t entity);
+    public static extern CString ecs_get_name(ecs_world_t* world, ecs_entity_t entity);
 
     // Function @ flecs.h:2158
     [DllImport(LibraryName, EntryPoint = "ecs_role_str", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr ecs_role_str(ecs_entity_t entity);
+    public static extern CString ecs_role_str(ecs_entity_t entity);
 
     // Function @ flecs.h:2171
     [DllImport(LibraryName, EntryPoint = "ecs_id_str", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong ecs_id_str(ecs_world_t* world, ecs_id_t entity, AnsiStringPtr buffer, ulong buffer_len);
+    public static extern ulong ecs_id_str(ecs_world_t* world, ecs_id_t entity, CString buffer, ulong buffer_len);
 
     // Function @ flecs.h:2189
     [DllImport(LibraryName, EntryPoint = "ecs_get_object_w_id", CallingConvention = CallingConvention.Cdecl)]
@@ -1046,35 +1046,35 @@ public static unsafe partial class flecs
 
     // Function @ flecs.h:2274
     [DllImport(LibraryName, EntryPoint = "ecs_lookup", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_lookup(ecs_world_t* world, AnsiStringPtr name);
+    public static extern ecs_entity_t ecs_lookup(ecs_world_t* world, CString name);
 
     // Function @ flecs.h:2288
     [DllImport(LibraryName, EntryPoint = "ecs_lookup_child", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_lookup_child(ecs_world_t* world, ecs_entity_t parent, AnsiStringPtr name);
+    public static extern ecs_entity_t ecs_lookup_child(ecs_world_t* world, ecs_entity_t parent, CString name);
 
     // Function @ flecs.h:2312
     [DllImport(LibraryName, EntryPoint = "ecs_lookup_path_w_sep", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_lookup_path_w_sep(ecs_world_t* world, ecs_entity_t parent, AnsiStringPtr path, AnsiStringPtr sep, AnsiStringPtr prefix, CBool recursive);
+    public static extern ecs_entity_t ecs_lookup_path_w_sep(ecs_world_t* world, ecs_entity_t parent, CString path, CString sep, CString prefix, CBool recursive);
 
     // Function @ flecs.h:2353
     [DllImport(LibraryName, EntryPoint = "ecs_lookup_symbol", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_lookup_symbol(ecs_world_t* world, AnsiStringPtr name);
+    public static extern ecs_entity_t ecs_lookup_symbol(ecs_world_t* world, CString name);
 
     // Function @ flecs.h:2359
     [DllImport(LibraryName, EntryPoint = "ecs_use", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_use(ecs_world_t* world, ecs_entity_t entity, AnsiStringPtr name);
+    public static extern void ecs_use(ecs_world_t* world, ecs_entity_t entity, CString name);
 
     // Function @ flecs.h:2391
     [DllImport(LibraryName, EntryPoint = "ecs_get_path_w_sep", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr ecs_get_path_w_sep(ecs_world_t* world, ecs_entity_t parent, ecs_entity_t child, ecs_entity_t component, AnsiStringPtr sep, AnsiStringPtr prefix);
+    public static extern CString ecs_get_path_w_sep(ecs_world_t* world, ecs_entity_t parent, ecs_entity_t child, ecs_entity_t component, CString sep, CString prefix);
 
     // Function @ flecs.h:2440
     [DllImport(LibraryName, EntryPoint = "ecs_new_from_path_w_sep", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_new_from_path_w_sep(ecs_world_t* world, ecs_entity_t parent, AnsiStringPtr path, AnsiStringPtr sep, AnsiStringPtr prefix);
+    public static extern ecs_entity_t ecs_new_from_path_w_sep(ecs_world_t* world, ecs_entity_t parent, CString path, CString sep, CString prefix);
 
     // Function @ flecs.h:2484
     [DllImport(LibraryName, EntryPoint = "ecs_add_path_w_sep", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_add_path_w_sep(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t parent, AnsiStringPtr path, AnsiStringPtr sep, AnsiStringPtr prefix);
+    public static extern ecs_entity_t ecs_add_path_w_sep(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t parent, CString path, CString sep, CString prefix);
 
     // Function @ flecs.h:2531
     [DllImport(LibraryName, EntryPoint = "ecs_get_child_count", CallingConvention = CallingConvention.Cdecl)]
@@ -1102,7 +1102,7 @@ public static unsafe partial class flecs
 
     // Function @ flecs.h:2610
     [DllImport(LibraryName, EntryPoint = "ecs_set_name_prefix", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr ecs_set_name_prefix(ecs_world_t* world, AnsiStringPtr prefix);
+    public static extern CString ecs_set_name_prefix(ecs_world_t* world, CString prefix);
 
     // Function @ flecs.h:2634
     [DllImport(LibraryName, EntryPoint = "ecs_term_is_set", CallingConvention = CallingConvention.Cdecl)]
@@ -1114,7 +1114,7 @@ public static unsafe partial class flecs
 
     // Function @ flecs.h:2685
     [DllImport(LibraryName, EntryPoint = "ecs_term_finalize", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_term_finalize(ecs_world_t* world, AnsiStringPtr name, AnsiStringPtr expr, ecs_term_t* term);
+    public static extern int ecs_term_finalize(ecs_world_t* world, CString name, CString expr, ecs_term_t* term);
 
     // Function @ flecs.h:2700
     [DllImport(LibraryName, EntryPoint = "ecs_term_copy", CallingConvention = CallingConvention.Cdecl)]
@@ -1146,7 +1146,7 @@ public static unsafe partial class flecs
 
     // Function @ flecs.h:2805
     [DllImport(LibraryName, EntryPoint = "ecs_filter_str", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr ecs_filter_str(ecs_world_t* world, ecs_filter_t* filter);
+    public static extern CString ecs_filter_str(ecs_world_t* world, ecs_filter_t* filter);
 
     // Function @ flecs.h:2825
     [DllImport(LibraryName, EntryPoint = "ecs_filter_match_entity", CallingConvention = CallingConvention.Cdecl)]
@@ -1314,7 +1314,7 @@ public static unsafe partial class flecs
 
     // Function @ flecs.h:3545
     [DllImport(LibraryName, EntryPoint = "ecs_table_from_str", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_table_t* ecs_table_from_str(ecs_world_t* world, AnsiStringPtr type);
+    public static extern ecs_table_t* ecs_table_from_str(ecs_world_t* world, CString type);
 
     // Function @ flecs.h:3557
     [DllImport(LibraryName, EntryPoint = "ecs_table_from_type", CallingConvention = CallingConvention.Cdecl)]
@@ -1334,11 +1334,11 @@ public static unsafe partial class flecs
 
     // Function @ module.h:42
     [DllImport(LibraryName, EntryPoint = "ecs_import", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_import(ecs_world_t* world, ecs_module_action_t module, AnsiStringPtr module_name, void* handles_out, ulong handles_size);
+    public static extern ecs_entity_t ecs_import(ecs_world_t* world, ecs_module_action_t module, CString module_name, void* handles_out, ulong handles_size);
 
     // Function @ module.h:69
     [DllImport(LibraryName, EntryPoint = "ecs_import_from_library", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_import_from_library(ecs_world_t* world, AnsiStringPtr library_name, AnsiStringPtr module_name);
+    public static extern ecs_entity_t ecs_import_from_library(ecs_world_t* world, CString library_name, CString module_name);
 
     // Function @ system.h:125
     [DllImport(LibraryName, EntryPoint = "ecs_system_init", CallingConvention = CallingConvention.Cdecl)]
@@ -1506,7 +1506,7 @@ public static unsafe partial class flecs
 
     // Function @ parser.h:46
     [DllImport(LibraryName, EntryPoint = "ecs_parse_term", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr ecs_parse_term(ecs_world_t* world, AnsiStringPtr name, AnsiStringPtr expr, AnsiStringPtr ptr, ecs_term_t* term_out);
+    public static extern CString ecs_parse_term(ecs_world_t* world, CString name, CString expr, CString ptr, ecs_term_t* term_out);
 
     // Function @ queue.h:21
     [DllImport(LibraryName, EntryPoint = "_ecs_queue_new", CallingConvention = CallingConvention.Cdecl)]
@@ -1550,7 +1550,7 @@ public static unsafe partial class flecs
 
     // Function @ reader_writer.h:171
     [DllImport(LibraryName, EntryPoint = "ecs_reader_read", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_reader_read(AnsiStringPtr buffer, int size, ecs_reader_t* reader);
+    public static extern int ecs_reader_read(CString buffer, int size, ecs_reader_t* reader);
 
     // Function @ reader_writer.h:190
     [DllImport(LibraryName, EntryPoint = "ecs_writer_init", CallingConvention = CallingConvention.Cdecl)]
@@ -1558,7 +1558,7 @@ public static unsafe partial class flecs
 
     // Function @ reader_writer.h:213
     [DllImport(LibraryName, EntryPoint = "ecs_writer_write", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_writer_write(AnsiStringPtr buffer, int size, ecs_writer_t* writer);
+    public static extern int ecs_writer_write(CString buffer, int size, ecs_writer_t* writer);
 
     // Function @ snapshot.h:33
     [DllImport(LibraryName, EntryPoint = "ecs_snapshot_take", CallingConvention = CallingConvention.Cdecl)]
@@ -1721,7 +1721,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_os_api_strdup_t
     {
-        public delegate* unmanaged<AnsiStringPtr, AnsiStringPtr> Pointer;
+        public delegate* unmanaged<CString, CString> Pointer;
     }
 
     // PointerFunction @ os_api.h:92
@@ -1826,7 +1826,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_os_api_log_t
     {
-        public delegate* unmanaged<AnsiStringPtr, IntPtr, void> Pointer;
+        public delegate* unmanaged<CString, IntPtr, void> Pointer;
     }
 
     // PointerFunction @ os_api.h:167
@@ -1840,7 +1840,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_os_api_dlopen_t
     {
-        public delegate* unmanaged<AnsiStringPtr, ecs_os_dl_t> Pointer;
+        public delegate* unmanaged<CString, ecs_os_dl_t> Pointer;
     }
 
     // PointerFunction @ os_api.h:58
@@ -1854,7 +1854,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_os_api_dlproc_t
     {
-        public delegate* unmanaged<ecs_os_dl_t, AnsiStringPtr, ecs_os_proc_t> Pointer;
+        public delegate* unmanaged<ecs_os_dl_t, CString, ecs_os_proc_t> Pointer;
     }
 
     // PointerFunction @ os_api.h:181
@@ -1868,7 +1868,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_os_api_module_to_path_t
     {
-        public delegate* unmanaged<AnsiStringPtr, AnsiStringPtr> Pointer;
+        public delegate* unmanaged<CString, CString> Pointer;
     }
 
     // PointerFunction @ api_types.h:209
@@ -1993,7 +1993,7 @@ public static unsafe partial class flecs
         public int pos;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public AnsiStringPtr buf;
+        public CString buf;
 
         [FieldOffset(16)] // size = 8, padding = 0
         public ecs_strbuf_element* next;
@@ -2031,7 +2031,7 @@ public static unsafe partial class flecs
         public int count;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public AnsiStringPtr separator;
+        public CString separator;
     }
 
     // Record @ strbuf.h:52
@@ -2039,7 +2039,7 @@ public static unsafe partial class flecs
     public struct ecs_strbuf_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public AnsiStringPtr buf;
+        public CString buf;
 
         [FieldOffset(8)] // size = 4, padding = 0
         public int max;
@@ -2213,7 +2213,7 @@ public static unsafe partial class flecs
         public ecs_entity_t entity;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public AnsiStringPtr name;
+        public CString name;
 
         [FieldOffset(16)] // size = 4, padding = 4
         public ecs_var_kind_t var;
@@ -2258,7 +2258,7 @@ public static unsafe partial class flecs
         public ecs_id_t role;
 
         [FieldOffset(176)] // size = 8, padding = 0
-        public AnsiStringPtr name;
+        public CString name;
 
         [FieldOffset(184)] // size = 4, padding = 0
         public int index;
@@ -2281,10 +2281,10 @@ public static unsafe partial class flecs
         public int term_count_actual;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public AnsiStringPtr name;
+        public CString name;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public AnsiStringPtr expr;
+        public CString expr;
 
         [FieldOffset(32)] // size = 8, padding = 0
         public ecs_type_t include;
@@ -2636,13 +2636,13 @@ public static unsafe partial class flecs
         public ecs_entity_t entity;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public AnsiStringPtr name;
+        public CString name;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public AnsiStringPtr sep;
+        public CString sep;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public AnsiStringPtr symbol;
+        public CString symbol;
 
         [FieldOffset(32)] // size = 1, padding = 7
         public CBool use_low_id;
@@ -2680,10 +2680,10 @@ public static unsafe partial class flecs
         }
 
         [FieldOffset(552)] // size = 8, padding = 0
-        public AnsiStringPtr add_expr;
+        public CString add_expr;
 
         [FieldOffset(560)] // size = 8, padding = 0
-        public AnsiStringPtr remove_expr;
+        public CString remove_expr;
     }
 
     // Record @ flecs.h:336
@@ -2724,7 +2724,7 @@ public static unsafe partial class flecs
         }
 
         [FieldOffset(824)] // size = 8, padding = 0
-        public AnsiStringPtr ids_expr;
+        public CString ids_expr;
     }
 
     // Record @ flecs.h:352
@@ -2757,10 +2757,10 @@ public static unsafe partial class flecs
         public CBool substitute_default;
 
         [FieldOffset(3088)] // size = 8, padding = 0
-        public AnsiStringPtr expr;
+        public CString expr;
 
         [FieldOffset(3096)] // size = 8, padding = 0
-        public AnsiStringPtr name;
+        public CString name;
     }
 
     // Record @ flecs.h:375
@@ -2800,10 +2800,10 @@ public static unsafe partial class flecs
         public ecs_term_t term;
 
         [FieldOffset(760)] // size = 8, padding = 0
-        public AnsiStringPtr name;
+        public CString name;
 
         [FieldOffset(768)] // size = 8, padding = 0
-        public AnsiStringPtr expr;
+        public CString expr;
 
         [FieldOffset(776)] // size = 64, padding = 0
         public fixed ulong _events[64 / 8]; // ecs_entity_t [8]
@@ -3017,7 +3017,7 @@ public static unsafe partial class flecs
         public int row_count;
 
         [FieldOffset(80)] // size = 8, padding = 0
-        public AnsiStringPtr name;
+        public CString name;
 
         [FieldOffset(88)] // size = 4, padding = 0
         public ecs_size_t name_len;
@@ -3060,7 +3060,7 @@ public static unsafe partial class flecs
     public struct ecs_name_writer_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public AnsiStringPtr name;
+        public CString name;
 
         [FieldOffset(8)] // size = 4, padding = 0
         public int written;
@@ -3623,7 +3623,7 @@ public static unsafe partial class flecs
                 return default(long);
             }
 
-            var value = NativeRuntime.ReadMemory<long>(_ecs_os_api_malloc_count);
+            var value = Runtime.ReadMemory<long>(_ecs_os_api_malloc_count);
             return value;
         }
     }
@@ -3639,7 +3639,7 @@ public static unsafe partial class flecs
                 return default(long);
             }
 
-            var value = NativeRuntime.ReadMemory<long>(_ecs_os_api_realloc_count);
+            var value = Runtime.ReadMemory<long>(_ecs_os_api_realloc_count);
             return value;
         }
     }
@@ -3655,7 +3655,7 @@ public static unsafe partial class flecs
                 return default(long);
             }
 
-            var value = NativeRuntime.ReadMemory<long>(_ecs_os_api_calloc_count);
+            var value = Runtime.ReadMemory<long>(_ecs_os_api_calloc_count);
             return value;
         }
     }
@@ -3671,7 +3671,7 @@ public static unsafe partial class flecs
                 return default(long);
             }
 
-            var value = NativeRuntime.ReadMemory<long>(_ecs_os_api_free_count);
+            var value = Runtime.ReadMemory<long>(_ecs_os_api_free_count);
             return value;
         }
     }
@@ -3687,7 +3687,7 @@ public static unsafe partial class flecs
                 return default(ecs_os_api_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_os_api_t>(_ecs_os_api);
+            var value = Runtime.ReadMemory<ecs_os_api_t>(_ecs_os_api);
             return value;
         }
     }
@@ -3703,7 +3703,7 @@ public static unsafe partial class flecs
                 return default(ecs_type_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_type_t>(_FLECS__TEcsComponent);
+            var value = Runtime.ReadMemory<ecs_type_t>(_FLECS__TEcsComponent);
             return value;
         }
     }
@@ -3719,7 +3719,7 @@ public static unsafe partial class flecs
                 return default(ecs_type_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_type_t>(_FLECS__TEcsComponentLifecycle);
+            var value = Runtime.ReadMemory<ecs_type_t>(_FLECS__TEcsComponentLifecycle);
             return value;
         }
     }
@@ -3735,7 +3735,7 @@ public static unsafe partial class flecs
                 return default(ecs_type_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_type_t>(_FLECS__TEcsType);
+            var value = Runtime.ReadMemory<ecs_type_t>(_FLECS__TEcsType);
             return value;
         }
     }
@@ -3751,7 +3751,7 @@ public static unsafe partial class flecs
                 return default(ecs_type_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_type_t>(_FLECS__TEcsName);
+            var value = Runtime.ReadMemory<ecs_type_t>(_FLECS__TEcsName);
             return value;
         }
     }
@@ -3767,7 +3767,7 @@ public static unsafe partial class flecs
                 return default(ecs_id_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_id_t>(_ECS_CASE);
+            var value = Runtime.ReadMemory<ecs_id_t>(_ECS_CASE);
             return value;
         }
     }
@@ -3783,7 +3783,7 @@ public static unsafe partial class flecs
                 return default(ecs_id_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_id_t>(_ECS_SWITCH);
+            var value = Runtime.ReadMemory<ecs_id_t>(_ECS_SWITCH);
             return value;
         }
     }
@@ -3799,7 +3799,7 @@ public static unsafe partial class flecs
                 return default(ecs_id_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_id_t>(_ECS_PAIR);
+            var value = Runtime.ReadMemory<ecs_id_t>(_ECS_PAIR);
             return value;
         }
     }
@@ -3815,7 +3815,7 @@ public static unsafe partial class flecs
                 return default(ecs_id_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_id_t>(_ECS_OWNED);
+            var value = Runtime.ReadMemory<ecs_id_t>(_ECS_OWNED);
             return value;
         }
     }
@@ -3831,7 +3831,7 @@ public static unsafe partial class flecs
                 return default(ecs_id_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_id_t>(_ECS_DISABLED);
+            var value = Runtime.ReadMemory<ecs_id_t>(_ECS_DISABLED);
             return value;
         }
     }
@@ -3847,7 +3847,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsFlecs);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsFlecs);
             return value;
         }
     }
@@ -3863,7 +3863,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsFlecsCore);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsFlecsCore);
             return value;
         }
     }
@@ -3879,7 +3879,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsWorld);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsWorld);
             return value;
         }
     }
@@ -3895,7 +3895,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsWildcard);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsWildcard);
             return value;
         }
     }
@@ -3911,7 +3911,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsThis);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsThis);
             return value;
         }
     }
@@ -3927,7 +3927,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsTransitive);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsTransitive);
             return value;
         }
     }
@@ -3943,7 +3943,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsFinal);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsFinal);
             return value;
         }
     }
@@ -3959,7 +3959,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsChildOf);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsChildOf);
             return value;
         }
     }
@@ -3975,7 +3975,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsIsA);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsIsA);
             return value;
         }
     }
@@ -3991,7 +3991,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsModule);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsModule);
             return value;
         }
     }
@@ -4007,7 +4007,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsPrefab);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsPrefab);
             return value;
         }
     }
@@ -4023,7 +4023,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsDisabled);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsDisabled);
             return value;
         }
     }
@@ -4039,7 +4039,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsHidden);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsHidden);
             return value;
         }
     }
@@ -4055,7 +4055,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnAdd);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnAdd);
             return value;
         }
     }
@@ -4071,7 +4071,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnRemove);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnRemove);
             return value;
         }
     }
@@ -4087,7 +4087,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnSet);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnSet);
             return value;
         }
     }
@@ -4103,7 +4103,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsUnSet);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsUnSet);
             return value;
         }
     }
@@ -4119,7 +4119,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnDelete);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnDelete);
             return value;
         }
     }
@@ -4135,7 +4135,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnDeleteObject);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnDeleteObject);
             return value;
         }
     }
@@ -4151,7 +4151,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsRemove);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsRemove);
             return value;
         }
     }
@@ -4167,7 +4167,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsDelete);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsDelete);
             return value;
         }
     }
@@ -4183,7 +4183,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsThrow);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsThrow);
             return value;
         }
     }
@@ -4199,7 +4199,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnDemand);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnDemand);
             return value;
         }
     }
@@ -4215,7 +4215,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsMonitor);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsMonitor);
             return value;
         }
     }
@@ -4231,7 +4231,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsDisabledIntern);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsDisabledIntern);
             return value;
         }
     }
@@ -4247,7 +4247,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsInactive);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsInactive);
             return value;
         }
     }
@@ -4263,7 +4263,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsPipeline);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsPipeline);
             return value;
         }
     }
@@ -4279,7 +4279,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsPreFrame);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsPreFrame);
             return value;
         }
     }
@@ -4295,7 +4295,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnLoad);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnLoad);
             return value;
         }
     }
@@ -4311,7 +4311,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsPostLoad);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsPostLoad);
             return value;
         }
     }
@@ -4327,7 +4327,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsPreUpdate);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsPreUpdate);
             return value;
         }
     }
@@ -4343,7 +4343,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnUpdate);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnUpdate);
             return value;
         }
     }
@@ -4359,7 +4359,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnValidate);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnValidate);
             return value;
         }
     }
@@ -4375,7 +4375,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsPostUpdate);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsPostUpdate);
             return value;
         }
     }
@@ -4391,7 +4391,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsPreStore);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsPreStore);
             return value;
         }
     }
@@ -4407,7 +4407,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsOnStore);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnStore);
             return value;
         }
     }
@@ -4423,7 +4423,7 @@ public static unsafe partial class flecs
                 return default(ecs_entity_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_entity_t>(_EcsPostFrame);
+            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsPostFrame);
             return value;
         }
     }
@@ -4439,7 +4439,7 @@ public static unsafe partial class flecs
                 return default(ecs_type_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_type_t>(_FLECS__TEcsSystem);
+            var value = Runtime.ReadMemory<ecs_type_t>(_FLECS__TEcsSystem);
             return value;
         }
     }
@@ -4455,7 +4455,7 @@ public static unsafe partial class flecs
                 return default(ecs_type_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_type_t>(_FLECS__TEcsTickSource);
+            var value = Runtime.ReadMemory<ecs_type_t>(_FLECS__TEcsTickSource);
             return value;
         }
     }
@@ -4471,7 +4471,7 @@ public static unsafe partial class flecs
                 return default(ecs_type_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_type_t>(_FLECS__TEcsTimer);
+            var value = Runtime.ReadMemory<ecs_type_t>(_FLECS__TEcsTimer);
             return value;
         }
     }
@@ -4487,7 +4487,7 @@ public static unsafe partial class flecs
                 return default(ecs_type_t);
             }
 
-            var value = NativeRuntime.ReadMemory<ecs_type_t>(_FLECS__TEcsRateFilter);
+            var value = Runtime.ReadMemory<ecs_type_t>(_FLECS__TEcsRateFilter);
             return value;
         }
     }

@@ -24,11 +24,11 @@ public static unsafe partial class uv
         UnloadApi();
         if (libraryFilePath == null)
         {
-            var libraryFileNamePrefix = NativeRuntime.LibraryFileNamePrefix;
-            var libraryFileNameExtension = NativeRuntime.LibraryFileNameExtension;
+            var libraryFileNamePrefix = Runtime.LibraryFileNamePrefix;
+            var libraryFileNameExtension = Runtime.LibraryFileNameExtension;
             libraryFilePath = $@"{libraryFileNamePrefix}{LibraryName}{libraryFileNameExtension}";
         }
-        _libraryHandle = NativeRuntime.LibraryLoad(libraryFilePath);
+        _libraryHandle = Runtime.LibraryLoad(libraryFilePath);
         if (_libraryHandle == IntPtr.Zero)
             throw new Exception($"Failed to load library: {libraryFilePath}");
         LoadExports();
@@ -39,7 +39,7 @@ public static unsafe partial class uv
         if (_libraryHandle == IntPtr.Zero)
             return;
         UnloadExports();
-        NativeRuntime.LibraryUnload(_libraryHandle);
+        Runtime.LibraryUnload(_libraryHandle);
     }
 
     private static void LoadExports()
@@ -58,7 +58,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:262
     [DllImport(LibraryName, EntryPoint = "uv_version_string", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr uv_version_string();
+    public static extern CString uv_version_string();
 
     // Function @ uv.h:269
     [DllImport(LibraryName, EntryPoint = "uv_library_shutdown", CallingConvention = CallingConvention.Cdecl)]
@@ -146,19 +146,19 @@ public static unsafe partial class uv
 
     // Function @ uv.h:390
     [DllImport(LibraryName, EntryPoint = "uv_strerror", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr uv_strerror(int err);
+    public static extern CString uv_strerror(int err);
 
     // Function @ uv.h:391
     [DllImport(LibraryName, EntryPoint = "uv_strerror_r", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr uv_strerror_r(int err, AnsiStringPtr buf, ulong buflen);
+    public static extern CString uv_strerror_r(int err, CString buf, ulong buflen);
 
     // Function @ uv.h:393
     [DllImport(LibraryName, EntryPoint = "uv_err_name", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr uv_err_name(int err);
+    public static extern CString uv_err_name(int err);
 
     // Function @ uv.h:394
     [DllImport(LibraryName, EntryPoint = "uv_err_name_r", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr uv_err_name_r(int err, AnsiStringPtr buf, ulong buflen);
+    public static extern CString uv_err_name_r(int err, CString buf, ulong buflen);
 
     // Function @ uv.h:416
     [DllImport(LibraryName, EntryPoint = "uv_shutdown", CallingConvention = CallingConvention.Cdecl)]
@@ -174,7 +174,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:450
     [DllImport(LibraryName, EntryPoint = "uv_handle_type_name", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr uv_handle_type_name(uv_handle_type type);
+    public static extern CString uv_handle_type_name(uv_handle_type type);
 
     // Function @ uv.h:451
     [DllImport(LibraryName, EntryPoint = "uv_handle_get_data", CallingConvention = CallingConvention.Cdecl)]
@@ -206,7 +206,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:459
     [DllImport(LibraryName, EntryPoint = "uv_req_type_name", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr uv_req_type_name(uv_req_type type);
+    public static extern CString uv_req_type_name(uv_req_type type);
 
     // Function @ uv.h:461
     [DllImport(LibraryName, EntryPoint = "uv_is_active", CallingConvention = CallingConvention.Cdecl)]
@@ -242,7 +242,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:476
     [DllImport(LibraryName, EntryPoint = "uv_buf_init", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uv_buf_t uv_buf_init(AnsiStringPtr @base, uint len);
+    public static extern uv_buf_t uv_buf_init(CString @base, uint len);
 
     // Function @ uv.h:478
     [DllImport(LibraryName, EntryPoint = "uv_pipe", CallingConvention = CallingConvention.Cdecl)]
@@ -374,11 +374,11 @@ public static unsafe partial class uv
 
     // Function @ uv.h:688
     [DllImport(LibraryName, EntryPoint = "uv_udp_set_membership", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_udp_set_membership(uv_udp_t* handle, AnsiStringPtr multicast_addr, AnsiStringPtr interface_addr, uv_membership membership);
+    public static extern int uv_udp_set_membership(uv_udp_t* handle, CString multicast_addr, CString interface_addr, uv_membership membership);
 
     // Function @ uv.h:692
     [DllImport(LibraryName, EntryPoint = "uv_udp_set_source_membership", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_udp_set_source_membership(uv_udp_t* handle, AnsiStringPtr multicast_addr, AnsiStringPtr interface_addr, AnsiStringPtr source_addr, uv_membership membership);
+    public static extern int uv_udp_set_source_membership(uv_udp_t* handle, CString multicast_addr, CString interface_addr, CString source_addr, uv_membership membership);
 
     // Function @ uv.h:697
     [DllImport(LibraryName, EntryPoint = "uv_udp_set_multicast_loop", CallingConvention = CallingConvention.Cdecl)]
@@ -390,7 +390,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:699
     [DllImport(LibraryName, EntryPoint = "uv_udp_set_multicast_interface", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_udp_set_multicast_interface(uv_udp_t* handle, AnsiStringPtr interface_addr);
+    public static extern int uv_udp_set_multicast_interface(uv_udp_t* handle, CString interface_addr);
 
     // Function @ uv.h:701
     [DllImport(LibraryName, EntryPoint = "uv_udp_set_broadcast", CallingConvention = CallingConvention.Cdecl)]
@@ -466,19 +466,19 @@ public static unsafe partial class uv
 
     // Function @ uv.h:789
     [DllImport(LibraryName, EntryPoint = "uv_pipe_bind", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_pipe_bind(uv_pipe_t* handle, AnsiStringPtr name);
+    public static extern int uv_pipe_bind(uv_pipe_t* handle, CString name);
 
     // Function @ uv.h:790
     [DllImport(LibraryName, EntryPoint = "uv_pipe_connect", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void uv_pipe_connect(uv_connect_t* req, uv_pipe_t* handle, AnsiStringPtr name, uv_connect_cb cb);
+    public static extern void uv_pipe_connect(uv_connect_t* req, uv_pipe_t* handle, CString name, uv_connect_cb cb);
 
     // Function @ uv.h:794
     [DllImport(LibraryName, EntryPoint = "uv_pipe_getsockname", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_pipe_getsockname(uv_pipe_t* handle, AnsiStringPtr buffer, ulong* size);
+    public static extern int uv_pipe_getsockname(uv_pipe_t* handle, CString buffer, ulong* size);
 
     // Function @ uv.h:797
     [DllImport(LibraryName, EntryPoint = "uv_pipe_getpeername", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_pipe_getpeername(uv_pipe_t* handle, AnsiStringPtr buffer, ulong* size);
+    public static extern int uv_pipe_getpeername(uv_pipe_t* handle, CString buffer, ulong* size);
 
     // Function @ uv.h:800
     [DllImport(LibraryName, EntryPoint = "uv_pipe_pending_instances", CallingConvention = CallingConvention.Cdecl)]
@@ -586,7 +586,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:904
     [DllImport(LibraryName, EntryPoint = "uv_getaddrinfo", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_getaddrinfo(uv_loop_t* loop, uv_getaddrinfo_t* req, uv_getaddrinfo_cb getaddrinfo_cb, AnsiStringPtr node, AnsiStringPtr service, addrinfo* hints);
+    public static extern int uv_getaddrinfo(uv_loop_t* loop, uv_getaddrinfo_t* req, uv_getaddrinfo_cb getaddrinfo_cb, CString node, CString service, addrinfo* hints);
 
     // Function @ uv.h:910
     [DllImport(LibraryName, EntryPoint = "uv_freeaddrinfo", CallingConvention = CallingConvention.Cdecl)]
@@ -622,15 +622,15 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1171
     [DllImport(LibraryName, EntryPoint = "uv_setup_args", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr* uv_setup_args(int argc, AnsiStringPtr* argv);
+    public static extern CString* uv_setup_args(int argc, CString* argv);
 
     // Function @ uv.h:1172
     [DllImport(LibraryName, EntryPoint = "uv_get_process_title", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_get_process_title(AnsiStringPtr buffer, ulong size);
+    public static extern int uv_get_process_title(CString buffer, ulong size);
 
     // Function @ uv.h:1173
     [DllImport(LibraryName, EntryPoint = "uv_set_process_title", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_set_process_title(AnsiStringPtr title);
+    public static extern int uv_set_process_title(CString title);
 
     // Function @ uv.h:1174
     [DllImport(LibraryName, EntryPoint = "uv_resident_set_memory", CallingConvention = CallingConvention.Cdecl)]
@@ -654,11 +654,11 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1210
     [DllImport(LibraryName, EntryPoint = "uv_os_homedir", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_os_homedir(AnsiStringPtr buffer, ulong* size);
+    public static extern int uv_os_homedir(CString buffer, ulong* size);
 
     // Function @ uv.h:1211
     [DllImport(LibraryName, EntryPoint = "uv_os_tmpdir", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_os_tmpdir(AnsiStringPtr buffer, ulong* size);
+    public static extern int uv_os_tmpdir(CString buffer, ulong* size);
 
     // Function @ uv.h:1212
     [DllImport(LibraryName, EntryPoint = "uv_os_get_passwd", CallingConvention = CallingConvention.Cdecl)]
@@ -710,19 +710,19 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1252
     [DllImport(LibraryName, EntryPoint = "uv_os_getenv", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_os_getenv(AnsiStringPtr name, AnsiStringPtr buffer, ulong* size);
+    public static extern int uv_os_getenv(CString name, CString buffer, ulong* size);
 
     // Function @ uv.h:1253
     [DllImport(LibraryName, EntryPoint = "uv_os_setenv", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_os_setenv(AnsiStringPtr name, AnsiStringPtr value);
+    public static extern int uv_os_setenv(CString name, CString value);
 
     // Function @ uv.h:1254
     [DllImport(LibraryName, EntryPoint = "uv_os_unsetenv", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_os_unsetenv(AnsiStringPtr name);
+    public static extern int uv_os_unsetenv(CString name);
 
     // Function @ uv.h:1267
     [DllImport(LibraryName, EntryPoint = "uv_os_gethostname", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_os_gethostname(AnsiStringPtr buffer, ulong* size);
+    public static extern int uv_os_gethostname(CString buffer, ulong* size);
 
     // Function @ uv.h:1269
     [DllImport(LibraryName, EntryPoint = "uv_os_uname", CallingConvention = CallingConvention.Cdecl)]
@@ -750,7 +750,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1338
     [DllImport(LibraryName, EntryPoint = "uv_fs_get_path", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr uv_fs_get_path(uv_fs_t* param);
+    public static extern CString uv_fs_get_path(uv_fs_t* param);
 
     // Function @ uv.h:1339
     [DllImport(LibraryName, EntryPoint = "uv_fs_get_statbuf", CallingConvention = CallingConvention.Cdecl)]
@@ -766,7 +766,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1346
     [DllImport(LibraryName, EntryPoint = "uv_fs_open", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_open(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, int flags, int mode, uv_fs_cb cb);
+    public static extern int uv_fs_open(uv_loop_t* loop, uv_fs_t* req, CString path, int flags, int mode, uv_fs_cb cb);
 
     // Function @ uv.h:1352
     [DllImport(LibraryName, EntryPoint = "uv_fs_read", CallingConvention = CallingConvention.Cdecl)]
@@ -774,7 +774,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1359
     [DllImport(LibraryName, EntryPoint = "uv_fs_unlink", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_unlink(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, uv_fs_cb cb);
+    public static extern int uv_fs_unlink(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
 
     // Function @ uv.h:1363
     [DllImport(LibraryName, EntryPoint = "uv_fs_write", CallingConvention = CallingConvention.Cdecl)]
@@ -782,27 +782,27 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1388
     [DllImport(LibraryName, EntryPoint = "uv_fs_copyfile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_copyfile(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, AnsiStringPtr new_path, int flags, uv_fs_cb cb);
+    public static extern int uv_fs_copyfile(uv_loop_t* loop, uv_fs_t* req, CString path, CString new_path, int flags, uv_fs_cb cb);
 
     // Function @ uv.h:1394
     [DllImport(LibraryName, EntryPoint = "uv_fs_mkdir", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_mkdir(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, int mode, uv_fs_cb cb);
+    public static extern int uv_fs_mkdir(uv_loop_t* loop, uv_fs_t* req, CString path, int mode, uv_fs_cb cb);
 
     // Function @ uv.h:1399
     [DllImport(LibraryName, EntryPoint = "uv_fs_mkdtemp", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_mkdtemp(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr tpl, uv_fs_cb cb);
+    public static extern int uv_fs_mkdtemp(uv_loop_t* loop, uv_fs_t* req, CString tpl, uv_fs_cb cb);
 
     // Function @ uv.h:1403
     [DllImport(LibraryName, EntryPoint = "uv_fs_mkstemp", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_mkstemp(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr tpl, uv_fs_cb cb);
+    public static extern int uv_fs_mkstemp(uv_loop_t* loop, uv_fs_t* req, CString tpl, uv_fs_cb cb);
 
     // Function @ uv.h:1407
     [DllImport(LibraryName, EntryPoint = "uv_fs_rmdir", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_rmdir(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, uv_fs_cb cb);
+    public static extern int uv_fs_rmdir(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
 
     // Function @ uv.h:1411
     [DllImport(LibraryName, EntryPoint = "uv_fs_scandir", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_scandir(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, int flags, uv_fs_cb cb);
+    public static extern int uv_fs_scandir(uv_loop_t* loop, uv_fs_t* req, CString path, int flags, uv_fs_cb cb);
 
     // Function @ uv.h:1416
     [DllImport(LibraryName, EntryPoint = "uv_fs_scandir_next", CallingConvention = CallingConvention.Cdecl)]
@@ -810,7 +810,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1418
     [DllImport(LibraryName, EntryPoint = "uv_fs_opendir", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_opendir(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, uv_fs_cb cb);
+    public static extern int uv_fs_opendir(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
 
     // Function @ uv.h:1422
     [DllImport(LibraryName, EntryPoint = "uv_fs_readdir", CallingConvention = CallingConvention.Cdecl)]
@@ -822,7 +822,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1430
     [DllImport(LibraryName, EntryPoint = "uv_fs_stat", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_stat(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, uv_fs_cb cb);
+    public static extern int uv_fs_stat(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
 
     // Function @ uv.h:1434
     [DllImport(LibraryName, EntryPoint = "uv_fs_fstat", CallingConvention = CallingConvention.Cdecl)]
@@ -830,7 +830,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1438
     [DllImport(LibraryName, EntryPoint = "uv_fs_rename", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_rename(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, AnsiStringPtr new_path, uv_fs_cb cb);
+    public static extern int uv_fs_rename(uv_loop_t* loop, uv_fs_t* req, CString path, CString new_path, uv_fs_cb cb);
 
     // Function @ uv.h:1443
     [DllImport(LibraryName, EntryPoint = "uv_fs_fsync", CallingConvention = CallingConvention.Cdecl)]
@@ -850,15 +850,15 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1463
     [DllImport(LibraryName, EntryPoint = "uv_fs_access", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_access(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, int mode, uv_fs_cb cb);
+    public static extern int uv_fs_access(uv_loop_t* loop, uv_fs_t* req, CString path, int mode, uv_fs_cb cb);
 
     // Function @ uv.h:1468
     [DllImport(LibraryName, EntryPoint = "uv_fs_chmod", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_chmod(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, int mode, uv_fs_cb cb);
+    public static extern int uv_fs_chmod(uv_loop_t* loop, uv_fs_t* req, CString path, int mode, uv_fs_cb cb);
 
     // Function @ uv.h:1473
     [DllImport(LibraryName, EntryPoint = "uv_fs_utime", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_utime(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, double atime, double mtime, uv_fs_cb cb);
+    public static extern int uv_fs_utime(uv_loop_t* loop, uv_fs_t* req, CString path, double atime, double mtime, uv_fs_cb cb);
 
     // Function @ uv.h:1479
     [DllImport(LibraryName, EntryPoint = "uv_fs_futime", CallingConvention = CallingConvention.Cdecl)]
@@ -866,27 +866,27 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1485
     [DllImport(LibraryName, EntryPoint = "uv_fs_lutime", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_lutime(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, double atime, double mtime, uv_fs_cb cb);
+    public static extern int uv_fs_lutime(uv_loop_t* loop, uv_fs_t* req, CString path, double atime, double mtime, uv_fs_cb cb);
 
     // Function @ uv.h:1491
     [DllImport(LibraryName, EntryPoint = "uv_fs_lstat", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_lstat(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, uv_fs_cb cb);
+    public static extern int uv_fs_lstat(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
 
     // Function @ uv.h:1495
     [DllImport(LibraryName, EntryPoint = "uv_fs_link", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_link(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, AnsiStringPtr new_path, uv_fs_cb cb);
+    public static extern int uv_fs_link(uv_loop_t* loop, uv_fs_t* req, CString path, CString new_path, uv_fs_cb cb);
 
     // Function @ uv.h:1513
     [DllImport(LibraryName, EntryPoint = "uv_fs_symlink", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_symlink(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, AnsiStringPtr new_path, int flags, uv_fs_cb cb);
+    public static extern int uv_fs_symlink(uv_loop_t* loop, uv_fs_t* req, CString path, CString new_path, int flags, uv_fs_cb cb);
 
     // Function @ uv.h:1519
     [DllImport(LibraryName, EntryPoint = "uv_fs_readlink", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_readlink(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, uv_fs_cb cb);
+    public static extern int uv_fs_readlink(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
 
     // Function @ uv.h:1523
     [DllImport(LibraryName, EntryPoint = "uv_fs_realpath", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_realpath(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, uv_fs_cb cb);
+    public static extern int uv_fs_realpath(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
 
     // Function @ uv.h:1527
     [DllImport(LibraryName, EntryPoint = "uv_fs_fchmod", CallingConvention = CallingConvention.Cdecl)]
@@ -894,7 +894,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1532
     [DllImport(LibraryName, EntryPoint = "uv_fs_chown", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_chown(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb);
+    public static extern int uv_fs_chown(uv_loop_t* loop, uv_fs_t* req, CString path, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb);
 
     // Function @ uv.h:1538
     [DllImport(LibraryName, EntryPoint = "uv_fs_fchown", CallingConvention = CallingConvention.Cdecl)]
@@ -902,11 +902,11 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1544
     [DllImport(LibraryName, EntryPoint = "uv_fs_lchown", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_lchown(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb);
+    public static extern int uv_fs_lchown(uv_loop_t* loop, uv_fs_t* req, CString path, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb);
 
     // Function @ uv.h:1550
     [DllImport(LibraryName, EntryPoint = "uv_fs_statfs", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_statfs(uv_loop_t* loop, uv_fs_t* req, AnsiStringPtr path, uv_fs_cb cb);
+    public static extern int uv_fs_statfs(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
 
     // Function @ uv.h:1579
     [DllImport(LibraryName, EntryPoint = "uv_fs_poll_init", CallingConvention = CallingConvention.Cdecl)]
@@ -914,7 +914,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1580
     [DllImport(LibraryName, EntryPoint = "uv_fs_poll_start", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_poll_start(uv_fs_poll_t* handle, uv_fs_poll_cb poll_cb, AnsiStringPtr path, uint interval);
+    public static extern int uv_fs_poll_start(uv_fs_poll_t* handle, uv_fs_poll_cb poll_cb, CString path, uint interval);
 
     // Function @ uv.h:1584
     [DllImport(LibraryName, EntryPoint = "uv_fs_poll_stop", CallingConvention = CallingConvention.Cdecl)]
@@ -922,7 +922,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1585
     [DllImport(LibraryName, EntryPoint = "uv_fs_poll_getpath", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_poll_getpath(uv_fs_poll_t* handle, AnsiStringPtr buffer, ulong* size);
+    public static extern int uv_fs_poll_getpath(uv_fs_poll_t* handle, CString buffer, ulong* size);
 
     // Function @ uv.h:1597
     [DllImport(LibraryName, EntryPoint = "uv_signal_init", CallingConvention = CallingConvention.Cdecl)]
@@ -950,7 +950,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1641
     [DllImport(LibraryName, EntryPoint = "uv_fs_event_start", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_event_start(uv_fs_event_t* handle, uv_fs_event_cb cb, AnsiStringPtr path, uint flags);
+    public static extern int uv_fs_event_start(uv_fs_event_t* handle, uv_fs_event_cb cb, CString path, uint flags);
 
     // Function @ uv.h:1645
     [DllImport(LibraryName, EntryPoint = "uv_fs_event_stop", CallingConvention = CallingConvention.Cdecl)]
@@ -958,31 +958,31 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1646
     [DllImport(LibraryName, EntryPoint = "uv_fs_event_getpath", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_fs_event_getpath(uv_fs_event_t* handle, AnsiStringPtr buffer, ulong* size);
+    public static extern int uv_fs_event_getpath(uv_fs_event_t* handle, CString buffer, ulong* size);
 
     // Function @ uv.h:1650
     [DllImport(LibraryName, EntryPoint = "uv_ip4_addr", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_ip4_addr(AnsiStringPtr ip, int port, sockaddr_in* addr);
+    public static extern int uv_ip4_addr(CString ip, int port, sockaddr_in* addr);
 
     // Function @ uv.h:1651
     [DllImport(LibraryName, EntryPoint = "uv_ip6_addr", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_ip6_addr(AnsiStringPtr ip, int port, sockaddr_in6* addr);
+    public static extern int uv_ip6_addr(CString ip, int port, sockaddr_in6* addr);
 
     // Function @ uv.h:1653
     [DllImport(LibraryName, EntryPoint = "uv_ip4_name", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_ip4_name(sockaddr_in* src, AnsiStringPtr dst, ulong size);
+    public static extern int uv_ip4_name(sockaddr_in* src, CString dst, ulong size);
 
     // Function @ uv.h:1654
     [DllImport(LibraryName, EntryPoint = "uv_ip6_name", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_ip6_name(sockaddr_in6* src, AnsiStringPtr dst, ulong size);
+    public static extern int uv_ip6_name(sockaddr_in6* src, CString dst, ulong size);
 
     // Function @ uv.h:1656
     [DllImport(LibraryName, EntryPoint = "uv_inet_ntop", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_inet_ntop(int af, void* src, AnsiStringPtr dst, ulong size);
+    public static extern int uv_inet_ntop(int af, void* src, CString dst, ulong size);
 
     // Function @ uv.h:1657
     [DllImport(LibraryName, EntryPoint = "uv_inet_pton", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_inet_pton(int af, AnsiStringPtr src, void* dst);
+    public static extern int uv_inet_pton(int af, CString src, void* dst);
 
     // Function @ uv.h:1672
     [DllImport(LibraryName, EntryPoint = "uv_random", CallingConvention = CallingConvention.Cdecl)]
@@ -990,23 +990,23 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1687
     [DllImport(LibraryName, EntryPoint = "uv_if_indextoname", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_if_indextoname(uint ifindex, AnsiStringPtr buffer, ulong* size);
+    public static extern int uv_if_indextoname(uint ifindex, CString buffer, ulong* size);
 
     // Function @ uv.h:1690
     [DllImport(LibraryName, EntryPoint = "uv_if_indextoiid", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_if_indextoiid(uint ifindex, AnsiStringPtr buffer, ulong* size);
+    public static extern int uv_if_indextoiid(uint ifindex, CString buffer, ulong* size);
 
     // Function @ uv.h:1694
     [DllImport(LibraryName, EntryPoint = "uv_exepath", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_exepath(AnsiStringPtr buffer, ulong* size);
+    public static extern int uv_exepath(CString buffer, ulong* size);
 
     // Function @ uv.h:1696
     [DllImport(LibraryName, EntryPoint = "uv_cwd", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_cwd(AnsiStringPtr buffer, ulong* size);
+    public static extern int uv_cwd(CString buffer, ulong* size);
 
     // Function @ uv.h:1698
     [DllImport(LibraryName, EntryPoint = "uv_chdir", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_chdir(AnsiStringPtr dir);
+    public static extern int uv_chdir(CString dir);
 
     // Function @ uv.h:1700
     [DllImport(LibraryName, EntryPoint = "uv_get_free_memory", CallingConvention = CallingConvention.Cdecl)]
@@ -1034,7 +1034,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1709
     [DllImport(LibraryName, EntryPoint = "uv_dlopen", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_dlopen(AnsiStringPtr filename, uv_lib_t* lib);
+    public static extern int uv_dlopen(CString filename, uv_lib_t* lib);
 
     // Function @ uv.h:1710
     [DllImport(LibraryName, EntryPoint = "uv_dlclose", CallingConvention = CallingConvention.Cdecl)]
@@ -1042,11 +1042,11 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1711
     [DllImport(LibraryName, EntryPoint = "uv_dlsym", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int uv_dlsym(uv_lib_t* lib, AnsiStringPtr name, void** ptr);
+    public static extern int uv_dlsym(uv_lib_t* lib, CString name, void** ptr);
 
     // Function @ uv.h:1712
     [DllImport(LibraryName, EntryPoint = "uv_dlerror", CallingConvention = CallingConvention.Cdecl)]
-    public static extern AnsiStringPtr uv_dlerror(uv_lib_t* lib);
+    public static extern CString uv_dlerror(uv_lib_t* lib);
 
     // Function @ uv.h:1714
     [DllImport(LibraryName, EntryPoint = "uv_mutex_init", CallingConvention = CallingConvention.Cdecl)]
@@ -1363,7 +1363,7 @@ public static unsafe partial class uv
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_getnameinfo_cb
     {
-        public delegate* unmanaged<uv_getnameinfo_t*, int, AnsiStringPtr, AnsiStringPtr, void> Pointer;
+        public delegate* unmanaged<uv_getnameinfo_t*, int, CString, CString, void> Pointer;
     }
 
     // PointerFunction @ uv.h:326
@@ -1412,7 +1412,7 @@ public static unsafe partial class uv
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_fs_event_cb
     {
-        public delegate* unmanaged<uv_fs_event_t*, AnsiStringPtr, int, int, void> Pointer;
+        public delegate* unmanaged<uv_fs_event_t*, CString, int, int, void> Pointer;
     }
 
     // PointerFunction @ uv.h:338
@@ -1434,7 +1434,7 @@ public static unsafe partial class uv
     public struct uv_buf_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public AnsiStringPtr @base;
+        public CString @base;
 
         [FieldOffset(8)] // size = 8, padding = 0
         public ulong len;
@@ -1470,16 +1470,16 @@ public static unsafe partial class uv
         public uv_exit_cb exit_cb;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public AnsiStringPtr file;
+        public CString file;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public AnsiStringPtr* args;
+        public CString* args;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public AnsiStringPtr* env;
+        public CString* env;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public AnsiStringPtr cwd;
+        public CString cwd;
 
         [FieldOffset(40)] // size = 4, padding = 0
         public uint flags;
@@ -1566,7 +1566,7 @@ public static unsafe partial class uv
     public struct uv_passwd_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public AnsiStringPtr username;
+        public CString username;
 
         [FieldOffset(8)] // size = 8, padding = 0
         public long uid;
@@ -1575,10 +1575,10 @@ public static unsafe partial class uv
         public long gid;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public AnsiStringPtr shell;
+        public CString shell;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public AnsiStringPtr homedir;
+        public CString homedir;
     }
 
     // Record @ uv.h:1098
@@ -1606,7 +1606,7 @@ public static unsafe partial class uv
     public struct uv_cpu_info_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public AnsiStringPtr model;
+        public CString model;
 
         [FieldOffset(8)] // size = 4, padding = 4
         public int speed;
@@ -1620,7 +1620,7 @@ public static unsafe partial class uv
     public struct uv_interface_address_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public AnsiStringPtr name;
+        public CString name;
 
         [FieldOffset(8)] // size = 6, padding = 2
         public fixed byte _phys_addr[6 / 1]; // char [6]
@@ -1675,10 +1675,10 @@ public static unsafe partial class uv
     public struct uv_env_item_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public AnsiStringPtr name;
+        public CString name;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public AnsiStringPtr value;
+        public CString value;
     }
 
     // Record @ uv.h:1134
@@ -1819,7 +1819,7 @@ public static unsafe partial class uv
     public struct uv_dirent_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public AnsiStringPtr name;
+        public CString name;
 
         [FieldOffset(8)] // size = 4, padding = 4
         public uv_dirent_type_t type;
@@ -1833,7 +1833,7 @@ public static unsafe partial class uv
         public void* handle;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public AnsiStringPtr errmsg;
+        public CString errmsg;
     }
 
     // Record @ uv.h:1184
