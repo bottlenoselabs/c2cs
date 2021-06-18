@@ -339,6 +339,2787 @@
       }
     },
     {
+      "name": "SDL_GetShapedWindowMode",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "window",
+          "type": "SDL_Window*",
+          "location": {
+            "file": "SDL_video.h",
+            "line": 94,
+            "column": 27
+          }
+        },
+        {
+          "name": "shape_mode",
+          "type": "SDL_WindowShapeMode*",
+          "location": {
+            "file": "SDL_shape.h",
+            "line": 106,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_shape.h",
+        "line": 136,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_SetWindowShape",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "window",
+          "type": "SDL_Window*",
+          "location": {
+            "file": "SDL_video.h",
+            "line": 94,
+            "column": 27
+          }
+        },
+        {
+          "name": "shape",
+          "type": "SDL_Surface*",
+          "location": {
+            "file": "SDL_surface.h",
+            "line": 95,
+            "column": 3
+          }
+        },
+        {
+          "name": "shape_mode",
+          "type": "SDL_WindowShapeMode*",
+          "location": {
+            "file": "SDL_shape.h",
+            "line": 106,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_shape.h",
+        "line": 121,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_IsShapedWindow",
+      "returnType": "SDL_bool",
+      "parameters": [
+        {
+          "name": "window",
+          "type": "SDL_Window*",
+          "location": {
+            "file": "SDL_video.h",
+            "line": 94,
+            "column": 27
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_shape.h",
+        "line": 77,
+        "column": 34
+      }
+    },
+    {
+      "name": "SDL_CreateShapedWindow",
+      "returnType": "SDL_Window*",
+      "parameters": [
+        {
+          "name": "title",
+          "type": "char*",
+          "location": {
+            "file": "SDL_shape.h",
+            "line": 66,
+            "column": 73
+          }
+        },
+        {
+          "name": "x",
+          "type": "unsigned int",
+          "location": {
+            "file": "SDL_shape.h",
+            "line": 66,
+            "column": 92
+          }
+        },
+        {
+          "name": "y",
+          "type": "unsigned int",
+          "location": {
+            "file": "SDL_shape.h",
+            "line": 66,
+            "column": 107
+          }
+        },
+        {
+          "name": "w",
+          "type": "unsigned int",
+          "location": {
+            "file": "SDL_shape.h",
+            "line": 66,
+            "column": 122
+          }
+        },
+        {
+          "name": "h",
+          "type": "unsigned int",
+          "location": {
+            "file": "SDL_shape.h",
+            "line": 66,
+            "column": 137
+          }
+        },
+        {
+          "name": "flags",
+          "type": "Uint32",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 209,
+            "column": 18
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_shape.h",
+        "line": 66,
+        "column": 38
+      }
+    },
+    {
+      "name": "SDL_RenderGetMetalCommandEncoder",
+      "returnType": "void*",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1611,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_RenderGetMetalLayer",
+      "returnType": "void*",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1597,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_GL_UnbindTexture",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1583,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_GL_BindTexture",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "texw",
+          "type": "float*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1570,
+            "column": 77
+          }
+        },
+        {
+          "name": "texh",
+          "type": "float*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1570,
+            "column": 90
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1570,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderFlush",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1532,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_DestroyRenderer",
+      "returnType": "void",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1501,
+        "column": 30
+      }
+    },
+    {
+      "name": "SDL_DestroyTexture",
+      "returnType": "void",
+      "parameters": [
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1492,
+        "column": 30
+      }
+    },
+    {
+      "name": "SDL_RenderPresent",
+      "returnType": "void",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1479,
+        "column": 30
+      }
+    },
+    {
+      "name": "SDL_RenderReadPixels",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "rect",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        },
+        {
+          "name": "format",
+          "type": "Uint32",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 209,
+            "column": 18
+          }
+        },
+        {
+          "name": "pixels",
+          "type": "void*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1443,
+            "column": 56
+          }
+        },
+        {
+          "name": "pitch",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1443,
+            "column": 68
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1440,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderCopyExF",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "srcrect",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        },
+        {
+          "name": "dstrect",
+          "type": "SDL_FRect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 93,
+            "column": 3
+          }
+        },
+        {
+          "name": "angle",
+          "type": "double",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1413,
+            "column": 58
+          }
+        },
+        {
+          "name": "center",
+          "type": "SDL_FPoint*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 64,
+            "column": 3
+          }
+        },
+        {
+          "name": "flip",
+          "type": "SDL_RendererFlip",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 126,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1409,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderCopyF",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "srcrect",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        },
+        {
+          "name": "dstrect",
+          "type": "SDL_FRect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 93,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1388,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderFillRectsF",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "rects",
+          "type": "SDL_FRect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 93,
+            "column": 3
+          }
+        },
+        {
+          "name": "count",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1374,
+            "column": 54
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1372,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderFillRectF",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "rect",
+          "type": "SDL_FRect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 93,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1360,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderDrawRectsF",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "rects",
+          "type": "SDL_FRect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 93,
+            "column": 3
+          }
+        },
+        {
+          "name": "count",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1349,
+            "column": 54
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1347,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderDrawRectF",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "rect",
+          "type": "SDL_FRect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 93,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1335,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderDrawLinesF",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "points",
+          "type": "SDL_FPoint*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 64,
+            "column": 3
+          }
+        },
+        {
+          "name": "count",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1326,
+            "column": 54
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1324,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderDrawLineF",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "x1",
+          "type": "float",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1313,
+            "column": 55
+          }
+        },
+        {
+          "name": "y1",
+          "type": "float",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1313,
+            "column": 65
+          }
+        },
+        {
+          "name": "x2",
+          "type": "float",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1313,
+            "column": 75
+          }
+        },
+        {
+          "name": "y2",
+          "type": "float",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1313,
+            "column": 85
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1312,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderDrawPointsF",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "points",
+          "type": "SDL_FPoint*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 64,
+            "column": 3
+          }
+        },
+        {
+          "name": "count",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1300,
+            "column": 55
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1298,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderDrawPointF",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1288,
+            "column": 56
+          }
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1288,
+            "column": 65
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1287,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderCopyEx",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "srcrect",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        },
+        {
+          "name": "dstrect",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        },
+        {
+          "name": "angle",
+          "type": "double",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1274,
+            "column": 57
+          }
+        },
+        {
+          "name": "center",
+          "type": "SDL_Point*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 52,
+            "column": 3
+          }
+        },
+        {
+          "name": "flip",
+          "type": "SDL_RendererFlip",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 126,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1270,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderCopy",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "srcrect",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        },
+        {
+          "name": "dstrect",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1228,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderFillRects",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "rects",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        },
+        {
+          "name": "count",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1200,
+            "column": 53
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1198,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderFillRect",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "rect",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1175,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderDrawRects",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "rects",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        },
+        {
+          "name": "count",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1149,
+            "column": 53
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1147,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderDrawRect",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "rect",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1123,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderDrawLines",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "points",
+          "type": "SDL_Point*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 52,
+            "column": 3
+          }
+        },
+        {
+          "name": "count",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1101,
+            "column": 53
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1099,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderDrawLine",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "x1",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1074,
+            "column": 52
+          }
+        },
+        {
+          "name": "y1",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1074,
+            "column": 60
+          }
+        },
+        {
+          "name": "x2",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1074,
+            "column": 68
+          }
+        },
+        {
+          "name": "y2",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1074,
+            "column": 76
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1073,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderDrawPoints",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "points",
+          "type": "SDL_Point*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 52,
+            "column": 3
+          }
+        },
+        {
+          "name": "count",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1044,
+            "column": 54
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1042,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderDrawPoint",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "x",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1019,
+            "column": 53
+          }
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 1019,
+            "column": 60
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 1018,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderClear",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 993,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_GetRenderDrawBlendMode",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "blendMode",
+          "type": "SDL_BlendMode*",
+          "location": {
+            "file": "SDL_blendmode.h",
+            "line": 60,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 976,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_SetRenderDrawBlendMode",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "blendMode",
+          "type": "SDL_BlendMode",
+          "location": {
+            "file": "SDL_blendmode.h",
+            "line": 60,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 963,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_GetRenderDrawColor",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "r",
+          "type": "Uint8*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "g",
+          "type": "Uint8*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "b",
+          "type": "Uint8*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "a",
+          "type": "Uint8*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 939,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_SetRenderDrawColor",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "r",
+          "type": "Uint8",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "g",
+          "type": "Uint8",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "b",
+          "type": "Uint8",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "a",
+          "type": "Uint8",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 918,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderGetScale",
+      "returnType": "void",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "scaleX",
+          "type": "float*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 889,
+            "column": 55
+          }
+        },
+        {
+          "name": "scaleY",
+          "type": "float*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 889,
+            "column": 70
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 888,
+        "column": 30
+      }
+    },
+    {
+      "name": "SDL_RenderSetScale",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "scaleX",
+          "type": "float",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 875,
+            "column": 54
+          }
+        },
+        {
+          "name": "scaleY",
+          "type": "float",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 875,
+            "column": 68
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 874,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderIsClipEnabled",
+      "returnType": "SDL_bool",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 849,
+        "column": 34
+      }
+    },
+    {
+      "name": "SDL_RenderGetClipRect",
+      "returnType": "void",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "rect",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 834,
+        "column": 30
+      }
+    },
+    {
+      "name": "SDL_RenderSetClipRect",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "rect",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 820,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderGetViewport",
+      "returnType": "void",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "rect",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 804,
+        "column": 30
+      }
+    },
+    {
+      "name": "SDL_RenderSetViewport",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "rect",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 793,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderGetIntegerScale",
+      "returnType": "SDL_bool",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 777,
+        "column": 34
+      }
+    },
+    {
+      "name": "SDL_RenderSetIntegerScale",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "enable",
+          "type": "SDL_bool",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 171,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 763,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderGetLogicalSize",
+      "returnType": "void",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "w",
+          "type": "int*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 744,
+            "column": 85
+          }
+        },
+        {
+          "name": "h",
+          "type": "int*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 744,
+            "column": 93
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 744,
+        "column": 30
+      }
+    },
+    {
+      "name": "SDL_RenderSetLogicalSize",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "w",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 727,
+            "column": 83
+          }
+        },
+        {
+          "name": "h",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 727,
+            "column": 90
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 727,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_GetRenderTarget",
+      "returnType": "SDL_Texture*",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 700,
+        "column": 39
+      }
+    },
+    {
+      "name": "SDL_SetRenderTarget",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 684,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_RenderTargetSupported",
+      "returnType": "SDL_bool",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 660,
+        "column": 34
+      }
+    },
+    {
+      "name": "SDL_UnlockTexture",
+      "returnType": "void",
+      "parameters": [
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 648,
+        "column": 30
+      }
+    },
+    {
+      "name": "SDL_LockTextureToSurface",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "rect",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        },
+        {
+          "name": "surface",
+          "type": "SDL_Surface**",
+          "location": {
+            "file": "SDL_surface.h",
+            "line": 95,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 629,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_LockTexture",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "rect",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        },
+        {
+          "name": "pixels",
+          "type": "void**",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 597,
+            "column": 52
+          }
+        },
+        {
+          "name": "pitch",
+          "type": "int*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 597,
+            "column": 65
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 595,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_UpdateNVTexture",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "rect",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        },
+        {
+          "name": "Yplane",
+          "type": "Uint8*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "Ypitch",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 567,
+            "column": 75
+          }
+        },
+        {
+          "name": "UVplane",
+          "type": "Uint8*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "UVpitch",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 568,
+            "column": 76
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 565,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_UpdateYUVTexture",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "rect",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        },
+        {
+          "name": "Yplane",
+          "type": "Uint8*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "Ypitch",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 545,
+            "column": 75
+          }
+        },
+        {
+          "name": "Uplane",
+          "type": "Uint8*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "Upitch",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 546,
+            "column": 75
+          }
+        },
+        {
+          "name": "Vplane",
+          "type": "Uint8*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "Vpitch",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 547,
+            "column": 75
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 543,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_UpdateTexture",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "rect",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        },
+        {
+          "name": "pixels",
+          "type": "void*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 514,
+            "column": 59
+          }
+        },
+        {
+          "name": "pitch",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 514,
+            "column": 71
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 512,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_GetTextureScaleMode",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "scaleMode",
+          "type": "SDL_ScaleMode*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 96,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 482,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_SetTextureScaleMode",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "scaleMode",
+          "type": "SDL_ScaleMode",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 96,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 470,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_GetTextureBlendMode",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "blendMode",
+          "type": "SDL_BlendMode*",
+          "location": {
+            "file": "SDL_blendmode.h",
+            "line": 60,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 456,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_SetTextureBlendMode",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "blendMode",
+          "type": "SDL_BlendMode",
+          "location": {
+            "file": "SDL_blendmode.h",
+            "line": 60,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 443,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_GetTextureAlphaMod",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "alpha",
+          "type": "Uint8*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 425,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_SetTextureAlphaMod",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "alpha",
+          "type": "Uint8",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 410,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_GetTextureColorMod",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "r",
+          "type": "Uint8*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "g",
+          "type": "Uint8*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "b",
+          "type": "Uint8*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 387,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_SetTextureColorMod",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "r",
+          "type": "Uint8",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "g",
+          "type": "Uint8",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "b",
+          "type": "Uint8",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 370,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_QueryTexture",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "texture",
+          "type": "SDL_Texture*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 138,
+            "column": 28
+          }
+        },
+        {
+          "name": "format",
+          "type": "Uint32*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 209,
+            "column": 18
+          }
+        },
+        {
+          "name": "access",
+          "type": "int*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 345,
+            "column": 68
+          }
+        },
+        {
+          "name": "w",
+          "type": "int*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 346,
+            "column": 51
+          }
+        },
+        {
+          "name": "h",
+          "type": "int*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 346,
+            "column": 59
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 344,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_CreateTextureFromSurface",
+      "returnType": "SDL_Texture*",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "surface",
+          "type": "SDL_Surface*",
+          "location": {
+            "file": "SDL_surface.h",
+            "line": 95,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 326,
+        "column": 39
+      }
+    },
+    {
+      "name": "SDL_CreateTexture",
+      "returnType": "SDL_Texture*",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "format",
+          "type": "Uint32",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 209,
+            "column": 18
+          }
+        },
+        {
+          "name": "access",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 301,
+            "column": 61
+          }
+        },
+        {
+          "name": "w",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 301,
+            "column": 73
+          }
+        },
+        {
+          "name": "h",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 302,
+            "column": 61
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 299,
+        "column": 39
+      }
+    },
+    {
+      "name": "SDL_GetRendererOutputSize",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "w",
+          "type": "int*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 277,
+            "column": 60
+          }
+        },
+        {
+          "name": "h",
+          "type": "int*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 277,
+            "column": 68
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 276,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_GetRendererInfo",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        },
+        {
+          "name": "info",
+          "type": "SDL_RendererInfo*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 86,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 256,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_GetRenderer",
+      "returnType": "SDL_Renderer*",
+      "parameters": [
+        {
+          "name": "window",
+          "type": "SDL_Window*",
+          "location": {
+            "file": "SDL_video.h",
+            "line": 94,
+            "column": 27
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 243,
+        "column": 40
+      }
+    },
+    {
+      "name": "SDL_CreateSoftwareRenderer",
+      "returnType": "SDL_Renderer*",
+      "parameters": [
+        {
+          "name": "surface",
+          "type": "SDL_Surface*",
+          "location": {
+            "file": "SDL_surface.h",
+            "line": 95,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 232,
+        "column": 40
+      }
+    },
+    {
+      "name": "SDL_CreateRenderer",
+      "returnType": "SDL_Renderer*",
+      "parameters": [
+        {
+          "name": "window",
+          "type": "SDL_Window*",
+          "location": {
+            "file": "SDL_video.h",
+            "line": 94,
+            "column": 27
+          }
+        },
+        {
+          "name": "index",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 213,
+            "column": 52
+          }
+        },
+        {
+          "name": "flags",
+          "type": "Uint32",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 209,
+            "column": 18
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 212,
+        "column": 40
+      }
+    },
+    {
+      "name": "SDL_CreateWindowAndRenderer",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "width",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 193,
+            "column": 37
+          }
+        },
+        {
+          "name": "height",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 193,
+            "column": 48
+          }
+        },
+        {
+          "name": "window_flags",
+          "type": "Uint32",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 209,
+            "column": 18
+          }
+        },
+        {
+          "name": "window",
+          "type": "SDL_Window**",
+          "location": {
+            "file": "SDL_video.h",
+            "line": 94,
+            "column": 27
+          }
+        },
+        {
+          "name": "renderer",
+          "type": "SDL_Renderer**",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 132,
+            "column": 29
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 192,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_GetRenderDriverInfo",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "index",
+          "type": "int",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 174,
+            "column": 57
+          }
+        },
+        {
+          "name": "info",
+          "type": "SDL_RendererInfo*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 86,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 174,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_GetNumRenderDrivers",
+      "returnType": "int",
+      "parameters": [],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 160,
+        "column": 29
+      }
+    },
+    {
       "name": "SDL_GetPowerInfo",
       "returnType": "SDL_PowerState",
       "parameters": [
@@ -13754,6 +16535,3301 @@
       }
     },
     {
+      "name": "SDL_iconv_string",
+      "returnType": "char*",
+      "parameters": [
+        {
+          "name": "tocode",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 619,
+            "column": 60
+          }
+        },
+        {
+          "name": "fromcode",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 620,
+            "column": 60
+          }
+        },
+        {
+          "name": "inbuf",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 621,
+            "column": 60
+          }
+        },
+        {
+          "name": "inbytesleft",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 619,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_iconv",
+      "returnType": "size_t",
+      "parameters": [
+        {
+          "name": "cd",
+          "type": "SDL_iconv_t",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 608,
+            "column": 30
+          }
+        },
+        {
+          "name": "inbuf",
+          "type": "char**",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 612,
+            "column": 71
+          }
+        },
+        {
+          "name": "inbytesleft",
+          "type": "size_t*",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        },
+        {
+          "name": "outbuf",
+          "type": "char**",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 613,
+            "column": 71
+          }
+        },
+        {
+          "name": "outbytesleft",
+          "type": "size_t*",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 612,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_iconv_close",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "cd",
+          "type": "SDL_iconv_t",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 608,
+            "column": 30
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 611,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_iconv_open",
+      "returnType": "SDL_iconv_t",
+      "parameters": [
+        {
+          "name": "tocode",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 609,
+            "column": 64
+          }
+        },
+        {
+          "name": "fromcode",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 610,
+            "column": 64
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 609,
+        "column": 37
+      }
+    },
+    {
+      "name": "SDL_tanf",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 599,
+            "column": 46
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 599,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_tan",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 598,
+            "column": 47
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 598,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_sqrtf",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 597,
+            "column": 47
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 597,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_sqrt",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 596,
+            "column": 48
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 596,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_sinf",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 595,
+            "column": 46
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 595,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_sin",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 594,
+            "column": 47
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 594,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_scalbnf",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 593,
+            "column": 49
+          }
+        },
+        {
+          "name": "n",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 593,
+            "column": 56
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 593,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_scalbn",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 592,
+            "column": 50
+          }
+        },
+        {
+          "name": "n",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 592,
+            "column": 57
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 592,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_lroundf",
+      "returnType": "long",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 591,
+            "column": 48
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 591,
+        "column": 30
+      }
+    },
+    {
+      "name": "SDL_lround",
+      "returnType": "long",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 590,
+            "column": 48
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 590,
+        "column": 30
+      }
+    },
+    {
+      "name": "SDL_roundf",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 589,
+            "column": 48
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 589,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_round",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 588,
+            "column": 49
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 588,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_powf",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 587,
+            "column": 46
+          }
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 587,
+            "column": 55
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 587,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_pow",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 586,
+            "column": 47
+          }
+        },
+        {
+          "name": "y",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 586,
+            "column": 57
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 586,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_log10f",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 585,
+            "column": 48
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 585,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_log10",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 584,
+            "column": 49
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 584,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_logf",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 583,
+            "column": 46
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 583,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_log",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 582,
+            "column": 47
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 582,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_fmodf",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 581,
+            "column": 47
+          }
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 581,
+            "column": 56
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 581,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_fmod",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 580,
+            "column": 48
+          }
+        },
+        {
+          "name": "y",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 580,
+            "column": 58
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 580,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_truncf",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 579,
+            "column": 48
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 579,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_trunc",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 578,
+            "column": 49
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 578,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_floorf",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 577,
+            "column": 48
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 577,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_floor",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 576,
+            "column": 49
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 576,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_fabsf",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 575,
+            "column": 47
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 575,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_fabs",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 574,
+            "column": 48
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 574,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_expf",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 573,
+            "column": 46
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 573,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_exp",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 572,
+            "column": 47
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 572,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_cosf",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 571,
+            "column": 46
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 571,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_cos",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 570,
+            "column": 47
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 570,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_copysignf",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 569,
+            "column": 51
+          }
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 569,
+            "column": 60
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 569,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_copysign",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 568,
+            "column": 52
+          }
+        },
+        {
+          "name": "y",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 568,
+            "column": 62
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 568,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_ceilf",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 567,
+            "column": 47
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 567,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_ceil",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 566,
+            "column": 48
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 566,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_atan2f",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 565,
+            "column": 48
+          }
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 565,
+            "column": 57
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 565,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_atan2",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 564,
+            "column": 49
+          }
+        },
+        {
+          "name": "y",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 564,
+            "column": 59
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 564,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_atanf",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 563,
+            "column": 47
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 563,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_atan",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 562,
+            "column": 48
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 562,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_asinf",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 561,
+            "column": 47
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 561,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_asin",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 560,
+            "column": 48
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 560,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_acosf",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 559,
+            "column": 47
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 559,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_acos",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "double",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 558,
+            "column": 48
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 558,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_vsnprintf",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "text",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 550,
+            "column": 71
+          }
+        },
+        {
+          "name": "maxlen",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        },
+        {
+          "name": "fmt",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 550,
+            "column": 104
+          }
+        },
+        {
+          "name": "ap",
+          "type": "va_list",
+          "location": {
+            "file": "stdarg.h",
+            "line": 14,
+            "column": 27,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 550,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_snprintf",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "text",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 549,
+            "column": 70
+          }
+        },
+        {
+          "name": "maxlen",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        },
+        {
+          "name": "fmt",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 549,
+            "column": 128
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 549,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_vsscanf",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "text",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 548,
+            "column": 53
+          }
+        },
+        {
+          "name": "fmt",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 548,
+            "column": 71
+          }
+        },
+        {
+          "name": "ap",
+          "type": "va_list",
+          "location": {
+            "file": "stdarg.h",
+            "line": 14,
+            "column": 27,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 548,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_sscanf",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "text",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 547,
+            "column": 52
+          }
+        },
+        {
+          "name": "fmt",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 547,
+            "column": 94
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 547,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_strncasecmp",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "str1",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 545,
+            "column": 57
+          }
+        },
+        {
+          "name": "str2",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 545,
+            "column": 75
+          }
+        },
+        {
+          "name": "len",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 545,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_strcasecmp",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "str1",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 544,
+            "column": 56
+          }
+        },
+        {
+          "name": "str2",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 544,
+            "column": 74
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 544,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_strncmp",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "str1",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 543,
+            "column": 53
+          }
+        },
+        {
+          "name": "str2",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 543,
+            "column": 71
+          }
+        },
+        {
+          "name": "maxlen",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 543,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_strcmp",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "str1",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 542,
+            "column": 52
+          }
+        },
+        {
+          "name": "str2",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 542,
+            "column": 70
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 542,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_strtod",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 540,
+            "column": 55
+          }
+        },
+        {
+          "name": "endp",
+          "type": "char**",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 540,
+            "column": 67
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 540,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_strtoull",
+      "returnType": "Uint64",
+      "parameters": [
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 539,
+            "column": 57
+          }
+        },
+        {
+          "name": "endp",
+          "type": "char**",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 539,
+            "column": 69
+          }
+        },
+        {
+          "name": "base",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 539,
+            "column": 79
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 539,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_strtoll",
+      "returnType": "Sint64",
+      "parameters": [
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 538,
+            "column": 56
+          }
+        },
+        {
+          "name": "endp",
+          "type": "char**",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 538,
+            "column": 68
+          }
+        },
+        {
+          "name": "base",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 538,
+            "column": 78
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 538,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_strtoul",
+      "returnType": "unsigned long",
+      "parameters": [
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 537,
+            "column": 63
+          }
+        },
+        {
+          "name": "endp",
+          "type": "char**",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 537,
+            "column": 75
+          }
+        },
+        {
+          "name": "base",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 537,
+            "column": 85
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 537,
+        "column": 39
+      }
+    },
+    {
+      "name": "SDL_strtol",
+      "returnType": "long",
+      "parameters": [
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 536,
+            "column": 53
+          }
+        },
+        {
+          "name": "endp",
+          "type": "char**",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 536,
+            "column": 65
+          }
+        },
+        {
+          "name": "base",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 536,
+            "column": 75
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 536,
+        "column": 30
+      }
+    },
+    {
+      "name": "SDL_atof",
+      "returnType": "double",
+      "parameters": [
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 535,
+            "column": 53
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 535,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_atoi",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 534,
+            "column": 50
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 534,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_ulltoa",
+      "returnType": "char*",
+      "parameters": [
+        {
+          "name": "value",
+          "type": "Uint64",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 222,
+            "column": 18
+          }
+        },
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 532,
+            "column": 62
+          }
+        },
+        {
+          "name": "radix",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 532,
+            "column": 71
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 532,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_lltoa",
+      "returnType": "char*",
+      "parameters": [
+        {
+          "name": "value",
+          "type": "Sint64",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 216,
+            "column": 17
+          }
+        },
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 531,
+            "column": 61
+          }
+        },
+        {
+          "name": "radix",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 531,
+            "column": 70
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 531,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_ultoa",
+      "returnType": "char*",
+      "parameters": [
+        {
+          "name": "value",
+          "type": "unsigned long",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 530,
+            "column": 55
+          }
+        },
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 530,
+            "column": 68
+          }
+        },
+        {
+          "name": "radix",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 530,
+            "column": 77
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 530,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_ltoa",
+      "returnType": "char*",
+      "parameters": [
+        {
+          "name": "value",
+          "type": "long",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 529,
+            "column": 45
+          }
+        },
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 529,
+            "column": 58
+          }
+        },
+        {
+          "name": "radix",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 529,
+            "column": 67
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 529,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_uitoa",
+      "returnType": "char*",
+      "parameters": [
+        {
+          "name": "value",
+          "type": "unsigned int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 528,
+            "column": 54
+          }
+        },
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 528,
+            "column": 67
+          }
+        },
+        {
+          "name": "radix",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 528,
+            "column": 76
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 528,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_itoa",
+      "returnType": "char*",
+      "parameters": [
+        {
+          "name": "value",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 527,
+            "column": 44
+          }
+        },
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 527,
+            "column": 57
+          }
+        },
+        {
+          "name": "radix",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 527,
+            "column": 66
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 527,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_utf8strlen",
+      "returnType": "size_t",
+      "parameters": [
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 525,
+            "column": 59
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 525,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_strtokr",
+      "returnType": "char*",
+      "parameters": [
+        {
+          "name": "s1",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 524,
+            "column": 49
+          }
+        },
+        {
+          "name": "s2",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 524,
+            "column": 65
+          }
+        },
+        {
+          "name": "saveptr",
+          "type": "char**",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 524,
+            "column": 76
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 524,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_strstr",
+      "returnType": "char*",
+      "parameters": [
+        {
+          "name": "haystack",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 523,
+            "column": 54
+          }
+        },
+        {
+          "name": "needle",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 523,
+            "column": 76
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 523,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_strrchr",
+      "returnType": "char*",
+      "parameters": [
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 522,
+            "column": 55
+          }
+        },
+        {
+          "name": "c",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 522,
+            "column": 64
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 522,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_strchr",
+      "returnType": "char*",
+      "parameters": [
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 521,
+            "column": 54
+          }
+        },
+        {
+          "name": "c",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 521,
+            "column": 63
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 521,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_strlwr",
+      "returnType": "char*",
+      "parameters": [
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 520,
+            "column": 48
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 520,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_strupr",
+      "returnType": "char*",
+      "parameters": [
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 519,
+            "column": 48
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 519,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_strrev",
+      "returnType": "char*",
+      "parameters": [
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 518,
+            "column": 48
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 518,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_strdup",
+      "returnType": "char*",
+      "parameters": [
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 517,
+            "column": 54
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 517,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_strlcat",
+      "returnType": "size_t",
+      "parameters": [
+        {
+          "name": "dst",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 516,
+            "column": 74
+          }
+        },
+        {
+          "name": "src",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 516,
+            "column": 91
+          }
+        },
+        {
+          "name": "maxlen",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 516,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_utf8strlcpy",
+      "returnType": "size_t",
+      "parameters": [
+        {
+          "name": "dst",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 515,
+            "column": 79
+          }
+        },
+        {
+          "name": "src",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 515,
+            "column": 96
+          }
+        },
+        {
+          "name": "dst_bytes",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 515,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_strlcpy",
+      "returnType": "size_t",
+      "parameters": [
+        {
+          "name": "dst",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 514,
+            "column": 72
+          }
+        },
+        {
+          "name": "src",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 514,
+            "column": 89
+          }
+        },
+        {
+          "name": "maxlen",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 514,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_strlen",
+      "returnType": "size_t",
+      "parameters": [
+        {
+          "name": "str",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 513,
+            "column": 55
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 513,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_wcsncasecmp",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "str1",
+          "type": "wchar_t*",
+          "location": {
+            "file": "_wchar_t.h",
+            "line": 34,
+            "column": 26,
+            "isSystem": true
+          }
+        },
+        {
+          "name": "str2",
+          "type": "wchar_t*",
+          "location": {
+            "file": "_wchar_t.h",
+            "line": 34,
+            "column": 26,
+            "isSystem": true
+          }
+        },
+        {
+          "name": "len",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 511,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_wcscasecmp",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "str1",
+          "type": "wchar_t*",
+          "location": {
+            "file": "_wchar_t.h",
+            "line": 34,
+            "column": 26,
+            "isSystem": true
+          }
+        },
+        {
+          "name": "str2",
+          "type": "wchar_t*",
+          "location": {
+            "file": "_wchar_t.h",
+            "line": 34,
+            "column": 26,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 510,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_wcsncmp",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "str1",
+          "type": "wchar_t*",
+          "location": {
+            "file": "_wchar_t.h",
+            "line": 34,
+            "column": 26,
+            "isSystem": true
+          }
+        },
+        {
+          "name": "str2",
+          "type": "wchar_t*",
+          "location": {
+            "file": "_wchar_t.h",
+            "line": 34,
+            "column": 26,
+            "isSystem": true
+          }
+        },
+        {
+          "name": "maxlen",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 509,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_wcscmp",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "str1",
+          "type": "wchar_t*",
+          "location": {
+            "file": "_wchar_t.h",
+            "line": 34,
+            "column": 26,
+            "isSystem": true
+          }
+        },
+        {
+          "name": "str2",
+          "type": "wchar_t*",
+          "location": {
+            "file": "_wchar_t.h",
+            "line": 34,
+            "column": 26,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 508,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_wcsstr",
+      "returnType": "wchar_t*",
+      "parameters": [
+        {
+          "name": "haystack",
+          "type": "wchar_t*",
+          "location": {
+            "file": "_wchar_t.h",
+            "line": 34,
+            "column": 26,
+            "isSystem": true
+          }
+        },
+        {
+          "name": "needle",
+          "type": "wchar_t*",
+          "location": {
+            "file": "_wchar_t.h",
+            "line": 34,
+            "column": 26,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 506,
+        "column": 34
+      }
+    },
+    {
+      "name": "SDL_wcsdup",
+      "returnType": "wchar_t*",
+      "parameters": [
+        {
+          "name": "wstr",
+          "type": "wchar_t*",
+          "location": {
+            "file": "_wchar_t.h",
+            "line": 34,
+            "column": 26,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 505,
+        "column": 34
+      }
+    },
+    {
+      "name": "SDL_wcslcat",
+      "returnType": "size_t",
+      "parameters": [
+        {
+          "name": "dst",
+          "type": "wchar_t*",
+          "location": {
+            "file": "_wchar_t.h",
+            "line": 34,
+            "column": 26,
+            "isSystem": true
+          }
+        },
+        {
+          "name": "src",
+          "type": "wchar_t*",
+          "location": {
+            "file": "_wchar_t.h",
+            "line": 34,
+            "column": 26,
+            "isSystem": true
+          }
+        },
+        {
+          "name": "maxlen",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 504,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_wcslcpy",
+      "returnType": "size_t",
+      "parameters": [
+        {
+          "name": "dst",
+          "type": "wchar_t*",
+          "location": {
+            "file": "_wchar_t.h",
+            "line": 34,
+            "column": 26,
+            "isSystem": true
+          }
+        },
+        {
+          "name": "src",
+          "type": "wchar_t*",
+          "location": {
+            "file": "_wchar_t.h",
+            "line": 34,
+            "column": 26,
+            "isSystem": true
+          }
+        },
+        {
+          "name": "maxlen",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 503,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_wcslen",
+      "returnType": "size_t",
+      "parameters": [
+        {
+          "name": "wstr",
+          "type": "wchar_t*",
+          "location": {
+            "file": "_wchar_t.h",
+            "line": 34,
+            "column": 26,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 502,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_memcmp",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "s1",
+          "type": "void*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 500,
+            "column": 52
+          }
+        },
+        {
+          "name": "s2",
+          "type": "void*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 500,
+            "column": 68
+          }
+        },
+        {
+          "name": "len",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 500,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_memmove",
+      "returnType": "void*",
+      "parameters": [
+        {
+          "name": "dst",
+          "type": "void*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 499,
+            "column": 70
+          }
+        },
+        {
+          "name": "src",
+          "type": "void*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 499,
+            "column": 107
+          }
+        },
+        {
+          "name": "len",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 499,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_memcpy",
+      "returnType": "void*",
+      "parameters": [
+        {
+          "name": "dst",
+          "type": "void*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 497,
+            "column": 69
+          }
+        },
+        {
+          "name": "src",
+          "type": "void*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 497,
+            "column": 106
+          }
+        },
+        {
+          "name": "len",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 497,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_memset",
+      "returnType": "void*",
+      "parameters": [
+        {
+          "name": "dst",
+          "type": "void*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 460,
+            "column": 69
+          }
+        },
+        {
+          "name": "c",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 460,
+            "column": 78
+          }
+        },
+        {
+          "name": "len",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 460,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_crc32",
+      "returnType": "Uint32",
+      "parameters": [
+        {
+          "name": "crc",
+          "type": "Uint32",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 209,
+            "column": 18
+          }
+        },
+        {
+          "name": "data",
+          "type": "void*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 458,
+            "column": 66
+          }
+        },
+        {
+          "name": "len",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 458,
+        "column": 32
+      }
+    },
+    {
+      "name": "SDL_tolower",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 456,
+            "column": 45
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 456,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_toupper",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 455,
+            "column": 45
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 455,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_isgraph",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 454,
+            "column": 45
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 454,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_isprint",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 453,
+            "column": 45
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 453,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_islower",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 452,
+            "column": 45
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 452,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_isupper",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 451,
+            "column": 45
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 451,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_isspace",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 450,
+            "column": 45
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 450,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_ispunct",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 449,
+            "column": 45
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 449,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_isxdigit",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 448,
+            "column": 46
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 448,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_isdigit",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 447,
+            "column": 45
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 447,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_iscntrl",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 446,
+            "column": 45
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 446,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_isblank",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 445,
+            "column": 45
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 445,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_isalnum",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 444,
+            "column": 45
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 444,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_isalpha",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 443,
+            "column": 45
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 443,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_abs",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 436,
+            "column": 41
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 436,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_qsort",
+      "returnType": "void",
+      "parameters": [
+        {
+          "name": "base",
+          "type": "void*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 434,
+            "column": 46
+          }
+        },
+        {
+          "name": "nmemb",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        },
+        {
+          "name": "size",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        },
+        {
+          "name": "compare",
+          "type": "int (*)(void *, void *)",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 434,
+            "column": 85
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 434,
+        "column": 30
+      }
+    },
+    {
+      "name": "SDL_setenv",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "name",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 432,
+            "column": 52
+          }
+        },
+        {
+          "name": "value",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 432,
+            "column": 70
+          }
+        },
+        {
+          "name": "overwrite",
+          "type": "int",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 432,
+            "column": 81
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 432,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_getenv",
+      "returnType": "char*",
+      "parameters": [
+        {
+          "name": "name",
+          "type": "char*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 431,
+            "column": 54
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 431,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_GetNumAllocations",
+      "returnType": "int",
+      "parameters": [],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 429,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_SetMemoryFunctions",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "malloc_func",
+          "type": "SDL_malloc_func",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 400,
+            "column": 25
+          }
+        },
+        {
+          "name": "calloc_func",
+          "type": "SDL_calloc_func",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 401,
+            "column": 25
+          }
+        },
+        {
+          "name": "realloc_func",
+          "type": "SDL_realloc_func",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 402,
+            "column": 25
+          }
+        },
+        {
+          "name": "free_func",
+          "type": "SDL_free_func",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 403,
+            "column": 24
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 421,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_GetMemoryFunctions",
+      "returnType": "void",
+      "parameters": [
+        {
+          "name": "malloc_func",
+          "type": "SDL_malloc_func*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 400,
+            "column": 25
+          }
+        },
+        {
+          "name": "calloc_func",
+          "type": "SDL_calloc_func*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 401,
+            "column": 25
+          }
+        },
+        {
+          "name": "realloc_func",
+          "type": "SDL_realloc_func*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 402,
+            "column": 25
+          }
+        },
+        {
+          "name": "free_func",
+          "type": "SDL_free_func*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 403,
+            "column": 24
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 408,
+        "column": 30
+      }
+    },
+    {
+      "name": "SDL_free",
+      "returnType": "void",
+      "parameters": [
+        {
+          "name": "mem",
+          "type": "void*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 398,
+            "column": 45
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 398,
+        "column": 30
+      }
+    },
+    {
+      "name": "SDL_realloc",
+      "returnType": "void*",
+      "parameters": [
+        {
+          "name": "mem",
+          "type": "void*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 397,
+            "column": 49
+          }
+        },
+        {
+          "name": "size",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 397,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_calloc",
+      "returnType": "void*",
+      "parameters": [
+        {
+          "name": "nmemb",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        },
+        {
+          "name": "size",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 396,
+        "column": 31
+      }
+    },
+    {
+      "name": "SDL_malloc",
+      "returnType": "void*",
+      "parameters": [
+        {
+          "name": "size",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 395,
+        "column": 31
+      }
+    },
+    {
       "name": "SDL_GetPlatform",
       "returnType": "char*",
       "parameters": [],
@@ -13863,6 +19939,50 @@
         "line": 200,
         "column": 35
       }
+    },
+    {
+      "name": "SDL_free_func",
+      "type": "SDL_free_func",
+      "returnType": "void",
+      "parameters": [],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 403,
+        "column": 24
+      }
+    },
+    {
+      "name": "SDL_realloc_func",
+      "type": "SDL_realloc_func",
+      "returnType": "void*",
+      "parameters": [],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 402,
+        "column": 25
+      }
+    },
+    {
+      "name": "SDL_calloc_func",
+      "type": "SDL_calloc_func",
+      "returnType": "void*",
+      "parameters": [],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 401,
+        "column": 25
+      }
+    },
+    {
+      "name": "SDL_malloc_func",
+      "type": "SDL_malloc_func",
+      "returnType": "void*",
+      "parameters": [],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 400,
+        "column": 25
+      }
     }
   ],
   "records": [
@@ -13935,6 +20055,740 @@
       "location": {
         "file": "SDL_version.h",
         "line": 56,
+        "column": 3
+      }
+    },
+    {
+      "type": "SDL_WindowShapeMode",
+      "fields": [
+        {
+          "name": "mode",
+          "type": "WindowShapeMode",
+          "location": {
+            "file": "SDL_shape.h",
+            "line": 89,
+            "column": 3
+          }
+        },
+        {
+          "name": "parameters",
+          "type": "SDL_WindowShapeParams",
+          "offset": 4,
+          "location": {
+            "file": "SDL_shape.h",
+            "line": 98,
+            "column": 3
+          }
+        }
+      ],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
+      "location": {
+        "file": "SDL_shape.h",
+        "line": 106,
+        "column": 3
+      }
+    },
+    {
+      "type": "SDL_WindowShapeParams",
+      "fields": [
+        {
+          "name": "binarizationCutoff",
+          "type": "Uint8",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "colorKey",
+          "type": "SDL_Color",
+          "location": {
+            "file": "SDL_pixels.h",
+            "line": 310,
+            "column": 3
+          }
+        }
+      ],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
+      "location": {
+        "file": "SDL_shape.h",
+        "line": 98,
+        "column": 3
+      }
+    },
+    {
+      "type": "SDL_Color",
+      "fields": [
+        {
+          "name": "r",
+          "type": "Uint8",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "g",
+          "type": "Uint8",
+          "offset": 1,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "b",
+          "type": "Uint8",
+          "offset": 2,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "a",
+          "type": "Uint8",
+          "offset": 3,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        }
+      ],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
+      "location": {
+        "file": "SDL_pixels.h",
+        "line": 310,
+        "column": 3
+      }
+    },
+    {
+      "type": "SDL_Surface",
+      "fields": [
+        {
+          "name": "flags",
+          "type": "Uint32",
+          "padding": 4,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 209,
+            "column": 18
+          }
+        },
+        {
+          "name": "format",
+          "type": "SDL_PixelFormat*",
+          "offset": 8,
+          "location": {
+            "file": "SDL_pixels.h",
+            "line": 345,
+            "column": 3
+          }
+        },
+        {
+          "name": "w",
+          "type": "int",
+          "offset": 16,
+          "location": {
+            "file": "SDL_surface.h",
+            "line": 74,
+            "column": 9
+          }
+        },
+        {
+          "name": "h",
+          "type": "int",
+          "offset": 20,
+          "location": {
+            "file": "SDL_surface.h",
+            "line": 74,
+            "column": 12
+          }
+        },
+        {
+          "name": "pitch",
+          "type": "int",
+          "offset": 24,
+          "padding": 4,
+          "location": {
+            "file": "SDL_surface.h",
+            "line": 75,
+            "column": 9
+          }
+        },
+        {
+          "name": "pixels",
+          "type": "void*",
+          "offset": 32,
+          "location": {
+            "file": "SDL_surface.h",
+            "line": 76,
+            "column": 11
+          }
+        },
+        {
+          "name": "userdata",
+          "type": "void*",
+          "offset": 40,
+          "location": {
+            "file": "SDL_surface.h",
+            "line": 79,
+            "column": 11
+          }
+        },
+        {
+          "name": "locked",
+          "type": "int",
+          "offset": 48,
+          "padding": 4,
+          "location": {
+            "file": "SDL_surface.h",
+            "line": 82,
+            "column": 9
+          }
+        },
+        {
+          "name": "list_blitmap",
+          "type": "void*",
+          "offset": 56,
+          "location": {
+            "file": "SDL_surface.h",
+            "line": 85,
+            "column": 11
+          }
+        },
+        {
+          "name": "clip_rect",
+          "type": "SDL_Rect",
+          "offset": 64,
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        },
+        {
+          "name": "map",
+          "type": "SDL_BlitMap*",
+          "offset": 80,
+          "location": {
+            "file": "SDL_surface.h",
+            "line": 91,
+            "column": 12
+          }
+        },
+        {
+          "name": "refcount",
+          "type": "int",
+          "offset": 88,
+          "padding": 4,
+          "location": {
+            "file": "SDL_surface.h",
+            "line": 94,
+            "column": 9
+          }
+        }
+      ],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
+      "location": {
+        "file": "SDL_surface.h",
+        "line": 95,
+        "column": 3
+      }
+    },
+    {
+      "type": "SDL_Rect",
+      "fields": [
+        {
+          "name": "x",
+          "type": "int",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 79,
+            "column": 9
+          }
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "offset": 4,
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 79,
+            "column": 12
+          }
+        },
+        {
+          "name": "w",
+          "type": "int",
+          "offset": 8,
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 80,
+            "column": 9
+          }
+        },
+        {
+          "name": "h",
+          "type": "int",
+          "offset": 12,
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 80,
+            "column": 12
+          }
+        }
+      ],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
+      "location": {
+        "file": "SDL_rect.h",
+        "line": 81,
+        "column": 3
+      }
+    },
+    {
+      "type": "SDL_PixelFormat",
+      "fields": [
+        {
+          "name": "format",
+          "type": "Uint32",
+          "padding": 4,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 209,
+            "column": 18
+          }
+        },
+        {
+          "name": "palette",
+          "type": "SDL_Palette*",
+          "offset": 8,
+          "location": {
+            "file": "SDL_pixels.h",
+            "line": 319,
+            "column": 3
+          }
+        },
+        {
+          "name": "BitsPerPixel",
+          "type": "Uint8",
+          "offset": 16,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "BytesPerPixel",
+          "type": "Uint8",
+          "offset": 17,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "padding",
+          "type": "Uint8",
+          "offset": 18,
+          "padding": 1,
+          "location": {
+            "file": ""
+          }
+        },
+        {
+          "name": "Rmask",
+          "type": "Uint32",
+          "offset": 20,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 209,
+            "column": 18
+          }
+        },
+        {
+          "name": "Gmask",
+          "type": "Uint32",
+          "offset": 24,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 209,
+            "column": 18
+          }
+        },
+        {
+          "name": "Bmask",
+          "type": "Uint32",
+          "offset": 28,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 209,
+            "column": 18
+          }
+        },
+        {
+          "name": "Amask",
+          "type": "Uint32",
+          "offset": 32,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 209,
+            "column": 18
+          }
+        },
+        {
+          "name": "Rloss",
+          "type": "Uint8",
+          "offset": 36,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "Gloss",
+          "type": "Uint8",
+          "offset": 37,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "Bloss",
+          "type": "Uint8",
+          "offset": 38,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "Aloss",
+          "type": "Uint8",
+          "offset": 39,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "Rshift",
+          "type": "Uint8",
+          "offset": 40,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "Gshift",
+          "type": "Uint8",
+          "offset": 41,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "Bshift",
+          "type": "Uint8",
+          "offset": 42,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "Ashift",
+          "type": "Uint8",
+          "offset": 43,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "refcount",
+          "type": "int",
+          "offset": 44,
+          "location": {
+            "file": "SDL_pixels.h",
+            "line": 343,
+            "column": 9
+          }
+        },
+        {
+          "name": "next",
+          "type": "SDL_PixelFormat*",
+          "offset": 48,
+          "location": {
+            "file": "SDL_pixels.h",
+            "line": 324,
+            "column": 16
+          }
+        }
+      ],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
+      "location": {
+        "file": "SDL_pixels.h",
+        "line": 345,
+        "column": 3
+      }
+    },
+    {
+      "type": "SDL_Palette",
+      "fields": [
+        {
+          "name": "ncolors",
+          "type": "int",
+          "padding": 4,
+          "location": {
+            "file": "SDL_pixels.h",
+            "line": 315,
+            "column": 9
+          }
+        },
+        {
+          "name": "colors",
+          "type": "SDL_Color*",
+          "offset": 8,
+          "location": {
+            "file": "SDL_pixels.h",
+            "line": 310,
+            "column": 3
+          }
+        },
+        {
+          "name": "version",
+          "type": "Uint32",
+          "offset": 16,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 209,
+            "column": 18
+          }
+        },
+        {
+          "name": "refcount",
+          "type": "int",
+          "offset": 20,
+          "location": {
+            "file": "SDL_pixels.h",
+            "line": 318,
+            "column": 9
+          }
+        }
+      ],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
+      "location": {
+        "file": "SDL_pixels.h",
+        "line": 319,
+        "column": 3
+      }
+    },
+    {
+      "type": "SDL_FPoint",
+      "fields": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 62,
+            "column": 11
+          }
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "offset": 4,
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 63,
+            "column": 11
+          }
+        }
+      ],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
+      "location": {
+        "file": "SDL_rect.h",
+        "line": 64,
+        "column": 3
+      }
+    },
+    {
+      "type": "SDL_FRect",
+      "fields": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 89,
+            "column": 11
+          }
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "offset": 4,
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 90,
+            "column": 11
+          }
+        },
+        {
+          "name": "w",
+          "type": "float",
+          "offset": 8,
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 91,
+            "column": 11
+          }
+        },
+        {
+          "name": "h",
+          "type": "float",
+          "offset": 12,
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 92,
+            "column": 11
+          }
+        }
+      ],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
+      "location": {
+        "file": "SDL_rect.h",
+        "line": 93,
+        "column": 3
+      }
+    },
+    {
+      "type": "SDL_Point",
+      "fields": [
+        {
+          "name": "x",
+          "type": "int",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 50,
+            "column": 9
+          }
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "offset": 4,
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 51,
+            "column": 9
+          }
+        }
+      ],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
+      "location": {
+        "file": "SDL_rect.h",
+        "line": 52,
+        "column": 3
+      }
+    },
+    {
+      "type": "SDL_RendererInfo",
+      "fields": [
+        {
+          "name": "name",
+          "type": "char*",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 80,
+            "column": 17
+          }
+        },
+        {
+          "name": "flags",
+          "type": "Uint32",
+          "offset": 8,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 209,
+            "column": 18
+          }
+        },
+        {
+          "name": "num_texture_formats",
+          "type": "Uint32",
+          "offset": 12,
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 209,
+            "column": 18
+          }
+        },
+        {
+          "name": "texture_formats",
+          "type": "Uint32",
+          "offset": 16,
+          "padding": 60,
+          "location": {
+            "file": ""
+          }
+        },
+        {
+          "name": "max_texture_width",
+          "type": "int",
+          "offset": 80,
+          "location": {
+            "file": "SDL_render.h",
+            "line": 84,
+            "column": 9
+          }
+        },
+        {
+          "name": "max_texture_height",
+          "type": "int",
+          "offset": 84,
+          "location": {
+            "file": "SDL_render.h",
+            "line": 85,
+            "column": 9
+          }
+        }
+      ],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 86,
         "column": 3
       }
     },
@@ -17634,496 +24488,6 @@
       }
     },
     {
-      "type": "SDL_Surface",
-      "fields": [
-        {
-          "name": "flags",
-          "type": "Uint32",
-          "padding": 4,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 209,
-            "column": 18
-          }
-        },
-        {
-          "name": "format",
-          "type": "SDL_PixelFormat*",
-          "offset": 8,
-          "location": {
-            "file": "SDL_pixels.h",
-            "line": 345,
-            "column": 3
-          }
-        },
-        {
-          "name": "w",
-          "type": "int",
-          "offset": 16,
-          "location": {
-            "file": "SDL_surface.h",
-            "line": 74,
-            "column": 9
-          }
-        },
-        {
-          "name": "h",
-          "type": "int",
-          "offset": 20,
-          "location": {
-            "file": "SDL_surface.h",
-            "line": 74,
-            "column": 12
-          }
-        },
-        {
-          "name": "pitch",
-          "type": "int",
-          "offset": 24,
-          "padding": 4,
-          "location": {
-            "file": "SDL_surface.h",
-            "line": 75,
-            "column": 9
-          }
-        },
-        {
-          "name": "pixels",
-          "type": "void*",
-          "offset": 32,
-          "location": {
-            "file": "SDL_surface.h",
-            "line": 76,
-            "column": 11
-          }
-        },
-        {
-          "name": "userdata",
-          "type": "void*",
-          "offset": 40,
-          "location": {
-            "file": "SDL_surface.h",
-            "line": 79,
-            "column": 11
-          }
-        },
-        {
-          "name": "locked",
-          "type": "int",
-          "offset": 48,
-          "padding": 4,
-          "location": {
-            "file": "SDL_surface.h",
-            "line": 82,
-            "column": 9
-          }
-        },
-        {
-          "name": "list_blitmap",
-          "type": "void*",
-          "offset": 56,
-          "location": {
-            "file": "SDL_surface.h",
-            "line": 85,
-            "column": 11
-          }
-        },
-        {
-          "name": "clip_rect",
-          "type": "SDL_Rect",
-          "offset": 64,
-          "location": {
-            "file": "SDL_rect.h",
-            "line": 81,
-            "column": 3
-          }
-        },
-        {
-          "name": "map",
-          "type": "SDL_BlitMap*",
-          "offset": 80,
-          "location": {
-            "file": "SDL_surface.h",
-            "line": 91,
-            "column": 12
-          }
-        },
-        {
-          "name": "refcount",
-          "type": "int",
-          "offset": 88,
-          "padding": 4,
-          "location": {
-            "file": "SDL_surface.h",
-            "line": 94,
-            "column": 9
-          }
-        }
-      ],
-      "nestedRecords": [],
-      "nestedFunctionPointers": [],
-      "location": {
-        "file": "SDL_surface.h",
-        "line": 95,
-        "column": 3
-      }
-    },
-    {
-      "type": "SDL_Rect",
-      "fields": [
-        {
-          "name": "x",
-          "type": "int",
-          "location": {
-            "file": "SDL_rect.h",
-            "line": 79,
-            "column": 9
-          }
-        },
-        {
-          "name": "y",
-          "type": "int",
-          "offset": 4,
-          "location": {
-            "file": "SDL_rect.h",
-            "line": 79,
-            "column": 12
-          }
-        },
-        {
-          "name": "w",
-          "type": "int",
-          "offset": 8,
-          "location": {
-            "file": "SDL_rect.h",
-            "line": 80,
-            "column": 9
-          }
-        },
-        {
-          "name": "h",
-          "type": "int",
-          "offset": 12,
-          "location": {
-            "file": "SDL_rect.h",
-            "line": 80,
-            "column": 12
-          }
-        }
-      ],
-      "nestedRecords": [],
-      "nestedFunctionPointers": [],
-      "location": {
-        "file": "SDL_rect.h",
-        "line": 81,
-        "column": 3
-      }
-    },
-    {
-      "type": "SDL_PixelFormat",
-      "fields": [
-        {
-          "name": "format",
-          "type": "Uint32",
-          "padding": 4,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 209,
-            "column": 18
-          }
-        },
-        {
-          "name": "palette",
-          "type": "SDL_Palette*",
-          "offset": 8,
-          "location": {
-            "file": "SDL_pixels.h",
-            "line": 319,
-            "column": 3
-          }
-        },
-        {
-          "name": "BitsPerPixel",
-          "type": "Uint8",
-          "offset": 16,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 185,
-            "column": 17
-          }
-        },
-        {
-          "name": "BytesPerPixel",
-          "type": "Uint8",
-          "offset": 17,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 185,
-            "column": 17
-          }
-        },
-        {
-          "name": "padding",
-          "type": "Uint8",
-          "offset": 18,
-          "padding": 1,
-          "location": {
-            "file": ""
-          }
-        },
-        {
-          "name": "Rmask",
-          "type": "Uint32",
-          "offset": 20,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 209,
-            "column": 18
-          }
-        },
-        {
-          "name": "Gmask",
-          "type": "Uint32",
-          "offset": 24,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 209,
-            "column": 18
-          }
-        },
-        {
-          "name": "Bmask",
-          "type": "Uint32",
-          "offset": 28,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 209,
-            "column": 18
-          }
-        },
-        {
-          "name": "Amask",
-          "type": "Uint32",
-          "offset": 32,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 209,
-            "column": 18
-          }
-        },
-        {
-          "name": "Rloss",
-          "type": "Uint8",
-          "offset": 36,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 185,
-            "column": 17
-          }
-        },
-        {
-          "name": "Gloss",
-          "type": "Uint8",
-          "offset": 37,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 185,
-            "column": 17
-          }
-        },
-        {
-          "name": "Bloss",
-          "type": "Uint8",
-          "offset": 38,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 185,
-            "column": 17
-          }
-        },
-        {
-          "name": "Aloss",
-          "type": "Uint8",
-          "offset": 39,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 185,
-            "column": 17
-          }
-        },
-        {
-          "name": "Rshift",
-          "type": "Uint8",
-          "offset": 40,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 185,
-            "column": 17
-          }
-        },
-        {
-          "name": "Gshift",
-          "type": "Uint8",
-          "offset": 41,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 185,
-            "column": 17
-          }
-        },
-        {
-          "name": "Bshift",
-          "type": "Uint8",
-          "offset": 42,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 185,
-            "column": 17
-          }
-        },
-        {
-          "name": "Ashift",
-          "type": "Uint8",
-          "offset": 43,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 185,
-            "column": 17
-          }
-        },
-        {
-          "name": "refcount",
-          "type": "int",
-          "offset": 44,
-          "location": {
-            "file": "SDL_pixels.h",
-            "line": 343,
-            "column": 9
-          }
-        },
-        {
-          "name": "next",
-          "type": "SDL_PixelFormat*",
-          "offset": 48,
-          "location": {
-            "file": "SDL_pixels.h",
-            "line": 324,
-            "column": 16
-          }
-        }
-      ],
-      "nestedRecords": [],
-      "nestedFunctionPointers": [],
-      "location": {
-        "file": "SDL_pixels.h",
-        "line": 345,
-        "column": 3
-      }
-    },
-    {
-      "type": "SDL_Palette",
-      "fields": [
-        {
-          "name": "ncolors",
-          "type": "int",
-          "padding": 4,
-          "location": {
-            "file": "SDL_pixels.h",
-            "line": 315,
-            "column": 9
-          }
-        },
-        {
-          "name": "colors",
-          "type": "SDL_Color*",
-          "offset": 8,
-          "location": {
-            "file": "SDL_pixels.h",
-            "line": 310,
-            "column": 3
-          }
-        },
-        {
-          "name": "version",
-          "type": "Uint32",
-          "offset": 16,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 209,
-            "column": 18
-          }
-        },
-        {
-          "name": "refcount",
-          "type": "int",
-          "offset": 20,
-          "location": {
-            "file": "SDL_pixels.h",
-            "line": 318,
-            "column": 9
-          }
-        }
-      ],
-      "nestedRecords": [],
-      "nestedFunctionPointers": [],
-      "location": {
-        "file": "SDL_pixels.h",
-        "line": 319,
-        "column": 3
-      }
-    },
-    {
-      "type": "SDL_Color",
-      "fields": [
-        {
-          "name": "r",
-          "type": "Uint8",
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 185,
-            "column": 17
-          }
-        },
-        {
-          "name": "g",
-          "type": "Uint8",
-          "offset": 1,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 185,
-            "column": 17
-          }
-        },
-        {
-          "name": "b",
-          "type": "Uint8",
-          "offset": 2,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 185,
-            "column": 17
-          }
-        },
-        {
-          "name": "a",
-          "type": "Uint8",
-          "offset": 3,
-          "location": {
-            "file": "SDL_stdinc.h",
-            "line": 185,
-            "column": 17
-          }
-        }
-      ],
-      "nestedRecords": [],
-      "nestedFunctionPointers": [],
-      "location": {
-        "file": "SDL_pixels.h",
-        "line": 310,
-        "column": 3
-      }
-    },
-    {
       "type": "SDL_DisplayMode",
       "fields": [
         {
@@ -18181,37 +24545,6 @@
       "location": {
         "file": "SDL_video.h",
         "line": 60,
-        "column": 3
-      }
-    },
-    {
-      "type": "SDL_Point",
-      "fields": [
-        {
-          "name": "x",
-          "type": "int",
-          "location": {
-            "file": "SDL_rect.h",
-            "line": 50,
-            "column": 9
-          }
-        },
-        {
-          "name": "y",
-          "type": "int",
-          "offset": 4,
-          "location": {
-            "file": "SDL_rect.h",
-            "line": 51,
-            "column": 9
-          }
-        }
-      ],
-      "nestedRecords": [],
-      "nestedFunctionPointers": [],
-      "location": {
-        "file": "SDL_rect.h",
-        "line": 52,
         "column": 3
       }
     },
@@ -18566,6 +24899,194 @@
       "location": {
         "file": "SDL_stdinc.h",
         "line": 171,
+        "column": 3
+      }
+    },
+    {
+      "name": "WindowShapeMode",
+      "type": "WindowShapeMode",
+      "typeInteger": "unsigned int",
+      "values": [
+        {
+          "name": "ShapeModeDefault",
+          "location": {
+            "file": "SDL_shape.h",
+            "line": 82,
+            "column": 5
+          }
+        },
+        {
+          "name": "ShapeModeBinarizeAlpha",
+          "value": 1,
+          "location": {
+            "file": "SDL_shape.h",
+            "line": 84,
+            "column": 5
+          }
+        },
+        {
+          "name": "ShapeModeReverseBinarizeAlpha",
+          "value": 2,
+          "location": {
+            "file": "SDL_shape.h",
+            "line": 86,
+            "column": 5
+          }
+        },
+        {
+          "name": "ShapeModeColorKey",
+          "value": 3,
+          "location": {
+            "file": "SDL_shape.h",
+            "line": 88,
+            "column": 5
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_shape.h",
+        "line": 89,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_RendererFlip",
+      "type": "SDL_RendererFlip",
+      "typeInteger": "unsigned int",
+      "values": [
+        {
+          "name": "SDL_FLIP_NONE",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 123,
+            "column": 5
+          }
+        },
+        {
+          "name": "SDL_FLIP_HORIZONTAL",
+          "value": 1,
+          "location": {
+            "file": "SDL_render.h",
+            "line": 124,
+            "column": 5
+          }
+        },
+        {
+          "name": "SDL_FLIP_VERTICAL",
+          "value": 2,
+          "location": {
+            "file": "SDL_render.h",
+            "line": 125,
+            "column": 5
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 126,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_BlendMode",
+      "type": "SDL_BlendMode",
+      "typeInteger": "unsigned int",
+      "values": [
+        {
+          "name": "SDL_BLENDMODE_NONE",
+          "location": {
+            "file": "SDL_blendmode.h",
+            "line": 42,
+            "column": 5
+          }
+        },
+        {
+          "name": "SDL_BLENDMODE_BLEND",
+          "value": 1,
+          "location": {
+            "file": "SDL_blendmode.h",
+            "line": 44,
+            "column": 5
+          }
+        },
+        {
+          "name": "SDL_BLENDMODE_ADD",
+          "value": 2,
+          "location": {
+            "file": "SDL_blendmode.h",
+            "line": 47,
+            "column": 5
+          }
+        },
+        {
+          "name": "SDL_BLENDMODE_MOD",
+          "value": 4,
+          "location": {
+            "file": "SDL_blendmode.h",
+            "line": 50,
+            "column": 5
+          }
+        },
+        {
+          "name": "SDL_BLENDMODE_MUL",
+          "value": 8,
+          "location": {
+            "file": "SDL_blendmode.h",
+            "line": 53,
+            "column": 5
+          }
+        },
+        {
+          "name": "SDL_BLENDMODE_INVALID",
+          "value": 2147483647,
+          "location": {
+            "file": "SDL_blendmode.h",
+            "line": 56,
+            "column": 5
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_blendmode.h",
+        "line": 60,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_ScaleMode",
+      "type": "SDL_ScaleMode",
+      "typeInteger": "unsigned int",
+      "values": [
+        {
+          "name": "SDL_ScaleModeNearest",
+          "location": {
+            "file": "SDL_render.h",
+            "line": 93,
+            "column": 5
+          }
+        },
+        {
+          "name": "SDL_ScaleModeLinear",
+          "value": 1,
+          "location": {
+            "file": "SDL_render.h",
+            "line": 94,
+            "column": 5
+          }
+        },
+        {
+          "name": "SDL_ScaleModeBest",
+          "value": 2,
+          "location": {
+            "file": "SDL_render.h",
+            "line": 95,
+            "column": 5
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_render.h",
+        "line": 96,
         "column": 3
       }
     },
@@ -22434,71 +28955,6 @@
       }
     },
     {
-      "name": "SDL_BlendMode",
-      "type": "SDL_BlendMode",
-      "typeInteger": "unsigned int",
-      "values": [
-        {
-          "name": "SDL_BLENDMODE_NONE",
-          "location": {
-            "file": "SDL_blendmode.h",
-            "line": 42,
-            "column": 5
-          }
-        },
-        {
-          "name": "SDL_BLENDMODE_BLEND",
-          "value": 1,
-          "location": {
-            "file": "SDL_blendmode.h",
-            "line": 44,
-            "column": 5
-          }
-        },
-        {
-          "name": "SDL_BLENDMODE_ADD",
-          "value": 2,
-          "location": {
-            "file": "SDL_blendmode.h",
-            "line": 47,
-            "column": 5
-          }
-        },
-        {
-          "name": "SDL_BLENDMODE_MOD",
-          "value": 4,
-          "location": {
-            "file": "SDL_blendmode.h",
-            "line": 50,
-            "column": 5
-          }
-        },
-        {
-          "name": "SDL_BLENDMODE_MUL",
-          "value": 8,
-          "location": {
-            "file": "SDL_blendmode.h",
-            "line": 53,
-            "column": 5
-          }
-        },
-        {
-          "name": "SDL_BLENDMODE_INVALID",
-          "value": 2147483647,
-          "location": {
-            "file": "SDL_blendmode.h",
-            "line": 56,
-            "column": 5
-          }
-        }
-      ],
-      "location": {
-        "file": "SDL_blendmode.h",
-        "line": 60,
-        "column": 3
-      }
-    },
-    {
       "name": "SDL_BlendOperation",
       "type": "SDL_BlendOperation",
       "typeInteger": "unsigned int",
@@ -22874,6 +29330,30 @@
       }
     },
     {
+      "name": "SDL_BlitMap",
+      "location": {
+        "file": "SDL_surface.h",
+        "line": 91,
+        "column": 12
+      }
+    },
+    {
+      "name": "SDL_Renderer",
+      "location": {
+        "file": "SDL_render.h",
+        "line": 132,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_Texture",
+      "location": {
+        "file": "SDL_render.h",
+        "line": 138,
+        "column": 28
+      }
+    },
+    {
       "name": "SDL_MetalView",
       "location": {
         "file": "SDL_metal.h",
@@ -22938,14 +29418,6 @@
       }
     },
     {
-      "name": "SDL_BlitMap",
-      "location": {
-        "file": "SDL_surface.h",
-        "line": 91,
-        "column": 12
-      }
-    },
-    {
       "name": "SDL_GLContext",
       "location": {
         "file": "SDL_video.h",
@@ -22990,6 +29462,14 @@
       "location": {
         "file": "SDL_mutex.h",
         "line": 164,
+        "column": 30
+      }
+    },
+    {
+      "name": "SDL_iconv_t",
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 608,
         "column": 30
       }
     }
@@ -23164,6 +29644,26 @@
         "file": "SDL_atomic.h",
         "line": 89,
         "column": 13
+      }
+    },
+    {
+      "name": "wchar_t",
+      "underlyingType": "__darwin_wchar_t",
+      "location": {
+        "file": "_wchar_t.h",
+        "line": 34,
+        "column": 26,
+        "isSystem": true
+      }
+    },
+    {
+      "name": "__darwin_wchar_t",
+      "underlyingType": "int",
+      "location": {
+        "file": "_types.h",
+        "line": 104,
+        "column": 33,
+        "isSystem": true
       }
     }
   ],
@@ -23341,24 +29841,6 @@
       "isSystem": true
     },
     {
-      "name": "SDL_PowerState",
-      "kind": "typedef",
-      "sizeOf": 4,
-      "alignOf": 4,
-      "location": {
-        "file": "SDL_power.h",
-        "line": 49,
-        "column": 3
-      }
-    },
-    {
-      "name": "int*",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "isSystem": true
-    },
-    {
       "name": "SDL_Window*",
       "kind": "pointer",
       "sizeOf": 8,
@@ -23376,6 +29858,464 @@
         "file": "SDL_video.h",
         "line": 94,
         "column": 27
+      }
+    },
+    {
+      "name": "SDL_WindowShapeMode*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_shape.h",
+        "line": 106,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_WindowShapeMode",
+      "kind": "typedef",
+      "sizeOf": 8,
+      "alignOf": 4,
+      "location": {
+        "file": "SDL_shape.h",
+        "line": 106,
+        "column": 3
+      }
+    },
+    {
+      "name": "WindowShapeMode",
+      "kind": "typedef",
+      "sizeOf": 4,
+      "alignOf": 4,
+      "location": {
+        "file": "SDL_shape.h",
+        "line": 89,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_WindowShapeParams",
+      "kind": "typedef",
+      "sizeOf": 4,
+      "alignOf": 1,
+      "location": {
+        "file": "SDL_shape.h",
+        "line": 98,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_Color",
+      "kind": "typedef",
+      "sizeOf": 4,
+      "alignOf": 1,
+      "location": {
+        "file": "SDL_pixels.h",
+        "line": 310,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_Surface*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_surface.h",
+        "line": 95,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_Surface",
+      "kind": "typedef",
+      "sizeOf": 96,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_surface.h",
+        "line": 95,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_PixelFormat*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_pixels.h",
+        "line": 345,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_PixelFormat",
+      "kind": "typedef",
+      "sizeOf": 56,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_pixels.h",
+        "line": 345,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_Rect",
+      "kind": "typedef",
+      "sizeOf": 16,
+      "alignOf": 4,
+      "location": {
+        "file": "SDL_rect.h",
+        "line": 81,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_BlitMap*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_surface.h",
+        "line": 91,
+        "column": 12
+      }
+    },
+    {
+      "name": "SDL_BlitMap",
+      "kind": "opaqueType",
+      "location": {
+        "file": "SDL_surface.h",
+        "line": 91,
+        "column": 12
+      }
+    },
+    {
+      "name": "SDL_Palette*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_pixels.h",
+        "line": 319,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_Palette",
+      "kind": "typedef",
+      "sizeOf": 24,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_pixels.h",
+        "line": 319,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_Color*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_pixels.h",
+        "line": 310,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_Renderer*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_render.h",
+        "line": 132,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_Renderer",
+      "kind": "opaqueType",
+      "location": {
+        "file": "SDL_render.h",
+        "line": 132,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_Texture*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_render.h",
+        "line": 138,
+        "column": 28
+      }
+    },
+    {
+      "name": "SDL_Texture",
+      "kind": "opaqueType",
+      "location": {
+        "file": "SDL_render.h",
+        "line": 138,
+        "column": 28
+      }
+    },
+    {
+      "name": "float*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "isSystem": true
+    },
+    {
+      "name": "float",
+      "kind": "primitive",
+      "sizeOf": 4,
+      "alignOf": 4,
+      "isSystem": true
+    },
+    {
+      "name": "SDL_Rect*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_rect.h",
+        "line": 81,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_FRect*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_rect.h",
+        "line": 93,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_FRect",
+      "kind": "typedef",
+      "sizeOf": 16,
+      "alignOf": 4,
+      "location": {
+        "file": "SDL_rect.h",
+        "line": 93,
+        "column": 3
+      }
+    },
+    {
+      "name": "double",
+      "kind": "primitive",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "isSystem": true
+    },
+    {
+      "name": "SDL_FPoint*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_rect.h",
+        "line": 64,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_FPoint",
+      "kind": "typedef",
+      "sizeOf": 8,
+      "alignOf": 4,
+      "location": {
+        "file": "SDL_rect.h",
+        "line": 64,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_RendererFlip",
+      "kind": "typedef",
+      "sizeOf": 4,
+      "alignOf": 4,
+      "location": {
+        "file": "SDL_render.h",
+        "line": 126,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_Point*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_rect.h",
+        "line": 52,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_Point",
+      "kind": "typedef",
+      "sizeOf": 8,
+      "alignOf": 4,
+      "location": {
+        "file": "SDL_rect.h",
+        "line": 52,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_BlendMode*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_blendmode.h",
+        "line": 60,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_BlendMode",
+      "kind": "typedef",
+      "sizeOf": 4,
+      "alignOf": 4,
+      "location": {
+        "file": "SDL_blendmode.h",
+        "line": 60,
+        "column": 3
+      }
+    },
+    {
+      "name": "Uint8*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 185,
+        "column": 17
+      }
+    },
+    {
+      "name": "int*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "isSystem": true
+    },
+    {
+      "name": "SDL_Surface**",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_surface.h",
+        "line": 95,
+        "column": 3
+      }
+    },
+    {
+      "name": "void**",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "isSystem": true
+    },
+    {
+      "name": "SDL_ScaleMode*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_render.h",
+        "line": 96,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_ScaleMode",
+      "kind": "typedef",
+      "sizeOf": 4,
+      "alignOf": 4,
+      "location": {
+        "file": "SDL_render.h",
+        "line": 96,
+        "column": 3
+      }
+    },
+    {
+      "name": "Uint32*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 209,
+        "column": 18
+      }
+    },
+    {
+      "name": "SDL_RendererInfo*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_render.h",
+        "line": 86,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_RendererInfo",
+      "kind": "typedef",
+      "sizeOf": 88,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_render.h",
+        "line": 86,
+        "column": 3
+      }
+    },
+    {
+      "name": "SDL_Window**",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_video.h",
+        "line": 94,
+        "column": 27
+      }
+    },
+    {
+      "name": "SDL_Renderer**",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_render.h",
+        "line": 132,
+        "column": 29
+      }
+    },
+    {
+      "name": "SDL_PowerState",
+      "kind": "typedef",
+      "sizeOf": 4,
+      "alignOf": 4,
+      "location": {
+        "file": "SDL_power.h",
+        "line": 49,
+        "column": 3
       }
     },
     {
@@ -23489,13 +30429,6 @@
       }
     },
     {
-      "name": "void**",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "isSystem": true
-    },
-    {
       "name": "SDL_LogPriority",
       "kind": "typedef",
       "sizeOf": 4,
@@ -23554,13 +30487,6 @@
         "line": 141,
         "column": 28
       }
-    },
-    {
-      "name": "float",
-      "kind": "primitive",
-      "sizeOf": 4,
-      "alignOf": 4,
-      "isSystem": true
     },
     {
       "name": "SDL_HapticEffect*",
@@ -24311,24 +31237,6 @@
       }
     },
     {
-      "name": "float*",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "isSystem": true
-    },
-    {
-      "name": "Uint8*",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "location": {
-        "file": "SDL_stdinc.h",
-        "line": 185,
-        "column": 17
-      }
-    },
-    {
       "name": "SDL_GameControllerButton",
       "kind": "typedef",
       "sizeOf": 4,
@@ -24512,136 +31420,6 @@
       }
     },
     {
-      "name": "SDL_Surface*",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "location": {
-        "file": "SDL_surface.h",
-        "line": 95,
-        "column": 3
-      }
-    },
-    {
-      "name": "SDL_Surface",
-      "kind": "typedef",
-      "sizeOf": 96,
-      "alignOf": 8,
-      "location": {
-        "file": "SDL_surface.h",
-        "line": 95,
-        "column": 3
-      }
-    },
-    {
-      "name": "SDL_PixelFormat*",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "location": {
-        "file": "SDL_pixels.h",
-        "line": 345,
-        "column": 3
-      }
-    },
-    {
-      "name": "SDL_PixelFormat",
-      "kind": "typedef",
-      "sizeOf": 56,
-      "alignOf": 8,
-      "location": {
-        "file": "SDL_pixels.h",
-        "line": 345,
-        "column": 3
-      }
-    },
-    {
-      "name": "SDL_Rect",
-      "kind": "typedef",
-      "sizeOf": 16,
-      "alignOf": 4,
-      "location": {
-        "file": "SDL_rect.h",
-        "line": 81,
-        "column": 3
-      }
-    },
-    {
-      "name": "SDL_BlitMap*",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "location": {
-        "file": "SDL_surface.h",
-        "line": 91,
-        "column": 12
-      }
-    },
-    {
-      "name": "SDL_BlitMap",
-      "kind": "opaqueType",
-      "location": {
-        "file": "SDL_surface.h",
-        "line": 91,
-        "column": 12
-      }
-    },
-    {
-      "name": "SDL_Palette*",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "location": {
-        "file": "SDL_pixels.h",
-        "line": 319,
-        "column": 3
-      }
-    },
-    {
-      "name": "SDL_Palette",
-      "kind": "typedef",
-      "sizeOf": 24,
-      "alignOf": 8,
-      "location": {
-        "file": "SDL_pixels.h",
-        "line": 319,
-        "column": 3
-      }
-    },
-    {
-      "name": "SDL_Color*",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "location": {
-        "file": "SDL_pixels.h",
-        "line": 310,
-        "column": 3
-      }
-    },
-    {
-      "name": "SDL_Color",
-      "kind": "typedef",
-      "sizeOf": 4,
-      "alignOf": 1,
-      "location": {
-        "file": "SDL_pixels.h",
-        "line": 310,
-        "column": 3
-      }
-    },
-    {
-      "name": "SDL_Rect*",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "location": {
-        "file": "SDL_rect.h",
-        "line": 81,
-        "column": 3
-      }
-    },
-    {
       "name": "SDL_Keymod",
       "kind": "typedef",
       "sizeOf": 4,
@@ -24741,39 +31519,6 @@
       }
     },
     {
-      "name": "SDL_BlendMode*",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "location": {
-        "file": "SDL_blendmode.h",
-        "line": 60,
-        "column": 3
-      }
-    },
-    {
-      "name": "SDL_BlendMode",
-      "kind": "typedef",
-      "sizeOf": 4,
-      "alignOf": 4,
-      "location": {
-        "file": "SDL_blendmode.h",
-        "line": 60,
-        "column": 3
-      }
-    },
-    {
-      "name": "Uint32*",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "location": {
-        "file": "SDL_stdinc.h",
-        "line": 209,
-        "column": 18
-      }
-    },
-    {
       "name": "SDL_BlendFactor",
       "kind": "typedef",
       "sizeOf": 4,
@@ -24792,28 +31537,6 @@
       "location": {
         "file": "SDL_blendmode.h",
         "line": 73,
-        "column": 3
-      }
-    },
-    {
-      "name": "SDL_Point*",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "location": {
-        "file": "SDL_rect.h",
-        "line": 52,
-        "column": 3
-      }
-    },
-    {
-      "name": "SDL_Point",
-      "kind": "typedef",
-      "sizeOf": 8,
-      "alignOf": 4,
-      "location": {
-        "file": "SDL_rect.h",
-        "line": 52,
         "column": 3
       }
     },
@@ -24887,13 +31610,6 @@
         "line": 241,
         "column": 23
       }
-    },
-    {
-      "name": "double",
-      "kind": "primitive",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "isSystem": true
     },
     {
       "name": "SDL_AudioFilter",
@@ -25221,6 +31937,151 @@
         "file": "SDL_assert.h",
         "line": 113,
         "column": 3
+      }
+    },
+    {
+      "name": "SDL_iconv_t",
+      "kind": "opaqueType",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 608,
+        "column": 30
+      }
+    },
+    {
+      "name": "char**",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "isSystem": true
+    },
+    {
+      "name": "long",
+      "kind": "primitive",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "isSystem": true
+    },
+    {
+      "name": "wchar_t*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "isSystem": true
+    },
+    {
+      "name": "wchar_t",
+      "kind": "typedef",
+      "sizeOf": 4,
+      "alignOf": 4,
+      "isSystem": true
+    },
+    {
+      "name": "__darwin_wchar_t",
+      "kind": "typedef",
+      "sizeOf": 4,
+      "alignOf": 4,
+      "isSystem": true
+    },
+    {
+      "name": "int (*)(void *, void *)",
+      "kind": "functionPointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 434,
+        "column": 85
+      }
+    },
+    {
+      "name": "SDL_malloc_func",
+      "kind": "typedef",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 400,
+        "column": 25
+      }
+    },
+    {
+      "name": "SDL_calloc_func",
+      "kind": "typedef",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 401,
+        "column": 25
+      }
+    },
+    {
+      "name": "SDL_realloc_func",
+      "kind": "typedef",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 402,
+        "column": 25
+      }
+    },
+    {
+      "name": "SDL_free_func",
+      "kind": "typedef",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 403,
+        "column": 24
+      }
+    },
+    {
+      "name": "SDL_malloc_func*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 400,
+        "column": 25
+      }
+    },
+    {
+      "name": "SDL_calloc_func*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 401,
+        "column": 25
+      }
+    },
+    {
+      "name": "SDL_realloc_func*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 402,
+        "column": 25
+      }
+    },
+    {
+      "name": "SDL_free_func*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 403,
+        "column": 24
       }
     }
   ]
