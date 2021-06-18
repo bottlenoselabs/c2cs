@@ -17523,7 +17523,7 @@
         },
         {
           "name": "value",
-          "type": "SDL_GameControllerButtonBind_Anonymous_Union_value",
+          "type": "SDL_GameControllerButtonBind_value",
           "offset": 4,
           "location": {
             "file": "SDL_gamecontroller.h",
@@ -17534,9 +17534,70 @@
       ],
       "nestedRecords": [
         {
-          "type": "SDL_GameControllerButtonBind_Anonymous_Union_value",
-          "fields": [],
-          "nestedRecords": [],
+          "type": "SDL_GameControllerButtonBind_value",
+          "isUnion": true,
+          "fields": [
+            {
+              "name": "button",
+              "type": "int",
+              "location": {
+                "file": "SDL_gamecontroller.h",
+                "line": 89,
+                "column": 13
+              }
+            },
+            {
+              "name": "axis",
+              "type": "int",
+              "location": {
+                "file": "SDL_gamecontroller.h",
+                "line": 90,
+                "column": 13
+              }
+            },
+            {
+              "name": "hat",
+              "type": "SDL_GameControllerButtonBind_value_hat",
+              "location": {
+                "file": "SDL_gamecontroller.h",
+                "line": 91,
+                "column": 9
+              }
+            }
+          ],
+          "nestedRecords": [
+            {
+              "type": "SDL_GameControllerButtonBind_value_hat",
+              "fields": [
+                {
+                  "name": "hat",
+                  "type": "int",
+                  "location": {
+                    "file": "SDL_gamecontroller.h",
+                    "line": 92,
+                    "column": 17
+                  }
+                },
+                {
+                  "name": "hat_mask",
+                  "type": "int",
+                  "offset": 4,
+                  "location": {
+                    "file": "SDL_gamecontroller.h",
+                    "line": 93,
+                    "column": 17
+                  }
+                }
+              ],
+              "nestedRecords": [],
+              "nestedFunctionPointers": [],
+              "location": {
+                "file": "SDL_gamecontroller.h",
+                "line": 91,
+                "column": 9
+              }
+            }
+          ],
           "nestedFunctionPointers": [],
           "location": {
             "file": "SDL_gamecontroller.h",
@@ -24301,7 +24362,7 @@
       }
     },
     {
-      "name": "SDL_GameControllerButtonBind_Anonymous_Union_value",
+      "name": "SDL_GameControllerButtonBind_value",
       "kind": "record",
       "sizeOf": 8,
       "alignOf": 4,
@@ -24309,6 +24370,17 @@
         "file": "SDL_gamecontroller.h",
         "line": 87,
         "column": 5
+      }
+    },
+    {
+      "name": "SDL_GameControllerButtonBind_value_hat",
+      "kind": "record",
+      "sizeOf": 8,
+      "alignOf": 4,
+      "location": {
+        "file": "SDL_gamecontroller.h",
+        "line": 91,
+        "column": 9
       }
     },
     {

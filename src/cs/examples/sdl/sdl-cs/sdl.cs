@@ -2305,7 +2305,7 @@ public static unsafe partial class SDL
         public delegate* unmanaged<SDL_AssertionHandler> Pointer;
     }
 
-    // Record @ SDL_locale.h:47:3
+    // Struct @ SDL_locale.h:47:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct SDL_Locale
     {
@@ -2316,7 +2316,7 @@ public static unsafe partial class SDL
         public CString country;
     }
 
-    // Record @ SDL_version.h:56:3
+    // Struct @ SDL_version.h:56:3
     [StructLayout(LayoutKind.Explicit, Size = 3, Pack = 1)]
     public struct SDL_version
     {
@@ -2330,7 +2330,7 @@ public static unsafe partial class SDL
         public Uint8 patch;
     }
 
-    // Record @ SDL_messagebox.h:105:3
+    // Struct @ SDL_messagebox.h:105:3
     [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
     public struct SDL_MessageBoxData
     {
@@ -2356,7 +2356,7 @@ public static unsafe partial class SDL
         public SDL_MessageBoxColorScheme* colorScheme;
     }
 
-    // Record @ SDL_messagebox.h:89:3
+    // Struct @ SDL_messagebox.h:89:3
     [StructLayout(LayoutKind.Explicit, Size = 15, Pack = 1)]
     public struct SDL_MessageBoxColorScheme
     {
@@ -2377,7 +2377,7 @@ public static unsafe partial class SDL
         }
     }
 
-    // Record @ SDL_messagebox.h:71:3
+    // Struct @ SDL_messagebox.h:71:3
     [StructLayout(LayoutKind.Explicit, Size = 15, Pack = 1)]
     public struct SDL_MessageBoxColor
     {
@@ -2391,7 +2391,7 @@ public static unsafe partial class SDL
         public Uint8 b;
     }
 
-    // Record @ SDL_messagebox.h:63:3
+    // Struct @ SDL_messagebox.h:63:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct SDL_MessageBoxButtonData
     {
@@ -2405,7 +2405,7 @@ public static unsafe partial class SDL
         public CString text;
     }
 
-    // Record @ SDL_haptic.h:819:3
+    // Struct @ SDL_haptic.h:819:3
     [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8)]
     public struct SDL_HapticEffect
     {
@@ -2431,7 +2431,7 @@ public static unsafe partial class SDL
         public SDL_HapticCustom custom;
     }
 
-    // Record @ SDL_haptic.h:738:3
+    // Struct @ SDL_haptic.h:738:3
     [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
     public struct SDL_HapticCustom
     {
@@ -2478,7 +2478,7 @@ public static unsafe partial class SDL
         public Uint16 fade_level;
     }
 
-    // Record @ SDL_haptic.h:463:3
+    // Struct @ SDL_haptic.h:463:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct SDL_HapticDirection
     {
@@ -2502,7 +2502,7 @@ public static unsafe partial class SDL
         }
     }
 
-    // Record @ SDL_haptic.h:696:3
+    // Struct @ SDL_haptic.h:696:3
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct SDL_HapticLeftRight
     {
@@ -2519,7 +2519,7 @@ public static unsafe partial class SDL
         public Uint16 small_magnitude;
     }
 
-    // Record @ SDL_haptic.h:671:3
+    // Struct @ SDL_haptic.h:671:3
     [StructLayout(LayoutKind.Explicit, Size = 44, Pack = 4)]
     public struct SDL_HapticRamp
     {
@@ -2560,7 +2560,7 @@ public static unsafe partial class SDL
         public Uint16 fade_level;
     }
 
-    // Record @ SDL_haptic.h:633:3
+    // Struct @ SDL_haptic.h:633:3
     [StructLayout(LayoutKind.Explicit, Size = 68, Pack = 4)]
     public struct SDL_HapticCondition
     {
@@ -2601,7 +2601,7 @@ public static unsafe partial class SDL
         public Sint16 center;
     }
 
-    // Record @ SDL_haptic.h:585:3
+    // Struct @ SDL_haptic.h:585:3
     [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 4)]
     public struct SDL_HapticPeriodic
     {
@@ -2648,7 +2648,7 @@ public static unsafe partial class SDL
         public Uint16 fade_level;
     }
 
-    // Record @ SDL_haptic.h:499:3
+    // Struct @ SDL_haptic.h:499:3
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 4)]
     public struct SDL_HapticConstant
     {
@@ -2686,7 +2686,7 @@ public static unsafe partial class SDL
         public Uint16 fade_level;
     }
 
-    // Record @ SDL_events.h:631:3
+    // Struct @ SDL_events.h:631:3
     [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
     public struct SDL_Event
     {
@@ -2781,7 +2781,7 @@ public static unsafe partial class SDL
         public Uint8 padding;
     }
 
-    // Record @ SDL_events.h:526:3
+    // Struct @ SDL_events.h:526:3
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct SDL_DropEvent
     {
@@ -2798,7 +2798,7 @@ public static unsafe partial class SDL
         public Uint32 windowID;
     }
 
-    // Record @ SDL_events.h:512:3
+    // Struct @ SDL_events.h:512:3
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
     public struct SDL_DollarGestureEvent
     {
@@ -2827,7 +2827,7 @@ public static unsafe partial class SDL
         public float y;
     }
 
-    // Record @ SDL_events.h:496:3
+    // Struct @ SDL_events.h:496:3
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
     public struct SDL_MultiGestureEvent
     {
@@ -2859,7 +2859,7 @@ public static unsafe partial class SDL
         public Uint16 padding;
     }
 
-    // Record @ SDL_events.h:479:3
+    // Struct @ SDL_events.h:479:3
     [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
     public struct SDL_TouchFingerEvent
     {
@@ -2894,7 +2894,7 @@ public static unsafe partial class SDL
         public Uint32 windowID;
     }
 
-    // Record @ SDL_events.h:586:3
+    // Struct @ SDL_events.h:586:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct SDL_SysWMEvent
     {
@@ -2908,7 +2908,7 @@ public static unsafe partial class SDL
         public SDL_SysWMmsg* msg;
     }
 
-    // Record @ SDL_events.h:569:3
+    // Struct @ SDL_events.h:569:3
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
     public struct SDL_UserEvent
     {
@@ -2944,7 +2944,7 @@ public static unsafe partial class SDL
         public void* data2;
     }
 
-    // Record @ SDL_events.h:547:3
+    // Struct @ SDL_events.h:547:3
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct SDL_QuitEvent
     {
@@ -2955,7 +2955,7 @@ public static unsafe partial class SDL
         public Uint32 timestamp;
     }
 
-    // Record @ SDL_events.h:538:3
+    // Struct @ SDL_events.h:538:3
     [StructLayout(LayoutKind.Explicit, Size = 36, Pack = 4)]
     public struct SDL_SensorEvent
     {
@@ -2985,7 +2985,7 @@ public static unsafe partial class SDL
         public float data;
     }
 
-    // Record @ SDL_events.h:461:3
+    // Struct @ SDL_events.h:461:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct SDL_AudioDeviceEvent
     {
@@ -3011,7 +3011,7 @@ public static unsafe partial class SDL
         public Uint8 padding3;
     }
 
-    // Record @ SDL_events.h:447:3
+    // Struct @ SDL_events.h:447:3
     [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
     public struct SDL_ControllerSensorEvent
     {
@@ -3044,7 +3044,7 @@ public static unsafe partial class SDL
         public float data;
     }
 
-    // Record @ SDL_events.h:435:3
+    // Struct @ SDL_events.h:435:3
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 4)]
     public struct SDL_ControllerTouchpadEvent
     {
@@ -3099,7 +3099,7 @@ public static unsafe partial class SDL
         public float pressure;
     }
 
-    // Record @ SDL_events.h:420:3
+    // Struct @ SDL_events.h:420:3
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct SDL_ControllerDeviceEvent
     {
@@ -3126,7 +3126,7 @@ public static unsafe partial class SDL
         }
     }
 
-    // Record @ SDL_events.h:409:3
+    // Struct @ SDL_events.h:409:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct SDL_ControllerButtonEvent
     {
@@ -3152,7 +3152,7 @@ public static unsafe partial class SDL
         public Uint8 padding2;
     }
 
-    // Record @ SDL_events.h:394:3
+    // Struct @ SDL_events.h:394:3
     [StructLayout(LayoutKind.Explicit, Size = 20, Pack = 4)]
     public struct SDL_ControllerAxisEvent
     {
@@ -3184,7 +3184,7 @@ public static unsafe partial class SDL
         public Uint16 padding4;
     }
 
-    // Record @ SDL_events.h:377:3
+    // Struct @ SDL_events.h:377:3
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct SDL_JoyDeviceEvent
     {
@@ -3211,7 +3211,7 @@ public static unsafe partial class SDL
         }
     }
 
-    // Record @ SDL_events.h:367:3
+    // Struct @ SDL_events.h:367:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct SDL_JoyButtonEvent
     {
@@ -3237,7 +3237,7 @@ public static unsafe partial class SDL
         public Uint8 padding2;
     }
 
-    // Record @ SDL_events.h:353:3
+    // Struct @ SDL_events.h:353:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct SDL_JoyHatEvent
     {
@@ -3263,7 +3263,7 @@ public static unsafe partial class SDL
         public Uint8 padding2;
     }
 
-    // Record @ SDL_events.h:333:3
+    // Struct @ SDL_events.h:333:3
     [StructLayout(LayoutKind.Explicit, Size = 20, Pack = 4)]
     public struct SDL_JoyBallEvent
     {
@@ -3295,7 +3295,7 @@ public static unsafe partial class SDL
         public Sint16 yrel;
     }
 
-    // Record @ SDL_events.h:317:3
+    // Struct @ SDL_events.h:317:3
     [StructLayout(LayoutKind.Explicit, Size = 20, Pack = 4)]
     public struct SDL_JoyAxisEvent
     {
@@ -3327,7 +3327,7 @@ public static unsafe partial class SDL
         public Uint16 padding4;
     }
 
-    // Record @ SDL_events.h:301:3
+    // Struct @ SDL_events.h:301:3
     [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
     public struct SDL_MouseWheelEvent
     {
@@ -3379,7 +3379,7 @@ public static unsafe partial class SDL
         public Uint32 direction;
     }
 
-    // Record @ SDL_events.h:287:3
+    // Struct @ SDL_events.h:287:3
     [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
     public struct SDL_MouseButtonEvent
     {
@@ -3440,7 +3440,7 @@ public static unsafe partial class SDL
         }
     }
 
-    // Record @ SDL_events.h:270:3
+    // Struct @ SDL_events.h:270:3
     [StructLayout(LayoutKind.Explicit, Size = 36, Pack = 4)]
     public struct SDL_MouseMotionEvent
     {
@@ -3524,7 +3524,7 @@ public static unsafe partial class SDL
         }
     }
 
-    // Record @ SDL_events.h:254:3
+    // Struct @ SDL_events.h:254:3
     [StructLayout(LayoutKind.Explicit, Size = 44, Pack = 4)]
     public struct SDL_TextInputEvent
     {
@@ -3541,7 +3541,7 @@ public static unsafe partial class SDL
         public byte text;
     }
 
-    // Record @ SDL_events.h:241:3
+    // Struct @ SDL_events.h:241:3
     [StructLayout(LayoutKind.Explicit, Size = 52, Pack = 4)]
     public struct SDL_TextEditingEvent
     {
@@ -3590,7 +3590,7 @@ public static unsafe partial class SDL
         }
     }
 
-    // Record @ SDL_events.h:227:3
+    // Struct @ SDL_events.h:227:3
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 4)]
     public struct SDL_KeyboardEvent
     {
@@ -3619,7 +3619,7 @@ public static unsafe partial class SDL
         public SDL_Keysym keysym;
     }
 
-    // Record @ SDL_keyboard.h:53:3
+    // Struct @ SDL_keyboard.h:53:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct SDL_Keysym
     {
@@ -3636,7 +3636,7 @@ public static unsafe partial class SDL
         public Uint32 unused;
     }
 
-    // Record @ SDL_events.h:212:3
+    // Struct @ SDL_events.h:212:3
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
     public struct SDL_WindowEvent
     {
@@ -3694,7 +3694,7 @@ public static unsafe partial class SDL
         }
     }
 
-    // Record @ SDL_events.h:196:3
+    // Struct @ SDL_events.h:196:3
     [StructLayout(LayoutKind.Explicit, Size = 20, Pack = 4)]
     public struct SDL_DisplayEvent
     {
@@ -3736,7 +3736,7 @@ public static unsafe partial class SDL
         }
     }
 
-    // Record @ SDL_events.h:181:3
+    // Struct @ SDL_events.h:181:3
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct SDL_CommonEvent
     {
@@ -3747,7 +3747,7 @@ public static unsafe partial class SDL
         public Uint32 timestamp;
     }
 
-    // Record @ SDL_touch.h:58:3
+    // Struct @ SDL_touch.h:58:3
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct SDL_Finger
     {
@@ -3764,7 +3764,7 @@ public static unsafe partial class SDL
         public float pressure;
     }
 
-    // Record @ SDL_gamecontroller.h:97:3
+    // Struct @ SDL_gamecontroller.h:97:3
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct SDL_GameControllerButtonBind
     {
@@ -3772,17 +3772,35 @@ public static unsafe partial class SDL
         public SDL_GameControllerBindType bindType;
 
         [FieldOffset(4)] // size = 8, padding = 0
-        public SDL_GameControllerButtonBind_Anonymous_Union_value value;
+        public SDL_GameControllerButtonBind_value value;
 
-        // Record @ SDL_gamecontroller.h:87:5
+        // Union @ SDL_gamecontroller.h:87:5
         [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
-        public struct SDL_GameControllerButtonBind_Anonymous_Union_value
+        public struct SDL_GameControllerButtonBind_value
         {
+            [FieldOffset(0)] // size = 4, padding = 0
+            public int button;
 
+            [FieldOffset(0)] // size = 4, padding = 0
+            public int axis;
+
+            [FieldOffset(0)] // size = 8, padding = 0
+            public SDL_GameControllerButtonBind_value_hat hat;
+
+            // Struct @ SDL_gamecontroller.h:91:9
+            [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
+            public struct SDL_GameControllerButtonBind_value_hat
+            {
+                [FieldOffset(0)] // size = 4, padding = 0
+                public int hat;
+
+                [FieldOffset(4)] // size = 4, padding = 0
+                public int hat_mask;
+            }
         }
     }
 
-    // Record @ SDL_joystick.h:74:3
+    // Struct @ SDL_joystick.h:74:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 1)]
     public struct SDL_JoystickGUID
     {
@@ -3790,7 +3808,7 @@ public static unsafe partial class SDL
         public Uint8 data;
     }
 
-    // Record @ SDL_surface.h:95:3
+    // Struct @ SDL_surface.h:95:3
     [StructLayout(LayoutKind.Explicit, Size = 96, Pack = 8)]
     public struct SDL_Surface
     {
@@ -3831,7 +3849,7 @@ public static unsafe partial class SDL
         public int refcount;
     }
 
-    // Record @ SDL_rect.h:81:3
+    // Struct @ SDL_rect.h:81:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct SDL_Rect
     {
@@ -3848,7 +3866,7 @@ public static unsafe partial class SDL
         public int h;
     }
 
-    // Record @ SDL_pixels.h:345:3
+    // Struct @ SDL_pixels.h:345:3
     [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
     public struct SDL_PixelFormat
     {
@@ -3910,7 +3928,7 @@ public static unsafe partial class SDL
         public SDL_PixelFormat* next;
     }
 
-    // Record @ SDL_pixels.h:319:3
+    // Struct @ SDL_pixels.h:319:3
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct SDL_Palette
     {
@@ -3927,7 +3945,7 @@ public static unsafe partial class SDL
         public int refcount;
     }
 
-    // Record @ SDL_pixels.h:310:3
+    // Struct @ SDL_pixels.h:310:3
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 1)]
     public struct SDL_Color
     {
@@ -3944,7 +3962,7 @@ public static unsafe partial class SDL
         public Uint8 a;
     }
 
-    // Record @ SDL_video.h:60:3
+    // Struct @ SDL_video.h:60:3
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct SDL_DisplayMode
     {
@@ -3964,7 +3982,7 @@ public static unsafe partial class SDL
         public void* driverdata;
     }
 
-    // Record @ SDL_rect.h:52:3
+    // Struct @ SDL_rect.h:52:3
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct SDL_Point
     {
@@ -3975,7 +3993,7 @@ public static unsafe partial class SDL
         public int y;
     }
 
-    // Record @ SDL_audio.h:241:23
+    // Struct @ SDL_audio.h:241:23
     [StructLayout(LayoutKind.Explicit, Size = 128, Pack = 1)]
     public struct SDL_AudioCVT
     {
@@ -4026,7 +4044,7 @@ public static unsafe partial class SDL
         public int filter_index;
     }
 
-    // Record @ SDL_audio.h:191:3
+    // Struct @ SDL_audio.h:191:3
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
     public struct SDL_AudioSpec
     {
@@ -4058,7 +4076,7 @@ public static unsafe partial class SDL
         public void* userdata;
     }
 
-    // Record @ SDL_atomic.h:238:31
+    // Struct @ SDL_atomic.h:238:31
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct SDL_atomic_t
     {
@@ -4066,7 +4084,7 @@ public static unsafe partial class SDL
         public int value;
     }
 
-    // Record @ SDL_assert.h:124:3
+    // Struct @ SDL_assert.h:124:3
     [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
     public struct SDL_AssertData
     {

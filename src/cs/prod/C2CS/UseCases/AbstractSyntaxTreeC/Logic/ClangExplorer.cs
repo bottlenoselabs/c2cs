@@ -308,21 +308,24 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var location = node.Location;
 
             var fields = CreateRecordFields(typeName, cursor, parentNode);
-            var nestedNodes = CreateNestedNodes(cursor, node);
+            var nestedNodes = CreateNestedNodes(typeName, cursor, node);
 
             var nestedRecords = nestedNodes.Where(x => x is CRecord).Cast<CRecord>().ToImmutableArray();
             var nestedFunctionPointers = nestedNodes.Where(x => x is CFunctionPointer).Cast<CFunctionPointer>().ToImmutableArray();
 
+            var typeCursor = clang_getTypeDeclaration(node.Type);
+            var isUnion = typeCursor.kind == CXCursorKind.CXCursor_UnionDecl;
+
             var record = new CRecord
             {
                 Location = location,
+                IsUnion = isUnion,
                 Type = typeName,
                 Fields = fields,
                 NestedRecords = nestedRecords,
                 NestedFunctionPointers = nestedFunctionPointers
             };
 
-            var typeCursor = clang_getTypeDeclaration(node.Type);
             var isAnonymous = clang_Cursor_isAnonymous(typeCursor) > 0;
             if (isAnonymous)
             {
@@ -611,6 +614,14 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
             var underlyingCursor = ClangUnderlyingCursor(cursor);
 
+            var type = clang_getCursorType(underlyingCursor);
+            var typeCursor = clang_getTypeDeclaration(type);
+            if (typeCursor.kind == CXCursorKind.CXCursor_UnionDecl ||
+                typeCursor.kind == CXCursorKind.CXCursor_StructDecl)
+            {
+                underlyingCursor = typeCursor;
+            }
+
             var fieldCursors = underlyingCursor.GetDescendents((child, _) =>
                 child.kind == CXCursorKind.CXCursor_FieldDecl);
 
@@ -697,11 +708,18 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             };
         }
 
-        private ImmutableArray<CNode> CreateNestedNodes(CXCursor cursor, Node parentNode)
+        private ImmutableArray<CNode> CreateNestedNodes(string parentTypeName, CXCursor cursor, Node parentNode)
         {
             var builder = ImmutableArray.CreateBuilder<CNode>();
 
             var underlyingCursor = ClangUnderlyingCursor(cursor);
+            var type = clang_getCursorType(underlyingCursor);
+            var typeCursor = clang_getTypeDeclaration(type);
+            if (typeCursor.kind == CXCursorKind.CXCursor_UnionDecl ||
+                typeCursor.kind == CXCursorKind.CXCursor_StructDecl)
+            {
+                underlyingCursor = typeCursor;
+            }
 
             var nestedCursors = underlyingCursor.GetDescendents((child, _) =>
             {
@@ -732,7 +750,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
             foreach (var nestedCursor in nestedCursors)
             {
-                var record = CreateNestedNode(nestedCursor, parentNode);
+                var record = CreateNestedNode(parentTypeName, nestedCursor, parentNode);
                 builder.Add(record);
             }
 
@@ -744,19 +762,19 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             return builder.ToImmutable();
         }
 
-        private CNode CreateNestedNode(CXCursor cursor, Node parentNode)
+        private CNode CreateNestedNode(string parentTypeName, CXCursor cursor, Node parentNode)
         {
             var type = clang_getCursorType(cursor);
             var isPointer = type.kind == CXTypeKind.CXType_Pointer;
             if (!isPointer)
             {
-                return CreateNestedStruct(cursor, type, parentNode);
+                return CreateNestedStruct(parentTypeName, cursor, type, parentNode);
             }
 
             var pointeeType = clang_getPointeeType(type);
             if (pointeeType.kind == CXTypeKind.CXType_FunctionProto)
             {
-                var typeName = TypeName(parentNode.TypeName!, CKind.FunctionPointer, pointeeType, cursor, type);
+                var typeName = TypeName(parentTypeName, CKind.FunctionPointer, pointeeType, cursor, type);
                 var location = Location(cursor, type);
                 return CreateFunctionPointer(typeName, cursor, parentNode, type, pointeeType, location);
             }
@@ -765,21 +783,24 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             throw up;
         }
 
-        private CNode CreateNestedStruct(CXCursor cursor, CXType type, Node parentNode)
+        private CNode CreateNestedStruct(string parentTypeName, CXCursor cursor, CXType type, Node parentNode)
         {
             var location = Location(cursor, type);
-            var typeName = TypeName(parentNode.TypeName!, CKind.Record, type, cursor);
-            ExpandType(parentNode, cursor, type, type, typeName);
+            var typeName = TypeName(parentTypeName, CKind.Record, type, cursor);
 
             var recordFields = CreateRecordFields(typeName, cursor, parentNode);
-            var nestedNodes = CreateNestedNodes(cursor, parentNode);
+            var nestedNodes = CreateNestedNodes(typeName, cursor, parentNode);
 
             var nestedRecords = nestedNodes.Where(x => x is CRecord).Cast<CRecord>().ToImmutableArray();
             var nestedFunctionPointers = nestedNodes.Where(x => x is CFunctionPointer).Cast<CFunctionPointer>().ToImmutableArray();
 
+            var typeCursor = clang_getTypeDeclaration(type);
+            var isUnion = typeCursor.kind == CXCursorKind.CXCursor_UnionDecl;
+
             return new CRecord
             {
                 Location = location,
+                IsUnion = isUnion,
                 Type = typeName,
                 Fields = recordFields,
                 NestedRecords = nestedRecords,
@@ -1034,9 +1055,9 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 switch (anonymousCursor.kind)
                 {
                     case CXCursorKind.CXCursor_UnionDecl:
-                        return $"{parentTypeName}_Anonymous_Union_{cursorName}";
+                        return $"{parentTypeName}_{cursorName}";
                     case CXCursorKind.CXCursor_StructDecl:
-                        return $"{parentTypeName}_Anonymous_Struct_{cursorName}";
+                        return $"{parentTypeName}_{cursorName}";
                     default:
                     {
                         // pretty sure this case is not possible, but it's better safe than sorry!

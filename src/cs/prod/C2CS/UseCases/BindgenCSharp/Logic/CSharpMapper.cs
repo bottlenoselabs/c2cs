@@ -693,17 +693,26 @@ namespace C2CS.UseCases.BindgenCSharp
 
         private static string CSharpOriginalCodeLocationComment(CNode node)
         {
-            var kind = node.Kind;
+            string kindString;
+            if (node is CRecord record)
+            {
+                kindString = record.IsUnion ? "Union" : "Struct";
+            }
+            else
+            {
+                kindString = node.Kind.ToString();
+            }
+
             var location = node.Location;
 
             string result;
             if (location.IsSystem)
             {
-                result = $"// {kind} @ System";
+                result = $"// {kindString} @ System";
             }
             else
             {
-                result = $"// {kind} @ {location.Path}:{location.LineNumber}:{location.LineColumn}";
+                result = $"// {kindString} @ {location.Path}:{location.LineNumber}:{location.LineColumn}";
             }
 
             return result;
