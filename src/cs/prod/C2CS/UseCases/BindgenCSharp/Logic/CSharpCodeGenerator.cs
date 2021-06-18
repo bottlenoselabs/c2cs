@@ -28,16 +28,15 @@ namespace C2CS.UseCases.BindgenCSharp
 		{
 			var builder = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
 
-			EmitLoaderExterns(builder, abstractSyntaxTree.VariablesExtern);
-			EmitUnloaderExterns(builder, abstractSyntaxTree.VariablesExtern);
+			EmitVirtualTable(builder, abstractSyntaxTree.VariablesExtern);
 
+			EmitVariableProperties(builder, abstractSyntaxTree.VariablesExtern);
 			EmitMethodsExterns(builder, abstractSyntaxTree.FunctionExterns);
 			EmitFunctionPointers(builder, abstractSyntaxTree.FunctionPointers);
 			EmitStructs(builder, abstractSyntaxTree.Structs);
 			EmitOpaqueDataTypes(builder, abstractSyntaxTree.OpaqueDataTypes);
 			EmitTypedefs(builder, abstractSyntaxTree.Typedefs);
 			EmitEnums(builder, abstractSyntaxTree.Enums);
-			EmitVariableExterns(builder, abstractSyntaxTree.VariablesExtern);
 
 			var membersToAdd = builder.ToArray();
 			var compilationUnit = EmitCompilationUnit(
@@ -65,6 +64,7 @@ namespace C2CS.UseCases.BindgenCSharp
 //-------------------------------------------------------------------------------------
 using System;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 #nullable enable
 
@@ -109,75 +109,70 @@ public static unsafe partial class {className}
 			return newCompilationUnitFormatted;
 		}
 
-		private static void EmitLoaderExterns(
+		private static void EmitVirtualTable(
 			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
 			ImmutableArray<CSharpVariable> variablesExtern)
 		{
-			var statementStrings = variablesExtern.Select(x =>
+			var loaderStatementStrings = variablesExtern.Select(x =>
 				@$"_{x.Name} = Runtime.LibraryGetExport(_libraryHandle, ""{x.Name}"");");
-			var statements = string.Join('\n', statementStrings);
+			var loadStatements = string.Join('\n', loaderStatementStrings);
 
-			var code = $@"
+			var loadCode = $@"
 private static void _LoadVirtualTable()
 {{
-	{statements}
+	{loadStatements}
 }}
 ";
 
-			var member = ParseMemberDeclaration(code)!;
-			if (member is MethodDeclarationSyntax syntax)
+			var loadMember = ParseMemberDeclaration(loadCode)!;
+			if (loadMember is MethodDeclarationSyntax loadSyntax)
 			{
-				builder.Add(syntax);
+				builder.Add(loadSyntax);
 			}
 			else
 			{
-				var up = new CSharpCodeGenerationException("Error generating C# extern loader method.");
+				var up = new CSharpCodeGenerationException("Error generating C# virtual table.");
 				throw up;
 			}
-		}
 
-		private static void EmitUnloaderExterns(
-			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
-			ImmutableArray<CSharpVariable> variablesExtern)
-		{
-			var statementStrings = variablesExtern.Select(x =>
+			var unloadStatementStrings = variablesExtern.Select(x =>
 				@$"_{x.Name} = IntPtr.Zero;");
-			var statements = string.Join('\n', statementStrings);
+			var unloadStatements = string.Join('\n', unloadStatementStrings);
 
 			var code = $@"
 private static void _UnloadVirtualTable()
 {{
-	{statements}
+	{unloadStatements}
 }}
 ";
 
-			var member = ParseMemberDeclaration(code)!;
-			if (member is MethodDeclarationSyntax syntax)
+			var unloadMember = ParseMemberDeclaration(code)!;
+			if (unloadMember is MethodDeclarationSyntax unloadSyntax)
 			{
-				builder.Add(syntax);
+				builder.Add(unloadSyntax);
 			}
 			else
 			{
-				var up = new CSharpCodeGenerationException("Error generating C# extern unloader method.");
+				var up = new CSharpCodeGenerationException("Error generating C# virtual table.");
 				throw up;
 			}
 		}
 
-		private static void EmitVariableExterns(
+		private static void EmitVariableProperties(
 			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
 			ImmutableArray<CSharpVariable> variablesExtern)
 		{
 			foreach (var variableExtern in variablesExtern)
 			{
-				var field = EmitFieldExternAddress(variableExtern);
+				var field = EmitVariablePropertyBackingField(variableExtern);
 				builder.Add(field);
 
-				var method = EmitVariableExternMethod(variableExtern);
+				var method = EmitVariableProperty(variableExtern);
 				builder.Add(method);
 			}
 		}
 
-		private static FieldDeclarationSyntax EmitFieldExternAddress(CSharpNode @extern)
+		private static FieldDeclarationSyntax EmitVariablePropertyBackingField(CSharpNode @extern)
 		{
 			var code = $@"
 {@extern.CodeLocationComment}
@@ -188,21 +183,13 @@ private static IntPtr _{@extern.Name};
 			return member;
 		}
 
-		private static MemberDeclarationSyntax EmitVariableExternMethod(CSharpVariable variable)
+		private static MemberDeclarationSyntax EmitVariableProperty(CSharpVariable variable)
 		{
 			var code = $@"
 public static {variable.Type.Name} {variable.Name}
 {{
-	get
-	{{
-		if (_{variable.Name} == IntPtr.Zero)
-		{{
-			return default({variable.Type.Name});
-		}}
-
-		var value = Runtime.ReadMemory<{variable.Type.Name}>(_{variable.Name});
-		return value;
-	}}
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	get => Runtime.ReadMemory<{variable.Type.Name}>(_{variable.Name});
 }}
 ";
 
