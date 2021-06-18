@@ -3772,35 +3772,14 @@ public static unsafe partial class SDL
         public SDL_GameControllerBindType bindType;
 
         [FieldOffset(4)] // size = 8, padding = 0
-        public SDL_GameControllerButtonBind_value value;
-    }
+        public SDL_GameControllerButtonBind_Anonymous_Union_value value;
 
-    // Record @ SDL_gamecontroller.h:91:9
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
-    public struct __hat
-    {
+        // Record @ SDL_gamecontroller.h:87:5
+        [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
+        public struct SDL_GameControllerButtonBind_Anonymous_Union_value
+        {
 
-    }
-
-    // Record @ SDL_gamecontroller.h:87:5
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
-    public struct _
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int button;
-
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int axis;
-
-        [FieldOffset(0)] // size = 8, padding = 0
-        public __hat hat;
-    }
-
-    // Record @ SDL_gamecontroller.h:87:5
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
-    public struct SDL_GameControllerButtonBind_value
-    {
-
+        }
     }
 
     // Record @ SDL_joystick.h:74:3

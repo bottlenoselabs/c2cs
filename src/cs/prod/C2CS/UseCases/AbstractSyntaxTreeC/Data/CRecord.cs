@@ -17,8 +17,11 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         [JsonPropertyName("fields")]
         public ImmutableArray<CRecordField> Fields { get; set; } = ImmutableArray<CRecordField>.Empty;
 
-        [JsonPropertyName("nested")]
-        public ImmutableArray<CNode> NestedNodes { get; set; } = ImmutableArray<CNode>.Empty;
+        [JsonPropertyName("nestedRecords")]
+        public ImmutableArray<CRecord> NestedRecords { get; set; } = ImmutableArray<CRecord>.Empty;
+
+        [JsonPropertyName("nestedFunctionPointers")]
+        public ImmutableArray<CFunctionPointer> NestedFunctionPointers { get; set; } = ImmutableArray<CFunctionPointer>.Empty;
 
         public override string ToString()
         {

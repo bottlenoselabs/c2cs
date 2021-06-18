@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Linq;
 using C2CS.UseCases.BindgenCSharp;
 using static libclang;
 
@@ -110,16 +111,23 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         private void Explore()
         {
+            // The idea is that we keep track of nodes we wish to process next when we encounter them.
+            //  The concept of "frontier" comes from artificial intelligence textbooks on the subject of graph
+            //  traversal such as solving mazes or otherwise "exploring" the environment for a solution.
+            //  Here we use it as an array which acts like stack data structure with first-in-last-out (FILO) behaviour.
+            //  I.e., we add append items to the end of the array, and remove items from end of the array.
+            //  Using a stack data structures with FILO leads to behaviour of depth-first-search (DFS) with post-order
+            //  traversal. I.e., starting from a the root of the tree (the translation unit) we recursively go deeper
+            //  and deeper into children nodes (cursors that are of interest such as an Enum, Struct, Function, etc) until
+            //  we hit a leaf (some cursor that has no children cursors). As we go along we visit the last node (cursor)
+            //  that was expanded. This is appropriate because we want to add nodes as we encounter them along
+            //  our graph traversal journey but not immediately process them; rather we want to process the next node
+            //  once we are finished processing our current node.
+
             while (_frontier.Count > 0)
             {
                 var node = _frontier[^1];
-                if (node.Kind == CKind.Record)
-                {
-                    // we want to delay processing records because one header file may only have a forward
-                    //  declaration (opaque type) but another header file could have the definition
-                }
-
-                _frontier.RemoveAt(_frontier.Count - 1);
+                _frontier.RemoveAt(_frontier.Count - 1); // RemoveAt() allows us to achieve O(1), while Remove() is O(n)
                 ExploreNode(node);
             }
         }
@@ -138,7 +146,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                     ExploreFunction(node.Name!, node.Cursor, node.Type, node.Location, node.Parent!);
                     break;
                 case CKind.Typedef:
-                    ExploreTypedef(node.TypeName!, node.Cursor, node.Type, node.Location, node.Parent!);
+                    ExploreTypedef(node, node.Parent!);
                     break;
                 case CKind.OpaqueType:
                     ExploreOpaqueType(node.TypeName!, node.Location);
@@ -147,7 +155,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                     ExploreEnum(node.TypeName!, node.Cursor, node.Type, node.Location, node.Parent!);
                     break;
                 case CKind.Record:
-                    ExploreRecord(node.TypeName!, node.Cursor, node.Location, node.Parent!);
+                    ExploreRecord(node, node.Parent!);
                     break;
                 case CKind.FunctionPointer:
                     ExploreFunctionPointer(node.TypeName!, node.Cursor, node.Type, node.OriginalType, node.Location, node.Parent!);
@@ -293,24 +301,47 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             _enums.Add(@enum);
         }
 
-        private void ExploreRecord(string typeName, CXCursor cursor, ClangLocation location, Node parentNode)
+        private void ExploreRecord(Node node, Node parentNode)
         {
+            var typeName = node.TypeName!;
+            var cursor = node.Cursor;
+            var location = node.Location;
+
             var fields = CreateRecordFields(typeName, cursor, parentNode);
-            var nestedNodes = CreateNestedNodes(cursor, parentNode);
+            var nestedNodes = CreateNestedNodes(cursor, node);
+
+            var nestedRecords = nestedNodes.Where(x => x is CRecord).Cast<CRecord>().ToImmutableArray();
+            var nestedFunctionPointers = nestedNodes.Where(x => x is CFunctionPointer).Cast<CFunctionPointer>().ToImmutableArray();
 
             var record = new CRecord
             {
                 Location = location,
                 Type = typeName,
                 Fields = fields,
-                NestedNodes = nestedNodes
+                NestedRecords = nestedRecords,
+                NestedFunctionPointers = nestedFunctionPointers
             };
+
+            var typeCursor = clang_getTypeDeclaration(node.Type);
+            var isAnonymous = clang_Cursor_isAnonymous(typeCursor) > 0;
+            if (isAnonymous)
+            {
+                // if it's the case that the record's type is anonymous then it must be a struct/union without a name
+                //  which is already inside another struct; thus, it will be properly stored in that parent struct and
+                //  should not be added directly here
+                return;
+            }
 
             _records.Add(record);
         }
 
-        private void ExploreTypedef(string typeName, CXCursor cursor, CXType type, ClangLocation location, Node parentNode)
+        private void ExploreTypedef(Node node, Node parentNode)
         {
+            var typeName = node.TypeName!;
+            var cursor = node.Cursor;
+            var type = node.Type;
+            var location = node.Location;
+
             var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
             var (aliasKind, aliasType) = TypeKind(underlyingType);
             var aliasCursor = clang_getTypeDeclaration(aliasType);
@@ -329,7 +360,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
             if (aliasKind == CKind.Record)
             {
-                ExploreRecord(typeName, aliasCursor, location, parentNode);
+                ExploreRecord(node, parentNode);
                 return;
             }
 
@@ -719,7 +750,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var isPointer = type.kind == CXTypeKind.CXType_Pointer;
             if (!isPointer)
             {
-                return CreateNestedStruct(type, parentNode);
+                return CreateNestedStruct(cursor, type, parentNode);
             }
 
             var pointeeType = clang_getPointeeType(type);
@@ -734,22 +765,25 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             throw up;
         }
 
-        private CNode CreateNestedStruct(CXType type, Node parentNode)
+        private CNode CreateNestedStruct(CXCursor cursor, CXType type, Node parentNode)
         {
-            var cursor = clang_getTypeDeclaration(type);
             var location = Location(cursor, type);
             var typeName = TypeName(parentNode.TypeName!, CKind.Record, type, cursor);
             ExpandType(parentNode, cursor, type, type, typeName);
 
             var recordFields = CreateRecordFields(typeName, cursor, parentNode);
-            var recordNestedRecords = CreateNestedNodes(cursor, parentNode);
+            var nestedNodes = CreateNestedNodes(cursor, parentNode);
+
+            var nestedRecords = nestedNodes.Where(x => x is CRecord).Cast<CRecord>().ToImmutableArray();
+            var nestedFunctionPointers = nestedNodes.Where(x => x is CFunctionPointer).Cast<CFunctionPointer>().ToImmutableArray();
 
             return new CRecord
             {
                 Location = location,
                 Type = typeName,
                 Fields = recordFields,
-                NestedNodes = recordNestedRecords
+                NestedRecords = nestedRecords,
+                NestedFunctionPointers = nestedFunctionPointers
             };
         }
 
@@ -994,8 +1028,22 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var isAnonymous = clang_Cursor_isAnonymous(typeCursor) != 0;
             if (isAnonymous)
             {
+                var anonymousCursor = clang_getTypeDeclaration(type);
                 var cursorName = cursor.Name();
-                return $"{parentTypeName}_{cursorName}";
+
+                switch (anonymousCursor.kind)
+                {
+                    case CXCursorKind.CXCursor_UnionDecl:
+                        return $"{parentTypeName}_Anonymous_Union_{cursorName}";
+                    case CXCursorKind.CXCursor_StructDecl:
+                        return $"{parentTypeName}_Anonymous_Struct_{cursorName}";
+                    default:
+                    {
+                        // pretty sure this case is not possible, but it's better safe than sorry!
+                        var up = new ClangExplorerException($"Unknown anonymous cursor kind '{anonymousCursor.kind}'");
+                        throw up;
+                    }
+                }
             }
 
             var typeName = kind switch

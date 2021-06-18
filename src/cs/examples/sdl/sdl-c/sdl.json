@@ -13889,7 +13889,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_locale.h",
         "line": 47,
@@ -13929,7 +13930,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_version.h",
         "line": 56,
@@ -14011,7 +14013,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_messagebox.h",
         "line": 105,
@@ -14029,7 +14032,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_messagebox.h",
         "line": 89,
@@ -14069,7 +14073,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_messagebox.h",
         "line": 71,
@@ -14109,7 +14114,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_messagebox.h",
         "line": 63,
@@ -14184,7 +14190,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_haptic.h",
         "line": 819,
@@ -14337,7 +14344,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_haptic.h",
         "line": 738,
@@ -14366,7 +14374,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_haptic.h",
         "line": 463,
@@ -14417,7 +14426,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_haptic.h",
         "line": 696,
@@ -14549,7 +14559,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_haptic.h",
         "line": 671,
@@ -14674,7 +14685,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_haptic.h",
         "line": 633,
@@ -14826,7 +14838,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_haptic.h",
         "line": 585,
@@ -14947,7 +14960,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_haptic.h",
         "line": 499,
@@ -15227,7 +15241,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 631,
@@ -15278,7 +15293,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 526,
@@ -15368,7 +15384,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 512,
@@ -15469,7 +15486,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 496,
@@ -15579,7 +15597,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 479,
@@ -15619,7 +15638,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 586,
@@ -15690,7 +15710,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 569,
@@ -15720,7 +15741,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 547,
@@ -15770,7 +15792,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 538,
@@ -15850,7 +15873,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 461,
@@ -15910,7 +15934,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 447,
@@ -16002,7 +16027,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 435,
@@ -16043,7 +16069,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 420,
@@ -16123,7 +16150,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 409,
@@ -16223,7 +16251,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 394,
@@ -16264,7 +16293,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 377,
@@ -16344,7 +16374,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 367,
@@ -16424,7 +16455,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 353,
@@ -16524,7 +16556,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 333,
@@ -16624,7 +16657,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 317,
@@ -16706,7 +16740,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 301,
@@ -16818,7 +16853,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 287,
@@ -16922,7 +16958,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 270,
@@ -16971,7 +17008,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 254,
@@ -17042,7 +17080,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 241,
@@ -17132,7 +17171,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 227,
@@ -17183,7 +17223,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_keyboard.h",
         "line": 53,
@@ -17285,7 +17326,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 212,
@@ -17376,7 +17418,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 196,
@@ -17406,7 +17449,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 181,
@@ -17457,7 +17501,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_touch.h",
         "line": 58,
@@ -17478,7 +17523,7 @@
         },
         {
           "name": "value",
-          "type": "SDL_GameControllerButtonBind_value",
+          "type": "SDL_GameControllerButtonBind_Anonymous_Union_value",
           "offset": 4,
           "location": {
             "file": "SDL_gamecontroller.h",
@@ -17487,8 +17532,12 @@
           }
         }
       ],
-      "nested": [
+      "nestedRecords": [
         {
+          "type": "SDL_GameControllerButtonBind_Anonymous_Union_value",
+          "fields": [],
+          "nestedRecords": [],
+          "nestedFunctionPointers": [],
           "location": {
             "file": "SDL_gamecontroller.h",
             "line": 87,
@@ -17496,76 +17545,11 @@
           }
         }
       ],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_gamecontroller.h",
         "line": 97,
         "column": 3
-      }
-    },
-    {
-      "type": "__hat",
-      "fields": [],
-      "nested": [],
-      "location": {
-        "file": "SDL_gamecontroller.h",
-        "line": 91,
-        "column": 9
-      }
-    },
-    {
-      "type": "_",
-      "fields": [
-        {
-          "name": "button",
-          "type": "int",
-          "location": {
-            "file": "SDL_gamecontroller.h",
-            "line": 89,
-            "column": 13
-          }
-        },
-        {
-          "name": "axis",
-          "type": "int",
-          "location": {
-            "file": "SDL_gamecontroller.h",
-            "line": 90,
-            "column": 13
-          }
-        },
-        {
-          "name": "hat",
-          "type": "__hat",
-          "location": {
-            "file": "SDL_gamecontroller.h",
-            "line": 91,
-            "column": 9
-          }
-        }
-      ],
-      "nested": [
-        {
-          "location": {
-            "file": "SDL_gamecontroller.h",
-            "line": 91,
-            "column": 9
-          }
-        }
-      ],
-      "location": {
-        "file": "SDL_gamecontroller.h",
-        "line": 87,
-        "column": 5
-      }
-    },
-    {
-      "type": "SDL_GameControllerButtonBind_value",
-      "fields": [],
-      "nested": [],
-      "location": {
-        "file": "SDL_gamecontroller.h",
-        "line": 87,
-        "column": 5
       }
     },
     {
@@ -17580,7 +17564,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_joystick.h",
         "line": 74,
@@ -17714,7 +17699,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_surface.h",
         "line": 95,
@@ -17764,7 +17750,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_rect.h",
         "line": 81,
@@ -17964,7 +17951,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_pixels.h",
         "line": 345,
@@ -18015,7 +18003,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_pixels.h",
         "line": 319,
@@ -18065,7 +18054,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_pixels.h",
         "line": 310,
@@ -18125,7 +18115,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_video.h",
         "line": 60,
@@ -18155,7 +18146,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_rect.h",
         "line": 52,
@@ -18273,7 +18265,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_audio.h",
         "line": 241,
@@ -18373,7 +18366,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_audio.h",
         "line": 191,
@@ -18393,7 +18387,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_atomic.h",
         "line": 238,
@@ -18474,7 +18469,8 @@
           }
         }
       ],
-      "nested": [],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_assert.h",
         "line": 124,
@@ -24305,7 +24301,7 @@
       }
     },
     {
-      "name": "SDL_GameControllerButtonBind_value",
+      "name": "SDL_GameControllerButtonBind_Anonymous_Union_value",
       "kind": "record",
       "sizeOf": 8,
       "alignOf": 4,
@@ -24313,28 +24309,6 @@
         "file": "SDL_gamecontroller.h",
         "line": 87,
         "column": 5
-      }
-    },
-    {
-      "name": "_",
-      "kind": "record",
-      "sizeOf": 8,
-      "alignOf": 4,
-      "location": {
-        "file": "SDL_gamecontroller.h",
-        "line": 87,
-        "column": 5
-      }
-    },
-    {
-      "name": "__hat",
-      "kind": "record",
-      "sizeOf": 8,
-      "alignOf": 4,
-      "location": {
-        "file": "SDL_gamecontroller.h",
-        "line": 91,
-        "column": 9
       }
     },
     {

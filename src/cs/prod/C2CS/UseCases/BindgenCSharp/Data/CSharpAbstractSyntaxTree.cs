@@ -9,7 +9,7 @@ namespace C2CS.UseCases.BindgenCSharp
     {
         public readonly ImmutableArray<CSharpFunction> FunctionExterns;
 
-        public readonly ImmutableArray<CSharpPointerFunction> FunctionPointers;
+        public readonly ImmutableArray<CSharpFunctionPointer> FunctionPointers;
 
         public readonly ImmutableArray<CSharpStruct> Structs;
 
@@ -23,7 +23,7 @@ namespace C2CS.UseCases.BindgenCSharp
 
         public CSharpAbstractSyntaxTree(
             ImmutableArray<CSharpFunction> functionExterns,
-            ImmutableArray<CSharpPointerFunction> functionPointers,
+            ImmutableArray<CSharpFunctionPointer> functionPointers,
             ImmutableArray<CSharpStruct> structs,
             ImmutableArray<CSharpTypedef> typedefs,
             ImmutableArray<CSharpOpaqueType> opaqueDataTypes,

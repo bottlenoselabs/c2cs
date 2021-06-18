@@ -185,10 +185,10 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private ImmutableArray<CSharpPointerFunction> CSharpPointerFunctions(
+        private ImmutableArray<CSharpFunctionPointer> CSharpPointerFunctions(
             ImmutableArray<CFunctionPointer> clangFunctionPointers)
         {
-            var builder = ImmutableArray.CreateBuilder<CSharpPointerFunction>(clangFunctionPointers.Length);
+            var builder = ImmutableArray.CreateBuilder<CSharpFunctionPointer>(clangFunctionPointers.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangFunctionPointer in clangFunctionPointers)
@@ -201,7 +201,7 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private CSharpPointerFunction? CSharpPointerFunction(CFunctionPointer cFunctionPointer)
+        private CSharpFunctionPointer? CSharpPointerFunction(CFunctionPointer cFunctionPointer)
         {
             if (IsBuiltinPointerFunction(cFunctionPointer.Type))
             {
@@ -221,7 +221,7 @@ namespace C2CS.UseCases.BindgenCSharp
             var returnType = CSharpType(cType);
             var parameters = CSharpPointerFunctionParameters(cFunctionPointer.Parameters);
 
-            var result = new CSharpPointerFunction(
+            var result = new CSharpFunctionPointer(
                 name,
                 isBuiltIn,
                 originalCodeLocationComment,
@@ -231,11 +231,11 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private ImmutableArray<CSharpPointerFunctionParameter> CSharpPointerFunctionParameters(
+        private ImmutableArray<CSharpFunctionPointerParameter> CSharpPointerFunctionParameters(
             ImmutableArray<CFunctionPointerParameter> clangFunctionPointerParameters)
         {
             var builder =
-                ImmutableArray.CreateBuilder<CSharpPointerFunctionParameter>(clangFunctionPointerParameters.Length);
+                ImmutableArray.CreateBuilder<CSharpFunctionPointerParameter>(clangFunctionPointerParameters.Length);
             var parameterNames = new List<string>();
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
@@ -252,7 +252,7 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private CSharpPointerFunctionParameter CSharpPointerFunctionParameter(
+        private CSharpFunctionPointerParameter CSharpPointerFunctionParameter(
             CFunctionPointerParameter cFunctionPointerParameter, string parameterName)
         {
             var name = CSharpSanitizeIdentifier(parameterName);
@@ -260,7 +260,7 @@ namespace C2CS.UseCases.BindgenCSharp
             var cType = CType(cFunctionPointerParameter.Type);
             var type = CSharpType(cType);
 
-            var result = new CSharpPointerFunctionParameter(
+            var result = new CSharpFunctionPointerParameter(
                 name,
                 originalCodeLocationComment,
                 type);
@@ -299,13 +299,15 @@ namespace C2CS.UseCases.BindgenCSharp
             var cType = CType(cRecord.Type);
             var type = CSharpType(cType);
             var fields = CSharpStructFields(cRecord.Fields);
-            var nestedNodes = CSharpNestedNodes(cRecord.NestedNodes);
+            var nestedStructs = CSharpNestedStructs(cRecord.NestedRecords);
+            var nestedFunctionPointers = CSharpNestedFunctionPointers(cRecord.NestedFunctionPointers);
 
             return new CSharpStruct(
                 originalCodeLocationComment,
                 type,
                 fields,
-                nestedNodes);
+                nestedStructs,
+                nestedFunctionPointers);
         }
 
         private ImmutableArray<CSharpStructField> CSharpStructFields(
@@ -355,23 +357,32 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private ImmutableArray<CSharpNode> CSharpNestedNodes(ImmutableArray<CNode> nodes)
+        private ImmutableArray<CSharpStruct> CSharpNestedStructs(ImmutableArray<CRecord> records)
         {
-            var builder = ImmutableArray.CreateBuilder<CSharpNode>(nodes.Length);
+            var builder = ImmutableArray.CreateBuilder<CSharpStruct>(records.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var node in nodes)
+            foreach (var record in records)
             {
-                CSharpNode? nestedNode = node switch
-                {
-                    CRecord record => CSharpStruct(record),
-                    CFunctionPointer functionPointer => CSharpPointerFunction(functionPointer),
-                    _ => null
-                };
+                var @struct = CSharpStruct(record);
+                builder.Add(@struct);
+            }
 
-                if (nestedNode != null)
+            var result = builder.ToImmutable();
+            return result;
+        }
+
+        private ImmutableArray<CSharpFunctionPointer> CSharpNestedFunctionPointers(ImmutableArray<CFunctionPointer> functionPointers)
+        {
+            var builder = ImmutableArray.CreateBuilder<CSharpFunctionPointer>(functionPointers.Length);
+
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var functionPointer in functionPointers)
+            {
+                var functionPointerCSharp = CSharpPointerFunction(functionPointer);
+                if (functionPointerCSharp != null)
                 {
-                    builder.Add(nestedNode);
+                    builder.Add(functionPointerCSharp);
                 }
             }
 

@@ -3,11 +3,11 @@
 
 namespace C2CS.UseCases.BindgenCSharp
 {
-    public record CSharpPointerFunctionParameter : CSharpNode
+    public record CSharpFunctionPointerParameter : CSharpNode
     {
         public readonly CSharpType Type;
 
-        public CSharpPointerFunctionParameter(
+        public CSharpFunctionPointerParameter(
             string name,
             string codeLocationComment,
             CSharpType type)

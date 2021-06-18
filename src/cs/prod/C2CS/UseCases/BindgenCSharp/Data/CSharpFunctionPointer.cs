@@ -5,18 +5,18 @@ using System.Collections.Immutable;
 
 namespace C2CS.UseCases.BindgenCSharp
 {
-    public record CSharpPointerFunction : CSharpNode
+    public record CSharpFunctionPointer : CSharpNode
     {
         public readonly bool IsBuiltIn;
         public readonly CSharpType ReturnType;
-        public readonly ImmutableArray<CSharpPointerFunctionParameter> Parameters;
+        public readonly ImmutableArray<CSharpFunctionPointerParameter> Parameters;
 
-        public CSharpPointerFunction(
+        public CSharpFunctionPointer(
             string name,
             bool isBuiltIn,
             string codeLocationComment,
             CSharpType returnType,
-            ImmutableArray<CSharpPointerFunctionParameter> parameters)
+            ImmutableArray<CSharpFunctionPointerParameter> parameters)
             : base(name, codeLocationComment)
         {
             IsBuiltIn = isBuiltIn;

@@ -267,7 +267,7 @@ public static extern {function.ReturnType.Name} {function.Name}({parameters});
 
 		private static void EmitFunctionPointers(
 			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
-			ImmutableArray<CSharpPointerFunction> functionPointers)
+			ImmutableArray<CSharpFunctionPointer> functionPointers)
 		{
 			foreach (var functionPointer in functionPointers)
 			{
@@ -277,16 +277,16 @@ public static extern {function.ReturnType.Name} {function.Name}({parameters});
 		}
 
 		public static StructDeclarationSyntax EmitFunctionPointer(
-			CSharpPointerFunction pointerFunction, bool isNested = false)
+			CSharpFunctionPointer functionPointer, bool isNested = false)
 		{
-			var parameterStrings = pointerFunction.Parameters
-				.Select(x => $"{x.Type}").Append($"{pointerFunction.ReturnType.Name}");
+			var parameterStrings = functionPointer.Parameters
+				.Select(x => $"{x.Type}").Append($"{functionPointer.ReturnType.Name}");
 			var parameters = string.Join(',', parameterStrings);
 
 			var code = $@"
-{pointerFunction.CodeLocationComment}
+{functionPointer.CodeLocationComment}
 [StructLayout(LayoutKind.Sequential)]
-public struct {pointerFunction.Name}
+public struct {functionPointer.Name}
 {{
 	public delegate* unmanaged <{parameters}> Pointer;
 }}
@@ -321,7 +321,7 @@ public struct {pointerFunction.Name}
 		private static StructDeclarationSyntax EmitStruct(CSharpStruct @struct, bool isNested = false)
 		{
 			var memberSyntaxes = EmitStructMembers(
-				@struct.Name, @struct.Fields, @struct.NestedNodes);
+				@struct.Name, @struct.Fields, @struct.NestedStructs, @struct.NestedFunctionPointers);
 			var memberStrings = memberSyntaxes.Select(x => x.ToFullString());
 			var members = string.Join("\n\n", memberStrings);
 
@@ -352,7 +352,8 @@ public struct {@struct.Name}
 		private static MemberDeclarationSyntax[] EmitStructMembers(
 			string structName,
 			ImmutableArray<CSharpStructField> fields,
-			ImmutableArray<CSharpNode> nestedNodes)
+			ImmutableArray<CSharpStruct> nestedStructs,
+			ImmutableArray<CSharpFunctionPointer> nestedFunctionPointers)
 		{
 			var builder = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
 
@@ -374,15 +375,15 @@ public struct {@struct.Name}
 				}
 			}
 
-			foreach (var nestedNode in nestedNodes)
+			foreach (var nestedStruct in nestedStructs)
 			{
-				var syntax = nestedNode switch
-				{
-					CSharpStruct nestedStruct => EmitStruct(nestedStruct, true),
-					CSharpPointerFunction nestedFunctionPointer => EmitFunctionPointer(nestedFunctionPointer, true),
-					_ => throw new NotImplementedException()
-				};
+				var syntax = EmitStruct(nestedStruct, true);
+				builder.Add(syntax);
+			}
 
+			foreach (var nestedFunctionPointer in nestedFunctionPointers)
+			{
+				var syntax = EmitFunctionPointer(nestedFunctionPointer, true);
 				builder.Add(syntax);
 			}
 
