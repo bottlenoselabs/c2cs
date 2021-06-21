@@ -11,6 +11,7 @@
 //-------------------------------------------------------------------------------------
 using System;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 #nullable enable
 
@@ -56,19 +57,19 @@ public static unsafe partial class SDL
 
     // Function @ SDL.h:190:32
     [DllImport(LibraryName, EntryPoint = "SDL_WasInit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint32 SDL_WasInit(Uint32 flags);
+    public static extern uint SDL_WasInit(uint flags);
 
     // Function @ SDL.h:175:30
     [DllImport(LibraryName, EntryPoint = "SDL_QuitSubSystem", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void SDL_QuitSubSystem(Uint32 flags);
+    public static extern void SDL_QuitSubSystem(uint flags);
 
     // Function @ SDL.h:155:29
     [DllImport(LibraryName, EntryPoint = "SDL_InitSubSystem", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_InitSubSystem(Uint32 flags);
+    public static extern int SDL_InitSubSystem(uint flags);
 
     // Function @ SDL.h:140:29
     [DllImport(LibraryName, EntryPoint = "SDL_Init", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_Init(Uint32 flags);
+    public static extern int SDL_Init(uint flags);
 
     // Function @ SDL_misc.h:69:29
     [DllImport(LibraryName, EntryPoint = "SDL_OpenURL", CallingConvention = CallingConvention.Cdecl)]
@@ -92,27 +93,27 @@ public static unsafe partial class SDL
 
     // Function @ SDL_timer.h:161:34
     [DllImport(LibraryName, EntryPoint = "SDL_RemoveTimer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_RemoveTimer(SDL_TimerID id);
+    public static extern CBool SDL_RemoveTimer(SDL_TimerID id);
 
     // Function @ SDL_timer.h:148:37
     [DllImport(LibraryName, EntryPoint = "SDL_AddTimer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_TimerID SDL_AddTimer(Uint32 interval, SDL_TimerCallback callback, void* param);
+    public static extern SDL_TimerID SDL_AddTimer(uint interval, SDL_TimerCallback callback, void* param);
 
     // Function @ SDL_timer.h:101:30
     [DllImport(LibraryName, EntryPoint = "SDL_Delay", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void SDL_Delay(Uint32 ms);
+    public static extern void SDL_Delay(uint ms);
 
     // Function @ SDL_timer.h:90:32
     [DllImport(LibraryName, EntryPoint = "SDL_GetPerformanceFrequency", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint64 SDL_GetPerformanceFrequency();
+    public static extern ulong SDL_GetPerformanceFrequency();
 
     // Function @ SDL_timer.h:79:32
     [DllImport(LibraryName, EntryPoint = "SDL_GetPerformanceCounter", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint64 SDL_GetPerformanceCounter();
+    public static extern ulong SDL_GetPerformanceCounter();
 
     // Function @ SDL_timer.h:50:32
     [DllImport(LibraryName, EntryPoint = "SDL_GetTicks", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint32 SDL_GetTicks();
+    public static extern uint SDL_GetTicks();
 
     // Function @ SDL_system.h:463:30
     [DllImport(LibraryName, EntryPoint = "SDL_OnApplicationDidBecomeActive", CallingConvention = CallingConvention.Cdecl)]
@@ -140,7 +141,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_system.h:455:34
     [DllImport(LibraryName, EntryPoint = "SDL_IsTablet", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_IsTablet();
+    public static extern CBool SDL_IsTablet();
 
     // Function @ SDL_shape.h:136:29
     [DllImport(LibraryName, EntryPoint = "SDL_GetShapedWindowMode", CallingConvention = CallingConvention.Cdecl)]
@@ -152,11 +153,11 @@ public static unsafe partial class SDL
 
     // Function @ SDL_shape.h:77:34
     [DllImport(LibraryName, EntryPoint = "SDL_IsShapedWindow", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_IsShapedWindow(SDL_Window* window);
+    public static extern CBool SDL_IsShapedWindow(SDL_Window* window);
 
     // Function @ SDL_shape.h:66:38
     [DllImport(LibraryName, EntryPoint = "SDL_CreateShapedWindow", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_Window* SDL_CreateShapedWindow(CString title, uint x, uint y, uint w, uint h, Uint32 flags);
+    public static extern SDL_Window* SDL_CreateShapedWindow(CString title, uint x, uint y, uint w, uint h, uint flags);
 
     // Function @ SDL_render.h:1611:31
     [DllImport(LibraryName, EntryPoint = "SDL_RenderGetMetalCommandEncoder", CallingConvention = CallingConvention.Cdecl)]
@@ -192,7 +193,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_render.h:1440:29
     [DllImport(LibraryName, EntryPoint = "SDL_RenderReadPixels", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_RenderReadPixels(SDL_Renderer* renderer, SDL_Rect* rect, Uint32 format, void* pixels, int pitch);
+    public static extern int SDL_RenderReadPixels(SDL_Renderer* renderer, SDL_Rect* rect, uint format, void* pixels, int pitch);
 
     // Function @ SDL_render.h:1409:29
     [DllImport(LibraryName, EntryPoint = "SDL_RenderCopyExF", CallingConvention = CallingConvention.Cdecl)]
@@ -288,11 +289,11 @@ public static unsafe partial class SDL
 
     // Function @ SDL_render.h:939:29
     [DllImport(LibraryName, EntryPoint = "SDL_GetRenderDrawColor", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_GetRenderDrawColor(SDL_Renderer* renderer, Uint8* r, Uint8* g, Uint8* b, Uint8* a);
+    public static extern int SDL_GetRenderDrawColor(SDL_Renderer* renderer, byte* r, byte* g, byte* b, byte* a);
 
     // Function @ SDL_render.h:918:29
     [DllImport(LibraryName, EntryPoint = "SDL_SetRenderDrawColor", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_SetRenderDrawColor(SDL_Renderer* renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+    public static extern int SDL_SetRenderDrawColor(SDL_Renderer* renderer, byte r, byte g, byte b, byte a);
 
     // Function @ SDL_render.h:888:30
     [DllImport(LibraryName, EntryPoint = "SDL_RenderGetScale", CallingConvention = CallingConvention.Cdecl)]
@@ -304,7 +305,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_render.h:849:34
     [DllImport(LibraryName, EntryPoint = "SDL_RenderIsClipEnabled", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_RenderIsClipEnabled(SDL_Renderer* renderer);
+    public static extern CBool SDL_RenderIsClipEnabled(SDL_Renderer* renderer);
 
     // Function @ SDL_render.h:834:30
     [DllImport(LibraryName, EntryPoint = "SDL_RenderGetClipRect", CallingConvention = CallingConvention.Cdecl)]
@@ -324,11 +325,11 @@ public static unsafe partial class SDL
 
     // Function @ SDL_render.h:777:34
     [DllImport(LibraryName, EntryPoint = "SDL_RenderGetIntegerScale", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_RenderGetIntegerScale(SDL_Renderer* renderer);
+    public static extern CBool SDL_RenderGetIntegerScale(SDL_Renderer* renderer);
 
     // Function @ SDL_render.h:763:29
     [DllImport(LibraryName, EntryPoint = "SDL_RenderSetIntegerScale", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_RenderSetIntegerScale(SDL_Renderer* renderer, SDL_bool enable);
+    public static extern int SDL_RenderSetIntegerScale(SDL_Renderer* renderer, CBool enable);
 
     // Function @ SDL_render.h:744:30
     [DllImport(LibraryName, EntryPoint = "SDL_RenderGetLogicalSize", CallingConvention = CallingConvention.Cdecl)]
@@ -348,7 +349,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_render.h:660:34
     [DllImport(LibraryName, EntryPoint = "SDL_RenderTargetSupported", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_RenderTargetSupported(SDL_Renderer* renderer);
+    public static extern CBool SDL_RenderTargetSupported(SDL_Renderer* renderer);
 
     // Function @ SDL_render.h:648:30
     [DllImport(LibraryName, EntryPoint = "SDL_UnlockTexture", CallingConvention = CallingConvention.Cdecl)]
@@ -364,11 +365,11 @@ public static unsafe partial class SDL
 
     // Function @ SDL_render.h:565:29
     [DllImport(LibraryName, EntryPoint = "SDL_UpdateNVTexture", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_UpdateNVTexture(SDL_Texture* texture, SDL_Rect* rect, Uint8* Yplane, int Ypitch, Uint8* UVplane, int UVpitch);
+    public static extern int SDL_UpdateNVTexture(SDL_Texture* texture, SDL_Rect* rect, byte* Yplane, int Ypitch, byte* UVplane, int UVpitch);
 
     // Function @ SDL_render.h:543:29
     [DllImport(LibraryName, EntryPoint = "SDL_UpdateYUVTexture", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_UpdateYUVTexture(SDL_Texture* texture, SDL_Rect* rect, Uint8* Yplane, int Ypitch, Uint8* Uplane, int Upitch, Uint8* Vplane, int Vpitch);
+    public static extern int SDL_UpdateYUVTexture(SDL_Texture* texture, SDL_Rect* rect, byte* Yplane, int Ypitch, byte* Uplane, int Upitch, byte* Vplane, int Vpitch);
 
     // Function @ SDL_render.h:512:29
     [DllImport(LibraryName, EntryPoint = "SDL_UpdateTexture", CallingConvention = CallingConvention.Cdecl)]
@@ -392,23 +393,23 @@ public static unsafe partial class SDL
 
     // Function @ SDL_render.h:425:29
     [DllImport(LibraryName, EntryPoint = "SDL_GetTextureAlphaMod", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_GetTextureAlphaMod(SDL_Texture* texture, Uint8* alpha);
+    public static extern int SDL_GetTextureAlphaMod(SDL_Texture* texture, byte* alpha);
 
     // Function @ SDL_render.h:410:29
     [DllImport(LibraryName, EntryPoint = "SDL_SetTextureAlphaMod", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_SetTextureAlphaMod(SDL_Texture* texture, Uint8 alpha);
+    public static extern int SDL_SetTextureAlphaMod(SDL_Texture* texture, byte alpha);
 
     // Function @ SDL_render.h:387:29
     [DllImport(LibraryName, EntryPoint = "SDL_GetTextureColorMod", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_GetTextureColorMod(SDL_Texture* texture, Uint8* r, Uint8* g, Uint8* b);
+    public static extern int SDL_GetTextureColorMod(SDL_Texture* texture, byte* r, byte* g, byte* b);
 
     // Function @ SDL_render.h:370:29
     [DllImport(LibraryName, EntryPoint = "SDL_SetTextureColorMod", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_SetTextureColorMod(SDL_Texture* texture, Uint8 r, Uint8 g, Uint8 b);
+    public static extern int SDL_SetTextureColorMod(SDL_Texture* texture, byte r, byte g, byte b);
 
     // Function @ SDL_render.h:344:29
     [DllImport(LibraryName, EntryPoint = "SDL_QueryTexture", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_QueryTexture(SDL_Texture* texture, Uint32* format, long* access, long* w, long* h);
+    public static extern int SDL_QueryTexture(SDL_Texture* texture, uint* format, long* access, long* w, long* h);
 
     // Function @ SDL_render.h:326:39
     [DllImport(LibraryName, EntryPoint = "SDL_CreateTextureFromSurface", CallingConvention = CallingConvention.Cdecl)]
@@ -416,7 +417,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_render.h:299:39
     [DllImport(LibraryName, EntryPoint = "SDL_CreateTexture", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_Texture* SDL_CreateTexture(SDL_Renderer* renderer, Uint32 format, int access, int w, int h);
+    public static extern SDL_Texture* SDL_CreateTexture(SDL_Renderer* renderer, uint format, int access, int w, int h);
 
     // Function @ SDL_render.h:276:29
     [DllImport(LibraryName, EntryPoint = "SDL_GetRendererOutputSize", CallingConvention = CallingConvention.Cdecl)]
@@ -436,11 +437,11 @@ public static unsafe partial class SDL
 
     // Function @ SDL_render.h:212:40
     [DllImport(LibraryName, EntryPoint = "SDL_CreateRenderer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_Renderer* SDL_CreateRenderer(SDL_Window* window, int index, Uint32 flags);
+    public static extern SDL_Renderer* SDL_CreateRenderer(SDL_Window* window, int index, uint flags);
 
     // Function @ SDL_render.h:192:29
     [DllImport(LibraryName, EntryPoint = "SDL_CreateWindowAndRenderer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_CreateWindowAndRenderer(int width, int height, Uint32 window_flags, SDL_Window** window, SDL_Renderer** renderer);
+    public static extern int SDL_CreateWindowAndRenderer(int width, int height, uint window_flags, SDL_Window** window, SDL_Renderer** renderer);
 
     // Function @ SDL_render.h:174:29
     [DllImport(LibraryName, EntryPoint = "SDL_GetRenderDriverInfo", CallingConvention = CallingConvention.Cdecl)]
@@ -472,7 +473,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_messagebox.h:180:29
     [DllImport(LibraryName, EntryPoint = "SDL_ShowSimpleMessageBox", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_ShowSimpleMessageBox(Uint32 flags, CString title, CString message, SDL_Window* window);
+    public static extern int SDL_ShowSimpleMessageBox(uint flags, CString title, CString message, SDL_Window* window);
 
     // Function @ SDL_messagebox.h:140:29
     [DllImport(LibraryName, EntryPoint = "SDL_ShowMessageBox", CallingConvention = CallingConvention.Cdecl)]
@@ -564,7 +565,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_hints.h:1734:34
     [DllImport(LibraryName, EntryPoint = "SDL_GetHintBoolean", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_GetHintBoolean(CString name, SDL_bool default_value);
+    public static extern CBool SDL_GetHintBoolean(CString name, CBool default_value);
 
     // Function @ SDL_hints.h:1719:38
     [DllImport(LibraryName, EntryPoint = "SDL_GetHint", CallingConvention = CallingConvention.Cdecl)]
@@ -572,11 +573,11 @@ public static unsafe partial class SDL
 
     // Function @ SDL_hints.h:1707:34
     [DllImport(LibraryName, EntryPoint = "SDL_SetHint", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_SetHint(CString name, CString value);
+    public static extern CBool SDL_SetHint(CString name, CString value);
 
     // Function @ SDL_hints.h:1689:34
     [DllImport(LibraryName, EntryPoint = "SDL_SetHintWithPriority", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_SetHintWithPriority(CString name, CString value, SDL_HintPriority priority);
+    public static extern CBool SDL_SetHintWithPriority(CString name, CString value, SDL_HintPriority priority);
 
     // Function @ SDL_haptic.h:1311:29
     [DllImport(LibraryName, EntryPoint = "SDL_HapticRumbleStop", CallingConvention = CallingConvention.Cdecl)]
@@ -584,7 +585,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_haptic.h:1298:29
     [DllImport(LibraryName, EntryPoint = "SDL_HapticRumblePlay", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_HapticRumblePlay(SDL_Haptic* haptic, float strength, Uint32 length);
+    public static extern int SDL_HapticRumblePlay(SDL_Haptic* haptic, float strength, uint length);
 
     // Function @ SDL_haptic.h:1283:29
     [DllImport(LibraryName, EntryPoint = "SDL_HapticRumbleInit", CallingConvention = CallingConvention.Cdecl)]
@@ -628,7 +629,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_haptic.h:1122:29
     [DllImport(LibraryName, EntryPoint = "SDL_HapticRunEffect", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_HapticRunEffect(SDL_Haptic* haptic, int effect, Uint32 iterations);
+    public static extern int SDL_HapticRunEffect(SDL_Haptic* haptic, int effect, uint iterations);
 
     // Function @ SDL_haptic.h:1096:29
     [DllImport(LibraryName, EntryPoint = "SDL_HapticUpdateEffect", CallingConvention = CallingConvention.Cdecl)]
@@ -708,11 +709,11 @@ public static unsafe partial class SDL
 
     // Function @ SDL_events.h:1084:32
     [DllImport(LibraryName, EntryPoint = "SDL_RegisterEvents", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint32 SDL_RegisterEvents(int numevents);
+    public static extern uint SDL_RegisterEvents(int numevents);
 
     // Function @ SDL_events.h:1062:31
     [DllImport(LibraryName, EntryPoint = "SDL_EventState", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint8 SDL_EventState(Uint32 type, int state);
+    public static extern byte SDL_EventState(uint type, int state);
 
     // Function @ SDL_events.h:1036:30
     [DllImport(LibraryName, EntryPoint = "SDL_FilterEvents", CallingConvention = CallingConvention.Cdecl)]
@@ -728,7 +729,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_events.h:977:34
     [DllImport(LibraryName, EntryPoint = "SDL_GetEventFilter", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_GetEventFilter(SDL_EventFilter* filter, void** userdata);
+    public static extern CBool SDL_GetEventFilter(SDL_EventFilter* filter, void** userdata);
 
     // Function @ SDL_events.h:961:30
     [DllImport(LibraryName, EntryPoint = "SDL_SetEventFilter", CallingConvention = CallingConvention.Cdecl)]
@@ -752,23 +753,23 @@ public static unsafe partial class SDL
 
     // Function @ SDL_events.h:782:30
     [DllImport(LibraryName, EntryPoint = "SDL_FlushEvents", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void SDL_FlushEvents(Uint32 minType, Uint32 maxType);
+    public static extern void SDL_FlushEvents(uint minType, uint maxType);
 
     // Function @ SDL_events.h:759:30
     [DllImport(LibraryName, EntryPoint = "SDL_FlushEvent", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void SDL_FlushEvent(Uint32 type);
+    public static extern void SDL_FlushEvent(uint type);
 
     // Function @ SDL_events.h:739:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasEvents", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasEvents(Uint32 minType, Uint32 maxType);
+    public static extern CBool SDL_HasEvents(uint minType, uint maxType);
 
     // Function @ SDL_events.h:722:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasEvent", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasEvent(Uint32 type);
+    public static extern CBool SDL_HasEvent(uint type);
 
     // Function @ SDL_events.h:705:29
     [DllImport(LibraryName, EntryPoint = "SDL_PeepEvents", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_PeepEvents(SDL_Event* events, int numevents, SDL_eventaction action, Uint32 minType, Uint32 maxType);
+    public static extern int SDL_PeepEvents(SDL_Event* events, int numevents, SDL_eventaction action, uint minType, uint maxType);
 
     // Function @ SDL_events.h:659:30
     [DllImport(LibraryName, EntryPoint = "SDL_PumpEvents", CallingConvention = CallingConvention.Cdecl)]
@@ -816,19 +817,19 @@ public static unsafe partial class SDL
 
     // Function @ SDL_gamecontroller.h:821:29
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerSetLED", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_GameControllerSetLED(SDL_GameController* gamecontroller, Uint8 red, Uint8 green, Uint8 blue);
+    public static extern int SDL_GameControllerSetLED(SDL_GameController* gamecontroller, byte red, byte green, byte blue);
 
     // Function @ SDL_gamecontroller.h:810:34
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerHasLED", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_GameControllerHasLED(SDL_GameController* gamecontroller);
+    public static extern CBool SDL_GameControllerHasLED(SDL_GameController* gamecontroller);
 
     // Function @ SDL_gamecontroller.h:801:29
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerRumbleTriggers", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_GameControllerRumbleTriggers(SDL_GameController* gamecontroller, Uint16 left_rumble, Uint16 right_rumble, Uint32 duration_ms);
+    public static extern int SDL_GameControllerRumbleTriggers(SDL_GameController* gamecontroller, ushort left_rumble, ushort right_rumble, uint duration_ms);
 
     // Function @ SDL_gamecontroller.h:781:29
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerRumble", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_GameControllerRumble(SDL_GameController* gamecontroller, Uint16 low_frequency_rumble, Uint16 high_frequency_rumble, Uint32 duration_ms);
+    public static extern int SDL_GameControllerRumble(SDL_GameController* gamecontroller, ushort low_frequency_rumble, ushort high_frequency_rumble, uint duration_ms);
 
     // Function @ SDL_gamecontroller.h:765:29
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerGetSensorData", CallingConvention = CallingConvention.Cdecl)]
@@ -836,19 +837,19 @@ public static unsafe partial class SDL
 
     // Function @ SDL_gamecontroller.h:751:34
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerIsSensorEnabled", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_GameControllerIsSensorEnabled(SDL_GameController* gamecontroller, SDL_SensorType type);
+    public static extern CBool SDL_GameControllerIsSensorEnabled(SDL_GameController* gamecontroller, SDL_SensorType type);
 
     // Function @ SDL_gamecontroller.h:741:29
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerSetSensorEnabled", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_GameControllerSetSensorEnabled(SDL_GameController* gamecontroller, SDL_SensorType type, SDL_bool enabled);
+    public static extern int SDL_GameControllerSetSensorEnabled(SDL_GameController* gamecontroller, SDL_SensorType type, CBool enabled);
 
     // Function @ SDL_gamecontroller.h:730:34
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerHasSensor", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_GameControllerHasSensor(SDL_GameController* gamecontroller, SDL_SensorType type);
+    public static extern CBool SDL_GameControllerHasSensor(SDL_GameController* gamecontroller, SDL_SensorType type);
 
     // Function @ SDL_gamecontroller.h:720:29
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerGetTouchpadFinger", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_GameControllerGetTouchpadFinger(SDL_GameController* gamecontroller, int touchpad, int finger, Uint8* state, float* x, float* y, float* pressure);
+    public static extern int SDL_GameControllerGetTouchpadFinger(SDL_GameController* gamecontroller, int touchpad, int finger, byte* state, float* x, float* y, float* pressure);
 
     // Function @ SDL_gamecontroller.h:715:29
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerGetNumTouchpadFingers", CallingConvention = CallingConvention.Cdecl)]
@@ -860,11 +861,11 @@ public static unsafe partial class SDL
 
     // Function @ SDL_gamecontroller.h:704:31
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerGetButton", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint8 SDL_GameControllerGetButton(SDL_GameController* gamecontroller, SDL_GameControllerButton button);
+    public static extern byte SDL_GameControllerGetButton(SDL_GameController* gamecontroller, SDL_GameControllerButton button);
 
     // Function @ SDL_gamecontroller.h:689:34
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerHasButton", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_GameControllerHasButton(SDL_GameController* gamecontroller, SDL_GameControllerButton button);
+    public static extern CBool SDL_GameControllerHasButton(SDL_GameController* gamecontroller, SDL_GameControllerButton button);
 
     // Function @ SDL_gamecontroller.h:676:1
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerGetBindForButton", CallingConvention = CallingConvention.Cdecl)]
@@ -880,11 +881,11 @@ public static unsafe partial class SDL
 
     // Function @ SDL_gamecontroller.h:599:1
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerGetAxis", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Sint16 SDL_GameControllerGetAxis(SDL_GameController* gamecontroller, SDL_GameControllerAxis axis);
+    public static extern short SDL_GameControllerGetAxis(SDL_GameController* gamecontroller, SDL_GameControllerAxis axis);
 
     // Function @ SDL_gamecontroller.h:579:1
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerHasAxis", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_GameControllerHasAxis(SDL_GameController* gamecontroller, SDL_GameControllerAxis axis);
+    public static extern CBool SDL_GameControllerHasAxis(SDL_GameController* gamecontroller, SDL_GameControllerAxis axis);
 
     // Function @ SDL_gamecontroller.h:565:1
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerGetBindForAxis", CallingConvention = CallingConvention.Cdecl)]
@@ -912,7 +913,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_gamecontroller.h:449:34
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerGetAttached", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_GameControllerGetAttached(SDL_GameController* gamecontroller);
+    public static extern CBool SDL_GameControllerGetAttached(SDL_GameController* gamecontroller);
 
     // Function @ SDL_gamecontroller.h:436:38
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerGetSerial", CallingConvention = CallingConvention.Cdecl)]
@@ -920,15 +921,15 @@ public static unsafe partial class SDL
 
     // Function @ SDL_gamecontroller.h:426:32
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerGetProductVersion", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint16 SDL_GameControllerGetProductVersion(SDL_GameController* gamecontroller);
+    public static extern ushort SDL_GameControllerGetProductVersion(SDL_GameController* gamecontroller);
 
     // Function @ SDL_gamecontroller.h:416:32
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerGetProduct", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint16 SDL_GameControllerGetProduct(SDL_GameController* gamecontroller);
+    public static extern ushort SDL_GameControllerGetProduct(SDL_GameController* gamecontroller);
 
     // Function @ SDL_gamecontroller.h:406:32
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerGetVendor", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint16 SDL_GameControllerGetVendor(SDL_GameController* gamecontroller);
+    public static extern ushort SDL_GameControllerGetVendor(SDL_GameController* gamecontroller);
 
     // Function @ SDL_gamecontroller.h:396:30
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerSetPlayerIndex", CallingConvention = CallingConvention.Cdecl)]
@@ -972,7 +973,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_gamecontroller.h:254:34
     [DllImport(LibraryName, EntryPoint = "SDL_IsGameController", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_IsGameController(int joystick_index);
+    public static extern CBool SDL_IsGameController(int joystick_index);
 
     // Function @ SDL_gamecontroller.h:236:32
     [DllImport(LibraryName, EntryPoint = "SDL_GameControllerMapping", CallingConvention = CallingConvention.Cdecl)]
@@ -1072,23 +1073,23 @@ public static unsafe partial class SDL
 
     // Function @ SDL_joystick.h:783:29
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickSetLED", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_JoystickSetLED(SDL_Joystick* joystick, Uint8 red, Uint8 green, Uint8 blue);
+    public static extern int SDL_JoystickSetLED(SDL_Joystick* joystick, byte red, byte green, byte blue);
 
     // Function @ SDL_joystick.h:768:34
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickHasLED", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_JoystickHasLED(SDL_Joystick* joystick);
+    public static extern CBool SDL_JoystickHasLED(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:757:29
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickRumbleTriggers", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_JoystickRumbleTriggers(SDL_Joystick* joystick, Uint16 left_rumble, Uint16 right_rumble, Uint32 duration_ms);
+    public static extern int SDL_JoystickRumbleTriggers(SDL_Joystick* joystick, ushort left_rumble, ushort right_rumble, uint duration_ms);
 
     // Function @ SDL_joystick.h:736:29
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickRumble", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_JoystickRumble(SDL_Joystick* joystick, Uint16 low_frequency_rumble, Uint16 high_frequency_rumble, Uint32 duration_ms);
+    public static extern int SDL_JoystickRumble(SDL_Joystick* joystick, ushort low_frequency_rumble, ushort high_frequency_rumble, uint duration_ms);
 
     // Function @ SDL_joystick.h:718:31
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickGetButton", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint8 SDL_JoystickGetButton(SDL_Joystick* joystick, int button);
+    public static extern byte SDL_JoystickGetButton(SDL_Joystick* joystick, int button);
 
     // Function @ SDL_joystick.h:705:29
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickGetBall", CallingConvention = CallingConvention.Cdecl)]
@@ -1096,15 +1097,15 @@ public static unsafe partial class SDL
 
     // Function @ SDL_joystick.h:684:31
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickGetHat", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint8 SDL_JoystickGetHat(SDL_Joystick* joystick, int hat);
+    public static extern byte SDL_JoystickGetHat(SDL_Joystick* joystick, int hat);
 
     // Function @ SDL_joystick.h:645:34
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickGetAxisInitialState", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_JoystickGetAxisInitialState(SDL_Joystick* joystick, int axis, Sint16* state);
+    public static extern CBool SDL_JoystickGetAxisInitialState(SDL_Joystick* joystick, int axis, short* state);
 
     // Function @ SDL_joystick.h:630:32
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickGetAxis", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Sint16 SDL_JoystickGetAxis(SDL_Joystick* joystick, int axis);
+    public static extern short SDL_JoystickGetAxis(SDL_Joystick* joystick, int axis);
 
     // Function @ SDL_joystick.h:605:29
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickEventState", CallingConvention = CallingConvention.Cdecl)]
@@ -1136,7 +1137,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_joystick.h:504:34
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickGetAttached", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_JoystickGetAttached(SDL_Joystick* joystick);
+    public static extern CBool SDL_JoystickGetAttached(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:492:42
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickGetGUIDFromString", CallingConvention = CallingConvention.Cdecl)]
@@ -1156,15 +1157,15 @@ public static unsafe partial class SDL
 
     // Function @ SDL_joystick.h:445:32
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickGetProductVersion", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint16 SDL_JoystickGetProductVersion(SDL_Joystick* joystick);
+    public static extern ushort SDL_JoystickGetProductVersion(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:436:32
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickGetProduct", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint16 SDL_JoystickGetProduct(SDL_Joystick* joystick);
+    public static extern ushort SDL_JoystickGetProduct(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:426:32
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickGetVendor", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint16 SDL_JoystickGetVendor(SDL_Joystick* joystick);
+    public static extern ushort SDL_JoystickGetVendor(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:416:42
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickGetGUID", CallingConvention = CallingConvention.Cdecl)]
@@ -1184,19 +1185,19 @@ public static unsafe partial class SDL
 
     // Function @ SDL_joystick.h:368:29
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickSetVirtualHat", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_JoystickSetVirtualHat(SDL_Joystick* joystick, int hat, Uint8 value);
+    public static extern int SDL_JoystickSetVirtualHat(SDL_Joystick* joystick, int hat, byte value);
 
     // Function @ SDL_joystick.h:352:29
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickSetVirtualButton", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_JoystickSetVirtualButton(SDL_Joystick* joystick, int button, Uint8 value);
+    public static extern int SDL_JoystickSetVirtualButton(SDL_Joystick* joystick, int button, byte value);
 
     // Function @ SDL_joystick.h:336:29
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickSetVirtualAxis", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_JoystickSetVirtualAxis(SDL_Joystick* joystick, int axis, Sint16 value);
+    public static extern int SDL_JoystickSetVirtualAxis(SDL_Joystick* joystick, int axis, short value);
 
     // Function @ SDL_joystick.h:320:34
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickIsVirtual", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_JoystickIsVirtual(int device_index);
+    public static extern CBool SDL_JoystickIsVirtual(int device_index);
 
     // Function @ SDL_joystick.h:312:29
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickDetachVirtual", CallingConvention = CallingConvention.Cdecl)]
@@ -1228,15 +1229,15 @@ public static unsafe partial class SDL
 
     // Function @ SDL_joystick.h:228:32
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickGetDeviceProductVersion", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint16 SDL_JoystickGetDeviceProductVersion(int device_index);
+    public static extern ushort SDL_JoystickGetDeviceProductVersion(int device_index);
 
     // Function @ SDL_joystick.h:215:32
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickGetDeviceProduct", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint16 SDL_JoystickGetDeviceProduct(int device_index);
+    public static extern ushort SDL_JoystickGetDeviceProduct(int device_index);
 
     // Function @ SDL_joystick.h:202:32
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickGetDeviceVendor", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint16 SDL_JoystickGetDeviceVendor(int device_index);
+    public static extern ushort SDL_JoystickGetDeviceVendor(int device_index);
 
     // Function @ SDL_joystick.h:189:42
     [DllImport(LibraryName, EntryPoint = "SDL_JoystickGetDeviceGUID", CallingConvention = CallingConvention.Cdecl)]
@@ -1292,19 +1293,19 @@ public static unsafe partial class SDL
 
     // Function @ SDL_mouse.h:287:37
     [DllImport(LibraryName, EntryPoint = "SDL_CreateCursor", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_Cursor* SDL_CreateCursor(Uint8* data, Uint8* mask, int w, int h, int hot_x, int hot_y);
+    public static extern SDL_Cursor* SDL_CreateCursor(byte* data, byte* mask, int w, int h, int hot_x, int hot_y);
 
     // Function @ SDL_mouse.h:245:34
     [DllImport(LibraryName, EntryPoint = "SDL_GetRelativeMouseMode", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_GetRelativeMouseMode();
+    public static extern CBool SDL_GetRelativeMouseMode();
 
     // Function @ SDL_mouse.h:236:29
     [DllImport(LibraryName, EntryPoint = "SDL_CaptureMouse", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_CaptureMouse(SDL_bool enabled);
+    public static extern int SDL_CaptureMouse(CBool enabled);
 
     // Function @ SDL_mouse.h:199:29
     [DllImport(LibraryName, EntryPoint = "SDL_SetRelativeMouseMode", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_SetRelativeMouseMode(SDL_bool enabled);
+    public static extern int SDL_SetRelativeMouseMode(CBool enabled);
 
     // Function @ SDL_mouse.h:180:29
     [DllImport(LibraryName, EntryPoint = "SDL_WarpMouseGlobal", CallingConvention = CallingConvention.Cdecl)]
@@ -1316,15 +1317,15 @@ public static unsafe partial class SDL
 
     // Function @ SDL_mouse.h:146:32
     [DllImport(LibraryName, EntryPoint = "SDL_GetRelativeMouseState", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint32 SDL_GetRelativeMouseState(long* x, long* y);
+    public static extern uint SDL_GetRelativeMouseState(long* x, long* y);
 
     // Function @ SDL_mouse.h:129:32
     [DllImport(LibraryName, EntryPoint = "SDL_GetGlobalMouseState", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint32 SDL_GetGlobalMouseState(long* x, long* y);
+    public static extern uint SDL_GetGlobalMouseState(long* x, long* y);
 
     // Function @ SDL_mouse.h:100:32
     [DllImport(LibraryName, EntryPoint = "SDL_GetMouseState", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint32 SDL_GetMouseState(long* x, long* y);
+    public static extern uint SDL_GetMouseState(long* x, long* y);
 
     // Function @ SDL_mouse.h:79:38
     [DllImport(LibraryName, EntryPoint = "SDL_GetMouseFocus", CallingConvention = CallingConvention.Cdecl)]
@@ -1332,11 +1333,11 @@ public static unsafe partial class SDL
 
     // Function @ SDL_keyboard.h:284:34
     [DllImport(LibraryName, EntryPoint = "SDL_IsScreenKeyboardShown", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_IsScreenKeyboardShown(SDL_Window* window);
+    public static extern CBool SDL_IsScreenKeyboardShown(SDL_Window* window);
 
     // Function @ SDL_keyboard.h:272:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasScreenKeyboardSupport", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasScreenKeyboardSupport();
+    public static extern CBool SDL_HasScreenKeyboardSupport();
 
     // Function @ SDL_keyboard.h:259:30
     [DllImport(LibraryName, EntryPoint = "SDL_SetTextInputRect", CallingConvention = CallingConvention.Cdecl)]
@@ -1348,7 +1349,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_keyboard.h:242:34
     [DllImport(LibraryName, EntryPoint = "SDL_IsTextInputActive", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_IsTextInputActive();
+    public static extern CBool SDL_IsTextInputActive();
 
     // Function @ SDL_keyboard.h:231:30
     [DllImport(LibraryName, EntryPoint = "SDL_StartTextInput", CallingConvention = CallingConvention.Cdecl)]
@@ -1388,7 +1389,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_keyboard.h:90:38
     [DllImport(LibraryName, EntryPoint = "SDL_GetKeyboardState", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint8* SDL_GetKeyboardState(long* numkeys);
+    public static extern byte* SDL_GetKeyboardState(long* numkeys);
 
     // Function @ SDL_keyboard.h:62:38
     [DllImport(LibraryName, EntryPoint = "SDL_GetKeyboardFocus", CallingConvention = CallingConvention.Cdecl)]
@@ -1444,7 +1445,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_video.h:1670:34
     [DllImport(LibraryName, EntryPoint = "SDL_GL_ExtensionSupported", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_GL_ExtensionSupported(CString extension);
+    public static extern CBool SDL_GL_ExtensionSupported(CString extension);
 
     // Function @ SDL_video.h:1649:30
     [DllImport(LibraryName, EntryPoint = "SDL_GL_UnloadLibrary", CallingConvention = CallingConvention.Cdecl)]
@@ -1468,7 +1469,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_video.h:1542:34
     [DllImport(LibraryName, EntryPoint = "SDL_IsScreenSaverEnabled", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_IsScreenSaverEnabled();
+    public static extern CBool SDL_IsScreenSaverEnabled();
 
     // Function @ SDL_video.h:1523:30
     [DllImport(LibraryName, EntryPoint = "SDL_DestroyWindow", CallingConvention = CallingConvention.Cdecl)]
@@ -1480,11 +1481,11 @@ public static unsafe partial class SDL
 
     // Function @ SDL_video.h:1430:29
     [DllImport(LibraryName, EntryPoint = "SDL_GetWindowGammaRamp", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_GetWindowGammaRamp(SDL_Window* window, Uint16* red, Uint16* green, Uint16* blue);
+    public static extern int SDL_GetWindowGammaRamp(SDL_Window* window, ushort* red, ushort* green, ushort* blue);
 
     // Function @ SDL_video.h:1404:29
     [DllImport(LibraryName, EntryPoint = "SDL_SetWindowGammaRamp", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_SetWindowGammaRamp(SDL_Window* window, Uint16* red, Uint16* green, Uint16* blue);
+    public static extern int SDL_SetWindowGammaRamp(SDL_Window* window, ushort* red, ushort* green, ushort* blue);
 
     // Function @ SDL_video.h:1375:29
     [DllImport(LibraryName, EntryPoint = "SDL_SetWindowInputFocus", CallingConvention = CallingConvention.Cdecl)]
@@ -1516,27 +1517,27 @@ public static unsafe partial class SDL
 
     // Function @ SDL_video.h:1251:34
     [DllImport(LibraryName, EntryPoint = "SDL_GetWindowMouseGrab", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_GetWindowMouseGrab(SDL_Window* window);
+    public static extern CBool SDL_GetWindowMouseGrab(SDL_Window* window);
 
     // Function @ SDL_video.h:1240:34
     [DllImport(LibraryName, EntryPoint = "SDL_GetWindowKeyboardGrab", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_GetWindowKeyboardGrab(SDL_Window* window);
+    public static extern CBool SDL_GetWindowKeyboardGrab(SDL_Window* window);
 
     // Function @ SDL_video.h:1229:34
     [DllImport(LibraryName, EntryPoint = "SDL_GetWindowGrab", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_GetWindowGrab(SDL_Window* window);
+    public static extern CBool SDL_GetWindowGrab(SDL_Window* window);
 
     // Function @ SDL_video.h:1218:30
     [DllImport(LibraryName, EntryPoint = "SDL_SetWindowMouseGrab", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void SDL_SetWindowMouseGrab(SDL_Window* window, SDL_bool grabbed);
+    public static extern void SDL_SetWindowMouseGrab(SDL_Window* window, CBool grabbed);
 
     // Function @ SDL_video.h:1202:30
     [DllImport(LibraryName, EntryPoint = "SDL_SetWindowKeyboardGrab", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void SDL_SetWindowKeyboardGrab(SDL_Window* window, SDL_bool grabbed);
+    public static extern void SDL_SetWindowKeyboardGrab(SDL_Window* window, CBool grabbed);
 
     // Function @ SDL_video.h:1186:30
     [DllImport(LibraryName, EntryPoint = "SDL_SetWindowGrab", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void SDL_SetWindowGrab(SDL_Window* window, SDL_bool grabbed);
+    public static extern void SDL_SetWindowGrab(SDL_Window* window, CBool grabbed);
 
     // Function @ SDL_video.h:1168:29
     [DllImport(LibraryName, EntryPoint = "SDL_UpdateWindowSurfaceRects", CallingConvention = CallingConvention.Cdecl)]
@@ -1552,7 +1553,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_video.h:1107:29
     [DllImport(LibraryName, EntryPoint = "SDL_SetWindowFullscreen", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_SetWindowFullscreen(SDL_Window* window, Uint32 flags);
+    public static extern int SDL_SetWindowFullscreen(SDL_Window* window, uint flags);
 
     // Function @ SDL_video.h:1088:30
     [DllImport(LibraryName, EntryPoint = "SDL_RestoreWindow", CallingConvention = CallingConvention.Cdecl)]
@@ -1580,15 +1581,15 @@ public static unsafe partial class SDL
 
     // Function @ SDL_video.h:1032:30
     [DllImport(LibraryName, EntryPoint = "SDL_SetWindowAlwaysOnTop", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void SDL_SetWindowAlwaysOnTop(SDL_Window* window, SDL_bool on_top);
+    public static extern void SDL_SetWindowAlwaysOnTop(SDL_Window* window, CBool on_top);
 
     // Function @ SDL_video.h:1016:30
     [DllImport(LibraryName, EntryPoint = "SDL_SetWindowResizable", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void SDL_SetWindowResizable(SDL_Window* window, SDL_bool resizable);
+    public static extern void SDL_SetWindowResizable(SDL_Window* window, CBool resizable);
 
     // Function @ SDL_video.h:997:30
     [DllImport(LibraryName, EntryPoint = "SDL_SetWindowBordered", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void SDL_SetWindowBordered(SDL_Window* window, SDL_bool bordered);
+    public static extern void SDL_SetWindowBordered(SDL_Window* window, CBool bordered);
 
     // Function @ SDL_video.h:978:30
     [DllImport(LibraryName, EntryPoint = "SDL_GetWindowMaximumSize", CallingConvention = CallingConvention.Cdecl)]
@@ -1648,15 +1649,15 @@ public static unsafe partial class SDL
 
     // Function @ SDL_video.h:745:32
     [DllImport(LibraryName, EntryPoint = "SDL_GetWindowFlags", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint32 SDL_GetWindowFlags(SDL_Window* window);
+    public static extern uint SDL_GetWindowFlags(SDL_Window* window);
 
     // Function @ SDL_video.h:729:38
     [DllImport(LibraryName, EntryPoint = "SDL_GetWindowFromID", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_Window* SDL_GetWindowFromID(Uint32 id);
+    public static extern SDL_Window* SDL_GetWindowFromID(uint id);
 
     // Function @ SDL_video.h:715:32
     [DllImport(LibraryName, EntryPoint = "SDL_GetWindowID", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint32 SDL_GetWindowID(SDL_Window* window);
+    public static extern uint SDL_GetWindowID(SDL_Window* window);
 
     // Function @ SDL_video.h:699:38
     [DllImport(LibraryName, EntryPoint = "SDL_CreateWindowFrom", CallingConvention = CallingConvention.Cdecl)]
@@ -1664,11 +1665,11 @@ public static unsafe partial class SDL
 
     // Function @ SDL_video.h:680:38
     [DllImport(LibraryName, EntryPoint = "SDL_CreateWindow", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_Window* SDL_CreateWindow(CString title, int x, int y, int w, int h, Uint32 flags);
+    public static extern SDL_Window* SDL_CreateWindow(CString title, int x, int y, int w, int h, uint flags);
 
     // Function @ SDL_video.h:610:32
     [DllImport(LibraryName, EntryPoint = "SDL_GetWindowPixelFormat", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint32 SDL_GetWindowPixelFormat(SDL_Window* window);
+    public static extern uint SDL_GetWindowPixelFormat(SDL_Window* window);
 
     // Function @ SDL_video.h:599:29
     [DllImport(LibraryName, EntryPoint = "SDL_GetWindowDisplayMode", CallingConvention = CallingConvention.Cdecl)]
@@ -1784,23 +1785,23 @@ public static unsafe partial class SDL
 
     // Function @ SDL_surface.h:705:29
     [DllImport(LibraryName, EntryPoint = "SDL_FillRects", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_FillRects(SDL_Surface* dst, SDL_Rect* rects, int count, Uint32 color);
+    public static extern int SDL_FillRects(SDL_Surface* dst, SDL_Rect* rects, int count, uint color);
 
     // Function @ SDL_surface.h:681:29
     [DllImport(LibraryName, EntryPoint = "SDL_FillRect", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_FillRect(SDL_Surface* dst, SDL_Rect* rect, Uint32 color);
+    public static extern int SDL_FillRect(SDL_Surface* dst, SDL_Rect* rect, uint color);
 
     // Function @ SDL_surface.h:654:29
     [DllImport(LibraryName, EntryPoint = "SDL_ConvertPixels", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_ConvertPixels(int width, int height, Uint32 src_format, void* src, int src_pitch, Uint32 dst_format, void* dst, int dst_pitch);
+    public static extern int SDL_ConvertPixels(int width, int height, uint src_format, void* src, int src_pitch, uint dst_format, void* dst, int dst_pitch);
 
     // Function @ SDL_surface.h:637:38
     [DllImport(LibraryName, EntryPoint = "SDL_ConvertSurfaceFormat", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_Surface* SDL_ConvertSurfaceFormat(SDL_Surface* src, Uint32 pixel_format, Uint32 flags);
+    public static extern SDL_Surface* SDL_ConvertSurfaceFormat(SDL_Surface* src, uint pixel_format, uint flags);
 
     // Function @ SDL_surface.h:614:38
     [DllImport(LibraryName, EntryPoint = "SDL_ConvertSurface", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_Surface* SDL_ConvertSurface(SDL_Surface* src, SDL_PixelFormat* fmt, Uint32 flags);
+    public static extern SDL_Surface* SDL_ConvertSurface(SDL_Surface* src, SDL_PixelFormat* fmt, uint flags);
 
     // Function @ SDL_surface.h:592:38
     [DllImport(LibraryName, EntryPoint = "SDL_DuplicateSurface", CallingConvention = CallingConvention.Cdecl)]
@@ -1812,7 +1813,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_surface.h:563:34
     [DllImport(LibraryName, EntryPoint = "SDL_SetClipRect", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_SetClipRect(SDL_Surface* surface, SDL_Rect* rect);
+    public static extern CBool SDL_SetClipRect(SDL_Surface* surface, SDL_Rect* rect);
 
     // Function @ SDL_surface.h:542:29
     [DllImport(LibraryName, EntryPoint = "SDL_GetSurfaceBlendMode", CallingConvention = CallingConvention.Cdecl)]
@@ -1824,35 +1825,35 @@ public static unsafe partial class SDL
 
     // Function @ SDL_surface.h:512:29
     [DllImport(LibraryName, EntryPoint = "SDL_GetSurfaceAlphaMod", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_GetSurfaceAlphaMod(SDL_Surface* surface, Uint8* alpha);
+    public static extern int SDL_GetSurfaceAlphaMod(SDL_Surface* surface, byte* alpha);
 
     // Function @ SDL_surface.h:498:29
     [DllImport(LibraryName, EntryPoint = "SDL_SetSurfaceAlphaMod", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_SetSurfaceAlphaMod(SDL_Surface* surface, Uint8 alpha);
+    public static extern int SDL_SetSurfaceAlphaMod(SDL_Surface* surface, byte alpha);
 
     // Function @ SDL_surface.h:478:29
     [DllImport(LibraryName, EntryPoint = "SDL_GetSurfaceColorMod", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_GetSurfaceColorMod(SDL_Surface* surface, Uint8* r, Uint8* g, Uint8* b);
+    public static extern int SDL_GetSurfaceColorMod(SDL_Surface* surface, byte* r, byte* g, byte* b);
 
     // Function @ SDL_surface.h:461:29
     [DllImport(LibraryName, EntryPoint = "SDL_SetSurfaceColorMod", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_SetSurfaceColorMod(SDL_Surface* surface, Uint8 r, Uint8 g, Uint8 b);
+    public static extern int SDL_SetSurfaceColorMod(SDL_Surface* surface, byte r, byte g, byte b);
 
     // Function @ SDL_surface.h:439:29
     [DllImport(LibraryName, EntryPoint = "SDL_GetColorKey", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_GetColorKey(SDL_Surface* surface, Uint32* key);
+    public static extern int SDL_GetColorKey(SDL_Surface* surface, uint* key);
 
     // Function @ SDL_surface.h:421:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasColorKey", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasColorKey(SDL_Surface* surface);
+    public static extern CBool SDL_HasColorKey(SDL_Surface* surface);
 
     // Function @ SDL_surface.h:407:29
     [DllImport(LibraryName, EntryPoint = "SDL_SetColorKey", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_SetColorKey(SDL_Surface* surface, int flag, Uint32 key);
+    public static extern int SDL_SetColorKey(SDL_Surface* surface, int flag, uint key);
 
     // Function @ SDL_surface.h:386:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasSurfaceRLE", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasSurfaceRLE(SDL_Surface* surface);
+    public static extern CBool SDL_HasSurfaceRLE(SDL_Surface* surface);
 
     // Function @ SDL_surface.h:373:29
     [DllImport(LibraryName, EntryPoint = "SDL_SetSurfaceRLE", CallingConvention = CallingConvention.Cdecl)]
@@ -1884,19 +1885,19 @@ public static unsafe partial class SDL
 
     // Function @ SDL_surface.h:245:38
     [DllImport(LibraryName, EntryPoint = "SDL_CreateRGBSurfaceWithFormatFrom", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_Surface* SDL_CreateRGBSurfaceWithFormatFrom(void* pixels, int width, int height, int depth, int pitch, Uint32 format);
+    public static extern SDL_Surface* SDL_CreateRGBSurfaceWithFormatFrom(void* pixels, int width, int height, int depth, int pitch, uint format);
 
     // Function @ SDL_surface.h:210:38
     [DllImport(LibraryName, EntryPoint = "SDL_CreateRGBSurfaceFrom", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_Surface* SDL_CreateRGBSurfaceFrom(void* pixels, int width, int height, int depth, int pitch, Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask);
+    public static extern SDL_Surface* SDL_CreateRGBSurfaceFrom(void* pixels, int width, int height, int depth, int pitch, uint Rmask, uint Gmask, uint Bmask, uint Amask);
 
     // Function @ SDL_surface.h:181:38
     [DllImport(LibraryName, EntryPoint = "SDL_CreateRGBSurfaceWithFormat", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_Surface* SDL_CreateRGBSurfaceWithFormat(Uint32 flags, int width, int height, int depth, Uint32 format);
+    public static extern SDL_Surface* SDL_CreateRGBSurfaceWithFormat(uint flags, int width, int height, int depth, uint format);
 
     // Function @ SDL_surface.h:156:38
     [DllImport(LibraryName, EntryPoint = "SDL_CreateRGBSurface", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_Surface* SDL_CreateRGBSurface(Uint32 flags, int width, int height, int depth, Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask);
+    public static extern SDL_Surface* SDL_CreateRGBSurface(uint flags, int width, int height, int depth, uint Rmask, uint Gmask, uint Bmask, uint Amask);
 
     // Function @ SDL_blendmode.h:185:39
     [DllImport(LibraryName, EntryPoint = "SDL_ComposeCustomBlendMode", CallingConvention = CallingConvention.Cdecl)]
@@ -1904,11 +1905,11 @@ public static unsafe partial class SDL
 
     // Function @ SDL_rect.h:205:34
     [DllImport(LibraryName, EntryPoint = "SDL_IntersectRectAndLine", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_IntersectRectAndLine(SDL_Rect* rect, long* X1, long* Y1, long* X2, long* Y2);
+    public static extern CBool SDL_IntersectRectAndLine(SDL_Rect* rect, long* X1, long* Y1, long* X2, long* Y2);
 
     // Function @ SDL_rect.h:184:34
     [DllImport(LibraryName, EntryPoint = "SDL_EnclosePoints", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_EnclosePoints(SDL_Point* points, int count, SDL_Rect* clip, SDL_Rect* result);
+    public static extern CBool SDL_EnclosePoints(SDL_Point* points, int count, SDL_Rect* clip, SDL_Rect* result);
 
     // Function @ SDL_rect.h:165:30
     [DllImport(LibraryName, EntryPoint = "SDL_UnionRect", CallingConvention = CallingConvention.Cdecl)]
@@ -1916,31 +1917,31 @@ public static unsafe partial class SDL
 
     // Function @ SDL_rect.h:153:34
     [DllImport(LibraryName, EntryPoint = "SDL_IntersectRect", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_IntersectRect(SDL_Rect* A, SDL_Rect* B, SDL_Rect* result);
+    public static extern CBool SDL_IntersectRect(SDL_Rect* A, SDL_Rect* B, SDL_Rect* result);
 
     // Function @ SDL_rect.h:135:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasIntersection", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasIntersection(SDL_Rect* A, SDL_Rect* B);
+    public static extern CBool SDL_HasIntersection(SDL_Rect* A, SDL_Rect* B);
 
     // Function @ SDL_pixels.h:602:30
     [DllImport(LibraryName, EntryPoint = "SDL_CalculateGammaRamp", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void SDL_CalculateGammaRamp(float gamma, Uint16* ramp);
+    public static extern void SDL_CalculateGammaRamp(float gamma, ushort* ramp);
 
     // Function @ SDL_pixels.h:589:30
     [DllImport(LibraryName, EntryPoint = "SDL_GetRGBA", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void SDL_GetRGBA(Uint32 pixel, SDL_PixelFormat* format, Uint8* r, Uint8* g, Uint8* b, Uint8* a);
+    public static extern void SDL_GetRGBA(uint pixel, SDL_PixelFormat* format, byte* r, byte* g, byte* b, byte* a);
 
     // Function @ SDL_pixels.h:562:30
     [DllImport(LibraryName, EntryPoint = "SDL_GetRGB", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void SDL_GetRGB(Uint32 pixel, SDL_PixelFormat* format, Uint8* r, Uint8* g, Uint8* b);
+    public static extern void SDL_GetRGB(uint pixel, SDL_PixelFormat* format, byte* r, byte* g, byte* b);
 
     // Function @ SDL_pixels.h:539:32
     [DllImport(LibraryName, EntryPoint = "SDL_MapRGBA", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint32 SDL_MapRGBA(SDL_PixelFormat* format, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+    public static extern uint SDL_MapRGBA(SDL_PixelFormat* format, byte r, byte g, byte b, byte a);
 
     // Function @ SDL_pixels.h:506:32
     [DllImport(LibraryName, EntryPoint = "SDL_MapRGB", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint32 SDL_MapRGB(SDL_PixelFormat* format, Uint8 r, Uint8 g, Uint8 b);
+    public static extern uint SDL_MapRGB(SDL_PixelFormat* format, byte r, byte g, byte b);
 
     // Function @ SDL_pixels.h:476:30
     [DllImport(LibraryName, EntryPoint = "SDL_FreePalette", CallingConvention = CallingConvention.Cdecl)]
@@ -1964,19 +1965,19 @@ public static unsafe partial class SDL
 
     // Function @ SDL_pixels.h:413:43
     [DllImport(LibraryName, EntryPoint = "SDL_AllocFormat", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_PixelFormat* SDL_AllocFormat(Uint32 pixel_format);
+    public static extern SDL_PixelFormat* SDL_AllocFormat(uint pixel_format);
 
     // Function @ SDL_pixels.h:394:32
     [DllImport(LibraryName, EntryPoint = "SDL_MasksToPixelFormatEnum", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint32 SDL_MasksToPixelFormatEnum(int bpp, Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask);
+    public static extern uint SDL_MasksToPixelFormatEnum(int bpp, uint Rmask, uint Gmask, uint Bmask, uint Amask);
 
     // Function @ SDL_pixels.h:372:34
     [DllImport(LibraryName, EntryPoint = "SDL_PixelFormatEnumToMasks", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_PixelFormatEnumToMasks(Uint32 format, long* bpp, Uint32* Rmask, Uint32* Gmask, Uint32* Bmask, Uint32* Amask);
+    public static extern CBool SDL_PixelFormatEnumToMasks(uint format, long* bpp, uint* Rmask, uint* Gmask, uint* Bmask, uint* Amask);
 
     // Function @ SDL_pixels.h:356:37
     [DllImport(LibraryName, EntryPoint = "SDL_GetPixelFormatName", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString SDL_GetPixelFormatName(Uint32 format);
+    public static extern CString SDL_GetPixelFormatName(uint format);
 
     // Function @ SDL_cpuinfo.h:512:30
     [DllImport(LibraryName, EntryPoint = "SDL_SIMDFree", CallingConvention = CallingConvention.Cdecl)]
@@ -2000,59 +2001,59 @@ public static unsafe partial class SDL
 
     // Function @ SDL_cpuinfo.h:406:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasNEON", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasNEON();
+    public static extern CBool SDL_HasNEON();
 
     // Function @ SDL_cpuinfo.h:397:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasARMSIMD", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasARMSIMD();
+    public static extern CBool SDL_HasARMSIMD();
 
     // Function @ SDL_cpuinfo.h:384:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasAVX512F", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasAVX512F();
+    public static extern CBool SDL_HasAVX512F();
 
     // Function @ SDL_cpuinfo.h:373:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasAVX2", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasAVX2();
+    public static extern CBool SDL_HasAVX2();
 
     // Function @ SDL_cpuinfo.h:351:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasAVX", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasAVX();
+    public static extern CBool SDL_HasAVX();
 
     // Function @ SDL_cpuinfo.h:329:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasSSE42", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasSSE42();
+    public static extern CBool SDL_HasSSE42();
 
     // Function @ SDL_cpuinfo.h:309:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasSSE41", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasSSE41();
+    public static extern CBool SDL_HasSSE41();
 
     // Function @ SDL_cpuinfo.h:289:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasSSE3", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasSSE3();
+    public static extern CBool SDL_HasSSE3();
 
     // Function @ SDL_cpuinfo.h:269:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasSSE2", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasSSE2();
+    public static extern CBool SDL_HasSSE2();
 
     // Function @ SDL_cpuinfo.h:249:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasSSE", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasSSE();
+    public static extern CBool SDL_HasSSE();
 
     // Function @ SDL_cpuinfo.h:229:34
     [DllImport(LibraryName, EntryPoint = "SDL_Has3DNow", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_Has3DNow();
+    public static extern CBool SDL_Has3DNow();
 
     // Function @ SDL_cpuinfo.h:209:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasMMX", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasMMX();
+    public static extern CBool SDL_HasMMX();
 
     // Function @ SDL_cpuinfo.h:189:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasAltiVec", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasAltiVec();
+    public static extern CBool SDL_HasAltiVec();
 
     // Function @ SDL_cpuinfo.h:169:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasRDTSC", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasRDTSC();
+    public static extern CBool SDL_HasRDTSC();
 
     // Function @ SDL_cpuinfo.h:149:29
     [DllImport(LibraryName, EntryPoint = "SDL_GetCPUCacheLineSize", CallingConvention = CallingConvention.Cdecl)]
@@ -2064,7 +2065,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_clipboard.h:78:34
     [DllImport(LibraryName, EntryPoint = "SDL_HasClipboardText", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_HasClipboardText();
+    public static extern CBool SDL_HasClipboardText();
 
     // Function @ SDL_clipboard.h:66:32
     [DllImport(LibraryName, EntryPoint = "SDL_GetClipboardText", CallingConvention = CallingConvention.Cdecl)]
@@ -2104,23 +2105,23 @@ public static unsafe partial class SDL
 
     // Function @ SDL_audio.h:1079:32
     [DllImport(LibraryName, EntryPoint = "SDL_GetQueuedAudioSize", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint32 SDL_GetQueuedAudioSize(SDL_AudioDeviceID dev);
+    public static extern uint SDL_GetQueuedAudioSize(SDL_AudioDeviceID dev);
 
     // Function @ SDL_audio.h:1044:32
     [DllImport(LibraryName, EntryPoint = "SDL_DequeueAudio", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint32 SDL_DequeueAudio(SDL_AudioDeviceID dev, void* data, Uint32 len);
+    public static extern uint SDL_DequeueAudio(SDL_AudioDeviceID dev, void* data, uint len);
 
     // Function @ SDL_audio.h:996:29
     [DllImport(LibraryName, EntryPoint = "SDL_QueueAudio", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_QueueAudio(SDL_AudioDeviceID dev, void* data, Uint32 len);
+    public static extern int SDL_QueueAudio(SDL_AudioDeviceID dev, void* data, uint len);
 
     // Function @ SDL_audio.h:949:30
     [DllImport(LibraryName, EntryPoint = "SDL_MixAudioFormat", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void SDL_MixAudioFormat(Uint8* dst, Uint8* src, SDL_AudioFormat format, Uint32 len, int volume);
+    public static extern void SDL_MixAudioFormat(byte* dst, byte* src, SDL_AudioFormat format, uint len, int volume);
 
     // Function @ SDL_audio.h:918:30
     [DllImport(LibraryName, EntryPoint = "SDL_MixAudio", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void SDL_MixAudio(Uint8* dst, Uint8* src, Uint32 len, int volume);
+    public static extern void SDL_MixAudio(byte* dst, byte* src, uint len, int volume);
 
     // Function @ SDL_audio.h:895:30
     [DllImport(LibraryName, EntryPoint = "SDL_FreeAudioStream", CallingConvention = CallingConvention.Cdecl)]
@@ -2148,7 +2149,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_audio.h:800:43
     [DllImport(LibraryName, EntryPoint = "SDL_NewAudioStream", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_AudioStream* SDL_NewAudioStream(SDL_AudioFormat src_format, Uint8 src_channels, int src_rate, SDL_AudioFormat dst_format, Uint8 dst_channels, int dst_rate);
+    public static extern SDL_AudioStream* SDL_NewAudioStream(SDL_AudioFormat src_format, byte src_channels, int src_rate, SDL_AudioFormat dst_format, byte dst_channels, int dst_rate);
 
     // Function @ SDL_audio.h:769:29
     [DllImport(LibraryName, EntryPoint = "SDL_ConvertAudio", CallingConvention = CallingConvention.Cdecl)]
@@ -2156,15 +2157,15 @@ public static unsafe partial class SDL
 
     // Function @ SDL_audio.h:725:29
     [DllImport(LibraryName, EntryPoint = "SDL_BuildAudioCVT", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_BuildAudioCVT(SDL_AudioCVT* cvt, SDL_AudioFormat src_format, Uint8 src_channels, int src_rate, SDL_AudioFormat dst_format, Uint8 dst_channels, int dst_rate);
+    public static extern int SDL_BuildAudioCVT(SDL_AudioCVT* cvt, SDL_AudioFormat src_format, byte src_channels, int src_rate, SDL_AudioFormat dst_format, byte dst_channels, int dst_rate);
 
     // Function @ SDL_audio.h:692:30
     [DllImport(LibraryName, EntryPoint = "SDL_FreeWAV", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void SDL_FreeWAV(Uint8* audio_buf);
+    public static extern void SDL_FreeWAV(byte* audio_buf);
 
     // Function @ SDL_audio.h:666:40
     [DllImport(LibraryName, EntryPoint = "SDL_LoadWAV_RW", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_AudioSpec* SDL_LoadWAV_RW(SDL_RWops* src, int freesrc, SDL_AudioSpec* spec, Uint8** audio_buf, Uint32* audio_len);
+    public static extern SDL_AudioSpec* SDL_LoadWAV_RW(SDL_RWops* src, int freesrc, SDL_AudioSpec* spec, byte** audio_buf, uint* audio_len);
 
     // Function @ SDL_audio.h:587:30
     [DllImport(LibraryName, EntryPoint = "SDL_PauseAudioDevice", CallingConvention = CallingConvention.Cdecl)]
@@ -2224,59 +2225,59 @@ public static unsafe partial class SDL
 
     // Function @ SDL_rwops.h:401:32
     [DllImport(LibraryName, EntryPoint = "SDL_WriteBE64", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong SDL_WriteBE64(SDL_RWops* dst, Uint64 value);
+    public static extern ulong SDL_WriteBE64(SDL_RWops* dst, ulong value);
 
     // Function @ SDL_rwops.h:400:32
     [DllImport(LibraryName, EntryPoint = "SDL_WriteLE64", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong SDL_WriteLE64(SDL_RWops* dst, Uint64 value);
+    public static extern ulong SDL_WriteLE64(SDL_RWops* dst, ulong value);
 
     // Function @ SDL_rwops.h:399:32
     [DllImport(LibraryName, EntryPoint = "SDL_WriteBE32", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong SDL_WriteBE32(SDL_RWops* dst, Uint32 value);
+    public static extern ulong SDL_WriteBE32(SDL_RWops* dst, uint value);
 
     // Function @ SDL_rwops.h:398:32
     [DllImport(LibraryName, EntryPoint = "SDL_WriteLE32", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong SDL_WriteLE32(SDL_RWops* dst, Uint32 value);
+    public static extern ulong SDL_WriteLE32(SDL_RWops* dst, uint value);
 
     // Function @ SDL_rwops.h:397:32
     [DllImport(LibraryName, EntryPoint = "SDL_WriteBE16", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong SDL_WriteBE16(SDL_RWops* dst, Uint16 value);
+    public static extern ulong SDL_WriteBE16(SDL_RWops* dst, ushort value);
 
     // Function @ SDL_rwops.h:396:32
     [DllImport(LibraryName, EntryPoint = "SDL_WriteLE16", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong SDL_WriteLE16(SDL_RWops* dst, Uint16 value);
+    public static extern ulong SDL_WriteLE16(SDL_RWops* dst, ushort value);
 
     // Function @ SDL_rwops.h:395:32
     [DllImport(LibraryName, EntryPoint = "SDL_WriteU8", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong SDL_WriteU8(SDL_RWops* dst, Uint8 value);
+    public static extern ulong SDL_WriteU8(SDL_RWops* dst, byte value);
 
     // Function @ SDL_rwops.h:386:32
     [DllImport(LibraryName, EntryPoint = "SDL_ReadBE64", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint64 SDL_ReadBE64(SDL_RWops* src);
+    public static extern ulong SDL_ReadBE64(SDL_RWops* src);
 
     // Function @ SDL_rwops.h:385:32
     [DllImport(LibraryName, EntryPoint = "SDL_ReadLE64", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint64 SDL_ReadLE64(SDL_RWops* src);
+    public static extern ulong SDL_ReadLE64(SDL_RWops* src);
 
     // Function @ SDL_rwops.h:384:32
     [DllImport(LibraryName, EntryPoint = "SDL_ReadBE32", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint32 SDL_ReadBE32(SDL_RWops* src);
+    public static extern uint SDL_ReadBE32(SDL_RWops* src);
 
     // Function @ SDL_rwops.h:383:32
     [DllImport(LibraryName, EntryPoint = "SDL_ReadLE32", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint32 SDL_ReadLE32(SDL_RWops* src);
+    public static extern uint SDL_ReadLE32(SDL_RWops* src);
 
     // Function @ SDL_rwops.h:382:32
     [DllImport(LibraryName, EntryPoint = "SDL_ReadBE16", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint16 SDL_ReadBE16(SDL_RWops* src);
+    public static extern ushort SDL_ReadBE16(SDL_RWops* src);
 
     // Function @ SDL_rwops.h:381:32
     [DllImport(LibraryName, EntryPoint = "SDL_ReadLE16", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint16 SDL_ReadLE16(SDL_RWops* src);
+    public static extern ushort SDL_ReadLE16(SDL_RWops* src);
 
     // Function @ SDL_rwops.h:380:31
     [DllImport(LibraryName, EntryPoint = "SDL_ReadU8", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint8 SDL_ReadU8(SDL_RWops* src);
+    public static extern byte SDL_ReadU8(SDL_RWops* src);
 
     // Function @ SDL_rwops.h:372:31
     [DllImport(LibraryName, EntryPoint = "SDL_LoadFile", CallingConvention = CallingConvention.Cdecl)]
@@ -2300,15 +2301,15 @@ public static unsafe partial class SDL
 
     // Function @ SDL_rwops.h:251:32
     [DllImport(LibraryName, EntryPoint = "SDL_RWtell", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Sint64 SDL_RWtell(SDL_RWops* context);
+    public static extern long SDL_RWtell(SDL_RWops* context);
 
     // Function @ SDL_rwops.h:227:32
     [DllImport(LibraryName, EntryPoint = "SDL_RWseek", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Sint64 SDL_RWseek(SDL_RWops* context, Sint64 offset, int whence);
+    public static extern long SDL_RWseek(SDL_RWops* context, long offset, int whence);
 
     // Function @ SDL_rwops.h:194:32
     [DllImport(LibraryName, EntryPoint = "SDL_RWsize", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Sint64 SDL_RWsize(SDL_RWops* context);
+    public static extern long SDL_RWsize(SDL_RWops* context);
 
     // Function @ SDL_rwops.h:178:30
     [DllImport(LibraryName, EntryPoint = "SDL_FreeRW", CallingConvention = CallingConvention.Cdecl)]
@@ -2328,7 +2329,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_rwops.h:163:36
     [DllImport(LibraryName, EntryPoint = "SDL_RWFromFP", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_RWops* SDL_RWFromFP(FILE* fp, SDL_bool autoclose);
+    public static extern SDL_RWops* SDL_RWFromFP(FILE* fp, CBool autoclose);
 
     // Function @ SDL_rwops.h:159:36
     [DllImport(LibraryName, EntryPoint = "SDL_RWFromFile", CallingConvention = CallingConvention.Cdecl)]
@@ -2384,7 +2385,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_mutex.h:422:29
     [DllImport(LibraryName, EntryPoint = "SDL_CondWaitTimeout", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_CondWaitTimeout(SDL_cond* cond, SDL_mutex* mutex, Uint32 ms);
+    public static extern int SDL_CondWaitTimeout(SDL_cond* cond, SDL_mutex* mutex, uint ms);
 
     // Function @ SDL_mutex.h:395:29
     [DllImport(LibraryName, EntryPoint = "SDL_CondWait", CallingConvention = CallingConvention.Cdecl)]
@@ -2408,7 +2409,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_mutex.h:300:32
     [DllImport(LibraryName, EntryPoint = "SDL_SemValue", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint32 SDL_SemValue(SDL_sem* sem);
+    public static extern uint SDL_SemValue(SDL_sem* sem);
 
     // Function @ SDL_mutex.h:290:29
     [DllImport(LibraryName, EntryPoint = "SDL_SemPost", CallingConvention = CallingConvention.Cdecl)]
@@ -2416,7 +2417,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_mutex.h:274:29
     [DllImport(LibraryName, EntryPoint = "SDL_SemWaitTimeout", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int SDL_SemWaitTimeout(SDL_sem* sem, Uint32 ms);
+    public static extern int SDL_SemWaitTimeout(SDL_sem* sem, uint ms);
 
     // Function @ SDL_mutex.h:250:29
     [DllImport(LibraryName, EntryPoint = "SDL_SemTryWait", CallingConvention = CallingConvention.Cdecl)]
@@ -2432,7 +2433,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_mutex.h:186:34
     [DllImport(LibraryName, EntryPoint = "SDL_CreateSemaphore", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_sem* SDL_CreateSemaphore(Uint32 initial_value);
+    public static extern SDL_sem* SDL_CreateSemaphore(uint initial_value);
 
     // Function @ SDL_mutex.h:152:30
     [DllImport(LibraryName, EntryPoint = "SDL_DestroyMutex", CallingConvention = CallingConvention.Cdecl)]
@@ -2484,7 +2485,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_atomic.h:341:34
     [DllImport(LibraryName, EntryPoint = "SDL_AtomicCASPtr", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_AtomicCASPtr(void** a, void* oldval, void* newval);
+    public static extern CBool SDL_AtomicCASPtr(void** a, void* oldval, void* newval);
 
     // Function @ SDL_atomic.h:304:29
     [DllImport(LibraryName, EntryPoint = "SDL_AtomicAdd", CallingConvention = CallingConvention.Cdecl)]
@@ -2500,7 +2501,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_atomic.h:258:34
     [DllImport(LibraryName, EntryPoint = "SDL_AtomicCAS", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_AtomicCAS(SDL_atomic_t* a, int oldval, int newval);
+    public static extern CBool SDL_AtomicCAS(SDL_atomic_t* a, int oldval, int newval);
 
     // Function @ SDL_atomic.h:178:30
     [DllImport(LibraryName, EntryPoint = "SDL_MemoryBarrierAcquireFunction", CallingConvention = CallingConvention.Cdecl)]
@@ -2520,7 +2521,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_atomic.h:104:34
     [DllImport(LibraryName, EntryPoint = "SDL_AtomicTryLock", CallingConvention = CallingConvention.Cdecl)]
-    public static extern SDL_bool SDL_AtomicTryLock(SDL_SpinLock* @lock);
+    public static extern CBool SDL_AtomicTryLock(SDL_SpinLock* @lock);
 
     // Function @ SDL_assert.h:302:30
     [DllImport(LibraryName, EntryPoint = "SDL_ResetAssertionReport", CallingConvention = CallingConvention.Cdecl)]
@@ -2768,11 +2769,11 @@ public static unsafe partial class SDL
 
     // Function @ SDL_stdinc.h:539:32
     [DllImport(LibraryName, EntryPoint = "SDL_strtoull", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint64 SDL_strtoull(CString str, CString* endp, int @base);
+    public static extern ulong SDL_strtoull(CString str, CString* endp, int @base);
 
     // Function @ SDL_stdinc.h:538:32
     [DllImport(LibraryName, EntryPoint = "SDL_strtoll", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Sint64 SDL_strtoll(CString str, CString* endp, int @base);
+    public static extern long SDL_strtoll(CString str, CString* endp, int @base);
 
     // Function @ SDL_stdinc.h:537:39
     [DllImport(LibraryName, EntryPoint = "SDL_strtoul", CallingConvention = CallingConvention.Cdecl)]
@@ -2792,11 +2793,11 @@ public static unsafe partial class SDL
 
     // Function @ SDL_stdinc.h:532:31
     [DllImport(LibraryName, EntryPoint = "SDL_ulltoa", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString SDL_ulltoa(Uint64 value, CString str, int radix);
+    public static extern CString SDL_ulltoa(ulong value, CString str, int radix);
 
     // Function @ SDL_stdinc.h:531:31
     [DllImport(LibraryName, EntryPoint = "SDL_lltoa", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString SDL_lltoa(Sint64 value, CString str, int radix);
+    public static extern CString SDL_lltoa(long value, CString str, int radix);
 
     // Function @ SDL_stdinc.h:530:31
     [DllImport(LibraryName, EntryPoint = "SDL_ultoa", CallingConvention = CallingConvention.Cdecl)]
@@ -2920,7 +2921,7 @@ public static unsafe partial class SDL
 
     // Function @ SDL_stdinc.h:458:32
     [DllImport(LibraryName, EntryPoint = "SDL_crc32", CallingConvention = CallingConvention.Cdecl)]
-    public static extern Uint32 SDL_crc32(Uint32 crc, void* data, ulong len);
+    public static extern uint SDL_crc32(uint crc, void* data, ulong len);
 
     // Function @ SDL_stdinc.h:456:29
     [DllImport(LibraryName, EntryPoint = "SDL_tolower", CallingConvention = CallingConvention.Cdecl)]
@@ -3133,13 +3134,13 @@ public static unsafe partial class SDL
     public struct SDL_version
     {
         [FieldOffset(0)] // size = 1, padding = 0
-        public Uint8 major;
+        public byte major;
 
         [FieldOffset(1)] // size = 1, padding = 0
-        public Uint8 minor;
+        public byte minor;
 
         [FieldOffset(2)] // size = 1, padding = 0
-        public Uint8 patch;
+        public byte patch;
     }
 
     // Struct @ SDL_shape.h:106:3
@@ -3158,7 +3159,7 @@ public static unsafe partial class SDL
     public struct SDL_WindowShapeParams
     {
         [FieldOffset(0)] // size = 1, padding = 0
-        public Uint8 binarizationCutoff;
+        public byte binarizationCutoff;
 
         [FieldOffset(0)] // size = 4, padding = 0
         public SDL_Color colorKey;
@@ -3169,16 +3170,16 @@ public static unsafe partial class SDL
     public struct SDL_Color
     {
         [FieldOffset(0)] // size = 1, padding = 0
-        public Uint8 r;
+        public byte r;
 
         [FieldOffset(1)] // size = 1, padding = 0
-        public Uint8 g;
+        public byte g;
 
         [FieldOffset(2)] // size = 1, padding = 0
-        public Uint8 b;
+        public byte b;
 
         [FieldOffset(3)] // size = 1, padding = 0
-        public Uint8 a;
+        public byte a;
     }
 
     // Struct @ SDL_surface.h:95:3
@@ -3186,7 +3187,7 @@ public static unsafe partial class SDL
     public struct SDL_Surface
     {
         [FieldOffset(0)] // size = 4, padding = 4
-        public Uint32 flags;
+        public uint flags;
 
         [FieldOffset(8)] // size = 8, padding = 0
         public SDL_PixelFormat* format;
@@ -3244,55 +3245,55 @@ public static unsafe partial class SDL
     public struct SDL_PixelFormat
     {
         [FieldOffset(0)] // size = 4, padding = 4
-        public Uint32 format;
+        public uint format;
 
         [FieldOffset(8)] // size = 8, padding = 0
         public SDL_Palette* palette;
 
         [FieldOffset(16)] // size = 1, padding = 0
-        public Uint8 BitsPerPixel;
+        public byte BitsPerPixel;
 
         [FieldOffset(17)] // size = 1, padding = 0
-        public Uint8 BytesPerPixel;
+        public byte BytesPerPixel;
 
         [FieldOffset(18)] // size = 1, padding = 1
-        public Uint8 padding;
+        public byte padding;
 
         [FieldOffset(20)] // size = 4, padding = 0
-        public Uint32 Rmask;
+        public uint Rmask;
 
         [FieldOffset(24)] // size = 4, padding = 0
-        public Uint32 Gmask;
+        public uint Gmask;
 
         [FieldOffset(28)] // size = 4, padding = 0
-        public Uint32 Bmask;
+        public uint Bmask;
 
         [FieldOffset(32)] // size = 4, padding = 0
-        public Uint32 Amask;
+        public uint Amask;
 
         [FieldOffset(36)] // size = 1, padding = 0
-        public Uint8 Rloss;
+        public byte Rloss;
 
         [FieldOffset(37)] // size = 1, padding = 0
-        public Uint8 Gloss;
+        public byte Gloss;
 
         [FieldOffset(38)] // size = 1, padding = 0
-        public Uint8 Bloss;
+        public byte Bloss;
 
         [FieldOffset(39)] // size = 1, padding = 0
-        public Uint8 Aloss;
+        public byte Aloss;
 
         [FieldOffset(40)] // size = 1, padding = 0
-        public Uint8 Rshift;
+        public byte Rshift;
 
         [FieldOffset(41)] // size = 1, padding = 0
-        public Uint8 Gshift;
+        public byte Gshift;
 
         [FieldOffset(42)] // size = 1, padding = 0
-        public Uint8 Bshift;
+        public byte Bshift;
 
         [FieldOffset(43)] // size = 1, padding = 0
-        public Uint8 Ashift;
+        public byte Ashift;
 
         [FieldOffset(44)] // size = 4, padding = 0
         public int refcount;
@@ -3312,7 +3313,7 @@ public static unsafe partial class SDL
         public SDL_Color* colors;
 
         [FieldOffset(16)] // size = 4, padding = 0
-        public Uint32 version;
+        public uint version;
 
         [FieldOffset(20)] // size = 4, padding = 0
         public int refcount;
@@ -3365,13 +3366,13 @@ public static unsafe partial class SDL
         public CString name;
 
         [FieldOffset(8)] // size = 4, padding = 0
-        public Uint32 flags;
+        public uint flags;
 
         [FieldOffset(12)] // size = 4, padding = 0
-        public Uint32 num_texture_formats;
+        public uint num_texture_formats;
 
         [FieldOffset(16)] // size = 4, padding = 60
-        public Uint32 texture_formats;
+        public uint texture_formats;
 
         [FieldOffset(80)] // size = 4, padding = 0
         public int max_texture_width;
@@ -3385,7 +3386,7 @@ public static unsafe partial class SDL
     public struct SDL_MessageBoxData
     {
         [FieldOffset(0)] // size = 4, padding = 4
-        public Uint32 flags;
+        public uint flags;
 
         [FieldOffset(8)] // size = 8, padding = 0
         public SDL_Window* window;
@@ -3432,13 +3433,13 @@ public static unsafe partial class SDL
     public struct SDL_MessageBoxColor
     {
         [FieldOffset(0)] // size = 1, padding = 0
-        public Uint8 r;
+        public byte r;
 
         [FieldOffset(1)] // size = 1, padding = 0
-        public Uint8 g;
+        public byte g;
 
         [FieldOffset(2)] // size = 1, padding = 0
-        public Uint8 b;
+        public byte b;
     }
 
     // Struct @ SDL_messagebox.h:63:3
@@ -3446,7 +3447,7 @@ public static unsafe partial class SDL
     public struct SDL_MessageBoxButtonData
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 flags;
+        public uint flags;
 
         [FieldOffset(4)] // size = 4, padding = 0
         public int buttonid;
@@ -3460,7 +3461,7 @@ public static unsafe partial class SDL
     public struct SDL_HapticEffect
     {
         [FieldOffset(0)] // size = 2, padding = 0
-        public Uint16 type;
+        public ushort type;
 
         [FieldOffset(0)] // size = 40, padding = 0
         public SDL_HapticConstant constant;
@@ -3486,46 +3487,46 @@ public static unsafe partial class SDL
     public struct SDL_HapticCustom
     {
         [FieldOffset(0)] // size = 2, padding = 2
-        public Uint16 type;
+        public ushort type;
 
         [FieldOffset(4)] // size = 16, padding = 0
         public SDL_HapticDirection direction;
 
         [FieldOffset(20)] // size = 4, padding = 0
-        public Uint32 length;
+        public uint length;
 
         [FieldOffset(24)] // size = 2, padding = 0
-        public Uint16 delay;
+        public ushort delay;
 
         [FieldOffset(26)] // size = 2, padding = 0
-        public Uint16 button;
+        public ushort button;
 
         [FieldOffset(28)] // size = 2, padding = 0
-        public Uint16 interval;
+        public ushort interval;
 
         [FieldOffset(30)] // size = 1, padding = 1
-        public Uint8 channels;
+        public byte channels;
 
         [FieldOffset(32)] // size = 2, padding = 0
-        public Uint16 period;
+        public ushort period;
 
         [FieldOffset(34)] // size = 2, padding = 4
-        public Uint16 samples;
+        public ushort samples;
 
         [FieldOffset(40)] // size = 8, padding = 0
-        public Uint16* data;
+        public ushort* data;
 
         [FieldOffset(48)] // size = 2, padding = 0
-        public Uint16 attack_length;
+        public ushort attack_length;
 
         [FieldOffset(50)] // size = 2, padding = 0
-        public Uint16 attack_level;
+        public ushort attack_level;
 
         [FieldOffset(52)] // size = 2, padding = 0
-        public Uint16 fade_length;
+        public ushort fade_length;
 
         [FieldOffset(54)] // size = 2, padding = 0
-        public Uint16 fade_level;
+        public ushort fade_level;
     }
 
     // Struct @ SDL_haptic.h:463:3
@@ -3533,19 +3534,19 @@ public static unsafe partial class SDL
     public struct SDL_HapticDirection
     {
         [FieldOffset(0)] // size = 1, padding = 3
-        public Uint8 type;
+        public byte type;
 
         [FieldOffset(4)] // size = 12, padding = 0
-        public fixed uint _dir[12 / 4]; // Sint32
+        public fixed int _dir[12 / 4]; // Sint32
 
-        public Span<Sint32> dir
+        public Span<int> dir
         {
             get
             {
                 fixed (SDL_HapticDirection* @this = &this)
                 {
                     var pointer = &@this->_dir[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
@@ -3557,16 +3558,16 @@ public static unsafe partial class SDL
     public struct SDL_HapticLeftRight
     {
         [FieldOffset(0)] // size = 2, padding = 2
-        public Uint16 type;
+        public ushort type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 length;
+        public uint length;
 
         [FieldOffset(8)] // size = 2, padding = 0
-        public Uint16 large_magnitude;
+        public ushort large_magnitude;
 
         [FieldOffset(10)] // size = 2, padding = 0
-        public Uint16 small_magnitude;
+        public ushort small_magnitude;
     }
 
     // Struct @ SDL_haptic.h:671:3
@@ -3574,40 +3575,40 @@ public static unsafe partial class SDL
     public struct SDL_HapticRamp
     {
         [FieldOffset(0)] // size = 2, padding = 2
-        public Uint16 type;
+        public ushort type;
 
         [FieldOffset(4)] // size = 16, padding = 0
         public SDL_HapticDirection direction;
 
         [FieldOffset(20)] // size = 4, padding = 0
-        public Uint32 length;
+        public uint length;
 
         [FieldOffset(24)] // size = 2, padding = 0
-        public Uint16 delay;
+        public ushort delay;
 
         [FieldOffset(26)] // size = 2, padding = 0
-        public Uint16 button;
+        public ushort button;
 
         [FieldOffset(28)] // size = 2, padding = 0
-        public Uint16 interval;
+        public ushort interval;
 
         [FieldOffset(30)] // size = 2, padding = 0
-        public Sint16 start;
+        public short start;
 
         [FieldOffset(32)] // size = 2, padding = 0
-        public Sint16 end;
+        public short end;
 
         [FieldOffset(34)] // size = 2, padding = 0
-        public Uint16 attack_length;
+        public ushort attack_length;
 
         [FieldOffset(36)] // size = 2, padding = 0
-        public Uint16 attack_level;
+        public ushort attack_level;
 
         [FieldOffset(38)] // size = 2, padding = 0
-        public Uint16 fade_length;
+        public ushort fade_length;
 
         [FieldOffset(40)] // size = 2, padding = 2
-        public Uint16 fade_level;
+        public ushort fade_level;
     }
 
     // Struct @ SDL_haptic.h:633:3
@@ -3615,40 +3616,40 @@ public static unsafe partial class SDL
     public struct SDL_HapticCondition
     {
         [FieldOffset(0)] // size = 2, padding = 2
-        public Uint16 type;
+        public ushort type;
 
         [FieldOffset(4)] // size = 16, padding = 0
         public SDL_HapticDirection direction;
 
         [FieldOffset(20)] // size = 4, padding = 0
-        public Uint32 length;
+        public uint length;
 
         [FieldOffset(24)] // size = 2, padding = 0
-        public Uint16 delay;
+        public ushort delay;
 
         [FieldOffset(26)] // size = 2, padding = 0
-        public Uint16 button;
+        public ushort button;
 
         [FieldOffset(28)] // size = 2, padding = 0
-        public Uint16 interval;
+        public ushort interval;
 
         [FieldOffset(30)] // size = 2, padding = 4
-        public Uint16 right_sat;
+        public ushort right_sat;
 
         [FieldOffset(36)] // size = 2, padding = 4
-        public Uint16 left_sat;
+        public ushort left_sat;
 
         [FieldOffset(42)] // size = 2, padding = 4
-        public Sint16 right_coeff;
+        public short right_coeff;
 
         [FieldOffset(48)] // size = 2, padding = 4
-        public Sint16 left_coeff;
+        public short left_coeff;
 
         [FieldOffset(54)] // size = 2, padding = 4
-        public Uint16 deadband;
+        public ushort deadband;
 
         [FieldOffset(60)] // size = 2, padding = 6
-        public Sint16 center;
+        public short center;
     }
 
     // Struct @ SDL_haptic.h:585:3
@@ -3656,46 +3657,46 @@ public static unsafe partial class SDL
     public struct SDL_HapticPeriodic
     {
         [FieldOffset(0)] // size = 2, padding = 2
-        public Uint16 type;
+        public ushort type;
 
         [FieldOffset(4)] // size = 16, padding = 0
         public SDL_HapticDirection direction;
 
         [FieldOffset(20)] // size = 4, padding = 0
-        public Uint32 length;
+        public uint length;
 
         [FieldOffset(24)] // size = 2, padding = 0
-        public Uint16 delay;
+        public ushort delay;
 
         [FieldOffset(26)] // size = 2, padding = 0
-        public Uint16 button;
+        public ushort button;
 
         [FieldOffset(28)] // size = 2, padding = 0
-        public Uint16 interval;
+        public ushort interval;
 
         [FieldOffset(30)] // size = 2, padding = 0
-        public Uint16 period;
+        public ushort period;
 
         [FieldOffset(32)] // size = 2, padding = 0
-        public Sint16 magnitude;
+        public short magnitude;
 
         [FieldOffset(34)] // size = 2, padding = 0
-        public Sint16 offset;
+        public short offset;
 
         [FieldOffset(36)] // size = 2, padding = 0
-        public Uint16 phase;
+        public ushort phase;
 
         [FieldOffset(38)] // size = 2, padding = 0
-        public Uint16 attack_length;
+        public ushort attack_length;
 
         [FieldOffset(40)] // size = 2, padding = 0
-        public Uint16 attack_level;
+        public ushort attack_level;
 
         [FieldOffset(42)] // size = 2, padding = 0
-        public Uint16 fade_length;
+        public ushort fade_length;
 
         [FieldOffset(44)] // size = 2, padding = 2
-        public Uint16 fade_level;
+        public ushort fade_level;
     }
 
     // Struct @ SDL_haptic.h:499:3
@@ -3703,37 +3704,37 @@ public static unsafe partial class SDL
     public struct SDL_HapticConstant
     {
         [FieldOffset(0)] // size = 2, padding = 2
-        public Uint16 type;
+        public ushort type;
 
         [FieldOffset(4)] // size = 16, padding = 0
         public SDL_HapticDirection direction;
 
         [FieldOffset(20)] // size = 4, padding = 0
-        public Uint32 length;
+        public uint length;
 
         [FieldOffset(24)] // size = 2, padding = 0
-        public Uint16 delay;
+        public ushort delay;
 
         [FieldOffset(26)] // size = 2, padding = 0
-        public Uint16 button;
+        public ushort button;
 
         [FieldOffset(28)] // size = 2, padding = 0
-        public Uint16 interval;
+        public ushort interval;
 
         [FieldOffset(30)] // size = 2, padding = 0
-        public Sint16 level;
+        public short level;
 
         [FieldOffset(32)] // size = 2, padding = 0
-        public Uint16 attack_length;
+        public ushort attack_length;
 
         [FieldOffset(34)] // size = 2, padding = 0
-        public Uint16 attack_level;
+        public ushort attack_level;
 
         [FieldOffset(36)] // size = 2, padding = 0
-        public Uint16 fade_length;
+        public ushort fade_length;
 
         [FieldOffset(38)] // size = 2, padding = 0
-        public Uint16 fade_level;
+        public ushort fade_level;
     }
 
     // Struct @ SDL_events.h:631:3
@@ -3741,7 +3742,7 @@ public static unsafe partial class SDL
     public struct SDL_Event
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(0)] // size = 8, padding = 0
         public SDL_CommonEvent common;
@@ -3828,7 +3829,7 @@ public static unsafe partial class SDL
         public SDL_DropEvent drop;
 
         [FieldOffset(0)] // size = 1, padding = 55
-        public Uint8 padding;
+        public byte padding;
     }
 
     // Struct @ SDL_events.h:526:3
@@ -3836,16 +3837,16 @@ public static unsafe partial class SDL
     public struct SDL_DropEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 8, padding = 0
         public CString file;
 
         [FieldOffset(16)] // size = 4, padding = 4
-        public Uint32 windowID;
+        public uint windowID;
     }
 
     // Struct @ SDL_events.h:512:3
@@ -3853,10 +3854,10 @@ public static unsafe partial class SDL
     public struct SDL_DollarGestureEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 8, padding = 0
         public SDL_TouchID touchId;
@@ -3865,7 +3866,7 @@ public static unsafe partial class SDL
         public SDL_GestureID gestureId;
 
         [FieldOffset(24)] // size = 4, padding = 0
-        public Uint32 numFingers;
+        public uint numFingers;
 
         [FieldOffset(28)] // size = 4, padding = 0
         public float error;
@@ -3882,10 +3883,10 @@ public static unsafe partial class SDL
     public struct SDL_MultiGestureEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 8, padding = 0
         public SDL_TouchID touchId;
@@ -3903,10 +3904,10 @@ public static unsafe partial class SDL
         public float y;
 
         [FieldOffset(32)] // size = 2, padding = 0
-        public Uint16 numFingers;
+        public ushort numFingers;
 
         [FieldOffset(34)] // size = 2, padding = 4
-        public Uint16 padding;
+        public ushort padding;
     }
 
     // Struct @ SDL_events.h:479:3
@@ -3914,10 +3915,10 @@ public static unsafe partial class SDL
     public struct SDL_TouchFingerEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 8, padding = 0
         public SDL_TouchID touchId;
@@ -3941,7 +3942,7 @@ public static unsafe partial class SDL
         public float pressure;
 
         [FieldOffset(44)] // size = 4, padding = 0
-        public Uint32 windowID;
+        public uint windowID;
     }
 
     // Struct @ SDL_events.h:586:3
@@ -3949,10 +3950,10 @@ public static unsafe partial class SDL
     public struct SDL_SysWMEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 8, padding = 0
         public SDL_SysWMmsg* msg;
@@ -3963,25 +3964,25 @@ public static unsafe partial class SDL
     public struct SDL_UserEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 4, padding = 0
-        public Uint32 windowID;
+        public uint windowID;
 
         [FieldOffset(12)] // size = 12, padding = -8
-        public fixed uint _code[12 / 4]; // Sint32
+        public fixed int _code[12 / 4]; // Sint32
 
-        public Span<Sint32> code
+        public Span<int> code
         {
             get
             {
                 fixed (SDL_UserEvent* @this = &this)
                 {
                     var pointer = &@this->_code[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
@@ -3999,10 +4000,10 @@ public static unsafe partial class SDL
     public struct SDL_QuitEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
     }
 
     // Struct @ SDL_events.h:538:3
@@ -4010,22 +4011,22 @@ public static unsafe partial class SDL
     public struct SDL_SensorEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 12, padding = -8
-        public fixed uint _which[12 / 4]; // Sint32
+        public fixed int _which[12 / 4]; // Sint32
 
-        public Span<Sint32> which
+        public Span<int> which
         {
             get
             {
                 fixed (SDL_SensorEvent* @this = &this)
                 {
                     var pointer = &@this->_which[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
@@ -4040,25 +4041,25 @@ public static unsafe partial class SDL
     public struct SDL_AudioDeviceEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 4, padding = 0
-        public Uint32 which;
+        public uint which;
 
         [FieldOffset(12)] // size = 1, padding = 0
-        public Uint8 iscapture;
+        public byte iscapture;
 
         [FieldOffset(13)] // size = 1, padding = 0
-        public Uint8 padding1;
+        public byte padding1;
 
         [FieldOffset(14)] // size = 1, padding = 0
-        public Uint8 padding2;
+        public byte padding2;
 
         [FieldOffset(15)] // size = 1, padding = 0
-        public Uint8 padding3;
+        public byte padding3;
     }
 
     // Struct @ SDL_events.h:447:3
@@ -4066,25 +4067,25 @@ public static unsafe partial class SDL
     public struct SDL_ControllerSensorEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 4, padding = 0
         public SDL_JoystickID which;
 
         [FieldOffset(12)] // size = 12, padding = -8
-        public fixed uint _sensor[12 / 4]; // Sint32
+        public fixed int _sensor[12 / 4]; // Sint32
 
-        public Span<Sint32> sensor
+        public Span<int> sensor
         {
             get
             {
                 fixed (SDL_ControllerSensorEvent* @this = &this)
                 {
                     var pointer = &@this->_sensor[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
@@ -4099,41 +4100,41 @@ public static unsafe partial class SDL
     public struct SDL_ControllerTouchpadEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 4, padding = 0
         public SDL_JoystickID which;
 
         [FieldOffset(12)] // size = 12, padding = -8
-        public fixed uint _touchpad[12 / 4]; // Sint32
+        public fixed int _touchpad[12 / 4]; // Sint32
 
-        public Span<Sint32> touchpad
+        public Span<int> touchpad
         {
             get
             {
                 fixed (SDL_ControllerTouchpadEvent* @this = &this)
                 {
                     var pointer = &@this->_touchpad[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
         }
 
         [FieldOffset(16)] // size = 12, padding = -8
-        public fixed uint _finger[12 / 4]; // Sint32
+        public fixed int _finger[12 / 4]; // Sint32
 
-        public Span<Sint32> finger
+        public Span<int> finger
         {
             get
             {
                 fixed (SDL_ControllerTouchpadEvent* @this = &this)
                 {
                     var pointer = &@this->_finger[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
@@ -4154,22 +4155,22 @@ public static unsafe partial class SDL
     public struct SDL_ControllerDeviceEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 12, padding = -8
-        public fixed uint _which[12 / 4]; // Sint32
+        public fixed int _which[12 / 4]; // Sint32
 
-        public Span<Sint32> which
+        public Span<int> which
         {
             get
             {
                 fixed (SDL_ControllerDeviceEvent* @this = &this)
                 {
                     var pointer = &@this->_which[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
@@ -4181,25 +4182,25 @@ public static unsafe partial class SDL
     public struct SDL_ControllerButtonEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 4, padding = 0
         public SDL_JoystickID which;
 
         [FieldOffset(12)] // size = 1, padding = 0
-        public Uint8 button;
+        public byte button;
 
         [FieldOffset(13)] // size = 1, padding = 0
-        public Uint8 state;
+        public byte state;
 
         [FieldOffset(14)] // size = 1, padding = 0
-        public Uint8 padding1;
+        public byte padding1;
 
         [FieldOffset(15)] // size = 1, padding = 0
-        public Uint8 padding2;
+        public byte padding2;
     }
 
     // Struct @ SDL_events.h:394:3
@@ -4207,31 +4208,31 @@ public static unsafe partial class SDL
     public struct SDL_ControllerAxisEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 4, padding = 0
         public SDL_JoystickID which;
 
         [FieldOffset(12)] // size = 1, padding = 0
-        public Uint8 axis;
+        public byte axis;
 
         [FieldOffset(13)] // size = 1, padding = 0
-        public Uint8 padding1;
+        public byte padding1;
 
         [FieldOffset(14)] // size = 1, padding = 0
-        public Uint8 padding2;
+        public byte padding2;
 
         [FieldOffset(15)] // size = 1, padding = 0
-        public Uint8 padding3;
+        public byte padding3;
 
         [FieldOffset(16)] // size = 2, padding = 0
-        public Sint16 value;
+        public short value;
 
         [FieldOffset(18)] // size = 2, padding = 0
-        public Uint16 padding4;
+        public ushort padding4;
     }
 
     // Struct @ SDL_events.h:377:3
@@ -4239,22 +4240,22 @@ public static unsafe partial class SDL
     public struct SDL_JoyDeviceEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 12, padding = -8
-        public fixed uint _which[12 / 4]; // Sint32
+        public fixed int _which[12 / 4]; // Sint32
 
-        public Span<Sint32> which
+        public Span<int> which
         {
             get
             {
                 fixed (SDL_JoyDeviceEvent* @this = &this)
                 {
                     var pointer = &@this->_which[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
@@ -4266,25 +4267,25 @@ public static unsafe partial class SDL
     public struct SDL_JoyButtonEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 4, padding = 0
         public SDL_JoystickID which;
 
         [FieldOffset(12)] // size = 1, padding = 0
-        public Uint8 button;
+        public byte button;
 
         [FieldOffset(13)] // size = 1, padding = 0
-        public Uint8 state;
+        public byte state;
 
         [FieldOffset(14)] // size = 1, padding = 0
-        public Uint8 padding1;
+        public byte padding1;
 
         [FieldOffset(15)] // size = 1, padding = 0
-        public Uint8 padding2;
+        public byte padding2;
     }
 
     // Struct @ SDL_events.h:353:3
@@ -4292,25 +4293,25 @@ public static unsafe partial class SDL
     public struct SDL_JoyHatEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 4, padding = 0
         public SDL_JoystickID which;
 
         [FieldOffset(12)] // size = 1, padding = 0
-        public Uint8 hat;
+        public byte hat;
 
         [FieldOffset(13)] // size = 1, padding = 0
-        public Uint8 value;
+        public byte value;
 
         [FieldOffset(14)] // size = 1, padding = 0
-        public Uint8 padding1;
+        public byte padding1;
 
         [FieldOffset(15)] // size = 1, padding = 0
-        public Uint8 padding2;
+        public byte padding2;
     }
 
     // Struct @ SDL_events.h:333:3
@@ -4318,31 +4319,31 @@ public static unsafe partial class SDL
     public struct SDL_JoyBallEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 4, padding = 0
         public SDL_JoystickID which;
 
         [FieldOffset(12)] // size = 1, padding = 0
-        public Uint8 ball;
+        public byte ball;
 
         [FieldOffset(13)] // size = 1, padding = 0
-        public Uint8 padding1;
+        public byte padding1;
 
         [FieldOffset(14)] // size = 1, padding = 0
-        public Uint8 padding2;
+        public byte padding2;
 
         [FieldOffset(15)] // size = 1, padding = 0
-        public Uint8 padding3;
+        public byte padding3;
 
         [FieldOffset(16)] // size = 2, padding = 0
-        public Sint16 xrel;
+        public short xrel;
 
         [FieldOffset(18)] // size = 2, padding = 0
-        public Sint16 yrel;
+        public short yrel;
     }
 
     // Struct @ SDL_events.h:317:3
@@ -4350,31 +4351,31 @@ public static unsafe partial class SDL
     public struct SDL_JoyAxisEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 4, padding = 0
         public SDL_JoystickID which;
 
         [FieldOffset(12)] // size = 1, padding = 0
-        public Uint8 axis;
+        public byte axis;
 
         [FieldOffset(13)] // size = 1, padding = 0
-        public Uint8 padding1;
+        public byte padding1;
 
         [FieldOffset(14)] // size = 1, padding = 0
-        public Uint8 padding2;
+        public byte padding2;
 
         [FieldOffset(15)] // size = 1, padding = 0
-        public Uint8 padding3;
+        public byte padding3;
 
         [FieldOffset(16)] // size = 2, padding = 0
-        public Sint16 value;
+        public short value;
 
         [FieldOffset(18)] // size = 2, padding = 0
-        public Uint16 padding4;
+        public ushort padding4;
     }
 
     // Struct @ SDL_events.h:301:3
@@ -4382,51 +4383,51 @@ public static unsafe partial class SDL
     public struct SDL_MouseWheelEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 4, padding = 0
-        public Uint32 windowID;
+        public uint windowID;
 
         [FieldOffset(12)] // size = 4, padding = 0
-        public Uint32 which;
+        public uint which;
 
         [FieldOffset(16)] // size = 12, padding = -8
-        public fixed uint _x[12 / 4]; // Sint32
+        public fixed int _x[12 / 4]; // Sint32
 
-        public Span<Sint32> x
+        public Span<int> x
         {
             get
             {
                 fixed (SDL_MouseWheelEvent* @this = &this)
                 {
                     var pointer = &@this->_x[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
         }
 
         [FieldOffset(20)] // size = 12, padding = -8
-        public fixed uint _y[12 / 4]; // Sint32
+        public fixed int _y[12 / 4]; // Sint32
 
-        public Span<Sint32> y
+        public Span<int> y
         {
             get
             {
                 fixed (SDL_MouseWheelEvent* @this = &this)
                 {
                     var pointer = &@this->_y[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
         }
 
         [FieldOffset(24)] // size = 4, padding = 0
-        public Uint32 direction;
+        public uint direction;
     }
 
     // Struct @ SDL_events.h:287:3
@@ -4434,56 +4435,56 @@ public static unsafe partial class SDL
     public struct SDL_MouseButtonEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 4, padding = 0
-        public Uint32 windowID;
+        public uint windowID;
 
         [FieldOffset(12)] // size = 4, padding = 0
-        public Uint32 which;
+        public uint which;
 
         [FieldOffset(16)] // size = 1, padding = 0
-        public Uint8 button;
+        public byte button;
 
         [FieldOffset(17)] // size = 1, padding = 0
-        public Uint8 state;
+        public byte state;
 
         [FieldOffset(18)] // size = 1, padding = 0
-        public Uint8 clicks;
+        public byte clicks;
 
         [FieldOffset(19)] // size = 1, padding = 0
-        public Uint8 padding1;
+        public byte padding1;
 
         [FieldOffset(20)] // size = 12, padding = -8
-        public fixed uint _x[12 / 4]; // Sint32
+        public fixed int _x[12 / 4]; // Sint32
 
-        public Span<Sint32> x
+        public Span<int> x
         {
             get
             {
                 fixed (SDL_MouseButtonEvent* @this = &this)
                 {
                     var pointer = &@this->_x[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
         }
 
         [FieldOffset(24)] // size = 12, padding = -8
-        public fixed uint _y[12 / 4]; // Sint32
+        public fixed int _y[12 / 4]; // Sint32
 
-        public Span<Sint32> y
+        public Span<int> y
         {
             get
             {
                 fixed (SDL_MouseButtonEvent* @this = &this)
                 {
                     var pointer = &@this->_y[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
@@ -4495,79 +4496,79 @@ public static unsafe partial class SDL
     public struct SDL_MouseMotionEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 4, padding = 0
-        public Uint32 windowID;
+        public uint windowID;
 
         [FieldOffset(12)] // size = 4, padding = 0
-        public Uint32 which;
+        public uint which;
 
         [FieldOffset(16)] // size = 4, padding = 0
-        public Uint32 state;
+        public uint state;
 
         [FieldOffset(20)] // size = 12, padding = -8
-        public fixed uint _x[12 / 4]; // Sint32
+        public fixed int _x[12 / 4]; // Sint32
 
-        public Span<Sint32> x
+        public Span<int> x
         {
             get
             {
                 fixed (SDL_MouseMotionEvent* @this = &this)
                 {
                     var pointer = &@this->_x[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
         }
 
         [FieldOffset(24)] // size = 12, padding = -8
-        public fixed uint _y[12 / 4]; // Sint32
+        public fixed int _y[12 / 4]; // Sint32
 
-        public Span<Sint32> y
+        public Span<int> y
         {
             get
             {
                 fixed (SDL_MouseMotionEvent* @this = &this)
                 {
                     var pointer = &@this->_y[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
         }
 
         [FieldOffset(28)] // size = 12, padding = -8
-        public fixed uint _xrel[12 / 4]; // Sint32
+        public fixed int _xrel[12 / 4]; // Sint32
 
-        public Span<Sint32> xrel
+        public Span<int> xrel
         {
             get
             {
                 fixed (SDL_MouseMotionEvent* @this = &this)
                 {
                     var pointer = &@this->_xrel[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
         }
 
         [FieldOffset(32)] // size = 12, padding = -8
-        public fixed uint _yrel[12 / 4]; // Sint32
+        public fixed int _yrel[12 / 4]; // Sint32
 
-        public Span<Sint32> yrel
+        public Span<int> yrel
         {
             get
             {
                 fixed (SDL_MouseMotionEvent* @this = &this)
                 {
                     var pointer = &@this->_yrel[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
@@ -4579,13 +4580,13 @@ public static unsafe partial class SDL
     public struct SDL_TextInputEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 4, padding = 0
-        public Uint32 windowID;
+        public uint windowID;
 
         [FieldOffset(12)] // size = 1, padding = 31
         public byte text;
@@ -4596,44 +4597,44 @@ public static unsafe partial class SDL
     public struct SDL_TextEditingEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 4, padding = 0
-        public Uint32 windowID;
+        public uint windowID;
 
         [FieldOffset(12)] // size = 1, padding = 31
         public byte text;
 
         [FieldOffset(44)] // size = 12, padding = -8
-        public fixed uint _start[12 / 4]; // Sint32
+        public fixed int _start[12 / 4]; // Sint32
 
-        public Span<Sint32> start
+        public Span<int> start
         {
             get
             {
                 fixed (SDL_TextEditingEvent* @this = &this)
                 {
                     var pointer = &@this->_start[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
         }
 
         [FieldOffset(48)] // size = 12, padding = -8
-        public fixed uint _length[12 / 4]; // Sint32
+        public fixed int _length[12 / 4]; // Sint32
 
-        public Span<Sint32> length
+        public Span<int> length
         {
             get
             {
                 fixed (SDL_TextEditingEvent* @this = &this)
                 {
                     var pointer = &@this->_length[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
@@ -4645,25 +4646,25 @@ public static unsafe partial class SDL
     public struct SDL_KeyboardEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 4, padding = 0
-        public Uint32 windowID;
+        public uint windowID;
 
         [FieldOffset(12)] // size = 1, padding = 0
-        public Uint8 state;
+        public byte state;
 
         [FieldOffset(13)] // size = 1, padding = 0
-        public Uint8 repeat;
+        public byte repeat;
 
         [FieldOffset(14)] // size = 1, padding = 0
-        public Uint8 padding2;
+        public byte padding2;
 
         [FieldOffset(15)] // size = 1, padding = 0
-        public Uint8 padding3;
+        public byte padding3;
 
         [FieldOffset(16)] // size = 16, padding = 0
         public SDL_Keysym keysym;
@@ -4680,10 +4681,10 @@ public static unsafe partial class SDL
         public SDL_Keycode sym;
 
         [FieldOffset(8)] // size = 2, padding = 2
-        public Uint16 mod;
+        public ushort mod;
 
         [FieldOffset(12)] // size = 4, padding = 0
-        public Uint32 unused;
+        public uint unused;
     }
 
     // Struct @ SDL_events.h:212:3
@@ -4691,53 +4692,53 @@ public static unsafe partial class SDL
     public struct SDL_WindowEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 4, padding = 0
-        public Uint32 windowID;
+        public uint windowID;
 
         [FieldOffset(12)] // size = 1, padding = 0
-        public Uint8 @event;
+        public byte @event;
 
         [FieldOffset(13)] // size = 1, padding = 0
-        public Uint8 padding1;
+        public byte padding1;
 
         [FieldOffset(14)] // size = 1, padding = 0
-        public Uint8 padding2;
+        public byte padding2;
 
         [FieldOffset(15)] // size = 1, padding = 0
-        public Uint8 padding3;
+        public byte padding3;
 
         [FieldOffset(16)] // size = 12, padding = -8
-        public fixed uint _data1[12 / 4]; // Sint32
+        public fixed int _data1[12 / 4]; // Sint32
 
-        public Span<Sint32> data1
+        public Span<int> data1
         {
             get
             {
                 fixed (SDL_WindowEvent* @this = &this)
                 {
                     var pointer = &@this->_data1[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
         }
 
         [FieldOffset(20)] // size = 12, padding = -8
-        public fixed uint _data2[12 / 4]; // Sint32
+        public fixed int _data2[12 / 4]; // Sint32
 
-        public Span<Sint32> data2
+        public Span<int> data2
         {
             get
             {
                 fixed (SDL_WindowEvent* @this = &this)
                 {
                     var pointer = &@this->_data2[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
@@ -4749,37 +4750,37 @@ public static unsafe partial class SDL
     public struct SDL_DisplayEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
 
         [FieldOffset(8)] // size = 4, padding = 0
-        public Uint32 display;
+        public uint display;
 
         [FieldOffset(12)] // size = 1, padding = 0
-        public Uint8 @event;
+        public byte @event;
 
         [FieldOffset(13)] // size = 1, padding = 0
-        public Uint8 padding1;
+        public byte padding1;
 
         [FieldOffset(14)] // size = 1, padding = 0
-        public Uint8 padding2;
+        public byte padding2;
 
         [FieldOffset(15)] // size = 1, padding = 0
-        public Uint8 padding3;
+        public byte padding3;
 
         [FieldOffset(16)] // size = 12, padding = -8
-        public fixed uint _data1[12 / 4]; // Sint32
+        public fixed int _data1[12 / 4]; // Sint32
 
-        public Span<Sint32> data1
+        public Span<int> data1
         {
             get
             {
                 fixed (SDL_DisplayEvent* @this = &this)
                 {
                     var pointer = &@this->_data1[0];
-                    var span = new Span<Sint32>(pointer, 3);
+                    var span = new Span<int>(pointer, 3);
                     return span;
                 }
             }
@@ -4791,10 +4792,10 @@ public static unsafe partial class SDL
     public struct SDL_CommonEvent
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 type;
+        public uint type;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public Uint32 timestamp;
+        public uint timestamp;
     }
 
     // Struct @ SDL_touch.h:58:3
@@ -4855,7 +4856,7 @@ public static unsafe partial class SDL
     public struct SDL_JoystickGUID
     {
         [FieldOffset(0)] // size = 1, padding = 15
-        public Uint8 data;
+        public byte data;
     }
 
     // Struct @ SDL_video.h:60:3
@@ -4863,7 +4864,7 @@ public static unsafe partial class SDL
     public struct SDL_DisplayMode
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 format;
+        public uint format;
 
         [FieldOffset(4)] // size = 4, padding = 0
         public int w;
@@ -4895,7 +4896,7 @@ public static unsafe partial class SDL
         public double rate_incr;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public Uint8* buf;
+        public byte* buf;
 
         [FieldOffset(24)] // size = 4, padding = 0
         public int len;
@@ -4940,19 +4941,19 @@ public static unsafe partial class SDL
         public SDL_AudioFormat format;
 
         [FieldOffset(6)] // size = 1, padding = 0
-        public Uint8 channels;
+        public byte channels;
 
         [FieldOffset(7)] // size = 1, padding = 0
-        public Uint8 silence;
+        public byte silence;
 
         [FieldOffset(8)] // size = 2, padding = 0
-        public Uint16 samples;
+        public ushort samples;
 
         [FieldOffset(10)] // size = 2, padding = 0
-        public Uint16 padding;
+        public ushort padding;
 
         [FieldOffset(12)] // size = 4, padding = 0
-        public Uint32 size;
+        public uint size;
 
         [FieldOffset(16)] // size = 8, padding = 0
         public SDL_AudioCallback callback;
@@ -5109,28 +5110,6 @@ public static unsafe partial class SDL
     {
     }
 
-    // Typedef @ SDL_stdinc.h:209:18
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct Uint32
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint Data;
-
-        public static implicit operator uint(Uint32 data) => data.Data;
-        public static implicit operator Uint32(uint data) => new() { Data = data };
-    }
-
-    // Typedef @ SDL_stdinc.h:185:17
-    [StructLayout(LayoutKind.Explicit, Size = 1, Pack = 1)]
-    public struct Uint8
-    {
-        [FieldOffset(0)] // size = 1, padding = 0
-        public byte Data;
-
-        public static implicit operator byte(Uint8 data) => data.Data;
-        public static implicit operator Uint8(byte data) => new() { Data = data };
-    }
-
     // Typedef @ SDL_timer.h:116:13
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct SDL_TimerID
@@ -5142,70 +5121,15 @@ public static unsafe partial class SDL
         public static implicit operator SDL_TimerID(int data) => new() { Data = data };
     }
 
-    // Typedef @ SDL_stdinc.h:222:18
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct Uint64
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ulong Data;
-
-        public static implicit operator ulong(Uint64 data) => data.Data;
-        public static implicit operator Uint64(ulong data) => new() { Data = data };
-    }
-
-    // Typedef @ SDL_stdinc.h:203:17
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct Sint32
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int Data;
-
-        public static implicit operator int(Sint32 data) => data.Data;
-        public static implicit operator Sint32(int data) => new() { Data = data };
-    }
-
-    // Typedef @ SDL_stdinc.h:191:17
-    [StructLayout(LayoutKind.Explicit, Size = 2, Pack = 2)]
-    public struct Sint16
-    {
-        [FieldOffset(0)] // size = 2, padding = 0
-        public short Data;
-
-        public static implicit operator short(Sint16 data) => data.Data;
-        public static implicit operator Sint16(short data) => new() { Data = data };
-    }
-
-    // Typedef @ SDL_stdinc.h:197:18
-    [StructLayout(LayoutKind.Explicit, Size = 2, Pack = 2)]
-    public struct Uint16
-    {
-        [FieldOffset(0)] // size = 2, padding = 0
-        public ushort Data;
-
-        public static implicit operator ushort(Uint16 data) => data.Data;
-        public static implicit operator Uint16(ushort data) => new() { Data = data };
-    }
-
     // Typedef @ SDL_gesture.h:44:16
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct SDL_GestureID
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public Sint64 Data;
-
-        public static implicit operator Sint64(SDL_GestureID data) => data.Data;
-        public static implicit operator SDL_GestureID(Sint64 data) => new() { Data = data };
-    }
-
-    // Typedef @ SDL_stdinc.h:216:17
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct Sint64
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
         public long Data;
 
-        public static implicit operator long(Sint64 data) => data.Data;
-        public static implicit operator Sint64(long data) => new() { Data = data };
+        public static implicit operator long(SDL_GestureID data) => data.Data;
+        public static implicit operator SDL_GestureID(long data) => new() { Data = data };
     }
 
     // Typedef @ SDL_touch.h:41:16
@@ -5213,10 +5137,10 @@ public static unsafe partial class SDL
     public struct SDL_TouchID
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public Sint64 Data;
+        public long Data;
 
-        public static implicit operator Sint64(SDL_TouchID data) => data.Data;
-        public static implicit operator SDL_TouchID(Sint64 data) => new() { Data = data };
+        public static implicit operator long(SDL_TouchID data) => data.Data;
+        public static implicit operator SDL_TouchID(long data) => new() { Data = data };
     }
 
     // Typedef @ SDL_touch.h:42:16
@@ -5224,10 +5148,10 @@ public static unsafe partial class SDL
     public struct SDL_FingerID
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public Sint64 Data;
+        public long Data;
 
-        public static implicit operator Sint64(SDL_FingerID data) => data.Data;
-        public static implicit operator SDL_FingerID(Sint64 data) => new() { Data = data };
+        public static implicit operator long(SDL_FingerID data) => data.Data;
+        public static implicit operator SDL_FingerID(long data) => new() { Data = data };
     }
 
     // Typedef @ SDL_joystick.h:83:16
@@ -5235,10 +5159,10 @@ public static unsafe partial class SDL
     public struct SDL_JoystickID
     {
         [FieldOffset(0)] // size = 12, padding = 0
-        public Sint32 Data;
+        public int Data;
 
-        public static implicit operator Sint32(SDL_JoystickID data) => data.Data;
-        public static implicit operator SDL_JoystickID(Sint32 data) => new() { Data = data };
+        public static implicit operator int(SDL_JoystickID data) => data.Data;
+        public static implicit operator SDL_JoystickID(int data) => new() { Data = data };
     }
 
     // Typedef @ SDL_keycode.h:45:16
@@ -5246,10 +5170,10 @@ public static unsafe partial class SDL
     public struct SDL_Keycode
     {
         [FieldOffset(0)] // size = 12, padding = 0
-        public Sint32 Data;
+        public int Data;
 
-        public static implicit operator Sint32(SDL_Keycode data) => data.Data;
-        public static implicit operator SDL_Keycode(Sint32 data) => new() { Data = data };
+        public static implicit operator int(SDL_Keycode data) => data.Data;
+        public static implicit operator SDL_Keycode(int data) => new() { Data = data };
     }
 
     // Typedef @ SDL_sensor.h:60:16
@@ -5257,10 +5181,10 @@ public static unsafe partial class SDL
     public struct SDL_SensorID
     {
         [FieldOffset(0)] // size = 12, padding = 0
-        public Sint32 Data;
+        public int Data;
 
-        public static implicit operator Sint32(SDL_SensorID data) => data.Data;
-        public static implicit operator SDL_SensorID(Sint32 data) => new() { Data = data };
+        public static implicit operator int(SDL_SensorID data) => data.Data;
+        public static implicit operator SDL_SensorID(int data) => new() { Data = data };
     }
 
     // Typedef @ SDL_audio.h:345:16
@@ -5268,10 +5192,10 @@ public static unsafe partial class SDL
     public struct SDL_AudioDeviceID
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public Uint32 Data;
+        public uint Data;
 
-        public static implicit operator Uint32(SDL_AudioDeviceID data) => data.Data;
-        public static implicit operator SDL_AudioDeviceID(Uint32 data) => new() { Data = data };
+        public static implicit operator uint(SDL_AudioDeviceID data) => data.Data;
+        public static implicit operator SDL_AudioDeviceID(uint data) => new() { Data = data };
     }
 
     // Typedef @ SDL_audio.h:66:16
@@ -5279,10 +5203,10 @@ public static unsafe partial class SDL
     public struct SDL_AudioFormat
     {
         [FieldOffset(0)] // size = 2, padding = 0
-        public Uint16 Data;
+        public ushort Data;
 
-        public static implicit operator Uint16(SDL_AudioFormat data) => data.Data;
-        public static implicit operator SDL_AudioFormat(Uint16 data) => new() { Data = data };
+        public static implicit operator ushort(SDL_AudioFormat data) => data.Data;
+        public static implicit operator SDL_AudioFormat(ushort data) => new() { Data = data };
     }
 
     // Typedef @ SDL_thread.h:63:22

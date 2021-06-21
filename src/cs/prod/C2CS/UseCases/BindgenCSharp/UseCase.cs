@@ -31,6 +31,7 @@ namespace C2CS.UseCases.BindgenCSharp
             var abstractSyntaxTreeCSharp = Step(
                 "Map C abstract syntax tree to C#",
                 abstractSyntaxTreeC,
+                configuration,
                 MapCToCSharp);
 
             var codeCSharp = Step(
@@ -85,9 +86,10 @@ namespace C2CS.UseCases.BindgenCSharp
         }
 
         private static CSharpAbstractSyntaxTree MapCToCSharp(
-            CAbstractSyntaxTree abstractSyntaxTree)
+            CAbstractSyntaxTree abstractSyntaxTree,
+            Configuration configuration)
         {
-            var mapper = new CSharpMapper();
+            var mapper = new CSharpMapper(configuration);
             return mapper.AbstractSyntaxTree(abstractSyntaxTree);
         }
 

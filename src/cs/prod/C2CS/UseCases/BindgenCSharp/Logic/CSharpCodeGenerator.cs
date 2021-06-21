@@ -15,13 +15,13 @@ namespace C2CS.UseCases.BindgenCSharp
 {
 	public class CSharpCodeGenerator
 	{
-		public readonly string ClassName;
-		public readonly string LibraryName;
+		private readonly string _className;
+		private readonly string _libraryName;
 
 		public CSharpCodeGenerator(Configuration configuration)
 		{
-			ClassName = configuration.ClassName;
-			LibraryName = configuration.LibraryName;
+			_className = configuration.ClassName;
+			_libraryName = configuration.LibraryName;
 		}
 
 		public string EmitCode(CSharpAbstractSyntaxTree abstractSyntaxTree)
@@ -40,8 +40,8 @@ namespace C2CS.UseCases.BindgenCSharp
 
 			var membersToAdd = builder.ToArray();
 			var compilationUnit = EmitCompilationUnit(
-				ClassName,
-				LibraryName,
+				_className,
+				_libraryName,
 				membersToAdd);
 			return compilationUnit.ToFullString();
 		}

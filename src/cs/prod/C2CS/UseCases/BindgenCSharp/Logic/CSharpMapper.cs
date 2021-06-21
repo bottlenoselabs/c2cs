@@ -13,6 +13,8 @@ namespace C2CS.UseCases.BindgenCSharp
     public class CSharpMapper
     {
         private ImmutableDictionary<string, CType> _types = null!;
+        private readonly ImmutableDictionary<string, string> _aliasesLookup;
+        private readonly ImmutableHashSet<string> _builtinAliases;
 
         private static readonly Dictionary<string, string> BuiltInPointerFunctionMappings = new()
         {
@@ -21,22 +23,74 @@ namespace C2CS.UseCases.BindgenCSharp
             {"int (*)(void *, void *)", "FnPtrIntPointerPointer"}
         };
 
+        public CSharpMapper(Configuration configuration)
+        {
+            var aliasesLookup = new Dictionary<string, string>();
+            var builtinAliases = new HashSet<string>();
+
+            foreach (var alias in configuration.Aliases)
+            {
+                aliasesLookup.Add(alias.From, alias.To);
+
+                if (alias.To
+                    is "byte"
+                    or "sbyte"
+                    or "short"
+                    or "ushort"
+                    or "int"
+                    or "uint"
+                    or "long"
+                    or "ulong"
+                    or "CBool")
+                {
+                    builtinAliases.Add(alias.From);
+                }
+            }
+
+            _aliasesLookup = aliasesLookup.ToImmutableDictionary();
+            _builtinAliases = builtinAliases.ToImmutableHashSet();
+        }
+
         public CSharpAbstractSyntaxTree AbstractSyntaxTree(CAbstractSyntaxTree abstractSyntaxTree)
         {
             _types = abstractSyntaxTree.Types.ToImmutableDictionary(x => x.Name);
 
-            var functionExterns = CSharpFunctions(
+            var functionExterns = Functions(
                 abstractSyntaxTree.Functions);
-            var functionPointers = CSharpPointerFunctions(
+            var functionPointers = FunctionPointers(
                 abstractSyntaxTree.FunctionPointers);
-            var structs = CSharpStructs(
-                abstractSyntaxTree.Records,
-                abstractSyntaxTree.Typedefs);
-            var typedefs = CSharpTypedefs(abstractSyntaxTree.Typedefs);
-            var opaqueDataTypes = CSharpOpaqueDataTypes(
+
+            var recordsBuilder = ImmutableArray.CreateBuilder<CRecord>();
+            foreach (var record in abstractSyntaxTree.Records)
+            {
+                if (_builtinAliases.Contains(record.Type))
+                {
+                    // short circuit, prevents emitting the type
+                    continue;
+                }
+
+                recordsBuilder.Add(record);
+            }
+
+            var structs = Structs(recordsBuilder.ToImmutable());
+
+            var typedefsBuilder = ImmutableArray.CreateBuilder<CTypedef>();
+            foreach (var typedef in abstractSyntaxTree.Typedefs)
+            {
+                if (_builtinAliases.Contains(typedef.Name))
+                {
+                    // short circuit, prevents emitting the type
+                    continue;
+                }
+
+                typedefsBuilder.Add(typedef);
+            }
+
+            var typedefs = Typedefs(typedefsBuilder.ToImmutable());
+            var opaqueDataTypes = OpaqueDataTypes(
                 abstractSyntaxTree.OpaqueTypes);
-            var enums = CSharpEnums(abstractSyntaxTree.Enums);
-            var variables = CSharpVariablesExtern(abstractSyntaxTree.Variables);
+            var enums = Enums(abstractSyntaxTree.Enums);
+            var variables = Variables(abstractSyntaxTree.Variables);
 
             var result = new CSharpAbstractSyntaxTree(
                 functionExterns,
@@ -52,7 +106,7 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private ImmutableArray<CSharpFunction> CSharpFunctions(
+        private ImmutableArray<CSharpFunction> Functions(
             ImmutableArray<CFunction> clangFunctionExterns)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpFunction>(clangFunctionExterns.Length);
@@ -60,7 +114,7 @@ namespace C2CS.UseCases.BindgenCSharp
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangFunctionExtern in clangFunctionExterns)
             {
-                var functionExtern = CSharpFunction(clangFunctionExtern);
+                var functionExtern = Function(clangFunctionExtern);
                 builder.Add(functionExtern);
             }
 
@@ -68,13 +122,13 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private CSharpFunction CSharpFunction(CFunction cFunction)
+        private CSharpFunction Function(CFunction cFunction)
         {
             var name = cFunction.Name;
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cFunction);
+            var originalCodeLocationComment = OriginalCodeLocationComment(cFunction);
 
             var cType = CType(cFunction.ReturnType);
-            var returnType = CSharpType(cType);
+            var returnType = Type(cType);
             var callingConvention = CSharpFunctionCallingConvention(cFunction.CallingConvention);
             var parameters = CSharpFunctionParameters(cFunction.Parameters);
 
@@ -123,7 +177,7 @@ namespace C2CS.UseCases.BindgenCSharp
                 var parameterName = CSharpUniqueParameterName(clangFunctionExternParameter.Name, parameterNames);
                 parameterNames.Add(parameterName);
                 var functionExternParameter =
-                    CSharpFunctionExternParameter(clangFunctionExternParameter, parameterName);
+                    FunctionParameter(clangFunctionExternParameter, parameterName);
                 builder.Add(functionExternParameter);
             }
 
@@ -169,13 +223,13 @@ namespace C2CS.UseCases.BindgenCSharp
             }
         }
 
-        private CSharpFunctionParameter CSharpFunctionExternParameter(
+        private CSharpFunctionParameter FunctionParameter(
             CFunctionParameter cFunctionParameter, string parameterName)
         {
-            var name = CSharpSanitizeIdentifier(parameterName);
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cFunctionParameter);
+            var name = SanitizeIdentifier(parameterName);
+            var originalCodeLocationComment = OriginalCodeLocationComment(cFunctionParameter);
             var cType = CType(cFunctionParameter.Type);
-            var type = CSharpType(cType);
+            var type = Type(cType);
 
             var result = new CSharpFunctionParameter(
                 name,
@@ -185,7 +239,7 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private ImmutableArray<CSharpFunctionPointer> CSharpPointerFunctions(
+        private ImmutableArray<CSharpFunctionPointer> FunctionPointers(
             ImmutableArray<CFunctionPointer> clangFunctionPointers)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpFunctionPointer>(clangFunctionPointers.Length);
@@ -193,7 +247,7 @@ namespace C2CS.UseCases.BindgenCSharp
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangFunctionPointer in clangFunctionPointers)
             {
-                var functionPointer = CSharpPointerFunction(clangFunctionPointer)!;
+                var functionPointer = FunctionPointer(clangFunctionPointer)!;
                 builder.Add(functionPointer);
             }
 
@@ -201,9 +255,9 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private CSharpFunctionPointer? CSharpPointerFunction(CFunctionPointer cFunctionPointer)
+        private CSharpFunctionPointer? FunctionPointer(CFunctionPointer cFunctionPointer)
         {
-            if (IsBuiltinPointerFunction(cFunctionPointer.Type))
+            if (IsBuiltinFunctionPointer(cFunctionPointer.Type))
             {
                 return null;
             }
@@ -214,12 +268,12 @@ namespace C2CS.UseCases.BindgenCSharp
                 name = $"FnPtr_{cFunctionPointer.Name}";
             }
 
-            var isBuiltIn = IsBuiltinPointerFunction(cFunctionPointer.Type);
+            var isBuiltIn = IsBuiltinFunctionPointer(cFunctionPointer.Type);
 
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cFunctionPointer);
+            var originalCodeLocationComment = OriginalCodeLocationComment(cFunctionPointer);
             var cType = CType(cFunctionPointer.Type);
-            var returnType = CSharpType(cType);
-            var parameters = CSharpPointerFunctionParameters(cFunctionPointer.Parameters);
+            var returnType = Type(cType);
+            var parameters = FunctionPointerParameters(cFunctionPointer.Parameters);
 
             var result = new CSharpFunctionPointer(
                 name,
@@ -231,7 +285,7 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private ImmutableArray<CSharpFunctionPointerParameter> CSharpPointerFunctionParameters(
+        private ImmutableArray<CSharpFunctionPointerParameter> FunctionPointerParameters(
             ImmutableArray<CFunctionPointerParameter> clangFunctionPointerParameters)
         {
             var builder =
@@ -244,7 +298,7 @@ namespace C2CS.UseCases.BindgenCSharp
                 var parameterName = CSharpUniqueParameterName(clangFunctionPointerParameter.Name, parameterNames);
                 parameterNames.Add(parameterName);
                 var functionExternParameter =
-                    CSharpPointerFunctionParameter(clangFunctionPointerParameter, parameterName);
+                    FunctionPointerParameter(clangFunctionPointerParameter, parameterName);
                 builder.Add(functionExternParameter);
             }
 
@@ -252,13 +306,13 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private CSharpFunctionPointerParameter CSharpPointerFunctionParameter(
+        private CSharpFunctionPointerParameter FunctionPointerParameter(
             CFunctionPointerParameter cFunctionPointerParameter, string parameterName)
         {
-            var name = CSharpSanitizeIdentifier(parameterName);
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cFunctionPointerParameter);
+            var name = SanitizeIdentifier(parameterName);
+            var originalCodeLocationComment = OriginalCodeLocationComment(cFunctionPointerParameter);
             var cType = CType(cFunctionPointerParameter.Type);
-            var type = CSharpType(cType);
+            var type = Type(cType);
 
             var result = new CSharpFunctionPointerParameter(
                 name,
@@ -268,39 +322,29 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private ImmutableArray<CSharpStruct> CSharpStructs(
-            ImmutableArray<CRecord> records,
-            ImmutableArray<CTypedef> typedefs)
+        private ImmutableArray<CSharpStruct> Structs(ImmutableArray<CRecord> records)
         {
-            var builder = ImmutableArray.CreateBuilder<CSharpStruct>(
-                records.Length + typedefs.Length);
+            var builder = ImmutableArray.CreateBuilder<CSharpStruct>(records.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangRecord in records)
             {
-                var @struct = CSharpStruct(clangRecord);
+                var @struct = Struct(clangRecord);
                 builder.Add(@struct);
             }
-
-            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            // foreach (var clangOpaquePointer in opaquePointers)
-            // {
-            //     var @struct = MapOpaquePointer(clangOpaquePointer);
-            //     builder.Add(@struct);
-            // }
 
             var result = builder.ToImmutable();
             return result;
         }
 
-        private CSharpStruct CSharpStruct(CRecord cRecord)
+        private CSharpStruct Struct(CRecord cRecord)
         {
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cRecord);
+            var originalCodeLocationComment = OriginalCodeLocationComment(cRecord);
             var cType = CType(cRecord.Type);
-            var type = CSharpType(cType);
-            var fields = CSharpStructFields(cRecord.Fields);
-            var nestedStructs = CSharpNestedStructs(cRecord.NestedRecords);
-            var nestedFunctionPointers = CSharpNestedFunctionPointers(cRecord.NestedFunctionPointers);
+            var type = Type(cType);
+            var fields = StructFields(cRecord.Fields);
+            var nestedStructs = NestedStructs(cRecord.NestedRecords);
+            var nestedFunctionPointers = NestedFunctionPointers(cRecord.NestedFunctionPointers);
 
             return new CSharpStruct(
                 originalCodeLocationComment,
@@ -310,7 +354,7 @@ namespace C2CS.UseCases.BindgenCSharp
                 nestedFunctionPointers);
         }
 
-        private ImmutableArray<CSharpStructField> CSharpStructFields(
+        private ImmutableArray<CSharpStructField> StructFields(
             ImmutableArray<CRecordField> clangRecordFields)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpStructField>(clangRecordFields.Length);
@@ -318,7 +362,7 @@ namespace C2CS.UseCases.BindgenCSharp
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangRecordField in clangRecordFields)
             {
-                var structField = CSharpStructField(clangRecordField);
+                var structField = StructField(clangRecordField);
                 builder.Add(structField);
             }
 
@@ -326,25 +370,25 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private CSharpStructField CSharpStructField(CRecordField cRecordField)
+        private CSharpStructField StructField(CRecordField cRecordField)
         {
-            var name = CSharpSanitizeIdentifier(cRecordField.Name);
-            var codeLocationComment = CSharpOriginalCodeLocationComment(cRecordField);
+            var name = SanitizeIdentifier(cRecordField.Name);
+            var codeLocationComment = OriginalCodeLocationComment(cRecordField);
             var cType = CType(cRecordField.Type);
 
             CSharpType type;
-            if (cType.Kind == CKind.FunctionPointer && !IsBuiltinPointerFunction(cRecordField.Type))
+            if (cType.Kind == CKind.FunctionPointer && !IsBuiltinFunctionPointer(cRecordField.Type))
             {
-                type = CSharpType(cType, $"FnPtr_{name}");
+                type = Type(cType, $"FnPtr_{name}");
             }
             else
             {
-                type = CSharpType(cType);
+                type = Type(cType);
             }
 
             var offset = cRecordField.Offset;
             var padding = cRecordField.Padding;
-            var isWrapped = type.IsArray && !CSharpIsValidFixedBufferType(type.Name);
+            var isWrapped = type.IsArray && !IsValidFixedBufferType(type.Name);
 
             var result = new CSharpStructField(
                 name,
@@ -357,14 +401,14 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private ImmutableArray<CSharpStruct> CSharpNestedStructs(ImmutableArray<CRecord> records)
+        private ImmutableArray<CSharpStruct> NestedStructs(ImmutableArray<CRecord> records)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpStruct>(records.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var record in records)
             {
-                var @struct = CSharpStruct(record);
+                var @struct = Struct(record);
                 builder.Add(@struct);
             }
 
@@ -372,14 +416,14 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private ImmutableArray<CSharpFunctionPointer> CSharpNestedFunctionPointers(ImmutableArray<CFunctionPointer> functionPointers)
+        private ImmutableArray<CSharpFunctionPointer> NestedFunctionPointers(ImmutableArray<CFunctionPointer> functionPointers)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpFunctionPointer>(functionPointers.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var functionPointer in functionPointers)
             {
-                var functionPointerCSharp = CSharpPointerFunction(functionPointer);
+                var functionPointerCSharp = FunctionPointer(functionPointer);
                 if (functionPointerCSharp != null)
                 {
                     builder.Add(functionPointerCSharp);
@@ -390,7 +434,7 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private ImmutableArray<CSharpOpaqueType> CSharpOpaqueDataTypes(
+        private ImmutableArray<CSharpOpaqueType> OpaqueDataTypes(
             ImmutableArray<COpaqueType> opaqueDataTypes)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpOpaqueType>(opaqueDataTypes.Length);
@@ -398,7 +442,7 @@ namespace C2CS.UseCases.BindgenCSharp
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangOpaqueDataType in opaqueDataTypes)
             {
-                var opaqueDataType = CSharpOpaqueDataType(clangOpaqueDataType);
+                var opaqueDataType = OpaqueDataType(clangOpaqueDataType);
                 builder.Add(opaqueDataType);
             }
 
@@ -406,10 +450,10 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private CSharpOpaqueType CSharpOpaqueDataType(COpaqueType cOpaqueType)
+        private CSharpOpaqueType OpaqueDataType(COpaqueType cOpaqueType)
         {
             var name = cOpaqueType.Name;
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cOpaqueType);
+            var originalCodeLocationComment = OriginalCodeLocationComment(cOpaqueType);
 
             var result = new CSharpOpaqueType(
                 name,
@@ -418,14 +462,14 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private ImmutableArray<CSharpTypedef> CSharpTypedefs(ImmutableArray<CTypedef> typedefs)
+        private ImmutableArray<CSharpTypedef> Typedefs(ImmutableArray<CTypedef> typedefs)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpTypedef>(typedefs.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangTypedef in typedefs)
             {
-                var typedef = CSharpTypedef(clangTypedef);
+                var typedef = Typedef(clangTypedef);
                 builder.Add(typedef);
             }
 
@@ -433,12 +477,12 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private CSharpTypedef CSharpTypedef(CTypedef cTypedef)
+        private CSharpTypedef Typedef(CTypedef cTypedef)
         {
             var name = cTypedef.Name;
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cTypedef);
+            var originalCodeLocationComment = OriginalCodeLocationComment(cTypedef);
             var cUnderlingType = CType(cTypedef.UnderlyingType);
-            var underlyingType = CSharpType(cUnderlingType);
+            var underlyingType = Type(cUnderlingType);
 
             var result = new CSharpTypedef(
                 name,
@@ -448,14 +492,14 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private ImmutableArray<CSharpEnum> CSharpEnums(ImmutableArray<CEnum> clangEnums)
+        private ImmutableArray<CSharpEnum> Enums(ImmutableArray<CEnum> clangEnums)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpEnum>(clangEnums.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangEnum in clangEnums)
             {
-                var @enum = CSharpEnum(clangEnum);
+                var @enum = Enum(clangEnum);
                 builder.Add(@enum);
             }
 
@@ -463,13 +507,13 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private CSharpEnum CSharpEnum(CEnum cEnum)
+        private CSharpEnum Enum(CEnum cEnum)
         {
             var name = cEnum.Name;
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cEnum);
+            var originalCodeLocationComment = OriginalCodeLocationComment(cEnum);
             var cIntegerType = CType(cEnum.IntegerType);
-            var integerType = CSharpType(cIntegerType);
-            var values = CSharpEnumValues(cEnum.Values);
+            var integerType = Type(cIntegerType);
+            var values = EnumValues(cEnum.Values);
 
             var result = new CSharpEnum(
                 name,
@@ -479,14 +523,14 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private ImmutableArray<CSharpEnumValue> CSharpEnumValues(ImmutableArray<CEnumValue> clangEnumValues)
+        private ImmutableArray<CSharpEnumValue> EnumValues(ImmutableArray<CEnumValue> clangEnumValues)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpEnumValue>(clangEnumValues.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangEnumValue in clangEnumValues)
             {
-                var @enum = CSharpEnumValue(clangEnumValue);
+                var @enum = EnumValue(clangEnumValue);
                 builder.Add(@enum);
             }
 
@@ -494,10 +538,10 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private CSharpEnumValue CSharpEnumValue(CEnumValue cEnumValue)
+        private CSharpEnumValue EnumValue(CEnumValue cEnumValue)
         {
             var name = cEnumValue.Name;
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cEnumValue);
+            var originalCodeLocationComment = OriginalCodeLocationComment(cEnumValue);
             var value = cEnumValue.Value;
 
             var result = new CSharpEnumValue(
@@ -508,7 +552,7 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private ImmutableArray<CSharpVariable> CSharpVariablesExtern(
+        private ImmutableArray<CSharpVariable> Variables(
             ImmutableArray<CVariable> clangVariables)
         {
             var builder = ImmutableArray.CreateBuilder<CSharpVariable>(clangVariables.Length);
@@ -516,7 +560,7 @@ namespace C2CS.UseCases.BindgenCSharp
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var clangVariable in clangVariables)
             {
-                var variable = CSharpVariable(clangVariable);
+                var variable = Variable(clangVariable);
                 builder.Add(variable);
             }
 
@@ -524,32 +568,28 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private CSharpVariable CSharpVariable(CVariable cVariable)
+        private CSharpVariable Variable(CVariable cVariable)
         {
             var name = cVariable.Name;
-            var originalCodeLocationComment = CSharpOriginalCodeLocationComment(cVariable);
+            var originalCodeLocationComment = OriginalCodeLocationComment(cVariable);
             var cType = CType(cVariable.Type);
-            var type = CSharpType(cType);
+            var type = Type(cType);
 
             var result = new CSharpVariable(name, originalCodeLocationComment, type);
             return result;
         }
 
-        private static CSharpType CSharpType(CType cType, string? typeName = null)
+        private CSharpType Type(CType cType, string? typeName = null)
         {
-            var typeName2 = typeName ?? CSharpTypeName(cType);
+            var typeName2 = typeName ?? TypeName(cType);
             var sizeOf = cType.SizeOf ?? 0;
             var alignOf = cType.AlignOf ?? 0;
             var fixedBufferSize = cType.ArraySize ?? 0;
 
-            // https://github.com/lithiumtoast/c2cs/issues/15
-            if (typeName2 == "va_list")
-            {
-                typeName2 = "IntPtr";
-            }
+            var mappedTypeName = MapTypeName(typeName2);
 
             var result = new CSharpType(
-                typeName2,
+                mappedTypeName,
                 cType.Name,
                 sizeOf,
                 alignOf,
@@ -558,7 +598,26 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private static string CSharpTypeName(CType type)
+        private string MapTypeName(string typeName)
+        {
+            // TODO: https://github.com/lithiumtoast/c2cs/issues/15
+            if (typeName == "va_list")
+            {
+                typeName = "IntPtr";
+            }
+
+            var rawTypeName = typeName.TrimEnd('*');
+            var mappedRawTypeName = _aliasesLookup.TryGetValue(rawTypeName, out var aliasName)
+                ? aliasName
+                : rawTypeName;
+            var mappedTypeName = rawTypeName == typeName
+                ? mappedRawTypeName
+                : typeName.Replace(rawTypeName, mappedRawTypeName);
+
+            return mappedTypeName;
+        }
+
+        private static string TypeName(CType type)
         {
             var originalName = type.Name;
             if (originalName.Contains("(*)("))
@@ -576,13 +635,13 @@ namespace C2CS.UseCases.BindgenCSharp
 
             if (name.EndsWith("*", StringComparison.InvariantCulture))
             {
-                return CSharpTypeNameMapPointer(type, elementTypeSize);
+                return TypeNameMapPointer(type, elementTypeSize);
             }
 
-            return CSharpTypeNameMapElement(name, elementTypeSize);
+            return TypeNameMapElement(name, elementTypeSize);
         }
 
-        public static bool IsBuiltinPointerFunction(string name)
+        public static bool IsBuiltinFunctionPointer(string name)
         {
             return BuiltInPointerFunctionMappings.ContainsKey(name);
         }
@@ -592,7 +651,7 @@ namespace C2CS.UseCases.BindgenCSharp
             return BuiltInPointerFunctionMappings.TryGetValue(type.Name!, out var typeName) ? typeName : type.Name;
         }
 
-        private static string CSharpTypeNameMapPointer(CType type, int sizeOf)
+        private static string TypeNameMapPointer(CType type, int sizeOf)
         {
             if (type.Name.Contains("char*"))
             {
@@ -601,11 +660,11 @@ namespace C2CS.UseCases.BindgenCSharp
 
             var elementTypeName = type.Name.TrimEnd('*');
             var pointersTypeName = type.Name[elementTypeName.Length..];
-            var mappedElementTypeName = CSharpTypeNameMapElement(elementTypeName, sizeOf);
+            var mappedElementTypeName = TypeNameMapElement(elementTypeName, sizeOf);
             return mappedElementTypeName + pointersTypeName;
         }
 
-        private static string CSharpTypeNameMapElement(string typeName, int sizeOf)
+        private static string TypeNameMapElement(string typeName, int sizeOf)
         {
             switch (typeName)
             {
@@ -644,7 +703,7 @@ namespace C2CS.UseCases.BindgenCSharp
                 case "unsigned long long":
                 case "unsigned long long int":
                 case "size_t":
-                    return CSharpTypeNameMapUnsignedInteger(sizeOf);
+                    return TypeNameMapUnsignedInteger(sizeOf);
                 case "signed char":
                 case "short":
                 case "short int":
@@ -661,13 +720,13 @@ namespace C2CS.UseCases.BindgenCSharp
                 case "long long int":
                 case "signed long long int":
                 case "ssize_t":
-                    return CSharpTypeNameMapSignedInteger(sizeOf);
+                    return TypeNameMapSignedInteger(sizeOf);
                 default:
                     return typeName;
             }
         }
 
-        private static string CSharpTypeNameMapUnsignedInteger(int sizeOf)
+        private static string TypeNameMapUnsignedInteger(int sizeOf)
         {
             return sizeOf switch
             {
@@ -679,7 +738,7 @@ namespace C2CS.UseCases.BindgenCSharp
             };
         }
 
-        private static string CSharpTypeNameMapSignedInteger(int sizeOf)
+        private static string TypeNameMapSignedInteger(int sizeOf)
         {
             return sizeOf switch
             {
@@ -691,7 +750,7 @@ namespace C2CS.UseCases.BindgenCSharp
             };
         }
 
-        private static string CSharpOriginalCodeLocationComment(CNode node)
+        private static string OriginalCodeLocationComment(CNode node)
         {
             string kindString;
             if (node is CRecord record)
@@ -718,7 +777,7 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private static string CSharpSanitizeIdentifier(string name)
+        private static string SanitizeIdentifier(string name)
         {
             var result = name;
 
@@ -809,7 +868,7 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private static bool CSharpIsValidFixedBufferType(string typeString)
+        private static bool IsValidFixedBufferType(string typeString)
         {
             return typeString switch
             {

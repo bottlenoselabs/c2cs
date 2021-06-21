@@ -1,7 +1,7 @@
 {
   "className": "SDL",
   "libraryName": "SDL2",
-  "systemTypes": [
+  "aliases": [
     {
       "from": "SDL_bool",
       "to": "CBool"
