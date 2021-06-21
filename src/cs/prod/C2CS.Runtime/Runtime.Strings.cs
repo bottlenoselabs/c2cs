@@ -16,17 +16,18 @@ public static unsafe partial class Runtime
         PointersToStrings = new(); // use `IntPtr` as the key for better performance
 
     // NOTE: On portability, technically `char` in C could be signed or unsigned depending on the computer architecture,
-    //  resulting in technically two different type bindings when transpiling C headers to C#. However, to make piece
+    //  resulting in technically two different type bindings when transpiling C headers to C#. However, to make peace
     //  with the world, I settle on a compromise:
-    //      - Use `IntPtr` in C# when exposing public functions of ANSI strings, you should only care it's a pointer :)
+    //      `CString` is `char*`. When exposing public functions of ANSI/UTF8 strings in C#, you should only care about
+    //      `char*` as a single "thing" not about it's parts "char" and "*".
 
     /// <summary>
-    ///     Converts a <see cref="string" /> from a C style string (ANSI encoded one dimensional byte array terminated by a
+    ///     Converts a <see cref="string" /> from a C style string (one dimensional byte array terminated by a
     ///     <c>0x0</c>) by allocating and copying.
     /// </summary>
     /// <param name="ptr">A pointer to the C string.</param>
     /// <returns>A <see cref="string" /> equivalent of <paramref name="ptr" />.</returns>
-    public static string AllocateString(CString ptr)
+    public static string String(CString ptr)
     {
         if (ptr.IsNull)
         {
@@ -69,12 +70,12 @@ public static unsafe partial class Runtime
     }
 
     /// <summary>
-    ///     Converts a C string pointer (ANSI encoded one dimensional byte array terminated by a
+    ///     Converts a C string pointer (one dimensional byte array terminated by a
     ///     <c>0x0</c>) for a specified <see cref="string" /> by allocating and copying.
     /// </summary>
     /// <param name="str">The <see cref="string" />.</param>
     /// <returns>A C string pointer.</returns>
-    public static CString AllocateCString(string str)
+    public static CString CString(string str)
     {
         var hash = djb2(str);
         if (StringHashesToPointers.TryGetValue(hash, out var r))
@@ -100,22 +101,22 @@ public static unsafe partial class Runtime
     }
 
     /// <summary>
-    ///     Converts an array of strings to an array of C strings (multi-dimensional array of ANSI encoded one
+    ///     Converts an array of strings to an array of C strings (multi-dimensional array of one
     ///     dimensional byte arrays each terminated by a <c>0x0</c>) by allocating and copying.
     /// </summary>
     /// <remarks>
-    ///     <para>Calls <see cref="AllocateCString" />.</para>
+    ///     <para>Calls <see cref="CString" />.</para>
     /// </remarks>
     /// <param name="values">The strings.</param>
     /// <returns>An array pointer of C string pointers. You are responsible for freeing the returned pointer.</returns>
-    public static CString* AllocateCStringArray(ReadOnlySpan<string> values)
+    public static CString* CStringArray(ReadOnlySpan<string> values)
     {
         var pointerSize = IntPtr.Size;
         var result = (CString*) AllocateMemory(pointerSize * values.Length);
         for (var i = 0; i < values.Length; ++i)
         {
             var @string = values[i];
-            var cString = AllocateCString(@string);
+            var cString = CString(@string);
             result[i] = cString;
         }
 
@@ -124,7 +125,7 @@ public static unsafe partial class Runtime
 
     /// <summary>
     ///     Frees the memory for all previously allocated C strings and releases references to all <see cref="string" />
-    ///     objects which happened during <see cref="AllocateString" /> or <see cref="AllocateCString" />. Does
+    ///     objects which happened during <see cref="String" /> or <see cref="CString" />. Does
     ///     <b>not</b> garbage collect.
     /// </summary>
     public static void FreeAllStrings()
@@ -145,8 +146,8 @@ public static unsafe partial class Runtime
 
     /// <summary>
     ///     Frees the memory for specific previously allocated C strings and releases associated references to
-    ///     <see cref="string" /> objects which happened during <see cref="AllocateString" /> or
-    ///     <see cref="AllocateCString" />. Does <b>not</b> garbage collect.
+    ///     <see cref="string" /> objects which happened during <see cref="String" /> or
+    ///     <see cref="CString" />. Does <b>not</b> garbage collect.
     /// </summary>
     /// <param name="ptrs">The C string pointers.</param>
     /// <param name="count">The number of C string pointers.</param>
@@ -163,7 +164,7 @@ public static unsafe partial class Runtime
 
     /// <summary>
     ///     Frees the memory for the previously C strings and releases reference to the <see cref="string" /> object
-    ///     which happened during <see cref="AllocateString" />, <see cref="AllocateCString" />. Does <b>not</b> garbage
+    ///     which happened during <see cref="String" />, <see cref="CString" />. Does <b>not</b> garbage
     ///     collect.
     /// </summary>
     /// <param name="ptr">The string.</param>

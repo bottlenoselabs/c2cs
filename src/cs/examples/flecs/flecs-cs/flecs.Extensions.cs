@@ -11,7 +11,7 @@ public static unsafe partial class flecs
 {
     public static ecs_world_t* ecs_init_w_args(ReadOnlySpan<string> args)
     {
-        var argv = Runtime.AllocateCStringArray(args);
+        var argv = Runtime.CStringArray(args);
         var world = ecs_init_w_args(args.Length, argv);
         Runtime.FreeCStrings(argv, args.Length);
         return world;
@@ -51,7 +51,7 @@ public static unsafe partial class flecs
     {
         var componentType = typeof(TComponent);
         var componentName = componentType.Name;
-        var componentNameC = Runtime.AllocateCString(componentName);
+        var componentNameC = Runtime.CString(componentName);
         var structLayoutAttribute = componentType.StructLayoutAttribute;
         CheckStructLayout(structLayoutAttribute);
         var structAlignment = structLayoutAttribute!.Pack;

@@ -3,6 +3,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 
@@ -10,11 +11,16 @@ using JetBrains.Annotations;
 [PublicAPI]
 [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
 [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
-public readonly struct CString
+public readonly unsafe struct CString
 {
     internal readonly IntPtr _value;
 
     public bool IsNull => _value == IntPtr.Zero;
+
+    public CString(byte* value)
+    {
+        _value = (IntPtr) value;
+    }
 
     public CString(IntPtr value)
     {
@@ -23,7 +29,7 @@ public readonly struct CString
 
     public CString(string s)
     {
-        _value = Runtime.AllocateCString(s);
+        _value = Runtime.CString(s);
     }
 
     public static explicit operator CString(IntPtr ptr)
@@ -31,7 +37,7 @@ public readonly struct CString
         return new(ptr);
     }
 
-    public static unsafe implicit operator CString(byte* value)
+    public static implicit operator CString(byte* value)
     {
         return new((IntPtr)value);
     }
@@ -43,16 +49,16 @@ public readonly struct CString
 
     public static implicit operator string(CString ptr)
     {
-        return Runtime.AllocateString(ptr);
+        return Runtime.String(ptr);
     }
 
     public static implicit operator CString(string str)
     {
-        return Runtime.AllocateCString(str);
+        return Runtime.CString(str);
     }
 
     /// <inheritdoc />
-    public override unsafe int GetHashCode()
+    public override int GetHashCode()
     {
         return (int)Runtime.djb2((byte*) _value);
     }
@@ -60,6 +66,6 @@ public readonly struct CString
     /// <inheritdoc />
     public override string ToString()
     {
-        return Runtime.AllocateString(this);
+        return Runtime.String(this);
     }
 }

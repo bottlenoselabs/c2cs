@@ -42,7 +42,7 @@ internal static unsafe class Program
                     /* Print something to the console so we can see the system is being
                      * invoked */
                     var nameCString = ecs_get_name(iterator->world, iterator->entities[i]);
-                    var nameString = Runtime.AllocateString(nameCString);
+                    var nameString = Runtime.String(nameCString);
                     Console.WriteLine($"{nameString} moved to {{.x = {p[i].X}, .y = {p[i].Y}}}");
                 }
             }

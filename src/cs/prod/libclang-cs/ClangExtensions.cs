@@ -259,7 +259,7 @@ public static unsafe class ClangExtensions
         var spelling = clang_getTypeSpelling(clangType);
 
         var resultC = clang_getCString(spelling);
-        var result = Runtime.AllocateString(resultC);
+        var result = Runtime.String(resultC);
         if (string.IsNullOrEmpty(result))
         {
             return string.Empty;

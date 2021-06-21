@@ -27,7 +27,7 @@ internal static unsafe class Program
                 /* Iterate all the messages */
                 for (var i = 0; i < msg.Length; i++)
                 {
-                    var text = Runtime.AllocateString(msg[i].Text);
+                    var text = Runtime.String(msg[i].Text);
                     Console.WriteLine(text);
                 }
             }
