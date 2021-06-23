@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using C2CS.Bindgen.Languages.CSharp;
@@ -28,15 +29,17 @@ namespace C2CS.UseCases.BindgenCSharp
 		{
 			var builder = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
 
-			EmitVirtualTable(builder, abstractSyntaxTree.VariablesExtern);
-
 			EmitVariableProperties(builder, abstractSyntaxTree.VariablesExtern);
-			EmitMethodsExterns(builder, abstractSyntaxTree.FunctionExterns);
+			EmitFunctionExterns(builder, abstractSyntaxTree.FunctionExterns);
 			EmitFunctionPointers(builder, abstractSyntaxTree.FunctionPointers);
 			EmitStructs(builder, abstractSyntaxTree.Structs);
 			EmitOpaqueDataTypes(builder, abstractSyntaxTree.OpaqueDataTypes);
 			EmitTypedefs(builder, abstractSyntaxTree.Typedefs);
 			EmitEnums(builder, abstractSyntaxTree.Enums);
+
+			EmitVirtualTableLoader(builder, abstractSyntaxTree.FunctionExterns, abstractSyntaxTree.VariablesExtern);
+			EmitVirtualTableUnloader(builder, abstractSyntaxTree.FunctionExterns, abstractSyntaxTree.VariablesExtern);
+			EmitVirtualTable(builder, abstractSyntaxTree.FunctionExterns, abstractSyntaxTree.VariablesExtern);
 
 			var membersToAdd = builder.ToArray();
 			var compilationUnit = EmitCompilationUnit(
@@ -109,53 +112,138 @@ public static unsafe partial class {className}
 			return newCompilationUnitFormatted;
 		}
 
-		private static void EmitVirtualTable(
+		private void EmitVirtualTableLoader(
 			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
+			ImmutableArray<CSharpFunction> functionExterns,
 			ImmutableArray<CSharpVariable> variablesExtern)
 		{
-			var loaderStatementStrings = variablesExtern.Select(x =>
-				@$"_{x.Name} = Runtime.LibraryGetExport(_libraryHandle, ""{x.Name}"");");
-			var loadStatements = string.Join('\n', loaderStatementStrings);
+			var variableStatementStrings = variablesExtern.Select(x =>
+				@$"_virtualTable.{x.Name} = Runtime.LibraryGetExport(_libraryHandle, ""{x.Name}"");");
 
-			var loadCode = $@"
+			var functionStatementStrings = new List<string>();
+			foreach (var functionExtern in functionExterns)
+			{
+				var parameterStrings = functionExtern.Parameters.Select(
+						x => x.Type.Name)
+					.Append(functionExtern.ReturnType.Name);
+				var parameters = string.Join(',', parameterStrings);
+				var functionStatementString = @$"_virtualTable.{functionExtern.Name} = (delegate* unmanaged[Cdecl] <{parameters}>)Runtime.LibraryGetExport(_libraryHandle, ""{functionExtern.Name}"");";
+				functionStatementStrings.Add(functionStatementString);
+			}
+
+			var functionCode = $@"
 private static void _LoadVirtualTable()
 {{
-	{loadStatements}
+	#region ""Functions""
+
+	{string.Join('\n', functionStatementStrings)}
+
+	#endregion
+
+	#region ""Variables""
+
+	{string.Join('\n', variableStatementStrings)}
+
+	#endregion
 }}
 ";
 
-			var loadMember = ParseMemberDeclaration(loadCode)!;
-			if (loadMember is MethodDeclarationSyntax loadSyntax)
+			var function = ParseMemberCode<MethodDeclarationSyntax>(functionCode);
+			builder.Add(function);
+		}
+
+		private void EmitVirtualTableUnloader(ImmutableArray<MemberDeclarationSyntax>.Builder builder, ImmutableArray<CSharpFunction> functionExterns, ImmutableArray<CSharpVariable> variablesExtern)
+		{
+			var variableStatementStrings = variablesExtern.Select(x =>
+				@$"_virtualTable.{x.Name} = IntPtr.Zero;");
+
+			var functionStatementStrings = new List<string>();
+			foreach (var functionExtern in functionExterns)
 			{
-				builder.Add(loadSyntax);
-			}
-			else
-			{
-				var up = new CSharpCodeGenerationException("Error generating C# virtual table.");
-				throw up;
+				var parameterStrings = functionExtern.Parameters.Select(
+						x => x.Type.Name)
+					.Append(functionExtern.ReturnType.Name);
+				var parameters = string.Join(',', parameterStrings);
+				var functionStatementString = @$"_virtualTable.{functionExtern.Name} = (delegate* unmanaged[Cdecl] <{parameters}>)IntPtr.Zero;";
+				functionStatementStrings.Add(functionStatementString);
 			}
 
-			var unloadStatementStrings = variablesExtern.Select(x =>
-				@$"_{x.Name} = IntPtr.Zero;");
-			var unloadStatements = string.Join('\n', unloadStatementStrings);
-
-			var code = $@"
+			var functionCode = $@"
 private static void _UnloadVirtualTable()
 {{
-	{unloadStatements}
+	#region ""Functions""
+
+	{string.Join('\n', functionStatementStrings)}
+
+	#endregion
+
+	#region ""Variables""
+
+	{string.Join('\n', variableStatementStrings)}
+
+	#endregion
 }}
 ";
 
-			var unloadMember = ParseMemberDeclaration(code)!;
-			if (unloadMember is MethodDeclarationSyntax unloadSyntax)
+			var function = ParseMemberCode<MethodDeclarationSyntax>(functionCode);
+			builder.Add(function);
+		}
+
+		private static void EmitVirtualTable(
+			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
+			ImmutableArray<CSharpFunction> functionExterns,
+			ImmutableArray<CSharpVariable> variableExterns)
+		{
+			var functionPointerStrings = new List<string>();
+			var variableStrings = new List<string>();
+
+			foreach (var functionExtern in functionExterns)
 			{
-				builder.Add(unloadSyntax);
+				var parameterStrings = functionExtern.Parameters.Select(
+					x => x.Type.Name)
+					.Append(functionExtern.ReturnType.Name);
+				var parameters = string.Join(',', parameterStrings);
+				var functionPointerString = $@"public delegate* unmanaged[Cdecl] <{parameters}> {functionExtern.Name};";
+				functionPointerStrings.Add(functionPointerString);
 			}
-			else
+
+			foreach (var variableExtern in variableExterns)
 			{
-				var up = new CSharpCodeGenerationException("Error generating C# virtual table.");
-				throw up;
+				var variableString = $@"public static IntPtr {variableExtern.Name}";
+				variableStrings.Add(variableString);
 			}
+
+			var structCode = $@"
+// The virtual table represents a list of pointers to functions or variables which are resolved in a late manner.
+//	This allows for flexibility in swapping implementations at runtime.
+//	You can think of it in traditional OOP terms in C# as the locations of the virtual methods and/or properties of an object.
+public struct _VirtualTable
+{{
+	#region ""Function Pointers""
+	// These pointers hold the locations in the native library where functions are located at runtime.
+	// See: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
+
+	{string.Join('\n', functionPointerStrings)}
+
+	#endregion
+	
+	#region ""Variables""
+	// These pointers hold the locations in the native library where global variables are located at runtime.
+	//	The value pointed by these pointers are updated by reading/writing memory.
+
+	{string.Join('\n', variableStrings)}
+
+	#endregion
+}}
+";
+			var virtualTableStruct = ParseMemberCode<StructDeclarationSyntax>(structCode);
+			builder.Add(virtualTableStruct);
+
+			var fieldCode = $@"
+private static _VirtualTable _virtualTable;
+			";
+			var virtualTableField = ParseMemberCode<FieldDeclarationSyntax>(fieldCode);
+			builder.Add(virtualTableField);
 		}
 
 		private static void EmitVariableProperties(
@@ -164,46 +252,26 @@ private static void _UnloadVirtualTable()
 		{
 			foreach (var variableExtern in variablesExtern)
 			{
-				var field = EmitVariablePropertyBackingField(variableExtern);
-				builder.Add(field);
-
 				var method = EmitVariableProperty(variableExtern);
 				builder.Add(method);
 			}
 		}
 
-		private static FieldDeclarationSyntax EmitVariablePropertyBackingField(CSharpNode @extern)
-		{
-			var code = $@"
-{@extern.CodeLocationComment}
-private static IntPtr _{@extern.Name};
-".TrimEnd();
-
-			var member = (FieldDeclarationSyntax)ParseMemberDeclaration(code)!;
-			return member;
-		}
-
-		private static MemberDeclarationSyntax EmitVariableProperty(CSharpVariable variable)
+		private static PropertyDeclarationSyntax EmitVariableProperty(CSharpVariable variable)
 		{
 			var code = $@"
 public static {variable.Type.Name} {variable.Name}
 {{
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	get => Runtime.ReadMemory<{variable.Type.Name}>(_{variable.Name});
+	get => Runtime.ReadMemory<{variable.Type.Name}>(_virtualTable.{variable.Name});
 }}
 ";
 
-			var result = ParseMemberDeclaration(code);
-			if (result != null)
-			{
-				return result;
-			}
-
-			var up = new GeneratorUnexpectedException(variable);
-			throw up;
+			var result = ParseMemberCode<PropertyDeclarationSyntax>(code);
+			return result;
 		}
 
-		private static void EmitMethodsExterns(
+		private static void EmitFunctionExterns(
 			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
 			ImmutableArray<CSharpFunction> functionExterns)
 		{
@@ -225,31 +293,35 @@ public static {variable.Type.Name} {variable.Name}
 					continue;
 				}
 
-				var member = EmitMethod(functionExtern);
+				var member = EmitFunctionExtern(functionExtern);
 				builder.Add(member);
 			}
 		}
 
-		private static MethodDeclarationSyntax EmitMethod(CSharpFunction function)
+		private static MethodDeclarationSyntax EmitFunctionExtern(CSharpFunction function)
 		{
 			var parameterStrings = function.Parameters.Select(
 				x => $@"{x.Type.Name} {x.Name}");
 			var parameters = string.Join(',', parameterStrings);
 
+			var argumentStrings = function.Parameters.Select(
+				x => $"{x.Name}");
+			var arguments = string.Join(',', argumentStrings);
+
+			var statement = function.ReturnType.Name == "void" ?
+				$"_virtualTable.{function.Name}({arguments});" :
+				$"return _virtualTable.{function.Name}({arguments});";
+
 			var code = $@"
 {function.CodeLocationComment}
-[DllImport(LibraryName, EntryPoint = ""{function.Name}"", CallingConvention = CallingConvention.{function.CallingConvention})]
-public static extern {function.ReturnType.Name} {function.Name}({parameters});
+public static {function.ReturnType.Name} {function.Name}({parameters})
+{{
+	{statement}
+}}
 ";
 
-			var member = ParseMemberDeclaration(code)!;
-			if (member is MethodDeclarationSyntax syntax)
-			{
-				return syntax;
-			}
-
-			var up = new CSharpCodeGenerationException("Error generating C# extern method.");
-			throw up;
+			var member = ParseMemberCode<MethodDeclarationSyntax>(code);
+			return member;
 		}
 
 		private static void EmitFunctionPointers(
@@ -263,7 +335,7 @@ public static extern {function.ReturnType.Name} {function.Name}({parameters});
 			}
 		}
 
-		public static StructDeclarationSyntax EmitFunctionPointer(
+		private static StructDeclarationSyntax EmitFunctionPointer(
 			CSharpFunctionPointer functionPointer, bool isNested = false)
 		{
 			var parameterStrings = functionPointer.Parameters
@@ -284,14 +356,8 @@ public struct {functionPointer.Name}
 				code = code.Trim();
 			}
 
-			var member = ParseMemberDeclaration(code)!;
-			if (member is StructDeclarationSyntax syntax)
-			{
-				return syntax;
-			}
-
-			var up = new CSharpCodeGenerationException("Error generating C# pointer function.");
-			throw up;
+			var member = ParseMemberCode<StructDeclarationSyntax>(code);
+			return member;
 		}
 
 		private static void EmitStructs(
@@ -326,14 +392,8 @@ public struct {@struct.Name}
 				code = code.Trim();
 			}
 
-			var member = ParseMemberDeclaration(code)!;
-			if (member is StructDeclarationSyntax syntax)
-			{
-				return syntax;
-			}
-
-			var up = new CSharpCodeGenerationException("Error generating C# struct.");
-			throw up;
+			var member = ParseMemberCode<StructDeclarationSyntax>(code);
+			return member;
 		}
 
 		private static MemberDeclarationSyntax[] EmitStructMembers(
@@ -385,14 +445,8 @@ public struct {@struct.Name}
 public {field.Type.Name} {field.Name};
 ".Trim();
 
-			var member = ParseMemberDeclaration(code)!;
-			if (member is FieldDeclarationSyntax syntax)
-			{
-				return syntax;
-			}
-
-			var up = new CSharpCodeGenerationException("Error generating C# field.");
-			throw up;
+			var member = ParseMemberCode<FieldDeclarationSyntax>(code);
+			return member;
 		}
 
 		private static FieldDeclarationSyntax EmitStructFieldFixedBuffer(
@@ -421,7 +475,7 @@ public {field.Type.Name} {field.Name};
 public fixed {typeName} _{field.Name}[{field.Type.SizeOf}/{field.Type.AlignOf}]; // {field.Type.OriginalName}
 ".Trim();
 
-			var member = (FieldDeclarationSyntax)ParseMemberDeclaration(code)!;
+			var member = ParseMemberCode<FieldDeclarationSyntax>(code);
 			return member;
 		}
 
@@ -450,14 +504,8 @@ public Span<{fieldTypeName}> {field.Name}
 }}
 ".Trim();
 
-			var member = ParseMemberDeclaration(code)!;
-			if (member is PropertyDeclarationSyntax syntax)
-			{
-				return syntax;
-			}
-
-			var up = new CSharpCodeGenerationException("Error generating C# fixed array property.");
-			throw up;
+			var member = ParseMemberCode<PropertyDeclarationSyntax>(code);
+			return member;
 		}
 
 		private static void EmitOpaqueDataTypes(
@@ -481,14 +529,8 @@ public struct {opaqueType.Name}
 }}
 ";
 
-			var member = ParseMemberDeclaration(code)!;
-			if (member is StructDeclarationSyntax syntax)
-			{
-				return syntax;
-			}
-
-			var up = new CSharpCodeGenerationException("Error generating C# opaque struct.");
-			throw up;
+			var member = ParseMemberCode<StructDeclarationSyntax>(code)!;
+			return member;
 		}
 
 		private static void EmitTypedefs(
@@ -517,14 +559,8 @@ public struct {typedef.Name}
 }}
 ";
 
-			var member = ParseMemberDeclaration(code)!;
-			if (member is StructDeclarationSyntax syntax)
-			{
-				return syntax;
-			}
-
-			var up = new CSharpCodeGenerationException("Error generating C# typedef.");
-			throw up;
+			var member = ParseMemberCode<StructDeclarationSyntax>(code)!;
+			return member;
 		}
 
 		private static void EmitEnums(
@@ -552,14 +588,8 @@ public enum {@enum.Name} : {@enum.IntegerType}
     }}
 ";
 
-			var member = ParseMemberDeclaration(code)!;
-			if (member is EnumDeclarationSyntax syntax)
-			{
-				return syntax;
-			}
-
-			var up = new CSharpCodeGenerationException("Error generating C# enum.");
-			throw up;
+			var member = ParseMemberCode<EnumDeclarationSyntax>(code);
+			return member;
 		}
 
 		private static EnumMemberDeclarationSyntax[] EmitEnumValues(
@@ -589,6 +619,19 @@ public enum {@enum.Name} : {@enum.IntegerType}
 			};
 
 			return EqualsValueClause(LiteralExpression(SyntaxKind.NumericLiteralExpression, literalToken));
+		}
+
+		private static T ParseMemberCode<T>(string memberCode)
+			where T : MemberDeclarationSyntax
+		{
+			var member = ParseMemberDeclaration(memberCode)!;
+			if (member is T syntax)
+			{
+				return syntax;
+			}
+
+			var up = new CSharpCodeGenerationException($"Error generating C# code for {typeof(T)}.");
+			throw up;
 		}
 
 		private class GeneratorUnexpectedException : Exception
