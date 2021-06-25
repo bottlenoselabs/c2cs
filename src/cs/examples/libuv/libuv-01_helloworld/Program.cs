@@ -1,45 +1,74 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Threading;
 using static uv;
 
-internal static class Program
+internal static unsafe class Program
 {
-    private static unsafe void Main()
+    public static uv_loop_t* Loop; 
+    public static uv_idle_t* IdleHandle;
+    
+    private static void Main()
     {
         LoadApi();
         
-        var loop = (uv_loop_t*) Marshal.AllocHGlobal((int) uv_loop_size());
-        var errorCode = uv_loop_init(loop);
-        if (errorCode < 0)
-        {
-            PrintErrorCode(errorCode);
-        }
-
-        Console.WriteLine("Hello world.");
-        errorCode = uv_run(loop, uv_run_mode.UV_RUN_DEFAULT);
-        if (errorCode < 0)
-        {
-            PrintErrorCode(errorCode);
-        }
-
-        errorCode = uv_loop_close(loop);
-        if (errorCode < 0)
-        {
-            PrintErrorCode(errorCode);
-        }
-        
-        Marshal.FreeHGlobal((IntPtr) loop);
+        Loop = CreateLoop();
+        IdleHandle = CreateIdleHandle(Loop);
+        RunLoop();
+        FreeResources();
     }
     
-    private static unsafe void PrintErrorCode(int errorCode)
+    private static uv_loop_t* CreateLoop()
     {
-        var cStringErrorName = uv_err_name(errorCode);
-        var stringErrorName = Runtime.String(cStringErrorName);
+        var loop = (uv_loop_t*) Marshal.AllocHGlobal((int) uv_loop_size());
+        var errorCode = uv_loop_init(loop);
+        CheckErrorCode("uv_loop_init", errorCode);
+        return loop;
+    }
+    
+    private static uv_idle_t* CreateIdleHandle(uv_loop_t* loop)
+    {
+        var handle = (uv_idle_t*) Marshal.AllocHGlobal((int) uv_handle_size(uv_handle_type.UV_IDLE));
 
-        var errorDescriptionBuffer = stackalloc byte[512];
-        var cStringErrorDescription = uv_strerror_r(errorCode, errorDescriptionBuffer, 512);
-        var stringErrorDescription = Runtime.String(cStringErrorDescription);
+        var errorCode = uv_idle_init(loop, handle);
+        CheckErrorCode("uv_idle_init", errorCode);
+
+        errorCode = uv_idle_start(handle, new uv_idle_cb {Pointer = &OnIdle});
+        CheckErrorCode("uv_idle_start", errorCode);
+
+        return handle;
+    }
+    
+    private static void RunLoop()
+    {
+        var errorCode = uv_run(Loop, uv_run_mode.UV_RUN_DEFAULT);
+        CheckErrorCode("uv_run (UV_RUN_DEFAULT)", errorCode);
+    }
+    
+    [UnmanagedCallersOnly]
+    private static void OnIdle(uv_idle_t* handle)
+    {
+        // Check if we should gracefully exit.
+        if (Console.KeyAvailable)
+        {
+            var consoleKey = Console.ReadKey();
+            if (consoleKey.Key == ConsoleKey.X)
+            {
+                Console.WriteLine();
+                // gracefully exit
+                Environment.Exit(0);
+            }
+        }
         
-        Console.WriteLine($"Error {stringErrorName}: {stringErrorDescription}");
+        // REMOVE ME: Slow down the event loop for purposes of this demo by having the thread sleep
+        Thread.Sleep(750);
+
+        Console.WriteLine("Hello world!");
+    }
+    
+    private static void FreeResources()
+    {
+        Marshal.FreeHGlobal((IntPtr) Loop);
+        Marshal.FreeHGlobal((IntPtr) IdleHandle);
     }
 }

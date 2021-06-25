@@ -10,7 +10,8 @@ internal static class Program
     private static void Main()
     {
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
-        GenerateLibraryBindings();
+        GenerateAbstractSyntaxTree(rootDirectory);
+        GenerateBindingsCSharp(rootDirectory);
         BuildLibrary(rootDirectory);
     }
 
@@ -25,13 +26,33 @@ internal static class Program
         }
     }
 
-    private static void GenerateLibraryBindings()
+    private static void GenerateAbstractSyntaxTree(string rootDirectory)
     {
         var arguments = @$"
+ast
+-i
+{rootDirectory}/ext/libuv/include/uv.h
+-o
+{rootDirectory}/src/cs/examples/libuv/libuv-c/ast.json
 -c
-{Environment.CurrentDirectory}/config.json
+{Environment.CurrentDirectory}/config_c.json
 ";
+        var argumentsArray =
+            arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+        C2CS.Program.Main(argumentsArray);
+    }
 
+    private static void GenerateBindingsCSharp(string rootDirectory)
+    {
+        var arguments = @$"
+cs
+-i
+{rootDirectory}/src/cs/examples/libuv/libuv-c/ast.json
+-o
+{rootDirectory}/src/cs/examples/libuv/libuv-cs/uv.cs
+-c
+{Environment.CurrentDirectory}/config_csharp.json
+";
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);

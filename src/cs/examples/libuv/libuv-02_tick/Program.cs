@@ -30,59 +30,59 @@ internal static unsafe class Program
     {
         var loop = (uv_loop_t*) Marshal.AllocHGlobal((int) uv_loop_size());
         var errorCode = uv_loop_init(loop);
-        PrintErrorCode("uv_loop_init", errorCode);
+        CheckErrorCode("uv_loop_init", errorCode);
         return loop;
     }
     
     private static uv_timer_t* CreateTimerHandle(uv_loop_t* loop)
     {
-        var handle = (uv_timer_t*) Marshal.AllocHGlobal(Marshal.SizeOf<uv_timer_t>());
+        var handle = (uv_timer_t*) Marshal.AllocHGlobal((int) uv_handle_size(uv_handle_type.UV_TIMER));
         
         var errorCode = uv_timer_init(loop, handle);
-        PrintErrorCode("uv_timer_init", errorCode);
+        CheckErrorCode("uv_timer_init", errorCode);
 
         var elapsedTimeSpan = TimeSpan.FromSeconds(1);
         errorCode = uv_timer_start(handle, new uv_timer_cb {Pointer = &OnTimer}, 0, (ulong) elapsedTimeSpan.TotalMilliseconds);
-        PrintErrorCode("uv_timer_start", errorCode);
+        CheckErrorCode("uv_timer_start", errorCode);
 
         return handle;
     }
 
     private static uv_idle_t* CreateIdleHandle(uv_loop_t* loop)
     {
-        var handle = (uv_idle_t*) Marshal.AllocHGlobal(Marshal.SizeOf<uv_idle_t>());
+        var handle = (uv_idle_t*) Marshal.AllocHGlobal((int) uv_handle_size(uv_handle_type.UV_IDLE));
 
         var errorCode = uv_idle_init(loop, handle);
-        PrintErrorCode("uv_idle_init", errorCode);
+        CheckErrorCode("uv_idle_init", errorCode);
 
         errorCode = uv_idle_start(handle, new uv_idle_cb {Pointer = &OnIdle});
-        PrintErrorCode("uv_idle_start", errorCode);
+        CheckErrorCode("uv_idle_start", errorCode);
 
         return handle;
     }
   
     private static uv_prepare_t* CreatePrepareHandle(uv_loop_t* loop)
     {
-        var handle = (uv_prepare_t*) Marshal.AllocHGlobal(Marshal.SizeOf<uv_prepare_t>());
+        var handle = (uv_prepare_t*) Marshal.AllocHGlobal((int) uv_handle_size(uv_handle_type.UV_PREPARE));
 
         var errorCode = uv_prepare_init(loop, handle);
-        PrintErrorCode("uv_prepare_init", errorCode);
+        CheckErrorCode("uv_prepare_init", errorCode);
 
         errorCode = uv_prepare_start(handle, new uv_prepare_cb {Pointer = &OnPrepare});
-        PrintErrorCode("uv_prepare_start", errorCode);
+        CheckErrorCode("uv_prepare_start", errorCode);
 
         return handle;
     }
     
     private static uv_check_t* CreateCheckHandle(uv_loop_t* loop)
     {
-        var handle = (uv_check_t*) Marshal.AllocHGlobal(Marshal.SizeOf<uv_check_t>());
+        var handle = (uv_check_t*) Marshal.AllocHGlobal((int) uv_handle_size(uv_handle_type.UV_CHECK));
         
         var errorCode = uv_check_init(loop, handle);
-        PrintErrorCode("uv_check_init", errorCode);
+        CheckErrorCode("uv_check_init", errorCode);
 
         errorCode = uv_check_start(handle, new uv_check_cb {Pointer = &OnCheck});
-        PrintErrorCode("uv_check_start", errorCode);
+        CheckErrorCode("uv_check_start", errorCode);
 
         return handle;
     }
@@ -90,7 +90,7 @@ internal static unsafe class Program
     private static void RunLoop()
     {
         var errorCode = uv_run(Loop, uv_run_mode.UV_RUN_DEFAULT);
-        PrintErrorCode("uv_run (UV_RUN_DEFAULT)", errorCode);
+        CheckErrorCode("uv_run (UV_RUN_DEFAULT)", errorCode);
     }
 
     private static void FreeResources()
@@ -106,11 +106,11 @@ internal static unsafe class Program
     {
         // walk the list of handles with a callback for each
         uv_walk(Loop, new uv_walk_cb {Pointer = &TryCloseHandle}, default);
-        PrintErrorCode("uv_walk", 0);
+        CheckErrorCode("uv_walk", 0);
         
         // run the loop one more time so handle close callbacks are executed
         var errorCode = uv_run(Loop, uv_run_mode.UV_RUN_NOWAIT);
-        PrintErrorCode("uv_run (uv_run_mode.UV_RUN_NOWAIT)", errorCode);
+        CheckErrorCode("uv_run (uv_run_mode.UV_RUN_NOWAIT)", errorCode);
     }
     
     [UnmanagedCallersOnly]
@@ -175,36 +175,5 @@ internal static unsafe class Program
         var cStringHandleTypeName = uv_handle_type_name(handleType);
         var handleTypeName = Runtime.String(cStringHandleTypeName);
         Console.WriteLine($"Handle of type '{handleTypeName}' is closed.");
-    }
-    
-    private static void PrintErrorCode(string functionName, int errorCode)
-    {
-        var status = errorCode >= 0 ? "success" : "failure";
-
-        if (errorCode == 0)
-        {
-            Console.WriteLine($"{functionName}: {status}");  
-        }
-        else
-        {
-            var name = GetErrorCodeName(errorCode);
-            var description = GetErrorCodeDescription(errorCode);
-            Console.WriteLine($"{functionName}: {status} {name} {description}");     
-        }
-    }
-
-    private static string GetErrorCodeName(int errorCode)
-    {
-        var cString = uv_err_name(errorCode);
-        var result = Runtime.String(cString);
-        return result;
-    }
-
-    private static string GetErrorCodeDescription(int errorCode)
-    {
-        var buffer = stackalloc byte[512];
-        var cString = uv_strerror_r(errorCode, buffer, 512);
-        var result = Runtime.String(cString);
-        return result;
     }
 }
