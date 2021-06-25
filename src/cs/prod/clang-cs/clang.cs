@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 
 #nullable enable
 
-public static unsafe partial class libclang
+public static unsafe partial class clang
 {
     private const string LibraryName = "clang";
     private static IntPtr _libraryHandle;
