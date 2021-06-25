@@ -21,8 +21,8 @@ namespace C2CS.UseCases.BindgenCSharp
         {
             // FnPtr{FIRST_PARAM_TYPE}{SECOND_PARAM_TYPE}...{LAST_PARAM_TYPE}{RETURN_TYPE}
             {"void (void)", "FnPtrVoid"},
-            {"void *(void)", "FnPtrVoid"},
-            {"void *(void *)", "FnPtrPointerVoid"},
+            {"void *(void)", "FnPtrPointer"},
+            {"void *(void *)", "FnPtrPointerPointer"},
             {"void (void *)", "FnPtrPointerVoid"},
             {"int (void *, void *)", "FnPtrPointerPointerInt"},
         };
@@ -269,6 +269,7 @@ namespace C2CS.UseCases.BindgenCSharp
             }
 
             string name = cFunctionPointer.Type;
+
             if (cFunctionPointer.IsWrapped)
             {
                 name = $"FnPtr_{cFunctionPointer.Name}";

@@ -909,22 +909,22 @@ public static unsafe partial class sokol
         public void* device;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtrVoid render_view_cb;
+        public FnPtrPointer render_view_cb;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtrPointerVoid render_view_userdata_cb;
+        public FnPtrPointerPointer render_view_userdata_cb;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtrVoid resolve_view_cb;
+        public FnPtrPointer resolve_view_cb;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtrPointerVoid resolve_view_userdata_cb;
+        public FnPtrPointerPointer resolve_view_userdata_cb;
 
         [FieldOffset(40)] // size = 8, padding = 0
-        public FnPtrVoid depth_stencil_view_cb;
+        public FnPtrPointer depth_stencil_view_cb;
 
         [FieldOffset(48)] // size = 8, padding = 0
-        public FnPtrPointerVoid depth_stencil_view_userdata_cb;
+        public FnPtrPointerPointer depth_stencil_view_userdata_cb;
 
         [FieldOffset(56)] // size = 8, padding = 0
         public void* user_data;
@@ -941,16 +941,16 @@ public static unsafe partial class sokol
         public void* device_context;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtrVoid render_target_view_cb;
+        public FnPtrPointer render_target_view_cb;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtrPointerVoid render_target_view_userdata_cb;
+        public FnPtrPointerPointer render_target_view_userdata_cb;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtrVoid depth_stencil_view_cb;
+        public FnPtrPointer depth_stencil_view_cb;
 
         [FieldOffset(40)] // size = 8, padding = 0
-        public FnPtrPointerVoid depth_stencil_view_userdata_cb;
+        public FnPtrPointerPointer depth_stencil_view_userdata_cb;
 
         [FieldOffset(48)] // size = 8, padding = 0
         public void* user_data;
@@ -964,16 +964,16 @@ public static unsafe partial class sokol
         public void* device;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtrVoid renderpass_descriptor_cb;
+        public FnPtrPointer renderpass_descriptor_cb;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtrPointerVoid renderpass_descriptor_userdata_cb;
+        public FnPtrPointerPointer renderpass_descriptor_userdata_cb;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtrVoid drawable_cb;
+        public FnPtrPointer drawable_cb;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtrPointerVoid drawable_userdata_cb;
+        public FnPtrPointerPointer drawable_userdata_cb;
 
         [FieldOffset(40)] // size = 8, padding = 0
         public void* user_data;
@@ -2623,13 +2623,13 @@ public static unsafe partial class sokol
     public struct sapp_desc
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public FnPtr_init_cb init_cb;
+        public FnPtrVoid init_cb;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtr_frame_cb frame_cb;
+        public FnPtrVoid frame_cb;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtr_cleanup_cb cleanup_cb;
+        public FnPtrVoid cleanup_cb;
 
         [FieldOffset(24)] // size = 8, padding = 0
         public FnPtr_event_cb event_cb;
@@ -2729,27 +2729,6 @@ public static unsafe partial class sokol
 
         [FieldOffset(364)] // size = 1, padding = 3
         public CBool ios_keyboard_resizes_canvas;
-
-        // FunctionPointer @ sokol_app.h:1329:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_init_cb
-        {
-            public delegate* unmanaged<void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_app.h:1330:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_frame_cb
-        {
-            public delegate* unmanaged<void> Pointer;
-        }
-
-        // FunctionPointer @ sokol_app.h:1331:12
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_cleanup_cb
-        {
-            public delegate* unmanaged<void> Pointer;
-        }
 
         // FunctionPointer @ sokol_app.h:1332:12
         [StructLayout(LayoutKind.Sequential)]
