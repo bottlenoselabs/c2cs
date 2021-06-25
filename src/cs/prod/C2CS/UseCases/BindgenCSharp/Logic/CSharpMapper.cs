@@ -20,6 +20,7 @@ namespace C2CS.UseCases.BindgenCSharp
         private static readonly Dictionary<string, string> BuiltInPointerFunctionMappings = new()
         {
             // FnPtr{FIRST_PARAM_TYPE}{SECOND_PARAM_TYPE}...{LAST_PARAM_TYPE}{RETURN_TYPE}
+            {"void (void)", "FnPtrVoid"},
             {"void *(void)", "FnPtrVoid"},
             {"void *(void *)", "FnPtrPointerVoid"},
             {"void (void *)", "FnPtrPointerVoid"},

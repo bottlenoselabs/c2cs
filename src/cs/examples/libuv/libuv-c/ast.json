@@ -318,7 +318,7 @@
         },
         {
           "name": "callback",
-          "type": "void (*)(void)",
+          "type": "void (void)",
           "location": {
             "file": "uv.h",
             "line": 1750,
@@ -1726,7 +1726,9 @@
           "name": "avg",
           "type": "double[3]",
           "location": {
-            "file": ""
+            "file": "uv.h",
+            "line": 1606,
+            "column": 34
           }
         }
       ],
@@ -3763,7 +3765,9 @@
           "name": "bufs",
           "type": "uv_buf_t*",
           "location": {
-            "file": ""
+            "file": "uv.h",
+            "line": 1366,
+            "column": 42
           }
         },
         {
@@ -3883,7 +3887,9 @@
           "name": "bufs",
           "type": "uv_buf_t*",
           "location": {
-            "file": ""
+            "file": "uv.h",
+            "line": 1355,
+            "column": 41
           }
         },
         {
@@ -6442,7 +6448,9 @@
           "name": "bufs",
           "type": "uv_buf_t*",
           "location": {
-            "file": ""
+            "file": "uv.h",
+            "line": 710,
+            "column": 46
           }
         },
         {
@@ -6497,7 +6505,9 @@
           "name": "bufs",
           "type": "uv_buf_t*",
           "location": {
-            "file": ""
+            "file": "uv.h",
+            "line": 705,
+            "column": 42
           }
         },
         {
@@ -7518,7 +7528,9 @@
           "name": "bufs",
           "type": "uv_buf_t*",
           "location": {
-            "file": ""
+            "file": "uv.h",
+            "line": 527,
+            "column": 43
           }
         },
         {
@@ -7563,7 +7575,9 @@
           "name": "bufs",
           "type": "uv_buf_t*",
           "location": {
-            "file": ""
+            "file": "uv.h",
+            "line": 522,
+            "column": 40
           }
         },
         {
@@ -7626,7 +7640,9 @@
           "name": "bufs",
           "type": "uv_buf_t*",
           "location": {
-            "file": ""
+            "file": "uv.h",
+            "line": 517,
+            "column": 39
           }
         },
         {
@@ -7825,7 +7841,9 @@
           "name": "socket_vector",
           "type": "uv_os_sock_t[2]",
           "location": {
-            "file": ""
+            "file": "uv.h",
+            "line": 481,
+            "column": 42
           }
         },
         {
@@ -7861,7 +7879,9 @@
           "name": "fds",
           "type": "uv_file[2]",
           "location": {
-            "file": ""
+            "file": "uv.h",
+            "line": 478,
+            "column": 31
           }
         },
         {
@@ -10364,7 +10384,9 @@
           "name": "sysname",
           "type": "char[256]",
           "location": {
-            "file": ""
+            "file": "uv.h",
+            "line": 1135,
+            "column": 8
           }
         },
         {
@@ -10372,7 +10394,9 @@
           "type": "char[256]",
           "offset": 256,
           "location": {
-            "file": ""
+            "file": "uv.h",
+            "line": 1136,
+            "column": 8
           }
         },
         {
@@ -10380,7 +10404,9 @@
           "type": "char[256]",
           "offset": 512,
           "location": {
-            "file": ""
+            "file": "uv.h",
+            "line": 1137,
+            "column": 8
           }
         },
         {
@@ -10388,7 +10414,9 @@
           "type": "char[256]",
           "offset": 768,
           "location": {
-            "file": ""
+            "file": "uv.h",
+            "line": 1138,
+            "column": 8
           }
         }
       ],
@@ -10449,7 +10477,9 @@
           "offset": 8,
           "padding": 2,
           "location": {
-            "file": ""
+            "file": "uv.h",
+            "line": 1114,
+            "column": 8
           }
         },
         {
@@ -12653,7 +12683,7 @@
       }
     },
     {
-      "name": "void (*)(void)",
+      "name": "void (void)",
       "kind": "functionPointer",
       "sizeOf": 8,
       "alignOf": 8,
@@ -13186,7 +13216,9 @@
       "kind": "pointer",
       "alignOf": 8,
       "location": {
-        "file": ""
+        "file": "uv.h",
+        "line": 1366,
+        "column": 42
       }
     },
     {
@@ -14312,7 +14344,9 @@
       "sizeOfElement": 4,
       "arraySize": 2,
       "location": {
-        "file": ""
+        "file": "uv.h",
+        "line": 481,
+        "column": 42
       }
     },
     {
@@ -14323,7 +14357,9 @@
       "sizeOfElement": 4,
       "arraySize": 2,
       "location": {
-        "file": ""
+        "file": "uv.h",
+        "line": 478,
+        "column": 31
       }
     },
     {
