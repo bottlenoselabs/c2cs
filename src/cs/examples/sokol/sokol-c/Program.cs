@@ -10,7 +10,8 @@ internal static class Program
     private static void Main()
     {
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
-        GenerateLibraryBindings();
+        GenerateAbstractSyntaxTree(rootDirectory);
+        GenerateBindingsCSharp(rootDirectory);
         BuildLibrary(rootDirectory);
     }
 
@@ -25,13 +26,31 @@ internal static class Program
         }
     }
 
-    private static void GenerateLibraryBindings()
+    private static void GenerateAbstractSyntaxTree(string rootDirectory)
     {
         var arguments = @$"
+ast
+-i
+{rootDirectory}/src/c/examples/sokol/sokol.h
+-o
+{rootDirectory}/src/cs/examples/sokol-c/sokol-c/ast.json
 -c
-{Environment.CurrentDirectory}/config.json
+{rootDirectory}/src/cs/examples/sokol/sokol-c/config_c.json
 ";
+        var argumentsArray =
+            arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+        C2CS.Program.Main(argumentsArray);
+    }
 
+    private static void GenerateBindingsCSharp(string rootDirectory)
+    {
+        var arguments = @$"
+cs
+-i
+{rootDirectory}/src/cs/examples/sokol-c/sokol-c/ast.json
+-o
+{rootDirectory}/src/cs/examples/sokol/sokol-cs/sokol.cs
+";
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);

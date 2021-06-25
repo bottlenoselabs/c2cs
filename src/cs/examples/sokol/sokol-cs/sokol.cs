@@ -11,6 +11,7 @@
 //-------------------------------------------------------------------------------------
 using System;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 #nullable enable
 
@@ -29,680 +30,1449 @@ public static unsafe partial class sokol
             libraryFilePath = $@"{libraryFileNamePrefix}{LibraryName}{libraryFileNameExtension}";
         }
         _libraryHandle = Runtime.LibraryLoad(libraryFilePath);
-        if (_libraryHandle == IntPtr.Zero)
-            throw new Exception($"Failed to load library: {libraryFilePath}");
-        LoadExports();
+        if (_libraryHandle == IntPtr.Zero) throw new Exception($"Failed to load library: {libraryFilePath}");
+        _LoadVirtualTable();
     }
 
     public static void UnloadApi()
     {
-        if (_libraryHandle == IntPtr.Zero)
-            return;
-        UnloadExports();
+        if (_libraryHandle == IntPtr.Zero) return;
+        _UnloadVirtualTable();
         Runtime.LibraryUnload(_libraryHandle);
     }
 
-    private static void LoadExports()
+    // Function @ sokol_glue.h:97:37
+    public static sg_context_desc sapp_sgcontext()
     {
-
+        return _virtualTable.sapp_sgcontext();
     }
 
-    private static void UnloadExports()
+    // Function @ sokol_gfx.h:2377:32
+    public static void* sg_mtl_render_command_encoder()
     {
-
+        return _virtualTable.sg_mtl_render_command_encoder();
     }
 
-    // Function @ sokol_app.h:1399
-    [DllImport(LibraryName, EntryPoint = "sokol_main", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sapp_desc sokol_main(int argc, CString* argv);
-
-    // Function @ sokol_app.h:1402
-    [DllImport(LibraryName, EntryPoint = "sapp_isvalid", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool sapp_isvalid();
-
-    // Function @ sokol_app.h:1404
-    [DllImport(LibraryName, EntryPoint = "sapp_width", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int sapp_width();
-
-    // Function @ sokol_app.h:1406
-    [DllImport(LibraryName, EntryPoint = "sapp_widthf", CallingConvention = CallingConvention.Cdecl)]
-    public static extern float sapp_widthf();
-
-    // Function @ sokol_app.h:1408
-    [DllImport(LibraryName, EntryPoint = "sapp_height", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int sapp_height();
-
-    // Function @ sokol_app.h:1410
-    [DllImport(LibraryName, EntryPoint = "sapp_heightf", CallingConvention = CallingConvention.Cdecl)]
-    public static extern float sapp_heightf();
-
-    // Function @ sokol_app.h:1412
-    [DllImport(LibraryName, EntryPoint = "sapp_color_format", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int sapp_color_format();
-
-    // Function @ sokol_app.h:1414
-    [DllImport(LibraryName, EntryPoint = "sapp_depth_format", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int sapp_depth_format();
-
-    // Function @ sokol_app.h:1416
-    [DllImport(LibraryName, EntryPoint = "sapp_sample_count", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int sapp_sample_count();
-
-    // Function @ sokol_app.h:1418
-    [DllImport(LibraryName, EntryPoint = "sapp_high_dpi", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool sapp_high_dpi();
-
-    // Function @ sokol_app.h:1420
-    [DllImport(LibraryName, EntryPoint = "sapp_dpi_scale", CallingConvention = CallingConvention.Cdecl)]
-    public static extern float sapp_dpi_scale();
-
-    // Function @ sokol_app.h:1422
-    [DllImport(LibraryName, EntryPoint = "sapp_show_keyboard", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sapp_show_keyboard(CBool show);
-
-    // Function @ sokol_app.h:1424
-    [DllImport(LibraryName, EntryPoint = "sapp_keyboard_shown", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool sapp_keyboard_shown();
-
-    // Function @ sokol_app.h:1426
-    [DllImport(LibraryName, EntryPoint = "sapp_is_fullscreen", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool sapp_is_fullscreen();
-
-    // Function @ sokol_app.h:1428
-    [DllImport(LibraryName, EntryPoint = "sapp_toggle_fullscreen", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sapp_toggle_fullscreen();
-
-    // Function @ sokol_app.h:1430
-    [DllImport(LibraryName, EntryPoint = "sapp_show_mouse", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sapp_show_mouse(CBool show);
-
-    // Function @ sokol_app.h:1432
-    [DllImport(LibraryName, EntryPoint = "sapp_mouse_shown", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool sapp_mouse_shown();
-
-    // Function @ sokol_app.h:1434
-    [DllImport(LibraryName, EntryPoint = "sapp_lock_mouse", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sapp_lock_mouse(CBool @lock);
-
-    // Function @ sokol_app.h:1436
-    [DllImport(LibraryName, EntryPoint = "sapp_mouse_locked", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool sapp_mouse_locked();
-
-    // Function @ sokol_app.h:1438
-    [DllImport(LibraryName, EntryPoint = "sapp_userdata", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sapp_userdata();
-
-    // Function @ sokol_app.h:1440
-    [DllImport(LibraryName, EntryPoint = "sapp_query_desc", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sapp_desc sapp_query_desc();
-
-    // Function @ sokol_app.h:1442
-    [DllImport(LibraryName, EntryPoint = "sapp_request_quit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sapp_request_quit();
-
-    // Function @ sokol_app.h:1444
-    [DllImport(LibraryName, EntryPoint = "sapp_cancel_quit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sapp_cancel_quit();
-
-    // Function @ sokol_app.h:1446
-    [DllImport(LibraryName, EntryPoint = "sapp_quit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sapp_quit();
-
-    // Function @ sokol_app.h:1448
-    [DllImport(LibraryName, EntryPoint = "sapp_consume_event", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sapp_consume_event();
-
-    // Function @ sokol_app.h:1450
-    [DllImport(LibraryName, EntryPoint = "sapp_frame_count", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong sapp_frame_count();
-
-    // Function @ sokol_app.h:1452
-    [DllImport(LibraryName, EntryPoint = "sapp_set_clipboard_string", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sapp_set_clipboard_string(CString str);
-
-    // Function @ sokol_app.h:1454
-    [DllImport(LibraryName, EntryPoint = "sapp_get_clipboard_string", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString sapp_get_clipboard_string();
-
-    // Function @ sokol_app.h:1456
-    [DllImport(LibraryName, EntryPoint = "sapp_set_window_title", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sapp_set_window_title(CString str);
-
-    // Function @ sokol_app.h:1458
-    [DllImport(LibraryName, EntryPoint = "sapp_set_icon", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sapp_set_icon(sapp_icon_desc* icon_desc);
-
-    // Function @ sokol_app.h:1460
-    [DllImport(LibraryName, EntryPoint = "sapp_get_num_dropped_files", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int sapp_get_num_dropped_files();
-
-    // Function @ sokol_app.h:1462
-    [DllImport(LibraryName, EntryPoint = "sapp_get_dropped_file_path", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString sapp_get_dropped_file_path(int index);
-
-    // Function @ sokol_app.h:1465
-    [DllImport(LibraryName, EntryPoint = "sapp_run", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sapp_run(sapp_desc* desc);
-
-    // Function @ sokol_app.h:1468
-    [DllImport(LibraryName, EntryPoint = "sapp_gles2", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool sapp_gles2();
-
-    // Function @ sokol_app.h:1471
-    [DllImport(LibraryName, EntryPoint = "sapp_html5_ask_leave_site", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sapp_html5_ask_leave_site(CBool ask);
-
-    // Function @ sokol_app.h:1473
-    [DllImport(LibraryName, EntryPoint = "sapp_html5_get_dropped_file_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint sapp_html5_get_dropped_file_size(int index);
-
-    // Function @ sokol_app.h:1475
-    [DllImport(LibraryName, EntryPoint = "sapp_html5_fetch_dropped_file", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sapp_html5_fetch_dropped_file(sapp_html5_fetch_request* request);
-
-    // Function @ sokol_app.h:1478
-    [DllImport(LibraryName, EntryPoint = "sapp_metal_get_device", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sapp_metal_get_device();
-
-    // Function @ sokol_app.h:1480
-    [DllImport(LibraryName, EntryPoint = "sapp_metal_get_renderpass_descriptor", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sapp_metal_get_renderpass_descriptor();
-
-    // Function @ sokol_app.h:1482
-    [DllImport(LibraryName, EntryPoint = "sapp_metal_get_drawable", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sapp_metal_get_drawable();
-
-    // Function @ sokol_app.h:1484
-    [DllImport(LibraryName, EntryPoint = "sapp_macos_get_window", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sapp_macos_get_window();
-
-    // Function @ sokol_app.h:1486
-    [DllImport(LibraryName, EntryPoint = "sapp_ios_get_window", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sapp_ios_get_window();
-
-    // Function @ sokol_app.h:1489
-    [DllImport(LibraryName, EntryPoint = "sapp_d3d11_get_device", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sapp_d3d11_get_device();
-
-    // Function @ sokol_app.h:1491
-    [DllImport(LibraryName, EntryPoint = "sapp_d3d11_get_device_context", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sapp_d3d11_get_device_context();
-
-    // Function @ sokol_app.h:1493
-    [DllImport(LibraryName, EntryPoint = "sapp_d3d11_get_swap_chain", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sapp_d3d11_get_swap_chain();
-
-    // Function @ sokol_app.h:1495
-    [DllImport(LibraryName, EntryPoint = "sapp_d3d11_get_render_target_view", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sapp_d3d11_get_render_target_view();
-
-    // Function @ sokol_app.h:1497
-    [DllImport(LibraryName, EntryPoint = "sapp_d3d11_get_depth_stencil_view", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sapp_d3d11_get_depth_stencil_view();
-
-    // Function @ sokol_app.h:1499
-    [DllImport(LibraryName, EntryPoint = "sapp_win32_get_hwnd", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sapp_win32_get_hwnd();
-
-    // Function @ sokol_app.h:1502
-    [DllImport(LibraryName, EntryPoint = "sapp_wgpu_get_device", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sapp_wgpu_get_device();
-
-    // Function @ sokol_app.h:1504
-    [DllImport(LibraryName, EntryPoint = "sapp_wgpu_get_render_view", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sapp_wgpu_get_render_view();
-
-    // Function @ sokol_app.h:1506
-    [DllImport(LibraryName, EntryPoint = "sapp_wgpu_get_resolve_view", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sapp_wgpu_get_resolve_view();
-
-    // Function @ sokol_app.h:1508
-    [DllImport(LibraryName, EntryPoint = "sapp_wgpu_get_depth_stencil_view", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sapp_wgpu_get_depth_stencil_view();
-
-    // Function @ sokol_app.h:1511
-    [DllImport(LibraryName, EntryPoint = "sapp_android_get_native_activity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sapp_android_get_native_activity();
-
-    // Function @ sokol_gfx.h:2268
-    [DllImport(LibraryName, EntryPoint = "sg_setup", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_setup(sg_desc* desc);
-
-    // Function @ sokol_gfx.h:2269
-    [DllImport(LibraryName, EntryPoint = "sg_shutdown", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_shutdown();
-
-    // Function @ sokol_gfx.h:2270
-    [DllImport(LibraryName, EntryPoint = "sg_isvalid", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool sg_isvalid();
-
-    // Function @ sokol_gfx.h:2271
-    [DllImport(LibraryName, EntryPoint = "sg_reset_state_cache", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_reset_state_cache();
-
-    // Function @ sokol_gfx.h:2272
-    [DllImport(LibraryName, EntryPoint = "sg_install_trace_hooks", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_trace_hooks sg_install_trace_hooks(sg_trace_hooks* trace_hooks);
-
-    // Function @ sokol_gfx.h:2273
-    [DllImport(LibraryName, EntryPoint = "sg_push_debug_group", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_push_debug_group(CString name);
-
-    // Function @ sokol_gfx.h:2274
-    [DllImport(LibraryName, EntryPoint = "sg_pop_debug_group", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_pop_debug_group();
-
-    // Function @ sokol_gfx.h:2277
-    [DllImport(LibraryName, EntryPoint = "sg_make_buffer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_buffer sg_make_buffer(sg_buffer_desc* desc);
-
-    // Function @ sokol_gfx.h:2278
-    [DllImport(LibraryName, EntryPoint = "sg_make_image", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_image sg_make_image(sg_image_desc* desc);
-
-    // Function @ sokol_gfx.h:2279
-    [DllImport(LibraryName, EntryPoint = "sg_make_shader", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_shader sg_make_shader(sg_shader_desc* desc);
-
-    // Function @ sokol_gfx.h:2280
-    [DllImport(LibraryName, EntryPoint = "sg_make_pipeline", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_pipeline sg_make_pipeline(sg_pipeline_desc* desc);
-
-    // Function @ sokol_gfx.h:2281
-    [DllImport(LibraryName, EntryPoint = "sg_make_pass", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_pass sg_make_pass(sg_pass_desc* desc);
-
-    // Function @ sokol_gfx.h:2282
-    [DllImport(LibraryName, EntryPoint = "sg_destroy_buffer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_destroy_buffer(sg_buffer buf);
-
-    // Function @ sokol_gfx.h:2283
-    [DllImport(LibraryName, EntryPoint = "sg_destroy_image", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_destroy_image(sg_image img);
-
-    // Function @ sokol_gfx.h:2284
-    [DllImport(LibraryName, EntryPoint = "sg_destroy_shader", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_destroy_shader(sg_shader shd);
-
-    // Function @ sokol_gfx.h:2285
-    [DllImport(LibraryName, EntryPoint = "sg_destroy_pipeline", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_destroy_pipeline(sg_pipeline pip);
-
-    // Function @ sokol_gfx.h:2286
-    [DllImport(LibraryName, EntryPoint = "sg_destroy_pass", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_destroy_pass(sg_pass pass);
-
-    // Function @ sokol_gfx.h:2287
-    [DllImport(LibraryName, EntryPoint = "sg_update_buffer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_update_buffer(sg_buffer buf, sg_range* data);
-
-    // Function @ sokol_gfx.h:2288
-    [DllImport(LibraryName, EntryPoint = "sg_update_image", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_update_image(sg_image img, sg_image_data* data);
-
-    // Function @ sokol_gfx.h:2289
-    [DllImport(LibraryName, EntryPoint = "sg_append_buffer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int sg_append_buffer(sg_buffer buf, sg_range* data);
-
-    // Function @ sokol_gfx.h:2290
-    [DllImport(LibraryName, EntryPoint = "sg_query_buffer_overflow", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool sg_query_buffer_overflow(sg_buffer buf);
-
-    // Function @ sokol_gfx.h:2293
-    [DllImport(LibraryName, EntryPoint = "sg_begin_default_pass", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_begin_default_pass(sg_pass_action* pass_action, int width, int height);
-
-    // Function @ sokol_gfx.h:2294
-    [DllImport(LibraryName, EntryPoint = "sg_begin_default_passf", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_begin_default_passf(sg_pass_action* pass_action, float width, float height);
-
-    // Function @ sokol_gfx.h:2295
-    [DllImport(LibraryName, EntryPoint = "sg_begin_pass", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_begin_pass(sg_pass pass, sg_pass_action* pass_action);
-
-    // Function @ sokol_gfx.h:2296
-    [DllImport(LibraryName, EntryPoint = "sg_apply_viewport", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_apply_viewport(int x, int y, int width, int height, CBool origin_top_left);
-
-    // Function @ sokol_gfx.h:2297
-    [DllImport(LibraryName, EntryPoint = "sg_apply_viewportf", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_apply_viewportf(float x, float y, float width, float height, CBool origin_top_left);
-
-    // Function @ sokol_gfx.h:2298
-    [DllImport(LibraryName, EntryPoint = "sg_apply_scissor_rect", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_apply_scissor_rect(int x, int y, int width, int height, CBool origin_top_left);
-
-    // Function @ sokol_gfx.h:2299
-    [DllImport(LibraryName, EntryPoint = "sg_apply_scissor_rectf", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_apply_scissor_rectf(float x, float y, float width, float height, CBool origin_top_left);
-
-    // Function @ sokol_gfx.h:2300
-    [DllImport(LibraryName, EntryPoint = "sg_apply_pipeline", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_apply_pipeline(sg_pipeline pip);
-
-    // Function @ sokol_gfx.h:2301
-    [DllImport(LibraryName, EntryPoint = "sg_apply_bindings", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_apply_bindings(sg_bindings* bindings);
-
-    // Function @ sokol_gfx.h:2302
-    [DllImport(LibraryName, EntryPoint = "sg_apply_uniforms", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_apply_uniforms(sg_shader_stage stage, int ub_index, sg_range* data);
-
-    // Function @ sokol_gfx.h:2303
-    [DllImport(LibraryName, EntryPoint = "sg_draw", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_draw(int base_element, int num_elements, int num_instances);
-
-    // Function @ sokol_gfx.h:2304
-    [DllImport(LibraryName, EntryPoint = "sg_end_pass", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_end_pass();
-
-    // Function @ sokol_gfx.h:2305
-    [DllImport(LibraryName, EntryPoint = "sg_commit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_commit();
-
-    // Function @ sokol_gfx.h:2308
-    [DllImport(LibraryName, EntryPoint = "sg_query_desc", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_desc sg_query_desc();
-
-    // Function @ sokol_gfx.h:2309
-    [DllImport(LibraryName, EntryPoint = "sg_query_backend", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_backend sg_query_backend();
-
-    // Function @ sokol_gfx.h:2310
-    [DllImport(LibraryName, EntryPoint = "sg_query_features", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_features sg_query_features();
-
-    // Function @ sokol_gfx.h:2311
-    [DllImport(LibraryName, EntryPoint = "sg_query_limits", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_limits sg_query_limits();
-
-    // Function @ sokol_gfx.h:2312
-    [DllImport(LibraryName, EntryPoint = "sg_query_pixelformat", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_pixelformat_info sg_query_pixelformat(sg_pixel_format fmt);
-
-    // Function @ sokol_gfx.h:2314
-    [DllImport(LibraryName, EntryPoint = "sg_query_buffer_state", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_resource_state sg_query_buffer_state(sg_buffer buf);
-
-    // Function @ sokol_gfx.h:2315
-    [DllImport(LibraryName, EntryPoint = "sg_query_image_state", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_resource_state sg_query_image_state(sg_image img);
-
-    // Function @ sokol_gfx.h:2316
-    [DllImport(LibraryName, EntryPoint = "sg_query_shader_state", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_resource_state sg_query_shader_state(sg_shader shd);
-
-    // Function @ sokol_gfx.h:2317
-    [DllImport(LibraryName, EntryPoint = "sg_query_pipeline_state", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_resource_state sg_query_pipeline_state(sg_pipeline pip);
-
-    // Function @ sokol_gfx.h:2318
-    [DllImport(LibraryName, EntryPoint = "sg_query_pass_state", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_resource_state sg_query_pass_state(sg_pass pass);
-
-    // Function @ sokol_gfx.h:2320
-    [DllImport(LibraryName, EntryPoint = "sg_query_buffer_info", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_buffer_info sg_query_buffer_info(sg_buffer buf);
-
-    // Function @ sokol_gfx.h:2321
-    [DllImport(LibraryName, EntryPoint = "sg_query_image_info", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_image_info sg_query_image_info(sg_image img);
-
-    // Function @ sokol_gfx.h:2322
-    [DllImport(LibraryName, EntryPoint = "sg_query_shader_info", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_shader_info sg_query_shader_info(sg_shader shd);
-
-    // Function @ sokol_gfx.h:2323
-    [DllImport(LibraryName, EntryPoint = "sg_query_pipeline_info", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_pipeline_info sg_query_pipeline_info(sg_pipeline pip);
-
-    // Function @ sokol_gfx.h:2324
-    [DllImport(LibraryName, EntryPoint = "sg_query_pass_info", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_pass_info sg_query_pass_info(sg_pass pass);
-
-    // Function @ sokol_gfx.h:2326
-    [DllImport(LibraryName, EntryPoint = "sg_query_buffer_defaults", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_buffer_desc sg_query_buffer_defaults(sg_buffer_desc* desc);
-
-    // Function @ sokol_gfx.h:2327
-    [DllImport(LibraryName, EntryPoint = "sg_query_image_defaults", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_image_desc sg_query_image_defaults(sg_image_desc* desc);
-
-    // Function @ sokol_gfx.h:2328
-    [DllImport(LibraryName, EntryPoint = "sg_query_shader_defaults", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_shader_desc sg_query_shader_defaults(sg_shader_desc* desc);
-
-    // Function @ sokol_gfx.h:2329
-    [DllImport(LibraryName, EntryPoint = "sg_query_pipeline_defaults", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_pipeline_desc sg_query_pipeline_defaults(sg_pipeline_desc* desc);
-
-    // Function @ sokol_gfx.h:2330
-    [DllImport(LibraryName, EntryPoint = "sg_query_pass_defaults", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_pass_desc sg_query_pass_defaults(sg_pass_desc* desc);
-
-    // Function @ sokol_gfx.h:2333
-    [DllImport(LibraryName, EntryPoint = "sg_alloc_buffer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_buffer sg_alloc_buffer();
-
-    // Function @ sokol_gfx.h:2334
-    [DllImport(LibraryName, EntryPoint = "sg_alloc_image", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_image sg_alloc_image();
-
-    // Function @ sokol_gfx.h:2335
-    [DllImport(LibraryName, EntryPoint = "sg_alloc_shader", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_shader sg_alloc_shader();
-
-    // Function @ sokol_gfx.h:2336
-    [DllImport(LibraryName, EntryPoint = "sg_alloc_pipeline", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_pipeline sg_alloc_pipeline();
-
-    // Function @ sokol_gfx.h:2337
-    [DllImport(LibraryName, EntryPoint = "sg_alloc_pass", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_pass sg_alloc_pass();
-
-    // Function @ sokol_gfx.h:2338
-    [DllImport(LibraryName, EntryPoint = "sg_dealloc_buffer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_dealloc_buffer(sg_buffer buf_id);
-
-    // Function @ sokol_gfx.h:2339
-    [DllImport(LibraryName, EntryPoint = "sg_dealloc_image", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_dealloc_image(sg_image img_id);
-
-    // Function @ sokol_gfx.h:2340
-    [DllImport(LibraryName, EntryPoint = "sg_dealloc_shader", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_dealloc_shader(sg_shader shd_id);
-
-    // Function @ sokol_gfx.h:2341
-    [DllImport(LibraryName, EntryPoint = "sg_dealloc_pipeline", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_dealloc_pipeline(sg_pipeline pip_id);
-
-    // Function @ sokol_gfx.h:2342
-    [DllImport(LibraryName, EntryPoint = "sg_dealloc_pass", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_dealloc_pass(sg_pass pass_id);
-
-    // Function @ sokol_gfx.h:2343
-    [DllImport(LibraryName, EntryPoint = "sg_init_buffer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_init_buffer(sg_buffer buf_id, sg_buffer_desc* desc);
-
-    // Function @ sokol_gfx.h:2344
-    [DllImport(LibraryName, EntryPoint = "sg_init_image", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_init_image(sg_image img_id, sg_image_desc* desc);
-
-    // Function @ sokol_gfx.h:2345
-    [DllImport(LibraryName, EntryPoint = "sg_init_shader", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_init_shader(sg_shader shd_id, sg_shader_desc* desc);
-
-    // Function @ sokol_gfx.h:2346
-    [DllImport(LibraryName, EntryPoint = "sg_init_pipeline", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_init_pipeline(sg_pipeline pip_id, sg_pipeline_desc* desc);
-
-    // Function @ sokol_gfx.h:2347
-    [DllImport(LibraryName, EntryPoint = "sg_init_pass", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_init_pass(sg_pass pass_id, sg_pass_desc* desc);
-
-    // Function @ sokol_gfx.h:2348
-    [DllImport(LibraryName, EntryPoint = "sg_uninit_buffer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool sg_uninit_buffer(sg_buffer buf_id);
-
-    // Function @ sokol_gfx.h:2349
-    [DllImport(LibraryName, EntryPoint = "sg_uninit_image", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool sg_uninit_image(sg_image img_id);
-
-    // Function @ sokol_gfx.h:2350
-    [DllImport(LibraryName, EntryPoint = "sg_uninit_shader", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool sg_uninit_shader(sg_shader shd_id);
-
-    // Function @ sokol_gfx.h:2351
-    [DllImport(LibraryName, EntryPoint = "sg_uninit_pipeline", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool sg_uninit_pipeline(sg_pipeline pip_id);
-
-    // Function @ sokol_gfx.h:2352
-    [DllImport(LibraryName, EntryPoint = "sg_uninit_pass", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool sg_uninit_pass(sg_pass pass_id);
-
-    // Function @ sokol_gfx.h:2353
-    [DllImport(LibraryName, EntryPoint = "sg_fail_buffer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_fail_buffer(sg_buffer buf_id);
-
-    // Function @ sokol_gfx.h:2354
-    [DllImport(LibraryName, EntryPoint = "sg_fail_image", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_fail_image(sg_image img_id);
-
-    // Function @ sokol_gfx.h:2355
-    [DllImport(LibraryName, EntryPoint = "sg_fail_shader", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_fail_shader(sg_shader shd_id);
-
-    // Function @ sokol_gfx.h:2356
-    [DllImport(LibraryName, EntryPoint = "sg_fail_pipeline", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_fail_pipeline(sg_pipeline pip_id);
-
-    // Function @ sokol_gfx.h:2357
-    [DllImport(LibraryName, EntryPoint = "sg_fail_pass", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_fail_pass(sg_pass pass_id);
-
-    // Function @ sokol_gfx.h:2360
-    [DllImport(LibraryName, EntryPoint = "sg_setup_context", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_context sg_setup_context();
-
-    // Function @ sokol_gfx.h:2361
-    [DllImport(LibraryName, EntryPoint = "sg_activate_context", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_activate_context(sg_context ctx_id);
-
-    // Function @ sokol_gfx.h:2362
-    [DllImport(LibraryName, EntryPoint = "sg_discard_context", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void sg_discard_context(sg_context ctx_id);
-
-    // Function @ sokol_gfx.h:2371
-    [DllImport(LibraryName, EntryPoint = "sg_d3d11_device", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sg_d3d11_device();
-
-    // Function @ sokol_gfx.h:2374
-    [DllImport(LibraryName, EntryPoint = "sg_mtl_device", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sg_mtl_device();
-
-    // Function @ sokol_gfx.h:2377
-    [DllImport(LibraryName, EntryPoint = "sg_mtl_render_command_encoder", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* sg_mtl_render_command_encoder();
-
-    // Function @ sokol_glue.h:97
-    [DllImport(LibraryName, EntryPoint = "sapp_sgcontext", CallingConvention = CallingConvention.Cdecl)]
-    public static extern sg_context_desc sapp_sgcontext();
-
-    // Record @ sokol_app.h:1201
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct sapp_touchpoint
+    // Function @ sokol_gfx.h:2374:32
+    public static void* sg_mtl_device()
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public UIntPtr identifier;
+        return _virtualTable.sg_mtl_device();
+    }
+
+    // Function @ sokol_gfx.h:2371:32
+    public static void* sg_d3d11_device()
+    {
+        return _virtualTable.sg_d3d11_device();
+    }
+
+    // Function @ sokol_gfx.h:2362:25
+    public static void sg_discard_context(sg_context ctx_id)
+    {
+        _virtualTable.sg_discard_context(ctx_id);
+    }
+
+    // Function @ sokol_gfx.h:2361:25
+    public static void sg_activate_context(sg_context ctx_id)
+    {
+        _virtualTable.sg_activate_context(ctx_id);
+    }
+
+    // Function @ sokol_gfx.h:2360:31
+    public static sg_context sg_setup_context()
+    {
+        return _virtualTable.sg_setup_context();
+    }
+
+    // Function @ sokol_gfx.h:2357:25
+    public static void sg_fail_pass(sg_pass pass_id)
+    {
+        _virtualTable.sg_fail_pass(pass_id);
+    }
+
+    // Function @ sokol_gfx.h:2356:25
+    public static void sg_fail_pipeline(sg_pipeline pip_id)
+    {
+        _virtualTable.sg_fail_pipeline(pip_id);
+    }
+
+    // Function @ sokol_gfx.h:2355:25
+    public static void sg_fail_shader(sg_shader shd_id)
+    {
+        _virtualTable.sg_fail_shader(shd_id);
+    }
+
+    // Function @ sokol_gfx.h:2354:25
+    public static void sg_fail_image(sg_image img_id)
+    {
+        _virtualTable.sg_fail_image(img_id);
+    }
+
+    // Function @ sokol_gfx.h:2353:25
+    public static void sg_fail_buffer(sg_buffer buf_id)
+    {
+        _virtualTable.sg_fail_buffer(buf_id);
+    }
+
+    // Function @ sokol_gfx.h:2352:25
+    public static CBool sg_uninit_pass(sg_pass pass_id)
+    {
+        return _virtualTable.sg_uninit_pass(pass_id);
+    }
+
+    // Function @ sokol_gfx.h:2351:25
+    public static CBool sg_uninit_pipeline(sg_pipeline pip_id)
+    {
+        return _virtualTable.sg_uninit_pipeline(pip_id);
+    }
+
+    // Function @ sokol_gfx.h:2350:25
+    public static CBool sg_uninit_shader(sg_shader shd_id)
+    {
+        return _virtualTable.sg_uninit_shader(shd_id);
+    }
+
+    // Function @ sokol_gfx.h:2349:25
+    public static CBool sg_uninit_image(sg_image img_id)
+    {
+        return _virtualTable.sg_uninit_image(img_id);
+    }
+
+    // Function @ sokol_gfx.h:2348:25
+    public static CBool sg_uninit_buffer(sg_buffer buf_id)
+    {
+        return _virtualTable.sg_uninit_buffer(buf_id);
+    }
+
+    // Function @ sokol_gfx.h:2347:25
+    public static void sg_init_pass(sg_pass pass_id, sg_pass_desc* desc)
+    {
+        _virtualTable.sg_init_pass(pass_id, desc);
+    }
+
+    // Function @ sokol_gfx.h:2346:25
+    public static void sg_init_pipeline(sg_pipeline pip_id, sg_pipeline_desc* desc)
+    {
+        _virtualTable.sg_init_pipeline(pip_id, desc);
+    }
+
+    // Function @ sokol_gfx.h:2345:25
+    public static void sg_init_shader(sg_shader shd_id, sg_shader_desc* desc)
+    {
+        _virtualTable.sg_init_shader(shd_id, desc);
+    }
+
+    // Function @ sokol_gfx.h:2344:25
+    public static void sg_init_image(sg_image img_id, sg_image_desc* desc)
+    {
+        _virtualTable.sg_init_image(img_id, desc);
+    }
+
+    // Function @ sokol_gfx.h:2343:25
+    public static void sg_init_buffer(sg_buffer buf_id, sg_buffer_desc* desc)
+    {
+        _virtualTable.sg_init_buffer(buf_id, desc);
+    }
+
+    // Function @ sokol_gfx.h:2342:25
+    public static void sg_dealloc_pass(sg_pass pass_id)
+    {
+        _virtualTable.sg_dealloc_pass(pass_id);
+    }
+
+    // Function @ sokol_gfx.h:2341:25
+    public static void sg_dealloc_pipeline(sg_pipeline pip_id)
+    {
+        _virtualTable.sg_dealloc_pipeline(pip_id);
+    }
+
+    // Function @ sokol_gfx.h:2340:25
+    public static void sg_dealloc_shader(sg_shader shd_id)
+    {
+        _virtualTable.sg_dealloc_shader(shd_id);
+    }
+
+    // Function @ sokol_gfx.h:2339:25
+    public static void sg_dealloc_image(sg_image img_id)
+    {
+        _virtualTable.sg_dealloc_image(img_id);
+    }
+
+    // Function @ sokol_gfx.h:2338:25
+    public static void sg_dealloc_buffer(sg_buffer buf_id)
+    {
+        _virtualTable.sg_dealloc_buffer(buf_id);
+    }
+
+    // Function @ sokol_gfx.h:2337:28
+    public static sg_pass sg_alloc_pass()
+    {
+        return _virtualTable.sg_alloc_pass();
+    }
+
+    // Function @ sokol_gfx.h:2336:32
+    public static sg_pipeline sg_alloc_pipeline()
+    {
+        return _virtualTable.sg_alloc_pipeline();
+    }
+
+    // Function @ sokol_gfx.h:2335:30
+    public static sg_shader sg_alloc_shader()
+    {
+        return _virtualTable.sg_alloc_shader();
+    }
+
+    // Function @ sokol_gfx.h:2334:29
+    public static sg_image sg_alloc_image()
+    {
+        return _virtualTable.sg_alloc_image();
+    }
+
+    // Function @ sokol_gfx.h:2333:30
+    public static sg_buffer sg_alloc_buffer()
+    {
+        return _virtualTable.sg_alloc_buffer();
+    }
+
+    // Function @ sokol_gfx.h:2330:33
+    public static sg_pass_desc sg_query_pass_defaults(sg_pass_desc* desc)
+    {
+        return _virtualTable.sg_query_pass_defaults(desc);
+    }
+
+    // Function @ sokol_gfx.h:2329:37
+    public static sg_pipeline_desc sg_query_pipeline_defaults(sg_pipeline_desc* desc)
+    {
+        return _virtualTable.sg_query_pipeline_defaults(desc);
+    }
+
+    // Function @ sokol_gfx.h:2328:35
+    public static sg_shader_desc sg_query_shader_defaults(sg_shader_desc* desc)
+    {
+        return _virtualTable.sg_query_shader_defaults(desc);
+    }
+
+    // Function @ sokol_gfx.h:2327:34
+    public static sg_image_desc sg_query_image_defaults(sg_image_desc* desc)
+    {
+        return _virtualTable.sg_query_image_defaults(desc);
+    }
+
+    // Function @ sokol_gfx.h:2326:35
+    public static sg_buffer_desc sg_query_buffer_defaults(sg_buffer_desc* desc)
+    {
+        return _virtualTable.sg_query_buffer_defaults(desc);
+    }
+
+    // Function @ sokol_gfx.h:2324:33
+    public static sg_pass_info sg_query_pass_info(sg_pass pass)
+    {
+        return _virtualTable.sg_query_pass_info(pass);
+    }
+
+    // Function @ sokol_gfx.h:2323:37
+    public static sg_pipeline_info sg_query_pipeline_info(sg_pipeline pip)
+    {
+        return _virtualTable.sg_query_pipeline_info(pip);
+    }
+
+    // Function @ sokol_gfx.h:2322:35
+    public static sg_shader_info sg_query_shader_info(sg_shader shd)
+    {
+        return _virtualTable.sg_query_shader_info(shd);
+    }
+
+    // Function @ sokol_gfx.h:2321:34
+    public static sg_image_info sg_query_image_info(sg_image img)
+    {
+        return _virtualTable.sg_query_image_info(img);
+    }
+
+    // Function @ sokol_gfx.h:2320:35
+    public static sg_buffer_info sg_query_buffer_info(sg_buffer buf)
+    {
+        return _virtualTable.sg_query_buffer_info(buf);
+    }
+
+    // Function @ sokol_gfx.h:2318:38
+    public static sg_resource_state sg_query_pass_state(sg_pass pass)
+    {
+        return _virtualTable.sg_query_pass_state(pass);
+    }
+
+    // Function @ sokol_gfx.h:2317:38
+    public static sg_resource_state sg_query_pipeline_state(sg_pipeline pip)
+    {
+        return _virtualTable.sg_query_pipeline_state(pip);
+    }
+
+    // Function @ sokol_gfx.h:2316:38
+    public static sg_resource_state sg_query_shader_state(sg_shader shd)
+    {
+        return _virtualTable.sg_query_shader_state(shd);
+    }
+
+    // Function @ sokol_gfx.h:2315:38
+    public static sg_resource_state sg_query_image_state(sg_image img)
+    {
+        return _virtualTable.sg_query_image_state(img);
+    }
+
+    // Function @ sokol_gfx.h:2314:38
+    public static sg_resource_state sg_query_buffer_state(sg_buffer buf)
+    {
+        return _virtualTable.sg_query_buffer_state(buf);
+    }
+
+    // Function @ sokol_gfx.h:2312:40
+    public static sg_pixelformat_info sg_query_pixelformat(sg_pixel_format fmt)
+    {
+        return _virtualTable.sg_query_pixelformat(fmt);
+    }
+
+    // Function @ sokol_gfx.h:2311:30
+    public static sg_limits sg_query_limits()
+    {
+        return _virtualTable.sg_query_limits();
+    }
+
+    // Function @ sokol_gfx.h:2310:32
+    public static sg_features sg_query_features()
+    {
+        return _virtualTable.sg_query_features();
+    }
+
+    // Function @ sokol_gfx.h:2309:31
+    public static sg_backend sg_query_backend()
+    {
+        return _virtualTable.sg_query_backend();
+    }
+
+    // Function @ sokol_gfx.h:2308:28
+    public static sg_desc sg_query_desc()
+    {
+        return _virtualTable.sg_query_desc();
+    }
+
+    // Function @ sokol_gfx.h:2305:25
+    public static void sg_commit()
+    {
+        _virtualTable.sg_commit();
+    }
+
+    // Function @ sokol_gfx.h:2304:25
+    public static void sg_end_pass()
+    {
+        _virtualTable.sg_end_pass();
+    }
+
+    // Function @ sokol_gfx.h:2303:25
+    public static void sg_draw(int base_element, int num_elements, int num_instances)
+    {
+        _virtualTable.sg_draw(base_element, num_elements, num_instances);
+    }
+
+    // Function @ sokol_gfx.h:2302:25
+    public static void sg_apply_uniforms(sg_shader_stage stage, int ub_index, sg_range* data)
+    {
+        _virtualTable.sg_apply_uniforms(stage, ub_index, data);
+    }
+
+    // Function @ sokol_gfx.h:2301:25
+    public static void sg_apply_bindings(sg_bindings* bindings)
+    {
+        _virtualTable.sg_apply_bindings(bindings);
+    }
+
+    // Function @ sokol_gfx.h:2300:25
+    public static void sg_apply_pipeline(sg_pipeline pip)
+    {
+        _virtualTable.sg_apply_pipeline(pip);
+    }
+
+    // Function @ sokol_gfx.h:2299:25
+    public static void sg_apply_scissor_rectf(float x, float y, float width, float height, CBool origin_top_left)
+    {
+        _virtualTable.sg_apply_scissor_rectf(x, y, width, height, origin_top_left);
+    }
+
+    // Function @ sokol_gfx.h:2298:25
+    public static void sg_apply_scissor_rect(int x, int y, int width, int height, CBool origin_top_left)
+    {
+        _virtualTable.sg_apply_scissor_rect(x, y, width, height, origin_top_left);
+    }
+
+    // Function @ sokol_gfx.h:2297:25
+    public static void sg_apply_viewportf(float x, float y, float width, float height, CBool origin_top_left)
+    {
+        _virtualTable.sg_apply_viewportf(x, y, width, height, origin_top_left);
+    }
+
+    // Function @ sokol_gfx.h:2296:25
+    public static void sg_apply_viewport(int x, int y, int width, int height, CBool origin_top_left)
+    {
+        _virtualTable.sg_apply_viewport(x, y, width, height, origin_top_left);
+    }
+
+    // Function @ sokol_gfx.h:2295:25
+    public static void sg_begin_pass(sg_pass pass, sg_pass_action* pass_action)
+    {
+        _virtualTable.sg_begin_pass(pass, pass_action);
+    }
+
+    // Function @ sokol_gfx.h:2294:25
+    public static void sg_begin_default_passf(sg_pass_action* pass_action, float width, float height)
+    {
+        _virtualTable.sg_begin_default_passf(pass_action, width, height);
+    }
+
+    // Function @ sokol_gfx.h:2293:25
+    public static void sg_begin_default_pass(sg_pass_action* pass_action, int width, int height)
+    {
+        _virtualTable.sg_begin_default_pass(pass_action, width, height);
+    }
+
+    // Function @ sokol_gfx.h:2290:25
+    public static CBool sg_query_buffer_overflow(sg_buffer buf)
+    {
+        return _virtualTable.sg_query_buffer_overflow(buf);
+    }
+
+    // Function @ sokol_gfx.h:2289:24
+    public static int sg_append_buffer(sg_buffer buf, sg_range* data)
+    {
+        return _virtualTable.sg_append_buffer(buf, data);
+    }
+
+    // Function @ sokol_gfx.h:2288:25
+    public static void sg_update_image(sg_image img, sg_image_data* data)
+    {
+        _virtualTable.sg_update_image(img, data);
+    }
+
+    // Function @ sokol_gfx.h:2287:25
+    public static void sg_update_buffer(sg_buffer buf, sg_range* data)
+    {
+        _virtualTable.sg_update_buffer(buf, data);
+    }
+
+    // Function @ sokol_gfx.h:2286:25
+    public static void sg_destroy_pass(sg_pass pass)
+    {
+        _virtualTable.sg_destroy_pass(pass);
+    }
+
+    // Function @ sokol_gfx.h:2285:25
+    public static void sg_destroy_pipeline(sg_pipeline pip)
+    {
+        _virtualTable.sg_destroy_pipeline(pip);
+    }
+
+    // Function @ sokol_gfx.h:2284:25
+    public static void sg_destroy_shader(sg_shader shd)
+    {
+        _virtualTable.sg_destroy_shader(shd);
+    }
+
+    // Function @ sokol_gfx.h:2283:25
+    public static void sg_destroy_image(sg_image img)
+    {
+        _virtualTable.sg_destroy_image(img);
+    }
+
+    // Function @ sokol_gfx.h:2282:25
+    public static void sg_destroy_buffer(sg_buffer buf)
+    {
+        _virtualTable.sg_destroy_buffer(buf);
+    }
+
+    // Function @ sokol_gfx.h:2281:28
+    public static sg_pass sg_make_pass(sg_pass_desc* desc)
+    {
+        return _virtualTable.sg_make_pass(desc);
+    }
+
+    // Function @ sokol_gfx.h:2280:32
+    public static sg_pipeline sg_make_pipeline(sg_pipeline_desc* desc)
+    {
+        return _virtualTable.sg_make_pipeline(desc);
+    }
+
+    // Function @ sokol_gfx.h:2279:30
+    public static sg_shader sg_make_shader(sg_shader_desc* desc)
+    {
+        return _virtualTable.sg_make_shader(desc);
+    }
+
+    // Function @ sokol_gfx.h:2278:29
+    public static sg_image sg_make_image(sg_image_desc* desc)
+    {
+        return _virtualTable.sg_make_image(desc);
+    }
+
+    // Function @ sokol_gfx.h:2277:30
+    public static sg_buffer sg_make_buffer(sg_buffer_desc* desc)
+    {
+        return _virtualTable.sg_make_buffer(desc);
+    }
+
+    // Function @ sokol_gfx.h:2274:25
+    public static void sg_pop_debug_group()
+    {
+        _virtualTable.sg_pop_debug_group();
+    }
+
+    // Function @ sokol_gfx.h:2273:25
+    public static void sg_push_debug_group(CString name)
+    {
+        _virtualTable.sg_push_debug_group(name);
+    }
+
+    // Function @ sokol_gfx.h:2272:35
+    public static sg_trace_hooks sg_install_trace_hooks(sg_trace_hooks* trace_hooks)
+    {
+        return _virtualTable.sg_install_trace_hooks(trace_hooks);
+    }
+
+    // Function @ sokol_gfx.h:2271:25
+    public static void sg_reset_state_cache()
+    {
+        _virtualTable.sg_reset_state_cache();
+    }
+
+    // Function @ sokol_gfx.h:2270:25
+    public static CBool sg_isvalid()
+    {
+        return _virtualTable.sg_isvalid();
+    }
+
+    // Function @ sokol_gfx.h:2269:25
+    public static void sg_shutdown()
+    {
+        _virtualTable.sg_shutdown();
+    }
+
+    // Function @ sokol_gfx.h:2268:25
+    public static void sg_setup(sg_desc* desc)
+    {
+        _virtualTable.sg_setup(desc);
+    }
+
+    // Function @ sokol_app.h:1511:32
+    public static void* sapp_android_get_native_activity()
+    {
+        return _virtualTable.sapp_android_get_native_activity();
+    }
+
+    // Function @ sokol_app.h:1508:32
+    public static void* sapp_wgpu_get_depth_stencil_view()
+    {
+        return _virtualTable.sapp_wgpu_get_depth_stencil_view();
+    }
+
+    // Function @ sokol_app.h:1506:32
+    public static void* sapp_wgpu_get_resolve_view()
+    {
+        return _virtualTable.sapp_wgpu_get_resolve_view();
+    }
+
+    // Function @ sokol_app.h:1504:32
+    public static void* sapp_wgpu_get_render_view()
+    {
+        return _virtualTable.sapp_wgpu_get_render_view();
+    }
+
+    // Function @ sokol_app.h:1502:32
+    public static void* sapp_wgpu_get_device()
+    {
+        return _virtualTable.sapp_wgpu_get_device();
+    }
+
+    // Function @ sokol_app.h:1499:32
+    public static void* sapp_win32_get_hwnd()
+    {
+        return _virtualTable.sapp_win32_get_hwnd();
+    }
+
+    // Function @ sokol_app.h:1497:32
+    public static void* sapp_d3d11_get_depth_stencil_view()
+    {
+        return _virtualTable.sapp_d3d11_get_depth_stencil_view();
+    }
+
+    // Function @ sokol_app.h:1495:32
+    public static void* sapp_d3d11_get_render_target_view()
+    {
+        return _virtualTable.sapp_d3d11_get_render_target_view();
+    }
+
+    // Function @ sokol_app.h:1493:32
+    public static void* sapp_d3d11_get_swap_chain()
+    {
+        return _virtualTable.sapp_d3d11_get_swap_chain();
+    }
+
+    // Function @ sokol_app.h:1491:32
+    public static void* sapp_d3d11_get_device_context()
+    {
+        return _virtualTable.sapp_d3d11_get_device_context();
+    }
+
+    // Function @ sokol_app.h:1489:32
+    public static void* sapp_d3d11_get_device()
+    {
+        return _virtualTable.sapp_d3d11_get_device();
+    }
+
+    // Function @ sokol_app.h:1486:32
+    public static void* sapp_ios_get_window()
+    {
+        return _virtualTable.sapp_ios_get_window();
+    }
+
+    // Function @ sokol_app.h:1484:32
+    public static void* sapp_macos_get_window()
+    {
+        return _virtualTable.sapp_macos_get_window();
+    }
+
+    // Function @ sokol_app.h:1482:32
+    public static void* sapp_metal_get_drawable()
+    {
+        return _virtualTable.sapp_metal_get_drawable();
+    }
+
+    // Function @ sokol_app.h:1480:32
+    public static void* sapp_metal_get_renderpass_descriptor()
+    {
+        return _virtualTable.sapp_metal_get_renderpass_descriptor();
+    }
+
+    // Function @ sokol_app.h:1478:32
+    public static void* sapp_metal_get_device()
+    {
+        return _virtualTable.sapp_metal_get_device();
+    }
+
+    // Function @ sokol_app.h:1475:25
+    public static void sapp_html5_fetch_dropped_file(sapp_html5_fetch_request* request)
+    {
+        _virtualTable.sapp_html5_fetch_dropped_file(request);
+    }
+
+    // Function @ sokol_app.h:1473:29
+    public static uint sapp_html5_get_dropped_file_size(int index)
+    {
+        return _virtualTable.sapp_html5_get_dropped_file_size(index);
+    }
+
+    // Function @ sokol_app.h:1471:25
+    public static void sapp_html5_ask_leave_site(CBool ask)
+    {
+        _virtualTable.sapp_html5_ask_leave_site(ask);
+    }
+
+    // Function @ sokol_app.h:1468:25
+    public static CBool sapp_gles2()
+    {
+        return _virtualTable.sapp_gles2();
+    }
+
+    // Function @ sokol_app.h:1465:25
+    public static void sapp_run(sapp_desc* desc)
+    {
+        _virtualTable.sapp_run(desc);
+    }
+
+    // Function @ sokol_app.h:1462:32
+    public static CString sapp_get_dropped_file_path(int index)
+    {
+        return _virtualTable.sapp_get_dropped_file_path(index);
+    }
+
+    // Function @ sokol_app.h:1460:24
+    public static int sapp_get_num_dropped_files()
+    {
+        return _virtualTable.sapp_get_num_dropped_files();
+    }
+
+    // Function @ sokol_app.h:1458:25
+    public static void sapp_set_icon(sapp_icon_desc* icon_desc)
+    {
+        _virtualTable.sapp_set_icon(icon_desc);
+    }
+
+    // Function @ sokol_app.h:1456:25
+    public static void sapp_set_window_title(CString str)
+    {
+        _virtualTable.sapp_set_window_title(str);
+    }
+
+    // Function @ sokol_app.h:1454:32
+    public static CString sapp_get_clipboard_string()
+    {
+        return _virtualTable.sapp_get_clipboard_string();
+    }
+
+    // Function @ sokol_app.h:1452:25
+    public static void sapp_set_clipboard_string(CString str)
+    {
+        _virtualTable.sapp_set_clipboard_string(str);
+    }
+
+    // Function @ sokol_app.h:1450:29
+    public static ulong sapp_frame_count()
+    {
+        return _virtualTable.sapp_frame_count();
+    }
+
+    // Function @ sokol_app.h:1448:25
+    public static void sapp_consume_event()
+    {
+        _virtualTable.sapp_consume_event();
+    }
+
+    // Function @ sokol_app.h:1446:25
+    public static void sapp_quit()
+    {
+        _virtualTable.sapp_quit();
+    }
+
+    // Function @ sokol_app.h:1444:25
+    public static void sapp_cancel_quit()
+    {
+        _virtualTable.sapp_cancel_quit();
+    }
+
+    // Function @ sokol_app.h:1442:25
+    public static void sapp_request_quit()
+    {
+        _virtualTable.sapp_request_quit();
+    }
+
+    // Function @ sokol_app.h:1440:30
+    public static sapp_desc sapp_query_desc()
+    {
+        return _virtualTable.sapp_query_desc();
+    }
+
+    // Function @ sokol_app.h:1438:26
+    public static void* sapp_userdata()
+    {
+        return _virtualTable.sapp_userdata();
+    }
+
+    // Function @ sokol_app.h:1436:25
+    public static CBool sapp_mouse_locked()
+    {
+        return _virtualTable.sapp_mouse_locked();
+    }
+
+    // Function @ sokol_app.h:1434:25
+    public static void sapp_lock_mouse(CBool @lock)
+    {
+        _virtualTable.sapp_lock_mouse(@lock);
+    }
+
+    // Function @ sokol_app.h:1432:25
+    public static CBool sapp_mouse_shown()
+    {
+        return _virtualTable.sapp_mouse_shown();
+    }
+
+    // Function @ sokol_app.h:1430:25
+    public static void sapp_show_mouse(CBool show)
+    {
+        _virtualTable.sapp_show_mouse(show);
+    }
+
+    // Function @ sokol_app.h:1428:25
+    public static void sapp_toggle_fullscreen()
+    {
+        _virtualTable.sapp_toggle_fullscreen();
+    }
+
+    // Function @ sokol_app.h:1426:25
+    public static CBool sapp_is_fullscreen()
+    {
+        return _virtualTable.sapp_is_fullscreen();
+    }
+
+    // Function @ sokol_app.h:1424:25
+    public static CBool sapp_keyboard_shown()
+    {
+        return _virtualTable.sapp_keyboard_shown();
+    }
+
+    // Function @ sokol_app.h:1422:25
+    public static void sapp_show_keyboard(CBool show)
+    {
+        _virtualTable.sapp_show_keyboard(show);
+    }
+
+    // Function @ sokol_app.h:1420:26
+    public static float sapp_dpi_scale()
+    {
+        return _virtualTable.sapp_dpi_scale();
+    }
+
+    // Function @ sokol_app.h:1418:25
+    public static CBool sapp_high_dpi()
+    {
+        return _virtualTable.sapp_high_dpi();
+    }
+
+    // Function @ sokol_app.h:1416:24
+    public static int sapp_sample_count()
+    {
+        return _virtualTable.sapp_sample_count();
+    }
+
+    // Function @ sokol_app.h:1414:24
+    public static int sapp_depth_format()
+    {
+        return _virtualTable.sapp_depth_format();
+    }
+
+    // Function @ sokol_app.h:1412:24
+    public static int sapp_color_format()
+    {
+        return _virtualTable.sapp_color_format();
+    }
+
+    // Function @ sokol_app.h:1410:26
+    public static float sapp_heightf()
+    {
+        return _virtualTable.sapp_heightf();
+    }
+
+    // Function @ sokol_app.h:1408:24
+    public static int sapp_height()
+    {
+        return _virtualTable.sapp_height();
+    }
+
+    // Function @ sokol_app.h:1406:26
+    public static float sapp_widthf()
+    {
+        return _virtualTable.sapp_widthf();
+    }
+
+    // Function @ sokol_app.h:1404:24
+    public static int sapp_width()
+    {
+        return _virtualTable.sapp_width();
+    }
+
+    // Function @ sokol_app.h:1402:25
+    public static CBool sapp_isvalid()
+    {
+        return _virtualTable.sapp_isvalid();
+    }
+
+    // Function @ sokol_app.h:1399:18
+    public static sapp_desc sokol_main(int argc, CString* argv)
+    {
+        return _virtualTable.sokol_main(argc, argv);
+    }
+
+    // Struct @ sokol_gfx.h:2250:3
+    [StructLayout(LayoutKind.Explicit, Size = 184, Pack = 8)]
+    public struct sg_context_desc
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public sg_pixel_format color_format;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public sg_pixel_format depth_format;
 
         [FieldOffset(8)] // size = 4, padding = 0
-        public float pos_x;
+        public int sample_count;
 
-        [FieldOffset(12)] // size = 4, padding = 0
-        public float pos_y;
+        [FieldOffset(12)] // size = 1, padding = 3
+        public sg_gl_context_desc gl;
 
-        [FieldOffset(16)] // size = 1, padding = 7
-        public CBool changed;
+        [FieldOffset(16)] // size = 48, padding = 0
+        public sg_metal_context_desc metal;
+
+        [FieldOffset(64)] // size = 56, padding = 0
+        public sg_d3d11_context_desc d3d11;
+
+        [FieldOffset(120)] // size = 64, padding = 0
+        public sg_wgpu_context_desc wgpu;
     }
 
-    // Record @ sokol_app.h:1244
-    [StructLayout(LayoutKind.Explicit, Size = 272, Pack = 8)]
-    public struct sapp_event
+    // Struct @ sokol_gfx.h:2240:3
+    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
+    public struct sg_wgpu_context_desc
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public ulong frame_count;
+        public void* device;
 
-        [FieldOffset(8)] // size = 4, padding = 0
-        public sapp_event_type type;
+        [FieldOffset(8)] // size = 8, padding = 0
+        public FnPtrVoid render_view_cb;
 
-        [FieldOffset(12)] // size = 4, padding = 0
-        public sapp_keycode key_code;
+        [FieldOffset(16)] // size = 8, padding = 0
+        public FnPtrPointerVoid render_view_userdata_cb;
 
-        [FieldOffset(16)] // size = 4, padding = 0
-        public uint char_code;
+        [FieldOffset(24)] // size = 8, padding = 0
+        public FnPtrVoid resolve_view_cb;
 
-        [FieldOffset(20)] // size = 1, padding = 3
-        public CBool key_repeat;
+        [FieldOffset(32)] // size = 8, padding = 0
+        public FnPtrPointerVoid resolve_view_userdata_cb;
 
-        [FieldOffset(24)] // size = 4, padding = 0
-        public uint modifiers;
+        [FieldOffset(40)] // size = 8, padding = 0
+        public FnPtrVoid depth_stencil_view_cb;
 
-        [FieldOffset(28)] // size = 4, padding = 0
-        public sapp_mousebutton mouse_button;
+        [FieldOffset(48)] // size = 8, padding = 0
+        public FnPtrPointerVoid depth_stencil_view_userdata_cb;
 
-        [FieldOffset(32)] // size = 4, padding = 0
-        public float mouse_x;
+        [FieldOffset(56)] // size = 8, padding = 0
+        public void* user_data;
+    }
 
-        [FieldOffset(36)] // size = 4, padding = 0
-        public float mouse_y;
+    // Struct @ sokol_gfx.h:2229:3
+    [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
+    public struct sg_d3d11_context_desc
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* device;
 
-        [FieldOffset(40)] // size = 4, padding = 0
-        public float mouse_dx;
+        [FieldOffset(8)] // size = 8, padding = 0
+        public void* device_context;
 
-        [FieldOffset(44)] // size = 4, padding = 0
-        public float mouse_dy;
+        [FieldOffset(16)] // size = 8, padding = 0
+        public FnPtrVoid render_target_view_cb;
 
-        [FieldOffset(48)] // size = 4, padding = 0
-        public float scroll_x;
+        [FieldOffset(24)] // size = 8, padding = 0
+        public FnPtrPointerVoid render_target_view_userdata_cb;
 
-        [FieldOffset(52)] // size = 4, padding = 0
-        public float scroll_y;
+        [FieldOffset(32)] // size = 8, padding = 0
+        public FnPtrVoid depth_stencil_view_cb;
 
-        [FieldOffset(56)] // size = 4, padding = 4
-        public int num_touches;
+        [FieldOffset(40)] // size = 8, padding = 0
+        public FnPtrPointerVoid depth_stencil_view_userdata_cb;
 
-        [FieldOffset(64)] // size = 192, padding = 0
-        public fixed ulong _touches[192 / 8]; // sapp_touchpoint [8]
+        [FieldOffset(48)] // size = 8, padding = 0
+        public void* user_data;
+    }
 
-        public Span<sapp_touchpoint> touches
+    // Struct @ sokol_gfx.h:2219:3
+    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
+    public struct sg_metal_context_desc
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* device;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public FnPtrVoid renderpass_descriptor_cb;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public FnPtrPointerVoid renderpass_descriptor_userdata_cb;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public FnPtrVoid drawable_cb;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public FnPtrPointerVoid drawable_userdata_cb;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public void* user_data;
+    }
+
+    // Struct @ sokol_gfx.h:2210:3
+    [StructLayout(LayoutKind.Explicit, Size = 1, Pack = 1)]
+    public struct sg_gl_context_desc
+    {
+        [FieldOffset(0)] // size = 1, padding = 0
+        public CBool force_gles2;
+    }
+
+    // Struct @ sokol_gfx.h:633:45
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct sg_context
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint id;
+    }
+
+    // Struct @ sokol_gfx.h:632:45
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct sg_pass
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint id;
+    }
+
+    // Struct @ sokol_gfx.h:631:45
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct sg_pipeline
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint id;
+    }
+
+    // Struct @ sokol_gfx.h:630:45
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct sg_shader
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint id;
+    }
+
+    // Struct @ sokol_gfx.h:629:45
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct sg_image
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint id;
+    }
+
+    // Struct @ sokol_gfx.h:628:45
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct sg_buffer
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint id;
+    }
+
+    // Struct @ sokol_gfx.h:1961:3
+    [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8)]
+    public struct sg_pass_desc
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint _start_canary;
+
+        [FieldOffset(4)] // size = 48, padding = 0
+        public fixed uint _color_attachments[48 / 4]; // sg_pass_attachment_desc[4]
+
+        public Span<sg_pass_attachment_desc> color_attachments
         {
             get
             {
-                fixed (sapp_event* @this = &this)
+                fixed (sg_pass_desc* @this = &this)
                 {
-                    var pointer = &@this->_touches[0];
-                    var span = new Span<sapp_touchpoint>(pointer, 8);
+                    var pointer = &@this->_color_attachments[0];
+                    var span = new Span<sg_pass_attachment_desc>(pointer, 4);
                     return span;
                 }
             }
         }
 
-        [FieldOffset(256)] // size = 4, padding = 0
-        public int window_width;
+        [FieldOffset(52)] // size = 12, padding = 0
+        public sg_pass_attachment_desc depth_stencil_attachment;
 
-        [FieldOffset(260)] // size = 4, padding = 0
-        public int window_height;
+        [FieldOffset(64)] // size = 8, padding = 0
+        public CString label;
 
-        [FieldOffset(264)] // size = 4, padding = 0
-        public int framebuffer_width;
-
-        [FieldOffset(268)] // size = 4, padding = 0
-        public int framebuffer_height;
+        [FieldOffset(72)] // size = 4, padding = 4
+        public uint _end_canary;
     }
 
-    // Record @ sokol_app.h:1272
+    // Struct @ sokol_gfx.h:1953:3
+    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
+    public struct sg_pass_attachment_desc
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public sg_image image;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int mip_level;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int slice;
+    }
+
+    // Struct @ sokol_gfx.h:1925:3
+    [StructLayout(LayoutKind.Explicit, Size = 568, Pack = 8)]
+    public struct sg_pipeline_desc
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint _start_canary;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public sg_shader shader;
+
+        [FieldOffset(8)] // size = 288, padding = 0
+        public sg_layout_desc layout;
+
+        [FieldOffset(296)] // size = 24, padding = 0
+        public sg_depth_state depth;
+
+        [FieldOffset(320)] // size = 40, padding = 0
+        public sg_stencil_state stencil;
+
+        [FieldOffset(360)] // size = 4, padding = 0
+        public int color_count;
+
+        [FieldOffset(364)] // size = 144, padding = 0
+        public fixed uint _colors[144 / 4]; // sg_color_state[4]
+
+        public Span<sg_color_state> colors
+        {
+            get
+            {
+                fixed (sg_pipeline_desc* @this = &this)
+                {
+                    var pointer = &@this->_colors[0];
+                    var span = new Span<sg_color_state>(pointer, 4);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(508)] // size = 4, padding = 0
+        public sg_primitive_type primitive_type;
+
+        [FieldOffset(512)] // size = 4, padding = 0
+        public sg_index_type index_type;
+
+        [FieldOffset(516)] // size = 4, padding = 0
+        public sg_cull_mode cull_mode;
+
+        [FieldOffset(520)] // size = 4, padding = 0
+        public sg_face_winding face_winding;
+
+        [FieldOffset(524)] // size = 4, padding = 0
+        public int sample_count;
+
+        [FieldOffset(528)] // size = 16, padding = 0
+        public sg_color blend_color;
+
+        [FieldOffset(544)] // size = 1, padding = 7
+        public CBool alpha_to_coverage_enabled;
+
+        [FieldOffset(552)] // size = 8, padding = 0
+        public CString label;
+
+        [FieldOffset(560)] // size = 4, padding = 4
+        public uint _end_canary;
+    }
+
+    // Struct @ sokol_gfx.h:680:47
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
+    public struct sg_color
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public float r;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public float g;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public float b;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public float a;
+    }
+
+    // Struct @ sokol_gfx.h:1906:3
+    [StructLayout(LayoutKind.Explicit, Size = 36, Pack = 4)]
+    public struct sg_color_state
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public sg_pixel_format pixel_format;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public sg_color_mask write_mask;
+
+        [FieldOffset(8)] // size = 28, padding = 0
+        public sg_blend_state blend;
+    }
+
+    // Struct @ sokol_gfx.h:1900:3
+    [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
+    public struct sg_blend_state
+    {
+        [FieldOffset(0)] // size = 1, padding = 3
+        public CBool enabled;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public sg_blend_factor src_factor_rgb;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public sg_blend_factor dst_factor_rgb;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public sg_blend_op op_rgb;
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public sg_blend_factor src_factor_alpha;
+
+        [FieldOffset(20)] // size = 4, padding = 0
+        public sg_blend_factor dst_factor_alpha;
+
+        [FieldOffset(24)] // size = 4, padding = 0
+        public sg_blend_op op_alpha;
+    }
+
+    // Struct @ sokol_gfx.h:1881:3
+    [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 4)]
+    public struct sg_stencil_state
+    {
+        [FieldOffset(0)] // size = 1, padding = 3
+        public CBool enabled;
+
+        [FieldOffset(4)] // size = 16, padding = 0
+        public sg_stencil_face_state front;
+
+        [FieldOffset(20)] // size = 16, padding = 0
+        public sg_stencil_face_state back;
+
+        [FieldOffset(36)] // size = 1, padding = 0
+        public byte read_mask;
+
+        [FieldOffset(37)] // size = 1, padding = 0
+        public byte write_mask;
+
+        [FieldOffset(38)] // size = 1, padding = 1
+        public byte @ref;
+    }
+
+    // Struct @ sokol_gfx.h:1872:3
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
+    public struct sg_stencil_face_state
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public sg_compare_func compare;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public sg_stencil_op fail_op;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public sg_stencil_op depth_fail_op;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public sg_stencil_op pass_op;
+    }
+
+    // Struct @ sokol_gfx.h:1890:3
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
+    public struct sg_depth_state
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public sg_pixel_format pixel_format;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public sg_compare_func compare;
+
+        [FieldOffset(8)] // size = 1, padding = 3
+        public CBool write_enabled;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public float bias;
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public float bias_slope_scale;
+
+        [FieldOffset(20)] // size = 4, padding = 0
+        public float bias_clamp;
+    }
+
+    // Struct @ sokol_gfx.h:1865:3
+    [StructLayout(LayoutKind.Explicit, Size = 288, Pack = 4)]
+    public struct sg_layout_desc
+    {
+        [FieldOffset(0)] // size = 96, padding = 0
+        public fixed uint _buffers[96 / 4]; // sg_buffer_layout_desc[8]
+
+        public Span<sg_buffer_layout_desc> buffers
+        {
+            get
+            {
+                fixed (sg_layout_desc* @this = &this)
+                {
+                    var pointer = &@this->_buffers[0];
+                    var span = new Span<sg_buffer_layout_desc>(pointer, 8);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(96)] // size = 192, padding = 0
+        public fixed uint _attrs[192 / 4]; // sg_vertex_attr_desc[16]
+
+        public Span<sg_vertex_attr_desc> attrs
+        {
+            get
+            {
+                fixed (sg_layout_desc* @this = &this)
+                {
+                    var pointer = &@this->_attrs[0];
+                    var span = new Span<sg_vertex_attr_desc>(pointer, 16);
+                    return span;
+                }
+            }
+        }
+    }
+
+    // Struct @ sokol_gfx.h:1860:3
+    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
+    public struct sg_vertex_attr_desc
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int buffer_index;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int offset;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public sg_vertex_format format;
+    }
+
+    // Struct @ sokol_gfx.h:1851:3
+    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
+    public struct sg_buffer_layout_desc
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int stride;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public sg_vertex_step step_func;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int step_rate;
+    }
+
+    // Struct @ sokol_gfx.h:1773:3
+    [StructLayout(LayoutKind.Explicit, Size = 2984, Pack = 8)]
+    public struct sg_shader_desc
+    {
+        [FieldOffset(0)] // size = 4, padding = 4
+        public uint _start_canary;
+
+        [FieldOffset(8)] // size = 384, padding = 0
+        public fixed ulong _attrs[384 / 8]; // sg_shader_attr_desc[16]
+
+        public Span<sg_shader_attr_desc> attrs
+        {
+            get
+            {
+                fixed (sg_shader_desc* @this = &this)
+                {
+                    var pointer = &@this->_attrs[0];
+                    var span = new Span<sg_shader_attr_desc>(pointer, 16);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(392)] // size = 1288, padding = 0
+        public sg_shader_stage_desc vs;
+
+        [FieldOffset(1680)] // size = 1288, padding = 0
+        public sg_shader_stage_desc fs;
+
+        [FieldOffset(2968)] // size = 8, padding = 0
+        public CString label;
+
+        [FieldOffset(2976)] // size = 4, padding = 4
+        public uint _end_canary;
+    }
+
+    // Struct @ sokol_gfx.h:1764:3
+    [StructLayout(LayoutKind.Explicit, Size = 1288, Pack = 8)]
+    public struct sg_shader_stage_desc
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CString source;
+
+        [FieldOffset(8)] // size = 16, padding = 0
+        public sg_range bytecode;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public CString entry;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public CString d3d11_target;
+
+        [FieldOffset(40)] // size = 1056, padding = 0
+        public fixed ulong _uniform_blocks[1056 / 8]; // sg_shader_uniform_block_desc[4]
+
+        public Span<sg_shader_uniform_block_desc> uniform_blocks
+        {
+            get
+            {
+                fixed (sg_shader_stage_desc* @this = &this)
+                {
+                    var pointer = &@this->_uniform_blocks[0];
+                    var span = new Span<sg_shader_uniform_block_desc>(pointer, 4);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(1096)] // size = 192, padding = 0
+        public fixed ulong _images[192 / 8]; // sg_shader_image_desc[12]
+
+        public Span<sg_shader_image_desc> images
+        {
+            get
+            {
+                fixed (sg_shader_stage_desc* @this = &this)
+                {
+                    var pointer = &@this->_images[0];
+                    var span = new Span<sg_shader_image_desc>(pointer, 12);
+                    return span;
+                }
+            }
+        }
+    }
+
+    // Struct @ sokol_gfx.h:1755:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct sapp_range
+    public struct sg_shader_image_desc
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CString name;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public sg_image_type image_type;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public sg_sampler_type sampler_type;
+    }
+
+    // Struct @ sokol_gfx.h:1749:3
+    [StructLayout(LayoutKind.Explicit, Size = 264, Pack = 8)]
+    public struct sg_shader_uniform_block_desc
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ulong size;
+
+        [FieldOffset(8)] // size = 256, padding = 0
+        public fixed ulong _uniforms[256 / 8]; // sg_shader_uniform_desc[16]
+
+        public Span<sg_shader_uniform_desc> uniforms
+        {
+            get
+            {
+                fixed (sg_shader_uniform_block_desc* @this = &this)
+                {
+                    var pointer = &@this->_uniforms[0];
+                    var span = new Span<sg_shader_uniform_desc>(pointer, 16);
+                    return span;
+                }
+            }
+        }
+    }
+
+    // Struct @ sokol_gfx.h:1744:3
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct sg_shader_uniform_desc
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CString name;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public sg_uniform_type type;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public int array_count;
+    }
+
+    // Struct @ sokol_gfx.h:645:3
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct sg_range
     {
         [FieldOffset(0)] // size = 8, padding = 0
         public void* ptr;
@@ -711,56 +1481,1155 @@ public static unsafe partial class sokol
         public ulong size;
     }
 
-    // Record @ sokol_app.h:1298
+    // Struct @ sokol_gfx.h:1738:3
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct sapp_image_desc
+    public struct sg_shader_attr_desc
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int width;
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CString name;
 
-        [FieldOffset(4)] // size = 4, padding = 0
-        public int height;
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CString sem_name;
 
-        [FieldOffset(8)] // size = 16, padding = 0
-        public sapp_range pixels;
+        [FieldOffset(16)] // size = 4, padding = 4
+        public int sem_index;
     }
 
-    // Record @ sokol_app.h:1322
-    [StructLayout(LayoutKind.Explicit, Size = 200, Pack = 8)]
-    public struct sapp_icon_desc
+    // Struct @ sokol_gfx.h:1698:3
+    [StructLayout(LayoutKind.Explicit, Size = 1688, Pack = 8)]
+    public struct sg_image_desc
     {
-        [FieldOffset(0)] // size = 1, padding = 7
-        public CBool sokol_default;
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint _start_canary;
 
-        [FieldOffset(8)] // size = 192, padding = 0
-        public fixed ulong _images[192 / 8]; // sapp_image_desc [8]
+        [FieldOffset(4)] // size = 4, padding = 0
+        public sg_image_type type;
 
-        public Span<sapp_image_desc> images
+        [FieldOffset(8)] // size = 1, padding = 3
+        public CBool render_target;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public int width;
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public int height;
+
+        [FieldOffset(20)] // size = 4, padding = 0
+        public int num_slices;
+
+        [FieldOffset(24)] // size = 4, padding = 0
+        public int num_mipmaps;
+
+        [FieldOffset(28)] // size = 4, padding = 0
+        public sg_usage usage;
+
+        [FieldOffset(32)] // size = 4, padding = 0
+        public sg_pixel_format pixel_format;
+
+        [FieldOffset(36)] // size = 4, padding = 0
+        public int sample_count;
+
+        [FieldOffset(40)] // size = 4, padding = 0
+        public sg_filter min_filter;
+
+        [FieldOffset(44)] // size = 4, padding = 0
+        public sg_filter mag_filter;
+
+        [FieldOffset(48)] // size = 4, padding = 0
+        public sg_wrap wrap_u;
+
+        [FieldOffset(52)] // size = 4, padding = 0
+        public sg_wrap wrap_v;
+
+        [FieldOffset(56)] // size = 4, padding = 0
+        public sg_wrap wrap_w;
+
+        [FieldOffset(60)] // size = 4, padding = 0
+        public sg_border_color border_color;
+
+        [FieldOffset(64)] // size = 4, padding = 0
+        public uint max_anisotropy;
+
+        [FieldOffset(68)] // size = 4, padding = 0
+        public float min_lod;
+
+        [FieldOffset(72)] // size = 4, padding = 4
+        public float max_lod;
+
+        [FieldOffset(80)] // size = 1536, padding = 0
+        public sg_image_data data;
+
+        [FieldOffset(1616)] // size = 8, padding = 0
+        public CString label;
+
+        [FieldOffset(1624)] // size = 8, padding = 0
+        public fixed uint _gl_textures[8 / 4]; // uint32_t[2]
+
+        public Span<uint> gl_textures
         {
             get
             {
-                fixed (sapp_icon_desc* @this = &this)
+                fixed (sg_image_desc* @this = &this)
                 {
-                    var pointer = &@this->_images[0];
-                    var span = new Span<sapp_image_desc>(pointer, 8);
+                    var pointer = &@this->_gl_textures[0];
+                    var span = new Span<uint>(pointer, 2);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(1632)] // size = 4, padding = 4
+        public uint gl_texture_target;
+
+        [FieldOffset(1640)] // size = 16, padding = 0
+        public fixed ulong _mtl_textures[16 / 8]; // void*[2]
+
+        public Span<IntPtr> mtl_textures
+        {
+            get
+            {
+                fixed (sg_image_desc* @this = &this)
+                {
+                    var pointer = &@this->_mtl_textures[0];
+                    var span = new Span<IntPtr>(pointer, 2);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(1656)] // size = 8, padding = 0
+        public void* d3d11_texture;
+
+        [FieldOffset(1664)] // size = 8, padding = 0
+        public void* d3d11_shader_resource_view;
+
+        [FieldOffset(1672)] // size = 8, padding = 0
+        public void* wgpu_texture;
+
+        [FieldOffset(1680)] // size = 4, padding = 4
+        public uint _end_canary;
+    }
+
+    // Struct @ sokol_gfx.h:1593:3
+    [StructLayout(LayoutKind.Explicit, Size = 1536, Pack = 8)]
+    public struct sg_image_data
+    {
+        [FieldOffset(0)] // size = 1536, padding = 0
+        public fixed ulong _subimage[1536 / 8]; // sg_range[6]
+
+        public Span<sg_range> subimage
+        {
+            get
+            {
+                fixed (sg_image_data* @this = &this)
+                {
+                    var pointer = &@this->_subimage[0];
+                    var span = new Span<sg_range>(pointer, 6);
                     return span;
                 }
             }
         }
     }
 
-    // Record @ sokol_app.h:1328
+    // Struct @ sokol_gfx.h:1582:3
+    [StructLayout(LayoutKind.Explicit, Size = 96, Pack = 8)]
+    public struct sg_buffer_desc
+    {
+        [FieldOffset(0)] // size = 4, padding = 4
+        public uint _start_canary;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ulong size;
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public sg_buffer_type type;
+
+        [FieldOffset(20)] // size = 4, padding = 0
+        public sg_usage usage;
+
+        [FieldOffset(24)] // size = 16, padding = 0
+        public sg_range data;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public CString label;
+
+        [FieldOffset(48)] // size = 8, padding = 0
+        public fixed uint _gl_buffers[8 / 4]; // uint32_t[2]
+
+        public Span<uint> gl_buffers
+        {
+            get
+            {
+                fixed (sg_buffer_desc* @this = &this)
+                {
+                    var pointer = &@this->_gl_buffers[0];
+                    var span = new Span<uint>(pointer, 2);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(56)] // size = 16, padding = 0
+        public fixed ulong _mtl_buffers[16 / 8]; // void*[2]
+
+        public Span<IntPtr> mtl_buffers
+        {
+            get
+            {
+                fixed (sg_buffer_desc* @this = &this)
+                {
+                    var pointer = &@this->_mtl_buffers[0];
+                    var span = new Span<IntPtr>(pointer, 2);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(72)] // size = 8, padding = 0
+        public void* d3d11_buffer;
+
+        [FieldOffset(80)] // size = 8, padding = 0
+        public void* wgpu_buffer;
+
+        [FieldOffset(88)] // size = 4, padding = 4
+        public uint _end_canary;
+    }
+
+    // Struct @ sokol_gfx.h:2095:3
+    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
+    public struct sg_pass_info
+    {
+        [FieldOffset(0)] // size = 12, padding = 0
+        public sg_slot_info slot;
+    }
+
+    // Struct @ sokol_gfx.h:2064:3
+    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
+    public struct sg_slot_info
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public sg_resource_state state;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public uint res_id;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public uint ctx_id;
+    }
+
+    // Struct @ sokol_gfx.h:2091:3
+    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
+    public struct sg_pipeline_info
+    {
+        [FieldOffset(0)] // size = 12, padding = 0
+        public sg_slot_info slot;
+    }
+
+    // Struct @ sokol_gfx.h:2087:3
+    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
+    public struct sg_shader_info
+    {
+        [FieldOffset(0)] // size = 12, padding = 0
+        public sg_slot_info slot;
+    }
+
+    // Struct @ sokol_gfx.h:2083:3
+    [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 4)]
+    public struct sg_image_info
+    {
+        [FieldOffset(0)] // size = 12, padding = 0
+        public sg_slot_info slot;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public uint upd_frame_index;
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public int num_slots;
+
+        [FieldOffset(20)] // size = 4, padding = 0
+        public int active_slot;
+
+        [FieldOffset(24)] // size = 4, padding = 0
+        public int width;
+
+        [FieldOffset(28)] // size = 4, padding = 0
+        public int height;
+    }
+
+    // Struct @ sokol_gfx.h:2074:3
+    [StructLayout(LayoutKind.Explicit, Size = 36, Pack = 4)]
+    public struct sg_buffer_info
+    {
+        [FieldOffset(0)] // size = 12, padding = 0
+        public sg_slot_info slot;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public uint update_frame_index;
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public uint append_frame_index;
+
+        [FieldOffset(20)] // size = 4, padding = 0
+        public int append_pos;
+
+        [FieldOffset(24)] // size = 1, padding = 3
+        public CBool append_overflow;
+
+        [FieldOffset(28)] // size = 4, padding = 0
+        public int num_slots;
+
+        [FieldOffset(32)] // size = 4, padding = 0
+        public int active_slot;
+    }
+
+    // Struct @ sokol_gfx.h:844:3
+    [StructLayout(LayoutKind.Explicit, Size = 6, Pack = 1)]
+    public struct sg_pixelformat_info
+    {
+        [FieldOffset(0)] // size = 1, padding = 0
+        public CBool sample;
+
+        [FieldOffset(1)] // size = 1, padding = 0
+        public CBool filter;
+
+        [FieldOffset(2)] // size = 1, padding = 0
+        public CBool render;
+
+        [FieldOffset(3)] // size = 1, padding = 0
+        public CBool blend;
+
+        [FieldOffset(4)] // size = 1, padding = 0
+        public CBool msaa;
+
+        [FieldOffset(5)] // size = 1, padding = 0
+        public CBool depth;
+    }
+
+    // Struct @ sokol_gfx.h:875:3
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
+    public struct sg_limits
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int max_image_size_2d;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int max_image_size_cube;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int max_image_size_3d;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public int max_image_size_array;
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public int max_image_array_layers;
+
+        [FieldOffset(20)] // size = 4, padding = 0
+        public int max_vertex_attrs;
+    }
+
+    // Struct @ sokol_gfx.h:863:3
+    [StructLayout(LayoutKind.Explicit, Size = 9, Pack = 1)]
+    public struct sg_features
+    {
+        [FieldOffset(0)] // size = 1, padding = 0
+        public CBool instancing;
+
+        [FieldOffset(1)] // size = 1, padding = 0
+        public CBool origin_top_left;
+
+        [FieldOffset(2)] // size = 1, padding = 0
+        public CBool multiple_render_targets;
+
+        [FieldOffset(3)] // size = 1, padding = 0
+        public CBool msaa_render_targets;
+
+        [FieldOffset(4)] // size = 1, padding = 0
+        public CBool imagetype_3d;
+
+        [FieldOffset(5)] // size = 1, padding = 0
+        public CBool imagetype_array;
+
+        [FieldOffset(6)] // size = 1, padding = 0
+        public CBool image_clamp_to_border;
+
+        [FieldOffset(7)] // size = 1, padding = 0
+        public CBool mrt_independent_blend_state;
+
+        [FieldOffset(8)] // size = 1, padding = 0
+        public CBool mrt_independent_write_mask;
+    }
+
+    // Struct @ sokol_gfx.h:2265:3
+    [StructLayout(LayoutKind.Explicit, Size = 232, Pack = 8)]
+    public struct sg_desc
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint _start_canary;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int buffer_pool_size;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int image_pool_size;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public int shader_pool_size;
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public int pipeline_pool_size;
+
+        [FieldOffset(20)] // size = 4, padding = 0
+        public int pass_pool_size;
+
+        [FieldOffset(24)] // size = 4, padding = 0
+        public int context_pool_size;
+
+        [FieldOffset(28)] // size = 4, padding = 0
+        public int uniform_buffer_size;
+
+        [FieldOffset(32)] // size = 4, padding = 0
+        public int staging_buffer_size;
+
+        [FieldOffset(36)] // size = 4, padding = 0
+        public int sampler_cache_size;
+
+        [FieldOffset(40)] // size = 184, padding = 0
+        public sg_context_desc context;
+
+        [FieldOffset(224)] // size = 4, padding = 4
+        public uint _end_canary;
+    }
+
+    // Struct @ sokol_gfx.h:1511:3
+    [StructLayout(LayoutKind.Explicit, Size = 176, Pack = 4)]
+    public struct sg_bindings
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint _start_canary;
+
+        [FieldOffset(4)] // size = 32, padding = 0
+        public fixed uint _vertex_buffers[32 / 4]; // sg_buffer[8]
+
+        public Span<sg_buffer> vertex_buffers
+        {
+            get
+            {
+                fixed (sg_bindings* @this = &this)
+                {
+                    var pointer = &@this->_vertex_buffers[0];
+                    var span = new Span<sg_buffer>(pointer, 8);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(36)] // size = 32, padding = 0
+        public fixed uint _vertex_buffer_offsets[32 / 4]; // int[8]
+
+        public Span<int> vertex_buffer_offsets
+        {
+            get
+            {
+                fixed (sg_bindings* @this = &this)
+                {
+                    var pointer = &@this->_vertex_buffer_offsets[0];
+                    var span = new Span<int>(pointer, 8);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(68)] // size = 4, padding = 0
+        public sg_buffer index_buffer;
+
+        [FieldOffset(72)] // size = 4, padding = 0
+        public int index_buffer_offset;
+
+        [FieldOffset(76)] // size = 48, padding = 0
+        public fixed uint _vs_images[48 / 4]; // sg_image[12]
+
+        public Span<sg_image> vs_images
+        {
+            get
+            {
+                fixed (sg_bindings* @this = &this)
+                {
+                    var pointer = &@this->_vs_images[0];
+                    var span = new Span<sg_image>(pointer, 12);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(124)] // size = 48, padding = 0
+        public fixed uint _fs_images[48 / 4]; // sg_image[12]
+
+        public Span<sg_image> fs_images
+        {
+            get
+            {
+                fixed (sg_bindings* @this = &this)
+                {
+                    var pointer = &@this->_fs_images[0];
+                    var span = new Span<sg_image>(pointer, 12);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(172)] // size = 4, padding = 0
+        public uint _end_canary;
+    }
+
+    // Struct @ sokol_gfx.h:1477:3
+    [StructLayout(LayoutKind.Explicit, Size = 104, Pack = 4)]
+    public struct sg_pass_action
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint _start_canary;
+
+        [FieldOffset(4)] // size = 80, padding = 0
+        public fixed uint _colors[80 / 4]; // sg_color_attachment_action[4]
+
+        public Span<sg_color_attachment_action> colors
+        {
+            get
+            {
+                fixed (sg_pass_action* @this = &this)
+                {
+                    var pointer = &@this->_colors[0];
+                    var span = new Span<sg_color_attachment_action>(pointer, 4);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(84)] // size = 8, padding = 0
+        public sg_depth_attachment_action depth;
+
+        [FieldOffset(92)] // size = 8, padding = 0
+        public sg_stencil_attachment_action stencil;
+
+        [FieldOffset(100)] // size = 4, padding = 0
+        public uint _end_canary;
+    }
+
+    // Struct @ sokol_gfx.h:1469:3
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
+    public struct sg_stencil_attachment_action
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public sg_action action;
+
+        [FieldOffset(4)] // size = 1, padding = 3
+        public byte value;
+    }
+
+    // Struct @ sokol_gfx.h:1464:3
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
+    public struct sg_depth_attachment_action
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public sg_action action;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public float value;
+    }
+
+    // Struct @ sokol_gfx.h:1459:3
+    [StructLayout(LayoutKind.Explicit, Size = 20, Pack = 4)]
+    public struct sg_color_attachment_action
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public sg_action action;
+
+        [FieldOffset(4)] // size = 16, padding = 0
+        public sg_color value;
+    }
+
+    // Struct @ sokol_gfx.h:2037:3
+    [StructLayout(LayoutKind.Explicit, Size = 488, Pack = 8)]
+    public struct sg_trace_hooks
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* user_data;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public FnPtrPointerVoid reset_state_cache;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public FnPtr_make_buffer make_buffer;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public FnPtr_make_image make_image;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public FnPtr_make_shader make_shader;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public FnPtr_make_pipeline make_pipeline;
+
+        [FieldOffset(48)] // size = 8, padding = 0
+        public FnPtr_make_pass make_pass;
+
+        [FieldOffset(56)] // size = 8, padding = 0
+        public FnPtr_destroy_buffer destroy_buffer;
+
+        [FieldOffset(64)] // size = 8, padding = 0
+        public FnPtr_destroy_image destroy_image;
+
+        [FieldOffset(72)] // size = 8, padding = 0
+        public FnPtr_destroy_shader destroy_shader;
+
+        [FieldOffset(80)] // size = 8, padding = 0
+        public FnPtr_destroy_pipeline destroy_pipeline;
+
+        [FieldOffset(88)] // size = 8, padding = 0
+        public FnPtr_destroy_pass destroy_pass;
+
+        [FieldOffset(96)] // size = 8, padding = 0
+        public FnPtr_update_buffer update_buffer;
+
+        [FieldOffset(104)] // size = 8, padding = 0
+        public FnPtr_update_image update_image;
+
+        [FieldOffset(112)] // size = 8, padding = 0
+        public FnPtr_append_buffer append_buffer;
+
+        [FieldOffset(120)] // size = 8, padding = 0
+        public FnPtr_begin_default_pass begin_default_pass;
+
+        [FieldOffset(128)] // size = 8, padding = 0
+        public FnPtr_begin_pass begin_pass;
+
+        [FieldOffset(136)] // size = 8, padding = 0
+        public FnPtr_apply_viewport apply_viewport;
+
+        [FieldOffset(144)] // size = 8, padding = 0
+        public FnPtr_apply_scissor_rect apply_scissor_rect;
+
+        [FieldOffset(152)] // size = 8, padding = 0
+        public FnPtr_apply_pipeline apply_pipeline;
+
+        [FieldOffset(160)] // size = 8, padding = 0
+        public FnPtr_apply_bindings apply_bindings;
+
+        [FieldOffset(168)] // size = 8, padding = 0
+        public FnPtr_apply_uniforms apply_uniforms;
+
+        [FieldOffset(176)] // size = 8, padding = 0
+        public FnPtr_draw draw;
+
+        [FieldOffset(184)] // size = 8, padding = 0
+        public FnPtrPointerVoid end_pass;
+
+        [FieldOffset(192)] // size = 8, padding = 0
+        public FnPtrPointerVoid commit;
+
+        [FieldOffset(200)] // size = 8, padding = 0
+        public FnPtr_alloc_buffer alloc_buffer;
+
+        [FieldOffset(208)] // size = 8, padding = 0
+        public FnPtr_alloc_image alloc_image;
+
+        [FieldOffset(216)] // size = 8, padding = 0
+        public FnPtr_alloc_shader alloc_shader;
+
+        [FieldOffset(224)] // size = 8, padding = 0
+        public FnPtr_alloc_pipeline alloc_pipeline;
+
+        [FieldOffset(232)] // size = 8, padding = 0
+        public FnPtr_alloc_pass alloc_pass;
+
+        [FieldOffset(240)] // size = 8, padding = 0
+        public FnPtr_dealloc_buffer dealloc_buffer;
+
+        [FieldOffset(248)] // size = 8, padding = 0
+        public FnPtr_dealloc_image dealloc_image;
+
+        [FieldOffset(256)] // size = 8, padding = 0
+        public FnPtr_dealloc_shader dealloc_shader;
+
+        [FieldOffset(264)] // size = 8, padding = 0
+        public FnPtr_dealloc_pipeline dealloc_pipeline;
+
+        [FieldOffset(272)] // size = 8, padding = 0
+        public FnPtr_dealloc_pass dealloc_pass;
+
+        [FieldOffset(280)] // size = 8, padding = 0
+        public FnPtr_init_buffer init_buffer;
+
+        [FieldOffset(288)] // size = 8, padding = 0
+        public FnPtr_init_image init_image;
+
+        [FieldOffset(296)] // size = 8, padding = 0
+        public FnPtr_init_shader init_shader;
+
+        [FieldOffset(304)] // size = 8, padding = 0
+        public FnPtr_init_pipeline init_pipeline;
+
+        [FieldOffset(312)] // size = 8, padding = 0
+        public FnPtr_init_pass init_pass;
+
+        [FieldOffset(320)] // size = 8, padding = 0
+        public FnPtr_uninit_buffer uninit_buffer;
+
+        [FieldOffset(328)] // size = 8, padding = 0
+        public FnPtr_uninit_image uninit_image;
+
+        [FieldOffset(336)] // size = 8, padding = 0
+        public FnPtr_uninit_shader uninit_shader;
+
+        [FieldOffset(344)] // size = 8, padding = 0
+        public FnPtr_uninit_pipeline uninit_pipeline;
+
+        [FieldOffset(352)] // size = 8, padding = 0
+        public FnPtr_uninit_pass uninit_pass;
+
+        [FieldOffset(360)] // size = 8, padding = 0
+        public FnPtr_fail_buffer fail_buffer;
+
+        [FieldOffset(368)] // size = 8, padding = 0
+        public FnPtr_fail_image fail_image;
+
+        [FieldOffset(376)] // size = 8, padding = 0
+        public FnPtr_fail_shader fail_shader;
+
+        [FieldOffset(384)] // size = 8, padding = 0
+        public FnPtr_fail_pipeline fail_pipeline;
+
+        [FieldOffset(392)] // size = 8, padding = 0
+        public FnPtr_fail_pass fail_pass;
+
+        [FieldOffset(400)] // size = 8, padding = 0
+        public FnPtr_push_debug_group push_debug_group;
+
+        [FieldOffset(408)] // size = 8, padding = 0
+        public FnPtrPointerVoid pop_debug_group;
+
+        [FieldOffset(416)] // size = 8, padding = 0
+        public FnPtrPointerVoid err_buffer_pool_exhausted;
+
+        [FieldOffset(424)] // size = 8, padding = 0
+        public FnPtrPointerVoid err_image_pool_exhausted;
+
+        [FieldOffset(432)] // size = 8, padding = 0
+        public FnPtrPointerVoid err_shader_pool_exhausted;
+
+        [FieldOffset(440)] // size = 8, padding = 0
+        public FnPtrPointerVoid err_pipeline_pool_exhausted;
+
+        [FieldOffset(448)] // size = 8, padding = 0
+        public FnPtrPointerVoid err_pass_pool_exhausted;
+
+        [FieldOffset(456)] // size = 8, padding = 0
+        public FnPtrPointerVoid err_context_mismatch;
+
+        [FieldOffset(464)] // size = 8, padding = 0
+        public FnPtrPointerVoid err_pass_invalid;
+
+        [FieldOffset(472)] // size = 8, padding = 0
+        public FnPtrPointerVoid err_draw_invalid;
+
+        [FieldOffset(480)] // size = 8, padding = 0
+        public FnPtrPointerVoid err_bindings_invalid;
+
+        // FunctionPointer @ sokol_gfx.h:1978:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_make_buffer
+        {
+            public delegate* unmanaged<sg_buffer_desc*, sg_buffer, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1979:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_make_image
+        {
+            public delegate* unmanaged<sg_image_desc*, sg_image, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1980:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_make_shader
+        {
+            public delegate* unmanaged<sg_shader_desc*, sg_shader, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1981:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_make_pipeline
+        {
+            public delegate* unmanaged<sg_pipeline_desc*, sg_pipeline, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1982:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_make_pass
+        {
+            public delegate* unmanaged<sg_pass_desc*, sg_pass, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1983:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_destroy_buffer
+        {
+            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1984:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_destroy_image
+        {
+            public delegate* unmanaged<sg_image, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1985:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_destroy_shader
+        {
+            public delegate* unmanaged<sg_shader, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1986:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_destroy_pipeline
+        {
+            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1987:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_destroy_pass
+        {
+            public delegate* unmanaged<sg_pass, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1988:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_update_buffer
+        {
+            public delegate* unmanaged<sg_buffer, sg_range*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1989:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_update_image
+        {
+            public delegate* unmanaged<sg_image, sg_image_data*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1990:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_append_buffer
+        {
+            public delegate* unmanaged<sg_buffer, sg_range*, int, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1991:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_begin_default_pass
+        {
+            public delegate* unmanaged<sg_pass_action*, int, int, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1992:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_begin_pass
+        {
+            public delegate* unmanaged<sg_pass, sg_pass_action*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1993:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_apply_viewport
+        {
+            public delegate* unmanaged<int, int, int, int, CBool, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1994:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_apply_scissor_rect
+        {
+            public delegate* unmanaged<int, int, int, int, CBool, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1995:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_apply_pipeline
+        {
+            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1996:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_apply_bindings
+        {
+            public delegate* unmanaged<sg_bindings*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1997:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_apply_uniforms
+        {
+            public delegate* unmanaged<sg_shader_stage, int, sg_range*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:1998:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_draw
+        {
+            public delegate* unmanaged<int, int, int, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2001:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_alloc_buffer
+        {
+            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2002:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_alloc_image
+        {
+            public delegate* unmanaged<sg_image, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2003:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_alloc_shader
+        {
+            public delegate* unmanaged<sg_shader, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2004:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_alloc_pipeline
+        {
+            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2005:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_alloc_pass
+        {
+            public delegate* unmanaged<sg_pass, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2006:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_dealloc_buffer
+        {
+            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2007:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_dealloc_image
+        {
+            public delegate* unmanaged<sg_image, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2008:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_dealloc_shader
+        {
+            public delegate* unmanaged<sg_shader, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2009:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_dealloc_pipeline
+        {
+            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2010:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_dealloc_pass
+        {
+            public delegate* unmanaged<sg_pass, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2011:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_init_buffer
+        {
+            public delegate* unmanaged<sg_buffer, sg_buffer_desc*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2012:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_init_image
+        {
+            public delegate* unmanaged<sg_image, sg_image_desc*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2013:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_init_shader
+        {
+            public delegate* unmanaged<sg_shader, sg_shader_desc*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2014:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_init_pipeline
+        {
+            public delegate* unmanaged<sg_pipeline, sg_pipeline_desc*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2015:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_init_pass
+        {
+            public delegate* unmanaged<sg_pass, sg_pass_desc*, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2016:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_uninit_buffer
+        {
+            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2017:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_uninit_image
+        {
+            public delegate* unmanaged<sg_image, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2018:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_uninit_shader
+        {
+            public delegate* unmanaged<sg_shader, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2019:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_uninit_pipeline
+        {
+            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2020:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_uninit_pass
+        {
+            public delegate* unmanaged<sg_pass, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2021:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_fail_buffer
+        {
+            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2022:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_fail_image
+        {
+            public delegate* unmanaged<sg_image, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2023:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_fail_shader
+        {
+            public delegate* unmanaged<sg_shader, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2024:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_fail_pipeline
+        {
+            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2025:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_fail_pass
+        {
+            public delegate* unmanaged<sg_pass, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_gfx.h:2026:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_push_debug_group
+        {
+            public delegate* unmanaged<CString, void*, void> Pointer;
+        }
+    }
+
+    // Struct @ sokol_app.h:1396:3
+    [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
+    public struct sapp_html5_fetch_request
+    {
+        [FieldOffset(0)] // size = 4, padding = 4
+        public int dropped_file_index;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public FnPtr_callback callback;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public void* buffer_ptr;
+
+        [FieldOffset(24)] // size = 4, padding = 4
+        public uint buffer_size;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public void* user_data;
+
+        // FunctionPointer @ sokol_app.h:1392:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_callback
+        {
+            public delegate* unmanaged<sapp_html5_fetch_response*, void> Pointer;
+        }
+    }
+
+    // Struct @ sokol_app.h:1388:3
+    [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
+    public struct sapp_html5_fetch_response
+    {
+        [FieldOffset(0)] // size = 1, padding = 3
+        public CBool succeeded;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public sapp_html5_fetch_error error_code;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int file_index;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public uint fetched_size;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public void* buffer_ptr;
+
+        [FieldOffset(24)] // size = 4, padding = 4
+        public uint buffer_size;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public void* user_data;
+    }
+
+    // Struct @ sokol_app.h:1369:3
     [StructLayout(LayoutKind.Explicit, Size = 368, Pack = 8)]
     public struct sapp_desc
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public FnPtrVoid init_cb;
+        public FnPtr_init_cb init_cb;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtrVoid frame_cb;
+        public FnPtr_frame_cb frame_cb;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtrVoid cleanup_cb;
+        public FnPtr_cleanup_cb cleanup_cb;
 
         [FieldOffset(24)] // size = 8, padding = 0
         public FnPtr_event_cb event_cb;
@@ -772,13 +2641,13 @@ public static unsafe partial class sokol
         public void* user_data;
 
         [FieldOffset(48)] // size = 8, padding = 0
-        public FnPtrVoidPointer init_userdata_cb;
+        public FnPtrPointerVoid init_userdata_cb;
 
         [FieldOffset(56)] // size = 8, padding = 0
-        public FnPtrVoidPointer frame_userdata_cb;
+        public FnPtrPointerVoid frame_userdata_cb;
 
         [FieldOffset(64)] // size = 8, padding = 0
-        public FnPtrVoidPointer cleanup_userdata_cb;
+        public FnPtrPointerVoid cleanup_userdata_cb;
 
         [FieldOffset(72)] // size = 8, padding = 0
         public FnPtr_event_userdata_cb event_userdata_cb;
@@ -861,28 +2730,49 @@ public static unsafe partial class sokol
         [FieldOffset(364)] // size = 1, padding = 3
         public CBool ios_keyboard_resizes_canvas;
 
-        // PointerFunction @ sokol_app.h:1332
+        // FunctionPointer @ sokol_app.h:1329:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_init_cb
+        {
+            public delegate* unmanaged<void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_app.h:1330:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_frame_cb
+        {
+            public delegate* unmanaged<void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_app.h:1331:12
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_cleanup_cb
+        {
+            public delegate* unmanaged<void> Pointer;
+        }
+
+        // FunctionPointer @ sokol_app.h:1332:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_event_cb
         {
             public delegate* unmanaged<sapp_event*, void> Pointer;
         }
 
-        // PointerFunction @ sokol_app.h:1333
+        // FunctionPointer @ sokol_app.h:1333:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_fail_cb
         {
             public delegate* unmanaged<CString, void> Pointer;
         }
 
-        // PointerFunction @ sokol_app.h:1339
+        // FunctionPointer @ sokol_app.h:1339:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_event_userdata_cb
         {
             public delegate* unmanaged<sapp_event*, void*, void> Pointer;
         }
 
-        // PointerFunction @ sokol_app.h:1340
+        // FunctionPointer @ sokol_app.h:1340:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_fail_userdata_cb
         {
@@ -890,313 +2780,139 @@ public static unsafe partial class sokol
         }
     }
 
-    // Record @ sokol_app.h:1380
-    [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
-    public struct sapp_html5_fetch_response
+    // Struct @ sokol_app.h:1264:3
+    [StructLayout(LayoutKind.Explicit, Size = 272, Pack = 8)]
+    public struct sapp_event
     {
-        [FieldOffset(0)] // size = 1, padding = 3
-        public CBool succeeded;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public sapp_html5_fetch_error error_code;
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ulong frame_count;
 
         [FieldOffset(8)] // size = 4, padding = 0
-        public int file_index;
+        public sapp_event_type type;
 
         [FieldOffset(12)] // size = 4, padding = 0
-        public uint fetched_size;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public void* buffer_ptr;
-
-        [FieldOffset(24)] // size = 4, padding = 4
-        public uint buffer_size;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public void* user_data;
-    }
-
-    // Record @ sokol_app.h:1390
-    [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
-    public struct sapp_html5_fetch_request
-    {
-        [FieldOffset(0)] // size = 4, padding = 4
-        public int dropped_file_index;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtr_callback callback;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public void* buffer_ptr;
-
-        [FieldOffset(24)] // size = 4, padding = 4
-        public uint buffer_size;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public void* user_data;
-
-        // PointerFunction @ sokol_app.h:1392
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_callback
-        {
-            public delegate* unmanaged<sapp_html5_fetch_response*, void> Pointer;
-        }
-    }
-
-    // Record @ sokol_gfx.h:2208
-    [StructLayout(LayoutKind.Explicit, Size = 1, Pack = 1)]
-    public struct sg_gl_context_desc
-    {
-        [FieldOffset(0)] // size = 1, padding = 0
-        public CBool force_gles2;
-    }
-
-    // Record @ sokol_gfx.h:2212
-    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
-    public struct sg_metal_context_desc
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* device;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtr_renderpass_descriptor_cb renderpass_descriptor_cb;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtr_renderpass_descriptor_userdata_cb renderpass_descriptor_userdata_cb;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtr_drawable_cb drawable_cb;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtr_drawable_userdata_cb drawable_userdata_cb;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public void* user_data;
-
-        // PointerFunction @ sokol_gfx.h:2214
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_renderpass_descriptor_cb
-        {
-            public delegate* unmanaged<void*> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2215
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_renderpass_descriptor_userdata_cb
-        {
-            public delegate* unmanaged<void*, void*> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2216
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_drawable_cb
-        {
-            public delegate* unmanaged<void*> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2217
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_drawable_userdata_cb
-        {
-            public delegate* unmanaged<void*, void*> Pointer;
-        }
-    }
-
-    // Record @ sokol_gfx.h:2221
-    [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
-    public struct sg_d3d11_context_desc
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* device;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public void* device_context;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtr_render_target_view_cb render_target_view_cb;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtr_render_target_view_userdata_cb render_target_view_userdata_cb;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtr_depth_stencil_view_cb depth_stencil_view_cb;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public FnPtr_depth_stencil_view_userdata_cb depth_stencil_view_userdata_cb;
-
-        [FieldOffset(48)] // size = 8, padding = 0
-        public void* user_data;
-
-        // PointerFunction @ sokol_gfx.h:2224
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_render_target_view_cb
-        {
-            public delegate* unmanaged<void*> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2225
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_render_target_view_userdata_cb
-        {
-            public delegate* unmanaged<void*, void*> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2226
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_depth_stencil_view_cb
-        {
-            public delegate* unmanaged<void*> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2227
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_depth_stencil_view_userdata_cb
-        {
-            public delegate* unmanaged<void*, void*> Pointer;
-        }
-    }
-
-    // Record @ sokol_gfx.h:2231
-    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
-    public struct sg_wgpu_context_desc
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* device;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtr_render_view_cb render_view_cb;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtr_render_view_userdata_cb render_view_userdata_cb;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtr_resolve_view_cb resolve_view_cb;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtr_resolve_view_userdata_cb resolve_view_userdata_cb;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public FnPtr_depth_stencil_view_cb depth_stencil_view_cb;
-
-        [FieldOffset(48)] // size = 8, padding = 0
-        public FnPtr_depth_stencil_view_userdata_cb depth_stencil_view_userdata_cb;
-
-        [FieldOffset(56)] // size = 8, padding = 0
-        public void* user_data;
-
-        // PointerFunction @ sokol_gfx.h:2233
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_render_view_cb
-        {
-            public delegate* unmanaged<void*> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2234
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_render_view_userdata_cb
-        {
-            public delegate* unmanaged<void*, void*> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2235
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_resolve_view_cb
-        {
-            public delegate* unmanaged<void*> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2236
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_resolve_view_userdata_cb
-        {
-            public delegate* unmanaged<void*, void*> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2237
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_depth_stencil_view_cb
-        {
-            public delegate* unmanaged<void*> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2238
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_depth_stencil_view_userdata_cb
-        {
-            public delegate* unmanaged<void*, void*> Pointer;
-        }
-    }
-
-    // Record @ sokol_gfx.h:2242
-    [StructLayout(LayoutKind.Explicit, Size = 184, Pack = 8)]
-    public struct sg_context_desc
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public sg_pixel_format color_format;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public sg_pixel_format depth_format;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public int sample_count;
-
-        [FieldOffset(12)] // size = 1, padding = 3
-        public sg_gl_context_desc gl;
-
-        [FieldOffset(16)] // size = 48, padding = 0
-        public sg_metal_context_desc metal;
-
-        [FieldOffset(64)] // size = 56, padding = 0
-        public sg_d3d11_context_desc d3d11;
-
-        [FieldOffset(120)] // size = 64, padding = 0
-        public sg_wgpu_context_desc wgpu;
-    }
-
-    // Record @ sokol_gfx.h:2252
-    [StructLayout(LayoutKind.Explicit, Size = 232, Pack = 8)]
-    public struct sg_desc
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint _start_canary;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public int buffer_pool_size;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public int image_pool_size;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public int shader_pool_size;
+        public sapp_keycode key_code;
 
         [FieldOffset(16)] // size = 4, padding = 0
-        public int pipeline_pool_size;
+        public uint char_code;
 
-        [FieldOffset(20)] // size = 4, padding = 0
-        public int pass_pool_size;
+        [FieldOffset(20)] // size = 1, padding = 3
+        public CBool key_repeat;
 
         [FieldOffset(24)] // size = 4, padding = 0
-        public int context_pool_size;
+        public uint modifiers;
 
         [FieldOffset(28)] // size = 4, padding = 0
-        public int uniform_buffer_size;
+        public sapp_mousebutton mouse_button;
 
         [FieldOffset(32)] // size = 4, padding = 0
-        public int staging_buffer_size;
+        public float mouse_x;
 
         [FieldOffset(36)] // size = 4, padding = 0
-        public int sampler_cache_size;
+        public float mouse_y;
 
-        [FieldOffset(40)] // size = 184, padding = 0
-        public sg_context_desc context;
+        [FieldOffset(40)] // size = 4, padding = 0
+        public float mouse_dx;
 
-        [FieldOffset(224)] // size = 4, padding = 4
-        public uint _end_canary;
+        [FieldOffset(44)] // size = 4, padding = 0
+        public float mouse_dy;
+
+        [FieldOffset(48)] // size = 4, padding = 0
+        public float scroll_x;
+
+        [FieldOffset(52)] // size = 4, padding = 0
+        public float scroll_y;
+
+        [FieldOffset(56)] // size = 4, padding = 4
+        public int num_touches;
+
+        [FieldOffset(64)] // size = 192, padding = 0
+        public fixed ulong _touches[192 / 8]; // sapp_touchpoint[8]
+
+        public Span<sapp_touchpoint> touches
+        {
+            get
+            {
+                fixed (sapp_event* @this = &this)
+                {
+                    var pointer = &@this->_touches[0];
+                    var span = new Span<sapp_touchpoint>(pointer, 8);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(256)] // size = 4, padding = 0
+        public int window_width;
+
+        [FieldOffset(260)] // size = 4, padding = 0
+        public int window_height;
+
+        [FieldOffset(264)] // size = 4, padding = 0
+        public int framebuffer_width;
+
+        [FieldOffset(268)] // size = 4, padding = 0
+        public int framebuffer_height;
     }
 
-    // Record @ sokol_gfx.h:642
+    // Struct @ sokol_app.h:1206:3
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct sapp_touchpoint
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public UIntPtr identifier;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public float pos_x;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public float pos_y;
+
+        [FieldOffset(16)] // size = 1, padding = 7
+        public CBool changed;
+    }
+
+    // Struct @ sokol_app.h:1325:3
+    [StructLayout(LayoutKind.Explicit, Size = 200, Pack = 8)]
+    public struct sapp_icon_desc
+    {
+        [FieldOffset(0)] // size = 1, padding = 7
+        public CBool sokol_default;
+
+        [FieldOffset(8)] // size = 192, padding = 0
+        public fixed ulong _images[192 / 8]; // sapp_image_desc[8]
+
+        public Span<sapp_image_desc> images
+        {
+            get
+            {
+                fixed (sapp_icon_desc* @this = &this)
+                {
+                    var pointer = &@this->_images[0];
+                    var span = new Span<sapp_image_desc>(pointer, 8);
+                    return span;
+                }
+            }
+        }
+    }
+
+    // Struct @ sokol_app.h:1302:3
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct sapp_image_desc
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int width;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int height;
+
+        [FieldOffset(8)] // size = 16, padding = 0
+        public sapp_range pixels;
+    }
+
+    // Struct @ sokol_app.h:1275:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct sg_range
+    public struct sapp_range
     {
         [FieldOffset(0)] // size = 8, padding = 0
         public void* ptr;
@@ -1205,1563 +2921,396 @@ public static unsafe partial class sokol
         public ulong size;
     }
 
-    // Record @ sokol_gfx.h:1566
-    [StructLayout(LayoutKind.Explicit, Size = 96, Pack = 8)]
-    public struct sg_buffer_desc
+    // Enum @ sokol_gfx.h:828:3
+    public enum sg_pixel_format : uint
     {
-        [FieldOffset(0)] // size = 4, padding = 4
-        public uint _start_canary;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public ulong size;
-
-        [FieldOffset(16)] // size = 4, padding = 0
-        public sg_buffer_type type;
-
-        [FieldOffset(20)] // size = 4, padding = 0
-        public sg_usage usage;
-
-        [FieldOffset(24)] // size = 16, padding = 0
-        public sg_range data;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public CString label;
-
-        [FieldOffset(48)] // size = 8, padding = 0
-        public fixed uint _gl_buffers[8 / 4]; // uint32_t [2]
-
-        public Span<uint> gl_buffers
-        {
-            get
-            {
-                fixed (sg_buffer_desc* @this = &this)
-                {
-                    var pointer = &@this->_gl_buffers[0];
-                    var span = new Span<uint>(pointer, 2);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(56)] // size = 16, padding = 0
-        public fixed ulong _mtl_buffers[16 / 8]; // void *[2]
-
-        public Span<IntPtr> mtl_buffers
-        {
-            get
-            {
-                fixed (sg_buffer_desc* @this = &this)
-                {
-                    var pointer = &@this->_mtl_buffers[0];
-                    var span = new Span<IntPtr>(pointer, 2);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(72)] // size = 8, padding = 0
-        public void* d3d11_buffer;
-
-        [FieldOffset(80)] // size = 8, padding = 0
-        public void* wgpu_buffer;
-
-        [FieldOffset(88)] // size = 4, padding = 4
-        public uint _end_canary;
+        _SG_PIXELFORMAT_DEFAULT = 0U,
+        SG_PIXELFORMAT_NONE = 1U,
+        SG_PIXELFORMAT_R8 = 2U,
+        SG_PIXELFORMAT_R8SN = 3U,
+        SG_PIXELFORMAT_R8UI = 4U,
+        SG_PIXELFORMAT_R8SI = 5U,
+        SG_PIXELFORMAT_R16 = 6U,
+        SG_PIXELFORMAT_R16SN = 7U,
+        SG_PIXELFORMAT_R16UI = 8U,
+        SG_PIXELFORMAT_R16SI = 9U,
+        SG_PIXELFORMAT_R16F = 10U,
+        SG_PIXELFORMAT_RG8 = 11U,
+        SG_PIXELFORMAT_RG8SN = 12U,
+        SG_PIXELFORMAT_RG8UI = 13U,
+        SG_PIXELFORMAT_RG8SI = 14U,
+        SG_PIXELFORMAT_R32UI = 15U,
+        SG_PIXELFORMAT_R32SI = 16U,
+        SG_PIXELFORMAT_R32F = 17U,
+        SG_PIXELFORMAT_RG16 = 18U,
+        SG_PIXELFORMAT_RG16SN = 19U,
+        SG_PIXELFORMAT_RG16UI = 20U,
+        SG_PIXELFORMAT_RG16SI = 21U,
+        SG_PIXELFORMAT_RG16F = 22U,
+        SG_PIXELFORMAT_RGBA8 = 23U,
+        SG_PIXELFORMAT_RGBA8SN = 24U,
+        SG_PIXELFORMAT_RGBA8UI = 25U,
+        SG_PIXELFORMAT_RGBA8SI = 26U,
+        SG_PIXELFORMAT_BGRA8 = 27U,
+        SG_PIXELFORMAT_RGB10A2 = 28U,
+        SG_PIXELFORMAT_RG11B10F = 29U,
+        SG_PIXELFORMAT_RG32UI = 30U,
+        SG_PIXELFORMAT_RG32SI = 31U,
+        SG_PIXELFORMAT_RG32F = 32U,
+        SG_PIXELFORMAT_RGBA16 = 33U,
+        SG_PIXELFORMAT_RGBA16SN = 34U,
+        SG_PIXELFORMAT_RGBA16UI = 35U,
+        SG_PIXELFORMAT_RGBA16SI = 36U,
+        SG_PIXELFORMAT_RGBA16F = 37U,
+        SG_PIXELFORMAT_RGBA32UI = 38U,
+        SG_PIXELFORMAT_RGBA32SI = 39U,
+        SG_PIXELFORMAT_RGBA32F = 40U,
+        SG_PIXELFORMAT_DEPTH = 41U,
+        SG_PIXELFORMAT_DEPTH_STENCIL = 42U,
+        SG_PIXELFORMAT_BC1_RGBA = 43U,
+        SG_PIXELFORMAT_BC2_RGBA = 44U,
+        SG_PIXELFORMAT_BC3_RGBA = 45U,
+        SG_PIXELFORMAT_BC4_R = 46U,
+        SG_PIXELFORMAT_BC4_RSN = 47U,
+        SG_PIXELFORMAT_BC5_RG = 48U,
+        SG_PIXELFORMAT_BC5_RGSN = 49U,
+        SG_PIXELFORMAT_BC6H_RGBF = 50U,
+        SG_PIXELFORMAT_BC6H_RGBUF = 51U,
+        SG_PIXELFORMAT_BC7_RGBA = 52U,
+        SG_PIXELFORMAT_PVRTC_RGB_2BPP = 53U,
+        SG_PIXELFORMAT_PVRTC_RGB_4BPP = 54U,
+        SG_PIXELFORMAT_PVRTC_RGBA_2BPP = 55U,
+        SG_PIXELFORMAT_PVRTC_RGBA_4BPP = 56U,
+        SG_PIXELFORMAT_ETC2_RGB8 = 57U,
+        SG_PIXELFORMAT_ETC2_RGB8A1 = 58U,
+        SG_PIXELFORMAT_ETC2_RGBA8 = 59U,
+        SG_PIXELFORMAT_ETC2_RG11 = 60U,
+        SG_PIXELFORMAT_ETC2_RG11SN = 61U,
+        _SG_PIXELFORMAT_NUM = 62U,
+        _SG_PIXELFORMAT_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:628
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct sg_buffer
+    // Enum @ sokol_gfx.h:1248:3
+    public enum sg_face_winding : uint
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint id;
+        _SG_FACEWINDING_DEFAULT = 0U,
+        SG_FACEWINDING_CCW = 1U,
+        SG_FACEWINDING_CW = 2U,
+        _SG_FACEWINDING_NUM = 3U,
+        _SG_FACEWINDING_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:1591
-    [StructLayout(LayoutKind.Explicit, Size = 1536, Pack = 8)]
-    public struct sg_image_data
+    // Enum @ sokol_gfx.h:1231:3
+    public enum sg_cull_mode : uint
     {
-        [FieldOffset(0)] // size = 1536, padding = 0
-        public fixed ulong _subimage[1536 / 8]; // sg_range [6][16]
-
-        public Span<sg_range> subimage
-        {
-            get
-            {
-                fixed (sg_image_data* @this = &this)
-                {
-                    var pointer = &@this->_subimage[0];
-                    var span = new Span<sg_range>(pointer, 6);
-                    return span;
-                }
-            }
-        }
+        _SG_CULLMODE_DEFAULT = 0U,
+        SG_CULLMODE_NONE = 1U,
+        SG_CULLMODE_FRONT = 2U,
+        SG_CULLMODE_BACK = 3U,
+        _SG_CULLMODE_NUM = 4U,
+        _SG_CULLMODE_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:1665
-    [StructLayout(LayoutKind.Explicit, Size = 1688, Pack = 8)]
-    public struct sg_image_desc
+    // Enum @ sokol_gfx.h:980:3
+    public enum sg_index_type : uint
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint _start_canary;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public sg_image_type type;
-
-        [FieldOffset(8)] // size = 1, padding = 3
-        public CBool render_target;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public int width;
-
-        [FieldOffset(16)] // size = 4, padding = 0
-        public int height;
-
-        [FieldOffset(20)] // size = 4, padding = 0
-        public int num_slices;
-
-        [FieldOffset(24)] // size = 4, padding = 0
-        public int num_mipmaps;
-
-        [FieldOffset(28)] // size = 4, padding = 0
-        public sg_usage usage;
-
-        [FieldOffset(32)] // size = 4, padding = 0
-        public sg_pixel_format pixel_format;
-
-        [FieldOffset(36)] // size = 4, padding = 0
-        public int sample_count;
-
-        [FieldOffset(40)] // size = 4, padding = 0
-        public sg_filter min_filter;
-
-        [FieldOffset(44)] // size = 4, padding = 0
-        public sg_filter mag_filter;
-
-        [FieldOffset(48)] // size = 4, padding = 0
-        public sg_wrap wrap_u;
-
-        [FieldOffset(52)] // size = 4, padding = 0
-        public sg_wrap wrap_v;
-
-        [FieldOffset(56)] // size = 4, padding = 0
-        public sg_wrap wrap_w;
-
-        [FieldOffset(60)] // size = 4, padding = 0
-        public sg_border_color border_color;
-
-        [FieldOffset(64)] // size = 4, padding = 0
-        public uint max_anisotropy;
-
-        [FieldOffset(68)] // size = 4, padding = 0
-        public float min_lod;
-
-        [FieldOffset(72)] // size = 4, padding = 4
-        public float max_lod;
-
-        [FieldOffset(80)] // size = 1536, padding = 0
-        public sg_image_data data;
-
-        [FieldOffset(1616)] // size = 8, padding = 0
-        public CString label;
-
-        [FieldOffset(1624)] // size = 8, padding = 0
-        public fixed uint _gl_textures[8 / 4]; // uint32_t [2]
-
-        public Span<uint> gl_textures
-        {
-            get
-            {
-                fixed (sg_image_desc* @this = &this)
-                {
-                    var pointer = &@this->_gl_textures[0];
-                    var span = new Span<uint>(pointer, 2);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(1632)] // size = 4, padding = 4
-        public uint gl_texture_target;
-
-        [FieldOffset(1640)] // size = 16, padding = 0
-        public fixed ulong _mtl_textures[16 / 8]; // void *[2]
-
-        public Span<IntPtr> mtl_textures
-        {
-            get
-            {
-                fixed (sg_image_desc* @this = &this)
-                {
-                    var pointer = &@this->_mtl_textures[0];
-                    var span = new Span<IntPtr>(pointer, 2);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(1656)] // size = 8, padding = 0
-        public void* d3d11_texture;
-
-        [FieldOffset(1664)] // size = 8, padding = 0
-        public void* d3d11_shader_resource_view;
-
-        [FieldOffset(1672)] // size = 8, padding = 0
-        public void* wgpu_texture;
-
-        [FieldOffset(1680)] // size = 4, padding = 4
-        public uint _end_canary;
+        _SG_INDEXTYPE_DEFAULT = 0U,
+        SG_INDEXTYPE_NONE = 1U,
+        SG_INDEXTYPE_UINT16 = 2U,
+        SG_INDEXTYPE_UINT32 = 3U,
+        _SG_INDEXTYPE_NUM = 4U,
+        _SG_INDEXTYPE_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:629
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct sg_image
+    // Enum @ sokol_gfx.h:1073:3
+    public enum sg_primitive_type : uint
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint id;
+        _SG_PRIMITIVETYPE_DEFAULT = 0U,
+        SG_PRIMITIVETYPE_POINTS = 1U,
+        SG_PRIMITIVETYPE_LINES = 2U,
+        SG_PRIMITIVETYPE_LINE_STRIP = 3U,
+        SG_PRIMITIVETYPE_TRIANGLES = 4U,
+        SG_PRIMITIVETYPE_TRIANGLE_STRIP = 5U,
+        _SG_PRIMITIVETYPE_NUM = 6U,
+        _SG_PRIMITIVETYPE_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:1734
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct sg_shader_attr_desc
+    // Enum @ sokol_gfx.h:1374:3
+    public enum sg_blend_op : uint
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CString name;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public CString sem_name;
-
-        [FieldOffset(16)] // size = 4, padding = 4
-        public int sem_index;
+        _SG_BLENDOP_DEFAULT = 0U,
+        SG_BLENDOP_ADD = 1U,
+        SG_BLENDOP_SUBTRACT = 2U,
+        SG_BLENDOP_REVERSE_SUBTRACT = 3U,
+        _SG_BLENDOP_NUM = 4U,
+        _SG_BLENDOP_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:1740
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct sg_shader_uniform_desc
+    // Enum @ sokol_gfx.h:1350:3
+    public enum sg_blend_factor : uint
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CString name;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public sg_uniform_type type;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public int array_count;
+        _SG_BLENDFACTOR_DEFAULT = 0U,
+        SG_BLENDFACTOR_ZERO = 1U,
+        SG_BLENDFACTOR_ONE = 2U,
+        SG_BLENDFACTOR_SRC_COLOR = 3U,
+        SG_BLENDFACTOR_ONE_MINUS_SRC_COLOR = 4U,
+        SG_BLENDFACTOR_SRC_ALPHA = 5U,
+        SG_BLENDFACTOR_ONE_MINUS_SRC_ALPHA = 6U,
+        SG_BLENDFACTOR_DST_COLOR = 7U,
+        SG_BLENDFACTOR_ONE_MINUS_DST_COLOR = 8U,
+        SG_BLENDFACTOR_DST_ALPHA = 9U,
+        SG_BLENDFACTOR_ONE_MINUS_DST_ALPHA = 10U,
+        SG_BLENDFACTOR_SRC_ALPHA_SATURATED = 11U,
+        SG_BLENDFACTOR_BLEND_COLOR = 12U,
+        SG_BLENDFACTOR_ONE_MINUS_BLEND_COLOR = 13U,
+        SG_BLENDFACTOR_BLEND_ALPHA = 14U,
+        SG_BLENDFACTOR_ONE_MINUS_BLEND_ALPHA = 15U,
+        _SG_BLENDFACTOR_NUM = 16U,
+        _SG_BLENDFACTOR_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:1746
-    [StructLayout(LayoutKind.Explicit, Size = 264, Pack = 8)]
-    public struct sg_shader_uniform_block_desc
+    // Enum @ sokol_gfx.h:1408:3
+    public enum sg_color_mask : uint
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ulong size;
-
-        [FieldOffset(8)] // size = 256, padding = 0
-        public fixed ulong _uniforms[256 / 8]; // sg_shader_uniform_desc [16]
-
-        public Span<sg_shader_uniform_desc> uniforms
-        {
-            get
-            {
-                fixed (sg_shader_uniform_block_desc* @this = &this)
-                {
-                    var pointer = &@this->_uniforms[0];
-                    var span = new Span<sg_shader_uniform_desc>(pointer, 16);
-                    return span;
-                }
-            }
-        }
+        _SG_COLORMASK_DEFAULT = 0U,
+        SG_COLORMASK_NONE = 16U,
+        SG_COLORMASK_R = 1U,
+        SG_COLORMASK_G = 2U,
+        SG_COLORMASK_RG = 3U,
+        SG_COLORMASK_B = 4U,
+        SG_COLORMASK_RB = 5U,
+        SG_COLORMASK_GB = 6U,
+        SG_COLORMASK_RGB = 7U,
+        SG_COLORMASK_A = 8U,
+        SG_COLORMASK_RA = 9U,
+        SG_COLORMASK_GA = 10U,
+        SG_COLORMASK_RGA = 11U,
+        SG_COLORMASK_BA = 12U,
+        SG_COLORMASK_RBA = 13U,
+        SG_COLORMASK_GBA = 14U,
+        SG_COLORMASK_RGBA = 15U,
+        _SG_COLORMASK_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:1751
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct sg_shader_image_desc
+    // Enum @ sokol_gfx.h:1312:3
+    public enum sg_stencil_op : uint
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CString name;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public sg_image_type image_type;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public sg_sampler_type sampler_type;
+        _SG_STENCILOP_DEFAULT = 0U,
+        SG_STENCILOP_KEEP = 1U,
+        SG_STENCILOP_ZERO = 2U,
+        SG_STENCILOP_REPLACE = 3U,
+        SG_STENCILOP_INCR_CLAMP = 4U,
+        SG_STENCILOP_DECR_CLAMP = 5U,
+        SG_STENCILOP_INVERT = 6U,
+        SG_STENCILOP_INCR_WRAP = 7U,
+        SG_STENCILOP_DECR_WRAP = 8U,
+        _SG_STENCILOP_NUM = 9U,
+        _SG_STENCILOP_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:1757
-    [StructLayout(LayoutKind.Explicit, Size = 1288, Pack = 8)]
-    public struct sg_shader_stage_desc
+    // Enum @ sokol_gfx.h:1278:3
+    public enum sg_compare_func : uint
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CString source;
-
-        [FieldOffset(8)] // size = 16, padding = 0
-        public sg_range bytecode;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public CString entry;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public CString d3d11_target;
-
-        [FieldOffset(40)] // size = 1056, padding = 0
-        public fixed ulong _uniform_blocks[1056 / 8]; // sg_shader_uniform_block_desc [4]
-
-        public Span<sg_shader_uniform_block_desc> uniform_blocks
-        {
-            get
-            {
-                fixed (sg_shader_stage_desc* @this = &this)
-                {
-                    var pointer = &@this->_uniform_blocks[0];
-                    var span = new Span<sg_shader_uniform_block_desc>(pointer, 4);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(1096)] // size = 192, padding = 0
-        public fixed ulong _images[192 / 8]; // sg_shader_image_desc [12]
-
-        public Span<sg_shader_image_desc> images
-        {
-            get
-            {
-                fixed (sg_shader_stage_desc* @this = &this)
-                {
-                    var pointer = &@this->_images[0];
-                    var span = new Span<sg_shader_image_desc>(pointer, 12);
-                    return span;
-                }
-            }
-        }
+        _SG_COMPAREFUNC_DEFAULT = 0U,
+        SG_COMPAREFUNC_NEVER = 1U,
+        SG_COMPAREFUNC_LESS = 2U,
+        SG_COMPAREFUNC_EQUAL = 3U,
+        SG_COMPAREFUNC_LESS_EQUAL = 4U,
+        SG_COMPAREFUNC_GREATER = 5U,
+        SG_COMPAREFUNC_NOT_EQUAL = 6U,
+        SG_COMPAREFUNC_GREATER_EQUAL = 7U,
+        SG_COMPAREFUNC_ALWAYS = 8U,
+        _SG_COMPAREFUNC_NUM = 9U,
+        _SG_COMPAREFUNC_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:1766
-    [StructLayout(LayoutKind.Explicit, Size = 2984, Pack = 8)]
-    public struct sg_shader_desc
+    // Enum @ sokol_gfx.h:1176:3
+    public enum sg_vertex_format : uint
     {
-        [FieldOffset(0)] // size = 4, padding = 4
-        public uint _start_canary;
-
-        [FieldOffset(8)] // size = 384, padding = 0
-        public fixed ulong _attrs[384 / 8]; // sg_shader_attr_desc [16]
-
-        public Span<sg_shader_attr_desc> attrs
-        {
-            get
-            {
-                fixed (sg_shader_desc* @this = &this)
-                {
-                    var pointer = &@this->_attrs[0];
-                    var span = new Span<sg_shader_attr_desc>(pointer, 16);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(392)] // size = 1288, padding = 0
-        public sg_shader_stage_desc vs;
-
-        [FieldOffset(1680)] // size = 1288, padding = 0
-        public sg_shader_stage_desc fs;
-
-        [FieldOffset(2968)] // size = 8, padding = 0
-        public CString label;
-
-        [FieldOffset(2976)] // size = 4, padding = 4
-        public uint _end_canary;
+        SG_VERTEXFORMAT_INVALID = 0U,
+        SG_VERTEXFORMAT_FLOAT = 1U,
+        SG_VERTEXFORMAT_FLOAT2 = 2U,
+        SG_VERTEXFORMAT_FLOAT3 = 3U,
+        SG_VERTEXFORMAT_FLOAT4 = 4U,
+        SG_VERTEXFORMAT_BYTE4 = 5U,
+        SG_VERTEXFORMAT_BYTE4N = 6U,
+        SG_VERTEXFORMAT_UBYTE4 = 7U,
+        SG_VERTEXFORMAT_UBYTE4N = 8U,
+        SG_VERTEXFORMAT_SHORT2 = 9U,
+        SG_VERTEXFORMAT_SHORT2N = 10U,
+        SG_VERTEXFORMAT_USHORT2N = 11U,
+        SG_VERTEXFORMAT_SHORT4 = 12U,
+        SG_VERTEXFORMAT_SHORT4N = 13U,
+        SG_VERTEXFORMAT_USHORT4N = 14U,
+        SG_VERTEXFORMAT_UINT10_N2 = 15U,
+        _SG_VERTEXFORMAT_NUM = 16U,
+        _SG_VERTEXFORMAT_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:630
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct sg_shader
+    // Enum @ sokol_gfx.h:1195:3
+    public enum sg_vertex_step : uint
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint id;
+        _SG_VERTEXSTEP_DEFAULT = 0U,
+        SG_VERTEXSTEP_PER_VERTEX = 1U,
+        SG_VERTEXSTEP_PER_INSTANCE = 2U,
+        _SG_VERTEXSTEP_NUM = 3U,
+        _SG_VERTEXSTEP_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:1844
-    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
-    public struct sg_buffer_layout_desc
+    // Enum @ sokol_gfx.h:1019:3
+    public enum sg_sampler_type : uint
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int stride;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public sg_vertex_step step_func;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public int step_rate;
+        _SG_SAMPLERTYPE_DEFAULT = 0U,
+        SG_SAMPLERTYPE_FLOAT = 1U,
+        SG_SAMPLERTYPE_SINT = 2U,
+        SG_SAMPLERTYPE_UINT = 3U
     }
 
-    // Record @ sokol_gfx.h:1853
-    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
-    public struct sg_vertex_attr_desc
+    // Enum @ sokol_gfx.h:1002:3
+    public enum sg_image_type : uint
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int buffer_index;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public int offset;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public sg_vertex_format format;
+        _SG_IMAGETYPE_DEFAULT = 0U,
+        SG_IMAGETYPE_2D = 1U,
+        SG_IMAGETYPE_CUBE = 2U,
+        SG_IMAGETYPE_3D = 3U,
+        SG_IMAGETYPE_ARRAY = 4U,
+        _SG_IMAGETYPE_NUM = 5U,
+        _SG_IMAGETYPE_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:1862
-    [StructLayout(LayoutKind.Explicit, Size = 288, Pack = 4)]
-    public struct sg_layout_desc
+    // Enum @ sokol_gfx.h:1213:3
+    public enum sg_uniform_type : uint
     {
-        [FieldOffset(0)] // size = 96, padding = 0
-        public fixed uint _buffers[96 / 4]; // sg_buffer_layout_desc [8]
-
-        public Span<sg_buffer_layout_desc> buffers
-        {
-            get
-            {
-                fixed (sg_layout_desc* @this = &this)
-                {
-                    var pointer = &@this->_buffers[0];
-                    var span = new Span<sg_buffer_layout_desc>(pointer, 8);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(96)] // size = 192, padding = 0
-        public fixed uint _attrs[192 / 4]; // sg_vertex_attr_desc [16]
-
-        public Span<sg_vertex_attr_desc> attrs
-        {
-            get
-            {
-                fixed (sg_layout_desc* @this = &this)
-                {
-                    var pointer = &@this->_attrs[0];
-                    var span = new Span<sg_vertex_attr_desc>(pointer, 16);
-                    return span;
-                }
-            }
-        }
+        SG_UNIFORMTYPE_INVALID = 0U,
+        SG_UNIFORMTYPE_FLOAT = 1U,
+        SG_UNIFORMTYPE_FLOAT2 = 2U,
+        SG_UNIFORMTYPE_FLOAT3 = 3U,
+        SG_UNIFORMTYPE_FLOAT4 = 4U,
+        SG_UNIFORMTYPE_MAT4 = 5U,
+        _SG_UNIFORMTYPE_NUM = 6U,
+        _SG_UNIFORMTYPE_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:1883
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
-    public struct sg_depth_state
+    // Enum @ sokol_gfx.h:1149:3
+    public enum sg_border_color : uint
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public sg_pixel_format pixel_format;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public sg_compare_func compare;
-
-        [FieldOffset(8)] // size = 1, padding = 3
-        public CBool write_enabled;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public float bias;
-
-        [FieldOffset(16)] // size = 4, padding = 0
-        public float bias_slope_scale;
-
-        [FieldOffset(20)] // size = 4, padding = 0
-        public float bias_clamp;
+        _SG_BORDERCOLOR_DEFAULT = 0U,
+        SG_BORDERCOLOR_TRANSPARENT_BLACK = 1U,
+        SG_BORDERCOLOR_OPAQUE_BLACK = 2U,
+        SG_BORDERCOLOR_OPAQUE_WHITE = 3U,
+        _SG_BORDERCOLOR_NUM = 4U,
+        _SG_BORDERCOLOR_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:1867
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
-    public struct sg_stencil_face_state
+    // Enum @ sokol_gfx.h:1132:3
+    public enum sg_wrap : uint
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public sg_compare_func compare;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public sg_stencil_op fail_op;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public sg_stencil_op depth_fail_op;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public sg_stencil_op pass_op;
+        _SG_WRAP_DEFAULT = 0U,
+        SG_WRAP_REPEAT = 1U,
+        SG_WRAP_CLAMP_TO_EDGE = 2U,
+        SG_WRAP_CLAMP_TO_BORDER = 3U,
+        SG_WRAP_MIRRORED_REPEAT = 4U,
+        _SG_WRAP_NUM = 5U,
+        _SG_WRAP_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:1874
-    [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 4)]
-    public struct sg_stencil_state
+    // Enum @ sokol_gfx.h:1094:3
+    public enum sg_filter : uint
     {
-        [FieldOffset(0)] // size = 1, padding = 3
-        public CBool enabled;
-
-        [FieldOffset(4)] // size = 16, padding = 0
-        public sg_stencil_face_state front;
-
-        [FieldOffset(20)] // size = 16, padding = 0
-        public sg_stencil_face_state back;
-
-        [FieldOffset(36)] // size = 1, padding = 0
-        public byte read_mask;
-
-        [FieldOffset(37)] // size = 1, padding = 0
-        public byte write_mask;
-
-        [FieldOffset(38)] // size = 1, padding = 1
-        public byte @ref;
+        _SG_FILTER_DEFAULT = 0U,
+        SG_FILTER_NEAREST = 1U,
+        SG_FILTER_LINEAR = 2U,
+        SG_FILTER_NEAREST_MIPMAP_NEAREST = 3U,
+        SG_FILTER_NEAREST_MIPMAP_LINEAR = 4U,
+        SG_FILTER_LINEAR_MIPMAP_NEAREST = 5U,
+        SG_FILTER_LINEAR_MIPMAP_LINEAR = 6U,
+        _SG_FILTER_NUM = 7U,
+        _SG_FILTER_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:1892
-    [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
-    public struct sg_blend_state
+    // Enum @ sokol_gfx.h:945:3
+    public enum sg_usage : uint
     {
-        [FieldOffset(0)] // size = 1, padding = 3
-        public CBool enabled;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public sg_blend_factor src_factor_rgb;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public sg_blend_factor dst_factor_rgb;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public sg_blend_op op_rgb;
-
-        [FieldOffset(16)] // size = 4, padding = 0
-        public sg_blend_factor src_factor_alpha;
-
-        [FieldOffset(20)] // size = 4, padding = 0
-        public sg_blend_factor dst_factor_alpha;
-
-        [FieldOffset(24)] // size = 4, padding = 0
-        public sg_blend_op op_alpha;
+        _SG_USAGE_DEFAULT = 0U,
+        SG_USAGE_IMMUTABLE = 1U,
+        SG_USAGE_DYNAMIC = 2U,
+        SG_USAGE_STREAM = 3U,
+        _SG_USAGE_NUM = 4U,
+        _SG_USAGE_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:1902
-    [StructLayout(LayoutKind.Explicit, Size = 36, Pack = 4)]
-    public struct sg_color_state
+    // Enum @ sokol_gfx.h:961:3
+    public enum sg_buffer_type : uint
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public sg_pixel_format pixel_format;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public sg_color_mask write_mask;
-
-        [FieldOffset(8)] // size = 28, padding = 0
-        public sg_blend_state blend;
+        _SG_BUFFERTYPE_DEFAULT = 0U,
+        SG_BUFFERTYPE_VERTEXBUFFER = 1U,
+        SG_BUFFERTYPE_INDEXBUFFER = 2U,
+        _SG_BUFFERTYPE_NUM = 3U,
+        _SG_BUFFERTYPE_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:680
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
-    public struct sg_color
+    // Enum @ sokol_gfx.h:902:3
+    public enum sg_resource_state : uint
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public float r;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public float g;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public float b;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public float a;
+        SG_RESOURCESTATE_INITIAL = 0U,
+        SG_RESOURCESTATE_ALLOC = 1U,
+        SG_RESOURCESTATE_VALID = 2U,
+        SG_RESOURCESTATE_FAILED = 3U,
+        SG_RESOURCESTATE_INVALID = 4U,
+        _SG_RESOURCESTATE_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:1908
-    [StructLayout(LayoutKind.Explicit, Size = 568, Pack = 8)]
-    public struct sg_pipeline_desc
+    // Enum @ sokol_gfx.h:702:3
+    public enum sg_backend : uint
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint _start_canary;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public sg_shader shader;
-
-        [FieldOffset(8)] // size = 288, padding = 0
-        public sg_layout_desc layout;
-
-        [FieldOffset(296)] // size = 24, padding = 0
-        public sg_depth_state depth;
-
-        [FieldOffset(320)] // size = 40, padding = 0
-        public sg_stencil_state stencil;
-
-        [FieldOffset(360)] // size = 4, padding = 0
-        public int color_count;
-
-        [FieldOffset(364)] // size = 144, padding = 0
-        public fixed uint _colors[144 / 4]; // sg_color_state [4]
-
-        public Span<sg_color_state> colors
-        {
-            get
-            {
-                fixed (sg_pipeline_desc* @this = &this)
-                {
-                    var pointer = &@this->_colors[0];
-                    var span = new Span<sg_color_state>(pointer, 4);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(508)] // size = 4, padding = 0
-        public sg_primitive_type primitive_type;
-
-        [FieldOffset(512)] // size = 4, padding = 0
-        public sg_index_type index_type;
-
-        [FieldOffset(516)] // size = 4, padding = 0
-        public sg_cull_mode cull_mode;
-
-        [FieldOffset(520)] // size = 4, padding = 0
-        public sg_face_winding face_winding;
-
-        [FieldOffset(524)] // size = 4, padding = 0
-        public int sample_count;
-
-        [FieldOffset(528)] // size = 16, padding = 0
-        public sg_color blend_color;
-
-        [FieldOffset(544)] // size = 1, padding = 7
-        public CBool alpha_to_coverage_enabled;
-
-        [FieldOffset(552)] // size = 8, padding = 0
-        public CString label;
-
-        [FieldOffset(560)] // size = 4, padding = 4
-        public uint _end_canary;
+        SG_BACKEND_GLCORE33 = 0U,
+        SG_BACKEND_GLES2 = 1U,
+        SG_BACKEND_GLES3 = 2U,
+        SG_BACKEND_D3D11 = 3U,
+        SG_BACKEND_METAL_IOS = 4U,
+        SG_BACKEND_METAL_MACOS = 5U,
+        SG_BACKEND_METAL_SIMULATOR = 6U,
+        SG_BACKEND_WGPU = 7U,
+        SG_BACKEND_DUMMY = 8U
     }
 
-    // Record @ sokol_gfx.h:631
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct sg_pipeline
+    // Enum @ sokol_gfx.h:1053:3
+    public enum sg_shader_stage : uint
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint id;
+        SG_SHADERSTAGE_VS = 0U,
+        SG_SHADERSTAGE_FS = 1U,
+        _SG_SHADERSTAGE_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:1949
-    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
-    public struct sg_pass_attachment_desc
+    // Enum @ sokol_gfx.h:1435:3
+    public enum sg_action : uint
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public sg_image image;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public int mip_level;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public int slice;
+        _SG_ACTION_DEFAULT = 0U,
+        SG_ACTION_CLEAR = 1U,
+        SG_ACTION_LOAD = 2U,
+        SG_ACTION_DONTCARE = 3U,
+        _SG_ACTION_NUM = 4U,
+        _SG_ACTION_FORCE_U32 = 2147483647U
     }
 
-    // Record @ sokol_gfx.h:1955
-    [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8)]
-    public struct sg_pass_desc
+    // Enum @ sokol_app.h:1378:3
+    public enum sapp_html5_fetch_error : uint
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint _start_canary;
-
-        [FieldOffset(4)] // size = 48, padding = 0
-        public fixed uint _color_attachments[48 / 4]; // sg_pass_attachment_desc [4]
-
-        public Span<sg_pass_attachment_desc> color_attachments
-        {
-            get
-            {
-                fixed (sg_pass_desc* @this = &this)
-                {
-                    var pointer = &@this->_color_attachments[0];
-                    var span = new Span<sg_pass_attachment_desc>(pointer, 4);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(52)] // size = 12, padding = 0
-        public sg_pass_attachment_desc depth_stencil_attachment;
-
-        [FieldOffset(64)] // size = 8, padding = 0
-        public CString label;
-
-        [FieldOffset(72)] // size = 4, padding = 4
-        public uint _end_canary;
+        SAPP_HTML5_FETCH_ERROR_NO_ERROR = 0U,
+        SAPP_HTML5_FETCH_ERROR_BUFFER_TOO_SMALL = 1U,
+        SAPP_HTML5_FETCH_ERROR_OTHER = 2U
     }
 
-    // Record @ sokol_gfx.h:632
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct sg_pass
+    // Enum @ sokol_app.h:1219:3
+    public enum sapp_mousebutton : uint
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint id;
+        SAPP_MOUSEBUTTON_LEFT = 0U,
+        SAPP_MOUSEBUTTON_RIGHT = 1U,
+        SAPP_MOUSEBUTTON_MIDDLE = 2U,
+        SAPP_MOUSEBUTTON_INVALID = 256U
     }
 
-    // Record @ sokol_gfx.h:1456
-    [StructLayout(LayoutKind.Explicit, Size = 20, Pack = 4)]
-    public struct sg_color_attachment_action
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public sg_action action;
-
-        [FieldOffset(4)] // size = 16, padding = 0
-        public sg_color value;
-    }
-
-    // Record @ sokol_gfx.h:1461
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
-    public struct sg_depth_attachment_action
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public sg_action action;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public float value;
-    }
-
-    // Record @ sokol_gfx.h:1466
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
-    public struct sg_stencil_attachment_action
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public sg_action action;
-
-        [FieldOffset(4)] // size = 1, padding = 3
-        public byte value;
-    }
-
-    // Record @ sokol_gfx.h:1471
-    [StructLayout(LayoutKind.Explicit, Size = 104, Pack = 4)]
-    public struct sg_pass_action
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint _start_canary;
-
-        [FieldOffset(4)] // size = 80, padding = 0
-        public fixed uint _colors[80 / 4]; // sg_color_attachment_action [4]
-
-        public Span<sg_color_attachment_action> colors
-        {
-            get
-            {
-                fixed (sg_pass_action* @this = &this)
-                {
-                    var pointer = &@this->_colors[0];
-                    var span = new Span<sg_color_attachment_action>(pointer, 4);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(84)] // size = 8, padding = 0
-        public sg_depth_attachment_action depth;
-
-        [FieldOffset(92)] // size = 8, padding = 0
-        public sg_stencil_attachment_action stencil;
-
-        [FieldOffset(100)] // size = 4, padding = 0
-        public uint _end_canary;
-    }
-
-    // Record @ sokol_gfx.h:1502
-    [StructLayout(LayoutKind.Explicit, Size = 176, Pack = 4)]
-    public struct sg_bindings
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint _start_canary;
-
-        [FieldOffset(4)] // size = 32, padding = 0
-        public fixed uint _vertex_buffers[32 / 4]; // sg_buffer [8]
-
-        public Span<sg_buffer> vertex_buffers
-        {
-            get
-            {
-                fixed (sg_bindings* @this = &this)
-                {
-                    var pointer = &@this->_vertex_buffers[0];
-                    var span = new Span<sg_buffer>(pointer, 8);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(36)] // size = 32, padding = 0
-        public fixed int _vertex_buffer_offsets[32 / 4]; // int [8]
-
-        public Span<int> vertex_buffer_offsets
-        {
-            get
-            {
-                fixed (sg_bindings* @this = &this)
-                {
-                    var pointer = &@this->_vertex_buffer_offsets[0];
-                    var span = new Span<int>(pointer, 8);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(68)] // size = 4, padding = 0
-        public sg_buffer index_buffer;
-
-        [FieldOffset(72)] // size = 4, padding = 0
-        public int index_buffer_offset;
-
-        [FieldOffset(76)] // size = 48, padding = 0
-        public fixed uint _vs_images[48 / 4]; // sg_image [12]
-
-        public Span<sg_image> vs_images
-        {
-            get
-            {
-                fixed (sg_bindings* @this = &this)
-                {
-                    var pointer = &@this->_vs_images[0];
-                    var span = new Span<sg_image>(pointer, 12);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(124)] // size = 48, padding = 0
-        public fixed uint _fs_images[48 / 4]; // sg_image [12]
-
-        public Span<sg_image> fs_images
-        {
-            get
-            {
-                fixed (sg_bindings* @this = &this)
-                {
-                    var pointer = &@this->_fs_images[0];
-                    var span = new Span<sg_image>(pointer, 12);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(172)] // size = 4, padding = 0
-        public uint _end_canary;
-    }
-
-    // Record @ sokol_gfx.h:1975
-    [StructLayout(LayoutKind.Explicit, Size = 488, Pack = 8)]
-    public struct sg_trace_hooks
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* user_data;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtrVoidPointer reset_state_cache;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtr_make_buffer make_buffer;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtr_make_image make_image;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtr_make_shader make_shader;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public FnPtr_make_pipeline make_pipeline;
-
-        [FieldOffset(48)] // size = 8, padding = 0
-        public FnPtr_make_pass make_pass;
-
-        [FieldOffset(56)] // size = 8, padding = 0
-        public FnPtr_destroy_buffer destroy_buffer;
-
-        [FieldOffset(64)] // size = 8, padding = 0
-        public FnPtr_destroy_image destroy_image;
-
-        [FieldOffset(72)] // size = 8, padding = 0
-        public FnPtr_destroy_shader destroy_shader;
-
-        [FieldOffset(80)] // size = 8, padding = 0
-        public FnPtr_destroy_pipeline destroy_pipeline;
-
-        [FieldOffset(88)] // size = 8, padding = 0
-        public FnPtr_destroy_pass destroy_pass;
-
-        [FieldOffset(96)] // size = 8, padding = 0
-        public FnPtr_update_buffer update_buffer;
-
-        [FieldOffset(104)] // size = 8, padding = 0
-        public FnPtr_update_image update_image;
-
-        [FieldOffset(112)] // size = 8, padding = 0
-        public FnPtr_append_buffer append_buffer;
-
-        [FieldOffset(120)] // size = 8, padding = 0
-        public FnPtr_begin_default_pass begin_default_pass;
-
-        [FieldOffset(128)] // size = 8, padding = 0
-        public FnPtr_begin_pass begin_pass;
-
-        [FieldOffset(136)] // size = 8, padding = 0
-        public FnPtr_apply_viewport apply_viewport;
-
-        [FieldOffset(144)] // size = 8, padding = 0
-        public FnPtr_apply_scissor_rect apply_scissor_rect;
-
-        [FieldOffset(152)] // size = 8, padding = 0
-        public FnPtr_apply_pipeline apply_pipeline;
-
-        [FieldOffset(160)] // size = 8, padding = 0
-        public FnPtr_apply_bindings apply_bindings;
-
-        [FieldOffset(168)] // size = 8, padding = 0
-        public FnPtr_apply_uniforms apply_uniforms;
-
-        [FieldOffset(176)] // size = 8, padding = 0
-        public FnPtr_draw draw;
-
-        [FieldOffset(184)] // size = 8, padding = 0
-        public FnPtrVoidPointer end_pass;
-
-        [FieldOffset(192)] // size = 8, padding = 0
-        public FnPtrVoidPointer commit;
-
-        [FieldOffset(200)] // size = 8, padding = 0
-        public FnPtr_alloc_buffer alloc_buffer;
-
-        [FieldOffset(208)] // size = 8, padding = 0
-        public FnPtr_alloc_image alloc_image;
-
-        [FieldOffset(216)] // size = 8, padding = 0
-        public FnPtr_alloc_shader alloc_shader;
-
-        [FieldOffset(224)] // size = 8, padding = 0
-        public FnPtr_alloc_pipeline alloc_pipeline;
-
-        [FieldOffset(232)] // size = 8, padding = 0
-        public FnPtr_alloc_pass alloc_pass;
-
-        [FieldOffset(240)] // size = 8, padding = 0
-        public FnPtr_dealloc_buffer dealloc_buffer;
-
-        [FieldOffset(248)] // size = 8, padding = 0
-        public FnPtr_dealloc_image dealloc_image;
-
-        [FieldOffset(256)] // size = 8, padding = 0
-        public FnPtr_dealloc_shader dealloc_shader;
-
-        [FieldOffset(264)] // size = 8, padding = 0
-        public FnPtr_dealloc_pipeline dealloc_pipeline;
-
-        [FieldOffset(272)] // size = 8, padding = 0
-        public FnPtr_dealloc_pass dealloc_pass;
-
-        [FieldOffset(280)] // size = 8, padding = 0
-        public FnPtr_init_buffer init_buffer;
-
-        [FieldOffset(288)] // size = 8, padding = 0
-        public FnPtr_init_image init_image;
-
-        [FieldOffset(296)] // size = 8, padding = 0
-        public FnPtr_init_shader init_shader;
-
-        [FieldOffset(304)] // size = 8, padding = 0
-        public FnPtr_init_pipeline init_pipeline;
-
-        [FieldOffset(312)] // size = 8, padding = 0
-        public FnPtr_init_pass init_pass;
-
-        [FieldOffset(320)] // size = 8, padding = 0
-        public FnPtr_uninit_buffer uninit_buffer;
-
-        [FieldOffset(328)] // size = 8, padding = 0
-        public FnPtr_uninit_image uninit_image;
-
-        [FieldOffset(336)] // size = 8, padding = 0
-        public FnPtr_uninit_shader uninit_shader;
-
-        [FieldOffset(344)] // size = 8, padding = 0
-        public FnPtr_uninit_pipeline uninit_pipeline;
-
-        [FieldOffset(352)] // size = 8, padding = 0
-        public FnPtr_uninit_pass uninit_pass;
-
-        [FieldOffset(360)] // size = 8, padding = 0
-        public FnPtr_fail_buffer fail_buffer;
-
-        [FieldOffset(368)] // size = 8, padding = 0
-        public FnPtr_fail_image fail_image;
-
-        [FieldOffset(376)] // size = 8, padding = 0
-        public FnPtr_fail_shader fail_shader;
-
-        [FieldOffset(384)] // size = 8, padding = 0
-        public FnPtr_fail_pipeline fail_pipeline;
-
-        [FieldOffset(392)] // size = 8, padding = 0
-        public FnPtr_fail_pass fail_pass;
-
-        [FieldOffset(400)] // size = 8, padding = 0
-        public FnPtr_push_debug_group push_debug_group;
-
-        [FieldOffset(408)] // size = 8, padding = 0
-        public FnPtrVoidPointer pop_debug_group;
-
-        [FieldOffset(416)] // size = 8, padding = 0
-        public FnPtrVoidPointer err_buffer_pool_exhausted;
-
-        [FieldOffset(424)] // size = 8, padding = 0
-        public FnPtrVoidPointer err_image_pool_exhausted;
-
-        [FieldOffset(432)] // size = 8, padding = 0
-        public FnPtrVoidPointer err_shader_pool_exhausted;
-
-        [FieldOffset(440)] // size = 8, padding = 0
-        public FnPtrVoidPointer err_pipeline_pool_exhausted;
-
-        [FieldOffset(448)] // size = 8, padding = 0
-        public FnPtrVoidPointer err_pass_pool_exhausted;
-
-        [FieldOffset(456)] // size = 8, padding = 0
-        public FnPtrVoidPointer err_context_mismatch;
-
-        [FieldOffset(464)] // size = 8, padding = 0
-        public FnPtrVoidPointer err_pass_invalid;
-
-        [FieldOffset(472)] // size = 8, padding = 0
-        public FnPtrVoidPointer err_draw_invalid;
-
-        [FieldOffset(480)] // size = 8, padding = 0
-        public FnPtrVoidPointer err_bindings_invalid;
-
-        // PointerFunction @ sokol_gfx.h:1978
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_make_buffer
-        {
-            public delegate* unmanaged<sg_buffer_desc*, sg_buffer, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1979
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_make_image
-        {
-            public delegate* unmanaged<sg_image_desc*, sg_image, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1980
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_make_shader
-        {
-            public delegate* unmanaged<sg_shader_desc*, sg_shader, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1981
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_make_pipeline
-        {
-            public delegate* unmanaged<sg_pipeline_desc*, sg_pipeline, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1982
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_make_pass
-        {
-            public delegate* unmanaged<sg_pass_desc*, sg_pass, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1983
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_destroy_buffer
-        {
-            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1984
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_destroy_image
-        {
-            public delegate* unmanaged<sg_image, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1985
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_destroy_shader
-        {
-            public delegate* unmanaged<sg_shader, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1986
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_destroy_pipeline
-        {
-            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1987
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_destroy_pass
-        {
-            public delegate* unmanaged<sg_pass, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1988
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_update_buffer
-        {
-            public delegate* unmanaged<sg_buffer, sg_range*, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1989
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_update_image
-        {
-            public delegate* unmanaged<sg_image, sg_image_data*, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1990
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_append_buffer
-        {
-            public delegate* unmanaged<sg_buffer, sg_range*, int, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1991
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_begin_default_pass
-        {
-            public delegate* unmanaged<sg_pass_action*, int, int, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1992
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_begin_pass
-        {
-            public delegate* unmanaged<sg_pass, sg_pass_action*, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1993
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_apply_viewport
-        {
-            public delegate* unmanaged<int, int, int, int, CBool, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1994
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_apply_scissor_rect
-        {
-            public delegate* unmanaged<int, int, int, int, CBool, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1995
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_apply_pipeline
-        {
-            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1996
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_apply_bindings
-        {
-            public delegate* unmanaged<sg_bindings*, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1997
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_apply_uniforms
-        {
-            public delegate* unmanaged<sg_shader_stage, int, sg_range*, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:1998
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_draw
-        {
-            public delegate* unmanaged<int, int, int, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2001
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_alloc_buffer
-        {
-            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2002
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_alloc_image
-        {
-            public delegate* unmanaged<sg_image, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2003
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_alloc_shader
-        {
-            public delegate* unmanaged<sg_shader, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2004
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_alloc_pipeline
-        {
-            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2005
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_alloc_pass
-        {
-            public delegate* unmanaged<sg_pass, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2006
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_dealloc_buffer
-        {
-            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2007
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_dealloc_image
-        {
-            public delegate* unmanaged<sg_image, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2008
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_dealloc_shader
-        {
-            public delegate* unmanaged<sg_shader, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2009
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_dealloc_pipeline
-        {
-            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2010
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_dealloc_pass
-        {
-            public delegate* unmanaged<sg_pass, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2011
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_init_buffer
-        {
-            public delegate* unmanaged<sg_buffer, sg_buffer_desc*, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2012
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_init_image
-        {
-            public delegate* unmanaged<sg_image, sg_image_desc*, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2013
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_init_shader
-        {
-            public delegate* unmanaged<sg_shader, sg_shader_desc*, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2014
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_init_pipeline
-        {
-            public delegate* unmanaged<sg_pipeline, sg_pipeline_desc*, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2015
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_init_pass
-        {
-            public delegate* unmanaged<sg_pass, sg_pass_desc*, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2016
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_uninit_buffer
-        {
-            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2017
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_uninit_image
-        {
-            public delegate* unmanaged<sg_image, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2018
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_uninit_shader
-        {
-            public delegate* unmanaged<sg_shader, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2019
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_uninit_pipeline
-        {
-            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2020
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_uninit_pass
-        {
-            public delegate* unmanaged<sg_pass, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2021
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_fail_buffer
-        {
-            public delegate* unmanaged<sg_buffer, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2022
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_fail_image
-        {
-            public delegate* unmanaged<sg_image, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2023
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_fail_shader
-        {
-            public delegate* unmanaged<sg_shader, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2024
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_fail_pipeline
-        {
-            public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2025
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_fail_pass
-        {
-            public delegate* unmanaged<sg_pass, void*, void> Pointer;
-        }
-
-        // PointerFunction @ sokol_gfx.h:2026
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_push_debug_group
-        {
-            public delegate* unmanaged<CString, void*, void> Pointer;
-        }
-    }
-
-    // Record @ sokol_gfx.h:850
-    [StructLayout(LayoutKind.Explicit, Size = 9, Pack = 1)]
-    public struct sg_features
-    {
-        [FieldOffset(0)] // size = 1, padding = 0
-        public CBool instancing;
-
-        [FieldOffset(1)] // size = 1, padding = 0
-        public CBool origin_top_left;
-
-        [FieldOffset(2)] // size = 1, padding = 0
-        public CBool multiple_render_targets;
-
-        [FieldOffset(3)] // size = 1, padding = 0
-        public CBool msaa_render_targets;
-
-        [FieldOffset(4)] // size = 1, padding = 0
-        public CBool imagetype_3d;
-
-        [FieldOffset(5)] // size = 1, padding = 0
-        public CBool imagetype_array;
-
-        [FieldOffset(6)] // size = 1, padding = 0
-        public CBool image_clamp_to_border;
-
-        [FieldOffset(7)] // size = 1, padding = 0
-        public CBool mrt_independent_blend_state;
-
-        [FieldOffset(8)] // size = 1, padding = 0
-        public CBool mrt_independent_write_mask;
-    }
-
-    // Record @ sokol_gfx.h:868
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
-    public struct sg_limits
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int max_image_size_2d;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public int max_image_size_cube;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public int max_image_size_3d;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public int max_image_size_array;
-
-        [FieldOffset(16)] // size = 4, padding = 0
-        public int max_image_array_layers;
-
-        [FieldOffset(20)] // size = 4, padding = 0
-        public int max_vertex_attrs;
-    }
-
-    // Record @ sokol_gfx.h:834
-    [StructLayout(LayoutKind.Explicit, Size = 6, Pack = 1)]
-    public struct sg_pixelformat_info
-    {
-        [FieldOffset(0)] // size = 1, padding = 0
-        public CBool sample;
-
-        [FieldOffset(1)] // size = 1, padding = 0
-        public CBool filter;
-
-        [FieldOffset(2)] // size = 1, padding = 0
-        public CBool render;
-
-        [FieldOffset(3)] // size = 1, padding = 0
-        public CBool blend;
-
-        [FieldOffset(4)] // size = 1, padding = 0
-        public CBool msaa;
-
-        [FieldOffset(5)] // size = 1, padding = 0
-        public CBool depth;
-    }
-
-    // Record @ sokol_gfx.h:2060
-    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
-    public struct sg_slot_info
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public sg_resource_state state;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public uint res_id;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public uint ctx_id;
-    }
-
-    // Record @ sokol_gfx.h:2066
-    [StructLayout(LayoutKind.Explicit, Size = 36, Pack = 4)]
-    public struct sg_buffer_info
-    {
-        [FieldOffset(0)] // size = 12, padding = 0
-        public sg_slot_info slot;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public uint update_frame_index;
-
-        [FieldOffset(16)] // size = 4, padding = 0
-        public uint append_frame_index;
-
-        [FieldOffset(20)] // size = 4, padding = 0
-        public int append_pos;
-
-        [FieldOffset(24)] // size = 1, padding = 3
-        public CBool append_overflow;
-
-        [FieldOffset(28)] // size = 4, padding = 0
-        public int num_slots;
-
-        [FieldOffset(32)] // size = 4, padding = 0
-        public int active_slot;
-    }
-
-    // Record @ sokol_gfx.h:2076
-    [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 4)]
-    public struct sg_image_info
-    {
-        [FieldOffset(0)] // size = 12, padding = 0
-        public sg_slot_info slot;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public uint upd_frame_index;
-
-        [FieldOffset(16)] // size = 4, padding = 0
-        public int num_slots;
-
-        [FieldOffset(20)] // size = 4, padding = 0
-        public int active_slot;
-
-        [FieldOffset(24)] // size = 4, padding = 0
-        public int width;
-
-        [FieldOffset(28)] // size = 4, padding = 0
-        public int height;
-    }
-
-    // Record @ sokol_gfx.h:2085
-    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
-    public struct sg_shader_info
-    {
-        [FieldOffset(0)] // size = 12, padding = 0
-        public sg_slot_info slot;
-    }
-
-    // Record @ sokol_gfx.h:2089
-    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
-    public struct sg_pipeline_info
-    {
-        [FieldOffset(0)] // size = 12, padding = 0
-        public sg_slot_info slot;
-    }
-
-    // Record @ sokol_gfx.h:2093
-    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
-    public struct sg_pass_info
-    {
-        [FieldOffset(0)] // size = 12, padding = 0
-        public sg_slot_info slot;
-    }
-
-    // Record @ sokol_gfx.h:633
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct sg_context
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint id;
-    }
-
-    // Enum @ sokol_app.h:1032
-    public enum sapp_event_type : uint
-    {
-        SAPP_EVENTTYPE_INVALID = 0U,
-        SAPP_EVENTTYPE_KEY_DOWN = 1U,
-        SAPP_EVENTTYPE_KEY_UP = 2U,
-        SAPP_EVENTTYPE_CHAR = 3U,
-        SAPP_EVENTTYPE_MOUSE_DOWN = 4U,
-        SAPP_EVENTTYPE_MOUSE_UP = 5U,
-        SAPP_EVENTTYPE_MOUSE_SCROLL = 6U,
-        SAPP_EVENTTYPE_MOUSE_MOVE = 7U,
-        SAPP_EVENTTYPE_MOUSE_ENTER = 8U,
-        SAPP_EVENTTYPE_MOUSE_LEAVE = 9U,
-        SAPP_EVENTTYPE_TOUCHES_BEGAN = 10U,
-        SAPP_EVENTTYPE_TOUCHES_MOVED = 11U,
-        SAPP_EVENTTYPE_TOUCHES_ENDED = 12U,
-        SAPP_EVENTTYPE_TOUCHES_CANCELLED = 13U,
-        SAPP_EVENTTYPE_RESIZED = 14U,
-        SAPP_EVENTTYPE_ICONIFIED = 15U,
-        SAPP_EVENTTYPE_RESTORED = 16U,
-        SAPP_EVENTTYPE_SUSPENDED = 17U,
-        SAPP_EVENTTYPE_RESUMED = 18U,
-        SAPP_EVENTTYPE_UPDATE_CURSOR = 19U,
-        SAPP_EVENTTYPE_QUIT_REQUESTED = 20U,
-        SAPP_EVENTTYPE_CLIPBOARD_PASTED = 21U,
-        SAPP_EVENTTYPE_FILES_DROPPED = 22U,
-        _SAPP_EVENTTYPE_NUM = 23U,
-        _SAPP_EVENTTYPE_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_app.h:1068
+    // Enum @ sokol_app.h:1190:3
     public enum sapp_keycode : uint
     {
         SAPP_KEYCODE_INVALID = 0U,
@@ -2887,392 +3436,501 @@ public static unsafe partial class sokol
         SAPP_KEYCODE_MENU = 348U
     }
 
-    // Enum @ sokol_app.h:1214
-    public enum sapp_mousebutton : uint
+    // Enum @ sokol_app.h:1058:3
+    public enum sapp_event_type : uint
     {
-        SAPP_MOUSEBUTTON_LEFT = 0U,
-        SAPP_MOUSEBUTTON_RIGHT = 1U,
-        SAPP_MOUSEBUTTON_MIDDLE = 2U,
-        SAPP_MOUSEBUTTON_INVALID = 256U
+        SAPP_EVENTTYPE_INVALID = 0U,
+        SAPP_EVENTTYPE_KEY_DOWN = 1U,
+        SAPP_EVENTTYPE_KEY_UP = 2U,
+        SAPP_EVENTTYPE_CHAR = 3U,
+        SAPP_EVENTTYPE_MOUSE_DOWN = 4U,
+        SAPP_EVENTTYPE_MOUSE_UP = 5U,
+        SAPP_EVENTTYPE_MOUSE_SCROLL = 6U,
+        SAPP_EVENTTYPE_MOUSE_MOVE = 7U,
+        SAPP_EVENTTYPE_MOUSE_ENTER = 8U,
+        SAPP_EVENTTYPE_MOUSE_LEAVE = 9U,
+        SAPP_EVENTTYPE_TOUCHES_BEGAN = 10U,
+        SAPP_EVENTTYPE_TOUCHES_MOVED = 11U,
+        SAPP_EVENTTYPE_TOUCHES_ENDED = 12U,
+        SAPP_EVENTTYPE_TOUCHES_CANCELLED = 13U,
+        SAPP_EVENTTYPE_RESIZED = 14U,
+        SAPP_EVENTTYPE_ICONIFIED = 15U,
+        SAPP_EVENTTYPE_RESTORED = 16U,
+        SAPP_EVENTTYPE_SUSPENDED = 17U,
+        SAPP_EVENTTYPE_RESUMED = 18U,
+        SAPP_EVENTTYPE_UPDATE_CURSOR = 19U,
+        SAPP_EVENTTYPE_QUIT_REQUESTED = 20U,
+        SAPP_EVENTTYPE_CLIPBOARD_PASTED = 21U,
+        SAPP_EVENTTYPE_FILES_DROPPED = 22U,
+        _SAPP_EVENTTYPE_NUM = 23U,
+        _SAPP_EVENTTYPE_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_app.h:1374
-    public enum sapp_html5_fetch_error : uint
+    private static void _LoadVirtualTable()
     {
-        SAPP_HTML5_FETCH_ERROR_NO_ERROR = 0U,
-        SAPP_HTML5_FETCH_ERROR_BUFFER_TOO_SMALL = 1U,
-        SAPP_HTML5_FETCH_ERROR_OTHER = 2U
+        #region "Functions"
+
+        _virtualTable.sapp_sgcontext = (delegate* unmanaged[Cdecl]<sg_context_desc>)Runtime.LibraryGetExport(_libraryHandle, "sapp_sgcontext");
+        _virtualTable.sg_mtl_render_command_encoder = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sg_mtl_render_command_encoder");
+        _virtualTable.sg_mtl_device = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sg_mtl_device");
+        _virtualTable.sg_d3d11_device = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sg_d3d11_device");
+        _virtualTable.sg_discard_context = (delegate* unmanaged[Cdecl]<sg_context, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_discard_context");
+        _virtualTable.sg_activate_context = (delegate* unmanaged[Cdecl]<sg_context, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_activate_context");
+        _virtualTable.sg_setup_context = (delegate* unmanaged[Cdecl]<sg_context>)Runtime.LibraryGetExport(_libraryHandle, "sg_setup_context");
+        _virtualTable.sg_fail_pass = (delegate* unmanaged[Cdecl]<sg_pass, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_fail_pass");
+        _virtualTable.sg_fail_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_fail_pipeline");
+        _virtualTable.sg_fail_shader = (delegate* unmanaged[Cdecl]<sg_shader, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_fail_shader");
+        _virtualTable.sg_fail_image = (delegate* unmanaged[Cdecl]<sg_image, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_fail_image");
+        _virtualTable.sg_fail_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_fail_buffer");
+        _virtualTable.sg_uninit_pass = (delegate* unmanaged[Cdecl]<sg_pass, CBool>)Runtime.LibraryGetExport(_libraryHandle, "sg_uninit_pass");
+        _virtualTable.sg_uninit_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, CBool>)Runtime.LibraryGetExport(_libraryHandle, "sg_uninit_pipeline");
+        _virtualTable.sg_uninit_shader = (delegate* unmanaged[Cdecl]<sg_shader, CBool>)Runtime.LibraryGetExport(_libraryHandle, "sg_uninit_shader");
+        _virtualTable.sg_uninit_image = (delegate* unmanaged[Cdecl]<sg_image, CBool>)Runtime.LibraryGetExport(_libraryHandle, "sg_uninit_image");
+        _virtualTable.sg_uninit_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, CBool>)Runtime.LibraryGetExport(_libraryHandle, "sg_uninit_buffer");
+        _virtualTable.sg_init_pass = (delegate* unmanaged[Cdecl]<sg_pass, sg_pass_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_init_pass");
+        _virtualTable.sg_init_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, sg_pipeline_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_init_pipeline");
+        _virtualTable.sg_init_shader = (delegate* unmanaged[Cdecl]<sg_shader, sg_shader_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_init_shader");
+        _virtualTable.sg_init_image = (delegate* unmanaged[Cdecl]<sg_image, sg_image_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_init_image");
+        _virtualTable.sg_init_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, sg_buffer_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_init_buffer");
+        _virtualTable.sg_dealloc_pass = (delegate* unmanaged[Cdecl]<sg_pass, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_dealloc_pass");
+        _virtualTable.sg_dealloc_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_dealloc_pipeline");
+        _virtualTable.sg_dealloc_shader = (delegate* unmanaged[Cdecl]<sg_shader, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_dealloc_shader");
+        _virtualTable.sg_dealloc_image = (delegate* unmanaged[Cdecl]<sg_image, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_dealloc_image");
+        _virtualTable.sg_dealloc_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_dealloc_buffer");
+        _virtualTable.sg_alloc_pass = (delegate* unmanaged[Cdecl]<sg_pass>)Runtime.LibraryGetExport(_libraryHandle, "sg_alloc_pass");
+        _virtualTable.sg_alloc_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline>)Runtime.LibraryGetExport(_libraryHandle, "sg_alloc_pipeline");
+        _virtualTable.sg_alloc_shader = (delegate* unmanaged[Cdecl]<sg_shader>)Runtime.LibraryGetExport(_libraryHandle, "sg_alloc_shader");
+        _virtualTable.sg_alloc_image = (delegate* unmanaged[Cdecl]<sg_image>)Runtime.LibraryGetExport(_libraryHandle, "sg_alloc_image");
+        _virtualTable.sg_alloc_buffer = (delegate* unmanaged[Cdecl]<sg_buffer>)Runtime.LibraryGetExport(_libraryHandle, "sg_alloc_buffer");
+        _virtualTable.sg_query_pass_defaults = (delegate* unmanaged[Cdecl]<sg_pass_desc*, sg_pass_desc>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_pass_defaults");
+        _virtualTable.sg_query_pipeline_defaults = (delegate* unmanaged[Cdecl]<sg_pipeline_desc*, sg_pipeline_desc>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_pipeline_defaults");
+        _virtualTable.sg_query_shader_defaults = (delegate* unmanaged[Cdecl]<sg_shader_desc*, sg_shader_desc>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_shader_defaults");
+        _virtualTable.sg_query_image_defaults = (delegate* unmanaged[Cdecl]<sg_image_desc*, sg_image_desc>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_image_defaults");
+        _virtualTable.sg_query_buffer_defaults = (delegate* unmanaged[Cdecl]<sg_buffer_desc*, sg_buffer_desc>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_buffer_defaults");
+        _virtualTable.sg_query_pass_info = (delegate* unmanaged[Cdecl]<sg_pass, sg_pass_info>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_pass_info");
+        _virtualTable.sg_query_pipeline_info = (delegate* unmanaged[Cdecl]<sg_pipeline, sg_pipeline_info>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_pipeline_info");
+        _virtualTable.sg_query_shader_info = (delegate* unmanaged[Cdecl]<sg_shader, sg_shader_info>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_shader_info");
+        _virtualTable.sg_query_image_info = (delegate* unmanaged[Cdecl]<sg_image, sg_image_info>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_image_info");
+        _virtualTable.sg_query_buffer_info = (delegate* unmanaged[Cdecl]<sg_buffer, sg_buffer_info>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_buffer_info");
+        _virtualTable.sg_query_pass_state = (delegate* unmanaged[Cdecl]<sg_pass, sg_resource_state>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_pass_state");
+        _virtualTable.sg_query_pipeline_state = (delegate* unmanaged[Cdecl]<sg_pipeline, sg_resource_state>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_pipeline_state");
+        _virtualTable.sg_query_shader_state = (delegate* unmanaged[Cdecl]<sg_shader, sg_resource_state>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_shader_state");
+        _virtualTable.sg_query_image_state = (delegate* unmanaged[Cdecl]<sg_image, sg_resource_state>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_image_state");
+        _virtualTable.sg_query_buffer_state = (delegate* unmanaged[Cdecl]<sg_buffer, sg_resource_state>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_buffer_state");
+        _virtualTable.sg_query_pixelformat = (delegate* unmanaged[Cdecl]<sg_pixel_format, sg_pixelformat_info>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_pixelformat");
+        _virtualTable.sg_query_limits = (delegate* unmanaged[Cdecl]<sg_limits>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_limits");
+        _virtualTable.sg_query_features = (delegate* unmanaged[Cdecl]<sg_features>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_features");
+        _virtualTable.sg_query_backend = (delegate* unmanaged[Cdecl]<sg_backend>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_backend");
+        _virtualTable.sg_query_desc = (delegate* unmanaged[Cdecl]<sg_desc>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_desc");
+        _virtualTable.sg_commit = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sg_commit");
+        _virtualTable.sg_end_pass = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sg_end_pass");
+        _virtualTable.sg_draw = (delegate* unmanaged[Cdecl]<int, int, int, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_draw");
+        _virtualTable.sg_apply_uniforms = (delegate* unmanaged[Cdecl]<sg_shader_stage, int, sg_range*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_apply_uniforms");
+        _virtualTable.sg_apply_bindings = (delegate* unmanaged[Cdecl]<sg_bindings*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_apply_bindings");
+        _virtualTable.sg_apply_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_apply_pipeline");
+        _virtualTable.sg_apply_scissor_rectf = (delegate* unmanaged[Cdecl]<float, float, float, float, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_apply_scissor_rectf");
+        _virtualTable.sg_apply_scissor_rect = (delegate* unmanaged[Cdecl]<int, int, int, int, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_apply_scissor_rect");
+        _virtualTable.sg_apply_viewportf = (delegate* unmanaged[Cdecl]<float, float, float, float, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_apply_viewportf");
+        _virtualTable.sg_apply_viewport = (delegate* unmanaged[Cdecl]<int, int, int, int, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_apply_viewport");
+        _virtualTable.sg_begin_pass = (delegate* unmanaged[Cdecl]<sg_pass, sg_pass_action*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_begin_pass");
+        _virtualTable.sg_begin_default_passf = (delegate* unmanaged[Cdecl]<sg_pass_action*, float, float, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_begin_default_passf");
+        _virtualTable.sg_begin_default_pass = (delegate* unmanaged[Cdecl]<sg_pass_action*, int, int, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_begin_default_pass");
+        _virtualTable.sg_query_buffer_overflow = (delegate* unmanaged[Cdecl]<sg_buffer, CBool>)Runtime.LibraryGetExport(_libraryHandle, "sg_query_buffer_overflow");
+        _virtualTable.sg_append_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, sg_range*, int>)Runtime.LibraryGetExport(_libraryHandle, "sg_append_buffer");
+        _virtualTable.sg_update_image = (delegate* unmanaged[Cdecl]<sg_image, sg_image_data*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_update_image");
+        _virtualTable.sg_update_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, sg_range*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_update_buffer");
+        _virtualTable.sg_destroy_pass = (delegate* unmanaged[Cdecl]<sg_pass, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_destroy_pass");
+        _virtualTable.sg_destroy_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_destroy_pipeline");
+        _virtualTable.sg_destroy_shader = (delegate* unmanaged[Cdecl]<sg_shader, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_destroy_shader");
+        _virtualTable.sg_destroy_image = (delegate* unmanaged[Cdecl]<sg_image, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_destroy_image");
+        _virtualTable.sg_destroy_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_destroy_buffer");
+        _virtualTable.sg_make_pass = (delegate* unmanaged[Cdecl]<sg_pass_desc*, sg_pass>)Runtime.LibraryGetExport(_libraryHandle, "sg_make_pass");
+        _virtualTable.sg_make_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline_desc*, sg_pipeline>)Runtime.LibraryGetExport(_libraryHandle, "sg_make_pipeline");
+        _virtualTable.sg_make_shader = (delegate* unmanaged[Cdecl]<sg_shader_desc*, sg_shader>)Runtime.LibraryGetExport(_libraryHandle, "sg_make_shader");
+        _virtualTable.sg_make_image = (delegate* unmanaged[Cdecl]<sg_image_desc*, sg_image>)Runtime.LibraryGetExport(_libraryHandle, "sg_make_image");
+        _virtualTable.sg_make_buffer = (delegate* unmanaged[Cdecl]<sg_buffer_desc*, sg_buffer>)Runtime.LibraryGetExport(_libraryHandle, "sg_make_buffer");
+        _virtualTable.sg_pop_debug_group = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sg_pop_debug_group");
+        _virtualTable.sg_push_debug_group = (delegate* unmanaged[Cdecl]<CString, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_push_debug_group");
+        _virtualTable.sg_install_trace_hooks = (delegate* unmanaged[Cdecl]<sg_trace_hooks*, sg_trace_hooks>)Runtime.LibraryGetExport(_libraryHandle, "sg_install_trace_hooks");
+        _virtualTable.sg_reset_state_cache = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sg_reset_state_cache");
+        _virtualTable.sg_isvalid = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sg_isvalid");
+        _virtualTable.sg_shutdown = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sg_shutdown");
+        _virtualTable.sg_setup = (delegate* unmanaged[Cdecl]<sg_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "sg_setup");
+        _virtualTable.sapp_android_get_native_activity = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_android_get_native_activity");
+        _virtualTable.sapp_wgpu_get_depth_stencil_view = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_wgpu_get_depth_stencil_view");
+        _virtualTable.sapp_wgpu_get_resolve_view = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_wgpu_get_resolve_view");
+        _virtualTable.sapp_wgpu_get_render_view = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_wgpu_get_render_view");
+        _virtualTable.sapp_wgpu_get_device = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_wgpu_get_device");
+        _virtualTable.sapp_win32_get_hwnd = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_win32_get_hwnd");
+        _virtualTable.sapp_d3d11_get_depth_stencil_view = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_d3d11_get_depth_stencil_view");
+        _virtualTable.sapp_d3d11_get_render_target_view = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_d3d11_get_render_target_view");
+        _virtualTable.sapp_d3d11_get_swap_chain = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_d3d11_get_swap_chain");
+        _virtualTable.sapp_d3d11_get_device_context = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_d3d11_get_device_context");
+        _virtualTable.sapp_d3d11_get_device = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_d3d11_get_device");
+        _virtualTable.sapp_ios_get_window = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_ios_get_window");
+        _virtualTable.sapp_macos_get_window = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_macos_get_window");
+        _virtualTable.sapp_metal_get_drawable = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_metal_get_drawable");
+        _virtualTable.sapp_metal_get_renderpass_descriptor = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_metal_get_renderpass_descriptor");
+        _virtualTable.sapp_metal_get_device = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_metal_get_device");
+        _virtualTable.sapp_html5_fetch_dropped_file = (delegate* unmanaged[Cdecl]<sapp_html5_fetch_request*, void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_html5_fetch_dropped_file");
+        _virtualTable.sapp_html5_get_dropped_file_size = (delegate* unmanaged[Cdecl]<int, uint>)Runtime.LibraryGetExport(_libraryHandle, "sapp_html5_get_dropped_file_size");
+        _virtualTable.sapp_html5_ask_leave_site = (delegate* unmanaged[Cdecl]<CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_html5_ask_leave_site");
+        _virtualTable.sapp_gles2 = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sapp_gles2");
+        _virtualTable.sapp_run = (delegate* unmanaged[Cdecl]<sapp_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_run");
+        _virtualTable.sapp_get_dropped_file_path = (delegate* unmanaged[Cdecl]<int, CString>)Runtime.LibraryGetExport(_libraryHandle, "sapp_get_dropped_file_path");
+        _virtualTable.sapp_get_num_dropped_files = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "sapp_get_num_dropped_files");
+        _virtualTable.sapp_set_icon = (delegate* unmanaged[Cdecl]<sapp_icon_desc*, void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_set_icon");
+        _virtualTable.sapp_set_window_title = (delegate* unmanaged[Cdecl]<CString, void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_set_window_title");
+        _virtualTable.sapp_get_clipboard_string = (delegate* unmanaged[Cdecl]<CString>)Runtime.LibraryGetExport(_libraryHandle, "sapp_get_clipboard_string");
+        _virtualTable.sapp_set_clipboard_string = (delegate* unmanaged[Cdecl]<CString, void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_set_clipboard_string");
+        _virtualTable.sapp_frame_count = (delegate* unmanaged[Cdecl]<ulong>)Runtime.LibraryGetExport(_libraryHandle, "sapp_frame_count");
+        _virtualTable.sapp_consume_event = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_consume_event");
+        _virtualTable.sapp_quit = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_quit");
+        _virtualTable.sapp_cancel_quit = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_cancel_quit");
+        _virtualTable.sapp_request_quit = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_request_quit");
+        _virtualTable.sapp_query_desc = (delegate* unmanaged[Cdecl]<sapp_desc>)Runtime.LibraryGetExport(_libraryHandle, "sapp_query_desc");
+        _virtualTable.sapp_userdata = (delegate* unmanaged[Cdecl]<void*>)Runtime.LibraryGetExport(_libraryHandle, "sapp_userdata");
+        _virtualTable.sapp_mouse_locked = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sapp_mouse_locked");
+        _virtualTable.sapp_lock_mouse = (delegate* unmanaged[Cdecl]<CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_lock_mouse");
+        _virtualTable.sapp_mouse_shown = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sapp_mouse_shown");
+        _virtualTable.sapp_show_mouse = (delegate* unmanaged[Cdecl]<CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_show_mouse");
+        _virtualTable.sapp_toggle_fullscreen = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_toggle_fullscreen");
+        _virtualTable.sapp_is_fullscreen = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sapp_is_fullscreen");
+        _virtualTable.sapp_keyboard_shown = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sapp_keyboard_shown");
+        _virtualTable.sapp_show_keyboard = (delegate* unmanaged[Cdecl]<CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "sapp_show_keyboard");
+        _virtualTable.sapp_dpi_scale = (delegate* unmanaged[Cdecl]<float>)Runtime.LibraryGetExport(_libraryHandle, "sapp_dpi_scale");
+        _virtualTable.sapp_high_dpi = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sapp_high_dpi");
+        _virtualTable.sapp_sample_count = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "sapp_sample_count");
+        _virtualTable.sapp_depth_format = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "sapp_depth_format");
+        _virtualTable.sapp_color_format = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "sapp_color_format");
+        _virtualTable.sapp_heightf = (delegate* unmanaged[Cdecl]<float>)Runtime.LibraryGetExport(_libraryHandle, "sapp_heightf");
+        _virtualTable.sapp_height = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "sapp_height");
+        _virtualTable.sapp_widthf = (delegate* unmanaged[Cdecl]<float>)Runtime.LibraryGetExport(_libraryHandle, "sapp_widthf");
+        _virtualTable.sapp_width = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "sapp_width");
+        _virtualTable.sapp_isvalid = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "sapp_isvalid");
+        _virtualTable.sokol_main = (delegate* unmanaged[Cdecl]<int, CString*, sapp_desc>)Runtime.LibraryGetExport(_libraryHandle, "sokol_main");
+
+        #endregion
+
+        #region "Variables"
+
+
+
+        #endregion
     }
 
-    // Enum @ sokol_gfx.h:755
-    public enum sg_pixel_format : uint
+    private static void _UnloadVirtualTable()
     {
-        _SG_PIXELFORMAT_DEFAULT = 0U,
-        SG_PIXELFORMAT_NONE = 1U,
-        SG_PIXELFORMAT_R8 = 2U,
-        SG_PIXELFORMAT_R8SN = 3U,
-        SG_PIXELFORMAT_R8UI = 4U,
-        SG_PIXELFORMAT_R8SI = 5U,
-        SG_PIXELFORMAT_R16 = 6U,
-        SG_PIXELFORMAT_R16SN = 7U,
-        SG_PIXELFORMAT_R16UI = 8U,
-        SG_PIXELFORMAT_R16SI = 9U,
-        SG_PIXELFORMAT_R16F = 10U,
-        SG_PIXELFORMAT_RG8 = 11U,
-        SG_PIXELFORMAT_RG8SN = 12U,
-        SG_PIXELFORMAT_RG8UI = 13U,
-        SG_PIXELFORMAT_RG8SI = 14U,
-        SG_PIXELFORMAT_R32UI = 15U,
-        SG_PIXELFORMAT_R32SI = 16U,
-        SG_PIXELFORMAT_R32F = 17U,
-        SG_PIXELFORMAT_RG16 = 18U,
-        SG_PIXELFORMAT_RG16SN = 19U,
-        SG_PIXELFORMAT_RG16UI = 20U,
-        SG_PIXELFORMAT_RG16SI = 21U,
-        SG_PIXELFORMAT_RG16F = 22U,
-        SG_PIXELFORMAT_RGBA8 = 23U,
-        SG_PIXELFORMAT_RGBA8SN = 24U,
-        SG_PIXELFORMAT_RGBA8UI = 25U,
-        SG_PIXELFORMAT_RGBA8SI = 26U,
-        SG_PIXELFORMAT_BGRA8 = 27U,
-        SG_PIXELFORMAT_RGB10A2 = 28U,
-        SG_PIXELFORMAT_RG11B10F = 29U,
-        SG_PIXELFORMAT_RG32UI = 30U,
-        SG_PIXELFORMAT_RG32SI = 31U,
-        SG_PIXELFORMAT_RG32F = 32U,
-        SG_PIXELFORMAT_RGBA16 = 33U,
-        SG_PIXELFORMAT_RGBA16SN = 34U,
-        SG_PIXELFORMAT_RGBA16UI = 35U,
-        SG_PIXELFORMAT_RGBA16SI = 36U,
-        SG_PIXELFORMAT_RGBA16F = 37U,
-        SG_PIXELFORMAT_RGBA32UI = 38U,
-        SG_PIXELFORMAT_RGBA32SI = 39U,
-        SG_PIXELFORMAT_RGBA32F = 40U,
-        SG_PIXELFORMAT_DEPTH = 41U,
-        SG_PIXELFORMAT_DEPTH_STENCIL = 42U,
-        SG_PIXELFORMAT_BC1_RGBA = 43U,
-        SG_PIXELFORMAT_BC2_RGBA = 44U,
-        SG_PIXELFORMAT_BC3_RGBA = 45U,
-        SG_PIXELFORMAT_BC4_R = 46U,
-        SG_PIXELFORMAT_BC4_RSN = 47U,
-        SG_PIXELFORMAT_BC5_RG = 48U,
-        SG_PIXELFORMAT_BC5_RGSN = 49U,
-        SG_PIXELFORMAT_BC6H_RGBF = 50U,
-        SG_PIXELFORMAT_BC6H_RGBUF = 51U,
-        SG_PIXELFORMAT_BC7_RGBA = 52U,
-        SG_PIXELFORMAT_PVRTC_RGB_2BPP = 53U,
-        SG_PIXELFORMAT_PVRTC_RGB_4BPP = 54U,
-        SG_PIXELFORMAT_PVRTC_RGBA_2BPP = 55U,
-        SG_PIXELFORMAT_PVRTC_RGBA_4BPP = 56U,
-        SG_PIXELFORMAT_ETC2_RGB8 = 57U,
-        SG_PIXELFORMAT_ETC2_RGB8A1 = 58U,
-        SG_PIXELFORMAT_ETC2_RGBA8 = 59U,
-        SG_PIXELFORMAT_ETC2_RG11 = 60U,
-        SG_PIXELFORMAT_ETC2_RG11SN = 61U,
-        _SG_PIXELFORMAT_NUM = 62U,
-        _SG_PIXELFORMAT_FORCE_U32 = 2147483647U
+        #region "Functions"
+
+        _virtualTable.sapp_sgcontext = (delegate* unmanaged[Cdecl]<sg_context_desc>)IntPtr.Zero;
+        _virtualTable.sg_mtl_render_command_encoder = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sg_mtl_device = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sg_d3d11_device = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sg_discard_context = (delegate* unmanaged[Cdecl]<sg_context, void>)IntPtr.Zero;
+        _virtualTable.sg_activate_context = (delegate* unmanaged[Cdecl]<sg_context, void>)IntPtr.Zero;
+        _virtualTable.sg_setup_context = (delegate* unmanaged[Cdecl]<sg_context>)IntPtr.Zero;
+        _virtualTable.sg_fail_pass = (delegate* unmanaged[Cdecl]<sg_pass, void>)IntPtr.Zero;
+        _virtualTable.sg_fail_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, void>)IntPtr.Zero;
+        _virtualTable.sg_fail_shader = (delegate* unmanaged[Cdecl]<sg_shader, void>)IntPtr.Zero;
+        _virtualTable.sg_fail_image = (delegate* unmanaged[Cdecl]<sg_image, void>)IntPtr.Zero;
+        _virtualTable.sg_fail_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, void>)IntPtr.Zero;
+        _virtualTable.sg_uninit_pass = (delegate* unmanaged[Cdecl]<sg_pass, CBool>)IntPtr.Zero;
+        _virtualTable.sg_uninit_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, CBool>)IntPtr.Zero;
+        _virtualTable.sg_uninit_shader = (delegate* unmanaged[Cdecl]<sg_shader, CBool>)IntPtr.Zero;
+        _virtualTable.sg_uninit_image = (delegate* unmanaged[Cdecl]<sg_image, CBool>)IntPtr.Zero;
+        _virtualTable.sg_uninit_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, CBool>)IntPtr.Zero;
+        _virtualTable.sg_init_pass = (delegate* unmanaged[Cdecl]<sg_pass, sg_pass_desc*, void>)IntPtr.Zero;
+        _virtualTable.sg_init_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, sg_pipeline_desc*, void>)IntPtr.Zero;
+        _virtualTable.sg_init_shader = (delegate* unmanaged[Cdecl]<sg_shader, sg_shader_desc*, void>)IntPtr.Zero;
+        _virtualTable.sg_init_image = (delegate* unmanaged[Cdecl]<sg_image, sg_image_desc*, void>)IntPtr.Zero;
+        _virtualTable.sg_init_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, sg_buffer_desc*, void>)IntPtr.Zero;
+        _virtualTable.sg_dealloc_pass = (delegate* unmanaged[Cdecl]<sg_pass, void>)IntPtr.Zero;
+        _virtualTable.sg_dealloc_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, void>)IntPtr.Zero;
+        _virtualTable.sg_dealloc_shader = (delegate* unmanaged[Cdecl]<sg_shader, void>)IntPtr.Zero;
+        _virtualTable.sg_dealloc_image = (delegate* unmanaged[Cdecl]<sg_image, void>)IntPtr.Zero;
+        _virtualTable.sg_dealloc_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, void>)IntPtr.Zero;
+        _virtualTable.sg_alloc_pass = (delegate* unmanaged[Cdecl]<sg_pass>)IntPtr.Zero;
+        _virtualTable.sg_alloc_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline>)IntPtr.Zero;
+        _virtualTable.sg_alloc_shader = (delegate* unmanaged[Cdecl]<sg_shader>)IntPtr.Zero;
+        _virtualTable.sg_alloc_image = (delegate* unmanaged[Cdecl]<sg_image>)IntPtr.Zero;
+        _virtualTable.sg_alloc_buffer = (delegate* unmanaged[Cdecl]<sg_buffer>)IntPtr.Zero;
+        _virtualTable.sg_query_pass_defaults = (delegate* unmanaged[Cdecl]<sg_pass_desc*, sg_pass_desc>)IntPtr.Zero;
+        _virtualTable.sg_query_pipeline_defaults = (delegate* unmanaged[Cdecl]<sg_pipeline_desc*, sg_pipeline_desc>)IntPtr.Zero;
+        _virtualTable.sg_query_shader_defaults = (delegate* unmanaged[Cdecl]<sg_shader_desc*, sg_shader_desc>)IntPtr.Zero;
+        _virtualTable.sg_query_image_defaults = (delegate* unmanaged[Cdecl]<sg_image_desc*, sg_image_desc>)IntPtr.Zero;
+        _virtualTable.sg_query_buffer_defaults = (delegate* unmanaged[Cdecl]<sg_buffer_desc*, sg_buffer_desc>)IntPtr.Zero;
+        _virtualTable.sg_query_pass_info = (delegate* unmanaged[Cdecl]<sg_pass, sg_pass_info>)IntPtr.Zero;
+        _virtualTable.sg_query_pipeline_info = (delegate* unmanaged[Cdecl]<sg_pipeline, sg_pipeline_info>)IntPtr.Zero;
+        _virtualTable.sg_query_shader_info = (delegate* unmanaged[Cdecl]<sg_shader, sg_shader_info>)IntPtr.Zero;
+        _virtualTable.sg_query_image_info = (delegate* unmanaged[Cdecl]<sg_image, sg_image_info>)IntPtr.Zero;
+        _virtualTable.sg_query_buffer_info = (delegate* unmanaged[Cdecl]<sg_buffer, sg_buffer_info>)IntPtr.Zero;
+        _virtualTable.sg_query_pass_state = (delegate* unmanaged[Cdecl]<sg_pass, sg_resource_state>)IntPtr.Zero;
+        _virtualTable.sg_query_pipeline_state = (delegate* unmanaged[Cdecl]<sg_pipeline, sg_resource_state>)IntPtr.Zero;
+        _virtualTable.sg_query_shader_state = (delegate* unmanaged[Cdecl]<sg_shader, sg_resource_state>)IntPtr.Zero;
+        _virtualTable.sg_query_image_state = (delegate* unmanaged[Cdecl]<sg_image, sg_resource_state>)IntPtr.Zero;
+        _virtualTable.sg_query_buffer_state = (delegate* unmanaged[Cdecl]<sg_buffer, sg_resource_state>)IntPtr.Zero;
+        _virtualTable.sg_query_pixelformat = (delegate* unmanaged[Cdecl]<sg_pixel_format, sg_pixelformat_info>)IntPtr.Zero;
+        _virtualTable.sg_query_limits = (delegate* unmanaged[Cdecl]<sg_limits>)IntPtr.Zero;
+        _virtualTable.sg_query_features = (delegate* unmanaged[Cdecl]<sg_features>)IntPtr.Zero;
+        _virtualTable.sg_query_backend = (delegate* unmanaged[Cdecl]<sg_backend>)IntPtr.Zero;
+        _virtualTable.sg_query_desc = (delegate* unmanaged[Cdecl]<sg_desc>)IntPtr.Zero;
+        _virtualTable.sg_commit = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
+        _virtualTable.sg_end_pass = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
+        _virtualTable.sg_draw = (delegate* unmanaged[Cdecl]<int, int, int, void>)IntPtr.Zero;
+        _virtualTable.sg_apply_uniforms = (delegate* unmanaged[Cdecl]<sg_shader_stage, int, sg_range*, void>)IntPtr.Zero;
+        _virtualTable.sg_apply_bindings = (delegate* unmanaged[Cdecl]<sg_bindings*, void>)IntPtr.Zero;
+        _virtualTable.sg_apply_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, void>)IntPtr.Zero;
+        _virtualTable.sg_apply_scissor_rectf = (delegate* unmanaged[Cdecl]<float, float, float, float, CBool, void>)IntPtr.Zero;
+        _virtualTable.sg_apply_scissor_rect = (delegate* unmanaged[Cdecl]<int, int, int, int, CBool, void>)IntPtr.Zero;
+        _virtualTable.sg_apply_viewportf = (delegate* unmanaged[Cdecl]<float, float, float, float, CBool, void>)IntPtr.Zero;
+        _virtualTable.sg_apply_viewport = (delegate* unmanaged[Cdecl]<int, int, int, int, CBool, void>)IntPtr.Zero;
+        _virtualTable.sg_begin_pass = (delegate* unmanaged[Cdecl]<sg_pass, sg_pass_action*, void>)IntPtr.Zero;
+        _virtualTable.sg_begin_default_passf = (delegate* unmanaged[Cdecl]<sg_pass_action*, float, float, void>)IntPtr.Zero;
+        _virtualTable.sg_begin_default_pass = (delegate* unmanaged[Cdecl]<sg_pass_action*, int, int, void>)IntPtr.Zero;
+        _virtualTable.sg_query_buffer_overflow = (delegate* unmanaged[Cdecl]<sg_buffer, CBool>)IntPtr.Zero;
+        _virtualTable.sg_append_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, sg_range*, int>)IntPtr.Zero;
+        _virtualTable.sg_update_image = (delegate* unmanaged[Cdecl]<sg_image, sg_image_data*, void>)IntPtr.Zero;
+        _virtualTable.sg_update_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, sg_range*, void>)IntPtr.Zero;
+        _virtualTable.sg_destroy_pass = (delegate* unmanaged[Cdecl]<sg_pass, void>)IntPtr.Zero;
+        _virtualTable.sg_destroy_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline, void>)IntPtr.Zero;
+        _virtualTable.sg_destroy_shader = (delegate* unmanaged[Cdecl]<sg_shader, void>)IntPtr.Zero;
+        _virtualTable.sg_destroy_image = (delegate* unmanaged[Cdecl]<sg_image, void>)IntPtr.Zero;
+        _virtualTable.sg_destroy_buffer = (delegate* unmanaged[Cdecl]<sg_buffer, void>)IntPtr.Zero;
+        _virtualTable.sg_make_pass = (delegate* unmanaged[Cdecl]<sg_pass_desc*, sg_pass>)IntPtr.Zero;
+        _virtualTable.sg_make_pipeline = (delegate* unmanaged[Cdecl]<sg_pipeline_desc*, sg_pipeline>)IntPtr.Zero;
+        _virtualTable.sg_make_shader = (delegate* unmanaged[Cdecl]<sg_shader_desc*, sg_shader>)IntPtr.Zero;
+        _virtualTable.sg_make_image = (delegate* unmanaged[Cdecl]<sg_image_desc*, sg_image>)IntPtr.Zero;
+        _virtualTable.sg_make_buffer = (delegate* unmanaged[Cdecl]<sg_buffer_desc*, sg_buffer>)IntPtr.Zero;
+        _virtualTable.sg_pop_debug_group = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
+        _virtualTable.sg_push_debug_group = (delegate* unmanaged[Cdecl]<CString, void>)IntPtr.Zero;
+        _virtualTable.sg_install_trace_hooks = (delegate* unmanaged[Cdecl]<sg_trace_hooks*, sg_trace_hooks>)IntPtr.Zero;
+        _virtualTable.sg_reset_state_cache = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
+        _virtualTable.sg_isvalid = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
+        _virtualTable.sg_shutdown = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
+        _virtualTable.sg_setup = (delegate* unmanaged[Cdecl]<sg_desc*, void>)IntPtr.Zero;
+        _virtualTable.sapp_android_get_native_activity = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sapp_wgpu_get_depth_stencil_view = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sapp_wgpu_get_resolve_view = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sapp_wgpu_get_render_view = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sapp_wgpu_get_device = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sapp_win32_get_hwnd = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sapp_d3d11_get_depth_stencil_view = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sapp_d3d11_get_render_target_view = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sapp_d3d11_get_swap_chain = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sapp_d3d11_get_device_context = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sapp_d3d11_get_device = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sapp_ios_get_window = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sapp_macos_get_window = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sapp_metal_get_drawable = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sapp_metal_get_renderpass_descriptor = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sapp_metal_get_device = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sapp_html5_fetch_dropped_file = (delegate* unmanaged[Cdecl]<sapp_html5_fetch_request*, void>)IntPtr.Zero;
+        _virtualTable.sapp_html5_get_dropped_file_size = (delegate* unmanaged[Cdecl]<int, uint>)IntPtr.Zero;
+        _virtualTable.sapp_html5_ask_leave_site = (delegate* unmanaged[Cdecl]<CBool, void>)IntPtr.Zero;
+        _virtualTable.sapp_gles2 = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
+        _virtualTable.sapp_run = (delegate* unmanaged[Cdecl]<sapp_desc*, void>)IntPtr.Zero;
+        _virtualTable.sapp_get_dropped_file_path = (delegate* unmanaged[Cdecl]<int, CString>)IntPtr.Zero;
+        _virtualTable.sapp_get_num_dropped_files = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
+        _virtualTable.sapp_set_icon = (delegate* unmanaged[Cdecl]<sapp_icon_desc*, void>)IntPtr.Zero;
+        _virtualTable.sapp_set_window_title = (delegate* unmanaged[Cdecl]<CString, void>)IntPtr.Zero;
+        _virtualTable.sapp_get_clipboard_string = (delegate* unmanaged[Cdecl]<CString>)IntPtr.Zero;
+        _virtualTable.sapp_set_clipboard_string = (delegate* unmanaged[Cdecl]<CString, void>)IntPtr.Zero;
+        _virtualTable.sapp_frame_count = (delegate* unmanaged[Cdecl]<ulong>)IntPtr.Zero;
+        _virtualTable.sapp_consume_event = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
+        _virtualTable.sapp_quit = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
+        _virtualTable.sapp_cancel_quit = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
+        _virtualTable.sapp_request_quit = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
+        _virtualTable.sapp_query_desc = (delegate* unmanaged[Cdecl]<sapp_desc>)IntPtr.Zero;
+        _virtualTable.sapp_userdata = (delegate* unmanaged[Cdecl]<void*>)IntPtr.Zero;
+        _virtualTable.sapp_mouse_locked = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
+        _virtualTable.sapp_lock_mouse = (delegate* unmanaged[Cdecl]<CBool, void>)IntPtr.Zero;
+        _virtualTable.sapp_mouse_shown = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
+        _virtualTable.sapp_show_mouse = (delegate* unmanaged[Cdecl]<CBool, void>)IntPtr.Zero;
+        _virtualTable.sapp_toggle_fullscreen = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
+        _virtualTable.sapp_is_fullscreen = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
+        _virtualTable.sapp_keyboard_shown = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
+        _virtualTable.sapp_show_keyboard = (delegate* unmanaged[Cdecl]<CBool, void>)IntPtr.Zero;
+        _virtualTable.sapp_dpi_scale = (delegate* unmanaged[Cdecl]<float>)IntPtr.Zero;
+        _virtualTable.sapp_high_dpi = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
+        _virtualTable.sapp_sample_count = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
+        _virtualTable.sapp_depth_format = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
+        _virtualTable.sapp_color_format = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
+        _virtualTable.sapp_heightf = (delegate* unmanaged[Cdecl]<float>)IntPtr.Zero;
+        _virtualTable.sapp_height = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
+        _virtualTable.sapp_widthf = (delegate* unmanaged[Cdecl]<float>)IntPtr.Zero;
+        _virtualTable.sapp_width = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
+        _virtualTable.sapp_isvalid = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
+        _virtualTable.sokol_main = (delegate* unmanaged[Cdecl]<int, CString*, sapp_desc>)IntPtr.Zero;
+
+        #endregion
+
+        #region "Variables"
+
+
+
+        #endregion
     }
 
-    // Enum @ sokol_gfx.h:955
-    public enum sg_buffer_type : uint
+    // The virtual table represents a list of pointers to functions or variables which are resolved in a late manner.
+    //	This allows for flexibility in swapping implementations at runtime.
+    //	You can think of it in traditional OOP terms in C# as the locations of the virtual methods and/or properties of an object.
+    public struct _VirtualTable
     {
-        _SG_BUFFERTYPE_DEFAULT = 0U,
-        SG_BUFFERTYPE_VERTEXBUFFER = 1U,
-        SG_BUFFERTYPE_INDEXBUFFER = 2U,
-        _SG_BUFFERTYPE_NUM = 3U,
-        _SG_BUFFERTYPE_FORCE_U32 = 2147483647U
+        #region "Function Pointers"
+        // These pointers hold the locations in the native library where functions are located at runtime.
+        // See: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
+
+        public delegate* unmanaged[Cdecl]<sg_context_desc> sapp_sgcontext;
+        public delegate* unmanaged[Cdecl]<void*> sg_mtl_render_command_encoder;
+        public delegate* unmanaged[Cdecl]<void*> sg_mtl_device;
+        public delegate* unmanaged[Cdecl]<void*> sg_d3d11_device;
+        public delegate* unmanaged[Cdecl]<sg_context, void> sg_discard_context;
+        public delegate* unmanaged[Cdecl]<sg_context, void> sg_activate_context;
+        public delegate* unmanaged[Cdecl]<sg_context> sg_setup_context;
+        public delegate* unmanaged[Cdecl]<sg_pass, void> sg_fail_pass;
+        public delegate* unmanaged[Cdecl]<sg_pipeline, void> sg_fail_pipeline;
+        public delegate* unmanaged[Cdecl]<sg_shader, void> sg_fail_shader;
+        public delegate* unmanaged[Cdecl]<sg_image, void> sg_fail_image;
+        public delegate* unmanaged[Cdecl]<sg_buffer, void> sg_fail_buffer;
+        public delegate* unmanaged[Cdecl]<sg_pass, CBool> sg_uninit_pass;
+        public delegate* unmanaged[Cdecl]<sg_pipeline, CBool> sg_uninit_pipeline;
+        public delegate* unmanaged[Cdecl]<sg_shader, CBool> sg_uninit_shader;
+        public delegate* unmanaged[Cdecl]<sg_image, CBool> sg_uninit_image;
+        public delegate* unmanaged[Cdecl]<sg_buffer, CBool> sg_uninit_buffer;
+        public delegate* unmanaged[Cdecl]<sg_pass, sg_pass_desc*, void> sg_init_pass;
+        public delegate* unmanaged[Cdecl]<sg_pipeline, sg_pipeline_desc*, void> sg_init_pipeline;
+        public delegate* unmanaged[Cdecl]<sg_shader, sg_shader_desc*, void> sg_init_shader;
+        public delegate* unmanaged[Cdecl]<sg_image, sg_image_desc*, void> sg_init_image;
+        public delegate* unmanaged[Cdecl]<sg_buffer, sg_buffer_desc*, void> sg_init_buffer;
+        public delegate* unmanaged[Cdecl]<sg_pass, void> sg_dealloc_pass;
+        public delegate* unmanaged[Cdecl]<sg_pipeline, void> sg_dealloc_pipeline;
+        public delegate* unmanaged[Cdecl]<sg_shader, void> sg_dealloc_shader;
+        public delegate* unmanaged[Cdecl]<sg_image, void> sg_dealloc_image;
+        public delegate* unmanaged[Cdecl]<sg_buffer, void> sg_dealloc_buffer;
+        public delegate* unmanaged[Cdecl]<sg_pass> sg_alloc_pass;
+        public delegate* unmanaged[Cdecl]<sg_pipeline> sg_alloc_pipeline;
+        public delegate* unmanaged[Cdecl]<sg_shader> sg_alloc_shader;
+        public delegate* unmanaged[Cdecl]<sg_image> sg_alloc_image;
+        public delegate* unmanaged[Cdecl]<sg_buffer> sg_alloc_buffer;
+        public delegate* unmanaged[Cdecl]<sg_pass_desc*, sg_pass_desc> sg_query_pass_defaults;
+        public delegate* unmanaged[Cdecl]<sg_pipeline_desc*, sg_pipeline_desc> sg_query_pipeline_defaults;
+        public delegate* unmanaged[Cdecl]<sg_shader_desc*, sg_shader_desc> sg_query_shader_defaults;
+        public delegate* unmanaged[Cdecl]<sg_image_desc*, sg_image_desc> sg_query_image_defaults;
+        public delegate* unmanaged[Cdecl]<sg_buffer_desc*, sg_buffer_desc> sg_query_buffer_defaults;
+        public delegate* unmanaged[Cdecl]<sg_pass, sg_pass_info> sg_query_pass_info;
+        public delegate* unmanaged[Cdecl]<sg_pipeline, sg_pipeline_info> sg_query_pipeline_info;
+        public delegate* unmanaged[Cdecl]<sg_shader, sg_shader_info> sg_query_shader_info;
+        public delegate* unmanaged[Cdecl]<sg_image, sg_image_info> sg_query_image_info;
+        public delegate* unmanaged[Cdecl]<sg_buffer, sg_buffer_info> sg_query_buffer_info;
+        public delegate* unmanaged[Cdecl]<sg_pass, sg_resource_state> sg_query_pass_state;
+        public delegate* unmanaged[Cdecl]<sg_pipeline, sg_resource_state> sg_query_pipeline_state;
+        public delegate* unmanaged[Cdecl]<sg_shader, sg_resource_state> sg_query_shader_state;
+        public delegate* unmanaged[Cdecl]<sg_image, sg_resource_state> sg_query_image_state;
+        public delegate* unmanaged[Cdecl]<sg_buffer, sg_resource_state> sg_query_buffer_state;
+        public delegate* unmanaged[Cdecl]<sg_pixel_format, sg_pixelformat_info> sg_query_pixelformat;
+        public delegate* unmanaged[Cdecl]<sg_limits> sg_query_limits;
+        public delegate* unmanaged[Cdecl]<sg_features> sg_query_features;
+        public delegate* unmanaged[Cdecl]<sg_backend> sg_query_backend;
+        public delegate* unmanaged[Cdecl]<sg_desc> sg_query_desc;
+        public delegate* unmanaged[Cdecl]<void> sg_commit;
+        public delegate* unmanaged[Cdecl]<void> sg_end_pass;
+        public delegate* unmanaged[Cdecl]<int, int, int, void> sg_draw;
+        public delegate* unmanaged[Cdecl]<sg_shader_stage, int, sg_range*, void> sg_apply_uniforms;
+        public delegate* unmanaged[Cdecl]<sg_bindings*, void> sg_apply_bindings;
+        public delegate* unmanaged[Cdecl]<sg_pipeline, void> sg_apply_pipeline;
+        public delegate* unmanaged[Cdecl]<float, float, float, float, CBool, void> sg_apply_scissor_rectf;
+        public delegate* unmanaged[Cdecl]<int, int, int, int, CBool, void> sg_apply_scissor_rect;
+        public delegate* unmanaged[Cdecl]<float, float, float, float, CBool, void> sg_apply_viewportf;
+        public delegate* unmanaged[Cdecl]<int, int, int, int, CBool, void> sg_apply_viewport;
+        public delegate* unmanaged[Cdecl]<sg_pass, sg_pass_action*, void> sg_begin_pass;
+        public delegate* unmanaged[Cdecl]<sg_pass_action*, float, float, void> sg_begin_default_passf;
+        public delegate* unmanaged[Cdecl]<sg_pass_action*, int, int, void> sg_begin_default_pass;
+        public delegate* unmanaged[Cdecl]<sg_buffer, CBool> sg_query_buffer_overflow;
+        public delegate* unmanaged[Cdecl]<sg_buffer, sg_range*, int> sg_append_buffer;
+        public delegate* unmanaged[Cdecl]<sg_image, sg_image_data*, void> sg_update_image;
+        public delegate* unmanaged[Cdecl]<sg_buffer, sg_range*, void> sg_update_buffer;
+        public delegate* unmanaged[Cdecl]<sg_pass, void> sg_destroy_pass;
+        public delegate* unmanaged[Cdecl]<sg_pipeline, void> sg_destroy_pipeline;
+        public delegate* unmanaged[Cdecl]<sg_shader, void> sg_destroy_shader;
+        public delegate* unmanaged[Cdecl]<sg_image, void> sg_destroy_image;
+        public delegate* unmanaged[Cdecl]<sg_buffer, void> sg_destroy_buffer;
+        public delegate* unmanaged[Cdecl]<sg_pass_desc*, sg_pass> sg_make_pass;
+        public delegate* unmanaged[Cdecl]<sg_pipeline_desc*, sg_pipeline> sg_make_pipeline;
+        public delegate* unmanaged[Cdecl]<sg_shader_desc*, sg_shader> sg_make_shader;
+        public delegate* unmanaged[Cdecl]<sg_image_desc*, sg_image> sg_make_image;
+        public delegate* unmanaged[Cdecl]<sg_buffer_desc*, sg_buffer> sg_make_buffer;
+        public delegate* unmanaged[Cdecl]<void> sg_pop_debug_group;
+        public delegate* unmanaged[Cdecl]<CString, void> sg_push_debug_group;
+        public delegate* unmanaged[Cdecl]<sg_trace_hooks*, sg_trace_hooks> sg_install_trace_hooks;
+        public delegate* unmanaged[Cdecl]<void> sg_reset_state_cache;
+        public delegate* unmanaged[Cdecl]<CBool> sg_isvalid;
+        public delegate* unmanaged[Cdecl]<void> sg_shutdown;
+        public delegate* unmanaged[Cdecl]<sg_desc*, void> sg_setup;
+        public delegate* unmanaged[Cdecl]<void*> sapp_android_get_native_activity;
+        public delegate* unmanaged[Cdecl]<void*> sapp_wgpu_get_depth_stencil_view;
+        public delegate* unmanaged[Cdecl]<void*> sapp_wgpu_get_resolve_view;
+        public delegate* unmanaged[Cdecl]<void*> sapp_wgpu_get_render_view;
+        public delegate* unmanaged[Cdecl]<void*> sapp_wgpu_get_device;
+        public delegate* unmanaged[Cdecl]<void*> sapp_win32_get_hwnd;
+        public delegate* unmanaged[Cdecl]<void*> sapp_d3d11_get_depth_stencil_view;
+        public delegate* unmanaged[Cdecl]<void*> sapp_d3d11_get_render_target_view;
+        public delegate* unmanaged[Cdecl]<void*> sapp_d3d11_get_swap_chain;
+        public delegate* unmanaged[Cdecl]<void*> sapp_d3d11_get_device_context;
+        public delegate* unmanaged[Cdecl]<void*> sapp_d3d11_get_device;
+        public delegate* unmanaged[Cdecl]<void*> sapp_ios_get_window;
+        public delegate* unmanaged[Cdecl]<void*> sapp_macos_get_window;
+        public delegate* unmanaged[Cdecl]<void*> sapp_metal_get_drawable;
+        public delegate* unmanaged[Cdecl]<void*> sapp_metal_get_renderpass_descriptor;
+        public delegate* unmanaged[Cdecl]<void*> sapp_metal_get_device;
+        public delegate* unmanaged[Cdecl]<sapp_html5_fetch_request*, void> sapp_html5_fetch_dropped_file;
+        public delegate* unmanaged[Cdecl]<int, uint> sapp_html5_get_dropped_file_size;
+        public delegate* unmanaged[Cdecl]<CBool, void> sapp_html5_ask_leave_site;
+        public delegate* unmanaged[Cdecl]<CBool> sapp_gles2;
+        public delegate* unmanaged[Cdecl]<sapp_desc*, void> sapp_run;
+        public delegate* unmanaged[Cdecl]<int, CString> sapp_get_dropped_file_path;
+        public delegate* unmanaged[Cdecl]<int> sapp_get_num_dropped_files;
+        public delegate* unmanaged[Cdecl]<sapp_icon_desc*, void> sapp_set_icon;
+        public delegate* unmanaged[Cdecl]<CString, void> sapp_set_window_title;
+        public delegate* unmanaged[Cdecl]<CString> sapp_get_clipboard_string;
+        public delegate* unmanaged[Cdecl]<CString, void> sapp_set_clipboard_string;
+        public delegate* unmanaged[Cdecl]<ulong> sapp_frame_count;
+        public delegate* unmanaged[Cdecl]<void> sapp_consume_event;
+        public delegate* unmanaged[Cdecl]<void> sapp_quit;
+        public delegate* unmanaged[Cdecl]<void> sapp_cancel_quit;
+        public delegate* unmanaged[Cdecl]<void> sapp_request_quit;
+        public delegate* unmanaged[Cdecl]<sapp_desc> sapp_query_desc;
+        public delegate* unmanaged[Cdecl]<void*> sapp_userdata;
+        public delegate* unmanaged[Cdecl]<CBool> sapp_mouse_locked;
+        public delegate* unmanaged[Cdecl]<CBool, void> sapp_lock_mouse;
+        public delegate* unmanaged[Cdecl]<CBool> sapp_mouse_shown;
+        public delegate* unmanaged[Cdecl]<CBool, void> sapp_show_mouse;
+        public delegate* unmanaged[Cdecl]<void> sapp_toggle_fullscreen;
+        public delegate* unmanaged[Cdecl]<CBool> sapp_is_fullscreen;
+        public delegate* unmanaged[Cdecl]<CBool> sapp_keyboard_shown;
+        public delegate* unmanaged[Cdecl]<CBool, void> sapp_show_keyboard;
+        public delegate* unmanaged[Cdecl]<float> sapp_dpi_scale;
+        public delegate* unmanaged[Cdecl]<CBool> sapp_high_dpi;
+        public delegate* unmanaged[Cdecl]<int> sapp_sample_count;
+        public delegate* unmanaged[Cdecl]<int> sapp_depth_format;
+        public delegate* unmanaged[Cdecl]<int> sapp_color_format;
+        public delegate* unmanaged[Cdecl]<float> sapp_heightf;
+        public delegate* unmanaged[Cdecl]<int> sapp_height;
+        public delegate* unmanaged[Cdecl]<float> sapp_widthf;
+        public delegate* unmanaged[Cdecl]<int> sapp_width;
+        public delegate* unmanaged[Cdecl]<CBool> sapp_isvalid;
+        public delegate* unmanaged[Cdecl]<int, CString*, sapp_desc> sokol_main;
+
+        #endregion
+
+        #region "Variables"
+        // These pointers hold the locations in the native library where global variables are located at runtime.
+        //	The value pointed by these pointers are updated by reading/writing memory.
+
+
+
+        #endregion
     }
 
-    // Enum @ sokol_gfx.h:938
-    public enum sg_usage : uint
-    {
-        _SG_USAGE_DEFAULT = 0U,
-        SG_USAGE_IMMUTABLE = 1U,
-        SG_USAGE_DYNAMIC = 2U,
-        SG_USAGE_STREAM = 3U,
-        _SG_USAGE_NUM = 4U,
-        _SG_USAGE_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:994
-    public enum sg_image_type : uint
-    {
-        _SG_IMAGETYPE_DEFAULT = 0U,
-        SG_IMAGETYPE_2D = 1U,
-        SG_IMAGETYPE_CUBE = 2U,
-        SG_IMAGETYPE_3D = 3U,
-        SG_IMAGETYPE_ARRAY = 4U,
-        _SG_IMAGETYPE_NUM = 5U,
-        _SG_IMAGETYPE_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1084
-    public enum sg_filter : uint
-    {
-        _SG_FILTER_DEFAULT = 0U,
-        SG_FILTER_NEAREST = 1U,
-        SG_FILTER_LINEAR = 2U,
-        SG_FILTER_NEAREST_MIPMAP_NEAREST = 3U,
-        SG_FILTER_NEAREST_MIPMAP_LINEAR = 4U,
-        SG_FILTER_LINEAR_MIPMAP_NEAREST = 5U,
-        SG_FILTER_LINEAR_MIPMAP_LINEAR = 6U,
-        _SG_FILTER_NUM = 7U,
-        _SG_FILTER_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1124
-    public enum sg_wrap : uint
-    {
-        _SG_WRAP_DEFAULT = 0U,
-        SG_WRAP_REPEAT = 1U,
-        SG_WRAP_CLAMP_TO_EDGE = 2U,
-        SG_WRAP_CLAMP_TO_BORDER = 3U,
-        SG_WRAP_MIRRORED_REPEAT = 4U,
-        _SG_WRAP_NUM = 5U,
-        _SG_WRAP_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1142
-    public enum sg_border_color : uint
-    {
-        _SG_BORDERCOLOR_DEFAULT = 0U,
-        SG_BORDERCOLOR_TRANSPARENT_BLACK = 1U,
-        SG_BORDERCOLOR_OPAQUE_BLACK = 2U,
-        SG_BORDERCOLOR_OPAQUE_WHITE = 3U,
-        _SG_BORDERCOLOR_NUM = 4U,
-        _SG_BORDERCOLOR_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1204
-    public enum sg_uniform_type : uint
-    {
-        SG_UNIFORMTYPE_INVALID = 0U,
-        SG_UNIFORMTYPE_FLOAT = 1U,
-        SG_UNIFORMTYPE_FLOAT2 = 2U,
-        SG_UNIFORMTYPE_FLOAT3 = 3U,
-        SG_UNIFORMTYPE_FLOAT4 = 4U,
-        SG_UNIFORMTYPE_MAT4 = 5U,
-        _SG_UNIFORMTYPE_NUM = 6U,
-        _SG_UNIFORMTYPE_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1014
-    public enum sg_sampler_type : uint
-    {
-        _SG_SAMPLERTYPE_DEFAULT = 0U,
-        SG_SAMPLERTYPE_FLOAT = 1U,
-        SG_SAMPLERTYPE_SINT = 2U,
-        SG_SAMPLERTYPE_UINT = 3U
-    }
-
-    // Enum @ sokol_gfx.h:1189
-    public enum sg_vertex_step : uint
-    {
-        _SG_VERTEXSTEP_DEFAULT = 0U,
-        SG_VERTEXSTEP_PER_VERTEX = 1U,
-        SG_VERTEXSTEP_PER_INSTANCE = 2U,
-        _SG_VERTEXSTEP_NUM = 3U,
-        _SG_VERTEXSTEP_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1157
-    public enum sg_vertex_format : uint
-    {
-        SG_VERTEXFORMAT_INVALID = 0U,
-        SG_VERTEXFORMAT_FLOAT = 1U,
-        SG_VERTEXFORMAT_FLOAT2 = 2U,
-        SG_VERTEXFORMAT_FLOAT3 = 3U,
-        SG_VERTEXFORMAT_FLOAT4 = 4U,
-        SG_VERTEXFORMAT_BYTE4 = 5U,
-        SG_VERTEXFORMAT_BYTE4N = 6U,
-        SG_VERTEXFORMAT_UBYTE4 = 7U,
-        SG_VERTEXFORMAT_UBYTE4N = 8U,
-        SG_VERTEXFORMAT_SHORT2 = 9U,
-        SG_VERTEXFORMAT_SHORT2N = 10U,
-        SG_VERTEXFORMAT_USHORT2N = 11U,
-        SG_VERTEXFORMAT_SHORT4 = 12U,
-        SG_VERTEXFORMAT_SHORT4N = 13U,
-        SG_VERTEXFORMAT_USHORT4N = 14U,
-        SG_VERTEXFORMAT_UINT10_N2 = 15U,
-        _SG_VERTEXFORMAT_NUM = 16U,
-        _SG_VERTEXFORMAT_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1266
-    public enum sg_compare_func : uint
-    {
-        _SG_COMPAREFUNC_DEFAULT = 0U,
-        SG_COMPAREFUNC_NEVER = 1U,
-        SG_COMPAREFUNC_LESS = 2U,
-        SG_COMPAREFUNC_EQUAL = 3U,
-        SG_COMPAREFUNC_LESS_EQUAL = 4U,
-        SG_COMPAREFUNC_GREATER = 5U,
-        SG_COMPAREFUNC_NOT_EQUAL = 6U,
-        SG_COMPAREFUNC_GREATER_EQUAL = 7U,
-        SG_COMPAREFUNC_ALWAYS = 8U,
-        _SG_COMPAREFUNC_NUM = 9U,
-        _SG_COMPAREFUNC_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1300
-    public enum sg_stencil_op : uint
-    {
-        _SG_STENCILOP_DEFAULT = 0U,
-        SG_STENCILOP_KEEP = 1U,
-        SG_STENCILOP_ZERO = 2U,
-        SG_STENCILOP_REPLACE = 3U,
-        SG_STENCILOP_INCR_CLAMP = 4U,
-        SG_STENCILOP_DECR_CLAMP = 5U,
-        SG_STENCILOP_INVERT = 6U,
-        SG_STENCILOP_INCR_WRAP = 7U,
-        SG_STENCILOP_DECR_WRAP = 8U,
-        _SG_STENCILOP_NUM = 9U,
-        _SG_STENCILOP_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1389
-    public enum sg_color_mask : uint
-    {
-        _SG_COLORMASK_DEFAULT = 0U,
-        SG_COLORMASK_NONE = 16U,
-        SG_COLORMASK_R = 1U,
-        SG_COLORMASK_G = 2U,
-        SG_COLORMASK_RG = 3U,
-        SG_COLORMASK_B = 4U,
-        SG_COLORMASK_RB = 5U,
-        SG_COLORMASK_GB = 6U,
-        SG_COLORMASK_RGB = 7U,
-        SG_COLORMASK_A = 8U,
-        SG_COLORMASK_RA = 9U,
-        SG_COLORMASK_GA = 10U,
-        SG_COLORMASK_RGA = 11U,
-        SG_COLORMASK_BA = 12U,
-        SG_COLORMASK_RBA = 13U,
-        SG_COLORMASK_GBA = 14U,
-        SG_COLORMASK_RGBA = 15U,
-        _SG_COLORMASK_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1331
-    public enum sg_blend_factor : uint
-    {
-        _SG_BLENDFACTOR_DEFAULT = 0U,
-        SG_BLENDFACTOR_ZERO = 1U,
-        SG_BLENDFACTOR_ONE = 2U,
-        SG_BLENDFACTOR_SRC_COLOR = 3U,
-        SG_BLENDFACTOR_ONE_MINUS_SRC_COLOR = 4U,
-        SG_BLENDFACTOR_SRC_ALPHA = 5U,
-        SG_BLENDFACTOR_ONE_MINUS_SRC_ALPHA = 6U,
-        SG_BLENDFACTOR_DST_COLOR = 7U,
-        SG_BLENDFACTOR_ONE_MINUS_DST_COLOR = 8U,
-        SG_BLENDFACTOR_DST_ALPHA = 9U,
-        SG_BLENDFACTOR_ONE_MINUS_DST_ALPHA = 10U,
-        SG_BLENDFACTOR_SRC_ALPHA_SATURATED = 11U,
-        SG_BLENDFACTOR_BLEND_COLOR = 12U,
-        SG_BLENDFACTOR_ONE_MINUS_BLEND_COLOR = 13U,
-        SG_BLENDFACTOR_BLEND_ALPHA = 14U,
-        SG_BLENDFACTOR_ONE_MINUS_BLEND_ALPHA = 15U,
-        _SG_BLENDFACTOR_NUM = 16U,
-        _SG_BLENDFACTOR_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1367
-    public enum sg_blend_op : uint
-    {
-        _SG_BLENDOP_DEFAULT = 0U,
-        SG_BLENDOP_ADD = 1U,
-        SG_BLENDOP_SUBTRACT = 2U,
-        SG_BLENDOP_REVERSE_SUBTRACT = 3U,
-        _SG_BLENDOP_NUM = 4U,
-        _SG_BLENDOP_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1064
-    public enum sg_primitive_type : uint
-    {
-        _SG_PRIMITIVETYPE_DEFAULT = 0U,
-        SG_PRIMITIVETYPE_POINTS = 1U,
-        SG_PRIMITIVETYPE_LINES = 2U,
-        SG_PRIMITIVETYPE_LINE_STRIP = 3U,
-        SG_PRIMITIVETYPE_TRIANGLES = 4U,
-        SG_PRIMITIVETYPE_TRIANGLE_STRIP = 5U,
-        _SG_PRIMITIVETYPE_NUM = 6U,
-        _SG_PRIMITIVETYPE_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:973
-    public enum sg_index_type : uint
-    {
-        _SG_INDEXTYPE_DEFAULT = 0U,
-        SG_INDEXTYPE_NONE = 1U,
-        SG_INDEXTYPE_UINT16 = 2U,
-        SG_INDEXTYPE_UINT32 = 3U,
-        _SG_INDEXTYPE_NUM = 4U,
-        _SG_INDEXTYPE_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1224
-    public enum sg_cull_mode : uint
-    {
-        _SG_CULLMODE_DEFAULT = 0U,
-        SG_CULLMODE_NONE = 1U,
-        SG_CULLMODE_FRONT = 2U,
-        SG_CULLMODE_BACK = 3U,
-        _SG_CULLMODE_NUM = 4U,
-        _SG_CULLMODE_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1242
-    public enum sg_face_winding : uint
-    {
-        _SG_FACEWINDING_DEFAULT = 0U,
-        SG_FACEWINDING_CCW = 1U,
-        SG_FACEWINDING_CW = 2U,
-        _SG_FACEWINDING_NUM = 3U,
-        _SG_FACEWINDING_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1428
-    public enum sg_action : uint
-    {
-        _SG_ACTION_DEFAULT = 0U,
-        SG_ACTION_CLEAR = 1U,
-        SG_ACTION_LOAD = 2U,
-        SG_ACTION_DONTCARE = 3U,
-        _SG_ACTION_NUM = 4U,
-        _SG_ACTION_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:1049
-    public enum sg_shader_stage : uint
-    {
-        SG_SHADERSTAGE_VS = 0U,
-        SG_SHADERSTAGE_FS = 1U,
-        _SG_SHADERSTAGE_FORCE_U32 = 2147483647U
-    }
-
-    // Enum @ sokol_gfx.h:692
-    public enum sg_backend : uint
-    {
-        SG_BACKEND_GLCORE33 = 0U,
-        SG_BACKEND_GLES2 = 1U,
-        SG_BACKEND_GLES3 = 2U,
-        SG_BACKEND_D3D11 = 3U,
-        SG_BACKEND_METAL_IOS = 4U,
-        SG_BACKEND_METAL_MACOS = 5U,
-        SG_BACKEND_METAL_SIMULATOR = 6U,
-        SG_BACKEND_WGPU = 7U,
-        SG_BACKEND_DUMMY = 8U
-    }
-
-    // Enum @ sokol_gfx.h:895
-    public enum sg_resource_state : uint
-    {
-        SG_RESOURCESTATE_INITIAL = 0U,
-        SG_RESOURCESTATE_ALLOC = 1U,
-        SG_RESOURCESTATE_VALID = 2U,
-        SG_RESOURCESTATE_FAILED = 3U,
-        SG_RESOURCESTATE_INVALID = 4U,
-        _SG_RESOURCESTATE_FORCE_U32 = 2147483647U
-    }
+    private static _VirtualTable _virtualTable;
 }

@@ -1,0 +1,5 @@
+{
+  "includeDirectories": [
+    "../../../../ext/sokol"
+  ]
+}

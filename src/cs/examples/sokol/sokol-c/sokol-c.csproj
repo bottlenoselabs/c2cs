@@ -20,7 +20,7 @@
     
     <!-- C2CS configuration -->
     <ItemGroup>
-      <None Update="config.json">
+      <None Update="config_c.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>
