@@ -6970,7 +6970,9 @@
           "name": "argv",
           "type": "char**",
           "location": {
-            "file": ""
+            "file": "flecs.h",
+            "line": 905,
+            "column": 11
           }
         }
       ],
@@ -13437,7 +13439,9 @@
           "name": "avg",
           "type": "float[60]",
           "location": {
-            "file": ""
+            "file": "stats.h",
+            "line": 26,
+            "column": 11
           }
         },
         {
@@ -13445,7 +13449,9 @@
           "type": "float[60]",
           "offset": 240,
           "location": {
-            "file": ""
+            "file": "stats.h",
+            "line": 27,
+            "column": 11
           }
         },
         {
@@ -13453,7 +13459,9 @@
           "type": "float[60]",
           "offset": 480,
           "location": {
-            "file": ""
+            "file": "stats.h",
+            "line": 28,
+            "column": 11
           }
         }
       ],
@@ -13618,7 +13626,9 @@
           "type": "float[60]",
           "offset": 720,
           "location": {
-            "file": ""
+            "file": "stats.h",
+            "line": 34,
+            "column": 11
           }
         }
       ],
@@ -14544,7 +14554,9 @@
           "type": "ecs_term_id_t[2]",
           "offset": 64,
           "location": {
-            "file": ""
+            "file": "flecs.h",
+            "line": 225,
+            "column": 19
           }
         },
         {
@@ -16257,7 +16269,9 @@
           "name": "terms",
           "type": "ecs_term_t[16]",
           "location": {
-            "file": ""
+            "file": "flecs.h",
+            "line": 355,
+            "column": 16
           }
         },
         {
@@ -16379,7 +16393,9 @@
           "type": "ecs_id_t[32]",
           "offset": 40,
           "location": {
-            "file": ""
+            "file": "flecs.h",
+            "line": 322,
+            "column": 14
           }
         },
         {
@@ -16387,7 +16403,9 @@
           "type": "ecs_id_t[32]",
           "offset": 296,
           "location": {
-            "file": ""
+            "file": "flecs.h",
+            "line": 325,
+            "column": 14
           }
         },
         {
@@ -16466,7 +16484,9 @@
           "type": "ecs_entity_t[8]",
           "offset": 776,
           "location": {
-            "file": ""
+            "file": "flecs.h",
+            "line": 424,
+            "column": 18
           }
         },
         {
@@ -16545,7 +16565,9 @@
           "type": "ecs_id_t[32]",
           "offset": 568,
           "location": {
-            "file": ""
+            "file": "flecs.h",
+            "line": 346,
+            "column": 14
           }
         },
         {
@@ -17292,7 +17314,9 @@
           "type": "ecs_strbuf_list_elem[32]",
           "offset": 568,
           "location": {
-            "file": ""
+            "file": "strbuf.h",
+            "line": 73,
+            "column": 26
           }
         },
         {
@@ -17419,7 +17443,9 @@
           "type": "char[512]",
           "offset": 24,
           "location": {
-            "file": ""
+            "file": "strbuf.h",
+            "line": 39,
+            "column": 10
           }
         }
       ],
@@ -19320,7 +19346,9 @@
       "sizeOfElement": 48,
       "arraySize": 2,
       "location": {
-        "file": ""
+        "file": "flecs.h",
+        "line": 225,
+        "column": 19
       }
     },
     {
@@ -19868,7 +19896,9 @@
       "sizeOfElement": 192,
       "arraySize": 16,
       "location": {
-        "file": ""
+        "file": "flecs.h",
+        "line": 355,
+        "column": 16
       }
     },
     {
@@ -19879,7 +19909,9 @@
       "sizeOfElement": 8,
       "arraySize": 32,
       "location": {
-        "file": ""
+        "file": "flecs.h",
+        "line": 322,
+        "column": 14
       }
     },
     {
@@ -19923,7 +19955,9 @@
       "sizeOfElement": 8,
       "arraySize": 8,
       "location": {
-        "file": ""
+        "file": "flecs.h",
+        "line": 424,
+        "column": 18
       }
     },
     {
@@ -20591,7 +20625,9 @@
       "sizeOfElement": 16,
       "arraySize": 32,
       "location": {
-        "file": ""
+        "file": "strbuf.h",
+        "line": 73,
+        "column": 26
       }
     },
     {
