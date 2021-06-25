@@ -19,7 +19,7 @@ namespace C2CS.UseCases.BindgenCSharp
             var configuration = Step(
                 "Load configuration from disk",
                 request.InputFile.FullName,
-                request.ConfigurationFile.FullName,
+                request.ConfigurationFile?.FullName ?? string.Empty,
                 LoadConfiguration);
 
             var abstractSyntaxTreeC = Step(

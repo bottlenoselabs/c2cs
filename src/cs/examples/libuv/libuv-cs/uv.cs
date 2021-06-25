@@ -690,7 +690,7 @@ public static unsafe partial class uv
     }
 
     // Function @ uv.h:1363:15
-    public static int uv_fs_write(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_buf_t** bufs, uint nbufs, long offset, uv_fs_cb cb)
+    public static int uv_fs_write(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_buf_t* bufs, uint nbufs, long offset, uv_fs_cb cb)
     {
         return _virtualTable.uv_fs_write(loop, req, file, bufs, nbufs, offset, cb);
     }
@@ -702,7 +702,7 @@ public static unsafe partial class uv
     }
 
     // Function @ uv.h:1352:15
-    public static int uv_fs_read(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_buf_t** bufs, uint nbufs, long offset, uv_fs_cb cb)
+    public static int uv_fs_read(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_buf_t* bufs, uint nbufs, long offset, uv_fs_cb cb)
     {
         return _virtualTable.uv_fs_read(loop, req, file, bufs, nbufs, offset, cb);
     }
@@ -1248,13 +1248,13 @@ public static unsafe partial class uv
     }
 
     // Function @ uv.h:709:15
-    public static int uv_udp_try_send(uv_udp_t* handle, uv_buf_t** bufs, uint nbufs, sockaddr* addr)
+    public static int uv_udp_try_send(uv_udp_t* handle, uv_buf_t* bufs, uint nbufs, sockaddr* addr)
     {
         return _virtualTable.uv_udp_try_send(handle, bufs, nbufs, addr);
     }
 
     // Function @ uv.h:703:15
-    public static int uv_udp_send(uv_udp_send_t* req, uv_udp_t* handle, uv_buf_t** bufs, uint nbufs, sockaddr* addr, uv_udp_send_cb send_cb)
+    public static int uv_udp_send(uv_udp_send_t* req, uv_udp_t* handle, uv_buf_t* bufs, uint nbufs, sockaddr* addr, uv_udp_send_cb send_cb)
     {
         return _virtualTable.uv_udp_send(req, handle, bufs, nbufs, addr, send_cb);
     }
@@ -1434,19 +1434,19 @@ public static unsafe partial class uv
     }
 
     // Function @ uv.h:526:15
-    public static int uv_try_write(uv_stream_t* handle, uv_buf_t** bufs, uint nbufs)
+    public static int uv_try_write(uv_stream_t* handle, uv_buf_t* bufs, uint nbufs)
     {
         return _virtualTable.uv_try_write(handle, bufs, nbufs);
     }
 
     // Function @ uv.h:520:15
-    public static int uv_write2(uv_write_t* req, uv_stream_t* handle, uv_buf_t** bufs, uint nbufs, uv_stream_t* send_handle, uv_write_cb cb)
+    public static int uv_write2(uv_write_t* req, uv_stream_t* handle, uv_buf_t* bufs, uint nbufs, uv_stream_t* send_handle, uv_write_cb cb)
     {
         return _virtualTable.uv_write2(req, handle, bufs, nbufs, send_handle, cb);
     }
 
     // Function @ uv.h:515:15
-    public static int uv_write(uv_write_t* req, uv_stream_t* handle, uv_buf_t** bufs, uint nbufs, uv_write_cb cb)
+    public static int uv_write(uv_write_t* req, uv_stream_t* handle, uv_buf_t* bufs, uint nbufs, uv_write_cb cb)
     {
         return _virtualTable.uv_write(req, handle, bufs, nbufs, cb);
     }
@@ -2973,9 +2973,9 @@ public static unsafe partial class uv
         _virtualTable.uv_fs_mkdtemp = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_mkdtemp");
         _virtualTable.uv_fs_mkdir = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_mkdir");
         _virtualTable.uv_fs_copyfile = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, CString, int, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_copyfile");
-        _virtualTable.uv_fs_write = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_buf_t**, uint, long, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_write");
+        _virtualTable.uv_fs_write = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_buf_t*, uint, long, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_write");
         _virtualTable.uv_fs_unlink = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_unlink");
-        _virtualTable.uv_fs_read = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_buf_t**, uint, long, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_read");
+        _virtualTable.uv_fs_read = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_buf_t*, uint, long, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_read");
         _virtualTable.uv_fs_open = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, int, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_open");
         _virtualTable.uv_fs_close = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_close");
         _virtualTable.uv_fs_req_cleanup = (delegate* unmanaged[Cdecl]<uv_fs_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_req_cleanup");
@@ -3066,8 +3066,8 @@ public static unsafe partial class uv
         _virtualTable.uv_udp_recv_stop = (delegate* unmanaged[Cdecl]<uv_udp_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_recv_stop");
         _virtualTable.uv_udp_using_recvmmsg = (delegate* unmanaged[Cdecl]<uv_udp_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_using_recvmmsg");
         _virtualTable.uv_udp_recv_start = (delegate* unmanaged[Cdecl]<uv_udp_t*, uv_alloc_cb, uv_udp_recv_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_recv_start");
-        _virtualTable.uv_udp_try_send = (delegate* unmanaged[Cdecl]<uv_udp_t*, uv_buf_t**, uint, sockaddr*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_try_send");
-        _virtualTable.uv_udp_send = (delegate* unmanaged[Cdecl]<uv_udp_send_t*, uv_udp_t*, uv_buf_t**, uint, sockaddr*, uv_udp_send_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_send");
+        _virtualTable.uv_udp_try_send = (delegate* unmanaged[Cdecl]<uv_udp_t*, uv_buf_t*, uint, sockaddr*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_try_send");
+        _virtualTable.uv_udp_send = (delegate* unmanaged[Cdecl]<uv_udp_send_t*, uv_udp_t*, uv_buf_t*, uint, sockaddr*, uv_udp_send_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_send");
         _virtualTable.uv_udp_set_ttl = (delegate* unmanaged[Cdecl]<uv_udp_t*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_set_ttl");
         _virtualTable.uv_udp_set_broadcast = (delegate* unmanaged[Cdecl]<uv_udp_t*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_set_broadcast");
         _virtualTable.uv_udp_set_multicast_interface = (delegate* unmanaged[Cdecl]<uv_udp_t*, CString, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_set_multicast_interface");
@@ -3097,9 +3097,9 @@ public static unsafe partial class uv
         _virtualTable.uv_stream_set_blocking = (delegate* unmanaged[Cdecl]<uv_stream_t*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_stream_set_blocking");
         _virtualTable.uv_is_writable = (delegate* unmanaged[Cdecl]<uv_stream_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_is_writable");
         _virtualTable.uv_is_readable = (delegate* unmanaged[Cdecl]<uv_stream_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_is_readable");
-        _virtualTable.uv_try_write = (delegate* unmanaged[Cdecl]<uv_stream_t*, uv_buf_t**, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_try_write");
-        _virtualTable.uv_write2 = (delegate* unmanaged[Cdecl]<uv_write_t*, uv_stream_t*, uv_buf_t**, uint, uv_stream_t*, uv_write_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_write2");
-        _virtualTable.uv_write = (delegate* unmanaged[Cdecl]<uv_write_t*, uv_stream_t*, uv_buf_t**, uint, uv_write_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_write");
+        _virtualTable.uv_try_write = (delegate* unmanaged[Cdecl]<uv_stream_t*, uv_buf_t*, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_try_write");
+        _virtualTable.uv_write2 = (delegate* unmanaged[Cdecl]<uv_write_t*, uv_stream_t*, uv_buf_t*, uint, uv_stream_t*, uv_write_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_write2");
+        _virtualTable.uv_write = (delegate* unmanaged[Cdecl]<uv_write_t*, uv_stream_t*, uv_buf_t*, uint, uv_write_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_write");
         _virtualTable.uv_read_stop = (delegate* unmanaged[Cdecl]<uv_stream_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_read_stop");
         _virtualTable.uv_read_start = (delegate* unmanaged[Cdecl]<uv_stream_t*, uv_alloc_cb, uv_read_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_read_start");
         _virtualTable.uv_accept = (delegate* unmanaged[Cdecl]<uv_stream_t*, uv_stream_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_accept");
@@ -3277,9 +3277,9 @@ public static unsafe partial class uv
         _virtualTable.uv_fs_mkdtemp = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)IntPtr.Zero;
         _virtualTable.uv_fs_mkdir = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, uv_fs_cb, int>)IntPtr.Zero;
         _virtualTable.uv_fs_copyfile = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, CString, int, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_write = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_buf_t**, uint, long, uv_fs_cb, int>)IntPtr.Zero;
+        _virtualTable.uv_fs_write = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_buf_t*, uint, long, uv_fs_cb, int>)IntPtr.Zero;
         _virtualTable.uv_fs_unlink = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_read = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_buf_t**, uint, long, uv_fs_cb, int>)IntPtr.Zero;
+        _virtualTable.uv_fs_read = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_buf_t*, uint, long, uv_fs_cb, int>)IntPtr.Zero;
         _virtualTable.uv_fs_open = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, int, uv_fs_cb, int>)IntPtr.Zero;
         _virtualTable.uv_fs_close = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_fs_cb, int>)IntPtr.Zero;
         _virtualTable.uv_fs_req_cleanup = (delegate* unmanaged[Cdecl]<uv_fs_t*, void>)IntPtr.Zero;
@@ -3370,8 +3370,8 @@ public static unsafe partial class uv
         _virtualTable.uv_udp_recv_stop = (delegate* unmanaged[Cdecl]<uv_udp_t*, int>)IntPtr.Zero;
         _virtualTable.uv_udp_using_recvmmsg = (delegate* unmanaged[Cdecl]<uv_udp_t*, int>)IntPtr.Zero;
         _virtualTable.uv_udp_recv_start = (delegate* unmanaged[Cdecl]<uv_udp_t*, uv_alloc_cb, uv_udp_recv_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_try_send = (delegate* unmanaged[Cdecl]<uv_udp_t*, uv_buf_t**, uint, sockaddr*, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_send = (delegate* unmanaged[Cdecl]<uv_udp_send_t*, uv_udp_t*, uv_buf_t**, uint, sockaddr*, uv_udp_send_cb, int>)IntPtr.Zero;
+        _virtualTable.uv_udp_try_send = (delegate* unmanaged[Cdecl]<uv_udp_t*, uv_buf_t*, uint, sockaddr*, int>)IntPtr.Zero;
+        _virtualTable.uv_udp_send = (delegate* unmanaged[Cdecl]<uv_udp_send_t*, uv_udp_t*, uv_buf_t*, uint, sockaddr*, uv_udp_send_cb, int>)IntPtr.Zero;
         _virtualTable.uv_udp_set_ttl = (delegate* unmanaged[Cdecl]<uv_udp_t*, int, int>)IntPtr.Zero;
         _virtualTable.uv_udp_set_broadcast = (delegate* unmanaged[Cdecl]<uv_udp_t*, int, int>)IntPtr.Zero;
         _virtualTable.uv_udp_set_multicast_interface = (delegate* unmanaged[Cdecl]<uv_udp_t*, CString, int>)IntPtr.Zero;
@@ -3401,9 +3401,9 @@ public static unsafe partial class uv
         _virtualTable.uv_stream_set_blocking = (delegate* unmanaged[Cdecl]<uv_stream_t*, int, int>)IntPtr.Zero;
         _virtualTable.uv_is_writable = (delegate* unmanaged[Cdecl]<uv_stream_t*, int>)IntPtr.Zero;
         _virtualTable.uv_is_readable = (delegate* unmanaged[Cdecl]<uv_stream_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_try_write = (delegate* unmanaged[Cdecl]<uv_stream_t*, uv_buf_t**, uint, int>)IntPtr.Zero;
-        _virtualTable.uv_write2 = (delegate* unmanaged[Cdecl]<uv_write_t*, uv_stream_t*, uv_buf_t**, uint, uv_stream_t*, uv_write_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_write = (delegate* unmanaged[Cdecl]<uv_write_t*, uv_stream_t*, uv_buf_t**, uint, uv_write_cb, int>)IntPtr.Zero;
+        _virtualTable.uv_try_write = (delegate* unmanaged[Cdecl]<uv_stream_t*, uv_buf_t*, uint, int>)IntPtr.Zero;
+        _virtualTable.uv_write2 = (delegate* unmanaged[Cdecl]<uv_write_t*, uv_stream_t*, uv_buf_t*, uint, uv_stream_t*, uv_write_cb, int>)IntPtr.Zero;
+        _virtualTable.uv_write = (delegate* unmanaged[Cdecl]<uv_write_t*, uv_stream_t*, uv_buf_t*, uint, uv_write_cb, int>)IntPtr.Zero;
         _virtualTable.uv_read_stop = (delegate* unmanaged[Cdecl]<uv_stream_t*, int>)IntPtr.Zero;
         _virtualTable.uv_read_start = (delegate* unmanaged[Cdecl]<uv_stream_t*, uv_alloc_cb, uv_read_cb, int>)IntPtr.Zero;
         _virtualTable.uv_accept = (delegate* unmanaged[Cdecl]<uv_stream_t*, uv_stream_t*, int>)IntPtr.Zero;
@@ -3586,9 +3586,9 @@ public static unsafe partial class uv
         public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int> uv_fs_mkdtemp;
         public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, uv_fs_cb, int> uv_fs_mkdir;
         public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, CString, int, uv_fs_cb, int> uv_fs_copyfile;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_buf_t**, uint, long, uv_fs_cb, int> uv_fs_write;
+        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_buf_t*, uint, long, uv_fs_cb, int> uv_fs_write;
         public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int> uv_fs_unlink;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_buf_t**, uint, long, uv_fs_cb, int> uv_fs_read;
+        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_buf_t*, uint, long, uv_fs_cb, int> uv_fs_read;
         public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, int, uv_fs_cb, int> uv_fs_open;
         public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_fs_cb, int> uv_fs_close;
         public delegate* unmanaged[Cdecl]<uv_fs_t*, void> uv_fs_req_cleanup;
@@ -3679,8 +3679,8 @@ public static unsafe partial class uv
         public delegate* unmanaged[Cdecl]<uv_udp_t*, int> uv_udp_recv_stop;
         public delegate* unmanaged[Cdecl]<uv_udp_t*, int> uv_udp_using_recvmmsg;
         public delegate* unmanaged[Cdecl]<uv_udp_t*, uv_alloc_cb, uv_udp_recv_cb, int> uv_udp_recv_start;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, uv_buf_t**, uint, sockaddr*, int> uv_udp_try_send;
-        public delegate* unmanaged[Cdecl]<uv_udp_send_t*, uv_udp_t*, uv_buf_t**, uint, sockaddr*, uv_udp_send_cb, int> uv_udp_send;
+        public delegate* unmanaged[Cdecl]<uv_udp_t*, uv_buf_t*, uint, sockaddr*, int> uv_udp_try_send;
+        public delegate* unmanaged[Cdecl]<uv_udp_send_t*, uv_udp_t*, uv_buf_t*, uint, sockaddr*, uv_udp_send_cb, int> uv_udp_send;
         public delegate* unmanaged[Cdecl]<uv_udp_t*, int, int> uv_udp_set_ttl;
         public delegate* unmanaged[Cdecl]<uv_udp_t*, int, int> uv_udp_set_broadcast;
         public delegate* unmanaged[Cdecl]<uv_udp_t*, CString, int> uv_udp_set_multicast_interface;
@@ -3710,9 +3710,9 @@ public static unsafe partial class uv
         public delegate* unmanaged[Cdecl]<uv_stream_t*, int, int> uv_stream_set_blocking;
         public delegate* unmanaged[Cdecl]<uv_stream_t*, int> uv_is_writable;
         public delegate* unmanaged[Cdecl]<uv_stream_t*, int> uv_is_readable;
-        public delegate* unmanaged[Cdecl]<uv_stream_t*, uv_buf_t**, uint, int> uv_try_write;
-        public delegate* unmanaged[Cdecl]<uv_write_t*, uv_stream_t*, uv_buf_t**, uint, uv_stream_t*, uv_write_cb, int> uv_write2;
-        public delegate* unmanaged[Cdecl]<uv_write_t*, uv_stream_t*, uv_buf_t**, uint, uv_write_cb, int> uv_write;
+        public delegate* unmanaged[Cdecl]<uv_stream_t*, uv_buf_t*, uint, int> uv_try_write;
+        public delegate* unmanaged[Cdecl]<uv_write_t*, uv_stream_t*, uv_buf_t*, uint, uv_stream_t*, uv_write_cb, int> uv_write2;
+        public delegate* unmanaged[Cdecl]<uv_write_t*, uv_stream_t*, uv_buf_t*, uint, uv_write_cb, int> uv_write;
         public delegate* unmanaged[Cdecl]<uv_stream_t*, int> uv_read_stop;
         public delegate* unmanaged[Cdecl]<uv_stream_t*, uv_alloc_cb, uv_read_cb, int> uv_read_start;
         public delegate* unmanaged[Cdecl]<uv_stream_t*, uv_stream_t*, int> uv_accept;

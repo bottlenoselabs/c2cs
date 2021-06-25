@@ -11,7 +11,7 @@ namespace C2CS.UseCases.BindgenCSharp
 
         public FileInfo OutputFile { get; }
 
-        public FileInfo ConfigurationFile { get; }
+        public FileInfo? ConfigurationFile { get; }
 
         public Request(FileInfo inputFile, FileInfo outputFile, FileInfo configurationFile)
         {

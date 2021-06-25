@@ -30,8 +30,6 @@ ast
 {rootDirectory}/src/c/examples/helloworld/include/helloworld.h
 -o
 {rootDirectory}/src/cs/examples/helloworld/helloworld-c/ast.json
--c
-{Environment.CurrentDirectory}/config_c.json
 ";
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
@@ -46,8 +44,6 @@ cs
 {rootDirectory}/src/cs/examples/helloworld/helloworld-c/ast.json
 -o
 {rootDirectory}/src/cs/examples/helloworld/helloworld-cs/helloworld.cs
--c
-{Environment.CurrentDirectory}/config_csharp.json
 ";
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);

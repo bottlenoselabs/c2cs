@@ -1,4 +1,5 @@
 {
+  "fileName": "uv.h",
   "functions": [
     {
       "name": "uv_loop_set_data",
@@ -3760,7 +3761,7 @@
         },
         {
           "name": "bufs",
-          "type": "uv_buf_t*[]",
+          "type": "uv_buf_t*",
           "location": {
             "file": ""
           }
@@ -3880,7 +3881,7 @@
         },
         {
           "name": "bufs",
-          "type": "uv_buf_t*[]",
+          "type": "uv_buf_t*",
           "location": {
             "file": ""
           }
@@ -6439,7 +6440,7 @@
         },
         {
           "name": "bufs",
-          "type": "uv_buf_t*[]",
+          "type": "uv_buf_t*",
           "location": {
             "file": ""
           }
@@ -6494,7 +6495,7 @@
         },
         {
           "name": "bufs",
-          "type": "uv_buf_t*[]",
+          "type": "uv_buf_t*",
           "location": {
             "file": ""
           }
@@ -7515,7 +7516,7 @@
         },
         {
           "name": "bufs",
-          "type": "uv_buf_t*[]",
+          "type": "uv_buf_t*",
           "location": {
             "file": ""
           }
@@ -7560,7 +7561,7 @@
         },
         {
           "name": "bufs",
-          "type": "uv_buf_t*[]",
+          "type": "uv_buf_t*",
           "location": {
             "file": ""
           }
@@ -7623,7 +7624,7 @@
         },
         {
           "name": "bufs",
-          "type": "uv_buf_t*[]",
+          "type": "uv_buf_t*",
           "location": {
             "file": ""
           }
@@ -13181,7 +13182,7 @@
       }
     },
     {
-      "name": "uv_buf_t*[]",
+      "name": "uv_buf_t*",
       "kind": "pointer",
       "alignOf": 8,
       "location": {
@@ -14147,17 +14148,6 @@
         "file": "uv.h",
         "line": 644,
         "column": 16
-      }
-    },
-    {
-      "name": "uv_buf_t*",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "location": {
-        "file": "unix.h",
-        "line": 126,
-        "column": 3
       }
     },
     {

@@ -1,4 +1,5 @@
 {
+  "fileName": "SDL.h",
   "functions": [
     {
       "name": "SDL_Quit",

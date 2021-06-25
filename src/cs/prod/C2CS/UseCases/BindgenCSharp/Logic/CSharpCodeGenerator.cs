@@ -221,7 +221,7 @@ private static void _UnloadVirtualTable()
 
 			foreach (var variableExtern in variableExterns)
 			{
-				var variableString = $@"public static IntPtr {variableExtern.Name}";
+				var variableString = $@"public IntPtr {variableExtern.Name};";
 				variableStrings.Add(variableString);
 			}
 

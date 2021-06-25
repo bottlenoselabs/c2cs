@@ -1092,7 +1092,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
             if (type.kind == CXTypeKind.CXType_IncompleteArray)
             {
-                typeName = $"{typeName}[]";
+                typeName = $"{typeName}";
             }
             else if (type.kind == CXTypeKind.CXType_ConstantArray)
             {

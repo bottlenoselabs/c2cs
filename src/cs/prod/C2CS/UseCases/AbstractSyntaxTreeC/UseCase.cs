@@ -14,13 +14,12 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
     {
         protected override void Execute(Request request, Response response)
         {
-            Validate(request);
             TotalSteps(4);
 
             var configuration = Step(
                 "Load configuration from disk",
                 request.InputFile.FullName,
-                request.ConfigurationFile.FullName,
+                request.ConfigurationFile?.FullName ?? string.Empty,
                 LoadConfiguration);
 
             var translationUnit = Step(
@@ -40,14 +39,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 request.OutputFile.FullName,
                 abstractSyntaxTreeC,
                 Write);
-        }
-
-        private static void Validate(Request request)
-        {
-            if (!request.InputFile.Exists)
-            {
-                throw new UseCaseException($"File does not exist: `{request.InputFile.FullName}`.");
-            }
         }
 
         private static Configuration LoadConfiguration(string inputFilePath, string configurationFilePath)
