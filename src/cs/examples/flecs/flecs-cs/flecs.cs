@@ -11,6 +11,7 @@
 //-------------------------------------------------------------------------------------
 using System;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 #nullable enable
 
@@ -29,1926 +30,2954 @@ public static unsafe partial class flecs
             libraryFilePath = $@"{libraryFileNamePrefix}{LibraryName}{libraryFileNameExtension}";
         }
         _libraryHandle = Runtime.LibraryLoad(libraryFilePath);
-        if (_libraryHandle == IntPtr.Zero)
-            throw new Exception($"Failed to load library: {libraryFilePath}");
-        LoadExports();
+        if (_libraryHandle == IntPtr.Zero) throw new Exception($"Failed to load library: {libraryFilePath}");
+        _LoadVirtualTable();
     }
 
     public static void UnloadApi()
     {
-        if (_libraryHandle == IntPtr.Zero)
-            return;
-        UnloadExports();
+        if (_libraryHandle == IntPtr.Zero) return;
+        _UnloadVirtualTable();
         Runtime.LibraryUnload(_libraryHandle);
     }
 
-    private static void LoadExports()
+    public static ecs_type_t FLECS__TEcsRateFilter
     {
-        _ecs_os_api_malloc_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_malloc_count");
-        _ecs_os_api_realloc_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_realloc_count");
-        _ecs_os_api_calloc_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_calloc_count");
-        _ecs_os_api_free_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_free_count");
-        _ecs_os_api = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api");
-        _FLECS__TEcsComponent = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsComponent");
-        _FLECS__TEcsComponentLifecycle = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsComponentLifecycle");
-        _FLECS__TEcsType = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsType");
-        _FLECS__TEcsName = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsName");
-        _ECS_CASE = Runtime.LibraryGetExport(_libraryHandle, "ECS_CASE");
-        _ECS_SWITCH = Runtime.LibraryGetExport(_libraryHandle, "ECS_SWITCH");
-        _ECS_PAIR = Runtime.LibraryGetExport(_libraryHandle, "ECS_PAIR");
-        _ECS_OWNED = Runtime.LibraryGetExport(_libraryHandle, "ECS_OWNED");
-        _ECS_DISABLED = Runtime.LibraryGetExport(_libraryHandle, "ECS_DISABLED");
-        _EcsFlecs = Runtime.LibraryGetExport(_libraryHandle, "EcsFlecs");
-        _EcsFlecsCore = Runtime.LibraryGetExport(_libraryHandle, "EcsFlecsCore");
-        _EcsWorld = Runtime.LibraryGetExport(_libraryHandle, "EcsWorld");
-        _EcsWildcard = Runtime.LibraryGetExport(_libraryHandle, "EcsWildcard");
-        _EcsThis = Runtime.LibraryGetExport(_libraryHandle, "EcsThis");
-        _EcsTransitive = Runtime.LibraryGetExport(_libraryHandle, "EcsTransitive");
-        _EcsFinal = Runtime.LibraryGetExport(_libraryHandle, "EcsFinal");
-        _EcsChildOf = Runtime.LibraryGetExport(_libraryHandle, "EcsChildOf");
-        _EcsIsA = Runtime.LibraryGetExport(_libraryHandle, "EcsIsA");
-        _EcsModule = Runtime.LibraryGetExport(_libraryHandle, "EcsModule");
-        _EcsPrefab = Runtime.LibraryGetExport(_libraryHandle, "EcsPrefab");
-        _EcsDisabled = Runtime.LibraryGetExport(_libraryHandle, "EcsDisabled");
-        _EcsHidden = Runtime.LibraryGetExport(_libraryHandle, "EcsHidden");
-        _EcsOnAdd = Runtime.LibraryGetExport(_libraryHandle, "EcsOnAdd");
-        _EcsOnRemove = Runtime.LibraryGetExport(_libraryHandle, "EcsOnRemove");
-        _EcsOnSet = Runtime.LibraryGetExport(_libraryHandle, "EcsOnSet");
-        _EcsUnSet = Runtime.LibraryGetExport(_libraryHandle, "EcsUnSet");
-        _EcsOnDelete = Runtime.LibraryGetExport(_libraryHandle, "EcsOnDelete");
-        _EcsOnDeleteObject = Runtime.LibraryGetExport(_libraryHandle, "EcsOnDeleteObject");
-        _EcsRemove = Runtime.LibraryGetExport(_libraryHandle, "EcsRemove");
-        _EcsDelete = Runtime.LibraryGetExport(_libraryHandle, "EcsDelete");
-        _EcsThrow = Runtime.LibraryGetExport(_libraryHandle, "EcsThrow");
-        _EcsOnDemand = Runtime.LibraryGetExport(_libraryHandle, "EcsOnDemand");
-        _EcsMonitor = Runtime.LibraryGetExport(_libraryHandle, "EcsMonitor");
-        _EcsDisabledIntern = Runtime.LibraryGetExport(_libraryHandle, "EcsDisabledIntern");
-        _EcsInactive = Runtime.LibraryGetExport(_libraryHandle, "EcsInactive");
-        _EcsPipeline = Runtime.LibraryGetExport(_libraryHandle, "EcsPipeline");
-        _EcsPreFrame = Runtime.LibraryGetExport(_libraryHandle, "EcsPreFrame");
-        _EcsOnLoad = Runtime.LibraryGetExport(_libraryHandle, "EcsOnLoad");
-        _EcsPostLoad = Runtime.LibraryGetExport(_libraryHandle, "EcsPostLoad");
-        _EcsPreUpdate = Runtime.LibraryGetExport(_libraryHandle, "EcsPreUpdate");
-        _EcsOnUpdate = Runtime.LibraryGetExport(_libraryHandle, "EcsOnUpdate");
-        _EcsOnValidate = Runtime.LibraryGetExport(_libraryHandle, "EcsOnValidate");
-        _EcsPostUpdate = Runtime.LibraryGetExport(_libraryHandle, "EcsPostUpdate");
-        _EcsPreStore = Runtime.LibraryGetExport(_libraryHandle, "EcsPreStore");
-        _EcsOnStore = Runtime.LibraryGetExport(_libraryHandle, "EcsOnStore");
-        _EcsPostFrame = Runtime.LibraryGetExport(_libraryHandle, "EcsPostFrame");
-        _FLECS__TEcsSystem = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsSystem");
-        _FLECS__TEcsTickSource = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsTickSource");
-        _FLECS__TEcsTimer = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsTimer");
-        _FLECS__TEcsRateFilter = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsRateFilter");
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsRateFilter);
     }
 
-    private static void UnloadExports()
+    public static ecs_type_t FLECS__TEcsTimer
     {
-        _ecs_os_api_malloc_count = IntPtr.Zero;
-        _ecs_os_api_realloc_count = IntPtr.Zero;
-        _ecs_os_api_calloc_count = IntPtr.Zero;
-        _ecs_os_api_free_count = IntPtr.Zero;
-        _ecs_os_api = IntPtr.Zero;
-        _FLECS__TEcsComponent = IntPtr.Zero;
-        _FLECS__TEcsComponentLifecycle = IntPtr.Zero;
-        _FLECS__TEcsType = IntPtr.Zero;
-        _FLECS__TEcsName = IntPtr.Zero;
-        _ECS_CASE = IntPtr.Zero;
-        _ECS_SWITCH = IntPtr.Zero;
-        _ECS_PAIR = IntPtr.Zero;
-        _ECS_OWNED = IntPtr.Zero;
-        _ECS_DISABLED = IntPtr.Zero;
-        _EcsFlecs = IntPtr.Zero;
-        _EcsFlecsCore = IntPtr.Zero;
-        _EcsWorld = IntPtr.Zero;
-        _EcsWildcard = IntPtr.Zero;
-        _EcsThis = IntPtr.Zero;
-        _EcsTransitive = IntPtr.Zero;
-        _EcsFinal = IntPtr.Zero;
-        _EcsChildOf = IntPtr.Zero;
-        _EcsIsA = IntPtr.Zero;
-        _EcsModule = IntPtr.Zero;
-        _EcsPrefab = IntPtr.Zero;
-        _EcsDisabled = IntPtr.Zero;
-        _EcsHidden = IntPtr.Zero;
-        _EcsOnAdd = IntPtr.Zero;
-        _EcsOnRemove = IntPtr.Zero;
-        _EcsOnSet = IntPtr.Zero;
-        _EcsUnSet = IntPtr.Zero;
-        _EcsOnDelete = IntPtr.Zero;
-        _EcsOnDeleteObject = IntPtr.Zero;
-        _EcsRemove = IntPtr.Zero;
-        _EcsDelete = IntPtr.Zero;
-        _EcsThrow = IntPtr.Zero;
-        _EcsOnDemand = IntPtr.Zero;
-        _EcsMonitor = IntPtr.Zero;
-        _EcsDisabledIntern = IntPtr.Zero;
-        _EcsInactive = IntPtr.Zero;
-        _EcsPipeline = IntPtr.Zero;
-        _EcsPreFrame = IntPtr.Zero;
-        _EcsOnLoad = IntPtr.Zero;
-        _EcsPostLoad = IntPtr.Zero;
-        _EcsPreUpdate = IntPtr.Zero;
-        _EcsOnUpdate = IntPtr.Zero;
-        _EcsOnValidate = IntPtr.Zero;
-        _EcsPostUpdate = IntPtr.Zero;
-        _EcsPreStore = IntPtr.Zero;
-        _EcsOnStore = IntPtr.Zero;
-        _EcsPostFrame = IntPtr.Zero;
-        _FLECS__TEcsSystem = IntPtr.Zero;
-        _FLECS__TEcsTickSource = IntPtr.Zero;
-        _FLECS__TEcsTimer = IntPtr.Zero;
-        _FLECS__TEcsRateFilter = IntPtr.Zero;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsTimer);
     }
 
-    // Function @ vector.h:98
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_new", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_vector_t* _ecs_vector_new(ecs_size_t elem_size, short offset, int elem_count);
-
-    // Function @ vector.h:111
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_from_array", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_vector_t* _ecs_vector_from_array(ecs_size_t elem_size, short offset, int elem_count, void* array);
-
-    // Function @ vector.h:122
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_zero", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void _ecs_vector_zero(ecs_vector_t* vector, ecs_size_t elem_size, short offset);
-
-    // Function @ vector.h:132
-    [DllImport(LibraryName, EntryPoint = "ecs_vector_free", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_vector_free(ecs_vector_t* vector);
-
-    // Function @ vector.h:137
-    [DllImport(LibraryName, EntryPoint = "ecs_vector_clear", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_vector_clear(ecs_vector_t* vector);
-
-    // Function @ vector.h:142
-    [DllImport(LibraryName, EntryPoint = "ecs_vector_assert_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_vector_assert_size(ecs_vector_t* vector_inout, ecs_size_t elem_size);
-
-    // Function @ vector.h:148
-    [DllImport(LibraryName, EntryPoint = "ecs_vector_assert_alignment", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_vector_assert_alignment(ecs_vector_t* vector, ecs_size_t elem_alignment);
-
-    // Function @ vector.h:154
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_add", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* _ecs_vector_add(ecs_vector_t** array_inout, ecs_size_t elem_size, short offset);
-
-    // Function @ vector.h:167
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_addn", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* _ecs_vector_addn(ecs_vector_t** array_inout, ecs_size_t elem_size, short offset, int elem_count);
-
-    // Function @ vector.h:181
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_get", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* _ecs_vector_get(ecs_vector_t* vector, ecs_size_t elem_size, short offset, int index);
-
-    // Function @ vector.h:195
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_last", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* _ecs_vector_last(ecs_vector_t* vector, ecs_size_t elem_size, short offset);
-
-    // Function @ vector.h:206
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_set_min_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int _ecs_vector_set_min_size(ecs_vector_t** array_inout, ecs_size_t elem_size, short offset, int elem_count);
-
-    // Function @ vector.h:218
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_set_min_count", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int _ecs_vector_set_min_count(ecs_vector_t** vector_inout, ecs_size_t elem_size, short offset, int elem_count);
-
-    // Function @ vector.h:229
-    [DllImport(LibraryName, EntryPoint = "ecs_vector_remove_last", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_vector_remove_last(ecs_vector_t* vector);
-
-    // Function @ vector.h:234
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_pop", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool _ecs_vector_pop(ecs_vector_t* vector, ecs_size_t elem_size, short offset, void* value);
-
-    // Function @ vector.h:245
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_move_index", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int _ecs_vector_move_index(ecs_vector_t** dst, ecs_vector_t* src, ecs_size_t elem_size, short offset, int index);
-
-    // Function @ vector.h:257
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_remove_index", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int _ecs_vector_remove_index(ecs_vector_t* vector, ecs_size_t elem_size, short offset, int index);
-
-    // Function @ vector.h:271
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_reclaim", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void _ecs_vector_reclaim(ecs_vector_t** vector, ecs_size_t elem_size, short offset);
-
-    // Function @ vector.h:281
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_grow", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int _ecs_vector_grow(ecs_vector_t** vector, ecs_size_t elem_size, short offset, int elem_count);
-
-    // Function @ vector.h:292
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_set_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int _ecs_vector_set_size(ecs_vector_t** vector, ecs_size_t elem_size, short offset, int elem_count);
-
-    // Function @ vector.h:307
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_set_count", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int _ecs_vector_set_count(ecs_vector_t** vector, ecs_size_t elem_size, short offset, int elem_count);
-
-    // Function @ vector.h:321
-    [DllImport(LibraryName, EntryPoint = "ecs_vector_count", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_vector_count(ecs_vector_t* vector);
-
-    // Function @ vector.h:326
-    [DllImport(LibraryName, EntryPoint = "ecs_vector_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_vector_size(ecs_vector_t* vector);
-
-    // Function @ vector.h:331
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_first", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* _ecs_vector_first(ecs_vector_t* vector, ecs_size_t elem_size, short offset);
-
-    // Function @ vector.h:344
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_sort", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void _ecs_vector_sort(ecs_vector_t* vector, ecs_size_t elem_size, short offset, ecs_comparator_t compare_action);
-
-    // Function @ vector.h:355
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_memory", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void _ecs_vector_memory(ecs_vector_t* vector, ecs_size_t elem_size, short offset, int* allocd, int* used);
-
-    // Function @ vector.h:370
-    [DllImport(LibraryName, EntryPoint = "_ecs_vector_copy", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_vector_t* _ecs_vector_copy(ecs_vector_t* src, ecs_size_t elem_size, short offset);
-
-    // Function @ map.h:50
-    [DllImport(LibraryName, EntryPoint = "_ecs_map_new", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_map_t* _ecs_map_new(ecs_size_t elem_size, ecs_size_t alignment, int elem_count);
-
-    // Function @ map.h:60
-    [DllImport(LibraryName, EntryPoint = "_ecs_map_get", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* _ecs_map_get(ecs_map_t* map, ecs_size_t elem_size, ecs_map_key_t key);
-
-    // Function @ map.h:73
-    [DllImport(LibraryName, EntryPoint = "_ecs_map_get_ptr", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* _ecs_map_get_ptr(ecs_map_t* map, ecs_map_key_t key);
-
-    // Function @ map.h:82
-    [DllImport(LibraryName, EntryPoint = "_ecs_map_ensure", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* _ecs_map_ensure(ecs_map_t* map, ecs_size_t elem_size, ecs_map_key_t key);
-
-    // Function @ map.h:92
-    [DllImport(LibraryName, EntryPoint = "_ecs_map_set", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* _ecs_map_set(ecs_map_t* map, ecs_size_t elem_size, ecs_map_key_t key, void* payload);
-
-    // Function @ map.h:103
-    [DllImport(LibraryName, EntryPoint = "ecs_map_free", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_map_free(ecs_map_t* map);
-
-    // Function @ map.h:108
-    [DllImport(LibraryName, EntryPoint = "ecs_map_remove", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_map_remove(ecs_map_t* map, ecs_map_key_t key);
-
-    // Function @ map.h:114
-    [DllImport(LibraryName, EntryPoint = "ecs_map_clear", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_map_clear(ecs_map_t* map);
-
-    // Function @ map.h:119
-    [DllImport(LibraryName, EntryPoint = "ecs_map_count", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_map_count(ecs_map_t* map);
-
-    // Function @ map.h:124
-    [DllImport(LibraryName, EntryPoint = "ecs_map_bucket_count", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_map_bucket_count(ecs_map_t* map);
-
-    // Function @ map.h:129
-    [DllImport(LibraryName, EntryPoint = "ecs_map_iter", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_map_iter_t ecs_map_iter(ecs_map_t* map);
-
-    // Function @ map.h:134
-    [DllImport(LibraryName, EntryPoint = "_ecs_map_next", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* _ecs_map_next(ecs_map_iter_t* iter, ecs_size_t elem_size, ecs_map_key_t* key);
-
-    // Function @ map.h:144
-    [DllImport(LibraryName, EntryPoint = "_ecs_map_next_ptr", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* _ecs_map_next_ptr(ecs_map_iter_t* iter, ecs_map_key_t* key);
-
-    // Function @ map.h:153
-    [DllImport(LibraryName, EntryPoint = "ecs_map_grow", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_map_grow(ecs_map_t* map, int elem_count);
-
-    // Function @ map.h:159
-    [DllImport(LibraryName, EntryPoint = "ecs_map_set_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_map_set_size(ecs_map_t* map, int elem_count);
-
-    // Function @ map.h:165
-    [DllImport(LibraryName, EntryPoint = "ecs_map_memory", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_map_memory(ecs_map_t* map, int* allocd, int* used);
-
-    // Function @ strbuf.h:80
-    [DllImport(LibraryName, EntryPoint = "ecs_strbuf_append", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_strbuf_append(ecs_strbuf_t* buffer, CString fmt);
-
-    // Function @ strbuf.h:88
-    [DllImport(LibraryName, EntryPoint = "ecs_strbuf_vappend", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_strbuf_vappend(ecs_strbuf_t* buffer, CString fmt, IntPtr args);
-
-    // Function @ strbuf.h:96
-    [DllImport(LibraryName, EntryPoint = "ecs_strbuf_appendstr", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_strbuf_appendstr(ecs_strbuf_t* buffer, CString str);
-
-    // Function @ strbuf.h:103
-    [DllImport(LibraryName, EntryPoint = "ecs_strbuf_mergebuff", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_strbuf_mergebuff(ecs_strbuf_t* dst_buffer, ecs_strbuf_t* src_buffer);
-
-    // Function @ strbuf.h:110
-    [DllImport(LibraryName, EntryPoint = "ecs_strbuf_appendstr_zerocpy", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_strbuf_appendstr_zerocpy(ecs_strbuf_t* buffer, CString str);
-
-    // Function @ strbuf.h:117
-    [DllImport(LibraryName, EntryPoint = "ecs_strbuf_appendstr_zerocpy_const", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_strbuf_appendstr_zerocpy_const(ecs_strbuf_t* buffer, CString str);
-
-    // Function @ strbuf.h:124
-    [DllImport(LibraryName, EntryPoint = "ecs_strbuf_appendstrn", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_strbuf_appendstrn(ecs_strbuf_t* buffer, CString str, int n);
-
-    // Function @ strbuf.h:131
-    [DllImport(LibraryName, EntryPoint = "ecs_strbuf_get", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString ecs_strbuf_get(ecs_strbuf_t* buffer);
-
-    // Function @ strbuf.h:136
-    [DllImport(LibraryName, EntryPoint = "ecs_strbuf_reset", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_strbuf_reset(ecs_strbuf_t* buffer);
-
-    // Function @ strbuf.h:141
-    [DllImport(LibraryName, EntryPoint = "ecs_strbuf_list_push", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_strbuf_list_push(ecs_strbuf_t* buffer, CString list_open, CString separator);
-
-    // Function @ strbuf.h:148
-    [DllImport(LibraryName, EntryPoint = "ecs_strbuf_list_pop", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_strbuf_list_pop(ecs_strbuf_t* buffer, CString list_close);
-
-    // Function @ strbuf.h:154
-    [DllImport(LibraryName, EntryPoint = "ecs_strbuf_list_next", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_strbuf_list_next(ecs_strbuf_t* buffer);
-
-    // Function @ strbuf.h:159
-    [DllImport(LibraryName, EntryPoint = "ecs_strbuf_list_append", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_strbuf_list_append(ecs_strbuf_t* buffer, CString fmt);
-
-    // Function @ strbuf.h:166
-    [DllImport(LibraryName, EntryPoint = "ecs_strbuf_list_appendstr", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_strbuf_list_appendstr(ecs_strbuf_t* buffer, CString str);
-
-    // Function @ os_api.h:257
-    [DllImport(LibraryName, EntryPoint = "ecs_os_init", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_os_init();
-
-    // Function @ os_api.h:260
-    [DllImport(LibraryName, EntryPoint = "ecs_os_fini", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_os_fini();
-
-    // Function @ os_api.h:263
-    [DllImport(LibraryName, EntryPoint = "ecs_os_set_api", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_os_set_api(ecs_os_api_t* os_api);
-
-    // Function @ os_api.h:267
-    [DllImport(LibraryName, EntryPoint = "ecs_os_set_api_defaults", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_os_set_api_defaults();
-
-    // Function @ os_api.h:360
-    [DllImport(LibraryName, EntryPoint = "ecs_os_log", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_os_log(CString fmt);
-
-    // Function @ os_api.h:363
-    [DllImport(LibraryName, EntryPoint = "ecs_os_warn", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_os_warn(CString fmt);
-
-    // Function @ os_api.h:366
-    [DllImport(LibraryName, EntryPoint = "ecs_os_err", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_os_err(CString fmt);
-
-    // Function @ os_api.h:369
-    [DllImport(LibraryName, EntryPoint = "ecs_os_dbg", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_os_dbg(CString fmt);
-
-    // Function @ os_api.h:385
-    [DllImport(LibraryName, EntryPoint = "ecs_sleepf", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_sleepf(double t);
-
-    // Function @ os_api.h:390
-    [DllImport(LibraryName, EntryPoint = "ecs_time_measure", CallingConvention = CallingConvention.Cdecl)]
-    public static extern double ecs_time_measure(ecs_time_t* start);
-
-    // Function @ os_api.h:395
-    [DllImport(LibraryName, EntryPoint = "ecs_time_sub", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_time_t ecs_time_sub(ecs_time_t t1, ecs_time_t t2);
-
-    // Function @ os_api.h:401
-    [DllImport(LibraryName, EntryPoint = "ecs_time_to_double", CallingConvention = CallingConvention.Cdecl)]
-    public static extern double ecs_time_to_double(ecs_time_t t);
-
-    // Function @ os_api.h:405
-    [DllImport(LibraryName, EntryPoint = "ecs_os_memdup", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* ecs_os_memdup(void* src, ecs_size_t size);
-
-    // Function @ os_api.h:411
-    [DllImport(LibraryName, EntryPoint = "ecs_os_has_heap", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_os_has_heap();
-
-    // Function @ os_api.h:415
-    [DllImport(LibraryName, EntryPoint = "ecs_os_has_threading", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_os_has_threading();
-
-    // Function @ os_api.h:419
-    [DllImport(LibraryName, EntryPoint = "ecs_os_has_time", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_os_has_time();
-
-    // Function @ os_api.h:423
-    [DllImport(LibraryName, EntryPoint = "ecs_os_has_logging", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_os_has_logging();
-
-    // Function @ os_api.h:427
-    [DllImport(LibraryName, EntryPoint = "ecs_os_has_dl", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_os_has_dl();
-
-    // Function @ os_api.h:431
-    [DllImport(LibraryName, EntryPoint = "ecs_os_has_modules", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_os_has_modules();
-
-    // Function @ api_support.h:52
-    [DllImport(LibraryName, EntryPoint = "ecs_new_module", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_new_module(ecs_world_t* world, ecs_entity_t e, CString name, ulong size, ulong alignment);
-
-    // Function @ api_support.h:60
-    [DllImport(LibraryName, EntryPoint = "ecs_module_path_from_c", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString ecs_module_path_from_c(CString c_name);
-
-    // Function @ api_support.h:64
-    [DllImport(LibraryName, EntryPoint = "ecs_component_has_actions", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_component_has_actions(ecs_world_t* world, ecs_entity_t component);
-
-    // Function @ api_support.h:72
-    [DllImport(LibraryName, EntryPoint = "ecs_identifier_is_0", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_identifier_is_0(CString id);
-
-    // Function @ api_support.h:75
-    [DllImport(LibraryName, EntryPoint = "ecs_identifier_is_var", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_identifier_is_var(CString id);
-
-    // Function @ api_support.h:80
-    [DllImport(LibraryName, EntryPoint = "ecs_query_get_filter", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_filter_t* ecs_query_get_filter(ecs_query_t* query);
-
-    // Function @ log.h:40
-    [DllImport(LibraryName, EntryPoint = "_ecs_trace", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void _ecs_trace(int level, CString file, int line, CString fmt);
-
-    // Function @ log.h:48
-    [DllImport(LibraryName, EntryPoint = "_ecs_warn", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void _ecs_warn(CString file, int line, CString fmt);
-
-    // Function @ log.h:55
-    [DllImport(LibraryName, EntryPoint = "_ecs_err", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void _ecs_err(CString file, int line, CString fmt);
-
-    // Function @ log.h:62
-    [DllImport(LibraryName, EntryPoint = "_ecs_deprecated", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void _ecs_deprecated(CString file, int line, CString msg);
-
-    // Function @ log.h:68
-    [DllImport(LibraryName, EntryPoint = "ecs_log_push", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_log_push();
-
-    // Function @ log.h:71
-    [DllImport(LibraryName, EntryPoint = "ecs_log_pop", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_log_pop();
-
-    // Function @ log.h:125
-    [DllImport(LibraryName, EntryPoint = "ecs_strerror", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString ecs_strerror(int error_code);
-
-    // Function @ log.h:130
-    [DllImport(LibraryName, EntryPoint = "_ecs_abort", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void _ecs_abort(int error_code, CString param, CString file, int line);
-
-    // Function @ log.h:141
-    [DllImport(LibraryName, EntryPoint = "_ecs_assert", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void _ecs_assert(CBool condition, int error_code, CString param, CString condition_str, CString file, int line);
-
-    // Function @ log.h:158
-    [DllImport(LibraryName, EntryPoint = "_ecs_parser_error", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void _ecs_parser_error(CString name, CString expr, long column, CString fmt);
-
-    // Function @ type.h:17
-    [DllImport(LibraryName, EntryPoint = "ecs_type_from_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_type_t ecs_type_from_id(ecs_world_t* world, ecs_entity_t entity);
-
-    // Function @ type.h:22
-    [DllImport(LibraryName, EntryPoint = "ecs_type_to_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_type_to_id(ecs_world_t* world, ecs_type_t type);
-
-    // Function @ type.h:27
-    [DllImport(LibraryName, EntryPoint = "ecs_type_str", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString ecs_type_str(ecs_world_t* world, ecs_type_t type);
-
-    // Function @ type.h:32
-    [DllImport(LibraryName, EntryPoint = "ecs_type_from_str", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_type_t ecs_type_from_str(ecs_world_t* world, CString expr);
-
-    // Function @ type.h:37
-    [DllImport(LibraryName, EntryPoint = "ecs_type_find", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_type_t ecs_type_find(ecs_world_t* world, ecs_entity_t* array, int count);
-
-    // Function @ type.h:43
-    [DllImport(LibraryName, EntryPoint = "ecs_type_merge", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_type_t ecs_type_merge(ecs_world_t* world, ecs_type_t type, ecs_type_t type_add, ecs_type_t type_remove);
-
-    // Function @ type.h:50
-    [DllImport(LibraryName, EntryPoint = "ecs_type_add", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_type_t ecs_type_add(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity);
-
-    // Function @ type.h:56
-    [DllImport(LibraryName, EntryPoint = "ecs_type_remove", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_type_t ecs_type_remove(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity);
-
-    // Function @ type.h:62
-    [DllImport(LibraryName, EntryPoint = "ecs_type_has_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_type_has_id(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity);
-
-    // Function @ type.h:68
-    [DllImport(LibraryName, EntryPoint = "ecs_type_has_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_type_has_type(ecs_world_t* world, ecs_type_t type, ecs_type_t has);
-
-    // Function @ type.h:74
-    [DllImport(LibraryName, EntryPoint = "ecs_type_owns_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_type_owns_id(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity, CBool owned);
-
-    // Function @ type.h:81
-    [DllImport(LibraryName, EntryPoint = "ecs_type_owns_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_type_owns_type(ecs_world_t* world, ecs_type_t type, ecs_type_t has, CBool owned);
-
-    // Function @ type.h:88
-    [DllImport(LibraryName, EntryPoint = "ecs_type_find_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_type_find_id(ecs_world_t* world, ecs_type_t type, ecs_entity_t id, ecs_entity_t rel, int min_depth, int max_depth, ecs_entity_t* @out);
-
-    // Function @ type.h:98
-    [DllImport(LibraryName, EntryPoint = "ecs_type_get_entity_for_xor", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_type_get_entity_for_xor(ecs_world_t* world, ecs_type_t type, ecs_entity_t xor_tag);
-
-    // Function @ type.h:104
-    [DllImport(LibraryName, EntryPoint = "ecs_type_index_of", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_type_index_of(ecs_type_t type, ecs_entity_t component);
-
-    // Function @ type.h:109
-    [DllImport(LibraryName, EntryPoint = "ecs_type_match", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_type_match(ecs_type_t type, int start_index, ecs_entity_t pair);
-
-    // Function @ deprecated.h:208
-    [DllImport(LibraryName, EntryPoint = "ecs_dim_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_dim_type(ecs_world_t* world, ecs_type_t type, int entity_count);
-
-    // Function @ deprecated.h:215
-    [DllImport(LibraryName, EntryPoint = "ecs_new_w_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_new_w_type(ecs_world_t* world, ecs_type_t type);
-
-    // Function @ deprecated.h:221
-    [DllImport(LibraryName, EntryPoint = "ecs_bulk_new_w_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t* ecs_bulk_new_w_type(ecs_world_t* world, ecs_type_t type, int count);
-
-    // Function @ deprecated.h:228
-    [DllImport(LibraryName, EntryPoint = "ecs_add_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_add_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t type);
-
-    // Function @ deprecated.h:235
-    [DllImport(LibraryName, EntryPoint = "ecs_remove_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_remove_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t type);
-
-    // Function @ deprecated.h:242
-    [DllImport(LibraryName, EntryPoint = "ecs_add_remove_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_add_remove_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t to_add, ecs_type_t to_remove);
-
-    // Function @ deprecated.h:250
-    [DllImport(LibraryName, EntryPoint = "ecs_has_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_has_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t type);
-
-    // Function @ deprecated.h:257
-    [DllImport(LibraryName, EntryPoint = "ecs_count_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_count_type(ecs_world_t* world, ecs_type_t type);
-
-    // Function @ deprecated.h:263
-    [DllImport(LibraryName, EntryPoint = "ecs_count_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_count_entity(ecs_world_t* world, ecs_id_t entity);
-
-    // Function @ deprecated.h:269
-    [DllImport(LibraryName, EntryPoint = "ecs_count_w_filter", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_count_w_filter(ecs_world_t* world, ecs_filter_t* filter);
-
-    // Function @ deprecated.h:275
-    [DllImport(LibraryName, EntryPoint = "ecs_set_component_actions_w_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_set_component_actions_w_entity(ecs_world_t* world, ecs_id_t id, EcsComponentLifecycle* actions);
-
-    // Function @ deprecated.h:282
-    [DllImport(LibraryName, EntryPoint = "ecs_new_w_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_new_w_entity(ecs_world_t* world, ecs_id_t id);
-
-    // Function @ deprecated.h:288
-    [DllImport(LibraryName, EntryPoint = "ecs_bulk_new_w_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t* ecs_bulk_new_w_entity(ecs_world_t* world, ecs_id_t id, int count);
-
-    // Function @ deprecated.h:295
-    [DllImport(LibraryName, EntryPoint = "ecs_enable_component_w_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_enable_component_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, CBool enable);
-
-    // Function @ deprecated.h:303
-    [DllImport(LibraryName, EntryPoint = "ecs_is_component_enabled_w_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_is_component_enabled_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
-
-    // Function @ deprecated.h:310
-    [DllImport(LibraryName, EntryPoint = "ecs_get_w_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* ecs_get_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
-
-    // Function @ deprecated.h:317
-    [DllImport(LibraryName, EntryPoint = "ecs_get_w_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* ecs_get_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
-
-    // Function @ deprecated.h:324
-    [DllImport(LibraryName, EntryPoint = "ecs_get_ref_w_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* ecs_get_ref_w_entity(ecs_world_t* world, ecs_ref_t* @ref, ecs_entity_t entity, ecs_id_t id);
-
-    // Function @ deprecated.h:332
-    [DllImport(LibraryName, EntryPoint = "ecs_get_mut_w_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* ecs_get_mut_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, CBool* is_added);
-
-    // Function @ deprecated.h:340
-    [DllImport(LibraryName, EntryPoint = "ecs_modified_w_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_modified_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
-
-    // Function @ deprecated.h:347
-    [DllImport(LibraryName, EntryPoint = "ecs_set_ptr_w_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_set_ptr_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, ulong size, void* ptr);
-
-    // Function @ deprecated.h:356
-    [DllImport(LibraryName, EntryPoint = "ecs_has_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_has_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
-
-    // Function @ deprecated.h:363
-    [DllImport(LibraryName, EntryPoint = "ecs_entity_str", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong ecs_entity_str(ecs_world_t* world, ecs_id_t entity, CString buffer, ulong buffer_len);
-
-    // Function @ deprecated.h:371
-    [DllImport(LibraryName, EntryPoint = "ecs_get_parent_w_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_get_parent_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
-
-    // Function @ deprecated.h:381
-    [DllImport(LibraryName, EntryPoint = "ecs_get_thread_index", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_get_thread_index(ecs_world_t* world);
-
-    // Function @ deprecated.h:386
-    [DllImport(LibraryName, EntryPoint = "ecs_add_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_add_entity(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t entity_add);
-
-    // Function @ deprecated.h:393
-    [DllImport(LibraryName, EntryPoint = "ecs_remove_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_remove_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
-
-    // Function @ deprecated.h:400
-    [DllImport(LibraryName, EntryPoint = "ecs_add_remove_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_add_remove_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id_add, ecs_id_t id_remove);
-
-    // Function @ deprecated.h:408
-    [DllImport(LibraryName, EntryPoint = "ecs_type_from_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_type_t ecs_type_from_entity(ecs_world_t* world, ecs_entity_t entity);
-
-    // Function @ deprecated.h:414
-    [DllImport(LibraryName, EntryPoint = "ecs_type_to_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_type_to_entity(ecs_world_t* world, ecs_type_t type);
-
-    // Function @ deprecated.h:420
-    [DllImport(LibraryName, EntryPoint = "ecs_type_has_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_type_has_entity(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity);
-
-    // Function @ deprecated.h:427
-    [DllImport(LibraryName, EntryPoint = "ecs_type_owns_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_type_owns_entity(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity, CBool owned);
-
-    // Function @ deprecated.h:435
-    [DllImport(LibraryName, EntryPoint = "ecs_column_w_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* ecs_column_w_size(ecs_iter_t* it, ulong size, int column);
-
-    // Function @ deprecated.h:445
-    [DllImport(LibraryName, EntryPoint = "ecs_column_index_from_name", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_column_index_from_name(ecs_iter_t* it, CString name);
-
-    // Function @ deprecated.h:451
-    [DllImport(LibraryName, EntryPoint = "ecs_element_w_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* ecs_element_w_size(ecs_iter_t* it, ulong size, int column, int row);
-
-    // Function @ deprecated.h:462
-    [DllImport(LibraryName, EntryPoint = "ecs_column_source", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_column_source(ecs_iter_t* it, int column);
-
-    // Function @ deprecated.h:468
-    [DllImport(LibraryName, EntryPoint = "ecs_column_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_column_entity(ecs_iter_t* it, int column);
-
-    // Function @ deprecated.h:474
-    [DllImport(LibraryName, EntryPoint = "ecs_column_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_type_t ecs_column_type(ecs_iter_t* it, int column);
-
-    // Function @ deprecated.h:480
-    [DllImport(LibraryName, EntryPoint = "ecs_column_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong ecs_column_size(ecs_iter_t* it, int column);
-
-    // Function @ deprecated.h:486
-    [DllImport(LibraryName, EntryPoint = "ecs_is_readonly", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_is_readonly(ecs_iter_t* it, int column);
-
-    // Function @ deprecated.h:492
-    [DllImport(LibraryName, EntryPoint = "ecs_is_owned", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_is_owned(ecs_iter_t* it, int column);
-
-    // Function @ deprecated.h:498
-    [DllImport(LibraryName, EntryPoint = "ecs_table_column", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* ecs_table_column(ecs_iter_t* it, int column);
-
-    // Function @ deprecated.h:504
-    [DllImport(LibraryName, EntryPoint = "ecs_table_column_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong ecs_table_column_size(ecs_iter_t* it, int column);
-
-    // Function @ deprecated.h:510
-    [DllImport(LibraryName, EntryPoint = "ecs_table_component_index", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_table_component_index(ecs_iter_t* it, ecs_entity_t component);
-
-    // Function @ deprecated.h:516
-    [DllImport(LibraryName, EntryPoint = "ecs_set_rate_filter", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_set_rate_filter(ecs_world_t* world, ecs_entity_t filter, int rate, ecs_entity_t source);
-
-    // Function @ deprecated.h:524
-    [DllImport(LibraryName, EntryPoint = "ecs_query_new", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_query_t* ecs_query_new(ecs_world_t* world, CString sig);
-
-    // Function @ deprecated.h:530
-    [DllImport(LibraryName, EntryPoint = "ecs_subquery_new", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_query_t* ecs_subquery_new(ecs_world_t* world, ecs_query_t* parent, CString sig);
-
-    // Function @ deprecated.h:537
-    [DllImport(LibraryName, EntryPoint = "ecs_query_free", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_query_free(ecs_query_t* query);
-
-    // Function @ deprecated.h:542
-    [DllImport(LibraryName, EntryPoint = "ecs_query_order_by", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_query_order_by(ecs_world_t* world, ecs_query_t* query, ecs_entity_t component, ecs_compare_action_t compare);
-
-    // Function @ deprecated.h:550
-    [DllImport(LibraryName, EntryPoint = "ecs_query_group_by", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_query_group_by(ecs_world_t* world, ecs_query_t* query, ecs_entity_t component, ecs_rank_type_action_t rank_action);
-
-    // Function @ flecs.h:886
-    [DllImport(LibraryName, EntryPoint = "ecs_init", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_world_t* ecs_init();
-
-    // Function @ flecs.h:893
-    [DllImport(LibraryName, EntryPoint = "ecs_mini", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_world_t* ecs_mini();
-
-    // Function @ flecs.h:903
-    [DllImport(LibraryName, EntryPoint = "ecs_init_w_args", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_world_t* ecs_init_w_args(int argc, CString* argv);
-
-    // Function @ flecs.h:914
-    [DllImport(LibraryName, EntryPoint = "ecs_fini", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_fini(ecs_world_t* world);
-
-    // Function @ flecs.h:925
-    [DllImport(LibraryName, EntryPoint = "ecs_atfini", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_atfini(ecs_world_t* world, ecs_fini_action_t action, void* ctx);
-
-    // Function @ flecs.h:938
-    [DllImport(LibraryName, EntryPoint = "ecs_run_post_frame", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_run_post_frame(ecs_world_t* world, ecs_fini_action_t action, void* ctx);
-
-    // Function @ flecs.h:950
-    [DllImport(LibraryName, EntryPoint = "ecs_quit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_quit(ecs_world_t* world);
-
-    // Function @ flecs.h:958
-    [DllImport(LibraryName, EntryPoint = "ecs_should_quit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_should_quit(ecs_world_t* world);
-
-    // Function @ flecs.h:968
-    [DllImport(LibraryName, EntryPoint = "ecs_set_component_actions_w_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_set_component_actions_w_id(ecs_world_t* world, ecs_id_t id, EcsComponentLifecycle* actions);
-
-    // Function @ flecs.h:986
-    [DllImport(LibraryName, EntryPoint = "ecs_set_context", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_set_context(ecs_world_t* world, void* ctx);
-
-    // Function @ flecs.h:998
-    [DllImport(LibraryName, EntryPoint = "ecs_get_context", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* ecs_get_context(ecs_world_t* world);
-
-    // Function @ flecs.h:1008
-    [DllImport(LibraryName, EntryPoint = "ecs_get_world_info", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_world_info_t* ecs_get_world_info(ecs_world_t* world);
-
-    // Function @ flecs.h:1021
-    [DllImport(LibraryName, EntryPoint = "ecs_dim", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_dim(ecs_world_t* world, int entity_count);
-
-    // Function @ flecs.h:1041
-    [DllImport(LibraryName, EntryPoint = "ecs_set_entity_range", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_set_entity_range(ecs_world_t* world, ecs_entity_t id_start, ecs_entity_t id_end);
-
-    // Function @ flecs.h:1057
-    [DllImport(LibraryName, EntryPoint = "ecs_enable_range_check", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_enable_range_check(ecs_world_t* world, CBool enable);
-
-    // Function @ flecs.h:1078
-    [DllImport(LibraryName, EntryPoint = "ecs_enable_locking", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_enable_locking(ecs_world_t* world, CBool enable);
-
-    // Function @ flecs.h:1088
-    [DllImport(LibraryName, EntryPoint = "ecs_lock", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_lock(ecs_world_t* world);
-
-    // Function @ flecs.h:1097
-    [DllImport(LibraryName, EntryPoint = "ecs_unlock", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_unlock(ecs_world_t* world);
-
-    // Function @ flecs.h:1111
-    [DllImport(LibraryName, EntryPoint = "ecs_begin_wait", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_begin_wait(ecs_world_t* world);
-
-    // Function @ flecs.h:1121
-    [DllImport(LibraryName, EntryPoint = "ecs_end_wait", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_end_wait(ecs_world_t* world);
-
-    // Function @ flecs.h:1142
-    [DllImport(LibraryName, EntryPoint = "ecs_tracing_enable", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_tracing_enable(int level);
-
-    // Function @ flecs.h:1156
-    [DllImport(LibraryName, EntryPoint = "ecs_measure_frame_time", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_measure_frame_time(ecs_world_t* world, CBool enable);
-
-    // Function @ flecs.h:1170
-    [DllImport(LibraryName, EntryPoint = "ecs_measure_system_time", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_measure_system_time(ecs_world_t* world, CBool enable);
-
-    // Function @ flecs.h:1190
-    [DllImport(LibraryName, EntryPoint = "ecs_set_target_fps", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_set_target_fps(ecs_world_t* world, float fps);
-
-    // Function @ flecs.h:1196
-    [DllImport(LibraryName, EntryPoint = "ecs_get_threads", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_get_threads(ecs_world_t* world);
-
-    // Function @ flecs.h:1213
-    [DllImport(LibraryName, EntryPoint = "ecs_new_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_new_id(ecs_world_t* world);
-
-    // Function @ flecs.h:1226
-    [DllImport(LibraryName, EntryPoint = "ecs_new_component_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_new_component_id(ecs_world_t* world);
-
-    // Function @ flecs.h:1238
-    [DllImport(LibraryName, EntryPoint = "ecs_new_w_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_new_w_id(ecs_world_t* world, ecs_id_t id);
-
-    // Function @ flecs.h:1274
-    [DllImport(LibraryName, EntryPoint = "ecs_entity_init", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_entity_init(ecs_world_t* world, ecs_entity_desc_t* desc);
-
-    // Function @ flecs.h:1292
-    [DllImport(LibraryName, EntryPoint = "ecs_component_init", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_component_init(ecs_world_t* world, ecs_component_desc_t* desc);
-
-    // Function @ flecs.h:1315
-    [DllImport(LibraryName, EntryPoint = "ecs_type_init", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_type_init(ecs_world_t* world, ecs_type_desc_t* desc);
-
-    // Function @ flecs.h:1329
-    [DllImport(LibraryName, EntryPoint = "ecs_bulk_new_w_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t* ecs_bulk_new_w_id(ecs_world_t* world, ecs_id_t id, int count);
-
-    // Function @ flecs.h:1347
-    [DllImport(LibraryName, EntryPoint = "ecs_bulk_new_w_data", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t* ecs_bulk_new_w_data(ecs_world_t* world, int count, ecs_entities_t* component_ids, void* data);
-
-    // Function @ flecs.h:1379
-    [DllImport(LibraryName, EntryPoint = "ecs_clone", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_clone(ecs_world_t* world, ecs_entity_t dst, ecs_entity_t src, CBool copy_value);
-
-    // Function @ flecs.h:1402
-    [DllImport(LibraryName, EntryPoint = "ecs_add_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_add_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
-
-    // Function @ flecs.h:1434
-    [DllImport(LibraryName, EntryPoint = "ecs_remove_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_remove_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
-
-    // Function @ flecs.h:1478
-    [DllImport(LibraryName, EntryPoint = "ecs_enable_component_w_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_enable_component_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, CBool enable);
-
-    // Function @ flecs.h:1498
-    [DllImport(LibraryName, EntryPoint = "ecs_is_component_enabled_w_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_is_component_enabled_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
-
-    // Function @ flecs.h:1522
-    [DllImport(LibraryName, EntryPoint = "ecs_make_pair", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_id_t ecs_make_pair(ecs_entity_t relation, ecs_entity_t @object);
-
-    // Function @ flecs.h:1721
-    [DllImport(LibraryName, EntryPoint = "ecs_clear", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_clear(ecs_world_t* world, ecs_entity_t entity);
-
-    // Function @ flecs.h:1735
-    [DllImport(LibraryName, EntryPoint = "ecs_delete", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_delete(ecs_world_t* world, ecs_entity_t entity);
-
-    // Function @ flecs.h:1748
-    [DllImport(LibraryName, EntryPoint = "ecs_delete_children", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_delete_children(ecs_world_t* world, ecs_entity_t parent);
-
-    // Function @ flecs.h:1770
-    [DllImport(LibraryName, EntryPoint = "ecs_get_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* ecs_get_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
-
-    // Function @ flecs.h:1800
-    [DllImport(LibraryName, EntryPoint = "ecs_get_ref_w_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* ecs_get_ref_w_id(ecs_world_t* world, ecs_ref_t* @ref, ecs_entity_t entity, ecs_id_t id);
-
-    // Function @ flecs.h:1828
-    [DllImport(LibraryName, EntryPoint = "ecs_get_case", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_get_case(ecs_world_t* world, ecs_entity_t e, ecs_entity_t sw);
-
-    // Function @ flecs.h:1856
-    [DllImport(LibraryName, EntryPoint = "ecs_get_mut_w_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* ecs_get_mut_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, CBool* is_added);
-
-    // Function @ flecs.h:1885
-    [DllImport(LibraryName, EntryPoint = "ecs_modified_w_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_modified_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
-
-    // Function @ flecs.h:1914
-    [DllImport(LibraryName, EntryPoint = "ecs_set_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_set_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, ulong size, void* ptr);
-
-    // Function @ flecs.h:1989
-    [DllImport(LibraryName, EntryPoint = "ecs_has_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_has_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
-
-    // Function @ flecs.h:2040
-    [DllImport(LibraryName, EntryPoint = "ecs_is_valid", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_is_valid(ecs_world_t* world, ecs_entity_t e);
-
-    // Function @ flecs.h:2051
-    [DllImport(LibraryName, EntryPoint = "ecs_is_alive", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_is_alive(ecs_world_t* world, ecs_entity_t e);
-
-    // Function @ flecs.h:2072
-    [DllImport(LibraryName, EntryPoint = "ecs_get_alive", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_get_alive(ecs_world_t* world, ecs_entity_t e);
-
-    // Function @ flecs.h:2100
-    [DllImport(LibraryName, EntryPoint = "ecs_ensure", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_ensure(ecs_world_t* world, ecs_entity_t e);
-
-    // Function @ flecs.h:2112
-    [DllImport(LibraryName, EntryPoint = "ecs_exists", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_exists(ecs_world_t* world, ecs_entity_t e);
-
-    // Function @ flecs.h:2123
-    [DllImport(LibraryName, EntryPoint = "ecs_get_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_type_t ecs_get_type(ecs_world_t* world, ecs_entity_t entity);
-
-    // Function @ flecs.h:2134
-    [DllImport(LibraryName, EntryPoint = "ecs_get_typeid", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_get_typeid(ecs_world_t* world, ecs_entity_t e);
-
-    // Function @ flecs.h:2146
-    [DllImport(LibraryName, EntryPoint = "ecs_get_name", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString ecs_get_name(ecs_world_t* world, ecs_entity_t entity);
-
-    // Function @ flecs.h:2158
-    [DllImport(LibraryName, EntryPoint = "ecs_role_str", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString ecs_role_str(ecs_entity_t entity);
-
-    // Function @ flecs.h:2171
-    [DllImport(LibraryName, EntryPoint = "ecs_id_str", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong ecs_id_str(ecs_world_t* world, ecs_id_t entity, CString buffer, ulong buffer_len);
-
-    // Function @ flecs.h:2189
-    [DllImport(LibraryName, EntryPoint = "ecs_get_object_w_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_get_object_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t rel, ecs_id_t id);
-
-    // Function @ flecs.h:2218
-    [DllImport(LibraryName, EntryPoint = "ecs_enable", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_enable(ecs_world_t* world, ecs_entity_t entity, CBool enabled);
-
-    // Function @ flecs.h:2231
-    [DllImport(LibraryName, EntryPoint = "ecs_count_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_count_id(ecs_world_t* world, ecs_id_t entity);
-
-    // Function @ flecs.h:2253
-    [DllImport(LibraryName, EntryPoint = "ecs_count_filter", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_count_filter(ecs_world_t* world, ecs_filter_t* filter);
-
-    // Function @ flecs.h:2274
-    [DllImport(LibraryName, EntryPoint = "ecs_lookup", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_lookup(ecs_world_t* world, CString name);
-
-    // Function @ flecs.h:2288
-    [DllImport(LibraryName, EntryPoint = "ecs_lookup_child", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_lookup_child(ecs_world_t* world, ecs_entity_t parent, CString name);
-
-    // Function @ flecs.h:2312
-    [DllImport(LibraryName, EntryPoint = "ecs_lookup_path_w_sep", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_lookup_path_w_sep(ecs_world_t* world, ecs_entity_t parent, CString path, CString sep, CString prefix, CBool recursive);
-
-    // Function @ flecs.h:2353
-    [DllImport(LibraryName, EntryPoint = "ecs_lookup_symbol", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_lookup_symbol(ecs_world_t* world, CString name);
-
-    // Function @ flecs.h:2359
-    [DllImport(LibraryName, EntryPoint = "ecs_use", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_use(ecs_world_t* world, ecs_entity_t entity, CString name);
-
-    // Function @ flecs.h:2391
-    [DllImport(LibraryName, EntryPoint = "ecs_get_path_w_sep", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString ecs_get_path_w_sep(ecs_world_t* world, ecs_entity_t parent, ecs_entity_t child, ecs_entity_t component, CString sep, CString prefix);
-
-    // Function @ flecs.h:2440
-    [DllImport(LibraryName, EntryPoint = "ecs_new_from_path_w_sep", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_new_from_path_w_sep(ecs_world_t* world, ecs_entity_t parent, CString path, CString sep, CString prefix);
-
-    // Function @ flecs.h:2484
-    [DllImport(LibraryName, EntryPoint = "ecs_add_path_w_sep", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_add_path_w_sep(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t parent, CString path, CString sep, CString prefix);
-
-    // Function @ flecs.h:2531
-    [DllImport(LibraryName, EntryPoint = "ecs_get_child_count", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_get_child_count(ecs_world_t* world, ecs_entity_t entity);
-
-    // Function @ flecs.h:2544
-    [DllImport(LibraryName, EntryPoint = "ecs_scope_iter", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_iter_t ecs_scope_iter(ecs_world_t* world, ecs_entity_t parent);
-
-    // Function @ flecs.h:2556
-    [DllImport(LibraryName, EntryPoint = "ecs_scope_iter_w_filter", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_iter_t ecs_scope_iter_w_filter(ecs_world_t* world, ecs_entity_t parent, ecs_filter_t* filter);
-
-    // Function @ flecs.h:2570
-    [DllImport(LibraryName, EntryPoint = "ecs_scope_next", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_scope_next(ecs_iter_t* it);
-
-    // Function @ flecs.h:2585
-    [DllImport(LibraryName, EntryPoint = "ecs_set_scope", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_set_scope(ecs_world_t* world, ecs_entity_t scope);
-
-    // Function @ flecs.h:2597
-    [DllImport(LibraryName, EntryPoint = "ecs_get_scope", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_get_scope(ecs_world_t* world);
-
-    // Function @ flecs.h:2610
-    [DllImport(LibraryName, EntryPoint = "ecs_set_name_prefix", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString ecs_set_name_prefix(ecs_world_t* world, CString prefix);
-
-    // Function @ flecs.h:2634
-    [DllImport(LibraryName, EntryPoint = "ecs_term_is_set", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_term_is_set(ecs_term_t* term);
-
-    // Function @ flecs.h:2661
-    [DllImport(LibraryName, EntryPoint = "ecs_term_is_trivial", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_term_is_trivial(ecs_term_t* term);
-
-    // Function @ flecs.h:2685
-    [DllImport(LibraryName, EntryPoint = "ecs_term_finalize", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_term_finalize(ecs_world_t* world, CString name, CString expr, ecs_term_t* term);
-
-    // Function @ flecs.h:2700
-    [DllImport(LibraryName, EntryPoint = "ecs_term_copy", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_term_t ecs_term_copy(ecs_term_t* src);
-
-    // Function @ flecs.h:2714
-    [DllImport(LibraryName, EntryPoint = "ecs_term_move", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_term_t ecs_term_move(ecs_term_t* src);
-
-    // Function @ flecs.h:2724
-    [DllImport(LibraryName, EntryPoint = "ecs_term_fini", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_term_fini(ecs_term_t* term);
-
-    // Function @ flecs.h:2735
-    [DllImport(LibraryName, EntryPoint = "ecs_id_match", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_id_match(ecs_id_t id, ecs_id_t pattern);
-
-    // Function @ flecs.h:2768
-    [DllImport(LibraryName, EntryPoint = "ecs_filter_init", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_filter_init(ecs_world_t* world, ecs_filter_t* filter_out, ecs_filter_desc_t* desc);
-
-    // Function @ flecs.h:2779
-    [DllImport(LibraryName, EntryPoint = "ecs_filter_fini", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_filter_fini(ecs_filter_t* filter);
-
-    // Function @ flecs.h:2796
-    [DllImport(LibraryName, EntryPoint = "ecs_filter_finalize", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_filter_finalize(ecs_world_t* world, ecs_filter_t* filter);
-
-    // Function @ flecs.h:2805
-    [DllImport(LibraryName, EntryPoint = "ecs_filter_str", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString ecs_filter_str(ecs_world_t* world, ecs_filter_t* filter);
-
-    // Function @ flecs.h:2825
-    [DllImport(LibraryName, EntryPoint = "ecs_filter_match_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_filter_match_entity(ecs_world_t* world, ecs_filter_t* filter, ecs_entity_t e);
-
-    // Function @ flecs.h:2840
-    [DllImport(LibraryName, EntryPoint = "ecs_filter_iter", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_iter_t ecs_filter_iter(ecs_world_t* world, ecs_filter_t* filter);
-
-    // Function @ flecs.h:2854
-    [DllImport(LibraryName, EntryPoint = "ecs_filter_next", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_filter_next(ecs_iter_t* iter);
-
-    // Function @ flecs.h:2900
-    [DllImport(LibraryName, EntryPoint = "ecs_query_init", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_query_t* ecs_query_init(ecs_world_t* world, ecs_query_desc_t* desc);
-
-    // Function @ flecs.h:2912
-    [DllImport(LibraryName, EntryPoint = "ecs_query_fini", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_query_fini(ecs_query_t* query);
-
-    // Function @ flecs.h:2942
-    [DllImport(LibraryName, EntryPoint = "ecs_query_iter", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_iter_t ecs_query_iter(ecs_query_t* query);
-
-    // Function @ flecs.h:2955
-    [DllImport(LibraryName, EntryPoint = "ecs_query_iter_page", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_iter_t ecs_query_iter_page(ecs_query_t* query, int offset, int limit);
-
-    // Function @ flecs.h:2970
-    [DllImport(LibraryName, EntryPoint = "ecs_query_next", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_query_next(ecs_iter_t* iter);
-
-    // Function @ flecs.h:2982
-    [DllImport(LibraryName, EntryPoint = "ecs_query_next_w_filter", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_query_next_w_filter(ecs_iter_t* iter, ecs_filter_t* filter);
-
-    // Function @ flecs.h:3002
-    [DllImport(LibraryName, EntryPoint = "ecs_query_next_worker", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_query_next_worker(ecs_iter_t* it, int stage_current, int stage_count);
-
-    // Function @ flecs.h:3018
-    [DllImport(LibraryName, EntryPoint = "ecs_query_changed", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_query_changed(ecs_query_t* query);
-
-    // Function @ flecs.h:3030
-    [DllImport(LibraryName, EntryPoint = "ecs_query_orphaned", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_query_orphaned(ecs_query_t* query);
-
-    // Function @ flecs.h:3055
-    [DllImport(LibraryName, EntryPoint = "ecs_trigger_init", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_trigger_init(ecs_world_t* world, ecs_trigger_desc_t* desc);
-
-    // Function @ flecs.h:3068
-    [DllImport(LibraryName, EntryPoint = "ecs_get_trigger_ctx", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* ecs_get_trigger_ctx(ecs_world_t* world, ecs_entity_t trigger);
-
-    // Function @ flecs.h:3104
-    [DllImport(LibraryName, EntryPoint = "ecs_term_w_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* ecs_term_w_size(ecs_iter_t* it, ulong size, int index);
-
-    // Function @ flecs.h:3123
-    [DllImport(LibraryName, EntryPoint = "ecs_term_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_id_t ecs_term_id(ecs_iter_t* it, int index);
-
-    // Function @ flecs.h:3141
-    [DllImport(LibraryName, EntryPoint = "ecs_term_source", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_term_source(ecs_iter_t* it, int index);
-
-    // Function @ flecs.h:3153
-    [DllImport(LibraryName, EntryPoint = "ecs_term_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong ecs_term_size(ecs_iter_t* it, int index);
-
-    // Function @ flecs.h:3166
-    [DllImport(LibraryName, EntryPoint = "ecs_term_is_readonly", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_term_is_readonly(ecs_iter_t* it, int index);
-
-    // Function @ flecs.h:3180
-    [DllImport(LibraryName, EntryPoint = "ecs_term_is_owned", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_term_is_owned(ecs_iter_t* it, int index);
-
-    // Function @ flecs.h:3192
-    [DllImport(LibraryName, EntryPoint = "ecs_iter_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_type_t ecs_iter_type(ecs_iter_t* it);
-
-    // Function @ flecs.h:3215
-    [DllImport(LibraryName, EntryPoint = "ecs_iter_find_column", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_iter_find_column(ecs_iter_t* it, ecs_id_t id);
-
-    // Function @ flecs.h:3247
-    [DllImport(LibraryName, EntryPoint = "ecs_iter_column_w_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* ecs_iter_column_w_size(ecs_iter_t* it, ulong size, int index);
-
-    // Function @ flecs.h:3265
-    [DllImport(LibraryName, EntryPoint = "ecs_iter_column_size", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong ecs_iter_column_size(ecs_iter_t* it, int index);
-
-    // Function @ flecs.h:3296
-    [DllImport(LibraryName, EntryPoint = "ecs_frame_begin", CallingConvention = CallingConvention.Cdecl)]
-    public static extern float ecs_frame_begin(ecs_world_t* world, float delta_time);
-
-    // Function @ flecs.h:3307
-    [DllImport(LibraryName, EntryPoint = "ecs_frame_end", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_frame_end(ecs_world_t* world);
-
-    // Function @ flecs.h:3330
-    [DllImport(LibraryName, EntryPoint = "ecs_staging_begin", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_staging_begin(ecs_world_t* world);
-
-    // Function @ flecs.h:3343
-    [DllImport(LibraryName, EntryPoint = "ecs_staging_end", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_staging_end(ecs_world_t* world);
-
-    // Function @ flecs.h:3357
-    [DllImport(LibraryName, EntryPoint = "ecs_merge", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_merge(ecs_world_t* world);
-
-    // Function @ flecs.h:3370
-    [DllImport(LibraryName, EntryPoint = "ecs_defer_begin", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_defer_begin(ecs_world_t* world);
-
-    // Function @ flecs.h:3382
-    [DllImport(LibraryName, EntryPoint = "ecs_defer_end", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_defer_end(ecs_world_t* world);
-
-    // Function @ flecs.h:3402
-    [DllImport(LibraryName, EntryPoint = "ecs_set_automerge", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_set_automerge(ecs_world_t* world, CBool automerge);
-
-    // Function @ flecs.h:3420
-    [DllImport(LibraryName, EntryPoint = "ecs_set_stages", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_set_stages(ecs_world_t* world, int stages);
-
-    // Function @ flecs.h:3431
-    [DllImport(LibraryName, EntryPoint = "ecs_get_stage_count", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_get_stage_count(ecs_world_t* world);
-
-    // Function @ flecs.h:3442
-    [DllImport(LibraryName, EntryPoint = "ecs_get_stage_id", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_get_stage_id(ecs_world_t* world);
-
-    // Function @ flecs.h:3461
-    [DllImport(LibraryName, EntryPoint = "ecs_get_stage", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_world_t* ecs_get_stage(ecs_world_t* world, int stage_id);
-
-    // Function @ flecs.h:3470
-    [DllImport(LibraryName, EntryPoint = "ecs_get_world", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_world_t* ecs_get_world(ecs_world_t* world);
-
-    // Function @ flecs.h:3481
-    [DllImport(LibraryName, EntryPoint = "ecs_stage_is_readonly", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_stage_is_readonly(ecs_world_t* stage);
-
-    // Function @ flecs.h:3503
-    [DllImport(LibraryName, EntryPoint = "ecs_async_stage_new", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_world_t* ecs_async_stage_new(ecs_world_t* world);
-
-    // Function @ flecs.h:3513
-    [DllImport(LibraryName, EntryPoint = "ecs_async_stage_free", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_async_stage_free(ecs_world_t* stage);
-
-    // Function @ flecs.h:3523
-    [DllImport(LibraryName, EntryPoint = "ecs_stage_is_async", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_stage_is_async(ecs_world_t* stage);
-
-    // Function @ flecs.h:3545
-    [DllImport(LibraryName, EntryPoint = "ecs_table_from_str", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_table_t* ecs_table_from_str(ecs_world_t* world, CString type);
-
-    // Function @ flecs.h:3557
-    [DllImport(LibraryName, EntryPoint = "ecs_table_from_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_table_t* ecs_table_from_type(ecs_world_t* world, ecs_type_t type);
-
-    // Function @ flecs.h:3567
-    [DllImport(LibraryName, EntryPoint = "ecs_table_get_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_type_t ecs_table_get_type(ecs_table_t* table);
-
-    // Function @ flecs.h:3593
-    [DllImport(LibraryName, EntryPoint = "ecs_table_insert", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_record_t ecs_table_insert(ecs_world_t* world, ecs_table_t* table, ecs_entity_t entity, ecs_record_t* @record);
-
-    // Function @ flecs.h:3609
-    [DllImport(LibraryName, EntryPoint = "ecs_table_count", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_table_count(ecs_table_t* table);
-
-    // Function @ module.h:42
-    [DllImport(LibraryName, EntryPoint = "ecs_import", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_import(ecs_world_t* world, ecs_module_action_t module, CString module_name, void* handles_out, ulong handles_size);
-
-    // Function @ module.h:69
-    [DllImport(LibraryName, EntryPoint = "ecs_import_from_library", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_import_from_library(ecs_world_t* world, CString library_name, CString module_name);
-
-    // Function @ system.h:125
-    [DllImport(LibraryName, EntryPoint = "ecs_system_init", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_system_init(ecs_world_t* world, ecs_system_desc_t* desc);
-
-    // Function @ system.h:183
-    [DllImport(LibraryName, EntryPoint = "ecs_run", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_run(ecs_world_t* world, ecs_entity_t system, float delta_time, void* param);
-
-    // Function @ system.h:200
-    [DllImport(LibraryName, EntryPoint = "ecs_run_worker", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_run_worker(ecs_world_t* world, ecs_entity_t system, int stage_current, int stage_count, float delta_time, void* param);
-
-    // Function @ system.h:230
-    [DllImport(LibraryName, EntryPoint = "ecs_run_w_filter", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_run_w_filter(ecs_world_t* world, ecs_entity_t system, float delta_time, int offset, int limit, ecs_filter_t* filter, void* param);
-
-    // Function @ system.h:249
-    [DllImport(LibraryName, EntryPoint = "ecs_get_query", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_query_t* ecs_get_query(ecs_world_t* world, ecs_entity_t system);
-
-    // Function @ system.h:262
-    [DllImport(LibraryName, EntryPoint = "ecs_get_system_ctx", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* ecs_get_system_ctx(ecs_world_t* world, ecs_entity_t system);
-
-    // Function @ system.h:280
-    [DllImport(LibraryName, EntryPoint = "ecs_dbg_system", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_dbg_system(ecs_world_t* world, ecs_entity_t system, ecs_dbg_system_t* dbg_out);
-
-    // Function @ system.h:286
-    [DllImport(LibraryName, EntryPoint = "ecs_dbg_get_active_table", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_table_t* ecs_dbg_get_active_table(ecs_world_t* world, ecs_dbg_system_t* dbg, int index);
-
-    // Function @ system.h:292
-    [DllImport(LibraryName, EntryPoint = "ecs_dbg_get_inactive_table", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_table_t* ecs_dbg_get_inactive_table(ecs_world_t* world, ecs_dbg_system_t* dbg, int index);
-
-    // Function @ system.h:298
-    [DllImport(LibraryName, EntryPoint = "ecs_dbg_get_column_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_type_t ecs_dbg_get_column_type(ecs_world_t* world, ecs_entity_t system, int column_index);
-
-    // Function @ system.h:304
-    [DllImport(LibraryName, EntryPoint = "ecs_dbg_match_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_dbg_match_entity(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t system, ecs_match_failure_t* failure_info_out);
-
-    // Function @ system.h:321
-    [DllImport(LibraryName, EntryPoint = "FlecsSystemImport", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void FlecsSystemImport(ecs_world_t* world);
-
-    // Function @ pipeline.h:49
-    [DllImport(LibraryName, EntryPoint = "ecs_set_pipeline", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_set_pipeline(ecs_world_t* world, ecs_entity_t pipeline);
-
-    // Function @ pipeline.h:60
-    [DllImport(LibraryName, EntryPoint = "ecs_get_pipeline", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_get_pipeline(ecs_world_t* world);
-
-    // Function @ pipeline.h:82
-    [DllImport(LibraryName, EntryPoint = "ecs_progress", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_progress(ecs_world_t* world, float delta_time);
-
-    // Function @ pipeline.h:93
-    [DllImport(LibraryName, EntryPoint = "ecs_set_time_scale", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_set_time_scale(ecs_world_t* world, float scale);
-
-    // Function @ pipeline.h:103
-    [DllImport(LibraryName, EntryPoint = "ecs_reset_clock", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_reset_clock(ecs_world_t* world);
-
-    // Function @ pipeline.h:125
-    [DllImport(LibraryName, EntryPoint = "ecs_pipeline_run", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_pipeline_run(ecs_world_t* world, ecs_entity_t pipeline, float delta_time);
-
-    // Function @ pipeline.h:141
-    [DllImport(LibraryName, EntryPoint = "ecs_deactivate_systems", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_deactivate_systems(ecs_world_t* world);
-
-    // Function @ pipeline.h:155
-    [DllImport(LibraryName, EntryPoint = "ecs_set_threads", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_set_threads(ecs_world_t* world, int threads);
-
-    // Function @ pipeline.h:169
-    [DllImport(LibraryName, EntryPoint = "FlecsPipelineImport", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void FlecsPipelineImport(ecs_world_t* world);
-
-    // Function @ timer.h:79
-    [DllImport(LibraryName, EntryPoint = "ecs_set_timeout", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_set_timeout(ecs_world_t* world, ecs_entity_t tick_source, float timeout);
-
-    // Function @ timer.h:104
-    [DllImport(LibraryName, EntryPoint = "ecs_get_timeout", CallingConvention = CallingConvention.Cdecl)]
-    public static extern float ecs_get_timeout(ecs_world_t* world, ecs_entity_t tick_source);
-
-    // Function @ timer.h:126
-    [DllImport(LibraryName, EntryPoint = "ecs_set_interval", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_set_interval(ecs_world_t* world, ecs_entity_t tick_source, float interval);
-
-    // Function @ timer.h:140
-    [DllImport(LibraryName, EntryPoint = "ecs_get_interval", CallingConvention = CallingConvention.Cdecl)]
-    public static extern float ecs_get_interval(ecs_world_t* world, ecs_entity_t tick_source);
-
-    // Function @ timer.h:154
-    [DllImport(LibraryName, EntryPoint = "ecs_start_timer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_start_timer(ecs_world_t* world, ecs_entity_t tick_source);
-
-    // Function @ timer.h:166
-    [DllImport(LibraryName, EntryPoint = "ecs_stop_timer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_stop_timer(ecs_world_t* world, ecs_entity_t tick_source);
-
-    // Function @ timer.h:201
-    [DllImport(LibraryName, EntryPoint = "ecs_set_rate", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_entity_t ecs_set_rate(ecs_world_t* world, ecs_entity_t tick_source, int rate, ecs_entity_t source);
-
-    // Function @ timer.h:230
-    [DllImport(LibraryName, EntryPoint = "ecs_set_tick_source", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_set_tick_source(ecs_world_t* world, ecs_entity_t system, ecs_entity_t tick_source);
-
-    // Function @ timer.h:246
-    [DllImport(LibraryName, EntryPoint = "FlecsTimerImport", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void FlecsTimerImport(ecs_world_t* world);
-
-    // Function @ bulk.h:24
-    [DllImport(LibraryName, EntryPoint = "ecs_bulk_add_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_bulk_add_entity(ecs_world_t* world, ecs_entity_t entity_add, ecs_filter_t* filter);
-
-    // Function @ bulk.h:38
-    [DllImport(LibraryName, EntryPoint = "ecs_bulk_add_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_bulk_add_type(ecs_world_t* world, ecs_type_t type, ecs_filter_t* filter);
-
-    // Function @ bulk.h:63
-    [DllImport(LibraryName, EntryPoint = "ecs_bulk_remove_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_bulk_remove_entity(ecs_world_t* world, ecs_entity_t entity_remove, ecs_filter_t* filter);
-
-    // Function @ bulk.h:77
-    [DllImport(LibraryName, EntryPoint = "ecs_bulk_remove_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_bulk_remove_type(ecs_world_t* world, ecs_type_t type, ecs_filter_t* filter);
-
-    // Function @ bulk.h:102
-    [DllImport(LibraryName, EntryPoint = "ecs_bulk_add_remove_type", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_bulk_add_remove_type(ecs_world_t* world, ecs_type_t to_add, ecs_type_t to_remove, ecs_filter_t* filter);
-
-    // Function @ bulk.h:127
-    [DllImport(LibraryName, EntryPoint = "ecs_bulk_delete", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_bulk_delete(ecs_world_t* world, ecs_filter_t* filter);
-
-    // Function @ dbg.h:38
-    [DllImport(LibraryName, EntryPoint = "ecs_dbg_entity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_dbg_entity(ecs_world_t* world, ecs_entity_t entity, ecs_dbg_entity_t* dbg_out);
-
-    // Function @ dbg.h:44
-    [DllImport(LibraryName, EntryPoint = "ecs_dbg_find_table", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_table_t* ecs_dbg_find_table(ecs_world_t* world, ecs_type_t type);
-
-    // Function @ dbg.h:49
-    [DllImport(LibraryName, EntryPoint = "ecs_dbg_get_table", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_table_t* ecs_dbg_get_table(ecs_world_t* world, int index);
-
-    // Function @ dbg.h:54
-    [DllImport(LibraryName, EntryPoint = "ecs_dbg_filter_table", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_dbg_filter_table(ecs_world_t* world, ecs_table_t* table, ecs_filter_t* filter);
-
-    // Function @ dbg.h:60
-    [DllImport(LibraryName, EntryPoint = "ecs_dbg_table", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_dbg_table(ecs_world_t* world, ecs_table_t* table, ecs_dbg_table_t* dbg_out);
-
-    // Function @ parser.h:46
-    [DllImport(LibraryName, EntryPoint = "ecs_parse_term", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString ecs_parse_term(ecs_world_t* world, CString name, CString expr, CString ptr, ecs_term_t* term_out);
-
-    // Function @ queue.h:21
-    [DllImport(LibraryName, EntryPoint = "_ecs_queue_new", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_queue_t* _ecs_queue_new(ecs_size_t elem_size, short offset, int elem_count);
-
-    // Function @ queue.h:30
-    [DllImport(LibraryName, EntryPoint = "_ecs_queue_from_array", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_queue_t* _ecs_queue_from_array(ecs_size_t elem_size, short offset, int elem_count, void* array);
-
-    // Function @ queue.h:40
-    [DllImport(LibraryName, EntryPoint = "_ecs_queue_push", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* _ecs_queue_push(ecs_queue_t* queue, ecs_size_t elem_size, short offset);
-
-    // Function @ queue.h:49
-    [DllImport(LibraryName, EntryPoint = "_ecs_queue_get", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* _ecs_queue_get(ecs_queue_t* queue, ecs_size_t elem_size, short offset, int index);
-
-    // Function @ queue.h:62
-    [DllImport(LibraryName, EntryPoint = "_ecs_queue_last", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* _ecs_queue_last(ecs_queue_t* queue, ecs_size_t elem_size, short offset);
-
-    // Function @ queue.h:71
-    [DllImport(LibraryName, EntryPoint = "ecs_queue_index", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_queue_index(ecs_queue_t* queue);
-
-    // Function @ queue.h:75
-    [DllImport(LibraryName, EntryPoint = "ecs_queue_count", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_queue_count(ecs_queue_t* queue);
-
-    // Function @ queue.h:79
-    [DllImport(LibraryName, EntryPoint = "ecs_queue_free", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_queue_free(ecs_queue_t* queue);
-
-    // Function @ reader_writer.h:138
-    [DllImport(LibraryName, EntryPoint = "ecs_reader_init", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_reader_t ecs_reader_init(ecs_world_t* world);
-
-    // Function @ reader_writer.h:152
-    [DllImport(LibraryName, EntryPoint = "ecs_reader_init_w_iter", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_reader_t ecs_reader_init_w_iter(ecs_iter_t* iter, ecs_iter_next_action_t next);
-
-    // Function @ reader_writer.h:171
-    [DllImport(LibraryName, EntryPoint = "ecs_reader_read", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_reader_read(CString buffer, int size, ecs_reader_t* reader);
-
-    // Function @ reader_writer.h:190
-    [DllImport(LibraryName, EntryPoint = "ecs_writer_init", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_writer_t ecs_writer_init(ecs_world_t* world);
-
-    // Function @ reader_writer.h:213
-    [DllImport(LibraryName, EntryPoint = "ecs_writer_write", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_writer_write(CString buffer, int size, ecs_writer_t* writer);
-
-    // Function @ snapshot.h:33
-    [DllImport(LibraryName, EntryPoint = "ecs_snapshot_take", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_snapshot_t* ecs_snapshot_take(ecs_world_t* world);
-
-    // Function @ snapshot.h:45
-    [DllImport(LibraryName, EntryPoint = "ecs_snapshot_take_w_iter", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_snapshot_t* ecs_snapshot_take_w_iter(ecs_iter_t* iter, ecs_iter_next_action_t action);
-
-    // Function @ snapshot.h:64
-    [DllImport(LibraryName, EntryPoint = "ecs_snapshot_restore", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_snapshot_restore(ecs_world_t* world, ecs_snapshot_t* snapshot);
-
-    // Function @ snapshot.h:73
-    [DllImport(LibraryName, EntryPoint = "ecs_snapshot_iter", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_iter_t ecs_snapshot_iter(ecs_snapshot_t* snapshot, ecs_filter_t* filter);
-
-    // Function @ snapshot.h:83
-    [DllImport(LibraryName, EntryPoint = "ecs_snapshot_next", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_snapshot_next(ecs_iter_t* iter);
-
-    // Function @ snapshot.h:94
-    [DllImport(LibraryName, EntryPoint = "ecs_snapshot_free", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_snapshot_free(ecs_snapshot_t* snapshot);
-
-    // Function @ direct_access.h:34
-    [DllImport(LibraryName, EntryPoint = "ecs_table_find_column", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int ecs_table_find_column(ecs_table_t* table, ecs_entity_t component);
-
-    // Function @ direct_access.h:50
-    [DllImport(LibraryName, EntryPoint = "ecs_table_get_column", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_vector_t* ecs_table_get_column(ecs_table_t* table, int column);
-
-    // Function @ direct_access.h:83
-    [DllImport(LibraryName, EntryPoint = "ecs_table_set_column", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_vector_t* ecs_table_set_column(ecs_world_t* world, ecs_table_t* table, int column, ecs_vector_t* vector);
-
-    // Function @ direct_access.h:98
-    [DllImport(LibraryName, EntryPoint = "ecs_table_get_entities", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_vector_t* ecs_table_get_entities(ecs_table_t* table);
-
-    // Function @ direct_access.h:110
-    [DllImport(LibraryName, EntryPoint = "ecs_table_get_records", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_vector_t* ecs_table_get_records(ecs_table_t* table);
-
-    // Function @ direct_access.h:121
-    [DllImport(LibraryName, EntryPoint = "ecs_records_clear", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_records_clear(ecs_vector_t* records);
-
-    // Function @ direct_access.h:133
-    [DllImport(LibraryName, EntryPoint = "ecs_records_update", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_records_update(ecs_world_t* world, ecs_vector_t* entities, ecs_vector_t* records, ecs_table_t* table);
-
-    // Function @ direct_access.h:158
-    [DllImport(LibraryName, EntryPoint = "ecs_table_set_entities", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_table_set_entities(ecs_table_t* table, ecs_vector_t* entities, ecs_vector_t* records);
-
-    // Function @ direct_access.h:197
-    [DllImport(LibraryName, EntryPoint = "ecs_table_delete_column", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_table_delete_column(ecs_world_t* world, ecs_table_t* table, int column, ecs_vector_t* vector);
-
-    // Function @ direct_access.h:223
-    [DllImport(LibraryName, EntryPoint = "ecs_record_find", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_record_t* ecs_record_find(ecs_world_t* world, ecs_entity_t entity);
-
-    // Function @ direct_access.h:237
-    [DllImport(LibraryName, EntryPoint = "ecs_record_ensure", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ecs_record_t* ecs_record_ensure(ecs_world_t* world, ecs_entity_t entity);
-
-    // Function @ direct_access.h:249
-    [DllImport(LibraryName, EntryPoint = "ecs_record_get_column", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void* ecs_record_get_column(ecs_record_t* r, int column, ulong size);
-
-    // Function @ direct_access.h:271
-    [DllImport(LibraryName, EntryPoint = "ecs_record_copy_to", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_record_copy_to(ecs_world_t* world, ecs_record_t* r, int column, ulong size, void* value, int count);
-
-    // Function @ direct_access.h:292
-    [DllImport(LibraryName, EntryPoint = "ecs_record_copy_pod_to", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_record_copy_pod_to(ecs_world_t* world, ecs_record_t* r, int column, ulong size, void* value, int count);
-
-    // Function @ direct_access.h:313
-    [DllImport(LibraryName, EntryPoint = "ecs_record_move_to", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_record_move_to(ecs_world_t* world, ecs_record_t* r, int column, ulong size, void* value, int count);
-
-    // Function @ stats.h:121
-    [DllImport(LibraryName, EntryPoint = "ecs_get_world_stats", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_get_world_stats(ecs_world_t* world, ecs_world_stats_t* stats);
-
-    // Function @ stats.h:132
-    [DllImport(LibraryName, EntryPoint = "ecs_dump_world_stats", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_dump_world_stats(ecs_world_t* world, ecs_world_stats_t* stats);
-
-    // Function @ stats.h:143
-    [DllImport(LibraryName, EntryPoint = "ecs_get_query_stats", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_get_query_stats(ecs_world_t* world, ecs_query_t* query, ecs_query_stats_t* s);
-
-    // Function @ stats.h:157
-    [DllImport(LibraryName, EntryPoint = "ecs_get_system_stats", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_get_system_stats(ecs_world_t* world, ecs_entity_t system, ecs_system_stats_t* stats);
-
-    // Function @ stats.h:172
-    [DllImport(LibraryName, EntryPoint = "ecs_get_pipeline_stats", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CBool ecs_get_pipeline_stats(ecs_world_t* world, ecs_entity_t pipeline, ecs_pipeline_stats_t* stats);
-
-    // Function @ stats.h:178
-    [DllImport(LibraryName, EntryPoint = "ecs_gauge_reduce", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void ecs_gauge_reduce(ecs_gauge_t* dst, int t_dst, ecs_gauge_t* src, int t_src);
-
-    // PointerFunction @ vector.h:92
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_comparator_t
+    public static ecs_type_t FLECS__TEcsTickSource
     {
-        public delegate* unmanaged<void*, void*, int> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsTickSource);
     }
 
-    // PointerFunction @ os_api.h:62
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_init_t
+    public static ecs_type_t FLECS__TEcsSystem
     {
-        public delegate* unmanaged<void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsSystem);
     }
 
-    // PointerFunction @ os_api.h:66
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_fini_t
+    public static ecs_entity_t EcsPostFrame
     {
-        public delegate* unmanaged<void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPostFrame);
     }
 
-    // PointerFunction @ os_api.h:70
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_malloc_t
+    public static ecs_entity_t EcsOnStore
     {
-        public delegate* unmanaged<ecs_size_t, void*> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnStore);
     }
 
-    // PointerFunction @ os_api.h:78
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_realloc_t
+    public static ecs_entity_t EcsPreStore
     {
-        public delegate* unmanaged<void*, ecs_size_t, void*> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPreStore);
     }
 
-    // PointerFunction @ os_api.h:83
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_calloc_t
+    public static ecs_entity_t EcsPostUpdate
     {
-        public delegate* unmanaged<ecs_size_t, void*> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPostUpdate);
     }
 
-    // PointerFunction @ os_api.h:74
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_free_t
+    public static ecs_entity_t EcsOnValidate
     {
-        public delegate* unmanaged<void*, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnValidate);
     }
 
-    // PointerFunction @ os_api.h:87
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_strdup_t
+    public static ecs_entity_t EcsOnUpdate
     {
-        public delegate* unmanaged<CString, CString> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnUpdate);
     }
 
-    // PointerFunction @ os_api.h:92
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_thread_callback_t
+    public static ecs_entity_t EcsPreUpdate
     {
-        public delegate* unmanaged<void*, void*> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPreUpdate);
     }
 
-    // PointerFunction @ os_api.h:96
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_thread_new_t
+    public static ecs_entity_t EcsPostLoad
     {
-        public delegate* unmanaged<ecs_os_thread_callback_t, void*, ecs_os_thread_t> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPostLoad);
     }
 
-    // PointerFunction @ os_api.h:101
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_thread_join_t
+    public static ecs_entity_t EcsOnLoad
     {
-        public delegate* unmanaged<ecs_os_thread_t, void*> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnLoad);
     }
 
-    // PointerFunction @ os_api.h:107
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_ainc_t
+    public static ecs_entity_t EcsPreFrame
     {
-        public delegate* unmanaged<int*, int> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPreFrame);
     }
 
-    // PointerFunction @ os_api.h:113
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_mutex_new_t
+    public static ecs_entity_t EcsPipeline
     {
-        public delegate* unmanaged<ecs_os_mutex_t> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPipeline);
     }
 
-    // PointerFunction @ os_api.h:125
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_mutex_free_t
+    public static ecs_entity_t EcsInactive
     {
-        public delegate* unmanaged<ecs_os_mutex_t, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsInactive);
     }
 
-    // PointerFunction @ os_api.h:117
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_mutex_lock_t
+    public static ecs_entity_t EcsDisabledIntern
     {
-        public delegate* unmanaged<ecs_os_mutex_t, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsDisabledIntern);
     }
 
-    // PointerFunction @ os_api.h:130
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_cond_new_t
+    public static ecs_entity_t EcsMonitor
     {
-        public delegate* unmanaged<ecs_os_cond_t> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsMonitor);
     }
 
-    // PointerFunction @ os_api.h:134
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_cond_free_t
+    public static ecs_entity_t EcsOnDemand
     {
-        public delegate* unmanaged<ecs_os_cond_t, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnDemand);
     }
 
-    // PointerFunction @ os_api.h:138
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_cond_signal_t
+    public static ecs_entity_t EcsThrow
     {
-        public delegate* unmanaged<ecs_os_cond_t, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsThrow);
     }
 
-    // PointerFunction @ os_api.h:142
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_cond_broadcast_t
+    public static ecs_entity_t EcsDelete
     {
-        public delegate* unmanaged<ecs_os_cond_t, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsDelete);
     }
 
-    // PointerFunction @ os_api.h:146
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_cond_wait_t
+    public static ecs_entity_t EcsRemove
     {
-        public delegate* unmanaged<ecs_os_cond_t, ecs_os_mutex_t, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsRemove);
     }
 
-    // PointerFunction @ os_api.h:151
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_sleep_t
+    public static ecs_entity_t EcsOnDeleteObject
     {
-        public delegate* unmanaged<int, int, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnDeleteObject);
     }
 
-    // PointerFunction @ os_api.h:156
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_get_time_t
+    public static ecs_entity_t EcsOnDelete
     {
-        public delegate* unmanaged<ecs_time_t*, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnDelete);
     }
 
-    // PointerFunction @ os_api.h:161
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_log_t
+    public static ecs_entity_t EcsUnSet
     {
-        public delegate* unmanaged<CString, IntPtr, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsUnSet);
     }
 
-    // PointerFunction @ os_api.h:167
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_abort_t
+    public static ecs_entity_t EcsOnSet
     {
-        public delegate* unmanaged<void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnSet);
     }
 
-    // PointerFunction @ os_api.h:172
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_dlopen_t
+    public static ecs_entity_t EcsOnRemove
     {
-        public delegate* unmanaged<CString, ecs_os_dl_t> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnRemove);
     }
 
-    // PointerFunction @ os_api.h:58
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_proc_t
+    public static ecs_entity_t EcsOnAdd
     {
-        public delegate* unmanaged<void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnAdd);
     }
 
-    // PointerFunction @ os_api.h:176
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_dlproc_t
+    public static ecs_entity_t EcsHidden
     {
-        public delegate* unmanaged<ecs_os_dl_t, CString, ecs_os_proc_t> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsHidden);
     }
 
-    // PointerFunction @ os_api.h:181
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_dlclose_t
+    public static ecs_entity_t EcsDisabled
     {
-        public delegate* unmanaged<ecs_os_dl_t, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsDisabled);
     }
 
-    // PointerFunction @ os_api.h:185
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_os_api_module_to_path_t
+    public static ecs_entity_t EcsPrefab
     {
-        public delegate* unmanaged<CString, CString> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPrefab);
     }
 
-    // PointerFunction @ api_types.h:209
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_xtor_t
+    public static ecs_entity_t EcsModule
     {
-        public delegate* unmanaged<ecs_world_t*, ecs_entity_t, ecs_entity_t*, void*, ulong, int, void*, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsModule);
     }
 
-    // PointerFunction @ api_types.h:219
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_copy_t
+    public static ecs_entity_t EcsIsA
     {
-        public delegate* unmanaged<ecs_world_t*, ecs_entity_t, ecs_entity_t*, ecs_entity_t*, void*, void*, ulong, int, void*, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsIsA);
     }
 
-    // PointerFunction @ api_types.h:231
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_move_t
+    public static ecs_entity_t EcsChildOf
     {
-        public delegate* unmanaged<ecs_world_t*, ecs_entity_t, ecs_entity_t*, ecs_entity_t*, void*, void*, ulong, int, void*, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsChildOf);
     }
 
-    // PointerFunction @ flecs.h:128
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_compare_action_t
+    public static ecs_entity_t EcsFinal
     {
-        public delegate* unmanaged<ecs_entity_t, void*, ecs_entity_t, void*, int> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsFinal);
     }
 
-    // PointerFunction @ flecs.h:135
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_rank_type_action_t
+    public static ecs_entity_t EcsTransitive
     {
-        public delegate* unmanaged<ecs_world_t*, ecs_entity_t, ecs_type_t, int> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsTransitive);
     }
 
-    // PointerFunction @ flecs.h:145
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_fini_action_t
+    public static ecs_entity_t EcsThis
     {
-        public delegate* unmanaged<ecs_world_t*, void*, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsThis);
     }
 
-    // PointerFunction @ flecs.h:121
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_iter_action_t
+    public static ecs_entity_t EcsWildcard
     {
-        public delegate* unmanaged<ecs_iter_t*, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsWildcard);
     }
 
-    // PointerFunction @ flecs.h:150
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_ctx_free_t
+    public static ecs_entity_t EcsWorld
     {
-        public delegate* unmanaged<void*, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsWorld);
     }
 
-    // PointerFunction @ flecs.h:141
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_module_action_t
+    public static ecs_entity_t EcsFlecsCore
     {
-        public delegate* unmanaged<ecs_world_t*, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsFlecsCore);
     }
 
-    // PointerFunction @ system.h:77
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_system_status_action_t
+    public static ecs_entity_t EcsFlecs
     {
-        public delegate* unmanaged<ecs_world_t*, ecs_entity_t, ecs_system_status_t, void*, void> Pointer;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsFlecs);
     }
 
-    // PointerFunction @ flecs.h:124
+    public static ecs_id_t ECS_DISABLED
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_id_t>(_virtualTable.ECS_DISABLED);
+    }
+
+    public static ecs_id_t ECS_OWNED
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_id_t>(_virtualTable.ECS_OWNED);
+    }
+
+    public static ecs_id_t ECS_PAIR
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_id_t>(_virtualTable.ECS_PAIR);
+    }
+
+    public static ecs_id_t ECS_SWITCH
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_id_t>(_virtualTable.ECS_SWITCH);
+    }
+
+    public static ecs_id_t ECS_CASE
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_id_t>(_virtualTable.ECS_CASE);
+    }
+
+    public static ecs_type_t FLECS__TEcsName
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsName);
+    }
+
+    public static ecs_type_t FLECS__TEcsType
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsType);
+    }
+
+    public static ecs_type_t FLECS__TEcsComponentLifecycle
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsComponentLifecycle);
+    }
+
+    public static ecs_type_t FLECS__TEcsComponent
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsComponent);
+    }
+
+    public static ecs_os_api_t ecs_os_api
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<ecs_os_api_t>(_virtualTable.ecs_os_api);
+    }
+
+    public static long ecs_os_api_free_count
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<long>(_virtualTable.ecs_os_api_free_count);
+    }
+
+    public static long ecs_os_api_calloc_count
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<long>(_virtualTable.ecs_os_api_calloc_count);
+    }
+
+    public static long ecs_os_api_realloc_count
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<long>(_virtualTable.ecs_os_api_realloc_count);
+    }
+
+    public static long ecs_os_api_malloc_count
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Runtime.ReadMemory<long>(_virtualTable.ecs_os_api_malloc_count);
+    }
+
+    // Function @ stats.h:178:16
+    public static void ecs_gauge_reduce(ecs_gauge_t* dst, int t_dst, ecs_gauge_t* src, int t_src)
+    {
+        _virtualTable.ecs_gauge_reduce(dst, t_dst, src, t_src);
+    }
+
+    // Function @ stats.h:172:16
+    public static CBool ecs_get_pipeline_stats(ecs_world_t* world, ecs_entity_t pipeline, ecs_pipeline_stats_t* stats)
+    {
+        return _virtualTable.ecs_get_pipeline_stats(world, pipeline, stats);
+    }
+
+    // Function @ stats.h:157:16
+    public static CBool ecs_get_system_stats(ecs_world_t* world, ecs_entity_t system, ecs_system_stats_t* stats)
+    {
+        return _virtualTable.ecs_get_system_stats(world, system, stats);
+    }
+
+    // Function @ stats.h:143:16
+    public static void ecs_get_query_stats(ecs_world_t* world, ecs_query_t* query, ecs_query_stats_t* s)
+    {
+        _virtualTable.ecs_get_query_stats(world, query, s);
+    }
+
+    // Function @ stats.h:132:16
+    public static void ecs_dump_world_stats(ecs_world_t* world, ecs_world_stats_t* stats)
+    {
+        _virtualTable.ecs_dump_world_stats(world, stats);
+    }
+
+    // Function @ stats.h:121:16
+    public static void ecs_get_world_stats(ecs_world_t* world, ecs_world_stats_t* stats)
+    {
+        _virtualTable.ecs_get_world_stats(world, stats);
+    }
+
+    // Function @ direct_access.h:313:6
+    public static void ecs_record_move_to(ecs_world_t* world, ecs_record_t* r, int column, ulong size, void* value, int count)
+    {
+        _virtualTable.ecs_record_move_to(world, r, column, size, value, count);
+    }
+
+    // Function @ direct_access.h:292:6
+    public static void ecs_record_copy_pod_to(ecs_world_t* world, ecs_record_t* r, int column, ulong size, void* value, int count)
+    {
+        _virtualTable.ecs_record_copy_pod_to(world, r, column, size, value, count);
+    }
+
+    // Function @ direct_access.h:271:6
+    public static void ecs_record_copy_to(ecs_world_t* world, ecs_record_t* r, int column, ulong size, void* value, int count)
+    {
+        _virtualTable.ecs_record_copy_to(world, r, column, size, value, count);
+    }
+
+    // Function @ direct_access.h:249:7
+    public static void* ecs_record_get_column(ecs_record_t* r, int column, ulong size)
+    {
+        return _virtualTable.ecs_record_get_column(r, column, size);
+    }
+
+    // Function @ direct_access.h:237:15
+    public static ecs_record_t* ecs_record_ensure(ecs_world_t* world, ecs_entity_t entity)
+    {
+        return _virtualTable.ecs_record_ensure(world, entity);
+    }
+
+    // Function @ direct_access.h:223:15
+    public static ecs_record_t* ecs_record_find(ecs_world_t* world, ecs_entity_t entity)
+    {
+        return _virtualTable.ecs_record_find(world, entity);
+    }
+
+    // Function @ direct_access.h:197:6
+    public static void ecs_table_delete_column(ecs_world_t* world, ecs_table_t* table, int column, ecs_vector_t* vector)
+    {
+        _virtualTable.ecs_table_delete_column(world, table, column, vector);
+    }
+
+    // Function @ direct_access.h:158:6
+    public static void ecs_table_set_entities(ecs_table_t* table, ecs_vector_t* entities, ecs_vector_t* records)
+    {
+        _virtualTable.ecs_table_set_entities(table, entities, records);
+    }
+
+    // Function @ direct_access.h:133:6
+    public static void ecs_records_update(ecs_world_t* world, ecs_vector_t* entities, ecs_vector_t* records, ecs_table_t* table)
+    {
+        _virtualTable.ecs_records_update(world, entities, records, table);
+    }
+
+    // Function @ direct_access.h:121:6
+    public static void ecs_records_clear(ecs_vector_t* records)
+    {
+        _virtualTable.ecs_records_clear(records);
+    }
+
+    // Function @ direct_access.h:110:15
+    public static ecs_vector_t* ecs_table_get_records(ecs_table_t* table)
+    {
+        return _virtualTable.ecs_table_get_records(table);
+    }
+
+    // Function @ direct_access.h:98:15
+    public static ecs_vector_t* ecs_table_get_entities(ecs_table_t* table)
+    {
+        return _virtualTable.ecs_table_get_entities(table);
+    }
+
+    // Function @ direct_access.h:83:15
+    public static ecs_vector_t* ecs_table_set_column(ecs_world_t* world, ecs_table_t* table, int column, ecs_vector_t* vector)
+    {
+        return _virtualTable.ecs_table_set_column(world, table, column, vector);
+    }
+
+    // Function @ direct_access.h:50:15
+    public static ecs_vector_t* ecs_table_get_column(ecs_table_t* table, int column)
+    {
+        return _virtualTable.ecs_table_get_column(table, column);
+    }
+
+    // Function @ direct_access.h:34:9
+    public static int ecs_table_find_column(ecs_table_t* table, ecs_entity_t component)
+    {
+        return _virtualTable.ecs_table_find_column(table, component);
+    }
+
+    // Function @ snapshot.h:94:6
+    public static void ecs_snapshot_free(ecs_snapshot_t* snapshot)
+    {
+        _virtualTable.ecs_snapshot_free(snapshot);
+    }
+
+    // Function @ snapshot.h:83:6
+    public static CBool ecs_snapshot_next(ecs_iter_t* iter)
+    {
+        return _virtualTable.ecs_snapshot_next(iter);
+    }
+
+    // Function @ snapshot.h:73:12
+    public static ecs_iter_t ecs_snapshot_iter(ecs_snapshot_t* snapshot, ecs_filter_t* filter)
+    {
+        return _virtualTable.ecs_snapshot_iter(snapshot, filter);
+    }
+
+    // Function @ snapshot.h:64:6
+    public static void ecs_snapshot_restore(ecs_world_t* world, ecs_snapshot_t* snapshot)
+    {
+        _virtualTable.ecs_snapshot_restore(world, snapshot);
+    }
+
+    // Function @ snapshot.h:45:17
+    public static ecs_snapshot_t* ecs_snapshot_take_w_iter(ecs_iter_t* iter, ecs_iter_next_action_t action)
+    {
+        return _virtualTable.ecs_snapshot_take_w_iter(iter, action);
+    }
+
+    // Function @ snapshot.h:33:17
+    public static ecs_snapshot_t* ecs_snapshot_take(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_snapshot_take(world);
+    }
+
+    // Function @ reader_writer.h:213:9
+    public static int ecs_writer_write(CString buffer, int size, ecs_writer_t* writer)
+    {
+        return _virtualTable.ecs_writer_write(buffer, size, writer);
+    }
+
+    // Function @ reader_writer.h:190:14
+    public static ecs_writer_t ecs_writer_init(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_writer_init(world);
+    }
+
+    // Function @ reader_writer.h:171:9
+    public static int ecs_reader_read(CString buffer, int size, ecs_reader_t* reader)
+    {
+        return _virtualTable.ecs_reader_read(buffer, size, reader);
+    }
+
+    // Function @ reader_writer.h:152:14
+    public static ecs_reader_t ecs_reader_init_w_iter(ecs_iter_t* iter, ecs_iter_next_action_t next)
+    {
+        return _virtualTable.ecs_reader_init_w_iter(iter, next);
+    }
+
+    // Function @ reader_writer.h:138:14
+    public static ecs_reader_t ecs_reader_init(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_reader_init(world);
+    }
+
+    // Function @ queue.h:79:6
+    public static void ecs_queue_free(ecs_queue_t* queue)
+    {
+        _virtualTable.ecs_queue_free(queue);
+    }
+
+    // Function @ queue.h:75:9
+    public static int ecs_queue_count(ecs_queue_t* queue)
+    {
+        return _virtualTable.ecs_queue_count(queue);
+    }
+
+    // Function @ queue.h:71:9
+    public static int ecs_queue_index(ecs_queue_t* queue)
+    {
+        return _virtualTable.ecs_queue_index(queue);
+    }
+
+    // Function @ queue.h:62:7
+    public static void* _ecs_queue_last(ecs_queue_t* queue, ecs_size_t elem_size, short offset)
+    {
+        return _virtualTable._ecs_queue_last(queue, elem_size, offset);
+    }
+
+    // Function @ queue.h:49:7
+    public static void* _ecs_queue_get(ecs_queue_t* queue, ecs_size_t elem_size, short offset, int index)
+    {
+        return _virtualTable._ecs_queue_get(queue, elem_size, offset, index);
+    }
+
+    // Function @ queue.h:40:7
+    public static void* _ecs_queue_push(ecs_queue_t* queue, ecs_size_t elem_size, short offset)
+    {
+        return _virtualTable._ecs_queue_push(queue, elem_size, offset);
+    }
+
+    // Function @ queue.h:30:14
+    public static ecs_queue_t* _ecs_queue_from_array(ecs_size_t elem_size, short offset, int elem_count, void* array)
+    {
+        return _virtualTable._ecs_queue_from_array(elem_size, offset, elem_count, array);
+    }
+
+    // Function @ queue.h:21:14
+    public static ecs_queue_t* _ecs_queue_new(ecs_size_t elem_size, short offset, int elem_count)
+    {
+        return _virtualTable._ecs_queue_new(elem_size, offset, elem_count);
+    }
+
+    // Function @ parser.h:46:7
+    public static CString ecs_parse_term(ecs_world_t* world, CString name, CString expr, CString ptr, ecs_term_t* term_out)
+    {
+        return _virtualTable.ecs_parse_term(world, name, expr, ptr, term_out);
+    }
+
+    // Function @ dbg.h:60:6
+    public static void ecs_dbg_table(ecs_world_t* world, ecs_table_t* table, ecs_dbg_table_t* dbg_out)
+    {
+        _virtualTable.ecs_dbg_table(world, table, dbg_out);
+    }
+
+    // Function @ dbg.h:54:6
+    public static CBool ecs_dbg_filter_table(ecs_world_t* world, ecs_table_t* table, ecs_filter_t* filter)
+    {
+        return _virtualTable.ecs_dbg_filter_table(world, table, filter);
+    }
+
+    // Function @ dbg.h:49:14
+    public static ecs_table_t* ecs_dbg_get_table(ecs_world_t* world, int index)
+    {
+        return _virtualTable.ecs_dbg_get_table(world, index);
+    }
+
+    // Function @ dbg.h:44:14
+    public static ecs_table_t* ecs_dbg_find_table(ecs_world_t* world, ecs_type_t type)
+    {
+        return _virtualTable.ecs_dbg_find_table(world, type);
+    }
+
+    // Function @ dbg.h:38:6
+    public static void ecs_dbg_entity(ecs_world_t* world, ecs_entity_t entity, ecs_dbg_entity_t* dbg_out)
+    {
+        _virtualTable.ecs_dbg_entity(world, entity, dbg_out);
+    }
+
+    // Function @ bulk.h:127:6
+    public static void ecs_bulk_delete(ecs_world_t* world, ecs_filter_t* filter)
+    {
+        _virtualTable.ecs_bulk_delete(world, filter);
+    }
+
+    // Function @ bulk.h:102:6
+    public static void ecs_bulk_add_remove_type(ecs_world_t* world, ecs_type_t to_add, ecs_type_t to_remove, ecs_filter_t* filter)
+    {
+        _virtualTable.ecs_bulk_add_remove_type(world, to_add, to_remove, filter);
+    }
+
+    // Function @ bulk.h:77:6
+    public static void ecs_bulk_remove_type(ecs_world_t* world, ecs_type_t type, ecs_filter_t* filter)
+    {
+        _virtualTable.ecs_bulk_remove_type(world, type, filter);
+    }
+
+    // Function @ bulk.h:63:6
+    public static void ecs_bulk_remove_entity(ecs_world_t* world, ecs_entity_t entity_remove, ecs_filter_t* filter)
+    {
+        _virtualTable.ecs_bulk_remove_entity(world, entity_remove, filter);
+    }
+
+    // Function @ bulk.h:38:6
+    public static void ecs_bulk_add_type(ecs_world_t* world, ecs_type_t type, ecs_filter_t* filter)
+    {
+        _virtualTable.ecs_bulk_add_type(world, type, filter);
+    }
+
+    // Function @ bulk.h:24:6
+    public static void ecs_bulk_add_entity(ecs_world_t* world, ecs_entity_t entity_add, ecs_filter_t* filter)
+    {
+        _virtualTable.ecs_bulk_add_entity(world, entity_add, filter);
+    }
+
+    // Function @ timer.h:246:6
+    public static void FlecsTimerImport(ecs_world_t* world)
+    {
+        _virtualTable.FlecsTimerImport(world);
+    }
+
+    // Function @ timer.h:230:6
+    public static void ecs_set_tick_source(ecs_world_t* world, ecs_entity_t system, ecs_entity_t tick_source)
+    {
+        _virtualTable.ecs_set_tick_source(world, system, tick_source);
+    }
+
+    // Function @ timer.h:201:14
+    public static ecs_entity_t ecs_set_rate(ecs_world_t* world, ecs_entity_t tick_source, int rate, ecs_entity_t source)
+    {
+        return _virtualTable.ecs_set_rate(world, tick_source, rate, source);
+    }
+
+    // Function @ timer.h:166:6
+    public static void ecs_stop_timer(ecs_world_t* world, ecs_entity_t tick_source)
+    {
+        _virtualTable.ecs_stop_timer(world, tick_source);
+    }
+
+    // Function @ timer.h:154:6
+    public static void ecs_start_timer(ecs_world_t* world, ecs_entity_t tick_source)
+    {
+        _virtualTable.ecs_start_timer(world, tick_source);
+    }
+
+    // Function @ timer.h:140:13
+    public static float ecs_get_interval(ecs_world_t* world, ecs_entity_t tick_source)
+    {
+        return _virtualTable.ecs_get_interval(world, tick_source);
+    }
+
+    // Function @ timer.h:126:14
+    public static ecs_entity_t ecs_set_interval(ecs_world_t* world, ecs_entity_t tick_source, float interval)
+    {
+        return _virtualTable.ecs_set_interval(world, tick_source, interval);
+    }
+
+    // Function @ timer.h:104:13
+    public static float ecs_get_timeout(ecs_world_t* world, ecs_entity_t tick_source)
+    {
+        return _virtualTable.ecs_get_timeout(world, tick_source);
+    }
+
+    // Function @ timer.h:79:14
+    public static ecs_entity_t ecs_set_timeout(ecs_world_t* world, ecs_entity_t tick_source, float timeout)
+    {
+        return _virtualTable.ecs_set_timeout(world, tick_source, timeout);
+    }
+
+    // Function @ pipeline.h:169:6
+    public static void FlecsPipelineImport(ecs_world_t* world)
+    {
+        _virtualTable.FlecsPipelineImport(world);
+    }
+
+    // Function @ pipeline.h:155:6
+    public static void ecs_set_threads(ecs_world_t* world, int threads)
+    {
+        _virtualTable.ecs_set_threads(world, threads);
+    }
+
+    // Function @ pipeline.h:141:6
+    public static void ecs_deactivate_systems(ecs_world_t* world)
+    {
+        _virtualTable.ecs_deactivate_systems(world);
+    }
+
+    // Function @ pipeline.h:125:6
+    public static void ecs_pipeline_run(ecs_world_t* world, ecs_entity_t pipeline, float delta_time)
+    {
+        _virtualTable.ecs_pipeline_run(world, pipeline, delta_time);
+    }
+
+    // Function @ pipeline.h:103:6
+    public static void ecs_reset_clock(ecs_world_t* world)
+    {
+        _virtualTable.ecs_reset_clock(world);
+    }
+
+    // Function @ pipeline.h:93:6
+    public static void ecs_set_time_scale(ecs_world_t* world, float scale)
+    {
+        _virtualTable.ecs_set_time_scale(world, scale);
+    }
+
+    // Function @ pipeline.h:82:6
+    public static CBool ecs_progress(ecs_world_t* world, float delta_time)
+    {
+        return _virtualTable.ecs_progress(world, delta_time);
+    }
+
+    // Function @ pipeline.h:60:14
+    public static ecs_entity_t ecs_get_pipeline(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_get_pipeline(world);
+    }
+
+    // Function @ pipeline.h:49:6
+    public static void ecs_set_pipeline(ecs_world_t* world, ecs_entity_t pipeline)
+    {
+        _virtualTable.ecs_set_pipeline(world, pipeline);
+    }
+
+    // Function @ system.h:321:6
+    public static void FlecsSystemImport(ecs_world_t* world)
+    {
+        _virtualTable.FlecsSystemImport(world);
+    }
+
+    // Function @ system.h:304:6
+    public static CBool ecs_dbg_match_entity(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t system, ecs_match_failure_t* failure_info_out)
+    {
+        return _virtualTable.ecs_dbg_match_entity(world, entity, system, failure_info_out);
+    }
+
+    // Function @ system.h:298:12
+    public static ecs_type_t ecs_dbg_get_column_type(ecs_world_t* world, ecs_entity_t system, int column_index)
+    {
+        return _virtualTable.ecs_dbg_get_column_type(world, system, column_index);
+    }
+
+    // Function @ system.h:292:14
+    public static ecs_table_t* ecs_dbg_get_inactive_table(ecs_world_t* world, ecs_dbg_system_t* dbg, int index)
+    {
+        return _virtualTable.ecs_dbg_get_inactive_table(world, dbg, index);
+    }
+
+    // Function @ system.h:286:14
+    public static ecs_table_t* ecs_dbg_get_active_table(ecs_world_t* world, ecs_dbg_system_t* dbg, int index)
+    {
+        return _virtualTable.ecs_dbg_get_active_table(world, dbg, index);
+    }
+
+    // Function @ system.h:280:5
+    public static int ecs_dbg_system(ecs_world_t* world, ecs_entity_t system, ecs_dbg_system_t* dbg_out)
+    {
+        return _virtualTable.ecs_dbg_system(world, system, dbg_out);
+    }
+
+    // Function @ system.h:262:7
+    public static void* ecs_get_system_ctx(ecs_world_t* world, ecs_entity_t system)
+    {
+        return _virtualTable.ecs_get_system_ctx(world, system);
+    }
+
+    // Function @ system.h:249:14
+    public static ecs_query_t* ecs_get_query(ecs_world_t* world, ecs_entity_t system)
+    {
+        return _virtualTable.ecs_get_query(world, system);
+    }
+
+    // Function @ system.h:230:14
+    public static ecs_entity_t ecs_run_w_filter(ecs_world_t* world, ecs_entity_t system, float delta_time, int offset, int limit, ecs_filter_t* filter, void* param)
+    {
+        return _virtualTable.ecs_run_w_filter(world, system, delta_time, offset, limit, filter, param);
+    }
+
+    // Function @ system.h:200:14
+    public static ecs_entity_t ecs_run_worker(ecs_world_t* world, ecs_entity_t system, int stage_current, int stage_count, float delta_time, void* param)
+    {
+        return _virtualTable.ecs_run_worker(world, system, stage_current, stage_count, delta_time, param);
+    }
+
+    // Function @ system.h:183:14
+    public static ecs_entity_t ecs_run(ecs_world_t* world, ecs_entity_t system, float delta_time, void* param)
+    {
+        return _virtualTable.ecs_run(world, system, delta_time, param);
+    }
+
+    // Function @ system.h:125:14
+    public static ecs_entity_t ecs_system_init(ecs_world_t* world, ecs_system_desc_t* desc)
+    {
+        return _virtualTable.ecs_system_init(world, desc);
+    }
+
+    // Function @ module.h:69:14
+    public static ecs_entity_t ecs_import_from_library(ecs_world_t* world, CString library_name, CString module_name)
+    {
+        return _virtualTable.ecs_import_from_library(world, library_name, module_name);
+    }
+
+    // Function @ module.h:42:14
+    public static ecs_entity_t ecs_import(ecs_world_t* world, ecs_module_action_t module, CString module_name, void* handles_out, ulong handles_size)
+    {
+        return _virtualTable.ecs_import(world, module, module_name, handles_out, handles_size);
+    }
+
+    // Function @ flecs.h:3609:9
+    public static int ecs_table_count(ecs_table_t* table)
+    {
+        return _virtualTable.ecs_table_count(table);
+    }
+
+    // Function @ flecs.h:3593:14
+    public static ecs_record_t ecs_table_insert(ecs_world_t* world, ecs_table_t* table, ecs_entity_t entity, ecs_record_t* @record)
+    {
+        return _virtualTable.ecs_table_insert(world, table, entity, @record);
+    }
+
+    // Function @ flecs.h:3567:12
+    public static ecs_type_t ecs_table_get_type(ecs_table_t* table)
+    {
+        return _virtualTable.ecs_table_get_type(table);
+    }
+
+    // Function @ flecs.h:3557:14
+    public static ecs_table_t* ecs_table_from_type(ecs_world_t* world, ecs_type_t type)
+    {
+        return _virtualTable.ecs_table_from_type(world, type);
+    }
+
+    // Function @ flecs.h:3545:14
+    public static ecs_table_t* ecs_table_from_str(ecs_world_t* world, CString type)
+    {
+        return _virtualTable.ecs_table_from_str(world, type);
+    }
+
+    // Function @ flecs.h:3523:6
+    public static CBool ecs_stage_is_async(ecs_world_t* stage)
+    {
+        return _virtualTable.ecs_stage_is_async(stage);
+    }
+
+    // Function @ flecs.h:3513:6
+    public static void ecs_async_stage_free(ecs_world_t* stage)
+    {
+        _virtualTable.ecs_async_stage_free(stage);
+    }
+
+    // Function @ flecs.h:3503:14
+    public static ecs_world_t* ecs_async_stage_new(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_async_stage_new(world);
+    }
+
+    // Function @ flecs.h:3481:6
+    public static CBool ecs_stage_is_readonly(ecs_world_t* stage)
+    {
+        return _virtualTable.ecs_stage_is_readonly(stage);
+    }
+
+    // Function @ flecs.h:3470:20
+    public static ecs_world_t* ecs_get_world(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_get_world(world);
+    }
+
+    // Function @ flecs.h:3461:14
+    public static ecs_world_t* ecs_get_stage(ecs_world_t* world, int stage_id)
+    {
+        return _virtualTable.ecs_get_stage(world, stage_id);
+    }
+
+    // Function @ flecs.h:3442:9
+    public static int ecs_get_stage_id(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_get_stage_id(world);
+    }
+
+    // Function @ flecs.h:3431:9
+    public static int ecs_get_stage_count(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_get_stage_count(world);
+    }
+
+    // Function @ flecs.h:3420:6
+    public static void ecs_set_stages(ecs_world_t* world, int stages)
+    {
+        _virtualTable.ecs_set_stages(world, stages);
+    }
+
+    // Function @ flecs.h:3402:6
+    public static void ecs_set_automerge(ecs_world_t* world, CBool automerge)
+    {
+        _virtualTable.ecs_set_automerge(world, automerge);
+    }
+
+    // Function @ flecs.h:3382:6
+    public static CBool ecs_defer_end(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_defer_end(world);
+    }
+
+    // Function @ flecs.h:3370:6
+    public static CBool ecs_defer_begin(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_defer_begin(world);
+    }
+
+    // Function @ flecs.h:3357:6
+    public static void ecs_merge(ecs_world_t* world)
+    {
+        _virtualTable.ecs_merge(world);
+    }
+
+    // Function @ flecs.h:3343:6
+    public static void ecs_staging_end(ecs_world_t* world)
+    {
+        _virtualTable.ecs_staging_end(world);
+    }
+
+    // Function @ flecs.h:3330:6
+    public static CBool ecs_staging_begin(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_staging_begin(world);
+    }
+
+    // Function @ flecs.h:3307:6
+    public static void ecs_frame_end(ecs_world_t* world)
+    {
+        _virtualTable.ecs_frame_end(world);
+    }
+
+    // Function @ flecs.h:3296:13
+    public static float ecs_frame_begin(ecs_world_t* world, float delta_time)
+    {
+        return _virtualTable.ecs_frame_begin(world, delta_time);
+    }
+
+    // Function @ flecs.h:3265:8
+    public static ulong ecs_iter_column_size(ecs_iter_t* it, int index)
+    {
+        return _virtualTable.ecs_iter_column_size(it, index);
+    }
+
+    // Function @ flecs.h:3247:7
+    public static void* ecs_iter_column_w_size(ecs_iter_t* it, ulong size, int index)
+    {
+        return _virtualTable.ecs_iter_column_w_size(it, size, index);
+    }
+
+    // Function @ flecs.h:3215:9
+    public static int ecs_iter_find_column(ecs_iter_t* it, ecs_id_t id)
+    {
+        return _virtualTable.ecs_iter_find_column(it, id);
+    }
+
+    // Function @ flecs.h:3192:12
+    public static ecs_type_t ecs_iter_type(ecs_iter_t* it)
+    {
+        return _virtualTable.ecs_iter_type(it);
+    }
+
+    // Function @ flecs.h:3180:6
+    public static CBool ecs_term_is_owned(ecs_iter_t* it, int index)
+    {
+        return _virtualTable.ecs_term_is_owned(it, index);
+    }
+
+    // Function @ flecs.h:3166:6
+    public static CBool ecs_term_is_readonly(ecs_iter_t* it, int index)
+    {
+        return _virtualTable.ecs_term_is_readonly(it, index);
+    }
+
+    // Function @ flecs.h:3153:8
+    public static ulong ecs_term_size(ecs_iter_t* it, int index)
+    {
+        return _virtualTable.ecs_term_size(it, index);
+    }
+
+    // Function @ flecs.h:3141:14
+    public static ecs_entity_t ecs_term_source(ecs_iter_t* it, int index)
+    {
+        return _virtualTable.ecs_term_source(it, index);
+    }
+
+    // Function @ flecs.h:3123:10
+    public static ecs_id_t ecs_term_id(ecs_iter_t* it, int index)
+    {
+        return _virtualTable.ecs_term_id(it, index);
+    }
+
+    // Function @ flecs.h:3104:7
+    public static void* ecs_term_w_size(ecs_iter_t* it, ulong size, int index)
+    {
+        return _virtualTable.ecs_term_w_size(it, size, index);
+    }
+
+    // Function @ flecs.h:3068:7
+    public static void* ecs_get_trigger_ctx(ecs_world_t* world, ecs_entity_t trigger)
+    {
+        return _virtualTable.ecs_get_trigger_ctx(world, trigger);
+    }
+
+    // Function @ flecs.h:3055:14
+    public static ecs_entity_t ecs_trigger_init(ecs_world_t* world, ecs_trigger_desc_t* desc)
+    {
+        return _virtualTable.ecs_trigger_init(world, desc);
+    }
+
+    // Function @ flecs.h:3030:6
+    public static CBool ecs_query_orphaned(ecs_query_t* query)
+    {
+        return _virtualTable.ecs_query_orphaned(query);
+    }
+
+    // Function @ flecs.h:3018:6
+    public static CBool ecs_query_changed(ecs_query_t* query)
+    {
+        return _virtualTable.ecs_query_changed(query);
+    }
+
+    // Function @ flecs.h:3002:6
+    public static CBool ecs_query_next_worker(ecs_iter_t* it, int stage_current, int stage_count)
+    {
+        return _virtualTable.ecs_query_next_worker(it, stage_current, stage_count);
+    }
+
+    // Function @ flecs.h:2982:6
+    public static CBool ecs_query_next_w_filter(ecs_iter_t* iter, ecs_filter_t* filter)
+    {
+        return _virtualTable.ecs_query_next_w_filter(iter, filter);
+    }
+
+    // Function @ flecs.h:2970:6
+    public static CBool ecs_query_next(ecs_iter_t* iter)
+    {
+        return _virtualTable.ecs_query_next(iter);
+    }
+
+    // Function @ flecs.h:2955:12
+    public static ecs_iter_t ecs_query_iter_page(ecs_query_t* query, int offset, int limit)
+    {
+        return _virtualTable.ecs_query_iter_page(query, offset, limit);
+    }
+
+    // Function @ flecs.h:2942:12
+    public static ecs_iter_t ecs_query_iter(ecs_query_t* query)
+    {
+        return _virtualTable.ecs_query_iter(query);
+    }
+
+    // Function @ flecs.h:2912:6
+    public static void ecs_query_fini(ecs_query_t* query)
+    {
+        _virtualTable.ecs_query_fini(query);
+    }
+
+    // Function @ flecs.h:2900:14
+    public static ecs_query_t* ecs_query_init(ecs_world_t* world, ecs_query_desc_t* desc)
+    {
+        return _virtualTable.ecs_query_init(world, desc);
+    }
+
+    // Function @ flecs.h:2854:6
+    public static CBool ecs_filter_next(ecs_iter_t* iter)
+    {
+        return _virtualTable.ecs_filter_next(iter);
+    }
+
+    // Function @ flecs.h:2840:12
+    public static ecs_iter_t ecs_filter_iter(ecs_world_t* world, ecs_filter_t* filter)
+    {
+        return _virtualTable.ecs_filter_iter(world, filter);
+    }
+
+    // Function @ flecs.h:2825:6
+    public static CBool ecs_filter_match_entity(ecs_world_t* world, ecs_filter_t* filter, ecs_entity_t e)
+    {
+        return _virtualTable.ecs_filter_match_entity(world, filter, e);
+    }
+
+    // Function @ flecs.h:2805:7
+    public static CString ecs_filter_str(ecs_world_t* world, ecs_filter_t* filter)
+    {
+        return _virtualTable.ecs_filter_str(world, filter);
+    }
+
+    // Function @ flecs.h:2796:5
+    public static int ecs_filter_finalize(ecs_world_t* world, ecs_filter_t* filter)
+    {
+        return _virtualTable.ecs_filter_finalize(world, filter);
+    }
+
+    // Function @ flecs.h:2779:6
+    public static void ecs_filter_fini(ecs_filter_t* filter)
+    {
+        _virtualTable.ecs_filter_fini(filter);
+    }
+
+    // Function @ flecs.h:2768:5
+    public static int ecs_filter_init(ecs_world_t* world, ecs_filter_t* filter_out, ecs_filter_desc_t* desc)
+    {
+        return _virtualTable.ecs_filter_init(world, filter_out, desc);
+    }
+
+    // Function @ flecs.h:2735:6
+    public static CBool ecs_id_match(ecs_id_t id, ecs_id_t pattern)
+    {
+        return _virtualTable.ecs_id_match(id, pattern);
+    }
+
+    // Function @ flecs.h:2724:6
+    public static void ecs_term_fini(ecs_term_t* term)
+    {
+        _virtualTable.ecs_term_fini(term);
+    }
+
+    // Function @ flecs.h:2714:12
+    public static ecs_term_t ecs_term_move(ecs_term_t* src)
+    {
+        return _virtualTable.ecs_term_move(src);
+    }
+
+    // Function @ flecs.h:2700:12
+    public static ecs_term_t ecs_term_copy(ecs_term_t* src)
+    {
+        return _virtualTable.ecs_term_copy(src);
+    }
+
+    // Function @ flecs.h:2685:5
+    public static int ecs_term_finalize(ecs_world_t* world, CString name, CString expr, ecs_term_t* term)
+    {
+        return _virtualTable.ecs_term_finalize(world, name, expr, term);
+    }
+
+    // Function @ flecs.h:2661:6
+    public static CBool ecs_term_is_trivial(ecs_term_t* term)
+    {
+        return _virtualTable.ecs_term_is_trivial(term);
+    }
+
+    // Function @ flecs.h:2634:6
+    public static CBool ecs_term_is_set(ecs_term_t* term)
+    {
+        return _virtualTable.ecs_term_is_set(term);
+    }
+
+    // Function @ flecs.h:2610:13
+    public static CString ecs_set_name_prefix(ecs_world_t* world, CString prefix)
+    {
+        return _virtualTable.ecs_set_name_prefix(world, prefix);
+    }
+
+    // Function @ flecs.h:2597:14
+    public static ecs_entity_t ecs_get_scope(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_get_scope(world);
+    }
+
+    // Function @ flecs.h:2585:14
+    public static ecs_entity_t ecs_set_scope(ecs_world_t* world, ecs_entity_t scope)
+    {
+        return _virtualTable.ecs_set_scope(world, scope);
+    }
+
+    // Function @ flecs.h:2570:6
+    public static CBool ecs_scope_next(ecs_iter_t* it)
+    {
+        return _virtualTable.ecs_scope_next(it);
+    }
+
+    // Function @ flecs.h:2556:12
+    public static ecs_iter_t ecs_scope_iter_w_filter(ecs_world_t* world, ecs_entity_t parent, ecs_filter_t* filter)
+    {
+        return _virtualTable.ecs_scope_iter_w_filter(world, parent, filter);
+    }
+
+    // Function @ flecs.h:2544:12
+    public static ecs_iter_t ecs_scope_iter(ecs_world_t* world, ecs_entity_t parent)
+    {
+        return _virtualTable.ecs_scope_iter(world, parent);
+    }
+
+    // Function @ flecs.h:2531:9
+    public static int ecs_get_child_count(ecs_world_t* world, ecs_entity_t entity)
+    {
+        return _virtualTable.ecs_get_child_count(world, entity);
+    }
+
+    // Function @ flecs.h:2484:14
+    public static ecs_entity_t ecs_add_path_w_sep(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t parent, CString path, CString sep, CString prefix)
+    {
+        return _virtualTable.ecs_add_path_w_sep(world, entity, parent, path, sep, prefix);
+    }
+
+    // Function @ flecs.h:2440:14
+    public static ecs_entity_t ecs_new_from_path_w_sep(ecs_world_t* world, ecs_entity_t parent, CString path, CString sep, CString prefix)
+    {
+        return _virtualTable.ecs_new_from_path_w_sep(world, parent, path, sep, prefix);
+    }
+
+    // Function @ flecs.h:2391:7
+    public static CString ecs_get_path_w_sep(ecs_world_t* world, ecs_entity_t parent, ecs_entity_t child, ecs_entity_t component, CString sep, CString prefix)
+    {
+        return _virtualTable.ecs_get_path_w_sep(world, parent, child, component, sep, prefix);
+    }
+
+    // Function @ flecs.h:2359:6
+    public static void ecs_use(ecs_world_t* world, ecs_entity_t entity, CString name)
+    {
+        _virtualTable.ecs_use(world, entity, name);
+    }
+
+    // Function @ flecs.h:2353:14
+    public static ecs_entity_t ecs_lookup_symbol(ecs_world_t* world, CString name)
+    {
+        return _virtualTable.ecs_lookup_symbol(world, name);
+    }
+
+    // Function @ flecs.h:2312:14
+    public static ecs_entity_t ecs_lookup_path_w_sep(ecs_world_t* world, ecs_entity_t parent, CString path, CString sep, CString prefix, CBool recursive)
+    {
+        return _virtualTable.ecs_lookup_path_w_sep(world, parent, path, sep, prefix, recursive);
+    }
+
+    // Function @ flecs.h:2288:14
+    public static ecs_entity_t ecs_lookup_child(ecs_world_t* world, ecs_entity_t parent, CString name)
+    {
+        return _virtualTable.ecs_lookup_child(world, parent, name);
+    }
+
+    // Function @ flecs.h:2274:14
+    public static ecs_entity_t ecs_lookup(ecs_world_t* world, CString name)
+    {
+        return _virtualTable.ecs_lookup(world, name);
+    }
+
+    // Function @ flecs.h:2253:9
+    public static int ecs_count_filter(ecs_world_t* world, ecs_filter_t* filter)
+    {
+        return _virtualTable.ecs_count_filter(world, filter);
+    }
+
+    // Function @ flecs.h:2231:9
+    public static int ecs_count_id(ecs_world_t* world, ecs_id_t entity)
+    {
+        return _virtualTable.ecs_count_id(world, entity);
+    }
+
+    // Function @ flecs.h:2218:6
+    public static void ecs_enable(ecs_world_t* world, ecs_entity_t entity, CBool enabled)
+    {
+        _virtualTable.ecs_enable(world, entity, enabled);
+    }
+
+    // Function @ flecs.h:2189:14
+    public static ecs_entity_t ecs_get_object_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t rel, ecs_id_t id)
+    {
+        return _virtualTable.ecs_get_object_w_id(world, entity, rel, id);
+    }
+
+    // Function @ flecs.h:2171:8
+    public static ulong ecs_id_str(ecs_world_t* world, ecs_id_t entity, CString buffer, ulong buffer_len)
+    {
+        return _virtualTable.ecs_id_str(world, entity, buffer, buffer_len);
+    }
+
+    // Function @ flecs.h:2158:13
+    public static CString ecs_role_str(ecs_entity_t entity)
+    {
+        return _virtualTable.ecs_role_str(entity);
+    }
+
+    // Function @ flecs.h:2146:13
+    public static CString ecs_get_name(ecs_world_t* world, ecs_entity_t entity)
+    {
+        return _virtualTable.ecs_get_name(world, entity);
+    }
+
+    // Function @ flecs.h:2134:14
+    public static ecs_entity_t ecs_get_typeid(ecs_world_t* world, ecs_entity_t e)
+    {
+        return _virtualTable.ecs_get_typeid(world, e);
+    }
+
+    // Function @ flecs.h:2123:12
+    public static ecs_type_t ecs_get_type(ecs_world_t* world, ecs_entity_t entity)
+    {
+        return _virtualTable.ecs_get_type(world, entity);
+    }
+
+    // Function @ flecs.h:2112:6
+    public static CBool ecs_exists(ecs_world_t* world, ecs_entity_t e)
+    {
+        return _virtualTable.ecs_exists(world, e);
+    }
+
+    // Function @ flecs.h:2100:6
+    public static void ecs_ensure(ecs_world_t* world, ecs_entity_t e)
+    {
+        _virtualTable.ecs_ensure(world, e);
+    }
+
+    // Function @ flecs.h:2072:14
+    public static ecs_entity_t ecs_get_alive(ecs_world_t* world, ecs_entity_t e)
+    {
+        return _virtualTable.ecs_get_alive(world, e);
+    }
+
+    // Function @ flecs.h:2051:6
+    public static CBool ecs_is_alive(ecs_world_t* world, ecs_entity_t e)
+    {
+        return _virtualTable.ecs_is_alive(world, e);
+    }
+
+    // Function @ flecs.h:2040:6
+    public static CBool ecs_is_valid(ecs_world_t* world, ecs_entity_t e)
+    {
+        return _virtualTable.ecs_is_valid(world, e);
+    }
+
+    // Function @ flecs.h:1989:6
+    public static CBool ecs_has_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
+    {
+        return _virtualTable.ecs_has_id(world, entity, id);
+    }
+
+    // Function @ flecs.h:1914:14
+    public static ecs_entity_t ecs_set_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, ulong size, void* ptr)
+    {
+        return _virtualTable.ecs_set_id(world, entity, id, size, ptr);
+    }
+
+    // Function @ flecs.h:1885:6
+    public static void ecs_modified_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
+    {
+        _virtualTable.ecs_modified_w_id(world, entity, id);
+    }
+
+    // Function @ flecs.h:1856:7
+    public static void* ecs_get_mut_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, CBool* is_added)
+    {
+        return _virtualTable.ecs_get_mut_w_id(world, entity, id, is_added);
+    }
+
+    // Function @ flecs.h:1828:14
+    public static ecs_entity_t ecs_get_case(ecs_world_t* world, ecs_entity_t e, ecs_entity_t sw)
+    {
+        return _virtualTable.ecs_get_case(world, e, sw);
+    }
+
+    // Function @ flecs.h:1800:13
+    public static void* ecs_get_ref_w_id(ecs_world_t* world, ecs_ref_t* @ref, ecs_entity_t entity, ecs_id_t id)
+    {
+        return _virtualTable.ecs_get_ref_w_id(world, @ref, entity, id);
+    }
+
+    // Function @ flecs.h:1770:13
+    public static void* ecs_get_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
+    {
+        return _virtualTable.ecs_get_id(world, entity, id);
+    }
+
+    // Function @ flecs.h:1748:6
+    public static void ecs_delete_children(ecs_world_t* world, ecs_entity_t parent)
+    {
+        _virtualTable.ecs_delete_children(world, parent);
+    }
+
+    // Function @ flecs.h:1735:6
+    public static void ecs_delete(ecs_world_t* world, ecs_entity_t entity)
+    {
+        _virtualTable.ecs_delete(world, entity);
+    }
+
+    // Function @ flecs.h:1721:6
+    public static void ecs_clear(ecs_world_t* world, ecs_entity_t entity)
+    {
+        _virtualTable.ecs_clear(world, entity);
+    }
+
+    // Function @ flecs.h:1522:10
+    public static ecs_id_t ecs_make_pair(ecs_entity_t relation, ecs_entity_t @object)
+    {
+        return _virtualTable.ecs_make_pair(relation, @object);
+    }
+
+    // Function @ flecs.h:1498:6
+    public static CBool ecs_is_component_enabled_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
+    {
+        return _virtualTable.ecs_is_component_enabled_w_id(world, entity, id);
+    }
+
+    // Function @ flecs.h:1478:6
+    public static void ecs_enable_component_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, CBool enable)
+    {
+        _virtualTable.ecs_enable_component_w_id(world, entity, id, enable);
+    }
+
+    // Function @ flecs.h:1434:6
+    public static void ecs_remove_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
+    {
+        _virtualTable.ecs_remove_id(world, entity, id);
+    }
+
+    // Function @ flecs.h:1402:6
+    public static void ecs_add_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
+    {
+        _virtualTable.ecs_add_id(world, entity, id);
+    }
+
+    // Function @ flecs.h:1379:14
+    public static ecs_entity_t ecs_clone(ecs_world_t* world, ecs_entity_t dst, ecs_entity_t src, CBool copy_value)
+    {
+        return _virtualTable.ecs_clone(world, dst, src, copy_value);
+    }
+
+    // Function @ flecs.h:1347:21
+    public static ecs_entity_t* ecs_bulk_new_w_data(ecs_world_t* world, int count, ecs_entities_t* component_ids, void* data)
+    {
+        return _virtualTable.ecs_bulk_new_w_data(world, count, component_ids, data);
+    }
+
+    // Function @ flecs.h:1329:21
+    public static ecs_entity_t* ecs_bulk_new_w_id(ecs_world_t* world, ecs_id_t id, int count)
+    {
+        return _virtualTable.ecs_bulk_new_w_id(world, id, count);
+    }
+
+    // Function @ flecs.h:1315:14
+    public static ecs_entity_t ecs_type_init(ecs_world_t* world, ecs_type_desc_t* desc)
+    {
+        return _virtualTable.ecs_type_init(world, desc);
+    }
+
+    // Function @ flecs.h:1292:14
+    public static ecs_entity_t ecs_component_init(ecs_world_t* world, ecs_component_desc_t* desc)
+    {
+        return _virtualTable.ecs_component_init(world, desc);
+    }
+
+    // Function @ flecs.h:1274:14
+    public static ecs_entity_t ecs_entity_init(ecs_world_t* world, ecs_entity_desc_t* desc)
+    {
+        return _virtualTable.ecs_entity_init(world, desc);
+    }
+
+    // Function @ flecs.h:1238:14
+    public static ecs_entity_t ecs_new_w_id(ecs_world_t* world, ecs_id_t id)
+    {
+        return _virtualTable.ecs_new_w_id(world, id);
+    }
+
+    // Function @ flecs.h:1226:14
+    public static ecs_entity_t ecs_new_component_id(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_new_component_id(world);
+    }
+
+    // Function @ flecs.h:1213:14
+    public static ecs_entity_t ecs_new_id(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_new_id(world);
+    }
+
+    // Function @ flecs.h:1196:9
+    public static int ecs_get_threads(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_get_threads(world);
+    }
+
+    // Function @ flecs.h:1190:6
+    public static void ecs_set_target_fps(ecs_world_t* world, float fps)
+    {
+        _virtualTable.ecs_set_target_fps(world, fps);
+    }
+
+    // Function @ flecs.h:1170:16
+    public static void ecs_measure_system_time(ecs_world_t* world, CBool enable)
+    {
+        _virtualTable.ecs_measure_system_time(world, enable);
+    }
+
+    // Function @ flecs.h:1156:16
+    public static void ecs_measure_frame_time(ecs_world_t* world, CBool enable)
+    {
+        _virtualTable.ecs_measure_frame_time(world, enable);
+    }
+
+    // Function @ flecs.h:1142:6
+    public static void ecs_tracing_enable(int level)
+    {
+        _virtualTable.ecs_tracing_enable(level);
+    }
+
+    // Function @ flecs.h:1121:6
+    public static void ecs_end_wait(ecs_world_t* world)
+    {
+        _virtualTable.ecs_end_wait(world);
+    }
+
+    // Function @ flecs.h:1111:6
+    public static void ecs_begin_wait(ecs_world_t* world)
+    {
+        _virtualTable.ecs_begin_wait(world);
+    }
+
+    // Function @ flecs.h:1097:6
+    public static void ecs_unlock(ecs_world_t* world)
+    {
+        _virtualTable.ecs_unlock(world);
+    }
+
+    // Function @ flecs.h:1088:6
+    public static void ecs_lock(ecs_world_t* world)
+    {
+        _virtualTable.ecs_lock(world);
+    }
+
+    // Function @ flecs.h:1078:6
+    public static CBool ecs_enable_locking(ecs_world_t* world, CBool enable)
+    {
+        return _virtualTable.ecs_enable_locking(world, enable);
+    }
+
+    // Function @ flecs.h:1057:6
+    public static CBool ecs_enable_range_check(ecs_world_t* world, CBool enable)
+    {
+        return _virtualTable.ecs_enable_range_check(world, enable);
+    }
+
+    // Function @ flecs.h:1041:6
+    public static void ecs_set_entity_range(ecs_world_t* world, ecs_entity_t id_start, ecs_entity_t id_end)
+    {
+        _virtualTable.ecs_set_entity_range(world, id_start, id_end);
+    }
+
+    // Function @ flecs.h:1021:6
+    public static void ecs_dim(ecs_world_t* world, int entity_count)
+    {
+        _virtualTable.ecs_dim(world, entity_count);
+    }
+
+    // Function @ flecs.h:1008:25
+    public static ecs_world_info_t* ecs_get_world_info(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_get_world_info(world);
+    }
+
+    // Function @ flecs.h:998:7
+    public static void* ecs_get_context(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_get_context(world);
+    }
+
+    // Function @ flecs.h:986:6
+    public static void ecs_set_context(ecs_world_t* world, void* ctx)
+    {
+        _virtualTable.ecs_set_context(world, ctx);
+    }
+
+    // Function @ flecs.h:968:6
+    public static void ecs_set_component_actions_w_id(ecs_world_t* world, ecs_id_t id, EcsComponentLifecycle* actions)
+    {
+        _virtualTable.ecs_set_component_actions_w_id(world, id, actions);
+    }
+
+    // Function @ flecs.h:958:6
+    public static CBool ecs_should_quit(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_should_quit(world);
+    }
+
+    // Function @ flecs.h:950:6
+    public static void ecs_quit(ecs_world_t* world)
+    {
+        _virtualTable.ecs_quit(world);
+    }
+
+    // Function @ flecs.h:938:6
+    public static void ecs_run_post_frame(ecs_world_t* world, ecs_fini_action_t action, void* ctx)
+    {
+        _virtualTable.ecs_run_post_frame(world, action, ctx);
+    }
+
+    // Function @ flecs.h:925:6
+    public static void ecs_atfini(ecs_world_t* world, ecs_fini_action_t action, void* ctx)
+    {
+        _virtualTable.ecs_atfini(world, action, ctx);
+    }
+
+    // Function @ flecs.h:914:5
+    public static int ecs_fini(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_fini(world);
+    }
+
+    // Function @ flecs.h:903:14
+    public static ecs_world_t* ecs_init_w_args(int argc, CString* argv)
+    {
+        return _virtualTable.ecs_init_w_args(argc, argv);
+    }
+
+    // Function @ flecs.h:893:14
+    public static ecs_world_t* ecs_mini()
+    {
+        return _virtualTable.ecs_mini();
+    }
+
+    // Function @ flecs.h:886:14
+    public static ecs_world_t* ecs_init()
+    {
+        return _virtualTable.ecs_init();
+    }
+
+    // Function @ deprecated.h:550:6
+    public static void ecs_query_group_by(ecs_world_t* world, ecs_query_t* query, ecs_entity_t component, ecs_rank_type_action_t rank_action)
+    {
+        _virtualTable.ecs_query_group_by(world, query, component, rank_action);
+    }
+
+    // Function @ deprecated.h:542:6
+    public static void ecs_query_order_by(ecs_world_t* world, ecs_query_t* query, ecs_entity_t component, ecs_compare_action_t compare)
+    {
+        _virtualTable.ecs_query_order_by(world, query, component, compare);
+    }
+
+    // Function @ deprecated.h:537:6
+    public static void ecs_query_free(ecs_query_t* query)
+    {
+        _virtualTable.ecs_query_free(query);
+    }
+
+    // Function @ deprecated.h:530:14
+    public static ecs_query_t* ecs_subquery_new(ecs_world_t* world, ecs_query_t* parent, CString sig)
+    {
+        return _virtualTable.ecs_subquery_new(world, parent, sig);
+    }
+
+    // Function @ deprecated.h:524:14
+    public static ecs_query_t* ecs_query_new(ecs_world_t* world, CString sig)
+    {
+        return _virtualTable.ecs_query_new(world, sig);
+    }
+
+    // Function @ deprecated.h:516:14
+    public static ecs_entity_t ecs_set_rate_filter(ecs_world_t* world, ecs_entity_t filter, int rate, ecs_entity_t source)
+    {
+        return _virtualTable.ecs_set_rate_filter(world, filter, rate, source);
+    }
+
+    // Function @ deprecated.h:510:9
+    public static int ecs_table_component_index(ecs_iter_t* it, ecs_entity_t component)
+    {
+        return _virtualTable.ecs_table_component_index(it, component);
+    }
+
+    // Function @ deprecated.h:504:8
+    public static ulong ecs_table_column_size(ecs_iter_t* it, int column)
+    {
+        return _virtualTable.ecs_table_column_size(it, column);
+    }
+
+    // Function @ deprecated.h:498:7
+    public static void* ecs_table_column(ecs_iter_t* it, int column)
+    {
+        return _virtualTable.ecs_table_column(it, column);
+    }
+
+    // Function @ deprecated.h:492:6
+    public static CBool ecs_is_owned(ecs_iter_t* it, int column)
+    {
+        return _virtualTable.ecs_is_owned(it, column);
+    }
+
+    // Function @ deprecated.h:486:6
+    public static CBool ecs_is_readonly(ecs_iter_t* it, int column)
+    {
+        return _virtualTable.ecs_is_readonly(it, column);
+    }
+
+    // Function @ deprecated.h:480:8
+    public static ulong ecs_column_size(ecs_iter_t* it, int column)
+    {
+        return _virtualTable.ecs_column_size(it, column);
+    }
+
+    // Function @ deprecated.h:474:12
+    public static ecs_type_t ecs_column_type(ecs_iter_t* it, int column)
+    {
+        return _virtualTable.ecs_column_type(it, column);
+    }
+
+    // Function @ deprecated.h:468:14
+    public static ecs_entity_t ecs_column_entity(ecs_iter_t* it, int column)
+    {
+        return _virtualTable.ecs_column_entity(it, column);
+    }
+
+    // Function @ deprecated.h:462:14
+    public static ecs_entity_t ecs_column_source(ecs_iter_t* it, int column)
+    {
+        return _virtualTable.ecs_column_source(it, column);
+    }
+
+    // Function @ deprecated.h:451:7
+    public static void* ecs_element_w_size(ecs_iter_t* it, ulong size, int column, int row)
+    {
+        return _virtualTable.ecs_element_w_size(it, size, column, row);
+    }
+
+    // Function @ deprecated.h:445:9
+    public static int ecs_column_index_from_name(ecs_iter_t* it, CString name)
+    {
+        return _virtualTable.ecs_column_index_from_name(it, name);
+    }
+
+    // Function @ deprecated.h:435:7
+    public static void* ecs_column_w_size(ecs_iter_t* it, ulong size, int column)
+    {
+        return _virtualTable.ecs_column_w_size(it, size, column);
+    }
+
+    // Function @ deprecated.h:427:6
+    public static CBool ecs_type_owns_entity(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity, CBool owned)
+    {
+        return _virtualTable.ecs_type_owns_entity(world, type, entity, owned);
+    }
+
+    // Function @ deprecated.h:420:6
+    public static CBool ecs_type_has_entity(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity)
+    {
+        return _virtualTable.ecs_type_has_entity(world, type, entity);
+    }
+
+    // Function @ deprecated.h:414:14
+    public static ecs_entity_t ecs_type_to_entity(ecs_world_t* world, ecs_type_t type)
+    {
+        return _virtualTable.ecs_type_to_entity(world, type);
+    }
+
+    // Function @ deprecated.h:408:12
+    public static ecs_type_t ecs_type_from_entity(ecs_world_t* world, ecs_entity_t entity)
+    {
+        return _virtualTable.ecs_type_from_entity(world, entity);
+    }
+
+    // Function @ deprecated.h:400:6
+    public static void ecs_add_remove_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id_add, ecs_id_t id_remove)
+    {
+        _virtualTable.ecs_add_remove_entity(world, entity, id_add, id_remove);
+    }
+
+    // Function @ deprecated.h:393:6
+    public static void ecs_remove_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
+    {
+        _virtualTable.ecs_remove_entity(world, entity, id);
+    }
+
+    // Function @ deprecated.h:386:6
+    public static void ecs_add_entity(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t entity_add)
+    {
+        _virtualTable.ecs_add_entity(world, entity, entity_add);
+    }
+
+    // Function @ deprecated.h:381:9
+    public static int ecs_get_thread_index(ecs_world_t* world)
+    {
+        return _virtualTable.ecs_get_thread_index(world);
+    }
+
+    // Function @ deprecated.h:371:14
+    public static ecs_entity_t ecs_get_parent_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
+    {
+        return _virtualTable.ecs_get_parent_w_entity(world, entity, id);
+    }
+
+    // Function @ deprecated.h:363:8
+    public static ulong ecs_entity_str(ecs_world_t* world, ecs_id_t entity, CString buffer, ulong buffer_len)
+    {
+        return _virtualTable.ecs_entity_str(world, entity, buffer, buffer_len);
+    }
+
+    // Function @ deprecated.h:356:6
+    public static CBool ecs_has_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
+    {
+        return _virtualTable.ecs_has_entity(world, entity, id);
+    }
+
+    // Function @ deprecated.h:347:14
+    public static ecs_entity_t ecs_set_ptr_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, ulong size, void* ptr)
+    {
+        return _virtualTable.ecs_set_ptr_w_entity(world, entity, id, size, ptr);
+    }
+
+    // Function @ deprecated.h:340:6
+    public static void ecs_modified_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
+    {
+        _virtualTable.ecs_modified_w_entity(world, entity, id);
+    }
+
+    // Function @ deprecated.h:332:7
+    public static void* ecs_get_mut_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, CBool* is_added)
+    {
+        return _virtualTable.ecs_get_mut_w_entity(world, entity, id, is_added);
+    }
+
+    // Function @ deprecated.h:324:13
+    public static void* ecs_get_ref_w_entity(ecs_world_t* world, ecs_ref_t* @ref, ecs_entity_t entity, ecs_id_t id)
+    {
+        return _virtualTable.ecs_get_ref_w_entity(world, @ref, entity, id);
+    }
+
+    // Function @ deprecated.h:317:13
+    public static void* ecs_get_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
+    {
+        return _virtualTable.ecs_get_w_entity(world, entity, id);
+    }
+
+    // Function @ deprecated.h:310:13
+    public static void* ecs_get_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
+    {
+        return _virtualTable.ecs_get_w_id(world, entity, id);
+    }
+
+    // Function @ deprecated.h:303:6
+    public static CBool ecs_is_component_enabled_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
+    {
+        return _virtualTable.ecs_is_component_enabled_w_entity(world, entity, id);
+    }
+
+    // Function @ deprecated.h:295:6
+    public static void ecs_enable_component_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, CBool enable)
+    {
+        _virtualTable.ecs_enable_component_w_entity(world, entity, id, enable);
+    }
+
+    // Function @ deprecated.h:288:21
+    public static ecs_entity_t* ecs_bulk_new_w_entity(ecs_world_t* world, ecs_id_t id, int count)
+    {
+        return _virtualTable.ecs_bulk_new_w_entity(world, id, count);
+    }
+
+    // Function @ deprecated.h:282:14
+    public static ecs_entity_t ecs_new_w_entity(ecs_world_t* world, ecs_id_t id)
+    {
+        return _virtualTable.ecs_new_w_entity(world, id);
+    }
+
+    // Function @ deprecated.h:275:6
+    public static void ecs_set_component_actions_w_entity(ecs_world_t* world, ecs_id_t id, EcsComponentLifecycle* actions)
+    {
+        _virtualTable.ecs_set_component_actions_w_entity(world, id, actions);
+    }
+
+    // Function @ deprecated.h:269:9
+    public static int ecs_count_w_filter(ecs_world_t* world, ecs_filter_t* filter)
+    {
+        return _virtualTable.ecs_count_w_filter(world, filter);
+    }
+
+    // Function @ deprecated.h:263:9
+    public static int ecs_count_entity(ecs_world_t* world, ecs_id_t entity)
+    {
+        return _virtualTable.ecs_count_entity(world, entity);
+    }
+
+    // Function @ deprecated.h:257:9
+    public static int ecs_count_type(ecs_world_t* world, ecs_type_t type)
+    {
+        return _virtualTable.ecs_count_type(world, type);
+    }
+
+    // Function @ deprecated.h:250:6
+    public static CBool ecs_has_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t type)
+    {
+        return _virtualTable.ecs_has_type(world, entity, type);
+    }
+
+    // Function @ deprecated.h:242:6
+    public static void ecs_add_remove_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t to_add, ecs_type_t to_remove)
+    {
+        _virtualTable.ecs_add_remove_type(world, entity, to_add, to_remove);
+    }
+
+    // Function @ deprecated.h:235:6
+    public static void ecs_remove_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t type)
+    {
+        _virtualTable.ecs_remove_type(world, entity, type);
+    }
+
+    // Function @ deprecated.h:228:6
+    public static void ecs_add_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t type)
+    {
+        _virtualTable.ecs_add_type(world, entity, type);
+    }
+
+    // Function @ deprecated.h:221:21
+    public static ecs_entity_t* ecs_bulk_new_w_type(ecs_world_t* world, ecs_type_t type, int count)
+    {
+        return _virtualTable.ecs_bulk_new_w_type(world, type, count);
+    }
+
+    // Function @ deprecated.h:215:14
+    public static ecs_entity_t ecs_new_w_type(ecs_world_t* world, ecs_type_t type)
+    {
+        return _virtualTable.ecs_new_w_type(world, type);
+    }
+
+    // Function @ deprecated.h:208:6
+    public static void ecs_dim_type(ecs_world_t* world, ecs_type_t type, int entity_count)
+    {
+        _virtualTable.ecs_dim_type(world, type, entity_count);
+    }
+
+    // Function @ type.h:109:9
+    public static int ecs_type_match(ecs_type_t type, int start_index, ecs_entity_t pair)
+    {
+        return _virtualTable.ecs_type_match(type, start_index, pair);
+    }
+
+    // Function @ type.h:104:9
+    public static int ecs_type_index_of(ecs_type_t type, ecs_entity_t component)
+    {
+        return _virtualTable.ecs_type_index_of(type, component);
+    }
+
+    // Function @ type.h:98:14
+    public static ecs_entity_t ecs_type_get_entity_for_xor(ecs_world_t* world, ecs_type_t type, ecs_entity_t xor_tag)
+    {
+        return _virtualTable.ecs_type_get_entity_for_xor(world, type, xor_tag);
+    }
+
+    // Function @ type.h:88:6
+    public static CBool ecs_type_find_id(ecs_world_t* world, ecs_type_t type, ecs_entity_t id, ecs_entity_t rel, int min_depth, int max_depth, ecs_entity_t* @out)
+    {
+        return _virtualTable.ecs_type_find_id(world, type, id, rel, min_depth, max_depth, @out);
+    }
+
+    // Function @ type.h:81:6
+    public static CBool ecs_type_owns_type(ecs_world_t* world, ecs_type_t type, ecs_type_t has, CBool owned)
+    {
+        return _virtualTable.ecs_type_owns_type(world, type, has, owned);
+    }
+
+    // Function @ type.h:74:6
+    public static CBool ecs_type_owns_id(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity, CBool owned)
+    {
+        return _virtualTable.ecs_type_owns_id(world, type, entity, owned);
+    }
+
+    // Function @ type.h:68:6
+    public static CBool ecs_type_has_type(ecs_world_t* world, ecs_type_t type, ecs_type_t has)
+    {
+        return _virtualTable.ecs_type_has_type(world, type, has);
+    }
+
+    // Function @ type.h:62:6
+    public static CBool ecs_type_has_id(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity)
+    {
+        return _virtualTable.ecs_type_has_id(world, type, entity);
+    }
+
+    // Function @ type.h:56:12
+    public static ecs_type_t ecs_type_remove(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity)
+    {
+        return _virtualTable.ecs_type_remove(world, type, entity);
+    }
+
+    // Function @ type.h:50:12
+    public static ecs_type_t ecs_type_add(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity)
+    {
+        return _virtualTable.ecs_type_add(world, type, entity);
+    }
+
+    // Function @ type.h:43:12
+    public static ecs_type_t ecs_type_merge(ecs_world_t* world, ecs_type_t type, ecs_type_t type_add, ecs_type_t type_remove)
+    {
+        return _virtualTable.ecs_type_merge(world, type, type_add, type_remove);
+    }
+
+    // Function @ type.h:37:12
+    public static ecs_type_t ecs_type_find(ecs_world_t* world, ecs_entity_t* array, int count)
+    {
+        return _virtualTable.ecs_type_find(world, array, count);
+    }
+
+    // Function @ type.h:32:12
+    public static ecs_type_t ecs_type_from_str(ecs_world_t* world, CString expr)
+    {
+        return _virtualTable.ecs_type_from_str(world, expr);
+    }
+
+    // Function @ type.h:27:7
+    public static CString ecs_type_str(ecs_world_t* world, ecs_type_t type)
+    {
+        return _virtualTable.ecs_type_str(world, type);
+    }
+
+    // Function @ type.h:22:14
+    public static ecs_entity_t ecs_type_to_id(ecs_world_t* world, ecs_type_t type)
+    {
+        return _virtualTable.ecs_type_to_id(world, type);
+    }
+
+    // Function @ type.h:17:12
+    public static ecs_type_t ecs_type_from_id(ecs_world_t* world, ecs_entity_t entity)
+    {
+        return _virtualTable.ecs_type_from_id(world, entity);
+    }
+
+    // Function @ log.h:158:6
+    public static void _ecs_parser_error(CString name, CString expr, long column, CString fmt)
+    {
+        _virtualTable._ecs_parser_error(name, expr, column, fmt);
+    }
+
+    // Function @ log.h:141:6
+    public static void _ecs_assert(CBool condition, int error_code, CString param, CString condition_str, CString file, int line)
+    {
+        _virtualTable._ecs_assert(condition, error_code, param, condition_str, file, line);
+    }
+
+    // Function @ log.h:130:6
+    public static void _ecs_abort(int error_code, CString param, CString file, int line)
+    {
+        _virtualTable._ecs_abort(error_code, param, file, line);
+    }
+
+    // Function @ log.h:125:13
+    public static CString ecs_strerror(int error_code)
+    {
+        return _virtualTable.ecs_strerror(error_code);
+    }
+
+    // Function @ log.h:71:6
+    public static void ecs_log_pop()
+    {
+        _virtualTable.ecs_log_pop();
+    }
+
+    // Function @ log.h:68:6
+    public static void ecs_log_push()
+    {
+        _virtualTable.ecs_log_push();
+    }
+
+    // Function @ log.h:62:6
+    public static void _ecs_deprecated(CString file, int line, CString msg)
+    {
+        _virtualTable._ecs_deprecated(file, line, msg);
+    }
+
+    // Function @ log.h:55:6
+    public static void _ecs_err(CString file, int line, CString fmt)
+    {
+        _virtualTable._ecs_err(file, line, fmt);
+    }
+
+    // Function @ log.h:48:6
+    public static void _ecs_warn(CString file, int line, CString fmt)
+    {
+        _virtualTable._ecs_warn(file, line, fmt);
+    }
+
+    // Function @ log.h:40:6
+    public static void _ecs_trace(int level, CString file, int line, CString fmt)
+    {
+        _virtualTable._ecs_trace(level, file, line, fmt);
+    }
+
+    // Function @ api_support.h:80:15
+    public static ecs_filter_t* ecs_query_get_filter(ecs_query_t* query)
+    {
+        return _virtualTable.ecs_query_get_filter(query);
+    }
+
+    // Function @ api_support.h:75:6
+    public static CBool ecs_identifier_is_var(CString id)
+    {
+        return _virtualTable.ecs_identifier_is_var(id);
+    }
+
+    // Function @ api_support.h:72:6
+    public static CBool ecs_identifier_is_0(CString id)
+    {
+        return _virtualTable.ecs_identifier_is_0(id);
+    }
+
+    // Function @ api_support.h:64:6
+    public static CBool ecs_component_has_actions(ecs_world_t* world, ecs_entity_t component)
+    {
+        return _virtualTable.ecs_component_has_actions(world, component);
+    }
+
+    // Function @ api_support.h:60:7
+    public static CString ecs_module_path_from_c(CString c_name)
+    {
+        return _virtualTable.ecs_module_path_from_c(c_name);
+    }
+
+    // Function @ api_support.h:52:14
+    public static ecs_entity_t ecs_new_module(ecs_world_t* world, ecs_entity_t e, CString name, ulong size, ulong alignment)
+    {
+        return _virtualTable.ecs_new_module(world, e, name, size, alignment);
+    }
+
+    // Function @ os_api.h:431:6
+    public static CBool ecs_os_has_modules()
+    {
+        return _virtualTable.ecs_os_has_modules();
+    }
+
+    // Function @ os_api.h:427:6
+    public static CBool ecs_os_has_dl()
+    {
+        return _virtualTable.ecs_os_has_dl();
+    }
+
+    // Function @ os_api.h:423:6
+    public static CBool ecs_os_has_logging()
+    {
+        return _virtualTable.ecs_os_has_logging();
+    }
+
+    // Function @ os_api.h:419:6
+    public static CBool ecs_os_has_time()
+    {
+        return _virtualTable.ecs_os_has_time();
+    }
+
+    // Function @ os_api.h:415:6
+    public static CBool ecs_os_has_threading()
+    {
+        return _virtualTable.ecs_os_has_threading();
+    }
+
+    // Function @ os_api.h:411:6
+    public static CBool ecs_os_has_heap()
+    {
+        return _virtualTable.ecs_os_has_heap();
+    }
+
+    // Function @ os_api.h:405:7
+    public static void* ecs_os_memdup(void* src, ecs_size_t size)
+    {
+        return _virtualTable.ecs_os_memdup(src, size);
+    }
+
+    // Function @ os_api.h:401:8
+    public static double ecs_time_to_double(ecs_time_t t)
+    {
+        return _virtualTable.ecs_time_to_double(t);
+    }
+
+    // Function @ os_api.h:395:12
+    public static ecs_time_t ecs_time_sub(ecs_time_t t1, ecs_time_t t2)
+    {
+        return _virtualTable.ecs_time_sub(t1, t2);
+    }
+
+    // Function @ os_api.h:390:8
+    public static double ecs_time_measure(ecs_time_t* start)
+    {
+        return _virtualTable.ecs_time_measure(start);
+    }
+
+    // Function @ os_api.h:385:6
+    public static void ecs_sleepf(double t)
+    {
+        _virtualTable.ecs_sleepf(t);
+    }
+
+    // Function @ os_api.h:369:6
+    public static void ecs_os_dbg(CString fmt)
+    {
+        _virtualTable.ecs_os_dbg(fmt);
+    }
+
+    // Function @ os_api.h:366:6
+    public static void ecs_os_err(CString fmt)
+    {
+        _virtualTable.ecs_os_err(fmt);
+    }
+
+    // Function @ os_api.h:363:6
+    public static void ecs_os_warn(CString fmt)
+    {
+        _virtualTable.ecs_os_warn(fmt);
+    }
+
+    // Function @ os_api.h:360:6
+    public static void ecs_os_log(CString fmt)
+    {
+        _virtualTable.ecs_os_log(fmt);
+    }
+
+    // Function @ os_api.h:267:6
+    public static void ecs_os_set_api_defaults()
+    {
+        _virtualTable.ecs_os_set_api_defaults();
+    }
+
+    // Function @ os_api.h:263:6
+    public static void ecs_os_set_api(ecs_os_api_t* os_api)
+    {
+        _virtualTable.ecs_os_set_api(os_api);
+    }
+
+    // Function @ os_api.h:260:6
+    public static void ecs_os_fini()
+    {
+        _virtualTable.ecs_os_fini();
+    }
+
+    // Function @ os_api.h:257:6
+    public static void ecs_os_init()
+    {
+        _virtualTable.ecs_os_init();
+    }
+
+    // Function @ strbuf.h:166:6
+    public static CBool ecs_strbuf_list_appendstr(ecs_strbuf_t* buffer, CString str)
+    {
+        return _virtualTable.ecs_strbuf_list_appendstr(buffer, str);
+    }
+
+    // Function @ strbuf.h:159:6
+    public static CBool ecs_strbuf_list_append(ecs_strbuf_t* buffer, CString fmt)
+    {
+        return _virtualTable.ecs_strbuf_list_append(buffer, fmt);
+    }
+
+    // Function @ strbuf.h:154:6
+    public static void ecs_strbuf_list_next(ecs_strbuf_t* buffer)
+    {
+        _virtualTable.ecs_strbuf_list_next(buffer);
+    }
+
+    // Function @ strbuf.h:148:6
+    public static void ecs_strbuf_list_pop(ecs_strbuf_t* buffer, CString list_close)
+    {
+        _virtualTable.ecs_strbuf_list_pop(buffer, list_close);
+    }
+
+    // Function @ strbuf.h:141:6
+    public static void ecs_strbuf_list_push(ecs_strbuf_t* buffer, CString list_open, CString separator)
+    {
+        _virtualTable.ecs_strbuf_list_push(buffer, list_open, separator);
+    }
+
+    // Function @ strbuf.h:136:6
+    public static void ecs_strbuf_reset(ecs_strbuf_t* buffer)
+    {
+        _virtualTable.ecs_strbuf_reset(buffer);
+    }
+
+    // Function @ strbuf.h:131:7
+    public static CString ecs_strbuf_get(ecs_strbuf_t* buffer)
+    {
+        return _virtualTable.ecs_strbuf_get(buffer);
+    }
+
+    // Function @ strbuf.h:124:6
+    public static CBool ecs_strbuf_appendstrn(ecs_strbuf_t* buffer, CString str, int n)
+    {
+        return _virtualTable.ecs_strbuf_appendstrn(buffer, str, n);
+    }
+
+    // Function @ strbuf.h:117:6
+    public static CBool ecs_strbuf_appendstr_zerocpy_const(ecs_strbuf_t* buffer, CString str)
+    {
+        return _virtualTable.ecs_strbuf_appendstr_zerocpy_const(buffer, str);
+    }
+
+    // Function @ strbuf.h:110:6
+    public static CBool ecs_strbuf_appendstr_zerocpy(ecs_strbuf_t* buffer, CString str)
+    {
+        return _virtualTable.ecs_strbuf_appendstr_zerocpy(buffer, str);
+    }
+
+    // Function @ strbuf.h:103:6
+    public static CBool ecs_strbuf_mergebuff(ecs_strbuf_t* dst_buffer, ecs_strbuf_t* src_buffer)
+    {
+        return _virtualTable.ecs_strbuf_mergebuff(dst_buffer, src_buffer);
+    }
+
+    // Function @ strbuf.h:96:6
+    public static CBool ecs_strbuf_appendstr(ecs_strbuf_t* buffer, CString str)
+    {
+        return _virtualTable.ecs_strbuf_appendstr(buffer, str);
+    }
+
+    // Function @ strbuf.h:88:6
+    public static CBool ecs_strbuf_vappend(ecs_strbuf_t* buffer, CString fmt, IntPtr args)
+    {
+        return _virtualTable.ecs_strbuf_vappend(buffer, fmt, args);
+    }
+
+    // Function @ strbuf.h:80:6
+    public static CBool ecs_strbuf_append(ecs_strbuf_t* buffer, CString fmt)
+    {
+        return _virtualTable.ecs_strbuf_append(buffer, fmt);
+    }
+
+    // Function @ map.h:165:6
+    public static void ecs_map_memory(ecs_map_t* map, int* allocd, int* used)
+    {
+        _virtualTable.ecs_map_memory(map, allocd, used);
+    }
+
+    // Function @ map.h:159:6
+    public static void ecs_map_set_size(ecs_map_t* map, int elem_count)
+    {
+        _virtualTable.ecs_map_set_size(map, elem_count);
+    }
+
+    // Function @ map.h:153:6
+    public static void ecs_map_grow(ecs_map_t* map, int elem_count)
+    {
+        _virtualTable.ecs_map_grow(map, elem_count);
+    }
+
+    // Function @ map.h:144:7
+    public static void* _ecs_map_next_ptr(ecs_map_iter_t* iter, ecs_map_key_t* key)
+    {
+        return _virtualTable._ecs_map_next_ptr(iter, key);
+    }
+
+    // Function @ map.h:134:7
+    public static void* _ecs_map_next(ecs_map_iter_t* iter, ecs_size_t elem_size, ecs_map_key_t* key)
+    {
+        return _virtualTable._ecs_map_next(iter, elem_size, key);
+    }
+
+    // Function @ map.h:129:16
+    public static ecs_map_iter_t ecs_map_iter(ecs_map_t* map)
+    {
+        return _virtualTable.ecs_map_iter(map);
+    }
+
+    // Function @ map.h:124:9
+    public static int ecs_map_bucket_count(ecs_map_t* map)
+    {
+        return _virtualTable.ecs_map_bucket_count(map);
+    }
+
+    // Function @ map.h:119:9
+    public static int ecs_map_count(ecs_map_t* map)
+    {
+        return _virtualTable.ecs_map_count(map);
+    }
+
+    // Function @ map.h:114:6
+    public static void ecs_map_clear(ecs_map_t* map)
+    {
+        _virtualTable.ecs_map_clear(map);
+    }
+
+    // Function @ map.h:108:6
+    public static void ecs_map_remove(ecs_map_t* map, ecs_map_key_t key)
+    {
+        _virtualTable.ecs_map_remove(map, key);
+    }
+
+    // Function @ map.h:103:6
+    public static void ecs_map_free(ecs_map_t* map)
+    {
+        _virtualTable.ecs_map_free(map);
+    }
+
+    // Function @ map.h:92:7
+    public static void* _ecs_map_set(ecs_map_t* map, ecs_size_t elem_size, ecs_map_key_t key, void* payload)
+    {
+        return _virtualTable._ecs_map_set(map, elem_size, key, payload);
+    }
+
+    // Function @ map.h:82:8
+    public static void* _ecs_map_ensure(ecs_map_t* map, ecs_size_t elem_size, ecs_map_key_t key)
+    {
+        return _virtualTable._ecs_map_ensure(map, elem_size, key);
+    }
+
+    // Function @ map.h:73:8
+    public static void* _ecs_map_get_ptr(ecs_map_t* map, ecs_map_key_t key)
+    {
+        return _virtualTable._ecs_map_get_ptr(map, key);
+    }
+
+    // Function @ map.h:60:8
+    public static void* _ecs_map_get(ecs_map_t* map, ecs_size_t elem_size, ecs_map_key_t key)
+    {
+        return _virtualTable._ecs_map_get(map, elem_size, key);
+    }
+
+    // Function @ map.h:50:13
+    public static ecs_map_t* _ecs_map_new(ecs_size_t elem_size, ecs_size_t alignment, int elem_count)
+    {
+        return _virtualTable._ecs_map_new(elem_size, alignment, elem_count);
+    }
+
+    // Function @ vector.h:370:15
+    public static ecs_vector_t* _ecs_vector_copy(ecs_vector_t* src, ecs_size_t elem_size, short offset)
+    {
+        return _virtualTable._ecs_vector_copy(src, elem_size, offset);
+    }
+
+    // Function @ vector.h:355:6
+    public static void _ecs_vector_memory(ecs_vector_t* vector, ecs_size_t elem_size, short offset, int* allocd, int* used)
+    {
+        _virtualTable._ecs_vector_memory(vector, elem_size, offset, allocd, used);
+    }
+
+    // Function @ vector.h:344:6
+    public static void _ecs_vector_sort(ecs_vector_t* vector, ecs_size_t elem_size, short offset, ecs_comparator_t compare_action)
+    {
+        _virtualTable._ecs_vector_sort(vector, elem_size, offset, compare_action);
+    }
+
+    // Function @ vector.h:331:7
+    public static void* _ecs_vector_first(ecs_vector_t* vector, ecs_size_t elem_size, short offset)
+    {
+        return _virtualTable._ecs_vector_first(vector, elem_size, offset);
+    }
+
+    // Function @ vector.h:326:9
+    public static int ecs_vector_size(ecs_vector_t* vector)
+    {
+        return _virtualTable.ecs_vector_size(vector);
+    }
+
+    // Function @ vector.h:321:9
+    public static int ecs_vector_count(ecs_vector_t* vector)
+    {
+        return _virtualTable.ecs_vector_count(vector);
+    }
+
+    // Function @ vector.h:307:9
+    public static int _ecs_vector_set_count(ecs_vector_t** vector, ecs_size_t elem_size, short offset, int elem_count)
+    {
+        return _virtualTable._ecs_vector_set_count(vector, elem_size, offset, elem_count);
+    }
+
+    // Function @ vector.h:292:9
+    public static int _ecs_vector_set_size(ecs_vector_t** vector, ecs_size_t elem_size, short offset, int elem_count)
+    {
+        return _virtualTable._ecs_vector_set_size(vector, elem_size, offset, elem_count);
+    }
+
+    // Function @ vector.h:281:9
+    public static int _ecs_vector_grow(ecs_vector_t** vector, ecs_size_t elem_size, short offset, int elem_count)
+    {
+        return _virtualTable._ecs_vector_grow(vector, elem_size, offset, elem_count);
+    }
+
+    // Function @ vector.h:271:6
+    public static void _ecs_vector_reclaim(ecs_vector_t** vector, ecs_size_t elem_size, short offset)
+    {
+        _virtualTable._ecs_vector_reclaim(vector, elem_size, offset);
+    }
+
+    // Function @ vector.h:257:9
+    public static int _ecs_vector_remove_index(ecs_vector_t* vector, ecs_size_t elem_size, short offset, int index)
+    {
+        return _virtualTable._ecs_vector_remove_index(vector, elem_size, offset, index);
+    }
+
+    // Function @ vector.h:245:9
+    public static int _ecs_vector_move_index(ecs_vector_t** dst, ecs_vector_t* src, ecs_size_t elem_size, short offset, int index)
+    {
+        return _virtualTable._ecs_vector_move_index(dst, src, elem_size, offset, index);
+    }
+
+    // Function @ vector.h:234:6
+    public static CBool _ecs_vector_pop(ecs_vector_t* vector, ecs_size_t elem_size, short offset, void* value)
+    {
+        return _virtualTable._ecs_vector_pop(vector, elem_size, offset, value);
+    }
+
+    // Function @ vector.h:229:6
+    public static void ecs_vector_remove_last(ecs_vector_t* vector)
+    {
+        _virtualTable.ecs_vector_remove_last(vector);
+    }
+
+    // Function @ vector.h:218:9
+    public static int _ecs_vector_set_min_count(ecs_vector_t** vector_inout, ecs_size_t elem_size, short offset, int elem_count)
+    {
+        return _virtualTable._ecs_vector_set_min_count(vector_inout, elem_size, offset, elem_count);
+    }
+
+    // Function @ vector.h:206:9
+    public static int _ecs_vector_set_min_size(ecs_vector_t** array_inout, ecs_size_t elem_size, short offset, int elem_count)
+    {
+        return _virtualTable._ecs_vector_set_min_size(array_inout, elem_size, offset, elem_count);
+    }
+
+    // Function @ vector.h:195:7
+    public static void* _ecs_vector_last(ecs_vector_t* vector, ecs_size_t elem_size, short offset)
+    {
+        return _virtualTable._ecs_vector_last(vector, elem_size, offset);
+    }
+
+    // Function @ vector.h:181:7
+    public static void* _ecs_vector_get(ecs_vector_t* vector, ecs_size_t elem_size, short offset, int index)
+    {
+        return _virtualTable._ecs_vector_get(vector, elem_size, offset, index);
+    }
+
+    // Function @ vector.h:167:7
+    public static void* _ecs_vector_addn(ecs_vector_t** array_inout, ecs_size_t elem_size, short offset, int elem_count)
+    {
+        return _virtualTable._ecs_vector_addn(array_inout, elem_size, offset, elem_count);
+    }
+
+    // Function @ vector.h:154:7
+    public static void* _ecs_vector_add(ecs_vector_t** array_inout, ecs_size_t elem_size, short offset)
+    {
+        return _virtualTable._ecs_vector_add(array_inout, elem_size, offset);
+    }
+
+    // Function @ vector.h:148:6
+    public static void ecs_vector_assert_alignment(ecs_vector_t* vector, ecs_size_t elem_alignment)
+    {
+        _virtualTable.ecs_vector_assert_alignment(vector, elem_alignment);
+    }
+
+    // Function @ vector.h:142:6
+    public static void ecs_vector_assert_size(ecs_vector_t* vector_inout, ecs_size_t elem_size)
+    {
+        _virtualTable.ecs_vector_assert_size(vector_inout, elem_size);
+    }
+
+    // Function @ vector.h:137:6
+    public static void ecs_vector_clear(ecs_vector_t* vector)
+    {
+        _virtualTable.ecs_vector_clear(vector);
+    }
+
+    // Function @ vector.h:132:6
+    public static void ecs_vector_free(ecs_vector_t* vector)
+    {
+        _virtualTable.ecs_vector_free(vector);
+    }
+
+    // Function @ vector.h:122:6
+    public static void _ecs_vector_zero(ecs_vector_t* vector, ecs_size_t elem_size, short offset)
+    {
+        _virtualTable._ecs_vector_zero(vector, elem_size, offset);
+    }
+
+    // Function @ vector.h:111:15
+    public static ecs_vector_t* _ecs_vector_from_array(ecs_size_t elem_size, short offset, int elem_count, void* array)
+    {
+        return _virtualTable._ecs_vector_from_array(elem_size, offset, elem_count, array);
+    }
+
+    // Function @ vector.h:98:15
+    public static ecs_vector_t* _ecs_vector_new(ecs_size_t elem_size, short offset, int elem_count)
+    {
+        return _virtualTable._ecs_vector_new(elem_size, offset, elem_count);
+    }
+
+    // FunctionPointer @ flecs.h:124:16
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_iter_next_action_t
     {
         public delegate* unmanaged<ecs_iter_t*, CBool> Pointer;
     }
 
-    // Record @ vector.h:40
+    // FunctionPointer @ flecs.h:150:16
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_ctx_free_t
+    {
+        public delegate* unmanaged<void*, void> Pointer;
+    }
+
+    // FunctionPointer @ system.h:77:16
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_system_status_action_t
+    {
+        public delegate* unmanaged<ecs_world_t*, ecs_entity_t, ecs_system_status_t, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ flecs.h:121:16
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_iter_action_t
+    {
+        public delegate* unmanaged<ecs_iter_t*, void> Pointer;
+    }
+
+    // FunctionPointer @ flecs.h:135:19
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_rank_type_action_t
+    {
+        public delegate* unmanaged<ecs_world_t*, ecs_entity_t, ecs_type_t, int> Pointer;
+    }
+
+    // FunctionPointer @ flecs.h:128:15
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_compare_action_t
+    {
+        public delegate* unmanaged<ecs_entity_t, void*, ecs_entity_t, void*, int> Pointer;
+    }
+
+    // FunctionPointer @ flecs.h:141:16
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_module_action_t
+    {
+        public delegate* unmanaged<ecs_world_t*, void> Pointer;
+    }
+
+    // FunctionPointer @ api_types.h:231:16
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_move_t
+    {
+        public delegate* unmanaged<ecs_world_t*, ecs_entity_t, ecs_entity_t*, ecs_entity_t*, void*, void*, ulong, int, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ api_types.h:219:16
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_copy_t
+    {
+        public delegate* unmanaged<ecs_world_t*, ecs_entity_t, ecs_entity_t*, ecs_entity_t*, void*, void*, ulong, int, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ api_types.h:209:16
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_xtor_t
+    {
+        public delegate* unmanaged<ecs_world_t*, ecs_entity_t, ecs_entity_t*, void*, ulong, int, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ flecs.h:145:16
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_fini_action_t
+    {
+        public delegate* unmanaged<ecs_world_t*, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:185:9
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_module_to_path_t
+    {
+        public delegate* unmanaged<CString, CString> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:181:8
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_dlclose_t
+    {
+        public delegate* unmanaged<ecs_os_dl_t, void> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:176:17
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_dlproc_t
+    {
+        public delegate* unmanaged<ecs_os_dl_t, CString, ecs_os_proc_t> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:58:16
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_proc_t
+    {
+        public delegate* unmanaged<void> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:172:15
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_dlopen_t
+    {
+        public delegate* unmanaged<CString, ecs_os_dl_t> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:167:8
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_abort_t
+    {
+        public delegate* unmanaged<void> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:161:8
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_log_t
+    {
+        public delegate* unmanaged<CString, IntPtr, void> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:156:8
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_get_time_t
+    {
+        public delegate* unmanaged<ecs_time_t*, void> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:151:8
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_sleep_t
+    {
+        public delegate* unmanaged<int, int, void> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:146:8
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_cond_wait_t
+    {
+        public delegate* unmanaged<ecs_os_cond_t, ecs_os_mutex_t, void> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:142:8
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_cond_broadcast_t
+    {
+        public delegate* unmanaged<ecs_os_cond_t, void> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:138:8
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_cond_signal_t
+    {
+        public delegate* unmanaged<ecs_os_cond_t, void> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:134:8
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_cond_free_t
+    {
+        public delegate* unmanaged<ecs_os_cond_t, void> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:130:17
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_cond_new_t
+    {
+        public delegate* unmanaged<ecs_os_cond_t> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:117:8
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_mutex_lock_t
+    {
+        public delegate* unmanaged<ecs_os_mutex_t, void> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:125:8
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_mutex_free_t
+    {
+        public delegate* unmanaged<ecs_os_mutex_t, void> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:113:18
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_mutex_new_t
+    {
+        public delegate* unmanaged<ecs_os_mutex_t> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:107:7
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_ainc_t
+    {
+        public delegate* unmanaged<int*, int> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:101:9
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_thread_join_t
+    {
+        public delegate* unmanaged<ecs_os_thread_t, void*> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:96:19
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_thread_new_t
+    {
+        public delegate* unmanaged<ecs_os_thread_callback_t, void*, ecs_os_thread_t> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:92:9
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_thread_callback_t
+    {
+        public delegate* unmanaged<void*, void*> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:87:9
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_strdup_t
+    {
+        public delegate* unmanaged<CString, CString> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:74:8
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_free_t
+    {
+        public delegate* unmanaged<void*, void> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:83:9
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_calloc_t
+    {
+        public delegate* unmanaged<ecs_size_t, void*> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:78:9
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_realloc_t
+    {
+        public delegate* unmanaged<void*, ecs_size_t, void*> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:70:9
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_malloc_t
+    {
+        public delegate* unmanaged<ecs_size_t, void*> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:66:8
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_fini_t
+    {
+        public delegate* unmanaged<void> Pointer;
+    }
+
+    // FunctionPointer @ os_api.h:62:8
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_os_api_init_t
+    {
+        public delegate* unmanaged<void> Pointer;
+    }
+
+    // FunctionPointer @ vector.h:92:15
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_comparator_t
+    {
+        public delegate* unmanaged<void*, void*, int> Pointer;
+    }
+
+    // Struct @ stats.h:29:3
+    [StructLayout(LayoutKind.Explicit, Size = 720, Pack = 4)]
+    public struct ecs_gauge_t
+    {
+        [FieldOffset(0)] // size = 240, padding = 0
+        public fixed uint _avg[240 / 4]; // float[60]
+
+        public Span<float> avg
+        {
+            get
+            {
+                fixed (ecs_gauge_t* @this = &this)
+                {
+                    var pointer = &@this->_avg[0];
+                    var span = new Span<float>(pointer, 60);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(240)] // size = 240, padding = 0
+        public fixed uint _min[240 / 4]; // float[60]
+
+        public Span<float> min
+        {
+            get
+            {
+                fixed (ecs_gauge_t* @this = &this)
+                {
+                    var pointer = &@this->_min[0];
+                    var span = new Span<float>(pointer, 60);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(480)] // size = 240, padding = 0
+        public fixed uint _max[240 / 4]; // float[60]
+
+        public Span<float> max
+        {
+            get
+            {
+                fixed (ecs_gauge_t* @this = &this)
+                {
+                    var pointer = &@this->_max[0];
+                    var span = new Span<float>(pointer, 60);
+                    return span;
+                }
+            }
+        }
+    }
+
+    // Struct @ stats.h:112:3
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct ecs_pipeline_stats_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_vector_t* systems;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ecs_map_t* system_stats;
+    }
+
+    // Struct @ vector.h:90:29
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct ecs_vector_t
     {
@@ -1962,7 +2991,467 @@ public static unsafe partial class flecs
         public long elem_size;
     }
 
-    // Record @ map.h:40
+    // Struct @ stats.h:101:3
+    [StructLayout(LayoutKind.Explicit, Size = 5524, Pack = 4)]
+    public struct ecs_system_stats_t
+    {
+        [FieldOffset(0)] // size = 2164, padding = 0
+        public ecs_query_stats_t query_stats;
+
+        [FieldOffset(2164)] // size = 960, padding = 0
+        public ecs_counter_t time_spent;
+
+        [FieldOffset(3124)] // size = 960, padding = 0
+        public ecs_counter_t invoke_count;
+
+        [FieldOffset(4084)] // size = 720, padding = 0
+        public ecs_gauge_t active;
+
+        [FieldOffset(4804)] // size = 720, padding = 0
+        public ecs_gauge_t enabled;
+    }
+
+    // Struct @ stats.h:35:3
+    [StructLayout(LayoutKind.Explicit, Size = 960, Pack = 4)]
+    public struct ecs_counter_t
+    {
+        [FieldOffset(0)] // size = 720, padding = 0
+        public ecs_gauge_t rate;
+
+        [FieldOffset(720)] // size = 240, padding = 0
+        public fixed uint _value[240 / 4]; // float[60]
+
+        public Span<float> value
+        {
+            get
+            {
+                fixed (ecs_counter_t* @this = &this)
+                {
+                    var pointer = &@this->_value[0];
+                    var span = new Span<float>(pointer, 60);
+                    return span;
+                }
+            }
+        }
+    }
+
+    // Struct @ stats.h:92:3
+    [StructLayout(LayoutKind.Explicit, Size = 2164, Pack = 4)]
+    public struct ecs_query_stats_t
+    {
+        [FieldOffset(0)] // size = 720, padding = 0
+        public ecs_gauge_t matched_table_count;
+
+        [FieldOffset(720)] // size = 720, padding = 0
+        public ecs_gauge_t matched_empty_table_count;
+
+        [FieldOffset(1440)] // size = 720, padding = 0
+        public ecs_gauge_t matched_entity_count;
+
+        [FieldOffset(2160)] // size = 4, padding = 0
+        public int t;
+    }
+
+    // Struct @ stats.h:78:3
+    [StructLayout(LayoutKind.Explicit, Size = 24248, Pack = 4)]
+    public struct ecs_world_stats_t
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int dummy_;
+
+        [FieldOffset(4)] // size = 720, padding = 0
+        public ecs_gauge_t entity_count;
+
+        [FieldOffset(724)] // size = 720, padding = 0
+        public ecs_gauge_t component_count;
+
+        [FieldOffset(1444)] // size = 720, padding = 0
+        public ecs_gauge_t query_count;
+
+        [FieldOffset(2164)] // size = 720, padding = 0
+        public ecs_gauge_t system_count;
+
+        [FieldOffset(2884)] // size = 720, padding = 0
+        public ecs_gauge_t table_count;
+
+        [FieldOffset(3604)] // size = 720, padding = 0
+        public ecs_gauge_t empty_table_count;
+
+        [FieldOffset(4324)] // size = 720, padding = 0
+        public ecs_gauge_t singleton_table_count;
+
+        [FieldOffset(5044)] // size = 720, padding = 0
+        public ecs_gauge_t matched_entity_count;
+
+        [FieldOffset(5764)] // size = 720, padding = 0
+        public ecs_gauge_t matched_table_count;
+
+        [FieldOffset(6484)] // size = 960, padding = 0
+        public ecs_counter_t new_count;
+
+        [FieldOffset(7444)] // size = 960, padding = 0
+        public ecs_counter_t bulk_new_count;
+
+        [FieldOffset(8404)] // size = 960, padding = 0
+        public ecs_counter_t delete_count;
+
+        [FieldOffset(9364)] // size = 960, padding = 0
+        public ecs_counter_t clear_count;
+
+        [FieldOffset(10324)] // size = 960, padding = 0
+        public ecs_counter_t add_count;
+
+        [FieldOffset(11284)] // size = 960, padding = 0
+        public ecs_counter_t remove_count;
+
+        [FieldOffset(12244)] // size = 960, padding = 0
+        public ecs_counter_t set_count;
+
+        [FieldOffset(13204)] // size = 960, padding = 0
+        public ecs_counter_t discard_count;
+
+        [FieldOffset(14164)] // size = 960, padding = 0
+        public ecs_counter_t world_time_total_raw;
+
+        [FieldOffset(15124)] // size = 960, padding = 0
+        public ecs_counter_t world_time_total;
+
+        [FieldOffset(16084)] // size = 960, padding = 0
+        public ecs_counter_t frame_time_total;
+
+        [FieldOffset(17044)] // size = 960, padding = 0
+        public ecs_counter_t system_time_total;
+
+        [FieldOffset(18004)] // size = 960, padding = 0
+        public ecs_counter_t merge_time_total;
+
+        [FieldOffset(18964)] // size = 720, padding = 0
+        public ecs_gauge_t fps;
+
+        [FieldOffset(19684)] // size = 720, padding = 0
+        public ecs_gauge_t delta_time;
+
+        [FieldOffset(20404)] // size = 960, padding = 0
+        public ecs_counter_t frame_count_total;
+
+        [FieldOffset(21364)] // size = 960, padding = 0
+        public ecs_counter_t merge_count_total;
+
+        [FieldOffset(22324)] // size = 960, padding = 0
+        public ecs_counter_t pipeline_build_count_total;
+
+        [FieldOffset(23284)] // size = 960, padding = 0
+        public ecs_counter_t systems_ran_frame;
+
+        [FieldOffset(24244)] // size = 4, padding = 0
+        public int t;
+    }
+
+    // Struct @ api_types.h:31:29
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct ecs_record_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_table_t* table;
+
+        [FieldOffset(8)] // size = 4, padding = 4
+        public int row;
+    }
+
+    // Struct @ flecs.h:89:27
+    [StructLayout(LayoutKind.Explicit, Size = 304, Pack = 8)]
+    public struct ecs_iter_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_world_t* world;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ecs_world_t* real_world;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public ecs_entity_t system;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public ecs_entity_t @event;
+
+        [FieldOffset(32)] // size = 4, padding = 4
+        public ecs_query_iter_kind_t kind;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public ecs_iter_table_t* table;
+
+        [FieldOffset(48)] // size = 8, padding = 0
+        public ecs_query_t* query;
+
+        [FieldOffset(56)] // size = 4, padding = 0
+        public int table_count;
+
+        [FieldOffset(60)] // size = 4, padding = 0
+        public int inactive_table_count;
+
+        [FieldOffset(64)] // size = 4, padding = 4
+        public int column_count;
+
+        [FieldOffset(72)] // size = 8, padding = 0
+        public void* table_columns;
+
+        [FieldOffset(80)] // size = 8, padding = 0
+        public ecs_entity_t* entities;
+
+        [FieldOffset(88)] // size = 8, padding = 0
+        public void* param;
+
+        [FieldOffset(96)] // size = 8, padding = 0
+        public void* ctx;
+
+        [FieldOffset(104)] // size = 8, padding = 0
+        public void* binding_ctx;
+
+        [FieldOffset(112)] // size = 4, padding = 0
+        public float delta_time;
+
+        [FieldOffset(116)] // size = 4, padding = 0
+        public float delta_system_time;
+
+        [FieldOffset(120)] // size = 4, padding = 0
+        public float world_time;
+
+        [FieldOffset(124)] // size = 4, padding = 0
+        public int frame_offset;
+
+        [FieldOffset(128)] // size = 4, padding = 0
+        public int offset;
+
+        [FieldOffset(132)] // size = 4, padding = 0
+        public int count;
+
+        [FieldOffset(136)] // size = 4, padding = 4
+        public int total_count;
+
+        [FieldOffset(144)] // size = 8, padding = 0
+        public ecs_entities_t* triggered_by;
+
+        [FieldOffset(152)] // size = 8, padding = 0
+        public ecs_entity_t interrupted_by;
+
+        [FieldOffset(160)] // size = 144, padding = 0
+        public ecs_iter_t_iter iter;
+
+        // Union @ api_types.h:170:5
+        [StructLayout(LayoutKind.Explicit, Size = 144, Pack = 8)]
+        public struct ecs_iter_t_iter
+        {
+            [FieldOffset(0)] // size = 144, padding = 0
+            public ecs_scope_iter_t parent;
+
+            [FieldOffset(0)] // size = 120, padding = 0
+            public ecs_filter_iter_t filter;
+
+            [FieldOffset(0)] // size = 28, padding = 0
+            public ecs_query_iter_t query;
+
+            [FieldOffset(0)] // size = 120, padding = 24
+            public ecs_snapshot_iter_t snapshot;
+        }
+    }
+
+    // Struct @ api_types.h:131:3
+    [StructLayout(LayoutKind.Explicit, Size = 120, Pack = 8)]
+    public struct ecs_snapshot_iter_t
+    {
+        [FieldOffset(0)] // size = 56, padding = 0
+        public ecs_filter_t filter;
+
+        [FieldOffset(56)] // size = 8, padding = 0
+        public ecs_vector_t* tables;
+
+        [FieldOffset(64)] // size = 4, padding = 4
+        public int index;
+
+        [FieldOffset(72)] // size = 48, padding = 0
+        public ecs_iter_table_t table;
+    }
+
+    // Struct @ flecs.h:261:3
+    [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
+    public struct ecs_filter_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_term_t* terms;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int term_count;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public int term_count_actual;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public CString name;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public CString expr;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public ecs_type_t include;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public ecs_type_t exclude;
+
+        [FieldOffset(48)] // size = 4, padding = 0
+        public ecs_match_kind_t include_kind;
+
+        [FieldOffset(52)] // size = 4, padding = 0
+        public ecs_match_kind_t exclude_kind;
+    }
+
+    // Struct @ flecs.h:236:3
+    [StructLayout(LayoutKind.Explicit, Size = 192, Pack = 8)]
+    public struct ecs_term_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_id_t id;
+
+        [FieldOffset(8)] // size = 4, padding = 4
+        public ecs_inout_kind_t inout;
+
+        [FieldOffset(16)] // size = 48, padding = 0
+        public ecs_term_id_t pred;
+
+        [FieldOffset(64)] // size = 96, padding = 0
+        public fixed ulong _args[96 / 8]; // ecs_term_id_t[2]
+
+        public Span<ecs_term_id_t> args
+        {
+            get
+            {
+                fixed (ecs_term_t* @this = &this)
+                {
+                    var pointer = &@this->_args[0];
+                    var span = new Span<ecs_term_id_t>(pointer, 2);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(160)] // size = 4, padding = 4
+        public ecs_oper_kind_t oper;
+
+        [FieldOffset(168)] // size = 8, padding = 0
+        public ecs_id_t role;
+
+        [FieldOffset(176)] // size = 8, padding = 0
+        public CString name;
+
+        [FieldOffset(184)] // size = 4, padding = 0
+        public int index;
+
+        [FieldOffset(188)] // size = 1, padding = 3
+        public CBool move;
+    }
+
+    // Struct @ flecs.h:214:3
+    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
+    public struct ecs_term_id_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_entity_t entity;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CString name;
+
+        [FieldOffset(16)] // size = 4, padding = 4
+        public ecs_var_kind_t var;
+
+        [FieldOffset(24)] // size = 24, padding = 0
+        public ecs_term_set_t set;
+    }
+
+    // Struct @ flecs.h:205:3
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct ecs_term_set_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_entity_t relation;
+
+        [FieldOffset(8)] // size = 1, padding = 3
+        public byte mask;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public int min_depth;
+
+        [FieldOffset(16)] // size = 4, padding = 4
+        public int max_depth;
+    }
+
+    // Struct @ api_types.h:123:3
+    [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
+    public struct ecs_query_iter_t
+    {
+        [FieldOffset(0)] // size = 12, padding = 0
+        public ecs_page_iter_t page_iter;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public int index;
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public int sparse_smallest;
+
+        [FieldOffset(20)] // size = 4, padding = 0
+        public int sparse_first;
+
+        [FieldOffset(24)] // size = 4, padding = 0
+        public int bitset_first;
+    }
+
+    // Struct @ api_types.h:80:3
+    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
+    public struct ecs_page_iter_t
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int offset;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int limit;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int remaining;
+    }
+
+    // Struct @ api_types.h:106:3
+    [StructLayout(LayoutKind.Explicit, Size = 120, Pack = 8)]
+    public struct ecs_filter_iter_t
+    {
+        [FieldOffset(0)] // size = 56, padding = 0
+        public ecs_filter_t filter;
+
+        [FieldOffset(56)] // size = 8, padding = 0
+        public ecs_sparse_t* tables;
+
+        [FieldOffset(64)] // size = 4, padding = 4
+        public int index;
+
+        [FieldOffset(72)] // size = 48, padding = 0
+        public ecs_iter_table_t table;
+    }
+
+    // Struct @ api_types.h:98:3
+    [StructLayout(LayoutKind.Explicit, Size = 144, Pack = 8)]
+    public struct ecs_scope_iter_t
+    {
+        [FieldOffset(0)] // size = 56, padding = 0
+        public ecs_filter_t filter;
+
+        [FieldOffset(56)] // size = 32, padding = 0
+        public ecs_map_iter_t tables;
+
+        [FieldOffset(88)] // size = 4, padding = 4
+        public int index;
+
+        [FieldOffset(96)] // size = 48, padding = 0
+        public ecs_iter_table_t table;
+    }
+
+    // Struct @ map.h:46:3
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
     public struct ecs_map_iter_t
     {
@@ -1982,101 +3471,654 @@ public static unsafe partial class flecs
         public void* payload;
     }
 
-    // Record @ strbuf.h:30
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct ecs_strbuf_element
-    {
-        [FieldOffset(0)] // size = 1, padding = 3
-        public CBool buffer_embedded;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public int pos;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public CString buf;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public ecs_strbuf_element* next;
-    }
-
-    // Record @ strbuf.h:37
-    [StructLayout(LayoutKind.Explicit, Size = 536, Pack = 8)]
-    public struct ecs_strbuf_element_embedded
-    {
-        [FieldOffset(0)] // size = 24, padding = 0
-        public ecs_strbuf_element super;
-
-        [FieldOffset(24)] // size = 512, padding = 0
-        public fixed byte _buf[512 / 1]; // char [512]
-
-        public Span<byte> buf
-        {
-            get
-            {
-                fixed (ecs_strbuf_element_embedded* @this = &this)
-                {
-                    var pointer = &@this->_buf[0];
-                    var span = new Span<byte>(pointer, 512);
-                    return span;
-                }
-            }
-        }
-    }
-
-    // Record @ strbuf.h:47
+    // Struct @ api_types.h:69:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct ecs_strbuf_list_elem
-    {
-        [FieldOffset(0)] // size = 4, padding = 4
-        public int count;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public CString separator;
-    }
-
-    // Record @ strbuf.h:52
-    [StructLayout(LayoutKind.Explicit, Size = 1088, Pack = 8)]
-    public struct ecs_strbuf_t
+    public struct ecs_entities_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public CString buf;
+        public ecs_entity_t* array;
+
+        [FieldOffset(8)] // size = 4, padding = 4
+        public int count;
+    }
+
+    // Struct @ api_types.h:90:3
+    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
+    public struct ecs_iter_table_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public int* columns;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ecs_table_t* table;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public ecs_data_t* data;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public ecs_entity_t* components;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public ecs_type_t* types;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public ecs_ref_t* references;
+    }
+
+    // Struct @ flecs.h:92:26
+    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
+    public struct ecs_ref_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_entity_t entity;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ecs_entity_t component;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public void* table;
+
+        [FieldOffset(24)] // size = 4, padding = 0
+        public int row;
+
+        [FieldOffset(28)] // size = 4, padding = 0
+        public int alloc_count;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public ecs_record_t* @record;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public void* ptr;
+    }
+
+    // Struct @ reader_writer.h:128:3
+    [StructLayout(LayoutKind.Explicit, Size = 128, Pack = 8)]
+    public struct ecs_writer_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_world_t* world;
+
+        [FieldOffset(8)] // size = 4, padding = 4
+        public ecs_blob_header_kind_t state;
+
+        [FieldOffset(16)] // size = 104, padding = 0
+        public ecs_table_writer_t table;
+
+        [FieldOffset(120)] // size = 4, padding = 4
+        public int error;
+    }
+
+    // Struct @ reader_writer.h:121:3
+    [StructLayout(LayoutKind.Explicit, Size = 104, Pack = 8)]
+    public struct ecs_table_writer_t
+    {
+        [FieldOffset(0)] // size = 4, padding = 4
+        public ecs_blob_header_kind_t state;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ecs_table_t* table;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public ecs_vector_t* column_vector;
+
+        [FieldOffset(24)] // size = 4, padding = 0
+        public int type_count;
+
+        [FieldOffset(28)] // size = 4, padding = 0
+        public int type_max_count;
+
+        [FieldOffset(32)] // size = 4, padding = 4
+        public ecs_size_t type_written;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public ecs_entity_t* type_array;
+
+        [FieldOffset(48)] // size = 4, padding = 0
+        public int column_index;
+
+        [FieldOffset(52)] // size = 2, padding = 0
+        public short column_size;
+
+        [FieldOffset(54)] // size = 2, padding = 0
+        public short column_alignment;
+
+        [FieldOffset(56)] // size = 4, padding = 4
+        public ecs_size_t column_written;
+
+        [FieldOffset(64)] // size = 8, padding = 0
+        public void* column_data;
+
+        [FieldOffset(72)] // size = 4, padding = 0
+        public int row_count;
+
+        [FieldOffset(76)] // size = 4, padding = 0
+        public int row_index;
+
+        [FieldOffset(80)] // size = 24, padding = 0
+        public ecs_name_writer_t name;
+    }
+
+    // Struct @ reader_writer.h:98:3
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct ecs_name_writer_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CString name;
 
         [FieldOffset(8)] // size = 4, padding = 0
-        public int max;
+        public int written;
 
         [FieldOffset(12)] // size = 4, padding = 0
-        public int size;
+        public int len;
 
         [FieldOffset(16)] // size = 4, padding = 4
-        public int elementCount;
+        public int max_len;
+    }
 
-        [FieldOffset(24)] // size = 536, padding = 0
-        public ecs_strbuf_element_embedded firstElement;
+    // Struct @ reader_writer.h:91:3
+    [StructLayout(LayoutKind.Explicit, Size = 744, Pack = 8)]
+    public struct ecs_reader_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_world_t* world;
 
-        [FieldOffset(560)] // size = 8, padding = 0
-        public ecs_strbuf_element* current;
+        [FieldOffset(8)] // size = 4, padding = 4
+        public ecs_blob_header_kind_t state;
 
-        [FieldOffset(568)] // size = 512, padding = 0
-        public fixed ulong _list_stack[512 / 8]; // ecs_strbuf_list_elem [32]
+        [FieldOffset(16)] // size = 304, padding = 0
+        public ecs_iter_t data_iter;
 
-        public Span<ecs_strbuf_list_elem> list_stack
+        [FieldOffset(320)] // size = 8, padding = 0
+        public ecs_iter_next_action_t data_next;
+
+        [FieldOffset(328)] // size = 304, padding = 0
+        public ecs_iter_t component_iter;
+
+        [FieldOffset(632)] // size = 8, padding = 0
+        public ecs_iter_next_action_t component_next;
+
+        [FieldOffset(640)] // size = 104, padding = 0
+        public ecs_table_reader_t table;
+    }
+
+    // Struct @ reader_writer.h:81:3
+    [StructLayout(LayoutKind.Explicit, Size = 104, Pack = 8)]
+    public struct ecs_table_reader_t
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public ecs_blob_header_kind_t state;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int table_index;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ecs_table_t* table;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public ecs_data_t* data;
+
+        [FieldOffset(24)] // size = 4, padding = 4
+        public ecs_size_t type_written;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public ecs_type_t type;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public ecs_vector_t* column_vector;
+
+        [FieldOffset(48)] // size = 4, padding = 0
+        public int column_index;
+
+        [FieldOffset(52)] // size = 4, padding = 0
+        public int total_columns;
+
+        [FieldOffset(56)] // size = 8, padding = 0
+        public void* column_data;
+
+        [FieldOffset(64)] // size = 2, padding = 0
+        public short column_size;
+
+        [FieldOffset(66)] // size = 2, padding = 0
+        public short column_alignment;
+
+        [FieldOffset(68)] // size = 4, padding = 0
+        public ecs_size_t column_written;
+
+        [FieldOffset(72)] // size = 4, padding = 0
+        public int row_index;
+
+        [FieldOffset(76)] // size = 4, padding = 0
+        public int row_count;
+
+        [FieldOffset(80)] // size = 8, padding = 0
+        public CString name;
+
+        [FieldOffset(88)] // size = 4, padding = 0
+        public ecs_size_t name_len;
+
+        [FieldOffset(92)] // size = 4, padding = 0
+        public ecs_size_t name_written;
+
+        [FieldOffset(96)] // size = 1, padding = 7
+        public CBool has_next_table;
+    }
+
+    // Struct @ dbg.h:35:3
+    [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8)]
+    public struct ecs_dbg_table_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_table_t* table;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ecs_type_t type;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public ecs_type_t shared;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public ecs_type_t container;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public ecs_type_t parent_entities;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public ecs_type_t base_entities;
+
+        [FieldOffset(48)] // size = 8, padding = 0
+        public ecs_vector_t* systems_matched;
+
+        [FieldOffset(56)] // size = 8, padding = 0
+        public ecs_entity_t* entities;
+
+        [FieldOffset(64)] // size = 4, padding = 4
+        public int entities_count;
+    }
+
+    // Struct @ dbg.h:23:3
+    [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
+    public struct ecs_dbg_entity_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_entity_t entity;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ecs_table_t* table;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public ecs_type_t type;
+
+        [FieldOffset(24)] // size = 4, padding = 0
+        public int row;
+
+        [FieldOffset(28)] // size = 1, padding = 3
+        public CBool is_watched;
+    }
+
+    // Struct @ api_types.h:202:3
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
+    public struct ecs_match_failure_t
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public EcsMatchFailureReason reason;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int column;
+    }
+
+    // Struct @ system.h:277:3
+    [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
+    public struct ecs_dbg_system_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_entity_t system;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int entities_matched_count;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public int active_table_count;
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public int inactive_table_count;
+
+        [FieldOffset(20)] // size = 1, padding = 3
+        public CBool enabled;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public void* system_data;
+    }
+
+    // Struct @ system.h:121:3
+    [StructLayout(LayoutKind.Explicit, Size = 3800, Pack = 8)]
+    public struct ecs_system_desc_t
+    {
+        [FieldOffset(0)] // size = 568, padding = 0
+        public ecs_entity_desc_t entity;
+
+        [FieldOffset(568)] // size = 3152, padding = 0
+        public ecs_query_desc_t query;
+
+        [FieldOffset(3720)] // size = 8, padding = 0
+        public ecs_iter_action_t callback;
+
+        [FieldOffset(3728)] // size = 8, padding = 0
+        public ecs_system_status_action_t status_callback;
+
+        [FieldOffset(3736)] // size = 8, padding = 0
+        public void* ctx;
+
+        [FieldOffset(3744)] // size = 8, padding = 0
+        public void* status_ctx;
+
+        [FieldOffset(3752)] // size = 8, padding = 0
+        public void* binding_ctx;
+
+        [FieldOffset(3760)] // size = 8, padding = 0
+        public ecs_ctx_free_t ctx_free;
+
+        [FieldOffset(3768)] // size = 8, padding = 0
+        public ecs_ctx_free_t status_ctx_free;
+
+        [FieldOffset(3776)] // size = 8, padding = 0
+        public ecs_ctx_free_t binding_ctx_free;
+
+        [FieldOffset(3784)] // size = 4, padding = 0
+        public float interval;
+
+        [FieldOffset(3788)] // size = 4, padding = 0
+        public int rate;
+
+        [FieldOffset(3792)] // size = 8, padding = 0
+        public ecs_entity_t tick_source;
+    }
+
+    // Struct @ flecs.h:405:3
+    [StructLayout(LayoutKind.Explicit, Size = 3152, Pack = 8)]
+    public struct ecs_query_desc_t
+    {
+        [FieldOffset(0)] // size = 3104, padding = 0
+        public ecs_filter_desc_t filter;
+
+        [FieldOffset(3104)] // size = 8, padding = 0
+        public ecs_id_t order_by_id;
+
+        [FieldOffset(3112)] // size = 8, padding = 0
+        public ecs_compare_action_t order_by;
+
+        [FieldOffset(3120)] // size = 8, padding = 0
+        public ecs_id_t group_by_id;
+
+        [FieldOffset(3128)] // size = 8, padding = 0
+        public ecs_rank_type_action_t group_by;
+
+        [FieldOffset(3136)] // size = 8, padding = 0
+        public ecs_query_t* parent;
+
+        [FieldOffset(3144)] // size = 8, padding = 0
+        public ecs_entity_t system;
+    }
+
+    // Struct @ flecs.h:371:3
+    [StructLayout(LayoutKind.Explicit, Size = 3104, Pack = 8)]
+    public struct ecs_filter_desc_t
+    {
+        [FieldOffset(0)] // size = 3072, padding = 0
+        public fixed ulong _terms[3072 / 8]; // ecs_term_t[16]
+
+        public Span<ecs_term_t> terms
         {
             get
             {
-                fixed (ecs_strbuf_t* @this = &this)
+                fixed (ecs_filter_desc_t* @this = &this)
                 {
-                    var pointer = &@this->_list_stack[0];
-                    var span = new Span<ecs_strbuf_list_elem>(pointer, 32);
+                    var pointer = &@this->_terms[0];
+                    var span = new Span<ecs_term_t>(pointer, 16);
                     return span;
                 }
             }
         }
 
-        [FieldOffset(1080)] // size = 4, padding = 4
-        public int list_sp;
+        [FieldOffset(3072)] // size = 8, padding = 0
+        public ecs_term_t* terms_buffer;
+
+        [FieldOffset(3080)] // size = 4, padding = 0
+        public int terms_buffer_count;
+
+        [FieldOffset(3084)] // size = 1, padding = 3
+        public CBool substitute_default;
+
+        [FieldOffset(3088)] // size = 8, padding = 0
+        public CString expr;
+
+        [FieldOffset(3096)] // size = 8, padding = 0
+        public CString name;
     }
 
-    // Record @ os_api.h:40
+    // Struct @ flecs.h:332:3
+    [StructLayout(LayoutKind.Explicit, Size = 568, Pack = 8)]
+    public struct ecs_entity_desc_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_entity_t entity;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CString name;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public CString sep;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public CString symbol;
+
+        [FieldOffset(32)] // size = 1, padding = 7
+        public CBool use_low_id;
+
+        [FieldOffset(40)] // size = 256, padding = 0
+        public fixed ulong _add[256 / 8]; // ecs_id_t[32]
+
+        public Span<ecs_id_t> add
+        {
+            get
+            {
+                fixed (ecs_entity_desc_t* @this = &this)
+                {
+                    var pointer = &@this->_add[0];
+                    var span = new Span<ecs_id_t>(pointer, 32);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(296)] // size = 256, padding = 0
+        public fixed ulong _remove[256 / 8]; // ecs_id_t[32]
+
+        public Span<ecs_id_t> remove
+        {
+            get
+            {
+                fixed (ecs_entity_desc_t* @this = &this)
+                {
+                    var pointer = &@this->_remove[0];
+                    var span = new Span<ecs_id_t>(pointer, 32);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(552)] // size = 8, padding = 0
+        public CString add_expr;
+
+        [FieldOffset(560)] // size = 8, padding = 0
+        public CString remove_expr;
+    }
+
+    // Struct @ flecs.h:440:3
+    [StructLayout(LayoutKind.Explicit, Size = 880, Pack = 8)]
+    public struct ecs_trigger_desc_t
+    {
+        [FieldOffset(0)] // size = 568, padding = 0
+        public ecs_entity_desc_t entity;
+
+        [FieldOffset(568)] // size = 192, padding = 0
+        public ecs_term_t term;
+
+        [FieldOffset(760)] // size = 8, padding = 0
+        public CString name;
+
+        [FieldOffset(768)] // size = 8, padding = 0
+        public CString expr;
+
+        [FieldOffset(776)] // size = 64, padding = 0
+        public fixed ulong _events[64 / 8]; // ecs_entity_t[8]
+
+        public Span<ecs_entity_t> events
+        {
+            get
+            {
+                fixed (ecs_trigger_desc_t* @this = &this)
+                {
+                    var pointer = &@this->_events[0];
+                    var span = new Span<ecs_entity_t>(pointer, 8);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(840)] // size = 8, padding = 0
+        public ecs_iter_action_t callback;
+
+        [FieldOffset(848)] // size = 8, padding = 0
+        public void* ctx;
+
+        [FieldOffset(856)] // size = 8, padding = 0
+        public void* binding_ctx;
+
+        [FieldOffset(864)] // size = 8, padding = 0
+        public ecs_ctx_free_t ctx_free;
+
+        [FieldOffset(872)] // size = 8, padding = 0
+        public ecs_ctx_free_t binding_ctx_free;
+    }
+
+    // Struct @ flecs.h:348:3
+    [StructLayout(LayoutKind.Explicit, Size = 832, Pack = 8)]
+    public struct ecs_type_desc_t
+    {
+        [FieldOffset(0)] // size = 568, padding = 0
+        public ecs_entity_desc_t entity;
+
+        [FieldOffset(568)] // size = 256, padding = 0
+        public fixed ulong _ids[256 / 8]; // ecs_id_t[32]
+
+        public Span<ecs_id_t> ids
+        {
+            get
+            {
+                fixed (ecs_type_desc_t* @this = &this)
+                {
+                    var pointer = &@this->_ids[0];
+                    var span = new Span<ecs_id_t>(pointer, 32);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(824)] // size = 8, padding = 0
+        public CString ids_expr;
+    }
+
+    // Struct @ flecs.h:340:3
+    [StructLayout(LayoutKind.Explicit, Size = 584, Pack = 8)]
+    public struct ecs_component_desc_t
+    {
+        [FieldOffset(0)] // size = 568, padding = 0
+        public ecs_entity_desc_t entity;
+
+        [FieldOffset(568)] // size = 8, padding = 0
+        public ulong size;
+
+        [FieldOffset(576)] // size = 8, padding = 0
+        public ulong alignment;
+    }
+
+    // Struct @ flecs.h:520:3
+    [StructLayout(LayoutKind.Explicit, Size = 88, Pack = 8)]
+    public struct ecs_world_info_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_entity_t last_component_id;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ecs_entity_t last_id;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public ecs_entity_t min_id;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public ecs_entity_t max_id;
+
+        [FieldOffset(32)] // size = 4, padding = 0
+        public float delta_time_raw;
+
+        [FieldOffset(36)] // size = 4, padding = 0
+        public float delta_time;
+
+        [FieldOffset(40)] // size = 4, padding = 0
+        public float time_scale;
+
+        [FieldOffset(44)] // size = 4, padding = 0
+        public float target_fps;
+
+        [FieldOffset(48)] // size = 4, padding = 0
+        public float frame_time_total;
+
+        [FieldOffset(52)] // size = 4, padding = 0
+        public float system_time_total;
+
+        [FieldOffset(56)] // size = 4, padding = 0
+        public float merge_time_total;
+
+        [FieldOffset(60)] // size = 4, padding = 0
+        public float world_time_total;
+
+        [FieldOffset(64)] // size = 4, padding = 0
+        public float world_time_total_raw;
+
+        [FieldOffset(68)] // size = 4, padding = 0
+        public int frame_count_total;
+
+        [FieldOffset(72)] // size = 4, padding = 0
+        public int merge_count_total;
+
+        [FieldOffset(76)] // size = 4, padding = 0
+        public int pipeline_build_count_total;
+
+        [FieldOffset(80)] // size = 4, padding = 4
+        public int systems_ran_frame;
+    }
+
+    // Struct @ flecs.h:479:3
+    [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
+    public struct EcsComponentLifecycle
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_xtor_t ctor;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ecs_xtor_t dtor;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public ecs_copy_t copy;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public ecs_move_t move;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public void* ctx;
+    }
+
+    // Struct @ os_api.h:43:3
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct ecs_time_t
     {
@@ -2087,7 +4129,7 @@ public static unsafe partial class flecs
         public uint nanosec;
     }
 
-    // Record @ os_api.h:191
+    // Struct @ os_api.h:251:3
     [StructLayout(LayoutKind.Explicit, Size = 256, Pack = 8)]
     public struct ecs_os_api_t
     {
@@ -2188,1320 +4230,155 @@ public static unsafe partial class flecs
         public ecs_os_api_module_to_path_t module_to_etc_;
     }
 
-    // Record @ flecs.h:200
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct ecs_term_set_t
+    // Struct @ strbuf.h:75:3
+    [StructLayout(LayoutKind.Explicit, Size = 1088, Pack = 8)]
+    public struct ecs_strbuf_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_entity_t relation;
-
-        [FieldOffset(8)] // size = 1, padding = 3
-        public byte mask;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public int min_depth;
-
-        [FieldOffset(16)] // size = 4, padding = 4
-        public int max_depth;
-    }
-
-    // Record @ flecs.h:208
-    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
-    public struct ecs_term_id_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_entity_t entity;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public CString name;
-
-        [FieldOffset(16)] // size = 4, padding = 4
-        public ecs_var_kind_t var;
-
-        [FieldOffset(24)] // size = 24, padding = 0
-        public ecs_term_set_t set;
-    }
-
-    // Record @ flecs.h:217
-    [StructLayout(LayoutKind.Explicit, Size = 192, Pack = 8)]
-    public struct ecs_term_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_id_t id;
-
-        [FieldOffset(8)] // size = 4, padding = 4
-        public ecs_inout_kind_t inout;
-
-        [FieldOffset(16)] // size = 48, padding = 0
-        public ecs_term_id_t pred;
-
-        [FieldOffset(64)] // size = 96, padding = 0
-        public fixed ulong _args[96 / 8]; // ecs_term_id_t [2]
-
-        public Span<ecs_term_id_t> args
-        {
-            get
-            {
-                fixed (ecs_term_t* @this = &this)
-                {
-                    var pointer = &@this->_args[0];
-                    var span = new Span<ecs_term_id_t>(pointer, 2);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(160)] // size = 4, padding = 4
-        public ecs_oper_kind_t oper;
-
-        [FieldOffset(168)] // size = 8, padding = 0
-        public ecs_id_t role;
-
-        [FieldOffset(176)] // size = 8, padding = 0
-        public CString name;
-
-        [FieldOffset(184)] // size = 4, padding = 0
-        public int index;
-
-        [FieldOffset(188)] // size = 1, padding = 3
-        public CBool move;
-    }
-
-    // Record @ flecs.h:247
-    [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
-    public struct ecs_filter_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_term_t* terms;
+        public CString buf;
 
         [FieldOffset(8)] // size = 4, padding = 0
-        public int term_count;
+        public int max;
 
         [FieldOffset(12)] // size = 4, padding = 0
-        public int term_count_actual;
+        public int size;
 
-        [FieldOffset(16)] // size = 8, padding = 0
-        public CString name;
+        [FieldOffset(16)] // size = 4, padding = 4
+        public int elementCount;
 
-        [FieldOffset(24)] // size = 8, padding = 0
-        public CString expr;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public ecs_type_t include;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public ecs_type_t exclude;
-
-        [FieldOffset(48)] // size = 4, padding = 0
-        public ecs_match_kind_t include_kind;
-
-        [FieldOffset(52)] // size = 4, padding = 0
-        public ecs_match_kind_t exclude_kind;
-    }
-
-    // Record @ flecs.h:473
-    [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
-    public struct EcsComponentLifecycle
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_xtor_t ctor;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public ecs_xtor_t dtor;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public ecs_copy_t copy;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public ecs_move_t move;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public void* ctx;
-    }
-
-    // Record @ api_types.h:49
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct ecs_record_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_table_t* table;
-
-        [FieldOffset(8)] // size = 4, padding = 4
-        public int row;
-    }
-
-    // Record @ api_types.h:55
-    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
-    public struct ecs_ref_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_entity_t entity;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public ecs_entity_t component;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public void* table;
-
-        [FieldOffset(24)] // size = 4, padding = 0
-        public int row;
-
-        [FieldOffset(28)] // size = 4, padding = 0
-        public int alloc_count;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public ecs_record_t* @record;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public void* ptr;
-    }
-
-    // Record @ api_types.h:83
-    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
-    public struct ecs_iter_table_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public int* columns;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public ecs_table_t* table;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public ecs_data_t* data;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public ecs_entity_t* components;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public ecs_type_t* types;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public ecs_ref_t* references;
-    }
-
-    // Record @ api_types.h:66
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct ecs_entities_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_entity_t* array;
-
-        [FieldOffset(8)] // size = 4, padding = 4
-        public int count;
-    }
-
-    // Record @ api_types.h:93
-    [StructLayout(LayoutKind.Explicit, Size = 144, Pack = 8)]
-    public struct ecs_scope_iter_t
-    {
-        [FieldOffset(0)] // size = 56, padding = 0
-        public ecs_filter_t filter;
-
-        [FieldOffset(56)] // size = 32, padding = 0
-        public ecs_map_iter_t tables;
-
-        [FieldOffset(88)] // size = 4, padding = 4
-        public int index;
-
-        [FieldOffset(96)] // size = 48, padding = 0
-        public ecs_iter_table_t table;
-    }
-
-    // Record @ api_types.h:101
-    [StructLayout(LayoutKind.Explicit, Size = 120, Pack = 8)]
-    public struct ecs_filter_iter_t
-    {
-        [FieldOffset(0)] // size = 56, padding = 0
-        public ecs_filter_t filter;
-
-        [FieldOffset(56)] // size = 8, padding = 0
-        public ecs_sparse_t* tables;
-
-        [FieldOffset(64)] // size = 4, padding = 4
-        public int index;
-
-        [FieldOffset(72)] // size = 48, padding = 0
-        public ecs_iter_table_t table;
-    }
-
-    // Record @ api_types.h:76
-    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
-    public struct ecs_page_iter_t
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int offset;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public int limit;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public int remaining;
-    }
-
-    // Record @ api_types.h:117
-    [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
-    public struct ecs_query_iter_t
-    {
-        [FieldOffset(0)] // size = 12, padding = 0
-        public ecs_page_iter_t page_iter;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public int index;
-
-        [FieldOffset(16)] // size = 4, padding = 0
-        public int sparse_smallest;
-
-        [FieldOffset(20)] // size = 4, padding = 0
-        public int sparse_first;
-
-        [FieldOffset(24)] // size = 4, padding = 0
-        public int bitset_first;
-    }
-
-    // Record @ api_types.h:126
-    [StructLayout(LayoutKind.Explicit, Size = 120, Pack = 8)]
-    public struct ecs_snapshot_iter_t
-    {
-        [FieldOffset(0)] // size = 56, padding = 0
-        public ecs_filter_t filter;
-
-        [FieldOffset(56)] // size = 8, padding = 0
-        public ecs_vector_t* tables;
-
-        [FieldOffset(64)] // size = 4, padding = 4
-        public int index;
-
-        [FieldOffset(72)] // size = 48, padding = 0
-        public ecs_iter_table_t table;
-    }
-
-    // Record @ api_types.h:139
-    [StructLayout(LayoutKind.Explicit, Size = 304, Pack = 8)]
-    public struct ecs_iter_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_world_t* world;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public ecs_world_t* real_world;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public ecs_entity_t system;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public ecs_entity_t @event;
-
-        [FieldOffset(32)] // size = 4, padding = 4
-        public ecs_query_iter_kind_t kind;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public ecs_iter_table_t* table;
-
-        [FieldOffset(48)] // size = 8, padding = 0
-        public ecs_query_t* query;
-
-        [FieldOffset(56)] // size = 4, padding = 0
-        public int table_count;
-
-        [FieldOffset(60)] // size = 4, padding = 0
-        public int inactive_table_count;
-
-        [FieldOffset(64)] // size = 4, padding = 4
-        public int column_count;
-
-        [FieldOffset(72)] // size = 8, padding = 0
-        public void* table_columns;
-
-        [FieldOffset(80)] // size = 8, padding = 0
-        public ecs_entity_t* entities;
-
-        [FieldOffset(88)] // size = 8, padding = 0
-        public void* param;
-
-        [FieldOffset(96)] // size = 8, padding = 0
-        public void* ctx;
-
-        [FieldOffset(104)] // size = 8, padding = 0
-        public void* binding_ctx;
-
-        [FieldOffset(112)] // size = 4, padding = 0
-        public float delta_time;
-
-        [FieldOffset(116)] // size = 4, padding = 0
-        public float delta_system_time;
-
-        [FieldOffset(120)] // size = 4, padding = 0
-        public float world_time;
-
-        [FieldOffset(124)] // size = 4, padding = 0
-        public int frame_offset;
-
-        [FieldOffset(128)] // size = 4, padding = 0
-        public int offset;
-
-        [FieldOffset(132)] // size = 4, padding = 0
-        public int count;
-
-        [FieldOffset(136)] // size = 4, padding = 4
-        public int total_count;
-
-        [FieldOffset(144)] // size = 8, padding = 0
-        public ecs_entities_t* triggered_by;
-
-        [FieldOffset(152)] // size = 8, padding = 0
-        public ecs_entity_t interrupted_by;
-
-        [FieldOffset(160)] // size = 144, padding = 0
-        public AnonymousUnion_iter iter;
-
-        // Record @ api_types.h:170
-        [StructLayout(LayoutKind.Explicit, Size = 144, Pack = 8)]
-        public struct AnonymousUnion_iter
-        {
-            [FieldOffset(0)] // size = 144, padding = 0
-            public ecs_scope_iter_t parent;
-
-            [FieldOffset(0)] // size = 120, padding = 0
-            public ecs_filter_iter_t filter;
-
-            [FieldOffset(0)] // size = 28, padding = 0
-            public ecs_query_iter_t query;
-
-            [FieldOffset(0)] // size = 120, padding = 24
-            public ecs_snapshot_iter_t snapshot;
-        }
-    }
-
-    // Record @ flecs.h:500
-    [StructLayout(LayoutKind.Explicit, Size = 88, Pack = 8)]
-    public struct ecs_world_info_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_entity_t last_component_id;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public ecs_entity_t last_id;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public ecs_entity_t min_id;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public ecs_entity_t max_id;
-
-        [FieldOffset(32)] // size = 4, padding = 0
-        public float delta_time_raw;
-
-        [FieldOffset(36)] // size = 4, padding = 0
-        public float delta_time;
-
-        [FieldOffset(40)] // size = 4, padding = 0
-        public float time_scale;
-
-        [FieldOffset(44)] // size = 4, padding = 0
-        public float target_fps;
-
-        [FieldOffset(48)] // size = 4, padding = 0
-        public float frame_time_total;
-
-        [FieldOffset(52)] // size = 4, padding = 0
-        public float system_time_total;
-
-        [FieldOffset(56)] // size = 4, padding = 0
-        public float merge_time_total;
-
-        [FieldOffset(60)] // size = 4, padding = 0
-        public float world_time_total;
-
-        [FieldOffset(64)] // size = 4, padding = 0
-        public float world_time_total_raw;
-
-        [FieldOffset(68)] // size = 4, padding = 0
-        public int frame_count_total;
-
-        [FieldOffset(72)] // size = 4, padding = 0
-        public int merge_count_total;
-
-        [FieldOffset(76)] // size = 4, padding = 0
-        public int pipeline_build_count_total;
-
-        [FieldOffset(80)] // size = 4, padding = 4
-        public int systems_ran_frame;
-    }
-
-    // Record @ flecs.h:297
-    [StructLayout(LayoutKind.Explicit, Size = 568, Pack = 8)]
-    public struct ecs_entity_desc_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_entity_t entity;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public CString name;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public CString sep;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public CString symbol;
-
-        [FieldOffset(32)] // size = 1, padding = 7
-        public CBool use_low_id;
-
-        [FieldOffset(40)] // size = 256, padding = 0
-        public fixed ulong _add[256 / 8]; // ecs_id_t [32]
-
-        public Span<ecs_id_t> add
-        {
-            get
-            {
-                fixed (ecs_entity_desc_t* @this = &this)
-                {
-                    var pointer = &@this->_add[0];
-                    var span = new Span<ecs_id_t>(pointer, 32);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(296)] // size = 256, padding = 0
-        public fixed ulong _remove[256 / 8]; // ecs_id_t [32]
-
-        public Span<ecs_id_t> remove
-        {
-            get
-            {
-                fixed (ecs_entity_desc_t* @this = &this)
-                {
-                    var pointer = &@this->_remove[0];
-                    var span = new Span<ecs_id_t>(pointer, 32);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(552)] // size = 8, padding = 0
-        public CString add_expr;
+        [FieldOffset(24)] // size = 536, padding = 0
+        public ecs_strbuf_element_embedded firstElement;
 
         [FieldOffset(560)] // size = 8, padding = 0
-        public CString remove_expr;
-    }
+        public ecs_strbuf_element* current;
 
-    // Record @ flecs.h:336
-    [StructLayout(LayoutKind.Explicit, Size = 584, Pack = 8)]
-    public struct ecs_component_desc_t
-    {
-        [FieldOffset(0)] // size = 568, padding = 0
-        public ecs_entity_desc_t entity;
+        [FieldOffset(568)] // size = 512, padding = 0
+        public fixed ulong _list_stack[512 / 8]; // ecs_strbuf_list_elem[32]
 
-        [FieldOffset(568)] // size = 8, padding = 0
-        public ulong size;
-
-        [FieldOffset(576)] // size = 8, padding = 0
-        public ulong alignment;
-    }
-
-    // Record @ flecs.h:344
-    [StructLayout(LayoutKind.Explicit, Size = 832, Pack = 8)]
-    public struct ecs_type_desc_t
-    {
-        [FieldOffset(0)] // size = 568, padding = 0
-        public ecs_entity_desc_t entity;
-
-        [FieldOffset(568)] // size = 256, padding = 0
-        public fixed ulong _ids[256 / 8]; // ecs_id_t [32]
-
-        public Span<ecs_id_t> ids
+        public Span<ecs_strbuf_list_elem> list_stack
         {
             get
             {
-                fixed (ecs_type_desc_t* @this = &this)
+                fixed (ecs_strbuf_t* @this = &this)
                 {
-                    var pointer = &@this->_ids[0];
-                    var span = new Span<ecs_id_t>(pointer, 32);
+                    var pointer = &@this->_list_stack[0];
+                    var span = new Span<ecs_strbuf_list_elem>(pointer, 32);
                     return span;
                 }
             }
         }
 
-        [FieldOffset(824)] // size = 8, padding = 0
-        public CString ids_expr;
+        [FieldOffset(1080)] // size = 4, padding = 4
+        public int list_sp;
     }
 
-    // Record @ flecs.h:352
-    [StructLayout(LayoutKind.Explicit, Size = 3104, Pack = 8)]
-    public struct ecs_filter_desc_t
-    {
-        [FieldOffset(0)] // size = 3072, padding = 0
-        public fixed ulong _terms[3072 / 8]; // ecs_term_t [16]
-
-        public Span<ecs_term_t> terms
-        {
-            get
-            {
-                fixed (ecs_filter_desc_t* @this = &this)
-                {
-                    var pointer = &@this->_terms[0];
-                    var span = new Span<ecs_term_t>(pointer, 16);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(3072)] // size = 8, padding = 0
-        public ecs_term_t* terms_buffer;
-
-        [FieldOffset(3080)] // size = 4, padding = 0
-        public int terms_buffer_count;
-
-        [FieldOffset(3084)] // size = 1, padding = 3
-        public CBool substitute_default;
-
-        [FieldOffset(3088)] // size = 8, padding = 0
-        public CString expr;
-
-        [FieldOffset(3096)] // size = 8, padding = 0
-        public CString name;
-    }
-
-    // Record @ flecs.h:375
-    [StructLayout(LayoutKind.Explicit, Size = 3152, Pack = 8)]
-    public struct ecs_query_desc_t
-    {
-        [FieldOffset(0)] // size = 3104, padding = 0
-        public ecs_filter_desc_t filter;
-
-        [FieldOffset(3104)] // size = 8, padding = 0
-        public ecs_id_t order_by_id;
-
-        [FieldOffset(3112)] // size = 8, padding = 0
-        public ecs_compare_action_t order_by;
-
-        [FieldOffset(3120)] // size = 8, padding = 0
-        public ecs_id_t group_by_id;
-
-        [FieldOffset(3128)] // size = 8, padding = 0
-        public ecs_rank_type_action_t group_by;
-
-        [FieldOffset(3136)] // size = 8, padding = 0
-        public ecs_query_t* parent;
-
-        [FieldOffset(3144)] // size = 8, padding = 0
-        public ecs_entity_t system;
-    }
-
-    // Record @ flecs.h:409
-    [StructLayout(LayoutKind.Explicit, Size = 880, Pack = 8)]
-    public struct ecs_trigger_desc_t
-    {
-        [FieldOffset(0)] // size = 568, padding = 0
-        public ecs_entity_desc_t entity;
-
-        [FieldOffset(568)] // size = 192, padding = 0
-        public ecs_term_t term;
-
-        [FieldOffset(760)] // size = 8, padding = 0
-        public CString name;
-
-        [FieldOffset(768)] // size = 8, padding = 0
-        public CString expr;
-
-        [FieldOffset(776)] // size = 64, padding = 0
-        public fixed ulong _events[64 / 8]; // ecs_entity_t [8]
-
-        public Span<ecs_entity_t> events
-        {
-            get
-            {
-                fixed (ecs_trigger_desc_t* @this = &this)
-                {
-                    var pointer = &@this->_events[0];
-                    var span = new Span<ecs_entity_t>(pointer, 8);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(840)] // size = 8, padding = 0
-        public ecs_iter_action_t callback;
-
-        [FieldOffset(848)] // size = 8, padding = 0
-        public void* ctx;
-
-        [FieldOffset(856)] // size = 8, padding = 0
-        public void* binding_ctx;
-
-        [FieldOffset(864)] // size = 8, padding = 0
-        public ecs_ctx_free_t ctx_free;
-
-        [FieldOffset(872)] // size = 8, padding = 0
-        public ecs_ctx_free_t binding_ctx_free;
-    }
-
-    // Record @ system.h:84
-    [StructLayout(LayoutKind.Explicit, Size = 3800, Pack = 8)]
-    public struct ecs_system_desc_t
-    {
-        [FieldOffset(0)] // size = 568, padding = 0
-        public ecs_entity_desc_t entity;
-
-        [FieldOffset(568)] // size = 3152, padding = 0
-        public ecs_query_desc_t query;
-
-        [FieldOffset(3720)] // size = 8, padding = 0
-        public ecs_iter_action_t callback;
-
-        [FieldOffset(3728)] // size = 8, padding = 0
-        public ecs_system_status_action_t status_callback;
-
-        [FieldOffset(3736)] // size = 8, padding = 0
-        public void* ctx;
-
-        [FieldOffset(3744)] // size = 8, padding = 0
-        public void* status_ctx;
-
-        [FieldOffset(3752)] // size = 8, padding = 0
-        public void* binding_ctx;
-
-        [FieldOffset(3760)] // size = 8, padding = 0
-        public ecs_ctx_free_t ctx_free;
-
-        [FieldOffset(3768)] // size = 8, padding = 0
-        public ecs_ctx_free_t status_ctx_free;
-
-        [FieldOffset(3776)] // size = 8, padding = 0
-        public ecs_ctx_free_t binding_ctx_free;
-
-        [FieldOffset(3784)] // size = 4, padding = 0
-        public float interval;
-
-        [FieldOffset(3788)] // size = 4, padding = 0
-        public int rate;
-
-        [FieldOffset(3792)] // size = 8, padding = 0
-        public ecs_entity_t tick_source;
-    }
-
-    // Record @ system.h:270
-    [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
-    public struct ecs_dbg_system_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_entity_t system;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public int entities_matched_count;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public int active_table_count;
-
-        [FieldOffset(16)] // size = 4, padding = 0
-        public int inactive_table_count;
-
-        [FieldOffset(20)] // size = 1, padding = 3
-        public CBool enabled;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public void* system_data;
-    }
-
-    // Record @ api_types.h:199
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
-    public struct ecs_match_failure_t
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public EcsMatchFailureReason reason;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public int column;
-    }
-
-    // Record @ dbg.h:17
-    [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
-    public struct ecs_dbg_entity_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_entity_t entity;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public ecs_table_t* table;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public ecs_type_t type;
-
-        [FieldOffset(24)] // size = 4, padding = 0
-        public int row;
-
-        [FieldOffset(28)] // size = 1, padding = 3
-        public CBool is_watched;
-    }
-
-    // Record @ dbg.h:25
-    [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8)]
-    public struct ecs_dbg_table_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_table_t* table;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public ecs_type_t type;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public ecs_type_t shared;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public ecs_type_t container;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public ecs_type_t parent_entities;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public ecs_type_t base_entities;
-
-        [FieldOffset(48)] // size = 8, padding = 0
-        public ecs_vector_t* systems_matched;
-
-        [FieldOffset(56)] // size = 8, padding = 0
-        public ecs_entity_t* entities;
-
-        [FieldOffset(64)] // size = 4, padding = 4
-        public int entities_count;
-    }
-
-    // Record @ reader_writer.h:49
-    [StructLayout(LayoutKind.Explicit, Size = 104, Pack = 8)]
-    public struct ecs_table_reader_t
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public ecs_blob_header_kind_t state;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public int table_index;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public ecs_table_t* table;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public ecs_data_t* data;
-
-        [FieldOffset(24)] // size = 4, padding = 4
-        public ecs_size_t type_written;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public ecs_type_t type;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public ecs_vector_t* column_vector;
-
-        [FieldOffset(48)] // size = 4, padding = 0
-        public int column_index;
-
-        [FieldOffset(52)] // size = 4, padding = 0
-        public int total_columns;
-
-        [FieldOffset(56)] // size = 8, padding = 0
-        public void* column_data;
-
-        [FieldOffset(64)] // size = 2, padding = 0
-        public short column_size;
-
-        [FieldOffset(66)] // size = 2, padding = 0
-        public short column_alignment;
-
-        [FieldOffset(68)] // size = 4, padding = 0
-        public ecs_size_t column_written;
-
-        [FieldOffset(72)] // size = 4, padding = 0
-        public int row_index;
-
-        [FieldOffset(76)] // size = 4, padding = 0
-        public int row_count;
-
-        [FieldOffset(80)] // size = 8, padding = 0
-        public CString name;
-
-        [FieldOffset(88)] // size = 4, padding = 0
-        public ecs_size_t name_len;
-
-        [FieldOffset(92)] // size = 4, padding = 0
-        public ecs_size_t name_written;
-
-        [FieldOffset(96)] // size = 1, padding = 7
-        public CBool has_next_table;
-    }
-
-    // Record @ reader_writer.h:83
-    [StructLayout(LayoutKind.Explicit, Size = 744, Pack = 8)]
-    public struct ecs_reader_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_world_t* world;
-
-        [FieldOffset(8)] // size = 4, padding = 4
-        public ecs_blob_header_kind_t state;
-
-        [FieldOffset(16)] // size = 304, padding = 0
-        public ecs_iter_t data_iter;
-
-        [FieldOffset(320)] // size = 8, padding = 0
-        public ecs_iter_next_action_t data_next;
-
-        [FieldOffset(328)] // size = 304, padding = 0
-        public ecs_iter_t component_iter;
-
-        [FieldOffset(632)] // size = 8, padding = 0
-        public ecs_iter_next_action_t component_next;
-
-        [FieldOffset(640)] // size = 104, padding = 0
-        public ecs_table_reader_t table;
-    }
-
-    // Record @ reader_writer.h:93
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct ecs_name_writer_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CString name;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public int written;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public int len;
-
-        [FieldOffset(16)] // size = 4, padding = 4
-        public int max_len;
-    }
-
-    // Record @ reader_writer.h:100
-    [StructLayout(LayoutKind.Explicit, Size = 104, Pack = 8)]
-    public struct ecs_table_writer_t
+    // Struct @ strbuf.h:50:3
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct ecs_strbuf_list_elem
     {
         [FieldOffset(0)] // size = 4, padding = 4
-        public ecs_blob_header_kind_t state;
+        public int count;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public ecs_table_t* table;
+        public CString separator;
+    }
+
+    // Struct @ strbuf.h:35:3
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct ecs_strbuf_element
+    {
+        [FieldOffset(0)] // size = 1, padding = 3
+        public CBool buffer_embedded;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int pos;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CString buf;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public ecs_vector_t* column_vector;
-
-        [FieldOffset(24)] // size = 4, padding = 0
-        public int type_count;
-
-        [FieldOffset(28)] // size = 4, padding = 0
-        public int type_max_count;
-
-        [FieldOffset(32)] // size = 4, padding = 4
-        public ecs_size_t type_written;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public ecs_entity_t* type_array;
-
-        [FieldOffset(48)] // size = 4, padding = 0
-        public int column_index;
-
-        [FieldOffset(52)] // size = 2, padding = 0
-        public short column_size;
-
-        [FieldOffset(54)] // size = 2, padding = 0
-        public short column_alignment;
-
-        [FieldOffset(56)] // size = 4, padding = 4
-        public ecs_size_t column_written;
-
-        [FieldOffset(64)] // size = 8, padding = 0
-        public void* column_data;
-
-        [FieldOffset(72)] // size = 4, padding = 0
-        public int row_count;
-
-        [FieldOffset(76)] // size = 4, padding = 0
-        public int row_index;
-
-        [FieldOffset(80)] // size = 24, padding = 0
-        public ecs_name_writer_t name;
+        public ecs_strbuf_element* next;
     }
 
-    // Record @ reader_writer.h:123
-    [StructLayout(LayoutKind.Explicit, Size = 128, Pack = 8)]
-    public struct ecs_writer_t
+    // Struct @ strbuf.h:40:3
+    [StructLayout(LayoutKind.Explicit, Size = 536, Pack = 8)]
+    public struct ecs_strbuf_element_embedded
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_world_t* world;
+        [FieldOffset(0)] // size = 24, padding = 0
+        public ecs_strbuf_element super;
 
-        [FieldOffset(8)] // size = 4, padding = 4
-        public ecs_blob_header_kind_t state;
+        [FieldOffset(24)] // size = 512, padding = 0
+        public fixed byte _buf[512 / 1]; // char[512]
 
-        [FieldOffset(16)] // size = 104, padding = 0
-        public ecs_table_writer_t table;
-
-        [FieldOffset(120)] // size = 4, padding = 4
-        public int error;
-    }
-
-    // Record @ stats.h:25
-    [StructLayout(LayoutKind.Explicit, Size = 720, Pack = 4)]
-    public struct ecs_gauge_t
-    {
-        [FieldOffset(0)] // size = 240, padding = 0
-        public fixed float _avg[240 / 4]; // float [60]
-
-        public Span<float> avg
+        public string buf
         {
             get
             {
-                fixed (ecs_gauge_t* @this = &this)
+                fixed (ecs_strbuf_element_embedded* @this = &this)
                 {
-                    var pointer = &@this->_avg[0];
-                    var span = new Span<float>(pointer, 60);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(240)] // size = 240, padding = 0
-        public fixed float _min[240 / 4]; // float [60]
-
-        public Span<float> min
-        {
-            get
-            {
-                fixed (ecs_gauge_t* @this = &this)
-                {
-                    var pointer = &@this->_min[0];
-                    var span = new Span<float>(pointer, 60);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(480)] // size = 240, padding = 0
-        public fixed float _max[240 / 4]; // float [60]
-
-        public Span<float> max
-        {
-            get
-            {
-                fixed (ecs_gauge_t* @this = &this)
-                {
-                    var pointer = &@this->_max[0];
-                    var span = new Span<float>(pointer, 60);
-                    return span;
+                    var pointer = &@this->_buf[0];
+                    var cString = new CString(pointer);
+                    return Runtime.String(cString);
                 }
             }
         }
     }
 
-    // Record @ stats.h:32
-    [StructLayout(LayoutKind.Explicit, Size = 960, Pack = 4)]
-    public struct ecs_counter_t
-    {
-        [FieldOffset(0)] // size = 720, padding = 0
-        public ecs_gauge_t rate;
-
-        [FieldOffset(720)] // size = 240, padding = 0
-        public fixed float _value[240 / 4]; // float [60]
-
-        public Span<float> value
-        {
-            get
-            {
-                fixed (ecs_counter_t* @this = &this)
-                {
-                    var pointer = &@this->_value[0];
-                    var span = new Span<float>(pointer, 60);
-                    return span;
-                }
-            }
-        }
-    }
-
-    // Record @ stats.h:37
-    [StructLayout(LayoutKind.Explicit, Size = 24248, Pack = 4)]
-    public struct ecs_world_stats_t
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int dummy_;
-
-        [FieldOffset(4)] // size = 720, padding = 0
-        public ecs_gauge_t entity_count;
-
-        [FieldOffset(724)] // size = 720, padding = 0
-        public ecs_gauge_t component_count;
-
-        [FieldOffset(1444)] // size = 720, padding = 0
-        public ecs_gauge_t query_count;
-
-        [FieldOffset(2164)] // size = 720, padding = 0
-        public ecs_gauge_t system_count;
-
-        [FieldOffset(2884)] // size = 720, padding = 0
-        public ecs_gauge_t table_count;
-
-        [FieldOffset(3604)] // size = 720, padding = 0
-        public ecs_gauge_t empty_table_count;
-
-        [FieldOffset(4324)] // size = 720, padding = 0
-        public ecs_gauge_t singleton_table_count;
-
-        [FieldOffset(5044)] // size = 720, padding = 0
-        public ecs_gauge_t matched_entity_count;
-
-        [FieldOffset(5764)] // size = 720, padding = 0
-        public ecs_gauge_t matched_table_count;
-
-        [FieldOffset(6484)] // size = 960, padding = 0
-        public ecs_counter_t new_count;
-
-        [FieldOffset(7444)] // size = 960, padding = 0
-        public ecs_counter_t bulk_new_count;
-
-        [FieldOffset(8404)] // size = 960, padding = 0
-        public ecs_counter_t delete_count;
-
-        [FieldOffset(9364)] // size = 960, padding = 0
-        public ecs_counter_t clear_count;
-
-        [FieldOffset(10324)] // size = 960, padding = 0
-        public ecs_counter_t add_count;
-
-        [FieldOffset(11284)] // size = 960, padding = 0
-        public ecs_counter_t remove_count;
-
-        [FieldOffset(12244)] // size = 960, padding = 0
-        public ecs_counter_t set_count;
-
-        [FieldOffset(13204)] // size = 960, padding = 0
-        public ecs_counter_t discard_count;
-
-        [FieldOffset(14164)] // size = 960, padding = 0
-        public ecs_counter_t world_time_total_raw;
-
-        [FieldOffset(15124)] // size = 960, padding = 0
-        public ecs_counter_t world_time_total;
-
-        [FieldOffset(16084)] // size = 960, padding = 0
-        public ecs_counter_t frame_time_total;
-
-        [FieldOffset(17044)] // size = 960, padding = 0
-        public ecs_counter_t system_time_total;
-
-        [FieldOffset(18004)] // size = 960, padding = 0
-        public ecs_counter_t merge_time_total;
-
-        [FieldOffset(18964)] // size = 720, padding = 0
-        public ecs_gauge_t fps;
-
-        [FieldOffset(19684)] // size = 720, padding = 0
-        public ecs_gauge_t delta_time;
-
-        [FieldOffset(20404)] // size = 960, padding = 0
-        public ecs_counter_t frame_count_total;
-
-        [FieldOffset(21364)] // size = 960, padding = 0
-        public ecs_counter_t merge_count_total;
-
-        [FieldOffset(22324)] // size = 960, padding = 0
-        public ecs_counter_t pipeline_build_count_total;
-
-        [FieldOffset(23284)] // size = 960, padding = 0
-        public ecs_counter_t systems_ran_frame;
-
-        [FieldOffset(24244)] // size = 4, padding = 0
-        public int t;
-    }
-
-    // Record @ stats.h:81
-    [StructLayout(LayoutKind.Explicit, Size = 2164, Pack = 4)]
-    public struct ecs_query_stats_t
-    {
-        [FieldOffset(0)] // size = 720, padding = 0
-        public ecs_gauge_t matched_table_count;
-
-        [FieldOffset(720)] // size = 720, padding = 0
-        public ecs_gauge_t matched_empty_table_count;
-
-        [FieldOffset(1440)] // size = 720, padding = 0
-        public ecs_gauge_t matched_entity_count;
-
-        [FieldOffset(2160)] // size = 4, padding = 0
-        public int t;
-    }
-
-    // Record @ stats.h:95
-    [StructLayout(LayoutKind.Explicit, Size = 5524, Pack = 4)]
-    public struct ecs_system_stats_t
-    {
-        [FieldOffset(0)] // size = 2164, padding = 0
-        public ecs_query_stats_t query_stats;
-
-        [FieldOffset(2164)] // size = 960, padding = 0
-        public ecs_counter_t time_spent;
-
-        [FieldOffset(3124)] // size = 960, padding = 0
-        public ecs_counter_t invoke_count;
-
-        [FieldOffset(4084)] // size = 720, padding = 0
-        public ecs_gauge_t active;
-
-        [FieldOffset(4804)] // size = 720, padding = 0
-        public ecs_gauge_t enabled;
-    }
-
-    // Record @ stats.h:104
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct ecs_pipeline_stats_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_vector_t* systems;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public ecs_map_t* system_stats;
-    }
-
-    // OpaqueType @ map.h:36
+    // OpaqueType @ map.h:36:26
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_map_t
     {
     }
 
-    // OpaqueType @ map.h:37
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_bucket_t
-    {
-    }
-
-    // OpaqueType @ flecs.h:80
+    // OpaqueType @ flecs.h:80:28
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_world_t
     {
     }
 
-    // OpaqueType @ flecs.h:83
+    // OpaqueType @ flecs.h:83:28
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_query_t
     {
     }
 
-    // OpaqueType @ api_types.h:28
+    // OpaqueType @ api_types.h:28:28
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_table_t
     {
     }
 
-    // OpaqueType @ api_types.h:37
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_data_t
-    {
-    }
-
-    // OpaqueType @ api_types.h:40
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_sparse_t
-    {
-    }
-
-    // OpaqueType @ queue.h:18
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ecs_queue_t
-    {
-    }
-
-    // OpaqueType @ snapshot.h:23
+    // OpaqueType @ snapshot.h:23:31
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_snapshot_t
     {
     }
 
-    // Typedef @ api_defines.h:67
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct ecs_size_t
+    // OpaqueType @ api_types.h:40:29
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_sparse_t
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int Data;
-
-        public static implicit operator int(ecs_size_t data) => data.Data;
-        public static implicit operator ecs_size_t(int data) => new() { Data = data };
     }
 
-    // Typedef @ map.h:38
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct ecs_map_key_t
+    // OpaqueType @ map.h:37:29
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_bucket_t
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ulong Data;
-
-        public static implicit operator ulong(ecs_map_key_t data) => data.Data;
-        public static implicit operator ecs_map_key_t(ulong data) => new() { Data = data };
     }
 
-    // Typedef @ os_api.h:52
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct ecs_os_thread_t
+    // OpaqueType @ api_types.h:37:27
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_data_t
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public UIntPtr Data;
-
-        public static implicit operator UIntPtr(ecs_os_thread_t data) => data.Data;
-        public static implicit operator ecs_os_thread_t(UIntPtr data) => new() { Data = data };
     }
 
-    // Typedef @ os_api.h:54
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct ecs_os_mutex_t
+    // OpaqueType @ queue.h:18:28
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ecs_queue_t
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public UIntPtr Data;
-
-        public static implicit operator UIntPtr(ecs_os_mutex_t data) => data.Data;
-        public static implicit operator ecs_os_mutex_t(UIntPtr data) => new() { Data = data };
     }
 
-    // Typedef @ os_api.h:53
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct ecs_os_cond_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public UIntPtr Data;
-
-        public static implicit operator UIntPtr(ecs_os_cond_t data) => data.Data;
-        public static implicit operator ecs_os_cond_t(UIntPtr data) => new() { Data = data };
-    }
-
-    // Typedef @ os_api.h:55
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct ecs_os_dl_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public UIntPtr Data;
-
-        public static implicit operator UIntPtr(ecs_os_dl_t data) => data.Data;
-        public static implicit operator ecs_os_dl_t(UIntPtr data) => new() { Data = data };
-    }
-
-    // Typedef @ flecs.h:77
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct ecs_type_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ecs_vector_t* Data;
-
-        public static implicit operator ecs_vector_t*(ecs_type_t data) => data.Data;
-        public static implicit operator ecs_type_t(ecs_vector_t* data) => new() { Data = data };
-    }
-
-    // Typedef @ flecs.h:71
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct ecs_id_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ulong Data;
-
-        public static implicit operator ulong(ecs_id_t data) => data.Data;
-        public static implicit operator ecs_id_t(ulong data) => new() { Data = data };
-    }
-
-    // Typedef @ flecs.h:74
+    // Typedef @ flecs.h:74:18
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct ecs_entity_t
     {
@@ -3512,24 +4389,104 @@ public static unsafe partial class flecs
         public static implicit operator ecs_entity_t(ecs_id_t data) => new() { Data = data };
     }
 
-    // Enum @ flecs.h:171
-    public enum ecs_inout_kind_t : uint
+    // Typedef @ flecs.h:71:18
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct ecs_id_t
     {
-        EcsInOutDefault = 0U,
-        EcsInOut = 1U,
-        EcsIn = 2U,
-        EcsOut = 3U
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ulong Data;
+
+        public static implicit operator ulong(ecs_id_t data) => data.Data;
+        public static implicit operator ecs_id_t(ulong data) => new() { Data = data };
     }
 
-    // Enum @ flecs.h:179
-    public enum ecs_var_kind_t : uint
+    // Typedef @ flecs.h:77:29
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct ecs_type_t
     {
-        EcsVarDefault = 0U,
-        EcsVarIsEntity = 1U,
-        EcsVarIsVariable = 2U
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ecs_vector_t* Data;
+
+        public static implicit operator ecs_vector_t*(ecs_type_t data) => data.Data;
+        public static implicit operator ecs_type_t(ecs_vector_t* data) => new() { Data = data };
     }
 
-    // Enum @ flecs.h:186
+    // Typedef @ api_defines.h:67:17
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct ecs_size_t
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int Data;
+
+        public static implicit operator int(ecs_size_t data) => data.Data;
+        public static implicit operator ecs_size_t(int data) => new() { Data = data };
+    }
+
+    // Typedef @ os_api.h:55:19
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct ecs_os_dl_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public UIntPtr Data;
+
+        public static implicit operator UIntPtr(ecs_os_dl_t data) => data.Data;
+        public static implicit operator ecs_os_dl_t(UIntPtr data) => new() { Data = data };
+    }
+
+    // Typedef @ os_api.h:54:19
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct ecs_os_mutex_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public UIntPtr Data;
+
+        public static implicit operator UIntPtr(ecs_os_mutex_t data) => data.Data;
+        public static implicit operator ecs_os_mutex_t(UIntPtr data) => new() { Data = data };
+    }
+
+    // Typedef @ os_api.h:53:19
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct ecs_os_cond_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public UIntPtr Data;
+
+        public static implicit operator UIntPtr(ecs_os_cond_t data) => data.Data;
+        public static implicit operator ecs_os_cond_t(UIntPtr data) => new() { Data = data };
+    }
+
+    // Typedef @ os_api.h:52:19
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct ecs_os_thread_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public UIntPtr Data;
+
+        public static implicit operator UIntPtr(ecs_os_thread_t data) => data.Data;
+        public static implicit operator ecs_os_thread_t(UIntPtr data) => new() { Data = data };
+    }
+
+    // Typedef @ map.h:38:18
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct ecs_map_key_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ulong Data;
+
+        public static implicit operator ulong(ecs_map_key_t data) => data.Data;
+        public static implicit operator ecs_map_key_t(ulong data) => new() { Data = data };
+    }
+
+    // Enum @ flecs.h:244:3
+    public enum ecs_match_kind_t : uint
+    {
+        EcsMatchDefault = 0U,
+        EcsMatchAll = 1U,
+        EcsMatchAny = 2U,
+        EcsMatchExact = 3U
+    }
+
+    // Enum @ flecs.h:194:3
     public enum ecs_oper_kind_t : uint
     {
         EcsAnd = 0U,
@@ -3541,16 +4498,24 @@ public static unsafe partial class flecs
         EcsNotFrom = 6U
     }
 
-    // Enum @ flecs.h:239
-    public enum ecs_match_kind_t : uint
+    // Enum @ flecs.h:183:3
+    public enum ecs_var_kind_t : uint
     {
-        EcsMatchDefault = 0U,
-        EcsMatchAll = 1U,
-        EcsMatchAny = 2U,
-        EcsMatchExact = 3U
+        EcsVarDefault = 0U,
+        EcsVarIsEntity = 1U,
+        EcsVarIsVariable = 2U
     }
 
-    // Enum @ api_types.h:109
+    // Enum @ flecs.h:176:3
+    public enum ecs_inout_kind_t : uint
+    {
+        EcsInOutDefault = 0U,
+        EcsInOut = 1U,
+        EcsIn = 2U,
+        EcsOut = 3U
+    }
+
+    // Enum @ api_types.h:114:3
     public enum ecs_query_iter_kind_t : uint
     {
         EcsQuerySimpleIter = 0U,
@@ -3559,17 +4524,27 @@ public static unsafe partial class flecs
         EcsQuerySwitchIter = 3U
     }
 
-    // Enum @ system.h:46
-    public enum ecs_system_status_t : uint
+    // Enum @ reader_writer.h:47:3
+    public enum ecs_blob_header_kind_t : uint
     {
-        EcsSystemStatusNone = 0U,
-        EcsSystemEnabled = 1U,
-        EcsSystemDisabled = 2U,
-        EcsSystemActivated = 3U,
-        EcsSystemDeactivated = 4U
+        EcsStreamHeader = 0U,
+        EcsTableSegment = 1U,
+        EcsFooterSegment = 2U,
+        EcsTableHeader = 3U,
+        EcsTableTypeSize = 4U,
+        EcsTableType = 5U,
+        EcsTableSize = 6U,
+        EcsTableColumn = 7U,
+        EcsTableColumnHeader = 8U,
+        EcsTableColumnSize = 9U,
+        EcsTableColumnData = 10U,
+        EcsTableColumnNameHeader = 11U,
+        EcsTableColumnNameLength = 12U,
+        EcsTableColumnName = 13U,
+        EcsStreamFooter = 14U
     }
 
-    // Enum @ api_types.h:178
+    // Enum @ api_types.h:197:3
     public enum EcsMatchFailureReason : uint
     {
         EcsMatchOk = 0U,
@@ -3592,903 +4567,1357 @@ public static unsafe partial class flecs
         EcsMatchNotFromContainer = 17U
     }
 
-    // Enum @ reader_writer.h:24
-    public enum ecs_blob_header_kind_t : uint
+    // Enum @ system.h:52:3
+    public enum ecs_system_status_t : uint
     {
-        EcsStreamHeader = 0U,
-        EcsTableSegment = 1U,
-        EcsFooterSegment = 2U,
-        EcsTableHeader = 3U,
-        EcsTableTypeSize = 4U,
-        EcsTableType = 5U,
-        EcsTableSize = 6U,
-        EcsTableColumn = 7U,
-        EcsTableColumnHeader = 8U,
-        EcsTableColumnSize = 9U,
-        EcsTableColumnData = 10U,
-        EcsTableColumnNameHeader = 11U,
-        EcsTableColumnNameLength = 12U,
-        EcsTableColumnName = 13U,
-        EcsStreamFooter = 14U
+        EcsSystemStatusNone = 0U,
+        EcsSystemEnabled = 1U,
+        EcsSystemDisabled = 2U,
+        EcsSystemActivated = 3U,
+        EcsSystemDeactivated = 4U
     }
 
-    // Variable @ os_api.h:46
-    private static IntPtr _ecs_os_api_malloc_count;
-    public static long ecs_os_api_malloc_count
+    private static void _LoadVirtualTable()
     {
-        get
-        {
-            if (_ecs_os_api_malloc_count == IntPtr.Zero)
-            {
-                return default(long);
-            }
+        #region "Functions"
 
-            var value = Runtime.ReadMemory<long>(_ecs_os_api_malloc_count);
-            return value;
-        }
+        _virtualTable.ecs_gauge_reduce = (delegate* unmanaged[Cdecl]<ecs_gauge_t*, int, ecs_gauge_t*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_gauge_reduce");
+        _virtualTable.ecs_get_pipeline_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_pipeline_stats_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_pipeline_stats");
+        _virtualTable.ecs_get_system_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_system_stats_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_system_stats");
+        _virtualTable.ecs_get_query_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, ecs_query_stats_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_query_stats");
+        _virtualTable.ecs_dump_world_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_stats_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dump_world_stats");
+        _virtualTable.ecs_get_world_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_stats_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_world_stats");
+        _virtualTable.ecs_record_move_to = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_record_t*, int, ulong, void*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_record_move_to");
+        _virtualTable.ecs_record_copy_pod_to = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_record_t*, int, ulong, void*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_record_copy_pod_to");
+        _virtualTable.ecs_record_copy_to = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_record_t*, int, ulong, void*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_record_copy_to");
+        _virtualTable.ecs_record_get_column = (delegate* unmanaged[Cdecl]<ecs_record_t*, int, ulong, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_record_get_column");
+        _virtualTable.ecs_record_ensure = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_record_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_record_ensure");
+        _virtualTable.ecs_record_find = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_record_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_record_find");
+        _virtualTable.ecs_table_delete_column = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, int, ecs_vector_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_delete_column");
+        _virtualTable.ecs_table_set_entities = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_vector_t*, ecs_vector_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_set_entities");
+        _virtualTable.ecs_records_update = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_vector_t*, ecs_vector_t*, ecs_table_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_records_update");
+        _virtualTable.ecs_records_clear = (delegate* unmanaged[Cdecl]<ecs_vector_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_records_clear");
+        _virtualTable.ecs_table_get_records = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_vector_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_get_records");
+        _virtualTable.ecs_table_get_entities = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_vector_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_get_entities");
+        _virtualTable.ecs_table_set_column = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, int, ecs_vector_t*, ecs_vector_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_set_column");
+        _virtualTable.ecs_table_get_column = (delegate* unmanaged[Cdecl]<ecs_table_t*, int, ecs_vector_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_get_column");
+        _virtualTable.ecs_table_find_column = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_entity_t, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_find_column");
+        _virtualTable.ecs_snapshot_free = (delegate* unmanaged[Cdecl]<ecs_snapshot_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_snapshot_free");
+        _virtualTable.ecs_snapshot_next = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_snapshot_next");
+        _virtualTable.ecs_snapshot_iter = (delegate* unmanaged[Cdecl]<ecs_snapshot_t*, ecs_filter_t*, ecs_iter_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_snapshot_iter");
+        _virtualTable.ecs_snapshot_restore = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_snapshot_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_snapshot_restore");
+        _virtualTable.ecs_snapshot_take_w_iter = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_iter_next_action_t, ecs_snapshot_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_snapshot_take_w_iter");
+        _virtualTable.ecs_snapshot_take = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_snapshot_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_snapshot_take");
+        _virtualTable.ecs_writer_write = (delegate* unmanaged[Cdecl]<CString, int, ecs_writer_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_writer_write");
+        _virtualTable.ecs_writer_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_writer_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_writer_init");
+        _virtualTable.ecs_reader_read = (delegate* unmanaged[Cdecl]<CString, int, ecs_reader_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_reader_read");
+        _virtualTable.ecs_reader_init_w_iter = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_iter_next_action_t, ecs_reader_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_reader_init_w_iter");
+        _virtualTable.ecs_reader_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_reader_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_reader_init");
+        _virtualTable.ecs_queue_free = (delegate* unmanaged[Cdecl]<ecs_queue_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_queue_free");
+        _virtualTable.ecs_queue_count = (delegate* unmanaged[Cdecl]<ecs_queue_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_queue_count");
+        _virtualTable.ecs_queue_index = (delegate* unmanaged[Cdecl]<ecs_queue_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_queue_index");
+        _virtualTable._ecs_queue_last = (delegate* unmanaged[Cdecl]<ecs_queue_t*, ecs_size_t, short, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_queue_last");
+        _virtualTable._ecs_queue_get = (delegate* unmanaged[Cdecl]<ecs_queue_t*, ecs_size_t, short, int, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_queue_get");
+        _virtualTable._ecs_queue_push = (delegate* unmanaged[Cdecl]<ecs_queue_t*, ecs_size_t, short, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_queue_push");
+        _virtualTable._ecs_queue_from_array = (delegate* unmanaged[Cdecl]<ecs_size_t, short, int, void*, ecs_queue_t*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_queue_from_array");
+        _virtualTable._ecs_queue_new = (delegate* unmanaged[Cdecl]<ecs_size_t, short, int, ecs_queue_t*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_queue_new");
+        _virtualTable.ecs_parse_term = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString, CString, ecs_term_t*, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_parse_term");
+        _virtualTable.ecs_dbg_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, ecs_dbg_table_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_table");
+        _virtualTable.ecs_dbg_filter_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, ecs_filter_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_filter_table");
+        _virtualTable.ecs_dbg_get_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, ecs_table_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_get_table");
+        _virtualTable.ecs_dbg_find_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_table_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_find_table");
+        _virtualTable.ecs_dbg_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_dbg_entity_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_entity");
+        _virtualTable.ecs_bulk_delete = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_delete");
+        _virtualTable.ecs_bulk_add_remove_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, ecs_filter_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_add_remove_type");
+        _virtualTable.ecs_bulk_remove_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_filter_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_remove_type");
+        _virtualTable.ecs_bulk_remove_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_filter_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_remove_entity");
+        _virtualTable.ecs_bulk_add_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_filter_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_add_type");
+        _virtualTable.ecs_bulk_add_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_filter_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_add_entity");
+        _virtualTable.FlecsTimerImport = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "FlecsTimerImport");
+        _virtualTable.ecs_set_tick_source = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_tick_source");
+        _virtualTable.ecs_set_rate = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, ecs_entity_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_rate");
+        _virtualTable.ecs_stop_timer = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_stop_timer");
+        _virtualTable.ecs_start_timer = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_start_timer");
+        _virtualTable.ecs_get_interval = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_interval");
+        _virtualTable.ecs_set_interval = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_interval");
+        _virtualTable.ecs_get_timeout = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_timeout");
+        _virtualTable.ecs_set_timeout = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_timeout");
+        _virtualTable.FlecsPipelineImport = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "FlecsPipelineImport");
+        _virtualTable.ecs_set_threads = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_threads");
+        _virtualTable.ecs_deactivate_systems = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_deactivate_systems");
+        _virtualTable.ecs_pipeline_run = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_pipeline_run");
+        _virtualTable.ecs_reset_clock = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_reset_clock");
+        _virtualTable.ecs_set_time_scale = (delegate* unmanaged[Cdecl]<ecs_world_t*, float, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_time_scale");
+        _virtualTable.ecs_progress = (delegate* unmanaged[Cdecl]<ecs_world_t*, float, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_progress");
+        _virtualTable.ecs_get_pipeline = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_pipeline");
+        _virtualTable.ecs_set_pipeline = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_pipeline");
+        _virtualTable.FlecsSystemImport = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "FlecsSystemImport");
+        _virtualTable.ecs_dbg_match_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_match_failure_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_match_entity");
+        _virtualTable.ecs_dbg_get_column_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_get_column_type");
+        _virtualTable.ecs_dbg_get_inactive_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_dbg_system_t*, int, ecs_table_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_get_inactive_table");
+        _virtualTable.ecs_dbg_get_active_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_dbg_system_t*, int, ecs_table_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_get_active_table");
+        _virtualTable.ecs_dbg_system = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_dbg_system_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_system");
+        _virtualTable.ecs_get_system_ctx = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_system_ctx");
+        _virtualTable.ecs_get_query = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_query_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_query");
+        _virtualTable.ecs_run_w_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, int, int, ecs_filter_t*, void*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_run_w_filter");
+        _virtualTable.ecs_run_worker = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, int, float, void*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_run_worker");
+        _virtualTable.ecs_run = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, void*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_run");
+        _virtualTable.ecs_system_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_system_desc_t*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_system_init");
+        _virtualTable.ecs_import_from_library = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_import_from_library");
+        _virtualTable.ecs_import = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_module_action_t, CString, void*, ulong, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_import");
+        _virtualTable.ecs_table_count = (delegate* unmanaged[Cdecl]<ecs_table_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_count");
+        _virtualTable.ecs_table_insert = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, ecs_entity_t, ecs_record_t*, ecs_record_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_insert");
+        _virtualTable.ecs_table_get_type = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_get_type");
+        _virtualTable.ecs_table_from_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_table_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_from_type");
+        _virtualTable.ecs_table_from_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_table_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_from_str");
+        _virtualTable.ecs_stage_is_async = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_stage_is_async");
+        _virtualTable.ecs_async_stage_free = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_async_stage_free");
+        _virtualTable.ecs_async_stage_new = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_async_stage_new");
+        _virtualTable.ecs_stage_is_readonly = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_stage_is_readonly");
+        _virtualTable.ecs_get_world = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_world");
+        _virtualTable.ecs_get_stage = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, ecs_world_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_stage");
+        _virtualTable.ecs_get_stage_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_stage_id");
+        _virtualTable.ecs_get_stage_count = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_stage_count");
+        _virtualTable.ecs_set_stages = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_stages");
+        _virtualTable.ecs_set_automerge = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_automerge");
+        _virtualTable.ecs_defer_end = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_defer_end");
+        _virtualTable.ecs_defer_begin = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_defer_begin");
+        _virtualTable.ecs_merge = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_merge");
+        _virtualTable.ecs_staging_end = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_staging_end");
+        _virtualTable.ecs_staging_begin = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_staging_begin");
+        _virtualTable.ecs_frame_end = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_frame_end");
+        _virtualTable.ecs_frame_begin = (delegate* unmanaged[Cdecl]<ecs_world_t*, float, float>)Runtime.LibraryGetExport(_libraryHandle, "ecs_frame_begin");
+        _virtualTable.ecs_iter_column_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong>)Runtime.LibraryGetExport(_libraryHandle, "ecs_iter_column_size");
+        _virtualTable.ecs_iter_column_w_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_iter_column_w_size");
+        _virtualTable.ecs_iter_find_column = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_id_t, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_iter_find_column");
+        _virtualTable.ecs_iter_type = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_iter_type");
+        _virtualTable.ecs_term_is_owned = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_is_owned");
+        _virtualTable.ecs_term_is_readonly = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_is_readonly");
+        _virtualTable.ecs_term_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_size");
+        _virtualTable.ecs_term_source = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_source");
+        _virtualTable.ecs_term_id = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_id_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_id");
+        _virtualTable.ecs_term_w_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_w_size");
+        _virtualTable.ecs_get_trigger_ctx = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_trigger_ctx");
+        _virtualTable.ecs_trigger_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_trigger_desc_t*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_trigger_init");
+        _virtualTable.ecs_query_orphaned = (delegate* unmanaged[Cdecl]<ecs_query_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_orphaned");
+        _virtualTable.ecs_query_changed = (delegate* unmanaged[Cdecl]<ecs_query_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_changed");
+        _virtualTable.ecs_query_next_worker = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, int, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_next_worker");
+        _virtualTable.ecs_query_next_w_filter = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_filter_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_next_w_filter");
+        _virtualTable.ecs_query_next = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_next");
+        _virtualTable.ecs_query_iter_page = (delegate* unmanaged[Cdecl]<ecs_query_t*, int, int, ecs_iter_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_iter_page");
+        _virtualTable.ecs_query_iter = (delegate* unmanaged[Cdecl]<ecs_query_t*, ecs_iter_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_iter");
+        _virtualTable.ecs_query_fini = (delegate* unmanaged[Cdecl]<ecs_query_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_fini");
+        _virtualTable.ecs_query_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_desc_t*, ecs_query_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_init");
+        _virtualTable.ecs_filter_next = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_filter_next");
+        _virtualTable.ecs_filter_iter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, ecs_iter_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_filter_iter");
+        _virtualTable.ecs_filter_match_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, ecs_entity_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_filter_match_entity");
+        _virtualTable.ecs_filter_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_filter_str");
+        _virtualTable.ecs_filter_finalize = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_filter_finalize");
+        _virtualTable.ecs_filter_fini = (delegate* unmanaged[Cdecl]<ecs_filter_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_filter_fini");
+        _virtualTable.ecs_filter_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, ecs_filter_desc_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_filter_init");
+        _virtualTable.ecs_id_match = (delegate* unmanaged[Cdecl]<ecs_id_t, ecs_id_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_id_match");
+        _virtualTable.ecs_term_fini = (delegate* unmanaged[Cdecl]<ecs_term_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_fini");
+        _virtualTable.ecs_term_move = (delegate* unmanaged[Cdecl]<ecs_term_t*, ecs_term_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_move");
+        _virtualTable.ecs_term_copy = (delegate* unmanaged[Cdecl]<ecs_term_t*, ecs_term_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_copy");
+        _virtualTable.ecs_term_finalize = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString, ecs_term_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_finalize");
+        _virtualTable.ecs_term_is_trivial = (delegate* unmanaged[Cdecl]<ecs_term_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_is_trivial");
+        _virtualTable.ecs_term_is_set = (delegate* unmanaged[Cdecl]<ecs_term_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_is_set");
+        _virtualTable.ecs_set_name_prefix = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_name_prefix");
+        _virtualTable.ecs_get_scope = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_scope");
+        _virtualTable.ecs_set_scope = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_scope");
+        _virtualTable.ecs_scope_next = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_scope_next");
+        _virtualTable.ecs_scope_iter_w_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_filter_t*, ecs_iter_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_scope_iter_w_filter");
+        _virtualTable.ecs_scope_iter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_iter_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_scope_iter");
+        _virtualTable.ecs_get_child_count = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_child_count");
+        _virtualTable.ecs_add_path_w_sep = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, CString, CString, CString, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_add_path_w_sep");
+        _virtualTable.ecs_new_from_path_w_sep = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, CString, CString, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_new_from_path_w_sep");
+        _virtualTable.ecs_get_path_w_sep = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_entity_t, CString, CString, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_path_w_sep");
+        _virtualTable.ecs_use = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_use");
+        _virtualTable.ecs_lookup_symbol = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_lookup_symbol");
+        _virtualTable.ecs_lookup_path_w_sep = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, CString, CString, CBool, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_lookup_path_w_sep");
+        _virtualTable.ecs_lookup_child = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_lookup_child");
+        _virtualTable.ecs_lookup = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_lookup");
+        _virtualTable.ecs_count_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_count_filter");
+        _virtualTable.ecs_count_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_count_id");
+        _virtualTable.ecs_enable = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_enable");
+        _virtualTable.ecs_get_object_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_id_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_object_w_id");
+        _virtualTable.ecs_id_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, CString, ulong, ulong>)Runtime.LibraryGetExport(_libraryHandle, "ecs_id_str");
+        _virtualTable.ecs_role_str = (delegate* unmanaged[Cdecl]<ecs_entity_t, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_role_str");
+        _virtualTable.ecs_get_name = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_name");
+        _virtualTable.ecs_get_typeid = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_typeid");
+        _virtualTable.ecs_get_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_type");
+        _virtualTable.ecs_exists = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_exists");
+        _virtualTable.ecs_ensure = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_ensure");
+        _virtualTable.ecs_get_alive = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_alive");
+        _virtualTable.ecs_is_alive = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_is_alive");
+        _virtualTable.ecs_is_valid = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_is_valid");
+        _virtualTable.ecs_has_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_has_id");
+        _virtualTable.ecs_set_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ulong, void*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_id");
+        _virtualTable.ecs_modified_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_modified_w_id");
+        _virtualTable.ecs_get_mut_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool*, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_mut_w_id");
+        _virtualTable.ecs_get_case = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_case");
+        _virtualTable.ecs_get_ref_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_ref_t*, ecs_entity_t, ecs_id_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_ref_w_id");
+        _virtualTable.ecs_get_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_id");
+        _virtualTable.ecs_delete_children = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_delete_children");
+        _virtualTable.ecs_delete = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_delete");
+        _virtualTable.ecs_clear = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_clear");
+        _virtualTable.ecs_make_pair = (delegate* unmanaged[Cdecl]<ecs_entity_t, ecs_entity_t, ecs_id_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_make_pair");
+        _virtualTable.ecs_is_component_enabled_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_is_component_enabled_w_id");
+        _virtualTable.ecs_enable_component_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_enable_component_w_id");
+        _virtualTable.ecs_remove_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_remove_id");
+        _virtualTable.ecs_add_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_add_id");
+        _virtualTable.ecs_clone = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, CBool, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_clone");
+        _virtualTable.ecs_bulk_new_w_data = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, ecs_entities_t*, void*, ecs_entity_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_new_w_data");
+        _virtualTable.ecs_bulk_new_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int, ecs_entity_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_new_w_id");
+        _virtualTable.ecs_type_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_desc_t*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_init");
+        _virtualTable.ecs_component_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_component_desc_t*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_component_init");
+        _virtualTable.ecs_entity_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_desc_t*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_entity_init");
+        _virtualTable.ecs_new_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_new_w_id");
+        _virtualTable.ecs_new_component_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_new_component_id");
+        _virtualTable.ecs_new_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_new_id");
+        _virtualTable.ecs_get_threads = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_threads");
+        _virtualTable.ecs_set_target_fps = (delegate* unmanaged[Cdecl]<ecs_world_t*, float, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_target_fps");
+        _virtualTable.ecs_measure_system_time = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_measure_system_time");
+        _virtualTable.ecs_measure_frame_time = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_measure_frame_time");
+        _virtualTable.ecs_tracing_enable = (delegate* unmanaged[Cdecl]<int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_tracing_enable");
+        _virtualTable.ecs_end_wait = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_end_wait");
+        _virtualTable.ecs_begin_wait = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_begin_wait");
+        _virtualTable.ecs_unlock = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_unlock");
+        _virtualTable.ecs_lock = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_lock");
+        _virtualTable.ecs_enable_locking = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_enable_locking");
+        _virtualTable.ecs_enable_range_check = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_enable_range_check");
+        _virtualTable.ecs_set_entity_range = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_entity_range");
+        _virtualTable.ecs_dim = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dim");
+        _virtualTable.ecs_get_world_info = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_info_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_world_info");
+        _virtualTable.ecs_get_context = (delegate* unmanaged[Cdecl]<ecs_world_t*, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_context");
+        _virtualTable.ecs_set_context = (delegate* unmanaged[Cdecl]<ecs_world_t*, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_context");
+        _virtualTable.ecs_set_component_actions_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, EcsComponentLifecycle*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_component_actions_w_id");
+        _virtualTable.ecs_should_quit = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_should_quit");
+        _virtualTable.ecs_quit = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_quit");
+        _virtualTable.ecs_run_post_frame = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_fini_action_t, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_run_post_frame");
+        _virtualTable.ecs_atfini = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_fini_action_t, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_atfini");
+        _virtualTable.ecs_fini = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_fini");
+        _virtualTable.ecs_init_w_args = (delegate* unmanaged[Cdecl]<int, CString*, ecs_world_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_init_w_args");
+        _virtualTable.ecs_mini = (delegate* unmanaged[Cdecl]<ecs_world_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_mini");
+        _virtualTable.ecs_init = (delegate* unmanaged[Cdecl]<ecs_world_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_init");
+        _virtualTable.ecs_query_group_by = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, ecs_entity_t, ecs_rank_type_action_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_group_by");
+        _virtualTable.ecs_query_order_by = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, ecs_entity_t, ecs_compare_action_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_order_by");
+        _virtualTable.ecs_query_free = (delegate* unmanaged[Cdecl]<ecs_query_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_free");
+        _virtualTable.ecs_subquery_new = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, CString, ecs_query_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_subquery_new");
+        _virtualTable.ecs_query_new = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_query_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_new");
+        _virtualTable.ecs_set_rate_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, ecs_entity_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_rate_filter");
+        _virtualTable.ecs_table_component_index = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_entity_t, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_component_index");
+        _virtualTable.ecs_table_column_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_column_size");
+        _virtualTable.ecs_table_column = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_column");
+        _virtualTable.ecs_is_owned = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_is_owned");
+        _virtualTable.ecs_is_readonly = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_is_readonly");
+        _virtualTable.ecs_column_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong>)Runtime.LibraryGetExport(_libraryHandle, "ecs_column_size");
+        _virtualTable.ecs_column_type = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_column_type");
+        _virtualTable.ecs_column_entity = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_column_entity");
+        _virtualTable.ecs_column_source = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_column_source");
+        _virtualTable.ecs_element_w_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, int, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_element_w_size");
+        _virtualTable.ecs_column_index_from_name = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CString, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_column_index_from_name");
+        _virtualTable.ecs_column_w_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_column_w_size");
+        _virtualTable.ecs_type_owns_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_owns_entity");
+        _virtualTable.ecs_type_has_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_has_entity");
+        _virtualTable.ecs_type_to_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_to_entity");
+        _virtualTable.ecs_type_from_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_from_entity");
+        _virtualTable.ecs_add_remove_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ecs_id_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_add_remove_entity");
+        _virtualTable.ecs_remove_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_remove_entity");
+        _virtualTable.ecs_add_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_add_entity");
+        _virtualTable.ecs_get_thread_index = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_thread_index");
+        _virtualTable.ecs_get_parent_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_parent_w_entity");
+        _virtualTable.ecs_entity_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, CString, ulong, ulong>)Runtime.LibraryGetExport(_libraryHandle, "ecs_entity_str");
+        _virtualTable.ecs_has_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_has_entity");
+        _virtualTable.ecs_set_ptr_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ulong, void*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_ptr_w_entity");
+        _virtualTable.ecs_modified_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_modified_w_entity");
+        _virtualTable.ecs_get_mut_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool*, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_mut_w_entity");
+        _virtualTable.ecs_get_ref_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_ref_t*, ecs_entity_t, ecs_id_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_ref_w_entity");
+        _virtualTable.ecs_get_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_w_entity");
+        _virtualTable.ecs_get_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_w_id");
+        _virtualTable.ecs_is_component_enabled_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_is_component_enabled_w_entity");
+        _virtualTable.ecs_enable_component_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_enable_component_w_entity");
+        _virtualTable.ecs_bulk_new_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int, ecs_entity_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_new_w_entity");
+        _virtualTable.ecs_new_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_new_w_entity");
+        _virtualTable.ecs_set_component_actions_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, EcsComponentLifecycle*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_component_actions_w_entity");
+        _virtualTable.ecs_count_w_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_count_w_filter");
+        _virtualTable.ecs_count_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_count_entity");
+        _virtualTable.ecs_count_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_count_type");
+        _virtualTable.ecs_has_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_has_type");
+        _virtualTable.ecs_add_remove_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, ecs_type_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_add_remove_type");
+        _virtualTable.ecs_remove_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_remove_type");
+        _virtualTable.ecs_add_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_add_type");
+        _virtualTable.ecs_bulk_new_w_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, int, ecs_entity_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_new_w_type");
+        _virtualTable.ecs_new_w_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_new_w_type");
+        _virtualTable.ecs_dim_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dim_type");
+        _virtualTable.ecs_type_match = (delegate* unmanaged[Cdecl]<ecs_type_t, int, ecs_entity_t, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_match");
+        _virtualTable.ecs_type_index_of = (delegate* unmanaged[Cdecl]<ecs_type_t, ecs_entity_t, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_index_of");
+        _virtualTable.ecs_type_get_entity_for_xor = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_get_entity_for_xor");
+        _virtualTable.ecs_type_find_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_entity_t, int, int, ecs_entity_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_find_id");
+        _virtualTable.ecs_type_owns_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, CBool, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_owns_type");
+        _virtualTable.ecs_type_owns_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_owns_id");
+        _virtualTable.ecs_type_has_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_has_type");
+        _virtualTable.ecs_type_has_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_has_id");
+        _virtualTable.ecs_type_remove = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_remove");
+        _virtualTable.ecs_type_add = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_add");
+        _virtualTable.ecs_type_merge = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, ecs_type_t, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_merge");
+        _virtualTable.ecs_type_find = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t*, int, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_find");
+        _virtualTable.ecs_type_from_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_from_str");
+        _virtualTable.ecs_type_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_str");
+        _virtualTable.ecs_type_to_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_to_id");
+        _virtualTable.ecs_type_from_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_from_id");
+        _virtualTable._ecs_parser_error = (delegate* unmanaged[Cdecl]<CString, CString, long, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_parser_error");
+        _virtualTable._ecs_assert = (delegate* unmanaged[Cdecl]<CBool, int, CString, CString, CString, int, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_assert");
+        _virtualTable._ecs_abort = (delegate* unmanaged[Cdecl]<int, CString, CString, int, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_abort");
+        _virtualTable.ecs_strerror = (delegate* unmanaged[Cdecl]<int, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strerror");
+        _virtualTable.ecs_log_pop = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_log_pop");
+        _virtualTable.ecs_log_push = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_log_push");
+        _virtualTable._ecs_deprecated = (delegate* unmanaged[Cdecl]<CString, int, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_deprecated");
+        _virtualTable._ecs_err = (delegate* unmanaged[Cdecl]<CString, int, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_err");
+        _virtualTable._ecs_warn = (delegate* unmanaged[Cdecl]<CString, int, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_warn");
+        _virtualTable._ecs_trace = (delegate* unmanaged[Cdecl]<int, CString, int, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_trace");
+        _virtualTable.ecs_query_get_filter = (delegate* unmanaged[Cdecl]<ecs_query_t*, ecs_filter_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_get_filter");
+        _virtualTable.ecs_identifier_is_var = (delegate* unmanaged[Cdecl]<CString, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_identifier_is_var");
+        _virtualTable.ecs_identifier_is_0 = (delegate* unmanaged[Cdecl]<CString, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_identifier_is_0");
+        _virtualTable.ecs_component_has_actions = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_component_has_actions");
+        _virtualTable.ecs_module_path_from_c = (delegate* unmanaged[Cdecl]<CString, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_module_path_from_c");
+        _virtualTable.ecs_new_module = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, ulong, ulong, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_new_module");
+        _virtualTable.ecs_os_has_modules = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_has_modules");
+        _virtualTable.ecs_os_has_dl = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_has_dl");
+        _virtualTable.ecs_os_has_logging = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_has_logging");
+        _virtualTable.ecs_os_has_time = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_has_time");
+        _virtualTable.ecs_os_has_threading = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_has_threading");
+        _virtualTable.ecs_os_has_heap = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_has_heap");
+        _virtualTable.ecs_os_memdup = (delegate* unmanaged[Cdecl]<void*, ecs_size_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_memdup");
+        _virtualTable.ecs_time_to_double = (delegate* unmanaged[Cdecl]<ecs_time_t, double>)Runtime.LibraryGetExport(_libraryHandle, "ecs_time_to_double");
+        _virtualTable.ecs_time_sub = (delegate* unmanaged[Cdecl]<ecs_time_t, ecs_time_t, ecs_time_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_time_sub");
+        _virtualTable.ecs_time_measure = (delegate* unmanaged[Cdecl]<ecs_time_t*, double>)Runtime.LibraryGetExport(_libraryHandle, "ecs_time_measure");
+        _virtualTable.ecs_sleepf = (delegate* unmanaged[Cdecl]<double, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_sleepf");
+        _virtualTable.ecs_os_dbg = (delegate* unmanaged[Cdecl]<CString, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_dbg");
+        _virtualTable.ecs_os_err = (delegate* unmanaged[Cdecl]<CString, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_err");
+        _virtualTable.ecs_os_warn = (delegate* unmanaged[Cdecl]<CString, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_warn");
+        _virtualTable.ecs_os_log = (delegate* unmanaged[Cdecl]<CString, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_log");
+        _virtualTable.ecs_os_set_api_defaults = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_set_api_defaults");
+        _virtualTable.ecs_os_set_api = (delegate* unmanaged[Cdecl]<ecs_os_api_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_set_api");
+        _virtualTable.ecs_os_fini = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_fini");
+        _virtualTable.ecs_os_init = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_init");
+        _virtualTable.ecs_strbuf_list_appendstr = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_list_appendstr");
+        _virtualTable.ecs_strbuf_list_append = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_list_append");
+        _virtualTable.ecs_strbuf_list_next = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_list_next");
+        _virtualTable.ecs_strbuf_list_pop = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_list_pop");
+        _virtualTable.ecs_strbuf_list_push = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_list_push");
+        _virtualTable.ecs_strbuf_reset = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_reset");
+        _virtualTable.ecs_strbuf_get = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_get");
+        _virtualTable.ecs_strbuf_appendstrn = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, int, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_appendstrn");
+        _virtualTable.ecs_strbuf_appendstr_zerocpy_const = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_appendstr_zerocpy_const");
+        _virtualTable.ecs_strbuf_appendstr_zerocpy = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_appendstr_zerocpy");
+        _virtualTable.ecs_strbuf_mergebuff = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, ecs_strbuf_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_mergebuff");
+        _virtualTable.ecs_strbuf_appendstr = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_appendstr");
+        _virtualTable.ecs_strbuf_vappend = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, IntPtr, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_vappend");
+        _virtualTable.ecs_strbuf_append = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_append");
+        _virtualTable.ecs_map_memory = (delegate* unmanaged[Cdecl]<ecs_map_t*, int*, int*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_map_memory");
+        _virtualTable.ecs_map_set_size = (delegate* unmanaged[Cdecl]<ecs_map_t*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_map_set_size");
+        _virtualTable.ecs_map_grow = (delegate* unmanaged[Cdecl]<ecs_map_t*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_map_grow");
+        _virtualTable._ecs_map_next_ptr = (delegate* unmanaged[Cdecl]<ecs_map_iter_t*, ecs_map_key_t*, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_map_next_ptr");
+        _virtualTable._ecs_map_next = (delegate* unmanaged[Cdecl]<ecs_map_iter_t*, ecs_size_t, ecs_map_key_t*, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_map_next");
+        _virtualTable.ecs_map_iter = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_map_iter_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_map_iter");
+        _virtualTable.ecs_map_bucket_count = (delegate* unmanaged[Cdecl]<ecs_map_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_map_bucket_count");
+        _virtualTable.ecs_map_count = (delegate* unmanaged[Cdecl]<ecs_map_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_map_count");
+        _virtualTable.ecs_map_clear = (delegate* unmanaged[Cdecl]<ecs_map_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_map_clear");
+        _virtualTable.ecs_map_remove = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_map_key_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_map_remove");
+        _virtualTable.ecs_map_free = (delegate* unmanaged[Cdecl]<ecs_map_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_map_free");
+        _virtualTable._ecs_map_set = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_size_t, ecs_map_key_t, void*, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_map_set");
+        _virtualTable._ecs_map_ensure = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_size_t, ecs_map_key_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_map_ensure");
+        _virtualTable._ecs_map_get_ptr = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_map_key_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_map_get_ptr");
+        _virtualTable._ecs_map_get = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_size_t, ecs_map_key_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_map_get");
+        _virtualTable._ecs_map_new = (delegate* unmanaged[Cdecl]<ecs_size_t, ecs_size_t, int, ecs_map_t*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_map_new");
+        _virtualTable._ecs_vector_copy = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, ecs_vector_t*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_copy");
+        _virtualTable._ecs_vector_memory = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, int*, int*, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_memory");
+        _virtualTable._ecs_vector_sort = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, ecs_comparator_t, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_sort");
+        _virtualTable._ecs_vector_first = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_first");
+        _virtualTable.ecs_vector_size = (delegate* unmanaged[Cdecl]<ecs_vector_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_vector_size");
+        _virtualTable.ecs_vector_count = (delegate* unmanaged[Cdecl]<ecs_vector_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_vector_count");
+        _virtualTable._ecs_vector_set_count = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_set_count");
+        _virtualTable._ecs_vector_set_size = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_set_size");
+        _virtualTable._ecs_vector_grow = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_grow");
+        _virtualTable._ecs_vector_reclaim = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_reclaim");
+        _virtualTable._ecs_vector_remove_index = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, int, int>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_remove_index");
+        _virtualTable._ecs_vector_move_index = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_vector_t*, ecs_size_t, short, int, int>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_move_index");
+        _virtualTable._ecs_vector_pop = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_pop");
+        _virtualTable.ecs_vector_remove_last = (delegate* unmanaged[Cdecl]<ecs_vector_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_vector_remove_last");
+        _virtualTable._ecs_vector_set_min_count = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_set_min_count");
+        _virtualTable._ecs_vector_set_min_size = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_set_min_size");
+        _virtualTable._ecs_vector_last = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_last");
+        _virtualTable._ecs_vector_get = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, int, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_get");
+        _virtualTable._ecs_vector_addn = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_addn");
+        _virtualTable._ecs_vector_add = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_add");
+        _virtualTable.ecs_vector_assert_alignment = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_vector_assert_alignment");
+        _virtualTable.ecs_vector_assert_size = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_vector_assert_size");
+        _virtualTable.ecs_vector_clear = (delegate* unmanaged[Cdecl]<ecs_vector_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_vector_clear");
+        _virtualTable.ecs_vector_free = (delegate* unmanaged[Cdecl]<ecs_vector_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_vector_free");
+        _virtualTable._ecs_vector_zero = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_zero");
+        _virtualTable._ecs_vector_from_array = (delegate* unmanaged[Cdecl]<ecs_size_t, short, int, void*, ecs_vector_t*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_from_array");
+        _virtualTable._ecs_vector_new = (delegate* unmanaged[Cdecl]<ecs_size_t, short, int, ecs_vector_t*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_new");
+
+        #endregion
+
+        #region "Variables"
+
+        _virtualTable.FLECS__TEcsRateFilter = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsRateFilter");
+        _virtualTable.FLECS__TEcsTimer = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsTimer");
+        _virtualTable.FLECS__TEcsTickSource = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsTickSource");
+        _virtualTable.FLECS__TEcsSystem = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsSystem");
+        _virtualTable.EcsPostFrame = Runtime.LibraryGetExport(_libraryHandle, "EcsPostFrame");
+        _virtualTable.EcsOnStore = Runtime.LibraryGetExport(_libraryHandle, "EcsOnStore");
+        _virtualTable.EcsPreStore = Runtime.LibraryGetExport(_libraryHandle, "EcsPreStore");
+        _virtualTable.EcsPostUpdate = Runtime.LibraryGetExport(_libraryHandle, "EcsPostUpdate");
+        _virtualTable.EcsOnValidate = Runtime.LibraryGetExport(_libraryHandle, "EcsOnValidate");
+        _virtualTable.EcsOnUpdate = Runtime.LibraryGetExport(_libraryHandle, "EcsOnUpdate");
+        _virtualTable.EcsPreUpdate = Runtime.LibraryGetExport(_libraryHandle, "EcsPreUpdate");
+        _virtualTable.EcsPostLoad = Runtime.LibraryGetExport(_libraryHandle, "EcsPostLoad");
+        _virtualTable.EcsOnLoad = Runtime.LibraryGetExport(_libraryHandle, "EcsOnLoad");
+        _virtualTable.EcsPreFrame = Runtime.LibraryGetExport(_libraryHandle, "EcsPreFrame");
+        _virtualTable.EcsPipeline = Runtime.LibraryGetExport(_libraryHandle, "EcsPipeline");
+        _virtualTable.EcsInactive = Runtime.LibraryGetExport(_libraryHandle, "EcsInactive");
+        _virtualTable.EcsDisabledIntern = Runtime.LibraryGetExport(_libraryHandle, "EcsDisabledIntern");
+        _virtualTable.EcsMonitor = Runtime.LibraryGetExport(_libraryHandle, "EcsMonitor");
+        _virtualTable.EcsOnDemand = Runtime.LibraryGetExport(_libraryHandle, "EcsOnDemand");
+        _virtualTable.EcsThrow = Runtime.LibraryGetExport(_libraryHandle, "EcsThrow");
+        _virtualTable.EcsDelete = Runtime.LibraryGetExport(_libraryHandle, "EcsDelete");
+        _virtualTable.EcsRemove = Runtime.LibraryGetExport(_libraryHandle, "EcsRemove");
+        _virtualTable.EcsOnDeleteObject = Runtime.LibraryGetExport(_libraryHandle, "EcsOnDeleteObject");
+        _virtualTable.EcsOnDelete = Runtime.LibraryGetExport(_libraryHandle, "EcsOnDelete");
+        _virtualTable.EcsUnSet = Runtime.LibraryGetExport(_libraryHandle, "EcsUnSet");
+        _virtualTable.EcsOnSet = Runtime.LibraryGetExport(_libraryHandle, "EcsOnSet");
+        _virtualTable.EcsOnRemove = Runtime.LibraryGetExport(_libraryHandle, "EcsOnRemove");
+        _virtualTable.EcsOnAdd = Runtime.LibraryGetExport(_libraryHandle, "EcsOnAdd");
+        _virtualTable.EcsHidden = Runtime.LibraryGetExport(_libraryHandle, "EcsHidden");
+        _virtualTable.EcsDisabled = Runtime.LibraryGetExport(_libraryHandle, "EcsDisabled");
+        _virtualTable.EcsPrefab = Runtime.LibraryGetExport(_libraryHandle, "EcsPrefab");
+        _virtualTable.EcsModule = Runtime.LibraryGetExport(_libraryHandle, "EcsModule");
+        _virtualTable.EcsIsA = Runtime.LibraryGetExport(_libraryHandle, "EcsIsA");
+        _virtualTable.EcsChildOf = Runtime.LibraryGetExport(_libraryHandle, "EcsChildOf");
+        _virtualTable.EcsFinal = Runtime.LibraryGetExport(_libraryHandle, "EcsFinal");
+        _virtualTable.EcsTransitive = Runtime.LibraryGetExport(_libraryHandle, "EcsTransitive");
+        _virtualTable.EcsThis = Runtime.LibraryGetExport(_libraryHandle, "EcsThis");
+        _virtualTable.EcsWildcard = Runtime.LibraryGetExport(_libraryHandle, "EcsWildcard");
+        _virtualTable.EcsWorld = Runtime.LibraryGetExport(_libraryHandle, "EcsWorld");
+        _virtualTable.EcsFlecsCore = Runtime.LibraryGetExport(_libraryHandle, "EcsFlecsCore");
+        _virtualTable.EcsFlecs = Runtime.LibraryGetExport(_libraryHandle, "EcsFlecs");
+        _virtualTable.ECS_DISABLED = Runtime.LibraryGetExport(_libraryHandle, "ECS_DISABLED");
+        _virtualTable.ECS_OWNED = Runtime.LibraryGetExport(_libraryHandle, "ECS_OWNED");
+        _virtualTable.ECS_PAIR = Runtime.LibraryGetExport(_libraryHandle, "ECS_PAIR");
+        _virtualTable.ECS_SWITCH = Runtime.LibraryGetExport(_libraryHandle, "ECS_SWITCH");
+        _virtualTable.ECS_CASE = Runtime.LibraryGetExport(_libraryHandle, "ECS_CASE");
+        _virtualTable.FLECS__TEcsName = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsName");
+        _virtualTable.FLECS__TEcsType = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsType");
+        _virtualTable.FLECS__TEcsComponentLifecycle = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsComponentLifecycle");
+        _virtualTable.FLECS__TEcsComponent = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsComponent");
+        _virtualTable.ecs_os_api = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api");
+        _virtualTable.ecs_os_api_free_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_free_count");
+        _virtualTable.ecs_os_api_calloc_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_calloc_count");
+        _virtualTable.ecs_os_api_realloc_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_realloc_count");
+        _virtualTable.ecs_os_api_malloc_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_malloc_count");
+
+        #endregion
     }
 
-    // Variable @ os_api.h:47
-    private static IntPtr _ecs_os_api_realloc_count;
-    public static long ecs_os_api_realloc_count
+    private static void _UnloadVirtualTable()
     {
-        get
-        {
-            if (_ecs_os_api_realloc_count == IntPtr.Zero)
-            {
-                return default(long);
-            }
+        #region "Functions"
 
-            var value = Runtime.ReadMemory<long>(_ecs_os_api_realloc_count);
-            return value;
-        }
+        _virtualTable.ecs_gauge_reduce = (delegate* unmanaged[Cdecl]<ecs_gauge_t*, int, ecs_gauge_t*, int, void>)IntPtr.Zero;
+        _virtualTable.ecs_get_pipeline_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_pipeline_stats_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_get_system_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_system_stats_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_get_query_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, ecs_query_stats_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_dump_world_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_stats_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_get_world_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_stats_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_record_move_to = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_record_t*, int, ulong, void*, int, void>)IntPtr.Zero;
+        _virtualTable.ecs_record_copy_pod_to = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_record_t*, int, ulong, void*, int, void>)IntPtr.Zero;
+        _virtualTable.ecs_record_copy_to = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_record_t*, int, ulong, void*, int, void>)IntPtr.Zero;
+        _virtualTable.ecs_record_get_column = (delegate* unmanaged[Cdecl]<ecs_record_t*, int, ulong, void*>)IntPtr.Zero;
+        _virtualTable.ecs_record_ensure = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_record_t*>)IntPtr.Zero;
+        _virtualTable.ecs_record_find = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_record_t*>)IntPtr.Zero;
+        _virtualTable.ecs_table_delete_column = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, int, ecs_vector_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_table_set_entities = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_vector_t*, ecs_vector_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_records_update = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_vector_t*, ecs_vector_t*, ecs_table_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_records_clear = (delegate* unmanaged[Cdecl]<ecs_vector_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_table_get_records = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_vector_t*>)IntPtr.Zero;
+        _virtualTable.ecs_table_get_entities = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_vector_t*>)IntPtr.Zero;
+        _virtualTable.ecs_table_set_column = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, int, ecs_vector_t*, ecs_vector_t*>)IntPtr.Zero;
+        _virtualTable.ecs_table_get_column = (delegate* unmanaged[Cdecl]<ecs_table_t*, int, ecs_vector_t*>)IntPtr.Zero;
+        _virtualTable.ecs_table_find_column = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_entity_t, int>)IntPtr.Zero;
+        _virtualTable.ecs_snapshot_free = (delegate* unmanaged[Cdecl]<ecs_snapshot_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_snapshot_next = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_snapshot_iter = (delegate* unmanaged[Cdecl]<ecs_snapshot_t*, ecs_filter_t*, ecs_iter_t>)IntPtr.Zero;
+        _virtualTable.ecs_snapshot_restore = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_snapshot_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_snapshot_take_w_iter = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_iter_next_action_t, ecs_snapshot_t*>)IntPtr.Zero;
+        _virtualTable.ecs_snapshot_take = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_snapshot_t*>)IntPtr.Zero;
+        _virtualTable.ecs_writer_write = (delegate* unmanaged[Cdecl]<CString, int, ecs_writer_t*, int>)IntPtr.Zero;
+        _virtualTable.ecs_writer_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_writer_t>)IntPtr.Zero;
+        _virtualTable.ecs_reader_read = (delegate* unmanaged[Cdecl]<CString, int, ecs_reader_t*, int>)IntPtr.Zero;
+        _virtualTable.ecs_reader_init_w_iter = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_iter_next_action_t, ecs_reader_t>)IntPtr.Zero;
+        _virtualTable.ecs_reader_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_reader_t>)IntPtr.Zero;
+        _virtualTable.ecs_queue_free = (delegate* unmanaged[Cdecl]<ecs_queue_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_queue_count = (delegate* unmanaged[Cdecl]<ecs_queue_t*, int>)IntPtr.Zero;
+        _virtualTable.ecs_queue_index = (delegate* unmanaged[Cdecl]<ecs_queue_t*, int>)IntPtr.Zero;
+        _virtualTable._ecs_queue_last = (delegate* unmanaged[Cdecl]<ecs_queue_t*, ecs_size_t, short, void*>)IntPtr.Zero;
+        _virtualTable._ecs_queue_get = (delegate* unmanaged[Cdecl]<ecs_queue_t*, ecs_size_t, short, int, void*>)IntPtr.Zero;
+        _virtualTable._ecs_queue_push = (delegate* unmanaged[Cdecl]<ecs_queue_t*, ecs_size_t, short, void*>)IntPtr.Zero;
+        _virtualTable._ecs_queue_from_array = (delegate* unmanaged[Cdecl]<ecs_size_t, short, int, void*, ecs_queue_t*>)IntPtr.Zero;
+        _virtualTable._ecs_queue_new = (delegate* unmanaged[Cdecl]<ecs_size_t, short, int, ecs_queue_t*>)IntPtr.Zero;
+        _virtualTable.ecs_parse_term = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString, CString, ecs_term_t*, CString>)IntPtr.Zero;
+        _virtualTable.ecs_dbg_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, ecs_dbg_table_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_dbg_filter_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, ecs_filter_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_dbg_get_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, ecs_table_t*>)IntPtr.Zero;
+        _virtualTable.ecs_dbg_find_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_table_t*>)IntPtr.Zero;
+        _virtualTable.ecs_dbg_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_dbg_entity_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_bulk_delete = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_bulk_add_remove_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, ecs_filter_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_bulk_remove_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_filter_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_bulk_remove_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_filter_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_bulk_add_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_filter_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_bulk_add_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_filter_t*, void>)IntPtr.Zero;
+        _virtualTable.FlecsTimerImport = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_set_tick_source = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_set_rate = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, ecs_entity_t, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_stop_timer = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_start_timer = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_get_interval = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float>)IntPtr.Zero;
+        _virtualTable.ecs_set_interval = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_get_timeout = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float>)IntPtr.Zero;
+        _virtualTable.ecs_set_timeout = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.FlecsPipelineImport = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_set_threads = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, void>)IntPtr.Zero;
+        _virtualTable.ecs_deactivate_systems = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_pipeline_run = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, void>)IntPtr.Zero;
+        _virtualTable.ecs_reset_clock = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_set_time_scale = (delegate* unmanaged[Cdecl]<ecs_world_t*, float, void>)IntPtr.Zero;
+        _virtualTable.ecs_progress = (delegate* unmanaged[Cdecl]<ecs_world_t*, float, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_get_pipeline = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_set_pipeline = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)IntPtr.Zero;
+        _virtualTable.FlecsSystemImport = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_dbg_match_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_match_failure_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_dbg_get_column_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, ecs_type_t>)IntPtr.Zero;
+        _virtualTable.ecs_dbg_get_inactive_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_dbg_system_t*, int, ecs_table_t*>)IntPtr.Zero;
+        _virtualTable.ecs_dbg_get_active_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_dbg_system_t*, int, ecs_table_t*>)IntPtr.Zero;
+        _virtualTable.ecs_dbg_system = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_dbg_system_t*, int>)IntPtr.Zero;
+        _virtualTable.ecs_get_system_ctx = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void*>)IntPtr.Zero;
+        _virtualTable.ecs_get_query = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_query_t*>)IntPtr.Zero;
+        _virtualTable.ecs_run_w_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, int, int, ecs_filter_t*, void*, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_run_worker = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, int, float, void*, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_run = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, void*, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_system_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_system_desc_t*, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_import_from_library = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_import = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_module_action_t, CString, void*, ulong, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_table_count = (delegate* unmanaged[Cdecl]<ecs_table_t*, int>)IntPtr.Zero;
+        _virtualTable.ecs_table_insert = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, ecs_entity_t, ecs_record_t*, ecs_record_t>)IntPtr.Zero;
+        _virtualTable.ecs_table_get_type = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_type_t>)IntPtr.Zero;
+        _virtualTable.ecs_table_from_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_table_t*>)IntPtr.Zero;
+        _virtualTable.ecs_table_from_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_table_t*>)IntPtr.Zero;
+        _virtualTable.ecs_stage_is_async = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_async_stage_free = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_async_stage_new = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_t*>)IntPtr.Zero;
+        _virtualTable.ecs_stage_is_readonly = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_get_world = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_t*>)IntPtr.Zero;
+        _virtualTable.ecs_get_stage = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, ecs_world_t*>)IntPtr.Zero;
+        _virtualTable.ecs_get_stage_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)IntPtr.Zero;
+        _virtualTable.ecs_get_stage_count = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)IntPtr.Zero;
+        _virtualTable.ecs_set_stages = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, void>)IntPtr.Zero;
+        _virtualTable.ecs_set_automerge = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, void>)IntPtr.Zero;
+        _virtualTable.ecs_defer_end = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_defer_begin = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_merge = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_staging_end = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_staging_begin = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_frame_end = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_frame_begin = (delegate* unmanaged[Cdecl]<ecs_world_t*, float, float>)IntPtr.Zero;
+        _virtualTable.ecs_iter_column_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong>)IntPtr.Zero;
+        _virtualTable.ecs_iter_column_w_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, void*>)IntPtr.Zero;
+        _virtualTable.ecs_iter_find_column = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_id_t, int>)IntPtr.Zero;
+        _virtualTable.ecs_iter_type = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_type_t>)IntPtr.Zero;
+        _virtualTable.ecs_term_is_owned = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_term_is_readonly = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_term_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong>)IntPtr.Zero;
+        _virtualTable.ecs_term_source = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_term_id = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_id_t>)IntPtr.Zero;
+        _virtualTable.ecs_term_w_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, void*>)IntPtr.Zero;
+        _virtualTable.ecs_get_trigger_ctx = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void*>)IntPtr.Zero;
+        _virtualTable.ecs_trigger_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_trigger_desc_t*, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_query_orphaned = (delegate* unmanaged[Cdecl]<ecs_query_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_query_changed = (delegate* unmanaged[Cdecl]<ecs_query_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_query_next_worker = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, int, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_query_next_w_filter = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_filter_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_query_next = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_query_iter_page = (delegate* unmanaged[Cdecl]<ecs_query_t*, int, int, ecs_iter_t>)IntPtr.Zero;
+        _virtualTable.ecs_query_iter = (delegate* unmanaged[Cdecl]<ecs_query_t*, ecs_iter_t>)IntPtr.Zero;
+        _virtualTable.ecs_query_fini = (delegate* unmanaged[Cdecl]<ecs_query_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_query_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_desc_t*, ecs_query_t*>)IntPtr.Zero;
+        _virtualTable.ecs_filter_next = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_filter_iter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, ecs_iter_t>)IntPtr.Zero;
+        _virtualTable.ecs_filter_match_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, ecs_entity_t, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_filter_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, CString>)IntPtr.Zero;
+        _virtualTable.ecs_filter_finalize = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, int>)IntPtr.Zero;
+        _virtualTable.ecs_filter_fini = (delegate* unmanaged[Cdecl]<ecs_filter_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_filter_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, ecs_filter_desc_t*, int>)IntPtr.Zero;
+        _virtualTable.ecs_id_match = (delegate* unmanaged[Cdecl]<ecs_id_t, ecs_id_t, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_term_fini = (delegate* unmanaged[Cdecl]<ecs_term_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_term_move = (delegate* unmanaged[Cdecl]<ecs_term_t*, ecs_term_t>)IntPtr.Zero;
+        _virtualTable.ecs_term_copy = (delegate* unmanaged[Cdecl]<ecs_term_t*, ecs_term_t>)IntPtr.Zero;
+        _virtualTable.ecs_term_finalize = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString, ecs_term_t*, int>)IntPtr.Zero;
+        _virtualTable.ecs_term_is_trivial = (delegate* unmanaged[Cdecl]<ecs_term_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_term_is_set = (delegate* unmanaged[Cdecl]<ecs_term_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_set_name_prefix = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString>)IntPtr.Zero;
+        _virtualTable.ecs_get_scope = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_set_scope = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_scope_next = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_scope_iter_w_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_filter_t*, ecs_iter_t>)IntPtr.Zero;
+        _virtualTable.ecs_scope_iter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_iter_t>)IntPtr.Zero;
+        _virtualTable.ecs_get_child_count = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int>)IntPtr.Zero;
+        _virtualTable.ecs_add_path_w_sep = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, CString, CString, CString, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_new_from_path_w_sep = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, CString, CString, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_get_path_w_sep = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_entity_t, CString, CString, CString>)IntPtr.Zero;
+        _virtualTable.ecs_use = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, void>)IntPtr.Zero;
+        _virtualTable.ecs_lookup_symbol = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_lookup_path_w_sep = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, CString, CString, CBool, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_lookup_child = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_lookup = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_count_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, int>)IntPtr.Zero;
+        _virtualTable.ecs_count_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int>)IntPtr.Zero;
+        _virtualTable.ecs_enable = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool, void>)IntPtr.Zero;
+        _virtualTable.ecs_get_object_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_id_t, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_id_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, CString, ulong, ulong>)IntPtr.Zero;
+        _virtualTable.ecs_role_str = (delegate* unmanaged[Cdecl]<ecs_entity_t, CString>)IntPtr.Zero;
+        _virtualTable.ecs_get_name = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString>)IntPtr.Zero;
+        _virtualTable.ecs_get_typeid = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_get_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t>)IntPtr.Zero;
+        _virtualTable.ecs_exists = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_ensure = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_get_alive = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_is_alive = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_is_valid = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_has_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_set_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ulong, void*, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_modified_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_get_mut_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool*, void*>)IntPtr.Zero;
+        _virtualTable.ecs_get_case = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_get_ref_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_ref_t*, ecs_entity_t, ecs_id_t, void*>)IntPtr.Zero;
+        _virtualTable.ecs_get_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void*>)IntPtr.Zero;
+        _virtualTable.ecs_delete_children = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_delete = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_clear = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_make_pair = (delegate* unmanaged[Cdecl]<ecs_entity_t, ecs_entity_t, ecs_id_t>)IntPtr.Zero;
+        _virtualTable.ecs_is_component_enabled_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_enable_component_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool, void>)IntPtr.Zero;
+        _virtualTable.ecs_remove_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_add_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_clone = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, CBool, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_bulk_new_w_data = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, ecs_entities_t*, void*, ecs_entity_t*>)IntPtr.Zero;
+        _virtualTable.ecs_bulk_new_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int, ecs_entity_t*>)IntPtr.Zero;
+        _virtualTable.ecs_type_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_desc_t*, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_component_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_component_desc_t*, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_entity_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_desc_t*, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_new_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_new_component_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_new_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_get_threads = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)IntPtr.Zero;
+        _virtualTable.ecs_set_target_fps = (delegate* unmanaged[Cdecl]<ecs_world_t*, float, void>)IntPtr.Zero;
+        _virtualTable.ecs_measure_system_time = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, void>)IntPtr.Zero;
+        _virtualTable.ecs_measure_frame_time = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, void>)IntPtr.Zero;
+        _virtualTable.ecs_tracing_enable = (delegate* unmanaged[Cdecl]<int, void>)IntPtr.Zero;
+        _virtualTable.ecs_end_wait = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_begin_wait = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_unlock = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_lock = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_enable_locking = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_enable_range_check = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_set_entity_range = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_dim = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, void>)IntPtr.Zero;
+        _virtualTable.ecs_get_world_info = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_info_t*>)IntPtr.Zero;
+        _virtualTable.ecs_get_context = (delegate* unmanaged[Cdecl]<ecs_world_t*, void*>)IntPtr.Zero;
+        _virtualTable.ecs_set_context = (delegate* unmanaged[Cdecl]<ecs_world_t*, void*, void>)IntPtr.Zero;
+        _virtualTable.ecs_set_component_actions_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, EcsComponentLifecycle*, void>)IntPtr.Zero;
+        _virtualTable.ecs_should_quit = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_quit = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_run_post_frame = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_fini_action_t, void*, void>)IntPtr.Zero;
+        _virtualTable.ecs_atfini = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_fini_action_t, void*, void>)IntPtr.Zero;
+        _virtualTable.ecs_fini = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)IntPtr.Zero;
+        _virtualTable.ecs_init_w_args = (delegate* unmanaged[Cdecl]<int, CString*, ecs_world_t*>)IntPtr.Zero;
+        _virtualTable.ecs_mini = (delegate* unmanaged[Cdecl]<ecs_world_t*>)IntPtr.Zero;
+        _virtualTable.ecs_init = (delegate* unmanaged[Cdecl]<ecs_world_t*>)IntPtr.Zero;
+        _virtualTable.ecs_query_group_by = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, ecs_entity_t, ecs_rank_type_action_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_query_order_by = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, ecs_entity_t, ecs_compare_action_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_query_free = (delegate* unmanaged[Cdecl]<ecs_query_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_subquery_new = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, CString, ecs_query_t*>)IntPtr.Zero;
+        _virtualTable.ecs_query_new = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_query_t*>)IntPtr.Zero;
+        _virtualTable.ecs_set_rate_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, ecs_entity_t, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_table_component_index = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_entity_t, int>)IntPtr.Zero;
+        _virtualTable.ecs_table_column_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong>)IntPtr.Zero;
+        _virtualTable.ecs_table_column = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, void*>)IntPtr.Zero;
+        _virtualTable.ecs_is_owned = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_is_readonly = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_column_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong>)IntPtr.Zero;
+        _virtualTable.ecs_column_type = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_type_t>)IntPtr.Zero;
+        _virtualTable.ecs_column_entity = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_column_source = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_element_w_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, int, void*>)IntPtr.Zero;
+        _virtualTable.ecs_column_index_from_name = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CString, int>)IntPtr.Zero;
+        _virtualTable.ecs_column_w_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, void*>)IntPtr.Zero;
+        _virtualTable.ecs_type_owns_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_type_has_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_type_to_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_type_from_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t>)IntPtr.Zero;
+        _virtualTable.ecs_add_remove_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ecs_id_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_remove_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_add_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_get_thread_index = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)IntPtr.Zero;
+        _virtualTable.ecs_get_parent_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_entity_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, CString, ulong, ulong>)IntPtr.Zero;
+        _virtualTable.ecs_has_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_set_ptr_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ulong, void*, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_modified_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_get_mut_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool*, void*>)IntPtr.Zero;
+        _virtualTable.ecs_get_ref_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_ref_t*, ecs_entity_t, ecs_id_t, void*>)IntPtr.Zero;
+        _virtualTable.ecs_get_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void*>)IntPtr.Zero;
+        _virtualTable.ecs_get_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void*>)IntPtr.Zero;
+        _virtualTable.ecs_is_component_enabled_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_enable_component_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool, void>)IntPtr.Zero;
+        _virtualTable.ecs_bulk_new_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int, ecs_entity_t*>)IntPtr.Zero;
+        _virtualTable.ecs_new_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_set_component_actions_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, EcsComponentLifecycle*, void>)IntPtr.Zero;
+        _virtualTable.ecs_count_w_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, int>)IntPtr.Zero;
+        _virtualTable.ecs_count_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int>)IntPtr.Zero;
+        _virtualTable.ecs_count_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, int>)IntPtr.Zero;
+        _virtualTable.ecs_has_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_add_remove_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, ecs_type_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_remove_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_add_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_bulk_new_w_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, int, ecs_entity_t*>)IntPtr.Zero;
+        _virtualTable.ecs_new_w_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_dim_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, int, void>)IntPtr.Zero;
+        _virtualTable.ecs_type_match = (delegate* unmanaged[Cdecl]<ecs_type_t, int, ecs_entity_t, int>)IntPtr.Zero;
+        _virtualTable.ecs_type_index_of = (delegate* unmanaged[Cdecl]<ecs_type_t, ecs_entity_t, int>)IntPtr.Zero;
+        _virtualTable.ecs_type_get_entity_for_xor = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_type_find_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_entity_t, int, int, ecs_entity_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_type_owns_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, CBool, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_type_owns_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_type_has_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_type_has_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_type_remove = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_type_t>)IntPtr.Zero;
+        _virtualTable.ecs_type_add = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_type_t>)IntPtr.Zero;
+        _virtualTable.ecs_type_merge = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, ecs_type_t, ecs_type_t>)IntPtr.Zero;
+        _virtualTable.ecs_type_find = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t*, int, ecs_type_t>)IntPtr.Zero;
+        _virtualTable.ecs_type_from_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_type_t>)IntPtr.Zero;
+        _virtualTable.ecs_type_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, CString>)IntPtr.Zero;
+        _virtualTable.ecs_type_to_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_type_from_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t>)IntPtr.Zero;
+        _virtualTable._ecs_parser_error = (delegate* unmanaged[Cdecl]<CString, CString, long, CString, void>)IntPtr.Zero;
+        _virtualTable._ecs_assert = (delegate* unmanaged[Cdecl]<CBool, int, CString, CString, CString, int, void>)IntPtr.Zero;
+        _virtualTable._ecs_abort = (delegate* unmanaged[Cdecl]<int, CString, CString, int, void>)IntPtr.Zero;
+        _virtualTable.ecs_strerror = (delegate* unmanaged[Cdecl]<int, CString>)IntPtr.Zero;
+        _virtualTable.ecs_log_pop = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
+        _virtualTable.ecs_log_push = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
+        _virtualTable._ecs_deprecated = (delegate* unmanaged[Cdecl]<CString, int, CString, void>)IntPtr.Zero;
+        _virtualTable._ecs_err = (delegate* unmanaged[Cdecl]<CString, int, CString, void>)IntPtr.Zero;
+        _virtualTable._ecs_warn = (delegate* unmanaged[Cdecl]<CString, int, CString, void>)IntPtr.Zero;
+        _virtualTable._ecs_trace = (delegate* unmanaged[Cdecl]<int, CString, int, CString, void>)IntPtr.Zero;
+        _virtualTable.ecs_query_get_filter = (delegate* unmanaged[Cdecl]<ecs_query_t*, ecs_filter_t*>)IntPtr.Zero;
+        _virtualTable.ecs_identifier_is_var = (delegate* unmanaged[Cdecl]<CString, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_identifier_is_0 = (delegate* unmanaged[Cdecl]<CString, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_component_has_actions = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_module_path_from_c = (delegate* unmanaged[Cdecl]<CString, CString>)IntPtr.Zero;
+        _virtualTable.ecs_new_module = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, ulong, ulong, ecs_entity_t>)IntPtr.Zero;
+        _virtualTable.ecs_os_has_modules = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
+        _virtualTable.ecs_os_has_dl = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
+        _virtualTable.ecs_os_has_logging = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
+        _virtualTable.ecs_os_has_time = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
+        _virtualTable.ecs_os_has_threading = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
+        _virtualTable.ecs_os_has_heap = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
+        _virtualTable.ecs_os_memdup = (delegate* unmanaged[Cdecl]<void*, ecs_size_t, void*>)IntPtr.Zero;
+        _virtualTable.ecs_time_to_double = (delegate* unmanaged[Cdecl]<ecs_time_t, double>)IntPtr.Zero;
+        _virtualTable.ecs_time_sub = (delegate* unmanaged[Cdecl]<ecs_time_t, ecs_time_t, ecs_time_t>)IntPtr.Zero;
+        _virtualTable.ecs_time_measure = (delegate* unmanaged[Cdecl]<ecs_time_t*, double>)IntPtr.Zero;
+        _virtualTable.ecs_sleepf = (delegate* unmanaged[Cdecl]<double, void>)IntPtr.Zero;
+        _virtualTable.ecs_os_dbg = (delegate* unmanaged[Cdecl]<CString, void>)IntPtr.Zero;
+        _virtualTable.ecs_os_err = (delegate* unmanaged[Cdecl]<CString, void>)IntPtr.Zero;
+        _virtualTable.ecs_os_warn = (delegate* unmanaged[Cdecl]<CString, void>)IntPtr.Zero;
+        _virtualTable.ecs_os_log = (delegate* unmanaged[Cdecl]<CString, void>)IntPtr.Zero;
+        _virtualTable.ecs_os_set_api_defaults = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
+        _virtualTable.ecs_os_set_api = (delegate* unmanaged[Cdecl]<ecs_os_api_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_os_fini = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
+        _virtualTable.ecs_os_init = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
+        _virtualTable.ecs_strbuf_list_appendstr = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_strbuf_list_append = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_strbuf_list_next = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_strbuf_list_pop = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, void>)IntPtr.Zero;
+        _virtualTable.ecs_strbuf_list_push = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CString, void>)IntPtr.Zero;
+        _virtualTable.ecs_strbuf_reset = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_strbuf_get = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString>)IntPtr.Zero;
+        _virtualTable.ecs_strbuf_appendstrn = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, int, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_strbuf_appendstr_zerocpy_const = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_strbuf_appendstr_zerocpy = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_strbuf_mergebuff = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, ecs_strbuf_t*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_strbuf_appendstr = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_strbuf_vappend = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, IntPtr, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_strbuf_append = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_map_memory = (delegate* unmanaged[Cdecl]<ecs_map_t*, int*, int*, void>)IntPtr.Zero;
+        _virtualTable.ecs_map_set_size = (delegate* unmanaged[Cdecl]<ecs_map_t*, int, void>)IntPtr.Zero;
+        _virtualTable.ecs_map_grow = (delegate* unmanaged[Cdecl]<ecs_map_t*, int, void>)IntPtr.Zero;
+        _virtualTable._ecs_map_next_ptr = (delegate* unmanaged[Cdecl]<ecs_map_iter_t*, ecs_map_key_t*, void*>)IntPtr.Zero;
+        _virtualTable._ecs_map_next = (delegate* unmanaged[Cdecl]<ecs_map_iter_t*, ecs_size_t, ecs_map_key_t*, void*>)IntPtr.Zero;
+        _virtualTable.ecs_map_iter = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_map_iter_t>)IntPtr.Zero;
+        _virtualTable.ecs_map_bucket_count = (delegate* unmanaged[Cdecl]<ecs_map_t*, int>)IntPtr.Zero;
+        _virtualTable.ecs_map_count = (delegate* unmanaged[Cdecl]<ecs_map_t*, int>)IntPtr.Zero;
+        _virtualTable.ecs_map_clear = (delegate* unmanaged[Cdecl]<ecs_map_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_map_remove = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_map_key_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_map_free = (delegate* unmanaged[Cdecl]<ecs_map_t*, void>)IntPtr.Zero;
+        _virtualTable._ecs_map_set = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_size_t, ecs_map_key_t, void*, void*>)IntPtr.Zero;
+        _virtualTable._ecs_map_ensure = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_size_t, ecs_map_key_t, void*>)IntPtr.Zero;
+        _virtualTable._ecs_map_get_ptr = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_map_key_t, void*>)IntPtr.Zero;
+        _virtualTable._ecs_map_get = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_size_t, ecs_map_key_t, void*>)IntPtr.Zero;
+        _virtualTable._ecs_map_new = (delegate* unmanaged[Cdecl]<ecs_size_t, ecs_size_t, int, ecs_map_t*>)IntPtr.Zero;
+        _virtualTable._ecs_vector_copy = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, ecs_vector_t*>)IntPtr.Zero;
+        _virtualTable._ecs_vector_memory = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, int*, int*, void>)IntPtr.Zero;
+        _virtualTable._ecs_vector_sort = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, ecs_comparator_t, void>)IntPtr.Zero;
+        _virtualTable._ecs_vector_first = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void*>)IntPtr.Zero;
+        _virtualTable.ecs_vector_size = (delegate* unmanaged[Cdecl]<ecs_vector_t*, int>)IntPtr.Zero;
+        _virtualTable.ecs_vector_count = (delegate* unmanaged[Cdecl]<ecs_vector_t*, int>)IntPtr.Zero;
+        _virtualTable._ecs_vector_set_count = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)IntPtr.Zero;
+        _virtualTable._ecs_vector_set_size = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)IntPtr.Zero;
+        _virtualTable._ecs_vector_grow = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)IntPtr.Zero;
+        _virtualTable._ecs_vector_reclaim = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, void>)IntPtr.Zero;
+        _virtualTable._ecs_vector_remove_index = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, int, int>)IntPtr.Zero;
+        _virtualTable._ecs_vector_move_index = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_vector_t*, ecs_size_t, short, int, int>)IntPtr.Zero;
+        _virtualTable._ecs_vector_pop = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void*, CBool>)IntPtr.Zero;
+        _virtualTable.ecs_vector_remove_last = (delegate* unmanaged[Cdecl]<ecs_vector_t*, void>)IntPtr.Zero;
+        _virtualTable._ecs_vector_set_min_count = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)IntPtr.Zero;
+        _virtualTable._ecs_vector_set_min_size = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)IntPtr.Zero;
+        _virtualTable._ecs_vector_last = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void*>)IntPtr.Zero;
+        _virtualTable._ecs_vector_get = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, int, void*>)IntPtr.Zero;
+        _virtualTable._ecs_vector_addn = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, void*>)IntPtr.Zero;
+        _virtualTable._ecs_vector_add = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, void*>)IntPtr.Zero;
+        _virtualTable.ecs_vector_assert_alignment = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_vector_assert_size = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, void>)IntPtr.Zero;
+        _virtualTable.ecs_vector_clear = (delegate* unmanaged[Cdecl]<ecs_vector_t*, void>)IntPtr.Zero;
+        _virtualTable.ecs_vector_free = (delegate* unmanaged[Cdecl]<ecs_vector_t*, void>)IntPtr.Zero;
+        _virtualTable._ecs_vector_zero = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void>)IntPtr.Zero;
+        _virtualTable._ecs_vector_from_array = (delegate* unmanaged[Cdecl]<ecs_size_t, short, int, void*, ecs_vector_t*>)IntPtr.Zero;
+        _virtualTable._ecs_vector_new = (delegate* unmanaged[Cdecl]<ecs_size_t, short, int, ecs_vector_t*>)IntPtr.Zero;
+
+        #endregion
+
+        #region "Variables"
+
+        _virtualTable.FLECS__TEcsRateFilter = IntPtr.Zero;
+        _virtualTable.FLECS__TEcsTimer = IntPtr.Zero;
+        _virtualTable.FLECS__TEcsTickSource = IntPtr.Zero;
+        _virtualTable.FLECS__TEcsSystem = IntPtr.Zero;
+        _virtualTable.EcsPostFrame = IntPtr.Zero;
+        _virtualTable.EcsOnStore = IntPtr.Zero;
+        _virtualTable.EcsPreStore = IntPtr.Zero;
+        _virtualTable.EcsPostUpdate = IntPtr.Zero;
+        _virtualTable.EcsOnValidate = IntPtr.Zero;
+        _virtualTable.EcsOnUpdate = IntPtr.Zero;
+        _virtualTable.EcsPreUpdate = IntPtr.Zero;
+        _virtualTable.EcsPostLoad = IntPtr.Zero;
+        _virtualTable.EcsOnLoad = IntPtr.Zero;
+        _virtualTable.EcsPreFrame = IntPtr.Zero;
+        _virtualTable.EcsPipeline = IntPtr.Zero;
+        _virtualTable.EcsInactive = IntPtr.Zero;
+        _virtualTable.EcsDisabledIntern = IntPtr.Zero;
+        _virtualTable.EcsMonitor = IntPtr.Zero;
+        _virtualTable.EcsOnDemand = IntPtr.Zero;
+        _virtualTable.EcsThrow = IntPtr.Zero;
+        _virtualTable.EcsDelete = IntPtr.Zero;
+        _virtualTable.EcsRemove = IntPtr.Zero;
+        _virtualTable.EcsOnDeleteObject = IntPtr.Zero;
+        _virtualTable.EcsOnDelete = IntPtr.Zero;
+        _virtualTable.EcsUnSet = IntPtr.Zero;
+        _virtualTable.EcsOnSet = IntPtr.Zero;
+        _virtualTable.EcsOnRemove = IntPtr.Zero;
+        _virtualTable.EcsOnAdd = IntPtr.Zero;
+        _virtualTable.EcsHidden = IntPtr.Zero;
+        _virtualTable.EcsDisabled = IntPtr.Zero;
+        _virtualTable.EcsPrefab = IntPtr.Zero;
+        _virtualTable.EcsModule = IntPtr.Zero;
+        _virtualTable.EcsIsA = IntPtr.Zero;
+        _virtualTable.EcsChildOf = IntPtr.Zero;
+        _virtualTable.EcsFinal = IntPtr.Zero;
+        _virtualTable.EcsTransitive = IntPtr.Zero;
+        _virtualTable.EcsThis = IntPtr.Zero;
+        _virtualTable.EcsWildcard = IntPtr.Zero;
+        _virtualTable.EcsWorld = IntPtr.Zero;
+        _virtualTable.EcsFlecsCore = IntPtr.Zero;
+        _virtualTable.EcsFlecs = IntPtr.Zero;
+        _virtualTable.ECS_DISABLED = IntPtr.Zero;
+        _virtualTable.ECS_OWNED = IntPtr.Zero;
+        _virtualTable.ECS_PAIR = IntPtr.Zero;
+        _virtualTable.ECS_SWITCH = IntPtr.Zero;
+        _virtualTable.ECS_CASE = IntPtr.Zero;
+        _virtualTable.FLECS__TEcsName = IntPtr.Zero;
+        _virtualTable.FLECS__TEcsType = IntPtr.Zero;
+        _virtualTable.FLECS__TEcsComponentLifecycle = IntPtr.Zero;
+        _virtualTable.FLECS__TEcsComponent = IntPtr.Zero;
+        _virtualTable.ecs_os_api = IntPtr.Zero;
+        _virtualTable.ecs_os_api_free_count = IntPtr.Zero;
+        _virtualTable.ecs_os_api_calloc_count = IntPtr.Zero;
+        _virtualTable.ecs_os_api_realloc_count = IntPtr.Zero;
+        _virtualTable.ecs_os_api_malloc_count = IntPtr.Zero;
+
+        #endregion
     }
 
-    // Variable @ os_api.h:48
-    private static IntPtr _ecs_os_api_calloc_count;
-    public static long ecs_os_api_calloc_count
+    // The virtual table represents a list of pointers to functions or variables which are resolved in a late manner.
+    //	This allows for flexibility in swapping implementations at runtime.
+    //	You can think of it in traditional OOP terms in C# as the locations of the virtual methods and/or properties of an object.
+    public struct _VirtualTable
     {
-        get
-        {
-            if (_ecs_os_api_calloc_count == IntPtr.Zero)
-            {
-                return default(long);
-            }
+        #region "Function Pointers"
+        // These pointers hold the locations in the native library where functions are located at runtime.
+        // See: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
 
-            var value = Runtime.ReadMemory<long>(_ecs_os_api_calloc_count);
-            return value;
-        }
+        public delegate* unmanaged[Cdecl]<ecs_gauge_t*, int, ecs_gauge_t*, int, void> ecs_gauge_reduce;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_pipeline_stats_t*, CBool> ecs_get_pipeline_stats;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_system_stats_t*, CBool> ecs_get_system_stats;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, ecs_query_stats_t*, void> ecs_get_query_stats;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_stats_t*, void> ecs_dump_world_stats;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_stats_t*, void> ecs_get_world_stats;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_record_t*, int, ulong, void*, int, void> ecs_record_move_to;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_record_t*, int, ulong, void*, int, void> ecs_record_copy_pod_to;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_record_t*, int, ulong, void*, int, void> ecs_record_copy_to;
+        public delegate* unmanaged[Cdecl]<ecs_record_t*, int, ulong, void*> ecs_record_get_column;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_record_t*> ecs_record_ensure;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_record_t*> ecs_record_find;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, int, ecs_vector_t*, void> ecs_table_delete_column;
+        public delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_vector_t*, ecs_vector_t*, void> ecs_table_set_entities;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_vector_t*, ecs_vector_t*, ecs_table_t*, void> ecs_records_update;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t*, void> ecs_records_clear;
+        public delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_vector_t*> ecs_table_get_records;
+        public delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_vector_t*> ecs_table_get_entities;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, int, ecs_vector_t*, ecs_vector_t*> ecs_table_set_column;
+        public delegate* unmanaged[Cdecl]<ecs_table_t*, int, ecs_vector_t*> ecs_table_get_column;
+        public delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_entity_t, int> ecs_table_find_column;
+        public delegate* unmanaged[Cdecl]<ecs_snapshot_t*, void> ecs_snapshot_free;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool> ecs_snapshot_next;
+        public delegate* unmanaged[Cdecl]<ecs_snapshot_t*, ecs_filter_t*, ecs_iter_t> ecs_snapshot_iter;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_snapshot_t*, void> ecs_snapshot_restore;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_iter_next_action_t, ecs_snapshot_t*> ecs_snapshot_take_w_iter;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_snapshot_t*> ecs_snapshot_take;
+        public delegate* unmanaged[Cdecl]<CString, int, ecs_writer_t*, int> ecs_writer_write;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_writer_t> ecs_writer_init;
+        public delegate* unmanaged[Cdecl]<CString, int, ecs_reader_t*, int> ecs_reader_read;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_iter_next_action_t, ecs_reader_t> ecs_reader_init_w_iter;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_reader_t> ecs_reader_init;
+        public delegate* unmanaged[Cdecl]<ecs_queue_t*, void> ecs_queue_free;
+        public delegate* unmanaged[Cdecl]<ecs_queue_t*, int> ecs_queue_count;
+        public delegate* unmanaged[Cdecl]<ecs_queue_t*, int> ecs_queue_index;
+        public delegate* unmanaged[Cdecl]<ecs_queue_t*, ecs_size_t, short, void*> _ecs_queue_last;
+        public delegate* unmanaged[Cdecl]<ecs_queue_t*, ecs_size_t, short, int, void*> _ecs_queue_get;
+        public delegate* unmanaged[Cdecl]<ecs_queue_t*, ecs_size_t, short, void*> _ecs_queue_push;
+        public delegate* unmanaged[Cdecl]<ecs_size_t, short, int, void*, ecs_queue_t*> _ecs_queue_from_array;
+        public delegate* unmanaged[Cdecl]<ecs_size_t, short, int, ecs_queue_t*> _ecs_queue_new;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString, CString, ecs_term_t*, CString> ecs_parse_term;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, ecs_dbg_table_t*, void> ecs_dbg_table;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, ecs_filter_t*, CBool> ecs_dbg_filter_table;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, int, ecs_table_t*> ecs_dbg_get_table;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_table_t*> ecs_dbg_find_table;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_dbg_entity_t*, void> ecs_dbg_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, void> ecs_bulk_delete;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, ecs_filter_t*, void> ecs_bulk_add_remove_type;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_filter_t*, void> ecs_bulk_remove_type;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_filter_t*, void> ecs_bulk_remove_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_filter_t*, void> ecs_bulk_add_type;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_filter_t*, void> ecs_bulk_add_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> FlecsTimerImport;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, void> ecs_set_tick_source;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, ecs_entity_t, ecs_entity_t> ecs_set_rate;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void> ecs_stop_timer;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void> ecs_start_timer;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float> ecs_get_interval;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, ecs_entity_t> ecs_set_interval;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float> ecs_get_timeout;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, ecs_entity_t> ecs_set_timeout;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> FlecsPipelineImport;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, int, void> ecs_set_threads;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_deactivate_systems;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, void> ecs_pipeline_run;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_reset_clock;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, float, void> ecs_set_time_scale;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, float, CBool> ecs_progress;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t> ecs_get_pipeline;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void> ecs_set_pipeline;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> FlecsSystemImport;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_match_failure_t*, CBool> ecs_dbg_match_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, ecs_type_t> ecs_dbg_get_column_type;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_dbg_system_t*, int, ecs_table_t*> ecs_dbg_get_inactive_table;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_dbg_system_t*, int, ecs_table_t*> ecs_dbg_get_active_table;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_dbg_system_t*, int> ecs_dbg_system;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void*> ecs_get_system_ctx;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_query_t*> ecs_get_query;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, int, int, ecs_filter_t*, void*, ecs_entity_t> ecs_run_w_filter;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, int, float, void*, ecs_entity_t> ecs_run_worker;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, void*, ecs_entity_t> ecs_run;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_system_desc_t*, ecs_entity_t> ecs_system_init;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString, ecs_entity_t> ecs_import_from_library;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_module_action_t, CString, void*, ulong, ecs_entity_t> ecs_import;
+        public delegate* unmanaged[Cdecl]<ecs_table_t*, int> ecs_table_count;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, ecs_entity_t, ecs_record_t*, ecs_record_t> ecs_table_insert;
+        public delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_type_t> ecs_table_get_type;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_table_t*> ecs_table_from_type;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_table_t*> ecs_table_from_str;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool> ecs_stage_is_async;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_async_stage_free;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_t*> ecs_async_stage_new;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool> ecs_stage_is_readonly;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_t*> ecs_get_world;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, int, ecs_world_t*> ecs_get_stage;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, int> ecs_get_stage_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, int> ecs_get_stage_count;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, int, void> ecs_set_stages;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, void> ecs_set_automerge;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool> ecs_defer_end;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool> ecs_defer_begin;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_merge;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_staging_end;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool> ecs_staging_begin;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_frame_end;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, float, float> ecs_frame_begin;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong> ecs_iter_column_size;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, void*> ecs_iter_column_w_size;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_id_t, int> ecs_iter_find_column;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_type_t> ecs_iter_type;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool> ecs_term_is_owned;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool> ecs_term_is_readonly;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong> ecs_term_size;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_entity_t> ecs_term_source;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_id_t> ecs_term_id;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, void*> ecs_term_w_size;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void*> ecs_get_trigger_ctx;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_trigger_desc_t*, ecs_entity_t> ecs_trigger_init;
+        public delegate* unmanaged[Cdecl]<ecs_query_t*, CBool> ecs_query_orphaned;
+        public delegate* unmanaged[Cdecl]<ecs_query_t*, CBool> ecs_query_changed;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, int, CBool> ecs_query_next_worker;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_filter_t*, CBool> ecs_query_next_w_filter;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool> ecs_query_next;
+        public delegate* unmanaged[Cdecl]<ecs_query_t*, int, int, ecs_iter_t> ecs_query_iter_page;
+        public delegate* unmanaged[Cdecl]<ecs_query_t*, ecs_iter_t> ecs_query_iter;
+        public delegate* unmanaged[Cdecl]<ecs_query_t*, void> ecs_query_fini;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_desc_t*, ecs_query_t*> ecs_query_init;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool> ecs_filter_next;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, ecs_iter_t> ecs_filter_iter;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, ecs_entity_t, CBool> ecs_filter_match_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, CString> ecs_filter_str;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, int> ecs_filter_finalize;
+        public delegate* unmanaged[Cdecl]<ecs_filter_t*, void> ecs_filter_fini;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, ecs_filter_desc_t*, int> ecs_filter_init;
+        public delegate* unmanaged[Cdecl]<ecs_id_t, ecs_id_t, CBool> ecs_id_match;
+        public delegate* unmanaged[Cdecl]<ecs_term_t*, void> ecs_term_fini;
+        public delegate* unmanaged[Cdecl]<ecs_term_t*, ecs_term_t> ecs_term_move;
+        public delegate* unmanaged[Cdecl]<ecs_term_t*, ecs_term_t> ecs_term_copy;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString, ecs_term_t*, int> ecs_term_finalize;
+        public delegate* unmanaged[Cdecl]<ecs_term_t*, CBool> ecs_term_is_trivial;
+        public delegate* unmanaged[Cdecl]<ecs_term_t*, CBool> ecs_term_is_set;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString> ecs_set_name_prefix;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t> ecs_get_scope;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t> ecs_set_scope;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool> ecs_scope_next;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_filter_t*, ecs_iter_t> ecs_scope_iter_w_filter;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_iter_t> ecs_scope_iter;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int> ecs_get_child_count;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, CString, CString, CString, ecs_entity_t> ecs_add_path_w_sep;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, CString, CString, ecs_entity_t> ecs_new_from_path_w_sep;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_entity_t, CString, CString, CString> ecs_get_path_w_sep;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, void> ecs_use;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_entity_t> ecs_lookup_symbol;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, CString, CString, CBool, ecs_entity_t> ecs_lookup_path_w_sep;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, ecs_entity_t> ecs_lookup_child;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_entity_t> ecs_lookup;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, int> ecs_count_filter;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int> ecs_count_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool, void> ecs_enable;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_id_t, ecs_entity_t> ecs_get_object_w_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, CString, ulong, ulong> ecs_id_str;
+        public delegate* unmanaged[Cdecl]<ecs_entity_t, CString> ecs_role_str;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString> ecs_get_name;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t> ecs_get_typeid;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t> ecs_get_type;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool> ecs_exists;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void> ecs_ensure;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t> ecs_get_alive;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool> ecs_is_alive;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool> ecs_is_valid;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool> ecs_has_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ulong, void*, ecs_entity_t> ecs_set_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void> ecs_modified_w_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool*, void*> ecs_get_mut_w_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_entity_t> ecs_get_case;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_ref_t*, ecs_entity_t, ecs_id_t, void*> ecs_get_ref_w_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void*> ecs_get_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void> ecs_delete_children;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void> ecs_delete;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void> ecs_clear;
+        public delegate* unmanaged[Cdecl]<ecs_entity_t, ecs_entity_t, ecs_id_t> ecs_make_pair;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool> ecs_is_component_enabled_w_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool, void> ecs_enable_component_w_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void> ecs_remove_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void> ecs_add_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, CBool, ecs_entity_t> ecs_clone;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, int, ecs_entities_t*, void*, ecs_entity_t*> ecs_bulk_new_w_data;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int, ecs_entity_t*> ecs_bulk_new_w_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_desc_t*, ecs_entity_t> ecs_type_init;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_component_desc_t*, ecs_entity_t> ecs_component_init;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_desc_t*, ecs_entity_t> ecs_entity_init;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, ecs_entity_t> ecs_new_w_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t> ecs_new_component_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t> ecs_new_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, int> ecs_get_threads;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, float, void> ecs_set_target_fps;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, void> ecs_measure_system_time;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, void> ecs_measure_frame_time;
+        public delegate* unmanaged[Cdecl]<int, void> ecs_tracing_enable;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_end_wait;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_begin_wait;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_unlock;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_lock;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, CBool> ecs_enable_locking;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, CBool> ecs_enable_range_check;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, void> ecs_set_entity_range;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, int, void> ecs_dim;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_info_t*> ecs_get_world_info;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, void*> ecs_get_context;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, void*, void> ecs_set_context;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, EcsComponentLifecycle*, void> ecs_set_component_actions_w_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool> ecs_should_quit;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_quit;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_fini_action_t, void*, void> ecs_run_post_frame;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_fini_action_t, void*, void> ecs_atfini;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, int> ecs_fini;
+        public delegate* unmanaged[Cdecl]<int, CString*, ecs_world_t*> ecs_init_w_args;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*> ecs_mini;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*> ecs_init;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, ecs_entity_t, ecs_rank_type_action_t, void> ecs_query_group_by;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, ecs_entity_t, ecs_compare_action_t, void> ecs_query_order_by;
+        public delegate* unmanaged[Cdecl]<ecs_query_t*, void> ecs_query_free;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, CString, ecs_query_t*> ecs_subquery_new;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_query_t*> ecs_query_new;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, ecs_entity_t, ecs_entity_t> ecs_set_rate_filter;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_entity_t, int> ecs_table_component_index;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong> ecs_table_column_size;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, void*> ecs_table_column;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool> ecs_is_owned;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool> ecs_is_readonly;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong> ecs_column_size;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_type_t> ecs_column_type;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_entity_t> ecs_column_entity;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_entity_t> ecs_column_source;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, int, void*> ecs_element_w_size;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, CString, int> ecs_column_index_from_name;
+        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, void*> ecs_column_w_size;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool, CBool> ecs_type_owns_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool> ecs_type_has_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t> ecs_type_to_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t> ecs_type_from_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ecs_id_t, void> ecs_add_remove_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void> ecs_remove_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, void> ecs_add_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, int> ecs_get_thread_index;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ecs_entity_t> ecs_get_parent_w_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, CString, ulong, ulong> ecs_entity_str;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool> ecs_has_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ulong, void*, ecs_entity_t> ecs_set_ptr_w_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void> ecs_modified_w_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool*, void*> ecs_get_mut_w_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_ref_t*, ecs_entity_t, ecs_id_t, void*> ecs_get_ref_w_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void*> ecs_get_w_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void*> ecs_get_w_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool> ecs_is_component_enabled_w_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool, void> ecs_enable_component_w_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int, ecs_entity_t*> ecs_bulk_new_w_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, ecs_entity_t> ecs_new_w_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, EcsComponentLifecycle*, void> ecs_set_component_actions_w_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, int> ecs_count_w_filter;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int> ecs_count_entity;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, int> ecs_count_type;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, CBool> ecs_has_type;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, ecs_type_t, void> ecs_add_remove_type;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, void> ecs_remove_type;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, void> ecs_add_type;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, int, ecs_entity_t*> ecs_bulk_new_w_type;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t> ecs_new_w_type;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, int, void> ecs_dim_type;
+        public delegate* unmanaged[Cdecl]<ecs_type_t, int, ecs_entity_t, int> ecs_type_match;
+        public delegate* unmanaged[Cdecl]<ecs_type_t, ecs_entity_t, int> ecs_type_index_of;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_entity_t> ecs_type_get_entity_for_xor;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_entity_t, int, int, ecs_entity_t*, CBool> ecs_type_find_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, CBool, CBool> ecs_type_owns_type;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool, CBool> ecs_type_owns_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, CBool> ecs_type_has_type;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool> ecs_type_has_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_type_t> ecs_type_remove;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_type_t> ecs_type_add;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, ecs_type_t, ecs_type_t> ecs_type_merge;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t*, int, ecs_type_t> ecs_type_find;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_type_t> ecs_type_from_str;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, CString> ecs_type_str;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t> ecs_type_to_id;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t> ecs_type_from_id;
+        public delegate* unmanaged[Cdecl]<CString, CString, long, CString, void> _ecs_parser_error;
+        public delegate* unmanaged[Cdecl]<CBool, int, CString, CString, CString, int, void> _ecs_assert;
+        public delegate* unmanaged[Cdecl]<int, CString, CString, int, void> _ecs_abort;
+        public delegate* unmanaged[Cdecl]<int, CString> ecs_strerror;
+        public delegate* unmanaged[Cdecl]<void> ecs_log_pop;
+        public delegate* unmanaged[Cdecl]<void> ecs_log_push;
+        public delegate* unmanaged[Cdecl]<CString, int, CString, void> _ecs_deprecated;
+        public delegate* unmanaged[Cdecl]<CString, int, CString, void> _ecs_err;
+        public delegate* unmanaged[Cdecl]<CString, int, CString, void> _ecs_warn;
+        public delegate* unmanaged[Cdecl]<int, CString, int, CString, void> _ecs_trace;
+        public delegate* unmanaged[Cdecl]<ecs_query_t*, ecs_filter_t*> ecs_query_get_filter;
+        public delegate* unmanaged[Cdecl]<CString, CBool> ecs_identifier_is_var;
+        public delegate* unmanaged[Cdecl]<CString, CBool> ecs_identifier_is_0;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool> ecs_component_has_actions;
+        public delegate* unmanaged[Cdecl]<CString, CString> ecs_module_path_from_c;
+        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, ulong, ulong, ecs_entity_t> ecs_new_module;
+        public delegate* unmanaged[Cdecl]<CBool> ecs_os_has_modules;
+        public delegate* unmanaged[Cdecl]<CBool> ecs_os_has_dl;
+        public delegate* unmanaged[Cdecl]<CBool> ecs_os_has_logging;
+        public delegate* unmanaged[Cdecl]<CBool> ecs_os_has_time;
+        public delegate* unmanaged[Cdecl]<CBool> ecs_os_has_threading;
+        public delegate* unmanaged[Cdecl]<CBool> ecs_os_has_heap;
+        public delegate* unmanaged[Cdecl]<void*, ecs_size_t, void*> ecs_os_memdup;
+        public delegate* unmanaged[Cdecl]<ecs_time_t, double> ecs_time_to_double;
+        public delegate* unmanaged[Cdecl]<ecs_time_t, ecs_time_t, ecs_time_t> ecs_time_sub;
+        public delegate* unmanaged[Cdecl]<ecs_time_t*, double> ecs_time_measure;
+        public delegate* unmanaged[Cdecl]<double, void> ecs_sleepf;
+        public delegate* unmanaged[Cdecl]<CString, void> ecs_os_dbg;
+        public delegate* unmanaged[Cdecl]<CString, void> ecs_os_err;
+        public delegate* unmanaged[Cdecl]<CString, void> ecs_os_warn;
+        public delegate* unmanaged[Cdecl]<CString, void> ecs_os_log;
+        public delegate* unmanaged[Cdecl]<void> ecs_os_set_api_defaults;
+        public delegate* unmanaged[Cdecl]<ecs_os_api_t*, void> ecs_os_set_api;
+        public delegate* unmanaged[Cdecl]<void> ecs_os_fini;
+        public delegate* unmanaged[Cdecl]<void> ecs_os_init;
+        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool> ecs_strbuf_list_appendstr;
+        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool> ecs_strbuf_list_append;
+        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, void> ecs_strbuf_list_next;
+        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, void> ecs_strbuf_list_pop;
+        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CString, void> ecs_strbuf_list_push;
+        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, void> ecs_strbuf_reset;
+        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString> ecs_strbuf_get;
+        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, int, CBool> ecs_strbuf_appendstrn;
+        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool> ecs_strbuf_appendstr_zerocpy_const;
+        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool> ecs_strbuf_appendstr_zerocpy;
+        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, ecs_strbuf_t*, CBool> ecs_strbuf_mergebuff;
+        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool> ecs_strbuf_appendstr;
+        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, IntPtr, CBool> ecs_strbuf_vappend;
+        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool> ecs_strbuf_append;
+        public delegate* unmanaged[Cdecl]<ecs_map_t*, int*, int*, void> ecs_map_memory;
+        public delegate* unmanaged[Cdecl]<ecs_map_t*, int, void> ecs_map_set_size;
+        public delegate* unmanaged[Cdecl]<ecs_map_t*, int, void> ecs_map_grow;
+        public delegate* unmanaged[Cdecl]<ecs_map_iter_t*, ecs_map_key_t*, void*> _ecs_map_next_ptr;
+        public delegate* unmanaged[Cdecl]<ecs_map_iter_t*, ecs_size_t, ecs_map_key_t*, void*> _ecs_map_next;
+        public delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_map_iter_t> ecs_map_iter;
+        public delegate* unmanaged[Cdecl]<ecs_map_t*, int> ecs_map_bucket_count;
+        public delegate* unmanaged[Cdecl]<ecs_map_t*, int> ecs_map_count;
+        public delegate* unmanaged[Cdecl]<ecs_map_t*, void> ecs_map_clear;
+        public delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_map_key_t, void> ecs_map_remove;
+        public delegate* unmanaged[Cdecl]<ecs_map_t*, void> ecs_map_free;
+        public delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_size_t, ecs_map_key_t, void*, void*> _ecs_map_set;
+        public delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_size_t, ecs_map_key_t, void*> _ecs_map_ensure;
+        public delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_map_key_t, void*> _ecs_map_get_ptr;
+        public delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_size_t, ecs_map_key_t, void*> _ecs_map_get;
+        public delegate* unmanaged[Cdecl]<ecs_size_t, ecs_size_t, int, ecs_map_t*> _ecs_map_new;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, ecs_vector_t*> _ecs_vector_copy;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, int*, int*, void> _ecs_vector_memory;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, ecs_comparator_t, void> _ecs_vector_sort;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void*> _ecs_vector_first;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t*, int> ecs_vector_size;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t*, int> ecs_vector_count;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int> _ecs_vector_set_count;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int> _ecs_vector_set_size;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int> _ecs_vector_grow;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, void> _ecs_vector_reclaim;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, int, int> _ecs_vector_remove_index;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_vector_t*, ecs_size_t, short, int, int> _ecs_vector_move_index;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void*, CBool> _ecs_vector_pop;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t*, void> ecs_vector_remove_last;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int> _ecs_vector_set_min_count;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int> _ecs_vector_set_min_size;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void*> _ecs_vector_last;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, int, void*> _ecs_vector_get;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, void*> _ecs_vector_addn;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, void*> _ecs_vector_add;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, void> ecs_vector_assert_alignment;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, void> ecs_vector_assert_size;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t*, void> ecs_vector_clear;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t*, void> ecs_vector_free;
+        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void> _ecs_vector_zero;
+        public delegate* unmanaged[Cdecl]<ecs_size_t, short, int, void*, ecs_vector_t*> _ecs_vector_from_array;
+        public delegate* unmanaged[Cdecl]<ecs_size_t, short, int, ecs_vector_t*> _ecs_vector_new;
+
+        #endregion
+
+        #region "Variables"
+        // These pointers hold the locations in the native library where global variables are located at runtime.
+        //	The value pointed by these pointers are updated by reading/writing memory.
+
+        public IntPtr FLECS__TEcsRateFilter;
+        public IntPtr FLECS__TEcsTimer;
+        public IntPtr FLECS__TEcsTickSource;
+        public IntPtr FLECS__TEcsSystem;
+        public IntPtr EcsPostFrame;
+        public IntPtr EcsOnStore;
+        public IntPtr EcsPreStore;
+        public IntPtr EcsPostUpdate;
+        public IntPtr EcsOnValidate;
+        public IntPtr EcsOnUpdate;
+        public IntPtr EcsPreUpdate;
+        public IntPtr EcsPostLoad;
+        public IntPtr EcsOnLoad;
+        public IntPtr EcsPreFrame;
+        public IntPtr EcsPipeline;
+        public IntPtr EcsInactive;
+        public IntPtr EcsDisabledIntern;
+        public IntPtr EcsMonitor;
+        public IntPtr EcsOnDemand;
+        public IntPtr EcsThrow;
+        public IntPtr EcsDelete;
+        public IntPtr EcsRemove;
+        public IntPtr EcsOnDeleteObject;
+        public IntPtr EcsOnDelete;
+        public IntPtr EcsUnSet;
+        public IntPtr EcsOnSet;
+        public IntPtr EcsOnRemove;
+        public IntPtr EcsOnAdd;
+        public IntPtr EcsHidden;
+        public IntPtr EcsDisabled;
+        public IntPtr EcsPrefab;
+        public IntPtr EcsModule;
+        public IntPtr EcsIsA;
+        public IntPtr EcsChildOf;
+        public IntPtr EcsFinal;
+        public IntPtr EcsTransitive;
+        public IntPtr EcsThis;
+        public IntPtr EcsWildcard;
+        public IntPtr EcsWorld;
+        public IntPtr EcsFlecsCore;
+        public IntPtr EcsFlecs;
+        public IntPtr ECS_DISABLED;
+        public IntPtr ECS_OWNED;
+        public IntPtr ECS_PAIR;
+        public IntPtr ECS_SWITCH;
+        public IntPtr ECS_CASE;
+        public IntPtr FLECS__TEcsName;
+        public IntPtr FLECS__TEcsType;
+        public IntPtr FLECS__TEcsComponentLifecycle;
+        public IntPtr FLECS__TEcsComponent;
+        public IntPtr ecs_os_api;
+        public IntPtr ecs_os_api_free_count;
+        public IntPtr ecs_os_api_calloc_count;
+        public IntPtr ecs_os_api_realloc_count;
+        public IntPtr ecs_os_api_malloc_count;
+
+        #endregion
     }
 
-    // Variable @ os_api.h:49
-    private static IntPtr _ecs_os_api_free_count;
-    public static long ecs_os_api_free_count
-    {
-        get
-        {
-            if (_ecs_os_api_free_count == IntPtr.Zero)
-            {
-                return default(long);
-            }
-
-            var value = Runtime.ReadMemory<long>(_ecs_os_api_free_count);
-            return value;
-        }
-    }
-
-    // Variable @ os_api.h:254
-    private static IntPtr _ecs_os_api;
-    public static ecs_os_api_t ecs_os_api
-    {
-        get
-        {
-            if (_ecs_os_api == IntPtr.Zero)
-            {
-                return default(ecs_os_api_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_os_api_t>(_ecs_os_api);
-            return value;
-        }
-    }
-
-    // Variable @ api_support.h:37
-    private static IntPtr _FLECS__TEcsComponent;
-    public static ecs_type_t FLECS__TEcsComponent
-    {
-        get
-        {
-            if (_FLECS__TEcsComponent == IntPtr.Zero)
-            {
-                return default(ecs_type_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_type_t>(_FLECS__TEcsComponent);
-            return value;
-        }
-    }
-
-    // Variable @ api_support.h:38
-    private static IntPtr _FLECS__TEcsComponentLifecycle;
-    public static ecs_type_t FLECS__TEcsComponentLifecycle
-    {
-        get
-        {
-            if (_FLECS__TEcsComponentLifecycle == IntPtr.Zero)
-            {
-                return default(ecs_type_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_type_t>(_FLECS__TEcsComponentLifecycle);
-            return value;
-        }
-    }
-
-    // Variable @ api_support.h:39
-    private static IntPtr _FLECS__TEcsType;
-    public static ecs_type_t FLECS__TEcsType
-    {
-        get
-        {
-            if (_FLECS__TEcsType == IntPtr.Zero)
-            {
-                return default(ecs_type_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_type_t>(_FLECS__TEcsType);
-            return value;
-        }
-    }
-
-    // Variable @ api_support.h:40
-    private static IntPtr _FLECS__TEcsName;
-    public static ecs_type_t FLECS__TEcsName
-    {
-        get
-        {
-            if (_FLECS__TEcsName == IntPtr.Zero)
-            {
-                return default(ecs_type_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_type_t>(_FLECS__TEcsName);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:552
-    private static IntPtr _ECS_CASE;
-    public static ecs_id_t ECS_CASE
-    {
-        get
-        {
-            if (_ECS_CASE == IntPtr.Zero)
-            {
-                return default(ecs_id_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_id_t>(_ECS_CASE);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:555
-    private static IntPtr _ECS_SWITCH;
-    public static ecs_id_t ECS_SWITCH
-    {
-        get
-        {
-            if (_ECS_SWITCH == IntPtr.Zero)
-            {
-                return default(ecs_id_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_id_t>(_ECS_SWITCH);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:558
-    private static IntPtr _ECS_PAIR;
-    public static ecs_id_t ECS_PAIR
-    {
-        get
-        {
-            if (_ECS_PAIR == IntPtr.Zero)
-            {
-                return default(ecs_id_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_id_t>(_ECS_PAIR);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:561
-    private static IntPtr _ECS_OWNED;
-    public static ecs_id_t ECS_OWNED
-    {
-        get
-        {
-            if (_ECS_OWNED == IntPtr.Zero)
-            {
-                return default(ecs_id_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_id_t>(_ECS_OWNED);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:564
-    private static IntPtr _ECS_DISABLED;
-    public static ecs_id_t ECS_DISABLED
-    {
-        get
-        {
-            if (_ECS_DISABLED == IntPtr.Zero)
-            {
-                return default(ecs_id_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_id_t>(_ECS_DISABLED);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:575
-    private static IntPtr _EcsFlecs;
-    public static ecs_entity_t EcsFlecs
-    {
-        get
-        {
-            if (_EcsFlecs == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsFlecs);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:578
-    private static IntPtr _EcsFlecsCore;
-    public static ecs_entity_t EcsFlecsCore
-    {
-        get
-        {
-            if (_EcsFlecsCore == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsFlecsCore);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:581
-    private static IntPtr _EcsWorld;
-    public static ecs_entity_t EcsWorld
-    {
-        get
-        {
-            if (_EcsWorld == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsWorld);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:584
-    private static IntPtr _EcsWildcard;
-    public static ecs_entity_t EcsWildcard
-    {
-        get
-        {
-            if (_EcsWildcard == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsWildcard);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:587
-    private static IntPtr _EcsThis;
-    public static ecs_entity_t EcsThis
-    {
-        get
-        {
-            if (_EcsThis == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsThis);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:590
-    private static IntPtr _EcsTransitive;
-    public static ecs_entity_t EcsTransitive
-    {
-        get
-        {
-            if (_EcsTransitive == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsTransitive);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:596
-    private static IntPtr _EcsFinal;
-    public static ecs_entity_t EcsFinal
-    {
-        get
-        {
-            if (_EcsFinal == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsFinal);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:599
-    private static IntPtr _EcsChildOf;
-    public static ecs_entity_t EcsChildOf
-    {
-        get
-        {
-            if (_EcsChildOf == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsChildOf);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:620
-    private static IntPtr _EcsIsA;
-    public static ecs_entity_t EcsIsA
-    {
-        get
-        {
-            if (_EcsIsA == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsIsA);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:623
-    private static IntPtr _EcsModule;
-    public static ecs_entity_t EcsModule
-    {
-        get
-        {
-            if (_EcsModule == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsModule);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:627
-    private static IntPtr _EcsPrefab;
-    public static ecs_entity_t EcsPrefab
-    {
-        get
-        {
-            if (_EcsPrefab == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsPrefab);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:630
-    private static IntPtr _EcsDisabled;
-    public static ecs_entity_t EcsDisabled
-    {
-        get
-        {
-            if (_EcsDisabled == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsDisabled);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:635
-    private static IntPtr _EcsHidden;
-    public static ecs_entity_t EcsHidden
-    {
-        get
-        {
-            if (_EcsHidden == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsHidden);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:638
-    private static IntPtr _EcsOnAdd;
-    public static ecs_entity_t EcsOnAdd
-    {
-        get
-        {
-            if (_EcsOnAdd == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnAdd);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:641
-    private static IntPtr _EcsOnRemove;
-    public static ecs_entity_t EcsOnRemove
-    {
-        get
-        {
-            if (_EcsOnRemove == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnRemove);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:644
-    private static IntPtr _EcsOnSet;
-    public static ecs_entity_t EcsOnSet
-    {
-        get
-        {
-            if (_EcsOnSet == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnSet);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:647
-    private static IntPtr _EcsUnSet;
-    public static ecs_entity_t EcsUnSet
-    {
-        get
-        {
-            if (_EcsUnSet == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsUnSet);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:659
-    private static IntPtr _EcsOnDelete;
-    public static ecs_entity_t EcsOnDelete
-    {
-        get
-        {
-            if (_EcsOnDelete == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnDelete);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:668
-    private static IntPtr _EcsOnDeleteObject;
-    public static ecs_entity_t EcsOnDeleteObject
-    {
-        get
-        {
-            if (_EcsOnDeleteObject == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnDeleteObject);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:672
-    private static IntPtr _EcsRemove;
-    public static ecs_entity_t EcsRemove
-    {
-        get
-        {
-            if (_EcsRemove == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsRemove);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:677
-    private static IntPtr _EcsDelete;
-    public static ecs_entity_t EcsDelete
-    {
-        get
-        {
-            if (_EcsDelete == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsDelete);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:682
-    private static IntPtr _EcsThrow;
-    public static ecs_entity_t EcsThrow
-    {
-        get
-        {
-            if (_EcsThrow == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsThrow);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:685
-    private static IntPtr _EcsOnDemand;
-    public static ecs_entity_t EcsOnDemand
-    {
-        get
-        {
-            if (_EcsOnDemand == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnDemand);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:686
-    private static IntPtr _EcsMonitor;
-    public static ecs_entity_t EcsMonitor
-    {
-        get
-        {
-            if (_EcsMonitor == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsMonitor);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:687
-    private static IntPtr _EcsDisabledIntern;
-    public static ecs_entity_t EcsDisabledIntern
-    {
-        get
-        {
-            if (_EcsDisabledIntern == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsDisabledIntern);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:688
-    private static IntPtr _EcsInactive;
-    public static ecs_entity_t EcsInactive
-    {
-        get
-        {
-            if (_EcsInactive == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsInactive);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:691
-    private static IntPtr _EcsPipeline;
-    public static ecs_entity_t EcsPipeline
-    {
-        get
-        {
-            if (_EcsPipeline == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsPipeline);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:692
-    private static IntPtr _EcsPreFrame;
-    public static ecs_entity_t EcsPreFrame
-    {
-        get
-        {
-            if (_EcsPreFrame == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsPreFrame);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:693
-    private static IntPtr _EcsOnLoad;
-    public static ecs_entity_t EcsOnLoad
-    {
-        get
-        {
-            if (_EcsOnLoad == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnLoad);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:694
-    private static IntPtr _EcsPostLoad;
-    public static ecs_entity_t EcsPostLoad
-    {
-        get
-        {
-            if (_EcsPostLoad == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsPostLoad);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:695
-    private static IntPtr _EcsPreUpdate;
-    public static ecs_entity_t EcsPreUpdate
-    {
-        get
-        {
-            if (_EcsPreUpdate == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsPreUpdate);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:696
-    private static IntPtr _EcsOnUpdate;
-    public static ecs_entity_t EcsOnUpdate
-    {
-        get
-        {
-            if (_EcsOnUpdate == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnUpdate);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:697
-    private static IntPtr _EcsOnValidate;
-    public static ecs_entity_t EcsOnValidate
-    {
-        get
-        {
-            if (_EcsOnValidate == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnValidate);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:698
-    private static IntPtr _EcsPostUpdate;
-    public static ecs_entity_t EcsPostUpdate
-    {
-        get
-        {
-            if (_EcsPostUpdate == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsPostUpdate);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:699
-    private static IntPtr _EcsPreStore;
-    public static ecs_entity_t EcsPreStore
-    {
-        get
-        {
-            if (_EcsPreStore == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsPreStore);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:700
-    private static IntPtr _EcsOnStore;
-    public static ecs_entity_t EcsOnStore
-    {
-        get
-        {
-            if (_EcsOnStore == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsOnStore);
-            return value;
-        }
-    }
-
-    // Variable @ flecs.h:701
-    private static IntPtr _EcsPostFrame;
-    public static ecs_entity_t EcsPostFrame
-    {
-        get
-        {
-            if (_EcsPostFrame == IntPtr.Zero)
-            {
-                return default(ecs_entity_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_entity_t>(_EcsPostFrame);
-            return value;
-        }
-    }
-
-    // Variable @ system.h:32
-    private static IntPtr _FLECS__TEcsSystem;
-    public static ecs_type_t FLECS__TEcsSystem
-    {
-        get
-        {
-            if (_FLECS__TEcsSystem == IntPtr.Zero)
-            {
-                return default(ecs_type_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_type_t>(_FLECS__TEcsSystem);
-            return value;
-        }
-    }
-
-    // Variable @ system.h:33
-    private static IntPtr _FLECS__TEcsTickSource;
-    public static ecs_type_t FLECS__TEcsTickSource
-    {
-        get
-        {
-            if (_FLECS__TEcsTickSource == IntPtr.Zero)
-            {
-                return default(ecs_type_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_type_t>(_FLECS__TEcsTickSource);
-            return value;
-        }
-    }
-
-    // Variable @ timer.h:35
-    private static IntPtr _FLECS__TEcsTimer;
-    public static ecs_type_t FLECS__TEcsTimer
-    {
-        get
-        {
-            if (_FLECS__TEcsTimer == IntPtr.Zero)
-            {
-                return default(ecs_type_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_type_t>(_FLECS__TEcsTimer);
-            return value;
-        }
-    }
-
-    // Variable @ timer.h:36
-    private static IntPtr _FLECS__TEcsRateFilter;
-    public static ecs_type_t FLECS__TEcsRateFilter
-    {
-        get
-        {
-            if (_FLECS__TEcsRateFilter == IntPtr.Zero)
-            {
-                return default(ecs_type_t);
-            }
-
-            var value = Runtime.ReadMemory<ecs_type_t>(_FLECS__TEcsRateFilter);
-            return value;
-        }
-    }
+    private static _VirtualTable _virtualTable;
 }

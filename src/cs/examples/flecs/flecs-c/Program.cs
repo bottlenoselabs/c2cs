@@ -10,7 +10,8 @@ internal static class Program
     private static void Main()
     {
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
-        GenerateLibraryBindings(rootDirectory);
+        GenerateAbstractSyntaxTree(rootDirectory);
+        GenerateBindingsCSharp(rootDirectory);
         BuildLibrary(rootDirectory);
     }
 
@@ -25,13 +26,29 @@ internal static class Program
         }
     }
 
-    private static void GenerateLibraryBindings(string rootDirectory)
+    private static void GenerateAbstractSyntaxTree(string rootDirectory)
     {
         var arguments = @$"
--c
-{Environment.CurrentDirectory}/config.json
+ast
+-i
+{rootDirectory}/ext/flecs/include/flecs.h
+-o
+{rootDirectory}/src/cs/examples/flecs-c/flecs-c/ast.json
 ";
+        var argumentsArray =
+            arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+        C2CS.Program.Main(argumentsArray);
+    }
 
+    private static void GenerateBindingsCSharp(string rootDirectory)
+    {
+        var arguments = @$"
+cs
+-i
+{rootDirectory}/src/cs/examples/flecs-c/flecs-c/ast.json
+-o
+{rootDirectory}/src/cs/examples/flecs/flecs-cs/flecs.cs
+";
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
