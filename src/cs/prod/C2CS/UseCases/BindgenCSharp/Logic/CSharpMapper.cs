@@ -271,8 +271,7 @@ namespace C2CS.UseCases.BindgenCSharp
             var isBuiltIn = IsBuiltinFunctionPointer(cFunctionPointer.Type);
 
             var originalCodeLocationComment = OriginalCodeLocationComment(cFunctionPointer);
-            var cType = CType(cFunctionPointer.Type);
-            var returnType = Type(cType);
+            var returnType = Type(CType(cFunctionPointer.ReturnType));
             var parameters = FunctionPointerParameters(cFunctionPointer.Parameters);
 
             var result = new CSharpFunctionPointer(
@@ -586,10 +585,8 @@ namespace C2CS.UseCases.BindgenCSharp
             var alignOf = cType.AlignOf ?? 0;
             var fixedBufferSize = cType.ArraySize ?? 0;
 
-            var mappedTypeName = MapTypeName(typeName2);
-
             var result = new CSharpType(
-                mappedTypeName,
+                typeName2,
                 cType.Name,
                 sizeOf,
                 alignOf,
@@ -598,26 +595,7 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private string MapTypeName(string typeName)
-        {
-            // TODO: https://github.com/lithiumtoast/c2cs/issues/15
-            if (typeName == "va_list")
-            {
-                typeName = "IntPtr";
-            }
-
-            var rawTypeName = typeName.TrimEnd('*');
-            var mappedRawTypeName = _aliasesLookup.TryGetValue(rawTypeName, out var aliasName)
-                ? aliasName
-                : rawTypeName;
-            var mappedTypeName = rawTypeName == typeName
-                ? mappedRawTypeName
-                : typeName.Replace(rawTypeName, mappedRawTypeName);
-
-            return mappedTypeName;
-        }
-
-        private static string TypeName(CType type)
+        private string TypeName(CType type)
         {
             var originalName = type.Name;
             if (originalName.Contains("(*)("))
@@ -626,19 +604,25 @@ namespace C2CS.UseCases.BindgenCSharp
             }
 
             var name = type.Name;
-            if (!type.IsSystem)
-            {
-                return name;
-            }
-
             var elementTypeSize = type.ElementSize ?? type.SizeOf ?? 0;
+            string typeName;
 
-            if (name.EndsWith("*", StringComparison.InvariantCulture))
+            if (name.EndsWith("*", StringComparison.InvariantCulture) || name.EndsWith("]", StringComparison.InvariantCulture))
             {
-                return TypeNameMapPointer(type, elementTypeSize);
+                typeName = TypeNameMapPointer(type, elementTypeSize, type.IsSystem);
+            }
+            else
+            {
+                typeName = TypeNameMapElement(name, elementTypeSize, type.IsSystem);
             }
 
-            return TypeNameMapElement(name, elementTypeSize);
+            // TODO: https://github.com/lithiumtoast/c2cs/issues/15
+            if (typeName == "va_list")
+            {
+                typeName = "IntPtr";
+            }
+
+            return typeName;
         }
 
         public static bool IsBuiltinFunctionPointer(string name)
@@ -651,21 +635,48 @@ namespace C2CS.UseCases.BindgenCSharp
             return BuiltInPointerFunctionMappings.TryGetValue(type.Name!, out var typeName) ? typeName : type.Name;
         }
 
-        private static string TypeNameMapPointer(CType type, int sizeOf)
+        private string TypeNameMapPointer(CType type, int sizeOf, bool isSystem)
         {
-            if (type.Name.Contains("char*"))
+            var pointerTypeName = type.Name;
+
+            // Replace [] with *
+            while (true)
             {
-                return type.Name.Replace("char*", "CString");
+                var x = pointerTypeName.IndexOf('[');
+
+                if (x == -1)
+                {
+                    break;
+                }
+
+                var y = pointerTypeName.IndexOf(']', x);
+
+                pointerTypeName = pointerTypeName[..x] + "*" + pointerTypeName[(y + 1)..];
             }
 
-            var elementTypeName = type.Name.TrimEnd('*');
-            var pointersTypeName = type.Name[elementTypeName.Length..];
-            var mappedElementTypeName = TypeNameMapElement(elementTypeName, sizeOf);
+            if (pointerTypeName.Contains("char*"))
+            {
+                return pointerTypeName.Replace("char*", "CString");
+            }
+
+            var elementTypeName = pointerTypeName.TrimEnd('*');
+            var pointersTypeName = pointerTypeName[elementTypeName.Length..];
+            var mappedElementTypeName = TypeNameMapElement(elementTypeName, sizeOf, isSystem);
             return mappedElementTypeName + pointersTypeName;
         }
 
-        private static string TypeNameMapElement(string typeName, int sizeOf)
+        private string TypeNameMapElement(string typeName, int sizeOf, bool isSystem)
         {
+            if (!isSystem)
+            {
+                if (_aliasesLookup.TryGetValue(typeName, out var aliasName))
+                {
+                    return aliasName;
+                }
+
+                return typeName;
+            }
+
             switch (typeName)
             {
                 case "char":

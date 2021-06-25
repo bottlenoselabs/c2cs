@@ -20,7 +20,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         private readonly List<Node> _frontier = new();
         private readonly Dictionary<string, bool> _validTypeNames = new();
         private readonly Dictionary<string, CType> _typesByName = new();
-        private readonly HashSet<string> _expandedTypesNames = new();
         private readonly List<CType> _types = new();
         private readonly List<CVariable> _variables = new();
         private readonly List<CFunction> _functions = new();
@@ -369,6 +368,11 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
             if (aliasKind == CKind.FunctionPointer)
             {
+                if (aliasCursor.kind == CXCursorKind.CXCursor_NoDeclFound)
+                {
+                    aliasCursor = cursor;
+                }
+
                 ExploreFunctionPointer(typeName, aliasCursor, aliasType, type, location, parentNode);
                 return;
             }
@@ -472,6 +476,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             }
 
             typeC = Type(typeName, cursor, type);
+
             _typesByName.Add(typeName, typeC);
             _types.Add(typeC);
 
@@ -535,6 +540,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         {
             var type = clang_getCursorType(cursor);
             var name = cursor.Name();
+
             var typeName = TypeName(parentNode.TypeName!, CKind.FunctionParameter, type, cursor);
 
             ExpandType(parentNode, cursor, type, type, typeName);
@@ -949,7 +955,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 case CXTypeKind.CXType_ConstantArray:
                 case CXTypeKind.CXType_IncompleteArray:
                     var elementType = clang_getElementType(cursorType);
-                    return TypeKind(elementType);
+                    return (CKind.Pointer, elementType);
             }
 
             var up = new ClangExplorerException($"Unknown type kind '{type.kind}.'");
@@ -1032,12 +1038,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         private void ExpandTypedef(Node parentNode, CXType type, string typeName)
         {
-            if (type.kind == CXTypeKind.CXType_ConstantArray ||
-                type.kind == CXTypeKind.CXType_IncompleteArray)
-            {
-                type = clang_getElementType(type);
-            }
-
             var typedefCursor = clang_getTypeDeclaration(type);
             var location = typedefCursor.FileLocation();
             ExpandNode(CKind.Typedef, location, parentNode, typedefCursor, typedefCursor, type, type, string.Empty, typeName);
@@ -1085,6 +1085,16 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 CKind.OpaqueType => type.Name(),
                 _ => throw new ClangExplorerException($"Unexpected node kind '{kind}'.")
             };
+
+            if (type.kind == CXTypeKind.CXType_IncompleteArray)
+            {
+                typeName = $"{typeName}[]";
+            }
+            else if (type.kind == CXTypeKind.CXType_ConstantArray)
+            {
+                var arraySize = clang_getArraySize(type);
+                typeName = $"{typeName}[{arraySize}]";
+            }
 
             if (string.IsNullOrEmpty(typeName))
             {

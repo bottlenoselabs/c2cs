@@ -339,7 +339,8 @@ public static {function.ReturnType.Name} {function.Name}({parameters})
 			CSharpFunctionPointer functionPointer, bool isNested = false)
 		{
 			var parameterStrings = functionPointer.Parameters
-				.Select(x => $"{x.Type}").Append($"{functionPointer.ReturnType.Name}");
+				.Select(x => $"{x.Type}")
+				.Append($"{functionPointer.ReturnType.Name}");
 			var parameters = string.Join(',', parameterStrings);
 
 			var code = $@"
@@ -483,26 +484,44 @@ public fixed {typeName} _{field.Name}[{field.Type.SizeOf}/{field.Type.AlignOf}];
 			string structName,
 			CSharpStructField field)
 		{
-			var fieldTypeName = field.Type.Name;
-			if (fieldTypeName == "void*")
-			{
-				fieldTypeName = "IntPtr";
-			}
+			string code;
 
-			var code = $@"
-public Span<{fieldTypeName}> {field.Name}
+			if (field.Type.Name == "CString")
+			{
+				code = $@"
+public string {field.Name}
 {{
 	get
 	{{
 		fixed ({structName}*@this = &this)
 		{{
 			var pointer = &@this->_{field.Name}[0];
-			var span = new Span<{fieldTypeName}>(pointer, {field.Type.ArraySize});
+            var cString = new CString(pointer);
+            return Runtime.String(cString);
+		}}
+	}}
+}}
+".Trim();
+			}
+			else
+			{
+				var elementType = field.Type.Name[..^1];
+
+				code = $@"
+public Span<{elementType}> {field.Name}
+{{
+	get
+	{{
+		fixed ({structName}*@this = &this)
+		{{
+			var pointer = &@this->_{field.Name}[0];
+			var span = new Span<{elementType}>(pointer, {field.Type.ArraySize});
 			return span;
 		}}
 	}}
 }}
 ".Trim();
+			}
 
 			var member = ParseMemberCode<PropertyDeclarationSyntax>(code);
 			return member;
