@@ -18,4 +18,4 @@ include_directories(helloworld PRIVATE include)
 
 # 1. Specify that the project is a dynamic link library (SHARED).
 # 2. Specify what source code files are to be included.
-add_library(helloworld SHARED src/library.c include/library.h)
+add_library(helloworld SHARED src/helloworld.c include/helloworld.h)

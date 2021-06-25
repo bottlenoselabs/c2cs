@@ -11,7 +11,8 @@ internal static class Program
     {
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
         BuildLibrary(rootDirectory);
-        GenerateLibraryBindings();
+        GenerateAbstractSyntaxTree(rootDirectory);
+        GenerateBindingsCSharp(rootDirectory);
     }
 
     private static void BuildLibrary(string rootDirectory)
@@ -21,13 +22,33 @@ internal static class Program
         Terminal.CMake(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
     }
 
-    private static void GenerateLibraryBindings()
+    private static void GenerateAbstractSyntaxTree(string rootDirectory)
     {
         var arguments = @$"
+ast
+-i
+{rootDirectory}/src/c/examples/helloworld/include/helloworld.h
+-o
+{rootDirectory}/src/cs/examples/helloworld/helloworld-c/ast.json
 -c
-{Environment.CurrentDirectory}/config.json
+{Environment.CurrentDirectory}/config_c.json
 ";
+        var argumentsArray =
+            arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+        C2CS.Program.Main(argumentsArray);
+    }
 
+    private static void GenerateBindingsCSharp(string rootDirectory)
+    {
+        var arguments = @$"
+cs
+-i
+{rootDirectory}/src/cs/examples/helloworld/helloworld-c/ast.json
+-o
+{rootDirectory}/src/cs/examples/helloworld/helloworld-cs/helloworld.cs
+-c
+{Environment.CurrentDirectory}/config_csharp.json
+";
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);

@@ -41,10 +41,22 @@ namespace C2CS.UseCases.BindgenCSharp
 			EmitVirtualTableUnloader(builder, abstractSyntaxTree.FunctionExterns, abstractSyntaxTree.VariablesExtern);
 			EmitVirtualTable(builder, abstractSyntaxTree.FunctionExterns, abstractSyntaxTree.VariablesExtern);
 
+			var className = _className;
+			if (string.IsNullOrEmpty(className))
+			{
+				className = abstractSyntaxTree.ClassName;
+			}
+
+			var libraryName = _libraryName;
+			if (string.IsNullOrEmpty(libraryName))
+			{
+				libraryName = abstractSyntaxTree.ClassName;
+			}
+
 			var membersToAdd = builder.ToArray();
 			var compilationUnit = EmitCompilationUnit(
-				_className,
-				_libraryName,
+				className,
+				libraryName,
 				membersToAdd);
 			return compilationUnit.ToFullString();
 		}

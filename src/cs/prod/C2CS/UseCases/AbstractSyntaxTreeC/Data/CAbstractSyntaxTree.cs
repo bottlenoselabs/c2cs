@@ -11,6 +11,9 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
     [PublicAPI]
     public record CAbstractSyntaxTree
     {
+        [JsonPropertyName("fileName")]
+        public string FileName { get; set; } = string.Empty;
+
         [JsonPropertyName("functions")]
         public ImmutableArray<CFunction> Functions { get; set; } = ImmutableArray<CFunction>.Empty;
 

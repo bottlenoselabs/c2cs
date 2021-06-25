@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
+using System.IO;
 using System.Text.RegularExpressions;
 using C2CS.UseCases.AbstractSyntaxTreeC;
 
@@ -92,7 +93,9 @@ namespace C2CS.UseCases.BindgenCSharp
             var enums = Enums(abstractSyntaxTree.Enums);
             var variables = Variables(abstractSyntaxTree.Variables);
 
+            var className = Path.GetFileNameWithoutExtension(abstractSyntaxTree.FileName);
             var result = new CSharpAbstractSyntaxTree(
+                className,
                 functionExterns,
                 functionPointers,
                 structs,

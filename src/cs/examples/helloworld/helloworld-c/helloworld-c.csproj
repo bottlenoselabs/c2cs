@@ -17,10 +17,15 @@
     <ItemGroup>
         <ProjectReference Include="../../../prod/C2CS/C2CS.csproj" />
     </ItemGroup>
+
+    <!-- C2CS configuration -->
     <ItemGroup>
-      <None Update="config.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+        <None Update="config_c.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="config_csharp.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

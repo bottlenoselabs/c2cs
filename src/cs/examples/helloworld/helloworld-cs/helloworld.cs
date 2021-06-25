@@ -11,6 +11,7 @@
 //-------------------------------------------------------------------------------------
 using System;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 #nullable enable
 
@@ -29,30 +30,74 @@ public static unsafe partial class helloworld
             libraryFilePath = $@"{libraryFileNamePrefix}{LibraryName}{libraryFileNameExtension}";
         }
         _libraryHandle = Runtime.LibraryLoad(libraryFilePath);
-        if (_libraryHandle == IntPtr.Zero)
-            throw new Exception($"Failed to load library: {libraryFilePath}");
-        LoadExports();
+        if (_libraryHandle == IntPtr.Zero) throw new Exception($"Failed to load library: {libraryFilePath}");
+        _LoadVirtualTable();
     }
 
     public static void UnloadApi()
     {
-        if (_libraryHandle == IntPtr.Zero)
-            return;
-        UnloadExports();
+        if (_libraryHandle == IntPtr.Zero) return;
+        _UnloadVirtualTable();
         Runtime.LibraryUnload(_libraryHandle);
     }
 
-    private static void LoadExports()
+    // Function @ helloworld.h:6:6
+    public static void hello_world()
     {
-
+        _virtualTable.hello_world();
     }
 
-    private static void UnloadExports()
+    private static void _LoadVirtualTable()
     {
+        #region "Functions"
 
+        _virtualTable.hello_world = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "hello_world");
+
+        #endregion
+
+        #region "Variables"
+
+
+
+        #endregion
     }
 
-    // Function @ library.h:6
-    [DllImport(LibraryName, EntryPoint = "hello_world", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void hello_world();
+    private static void _UnloadVirtualTable()
+    {
+        #region "Functions"
+
+        _virtualTable.hello_world = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
+
+        #endregion
+
+        #region "Variables"
+
+
+
+        #endregion
+    }
+
+    // The virtual table represents a list of pointers to functions or variables which are resolved in a late manner.
+    //	This allows for flexibility in swapping implementations at runtime.
+    //	You can think of it in traditional OOP terms in C# as the locations of the virtual methods and/or properties of an object.
+    public struct _VirtualTable
+    {
+        #region "Function Pointers"
+        // These pointers hold the locations in the native library where functions are located at runtime.
+        // See: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
+
+        public delegate* unmanaged[Cdecl]<void> hello_world;
+
+        #endregion
+
+        #region "Variables"
+        // These pointers hold the locations in the native library where global variables are located at runtime.
+        //	The value pointed by these pointers are updated by reading/writing memory.
+
+
+
+        #endregion
+    }
+
+    private static _VirtualTable _virtualTable;
 }

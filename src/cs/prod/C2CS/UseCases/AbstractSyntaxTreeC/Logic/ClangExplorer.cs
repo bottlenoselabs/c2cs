@@ -70,6 +70,9 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             ExpandTranslationUnit(translationUnit);
             Explore();
 
+            var cursor = clang_getTranslationUnitCursor(translationUnit);
+            var location = Location(cursor);
+
             var functions = _functions.ToImmutableArray();
             var functionPointers = _functionPointers.ToImmutableArray();
             var records = _records.ToImmutableArray();
@@ -80,6 +83,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
             return new CAbstractSyntaxTree
             {
+                FileName = location.Path,
                 Functions = functions,
                 FunctionPointers = functionPointers,
                 Records = records,

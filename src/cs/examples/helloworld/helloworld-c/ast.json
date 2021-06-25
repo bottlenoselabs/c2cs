@@ -1,0 +1,28 @@
+{
+  "fileName": "helloworld.h",
+  "functions": [
+    {
+      "name": "hello_world",
+      "returnType": "void",
+      "parameters": [],
+      "location": {
+        "file": "helloworld.h",
+        "line": 6,
+        "column": 6
+      }
+    }
+  ],
+  "functionPointers": [],
+  "records": [],
+  "enums": [],
+  "opaqueTypes": [],
+  "typedefs": [],
+  "variables": [],
+  "types": [
+    {
+      "name": "void",
+      "kind": "primitive",
+      "isSystem": true
+    }
+  ]
+}
