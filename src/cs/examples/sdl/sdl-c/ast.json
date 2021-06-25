@@ -15412,7 +15412,7 @@
         },
         {
           "name": "destructor",
-          "type": "void (*)(void *)",
+          "type": "void (void *)",
           "location": {
             "file": "SDL_thread.h",
             "line": 440,
@@ -19552,7 +19552,7 @@
         },
         {
           "name": "compare",
-          "type": "int (*)(void *, void *)",
+          "type": "int (void *, void *)",
           "location": {
             "file": "SDL_stdinc.h",
             "line": 434,
@@ -20683,7 +20683,9 @@
           "type": "Uint8[2]",
           "offset": 18,
           "location": {
-            "file": ""
+            "file": "SDL_pixels.h",
+            "line": 330,
+            "column": 11
           }
         },
         {
@@ -21037,7 +21039,9 @@
           "type": "Uint32[16]",
           "offset": 16,
           "location": {
-            "file": ""
+            "file": "SDL_render.h",
+            "line": 83,
+            "column": 12
           }
         },
         {
@@ -21159,7 +21163,9 @@
           "name": "colors",
           "type": "SDL_MessageBoxColor[5]",
           "location": {
-            "file": ""
+            "file": "SDL_messagebox.h",
+            "line": 88,
+            "column": 25
           }
         }
       ],
@@ -21501,7 +21507,9 @@
           "type": "Sint32[3]",
           "offset": 4,
           "location": {
-            "file": ""
+            "file": "SDL_haptic.h",
+            "line": 462,
+            "column": 12
           }
         }
       ],
@@ -21766,7 +21774,9 @@
           "type": "Uint16[3]",
           "offset": 30,
           "location": {
-            "file": ""
+            "file": "SDL_haptic.h",
+            "line": 627,
+            "column": 12
           }
         },
         {
@@ -21774,7 +21784,9 @@
           "type": "Uint16[3]",
           "offset": 36,
           "location": {
-            "file": ""
+            "file": "SDL_haptic.h",
+            "line": 628,
+            "column": 12
           }
         },
         {
@@ -21782,7 +21794,9 @@
           "type": "Sint16[3]",
           "offset": 42,
           "location": {
-            "file": ""
+            "file": "SDL_haptic.h",
+            "line": 629,
+            "column": 12
           }
         },
         {
@@ -21790,7 +21804,9 @@
           "type": "Sint16[3]",
           "offset": 48,
           "location": {
-            "file": ""
+            "file": "SDL_haptic.h",
+            "line": 630,
+            "column": 12
           }
         },
         {
@@ -21798,7 +21814,9 @@
           "type": "Uint16[3]",
           "offset": 54,
           "location": {
-            "file": ""
+            "file": "SDL_haptic.h",
+            "line": 631,
+            "column": 12
           }
         },
         {
@@ -21807,7 +21825,9 @@
           "offset": 60,
           "padding": 2,
           "location": {
-            "file": ""
+            "file": "SDL_haptic.h",
+            "line": 632,
+            "column": 12
           }
         }
       ],
@@ -22362,7 +22382,9 @@
           "name": "padding",
           "type": "Uint8[56]",
           "location": {
-            "file": ""
+            "file": "SDL_events.h",
+            "line": 630,
+            "column": 11
           }
         }
       ],
@@ -22910,7 +22932,9 @@
           "type": "float[6]",
           "offset": 12,
           "location": {
-            "file": ""
+            "file": "SDL_events.h",
+            "line": 537,
+            "column": 11
           }
         }
       ],
@@ -23050,7 +23074,9 @@
           "type": "float[3]",
           "offset": 16,
           "location": {
-            "file": ""
+            "file": "SDL_events.h",
+            "line": 446,
+            "column": 11
           }
         }
       ],
@@ -24111,7 +24137,9 @@
           "type": "char[32]",
           "offset": 12,
           "location": {
-            "file": ""
+            "file": "SDL_events.h",
+            "line": 253,
+            "column": 10
           }
         }
       ],
@@ -24160,7 +24188,9 @@
           "type": "char[32]",
           "offset": 12,
           "location": {
-            "file": ""
+            "file": "SDL_events.h",
+            "line": 238,
+            "column": 10
           }
         },
         {
@@ -24721,7 +24751,9 @@
           "name": "data",
           "type": "Uint8[16]",
           "location": {
-            "file": ""
+            "file": "SDL_joystick.h",
+            "line": 73,
+            "column": 11
           }
         }
       ],
@@ -24891,7 +24923,9 @@
           "type": "SDL_AudioFilter[10]",
           "offset": 44,
           "location": {
-            "file": ""
+            "file": "SDL_audio.h",
+            "line": 239,
+            "column": 21
           }
         },
         {
@@ -30266,7 +30300,9 @@
       "sizeOfElement": 1,
       "arraySize": 2,
       "location": {
-        "file": ""
+        "file": "SDL_pixels.h",
+        "line": 330,
+        "column": 11
       }
     },
     {
@@ -30550,7 +30586,9 @@
       "sizeOfElement": 4,
       "arraySize": 16,
       "location": {
-        "file": ""
+        "file": "SDL_render.h",
+        "line": 83,
+        "column": 12
       }
     },
     {
@@ -30671,7 +30709,9 @@
       "sizeOfElement": 3,
       "arraySize": 5,
       "location": {
-        "file": ""
+        "file": "SDL_messagebox.h",
+        "line": 88,
+        "column": 25
       }
     },
     {
@@ -30896,7 +30936,9 @@
       "sizeOfElement": 4,
       "arraySize": 3,
       "location": {
-        "file": ""
+        "file": "SDL_haptic.h",
+        "line": 462,
+        "column": 12
       }
     },
     {
@@ -30943,7 +30985,9 @@
       "sizeOfElement": 2,
       "arraySize": 3,
       "location": {
-        "file": ""
+        "file": "SDL_haptic.h",
+        "line": 627,
+        "column": 12
       }
     },
     {
@@ -30954,7 +30998,9 @@
       "sizeOfElement": 2,
       "arraySize": 3,
       "location": {
-        "file": ""
+        "file": "SDL_haptic.h",
+        "line": 629,
+        "column": 12
       }
     },
     {
@@ -31333,7 +31379,9 @@
       "sizeOfElement": 1,
       "arraySize": 56,
       "location": {
-        "file": ""
+        "file": "SDL_events.h",
+        "line": 630,
+        "column": 11
       }
     },
     {
@@ -31682,7 +31730,9 @@
       "sizeOfElement": 1,
       "arraySize": 16,
       "location": {
-        "file": ""
+        "file": "SDL_joystick.h",
+        "line": 73,
+        "column": 11
       }
     },
     {
@@ -31980,7 +32030,9 @@
       "sizeOfElement": 8,
       "arraySize": 10,
       "location": {
-        "file": ""
+        "file": "SDL_audio.h",
+        "line": 239,
+        "column": 21
       }
     },
     {
@@ -32082,7 +32134,7 @@
       }
     },
     {
-      "name": "void (*)(void *)",
+      "name": "void (void *)",
       "kind": "functionPointer",
       "sizeOf": 8,
       "alignOf": 8,
@@ -32358,7 +32410,7 @@
       "isSystem": true
     },
     {
-      "name": "int (*)(void *, void *)",
+      "name": "int (void *, void *)",
       "kind": "functionPointer",
       "sizeOf": 8,
       "alignOf": 8,

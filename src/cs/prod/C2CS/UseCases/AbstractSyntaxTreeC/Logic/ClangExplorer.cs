@@ -613,6 +613,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var codeLocation = Location(cursor, type);
             var name = cursor.Name();
             var typeName = TypeName(parentNode.TypeName!, CKind.FunctionPointerParameter, type, cursor);
+
             ExpandType(parentNode, cursor, type, type, typeName);
 
             return new CFunctionPointerParameter

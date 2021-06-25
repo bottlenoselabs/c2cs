@@ -3474,7 +3474,7 @@ public static unsafe partial class SDL
     }
 
     // Function @ SDL_thread.h:440:29
-    public static int SDL_TLSSet(SDL_TLSID id, void* value, FnPtrVoidPointer destructor)
+    public static int SDL_TLSSet(SDL_TLSID id, void* value, FnPtrPointerVoid destructor)
     {
         return _virtualTable.SDL_TLSSet(id, value, destructor);
     }
@@ -4440,7 +4440,7 @@ public static unsafe partial class SDL
     }
 
     // Function @ SDL_stdinc.h:434:30
-    public static void SDL_qsort(void* @base, ulong nmemb, ulong size, FnPtrIntPointerPointer compare)
+    public static void SDL_qsort(void* @base, ulong nmemb, ulong size, FnPtrPointerPointerInt compare)
     {
         _virtualTable.SDL_qsort(@base, nmemb, size, compare);
     }
@@ -7847,7 +7847,7 @@ public static unsafe partial class SDL
         _virtualTable.SDL_RWFromFP = (delegate* unmanaged[Cdecl]<FILE*, CBool, SDL_RWops*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RWFromFP");
         _virtualTable.SDL_RWFromFile = (delegate* unmanaged[Cdecl]<CString, CString, SDL_RWops*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RWFromFile");
         _virtualTable.SDL_TLSCleanup = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_TLSCleanup");
-        _virtualTable.SDL_TLSSet = (delegate* unmanaged[Cdecl]<SDL_TLSID, void*, FnPtrVoidPointer, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_TLSSet");
+        _virtualTable.SDL_TLSSet = (delegate* unmanaged[Cdecl]<SDL_TLSID, void*, FnPtrPointerVoid, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_TLSSet");
         _virtualTable.SDL_TLSGet = (delegate* unmanaged[Cdecl]<SDL_TLSID, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_TLSGet");
         _virtualTable.SDL_TLSCreate = (delegate* unmanaged[Cdecl]<SDL_TLSID>)Runtime.LibraryGetExport(_libraryHandle, "SDL_TLSCreate");
         _virtualTable.SDL_DetachThread = (delegate* unmanaged[Cdecl]<SDL_Thread*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_DetachThread");
@@ -8008,7 +8008,7 @@ public static unsafe partial class SDL
         _virtualTable.SDL_isalnum = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_isalnum");
         _virtualTable.SDL_isalpha = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_isalpha");
         _virtualTable.SDL_abs = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_abs");
-        _virtualTable.SDL_qsort = (delegate* unmanaged[Cdecl]<void*, ulong, ulong, FnPtrIntPointerPointer, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_qsort");
+        _virtualTable.SDL_qsort = (delegate* unmanaged[Cdecl]<void*, ulong, ulong, FnPtrPointerPointerInt, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_qsort");
         _virtualTable.SDL_setenv = (delegate* unmanaged[Cdecl]<CString, CString, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_setenv");
         _virtualTable.SDL_getenv = (delegate* unmanaged[Cdecl]<CString, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_getenv");
         _virtualTable.SDL_GetNumAllocations = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetNumAllocations");
@@ -8605,7 +8605,7 @@ public static unsafe partial class SDL
         _virtualTable.SDL_RWFromFP = (delegate* unmanaged[Cdecl]<FILE*, CBool, SDL_RWops*>)IntPtr.Zero;
         _virtualTable.SDL_RWFromFile = (delegate* unmanaged[Cdecl]<CString, CString, SDL_RWops*>)IntPtr.Zero;
         _virtualTable.SDL_TLSCleanup = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_TLSSet = (delegate* unmanaged[Cdecl]<SDL_TLSID, void*, FnPtrVoidPointer, int>)IntPtr.Zero;
+        _virtualTable.SDL_TLSSet = (delegate* unmanaged[Cdecl]<SDL_TLSID, void*, FnPtrPointerVoid, int>)IntPtr.Zero;
         _virtualTable.SDL_TLSGet = (delegate* unmanaged[Cdecl]<SDL_TLSID, void*>)IntPtr.Zero;
         _virtualTable.SDL_TLSCreate = (delegate* unmanaged[Cdecl]<SDL_TLSID>)IntPtr.Zero;
         _virtualTable.SDL_DetachThread = (delegate* unmanaged[Cdecl]<SDL_Thread*, void>)IntPtr.Zero;
@@ -8766,7 +8766,7 @@ public static unsafe partial class SDL
         _virtualTable.SDL_isalnum = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
         _virtualTable.SDL_isalpha = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
         _virtualTable.SDL_abs = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_qsort = (delegate* unmanaged[Cdecl]<void*, ulong, ulong, FnPtrIntPointerPointer, void>)IntPtr.Zero;
+        _virtualTable.SDL_qsort = (delegate* unmanaged[Cdecl]<void*, ulong, ulong, FnPtrPointerPointerInt, void>)IntPtr.Zero;
         _virtualTable.SDL_setenv = (delegate* unmanaged[Cdecl]<CString, CString, int, int>)IntPtr.Zero;
         _virtualTable.SDL_getenv = (delegate* unmanaged[Cdecl]<CString, CString>)IntPtr.Zero;
         _virtualTable.SDL_GetNumAllocations = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
@@ -9368,7 +9368,7 @@ public static unsafe partial class SDL
         public delegate* unmanaged[Cdecl]<FILE*, CBool, SDL_RWops*> SDL_RWFromFP;
         public delegate* unmanaged[Cdecl]<CString, CString, SDL_RWops*> SDL_RWFromFile;
         public delegate* unmanaged[Cdecl]<void> SDL_TLSCleanup;
-        public delegate* unmanaged[Cdecl]<SDL_TLSID, void*, FnPtrVoidPointer, int> SDL_TLSSet;
+        public delegate* unmanaged[Cdecl]<SDL_TLSID, void*, FnPtrPointerVoid, int> SDL_TLSSet;
         public delegate* unmanaged[Cdecl]<SDL_TLSID, void*> SDL_TLSGet;
         public delegate* unmanaged[Cdecl]<SDL_TLSID> SDL_TLSCreate;
         public delegate* unmanaged[Cdecl]<SDL_Thread*, void> SDL_DetachThread;
@@ -9529,7 +9529,7 @@ public static unsafe partial class SDL
         public delegate* unmanaged[Cdecl]<int, int> SDL_isalnum;
         public delegate* unmanaged[Cdecl]<int, int> SDL_isalpha;
         public delegate* unmanaged[Cdecl]<int, int> SDL_abs;
-        public delegate* unmanaged[Cdecl]<void*, ulong, ulong, FnPtrIntPointerPointer, void> SDL_qsort;
+        public delegate* unmanaged[Cdecl]<void*, ulong, ulong, FnPtrPointerPointerInt, void> SDL_qsort;
         public delegate* unmanaged[Cdecl]<CString, CString, int, int> SDL_setenv;
         public delegate* unmanaged[Cdecl]<CString, CString> SDL_getenv;
         public delegate* unmanaged[Cdecl]<int> SDL_GetNumAllocations;

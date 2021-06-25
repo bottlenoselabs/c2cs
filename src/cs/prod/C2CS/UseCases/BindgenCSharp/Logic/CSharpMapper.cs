@@ -23,7 +23,7 @@ namespace C2CS.UseCases.BindgenCSharp
             {"void *(void)", "FnPtrVoid"},
             {"void *(void *)", "FnPtrPointerVoid"},
             {"void (void *)", "FnPtrPointerVoid"},
-            {"int (*)(void *, void *)", "FnPtrPointerPointerInt"},
+            {"int (void *, void *)", "FnPtrPointerPointerInt"},
         };
 
         public CSharpMapper(Configuration configuration)
@@ -608,7 +608,7 @@ namespace C2CS.UseCases.BindgenCSharp
         private string TypeName(CType type)
         {
             var originalName = type.Name;
-            if (originalName.Contains("(*)("))
+            if (type.Kind == CKind.FunctionPointer)
             {
                 return CSharpTypeNameMapPointerFunction(type);
             }
@@ -642,7 +642,15 @@ namespace C2CS.UseCases.BindgenCSharp
 
         private static string CSharpTypeNameMapPointerFunction(CType type)
         {
-            return BuiltInPointerFunctionMappings.TryGetValue(type.Name!, out var typeName) ? typeName : type.Name;
+            if (BuiltInPointerFunctionMappings.TryGetValue(type.Name!, out var typeName))
+            {
+                return typeName;
+            }
+            else
+            {
+                // TODO: What happens when the function pointer name is not found for types used in parameters?
+                return type.Name;
+            }
         }
 
         private string TypeNameMapPointer(CType type, int sizeOf, bool isSystem)
