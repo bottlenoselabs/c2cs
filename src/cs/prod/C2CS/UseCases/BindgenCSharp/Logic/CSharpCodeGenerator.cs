@@ -518,6 +518,10 @@ public string {field.Name}
 			else
 			{
 				var elementType = field.Type.Name[..^1];
+				if (elementType.EndsWith('*'))
+				{
+					elementType = "IntPtr";
+				}
 
 				code = $@"
 public Span<{elementType}> {field.Name}

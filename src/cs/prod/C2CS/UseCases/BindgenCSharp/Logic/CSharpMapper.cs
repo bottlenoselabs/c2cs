@@ -19,9 +19,11 @@ namespace C2CS.UseCases.BindgenCSharp
 
         private static readonly Dictionary<string, string> BuiltInPointerFunctionMappings = new()
         {
-            {"void (*)(void)", "FnPtrVoid"},
-            {"void (*)(void *)", "FnPtrVoidPointer"},
-            {"int (*)(void *, void *)", "FnPtrIntPointerPointer"}
+            // FnPtr{FIRST_PARAM_TYPE}{SECOND_PARAM_TYPE}...{LAST_PARAM_TYPE}{RETURN_TYPE}
+            {"void *(void)", "FnPtrVoid"},
+            {"void *(void *)", "FnPtrPointerVoid"},
+            {"void (void *)", "FnPtrPointerVoid"},
+            {"int (*)(void *, void *)", "FnPtrPointerPointerInt"},
         };
 
         public CSharpMapper(Configuration configuration)
@@ -265,13 +267,11 @@ namespace C2CS.UseCases.BindgenCSharp
                 return null;
             }
 
-            string name = cFunctionPointer.Name;
+            string name = cFunctionPointer.Type;
             if (cFunctionPointer.IsWrapped)
             {
                 name = $"FnPtr_{cFunctionPointer.Name}";
             }
-
-            var isBuiltIn = IsBuiltinFunctionPointer(cFunctionPointer.Type);
 
             var originalCodeLocationComment = OriginalCodeLocationComment(cFunctionPointer);
             var returnType = Type(CType(cFunctionPointer.ReturnType));
@@ -279,7 +279,7 @@ namespace C2CS.UseCases.BindgenCSharp
 
             var result = new CSharpFunctionPointer(
                 name,
-                isBuiltIn,
+                true,
                 originalCodeLocationComment,
                 returnType,
                 parameters);
@@ -379,9 +379,16 @@ namespace C2CS.UseCases.BindgenCSharp
             var cType = CType(cRecordField.Type);
 
             CSharpType type;
-            if (cType.Kind == CKind.FunctionPointer && !IsBuiltinFunctionPointer(cRecordField.Type))
+            if (cType.Kind == CKind.FunctionPointer)
             {
-                type = Type(cType, $"FnPtr_{name}");
+                if (BuiltInPointerFunctionMappings.TryGetValue(cRecordField.Type, out var functionPointerName))
+                {
+                    type = Type(cType, functionPointerName);
+                }
+                else
+                {
+                    type = Type(cType, $"FnPtr_{name}");
+                }
             }
             else
             {

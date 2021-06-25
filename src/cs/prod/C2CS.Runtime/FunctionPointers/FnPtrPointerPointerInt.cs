@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 [PublicAPI]
 [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
 [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
-public struct FnPtrVoidPointer
+public struct FnPtrPointerPointerInt
 {
-    public unsafe delegate* unmanaged<void*, void> Pointer;
+    public unsafe delegate* unmanaged<void*, void*, int> Pointer;
 }

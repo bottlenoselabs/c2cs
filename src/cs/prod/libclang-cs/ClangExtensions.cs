@@ -175,7 +175,6 @@ public static unsafe class ClangExtensions
 
     public static string Name(this CXType type, CXCursor? cursor = null)
     {
-        var cursorType = cursor ?? clang_getTypeDeclaration(type);
         var spellingC = clang_getTypeSpelling(type);
         string spelling = clang_getCString(spellingC);
         if (spelling == string.Empty)
@@ -185,12 +184,14 @@ public static unsafe class ClangExtensions
 
         string result;
 
-        if (type.IsPrimitive())
+        if (type.IsPrimitive() || type.kind == CXTypeKind.CXType_FunctionProto)
         {
             result = spelling;
         }
         else
         {
+            var cursorType = cursor ?? clang_getTypeDeclaration(type);
+            
             switch (type.kind)
             {
                 case CXTypeKind.CXType_Pointer:
@@ -200,7 +201,9 @@ public static unsafe class ClangExtensions
                         pointeeType.kind == CXTypeKind.CXType_FunctionProto)
                     {
                         // Function pointer without a declaration, this can happen when the type is field or a param
-                        result = spelling;
+                        var functionProtoSpellingC = clang_getTypeSpelling(pointeeType);
+                        string functionProtoSpelling = clang_getCString(functionProtoSpellingC);
+                        result = functionProtoSpelling;
                     }
                     else
                     {
@@ -229,9 +232,6 @@ public static unsafe class ClangExtensions
                     var elementTypeIncompleteArray = clang_getArrayElementType(type);
                     var elementTypeName = Name(elementTypeIncompleteArray, cursorType);
                     result = $"{elementTypeName}*";
-                    break;
-                case CXTypeKind.CXType_FunctionProto:
-                    result = cursorType.Name();
                     break;
                 case CXTypeKind.CXType_Elaborated:
                     // type has a modifier prefixed such as "struct MyStruct" or "union ABC",

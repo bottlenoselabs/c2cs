@@ -1142,7 +1142,7 @@ public static unsafe partial class libclang
 
     // Function @ Index.h:5092
     [DllImport(LibraryName, EntryPoint = "clang_executeOnThread", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_executeOnThread(FnPtrVoidPointer fn, void* user_data, uint stack_size);
+    public static extern void clang_executeOnThread(FnPtrPointerVoid fn, void* user_data, uint stack_size);
 
     // Function @ Index.h:5330
     [DllImport(LibraryName, EntryPoint = "clang_getCompletionChunkKind", CallingConvention = CallingConvention.Cdecl)]

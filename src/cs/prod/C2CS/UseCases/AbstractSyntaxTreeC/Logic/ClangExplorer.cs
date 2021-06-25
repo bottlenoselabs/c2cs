@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using C2CS.UseCases.BindgenCSharp;
 using static libclang;
@@ -381,7 +382,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 return;
             }
 
-            var aliasTypeName = TypeName(parentNode.TypeName!, aliasKind, aliasType, aliasCursor, aliasType);
+            var aliasTypeName = TypeName(parentNode.TypeName!, aliasKind, aliasType, aliasCursor);
             ExpandType(parentNode, aliasCursor, aliasType, aliasType, aliasTypeName);
 
             var typedef = new CTypedef
@@ -568,12 +569,16 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var returnType = clang_getResultType(type);
             var returnTypeName = TypeName(parentNode.TypeName!, CKind.FunctionPointerResult, returnType, cursor);
             ExpandType(parentNode, cursor, returnType, returnType, returnTypeName);
-            var isWrapped = parentNode.Cursor.kind == CXCursorKind.CXCursor_StructDecl &&
+
+            var parentKind = parentNode.Cursor.kind;
+            var isWrapped = (parentKind == CXCursorKind.CXCursor_StructDecl ||
+                             parentKind == CXCursorKind.CXCursor_TypedefDecl) &&
                             originalType.kind != CXTypeKind.CXType_Typedef;
+            var name = cursor.Name();
 
             var functionPointer = new CFunctionPointer
             {
-                Name = typeName,
+                Name = name,
                 Location = location,
                 Type = typeName,
                 ReturnType = returnTypeName,
@@ -784,7 +789,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var pointeeType = clang_getPointeeType(type);
             if (pointeeType.kind == CXTypeKind.CXType_FunctionProto)
             {
-                var typeName = TypeName(parentTypeName, CKind.FunctionPointer, pointeeType, cursor, type);
+                var typeName = TypeName(parentTypeName, CKind.FunctionPointer, pointeeType, cursor);
                 var location = Location(cursor, type);
                 return CreateFunctionPointer(typeName, cursor, parentNode, type, pointeeType, location);
             }
@@ -1019,8 +1024,9 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             {
                 var pointeeKind = TypeKind(typeKind.Type);
                 var pointeeCursor = clang_getTypeDeclaration(typeKind.Type);
-                var pointeeTypeName = TypeName(parentNode.TypeName!, pointeeKind.Kind, pointeeKind.Type, pointeeCursor, pointeeKind.Type);
+                var pointeeTypeName = TypeName(parentNode.TypeName!, pointeeKind.Kind, pointeeKind.Type, pointeeCursor);
                 ExpandType(parentNode, pointeeCursor, typeKind.Type, type, pointeeTypeName);
+                return;
             }
 
             if (typeKind.Kind == CKind.Typedef)
@@ -1047,7 +1053,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             ExpandNode(CKind.Typedef, location, parentNode, typedefCursor, typedefCursor, type, type, string.Empty, typeName);
         }
 
-        private string TypeName(string parentTypeName, CKind kind, CXType type, CXCursor cursor, CXType? originalType = null)
+        private string TypeName(string parentTypeName, CKind kind, CXType type, CXCursor cursor)
         {
             var typeCursor = clang_getTypeDeclaration(type);
             var isAnonymous = clang_Cursor_isAnonymous(typeCursor) != 0;
@@ -1079,7 +1085,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 CKind.Function => cursor.Name(),
                 CKind.FunctionResult => type.Name(cursor),
                 CKind.FunctionParameter => type.Name(cursor),
-                CKind.FunctionPointer => originalType!.Value.Name(),
+                CKind.FunctionPointer => type.Name(),
                 CKind.FunctionPointerResult => type.Name(cursor),
                 CKind.FunctionPointerParameter => type.Name(cursor),
                 CKind.Typedef => type.Name(),
@@ -1110,7 +1116,19 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         private ClangLocation Location(CXCursor cursor, CXType? type = null)
         {
-            var location = type?.FileLocation(cursor) ?? cursor.FileLocation();
+            ClangLocation location;
+            if (type == null)
+            {
+                location = cursor.FileLocation();
+            }
+            else
+            {
+                location = type.Value.FileLocation(cursor);
+                if (string.IsNullOrEmpty(location.Path))
+                {
+                    location = cursor.FileLocation();
+                }
+            }
 
             foreach (var includeDirectory in _includeDirectories)
             {
