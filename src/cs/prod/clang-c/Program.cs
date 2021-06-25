@@ -9,24 +9,37 @@ internal static class Program
     private static void Main()
     {
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
-        GenerateLibraryBindings(rootDirectory);
+        GenerateAbstractSyntaxTree(rootDirectory);
+        GenerateBindingsCSharp(rootDirectory);
     }
 
-    private static void GenerateLibraryBindings(string rootDirectory)
+    private static void GenerateAbstractSyntaxTree(string rootDirectory)
     {
         var arguments = @$"
+ast
 -i
 {rootDirectory}/ext/clang/include/clang-c/Index.h
 -s
 {rootDirectory}/ext/clang/include
 -o
-{rootDirectory}/src/cs/prod/libclang-cs/libclang.cs
--u
--f
--l
-libclang
+{rootDirectory}/src/cs/prod/clang-c/ast.json
 -c
-libclang
+{rootDirectory}/src/cs/examples/sokol/sokol-c/config_c.json
+";
+        var argumentsArray =
+            arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+        C2CS.Program.Main(argumentsArray);
+    }
+
+    private static void GenerateBindingsCSharp(string rootDirectory)
+    {
+        var arguments = @$"
+cs
+-i
+{rootDirectory}/src/cs/prod/clang-c/ast.json
+-o
+{rootDirectory}/src/cs/prod/clang-cs/libclang.cs
+
 ";
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);

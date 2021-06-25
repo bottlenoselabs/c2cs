@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 
 public static unsafe partial class libclang
 {
-    private const string LibraryName = "libclang";
+    private const string LibraryName = "clang";
     private static IntPtr _libraryHandle;
 
     public static void LoadApi(string? libraryFilePath = null)

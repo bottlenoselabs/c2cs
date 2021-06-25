@@ -36,7 +36,7 @@
     <!-- Project references -->
     <ItemGroup>
         <ProjectReference Include="..\C2CS.Runtime\C2CS.Runtime.csproj" />
-        <ProjectReference Include="..\libclang-cs\libclang-cs.csproj" />
+        <ProjectReference Include="..\clang-cs\clang-cs.csproj" />
     </ItemGroup>
 
 </Project>

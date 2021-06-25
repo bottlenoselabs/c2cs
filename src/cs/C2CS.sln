@@ -2,13 +2,13 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS", "prod\C2CS\C2CS.csproj", "{579857C9-5374-458A-84E0-0564ECA99237}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libclang-cs", "prod\libclang-cs\libclang-cs.csproj", "{26E061A9-DA84-47CD-A9E7-868F1F26F568}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clang-cs", "prod\clang-cs\clang-cs.csproj", "{26E061A9-DA84-47CD-A9E7-868F1F26F568}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prod", "prod", "{0B6FBBF3-28F7-4374-9CDD-3C8B1DFD2AB8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{E5C474A9-491B-4719-B253-09F93D5CEA5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libclang-c", "prod\libclang-c\libclang-c.csproj", "{F7949436-2F7D-45F6-9C4E-D5F9027EF24B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clang-c", "prod\clang-c\clang-c.csproj", "{F7949436-2F7D-45F6-9C4E-D5F9027EF24B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "flecs", "flecs", "{9DF4EA4F-7358-4EC3-BFB0-DE25E5E6DE6E}"
 EndProject
