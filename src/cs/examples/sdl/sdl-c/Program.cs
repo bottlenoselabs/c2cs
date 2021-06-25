@@ -44,7 +44,7 @@ ast
 -i
 {rootDirectory}/ext/SDL/include/SDL.h
 -o
-{rootDirectory}/src/cs/examples/sdl/sdl-c/sdl.json
+{rootDirectory}/src/cs/examples/sdl/sdl-c/ast.json
 -c
 {Environment.CurrentDirectory}/config_c.json
 ";
@@ -58,7 +58,7 @@ ast
         var arguments = @$"
 cs
 -i
-{rootDirectory}/src/cs/examples/sdl/sdl-c/sdl.json
+{rootDirectory}/src/cs/examples/sdl/sdl-c/ast.json
 -o
 {rootDirectory}/src/cs/examples/sdl/sdl-cs/SDL.cs
 -c

@@ -4509,91 +4509,91 @@ public static unsafe partial class SDL
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_TimerCallback
     {
-        public delegate* unmanaged<SDL_TimerCallback> Pointer;
+        public delegate* unmanaged<uint, void*, uint> Pointer;
     }
 
     // FunctionPointer @ SDL_log.h:342:24
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_LogOutputFunction
     {
-        public delegate* unmanaged<SDL_LogOutputFunction> Pointer;
+        public delegate* unmanaged<void*, int, SDL_LogPriority, CString, void> Pointer;
     }
 
     // FunctionPointer @ SDL_hints.h:1744:24
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_HintCallback
     {
-        public delegate* unmanaged<SDL_HintCallback> Pointer;
+        public delegate* unmanaged<void*, CString, CString, CString, void> Pointer;
     }
 
     // FunctionPointer @ SDL_events.h:919:24
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_EventFilter
     {
-        public delegate* unmanaged<SDL_EventFilter> Pointer;
+        public delegate* unmanaged<void*, SDL_Event*, int> Pointer;
     }
 
     // FunctionPointer @ SDL_video.h:1464:37
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_HitTest
     {
-        public delegate* unmanaged<SDL_HitTest> Pointer;
+        public delegate* unmanaged<SDL_Window*, SDL_Point*, void*, SDL_HitTestResult> Pointer;
     }
 
     // FunctionPointer @ SDL_audio.h:195:25
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_AudioFilter
     {
-        public delegate* unmanaged<SDL_AudioFilter> Pointer;
+        public delegate* unmanaged<SDL_AudioCVT*, SDL_AudioFormat, void> Pointer;
     }
 
     // FunctionPointer @ SDL_audio.h:165:25
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_AudioCallback
     {
-        public delegate* unmanaged<SDL_AudioCallback> Pointer;
+        public delegate* unmanaged<void*, byte*, int, void> Pointer;
     }
 
     // FunctionPointer @ SDL_thread.h:88:24
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_ThreadFunction
     {
-        public delegate* unmanaged<SDL_ThreadFunction> Pointer;
+        public delegate* unmanaged<void*, int> Pointer;
     }
 
     // FunctionPointer @ SDL_assert.h:200:35
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_AssertionHandler
     {
-        public delegate* unmanaged<SDL_AssertionHandler> Pointer;
+        public delegate* unmanaged<SDL_AssertData*, void*, SDL_AssertState> Pointer;
     }
 
     // FunctionPointer @ SDL_stdinc.h:403:24
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_free_func
     {
-        public delegate* unmanaged<SDL_free_func> Pointer;
+        public delegate* unmanaged<void*, void> Pointer;
     }
 
     // FunctionPointer @ SDL_stdinc.h:402:25
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_realloc_func
     {
-        public delegate* unmanaged<SDL_realloc_func> Pointer;
+        public delegate* unmanaged<void*, ulong, void*> Pointer;
     }
 
     // FunctionPointer @ SDL_stdinc.h:401:25
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_calloc_func
     {
-        public delegate* unmanaged<SDL_calloc_func> Pointer;
+        public delegate* unmanaged<ulong, ulong, void*> Pointer;
     }
 
     // FunctionPointer @ SDL_stdinc.h:400:25
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_malloc_func
     {
-        public delegate* unmanaged<SDL_malloc_func> Pointer;
+        public delegate* unmanaged<ulong, void*> Pointer;
     }
 
     // Struct @ SDL_locale.h:47:3
@@ -4734,8 +4734,21 @@ public static unsafe partial class SDL
         [FieldOffset(17)] // size = 1, padding = 0
         public byte BytesPerPixel;
 
-        [FieldOffset(18)] // size = 1, padding = 1
-        public byte padding;
+        [FieldOffset(18)] // size = 2, padding = 0
+        public fixed byte _padding[2 / 1]; // Uint8[2]
+
+        public Span<byte> padding
+        {
+            get
+            {
+                fixed (SDL_PixelFormat* @this = &this)
+                {
+                    var pointer = &@this->_padding[0];
+                    var span = new Span<byte>(pointer, 2);
+                    return span;
+                }
+            }
+        }
 
         [FieldOffset(20)] // size = 4, padding = 0
         public uint Rmask;
@@ -4849,8 +4862,21 @@ public static unsafe partial class SDL
         [FieldOffset(12)] // size = 4, padding = 0
         public uint num_texture_formats;
 
-        [FieldOffset(16)] // size = 4, padding = 60
-        public uint texture_formats;
+        [FieldOffset(16)] // size = 64, padding = 0
+        public fixed uint _texture_formats[64 / 4]; // Uint32[16]
+
+        public Span<uint> texture_formats
+        {
+            get
+            {
+                fixed (SDL_RendererInfo* @this = &this)
+                {
+                    var pointer = &@this->_texture_formats[0];
+                    var span = new Span<uint>(pointer, 16);
+                    return span;
+                }
+            }
+        }
 
         [FieldOffset(80)] // size = 4, padding = 0
         public int max_texture_width;
@@ -4890,7 +4916,7 @@ public static unsafe partial class SDL
     public struct SDL_MessageBoxColorScheme
     {
         [FieldOffset(0)] // size = 15, padding = 0
-        public fixed byte _colors[15 / 1]; // SDL_MessageBoxColor
+        public fixed byte _colors[15 / 1]; // SDL_MessageBoxColor[5]
 
         public Span<SDL_MessageBoxColor> colors
         {
@@ -4907,7 +4933,7 @@ public static unsafe partial class SDL
     }
 
     // Struct @ SDL_messagebox.h:71:3
-    [StructLayout(LayoutKind.Explicit, Size = 15, Pack = 1)]
+    [StructLayout(LayoutKind.Explicit, Size = 3, Pack = 1)]
     public struct SDL_MessageBoxColor
     {
         [FieldOffset(0)] // size = 1, padding = 0
@@ -5015,7 +5041,7 @@ public static unsafe partial class SDL
         public byte type;
 
         [FieldOffset(4)] // size = 12, padding = 0
-        public fixed int _dir[12 / 4]; // Sint32
+        public fixed uint _dir[12 / 4]; // Sint32[3]
 
         public Span<int> dir
         {
@@ -5111,23 +5137,101 @@ public static unsafe partial class SDL
         [FieldOffset(28)] // size = 2, padding = 0
         public ushort interval;
 
-        [FieldOffset(30)] // size = 2, padding = 4
-        public ushort right_sat;
+        [FieldOffset(30)] // size = 6, padding = 0
+        public fixed ushort _right_sat[6 / 2]; // Uint16[3]
 
-        [FieldOffset(36)] // size = 2, padding = 4
-        public ushort left_sat;
+        public Span<ushort> right_sat
+        {
+            get
+            {
+                fixed (SDL_HapticCondition* @this = &this)
+                {
+                    var pointer = &@this->_right_sat[0];
+                    var span = new Span<ushort>(pointer, 3);
+                    return span;
+                }
+            }
+        }
 
-        [FieldOffset(42)] // size = 2, padding = 4
-        public short right_coeff;
+        [FieldOffset(36)] // size = 6, padding = 0
+        public fixed ushort _left_sat[6 / 2]; // Uint16[3]
 
-        [FieldOffset(48)] // size = 2, padding = 4
-        public short left_coeff;
+        public Span<ushort> left_sat
+        {
+            get
+            {
+                fixed (SDL_HapticCondition* @this = &this)
+                {
+                    var pointer = &@this->_left_sat[0];
+                    var span = new Span<ushort>(pointer, 3);
+                    return span;
+                }
+            }
+        }
 
-        [FieldOffset(54)] // size = 2, padding = 4
-        public ushort deadband;
+        [FieldOffset(42)] // size = 6, padding = 0
+        public fixed ushort _right_coeff[6 / 2]; // Sint16[3]
 
-        [FieldOffset(60)] // size = 2, padding = 6
-        public short center;
+        public Span<short> right_coeff
+        {
+            get
+            {
+                fixed (SDL_HapticCondition* @this = &this)
+                {
+                    var pointer = &@this->_right_coeff[0];
+                    var span = new Span<short>(pointer, 3);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(48)] // size = 6, padding = 0
+        public fixed ushort _left_coeff[6 / 2]; // Sint16[3]
+
+        public Span<short> left_coeff
+        {
+            get
+            {
+                fixed (SDL_HapticCondition* @this = &this)
+                {
+                    var pointer = &@this->_left_coeff[0];
+                    var span = new Span<short>(pointer, 3);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(54)] // size = 6, padding = 0
+        public fixed ushort _deadband[6 / 2]; // Uint16[3]
+
+        public Span<ushort> deadband
+        {
+            get
+            {
+                fixed (SDL_HapticCondition* @this = &this)
+                {
+                    var pointer = &@this->_deadband[0];
+                    var span = new Span<ushort>(pointer, 3);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(60)] // size = 6, padding = 2
+        public fixed ushort _center[6 / 2]; // Sint16[3]
+
+        public Span<short> center
+        {
+            get
+            {
+                fixed (SDL_HapticCondition* @this = &this)
+                {
+                    var pointer = &@this->_center[0];
+                    var span = new Span<short>(pointer, 3);
+                    return span;
+                }
+            }
+        }
     }
 
     // Struct @ SDL_haptic.h:585:3
@@ -5306,8 +5410,21 @@ public static unsafe partial class SDL
         [FieldOffset(0)] // size = 24, padding = 0
         public SDL_DropEvent drop;
 
-        [FieldOffset(0)] // size = 1, padding = 55
-        public byte padding;
+        [FieldOffset(0)] // size = 56, padding = 0
+        public fixed byte _padding[56 / 1]; // Uint8[56]
+
+        public Span<byte> padding
+        {
+            get
+            {
+                fixed (SDL_Event* @this = &this)
+                {
+                    var pointer = &@this->_padding[0];
+                    var span = new Span<byte>(pointer, 56);
+                    return span;
+                }
+            }
+        }
     }
 
     // Struct @ SDL_events.h:526:3
@@ -5450,21 +5567,8 @@ public static unsafe partial class SDL
         [FieldOffset(8)] // size = 4, padding = 0
         public uint windowID;
 
-        [FieldOffset(12)] // size = 12, padding = -8
-        public fixed int _code[12 / 4]; // Sint32
-
-        public Span<int> code
-        {
-            get
-            {
-                fixed (SDL_UserEvent* @this = &this)
-                {
-                    var pointer = &@this->_code[0];
-                    var span = new Span<int>(pointer, 3);
-                    return span;
-                }
-            }
-        }
+        [FieldOffset(12)] // size = 4, padding = 0
+        public int code;
 
         [FieldOffset(16)] // size = 8, padding = 0
         public void* data1;
@@ -5494,24 +5598,24 @@ public static unsafe partial class SDL
         [FieldOffset(4)] // size = 4, padding = 0
         public uint timestamp;
 
-        [FieldOffset(8)] // size = 12, padding = -8
-        public fixed int _which[12 / 4]; // Sint32
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int which;
 
-        public Span<int> which
+        [FieldOffset(12)] // size = 24, padding = 0
+        public fixed uint _data[24 / 4]; // float[6]
+
+        public Span<float> data
         {
             get
             {
                 fixed (SDL_SensorEvent* @this = &this)
                 {
-                    var pointer = &@this->_which[0];
-                    var span = new Span<int>(pointer, 3);
+                    var pointer = &@this->_data[0];
+                    var span = new Span<float>(pointer, 6);
                     return span;
                 }
             }
         }
-
-        [FieldOffset(12)] // size = 4, padding = 20
-        public float data;
     }
 
     // Struct @ SDL_events.h:461:3
@@ -5553,24 +5657,24 @@ public static unsafe partial class SDL
         [FieldOffset(8)] // size = 4, padding = 0
         public SDL_JoystickID which;
 
-        [FieldOffset(12)] // size = 12, padding = -8
-        public fixed int _sensor[12 / 4]; // Sint32
+        [FieldOffset(12)] // size = 4, padding = 0
+        public int sensor;
 
-        public Span<int> sensor
+        [FieldOffset(16)] // size = 12, padding = 0
+        public fixed uint _data[12 / 4]; // float[3]
+
+        public Span<float> data
         {
             get
             {
                 fixed (SDL_ControllerSensorEvent* @this = &this)
                 {
-                    var pointer = &@this->_sensor[0];
-                    var span = new Span<int>(pointer, 3);
+                    var pointer = &@this->_data[0];
+                    var span = new Span<float>(pointer, 3);
                     return span;
                 }
             }
         }
-
-        [FieldOffset(16)] // size = 4, padding = 8
-        public float data;
     }
 
     // Struct @ SDL_events.h:435:3
@@ -5586,37 +5690,11 @@ public static unsafe partial class SDL
         [FieldOffset(8)] // size = 4, padding = 0
         public SDL_JoystickID which;
 
-        [FieldOffset(12)] // size = 12, padding = -8
-        public fixed int _touchpad[12 / 4]; // Sint32
+        [FieldOffset(12)] // size = 4, padding = 0
+        public int touchpad;
 
-        public Span<int> touchpad
-        {
-            get
-            {
-                fixed (SDL_ControllerTouchpadEvent* @this = &this)
-                {
-                    var pointer = &@this->_touchpad[0];
-                    var span = new Span<int>(pointer, 3);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(16)] // size = 12, padding = -8
-        public fixed int _finger[12 / 4]; // Sint32
-
-        public Span<int> finger
-        {
-            get
-            {
-                fixed (SDL_ControllerTouchpadEvent* @this = &this)
-                {
-                    var pointer = &@this->_finger[0];
-                    var span = new Span<int>(pointer, 3);
-                    return span;
-                }
-            }
-        }
+        [FieldOffset(16)] // size = 4, padding = 0
+        public int finger;
 
         [FieldOffset(20)] // size = 4, padding = 0
         public float x;
@@ -5638,21 +5716,8 @@ public static unsafe partial class SDL
         [FieldOffset(4)] // size = 4, padding = 0
         public uint timestamp;
 
-        [FieldOffset(8)] // size = 12, padding = -8
-        public fixed int _which[12 / 4]; // Sint32
-
-        public Span<int> which
-        {
-            get
-            {
-                fixed (SDL_ControllerDeviceEvent* @this = &this)
-                {
-                    var pointer = &@this->_which[0];
-                    var span = new Span<int>(pointer, 3);
-                    return span;
-                }
-            }
-        }
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int which;
     }
 
     // Struct @ SDL_events.h:409:3
@@ -5723,21 +5788,8 @@ public static unsafe partial class SDL
         [FieldOffset(4)] // size = 4, padding = 0
         public uint timestamp;
 
-        [FieldOffset(8)] // size = 12, padding = -8
-        public fixed int _which[12 / 4]; // Sint32
-
-        public Span<int> which
-        {
-            get
-            {
-                fixed (SDL_JoyDeviceEvent* @this = &this)
-                {
-                    var pointer = &@this->_which[0];
-                    var span = new Span<int>(pointer, 3);
-                    return span;
-                }
-            }
-        }
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int which;
     }
 
     // Struct @ SDL_events.h:367:3
@@ -5872,37 +5924,11 @@ public static unsafe partial class SDL
         [FieldOffset(12)] // size = 4, padding = 0
         public uint which;
 
-        [FieldOffset(16)] // size = 12, padding = -8
-        public fixed int _x[12 / 4]; // Sint32
+        [FieldOffset(16)] // size = 4, padding = 0
+        public int x;
 
-        public Span<int> x
-        {
-            get
-            {
-                fixed (SDL_MouseWheelEvent* @this = &this)
-                {
-                    var pointer = &@this->_x[0];
-                    var span = new Span<int>(pointer, 3);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(20)] // size = 12, padding = -8
-        public fixed int _y[12 / 4]; // Sint32
-
-        public Span<int> y
-        {
-            get
-            {
-                fixed (SDL_MouseWheelEvent* @this = &this)
-                {
-                    var pointer = &@this->_y[0];
-                    var span = new Span<int>(pointer, 3);
-                    return span;
-                }
-            }
-        }
+        [FieldOffset(20)] // size = 4, padding = 0
+        public int y;
 
         [FieldOffset(24)] // size = 4, padding = 0
         public uint direction;
@@ -5936,37 +5962,11 @@ public static unsafe partial class SDL
         [FieldOffset(19)] // size = 1, padding = 0
         public byte padding1;
 
-        [FieldOffset(20)] // size = 12, padding = -8
-        public fixed int _x[12 / 4]; // Sint32
+        [FieldOffset(20)] // size = 4, padding = 0
+        public int x;
 
-        public Span<int> x
-        {
-            get
-            {
-                fixed (SDL_MouseButtonEvent* @this = &this)
-                {
-                    var pointer = &@this->_x[0];
-                    var span = new Span<int>(pointer, 3);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(24)] // size = 12, padding = -8
-        public fixed int _y[12 / 4]; // Sint32
-
-        public Span<int> y
-        {
-            get
-            {
-                fixed (SDL_MouseButtonEvent* @this = &this)
-                {
-                    var pointer = &@this->_y[0];
-                    var span = new Span<int>(pointer, 3);
-                    return span;
-                }
-            }
-        }
+        [FieldOffset(24)] // size = 4, padding = 0
+        public int y;
     }
 
     // Struct @ SDL_events.h:270:3
@@ -5988,69 +5988,17 @@ public static unsafe partial class SDL
         [FieldOffset(16)] // size = 4, padding = 0
         public uint state;
 
-        [FieldOffset(20)] // size = 12, padding = -8
-        public fixed int _x[12 / 4]; // Sint32
+        [FieldOffset(20)] // size = 4, padding = 0
+        public int x;
 
-        public Span<int> x
-        {
-            get
-            {
-                fixed (SDL_MouseMotionEvent* @this = &this)
-                {
-                    var pointer = &@this->_x[0];
-                    var span = new Span<int>(pointer, 3);
-                    return span;
-                }
-            }
-        }
+        [FieldOffset(24)] // size = 4, padding = 0
+        public int y;
 
-        [FieldOffset(24)] // size = 12, padding = -8
-        public fixed int _y[12 / 4]; // Sint32
+        [FieldOffset(28)] // size = 4, padding = 0
+        public int xrel;
 
-        public Span<int> y
-        {
-            get
-            {
-                fixed (SDL_MouseMotionEvent* @this = &this)
-                {
-                    var pointer = &@this->_y[0];
-                    var span = new Span<int>(pointer, 3);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(28)] // size = 12, padding = -8
-        public fixed int _xrel[12 / 4]; // Sint32
-
-        public Span<int> xrel
-        {
-            get
-            {
-                fixed (SDL_MouseMotionEvent* @this = &this)
-                {
-                    var pointer = &@this->_xrel[0];
-                    var span = new Span<int>(pointer, 3);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(32)] // size = 12, padding = -8
-        public fixed int _yrel[12 / 4]; // Sint32
-
-        public Span<int> yrel
-        {
-            get
-            {
-                fixed (SDL_MouseMotionEvent* @this = &this)
-                {
-                    var pointer = &@this->_yrel[0];
-                    var span = new Span<int>(pointer, 3);
-                    return span;
-                }
-            }
-        }
+        [FieldOffset(32)] // size = 4, padding = 0
+        public int yrel;
     }
 
     // Struct @ SDL_events.h:254:3
@@ -6066,8 +6014,21 @@ public static unsafe partial class SDL
         [FieldOffset(8)] // size = 4, padding = 0
         public uint windowID;
 
-        [FieldOffset(12)] // size = 1, padding = 31
-        public byte text;
+        [FieldOffset(12)] // size = 32, padding = 0
+        public fixed byte _text[32 / 1]; // char[32]
+
+        public string text
+        {
+            get
+            {
+                fixed (SDL_TextInputEvent* @this = &this)
+                {
+                    var pointer = &@this->_text[0];
+                    var cString = new CString(pointer);
+                    return Runtime.String(cString);
+                }
+            }
+        }
     }
 
     // Struct @ SDL_events.h:241:3
@@ -6083,40 +6044,27 @@ public static unsafe partial class SDL
         [FieldOffset(8)] // size = 4, padding = 0
         public uint windowID;
 
-        [FieldOffset(12)] // size = 1, padding = 31
-        public byte text;
+        [FieldOffset(12)] // size = 32, padding = 0
+        public fixed byte _text[32 / 1]; // char[32]
 
-        [FieldOffset(44)] // size = 12, padding = -8
-        public fixed int _start[12 / 4]; // Sint32
-
-        public Span<int> start
+        public string text
         {
             get
             {
                 fixed (SDL_TextEditingEvent* @this = &this)
                 {
-                    var pointer = &@this->_start[0];
-                    var span = new Span<int>(pointer, 3);
-                    return span;
+                    var pointer = &@this->_text[0];
+                    var cString = new CString(pointer);
+                    return Runtime.String(cString);
                 }
             }
         }
 
-        [FieldOffset(48)] // size = 12, padding = -8
-        public fixed int _length[12 / 4]; // Sint32
+        [FieldOffset(44)] // size = 4, padding = 0
+        public int start;
 
-        public Span<int> length
-        {
-            get
-            {
-                fixed (SDL_TextEditingEvent* @this = &this)
-                {
-                    var pointer = &@this->_length[0];
-                    var span = new Span<int>(pointer, 3);
-                    return span;
-                }
-            }
-        }
+        [FieldOffset(48)] // size = 4, padding = 0
+        public int length;
     }
 
     // Struct @ SDL_events.h:227:3
@@ -6190,37 +6138,11 @@ public static unsafe partial class SDL
         [FieldOffset(15)] // size = 1, padding = 0
         public byte padding3;
 
-        [FieldOffset(16)] // size = 12, padding = -8
-        public fixed int _data1[12 / 4]; // Sint32
+        [FieldOffset(16)] // size = 4, padding = 0
+        public int data1;
 
-        public Span<int> data1
-        {
-            get
-            {
-                fixed (SDL_WindowEvent* @this = &this)
-                {
-                    var pointer = &@this->_data1[0];
-                    var span = new Span<int>(pointer, 3);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(20)] // size = 12, padding = -8
-        public fixed int _data2[12 / 4]; // Sint32
-
-        public Span<int> data2
-        {
-            get
-            {
-                fixed (SDL_WindowEvent* @this = &this)
-                {
-                    var pointer = &@this->_data2[0];
-                    var span = new Span<int>(pointer, 3);
-                    return span;
-                }
-            }
-        }
+        [FieldOffset(20)] // size = 4, padding = 0
+        public int data2;
     }
 
     // Struct @ SDL_events.h:196:3
@@ -6248,21 +6170,8 @@ public static unsafe partial class SDL
         [FieldOffset(15)] // size = 1, padding = 0
         public byte padding3;
 
-        [FieldOffset(16)] // size = 12, padding = -8
-        public fixed int _data1[12 / 4]; // Sint32
-
-        public Span<int> data1
-        {
-            get
-            {
-                fixed (SDL_DisplayEvent* @this = &this)
-                {
-                    var pointer = &@this->_data1[0];
-                    var span = new Span<int>(pointer, 3);
-                    return span;
-                }
-            }
-        }
+        [FieldOffset(16)] // size = 4, padding = 0
+        public int data1;
     }
 
     // Struct @ SDL_events.h:181:3
@@ -6333,8 +6242,21 @@ public static unsafe partial class SDL
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 1)]
     public struct SDL_JoystickGUID
     {
-        [FieldOffset(0)] // size = 1, padding = 15
-        public byte data;
+        [FieldOffset(0)] // size = 16, padding = 0
+        public fixed byte _data[16 / 1]; // Uint8[16]
+
+        public Span<byte> data
+        {
+            get
+            {
+                fixed (SDL_JoystickGUID* @this = &this)
+                {
+                    var pointer = &@this->_data[0];
+                    var span = new Span<byte>(pointer, 16);
+                    return span;
+                }
+            }
+        }
     }
 
     // Struct @ SDL_video.h:60:3
@@ -6389,7 +6311,7 @@ public static unsafe partial class SDL
         public double len_ratio;
 
         [FieldOffset(44)] // size = 80, padding = 0
-        public fixed ulong _filters[80 / 8]; // SDL_AudioFilter
+        public fixed ulong _filters[80 / 8]; // SDL_AudioFilter[10]
 
         public Span<SDL_AudioFilter> filters
         {
@@ -6633,10 +6555,10 @@ public static unsafe partial class SDL
     }
 
     // Typedef @ SDL_joystick.h:83:16
-    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct SDL_JoystickID
     {
-        [FieldOffset(0)] // size = 12, padding = 0
+        [FieldOffset(0)] // size = 4, padding = 0
         public int Data;
 
         public static implicit operator int(SDL_JoystickID data) => data.Data;
@@ -6644,10 +6566,10 @@ public static unsafe partial class SDL
     }
 
     // Typedef @ SDL_keycode.h:45:16
-    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct SDL_Keycode
     {
-        [FieldOffset(0)] // size = 12, padding = 0
+        [FieldOffset(0)] // size = 4, padding = 0
         public int Data;
 
         public static implicit operator int(SDL_Keycode data) => data.Data;
@@ -6655,10 +6577,10 @@ public static unsafe partial class SDL
     }
 
     // Typedef @ SDL_sensor.h:60:16
-    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct SDL_SensorID
     {
-        [FieldOffset(0)] // size = 12, padding = 0
+        [FieldOffset(0)] // size = 4, padding = 0
         public int Data;
 
         public static implicit operator int(SDL_SensorID data) => data.Data;

@@ -19845,7 +19845,26 @@
       "name": "SDL_TimerCallback",
       "type": "SDL_TimerCallback",
       "returnType": "Uint32",
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "interval",
+          "type": "Uint32",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 209,
+            "column": 18
+          }
+        },
+        {
+          "name": "param",
+          "type": "void*",
+          "location": {
+            "file": "SDL_timer.h",
+            "line": 111,
+            "column": 70
+          }
+        }
+      ],
       "location": {
         "file": "SDL_timer.h",
         "line": 111,
@@ -19856,7 +19875,44 @@
       "name": "SDL_LogOutputFunction",
       "type": "SDL_LogOutputFunction",
       "returnType": "void",
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "userdata",
+          "type": "void*",
+          "location": {
+            "file": "SDL_log.h",
+            "line": 342,
+            "column": 53
+          }
+        },
+        {
+          "name": "category",
+          "type": "int",
+          "location": {
+            "file": "SDL_log.h",
+            "line": 342,
+            "column": 67
+          }
+        },
+        {
+          "name": "priority",
+          "type": "SDL_LogPriority",
+          "location": {
+            "file": "SDL_log.h",
+            "line": 111,
+            "column": 3
+          }
+        },
+        {
+          "name": "message",
+          "type": "char*",
+          "location": {
+            "file": "SDL_log.h",
+            "line": 342,
+            "column": 115
+          }
+        }
+      ],
       "location": {
         "file": "SDL_log.h",
         "line": 342,
@@ -19867,7 +19923,44 @@
       "name": "SDL_HintCallback",
       "type": "SDL_HintCallback",
       "returnType": "void",
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "userdata",
+          "type": "void*",
+          "location": {
+            "file": "SDL_hints.h",
+            "line": 1744,
+            "column": 48
+          }
+        },
+        {
+          "name": "name",
+          "type": "char*",
+          "location": {
+            "file": "SDL_hints.h",
+            "line": 1744,
+            "column": 70
+          }
+        },
+        {
+          "name": "oldValue",
+          "type": "char*",
+          "location": {
+            "file": "SDL_hints.h",
+            "line": 1744,
+            "column": 88
+          }
+        },
+        {
+          "name": "newValue",
+          "type": "char*",
+          "location": {
+            "file": "SDL_hints.h",
+            "line": 1744,
+            "column": 110
+          }
+        }
+      ],
       "location": {
         "file": "SDL_hints.h",
         "line": 1744,
@@ -19878,7 +19971,26 @@
       "name": "SDL_EventFilter",
       "type": "SDL_EventFilter",
       "returnType": "int",
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "userdata",
+          "type": "void*",
+          "location": {
+            "file": "SDL_events.h",
+            "line": 919,
+            "column": 48
+          }
+        },
+        {
+          "name": "event",
+          "type": "SDL_Event*",
+          "location": {
+            "file": "SDL_events.h",
+            "line": 631,
+            "column": 3
+          }
+        }
+      ],
       "location": {
         "file": "SDL_events.h",
         "line": 919,
@@ -19889,7 +20001,35 @@
       "name": "SDL_HitTest",
       "type": "SDL_HitTest",
       "returnType": "SDL_HitTestResult",
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "win",
+          "type": "SDL_Window*",
+          "location": {
+            "file": "SDL_video.h",
+            "line": 94,
+            "column": 27
+          }
+        },
+        {
+          "name": "area",
+          "type": "SDL_Point*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 52,
+            "column": 3
+          }
+        },
+        {
+          "name": "data",
+          "type": "void*",
+          "location": {
+            "file": "SDL_video.h",
+            "line": 1466,
+            "column": 56
+          }
+        }
+      ],
       "location": {
         "file": "SDL_video.h",
         "line": 1464,
@@ -19900,7 +20040,26 @@
       "name": "SDL_AudioFilter",
       "type": "SDL_AudioFilter",
       "returnType": "void",
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "cvt",
+          "type": "SDL_AudioCVT*",
+          "location": {
+            "file": "SDL_audio.h",
+            "line": 228,
+            "column": 16
+          }
+        },
+        {
+          "name": "format",
+          "type": "SDL_AudioFormat",
+          "location": {
+            "file": "SDL_audio.h",
+            "line": 66,
+            "column": 16
+          }
+        }
+      ],
       "location": {
         "file": "SDL_audio.h",
         "line": 195,
@@ -19911,7 +20070,35 @@
       "name": "SDL_AudioCallback",
       "type": "SDL_AudioCallback",
       "returnType": "void",
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "userdata",
+          "type": "void*",
+          "location": {
+            "file": "SDL_audio.h",
+            "line": 165,
+            "column": 51
+          }
+        },
+        {
+          "name": "stream",
+          "type": "Uint8*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 185,
+            "column": 17
+          }
+        },
+        {
+          "name": "len",
+          "type": "int",
+          "location": {
+            "file": "SDL_audio.h",
+            "line": 166,
+            "column": 49
+          }
+        }
+      ],
       "location": {
         "file": "SDL_audio.h",
         "line": 165,
@@ -19922,7 +20109,17 @@
       "name": "SDL_ThreadFunction",
       "type": "SDL_ThreadFunction",
       "returnType": "int",
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "data",
+          "type": "void*",
+          "location": {
+            "file": "SDL_thread.h",
+            "line": 88,
+            "column": 51
+          }
+        }
+      ],
       "location": {
         "file": "SDL_thread.h",
         "line": 88,
@@ -19933,7 +20130,26 @@
       "name": "SDL_AssertionHandler",
       "type": "SDL_AssertionHandler",
       "returnType": "SDL_AssertState",
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "data",
+          "type": "SDL_AssertData*",
+          "location": {
+            "file": "SDL_assert.h",
+            "line": 124,
+            "column": 3
+          }
+        },
+        {
+          "name": "userdata",
+          "type": "void*",
+          "location": {
+            "file": "SDL_assert.h",
+            "line": 201,
+            "column": 68
+          }
+        }
+      ],
       "location": {
         "file": "SDL_assert.h",
         "line": 200,
@@ -19944,7 +20160,17 @@
       "name": "SDL_free_func",
       "type": "SDL_free_func",
       "returnType": "void",
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "mem",
+          "type": "void*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 403,
+            "column": 45
+          }
+        }
+      ],
       "location": {
         "file": "SDL_stdinc.h",
         "line": 403,
@@ -19955,7 +20181,27 @@
       "name": "SDL_realloc_func",
       "type": "SDL_realloc_func",
       "returnType": "void*",
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "mem",
+          "type": "void*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 402,
+            "column": 49
+          }
+        },
+        {
+          "name": "size",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
       "location": {
         "file": "SDL_stdinc.h",
         "line": 402,
@@ -19966,7 +20212,28 @@
       "name": "SDL_calloc_func",
       "type": "SDL_calloc_func",
       "returnType": "void*",
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "nmemb",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        },
+        {
+          "name": "size",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
       "location": {
         "file": "SDL_stdinc.h",
         "line": 401,
@@ -19977,7 +20244,18 @@
       "name": "SDL_malloc_func",
       "type": "SDL_malloc_func",
       "returnType": "void*",
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "size",
+          "type": "size_t",
+          "location": {
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
+            "isSystem": true
+          }
+        }
+      ],
       "location": {
         "file": "SDL_stdinc.h",
         "line": 400,
@@ -20401,9 +20679,8 @@
         },
         {
           "name": "padding",
-          "type": "Uint8",
+          "type": "Uint8[2]",
           "offset": 18,
-          "padding": 1,
           "location": {
             "file": ""
           }
@@ -20756,9 +21033,8 @@
         },
         {
           "name": "texture_formats",
-          "type": "Uint32",
+          "type": "Uint32[16]",
           "offset": 16,
-          "padding": 60,
           "location": {
             "file": ""
           }
@@ -20880,7 +21156,7 @@
       "fields": [
         {
           "name": "colors",
-          "type": "SDL_MessageBoxColor",
+          "type": "SDL_MessageBoxColor[5]",
           "location": {
             "file": ""
           }
@@ -21221,7 +21497,7 @@
         },
         {
           "name": "dir",
-          "type": "Sint32",
+          "type": "Sint32[3]",
           "offset": 4,
           "location": {
             "file": ""
@@ -21486,54 +21762,49 @@
         },
         {
           "name": "right_sat",
-          "type": "Uint16",
+          "type": "Uint16[3]",
           "offset": 30,
-          "padding": 4,
           "location": {
             "file": ""
           }
         },
         {
           "name": "left_sat",
-          "type": "Uint16",
+          "type": "Uint16[3]",
           "offset": 36,
-          "padding": 4,
           "location": {
             "file": ""
           }
         },
         {
           "name": "right_coeff",
-          "type": "Sint16",
+          "type": "Sint16[3]",
           "offset": 42,
-          "padding": 4,
           "location": {
             "file": ""
           }
         },
         {
           "name": "left_coeff",
-          "type": "Sint16",
+          "type": "Sint16[3]",
           "offset": 48,
-          "padding": 4,
           "location": {
             "file": ""
           }
         },
         {
           "name": "deadband",
-          "type": "Uint16",
+          "type": "Uint16[3]",
           "offset": 54,
-          "padding": 4,
           "location": {
             "file": ""
           }
         },
         {
           "name": "center",
-          "type": "Sint16",
+          "type": "Sint16[3]",
           "offset": 60,
-          "padding": 6,
+          "padding": 2,
           "location": {
             "file": ""
           }
@@ -22088,8 +22359,7 @@
         },
         {
           "name": "padding",
-          "type": "Uint8",
-          "padding": 55,
+          "type": "Uint8[56]",
           "location": {
             "file": ""
           }
@@ -22536,7 +22806,6 @@
           "name": "code",
           "type": "Sint32",
           "offset": 12,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -22629,7 +22898,6 @@
           "name": "which",
           "type": "Sint32",
           "offset": 8,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -22638,9 +22906,8 @@
         },
         {
           "name": "data",
-          "type": "float",
+          "type": "float[6]",
           "offset": 12,
-          "padding": 20,
           "location": {
             "file": ""
           }
@@ -22771,7 +23038,6 @@
           "name": "sensor",
           "type": "Sint32",
           "offset": 12,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -22780,9 +23046,8 @@
         },
         {
           "name": "data",
-          "type": "float",
+          "type": "float[3]",
           "offset": 16,
-          "padding": 8,
           "location": {
             "file": ""
           }
@@ -22832,7 +23097,6 @@
           "name": "touchpad",
           "type": "Sint32",
           "offset": 12,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -22843,7 +23107,6 @@
           "name": "finger",
           "type": "Sint32",
           "offset": 16,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -22915,7 +23178,6 @@
           "name": "which",
           "type": "Sint32",
           "offset": 8,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -23139,7 +23401,6 @@
           "name": "which",
           "type": "Sint32",
           "offset": 8,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -23565,7 +23826,6 @@
           "name": "x",
           "type": "Sint32",
           "offset": 16,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -23576,7 +23836,6 @@
           "name": "y",
           "type": "Sint32",
           "offset": 20,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -23688,7 +23947,6 @@
           "name": "x",
           "type": "Sint32",
           "offset": 20,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -23699,7 +23957,6 @@
           "name": "y",
           "type": "Sint32",
           "offset": 24,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -23771,7 +24028,6 @@
           "name": "x",
           "type": "Sint32",
           "offset": 20,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -23782,7 +24038,6 @@
           "name": "y",
           "type": "Sint32",
           "offset": 24,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -23793,7 +24048,6 @@
           "name": "xrel",
           "type": "Sint32",
           "offset": 28,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -23804,7 +24058,6 @@
           "name": "yrel",
           "type": "Sint32",
           "offset": 32,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -23854,9 +24107,8 @@
         },
         {
           "name": "text",
-          "type": "char",
+          "type": "char[32]",
           "offset": 12,
-          "padding": 31,
           "location": {
             "file": ""
           }
@@ -23904,9 +24156,8 @@
         },
         {
           "name": "text",
-          "type": "char",
+          "type": "char[32]",
           "offset": 12,
-          "padding": 31,
           "location": {
             "file": ""
           }
@@ -23915,7 +24166,6 @@
           "name": "start",
           "type": "Sint32",
           "offset": 44,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -23926,7 +24176,6 @@
           "name": "length",
           "type": "Sint32",
           "offset": 48,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -24161,7 +24410,6 @@
           "name": "data1",
           "type": "Sint32",
           "offset": 16,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -24172,7 +24420,6 @@
           "name": "data2",
           "type": "Sint32",
           "offset": 20,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -24264,7 +24511,6 @@
           "name": "data1",
           "type": "Sint32",
           "offset": 16,
-          "padding": -8,
           "location": {
             "file": "SDL_stdinc.h",
             "line": 203,
@@ -24472,8 +24718,7 @@
       "fields": [
         {
           "name": "data",
-          "type": "Uint8",
-          "padding": 15,
+          "type": "Uint8[16]",
           "location": {
             "file": ""
           }
@@ -24642,7 +24887,7 @@
         },
         {
           "name": "filters",
-          "type": "SDL_AudioFilter",
+          "type": "SDL_AudioFilter[10]",
           "offset": 44,
           "location": {
             "file": ""
@@ -30013,6 +30258,17 @@
       }
     },
     {
+      "name": "Uint8[2]",
+      "kind": "pointer",
+      "sizeOf": 2,
+      "alignOf": 1,
+      "sizeOfElement": 1,
+      "arraySize": 2,
+      "location": {
+        "file": ""
+      }
+    },
+    {
       "name": "SDL_Color*",
       "kind": "pointer",
       "sizeOf": 8,
@@ -30286,6 +30542,17 @@
       }
     },
     {
+      "name": "Uint32[16]",
+      "kind": "pointer",
+      "sizeOf": 64,
+      "alignOf": 4,
+      "sizeOfElement": 4,
+      "arraySize": 16,
+      "location": {
+        "file": ""
+      }
+    },
+    {
       "name": "SDL_Window**",
       "kind": "pointer",
       "sizeOf": 8,
@@ -30396,8 +30663,8 @@
       }
     },
     {
-      "name": "SDL_MessageBoxColor",
-      "kind": "typedef",
+      "name": "SDL_MessageBoxColor[5]",
+      "kind": "pointer",
       "sizeOf": 15,
       "alignOf": 1,
       "sizeOfElement": 3,
@@ -30407,19 +30674,19 @@
       }
     },
     {
-      "name": "SDL_LogOutputFunction",
+      "name": "SDL_MessageBoxColor",
       "kind": "typedef",
-      "sizeOf": 8,
-      "alignOf": 8,
+      "sizeOf": 3,
+      "alignOf": 1,
       "location": {
-        "file": "SDL_log.h",
-        "line": 342,
-        "column": 24
+        "file": "SDL_messagebox.h",
+        "line": 71,
+        "column": 3
       }
     },
     {
-      "name": "SDL_LogOutputFunction*",
-      "kind": "pointer",
+      "name": "SDL_LogOutputFunction",
+      "kind": "typedef",
       "sizeOf": 8,
       "alignOf": 8,
       "location": {
@@ -30437,6 +30704,17 @@
         "file": "SDL_log.h",
         "line": 111,
         "column": 3
+      }
+    },
+    {
+      "name": "SDL_LogOutputFunction*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_log.h",
+        "line": 342,
+        "column": 24
       }
     },
     {
@@ -30610,14 +30888,25 @@
       }
     },
     {
-      "name": "Sint32",
-      "kind": "typedef",
+      "name": "Sint32[3]",
+      "kind": "pointer",
       "sizeOf": 12,
       "alignOf": 4,
       "sizeOfElement": 4,
       "arraySize": 3,
       "location": {
         "file": ""
+      }
+    },
+    {
+      "name": "Sint32",
+      "kind": "typedef",
+      "sizeOf": 4,
+      "alignOf": 4,
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 203,
+        "column": 17
       }
     },
     {
@@ -30644,6 +30933,28 @@
       "sizeOf": 2,
       "alignOf": 2,
       "isSystem": true
+    },
+    {
+      "name": "Uint16[3]",
+      "kind": "pointer",
+      "sizeOf": 6,
+      "alignOf": 2,
+      "sizeOfElement": 2,
+      "arraySize": 3,
+      "location": {
+        "file": ""
+      }
+    },
+    {
+      "name": "Sint16[3]",
+      "kind": "pointer",
+      "sizeOf": 6,
+      "alignOf": 2,
+      "sizeOfElement": 2,
+      "arraySize": 3,
+      "location": {
+        "file": ""
+      }
     },
     {
       "name": "uint16_t",
@@ -30675,17 +30986,6 @@
     {
       "name": "SDL_EventFilter",
       "kind": "typedef",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "location": {
-        "file": "SDL_events.h",
-        "line": 919,
-        "column": 24
-      }
-    },
-    {
-      "name": "SDL_EventFilter*",
-      "kind": "pointer",
       "sizeOf": 8,
       "alignOf": 8,
       "location": {
@@ -31025,6 +31325,17 @@
       }
     },
     {
+      "name": "Uint8[56]",
+      "kind": "pointer",
+      "sizeOf": 56,
+      "alignOf": 1,
+      "sizeOfElement": 1,
+      "arraySize": 56,
+      "location": {
+        "file": ""
+      }
+    },
+    {
       "name": "SDL_TouchID",
       "kind": "typedef",
       "sizeOf": 8,
@@ -31096,6 +31407,15 @@
       }
     },
     {
+      "name": "float[6]",
+      "kind": "pointer",
+      "sizeOf": 24,
+      "alignOf": 4,
+      "sizeOfElement": 4,
+      "arraySize": 6,
+      "isSystem": true
+    },
+    {
       "name": "SDL_JoystickID",
       "kind": "typedef",
       "sizeOf": 4,
@@ -31105,6 +31425,24 @@
         "line": 83,
         "column": 16
       }
+    },
+    {
+      "name": "float[3]",
+      "kind": "pointer",
+      "sizeOf": 12,
+      "alignOf": 4,
+      "sizeOfElement": 4,
+      "arraySize": 3,
+      "isSystem": true
+    },
+    {
+      "name": "char[32]",
+      "kind": "pointer",
+      "sizeOf": 32,
+      "alignOf": 1,
+      "sizeOfElement": 1,
+      "arraySize": 32,
+      "isSystem": true
     },
     {
       "name": "SDL_Keysym",
@@ -31137,6 +31475,17 @@
         "file": "SDL_keycode.h",
         "line": 45,
         "column": 16
+      }
+    },
+    {
+      "name": "SDL_EventFilter*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_events.h",
+        "line": 919,
+        "column": 24
       }
     },
     {
@@ -31322,6 +31671,17 @@
         "file": "SDL_joystick.h",
         "line": 74,
         "column": 3
+      }
+    },
+    {
+      "name": "Uint8[16]",
+      "kind": "pointer",
+      "sizeOf": 16,
+      "alignOf": 1,
+      "sizeOfElement": 1,
+      "arraySize": 16,
+      "location": {
+        "file": ""
       }
     },
     {
@@ -31612,14 +31972,25 @@
       }
     },
     {
-      "name": "SDL_AudioFilter",
-      "kind": "typedef",
+      "name": "SDL_AudioFilter[10]",
+      "kind": "pointer",
       "sizeOf": 80,
       "alignOf": 8,
       "sizeOfElement": 8,
       "arraySize": 10,
       "location": {
         "file": ""
+      }
+    },
+    {
+      "name": "SDL_AudioFilter",
+      "kind": "typedef",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_audio.h",
+        "line": 195,
+        "column": 25
       }
     },
     {
