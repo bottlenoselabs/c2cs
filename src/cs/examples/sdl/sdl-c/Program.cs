@@ -64,10 +64,18 @@ cs
 {rootDirectory}/src/cs/examples/sdl/sdl-c/ast.json
 -o
 {rootDirectory}/src/cs/examples/sdl/sdl-cs/SDL.cs
--c
-{Environment.CurrentDirectory}/config_csharp.json
 -l
 SDL2
+-a
+SDL_bool -> CBool
+Uint8 -> byte
+Uint16 -> ushort
+Uint32 -> uint
+Uint64 -> ulong
+Sint8 -> sbyte
+Sint16 -> short
+Sint32 -> int
+Sint64 -> long
 ";
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);

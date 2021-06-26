@@ -653,7 +653,7 @@ public enum {@enum.Name} : {@enum.IntegerType}
 				return syntax;
 			}
 
-			var up = new CSharpCodeGenerationException($"Error generating C# code for {typeof(T)}.");
+			var up = new CSharpCodeGenerationException($"Error generating C# code for {typeof(T).Name}.");
 			throw up;
 		}
 

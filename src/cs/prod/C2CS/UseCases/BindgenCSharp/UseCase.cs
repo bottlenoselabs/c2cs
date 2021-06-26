@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using System.Collections.Immutable;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -14,24 +15,17 @@ namespace C2CS.UseCases.BindgenCSharp
         protected override void Execute(Request request, Response response)
         {
             Validate(request);
-            TotalSteps(5);
-
-            var configuration = Step(
-                "Load configuration from disk",
-                request.InputFile.FullName,
-                request.ConfigurationFile?.FullName ?? string.Empty,
-                LoadConfiguration);
+            TotalSteps(4);
 
             var abstractSyntaxTreeC = Step(
                 "Load C abstract syntax tree from disk",
                 request.InputFile.FullName,
-                configuration,
                 LoadAbstractSyntaxTree);
 
             var abstractSyntaxTreeCSharp = Step(
                 "Map C abstract syntax tree to C#",
                 abstractSyntaxTreeC,
-                configuration,
+                request.TypeAliases,
                 MapCToCSharp);
 
             var className = Path.GetFileNameWithoutExtension(request.OutputFile.FullName);
@@ -58,20 +52,7 @@ namespace C2CS.UseCases.BindgenCSharp
             }
         }
 
-        private static Configuration LoadConfiguration(string inputFilePath, string configurationFilePath)
-        {
-            if (string.IsNullOrEmpty(configurationFilePath))
-            {
-                return new Configuration();
-            }
-
-            var fileContents = File.ReadAllText(configurationFilePath);
-            var configuration = JsonSerializer.Deserialize<Configuration>(fileContents)!;
-
-            return configuration;
-        }
-
-        private CAbstractSyntaxTree LoadAbstractSyntaxTree(string inputFilePath, Configuration configuration)
+        private static CAbstractSyntaxTree LoadAbstractSyntaxTree(string inputFilePath)
         {
             var fileContents = File.ReadAllText(inputFilePath);
 
@@ -84,15 +65,16 @@ namespace C2CS.UseCases.BindgenCSharp
                     new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
                 }
             };
+
             var abstractSyntaxTree = JsonSerializer.Deserialize<CAbstractSyntaxTree>(fileContents, options)!;
             return abstractSyntaxTree;
         }
 
         private static CSharpAbstractSyntaxTree MapCToCSharp(
             CAbstractSyntaxTree abstractSyntaxTree,
-            Configuration configuration)
+            ImmutableArray<CSharpTypeAlias> typeAliases)
         {
-            var mapper = new CSharpMapper(configuration);
+            var mapper = new CSharpMapper(typeAliases);
             return mapper.AbstractSyntaxTree(abstractSyntaxTree);
         }
 

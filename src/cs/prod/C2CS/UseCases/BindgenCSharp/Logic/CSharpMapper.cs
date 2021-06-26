@@ -27,16 +27,16 @@ namespace C2CS.UseCases.BindgenCSharp
             {"int (void *, void *)", "FnPtrPointerPointerInt"},
         };
 
-        public CSharpMapper(Configuration configuration)
+        public CSharpMapper(ImmutableArray<CSharpTypeAlias> typeAliases)
         {
             var aliasesLookup = new Dictionary<string, string>();
             var builtinAliases = new HashSet<string>();
 
-            foreach (var alias in configuration.Aliases)
+            foreach (var typeAlias in typeAliases)
             {
-                aliasesLookup.Add(alias.From, alias.To);
+                aliasesLookup.Add(typeAlias.From, typeAlias.To);
 
-                if (alias.To
+                if (typeAlias.To
                     is "byte"
                     or "sbyte"
                     or "short"
@@ -47,7 +47,7 @@ namespace C2CS.UseCases.BindgenCSharp
                     or "ulong"
                     or "CBool")
                 {
-                    builtinAliases.Add(alias.From);
+                    builtinAliases.Add(typeAlias.From);
                 }
             }
 

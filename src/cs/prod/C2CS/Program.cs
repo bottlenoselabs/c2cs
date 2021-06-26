@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.IO;
-using C2CS.UseCases.BindgenCSharp;
 
 namespace C2CS
 {
@@ -132,13 +131,13 @@ namespace C2CS
 			};
 			command.AddOption(outputFileOption);
 
-			var configFileOption = new Option<FileInfo>(
-				new[] {"--configurationFile", "-c"},
-				"Path of the `.json` configuration file. If not specified default values for configuration are used. Configuration is intended for advanced scenarios; for more information see developer documentation.")
+			var typeAliasesOption = new Option<IEnumerable<string?>?>(
+				new[] {"--typeAliases", "-a"},
+				"Types by name that will be remapped.")
 			{
 				IsRequired = false
 			};
-			command.AddOption(configFileOption);
+			command.AddOption(typeAliasesOption);
 
 			var libraryNameOption = new Option<string?>(
 				new[] {"--libraryName", "-l"},
@@ -148,7 +147,7 @@ namespace C2CS
 			};
 			command.AddOption(libraryNameOption);
 
-			command.Handler = CommandHandler.Create<FileInfo, FileInfo, FileInfo, string>(BindgenCSharp);
+			command.Handler = CommandHandler.Create<FileInfo, FileInfo, IEnumerable<string?>?, string>(BindgenCSharp);
 			return command;
 		}
 
@@ -179,13 +178,13 @@ namespace C2CS
 		private static void BindgenCSharp(
 			FileInfo inputFile,
 			FileInfo outputFile,
-			FileInfo configurationFile,
+			IEnumerable<string?>? typeAliases,
 			string? libraryName)
 		{
 			var libraryName2 = string.IsNullOrEmpty(libraryName) ? string.Empty : libraryName;
 
 			var request = new UseCases.BindgenCSharp.Request(
-				inputFile, outputFile, configurationFile, libraryName2);
+				inputFile, outputFile, typeAliases, libraryName2);
 			var useCase = new UseCases.BindgenCSharp.UseCase();
 			useCase.Execute(request);
 		}
