@@ -18783,7 +18783,7 @@
     },
     {
       "name": "float[60]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 240,
       "alignOf": 4,
       "sizeOfElement": 4,
@@ -19340,7 +19340,7 @@
     },
     {
       "name": "ecs_term_id_t[2]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 96,
       "alignOf": 8,
       "sizeOfElement": 48,
@@ -19890,7 +19890,7 @@
     },
     {
       "name": "ecs_term_t[16]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 3072,
       "alignOf": 8,
       "sizeOfElement": 192,
@@ -19903,7 +19903,7 @@
     },
     {
       "name": "ecs_id_t[32]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 256,
       "alignOf": 8,
       "sizeOfElement": 8,
@@ -19949,7 +19949,7 @@
     },
     {
       "name": "ecs_entity_t[8]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 64,
       "alignOf": 8,
       "sizeOfElement": 8,
@@ -20134,7 +20134,7 @@
     },
     {
       "name": "char**",
-      "kind": "pointer",
+      "kind": "array",
       "alignOf": 8,
       "isSystem": true
     },
@@ -20619,7 +20619,7 @@
     },
     {
       "name": "ecs_strbuf_list_elem[32]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 512,
       "alignOf": 8,
       "sizeOfElement": 16,
@@ -20643,7 +20643,7 @@
     },
     {
       "name": "char[512]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 512,
       "alignOf": 1,
       "sizeOfElement": 1,
