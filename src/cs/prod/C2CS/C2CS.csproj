@@ -31,6 +31,7 @@
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.10.0-2.final" />
         <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="3.10.0-2.final" />
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20574.7" />
+<!--        <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="6.0.0-*" />-->
     </ItemGroup>
     
     <!-- Project references -->

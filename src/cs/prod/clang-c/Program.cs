@@ -23,8 +23,6 @@ ast
 {rootDirectory}/ext/clang/include
 -o
 {rootDirectory}/src/cs/prod/clang-c/ast.json
--c
-{rootDirectory}/src/cs/examples/sokol/sokol-c/config_c.json
 ";
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);

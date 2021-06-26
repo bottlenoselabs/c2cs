@@ -11,6 +11,7 @@
 //-------------------------------------------------------------------------------------
 using System;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 #nullable enable
 
@@ -29,1535 +30,2049 @@ public static unsafe partial class clang
             libraryFilePath = $@"{libraryFileNamePrefix}{LibraryName}{libraryFileNameExtension}";
         }
         _libraryHandle = Runtime.LibraryLoad(libraryFilePath);
-        if (_libraryHandle == IntPtr.Zero)
-            throw new Exception($"Failed to load library: {libraryFilePath}");
-        LoadExports();
+        if (_libraryHandle == IntPtr.Zero) throw new Exception($"Failed to load library: {libraryFilePath}");
+        _LoadVirtualTable();
     }
 
     public static void UnloadApi()
     {
-        if (_libraryHandle == IntPtr.Zero)
-            return;
-        UnloadExports();
+        if (_libraryHandle == IntPtr.Zero) return;
+        _UnloadVirtualTable();
         Runtime.LibraryUnload(_libraryHandle);
     }
 
-    private static void LoadExports()
+    // Function @ Index.h:6768:25
+    public static uint clang_Type_visitFields(CXType T, CXFieldVisitor visitor, CXClientData client_data)
     {
-
+        return _virtualTable.clang_Type_visitFields(T, visitor, client_data);
     }
 
-    private static void UnloadExports()
+    // Function @ Index.h:6733:18
+    public static CXSourceLocation clang_indexLoc_getCXSourceLocation(CXIdxLoc loc)
     {
-
+        return _virtualTable.clang_indexLoc_getCXSourceLocation(loc);
     }
 
-    // Function @ CXString.h:50
-    [DllImport(LibraryName, EntryPoint = "clang_getCString", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString clang_getCString(CXString @string);
-
-    // Function @ CXString.h:55
-    [DllImport(LibraryName, EntryPoint = "clang_disposeString", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_disposeString(CXString @string);
-
-    // Function @ CXString.h:60
-    [DllImport(LibraryName, EntryPoint = "clang_disposeStringSet", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_disposeStringSet(CXStringSet* set);
-
-    // Function @ BuildSystem.h:33
-    [DllImport(LibraryName, EntryPoint = "clang_getBuildSessionTimestamp", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong clang_getBuildSessionTimestamp();
-
-    // Function @ BuildSystem.h:48
-    [DllImport(LibraryName, EntryPoint = "clang_VirtualFileOverlay_create", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXVirtualFileOverlay clang_VirtualFileOverlay_create(uint options);
-
-    // Function @ BuildSystem.h:56
-    [DllImport(LibraryName, EntryPoint = "clang_VirtualFileOverlay_addFileMapping", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_VirtualFileOverlay_addFileMapping(CXVirtualFileOverlay param, CString virtualPath, CString realPath);
-
-    // Function @ BuildSystem.h:67
-    [DllImport(LibraryName, EntryPoint = "clang_VirtualFileOverlay_setCaseSensitivity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_VirtualFileOverlay_setCaseSensitivity(CXVirtualFileOverlay param, int caseSensitive);
-
-    // Function @ BuildSystem.h:80
-    [DllImport(LibraryName, EntryPoint = "clang_VirtualFileOverlay_writeToBuffer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_VirtualFileOverlay_writeToBuffer(CXVirtualFileOverlay param, uint options, CString* out_buffer_ptr, ulong* out_buffer_size);
-
-    // Function @ BuildSystem.h:90
-    [DllImport(LibraryName, EntryPoint = "clang_free", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_free(void* buffer);
-
-    // Function @ BuildSystem.h:95
-    [DllImport(LibraryName, EntryPoint = "clang_VirtualFileOverlay_dispose", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_VirtualFileOverlay_dispose(CXVirtualFileOverlay param);
-
-    // Function @ BuildSystem.h:109
-    [DllImport(LibraryName, EntryPoint = "clang_ModuleMapDescriptor_create", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXModuleMapDescriptor clang_ModuleMapDescriptor_create(uint options);
-
-    // Function @ BuildSystem.h:116
-    [DllImport(LibraryName, EntryPoint = "clang_ModuleMapDescriptor_setFrameworkModuleName", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_ModuleMapDescriptor_setFrameworkModuleName(CXModuleMapDescriptor param, CString name);
-
-    // Function @ BuildSystem.h:124
-    [DllImport(LibraryName, EntryPoint = "clang_ModuleMapDescriptor_setUmbrellaHeader", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_ModuleMapDescriptor_setUmbrellaHeader(CXModuleMapDescriptor param, CString name);
-
-    // Function @ BuildSystem.h:137
-    [DllImport(LibraryName, EntryPoint = "clang_ModuleMapDescriptor_writeToBuffer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_ModuleMapDescriptor_writeToBuffer(CXModuleMapDescriptor param, uint options, CString* out_buffer_ptr, ulong* out_buffer_size);
-
-    // Function @ BuildSystem.h:144
-    [DllImport(LibraryName, EntryPoint = "clang_ModuleMapDescriptor_dispose", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_ModuleMapDescriptor_dispose(CXModuleMapDescriptor param);
-
-    // Function @ Index.h:266
-    [DllImport(LibraryName, EntryPoint = "clang_createIndex", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXIndex clang_createIndex(int excludeDeclarationsFromPCH, int displayDiagnostics);
-
-    // Function @ Index.h:275
-    [DllImport(LibraryName, EntryPoint = "clang_disposeIndex", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_disposeIndex(CXIndex index);
-
-    // Function @ Index.h:324
-    [DllImport(LibraryName, EntryPoint = "clang_CXIndex_setGlobalOptions", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_CXIndex_setGlobalOptions(CXIndex param, uint options);
-
-    // Function @ Index.h:332
-    [DllImport(LibraryName, EntryPoint = "clang_CXIndex_getGlobalOptions", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_CXIndex_getGlobalOptions(CXIndex param);
-
-    // Function @ Index.h:342
-    [DllImport(LibraryName, EntryPoint = "clang_CXIndex_setInvocationEmissionPathOption", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_CXIndex_setInvocationEmissionPathOption(CXIndex param, CString Path);
-
-    // Function @ Index.h:358
-    [DllImport(LibraryName, EntryPoint = "clang_getFileName", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getFileName(CXFile SFile);
-
-    // Function @ Index.h:363
-    [DllImport(LibraryName, EntryPoint = "clang_getFileTime", CallingConvention = CallingConvention.Cdecl)]
-    public static extern time_t clang_getFileTime(CXFile SFile);
-
-    // Function @ Index.h:381
-    [DllImport(LibraryName, EntryPoint = "clang_getFileUniqueID", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_getFileUniqueID(CXFile file, CXFileUniqueID* outID);
-
-    // Function @ Index.h:388
-    [DllImport(LibraryName, EntryPoint = "clang_isFileMultipleIncludeGuarded", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_isFileMultipleIncludeGuarded(CXTranslationUnit tu, CXFile file);
-
-    // Function @ Index.h:401
-    [DllImport(LibraryName, EntryPoint = "clang_getFile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXFile clang_getFile(CXTranslationUnit tu, CString file_name);
-
-    // Function @ Index.h:416
-    [DllImport(LibraryName, EntryPoint = "clang_getFileContents", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString clang_getFileContents(CXTranslationUnit tu, CXFile file, ulong* size);
-
-    // Function @ Index.h:423
-    [DllImport(LibraryName, EntryPoint = "clang_File_isEqual", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_File_isEqual(CXFile file1, CXFile file2);
-
-    // Function @ Index.h:430
-    [DllImport(LibraryName, EntryPoint = "clang_File_tryGetRealPathName", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_File_tryGetRealPathName(CXFile file);
-
-    // Function @ Index.h:476
-    [DllImport(LibraryName, EntryPoint = "clang_getNullLocation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceLocation clang_getNullLocation();
-
-    // Function @ Index.h:486
-    [DllImport(LibraryName, EntryPoint = "clang_equalLocations", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_equalLocations(CXSourceLocation loc1, CXSourceLocation loc2);
-
-    // Function @ Index.h:493
-    [DllImport(LibraryName, EntryPoint = "clang_getLocation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceLocation clang_getLocation(CXTranslationUnit tu, CXFile file, uint line, uint column);
-
-    // Function @ Index.h:500
-    [DllImport(LibraryName, EntryPoint = "clang_getLocationForOffset", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceLocation clang_getLocationForOffset(CXTranslationUnit tu, CXFile file, uint offset);
-
-    // Function @ Index.h:507
-    [DllImport(LibraryName, EntryPoint = "clang_Location_isInSystemHeader", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_Location_isInSystemHeader(CXSourceLocation location);
-
-    // Function @ Index.h:513
-    [DllImport(LibraryName, EntryPoint = "clang_Location_isFromMainFile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_Location_isFromMainFile(CXSourceLocation location);
-
-    // Function @ Index.h:518
-    [DllImport(LibraryName, EntryPoint = "clang_getNullRange", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceRange clang_getNullRange();
-
-    // Function @ Index.h:524
-    [DllImport(LibraryName, EntryPoint = "clang_getRange", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceRange clang_getRange(CXSourceLocation begin, CXSourceLocation end);
-
-    // Function @ Index.h:532
-    [DllImport(LibraryName, EntryPoint = "clang_equalRanges", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_equalRanges(CXSourceRange range1, CXSourceRange range2);
-
-    // Function @ Index.h:538
-    [DllImport(LibraryName, EntryPoint = "clang_Range_isNull", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_Range_isNull(CXSourceRange range);
-
-    // Function @ Index.h:562
-    [DllImport(LibraryName, EntryPoint = "clang_getExpansionLocation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_getExpansionLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset);
-
-    // Function @ Index.h:607
-    [DllImport(LibraryName, EntryPoint = "clang_getPresumedLocation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_getPresumedLocation(CXSourceLocation location, CXString* filename, ulong* line, ulong* column);
-
-    // Function @ Index.h:619
-    [DllImport(LibraryName, EntryPoint = "clang_getInstantiationLocation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_getInstantiationLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset);
-
-    // Function @ Index.h:646
-    [DllImport(LibraryName, EntryPoint = "clang_getSpellingLocation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_getSpellingLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset);
-
-    // Function @ Index.h:674
-    [DllImport(LibraryName, EntryPoint = "clang_getFileLocation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_getFileLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset);
-
-    // Function @ Index.h:682
-    [DllImport(LibraryName, EntryPoint = "clang_getRangeStart", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceLocation clang_getRangeStart(CXSourceRange range);
-
-    // Function @ Index.h:688
-    [DllImport(LibraryName, EntryPoint = "clang_getRangeEnd", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceLocation clang_getRangeEnd(CXSourceRange range);
-
-    // Function @ Index.h:708
-    [DllImport(LibraryName, EntryPoint = "clang_getSkippedRanges", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceRangeList* clang_getSkippedRanges(CXTranslationUnit tu, CXFile file);
-
-    // Function @ Index.h:719
-    [DllImport(LibraryName, EntryPoint = "clang_getAllSkippedRanges", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceRangeList* clang_getAllSkippedRanges(CXTranslationUnit tu);
-
-    // Function @ Index.h:724
-    [DllImport(LibraryName, EntryPoint = "clang_disposeSourceRangeList", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_disposeSourceRangeList(CXSourceRangeList* ranges);
-
-    // Function @ Index.h:785
-    [DllImport(LibraryName, EntryPoint = "clang_getNumDiagnosticsInSet", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_getNumDiagnosticsInSet(CXDiagnosticSet Diags);
-
-    // Function @ Index.h:796
-    [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticInSet", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXDiagnostic clang_getDiagnosticInSet(CXDiagnosticSet Diags, uint Index);
-
-    // Function @ Index.h:841
-    [DllImport(LibraryName, EntryPoint = "clang_loadDiagnostics", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXDiagnosticSet clang_loadDiagnostics(CString file, CXLoadDiag_Error* error, CXString* errorString);
-
-    // Function @ Index.h:847
-    [DllImport(LibraryName, EntryPoint = "clang_disposeDiagnosticSet", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_disposeDiagnosticSet(CXDiagnosticSet Diags);
-
-    // Function @ Index.h:855
-    [DllImport(LibraryName, EntryPoint = "clang_getChildDiagnostics", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXDiagnosticSet clang_getChildDiagnostics(CXDiagnostic D);
-
-    // Function @ Index.h:861
-    [DllImport(LibraryName, EntryPoint = "clang_getNumDiagnostics", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_getNumDiagnostics(CXTranslationUnit Unit);
-
-    // Function @ Index.h:872
-    [DllImport(LibraryName, EntryPoint = "clang_getDiagnostic", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXDiagnostic clang_getDiagnostic(CXTranslationUnit Unit, uint Index);
-
-    // Function @ Index.h:882
-    [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticSetFromTU", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXDiagnosticSet clang_getDiagnosticSetFromTU(CXTranslationUnit Unit);
-
-    // Function @ Index.h:887
-    [DllImport(LibraryName, EntryPoint = "clang_disposeDiagnostic", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_disposeDiagnostic(CXDiagnostic Diagnostic);
-
-    // Function @ Index.h:972
-    [DllImport(LibraryName, EntryPoint = "clang_formatDiagnostic", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_formatDiagnostic(CXDiagnostic Diagnostic, uint Options);
-
-    // Function @ Index.h:982
-    [DllImport(LibraryName, EntryPoint = "clang_defaultDiagnosticDisplayOptions", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_defaultDiagnosticDisplayOptions();
-
-    // Function @ Index.h:988
-    [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticSeverity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXDiagnosticSeverity clang_getDiagnosticSeverity(CXDiagnostic param);
-
-    // Function @ Index.h:996
-    [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticLocation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceLocation clang_getDiagnosticLocation(CXDiagnostic param);
-
-    // Function @ Index.h:1001
-    [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticSpelling", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getDiagnosticSpelling(CXDiagnostic param);
-
-    // Function @ Index.h:1015
-    [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticOption", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getDiagnosticOption(CXDiagnostic Diag, CXString* Disable);
-
-    // Function @ Index.h:1028
-    [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticCategory", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_getDiagnosticCategory(CXDiagnostic param);
-
-    // Function @ Index.h:1041
-    [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticCategoryName", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getDiagnosticCategoryName(uint Category);
-
-    // Function @ Index.h:1048
-    [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticCategoryText", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getDiagnosticCategoryText(CXDiagnostic param);
-
-    // Function @ Index.h:1054
-    [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticNumRanges", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_getDiagnosticNumRanges(CXDiagnostic param);
-
-    // Function @ Index.h:1069
-    [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticRange", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceRange clang_getDiagnosticRange(CXDiagnostic Diagnostic, uint Range);
-
-    // Function @ Index.h:1076
-    [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticNumFixIts", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_getDiagnosticNumFixIts(CXDiagnostic Diagnostic);
-
-    // Function @ Index.h:1103
-    [DllImport(LibraryName, EntryPoint = "clang_getDiagnosticFixIt", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getDiagnosticFixIt(CXDiagnostic Diagnostic, uint FixIt, CXSourceRange* ReplacementRange);
-
-    // Function @ Index.h:1124
-    [DllImport(LibraryName, EntryPoint = "clang_getTranslationUnitSpelling", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getTranslationUnitSpelling(CXTranslationUnit CTUnit);
-
-    // Function @ Index.h:1166
-    [DllImport(LibraryName, EntryPoint = "clang_createTranslationUnitFromSourceFile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTranslationUnit clang_createTranslationUnitFromSourceFile(CXIndex CIdx, CString source_filename, int num_clang_command_line_args, CString* clang_command_line_args, uint num_unsaved_files, CXUnsavedFile* unsaved_files);
-
-    // Function @ Index.h:1178
-    [DllImport(LibraryName, EntryPoint = "clang_createTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTranslationUnit clang_createTranslationUnit(CXIndex CIdx, CString ast_filename);
-
-    // Function @ Index.h:1189
-    [DllImport(LibraryName, EntryPoint = "clang_createTranslationUnit2", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_createTranslationUnit2(CXIndex CIdx, CString ast_filename, CXTranslationUnit* out_TU);
-
-    // Function @ Index.h:1360
-    [DllImport(LibraryName, EntryPoint = "clang_defaultEditingTranslationUnitOptions", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_defaultEditingTranslationUnitOptions();
-
-    // Function @ Index.h:1368
-    [DllImport(LibraryName, EntryPoint = "clang_parseTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTranslationUnit clang_parseTranslationUnit(CXIndex CIdx, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
-
-    // Function @ Index.h:1418
-    [DllImport(LibraryName, EntryPoint = "clang_parseTranslationUnit2", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_parseTranslationUnit2(CXIndex CIdx, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
-
-    // Function @ Index.h:1429
-    [DllImport(LibraryName, EntryPoint = "clang_parseTranslationUnit2FullArgv", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXErrorCode clang_parseTranslationUnit2FullArgv(CXIndex CIdx, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
-
-    // Function @ Index.h:1458
-    [DllImport(LibraryName, EntryPoint = "clang_defaultSaveOptions", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_defaultSaveOptions(CXTranslationUnit TU);
-
-    // Function @ Index.h:1518
-    [DllImport(LibraryName, EntryPoint = "clang_saveTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_saveTranslationUnit(CXTranslationUnit TU, CString FileName, uint options);
-
-    // Function @ Index.h:1529
-    [DllImport(LibraryName, EntryPoint = "clang_suspendTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_suspendTranslationUnit(CXTranslationUnit param);
-
-    // Function @ Index.h:1534
-    [DllImport(LibraryName, EntryPoint = "clang_disposeTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_disposeTranslationUnit(CXTranslationUnit param);
-
-    // Function @ Index.h:1560
-    [DllImport(LibraryName, EntryPoint = "clang_defaultReparseOptions", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_defaultReparseOptions(CXTranslationUnit TU);
-
-    // Function @ Index.h:1602
-    [DllImport(LibraryName, EntryPoint = "clang_reparseTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_reparseTranslationUnit(CXTranslationUnit TU, uint num_unsaved_files, CXUnsavedFile* unsaved_files, uint options);
-
-    // Function @ Index.h:1637
-    [DllImport(LibraryName, EntryPoint = "clang_getTUResourceUsageName", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString clang_getTUResourceUsageName(CXTUResourceUsageKind kind);
-
-    // Function @ Index.h:1668
-    [DllImport(LibraryName, EntryPoint = "clang_getCXTUResourceUsage", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTUResourceUsage clang_getCXTUResourceUsage(CXTranslationUnit TU);
-
-    // Function @ Index.h:1670
-    [DllImport(LibraryName, EntryPoint = "clang_disposeCXTUResourceUsage", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_disposeCXTUResourceUsage(CXTUResourceUsage usage);
-
-    // Function @ Index.h:1678
-    [DllImport(LibraryName, EntryPoint = "clang_getTranslationUnitTargetInfo", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTargetInfo clang_getTranslationUnitTargetInfo(CXTranslationUnit CTUnit);
-
-    // Function @ Index.h:1683
-    [DllImport(LibraryName, EntryPoint = "clang_TargetInfo_dispose", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_TargetInfo_dispose(CXTargetInfo Info);
-
-    // Function @ Index.h:1690
-    [DllImport(LibraryName, EntryPoint = "clang_TargetInfo_getTriple", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_TargetInfo_getTriple(CXTargetInfo Info);
-
-    // Function @ Index.h:1697
-    [DllImport(LibraryName, EntryPoint = "clang_TargetInfo_getPointerWidth", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_TargetInfo_getPointerWidth(CXTargetInfo Info);
-
-    // Function @ Index.h:2697
-    [DllImport(LibraryName, EntryPoint = "clang_getNullCursor", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursor clang_getNullCursor();
-
-    // Function @ Index.h:2705
-    [DllImport(LibraryName, EntryPoint = "clang_getTranslationUnitCursor", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursor clang_getTranslationUnitCursor(CXTranslationUnit param);
-
-    // Function @ Index.h:2710
-    [DllImport(LibraryName, EntryPoint = "clang_equalCursors", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_equalCursors(CXCursor param, CXCursor param2);
-
-    // Function @ Index.h:2715
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_isNull", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_Cursor_isNull(CXCursor cursor);
-
-    // Function @ Index.h:2720
-    [DllImport(LibraryName, EntryPoint = "clang_hashCursor", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_hashCursor(CXCursor param);
-
-    // Function @ Index.h:2725
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorKind", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursorKind clang_getCursorKind(CXCursor param);
-
-    // Function @ Index.h:2730
-    [DllImport(LibraryName, EntryPoint = "clang_isDeclaration", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_isDeclaration(CXCursorKind param);
-
-    // Function @ Index.h:2740
-    [DllImport(LibraryName, EntryPoint = "clang_isInvalidDeclaration", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_isInvalidDeclaration(CXCursor param);
-
-    // Function @ Index.h:2750
-    [DllImport(LibraryName, EntryPoint = "clang_isReference", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_isReference(CXCursorKind param);
-
-    // Function @ Index.h:2755
-    [DllImport(LibraryName, EntryPoint = "clang_isExpression", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_isExpression(CXCursorKind param);
-
-    // Function @ Index.h:2760
-    [DllImport(LibraryName, EntryPoint = "clang_isStatement", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_isStatement(CXCursorKind param);
-
-    // Function @ Index.h:2765
-    [DllImport(LibraryName, EntryPoint = "clang_isAttribute", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_isAttribute(CXCursorKind param);
-
-    // Function @ Index.h:2770
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_hasAttrs", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Cursor_hasAttrs(CXCursor C);
-
-    // Function @ Index.h:2776
-    [DllImport(LibraryName, EntryPoint = "clang_isInvalid", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_isInvalid(CXCursorKind param);
-
-    // Function @ Index.h:2782
-    [DllImport(LibraryName, EntryPoint = "clang_isTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_isTranslationUnit(CXCursorKind param);
-
-    // Function @ Index.h:2788
-    [DllImport(LibraryName, EntryPoint = "clang_isPreprocessing", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_isPreprocessing(CXCursorKind param);
-
-    // Function @ Index.h:2794
-    [DllImport(LibraryName, EntryPoint = "clang_isUnexposed", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_isUnexposed(CXCursorKind param);
-
-    // Function @ Index.h:2820
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorLinkage", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXLinkageKind clang_getCursorLinkage(CXCursor cursor);
-
-    // Function @ Index.h:2846
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorVisibility", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXVisibilityKind clang_getCursorVisibility(CXCursor cursor);
-
-    // Function @ Index.h:2857
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorAvailability", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXAvailabilityKind clang_getCursorAvailability(CXCursor cursor);
-
-    // Function @ Index.h:2932
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorPlatformAvailability", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_getCursorPlatformAvailability(CXCursor cursor, long* always_deprecated, CXString* deprecated_message, long* always_unavailable, CXString* unavailable_message, CXPlatformAvailability* availability, int availability_size);
-
-    // Function @ Index.h:2941
-    [DllImport(LibraryName, EntryPoint = "clang_disposeCXPlatformAvailability", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_disposeCXPlatformAvailability(CXPlatformAvailability* availability);
-
-    // Function @ Index.h:2947
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getVarDeclInitializer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursor clang_Cursor_getVarDeclInitializer(CXCursor cursor);
-
-    // Function @ Index.h:2954
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_hasVarDeclGlobalStorage", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_Cursor_hasVarDeclGlobalStorage(CXCursor cursor);
-
-    // Function @ Index.h:2961
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_hasVarDeclExternalStorage", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_Cursor_hasVarDeclExternalStorage(CXCursor cursor);
-
-    // Function @ Index.h:2976
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorLanguage", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXLanguageKind clang_getCursorLanguage(CXCursor cursor);
-
-    // Function @ Index.h:2988
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorTLSKind", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTLSKind clang_getCursorTLSKind(CXCursor cursor);
-
-    // Function @ Index.h:2993
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTranslationUnit clang_Cursor_getTranslationUnit(CXCursor param);
-
-    // Function @ Index.h:3003
-    [DllImport(LibraryName, EntryPoint = "clang_createCXCursorSet", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursorSet clang_createCXCursorSet();
-
-    // Function @ Index.h:3008
-    [DllImport(LibraryName, EntryPoint = "clang_disposeCXCursorSet", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_disposeCXCursorSet(CXCursorSet cset);
-
-    // Function @ Index.h:3015
-    [DllImport(LibraryName, EntryPoint = "clang_CXCursorSet_contains", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_CXCursorSet_contains(CXCursorSet cset, CXCursor cursor);
-
-    // Function @ Index.h:3023
-    [DllImport(LibraryName, EntryPoint = "clang_CXCursorSet_insert", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_CXCursorSet_insert(CXCursorSet cset, CXCursor cursor);
-
-    // Function @ Index.h:3059
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorSemanticParent", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursor clang_getCursorSemanticParent(CXCursor cursor);
-
-    // Function @ Index.h:3095
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorLexicalParent", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursor clang_getCursorLexicalParent(CXCursor cursor);
-
-    // Function @ Index.h:3140
-    [DllImport(LibraryName, EntryPoint = "clang_getOverriddenCursors", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_getOverriddenCursors(CXCursor cursor, CXCursor** overridden, ulong* num_overridden);
-
-    // Function @ Index.h:3148
-    [DllImport(LibraryName, EntryPoint = "clang_disposeOverriddenCursors", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_disposeOverriddenCursors(CXCursor* overridden);
-
-    // Function @ Index.h:3154
-    [DllImport(LibraryName, EntryPoint = "clang_getIncludedFile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXFile clang_getIncludedFile(CXCursor cursor);
-
-    // Function @ Index.h:3186
-    [DllImport(LibraryName, EntryPoint = "clang_getCursor", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursor clang_getCursor(CXTranslationUnit param, CXSourceLocation param2);
-
-    // Function @ Index.h:3198
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorLocation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceLocation clang_getCursorLocation(CXCursor param);
-
-    // Function @ Index.h:3211
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorExtent", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceRange clang_getCursorExtent(CXCursor param);
-
-    // Function @ Index.h:3414
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_getCursorType(CXCursor C);
-
-    // Function @ Index.h:3422
-    [DllImport(LibraryName, EntryPoint = "clang_getTypeSpelling", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getTypeSpelling(CXType CT);
-
-    // Function @ Index.h:3430
-    [DllImport(LibraryName, EntryPoint = "clang_getTypedefDeclUnderlyingType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_getTypedefDeclUnderlyingType(CXCursor C);
-
-    // Function @ Index.h:3438
-    [DllImport(LibraryName, EntryPoint = "clang_getEnumDeclIntegerType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_getEnumDeclIntegerType(CXCursor C);
-
-    // Function @ Index.h:3448
-    [DllImport(LibraryName, EntryPoint = "clang_getEnumConstantDeclValue", CallingConvention = CallingConvention.Cdecl)]
-    public static extern long clang_getEnumConstantDeclValue(CXCursor C);
-
-    // Function @ Index.h:3459
-    [DllImport(LibraryName, EntryPoint = "clang_getEnumConstantDeclUnsignedValue", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong clang_getEnumConstantDeclUnsignedValue(CXCursor C);
-
-    // Function @ Index.h:3466
-    [DllImport(LibraryName, EntryPoint = "clang_getFieldDeclBitWidth", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_getFieldDeclBitWidth(CXCursor C);
-
-    // Function @ Index.h:3475
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getNumArguments", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_Cursor_getNumArguments(CXCursor C);
-
-    // Function @ Index.h:3484
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getArgument", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursor clang_Cursor_getArgument(CXCursor C, uint i);
-
-    // Function @ Index.h:3522
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getNumTemplateArguments", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_Cursor_getNumTemplateArguments(CXCursor C);
-
-    // Function @ Index.h:3541
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getTemplateArgumentKind", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTemplateArgumentKind clang_Cursor_getTemplateArgumentKind(CXCursor C, uint I);
-
-    // Function @ Index.h:3561
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getTemplateArgumentType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_Cursor_getTemplateArgumentType(CXCursor C, uint I);
-
-    // Function @ Index.h:3581
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getTemplateArgumentValue", CallingConvention = CallingConvention.Cdecl)]
-    public static extern long clang_Cursor_getTemplateArgumentValue(CXCursor C, uint I);
-
-    // Function @ Index.h:3602
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getTemplateArgumentUnsignedValue", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong clang_Cursor_getTemplateArgumentUnsignedValue(CXCursor C, uint I);
-
-    // Function @ Index.h:3610
-    [DllImport(LibraryName, EntryPoint = "clang_equalTypes", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_equalTypes(CXType A, CXType B);
-
-    // Function @ Index.h:3620
-    [DllImport(LibraryName, EntryPoint = "clang_getCanonicalType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_getCanonicalType(CXType T);
-
-    // Function @ Index.h:3627
-    [DllImport(LibraryName, EntryPoint = "clang_isConstQualifiedType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_isConstQualifiedType(CXType T);
-
-    // Function @ Index.h:3633
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_isMacroFunctionLike", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Cursor_isMacroFunctionLike(CXCursor C);
-
-    // Function @ Index.h:3639
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_isMacroBuiltin", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Cursor_isMacroBuiltin(CXCursor C);
-
-    // Function @ Index.h:3645
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_isFunctionInlined", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Cursor_isFunctionInlined(CXCursor C);
-
-    // Function @ Index.h:3652
-    [DllImport(LibraryName, EntryPoint = "clang_isVolatileQualifiedType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_isVolatileQualifiedType(CXType T);
-
-    // Function @ Index.h:3659
-    [DllImport(LibraryName, EntryPoint = "clang_isRestrictQualifiedType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_isRestrictQualifiedType(CXType T);
-
-    // Function @ Index.h:3664
-    [DllImport(LibraryName, EntryPoint = "clang_getAddressSpace", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_getAddressSpace(CXType T);
-
-    // Function @ Index.h:3669
-    [DllImport(LibraryName, EntryPoint = "clang_getTypedefName", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getTypedefName(CXType CT);
-
-    // Function @ Index.h:3674
-    [DllImport(LibraryName, EntryPoint = "clang_getPointeeType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_getPointeeType(CXType T);
-
-    // Function @ Index.h:3679
-    [DllImport(LibraryName, EntryPoint = "clang_getTypeDeclaration", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursor clang_getTypeDeclaration(CXType T);
-
-    // Function @ Index.h:3684
-    [DllImport(LibraryName, EntryPoint = "clang_getDeclObjCTypeEncoding", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getDeclObjCTypeEncoding(CXCursor C);
-
-    // Function @ Index.h:3689
-    [DllImport(LibraryName, EntryPoint = "clang_Type_getObjCEncoding", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_Type_getObjCEncoding(CXType type);
-
-    // Function @ Index.h:3694
-    [DllImport(LibraryName, EntryPoint = "clang_getTypeKindSpelling", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getTypeKindSpelling(CXTypeKind K);
-
-    // Function @ Index.h:3701
-    [DllImport(LibraryName, EntryPoint = "clang_getFunctionTypeCallingConv", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCallingConv clang_getFunctionTypeCallingConv(CXType T);
-
-    // Function @ Index.h:3708
-    [DllImport(LibraryName, EntryPoint = "clang_getResultType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_getResultType(CXType T);
-
-    // Function @ Index.h:3716
-    [DllImport(LibraryName, EntryPoint = "clang_getExceptionSpecificationType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_getExceptionSpecificationType(CXType T);
-
-    // Function @ Index.h:3724
-    [DllImport(LibraryName, EntryPoint = "clang_getNumArgTypes", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_getNumArgTypes(CXType T);
-
-    // Function @ Index.h:3732
-    [DllImport(LibraryName, EntryPoint = "clang_getArgType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_getArgType(CXType T, uint i);
-
-    // Function @ Index.h:3739
-    [DllImport(LibraryName, EntryPoint = "clang_Type_getObjCObjectBaseType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_Type_getObjCObjectBaseType(CXType T);
-
-    // Function @ Index.h:3746
-    [DllImport(LibraryName, EntryPoint = "clang_Type_getNumObjCProtocolRefs", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Type_getNumObjCProtocolRefs(CXType T);
-
-    // Function @ Index.h:3754
-    [DllImport(LibraryName, EntryPoint = "clang_Type_getObjCProtocolDecl", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursor clang_Type_getObjCProtocolDecl(CXType T, uint i);
-
-    // Function @ Index.h:3761
-    [DllImport(LibraryName, EntryPoint = "clang_Type_getNumObjCTypeArgs", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Type_getNumObjCTypeArgs(CXType T);
-
-    // Function @ Index.h:3769
-    [DllImport(LibraryName, EntryPoint = "clang_Type_getObjCTypeArg", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_Type_getObjCTypeArg(CXType T, uint i);
-
-    // Function @ Index.h:3774
-    [DllImport(LibraryName, EntryPoint = "clang_isFunctionTypeVariadic", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_isFunctionTypeVariadic(CXType T);
-
-    // Function @ Index.h:3781
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorResultType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_getCursorResultType(CXCursor C);
-
-    // Function @ Index.h:3790
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorExceptionSpecificationType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_getCursorExceptionSpecificationType(CXCursor C);
-
-    // Function @ Index.h:3796
-    [DllImport(LibraryName, EntryPoint = "clang_isPODType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_isPODType(CXType T);
-
-    // Function @ Index.h:3804
-    [DllImport(LibraryName, EntryPoint = "clang_getElementType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_getElementType(CXType T);
-
-    // Function @ Index.h:3812
-    [DllImport(LibraryName, EntryPoint = "clang_getNumElements", CallingConvention = CallingConvention.Cdecl)]
-    public static extern long clang_getNumElements(CXType T);
-
-    // Function @ Index.h:3819
-    [DllImport(LibraryName, EntryPoint = "clang_getArrayElementType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_getArrayElementType(CXType T);
-
-    // Function @ Index.h:3826
-    [DllImport(LibraryName, EntryPoint = "clang_getArraySize", CallingConvention = CallingConvention.Cdecl)]
-    public static extern long clang_getArraySize(CXType T);
-
-    // Function @ Index.h:3833
-    [DllImport(LibraryName, EntryPoint = "clang_Type_getNamedType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_Type_getNamedType(CXType T);
-
-    // Function @ Index.h:3843
-    [DllImport(LibraryName, EntryPoint = "clang_Type_isTransparentTagTypedef", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Type_isTransparentTagTypedef(CXType T);
-
-    // Function @ Index.h:3878
-    [DllImport(LibraryName, EntryPoint = "clang_Type_getNullability", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTypeNullabilityKind clang_Type_getNullability(CXType T);
-
-    // Function @ Index.h:3927
-    [DllImport(LibraryName, EntryPoint = "clang_Type_getAlignOf", CallingConvention = CallingConvention.Cdecl)]
-    public static extern long clang_Type_getAlignOf(CXType T);
-
-    // Function @ Index.h:3934
-    [DllImport(LibraryName, EntryPoint = "clang_Type_getClassType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_Type_getClassType(CXType T);
-
-    // Function @ Index.h:3945
-    [DllImport(LibraryName, EntryPoint = "clang_Type_getSizeOf", CallingConvention = CallingConvention.Cdecl)]
-    public static extern long clang_Type_getSizeOf(CXType T);
-
-    // Function @ Index.h:3960
-    [DllImport(LibraryName, EntryPoint = "clang_Type_getOffsetOf", CallingConvention = CallingConvention.Cdecl)]
-    public static extern long clang_Type_getOffsetOf(CXType T, CString S);
-
-    // Function @ Index.h:3967
-    [DllImport(LibraryName, EntryPoint = "clang_Type_getModifiedType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_Type_getModifiedType(CXType T);
-
-    // Function @ Index.h:3974
-    [DllImport(LibraryName, EntryPoint = "clang_Type_getValueType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_Type_getValueType(CXType CT);
-
-    // Function @ Index.h:3989
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getOffsetOfField", CallingConvention = CallingConvention.Cdecl)]
-    public static extern long clang_Cursor_getOffsetOfField(CXCursor C);
-
-    // Function @ Index.h:3995
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_isAnonymous", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Cursor_isAnonymous(CXCursor C);
-
-    // Function @ Index.h:4001
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_isAnonymousRecordDecl", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Cursor_isAnonymousRecordDecl(CXCursor C);
-
-    // Function @ Index.h:4007
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_isInlineNamespace", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Cursor_isInlineNamespace(CXCursor C);
-
-    // Function @ Index.h:4022
-    [DllImport(LibraryName, EntryPoint = "clang_Type_getNumTemplateArguments", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_Type_getNumTemplateArguments(CXType T);
-
-    // Function @ Index.h:4031
-    [DllImport(LibraryName, EntryPoint = "clang_Type_getTemplateArgumentAsType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_Type_getTemplateArgumentAsType(CXType T, uint i);
-
-    // Function @ Index.h:4040
-    [DllImport(LibraryName, EntryPoint = "clang_Type_getCXXRefQualifier", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXRefQualifierKind clang_Type_getCXXRefQualifier(CXType T);
-
-    // Function @ Index.h:4046
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_isBitField", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Cursor_isBitField(CXCursor C);
-
-    // Function @ Index.h:4052
-    [DllImport(LibraryName, EntryPoint = "clang_isVirtualBase", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_isVirtualBase(CXCursor param);
-
-    // Function @ Index.h:4072
-    [DllImport(LibraryName, EntryPoint = "clang_getCXXAccessSpecifier", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CX_CXXAccessSpecifier clang_getCXXAccessSpecifier(CXCursor param);
-
-    // Function @ Index.h:4095
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getStorageClass", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CX_StorageClass clang_Cursor_getStorageClass(CXCursor param);
-
-    // Function @ Index.h:4106
-    [DllImport(LibraryName, EntryPoint = "clang_getNumOverloadedDecls", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_getNumOverloadedDecls(CXCursor cursor);
-
-    // Function @ Index.h:4122
-    [DllImport(LibraryName, EntryPoint = "clang_getOverloadedDecl", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursor clang_getOverloadedDecl(CXCursor cursor, uint index);
-
-    // Function @ Index.h:4140
-    [DllImport(LibraryName, EntryPoint = "clang_getIBOutletCollectionType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_getIBOutletCollectionType(CXCursor param);
-
-    // Function @ Index.h:4217
-    [DllImport(LibraryName, EntryPoint = "clang_visitChildren", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_visitChildren(CXCursor parent, CXCursorVisitor visitor, CXClientData client_data);
-
-    // Function @ Index.h:4268
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorUSR", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getCursorUSR(CXCursor param);
-
-    // Function @ Index.h:4273
-    [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCClass", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCClass(CString class_name);
-
-    // Function @ Index.h:4278
-    [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCCategory", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCCategory(CString class_name, CString category_name);
-
-    // Function @ Index.h:4285
-    [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCProtocol", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCProtocol(CString protocol_name);
-
-    // Function @ Index.h:4291
-    [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCIvar", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCIvar(CString name, CXString classUSR);
-
-    // Function @ Index.h:4298
-    [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCMethod", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCMethod(CString name, uint isInstanceMethod, CXString classUSR);
-
-    // Function @ Index.h:4306
-    [DllImport(LibraryName, EntryPoint = "clang_constructUSR_ObjCProperty", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_constructUSR_ObjCProperty(CString property, CXString classUSR);
-
-    // Function @ Index.h:4312
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorSpelling", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getCursorSpelling(CXCursor param);
-
-    // Function @ Index.h:4325
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getSpellingNameRange", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceRange clang_Cursor_getSpellingNameRange(CXCursor param, uint pieceIndex, uint options);
-
-    // Function @ Index.h:4374
-    [DllImport(LibraryName, EntryPoint = "clang_PrintingPolicy_getProperty", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_PrintingPolicy_getProperty(CXPrintingPolicy Policy, CXPrintingPolicyProperty Property);
-
-    // Function @ Index.h:4381
-    [DllImport(LibraryName, EntryPoint = "clang_PrintingPolicy_setProperty", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_PrintingPolicy_setProperty(CXPrintingPolicy Policy, CXPrintingPolicyProperty Property, uint Value);
-
-    // Function @ Index.h:4391
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorPrintingPolicy", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXPrintingPolicy clang_getCursorPrintingPolicy(CXCursor param);
-
-    // Function @ Index.h:4396
-    [DllImport(LibraryName, EntryPoint = "clang_PrintingPolicy_dispose", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_PrintingPolicy_dispose(CXPrintingPolicy Policy);
-
-    // Function @ Index.h:4409
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorPrettyPrinted", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getCursorPrettyPrinted(CXCursor Cursor, CXPrintingPolicy Policy);
-
-    // Function @ Index.h:4419
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorDisplayName", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getCursorDisplayName(CXCursor param);
-
-    // Function @ Index.h:4431
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorReferenced", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursor clang_getCursorReferenced(CXCursor param);
-
-    // Function @ Index.h:4461
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorDefinition", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursor clang_getCursorDefinition(CXCursor param);
-
-    // Function @ Index.h:4467
-    [DllImport(LibraryName, EntryPoint = "clang_isCursorDefinition", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_isCursorDefinition(CXCursor param);
-
-    // Function @ Index.h:4493
-    [DllImport(LibraryName, EntryPoint = "clang_getCanonicalCursor", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursor clang_getCanonicalCursor(CXCursor param);
-
-    // Function @ Index.h:4506
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getObjCSelectorIndex", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_Cursor_getObjCSelectorIndex(CXCursor param);
-
-    // Function @ Index.h:4519
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_isDynamicCall", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_Cursor_isDynamicCall(CXCursor C);
-
-    // Function @ Index.h:4525
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getReceiverType", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXType clang_Cursor_getReceiverType(CXCursor C);
-
-    // Function @ Index.h:4555
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getObjCPropertyAttributes", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Cursor_getObjCPropertyAttributes(CXCursor C, uint reserved);
-
-    // Function @ Index.h:4561
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getObjCPropertyGetterName", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_Cursor_getObjCPropertyGetterName(CXCursor C);
-
-    // Function @ Index.h:4567
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getObjCPropertySetterName", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_Cursor_getObjCPropertySetterName(CXCursor C);
-
-    // Function @ Index.h:4589
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getObjCDeclQualifiers", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Cursor_getObjCDeclQualifiers(CXCursor C);
-
-    // Function @ Index.h:4596
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_isObjCOptional", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Cursor_isObjCOptional(CXCursor C);
-
-    // Function @ Index.h:4601
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_isVariadic", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Cursor_isVariadic(CXCursor C);
-
-    // Function @ Index.h:4616
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_isExternalSymbol", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Cursor_isExternalSymbol(CXCursor C, CXString* language, CXString* definedIn, ulong* isGenerated);
-
-    // Function @ Index.h:4626
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getCommentRange", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceRange clang_Cursor_getCommentRange(CXCursor C);
-
-    // Function @ Index.h:4632
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getRawCommentText", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_Cursor_getRawCommentText(CXCursor C);
-
-    // Function @ Index.h:4639
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getBriefCommentText", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_Cursor_getBriefCommentText(CXCursor C);
-
-    // Function @ Index.h:4653
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getMangling", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_Cursor_getMangling(CXCursor param);
-
-    // Function @ Index.h:4659
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getCXXManglings", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXStringSet* clang_Cursor_getCXXManglings(CXCursor param);
-
-    // Function @ Index.h:4665
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getObjCManglings", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXStringSet* clang_Cursor_getObjCManglings(CXCursor param);
-
-    // Function @ Index.h:4684
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_getModule", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXModule clang_Cursor_getModule(CXCursor C);
-
-    // Function @ Index.h:4690
-    [DllImport(LibraryName, EntryPoint = "clang_getModuleForFile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXModule clang_getModuleForFile(CXTranslationUnit param, CXFile param2);
-
-    // Function @ Index.h:4697
-    [DllImport(LibraryName, EntryPoint = "clang_Module_getASTFile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXFile clang_Module_getASTFile(CXModule Module);
-
-    // Function @ Index.h:4705
-    [DllImport(LibraryName, EntryPoint = "clang_Module_getParent", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXModule clang_Module_getParent(CXModule Module);
-
-    // Function @ Index.h:4713
-    [DllImport(LibraryName, EntryPoint = "clang_Module_getName", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_Module_getName(CXModule Module);
-
-    // Function @ Index.h:4720
-    [DllImport(LibraryName, EntryPoint = "clang_Module_getFullName", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_Module_getFullName(CXModule Module);
-
-    // Function @ Index.h:4727
-    [DllImport(LibraryName, EntryPoint = "clang_Module_isSystem", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_Module_isSystem(CXModule Module);
-
-    // Function @ Index.h:4734
-    [DllImport(LibraryName, EntryPoint = "clang_Module_getNumTopLevelHeaders", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Module_getNumTopLevelHeaders(CXTranslationUnit param, CXModule Module);
-
-    // Function @ Index.h:4745
-    [DllImport(LibraryName, EntryPoint = "clang_Module_getTopLevelHeader", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXFile clang_Module_getTopLevelHeader(CXTranslationUnit param, CXModule Module, uint Index);
-
-    // Function @ Index.h:4765
-    [DllImport(LibraryName, EntryPoint = "clang_CXXConstructor_isConvertingConstructor", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_CXXConstructor_isConvertingConstructor(CXCursor C);
-
-    // Function @ Index.h:4770
-    [DllImport(LibraryName, EntryPoint = "clang_CXXConstructor_isCopyConstructor", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_CXXConstructor_isCopyConstructor(CXCursor C);
-
-    // Function @ Index.h:4775
-    [DllImport(LibraryName, EntryPoint = "clang_CXXConstructor_isDefaultConstructor", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_CXXConstructor_isDefaultConstructor(CXCursor C);
-
-    // Function @ Index.h:4780
-    [DllImport(LibraryName, EntryPoint = "clang_CXXConstructor_isMoveConstructor", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_CXXConstructor_isMoveConstructor(CXCursor C);
-
-    // Function @ Index.h:4785
-    [DllImport(LibraryName, EntryPoint = "clang_CXXField_isMutable", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_CXXField_isMutable(CXCursor C);
-
-    // Function @ Index.h:4790
-    [DllImport(LibraryName, EntryPoint = "clang_CXXMethod_isDefaulted", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_CXXMethod_isDefaulted(CXCursor C);
-
-    // Function @ Index.h:4796
-    [DllImport(LibraryName, EntryPoint = "clang_CXXMethod_isPureVirtual", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_CXXMethod_isPureVirtual(CXCursor C);
-
-    // Function @ Index.h:4802
-    [DllImport(LibraryName, EntryPoint = "clang_CXXMethod_isStatic", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_CXXMethod_isStatic(CXCursor C);
-
-    // Function @ Index.h:4809
-    [DllImport(LibraryName, EntryPoint = "clang_CXXMethod_isVirtual", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_CXXMethod_isVirtual(CXCursor C);
-
-    // Function @ Index.h:4815
-    [DllImport(LibraryName, EntryPoint = "clang_CXXRecord_isAbstract", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_CXXRecord_isAbstract(CXCursor C);
-
-    // Function @ Index.h:4820
-    [DllImport(LibraryName, EntryPoint = "clang_EnumDecl_isScoped", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_EnumDecl_isScoped(CXCursor C);
-
-    // Function @ Index.h:4826
-    [DllImport(LibraryName, EntryPoint = "clang_CXXMethod_isConst", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_CXXMethod_isConst(CXCursor C);
-
-    // Function @ Index.h:4845
-    [DllImport(LibraryName, EntryPoint = "clang_getTemplateCursorKind", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursorKind clang_getTemplateCursorKind(CXCursor C);
-
-    // Function @ Index.h:4875
-    [DllImport(LibraryName, EntryPoint = "clang_getSpecializedCursorTemplate", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursor clang_getSpecializedCursorTemplate(CXCursor C);
-
-    // Function @ Index.h:4895
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorReferenceNameRange", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceRange clang_getCursorReferenceNameRange(CXCursor C, uint NameFlags, uint PieceIndex);
-
-    // Function @ Index.h:4987
-    [DllImport(LibraryName, EntryPoint = "clang_getToken", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXToken* clang_getToken(CXTranslationUnit TU, CXSourceLocation Location);
-
-    // Function @ Index.h:4993
-    [DllImport(LibraryName, EntryPoint = "clang_getTokenKind", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXTokenKind clang_getTokenKind(CXToken param);
-
-    // Function @ Index.h:5001
-    [DllImport(LibraryName, EntryPoint = "clang_getTokenSpelling", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getTokenSpelling(CXTranslationUnit param, CXToken param2);
-
-    // Function @ Index.h:5006
-    [DllImport(LibraryName, EntryPoint = "clang_getTokenLocation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceLocation clang_getTokenLocation(CXTranslationUnit param, CXToken param2);
-
-    // Function @ Index.h:5012
-    [DllImport(LibraryName, EntryPoint = "clang_getTokenExtent", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceRange clang_getTokenExtent(CXTranslationUnit param, CXToken param2);
-
-    // Function @ Index.h:5031
-    [DllImport(LibraryName, EntryPoint = "clang_tokenize", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_tokenize(CXTranslationUnit TU, CXSourceRange Range, CXToken** Tokens, ulong* NumTokens);
-
-    // Function @ Index.h:5064
-    [DllImport(LibraryName, EntryPoint = "clang_annotateTokens", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_annotateTokens(CXTranslationUnit TU, CXToken* Tokens, uint NumTokens, CXCursor* Cursors);
-
-    // Function @ Index.h:5070
-    [DllImport(LibraryName, EntryPoint = "clang_disposeTokens", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_disposeTokens(CXTranslationUnit TU, CXToken* Tokens, uint NumTokens);
-
-    // Function @ Index.h:5087
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorKindSpelling", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getCursorKindSpelling(CXCursorKind Kind);
-
-    // Function @ Index.h:5088
-    [DllImport(LibraryName, EntryPoint = "clang_getDefinitionSpellingAndExtent", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_getDefinitionSpellingAndExtent(CXCursor param, CString* startBuf, CString* endBuf, ulong* startLine, ulong* startColumn, ulong* endLine, ulong* endColumn);
-
-    // Function @ Index.h:5091
-    [DllImport(LibraryName, EntryPoint = "clang_enableStackTraces", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_enableStackTraces();
-
-    // Function @ Index.h:5092
-    [DllImport(LibraryName, EntryPoint = "clang_executeOnThread", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_executeOnThread(FnPtrPointerVoid fn, void* user_data, uint stack_size);
-
-    // Function @ Index.h:5330
-    [DllImport(LibraryName, EntryPoint = "clang_getCompletionChunkKind", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCompletionChunkKind clang_getCompletionChunkKind(CXCompletionString completion_string, uint chunk_number);
-
-    // Function @ Index.h:5343
-    [DllImport(LibraryName, EntryPoint = "clang_getCompletionChunkText", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getCompletionChunkText(CXCompletionString completion_string, uint chunk_number);
-
-    // Function @ Index.h:5357
-    [DllImport(LibraryName, EntryPoint = "clang_getCompletionChunkCompletionString", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCompletionString clang_getCompletionChunkCompletionString(CXCompletionString completion_string, uint chunk_number);
-
-    // Function @ Index.h:5364
-    [DllImport(LibraryName, EntryPoint = "clang_getNumCompletionChunks", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_getNumCompletionChunks(CXCompletionString completion_string);
-
-    // Function @ Index.h:5379
-    [DllImport(LibraryName, EntryPoint = "clang_getCompletionPriority", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_getCompletionPriority(CXCompletionString completion_string);
-
-    // Function @ Index.h:5390
-    [DllImport(LibraryName, EntryPoint = "clang_getCompletionAvailability", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXAvailabilityKind clang_getCompletionAvailability(CXCompletionString completion_string);
-
-    // Function @ Index.h:5402
-    [DllImport(LibraryName, EntryPoint = "clang_getCompletionNumAnnotations", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_getCompletionNumAnnotations(CXCompletionString completion_string);
-
-    // Function @ Index.h:5415
-    [DllImport(LibraryName, EntryPoint = "clang_getCompletionAnnotation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getCompletionAnnotation(CXCompletionString completion_string, uint annotation_number);
-
-    // Function @ Index.h:5434
-    [DllImport(LibraryName, EntryPoint = "clang_getCompletionParent", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getCompletionParent(CXCompletionString completion_string, CXCursorKind* kind);
-
-    // Function @ Index.h:5442
-    [DllImport(LibraryName, EntryPoint = "clang_getCompletionBriefComment", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getCompletionBriefComment(CXCompletionString completion_string);
-
-    // Function @ Index.h:5454
-    [DllImport(LibraryName, EntryPoint = "clang_getCursorCompletionString", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCompletionString clang_getCursorCompletionString(CXCursor cursor);
-
-    // Function @ Index.h:5490
-    [DllImport(LibraryName, EntryPoint = "clang_getCompletionNumFixIts", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_getCompletionNumFixIts(CXCodeCompleteResults* results, uint completion_index);
-
-    // Function @ Index.h:5536
-    [DllImport(LibraryName, EntryPoint = "clang_getCompletionFixIt", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getCompletionFixIt(CXCodeCompleteResults* results, uint completion_index, uint fixit_index, CXSourceRange* replacement_range);
-
-    // Function @ Index.h:5720
-    [DllImport(LibraryName, EntryPoint = "clang_defaultCodeCompleteOptions", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_defaultCodeCompleteOptions();
-
-    // Function @ Index.h:5792
-    [DllImport(LibraryName, EntryPoint = "clang_codeCompleteAt", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCodeCompleteResults* clang_codeCompleteAt(CXTranslationUnit TU, CString complete_filename, uint complete_line, uint complete_column, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
-
-    // Function @ Index.h:5805
-    [DllImport(LibraryName, EntryPoint = "clang_sortCodeCompletionResults", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_sortCodeCompletionResults(CXCompletionResult* Results, uint NumResults);
-
-    // Function @ Index.h:5812
-    [DllImport(LibraryName, EntryPoint = "clang_disposeCodeCompleteResults", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_disposeCodeCompleteResults(CXCodeCompleteResults* Results);
-
-    // Function @ Index.h:5819
-    [DllImport(LibraryName, EntryPoint = "clang_codeCompleteGetNumDiagnostics", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_codeCompleteGetNumDiagnostics(CXCodeCompleteResults* Results);
-
-    // Function @ Index.h:5831
-    [DllImport(LibraryName, EntryPoint = "clang_codeCompleteGetDiagnostic", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXDiagnostic clang_codeCompleteGetDiagnostic(CXCodeCompleteResults* Results, uint Index);
-
-    // Function @ Index.h:5845
-    [DllImport(LibraryName, EntryPoint = "clang_codeCompleteGetContexts", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong clang_codeCompleteGetContexts(CXCodeCompleteResults* Results);
-
-    // Function @ Index.h:5865
-    [DllImport(LibraryName, EntryPoint = "clang_codeCompleteGetContainerKind", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXCursorKind clang_codeCompleteGetContainerKind(CXCodeCompleteResults* Results, ulong* IsIncomplete);
-
-    // Function @ Index.h:5878
-    [DllImport(LibraryName, EntryPoint = "clang_codeCompleteGetContainerUSR", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_codeCompleteGetContainerUSR(CXCodeCompleteResults* Results);
-
-    // Function @ Index.h:5892
-    [DllImport(LibraryName, EntryPoint = "clang_codeCompleteGetObjCSelector", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_codeCompleteGetObjCSelector(CXCodeCompleteResults* Results);
-
-    // Function @ Index.h:5908
-    [DllImport(LibraryName, EntryPoint = "clang_getClangVersion", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXString clang_getClangVersion();
-
-    // Function @ Index.h:5916
-    [DllImport(LibraryName, EntryPoint = "clang_toggleCrashRecovery", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_toggleCrashRecovery(uint isEnabled);
-
-    // Function @ Index.h:5940
-    [DllImport(LibraryName, EntryPoint = "clang_getInclusions", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_getInclusions(CXTranslationUnit tu, CXInclusionVisitor visitor, CXClientData client_data);
-
-    // Function @ Index.h:5967
-    [DllImport(LibraryName, EntryPoint = "clang_Cursor_Evaluate", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXEvalResult clang_Cursor_Evaluate(CXCursor C);
-
-    // Function @ Index.h:5972
-    [DllImport(LibraryName, EntryPoint = "clang_EvalResult_getKind", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXEvalResultKind clang_EvalResult_getKind(CXEvalResult E);
-
-    // Function @ Index.h:5978
-    [DllImport(LibraryName, EntryPoint = "clang_EvalResult_getAsInt", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_EvalResult_getAsInt(CXEvalResult E);
-
-    // Function @ Index.h:5985
-    [DllImport(LibraryName, EntryPoint = "clang_EvalResult_getAsLongLong", CallingConvention = CallingConvention.Cdecl)]
-    public static extern long clang_EvalResult_getAsLongLong(CXEvalResult E);
-
-    // Function @ Index.h:5991
-    [DllImport(LibraryName, EntryPoint = "clang_EvalResult_isUnsignedInt", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_EvalResult_isUnsignedInt(CXEvalResult E);
-
-    // Function @ Index.h:5998
-    [DllImport(LibraryName, EntryPoint = "clang_EvalResult_getAsUnsigned", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong clang_EvalResult_getAsUnsigned(CXEvalResult E);
-
-    // Function @ Index.h:6004
-    [DllImport(LibraryName, EntryPoint = "clang_EvalResult_getAsDouble", CallingConvention = CallingConvention.Cdecl)]
-    public static extern double clang_EvalResult_getAsDouble(CXEvalResult E);
-
-    // Function @ Index.h:6012
-    [DllImport(LibraryName, EntryPoint = "clang_EvalResult_getAsStr", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CString clang_EvalResult_getAsStr(CXEvalResult E);
-
-    // Function @ Index.h:6017
-    [DllImport(LibraryName, EntryPoint = "clang_EvalResult_dispose", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_EvalResult_dispose(CXEvalResult E);
-
-    // Function @ Index.h:6040
-    [DllImport(LibraryName, EntryPoint = "clang_getRemappings", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXRemapping clang_getRemappings(CString path);
-
-    // Function @ Index.h:6053
-    [DllImport(LibraryName, EntryPoint = "clang_getRemappingsFromFileList", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXRemapping clang_getRemappingsFromFileList(CString* filePaths, uint numFiles);
-
-    // Function @ Index.h:6059
-    [DllImport(LibraryName, EntryPoint = "clang_remap_getNumFiles", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_remap_getNumFiles(CXRemapping param);
-
-    // Function @ Index.h:6069
-    [DllImport(LibraryName, EntryPoint = "clang_remap_getFilenames", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_remap_getFilenames(CXRemapping param, uint index, CXString* original, CXString* transformed);
-
-    // Function @ Index.h:6076
-    [DllImport(LibraryName, EntryPoint = "clang_remap_dispose", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_remap_dispose(CXRemapping param);
-
-    // Function @ Index.h:6125
-    [DllImport(LibraryName, EntryPoint = "clang_findReferencesInFile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXResult clang_findReferencesInFile(CXCursor cursor, CXFile file, CXCursorAndRangeVisitor visitor);
-
-    // Function @ Index.h:6140
-    [DllImport(LibraryName, EntryPoint = "clang_findIncludesInFile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXResult clang_findIncludesInFile(CXTranslationUnit TU, CXFile file, CXCursorAndRangeVisitor visitor);
-
-    // Function @ Index.h:6541
-    [DllImport(LibraryName, EntryPoint = "clang_index_isEntityObjCContainerKind", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_index_isEntityObjCContainerKind(CXIdxEntityKind param);
-
-    // Function @ Index.h:6543
-    [DllImport(LibraryName, EntryPoint = "clang_index_getObjCContainerDeclInfo", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXIdxObjCContainerDeclInfo* clang_index_getObjCContainerDeclInfo(CXIdxDeclInfo* param);
-
-    // Function @ Index.h:6546
-    [DllImport(LibraryName, EntryPoint = "clang_index_getObjCInterfaceDeclInfo", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXIdxObjCInterfaceDeclInfo* clang_index_getObjCInterfaceDeclInfo(CXIdxDeclInfo* param);
-
-    // Function @ Index.h:6550
-    [DllImport(LibraryName, EntryPoint = "clang_index_getObjCCategoryDeclInfo", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXIdxObjCCategoryDeclInfo* clang_index_getObjCCategoryDeclInfo(CXIdxDeclInfo* param);
-
-    // Function @ Index.h:6553
-    [DllImport(LibraryName, EntryPoint = "clang_index_getObjCProtocolRefListInfo", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXIdxObjCProtocolRefListInfo* clang_index_getObjCProtocolRefListInfo(CXIdxDeclInfo* param);
-
-    // Function @ Index.h:6556
-    [DllImport(LibraryName, EntryPoint = "clang_index_getObjCPropertyDeclInfo", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXIdxObjCPropertyDeclInfo* clang_index_getObjCPropertyDeclInfo(CXIdxDeclInfo* param);
-
-    // Function @ Index.h:6559
-    [DllImport(LibraryName, EntryPoint = "clang_index_getIBOutletCollectionAttrInfo", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXIdxIBOutletCollectionAttrInfo* clang_index_getIBOutletCollectionAttrInfo(CXIdxAttrInfo* param);
-
-    // Function @ Index.h:6562
-    [DllImport(LibraryName, EntryPoint = "clang_index_getCXXClassDeclInfo", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXIdxCXXClassDeclInfo* clang_index_getCXXClassDeclInfo(CXIdxDeclInfo* param);
-
-    // Function @ Index.h:6569
-    [DllImport(LibraryName, EntryPoint = "clang_index_getClientContainer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXIdxClientContainer clang_index_getClientContainer(CXIdxContainerInfo* param);
-
-    // Function @ Index.h:6575
-    [DllImport(LibraryName, EntryPoint = "clang_index_setClientContainer", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_index_setClientContainer(CXIdxContainerInfo* param, CXIdxClientContainer param2);
-
-    // Function @ Index.h:6582
-    [DllImport(LibraryName, EntryPoint = "clang_index_getClientEntity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXIdxClientEntity clang_index_getClientEntity(CXIdxEntityInfo* param);
-
-    // Function @ Index.h:6587
-    [DllImport(LibraryName, EntryPoint = "clang_index_setClientEntity", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_index_setClientEntity(CXIdxEntityInfo* param, CXIdxClientEntity param2);
-
-    // Function @ Index.h:6602
-    [DllImport(LibraryName, EntryPoint = "clang_IndexAction_create", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXIndexAction clang_IndexAction_create(CXIndex CIdx);
-
-    // Function @ Index.h:6610
-    [DllImport(LibraryName, EntryPoint = "clang_IndexAction_dispose", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_IndexAction_dispose(CXIndexAction param);
-
-    // Function @ Index.h:6676
-    [DllImport(LibraryName, EntryPoint = "clang_indexSourceFile", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_indexSourceFile(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
-
-    // Function @ Index.h:6688
-    [DllImport(LibraryName, EntryPoint = "clang_indexSourceFileFullArgv", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_indexSourceFileFullArgv(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
-
-    // Function @ Index.h:6711
-    [DllImport(LibraryName, EntryPoint = "clang_indexTranslationUnit", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int clang_indexTranslationUnit(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CXTranslationUnit param2);
-
-    // Function @ Index.h:6723
-    [DllImport(LibraryName, EntryPoint = "clang_indexLoc_getFileLocation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void clang_indexLoc_getFileLocation(CXIdxLoc loc, CXIdxClientFile* indexFile, CXFile* file, ulong* line, ulong* column, ulong* offset);
-
-    // Function @ Index.h:6733
-    [DllImport(LibraryName, EntryPoint = "clang_indexLoc_getCXSourceLocation", CallingConvention = CallingConvention.Cdecl)]
-    public static extern CXSourceLocation clang_indexLoc_getCXSourceLocation(CXIdxLoc loc);
-
-    // Function @ Index.h:6768
-    [DllImport(LibraryName, EntryPoint = "clang_Type_visitFields", CallingConvention = CallingConvention.Cdecl)]
-    public static extern uint clang_Type_visitFields(CXType T, CXFieldVisitor visitor, CXClientData client_data);
-
-    // PointerFunction @ Index.h:4191
-    [StructLayout(LayoutKind.Sequential)]
-    public struct CXCursorVisitor
+    // Function @ Index.h:6723:21
+    public static void clang_indexLoc_getFileLocation(CXIdxLoc loc, CXIdxClientFile* indexFile, CXFile* file, ulong* line, ulong* column, ulong* offset)
     {
-        public delegate* unmanaged<CXCursor, CXCursor, CXClientData, CXChildVisitResult> Pointer;
+        _virtualTable.clang_indexLoc_getFileLocation(loc, indexFile, file, line, column, offset);
     }
 
-    // PointerFunction @ Index.h:5929
-    [StructLayout(LayoutKind.Sequential)]
-    public struct CXInclusionVisitor
+    // Function @ Index.h:6711:20
+    public static int clang_indexTranslationUnit(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CXTranslationUnit param2)
     {
-        public delegate* unmanaged<CXFile, CXSourceLocation*, uint, CXClientData, void> Pointer;
+        return _virtualTable.clang_indexTranslationUnit(param, client_data, index_callbacks, index_callbacks_size, index_options, param2);
     }
 
-    // PointerFunction @ Index.h:6746
+    // Function @ Index.h:6688:20
+    public static int clang_indexSourceFileFullArgv(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options)
+    {
+        return _virtualTable.clang_indexSourceFileFullArgv(param, client_data, index_callbacks, index_callbacks_size, index_options, source_filename, command_line_args, num_command_line_args, unsaved_files, num_unsaved_files, out_TU, TU_options);
+    }
+
+    // Function @ Index.h:6676:20
+    public static int clang_indexSourceFile(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options)
+    {
+        return _virtualTable.clang_indexSourceFile(param, client_data, index_callbacks, index_callbacks_size, index_options, source_filename, command_line_args, num_command_line_args, unsaved_files, num_unsaved_files, out_TU, TU_options);
+    }
+
+    // Function @ Index.h:6610:21
+    public static void clang_IndexAction_dispose(CXIndexAction param)
+    {
+        _virtualTable.clang_IndexAction_dispose(param);
+    }
+
+    // Function @ Index.h:6602:30
+    public static CXIndexAction clang_IndexAction_create(CXIndex CIdx)
+    {
+        return _virtualTable.clang_IndexAction_create(CIdx);
+    }
+
+    // Function @ Index.h:6587:21
+    public static void clang_index_setClientEntity(CXIdxEntityInfo* param, CXIdxClientEntity param2)
+    {
+        _virtualTable.clang_index_setClientEntity(param, param2);
+    }
+
+    // Function @ Index.h:6582:1
+    public static CXIdxClientEntity clang_index_getClientEntity(CXIdxEntityInfo* param)
+    {
+        return _virtualTable.clang_index_getClientEntity(param);
+    }
+
+    // Function @ Index.h:6575:21
+    public static void clang_index_setClientContainer(CXIdxContainerInfo* param, CXIdxClientContainer param2)
+    {
+        _virtualTable.clang_index_setClientContainer(param, param2);
+    }
+
+    // Function @ Index.h:6569:1
+    public static CXIdxClientContainer clang_index_getClientContainer(CXIdxContainerInfo* param)
+    {
+        return _virtualTable.clang_index_getClientContainer(param);
+    }
+
+    // Function @ Index.h:6562:1
+    public static CXIdxCXXClassDeclInfo* clang_index_getCXXClassDeclInfo(CXIdxDeclInfo* param)
+    {
+        return _virtualTable.clang_index_getCXXClassDeclInfo(param);
+    }
+
+    // Function @ Index.h:6559:1
+    public static CXIdxIBOutletCollectionAttrInfo* clang_index_getIBOutletCollectionAttrInfo(CXIdxAttrInfo* param)
+    {
+        return _virtualTable.clang_index_getIBOutletCollectionAttrInfo(param);
+    }
+
+    // Function @ Index.h:6556:1
+    public static CXIdxObjCPropertyDeclInfo* clang_index_getObjCPropertyDeclInfo(CXIdxDeclInfo* param)
+    {
+        return _virtualTable.clang_index_getObjCPropertyDeclInfo(param);
+    }
+
+    // Function @ Index.h:6553:1
+    public static CXIdxObjCProtocolRefListInfo* clang_index_getObjCProtocolRefListInfo(CXIdxDeclInfo* param)
+    {
+        return _virtualTable.clang_index_getObjCProtocolRefListInfo(param);
+    }
+
+    // Function @ Index.h:6550:1
+    public static CXIdxObjCCategoryDeclInfo* clang_index_getObjCCategoryDeclInfo(CXIdxDeclInfo* param)
+    {
+        return _virtualTable.clang_index_getObjCCategoryDeclInfo(param);
+    }
+
+    // Function @ Index.h:6546:1
+    public static CXIdxObjCInterfaceDeclInfo* clang_index_getObjCInterfaceDeclInfo(CXIdxDeclInfo* param)
+    {
+        return _virtualTable.clang_index_getObjCInterfaceDeclInfo(param);
+    }
+
+    // Function @ Index.h:6543:1
+    public static CXIdxObjCContainerDeclInfo* clang_index_getObjCContainerDeclInfo(CXIdxDeclInfo* param)
+    {
+        return _virtualTable.clang_index_getObjCContainerDeclInfo(param);
+    }
+
+    // Function @ Index.h:6541:20
+    public static int clang_index_isEntityObjCContainerKind(CXIdxEntityKind param)
+    {
+        return _virtualTable.clang_index_isEntityObjCContainerKind(param);
+    }
+
+    // Function @ Index.h:6140:25
+    public static CXResult clang_findIncludesInFile(CXTranslationUnit TU, CXFile file, CXCursorAndRangeVisitor visitor)
+    {
+        return _virtualTable.clang_findIncludesInFile(TU, file, visitor);
+    }
+
+    // Function @ Index.h:6125:25
+    public static CXResult clang_findReferencesInFile(CXCursor cursor, CXFile file, CXCursorAndRangeVisitor visitor)
+    {
+        return _virtualTable.clang_findReferencesInFile(cursor, file, visitor);
+    }
+
+    // Function @ Index.h:6076:21
+    public static void clang_remap_dispose(CXRemapping param)
+    {
+        _virtualTable.clang_remap_dispose(param);
+    }
+
+    // Function @ Index.h:6069:21
+    public static void clang_remap_getFilenames(CXRemapping param, uint index, CXString* original, CXString* transformed)
+    {
+        _virtualTable.clang_remap_getFilenames(param, index, original, transformed);
+    }
+
+    // Function @ Index.h:6059:25
+    public static uint clang_remap_getNumFiles(CXRemapping param)
+    {
+        return _virtualTable.clang_remap_getNumFiles(param);
+    }
+
+    // Function @ Index.h:6053:13
+    public static CXRemapping clang_getRemappingsFromFileList(CString* filePaths, uint numFiles)
+    {
+        return _virtualTable.clang_getRemappingsFromFileList(filePaths, numFiles);
+    }
+
+    // Function @ Index.h:6040:28
+    public static CXRemapping clang_getRemappings(CString path)
+    {
+        return _virtualTable.clang_getRemappings(path);
+    }
+
+    // Function @ Index.h:6017:21
+    public static void clang_EvalResult_dispose(CXEvalResult E)
+    {
+        _virtualTable.clang_EvalResult_dispose(E);
+    }
+
+    // Function @ Index.h:6012:28
+    public static CString clang_EvalResult_getAsStr(CXEvalResult E)
+    {
+        return _virtualTable.clang_EvalResult_getAsStr(E);
+    }
+
+    // Function @ Index.h:6004:23
+    public static double clang_EvalResult_getAsDouble(CXEvalResult E)
+    {
+        return _virtualTable.clang_EvalResult_getAsDouble(E);
+    }
+
+    // Function @ Index.h:5998:1
+    public static ulong clang_EvalResult_getAsUnsigned(CXEvalResult E)
+    {
+        return _virtualTable.clang_EvalResult_getAsUnsigned(E);
+    }
+
+    // Function @ Index.h:5991:25
+    public static uint clang_EvalResult_isUnsignedInt(CXEvalResult E)
+    {
+        return _virtualTable.clang_EvalResult_isUnsignedInt(E);
+    }
+
+    // Function @ Index.h:5985:26
+    public static long clang_EvalResult_getAsLongLong(CXEvalResult E)
+    {
+        return _virtualTable.clang_EvalResult_getAsLongLong(E);
+    }
+
+    // Function @ Index.h:5978:20
+    public static int clang_EvalResult_getAsInt(CXEvalResult E)
+    {
+        return _virtualTable.clang_EvalResult_getAsInt(E);
+    }
+
+    // Function @ Index.h:5972:33
+    public static CXEvalResultKind clang_EvalResult_getKind(CXEvalResult E)
+    {
+        return _virtualTable.clang_EvalResult_getKind(E);
+    }
+
+    // Function @ Index.h:5967:29
+    public static CXEvalResult clang_Cursor_Evaluate(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_Evaluate(C);
+    }
+
+    // Function @ Index.h:5940:21
+    public static void clang_getInclusions(CXTranslationUnit tu, CXInclusionVisitor visitor, CXClientData client_data)
+    {
+        _virtualTable.clang_getInclusions(tu, visitor, client_data);
+    }
+
+    // Function @ Index.h:5916:21
+    public static void clang_toggleCrashRecovery(uint isEnabled)
+    {
+        _virtualTable.clang_toggleCrashRecovery(isEnabled);
+    }
+
+    // Function @ Index.h:5908:25
+    public static CXString clang_getClangVersion()
+    {
+        return _virtualTable.clang_getClangVersion();
+    }
+
+    // Function @ Index.h:5892:10
+    public static CXString clang_codeCompleteGetObjCSelector(CXCodeCompleteResults* Results)
+    {
+        return _virtualTable.clang_codeCompleteGetObjCSelector(Results);
+    }
+
+    // Function @ Index.h:5878:10
+    public static CXString clang_codeCompleteGetContainerUSR(CXCodeCompleteResults* Results)
+    {
+        return _virtualTable.clang_codeCompleteGetContainerUSR(Results);
+    }
+
+    // Function @ Index.h:5865:1
+    public static CXCursorKind clang_codeCompleteGetContainerKind(CXCodeCompleteResults* Results, ulong* IsIncomplete)
+    {
+        return _virtualTable.clang_codeCompleteGetContainerKind(Results, IsIncomplete);
+    }
+
+    // Function @ Index.h:5845:1
+    public static ulong clang_codeCompleteGetContexts(CXCodeCompleteResults* Results)
+    {
+        return _virtualTable.clang_codeCompleteGetContexts(Results);
+    }
+
+    // Function @ Index.h:5831:14
+    public static CXDiagnostic clang_codeCompleteGetDiagnostic(CXCodeCompleteResults* Results, uint Index)
+    {
+        return _virtualTable.clang_codeCompleteGetDiagnostic(Results, Index);
+    }
+
+    // Function @ Index.h:5819:10
+    public static uint clang_codeCompleteGetNumDiagnostics(CXCodeCompleteResults* Results)
+    {
+        return _virtualTable.clang_codeCompleteGetNumDiagnostics(Results);
+    }
+
+    // Function @ Index.h:5812:6
+    public static void clang_disposeCodeCompleteResults(CXCodeCompleteResults* Results)
+    {
+        _virtualTable.clang_disposeCodeCompleteResults(Results);
+    }
+
+    // Function @ Index.h:5805:6
+    public static void clang_sortCodeCompletionResults(CXCompletionResult* Results, uint NumResults)
+    {
+        _virtualTable.clang_sortCodeCompletionResults(Results, NumResults);
+    }
+
+    // Function @ Index.h:5792:1
+    public static CXCodeCompleteResults* clang_codeCompleteAt(CXTranslationUnit TU, CString complete_filename, uint complete_line, uint complete_column, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options)
+    {
+        return _virtualTable.clang_codeCompleteAt(TU, complete_filename, complete_line, complete_column, unsaved_files, num_unsaved_files, options);
+    }
+
+    // Function @ Index.h:5720:25
+    public static uint clang_defaultCodeCompleteOptions()
+    {
+        return _virtualTable.clang_defaultCodeCompleteOptions();
+    }
+
+    // Function @ Index.h:5536:25
+    public static CXString clang_getCompletionFixIt(CXCodeCompleteResults* results, uint completion_index, uint fixit_index, CXSourceRange* replacement_range)
+    {
+        return _virtualTable.clang_getCompletionFixIt(results, completion_index, fixit_index, replacement_range);
+    }
+
+    // Function @ Index.h:5490:1
+    public static uint clang_getCompletionNumFixIts(CXCodeCompleteResults* results, uint completion_index)
+    {
+        return _virtualTable.clang_getCompletionNumFixIts(results, completion_index);
+    }
+
+    // Function @ Index.h:5454:1
+    public static CXCompletionString clang_getCursorCompletionString(CXCursor cursor)
+    {
+        return _virtualTable.clang_getCursorCompletionString(cursor);
+    }
+
+    // Function @ Index.h:5442:1
+    public static CXString clang_getCompletionBriefComment(CXCompletionString completion_string)
+    {
+        return _virtualTable.clang_getCompletionBriefComment(completion_string);
+    }
+
+    // Function @ Index.h:5434:25
+    public static CXString clang_getCompletionParent(CXCompletionString completion_string, CXCursorKind* kind)
+    {
+        return _virtualTable.clang_getCompletionParent(completion_string, kind);
+    }
+
+    // Function @ Index.h:5415:25
+    public static CXString clang_getCompletionAnnotation(CXCompletionString completion_string, uint annotation_number)
+    {
+        return _virtualTable.clang_getCompletionAnnotation(completion_string, annotation_number);
+    }
+
+    // Function @ Index.h:5402:1
+    public static uint clang_getCompletionNumAnnotations(CXCompletionString completion_string)
+    {
+        return _virtualTable.clang_getCompletionNumAnnotations(completion_string);
+    }
+
+    // Function @ Index.h:5390:1
+    public static CXAvailabilityKind clang_getCompletionAvailability(CXCompletionString completion_string)
+    {
+        return _virtualTable.clang_getCompletionAvailability(completion_string);
+    }
+
+    // Function @ Index.h:5379:1
+    public static uint clang_getCompletionPriority(CXCompletionString completion_string)
+    {
+        return _virtualTable.clang_getCompletionPriority(completion_string);
+    }
+
+    // Function @ Index.h:5364:1
+    public static uint clang_getNumCompletionChunks(CXCompletionString completion_string)
+    {
+        return _virtualTable.clang_getNumCompletionChunks(completion_string);
+    }
+
+    // Function @ Index.h:5357:35
+    public static CXCompletionString clang_getCompletionChunkCompletionString(CXCompletionString completion_string, uint chunk_number)
+    {
+        return _virtualTable.clang_getCompletionChunkCompletionString(completion_string, chunk_number);
+    }
+
+    // Function @ Index.h:5343:25
+    public static CXString clang_getCompletionChunkText(CXCompletionString completion_string, uint chunk_number)
+    {
+        return _virtualTable.clang_getCompletionChunkText(completion_string, chunk_number);
+    }
+
+    // Function @ Index.h:5330:1
+    public static CXCompletionChunkKind clang_getCompletionChunkKind(CXCompletionString completion_string, uint chunk_number)
+    {
+        return _virtualTable.clang_getCompletionChunkKind(completion_string, chunk_number);
+    }
+
+    // Function @ Index.h:5092:21
+    public static void clang_executeOnThread(FnPtrPointerVoid fn, void* user_data, uint stack_size)
+    {
+        _virtualTable.clang_executeOnThread(fn, user_data, stack_size);
+    }
+
+    // Function @ Index.h:5091:21
+    public static void clang_enableStackTraces()
+    {
+        _virtualTable.clang_enableStackTraces();
+    }
+
+    // Function @ Index.h:5088:21
+    public static void clang_getDefinitionSpellingAndExtent(CXCursor param, CString* startBuf, CString* endBuf, ulong* startLine, ulong* startColumn, ulong* endLine, ulong* endColumn)
+    {
+        _virtualTable.clang_getDefinitionSpellingAndExtent(param, startBuf, endBuf, startLine, startColumn, endLine, endColumn);
+    }
+
+    // Function @ Index.h:5087:25
+    public static CXString clang_getCursorKindSpelling(CXCursorKind Kind)
+    {
+        return _virtualTable.clang_getCursorKindSpelling(Kind);
+    }
+
+    // Function @ Index.h:5070:21
+    public static void clang_disposeTokens(CXTranslationUnit TU, CXToken* Tokens, uint NumTokens)
+    {
+        _virtualTable.clang_disposeTokens(TU, Tokens, NumTokens);
+    }
+
+    // Function @ Index.h:5064:21
+    public static void clang_annotateTokens(CXTranslationUnit TU, CXToken* Tokens, uint NumTokens, CXCursor* Cursors)
+    {
+        _virtualTable.clang_annotateTokens(TU, Tokens, NumTokens, Cursors);
+    }
+
+    // Function @ Index.h:5031:21
+    public static void clang_tokenize(CXTranslationUnit TU, CXSourceRange Range, CXToken** Tokens, ulong* NumTokens)
+    {
+        _virtualTable.clang_tokenize(TU, Range, Tokens, NumTokens);
+    }
+
+    // Function @ Index.h:5012:30
+    public static CXSourceRange clang_getTokenExtent(CXTranslationUnit param, CXToken param2)
+    {
+        return _virtualTable.clang_getTokenExtent(param, param2);
+    }
+
+    // Function @ Index.h:5006:33
+    public static CXSourceLocation clang_getTokenLocation(CXTranslationUnit param, CXToken param2)
+    {
+        return _virtualTable.clang_getTokenLocation(param, param2);
+    }
+
+    // Function @ Index.h:5001:25
+    public static CXString clang_getTokenSpelling(CXTranslationUnit param, CXToken param2)
+    {
+        return _virtualTable.clang_getTokenSpelling(param, param2);
+    }
+
+    // Function @ Index.h:4993:28
+    public static CXTokenKind clang_getTokenKind(CXToken param)
+    {
+        return _virtualTable.clang_getTokenKind(param);
+    }
+
+    // Function @ Index.h:4987:25
+    public static CXToken* clang_getToken(CXTranslationUnit TU, CXSourceLocation Location)
+    {
+        return _virtualTable.clang_getToken(TU, Location);
+    }
+
+    // Function @ Index.h:4895:30
+    public static CXSourceRange clang_getCursorReferenceNameRange(CXCursor C, uint NameFlags, uint PieceIndex)
+    {
+        return _virtualTable.clang_getCursorReferenceNameRange(C, NameFlags, PieceIndex);
+    }
+
+    // Function @ Index.h:4875:25
+    public static CXCursor clang_getSpecializedCursorTemplate(CXCursor C)
+    {
+        return _virtualTable.clang_getSpecializedCursorTemplate(C);
+    }
+
+    // Function @ Index.h:4845:34
+    public static CXCursorKind clang_getTemplateCursorKind(CXCursor C)
+    {
+        return _virtualTable.clang_getTemplateCursorKind(C);
+    }
+
+    // Function @ Index.h:4826:25
+    public static uint clang_CXXMethod_isConst(CXCursor C)
+    {
+        return _virtualTable.clang_CXXMethod_isConst(C);
+    }
+
+    // Function @ Index.h:4820:25
+    public static uint clang_EnumDecl_isScoped(CXCursor C)
+    {
+        return _virtualTable.clang_EnumDecl_isScoped(C);
+    }
+
+    // Function @ Index.h:4815:25
+    public static uint clang_CXXRecord_isAbstract(CXCursor C)
+    {
+        return _virtualTable.clang_CXXRecord_isAbstract(C);
+    }
+
+    // Function @ Index.h:4809:25
+    public static uint clang_CXXMethod_isVirtual(CXCursor C)
+    {
+        return _virtualTable.clang_CXXMethod_isVirtual(C);
+    }
+
+    // Function @ Index.h:4802:25
+    public static uint clang_CXXMethod_isStatic(CXCursor C)
+    {
+        return _virtualTable.clang_CXXMethod_isStatic(C);
+    }
+
+    // Function @ Index.h:4796:25
+    public static uint clang_CXXMethod_isPureVirtual(CXCursor C)
+    {
+        return _virtualTable.clang_CXXMethod_isPureVirtual(C);
+    }
+
+    // Function @ Index.h:4790:25
+    public static uint clang_CXXMethod_isDefaulted(CXCursor C)
+    {
+        return _virtualTable.clang_CXXMethod_isDefaulted(C);
+    }
+
+    // Function @ Index.h:4785:25
+    public static uint clang_CXXField_isMutable(CXCursor C)
+    {
+        return _virtualTable.clang_CXXField_isMutable(C);
+    }
+
+    // Function @ Index.h:4780:25
+    public static uint clang_CXXConstructor_isMoveConstructor(CXCursor C)
+    {
+        return _virtualTable.clang_CXXConstructor_isMoveConstructor(C);
+    }
+
+    // Function @ Index.h:4775:25
+    public static uint clang_CXXConstructor_isDefaultConstructor(CXCursor C)
+    {
+        return _virtualTable.clang_CXXConstructor_isDefaultConstructor(C);
+    }
+
+    // Function @ Index.h:4770:25
+    public static uint clang_CXXConstructor_isCopyConstructor(CXCursor C)
+    {
+        return _virtualTable.clang_CXXConstructor_isCopyConstructor(C);
+    }
+
+    // Function @ Index.h:4765:1
+    public static uint clang_CXXConstructor_isConvertingConstructor(CXCursor C)
+    {
+        return _virtualTable.clang_CXXConstructor_isConvertingConstructor(C);
+    }
+
+    // Function @ Index.h:4745:8
+    public static CXFile clang_Module_getTopLevelHeader(CXTranslationUnit param, CXModule Module, uint Index)
+    {
+        return _virtualTable.clang_Module_getTopLevelHeader(param, Module, Index);
+    }
+
+    // Function @ Index.h:4734:25
+    public static uint clang_Module_getNumTopLevelHeaders(CXTranslationUnit param, CXModule Module)
+    {
+        return _virtualTable.clang_Module_getNumTopLevelHeaders(param, Module);
+    }
+
+    // Function @ Index.h:4727:20
+    public static int clang_Module_isSystem(CXModule Module)
+    {
+        return _virtualTable.clang_Module_isSystem(Module);
+    }
+
+    // Function @ Index.h:4720:25
+    public static CXString clang_Module_getFullName(CXModule Module)
+    {
+        return _virtualTable.clang_Module_getFullName(Module);
+    }
+
+    // Function @ Index.h:4713:25
+    public static CXString clang_Module_getName(CXModule Module)
+    {
+        return _virtualTable.clang_Module_getName(Module);
+    }
+
+    // Function @ Index.h:4705:25
+    public static CXModule clang_Module_getParent(CXModule Module)
+    {
+        return _virtualTable.clang_Module_getParent(Module);
+    }
+
+    // Function @ Index.h:4697:23
+    public static CXFile clang_Module_getASTFile(CXModule Module)
+    {
+        return _virtualTable.clang_Module_getASTFile(Module);
+    }
+
+    // Function @ Index.h:4690:25
+    public static CXModule clang_getModuleForFile(CXTranslationUnit param, CXFile param2)
+    {
+        return _virtualTable.clang_getModuleForFile(param, param2);
+    }
+
+    // Function @ Index.h:4684:25
+    public static CXModule clang_Cursor_getModule(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_getModule(C);
+    }
+
+    // Function @ Index.h:4665:29
+    public static CXStringSet* clang_Cursor_getObjCManglings(CXCursor param)
+    {
+        return _virtualTable.clang_Cursor_getObjCManglings(param);
+    }
+
+    // Function @ Index.h:4659:29
+    public static CXStringSet* clang_Cursor_getCXXManglings(CXCursor param)
+    {
+        return _virtualTable.clang_Cursor_getCXXManglings(param);
+    }
+
+    // Function @ Index.h:4653:25
+    public static CXString clang_Cursor_getMangling(CXCursor param)
+    {
+        return _virtualTable.clang_Cursor_getMangling(param);
+    }
+
+    // Function @ Index.h:4639:25
+    public static CXString clang_Cursor_getBriefCommentText(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_getBriefCommentText(C);
+    }
+
+    // Function @ Index.h:4632:25
+    public static CXString clang_Cursor_getRawCommentText(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_getRawCommentText(C);
+    }
+
+    // Function @ Index.h:4626:30
+    public static CXSourceRange clang_Cursor_getCommentRange(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_getCommentRange(C);
+    }
+
+    // Function @ Index.h:4616:25
+    public static uint clang_Cursor_isExternalSymbol(CXCursor C, CXString* language, CXString* definedIn, ulong* isGenerated)
+    {
+        return _virtualTable.clang_Cursor_isExternalSymbol(C, language, definedIn, isGenerated);
+    }
+
+    // Function @ Index.h:4601:25
+    public static uint clang_Cursor_isVariadic(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_isVariadic(C);
+    }
+
+    // Function @ Index.h:4596:25
+    public static uint clang_Cursor_isObjCOptional(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_isObjCOptional(C);
+    }
+
+    // Function @ Index.h:4589:25
+    public static uint clang_Cursor_getObjCDeclQualifiers(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_getObjCDeclQualifiers(C);
+    }
+
+    // Function @ Index.h:4567:25
+    public static CXString clang_Cursor_getObjCPropertySetterName(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_getObjCPropertySetterName(C);
+    }
+
+    // Function @ Index.h:4561:25
+    public static CXString clang_Cursor_getObjCPropertyGetterName(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_getObjCPropertyGetterName(C);
+    }
+
+    // Function @ Index.h:4555:1
+    public static uint clang_Cursor_getObjCPropertyAttributes(CXCursor C, uint reserved)
+    {
+        return _virtualTable.clang_Cursor_getObjCPropertyAttributes(C, reserved);
+    }
+
+    // Function @ Index.h:4525:23
+    public static CXType clang_Cursor_getReceiverType(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_getReceiverType(C);
+    }
+
+    // Function @ Index.h:4519:20
+    public static int clang_Cursor_isDynamicCall(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_isDynamicCall(C);
+    }
+
+    // Function @ Index.h:4506:20
+    public static int clang_Cursor_getObjCSelectorIndex(CXCursor param)
+    {
+        return _virtualTable.clang_Cursor_getObjCSelectorIndex(param);
+    }
+
+    // Function @ Index.h:4493:25
+    public static CXCursor clang_getCanonicalCursor(CXCursor param)
+    {
+        return _virtualTable.clang_getCanonicalCursor(param);
+    }
+
+    // Function @ Index.h:4467:25
+    public static uint clang_isCursorDefinition(CXCursor param)
+    {
+        return _virtualTable.clang_isCursorDefinition(param);
+    }
+
+    // Function @ Index.h:4461:25
+    public static CXCursor clang_getCursorDefinition(CXCursor param)
+    {
+        return _virtualTable.clang_getCursorDefinition(param);
+    }
+
+    // Function @ Index.h:4431:25
+    public static CXCursor clang_getCursorReferenced(CXCursor param)
+    {
+        return _virtualTable.clang_getCursorReferenced(param);
+    }
+
+    // Function @ Index.h:4419:25
+    public static CXString clang_getCursorDisplayName(CXCursor param)
+    {
+        return _virtualTable.clang_getCursorDisplayName(param);
+    }
+
+    // Function @ Index.h:4409:25
+    public static CXString clang_getCursorPrettyPrinted(CXCursor Cursor, CXPrintingPolicy Policy)
+    {
+        return _virtualTable.clang_getCursorPrettyPrinted(Cursor, Policy);
+    }
+
+    // Function @ Index.h:4396:21
+    public static void clang_PrintingPolicy_dispose(CXPrintingPolicy Policy)
+    {
+        _virtualTable.clang_PrintingPolicy_dispose(Policy);
+    }
+
+    // Function @ Index.h:4391:33
+    public static CXPrintingPolicy clang_getCursorPrintingPolicy(CXCursor param)
+    {
+        return _virtualTable.clang_getCursorPrintingPolicy(param);
+    }
+
+    // Function @ Index.h:4381:1
+    public static void clang_PrintingPolicy_setProperty(CXPrintingPolicy Policy, CXPrintingPolicyProperty Property, uint Value)
+    {
+        _virtualTable.clang_PrintingPolicy_setProperty(Policy, Property, Value);
+    }
+
+    // Function @ Index.h:4374:1
+    public static uint clang_PrintingPolicy_getProperty(CXPrintingPolicy Policy, CXPrintingPolicyProperty Property)
+    {
+        return _virtualTable.clang_PrintingPolicy_getProperty(Policy, Property);
+    }
+
+    // Function @ Index.h:4325:30
+    public static CXSourceRange clang_Cursor_getSpellingNameRange(CXCursor param, uint pieceIndex, uint options)
+    {
+        return _virtualTable.clang_Cursor_getSpellingNameRange(param, pieceIndex, options);
+    }
+
+    // Function @ Index.h:4312:25
+    public static CXString clang_getCursorSpelling(CXCursor param)
+    {
+        return _virtualTable.clang_getCursorSpelling(param);
+    }
+
+    // Function @ Index.h:4306:25
+    public static CXString clang_constructUSR_ObjCProperty(CString property, CXString classUSR)
+    {
+        return _virtualTable.clang_constructUSR_ObjCProperty(property, classUSR);
+    }
+
+    // Function @ Index.h:4298:25
+    public static CXString clang_constructUSR_ObjCMethod(CString name, uint isInstanceMethod, CXString classUSR)
+    {
+        return _virtualTable.clang_constructUSR_ObjCMethod(name, isInstanceMethod, classUSR);
+    }
+
+    // Function @ Index.h:4291:25
+    public static CXString clang_constructUSR_ObjCIvar(CString name, CXString classUSR)
+    {
+        return _virtualTable.clang_constructUSR_ObjCIvar(name, classUSR);
+    }
+
+    // Function @ Index.h:4285:1
+    public static CXString clang_constructUSR_ObjCProtocol(CString protocol_name)
+    {
+        return _virtualTable.clang_constructUSR_ObjCProtocol(protocol_name);
+    }
+
+    // Function @ Index.h:4278:25
+    public static CXString clang_constructUSR_ObjCCategory(CString class_name, CString category_name)
+    {
+        return _virtualTable.clang_constructUSR_ObjCCategory(class_name, category_name);
+    }
+
+    // Function @ Index.h:4273:25
+    public static CXString clang_constructUSR_ObjCClass(CString class_name)
+    {
+        return _virtualTable.clang_constructUSR_ObjCClass(class_name);
+    }
+
+    // Function @ Index.h:4268:25
+    public static CXString clang_getCursorUSR(CXCursor param)
+    {
+        return _virtualTable.clang_getCursorUSR(param);
+    }
+
+    // Function @ Index.h:4217:25
+    public static uint clang_visitChildren(CXCursor parent, CXCursorVisitor visitor, CXClientData client_data)
+    {
+        return _virtualTable.clang_visitChildren(parent, visitor, client_data);
+    }
+
+    // Function @ Index.h:4140:23
+    public static CXType clang_getIBOutletCollectionType(CXCursor param)
+    {
+        return _virtualTable.clang_getIBOutletCollectionType(param);
+    }
+
+    // Function @ Index.h:4122:25
+    public static CXCursor clang_getOverloadedDecl(CXCursor cursor, uint index)
+    {
+        return _virtualTable.clang_getOverloadedDecl(cursor, index);
+    }
+
+    // Function @ Index.h:4106:25
+    public static uint clang_getNumOverloadedDecls(CXCursor cursor)
+    {
+        return _virtualTable.clang_getNumOverloadedDecls(cursor);
+    }
+
+    // Function @ Index.h:4095:37
+    public static CX_StorageClass clang_Cursor_getStorageClass(CXCursor param)
+    {
+        return _virtualTable.clang_Cursor_getStorageClass(param);
+    }
+
+    // Function @ Index.h:4072:43
+    public static CX_CXXAccessSpecifier clang_getCXXAccessSpecifier(CXCursor param)
+    {
+        return _virtualTable.clang_getCXXAccessSpecifier(param);
+    }
+
+    // Function @ Index.h:4052:25
+    public static uint clang_isVirtualBase(CXCursor param)
+    {
+        return _virtualTable.clang_isVirtualBase(param);
+    }
+
+    // Function @ Index.h:4046:25
+    public static uint clang_Cursor_isBitField(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_isBitField(C);
+    }
+
+    // Function @ Index.h:4040:40
+    public static CXRefQualifierKind clang_Type_getCXXRefQualifier(CXType T)
+    {
+        return _virtualTable.clang_Type_getCXXRefQualifier(T);
+    }
+
+    // Function @ Index.h:4031:23
+    public static CXType clang_Type_getTemplateArgumentAsType(CXType T, uint i)
+    {
+        return _virtualTable.clang_Type_getTemplateArgumentAsType(T, i);
+    }
+
+    // Function @ Index.h:4022:20
+    public static int clang_Type_getNumTemplateArguments(CXType T)
+    {
+        return _virtualTable.clang_Type_getNumTemplateArguments(T);
+    }
+
+    // Function @ Index.h:4007:25
+    public static uint clang_Cursor_isInlineNamespace(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_isInlineNamespace(C);
+    }
+
+    // Function @ Index.h:4001:25
+    public static uint clang_Cursor_isAnonymousRecordDecl(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_isAnonymousRecordDecl(C);
+    }
+
+    // Function @ Index.h:3995:25
+    public static uint clang_Cursor_isAnonymous(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_isAnonymous(C);
+    }
+
+    // Function @ Index.h:3989:26
+    public static long clang_Cursor_getOffsetOfField(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_getOffsetOfField(C);
+    }
+
+    // Function @ Index.h:3974:23
+    public static CXType clang_Type_getValueType(CXType CT)
+    {
+        return _virtualTable.clang_Type_getValueType(CT);
+    }
+
+    // Function @ Index.h:3967:23
+    public static CXType clang_Type_getModifiedType(CXType T)
+    {
+        return _virtualTable.clang_Type_getModifiedType(T);
+    }
+
+    // Function @ Index.h:3960:26
+    public static long clang_Type_getOffsetOf(CXType T, CString S)
+    {
+        return _virtualTable.clang_Type_getOffsetOf(T, S);
+    }
+
+    // Function @ Index.h:3945:26
+    public static long clang_Type_getSizeOf(CXType T)
+    {
+        return _virtualTable.clang_Type_getSizeOf(T);
+    }
+
+    // Function @ Index.h:3934:23
+    public static CXType clang_Type_getClassType(CXType T)
+    {
+        return _virtualTable.clang_Type_getClassType(T);
+    }
+
+    // Function @ Index.h:3927:26
+    public static long clang_Type_getAlignOf(CXType T)
+    {
+        return _virtualTable.clang_Type_getAlignOf(T);
+    }
+
+    // Function @ Index.h:3878:43
+    public static CXTypeNullabilityKind clang_Type_getNullability(CXType T)
+    {
+        return _virtualTable.clang_Type_getNullability(T);
+    }
+
+    // Function @ Index.h:3843:25
+    public static uint clang_Type_isTransparentTagTypedef(CXType T)
+    {
+        return _virtualTable.clang_Type_isTransparentTagTypedef(T);
+    }
+
+    // Function @ Index.h:3833:23
+    public static CXType clang_Type_getNamedType(CXType T)
+    {
+        return _virtualTable.clang_Type_getNamedType(T);
+    }
+
+    // Function @ Index.h:3826:26
+    public static long clang_getArraySize(CXType T)
+    {
+        return _virtualTable.clang_getArraySize(T);
+    }
+
+    // Function @ Index.h:3819:23
+    public static CXType clang_getArrayElementType(CXType T)
+    {
+        return _virtualTable.clang_getArrayElementType(T);
+    }
+
+    // Function @ Index.h:3812:26
+    public static long clang_getNumElements(CXType T)
+    {
+        return _virtualTable.clang_getNumElements(T);
+    }
+
+    // Function @ Index.h:3804:23
+    public static CXType clang_getElementType(CXType T)
+    {
+        return _virtualTable.clang_getElementType(T);
+    }
+
+    // Function @ Index.h:3796:25
+    public static uint clang_isPODType(CXType T)
+    {
+        return _virtualTable.clang_isPODType(T);
+    }
+
+    // Function @ Index.h:3790:20
+    public static int clang_getCursorExceptionSpecificationType(CXCursor C)
+    {
+        return _virtualTable.clang_getCursorExceptionSpecificationType(C);
+    }
+
+    // Function @ Index.h:3781:23
+    public static CXType clang_getCursorResultType(CXCursor C)
+    {
+        return _virtualTable.clang_getCursorResultType(C);
+    }
+
+    // Function @ Index.h:3774:25
+    public static uint clang_isFunctionTypeVariadic(CXType T)
+    {
+        return _virtualTable.clang_isFunctionTypeVariadic(T);
+    }
+
+    // Function @ Index.h:3769:23
+    public static CXType clang_Type_getObjCTypeArg(CXType T, uint i)
+    {
+        return _virtualTable.clang_Type_getObjCTypeArg(T, i);
+    }
+
+    // Function @ Index.h:3761:25
+    public static uint clang_Type_getNumObjCTypeArgs(CXType T)
+    {
+        return _virtualTable.clang_Type_getNumObjCTypeArgs(T);
+    }
+
+    // Function @ Index.h:3754:25
+    public static CXCursor clang_Type_getObjCProtocolDecl(CXType T, uint i)
+    {
+        return _virtualTable.clang_Type_getObjCProtocolDecl(T, i);
+    }
+
+    // Function @ Index.h:3746:25
+    public static uint clang_Type_getNumObjCProtocolRefs(CXType T)
+    {
+        return _virtualTable.clang_Type_getNumObjCProtocolRefs(T);
+    }
+
+    // Function @ Index.h:3739:23
+    public static CXType clang_Type_getObjCObjectBaseType(CXType T)
+    {
+        return _virtualTable.clang_Type_getObjCObjectBaseType(T);
+    }
+
+    // Function @ Index.h:3732:23
+    public static CXType clang_getArgType(CXType T, uint i)
+    {
+        return _virtualTable.clang_getArgType(T, i);
+    }
+
+    // Function @ Index.h:3724:20
+    public static int clang_getNumArgTypes(CXType T)
+    {
+        return _virtualTable.clang_getNumArgTypes(T);
+    }
+
+    // Function @ Index.h:3716:20
+    public static int clang_getExceptionSpecificationType(CXType T)
+    {
+        return _virtualTable.clang_getExceptionSpecificationType(T);
+    }
+
+    // Function @ Index.h:3708:23
+    public static CXType clang_getResultType(CXType T)
+    {
+        return _virtualTable.clang_getResultType(T);
+    }
+
+    // Function @ Index.h:3701:35
+    public static CXCallingConv clang_getFunctionTypeCallingConv(CXType T)
+    {
+        return _virtualTable.clang_getFunctionTypeCallingConv(T);
+    }
+
+    // Function @ Index.h:3694:25
+    public static CXString clang_getTypeKindSpelling(CXTypeKind K)
+    {
+        return _virtualTable.clang_getTypeKindSpelling(K);
+    }
+
+    // Function @ Index.h:3689:25
+    public static CXString clang_Type_getObjCEncoding(CXType type)
+    {
+        return _virtualTable.clang_Type_getObjCEncoding(type);
+    }
+
+    // Function @ Index.h:3684:25
+    public static CXString clang_getDeclObjCTypeEncoding(CXCursor C)
+    {
+        return _virtualTable.clang_getDeclObjCTypeEncoding(C);
+    }
+
+    // Function @ Index.h:3679:25
+    public static CXCursor clang_getTypeDeclaration(CXType T)
+    {
+        return _virtualTable.clang_getTypeDeclaration(T);
+    }
+
+    // Function @ Index.h:3674:23
+    public static CXType clang_getPointeeType(CXType T)
+    {
+        return _virtualTable.clang_getPointeeType(T);
+    }
+
+    // Function @ Index.h:3669:25
+    public static CXString clang_getTypedefName(CXType CT)
+    {
+        return _virtualTable.clang_getTypedefName(CT);
+    }
+
+    // Function @ Index.h:3664:25
+    public static uint clang_getAddressSpace(CXType T)
+    {
+        return _virtualTable.clang_getAddressSpace(T);
+    }
+
+    // Function @ Index.h:3659:25
+    public static uint clang_isRestrictQualifiedType(CXType T)
+    {
+        return _virtualTable.clang_isRestrictQualifiedType(T);
+    }
+
+    // Function @ Index.h:3652:25
+    public static uint clang_isVolatileQualifiedType(CXType T)
+    {
+        return _virtualTable.clang_isVolatileQualifiedType(T);
+    }
+
+    // Function @ Index.h:3645:25
+    public static uint clang_Cursor_isFunctionInlined(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_isFunctionInlined(C);
+    }
+
+    // Function @ Index.h:3639:25
+    public static uint clang_Cursor_isMacroBuiltin(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_isMacroBuiltin(C);
+    }
+
+    // Function @ Index.h:3633:25
+    public static uint clang_Cursor_isMacroFunctionLike(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_isMacroFunctionLike(C);
+    }
+
+    // Function @ Index.h:3627:25
+    public static uint clang_isConstQualifiedType(CXType T)
+    {
+        return _virtualTable.clang_isConstQualifiedType(T);
+    }
+
+    // Function @ Index.h:3620:23
+    public static CXType clang_getCanonicalType(CXType T)
+    {
+        return _virtualTable.clang_getCanonicalType(T);
+    }
+
+    // Function @ Index.h:3610:25
+    public static uint clang_equalTypes(CXType A, CXType B)
+    {
+        return _virtualTable.clang_equalTypes(A, B);
+    }
+
+    // Function @ Index.h:3602:1
+    public static ulong clang_Cursor_getTemplateArgumentUnsignedValue(CXCursor C, uint I)
+    {
+        return _virtualTable.clang_Cursor_getTemplateArgumentUnsignedValue(C, I);
+    }
+
+    // Function @ Index.h:3581:26
+    public static long clang_Cursor_getTemplateArgumentValue(CXCursor C, uint I)
+    {
+        return _virtualTable.clang_Cursor_getTemplateArgumentValue(C, I);
+    }
+
+    // Function @ Index.h:3561:23
+    public static CXType clang_Cursor_getTemplateArgumentType(CXCursor C, uint I)
+    {
+        return _virtualTable.clang_Cursor_getTemplateArgumentType(C, I);
+    }
+
+    // Function @ Index.h:3541:1
+    public static CXTemplateArgumentKind clang_Cursor_getTemplateArgumentKind(CXCursor C, uint I)
+    {
+        return _virtualTable.clang_Cursor_getTemplateArgumentKind(C, I);
+    }
+
+    // Function @ Index.h:3522:20
+    public static int clang_Cursor_getNumTemplateArguments(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_getNumTemplateArguments(C);
+    }
+
+    // Function @ Index.h:3484:25
+    public static CXCursor clang_Cursor_getArgument(CXCursor C, uint i)
+    {
+        return _virtualTable.clang_Cursor_getArgument(C, i);
+    }
+
+    // Function @ Index.h:3475:20
+    public static int clang_Cursor_getNumArguments(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_getNumArguments(C);
+    }
+
+    // Function @ Index.h:3466:20
+    public static int clang_getFieldDeclBitWidth(CXCursor C)
+    {
+        return _virtualTable.clang_getFieldDeclBitWidth(C);
+    }
+
+    // Function @ Index.h:3459:1
+    public static ulong clang_getEnumConstantDeclUnsignedValue(CXCursor C)
+    {
+        return _virtualTable.clang_getEnumConstantDeclUnsignedValue(C);
+    }
+
+    // Function @ Index.h:3448:26
+    public static long clang_getEnumConstantDeclValue(CXCursor C)
+    {
+        return _virtualTable.clang_getEnumConstantDeclValue(C);
+    }
+
+    // Function @ Index.h:3438:23
+    public static CXType clang_getEnumDeclIntegerType(CXCursor C)
+    {
+        return _virtualTable.clang_getEnumDeclIntegerType(C);
+    }
+
+    // Function @ Index.h:3430:23
+    public static CXType clang_getTypedefDeclUnderlyingType(CXCursor C)
+    {
+        return _virtualTable.clang_getTypedefDeclUnderlyingType(C);
+    }
+
+    // Function @ Index.h:3422:25
+    public static CXString clang_getTypeSpelling(CXType CT)
+    {
+        return _virtualTable.clang_getTypeSpelling(CT);
+    }
+
+    // Function @ Index.h:3414:23
+    public static CXType clang_getCursorType(CXCursor C)
+    {
+        return _virtualTable.clang_getCursorType(C);
+    }
+
+    // Function @ Index.h:3211:30
+    public static CXSourceRange clang_getCursorExtent(CXCursor param)
+    {
+        return _virtualTable.clang_getCursorExtent(param);
+    }
+
+    // Function @ Index.h:3198:33
+    public static CXSourceLocation clang_getCursorLocation(CXCursor param)
+    {
+        return _virtualTable.clang_getCursorLocation(param);
+    }
+
+    // Function @ Index.h:3186:25
+    public static CXCursor clang_getCursor(CXTranslationUnit param, CXSourceLocation param2)
+    {
+        return _virtualTable.clang_getCursor(param, param2);
+    }
+
+    // Function @ Index.h:3154:23
+    public static CXFile clang_getIncludedFile(CXCursor cursor)
+    {
+        return _virtualTable.clang_getIncludedFile(cursor);
+    }
+
+    // Function @ Index.h:3148:21
+    public static void clang_disposeOverriddenCursors(CXCursor* overridden)
+    {
+        _virtualTable.clang_disposeOverriddenCursors(overridden);
+    }
+
+    // Function @ Index.h:3140:21
+    public static void clang_getOverriddenCursors(CXCursor cursor, CXCursor** overridden, ulong* num_overridden)
+    {
+        _virtualTable.clang_getOverriddenCursors(cursor, overridden, num_overridden);
+    }
+
+    // Function @ Index.h:3095:25
+    public static CXCursor clang_getCursorLexicalParent(CXCursor cursor)
+    {
+        return _virtualTable.clang_getCursorLexicalParent(cursor);
+    }
+
+    // Function @ Index.h:3059:25
+    public static CXCursor clang_getCursorSemanticParent(CXCursor cursor)
+    {
+        return _virtualTable.clang_getCursorSemanticParent(cursor);
+    }
+
+    // Function @ Index.h:3023:25
+    public static uint clang_CXCursorSet_insert(CXCursorSet cset, CXCursor cursor)
+    {
+        return _virtualTable.clang_CXCursorSet_insert(cset, cursor);
+    }
+
+    // Function @ Index.h:3015:25
+    public static uint clang_CXCursorSet_contains(CXCursorSet cset, CXCursor cursor)
+    {
+        return _virtualTable.clang_CXCursorSet_contains(cset, cursor);
+    }
+
+    // Function @ Index.h:3008:21
+    public static void clang_disposeCXCursorSet(CXCursorSet cset)
+    {
+        _virtualTable.clang_disposeCXCursorSet(cset);
+    }
+
+    // Function @ Index.h:3003:28
+    public static CXCursorSet clang_createCXCursorSet()
+    {
+        return _virtualTable.clang_createCXCursorSet();
+    }
+
+    // Function @ Index.h:2993:34
+    public static CXTranslationUnit clang_Cursor_getTranslationUnit(CXCursor param)
+    {
+        return _virtualTable.clang_Cursor_getTranslationUnit(param);
+    }
+
+    // Function @ Index.h:2988:31
+    public static CXTLSKind clang_getCursorTLSKind(CXCursor cursor)
+    {
+        return _virtualTable.clang_getCursorTLSKind(cursor);
+    }
+
+    // Function @ Index.h:2976:36
+    public static CXLanguageKind clang_getCursorLanguage(CXCursor cursor)
+    {
+        return _virtualTable.clang_getCursorLanguage(cursor);
+    }
+
+    // Function @ Index.h:2961:20
+    public static int clang_Cursor_hasVarDeclExternalStorage(CXCursor cursor)
+    {
+        return _virtualTable.clang_Cursor_hasVarDeclExternalStorage(cursor);
+    }
+
+    // Function @ Index.h:2954:20
+    public static int clang_Cursor_hasVarDeclGlobalStorage(CXCursor cursor)
+    {
+        return _virtualTable.clang_Cursor_hasVarDeclGlobalStorage(cursor);
+    }
+
+    // Function @ Index.h:2947:25
+    public static CXCursor clang_Cursor_getVarDeclInitializer(CXCursor cursor)
+    {
+        return _virtualTable.clang_Cursor_getVarDeclInitializer(cursor);
+    }
+
+    // Function @ Index.h:2941:1
+    public static void clang_disposeCXPlatformAvailability(CXPlatformAvailability* availability)
+    {
+        _virtualTable.clang_disposeCXPlatformAvailability(availability);
+    }
+
+    // Function @ Index.h:2932:20
+    public static int clang_getCursorPlatformAvailability(CXCursor cursor, long* always_deprecated, CXString* deprecated_message, long* always_unavailable, CXString* unavailable_message, CXPlatformAvailability* availability, int availability_size)
+    {
+        return _virtualTable.clang_getCursorPlatformAvailability(cursor, always_deprecated, deprecated_message, always_unavailable, unavailable_message, availability, availability_size);
+    }
+
+    // Function @ Index.h:2857:1
+    public static CXAvailabilityKind clang_getCursorAvailability(CXCursor cursor)
+    {
+        return _virtualTable.clang_getCursorAvailability(cursor);
+    }
+
+    // Function @ Index.h:2846:38
+    public static CXVisibilityKind clang_getCursorVisibility(CXCursor cursor)
+    {
+        return _virtualTable.clang_getCursorVisibility(cursor);
+    }
+
+    // Function @ Index.h:2820:35
+    public static CXLinkageKind clang_getCursorLinkage(CXCursor cursor)
+    {
+        return _virtualTable.clang_getCursorLinkage(cursor);
+    }
+
+    // Function @ Index.h:2794:25
+    public static uint clang_isUnexposed(CXCursorKind param)
+    {
+        return _virtualTable.clang_isUnexposed(param);
+    }
+
+    // Function @ Index.h:2788:25
+    public static uint clang_isPreprocessing(CXCursorKind param)
+    {
+        return _virtualTable.clang_isPreprocessing(param);
+    }
+
+    // Function @ Index.h:2782:25
+    public static uint clang_isTranslationUnit(CXCursorKind param)
+    {
+        return _virtualTable.clang_isTranslationUnit(param);
+    }
+
+    // Function @ Index.h:2776:25
+    public static uint clang_isInvalid(CXCursorKind param)
+    {
+        return _virtualTable.clang_isInvalid(param);
+    }
+
+    // Function @ Index.h:2770:25
+    public static uint clang_Cursor_hasAttrs(CXCursor C)
+    {
+        return _virtualTable.clang_Cursor_hasAttrs(C);
+    }
+
+    // Function @ Index.h:2765:25
+    public static uint clang_isAttribute(CXCursorKind param)
+    {
+        return _virtualTable.clang_isAttribute(param);
+    }
+
+    // Function @ Index.h:2760:25
+    public static uint clang_isStatement(CXCursorKind param)
+    {
+        return _virtualTable.clang_isStatement(param);
+    }
+
+    // Function @ Index.h:2755:25
+    public static uint clang_isExpression(CXCursorKind param)
+    {
+        return _virtualTable.clang_isExpression(param);
+    }
+
+    // Function @ Index.h:2750:25
+    public static uint clang_isReference(CXCursorKind param)
+    {
+        return _virtualTable.clang_isReference(param);
+    }
+
+    // Function @ Index.h:2740:25
+    public static uint clang_isInvalidDeclaration(CXCursor param)
+    {
+        return _virtualTable.clang_isInvalidDeclaration(param);
+    }
+
+    // Function @ Index.h:2730:25
+    public static uint clang_isDeclaration(CXCursorKind param)
+    {
+        return _virtualTable.clang_isDeclaration(param);
+    }
+
+    // Function @ Index.h:2725:34
+    public static CXCursorKind clang_getCursorKind(CXCursor param)
+    {
+        return _virtualTable.clang_getCursorKind(param);
+    }
+
+    // Function @ Index.h:2720:25
+    public static uint clang_hashCursor(CXCursor param)
+    {
+        return _virtualTable.clang_hashCursor(param);
+    }
+
+    // Function @ Index.h:2715:20
+    public static int clang_Cursor_isNull(CXCursor cursor)
+    {
+        return _virtualTable.clang_Cursor_isNull(cursor);
+    }
+
+    // Function @ Index.h:2710:25
+    public static uint clang_equalCursors(CXCursor param, CXCursor param2)
+    {
+        return _virtualTable.clang_equalCursors(param, param2);
+    }
+
+    // Function @ Index.h:2705:25
+    public static CXCursor clang_getTranslationUnitCursor(CXTranslationUnit param)
+    {
+        return _virtualTable.clang_getTranslationUnitCursor(param);
+    }
+
+    // Function @ Index.h:2697:25
+    public static CXCursor clang_getNullCursor()
+    {
+        return _virtualTable.clang_getNullCursor();
+    }
+
+    // Function @ Index.h:1697:20
+    public static int clang_TargetInfo_getPointerWidth(CXTargetInfo Info)
+    {
+        return _virtualTable.clang_TargetInfo_getPointerWidth(Info);
+    }
+
+    // Function @ Index.h:1690:25
+    public static CXString clang_TargetInfo_getTriple(CXTargetInfo Info)
+    {
+        return _virtualTable.clang_TargetInfo_getTriple(Info);
+    }
+
+    // Function @ Index.h:1683:21
+    public static void clang_TargetInfo_dispose(CXTargetInfo Info)
+    {
+        _virtualTable.clang_TargetInfo_dispose(Info);
+    }
+
+    // Function @ Index.h:1678:1
+    public static CXTargetInfo clang_getTranslationUnitTargetInfo(CXTranslationUnit CTUnit)
+    {
+        return _virtualTable.clang_getTranslationUnitTargetInfo(CTUnit);
+    }
+
+    // Function @ Index.h:1670:21
+    public static void clang_disposeCXTUResourceUsage(CXTUResourceUsage usage)
+    {
+        _virtualTable.clang_disposeCXTUResourceUsage(usage);
+    }
+
+    // Function @ Index.h:1668:1
+    public static CXTUResourceUsage clang_getCXTUResourceUsage(CXTranslationUnit TU)
+    {
+        return _virtualTable.clang_getCXTUResourceUsage(TU);
+    }
+
+    // Function @ Index.h:1637:13
+    public static CString clang_getTUResourceUsageName(CXTUResourceUsageKind kind)
+    {
+        return _virtualTable.clang_getTUResourceUsageName(kind);
+    }
+
+    // Function @ Index.h:1602:1
+    public static int clang_reparseTranslationUnit(CXTranslationUnit TU, uint num_unsaved_files, CXUnsavedFile* unsaved_files, uint options)
+    {
+        return _virtualTable.clang_reparseTranslationUnit(TU, num_unsaved_files, unsaved_files, options);
+    }
+
+    // Function @ Index.h:1560:25
+    public static uint clang_defaultReparseOptions(CXTranslationUnit TU)
+    {
+        return _virtualTable.clang_defaultReparseOptions(TU);
+    }
+
+    // Function @ Index.h:1534:21
+    public static void clang_disposeTranslationUnit(CXTranslationUnit param)
+    {
+        _virtualTable.clang_disposeTranslationUnit(param);
+    }
+
+    // Function @ Index.h:1529:25
+    public static uint clang_suspendTranslationUnit(CXTranslationUnit param)
+    {
+        return _virtualTable.clang_suspendTranslationUnit(param);
+    }
+
+    // Function @ Index.h:1518:20
+    public static int clang_saveTranslationUnit(CXTranslationUnit TU, CString FileName, uint options)
+    {
+        return _virtualTable.clang_saveTranslationUnit(TU, FileName, options);
+    }
+
+    // Function @ Index.h:1458:25
+    public static uint clang_defaultSaveOptions(CXTranslationUnit TU)
+    {
+        return _virtualTable.clang_defaultSaveOptions(TU);
+    }
+
+    // Function @ Index.h:1429:33
+    public static CXErrorCode clang_parseTranslationUnit2FullArgv(CXIndex CIdx, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU)
+    {
+        return _virtualTable.clang_parseTranslationUnit2FullArgv(CIdx, source_filename, command_line_args, num_command_line_args, unsaved_files, num_unsaved_files, options, out_TU);
+    }
+
+    // Function @ Index.h:1418:33
+    public static CXErrorCode clang_parseTranslationUnit2(CXIndex CIdx, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU)
+    {
+        return _virtualTable.clang_parseTranslationUnit2(CIdx, source_filename, command_line_args, num_command_line_args, unsaved_files, num_unsaved_files, options, out_TU);
+    }
+
+    // Function @ Index.h:1368:34
+    public static CXTranslationUnit clang_parseTranslationUnit(CXIndex CIdx, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options)
+    {
+        return _virtualTable.clang_parseTranslationUnit(CIdx, source_filename, command_line_args, num_command_line_args, unsaved_files, num_unsaved_files, options);
+    }
+
+    // Function @ Index.h:1360:25
+    public static uint clang_defaultEditingTranslationUnitOptions()
+    {
+        return _virtualTable.clang_defaultEditingTranslationUnitOptions();
+    }
+
+    // Function @ Index.h:1189:1
+    public static CXErrorCode clang_createTranslationUnit2(CXIndex CIdx, CString ast_filename, CXTranslationUnit* out_TU)
+    {
+        return _virtualTable.clang_createTranslationUnit2(CIdx, ast_filename, out_TU);
+    }
+
+    // Function @ Index.h:1178:1
+    public static CXTranslationUnit clang_createTranslationUnit(CXIndex CIdx, CString ast_filename)
+    {
+        return _virtualTable.clang_createTranslationUnit(CIdx, ast_filename);
+    }
+
+    // Function @ Index.h:1166:34
+    public static CXTranslationUnit clang_createTranslationUnitFromSourceFile(CXIndex CIdx, CString source_filename, int num_clang_command_line_args, CString* clang_command_line_args, uint num_unsaved_files, CXUnsavedFile* unsaved_files)
+    {
+        return _virtualTable.clang_createTranslationUnitFromSourceFile(CIdx, source_filename, num_clang_command_line_args, clang_command_line_args, num_unsaved_files, unsaved_files);
+    }
+
+    // Function @ Index.h:1124:1
+    public static CXString clang_getTranslationUnitSpelling(CXTranslationUnit CTUnit)
+    {
+        return _virtualTable.clang_getTranslationUnitSpelling(CTUnit);
+    }
+
+    // Function @ Index.h:1103:25
+    public static CXString clang_getDiagnosticFixIt(CXDiagnostic Diagnostic, uint FixIt, CXSourceRange* ReplacementRange)
+    {
+        return _virtualTable.clang_getDiagnosticFixIt(Diagnostic, FixIt, ReplacementRange);
+    }
+
+    // Function @ Index.h:1076:25
+    public static uint clang_getDiagnosticNumFixIts(CXDiagnostic Diagnostic)
+    {
+        return _virtualTable.clang_getDiagnosticNumFixIts(Diagnostic);
+    }
+
+    // Function @ Index.h:1069:30
+    public static CXSourceRange clang_getDiagnosticRange(CXDiagnostic Diagnostic, uint Range)
+    {
+        return _virtualTable.clang_getDiagnosticRange(Diagnostic, Range);
+    }
+
+    // Function @ Index.h:1054:25
+    public static uint clang_getDiagnosticNumRanges(CXDiagnostic param)
+    {
+        return _virtualTable.clang_getDiagnosticNumRanges(param);
+    }
+
+    // Function @ Index.h:1048:25
+    public static CXString clang_getDiagnosticCategoryText(CXDiagnostic param)
+    {
+        return _virtualTable.clang_getDiagnosticCategoryText(param);
+    }
+
+    // Function @ Index.h:1041:1
+    public static CXString clang_getDiagnosticCategoryName(uint Category)
+    {
+        return _virtualTable.clang_getDiagnosticCategoryName(Category);
+    }
+
+    // Function @ Index.h:1028:25
+    public static uint clang_getDiagnosticCategory(CXDiagnostic param)
+    {
+        return _virtualTable.clang_getDiagnosticCategory(param);
+    }
+
+    // Function @ Index.h:1015:25
+    public static CXString clang_getDiagnosticOption(CXDiagnostic Diag, CXString* Disable)
+    {
+        return _virtualTable.clang_getDiagnosticOption(Diag, Disable);
+    }
+
+    // Function @ Index.h:1001:25
+    public static CXString clang_getDiagnosticSpelling(CXDiagnostic param)
+    {
+        return _virtualTable.clang_getDiagnosticSpelling(param);
+    }
+
+    // Function @ Index.h:996:33
+    public static CXSourceLocation clang_getDiagnosticLocation(CXDiagnostic param)
+    {
+        return _virtualTable.clang_getDiagnosticLocation(param);
+    }
+
+    // Function @ Index.h:988:5
+    public static CXDiagnosticSeverity clang_getDiagnosticSeverity(CXDiagnostic param)
+    {
+        return _virtualTable.clang_getDiagnosticSeverity(param);
+    }
+
+    // Function @ Index.h:982:25
+    public static uint clang_defaultDiagnosticDisplayOptions()
+    {
+        return _virtualTable.clang_defaultDiagnosticDisplayOptions();
+    }
+
+    // Function @ Index.h:972:25
+    public static CXString clang_formatDiagnostic(CXDiagnostic Diagnostic, uint Options)
+    {
+        return _virtualTable.clang_formatDiagnostic(Diagnostic, Options);
+    }
+
+    // Function @ Index.h:887:21
+    public static void clang_disposeDiagnostic(CXDiagnostic Diagnostic)
+    {
+        _virtualTable.clang_disposeDiagnostic(Diagnostic);
+    }
+
+    // Function @ Index.h:882:1
+    public static CXDiagnosticSet clang_getDiagnosticSetFromTU(CXTranslationUnit Unit)
+    {
+        return _virtualTable.clang_getDiagnosticSetFromTU(Unit);
+    }
+
+    // Function @ Index.h:872:29
+    public static CXDiagnostic clang_getDiagnostic(CXTranslationUnit Unit, uint Index)
+    {
+        return _virtualTable.clang_getDiagnostic(Unit, Index);
+    }
+
+    // Function @ Index.h:861:25
+    public static uint clang_getNumDiagnostics(CXTranslationUnit Unit)
+    {
+        return _virtualTable.clang_getNumDiagnostics(Unit);
+    }
+
+    // Function @ Index.h:855:32
+    public static CXDiagnosticSet clang_getChildDiagnostics(CXDiagnostic D)
+    {
+        return _virtualTable.clang_getChildDiagnostics(D);
+    }
+
+    // Function @ Index.h:847:21
+    public static void clang_disposeDiagnosticSet(CXDiagnosticSet Diags)
+    {
+        _virtualTable.clang_disposeDiagnosticSet(Diags);
+    }
+
+    // Function @ Index.h:841:32
+    public static CXDiagnosticSet clang_loadDiagnostics(CString file, CXLoadDiag_Error* error, CXString* errorString)
+    {
+        return _virtualTable.clang_loadDiagnostics(file, error, errorString);
+    }
+
+    // Function @ Index.h:796:29
+    public static CXDiagnostic clang_getDiagnosticInSet(CXDiagnosticSet Diags, uint Index)
+    {
+        return _virtualTable.clang_getDiagnosticInSet(Diags, Index);
+    }
+
+    // Function @ Index.h:785:25
+    public static uint clang_getNumDiagnosticsInSet(CXDiagnosticSet Diags)
+    {
+        return _virtualTable.clang_getNumDiagnosticsInSet(Diags);
+    }
+
+    // Function @ Index.h:724:21
+    public static void clang_disposeSourceRangeList(CXSourceRangeList* ranges)
+    {
+        _virtualTable.clang_disposeSourceRangeList(ranges);
+    }
+
+    // Function @ Index.h:719:1
+    public static CXSourceRangeList* clang_getAllSkippedRanges(CXTranslationUnit tu)
+    {
+        return _virtualTable.clang_getAllSkippedRanges(tu);
+    }
+
+    // Function @ Index.h:708:35
+    public static CXSourceRangeList* clang_getSkippedRanges(CXTranslationUnit tu, CXFile file)
+    {
+        return _virtualTable.clang_getSkippedRanges(tu, file);
+    }
+
+    // Function @ Index.h:688:33
+    public static CXSourceLocation clang_getRangeEnd(CXSourceRange range)
+    {
+        return _virtualTable.clang_getRangeEnd(range);
+    }
+
+    // Function @ Index.h:682:33
+    public static CXSourceLocation clang_getRangeStart(CXSourceRange range)
+    {
+        return _virtualTable.clang_getRangeStart(range);
+    }
+
+    // Function @ Index.h:674:21
+    public static void clang_getFileLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset)
+    {
+        _virtualTable.clang_getFileLocation(location, file, line, column, offset);
+    }
+
+    // Function @ Index.h:646:21
+    public static void clang_getSpellingLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset)
+    {
+        _virtualTable.clang_getSpellingLocation(location, file, line, column, offset);
+    }
+
+    // Function @ Index.h:619:21
+    public static void clang_getInstantiationLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset)
+    {
+        _virtualTable.clang_getInstantiationLocation(location, file, line, column, offset);
+    }
+
+    // Function @ Index.h:607:21
+    public static void clang_getPresumedLocation(CXSourceLocation location, CXString* filename, ulong* line, ulong* column)
+    {
+        _virtualTable.clang_getPresumedLocation(location, filename, line, column);
+    }
+
+    // Function @ Index.h:562:21
+    public static void clang_getExpansionLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset)
+    {
+        _virtualTable.clang_getExpansionLocation(location, file, line, column, offset);
+    }
+
+    // Function @ Index.h:538:20
+    public static int clang_Range_isNull(CXSourceRange range)
+    {
+        return _virtualTable.clang_Range_isNull(range);
+    }
+
+    // Function @ Index.h:532:25
+    public static uint clang_equalRanges(CXSourceRange range1, CXSourceRange range2)
+    {
+        return _virtualTable.clang_equalRanges(range1, range2);
+    }
+
+    // Function @ Index.h:524:30
+    public static CXSourceRange clang_getRange(CXSourceLocation begin, CXSourceLocation end)
+    {
+        return _virtualTable.clang_getRange(begin, end);
+    }
+
+    // Function @ Index.h:518:30
+    public static CXSourceRange clang_getNullRange()
+    {
+        return _virtualTable.clang_getNullRange();
+    }
+
+    // Function @ Index.h:513:20
+    public static int clang_Location_isFromMainFile(CXSourceLocation location)
+    {
+        return _virtualTable.clang_Location_isFromMainFile(location);
+    }
+
+    // Function @ Index.h:507:20
+    public static int clang_Location_isInSystemHeader(CXSourceLocation location)
+    {
+        return _virtualTable.clang_Location_isInSystemHeader(location);
+    }
+
+    // Function @ Index.h:500:33
+    public static CXSourceLocation clang_getLocationForOffset(CXTranslationUnit tu, CXFile file, uint offset)
+    {
+        return _virtualTable.clang_getLocationForOffset(tu, file, offset);
+    }
+
+    // Function @ Index.h:493:33
+    public static CXSourceLocation clang_getLocation(CXTranslationUnit tu, CXFile file, uint line, uint column)
+    {
+        return _virtualTable.clang_getLocation(tu, file, line, column);
+    }
+
+    // Function @ Index.h:486:25
+    public static uint clang_equalLocations(CXSourceLocation loc1, CXSourceLocation loc2)
+    {
+        return _virtualTable.clang_equalLocations(loc1, loc2);
+    }
+
+    // Function @ Index.h:476:33
+    public static CXSourceLocation clang_getNullLocation()
+    {
+        return _virtualTable.clang_getNullLocation();
+    }
+
+    // Function @ Index.h:430:25
+    public static CXString clang_File_tryGetRealPathName(CXFile file)
+    {
+        return _virtualTable.clang_File_tryGetRealPathName(file);
+    }
+
+    // Function @ Index.h:423:20
+    public static int clang_File_isEqual(CXFile file1, CXFile file2)
+    {
+        return _virtualTable.clang_File_isEqual(file1, file2);
+    }
+
+    // Function @ Index.h:416:28
+    public static CString clang_getFileContents(CXTranslationUnit tu, CXFile file, ulong* size)
+    {
+        return _virtualTable.clang_getFileContents(tu, file, size);
+    }
+
+    // Function @ Index.h:401:23
+    public static CXFile clang_getFile(CXTranslationUnit tu, CString file_name)
+    {
+        return _virtualTable.clang_getFile(tu, file_name);
+    }
+
+    // Function @ Index.h:388:25
+    public static uint clang_isFileMultipleIncludeGuarded(CXTranslationUnit tu, CXFile file)
+    {
+        return _virtualTable.clang_isFileMultipleIncludeGuarded(tu, file);
+    }
+
+    // Function @ Index.h:381:20
+    public static int clang_getFileUniqueID(CXFile file, CXFileUniqueID* outID)
+    {
+        return _virtualTable.clang_getFileUniqueID(file, outID);
+    }
+
+    // Function @ Index.h:363:23
+    public static time_t clang_getFileTime(CXFile SFile)
+    {
+        return _virtualTable.clang_getFileTime(SFile);
+    }
+
+    // Function @ Index.h:358:25
+    public static CXString clang_getFileName(CXFile SFile)
+    {
+        return _virtualTable.clang_getFileName(SFile);
+    }
+
+    // Function @ Index.h:342:1
+    public static void clang_CXIndex_setInvocationEmissionPathOption(CXIndex param, CString Path)
+    {
+        _virtualTable.clang_CXIndex_setInvocationEmissionPathOption(param, Path);
+    }
+
+    // Function @ Index.h:332:25
+    public static uint clang_CXIndex_getGlobalOptions(CXIndex param)
+    {
+        return _virtualTable.clang_CXIndex_getGlobalOptions(param);
+    }
+
+    // Function @ Index.h:324:21
+    public static void clang_CXIndex_setGlobalOptions(CXIndex param, uint options)
+    {
+        _virtualTable.clang_CXIndex_setGlobalOptions(param, options);
+    }
+
+    // Function @ Index.h:275:21
+    public static void clang_disposeIndex(CXIndex index)
+    {
+        _virtualTable.clang_disposeIndex(index);
+    }
+
+    // Function @ Index.h:266:24
+    public static CXIndex clang_createIndex(int excludeDeclarationsFromPCH, int displayDiagnostics)
+    {
+        return _virtualTable.clang_createIndex(excludeDeclarationsFromPCH, displayDiagnostics);
+    }
+
+    // Function @ BuildSystem.h:144:21
+    public static void clang_ModuleMapDescriptor_dispose(CXModuleMapDescriptor param)
+    {
+        _virtualTable.clang_ModuleMapDescriptor_dispose(param);
+    }
+
+    // Function @ BuildSystem.h:137:1
+    public static CXErrorCode clang_ModuleMapDescriptor_writeToBuffer(CXModuleMapDescriptor param, uint options, CString* out_buffer_ptr, ulong* out_buffer_size)
+    {
+        return _virtualTable.clang_ModuleMapDescriptor_writeToBuffer(param, options, out_buffer_ptr, out_buffer_size);
+    }
+
+    // Function @ BuildSystem.h:124:1
+    public static CXErrorCode clang_ModuleMapDescriptor_setUmbrellaHeader(CXModuleMapDescriptor param, CString name)
+    {
+        return _virtualTable.clang_ModuleMapDescriptor_setUmbrellaHeader(param, name);
+    }
+
+    // Function @ BuildSystem.h:116:1
+    public static CXErrorCode clang_ModuleMapDescriptor_setFrameworkModuleName(CXModuleMapDescriptor param, CString name)
+    {
+        return _virtualTable.clang_ModuleMapDescriptor_setFrameworkModuleName(param, name);
+    }
+
+    // Function @ BuildSystem.h:109:1
+    public static CXModuleMapDescriptor clang_ModuleMapDescriptor_create(uint options)
+    {
+        return _virtualTable.clang_ModuleMapDescriptor_create(options);
+    }
+
+    // Function @ BuildSystem.h:95:21
+    public static void clang_VirtualFileOverlay_dispose(CXVirtualFileOverlay param)
+    {
+        _virtualTable.clang_VirtualFileOverlay_dispose(param);
+    }
+
+    // Function @ BuildSystem.h:90:21
+    public static void clang_free(void* buffer)
+    {
+        _virtualTable.clang_free(buffer);
+    }
+
+    // Function @ BuildSystem.h:80:1
+    public static CXErrorCode clang_VirtualFileOverlay_writeToBuffer(CXVirtualFileOverlay param, uint options, CString* out_buffer_ptr, ulong* out_buffer_size)
+    {
+        return _virtualTable.clang_VirtualFileOverlay_writeToBuffer(param, options, out_buffer_ptr, out_buffer_size);
+    }
+
+    // Function @ BuildSystem.h:67:1
+    public static CXErrorCode clang_VirtualFileOverlay_setCaseSensitivity(CXVirtualFileOverlay param, int caseSensitive)
+    {
+        return _virtualTable.clang_VirtualFileOverlay_setCaseSensitivity(param, caseSensitive);
+    }
+
+    // Function @ BuildSystem.h:56:1
+    public static CXErrorCode clang_VirtualFileOverlay_addFileMapping(CXVirtualFileOverlay param, CString virtualPath, CString realPath)
+    {
+        return _virtualTable.clang_VirtualFileOverlay_addFileMapping(param, virtualPath, realPath);
+    }
+
+    // Function @ BuildSystem.h:48:1
+    public static CXVirtualFileOverlay clang_VirtualFileOverlay_create(uint options)
+    {
+        return _virtualTable.clang_VirtualFileOverlay_create(options);
+    }
+
+    // Function @ BuildSystem.h:33:35
+    public static ulong clang_getBuildSessionTimestamp()
+    {
+        return _virtualTable.clang_getBuildSessionTimestamp();
+    }
+
+    // Function @ CXString.h:60:21
+    public static void clang_disposeStringSet(CXStringSet* set)
+    {
+        _virtualTable.clang_disposeStringSet(set);
+    }
+
+    // Function @ CXString.h:55:21
+    public static void clang_disposeString(CXString @string)
+    {
+        _virtualTable.clang_disposeString(@string);
+    }
+
+    // Function @ CXString.h:50:28
+    public static CString clang_getCString(CXString @string)
+    {
+        return _virtualTable.clang_getCString(@string);
+    }
+
+    // FunctionPointer @ Index.h:6746:32
     [StructLayout(LayoutKind.Sequential)]
     public struct CXFieldVisitor
     {
         public delegate* unmanaged<CXCursor, CXClientData, CXVisitorResult> Pointer;
     }
 
-    // Record @ CXString.h:37
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct CXString
+    // FunctionPointer @ Index.h:5929:16
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXInclusionVisitor
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* data;
-
-        [FieldOffset(8)] // size = 4, padding = 4
-        public uint private_flags;
+        public delegate* unmanaged<CXFile, CXSourceLocation*, uint, CXClientData, void> Pointer;
     }
 
-    // Record @ CXString.h:42
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct CXStringSet
+    // FunctionPointer @ Index.h:4191:35
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXCursorVisitor
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CXString* Strings;
-
-        [FieldOffset(8)] // size = 4, padding = 4
-        public uint Count;
+        public delegate* unmanaged<CXCursor, CXCursor, CXClientData, CXChildVisitResult> Pointer;
     }
 
-    // Record @ Index.h:369
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXFileUniqueID
-    {
-        [FieldOffset(0)] // size = 24, padding = 0
-        public fixed ulong _data[24 / 8]; // unsigned long long [3]
-
-        public Span<ulong> data
-        {
-            get
-            {
-                fixed (CXFileUniqueID* @this = &this)
-                {
-                    var pointer = &@this->_data[0];
-                    var span = new Span<ulong>(pointer, 3);
-                    return span;
-                }
-            }
-        }
-    }
-
-    // Record @ Index.h:456
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXSourceLocation
-    {
-        [FieldOffset(0)] // size = 16, padding = 0
-        public fixed ulong _ptr_data[16 / 8]; // void *[2]
-
-        public Span<IntPtr> ptr_data
-        {
-            get
-            {
-                fixed (CXSourceLocation* @this = &this)
-                {
-                    var pointer = &@this->_ptr_data[0];
-                    var span = new Span<IntPtr>(pointer, 2);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(16)] // size = 4, padding = 4
-        public uint int_data;
-    }
-
-    // Record @ Index.h:467
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXSourceRange
-    {
-        [FieldOffset(0)] // size = 16, padding = 0
-        public fixed ulong _ptr_data[16 / 8]; // void *[2]
-
-        public Span<IntPtr> ptr_data
-        {
-            get
-            {
-                fixed (CXSourceRange* @this = &this)
-                {
-                    var pointer = &@this->_ptr_data[0];
-                    var span = new Span<IntPtr>(pointer, 2);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(16)] // size = 4, padding = 0
-        public uint begin_int_data;
-
-        [FieldOffset(20)] // size = 4, padding = 0
-        public uint end_int_data;
-    }
-
-    // Record @ Index.h:693
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct CXSourceRangeList
-    {
-        [FieldOffset(0)] // size = 4, padding = 4
-        public uint count;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public CXSourceRange* ranges;
-    }
-
-    // Record @ Index.h:101
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXUnsavedFile
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CString Filename;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public CString Contents;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public ulong Length;
-    }
-
-    // Record @ Index.h:1639
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct CXTUResourceUsageEntry
-    {
-        [FieldOffset(0)] // size = 4, padding = 4
-        public CXTUResourceUsageKind kind;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public ulong amount;
-    }
-
-    // Record @ Index.h:1650
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXTUResourceUsage
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* data;
-
-        [FieldOffset(8)] // size = 4, padding = 4
-        public uint numEntries;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public CXTUResourceUsageEntry* entries;
-    }
-
-    // Record @ Index.h:2682
+    // Struct @ Index.h:2686:3
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
     public struct CXCursor
     {
@@ -1568,7 +2083,7 @@ public static unsafe partial class clang
         public int xdata;
 
         [FieldOffset(8)] // size = 24, padding = 0
-        public fixed ulong _data[24 / 8]; // void *[3]
+        public fixed ulong _data[24 / 8]; // void*[3]
 
         public Span<IntPtr> data
         {
@@ -1584,44 +2099,7 @@ public static unsafe partial class clang
         }
     }
 
-    // Record @ Index.h:149
-    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
-    public struct CXVersion
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int Major;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public int Minor;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public int Subminor;
-    }
-
-    // Record @ Index.h:2863
-    [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8)]
-    public struct CXPlatformAvailability
-    {
-        [FieldOffset(0)] // size = 16, padding = 0
-        public CXString Platform;
-
-        [FieldOffset(16)] // size = 12, padding = 0
-        public CXVersion Introduced;
-
-        [FieldOffset(28)] // size = 12, padding = 0
-        public CXVersion Deprecated;
-
-        [FieldOffset(40)] // size = 12, padding = 0
-        public CXVersion Obsoleted;
-
-        [FieldOffset(52)] // size = 4, padding = 0
-        public int Unavailable;
-
-        [FieldOffset(56)] // size = 16, padding = 0
-        public CXString Message;
-    }
-
-    // Record @ Index.h:3406
+    // Struct @ Index.h:3409:3
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXType
     {
@@ -1629,7 +2107,7 @@ public static unsafe partial class clang
         public CXTypeKind kind;
 
         [FieldOffset(8)] // size = 16, padding = 0
-        public fixed ulong _data[16 / 8]; // void *[2]
+        public fixed ulong _data[16 / 8]; // void*[2]
 
         public Span<IntPtr> data
         {
@@ -1645,76 +2123,12 @@ public static unsafe partial class clang
         }
     }
 
-    // Record @ Index.h:4971
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXToken
-    {
-        [FieldOffset(0)] // size = 16, padding = 0
-        public fixed uint _int_data[16 / 4]; // unsigned int [4]
-
-        public Span<uint> int_data
-        {
-            get
-            {
-                fixed (CXToken* @this = &this)
-                {
-                    var pointer = &@this->_int_data[0];
-                    var span = new Span<uint>(pointer, 4);
-                    return span;
-                }
-            }
-        }
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public void* ptr_data;
-    }
-
-    // Record @ Index.h:5129
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct CXCompletionResult
-    {
-        [FieldOffset(0)] // size = 4, padding = 4
-        public CXCursorKind CursorKind;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public CXCompletionString CompletionString;
-    }
-
-    // Record @ Index.h:5463
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct CXCodeCompleteResults
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CXCompletionResult* Results;
-
-        [FieldOffset(8)] // size = 4, padding = 4
-        public uint NumResults;
-    }
-
-    // Record @ Index.h:6089
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct CXCursorAndRangeVisitor
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* context;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtr_visit visit;
-
-        // PointerFunction @ Index.h:6091
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_visit
-        {
-            public delegate* unmanaged<void*, CXCursor, CXSourceRange, CXVisitorResult> Pointer;
-        }
-    }
-
-    // Record @ Index.h:6185
+    // Struct @ Index.h:6188:3
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXIdxLoc
     {
         [FieldOffset(0)] // size = 16, padding = 0
-        public fixed ulong _ptr_data[16 / 8]; // void *[2]
+        public fixed ulong _ptr_data[16 / 8]; // void*[2]
 
         public Span<IntPtr> ptr_data
         {
@@ -1733,21 +2147,150 @@ public static unsafe partial class clang
         public uint int_data;
     }
 
-    // Record @ Index.h:6306
+    // Struct @ Index.h:459:3
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct CXSourceLocation
+    {
+        [FieldOffset(0)] // size = 16, padding = 0
+        public fixed ulong _ptr_data[16 / 8]; // void*[2]
+
+        public Span<IntPtr> ptr_data
+        {
+            get
+            {
+                fixed (CXSourceLocation* @this = &this)
+                {
+                    var pointer = &@this->_ptr_data[0];
+                    var span = new Span<IntPtr>(pointer, 2);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(16)] // size = 4, padding = 4
+        public uint int_data;
+    }
+
+    // Struct @ Index.h:6539:3
     [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
-    public struct CXIdxAttrInfo
+    public struct IndexerCallbacks
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public FnPtr_abortQuery abortQuery;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public FnPtr_diagnostic diagnostic;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public FnPtr_enteredMainFile enteredMainFile;
+
+        [FieldOffset(24)] // size = 8, padding = 0
+        public FnPtr_ppIncludedFile ppIncludedFile;
+
+        [FieldOffset(32)] // size = 8, padding = 0
+        public FnPtr_importedASTFile importedASTFile;
+
+        [FieldOffset(40)] // size = 8, padding = 0
+        public FnPtr_startedTranslationUnit startedTranslationUnit;
+
+        [FieldOffset(48)] // size = 8, padding = 0
+        public FnPtr_indexDeclaration indexDeclaration;
+
+        [FieldOffset(56)] // size = 8, padding = 0
+        public FnPtr_indexEntityReference indexEntityReference;
+
+        // FunctionPointer @ Index.h:6498:9
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_abortQuery
+        {
+            public delegate* unmanaged<CXClientData, void*, int> Pointer;
+        }
+
+        // FunctionPointer @ Index.h:6503:10
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_diagnostic
+        {
+            public delegate* unmanaged<CXClientData, CXDiagnosticSet, void*, void> Pointer;
+        }
+
+        // FunctionPointer @ Index.h:6505:21
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_enteredMainFile
+        {
+            public delegate* unmanaged<CXClientData, CXFile, void*, CXIdxClientFile> Pointer;
+        }
+
+        // FunctionPointer @ Index.h:6511:21
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_ppIncludedFile
+        {
+            public delegate* unmanaged<CXClientData, CXIdxIncludedFileInfo*, CXIdxClientFile> Pointer;
+        }
+
+        // FunctionPointer @ Index.h:6522:24
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_importedASTFile
+        {
+            public delegate* unmanaged<CXClientData, CXIdxImportedASTFileInfo*, CXIdxClientASTFile> Pointer;
+        }
+
+        // FunctionPointer @ Index.h:6528:26
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_startedTranslationUnit
+        {
+            public delegate* unmanaged<CXClientData, void*, CXIdxClientContainer> Pointer;
+        }
+
+        // FunctionPointer @ Index.h:6531:10
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_indexDeclaration
+        {
+            public delegate* unmanaged<CXClientData, CXIdxDeclInfo*, void> Pointer;
+        }
+
+        // FunctionPointer @ Index.h:6536:10
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_indexEntityReference
+        {
+            public delegate* unmanaged<CXClientData, CXIdxEntityRefInfo*, void> Pointer;
+        }
+    }
+
+    // Struct @ Index.h:6487:3
+    [StructLayout(LayoutKind.Explicit, Size = 96, Pack = 8)]
+    public struct CXIdxEntityRefInfo
     {
         [FieldOffset(0)] // size = 4, padding = 4
-        public CXIdxAttrKind kind;
+        public CXIdxEntityRefKind kind;
 
         [FieldOffset(8)] // size = 32, padding = 0
         public CXCursor cursor;
 
         [FieldOffset(40)] // size = 24, padding = 0
         public CXIdxLoc loc;
+
+        [FieldOffset(64)] // size = 8, padding = 0
+        public CXIdxEntityInfo* referencedEntity;
+
+        [FieldOffset(72)] // size = 8, padding = 0
+        public CXIdxEntityInfo* parentEntity;
+
+        [FieldOffset(80)] // size = 8, padding = 0
+        public CXIdxContainerInfo* container;
+
+        [FieldOffset(88)] // size = 4, padding = 4
+        public CXSymbolRole role;
     }
 
-    // Record @ Index.h:6312
+    // Struct @ Index.h:6325:3
+    [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
+    public struct CXIdxContainerInfo
+    {
+        [FieldOffset(0)] // size = 32, padding = 0
+        public CXCursor cursor;
+    }
+
+    // Struct @ Index.h:6321:3
     [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8)]
     public struct CXIdxEntityInfo
     {
@@ -1776,15 +2319,21 @@ public static unsafe partial class clang
         public uint numAttributes;
     }
 
-    // Record @ Index.h:6323
-    [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
-    public struct CXIdxContainerInfo
+    // Struct @ Index.h:6310:3
+    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
+    public struct CXIdxAttrInfo
     {
-        [FieldOffset(0)] // size = 32, padding = 0
+        [FieldOffset(0)] // size = 4, padding = 4
+        public CXIdxAttrKind kind;
+
+        [FieldOffset(8)] // size = 32, padding = 0
         public CXCursor cursor;
+
+        [FieldOffset(40)] // size = 24, padding = 0
+        public CXIdxLoc loc;
     }
 
-    // Record @ Index.h:6336
+    // Struct @ Index.h:6360:3
     [StructLayout(LayoutKind.Explicit, Size = 128, Pack = 8)]
     public struct CXIdxDeclInfo
     {
@@ -1828,136 +2377,24 @@ public static unsafe partial class clang
         public uint flags;
     }
 
-    // Record @ Index.h:6368
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct CXIdxObjCContainerDeclInfo
+    // Struct @ Index.h:6237:3
+    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
+    public struct CXIdxImportedASTFileInfo
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public CXIdxDeclInfo* declInfo;
+        public CXFile file;
 
-        [FieldOffset(8)] // size = 4, padding = 4
-        public CXIdxObjCContainerKind kind;
-    }
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CXModule module;
 
-    // Record @ Index.h:6373
-    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
-    public struct CXIdxBaseClassInfo
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CXIdxEntityInfo* @base;
-
-        [FieldOffset(8)] // size = 32, padding = 0
-        public CXCursor cursor;
-
-        [FieldOffset(40)] // size = 24, padding = 0
+        [FieldOffset(16)] // size = 24, padding = 0
         public CXIdxLoc loc;
+
+        [FieldOffset(40)] // size = 4, padding = 4
+        public int isImplicit;
     }
 
-    // Record @ Index.h:6379
-    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
-    public struct CXIdxObjCProtocolRefInfo
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CXIdxEntityInfo* protocol;
-
-        [FieldOffset(8)] // size = 32, padding = 0
-        public CXCursor cursor;
-
-        [FieldOffset(40)] // size = 24, padding = 0
-        public CXIdxLoc loc;
-    }
-
-    // Record @ Index.h:6385
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
-    public struct CXIdxObjCProtocolRefListInfo
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CXIdxObjCProtocolRefInfo** protocols;
-
-        [FieldOffset(8)] // size = 4, padding = 4
-        public uint numProtocols;
-    }
-
-    // Record @ Index.h:6390
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXIdxObjCInterfaceDeclInfo
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CXIdxObjCContainerDeclInfo* containerInfo;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public CXIdxBaseClassInfo* superInfo;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public CXIdxObjCProtocolRefListInfo* protocols;
-    }
-
-    // Record @ Index.h:6396
-    [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8)]
-    public struct CXIdxObjCCategoryDeclInfo
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CXIdxObjCContainerDeclInfo* containerInfo;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public CXIdxEntityInfo* objcClass;
-
-        [FieldOffset(16)] // size = 32, padding = 0
-        public CXCursor classCursor;
-
-        [FieldOffset(48)] // size = 24, padding = 0
-        public CXIdxLoc classLoc;
-
-        [FieldOffset(72)] // size = 8, padding = 0
-        public CXIdxObjCProtocolRefListInfo* protocols;
-    }
-
-    // Record @ Index.h:6404
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXIdxObjCPropertyDeclInfo
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CXIdxDeclInfo* declInfo;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public CXIdxEntityInfo* getter;
-
-        [FieldOffset(16)] // size = 8, padding = 0
-        public CXIdxEntityInfo* setter;
-    }
-
-    // Record @ Index.h:6327
-    [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8)]
-    public struct CXIdxIBOutletCollectionAttrInfo
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CXIdxAttrInfo* attrInfo;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public CXIdxEntityInfo* objcClass;
-
-        [FieldOffset(16)] // size = 32, padding = 0
-        public CXCursor classCursor;
-
-        [FieldOffset(48)] // size = 24, padding = 0
-        public CXIdxLoc classLoc;
-    }
-
-    // Record @ Index.h:6410
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
-    public struct CXIdxCXXClassDeclInfo
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CXIdxDeclInfo* declInfo;
-
-        [FieldOffset(8)] // size = 8, padding = 0
-        public CXIdxBaseClassInfo** bases;
-
-        [FieldOffset(16)] // size = 4, padding = 4
-        public uint numBases;
-    }
-
-    // Record @ Index.h:6193
+    // Struct @ Index.h:6213:3
     [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
     public struct CXIdxIncludedFileInfo
     {
@@ -1980,264 +2417,387 @@ public static unsafe partial class clang
         public int isModuleImport;
     }
 
-    // Record @ Index.h:6218
-    [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
-    public struct CXIdxImportedASTFileInfo
+    // Struct @ Index.h:101:8
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct CXUnsavedFile
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public CXFile file;
+        public CString Filename;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public CXModule module;
+        public CString Contents;
 
-        [FieldOffset(16)] // size = 24, padding = 0
-        public CXIdxLoc loc;
-
-        [FieldOffset(40)] // size = 4, padding = 4
-        public int isImplicit;
+        [FieldOffset(16)] // size = 8, padding = 0
+        public ulong Length;
     }
 
-    // Record @ Index.h:6456
-    [StructLayout(LayoutKind.Explicit, Size = 96, Pack = 8)]
-    public struct CXIdxEntityRefInfo
+    // Struct @ Index.h:6414:3
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct CXIdxCXXClassDeclInfo
     {
-        [FieldOffset(0)] // size = 4, padding = 4
-        public CXIdxEntityRefKind kind;
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXIdxDeclInfo* declInfo;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CXIdxBaseClassInfo** bases;
+
+        [FieldOffset(16)] // size = 4, padding = 4
+        public uint numBases;
+    }
+
+    // Struct @ Index.h:6377:3
+    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
+    public struct CXIdxBaseClassInfo
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXIdxEntityInfo* @base;
 
         [FieldOffset(8)] // size = 32, padding = 0
         public CXCursor cursor;
 
         [FieldOffset(40)] // size = 24, padding = 0
         public CXIdxLoc loc;
-
-        [FieldOffset(64)] // size = 8, padding = 0
-        public CXIdxEntityInfo* referencedEntity;
-
-        [FieldOffset(72)] // size = 8, padding = 0
-        public CXIdxEntityInfo* parentEntity;
-
-        [FieldOffset(80)] // size = 8, padding = 0
-        public CXIdxContainerInfo* container;
-
-        [FieldOffset(88)] // size = 4, padding = 4
-        public CXSymbolRole role;
     }
 
-    // Record @ Index.h:6493
-    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
-    public struct IndexerCallbacks
+    // Struct @ Index.h:6332:3
+    [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8)]
+    public struct CXIdxIBOutletCollectionAttrInfo
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public FnPtr_abortQuery abortQuery;
+        public CXIdxAttrInfo* attrInfo;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtr_diagnostic diagnostic;
+        public CXIdxEntityInfo* objcClass;
+
+        [FieldOffset(16)] // size = 32, padding = 0
+        public CXCursor classCursor;
+
+        [FieldOffset(48)] // size = 24, padding = 0
+        public CXIdxLoc classLoc;
+    }
+
+    // Struct @ Index.h:6408:3
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct CXIdxObjCPropertyDeclInfo
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXIdxDeclInfo* declInfo;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CXIdxEntityInfo* getter;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtr_enteredMainFile enteredMainFile;
-
-        [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtr_ppIncludedFile ppIncludedFile;
-
-        [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtr_importedASTFile importedASTFile;
-
-        [FieldOffset(40)] // size = 8, padding = 0
-        public FnPtr_startedTranslationUnit startedTranslationUnit;
-
-        [FieldOffset(48)] // size = 8, padding = 0
-        public FnPtr_indexDeclaration indexDeclaration;
-
-        [FieldOffset(56)] // size = 8, padding = 0
-        public FnPtr_indexEntityReference indexEntityReference;
-
-        // PointerFunction @ Index.h:6498
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_abortQuery
-        {
-            public delegate* unmanaged<CXClientData, void*, int> Pointer;
-        }
-
-        // PointerFunction @ Index.h:6503
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_diagnostic
-        {
-            public delegate* unmanaged<CXClientData, CXDiagnosticSet, void*, void> Pointer;
-        }
-
-        // PointerFunction @ Index.h:6505
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_enteredMainFile
-        {
-            public delegate* unmanaged<CXClientData, CXFile, void*, CXIdxClientFile> Pointer;
-        }
-
-        // PointerFunction @ Index.h:6511
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_ppIncludedFile
-        {
-            public delegate* unmanaged<CXClientData, CXIdxIncludedFileInfo*, CXIdxClientFile> Pointer;
-        }
-
-        // PointerFunction @ Index.h:6522
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_importedASTFile
-        {
-            public delegate* unmanaged<CXClientData, CXIdxImportedASTFileInfo*, CXIdxClientASTFile> Pointer;
-        }
-
-        // PointerFunction @ Index.h:6528
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_startedTranslationUnit
-        {
-            public delegate* unmanaged<CXClientData, void*, CXIdxClientContainer> Pointer;
-        }
-
-        // PointerFunction @ Index.h:6531
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_indexDeclaration
-        {
-            public delegate* unmanaged<CXClientData, CXIdxDeclInfo*, void> Pointer;
-        }
-
-        // PointerFunction @ Index.h:6536
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_indexEntityReference
-        {
-            public delegate* unmanaged<CXClientData, CXIdxEntityRefInfo*, void> Pointer;
-        }
+        public CXIdxEntityInfo* setter;
     }
 
-    // OpaqueType @ BuildSystem.h:39
-    [StructLayout(LayoutKind.Sequential)]
-    public struct CXVirtualFileOverlayImpl
+    // Struct @ Index.h:6388:3
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct CXIdxObjCProtocolRefListInfo
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXIdxObjCProtocolRefInfo** protocols;
+
+        [FieldOffset(8)] // size = 4, padding = 4
+        public uint numProtocols;
     }
 
-    // OpaqueType @ BuildSystem.h:100
-    [StructLayout(LayoutKind.Sequential)]
-    public struct CXModuleMapDescriptorImpl
+    // Struct @ Index.h:6383:3
+    [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
+    public struct CXIdxObjCProtocolRefInfo
     {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXIdxEntityInfo* protocol;
+
+        [FieldOffset(8)] // size = 32, padding = 0
+        public CXCursor cursor;
+
+        [FieldOffset(40)] // size = 24, padding = 0
+        public CXIdxLoc loc;
     }
 
-    // OpaqueType @ Index.h:86
+    // Struct @ Index.h:6402:3
+    [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8)]
+    public struct CXIdxObjCCategoryDeclInfo
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXIdxObjCContainerDeclInfo* containerInfo;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CXIdxEntityInfo* objcClass;
+
+        [FieldOffset(16)] // size = 32, padding = 0
+        public CXCursor classCursor;
+
+        [FieldOffset(48)] // size = 24, padding = 0
+        public CXIdxLoc classLoc;
+
+        [FieldOffset(72)] // size = 8, padding = 0
+        public CXIdxObjCProtocolRefListInfo* protocols;
+    }
+
+    // Struct @ Index.h:6371:3
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct CXIdxObjCContainerDeclInfo
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXIdxDeclInfo* declInfo;
+
+        [FieldOffset(8)] // size = 4, padding = 4
+        public CXIdxObjCContainerKind kind;
+    }
+
+    // Struct @ Index.h:6394:3
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct CXIdxObjCInterfaceDeclInfo
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXIdxObjCContainerDeclInfo* containerInfo;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CXIdxBaseClassInfo* superInfo;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public CXIdxObjCProtocolRefListInfo* protocols;
+    }
+
+    // Struct @ Index.h:6092:3
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct CXCursorAndRangeVisitor
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* context;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public FnPtr_visit visit;
+
+        // FunctionPointer @ Index.h:6091:26
+        [StructLayout(LayoutKind.Sequential)]
+        public struct FnPtr_visit
+        {
+            public delegate* unmanaged<void*, CXCursor, CXSourceRange, CXVisitorResult> Pointer;
+        }
+    }
+
+    // Struct @ Index.h:471:3
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct CXSourceRange
+    {
+        [FieldOffset(0)] // size = 16, padding = 0
+        public fixed ulong _ptr_data[16 / 8]; // void*[2]
+
+        public Span<IntPtr> ptr_data
+        {
+            get
+            {
+                fixed (CXSourceRange* @this = &this)
+                {
+                    var pointer = &@this->_ptr_data[0];
+                    var span = new Span<IntPtr>(pointer, 2);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(16)] // size = 4, padding = 0
+        public uint begin_int_data;
+
+        [FieldOffset(20)] // size = 4, padding = 0
+        public uint end_int_data;
+    }
+
+    // Struct @ CXString.h:40:3
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct CXString
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* data;
+
+        [FieldOffset(8)] // size = 4, padding = 4
+        public uint private_flags;
+    }
+
+    // Struct @ Index.h:5474:3
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct CXCodeCompleteResults
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXCompletionResult* Results;
+
+        [FieldOffset(8)] // size = 4, padding = 4
+        public uint NumResults;
+    }
+
+    // Struct @ Index.h:5147:3
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct CXCompletionResult
+    {
+        [FieldOffset(0)] // size = 4, padding = 4
+        public CXCursorKind CursorKind;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CXCompletionString CompletionString;
+    }
+
+    // Struct @ Index.h:4974:3
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct CXToken
+    {
+        [FieldOffset(0)] // size = 16, padding = 0
+        public fixed uint _int_data[16 / 4]; // unsigned int[4]
+
+        public Span<uint> int_data
+        {
+            get
+            {
+                fixed (CXToken* @this = &this)
+                {
+                    var pointer = &@this->_int_data[0];
+                    var span = new Span<uint>(pointer, 4);
+                    return span;
+                }
+            }
+        }
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public void* ptr_data;
+    }
+
+    // Struct @ CXString.h:45:3
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct CXStringSet
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXString* Strings;
+
+        [FieldOffset(8)] // size = 4, padding = 4
+        public uint Count;
+    }
+
+    // Struct @ Index.h:2894:3
+    [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8)]
+    public struct CXPlatformAvailability
+    {
+        [FieldOffset(0)] // size = 16, padding = 0
+        public CXString Platform;
+
+        [FieldOffset(16)] // size = 12, padding = 0
+        public CXVersion Introduced;
+
+        [FieldOffset(28)] // size = 12, padding = 0
+        public CXVersion Deprecated;
+
+        [FieldOffset(40)] // size = 12, padding = 0
+        public CXVersion Obsoleted;
+
+        [FieldOffset(52)] // size = 4, padding = 0
+        public int Unavailable;
+
+        [FieldOffset(56)] // size = 16, padding = 0
+        public CXString Message;
+    }
+
+    // Struct @ Index.h:167:3
+    [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
+    public struct CXVersion
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int Major;
+
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int Minor;
+
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int Subminor;
+    }
+
+    // Struct @ Index.h:1661:3
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct CXTUResourceUsage
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* data;
+
+        [FieldOffset(8)] // size = 4, padding = 4
+        public uint numEntries;
+
+        [FieldOffset(16)] // size = 8, padding = 0
+        public CXTUResourceUsageEntry* entries;
+    }
+
+    // Struct @ Index.h:1645:3
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct CXTUResourceUsageEntry
+    {
+        [FieldOffset(0)] // size = 4, padding = 4
+        public CXTUResourceUsageKind kind;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public ulong amount;
+    }
+
+    // Struct @ Index.h:700:3
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    public struct CXSourceRangeList
+    {
+        [FieldOffset(0)] // size = 4, padding = 4
+        public uint count;
+
+        [FieldOffset(8)] // size = 8, padding = 0
+        public CXSourceRange* ranges;
+    }
+
+    // Struct @ Index.h:371:3
+    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+    public struct CXFileUniqueID
+    {
+        [FieldOffset(0)] // size = 24, padding = 0
+        public fixed ulong _data[24 / 8]; // unsigned long long[3]
+
+        public Span<ulong> data
+        {
+            get
+            {
+                fixed (CXFileUniqueID* @this = &this)
+                {
+                    var pointer = &@this->_data[0];
+                    var span = new Span<ulong>(pointer, 3);
+                    return span;
+                }
+            }
+        }
+    }
+
+    // OpaqueType @ Index.h:86:16
     [StructLayout(LayoutKind.Sequential)]
     public struct CXTranslationUnitImpl
     {
     }
 
-    // OpaqueType @ Index.h:81
-    [StructLayout(LayoutKind.Sequential)]
-    public struct CXTargetInfoImpl
-    {
-    }
-
-    // OpaqueType @ Index.h:2998
+    // OpaqueType @ Index.h:2998:16
     [StructLayout(LayoutKind.Sequential)]
     public struct CXCursorSetImpl
     {
     }
 
-    // Typedef @ BuildSystem.h:39
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXVirtualFileOverlay
+    // OpaqueType @ Index.h:81:16
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXTargetInfoImpl
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CXVirtualFileOverlayImpl* Data;
-
-        public static implicit operator CXVirtualFileOverlayImpl*(CXVirtualFileOverlay data) => data.Data;
-        public static implicit operator CXVirtualFileOverlay(CXVirtualFileOverlayImpl* data) => new() { Data = data };
     }
 
-    // Typedef @ BuildSystem.h:100
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXModuleMapDescriptor
+    // OpaqueType @ BuildSystem.h:100:16
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXModuleMapDescriptorImpl
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CXModuleMapDescriptorImpl* Data;
-
-        public static implicit operator CXModuleMapDescriptorImpl*(CXModuleMapDescriptor data) => data.Data;
-        public static implicit operator CXModuleMapDescriptor(CXModuleMapDescriptorImpl* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:75
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIndex
+    // OpaqueType @ BuildSystem.h:39:16
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CXVirtualFileOverlayImpl
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* Data;
-
-        public static implicit operator void*(CXIndex data) => data.Data;
-        public static implicit operator CXIndex(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:353
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXFile
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* Data;
-
-        public static implicit operator void*(CXFile data) => data.Data;
-        public static implicit operator CXFile(void* data) => new() { Data = data };
-    }
-
-    // Typedef @ Index.h:86
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXTranslationUnit
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CXTranslationUnitImpl* Data;
-
-        public static implicit operator CXTranslationUnitImpl*(CXTranslationUnit data) => data.Data;
-        public static implicit operator CXTranslationUnit(CXTranslationUnitImpl* data) => new() { Data = data };
-    }
-
-    // Typedef @ Index.h:780
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXDiagnosticSet
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* Data;
-
-        public static implicit operator void*(CXDiagnosticSet data) => data.Data;
-        public static implicit operator CXDiagnosticSet(void* data) => new() { Data = data };
-    }
-
-    // Typedef @ Index.h:775
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXDiagnostic
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* Data;
-
-        public static implicit operator void*(CXDiagnostic data) => data.Data;
-        public static implicit operator CXDiagnostic(void* data) => new() { Data = data };
-    }
-
-    // Typedef @ Index.h:81
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXTargetInfo
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CXTargetInfoImpl* Data;
-
-        public static implicit operator CXTargetInfoImpl*(CXTargetInfo data) => data.Data;
-        public static implicit operator CXTargetInfo(CXTargetInfoImpl* data) => new() { Data = data };
-    }
-
-    // Typedef @ Index.h:2998
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXCursorSet
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CXCursorSetImpl* Data;
-
-        public static implicit operator CXCursorSetImpl*(CXCursorSet data) => data.Data;
-        public static implicit operator CXCursorSet(CXCursorSetImpl* data) => new() { Data = data };
-    }
-
-    // Typedef @ Index.h:92
+    // Typedef @ Index.h:92:15
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXClientData
     {
@@ -2248,95 +2808,18 @@ public static unsafe partial class clang
         public static implicit operator CXClientData(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:4332
+    // Typedef @ Index.h:353:15
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXPrintingPolicy
+    public struct CXFile
     {
         [FieldOffset(0)] // size = 8, padding = 0
         public void* Data;
 
-        public static implicit operator void*(CXPrintingPolicy data) => data.Data;
-        public static implicit operator CXPrintingPolicy(void* data) => new() { Data = data };
+        public static implicit operator void*(CXFile data) => data.Data;
+        public static implicit operator CXFile(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:4679
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXModule
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* Data;
-
-        public static implicit operator void*(CXModule data) => data.Data;
-        public static implicit operator CXModule(void* data) => new() { Data = data };
-    }
-
-    // Typedef @ Index.h:5124
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXCompletionString
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* Data;
-
-        public static implicit operator void*(CXCompletionString data) => data.Data;
-        public static implicit operator CXCompletionString(void* data) => new() { Data = data };
-    }
-
-    // Typedef @ Index.h:5959
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXEvalResult
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* Data;
-
-        public static implicit operator void*(CXEvalResult data) => data.Data;
-        public static implicit operator CXEvalResult(void* data) => new() { Data = data };
-    }
-
-    // Typedef @ Index.h:6030
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXRemapping
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* Data;
-
-        public static implicit operator void*(CXRemapping data) => data.Data;
-        public static implicit operator CXRemapping(void* data) => new() { Data = data };
-    }
-
-    // Typedef @ Index.h:6174
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIdxClientContainer
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* Data;
-
-        public static implicit operator void*(CXIdxClientContainer data) => data.Data;
-        public static implicit operator CXIdxClientContainer(void* data) => new() { Data = data };
-    }
-
-    // Typedef @ Index.h:6168
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIdxClientEntity
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* Data;
-
-        public static implicit operator void*(CXIdxClientEntity data) => data.Data;
-        public static implicit operator CXIdxClientEntity(void* data) => new() { Data = data };
-    }
-
-    // Typedef @ Index.h:6594
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct CXIndexAction
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* Data;
-
-        public static implicit operator void*(CXIndexAction data) => data.Data;
-        public static implicit operator CXIndexAction(void* data) => new() { Data = data };
-    }
-
-    // Typedef @ Index.h:6163
+    // Typedef @ Index.h:6163:15
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIdxClientFile
     {
@@ -2347,7 +2830,29 @@ public static unsafe partial class clang
         public static implicit operator CXIdxClientFile(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:6180
+    // Typedef @ Index.h:86:39
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXTranslationUnit
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXTranslationUnitImpl* Data;
+
+        public static implicit operator CXTranslationUnitImpl*(CXTranslationUnit data) => data.Data;
+        public static implicit operator CXTranslationUnit(CXTranslationUnitImpl* data) => new() { Data = data };
+    }
+
+    // Typedef @ Index.h:6174:15
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXIdxClientContainer
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
+
+        public static implicit operator void*(CXIdxClientContainer data) => data.Data;
+        public static implicit operator CXIdxClientContainer(void* data) => new() { Data = data };
+    }
+
+    // Typedef @ Index.h:6180:15
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIdxClientASTFile
     {
@@ -2358,59 +2863,168 @@ public static unsafe partial class clang
         public static implicit operator CXIdxClientASTFile(void* data) => new() { Data = data };
     }
 
-    // Enum @ CXErrorCode.h:28
-    public enum CXErrorCode : uint
+    // Typedef @ Index.h:4679:15
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXModule
     {
-        CXError_Success = 0U,
-        CXError_Failure = 1U,
-        CXError_Crashed = 2U,
-        CXError_InvalidArguments = 3U,
-        CXError_ASTReadError = 4U
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
+
+        public static implicit operator void*(CXModule data) => data.Data;
+        public static implicit operator CXModule(void* data) => new() { Data = data };
     }
 
-    // Enum @ Index.h:803
-    public enum CXLoadDiag_Error : uint
+    // Typedef @ Index.h:780:15
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXDiagnosticSet
     {
-        CXLoadDiag_None = 0U,
-        CXLoadDiag_Unknown = 1U,
-        CXLoadDiag_CannotLoad = 2U,
-        CXLoadDiag_InvalidFile = 3U
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
+
+        public static implicit operator void*(CXDiagnosticSet data) => data.Data;
+        public static implicit operator CXDiagnosticSet(void* data) => new() { Data = data };
     }
 
-    // Enum @ Index.h:739
-    public enum CXDiagnosticSeverity : uint
+    // Typedef @ Index.h:6594:15
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXIndexAction
     {
-        CXDiagnostic_Ignored = 0U,
-        CXDiagnostic_Note = 1U,
-        CXDiagnostic_Warning = 2U,
-        CXDiagnostic_Error = 3U,
-        CXDiagnostic_Fatal = 4U
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
+
+        public static implicit operator void*(CXIndexAction data) => data.Data;
+        public static implicit operator CXIndexAction(void* data) => new() { Data = data };
     }
 
-    // Enum @ Index.h:1609
-    public enum CXTUResourceUsageKind : uint
+    // Typedef @ Index.h:75:15
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXIndex
     {
-        CXTUResourceUsage_AST = 1U,
-        CXTUResourceUsage_Identifiers = 2U,
-        CXTUResourceUsage_Selectors = 3U,
-        CXTUResourceUsage_GlobalCompletionResults = 4U,
-        CXTUResourceUsage_SourceManagerContentCache = 5U,
-        CXTUResourceUsage_AST_SideTables = 6U,
-        CXTUResourceUsage_SourceManager_Membuffer_Malloc = 7U,
-        CXTUResourceUsage_SourceManager_Membuffer_MMap = 8U,
-        CXTUResourceUsage_ExternalASTSource_Membuffer_Malloc = 9U,
-        CXTUResourceUsage_ExternalASTSource_Membuffer_MMap = 10U,
-        CXTUResourceUsage_Preprocessor = 11U,
-        CXTUResourceUsage_PreprocessingRecord = 12U,
-        CXTUResourceUsage_SourceManager_DataStructures = 13U,
-        CXTUResourceUsage_Preprocessor_HeaderSearch = 14U,
-        CXTUResourceUsage_MEMORY_IN_BYTES_BEGIN = 1U,
-        CXTUResourceUsage_MEMORY_IN_BYTES_END = 14U,
-        CXTUResourceUsage_First = 1U,
-        CXTUResourceUsage_Last = 14U
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
+
+        public static implicit operator void*(CXIndex data) => data.Data;
+        public static implicit operator CXIndex(void* data) => new() { Data = data };
     }
 
-    // Enum @ Index.h:1706
+    // Typedef @ Index.h:6168:15
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXIdxClientEntity
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
+
+        public static implicit operator void*(CXIdxClientEntity data) => data.Data;
+        public static implicit operator CXIdxClientEntity(void* data) => new() { Data = data };
+    }
+
+    // Typedef @ Index.h:6030:15
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXRemapping
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
+
+        public static implicit operator void*(CXRemapping data) => data.Data;
+        public static implicit operator CXRemapping(void* data) => new() { Data = data };
+    }
+
+    // Typedef @ Index.h:5959:15
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXEvalResult
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
+
+        public static implicit operator void*(CXEvalResult data) => data.Data;
+        public static implicit operator CXEvalResult(void* data) => new() { Data = data };
+    }
+
+    // Typedef @ Index.h:5124:15
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXCompletionString
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
+
+        public static implicit operator void*(CXCompletionString data) => data.Data;
+        public static implicit operator CXCompletionString(void* data) => new() { Data = data };
+    }
+
+    // Typedef @ Index.h:775:15
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXDiagnostic
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
+
+        public static implicit operator void*(CXDiagnostic data) => data.Data;
+        public static implicit operator CXDiagnostic(void* data) => new() { Data = data };
+    }
+
+    // Typedef @ Index.h:4332:15
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXPrintingPolicy
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
+
+        public static implicit operator void*(CXPrintingPolicy data) => data.Data;
+        public static implicit operator CXPrintingPolicy(void* data) => new() { Data = data };
+    }
+
+    // Typedef @ Index.h:2998:33
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXCursorSet
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXCursorSetImpl* Data;
+
+        public static implicit operator CXCursorSetImpl*(CXCursorSet data) => data.Data;
+        public static implicit operator CXCursorSet(CXCursorSetImpl* data) => new() { Data = data };
+    }
+
+    // Typedef @ Index.h:81:34
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXTargetInfo
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXTargetInfoImpl* Data;
+
+        public static implicit operator CXTargetInfoImpl*(CXTargetInfo data) => data.Data;
+        public static implicit operator CXTargetInfo(CXTargetInfoImpl* data) => new() { Data = data };
+    }
+
+    // Typedef @ BuildSystem.h:100:43
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXModuleMapDescriptor
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXModuleMapDescriptorImpl* Data;
+
+        public static implicit operator CXModuleMapDescriptorImpl*(CXModuleMapDescriptor data) => data.Data;
+        public static implicit operator CXModuleMapDescriptor(CXModuleMapDescriptorImpl* data) => new() { Data = data };
+    }
+
+    // Typedef @ BuildSystem.h:39:42
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct CXVirtualFileOverlay
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CXVirtualFileOverlayImpl* Data;
+
+        public static implicit operator CXVirtualFileOverlayImpl*(CXVirtualFileOverlay data) => data.Data;
+        public static implicit operator CXVirtualFileOverlay(CXVirtualFileOverlayImpl* data) => new() { Data = data };
+    }
+
+    // Enum @ Index.h:6087:6
+    public enum CXVisitorResult : uint
+    {
+        CXVisit_Break = 0U,
+        CXVisit_Continue = 1U
+    }
+
+    // Enum @ Index.h:1706:6
     public enum CXCursorKind : uint
     {
         CXCursor_UnexposedDecl = 1U,
@@ -2680,52 +3294,7 @@ public static unsafe partial class clang
         CXCursor_OverloadCandidate = 700U
     }
 
-    // Enum @ Index.h:2799
-    public enum CXLinkageKind : uint
-    {
-        CXLinkage_Invalid = 0U,
-        CXLinkage_NoLinkage = 1U,
-        CXLinkage_Internal = 2U,
-        CXLinkage_UniqueExternal = 3U,
-        CXLinkage_External = 4U
-    }
-
-    // Enum @ Index.h:2822
-    public enum CXVisibilityKind : uint
-    {
-        CXVisibility_Invalid = 0U,
-        CXVisibility_Hidden = 1U,
-        CXVisibility_Protected = 2U,
-        CXVisibility_Default = 3U
-    }
-
-    // Enum @ Index.h:125
-    public enum CXAvailabilityKind : uint
-    {
-        CXAvailability_Available = 0U,
-        CXAvailability_Deprecated = 1U,
-        CXAvailability_NotAvailable = 2U,
-        CXAvailability_NotAccessible = 3U
-    }
-
-    // Enum @ Index.h:2966
-    public enum CXLanguageKind : uint
-    {
-        CXLanguage_Invalid = 0U,
-        CXLanguage_C = 1U,
-        CXLanguage_ObjC = 2U,
-        CXLanguage_CPlusPlus = 3U
-    }
-
-    // Enum @ Index.h:2982
-    public enum CXTLSKind : uint
-    {
-        CXTLS_None = 0U,
-        CXTLS_Dynamic = 1U,
-        CXTLS_Static = 2U
-    }
-
-    // Enum @ Index.h:3226
+    // Enum @ Index.h:3226:6
     public enum CXTypeKind : uint
     {
         CXType_Invalid = 0U,
@@ -2850,190 +3419,50 @@ public static unsafe partial class clang
         CXType_Atomic = 177U
     }
 
-    // Enum @ Index.h:3492
-    public enum CXTemplateArgumentKind : uint
+    // Enum @ Index.h:6451:3
+    public enum CXSymbolRole : uint
     {
-        CXTemplateArgumentKind_Null = 0U,
-        CXTemplateArgumentKind_Type = 1U,
-        CXTemplateArgumentKind_Declaration = 2U,
-        CXTemplateArgumentKind_NullPtr = 3U,
-        CXTemplateArgumentKind_Integral = 4U,
-        CXTemplateArgumentKind_Template = 5U,
-        CXTemplateArgumentKind_TemplateExpansion = 6U,
-        CXTemplateArgumentKind_Expression = 7U,
-        CXTemplateArgumentKind_Pack = 8U,
-        CXTemplateArgumentKind_Invalid = 9U
+        CXSymbolRole_None = 0U,
+        CXSymbolRole_Declaration = 1U,
+        CXSymbolRole_Definition = 2U,
+        CXSymbolRole_Reference = 4U,
+        CXSymbolRole_Read = 8U,
+        CXSymbolRole_Write = 16U,
+        CXSymbolRole_Call = 32U,
+        CXSymbolRole_Dynamic = 64U,
+        CXSymbolRole_AddressOf = 128U,
+        CXSymbolRole_Implicit = 256U
     }
 
-    // Enum @ Index.h:3377
-    public enum CXCallingConv : uint
+    // Enum @ Index.h:6304:3
+    public enum CXIdxAttrKind : uint
     {
-        CXCallingConv_Default = 0U,
-        CXCallingConv_C = 1U,
-        CXCallingConv_X86StdCall = 2U,
-        CXCallingConv_X86FastCall = 3U,
-        CXCallingConv_X86ThisCall = 4U,
-        CXCallingConv_X86Pascal = 5U,
-        CXCallingConv_AAPCS = 6U,
-        CXCallingConv_AAPCS_VFP = 7U,
-        CXCallingConv_X86RegCall = 8U,
-        CXCallingConv_IntelOclBicc = 9U,
-        CXCallingConv_Win64 = 10U,
-        CXCallingConv_X86_64Win64 = 10U,
-        CXCallingConv_X86_64SysV = 11U,
-        CXCallingConv_X86VectorCall = 12U,
-        CXCallingConv_Swift = 13U,
-        CXCallingConv_PreserveMost = 14U,
-        CXCallingConv_PreserveAll = 15U,
-        CXCallingConv_AArch64VectorCall = 16U,
-        CXCallingConv_Invalid = 100U,
-        CXCallingConv_Unexposed = 200U
+        CXIdxAttr_Unexposed = 0U,
+        CXIdxAttr_IBAction = 1U,
+        CXIdxAttr_IBOutlet = 2U,
+        CXIdxAttr_IBOutletCollection = 3U
     }
 
-    // Enum @ Index.h:3845
-    public enum CXTypeNullabilityKind : uint
+    // Enum @ Index.h:6280:3
+    public enum CXIdxEntityLanguage : uint
     {
-        CXTypeNullability_NonNull = 0U,
-        CXTypeNullability_Nullable = 1U,
-        CXTypeNullability_Unspecified = 2U,
-        CXTypeNullability_Invalid = 3U,
-        CXTypeNullability_NullableResult = 4U
+        CXIdxEntityLang_None = 0U,
+        CXIdxEntityLang_C = 1U,
+        CXIdxEntityLang_ObjC = 2U,
+        CXIdxEntityLang_CXX = 3U,
+        CXIdxEntityLang_Swift = 4U
     }
 
-    // Enum @ Index.h:4009
-    public enum CXRefQualifierKind : uint
+    // Enum @ Index.h:6297:3
+    public enum CXIdxEntityCXXTemplateKind : uint
     {
-        CXRefQualifier_None = 0U,
-        CXRefQualifier_LValue = 1U,
-        CXRefQualifier_RValue = 2U
+        CXIdxEntity_NonTemplate = 0U,
+        CXIdxEntity_Template = 1U,
+        CXIdxEntity_TemplatePartialSpecialization = 2U,
+        CXIdxEntity_TemplateSpecialization = 3U
     }
 
-    // Enum @ Index.h:4058
-    public enum CX_CXXAccessSpecifier : uint
-    {
-        CX_CXXInvalidAccessSpecifier = 0U,
-        CX_CXXPublic = 1U,
-        CX_CXXProtected = 2U,
-        CX_CXXPrivate = 3U
-    }
-
-    // Enum @ Index.h:4078
-    public enum CX_StorageClass : uint
-    {
-        CX_SC_Invalid = 0U,
-        CX_SC_None = 1U,
-        CX_SC_Extern = 2U,
-        CX_SC_Static = 3U,
-        CX_SC_PrivateExtern = 4U,
-        CX_SC_OpenCLWorkGroupLocal = 5U,
-        CX_SC_Auto = 6U,
-        CX_SC_Register = 7U
-    }
-
-    // Enum @ Index.h:4162
-    public enum CXChildVisitResult : uint
-    {
-        CXChildVisit_Break = 0U,
-        CXChildVisit_Continue = 1U,
-        CXChildVisit_Recurse = 2U
-    }
-
-    // Enum @ Index.h:4339
-    public enum CXPrintingPolicyProperty : uint
-    {
-        CXPrintingPolicy_Indentation = 0U,
-        CXPrintingPolicy_SuppressSpecifiers = 1U,
-        CXPrintingPolicy_SuppressTagKeyword = 2U,
-        CXPrintingPolicy_IncludeTagDefinition = 3U,
-        CXPrintingPolicy_SuppressScope = 4U,
-        CXPrintingPolicy_SuppressUnwrittenScope = 5U,
-        CXPrintingPolicy_SuppressInitializers = 6U,
-        CXPrintingPolicy_ConstantArraySizeAsWritten = 7U,
-        CXPrintingPolicy_AnonymousTagLocations = 8U,
-        CXPrintingPolicy_SuppressStrongLifetime = 9U,
-        CXPrintingPolicy_SuppressLifetimeQualifiers = 10U,
-        CXPrintingPolicy_SuppressTemplateArgsInCXXConstructors = 11U,
-        CXPrintingPolicy_Bool = 12U,
-        CXPrintingPolicy_Restrict = 13U,
-        CXPrintingPolicy_Alignof = 14U,
-        CXPrintingPolicy_UnderscoreAlignof = 15U,
-        CXPrintingPolicy_UseVoidForZeroParams = 16U,
-        CXPrintingPolicy_TerseOutput = 17U,
-        CXPrintingPolicy_PolishForDeclaration = 18U,
-        CXPrintingPolicy_Half = 19U,
-        CXPrintingPolicy_MSWChar = 20U,
-        CXPrintingPolicy_IncludeNewlines = 21U,
-        CXPrintingPolicy_MSVCFormatting = 22U,
-        CXPrintingPolicy_ConstantsAsWritten = 23U,
-        CXPrintingPolicy_SuppressImplicitBase = 24U,
-        CXPrintingPolicy_FullyQualifiedName = 25U,
-        CXPrintingPolicy_LastProperty = 25U
-    }
-
-    // Enum @ Index.h:4941
-    public enum CXTokenKind : uint
-    {
-        CXToken_Punctuation = 0U,
-        CXToken_Keyword = 1U,
-        CXToken_Identifier = 2U,
-        CXToken_Literal = 3U,
-        CXToken_Comment = 4U
-    }
-
-    // Enum @ Index.h:5156
-    public enum CXCompletionChunkKind : uint
-    {
-        CXCompletionChunk_Optional = 0U,
-        CXCompletionChunk_TypedText = 1U,
-        CXCompletionChunk_Text = 2U,
-        CXCompletionChunk_Placeholder = 3U,
-        CXCompletionChunk_Informative = 4U,
-        CXCompletionChunk_CurrentParameter = 5U,
-        CXCompletionChunk_LeftParen = 6U,
-        CXCompletionChunk_RightParen = 7U,
-        CXCompletionChunk_LeftBracket = 8U,
-        CXCompletionChunk_RightBracket = 9U,
-        CXCompletionChunk_LeftBrace = 10U,
-        CXCompletionChunk_RightBrace = 11U,
-        CXCompletionChunk_LeftAngle = 12U,
-        CXCompletionChunk_RightAngle = 13U,
-        CXCompletionChunk_Comma = 14U,
-        CXCompletionChunk_ResultType = 15U,
-        CXCompletionChunk_Colon = 16U,
-        CXCompletionChunk_SemiColon = 17U,
-        CXCompletionChunk_Equal = 18U,
-        CXCompletionChunk_HorizontalSpace = 19U,
-        CXCompletionChunk_VerticalSpace = 20U
-    }
-
-    // Enum @ Index.h:5944
-    public enum CXEvalResultKind : uint
-    {
-        CXEval_Int = 1U,
-        CXEval_Float = 2U,
-        CXEval_ObjCStrLiteral = 3U,
-        CXEval_StrLiteral = 4U,
-        CXEval_CFStr = 5U,
-        CXEval_Other = 6U,
-        CXEval_UnExposed = 0U
-    }
-
-    // Enum @ Index.h:6094
-    public enum CXResult : uint
-    {
-        CXResult_Success = 0U,
-        CXResult_Invalid = 1U,
-        CXResult_VisitBreak = 2U
-    }
-
-    // Enum @ Index.h:6087
-    public enum CXVisitorResult : uint
-    {
-        CXVisit_Break = 0U,
-        CXVisit_Continue = 1U
-    }
-
-    // Enum @ Index.h:6239
+    // Enum @ Index.h:6272:3
     public enum CXIdxEntityKind : uint
     {
         CXIdxEntity_Unexposed = 0U,
@@ -3065,35 +3494,14 @@ public static unsafe partial class clang
         CXIdxEntity_CXXInterface = 26U
     }
 
-    // Enum @ Index.h:6292
-    public enum CXIdxEntityCXXTemplateKind : uint
+    // Enum @ Index.h:6432:3
+    public enum CXIdxEntityRefKind : uint
     {
-        CXIdxEntity_NonTemplate = 0U,
-        CXIdxEntity_Template = 1U,
-        CXIdxEntity_TemplatePartialSpecialization = 2U,
-        CXIdxEntity_TemplateSpecialization = 3U
+        CXIdxEntityRef_Direct = 1U,
+        CXIdxEntityRef_Implicit = 2U
     }
 
-    // Enum @ Index.h:6274
-    public enum CXIdxEntityLanguage : uint
-    {
-        CXIdxEntityLang_None = 0U,
-        CXIdxEntityLang_C = 1U,
-        CXIdxEntityLang_ObjC = 2U,
-        CXIdxEntityLang_CXX = 3U,
-        CXIdxEntityLang_Swift = 4U
-    }
-
-    // Enum @ Index.h:6299
-    public enum CXIdxAttrKind : uint
-    {
-        CXIdxAttr_Unexposed = 0U,
-        CXIdxAttr_IBAction = 1U,
-        CXIdxAttr_IBOutlet = 2U,
-        CXIdxAttr_IBOutletCollection = 3U
-    }
-
-    // Enum @ Index.h:6362
+    // Enum @ Index.h:6366:3
     public enum CXIdxObjCContainerKind : uint
     {
         CXIdxObjCContainer_ForwardRef = 0U,
@@ -3101,25 +3509,1332 @@ public static unsafe partial class clang
         CXIdxObjCContainer_Implementation = 2U
     }
 
-    // Enum @ Index.h:6422
-    public enum CXIdxEntityRefKind : uint
+    // Enum @ Index.h:6109:3
+    public enum CXResult : uint
     {
-        CXIdxEntityRef_Direct = 1U,
-        CXIdxEntityRef_Implicit = 2U
+        CXResult_Success = 0U,
+        CXResult_Invalid = 1U,
+        CXResult_VisitBreak = 2U
     }
 
-    // Enum @ Index.h:6440
-    public enum CXSymbolRole : uint
+    // Enum @ Index.h:5954:3
+    public enum CXEvalResultKind : uint
     {
-        CXSymbolRole_None = 0U,
-        CXSymbolRole_Declaration = 1U,
-        CXSymbolRole_Definition = 2U,
-        CXSymbolRole_Reference = 4U,
-        CXSymbolRole_Read = 8U,
-        CXSymbolRole_Write = 16U,
-        CXSymbolRole_Call = 32U,
-        CXSymbolRole_Dynamic = 64U,
-        CXSymbolRole_AddressOf = 128U,
-        CXSymbolRole_Implicit = 256U
+        CXEval_Int = 1U,
+        CXEval_Float = 2U,
+        CXEval_ObjCStrLiteral = 3U,
+        CXEval_StrLiteral = 4U,
+        CXEval_CFStr = 5U,
+        CXEval_Other = 6U,
+        CXEval_UnExposed = 0U
     }
+
+    // Enum @ Index.h:125:6
+    public enum CXAvailabilityKind : uint
+    {
+        CXAvailability_Available = 0U,
+        CXAvailability_Deprecated = 1U,
+        CXAvailability_NotAvailable = 2U,
+        CXAvailability_NotAccessible = 3U
+    }
+
+    // Enum @ Index.h:5156:6
+    public enum CXCompletionChunkKind : uint
+    {
+        CXCompletionChunk_Optional = 0U,
+        CXCompletionChunk_TypedText = 1U,
+        CXCompletionChunk_Text = 2U,
+        CXCompletionChunk_Placeholder = 3U,
+        CXCompletionChunk_Informative = 4U,
+        CXCompletionChunk_CurrentParameter = 5U,
+        CXCompletionChunk_LeftParen = 6U,
+        CXCompletionChunk_RightParen = 7U,
+        CXCompletionChunk_LeftBracket = 8U,
+        CXCompletionChunk_RightBracket = 9U,
+        CXCompletionChunk_LeftBrace = 10U,
+        CXCompletionChunk_RightBrace = 11U,
+        CXCompletionChunk_LeftAngle = 12U,
+        CXCompletionChunk_RightAngle = 13U,
+        CXCompletionChunk_Comma = 14U,
+        CXCompletionChunk_ResultType = 15U,
+        CXCompletionChunk_Colon = 16U,
+        CXCompletionChunk_SemiColon = 17U,
+        CXCompletionChunk_Equal = 18U,
+        CXCompletionChunk_HorizontalSpace = 19U,
+        CXCompletionChunk_VerticalSpace = 20U
+    }
+
+    // Enum @ Index.h:4966:3
+    public enum CXTokenKind : uint
+    {
+        CXToken_Punctuation = 0U,
+        CXToken_Keyword = 1U,
+        CXToken_Identifier = 2U,
+        CXToken_Literal = 3U,
+        CXToken_Comment = 4U
+    }
+
+    // Enum @ Index.h:4339:6
+    public enum CXPrintingPolicyProperty : uint
+    {
+        CXPrintingPolicy_Indentation = 0U,
+        CXPrintingPolicy_SuppressSpecifiers = 1U,
+        CXPrintingPolicy_SuppressTagKeyword = 2U,
+        CXPrintingPolicy_IncludeTagDefinition = 3U,
+        CXPrintingPolicy_SuppressScope = 4U,
+        CXPrintingPolicy_SuppressUnwrittenScope = 5U,
+        CXPrintingPolicy_SuppressInitializers = 6U,
+        CXPrintingPolicy_ConstantArraySizeAsWritten = 7U,
+        CXPrintingPolicy_AnonymousTagLocations = 8U,
+        CXPrintingPolicy_SuppressStrongLifetime = 9U,
+        CXPrintingPolicy_SuppressLifetimeQualifiers = 10U,
+        CXPrintingPolicy_SuppressTemplateArgsInCXXConstructors = 11U,
+        CXPrintingPolicy_Bool = 12U,
+        CXPrintingPolicy_Restrict = 13U,
+        CXPrintingPolicy_Alignof = 14U,
+        CXPrintingPolicy_UnderscoreAlignof = 15U,
+        CXPrintingPolicy_UseVoidForZeroParams = 16U,
+        CXPrintingPolicy_TerseOutput = 17U,
+        CXPrintingPolicy_PolishForDeclaration = 18U,
+        CXPrintingPolicy_Half = 19U,
+        CXPrintingPolicy_MSWChar = 20U,
+        CXPrintingPolicy_IncludeNewlines = 21U,
+        CXPrintingPolicy_MSVCFormatting = 22U,
+        CXPrintingPolicy_ConstantsAsWritten = 23U,
+        CXPrintingPolicy_SuppressImplicitBase = 24U,
+        CXPrintingPolicy_FullyQualifiedName = 25U,
+        CXPrintingPolicy_LastProperty = 25U
+    }
+
+    // Enum @ Index.h:4162:6
+    public enum CXChildVisitResult : uint
+    {
+        CXChildVisit_Break = 0U,
+        CXChildVisit_Continue = 1U,
+        CXChildVisit_Recurse = 2U
+    }
+
+    // Enum @ Index.h:4078:6
+    public enum CX_StorageClass : uint
+    {
+        CX_SC_Invalid = 0U,
+        CX_SC_None = 1U,
+        CX_SC_Extern = 2U,
+        CX_SC_Static = 3U,
+        CX_SC_PrivateExtern = 4U,
+        CX_SC_OpenCLWorkGroupLocal = 5U,
+        CX_SC_Auto = 6U,
+        CX_SC_Register = 7U
+    }
+
+    // Enum @ Index.h:4058:6
+    public enum CX_CXXAccessSpecifier : uint
+    {
+        CX_CXXInvalidAccessSpecifier = 0U,
+        CX_CXXPublic = 1U,
+        CX_CXXProtected = 2U,
+        CX_CXXPrivate = 3U
+    }
+
+    // Enum @ Index.h:4009:6
+    public enum CXRefQualifierKind : uint
+    {
+        CXRefQualifier_None = 0U,
+        CXRefQualifier_LValue = 1U,
+        CXRefQualifier_RValue = 2U
+    }
+
+    // Enum @ Index.h:3845:6
+    public enum CXTypeNullabilityKind : uint
+    {
+        CXTypeNullability_NonNull = 0U,
+        CXTypeNullability_Nullable = 1U,
+        CXTypeNullability_Unspecified = 2U,
+        CXTypeNullability_Invalid = 3U,
+        CXTypeNullability_NullableResult = 4U
+    }
+
+    // Enum @ Index.h:3377:6
+    public enum CXCallingConv : uint
+    {
+        CXCallingConv_Default = 0U,
+        CXCallingConv_C = 1U,
+        CXCallingConv_X86StdCall = 2U,
+        CXCallingConv_X86FastCall = 3U,
+        CXCallingConv_X86ThisCall = 4U,
+        CXCallingConv_X86Pascal = 5U,
+        CXCallingConv_AAPCS = 6U,
+        CXCallingConv_AAPCS_VFP = 7U,
+        CXCallingConv_X86RegCall = 8U,
+        CXCallingConv_IntelOclBicc = 9U,
+        CXCallingConv_Win64 = 10U,
+        CXCallingConv_X86_64Win64 = 10U,
+        CXCallingConv_X86_64SysV = 11U,
+        CXCallingConv_X86VectorCall = 12U,
+        CXCallingConv_Swift = 13U,
+        CXCallingConv_PreserveMost = 14U,
+        CXCallingConv_PreserveAll = 15U,
+        CXCallingConv_AArch64VectorCall = 16U,
+        CXCallingConv_Invalid = 100U,
+        CXCallingConv_Unexposed = 200U
+    }
+
+    // Enum @ Index.h:3492:6
+    public enum CXTemplateArgumentKind : uint
+    {
+        CXTemplateArgumentKind_Null = 0U,
+        CXTemplateArgumentKind_Type = 1U,
+        CXTemplateArgumentKind_Declaration = 2U,
+        CXTemplateArgumentKind_NullPtr = 3U,
+        CXTemplateArgumentKind_Integral = 4U,
+        CXTemplateArgumentKind_Template = 5U,
+        CXTemplateArgumentKind_TemplateExpansion = 6U,
+        CXTemplateArgumentKind_Expression = 7U,
+        CXTemplateArgumentKind_Pack = 8U,
+        CXTemplateArgumentKind_Invalid = 9U
+    }
+
+    // Enum @ Index.h:2982:6
+    public enum CXTLSKind : uint
+    {
+        CXTLS_None = 0U,
+        CXTLS_Dynamic = 1U,
+        CXTLS_Static = 2U
+    }
+
+    // Enum @ Index.h:2966:6
+    public enum CXLanguageKind : uint
+    {
+        CXLanguage_Invalid = 0U,
+        CXLanguage_C = 1U,
+        CXLanguage_ObjC = 2U,
+        CXLanguage_CPlusPlus = 3U
+    }
+
+    // Enum @ Index.h:2822:6
+    public enum CXVisibilityKind : uint
+    {
+        CXVisibility_Invalid = 0U,
+        CXVisibility_Hidden = 1U,
+        CXVisibility_Protected = 2U,
+        CXVisibility_Default = 3U
+    }
+
+    // Enum @ Index.h:2799:6
+    public enum CXLinkageKind : uint
+    {
+        CXLinkage_Invalid = 0U,
+        CXLinkage_NoLinkage = 1U,
+        CXLinkage_Internal = 2U,
+        CXLinkage_UniqueExternal = 3U,
+        CXLinkage_External = 4U
+    }
+
+    // Enum @ Index.h:1609:6
+    public enum CXTUResourceUsageKind : uint
+    {
+        CXTUResourceUsage_AST = 1U,
+        CXTUResourceUsage_Identifiers = 2U,
+        CXTUResourceUsage_Selectors = 3U,
+        CXTUResourceUsage_GlobalCompletionResults = 4U,
+        CXTUResourceUsage_SourceManagerContentCache = 5U,
+        CXTUResourceUsage_AST_SideTables = 6U,
+        CXTUResourceUsage_SourceManager_Membuffer_Malloc = 7U,
+        CXTUResourceUsage_SourceManager_Membuffer_MMap = 8U,
+        CXTUResourceUsage_ExternalASTSource_Membuffer_Malloc = 9U,
+        CXTUResourceUsage_ExternalASTSource_Membuffer_MMap = 10U,
+        CXTUResourceUsage_Preprocessor = 11U,
+        CXTUResourceUsage_PreprocessingRecord = 12U,
+        CXTUResourceUsage_SourceManager_DataStructures = 13U,
+        CXTUResourceUsage_Preprocessor_HeaderSearch = 14U,
+        CXTUResourceUsage_MEMORY_IN_BYTES_BEGIN = 1U,
+        CXTUResourceUsage_MEMORY_IN_BYTES_END = 14U,
+        CXTUResourceUsage_First = 1U,
+        CXTUResourceUsage_Last = 14U
+    }
+
+    // Enum @ CXErrorCode.h:28:6
+    public enum CXErrorCode : uint
+    {
+        CXError_Success = 0U,
+        CXError_Failure = 1U,
+        CXError_Crashed = 2U,
+        CXError_InvalidArguments = 3U,
+        CXError_ASTReadError = 4U
+    }
+
+    // Enum @ Index.h:739:6
+    public enum CXDiagnosticSeverity : uint
+    {
+        CXDiagnostic_Ignored = 0U,
+        CXDiagnostic_Note = 1U,
+        CXDiagnostic_Warning = 2U,
+        CXDiagnostic_Error = 3U,
+        CXDiagnostic_Fatal = 4U
+    }
+
+    // Enum @ Index.h:803:6
+    public enum CXLoadDiag_Error : uint
+    {
+        CXLoadDiag_None = 0U,
+        CXLoadDiag_Unknown = 1U,
+        CXLoadDiag_CannotLoad = 2U,
+        CXLoadDiag_InvalidFile = 3U
+    }
+
+    private static void _LoadVirtualTable()
+    {
+        #region "Functions"
+
+        _virtualTable.clang_Type_visitFields = (delegate* unmanaged[Cdecl]<CXType, CXFieldVisitor, CXClientData, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_visitFields");
+        _virtualTable.clang_indexLoc_getCXSourceLocation = (delegate* unmanaged[Cdecl]<CXIdxLoc, CXSourceLocation>)Runtime.LibraryGetExport(_libraryHandle, "clang_indexLoc_getCXSourceLocation");
+        _virtualTable.clang_indexLoc_getFileLocation = (delegate* unmanaged[Cdecl]<CXIdxLoc, CXIdxClientFile*, CXFile*, ulong*, ulong*, ulong*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_indexLoc_getFileLocation");
+        _virtualTable.clang_indexTranslationUnit = (delegate* unmanaged[Cdecl]<CXIndexAction, CXClientData, IndexerCallbacks*, uint, uint, CXTranslationUnit, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_indexTranslationUnit");
+        _virtualTable.clang_indexSourceFileFullArgv = (delegate* unmanaged[Cdecl]<CXIndexAction, CXClientData, IndexerCallbacks*, uint, uint, CString, CString*, int, CXUnsavedFile*, uint, CXTranslationUnit*, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_indexSourceFileFullArgv");
+        _virtualTable.clang_indexSourceFile = (delegate* unmanaged[Cdecl]<CXIndexAction, CXClientData, IndexerCallbacks*, uint, uint, CString, CString*, int, CXUnsavedFile*, uint, CXTranslationUnit*, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_indexSourceFile");
+        _virtualTable.clang_IndexAction_dispose = (delegate* unmanaged[Cdecl]<CXIndexAction, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_IndexAction_dispose");
+        _virtualTable.clang_IndexAction_create = (delegate* unmanaged[Cdecl]<CXIndex, CXIndexAction>)Runtime.LibraryGetExport(_libraryHandle, "clang_IndexAction_create");
+        _virtualTable.clang_index_setClientEntity = (delegate* unmanaged[Cdecl]<CXIdxEntityInfo*, CXIdxClientEntity, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_index_setClientEntity");
+        _virtualTable.clang_index_getClientEntity = (delegate* unmanaged[Cdecl]<CXIdxEntityInfo*, CXIdxClientEntity>)Runtime.LibraryGetExport(_libraryHandle, "clang_index_getClientEntity");
+        _virtualTable.clang_index_setClientContainer = (delegate* unmanaged[Cdecl]<CXIdxContainerInfo*, CXIdxClientContainer, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_index_setClientContainer");
+        _virtualTable.clang_index_getClientContainer = (delegate* unmanaged[Cdecl]<CXIdxContainerInfo*, CXIdxClientContainer>)Runtime.LibraryGetExport(_libraryHandle, "clang_index_getClientContainer");
+        _virtualTable.clang_index_getCXXClassDeclInfo = (delegate* unmanaged[Cdecl]<CXIdxDeclInfo*, CXIdxCXXClassDeclInfo*>)Runtime.LibraryGetExport(_libraryHandle, "clang_index_getCXXClassDeclInfo");
+        _virtualTable.clang_index_getIBOutletCollectionAttrInfo = (delegate* unmanaged[Cdecl]<CXIdxAttrInfo*, CXIdxIBOutletCollectionAttrInfo*>)Runtime.LibraryGetExport(_libraryHandle, "clang_index_getIBOutletCollectionAttrInfo");
+        _virtualTable.clang_index_getObjCPropertyDeclInfo = (delegate* unmanaged[Cdecl]<CXIdxDeclInfo*, CXIdxObjCPropertyDeclInfo*>)Runtime.LibraryGetExport(_libraryHandle, "clang_index_getObjCPropertyDeclInfo");
+        _virtualTable.clang_index_getObjCProtocolRefListInfo = (delegate* unmanaged[Cdecl]<CXIdxDeclInfo*, CXIdxObjCProtocolRefListInfo*>)Runtime.LibraryGetExport(_libraryHandle, "clang_index_getObjCProtocolRefListInfo");
+        _virtualTable.clang_index_getObjCCategoryDeclInfo = (delegate* unmanaged[Cdecl]<CXIdxDeclInfo*, CXIdxObjCCategoryDeclInfo*>)Runtime.LibraryGetExport(_libraryHandle, "clang_index_getObjCCategoryDeclInfo");
+        _virtualTable.clang_index_getObjCInterfaceDeclInfo = (delegate* unmanaged[Cdecl]<CXIdxDeclInfo*, CXIdxObjCInterfaceDeclInfo*>)Runtime.LibraryGetExport(_libraryHandle, "clang_index_getObjCInterfaceDeclInfo");
+        _virtualTable.clang_index_getObjCContainerDeclInfo = (delegate* unmanaged[Cdecl]<CXIdxDeclInfo*, CXIdxObjCContainerDeclInfo*>)Runtime.LibraryGetExport(_libraryHandle, "clang_index_getObjCContainerDeclInfo");
+        _virtualTable.clang_index_isEntityObjCContainerKind = (delegate* unmanaged[Cdecl]<CXIdxEntityKind, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_index_isEntityObjCContainerKind");
+        _virtualTable.clang_findIncludesInFile = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, CXCursorAndRangeVisitor, CXResult>)Runtime.LibraryGetExport(_libraryHandle, "clang_findIncludesInFile");
+        _virtualTable.clang_findReferencesInFile = (delegate* unmanaged[Cdecl]<CXCursor, CXFile, CXCursorAndRangeVisitor, CXResult>)Runtime.LibraryGetExport(_libraryHandle, "clang_findReferencesInFile");
+        _virtualTable.clang_remap_dispose = (delegate* unmanaged[Cdecl]<CXRemapping, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_remap_dispose");
+        _virtualTable.clang_remap_getFilenames = (delegate* unmanaged[Cdecl]<CXRemapping, uint, CXString*, CXString*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_remap_getFilenames");
+        _virtualTable.clang_remap_getNumFiles = (delegate* unmanaged[Cdecl]<CXRemapping, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_remap_getNumFiles");
+        _virtualTable.clang_getRemappingsFromFileList = (delegate* unmanaged[Cdecl]<CString*, uint, CXRemapping>)Runtime.LibraryGetExport(_libraryHandle, "clang_getRemappingsFromFileList");
+        _virtualTable.clang_getRemappings = (delegate* unmanaged[Cdecl]<CString, CXRemapping>)Runtime.LibraryGetExport(_libraryHandle, "clang_getRemappings");
+        _virtualTable.clang_EvalResult_dispose = (delegate* unmanaged[Cdecl]<CXEvalResult, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_EvalResult_dispose");
+        _virtualTable.clang_EvalResult_getAsStr = (delegate* unmanaged[Cdecl]<CXEvalResult, CString>)Runtime.LibraryGetExport(_libraryHandle, "clang_EvalResult_getAsStr");
+        _virtualTable.clang_EvalResult_getAsDouble = (delegate* unmanaged[Cdecl]<CXEvalResult, double>)Runtime.LibraryGetExport(_libraryHandle, "clang_EvalResult_getAsDouble");
+        _virtualTable.clang_EvalResult_getAsUnsigned = (delegate* unmanaged[Cdecl]<CXEvalResult, ulong>)Runtime.LibraryGetExport(_libraryHandle, "clang_EvalResult_getAsUnsigned");
+        _virtualTable.clang_EvalResult_isUnsignedInt = (delegate* unmanaged[Cdecl]<CXEvalResult, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_EvalResult_isUnsignedInt");
+        _virtualTable.clang_EvalResult_getAsLongLong = (delegate* unmanaged[Cdecl]<CXEvalResult, long>)Runtime.LibraryGetExport(_libraryHandle, "clang_EvalResult_getAsLongLong");
+        _virtualTable.clang_EvalResult_getAsInt = (delegate* unmanaged[Cdecl]<CXEvalResult, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_EvalResult_getAsInt");
+        _virtualTable.clang_EvalResult_getKind = (delegate* unmanaged[Cdecl]<CXEvalResult, CXEvalResultKind>)Runtime.LibraryGetExport(_libraryHandle, "clang_EvalResult_getKind");
+        _virtualTable.clang_Cursor_Evaluate = (delegate* unmanaged[Cdecl]<CXCursor, CXEvalResult>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_Evaluate");
+        _virtualTable.clang_getInclusions = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXInclusionVisitor, CXClientData, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_getInclusions");
+        _virtualTable.clang_toggleCrashRecovery = (delegate* unmanaged[Cdecl]<uint, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_toggleCrashRecovery");
+        _virtualTable.clang_getClangVersion = (delegate* unmanaged[Cdecl]<CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getClangVersion");
+        _virtualTable.clang_codeCompleteGetObjCSelector = (delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_codeCompleteGetObjCSelector");
+        _virtualTable.clang_codeCompleteGetContainerUSR = (delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_codeCompleteGetContainerUSR");
+        _virtualTable.clang_codeCompleteGetContainerKind = (delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, ulong*, CXCursorKind>)Runtime.LibraryGetExport(_libraryHandle, "clang_codeCompleteGetContainerKind");
+        _virtualTable.clang_codeCompleteGetContexts = (delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, ulong>)Runtime.LibraryGetExport(_libraryHandle, "clang_codeCompleteGetContexts");
+        _virtualTable.clang_codeCompleteGetDiagnostic = (delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, uint, CXDiagnostic>)Runtime.LibraryGetExport(_libraryHandle, "clang_codeCompleteGetDiagnostic");
+        _virtualTable.clang_codeCompleteGetNumDiagnostics = (delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_codeCompleteGetNumDiagnostics");
+        _virtualTable.clang_disposeCodeCompleteResults = (delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_disposeCodeCompleteResults");
+        _virtualTable.clang_sortCodeCompletionResults = (delegate* unmanaged[Cdecl]<CXCompletionResult*, uint, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_sortCodeCompletionResults");
+        _virtualTable.clang_codeCompleteAt = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CString, uint, uint, CXUnsavedFile*, uint, uint, CXCodeCompleteResults*>)Runtime.LibraryGetExport(_libraryHandle, "clang_codeCompleteAt");
+        _virtualTable.clang_defaultCodeCompleteOptions = (delegate* unmanaged[Cdecl]<uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_defaultCodeCompleteOptions");
+        _virtualTable.clang_getCompletionFixIt = (delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, uint, uint, CXSourceRange*, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCompletionFixIt");
+        _virtualTable.clang_getCompletionNumFixIts = (delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, uint, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCompletionNumFixIts");
+        _virtualTable.clang_getCursorCompletionString = (delegate* unmanaged[Cdecl]<CXCursor, CXCompletionString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorCompletionString");
+        _virtualTable.clang_getCompletionBriefComment = (delegate* unmanaged[Cdecl]<CXCompletionString, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCompletionBriefComment");
+        _virtualTable.clang_getCompletionParent = (delegate* unmanaged[Cdecl]<CXCompletionString, CXCursorKind*, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCompletionParent");
+        _virtualTable.clang_getCompletionAnnotation = (delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCompletionAnnotation");
+        _virtualTable.clang_getCompletionNumAnnotations = (delegate* unmanaged[Cdecl]<CXCompletionString, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCompletionNumAnnotations");
+        _virtualTable.clang_getCompletionAvailability = (delegate* unmanaged[Cdecl]<CXCompletionString, CXAvailabilityKind>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCompletionAvailability");
+        _virtualTable.clang_getCompletionPriority = (delegate* unmanaged[Cdecl]<CXCompletionString, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCompletionPriority");
+        _virtualTable.clang_getNumCompletionChunks = (delegate* unmanaged[Cdecl]<CXCompletionString, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_getNumCompletionChunks");
+        _virtualTable.clang_getCompletionChunkCompletionString = (delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXCompletionString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCompletionChunkCompletionString");
+        _virtualTable.clang_getCompletionChunkText = (delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCompletionChunkText");
+        _virtualTable.clang_getCompletionChunkKind = (delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXCompletionChunkKind>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCompletionChunkKind");
+        _virtualTable.clang_executeOnThread = (delegate* unmanaged[Cdecl]<FnPtrPointerVoid, void*, uint, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_executeOnThread");
+        _virtualTable.clang_enableStackTraces = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "clang_enableStackTraces");
+        _virtualTable.clang_getDefinitionSpellingAndExtent = (delegate* unmanaged[Cdecl]<CXCursor, CString*, CString*, ulong*, ulong*, ulong*, ulong*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_getDefinitionSpellingAndExtent");
+        _virtualTable.clang_getCursorKindSpelling = (delegate* unmanaged[Cdecl]<CXCursorKind, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorKindSpelling");
+        _virtualTable.clang_disposeTokens = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXToken*, uint, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_disposeTokens");
+        _virtualTable.clang_annotateTokens = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXToken*, uint, CXCursor*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_annotateTokens");
+        _virtualTable.clang_tokenize = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXSourceRange, CXToken**, ulong*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_tokenize");
+        _virtualTable.clang_getTokenExtent = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXToken, CXSourceRange>)Runtime.LibraryGetExport(_libraryHandle, "clang_getTokenExtent");
+        _virtualTable.clang_getTokenLocation = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXToken, CXSourceLocation>)Runtime.LibraryGetExport(_libraryHandle, "clang_getTokenLocation");
+        _virtualTable.clang_getTokenSpelling = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXToken, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getTokenSpelling");
+        _virtualTable.clang_getTokenKind = (delegate* unmanaged[Cdecl]<CXToken, CXTokenKind>)Runtime.LibraryGetExport(_libraryHandle, "clang_getTokenKind");
+        _virtualTable.clang_getToken = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXSourceLocation, CXToken*>)Runtime.LibraryGetExport(_libraryHandle, "clang_getToken");
+        _virtualTable.clang_getCursorReferenceNameRange = (delegate* unmanaged[Cdecl]<CXCursor, uint, uint, CXSourceRange>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorReferenceNameRange");
+        _virtualTable.clang_getSpecializedCursorTemplate = (delegate* unmanaged[Cdecl]<CXCursor, CXCursor>)Runtime.LibraryGetExport(_libraryHandle, "clang_getSpecializedCursorTemplate");
+        _virtualTable.clang_getTemplateCursorKind = (delegate* unmanaged[Cdecl]<CXCursor, CXCursorKind>)Runtime.LibraryGetExport(_libraryHandle, "clang_getTemplateCursorKind");
+        _virtualTable.clang_CXXMethod_isConst = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_CXXMethod_isConst");
+        _virtualTable.clang_EnumDecl_isScoped = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_EnumDecl_isScoped");
+        _virtualTable.clang_CXXRecord_isAbstract = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_CXXRecord_isAbstract");
+        _virtualTable.clang_CXXMethod_isVirtual = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_CXXMethod_isVirtual");
+        _virtualTable.clang_CXXMethod_isStatic = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_CXXMethod_isStatic");
+        _virtualTable.clang_CXXMethod_isPureVirtual = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_CXXMethod_isPureVirtual");
+        _virtualTable.clang_CXXMethod_isDefaulted = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_CXXMethod_isDefaulted");
+        _virtualTable.clang_CXXField_isMutable = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_CXXField_isMutable");
+        _virtualTable.clang_CXXConstructor_isMoveConstructor = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_CXXConstructor_isMoveConstructor");
+        _virtualTable.clang_CXXConstructor_isDefaultConstructor = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_CXXConstructor_isDefaultConstructor");
+        _virtualTable.clang_CXXConstructor_isCopyConstructor = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_CXXConstructor_isCopyConstructor");
+        _virtualTable.clang_CXXConstructor_isConvertingConstructor = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_CXXConstructor_isConvertingConstructor");
+        _virtualTable.clang_Module_getTopLevelHeader = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXModule, uint, CXFile>)Runtime.LibraryGetExport(_libraryHandle, "clang_Module_getTopLevelHeader");
+        _virtualTable.clang_Module_getNumTopLevelHeaders = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXModule, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Module_getNumTopLevelHeaders");
+        _virtualTable.clang_Module_isSystem = (delegate* unmanaged[Cdecl]<CXModule, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_Module_isSystem");
+        _virtualTable.clang_Module_getFullName = (delegate* unmanaged[Cdecl]<CXModule, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_Module_getFullName");
+        _virtualTable.clang_Module_getName = (delegate* unmanaged[Cdecl]<CXModule, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_Module_getName");
+        _virtualTable.clang_Module_getParent = (delegate* unmanaged[Cdecl]<CXModule, CXModule>)Runtime.LibraryGetExport(_libraryHandle, "clang_Module_getParent");
+        _virtualTable.clang_Module_getASTFile = (delegate* unmanaged[Cdecl]<CXModule, CXFile>)Runtime.LibraryGetExport(_libraryHandle, "clang_Module_getASTFile");
+        _virtualTable.clang_getModuleForFile = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, CXModule>)Runtime.LibraryGetExport(_libraryHandle, "clang_getModuleForFile");
+        _virtualTable.clang_Cursor_getModule = (delegate* unmanaged[Cdecl]<CXCursor, CXModule>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getModule");
+        _virtualTable.clang_Cursor_getObjCManglings = (delegate* unmanaged[Cdecl]<CXCursor, CXStringSet*>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getObjCManglings");
+        _virtualTable.clang_Cursor_getCXXManglings = (delegate* unmanaged[Cdecl]<CXCursor, CXStringSet*>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getCXXManglings");
+        _virtualTable.clang_Cursor_getMangling = (delegate* unmanaged[Cdecl]<CXCursor, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getMangling");
+        _virtualTable.clang_Cursor_getBriefCommentText = (delegate* unmanaged[Cdecl]<CXCursor, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getBriefCommentText");
+        _virtualTable.clang_Cursor_getRawCommentText = (delegate* unmanaged[Cdecl]<CXCursor, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getRawCommentText");
+        _virtualTable.clang_Cursor_getCommentRange = (delegate* unmanaged[Cdecl]<CXCursor, CXSourceRange>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getCommentRange");
+        _virtualTable.clang_Cursor_isExternalSymbol = (delegate* unmanaged[Cdecl]<CXCursor, CXString*, CXString*, ulong*, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_isExternalSymbol");
+        _virtualTable.clang_Cursor_isVariadic = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_isVariadic");
+        _virtualTable.clang_Cursor_isObjCOptional = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_isObjCOptional");
+        _virtualTable.clang_Cursor_getObjCDeclQualifiers = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getObjCDeclQualifiers");
+        _virtualTable.clang_Cursor_getObjCPropertySetterName = (delegate* unmanaged[Cdecl]<CXCursor, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getObjCPropertySetterName");
+        _virtualTable.clang_Cursor_getObjCPropertyGetterName = (delegate* unmanaged[Cdecl]<CXCursor, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getObjCPropertyGetterName");
+        _virtualTable.clang_Cursor_getObjCPropertyAttributes = (delegate* unmanaged[Cdecl]<CXCursor, uint, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getObjCPropertyAttributes");
+        _virtualTable.clang_Cursor_getReceiverType = (delegate* unmanaged[Cdecl]<CXCursor, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getReceiverType");
+        _virtualTable.clang_Cursor_isDynamicCall = (delegate* unmanaged[Cdecl]<CXCursor, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_isDynamicCall");
+        _virtualTable.clang_Cursor_getObjCSelectorIndex = (delegate* unmanaged[Cdecl]<CXCursor, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getObjCSelectorIndex");
+        _virtualTable.clang_getCanonicalCursor = (delegate* unmanaged[Cdecl]<CXCursor, CXCursor>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCanonicalCursor");
+        _virtualTable.clang_isCursorDefinition = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_isCursorDefinition");
+        _virtualTable.clang_getCursorDefinition = (delegate* unmanaged[Cdecl]<CXCursor, CXCursor>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorDefinition");
+        _virtualTable.clang_getCursorReferenced = (delegate* unmanaged[Cdecl]<CXCursor, CXCursor>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorReferenced");
+        _virtualTable.clang_getCursorDisplayName = (delegate* unmanaged[Cdecl]<CXCursor, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorDisplayName");
+        _virtualTable.clang_getCursorPrettyPrinted = (delegate* unmanaged[Cdecl]<CXCursor, CXPrintingPolicy, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorPrettyPrinted");
+        _virtualTable.clang_PrintingPolicy_dispose = (delegate* unmanaged[Cdecl]<CXPrintingPolicy, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_PrintingPolicy_dispose");
+        _virtualTable.clang_getCursorPrintingPolicy = (delegate* unmanaged[Cdecl]<CXCursor, CXPrintingPolicy>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorPrintingPolicy");
+        _virtualTable.clang_PrintingPolicy_setProperty = (delegate* unmanaged[Cdecl]<CXPrintingPolicy, CXPrintingPolicyProperty, uint, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_PrintingPolicy_setProperty");
+        _virtualTable.clang_PrintingPolicy_getProperty = (delegate* unmanaged[Cdecl]<CXPrintingPolicy, CXPrintingPolicyProperty, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_PrintingPolicy_getProperty");
+        _virtualTable.clang_Cursor_getSpellingNameRange = (delegate* unmanaged[Cdecl]<CXCursor, uint, uint, CXSourceRange>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getSpellingNameRange");
+        _virtualTable.clang_getCursorSpelling = (delegate* unmanaged[Cdecl]<CXCursor, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorSpelling");
+        _virtualTable.clang_constructUSR_ObjCProperty = (delegate* unmanaged[Cdecl]<CString, CXString, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_constructUSR_ObjCProperty");
+        _virtualTable.clang_constructUSR_ObjCMethod = (delegate* unmanaged[Cdecl]<CString, uint, CXString, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_constructUSR_ObjCMethod");
+        _virtualTable.clang_constructUSR_ObjCIvar = (delegate* unmanaged[Cdecl]<CString, CXString, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_constructUSR_ObjCIvar");
+        _virtualTable.clang_constructUSR_ObjCProtocol = (delegate* unmanaged[Cdecl]<CString, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_constructUSR_ObjCProtocol");
+        _virtualTable.clang_constructUSR_ObjCCategory = (delegate* unmanaged[Cdecl]<CString, CString, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_constructUSR_ObjCCategory");
+        _virtualTable.clang_constructUSR_ObjCClass = (delegate* unmanaged[Cdecl]<CString, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_constructUSR_ObjCClass");
+        _virtualTable.clang_getCursorUSR = (delegate* unmanaged[Cdecl]<CXCursor, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorUSR");
+        _virtualTable.clang_visitChildren = (delegate* unmanaged[Cdecl]<CXCursor, CXCursorVisitor, CXClientData, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_visitChildren");
+        _virtualTable.clang_getIBOutletCollectionType = (delegate* unmanaged[Cdecl]<CXCursor, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_getIBOutletCollectionType");
+        _virtualTable.clang_getOverloadedDecl = (delegate* unmanaged[Cdecl]<CXCursor, uint, CXCursor>)Runtime.LibraryGetExport(_libraryHandle, "clang_getOverloadedDecl");
+        _virtualTable.clang_getNumOverloadedDecls = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_getNumOverloadedDecls");
+        _virtualTable.clang_Cursor_getStorageClass = (delegate* unmanaged[Cdecl]<CXCursor, CX_StorageClass>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getStorageClass");
+        _virtualTable.clang_getCXXAccessSpecifier = (delegate* unmanaged[Cdecl]<CXCursor, CX_CXXAccessSpecifier>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCXXAccessSpecifier");
+        _virtualTable.clang_isVirtualBase = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_isVirtualBase");
+        _virtualTable.clang_Cursor_isBitField = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_isBitField");
+        _virtualTable.clang_Type_getCXXRefQualifier = (delegate* unmanaged[Cdecl]<CXType, CXRefQualifierKind>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_getCXXRefQualifier");
+        _virtualTable.clang_Type_getTemplateArgumentAsType = (delegate* unmanaged[Cdecl]<CXType, uint, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_getTemplateArgumentAsType");
+        _virtualTable.clang_Type_getNumTemplateArguments = (delegate* unmanaged[Cdecl]<CXType, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_getNumTemplateArguments");
+        _virtualTable.clang_Cursor_isInlineNamespace = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_isInlineNamespace");
+        _virtualTable.clang_Cursor_isAnonymousRecordDecl = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_isAnonymousRecordDecl");
+        _virtualTable.clang_Cursor_isAnonymous = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_isAnonymous");
+        _virtualTable.clang_Cursor_getOffsetOfField = (delegate* unmanaged[Cdecl]<CXCursor, long>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getOffsetOfField");
+        _virtualTable.clang_Type_getValueType = (delegate* unmanaged[Cdecl]<CXType, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_getValueType");
+        _virtualTable.clang_Type_getModifiedType = (delegate* unmanaged[Cdecl]<CXType, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_getModifiedType");
+        _virtualTable.clang_Type_getOffsetOf = (delegate* unmanaged[Cdecl]<CXType, CString, long>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_getOffsetOf");
+        _virtualTable.clang_Type_getSizeOf = (delegate* unmanaged[Cdecl]<CXType, long>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_getSizeOf");
+        _virtualTable.clang_Type_getClassType = (delegate* unmanaged[Cdecl]<CXType, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_getClassType");
+        _virtualTable.clang_Type_getAlignOf = (delegate* unmanaged[Cdecl]<CXType, long>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_getAlignOf");
+        _virtualTable.clang_Type_getNullability = (delegate* unmanaged[Cdecl]<CXType, CXTypeNullabilityKind>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_getNullability");
+        _virtualTable.clang_Type_isTransparentTagTypedef = (delegate* unmanaged[Cdecl]<CXType, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_isTransparentTagTypedef");
+        _virtualTable.clang_Type_getNamedType = (delegate* unmanaged[Cdecl]<CXType, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_getNamedType");
+        _virtualTable.clang_getArraySize = (delegate* unmanaged[Cdecl]<CXType, long>)Runtime.LibraryGetExport(_libraryHandle, "clang_getArraySize");
+        _virtualTable.clang_getArrayElementType = (delegate* unmanaged[Cdecl]<CXType, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_getArrayElementType");
+        _virtualTable.clang_getNumElements = (delegate* unmanaged[Cdecl]<CXType, long>)Runtime.LibraryGetExport(_libraryHandle, "clang_getNumElements");
+        _virtualTable.clang_getElementType = (delegate* unmanaged[Cdecl]<CXType, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_getElementType");
+        _virtualTable.clang_isPODType = (delegate* unmanaged[Cdecl]<CXType, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_isPODType");
+        _virtualTable.clang_getCursorExceptionSpecificationType = (delegate* unmanaged[Cdecl]<CXCursor, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorExceptionSpecificationType");
+        _virtualTable.clang_getCursorResultType = (delegate* unmanaged[Cdecl]<CXCursor, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorResultType");
+        _virtualTable.clang_isFunctionTypeVariadic = (delegate* unmanaged[Cdecl]<CXType, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_isFunctionTypeVariadic");
+        _virtualTable.clang_Type_getObjCTypeArg = (delegate* unmanaged[Cdecl]<CXType, uint, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_getObjCTypeArg");
+        _virtualTable.clang_Type_getNumObjCTypeArgs = (delegate* unmanaged[Cdecl]<CXType, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_getNumObjCTypeArgs");
+        _virtualTable.clang_Type_getObjCProtocolDecl = (delegate* unmanaged[Cdecl]<CXType, uint, CXCursor>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_getObjCProtocolDecl");
+        _virtualTable.clang_Type_getNumObjCProtocolRefs = (delegate* unmanaged[Cdecl]<CXType, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_getNumObjCProtocolRefs");
+        _virtualTable.clang_Type_getObjCObjectBaseType = (delegate* unmanaged[Cdecl]<CXType, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_getObjCObjectBaseType");
+        _virtualTable.clang_getArgType = (delegate* unmanaged[Cdecl]<CXType, uint, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_getArgType");
+        _virtualTable.clang_getNumArgTypes = (delegate* unmanaged[Cdecl]<CXType, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_getNumArgTypes");
+        _virtualTable.clang_getExceptionSpecificationType = (delegate* unmanaged[Cdecl]<CXType, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_getExceptionSpecificationType");
+        _virtualTable.clang_getResultType = (delegate* unmanaged[Cdecl]<CXType, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_getResultType");
+        _virtualTable.clang_getFunctionTypeCallingConv = (delegate* unmanaged[Cdecl]<CXType, CXCallingConv>)Runtime.LibraryGetExport(_libraryHandle, "clang_getFunctionTypeCallingConv");
+        _virtualTable.clang_getTypeKindSpelling = (delegate* unmanaged[Cdecl]<CXTypeKind, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getTypeKindSpelling");
+        _virtualTable.clang_Type_getObjCEncoding = (delegate* unmanaged[Cdecl]<CXType, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_getObjCEncoding");
+        _virtualTable.clang_getDeclObjCTypeEncoding = (delegate* unmanaged[Cdecl]<CXCursor, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getDeclObjCTypeEncoding");
+        _virtualTable.clang_getTypeDeclaration = (delegate* unmanaged[Cdecl]<CXType, CXCursor>)Runtime.LibraryGetExport(_libraryHandle, "clang_getTypeDeclaration");
+        _virtualTable.clang_getPointeeType = (delegate* unmanaged[Cdecl]<CXType, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_getPointeeType");
+        _virtualTable.clang_getTypedefName = (delegate* unmanaged[Cdecl]<CXType, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getTypedefName");
+        _virtualTable.clang_getAddressSpace = (delegate* unmanaged[Cdecl]<CXType, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_getAddressSpace");
+        _virtualTable.clang_isRestrictQualifiedType = (delegate* unmanaged[Cdecl]<CXType, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_isRestrictQualifiedType");
+        _virtualTable.clang_isVolatileQualifiedType = (delegate* unmanaged[Cdecl]<CXType, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_isVolatileQualifiedType");
+        _virtualTable.clang_Cursor_isFunctionInlined = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_isFunctionInlined");
+        _virtualTable.clang_Cursor_isMacroBuiltin = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_isMacroBuiltin");
+        _virtualTable.clang_Cursor_isMacroFunctionLike = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_isMacroFunctionLike");
+        _virtualTable.clang_isConstQualifiedType = (delegate* unmanaged[Cdecl]<CXType, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_isConstQualifiedType");
+        _virtualTable.clang_getCanonicalType = (delegate* unmanaged[Cdecl]<CXType, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCanonicalType");
+        _virtualTable.clang_equalTypes = (delegate* unmanaged[Cdecl]<CXType, CXType, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_equalTypes");
+        _virtualTable.clang_Cursor_getTemplateArgumentUnsignedValue = (delegate* unmanaged[Cdecl]<CXCursor, uint, ulong>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getTemplateArgumentUnsignedValue");
+        _virtualTable.clang_Cursor_getTemplateArgumentValue = (delegate* unmanaged[Cdecl]<CXCursor, uint, long>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getTemplateArgumentValue");
+        _virtualTable.clang_Cursor_getTemplateArgumentType = (delegate* unmanaged[Cdecl]<CXCursor, uint, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getTemplateArgumentType");
+        _virtualTable.clang_Cursor_getTemplateArgumentKind = (delegate* unmanaged[Cdecl]<CXCursor, uint, CXTemplateArgumentKind>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getTemplateArgumentKind");
+        _virtualTable.clang_Cursor_getNumTemplateArguments = (delegate* unmanaged[Cdecl]<CXCursor, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getNumTemplateArguments");
+        _virtualTable.clang_Cursor_getArgument = (delegate* unmanaged[Cdecl]<CXCursor, uint, CXCursor>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getArgument");
+        _virtualTable.clang_Cursor_getNumArguments = (delegate* unmanaged[Cdecl]<CXCursor, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getNumArguments");
+        _virtualTable.clang_getFieldDeclBitWidth = (delegate* unmanaged[Cdecl]<CXCursor, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_getFieldDeclBitWidth");
+        _virtualTable.clang_getEnumConstantDeclUnsignedValue = (delegate* unmanaged[Cdecl]<CXCursor, ulong>)Runtime.LibraryGetExport(_libraryHandle, "clang_getEnumConstantDeclUnsignedValue");
+        _virtualTable.clang_getEnumConstantDeclValue = (delegate* unmanaged[Cdecl]<CXCursor, long>)Runtime.LibraryGetExport(_libraryHandle, "clang_getEnumConstantDeclValue");
+        _virtualTable.clang_getEnumDeclIntegerType = (delegate* unmanaged[Cdecl]<CXCursor, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_getEnumDeclIntegerType");
+        _virtualTable.clang_getTypedefDeclUnderlyingType = (delegate* unmanaged[Cdecl]<CXCursor, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_getTypedefDeclUnderlyingType");
+        _virtualTable.clang_getTypeSpelling = (delegate* unmanaged[Cdecl]<CXType, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getTypeSpelling");
+        _virtualTable.clang_getCursorType = (delegate* unmanaged[Cdecl]<CXCursor, CXType>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorType");
+        _virtualTable.clang_getCursorExtent = (delegate* unmanaged[Cdecl]<CXCursor, CXSourceRange>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorExtent");
+        _virtualTable.clang_getCursorLocation = (delegate* unmanaged[Cdecl]<CXCursor, CXSourceLocation>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorLocation");
+        _virtualTable.clang_getCursor = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXSourceLocation, CXCursor>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursor");
+        _virtualTable.clang_getIncludedFile = (delegate* unmanaged[Cdecl]<CXCursor, CXFile>)Runtime.LibraryGetExport(_libraryHandle, "clang_getIncludedFile");
+        _virtualTable.clang_disposeOverriddenCursors = (delegate* unmanaged[Cdecl]<CXCursor*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_disposeOverriddenCursors");
+        _virtualTable.clang_getOverriddenCursors = (delegate* unmanaged[Cdecl]<CXCursor, CXCursor**, ulong*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_getOverriddenCursors");
+        _virtualTable.clang_getCursorLexicalParent = (delegate* unmanaged[Cdecl]<CXCursor, CXCursor>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorLexicalParent");
+        _virtualTable.clang_getCursorSemanticParent = (delegate* unmanaged[Cdecl]<CXCursor, CXCursor>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorSemanticParent");
+        _virtualTable.clang_CXCursorSet_insert = (delegate* unmanaged[Cdecl]<CXCursorSet, CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_CXCursorSet_insert");
+        _virtualTable.clang_CXCursorSet_contains = (delegate* unmanaged[Cdecl]<CXCursorSet, CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_CXCursorSet_contains");
+        _virtualTable.clang_disposeCXCursorSet = (delegate* unmanaged[Cdecl]<CXCursorSet, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_disposeCXCursorSet");
+        _virtualTable.clang_createCXCursorSet = (delegate* unmanaged[Cdecl]<CXCursorSet>)Runtime.LibraryGetExport(_libraryHandle, "clang_createCXCursorSet");
+        _virtualTable.clang_Cursor_getTranslationUnit = (delegate* unmanaged[Cdecl]<CXCursor, CXTranslationUnit>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getTranslationUnit");
+        _virtualTable.clang_getCursorTLSKind = (delegate* unmanaged[Cdecl]<CXCursor, CXTLSKind>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorTLSKind");
+        _virtualTable.clang_getCursorLanguage = (delegate* unmanaged[Cdecl]<CXCursor, CXLanguageKind>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorLanguage");
+        _virtualTable.clang_Cursor_hasVarDeclExternalStorage = (delegate* unmanaged[Cdecl]<CXCursor, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_hasVarDeclExternalStorage");
+        _virtualTable.clang_Cursor_hasVarDeclGlobalStorage = (delegate* unmanaged[Cdecl]<CXCursor, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_hasVarDeclGlobalStorage");
+        _virtualTable.clang_Cursor_getVarDeclInitializer = (delegate* unmanaged[Cdecl]<CXCursor, CXCursor>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_getVarDeclInitializer");
+        _virtualTable.clang_disposeCXPlatformAvailability = (delegate* unmanaged[Cdecl]<CXPlatformAvailability*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_disposeCXPlatformAvailability");
+        _virtualTable.clang_getCursorPlatformAvailability = (delegate* unmanaged[Cdecl]<CXCursor, long*, CXString*, long*, CXString*, CXPlatformAvailability*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorPlatformAvailability");
+        _virtualTable.clang_getCursorAvailability = (delegate* unmanaged[Cdecl]<CXCursor, CXAvailabilityKind>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorAvailability");
+        _virtualTable.clang_getCursorVisibility = (delegate* unmanaged[Cdecl]<CXCursor, CXVisibilityKind>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorVisibility");
+        _virtualTable.clang_getCursorLinkage = (delegate* unmanaged[Cdecl]<CXCursor, CXLinkageKind>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorLinkage");
+        _virtualTable.clang_isUnexposed = (delegate* unmanaged[Cdecl]<CXCursorKind, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_isUnexposed");
+        _virtualTable.clang_isPreprocessing = (delegate* unmanaged[Cdecl]<CXCursorKind, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_isPreprocessing");
+        _virtualTable.clang_isTranslationUnit = (delegate* unmanaged[Cdecl]<CXCursorKind, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_isTranslationUnit");
+        _virtualTable.clang_isInvalid = (delegate* unmanaged[Cdecl]<CXCursorKind, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_isInvalid");
+        _virtualTable.clang_Cursor_hasAttrs = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_hasAttrs");
+        _virtualTable.clang_isAttribute = (delegate* unmanaged[Cdecl]<CXCursorKind, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_isAttribute");
+        _virtualTable.clang_isStatement = (delegate* unmanaged[Cdecl]<CXCursorKind, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_isStatement");
+        _virtualTable.clang_isExpression = (delegate* unmanaged[Cdecl]<CXCursorKind, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_isExpression");
+        _virtualTable.clang_isReference = (delegate* unmanaged[Cdecl]<CXCursorKind, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_isReference");
+        _virtualTable.clang_isInvalidDeclaration = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_isInvalidDeclaration");
+        _virtualTable.clang_isDeclaration = (delegate* unmanaged[Cdecl]<CXCursorKind, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_isDeclaration");
+        _virtualTable.clang_getCursorKind = (delegate* unmanaged[Cdecl]<CXCursor, CXCursorKind>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorKind");
+        _virtualTable.clang_hashCursor = (delegate* unmanaged[Cdecl]<CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_hashCursor");
+        _virtualTable.clang_Cursor_isNull = (delegate* unmanaged[Cdecl]<CXCursor, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_Cursor_isNull");
+        _virtualTable.clang_equalCursors = (delegate* unmanaged[Cdecl]<CXCursor, CXCursor, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_equalCursors");
+        _virtualTable.clang_getTranslationUnitCursor = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXCursor>)Runtime.LibraryGetExport(_libraryHandle, "clang_getTranslationUnitCursor");
+        _virtualTable.clang_getNullCursor = (delegate* unmanaged[Cdecl]<CXCursor>)Runtime.LibraryGetExport(_libraryHandle, "clang_getNullCursor");
+        _virtualTable.clang_TargetInfo_getPointerWidth = (delegate* unmanaged[Cdecl]<CXTargetInfo, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_TargetInfo_getPointerWidth");
+        _virtualTable.clang_TargetInfo_getTriple = (delegate* unmanaged[Cdecl]<CXTargetInfo, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_TargetInfo_getTriple");
+        _virtualTable.clang_TargetInfo_dispose = (delegate* unmanaged[Cdecl]<CXTargetInfo, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_TargetInfo_dispose");
+        _virtualTable.clang_getTranslationUnitTargetInfo = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXTargetInfo>)Runtime.LibraryGetExport(_libraryHandle, "clang_getTranslationUnitTargetInfo");
+        _virtualTable.clang_disposeCXTUResourceUsage = (delegate* unmanaged[Cdecl]<CXTUResourceUsage, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_disposeCXTUResourceUsage");
+        _virtualTable.clang_getCXTUResourceUsage = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXTUResourceUsage>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCXTUResourceUsage");
+        _virtualTable.clang_getTUResourceUsageName = (delegate* unmanaged[Cdecl]<CXTUResourceUsageKind, CString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getTUResourceUsageName");
+        _virtualTable.clang_reparseTranslationUnit = (delegate* unmanaged[Cdecl]<CXTranslationUnit, uint, CXUnsavedFile*, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_reparseTranslationUnit");
+        _virtualTable.clang_defaultReparseOptions = (delegate* unmanaged[Cdecl]<CXTranslationUnit, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_defaultReparseOptions");
+        _virtualTable.clang_disposeTranslationUnit = (delegate* unmanaged[Cdecl]<CXTranslationUnit, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_disposeTranslationUnit");
+        _virtualTable.clang_suspendTranslationUnit = (delegate* unmanaged[Cdecl]<CXTranslationUnit, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_suspendTranslationUnit");
+        _virtualTable.clang_saveTranslationUnit = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CString, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_saveTranslationUnit");
+        _virtualTable.clang_defaultSaveOptions = (delegate* unmanaged[Cdecl]<CXTranslationUnit, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_defaultSaveOptions");
+        _virtualTable.clang_parseTranslationUnit2FullArgv = (delegate* unmanaged[Cdecl]<CXIndex, CString, CString*, int, CXUnsavedFile*, uint, uint, CXTranslationUnit*, CXErrorCode>)Runtime.LibraryGetExport(_libraryHandle, "clang_parseTranslationUnit2FullArgv");
+        _virtualTable.clang_parseTranslationUnit2 = (delegate* unmanaged[Cdecl]<CXIndex, CString, CString*, int, CXUnsavedFile*, uint, uint, CXTranslationUnit*, CXErrorCode>)Runtime.LibraryGetExport(_libraryHandle, "clang_parseTranslationUnit2");
+        _virtualTable.clang_parseTranslationUnit = (delegate* unmanaged[Cdecl]<CXIndex, CString, CString*, int, CXUnsavedFile*, uint, uint, CXTranslationUnit>)Runtime.LibraryGetExport(_libraryHandle, "clang_parseTranslationUnit");
+        _virtualTable.clang_defaultEditingTranslationUnitOptions = (delegate* unmanaged[Cdecl]<uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_defaultEditingTranslationUnitOptions");
+        _virtualTable.clang_createTranslationUnit2 = (delegate* unmanaged[Cdecl]<CXIndex, CString, CXTranslationUnit*, CXErrorCode>)Runtime.LibraryGetExport(_libraryHandle, "clang_createTranslationUnit2");
+        _virtualTable.clang_createTranslationUnit = (delegate* unmanaged[Cdecl]<CXIndex, CString, CXTranslationUnit>)Runtime.LibraryGetExport(_libraryHandle, "clang_createTranslationUnit");
+        _virtualTable.clang_createTranslationUnitFromSourceFile = (delegate* unmanaged[Cdecl]<CXIndex, CString, int, CString*, uint, CXUnsavedFile*, CXTranslationUnit>)Runtime.LibraryGetExport(_libraryHandle, "clang_createTranslationUnitFromSourceFile");
+        _virtualTable.clang_getTranslationUnitSpelling = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getTranslationUnitSpelling");
+        _virtualTable.clang_getDiagnosticFixIt = (delegate* unmanaged[Cdecl]<CXDiagnostic, uint, CXSourceRange*, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getDiagnosticFixIt");
+        _virtualTable.clang_getDiagnosticNumFixIts = (delegate* unmanaged[Cdecl]<CXDiagnostic, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_getDiagnosticNumFixIts");
+        _virtualTable.clang_getDiagnosticRange = (delegate* unmanaged[Cdecl]<CXDiagnostic, uint, CXSourceRange>)Runtime.LibraryGetExport(_libraryHandle, "clang_getDiagnosticRange");
+        _virtualTable.clang_getDiagnosticNumRanges = (delegate* unmanaged[Cdecl]<CXDiagnostic, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_getDiagnosticNumRanges");
+        _virtualTable.clang_getDiagnosticCategoryText = (delegate* unmanaged[Cdecl]<CXDiagnostic, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getDiagnosticCategoryText");
+        _virtualTable.clang_getDiagnosticCategoryName = (delegate* unmanaged[Cdecl]<uint, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getDiagnosticCategoryName");
+        _virtualTable.clang_getDiagnosticCategory = (delegate* unmanaged[Cdecl]<CXDiagnostic, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_getDiagnosticCategory");
+        _virtualTable.clang_getDiagnosticOption = (delegate* unmanaged[Cdecl]<CXDiagnostic, CXString*, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getDiagnosticOption");
+        _virtualTable.clang_getDiagnosticSpelling = (delegate* unmanaged[Cdecl]<CXDiagnostic, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getDiagnosticSpelling");
+        _virtualTable.clang_getDiagnosticLocation = (delegate* unmanaged[Cdecl]<CXDiagnostic, CXSourceLocation>)Runtime.LibraryGetExport(_libraryHandle, "clang_getDiagnosticLocation");
+        _virtualTable.clang_getDiagnosticSeverity = (delegate* unmanaged[Cdecl]<CXDiagnostic, CXDiagnosticSeverity>)Runtime.LibraryGetExport(_libraryHandle, "clang_getDiagnosticSeverity");
+        _virtualTable.clang_defaultDiagnosticDisplayOptions = (delegate* unmanaged[Cdecl]<uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_defaultDiagnosticDisplayOptions");
+        _virtualTable.clang_formatDiagnostic = (delegate* unmanaged[Cdecl]<CXDiagnostic, uint, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_formatDiagnostic");
+        _virtualTable.clang_disposeDiagnostic = (delegate* unmanaged[Cdecl]<CXDiagnostic, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_disposeDiagnostic");
+        _virtualTable.clang_getDiagnosticSetFromTU = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXDiagnosticSet>)Runtime.LibraryGetExport(_libraryHandle, "clang_getDiagnosticSetFromTU");
+        _virtualTable.clang_getDiagnostic = (delegate* unmanaged[Cdecl]<CXTranslationUnit, uint, CXDiagnostic>)Runtime.LibraryGetExport(_libraryHandle, "clang_getDiagnostic");
+        _virtualTable.clang_getNumDiagnostics = (delegate* unmanaged[Cdecl]<CXTranslationUnit, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_getNumDiagnostics");
+        _virtualTable.clang_getChildDiagnostics = (delegate* unmanaged[Cdecl]<CXDiagnostic, CXDiagnosticSet>)Runtime.LibraryGetExport(_libraryHandle, "clang_getChildDiagnostics");
+        _virtualTable.clang_disposeDiagnosticSet = (delegate* unmanaged[Cdecl]<CXDiagnosticSet, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_disposeDiagnosticSet");
+        _virtualTable.clang_loadDiagnostics = (delegate* unmanaged[Cdecl]<CString, CXLoadDiag_Error*, CXString*, CXDiagnosticSet>)Runtime.LibraryGetExport(_libraryHandle, "clang_loadDiagnostics");
+        _virtualTable.clang_getDiagnosticInSet = (delegate* unmanaged[Cdecl]<CXDiagnosticSet, uint, CXDiagnostic>)Runtime.LibraryGetExport(_libraryHandle, "clang_getDiagnosticInSet");
+        _virtualTable.clang_getNumDiagnosticsInSet = (delegate* unmanaged[Cdecl]<CXDiagnosticSet, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_getNumDiagnosticsInSet");
+        _virtualTable.clang_disposeSourceRangeList = (delegate* unmanaged[Cdecl]<CXSourceRangeList*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_disposeSourceRangeList");
+        _virtualTable.clang_getAllSkippedRanges = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXSourceRangeList*>)Runtime.LibraryGetExport(_libraryHandle, "clang_getAllSkippedRanges");
+        _virtualTable.clang_getSkippedRanges = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, CXSourceRangeList*>)Runtime.LibraryGetExport(_libraryHandle, "clang_getSkippedRanges");
+        _virtualTable.clang_getRangeEnd = (delegate* unmanaged[Cdecl]<CXSourceRange, CXSourceLocation>)Runtime.LibraryGetExport(_libraryHandle, "clang_getRangeEnd");
+        _virtualTable.clang_getRangeStart = (delegate* unmanaged[Cdecl]<CXSourceRange, CXSourceLocation>)Runtime.LibraryGetExport(_libraryHandle, "clang_getRangeStart");
+        _virtualTable.clang_getFileLocation = (delegate* unmanaged[Cdecl]<CXSourceLocation, CXFile*, ulong*, ulong*, ulong*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_getFileLocation");
+        _virtualTable.clang_getSpellingLocation = (delegate* unmanaged[Cdecl]<CXSourceLocation, CXFile*, ulong*, ulong*, ulong*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_getSpellingLocation");
+        _virtualTable.clang_getInstantiationLocation = (delegate* unmanaged[Cdecl]<CXSourceLocation, CXFile*, ulong*, ulong*, ulong*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_getInstantiationLocation");
+        _virtualTable.clang_getPresumedLocation = (delegate* unmanaged[Cdecl]<CXSourceLocation, CXString*, ulong*, ulong*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_getPresumedLocation");
+        _virtualTable.clang_getExpansionLocation = (delegate* unmanaged[Cdecl]<CXSourceLocation, CXFile*, ulong*, ulong*, ulong*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_getExpansionLocation");
+        _virtualTable.clang_Range_isNull = (delegate* unmanaged[Cdecl]<CXSourceRange, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_Range_isNull");
+        _virtualTable.clang_equalRanges = (delegate* unmanaged[Cdecl]<CXSourceRange, CXSourceRange, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_equalRanges");
+        _virtualTable.clang_getRange = (delegate* unmanaged[Cdecl]<CXSourceLocation, CXSourceLocation, CXSourceRange>)Runtime.LibraryGetExport(_libraryHandle, "clang_getRange");
+        _virtualTable.clang_getNullRange = (delegate* unmanaged[Cdecl]<CXSourceRange>)Runtime.LibraryGetExport(_libraryHandle, "clang_getNullRange");
+        _virtualTable.clang_Location_isFromMainFile = (delegate* unmanaged[Cdecl]<CXSourceLocation, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_Location_isFromMainFile");
+        _virtualTable.clang_Location_isInSystemHeader = (delegate* unmanaged[Cdecl]<CXSourceLocation, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_Location_isInSystemHeader");
+        _virtualTable.clang_getLocationForOffset = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, uint, CXSourceLocation>)Runtime.LibraryGetExport(_libraryHandle, "clang_getLocationForOffset");
+        _virtualTable.clang_getLocation = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, uint, uint, CXSourceLocation>)Runtime.LibraryGetExport(_libraryHandle, "clang_getLocation");
+        _virtualTable.clang_equalLocations = (delegate* unmanaged[Cdecl]<CXSourceLocation, CXSourceLocation, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_equalLocations");
+        _virtualTable.clang_getNullLocation = (delegate* unmanaged[Cdecl]<CXSourceLocation>)Runtime.LibraryGetExport(_libraryHandle, "clang_getNullLocation");
+        _virtualTable.clang_File_tryGetRealPathName = (delegate* unmanaged[Cdecl]<CXFile, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_File_tryGetRealPathName");
+        _virtualTable.clang_File_isEqual = (delegate* unmanaged[Cdecl]<CXFile, CXFile, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_File_isEqual");
+        _virtualTable.clang_getFileContents = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, ulong*, CString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getFileContents");
+        _virtualTable.clang_getFile = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CString, CXFile>)Runtime.LibraryGetExport(_libraryHandle, "clang_getFile");
+        _virtualTable.clang_isFileMultipleIncludeGuarded = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_isFileMultipleIncludeGuarded");
+        _virtualTable.clang_getFileUniqueID = (delegate* unmanaged[Cdecl]<CXFile, CXFileUniqueID*, int>)Runtime.LibraryGetExport(_libraryHandle, "clang_getFileUniqueID");
+        _virtualTable.clang_getFileTime = (delegate* unmanaged[Cdecl]<CXFile, time_t>)Runtime.LibraryGetExport(_libraryHandle, "clang_getFileTime");
+        _virtualTable.clang_getFileName = (delegate* unmanaged[Cdecl]<CXFile, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getFileName");
+        _virtualTable.clang_CXIndex_setInvocationEmissionPathOption = (delegate* unmanaged[Cdecl]<CXIndex, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_CXIndex_setInvocationEmissionPathOption");
+        _virtualTable.clang_CXIndex_getGlobalOptions = (delegate* unmanaged[Cdecl]<CXIndex, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_CXIndex_getGlobalOptions");
+        _virtualTable.clang_CXIndex_setGlobalOptions = (delegate* unmanaged[Cdecl]<CXIndex, uint, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_CXIndex_setGlobalOptions");
+        _virtualTable.clang_disposeIndex = (delegate* unmanaged[Cdecl]<CXIndex, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_disposeIndex");
+        _virtualTable.clang_createIndex = (delegate* unmanaged[Cdecl]<int, int, CXIndex>)Runtime.LibraryGetExport(_libraryHandle, "clang_createIndex");
+        _virtualTable.clang_ModuleMapDescriptor_dispose = (delegate* unmanaged[Cdecl]<CXModuleMapDescriptor, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_ModuleMapDescriptor_dispose");
+        _virtualTable.clang_ModuleMapDescriptor_writeToBuffer = (delegate* unmanaged[Cdecl]<CXModuleMapDescriptor, uint, CString*, ulong*, CXErrorCode>)Runtime.LibraryGetExport(_libraryHandle, "clang_ModuleMapDescriptor_writeToBuffer");
+        _virtualTable.clang_ModuleMapDescriptor_setUmbrellaHeader = (delegate* unmanaged[Cdecl]<CXModuleMapDescriptor, CString, CXErrorCode>)Runtime.LibraryGetExport(_libraryHandle, "clang_ModuleMapDescriptor_setUmbrellaHeader");
+        _virtualTable.clang_ModuleMapDescriptor_setFrameworkModuleName = (delegate* unmanaged[Cdecl]<CXModuleMapDescriptor, CString, CXErrorCode>)Runtime.LibraryGetExport(_libraryHandle, "clang_ModuleMapDescriptor_setFrameworkModuleName");
+        _virtualTable.clang_ModuleMapDescriptor_create = (delegate* unmanaged[Cdecl]<uint, CXModuleMapDescriptor>)Runtime.LibraryGetExport(_libraryHandle, "clang_ModuleMapDescriptor_create");
+        _virtualTable.clang_VirtualFileOverlay_dispose = (delegate* unmanaged[Cdecl]<CXVirtualFileOverlay, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_VirtualFileOverlay_dispose");
+        _virtualTable.clang_free = (delegate* unmanaged[Cdecl]<void*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_free");
+        _virtualTable.clang_VirtualFileOverlay_writeToBuffer = (delegate* unmanaged[Cdecl]<CXVirtualFileOverlay, uint, CString*, ulong*, CXErrorCode>)Runtime.LibraryGetExport(_libraryHandle, "clang_VirtualFileOverlay_writeToBuffer");
+        _virtualTable.clang_VirtualFileOverlay_setCaseSensitivity = (delegate* unmanaged[Cdecl]<CXVirtualFileOverlay, int, CXErrorCode>)Runtime.LibraryGetExport(_libraryHandle, "clang_VirtualFileOverlay_setCaseSensitivity");
+        _virtualTable.clang_VirtualFileOverlay_addFileMapping = (delegate* unmanaged[Cdecl]<CXVirtualFileOverlay, CString, CString, CXErrorCode>)Runtime.LibraryGetExport(_libraryHandle, "clang_VirtualFileOverlay_addFileMapping");
+        _virtualTable.clang_VirtualFileOverlay_create = (delegate* unmanaged[Cdecl]<uint, CXVirtualFileOverlay>)Runtime.LibraryGetExport(_libraryHandle, "clang_VirtualFileOverlay_create");
+        _virtualTable.clang_getBuildSessionTimestamp = (delegate* unmanaged[Cdecl]<ulong>)Runtime.LibraryGetExport(_libraryHandle, "clang_getBuildSessionTimestamp");
+        _virtualTable.clang_disposeStringSet = (delegate* unmanaged[Cdecl]<CXStringSet*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_disposeStringSet");
+        _virtualTable.clang_disposeString = (delegate* unmanaged[Cdecl]<CXString, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_disposeString");
+        _virtualTable.clang_getCString = (delegate* unmanaged[Cdecl]<CXString, CString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCString");
+
+        #endregion
+
+        #region "Variables"
+
+
+
+        #endregion
+    }
+
+    private static void _UnloadVirtualTable()
+    {
+        #region "Functions"
+
+        _virtualTable.clang_Type_visitFields = (delegate* unmanaged[Cdecl]<CXType, CXFieldVisitor, CXClientData, uint>)IntPtr.Zero;
+        _virtualTable.clang_indexLoc_getCXSourceLocation = (delegate* unmanaged[Cdecl]<CXIdxLoc, CXSourceLocation>)IntPtr.Zero;
+        _virtualTable.clang_indexLoc_getFileLocation = (delegate* unmanaged[Cdecl]<CXIdxLoc, CXIdxClientFile*, CXFile*, ulong*, ulong*, ulong*, void>)IntPtr.Zero;
+        _virtualTable.clang_indexTranslationUnit = (delegate* unmanaged[Cdecl]<CXIndexAction, CXClientData, IndexerCallbacks*, uint, uint, CXTranslationUnit, int>)IntPtr.Zero;
+        _virtualTable.clang_indexSourceFileFullArgv = (delegate* unmanaged[Cdecl]<CXIndexAction, CXClientData, IndexerCallbacks*, uint, uint, CString, CString*, int, CXUnsavedFile*, uint, CXTranslationUnit*, uint, int>)IntPtr.Zero;
+        _virtualTable.clang_indexSourceFile = (delegate* unmanaged[Cdecl]<CXIndexAction, CXClientData, IndexerCallbacks*, uint, uint, CString, CString*, int, CXUnsavedFile*, uint, CXTranslationUnit*, uint, int>)IntPtr.Zero;
+        _virtualTable.clang_IndexAction_dispose = (delegate* unmanaged[Cdecl]<CXIndexAction, void>)IntPtr.Zero;
+        _virtualTable.clang_IndexAction_create = (delegate* unmanaged[Cdecl]<CXIndex, CXIndexAction>)IntPtr.Zero;
+        _virtualTable.clang_index_setClientEntity = (delegate* unmanaged[Cdecl]<CXIdxEntityInfo*, CXIdxClientEntity, void>)IntPtr.Zero;
+        _virtualTable.clang_index_getClientEntity = (delegate* unmanaged[Cdecl]<CXIdxEntityInfo*, CXIdxClientEntity>)IntPtr.Zero;
+        _virtualTable.clang_index_setClientContainer = (delegate* unmanaged[Cdecl]<CXIdxContainerInfo*, CXIdxClientContainer, void>)IntPtr.Zero;
+        _virtualTable.clang_index_getClientContainer = (delegate* unmanaged[Cdecl]<CXIdxContainerInfo*, CXIdxClientContainer>)IntPtr.Zero;
+        _virtualTable.clang_index_getCXXClassDeclInfo = (delegate* unmanaged[Cdecl]<CXIdxDeclInfo*, CXIdxCXXClassDeclInfo*>)IntPtr.Zero;
+        _virtualTable.clang_index_getIBOutletCollectionAttrInfo = (delegate* unmanaged[Cdecl]<CXIdxAttrInfo*, CXIdxIBOutletCollectionAttrInfo*>)IntPtr.Zero;
+        _virtualTable.clang_index_getObjCPropertyDeclInfo = (delegate* unmanaged[Cdecl]<CXIdxDeclInfo*, CXIdxObjCPropertyDeclInfo*>)IntPtr.Zero;
+        _virtualTable.clang_index_getObjCProtocolRefListInfo = (delegate* unmanaged[Cdecl]<CXIdxDeclInfo*, CXIdxObjCProtocolRefListInfo*>)IntPtr.Zero;
+        _virtualTable.clang_index_getObjCCategoryDeclInfo = (delegate* unmanaged[Cdecl]<CXIdxDeclInfo*, CXIdxObjCCategoryDeclInfo*>)IntPtr.Zero;
+        _virtualTable.clang_index_getObjCInterfaceDeclInfo = (delegate* unmanaged[Cdecl]<CXIdxDeclInfo*, CXIdxObjCInterfaceDeclInfo*>)IntPtr.Zero;
+        _virtualTable.clang_index_getObjCContainerDeclInfo = (delegate* unmanaged[Cdecl]<CXIdxDeclInfo*, CXIdxObjCContainerDeclInfo*>)IntPtr.Zero;
+        _virtualTable.clang_index_isEntityObjCContainerKind = (delegate* unmanaged[Cdecl]<CXIdxEntityKind, int>)IntPtr.Zero;
+        _virtualTable.clang_findIncludesInFile = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, CXCursorAndRangeVisitor, CXResult>)IntPtr.Zero;
+        _virtualTable.clang_findReferencesInFile = (delegate* unmanaged[Cdecl]<CXCursor, CXFile, CXCursorAndRangeVisitor, CXResult>)IntPtr.Zero;
+        _virtualTable.clang_remap_dispose = (delegate* unmanaged[Cdecl]<CXRemapping, void>)IntPtr.Zero;
+        _virtualTable.clang_remap_getFilenames = (delegate* unmanaged[Cdecl]<CXRemapping, uint, CXString*, CXString*, void>)IntPtr.Zero;
+        _virtualTable.clang_remap_getNumFiles = (delegate* unmanaged[Cdecl]<CXRemapping, uint>)IntPtr.Zero;
+        _virtualTable.clang_getRemappingsFromFileList = (delegate* unmanaged[Cdecl]<CString*, uint, CXRemapping>)IntPtr.Zero;
+        _virtualTable.clang_getRemappings = (delegate* unmanaged[Cdecl]<CString, CXRemapping>)IntPtr.Zero;
+        _virtualTable.clang_EvalResult_dispose = (delegate* unmanaged[Cdecl]<CXEvalResult, void>)IntPtr.Zero;
+        _virtualTable.clang_EvalResult_getAsStr = (delegate* unmanaged[Cdecl]<CXEvalResult, CString>)IntPtr.Zero;
+        _virtualTable.clang_EvalResult_getAsDouble = (delegate* unmanaged[Cdecl]<CXEvalResult, double>)IntPtr.Zero;
+        _virtualTable.clang_EvalResult_getAsUnsigned = (delegate* unmanaged[Cdecl]<CXEvalResult, ulong>)IntPtr.Zero;
+        _virtualTable.clang_EvalResult_isUnsignedInt = (delegate* unmanaged[Cdecl]<CXEvalResult, uint>)IntPtr.Zero;
+        _virtualTable.clang_EvalResult_getAsLongLong = (delegate* unmanaged[Cdecl]<CXEvalResult, long>)IntPtr.Zero;
+        _virtualTable.clang_EvalResult_getAsInt = (delegate* unmanaged[Cdecl]<CXEvalResult, int>)IntPtr.Zero;
+        _virtualTable.clang_EvalResult_getKind = (delegate* unmanaged[Cdecl]<CXEvalResult, CXEvalResultKind>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_Evaluate = (delegate* unmanaged[Cdecl]<CXCursor, CXEvalResult>)IntPtr.Zero;
+        _virtualTable.clang_getInclusions = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXInclusionVisitor, CXClientData, void>)IntPtr.Zero;
+        _virtualTable.clang_toggleCrashRecovery = (delegate* unmanaged[Cdecl]<uint, void>)IntPtr.Zero;
+        _virtualTable.clang_getClangVersion = (delegate* unmanaged[Cdecl]<CXString>)IntPtr.Zero;
+        _virtualTable.clang_codeCompleteGetObjCSelector = (delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, CXString>)IntPtr.Zero;
+        _virtualTable.clang_codeCompleteGetContainerUSR = (delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, CXString>)IntPtr.Zero;
+        _virtualTable.clang_codeCompleteGetContainerKind = (delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, ulong*, CXCursorKind>)IntPtr.Zero;
+        _virtualTable.clang_codeCompleteGetContexts = (delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, ulong>)IntPtr.Zero;
+        _virtualTable.clang_codeCompleteGetDiagnostic = (delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, uint, CXDiagnostic>)IntPtr.Zero;
+        _virtualTable.clang_codeCompleteGetNumDiagnostics = (delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, uint>)IntPtr.Zero;
+        _virtualTable.clang_disposeCodeCompleteResults = (delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, void>)IntPtr.Zero;
+        _virtualTable.clang_sortCodeCompletionResults = (delegate* unmanaged[Cdecl]<CXCompletionResult*, uint, void>)IntPtr.Zero;
+        _virtualTable.clang_codeCompleteAt = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CString, uint, uint, CXUnsavedFile*, uint, uint, CXCodeCompleteResults*>)IntPtr.Zero;
+        _virtualTable.clang_defaultCodeCompleteOptions = (delegate* unmanaged[Cdecl]<uint>)IntPtr.Zero;
+        _virtualTable.clang_getCompletionFixIt = (delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, uint, uint, CXSourceRange*, CXString>)IntPtr.Zero;
+        _virtualTable.clang_getCompletionNumFixIts = (delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, uint, uint>)IntPtr.Zero;
+        _virtualTable.clang_getCursorCompletionString = (delegate* unmanaged[Cdecl]<CXCursor, CXCompletionString>)IntPtr.Zero;
+        _virtualTable.clang_getCompletionBriefComment = (delegate* unmanaged[Cdecl]<CXCompletionString, CXString>)IntPtr.Zero;
+        _virtualTable.clang_getCompletionParent = (delegate* unmanaged[Cdecl]<CXCompletionString, CXCursorKind*, CXString>)IntPtr.Zero;
+        _virtualTable.clang_getCompletionAnnotation = (delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXString>)IntPtr.Zero;
+        _virtualTable.clang_getCompletionNumAnnotations = (delegate* unmanaged[Cdecl]<CXCompletionString, uint>)IntPtr.Zero;
+        _virtualTable.clang_getCompletionAvailability = (delegate* unmanaged[Cdecl]<CXCompletionString, CXAvailabilityKind>)IntPtr.Zero;
+        _virtualTable.clang_getCompletionPriority = (delegate* unmanaged[Cdecl]<CXCompletionString, uint>)IntPtr.Zero;
+        _virtualTable.clang_getNumCompletionChunks = (delegate* unmanaged[Cdecl]<CXCompletionString, uint>)IntPtr.Zero;
+        _virtualTable.clang_getCompletionChunkCompletionString = (delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXCompletionString>)IntPtr.Zero;
+        _virtualTable.clang_getCompletionChunkText = (delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXString>)IntPtr.Zero;
+        _virtualTable.clang_getCompletionChunkKind = (delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXCompletionChunkKind>)IntPtr.Zero;
+        _virtualTable.clang_executeOnThread = (delegate* unmanaged[Cdecl]<FnPtrPointerVoid, void*, uint, void>)IntPtr.Zero;
+        _virtualTable.clang_enableStackTraces = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
+        _virtualTable.clang_getDefinitionSpellingAndExtent = (delegate* unmanaged[Cdecl]<CXCursor, CString*, CString*, ulong*, ulong*, ulong*, ulong*, void>)IntPtr.Zero;
+        _virtualTable.clang_getCursorKindSpelling = (delegate* unmanaged[Cdecl]<CXCursorKind, CXString>)IntPtr.Zero;
+        _virtualTable.clang_disposeTokens = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXToken*, uint, void>)IntPtr.Zero;
+        _virtualTable.clang_annotateTokens = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXToken*, uint, CXCursor*, void>)IntPtr.Zero;
+        _virtualTable.clang_tokenize = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXSourceRange, CXToken**, ulong*, void>)IntPtr.Zero;
+        _virtualTable.clang_getTokenExtent = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXToken, CXSourceRange>)IntPtr.Zero;
+        _virtualTable.clang_getTokenLocation = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXToken, CXSourceLocation>)IntPtr.Zero;
+        _virtualTable.clang_getTokenSpelling = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXToken, CXString>)IntPtr.Zero;
+        _virtualTable.clang_getTokenKind = (delegate* unmanaged[Cdecl]<CXToken, CXTokenKind>)IntPtr.Zero;
+        _virtualTable.clang_getToken = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXSourceLocation, CXToken*>)IntPtr.Zero;
+        _virtualTable.clang_getCursorReferenceNameRange = (delegate* unmanaged[Cdecl]<CXCursor, uint, uint, CXSourceRange>)IntPtr.Zero;
+        _virtualTable.clang_getSpecializedCursorTemplate = (delegate* unmanaged[Cdecl]<CXCursor, CXCursor>)IntPtr.Zero;
+        _virtualTable.clang_getTemplateCursorKind = (delegate* unmanaged[Cdecl]<CXCursor, CXCursorKind>)IntPtr.Zero;
+        _virtualTable.clang_CXXMethod_isConst = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_EnumDecl_isScoped = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_CXXRecord_isAbstract = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_CXXMethod_isVirtual = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_CXXMethod_isStatic = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_CXXMethod_isPureVirtual = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_CXXMethod_isDefaulted = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_CXXField_isMutable = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_CXXConstructor_isMoveConstructor = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_CXXConstructor_isDefaultConstructor = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_CXXConstructor_isCopyConstructor = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_CXXConstructor_isConvertingConstructor = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_Module_getTopLevelHeader = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXModule, uint, CXFile>)IntPtr.Zero;
+        _virtualTable.clang_Module_getNumTopLevelHeaders = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXModule, uint>)IntPtr.Zero;
+        _virtualTable.clang_Module_isSystem = (delegate* unmanaged[Cdecl]<CXModule, int>)IntPtr.Zero;
+        _virtualTable.clang_Module_getFullName = (delegate* unmanaged[Cdecl]<CXModule, CXString>)IntPtr.Zero;
+        _virtualTable.clang_Module_getName = (delegate* unmanaged[Cdecl]<CXModule, CXString>)IntPtr.Zero;
+        _virtualTable.clang_Module_getParent = (delegate* unmanaged[Cdecl]<CXModule, CXModule>)IntPtr.Zero;
+        _virtualTable.clang_Module_getASTFile = (delegate* unmanaged[Cdecl]<CXModule, CXFile>)IntPtr.Zero;
+        _virtualTable.clang_getModuleForFile = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, CXModule>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getModule = (delegate* unmanaged[Cdecl]<CXCursor, CXModule>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getObjCManglings = (delegate* unmanaged[Cdecl]<CXCursor, CXStringSet*>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getCXXManglings = (delegate* unmanaged[Cdecl]<CXCursor, CXStringSet*>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getMangling = (delegate* unmanaged[Cdecl]<CXCursor, CXString>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getBriefCommentText = (delegate* unmanaged[Cdecl]<CXCursor, CXString>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getRawCommentText = (delegate* unmanaged[Cdecl]<CXCursor, CXString>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getCommentRange = (delegate* unmanaged[Cdecl]<CXCursor, CXSourceRange>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_isExternalSymbol = (delegate* unmanaged[Cdecl]<CXCursor, CXString*, CXString*, ulong*, uint>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_isVariadic = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_isObjCOptional = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getObjCDeclQualifiers = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getObjCPropertySetterName = (delegate* unmanaged[Cdecl]<CXCursor, CXString>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getObjCPropertyGetterName = (delegate* unmanaged[Cdecl]<CXCursor, CXString>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getObjCPropertyAttributes = (delegate* unmanaged[Cdecl]<CXCursor, uint, uint>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getReceiverType = (delegate* unmanaged[Cdecl]<CXCursor, CXType>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_isDynamicCall = (delegate* unmanaged[Cdecl]<CXCursor, int>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getObjCSelectorIndex = (delegate* unmanaged[Cdecl]<CXCursor, int>)IntPtr.Zero;
+        _virtualTable.clang_getCanonicalCursor = (delegate* unmanaged[Cdecl]<CXCursor, CXCursor>)IntPtr.Zero;
+        _virtualTable.clang_isCursorDefinition = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_getCursorDefinition = (delegate* unmanaged[Cdecl]<CXCursor, CXCursor>)IntPtr.Zero;
+        _virtualTable.clang_getCursorReferenced = (delegate* unmanaged[Cdecl]<CXCursor, CXCursor>)IntPtr.Zero;
+        _virtualTable.clang_getCursorDisplayName = (delegate* unmanaged[Cdecl]<CXCursor, CXString>)IntPtr.Zero;
+        _virtualTable.clang_getCursorPrettyPrinted = (delegate* unmanaged[Cdecl]<CXCursor, CXPrintingPolicy, CXString>)IntPtr.Zero;
+        _virtualTable.clang_PrintingPolicy_dispose = (delegate* unmanaged[Cdecl]<CXPrintingPolicy, void>)IntPtr.Zero;
+        _virtualTable.clang_getCursorPrintingPolicy = (delegate* unmanaged[Cdecl]<CXCursor, CXPrintingPolicy>)IntPtr.Zero;
+        _virtualTable.clang_PrintingPolicy_setProperty = (delegate* unmanaged[Cdecl]<CXPrintingPolicy, CXPrintingPolicyProperty, uint, void>)IntPtr.Zero;
+        _virtualTable.clang_PrintingPolicy_getProperty = (delegate* unmanaged[Cdecl]<CXPrintingPolicy, CXPrintingPolicyProperty, uint>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getSpellingNameRange = (delegate* unmanaged[Cdecl]<CXCursor, uint, uint, CXSourceRange>)IntPtr.Zero;
+        _virtualTable.clang_getCursorSpelling = (delegate* unmanaged[Cdecl]<CXCursor, CXString>)IntPtr.Zero;
+        _virtualTable.clang_constructUSR_ObjCProperty = (delegate* unmanaged[Cdecl]<CString, CXString, CXString>)IntPtr.Zero;
+        _virtualTable.clang_constructUSR_ObjCMethod = (delegate* unmanaged[Cdecl]<CString, uint, CXString, CXString>)IntPtr.Zero;
+        _virtualTable.clang_constructUSR_ObjCIvar = (delegate* unmanaged[Cdecl]<CString, CXString, CXString>)IntPtr.Zero;
+        _virtualTable.clang_constructUSR_ObjCProtocol = (delegate* unmanaged[Cdecl]<CString, CXString>)IntPtr.Zero;
+        _virtualTable.clang_constructUSR_ObjCCategory = (delegate* unmanaged[Cdecl]<CString, CString, CXString>)IntPtr.Zero;
+        _virtualTable.clang_constructUSR_ObjCClass = (delegate* unmanaged[Cdecl]<CString, CXString>)IntPtr.Zero;
+        _virtualTable.clang_getCursorUSR = (delegate* unmanaged[Cdecl]<CXCursor, CXString>)IntPtr.Zero;
+        _virtualTable.clang_visitChildren = (delegate* unmanaged[Cdecl]<CXCursor, CXCursorVisitor, CXClientData, uint>)IntPtr.Zero;
+        _virtualTable.clang_getIBOutletCollectionType = (delegate* unmanaged[Cdecl]<CXCursor, CXType>)IntPtr.Zero;
+        _virtualTable.clang_getOverloadedDecl = (delegate* unmanaged[Cdecl]<CXCursor, uint, CXCursor>)IntPtr.Zero;
+        _virtualTable.clang_getNumOverloadedDecls = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getStorageClass = (delegate* unmanaged[Cdecl]<CXCursor, CX_StorageClass>)IntPtr.Zero;
+        _virtualTable.clang_getCXXAccessSpecifier = (delegate* unmanaged[Cdecl]<CXCursor, CX_CXXAccessSpecifier>)IntPtr.Zero;
+        _virtualTable.clang_isVirtualBase = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_isBitField = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_Type_getCXXRefQualifier = (delegate* unmanaged[Cdecl]<CXType, CXRefQualifierKind>)IntPtr.Zero;
+        _virtualTable.clang_Type_getTemplateArgumentAsType = (delegate* unmanaged[Cdecl]<CXType, uint, CXType>)IntPtr.Zero;
+        _virtualTable.clang_Type_getNumTemplateArguments = (delegate* unmanaged[Cdecl]<CXType, int>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_isInlineNamespace = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_isAnonymousRecordDecl = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_isAnonymous = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getOffsetOfField = (delegate* unmanaged[Cdecl]<CXCursor, long>)IntPtr.Zero;
+        _virtualTable.clang_Type_getValueType = (delegate* unmanaged[Cdecl]<CXType, CXType>)IntPtr.Zero;
+        _virtualTable.clang_Type_getModifiedType = (delegate* unmanaged[Cdecl]<CXType, CXType>)IntPtr.Zero;
+        _virtualTable.clang_Type_getOffsetOf = (delegate* unmanaged[Cdecl]<CXType, CString, long>)IntPtr.Zero;
+        _virtualTable.clang_Type_getSizeOf = (delegate* unmanaged[Cdecl]<CXType, long>)IntPtr.Zero;
+        _virtualTable.clang_Type_getClassType = (delegate* unmanaged[Cdecl]<CXType, CXType>)IntPtr.Zero;
+        _virtualTable.clang_Type_getAlignOf = (delegate* unmanaged[Cdecl]<CXType, long>)IntPtr.Zero;
+        _virtualTable.clang_Type_getNullability = (delegate* unmanaged[Cdecl]<CXType, CXTypeNullabilityKind>)IntPtr.Zero;
+        _virtualTable.clang_Type_isTransparentTagTypedef = (delegate* unmanaged[Cdecl]<CXType, uint>)IntPtr.Zero;
+        _virtualTable.clang_Type_getNamedType = (delegate* unmanaged[Cdecl]<CXType, CXType>)IntPtr.Zero;
+        _virtualTable.clang_getArraySize = (delegate* unmanaged[Cdecl]<CXType, long>)IntPtr.Zero;
+        _virtualTable.clang_getArrayElementType = (delegate* unmanaged[Cdecl]<CXType, CXType>)IntPtr.Zero;
+        _virtualTable.clang_getNumElements = (delegate* unmanaged[Cdecl]<CXType, long>)IntPtr.Zero;
+        _virtualTable.clang_getElementType = (delegate* unmanaged[Cdecl]<CXType, CXType>)IntPtr.Zero;
+        _virtualTable.clang_isPODType = (delegate* unmanaged[Cdecl]<CXType, uint>)IntPtr.Zero;
+        _virtualTable.clang_getCursorExceptionSpecificationType = (delegate* unmanaged[Cdecl]<CXCursor, int>)IntPtr.Zero;
+        _virtualTable.clang_getCursorResultType = (delegate* unmanaged[Cdecl]<CXCursor, CXType>)IntPtr.Zero;
+        _virtualTable.clang_isFunctionTypeVariadic = (delegate* unmanaged[Cdecl]<CXType, uint>)IntPtr.Zero;
+        _virtualTable.clang_Type_getObjCTypeArg = (delegate* unmanaged[Cdecl]<CXType, uint, CXType>)IntPtr.Zero;
+        _virtualTable.clang_Type_getNumObjCTypeArgs = (delegate* unmanaged[Cdecl]<CXType, uint>)IntPtr.Zero;
+        _virtualTable.clang_Type_getObjCProtocolDecl = (delegate* unmanaged[Cdecl]<CXType, uint, CXCursor>)IntPtr.Zero;
+        _virtualTable.clang_Type_getNumObjCProtocolRefs = (delegate* unmanaged[Cdecl]<CXType, uint>)IntPtr.Zero;
+        _virtualTable.clang_Type_getObjCObjectBaseType = (delegate* unmanaged[Cdecl]<CXType, CXType>)IntPtr.Zero;
+        _virtualTable.clang_getArgType = (delegate* unmanaged[Cdecl]<CXType, uint, CXType>)IntPtr.Zero;
+        _virtualTable.clang_getNumArgTypes = (delegate* unmanaged[Cdecl]<CXType, int>)IntPtr.Zero;
+        _virtualTable.clang_getExceptionSpecificationType = (delegate* unmanaged[Cdecl]<CXType, int>)IntPtr.Zero;
+        _virtualTable.clang_getResultType = (delegate* unmanaged[Cdecl]<CXType, CXType>)IntPtr.Zero;
+        _virtualTable.clang_getFunctionTypeCallingConv = (delegate* unmanaged[Cdecl]<CXType, CXCallingConv>)IntPtr.Zero;
+        _virtualTable.clang_getTypeKindSpelling = (delegate* unmanaged[Cdecl]<CXTypeKind, CXString>)IntPtr.Zero;
+        _virtualTable.clang_Type_getObjCEncoding = (delegate* unmanaged[Cdecl]<CXType, CXString>)IntPtr.Zero;
+        _virtualTable.clang_getDeclObjCTypeEncoding = (delegate* unmanaged[Cdecl]<CXCursor, CXString>)IntPtr.Zero;
+        _virtualTable.clang_getTypeDeclaration = (delegate* unmanaged[Cdecl]<CXType, CXCursor>)IntPtr.Zero;
+        _virtualTable.clang_getPointeeType = (delegate* unmanaged[Cdecl]<CXType, CXType>)IntPtr.Zero;
+        _virtualTable.clang_getTypedefName = (delegate* unmanaged[Cdecl]<CXType, CXString>)IntPtr.Zero;
+        _virtualTable.clang_getAddressSpace = (delegate* unmanaged[Cdecl]<CXType, uint>)IntPtr.Zero;
+        _virtualTable.clang_isRestrictQualifiedType = (delegate* unmanaged[Cdecl]<CXType, uint>)IntPtr.Zero;
+        _virtualTable.clang_isVolatileQualifiedType = (delegate* unmanaged[Cdecl]<CXType, uint>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_isFunctionInlined = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_isMacroBuiltin = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_isMacroFunctionLike = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_isConstQualifiedType = (delegate* unmanaged[Cdecl]<CXType, uint>)IntPtr.Zero;
+        _virtualTable.clang_getCanonicalType = (delegate* unmanaged[Cdecl]<CXType, CXType>)IntPtr.Zero;
+        _virtualTable.clang_equalTypes = (delegate* unmanaged[Cdecl]<CXType, CXType, uint>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getTemplateArgumentUnsignedValue = (delegate* unmanaged[Cdecl]<CXCursor, uint, ulong>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getTemplateArgumentValue = (delegate* unmanaged[Cdecl]<CXCursor, uint, long>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getTemplateArgumentType = (delegate* unmanaged[Cdecl]<CXCursor, uint, CXType>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getTemplateArgumentKind = (delegate* unmanaged[Cdecl]<CXCursor, uint, CXTemplateArgumentKind>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getNumTemplateArguments = (delegate* unmanaged[Cdecl]<CXCursor, int>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getArgument = (delegate* unmanaged[Cdecl]<CXCursor, uint, CXCursor>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getNumArguments = (delegate* unmanaged[Cdecl]<CXCursor, int>)IntPtr.Zero;
+        _virtualTable.clang_getFieldDeclBitWidth = (delegate* unmanaged[Cdecl]<CXCursor, int>)IntPtr.Zero;
+        _virtualTable.clang_getEnumConstantDeclUnsignedValue = (delegate* unmanaged[Cdecl]<CXCursor, ulong>)IntPtr.Zero;
+        _virtualTable.clang_getEnumConstantDeclValue = (delegate* unmanaged[Cdecl]<CXCursor, long>)IntPtr.Zero;
+        _virtualTable.clang_getEnumDeclIntegerType = (delegate* unmanaged[Cdecl]<CXCursor, CXType>)IntPtr.Zero;
+        _virtualTable.clang_getTypedefDeclUnderlyingType = (delegate* unmanaged[Cdecl]<CXCursor, CXType>)IntPtr.Zero;
+        _virtualTable.clang_getTypeSpelling = (delegate* unmanaged[Cdecl]<CXType, CXString>)IntPtr.Zero;
+        _virtualTable.clang_getCursorType = (delegate* unmanaged[Cdecl]<CXCursor, CXType>)IntPtr.Zero;
+        _virtualTable.clang_getCursorExtent = (delegate* unmanaged[Cdecl]<CXCursor, CXSourceRange>)IntPtr.Zero;
+        _virtualTable.clang_getCursorLocation = (delegate* unmanaged[Cdecl]<CXCursor, CXSourceLocation>)IntPtr.Zero;
+        _virtualTable.clang_getCursor = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXSourceLocation, CXCursor>)IntPtr.Zero;
+        _virtualTable.clang_getIncludedFile = (delegate* unmanaged[Cdecl]<CXCursor, CXFile>)IntPtr.Zero;
+        _virtualTable.clang_disposeOverriddenCursors = (delegate* unmanaged[Cdecl]<CXCursor*, void>)IntPtr.Zero;
+        _virtualTable.clang_getOverriddenCursors = (delegate* unmanaged[Cdecl]<CXCursor, CXCursor**, ulong*, void>)IntPtr.Zero;
+        _virtualTable.clang_getCursorLexicalParent = (delegate* unmanaged[Cdecl]<CXCursor, CXCursor>)IntPtr.Zero;
+        _virtualTable.clang_getCursorSemanticParent = (delegate* unmanaged[Cdecl]<CXCursor, CXCursor>)IntPtr.Zero;
+        _virtualTable.clang_CXCursorSet_insert = (delegate* unmanaged[Cdecl]<CXCursorSet, CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_CXCursorSet_contains = (delegate* unmanaged[Cdecl]<CXCursorSet, CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_disposeCXCursorSet = (delegate* unmanaged[Cdecl]<CXCursorSet, void>)IntPtr.Zero;
+        _virtualTable.clang_createCXCursorSet = (delegate* unmanaged[Cdecl]<CXCursorSet>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getTranslationUnit = (delegate* unmanaged[Cdecl]<CXCursor, CXTranslationUnit>)IntPtr.Zero;
+        _virtualTable.clang_getCursorTLSKind = (delegate* unmanaged[Cdecl]<CXCursor, CXTLSKind>)IntPtr.Zero;
+        _virtualTable.clang_getCursorLanguage = (delegate* unmanaged[Cdecl]<CXCursor, CXLanguageKind>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_hasVarDeclExternalStorage = (delegate* unmanaged[Cdecl]<CXCursor, int>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_hasVarDeclGlobalStorage = (delegate* unmanaged[Cdecl]<CXCursor, int>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_getVarDeclInitializer = (delegate* unmanaged[Cdecl]<CXCursor, CXCursor>)IntPtr.Zero;
+        _virtualTable.clang_disposeCXPlatformAvailability = (delegate* unmanaged[Cdecl]<CXPlatformAvailability*, void>)IntPtr.Zero;
+        _virtualTable.clang_getCursorPlatformAvailability = (delegate* unmanaged[Cdecl]<CXCursor, long*, CXString*, long*, CXString*, CXPlatformAvailability*, int, int>)IntPtr.Zero;
+        _virtualTable.clang_getCursorAvailability = (delegate* unmanaged[Cdecl]<CXCursor, CXAvailabilityKind>)IntPtr.Zero;
+        _virtualTable.clang_getCursorVisibility = (delegate* unmanaged[Cdecl]<CXCursor, CXVisibilityKind>)IntPtr.Zero;
+        _virtualTable.clang_getCursorLinkage = (delegate* unmanaged[Cdecl]<CXCursor, CXLinkageKind>)IntPtr.Zero;
+        _virtualTable.clang_isUnexposed = (delegate* unmanaged[Cdecl]<CXCursorKind, uint>)IntPtr.Zero;
+        _virtualTable.clang_isPreprocessing = (delegate* unmanaged[Cdecl]<CXCursorKind, uint>)IntPtr.Zero;
+        _virtualTable.clang_isTranslationUnit = (delegate* unmanaged[Cdecl]<CXCursorKind, uint>)IntPtr.Zero;
+        _virtualTable.clang_isInvalid = (delegate* unmanaged[Cdecl]<CXCursorKind, uint>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_hasAttrs = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_isAttribute = (delegate* unmanaged[Cdecl]<CXCursorKind, uint>)IntPtr.Zero;
+        _virtualTable.clang_isStatement = (delegate* unmanaged[Cdecl]<CXCursorKind, uint>)IntPtr.Zero;
+        _virtualTable.clang_isExpression = (delegate* unmanaged[Cdecl]<CXCursorKind, uint>)IntPtr.Zero;
+        _virtualTable.clang_isReference = (delegate* unmanaged[Cdecl]<CXCursorKind, uint>)IntPtr.Zero;
+        _virtualTable.clang_isInvalidDeclaration = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_isDeclaration = (delegate* unmanaged[Cdecl]<CXCursorKind, uint>)IntPtr.Zero;
+        _virtualTable.clang_getCursorKind = (delegate* unmanaged[Cdecl]<CXCursor, CXCursorKind>)IntPtr.Zero;
+        _virtualTable.clang_hashCursor = (delegate* unmanaged[Cdecl]<CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_Cursor_isNull = (delegate* unmanaged[Cdecl]<CXCursor, int>)IntPtr.Zero;
+        _virtualTable.clang_equalCursors = (delegate* unmanaged[Cdecl]<CXCursor, CXCursor, uint>)IntPtr.Zero;
+        _virtualTable.clang_getTranslationUnitCursor = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXCursor>)IntPtr.Zero;
+        _virtualTable.clang_getNullCursor = (delegate* unmanaged[Cdecl]<CXCursor>)IntPtr.Zero;
+        _virtualTable.clang_TargetInfo_getPointerWidth = (delegate* unmanaged[Cdecl]<CXTargetInfo, int>)IntPtr.Zero;
+        _virtualTable.clang_TargetInfo_getTriple = (delegate* unmanaged[Cdecl]<CXTargetInfo, CXString>)IntPtr.Zero;
+        _virtualTable.clang_TargetInfo_dispose = (delegate* unmanaged[Cdecl]<CXTargetInfo, void>)IntPtr.Zero;
+        _virtualTable.clang_getTranslationUnitTargetInfo = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXTargetInfo>)IntPtr.Zero;
+        _virtualTable.clang_disposeCXTUResourceUsage = (delegate* unmanaged[Cdecl]<CXTUResourceUsage, void>)IntPtr.Zero;
+        _virtualTable.clang_getCXTUResourceUsage = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXTUResourceUsage>)IntPtr.Zero;
+        _virtualTable.clang_getTUResourceUsageName = (delegate* unmanaged[Cdecl]<CXTUResourceUsageKind, CString>)IntPtr.Zero;
+        _virtualTable.clang_reparseTranslationUnit = (delegate* unmanaged[Cdecl]<CXTranslationUnit, uint, CXUnsavedFile*, uint, int>)IntPtr.Zero;
+        _virtualTable.clang_defaultReparseOptions = (delegate* unmanaged[Cdecl]<CXTranslationUnit, uint>)IntPtr.Zero;
+        _virtualTable.clang_disposeTranslationUnit = (delegate* unmanaged[Cdecl]<CXTranslationUnit, void>)IntPtr.Zero;
+        _virtualTable.clang_suspendTranslationUnit = (delegate* unmanaged[Cdecl]<CXTranslationUnit, uint>)IntPtr.Zero;
+        _virtualTable.clang_saveTranslationUnit = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CString, uint, int>)IntPtr.Zero;
+        _virtualTable.clang_defaultSaveOptions = (delegate* unmanaged[Cdecl]<CXTranslationUnit, uint>)IntPtr.Zero;
+        _virtualTable.clang_parseTranslationUnit2FullArgv = (delegate* unmanaged[Cdecl]<CXIndex, CString, CString*, int, CXUnsavedFile*, uint, uint, CXTranslationUnit*, CXErrorCode>)IntPtr.Zero;
+        _virtualTable.clang_parseTranslationUnit2 = (delegate* unmanaged[Cdecl]<CXIndex, CString, CString*, int, CXUnsavedFile*, uint, uint, CXTranslationUnit*, CXErrorCode>)IntPtr.Zero;
+        _virtualTable.clang_parseTranslationUnit = (delegate* unmanaged[Cdecl]<CXIndex, CString, CString*, int, CXUnsavedFile*, uint, uint, CXTranslationUnit>)IntPtr.Zero;
+        _virtualTable.clang_defaultEditingTranslationUnitOptions = (delegate* unmanaged[Cdecl]<uint>)IntPtr.Zero;
+        _virtualTable.clang_createTranslationUnit2 = (delegate* unmanaged[Cdecl]<CXIndex, CString, CXTranslationUnit*, CXErrorCode>)IntPtr.Zero;
+        _virtualTable.clang_createTranslationUnit = (delegate* unmanaged[Cdecl]<CXIndex, CString, CXTranslationUnit>)IntPtr.Zero;
+        _virtualTable.clang_createTranslationUnitFromSourceFile = (delegate* unmanaged[Cdecl]<CXIndex, CString, int, CString*, uint, CXUnsavedFile*, CXTranslationUnit>)IntPtr.Zero;
+        _virtualTable.clang_getTranslationUnitSpelling = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXString>)IntPtr.Zero;
+        _virtualTable.clang_getDiagnosticFixIt = (delegate* unmanaged[Cdecl]<CXDiagnostic, uint, CXSourceRange*, CXString>)IntPtr.Zero;
+        _virtualTable.clang_getDiagnosticNumFixIts = (delegate* unmanaged[Cdecl]<CXDiagnostic, uint>)IntPtr.Zero;
+        _virtualTable.clang_getDiagnosticRange = (delegate* unmanaged[Cdecl]<CXDiagnostic, uint, CXSourceRange>)IntPtr.Zero;
+        _virtualTable.clang_getDiagnosticNumRanges = (delegate* unmanaged[Cdecl]<CXDiagnostic, uint>)IntPtr.Zero;
+        _virtualTable.clang_getDiagnosticCategoryText = (delegate* unmanaged[Cdecl]<CXDiagnostic, CXString>)IntPtr.Zero;
+        _virtualTable.clang_getDiagnosticCategoryName = (delegate* unmanaged[Cdecl]<uint, CXString>)IntPtr.Zero;
+        _virtualTable.clang_getDiagnosticCategory = (delegate* unmanaged[Cdecl]<CXDiagnostic, uint>)IntPtr.Zero;
+        _virtualTable.clang_getDiagnosticOption = (delegate* unmanaged[Cdecl]<CXDiagnostic, CXString*, CXString>)IntPtr.Zero;
+        _virtualTable.clang_getDiagnosticSpelling = (delegate* unmanaged[Cdecl]<CXDiagnostic, CXString>)IntPtr.Zero;
+        _virtualTable.clang_getDiagnosticLocation = (delegate* unmanaged[Cdecl]<CXDiagnostic, CXSourceLocation>)IntPtr.Zero;
+        _virtualTable.clang_getDiagnosticSeverity = (delegate* unmanaged[Cdecl]<CXDiagnostic, CXDiagnosticSeverity>)IntPtr.Zero;
+        _virtualTable.clang_defaultDiagnosticDisplayOptions = (delegate* unmanaged[Cdecl]<uint>)IntPtr.Zero;
+        _virtualTable.clang_formatDiagnostic = (delegate* unmanaged[Cdecl]<CXDiagnostic, uint, CXString>)IntPtr.Zero;
+        _virtualTable.clang_disposeDiagnostic = (delegate* unmanaged[Cdecl]<CXDiagnostic, void>)IntPtr.Zero;
+        _virtualTable.clang_getDiagnosticSetFromTU = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXDiagnosticSet>)IntPtr.Zero;
+        _virtualTable.clang_getDiagnostic = (delegate* unmanaged[Cdecl]<CXTranslationUnit, uint, CXDiagnostic>)IntPtr.Zero;
+        _virtualTable.clang_getNumDiagnostics = (delegate* unmanaged[Cdecl]<CXTranslationUnit, uint>)IntPtr.Zero;
+        _virtualTable.clang_getChildDiagnostics = (delegate* unmanaged[Cdecl]<CXDiagnostic, CXDiagnosticSet>)IntPtr.Zero;
+        _virtualTable.clang_disposeDiagnosticSet = (delegate* unmanaged[Cdecl]<CXDiagnosticSet, void>)IntPtr.Zero;
+        _virtualTable.clang_loadDiagnostics = (delegate* unmanaged[Cdecl]<CString, CXLoadDiag_Error*, CXString*, CXDiagnosticSet>)IntPtr.Zero;
+        _virtualTable.clang_getDiagnosticInSet = (delegate* unmanaged[Cdecl]<CXDiagnosticSet, uint, CXDiagnostic>)IntPtr.Zero;
+        _virtualTable.clang_getNumDiagnosticsInSet = (delegate* unmanaged[Cdecl]<CXDiagnosticSet, uint>)IntPtr.Zero;
+        _virtualTable.clang_disposeSourceRangeList = (delegate* unmanaged[Cdecl]<CXSourceRangeList*, void>)IntPtr.Zero;
+        _virtualTable.clang_getAllSkippedRanges = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXSourceRangeList*>)IntPtr.Zero;
+        _virtualTable.clang_getSkippedRanges = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, CXSourceRangeList*>)IntPtr.Zero;
+        _virtualTable.clang_getRangeEnd = (delegate* unmanaged[Cdecl]<CXSourceRange, CXSourceLocation>)IntPtr.Zero;
+        _virtualTable.clang_getRangeStart = (delegate* unmanaged[Cdecl]<CXSourceRange, CXSourceLocation>)IntPtr.Zero;
+        _virtualTable.clang_getFileLocation = (delegate* unmanaged[Cdecl]<CXSourceLocation, CXFile*, ulong*, ulong*, ulong*, void>)IntPtr.Zero;
+        _virtualTable.clang_getSpellingLocation = (delegate* unmanaged[Cdecl]<CXSourceLocation, CXFile*, ulong*, ulong*, ulong*, void>)IntPtr.Zero;
+        _virtualTable.clang_getInstantiationLocation = (delegate* unmanaged[Cdecl]<CXSourceLocation, CXFile*, ulong*, ulong*, ulong*, void>)IntPtr.Zero;
+        _virtualTable.clang_getPresumedLocation = (delegate* unmanaged[Cdecl]<CXSourceLocation, CXString*, ulong*, ulong*, void>)IntPtr.Zero;
+        _virtualTable.clang_getExpansionLocation = (delegate* unmanaged[Cdecl]<CXSourceLocation, CXFile*, ulong*, ulong*, ulong*, void>)IntPtr.Zero;
+        _virtualTable.clang_Range_isNull = (delegate* unmanaged[Cdecl]<CXSourceRange, int>)IntPtr.Zero;
+        _virtualTable.clang_equalRanges = (delegate* unmanaged[Cdecl]<CXSourceRange, CXSourceRange, uint>)IntPtr.Zero;
+        _virtualTable.clang_getRange = (delegate* unmanaged[Cdecl]<CXSourceLocation, CXSourceLocation, CXSourceRange>)IntPtr.Zero;
+        _virtualTable.clang_getNullRange = (delegate* unmanaged[Cdecl]<CXSourceRange>)IntPtr.Zero;
+        _virtualTable.clang_Location_isFromMainFile = (delegate* unmanaged[Cdecl]<CXSourceLocation, int>)IntPtr.Zero;
+        _virtualTable.clang_Location_isInSystemHeader = (delegate* unmanaged[Cdecl]<CXSourceLocation, int>)IntPtr.Zero;
+        _virtualTable.clang_getLocationForOffset = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, uint, CXSourceLocation>)IntPtr.Zero;
+        _virtualTable.clang_getLocation = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, uint, uint, CXSourceLocation>)IntPtr.Zero;
+        _virtualTable.clang_equalLocations = (delegate* unmanaged[Cdecl]<CXSourceLocation, CXSourceLocation, uint>)IntPtr.Zero;
+        _virtualTable.clang_getNullLocation = (delegate* unmanaged[Cdecl]<CXSourceLocation>)IntPtr.Zero;
+        _virtualTable.clang_File_tryGetRealPathName = (delegate* unmanaged[Cdecl]<CXFile, CXString>)IntPtr.Zero;
+        _virtualTable.clang_File_isEqual = (delegate* unmanaged[Cdecl]<CXFile, CXFile, int>)IntPtr.Zero;
+        _virtualTable.clang_getFileContents = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, ulong*, CString>)IntPtr.Zero;
+        _virtualTable.clang_getFile = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CString, CXFile>)IntPtr.Zero;
+        _virtualTable.clang_isFileMultipleIncludeGuarded = (delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, uint>)IntPtr.Zero;
+        _virtualTable.clang_getFileUniqueID = (delegate* unmanaged[Cdecl]<CXFile, CXFileUniqueID*, int>)IntPtr.Zero;
+        _virtualTable.clang_getFileTime = (delegate* unmanaged[Cdecl]<CXFile, time_t>)IntPtr.Zero;
+        _virtualTable.clang_getFileName = (delegate* unmanaged[Cdecl]<CXFile, CXString>)IntPtr.Zero;
+        _virtualTable.clang_CXIndex_setInvocationEmissionPathOption = (delegate* unmanaged[Cdecl]<CXIndex, CString, void>)IntPtr.Zero;
+        _virtualTable.clang_CXIndex_getGlobalOptions = (delegate* unmanaged[Cdecl]<CXIndex, uint>)IntPtr.Zero;
+        _virtualTable.clang_CXIndex_setGlobalOptions = (delegate* unmanaged[Cdecl]<CXIndex, uint, void>)IntPtr.Zero;
+        _virtualTable.clang_disposeIndex = (delegate* unmanaged[Cdecl]<CXIndex, void>)IntPtr.Zero;
+        _virtualTable.clang_createIndex = (delegate* unmanaged[Cdecl]<int, int, CXIndex>)IntPtr.Zero;
+        _virtualTable.clang_ModuleMapDescriptor_dispose = (delegate* unmanaged[Cdecl]<CXModuleMapDescriptor, void>)IntPtr.Zero;
+        _virtualTable.clang_ModuleMapDescriptor_writeToBuffer = (delegate* unmanaged[Cdecl]<CXModuleMapDescriptor, uint, CString*, ulong*, CXErrorCode>)IntPtr.Zero;
+        _virtualTable.clang_ModuleMapDescriptor_setUmbrellaHeader = (delegate* unmanaged[Cdecl]<CXModuleMapDescriptor, CString, CXErrorCode>)IntPtr.Zero;
+        _virtualTable.clang_ModuleMapDescriptor_setFrameworkModuleName = (delegate* unmanaged[Cdecl]<CXModuleMapDescriptor, CString, CXErrorCode>)IntPtr.Zero;
+        _virtualTable.clang_ModuleMapDescriptor_create = (delegate* unmanaged[Cdecl]<uint, CXModuleMapDescriptor>)IntPtr.Zero;
+        _virtualTable.clang_VirtualFileOverlay_dispose = (delegate* unmanaged[Cdecl]<CXVirtualFileOverlay, void>)IntPtr.Zero;
+        _virtualTable.clang_free = (delegate* unmanaged[Cdecl]<void*, void>)IntPtr.Zero;
+        _virtualTable.clang_VirtualFileOverlay_writeToBuffer = (delegate* unmanaged[Cdecl]<CXVirtualFileOverlay, uint, CString*, ulong*, CXErrorCode>)IntPtr.Zero;
+        _virtualTable.clang_VirtualFileOverlay_setCaseSensitivity = (delegate* unmanaged[Cdecl]<CXVirtualFileOverlay, int, CXErrorCode>)IntPtr.Zero;
+        _virtualTable.clang_VirtualFileOverlay_addFileMapping = (delegate* unmanaged[Cdecl]<CXVirtualFileOverlay, CString, CString, CXErrorCode>)IntPtr.Zero;
+        _virtualTable.clang_VirtualFileOverlay_create = (delegate* unmanaged[Cdecl]<uint, CXVirtualFileOverlay>)IntPtr.Zero;
+        _virtualTable.clang_getBuildSessionTimestamp = (delegate* unmanaged[Cdecl]<ulong>)IntPtr.Zero;
+        _virtualTable.clang_disposeStringSet = (delegate* unmanaged[Cdecl]<CXStringSet*, void>)IntPtr.Zero;
+        _virtualTable.clang_disposeString = (delegate* unmanaged[Cdecl]<CXString, void>)IntPtr.Zero;
+        _virtualTable.clang_getCString = (delegate* unmanaged[Cdecl]<CXString, CString>)IntPtr.Zero;
+
+        #endregion
+
+        #region "Variables"
+
+
+
+        #endregion
+    }
+
+    // The virtual table represents a list of pointers to functions or variables which are resolved in a late manner.
+    //	This allows for flexibility in swapping implementations at runtime.
+    //	You can think of it in traditional OOP terms in C# as the locations of the virtual methods and/or properties of an object.
+    public struct _VirtualTable
+    {
+        #region "Function Pointers"
+        // These pointers hold the locations in the native library where functions are located at runtime.
+        // See: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
+
+        public delegate* unmanaged[Cdecl]<CXType, CXFieldVisitor, CXClientData, uint> clang_Type_visitFields;
+        public delegate* unmanaged[Cdecl]<CXIdxLoc, CXSourceLocation> clang_indexLoc_getCXSourceLocation;
+        public delegate* unmanaged[Cdecl]<CXIdxLoc, CXIdxClientFile*, CXFile*, ulong*, ulong*, ulong*, void> clang_indexLoc_getFileLocation;
+        public delegate* unmanaged[Cdecl]<CXIndexAction, CXClientData, IndexerCallbacks*, uint, uint, CXTranslationUnit, int> clang_indexTranslationUnit;
+        public delegate* unmanaged[Cdecl]<CXIndexAction, CXClientData, IndexerCallbacks*, uint, uint, CString, CString*, int, CXUnsavedFile*, uint, CXTranslationUnit*, uint, int> clang_indexSourceFileFullArgv;
+        public delegate* unmanaged[Cdecl]<CXIndexAction, CXClientData, IndexerCallbacks*, uint, uint, CString, CString*, int, CXUnsavedFile*, uint, CXTranslationUnit*, uint, int> clang_indexSourceFile;
+        public delegate* unmanaged[Cdecl]<CXIndexAction, void> clang_IndexAction_dispose;
+        public delegate* unmanaged[Cdecl]<CXIndex, CXIndexAction> clang_IndexAction_create;
+        public delegate* unmanaged[Cdecl]<CXIdxEntityInfo*, CXIdxClientEntity, void> clang_index_setClientEntity;
+        public delegate* unmanaged[Cdecl]<CXIdxEntityInfo*, CXIdxClientEntity> clang_index_getClientEntity;
+        public delegate* unmanaged[Cdecl]<CXIdxContainerInfo*, CXIdxClientContainer, void> clang_index_setClientContainer;
+        public delegate* unmanaged[Cdecl]<CXIdxContainerInfo*, CXIdxClientContainer> clang_index_getClientContainer;
+        public delegate* unmanaged[Cdecl]<CXIdxDeclInfo*, CXIdxCXXClassDeclInfo*> clang_index_getCXXClassDeclInfo;
+        public delegate* unmanaged[Cdecl]<CXIdxAttrInfo*, CXIdxIBOutletCollectionAttrInfo*> clang_index_getIBOutletCollectionAttrInfo;
+        public delegate* unmanaged[Cdecl]<CXIdxDeclInfo*, CXIdxObjCPropertyDeclInfo*> clang_index_getObjCPropertyDeclInfo;
+        public delegate* unmanaged[Cdecl]<CXIdxDeclInfo*, CXIdxObjCProtocolRefListInfo*> clang_index_getObjCProtocolRefListInfo;
+        public delegate* unmanaged[Cdecl]<CXIdxDeclInfo*, CXIdxObjCCategoryDeclInfo*> clang_index_getObjCCategoryDeclInfo;
+        public delegate* unmanaged[Cdecl]<CXIdxDeclInfo*, CXIdxObjCInterfaceDeclInfo*> clang_index_getObjCInterfaceDeclInfo;
+        public delegate* unmanaged[Cdecl]<CXIdxDeclInfo*, CXIdxObjCContainerDeclInfo*> clang_index_getObjCContainerDeclInfo;
+        public delegate* unmanaged[Cdecl]<CXIdxEntityKind, int> clang_index_isEntityObjCContainerKind;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, CXCursorAndRangeVisitor, CXResult> clang_findIncludesInFile;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXFile, CXCursorAndRangeVisitor, CXResult> clang_findReferencesInFile;
+        public delegate* unmanaged[Cdecl]<CXRemapping, void> clang_remap_dispose;
+        public delegate* unmanaged[Cdecl]<CXRemapping, uint, CXString*, CXString*, void> clang_remap_getFilenames;
+        public delegate* unmanaged[Cdecl]<CXRemapping, uint> clang_remap_getNumFiles;
+        public delegate* unmanaged[Cdecl]<CString*, uint, CXRemapping> clang_getRemappingsFromFileList;
+        public delegate* unmanaged[Cdecl]<CString, CXRemapping> clang_getRemappings;
+        public delegate* unmanaged[Cdecl]<CXEvalResult, void> clang_EvalResult_dispose;
+        public delegate* unmanaged[Cdecl]<CXEvalResult, CString> clang_EvalResult_getAsStr;
+        public delegate* unmanaged[Cdecl]<CXEvalResult, double> clang_EvalResult_getAsDouble;
+        public delegate* unmanaged[Cdecl]<CXEvalResult, ulong> clang_EvalResult_getAsUnsigned;
+        public delegate* unmanaged[Cdecl]<CXEvalResult, uint> clang_EvalResult_isUnsignedInt;
+        public delegate* unmanaged[Cdecl]<CXEvalResult, long> clang_EvalResult_getAsLongLong;
+        public delegate* unmanaged[Cdecl]<CXEvalResult, int> clang_EvalResult_getAsInt;
+        public delegate* unmanaged[Cdecl]<CXEvalResult, CXEvalResultKind> clang_EvalResult_getKind;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXEvalResult> clang_Cursor_Evaluate;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXInclusionVisitor, CXClientData, void> clang_getInclusions;
+        public delegate* unmanaged[Cdecl]<uint, void> clang_toggleCrashRecovery;
+        public delegate* unmanaged[Cdecl]<CXString> clang_getClangVersion;
+        public delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, CXString> clang_codeCompleteGetObjCSelector;
+        public delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, CXString> clang_codeCompleteGetContainerUSR;
+        public delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, ulong*, CXCursorKind> clang_codeCompleteGetContainerKind;
+        public delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, ulong> clang_codeCompleteGetContexts;
+        public delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, uint, CXDiagnostic> clang_codeCompleteGetDiagnostic;
+        public delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, uint> clang_codeCompleteGetNumDiagnostics;
+        public delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, void> clang_disposeCodeCompleteResults;
+        public delegate* unmanaged[Cdecl]<CXCompletionResult*, uint, void> clang_sortCodeCompletionResults;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CString, uint, uint, CXUnsavedFile*, uint, uint, CXCodeCompleteResults*> clang_codeCompleteAt;
+        public delegate* unmanaged[Cdecl]<uint> clang_defaultCodeCompleteOptions;
+        public delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, uint, uint, CXSourceRange*, CXString> clang_getCompletionFixIt;
+        public delegate* unmanaged[Cdecl]<CXCodeCompleteResults*, uint, uint> clang_getCompletionNumFixIts;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXCompletionString> clang_getCursorCompletionString;
+        public delegate* unmanaged[Cdecl]<CXCompletionString, CXString> clang_getCompletionBriefComment;
+        public delegate* unmanaged[Cdecl]<CXCompletionString, CXCursorKind*, CXString> clang_getCompletionParent;
+        public delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXString> clang_getCompletionAnnotation;
+        public delegate* unmanaged[Cdecl]<CXCompletionString, uint> clang_getCompletionNumAnnotations;
+        public delegate* unmanaged[Cdecl]<CXCompletionString, CXAvailabilityKind> clang_getCompletionAvailability;
+        public delegate* unmanaged[Cdecl]<CXCompletionString, uint> clang_getCompletionPriority;
+        public delegate* unmanaged[Cdecl]<CXCompletionString, uint> clang_getNumCompletionChunks;
+        public delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXCompletionString> clang_getCompletionChunkCompletionString;
+        public delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXString> clang_getCompletionChunkText;
+        public delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXCompletionChunkKind> clang_getCompletionChunkKind;
+        public delegate* unmanaged[Cdecl]<FnPtrPointerVoid, void*, uint, void> clang_executeOnThread;
+        public delegate* unmanaged[Cdecl]<void> clang_enableStackTraces;
+        public delegate* unmanaged[Cdecl]<CXCursor, CString*, CString*, ulong*, ulong*, ulong*, ulong*, void> clang_getDefinitionSpellingAndExtent;
+        public delegate* unmanaged[Cdecl]<CXCursorKind, CXString> clang_getCursorKindSpelling;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXToken*, uint, void> clang_disposeTokens;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXToken*, uint, CXCursor*, void> clang_annotateTokens;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXSourceRange, CXToken**, ulong*, void> clang_tokenize;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXToken, CXSourceRange> clang_getTokenExtent;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXToken, CXSourceLocation> clang_getTokenLocation;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXToken, CXString> clang_getTokenSpelling;
+        public delegate* unmanaged[Cdecl]<CXToken, CXTokenKind> clang_getTokenKind;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXSourceLocation, CXToken*> clang_getToken;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint, uint, CXSourceRange> clang_getCursorReferenceNameRange;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXCursor> clang_getSpecializedCursorTemplate;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXCursorKind> clang_getTemplateCursorKind;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_CXXMethod_isConst;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_EnumDecl_isScoped;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_CXXRecord_isAbstract;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_CXXMethod_isVirtual;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_CXXMethod_isStatic;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_CXXMethod_isPureVirtual;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_CXXMethod_isDefaulted;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_CXXField_isMutable;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_CXXConstructor_isMoveConstructor;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_CXXConstructor_isDefaultConstructor;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_CXXConstructor_isCopyConstructor;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_CXXConstructor_isConvertingConstructor;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXModule, uint, CXFile> clang_Module_getTopLevelHeader;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXModule, uint> clang_Module_getNumTopLevelHeaders;
+        public delegate* unmanaged[Cdecl]<CXModule, int> clang_Module_isSystem;
+        public delegate* unmanaged[Cdecl]<CXModule, CXString> clang_Module_getFullName;
+        public delegate* unmanaged[Cdecl]<CXModule, CXString> clang_Module_getName;
+        public delegate* unmanaged[Cdecl]<CXModule, CXModule> clang_Module_getParent;
+        public delegate* unmanaged[Cdecl]<CXModule, CXFile> clang_Module_getASTFile;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, CXModule> clang_getModuleForFile;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXModule> clang_Cursor_getModule;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXStringSet*> clang_Cursor_getObjCManglings;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXStringSet*> clang_Cursor_getCXXManglings;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXString> clang_Cursor_getMangling;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXString> clang_Cursor_getBriefCommentText;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXString> clang_Cursor_getRawCommentText;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXSourceRange> clang_Cursor_getCommentRange;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXString*, CXString*, ulong*, uint> clang_Cursor_isExternalSymbol;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_Cursor_isVariadic;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_Cursor_isObjCOptional;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_Cursor_getObjCDeclQualifiers;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXString> clang_Cursor_getObjCPropertySetterName;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXString> clang_Cursor_getObjCPropertyGetterName;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint, uint> clang_Cursor_getObjCPropertyAttributes;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXType> clang_Cursor_getReceiverType;
+        public delegate* unmanaged[Cdecl]<CXCursor, int> clang_Cursor_isDynamicCall;
+        public delegate* unmanaged[Cdecl]<CXCursor, int> clang_Cursor_getObjCSelectorIndex;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXCursor> clang_getCanonicalCursor;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_isCursorDefinition;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXCursor> clang_getCursorDefinition;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXCursor> clang_getCursorReferenced;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXString> clang_getCursorDisplayName;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXPrintingPolicy, CXString> clang_getCursorPrettyPrinted;
+        public delegate* unmanaged[Cdecl]<CXPrintingPolicy, void> clang_PrintingPolicy_dispose;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXPrintingPolicy> clang_getCursorPrintingPolicy;
+        public delegate* unmanaged[Cdecl]<CXPrintingPolicy, CXPrintingPolicyProperty, uint, void> clang_PrintingPolicy_setProperty;
+        public delegate* unmanaged[Cdecl]<CXPrintingPolicy, CXPrintingPolicyProperty, uint> clang_PrintingPolicy_getProperty;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint, uint, CXSourceRange> clang_Cursor_getSpellingNameRange;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXString> clang_getCursorSpelling;
+        public delegate* unmanaged[Cdecl]<CString, CXString, CXString> clang_constructUSR_ObjCProperty;
+        public delegate* unmanaged[Cdecl]<CString, uint, CXString, CXString> clang_constructUSR_ObjCMethod;
+        public delegate* unmanaged[Cdecl]<CString, CXString, CXString> clang_constructUSR_ObjCIvar;
+        public delegate* unmanaged[Cdecl]<CString, CXString> clang_constructUSR_ObjCProtocol;
+        public delegate* unmanaged[Cdecl]<CString, CString, CXString> clang_constructUSR_ObjCCategory;
+        public delegate* unmanaged[Cdecl]<CString, CXString> clang_constructUSR_ObjCClass;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXString> clang_getCursorUSR;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXCursorVisitor, CXClientData, uint> clang_visitChildren;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXType> clang_getIBOutletCollectionType;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint, CXCursor> clang_getOverloadedDecl;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_getNumOverloadedDecls;
+        public delegate* unmanaged[Cdecl]<CXCursor, CX_StorageClass> clang_Cursor_getStorageClass;
+        public delegate* unmanaged[Cdecl]<CXCursor, CX_CXXAccessSpecifier> clang_getCXXAccessSpecifier;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_isVirtualBase;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_Cursor_isBitField;
+        public delegate* unmanaged[Cdecl]<CXType, CXRefQualifierKind> clang_Type_getCXXRefQualifier;
+        public delegate* unmanaged[Cdecl]<CXType, uint, CXType> clang_Type_getTemplateArgumentAsType;
+        public delegate* unmanaged[Cdecl]<CXType, int> clang_Type_getNumTemplateArguments;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_Cursor_isInlineNamespace;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_Cursor_isAnonymousRecordDecl;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_Cursor_isAnonymous;
+        public delegate* unmanaged[Cdecl]<CXCursor, long> clang_Cursor_getOffsetOfField;
+        public delegate* unmanaged[Cdecl]<CXType, CXType> clang_Type_getValueType;
+        public delegate* unmanaged[Cdecl]<CXType, CXType> clang_Type_getModifiedType;
+        public delegate* unmanaged[Cdecl]<CXType, CString, long> clang_Type_getOffsetOf;
+        public delegate* unmanaged[Cdecl]<CXType, long> clang_Type_getSizeOf;
+        public delegate* unmanaged[Cdecl]<CXType, CXType> clang_Type_getClassType;
+        public delegate* unmanaged[Cdecl]<CXType, long> clang_Type_getAlignOf;
+        public delegate* unmanaged[Cdecl]<CXType, CXTypeNullabilityKind> clang_Type_getNullability;
+        public delegate* unmanaged[Cdecl]<CXType, uint> clang_Type_isTransparentTagTypedef;
+        public delegate* unmanaged[Cdecl]<CXType, CXType> clang_Type_getNamedType;
+        public delegate* unmanaged[Cdecl]<CXType, long> clang_getArraySize;
+        public delegate* unmanaged[Cdecl]<CXType, CXType> clang_getArrayElementType;
+        public delegate* unmanaged[Cdecl]<CXType, long> clang_getNumElements;
+        public delegate* unmanaged[Cdecl]<CXType, CXType> clang_getElementType;
+        public delegate* unmanaged[Cdecl]<CXType, uint> clang_isPODType;
+        public delegate* unmanaged[Cdecl]<CXCursor, int> clang_getCursorExceptionSpecificationType;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXType> clang_getCursorResultType;
+        public delegate* unmanaged[Cdecl]<CXType, uint> clang_isFunctionTypeVariadic;
+        public delegate* unmanaged[Cdecl]<CXType, uint, CXType> clang_Type_getObjCTypeArg;
+        public delegate* unmanaged[Cdecl]<CXType, uint> clang_Type_getNumObjCTypeArgs;
+        public delegate* unmanaged[Cdecl]<CXType, uint, CXCursor> clang_Type_getObjCProtocolDecl;
+        public delegate* unmanaged[Cdecl]<CXType, uint> clang_Type_getNumObjCProtocolRefs;
+        public delegate* unmanaged[Cdecl]<CXType, CXType> clang_Type_getObjCObjectBaseType;
+        public delegate* unmanaged[Cdecl]<CXType, uint, CXType> clang_getArgType;
+        public delegate* unmanaged[Cdecl]<CXType, int> clang_getNumArgTypes;
+        public delegate* unmanaged[Cdecl]<CXType, int> clang_getExceptionSpecificationType;
+        public delegate* unmanaged[Cdecl]<CXType, CXType> clang_getResultType;
+        public delegate* unmanaged[Cdecl]<CXType, CXCallingConv> clang_getFunctionTypeCallingConv;
+        public delegate* unmanaged[Cdecl]<CXTypeKind, CXString> clang_getTypeKindSpelling;
+        public delegate* unmanaged[Cdecl]<CXType, CXString> clang_Type_getObjCEncoding;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXString> clang_getDeclObjCTypeEncoding;
+        public delegate* unmanaged[Cdecl]<CXType, CXCursor> clang_getTypeDeclaration;
+        public delegate* unmanaged[Cdecl]<CXType, CXType> clang_getPointeeType;
+        public delegate* unmanaged[Cdecl]<CXType, CXString> clang_getTypedefName;
+        public delegate* unmanaged[Cdecl]<CXType, uint> clang_getAddressSpace;
+        public delegate* unmanaged[Cdecl]<CXType, uint> clang_isRestrictQualifiedType;
+        public delegate* unmanaged[Cdecl]<CXType, uint> clang_isVolatileQualifiedType;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_Cursor_isFunctionInlined;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_Cursor_isMacroBuiltin;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_Cursor_isMacroFunctionLike;
+        public delegate* unmanaged[Cdecl]<CXType, uint> clang_isConstQualifiedType;
+        public delegate* unmanaged[Cdecl]<CXType, CXType> clang_getCanonicalType;
+        public delegate* unmanaged[Cdecl]<CXType, CXType, uint> clang_equalTypes;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint, ulong> clang_Cursor_getTemplateArgumentUnsignedValue;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint, long> clang_Cursor_getTemplateArgumentValue;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint, CXType> clang_Cursor_getTemplateArgumentType;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint, CXTemplateArgumentKind> clang_Cursor_getTemplateArgumentKind;
+        public delegate* unmanaged[Cdecl]<CXCursor, int> clang_Cursor_getNumTemplateArguments;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint, CXCursor> clang_Cursor_getArgument;
+        public delegate* unmanaged[Cdecl]<CXCursor, int> clang_Cursor_getNumArguments;
+        public delegate* unmanaged[Cdecl]<CXCursor, int> clang_getFieldDeclBitWidth;
+        public delegate* unmanaged[Cdecl]<CXCursor, ulong> clang_getEnumConstantDeclUnsignedValue;
+        public delegate* unmanaged[Cdecl]<CXCursor, long> clang_getEnumConstantDeclValue;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXType> clang_getEnumDeclIntegerType;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXType> clang_getTypedefDeclUnderlyingType;
+        public delegate* unmanaged[Cdecl]<CXType, CXString> clang_getTypeSpelling;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXType> clang_getCursorType;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXSourceRange> clang_getCursorExtent;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXSourceLocation> clang_getCursorLocation;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXSourceLocation, CXCursor> clang_getCursor;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXFile> clang_getIncludedFile;
+        public delegate* unmanaged[Cdecl]<CXCursor*, void> clang_disposeOverriddenCursors;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXCursor**, ulong*, void> clang_getOverriddenCursors;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXCursor> clang_getCursorLexicalParent;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXCursor> clang_getCursorSemanticParent;
+        public delegate* unmanaged[Cdecl]<CXCursorSet, CXCursor, uint> clang_CXCursorSet_insert;
+        public delegate* unmanaged[Cdecl]<CXCursorSet, CXCursor, uint> clang_CXCursorSet_contains;
+        public delegate* unmanaged[Cdecl]<CXCursorSet, void> clang_disposeCXCursorSet;
+        public delegate* unmanaged[Cdecl]<CXCursorSet> clang_createCXCursorSet;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXTranslationUnit> clang_Cursor_getTranslationUnit;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXTLSKind> clang_getCursorTLSKind;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXLanguageKind> clang_getCursorLanguage;
+        public delegate* unmanaged[Cdecl]<CXCursor, int> clang_Cursor_hasVarDeclExternalStorage;
+        public delegate* unmanaged[Cdecl]<CXCursor, int> clang_Cursor_hasVarDeclGlobalStorage;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXCursor> clang_Cursor_getVarDeclInitializer;
+        public delegate* unmanaged[Cdecl]<CXPlatformAvailability*, void> clang_disposeCXPlatformAvailability;
+        public delegate* unmanaged[Cdecl]<CXCursor, long*, CXString*, long*, CXString*, CXPlatformAvailability*, int, int> clang_getCursorPlatformAvailability;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXAvailabilityKind> clang_getCursorAvailability;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXVisibilityKind> clang_getCursorVisibility;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXLinkageKind> clang_getCursorLinkage;
+        public delegate* unmanaged[Cdecl]<CXCursorKind, uint> clang_isUnexposed;
+        public delegate* unmanaged[Cdecl]<CXCursorKind, uint> clang_isPreprocessing;
+        public delegate* unmanaged[Cdecl]<CXCursorKind, uint> clang_isTranslationUnit;
+        public delegate* unmanaged[Cdecl]<CXCursorKind, uint> clang_isInvalid;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_Cursor_hasAttrs;
+        public delegate* unmanaged[Cdecl]<CXCursorKind, uint> clang_isAttribute;
+        public delegate* unmanaged[Cdecl]<CXCursorKind, uint> clang_isStatement;
+        public delegate* unmanaged[Cdecl]<CXCursorKind, uint> clang_isExpression;
+        public delegate* unmanaged[Cdecl]<CXCursorKind, uint> clang_isReference;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_isInvalidDeclaration;
+        public delegate* unmanaged[Cdecl]<CXCursorKind, uint> clang_isDeclaration;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXCursorKind> clang_getCursorKind;
+        public delegate* unmanaged[Cdecl]<CXCursor, uint> clang_hashCursor;
+        public delegate* unmanaged[Cdecl]<CXCursor, int> clang_Cursor_isNull;
+        public delegate* unmanaged[Cdecl]<CXCursor, CXCursor, uint> clang_equalCursors;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXCursor> clang_getTranslationUnitCursor;
+        public delegate* unmanaged[Cdecl]<CXCursor> clang_getNullCursor;
+        public delegate* unmanaged[Cdecl]<CXTargetInfo, int> clang_TargetInfo_getPointerWidth;
+        public delegate* unmanaged[Cdecl]<CXTargetInfo, CXString> clang_TargetInfo_getTriple;
+        public delegate* unmanaged[Cdecl]<CXTargetInfo, void> clang_TargetInfo_dispose;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXTargetInfo> clang_getTranslationUnitTargetInfo;
+        public delegate* unmanaged[Cdecl]<CXTUResourceUsage, void> clang_disposeCXTUResourceUsage;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXTUResourceUsage> clang_getCXTUResourceUsage;
+        public delegate* unmanaged[Cdecl]<CXTUResourceUsageKind, CString> clang_getTUResourceUsageName;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, uint, CXUnsavedFile*, uint, int> clang_reparseTranslationUnit;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, uint> clang_defaultReparseOptions;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, void> clang_disposeTranslationUnit;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, uint> clang_suspendTranslationUnit;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CString, uint, int> clang_saveTranslationUnit;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, uint> clang_defaultSaveOptions;
+        public delegate* unmanaged[Cdecl]<CXIndex, CString, CString*, int, CXUnsavedFile*, uint, uint, CXTranslationUnit*, CXErrorCode> clang_parseTranslationUnit2FullArgv;
+        public delegate* unmanaged[Cdecl]<CXIndex, CString, CString*, int, CXUnsavedFile*, uint, uint, CXTranslationUnit*, CXErrorCode> clang_parseTranslationUnit2;
+        public delegate* unmanaged[Cdecl]<CXIndex, CString, CString*, int, CXUnsavedFile*, uint, uint, CXTranslationUnit> clang_parseTranslationUnit;
+        public delegate* unmanaged[Cdecl]<uint> clang_defaultEditingTranslationUnitOptions;
+        public delegate* unmanaged[Cdecl]<CXIndex, CString, CXTranslationUnit*, CXErrorCode> clang_createTranslationUnit2;
+        public delegate* unmanaged[Cdecl]<CXIndex, CString, CXTranslationUnit> clang_createTranslationUnit;
+        public delegate* unmanaged[Cdecl]<CXIndex, CString, int, CString*, uint, CXUnsavedFile*, CXTranslationUnit> clang_createTranslationUnitFromSourceFile;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXString> clang_getTranslationUnitSpelling;
+        public delegate* unmanaged[Cdecl]<CXDiagnostic, uint, CXSourceRange*, CXString> clang_getDiagnosticFixIt;
+        public delegate* unmanaged[Cdecl]<CXDiagnostic, uint> clang_getDiagnosticNumFixIts;
+        public delegate* unmanaged[Cdecl]<CXDiagnostic, uint, CXSourceRange> clang_getDiagnosticRange;
+        public delegate* unmanaged[Cdecl]<CXDiagnostic, uint> clang_getDiagnosticNumRanges;
+        public delegate* unmanaged[Cdecl]<CXDiagnostic, CXString> clang_getDiagnosticCategoryText;
+        public delegate* unmanaged[Cdecl]<uint, CXString> clang_getDiagnosticCategoryName;
+        public delegate* unmanaged[Cdecl]<CXDiagnostic, uint> clang_getDiagnosticCategory;
+        public delegate* unmanaged[Cdecl]<CXDiagnostic, CXString*, CXString> clang_getDiagnosticOption;
+        public delegate* unmanaged[Cdecl]<CXDiagnostic, CXString> clang_getDiagnosticSpelling;
+        public delegate* unmanaged[Cdecl]<CXDiagnostic, CXSourceLocation> clang_getDiagnosticLocation;
+        public delegate* unmanaged[Cdecl]<CXDiagnostic, CXDiagnosticSeverity> clang_getDiagnosticSeverity;
+        public delegate* unmanaged[Cdecl]<uint> clang_defaultDiagnosticDisplayOptions;
+        public delegate* unmanaged[Cdecl]<CXDiagnostic, uint, CXString> clang_formatDiagnostic;
+        public delegate* unmanaged[Cdecl]<CXDiagnostic, void> clang_disposeDiagnostic;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXDiagnosticSet> clang_getDiagnosticSetFromTU;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, uint, CXDiagnostic> clang_getDiagnostic;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, uint> clang_getNumDiagnostics;
+        public delegate* unmanaged[Cdecl]<CXDiagnostic, CXDiagnosticSet> clang_getChildDiagnostics;
+        public delegate* unmanaged[Cdecl]<CXDiagnosticSet, void> clang_disposeDiagnosticSet;
+        public delegate* unmanaged[Cdecl]<CString, CXLoadDiag_Error*, CXString*, CXDiagnosticSet> clang_loadDiagnostics;
+        public delegate* unmanaged[Cdecl]<CXDiagnosticSet, uint, CXDiagnostic> clang_getDiagnosticInSet;
+        public delegate* unmanaged[Cdecl]<CXDiagnosticSet, uint> clang_getNumDiagnosticsInSet;
+        public delegate* unmanaged[Cdecl]<CXSourceRangeList*, void> clang_disposeSourceRangeList;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXSourceRangeList*> clang_getAllSkippedRanges;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, CXSourceRangeList*> clang_getSkippedRanges;
+        public delegate* unmanaged[Cdecl]<CXSourceRange, CXSourceLocation> clang_getRangeEnd;
+        public delegate* unmanaged[Cdecl]<CXSourceRange, CXSourceLocation> clang_getRangeStart;
+        public delegate* unmanaged[Cdecl]<CXSourceLocation, CXFile*, ulong*, ulong*, ulong*, void> clang_getFileLocation;
+        public delegate* unmanaged[Cdecl]<CXSourceLocation, CXFile*, ulong*, ulong*, ulong*, void> clang_getSpellingLocation;
+        public delegate* unmanaged[Cdecl]<CXSourceLocation, CXFile*, ulong*, ulong*, ulong*, void> clang_getInstantiationLocation;
+        public delegate* unmanaged[Cdecl]<CXSourceLocation, CXString*, ulong*, ulong*, void> clang_getPresumedLocation;
+        public delegate* unmanaged[Cdecl]<CXSourceLocation, CXFile*, ulong*, ulong*, ulong*, void> clang_getExpansionLocation;
+        public delegate* unmanaged[Cdecl]<CXSourceRange, int> clang_Range_isNull;
+        public delegate* unmanaged[Cdecl]<CXSourceRange, CXSourceRange, uint> clang_equalRanges;
+        public delegate* unmanaged[Cdecl]<CXSourceLocation, CXSourceLocation, CXSourceRange> clang_getRange;
+        public delegate* unmanaged[Cdecl]<CXSourceRange> clang_getNullRange;
+        public delegate* unmanaged[Cdecl]<CXSourceLocation, int> clang_Location_isFromMainFile;
+        public delegate* unmanaged[Cdecl]<CXSourceLocation, int> clang_Location_isInSystemHeader;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, uint, CXSourceLocation> clang_getLocationForOffset;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, uint, uint, CXSourceLocation> clang_getLocation;
+        public delegate* unmanaged[Cdecl]<CXSourceLocation, CXSourceLocation, uint> clang_equalLocations;
+        public delegate* unmanaged[Cdecl]<CXSourceLocation> clang_getNullLocation;
+        public delegate* unmanaged[Cdecl]<CXFile, CXString> clang_File_tryGetRealPathName;
+        public delegate* unmanaged[Cdecl]<CXFile, CXFile, int> clang_File_isEqual;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, ulong*, CString> clang_getFileContents;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CString, CXFile> clang_getFile;
+        public delegate* unmanaged[Cdecl]<CXTranslationUnit, CXFile, uint> clang_isFileMultipleIncludeGuarded;
+        public delegate* unmanaged[Cdecl]<CXFile, CXFileUniqueID*, int> clang_getFileUniqueID;
+        public delegate* unmanaged[Cdecl]<CXFile, time_t> clang_getFileTime;
+        public delegate* unmanaged[Cdecl]<CXFile, CXString> clang_getFileName;
+        public delegate* unmanaged[Cdecl]<CXIndex, CString, void> clang_CXIndex_setInvocationEmissionPathOption;
+        public delegate* unmanaged[Cdecl]<CXIndex, uint> clang_CXIndex_getGlobalOptions;
+        public delegate* unmanaged[Cdecl]<CXIndex, uint, void> clang_CXIndex_setGlobalOptions;
+        public delegate* unmanaged[Cdecl]<CXIndex, void> clang_disposeIndex;
+        public delegate* unmanaged[Cdecl]<int, int, CXIndex> clang_createIndex;
+        public delegate* unmanaged[Cdecl]<CXModuleMapDescriptor, void> clang_ModuleMapDescriptor_dispose;
+        public delegate* unmanaged[Cdecl]<CXModuleMapDescriptor, uint, CString*, ulong*, CXErrorCode> clang_ModuleMapDescriptor_writeToBuffer;
+        public delegate* unmanaged[Cdecl]<CXModuleMapDescriptor, CString, CXErrorCode> clang_ModuleMapDescriptor_setUmbrellaHeader;
+        public delegate* unmanaged[Cdecl]<CXModuleMapDescriptor, CString, CXErrorCode> clang_ModuleMapDescriptor_setFrameworkModuleName;
+        public delegate* unmanaged[Cdecl]<uint, CXModuleMapDescriptor> clang_ModuleMapDescriptor_create;
+        public delegate* unmanaged[Cdecl]<CXVirtualFileOverlay, void> clang_VirtualFileOverlay_dispose;
+        public delegate* unmanaged[Cdecl]<void*, void> clang_free;
+        public delegate* unmanaged[Cdecl]<CXVirtualFileOverlay, uint, CString*, ulong*, CXErrorCode> clang_VirtualFileOverlay_writeToBuffer;
+        public delegate* unmanaged[Cdecl]<CXVirtualFileOverlay, int, CXErrorCode> clang_VirtualFileOverlay_setCaseSensitivity;
+        public delegate* unmanaged[Cdecl]<CXVirtualFileOverlay, CString, CString, CXErrorCode> clang_VirtualFileOverlay_addFileMapping;
+        public delegate* unmanaged[Cdecl]<uint, CXVirtualFileOverlay> clang_VirtualFileOverlay_create;
+        public delegate* unmanaged[Cdecl]<ulong> clang_getBuildSessionTimestamp;
+        public delegate* unmanaged[Cdecl]<CXStringSet*, void> clang_disposeStringSet;
+        public delegate* unmanaged[Cdecl]<CXString, void> clang_disposeString;
+        public delegate* unmanaged[Cdecl]<CXString, CString> clang_getCString;
+
+        #endregion
+
+        #region "Variables"
+        // These pointers hold the locations in the native library where global variables are located at runtime.
+        //	The value pointed by these pointers are updated by reading/writing memory.
+
+
+
+        #endregion
+    }
+
+    private static _VirtualTable _virtualTable;
 }

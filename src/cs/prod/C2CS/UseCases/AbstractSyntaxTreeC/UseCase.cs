@@ -15,6 +15,9 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         {
             TotalSteps(3);
 
+            // TODO: Fix for Windows + Linux
+            clang.LoadApi("runtimes/osx-x64/native/libclang.dylib");
+
             var translationUnit = Step(
                 "Parse C code from disk",
                 request.InputFile.FullName,
