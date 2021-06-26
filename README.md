@@ -85,10 +85,6 @@ For documentation, see the [docs/README.md](docs/README.md)
 
 For examples of how to use `C2CS` in action, see [docs/examples/README.md](docs/examples/README.md)
 
-### Troubleshooting
-
-For troubleshooting use the `-t` option to print the Clang abstract syntax tree as the header file(s) are parsed. If you find a problem or need help you can reach out by creating a GitHub issue.
-
 ## Lessons learned
 
 ### Marshalling
