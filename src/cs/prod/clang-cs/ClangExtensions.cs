@@ -8,7 +8,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using JetBrains.Annotations;
-using static libclang;
+using static clang;
 
 [PublicAPI]
 public static unsafe class ClangExtensions

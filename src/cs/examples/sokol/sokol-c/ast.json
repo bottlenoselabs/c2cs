@@ -13561,7 +13561,7 @@
     },
     {
       "name": "sg_pass_attachment_desc[4]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 48,
       "alignOf": 4,
       "sizeOfElement": 12,
@@ -13654,7 +13654,7 @@
     },
     {
       "name": "sg_color_state[4]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 144,
       "alignOf": 4,
       "sizeOfElement": 36,
@@ -13663,17 +13663,6 @@
         "file": "sokol_gfx.h",
         "line": 1915,
         "column": 20
-      }
-    },
-    {
-      "name": "sg_color_state",
-      "kind": "typedef",
-      "sizeOf": 36,
-      "alignOf": 4,
-      "location": {
-        "file": "sokol_gfx.h",
-        "line": 1906,
-        "column": 3
       }
     },
     {
@@ -13737,6 +13726,17 @@
       "sizeOf": 4,
       "alignOf": 4,
       "isSystem": true
+    },
+    {
+      "name": "sg_color_state",
+      "kind": "typedef",
+      "sizeOf": 36,
+      "alignOf": 4,
+      "location": {
+        "file": "sokol_gfx.h",
+        "line": 1906,
+        "column": 3
+      }
     },
     {
       "name": "sg_color_mask",
@@ -13824,7 +13824,7 @@
     },
     {
       "name": "sg_buffer_layout_desc[8]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 96,
       "alignOf": 4,
       "sizeOfElement": 12,
@@ -13836,19 +13836,8 @@
       }
     },
     {
-      "name": "sg_buffer_layout_desc",
-      "kind": "typedef",
-      "sizeOf": 12,
-      "alignOf": 4,
-      "location": {
-        "file": "sokol_gfx.h",
-        "line": 1851,
-        "column": 3
-      }
-    },
-    {
       "name": "sg_vertex_attr_desc[16]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 192,
       "alignOf": 4,
       "sizeOfElement": 12,
@@ -13878,6 +13867,17 @@
       "location": {
         "file": "sokol_gfx.h",
         "line": 1176,
+        "column": 3
+      }
+    },
+    {
+      "name": "sg_buffer_layout_desc",
+      "kind": "typedef",
+      "sizeOf": 12,
+      "alignOf": 4,
+      "location": {
+        "file": "sokol_gfx.h",
+        "line": 1851,
         "column": 3
       }
     },
@@ -13916,7 +13916,7 @@
     },
     {
       "name": "sg_shader_attr_desc[16]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 384,
       "alignOf": 8,
       "sizeOfElement": 24,
@@ -13925,17 +13925,6 @@
         "file": "sokol_gfx.h",
         "line": 1768,
         "column": 25
-      }
-    },
-    {
-      "name": "sg_shader_attr_desc",
-      "kind": "typedef",
-      "sizeOf": 24,
-      "alignOf": 8,
-      "location": {
-        "file": "sokol_gfx.h",
-        "line": 1738,
-        "column": 3
       }
     },
     {
@@ -13962,7 +13951,7 @@
     },
     {
       "name": "sg_shader_uniform_block_desc[4]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 1056,
       "alignOf": 8,
       "sizeOfElement": 264,
@@ -13974,19 +13963,8 @@
       }
     },
     {
-      "name": "sg_shader_uniform_block_desc",
-      "kind": "typedef",
-      "sizeOf": 264,
-      "alignOf": 8,
-      "location": {
-        "file": "sokol_gfx.h",
-        "line": 1749,
-        "column": 3
-      }
-    },
-    {
       "name": "sg_shader_image_desc[12]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 192,
       "alignOf": 8,
       "sizeOfElement": 16,
@@ -14031,6 +14009,17 @@
       }
     },
     {
+      "name": "sg_shader_uniform_block_desc",
+      "kind": "typedef",
+      "sizeOf": 264,
+      "alignOf": 8,
+      "location": {
+        "file": "sokol_gfx.h",
+        "line": 1749,
+        "column": 3
+      }
+    },
+    {
       "name": "size_t",
       "kind": "typedef",
       "sizeOf": 8,
@@ -14039,7 +14028,7 @@
     },
     {
       "name": "sg_shader_uniform_desc[16]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 256,
       "alignOf": 8,
       "sizeOfElement": 16,
@@ -14069,6 +14058,17 @@
       "location": {
         "file": "sokol_gfx.h",
         "line": 1213,
+        "column": 3
+      }
+    },
+    {
+      "name": "sg_shader_attr_desc",
+      "kind": "typedef",
+      "sizeOf": 24,
+      "alignOf": 8,
+      "location": {
+        "file": "sokol_gfx.h",
+        "line": 1738,
         "column": 3
       }
     },
@@ -14151,7 +14151,7 @@
     },
     {
       "name": "uint32_t[2]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 8,
       "alignOf": 4,
       "sizeOfElement": 4,
@@ -14160,7 +14160,7 @@
     },
     {
       "name": "void*[2]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 16,
       "alignOf": 8,
       "sizeOfElement": 8,
@@ -14168,8 +14168,15 @@
       "isSystem": true
     },
     {
-      "name": "sg_range[6]",
+      "name": "void**",
       "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "isSystem": true
+    },
+    {
+      "name": "sg_range[6]",
+      "kind": "array",
       "sizeOf": 1536,
       "alignOf": 8,
       "sizeOfElement": 256,
@@ -14181,8 +14188,8 @@
       }
     },
     {
-      "name": "sg_range*",
-      "kind": "pointer",
+      "name": "sg_range[16]",
+      "kind": "array",
       "sizeOf": 256,
       "alignOf": 8,
       "sizeOfElement": 16,
@@ -14368,6 +14375,17 @@
       }
     },
     {
+      "name": "sg_range*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "sokol_gfx.h",
+        "line": 645,
+        "column": 3
+      }
+    },
+    {
       "name": "sg_bindings*",
       "kind": "pointer",
       "sizeOf": 8,
@@ -14391,7 +14409,7 @@
     },
     {
       "name": "sg_buffer[8]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 32,
       "alignOf": 4,
       "sizeOfElement": 4,
@@ -14404,7 +14422,7 @@
     },
     {
       "name": "int[8]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 32,
       "alignOf": 4,
       "sizeOfElement": 4,
@@ -14413,7 +14431,7 @@
     },
     {
       "name": "sg_image[12]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 48,
       "alignOf": 4,
       "sizeOfElement": 4,
@@ -14448,7 +14466,7 @@
     },
     {
       "name": "sg_color_attachment_action[4]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 80,
       "alignOf": 4,
       "sizeOfElement": 20,
@@ -14457,17 +14475,6 @@
         "file": "sokol_gfx.h",
         "line": 1473,
         "column": 32
-      }
-    },
-    {
-      "name": "sg_color_attachment_action",
-      "kind": "typedef",
-      "sizeOf": 20,
-      "alignOf": 4,
-      "location": {
-        "file": "sokol_gfx.h",
-        "line": 1459,
-        "column": 3
       }
     },
     {
@@ -14500,6 +14507,17 @@
       "location": {
         "file": "sokol_gfx.h",
         "line": 1435,
+        "column": 3
+      }
+    },
+    {
+      "name": "sg_color_attachment_action",
+      "kind": "typedef",
+      "sizeOf": 20,
+      "alignOf": 4,
+      "location": {
+        "file": "sokol_gfx.h",
+        "line": 1459,
         "column": 3
       }
     },
@@ -15040,7 +15058,7 @@
     },
     {
       "name": "sapp_touchpoint[8]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 192,
       "alignOf": 8,
       "sizeOfElement": 24,
@@ -15071,7 +15089,7 @@
     },
     {
       "name": "sapp_image_desc[8]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 192,
       "alignOf": 8,
       "sizeOfElement": 24,
@@ -15117,7 +15135,7 @@
     },
     {
       "name": "char**",
-      "kind": "pointer",
+      "kind": "array",
       "alignOf": 8,
       "isSystem": true
     }

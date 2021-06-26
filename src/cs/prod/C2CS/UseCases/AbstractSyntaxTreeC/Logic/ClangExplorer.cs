@@ -5,10 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using C2CS.UseCases.BindgenCSharp;
-using static libclang;
+using static clang;
 
 namespace C2CS.UseCases.AbstractSyntaxTreeC
 {
@@ -58,11 +57,12 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             "va_list",
         };
 
-        public ClangExplorer(DiagnosticsSink diagnostics, Configuration configuration)
+        public ClangExplorer(
+            DiagnosticsSink diagnostics, Configuration configuration, ImmutableArray<string> includeDirectories)
         {
             _diagnostics = diagnostics;
             _ignoredFiles = configuration.IgnoredFiles.ToImmutableHashSet();
-            _includeDirectories = configuration.IncludeDirectories;
+            _includeDirectories = includeDirectories;
             _opaqueTypeNames = configuration.OpaqueTypes.ToImmutableHashSet();
         }
 
@@ -105,7 +105,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 CKind.TranslationUnit,
                 location,
                 null,
-                cursor,
                 cursor,
                 type,
                 type,
@@ -164,7 +163,12 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 case CKind.FunctionPointer:
                     ExploreFunctionPointer(node.TypeName!, node.Cursor, node.Type, node.OriginalType, node.Location, node.Parent!);
                     break;
+                case CKind.Array:
+                    ExpandArray(node);
+                    break;
                 case CKind.Pointer:
+                    ExpandPointer(node);
+                    break;
                 case CKind.Primitive:
                     break;
                 default:
@@ -245,7 +249,25 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 return;
             }
 
-            ExpandNode(kind, location, parentNode, cursor, cursor, type, type, name, typeName);
+            ExpandNode(kind, location, parentNode, cursor, type, type, name, typeName);
+        }
+
+        private void ExpandArray(Node node)
+        {
+            var elementType = clang_getElementType(node.Type);
+            var (kind, type) = TypeKind(elementType);
+            var typeCursor = clang_getTypeDeclaration(type);
+            var typeName = TypeName(node.TypeName!, kind, type, typeCursor);
+            ExpandType(node, typeCursor, type, type, typeName);
+        }
+
+        private void ExpandPointer(Node node)
+        {
+            var pointeeType = clang_getPointeeType(node.Type);
+            var (kind, type) = TypeKind(pointeeType);
+            var typeCursor = clang_getTypeDeclaration(type);
+            var typeName = TypeName(node.TypeName!, kind, type, typeCursor);
+            ExpandType(node, typeCursor, type, type, typeName);
         }
 
         private void ExploreVariable(string name, string typeName, CXCursor cursor, CXType type, ClangLocation location, Node parentNode)
@@ -286,12 +308,18 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         private void ExploreEnum(string typeName, CXCursor cursor, CXType type, ClangLocation location, Node parentNode)
         {
-            var integerType = clang_getEnumDeclIntegerType(cursor);
+            var typeCursor = clang_getTypeDeclaration(type);
+            if (typeCursor.kind == CXCursorKind.CXCursor_NoDeclFound)
+            {
+                typeCursor = cursor;
+            }
+
+            var integerType = clang_getEnumDeclIntegerType(typeCursor);
             var integerTypeName = TypeName(parentNode.TypeName!, CKind.Enum, integerType, cursor);
 
             ExpandType(parentNode, cursor, integerType, integerType, integerTypeName);
 
-            var enumValues = CreateEnumValues(cursor);
+            var enumValues = CreateEnumValues(typeCursor);
 
             var @enum = new CEnum
             {
@@ -493,18 +521,22 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             ClangLocation location,
             Node? parent,
             CXCursor cursor,
-            CXCursor originalCursor,
             CXType type,
             CXType originalType,
             string name,
             string typeName)
         {
+            if (kind != CKind.TranslationUnit && type.kind == CXTypeKind.CXType_Invalid)
+            {
+                var up = new ClangExplorerException("Expanding node can't be invalid type kind.");
+                throw up;
+            }
+
             var node = new Node(
                 kind,
                 location,
                 parent,
                 cursor,
-                originalCursor,
                 type,
                 originalType,
                 name,
@@ -663,6 +695,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 var fieldPrevious = builder[i - 1];
                 var typeName = Value(fieldPrevious.Type);
                 var type = _typesByName[typeName];
+
                 var fieldPreviousTypeSizeOf = type!.SizeOf!.Value;
                 var expectedFieldOffset = fieldPrevious.Offset + fieldPreviousTypeSizeOf;
                 var hasPadding = recordField.Offset != 0 && recordField.Offset != expectedFieldOffset;
@@ -948,14 +981,22 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                     return sizeOfRecord == -2 ? (CKind.OpaqueType, cursorType) : (CKind.Record, cursorType);
                 case CXTypeKind.CXType_Typedef:
                     var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
-                    var alias = TypeKind(underlyingType);
-                    var sizeOfAlias = clang_Type_getSizeOf(alias.Type);
-                    return sizeOfAlias == -2 ? (CKind.OpaqueType, cursorType) : (CKind.Typedef, cursorType);
+                    if (underlyingType.kind == CXTypeKind.CXType_Pointer)
+                    {
+                        return (CKind.Typedef, cursorType);
+                    }
+                    else
+                    {
+                        var alias = TypeKind(underlyingType);
+                        var sizeOfAlias = clang_Type_getSizeOf(alias.Type);
+                        return sizeOfAlias == -2 ? (CKind.OpaqueType, cursorType) : (CKind.Typedef, cursorType);
+                    }
+
                 case CXTypeKind.CXType_FunctionProto:
                     return (CKind.FunctionPointer, cursorType);
                 case CXTypeKind.CXType_Pointer:
                     var pointeeType = clang_getPointeeType(cursorType);
-                    return pointeeType.kind == CXTypeKind.CXType_FunctionProto ? (CKind.FunctionPointer, pointeeType) : (CKind.Pointer, pointeeType);
+                    return pointeeType.kind == CXTypeKind.CXType_FunctionProto ? (CKind.FunctionPointer, pointeeType) : (CKind.Pointer, cursorType);
                 case CXTypeKind.CXType_Attributed:
                     var modifiedType = clang_Type_getModifiedType(cursorType);
                     return TypeKind(modifiedType);
@@ -964,8 +1005,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                     return TypeKind(namedType);
                 case CXTypeKind.CXType_ConstantArray:
                 case CXTypeKind.CXType_IncompleteArray:
-                    var elementType = clang_getElementType(cursorType);
-                    return (CKind.Pointer, elementType);
+                    return (CKind.Array, cursorType);
             }
 
             var up = new ClangExplorerException($"Unknown type kind '{type.kind}.'");
@@ -1023,10 +1063,11 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var typeKind = TypeKind(type);
             if (typeKind.Kind == CKind.Pointer)
             {
-                var pointeeKind = TypeKind(typeKind.Type);
-                var pointeeCursor = clang_getTypeDeclaration(typeKind.Type);
+                var pointeeType = clang_getPointeeType(typeKind.Type);
+                var pointeeKind = TypeKind(pointeeType);
+                var pointeeCursor = clang_getTypeDeclaration(pointeeType);
                 var pointeeTypeName = TypeName(parentNode.TypeName!, pointeeKind.Kind, pointeeKind.Type, pointeeCursor);
-                ExpandType(parentNode, pointeeCursor, typeKind.Type, type, pointeeTypeName);
+                ExpandType(parentNode, pointeeCursor, pointeeKind.Type, type, pointeeTypeName);
                 return;
             }
 
@@ -1036,14 +1077,29 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             }
             else
             {
-                var locationCursor = clang_getTypeDeclaration(type);
+                CXType locationType;
+                if (type.kind == CXTypeKind.CXType_IncompleteArray ||
+                    type.kind == CXTypeKind.CXType_ConstantArray)
+                {
+                    locationType = clang_getElementType(type);
+                }
+                else if (type.kind == CXTypeKind.CXType_Pointer)
+                {
+                    locationType = clang_getPointeeType(type);
+                }
+                else
+                {
+                    locationType = type;
+                }
+
+                var locationCursor = clang_getTypeDeclaration(locationType);
                 if (locationCursor.kind == CXCursorKind.CXCursor_NoDeclFound)
                 {
                     locationCursor = cursor;
                 }
 
                 var location = Location(locationCursor);
-                ExpandNode(typeKind.Kind, location, parentNode, cursor, cursor, typeKind.Type, originalType, string.Empty, typeName);
+                ExpandNode(typeKind.Kind, location, parentNode, cursor, typeKind.Type, originalType, string.Empty, typeName);
             }
         }
 
@@ -1051,7 +1107,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         {
             var typedefCursor = clang_getTypeDeclaration(type);
             var location = typedefCursor.FileLocation();
-            ExpandNode(CKind.Typedef, location, parentNode, typedefCursor, typedefCursor, type, type, string.Empty, typeName);
+            ExpandNode(CKind.Typedef, location, parentNode, typedefCursor, type, type, string.Empty, typeName);
         }
 
         private string TypeName(string parentTypeName, CKind kind, CXType type, CXCursor cursor)
@@ -1082,6 +1138,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             {
                 CKind.Primitive => type.Name(),
                 CKind.Pointer => type.Name(),
+                CKind.Array => type.Name(),
                 CKind.Variable => type.Name(),
                 CKind.Function => cursor.Name(),
                 CKind.FunctionResult => type.Name(cursor),
@@ -1150,7 +1207,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             public readonly CKind Kind;
             public readonly string? Name;
             public readonly string? TypeName;
-            public readonly CXCursor OriginalCursor;
             public readonly CXType OriginalType;
             public readonly Node? Parent;
             public readonly CXType Type;
@@ -1160,7 +1216,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 ClangLocation location,
                 Node? parent,
                 CXCursor cursor,
-                CXCursor originalCursor,
                 CXType type,
                 CXType originalType,
                 string? name,
@@ -1190,7 +1245,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
                 Parent = parent;
                 Cursor = cursor;
-                OriginalCursor = originalCursor;
                 Type = type;
                 OriginalType = originalType;
                 Name = name;

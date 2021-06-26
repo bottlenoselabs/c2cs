@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Immutable;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -20,18 +19,21 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 "Load configuration from disk",
                 request.InputFile.FullName,
                 request.ConfigurationFile?.FullName ?? string.Empty,
+                request.IncludeDirectories,
                 LoadConfiguration);
 
             var translationUnit = Step(
                 "Parse C code from disk",
                 request.InputFile.FullName,
                 configuration,
+                request.IncludeDirectories,
                 Parse);
 
             var abstractSyntaxTreeC = Step(
                 "Extract C abstract syntax tree",
                 translationUnit,
                 configuration,
+                request.IncludeDirectories,
                 Explore);
 
             Step(
@@ -41,7 +43,8 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 Write);
         }
 
-        private static Configuration LoadConfiguration(string inputFilePath, string configurationFilePath)
+        private static Configuration LoadConfiguration(
+            string inputFilePath, string configurationFilePath, ImmutableArray<string> includeDirectories)
         {
             if (string.IsNullOrEmpty(configurationFilePath))
             {
@@ -51,33 +54,24 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var fileContents = File.ReadAllText(configurationFilePath);
             var configuration = JsonSerializer.Deserialize<Configuration>(fileContents)!;
 
-            if (configuration.IncludeDirectories.IsDefaultOrEmpty)
-            {
-                var directoryPath = Path.GetDirectoryName(inputFilePath)!;
-                configuration.IncludeDirectories = new[] { directoryPath }.ToImmutableArray();
-            }
-            else
-            {
-                configuration.IncludeDirectories = configuration.IncludeDirectories.Select(Path.GetFullPath).ToImmutableArray();
-            }
-
             return configuration;
         }
 
-        private static libclang.CXTranslationUnit Parse(string inputFilePath, Configuration configuration)
+        private static clang.CXTranslationUnit Parse(
+            string inputFilePath, Configuration configuration, ImmutableArray<string> includeDirectories)
         {
             var clangArgs = ClangArgumentsBuilder.Build(
                 configuration.AutomaticallyFindSoftwareDevelopmentKit,
-                configuration.IncludeDirectories,
+                includeDirectories,
                 configuration.Defines,
                 configuration.ClangArguments);
             return ClangParser.ParseTranslationUnit(inputFilePath, clangArgs);
         }
 
         private CAbstractSyntaxTree Explore(
-            libclang.CXTranslationUnit translationUnit, Configuration configuration)
+            clang.CXTranslationUnit translationUnit, Configuration configuration, ImmutableArray<string> includeDirectories)
         {
-            var clangExplorer = new ClangExplorer(Diagnostics, configuration);
+            var clangExplorer = new ClangExplorer(Diagnostics, configuration, includeDirectories);
             return clangExplorer.AbstractSyntaxTree(translationUnit);
         }
 

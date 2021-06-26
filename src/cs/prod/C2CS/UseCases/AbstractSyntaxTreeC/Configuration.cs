@@ -14,9 +14,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         [JsonPropertyName("autoFindSDK")]
         public bool AutomaticallyFindSoftwareDevelopmentKit { get; set; } = true;
 
-        [JsonPropertyName("includeDirectories")]
-        public ImmutableArray<string> IncludeDirectories { get; set; } = ImmutableArray<string>.Empty;
-
         [JsonPropertyName("defines")]
         public ImmutableArray<string> Defines { get; set; } = ImmutableArray<string>.Empty;
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
-using static libclang;
+using static clang;
 
 namespace C2CS.UseCases.AbstractSyntaxTreeC
 {

@@ -111,7 +111,8 @@ namespace C2CS
             EndStep(_stepIndex, stepName);
         }
 
-        protected TOutput Step<TInput, TOutput>(string stepName, TInput input, Func<TInput, TOutput> func)
+        protected TOutput Step<TInput, TOutput>(
+            string stepName, TInput input, Func<TInput, TOutput> func)
         {
             _stepIndex++;
             BeginStep(_stepIndex, stepName);
@@ -120,11 +121,22 @@ namespace C2CS
             return output;
         }
 
-        protected TOutput Step<TInput1, TInput2, TOutput>(string stepName, TInput1 input1, TInput2 input2, Func<TInput1, TInput2, TOutput> func)
+        protected TOutput Step<TInput1, TInput2, TOutput>(
+            string stepName, TInput1 input1, TInput2 input2, Func<TInput1, TInput2, TOutput> func)
         {
             _stepIndex++;
             BeginStep(_stepIndex, stepName);
             var output = func(input1, input2);
+            EndStep(_stepIndex, stepName);
+            return output;
+        }
+
+        protected TOutput Step<TInput1, TInput2, TInput3, TOutput>(
+            string stepName, TInput1 input1, TInput2 input2, TInput3 input3, Func<TInput1, TInput2, TInput3, TOutput> func)
+        {
+            _stepIndex++;
+            BeginStep(_stepIndex, stepName);
+            var output = func(input1, input2, input3);
             EndStep(_stepIndex, stepName);
             return output;
         }

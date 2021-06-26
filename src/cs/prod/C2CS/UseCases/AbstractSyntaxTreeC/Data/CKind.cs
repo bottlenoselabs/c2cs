@@ -9,6 +9,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         TranslationUnit,
         Primitive,
         Pointer,
+        Array,
         Function,
         FunctionResult,
         FunctionParameter,

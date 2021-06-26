@@ -38,7 +38,7 @@ cs
 -i
 {rootDirectory}/src/cs/prod/clang-c/ast.json
 -o
-{rootDirectory}/src/cs/prod/clang-cs/libclang.cs
+{rootDirectory}/src/cs/prod/clang-cs/clang.cs
 
 ";
         var argumentsArray =

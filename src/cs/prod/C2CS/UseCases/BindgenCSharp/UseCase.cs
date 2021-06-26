@@ -34,10 +34,13 @@ namespace C2CS.UseCases.BindgenCSharp
                 configuration,
                 MapCToCSharp);
 
+            var className = Path.GetFileNameWithoutExtension(request.OutputFile.FullName);
+            var libraryName = string.IsNullOrEmpty(request.LibraryName) ? className : request.LibraryName;
             var codeCSharp = Step(
                 "Generate C# code",
                 abstractSyntaxTreeCSharp,
-                configuration,
+                className,
+                libraryName,
                 GenerateCSharpCode);
 
             Step(
@@ -94,9 +97,9 @@ namespace C2CS.UseCases.BindgenCSharp
         }
 
         private static string GenerateCSharpCode(
-            CSharpAbstractSyntaxTree abstractSyntaxTree, Configuration configuration)
+            CSharpAbstractSyntaxTree abstractSyntaxTree, string className, string libraryName)
         {
-            var codeGenerator = new CSharpCodeGenerator(configuration);
+            var codeGenerator = new CSharpCodeGenerator(className, libraryName);
             return codeGenerator.EmitCode(abstractSyntaxTree);
         }
 

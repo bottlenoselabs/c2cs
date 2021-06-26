@@ -3,7 +3,7 @@
 
 using System;
 using System.Collections.Immutable;
-using static libclang;
+using static clang;
 
 namespace C2CS.UseCases.AbstractSyntaxTreeC
 {

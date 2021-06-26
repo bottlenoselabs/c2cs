@@ -13,11 +13,15 @@ namespace C2CS.UseCases.BindgenCSharp
 
         public FileInfo? ConfigurationFile { get; }
 
-        public Request(FileInfo inputFile, FileInfo outputFile, FileInfo configurationFile)
+        public string LibraryName { get; }
+
+        public Request(
+            FileInfo inputFile, FileInfo outputFile, FileInfo configurationFile, string libraryName)
         {
             InputFile = inputFile;
             OutputFile = outputFile;
             ConfigurationFile = configurationFile;
+            LibraryName = libraryName;
         }
     }
 }

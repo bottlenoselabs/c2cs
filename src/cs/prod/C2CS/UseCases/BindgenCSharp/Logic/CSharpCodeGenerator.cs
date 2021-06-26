@@ -19,10 +19,10 @@ namespace C2CS.UseCases.BindgenCSharp
 		private readonly string _className;
 		private readonly string _libraryName;
 
-		public CSharpCodeGenerator(Configuration configuration)
+		public CSharpCodeGenerator(string className, string libraryName)
 		{
-			_className = configuration.ClassName;
-			_libraryName = configuration.LibraryName;
+			_className = className;
+			_libraryName = libraryName;
 		}
 
 		public string EmitCode(CSharpAbstractSyntaxTree abstractSyntaxTree)
@@ -41,22 +41,10 @@ namespace C2CS.UseCases.BindgenCSharp
 			EmitVirtualTableUnloader(builder, abstractSyntaxTree.FunctionExterns, abstractSyntaxTree.VariablesExtern);
 			EmitVirtualTable(builder, abstractSyntaxTree.FunctionExterns, abstractSyntaxTree.VariablesExtern);
 
-			var className = _className;
-			if (string.IsNullOrEmpty(className))
-			{
-				className = abstractSyntaxTree.ClassName;
-			}
-
-			var libraryName = _libraryName;
-			if (string.IsNullOrEmpty(libraryName))
-			{
-				libraryName = abstractSyntaxTree.ClassName;
-			}
-
 			var membersToAdd = builder.ToArray();
 			var compilationUnit = EmitCompilationUnit(
-				className,
-				libraryName,
+				_className,
+				_libraryName,
 				membersToAdd);
 			return compilationUnit.ToFullString();
 		}

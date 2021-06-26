@@ -11,12 +11,6 @@ namespace C2CS.UseCases.BindgenCSharp
     [PublicAPI]
     public class Configuration
     {
-		[JsonPropertyName("className")]
-		public string ClassName { get; set; } = string.Empty;
-
-		[JsonPropertyName("libraryName")]
-		public string LibraryName { get; set; } = string.Empty;
-
 		[JsonPropertyName("aliases")]
 		public ImmutableArray<CSharpTypeAlias> Aliases { get; set; } = ImmutableArray<CSharpTypeAlias>.Empty;
     }
