@@ -12956,7 +12956,7 @@
     },
     {
       "name": "double[3]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 24,
       "alignOf": 8,
       "sizeOfElement": 8,
@@ -13213,7 +13213,7 @@
     },
     {
       "name": "uv_buf_t*",
-      "kind": "pointer",
+      "kind": "array",
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -13274,7 +13274,7 @@
     },
     {
       "name": "char[256]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 256,
       "alignOf": 1,
       "sizeOfElement": 1,
@@ -13345,7 +13345,7 @@
     },
     {
       "name": "char[6]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 6,
       "alignOf": 1,
       "sizeOfElement": 1,
@@ -14338,7 +14338,7 @@
     },
     {
       "name": "uv_os_sock_t[2]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 8,
       "alignOf": 4,
       "sizeOfElement": 4,
@@ -14351,7 +14351,7 @@
     },
     {
       "name": "uv_file[2]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 8,
       "alignOf": 4,
       "sizeOfElement": 4,
