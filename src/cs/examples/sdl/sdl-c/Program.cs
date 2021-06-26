@@ -3,6 +3,7 @@
 
 using System;
 using System.IO;
+using C2CS;
 
 internal static class Program
 {
@@ -11,30 +12,30 @@ internal static class Program
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
         GenerateAbstractSyntaxTree(rootDirectory);
         GenerateBindingsCSharp(rootDirectory);
-        // BuildLibrary(rootDirectory);
+        BuildLibrary(rootDirectory);
     }
 
     private static void BuildLibrary(string rootDirectory)
     {
-        // var cMakeDirectoryPath = Path.Combine(rootDirectory, "src/c/examples/sdl");
-        // var targetLibraryDirectoryPath = $"{rootDirectory}/src/cs/examples/sdl/sdl-cs/";
-        // var isSuccess = Shell.CMake(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
-        // if (!isSuccess)
-        // {
-        //     Environment.Exit(1);
-        // }
-        //
-        // var oldLibraryFilePath = Path.Combine(targetLibraryDirectoryPath, "libSDL2-2.0.dylib");
-        // if (File.Exists(oldLibraryFilePath))
-        // {
-        //     var newLibraryFilePath = Path.Combine(targetLibraryDirectoryPath, "libSDL2.dylib");
-        //     if (File.Exists(newLibraryFilePath))
-        //     {
-        //         File.Delete(newLibraryFilePath);
-        //     }
-        //
-        //     File.Move(oldLibraryFilePath, newLibraryFilePath);
-        // }
+        var cMakeDirectoryPath = Path.Combine(rootDirectory, "src/c/examples/sdl");
+        var targetLibraryDirectoryPath = $"{rootDirectory}/src/cs/examples/sdl/sdl-cs/";
+        var isSuccess = Terminal.CMake(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
+        if (!isSuccess)
+        {
+            Environment.Exit(1);
+        }
+
+        var oldLibraryFilePath = Path.Combine(targetLibraryDirectoryPath, "libSDL2-2.0.dylib");
+        if (File.Exists(oldLibraryFilePath))
+        {
+            var newLibraryFilePath = Path.Combine(targetLibraryDirectoryPath, "libSDL2.dylib");
+            if (File.Exists(newLibraryFilePath))
+            {
+                File.Delete(newLibraryFilePath);
+            }
+
+            File.Move(oldLibraryFilePath, newLibraryFilePath);
+        }
     }
 
     private static void GenerateAbstractSyntaxTree(string rootDirectory)
@@ -45,8 +46,10 @@ ast
 {rootDirectory}/ext/SDL/include/SDL.h
 -o
 {rootDirectory}/src/cs/examples/sdl/sdl-c/ast.json
--c
-{Environment.CurrentDirectory}/config_c.json
+-g
+SDL_main.h
+-p
+SDL_RWops
 ";
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);

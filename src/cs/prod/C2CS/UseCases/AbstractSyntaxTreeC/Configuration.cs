@@ -19,11 +19,5 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         [JsonPropertyName("clangArguments")]
         public ImmutableArray<string> ClangArguments { get; set; } = ImmutableArray<string>.Empty;
-
-        [JsonPropertyName("ignoredFiles")]
-        public ImmutableArray<string> IgnoredFiles { get; set; } = ImmutableArray<string>.Empty;
-
-        [JsonPropertyName("opaqueTypes")]
-        public ImmutableArray<string> OpaqueTypes { get; set; } = ImmutableArray<string>.Empty;
     }
 }

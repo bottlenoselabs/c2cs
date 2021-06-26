@@ -112,7 +112,9 @@ namespace C2CS
         }
 
         protected TOutput Step<TInput, TOutput>(
-            string stepName, TInput input, Func<TInput, TOutput> func)
+            string stepName,
+            TInput input,
+            Func<TInput, TOutput> func)
         {
             _stepIndex++;
             BeginStep(_stepIndex, stepName);
@@ -122,7 +124,10 @@ namespace C2CS
         }
 
         protected TOutput Step<TInput1, TInput2, TOutput>(
-            string stepName, TInput1 input1, TInput2 input2, Func<TInput1, TInput2, TOutput> func)
+            string stepName,
+            TInput1 input1,
+            TInput2 input2,
+            Func<TInput1, TInput2, TOutput> func)
         {
             _stepIndex++;
             BeginStep(_stepIndex, stepName);
@@ -132,11 +137,30 @@ namespace C2CS
         }
 
         protected TOutput Step<TInput1, TInput2, TInput3, TOutput>(
-            string stepName, TInput1 input1, TInput2 input2, TInput3 input3, Func<TInput1, TInput2, TInput3, TOutput> func)
+            string stepName,
+            TInput1 input1,
+            TInput2 input2,
+            TInput3 input3,
+            Func<TInput1, TInput2, TInput3, TOutput> func)
         {
             _stepIndex++;
             BeginStep(_stepIndex, stepName);
             var output = func(input1, input2, input3);
+            EndStep(_stepIndex, stepName);
+            return output;
+        }
+
+        protected TOutput Step<TInput1, TInput2, TInput3, TInput4, TOutput>(
+            string stepName,
+            TInput1 input1,
+            TInput2 input2,
+            TInput3 input3,
+            TInput4 input4,
+            Func<TInput1, TInput2, TInput3, TInput4, TOutput> func)
+        {
+            _stepIndex++;
+            BeginStep(_stepIndex, stepName);
+            var output = func(input1, input2, input3, input4);
             EndStep(_stepIndex, stepName);
             return output;
         }

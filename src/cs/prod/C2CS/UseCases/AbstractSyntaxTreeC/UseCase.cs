@@ -32,8 +32,9 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var abstractSyntaxTreeC = Step(
                 "Extract C abstract syntax tree",
                 translationUnit,
-                configuration,
                 request.IncludeDirectories,
+                request.IgnoredFiles,
+                request.OpaqueTypes,
                 Explore);
 
             Step(
@@ -69,9 +70,12 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         }
 
         private CAbstractSyntaxTree Explore(
-            clang.CXTranslationUnit translationUnit, Configuration configuration, ImmutableArray<string> includeDirectories)
+            clang.CXTranslationUnit translationUnit,
+            ImmutableArray<string> includeDirectories,
+            ImmutableArray<string> ignoredFiles,
+            ImmutableArray<string> opaqueTypes)
         {
-            var clangExplorer = new ClangExplorer(Diagnostics, configuration, includeDirectories);
+            var clangExplorer = new ClangExplorer(Diagnostics, includeDirectories, ignoredFiles, opaqueTypes);
             return clangExplorer.AbstractSyntaxTree(translationUnit);
         }
 

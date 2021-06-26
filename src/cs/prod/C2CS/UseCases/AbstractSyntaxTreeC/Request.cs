@@ -17,37 +17,70 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         public ImmutableArray<string> IncludeDirectories { get; }
 
+        public ImmutableArray<string> IgnoredFiles { get; }
+
+        public ImmutableArray<string> OpaqueTypes { get; }
+
         public FileInfo? ConfigurationFile { get; }
 
-        public Request(FileInfo inputFile, FileInfo outputFile, IEnumerable<string?> includeDirectories, FileInfo configurationFile)
+        public Request(
+            FileInfo inputFile,
+            FileInfo outputFile,
+            IEnumerable<string?>? includeDirectories,
+            IEnumerable<string?>? ignoredFiles,
+            IEnumerable<string?>? opaqueTypes,
+            FileInfo configurationFile)
         {
             InputFile = inputFile;
             OutputFile = outputFile;
             ConfigurationFile = configurationFile;
+            IncludeDirectories = CreateIncludeDirectories(inputFile, includeDirectories);
+            IgnoredFiles = CreateIgnoredFiles(ignoredFiles);
+            OpaqueTypes = CreateOpaqueTypes(opaqueTypes);
+        }
 
-            var includeDirectories2 = includeDirectories?.ToArray() ?? Array.Empty<string>();
-            ImmutableArray<string> includeDirectoriesArray;
-            if (includeDirectories2.Length == 0)
+        private static ImmutableArray<string> CreateIncludeDirectories(
+            FileInfo inputFile,
+            IEnumerable<string?>? includeDirectories)
+        {
+            var nonNull = includeDirectories?.ToArray() ?? Array.Empty<string>();
+            ImmutableArray<string> result;
+            if (nonNull.Length == 0)
             {
-                includeDirectoriesArray = ImmutableArray<string>.Empty;
+                result = ImmutableArray<string>.Empty;
             }
             else
             {
-                var includeDirectoriesNonEmpty = includeDirectories2.Where(x => !string.IsNullOrEmpty(x)).Cast<string>().ToArray();
-                includeDirectoriesArray = includeDirectoriesNonEmpty.Any() ? includeDirectoriesNonEmpty.ToImmutableArray() : ImmutableArray<string>.Empty;
+                result = nonNull.Where(x => !string.IsNullOrEmpty(x)).Cast<string>().ToImmutableArray();
             }
 
-            if (includeDirectoriesArray.IsDefaultOrEmpty)
+            if (result.IsDefaultOrEmpty)
             {
                 var directoryPath = Path.GetDirectoryName(inputFile.FullName)!;
-                includeDirectoriesArray = new[] { directoryPath }.ToImmutableArray();
+                result = new[] {directoryPath}.ToImmutableArray();
             }
             else
             {
-                includeDirectoriesArray = includeDirectoriesArray.Select(Path.GetFullPath).ToImmutableArray();
+                result = result.Select(Path.GetFullPath).ToImmutableArray();
             }
 
-            IncludeDirectories = includeDirectoriesArray;
+            return result;
+        }
+
+        private ImmutableArray<string> CreateIgnoredFiles(IEnumerable<string?>? ignoredFiles)
+        {
+            var nonNull = ignoredFiles?.ToArray() ?? Array.Empty<string>();
+            var result =
+                nonNull.Where(x => !string.IsNullOrEmpty(x)).Cast<string>().ToImmutableArray();
+            return result;
+        }
+
+        private ImmutableArray<string> CreateOpaqueTypes(IEnumerable<string?>? opaqueTypes)
+        {
+            var nonNull = opaqueTypes?.ToArray() ?? Array.Empty<string>();
+            var result =
+                nonNull.Where(x => !string.IsNullOrEmpty(x)).Cast<string>().ToImmutableArray();
+            return result;
         }
     }
 }

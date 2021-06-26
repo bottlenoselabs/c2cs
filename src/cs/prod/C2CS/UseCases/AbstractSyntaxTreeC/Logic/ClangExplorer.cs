@@ -58,12 +58,15 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         };
 
         public ClangExplorer(
-            DiagnosticsSink diagnostics, Configuration configuration, ImmutableArray<string> includeDirectories)
+            DiagnosticsSink diagnostics,
+            ImmutableArray<string> includeDirectories,
+            ImmutableArray<string> ignoredFiles,
+            ImmutableArray<string> opaqueTypes)
         {
             _diagnostics = diagnostics;
-            _ignoredFiles = configuration.IgnoredFiles.ToImmutableHashSet();
+            _ignoredFiles = ignoredFiles.ToImmutableHashSet();
             _includeDirectories = includeDirectories;
-            _opaqueTypeNames = configuration.OpaqueTypes.ToImmutableHashSet();
+            _opaqueTypeNames = opaqueTypes.ToImmutableHashSet();
         }
 
         public CAbstractSyntaxTree AbstractSyntaxTree(CXTranslationUnit translationUnit)

@@ -1,8 +1,0 @@
-{
-  "ignoredFiles": [
-    "SDL_main.h"
-  ],
-  "opaqueTypes": [
-    "SDL_RWops"
-  ]
-}
