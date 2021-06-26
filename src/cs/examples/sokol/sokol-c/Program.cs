@@ -33,9 +33,9 @@ ast
 -i
 {rootDirectory}/src/c/examples/sokol/sokol.h
 -o
-{rootDirectory}/src/cs/examples/sokol-c/sokol-c/ast.json
--c
-{rootDirectory}/src/cs/examples/sokol/sokol-c/config_c.json
+{rootDirectory}/src/cs/examples/sokol/sokol-c/ast.json
+-s
+{rootDirectory}/ext/sokol
 ";
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
@@ -47,7 +47,7 @@ ast
         var arguments = @$"
 cs
 -i
-{rootDirectory}/src/cs/examples/sokol-c/sokol-c/ast.json
+{rootDirectory}/src/cs/examples/sokol/sokol-c/ast.json
 -o
 {rootDirectory}/src/cs/examples/sokol/sokol-cs/sokol.cs
 ";

@@ -1,5 +1,5 @@
 {
-  "fileName": "/Users/lstranks/Programming/c2cs/src/c/examples/helloworld/include/helloworld.h",
+  "fileName": "helloworld.h",
   "functions": [
     {
       "name": "hello_world",

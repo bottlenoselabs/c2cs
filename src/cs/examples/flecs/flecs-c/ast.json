@@ -1,5 +1,5 @@
 {
-  "fileName": "/Users/lstranks/Programming/c2cs/ext/flecs/include/flecs.h",
+  "fileName": "flecs.h",
   "functions": [
     {
       "name": "ecs_gauge_reduce",

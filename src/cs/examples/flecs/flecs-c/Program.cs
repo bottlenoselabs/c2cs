@@ -33,7 +33,7 @@ ast
 -i
 {rootDirectory}/ext/flecs/include/flecs.h
 -o
-{rootDirectory}/src/cs/examples/flecs-c/flecs-c/ast.json
+{rootDirectory}/src/cs/examples/flecs/flecs-c/ast.json
 ";
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
@@ -45,7 +45,7 @@ ast
         var arguments = @$"
 cs
 -i
-{rootDirectory}/src/cs/examples/flecs-c/flecs-c/ast.json
+{rootDirectory}/src/cs/examples/flecs/flecs-c/ast.json
 -o
 {rootDirectory}/src/cs/examples/flecs/flecs-cs/flecs.cs
 ";
