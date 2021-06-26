@@ -14168,13 +14168,6 @@
       "isSystem": true
     },
     {
-      "name": "void**",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "isSystem": true
-    },
-    {
       "name": "sg_range[6]",
       "kind": "array",
       "sizeOf": 1536,
