@@ -19,10 +19,5 @@
     </ItemGroup>
     
     <!-- C2CS configuration -->
-    <ItemGroup>
-        <None Update="config_csharp.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
 
 </Project>

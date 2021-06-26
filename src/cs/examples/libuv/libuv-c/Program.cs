@@ -84,8 +84,6 @@ cs
 {rootDirectory}/src/cs/examples/libuv/libuv-c/ast.json
 -o
 {rootDirectory}/src/cs/examples/libuv/libuv-cs/uv.cs
--c
-{Environment.CurrentDirectory}/config_csharp.json
 ";
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
