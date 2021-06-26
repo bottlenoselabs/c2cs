@@ -15,44 +15,43 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         public FileInfo OutputFile { get; }
 
+        public bool AutomaticallyFindSoftwareDevelopmentKit { get; }
+
         public ImmutableArray<string> IncludeDirectories { get; }
 
         public ImmutableArray<string> IgnoredFiles { get; }
 
         public ImmutableArray<string> OpaqueTypes { get; }
 
-        public FileInfo? ConfigurationFile { get; }
+        public ImmutableArray<string> Defines { get; }
+
+        public ImmutableArray<string> ClangArgs { get; }
 
         public Request(
             FileInfo inputFile,
             FileInfo outputFile,
+            bool? automaticallyFindSoftwareDevelopmentKit,
             IEnumerable<string?>? includeDirectories,
             IEnumerable<string?>? ignoredFiles,
             IEnumerable<string?>? opaqueTypes,
-            FileInfo configurationFile)
+            IEnumerable<string?>? defines,
+            IEnumerable<string?>? clangArgs)
         {
             InputFile = inputFile;
             OutputFile = outputFile;
-            ConfigurationFile = configurationFile;
+            AutomaticallyFindSoftwareDevelopmentKit = automaticallyFindSoftwareDevelopmentKit ?? true;
             IncludeDirectories = CreateIncludeDirectories(inputFile, includeDirectories);
-            IgnoredFiles = CreateIgnoredFiles(ignoredFiles);
-            OpaqueTypes = CreateOpaqueTypes(opaqueTypes);
+            IgnoredFiles = ToImmutableArray(ignoredFiles);
+            OpaqueTypes = ToImmutableArray(opaqueTypes);
+            Defines = ToImmutableArray(defines);
+            ClangArgs = ToImmutableArray(clangArgs);
         }
 
         private static ImmutableArray<string> CreateIncludeDirectories(
             FileInfo inputFile,
             IEnumerable<string?>? includeDirectories)
         {
-            var nonNull = includeDirectories?.ToArray() ?? Array.Empty<string>();
-            ImmutableArray<string> result;
-            if (nonNull.Length == 0)
-            {
-                result = ImmutableArray<string>.Empty;
-            }
-            else
-            {
-                result = nonNull.Where(x => !string.IsNullOrEmpty(x)).Cast<string>().ToImmutableArray();
-            }
+            var result = ToImmutableArray(includeDirectories);
 
             if (result.IsDefaultOrEmpty)
             {
@@ -67,17 +66,9 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             return result;
         }
 
-        private ImmutableArray<string> CreateIgnoredFiles(IEnumerable<string?>? ignoredFiles)
+        private static ImmutableArray<string> ToImmutableArray(IEnumerable<string?>? enumerable)
         {
-            var nonNull = ignoredFiles?.ToArray() ?? Array.Empty<string>();
-            var result =
-                nonNull.Where(x => !string.IsNullOrEmpty(x)).Cast<string>().ToImmutableArray();
-            return result;
-        }
-
-        private ImmutableArray<string> CreateOpaqueTypes(IEnumerable<string?>? opaqueTypes)
-        {
-            var nonNull = opaqueTypes?.ToArray() ?? Array.Empty<string>();
+            var nonNull = enumerable?.ToArray() ?? Array.Empty<string>();
             var result =
                 nonNull.Where(x => !string.IsNullOrEmpty(x)).Cast<string>().ToImmutableArray();
             return result;

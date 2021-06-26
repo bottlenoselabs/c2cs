@@ -13,20 +13,15 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
     {
         protected override void Execute(Request request, Response response)
         {
-            TotalSteps(4);
-
-            var configuration = Step(
-                "Load configuration from disk",
-                request.InputFile.FullName,
-                request.ConfigurationFile?.FullName ?? string.Empty,
-                request.IncludeDirectories,
-                LoadConfiguration);
+            TotalSteps(3);
 
             var translationUnit = Step(
                 "Parse C code from disk",
                 request.InputFile.FullName,
-                configuration,
+                request.AutomaticallyFindSoftwareDevelopmentKit,
                 request.IncludeDirectories,
+                request.Defines,
+                request.ClangArgs,
                 Parse);
 
             var abstractSyntaxTreeC = Step(
@@ -44,28 +39,18 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 Write);
         }
 
-        private static Configuration LoadConfiguration(
-            string inputFilePath, string configurationFilePath, ImmutableArray<string> includeDirectories)
-        {
-            if (string.IsNullOrEmpty(configurationFilePath))
-            {
-                return new Configuration();
-            }
-
-            var fileContents = File.ReadAllText(configurationFilePath);
-            var configuration = JsonSerializer.Deserialize<Configuration>(fileContents)!;
-
-            return configuration;
-        }
-
         private static clang.CXTranslationUnit Parse(
-            string inputFilePath, Configuration configuration, ImmutableArray<string> includeDirectories)
+            string inputFilePath,
+            bool automaticallyFindSoftwareDevelopmentKit,
+            ImmutableArray<string> includeDirectories,
+            ImmutableArray<string> defines,
+            ImmutableArray<string> clangArguments)
         {
             var clangArgs = ClangArgumentsBuilder.Build(
-                configuration.AutomaticallyFindSoftwareDevelopmentKit,
+                automaticallyFindSoftwareDevelopmentKit,
                 includeDirectories,
-                configuration.Defines,
-                configuration.ClangArguments);
+                defines,
+                clangArguments);
             return ClangParser.ParseTranslationUnit(inputFilePath, clangArgs);
         }
 

@@ -32,7 +32,7 @@ namespace C2CS
 
 		private static Command CommandAbstractSyntaxTreeC()
 		{
-			var abstractSyntaxTreeCommand =
+			var command =
 				new Command("ast", "Dump the abstract syntax tree of a C `.h` file to a `.json` file.");
 
 			var inputFileOption = new Option<FileInfo>(
@@ -41,7 +41,7 @@ namespace C2CS
 			{
 				IsRequired = true
 			};
-			abstractSyntaxTreeCommand.AddOption(inputFileOption);
+			command.AddOption(inputFileOption);
 
 			var outputFileOption = new Option<FileInfo>(
 				new[] {"--outputFile", "-o"},
@@ -49,7 +49,15 @@ namespace C2CS
 			{
 				IsRequired = true
 			};
-			abstractSyntaxTreeCommand.AddOption(outputFileOption);
+			command.AddOption(outputFileOption);
+
+			var automaticallyFindSoftwareDevelopmentKitOption = new Option<IEnumerable<string>?>(
+				new[] {"--automaticallyFindSoftwareDevelopmentKit", "-f"},
+				"Find software development kit for C/C++ automatically. Default is true.")
+			{
+				IsRequired = false
+			};
+			command.AddOption(automaticallyFindSoftwareDevelopmentKitOption);
 
 			var includeDirectoriesOption = new Option<IEnumerable<string?>?>(
 				new[] {"--includeDirectories", "-s"},
@@ -57,7 +65,7 @@ namespace C2CS
 			{
 				IsRequired = false
 			};
-			abstractSyntaxTreeCommand.AddOption(includeDirectoriesOption);
+			command.AddOption(includeDirectoriesOption);
 
 			var ignoredFilesOption = new Option<IEnumerable<string?>?>(
 				new[] {"--ignoredFiles", "-g"},
@@ -65,7 +73,7 @@ namespace C2CS
 			{
 				IsRequired = false
 			};
-			abstractSyntaxTreeCommand.AddOption(ignoredFilesOption);
+			command.AddOption(ignoredFilesOption);
 
 			var opaqueTypesOption = new Option<IEnumerable<string?>?>(
 				new[] {"--opaqueTypes", "-p"},
@@ -73,16 +81,35 @@ namespace C2CS
 			{
 				IsRequired = false
 			};
-			abstractSyntaxTreeCommand.AddOption(opaqueTypesOption);
+			command.AddOption(opaqueTypesOption);
 
-			abstractSyntaxTreeCommand.Handler = CommandHandler.Create<
+			var definesOption = new Option<IEnumerable<string>?>(
+				new[] {"--defines", "-d"},
+				"Object-like macros to use when parsing C code.")
+			{
+				IsRequired = false
+			};
+			command.AddOption(definesOption);
+
+			var clangArgsOption = new Option<IEnumerable<string>?>(
+				new[] {"--clangArgs", "-a"},
+				"Additional Clang arguments to use when parsing C code.")
+			{
+				IsRequired = false
+			};
+			command.AddOption(clangArgsOption);
+
+			command.Handler = CommandHandler.Create<
 				FileInfo,
 				FileInfo,
+				bool?,
 				IEnumerable<string?>?,
 				IEnumerable<string?>?,
 				IEnumerable<string?>?,
-				FileInfo>(AbstractSyntaxTreeC);
-			return abstractSyntaxTreeCommand;
+				IEnumerable<string?>?,
+				IEnumerable<string?>?
+			>(AbstractSyntaxTreeC);
+			return command;
 		}
 
 		private static Command CommandBindgenCSharp()
@@ -129,13 +156,22 @@ namespace C2CS
 		private static void AbstractSyntaxTreeC(
 			FileInfo inputFile,
 			FileInfo outputFile,
+			bool? automaticallyFindSoftwareDevelopmentKit,
 			IEnumerable<string?>? includeDirectories,
 			IEnumerable<string?>? ignoredFiles,
 			IEnumerable<string?>? opaqueTypes,
-			FileInfo configurationFile)
+			IEnumerable<string?>? defines,
+			IEnumerable<string?>? clangArgs)
 		{
 			var request = new UseCases.AbstractSyntaxTreeC.Request(
-				inputFile, outputFile, includeDirectories, ignoredFiles, opaqueTypes, configurationFile);
+				inputFile,
+				outputFile,
+				automaticallyFindSoftwareDevelopmentKit,
+				includeDirectories,
+				ignoredFiles,
+				opaqueTypes,
+				defines,
+				clangArgs);
 			var useCase = new UseCases.AbstractSyntaxTreeC.UseCase();
 			useCase.Execute(request);
 		}
