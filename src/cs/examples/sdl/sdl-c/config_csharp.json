@@ -1,6 +1,4 @@
 {
-  "className": "SDL",
-  "libraryName": "SDL2",
   "aliases": [
     {
       "from": "SDL_bool",

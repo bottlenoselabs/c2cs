@@ -6420,12 +6420,6 @@ public static unsafe partial class SDL
     {
     }
 
-    // OpaqueType @ SDL_metal.h:44:15
-    [StructLayout(LayoutKind.Sequential)]
-    public struct SDL_MetalView
-    {
-    }
-
     // OpaqueType @ SDL_haptic.h:141:28
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_Haptic
@@ -6468,12 +6462,6 @@ public static unsafe partial class SDL
     {
     }
 
-    // OpaqueType @ SDL_video.h:202:15
-    [StructLayout(LayoutKind.Sequential)]
-    public struct SDL_GLContext
-    {
-    }
-
     // OpaqueType @ SDL_audio.h:780:33
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_AudioStream
@@ -6504,9 +6492,9 @@ public static unsafe partial class SDL
     {
     }
 
-    // OpaqueType @ SDL_stdinc.h:608:30
+    // OpaqueType @ SDL_stdinc.h:608:16
     [StructLayout(LayoutKind.Sequential)]
-    public struct SDL_iconv_t
+    public struct _SDL_iconv_t
     {
     }
 
@@ -6519,6 +6507,17 @@ public static unsafe partial class SDL
 
         public static implicit operator int(SDL_TimerID data) => data.Data;
         public static implicit operator SDL_TimerID(int data) => new() { Data = data };
+    }
+
+    // Typedef @ SDL_metal.h:44:15
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct SDL_MetalView
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
+
+        public static implicit operator void*(SDL_MetalView data) => data.Data;
+        public static implicit operator SDL_MetalView(void* data) => new() { Data = data };
     }
 
     // Typedef @ SDL_gesture.h:44:16
@@ -6587,6 +6586,17 @@ public static unsafe partial class SDL
         public static implicit operator SDL_SensorID(int data) => new() { Data = data };
     }
 
+    // Typedef @ SDL_video.h:202:15
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct SDL_GLContext
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
+
+        public static implicit operator void*(SDL_GLContext data) => data.Data;
+        public static implicit operator SDL_GLContext(void* data) => new() { Data = data };
+    }
+
     // Typedef @ SDL_audio.h:345:16
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct SDL_AudioDeviceID
@@ -6640,6 +6650,17 @@ public static unsafe partial class SDL
 
         public static implicit operator int(SDL_SpinLock data) => data.Data;
         public static implicit operator SDL_SpinLock(int data) => new() { Data = data };
+    }
+
+    // Typedef @ SDL_stdinc.h:608:30
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct SDL_iconv_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public _SDL_iconv_t* Data;
+
+        public static implicit operator _SDL_iconv_t*(SDL_iconv_t data) => data.Data;
+        public static implicit operator SDL_iconv_t(_SDL_iconv_t* data) => new() { Data = data };
     }
 
     // Typedef @ System

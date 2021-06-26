@@ -1169,7 +1169,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 throw new ClangExplorerException($"Type name was not found for '{kind}'.");
             }
 
-            return kind == CKind.Pointer ? $"{typeName}*" : typeName;
+            return typeName;
         }
 
         private ClangLocation Location(CXCursor cursor, CXType? type = null)

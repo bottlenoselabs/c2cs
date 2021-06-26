@@ -63,6 +63,8 @@ cs
 {rootDirectory}/src/cs/examples/sdl/sdl-cs/SDL.cs
 -c
 {Environment.CurrentDirectory}/config_csharp.json
+-l
+SDL2
 ";
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);

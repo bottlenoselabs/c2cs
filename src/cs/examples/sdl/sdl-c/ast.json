@@ -29634,14 +29634,6 @@
       }
     },
     {
-      "name": "SDL_MetalView",
-      "location": {
-        "file": "SDL_metal.h",
-        "line": 44,
-        "column": 15
-      }
-    },
-    {
       "name": "SDL_Haptic",
       "location": {
         "file": "SDL_haptic.h",
@@ -29698,14 +29690,6 @@
       }
     },
     {
-      "name": "SDL_GLContext",
-      "location": {
-        "file": "SDL_video.h",
-        "line": 202,
-        "column": 15
-      }
-    },
-    {
       "name": "SDL_AudioStream",
       "location": {
         "file": "SDL_audio.h",
@@ -29746,11 +29730,11 @@
       }
     },
     {
-      "name": "SDL_iconv_t",
+      "name": "_SDL_iconv_t",
       "location": {
         "file": "SDL_stdinc.h",
         "line": 608,
-        "column": 30
+        "column": 16
       }
     }
   ],
@@ -29789,6 +29773,15 @@
         "file": "SDL_stdinc.h",
         "line": 222,
         "column": 18
+      }
+    },
+    {
+      "name": "SDL_MetalView",
+      "underlyingType": "void*",
+      "location": {
+        "file": "SDL_metal.h",
+        "line": 44,
+        "column": 15
       }
     },
     {
@@ -29882,6 +29875,15 @@
       }
     },
     {
+      "name": "SDL_GLContext",
+      "underlyingType": "void*",
+      "location": {
+        "file": "SDL_video.h",
+        "line": 202,
+        "column": 15
+      }
+    },
+    {
       "name": "SDL_AudioDeviceID",
       "underlyingType": "Uint32",
       "location": {
@@ -29924,6 +29926,15 @@
         "file": "SDL_atomic.h",
         "line": 89,
         "column": 13
+      }
+    },
+    {
+      "name": "SDL_iconv_t",
+      "underlyingType": "_SDL_iconv_t*",
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 608,
+        "column": 30
       }
     },
     {
@@ -30294,7 +30305,7 @@
     },
     {
       "name": "Uint8[2]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 2,
       "alignOf": 1,
       "sizeOfElement": 1,
@@ -30580,7 +30591,7 @@
     },
     {
       "name": "Uint32[16]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 64,
       "alignOf": 4,
       "sizeOfElement": 4,
@@ -30626,7 +30637,7 @@
     },
     {
       "name": "SDL_MetalView",
-      "kind": "opaqueType",
+      "kind": "typedef",
       "sizeOf": 8,
       "alignOf": 8,
       "location": {
@@ -30703,7 +30714,7 @@
     },
     {
       "name": "SDL_MessageBoxColor[5]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 15,
       "alignOf": 1,
       "sizeOfElement": 3,
@@ -30930,7 +30941,7 @@
     },
     {
       "name": "Sint32[3]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 12,
       "alignOf": 4,
       "sizeOfElement": 4,
@@ -30979,7 +30990,7 @@
     },
     {
       "name": "Uint16[3]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 6,
       "alignOf": 2,
       "sizeOfElement": 2,
@@ -30992,7 +31003,7 @@
     },
     {
       "name": "Sint16[3]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 6,
       "alignOf": 2,
       "sizeOfElement": 2,
@@ -31373,7 +31384,7 @@
     },
     {
       "name": "Uint8[56]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 56,
       "alignOf": 1,
       "sizeOfElement": 1,
@@ -31457,7 +31468,7 @@
     },
     {
       "name": "float[6]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 24,
       "alignOf": 4,
       "sizeOfElement": 4,
@@ -31477,7 +31488,7 @@
     },
     {
       "name": "float[3]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 12,
       "alignOf": 4,
       "sizeOfElement": 4,
@@ -31486,7 +31497,7 @@
     },
     {
       "name": "char[32]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 32,
       "alignOf": 1,
       "sizeOfElement": 1,
@@ -31724,7 +31735,7 @@
     },
     {
       "name": "Uint8[16]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 16,
       "alignOf": 1,
       "sizeOfElement": 1,
@@ -31843,7 +31854,7 @@
     },
     {
       "name": "SDL_GLContext",
-      "kind": "opaqueType",
+      "kind": "typedef",
       "sizeOf": 8,
       "alignOf": 8,
       "location": {
@@ -32024,7 +32035,7 @@
     },
     {
       "name": "SDL_AudioFilter[10]",
-      "kind": "pointer",
+      "kind": "array",
       "sizeOf": 80,
       "alignOf": 8,
       "sizeOfElement": 8,
@@ -32365,7 +32376,7 @@
     },
     {
       "name": "SDL_iconv_t",
-      "kind": "opaqueType",
+      "kind": "typedef",
       "sizeOf": 8,
       "alignOf": 8,
       "location": {
@@ -32380,6 +32391,26 @@
       "sizeOf": 8,
       "alignOf": 8,
       "isSystem": true
+    },
+    {
+      "name": "_SDL_iconv_t*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 608,
+        "column": 16
+      }
+    },
+    {
+      "name": "_SDL_iconv_t",
+      "kind": "opaqueType",
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 608,
+        "column": 16
+      }
     },
     {
       "name": "long",
