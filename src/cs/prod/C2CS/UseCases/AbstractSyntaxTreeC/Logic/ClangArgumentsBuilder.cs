@@ -82,7 +82,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         private static void AddSystemIncludes(ImmutableArray<string>.Builder args)
         {
-            var runtime = Runtime.RuntimePlatform;
+            var runtime = Runtime.Platform;
             switch (runtime)
             {
                 case RuntimePlatform.Windows:

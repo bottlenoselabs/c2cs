@@ -92,7 +92,7 @@ namespace C2CS
             }
             else
             {
-                var platform = Runtime.RuntimePlatform;
+                var platform = Runtime.Platform;
                 if (platform == RuntimePlatform.Windows)
                 {
                     processStartInfo.FileName = "wsl";
@@ -127,7 +127,7 @@ namespace C2CS
 
             var cMakeCommand = "cmake -S . -B cmake-build-release -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release";
 
-            var platform = Runtime.RuntimePlatform;
+            var platform = Runtime.Platform;
             if (platform == RuntimePlatform.Windows)
             {
                 var toolchainFilePath = WindowsToLinuxPath($"{rootDirectory}/src/c/mingw-w64-x86_64.cmake");
@@ -152,8 +152,10 @@ namespace C2CS
                 return false;
             }
 
+            var runtimePlatform = Runtime.Platform;
+            var libraryFileNameExtension = Runtime.LibraryFileNameExtension(runtimePlatform);
             var outputFilePaths = Directory.EnumerateFiles(
-                outputDirectoryPath, $"*{Runtime.LibraryFileNameExtension}", SearchOption.AllDirectories);
+                outputDirectoryPath, $"*{libraryFileNameExtension}", SearchOption.AllDirectories);
             foreach (var outputFilePath in outputFilePaths)
             {
                 var targetFilePath = outputFilePath.Replace(outputDirectoryPath, targetLibraryDirectoryPath);

@@ -5,20 +5,6 @@
         <TargetFramework>net5.0</TargetFramework>
         <RootNamespace />
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</IsWindows>
-        <IsApple Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsApple>
-        <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
-    </PropertyGroup>
-    
-    <!-- Operating system settings -->
-    <PropertyGroup Condition="'$(IsWindows)'=='true'">
-        <DefineConstants>WINDOWS</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(IsApple)'=='true'">
-        <DefineConstants>APPLE</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(IsLinux)'=='true'">
-        <DefineConstants>LINUX</DefineConstants>
     </PropertyGroup>
 
     <!-- My-MSBuild project settings -->

@@ -93,7 +93,7 @@ jobs:
 
     - name: "Pack solution"
       if: matrix.os == 'ubuntu-latest'
-      run: dotnet pack '${{ env.SOLUTION_PATH }}' --nologo --output "./nuget-packages-packed" --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ env.VERSION }}'
+      run: dotnet pack '${{ env.SOLUTION_PATH }}' --nologo --output './nuget-packages-packed' --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ env.VERSION }}'
 
     - name: "Upload packages"
       if: matrix.os == 'ubuntu-latest'
@@ -113,14 +113,11 @@ jobs:
       with:
         dotnet-version: '${{ env.DOTNET_SDK_VERSION }}'
 
-    - name: "Download NuGet Packages"
+    - name: "Download Packages: Local"
       uses: actions/download-artifact@v1
       with:
         name: nuget-packages-packed
         path: './nuget-packages-packed'
-
-    - name: "Echo Packages"
-      run: find ./nuget-packages-packed/ -not -type d -exec basename {} \;
 
     - name: "Upload Packages: GitHub"
       run: dotnet nuget push './**/*.nupkg' --api-key '${{ secrets.GITHUB_TOKEN }}' --source 'https://nuget.pkg.github.com/${{ github.repository_owner }}' --skip-duplicate

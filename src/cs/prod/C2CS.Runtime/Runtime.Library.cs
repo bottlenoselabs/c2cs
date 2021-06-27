@@ -106,7 +106,10 @@ public static partial class Runtime
 
     private static string LibraryFilePath(string libraryName)
     {
-        var libraryFileName = $@"{LibraryFileNamePrefix}{libraryName}{LibraryFileNameExtension}";
+        var runtimePlatform = Platform;
+        var libraryFileNamePrefix = LibraryFileNamePrefix(runtimePlatform);
+        var libraryFileNameExtension = LibraryFileNameExtension(runtimePlatform);
+        var libraryFileName = $@"{libraryFileNamePrefix}{libraryName}{libraryFileNameExtension}";
 
         foreach (var searchDirectory in _nativeSearchDirectories)
         {
@@ -124,7 +127,10 @@ public static partial class Runtime
 
     private static void PrintLibraryLoadError(string libraryName)
     {
-        var libraryFileName = $@"{LibraryFileNamePrefix}{libraryName}{LibraryFileNameExtension}";
+        var runtimePlatform = Platform;
+        var libraryFileNamePrefix = LibraryFileNamePrefix(runtimePlatform);
+        var libraryFileNameExtension = LibraryFileNameExtension(runtimePlatform);
+        var libraryFileName = $@"{libraryFileNamePrefix}{libraryName}{libraryFileNameExtension}";
 
         Console.WriteLine($"Failed to load '{libraryFileName}'. Expected to find the library in one of the following paths:");
         foreach (var searchDirectory in _nativeSearchDirectories)

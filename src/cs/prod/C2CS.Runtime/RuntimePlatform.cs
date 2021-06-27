@@ -16,12 +16,12 @@ public enum RuntimePlatform
     Unknown = 0,
 
     /// <summary>
-    ///     Desktop versions of Windows on either 32-bit or 64-bit computing architecture.
+    ///     Desktop versions of Windows operating system on either 32-bit or 64-bit computing architecture.
     /// </summary>
     Windows = 1,
 
     /// <summary>
-    ///     Desktop versions of macOS on 64-bit computing architecture.
+    ///     Desktop versions of macOS operating system on 64-bit computing architecture.
     /// </summary>
     [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Product name.")]
     [SuppressMessage("StyleCop.Naming", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Product name.")]
@@ -33,21 +33,28 @@ public enum RuntimePlatform
     Linux = 3,
 
     /// <summary>
+    ///     Desktop versions of FreeBSD operating system on 64-bit computing architecture.
+    /// </summary>
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Product name.")]
+    [SuppressMessage("StyleCop.Naming", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Product name.")]
+    FreeBSD = 4,
+
+    /// <summary>
     ///     Mobile versions of Android on 64-bit computing architecture.
     /// </summary>
-    Android = 4,
+    Android = 5,
 
     /// <summary>
     ///     Mobile versions of iOS (Apple) on 64-bit computing architecture.
     /// </summary>
     [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Product name.")]
     [SuppressMessage("StyleCop.Naming", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Product name.")]
-    iOS = 5,
+    iOS = 6,
 
     /// <summary>
     ///     Versions of WebAssembly (64-bit) on some WASI (WebAssembly System Interface) compliant host program such as a modern web browser.
     /// </summary>
-    Web,
+    Web = 7,
 
     // TODO: tvOS, RaspberryPi, WebAssembly, PlayStation4, PlayStationVita, Switch etc
 }
