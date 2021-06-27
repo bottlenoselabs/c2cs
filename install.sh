@@ -1,3 +1,7 @@
+#!/bin/bash
+
+tmp_file=$(mktemp)
+cat > $tmp_file <<EOF
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
     <packageSources>
@@ -11,3 +15,6 @@
         </github>
     </packageSourceCredentials>
 </configuration>
+EOF
+dotnet tool install C2CS --global --version "*-*" --configfile $tmp_file
+rm -rf $tmp_file
