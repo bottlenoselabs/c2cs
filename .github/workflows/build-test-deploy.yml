@@ -128,7 +128,7 @@ jobs:
       run: dotnet publish './src/cs/prod/C2CS/C2CS.csproj' -o './publish/${{ matrix.rid }}' -c Release -r ${{ matrix.rid }} -p:PublishSingleFile=true /p:DebugType=embedded /p:SelfContained=false /p:CopyLocalLockFileAssemblies=true
 
     - name: "Echo"
-      run: ls -a ./publish
+      run: ls -a ./**/*
 
     - name: "Upload build artifacts"
       uses: actions/upload-artifact@v2
