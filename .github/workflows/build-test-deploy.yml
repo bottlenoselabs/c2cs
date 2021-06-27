@@ -62,16 +62,18 @@ jobs:
       with:
         name: nuget-version
 
-    - name: "Read Version"
+    - name: "Read version artifact"
       id: version
       shell: bash
       run: |
         echo "VERSION=$(cat nuget-version.txt)" >> $GITHUB_ENV
-    - name: "Print Version"
+
+    - name: "Print version artifact"
       shell: bash
       run: |
         echo $VERSION
-    - name: "Checkout repository"
+
+    - name: "Clone Git repository"
       uses: actions/checkout@master
       with:
         submodules: true
@@ -129,10 +131,10 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ${{ matrix.rid }}
-        path: './${{ matrix.rid }}/*/**'
+        path: './publish/${{ matrix.rid }}/*/**'
 
-  deploy-job:
-    name: "Deploy"
+  deploy-packages-job:
+    name: "Deploy packages"
     needs: [build-test-pack-job, publish-job]
     runs-on: ubuntu-latest
     steps:
@@ -142,11 +144,11 @@ jobs:
       with:
         dotnet-version: '${{ env.DOTNET_SDK_VERSION }}'
 
-    - name: "Download Packages: Local"
+    - name: "Download packages: Local"
       uses: actions/download-artifact@v1
       with:
         name: nuget-packages-packed
         path: './nuget-packages-packed'
 
-    - name: "Upload Packages: GitHub"
+    - name: "Upload packages: GitHub"
       run: dotnet nuget push './**/*.nupkg' --api-key '${{ secrets.GITHUB_TOKEN }}' --source 'https://nuget.pkg.github.com/${{ github.repository_owner }}' --skip-duplicate
