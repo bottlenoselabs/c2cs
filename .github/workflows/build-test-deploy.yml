@@ -125,7 +125,10 @@ jobs:
         dotnet-version: '${{ env.DOTNET_SDK_VERSION }}'
 
     - name: "Build .NET application"
-      run: dotnet publish './src/cs/prod/C2CS/C2CS.csproj' -o './publish/${{ matrix.rid }}' -c Release -r ${{ matrix.rid }} -p:PublishSingleFile=true /p:DebugType=embedded /p:SelfContained=false
+      run: dotnet publish './src/cs/prod/C2CS/C2CS.csproj' -o './publish/${{ matrix.rid }}' -c Release -r ${{ matrix.rid }} -p:PublishSingleFile=true /p:DebugType=embedded /p:SelfContained=false /p:CopyLocalLockFileAssemblies=true
+
+    - name: "Echo"
+      run: ls -a ./publish
 
     - name: "Upload build artifacts"
       uses: actions/upload-artifact@v2
