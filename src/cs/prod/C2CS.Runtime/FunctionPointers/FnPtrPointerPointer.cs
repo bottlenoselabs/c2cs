@@ -5,11 +5,14 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 
-[StructLayout(LayoutKind.Sequential)]
-[PublicAPI]
-[SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
-[SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
-public struct FnPtrPointerPointer
+namespace C2CS
 {
-    public unsafe delegate* unmanaged<void*, void*> Pointer;
+    [StructLayout(LayoutKind.Sequential)]
+    [PublicAPI]
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
+    [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
+    public struct FnPtrPointerPointer
+    {
+        public unsafe delegate* unmanaged<void*, void*> Pointer;
+    }
 }

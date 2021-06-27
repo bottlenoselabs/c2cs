@@ -5,10 +5,13 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 
-[StructLayout(LayoutKind.Sequential)]
-[PublicAPI]
-[SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
-[SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
-public struct DIR
+namespace C2CS
 {
+    [StructLayout(LayoutKind.Sequential)]
+    [PublicAPI]
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
+    [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
+    public struct DIR
+    {
+    }
 }

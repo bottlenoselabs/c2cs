@@ -6,23 +6,26 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 
-/// <summary>
-///     Process identifier.
-/// </summary>
-[StructLayout(LayoutKind.Sequential)]
-[PublicAPI]
-[SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
-[SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
-public struct pid_t
+namespace C2CS
 {
     /// <summary>
-    ///     The identifier value.
+    ///     Process identifier.
     /// </summary>
-    public uint Value;
+    [StructLayout(LayoutKind.Sequential)]
+    [PublicAPI]
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
+    [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
+    public struct pid_t
+    {
+        /// <summary>
+        ///     The identifier value.
+        /// </summary>
+        public uint Value;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static implicit operator uint(pid_t value) => value.Value;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator uint(pid_t value) => value.Value;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static implicit operator pid_t(uint value) => new() {Value = value};
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator pid_t(uint value) => new() {Value = value};
+    }
 }

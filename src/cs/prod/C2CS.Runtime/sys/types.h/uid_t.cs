@@ -6,23 +6,26 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 
-/// <summary>
-///     User identifier.
-/// </summary>
-[StructLayout(LayoutKind.Sequential)]
-[PublicAPI]
-[SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
-[SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
-public struct uid_t
+namespace C2CS
 {
     /// <summary>
-    ///     The identifier value.
+    ///     User identifier.
     /// </summary>
-    public uint Value;
+    [StructLayout(LayoutKind.Sequential)]
+    [PublicAPI]
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
+    [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
+    public struct uid_t
+    {
+        /// <summary>
+        ///     The identifier value.
+        /// </summary>
+        public uint Value;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static implicit operator uint(uid_t value) => value.Value;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator uint(uid_t value) => value.Value;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static implicit operator uid_t(uint value) => new() {Value = value};
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator uid_t(uint value) => new() {Value = value};
+    }
 }

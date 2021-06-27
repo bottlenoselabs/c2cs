@@ -4,29 +4,31 @@
 using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 
-/// <summary>
-///     Socket address families.
-/// </summary>
-[PublicAPI]
-[SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
-[SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
-public enum sa_family_t : byte
+namespace C2CS
 {
     /// <summary>
-    ///     Unspecified.
+    ///     Socket address families.
     /// </summary>
-    AF_UNSPEC = 0,
+    [PublicAPI]
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
+    [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
+    public enum sa_family_t : byte
+    {
+        /// <summary>
+        ///     Unspecified.
+        /// </summary>
+        AF_UNSPEC = 0,
 
-    /// <summary>
-    ///     IP (Internet Protocol) version 4. Used for both UDP (User Datagram Protocol) and TCP (Transmission Control
-    ///     Protocol) transport layers.
-    /// </summary>
-    AF_INET = 2,
+        /// <summary>
+        ///     IP (Internet Protocol) version 4. Used for both UDP (User Datagram Protocol) and TCP (Transmission Control
+        ///     Protocol) transport layers.
+        /// </summary>
+        AF_INET = 2,
 
-    /// <summary>
-    ///     IP (Internet Protocol) version 6. Used for both UDP (User Datagram Protocol) and TCP (Transmission Control
-    ///     Protocol) transport layers.
-    /// </summary>
+        /// <summary>
+        ///     IP (Internet Protocol) version 6. Used for both UDP (User Datagram Protocol) and TCP (Transmission Control
+        ///     Protocol) transport layers.
+        /// </summary>
 #if WINDOWS
     AF_INET6 = 23
 #elif APPLE
@@ -34,4 +36,5 @@ public enum sa_family_t : byte
 #elif LINUX
     AF_INET6 = 10
 #endif
+    }
 }

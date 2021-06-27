@@ -2,35 +2,30 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
-using System.Runtime.InteropServices;
-#if NETCOREAPP
 using System.Runtime.CompilerServices;
-#endif
+using System.Runtime.InteropServices;
 
-public static unsafe partial class Runtime
+namespace C2CS
 {
-    public static void* AllocateMemory(int byteCount)
+    public static unsafe partial class Runtime
     {
-        var result = Marshal.AllocHGlobal(byteCount);
-        return (void*) result;
-    }
+        public static void* AllocateMemory(int byteCount)
+        {
+            var result = Marshal.AllocHGlobal(byteCount);
+            return (void*) result;
+        }
 
-    public static void FreeMemory(void* pointer)
-    {
-        Marshal.FreeHGlobal((IntPtr) pointer);
-    }
+        public static void FreeMemory(void* pointer)
+        {
+            Marshal.FreeHGlobal((IntPtr) pointer);
+        }
 
-    public static T ReadMemory<T>(IntPtr address)
-    	where T : unmanaged
-    {
-        var source = (void*) address;
-
-#if NETCOREAPP
-        var result = Unsafe.ReadUnaligned<T>(source);
-#else
-        throw new NotImplementedException();
-#endif
-
-        return result;
+        public static T ReadMemory<T>(IntPtr address)
+            where T : unmanaged
+        {
+            var source = (void*) address;
+            var result = Unsafe.ReadUnaligned<T>(source);
+            return result;
+        }
     }
 }

@@ -3,69 +3,71 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 
-[StructLayout(LayoutKind.Sequential)]
-[PublicAPI]
-[SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
-[SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
-public readonly unsafe struct CString
+namespace C2CS
 {
-    internal readonly IntPtr _value;
-
-    public bool IsNull => _value == IntPtr.Zero;
-
-    public CString(byte* value)
+    [StructLayout(LayoutKind.Sequential)]
+    [PublicAPI]
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
+    [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
+    public readonly unsafe struct CString
     {
-        _value = (IntPtr) value;
-    }
+        internal readonly IntPtr _value;
 
-    public CString(IntPtr value)
-    {
-        _value = value;
-    }
+        public bool IsNull => _value == IntPtr.Zero;
 
-    public CString(string s)
-    {
-        _value = Runtime.CString(s);
-    }
+        public CString(byte* value)
+        {
+            _value = (IntPtr) value;
+        }
 
-    public static explicit operator CString(IntPtr ptr)
-    {
-        return new(ptr);
-    }
+        public CString(IntPtr value)
+        {
+            _value = value;
+        }
 
-    public static implicit operator CString(byte* value)
-    {
-        return new((IntPtr)value);
-    }
+        public CString(string s)
+        {
+            _value = Runtime.CString(s);
+        }
 
-    public static implicit operator IntPtr(CString ptr)
-    {
-        return ptr._value;
-    }
+        public static explicit operator CString(IntPtr ptr)
+        {
+            return new(ptr);
+        }
 
-    public static implicit operator string(CString ptr)
-    {
-        return Runtime.String(ptr);
-    }
+        public static implicit operator CString(byte* value)
+        {
+            return new((IntPtr)value);
+        }
 
-    public static implicit operator CString(string str)
-    {
-        return Runtime.CString(str);
-    }
+        public static implicit operator IntPtr(CString ptr)
+        {
+            return ptr._value;
+        }
 
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return (int)Runtime.djb2((byte*) _value);
-    }
+        public static implicit operator string(CString ptr)
+        {
+            return Runtime.String(ptr);
+        }
 
-    /// <inheritdoc />
-    public override string ToString()
-    {
-        return Runtime.String(this);
+        public static implicit operator CString(string str)
+        {
+            return Runtime.CString(str);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return (int)Runtime.djb2((byte*) _value);
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return Runtime.String(this);
+        }
     }
 }

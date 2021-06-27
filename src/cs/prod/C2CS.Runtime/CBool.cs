@@ -6,47 +6,50 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 
-/// <summary>
-///     A boolean value type with the same memory layout as a <see cref="byte" /> in both managed and unmanaged contexts;
-///     equivalent to a standard bool found in C/C++/ObjC where <c>0</c> is <c>false</c> and any other value is
-///     <c>true</c>.
-/// </summary>
-[StructLayout(LayoutKind.Sequential)]
-[PublicAPI]
-[SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
-[SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
-public readonly struct CBool
+namespace C2CS
 {
-    private readonly byte _value;
-
-    private CBool(bool value)
-    {
-        _value = Convert.ToByte(value);
-    }
-
     /// <summary>
-    ///     Converts the specified <see cref="bool" /> to a <see cref="CBool" />.
+    ///     A boolean value type with the same memory layout as a <see cref="byte" /> in both managed and unmanaged contexts;
+    ///     equivalent to a standard bool found in C/C++/ObjC where <c>0</c> is <c>false</c> and any other value is
+    ///     <c>true</c>.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>A <see cref="CBool" />.</returns>
-    public static implicit operator CBool(bool value)
+    [StructLayout(LayoutKind.Sequential)]
+    [PublicAPI]
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
+    [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
+    public readonly struct CBool
     {
-        return new(value);
-    }
+        private readonly byte _value;
 
-    /// <summary>
-    ///     Converts the specified <see cref="CBool" /> to a <see cref="bool" />.
-    /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>A <see cref="bool" />.</returns>
-    public static implicit operator bool(CBool value)
-    {
-        return Convert.ToBoolean(value._value);
-    }
+        private CBool(bool value)
+        {
+            _value = Convert.ToByte(value);
+        }
 
-    /// <inheritdoc />
-    public override string ToString()
-    {
-        return Convert.ToBoolean(_value).ToString();
+        /// <summary>
+        ///     Converts the specified <see cref="bool" /> to a <see cref="CBool" />.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>A <see cref="CBool" />.</returns>
+        public static implicit operator CBool(bool value)
+        {
+            return new(value);
+        }
+
+        /// <summary>
+        ///     Converts the specified <see cref="CBool" /> to a <see cref="bool" />.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>A <see cref="bool" />.</returns>
+        public static implicit operator bool(CBool value)
+        {
+            return Convert.ToBoolean(value._value);
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return Convert.ToBoolean(_value).ToString();
+        }
     }
 }

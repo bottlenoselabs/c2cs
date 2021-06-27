@@ -11,23 +11,26 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 
-/// <summary>
-///     Unsigned integer type for sockets.
-/// </summary>
-[StructLayout(LayoutKind.Sequential)] // size = 4
-[PublicAPI]
-[SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
-[SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
-public struct socklen_t
+namespace C2CS
 {
     /// <summary>
-    ///     The underlying value.
+    ///     Unsigned integer type for sockets.
     /// </summary>
-    public uint Value;
+    [StructLayout(LayoutKind.Sequential)] // size = 4
+    [PublicAPI]
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
+    [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
+    public struct socklen_t
+    {
+        /// <summary>
+        ///     The underlying value.
+        /// </summary>
+        public uint Value;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static implicit operator uint(socklen_t value) => value.Value;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator uint(socklen_t value) => value.Value;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static implicit operator socklen_t(uint value) => new() {Value = value};
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator socklen_t(uint value) => new() {Value = value};
+    }
 }

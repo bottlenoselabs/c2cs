@@ -68,6 +68,7 @@ namespace C2CS.UseCases.BindgenCSharp
 using System;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using C2CS;
 
 #nullable enable
 

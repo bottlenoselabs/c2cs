@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using C2CS;
 using static flecs;
 
 internal static unsafe class Program
