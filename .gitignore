@@ -14,6 +14,7 @@ cmake-build*/
 bin/
 obj/
 nupkg/
+publish/
 
 # C build artifacts
 lib/

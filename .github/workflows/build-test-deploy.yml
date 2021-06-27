@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: "Checkout Git repository"
+    - name: "Clone Git repository"
       uses: actions/checkout@v2
       with:
         submodules: 'true'
@@ -83,17 +83,21 @@ jobs:
         dotnet-version: '${{ env.DOTNET_SDK_VERSION }}'
 
     - name: "Clean solution"
-      run: dotnet clean '${{ env.SOLUTION_PATH }}' --configuration Release && dotnet nuget locals all --clear
+      run: |
+      dotnet clean '${{ env.SOLUTION_PATH }}' --configuration Release && dotnet nuget locals all --clear
 
     - name: "Build solution"
-      run: dotnet build '${{ env.SOLUTION_PATH }}' --nologo --verbosity minimal --configuration Release /p:Version='${{ env.VERSION }}'
+      run: |
+      dotnet build '${{ env.SOLUTION_PATH }}' --nologo --verbosity minimal --configuration Release /p:Version='${{ env.VERSION }}'
 
     - name: "Test solution"
-      run: dotnet test '${{ env.SOLUTION_PATH }}' --nologo --verbosity normal --configuration Release --no-build
+      run: |
+      dotnet test '${{ env.SOLUTION_PATH }}' --nologo --verbosity normal --configuration Release --no-build
 
     - name: "Pack solution"
       if: matrix.os == 'ubuntu-latest'
-      run: dotnet pack '${{ env.SOLUTION_PATH }}' --nologo --output './nuget-packages-packed' --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ env.VERSION }}'
+      run: |
+      dotnet pack '${{ env.SOLUTION_PATH }}' --nologo --output './nuget-packages-packed' --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ env.VERSION }}'
 
     - name: "Upload packages"
       if: matrix.os == 'ubuntu-latest'
@@ -102,9 +106,39 @@ jobs:
         name: nuget-packages-packed
         path: './nuget-packages-packed/*/**'
 
+  publish-job:
+    name: "Publish"
+    needs: [build-test-pack-job]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        rid: [win-x64, linux-x64, osx-x64]
+
+    steps:
+
+    - name: "Clone Git repository"
+      uses: actions/checkout@v2
+      with:
+        submodules: 'true'
+
+    - name: "Install .NET"
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '${{ env.DOTNET_SDK_VERSION }}'
+
+    - name: "Build .NET application"
+      run: |
+      dotnet publish './src/cs/prod/C2CS/C2CS.csproj' -o './publish/${{ matrix.rid }}' -c Release -r ${{ matrix.rid }} -p:PublishSingleFile=true /p:DebugType=embedded /p:SelfContained=false
+
+    - name: "Upload build artifacts"
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ matrix.rid }}
+        path: './${{ matrix.rid }}/*/**'
+
   deploy-job:
     name: "Deploy"
-    needs: [build-test-pack-job]
+    needs: [build-test-pack-job, publish-job]
     runs-on: ubuntu-latest
     steps:
 
