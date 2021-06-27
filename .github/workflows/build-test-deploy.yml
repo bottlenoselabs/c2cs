@@ -5,6 +5,8 @@ env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_SDK_VERSION: 5.0.301
   SOLUTION_PATH: './src/cs/C2CS.sln'
+  MYGET_ACCESS_TOKEN: ${{ secrets.MYGET_ACCESS_TOKEN }}
+  MYGET_SOURCE_URL: 'https://www.myget.org/F/lithiumtoast/api/v3/index.json'
 
 on:
   push:
@@ -152,3 +154,9 @@ jobs:
 
     - name: "Upload packages: GitHub"
       run: dotnet nuget push './**/*.nupkg' --api-key '${{ secrets.GITHUB_TOKEN }}' --source 'https://nuget.pkg.github.com/${{ github.repository_owner }}' --skip-duplicate
+
+    - name: "Add packages source: MyGet"
+      run: dotnet nuget add source $MYGET_SOURCE_URL --name "MyGet"
+ 
+    - name: "Upload [ackages: MyGet"
+      run: dotnet nuget push "./**/*.nupkg" --source "MyGet" --skip-duplicate --api-key $MYGET_ACCESS_TOKEN
