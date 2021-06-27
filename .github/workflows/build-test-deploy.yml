@@ -128,7 +128,7 @@ jobs:
       run: dotnet clean '${{ env.SOLUTION_PATH }}' --configuration Release && dotnet nuget locals all --clear
 
     - name: "Build .NET application"
-      run: dotnet publish './src/cs/prod/C2CS/C2CS.csproj' -o './publish/${{ matrix.rid }}' -c Release -r ${{ matrix.rid }} -p:PublishSingleFile=true /p:DebugType=embedded /p:SelfContained=false /p:CopyLocalLockFileAssemblies=true
+      run: dotnet publish './src/cs/prod/C2CS/C2CS.csproj' -o './publish/${{ matrix.rid }}' -c Release -r ${{ matrix.rid }} -p:PublishSingleFile=true /p:DebugType=embedded /p:SelfContained=false /p:IncludeNativeLibrariesForSelfExtract=true
 
     - name: "Echo"
       run: ls -a ./publish/**/*

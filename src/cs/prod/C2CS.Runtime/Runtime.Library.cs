@@ -84,23 +84,28 @@ public static partial class Runtime
         // For security purposes we don't allow loading a library by just any path;
         //  use NATIVE_DLL_SEARCH_DIRECTORIES instead.
         // https://docs.microsoft.com/en-us/dotnet/core/dependency-loading/default-probing#unmanaged-native-library-probing
-        var nativeSearchDirectoriesObject = AppContext.GetData("NATIVE_DLL_SEARCH_DIRECTORIES");
-        if (nativeSearchDirectoriesObject == null)
+        if (AppContext.GetData("NATIVE_DLL_SEARCH_DIRECTORIES") is string nativeSearchDirectoriesString)
         {
-            var nativeSearchDirectoriesString = (string) nativeSearchDirectoriesObject!;
             var nativeSearchDirectoryStrings = // delimiter is `;` on Windows; otherwise delimiter is `:`
-                nativeSearchDirectoriesString.Split(new[] {':', ';'}, StringSplitOptions.RemoveEmptyEntries);
+                nativeSearchDirectoriesString!.Split(new[] {':', ';'}, StringSplitOptions.RemoveEmptyEntries);
             _nativeSearchDirectories = nativeSearchDirectoryStrings.ToImmutableArray();
+
+            var shouldPrint = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("PRINT_NATIVE_DLL_SEARCH_DIRECTORIES"));
+            if (!shouldPrint)
+            {
+                return;
+            }
+
+            Console.WriteLine("NATIVE_DLL_SEARCH_DIRECTORIES:");
+            foreach (var directory in _nativeSearchDirectories)
+            {
+                Console.WriteLine($"\t{directory}");
+            }
         }
         else
         {
-            // This case can happen if we are not single file publishing or AOT, such as normal .NET debug/release run
-            _nativeSearchDirectories = ImmutableArray.Create(
-                AppContext.BaseDirectory,
-                // TRICK: Since we are always finding the native library by complete file path we can get away with this
-                Path.Combine(AppContext.BaseDirectory, "runtimes", "win-x64", "native"),
-                Path.Combine(AppContext.BaseDirectory, "runtimes", "osx-x64", "native"),
-                Path.Combine(AppContext.BaseDirectory, "runtimes", "ubuntu.16.04-x64", "native"));
+            // This case should not happen
+            _nativeSearchDirectories = ImmutableArray.Create(AppContext.BaseDirectory);
         }
     }
 
