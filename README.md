@@ -1,6 +1,6 @@
 # C2CS
 
-C to C# dynamic library bindings code generator. In go `.h` file, out come `.cs`.
+C to C# dynamic library bindings code generator. In go `.h` file, out come `.cs` file.
 
 ## Install
 
