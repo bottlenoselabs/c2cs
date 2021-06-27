@@ -97,22 +97,13 @@ jobs:
 
     - name: ".NET runtime identifier (Linux)"
       if: matrix.os == 'ubuntu-latest'
-      run: echo "DOTNET_RID=linux-x64" >> $GITHUB_ENV
+      run: echo "DOTNET_RID=ubuntu.20.04-x64" >> $GITHUB_ENV
 
     - name: "Build solution"
       run: dotnet build '${{ env.SOLUTION_PATH }}' --nologo --verbosity minimal --configuration Release /p:Version='${{ env.VERSION }}'
 
     - name: "Test solution"
       run: dotnet test '${{ env.SOLUTION_PATH }}' --nologo --verbosity normal --configuration Release --no-build
-
-    - name: "Build C2CS"
-      run: dotnet publish './src/cs/prod/C2CS/C2CS.csproj' -o './publish/${{ env.DOTNET_RID }}' -c Release -r ${{ env.DOTNET_RID }} -p:PublishSingleFile=true /p:DebugType=embedded /p:SelfContained=false /p:IncludeNativeLibrariesForSelfExtract=true
-
-    - name: "Upload C2CS build artifacts"
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ env.DOTNET_RID }}
-        path: './publish/${{ env.DOTNET_RID }}/*'
 
     - name: "Pack solution"
       if: matrix.os == 'ubuntu-latest' # Packages are agnostic
@@ -125,6 +116,14 @@ jobs:
         name: nuget-packages
         path: './nuget-packages/*/**'
 
+    - name: "Build C2CS"
+      run: dotnet publish './src/cs/prod/C2CS/C2CS.csproj' -o './publish/${{ env.DOTNET_RID }}' -c Release -r ${{ env.DOTNET_RID }} -p:PublishSingleFile=true /p:DebugType=embedded /p:SelfContained=false /p:IncludeNativeLibrariesForSelfExtract=true
+
+    - name: "Upload C2CS build artifacts"
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.DOTNET_RID }}
+        path: './publish/${{ env.DOTNET_RID }}/*'
 
   deploy-job:
     name: "Deploy"
