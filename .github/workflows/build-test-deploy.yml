@@ -89,13 +89,11 @@ jobs:
       run: dotnet build '${{ env.SOLUTION_PATH }}' --nologo --verbosity minimal --configuration Release /p:Version='${{ env.VERSION }}'
 
     - name: "Test solution"
-      run: |
-      dotnet test '${{ env.SOLUTION_PATH }}' --nologo --verbosity normal --configuration Release --no-build
+      run: dotnet test '${{ env.SOLUTION_PATH }}' --nologo --verbosity normal --configuration Release --no-build
 
     - name: "Pack solution"
       if: matrix.os == 'ubuntu-latest'
-      run: |
-      dotnet pack '${{ env.SOLUTION_PATH }}' --nologo --output './nuget-packages-packed' --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ env.VERSION }}'
+      run: dotnet pack '${{ env.SOLUTION_PATH }}' --nologo --output './nuget-packages-packed' --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ env.VERSION }}'
 
     - name: "Upload packages"
       if: matrix.os == 'ubuntu-latest'
