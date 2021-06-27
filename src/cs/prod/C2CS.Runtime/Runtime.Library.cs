@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Immutable;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -67,7 +68,13 @@ namespace C2CS
             if (AppContext.GetData("NATIVE_DLL_SEARCH_DIRECTORIES") is string nativeSearchDirectoriesString)
             {
                 var nativeSearchDirectoryStrings = // delimiter is `;` on Windows; otherwise delimiter is `:`
-                    nativeSearchDirectoriesString!.Split(new[] {':', ';'}, StringSplitOptions.RemoveEmptyEntries);
+                    nativeSearchDirectoriesString!.Split(new[] {':', ';'}, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                if (!nativeSearchDirectoryStrings.Contains(AppContext.BaseDirectory))
+                {
+                    nativeSearchDirectoryStrings.Add(AppContext.BaseDirectory);
+                }
+
                 _nativeSearchDirectories = nativeSearchDirectoryStrings.ToImmutableArray();
 
                 var shouldPrint = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("PRINT_NATIVE_DLL_SEARCH_DIRECTORIES"));
