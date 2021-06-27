@@ -83,12 +83,10 @@ jobs:
         dotnet-version: '${{ env.DOTNET_SDK_VERSION }}'
 
     - name: "Clean solution"
-      run: |
-      dotnet clean '${{ env.SOLUTION_PATH }}' --configuration Release && dotnet nuget locals all --clear
+      run: dotnet clean '${{ env.SOLUTION_PATH }}' --configuration Release && dotnet nuget locals all --clear
 
     - name: "Build solution"
-      run: |
-      dotnet build '${{ env.SOLUTION_PATH }}' --nologo --verbosity minimal --configuration Release /p:Version='${{ env.VERSION }}'
+      run: dotnet build '${{ env.SOLUTION_PATH }}' --nologo --verbosity minimal --configuration Release /p:Version='${{ env.VERSION }}'
 
     - name: "Test solution"
       run: |
