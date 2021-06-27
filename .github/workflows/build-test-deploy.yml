@@ -95,14 +95,14 @@ jobs:
 
     - name: "Pack solution"
       if: matrix.os == 'ubuntu-latest'
-      run: dotnet pack '${{ env.SOLUTION_PATH }}' --nologo --output './nuget-packages-packed' --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ env.VERSION }}'
+      run: dotnet pack '${{ env.SOLUTION_PATH }}' --nologo --output './nuget-packages' --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ env.VERSION }}'
 
     - name: "Upload packages"
       if: matrix.os == 'ubuntu-latest'
       uses: actions/upload-artifact@v2
       with:
-        name: nuget-packages-packed
-        path: './nuget-packages-packed/*/**'
+        name: nuget-packages
+        path: './nuget-packages/*/**'
 
   publish-job:
     name: "Publish"
@@ -127,11 +127,14 @@ jobs:
     - name: "Build .NET application"
       run: dotnet publish './src/cs/prod/C2CS/C2CS.csproj' -o './publish/${{ matrix.rid }}' -c Release -r ${{ matrix.rid }} -p:PublishSingleFile=true /p:DebugType=embedded /p:SelfContained=false
 
+    - name: "Archive build artifacts"
+      run: zip -r './${{ matrix.rid }}.zip' './publish/${{ matrix.rid }}'
+
     - name: "Upload build artifacts"
       uses: actions/upload-artifact@v2
       with:
         name: ${{ matrix.rid }}
-        path: './publish/${{ matrix.rid }}/*/**'
+        path: './${{ matrix.rid }}.zip'
 
   deploy-packages-job:
     name: "Deploy packages"
@@ -148,7 +151,7 @@ jobs:
       uses: actions/download-artifact@v1
       with:
         name: nuget-packages-packed
-        path: './nuget-packages-packed'
+        path: './nuget-packages'
 
     - name: "Upload packages: GitHub"
       run: dotnet nuget push './**/*.nupkg' --api-key '${{ secrets.GITHUB_TOKEN }}' --source 'https://nuget.pkg.github.com/${{ github.repository_owner }}' --skip-duplicate
