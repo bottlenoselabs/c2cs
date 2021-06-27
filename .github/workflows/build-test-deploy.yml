@@ -87,14 +87,35 @@ jobs:
     - name: "Clean solution"
       run: dotnet clean '${{ env.SOLUTION_PATH }}' --configuration Release && dotnet nuget locals all --clear
 
+    - name: ".NET runtime identifier (Windows)"
+      if: matrix.os == 'windows-latest'
+      run: echo "DOTNET_RID=win-x64" >> $GITHUB_ENV
+
+    - name: ".NET runtime identifier (macOS)"
+      if: matrix.os == 'macos-latest'
+      run: echo "DOTNET_RID=osx-x64" >> $GITHUB_ENV
+
+    - name: ".NET runtime identifier (Linux)"
+      if: matrix.os == 'ubuntu-latest'
+      run: echo "DOTNET_RID=linux-x64" >> $GITHUB_ENV
+
     - name: "Build solution"
       run: dotnet build '${{ env.SOLUTION_PATH }}' --nologo --verbosity minimal --configuration Release /p:Version='${{ env.VERSION }}'
 
     - name: "Test solution"
       run: dotnet test '${{ env.SOLUTION_PATH }}' --nologo --verbosity normal --configuration Release --no-build
 
+    - name: "Build C2CS"
+      run: dotnet publish './src/cs/prod/C2CS/C2CS.csproj' -o './publish/${{ env.DOTNET_RID }}' -c Release -r ${{ env.DOTNET_RID }} -p:PublishSingleFile=true /p:DebugType=embedded /p:SelfContained=false /p:IncludeNativeLibrariesForSelfExtract=true
+
+    - name: "Upload C2CS build artifacts"
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.DOTNET_RID }}
+        path: './publish/${{ env.DOTNET_RID }}/*'
+
     - name: "Pack solution"
-      if: matrix.os == 'ubuntu-latest'
+      if: matrix.os == 'ubuntu-latest' # Packages are agnostic
       run: dotnet pack '${{ env.SOLUTION_PATH }}' --nologo --output './nuget-packages' --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ env.VERSION }}'
 
     - name: "Upload packages"
@@ -104,44 +125,10 @@ jobs:
         name: nuget-packages
         path: './nuget-packages/*/**'
 
-  publish-job:
-    name: "Publish"
+
+  deploy-job:
+    name: "Deploy"
     needs: [build-test-pack-job]
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        rid: [win-x64, linux-x64, osx-x64]
-
-    steps:
-
-    - name: "Clone Git repository"
-      uses: actions/checkout@v2
-      with:
-        submodules: 'true'
-
-    - name: "Install .NET"
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '${{ env.DOTNET_SDK_VERSION }}'
-
-    - name: "Clean solution"
-      run: dotnet clean '${{ env.SOLUTION_PATH }}' --configuration Release && dotnet nuget locals all --clear
-
-    - name: "Build .NET application"
-      run: dotnet publish './src/cs/prod/C2CS/C2CS.csproj' -o './publish/${{ matrix.rid }}' -c Release -r ${{ matrix.rid }} -p:PublishSingleFile=true /p:DebugType=embedded /p:SelfContained=false /p:IncludeNativeLibrariesForSelfExtract=true
-
-    - name: "Echo"
-      run: ls -a ./publish/**/*
-
-    - name: "Upload build artifacts"
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ matrix.rid }}
-        path: './publish/${{ matrix.rid }}/*'
-
-  deploy-packages-job:
-    name: "Deploy packages"
-    needs: [build-test-pack-job, publish-job]
     runs-on: ubuntu-latest
     steps:
 
