@@ -58,8 +58,6 @@ internal static unsafe class Program
 
     private static int Main(string[] args)
     {
-        LoadApi();
-
         /* Create the world, pass arguments for overriding the number of threads,fps
          * or for starting the admin dashboard (see flecs.h for details). */
         var world = ecs_init_w_args(args);

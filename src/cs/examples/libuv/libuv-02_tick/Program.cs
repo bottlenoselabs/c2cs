@@ -13,8 +13,6 @@ internal static unsafe class Program
 
     private static void Main()
     {
-        LoadApi();
-        
         Console.WriteLine("Tick example: demo of event loop callback flow, useful as an example of simplistic base application with `libuv`. Press `x` to gracefully exit. Press `CTRL-C` to hard exit.");
 
         Loop = CreateLoop();

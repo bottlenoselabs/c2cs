@@ -7,8 +7,6 @@ internal static unsafe class Program
 
     private static void Main()
     {
-        LoadApi();
-        
         var desc = default(sapp_desc);
         desc.init_cb.Pointer = &Initialize;
         desc.frame_cb.Pointer = &Frame;

@@ -1,7 +1,10 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using JetBrains.Annotations;
 
 [assembly: SuppressMessage("ReSharper", "CheckNamespace", Justification = "Wants to be builtin.")]
@@ -17,4 +20,8 @@ using JetBrains.Annotations;
 [PublicAPI]
 public static partial class Runtime
 {
+    static Runtime()
+    {
+        GetNativeLibrarySearchDirectories();
+    }
 }

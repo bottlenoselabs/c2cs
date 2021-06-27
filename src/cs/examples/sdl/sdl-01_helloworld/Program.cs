@@ -5,8 +5,6 @@ internal static unsafe class Program
 {
     private static int Main()
     {
-        LoadApi();
-        
         var errorCode = SDL_Init(0x20); // 0x20 = SDL_INIT_VIDEO
         CheckError(errorCode);
 

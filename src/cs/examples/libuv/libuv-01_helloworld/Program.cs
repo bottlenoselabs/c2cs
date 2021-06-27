@@ -10,8 +10,6 @@ internal static unsafe class Program
     
     private static void Main()
     {
-        LoadApi();
-        
         Loop = CreateLoop();
         IdleHandle = CreateIdleHandle(Loop);
         RunLoop();

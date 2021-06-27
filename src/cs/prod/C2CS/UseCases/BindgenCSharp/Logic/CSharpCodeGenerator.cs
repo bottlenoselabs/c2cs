@@ -76,18 +76,18 @@ public static unsafe partial class {className}
     private const string LibraryName = ""{libraryName}"";
 	private static IntPtr _libraryHandle;
 
-	public static void LoadApi(string? libraryFilePath = null)
+	static {className}()
 	{{
-		UnloadApi();
-		if (libraryFilePath == null)
-		{{
-			var libraryFileNamePrefix = Runtime.LibraryFileNamePrefix;
-			var libraryFileNameExtension = Runtime.LibraryFileNameExtension;
-			libraryFilePath = $@""{{libraryFileNamePrefix}}{{LibraryName}}{{libraryFileNameExtension}}"";
-		}}
-		_libraryHandle = Runtime.LibraryLoad(libraryFilePath);
-		if (_libraryHandle == IntPtr.Zero) throw new Exception($""Failed to load library: {{libraryFilePath}}"");
+		TryLoadApi();	
+	}}
+
+	public static bool TryLoadApi(string? libraryName = LibraryName)
+    {{
+	    UnloadApi();
+		_libraryHandle = Runtime.LibraryLoad(libraryName!);
+		if (_libraryHandle == IntPtr.Zero) return false;
 		_LoadVirtualTable();
+		return true;
 	}}
 
 	public static void UnloadApi()
