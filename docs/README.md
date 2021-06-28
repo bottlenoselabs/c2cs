@@ -260,7 +260,6 @@ dotnet build hello_world.csproj
 
 And then run it.
 
-Windows:
 ```bash
 dotnet run hello_world.csproj
 ```
