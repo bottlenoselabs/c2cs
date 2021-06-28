@@ -3,6 +3,7 @@
 Here you will find documentation for `C2CS` including:
 - [Getting started with `C2CS`](#getting-started).
 - [How to build `C2CS` and the examples from source.](#building-from-source)
+- [Examples](#examples)
 
 ## Getting started
 
@@ -70,11 +71,9 @@ Options:
   -?, -h, --help                              Show help and usage information
 ```
 
-## Examples
-
 ### Try it out!
 
-In this minimal example we will create a C function which prints "Hello, world!" and call it from C#.
+In this minimal walkthrough we will create a C function which prints "Hello, world!" and call it from C#.
 
 #### C header/source code
 
@@ -128,11 +127,15 @@ Linux:
 gcc -shared -o liblibrary.so library.o
 ```
 
-Additionally it's a good idea to verify that the symbols exist in the library for the functions you want to call from C#. For this minimal example, you should see `_hello_world` in the list.
+Additionally it's a good idea to verify that the symbols exist in the library for the functions you want to call from C#. For this minimal example, you should see `_hello_world` or `hello_world` in the list.
 
 macOS:
 ```bash
 nm -g ./liblibrary.dylib
+
+Linux:
+```bash
+nm -g ./liblibrary.so
 ```
 
 #### Extract the abstract syntax tree
@@ -175,13 +178,13 @@ You should get `.json` file like the following:
 Use the previous extracted abstract syntax tree to generate the C# code file.
 
 ```bash
-C2CS cs -i ./ast.json -o ./hello_world.cs
+C2CS cs -i ./ast.json -o ./library.cs
 ```
 
 You should get a C# file like this:
 ```cs
 ...
-public static unsafe partial class hello_world
+public static unsafe partial class library
 {
     ...
 
@@ -260,10 +263,20 @@ macOS:
 cp ./liblibrary.dylib ./bin/Debug/net5.0/liblibrary.dylib
 ```
 
+Linux:
+```bash
+cp ./liblibrary.so ./bin/Debug/net5.0/liblibrary.so
+```
+
 Now, if you run the program you should see "Hello, world!" printed.
 ```bash
 dotnet run ./hello_world.csproj
 ```
+```
+Hello, world!
+```
+
+Congragulations if you got this far you have successfully used `C2CS`. From here, you check out the [Examples](#examples) for using `C2CS` with various existing popular C libraries.
 
 ## Building from source
 
@@ -294,6 +307,6 @@ Open `./src/dotnet/C2CS.sln`
 
 `dotnet build ./src/dotnet/C2CS.sln`
 
-### Examples
+## Examples
 
 See [examples/README.md](examples/README.md).
