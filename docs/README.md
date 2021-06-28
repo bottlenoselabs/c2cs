@@ -102,18 +102,24 @@ void hello_world(void)
 
 #### Build the C library
 
-Next, let's build this very simple C library. This will generate the native assembly code which will be later loaded and executed from C#:
+Next, let's build this very simple C library. This will generate the native assembly code which will be later loaded and executed from C#.
 
+Windows (Note that you will need to have Visual Studio installed and run the "x64 Native Tools Command Prompt"):
+```powershell
+cl.exe /LD library.c
+```
+
+macOS/Linux:
 ```bash
 gcc -c -fPIC -o library.o library.c
 ```
 
-Note that it is a convention to name your dynamic link libraries differently on different platforms. E.g.,
+Next we will link the library. Note that it is a convention to name your dynamic link libraries differently on different platforms. E.g.,
 if `library` was the base name then on Windows the file name should be `library.dll`, on macOS `liblibrary.dylib`, and Linux `liblibrary.so`.
 
 Windows:
-```bash
-gcc -shared -o library.dll library.o
+```powershell
+link /DLL /OUT:library.dll library.obj
 ```
 
 macOS:
@@ -126,7 +132,12 @@ Linux:
 gcc -shared -o liblibrary.so library.o
 ```
 
-Additionally it's a good idea to verify that the symbols exist in the library for the functions you want to call from C#. For this minimal example, you should see `_hello_world` or `hello_world` in the list.
+Once you successfully created the dynamic link library file it's a good idea to verify that the symbols exist for the functions you want to call from C#. For this minimal example, you should see `_hello_world` or `hello_world` in the list.
+
+Windows:
+```powershell
+dumpbin /exports library.dll
+```
 
 macOS:
 ```bash
@@ -238,17 +249,20 @@ library.hello_world();
 Then run the following to download the NuGet dependencies. Note that with the `nuget.config` file above you should see the packages downloaded to `./nuget/packages` folder. This is common practice if you want to manually keep track of downloaded packages and delete them later; otherwise, the packages will be downloaded to your global cache.
 
 ```bash
-dotnet restore ./hello_world.csproj
+dotnet restore hello_world.csproj
 ```
 
-Then we can build the C# program:
+Then we can build the C# program.
+
 ```bash
-dotnet build ./hello_world.csproj
+dotnet build hello_world.csproj
 ```
 
-And run it:
+And then run it.
+
+Windows:
 ```bash
-dotnet run ./hello_world.csproj
+dotnet run hello_world.csproj
 ```
 
 You will get an error like so:
@@ -257,6 +271,11 @@ Failed to load 'liblibrary.dylib'. Expected to find the library in one of the fo
 ```
 
 This because the native library built earlier needs to be in the specific folder. So the copy/move it.
+
+Windows:
+```powershell
+copy library.dll bin\x64\Debug\net5.0
+```
 
 macOS:
 ```bash
@@ -270,7 +289,7 @@ cp ./liblibrary.so ./bin/Debug/net5.0/liblibrary.so
 
 Now, if you run the program you should see "Hello, world!" printed.
 ```bash
-dotnet run ./hello_world.csproj
+dotnet run hello_world.csproj
 ```
 ```
 Hello, world!
