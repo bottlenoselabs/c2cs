@@ -67,15 +67,16 @@ namespace C2CS
             // https://docs.microsoft.com/en-us/dotnet/core/dependency-loading/default-probing#unmanaged-native-library-probing
             if (AppContext.GetData("NATIVE_DLL_SEARCH_DIRECTORIES") is string nativeSearchDirectoriesString)
             {
-                var nativeSearchDirectoryStrings = // delimiter is `;` on Windows; otherwise delimiter is `:`
-                    nativeSearchDirectoriesString!.Split(new[] {':', ';'}, StringSplitOptions.RemoveEmptyEntries).ToList();
+                var nativeSearchDirectoriesDelimiter = Platform == RuntimePlatform.Windows ? ';' : ':';
+                var nativeSearchDirectories =
+                    nativeSearchDirectoriesString!.Split(nativeSearchDirectoriesDelimiter, StringSplitOptions.RemoveEmptyEntries).ToList();
 
-                if (!nativeSearchDirectoryStrings.Contains(AppContext.BaseDirectory))
+                if (!nativeSearchDirectories.Contains(AppContext.BaseDirectory))
                 {
-                    nativeSearchDirectoryStrings.Add(AppContext.BaseDirectory);
+                    nativeSearchDirectories.Add(AppContext.BaseDirectory);
                 }
 
-                _nativeSearchDirectories = nativeSearchDirectoryStrings.ToImmutableArray();
+                _nativeSearchDirectories = nativeSearchDirectories.ToImmutableArray();
 
                 var shouldPrint = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("PRINT_NATIVE_DLL_SEARCH_DIRECTORIES"));
                 if (!shouldPrint)
