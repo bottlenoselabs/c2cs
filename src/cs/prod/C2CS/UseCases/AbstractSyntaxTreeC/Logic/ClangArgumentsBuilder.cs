@@ -91,6 +91,9 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 case RuntimePlatform.macOS:
                     AddSystemIncludesMac(args);
                     break;
+                case RuntimePlatform.Linux:
+                    // TODO: Do we need to do anything specific?
+                    break;
                 default:
                     throw new NotImplementedException();
             }
