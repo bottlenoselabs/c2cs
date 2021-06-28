@@ -92,7 +92,6 @@ void hello_world(void);
 `library.c`:
 ```c
 #include "library.h"
-
 #include <stdio.h>
 
 void hello_world(void)
@@ -132,6 +131,7 @@ Additionally it's a good idea to verify that the symbols exist in the library fo
 macOS:
 ```bash
 nm -g ./liblibrary.dylib
+```
 
 Linux:
 ```bash
