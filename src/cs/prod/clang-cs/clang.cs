@@ -23,7 +23,17 @@ public static unsafe partial class clang
 
     static clang()
     {
-        TryLoadApi();
+        // Microsoft is responsible for the NuGet package of libclang: https://github.com/microsoft/ClangSharp
+        //  However, they don't follow the standard convention for this specific native library name lol.
+        var platform = Runtime.Platform;
+        if (platform == RuntimePlatform.Windows)
+        {
+            TryLoadApi("libclang");
+        }
+        else
+        {
+            TryLoadApi();
+        }
     }
 
     public static bool TryLoadApi(string? libraryName = LibraryName)
