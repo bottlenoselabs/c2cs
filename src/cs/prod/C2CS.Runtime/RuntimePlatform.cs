@@ -54,9 +54,16 @@ namespace C2CS
         iOS = 6,
 
         /// <summary>
+        ///     Micro console verions of tvOS (Apple) on 64-bit computing architecture.
+        /// </summary>
+        [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Product name.")]
+        [SuppressMessage("StyleCop.Naming", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Product name.")]
+        tvOS = 7,
+
+        /// <summary>
         ///     Versions of WebAssembly (64-bit) on some WASI (WebAssembly System Interface) compliant host program such as a modern web browser.
         /// </summary>
-        Web = 7,
+        Web = 8,
 
         // TODO: tvOS, RaspberryPi, WebAssembly, PlayStation4, PlayStationVita, Switch etc
     }
