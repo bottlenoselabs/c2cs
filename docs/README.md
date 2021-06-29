@@ -1,13 +1,14 @@
 # Documentation
 
 Here you will find documentation for `C2CS` including:
+
 - [Getting started with `C2CS`](#getting-started).
-- [How to build `C2CS` and the examples from source.](#building-from-source)
-- [Examples](#examples)
+- [How to build `C2CS` and the examples from source](#building-from-source).
+- [Examples](#examples).
 
 ## Getting started
 
-> :warning: **macOS**: If you downloaded nightly build or a release, ensure that the file is an executable: `chmod +x ./C2CS`. Additionally, you may need to follow directions on [opening up an app from an unidentified developer](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/mac).
+See https://github.com/lithiumtoast/c2cs-example-helloworld for minimal example of using `C2CS`.
 
 To generate bindings for a C library there is two stages: `ast` and `cs`.
 
@@ -73,7 +74,7 @@ Options:
 
 ### Try it out!
 
-In this minimal walkthrough we will create a C function which prints "Hello, world!" and call it from C#.
+In this minimal walkthrough we will create a C function which prints "Hello, world!" and call it from C#. By the end you will have more or less the same setup as the https://github.com/lithiumtoast/c2cs-example-helloworld. If anything doesn't work or you get lost, refer back to https://github.com/lithiumtoast/c2cs-example-helloworld.
 
 #### C header/source code
 
@@ -106,12 +107,12 @@ Next, let's build this very simple C library. This will generate the native asse
 
 Windows (Note that you will need to have Visual Studio installed and run the "x64 Native Tools Command Prompt"):
 ```powershell
-cl.exe /LD library.c
+cl.exe /LD .\library.c
 ```
 
 macOS/Linux:
 ```bash
-gcc -c -fPIC -o library.o library.c
+gcc -c -fPIC -o ./library.o ./library.c
 ```
 
 Next we will link the library. Note that it is a convention to name your dynamic link libraries differently on different platforms. E.g.,
@@ -119,24 +120,24 @@ if `library` was the base name then on Windows the file name should be `library.
 
 Windows:
 ```powershell
-link /DLL /OUT:library.dll library.obj
+link /DLL /OUT:.\library.dll .\library.obj
 ```
 
 macOS:
 ```bash
-gcc -shared -o liblibrary.dylib library.o
+gcc -shared -o ./liblibrary.dylib ./library.o
 ```
 
 Linux:
 ```bash
-gcc -shared -o liblibrary.so library.o
+gcc -shared -o ./liblibrary.so ./library.o
 ```
 
 Once you successfully created the dynamic link library file it's a good idea to verify that the symbols exist for the functions you want to call from C#. For this minimal example, you should see `_hello_world` or `hello_world` in the list.
 
 Windows:
 ```powershell
-dumpbin /exports library.dll
+dumpbin /exports .\library.dll
 ```
 
 macOS:
@@ -273,7 +274,7 @@ This because the native library built earlier needs to be in the specific folder
 
 Windows:
 ```powershell
-copy library.dll bin\x64\Debug\net5.0
+copy .\library.dll .\bin\x64\Debug\net5.0
 ```
 
 macOS:

@@ -15,7 +15,11 @@ See [latest releases](https://github.com/lithiumtoast/c2cs/releases).
 
 ## Documentation
 
-For documentation, including how to use `C2CS`, building from source, and various examples to try in action, see the [docs/README.md](docs/README.md)
+For documentation see the [docs/README.md](docs/README.md). This includes:
+
+- [Getting started with `C2CS`](docs/README.md#getting-started).
+- [How to build `C2CS` and the examples from source](docs/README.md#building-from-source).
+- [Examples](docs/README.md#examples).
 
 ## Background: Why?
 
