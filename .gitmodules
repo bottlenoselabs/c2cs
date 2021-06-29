@@ -13,3 +13,6 @@
 [submodule "ext/SDL"]
 	path = ext/SDL
 	url = https://github.com/libsdl-org/SDL
+[submodule "ext/pixel-formats-cs"]
+	path = ext/pixel-formats-cs
+	url = https://github.com/lithiumtoast/pixel-formats-cs.git
