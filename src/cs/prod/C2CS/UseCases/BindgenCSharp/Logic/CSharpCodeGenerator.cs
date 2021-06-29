@@ -71,6 +71,7 @@ using System.Runtime.CompilerServices;
 using C2CS;
 
 #nullable enable
+#pragma warning disable 1591
 
 public static unsafe partial class {className}
 {{
