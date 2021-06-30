@@ -5,8 +5,6 @@ env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_SDK_VERSION: 5.0.301
   SOLUTION_PATH: './src/cs/C2CS.sln'
-  MYGET_ACCESS_TOKEN: ${{ secrets.MYGET_ACCESS_TOKEN }}
-  MYGET_SOURCE_URL: 'https://www.myget.org/F/lithiumtoast/api/v3/index.json'
 
 on:
   push:
@@ -107,17 +105,6 @@ jobs:
     - name: "Test solution"
       run: dotnet test '${{ env.SOLUTION_PATH }}' --nologo --verbosity normal --configuration Release --no-build
 
-    - name: "Pack solution"
-      if: matrix.os == 'ubuntu-latest' # Packages are agnostic
-      run: dotnet pack '${{ env.SOLUTION_PATH }}' --nologo --output './nuget-packages' --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ env.VERSION }}'
-
-    - name: "Upload packages"
-      if: matrix.os == 'ubuntu-latest'
-      uses: actions/upload-artifact@v2
-      with:
-        name: nuget-packages
-        path: './nuget-packages/*/**'
-
     - name: "Build C2CS"
       run: dotnet publish './src/cs/production/C2CS/C2CS.csproj' -o './publish/${{ env.DOTNET_RID }}' -c Release -r ${{ env.DOTNET_RID }} -p:PublishSingleFile=true /p:DebugType=embedded /p:SelfContained=false /p:IncludeNativeLibrariesForSelfExtract=true
 
@@ -145,18 +132,3 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '${{ env.DOTNET_SDK_VERSION }}'
-
-    - name: "Download packages: Local"
-      uses: actions/download-artifact@v1
-      with:
-        name: nuget-packages
-        path: './nuget-packages'
-
-    - name: "Upload packages: GitHub"
-      run: dotnet nuget push './**/*.nupkg' --api-key '${{ secrets.GITHUB_TOKEN }}' --source 'https://nuget.pkg.github.com/${{ github.repository_owner }}' --skip-duplicate
-
-    - name: "Add packages source: MyGet"
-      run: dotnet nuget add source $MYGET_SOURCE_URL --name "MyGet"
- 
-    - name: "Upload [ackages: MyGet"
-      run: dotnet nuget push "./**/*.nupkg" --source "MyGet" --skip-duplicate --api-key $MYGET_ACCESS_TOKEN
