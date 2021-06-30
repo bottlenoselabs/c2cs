@@ -8,10 +8,8 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using C2CS;
-using JetBrains.Annotations;
 using static clang;
 
-[PublicAPI]
 public static unsafe class ClangExtensions
 {
     public delegate bool VisitPredicate(CXCursor child, CXCursor parent);

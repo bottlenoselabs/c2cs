@@ -3,10 +3,8 @@
 
 using System;
 using System.Text.Json.Serialization;
-using JetBrains.Annotations;
 
 // NOTE: Properties are required for System.Text.Json serialization
-[PublicAPI]
 public struct ClangLocation : IComparable<ClangLocation>
 {
     [JsonPropertyName("file")]
