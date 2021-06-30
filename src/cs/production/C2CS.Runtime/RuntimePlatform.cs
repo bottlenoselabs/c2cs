@@ -2,14 +2,14 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Diagnostics.CodeAnalysis;
-using JetBrains.Annotations;
 
 namespace C2CS
 {
     /// <summary>
     ///     Defines the native runtime platforms (operating system + computer architecture).
     /// </summary>
-    [PublicAPI]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
+    [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Public API.")]
     public enum RuntimePlatform
     {
         /// <summary>

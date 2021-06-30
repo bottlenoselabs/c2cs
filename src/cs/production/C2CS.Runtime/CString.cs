@@ -4,14 +4,14 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
-using JetBrains.Annotations;
 
 namespace C2CS
 {
     [StructLayout(LayoutKind.Sequential)]
-    [PublicAPI]
     [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
     [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
+    [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Public API.")]
     public readonly unsafe struct CString
     {
         internal readonly IntPtr _value;

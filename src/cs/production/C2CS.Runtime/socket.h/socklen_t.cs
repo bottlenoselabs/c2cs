@@ -9,7 +9,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using JetBrains.Annotations;
 
 namespace C2CS
 {
@@ -17,9 +16,10 @@ namespace C2CS
     ///     Unsigned integer type for sockets.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)] // size = 4
-    [PublicAPI]
     [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
     [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
+    [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Public API.")]
     public struct socklen_t
     {
         /// <summary>

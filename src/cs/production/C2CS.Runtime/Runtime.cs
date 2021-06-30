@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Diagnostics.CodeAnalysis;
-using JetBrains.Annotations;
 
 [assembly: SuppressMessage("ReSharper", "CheckNamespace", Justification = "Wants to be builtin.")]
 
@@ -16,7 +15,8 @@ namespace C2CS
     ///     The collection of utilities for interoperability with native libraries in C#. Used by code which is generated
     ///     using the C2CS tool: https://github.com/lithiumtoast/c2cs.
     /// </summary>
-    [PublicAPI]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
+    [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Public API.")]
     public static partial class Runtime
     {
         static Runtime()

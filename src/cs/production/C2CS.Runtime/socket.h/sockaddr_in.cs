@@ -3,7 +3,6 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
-using JetBrains.Annotations;
 
 namespace C2CS
 {
@@ -11,9 +10,10 @@ namespace C2CS
     ///     An IP (Internet Protocol) version 4 socket address.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)] // size = 16
-    [PublicAPI]
     [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
     [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
+    [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Public API.")]
     public unsafe struct sockaddr_in
     {
         /// <summary>

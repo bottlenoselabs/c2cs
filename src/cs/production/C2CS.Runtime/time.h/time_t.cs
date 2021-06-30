@@ -4,7 +4,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using JetBrains.Annotations;
 
 namespace C2CS
 {
@@ -12,9 +11,10 @@ namespace C2CS
     ///     Unix time; the number of seconds that have elapsed since the epoch, minus leap seconds. The Unix epoch is 00:00:00 UTC on 1 January 1970.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    [PublicAPI]
     [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
     [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
+    [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Public API.")]
     public struct time_t
     {
         /// <summary>
