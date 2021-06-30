@@ -29,12 +29,15 @@ namespace C2CS
         ///     IP (Internet Protocol) version 6. Used for both UDP (User Datagram Protocol) and TCP (Transmission Control
         ///     Protocol) transport layers.
         /// </summary>
+        AF_INET6 =
 #if WINDOWS
-    AF_INET6 = 23
+    23
 #elif APPLE
-    AF_INET6 = 30
+    30
 #elif LINUX
-    AF_INET6 = 10
+    10
+#else
+    0
 #endif
     }
 }
