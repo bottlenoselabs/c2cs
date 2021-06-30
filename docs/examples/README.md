@@ -2,8 +2,6 @@
 
 Here you will find a catalog of C libraries that have working examples to demonstrate how to use `C2CS`.
 
-See https://github.com/lithiumtoast/c2cs-example-helloworld for a minimal example of using `C2CS` to create a hello world program seperate from the `C2CS` repository.
-
 ## [0: Hello world](./000_HELLOWORLD.md)
 
 Hello world example of calling a C function from C#. This is meant to be minimalistic to demonstrate the minimum required things to get this working.
