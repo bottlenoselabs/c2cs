@@ -26,6 +26,7 @@ namespace C2CS.UseCases.BindgenCSharp
                 "Map C abstract syntax tree to C#",
                 abstractSyntaxTreeC,
                 request.TypeAliases,
+                request.IgnoredTypeNames,
                 MapCToCSharp);
 
             var className = Path.GetFileNameWithoutExtension(request.OutputFile.FullName);
@@ -72,9 +73,10 @@ namespace C2CS.UseCases.BindgenCSharp
 
         private static CSharpAbstractSyntaxTree MapCToCSharp(
             CAbstractSyntaxTree abstractSyntaxTree,
-            ImmutableArray<CSharpTypeAlias> typeAliases)
+            ImmutableArray<CSharpTypeAlias> typeAliases,
+            ImmutableArray<string> ignoredTypeNames)
         {
-            var mapper = new CSharpMapper(typeAliases);
+            var mapper = new CSharpMapper(typeAliases, ignoredTypeNames);
             return mapper.AbstractSyntaxTree(abstractSyntaxTree);
         }
 

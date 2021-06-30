@@ -17,7 +17,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2377,
+        "line": 2378,
         "column": 32
       }
     },
@@ -27,7 +27,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2374,
+        "line": 2375,
         "column": 32
       }
     },
@@ -37,7 +37,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2371,
+        "line": 2372,
         "column": 32
       }
     },
@@ -57,7 +57,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2362,
+        "line": 2363,
         "column": 25
       }
     },
@@ -77,7 +77,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2361,
+        "line": 2362,
         "column": 25
       }
     },
@@ -87,7 +87,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2360,
+        "line": 2361,
         "column": 31
       }
     },
@@ -107,7 +107,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2357,
+        "line": 2358,
         "column": 25
       }
     },
@@ -127,7 +127,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2356,
+        "line": 2357,
         "column": 25
       }
     },
@@ -147,7 +147,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2355,
+        "line": 2356,
         "column": 25
       }
     },
@@ -167,7 +167,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2354,
+        "line": 2355,
         "column": 25
       }
     },
@@ -187,7 +187,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2353,
+        "line": 2354,
         "column": 25
       }
     },
@@ -207,7 +207,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2352,
+        "line": 2353,
         "column": 25
       }
     },
@@ -227,7 +227,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2351,
+        "line": 2352,
         "column": 25
       }
     },
@@ -247,7 +247,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2350,
+        "line": 2351,
         "column": 25
       }
     },
@@ -267,7 +267,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2349,
+        "line": 2350,
         "column": 25
       }
     },
@@ -287,7 +287,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2348,
+        "line": 2349,
         "column": 25
       }
     },
@@ -309,14 +309,14 @@
           "type": "sg_pass_desc*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1961,
+            "line": 1962,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2347,
+        "line": 2348,
         "column": 25
       }
     },
@@ -338,14 +338,14 @@
           "type": "sg_pipeline_desc*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1925,
+            "line": 1926,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2346,
+        "line": 2347,
         "column": 25
       }
     },
@@ -367,14 +367,14 @@
           "type": "sg_shader_desc*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1773,
+            "line": 1774,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2345,
+        "line": 2346,
         "column": 25
       }
     },
@@ -396,14 +396,14 @@
           "type": "sg_image_desc*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1698,
+            "line": 1699,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2344,
+        "line": 2345,
         "column": 25
       }
     },
@@ -425,14 +425,14 @@
           "type": "sg_buffer_desc*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1582,
+            "line": 1583,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2343,
+        "line": 2344,
         "column": 25
       }
     },
@@ -452,7 +452,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2342,
+        "line": 2343,
         "column": 25
       }
     },
@@ -472,7 +472,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2341,
+        "line": 2342,
         "column": 25
       }
     },
@@ -492,7 +492,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2340,
+        "line": 2341,
         "column": 25
       }
     },
@@ -512,7 +512,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2339,
+        "line": 2340,
         "column": 25
       }
     },
@@ -532,7 +532,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2338,
+        "line": 2339,
         "column": 25
       }
     },
@@ -542,7 +542,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2337,
+        "line": 2338,
         "column": 28
       }
     },
@@ -552,7 +552,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2336,
+        "line": 2337,
         "column": 32
       }
     },
@@ -562,7 +562,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2335,
+        "line": 2336,
         "column": 30
       }
     },
@@ -572,7 +572,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2334,
+        "line": 2335,
         "column": 29
       }
     },
@@ -582,7 +582,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2333,
+        "line": 2334,
         "column": 30
       }
     },
@@ -595,14 +595,14 @@
           "type": "sg_pass_desc*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1961,
+            "line": 1962,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2330,
+        "line": 2331,
         "column": 33
       }
     },
@@ -615,14 +615,14 @@
           "type": "sg_pipeline_desc*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1925,
+            "line": 1926,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2329,
+        "line": 2330,
         "column": 37
       }
     },
@@ -635,14 +635,14 @@
           "type": "sg_shader_desc*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1773,
+            "line": 1774,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2328,
+        "line": 2329,
         "column": 35
       }
     },
@@ -655,14 +655,14 @@
           "type": "sg_image_desc*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1698,
+            "line": 1699,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2327,
+        "line": 2328,
         "column": 34
       }
     },
@@ -675,14 +675,14 @@
           "type": "sg_buffer_desc*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1582,
+            "line": 1583,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2326,
+        "line": 2327,
         "column": 35
       }
     },
@@ -702,7 +702,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2324,
+        "line": 2325,
         "column": 33
       }
     },
@@ -722,7 +722,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2323,
+        "line": 2324,
         "column": 37
       }
     },
@@ -742,7 +742,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2322,
+        "line": 2323,
         "column": 35
       }
     },
@@ -762,7 +762,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2321,
+        "line": 2322,
         "column": 34
       }
     },
@@ -782,7 +782,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2320,
+        "line": 2321,
         "column": 35
       }
     },
@@ -802,7 +802,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2318,
+        "line": 2319,
         "column": 38
       }
     },
@@ -822,7 +822,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2317,
+        "line": 2318,
         "column": 38
       }
     },
@@ -842,7 +842,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2316,
+        "line": 2317,
         "column": 38
       }
     },
@@ -862,7 +862,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2315,
+        "line": 2316,
         "column": 38
       }
     },
@@ -882,7 +882,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2314,
+        "line": 2315,
         "column": 38
       }
     },
@@ -902,7 +902,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2312,
+        "line": 2313,
         "column": 40
       }
     },
@@ -912,7 +912,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2311,
+        "line": 2312,
         "column": 30
       }
     },
@@ -922,7 +922,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2310,
+        "line": 2311,
         "column": 32
       }
     },
@@ -932,7 +932,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2309,
+        "line": 2310,
         "column": 31
       }
     },
@@ -942,7 +942,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2308,
+        "line": 2309,
         "column": 28
       }
     },
@@ -952,7 +952,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2305,
+        "line": 2306,
         "column": 25
       }
     },
@@ -962,7 +962,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2304,
+        "line": 2305,
         "column": 25
       }
     },
@@ -975,7 +975,7 @@
           "type": "int",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2303,
+            "line": 2304,
             "column": 37
           }
         },
@@ -984,7 +984,7 @@
           "type": "int",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2303,
+            "line": 2304,
             "column": 55
           }
         },
@@ -993,14 +993,14 @@
           "type": "int",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2303,
+            "line": 2304,
             "column": 73
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2303,
+        "line": 2304,
         "column": 25
       }
     },
@@ -1013,7 +1013,7 @@
           "type": "sg_shader_stage",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1053,
+            "line": 1054,
             "column": 3
           }
         },
@@ -1022,7 +1022,7 @@
           "type": "int",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2302,
+            "line": 2303,
             "column": 70
           }
         },
@@ -1038,7 +1038,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2302,
+        "line": 2303,
         "column": 25
       }
     },
@@ -1051,14 +1051,14 @@
           "type": "sg_bindings*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1511,
+            "line": 1512,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2301,
+        "line": 2302,
         "column": 25
       }
     },
@@ -1078,7 +1078,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2300,
+        "line": 2301,
         "column": 25
       }
     },
@@ -1091,7 +1091,7 @@
           "type": "float",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2299,
+            "line": 2300,
             "column": 54
           }
         },
@@ -1100,7 +1100,7 @@
           "type": "float",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2299,
+            "line": 2300,
             "column": 63
           }
         },
@@ -1109,7 +1109,7 @@
           "type": "float",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2299,
+            "line": 2300,
             "column": 72
           }
         },
@@ -1118,7 +1118,7 @@
           "type": "float",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2299,
+            "line": 2300,
             "column": 85
           }
         },
@@ -1127,14 +1127,14 @@
           "type": "_Bool",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2299,
+            "line": 2300,
             "column": 98
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2299,
+        "line": 2300,
         "column": 25
       }
     },
@@ -1147,7 +1147,7 @@
           "type": "int",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2298,
+            "line": 2299,
             "column": 51
           }
         },
@@ -1156,7 +1156,7 @@
           "type": "int",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2298,
+            "line": 2299,
             "column": 58
           }
         },
@@ -1165,7 +1165,7 @@
           "type": "int",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2298,
+            "line": 2299,
             "column": 65
           }
         },
@@ -1174,7 +1174,7 @@
           "type": "int",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2298,
+            "line": 2299,
             "column": 76
           }
         },
@@ -1183,14 +1183,14 @@
           "type": "_Bool",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2298,
+            "line": 2299,
             "column": 89
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2298,
+        "line": 2299,
         "column": 25
       }
     },
@@ -1203,7 +1203,7 @@
           "type": "float",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2297,
+            "line": 2298,
             "column": 50
           }
         },
@@ -1212,7 +1212,7 @@
           "type": "float",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2297,
+            "line": 2298,
             "column": 59
           }
         },
@@ -1221,7 +1221,7 @@
           "type": "float",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2297,
+            "line": 2298,
             "column": 68
           }
         },
@@ -1230,7 +1230,7 @@
           "type": "float",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2297,
+            "line": 2298,
             "column": 81
           }
         },
@@ -1239,14 +1239,14 @@
           "type": "_Bool",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2297,
+            "line": 2298,
             "column": 94
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2297,
+        "line": 2298,
         "column": 25
       }
     },
@@ -1259,7 +1259,7 @@
           "type": "int",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2296,
+            "line": 2297,
             "column": 47
           }
         },
@@ -1268,7 +1268,7 @@
           "type": "int",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2296,
+            "line": 2297,
             "column": 54
           }
         },
@@ -1277,7 +1277,7 @@
           "type": "int",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2296,
+            "line": 2297,
             "column": 61
           }
         },
@@ -1286,7 +1286,7 @@
           "type": "int",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2296,
+            "line": 2297,
             "column": 72
           }
         },
@@ -1295,14 +1295,14 @@
           "type": "_Bool",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2296,
+            "line": 2297,
             "column": 85
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2296,
+        "line": 2297,
         "column": 25
       }
     },
@@ -1324,14 +1324,14 @@
           "type": "sg_pass_action*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1477,
+            "line": 1478,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2295,
+        "line": 2296,
         "column": 25
       }
     },
@@ -1344,7 +1344,7 @@
           "type": "sg_pass_action*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1477,
+            "line": 1478,
             "column": 3
           }
         },
@@ -1353,7 +1353,7 @@
           "type": "float",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2294,
+            "line": 2295,
             "column": 89
           }
         },
@@ -1362,14 +1362,14 @@
           "type": "float",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2294,
+            "line": 2295,
             "column": 102
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2294,
+        "line": 2295,
         "column": 25
       }
     },
@@ -1382,7 +1382,7 @@
           "type": "sg_pass_action*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1477,
+            "line": 1478,
             "column": 3
           }
         },
@@ -1391,7 +1391,7 @@
           "type": "int",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2293,
+            "line": 2294,
             "column": 86
           }
         },
@@ -1400,14 +1400,14 @@
           "type": "int",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2293,
+            "line": 2294,
             "column": 97
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2293,
+        "line": 2294,
         "column": 25
       }
     },
@@ -1427,7 +1427,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2290,
+        "line": 2291,
         "column": 25
       }
     },
@@ -1456,7 +1456,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2289,
+        "line": 2290,
         "column": 24
       }
     },
@@ -1478,14 +1478,14 @@
           "type": "sg_image_data*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1593,
+            "line": 1594,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2288,
+        "line": 2289,
         "column": 25
       }
     },
@@ -1514,7 +1514,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2287,
+        "line": 2288,
         "column": 25
       }
     },
@@ -1534,7 +1534,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2286,
+        "line": 2287,
         "column": 25
       }
     },
@@ -1554,7 +1554,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2285,
+        "line": 2286,
         "column": 25
       }
     },
@@ -1574,7 +1574,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2284,
+        "line": 2285,
         "column": 25
       }
     },
@@ -1594,7 +1594,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2283,
+        "line": 2284,
         "column": 25
       }
     },
@@ -1614,7 +1614,7 @@
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2282,
+        "line": 2283,
         "column": 25
       }
     },
@@ -1627,14 +1627,14 @@
           "type": "sg_pass_desc*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1961,
+            "line": 1962,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2281,
+        "line": 2282,
         "column": 28
       }
     },
@@ -1647,14 +1647,14 @@
           "type": "sg_pipeline_desc*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1925,
+            "line": 1926,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2280,
+        "line": 2281,
         "column": 32
       }
     },
@@ -1667,14 +1667,14 @@
           "type": "sg_shader_desc*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1773,
+            "line": 1774,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2279,
+        "line": 2280,
         "column": 30
       }
     },
@@ -1687,14 +1687,14 @@
           "type": "sg_image_desc*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1698,
+            "line": 1699,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2278,
+        "line": 2279,
         "column": 29
       }
     },
@@ -1707,14 +1707,14 @@
           "type": "sg_buffer_desc*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1582,
+            "line": 1583,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2277,
+        "line": 2278,
         "column": 30
       }
     },
@@ -1724,7 +1724,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2274,
+        "line": 2275,
         "column": 25
       }
     },
@@ -1737,14 +1737,14 @@
           "type": "char*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2273,
+            "line": 2274,
             "column": 57
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2273,
+        "line": 2274,
         "column": 25
       }
     },
@@ -1757,14 +1757,14 @@
           "type": "sg_trace_hooks*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2037,
+            "line": 2038,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2272,
+        "line": 2273,
         "column": 35
       }
     },
@@ -1774,7 +1774,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2271,
+        "line": 2272,
         "column": 25
       }
     },
@@ -1784,7 +1784,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2270,
+        "line": 2271,
         "column": 25
       }
     },
@@ -1794,7 +1794,7 @@
       "parameters": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2269,
+        "line": 2270,
         "column": 25
       }
     },
@@ -1807,14 +1807,14 @@
           "type": "sg_desc*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2265,
+            "line": 2266,
             "column": 3
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2268,
+        "line": 2269,
         "column": 25
       }
     },
@@ -2508,7 +2508,7 @@
           "offset": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2245,
+            "line": 2246,
             "column": 9
           }
         },
@@ -2519,7 +2519,7 @@
           "padding": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2210,
+            "line": 2211,
             "column": 3
           }
         },
@@ -2529,7 +2529,7 @@
           "offset": 16,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2219,
+            "line": 2220,
             "column": 3
           }
         },
@@ -2539,7 +2539,7 @@
           "offset": 64,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2229,
+            "line": 2230,
             "column": 3
           }
         },
@@ -2549,7 +2549,7 @@
           "offset": 120,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2240,
+            "line": 2241,
             "column": 3
           }
         }
@@ -2558,7 +2558,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2250,
+        "line": 2251,
         "column": 3
       }
     },
@@ -2570,7 +2570,7 @@
           "type": "void*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2232,
+            "line": 2233,
             "column": 17
           }
         },
@@ -2580,7 +2580,7 @@
           "offset": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2233,
+            "line": 2234,
             "column": 19
           }
         },
@@ -2590,7 +2590,7 @@
           "offset": 16,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2234,
+            "line": 2235,
             "column": 19
           }
         },
@@ -2600,7 +2600,7 @@
           "offset": 24,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2235,
+            "line": 2236,
             "column": 19
           }
         },
@@ -2610,7 +2610,7 @@
           "offset": 32,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2236,
+            "line": 2237,
             "column": 19
           }
         },
@@ -2620,7 +2620,7 @@
           "offset": 40,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2237,
+            "line": 2238,
             "column": 19
           }
         },
@@ -2630,7 +2630,7 @@
           "offset": 48,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2238,
+            "line": 2239,
             "column": 19
           }
         },
@@ -2640,7 +2640,7 @@
           "offset": 56,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2239,
+            "line": 2240,
             "column": 11
           }
         }
@@ -2655,7 +2655,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2233,
+            "line": 2234,
             "column": 19
           }
         },
@@ -2669,7 +2669,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2234,
+                "line": 2235,
                 "column": 49
               }
             }
@@ -2677,7 +2677,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2234,
+            "line": 2235,
             "column": 19
           }
         },
@@ -2689,7 +2689,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2235,
+            "line": 2236,
             "column": 19
           }
         },
@@ -2703,7 +2703,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2236,
+                "line": 2237,
                 "column": 50
               }
             }
@@ -2711,7 +2711,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2236,
+            "line": 2237,
             "column": 19
           }
         },
@@ -2723,7 +2723,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2237,
+            "line": 2238,
             "column": 19
           }
         },
@@ -2737,7 +2737,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2238,
+                "line": 2239,
                 "column": 56
               }
             }
@@ -2745,14 +2745,14 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2238,
+            "line": 2239,
             "column": 19
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2240,
+        "line": 2241,
         "column": 3
       }
     },
@@ -2764,7 +2764,7 @@
           "type": "void*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2222,
+            "line": 2223,
             "column": 17
           }
         },
@@ -2774,7 +2774,7 @@
           "offset": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2223,
+            "line": 2224,
             "column": 17
           }
         },
@@ -2784,7 +2784,7 @@
           "offset": 16,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2224,
+            "line": 2225,
             "column": 19
           }
         },
@@ -2794,7 +2794,7 @@
           "offset": 24,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2225,
+            "line": 2226,
             "column": 19
           }
         },
@@ -2804,7 +2804,7 @@
           "offset": 32,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2226,
+            "line": 2227,
             "column": 19
           }
         },
@@ -2814,7 +2814,7 @@
           "offset": 40,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2227,
+            "line": 2228,
             "column": 19
           }
         },
@@ -2824,7 +2824,7 @@
           "offset": 48,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2228,
+            "line": 2229,
             "column": 11
           }
         }
@@ -2839,7 +2839,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2224,
+            "line": 2225,
             "column": 19
           }
         },
@@ -2853,7 +2853,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2225,
+                "line": 2226,
                 "column": 56
               }
             }
@@ -2861,7 +2861,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2225,
+            "line": 2226,
             "column": 19
           }
         },
@@ -2873,7 +2873,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2226,
+            "line": 2227,
             "column": 19
           }
         },
@@ -2887,7 +2887,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2227,
+                "line": 2228,
                 "column": 56
               }
             }
@@ -2895,14 +2895,14 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2227,
+            "line": 2228,
             "column": 19
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2229,
+        "line": 2230,
         "column": 3
       }
     },
@@ -2914,7 +2914,7 @@
           "type": "void*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2213,
+            "line": 2214,
             "column": 17
           }
         },
@@ -2924,7 +2924,7 @@
           "offset": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2214,
+            "line": 2215,
             "column": 19
           }
         },
@@ -2934,7 +2934,7 @@
           "offset": 16,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2215,
+            "line": 2216,
             "column": 19
           }
         },
@@ -2944,7 +2944,7 @@
           "offset": 24,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2216,
+            "line": 2217,
             "column": 19
           }
         },
@@ -2954,7 +2954,7 @@
           "offset": 32,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2217,
+            "line": 2218,
             "column": 19
           }
         },
@@ -2964,7 +2964,7 @@
           "offset": 40,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2218,
+            "line": 2219,
             "column": 11
           }
         }
@@ -2979,7 +2979,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2214,
+            "line": 2215,
             "column": 19
           }
         },
@@ -2993,7 +2993,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2215,
+                "line": 2216,
                 "column": 59
               }
             }
@@ -3001,7 +3001,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2215,
+            "line": 2216,
             "column": 19
           }
         },
@@ -3013,7 +3013,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2216,
+            "line": 2217,
             "column": 19
           }
         },
@@ -3027,7 +3027,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2217,
+                "line": 2218,
                 "column": 46
               }
             }
@@ -3035,14 +3035,14 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2217,
+            "line": 2218,
             "column": 19
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2219,
+        "line": 2220,
         "column": 3
       }
     },
@@ -3054,7 +3054,7 @@
           "type": "_Bool",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2209,
+            "line": 2210,
             "column": 10
           }
         }
@@ -3063,7 +3063,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2210,
+        "line": 2211,
         "column": 3
       }
     },
@@ -3218,7 +3218,7 @@
           "offset": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1957,
+            "line": 1958,
             "column": 29
           }
         },
@@ -3228,7 +3228,7 @@
           "offset": 52,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1953,
+            "line": 1954,
             "column": 3
           }
         },
@@ -3238,7 +3238,7 @@
           "offset": 64,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1959,
+            "line": 1960,
             "column": 17
           }
         },
@@ -3259,7 +3259,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1961,
+        "line": 1962,
         "column": 3
       }
     },
@@ -3281,7 +3281,7 @@
           "offset": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1951,
+            "line": 1952,
             "column": 9
           }
         },
@@ -3291,7 +3291,7 @@
           "offset": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1952,
+            "line": 1953,
             "column": 9
           }
         }
@@ -3300,7 +3300,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1953,
+        "line": 1954,
         "column": 3
       }
     },
@@ -3333,7 +3333,7 @@
           "offset": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1865,
+            "line": 1866,
             "column": 3
           }
         },
@@ -3343,7 +3343,7 @@
           "offset": 296,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1890,
+            "line": 1891,
             "column": 3
           }
         },
@@ -3353,7 +3353,7 @@
           "offset": 320,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1881,
+            "line": 1882,
             "column": 3
           }
         },
@@ -3363,7 +3363,7 @@
           "offset": 360,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1914,
+            "line": 1915,
             "column": 9
           }
         },
@@ -3373,7 +3373,7 @@
           "offset": 364,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1915,
+            "line": 1916,
             "column": 20
           }
         },
@@ -3383,7 +3383,7 @@
           "offset": 508,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1073,
+            "line": 1074,
             "column": 3
           }
         },
@@ -3393,7 +3393,7 @@
           "offset": 512,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 980,
+            "line": 981,
             "column": 3
           }
         },
@@ -3403,7 +3403,7 @@
           "offset": 516,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1231,
+            "line": 1232,
             "column": 3
           }
         },
@@ -3413,7 +3413,7 @@
           "offset": 520,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1248,
+            "line": 1249,
             "column": 3
           }
         },
@@ -3423,7 +3423,7 @@
           "offset": 524,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1920,
+            "line": 1921,
             "column": 9
           }
         },
@@ -3444,7 +3444,7 @@
           "padding": 7,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1922,
+            "line": 1923,
             "column": 10
           }
         },
@@ -3454,7 +3454,7 @@
           "offset": 552,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1923,
+            "line": 1924,
             "column": 17
           }
         },
@@ -3475,7 +3475,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1925,
+        "line": 1926,
         "column": 3
       }
     },
@@ -3548,7 +3548,7 @@
           "offset": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1408,
+            "line": 1409,
             "column": 3
           }
         },
@@ -3558,7 +3558,7 @@
           "offset": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1900,
+            "line": 1901,
             "column": 3
           }
         }
@@ -3567,7 +3567,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1906,
+        "line": 1907,
         "column": 3
       }
     },
@@ -3580,7 +3580,7 @@
           "padding": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1893,
+            "line": 1894,
             "column": 10
           }
         },
@@ -3590,7 +3590,7 @@
           "offset": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1350,
+            "line": 1351,
             "column": 3
           }
         },
@@ -3600,7 +3600,7 @@
           "offset": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1350,
+            "line": 1351,
             "column": 3
           }
         },
@@ -3610,7 +3610,7 @@
           "offset": 12,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1374,
+            "line": 1375,
             "column": 3
           }
         },
@@ -3620,7 +3620,7 @@
           "offset": 16,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1350,
+            "line": 1351,
             "column": 3
           }
         },
@@ -3630,7 +3630,7 @@
           "offset": 20,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1350,
+            "line": 1351,
             "column": 3
           }
         },
@@ -3640,7 +3640,7 @@
           "offset": 24,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1374,
+            "line": 1375,
             "column": 3
           }
         }
@@ -3649,7 +3649,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1900,
+        "line": 1901,
         "column": 3
       }
     },
@@ -3662,7 +3662,7 @@
           "padding": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1875,
+            "line": 1876,
             "column": 10
           }
         },
@@ -3672,7 +3672,7 @@
           "offset": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1872,
+            "line": 1873,
             "column": 3
           }
         },
@@ -3682,7 +3682,7 @@
           "offset": 20,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1872,
+            "line": 1873,
             "column": 3
           }
         },
@@ -3725,7 +3725,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1881,
+        "line": 1882,
         "column": 3
       }
     },
@@ -3737,7 +3737,7 @@
           "type": "sg_compare_func",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1278,
+            "line": 1279,
             "column": 3
           }
         },
@@ -3747,7 +3747,7 @@
           "offset": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1312,
+            "line": 1313,
             "column": 3
           }
         },
@@ -3757,7 +3757,7 @@
           "offset": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1312,
+            "line": 1313,
             "column": 3
           }
         },
@@ -3767,7 +3767,7 @@
           "offset": 12,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1312,
+            "line": 1313,
             "column": 3
           }
         }
@@ -3776,7 +3776,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1872,
+        "line": 1873,
         "column": 3
       }
     },
@@ -3798,7 +3798,7 @@
           "offset": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1278,
+            "line": 1279,
             "column": 3
           }
         },
@@ -3809,7 +3809,7 @@
           "padding": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1886,
+            "line": 1887,
             "column": 10
           }
         },
@@ -3819,7 +3819,7 @@
           "offset": 12,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1887,
+            "line": 1888,
             "column": 11
           }
         },
@@ -3829,7 +3829,7 @@
           "offset": 16,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1888,
+            "line": 1889,
             "column": 11
           }
         },
@@ -3839,7 +3839,7 @@
           "offset": 20,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1889,
+            "line": 1890,
             "column": 11
           }
         }
@@ -3848,7 +3848,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1890,
+        "line": 1891,
         "column": 3
       }
     },
@@ -3860,7 +3860,7 @@
           "type": "sg_buffer_layout_desc[8]",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1863,
+            "line": 1864,
             "column": 27
           }
         },
@@ -3870,7 +3870,7 @@
           "offset": 96,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1864,
+            "line": 1865,
             "column": 25
           }
         }
@@ -3879,7 +3879,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1865,
+        "line": 1866,
         "column": 3
       }
     },
@@ -3891,7 +3891,7 @@
           "type": "int",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1854,
+            "line": 1855,
             "column": 9
           }
         },
@@ -3901,7 +3901,7 @@
           "offset": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1855,
+            "line": 1856,
             "column": 9
           }
         },
@@ -3911,7 +3911,7 @@
           "offset": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1176,
+            "line": 1177,
             "column": 3
           }
         }
@@ -3920,7 +3920,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1860,
+        "line": 1861,
         "column": 3
       }
     },
@@ -3932,7 +3932,7 @@
           "type": "int",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1845,
+            "line": 1846,
             "column": 9
           }
         },
@@ -3942,7 +3942,7 @@
           "offset": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1195,
+            "line": 1196,
             "column": 3
           }
         },
@@ -3952,7 +3952,7 @@
           "offset": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1847,
+            "line": 1848,
             "column": 9
           }
         }
@@ -3961,7 +3961,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1851,
+        "line": 1852,
         "column": 3
       }
     },
@@ -3985,7 +3985,7 @@
           "offset": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1768,
+            "line": 1769,
             "column": 25
           }
         },
@@ -3995,7 +3995,7 @@
           "offset": 392,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1764,
+            "line": 1765,
             "column": 3
           }
         },
@@ -4005,7 +4005,7 @@
           "offset": 1680,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1764,
+            "line": 1765,
             "column": 3
           }
         },
@@ -4015,7 +4015,7 @@
           "offset": 2968,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1771,
+            "line": 1772,
             "column": 17
           }
         },
@@ -4036,7 +4036,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1773,
+        "line": 1774,
         "column": 3
       }
     },
@@ -4048,7 +4048,7 @@
           "type": "char*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1758,
+            "line": 1759,
             "column": 17
           }
         },
@@ -4068,7 +4068,7 @@
           "offset": 24,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1760,
+            "line": 1761,
             "column": 17
           }
         },
@@ -4078,7 +4078,7 @@
           "offset": 32,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1761,
+            "line": 1762,
             "column": 17
           }
         },
@@ -4088,7 +4088,7 @@
           "offset": 40,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1762,
+            "line": 1763,
             "column": 34
           }
         },
@@ -4098,7 +4098,7 @@
           "offset": 1096,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1763,
+            "line": 1764,
             "column": 26
           }
         }
@@ -4107,7 +4107,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1764,
+        "line": 1765,
         "column": 3
       }
     },
@@ -4119,7 +4119,7 @@
           "type": "char*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1752,
+            "line": 1753,
             "column": 17
           }
         },
@@ -4129,7 +4129,7 @@
           "offset": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1002,
+            "line": 1003,
             "column": 3
           }
         },
@@ -4139,7 +4139,7 @@
           "offset": 12,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1019,
+            "line": 1020,
             "column": 3
           }
         }
@@ -4148,7 +4148,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1755,
+        "line": 1756,
         "column": 3
       }
     },
@@ -4171,7 +4171,7 @@
           "offset": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1748,
+            "line": 1749,
             "column": 28
           }
         }
@@ -4180,7 +4180,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1749,
+        "line": 1750,
         "column": 3
       }
     },
@@ -4192,7 +4192,7 @@
           "type": "char*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1741,
+            "line": 1742,
             "column": 17
           }
         },
@@ -4202,7 +4202,7 @@
           "offset": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1213,
+            "line": 1214,
             "column": 3
           }
         },
@@ -4212,7 +4212,7 @@
           "offset": 12,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1743,
+            "line": 1744,
             "column": 9
           }
         }
@@ -4221,7 +4221,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1744,
+        "line": 1745,
         "column": 3
       }
     },
@@ -4265,7 +4265,7 @@
           "type": "char*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1735,
+            "line": 1736,
             "column": 17
           }
         },
@@ -4275,7 +4275,7 @@
           "offset": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1736,
+            "line": 1737,
             "column": 17
           }
         },
@@ -4286,7 +4286,7 @@
           "padding": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1737,
+            "line": 1738,
             "column": 9
           }
         }
@@ -4295,7 +4295,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1738,
+        "line": 1739,
         "column": 3
       }
     },
@@ -4318,7 +4318,7 @@
           "offset": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1002,
+            "line": 1003,
             "column": 3
           }
         },
@@ -4329,7 +4329,7 @@
           "padding": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1668,
+            "line": 1669,
             "column": 10
           }
         },
@@ -4339,7 +4339,7 @@
           "offset": 12,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1669,
+            "line": 1670,
             "column": 9
           }
         },
@@ -4349,7 +4349,7 @@
           "offset": 16,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1670,
+            "line": 1671,
             "column": 9
           }
         },
@@ -4359,7 +4359,7 @@
           "offset": 20,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1671,
+            "line": 1672,
             "column": 9
           }
         },
@@ -4369,7 +4369,7 @@
           "offset": 24,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1672,
+            "line": 1673,
             "column": 9
           }
         },
@@ -4379,7 +4379,7 @@
           "offset": 28,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 945,
+            "line": 946,
             "column": 3
           }
         },
@@ -4399,7 +4399,7 @@
           "offset": 36,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1675,
+            "line": 1676,
             "column": 9
           }
         },
@@ -4409,7 +4409,7 @@
           "offset": 40,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1094,
+            "line": 1095,
             "column": 3
           }
         },
@@ -4419,7 +4419,7 @@
           "offset": 44,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1094,
+            "line": 1095,
             "column": 3
           }
         },
@@ -4429,7 +4429,7 @@
           "offset": 48,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1132,
+            "line": 1133,
             "column": 3
           }
         },
@@ -4439,7 +4439,7 @@
           "offset": 52,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1132,
+            "line": 1133,
             "column": 3
           }
         },
@@ -4449,7 +4449,7 @@
           "offset": 56,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1132,
+            "line": 1133,
             "column": 3
           }
         },
@@ -4459,7 +4459,7 @@
           "offset": 60,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1149,
+            "line": 1150,
             "column": 3
           }
         },
@@ -4480,7 +4480,7 @@
           "offset": 68,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1683,
+            "line": 1684,
             "column": 11
           }
         },
@@ -4491,7 +4491,7 @@
           "padding": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1684,
+            "line": 1685,
             "column": 11
           }
         },
@@ -4501,7 +4501,7 @@
           "offset": 80,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1593,
+            "line": 1594,
             "column": 3
           }
         },
@@ -4511,7 +4511,7 @@
           "offset": 1616,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1686,
+            "line": 1687,
             "column": 17
           }
         },
@@ -4521,7 +4521,7 @@
           "offset": 1624,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1688,
+            "line": 1689,
             "column": 14
           }
         },
@@ -4543,7 +4543,7 @@
           "offset": 1640,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1691,
+            "line": 1692,
             "column": 17
           }
         },
@@ -4553,7 +4553,7 @@
           "offset": 1656,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1693,
+            "line": 1694,
             "column": 17
           }
         },
@@ -4563,7 +4563,7 @@
           "offset": 1664,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1694,
+            "line": 1695,
             "column": 17
           }
         },
@@ -4573,7 +4573,7 @@
           "offset": 1672,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1696,
+            "line": 1697,
             "column": 17
           }
         },
@@ -4594,7 +4594,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1698,
+        "line": 1699,
         "column": 3
       }
     },
@@ -4606,7 +4606,7 @@
           "type": "sg_range[6]",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1592,
+            "line": 1593,
             "column": 14
           }
         }
@@ -4615,7 +4615,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1593,
+        "line": 1594,
         "column": 3
       }
     },
@@ -4650,7 +4650,7 @@
           "offset": 16,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 961,
+            "line": 962,
             "column": 3
           }
         },
@@ -4660,7 +4660,7 @@
           "offset": 20,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 945,
+            "line": 946,
             "column": 3
           }
         },
@@ -4680,7 +4680,7 @@
           "offset": 40,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1572,
+            "line": 1573,
             "column": 17
           }
         },
@@ -4690,7 +4690,7 @@
           "offset": 48,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1574,
+            "line": 1575,
             "column": 14
           }
         },
@@ -4700,7 +4700,7 @@
           "offset": 56,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1576,
+            "line": 1577,
             "column": 17
           }
         },
@@ -4710,7 +4710,7 @@
           "offset": 72,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1578,
+            "line": 1579,
             "column": 17
           }
         },
@@ -4720,7 +4720,7 @@
           "offset": 80,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1580,
+            "line": 1581,
             "column": 17
           }
         },
@@ -4741,7 +4741,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1582,
+        "line": 1583,
         "column": 3
       }
     },
@@ -4753,7 +4753,7 @@
           "type": "sg_slot_info",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2064,
+            "line": 2065,
             "column": 3
           }
         }
@@ -4762,7 +4762,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2095,
+        "line": 2096,
         "column": 3
       }
     },
@@ -4774,7 +4774,7 @@
           "type": "sg_resource_state",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 902,
+            "line": 903,
             "column": 3
           }
         },
@@ -4805,7 +4805,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2064,
+        "line": 2065,
         "column": 3
       }
     },
@@ -4817,7 +4817,7 @@
           "type": "sg_slot_info",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2064,
+            "line": 2065,
             "column": 3
           }
         }
@@ -4826,7 +4826,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2091,
+        "line": 2092,
         "column": 3
       }
     },
@@ -4838,7 +4838,7 @@
           "type": "sg_slot_info",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2064,
+            "line": 2065,
             "column": 3
           }
         }
@@ -4847,7 +4847,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2087,
+        "line": 2088,
         "column": 3
       }
     },
@@ -4859,7 +4859,7 @@
           "type": "sg_slot_info",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2064,
+            "line": 2065,
             "column": 3
           }
         },
@@ -4880,7 +4880,7 @@
           "offset": 16,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2079,
+            "line": 2080,
             "column": 9
           }
         },
@@ -4890,7 +4890,7 @@
           "offset": 20,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2080,
+            "line": 2081,
             "column": 9
           }
         },
@@ -4900,7 +4900,7 @@
           "offset": 24,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2081,
+            "line": 2082,
             "column": 9
           }
         },
@@ -4910,7 +4910,7 @@
           "offset": 28,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2082,
+            "line": 2083,
             "column": 9
           }
         }
@@ -4919,7 +4919,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2083,
+        "line": 2084,
         "column": 3
       }
     },
@@ -4931,7 +4931,7 @@
           "type": "sg_slot_info",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2064,
+            "line": 2065,
             "column": 3
           }
         },
@@ -4963,7 +4963,7 @@
           "offset": 20,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2070,
+            "line": 2071,
             "column": 9
           }
         },
@@ -4974,7 +4974,7 @@
           "padding": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2071,
+            "line": 2072,
             "column": 10
           }
         },
@@ -4984,7 +4984,7 @@
           "offset": 28,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2072,
+            "line": 2073,
             "column": 9
           }
         },
@@ -4994,7 +4994,7 @@
           "offset": 32,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2073,
+            "line": 2074,
             "column": 9
           }
         }
@@ -5003,7 +5003,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2074,
+        "line": 2075,
         "column": 3
       }
     },
@@ -5139,13 +5139,23 @@
             "line": 874,
             "column": 9
           }
+        },
+        {
+          "name": "gl_max_vertex_uniform_vectors",
+          "type": "int",
+          "offset": 24,
+          "location": {
+            "file": "sokol_gfx.h",
+            "line": 875,
+            "column": 9
+          }
         }
       ],
       "nestedRecords": [],
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 875,
+        "line": 876,
         "column": 3
       }
     },
@@ -5269,7 +5279,7 @@
           "offset": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2254,
+            "line": 2255,
             "column": 9
           }
         },
@@ -5279,7 +5289,7 @@
           "offset": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2255,
+            "line": 2256,
             "column": 9
           }
         },
@@ -5289,7 +5299,7 @@
           "offset": 12,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2256,
+            "line": 2257,
             "column": 9
           }
         },
@@ -5299,7 +5309,7 @@
           "offset": 16,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2257,
+            "line": 2258,
             "column": 9
           }
         },
@@ -5309,7 +5319,7 @@
           "offset": 20,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2258,
+            "line": 2259,
             "column": 9
           }
         },
@@ -5319,7 +5329,7 @@
           "offset": 24,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2259,
+            "line": 2260,
             "column": 9
           }
         },
@@ -5329,7 +5339,7 @@
           "offset": 28,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2260,
+            "line": 2261,
             "column": 9
           }
         },
@@ -5339,7 +5349,7 @@
           "offset": 32,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2261,
+            "line": 2262,
             "column": 9
           }
         },
@@ -5349,7 +5359,7 @@
           "offset": 36,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2262,
+            "line": 2263,
             "column": 9
           }
         },
@@ -5359,7 +5369,7 @@
           "offset": 40,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2250,
+            "line": 2251,
             "column": 3
           }
         },
@@ -5380,7 +5390,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2265,
+        "line": 2266,
         "column": 3
       }
     },
@@ -5403,7 +5413,7 @@
           "offset": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1504,
+            "line": 1505,
             "column": 15
           }
         },
@@ -5413,7 +5423,7 @@
           "offset": 36,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1505,
+            "line": 1506,
             "column": 9
           }
         },
@@ -5433,7 +5443,7 @@
           "offset": 72,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1507,
+            "line": 1508,
             "column": 9
           }
         },
@@ -5443,7 +5453,7 @@
           "offset": 76,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1508,
+            "line": 1509,
             "column": 14
           }
         },
@@ -5453,7 +5463,7 @@
           "offset": 124,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1509,
+            "line": 1510,
             "column": 14
           }
         },
@@ -5473,7 +5483,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1511,
+        "line": 1512,
         "column": 3
       }
     },
@@ -5496,7 +5506,7 @@
           "offset": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1473,
+            "line": 1474,
             "column": 32
           }
         },
@@ -5506,7 +5516,7 @@
           "offset": 84,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1464,
+            "line": 1465,
             "column": 3
           }
         },
@@ -5516,7 +5526,7 @@
           "offset": 92,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1469,
+            "line": 1470,
             "column": 3
           }
         },
@@ -5536,7 +5546,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1477,
+        "line": 1478,
         "column": 3
       }
     },
@@ -5548,7 +5558,7 @@
           "type": "sg_action",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1435,
+            "line": 1436,
             "column": 3
           }
         },
@@ -5569,7 +5579,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1469,
+        "line": 1470,
         "column": 3
       }
     },
@@ -5581,7 +5591,7 @@
           "type": "sg_action",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1435,
+            "line": 1436,
             "column": 3
           }
         },
@@ -5591,7 +5601,7 @@
           "offset": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1463,
+            "line": 1464,
             "column": 11
           }
         }
@@ -5600,7 +5610,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1464,
+        "line": 1465,
         "column": 3
       }
     },
@@ -5612,7 +5622,7 @@
           "type": "sg_action",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1435,
+            "line": 1436,
             "column": 3
           }
         },
@@ -5631,7 +5641,7 @@
       "nestedFunctionPointers": [],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1459,
+        "line": 1460,
         "column": 3
       }
     },
@@ -5643,7 +5653,7 @@
           "type": "void*",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1976,
+            "line": 1977,
             "column": 11
           }
         },
@@ -5653,7 +5663,7 @@
           "offset": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1977,
+            "line": 1978,
             "column": 12
           }
         },
@@ -5663,7 +5673,7 @@
           "offset": 16,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1978,
+            "line": 1979,
             "column": 12
           }
         },
@@ -5673,7 +5683,7 @@
           "offset": 24,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1979,
+            "line": 1980,
             "column": 12
           }
         },
@@ -5683,7 +5693,7 @@
           "offset": 32,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1980,
+            "line": 1981,
             "column": 12
           }
         },
@@ -5693,7 +5703,7 @@
           "offset": 40,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1981,
+            "line": 1982,
             "column": 12
           }
         },
@@ -5703,7 +5713,7 @@
           "offset": 48,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1982,
+            "line": 1983,
             "column": 12
           }
         },
@@ -5713,7 +5723,7 @@
           "offset": 56,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1983,
+            "line": 1984,
             "column": 12
           }
         },
@@ -5723,7 +5733,7 @@
           "offset": 64,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1984,
+            "line": 1985,
             "column": 12
           }
         },
@@ -5733,7 +5743,7 @@
           "offset": 72,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1985,
+            "line": 1986,
             "column": 12
           }
         },
@@ -5743,7 +5753,7 @@
           "offset": 80,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1986,
+            "line": 1987,
             "column": 12
           }
         },
@@ -5753,7 +5763,7 @@
           "offset": 88,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1987,
+            "line": 1988,
             "column": 12
           }
         },
@@ -5763,7 +5773,7 @@
           "offset": 96,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1988,
+            "line": 1989,
             "column": 12
           }
         },
@@ -5773,7 +5783,7 @@
           "offset": 104,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1989,
+            "line": 1990,
             "column": 12
           }
         },
@@ -5783,7 +5793,7 @@
           "offset": 112,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1990,
+            "line": 1991,
             "column": 12
           }
         },
@@ -5793,7 +5803,7 @@
           "offset": 120,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1991,
+            "line": 1992,
             "column": 12
           }
         },
@@ -5803,7 +5813,7 @@
           "offset": 128,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1992,
+            "line": 1993,
             "column": 12
           }
         },
@@ -5813,7 +5823,7 @@
           "offset": 136,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1993,
+            "line": 1994,
             "column": 12
           }
         },
@@ -5823,7 +5833,7 @@
           "offset": 144,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1994,
+            "line": 1995,
             "column": 12
           }
         },
@@ -5833,7 +5843,7 @@
           "offset": 152,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1995,
+            "line": 1996,
             "column": 12
           }
         },
@@ -5843,7 +5853,7 @@
           "offset": 160,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1996,
+            "line": 1997,
             "column": 12
           }
         },
@@ -5853,7 +5863,7 @@
           "offset": 168,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1997,
+            "line": 1998,
             "column": 12
           }
         },
@@ -5863,7 +5873,7 @@
           "offset": 176,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1998,
+            "line": 1999,
             "column": 12
           }
         },
@@ -5873,7 +5883,7 @@
           "offset": 184,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1999,
+            "line": 2000,
             "column": 12
           }
         },
@@ -5883,7 +5893,7 @@
           "offset": 192,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2000,
+            "line": 2001,
             "column": 12
           }
         },
@@ -5893,7 +5903,7 @@
           "offset": 200,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2001,
+            "line": 2002,
             "column": 12
           }
         },
@@ -5903,7 +5913,7 @@
           "offset": 208,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2002,
+            "line": 2003,
             "column": 12
           }
         },
@@ -5913,7 +5923,7 @@
           "offset": 216,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2003,
+            "line": 2004,
             "column": 12
           }
         },
@@ -5923,7 +5933,7 @@
           "offset": 224,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2004,
+            "line": 2005,
             "column": 12
           }
         },
@@ -5933,7 +5943,7 @@
           "offset": 232,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2005,
+            "line": 2006,
             "column": 12
           }
         },
@@ -5943,7 +5953,7 @@
           "offset": 240,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2006,
+            "line": 2007,
             "column": 12
           }
         },
@@ -5953,7 +5963,7 @@
           "offset": 248,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2007,
+            "line": 2008,
             "column": 12
           }
         },
@@ -5963,7 +5973,7 @@
           "offset": 256,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2008,
+            "line": 2009,
             "column": 12
           }
         },
@@ -5973,7 +5983,7 @@
           "offset": 264,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2009,
+            "line": 2010,
             "column": 12
           }
         },
@@ -5983,7 +5993,7 @@
           "offset": 272,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2010,
+            "line": 2011,
             "column": 12
           }
         },
@@ -5993,7 +6003,7 @@
           "offset": 280,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2011,
+            "line": 2012,
             "column": 12
           }
         },
@@ -6003,7 +6013,7 @@
           "offset": 288,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2012,
+            "line": 2013,
             "column": 12
           }
         },
@@ -6013,7 +6023,7 @@
           "offset": 296,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2013,
+            "line": 2014,
             "column": 12
           }
         },
@@ -6023,7 +6033,7 @@
           "offset": 304,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2014,
+            "line": 2015,
             "column": 12
           }
         },
@@ -6033,7 +6043,7 @@
           "offset": 312,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2015,
+            "line": 2016,
             "column": 12
           }
         },
@@ -6043,7 +6053,7 @@
           "offset": 320,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2016,
+            "line": 2017,
             "column": 12
           }
         },
@@ -6053,7 +6063,7 @@
           "offset": 328,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2017,
+            "line": 2018,
             "column": 12
           }
         },
@@ -6063,7 +6073,7 @@
           "offset": 336,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2018,
+            "line": 2019,
             "column": 12
           }
         },
@@ -6073,7 +6083,7 @@
           "offset": 344,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2019,
+            "line": 2020,
             "column": 12
           }
         },
@@ -6083,7 +6093,7 @@
           "offset": 352,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2020,
+            "line": 2021,
             "column": 12
           }
         },
@@ -6093,7 +6103,7 @@
           "offset": 360,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2021,
+            "line": 2022,
             "column": 12
           }
         },
@@ -6103,7 +6113,7 @@
           "offset": 368,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2022,
+            "line": 2023,
             "column": 12
           }
         },
@@ -6113,7 +6123,7 @@
           "offset": 376,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2023,
+            "line": 2024,
             "column": 12
           }
         },
@@ -6123,7 +6133,7 @@
           "offset": 384,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2024,
+            "line": 2025,
             "column": 12
           }
         },
@@ -6133,7 +6143,7 @@
           "offset": 392,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2025,
+            "line": 2026,
             "column": 12
           }
         },
@@ -6143,7 +6153,7 @@
           "offset": 400,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2026,
+            "line": 2027,
             "column": 12
           }
         },
@@ -6153,7 +6163,7 @@
           "offset": 408,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2027,
+            "line": 2028,
             "column": 12
           }
         },
@@ -6163,7 +6173,7 @@
           "offset": 416,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2028,
+            "line": 2029,
             "column": 12
           }
         },
@@ -6173,7 +6183,7 @@
           "offset": 424,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2029,
+            "line": 2030,
             "column": 12
           }
         },
@@ -6183,7 +6193,7 @@
           "offset": 432,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2030,
+            "line": 2031,
             "column": 12
           }
         },
@@ -6193,7 +6203,7 @@
           "offset": 440,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2031,
+            "line": 2032,
             "column": 12
           }
         },
@@ -6203,7 +6213,7 @@
           "offset": 448,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2032,
+            "line": 2033,
             "column": 12
           }
         },
@@ -6213,7 +6223,7 @@
           "offset": 456,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2033,
+            "line": 2034,
             "column": 12
           }
         },
@@ -6223,7 +6233,7 @@
           "offset": 464,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2034,
+            "line": 2035,
             "column": 12
           }
         },
@@ -6233,7 +6243,7 @@
           "offset": 472,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2035,
+            "line": 2036,
             "column": 12
           }
         },
@@ -6243,7 +6253,7 @@
           "offset": 480,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2036,
+            "line": 2037,
             "column": 12
           }
         }
@@ -6260,7 +6270,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1977,
+                "line": 1978,
                 "column": 37
               }
             }
@@ -6268,7 +6278,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1977,
+            "line": 1978,
             "column": 12
           }
         },
@@ -6282,7 +6292,7 @@
               "type": "sg_buffer_desc*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1582,
+                "line": 1583,
                 "column": 3
               }
             },
@@ -6300,7 +6310,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1978,
+                "line": 1979,
                 "column": 77
               }
             }
@@ -6308,7 +6318,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1978,
+            "line": 1979,
             "column": 12
           }
         },
@@ -6322,7 +6332,7 @@
               "type": "sg_image_desc*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1698,
+                "line": 1699,
                 "column": 3
               }
             },
@@ -6340,7 +6350,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1979,
+                "line": 1980,
                 "column": 74
               }
             }
@@ -6348,7 +6358,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1979,
+            "line": 1980,
             "column": 12
           }
         },
@@ -6362,7 +6372,7 @@
               "type": "sg_shader_desc*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1773,
+                "line": 1774,
                 "column": 3
               }
             },
@@ -6380,7 +6390,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1980,
+                "line": 1981,
                 "column": 77
               }
             }
@@ -6388,7 +6398,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1980,
+            "line": 1981,
             "column": 12
           }
         },
@@ -6402,7 +6412,7 @@
               "type": "sg_pipeline_desc*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1925,
+                "line": 1926,
                 "column": 3
               }
             },
@@ -6420,7 +6430,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1981,
+                "line": 1982,
                 "column": 83
               }
             }
@@ -6428,7 +6438,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1981,
+            "line": 1982,
             "column": 12
           }
         },
@@ -6442,7 +6452,7 @@
               "type": "sg_pass_desc*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1961,
+                "line": 1962,
                 "column": 3
               }
             },
@@ -6460,7 +6470,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1982,
+                "line": 1983,
                 "column": 71
               }
             }
@@ -6468,7 +6478,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1982,
+            "line": 1983,
             "column": 12
           }
         },
@@ -6491,7 +6501,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1983,
+                "line": 1984,
                 "column": 49
               }
             }
@@ -6499,7 +6509,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1983,
+            "line": 1984,
             "column": 12
           }
         },
@@ -6522,7 +6532,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1984,
+                "line": 1985,
                 "column": 47
               }
             }
@@ -6530,7 +6540,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1984,
+            "line": 1985,
             "column": 12
           }
         },
@@ -6553,7 +6563,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1985,
+                "line": 1986,
                 "column": 49
               }
             }
@@ -6561,7 +6571,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1985,
+            "line": 1986,
             "column": 12
           }
         },
@@ -6584,7 +6594,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1986,
+                "line": 1987,
                 "column": 53
               }
             }
@@ -6592,7 +6602,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1986,
+            "line": 1987,
             "column": 12
           }
         },
@@ -6615,7 +6625,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1987,
+                "line": 1988,
                 "column": 46
               }
             }
@@ -6623,7 +6633,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1987,
+            "line": 1988,
             "column": 12
           }
         },
@@ -6655,7 +6665,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1988,
+                "line": 1989,
                 "column": 70
               }
             }
@@ -6663,7 +6673,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1988,
+            "line": 1989,
             "column": 12
           }
         },
@@ -6686,7 +6696,7 @@
               "type": "sg_image_data*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1593,
+                "line": 1594,
                 "column": 3
               }
             },
@@ -6695,7 +6705,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1989,
+                "line": 1990,
                 "column": 73
               }
             }
@@ -6703,7 +6713,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1989,
+            "line": 1990,
             "column": 12
           }
         },
@@ -6735,7 +6745,7 @@
               "type": "int",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1990,
+                "line": 1991,
                 "column": 68
               }
             },
@@ -6744,7 +6754,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1990,
+                "line": 1991,
                 "column": 82
               }
             }
@@ -6752,7 +6762,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1990,
+            "line": 1991,
             "column": 12
           }
         },
@@ -6766,7 +6776,7 @@
               "type": "sg_pass_action*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1477,
+                "line": 1478,
                 "column": 3
               }
             },
@@ -6775,7 +6785,7 @@
               "type": "int",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1991,
+                "line": 1992,
                 "column": 71
               }
             },
@@ -6784,7 +6794,7 @@
               "type": "int",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1991,
+                "line": 1992,
                 "column": 82
               }
             },
@@ -6793,7 +6803,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1991,
+                "line": 1992,
                 "column": 96
               }
             }
@@ -6801,7 +6811,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1991,
+            "line": 1992,
             "column": 12
           }
         },
@@ -6824,7 +6834,7 @@
               "type": "sg_pass_action*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1477,
+                "line": 1478,
                 "column": 3
               }
             },
@@ -6833,7 +6843,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1992,
+                "line": 1993,
                 "column": 79
               }
             }
@@ -6841,7 +6851,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1992,
+            "line": 1993,
             "column": 12
           }
         },
@@ -6855,7 +6865,7 @@
               "type": "int",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1993,
+                "line": 1994,
                 "column": 32
               }
             },
@@ -6864,7 +6874,7 @@
               "type": "int",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1993,
+                "line": 1994,
                 "column": 39
               }
             },
@@ -6873,7 +6883,7 @@
               "type": "int",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1993,
+                "line": 1994,
                 "column": 46
               }
             },
@@ -6882,7 +6892,7 @@
               "type": "int",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1993,
+                "line": 1994,
                 "column": 57
               }
             },
@@ -6891,7 +6901,7 @@
               "type": "_Bool",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1993,
+                "line": 1994,
                 "column": 70
               }
             },
@@ -6900,7 +6910,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1993,
+                "line": 1994,
                 "column": 93
               }
             }
@@ -6908,7 +6918,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1993,
+            "line": 1994,
             "column": 12
           }
         },
@@ -6922,7 +6932,7 @@
               "type": "int",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1994,
+                "line": 1995,
                 "column": 36
               }
             },
@@ -6931,7 +6941,7 @@
               "type": "int",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1994,
+                "line": 1995,
                 "column": 43
               }
             },
@@ -6940,7 +6950,7 @@
               "type": "int",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1994,
+                "line": 1995,
                 "column": 50
               }
             },
@@ -6949,7 +6959,7 @@
               "type": "int",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1994,
+                "line": 1995,
                 "column": 61
               }
             },
@@ -6958,7 +6968,7 @@
               "type": "_Bool",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1994,
+                "line": 1995,
                 "column": 74
               }
             },
@@ -6967,7 +6977,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1994,
+                "line": 1995,
                 "column": 97
               }
             }
@@ -6975,7 +6985,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1994,
+            "line": 1995,
             "column": 12
           }
         },
@@ -6998,7 +7008,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1995,
+                "line": 1996,
                 "column": 51
               }
             }
@@ -7006,7 +7016,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1995,
+            "line": 1996,
             "column": 12
           }
         },
@@ -7020,7 +7030,7 @@
               "type": "sg_bindings*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1511,
+                "line": 1512,
                 "column": 3
               }
             },
@@ -7029,7 +7039,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1996,
+                "line": 1997,
                 "column": 63
               }
             }
@@ -7037,7 +7047,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1996,
+            "line": 1997,
             "column": 12
           }
         },
@@ -7051,7 +7061,7 @@
               "type": "sg_shader_stage",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1053,
+                "line": 1054,
                 "column": 3
               }
             },
@@ -7060,7 +7070,7 @@
               "type": "int",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1997,
+                "line": 1998,
                 "column": 55
               }
             },
@@ -7078,7 +7088,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1997,
+                "line": 1998,
                 "column": 93
               }
             }
@@ -7086,7 +7096,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1997,
+            "line": 1998,
             "column": 12
           }
         },
@@ -7100,7 +7110,7 @@
               "type": "int",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1998,
+                "line": 1999,
                 "column": 22
               }
             },
@@ -7109,7 +7119,7 @@
               "type": "int",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1998,
+                "line": 1999,
                 "column": 40
               }
             },
@@ -7118,7 +7128,7 @@
               "type": "int",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1998,
+                "line": 1999,
                 "column": 58
               }
             },
@@ -7127,7 +7137,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1998,
+                "line": 1999,
                 "column": 79
               }
             }
@@ -7135,7 +7145,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1998,
+            "line": 1999,
             "column": 12
           }
         },
@@ -7149,7 +7159,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1999,
+                "line": 2000,
                 "column": 28
               }
             }
@@ -7157,7 +7167,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1999,
+            "line": 2000,
             "column": 12
           }
         },
@@ -7171,7 +7181,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2000,
+                "line": 2001,
                 "column": 26
               }
             }
@@ -7179,7 +7189,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2000,
+            "line": 2001,
             "column": 12
           }
         },
@@ -7202,7 +7212,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2001,
+                "line": 2002,
                 "column": 50
               }
             }
@@ -7210,7 +7220,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2001,
+            "line": 2002,
             "column": 12
           }
         },
@@ -7233,7 +7243,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2002,
+                "line": 2003,
                 "column": 48
               }
             }
@@ -7241,7 +7251,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2002,
+            "line": 2003,
             "column": 12
           }
         },
@@ -7264,7 +7274,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2003,
+                "line": 2004,
                 "column": 50
               }
             }
@@ -7272,7 +7282,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2003,
+            "line": 2004,
             "column": 12
           }
         },
@@ -7295,7 +7305,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2004,
+                "line": 2005,
                 "column": 54
               }
             }
@@ -7303,7 +7313,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2004,
+            "line": 2005,
             "column": 12
           }
         },
@@ -7326,7 +7336,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2005,
+                "line": 2006,
                 "column": 46
               }
             }
@@ -7334,7 +7344,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2005,
+            "line": 2006,
             "column": 12
           }
         },
@@ -7357,7 +7367,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2006,
+                "line": 2007,
                 "column": 52
               }
             }
@@ -7365,7 +7375,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2006,
+            "line": 2007,
             "column": 12
           }
         },
@@ -7388,7 +7398,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2007,
+                "line": 2008,
                 "column": 50
               }
             }
@@ -7396,7 +7406,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2007,
+            "line": 2008,
             "column": 12
           }
         },
@@ -7419,7 +7429,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2008,
+                "line": 2009,
                 "column": 52
               }
             }
@@ -7427,7 +7437,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2008,
+            "line": 2009,
             "column": 12
           }
         },
@@ -7450,7 +7460,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2009,
+                "line": 2010,
                 "column": 56
               }
             }
@@ -7458,7 +7468,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2009,
+            "line": 2010,
             "column": 12
           }
         },
@@ -7481,7 +7491,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2010,
+                "line": 2011,
                 "column": 49
               }
             }
@@ -7489,7 +7499,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2010,
+            "line": 2011,
             "column": 12
           }
         },
@@ -7512,7 +7522,7 @@
               "type": "sg_buffer_desc*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1582,
+                "line": 1583,
                 "column": 3
               }
             },
@@ -7521,7 +7531,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2011,
+                "line": 2012,
                 "column": 77
               }
             }
@@ -7529,7 +7539,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2011,
+            "line": 2012,
             "column": 12
           }
         },
@@ -7552,7 +7562,7 @@
               "type": "sg_image_desc*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1698,
+                "line": 1699,
                 "column": 3
               }
             },
@@ -7561,7 +7571,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2012,
+                "line": 2013,
                 "column": 74
               }
             }
@@ -7569,7 +7579,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2012,
+            "line": 2013,
             "column": 12
           }
         },
@@ -7592,7 +7602,7 @@
               "type": "sg_shader_desc*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1773,
+                "line": 1774,
                 "column": 3
               }
             },
@@ -7601,7 +7611,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2013,
+                "line": 2014,
                 "column": 77
               }
             }
@@ -7609,7 +7619,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2013,
+            "line": 2014,
             "column": 12
           }
         },
@@ -7632,7 +7642,7 @@
               "type": "sg_pipeline_desc*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1925,
+                "line": 1926,
                 "column": 3
               }
             },
@@ -7641,7 +7651,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2014,
+                "line": 2015,
                 "column": 83
               }
             }
@@ -7649,7 +7659,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2014,
+            "line": 2015,
             "column": 12
           }
         },
@@ -7672,7 +7682,7 @@
               "type": "sg_pass_desc*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 1961,
+                "line": 1962,
                 "column": 3
               }
             },
@@ -7681,7 +7691,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2015,
+                "line": 2016,
                 "column": 72
               }
             }
@@ -7689,7 +7699,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2015,
+            "line": 2016,
             "column": 12
           }
         },
@@ -7712,7 +7722,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2016,
+                "line": 2017,
                 "column": 51
               }
             }
@@ -7720,7 +7730,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2016,
+            "line": 2017,
             "column": 12
           }
         },
@@ -7743,7 +7753,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2017,
+                "line": 2018,
                 "column": 49
               }
             }
@@ -7751,7 +7761,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2017,
+            "line": 2018,
             "column": 12
           }
         },
@@ -7774,7 +7784,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2018,
+                "line": 2019,
                 "column": 51
               }
             }
@@ -7782,7 +7792,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2018,
+            "line": 2019,
             "column": 12
           }
         },
@@ -7805,7 +7815,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2019,
+                "line": 2020,
                 "column": 55
               }
             }
@@ -7813,7 +7823,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2019,
+            "line": 2020,
             "column": 12
           }
         },
@@ -7836,7 +7846,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2020,
+                "line": 2021,
                 "column": 48
               }
             }
@@ -7844,7 +7854,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2020,
+            "line": 2021,
             "column": 12
           }
         },
@@ -7867,7 +7877,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2021,
+                "line": 2022,
                 "column": 49
               }
             }
@@ -7875,7 +7885,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2021,
+            "line": 2022,
             "column": 12
           }
         },
@@ -7898,7 +7908,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2022,
+                "line": 2023,
                 "column": 47
               }
             }
@@ -7906,7 +7916,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2022,
+            "line": 2023,
             "column": 12
           }
         },
@@ -7929,7 +7939,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2023,
+                "line": 2024,
                 "column": 49
               }
             }
@@ -7937,7 +7947,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2023,
+            "line": 2024,
             "column": 12
           }
         },
@@ -7960,7 +7970,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2024,
+                "line": 2025,
                 "column": 53
               }
             }
@@ -7968,7 +7978,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2024,
+            "line": 2025,
             "column": 12
           }
         },
@@ -7991,7 +8001,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2025,
+                "line": 2026,
                 "column": 46
               }
             }
@@ -7999,7 +8009,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2025,
+            "line": 2026,
             "column": 12
           }
         },
@@ -8013,7 +8023,7 @@
               "type": "char*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2026,
+                "line": 2027,
                 "column": 42
               }
             },
@@ -8022,7 +8032,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2026,
+                "line": 2027,
                 "column": 54
               }
             }
@@ -8030,7 +8040,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2026,
+            "line": 2027,
             "column": 12
           }
         },
@@ -8044,7 +8054,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2027,
+                "line": 2028,
                 "column": 35
               }
             }
@@ -8052,7 +8062,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2027,
+            "line": 2028,
             "column": 12
           }
         },
@@ -8066,7 +8076,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2028,
+                "line": 2029,
                 "column": 45
               }
             }
@@ -8074,7 +8084,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2028,
+            "line": 2029,
             "column": 12
           }
         },
@@ -8088,7 +8098,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2029,
+                "line": 2030,
                 "column": 44
               }
             }
@@ -8096,7 +8106,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2029,
+            "line": 2030,
             "column": 12
           }
         },
@@ -8110,7 +8120,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2030,
+                "line": 2031,
                 "column": 45
               }
             }
@@ -8118,7 +8128,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2030,
+            "line": 2031,
             "column": 12
           }
         },
@@ -8132,7 +8142,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2031,
+                "line": 2032,
                 "column": 47
               }
             }
@@ -8140,7 +8150,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2031,
+            "line": 2032,
             "column": 12
           }
         },
@@ -8154,7 +8164,7 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2032,
+                "line": 2033,
                 "column": 43
               }
             }
@@ -8162,7 +8172,7 @@
           "isWrapped": true,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 2032,
+            "line": 2033,
             "column": 12
           }
         },
@@ -8176,30 +8186,8 @@
               "type": "void*",
               "location": {
                 "file": "sokol_gfx.h",
-                "line": 2033,
-                "column": 40
-              }
-            }
-          ],
-          "isWrapped": true,
-          "location": {
-            "file": "sokol_gfx.h",
-            "line": 2033,
-            "column": 12
-          }
-        },
-        {
-          "name": "err_pass_invalid",
-          "type": "void (void *)",
-          "returnType": "void",
-          "parameters": [
-            {
-              "name": "user_data",
-              "type": "void*",
-              "location": {
-                "file": "sokol_gfx.h",
                 "line": 2034,
-                "column": 36
+                "column": 40
               }
             }
           ],
@@ -8211,7 +8199,7 @@
           }
         },
         {
-          "name": "err_draw_invalid",
+          "name": "err_pass_invalid",
           "type": "void (void *)",
           "returnType": "void",
           "parameters": [
@@ -8233,7 +8221,7 @@
           }
         },
         {
-          "name": "err_bindings_invalid",
+          "name": "err_draw_invalid",
           "type": "void (void *)",
           "returnType": "void",
           "parameters": [
@@ -8243,7 +8231,7 @@
               "location": {
                 "file": "sokol_gfx.h",
                 "line": 2036,
-                "column": 40
+                "column": 36
               }
             }
           ],
@@ -8253,11 +8241,33 @@
             "line": 2036,
             "column": 12
           }
+        },
+        {
+          "name": "err_bindings_invalid",
+          "type": "void (void *)",
+          "returnType": "void",
+          "parameters": [
+            {
+              "name": "user_data",
+              "type": "void*",
+              "location": {
+                "file": "sokol_gfx.h",
+                "line": 2037,
+                "column": 40
+              }
+            }
+          ],
+          "isWrapped": true,
+          "location": {
+            "file": "sokol_gfx.h",
+            "line": 2037,
+            "column": 12
+          }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2037,
+        "line": 2038,
         "column": 3
       }
     },
@@ -9981,7 +9991,7 @@
           "name": "_SG_FACEWINDING_DEFAULT",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1243,
+            "line": 1244,
             "column": 5
           }
         },
@@ -9990,7 +10000,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1244,
+            "line": 1245,
             "column": 5
           }
         },
@@ -9999,7 +10009,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1245,
+            "line": 1246,
             "column": 5
           }
         },
@@ -10008,7 +10018,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1246,
+            "line": 1247,
             "column": 5
           }
         },
@@ -10017,14 +10027,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1247,
+            "line": 1248,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1248,
+        "line": 1249,
         "column": 3
       }
     },
@@ -10037,7 +10047,7 @@
           "name": "_SG_CULLMODE_DEFAULT",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1225,
+            "line": 1226,
             "column": 5
           }
         },
@@ -10046,7 +10056,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1226,
+            "line": 1227,
             "column": 5
           }
         },
@@ -10055,7 +10065,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1227,
+            "line": 1228,
             "column": 5
           }
         },
@@ -10064,7 +10074,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1228,
+            "line": 1229,
             "column": 5
           }
         },
@@ -10073,7 +10083,7 @@
           "value": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1229,
+            "line": 1230,
             "column": 5
           }
         },
@@ -10082,14 +10092,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1230,
+            "line": 1231,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1231,
+        "line": 1232,
         "column": 3
       }
     },
@@ -10102,7 +10112,7 @@
           "name": "_SG_INDEXTYPE_DEFAULT",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 974,
+            "line": 975,
             "column": 5
           }
         },
@@ -10111,7 +10121,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 975,
+            "line": 976,
             "column": 5
           }
         },
@@ -10120,7 +10130,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 976,
+            "line": 977,
             "column": 5
           }
         },
@@ -10129,7 +10139,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 977,
+            "line": 978,
             "column": 5
           }
         },
@@ -10138,7 +10148,7 @@
           "value": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 978,
+            "line": 979,
             "column": 5
           }
         },
@@ -10147,14 +10157,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 979,
+            "line": 980,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 980,
+        "line": 981,
         "column": 3
       }
     },
@@ -10167,7 +10177,7 @@
           "name": "_SG_PRIMITIVETYPE_DEFAULT",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1065,
+            "line": 1066,
             "column": 5
           }
         },
@@ -10176,7 +10186,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1066,
+            "line": 1067,
             "column": 5
           }
         },
@@ -10185,7 +10195,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1067,
+            "line": 1068,
             "column": 5
           }
         },
@@ -10194,7 +10204,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1068,
+            "line": 1069,
             "column": 5
           }
         },
@@ -10203,7 +10213,7 @@
           "value": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1069,
+            "line": 1070,
             "column": 5
           }
         },
@@ -10212,7 +10222,7 @@
           "value": 5,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1070,
+            "line": 1071,
             "column": 5
           }
         },
@@ -10221,7 +10231,7 @@
           "value": 6,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1071,
+            "line": 1072,
             "column": 5
           }
         },
@@ -10230,14 +10240,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1072,
+            "line": 1073,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1073,
+        "line": 1074,
         "column": 3
       }
     },
@@ -10250,7 +10260,7 @@
           "name": "_SG_BLENDOP_DEFAULT",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1368,
+            "line": 1369,
             "column": 5
           }
         },
@@ -10259,7 +10269,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1369,
+            "line": 1370,
             "column": 5
           }
         },
@@ -10268,7 +10278,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1370,
+            "line": 1371,
             "column": 5
           }
         },
@@ -10277,7 +10287,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1371,
+            "line": 1372,
             "column": 5
           }
         },
@@ -10286,7 +10296,7 @@
           "value": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1372,
+            "line": 1373,
             "column": 5
           }
         },
@@ -10295,14 +10305,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1373,
+            "line": 1374,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1374,
+        "line": 1375,
         "column": 3
       }
     },
@@ -10315,7 +10325,7 @@
           "name": "_SG_BLENDFACTOR_DEFAULT",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1332,
+            "line": 1333,
             "column": 5
           }
         },
@@ -10324,7 +10334,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1333,
+            "line": 1334,
             "column": 5
           }
         },
@@ -10333,7 +10343,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1334,
+            "line": 1335,
             "column": 5
           }
         },
@@ -10342,7 +10352,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1335,
+            "line": 1336,
             "column": 5
           }
         },
@@ -10351,7 +10361,7 @@
           "value": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1336,
+            "line": 1337,
             "column": 5
           }
         },
@@ -10360,7 +10370,7 @@
           "value": 5,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1337,
+            "line": 1338,
             "column": 5
           }
         },
@@ -10369,7 +10379,7 @@
           "value": 6,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1338,
+            "line": 1339,
             "column": 5
           }
         },
@@ -10378,7 +10388,7 @@
           "value": 7,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1339,
+            "line": 1340,
             "column": 5
           }
         },
@@ -10387,7 +10397,7 @@
           "value": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1340,
+            "line": 1341,
             "column": 5
           }
         },
@@ -10396,7 +10406,7 @@
           "value": 9,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1341,
+            "line": 1342,
             "column": 5
           }
         },
@@ -10405,7 +10415,7 @@
           "value": 10,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1342,
+            "line": 1343,
             "column": 5
           }
         },
@@ -10414,7 +10424,7 @@
           "value": 11,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1343,
+            "line": 1344,
             "column": 5
           }
         },
@@ -10423,7 +10433,7 @@
           "value": 12,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1344,
+            "line": 1345,
             "column": 5
           }
         },
@@ -10432,7 +10442,7 @@
           "value": 13,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1345,
+            "line": 1346,
             "column": 5
           }
         },
@@ -10441,7 +10451,7 @@
           "value": 14,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1346,
+            "line": 1347,
             "column": 5
           }
         },
@@ -10450,7 +10460,7 @@
           "value": 15,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1347,
+            "line": 1348,
             "column": 5
           }
         },
@@ -10459,7 +10469,7 @@
           "value": 16,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1348,
+            "line": 1349,
             "column": 5
           }
         },
@@ -10468,14 +10478,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1349,
+            "line": 1350,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1350,
+        "line": 1351,
         "column": 3
       }
     },
@@ -10488,7 +10498,7 @@
           "name": "_SG_COLORMASK_DEFAULT",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1390,
+            "line": 1391,
             "column": 5
           }
         },
@@ -10497,7 +10507,7 @@
           "value": 16,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1391,
+            "line": 1392,
             "column": 5
           }
         },
@@ -10506,7 +10516,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1392,
+            "line": 1393,
             "column": 5
           }
         },
@@ -10515,7 +10525,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1393,
+            "line": 1394,
             "column": 5
           }
         },
@@ -10524,7 +10534,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1394,
+            "line": 1395,
             "column": 5
           }
         },
@@ -10533,7 +10543,7 @@
           "value": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1395,
+            "line": 1396,
             "column": 5
           }
         },
@@ -10542,7 +10552,7 @@
           "value": 5,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1396,
+            "line": 1397,
             "column": 5
           }
         },
@@ -10551,7 +10561,7 @@
           "value": 6,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1397,
+            "line": 1398,
             "column": 5
           }
         },
@@ -10560,7 +10570,7 @@
           "value": 7,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1398,
+            "line": 1399,
             "column": 5
           }
         },
@@ -10569,7 +10579,7 @@
           "value": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1399,
+            "line": 1400,
             "column": 5
           }
         },
@@ -10578,7 +10588,7 @@
           "value": 9,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1400,
+            "line": 1401,
             "column": 5
           }
         },
@@ -10587,7 +10597,7 @@
           "value": 10,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1401,
+            "line": 1402,
             "column": 5
           }
         },
@@ -10596,7 +10606,7 @@
           "value": 11,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1402,
+            "line": 1403,
             "column": 5
           }
         },
@@ -10605,7 +10615,7 @@
           "value": 12,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1403,
+            "line": 1404,
             "column": 5
           }
         },
@@ -10614,7 +10624,7 @@
           "value": 13,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1404,
+            "line": 1405,
             "column": 5
           }
         },
@@ -10623,7 +10633,7 @@
           "value": 14,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1405,
+            "line": 1406,
             "column": 5
           }
         },
@@ -10632,7 +10642,7 @@
           "value": 15,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1406,
+            "line": 1407,
             "column": 5
           }
         },
@@ -10641,14 +10651,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1407,
+            "line": 1408,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1408,
+        "line": 1409,
         "column": 3
       }
     },
@@ -10661,7 +10671,7 @@
           "name": "_SG_STENCILOP_DEFAULT",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1301,
+            "line": 1302,
             "column": 5
           }
         },
@@ -10670,7 +10680,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1302,
+            "line": 1303,
             "column": 5
           }
         },
@@ -10679,7 +10689,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1303,
+            "line": 1304,
             "column": 5
           }
         },
@@ -10688,7 +10698,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1304,
+            "line": 1305,
             "column": 5
           }
         },
@@ -10697,7 +10707,7 @@
           "value": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1305,
+            "line": 1306,
             "column": 5
           }
         },
@@ -10706,7 +10716,7 @@
           "value": 5,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1306,
+            "line": 1307,
             "column": 5
           }
         },
@@ -10715,7 +10725,7 @@
           "value": 6,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1307,
+            "line": 1308,
             "column": 5
           }
         },
@@ -10724,7 +10734,7 @@
           "value": 7,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1308,
+            "line": 1309,
             "column": 5
           }
         },
@@ -10733,7 +10743,7 @@
           "value": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1309,
+            "line": 1310,
             "column": 5
           }
         },
@@ -10742,7 +10752,7 @@
           "value": 9,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1310,
+            "line": 1311,
             "column": 5
           }
         },
@@ -10751,14 +10761,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1311,
+            "line": 1312,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1312,
+        "line": 1313,
         "column": 3
       }
     },
@@ -10771,7 +10781,7 @@
           "name": "_SG_COMPAREFUNC_DEFAULT",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1267,
+            "line": 1268,
             "column": 5
           }
         },
@@ -10780,7 +10790,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1268,
+            "line": 1269,
             "column": 5
           }
         },
@@ -10789,7 +10799,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1269,
+            "line": 1270,
             "column": 5
           }
         },
@@ -10798,7 +10808,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1270,
+            "line": 1271,
             "column": 5
           }
         },
@@ -10807,7 +10817,7 @@
           "value": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1271,
+            "line": 1272,
             "column": 5
           }
         },
@@ -10816,7 +10826,7 @@
           "value": 5,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1272,
+            "line": 1273,
             "column": 5
           }
         },
@@ -10825,7 +10835,7 @@
           "value": 6,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1273,
+            "line": 1274,
             "column": 5
           }
         },
@@ -10834,7 +10844,7 @@
           "value": 7,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1274,
+            "line": 1275,
             "column": 5
           }
         },
@@ -10843,7 +10853,7 @@
           "value": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1275,
+            "line": 1276,
             "column": 5
           }
         },
@@ -10852,7 +10862,7 @@
           "value": 9,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1276,
+            "line": 1277,
             "column": 5
           }
         },
@@ -10861,14 +10871,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1277,
+            "line": 1278,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1278,
+        "line": 1279,
         "column": 3
       }
     },
@@ -10881,7 +10891,7 @@
           "name": "SG_VERTEXFORMAT_INVALID",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1158,
+            "line": 1159,
             "column": 5
           }
         },
@@ -10890,7 +10900,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1159,
+            "line": 1160,
             "column": 5
           }
         },
@@ -10899,7 +10909,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1160,
+            "line": 1161,
             "column": 5
           }
         },
@@ -10908,7 +10918,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1161,
+            "line": 1162,
             "column": 5
           }
         },
@@ -10917,7 +10927,7 @@
           "value": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1162,
+            "line": 1163,
             "column": 5
           }
         },
@@ -10926,7 +10936,7 @@
           "value": 5,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1163,
+            "line": 1164,
             "column": 5
           }
         },
@@ -10935,7 +10945,7 @@
           "value": 6,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1164,
+            "line": 1165,
             "column": 5
           }
         },
@@ -10944,7 +10954,7 @@
           "value": 7,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1165,
+            "line": 1166,
             "column": 5
           }
         },
@@ -10953,7 +10963,7 @@
           "value": 8,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1166,
+            "line": 1167,
             "column": 5
           }
         },
@@ -10962,7 +10972,7 @@
           "value": 9,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1167,
+            "line": 1168,
             "column": 5
           }
         },
@@ -10971,7 +10981,7 @@
           "value": 10,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1168,
+            "line": 1169,
             "column": 5
           }
         },
@@ -10980,7 +10990,7 @@
           "value": 11,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1169,
+            "line": 1170,
             "column": 5
           }
         },
@@ -10989,7 +10999,7 @@
           "value": 12,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1170,
+            "line": 1171,
             "column": 5
           }
         },
@@ -10998,7 +11008,7 @@
           "value": 13,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1171,
+            "line": 1172,
             "column": 5
           }
         },
@@ -11007,7 +11017,7 @@
           "value": 14,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1172,
+            "line": 1173,
             "column": 5
           }
         },
@@ -11016,7 +11026,7 @@
           "value": 15,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1173,
+            "line": 1174,
             "column": 5
           }
         },
@@ -11025,7 +11035,7 @@
           "value": 16,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1174,
+            "line": 1175,
             "column": 5
           }
         },
@@ -11034,14 +11044,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1175,
+            "line": 1176,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1176,
+        "line": 1177,
         "column": 3
       }
     },
@@ -11054,7 +11064,7 @@
           "name": "_SG_VERTEXSTEP_DEFAULT",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1190,
+            "line": 1191,
             "column": 5
           }
         },
@@ -11063,7 +11073,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1191,
+            "line": 1192,
             "column": 5
           }
         },
@@ -11072,7 +11082,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1192,
+            "line": 1193,
             "column": 5
           }
         },
@@ -11081,7 +11091,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1193,
+            "line": 1194,
             "column": 5
           }
         },
@@ -11090,14 +11100,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1194,
+            "line": 1195,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1195,
+        "line": 1196,
         "column": 3
       }
     },
@@ -11110,7 +11120,7 @@
           "name": "_SG_SAMPLERTYPE_DEFAULT",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1015,
+            "line": 1016,
             "column": 5
           }
         },
@@ -11119,7 +11129,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1016,
+            "line": 1017,
             "column": 5
           }
         },
@@ -11128,7 +11138,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1017,
+            "line": 1018,
             "column": 5
           }
         },
@@ -11137,14 +11147,14 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1018,
+            "line": 1019,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1019,
+        "line": 1020,
         "column": 3
       }
     },
@@ -11157,7 +11167,7 @@
           "name": "_SG_IMAGETYPE_DEFAULT",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 995,
+            "line": 996,
             "column": 5
           }
         },
@@ -11166,7 +11176,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 996,
+            "line": 997,
             "column": 5
           }
         },
@@ -11175,7 +11185,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 997,
+            "line": 998,
             "column": 5
           }
         },
@@ -11184,7 +11194,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 998,
+            "line": 999,
             "column": 5
           }
         },
@@ -11193,7 +11203,7 @@
           "value": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 999,
+            "line": 1000,
             "column": 5
           }
         },
@@ -11202,7 +11212,7 @@
           "value": 5,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1000,
+            "line": 1001,
             "column": 5
           }
         },
@@ -11211,14 +11221,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1001,
+            "line": 1002,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1002,
+        "line": 1003,
         "column": 3
       }
     },
@@ -11231,7 +11241,7 @@
           "name": "SG_UNIFORMTYPE_INVALID",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1205,
+            "line": 1206,
             "column": 5
           }
         },
@@ -11240,7 +11250,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1206,
+            "line": 1207,
             "column": 5
           }
         },
@@ -11249,7 +11259,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1207,
+            "line": 1208,
             "column": 5
           }
         },
@@ -11258,7 +11268,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1208,
+            "line": 1209,
             "column": 5
           }
         },
@@ -11267,7 +11277,7 @@
           "value": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1209,
+            "line": 1210,
             "column": 5
           }
         },
@@ -11276,7 +11286,7 @@
           "value": 5,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1210,
+            "line": 1211,
             "column": 5
           }
         },
@@ -11285,7 +11295,7 @@
           "value": 6,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1211,
+            "line": 1212,
             "column": 5
           }
         },
@@ -11294,14 +11304,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1212,
+            "line": 1213,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1213,
+        "line": 1214,
         "column": 3
       }
     },
@@ -11314,7 +11324,7 @@
           "name": "_SG_BORDERCOLOR_DEFAULT",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1143,
+            "line": 1144,
             "column": 5
           }
         },
@@ -11323,7 +11333,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1144,
+            "line": 1145,
             "column": 5
           }
         },
@@ -11332,7 +11342,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1145,
+            "line": 1146,
             "column": 5
           }
         },
@@ -11341,7 +11351,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1146,
+            "line": 1147,
             "column": 5
           }
         },
@@ -11350,7 +11360,7 @@
           "value": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1147,
+            "line": 1148,
             "column": 5
           }
         },
@@ -11359,14 +11369,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1148,
+            "line": 1149,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1149,
+        "line": 1150,
         "column": 3
       }
     },
@@ -11379,7 +11389,7 @@
           "name": "_SG_WRAP_DEFAULT",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1125,
+            "line": 1126,
             "column": 5
           }
         },
@@ -11388,7 +11398,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1126,
+            "line": 1127,
             "column": 5
           }
         },
@@ -11397,7 +11407,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1127,
+            "line": 1128,
             "column": 5
           }
         },
@@ -11406,7 +11416,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1128,
+            "line": 1129,
             "column": 5
           }
         },
@@ -11415,7 +11425,7 @@
           "value": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1129,
+            "line": 1130,
             "column": 5
           }
         },
@@ -11424,7 +11434,7 @@
           "value": 5,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1130,
+            "line": 1131,
             "column": 5
           }
         },
@@ -11433,14 +11443,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1131,
+            "line": 1132,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1132,
+        "line": 1133,
         "column": 3
       }
     },
@@ -11453,7 +11463,7 @@
           "name": "_SG_FILTER_DEFAULT",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1085,
+            "line": 1086,
             "column": 5
           }
         },
@@ -11462,7 +11472,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1086,
+            "line": 1087,
             "column": 5
           }
         },
@@ -11471,7 +11481,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1087,
+            "line": 1088,
             "column": 5
           }
         },
@@ -11480,7 +11490,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1088,
+            "line": 1089,
             "column": 5
           }
         },
@@ -11489,7 +11499,7 @@
           "value": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1089,
+            "line": 1090,
             "column": 5
           }
         },
@@ -11498,7 +11508,7 @@
           "value": 5,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1090,
+            "line": 1091,
             "column": 5
           }
         },
@@ -11507,7 +11517,7 @@
           "value": 6,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1091,
+            "line": 1092,
             "column": 5
           }
         },
@@ -11516,7 +11526,7 @@
           "value": 7,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1092,
+            "line": 1093,
             "column": 5
           }
         },
@@ -11525,14 +11535,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1093,
+            "line": 1094,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1094,
+        "line": 1095,
         "column": 3
       }
     },
@@ -11545,7 +11555,7 @@
           "name": "_SG_USAGE_DEFAULT",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 939,
+            "line": 940,
             "column": 5
           }
         },
@@ -11554,7 +11564,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 940,
+            "line": 941,
             "column": 5
           }
         },
@@ -11563,7 +11573,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 941,
+            "line": 942,
             "column": 5
           }
         },
@@ -11572,7 +11582,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 942,
+            "line": 943,
             "column": 5
           }
         },
@@ -11581,7 +11591,7 @@
           "value": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 943,
+            "line": 944,
             "column": 5
           }
         },
@@ -11590,14 +11600,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 944,
+            "line": 945,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 945,
+        "line": 946,
         "column": 3
       }
     },
@@ -11610,7 +11620,7 @@
           "name": "_SG_BUFFERTYPE_DEFAULT",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 956,
+            "line": 957,
             "column": 5
           }
         },
@@ -11619,7 +11629,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 957,
+            "line": 958,
             "column": 5
           }
         },
@@ -11628,7 +11638,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 958,
+            "line": 959,
             "column": 5
           }
         },
@@ -11637,7 +11647,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 959,
+            "line": 960,
             "column": 5
           }
         },
@@ -11646,14 +11656,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 960,
+            "line": 961,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 961,
+        "line": 962,
         "column": 3
       }
     },
@@ -11666,7 +11676,7 @@
           "name": "SG_RESOURCESTATE_INITIAL",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 896,
+            "line": 897,
             "column": 5
           }
         },
@@ -11675,7 +11685,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 897,
+            "line": 898,
             "column": 5
           }
         },
@@ -11684,7 +11694,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 898,
+            "line": 899,
             "column": 5
           }
         },
@@ -11693,7 +11703,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 899,
+            "line": 900,
             "column": 5
           }
         },
@@ -11702,7 +11712,7 @@
           "value": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 900,
+            "line": 901,
             "column": 5
           }
         },
@@ -11711,14 +11721,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 901,
+            "line": 902,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 902,
+        "line": 903,
         "column": 3
       }
     },
@@ -11823,7 +11833,7 @@
           "name": "SG_SHADERSTAGE_VS",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1050,
+            "line": 1051,
             "column": 5
           }
         },
@@ -11832,7 +11842,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1051,
+            "line": 1052,
             "column": 5
           }
         },
@@ -11841,14 +11851,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1052,
+            "line": 1053,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1053,
+        "line": 1054,
         "column": 3
       }
     },
@@ -11861,7 +11871,7 @@
           "name": "_SG_ACTION_DEFAULT",
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1429,
+            "line": 1430,
             "column": 5
           }
         },
@@ -11870,7 +11880,7 @@
           "value": 1,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1430,
+            "line": 1431,
             "column": 5
           }
         },
@@ -11879,7 +11889,7 @@
           "value": 2,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1431,
+            "line": 1432,
             "column": 5
           }
         },
@@ -11888,7 +11898,7 @@
           "value": 3,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1432,
+            "line": 1433,
             "column": 5
           }
         },
@@ -11897,7 +11907,7 @@
           "value": 4,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1433,
+            "line": 1434,
             "column": 5
           }
         },
@@ -11906,14 +11916,14 @@
           "value": 2147483647,
           "location": {
             "file": "sokol_gfx.h",
-            "line": 1434,
+            "line": 1435,
             "column": 5
           }
         }
       ],
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1435,
+        "line": 1436,
         "column": 3
       }
     },
@@ -13350,7 +13360,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2250,
+        "line": 2251,
         "column": 3
       }
     },
@@ -13379,7 +13389,7 @@
       "alignOf": 1,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2210,
+        "line": 2211,
         "column": 3
       }
     },
@@ -13390,7 +13400,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2219,
+        "line": 2220,
         "column": 3
       }
     },
@@ -13401,7 +13411,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2229,
+        "line": 2230,
         "column": 3
       }
     },
@@ -13412,7 +13422,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2240,
+        "line": 2241,
         "column": 3
       }
     },
@@ -13435,7 +13445,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2233,
+        "line": 2234,
         "column": 19
       }
     },
@@ -13446,7 +13456,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2234,
+        "line": 2235,
         "column": 19
       }
     },
@@ -13544,7 +13554,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1961,
+        "line": 1962,
         "column": 3
       }
     },
@@ -13555,7 +13565,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1961,
+        "line": 1962,
         "column": 3
       }
     },
@@ -13568,7 +13578,7 @@
       "arraySize": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1957,
+        "line": 1958,
         "column": 29
       }
     },
@@ -13579,7 +13589,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1953,
+        "line": 1954,
         "column": 3
       }
     },
@@ -13604,7 +13614,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1925,
+        "line": 1926,
         "column": 3
       }
     },
@@ -13615,7 +13625,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1925,
+        "line": 1926,
         "column": 3
       }
     },
@@ -13626,7 +13636,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1865,
+        "line": 1866,
         "column": 3
       }
     },
@@ -13637,7 +13647,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1890,
+        "line": 1891,
         "column": 3
       }
     },
@@ -13648,7 +13658,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1881,
+        "line": 1882,
         "column": 3
       }
     },
@@ -13661,7 +13671,7 @@
       "arraySize": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1915,
+        "line": 1916,
         "column": 20
       }
     },
@@ -13672,7 +13682,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1073,
+        "line": 1074,
         "column": 3
       }
     },
@@ -13683,7 +13693,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 980,
+        "line": 981,
         "column": 3
       }
     },
@@ -13694,7 +13704,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1231,
+        "line": 1232,
         "column": 3
       }
     },
@@ -13705,7 +13715,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1248,
+        "line": 1249,
         "column": 3
       }
     },
@@ -13734,7 +13744,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1906,
+        "line": 1907,
         "column": 3
       }
     },
@@ -13745,7 +13755,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1408,
+        "line": 1409,
         "column": 3
       }
     },
@@ -13756,7 +13766,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1900,
+        "line": 1901,
         "column": 3
       }
     },
@@ -13767,7 +13777,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1350,
+        "line": 1351,
         "column": 3
       }
     },
@@ -13778,7 +13788,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1374,
+        "line": 1375,
         "column": 3
       }
     },
@@ -13789,7 +13799,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1872,
+        "line": 1873,
         "column": 3
       }
     },
@@ -13807,7 +13817,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1278,
+        "line": 1279,
         "column": 3
       }
     },
@@ -13818,7 +13828,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1312,
+        "line": 1313,
         "column": 3
       }
     },
@@ -13831,7 +13841,7 @@
       "arraySize": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1863,
+        "line": 1864,
         "column": 27
       }
     },
@@ -13844,7 +13854,7 @@
       "arraySize": 16,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1864,
+        "line": 1865,
         "column": 25
       }
     },
@@ -13855,7 +13865,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1860,
+        "line": 1861,
         "column": 3
       }
     },
@@ -13866,7 +13876,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1176,
+        "line": 1177,
         "column": 3
       }
     },
@@ -13877,7 +13887,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1851,
+        "line": 1852,
         "column": 3
       }
     },
@@ -13888,7 +13898,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1195,
+        "line": 1196,
         "column": 3
       }
     },
@@ -13899,7 +13909,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1773,
+        "line": 1774,
         "column": 3
       }
     },
@@ -13910,7 +13920,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1773,
+        "line": 1774,
         "column": 3
       }
     },
@@ -13923,7 +13933,7 @@
       "arraySize": 16,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1768,
+        "line": 1769,
         "column": 25
       }
     },
@@ -13934,7 +13944,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1764,
+        "line": 1765,
         "column": 3
       }
     },
@@ -13958,7 +13968,7 @@
       "arraySize": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1762,
+        "line": 1763,
         "column": 34
       }
     },
@@ -13971,7 +13981,7 @@
       "arraySize": 12,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1763,
+        "line": 1764,
         "column": 26
       }
     },
@@ -13982,7 +13992,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1755,
+        "line": 1756,
         "column": 3
       }
     },
@@ -13993,7 +14003,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1002,
+        "line": 1003,
         "column": 3
       }
     },
@@ -14004,7 +14014,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1019,
+        "line": 1020,
         "column": 3
       }
     },
@@ -14015,7 +14025,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1749,
+        "line": 1750,
         "column": 3
       }
     },
@@ -14035,7 +14045,7 @@
       "arraySize": 16,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1748,
+        "line": 1749,
         "column": 28
       }
     },
@@ -14046,7 +14056,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1744,
+        "line": 1745,
         "column": 3
       }
     },
@@ -14057,7 +14067,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1213,
+        "line": 1214,
         "column": 3
       }
     },
@@ -14068,7 +14078,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1738,
+        "line": 1739,
         "column": 3
       }
     },
@@ -14079,7 +14089,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1698,
+        "line": 1699,
         "column": 3
       }
     },
@@ -14090,7 +14100,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1698,
+        "line": 1699,
         "column": 3
       }
     },
@@ -14101,7 +14111,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 945,
+        "line": 946,
         "column": 3
       }
     },
@@ -14112,7 +14122,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1094,
+        "line": 1095,
         "column": 3
       }
     },
@@ -14123,7 +14133,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1132,
+        "line": 1133,
         "column": 3
       }
     },
@@ -14134,7 +14144,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1149,
+        "line": 1150,
         "column": 3
       }
     },
@@ -14145,7 +14155,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1593,
+        "line": 1594,
         "column": 3
       }
     },
@@ -14176,7 +14186,7 @@
       "arraySize": 6,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1592,
+        "line": 1593,
         "column": 14
       }
     },
@@ -14198,7 +14208,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1582,
+        "line": 1583,
         "column": 3
       }
     },
@@ -14209,7 +14219,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1582,
+        "line": 1583,
         "column": 3
       }
     },
@@ -14220,7 +14230,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 961,
+        "line": 962,
         "column": 3
       }
     },
@@ -14231,7 +14241,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2095,
+        "line": 2096,
         "column": 3
       }
     },
@@ -14242,7 +14252,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2064,
+        "line": 2065,
         "column": 3
       }
     },
@@ -14253,7 +14263,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 902,
+        "line": 903,
         "column": 3
       }
     },
@@ -14264,7 +14274,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2091,
+        "line": 2092,
         "column": 3
       }
     },
@@ -14275,7 +14285,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2087,
+        "line": 2088,
         "column": 3
       }
     },
@@ -14286,7 +14296,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2083,
+        "line": 2084,
         "column": 3
       }
     },
@@ -14297,7 +14307,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2074,
+        "line": 2075,
         "column": 3
       }
     },
@@ -14315,11 +14325,11 @@
     {
       "name": "sg_limits",
       "kind": "typedef",
-      "sizeOf": 24,
+      "sizeOf": 28,
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 875,
+        "line": 876,
         "column": 3
       }
     },
@@ -14352,7 +14362,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2265,
+        "line": 2266,
         "column": 3
       }
     },
@@ -14363,7 +14373,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1053,
+        "line": 1054,
         "column": 3
       }
     },
@@ -14385,7 +14395,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1511,
+        "line": 1512,
         "column": 3
       }
     },
@@ -14396,7 +14406,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1511,
+        "line": 1512,
         "column": 3
       }
     },
@@ -14409,7 +14419,7 @@
       "arraySize": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1504,
+        "line": 1505,
         "column": 15
       }
     },
@@ -14431,7 +14441,7 @@
       "arraySize": 12,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1508,
+        "line": 1509,
         "column": 14
       }
     },
@@ -14442,7 +14452,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1477,
+        "line": 1478,
         "column": 3
       }
     },
@@ -14453,7 +14463,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1477,
+        "line": 1478,
         "column": 3
       }
     },
@@ -14466,7 +14476,7 @@
       "arraySize": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1473,
+        "line": 1474,
         "column": 32
       }
     },
@@ -14477,7 +14487,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1464,
+        "line": 1465,
         "column": 3
       }
     },
@@ -14488,7 +14498,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1469,
+        "line": 1470,
         "column": 3
       }
     },
@@ -14499,7 +14509,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1435,
+        "line": 1436,
         "column": 3
       }
     },
@@ -14510,7 +14520,7 @@
       "alignOf": 4,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1459,
+        "line": 1460,
         "column": 3
       }
     },
@@ -14521,7 +14531,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1593,
+        "line": 1594,
         "column": 3
       }
     },
@@ -14532,7 +14542,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2037,
+        "line": 2038,
         "column": 3
       }
     },
@@ -14543,7 +14553,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2037,
+        "line": 2038,
         "column": 3
       }
     },
@@ -14554,7 +14564,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1977,
+        "line": 1978,
         "column": 12
       }
     },
@@ -14565,7 +14575,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1978,
+        "line": 1979,
         "column": 12
       }
     },
@@ -14576,7 +14586,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1979,
+        "line": 1980,
         "column": 12
       }
     },
@@ -14587,7 +14597,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1980,
+        "line": 1981,
         "column": 12
       }
     },
@@ -14598,7 +14608,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1981,
+        "line": 1982,
         "column": 12
       }
     },
@@ -14609,7 +14619,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1982,
+        "line": 1983,
         "column": 12
       }
     },
@@ -14620,7 +14630,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1983,
+        "line": 1984,
         "column": 12
       }
     },
@@ -14631,7 +14641,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1984,
+        "line": 1985,
         "column": 12
       }
     },
@@ -14642,7 +14652,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1985,
+        "line": 1986,
         "column": 12
       }
     },
@@ -14653,7 +14663,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1986,
+        "line": 1987,
         "column": 12
       }
     },
@@ -14664,7 +14674,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1987,
+        "line": 1988,
         "column": 12
       }
     },
@@ -14675,7 +14685,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1988,
+        "line": 1989,
         "column": 12
       }
     },
@@ -14686,7 +14696,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1989,
+        "line": 1990,
         "column": 12
       }
     },
@@ -14697,7 +14707,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1990,
+        "line": 1991,
         "column": 12
       }
     },
@@ -14708,7 +14718,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1991,
+        "line": 1992,
         "column": 12
       }
     },
@@ -14719,7 +14729,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1992,
+        "line": 1993,
         "column": 12
       }
     },
@@ -14730,7 +14740,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1993,
+        "line": 1994,
         "column": 12
       }
     },
@@ -14741,7 +14751,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1996,
+        "line": 1997,
         "column": 12
       }
     },
@@ -14752,7 +14762,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1997,
+        "line": 1998,
         "column": 12
       }
     },
@@ -14763,7 +14773,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 1998,
+        "line": 1999,
         "column": 12
       }
     },
@@ -14774,7 +14784,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2011,
+        "line": 2012,
         "column": 12
       }
     },
@@ -14785,7 +14795,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2012,
+        "line": 2013,
         "column": 12
       }
     },
@@ -14796,7 +14806,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2013,
+        "line": 2014,
         "column": 12
       }
     },
@@ -14807,7 +14817,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2014,
+        "line": 2015,
         "column": 12
       }
     },
@@ -14818,7 +14828,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2015,
+        "line": 2016,
         "column": 12
       }
     },
@@ -14829,7 +14839,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2026,
+        "line": 2027,
         "column": 12
       }
     },
@@ -14840,7 +14850,7 @@
       "alignOf": 8,
       "location": {
         "file": "sokol_gfx.h",
-        "line": 2265,
+        "line": 2266,
         "column": 3
       }
     },

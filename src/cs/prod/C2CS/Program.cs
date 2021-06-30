@@ -139,6 +139,14 @@ namespace C2CS
 			};
 			command.AddOption(typeAliasesOption);
 
+			var ignoredTypesOption = new Option<IEnumerable<string?>?>(
+				new[] {"--ignoredTypes", "-g"},
+				"Types by name that will be ignored; types are ignored after remapping type names.")
+			{
+				IsRequired = false
+			};
+			command.AddOption(ignoredTypesOption);
+
 			var libraryNameOption = new Option<string?>(
 				new[] {"--libraryName", "-l"},
 				"The name of the dynamic link library (without the file extension) used for P/Invoke with C#.")
@@ -147,7 +155,7 @@ namespace C2CS
 			};
 			command.AddOption(libraryNameOption);
 
-			command.Handler = CommandHandler.Create<FileInfo, FileInfo, IEnumerable<string?>?, string>(BindgenCSharp);
+			command.Handler = CommandHandler.Create<FileInfo, FileInfo, IEnumerable<string?>?, IEnumerable<string?>?, string>(BindgenCSharp);
 			return command;
 		}
 
@@ -179,12 +187,13 @@ namespace C2CS
 			FileInfo inputFile,
 			FileInfo outputFile,
 			IEnumerable<string?>? typeAliases,
+			IEnumerable<string?>? ignoredTypes,
 			string? libraryName)
 		{
 			var libraryName2 = string.IsNullOrEmpty(libraryName) ? string.Empty : libraryName;
 
 			var request = new UseCases.BindgenCSharp.Request(
-				inputFile, outputFile, typeAliases, libraryName2);
+				inputFile, outputFile, typeAliases, ignoredTypes, libraryName2);
 			var useCase = new UseCases.BindgenCSharp.UseCase();
 			useCase.Execute(request);
 		}

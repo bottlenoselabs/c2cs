@@ -15,6 +15,7 @@ using System.Runtime.CompilerServices;
 using C2CS;
 
 #nullable enable
+#pragma warning disable 1591
 
 public static unsafe partial class sokol
 {
@@ -48,511 +49,511 @@ public static unsafe partial class sokol
         return _virtualTable.sapp_sgcontext();
     }
 
-    // Function @ sokol_gfx.h:2377:32
+    // Function @ sokol_gfx.h:2378:32
     public static void* sg_mtl_render_command_encoder()
     {
         return _virtualTable.sg_mtl_render_command_encoder();
     }
 
-    // Function @ sokol_gfx.h:2374:32
+    // Function @ sokol_gfx.h:2375:32
     public static void* sg_mtl_device()
     {
         return _virtualTable.sg_mtl_device();
     }
 
-    // Function @ sokol_gfx.h:2371:32
+    // Function @ sokol_gfx.h:2372:32
     public static void* sg_d3d11_device()
     {
         return _virtualTable.sg_d3d11_device();
     }
 
-    // Function @ sokol_gfx.h:2362:25
+    // Function @ sokol_gfx.h:2363:25
     public static void sg_discard_context(sg_context ctx_id)
     {
         _virtualTable.sg_discard_context(ctx_id);
     }
 
-    // Function @ sokol_gfx.h:2361:25
+    // Function @ sokol_gfx.h:2362:25
     public static void sg_activate_context(sg_context ctx_id)
     {
         _virtualTable.sg_activate_context(ctx_id);
     }
 
-    // Function @ sokol_gfx.h:2360:31
+    // Function @ sokol_gfx.h:2361:31
     public static sg_context sg_setup_context()
     {
         return _virtualTable.sg_setup_context();
     }
 
-    // Function @ sokol_gfx.h:2357:25
+    // Function @ sokol_gfx.h:2358:25
     public static void sg_fail_pass(sg_pass pass_id)
     {
         _virtualTable.sg_fail_pass(pass_id);
     }
 
-    // Function @ sokol_gfx.h:2356:25
+    // Function @ sokol_gfx.h:2357:25
     public static void sg_fail_pipeline(sg_pipeline pip_id)
     {
         _virtualTable.sg_fail_pipeline(pip_id);
     }
 
-    // Function @ sokol_gfx.h:2355:25
+    // Function @ sokol_gfx.h:2356:25
     public static void sg_fail_shader(sg_shader shd_id)
     {
         _virtualTable.sg_fail_shader(shd_id);
     }
 
-    // Function @ sokol_gfx.h:2354:25
+    // Function @ sokol_gfx.h:2355:25
     public static void sg_fail_image(sg_image img_id)
     {
         _virtualTable.sg_fail_image(img_id);
     }
 
-    // Function @ sokol_gfx.h:2353:25
+    // Function @ sokol_gfx.h:2354:25
     public static void sg_fail_buffer(sg_buffer buf_id)
     {
         _virtualTable.sg_fail_buffer(buf_id);
     }
 
-    // Function @ sokol_gfx.h:2352:25
+    // Function @ sokol_gfx.h:2353:25
     public static CBool sg_uninit_pass(sg_pass pass_id)
     {
         return _virtualTable.sg_uninit_pass(pass_id);
     }
 
-    // Function @ sokol_gfx.h:2351:25
+    // Function @ sokol_gfx.h:2352:25
     public static CBool sg_uninit_pipeline(sg_pipeline pip_id)
     {
         return _virtualTable.sg_uninit_pipeline(pip_id);
     }
 
-    // Function @ sokol_gfx.h:2350:25
+    // Function @ sokol_gfx.h:2351:25
     public static CBool sg_uninit_shader(sg_shader shd_id)
     {
         return _virtualTable.sg_uninit_shader(shd_id);
     }
 
-    // Function @ sokol_gfx.h:2349:25
+    // Function @ sokol_gfx.h:2350:25
     public static CBool sg_uninit_image(sg_image img_id)
     {
         return _virtualTable.sg_uninit_image(img_id);
     }
 
-    // Function @ sokol_gfx.h:2348:25
+    // Function @ sokol_gfx.h:2349:25
     public static CBool sg_uninit_buffer(sg_buffer buf_id)
     {
         return _virtualTable.sg_uninit_buffer(buf_id);
     }
 
-    // Function @ sokol_gfx.h:2347:25
+    // Function @ sokol_gfx.h:2348:25
     public static void sg_init_pass(sg_pass pass_id, sg_pass_desc* desc)
     {
         _virtualTable.sg_init_pass(pass_id, desc);
     }
 
-    // Function @ sokol_gfx.h:2346:25
+    // Function @ sokol_gfx.h:2347:25
     public static void sg_init_pipeline(sg_pipeline pip_id, sg_pipeline_desc* desc)
     {
         _virtualTable.sg_init_pipeline(pip_id, desc);
     }
 
-    // Function @ sokol_gfx.h:2345:25
+    // Function @ sokol_gfx.h:2346:25
     public static void sg_init_shader(sg_shader shd_id, sg_shader_desc* desc)
     {
         _virtualTable.sg_init_shader(shd_id, desc);
     }
 
-    // Function @ sokol_gfx.h:2344:25
+    // Function @ sokol_gfx.h:2345:25
     public static void sg_init_image(sg_image img_id, sg_image_desc* desc)
     {
         _virtualTable.sg_init_image(img_id, desc);
     }
 
-    // Function @ sokol_gfx.h:2343:25
+    // Function @ sokol_gfx.h:2344:25
     public static void sg_init_buffer(sg_buffer buf_id, sg_buffer_desc* desc)
     {
         _virtualTable.sg_init_buffer(buf_id, desc);
     }
 
-    // Function @ sokol_gfx.h:2342:25
+    // Function @ sokol_gfx.h:2343:25
     public static void sg_dealloc_pass(sg_pass pass_id)
     {
         _virtualTable.sg_dealloc_pass(pass_id);
     }
 
-    // Function @ sokol_gfx.h:2341:25
+    // Function @ sokol_gfx.h:2342:25
     public static void sg_dealloc_pipeline(sg_pipeline pip_id)
     {
         _virtualTable.sg_dealloc_pipeline(pip_id);
     }
 
-    // Function @ sokol_gfx.h:2340:25
+    // Function @ sokol_gfx.h:2341:25
     public static void sg_dealloc_shader(sg_shader shd_id)
     {
         _virtualTable.sg_dealloc_shader(shd_id);
     }
 
-    // Function @ sokol_gfx.h:2339:25
+    // Function @ sokol_gfx.h:2340:25
     public static void sg_dealloc_image(sg_image img_id)
     {
         _virtualTable.sg_dealloc_image(img_id);
     }
 
-    // Function @ sokol_gfx.h:2338:25
+    // Function @ sokol_gfx.h:2339:25
     public static void sg_dealloc_buffer(sg_buffer buf_id)
     {
         _virtualTable.sg_dealloc_buffer(buf_id);
     }
 
-    // Function @ sokol_gfx.h:2337:28
+    // Function @ sokol_gfx.h:2338:28
     public static sg_pass sg_alloc_pass()
     {
         return _virtualTable.sg_alloc_pass();
     }
 
-    // Function @ sokol_gfx.h:2336:32
+    // Function @ sokol_gfx.h:2337:32
     public static sg_pipeline sg_alloc_pipeline()
     {
         return _virtualTable.sg_alloc_pipeline();
     }
 
-    // Function @ sokol_gfx.h:2335:30
+    // Function @ sokol_gfx.h:2336:30
     public static sg_shader sg_alloc_shader()
     {
         return _virtualTable.sg_alloc_shader();
     }
 
-    // Function @ sokol_gfx.h:2334:29
+    // Function @ sokol_gfx.h:2335:29
     public static sg_image sg_alloc_image()
     {
         return _virtualTable.sg_alloc_image();
     }
 
-    // Function @ sokol_gfx.h:2333:30
+    // Function @ sokol_gfx.h:2334:30
     public static sg_buffer sg_alloc_buffer()
     {
         return _virtualTable.sg_alloc_buffer();
     }
 
-    // Function @ sokol_gfx.h:2330:33
+    // Function @ sokol_gfx.h:2331:33
     public static sg_pass_desc sg_query_pass_defaults(sg_pass_desc* desc)
     {
         return _virtualTable.sg_query_pass_defaults(desc);
     }
 
-    // Function @ sokol_gfx.h:2329:37
+    // Function @ sokol_gfx.h:2330:37
     public static sg_pipeline_desc sg_query_pipeline_defaults(sg_pipeline_desc* desc)
     {
         return _virtualTable.sg_query_pipeline_defaults(desc);
     }
 
-    // Function @ sokol_gfx.h:2328:35
+    // Function @ sokol_gfx.h:2329:35
     public static sg_shader_desc sg_query_shader_defaults(sg_shader_desc* desc)
     {
         return _virtualTable.sg_query_shader_defaults(desc);
     }
 
-    // Function @ sokol_gfx.h:2327:34
+    // Function @ sokol_gfx.h:2328:34
     public static sg_image_desc sg_query_image_defaults(sg_image_desc* desc)
     {
         return _virtualTable.sg_query_image_defaults(desc);
     }
 
-    // Function @ sokol_gfx.h:2326:35
+    // Function @ sokol_gfx.h:2327:35
     public static sg_buffer_desc sg_query_buffer_defaults(sg_buffer_desc* desc)
     {
         return _virtualTable.sg_query_buffer_defaults(desc);
     }
 
-    // Function @ sokol_gfx.h:2324:33
+    // Function @ sokol_gfx.h:2325:33
     public static sg_pass_info sg_query_pass_info(sg_pass pass)
     {
         return _virtualTable.sg_query_pass_info(pass);
     }
 
-    // Function @ sokol_gfx.h:2323:37
+    // Function @ sokol_gfx.h:2324:37
     public static sg_pipeline_info sg_query_pipeline_info(sg_pipeline pip)
     {
         return _virtualTable.sg_query_pipeline_info(pip);
     }
 
-    // Function @ sokol_gfx.h:2322:35
+    // Function @ sokol_gfx.h:2323:35
     public static sg_shader_info sg_query_shader_info(sg_shader shd)
     {
         return _virtualTable.sg_query_shader_info(shd);
     }
 
-    // Function @ sokol_gfx.h:2321:34
+    // Function @ sokol_gfx.h:2322:34
     public static sg_image_info sg_query_image_info(sg_image img)
     {
         return _virtualTable.sg_query_image_info(img);
     }
 
-    // Function @ sokol_gfx.h:2320:35
+    // Function @ sokol_gfx.h:2321:35
     public static sg_buffer_info sg_query_buffer_info(sg_buffer buf)
     {
         return _virtualTable.sg_query_buffer_info(buf);
     }
 
-    // Function @ sokol_gfx.h:2318:38
+    // Function @ sokol_gfx.h:2319:38
     public static sg_resource_state sg_query_pass_state(sg_pass pass)
     {
         return _virtualTable.sg_query_pass_state(pass);
     }
 
-    // Function @ sokol_gfx.h:2317:38
+    // Function @ sokol_gfx.h:2318:38
     public static sg_resource_state sg_query_pipeline_state(sg_pipeline pip)
     {
         return _virtualTable.sg_query_pipeline_state(pip);
     }
 
-    // Function @ sokol_gfx.h:2316:38
+    // Function @ sokol_gfx.h:2317:38
     public static sg_resource_state sg_query_shader_state(sg_shader shd)
     {
         return _virtualTable.sg_query_shader_state(shd);
     }
 
-    // Function @ sokol_gfx.h:2315:38
+    // Function @ sokol_gfx.h:2316:38
     public static sg_resource_state sg_query_image_state(sg_image img)
     {
         return _virtualTable.sg_query_image_state(img);
     }
 
-    // Function @ sokol_gfx.h:2314:38
+    // Function @ sokol_gfx.h:2315:38
     public static sg_resource_state sg_query_buffer_state(sg_buffer buf)
     {
         return _virtualTable.sg_query_buffer_state(buf);
     }
 
-    // Function @ sokol_gfx.h:2312:40
+    // Function @ sokol_gfx.h:2313:40
     public static sg_pixelformat_info sg_query_pixelformat(sg_pixel_format fmt)
     {
         return _virtualTable.sg_query_pixelformat(fmt);
     }
 
-    // Function @ sokol_gfx.h:2311:30
+    // Function @ sokol_gfx.h:2312:30
     public static sg_limits sg_query_limits()
     {
         return _virtualTable.sg_query_limits();
     }
 
-    // Function @ sokol_gfx.h:2310:32
+    // Function @ sokol_gfx.h:2311:32
     public static sg_features sg_query_features()
     {
         return _virtualTable.sg_query_features();
     }
 
-    // Function @ sokol_gfx.h:2309:31
+    // Function @ sokol_gfx.h:2310:31
     public static sg_backend sg_query_backend()
     {
         return _virtualTable.sg_query_backend();
     }
 
-    // Function @ sokol_gfx.h:2308:28
+    // Function @ sokol_gfx.h:2309:28
     public static sg_desc sg_query_desc()
     {
         return _virtualTable.sg_query_desc();
     }
 
-    // Function @ sokol_gfx.h:2305:25
+    // Function @ sokol_gfx.h:2306:25
     public static void sg_commit()
     {
         _virtualTable.sg_commit();
     }
 
-    // Function @ sokol_gfx.h:2304:25
+    // Function @ sokol_gfx.h:2305:25
     public static void sg_end_pass()
     {
         _virtualTable.sg_end_pass();
     }
 
-    // Function @ sokol_gfx.h:2303:25
+    // Function @ sokol_gfx.h:2304:25
     public static void sg_draw(int base_element, int num_elements, int num_instances)
     {
         _virtualTable.sg_draw(base_element, num_elements, num_instances);
     }
 
-    // Function @ sokol_gfx.h:2302:25
+    // Function @ sokol_gfx.h:2303:25
     public static void sg_apply_uniforms(sg_shader_stage stage, int ub_index, sg_range* data)
     {
         _virtualTable.sg_apply_uniforms(stage, ub_index, data);
     }
 
-    // Function @ sokol_gfx.h:2301:25
+    // Function @ sokol_gfx.h:2302:25
     public static void sg_apply_bindings(sg_bindings* bindings)
     {
         _virtualTable.sg_apply_bindings(bindings);
     }
 
-    // Function @ sokol_gfx.h:2300:25
+    // Function @ sokol_gfx.h:2301:25
     public static void sg_apply_pipeline(sg_pipeline pip)
     {
         _virtualTable.sg_apply_pipeline(pip);
     }
 
-    // Function @ sokol_gfx.h:2299:25
+    // Function @ sokol_gfx.h:2300:25
     public static void sg_apply_scissor_rectf(float x, float y, float width, float height, CBool origin_top_left)
     {
         _virtualTable.sg_apply_scissor_rectf(x, y, width, height, origin_top_left);
     }
 
-    // Function @ sokol_gfx.h:2298:25
+    // Function @ sokol_gfx.h:2299:25
     public static void sg_apply_scissor_rect(int x, int y, int width, int height, CBool origin_top_left)
     {
         _virtualTable.sg_apply_scissor_rect(x, y, width, height, origin_top_left);
     }
 
-    // Function @ sokol_gfx.h:2297:25
+    // Function @ sokol_gfx.h:2298:25
     public static void sg_apply_viewportf(float x, float y, float width, float height, CBool origin_top_left)
     {
         _virtualTable.sg_apply_viewportf(x, y, width, height, origin_top_left);
     }
 
-    // Function @ sokol_gfx.h:2296:25
+    // Function @ sokol_gfx.h:2297:25
     public static void sg_apply_viewport(int x, int y, int width, int height, CBool origin_top_left)
     {
         _virtualTable.sg_apply_viewport(x, y, width, height, origin_top_left);
     }
 
-    // Function @ sokol_gfx.h:2295:25
+    // Function @ sokol_gfx.h:2296:25
     public static void sg_begin_pass(sg_pass pass, sg_pass_action* pass_action)
     {
         _virtualTable.sg_begin_pass(pass, pass_action);
     }
 
-    // Function @ sokol_gfx.h:2294:25
+    // Function @ sokol_gfx.h:2295:25
     public static void sg_begin_default_passf(sg_pass_action* pass_action, float width, float height)
     {
         _virtualTable.sg_begin_default_passf(pass_action, width, height);
     }
 
-    // Function @ sokol_gfx.h:2293:25
+    // Function @ sokol_gfx.h:2294:25
     public static void sg_begin_default_pass(sg_pass_action* pass_action, int width, int height)
     {
         _virtualTable.sg_begin_default_pass(pass_action, width, height);
     }
 
-    // Function @ sokol_gfx.h:2290:25
+    // Function @ sokol_gfx.h:2291:25
     public static CBool sg_query_buffer_overflow(sg_buffer buf)
     {
         return _virtualTable.sg_query_buffer_overflow(buf);
     }
 
-    // Function @ sokol_gfx.h:2289:24
+    // Function @ sokol_gfx.h:2290:24
     public static int sg_append_buffer(sg_buffer buf, sg_range* data)
     {
         return _virtualTable.sg_append_buffer(buf, data);
     }
 
-    // Function @ sokol_gfx.h:2288:25
+    // Function @ sokol_gfx.h:2289:25
     public static void sg_update_image(sg_image img, sg_image_data* data)
     {
         _virtualTable.sg_update_image(img, data);
     }
 
-    // Function @ sokol_gfx.h:2287:25
+    // Function @ sokol_gfx.h:2288:25
     public static void sg_update_buffer(sg_buffer buf, sg_range* data)
     {
         _virtualTable.sg_update_buffer(buf, data);
     }
 
-    // Function @ sokol_gfx.h:2286:25
+    // Function @ sokol_gfx.h:2287:25
     public static void sg_destroy_pass(sg_pass pass)
     {
         _virtualTable.sg_destroy_pass(pass);
     }
 
-    // Function @ sokol_gfx.h:2285:25
+    // Function @ sokol_gfx.h:2286:25
     public static void sg_destroy_pipeline(sg_pipeline pip)
     {
         _virtualTable.sg_destroy_pipeline(pip);
     }
 
-    // Function @ sokol_gfx.h:2284:25
+    // Function @ sokol_gfx.h:2285:25
     public static void sg_destroy_shader(sg_shader shd)
     {
         _virtualTable.sg_destroy_shader(shd);
     }
 
-    // Function @ sokol_gfx.h:2283:25
+    // Function @ sokol_gfx.h:2284:25
     public static void sg_destroy_image(sg_image img)
     {
         _virtualTable.sg_destroy_image(img);
     }
 
-    // Function @ sokol_gfx.h:2282:25
+    // Function @ sokol_gfx.h:2283:25
     public static void sg_destroy_buffer(sg_buffer buf)
     {
         _virtualTable.sg_destroy_buffer(buf);
     }
 
-    // Function @ sokol_gfx.h:2281:28
+    // Function @ sokol_gfx.h:2282:28
     public static sg_pass sg_make_pass(sg_pass_desc* desc)
     {
         return _virtualTable.sg_make_pass(desc);
     }
 
-    // Function @ sokol_gfx.h:2280:32
+    // Function @ sokol_gfx.h:2281:32
     public static sg_pipeline sg_make_pipeline(sg_pipeline_desc* desc)
     {
         return _virtualTable.sg_make_pipeline(desc);
     }
 
-    // Function @ sokol_gfx.h:2279:30
+    // Function @ sokol_gfx.h:2280:30
     public static sg_shader sg_make_shader(sg_shader_desc* desc)
     {
         return _virtualTable.sg_make_shader(desc);
     }
 
-    // Function @ sokol_gfx.h:2278:29
+    // Function @ sokol_gfx.h:2279:29
     public static sg_image sg_make_image(sg_image_desc* desc)
     {
         return _virtualTable.sg_make_image(desc);
     }
 
-    // Function @ sokol_gfx.h:2277:30
+    // Function @ sokol_gfx.h:2278:30
     public static sg_buffer sg_make_buffer(sg_buffer_desc* desc)
     {
         return _virtualTable.sg_make_buffer(desc);
     }
 
-    // Function @ sokol_gfx.h:2274:25
+    // Function @ sokol_gfx.h:2275:25
     public static void sg_pop_debug_group()
     {
         _virtualTable.sg_pop_debug_group();
     }
 
-    // Function @ sokol_gfx.h:2273:25
+    // Function @ sokol_gfx.h:2274:25
     public static void sg_push_debug_group(CString name)
     {
         _virtualTable.sg_push_debug_group(name);
     }
 
-    // Function @ sokol_gfx.h:2272:35
+    // Function @ sokol_gfx.h:2273:35
     public static sg_trace_hooks sg_install_trace_hooks(sg_trace_hooks* trace_hooks)
     {
         return _virtualTable.sg_install_trace_hooks(trace_hooks);
     }
 
-    // Function @ sokol_gfx.h:2271:25
+    // Function @ sokol_gfx.h:2272:25
     public static void sg_reset_state_cache()
     {
         _virtualTable.sg_reset_state_cache();
     }
 
-    // Function @ sokol_gfx.h:2270:25
+    // Function @ sokol_gfx.h:2271:25
     public static CBool sg_isvalid()
     {
         return _virtualTable.sg_isvalid();
     }
 
-    // Function @ sokol_gfx.h:2269:25
+    // Function @ sokol_gfx.h:2270:25
     public static void sg_shutdown()
     {
         _virtualTable.sg_shutdown();
     }
 
-    // Function @ sokol_gfx.h:2268:25
+    // Function @ sokol_gfx.h:2269:25
     public static void sg_setup(sg_desc* desc)
     {
         _virtualTable.sg_setup(desc);
@@ -876,7 +877,7 @@ public static unsafe partial class sokol
         return _virtualTable.sokol_main(argc, argv);
     }
 
-    // Struct @ sokol_gfx.h:2250:3
+    // Struct @ sokol_gfx.h:2251:3
     [StructLayout(LayoutKind.Explicit, Size = 184, Pack = 8)]
     public struct sg_context_desc
     {
@@ -902,7 +903,7 @@ public static unsafe partial class sokol
         public sg_wgpu_context_desc wgpu;
     }
 
-    // Struct @ sokol_gfx.h:2240:3
+    // Struct @ sokol_gfx.h:2241:3
     [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
     public struct sg_wgpu_context_desc
     {
@@ -931,7 +932,7 @@ public static unsafe partial class sokol
         public void* user_data;
     }
 
-    // Struct @ sokol_gfx.h:2229:3
+    // Struct @ sokol_gfx.h:2230:3
     [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
     public struct sg_d3d11_context_desc
     {
@@ -957,7 +958,7 @@ public static unsafe partial class sokol
         public void* user_data;
     }
 
-    // Struct @ sokol_gfx.h:2219:3
+    // Struct @ sokol_gfx.h:2220:3
     [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
     public struct sg_metal_context_desc
     {
@@ -980,7 +981,7 @@ public static unsafe partial class sokol
         public void* user_data;
     }
 
-    // Struct @ sokol_gfx.h:2210:3
+    // Struct @ sokol_gfx.h:2211:3
     [StructLayout(LayoutKind.Explicit, Size = 1, Pack = 1)]
     public struct sg_gl_context_desc
     {
@@ -1036,7 +1037,7 @@ public static unsafe partial class sokol
         public uint id;
     }
 
-    // Struct @ sokol_gfx.h:1961:3
+    // Struct @ sokol_gfx.h:1962:3
     [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8)]
     public struct sg_pass_desc
     {
@@ -1069,7 +1070,7 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // Struct @ sokol_gfx.h:1953:3
+    // Struct @ sokol_gfx.h:1954:3
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_pass_attachment_desc
     {
@@ -1083,7 +1084,7 @@ public static unsafe partial class sokol
         public int slice;
     }
 
-    // Struct @ sokol_gfx.h:1925:3
+    // Struct @ sokol_gfx.h:1926:3
     [StructLayout(LayoutKind.Explicit, Size = 568, Pack = 8)]
     public struct sg_pipeline_desc
     {
@@ -1137,7 +1138,7 @@ public static unsafe partial class sokol
         public int sample_count;
 
         [FieldOffset(528)] // size = 16, padding = 0
-        public sg_color blend_color;
+        public Rgba32F blend_color;
 
         [FieldOffset(544)] // size = 1, padding = 7
         public CBool alpha_to_coverage_enabled;
@@ -1149,24 +1150,7 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // Struct @ sokol_gfx.h:680:47
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
-    public struct sg_color
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public float r;
-
-        [FieldOffset(4)] // size = 4, padding = 0
-        public float g;
-
-        [FieldOffset(8)] // size = 4, padding = 0
-        public float b;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public float a;
-    }
-
-    // Struct @ sokol_gfx.h:1906:3
+    // Struct @ sokol_gfx.h:1907:3
     [StructLayout(LayoutKind.Explicit, Size = 36, Pack = 4)]
     public struct sg_color_state
     {
@@ -1180,7 +1164,7 @@ public static unsafe partial class sokol
         public sg_blend_state blend;
     }
 
-    // Struct @ sokol_gfx.h:1900:3
+    // Struct @ sokol_gfx.h:1901:3
     [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
     public struct sg_blend_state
     {
@@ -1206,7 +1190,7 @@ public static unsafe partial class sokol
         public sg_blend_op op_alpha;
     }
 
-    // Struct @ sokol_gfx.h:1881:3
+    // Struct @ sokol_gfx.h:1882:3
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 4)]
     public struct sg_stencil_state
     {
@@ -1229,7 +1213,7 @@ public static unsafe partial class sokol
         public byte @ref;
     }
 
-    // Struct @ sokol_gfx.h:1872:3
+    // Struct @ sokol_gfx.h:1873:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct sg_stencil_face_state
     {
@@ -1246,7 +1230,7 @@ public static unsafe partial class sokol
         public sg_stencil_op pass_op;
     }
 
-    // Struct @ sokol_gfx.h:1890:3
+    // Struct @ sokol_gfx.h:1891:3
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
     public struct sg_depth_state
     {
@@ -1269,7 +1253,7 @@ public static unsafe partial class sokol
         public float bias_clamp;
     }
 
-    // Struct @ sokol_gfx.h:1865:3
+    // Struct @ sokol_gfx.h:1866:3
     [StructLayout(LayoutKind.Explicit, Size = 288, Pack = 4)]
     public struct sg_layout_desc
     {
@@ -1306,7 +1290,7 @@ public static unsafe partial class sokol
         }
     }
 
-    // Struct @ sokol_gfx.h:1860:3
+    // Struct @ sokol_gfx.h:1861:3
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_vertex_attr_desc
     {
@@ -1320,7 +1304,7 @@ public static unsafe partial class sokol
         public sg_vertex_format format;
     }
 
-    // Struct @ sokol_gfx.h:1851:3
+    // Struct @ sokol_gfx.h:1852:3
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_buffer_layout_desc
     {
@@ -1334,7 +1318,7 @@ public static unsafe partial class sokol
         public int step_rate;
     }
 
-    // Struct @ sokol_gfx.h:1773:3
+    // Struct @ sokol_gfx.h:1774:3
     [StructLayout(LayoutKind.Explicit, Size = 2984, Pack = 8)]
     public struct sg_shader_desc
     {
@@ -1370,7 +1354,7 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // Struct @ sokol_gfx.h:1764:3
+    // Struct @ sokol_gfx.h:1765:3
     [StructLayout(LayoutKind.Explicit, Size = 1288, Pack = 8)]
     public struct sg_shader_stage_desc
     {
@@ -1419,7 +1403,7 @@ public static unsafe partial class sokol
         }
     }
 
-    // Struct @ sokol_gfx.h:1755:3
+    // Struct @ sokol_gfx.h:1756:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct sg_shader_image_desc
     {
@@ -1433,7 +1417,7 @@ public static unsafe partial class sokol
         public sg_sampler_type sampler_type;
     }
 
-    // Struct @ sokol_gfx.h:1749:3
+    // Struct @ sokol_gfx.h:1750:3
     [StructLayout(LayoutKind.Explicit, Size = 264, Pack = 8)]
     public struct sg_shader_uniform_block_desc
     {
@@ -1457,7 +1441,7 @@ public static unsafe partial class sokol
         }
     }
 
-    // Struct @ sokol_gfx.h:1744:3
+    // Struct @ sokol_gfx.h:1745:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct sg_shader_uniform_desc
     {
@@ -1482,7 +1466,7 @@ public static unsafe partial class sokol
         public ulong size;
     }
 
-    // Struct @ sokol_gfx.h:1738:3
+    // Struct @ sokol_gfx.h:1739:3
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct sg_shader_attr_desc
     {
@@ -1496,7 +1480,7 @@ public static unsafe partial class sokol
         public int sem_index;
     }
 
-    // Struct @ sokol_gfx.h:1698:3
+    // Struct @ sokol_gfx.h:1699:3
     [StructLayout(LayoutKind.Explicit, Size = 1688, Pack = 8)]
     public struct sg_image_desc
     {
@@ -1611,7 +1595,7 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // Struct @ sokol_gfx.h:1593:3
+    // Struct @ sokol_gfx.h:1594:3
     [StructLayout(LayoutKind.Explicit, Size = 1536, Pack = 8)]
     public struct sg_image_data
     {
@@ -1632,7 +1616,7 @@ public static unsafe partial class sokol
         }
     }
 
-    // Struct @ sokol_gfx.h:1582:3
+    // Struct @ sokol_gfx.h:1583:3
     [StructLayout(LayoutKind.Explicit, Size = 96, Pack = 8)]
     public struct sg_buffer_desc
     {
@@ -1696,7 +1680,7 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // Struct @ sokol_gfx.h:2095:3
+    // Struct @ sokol_gfx.h:2096:3
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_pass_info
     {
@@ -1704,7 +1688,7 @@ public static unsafe partial class sokol
         public sg_slot_info slot;
     }
 
-    // Struct @ sokol_gfx.h:2064:3
+    // Struct @ sokol_gfx.h:2065:3
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_slot_info
     {
@@ -1718,7 +1702,7 @@ public static unsafe partial class sokol
         public uint ctx_id;
     }
 
-    // Struct @ sokol_gfx.h:2091:3
+    // Struct @ sokol_gfx.h:2092:3
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_pipeline_info
     {
@@ -1726,7 +1710,7 @@ public static unsafe partial class sokol
         public sg_slot_info slot;
     }
 
-    // Struct @ sokol_gfx.h:2087:3
+    // Struct @ sokol_gfx.h:2088:3
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct sg_shader_info
     {
@@ -1734,7 +1718,7 @@ public static unsafe partial class sokol
         public sg_slot_info slot;
     }
 
-    // Struct @ sokol_gfx.h:2083:3
+    // Struct @ sokol_gfx.h:2084:3
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 4)]
     public struct sg_image_info
     {
@@ -1757,7 +1741,7 @@ public static unsafe partial class sokol
         public int height;
     }
 
-    // Struct @ sokol_gfx.h:2074:3
+    // Struct @ sokol_gfx.h:2075:3
     [StructLayout(LayoutKind.Explicit, Size = 36, Pack = 4)]
     public struct sg_buffer_info
     {
@@ -1806,8 +1790,8 @@ public static unsafe partial class sokol
         public CBool depth;
     }
 
-    // Struct @ sokol_gfx.h:875:3
-    [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
+    // Struct @ sokol_gfx.h:876:3
+    [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
     public struct sg_limits
     {
         [FieldOffset(0)] // size = 4, padding = 0
@@ -1827,6 +1811,9 @@ public static unsafe partial class sokol
 
         [FieldOffset(20)] // size = 4, padding = 0
         public int max_vertex_attrs;
+
+        [FieldOffset(24)] // size = 4, padding = 0
+        public int gl_max_vertex_uniform_vectors;
     }
 
     // Struct @ sokol_gfx.h:863:3
@@ -1861,7 +1848,7 @@ public static unsafe partial class sokol
         public CBool mrt_independent_write_mask;
     }
 
-    // Struct @ sokol_gfx.h:2265:3
+    // Struct @ sokol_gfx.h:2266:3
     [StructLayout(LayoutKind.Explicit, Size = 232, Pack = 8)]
     public struct sg_desc
     {
@@ -1902,7 +1889,7 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // Struct @ sokol_gfx.h:1511:3
+    // Struct @ sokol_gfx.h:1512:3
     [StructLayout(LayoutKind.Explicit, Size = 176, Pack = 4)]
     public struct sg_bindings
     {
@@ -1983,7 +1970,7 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // Struct @ sokol_gfx.h:1477:3
+    // Struct @ sokol_gfx.h:1478:3
     [StructLayout(LayoutKind.Explicit, Size = 104, Pack = 4)]
     public struct sg_pass_action
     {
@@ -2016,7 +2003,7 @@ public static unsafe partial class sokol
         public uint _end_canary;
     }
 
-    // Struct @ sokol_gfx.h:1469:3
+    // Struct @ sokol_gfx.h:1470:3
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct sg_stencil_attachment_action
     {
@@ -2027,7 +2014,7 @@ public static unsafe partial class sokol
         public byte value;
     }
 
-    // Struct @ sokol_gfx.h:1464:3
+    // Struct @ sokol_gfx.h:1465:3
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct sg_depth_attachment_action
     {
@@ -2038,7 +2025,7 @@ public static unsafe partial class sokol
         public float value;
     }
 
-    // Struct @ sokol_gfx.h:1459:3
+    // Struct @ sokol_gfx.h:1460:3
     [StructLayout(LayoutKind.Explicit, Size = 20, Pack = 4)]
     public struct sg_color_attachment_action
     {
@@ -2046,10 +2033,10 @@ public static unsafe partial class sokol
         public sg_action action;
 
         [FieldOffset(4)] // size = 16, padding = 0
-        public sg_color value;
+        public Rgba32F value;
     }
 
-    // Struct @ sokol_gfx.h:2037:3
+    // Struct @ sokol_gfx.h:2038:3
     [StructLayout(LayoutKind.Explicit, Size = 488, Pack = 8)]
     public struct sg_trace_hooks
     {
@@ -2236,329 +2223,329 @@ public static unsafe partial class sokol
         [FieldOffset(480)] // size = 8, padding = 0
         public FnPtrPointerVoid err_bindings_invalid;
 
-        // FunctionPointer @ sokol_gfx.h:1978:12
+        // FunctionPointer @ sokol_gfx.h:1979:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_make_buffer
         {
             public delegate* unmanaged<sg_buffer_desc*, sg_buffer, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1979:12
+        // FunctionPointer @ sokol_gfx.h:1980:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_make_image
         {
             public delegate* unmanaged<sg_image_desc*, sg_image, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1980:12
+        // FunctionPointer @ sokol_gfx.h:1981:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_make_shader
         {
             public delegate* unmanaged<sg_shader_desc*, sg_shader, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1981:12
+        // FunctionPointer @ sokol_gfx.h:1982:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_make_pipeline
         {
             public delegate* unmanaged<sg_pipeline_desc*, sg_pipeline, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1982:12
+        // FunctionPointer @ sokol_gfx.h:1983:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_make_pass
         {
             public delegate* unmanaged<sg_pass_desc*, sg_pass, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1983:12
+        // FunctionPointer @ sokol_gfx.h:1984:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_destroy_buffer
         {
             public delegate* unmanaged<sg_buffer, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1984:12
+        // FunctionPointer @ sokol_gfx.h:1985:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_destroy_image
         {
             public delegate* unmanaged<sg_image, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1985:12
+        // FunctionPointer @ sokol_gfx.h:1986:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_destroy_shader
         {
             public delegate* unmanaged<sg_shader, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1986:12
+        // FunctionPointer @ sokol_gfx.h:1987:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_destroy_pipeline
         {
             public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1987:12
+        // FunctionPointer @ sokol_gfx.h:1988:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_destroy_pass
         {
             public delegate* unmanaged<sg_pass, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1988:12
+        // FunctionPointer @ sokol_gfx.h:1989:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_update_buffer
         {
             public delegate* unmanaged<sg_buffer, sg_range*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1989:12
+        // FunctionPointer @ sokol_gfx.h:1990:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_update_image
         {
             public delegate* unmanaged<sg_image, sg_image_data*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1990:12
+        // FunctionPointer @ sokol_gfx.h:1991:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_append_buffer
         {
             public delegate* unmanaged<sg_buffer, sg_range*, int, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1991:12
+        // FunctionPointer @ sokol_gfx.h:1992:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_begin_default_pass
         {
             public delegate* unmanaged<sg_pass_action*, int, int, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1992:12
+        // FunctionPointer @ sokol_gfx.h:1993:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_begin_pass
         {
             public delegate* unmanaged<sg_pass, sg_pass_action*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1993:12
+        // FunctionPointer @ sokol_gfx.h:1994:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_apply_viewport
         {
             public delegate* unmanaged<int, int, int, int, CBool, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1994:12
+        // FunctionPointer @ sokol_gfx.h:1995:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_apply_scissor_rect
         {
             public delegate* unmanaged<int, int, int, int, CBool, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1995:12
+        // FunctionPointer @ sokol_gfx.h:1996:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_apply_pipeline
         {
             public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1996:12
+        // FunctionPointer @ sokol_gfx.h:1997:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_apply_bindings
         {
             public delegate* unmanaged<sg_bindings*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1997:12
+        // FunctionPointer @ sokol_gfx.h:1998:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_apply_uniforms
         {
             public delegate* unmanaged<sg_shader_stage, int, sg_range*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:1998:12
+        // FunctionPointer @ sokol_gfx.h:1999:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_draw
         {
             public delegate* unmanaged<int, int, int, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2001:12
+        // FunctionPointer @ sokol_gfx.h:2002:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_alloc_buffer
         {
             public delegate* unmanaged<sg_buffer, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2002:12
+        // FunctionPointer @ sokol_gfx.h:2003:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_alloc_image
         {
             public delegate* unmanaged<sg_image, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2003:12
+        // FunctionPointer @ sokol_gfx.h:2004:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_alloc_shader
         {
             public delegate* unmanaged<sg_shader, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2004:12
+        // FunctionPointer @ sokol_gfx.h:2005:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_alloc_pipeline
         {
             public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2005:12
+        // FunctionPointer @ sokol_gfx.h:2006:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_alloc_pass
         {
             public delegate* unmanaged<sg_pass, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2006:12
+        // FunctionPointer @ sokol_gfx.h:2007:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_dealloc_buffer
         {
             public delegate* unmanaged<sg_buffer, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2007:12
+        // FunctionPointer @ sokol_gfx.h:2008:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_dealloc_image
         {
             public delegate* unmanaged<sg_image, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2008:12
+        // FunctionPointer @ sokol_gfx.h:2009:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_dealloc_shader
         {
             public delegate* unmanaged<sg_shader, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2009:12
+        // FunctionPointer @ sokol_gfx.h:2010:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_dealloc_pipeline
         {
             public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2010:12
+        // FunctionPointer @ sokol_gfx.h:2011:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_dealloc_pass
         {
             public delegate* unmanaged<sg_pass, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2011:12
+        // FunctionPointer @ sokol_gfx.h:2012:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_init_buffer
         {
             public delegate* unmanaged<sg_buffer, sg_buffer_desc*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2012:12
+        // FunctionPointer @ sokol_gfx.h:2013:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_init_image
         {
             public delegate* unmanaged<sg_image, sg_image_desc*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2013:12
+        // FunctionPointer @ sokol_gfx.h:2014:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_init_shader
         {
             public delegate* unmanaged<sg_shader, sg_shader_desc*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2014:12
+        // FunctionPointer @ sokol_gfx.h:2015:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_init_pipeline
         {
             public delegate* unmanaged<sg_pipeline, sg_pipeline_desc*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2015:12
+        // FunctionPointer @ sokol_gfx.h:2016:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_init_pass
         {
             public delegate* unmanaged<sg_pass, sg_pass_desc*, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2016:12
+        // FunctionPointer @ sokol_gfx.h:2017:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_uninit_buffer
         {
             public delegate* unmanaged<sg_buffer, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2017:12
+        // FunctionPointer @ sokol_gfx.h:2018:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_uninit_image
         {
             public delegate* unmanaged<sg_image, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2018:12
+        // FunctionPointer @ sokol_gfx.h:2019:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_uninit_shader
         {
             public delegate* unmanaged<sg_shader, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2019:12
+        // FunctionPointer @ sokol_gfx.h:2020:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_uninit_pipeline
         {
             public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2020:12
+        // FunctionPointer @ sokol_gfx.h:2021:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_uninit_pass
         {
             public delegate* unmanaged<sg_pass, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2021:12
+        // FunctionPointer @ sokol_gfx.h:2022:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_fail_buffer
         {
             public delegate* unmanaged<sg_buffer, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2022:12
+        // FunctionPointer @ sokol_gfx.h:2023:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_fail_image
         {
             public delegate* unmanaged<sg_image, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2023:12
+        // FunctionPointer @ sokol_gfx.h:2024:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_fail_shader
         {
             public delegate* unmanaged<sg_shader, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2024:12
+        // FunctionPointer @ sokol_gfx.h:2025:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_fail_pipeline
         {
             public delegate* unmanaged<sg_pipeline, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2025:12
+        // FunctionPointer @ sokol_gfx.h:2026:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_fail_pass
         {
             public delegate* unmanaged<sg_pass, void*, void> Pointer;
         }
 
-        // FunctionPointer @ sokol_gfx.h:2026:12
+        // FunctionPointer @ sokol_gfx.h:2027:12
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_push_debug_group
         {
@@ -2970,7 +2957,7 @@ public static unsafe partial class sokol
         _SG_PIXELFORMAT_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1248:3
+    // Enum @ sokol_gfx.h:1249:3
     public enum sg_face_winding : uint
     {
         _SG_FACEWINDING_DEFAULT = 0U,
@@ -2980,7 +2967,7 @@ public static unsafe partial class sokol
         _SG_FACEWINDING_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1231:3
+    // Enum @ sokol_gfx.h:1232:3
     public enum sg_cull_mode : uint
     {
         _SG_CULLMODE_DEFAULT = 0U,
@@ -2991,7 +2978,7 @@ public static unsafe partial class sokol
         _SG_CULLMODE_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:980:3
+    // Enum @ sokol_gfx.h:981:3
     public enum sg_index_type : uint
     {
         _SG_INDEXTYPE_DEFAULT = 0U,
@@ -3002,7 +2989,7 @@ public static unsafe partial class sokol
         _SG_INDEXTYPE_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1073:3
+    // Enum @ sokol_gfx.h:1074:3
     public enum sg_primitive_type : uint
     {
         _SG_PRIMITIVETYPE_DEFAULT = 0U,
@@ -3015,7 +3002,7 @@ public static unsafe partial class sokol
         _SG_PRIMITIVETYPE_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1374:3
+    // Enum @ sokol_gfx.h:1375:3
     public enum sg_blend_op : uint
     {
         _SG_BLENDOP_DEFAULT = 0U,
@@ -3026,7 +3013,7 @@ public static unsafe partial class sokol
         _SG_BLENDOP_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1350:3
+    // Enum @ sokol_gfx.h:1351:3
     public enum sg_blend_factor : uint
     {
         _SG_BLENDFACTOR_DEFAULT = 0U,
@@ -3049,7 +3036,7 @@ public static unsafe partial class sokol
         _SG_BLENDFACTOR_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1408:3
+    // Enum @ sokol_gfx.h:1409:3
     public enum sg_color_mask : uint
     {
         _SG_COLORMASK_DEFAULT = 0U,
@@ -3072,7 +3059,7 @@ public static unsafe partial class sokol
         _SG_COLORMASK_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1312:3
+    // Enum @ sokol_gfx.h:1313:3
     public enum sg_stencil_op : uint
     {
         _SG_STENCILOP_DEFAULT = 0U,
@@ -3088,7 +3075,7 @@ public static unsafe partial class sokol
         _SG_STENCILOP_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1278:3
+    // Enum @ sokol_gfx.h:1279:3
     public enum sg_compare_func : uint
     {
         _SG_COMPAREFUNC_DEFAULT = 0U,
@@ -3104,7 +3091,7 @@ public static unsafe partial class sokol
         _SG_COMPAREFUNC_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1176:3
+    // Enum @ sokol_gfx.h:1177:3
     public enum sg_vertex_format : uint
     {
         SG_VERTEXFORMAT_INVALID = 0U,
@@ -3127,7 +3114,7 @@ public static unsafe partial class sokol
         _SG_VERTEXFORMAT_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1195:3
+    // Enum @ sokol_gfx.h:1196:3
     public enum sg_vertex_step : uint
     {
         _SG_VERTEXSTEP_DEFAULT = 0U,
@@ -3137,7 +3124,7 @@ public static unsafe partial class sokol
         _SG_VERTEXSTEP_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1019:3
+    // Enum @ sokol_gfx.h:1020:3
     public enum sg_sampler_type : uint
     {
         _SG_SAMPLERTYPE_DEFAULT = 0U,
@@ -3146,7 +3133,7 @@ public static unsafe partial class sokol
         SG_SAMPLERTYPE_UINT = 3U
     }
 
-    // Enum @ sokol_gfx.h:1002:3
+    // Enum @ sokol_gfx.h:1003:3
     public enum sg_image_type : uint
     {
         _SG_IMAGETYPE_DEFAULT = 0U,
@@ -3158,7 +3145,7 @@ public static unsafe partial class sokol
         _SG_IMAGETYPE_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1213:3
+    // Enum @ sokol_gfx.h:1214:3
     public enum sg_uniform_type : uint
     {
         SG_UNIFORMTYPE_INVALID = 0U,
@@ -3171,7 +3158,7 @@ public static unsafe partial class sokol
         _SG_UNIFORMTYPE_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1149:3
+    // Enum @ sokol_gfx.h:1150:3
     public enum sg_border_color : uint
     {
         _SG_BORDERCOLOR_DEFAULT = 0U,
@@ -3182,7 +3169,7 @@ public static unsafe partial class sokol
         _SG_BORDERCOLOR_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1132:3
+    // Enum @ sokol_gfx.h:1133:3
     public enum sg_wrap : uint
     {
         _SG_WRAP_DEFAULT = 0U,
@@ -3194,7 +3181,7 @@ public static unsafe partial class sokol
         _SG_WRAP_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1094:3
+    // Enum @ sokol_gfx.h:1095:3
     public enum sg_filter : uint
     {
         _SG_FILTER_DEFAULT = 0U,
@@ -3208,7 +3195,7 @@ public static unsafe partial class sokol
         _SG_FILTER_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:945:3
+    // Enum @ sokol_gfx.h:946:3
     public enum sg_usage : uint
     {
         _SG_USAGE_DEFAULT = 0U,
@@ -3219,7 +3206,7 @@ public static unsafe partial class sokol
         _SG_USAGE_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:961:3
+    // Enum @ sokol_gfx.h:962:3
     public enum sg_buffer_type : uint
     {
         _SG_BUFFERTYPE_DEFAULT = 0U,
@@ -3229,7 +3216,7 @@ public static unsafe partial class sokol
         _SG_BUFFERTYPE_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:902:3
+    // Enum @ sokol_gfx.h:903:3
     public enum sg_resource_state : uint
     {
         SG_RESOURCESTATE_INITIAL = 0U,
@@ -3254,7 +3241,7 @@ public static unsafe partial class sokol
         SG_BACKEND_DUMMY = 8U
     }
 
-    // Enum @ sokol_gfx.h:1053:3
+    // Enum @ sokol_gfx.h:1054:3
     public enum sg_shader_stage : uint
     {
         SG_SHADERSTAGE_VS = 0U,
@@ -3262,7 +3249,7 @@ public static unsafe partial class sokol
         _SG_SHADERSTAGE_FORCE_U32 = 2147483647U
     }
 
-    // Enum @ sokol_gfx.h:1435:3
+    // Enum @ sokol_gfx.h:1436:3
     public enum sg_action : uint
     {
         _SG_ACTION_DEFAULT = 0U,

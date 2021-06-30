@@ -50,6 +50,8 @@ cs
 {rootDirectory}/src/cs/examples/sokol/sokol-c/ast.json
 -o
 {rootDirectory}/src/cs/examples/sokol/sokol-cs/sokol.cs
+-a sg_color->Rgba32F
+-g Rgba32F
 ";
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);

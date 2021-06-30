@@ -12,6 +12,16 @@
       <ProjectReference Include="..\..\..\prod\C2CS.Runtime\C2CS.Runtime.csproj" />
     </ItemGroup>
 
+    <!-- pixel-formats-cs-->
+    <PropertyGroup>
+        <PixelFormatsSourcePath>$(GitRepositoryPath)/ext/pixel-formats-cs/src</PixelFormatsSourcePath>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="$(PixelFormatsSourcePath)/*.cs">
+            <Link>pixel-formats-cs/%(Filename)%(Extension)</Link>
+        </Compile>
+    </ItemGroup>
+
     <!-- Copy native libraries -->
     <ItemGroup>
         <None Update="**/*.dll">

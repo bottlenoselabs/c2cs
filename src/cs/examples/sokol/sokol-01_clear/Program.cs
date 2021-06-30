@@ -4,7 +4,7 @@ using static sokol;
 
 internal static unsafe class Program
 {
-    private static sg_color _color;
+    private static Rgba32F _color;
 
     private static void Main()
     {
@@ -31,8 +31,8 @@ internal static unsafe class Program
     [UnmanagedCallersOnly]
     private static void Frame()
     {
-        var g = _color.g + 0.01f;
-        _color.g = g > 1.0f ? 0.0f : g;
+        var g = _color.G + 0.01f;
+        _color.G = g > 1.0f ? 0.0f : g;
 
         var passAction = default(sg_pass_action);
         passAction.colors[0].action = sg_action.SG_ACTION_CLEAR;

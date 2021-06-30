@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
+using System.Linq;
 
 namespace C2CS.UseCases.BindgenCSharp
 {
@@ -16,14 +17,21 @@ namespace C2CS.UseCases.BindgenCSharp
 
         public ImmutableArray<CSharpTypeAlias> TypeAliases { get; }
 
+        public ImmutableArray<string> IgnoredTypeNames { get; }
+
         public string LibraryName { get; }
 
         public Request(
-            FileInfo inputFile, FileInfo outputFile, IEnumerable<string?>? typeAliases, string libraryName)
+            FileInfo inputFile,
+            FileInfo outputFile,
+            IEnumerable<string?>? typeAliases,
+            IEnumerable<string?>? ignoredTypeNames,
+            string libraryName)
         {
             InputFile = inputFile;
             OutputFile = outputFile;
             TypeAliases = CreateTypeAliases(typeAliases);
+            IgnoredTypeNames = CreateIgnoredTypeNames(ignoredTypeNames);
             LibraryName = libraryName;
         }
 
@@ -43,6 +51,11 @@ namespace C2CS.UseCases.BindgenCSharp
                 }
 
                 var parse = typeAliasString.Split("->", StringSplitOptions.RemoveEmptyEntries);
+                if (parse.Length != 2)
+                {
+                    continue;
+                }
+
                 var typeFrom = parse[0].Trim();
                 var typeTo = parse[1].Trim();
 
@@ -56,6 +69,20 @@ namespace C2CS.UseCases.BindgenCSharp
             }
 
             return builder.ToImmutable();
+        }
+
+        private static ImmutableArray<string> CreateIgnoredTypeNames(IEnumerable<string?>? ignoredTypeNames)
+        {
+            if (ignoredTypeNames == null)
+            {
+                return ImmutableArray<string>.Empty;
+            }
+
+            var nonNull = ignoredTypeNames!
+                .Select(x => x?.Trim())
+                .Where(x => !string.IsNullOrEmpty(x))
+                .Cast<string>();
+            return nonNull.ToImmutableArray();
         }
     }
 }
