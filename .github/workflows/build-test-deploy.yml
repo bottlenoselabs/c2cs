@@ -119,7 +119,7 @@ jobs:
         path: './nuget-packages/*/**'
 
     - name: "Build C2CS"
-      run: dotnet publish './src/cs/prod/C2CS/C2CS.csproj' -o './publish/${{ env.DOTNET_RID }}' -c Release -r ${{ env.DOTNET_RID }} -p:PublishSingleFile=true /p:DebugType=embedded /p:SelfContained=false /p:IncludeNativeLibrariesForSelfExtract=true
+      run: dotnet publish './src/cs/production/C2CS/C2CS.csproj' -o './publish/${{ env.DOTNET_RID }}' -c Release -r ${{ env.DOTNET_RID }} -p:PublishSingleFile=true /p:DebugType=embedded /p:SelfContained=false /p:IncludeNativeLibrariesForSelfExtract=true
 
     - name: "Ensure C2CS is executable (macOS)"
       if: matrix.os == 'macos-latest'
