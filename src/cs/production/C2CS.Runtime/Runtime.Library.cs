@@ -151,7 +151,7 @@ namespace C2CS
                 }
             }
         }
-        
+
         private static void PrintLibraryLoadError(string libraryFilePath)
         {
             Console.WriteLine($"The library failed to load: '{libraryFilePath}'. This is likely caused by one or more required dependencies failing to load; use a dependency walker tool to check.");
