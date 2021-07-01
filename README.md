@@ -17,17 +17,21 @@ See [latest releases](https://github.com/lithiumtoast/c2cs/releases).
 
 For documentation see the [docs/README.md](docs/README.md). This includes:
 
-- [Getting started with `C2CS`](docs/README.md#getting-started).
+- [How to use `C2CS`](docs/README.md#how-to-use).
 - [How to build `C2CS` and the examples from source](docs/README.md#building-from-source).
 - [Examples](docs/README.md#examples).
+
+## Bindings catalog
+
+Create an issue for a request of a C library and I'll be happy to setup a repository with bindings. 
+
+|Description|C|C#|
+|:-:|:-:|:-:|
+|minimal cross-platform standalone C headers|https://github.com/floooh/sokol|https://github.com/lithiumtoast/sokol-cs|
 
 ## Background: Why?
 
 ### Problem
-
-<details>
-  <summary>Click to expand!</summary>
-<br/>
 
 When creating applications with C# (especially games), it's sometimes necessary to dip down into C/C++ for better raw performance and overall better portability of various different low-level APIs accross various platforms. (This is what FNA does today and what [MonoGame will be doing in the future](https://github.com/MonoGame/MonoGame/issues/7523#issuecomment-865808668).) However, the problem is that maintaining the C# bindings becomes time consuming, error-prone, and in some cases quite tricky.
 
@@ -35,13 +39,8 @@ If you are not familiar already with interoperability of C/C++ with C#, it's ass
 - [P/Invoke: Introduction](https://docs.microsoft.com/en-us/dotnet/standard/native-interop/pinvoke).
 - [Marshalling: Introduction](https://docs.microsoft.com/en-us/dotnet/standard/native-interop/type-marshaling)
 - [Marshalling: Default behaviour for value types in .NET](https://docs.microsoft.com/en-us/dotnet/framework/interop/default-marshaling-behavior#default-marshaling-for-value-types)
-</details>
 
 ### Solution
-
-<details>
-  <summary>Click to expand!</summary>
-<br/>
 
 Automatically generate the bindings by compiling/parsing a C `.h` file. Essentially, the C public API for the target operating system + architecture is transpiled to C#.  
 
@@ -49,13 +48,7 @@ This includes all C extern functions and variables which are transpiled to `stat
 
 This is all accomplished by using [libclang](https://clang.llvm.org/docs/Tooling.html) for parsing C and [Roslyn](https://github.com/dotnet/roslyn) for generating C#. All naming is left as found in the header file of the C code.
 
-</details>
-
 ### Limitations
-
-<details>
-  <summary>Click to expand!</summary>
-<br/>
 
 This solution does not work for every C library. This is due to some technical limitations where some C libraries are not "bindgen-friendly".
 
@@ -101,13 +94,7 @@ Options:
 1. Change the library so that the **external linkage** becomes bindgen-friendly. E.g. removing C++, removing macros, etc.
 2. Use https://github.com/InfectedLibraries/Biohazrd as a framework to generate bindings; requires more setup and is not as straightforward, but it works for C++.
 
-</details>
-
 ### Other similar projects
-
-<details>
-  <summary>Click to expand!</summary>
-<br/>
 
 Mentioned here for completeness. I do believe you should be aware of other approaches to this problem and see if they make more sense to you.
 
@@ -117,12 +104,7 @@ Mentioned here for completeness. I do believe you should be aware of other appro
 - https://github.com/xoofx/CppAst.NET
 - https://github.com/rds1983/Sichem
 
-</details>
-
 ## Lessons learned
-
-<details>
-  <summary>Click to expand!</summary>
 
 ### Marshalling
 
@@ -140,15 +122,9 @@ In practice, using garbage collection to manage your memory automatically turns 
 
 Developers have learned to ignore how the hardware operates when solving problems with software, even up to the extreme point that they deny that the hardware even exists. Optimizing code for performance has become an exercise of stumbling around in the pitch-black dark until you find something of interest; it's an afterthought. Even if the developer does find something of interest, it likely opposes his/her worldview of understandable code because they have lost touch with the hardware, lost touch with reality. C# is a useful tool, but you and I have to admit that people mostly use it as Golden Hammer. Just inspect the source code that this tool generates for native bindings as proof of this fact. From my experience, a fair amount of C# developers don't spend their time with such code, don't know how to use structs properly, or even know what blittable data structures are. C# developers (including myself) may need to take a hard look in the mirror, especially if we are open to critizing developers to other programming languages or other fields of business with their own Golden Hammers such as Java, JavaScript, or Electron (:scream:).
 
-</details>
-
 ## License
 
 `C2CS` is licensed under the MIT License (`MIT`).
-
-<details>
-  <summary>Click to expand!</summary>
-<br/>
 
 There are a few exceptions to this detailed below. See the [LICENSE](LICENSE) file for more details on this main product's license.
 

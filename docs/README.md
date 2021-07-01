@@ -2,11 +2,11 @@
 
 Here you will find documentation for `C2CS` including:
 
-- [Getting started with `C2CS`](#getting-started).
+- [How to use `C2CS`](#how-to-use).
 - [How to build `C2CS` and the examples from source](#building-from-source).
 - [Examples](#examples).
 
-## Getting started
+## How to use
 
 See https://github.com/lithiumtoast/c2cs-example-helloworld for minimal example of using `C2CS`.
 
