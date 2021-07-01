@@ -118,7 +118,7 @@ namespace C2CS
                     var libraryFilePath2 = Path.Combine(searchDirectory, "lib" + libraryFileName);
                     if (File.Exists(libraryFilePath2))
                     {
-                        return libraryFilePath;
+                        return libraryFilePath2;
                     }
                 }
             }
