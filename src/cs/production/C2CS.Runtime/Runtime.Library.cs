@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -24,7 +25,7 @@ namespace C2CS
             var libraryFilePath = LibraryFilePath(libraryName);
             if (string.IsNullOrEmpty(libraryFilePath))
             {
-                PrintLibraryLoadError(libraryName);
+                PrintLibraryNotFound(libraryName);
                 return IntPtr.Zero;
             }
 
@@ -32,6 +33,7 @@ namespace C2CS
 
             if (!NativeLibrary.TryLoad(libraryFilePath, out handle))
             {
+                PrintLibraryLoadError(libraryFilePath);
                 return IntPtr.Zero;
             }
 
@@ -126,21 +128,21 @@ namespace C2CS
             return string.Empty;
         }
 
-        private static void PrintLibraryLoadError(string libraryName)
+        private static void PrintLibraryNotFound(string libraryName)
         {
             var runtimePlatform = Platform;
             var libraryFileNamePrefix = LibraryFileNamePrefix(runtimePlatform);
             var libraryFileNameExtension = LibraryFileNameExtension(runtimePlatform);
             var libraryFileName = $@"{libraryFileNamePrefix}{libraryName}{libraryFileNameExtension}";
 
-            Console.WriteLine($"Failed to load '{libraryFileName}'. Expected to find the library in one of the following paths:");
+            Console.WriteLine($"The library could not be found: '{libraryFileName}'. Expected to find the library in one of the following paths:");
             foreach (var searchDirectory in _nativeSearchDirectories)
             {
                 if (Platform == RuntimePlatform.Windows)
                 {
                     var libraryFilePath = Path.Combine(searchDirectory, libraryFileName);
                     var libraryFilePath2 = Path.Combine(searchDirectory, "lib" + libraryFileName);
-                    Console.WriteLine($"\t{searchDirectory} OR {libraryFilePath2}");
+                    Console.WriteLine($"\t{libraryFilePath} OR {libraryFilePath2}");
                 }
                 else
                 {
@@ -148,6 +150,11 @@ namespace C2CS
                     Console.WriteLine($"\t{libraryFilePath}");
                 }
             }
+        }
+        
+        private static void PrintLibraryLoadError(string libraryFilePath)
+        {
+            Console.WriteLine($"The library failed to load: '{libraryFilePath}'. This is likely caused by one or more required dependencies failing to load; use a dependency walker tool to check.");
         }
     }
 }
