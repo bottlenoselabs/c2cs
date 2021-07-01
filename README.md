@@ -25,9 +25,9 @@ For documentation see the [docs/README.md](docs/README.md). This includes:
 
 Create an issue for a request of a C library and I'll be happy to setup a repository with bindings. 
 
-|Description|C|C#|
-|:-:|:-:|:-:|
-|minimal cross-platform standalone C headers|https://github.com/floooh/sokol|https://github.com/lithiumtoast/sokol-cs|
+|Name|Description|C|C#|
+|:-:|:-:|:-:|:-:|
+|sokol|minimal cross-platform standalone C headers|https://github.com/floooh/sokol|https://github.com/lithiumtoast/sokol-cs|
 
 ## Background: Why?
 
