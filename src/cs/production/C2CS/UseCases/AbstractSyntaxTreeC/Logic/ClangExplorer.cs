@@ -535,6 +535,12 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 throw up;
             }
 
+            var isIgnored = TypeIsIgnored(type, cursor);
+            if (isIgnored)
+            {
+                return;
+            }
+
             var node = new Node(
                 kind,
                 location,

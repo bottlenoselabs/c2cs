@@ -282,7 +282,8 @@ public static unsafe class ClangExtensions
             type = clang_getPointeeType(type);
         }
 
-        if (type.kind == CXTypeKind.CXType_FunctionProto)
+        if (type.kind == CXTypeKind.CXType_FunctionProto ||
+            type.kind == CXTypeKind.CXType_FunctionNoProto)
         {
             declaration = cursor;
         }
