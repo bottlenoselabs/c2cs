@@ -107,12 +107,20 @@ namespace C2CS
             foreach (var searchDirectory in _nativeSearchDirectories)
             {
                 var libraryFilePath = Path.Combine(searchDirectory, libraryFileName);
-                if (!File.Exists(libraryFilePath))
+                if (File.Exists(libraryFilePath))
                 {
-                    continue;
+                    return libraryFilePath;
                 }
 
-                return libraryFilePath;
+                // TRICK: Cross compiling for Windows on Linux automatically adds the prefix "lib"
+                if (Platform == RuntimePlatform.Windows)
+                {
+                    var libraryFilePath2 = Path.Combine(searchDirectory, "lib" + libraryFileName);
+                    if (File.Exists(libraryFilePath2))
+                    {
+                        return libraryFilePath;
+                    }
+                }
             }
 
             return string.Empty;
@@ -128,8 +136,17 @@ namespace C2CS
             Console.WriteLine($"Failed to load '{libraryFileName}'. Expected to find the library in one of the following paths:");
             foreach (var searchDirectory in _nativeSearchDirectories)
             {
-                var libraryFilePath = Path.Combine(searchDirectory, libraryFileName);
-                Console.WriteLine($"\t{libraryFilePath}");
+                if (Platform == RuntimePlatform.Windows)
+                {
+                    var libraryFilePath = Path.Combine(searchDirectory, libraryFileName);
+                    var libraryFilePath2 = Path.Combine(searchDirectory, "lib" + libraryFileName);
+                    Console.WriteLine($"\t{searchDirectory} OR {libraryFilePath2}");
+                }
+                else
+                {
+                    var libraryFilePath = Path.Combine(searchDirectory, libraryFileName);
+                    Console.WriteLine($"\t{libraryFilePath}");
+                }
             }
         }
     }
