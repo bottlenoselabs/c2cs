@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using C2CS.Bindgen.Languages.CSharp;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -137,15 +136,11 @@ public static unsafe partial class {className}
 private static void _LoadVirtualTable()
 {{
 	#region ""Functions""
-
 	{string.Join('\n', functionStatementStrings)}
-
 	#endregion
 
 	#region ""Variables""
-
 	{string.Join('\n', variableStatementStrings)}
-
 	#endregion
 }}
 ";
@@ -326,7 +321,7 @@ public static {function.ReturnType.Name} {function.Name}({parameters})
 			return member;
 		}
 
-		private static void EmitFunctionPointers(
+		private void EmitFunctionPointers(
 			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
 			ImmutableArray<CSharpFunctionPointer> functionPointers)
 		{
@@ -337,18 +332,19 @@ public static {function.ReturnType.Name} {function.Name}({parameters})
 			}
 		}
 
-		private static StructDeclarationSyntax EmitFunctionPointer(
+		private StructDeclarationSyntax EmitFunctionPointer(
 			CSharpFunctionPointer functionPointer, bool isNested = false)
 		{
 			var parameterStrings = functionPointer.Parameters
 				.Select(x => $"{x.Type}")
 				.Append($"{functionPointer.ReturnType.Name}");
 			var parameters = string.Join(',', parameterStrings);
+			var functionPointerName = functionPointer.Name;
 
 			var code = $@"
 {functionPointer.CodeLocationComment}
 [StructLayout(LayoutKind.Sequential)]
-public struct {functionPointer.Name}
+public struct {functionPointerName}
 {{
 	public delegate* unmanaged <{parameters}> Pointer;
 }}
@@ -363,7 +359,7 @@ public struct {functionPointer.Name}
 			return member;
 		}
 
-		private static void EmitStructs(
+		private void EmitStructs(
 			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
 			ImmutableArray<CSharpStruct> structs)
 		{
@@ -374,7 +370,7 @@ public struct {functionPointer.Name}
 			}
 		}
 
-		private static StructDeclarationSyntax EmitStruct(CSharpStruct @struct, bool isNested = false)
+		private StructDeclarationSyntax EmitStruct(CSharpStruct @struct, bool isNested = false)
 		{
 			var memberSyntaxes = EmitStructMembers(
 				@struct.Name, @struct.Fields, @struct.NestedStructs, @struct.NestedFunctionPointers);
@@ -399,7 +395,7 @@ public struct {@struct.Name}
 			return member;
 		}
 
-		private static MemberDeclarationSyntax[] EmitStructMembers(
+		private MemberDeclarationSyntax[] EmitStructMembers(
 			string structName,
 			ImmutableArray<CSharpStructField> fields,
 			ImmutableArray<CSharpStruct> nestedStructs,

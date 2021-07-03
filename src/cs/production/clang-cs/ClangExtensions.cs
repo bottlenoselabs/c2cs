@@ -277,6 +277,11 @@ public static unsafe class ClangExtensions
         //  from a typedef
         CXCursor declaration;
 
+        if (type.kind == CXTypeKind.CXType_Attributed)
+        {
+            type = clang_Type_getModifiedType(type);
+        }
+
         if (type.kind == CXTypeKind.CXType_Pointer)
         {
             type = clang_getPointeeType(type);

@@ -5,9 +5,9 @@ using System;
 
 namespace C2CS.UseCases.BindgenCSharp
 {
-    public class CSharpCodeGenerationException : Exception
+    public class CSharpMapperException : Exception
     {
-        public CSharpCodeGenerationException(string message)
+        public CSharpMapperException(string message)
             : base(message)
         {
         }

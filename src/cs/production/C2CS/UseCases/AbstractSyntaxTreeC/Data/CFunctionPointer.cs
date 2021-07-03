@@ -23,9 +23,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         [JsonPropertyName("parameters")]
         public ImmutableArray<CFunctionPointerParameter> Parameters { get; set; } = ImmutableArray<CFunctionPointerParameter>.Empty;
 
-        [JsonPropertyName("isWrapped")]
-        public bool IsWrapped { get; set; }
-
         public override string ToString()
         {
             return $"FunctionPointer {Type} @ {Location.ToString()}";

@@ -17,6 +17,9 @@ namespace C2CS.UseCases.BindgenCSharp
             Validate(request);
             TotalSteps(4);
 
+            var className = Path.GetFileNameWithoutExtension(request.OutputFile.FullName);
+            var libraryName = string.IsNullOrEmpty(request.LibraryName) ? className : request.LibraryName;
+
             var abstractSyntaxTreeC = Step(
                 "Load C abstract syntax tree from disk",
                 request.InputFile.FullName,
@@ -24,13 +27,12 @@ namespace C2CS.UseCases.BindgenCSharp
 
             var abstractSyntaxTreeCSharp = Step(
                 "Map C abstract syntax tree to C#",
+                className,
                 abstractSyntaxTreeC,
                 request.TypeAliases,
                 request.IgnoredTypeNames,
                 MapCToCSharp);
 
-            var className = Path.GetFileNameWithoutExtension(request.OutputFile.FullName);
-            var libraryName = string.IsNullOrEmpty(request.LibraryName) ? className : request.LibraryName;
             var codeCSharp = Step(
                 "Generate C# code",
                 abstractSyntaxTreeCSharp,
@@ -72,11 +74,12 @@ namespace C2CS.UseCases.BindgenCSharp
         }
 
         private static CSharpAbstractSyntaxTree MapCToCSharp(
+            string className,
             CAbstractSyntaxTree abstractSyntaxTree,
             ImmutableArray<CSharpTypeAlias> typeAliases,
             ImmutableArray<string> ignoredTypeNames)
         {
-            var mapper = new CSharpMapper(typeAliases, ignoredTypeNames);
+            var mapper = new CSharpMapper(className, typeAliases, ignoredTypeNames);
             return mapper.AbstractSyntaxTree(abstractSyntaxTree);
         }
 

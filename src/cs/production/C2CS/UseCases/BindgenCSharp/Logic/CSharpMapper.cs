@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using C2CS.UseCases.AbstractSyntaxTreeC;
 
@@ -13,25 +14,22 @@ namespace C2CS.UseCases.BindgenCSharp
 {
     public class CSharpMapper
     {
+        private readonly string _className;
         private ImmutableDictionary<string, CType> _types = null!;
         private readonly ImmutableDictionary<string, string> _aliasesLookup;
         private readonly ImmutableHashSet<string> _builtinAliases;
         private readonly ImmutableHashSet<string> _ignoredTypeNames;
 
-        private static readonly Dictionary<string, string> BuiltInPointerFunctionMappings = new()
-        {
-            // FnPtr{FIRST_PARAM_TYPE}{SECOND_PARAM_TYPE}...{LAST_PARAM_TYPE}{RETURN_TYPE}
-            {"void (void)", "FnPtrVoid"},
-            {"void *(void)", "FnPtrPointer"},
-            {"void *(void *)", "FnPtrPointerPointer"},
-            {"void (void *)", "FnPtrPointerVoid"},
-            {"int (void *, void *)", "FnPtrPointerPointerInt"},
-        };
+        private readonly Dictionary<string, string> _generatedFunctionPointersNamesByCNames = new();
+        private readonly List<CSharpFunctionPointer> _generatedFunctionPointers = new();
 
         public CSharpMapper(
+            string className,
             ImmutableArray<CSharpTypeAlias> typeAliases,
             ImmutableArray<string> ignoredTypeNames)
         {
+            _className = className;
+
             var aliasesLookup = new Dictionary<string, string>();
             var builtinAliases = new HashSet<string>();
 
@@ -100,9 +98,7 @@ namespace C2CS.UseCases.BindgenCSharp
             var enums = Enums(abstractSyntaxTree.Enums);
             var variables = Variables(abstractSyntaxTree.Variables);
 
-            var className = Path.GetFileNameWithoutExtension(abstractSyntaxTree.FileName);
             var result = new CSharpAbstractSyntaxTree(
-                className,
                 functionExterns,
                 functionPointers,
                 structs,
@@ -159,7 +155,8 @@ namespace C2CS.UseCases.BindgenCSharp
                 return type;
             }
 
-            throw new NotImplementedException("ya");
+            var up = new CSharpMapperException($"Expected a type with the name '{typeName}' but it was not found.");
+            throw up;
         }
 
         private static CSharpFunctionCallingConvention CSharpFunctionCallingConvention(
@@ -261,23 +258,19 @@ namespace C2CS.UseCases.BindgenCSharp
                 builder.Add(functionPointerCSharp);
             }
 
+            foreach (var generatedFunctionPointerCSharp in _generatedFunctionPointers)
+            {
+                builder.Add(generatedFunctionPointerCSharp);
+            }
+
             var result = builder.ToImmutable();
             return result;
         }
 
-        private CSharpFunctionPointer? FunctionPointer(CFunctionPointer functionPointerC)
+        private CSharpFunctionPointer FunctionPointer(CFunctionPointer functionPointerC)
         {
-            if (IsBuiltinFunctionPointer(functionPointerC.Type))
-            {
-                return null;
-            }
-
-            string name = functionPointerC.Type;
-
-            if (functionPointerC.IsWrapped)
-            {
-                name = $"FnPtr_{functionPointerC.Name}";
-            }
+            var x = CType(functionPointerC.Name);
+            var name = TypeNameMapFunctionPointer(x);
 
             var originalCodeLocationComment = OriginalCodeLocationComment(functionPointerC);
             var returnTypeC = CType(functionPointerC.ReturnType);
@@ -286,7 +279,6 @@ namespace C2CS.UseCases.BindgenCSharp
 
             var result = new CSharpFunctionPointer(
                 name,
-                true,
                 originalCodeLocationComment,
                 returnTypeCSharp,
                 parameters);
@@ -394,14 +386,8 @@ namespace C2CS.UseCases.BindgenCSharp
             CSharpType typeCSharp;
             if (typeC.Kind == CKind.FunctionPointer)
             {
-                if (BuiltInPointerFunctionMappings.TryGetValue(recordFieldC.Type, out var functionPointerName))
-                {
-                    typeCSharp = Type(typeC, functionPointerName);
-                }
-                else
-                {
-                    typeCSharp = Type(typeC, $"FnPtr_{name}");
-                }
+                var functionPointerName = TypeNameMapFunctionPointer(typeC);
+                typeCSharp = Type(typeC, functionPointerName);
             }
             else
             {
@@ -453,7 +439,9 @@ namespace C2CS.UseCases.BindgenCSharp
             {
                 var functionPointerCSharp = FunctionPointer(functionPointerC);
 
-                if (functionPointerCSharp == null)
+                throw new NotImplementedException();
+
+                /*if (functionPointerCSharp == null)
                 {
                     continue;
                 }
@@ -463,7 +451,7 @@ namespace C2CS.UseCases.BindgenCSharp
                     continue;
                 }
 
-                builder.Add(functionPointerCSharp);
+                builder.Add(functionPointerCSharp);*/
             }
 
             var result = builder.ToImmutable();
@@ -635,11 +623,6 @@ namespace C2CS.UseCases.BindgenCSharp
 
         private CSharpType Type(CType cType, string? typeName = null)
         {
-            if (typeName?.Contains("sg_color") ?? false)
-            {
-                Console.WriteLine();
-            }
-
             var typeName2 = typeName ?? TypeName(cType);
             var sizeOf = cType.SizeOf ?? 0;
             var alignOf = cType.AlignOf ?? 0;
@@ -657,10 +640,9 @@ namespace C2CS.UseCases.BindgenCSharp
 
         private string TypeName(CType type)
         {
-            var originalName = type.Name;
             if (type.Kind == CKind.FunctionPointer)
             {
-                return CSharpTypeNameMapPointerFunction(type);
+                return TypeNameMapFunctionPointer(type);
             }
 
             var name = type.Name;
@@ -685,22 +667,64 @@ namespace C2CS.UseCases.BindgenCSharp
             return typeName;
         }
 
-        public static bool IsBuiltinFunctionPointer(string name)
+        private string TypeNameMapFunctionPointer(CType typeC)
         {
-            return BuiltInPointerFunctionMappings.ContainsKey(name);
-        }
+            if (typeC.Kind == CKind.Typedef)
+            {
+                return typeC.Name;
+            }
 
-        private static string CSharpTypeNameMapPointerFunction(CType type)
-        {
-            if (BuiltInPointerFunctionMappings.TryGetValue(type.Name!, out var typeName))
+            if (typeC.Kind != CKind.FunctionPointer)
             {
-                return typeName;
+                var up = new CSharpMapperException($"Expected type to be function pointer but type is '{typeC.Kind}'.");
+                throw up;
             }
-            else
+
+            if (_generatedFunctionPointersNamesByCNames.TryGetValue(typeC.Name, out var functionPointerNameCSharp))
             {
-                // TODO: What happens when the function pointer name is not found for types used in parameters?
-                return type.Name;
+                return functionPointerNameCSharp;
             }
+
+            var indexOfFirstParentheses = typeC.Name.IndexOf('(');
+            var returnTypeStringC = typeC.Name.Substring(0, indexOfFirstParentheses).Replace(" *", "*").Trim();
+            var returnTypeC = CType(returnTypeStringC);
+            var returnTypeCSharp = Type(returnTypeC);
+            var returnTypeNameCSharp = returnTypeCSharp.Name.Replace("*", "Ptr");
+            var returnTypeStringCapitalized = char.ToUpper(returnTypeNameCSharp[0], CultureInfo.InvariantCulture) + returnTypeNameCSharp.Substring(1);
+
+            var functionPointerParameters = new List<CSharpFunctionPointerParameter>();
+            var parameterStringsCSharp = new List<string>();
+            var parameterStringsC = typeC.Name.Substring(indexOfFirstParentheses)
+                .Trim('(', ')').Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => x.Replace(" *", "*"))
+                .Select(x => x.Trim()).ToArray();
+            foreach (var typeNameC in parameterStringsC)
+            {
+                var parameterTypeC = CType(typeNameC);
+                var parameterTypeCSharp = Type(parameterTypeC);
+
+                var typeNameCSharp = parameterTypeCSharp.Name.Replace("*", "Ptr");
+                var typeNameCSharpCapitalized = char.ToUpper(typeNameCSharp[0], CultureInfo.InvariantCulture) +
+                                                typeNameCSharp.Substring(1);
+                parameterStringsCSharp.Add(typeNameCSharpCapitalized);
+
+                var functionPointerParameter = new CSharpFunctionPointerParameter(parameterTypeCSharp.Name, string.Empty, parameterTypeCSharp);
+                functionPointerParameters.Add(functionPointerParameter);
+            }
+
+            var className = _className.ToUpper(CultureInfo.InvariantCulture);
+            var parameterStringsCSharpJoined = string.Join('_', parameterStringsCSharp);
+            functionPointerNameCSharp = $"FnPtr_{className}_{parameterStringsCSharpJoined}_{returnTypeStringCapitalized}";
+            _generatedFunctionPointersNamesByCNames.Add(typeC.Name, functionPointerNameCSharp);
+
+            var functionPointerCSharp = new CSharpFunctionPointer(
+                functionPointerNameCSharp,
+                $"// {CKind.FunctionPointer} @ Generated",
+                returnTypeCSharp,
+                functionPointerParameters.ToImmutableArray());
+            _generatedFunctionPointers.Add(functionPointerCSharp);
+
+            return functionPointerNameCSharp;
         }
 
         private string TypeNameMapPointer(CType type, int sizeOf, bool isSystem)
@@ -850,7 +874,7 @@ namespace C2CS.UseCases.BindgenCSharp
             }
             else
             {
-                result = $"// {kindString} @ {location.Path}:{location.LineNumber}:{location.LineColumn}";
+                result = $"// {kindString} @ " + location;
             }
 
             return result;

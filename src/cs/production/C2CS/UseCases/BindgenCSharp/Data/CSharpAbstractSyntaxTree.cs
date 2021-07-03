@@ -7,8 +7,6 @@ namespace C2CS.UseCases.BindgenCSharp
 {
     public readonly struct CSharpAbstractSyntaxTree
     {
-        public readonly string ClassName;
-
         public readonly ImmutableArray<CSharpFunction> FunctionExterns;
 
         public readonly ImmutableArray<CSharpFunctionPointer> FunctionPointers;
@@ -24,7 +22,6 @@ namespace C2CS.UseCases.BindgenCSharp
         public readonly ImmutableArray<CSharpVariable> VariablesExtern;
 
         public CSharpAbstractSyntaxTree(
-            string className,
             ImmutableArray<CSharpFunction> functionExterns,
             ImmutableArray<CSharpFunctionPointer> functionPointers,
             ImmutableArray<CSharpStruct> structs,
@@ -33,7 +30,6 @@ namespace C2CS.UseCases.BindgenCSharp
             ImmutableArray<CSharpEnum> enums,
             ImmutableArray<CSharpVariable> variablesExtern)
         {
-            ClassName = className;
             FunctionExterns = functionExterns;
             FunctionPointers = functionPointers;
             Structs = structs;

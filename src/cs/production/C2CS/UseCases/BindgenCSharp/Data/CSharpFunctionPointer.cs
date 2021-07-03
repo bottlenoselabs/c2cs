@@ -7,19 +7,16 @@ namespace C2CS.UseCases.BindgenCSharp
 {
     public record CSharpFunctionPointer : CSharpNode
     {
-        public readonly bool IsBuiltIn;
         public readonly CSharpType ReturnType;
         public readonly ImmutableArray<CSharpFunctionPointerParameter> Parameters;
 
         public CSharpFunctionPointer(
             string name,
-            bool isBuiltIn,
             string codeLocationComment,
             CSharpType returnType,
             ImmutableArray<CSharpFunctionPointerParameter> parameters)
             : base(name, codeLocationComment)
         {
-            IsBuiltIn = isBuiltIn;
             ReturnType = returnType;
             Parameters = parameters;
         }
