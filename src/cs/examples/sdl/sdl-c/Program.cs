@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using System.Collections.Immutable;
 using System.IO;
 using C2CS;
 
@@ -12,7 +13,7 @@ internal static class Program
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
         GenerateAbstractSyntaxTree(rootDirectory);
         GenerateBindingsCSharp(rootDirectory);
-        BuildLibrary(rootDirectory);
+         // BuildLibrary(rootDirectory);
     }
 
     private static void BuildLibrary(string rootDirectory)
@@ -48,11 +49,12 @@ ast
 {rootDirectory}/src/cs/examples/sdl/sdl-c/ast.json
 -g
 SDL_main.h
+SDL_system.h
 -p
 SDL_RWops
 ";
         var argumentsArray =
-            arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split('\n', StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 
@@ -76,9 +78,9 @@ Sint8 -> sbyte
 Sint16 -> short
 Sint32 -> int
 Sint64 -> long
-";
+".Trim();
         var argumentsArray =
-            arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split('\n', StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 }

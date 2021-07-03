@@ -270,76 +270,6 @@
       }
     },
     {
-      "name": "SDL_OnApplicationDidBecomeActive",
-      "returnType": "void",
-      "parameters": [],
-      "location": {
-        "file": "SDL_system.h",
-        "line": 463,
-        "column": 30
-      }
-    },
-    {
-      "name": "SDL_OnApplicationWillEnterForeground",
-      "returnType": "void",
-      "parameters": [],
-      "location": {
-        "file": "SDL_system.h",
-        "line": 462,
-        "column": 30
-      }
-    },
-    {
-      "name": "SDL_OnApplicationDidEnterBackground",
-      "returnType": "void",
-      "parameters": [],
-      "location": {
-        "file": "SDL_system.h",
-        "line": 461,
-        "column": 30
-      }
-    },
-    {
-      "name": "SDL_OnApplicationWillResignActive",
-      "returnType": "void",
-      "parameters": [],
-      "location": {
-        "file": "SDL_system.h",
-        "line": 460,
-        "column": 30
-      }
-    },
-    {
-      "name": "SDL_OnApplicationDidReceiveMemoryWarning",
-      "returnType": "void",
-      "parameters": [],
-      "location": {
-        "file": "SDL_system.h",
-        "line": 459,
-        "column": 30
-      }
-    },
-    {
-      "name": "SDL_OnApplicationWillTerminate",
-      "returnType": "void",
-      "parameters": [],
-      "location": {
-        "file": "SDL_system.h",
-        "line": 458,
-        "column": 30
-      }
-    },
-    {
-      "name": "SDL_IsTablet",
-      "returnType": "SDL_bool",
-      "parameters": [],
-      "location": {
-        "file": "SDL_system.h",
-        "line": 455,
-        "column": 34
-      }
-    },
-    {
       "name": "SDL_GetShapedWindowMode",
       "returnType": "int",
       "parameters": [
@@ -3416,9 +3346,9 @@
           "name": "ap",
           "type": "va_list",
           "location": {
-            "file": "stdarg.h",
-            "line": 14,
-            "column": 27,
+            "file": "vadefs.h",
+            "line": 72,
+            "column": 23,
             "isSystem": true
           }
         }
@@ -12762,6 +12692,84 @@
       }
     },
     {
+      "name": "SDL_RectEquals",
+      "returnType": "SDL_bool",
+      "parameters": [
+        {
+          "name": "a",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        },
+        {
+          "name": "b",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_rect.h",
+        "line": 116,
+        "column": 27
+      }
+    },
+    {
+      "name": "SDL_RectEmpty",
+      "returnType": "SDL_bool",
+      "parameters": [
+        {
+          "name": "r",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_rect.h",
+        "line": 108,
+        "column": 27
+      }
+    },
+    {
+      "name": "SDL_PointInRect",
+      "returnType": "SDL_bool",
+      "parameters": [
+        {
+          "name": "p",
+          "type": "SDL_Point*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 52,
+            "column": 3
+          }
+        },
+        {
+          "name": "r",
+          "type": "SDL_Rect*",
+          "location": {
+            "file": "SDL_rect.h",
+            "line": 81,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_rect.h",
+        "line": 99,
+        "column": 27
+      }
+    },
+    {
       "name": "SDL_CalculateGammaRamp",
       "returnType": "void",
       "parameters": [
@@ -13348,9 +13356,9 @@
           "name": "len",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -13369,9 +13377,9 @@
           "name": "len",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -14983,9 +14991,9 @@
           "name": "datasize",
           "type": "size_t*",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -15013,9 +15021,9 @@
           "name": "datasize",
           "type": "size_t*",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         },
@@ -15081,9 +15089,9 @@
           "name": "size",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         },
@@ -15091,9 +15099,9 @@
           "name": "num",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -15130,9 +15138,9 @@
           "name": "size",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         },
@@ -15140,9 +15148,9 @@
           "name": "maxnum",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -15325,12 +15333,11 @@
       "parameters": [
         {
           "name": "fp",
-          "type": "FILE*",
+          "type": "void*",
           "location": {
-            "file": "_stdio.h",
-            "line": 157,
-            "column": 3,
-            "isSystem": true
+            "file": "SDL_rwops.h",
+            "line": 166,
+            "column": 56
           }
         },
         {
@@ -15345,7 +15352,7 @@
       ],
       "location": {
         "file": "SDL_rwops.h",
-        "line": 163,
+        "line": 166,
         "column": 36
       }
     },
@@ -15581,11 +15588,11 @@
       "parameters": [
         {
           "name": "fn",
-          "type": "SDL_ThreadFunction",
+          "type": "int (void *)",
           "location": {
             "file": "SDL_thread.h",
-            "line": 88,
-            "column": 24
+            "line": 135,
+            "column": 46
           }
         },
         {
@@ -15593,17 +15600,17 @@
           "type": "char*",
           "location": {
             "file": "SDL_thread.h",
-            "line": 257,
-            "column": 66
+            "line": 136,
+            "column": 30
           }
         },
         {
           "name": "stacksize",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         },
@@ -15612,14 +15619,32 @@
           "type": "void*",
           "location": {
             "file": "SDL_thread.h",
-            "line": 257,
-            "column": 102
+            "line": 136,
+            "column": 66
+          }
+        },
+        {
+          "name": "pfnBeginThread",
+          "type": "pfnSDL_CurrentBeginThread",
+          "location": {
+            "file": "SDL_thread.h",
+            "line": 114,
+            "column": 30
+          }
+        },
+        {
+          "name": "pfnEndThread",
+          "type": "pfnSDL_CurrentEndThread",
+          "location": {
+            "file": "SDL_thread.h",
+            "line": 117,
+            "column": 25
           }
         }
       ],
       "location": {
         "file": "SDL_thread.h",
-        "line": 257,
+        "line": 135,
         "column": 1
       }
     },
@@ -15641,7 +15666,7 @@
           "type": "char*",
           "location": {
             "file": "SDL_thread.h",
-            "line": 212,
+            "line": 130,
             "column": 53
           }
         },
@@ -15650,14 +15675,32 @@
           "type": "void*",
           "location": {
             "file": "SDL_thread.h",
-            "line": 212,
+            "line": 130,
             "column": 65
+          }
+        },
+        {
+          "name": "pfnBeginThread",
+          "type": "pfnSDL_CurrentBeginThread",
+          "location": {
+            "file": "SDL_thread.h",
+            "line": 114,
+            "column": 30
+          }
+        },
+        {
+          "name": "pfnEndThread",
+          "type": "pfnSDL_CurrentEndThread",
+          "location": {
+            "file": "SDL_thread.h",
+            "line": 117,
+            "column": 25
           }
         }
       ],
       "location": {
         "file": "SDL_thread.h",
-        "line": 212,
+        "line": 130,
         "column": 1
       }
     },
@@ -16035,6 +16078,26 @@
         "file": "SDL_mutex.h",
         "line": 79,
         "column": 36
+      }
+    },
+    {
+      "name": "SDL_SwapFloat",
+      "returnType": "float",
+      "parameters": [
+        {
+          "name": "x",
+          "type": "float",
+          "location": {
+            "file": "SDL_endian.h",
+            "line": 270,
+            "column": 21
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_endian.h",
+        "line": 270,
+        "column": 1
       }
     },
     {
@@ -16536,6 +16599,55 @@
       }
     },
     {
+      "name": "__debugbreak",
+      "returnType": "void",
+      "parameters": [],
+      "location": {
+        "file": "SDL_assert.h",
+        "line": 52,
+        "column": 25
+      }
+    },
+    {
+      "name": "SDL_memcpy4",
+      "returnType": "void*",
+      "parameters": [
+        {
+          "name": "dst",
+          "type": "void*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 674,
+            "column": 68
+          }
+        },
+        {
+          "name": "src",
+          "type": "void*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 674,
+            "column": 110
+          }
+        },
+        {
+          "name": "dwords",
+          "type": "size_t",
+          "location": {
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 674,
+        "column": 24
+      }
+    },
+    {
       "name": "SDL_iconv_string",
       "returnType": "char*",
       "parameters": [
@@ -16570,9 +16682,9 @@
           "name": "inbytesleft",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -16609,9 +16721,9 @@
           "name": "inbytesleft",
           "type": "size_t*",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         },
@@ -16628,9 +16740,9 @@
           "name": "outbytesleft",
           "type": "size_t*",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -17637,9 +17749,9 @@
           "name": "maxlen",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         },
@@ -17656,9 +17768,9 @@
           "name": "ap",
           "type": "va_list",
           "location": {
-            "file": "stdarg.h",
-            "line": 14,
-            "column": 27,
+            "file": "vadefs.h",
+            "line": 72,
+            "column": 23,
             "isSystem": true
           }
         }
@@ -17686,9 +17798,9 @@
           "name": "maxlen",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         },
@@ -17734,9 +17846,9 @@
           "name": "ap",
           "type": "va_list",
           "location": {
-            "file": "stdarg.h",
-            "line": 14,
-            "column": 27,
+            "file": "vadefs.h",
+            "line": 72,
+            "column": 23,
             "isSystem": true
           }
         }
@@ -17802,9 +17914,9 @@
           "name": "len",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -17870,9 +17982,9 @@
           "name": "maxlen",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -18612,9 +18724,9 @@
           "name": "maxlen",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -18651,9 +18763,9 @@
           "name": "dst_bytes",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -18690,9 +18802,9 @@
           "name": "maxlen",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -18731,9 +18843,9 @@
           "name": "str1",
           "type": "wchar_t*",
           "location": {
-            "file": "_wchar_t.h",
-            "line": 34,
-            "column": 26,
+            "file": "vcruntime.h",
+            "line": 228,
+            "column": 28,
             "isSystem": true
           }
         },
@@ -18741,9 +18853,9 @@
           "name": "str2",
           "type": "wchar_t*",
           "location": {
-            "file": "_wchar_t.h",
-            "line": 34,
-            "column": 26,
+            "file": "vcruntime.h",
+            "line": 228,
+            "column": 28,
             "isSystem": true
           }
         },
@@ -18751,9 +18863,9 @@
           "name": "len",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -18772,9 +18884,9 @@
           "name": "str1",
           "type": "wchar_t*",
           "location": {
-            "file": "_wchar_t.h",
-            "line": 34,
-            "column": 26,
+            "file": "vcruntime.h",
+            "line": 228,
+            "column": 28,
             "isSystem": true
           }
         },
@@ -18782,9 +18894,9 @@
           "name": "str2",
           "type": "wchar_t*",
           "location": {
-            "file": "_wchar_t.h",
-            "line": 34,
-            "column": 26,
+            "file": "vcruntime.h",
+            "line": 228,
+            "column": 28,
             "isSystem": true
           }
         }
@@ -18803,9 +18915,9 @@
           "name": "str1",
           "type": "wchar_t*",
           "location": {
-            "file": "_wchar_t.h",
-            "line": 34,
-            "column": 26,
+            "file": "vcruntime.h",
+            "line": 228,
+            "column": 28,
             "isSystem": true
           }
         },
@@ -18813,9 +18925,9 @@
           "name": "str2",
           "type": "wchar_t*",
           "location": {
-            "file": "_wchar_t.h",
-            "line": 34,
-            "column": 26,
+            "file": "vcruntime.h",
+            "line": 228,
+            "column": 28,
             "isSystem": true
           }
         },
@@ -18823,9 +18935,9 @@
           "name": "maxlen",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -18844,9 +18956,9 @@
           "name": "str1",
           "type": "wchar_t*",
           "location": {
-            "file": "_wchar_t.h",
-            "line": 34,
-            "column": 26,
+            "file": "vcruntime.h",
+            "line": 228,
+            "column": 28,
             "isSystem": true
           }
         },
@@ -18854,9 +18966,9 @@
           "name": "str2",
           "type": "wchar_t*",
           "location": {
-            "file": "_wchar_t.h",
-            "line": 34,
-            "column": 26,
+            "file": "vcruntime.h",
+            "line": 228,
+            "column": 28,
             "isSystem": true
           }
         }
@@ -18875,9 +18987,9 @@
           "name": "haystack",
           "type": "wchar_t*",
           "location": {
-            "file": "_wchar_t.h",
-            "line": 34,
-            "column": 26,
+            "file": "vcruntime.h",
+            "line": 228,
+            "column": 28,
             "isSystem": true
           }
         },
@@ -18885,9 +18997,9 @@
           "name": "needle",
           "type": "wchar_t*",
           "location": {
-            "file": "_wchar_t.h",
-            "line": 34,
-            "column": 26,
+            "file": "vcruntime.h",
+            "line": 228,
+            "column": 28,
             "isSystem": true
           }
         }
@@ -18906,9 +19018,9 @@
           "name": "wstr",
           "type": "wchar_t*",
           "location": {
-            "file": "_wchar_t.h",
-            "line": 34,
-            "column": 26,
+            "file": "vcruntime.h",
+            "line": 228,
+            "column": 28,
             "isSystem": true
           }
         }
@@ -18927,9 +19039,9 @@
           "name": "dst",
           "type": "wchar_t*",
           "location": {
-            "file": "_wchar_t.h",
-            "line": 34,
-            "column": 26,
+            "file": "vcruntime.h",
+            "line": 228,
+            "column": 28,
             "isSystem": true
           }
         },
@@ -18937,9 +19049,9 @@
           "name": "src",
           "type": "wchar_t*",
           "location": {
-            "file": "_wchar_t.h",
-            "line": 34,
-            "column": 26,
+            "file": "vcruntime.h",
+            "line": 228,
+            "column": 28,
             "isSystem": true
           }
         },
@@ -18947,9 +19059,9 @@
           "name": "maxlen",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -18968,9 +19080,9 @@
           "name": "dst",
           "type": "wchar_t*",
           "location": {
-            "file": "_wchar_t.h",
-            "line": 34,
-            "column": 26,
+            "file": "vcruntime.h",
+            "line": 228,
+            "column": 28,
             "isSystem": true
           }
         },
@@ -18978,9 +19090,9 @@
           "name": "src",
           "type": "wchar_t*",
           "location": {
-            "file": "_wchar_t.h",
-            "line": 34,
-            "column": 26,
+            "file": "vcruntime.h",
+            "line": 228,
+            "column": 28,
             "isSystem": true
           }
         },
@@ -18988,9 +19100,9 @@
           "name": "maxlen",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -19009,9 +19121,9 @@
           "name": "wstr",
           "type": "wchar_t*",
           "location": {
-            "file": "_wchar_t.h",
-            "line": 34,
-            "column": 26,
+            "file": "vcruntime.h",
+            "line": 228,
+            "column": 28,
             "isSystem": true
           }
         }
@@ -19048,9 +19160,9 @@
           "name": "len",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -19087,9 +19199,9 @@
           "name": "len",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -19126,9 +19238,9 @@
           "name": "len",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -19137,6 +19249,45 @@
         "file": "SDL_stdinc.h",
         "line": 497,
         "column": 31
+      }
+    },
+    {
+      "name": "SDL_memset4",
+      "returnType": "void",
+      "parameters": [
+        {
+          "name": "dst",
+          "type": "void*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 467,
+            "column": 41
+          }
+        },
+        {
+          "name": "val",
+          "type": "Uint32",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 209,
+            "column": 18
+          }
+        },
+        {
+          "name": "dwords",
+          "type": "size_t",
+          "location": {
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
+            "isSystem": true
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 467,
+        "column": 23
       }
     },
     {
@@ -19165,9 +19316,9 @@
           "name": "len",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -19204,9 +19355,9 @@
           "name": "len",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -19534,9 +19685,9 @@
           "name": "nmemb",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         },
@@ -19544,9 +19695,9 @@
           "name": "size",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         },
@@ -19765,9 +19916,9 @@
           "name": "size",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -19786,9 +19937,9 @@
           "name": "nmemb",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         },
@@ -19796,9 +19947,9 @@
           "name": "size",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -19817,9 +19968,9 @@
           "name": "size",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -20107,6 +20258,93 @@
       }
     },
     {
+      "name": "pfnSDL_CurrentEndThread",
+      "type": "pfnSDL_CurrentEndThread",
+      "returnType": "void",
+      "parameters": [
+        {
+          "name": "code",
+          "type": "unsigned int",
+          "location": {
+            "file": "SDL_thread.h",
+            "line": 117,
+            "column": 60
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_thread.h",
+        "line": 117,
+        "column": 25
+      }
+    },
+    {
+      "name": "pfnSDL_CurrentBeginThread",
+      "type": "pfnSDL_CurrentBeginThread",
+      "returnType": "uintptr_t",
+      "parameters": [
+        {
+          "name": "",
+          "type": "void*",
+          "location": {
+            "file": "SDL_thread.h",
+            "line": 115,
+            "column": 27
+          }
+        },
+        {
+          "name": "",
+          "type": "unsigned int",
+          "location": {
+            "file": "SDL_thread.h",
+            "line": 115,
+            "column": 37
+          }
+        },
+        {
+          "name": "func",
+          "type": "unsigned int (void *)",
+          "location": {
+            "file": "SDL_thread.h",
+            "line": 115,
+            "column": 60
+          }
+        },
+        {
+          "name": "",
+          "type": "void*",
+          "location": {
+            "file": "SDL_thread.h",
+            "line": 116,
+            "column": 35
+          }
+        },
+        {
+          "name": "",
+          "type": "unsigned int",
+          "location": {
+            "file": "SDL_thread.h",
+            "line": 116,
+            "column": 45
+          }
+        },
+        {
+          "name": "",
+          "type": "unsigned int*",
+          "location": {
+            "file": "SDL_thread.h",
+            "line": 116,
+            "column": 72
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_thread.h",
+        "line": 114,
+        "column": 30
+      }
+    },
+    {
       "name": "SDL_ThreadFunction",
       "type": "SDL_ThreadFunction",
       "returnType": "int",
@@ -20196,9 +20434,9 @@
           "name": "size",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -20218,9 +20456,9 @@
           "name": "nmemb",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         },
@@ -20228,9 +20466,9 @@
           "name": "size",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -20250,9 +20488,9 @@
           "name": "size",
           "type": "size_t",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -24902,6 +25140,7 @@
           "name": "len_mult",
           "type": "int",
           "offset": 32,
+          "padding": 4,
           "location": {
             "file": "SDL_audio.h",
             "line": 237,
@@ -24911,7 +25150,7 @@
         {
           "name": "len_ratio",
           "type": "double",
-          "offset": 36,
+          "offset": 40,
           "location": {
             "file": "SDL_audio.h",
             "line": 238,
@@ -24921,7 +25160,7 @@
         {
           "name": "filters",
           "type": "SDL_AudioFilter[10]",
-          "offset": 44,
+          "offset": 48,
           "location": {
             "file": "SDL_audio.h",
             "line": 239,
@@ -24931,7 +25170,8 @@
         {
           "name": "filter_index",
           "type": "int",
-          "offset": 124,
+          "offset": 128,
+          "padding": 4,
           "location": {
             "file": "SDL_audio.h",
             "line": 240,
@@ -25156,7 +25396,7 @@
     {
       "name": "SDL_bool",
       "type": "SDL_bool",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_FALSE",
@@ -25185,7 +25425,7 @@
     {
       "name": "WindowShapeMode",
       "type": "WindowShapeMode",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "ShapeModeDefault",
@@ -25232,7 +25472,7 @@
     {
       "name": "SDL_RendererFlip",
       "type": "SDL_RendererFlip",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_FLIP_NONE",
@@ -25270,7 +25510,7 @@
     {
       "name": "SDL_BlendMode",
       "type": "SDL_BlendMode",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_BLENDMODE_NONE",
@@ -25335,7 +25575,7 @@
     {
       "name": "SDL_ScaleMode",
       "type": "SDL_ScaleMode",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_ScaleModeNearest",
@@ -25373,7 +25613,7 @@
     {
       "name": "SDL_PowerState",
       "type": "SDL_PowerState",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_POWERSTATE_UNKNOWN",
@@ -25429,7 +25669,7 @@
     {
       "name": "SDL_LogPriority",
       "type": "SDL_LogPriority",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_LOG_PRIORITY_VERBOSE",
@@ -25504,7 +25744,7 @@
     {
       "name": "SDL_HintPriority",
       "type": "SDL_HintPriority",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_HINT_DEFAULT",
@@ -25542,7 +25782,7 @@
     {
       "name": "SDL_Scancode",
       "type": "SDL_Scancode",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_SCANCODE_UNKNOWN",
@@ -27749,7 +27989,7 @@
     {
       "name": "SDL_eventaction",
       "type": "SDL_eventaction",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_ADDEVENT",
@@ -28099,7 +28339,7 @@
     {
       "name": "SDL_GameControllerBindType",
       "type": "SDL_GameControllerBindType",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_CONTROLLER_BINDTYPE_NONE",
@@ -28229,7 +28469,7 @@
     {
       "name": "SDL_GameControllerType",
       "type": "SDL_GameControllerType",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_CONTROLLER_TYPE_UNKNOWN",
@@ -28386,7 +28626,7 @@
     {
       "name": "SDL_JoystickType",
       "type": "SDL_JoystickType",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_JOYSTICK_TYPE_UNKNOWN",
@@ -28487,7 +28727,7 @@
     {
       "name": "SDL_SystemCursor",
       "type": "SDL_SystemCursor",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_SYSTEM_CURSOR_ARROW",
@@ -28615,7 +28855,7 @@
     {
       "name": "SDL_Keymod",
       "type": "SDL_Keymod",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "KMOD_NONE",
@@ -28779,7 +29019,7 @@
     {
       "name": "SDL_GLattr",
       "type": "SDL_GLattr",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_GL_RED_SIZE",
@@ -29033,7 +29273,7 @@
     {
       "name": "SDL_HitTestResult",
       "type": "SDL_HitTestResult",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_HITTEST_NORMAL",
@@ -29134,7 +29374,7 @@
     {
       "name": "SDL_DisplayOrientation",
       "type": "SDL_DisplayOrientation",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_ORIENTATION_UNKNOWN",
@@ -29190,7 +29430,7 @@
     {
       "name": "SDL_YUV_CONVERSION_MODE",
       "type": "SDL_YUV_CONVERSION_MODE",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_YUV_CONVERSION_JPEG",
@@ -29237,7 +29477,7 @@
     {
       "name": "SDL_BlendOperation",
       "type": "SDL_BlendOperation",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_BLENDOPERATION_ADD",
@@ -29294,7 +29534,7 @@
     {
       "name": "SDL_BlendFactor",
       "type": "SDL_BlendFactor",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_BLENDFACTOR_ZERO",
@@ -29396,7 +29636,7 @@
     {
       "name": "SDL_AudioStatus",
       "type": "SDL_AudioStatus",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_AUDIO_STOPPED",
@@ -29434,7 +29674,7 @@
     {
       "name": "SDL_ThreadPriority",
       "type": "SDL_ThreadPriority",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_THREAD_PRIORITY_LOW",
@@ -29481,7 +29721,7 @@
     {
       "name": "SDL_errorcode",
       "type": "SDL_errorcode",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_ENOMEM",
@@ -29546,7 +29786,7 @@
     {
       "name": "SDL_AssertState",
       "type": "SDL_AssertState",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "SDL_ASSERTION_RETRY",
@@ -29939,21 +30179,11 @@
     },
     {
       "name": "wchar_t",
-      "underlyingType": "__darwin_wchar_t",
+      "underlyingType": "unsigned short",
       "location": {
-        "file": "_wchar_t.h",
-        "line": 34,
-        "column": 26,
-        "isSystem": true
-      }
-    },
-    {
-      "name": "__darwin_wchar_t",
-      "underlyingType": "int",
-      "location": {
-        "file": "_types.h",
-        "line": 104,
-        "column": 33,
+        "file": "vcruntime.h",
+        "line": 228,
+        "column": 28,
         "isSystem": true
       }
     }
@@ -30087,13 +30317,6 @@
         "line": 116,
         "column": 13
       }
-    },
-    {
-      "name": "unsigned int",
-      "kind": "primitive",
-      "sizeOf": 4,
-      "alignOf": 4,
-      "isSystem": true
     },
     {
       "name": "SDL_TimerCallback",
@@ -30326,6 +30549,13 @@
         "line": 310,
         "column": 3
       }
+    },
+    {
+      "name": "unsigned int",
+      "kind": "primitive",
+      "sizeOf": 4,
+      "alignOf": 4,
+      "isSystem": true
     },
     {
       "name": "SDL_Renderer*",
@@ -30772,7 +31002,7 @@
     {
       "name": "va_list",
       "kind": "typedef",
-      "sizeOf": 24,
+      "sizeOf": 8,
       "alignOf": 8,
       "isSystem": true
     },
@@ -31573,7 +31803,7 @@
     {
       "name": "SDL_RWops",
       "kind": "typedef",
-      "sizeOf": 72,
+      "sizeOf": 88,
       "alignOf": 8,
       "location": {
         "file": "SDL_rwops.h",
@@ -32025,8 +32255,8 @@
     {
       "name": "SDL_AudioCVT",
       "kind": "typedef",
-      "sizeOf": 128,
-      "alignOf": 1,
+      "sizeOf": 136,
+      "alignOf": 8,
       "location": {
         "file": "SDL_audio.h",
         "line": 241,
@@ -32120,20 +32350,6 @@
       "isSystem": true
     },
     {
-      "name": "FILE*",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "isSystem": true
-    },
-    {
-      "name": "FILE",
-      "kind": "typedef",
-      "sizeOf": 152,
-      "alignOf": 8,
-      "isSystem": true
-    },
-    {
       "name": "SDL_TLSID",
       "kind": "typedef",
       "sizeOf": 4,
@@ -32189,8 +32405,8 @@
     {
       "name": "SDL_threadID",
       "kind": "typedef",
-      "sizeOf": 8,
-      "alignOf": 8,
+      "sizeOf": 4,
+      "alignOf": 4,
       "location": {
         "file": "SDL_thread.h",
         "line": 60,
@@ -32200,6 +32416,64 @@
     {
       "name": "unsigned long",
       "kind": "primitive",
+      "sizeOf": 4,
+      "alignOf": 4,
+      "isSystem": true
+    },
+    {
+      "name": "int (void *)",
+      "kind": "functionPointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_thread.h",
+        "line": 135,
+        "column": 46
+      }
+    },
+    {
+      "name": "pfnSDL_CurrentBeginThread",
+      "kind": "typedef",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_thread.h",
+        "line": 114,
+        "column": 30
+      }
+    },
+    {
+      "name": "pfnSDL_CurrentEndThread",
+      "kind": "typedef",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_thread.h",
+        "line": 117,
+        "column": 25
+      }
+    },
+    {
+      "name": "unsigned int (void *)",
+      "kind": "functionPointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "SDL_thread.h",
+        "line": 115,
+        "column": 60
+      }
+    },
+    {
+      "name": "unsigned int*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "isSystem": true
+    },
+    {
+      "name": "uintptr_t",
+      "kind": "typedef",
       "sizeOf": 8,
       "alignOf": 8,
       "isSystem": true
@@ -32415,8 +32689,8 @@
     {
       "name": "long",
       "kind": "primitive",
-      "sizeOf": 8,
-      "alignOf": 8,
+      "sizeOf": 4,
+      "alignOf": 4,
       "isSystem": true
     },
     {
@@ -32429,15 +32703,15 @@
     {
       "name": "wchar_t",
       "kind": "typedef",
-      "sizeOf": 4,
-      "alignOf": 4,
+      "sizeOf": 2,
+      "alignOf": 2,
       "isSystem": true
     },
     {
-      "name": "__darwin_wchar_t",
-      "kind": "typedef",
-      "sizeOf": 4,
-      "alignOf": 4,
+      "name": "unsigned short",
+      "kind": "primitive",
+      "sizeOf": 2,
+      "alignOf": 2,
       "isSystem": true
     },
     {

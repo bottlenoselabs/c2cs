@@ -15,6 +15,7 @@ using System.Runtime.CompilerServices;
 using C2CS;
 
 #nullable enable
+#pragma warning disable 1591
 
 public static unsafe partial class SDL
 {
@@ -136,48 +137,6 @@ public static unsafe partial class SDL
     public static uint SDL_GetTicks()
     {
         return _virtualTable.SDL_GetTicks();
-    }
-
-    // Function @ SDL_system.h:463:30
-    public static void SDL_OnApplicationDidBecomeActive()
-    {
-        _virtualTable.SDL_OnApplicationDidBecomeActive();
-    }
-
-    // Function @ SDL_system.h:462:30
-    public static void SDL_OnApplicationWillEnterForeground()
-    {
-        _virtualTable.SDL_OnApplicationWillEnterForeground();
-    }
-
-    // Function @ SDL_system.h:461:30
-    public static void SDL_OnApplicationDidEnterBackground()
-    {
-        _virtualTable.SDL_OnApplicationDidEnterBackground();
-    }
-
-    // Function @ SDL_system.h:460:30
-    public static void SDL_OnApplicationWillResignActive()
-    {
-        _virtualTable.SDL_OnApplicationWillResignActive();
-    }
-
-    // Function @ SDL_system.h:459:30
-    public static void SDL_OnApplicationDidReceiveMemoryWarning()
-    {
-        _virtualTable.SDL_OnApplicationDidReceiveMemoryWarning();
-    }
-
-    // Function @ SDL_system.h:458:30
-    public static void SDL_OnApplicationWillTerminate()
-    {
-        _virtualTable.SDL_OnApplicationWillTerminate();
-    }
-
-    // Function @ SDL_system.h:455:34
-    public static CBool SDL_IsTablet()
-    {
-        return _virtualTable.SDL_IsTablet();
     }
 
     // Function @ SDL_shape.h:136:29
@@ -2850,6 +2809,24 @@ public static unsafe partial class SDL
         return _virtualTable.SDL_HasIntersection(A, B);
     }
 
+    // Function @ SDL_rect.h:116:27
+    public static CBool SDL_RectEquals(SDL_Rect* a, SDL_Rect* b)
+    {
+        return _virtualTable.SDL_RectEquals(a, b);
+    }
+
+    // Function @ SDL_rect.h:108:27
+    public static CBool SDL_RectEmpty(SDL_Rect* r)
+    {
+        return _virtualTable.SDL_RectEmpty(r);
+    }
+
+    // Function @ SDL_rect.h:99:27
+    public static CBool SDL_PointInRect(SDL_Point* p, SDL_Rect* r)
+    {
+        return _virtualTable.SDL_PointInRect(p, r);
+    }
+
     // Function @ SDL_pixels.h:602:30
     public static void SDL_CalculateGammaRamp(float gamma, ushort* ramp)
     {
@@ -3456,8 +3433,8 @@ public static unsafe partial class SDL
         return _virtualTable.SDL_RWFromMem(mem, size);
     }
 
-    // Function @ SDL_rwops.h:163:36
-    public static SDL_RWops* SDL_RWFromFP(FILE* fp, CBool autoclose)
+    // Function @ SDL_rwops.h:166:36
+    public static SDL_RWops* SDL_RWFromFP(void* fp, CBool autoclose)
     {
         return _virtualTable.SDL_RWFromFP(fp, autoclose);
     }
@@ -3475,7 +3452,7 @@ public static unsafe partial class SDL
     }
 
     // Function @ SDL_thread.h:440:29
-    public static int SDL_TLSSet(SDL_TLSID id, void* value, FnPtrPointerVoid destructor)
+    public static int SDL_TLSSet(SDL_TLSID id, void* value, FnPtr_SDL_VoidPtr_Void destructor)
     {
         return _virtualTable.SDL_TLSSet(id, value, destructor);
     }
@@ -3528,16 +3505,16 @@ public static unsafe partial class SDL
         return _virtualTable.SDL_GetThreadName(thread);
     }
 
-    // Function @ SDL_thread.h:257:1
-    public static SDL_Thread* SDL_CreateThreadWithStackSize(SDL_ThreadFunction fn, CString name, ulong stacksize, void* data)
+    // Function @ SDL_thread.h:135:1
+    public static SDL_Thread* SDL_CreateThreadWithStackSize(FnPtr_SDL_VoidPtr_Int fn, CString name, ulong stacksize, void* data, pfnSDL_CurrentBeginThread pfnBeginThread, pfnSDL_CurrentEndThread pfnEndThread)
     {
-        return _virtualTable.SDL_CreateThreadWithStackSize(fn, name, stacksize, data);
+        return _virtualTable.SDL_CreateThreadWithStackSize(fn, name, stacksize, data, pfnBeginThread, pfnEndThread);
     }
 
-    // Function @ SDL_thread.h:212:1
-    public static SDL_Thread* SDL_CreateThread(SDL_ThreadFunction fn, CString name, void* data)
+    // Function @ SDL_thread.h:130:1
+    public static SDL_Thread* SDL_CreateThread(SDL_ThreadFunction fn, CString name, void* data, pfnSDL_CurrentBeginThread pfnBeginThread, pfnSDL_CurrentEndThread pfnEndThread)
     {
-        return _virtualTable.SDL_CreateThread(fn, name, data);
+        return _virtualTable.SDL_CreateThread(fn, name, data, pfnBeginThread, pfnEndThread);
     }
 
     // Function @ SDL_mutex.h:422:29
@@ -3646,6 +3623,12 @@ public static unsafe partial class SDL
     public static SDL_mutex* SDL_CreateMutex()
     {
         return _virtualTable.SDL_CreateMutex();
+    }
+
+    // Function @ SDL_endian.h:270:1
+    public static float SDL_SwapFloat(float x)
+    {
+        return _virtualTable.SDL_SwapFloat(x);
     }
 
     // Function @ SDL_error.h:143:29
@@ -3786,6 +3769,18 @@ public static unsafe partial class SDL
         return _virtualTable.SDL_ReportAssertion(param, param2, param3, param4);
     }
 
+    // Function @ SDL_assert.h:52:25
+    public static void __debugbreak()
+    {
+        _virtualTable.__debugbreak();
+    }
+
+    // Function @ SDL_stdinc.h:674:24
+    public static void* SDL_memcpy4(void* dst, void* src, ulong dwords)
+    {
+        return _virtualTable.SDL_memcpy4(dst, src, dwords);
+    }
+
     // Function @ SDL_stdinc.h:619:31
     public static CString SDL_iconv_string(CString tocode, CString fromcode, CString inbuf, ulong inbytesleft)
     {
@@ -3859,13 +3854,13 @@ public static unsafe partial class SDL
     }
 
     // Function @ SDL_stdinc.h:591:30
-    public static long SDL_lroundf(float x)
+    public static int SDL_lroundf(float x)
     {
         return _virtualTable.SDL_lroundf(x);
     }
 
     // Function @ SDL_stdinc.h:590:30
-    public static long SDL_lround(double x)
+    public static int SDL_lround(double x)
     {
         return _virtualTable.SDL_lround(x);
     }
@@ -4129,13 +4124,13 @@ public static unsafe partial class SDL
     }
 
     // Function @ SDL_stdinc.h:537:39
-    public static ulong SDL_strtoul(CString str, CString* endp, int @base)
+    public static uint SDL_strtoul(CString str, CString* endp, int @base)
     {
         return _virtualTable.SDL_strtoul(str, endp, @base);
     }
 
     // Function @ SDL_stdinc.h:536:30
-    public static long SDL_strtol(CString str, CString* endp, int @base)
+    public static int SDL_strtol(CString str, CString* endp, int @base)
     {
         return _virtualTable.SDL_strtol(str, endp, @base);
     }
@@ -4165,13 +4160,13 @@ public static unsafe partial class SDL
     }
 
     // Function @ SDL_stdinc.h:530:31
-    public static CString SDL_ultoa(ulong value, CString str, int radix)
+    public static CString SDL_ultoa(uint value, CString str, int radix)
     {
         return _virtualTable.SDL_ultoa(value, str, radix);
     }
 
     // Function @ SDL_stdinc.h:529:31
-    public static CString SDL_ltoa(long value, CString str, int radix)
+    public static CString SDL_ltoa(int value, CString str, int radix)
     {
         return _virtualTable.SDL_ltoa(value, str, radix);
     }
@@ -4338,6 +4333,12 @@ public static unsafe partial class SDL
         return _virtualTable.SDL_memcpy(dst, src, len);
     }
 
+    // Function @ SDL_stdinc.h:467:23
+    public static void SDL_memset4(void* dst, uint val, ulong dwords)
+    {
+        _virtualTable.SDL_memset4(dst, val, dwords);
+    }
+
     // Function @ SDL_stdinc.h:460:31
     public static void* SDL_memset(void* dst, int c, ulong len)
     {
@@ -4441,7 +4442,7 @@ public static unsafe partial class SDL
     }
 
     // Function @ SDL_stdinc.h:434:30
-    public static void SDL_qsort(void* @base, ulong nmemb, ulong size, FnPtrPointerPointerInt compare)
+    public static void SDL_qsort(void* @base, ulong nmemb, ulong size, FnPtr_SDL_VoidPtr_VoidPtr_Int compare)
     {
         _virtualTable.SDL_qsort(@base, nmemb, size, compare);
     }
@@ -4555,6 +4556,20 @@ public static unsafe partial class SDL
         public delegate* unmanaged<void*, byte*, int, void> Pointer;
     }
 
+    // FunctionPointer @ SDL_thread.h:117:25
+    [StructLayout(LayoutKind.Sequential)]
+    public struct pfnSDL_CurrentEndThread
+    {
+        public delegate* unmanaged<uint, void> Pointer;
+    }
+
+    // FunctionPointer @ SDL_thread.h:114:30
+    [StructLayout(LayoutKind.Sequential)]
+    public struct pfnSDL_CurrentBeginThread
+    {
+        public delegate* unmanaged<void*, uint, FnPtr_SDL_VoidPtr_Uint, void*, uint, ulong*, UIntPtr> Pointer;
+    }
+
     // FunctionPointer @ SDL_thread.h:88:24
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_ThreadFunction
@@ -4595,6 +4610,34 @@ public static unsafe partial class SDL
     public struct SDL_malloc_func
     {
         public delegate* unmanaged<ulong, void*> Pointer;
+    }
+
+    // FunctionPointer @ Generated
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SDL_VoidPtr_Void
+    {
+        public delegate* unmanaged<void*, void> Pointer;
+    }
+
+    // FunctionPointer @ Generated
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SDL_VoidPtr_Int
+    {
+        public delegate* unmanaged<void*, int> Pointer;
+    }
+
+    // FunctionPointer @ Generated
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SDL_VoidPtr_VoidPtr_Int
+    {
+        public delegate* unmanaged<void*, void*, int> Pointer;
+    }
+
+    // FunctionPointer @ Generated
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SDL_VoidPtr_Uint
+    {
+        public delegate* unmanaged<void*, uint> Pointer;
     }
 
     // Struct @ SDL_locale.h:47:3
@@ -6281,7 +6324,7 @@ public static unsafe partial class SDL
     }
 
     // Struct @ SDL_audio.h:241:23
-    [StructLayout(LayoutKind.Explicit, Size = 128, Pack = 1)]
+    [StructLayout(LayoutKind.Explicit, Size = 136, Pack = 8)]
     public struct SDL_AudioCVT
     {
         [FieldOffset(0)] // size = 4, padding = 0
@@ -6305,13 +6348,13 @@ public static unsafe partial class SDL
         [FieldOffset(28)] // size = 4, padding = 0
         public int len_cvt;
 
-        [FieldOffset(32)] // size = 4, padding = 0
+        [FieldOffset(32)] // size = 4, padding = 4
         public int len_mult;
 
-        [FieldOffset(36)] // size = 8, padding = 0
+        [FieldOffset(40)] // size = 8, padding = 0
         public double len_ratio;
 
-        [FieldOffset(44)] // size = 80, padding = 0
+        [FieldOffset(48)] // size = 80, padding = 0
         public fixed ulong _filters[80 / 8]; // SDL_AudioFilter[10]
 
         public Span<SDL_AudioFilter> filters
@@ -6327,7 +6370,7 @@ public static unsafe partial class SDL
             }
         }
 
-        [FieldOffset(124)] // size = 4, padding = 0
+        [FieldOffset(128)] // size = 4, padding = 4
         public int filter_index;
     }
 
@@ -6632,14 +6675,14 @@ public static unsafe partial class SDL
     }
 
     // Typedef @ SDL_thread.h:60:23
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct SDL_threadID
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ulong Data;
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint Data;
 
-        public static implicit operator ulong(SDL_threadID data) => data.Data;
-        public static implicit operator SDL_threadID(ulong data) => new() { Data = data };
+        public static implicit operator uint(SDL_threadID data) => data.Data;
+        public static implicit operator SDL_threadID(uint data) => new() { Data = data };
     }
 
     // Typedef @ SDL_atomic.h:89:13
@@ -6665,355 +6708,344 @@ public static unsafe partial class SDL
     }
 
     // Typedef @ System
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    [StructLayout(LayoutKind.Explicit, Size = 2, Pack = 2)]
     public struct wchar_t
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public __darwin_wchar_t Data;
+        [FieldOffset(0)] // size = 2, padding = 0
+        public ushort Data;
 
-        public static implicit operator __darwin_wchar_t(wchar_t data) => data.Data;
-        public static implicit operator wchar_t(__darwin_wchar_t data) => new() { Data = data };
-    }
-
-    // Typedef @ System
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct __darwin_wchar_t
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int Data;
-
-        public static implicit operator int(__darwin_wchar_t data) => data.Data;
-        public static implicit operator __darwin_wchar_t(int data) => new() { Data = data };
+        public static implicit operator ushort(wchar_t data) => data.Data;
+        public static implicit operator wchar_t(ushort data) => new() { Data = data };
     }
 
     // Enum @ SDL_stdinc.h:171:3
-    public enum SDL_bool : uint
+    public enum SDL_bool : int
     {
-        SDL_FALSE = 0U,
-        SDL_TRUE = 1U
+        SDL_FALSE = 0,
+        SDL_TRUE = 1
     }
 
     // Enum @ SDL_shape.h:89:3
-    public enum WindowShapeMode : uint
+    public enum WindowShapeMode : int
     {
-        ShapeModeDefault = 0U,
-        ShapeModeBinarizeAlpha = 1U,
-        ShapeModeReverseBinarizeAlpha = 2U,
-        ShapeModeColorKey = 3U
+        ShapeModeDefault = 0,
+        ShapeModeBinarizeAlpha = 1,
+        ShapeModeReverseBinarizeAlpha = 2,
+        ShapeModeColorKey = 3
     }
 
     // Enum @ SDL_render.h:126:3
-    public enum SDL_RendererFlip : uint
+    public enum SDL_RendererFlip : int
     {
-        SDL_FLIP_NONE = 0U,
-        SDL_FLIP_HORIZONTAL = 1U,
-        SDL_FLIP_VERTICAL = 2U
+        SDL_FLIP_NONE = 0,
+        SDL_FLIP_HORIZONTAL = 1,
+        SDL_FLIP_VERTICAL = 2
     }
 
     // Enum @ SDL_blendmode.h:60:3
-    public enum SDL_BlendMode : uint
+    public enum SDL_BlendMode : int
     {
-        SDL_BLENDMODE_NONE = 0U,
-        SDL_BLENDMODE_BLEND = 1U,
-        SDL_BLENDMODE_ADD = 2U,
-        SDL_BLENDMODE_MOD = 4U,
-        SDL_BLENDMODE_MUL = 8U,
-        SDL_BLENDMODE_INVALID = 2147483647U
+        SDL_BLENDMODE_NONE = 0,
+        SDL_BLENDMODE_BLEND = 1,
+        SDL_BLENDMODE_ADD = 2,
+        SDL_BLENDMODE_MOD = 4,
+        SDL_BLENDMODE_MUL = 8,
+        SDL_BLENDMODE_INVALID = 2147483647
     }
 
     // Enum @ SDL_render.h:96:3
-    public enum SDL_ScaleMode : uint
+    public enum SDL_ScaleMode : int
     {
-        SDL_ScaleModeNearest = 0U,
-        SDL_ScaleModeLinear = 1U,
-        SDL_ScaleModeBest = 2U
+        SDL_ScaleModeNearest = 0,
+        SDL_ScaleModeLinear = 1,
+        SDL_ScaleModeBest = 2
     }
 
     // Enum @ SDL_power.h:49:3
-    public enum SDL_PowerState : uint
+    public enum SDL_PowerState : int
     {
-        SDL_POWERSTATE_UNKNOWN = 0U,
-        SDL_POWERSTATE_ON_BATTERY = 1U,
-        SDL_POWERSTATE_NO_BATTERY = 2U,
-        SDL_POWERSTATE_CHARGING = 3U,
-        SDL_POWERSTATE_CHARGED = 4U
+        SDL_POWERSTATE_UNKNOWN = 0,
+        SDL_POWERSTATE_ON_BATTERY = 1,
+        SDL_POWERSTATE_NO_BATTERY = 2,
+        SDL_POWERSTATE_CHARGING = 3,
+        SDL_POWERSTATE_CHARGED = 4
     }
 
     // Enum @ SDL_log.h:111:3
-    public enum SDL_LogPriority : uint
+    public enum SDL_LogPriority : int
     {
-        SDL_LOG_PRIORITY_VERBOSE = 1U,
-        SDL_LOG_PRIORITY_DEBUG = 2U,
-        SDL_LOG_PRIORITY_INFO = 3U,
-        SDL_LOG_PRIORITY_WARN = 4U,
-        SDL_LOG_PRIORITY_ERROR = 5U,
-        SDL_LOG_PRIORITY_CRITICAL = 6U,
-        SDL_NUM_LOG_PRIORITIES = 7U
+        SDL_LOG_PRIORITY_VERBOSE = 1,
+        SDL_LOG_PRIORITY_DEBUG = 2,
+        SDL_LOG_PRIORITY_INFO = 3,
+        SDL_LOG_PRIORITY_WARN = 4,
+        SDL_LOG_PRIORITY_ERROR = 5,
+        SDL_LOG_PRIORITY_CRITICAL = 6,
+        SDL_NUM_LOG_PRIORITIES = 7
     }
 
     // Enum @ SDL_hints.h:1671:3
-    public enum SDL_HintPriority : uint
+    public enum SDL_HintPriority : int
     {
-        SDL_HINT_DEFAULT = 0U,
-        SDL_HINT_NORMAL = 1U,
-        SDL_HINT_OVERRIDE = 2U
+        SDL_HINT_DEFAULT = 0,
+        SDL_HINT_NORMAL = 1,
+        SDL_HINT_OVERRIDE = 2
     }
 
     // Enum @ SDL_scancode.h:409:3
-    public enum SDL_Scancode : uint
+    public enum SDL_Scancode : int
     {
-        SDL_SCANCODE_UNKNOWN = 0U,
-        SDL_SCANCODE_A = 4U,
-        SDL_SCANCODE_B = 5U,
-        SDL_SCANCODE_C = 6U,
-        SDL_SCANCODE_D = 7U,
-        SDL_SCANCODE_E = 8U,
-        SDL_SCANCODE_F = 9U,
-        SDL_SCANCODE_G = 10U,
-        SDL_SCANCODE_H = 11U,
-        SDL_SCANCODE_I = 12U,
-        SDL_SCANCODE_J = 13U,
-        SDL_SCANCODE_K = 14U,
-        SDL_SCANCODE_L = 15U,
-        SDL_SCANCODE_M = 16U,
-        SDL_SCANCODE_N = 17U,
-        SDL_SCANCODE_O = 18U,
-        SDL_SCANCODE_P = 19U,
-        SDL_SCANCODE_Q = 20U,
-        SDL_SCANCODE_R = 21U,
-        SDL_SCANCODE_S = 22U,
-        SDL_SCANCODE_T = 23U,
-        SDL_SCANCODE_U = 24U,
-        SDL_SCANCODE_V = 25U,
-        SDL_SCANCODE_W = 26U,
-        SDL_SCANCODE_X = 27U,
-        SDL_SCANCODE_Y = 28U,
-        SDL_SCANCODE_Z = 29U,
-        SDL_SCANCODE_1 = 30U,
-        SDL_SCANCODE_2 = 31U,
-        SDL_SCANCODE_3 = 32U,
-        SDL_SCANCODE_4 = 33U,
-        SDL_SCANCODE_5 = 34U,
-        SDL_SCANCODE_6 = 35U,
-        SDL_SCANCODE_7 = 36U,
-        SDL_SCANCODE_8 = 37U,
-        SDL_SCANCODE_9 = 38U,
-        SDL_SCANCODE_0 = 39U,
-        SDL_SCANCODE_RETURN = 40U,
-        SDL_SCANCODE_ESCAPE = 41U,
-        SDL_SCANCODE_BACKSPACE = 42U,
-        SDL_SCANCODE_TAB = 43U,
-        SDL_SCANCODE_SPACE = 44U,
-        SDL_SCANCODE_MINUS = 45U,
-        SDL_SCANCODE_EQUALS = 46U,
-        SDL_SCANCODE_LEFTBRACKET = 47U,
-        SDL_SCANCODE_RIGHTBRACKET = 48U,
-        SDL_SCANCODE_BACKSLASH = 49U,
-        SDL_SCANCODE_NONUSHASH = 50U,
-        SDL_SCANCODE_SEMICOLON = 51U,
-        SDL_SCANCODE_APOSTROPHE = 52U,
-        SDL_SCANCODE_GRAVE = 53U,
-        SDL_SCANCODE_COMMA = 54U,
-        SDL_SCANCODE_PERIOD = 55U,
-        SDL_SCANCODE_SLASH = 56U,
-        SDL_SCANCODE_CAPSLOCK = 57U,
-        SDL_SCANCODE_F1 = 58U,
-        SDL_SCANCODE_F2 = 59U,
-        SDL_SCANCODE_F3 = 60U,
-        SDL_SCANCODE_F4 = 61U,
-        SDL_SCANCODE_F5 = 62U,
-        SDL_SCANCODE_F6 = 63U,
-        SDL_SCANCODE_F7 = 64U,
-        SDL_SCANCODE_F8 = 65U,
-        SDL_SCANCODE_F9 = 66U,
-        SDL_SCANCODE_F10 = 67U,
-        SDL_SCANCODE_F11 = 68U,
-        SDL_SCANCODE_F12 = 69U,
-        SDL_SCANCODE_PRINTSCREEN = 70U,
-        SDL_SCANCODE_SCROLLLOCK = 71U,
-        SDL_SCANCODE_PAUSE = 72U,
-        SDL_SCANCODE_INSERT = 73U,
-        SDL_SCANCODE_HOME = 74U,
-        SDL_SCANCODE_PAGEUP = 75U,
-        SDL_SCANCODE_DELETE = 76U,
-        SDL_SCANCODE_END = 77U,
-        SDL_SCANCODE_PAGEDOWN = 78U,
-        SDL_SCANCODE_RIGHT = 79U,
-        SDL_SCANCODE_LEFT = 80U,
-        SDL_SCANCODE_DOWN = 81U,
-        SDL_SCANCODE_UP = 82U,
-        SDL_SCANCODE_NUMLOCKCLEAR = 83U,
-        SDL_SCANCODE_KP_DIVIDE = 84U,
-        SDL_SCANCODE_KP_MULTIPLY = 85U,
-        SDL_SCANCODE_KP_MINUS = 86U,
-        SDL_SCANCODE_KP_PLUS = 87U,
-        SDL_SCANCODE_KP_ENTER = 88U,
-        SDL_SCANCODE_KP_1 = 89U,
-        SDL_SCANCODE_KP_2 = 90U,
-        SDL_SCANCODE_KP_3 = 91U,
-        SDL_SCANCODE_KP_4 = 92U,
-        SDL_SCANCODE_KP_5 = 93U,
-        SDL_SCANCODE_KP_6 = 94U,
-        SDL_SCANCODE_KP_7 = 95U,
-        SDL_SCANCODE_KP_8 = 96U,
-        SDL_SCANCODE_KP_9 = 97U,
-        SDL_SCANCODE_KP_0 = 98U,
-        SDL_SCANCODE_KP_PERIOD = 99U,
-        SDL_SCANCODE_NONUSBACKSLASH = 100U,
-        SDL_SCANCODE_APPLICATION = 101U,
-        SDL_SCANCODE_POWER = 102U,
-        SDL_SCANCODE_KP_EQUALS = 103U,
-        SDL_SCANCODE_F13 = 104U,
-        SDL_SCANCODE_F14 = 105U,
-        SDL_SCANCODE_F15 = 106U,
-        SDL_SCANCODE_F16 = 107U,
-        SDL_SCANCODE_F17 = 108U,
-        SDL_SCANCODE_F18 = 109U,
-        SDL_SCANCODE_F19 = 110U,
-        SDL_SCANCODE_F20 = 111U,
-        SDL_SCANCODE_F21 = 112U,
-        SDL_SCANCODE_F22 = 113U,
-        SDL_SCANCODE_F23 = 114U,
-        SDL_SCANCODE_F24 = 115U,
-        SDL_SCANCODE_EXECUTE = 116U,
-        SDL_SCANCODE_HELP = 117U,
-        SDL_SCANCODE_MENU = 118U,
-        SDL_SCANCODE_SELECT = 119U,
-        SDL_SCANCODE_STOP = 120U,
-        SDL_SCANCODE_AGAIN = 121U,
-        SDL_SCANCODE_UNDO = 122U,
-        SDL_SCANCODE_CUT = 123U,
-        SDL_SCANCODE_COPY = 124U,
-        SDL_SCANCODE_PASTE = 125U,
-        SDL_SCANCODE_FIND = 126U,
-        SDL_SCANCODE_MUTE = 127U,
-        SDL_SCANCODE_VOLUMEUP = 128U,
-        SDL_SCANCODE_VOLUMEDOWN = 129U,
-        SDL_SCANCODE_KP_COMMA = 133U,
-        SDL_SCANCODE_KP_EQUALSAS400 = 134U,
-        SDL_SCANCODE_INTERNATIONAL1 = 135U,
-        SDL_SCANCODE_INTERNATIONAL2 = 136U,
-        SDL_SCANCODE_INTERNATIONAL3 = 137U,
-        SDL_SCANCODE_INTERNATIONAL4 = 138U,
-        SDL_SCANCODE_INTERNATIONAL5 = 139U,
-        SDL_SCANCODE_INTERNATIONAL6 = 140U,
-        SDL_SCANCODE_INTERNATIONAL7 = 141U,
-        SDL_SCANCODE_INTERNATIONAL8 = 142U,
-        SDL_SCANCODE_INTERNATIONAL9 = 143U,
-        SDL_SCANCODE_LANG1 = 144U,
-        SDL_SCANCODE_LANG2 = 145U,
-        SDL_SCANCODE_LANG3 = 146U,
-        SDL_SCANCODE_LANG4 = 147U,
-        SDL_SCANCODE_LANG5 = 148U,
-        SDL_SCANCODE_LANG6 = 149U,
-        SDL_SCANCODE_LANG7 = 150U,
-        SDL_SCANCODE_LANG8 = 151U,
-        SDL_SCANCODE_LANG9 = 152U,
-        SDL_SCANCODE_ALTERASE = 153U,
-        SDL_SCANCODE_SYSREQ = 154U,
-        SDL_SCANCODE_CANCEL = 155U,
-        SDL_SCANCODE_CLEAR = 156U,
-        SDL_SCANCODE_PRIOR = 157U,
-        SDL_SCANCODE_RETURN2 = 158U,
-        SDL_SCANCODE_SEPARATOR = 159U,
-        SDL_SCANCODE_OUT = 160U,
-        SDL_SCANCODE_OPER = 161U,
-        SDL_SCANCODE_CLEARAGAIN = 162U,
-        SDL_SCANCODE_CRSEL = 163U,
-        SDL_SCANCODE_EXSEL = 164U,
-        SDL_SCANCODE_KP_00 = 176U,
-        SDL_SCANCODE_KP_000 = 177U,
-        SDL_SCANCODE_THOUSANDSSEPARATOR = 178U,
-        SDL_SCANCODE_DECIMALSEPARATOR = 179U,
-        SDL_SCANCODE_CURRENCYUNIT = 180U,
-        SDL_SCANCODE_CURRENCYSUBUNIT = 181U,
-        SDL_SCANCODE_KP_LEFTPAREN = 182U,
-        SDL_SCANCODE_KP_RIGHTPAREN = 183U,
-        SDL_SCANCODE_KP_LEFTBRACE = 184U,
-        SDL_SCANCODE_KP_RIGHTBRACE = 185U,
-        SDL_SCANCODE_KP_TAB = 186U,
-        SDL_SCANCODE_KP_BACKSPACE = 187U,
-        SDL_SCANCODE_KP_A = 188U,
-        SDL_SCANCODE_KP_B = 189U,
-        SDL_SCANCODE_KP_C = 190U,
-        SDL_SCANCODE_KP_D = 191U,
-        SDL_SCANCODE_KP_E = 192U,
-        SDL_SCANCODE_KP_F = 193U,
-        SDL_SCANCODE_KP_XOR = 194U,
-        SDL_SCANCODE_KP_POWER = 195U,
-        SDL_SCANCODE_KP_PERCENT = 196U,
-        SDL_SCANCODE_KP_LESS = 197U,
-        SDL_SCANCODE_KP_GREATER = 198U,
-        SDL_SCANCODE_KP_AMPERSAND = 199U,
-        SDL_SCANCODE_KP_DBLAMPERSAND = 200U,
-        SDL_SCANCODE_KP_VERTICALBAR = 201U,
-        SDL_SCANCODE_KP_DBLVERTICALBAR = 202U,
-        SDL_SCANCODE_KP_COLON = 203U,
-        SDL_SCANCODE_KP_HASH = 204U,
-        SDL_SCANCODE_KP_SPACE = 205U,
-        SDL_SCANCODE_KP_AT = 206U,
-        SDL_SCANCODE_KP_EXCLAM = 207U,
-        SDL_SCANCODE_KP_MEMSTORE = 208U,
-        SDL_SCANCODE_KP_MEMRECALL = 209U,
-        SDL_SCANCODE_KP_MEMCLEAR = 210U,
-        SDL_SCANCODE_KP_MEMADD = 211U,
-        SDL_SCANCODE_KP_MEMSUBTRACT = 212U,
-        SDL_SCANCODE_KP_MEMMULTIPLY = 213U,
-        SDL_SCANCODE_KP_MEMDIVIDE = 214U,
-        SDL_SCANCODE_KP_PLUSMINUS = 215U,
-        SDL_SCANCODE_KP_CLEAR = 216U,
-        SDL_SCANCODE_KP_CLEARENTRY = 217U,
-        SDL_SCANCODE_KP_BINARY = 218U,
-        SDL_SCANCODE_KP_OCTAL = 219U,
-        SDL_SCANCODE_KP_DECIMAL = 220U,
-        SDL_SCANCODE_KP_HEXADECIMAL = 221U,
-        SDL_SCANCODE_LCTRL = 224U,
-        SDL_SCANCODE_LSHIFT = 225U,
-        SDL_SCANCODE_LALT = 226U,
-        SDL_SCANCODE_LGUI = 227U,
-        SDL_SCANCODE_RCTRL = 228U,
-        SDL_SCANCODE_RSHIFT = 229U,
-        SDL_SCANCODE_RALT = 230U,
-        SDL_SCANCODE_RGUI = 231U,
-        SDL_SCANCODE_MODE = 257U,
-        SDL_SCANCODE_AUDIONEXT = 258U,
-        SDL_SCANCODE_AUDIOPREV = 259U,
-        SDL_SCANCODE_AUDIOSTOP = 260U,
-        SDL_SCANCODE_AUDIOPLAY = 261U,
-        SDL_SCANCODE_AUDIOMUTE = 262U,
-        SDL_SCANCODE_MEDIASELECT = 263U,
-        SDL_SCANCODE_WWW = 264U,
-        SDL_SCANCODE_MAIL = 265U,
-        SDL_SCANCODE_CALCULATOR = 266U,
-        SDL_SCANCODE_COMPUTER = 267U,
-        SDL_SCANCODE_AC_SEARCH = 268U,
-        SDL_SCANCODE_AC_HOME = 269U,
-        SDL_SCANCODE_AC_BACK = 270U,
-        SDL_SCANCODE_AC_FORWARD = 271U,
-        SDL_SCANCODE_AC_STOP = 272U,
-        SDL_SCANCODE_AC_REFRESH = 273U,
-        SDL_SCANCODE_AC_BOOKMARKS = 274U,
-        SDL_SCANCODE_BRIGHTNESSDOWN = 275U,
-        SDL_SCANCODE_BRIGHTNESSUP = 276U,
-        SDL_SCANCODE_DISPLAYSWITCH = 277U,
-        SDL_SCANCODE_KBDILLUMTOGGLE = 278U,
-        SDL_SCANCODE_KBDILLUMDOWN = 279U,
-        SDL_SCANCODE_KBDILLUMUP = 280U,
-        SDL_SCANCODE_EJECT = 281U,
-        SDL_SCANCODE_SLEEP = 282U,
-        SDL_SCANCODE_APP1 = 283U,
-        SDL_SCANCODE_APP2 = 284U,
-        SDL_SCANCODE_AUDIOREWIND = 285U,
-        SDL_SCANCODE_AUDIOFASTFORWARD = 286U,
-        SDL_NUM_SCANCODES = 512U
+        SDL_SCANCODE_UNKNOWN = 0,
+        SDL_SCANCODE_A = 4,
+        SDL_SCANCODE_B = 5,
+        SDL_SCANCODE_C = 6,
+        SDL_SCANCODE_D = 7,
+        SDL_SCANCODE_E = 8,
+        SDL_SCANCODE_F = 9,
+        SDL_SCANCODE_G = 10,
+        SDL_SCANCODE_H = 11,
+        SDL_SCANCODE_I = 12,
+        SDL_SCANCODE_J = 13,
+        SDL_SCANCODE_K = 14,
+        SDL_SCANCODE_L = 15,
+        SDL_SCANCODE_M = 16,
+        SDL_SCANCODE_N = 17,
+        SDL_SCANCODE_O = 18,
+        SDL_SCANCODE_P = 19,
+        SDL_SCANCODE_Q = 20,
+        SDL_SCANCODE_R = 21,
+        SDL_SCANCODE_S = 22,
+        SDL_SCANCODE_T = 23,
+        SDL_SCANCODE_U = 24,
+        SDL_SCANCODE_V = 25,
+        SDL_SCANCODE_W = 26,
+        SDL_SCANCODE_X = 27,
+        SDL_SCANCODE_Y = 28,
+        SDL_SCANCODE_Z = 29,
+        SDL_SCANCODE_1 = 30,
+        SDL_SCANCODE_2 = 31,
+        SDL_SCANCODE_3 = 32,
+        SDL_SCANCODE_4 = 33,
+        SDL_SCANCODE_5 = 34,
+        SDL_SCANCODE_6 = 35,
+        SDL_SCANCODE_7 = 36,
+        SDL_SCANCODE_8 = 37,
+        SDL_SCANCODE_9 = 38,
+        SDL_SCANCODE_0 = 39,
+        SDL_SCANCODE_RETURN = 40,
+        SDL_SCANCODE_ESCAPE = 41,
+        SDL_SCANCODE_BACKSPACE = 42,
+        SDL_SCANCODE_TAB = 43,
+        SDL_SCANCODE_SPACE = 44,
+        SDL_SCANCODE_MINUS = 45,
+        SDL_SCANCODE_EQUALS = 46,
+        SDL_SCANCODE_LEFTBRACKET = 47,
+        SDL_SCANCODE_RIGHTBRACKET = 48,
+        SDL_SCANCODE_BACKSLASH = 49,
+        SDL_SCANCODE_NONUSHASH = 50,
+        SDL_SCANCODE_SEMICOLON = 51,
+        SDL_SCANCODE_APOSTROPHE = 52,
+        SDL_SCANCODE_GRAVE = 53,
+        SDL_SCANCODE_COMMA = 54,
+        SDL_SCANCODE_PERIOD = 55,
+        SDL_SCANCODE_SLASH = 56,
+        SDL_SCANCODE_CAPSLOCK = 57,
+        SDL_SCANCODE_F1 = 58,
+        SDL_SCANCODE_F2 = 59,
+        SDL_SCANCODE_F3 = 60,
+        SDL_SCANCODE_F4 = 61,
+        SDL_SCANCODE_F5 = 62,
+        SDL_SCANCODE_F6 = 63,
+        SDL_SCANCODE_F7 = 64,
+        SDL_SCANCODE_F8 = 65,
+        SDL_SCANCODE_F9 = 66,
+        SDL_SCANCODE_F10 = 67,
+        SDL_SCANCODE_F11 = 68,
+        SDL_SCANCODE_F12 = 69,
+        SDL_SCANCODE_PRINTSCREEN = 70,
+        SDL_SCANCODE_SCROLLLOCK = 71,
+        SDL_SCANCODE_PAUSE = 72,
+        SDL_SCANCODE_INSERT = 73,
+        SDL_SCANCODE_HOME = 74,
+        SDL_SCANCODE_PAGEUP = 75,
+        SDL_SCANCODE_DELETE = 76,
+        SDL_SCANCODE_END = 77,
+        SDL_SCANCODE_PAGEDOWN = 78,
+        SDL_SCANCODE_RIGHT = 79,
+        SDL_SCANCODE_LEFT = 80,
+        SDL_SCANCODE_DOWN = 81,
+        SDL_SCANCODE_UP = 82,
+        SDL_SCANCODE_NUMLOCKCLEAR = 83,
+        SDL_SCANCODE_KP_DIVIDE = 84,
+        SDL_SCANCODE_KP_MULTIPLY = 85,
+        SDL_SCANCODE_KP_MINUS = 86,
+        SDL_SCANCODE_KP_PLUS = 87,
+        SDL_SCANCODE_KP_ENTER = 88,
+        SDL_SCANCODE_KP_1 = 89,
+        SDL_SCANCODE_KP_2 = 90,
+        SDL_SCANCODE_KP_3 = 91,
+        SDL_SCANCODE_KP_4 = 92,
+        SDL_SCANCODE_KP_5 = 93,
+        SDL_SCANCODE_KP_6 = 94,
+        SDL_SCANCODE_KP_7 = 95,
+        SDL_SCANCODE_KP_8 = 96,
+        SDL_SCANCODE_KP_9 = 97,
+        SDL_SCANCODE_KP_0 = 98,
+        SDL_SCANCODE_KP_PERIOD = 99,
+        SDL_SCANCODE_NONUSBACKSLASH = 100,
+        SDL_SCANCODE_APPLICATION = 101,
+        SDL_SCANCODE_POWER = 102,
+        SDL_SCANCODE_KP_EQUALS = 103,
+        SDL_SCANCODE_F13 = 104,
+        SDL_SCANCODE_F14 = 105,
+        SDL_SCANCODE_F15 = 106,
+        SDL_SCANCODE_F16 = 107,
+        SDL_SCANCODE_F17 = 108,
+        SDL_SCANCODE_F18 = 109,
+        SDL_SCANCODE_F19 = 110,
+        SDL_SCANCODE_F20 = 111,
+        SDL_SCANCODE_F21 = 112,
+        SDL_SCANCODE_F22 = 113,
+        SDL_SCANCODE_F23 = 114,
+        SDL_SCANCODE_F24 = 115,
+        SDL_SCANCODE_EXECUTE = 116,
+        SDL_SCANCODE_HELP = 117,
+        SDL_SCANCODE_MENU = 118,
+        SDL_SCANCODE_SELECT = 119,
+        SDL_SCANCODE_STOP = 120,
+        SDL_SCANCODE_AGAIN = 121,
+        SDL_SCANCODE_UNDO = 122,
+        SDL_SCANCODE_CUT = 123,
+        SDL_SCANCODE_COPY = 124,
+        SDL_SCANCODE_PASTE = 125,
+        SDL_SCANCODE_FIND = 126,
+        SDL_SCANCODE_MUTE = 127,
+        SDL_SCANCODE_VOLUMEUP = 128,
+        SDL_SCANCODE_VOLUMEDOWN = 129,
+        SDL_SCANCODE_KP_COMMA = 133,
+        SDL_SCANCODE_KP_EQUALSAS400 = 134,
+        SDL_SCANCODE_INTERNATIONAL1 = 135,
+        SDL_SCANCODE_INTERNATIONAL2 = 136,
+        SDL_SCANCODE_INTERNATIONAL3 = 137,
+        SDL_SCANCODE_INTERNATIONAL4 = 138,
+        SDL_SCANCODE_INTERNATIONAL5 = 139,
+        SDL_SCANCODE_INTERNATIONAL6 = 140,
+        SDL_SCANCODE_INTERNATIONAL7 = 141,
+        SDL_SCANCODE_INTERNATIONAL8 = 142,
+        SDL_SCANCODE_INTERNATIONAL9 = 143,
+        SDL_SCANCODE_LANG1 = 144,
+        SDL_SCANCODE_LANG2 = 145,
+        SDL_SCANCODE_LANG3 = 146,
+        SDL_SCANCODE_LANG4 = 147,
+        SDL_SCANCODE_LANG5 = 148,
+        SDL_SCANCODE_LANG6 = 149,
+        SDL_SCANCODE_LANG7 = 150,
+        SDL_SCANCODE_LANG8 = 151,
+        SDL_SCANCODE_LANG9 = 152,
+        SDL_SCANCODE_ALTERASE = 153,
+        SDL_SCANCODE_SYSREQ = 154,
+        SDL_SCANCODE_CANCEL = 155,
+        SDL_SCANCODE_CLEAR = 156,
+        SDL_SCANCODE_PRIOR = 157,
+        SDL_SCANCODE_RETURN2 = 158,
+        SDL_SCANCODE_SEPARATOR = 159,
+        SDL_SCANCODE_OUT = 160,
+        SDL_SCANCODE_OPER = 161,
+        SDL_SCANCODE_CLEARAGAIN = 162,
+        SDL_SCANCODE_CRSEL = 163,
+        SDL_SCANCODE_EXSEL = 164,
+        SDL_SCANCODE_KP_00 = 176,
+        SDL_SCANCODE_KP_000 = 177,
+        SDL_SCANCODE_THOUSANDSSEPARATOR = 178,
+        SDL_SCANCODE_DECIMALSEPARATOR = 179,
+        SDL_SCANCODE_CURRENCYUNIT = 180,
+        SDL_SCANCODE_CURRENCYSUBUNIT = 181,
+        SDL_SCANCODE_KP_LEFTPAREN = 182,
+        SDL_SCANCODE_KP_RIGHTPAREN = 183,
+        SDL_SCANCODE_KP_LEFTBRACE = 184,
+        SDL_SCANCODE_KP_RIGHTBRACE = 185,
+        SDL_SCANCODE_KP_TAB = 186,
+        SDL_SCANCODE_KP_BACKSPACE = 187,
+        SDL_SCANCODE_KP_A = 188,
+        SDL_SCANCODE_KP_B = 189,
+        SDL_SCANCODE_KP_C = 190,
+        SDL_SCANCODE_KP_D = 191,
+        SDL_SCANCODE_KP_E = 192,
+        SDL_SCANCODE_KP_F = 193,
+        SDL_SCANCODE_KP_XOR = 194,
+        SDL_SCANCODE_KP_POWER = 195,
+        SDL_SCANCODE_KP_PERCENT = 196,
+        SDL_SCANCODE_KP_LESS = 197,
+        SDL_SCANCODE_KP_GREATER = 198,
+        SDL_SCANCODE_KP_AMPERSAND = 199,
+        SDL_SCANCODE_KP_DBLAMPERSAND = 200,
+        SDL_SCANCODE_KP_VERTICALBAR = 201,
+        SDL_SCANCODE_KP_DBLVERTICALBAR = 202,
+        SDL_SCANCODE_KP_COLON = 203,
+        SDL_SCANCODE_KP_HASH = 204,
+        SDL_SCANCODE_KP_SPACE = 205,
+        SDL_SCANCODE_KP_AT = 206,
+        SDL_SCANCODE_KP_EXCLAM = 207,
+        SDL_SCANCODE_KP_MEMSTORE = 208,
+        SDL_SCANCODE_KP_MEMRECALL = 209,
+        SDL_SCANCODE_KP_MEMCLEAR = 210,
+        SDL_SCANCODE_KP_MEMADD = 211,
+        SDL_SCANCODE_KP_MEMSUBTRACT = 212,
+        SDL_SCANCODE_KP_MEMMULTIPLY = 213,
+        SDL_SCANCODE_KP_MEMDIVIDE = 214,
+        SDL_SCANCODE_KP_PLUSMINUS = 215,
+        SDL_SCANCODE_KP_CLEAR = 216,
+        SDL_SCANCODE_KP_CLEARENTRY = 217,
+        SDL_SCANCODE_KP_BINARY = 218,
+        SDL_SCANCODE_KP_OCTAL = 219,
+        SDL_SCANCODE_KP_DECIMAL = 220,
+        SDL_SCANCODE_KP_HEXADECIMAL = 221,
+        SDL_SCANCODE_LCTRL = 224,
+        SDL_SCANCODE_LSHIFT = 225,
+        SDL_SCANCODE_LALT = 226,
+        SDL_SCANCODE_LGUI = 227,
+        SDL_SCANCODE_RCTRL = 228,
+        SDL_SCANCODE_RSHIFT = 229,
+        SDL_SCANCODE_RALT = 230,
+        SDL_SCANCODE_RGUI = 231,
+        SDL_SCANCODE_MODE = 257,
+        SDL_SCANCODE_AUDIONEXT = 258,
+        SDL_SCANCODE_AUDIOPREV = 259,
+        SDL_SCANCODE_AUDIOSTOP = 260,
+        SDL_SCANCODE_AUDIOPLAY = 261,
+        SDL_SCANCODE_AUDIOMUTE = 262,
+        SDL_SCANCODE_MEDIASELECT = 263,
+        SDL_SCANCODE_WWW = 264,
+        SDL_SCANCODE_MAIL = 265,
+        SDL_SCANCODE_CALCULATOR = 266,
+        SDL_SCANCODE_COMPUTER = 267,
+        SDL_SCANCODE_AC_SEARCH = 268,
+        SDL_SCANCODE_AC_HOME = 269,
+        SDL_SCANCODE_AC_BACK = 270,
+        SDL_SCANCODE_AC_FORWARD = 271,
+        SDL_SCANCODE_AC_STOP = 272,
+        SDL_SCANCODE_AC_REFRESH = 273,
+        SDL_SCANCODE_AC_BOOKMARKS = 274,
+        SDL_SCANCODE_BRIGHTNESSDOWN = 275,
+        SDL_SCANCODE_BRIGHTNESSUP = 276,
+        SDL_SCANCODE_DISPLAYSWITCH = 277,
+        SDL_SCANCODE_KBDILLUMTOGGLE = 278,
+        SDL_SCANCODE_KBDILLUMDOWN = 279,
+        SDL_SCANCODE_KBDILLUMUP = 280,
+        SDL_SCANCODE_EJECT = 281,
+        SDL_SCANCODE_SLEEP = 282,
+        SDL_SCANCODE_APP1 = 283,
+        SDL_SCANCODE_APP2 = 284,
+        SDL_SCANCODE_AUDIOREWIND = 285,
+        SDL_SCANCODE_AUDIOFASTFORWARD = 286,
+        SDL_NUM_SCANCODES = 512
     }
 
     // Enum @ SDL_events.h:667:3
-    public enum SDL_eventaction : uint
+    public enum SDL_eventaction : int
     {
-        SDL_ADDEVENT = 0U,
-        SDL_PEEKEVENT = 1U,
-        SDL_GETEVENT = 2U
+        SDL_ADDEVENT = 0,
+        SDL_PEEKEVENT = 1,
+        SDL_GETEVENT = 2
     }
 
     // Enum @ SDL_touch.h:50:3
@@ -7063,12 +7095,12 @@ public static unsafe partial class SDL
     }
 
     // Enum @ SDL_gamecontroller.h:79:3
-    public enum SDL_GameControllerBindType : uint
+    public enum SDL_GameControllerBindType : int
     {
-        SDL_CONTROLLER_BINDTYPE_NONE = 0U,
-        SDL_CONTROLLER_BINDTYPE_BUTTON = 1U,
-        SDL_CONTROLLER_BINDTYPE_AXIS = 2U,
-        SDL_CONTROLLER_BINDTYPE_HAT = 3U
+        SDL_CONTROLLER_BINDTYPE_NONE = 0,
+        SDL_CONTROLLER_BINDTYPE_BUTTON = 1,
+        SDL_CONTROLLER_BINDTYPE_AXIS = 2,
+        SDL_CONTROLLER_BINDTYPE_HAT = 3
     }
 
     // Enum @ SDL_gamecontroller.h:519:3
@@ -7085,16 +7117,16 @@ public static unsafe partial class SDL
     }
 
     // Enum @ SDL_gamecontroller.h:71:3
-    public enum SDL_GameControllerType : uint
+    public enum SDL_GameControllerType : int
     {
-        SDL_CONTROLLER_TYPE_UNKNOWN = 0U,
-        SDL_CONTROLLER_TYPE_XBOX360 = 1U,
-        SDL_CONTROLLER_TYPE_XBOXONE = 2U,
-        SDL_CONTROLLER_TYPE_PS3 = 3U,
-        SDL_CONTROLLER_TYPE_PS4 = 4U,
-        SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_PRO = 5U,
-        SDL_CONTROLLER_TYPE_VIRTUAL = 6U,
-        SDL_CONTROLLER_TYPE_PS5 = 7U
+        SDL_CONTROLLER_TYPE_UNKNOWN = 0,
+        SDL_CONTROLLER_TYPE_XBOX360 = 1,
+        SDL_CONTROLLER_TYPE_XBOXONE = 2,
+        SDL_CONTROLLER_TYPE_PS3 = 3,
+        SDL_CONTROLLER_TYPE_PS4 = 4,
+        SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_PRO = 5,
+        SDL_CONTROLLER_TYPE_VIRTUAL = 6,
+        SDL_CONTROLLER_TYPE_PS5 = 7
     }
 
     // Enum @ SDL_joystick.h:108:3
@@ -7110,193 +7142,192 @@ public static unsafe partial class SDL
     }
 
     // Enum @ SDL_joystick.h:97:3
-    public enum SDL_JoystickType : uint
+    public enum SDL_JoystickType : int
     {
-        SDL_JOYSTICK_TYPE_UNKNOWN = 0U,
-        SDL_JOYSTICK_TYPE_GAMECONTROLLER = 1U,
-        SDL_JOYSTICK_TYPE_WHEEL = 2U,
-        SDL_JOYSTICK_TYPE_ARCADE_STICK = 3U,
-        SDL_JOYSTICK_TYPE_FLIGHT_STICK = 4U,
-        SDL_JOYSTICK_TYPE_DANCE_PAD = 5U,
-        SDL_JOYSTICK_TYPE_GUITAR = 6U,
-        SDL_JOYSTICK_TYPE_DRUM_KIT = 7U,
-        SDL_JOYSTICK_TYPE_ARCADE_PAD = 8U,
-        SDL_JOYSTICK_TYPE_THROTTLE = 9U
+        SDL_JOYSTICK_TYPE_UNKNOWN = 0,
+        SDL_JOYSTICK_TYPE_GAMECONTROLLER = 1,
+        SDL_JOYSTICK_TYPE_WHEEL = 2,
+        SDL_JOYSTICK_TYPE_ARCADE_STICK = 3,
+        SDL_JOYSTICK_TYPE_FLIGHT_STICK = 4,
+        SDL_JOYSTICK_TYPE_DANCE_PAD = 5,
+        SDL_JOYSTICK_TYPE_GUITAR = 6,
+        SDL_JOYSTICK_TYPE_DRUM_KIT = 7,
+        SDL_JOYSTICK_TYPE_ARCADE_PAD = 8,
+        SDL_JOYSTICK_TYPE_THROTTLE = 9
     }
 
     // Enum @ SDL_mouse.h:61:3
-    public enum SDL_SystemCursor : uint
+    public enum SDL_SystemCursor : int
     {
-        SDL_SYSTEM_CURSOR_ARROW = 0U,
-        SDL_SYSTEM_CURSOR_IBEAM = 1U,
-        SDL_SYSTEM_CURSOR_WAIT = 2U,
-        SDL_SYSTEM_CURSOR_CROSSHAIR = 3U,
-        SDL_SYSTEM_CURSOR_WAITARROW = 4U,
-        SDL_SYSTEM_CURSOR_SIZENWSE = 5U,
-        SDL_SYSTEM_CURSOR_SIZENESW = 6U,
-        SDL_SYSTEM_CURSOR_SIZEWE = 7U,
-        SDL_SYSTEM_CURSOR_SIZENS = 8U,
-        SDL_SYSTEM_CURSOR_SIZEALL = 9U,
-        SDL_SYSTEM_CURSOR_NO = 10U,
-        SDL_SYSTEM_CURSOR_HAND = 11U,
-        SDL_NUM_SYSTEM_CURSORS = 12U
+        SDL_SYSTEM_CURSOR_ARROW = 0,
+        SDL_SYSTEM_CURSOR_IBEAM = 1,
+        SDL_SYSTEM_CURSOR_WAIT = 2,
+        SDL_SYSTEM_CURSOR_CROSSHAIR = 3,
+        SDL_SYSTEM_CURSOR_WAITARROW = 4,
+        SDL_SYSTEM_CURSOR_SIZENWSE = 5,
+        SDL_SYSTEM_CURSOR_SIZENESW = 6,
+        SDL_SYSTEM_CURSOR_SIZEWE = 7,
+        SDL_SYSTEM_CURSOR_SIZENS = 8,
+        SDL_SYSTEM_CURSOR_SIZEALL = 9,
+        SDL_SYSTEM_CURSOR_NO = 10,
+        SDL_SYSTEM_CURSOR_HAND = 11,
+        SDL_NUM_SYSTEM_CURSORS = 12
     }
 
     // Enum @ SDL_keycode.h:347:3
-    public enum SDL_Keymod : uint
+    public enum SDL_Keymod : int
     {
-        KMOD_NONE = 0U,
-        KMOD_LSHIFT = 1U,
-        KMOD_RSHIFT = 2U,
-        KMOD_LCTRL = 64U,
-        KMOD_RCTRL = 128U,
-        KMOD_LALT = 256U,
-        KMOD_RALT = 512U,
-        KMOD_LGUI = 1024U,
-        KMOD_RGUI = 2048U,
-        KMOD_NUM = 4096U,
-        KMOD_CAPS = 8192U,
-        KMOD_MODE = 16384U,
-        KMOD_RESERVED = 32768U,
-        KMOD_CTRL = 192U,
-        KMOD_SHIFT = 3U,
-        KMOD_ALT = 768U,
-        KMOD_GUI = 3072U
+        KMOD_NONE = 0,
+        KMOD_LSHIFT = 1,
+        KMOD_RSHIFT = 2,
+        KMOD_LCTRL = 64,
+        KMOD_RCTRL = 128,
+        KMOD_LALT = 256,
+        KMOD_RALT = 512,
+        KMOD_LGUI = 1024,
+        KMOD_RGUI = 2048,
+        KMOD_NUM = 4096,
+        KMOD_CAPS = 8192,
+        KMOD_MODE = 16384,
+        KMOD_RESERVED = 32768,
+        KMOD_CTRL = 192,
+        KMOD_SHIFT = 3,
+        KMOD_ALT = 768,
+        KMOD_GUI = 3072
     }
 
     // Enum @ SDL_video.h:236:3
-    public enum SDL_GLattr : uint
+    public enum SDL_GLattr : int
     {
-        SDL_GL_RED_SIZE = 0U,
-        SDL_GL_GREEN_SIZE = 1U,
-        SDL_GL_BLUE_SIZE = 2U,
-        SDL_GL_ALPHA_SIZE = 3U,
-        SDL_GL_BUFFER_SIZE = 4U,
-        SDL_GL_DOUBLEBUFFER = 5U,
-        SDL_GL_DEPTH_SIZE = 6U,
-        SDL_GL_STENCIL_SIZE = 7U,
-        SDL_GL_ACCUM_RED_SIZE = 8U,
-        SDL_GL_ACCUM_GREEN_SIZE = 9U,
-        SDL_GL_ACCUM_BLUE_SIZE = 10U,
-        SDL_GL_ACCUM_ALPHA_SIZE = 11U,
-        SDL_GL_STEREO = 12U,
-        SDL_GL_MULTISAMPLEBUFFERS = 13U,
-        SDL_GL_MULTISAMPLESAMPLES = 14U,
-        SDL_GL_ACCELERATED_VISUAL = 15U,
-        SDL_GL_RETAINED_BACKING = 16U,
-        SDL_GL_CONTEXT_MAJOR_VERSION = 17U,
-        SDL_GL_CONTEXT_MINOR_VERSION = 18U,
-        SDL_GL_CONTEXT_EGL = 19U,
-        SDL_GL_CONTEXT_FLAGS = 20U,
-        SDL_GL_CONTEXT_PROFILE_MASK = 21U,
-        SDL_GL_SHARE_WITH_CURRENT_CONTEXT = 22U,
-        SDL_GL_FRAMEBUFFER_SRGB_CAPABLE = 23U,
-        SDL_GL_CONTEXT_RELEASE_BEHAVIOR = 24U,
-        SDL_GL_CONTEXT_RESET_NOTIFICATION = 25U,
-        SDL_GL_CONTEXT_NO_ERROR = 26U
+        SDL_GL_RED_SIZE = 0,
+        SDL_GL_GREEN_SIZE = 1,
+        SDL_GL_BLUE_SIZE = 2,
+        SDL_GL_ALPHA_SIZE = 3,
+        SDL_GL_BUFFER_SIZE = 4,
+        SDL_GL_DOUBLEBUFFER = 5,
+        SDL_GL_DEPTH_SIZE = 6,
+        SDL_GL_STENCIL_SIZE = 7,
+        SDL_GL_ACCUM_RED_SIZE = 8,
+        SDL_GL_ACCUM_GREEN_SIZE = 9,
+        SDL_GL_ACCUM_BLUE_SIZE = 10,
+        SDL_GL_ACCUM_ALPHA_SIZE = 11,
+        SDL_GL_STEREO = 12,
+        SDL_GL_MULTISAMPLEBUFFERS = 13,
+        SDL_GL_MULTISAMPLESAMPLES = 14,
+        SDL_GL_ACCELERATED_VISUAL = 15,
+        SDL_GL_RETAINED_BACKING = 16,
+        SDL_GL_CONTEXT_MAJOR_VERSION = 17,
+        SDL_GL_CONTEXT_MINOR_VERSION = 18,
+        SDL_GL_CONTEXT_EGL = 19,
+        SDL_GL_CONTEXT_FLAGS = 20,
+        SDL_GL_CONTEXT_PROFILE_MASK = 21,
+        SDL_GL_SHARE_WITH_CURRENT_CONTEXT = 22,
+        SDL_GL_FRAMEBUFFER_SRGB_CAPABLE = 23,
+        SDL_GL_CONTEXT_RELEASE_BEHAVIOR = 24,
+        SDL_GL_CONTEXT_RESET_NOTIFICATION = 25,
+        SDL_GL_CONTEXT_NO_ERROR = 26
     }
 
     // Enum @ SDL_video.h:1452:3
-    public enum SDL_HitTestResult : uint
+    public enum SDL_HitTestResult : int
     {
-        SDL_HITTEST_NORMAL = 0U,
-        SDL_HITTEST_DRAGGABLE = 1U,
-        SDL_HITTEST_RESIZE_TOPLEFT = 2U,
-        SDL_HITTEST_RESIZE_TOP = 3U,
-        SDL_HITTEST_RESIZE_TOPRIGHT = 4U,
-        SDL_HITTEST_RESIZE_RIGHT = 5U,
-        SDL_HITTEST_RESIZE_BOTTOMRIGHT = 6U,
-        SDL_HITTEST_RESIZE_BOTTOM = 7U,
-        SDL_HITTEST_RESIZE_BOTTOMLEFT = 8U,
-        SDL_HITTEST_RESIZE_LEFT = 9U
+        SDL_HITTEST_NORMAL = 0,
+        SDL_HITTEST_DRAGGABLE = 1,
+        SDL_HITTEST_RESIZE_TOPLEFT = 2,
+        SDL_HITTEST_RESIZE_TOP = 3,
+        SDL_HITTEST_RESIZE_TOPRIGHT = 4,
+        SDL_HITTEST_RESIZE_RIGHT = 5,
+        SDL_HITTEST_RESIZE_BOTTOMRIGHT = 6,
+        SDL_HITTEST_RESIZE_BOTTOM = 7,
+        SDL_HITTEST_RESIZE_BOTTOMLEFT = 8,
+        SDL_HITTEST_RESIZE_LEFT = 9
     }
 
     // Enum @ SDL_video.h:197:3
-    public enum SDL_DisplayOrientation : uint
+    public enum SDL_DisplayOrientation : int
     {
-        SDL_ORIENTATION_UNKNOWN = 0U,
-        SDL_ORIENTATION_LANDSCAPE = 1U,
-        SDL_ORIENTATION_LANDSCAPE_FLIPPED = 2U,
-        SDL_ORIENTATION_PORTRAIT = 3U,
-        SDL_ORIENTATION_PORTRAIT_FLIPPED = 4U
+        SDL_ORIENTATION_UNKNOWN = 0,
+        SDL_ORIENTATION_LANDSCAPE = 1,
+        SDL_ORIENTATION_LANDSCAPE_FLIPPED = 2,
+        SDL_ORIENTATION_PORTRAIT = 3,
+        SDL_ORIENTATION_PORTRAIT_FLIPPED = 4
     }
 
     // Enum @ SDL_surface.h:112:3
-    public enum SDL_YUV_CONVERSION_MODE : uint
+    public enum SDL_YUV_CONVERSION_MODE : int
     {
-        SDL_YUV_CONVERSION_JPEG = 0U,
-        SDL_YUV_CONVERSION_BT601 = 1U,
-        SDL_YUV_CONVERSION_BT709 = 2U,
-        SDL_YUV_CONVERSION_AUTOMATIC = 3U
+        SDL_YUV_CONVERSION_JPEG = 0,
+        SDL_YUV_CONVERSION_BT601 = 1,
+        SDL_YUV_CONVERSION_BT709 = 2,
+        SDL_YUV_CONVERSION_AUTOMATIC = 3
     }
 
     // Enum @ SDL_blendmode.h:73:3
-    public enum SDL_BlendOperation : uint
+    public enum SDL_BlendOperation : int
     {
-        SDL_BLENDOPERATION_ADD = 1U,
-        SDL_BLENDOPERATION_SUBTRACT = 2U,
-        SDL_BLENDOPERATION_REV_SUBTRACT = 3U,
-        SDL_BLENDOPERATION_MINIMUM = 4U,
-        SDL_BLENDOPERATION_MAXIMUM = 5U
+        SDL_BLENDOPERATION_ADD = 1,
+        SDL_BLENDOPERATION_SUBTRACT = 2,
+        SDL_BLENDOPERATION_REV_SUBTRACT = 3,
+        SDL_BLENDOPERATION_MINIMUM = 4,
+        SDL_BLENDOPERATION_MAXIMUM = 5
     }
 
     // Enum @ SDL_blendmode.h:91:3
-    public enum SDL_BlendFactor : uint
+    public enum SDL_BlendFactor : int
     {
-        SDL_BLENDFACTOR_ZERO = 1U,
-        SDL_BLENDFACTOR_ONE = 2U,
-        SDL_BLENDFACTOR_SRC_COLOR = 3U,
-        SDL_BLENDFACTOR_ONE_MINUS_SRC_COLOR = 4U,
-        SDL_BLENDFACTOR_SRC_ALPHA = 5U,
-        SDL_BLENDFACTOR_ONE_MINUS_SRC_ALPHA = 6U,
-        SDL_BLENDFACTOR_DST_COLOR = 7U,
-        SDL_BLENDFACTOR_ONE_MINUS_DST_COLOR = 8U,
-        SDL_BLENDFACTOR_DST_ALPHA = 9U,
-        SDL_BLENDFACTOR_ONE_MINUS_DST_ALPHA = 10U
+        SDL_BLENDFACTOR_ZERO = 1,
+        SDL_BLENDFACTOR_ONE = 2,
+        SDL_BLENDFACTOR_SRC_COLOR = 3,
+        SDL_BLENDFACTOR_ONE_MINUS_SRC_COLOR = 4,
+        SDL_BLENDFACTOR_SRC_ALPHA = 5,
+        SDL_BLENDFACTOR_ONE_MINUS_SRC_ALPHA = 6,
+        SDL_BLENDFACTOR_DST_COLOR = 7,
+        SDL_BLENDFACTOR_ONE_MINUS_DST_COLOR = 8,
+        SDL_BLENDFACTOR_DST_ALPHA = 9,
+        SDL_BLENDFACTOR_ONE_MINUS_DST_ALPHA = 10
     }
 
     // Enum @ SDL_audio.h:571:3
-    public enum SDL_AudioStatus : uint
+    public enum SDL_AudioStatus : int
     {
-        SDL_AUDIO_STOPPED = 0U,
-        SDL_AUDIO_PLAYING = 1U,
-        SDL_AUDIO_PAUSED = 2U
+        SDL_AUDIO_STOPPED = 0,
+        SDL_AUDIO_PLAYING = 1,
+        SDL_AUDIO_PAUSED = 2
     }
 
     // Enum @ SDL_thread.h:80:3
-    public enum SDL_ThreadPriority : uint
+    public enum SDL_ThreadPriority : int
     {
-        SDL_THREAD_PRIORITY_LOW = 0U,
-        SDL_THREAD_PRIORITY_NORMAL = 1U,
-        SDL_THREAD_PRIORITY_HIGH = 2U,
-        SDL_THREAD_PRIORITY_TIME_CRITICAL = 3U
+        SDL_THREAD_PRIORITY_LOW = 0,
+        SDL_THREAD_PRIORITY_NORMAL = 1,
+        SDL_THREAD_PRIORITY_HIGH = 2,
+        SDL_THREAD_PRIORITY_TIME_CRITICAL = 3
     }
 
     // Enum @ SDL_error.h:141:3
-    public enum SDL_errorcode : uint
+    public enum SDL_errorcode : int
     {
-        SDL_ENOMEM = 0U,
-        SDL_EFREAD = 1U,
-        SDL_EFWRITE = 2U,
-        SDL_EFSEEK = 3U,
-        SDL_UNSUPPORTED = 4U,
-        SDL_LASTERROR = 5U
+        SDL_ENOMEM = 0,
+        SDL_EFREAD = 1,
+        SDL_EFWRITE = 2,
+        SDL_EFSEEK = 3,
+        SDL_UNSUPPORTED = 4,
+        SDL_LASTERROR = 5
     }
 
     // Enum @ SDL_assert.h:113:3
-    public enum SDL_AssertState : uint
+    public enum SDL_AssertState : int
     {
-        SDL_ASSERTION_RETRY = 0U,
-        SDL_ASSERTION_BREAK = 1U,
-        SDL_ASSERTION_ABORT = 2U,
-        SDL_ASSERTION_IGNORE = 3U,
-        SDL_ASSERTION_ALWAYS_IGNORE = 4U
+        SDL_ASSERTION_RETRY = 0,
+        SDL_ASSERTION_BREAK = 1,
+        SDL_ASSERTION_ABORT = 2,
+        SDL_ASSERTION_IGNORE = 3,
+        SDL_ASSERTION_ALWAYS_IGNORE = 4
     }
 
     private static void _LoadVirtualTable()
     {
         #region "Functions"
-
         _virtualTable.SDL_Quit = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_Quit");
         _virtualTable.SDL_WasInit = (delegate* unmanaged[Cdecl]<uint, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_WasInit");
         _virtualTable.SDL_QuitSubSystem = (delegate* unmanaged[Cdecl]<uint, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_QuitSubSystem");
@@ -7313,13 +7344,6 @@ public static unsafe partial class SDL
         _virtualTable.SDL_GetPerformanceFrequency = (delegate* unmanaged[Cdecl]<ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetPerformanceFrequency");
         _virtualTable.SDL_GetPerformanceCounter = (delegate* unmanaged[Cdecl]<ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetPerformanceCounter");
         _virtualTable.SDL_GetTicks = (delegate* unmanaged[Cdecl]<uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetTicks");
-        _virtualTable.SDL_OnApplicationDidBecomeActive = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_OnApplicationDidBecomeActive");
-        _virtualTable.SDL_OnApplicationWillEnterForeground = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_OnApplicationWillEnterForeground");
-        _virtualTable.SDL_OnApplicationDidEnterBackground = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_OnApplicationDidEnterBackground");
-        _virtualTable.SDL_OnApplicationWillResignActive = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_OnApplicationWillResignActive");
-        _virtualTable.SDL_OnApplicationDidReceiveMemoryWarning = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_OnApplicationDidReceiveMemoryWarning");
-        _virtualTable.SDL_OnApplicationWillTerminate = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_OnApplicationWillTerminate");
-        _virtualTable.SDL_IsTablet = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_IsTablet");
         _virtualTable.SDL_GetShapedWindowMode = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_WindowShapeMode*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetShapedWindowMode");
         _virtualTable.SDL_SetWindowShape = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Surface*, SDL_WindowShapeMode*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowShape");
         _virtualTable.SDL_IsShapedWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_IsShapedWindow");
@@ -7765,6 +7789,9 @@ public static unsafe partial class SDL
         _virtualTable.SDL_UnionRect = (delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, SDL_Rect*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_UnionRect");
         _virtualTable.SDL_IntersectRect = (delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, SDL_Rect*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_IntersectRect");
         _virtualTable.SDL_HasIntersection = (delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasIntersection");
+        _virtualTable.SDL_RectEquals = (delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RectEquals");
+        _virtualTable.SDL_RectEmpty = (delegate* unmanaged[Cdecl]<SDL_Rect*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RectEmpty");
+        _virtualTable.SDL_PointInRect = (delegate* unmanaged[Cdecl]<SDL_Point*, SDL_Rect*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_PointInRect");
         _virtualTable.SDL_CalculateGammaRamp = (delegate* unmanaged[Cdecl]<float, ushort*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CalculateGammaRamp");
         _virtualTable.SDL_GetRGBA = (delegate* unmanaged[Cdecl]<uint, SDL_PixelFormat*, byte*, byte*, byte*, byte*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetRGBA");
         _virtualTable.SDL_GetRGB = (delegate* unmanaged[Cdecl]<uint, SDL_PixelFormat*, byte*, byte*, byte*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetRGB");
@@ -7866,10 +7893,10 @@ public static unsafe partial class SDL
         _virtualTable.SDL_AllocRW = (delegate* unmanaged[Cdecl]<SDL_RWops*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AllocRW");
         _virtualTable.SDL_RWFromConstMem = (delegate* unmanaged[Cdecl]<void*, int, SDL_RWops*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RWFromConstMem");
         _virtualTable.SDL_RWFromMem = (delegate* unmanaged[Cdecl]<void*, int, SDL_RWops*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RWFromMem");
-        _virtualTable.SDL_RWFromFP = (delegate* unmanaged[Cdecl]<FILE*, CBool, SDL_RWops*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RWFromFP");
+        _virtualTable.SDL_RWFromFP = (delegate* unmanaged[Cdecl]<void*, CBool, SDL_RWops*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RWFromFP");
         _virtualTable.SDL_RWFromFile = (delegate* unmanaged[Cdecl]<CString, CString, SDL_RWops*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RWFromFile");
         _virtualTable.SDL_TLSCleanup = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_TLSCleanup");
-        _virtualTable.SDL_TLSSet = (delegate* unmanaged[Cdecl]<SDL_TLSID, void*, FnPtrPointerVoid, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_TLSSet");
+        _virtualTable.SDL_TLSSet = (delegate* unmanaged[Cdecl]<SDL_TLSID, void*, FnPtr_SDL_VoidPtr_Void, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_TLSSet");
         _virtualTable.SDL_TLSGet = (delegate* unmanaged[Cdecl]<SDL_TLSID, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_TLSGet");
         _virtualTable.SDL_TLSCreate = (delegate* unmanaged[Cdecl]<SDL_TLSID>)Runtime.LibraryGetExport(_libraryHandle, "SDL_TLSCreate");
         _virtualTable.SDL_DetachThread = (delegate* unmanaged[Cdecl]<SDL_Thread*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_DetachThread");
@@ -7878,8 +7905,8 @@ public static unsafe partial class SDL
         _virtualTable.SDL_GetThreadID = (delegate* unmanaged[Cdecl]<SDL_Thread*, SDL_threadID>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetThreadID");
         _virtualTable.SDL_ThreadID = (delegate* unmanaged[Cdecl]<SDL_threadID>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ThreadID");
         _virtualTable.SDL_GetThreadName = (delegate* unmanaged[Cdecl]<SDL_Thread*, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetThreadName");
-        _virtualTable.SDL_CreateThreadWithStackSize = (delegate* unmanaged[Cdecl]<SDL_ThreadFunction, CString, ulong, void*, SDL_Thread*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateThreadWithStackSize");
-        _virtualTable.SDL_CreateThread = (delegate* unmanaged[Cdecl]<SDL_ThreadFunction, CString, void*, SDL_Thread*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateThread");
+        _virtualTable.SDL_CreateThreadWithStackSize = (delegate* unmanaged[Cdecl]<FnPtr_SDL_VoidPtr_Int, CString, ulong, void*, pfnSDL_CurrentBeginThread, pfnSDL_CurrentEndThread, SDL_Thread*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateThreadWithStackSize");
+        _virtualTable.SDL_CreateThread = (delegate* unmanaged[Cdecl]<SDL_ThreadFunction, CString, void*, pfnSDL_CurrentBeginThread, pfnSDL_CurrentEndThread, SDL_Thread*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateThread");
         _virtualTable.SDL_CondWaitTimeout = (delegate* unmanaged[Cdecl]<SDL_cond*, SDL_mutex*, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CondWaitTimeout");
         _virtualTable.SDL_CondWait = (delegate* unmanaged[Cdecl]<SDL_cond*, SDL_mutex*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CondWait");
         _virtualTable.SDL_CondBroadcast = (delegate* unmanaged[Cdecl]<SDL_cond*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CondBroadcast");
@@ -7898,6 +7925,7 @@ public static unsafe partial class SDL
         _virtualTable.SDL_TryLockMutex = (delegate* unmanaged[Cdecl]<SDL_mutex*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_TryLockMutex");
         _virtualTable.SDL_LockMutex = (delegate* unmanaged[Cdecl]<SDL_mutex*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LockMutex");
         _virtualTable.SDL_CreateMutex = (delegate* unmanaged[Cdecl]<SDL_mutex*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateMutex");
+        _virtualTable.SDL_SwapFloat = (delegate* unmanaged[Cdecl]<float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SwapFloat");
         _virtualTable.SDL_Error = (delegate* unmanaged[Cdecl]<SDL_errorcode, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_Error");
         _virtualTable.SDL_ClearError = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ClearError");
         _virtualTable.SDL_GetErrorMsg = (delegate* unmanaged[Cdecl]<CString, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetErrorMsg");
@@ -7921,6 +7949,8 @@ public static unsafe partial class SDL
         _virtualTable.SDL_GetDefaultAssertionHandler = (delegate* unmanaged[Cdecl]<SDL_AssertionHandler>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetDefaultAssertionHandler");
         _virtualTable.SDL_SetAssertionHandler = (delegate* unmanaged[Cdecl]<SDL_AssertionHandler, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetAssertionHandler");
         _virtualTable.SDL_ReportAssertion = (delegate* unmanaged[Cdecl]<SDL_AssertData*, CString, CString, int, SDL_AssertState>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ReportAssertion");
+        _virtualTable.__debugbreak = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "__debugbreak");
+        _virtualTable.SDL_memcpy4 = (delegate* unmanaged[Cdecl]<void*, void*, ulong, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_memcpy4");
         _virtualTable.SDL_iconv_string = (delegate* unmanaged[Cdecl]<CString, CString, CString, ulong, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_iconv_string");
         _virtualTable.SDL_iconv = (delegate* unmanaged[Cdecl]<SDL_iconv_t, CString*, ulong*, CString*, ulong*, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_iconv");
         _virtualTable.SDL_iconv_close = (delegate* unmanaged[Cdecl]<SDL_iconv_t, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_iconv_close");
@@ -7933,8 +7963,8 @@ public static unsafe partial class SDL
         _virtualTable.SDL_sin = (delegate* unmanaged[Cdecl]<double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_sin");
         _virtualTable.SDL_scalbnf = (delegate* unmanaged[Cdecl]<float, int, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_scalbnf");
         _virtualTable.SDL_scalbn = (delegate* unmanaged[Cdecl]<double, int, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_scalbn");
-        _virtualTable.SDL_lroundf = (delegate* unmanaged[Cdecl]<float, long>)Runtime.LibraryGetExport(_libraryHandle, "SDL_lroundf");
-        _virtualTable.SDL_lround = (delegate* unmanaged[Cdecl]<double, long>)Runtime.LibraryGetExport(_libraryHandle, "SDL_lround");
+        _virtualTable.SDL_lroundf = (delegate* unmanaged[Cdecl]<float, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_lroundf");
+        _virtualTable.SDL_lround = (delegate* unmanaged[Cdecl]<double, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_lround");
         _virtualTable.SDL_roundf = (delegate* unmanaged[Cdecl]<float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_roundf");
         _virtualTable.SDL_round = (delegate* unmanaged[Cdecl]<double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_round");
         _virtualTable.SDL_powf = (delegate* unmanaged[Cdecl]<float, float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_powf");
@@ -7978,14 +8008,14 @@ public static unsafe partial class SDL
         _virtualTable.SDL_strtod = (delegate* unmanaged[Cdecl]<CString, CString*, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strtod");
         _virtualTable.SDL_strtoull = (delegate* unmanaged[Cdecl]<CString, CString*, int, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strtoull");
         _virtualTable.SDL_strtoll = (delegate* unmanaged[Cdecl]<CString, CString*, int, long>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strtoll");
-        _virtualTable.SDL_strtoul = (delegate* unmanaged[Cdecl]<CString, CString*, int, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strtoul");
-        _virtualTable.SDL_strtol = (delegate* unmanaged[Cdecl]<CString, CString*, int, long>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strtol");
+        _virtualTable.SDL_strtoul = (delegate* unmanaged[Cdecl]<CString, CString*, int, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strtoul");
+        _virtualTable.SDL_strtol = (delegate* unmanaged[Cdecl]<CString, CString*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strtol");
         _virtualTable.SDL_atof = (delegate* unmanaged[Cdecl]<CString, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_atof");
         _virtualTable.SDL_atoi = (delegate* unmanaged[Cdecl]<CString, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_atoi");
         _virtualTable.SDL_ulltoa = (delegate* unmanaged[Cdecl]<ulong, CString, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ulltoa");
         _virtualTable.SDL_lltoa = (delegate* unmanaged[Cdecl]<long, CString, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_lltoa");
-        _virtualTable.SDL_ultoa = (delegate* unmanaged[Cdecl]<ulong, CString, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ultoa");
-        _virtualTable.SDL_ltoa = (delegate* unmanaged[Cdecl]<long, CString, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ltoa");
+        _virtualTable.SDL_ultoa = (delegate* unmanaged[Cdecl]<uint, CString, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ultoa");
+        _virtualTable.SDL_ltoa = (delegate* unmanaged[Cdecl]<int, CString, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ltoa");
         _virtualTable.SDL_uitoa = (delegate* unmanaged[Cdecl]<uint, CString, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_uitoa");
         _virtualTable.SDL_itoa = (delegate* unmanaged[Cdecl]<int, CString, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_itoa");
         _virtualTable.SDL_utf8strlen = (delegate* unmanaged[Cdecl]<CString, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_utf8strlen");
@@ -8013,6 +8043,7 @@ public static unsafe partial class SDL
         _virtualTable.SDL_memcmp = (delegate* unmanaged[Cdecl]<void*, void*, ulong, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_memcmp");
         _virtualTable.SDL_memmove = (delegate* unmanaged[Cdecl]<void*, void*, ulong, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_memmove");
         _virtualTable.SDL_memcpy = (delegate* unmanaged[Cdecl]<void*, void*, ulong, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_memcpy");
+        _virtualTable.SDL_memset4 = (delegate* unmanaged[Cdecl]<void*, uint, ulong, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_memset4");
         _virtualTable.SDL_memset = (delegate* unmanaged[Cdecl]<void*, int, ulong, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_memset");
         _virtualTable.SDL_crc32 = (delegate* unmanaged[Cdecl]<uint, void*, ulong, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_crc32");
         _virtualTable.SDL_tolower = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_tolower");
@@ -8030,7 +8061,7 @@ public static unsafe partial class SDL
         _virtualTable.SDL_isalnum = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_isalnum");
         _virtualTable.SDL_isalpha = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_isalpha");
         _virtualTable.SDL_abs = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_abs");
-        _virtualTable.SDL_qsort = (delegate* unmanaged[Cdecl]<void*, ulong, ulong, FnPtrPointerPointerInt, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_qsort");
+        _virtualTable.SDL_qsort = (delegate* unmanaged[Cdecl]<void*, ulong, ulong, FnPtr_SDL_VoidPtr_VoidPtr_Int, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_qsort");
         _virtualTable.SDL_setenv = (delegate* unmanaged[Cdecl]<CString, CString, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_setenv");
         _virtualTable.SDL_getenv = (delegate* unmanaged[Cdecl]<CString, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_getenv");
         _virtualTable.SDL_GetNumAllocations = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetNumAllocations");
@@ -8041,12 +8072,9 @@ public static unsafe partial class SDL
         _virtualTable.SDL_calloc = (delegate* unmanaged[Cdecl]<ulong, ulong, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_calloc");
         _virtualTable.SDL_malloc = (delegate* unmanaged[Cdecl]<ulong, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_malloc");
         _virtualTable.SDL_GetPlatform = (delegate* unmanaged[Cdecl]<CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetPlatform");
-
         #endregion
 
         #region "Variables"
-
-
 
         #endregion
     }
@@ -8071,13 +8099,6 @@ public static unsafe partial class SDL
         _virtualTable.SDL_GetPerformanceFrequency = (delegate* unmanaged[Cdecl]<ulong>)IntPtr.Zero;
         _virtualTable.SDL_GetPerformanceCounter = (delegate* unmanaged[Cdecl]<ulong>)IntPtr.Zero;
         _virtualTable.SDL_GetTicks = (delegate* unmanaged[Cdecl]<uint>)IntPtr.Zero;
-        _virtualTable.SDL_OnApplicationDidBecomeActive = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_OnApplicationWillEnterForeground = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_OnApplicationDidEnterBackground = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_OnApplicationWillResignActive = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_OnApplicationDidReceiveMemoryWarning = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_OnApplicationWillTerminate = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_IsTablet = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
         _virtualTable.SDL_GetShapedWindowMode = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_WindowShapeMode*, int>)IntPtr.Zero;
         _virtualTable.SDL_SetWindowShape = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Surface*, SDL_WindowShapeMode*, int>)IntPtr.Zero;
         _virtualTable.SDL_IsShapedWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool>)IntPtr.Zero;
@@ -8523,6 +8544,9 @@ public static unsafe partial class SDL
         _virtualTable.SDL_UnionRect = (delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, SDL_Rect*, void>)IntPtr.Zero;
         _virtualTable.SDL_IntersectRect = (delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, SDL_Rect*, CBool>)IntPtr.Zero;
         _virtualTable.SDL_HasIntersection = (delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, CBool>)IntPtr.Zero;
+        _virtualTable.SDL_RectEquals = (delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, CBool>)IntPtr.Zero;
+        _virtualTable.SDL_RectEmpty = (delegate* unmanaged[Cdecl]<SDL_Rect*, CBool>)IntPtr.Zero;
+        _virtualTable.SDL_PointInRect = (delegate* unmanaged[Cdecl]<SDL_Point*, SDL_Rect*, CBool>)IntPtr.Zero;
         _virtualTable.SDL_CalculateGammaRamp = (delegate* unmanaged[Cdecl]<float, ushort*, void>)IntPtr.Zero;
         _virtualTable.SDL_GetRGBA = (delegate* unmanaged[Cdecl]<uint, SDL_PixelFormat*, byte*, byte*, byte*, byte*, void>)IntPtr.Zero;
         _virtualTable.SDL_GetRGB = (delegate* unmanaged[Cdecl]<uint, SDL_PixelFormat*, byte*, byte*, byte*, void>)IntPtr.Zero;
@@ -8624,10 +8648,10 @@ public static unsafe partial class SDL
         _virtualTable.SDL_AllocRW = (delegate* unmanaged[Cdecl]<SDL_RWops*>)IntPtr.Zero;
         _virtualTable.SDL_RWFromConstMem = (delegate* unmanaged[Cdecl]<void*, int, SDL_RWops*>)IntPtr.Zero;
         _virtualTable.SDL_RWFromMem = (delegate* unmanaged[Cdecl]<void*, int, SDL_RWops*>)IntPtr.Zero;
-        _virtualTable.SDL_RWFromFP = (delegate* unmanaged[Cdecl]<FILE*, CBool, SDL_RWops*>)IntPtr.Zero;
+        _virtualTable.SDL_RWFromFP = (delegate* unmanaged[Cdecl]<void*, CBool, SDL_RWops*>)IntPtr.Zero;
         _virtualTable.SDL_RWFromFile = (delegate* unmanaged[Cdecl]<CString, CString, SDL_RWops*>)IntPtr.Zero;
         _virtualTable.SDL_TLSCleanup = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_TLSSet = (delegate* unmanaged[Cdecl]<SDL_TLSID, void*, FnPtrPointerVoid, int>)IntPtr.Zero;
+        _virtualTable.SDL_TLSSet = (delegate* unmanaged[Cdecl]<SDL_TLSID, void*, FnPtr_SDL_VoidPtr_Void, int>)IntPtr.Zero;
         _virtualTable.SDL_TLSGet = (delegate* unmanaged[Cdecl]<SDL_TLSID, void*>)IntPtr.Zero;
         _virtualTable.SDL_TLSCreate = (delegate* unmanaged[Cdecl]<SDL_TLSID>)IntPtr.Zero;
         _virtualTable.SDL_DetachThread = (delegate* unmanaged[Cdecl]<SDL_Thread*, void>)IntPtr.Zero;
@@ -8636,8 +8660,8 @@ public static unsafe partial class SDL
         _virtualTable.SDL_GetThreadID = (delegate* unmanaged[Cdecl]<SDL_Thread*, SDL_threadID>)IntPtr.Zero;
         _virtualTable.SDL_ThreadID = (delegate* unmanaged[Cdecl]<SDL_threadID>)IntPtr.Zero;
         _virtualTable.SDL_GetThreadName = (delegate* unmanaged[Cdecl]<SDL_Thread*, CString>)IntPtr.Zero;
-        _virtualTable.SDL_CreateThreadWithStackSize = (delegate* unmanaged[Cdecl]<SDL_ThreadFunction, CString, ulong, void*, SDL_Thread*>)IntPtr.Zero;
-        _virtualTable.SDL_CreateThread = (delegate* unmanaged[Cdecl]<SDL_ThreadFunction, CString, void*, SDL_Thread*>)IntPtr.Zero;
+        _virtualTable.SDL_CreateThreadWithStackSize = (delegate* unmanaged[Cdecl]<FnPtr_SDL_VoidPtr_Int, CString, ulong, void*, pfnSDL_CurrentBeginThread, pfnSDL_CurrentEndThread, SDL_Thread*>)IntPtr.Zero;
+        _virtualTable.SDL_CreateThread = (delegate* unmanaged[Cdecl]<SDL_ThreadFunction, CString, void*, pfnSDL_CurrentBeginThread, pfnSDL_CurrentEndThread, SDL_Thread*>)IntPtr.Zero;
         _virtualTable.SDL_CondWaitTimeout = (delegate* unmanaged[Cdecl]<SDL_cond*, SDL_mutex*, uint, int>)IntPtr.Zero;
         _virtualTable.SDL_CondWait = (delegate* unmanaged[Cdecl]<SDL_cond*, SDL_mutex*, int>)IntPtr.Zero;
         _virtualTable.SDL_CondBroadcast = (delegate* unmanaged[Cdecl]<SDL_cond*, int>)IntPtr.Zero;
@@ -8656,6 +8680,7 @@ public static unsafe partial class SDL
         _virtualTable.SDL_TryLockMutex = (delegate* unmanaged[Cdecl]<SDL_mutex*, int>)IntPtr.Zero;
         _virtualTable.SDL_LockMutex = (delegate* unmanaged[Cdecl]<SDL_mutex*, int>)IntPtr.Zero;
         _virtualTable.SDL_CreateMutex = (delegate* unmanaged[Cdecl]<SDL_mutex*>)IntPtr.Zero;
+        _virtualTable.SDL_SwapFloat = (delegate* unmanaged[Cdecl]<float, float>)IntPtr.Zero;
         _virtualTable.SDL_Error = (delegate* unmanaged[Cdecl]<SDL_errorcode, int>)IntPtr.Zero;
         _virtualTable.SDL_ClearError = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
         _virtualTable.SDL_GetErrorMsg = (delegate* unmanaged[Cdecl]<CString, int, CString>)IntPtr.Zero;
@@ -8679,6 +8704,8 @@ public static unsafe partial class SDL
         _virtualTable.SDL_GetDefaultAssertionHandler = (delegate* unmanaged[Cdecl]<SDL_AssertionHandler>)IntPtr.Zero;
         _virtualTable.SDL_SetAssertionHandler = (delegate* unmanaged[Cdecl]<SDL_AssertionHandler, void*, void>)IntPtr.Zero;
         _virtualTable.SDL_ReportAssertion = (delegate* unmanaged[Cdecl]<SDL_AssertData*, CString, CString, int, SDL_AssertState>)IntPtr.Zero;
+        _virtualTable.__debugbreak = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
+        _virtualTable.SDL_memcpy4 = (delegate* unmanaged[Cdecl]<void*, void*, ulong, void*>)IntPtr.Zero;
         _virtualTable.SDL_iconv_string = (delegate* unmanaged[Cdecl]<CString, CString, CString, ulong, CString>)IntPtr.Zero;
         _virtualTable.SDL_iconv = (delegate* unmanaged[Cdecl]<SDL_iconv_t, CString*, ulong*, CString*, ulong*, ulong>)IntPtr.Zero;
         _virtualTable.SDL_iconv_close = (delegate* unmanaged[Cdecl]<SDL_iconv_t, int>)IntPtr.Zero;
@@ -8691,8 +8718,8 @@ public static unsafe partial class SDL
         _virtualTable.SDL_sin = (delegate* unmanaged[Cdecl]<double, double>)IntPtr.Zero;
         _virtualTable.SDL_scalbnf = (delegate* unmanaged[Cdecl]<float, int, float>)IntPtr.Zero;
         _virtualTable.SDL_scalbn = (delegate* unmanaged[Cdecl]<double, int, double>)IntPtr.Zero;
-        _virtualTable.SDL_lroundf = (delegate* unmanaged[Cdecl]<float, long>)IntPtr.Zero;
-        _virtualTable.SDL_lround = (delegate* unmanaged[Cdecl]<double, long>)IntPtr.Zero;
+        _virtualTable.SDL_lroundf = (delegate* unmanaged[Cdecl]<float, int>)IntPtr.Zero;
+        _virtualTable.SDL_lround = (delegate* unmanaged[Cdecl]<double, int>)IntPtr.Zero;
         _virtualTable.SDL_roundf = (delegate* unmanaged[Cdecl]<float, float>)IntPtr.Zero;
         _virtualTable.SDL_round = (delegate* unmanaged[Cdecl]<double, double>)IntPtr.Zero;
         _virtualTable.SDL_powf = (delegate* unmanaged[Cdecl]<float, float, float>)IntPtr.Zero;
@@ -8736,14 +8763,14 @@ public static unsafe partial class SDL
         _virtualTable.SDL_strtod = (delegate* unmanaged[Cdecl]<CString, CString*, double>)IntPtr.Zero;
         _virtualTable.SDL_strtoull = (delegate* unmanaged[Cdecl]<CString, CString*, int, ulong>)IntPtr.Zero;
         _virtualTable.SDL_strtoll = (delegate* unmanaged[Cdecl]<CString, CString*, int, long>)IntPtr.Zero;
-        _virtualTable.SDL_strtoul = (delegate* unmanaged[Cdecl]<CString, CString*, int, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_strtol = (delegate* unmanaged[Cdecl]<CString, CString*, int, long>)IntPtr.Zero;
+        _virtualTable.SDL_strtoul = (delegate* unmanaged[Cdecl]<CString, CString*, int, uint>)IntPtr.Zero;
+        _virtualTable.SDL_strtol = (delegate* unmanaged[Cdecl]<CString, CString*, int, int>)IntPtr.Zero;
         _virtualTable.SDL_atof = (delegate* unmanaged[Cdecl]<CString, double>)IntPtr.Zero;
         _virtualTable.SDL_atoi = (delegate* unmanaged[Cdecl]<CString, int>)IntPtr.Zero;
         _virtualTable.SDL_ulltoa = (delegate* unmanaged[Cdecl]<ulong, CString, int, CString>)IntPtr.Zero;
         _virtualTable.SDL_lltoa = (delegate* unmanaged[Cdecl]<long, CString, int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_ultoa = (delegate* unmanaged[Cdecl]<ulong, CString, int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_ltoa = (delegate* unmanaged[Cdecl]<long, CString, int, CString>)IntPtr.Zero;
+        _virtualTable.SDL_ultoa = (delegate* unmanaged[Cdecl]<uint, CString, int, CString>)IntPtr.Zero;
+        _virtualTable.SDL_ltoa = (delegate* unmanaged[Cdecl]<int, CString, int, CString>)IntPtr.Zero;
         _virtualTable.SDL_uitoa = (delegate* unmanaged[Cdecl]<uint, CString, int, CString>)IntPtr.Zero;
         _virtualTable.SDL_itoa = (delegate* unmanaged[Cdecl]<int, CString, int, CString>)IntPtr.Zero;
         _virtualTable.SDL_utf8strlen = (delegate* unmanaged[Cdecl]<CString, ulong>)IntPtr.Zero;
@@ -8771,6 +8798,7 @@ public static unsafe partial class SDL
         _virtualTable.SDL_memcmp = (delegate* unmanaged[Cdecl]<void*, void*, ulong, int>)IntPtr.Zero;
         _virtualTable.SDL_memmove = (delegate* unmanaged[Cdecl]<void*, void*, ulong, void*>)IntPtr.Zero;
         _virtualTable.SDL_memcpy = (delegate* unmanaged[Cdecl]<void*, void*, ulong, void*>)IntPtr.Zero;
+        _virtualTable.SDL_memset4 = (delegate* unmanaged[Cdecl]<void*, uint, ulong, void>)IntPtr.Zero;
         _virtualTable.SDL_memset = (delegate* unmanaged[Cdecl]<void*, int, ulong, void*>)IntPtr.Zero;
         _virtualTable.SDL_crc32 = (delegate* unmanaged[Cdecl]<uint, void*, ulong, uint>)IntPtr.Zero;
         _virtualTable.SDL_tolower = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
@@ -8788,7 +8816,7 @@ public static unsafe partial class SDL
         _virtualTable.SDL_isalnum = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
         _virtualTable.SDL_isalpha = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
         _virtualTable.SDL_abs = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_qsort = (delegate* unmanaged[Cdecl]<void*, ulong, ulong, FnPtrPointerPointerInt, void>)IntPtr.Zero;
+        _virtualTable.SDL_qsort = (delegate* unmanaged[Cdecl]<void*, ulong, ulong, FnPtr_SDL_VoidPtr_VoidPtr_Int, void>)IntPtr.Zero;
         _virtualTable.SDL_setenv = (delegate* unmanaged[Cdecl]<CString, CString, int, int>)IntPtr.Zero;
         _virtualTable.SDL_getenv = (delegate* unmanaged[Cdecl]<CString, CString>)IntPtr.Zero;
         _virtualTable.SDL_GetNumAllocations = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
@@ -8834,13 +8862,6 @@ public static unsafe partial class SDL
         public delegate* unmanaged[Cdecl]<ulong> SDL_GetPerformanceFrequency;
         public delegate* unmanaged[Cdecl]<ulong> SDL_GetPerformanceCounter;
         public delegate* unmanaged[Cdecl]<uint> SDL_GetTicks;
-        public delegate* unmanaged[Cdecl]<void> SDL_OnApplicationDidBecomeActive;
-        public delegate* unmanaged[Cdecl]<void> SDL_OnApplicationWillEnterForeground;
-        public delegate* unmanaged[Cdecl]<void> SDL_OnApplicationDidEnterBackground;
-        public delegate* unmanaged[Cdecl]<void> SDL_OnApplicationWillResignActive;
-        public delegate* unmanaged[Cdecl]<void> SDL_OnApplicationDidReceiveMemoryWarning;
-        public delegate* unmanaged[Cdecl]<void> SDL_OnApplicationWillTerminate;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_IsTablet;
         public delegate* unmanaged[Cdecl]<SDL_Window*, SDL_WindowShapeMode*, int> SDL_GetShapedWindowMode;
         public delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Surface*, SDL_WindowShapeMode*, int> SDL_SetWindowShape;
         public delegate* unmanaged[Cdecl]<SDL_Window*, CBool> SDL_IsShapedWindow;
@@ -9286,6 +9307,9 @@ public static unsafe partial class SDL
         public delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, SDL_Rect*, void> SDL_UnionRect;
         public delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, SDL_Rect*, CBool> SDL_IntersectRect;
         public delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, CBool> SDL_HasIntersection;
+        public delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, CBool> SDL_RectEquals;
+        public delegate* unmanaged[Cdecl]<SDL_Rect*, CBool> SDL_RectEmpty;
+        public delegate* unmanaged[Cdecl]<SDL_Point*, SDL_Rect*, CBool> SDL_PointInRect;
         public delegate* unmanaged[Cdecl]<float, ushort*, void> SDL_CalculateGammaRamp;
         public delegate* unmanaged[Cdecl]<uint, SDL_PixelFormat*, byte*, byte*, byte*, byte*, void> SDL_GetRGBA;
         public delegate* unmanaged[Cdecl]<uint, SDL_PixelFormat*, byte*, byte*, byte*, void> SDL_GetRGB;
@@ -9387,10 +9411,10 @@ public static unsafe partial class SDL
         public delegate* unmanaged[Cdecl]<SDL_RWops*> SDL_AllocRW;
         public delegate* unmanaged[Cdecl]<void*, int, SDL_RWops*> SDL_RWFromConstMem;
         public delegate* unmanaged[Cdecl]<void*, int, SDL_RWops*> SDL_RWFromMem;
-        public delegate* unmanaged[Cdecl]<FILE*, CBool, SDL_RWops*> SDL_RWFromFP;
+        public delegate* unmanaged[Cdecl]<void*, CBool, SDL_RWops*> SDL_RWFromFP;
         public delegate* unmanaged[Cdecl]<CString, CString, SDL_RWops*> SDL_RWFromFile;
         public delegate* unmanaged[Cdecl]<void> SDL_TLSCleanup;
-        public delegate* unmanaged[Cdecl]<SDL_TLSID, void*, FnPtrPointerVoid, int> SDL_TLSSet;
+        public delegate* unmanaged[Cdecl]<SDL_TLSID, void*, FnPtr_SDL_VoidPtr_Void, int> SDL_TLSSet;
         public delegate* unmanaged[Cdecl]<SDL_TLSID, void*> SDL_TLSGet;
         public delegate* unmanaged[Cdecl]<SDL_TLSID> SDL_TLSCreate;
         public delegate* unmanaged[Cdecl]<SDL_Thread*, void> SDL_DetachThread;
@@ -9399,8 +9423,8 @@ public static unsafe partial class SDL
         public delegate* unmanaged[Cdecl]<SDL_Thread*, SDL_threadID> SDL_GetThreadID;
         public delegate* unmanaged[Cdecl]<SDL_threadID> SDL_ThreadID;
         public delegate* unmanaged[Cdecl]<SDL_Thread*, CString> SDL_GetThreadName;
-        public delegate* unmanaged[Cdecl]<SDL_ThreadFunction, CString, ulong, void*, SDL_Thread*> SDL_CreateThreadWithStackSize;
-        public delegate* unmanaged[Cdecl]<SDL_ThreadFunction, CString, void*, SDL_Thread*> SDL_CreateThread;
+        public delegate* unmanaged[Cdecl]<FnPtr_SDL_VoidPtr_Int, CString, ulong, void*, pfnSDL_CurrentBeginThread, pfnSDL_CurrentEndThread, SDL_Thread*> SDL_CreateThreadWithStackSize;
+        public delegate* unmanaged[Cdecl]<SDL_ThreadFunction, CString, void*, pfnSDL_CurrentBeginThread, pfnSDL_CurrentEndThread, SDL_Thread*> SDL_CreateThread;
         public delegate* unmanaged[Cdecl]<SDL_cond*, SDL_mutex*, uint, int> SDL_CondWaitTimeout;
         public delegate* unmanaged[Cdecl]<SDL_cond*, SDL_mutex*, int> SDL_CondWait;
         public delegate* unmanaged[Cdecl]<SDL_cond*, int> SDL_CondBroadcast;
@@ -9419,6 +9443,7 @@ public static unsafe partial class SDL
         public delegate* unmanaged[Cdecl]<SDL_mutex*, int> SDL_TryLockMutex;
         public delegate* unmanaged[Cdecl]<SDL_mutex*, int> SDL_LockMutex;
         public delegate* unmanaged[Cdecl]<SDL_mutex*> SDL_CreateMutex;
+        public delegate* unmanaged[Cdecl]<float, float> SDL_SwapFloat;
         public delegate* unmanaged[Cdecl]<SDL_errorcode, int> SDL_Error;
         public delegate* unmanaged[Cdecl]<void> SDL_ClearError;
         public delegate* unmanaged[Cdecl]<CString, int, CString> SDL_GetErrorMsg;
@@ -9442,6 +9467,8 @@ public static unsafe partial class SDL
         public delegate* unmanaged[Cdecl]<SDL_AssertionHandler> SDL_GetDefaultAssertionHandler;
         public delegate* unmanaged[Cdecl]<SDL_AssertionHandler, void*, void> SDL_SetAssertionHandler;
         public delegate* unmanaged[Cdecl]<SDL_AssertData*, CString, CString, int, SDL_AssertState> SDL_ReportAssertion;
+        public delegate* unmanaged[Cdecl]<void> __debugbreak;
+        public delegate* unmanaged[Cdecl]<void*, void*, ulong, void*> SDL_memcpy4;
         public delegate* unmanaged[Cdecl]<CString, CString, CString, ulong, CString> SDL_iconv_string;
         public delegate* unmanaged[Cdecl]<SDL_iconv_t, CString*, ulong*, CString*, ulong*, ulong> SDL_iconv;
         public delegate* unmanaged[Cdecl]<SDL_iconv_t, int> SDL_iconv_close;
@@ -9454,8 +9481,8 @@ public static unsafe partial class SDL
         public delegate* unmanaged[Cdecl]<double, double> SDL_sin;
         public delegate* unmanaged[Cdecl]<float, int, float> SDL_scalbnf;
         public delegate* unmanaged[Cdecl]<double, int, double> SDL_scalbn;
-        public delegate* unmanaged[Cdecl]<float, long> SDL_lroundf;
-        public delegate* unmanaged[Cdecl]<double, long> SDL_lround;
+        public delegate* unmanaged[Cdecl]<float, int> SDL_lroundf;
+        public delegate* unmanaged[Cdecl]<double, int> SDL_lround;
         public delegate* unmanaged[Cdecl]<float, float> SDL_roundf;
         public delegate* unmanaged[Cdecl]<double, double> SDL_round;
         public delegate* unmanaged[Cdecl]<float, float, float> SDL_powf;
@@ -9499,14 +9526,14 @@ public static unsafe partial class SDL
         public delegate* unmanaged[Cdecl]<CString, CString*, double> SDL_strtod;
         public delegate* unmanaged[Cdecl]<CString, CString*, int, ulong> SDL_strtoull;
         public delegate* unmanaged[Cdecl]<CString, CString*, int, long> SDL_strtoll;
-        public delegate* unmanaged[Cdecl]<CString, CString*, int, ulong> SDL_strtoul;
-        public delegate* unmanaged[Cdecl]<CString, CString*, int, long> SDL_strtol;
+        public delegate* unmanaged[Cdecl]<CString, CString*, int, uint> SDL_strtoul;
+        public delegate* unmanaged[Cdecl]<CString, CString*, int, int> SDL_strtol;
         public delegate* unmanaged[Cdecl]<CString, double> SDL_atof;
         public delegate* unmanaged[Cdecl]<CString, int> SDL_atoi;
         public delegate* unmanaged[Cdecl]<ulong, CString, int, CString> SDL_ulltoa;
         public delegate* unmanaged[Cdecl]<long, CString, int, CString> SDL_lltoa;
-        public delegate* unmanaged[Cdecl]<ulong, CString, int, CString> SDL_ultoa;
-        public delegate* unmanaged[Cdecl]<long, CString, int, CString> SDL_ltoa;
+        public delegate* unmanaged[Cdecl]<uint, CString, int, CString> SDL_ultoa;
+        public delegate* unmanaged[Cdecl]<int, CString, int, CString> SDL_ltoa;
         public delegate* unmanaged[Cdecl]<uint, CString, int, CString> SDL_uitoa;
         public delegate* unmanaged[Cdecl]<int, CString, int, CString> SDL_itoa;
         public delegate* unmanaged[Cdecl]<CString, ulong> SDL_utf8strlen;
@@ -9534,6 +9561,7 @@ public static unsafe partial class SDL
         public delegate* unmanaged[Cdecl]<void*, void*, ulong, int> SDL_memcmp;
         public delegate* unmanaged[Cdecl]<void*, void*, ulong, void*> SDL_memmove;
         public delegate* unmanaged[Cdecl]<void*, void*, ulong, void*> SDL_memcpy;
+        public delegate* unmanaged[Cdecl]<void*, uint, ulong, void> SDL_memset4;
         public delegate* unmanaged[Cdecl]<void*, int, ulong, void*> SDL_memset;
         public delegate* unmanaged[Cdecl]<uint, void*, ulong, uint> SDL_crc32;
         public delegate* unmanaged[Cdecl]<int, int> SDL_tolower;
@@ -9551,7 +9579,7 @@ public static unsafe partial class SDL
         public delegate* unmanaged[Cdecl]<int, int> SDL_isalnum;
         public delegate* unmanaged[Cdecl]<int, int> SDL_isalpha;
         public delegate* unmanaged[Cdecl]<int, int> SDL_abs;
-        public delegate* unmanaged[Cdecl]<void*, ulong, ulong, FnPtrPointerPointerInt, void> SDL_qsort;
+        public delegate* unmanaged[Cdecl]<void*, ulong, ulong, FnPtr_SDL_VoidPtr_VoidPtr_Int, void> SDL_qsort;
         public delegate* unmanaged[Cdecl]<CString, CString, int, int> SDL_setenv;
         public delegate* unmanaged[Cdecl]<CString, CString> SDL_getenv;
         public delegate* unmanaged[Cdecl]<int> SDL_GetNumAllocations;
