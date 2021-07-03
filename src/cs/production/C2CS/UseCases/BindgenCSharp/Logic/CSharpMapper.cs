@@ -439,9 +439,7 @@ namespace C2CS.UseCases.BindgenCSharp
             {
                 var functionPointerCSharp = FunctionPointer(functionPointerC);
 
-                throw new NotImplementedException();
-
-                /*if (functionPointerCSharp == null)
+                if (functionPointerCSharp == null)
                 {
                     continue;
                 }
@@ -451,7 +449,7 @@ namespace C2CS.UseCases.BindgenCSharp
                     continue;
                 }
 
-                builder.Add(functionPointerCSharp);*/
+                builder.Add(functionPointerCSharp);
             }
 
             var result = builder.ToImmutable();
