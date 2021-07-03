@@ -2,15 +2,7 @@
 
     <!-- MSBuild project settings -->
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
         <RootNamespace />
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    </PropertyGroup>
-
-    <!-- My-MSBuild project settings -->
-    <PropertyGroup>
-        <EnableAnalyzers>false</EnableAnalyzers>
-        <EnableAnalyzersStyleCop>false</EnableAnalyzersStyleCop>
     </PropertyGroup>
 
     <!-- NuGet packaage references -->

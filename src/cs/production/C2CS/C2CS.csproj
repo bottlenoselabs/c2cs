@@ -2,16 +2,8 @@
 
     <!-- MSBuild project settings -->
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
         <OutputType>Exe</OutputType>
         <RootNamespace>C2CS</RootNamespace>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    </PropertyGroup>
-
-    <!-- My-MSBuild project settings -->
-    <PropertyGroup>
-        <EnableAnalyzers>true</EnableAnalyzers>
-        <EnableAnalyzersStyleCop>true</EnableAnalyzersStyleCop>
     </PropertyGroup>
     
     <!-- NuGet packaage references -->

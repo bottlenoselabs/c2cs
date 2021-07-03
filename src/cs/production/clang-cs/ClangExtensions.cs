@@ -190,7 +190,7 @@ public static unsafe class ClangExtensions
         else
         {
             var cursorType = cursor ?? clang_getTypeDeclaration(type);
-            
+
             switch (type.kind)
             {
                 case CXTypeKind.CXType_Pointer:
@@ -234,7 +234,7 @@ public static unsafe class ClangExtensions
                     break;
                 case CXTypeKind.CXType_Elaborated:
                     // type has a modifier prefixed such as "struct MyStruct" or "union ABC",
-                    //	drill down to the type and cursor with just the name
+                    // drill down to the type and cursor with just the name
                     var namedTyped = clang_Type_getNamedType(type);
                     var namedCursor = clang_getTypeDeclaration(namedTyped);
                     result = Name(namedTyped, namedCursor);

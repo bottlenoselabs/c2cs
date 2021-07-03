@@ -2,4 +2,16 @@
 
     <Import Project="../Common.props" />
 
+    <!-- MSBuild project settings -->
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <!-- My-MSBuild project settings -->
+    <PropertyGroup>
+        <EnableAnalyzers>true</EnableAnalyzers>
+        <EnableAnalyzersStyleCop>true</EnableAnalyzersStyleCop>
+    </PropertyGroup>
+
 </Project>
