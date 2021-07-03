@@ -12,7 +12,7 @@ internal static class Program
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
         GenerateAbstractSyntaxTree(rootDirectory);
         GenerateBindingsCSharp(rootDirectory);
-        // BuildLibrary(rootDirectory);
+        BuildLibrary(rootDirectory);
     }
 
     private static void BuildLibrary(string rootDirectory)
