@@ -703,6 +703,11 @@ namespace C2CS.UseCases.BindgenCSharp
                 var parameterTypeC = CType(typeNameC);
                 var parameterTypeCSharp = Type(parameterTypeC);
 
+                if (parameterTypeC.Name == "void" && parameterTypeC.IsSystem)
+                {
+                    continue;
+                }
+
                 var typeNameCSharp = parameterTypeCSharp.Name.Replace("*", "Ptr");
                 var typeNameCSharpCapitalized = char.ToUpper(typeNameCSharp[0], CultureInfo.InvariantCulture) +
                                                 typeNameCSharp.Substring(1);
@@ -714,7 +719,7 @@ namespace C2CS.UseCases.BindgenCSharp
 
             var className = _className.ToUpper(CultureInfo.InvariantCulture);
             var parameterStringsCSharpJoined = string.Join('_', parameterStringsCSharp);
-            functionPointerNameCSharp = $"FnPtr_{className}_{parameterStringsCSharpJoined}_{returnTypeStringCapitalized}";
+            functionPointerNameCSharp = $"FnPtr_{className}_{parameterStringsCSharpJoined}_{returnTypeStringCapitalized}".Replace("__", "_");
             _generatedFunctionPointersNamesByCNames.Add(typeC.Name, functionPointerNameCSharp);
 
             var functionPointerCSharp = new CSharpFunctionPointer(
