@@ -15,6 +15,7 @@ using System.Runtime.CompilerServices;
 using C2CS;
 
 #nullable enable
+#pragma warning disable 1591
 
 public static unsafe partial class flecs
 {
@@ -42,330 +43,385 @@ public static unsafe partial class flecs
         Runtime.LibraryUnload(_libraryHandle);
     }
 
+    // Variable @ flecs.h:77:29
     public static ecs_type_t FLECS__TEcsRateFilter
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsRateFilter);
     }
 
+    // Variable @ flecs.h:77:29
     public static ecs_type_t FLECS__TEcsTimer
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsTimer);
     }
 
+    // Variable @ flecs.h:77:29
     public static ecs_type_t FLECS__TEcsTickSource
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsTickSource);
     }
 
+    // Variable @ flecs.h:77:29
     public static ecs_type_t FLECS__TEcsSystem
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsSystem);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsPostFrame
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPostFrame);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsOnStore
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnStore);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsPreStore
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPreStore);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsPostUpdate
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPostUpdate);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsOnValidate
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnValidate);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsOnUpdate
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnUpdate);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsPreUpdate
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPreUpdate);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsPostLoad
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPostLoad);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsOnLoad
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnLoad);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsPreFrame
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPreFrame);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsPipeline
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPipeline);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsInactive
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsInactive);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsDisabledIntern
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsDisabledIntern);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsMonitor
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsMonitor);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsOnDemand
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnDemand);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsThrow
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsThrow);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsDelete
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsDelete);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsRemove
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsRemove);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsOnDeleteObject
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnDeleteObject);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsOnDelete
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnDelete);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsUnSet
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsUnSet);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsOnSet
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnSet);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsOnRemove
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnRemove);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsOnAdd
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnAdd);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsHidden
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsHidden);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsDisabled
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsDisabled);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsPrefab
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPrefab);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsModule
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsModule);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsIsA
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsIsA);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsChildOf
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsChildOf);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsFinal
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsFinal);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsTransitive
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsTransitive);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsThis
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsThis);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsWildcard
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsWildcard);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsWorld
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsWorld);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsFlecsCore
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsFlecsCore);
     }
 
+    // Variable @ flecs.h:74:18
     public static ecs_entity_t EcsFlecs
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsFlecs);
     }
 
+    // Variable @ flecs.h:71:18
     public static ecs_id_t ECS_DISABLED
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_id_t>(_virtualTable.ECS_DISABLED);
     }
 
+    // Variable @ flecs.h:71:18
     public static ecs_id_t ECS_OWNED
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_id_t>(_virtualTable.ECS_OWNED);
     }
 
+    // Variable @ flecs.h:71:18
     public static ecs_id_t ECS_PAIR
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_id_t>(_virtualTable.ECS_PAIR);
     }
 
+    // Variable @ flecs.h:71:18
     public static ecs_id_t ECS_SWITCH
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_id_t>(_virtualTable.ECS_SWITCH);
     }
 
+    // Variable @ flecs.h:71:18
     public static ecs_id_t ECS_CASE
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_id_t>(_virtualTable.ECS_CASE);
     }
 
+    // Variable @ flecs.h:77:29
     public static ecs_type_t FLECS__TEcsName
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsName);
     }
 
+    // Variable @ flecs.h:77:29
     public static ecs_type_t FLECS__TEcsType
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsType);
     }
 
+    // Variable @ flecs.h:77:29
     public static ecs_type_t FLECS__TEcsComponentLifecycle
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsComponentLifecycle);
     }
 
+    // Variable @ flecs.h:77:29
     public static ecs_type_t FLECS__TEcsComponent
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsComponent);
     }
 
+    // Variable @ os_api.h:251:3
     public static ecs_os_api_t ecs_os_api
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<ecs_os_api_t>(_virtualTable.ecs_os_api);
     }
 
+    // Variable @ System
     public static long ecs_os_api_free_count
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<long>(_virtualTable.ecs_os_api_free_count);
     }
 
+    // Variable @ System
     public static long ecs_os_api_calloc_count
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<long>(_virtualTable.ecs_os_api_calloc_count);
     }
 
+    // Variable @ System
     public static long ecs_os_api_realloc_count
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Runtime.ReadMemory<long>(_virtualTable.ecs_os_api_realloc_count);
     }
 
+    // Variable @ System
     public static long ecs_os_api_malloc_count
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4479,109 +4535,108 @@ public static unsafe partial class flecs
     }
 
     // Enum @ flecs.h:244:3
-    public enum ecs_match_kind_t : uint
+    public enum ecs_match_kind_t : int
     {
-        EcsMatchDefault = 0U,
-        EcsMatchAll = 1U,
-        EcsMatchAny = 2U,
-        EcsMatchExact = 3U
+        EcsMatchDefault = 0,
+        EcsMatchAll = 1,
+        EcsMatchAny = 2,
+        EcsMatchExact = 3
     }
 
     // Enum @ flecs.h:194:3
-    public enum ecs_oper_kind_t : uint
+    public enum ecs_oper_kind_t : int
     {
-        EcsAnd = 0U,
-        EcsOr = 1U,
-        EcsNot = 2U,
-        EcsOptional = 3U,
-        EcsAndFrom = 4U,
-        EcsOrFrom = 5U,
-        EcsNotFrom = 6U
+        EcsAnd = 0,
+        EcsOr = 1,
+        EcsNot = 2,
+        EcsOptional = 3,
+        EcsAndFrom = 4,
+        EcsOrFrom = 5,
+        EcsNotFrom = 6
     }
 
     // Enum @ flecs.h:183:3
-    public enum ecs_var_kind_t : uint
+    public enum ecs_var_kind_t : int
     {
-        EcsVarDefault = 0U,
-        EcsVarIsEntity = 1U,
-        EcsVarIsVariable = 2U
+        EcsVarDefault = 0,
+        EcsVarIsEntity = 1,
+        EcsVarIsVariable = 2
     }
 
     // Enum @ flecs.h:176:3
-    public enum ecs_inout_kind_t : uint
+    public enum ecs_inout_kind_t : int
     {
-        EcsInOutDefault = 0U,
-        EcsInOut = 1U,
-        EcsIn = 2U,
-        EcsOut = 3U
+        EcsInOutDefault = 0,
+        EcsInOut = 1,
+        EcsIn = 2,
+        EcsOut = 3
     }
 
     // Enum @ api_types.h:114:3
-    public enum ecs_query_iter_kind_t : uint
+    public enum ecs_query_iter_kind_t : int
     {
-        EcsQuerySimpleIter = 0U,
-        EcsQueryPagedIter = 1U,
-        EcsQuerySortedIter = 2U,
-        EcsQuerySwitchIter = 3U
+        EcsQuerySimpleIter = 0,
+        EcsQueryPagedIter = 1,
+        EcsQuerySortedIter = 2,
+        EcsQuerySwitchIter = 3
     }
 
     // Enum @ reader_writer.h:47:3
-    public enum ecs_blob_header_kind_t : uint
+    public enum ecs_blob_header_kind_t : int
     {
-        EcsStreamHeader = 0U,
-        EcsTableSegment = 1U,
-        EcsFooterSegment = 2U,
-        EcsTableHeader = 3U,
-        EcsTableTypeSize = 4U,
-        EcsTableType = 5U,
-        EcsTableSize = 6U,
-        EcsTableColumn = 7U,
-        EcsTableColumnHeader = 8U,
-        EcsTableColumnSize = 9U,
-        EcsTableColumnData = 10U,
-        EcsTableColumnNameHeader = 11U,
-        EcsTableColumnNameLength = 12U,
-        EcsTableColumnName = 13U,
-        EcsStreamFooter = 14U
+        EcsStreamHeader = 0,
+        EcsTableSegment = 1,
+        EcsFooterSegment = 2,
+        EcsTableHeader = 3,
+        EcsTableTypeSize = 4,
+        EcsTableType = 5,
+        EcsTableSize = 6,
+        EcsTableColumn = 7,
+        EcsTableColumnHeader = 8,
+        EcsTableColumnSize = 9,
+        EcsTableColumnData = 10,
+        EcsTableColumnNameHeader = 11,
+        EcsTableColumnNameLength = 12,
+        EcsTableColumnName = 13,
+        EcsStreamFooter = 14
     }
 
     // Enum @ api_types.h:197:3
-    public enum EcsMatchFailureReason : uint
+    public enum EcsMatchFailureReason : int
     {
-        EcsMatchOk = 0U,
-        EcsMatchNotASystem = 1U,
-        EcsMatchSystemIsATask = 2U,
-        EcsMatchEntityIsDisabled = 3U,
-        EcsMatchEntityIsPrefab = 4U,
-        EcsMatchFromSelf = 5U,
-        EcsMatchFromOwned = 6U,
-        EcsMatchFromShared = 7U,
-        EcsMatchFromContainer = 8U,
-        EcsMatchFromEntity = 9U,
-        EcsMatchOrFromSelf = 10U,
-        EcsMatchOrFromOwned = 11U,
-        EcsMatchOrFromShared = 12U,
-        EcsMatchOrFromContainer = 13U,
-        EcsMatchNotFromSelf = 14U,
-        EcsMatchNotFromOwned = 15U,
-        EcsMatchNotFromShared = 16U,
-        EcsMatchNotFromContainer = 17U
+        EcsMatchOk = 0,
+        EcsMatchNotASystem = 1,
+        EcsMatchSystemIsATask = 2,
+        EcsMatchEntityIsDisabled = 3,
+        EcsMatchEntityIsPrefab = 4,
+        EcsMatchFromSelf = 5,
+        EcsMatchFromOwned = 6,
+        EcsMatchFromShared = 7,
+        EcsMatchFromContainer = 8,
+        EcsMatchFromEntity = 9,
+        EcsMatchOrFromSelf = 10,
+        EcsMatchOrFromOwned = 11,
+        EcsMatchOrFromShared = 12,
+        EcsMatchOrFromContainer = 13,
+        EcsMatchNotFromSelf = 14,
+        EcsMatchNotFromOwned = 15,
+        EcsMatchNotFromShared = 16,
+        EcsMatchNotFromContainer = 17
     }
 
     // Enum @ system.h:52:3
-    public enum ecs_system_status_t : uint
+    public enum ecs_system_status_t : int
     {
-        EcsSystemStatusNone = 0U,
-        EcsSystemEnabled = 1U,
-        EcsSystemDisabled = 2U,
-        EcsSystemActivated = 3U,
-        EcsSystemDeactivated = 4U
+        EcsSystemStatusNone = 0,
+        EcsSystemEnabled = 1,
+        EcsSystemDisabled = 2,
+        EcsSystemActivated = 3,
+        EcsSystemDeactivated = 4
     }
 
     private static void _LoadVirtualTable()
     {
         #region "Functions"
-
         _virtualTable.ecs_gauge_reduce = (delegate* unmanaged[Cdecl]<ecs_gauge_t*, int, ecs_gauge_t*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_gauge_reduce");
         _virtualTable.ecs_get_pipeline_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_pipeline_stats_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_pipeline_stats");
         _virtualTable.ecs_get_system_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_system_stats_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_system_stats");
@@ -4959,11 +5014,9 @@ public static unsafe partial class flecs
         _virtualTable._ecs_vector_zero = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_zero");
         _virtualTable._ecs_vector_from_array = (delegate* unmanaged[Cdecl]<ecs_size_t, short, int, void*, ecs_vector_t*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_from_array");
         _virtualTable._ecs_vector_new = (delegate* unmanaged[Cdecl]<ecs_size_t, short, int, ecs_vector_t*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_new");
-
         #endregion
 
         #region "Variables"
-
         _virtualTable.FLECS__TEcsRateFilter = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsRateFilter");
         _virtualTable.FLECS__TEcsTimer = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsTimer");
         _virtualTable.FLECS__TEcsTickSource = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsTickSource");
@@ -5019,7 +5072,6 @@ public static unsafe partial class flecs
         _virtualTable.ecs_os_api_calloc_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_calloc_count");
         _virtualTable.ecs_os_api_realloc_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_realloc_count");
         _virtualTable.ecs_os_api_malloc_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_malloc_count");
-
         #endregion
     }
 

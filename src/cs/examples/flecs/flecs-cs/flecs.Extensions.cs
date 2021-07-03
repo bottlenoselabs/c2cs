@@ -1,3 +1,6 @@
+// Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
+
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
@@ -6,6 +9,7 @@ using C2CS;
 using JetBrains.Annotations;
 
 [PublicAPI]
+[SuppressMessage("ReSharper", "SA1300", Justification = "C style.")]
 [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
 [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
 public static unsafe partial class flecs
@@ -46,7 +50,7 @@ public static unsafe partial class flecs
 
         return ecs_entity_init(world, &entityDescriptor);
     }
-    
+
     public static ecs_entity_t ecs_component_init<TComponent>(ecs_world_t* world)
         where TComponent : unmanaged
     {

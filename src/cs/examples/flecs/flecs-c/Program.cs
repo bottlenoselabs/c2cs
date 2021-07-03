@@ -36,7 +36,7 @@ ast
 {rootDirectory}/src/cs/examples/flecs/flecs-c/ast.json
 ";
         var argumentsArray =
-            arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split('\n', StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 
@@ -50,7 +50,7 @@ cs
 {rootDirectory}/src/cs/examples/flecs/flecs-cs/flecs.cs
 ";
         var argumentsArray =
-            arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split('\n', StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 }

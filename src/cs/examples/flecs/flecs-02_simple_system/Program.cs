@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
+
+using System;
 using System.Runtime.InteropServices;
 using C2CS;
 using static flecs;
@@ -24,7 +27,7 @@ internal static unsafe class Program
                 /* Get a pointer to the array of the first column in the system. The order
                  * of columns is the same as the one provided in the system signature. */
                 var msg = ecs_term<Components.Message>(iterator, 1);
-    
+
                 /* Iterate all the messages */
                 for (var i = 0; i < msg.Length; i++)
                 {
@@ -32,11 +35,11 @@ internal static unsafe class Program
                     Console.WriteLine(text);
                 }
             }
-            
+
             public static readonly CString Name = "PrintMessage";
         }
     }
-    
+
     public static class Entities
     {
         public static readonly CString MyEntity = "MyEntity";
@@ -67,7 +70,7 @@ internal static unsafe class Program
         };
         systemDescriptor.callback.Pointer = &Systems.PrintMessage.Callback;
         ecs_system_init(world, &systemDescriptor);
-        
+
         /* Create new entity, add the component to the entity */
         var entity = ecs_entity_init(world, Entities.MyEntity, component);
 
@@ -77,10 +80,10 @@ internal static unsafe class Program
             Text = "Hello Flecs!"
         };
         ecs_set_id(world, entity, component, ref message);
-        
+
         /* Set target FPS for main loop to 1 frame per second */
         ecs_set_target_fps(world, 1);
-        
+
         Console.WriteLine("Application simple_system is running, press CTRL-C to exit...");
 
         /* Run systems */

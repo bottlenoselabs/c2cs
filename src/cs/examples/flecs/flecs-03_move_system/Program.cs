@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
+
+using System;
 using System.Runtime.InteropServices;
 using C2CS;
 using static flecs;
@@ -14,7 +17,7 @@ internal static unsafe class Program
             public float X;
             public float Y;
         }
-        
+
         [StructLayout(LayoutKind.Sequential)] // Sequential necessary so C# is not allowed to reorganize struct
         public struct Velocity
         {
@@ -22,7 +25,7 @@ internal static unsafe class Program
             public float Y;
         }
     }
-    
+
     private static class Systems
     {
         public static class Move
@@ -34,7 +37,7 @@ internal static unsafe class Program
                 /* Get the two columns from the system signature */
                 var p = ecs_term<Components.Position>(iterator, 1);
                 var v = ecs_term<Components.Velocity>(iterator, 2);
-    
+
                 for (var i = 0; i < iterator->count; i++)
                 {
                     p[i].X += v[i].X;
@@ -47,7 +50,7 @@ internal static unsafe class Program
                     Console.WriteLine($"{nameString} moved to {{.x = {p[i].X}, .y = {p[i].Y}}}");
                 }
             }
-            
+
             public static readonly CString Name = "Move";
         }
     }
@@ -79,7 +82,7 @@ internal static unsafe class Program
         queryFilterTerms[1].id = velocityComponent;
         systemDescriptor.callback.Pointer = &Systems.Move.Callback;
         ecs_system_init(world, &systemDescriptor);
-        
+
         /* Create new entity, add the component to the entity */
         var entityDescriptor = new ecs_entity_desc_t
         {
@@ -102,10 +105,10 @@ internal static unsafe class Program
         };
         ecs_set_id(world, entity, positionComponent, ref position);
         ecs_set_id(world, entity, velocityComponent, ref velocity);
-        
+
         /* Set target FPS for main loop to 1 frame per second */
         ecs_set_target_fps(world, 1);
-        
+
         Console.WriteLine("Application move_system is running, press CTRL-C to exit...");
 
         /* Run systems */

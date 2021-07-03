@@ -257,6 +257,7 @@ private static _VirtualTable _virtualTable;
 		private static PropertyDeclarationSyntax EmitVariableProperty(CSharpVariable variable)
 		{
 			var code = $@"
+{variable.CodeLocationComment}
 public static {variable.Type.Name} {variable.Name}
 {{
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
