@@ -58,18 +58,18 @@
           "name": "t1",
           "type": "uv_thread_t*",
           "location": {
-            "file": "unix.h",
-            "line": 136,
-            "column": 19
+            "file": "win.h",
+            "line": 236,
+            "column": 16
           }
         },
         {
           "name": "t2",
           "type": "uv_thread_t*",
           "location": {
-            "file": "unix.h",
-            "line": 136,
-            "column": 19
+            "file": "win.h",
+            "line": 236,
+            "column": 16
           }
         }
       ],
@@ -87,9 +87,9 @@
           "name": "tid",
           "type": "uv_thread_t*",
           "location": {
-            "file": "unix.h",
-            "line": 136,
-            "column": 19
+            "file": "win.h",
+            "line": 236,
+            "column": 16
           }
         }
       ],
@@ -117,9 +117,9 @@
           "name": "tid",
           "type": "uv_thread_t*",
           "location": {
-            "file": "unix.h",
-            "line": 136,
-            "column": 19
+            "file": "win.h",
+            "line": 236,
+            "column": 16
           }
         },
         {
@@ -164,9 +164,9 @@
           "name": "tid",
           "type": "uv_thread_t*",
           "location": {
-            "file": "unix.h",
-            "line": 136,
-            "column": 19
+            "file": "win.h",
+            "line": 236,
+            "column": 16
           }
         },
         {
@@ -222,9 +222,9 @@
           "name": "key",
           "type": "uv_key_t*",
           "location": {
-            "file": "unix.h",
-            "line": 141,
-            "column": 23
+            "file": "win.h",
+            "line": 286,
+            "column": 3
           }
         },
         {
@@ -251,9 +251,9 @@
           "name": "key",
           "type": "uv_key_t*",
           "location": {
-            "file": "unix.h",
-            "line": 141,
-            "column": 23
+            "file": "win.h",
+            "line": 286,
+            "column": 3
           }
         }
       ],
@@ -271,9 +271,9 @@
           "name": "key",
           "type": "uv_key_t*",
           "location": {
-            "file": "unix.h",
-            "line": 141,
-            "column": 23
+            "file": "win.h",
+            "line": 286,
+            "column": 3
           }
         }
       ],
@@ -291,9 +291,9 @@
           "name": "key",
           "type": "uv_key_t*",
           "location": {
-            "file": "unix.h",
-            "line": 141,
-            "column": 23
+            "file": "win.h",
+            "line": 286,
+            "column": 3
           }
         }
       ],
@@ -311,9 +311,9 @@
           "name": "guard",
           "type": "uv_once_t*",
           "location": {
-            "file": "unix.h",
-            "line": 135,
-            "column": 24
+            "file": "win.h",
+            "line": 293,
+            "column": 3
           }
         },
         {
@@ -340,26 +340,26 @@
           "name": "cond",
           "type": "uv_cond_t*",
           "location": {
-            "file": "unix.h",
-            "line": 140,
-            "column": 24
+            "file": "win.h",
+            "line": 257,
+            "column": 3
           }
         },
         {
           "name": "mutex",
           "type": "uv_mutex_t*",
           "location": {
-            "file": "unix.h",
-            "line": 137,
-            "column": 25
+            "file": "win.h",
+            "line": 240,
+            "column": 26
           }
         },
         {
           "name": "timeout",
           "type": "uint64_t",
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -379,18 +379,18 @@
           "name": "cond",
           "type": "uv_cond_t*",
           "location": {
-            "file": "unix.h",
-            "line": 140,
-            "column": 24
+            "file": "win.h",
+            "line": 257,
+            "column": 3
           }
         },
         {
           "name": "mutex",
           "type": "uv_mutex_t*",
           "location": {
-            "file": "unix.h",
-            "line": 137,
-            "column": 25
+            "file": "win.h",
+            "line": 240,
+            "column": 26
           }
         }
       ],
@@ -408,8 +408,8 @@
           "name": "barrier",
           "type": "uv_barrier_t*",
           "location": {
-            "file": "unix.h",
-            "line": 162,
+            "file": "win.h",
+            "line": 282,
             "column": 3
           }
         }
@@ -428,8 +428,8 @@
           "name": "barrier",
           "type": "uv_barrier_t*",
           "location": {
-            "file": "unix.h",
-            "line": 162,
+            "file": "win.h",
+            "line": 282,
             "column": 3
           }
         }
@@ -448,8 +448,8 @@
           "name": "barrier",
           "type": "uv_barrier_t*",
           "location": {
-            "file": "unix.h",
-            "line": 162,
+            "file": "win.h",
+            "line": 282,
             "column": 3
           }
         },
@@ -477,9 +477,9 @@
           "name": "cond",
           "type": "uv_cond_t*",
           "location": {
-            "file": "unix.h",
-            "line": 140,
-            "column": 24
+            "file": "win.h",
+            "line": 257,
+            "column": 3
           }
         }
       ],
@@ -497,9 +497,9 @@
           "name": "cond",
           "type": "uv_cond_t*",
           "location": {
-            "file": "unix.h",
-            "line": 140,
-            "column": 24
+            "file": "win.h",
+            "line": 257,
+            "column": 3
           }
         }
       ],
@@ -517,9 +517,9 @@
           "name": "cond",
           "type": "uv_cond_t*",
           "location": {
-            "file": "unix.h",
-            "line": 140,
-            "column": 24
+            "file": "win.h",
+            "line": 257,
+            "column": 3
           }
         }
       ],
@@ -537,9 +537,9 @@
           "name": "cond",
           "type": "uv_cond_t*",
           "location": {
-            "file": "unix.h",
-            "line": 140,
-            "column": 24
+            "file": "win.h",
+            "line": 257,
+            "column": 3
           }
         }
       ],
@@ -557,9 +557,9 @@
           "name": "sem",
           "type": "uv_sem_t*",
           "location": {
-            "file": "unix.h",
-            "line": 139,
-            "column": 27
+            "file": "win.h",
+            "line": 238,
+            "column": 16
           }
         }
       ],
@@ -577,9 +577,9 @@
           "name": "sem",
           "type": "uv_sem_t*",
           "location": {
-            "file": "unix.h",
-            "line": 139,
-            "column": 27
+            "file": "win.h",
+            "line": 238,
+            "column": 16
           }
         }
       ],
@@ -597,9 +597,9 @@
           "name": "sem",
           "type": "uv_sem_t*",
           "location": {
-            "file": "unix.h",
-            "line": 139,
-            "column": 27
+            "file": "win.h",
+            "line": 238,
+            "column": 16
           }
         }
       ],
@@ -617,9 +617,9 @@
           "name": "sem",
           "type": "uv_sem_t*",
           "location": {
-            "file": "unix.h",
-            "line": 139,
-            "column": 27
+            "file": "win.h",
+            "line": 238,
+            "column": 16
           }
         }
       ],
@@ -637,9 +637,9 @@
           "name": "sem",
           "type": "uv_sem_t*",
           "location": {
-            "file": "unix.h",
-            "line": 139,
-            "column": 27
+            "file": "win.h",
+            "line": 238,
+            "column": 16
           }
         },
         {
@@ -666,9 +666,9 @@
           "name": "rwlock",
           "type": "uv_rwlock_t*",
           "location": {
-            "file": "unix.h",
-            "line": 138,
-            "column": 26
+            "file": "win.h",
+            "line": 274,
+            "column": 3
           }
         }
       ],
@@ -686,9 +686,9 @@
           "name": "rwlock",
           "type": "uv_rwlock_t*",
           "location": {
-            "file": "unix.h",
-            "line": 138,
-            "column": 26
+            "file": "win.h",
+            "line": 274,
+            "column": 3
           }
         }
       ],
@@ -706,9 +706,9 @@
           "name": "rwlock",
           "type": "uv_rwlock_t*",
           "location": {
-            "file": "unix.h",
-            "line": 138,
-            "column": 26
+            "file": "win.h",
+            "line": 274,
+            "column": 3
           }
         }
       ],
@@ -726,9 +726,9 @@
           "name": "rwlock",
           "type": "uv_rwlock_t*",
           "location": {
-            "file": "unix.h",
-            "line": 138,
-            "column": 26
+            "file": "win.h",
+            "line": 274,
+            "column": 3
           }
         }
       ],
@@ -746,9 +746,9 @@
           "name": "rwlock",
           "type": "uv_rwlock_t*",
           "location": {
-            "file": "unix.h",
-            "line": 138,
-            "column": 26
+            "file": "win.h",
+            "line": 274,
+            "column": 3
           }
         }
       ],
@@ -766,9 +766,9 @@
           "name": "rwlock",
           "type": "uv_rwlock_t*",
           "location": {
-            "file": "unix.h",
-            "line": 138,
-            "column": 26
+            "file": "win.h",
+            "line": 274,
+            "column": 3
           }
         }
       ],
@@ -786,9 +786,9 @@
           "name": "rwlock",
           "type": "uv_rwlock_t*",
           "location": {
-            "file": "unix.h",
-            "line": 138,
-            "column": 26
+            "file": "win.h",
+            "line": 274,
+            "column": 3
           }
         }
       ],
@@ -806,9 +806,9 @@
           "name": "rwlock",
           "type": "uv_rwlock_t*",
           "location": {
-            "file": "unix.h",
-            "line": 138,
-            "column": 26
+            "file": "win.h",
+            "line": 274,
+            "column": 3
           }
         }
       ],
@@ -826,9 +826,9 @@
           "name": "handle",
           "type": "uv_mutex_t*",
           "location": {
-            "file": "unix.h",
-            "line": 137,
-            "column": 25
+            "file": "win.h",
+            "line": 240,
+            "column": 26
           }
         }
       ],
@@ -846,9 +846,9 @@
           "name": "handle",
           "type": "uv_mutex_t*",
           "location": {
-            "file": "unix.h",
-            "line": 137,
-            "column": 25
+            "file": "win.h",
+            "line": 240,
+            "column": 26
           }
         }
       ],
@@ -866,9 +866,9 @@
           "name": "handle",
           "type": "uv_mutex_t*",
           "location": {
-            "file": "unix.h",
-            "line": 137,
-            "column": 25
+            "file": "win.h",
+            "line": 240,
+            "column": 26
           }
         }
       ],
@@ -886,9 +886,9 @@
           "name": "handle",
           "type": "uv_mutex_t*",
           "location": {
-            "file": "unix.h",
-            "line": 137,
-            "column": 25
+            "file": "win.h",
+            "line": 240,
+            "column": 26
           }
         }
       ],
@@ -906,9 +906,9 @@
           "name": "handle",
           "type": "uv_mutex_t*",
           "location": {
-            "file": "unix.h",
-            "line": 137,
-            "column": 25
+            "file": "win.h",
+            "line": 240,
+            "column": 26
           }
         }
       ],
@@ -926,9 +926,9 @@
           "name": "handle",
           "type": "uv_mutex_t*",
           "location": {
-            "file": "unix.h",
-            "line": 137,
-            "column": 25
+            "file": "win.h",
+            "line": 240,
+            "column": 26
           }
         }
       ],
@@ -946,8 +946,8 @@
           "name": "lib",
           "type": "uv_lib_t*",
           "location": {
-            "file": "unix.h",
-            "line": 221,
+            "file": "win.h",
+            "line": 323,
             "column": 3
           }
         }
@@ -966,8 +966,8 @@
           "name": "lib",
           "type": "uv_lib_t*",
           "location": {
-            "file": "unix.h",
-            "line": 221,
+            "file": "win.h",
+            "line": 323,
             "column": 3
           }
         },
@@ -1004,8 +1004,8 @@
           "name": "lib",
           "type": "uv_lib_t*",
           "location": {
-            "file": "unix.h",
-            "line": 221,
+            "file": "win.h",
+            "line": 323,
             "column": 3
           }
         }
@@ -1033,8 +1033,8 @@
           "name": "lib",
           "type": "uv_lib_t*",
           "location": {
-            "file": "unix.h",
-            "line": 221,
+            "file": "win.h",
+            "line": 323,
             "column": 3
           }
         }
@@ -1152,9 +1152,9 @@
           "name": "size",
           "type": "size_t*",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -1182,9 +1182,9 @@
           "name": "size",
           "type": "size_t*",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -1221,9 +1221,9 @@
           "name": "size",
           "type": "size_t*",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -1260,9 +1260,9 @@
           "name": "size",
           "type": "size_t*",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -1308,9 +1308,9 @@
           "name": "buflen",
           "type": "size_t",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         },
@@ -1412,9 +1412,9 @@
           "name": "size",
           "type": "size_t",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -1433,9 +1433,9 @@
           "name": "src",
           "type": "sockaddr_in6*",
           "location": {
-            "file": "in6.h",
-            "line": 170,
-            "column": 8,
+            "file": "ws2ipdef.h",
+            "line": 190,
+            "column": 16,
             "isSystem": true
           }
         },
@@ -1452,9 +1452,9 @@
           "name": "size",
           "type": "size_t",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -1473,9 +1473,9 @@
           "name": "src",
           "type": "sockaddr_in*",
           "location": {
-            "file": "in.h",
-            "line": 375,
-            "column": 8,
+            "file": "ws2def.h",
+            "line": 638,
+            "column": 16,
             "isSystem": true
           }
         },
@@ -1492,9 +1492,9 @@
           "name": "size",
           "type": "size_t",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -1531,9 +1531,9 @@
           "name": "addr",
           "type": "sockaddr_in6*",
           "location": {
-            "file": "in6.h",
-            "line": 170,
-            "column": 8,
+            "file": "ws2ipdef.h",
+            "line": 190,
+            "column": 16,
             "isSystem": true
           }
         }
@@ -1570,9 +1570,9 @@
           "name": "addr",
           "type": "sockaddr_in*",
           "location": {
-            "file": "in.h",
-            "line": 375,
-            "column": 8,
+            "file": "ws2def.h",
+            "line": 638,
+            "column": 16,
             "isSystem": true
           }
         }
@@ -1609,9 +1609,9 @@
           "name": "size",
           "type": "size_t*",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -1889,9 +1889,9 @@
           "name": "size",
           "type": "size_t*",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -2080,18 +2080,18 @@
           "name": "uid",
           "type": "uv_uid_t",
           "location": {
-            "file": "unix.h",
-            "line": 169,
-            "column": 15
+            "file": "win.h",
+            "line": 296,
+            "column": 23
           }
         },
         {
           "name": "gid",
           "type": "uv_gid_t",
           "location": {
-            "file": "unix.h",
-            "line": 168,
-            "column": 15
+            "file": "win.h",
+            "line": 297,
+            "column": 23
           }
         },
         {
@@ -2136,8 +2136,8 @@
           "name": "file",
           "type": "uv_file",
           "location": {
-            "file": "unix.h",
-            "line": 128,
+            "file": "win.h",
+            "line": 231,
             "column": 13
           }
         },
@@ -2145,18 +2145,18 @@
           "name": "uid",
           "type": "uv_uid_t",
           "location": {
-            "file": "unix.h",
-            "line": 169,
-            "column": 15
+            "file": "win.h",
+            "line": 296,
+            "column": 23
           }
         },
         {
           "name": "gid",
           "type": "uv_gid_t",
           "location": {
-            "file": "unix.h",
-            "line": 168,
-            "column": 15
+            "file": "win.h",
+            "line": 297,
+            "column": 23
           }
         },
         {
@@ -2210,18 +2210,18 @@
           "name": "uid",
           "type": "uv_uid_t",
           "location": {
-            "file": "unix.h",
-            "line": 169,
-            "column": 15
+            "file": "win.h",
+            "line": 296,
+            "column": 23
           }
         },
         {
           "name": "gid",
           "type": "uv_gid_t",
           "location": {
-            "file": "unix.h",
-            "line": 168,
-            "column": 15
+            "file": "win.h",
+            "line": 297,
+            "column": 23
           }
         },
         {
@@ -2266,8 +2266,8 @@
           "name": "file",
           "type": "uv_file",
           "location": {
-            "file": "unix.h",
-            "line": 128,
+            "file": "win.h",
+            "line": 231,
             "column": 13
           }
         },
@@ -2649,8 +2649,8 @@
           "name": "file",
           "type": "uv_file",
           "location": {
-            "file": "unix.h",
-            "line": 128,
+            "file": "win.h",
+            "line": 231,
             "column": 13
           }
         },
@@ -2891,8 +2891,8 @@
           "name": "out_fd",
           "type": "uv_file",
           "location": {
-            "file": "unix.h",
-            "line": 128,
+            "file": "win.h",
+            "line": 231,
             "column": 13
           }
         },
@@ -2900,8 +2900,8 @@
           "name": "in_fd",
           "type": "uv_file",
           "location": {
-            "file": "unix.h",
-            "line": 128,
+            "file": "win.h",
+            "line": 231,
             "column": 13
           }
         },
@@ -2909,9 +2909,9 @@
           "name": "in_offset",
           "type": "int64_t",
           "location": {
-            "file": "_int64_t.h",
-            "line": 30,
-            "column": 33,
+            "file": "stdint.h",
+            "line": 21,
+            "column": 28,
             "isSystem": true
           }
         },
@@ -2919,9 +2919,9 @@
           "name": "length",
           "type": "size_t",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         },
@@ -2967,8 +2967,8 @@
           "name": "file",
           "type": "uv_file",
           "location": {
-            "file": "unix.h",
-            "line": 128,
+            "file": "win.h",
+            "line": 231,
             "column": 13
           }
         },
@@ -2976,9 +2976,9 @@
           "name": "offset",
           "type": "int64_t",
           "location": {
-            "file": "_int64_t.h",
-            "line": 30,
-            "column": 33,
+            "file": "stdint.h",
+            "line": 21,
+            "column": 28,
             "isSystem": true
           }
         },
@@ -3024,8 +3024,8 @@
           "name": "file",
           "type": "uv_file",
           "location": {
-            "file": "unix.h",
-            "line": 128,
+            "file": "win.h",
+            "line": 231,
             "column": 13
           }
         },
@@ -3071,8 +3071,8 @@
           "name": "file",
           "type": "uv_file",
           "location": {
-            "file": "unix.h",
-            "line": 128,
+            "file": "win.h",
+            "line": 231,
             "column": 13
           }
         },
@@ -3174,8 +3174,8 @@
           "name": "file",
           "type": "uv_file",
           "location": {
-            "file": "unix.h",
-            "line": 128,
+            "file": "win.h",
+            "line": 231,
             "column": 13
           }
         },
@@ -3756,8 +3756,8 @@
           "name": "file",
           "type": "uv_file",
           "location": {
-            "file": "unix.h",
-            "line": 128,
+            "file": "win.h",
+            "line": 231,
             "column": 13
           }
         },
@@ -3783,9 +3783,9 @@
           "name": "offset",
           "type": "int64_t",
           "location": {
-            "file": "_int64_t.h",
-            "line": 30,
-            "column": 33,
+            "file": "stdint.h",
+            "line": 21,
+            "column": 28,
             "isSystem": true
           }
         },
@@ -3878,8 +3878,8 @@
           "name": "file",
           "type": "uv_file",
           "location": {
-            "file": "unix.h",
-            "line": 128,
+            "file": "win.h",
+            "line": 231,
             "column": 13
           }
         },
@@ -3905,9 +3905,9 @@
           "name": "offset",
           "type": "int64_t",
           "location": {
-            "file": "_int64_t.h",
-            "line": 30,
-            "column": 33,
+            "file": "stdint.h",
+            "line": 21,
+            "column": 28,
             "isSystem": true
           }
         },
@@ -4018,8 +4018,8 @@
           "name": "file",
           "type": "uv_file",
           "location": {
-            "file": "unix.h",
-            "line": 128,
+            "file": "win.h",
+            "line": 231,
             "column": 13
           }
         },
@@ -4236,9 +4236,9 @@
           "name": "size",
           "type": "size_t*",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -4324,9 +4324,9 @@
           "name": "size",
           "type": "size_t*",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -4519,9 +4519,9 @@
           "name": "pid",
           "type": "uv_pid_t",
           "location": {
-            "file": "unix.h",
-            "line": 131,
-            "column": 15
+            "file": "win.h",
+            "line": 234,
+            "column": 13
           }
         },
         {
@@ -4548,9 +4548,9 @@
           "name": "pid",
           "type": "uv_pid_t",
           "location": {
-            "file": "unix.h",
-            "line": 131,
-            "column": 15
+            "file": "win.h",
+            "line": 234,
+            "column": 13
           }
         },
         {
@@ -4646,9 +4646,9 @@
           "name": "size",
           "type": "size_t*",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -4676,9 +4676,9 @@
           "name": "size",
           "type": "size_t*",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -4717,9 +4717,9 @@
           "name": "os_fd",
           "type": "uv_os_fd_t",
           "location": {
-            "file": "unix.h",
-            "line": 130,
-            "column": 13
+            "file": "win.h",
+            "line": 233,
+            "column": 16
           }
         }
       ],
@@ -4777,9 +4777,9 @@
           "name": "rss",
           "type": "size_t*",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -4827,9 +4827,9 @@
           "name": "size",
           "type": "size_t",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -5087,9 +5087,9 @@
           "name": "addr",
           "type": "sockaddr*",
           "location": {
-            "file": "socket.h",
-            "line": 408,
-            "column": 8,
+            "file": "ws2def.h",
+            "line": 240,
+            "column": 16,
             "isSystem": true
           }
         },
@@ -5117,9 +5117,9 @@
           "name": "ai",
           "type": "addrinfo*",
           "location": {
-            "file": "netdb.h",
-            "line": 147,
-            "column": 8,
+            "file": "ws2def.h",
+            "line": 904,
+            "column": 16,
             "isSystem": true
           }
         }
@@ -5183,9 +5183,9 @@
           "name": "hints",
           "type": "addrinfo*",
           "location": {
-            "file": "netdb.h",
-            "line": 147,
-            "column": 8,
+            "file": "ws2def.h",
+            "line": 904,
+            "column": 16,
             "isSystem": true
           }
         }
@@ -5253,8 +5253,8 @@
           "name": "repeat",
           "type": "uint64_t",
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -5332,8 +5332,8 @@
           "name": "timeout",
           "type": "uint64_t",
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -5342,8 +5342,8 @@
           "name": "repeat",
           "type": "uint64_t",
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -5760,9 +5760,9 @@
           "name": "socket",
           "type": "uv_os_sock_t",
           "location": {
-            "file": "unix.h",
-            "line": 129,
-            "column": 13
+            "file": "win.h",
+            "line": 232,
+            "column": 16
           }
         }
       ],
@@ -5934,9 +5934,9 @@
           "name": "size",
           "type": "size_t*",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -5973,9 +5973,9 @@
           "name": "size",
           "type": "size_t*",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -6079,8 +6079,8 @@
           "name": "file",
           "type": "uv_file",
           "location": {
-            "file": "unix.h",
-            "line": 128,
+            "file": "win.h",
+            "line": 231,
             "column": 13
           }
         }
@@ -6137,8 +6137,8 @@
           "name": "file",
           "type": "uv_file",
           "location": {
-            "file": "unix.h",
-            "line": 128,
+            "file": "win.h",
+            "line": 231,
             "column": 13
           }
         }
@@ -6292,8 +6292,8 @@
           "name": "fd",
           "type": "uv_file",
           "location": {
-            "file": "unix.h",
-            "line": 128,
+            "file": "win.h",
+            "line": 231,
             "column": 13
           }
         },
@@ -6466,9 +6466,9 @@
           "name": "addr",
           "type": "sockaddr*",
           "location": {
-            "file": "socket.h",
-            "line": 408,
-            "column": 8,
+            "file": "ws2def.h",
+            "line": 240,
+            "column": 16,
             "isSystem": true
           }
         }
@@ -6523,9 +6523,9 @@
           "name": "addr",
           "type": "sockaddr*",
           "location": {
-            "file": "socket.h",
-            "line": 408,
-            "column": 8,
+            "file": "ws2def.h",
+            "line": 240,
+            "column": 16,
             "isSystem": true
           }
         },
@@ -6810,9 +6810,9 @@
           "name": "name",
           "type": "sockaddr*",
           "location": {
-            "file": "socket.h",
-            "line": 408,
-            "column": 8,
+            "file": "ws2def.h",
+            "line": 240,
+            "column": 16,
             "isSystem": true
           }
         },
@@ -6849,9 +6849,9 @@
           "name": "name",
           "type": "sockaddr*",
           "location": {
-            "file": "socket.h",
-            "line": 408,
-            "column": 8,
+            "file": "ws2def.h",
+            "line": 240,
+            "column": 16,
             "isSystem": true
           }
         },
@@ -6888,9 +6888,9 @@
           "name": "addr",
           "type": "sockaddr*",
           "location": {
-            "file": "socket.h",
-            "line": 408,
-            "column": 8,
+            "file": "ws2def.h",
+            "line": 240,
+            "column": 16,
             "isSystem": true
           }
         }
@@ -6918,9 +6918,9 @@
           "name": "addr",
           "type": "sockaddr*",
           "location": {
-            "file": "socket.h",
-            "line": 408,
-            "column": 8,
+            "file": "ws2def.h",
+            "line": 240,
+            "column": 16,
             "isSystem": true
           }
         },
@@ -6957,9 +6957,9 @@
           "name": "sock",
           "type": "uv_os_sock_t",
           "location": {
-            "file": "unix.h",
-            "line": 129,
-            "column": 13
+            "file": "win.h",
+            "line": 232,
+            "column": 16
           }
         }
       ],
@@ -7062,9 +7062,9 @@
           "name": "addr",
           "type": "sockaddr*",
           "location": {
-            "file": "socket.h",
-            "line": 408,
-            "column": 8,
+            "file": "ws2def.h",
+            "line": 240,
+            "column": 16,
             "isSystem": true
           }
         },
@@ -7130,9 +7130,9 @@
           "name": "name",
           "type": "sockaddr*",
           "location": {
-            "file": "socket.h",
-            "line": 408,
-            "column": 8,
+            "file": "ws2def.h",
+            "line": 240,
+            "column": 16,
             "isSystem": true
           }
         },
@@ -7169,9 +7169,9 @@
           "name": "name",
           "type": "sockaddr*",
           "location": {
-            "file": "socket.h",
-            "line": 408,
-            "column": 8,
+            "file": "ws2def.h",
+            "line": 240,
+            "column": 16,
             "isSystem": true
           }
         },
@@ -7208,9 +7208,9 @@
           "name": "addr",
           "type": "sockaddr*",
           "location": {
-            "file": "socket.h",
-            "line": 408,
-            "column": 8,
+            "file": "ws2def.h",
+            "line": 240,
+            "column": 16,
             "isSystem": true
           }
         },
@@ -7343,9 +7343,9 @@
           "name": "sock",
           "type": "uv_os_sock_t",
           "location": {
-            "file": "unix.h",
-            "line": 129,
-            "column": 13
+            "file": "win.h",
+            "line": 232,
+            "column": 16
           }
         }
       ],
@@ -7955,9 +7955,9 @@
           "name": "fd",
           "type": "uv_os_fd_t*",
           "location": {
-            "file": "unix.h",
-            "line": 130,
-            "column": 13
+            "file": "win.h",
+            "line": 233,
+            "column": 16
           }
         }
       ],
@@ -8071,9 +8071,9 @@
           "name": "stream",
           "type": "FILE*",
           "location": {
-            "file": "_stdio.h",
-            "line": 157,
-            "column": 3,
+            "file": "corecrt_wstdio.h",
+            "line": 31,
+            "column": 7,
             "isSystem": true
           }
         }
@@ -8101,9 +8101,9 @@
           "name": "stream",
           "type": "FILE*",
           "location": {
-            "file": "_stdio.h",
-            "line": 157,
-            "column": 3,
+            "file": "corecrt_wstdio.h",
+            "line": 31,
+            "column": 7,
             "isSystem": true
           }
         }
@@ -8474,9 +8474,9 @@
           "name": "buflen",
           "type": "size_t",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -8533,9 +8533,9 @@
           "name": "buflen",
           "type": "size_t",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -9070,9 +9070,9 @@
           "name": "buflen",
           "type": "size_t",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -9299,9 +9299,9 @@
           "name": "exit_status",
           "type": "int64_t",
           "location": {
-            "file": "_int64_t.h",
-            "line": 30,
-            "column": 33,
+            "file": "stdint.h",
+            "line": 21,
+            "column": 28,
             "isSystem": true
           }
         },
@@ -9396,9 +9396,9 @@
           "name": "res",
           "type": "addrinfo*",
           "location": {
-            "file": "netdb.h",
-            "line": 147,
-            "column": 8,
+            "file": "ws2def.h",
+            "line": 904,
+            "column": 16,
             "isSystem": true
           }
         }
@@ -9601,18 +9601,17 @@
           "name": "nread",
           "type": "ssize_t",
           "location": {
-            "file": "_ssize_t.h",
-            "line": 31,
-            "column": 33,
-            "isSystem": true
+            "file": "win.h",
+            "line": 27,
+            "column": 18
           }
         },
         {
           "name": "buf",
           "type": "uv_buf_t*",
           "location": {
-            "file": "unix.h",
-            "line": 126,
+            "file": "win.h",
+            "line": 229,
             "column": 3
           }
         },
@@ -9620,9 +9619,9 @@
           "name": "addr",
           "type": "sockaddr*",
           "location": {
-            "file": "socket.h",
-            "line": 408,
-            "column": 8,
+            "file": "ws2def.h",
+            "line": 240,
+            "column": 16,
             "isSystem": true
           }
         },
@@ -9660,9 +9659,9 @@
           "name": "suggested_size",
           "type": "size_t",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         },
@@ -9670,8 +9669,8 @@
           "name": "buf",
           "type": "uv_buf_t*",
           "location": {
-            "file": "unix.h",
-            "line": 126,
+            "file": "win.h",
+            "line": 229,
             "column": 3
           }
         }
@@ -9781,18 +9780,17 @@
           "name": "nread",
           "type": "ssize_t",
           "location": {
-            "file": "_ssize_t.h",
-            "line": 31,
-            "column": 33,
-            "isSystem": true
+            "file": "win.h",
+            "line": 27,
+            "column": 18
           }
         },
         {
           "name": "buf",
           "type": "uv_buf_t*",
           "location": {
-            "file": "unix.h",
-            "line": 126,
+            "file": "win.h",
+            "line": 229,
             "column": 3
           }
         }
@@ -9923,9 +9921,9 @@
           "name": "count",
           "type": "size_t",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         },
@@ -9933,9 +9931,9 @@
           "name": "size",
           "type": "size_t",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -9964,9 +9962,9 @@
           "name": "size",
           "type": "size_t",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -9986,9 +9984,9 @@
           "name": "size",
           "type": "size_t",
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -10019,9 +10017,9 @@
           "type": "size_t",
           "offset": 8,
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -10041,9 +10039,9 @@
           "name": "tv_sec",
           "type": "int64_t",
           "location": {
-            "file": "_int64_t.h",
-            "line": 30,
-            "column": 33,
+            "file": "stdint.h",
+            "line": 21,
+            "column": 28,
             "isSystem": true
           }
         },
@@ -10053,9 +10051,9 @@
           "offset": 8,
           "padding": 4,
           "location": {
-            "file": "_int32_t.h",
-            "line": 30,
-            "column": 33,
+            "file": "stdint.h",
+            "line": 20,
+            "column": 28,
             "isSystem": true
           }
         }
@@ -10073,11 +10071,12 @@
       "fields": [
         {
           "name": "handle",
-          "type": "void*",
+          "type": "HMODULE",
           "location": {
-            "file": "unix.h",
-            "line": 219,
-            "column": 9
+            "file": "minwindef.h",
+            "line": 251,
+            "column": 19,
+            "isSystem": true
           }
         },
         {
@@ -10085,8 +10084,8 @@
           "type": "char*",
           "offset": 8,
           "location": {
-            "file": "unix.h",
-            "line": 220,
+            "file": "win.h",
+            "line": 322,
             "column": 9
           }
         }
@@ -10094,9 +10093,32 @@
       "nestedRecords": [],
       "nestedFunctionPointers": [],
       "location": {
-        "file": "unix.h",
-        "line": 221,
+        "file": "win.h",
+        "line": 323,
         "column": 3
+      }
+    },
+    {
+      "type": "HINSTANCE__",
+      "fields": [
+        {
+          "name": "unused",
+          "type": "int",
+          "location": {
+            "file": "minwindef.h",
+            "line": 250,
+            "column": 1,
+            "isSystem": true
+          }
+        }
+      ],
+      "nestedRecords": [],
+      "nestedFunctionPointers": [],
+      "location": {
+        "file": "minwindef.h",
+        "line": 250,
+        "column": 1,
+        "isSystem": true
       }
     },
     {
@@ -10106,8 +10128,8 @@
           "name": "st_dev",
           "type": "uint64_t",
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10117,8 +10139,8 @@
           "type": "uint64_t",
           "offset": 8,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10128,8 +10150,8 @@
           "type": "uint64_t",
           "offset": 16,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10139,8 +10161,8 @@
           "type": "uint64_t",
           "offset": 24,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10150,8 +10172,8 @@
           "type": "uint64_t",
           "offset": 32,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10161,8 +10183,8 @@
           "type": "uint64_t",
           "offset": 40,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10172,8 +10194,8 @@
           "type": "uint64_t",
           "offset": 48,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10183,8 +10205,8 @@
           "type": "uint64_t",
           "offset": 56,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10194,8 +10216,8 @@
           "type": "uint64_t",
           "offset": 64,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10205,8 +10227,8 @@
           "type": "uint64_t",
           "offset": 72,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10216,8 +10238,8 @@
           "type": "uint64_t",
           "offset": 80,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10227,8 +10249,8 @@
           "type": "uint64_t",
           "offset": 88,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10246,7 +10268,7 @@
         {
           "name": "st_mtim",
           "type": "uv_timespec_t",
-          "offset": 112,
+          "offset": 104,
           "location": {
             "file": "uv.h",
             "line": 346,
@@ -10256,7 +10278,7 @@
         {
           "name": "st_ctim",
           "type": "uv_timespec_t",
-          "offset": 128,
+          "offset": 112,
           "location": {
             "file": "uv.h",
             "line": 346,
@@ -10266,7 +10288,7 @@
         {
           "name": "st_birthtim",
           "type": "uv_timespec_t",
-          "offset": 144,
+          "offset": 120,
           "location": {
             "file": "uv.h",
             "line": 346,
@@ -10297,7 +10319,7 @@
         {
           "name": "tv_nsec",
           "type": "long",
-          "offset": 8,
+          "offset": 4,
           "location": {
             "file": "uv.h",
             "line": 345,
@@ -10349,31 +10371,32 @@
       "type": "uv_buf_t",
       "fields": [
         {
-          "name": "base",
-          "type": "char*",
+          "name": "len",
+          "type": "ULONG",
+          "padding": 4,
           "location": {
-            "file": "unix.h",
-            "line": 124,
-            "column": 9
+            "file": "winsmcrd.h",
+            "line": 36,
+            "column": 15,
+            "isSystem": true
           }
         },
         {
-          "name": "len",
-          "type": "size_t",
+          "name": "base",
+          "type": "char*",
           "offset": 8,
           "location": {
-            "file": "stddef.h",
-            "line": 46,
-            "column": 23,
-            "isSystem": true
+            "file": "win.h",
+            "line": 228,
+            "column": 9
           }
         }
       ],
       "nestedRecords": [],
       "nestedFunctionPointers": [],
       "location": {
-        "file": "unix.h",
-        "line": 126,
+        "file": "win.h",
+        "line": 229,
         "column": 3
       }
     },
@@ -10523,9 +10546,9 @@
               "name": "address4",
               "type": "sockaddr_in",
               "location": {
-                "file": "in.h",
-                "line": 375,
-                "column": 8,
+                "file": "ws2def.h",
+                "line": 638,
+                "column": 16,
                 "isSystem": true
               }
             },
@@ -10533,9 +10556,9 @@
               "name": "address6",
               "type": "sockaddr_in6",
               "location": {
-                "file": "in6.h",
-                "line": 170,
-                "column": 8,
+                "file": "ws2ipdef.h",
+                "line": 190,
+                "column": 16,
                 "isSystem": true
               }
             }
@@ -10556,9 +10579,9 @@
               "name": "netmask4",
               "type": "sockaddr_in",
               "location": {
-                "file": "in.h",
-                "line": 375,
-                "column": 8,
+                "file": "ws2def.h",
+                "line": 638,
+                "column": 16,
                 "isSystem": true
               }
             },
@@ -10566,9 +10589,9 @@
               "name": "netmask6",
               "type": "sockaddr_in6",
               "location": {
-                "file": "in6.h",
-                "line": 170,
-                "column": 8,
+                "file": "ws2ipdef.h",
+                "line": 190,
+                "column": 16,
                 "isSystem": true
               }
             }
@@ -10638,8 +10661,8 @@
           "name": "user",
           "type": "uint64_t",
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10649,8 +10672,8 @@
           "type": "uint64_t",
           "offset": 8,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10660,8 +10683,8 @@
           "type": "uint64_t",
           "offset": 16,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10671,8 +10694,8 @@
           "type": "uint64_t",
           "offset": 24,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10682,8 +10705,8 @@
           "type": "uint64_t",
           "offset": 32,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10722,7 +10745,7 @@
         {
           "name": "gid",
           "type": "long",
-          "offset": 16,
+          "offset": 12,
           "location": {
             "file": "uv.h",
             "line": 1129,
@@ -10732,7 +10755,7 @@
         {
           "name": "shell",
           "type": "char*",
-          "offset": 24,
+          "offset": 16,
           "location": {
             "file": "uv.h",
             "line": 1130,
@@ -10742,7 +10765,7 @@
         {
           "name": "homedir",
           "type": "char*",
-          "offset": 32,
+          "offset": 24,
           "location": {
             "file": "uv.h",
             "line": 1131,
@@ -10773,7 +10796,7 @@
         {
           "name": "ru_stime",
           "type": "uv_timeval_t",
-          "offset": 16,
+          "offset": 8,
           "location": {
             "file": "uv.h",
             "line": 1182,
@@ -10783,10 +10806,10 @@
         {
           "name": "ru_maxrss",
           "type": "uint64_t",
-          "offset": 32,
+          "offset": 16,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10794,10 +10817,10 @@
         {
           "name": "ru_ixrss",
           "type": "uint64_t",
-          "offset": 40,
+          "offset": 24,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10805,10 +10828,10 @@
         {
           "name": "ru_idrss",
           "type": "uint64_t",
-          "offset": 48,
+          "offset": 32,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10816,10 +10839,10 @@
         {
           "name": "ru_isrss",
           "type": "uint64_t",
-          "offset": 56,
+          "offset": 40,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10827,10 +10850,10 @@
         {
           "name": "ru_minflt",
           "type": "uint64_t",
-          "offset": 64,
+          "offset": 48,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10838,10 +10861,10 @@
         {
           "name": "ru_majflt",
           "type": "uint64_t",
-          "offset": 72,
+          "offset": 56,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10849,10 +10872,10 @@
         {
           "name": "ru_nswap",
           "type": "uint64_t",
-          "offset": 80,
+          "offset": 64,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10860,10 +10883,10 @@
         {
           "name": "ru_inblock",
           "type": "uint64_t",
-          "offset": 88,
+          "offset": 72,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10871,10 +10894,10 @@
         {
           "name": "ru_oublock",
           "type": "uint64_t",
-          "offset": 96,
+          "offset": 80,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10882,10 +10905,10 @@
         {
           "name": "ru_msgsnd",
           "type": "uint64_t",
-          "offset": 104,
+          "offset": 88,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10893,10 +10916,10 @@
         {
           "name": "ru_msgrcv",
           "type": "uint64_t",
-          "offset": 112,
+          "offset": 96,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10904,10 +10927,10 @@
         {
           "name": "ru_nsignals",
           "type": "uint64_t",
-          "offset": 120,
+          "offset": 104,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10915,10 +10938,10 @@
         {
           "name": "ru_nvcsw",
           "type": "uint64_t",
-          "offset": 128,
+          "offset": 112,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10926,10 +10949,10 @@
         {
           "name": "ru_nivcsw",
           "type": "uint64_t",
-          "offset": 136,
+          "offset": 120,
           "location": {
-            "file": "_uint64_t.h",
-            "line": 31,
+            "file": "stdint.h",
+            "line": 25,
             "column": 28,
             "isSystem": true
           }
@@ -10958,7 +10981,7 @@
         {
           "name": "tv_usec",
           "type": "long",
-          "offset": 8,
+          "offset": 4,
           "location": {
             "file": "uv.h",
             "line": 1181,
@@ -11061,19 +11084,20 @@
           "type": "uv_uid_t",
           "offset": 56,
           "location": {
-            "file": "unix.h",
-            "line": 169,
-            "column": 15
+            "file": "win.h",
+            "line": 296,
+            "column": 23
           }
         },
         {
           "name": "gid",
           "type": "uv_gid_t",
-          "offset": 60,
+          "offset": 57,
+          "padding": 6,
           "location": {
-            "file": "unix.h",
-            "line": 168,
-            "column": 15
+            "file": "win.h",
+            "line": 297,
+            "column": 23
           }
         }
       ],
@@ -11155,7 +11179,7 @@
     {
       "name": "uv_dirent_type_t",
       "type": "uv_dirent_type_t",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "UV_DIRENT_UNKNOWN",
@@ -11591,7 +11615,7 @@
     {
       "name": "uv_stdio_flags",
       "type": "uv_stdio_flags",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "UV_IGNORE",
@@ -11674,7 +11698,7 @@
     {
       "name": "uv_handle_type",
       "type": "uv_handle_type",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "UV_UNKNOWN_HANDLE",
@@ -11856,7 +11880,7 @@
     {
       "name": "uv_tty_vtermstate_t",
       "type": "uv_tty_vtermstate_t",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "UV_TTY_SUPPORTED",
@@ -11885,7 +11909,7 @@
     {
       "name": "uv_tty_mode_t",
       "type": "uv_tty_mode_t",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "UV_TTY_MODE_NORMAL",
@@ -11923,7 +11947,7 @@
     {
       "name": "uv_membership",
       "type": "uv_membership",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "UV_LEAVE_GROUP",
@@ -11952,7 +11976,7 @@
     {
       "name": "uv_req_type",
       "type": "uv_req_type",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "UV_UNKNOWN_REQ",
@@ -12053,8 +12077,80 @@
           }
         },
         {
-          "name": "UV_REQ_TYPE_MAX",
+          "name": "UV_ACCEPT",
           "value": 11,
+          "location": {
+            "file": "uv.h",
+            "line": 203,
+            "column": 3
+          }
+        },
+        {
+          "name": "UV_FS_EVENT_REQ",
+          "value": 12,
+          "location": {
+            "file": "uv.h",
+            "line": 203,
+            "column": 3
+          }
+        },
+        {
+          "name": "UV_POLL_REQ",
+          "value": 13,
+          "location": {
+            "file": "uv.h",
+            "line": 203,
+            "column": 3
+          }
+        },
+        {
+          "name": "UV_PROCESS_EXIT",
+          "value": 14,
+          "location": {
+            "file": "uv.h",
+            "line": 203,
+            "column": 3
+          }
+        },
+        {
+          "name": "UV_READ",
+          "value": 15,
+          "location": {
+            "file": "uv.h",
+            "line": 203,
+            "column": 3
+          }
+        },
+        {
+          "name": "UV_UDP_RECV",
+          "value": 16,
+          "location": {
+            "file": "uv.h",
+            "line": 203,
+            "column": 3
+          }
+        },
+        {
+          "name": "UV_WAKEUP",
+          "value": 17,
+          "location": {
+            "file": "uv.h",
+            "line": 203,
+            "column": 3
+          }
+        },
+        {
+          "name": "UV_SIGNAL_REQ",
+          "value": 18,
+          "location": {
+            "file": "uv.h",
+            "line": 203,
+            "column": 3
+          }
+        },
+        {
+          "name": "UV_REQ_TYPE_MAX",
+          "value": 19,
           "location": {
             "file": "uv.h",
             "line": 204,
@@ -12071,7 +12167,7 @@
     {
       "name": "uv_run_mode",
       "type": "uv_run_mode",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "UV_RUN_DEFAULT",
@@ -12109,7 +12205,7 @@
     {
       "name": "uv_loop_option",
       "type": "uv_loop_option",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "UV_LOOP_BLOCK_SIGNAL",
@@ -12148,57 +12244,57 @@
     {
       "name": "uv_key_t",
       "location": {
-        "file": "unix.h",
-        "line": 141,
-        "column": 23
+        "file": "win.h",
+        "line": 286,
+        "column": 3
       }
     },
     {
       "name": "uv_once_t",
       "location": {
-        "file": "unix.h",
-        "line": 135,
-        "column": 24
+        "file": "win.h",
+        "line": 293,
+        "column": 3
       }
     },
     {
       "name": "uv_mutex_t",
       "location": {
-        "file": "unix.h",
-        "line": 137,
-        "column": 25
+        "file": "win.h",
+        "line": 240,
+        "column": 26
       }
     },
     {
       "name": "uv_cond_t",
       "location": {
-        "file": "unix.h",
-        "line": 140,
-        "column": 24
+        "file": "win.h",
+        "line": 257,
+        "column": 3
       }
     },
     {
       "name": "uv_barrier_t",
       "location": {
-        "file": "unix.h",
-        "line": 162,
+        "file": "win.h",
+        "line": 282,
         "column": 3
       }
     },
     {
       "name": "uv_sem_t",
       "location": {
-        "file": "unix.h",
-        "line": 139,
-        "column": 27
+        "file": "win.h",
+        "line": 238,
+        "column": 16
       }
     },
     {
       "name": "uv_rwlock_t",
       "location": {
-        "file": "unix.h",
-        "line": 138,
-        "column": 26
+        "file": "win.h",
+        "line": 274,
+        "column": 3
       }
     },
     {
@@ -12421,65 +12517,144 @@
   "typedefs": [
     {
       "name": "uv_thread_t",
-      "underlyingType": "pthread_t",
+      "underlyingType": "HANDLE",
       "location": {
-        "file": "unix.h",
-        "line": 136,
-        "column": 19
+        "file": "win.h",
+        "line": 236,
+        "column": 16
+      }
+    },
+    {
+      "name": "HANDLE",
+      "underlyingType": "void*",
+      "location": {
+        "file": "winnt.h",
+        "line": 660,
+        "column": 15,
+        "isSystem": true
+      }
+    },
+    {
+      "name": "HMODULE",
+      "underlyingType": "HINSTANCE",
+      "location": {
+        "file": "minwindef.h",
+        "line": 251,
+        "column": 19,
+        "isSystem": true
+      }
+    },
+    {
+      "name": "HINSTANCE",
+      "underlyingType": "HINSTANCE__*",
+      "location": {
+        "file": "minwindef.h",
+        "line": 250,
+        "column": 16,
+        "isSystem": true
       }
     },
     {
       "name": "uv_gid_t",
-      "underlyingType": "gid_t",
+      "underlyingType": "unsigned char",
       "location": {
-        "file": "unix.h",
-        "line": 168,
-        "column": 15
+        "file": "win.h",
+        "line": 297,
+        "column": 23
       }
     },
     {
       "name": "uv_uid_t",
-      "underlyingType": "uid_t",
+      "underlyingType": "unsigned char",
       "location": {
-        "file": "unix.h",
-        "line": 169,
-        "column": 15
+        "file": "win.h",
+        "line": 296,
+        "column": 23
       }
     },
     {
       "name": "uv_file",
       "underlyingType": "int",
       "location": {
-        "file": "unix.h",
-        "line": 128,
+        "file": "win.h",
+        "line": 231,
         "column": 13
+      }
+    },
+    {
+      "name": "ULONG",
+      "underlyingType": "DWORD",
+      "location": {
+        "file": "winsmcrd.h",
+        "line": 36,
+        "column": 15,
+        "isSystem": true
+      }
+    },
+    {
+      "name": "DWORD",
+      "underlyingType": "unsigned long",
+      "location": {
+        "file": "minwindef.h",
+        "line": 156,
+        "column": 29,
+        "isSystem": true
+      }
+    },
+    {
+      "name": "ssize_t",
+      "underlyingType": "intptr_t",
+      "location": {
+        "file": "win.h",
+        "line": 27,
+        "column": 18
       }
     },
     {
       "name": "uv_pid_t",
-      "underlyingType": "pid_t",
+      "underlyingType": "int",
       "location": {
-        "file": "unix.h",
-        "line": 131,
-        "column": 15
+        "file": "win.h",
+        "line": 234,
+        "column": 13
       }
     },
     {
       "name": "uv_os_fd_t",
-      "underlyingType": "int",
+      "underlyingType": "HANDLE",
       "location": {
-        "file": "unix.h",
-        "line": 130,
-        "column": 13
+        "file": "win.h",
+        "line": 233,
+        "column": 16
       }
     },
     {
       "name": "uv_os_sock_t",
-      "underlyingType": "int",
+      "underlyingType": "SOCKET",
       "location": {
-        "file": "unix.h",
-        "line": 129,
-        "column": 13
+        "file": "win.h",
+        "line": 232,
+        "column": 16
+      }
+    },
+    {
+      "name": "SOCKET",
+      "underlyingType": "UINT_PTR",
+      "location": {
+        "file": "winsock2.h",
+        "line": 122,
+        "column": 25,
+        "isSystem": true
+      }
+    },
+    {
+      "name": "UINT_PTR",
+      "underlyingType": "unsigned long long",
+      "location": {
+        "file": "basetsd.h",
+        "line": 126,
+        "column": 30,
+        "isSystem": true
       }
     }
   ],
@@ -12504,7 +12679,7 @@
     {
       "name": "uv_loop_t",
       "kind": "typedef",
-      "sizeOf": 1072,
+      "sizeOf": 464,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -12532,9 +12707,9 @@
       "sizeOf": 8,
       "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 136,
-        "column": 19
+        "file": "win.h",
+        "line": 236,
+        "column": 16
       }
     },
     {
@@ -12543,13 +12718,13 @@
       "sizeOf": 8,
       "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 136,
-        "column": 19
+        "file": "win.h",
+        "line": 236,
+        "column": 16
       }
     },
     {
-      "name": "pthread_t",
+      "name": "HANDLE",
       "kind": "typedef",
       "sizeOf": 8,
       "alignOf": 8,
@@ -12644,20 +12819,20 @@
       "sizeOf": 8,
       "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 141,
-        "column": 23
+        "file": "win.h",
+        "line": 286,
+        "column": 3
       }
     },
     {
       "name": "uv_key_t",
       "kind": "typedef",
-      "sizeOf": 8,
-      "alignOf": 8,
+      "sizeOf": 4,
+      "alignOf": 4,
       "location": {
-        "file": "unix.h",
-        "line": 141,
-        "column": 23
+        "file": "win.h",
+        "line": 286,
+        "column": 3
       }
     },
     {
@@ -12666,9 +12841,9 @@
       "sizeOf": 8,
       "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 135,
-        "column": 24
+        "file": "win.h",
+        "line": 293,
+        "column": 3
       }
     },
     {
@@ -12677,9 +12852,9 @@
       "sizeOf": 16,
       "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 135,
-        "column": 24
+        "file": "win.h",
+        "line": 293,
+        "column": 3
       }
     },
     {
@@ -12699,20 +12874,20 @@
       "sizeOf": 8,
       "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 140,
-        "column": 24
+        "file": "win.h",
+        "line": 257,
+        "column": 3
       }
     },
     {
       "name": "uv_cond_t",
       "kind": "typedef",
-      "sizeOf": 48,
+      "sizeOf": 64,
       "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 140,
-        "column": 24
+        "file": "win.h",
+        "line": 257,
+        "column": 3
       }
     },
     {
@@ -12721,20 +12896,20 @@
       "sizeOf": 8,
       "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 137,
-        "column": 25
+        "file": "win.h",
+        "line": 240,
+        "column": 26
       }
     },
     {
       "name": "uv_mutex_t",
       "kind": "typedef",
-      "sizeOf": 64,
+      "sizeOf": 40,
       "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 137,
-        "column": 25
+        "file": "win.h",
+        "line": 240,
+        "column": 26
       }
     },
     {
@@ -12750,19 +12925,19 @@
       "sizeOf": 8,
       "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 162,
+        "file": "win.h",
+        "line": 282,
         "column": 3
       }
     },
     {
       "name": "uv_barrier_t",
       "kind": "typedef",
-      "sizeOf": 8,
+      "sizeOf": 64,
       "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 162,
+        "file": "win.h",
+        "line": 282,
         "column": 3
       }
     },
@@ -12772,20 +12947,20 @@
       "sizeOf": 8,
       "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 139,
-        "column": 27
+        "file": "win.h",
+        "line": 238,
+        "column": 16
       }
     },
     {
       "name": "uv_sem_t",
       "kind": "typedef",
-      "sizeOf": 4,
-      "alignOf": 4,
+      "sizeOf": 8,
+      "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 139,
-        "column": 27
+        "file": "win.h",
+        "line": 238,
+        "column": 16
       }
     },
     {
@@ -12794,20 +12969,20 @@
       "sizeOf": 8,
       "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 138,
-        "column": 26
+        "file": "win.h",
+        "line": 274,
+        "column": 3
       }
     },
     {
       "name": "uv_rwlock_t",
       "kind": "typedef",
-      "sizeOf": 200,
+      "sizeOf": 80,
       "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 138,
-        "column": 26
+        "file": "win.h",
+        "line": 274,
+        "column": 3
       }
     },
     {
@@ -12830,8 +13005,8 @@
       "sizeOf": 8,
       "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 221,
+        "file": "win.h",
+        "line": 323,
         "column": 3
       }
     },
@@ -12841,10 +13016,38 @@
       "sizeOf": 16,
       "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 221,
+        "file": "win.h",
+        "line": 323,
         "column": 3
       }
+    },
+    {
+      "name": "HMODULE",
+      "kind": "typedef",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "isSystem": true
+    },
+    {
+      "name": "HINSTANCE",
+      "kind": "typedef",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "isSystem": true
+    },
+    {
+      "name": "HINSTANCE__*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "isSystem": true
+    },
+    {
+      "name": "HINSTANCE__",
+      "kind": "record",
+      "sizeOf": 4,
+      "alignOf": 4,
+      "isSystem": true
     },
     {
       "name": "void**",
@@ -12874,7 +13077,7 @@
     {
       "name": "uv_random_t",
       "kind": "typedef",
-      "sizeOf": 144,
+      "sizeOf": 192,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -12935,7 +13138,7 @@
     {
       "name": "uv_fs_event_t",
       "kind": "typedef",
-      "sizeOf": 304,
+      "sizeOf": 272,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -12984,7 +13187,7 @@
     {
       "name": "uv_signal_t",
       "kind": "typedef",
-      "sizeOf": 152,
+      "sizeOf": 264,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -13050,7 +13253,7 @@
     {
       "name": "uv_stat_t",
       "kind": "typedef",
-      "sizeOf": 160,
+      "sizeOf": 128,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -13061,8 +13264,8 @@
     {
       "name": "uv_timespec_t",
       "kind": "typedef",
-      "sizeOf": 16,
-      "alignOf": 8,
+      "sizeOf": 8,
+      "alignOf": 4,
       "location": {
         "file": "uv.h",
         "line": 346,
@@ -13072,8 +13275,8 @@
     {
       "name": "long",
       "kind": "primitive",
-      "sizeOf": 8,
-      "alignOf": 8,
+      "sizeOf": 4,
+      "alignOf": 4,
       "isSystem": true
     },
     {
@@ -13090,7 +13293,7 @@
     {
       "name": "uv_fs_t",
       "kind": "typedef",
-      "sizeOf": 440,
+      "sizeOf": 456,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -13112,37 +13315,30 @@
     {
       "name": "uv_uid_t",
       "kind": "typedef",
-      "sizeOf": 4,
-      "alignOf": 4,
+      "sizeOf": 1,
+      "alignOf": 1,
       "location": {
-        "file": "unix.h",
-        "line": 169,
-        "column": 15
+        "file": "win.h",
+        "line": 296,
+        "column": 23
       }
     },
     {
       "name": "uv_gid_t",
       "kind": "typedef",
-      "sizeOf": 4,
-      "alignOf": 4,
+      "sizeOf": 1,
+      "alignOf": 1,
       "location": {
-        "file": "unix.h",
-        "line": 168,
-        "column": 15
+        "file": "win.h",
+        "line": 297,
+        "column": 23
       }
     },
     {
-      "name": "gid_t",
-      "kind": "typedef",
-      "sizeOf": 4,
-      "alignOf": 4,
-      "isSystem": true
-    },
-    {
-      "name": "uid_t",
-      "kind": "typedef",
-      "sizeOf": 4,
-      "alignOf": 4,
+      "name": "unsigned char",
+      "kind": "primitive",
+      "sizeOf": 1,
+      "alignOf": 1,
       "isSystem": true
     },
     {
@@ -13151,8 +13347,8 @@
       "sizeOf": 4,
       "alignOf": 4,
       "location": {
-        "file": "unix.h",
-        "line": 128,
+        "file": "win.h",
+        "line": 231,
         "column": 13
       }
     },
@@ -13170,7 +13366,7 @@
     {
       "name": "uv_dir_t",
       "kind": "typedef",
-      "sizeOf": 56,
+      "sizeOf": 656,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -13227,13 +13423,45 @@
       "sizeOf": 16,
       "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 126,
+        "file": "win.h",
+        "line": 229,
         "column": 3
       }
     },
     {
+      "name": "ULONG",
+      "kind": "typedef",
+      "sizeOf": 4,
+      "alignOf": 4,
+      "isSystem": true
+    },
+    {
+      "name": "DWORD",
+      "kind": "typedef",
+      "sizeOf": 4,
+      "alignOf": 4,
+      "isSystem": true
+    },
+    {
+      "name": "unsigned long",
+      "kind": "primitive",
+      "sizeOf": 4,
+      "alignOf": 4,
+      "isSystem": true
+    },
+    {
       "name": "ssize_t",
+      "kind": "typedef",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "win.h",
+        "line": 27,
+        "column": 18
+      }
+    },
+    {
+      "name": "intptr_t",
       "kind": "typedef",
       "sizeOf": 8,
       "alignOf": 8,
@@ -13435,17 +13663,10 @@
       "sizeOf": 4,
       "alignOf": 4,
       "location": {
-        "file": "unix.h",
-        "line": 131,
-        "column": 15
+        "file": "win.h",
+        "line": 234,
+        "column": 13
       }
-    },
-    {
-      "name": "pid_t",
-      "kind": "typedef",
-      "sizeOf": 4,
-      "alignOf": 4,
-      "isSystem": true
     },
     {
       "name": "uv_passwd_t*",
@@ -13461,7 +13682,7 @@
     {
       "name": "uv_passwd_t",
       "kind": "typedef",
-      "sizeOf": 40,
+      "sizeOf": 32,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -13483,7 +13704,7 @@
     {
       "name": "uv_rusage_t",
       "kind": "typedef",
-      "sizeOf": 144,
+      "sizeOf": 128,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -13494,8 +13715,8 @@
     {
       "name": "uv_timeval_t",
       "kind": "typedef",
-      "sizeOf": 16,
-      "alignOf": 8,
+      "sizeOf": 8,
+      "alignOf": 4,
       "location": {
         "file": "uv.h",
         "line": 1182,
@@ -13505,12 +13726,12 @@
     {
       "name": "uv_os_fd_t",
       "kind": "typedef",
-      "sizeOf": 4,
-      "alignOf": 4,
+      "sizeOf": 8,
+      "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 130,
-        "column": 13
+        "file": "win.h",
+        "line": 233,
+        "column": 16
       }
     },
     {
@@ -13541,7 +13762,7 @@
     {
       "name": "uv_req_t",
       "kind": "typedef",
-      "sizeOf": 64,
+      "sizeOf": 112,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -13563,7 +13784,7 @@
     {
       "name": "uv_work_t",
       "kind": "typedef",
-      "sizeOf": 128,
+      "sizeOf": 176,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -13607,7 +13828,7 @@
     {
       "name": "uv_process_t",
       "kind": "typedef",
-      "sizeOf": 136,
+      "sizeOf": 264,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -13706,7 +13927,7 @@
     {
       "name": "uv_stream_t",
       "kind": "typedef",
-      "sizeOf": 264,
+      "sizeOf": 272,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -13728,7 +13949,7 @@
     {
       "name": "uv_getnameinfo_t",
       "kind": "typedef",
-      "sizeOf": 1320,
+      "sizeOf": 1368,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -13758,7 +13979,7 @@
       "name": "sockaddr",
       "kind": "record",
       "sizeOf": 16,
-      "alignOf": 1,
+      "alignOf": 2,
       "isSystem": true
     },
     {
@@ -13789,7 +14010,7 @@
     {
       "name": "uv_getaddrinfo_t",
       "kind": "typedef",
-      "sizeOf": 160,
+      "sizeOf": 216,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -13822,7 +14043,7 @@
     {
       "name": "uv_timer_t",
       "kind": "typedef",
-      "sizeOf": 152,
+      "sizeOf": 160,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -13855,7 +14076,7 @@
     {
       "name": "uv_async_t",
       "kind": "typedef",
-      "sizeOf": 128,
+      "sizeOf": 224,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -13987,7 +14208,7 @@
     {
       "name": "uv_poll_t",
       "kind": "typedef",
-      "sizeOf": 168,
+      "sizeOf": 416,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -14009,13 +14230,34 @@
     {
       "name": "uv_os_sock_t",
       "kind": "typedef",
-      "sizeOf": 4,
-      "alignOf": 4,
+      "sizeOf": 8,
+      "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 129,
-        "column": 13
+        "file": "win.h",
+        "line": 232,
+        "column": 16
       }
+    },
+    {
+      "name": "SOCKET",
+      "kind": "typedef",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "isSystem": true
+    },
+    {
+      "name": "UINT_PTR",
+      "kind": "typedef",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "isSystem": true
+    },
+    {
+      "name": "unsigned long long",
+      "kind": "primitive",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "isSystem": true
     },
     {
       "name": "uv_pipe_t*",
@@ -14031,7 +14273,7 @@
     {
       "name": "uv_pipe_t",
       "kind": "typedef",
-      "sizeOf": 280,
+      "sizeOf": 576,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -14064,7 +14306,7 @@
     {
       "name": "uv_connect_t",
       "kind": "typedef",
-      "sizeOf": 96,
+      "sizeOf": 128,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -14152,7 +14394,7 @@
     {
       "name": "uv_udp_t",
       "kind": "typedef",
-      "sizeOf": 224,
+      "sizeOf": 424,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -14218,7 +14460,7 @@
     {
       "name": "uv_udp_send_t",
       "kind": "typedef",
-      "sizeOf": 320,
+      "sizeOf": 128,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -14262,7 +14504,7 @@
     {
       "name": "uv_tcp_t",
       "kind": "typedef",
-      "sizeOf": 264,
+      "sizeOf": 320,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -14295,7 +14537,7 @@
     {
       "name": "uv_write_t",
       "kind": "typedef",
-      "sizeOf": 192,
+      "sizeOf": 176,
       "alignOf": 8,
       "location": {
         "file": "uv.h",
@@ -14339,9 +14581,9 @@
     {
       "name": "uv_os_sock_t[2]",
       "kind": "array",
-      "sizeOf": 8,
-      "alignOf": 4,
-      "sizeOfElement": 4,
+      "sizeOf": 16,
+      "alignOf": 8,
+      "sizeOfElement": 8,
       "arraySize": 2,
       "location": {
         "file": "uv.h",
@@ -14368,9 +14610,9 @@
       "sizeOf": 8,
       "alignOf": 8,
       "location": {
-        "file": "unix.h",
-        "line": 130,
-        "column": 13
+        "file": "win.h",
+        "line": 233,
+        "column": 16
       }
     },
     {
@@ -14383,7 +14625,7 @@
     {
       "name": "FILE",
       "kind": "typedef",
-      "sizeOf": 152,
+      "sizeOf": 8,
       "alignOf": 8,
       "isSystem": true
     },
@@ -14423,7 +14665,7 @@
     {
       "name": "uv_shutdown_t",
       "kind": "typedef",
-      "sizeOf": 80,
+      "sizeOf": 128,
       "alignOf": 8,
       "location": {
         "file": "uv.h",

@@ -1,13 +1,16 @@
-﻿using System;
+﻿// Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
+
+using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using static uv;
 
 internal static unsafe class Program
 {
-    public static uv_loop_t* Loop; 
+    public static uv_loop_t* Loop;
     public static uv_idle_t* IdleHandle;
-    
+
     private static void Main()
     {
         Loop = CreateLoop();
@@ -15,7 +18,7 @@ internal static unsafe class Program
         RunLoop();
         FreeResources();
     }
-    
+
     private static uv_loop_t* CreateLoop()
     {
         var loop = (uv_loop_t*) Marshal.AllocHGlobal((int) uv_loop_size());
@@ -23,7 +26,7 @@ internal static unsafe class Program
         CheckErrorCode("uv_loop_init", errorCode);
         return loop;
     }
-    
+
     private static uv_idle_t* CreateIdleHandle(uv_loop_t* loop)
     {
         var handle = (uv_idle_t*) Marshal.AllocHGlobal((int) uv_handle_size(uv_handle_type.UV_IDLE));
@@ -36,13 +39,13 @@ internal static unsafe class Program
 
         return handle;
     }
-    
+
     private static void RunLoop()
     {
         var errorCode = uv_run(Loop, uv_run_mode.UV_RUN_DEFAULT);
         CheckErrorCode("uv_run (UV_RUN_DEFAULT)", errorCode);
     }
-    
+
     [UnmanagedCallersOnly]
     private static void OnIdle(uv_idle_t* handle)
     {
@@ -57,13 +60,13 @@ internal static unsafe class Program
                 Environment.Exit(0);
             }
         }
-        
+
         // REMOVE ME: Slow down the event loop for purposes of this demo by having the thread sleep
         Thread.Sleep(750);
 
         Console.WriteLine("Hello world!");
     }
-    
+
     private static void FreeResources()
     {
         Marshal.FreeHGlobal((IntPtr) Loop);

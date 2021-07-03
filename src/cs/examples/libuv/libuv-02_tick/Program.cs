@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
+
+using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using C2CS;
@@ -32,11 +35,11 @@ internal static unsafe class Program
         CheckErrorCode("uv_loop_init", errorCode);
         return loop;
     }
-    
+
     private static uv_timer_t* CreateTimerHandle(uv_loop_t* loop)
     {
         var handle = (uv_timer_t*) Marshal.AllocHGlobal((int) uv_handle_size(uv_handle_type.UV_TIMER));
-        
+
         var errorCode = uv_timer_init(loop, handle);
         CheckErrorCode("uv_timer_init", errorCode);
 
@@ -59,7 +62,7 @@ internal static unsafe class Program
 
         return handle;
     }
-  
+
     private static uv_prepare_t* CreatePrepareHandle(uv_loop_t* loop)
     {
         var handle = (uv_prepare_t*) Marshal.AllocHGlobal((int) uv_handle_size(uv_handle_type.UV_PREPARE));
@@ -72,11 +75,11 @@ internal static unsafe class Program
 
         return handle;
     }
-    
+
     private static uv_check_t* CreateCheckHandle(uv_loop_t* loop)
     {
         var handle = (uv_check_t*) Marshal.AllocHGlobal((int) uv_handle_size(uv_handle_type.UV_CHECK));
-        
+
         var errorCode = uv_check_init(loop, handle);
         CheckErrorCode("uv_check_init", errorCode);
 
@@ -106,12 +109,12 @@ internal static unsafe class Program
         // walk the list of handles with a callback for each
         uv_walk(Loop, new uv_walk_cb {Pointer = &TryCloseHandle}, default);
         CheckErrorCode("uv_walk", 0);
-        
+
         // run the loop one more time so handle close callbacks are executed
         var errorCode = uv_run(Loop, uv_run_mode.UV_RUN_NOWAIT);
         CheckErrorCode("uv_run (uv_run_mode.UV_RUN_NOWAIT)", errorCode);
     }
-    
+
     [UnmanagedCallersOnly]
     private static void OnIdle(uv_idle_t* handle)
     {
@@ -126,25 +129,25 @@ internal static unsafe class Program
                 Exit();
             }
         }
-        
+
         // REMOVE ME: Slow down the event loop for purposes of this demo by having the thread sleep
         Thread.Sleep(750);
 
         Console.WriteLine("Tick: idle; called before I/O.");
     }
-    
+
     [UnmanagedCallersOnly]
     private static void OnPrepare(uv_prepare_t* handle)
     {
         Console.WriteLine("Tick: prepare; called before I/O.");
     }
-    
+
     [UnmanagedCallersOnly]
     private static void OnCheck(uv_check_t* handle)
     {
         Console.WriteLine("Tick: check; called after I/O.");
     }
-    
+
     [UnmanagedCallersOnly]
     private static void OnTimer(uv_timer_t* handle)
     {
@@ -159,14 +162,14 @@ internal static unsafe class Program
         {
             return;
         }
-        
+
         var handleType = uv_handle_get_type(handle);
         var cStringHandleTypeName = uv_handle_type_name(handleType);
         var handleTypeName = Runtime.String(cStringHandleTypeName);
         uv_close(handle, new uv_close_cb {Pointer = &OnHandleClosed});
         Console.WriteLine($"Handle of type '{handleTypeName}' is closing.");
     }
-    
+
     [UnmanagedCallersOnly]
     private static void OnHandleClosed(uv_handle_t* handle)
     {

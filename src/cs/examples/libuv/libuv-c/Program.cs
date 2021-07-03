@@ -12,7 +12,7 @@ internal static class Program
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
         GenerateAbstractSyntaxTree(rootDirectory);
         GenerateBindingsCSharp(rootDirectory);
-        BuildLibrary(rootDirectory);
+        // BuildLibrary(rootDirectory);
     }
 
     private static void BuildLibrary(string rootDirectory)
@@ -72,7 +72,7 @@ uv_cond_t
 uv_barrier_t
 ";
         var argumentsArray =
-            arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split('\n', StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 
@@ -86,7 +86,7 @@ cs
 {rootDirectory}/src/cs/examples/libuv/libuv-cs/uv.cs
 ";
         var argumentsArray =
-            arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split('\n', StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 }

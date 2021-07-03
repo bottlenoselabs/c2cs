@@ -15,6 +15,7 @@ using System.Runtime.CompilerServices;
 using C2CS;
 
 #nullable enable
+#pragma warning disable 1591
 
 public static unsafe partial class uv
 {
@@ -115,7 +116,7 @@ public static unsafe partial class uv
     }
 
     // Function @ uv.h:1750:16
-    public static void uv_once(uv_once_t* guard, FnPtrVoid callback)
+    public static void uv_once(uv_once_t* guard, FnPtr_UV_Void callback)
     {
         _virtualTable.uv_once(guard, callback);
     }
@@ -751,7 +752,7 @@ public static unsafe partial class uv
     }
 
     // Function @ uv.h:1335:19
-    public static long uv_fs_get_result(uv_fs_t* param)
+    public static ssize_t uv_fs_get_result(uv_fs_t* param)
     {
         return _virtualTable.uv_fs_get_result(param);
     }
@@ -1912,7 +1913,7 @@ public static unsafe partial class uv
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_udp_recv_cb
     {
-        public delegate* unmanaged<uv_udp_t*, long, uv_buf_t*, sockaddr*, uint, void> Pointer;
+        public delegate* unmanaged<uv_udp_t*, ssize_t, uv_buf_t*, sockaddr*, uint, void> Pointer;
     }
 
     // FunctionPointer @ uv.h:309:16
@@ -1947,7 +1948,7 @@ public static unsafe partial class uv
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_read_cb
     {
-        public delegate* unmanaged<uv_stream_t*, long, uv_buf_t*, void> Pointer;
+        public delegate* unmanaged<uv_stream_t*, ssize_t, uv_buf_t*, void> Pointer;
     }
 
     // FunctionPointer @ uv.h:318:16
@@ -1999,6 +2000,13 @@ public static unsafe partial class uv
         public delegate* unmanaged<ulong, void*> Pointer;
     }
 
+    // FunctionPointer @ Generated
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_UV_Void
+    {
+        public delegate* unmanaged<void> Pointer;
+    }
+
     // Struct @ uv.h:1774:36
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct uv_thread_options_t
@@ -2021,19 +2029,27 @@ public static unsafe partial class uv
         public int tv_usec;
     }
 
-    // Struct @ unix.h:221:3
+    // Struct @ win.h:323:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct uv_lib_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public void* handle;
+        public HMODULE handle;
 
         [FieldOffset(8)] // size = 8, padding = 0
         public CString errmsg;
     }
 
+    // Struct @ System
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct HINSTANCE__
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int unused;
+    }
+
     // Struct @ uv.h:366:3
-    [StructLayout(LayoutKind.Explicit, Size = 160, Pack = 8)]
+    [StructLayout(LayoutKind.Explicit, Size = 128, Pack = 8)]
     public struct uv_stat_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
@@ -2072,28 +2088,28 @@ public static unsafe partial class uv
         [FieldOffset(88)] // size = 8, padding = 0
         public ulong st_gen;
 
-        [FieldOffset(96)] // size = 16, padding = 0
+        [FieldOffset(96)] // size = 8, padding = 0
         public uv_timespec_t st_atim;
 
-        [FieldOffset(112)] // size = 16, padding = 0
+        [FieldOffset(104)] // size = 8, padding = 0
         public uv_timespec_t st_mtim;
 
-        [FieldOffset(128)] // size = 16, padding = 0
+        [FieldOffset(112)] // size = 8, padding = 0
         public uv_timespec_t st_ctim;
 
-        [FieldOffset(144)] // size = 16, padding = 0
+        [FieldOffset(120)] // size = 8, padding = 0
         public uv_timespec_t st_birthtim;
     }
 
     // Struct @ uv.h:346:3
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct uv_timespec_t
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public long tv_sec;
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int tv_sec;
 
-        [FieldOffset(8)] // size = 8, padding = 0
-        public long tv_nsec;
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int tv_nsec;
     }
 
     // Struct @ uv.h:244:28
@@ -2107,15 +2123,15 @@ public static unsafe partial class uv
         public uv_dirent_type_t type;
     }
 
-    // Struct @ unix.h:126:3
+    // Struct @ win.h:229:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct uv_buf_t
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public CString @base;
+        [FieldOffset(0)] // size = 4, padding = 4
+        public ULONG len;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public ulong len;
+        public CString @base;
     }
 
     // Struct @ uv.h:246:29
@@ -2288,87 +2304,87 @@ public static unsafe partial class uv
     }
 
     // Struct @ uv.h:245:28
-    [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
+    [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
     public struct uv_passwd_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
         public CString username;
 
-        [FieldOffset(8)] // size = 8, padding = 0
-        public long uid;
+        [FieldOffset(8)] // size = 4, padding = 0
+        public int uid;
+
+        [FieldOffset(12)] // size = 4, padding = 0
+        public int gid;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public long gid;
-
-        [FieldOffset(24)] // size = 8, padding = 0
         public CString shell;
 
-        [FieldOffset(32)] // size = 8, padding = 0
+        [FieldOffset(24)] // size = 8, padding = 0
         public CString homedir;
     }
 
     // Struct @ uv.h:1206:3
-    [StructLayout(LayoutKind.Explicit, Size = 144, Pack = 8)]
+    [StructLayout(LayoutKind.Explicit, Size = 128, Pack = 8)]
     public struct uv_rusage_t
     {
-        [FieldOffset(0)] // size = 16, padding = 0
+        [FieldOffset(0)] // size = 8, padding = 0
         public uv_timeval_t ru_utime;
 
-        [FieldOffset(16)] // size = 16, padding = 0
+        [FieldOffset(8)] // size = 8, padding = 0
         public uv_timeval_t ru_stime;
 
-        [FieldOffset(32)] // size = 8, padding = 0
+        [FieldOffset(16)] // size = 8, padding = 0
         public ulong ru_maxrss;
 
-        [FieldOffset(40)] // size = 8, padding = 0
+        [FieldOffset(24)] // size = 8, padding = 0
         public ulong ru_ixrss;
 
-        [FieldOffset(48)] // size = 8, padding = 0
+        [FieldOffset(32)] // size = 8, padding = 0
         public ulong ru_idrss;
 
-        [FieldOffset(56)] // size = 8, padding = 0
+        [FieldOffset(40)] // size = 8, padding = 0
         public ulong ru_isrss;
 
-        [FieldOffset(64)] // size = 8, padding = 0
+        [FieldOffset(48)] // size = 8, padding = 0
         public ulong ru_minflt;
 
-        [FieldOffset(72)] // size = 8, padding = 0
+        [FieldOffset(56)] // size = 8, padding = 0
         public ulong ru_majflt;
 
-        [FieldOffset(80)] // size = 8, padding = 0
+        [FieldOffset(64)] // size = 8, padding = 0
         public ulong ru_nswap;
 
-        [FieldOffset(88)] // size = 8, padding = 0
+        [FieldOffset(72)] // size = 8, padding = 0
         public ulong ru_inblock;
 
-        [FieldOffset(96)] // size = 8, padding = 0
+        [FieldOffset(80)] // size = 8, padding = 0
         public ulong ru_oublock;
 
-        [FieldOffset(104)] // size = 8, padding = 0
+        [FieldOffset(88)] // size = 8, padding = 0
         public ulong ru_msgsnd;
 
-        [FieldOffset(112)] // size = 8, padding = 0
+        [FieldOffset(96)] // size = 8, padding = 0
         public ulong ru_msgrcv;
 
-        [FieldOffset(120)] // size = 8, padding = 0
+        [FieldOffset(104)] // size = 8, padding = 0
         public ulong ru_nsignals;
 
-        [FieldOffset(128)] // size = 8, padding = 0
+        [FieldOffset(112)] // size = 8, padding = 0
         public ulong ru_nvcsw;
 
-        [FieldOffset(136)] // size = 8, padding = 0
+        [FieldOffset(120)] // size = 8, padding = 0
         public ulong ru_nivcsw;
     }
 
     // Struct @ uv.h:1182:3
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct uv_timeval_t
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public long tv_sec;
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int tv_sec;
 
-        [FieldOffset(8)] // size = 8, padding = 0
-        public long tv_usec;
+        [FieldOffset(4)] // size = 4, padding = 0
+        public int tv_usec;
     }
 
     // Struct @ uv.h:1010:3
@@ -2399,10 +2415,10 @@ public static unsafe partial class uv
         [FieldOffset(48)] // size = 8, padding = 0
         public uv_stdio_container_t* stdio;
 
-        [FieldOffset(56)] // size = 4, padding = 0
+        [FieldOffset(56)] // size = 1, padding = 0
         public uv_uid_t uid;
 
-        [FieldOffset(60)] // size = 4, padding = 0
+        [FieldOffset(57)] // size = 1, padding = 6
         public uv_gid_t gid;
     }
 
@@ -2434,43 +2450,43 @@ public static unsafe partial class uv
     {
     }
 
-    // OpaqueType @ unix.h:141:23
+    // OpaqueType @ win.h:286:3
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_key_t
     {
     }
 
-    // OpaqueType @ unix.h:135:24
+    // OpaqueType @ win.h:293:3
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_once_t
     {
     }
 
-    // OpaqueType @ unix.h:137:25
+    // OpaqueType @ win.h:240:26
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_mutex_t
     {
     }
 
-    // OpaqueType @ unix.h:140:24
+    // OpaqueType @ win.h:257:3
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_cond_t
     {
     }
 
-    // OpaqueType @ unix.h:162:3
+    // OpaqueType @ win.h:282:3
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_barrier_t
     {
     }
 
-    // OpaqueType @ unix.h:139:27
+    // OpaqueType @ win.h:238:16
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_sem_t
     {
     }
 
-    // OpaqueType @ unix.h:138:26
+    // OpaqueType @ win.h:274:3
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_rwlock_t
     {
@@ -2638,40 +2654,73 @@ public static unsafe partial class uv
     {
     }
 
-    // Typedef @ unix.h:136:19
+    // Typedef @ win.h:236:16
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct uv_thread_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public pthread_t Data;
+        public HANDLE Data;
 
-        public static implicit operator pthread_t(uv_thread_t data) => data.Data;
-        public static implicit operator uv_thread_t(pthread_t data) => new() { Data = data };
+        public static implicit operator HANDLE(uv_thread_t data) => data.Data;
+        public static implicit operator uv_thread_t(HANDLE data) => new() { Data = data };
     }
 
-    // Typedef @ unix.h:168:15
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    // Typedef @ System
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct HANDLE
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public void* Data;
+
+        public static implicit operator void*(HANDLE data) => data.Data;
+        public static implicit operator HANDLE(void* data) => new() { Data = data };
+    }
+
+    // Typedef @ System
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct HMODULE
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public HINSTANCE Data;
+
+        public static implicit operator HINSTANCE(HMODULE data) => data.Data;
+        public static implicit operator HMODULE(HINSTANCE data) => new() { Data = data };
+    }
+
+    // Typedef @ System
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct HINSTANCE
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public HINSTANCE__* Data;
+
+        public static implicit operator HINSTANCE__*(HINSTANCE data) => data.Data;
+        public static implicit operator HINSTANCE(HINSTANCE__* data) => new() { Data = data };
+    }
+
+    // Typedef @ win.h:297:23
+    [StructLayout(LayoutKind.Explicit, Size = 1, Pack = 1)]
     public struct uv_gid_t
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public gid_t Data;
+        [FieldOffset(0)] // size = 1, padding = 0
+        public byte Data;
 
-        public static implicit operator gid_t(uv_gid_t data) => data.Data;
-        public static implicit operator uv_gid_t(gid_t data) => new() { Data = data };
+        public static implicit operator byte(uv_gid_t data) => data.Data;
+        public static implicit operator uv_gid_t(byte data) => new() { Data = data };
     }
 
-    // Typedef @ unix.h:169:15
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    // Typedef @ win.h:296:23
+    [StructLayout(LayoutKind.Explicit, Size = 1, Pack = 1)]
     public struct uv_uid_t
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uid_t Data;
+        [FieldOffset(0)] // size = 1, padding = 0
+        public byte Data;
 
-        public static implicit operator uid_t(uv_uid_t data) => data.Data;
-        public static implicit operator uv_uid_t(uid_t data) => new() { Data = data };
+        public static implicit operator byte(uv_uid_t data) => data.Data;
+        public static implicit operator uv_uid_t(byte data) => new() { Data = data };
     }
 
-    // Typedef @ unix.h:128:13
+    // Typedef @ win.h:231:13
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct uv_file
     {
@@ -2682,50 +2731,105 @@ public static unsafe partial class uv
         public static implicit operator uv_file(int data) => new() { Data = data };
     }
 
-    // Typedef @ unix.h:131:15
+    // Typedef @ System
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct ULONG
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public DWORD Data;
+
+        public static implicit operator DWORD(ULONG data) => data.Data;
+        public static implicit operator ULONG(DWORD data) => new() { Data = data };
+    }
+
+    // Typedef @ System
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct DWORD
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uint Data;
+
+        public static implicit operator uint(DWORD data) => data.Data;
+        public static implicit operator DWORD(uint data) => new() { Data = data };
+    }
+
+    // Typedef @ win.h:27:18
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct ssize_t
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public IntPtr Data;
+
+        public static implicit operator IntPtr(ssize_t data) => data.Data;
+        public static implicit operator ssize_t(IntPtr data) => new() { Data = data };
+    }
+
+    // Typedef @ win.h:234:13
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct uv_pid_t
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public pid_t Data;
+        public int Data;
 
-        public static implicit operator pid_t(uv_pid_t data) => data.Data;
-        public static implicit operator uv_pid_t(pid_t data) => new() { Data = data };
+        public static implicit operator int(uv_pid_t data) => data.Data;
+        public static implicit operator uv_pid_t(int data) => new() { Data = data };
     }
 
-    // Typedef @ unix.h:130:13
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    // Typedef @ win.h:233:16
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct uv_os_fd_t
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int Data;
+        [FieldOffset(0)] // size = 8, padding = 0
+        public HANDLE Data;
 
-        public static implicit operator int(uv_os_fd_t data) => data.Data;
-        public static implicit operator uv_os_fd_t(int data) => new() { Data = data };
+        public static implicit operator HANDLE(uv_os_fd_t data) => data.Data;
+        public static implicit operator uv_os_fd_t(HANDLE data) => new() { Data = data };
     }
 
-    // Typedef @ unix.h:129:13
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    // Typedef @ win.h:232:16
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct uv_os_sock_t
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int Data;
+        [FieldOffset(0)] // size = 8, padding = 0
+        public SOCKET Data;
 
-        public static implicit operator int(uv_os_sock_t data) => data.Data;
-        public static implicit operator uv_os_sock_t(int data) => new() { Data = data };
+        public static implicit operator SOCKET(uv_os_sock_t data) => data.Data;
+        public static implicit operator uv_os_sock_t(SOCKET data) => new() { Data = data };
+    }
+
+    // Typedef @ System
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct SOCKET
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public UINT_PTR Data;
+
+        public static implicit operator UINT_PTR(SOCKET data) => data.Data;
+        public static implicit operator SOCKET(UINT_PTR data) => new() { Data = data };
+    }
+
+    // Typedef @ System
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    public struct UINT_PTR
+    {
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ulong Data;
+
+        public static implicit operator ulong(UINT_PTR data) => data.Data;
+        public static implicit operator UINT_PTR(ulong data) => new() { Data = data };
     }
 
     // Enum @ uv.h:1164:3
-    public enum uv_dirent_type_t : uint
+    public enum uv_dirent_type_t : int
     {
-        UV_DIRENT_UNKNOWN = 0U,
-        UV_DIRENT_FILE = 1U,
-        UV_DIRENT_DIR = 2U,
-        UV_DIRENT_LINK = 3U,
-        UV_DIRENT_FIFO = 4U,
-        UV_DIRENT_SOCKET = 5U,
-        UV_DIRENT_CHAR = 6U,
-        UV_DIRENT_BLOCK = 7U
+        UV_DIRENT_UNKNOWN = 0,
+        UV_DIRENT_FILE = 1,
+        UV_DIRENT_DIR = 2,
+        UV_DIRENT_LINK = 3,
+        UV_DIRENT_FIFO = 4,
+        UV_DIRENT_SOCKET = 5,
+        UV_DIRENT_CHAR = 6,
+        UV_DIRENT_BLOCK = 7
     }
 
     // Enum @ uv.h:1312:3
@@ -2772,100 +2876,107 @@ public static unsafe partial class uv
     }
 
     // Enum @ uv.h:956:3
-    public enum uv_stdio_flags : uint
+    public enum uv_stdio_flags : int
     {
-        UV_IGNORE = 0U,
-        UV_CREATE_PIPE = 1U,
-        UV_INHERIT_FD = 2U,
-        UV_INHERIT_STREAM = 4U,
-        UV_READABLE_PIPE = 16U,
-        UV_WRITABLE_PIPE = 32U,
-        UV_NONBLOCK_PIPE = 64U,
-        UV_OVERLAPPED_PIPE = 64U
+        UV_IGNORE = 0,
+        UV_CREATE_PIPE = 1,
+        UV_INHERIT_FD = 2,
+        UV_INHERIT_STREAM = 4,
+        UV_READABLE_PIPE = 16,
+        UV_WRITABLE_PIPE = 32,
+        UV_NONBLOCK_PIPE = 64,
+        UV_OVERLAPPED_PIPE = 64
     }
 
     // Enum @ uv.h:196:3
-    public enum uv_handle_type : uint
+    public enum uv_handle_type : int
     {
-        UV_UNKNOWN_HANDLE = 0U,
-        UV_ASYNC = 1U,
-        UV_CHECK = 2U,
-        UV_FS_EVENT = 3U,
-        UV_FS_POLL = 4U,
-        UV_HANDLE = 5U,
-        UV_IDLE = 6U,
-        UV_NAMED_PIPE = 7U,
-        UV_POLL = 8U,
-        UV_PREPARE = 9U,
-        UV_PROCESS = 10U,
-        UV_STREAM = 11U,
-        UV_TCP = 12U,
-        UV_TIMER = 13U,
-        UV_TTY = 14U,
-        UV_UDP = 15U,
-        UV_SIGNAL = 16U,
-        UV_FILE = 17U,
-        UV_HANDLE_TYPE_MAX = 18U
+        UV_UNKNOWN_HANDLE = 0,
+        UV_ASYNC = 1,
+        UV_CHECK = 2,
+        UV_FS_EVENT = 3,
+        UV_FS_POLL = 4,
+        UV_HANDLE = 5,
+        UV_IDLE = 6,
+        UV_NAMED_PIPE = 7,
+        UV_POLL = 8,
+        UV_PREPARE = 9,
+        UV_PROCESS = 10,
+        UV_STREAM = 11,
+        UV_TCP = 12,
+        UV_TIMER = 13,
+        UV_TTY = 14,
+        UV_UDP = 15,
+        UV_SIGNAL = 16,
+        UV_FILE = 17,
+        UV_HANDLE_TYPE_MAX = 18
     }
 
     // Enum @ uv.h:752:3
-    public enum uv_tty_vtermstate_t : uint
+    public enum uv_tty_vtermstate_t : int
     {
-        UV_TTY_SUPPORTED = 0U,
-        UV_TTY_UNSUPPORTED = 1U
+        UV_TTY_SUPPORTED = 0,
+        UV_TTY_UNSUPPORTED = 1
     }
 
     // Enum @ uv.h:740:3
-    public enum uv_tty_mode_t : uint
+    public enum uv_tty_mode_t : int
     {
-        UV_TTY_MODE_NORMAL = 0U,
-        UV_TTY_MODE_RAW = 1U,
-        UV_TTY_MODE_IO = 2U
+        UV_TTY_MODE_NORMAL = 0,
+        UV_TTY_MODE_RAW = 1,
+        UV_TTY_MODE_IO = 2
     }
 
     // Enum @ uv.h:385:3
-    public enum uv_membership : uint
+    public enum uv_membership : int
     {
-        UV_LEAVE_GROUP = 0U,
-        UV_JOIN_GROUP = 1U
+        UV_LEAVE_GROUP = 0,
+        UV_JOIN_GROUP = 1
     }
 
     // Enum @ uv.h:205:3
-    public enum uv_req_type : uint
+    public enum uv_req_type : int
     {
-        UV_UNKNOWN_REQ = 0U,
-        UV_REQ = 1U,
-        UV_CONNECT = 2U,
-        UV_WRITE = 3U,
-        UV_SHUTDOWN = 4U,
-        UV_UDP_SEND = 5U,
-        UV_FS = 6U,
-        UV_WORK = 7U,
-        UV_GETADDRINFO = 8U,
-        UV_GETNAMEINFO = 9U,
-        UV_RANDOM = 10U,
-        UV_REQ_TYPE_MAX = 11U
+        UV_UNKNOWN_REQ = 0,
+        UV_REQ = 1,
+        UV_CONNECT = 2,
+        UV_WRITE = 3,
+        UV_SHUTDOWN = 4,
+        UV_UDP_SEND = 5,
+        UV_FS = 6,
+        UV_WORK = 7,
+        UV_GETADDRINFO = 8,
+        UV_GETNAMEINFO = 9,
+        UV_RANDOM = 10,
+        UV_ACCEPT = 11,
+        UV_FS_EVENT_REQ = 12,
+        UV_POLL_REQ = 13,
+        UV_PROCESS_EXIT = 14,
+        UV_READ = 15,
+        UV_UDP_RECV = 16,
+        UV_WAKEUP = 17,
+        UV_SIGNAL_REQ = 18,
+        UV_REQ_TYPE_MAX = 19
     }
 
     // Enum @ uv.h:258:3
-    public enum uv_run_mode : uint
+    public enum uv_run_mode : int
     {
-        UV_RUN_DEFAULT = 0U,
-        UV_RUN_ONCE = 1U,
-        UV_RUN_NOWAIT = 2U
+        UV_RUN_DEFAULT = 0,
+        UV_RUN_ONCE = 1,
+        UV_RUN_NOWAIT = 2
     }
 
     // Enum @ uv.h:252:3
-    public enum uv_loop_option : uint
+    public enum uv_loop_option : int
     {
-        UV_LOOP_BLOCK_SIGNAL = 0U,
-        UV_METRICS_IDLE_TIME = 1U
+        UV_LOOP_BLOCK_SIGNAL = 0,
+        UV_METRICS_IDLE_TIME = 1
     }
 
     private static void _LoadVirtualTable()
     {
         #region "Functions"
-
         _virtualTable.uv_loop_set_data = (delegate* unmanaged[Cdecl]<uv_loop_t*, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_loop_set_data");
         _virtualTable.uv_loop_get_data = (delegate* unmanaged[Cdecl]<uv_loop_t*, void*>)Runtime.LibraryGetExport(_libraryHandle, "uv_loop_get_data");
         _virtualTable.uv_thread_equal = (delegate* unmanaged[Cdecl]<uv_thread_t*, uv_thread_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_thread_equal");
@@ -2878,7 +2989,7 @@ public static unsafe partial class uv
         _virtualTable.uv_key_get = (delegate* unmanaged[Cdecl]<uv_key_t*, void*>)Runtime.LibraryGetExport(_libraryHandle, "uv_key_get");
         _virtualTable.uv_key_delete = (delegate* unmanaged[Cdecl]<uv_key_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_key_delete");
         _virtualTable.uv_key_create = (delegate* unmanaged[Cdecl]<uv_key_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_key_create");
-        _virtualTable.uv_once = (delegate* unmanaged[Cdecl]<uv_once_t*, FnPtrVoid, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_once");
+        _virtualTable.uv_once = (delegate* unmanaged[Cdecl]<uv_once_t*, FnPtr_UV_Void, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_once");
         _virtualTable.uv_cond_timedwait = (delegate* unmanaged[Cdecl]<uv_cond_t*, uv_mutex_t*, ulong, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_cond_timedwait");
         _virtualTable.uv_cond_wait = (delegate* unmanaged[Cdecl]<uv_cond_t*, uv_mutex_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_cond_wait");
         _virtualTable.uv_barrier_wait = (delegate* unmanaged[Cdecl]<uv_barrier_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_barrier_wait");
@@ -2984,7 +3095,7 @@ public static unsafe partial class uv
         _virtualTable.uv_fs_get_path = (delegate* unmanaged[Cdecl]<uv_fs_t*, CString>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_get_path");
         _virtualTable.uv_fs_get_ptr = (delegate* unmanaged[Cdecl]<uv_fs_t*, void*>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_get_ptr");
         _virtualTable.uv_fs_get_system_error = (delegate* unmanaged[Cdecl]<uv_fs_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_get_system_error");
-        _virtualTable.uv_fs_get_result = (delegate* unmanaged[Cdecl]<uv_fs_t*, long>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_get_result");
+        _virtualTable.uv_fs_get_result = (delegate* unmanaged[Cdecl]<uv_fs_t*, ssize_t>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_get_result");
         _virtualTable.uv_fs_get_type = (delegate* unmanaged[Cdecl]<uv_fs_t*, uv_fs_type>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_get_type");
         _virtualTable.uv_metrics_idle_time = (delegate* unmanaged[Cdecl]<uv_loop_t*, ulong>)Runtime.LibraryGetExport(_libraryHandle, "uv_metrics_idle_time");
         _virtualTable.uv_os_uname = (delegate* unmanaged[Cdecl]<uv_utsname_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_os_uname");
@@ -3156,12 +3267,9 @@ public static unsafe partial class uv
         _virtualTable.uv_library_shutdown = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "uv_library_shutdown");
         _virtualTable.uv_version_string = (delegate* unmanaged[Cdecl]<CString>)Runtime.LibraryGetExport(_libraryHandle, "uv_version_string");
         _virtualTable.uv_version = (delegate* unmanaged[Cdecl]<uint>)Runtime.LibraryGetExport(_libraryHandle, "uv_version");
-
         #endregion
 
         #region "Variables"
-
-
 
         #endregion
     }
@@ -3182,7 +3290,7 @@ public static unsafe partial class uv
         _virtualTable.uv_key_get = (delegate* unmanaged[Cdecl]<uv_key_t*, void*>)IntPtr.Zero;
         _virtualTable.uv_key_delete = (delegate* unmanaged[Cdecl]<uv_key_t*, void>)IntPtr.Zero;
         _virtualTable.uv_key_create = (delegate* unmanaged[Cdecl]<uv_key_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_once = (delegate* unmanaged[Cdecl]<uv_once_t*, FnPtrVoid, void>)IntPtr.Zero;
+        _virtualTable.uv_once = (delegate* unmanaged[Cdecl]<uv_once_t*, FnPtr_UV_Void, void>)IntPtr.Zero;
         _virtualTable.uv_cond_timedwait = (delegate* unmanaged[Cdecl]<uv_cond_t*, uv_mutex_t*, ulong, int>)IntPtr.Zero;
         _virtualTable.uv_cond_wait = (delegate* unmanaged[Cdecl]<uv_cond_t*, uv_mutex_t*, void>)IntPtr.Zero;
         _virtualTable.uv_barrier_wait = (delegate* unmanaged[Cdecl]<uv_barrier_t*, int>)IntPtr.Zero;
@@ -3288,7 +3396,7 @@ public static unsafe partial class uv
         _virtualTable.uv_fs_get_path = (delegate* unmanaged[Cdecl]<uv_fs_t*, CString>)IntPtr.Zero;
         _virtualTable.uv_fs_get_ptr = (delegate* unmanaged[Cdecl]<uv_fs_t*, void*>)IntPtr.Zero;
         _virtualTable.uv_fs_get_system_error = (delegate* unmanaged[Cdecl]<uv_fs_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_get_result = (delegate* unmanaged[Cdecl]<uv_fs_t*, long>)IntPtr.Zero;
+        _virtualTable.uv_fs_get_result = (delegate* unmanaged[Cdecl]<uv_fs_t*, ssize_t>)IntPtr.Zero;
         _virtualTable.uv_fs_get_type = (delegate* unmanaged[Cdecl]<uv_fs_t*, uv_fs_type>)IntPtr.Zero;
         _virtualTable.uv_metrics_idle_time = (delegate* unmanaged[Cdecl]<uv_loop_t*, ulong>)IntPtr.Zero;
         _virtualTable.uv_os_uname = (delegate* unmanaged[Cdecl]<uv_utsname_t*, int>)IntPtr.Zero;
@@ -3491,7 +3599,7 @@ public static unsafe partial class uv
         public delegate* unmanaged[Cdecl]<uv_key_t*, void*> uv_key_get;
         public delegate* unmanaged[Cdecl]<uv_key_t*, void> uv_key_delete;
         public delegate* unmanaged[Cdecl]<uv_key_t*, int> uv_key_create;
-        public delegate* unmanaged[Cdecl]<uv_once_t*, FnPtrVoid, void> uv_once;
+        public delegate* unmanaged[Cdecl]<uv_once_t*, FnPtr_UV_Void, void> uv_once;
         public delegate* unmanaged[Cdecl]<uv_cond_t*, uv_mutex_t*, ulong, int> uv_cond_timedwait;
         public delegate* unmanaged[Cdecl]<uv_cond_t*, uv_mutex_t*, void> uv_cond_wait;
         public delegate* unmanaged[Cdecl]<uv_barrier_t*, int> uv_barrier_wait;
@@ -3597,7 +3705,7 @@ public static unsafe partial class uv
         public delegate* unmanaged[Cdecl]<uv_fs_t*, CString> uv_fs_get_path;
         public delegate* unmanaged[Cdecl]<uv_fs_t*, void*> uv_fs_get_ptr;
         public delegate* unmanaged[Cdecl]<uv_fs_t*, int> uv_fs_get_system_error;
-        public delegate* unmanaged[Cdecl]<uv_fs_t*, long> uv_fs_get_result;
+        public delegate* unmanaged[Cdecl]<uv_fs_t*, ssize_t> uv_fs_get_result;
         public delegate* unmanaged[Cdecl]<uv_fs_t*, uv_fs_type> uv_fs_get_type;
         public delegate* unmanaged[Cdecl]<uv_loop_t*, ulong> uv_metrics_idle_time;
         public delegate* unmanaged[Cdecl]<uv_utsname_t*, int> uv_os_uname;
