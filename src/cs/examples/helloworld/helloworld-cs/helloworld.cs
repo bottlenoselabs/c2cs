@@ -15,6 +15,7 @@ using System.Runtime.CompilerServices;
 using C2CS;
 
 #nullable enable
+#pragma warning disable 1591
 
 public static unsafe partial class helloworld
 {
@@ -51,14 +52,10 @@ public static unsafe partial class helloworld
     private static void _LoadVirtualTable()
     {
         #region "Functions"
-
         _virtualTable.hello_world = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "hello_world");
-
         #endregion
 
         #region "Variables"
-
-
 
         #endregion
     }

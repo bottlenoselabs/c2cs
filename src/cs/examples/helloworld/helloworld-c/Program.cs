@@ -10,9 +10,9 @@ internal static class Program
     private static void Main()
     {
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
-        BuildLibrary(rootDirectory);
         GenerateAbstractSyntaxTree(rootDirectory);
         GenerateBindingsCSharp(rootDirectory);
+        BuildLibrary(rootDirectory);
     }
 
     private static void BuildLibrary(string rootDirectory)
@@ -32,7 +32,7 @@ ast
 {rootDirectory}/src/cs/examples/helloworld/helloworld-c/ast.json
 ";
         var argumentsArray =
-            arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split('\n', StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 
@@ -46,7 +46,7 @@ cs
 {rootDirectory}/src/cs/examples/helloworld/helloworld-cs/helloworld.cs
 ";
         var argumentsArray =
-            arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split('\n', StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 }
