@@ -161,17 +161,6 @@ public static unsafe class ClangExtensions
         };
     }
 
-    public static CXType ResultType(this CXType type)
-    {
-        var resultType = clang_getResultType(type);
-        if (resultType.kind == CXTypeKind.CXType_Pointer)
-        {
-            resultType = clang_getPointeeType(resultType);
-        }
-
-        return resultType;
-    }
-
     public static string Name(this CXType type, CXCursor? cursor = null)
     {
         var spellingC = clang_getTypeSpelling(type);

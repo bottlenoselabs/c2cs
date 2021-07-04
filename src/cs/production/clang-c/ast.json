@@ -1,5 +1,5 @@
 {
-  "fileName": "clang-c/Index.h",
+  "fileName": "clang-c\\Index.h",
   "functions": [
     {
       "name": "clang_Type_visitFields",
@@ -7935,9 +7935,9 @@
           "name": "size",
           "type": "size_t*",
           "location": {
-            "file": "_size_t.h",
-            "line": 31,
-            "column": 32,
+            "file": "vcruntime.h",
+            "line": 193,
+            "column": 30,
             "isSystem": true
           }
         }
@@ -8595,7 +8595,7 @@
   "functionPointers": [
     {
       "name": "CXFieldVisitor",
-      "type": "CXFieldVisitor",
+      "type": "CXVisitorResult (CXCursor, CXClientData)",
       "returnType": "CXVisitorResult",
       "parameters": [
         {
@@ -8624,8 +8624,305 @@
       }
     },
     {
+      "name": "",
+      "type": "void (CXClientData, CXIdxEntityRefInfo *)",
+      "returnType": "void",
+      "parameters": [
+        {
+          "name": "client_data",
+          "type": "CXClientData",
+          "location": {
+            "file": "Index.h",
+            "line": 92,
+            "column": 15
+          }
+        },
+        {
+          "name": "",
+          "type": "CXIdxEntityRefInfo*",
+          "location": {
+            "file": "Index.h",
+            "line": 6487,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "Index.h",
+        "line": 6536,
+        "column": 10
+      }
+    },
+    {
+      "name": "",
+      "type": "void (CXClientData, CXIdxDeclInfo *)",
+      "returnType": "void",
+      "parameters": [
+        {
+          "name": "client_data",
+          "type": "CXClientData",
+          "location": {
+            "file": "Index.h",
+            "line": 92,
+            "column": 15
+          }
+        },
+        {
+          "name": "",
+          "type": "CXIdxDeclInfo*",
+          "location": {
+            "file": "Index.h",
+            "line": 6360,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "Index.h",
+        "line": 6531,
+        "column": 10
+      }
+    },
+    {
+      "name": "",
+      "type": "CXIdxClientContainer (CXClientData, void *)",
+      "returnType": "CXIdxClientContainer",
+      "parameters": [
+        {
+          "name": "client_data",
+          "type": "CXClientData",
+          "location": {
+            "file": "Index.h",
+            "line": 92,
+            "column": 15
+          }
+        },
+        {
+          "name": "reserved",
+          "type": "void*",
+          "location": {
+            "file": "Index.h",
+            "line": 6529,
+            "column": 56
+          }
+        }
+      ],
+      "location": {
+        "file": "Index.h",
+        "line": 6528,
+        "column": 26
+      }
+    },
+    {
+      "name": "",
+      "type": "CXIdxClientASTFile (CXClientData, CXIdxImportedASTFileInfo *)",
+      "returnType": "CXIdxClientASTFile",
+      "parameters": [
+        {
+          "name": "client_data",
+          "type": "CXClientData",
+          "location": {
+            "file": "Index.h",
+            "line": 92,
+            "column": 15
+          }
+        },
+        {
+          "name": "",
+          "type": "CXIdxImportedASTFileInfo*",
+          "location": {
+            "file": "Index.h",
+            "line": 6237,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "Index.h",
+        "line": 6522,
+        "column": 24
+      }
+    },
+    {
+      "name": "",
+      "type": "CXIdxClientFile (CXClientData, CXIdxIncludedFileInfo *)",
+      "returnType": "CXIdxClientFile",
+      "parameters": [
+        {
+          "name": "client_data",
+          "type": "CXClientData",
+          "location": {
+            "file": "Index.h",
+            "line": 92,
+            "column": 15
+          }
+        },
+        {
+          "name": "",
+          "type": "CXIdxIncludedFileInfo*",
+          "location": {
+            "file": "Index.h",
+            "line": 6213,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "Index.h",
+        "line": 6511,
+        "column": 21
+      }
+    },
+    {
+      "name": "",
+      "type": "CXIdxClientFile (CXClientData, CXFile, void *)",
+      "returnType": "CXIdxClientFile",
+      "parameters": [
+        {
+          "name": "client_data",
+          "type": "CXClientData",
+          "location": {
+            "file": "Index.h",
+            "line": 92,
+            "column": 15
+          }
+        },
+        {
+          "name": "mainFile",
+          "type": "CXFile",
+          "location": {
+            "file": "Index.h",
+            "line": 353,
+            "column": 15
+          }
+        },
+        {
+          "name": "reserved",
+          "type": "void*",
+          "location": {
+            "file": "Index.h",
+            "line": 6506,
+            "column": 44
+          }
+        }
+      ],
+      "location": {
+        "file": "Index.h",
+        "line": 6505,
+        "column": 21
+      }
+    },
+    {
+      "name": "",
+      "type": "void (CXClientData, CXDiagnosticSet, void *)",
+      "returnType": "void",
+      "parameters": [
+        {
+          "name": "client_data",
+          "type": "CXClientData",
+          "location": {
+            "file": "Index.h",
+            "line": 92,
+            "column": 15
+          }
+        },
+        {
+          "name": "",
+          "type": "CXDiagnosticSet",
+          "location": {
+            "file": "Index.h",
+            "line": 780,
+            "column": 15
+          }
+        },
+        {
+          "name": "reserved",
+          "type": "void*",
+          "location": {
+            "file": "Index.h",
+            "line": 6503,
+            "column": 71
+          }
+        }
+      ],
+      "location": {
+        "file": "Index.h",
+        "line": 6503,
+        "column": 10
+      }
+    },
+    {
+      "name": "",
+      "type": "int (CXClientData, void *)",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "client_data",
+          "type": "CXClientData",
+          "location": {
+            "file": "Index.h",
+            "line": 92,
+            "column": 15
+          }
+        },
+        {
+          "name": "reserved",
+          "type": "void*",
+          "location": {
+            "file": "Index.h",
+            "line": 6498,
+            "column": 53
+          }
+        }
+      ],
+      "location": {
+        "file": "Index.h",
+        "line": 6498,
+        "column": 9
+      }
+    },
+    {
+      "name": "",
+      "type": "CXVisitorResult (void *, CXCursor, CXSourceRange)",
+      "returnType": "CXVisitorResult",
+      "parameters": [
+        {
+          "name": "context",
+          "type": "void*",
+          "location": {
+            "file": "Index.h",
+            "line": 6091,
+            "column": 39
+          }
+        },
+        {
+          "name": "",
+          "type": "CXCursor",
+          "location": {
+            "file": "Index.h",
+            "line": 2686,
+            "column": 3
+          }
+        },
+        {
+          "name": "",
+          "type": "CXSourceRange",
+          "location": {
+            "file": "Index.h",
+            "line": 471,
+            "column": 3
+          }
+        }
+      ],
+      "location": {
+        "file": "Index.h",
+        "line": 6091,
+        "column": 26
+      }
+    },
+    {
       "name": "CXInclusionVisitor",
-      "type": "CXInclusionVisitor",
+      "type": "void (CXFile, CXSourceLocation *, unsigned int, CXClientData)",
       "returnType": "void",
       "parameters": [
         {
@@ -8672,8 +8969,29 @@
       }
     },
     {
+      "name": "",
+      "type": "void (void *)",
+      "returnType": "void",
+      "parameters": [
+        {
+          "name": "",
+          "type": "void*",
+          "location": {
+            "file": "Index.h",
+            "line": 5092,
+            "column": 60
+          }
+        }
+      ],
+      "location": {
+        "file": "Index.h",
+        "line": 5092,
+        "column": 50
+      }
+    },
+    {
       "name": "CXCursorVisitor",
-      "type": "CXCursorVisitor",
+      "type": "CXChildVisitResult (CXCursor, CXCursor, CXClientData)",
       "returnType": "CXChildVisitResult",
       "parameters": [
         {
@@ -8746,7 +9064,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 2686,
@@ -8778,7 +9095,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 3409,
@@ -8810,7 +9126,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 6188,
@@ -8842,7 +9157,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 459,
@@ -8933,274 +9247,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [
-        {
-          "name": "abortQuery",
-          "type": "int (CXClientData, void *)",
-          "returnType": "int",
-          "parameters": [
-            {
-              "name": "client_data",
-              "type": "CXClientData",
-              "location": {
-                "file": "Index.h",
-                "line": 92,
-                "column": 15
-              }
-            },
-            {
-              "name": "reserved",
-              "type": "void*",
-              "location": {
-                "file": "Index.h",
-                "line": 6498,
-                "column": 53
-              }
-            }
-          ],
-          "isWrapped": true,
-          "location": {
-            "file": "Index.h",
-            "line": 6498,
-            "column": 9
-          }
-        },
-        {
-          "name": "diagnostic",
-          "type": "void (CXClientData, CXDiagnosticSet, void *)",
-          "returnType": "void",
-          "parameters": [
-            {
-              "name": "client_data",
-              "type": "CXClientData",
-              "location": {
-                "file": "Index.h",
-                "line": 92,
-                "column": 15
-              }
-            },
-            {
-              "name": "",
-              "type": "CXDiagnosticSet",
-              "location": {
-                "file": "Index.h",
-                "line": 780,
-                "column": 15
-              }
-            },
-            {
-              "name": "reserved",
-              "type": "void*",
-              "location": {
-                "file": "Index.h",
-                "line": 6503,
-                "column": 71
-              }
-            }
-          ],
-          "isWrapped": true,
-          "location": {
-            "file": "Index.h",
-            "line": 6503,
-            "column": 10
-          }
-        },
-        {
-          "name": "enteredMainFile",
-          "type": "CXIdxClientFile (CXClientData, CXFile, void *)",
-          "returnType": "CXIdxClientFile",
-          "parameters": [
-            {
-              "name": "client_data",
-              "type": "CXClientData",
-              "location": {
-                "file": "Index.h",
-                "line": 92,
-                "column": 15
-              }
-            },
-            {
-              "name": "mainFile",
-              "type": "CXFile",
-              "location": {
-                "file": "Index.h",
-                "line": 353,
-                "column": 15
-              }
-            },
-            {
-              "name": "reserved",
-              "type": "void*",
-              "location": {
-                "file": "Index.h",
-                "line": 6506,
-                "column": 44
-              }
-            }
-          ],
-          "isWrapped": true,
-          "location": {
-            "file": "Index.h",
-            "line": 6505,
-            "column": 21
-          }
-        },
-        {
-          "name": "ppIncludedFile",
-          "type": "CXIdxClientFile (CXClientData, CXIdxIncludedFileInfo *)",
-          "returnType": "CXIdxClientFile",
-          "parameters": [
-            {
-              "name": "client_data",
-              "type": "CXClientData",
-              "location": {
-                "file": "Index.h",
-                "line": 92,
-                "column": 15
-              }
-            },
-            {
-              "name": "",
-              "type": "CXIdxIncludedFileInfo*",
-              "location": {
-                "file": "Index.h",
-                "line": 6213,
-                "column": 3
-              }
-            }
-          ],
-          "isWrapped": true,
-          "location": {
-            "file": "Index.h",
-            "line": 6511,
-            "column": 21
-          }
-        },
-        {
-          "name": "importedASTFile",
-          "type": "CXIdxClientASTFile (CXClientData, CXIdxImportedASTFileInfo *)",
-          "returnType": "CXIdxClientASTFile",
-          "parameters": [
-            {
-              "name": "client_data",
-              "type": "CXClientData",
-              "location": {
-                "file": "Index.h",
-                "line": 92,
-                "column": 15
-              }
-            },
-            {
-              "name": "",
-              "type": "CXIdxImportedASTFileInfo*",
-              "location": {
-                "file": "Index.h",
-                "line": 6237,
-                "column": 3
-              }
-            }
-          ],
-          "isWrapped": true,
-          "location": {
-            "file": "Index.h",
-            "line": 6522,
-            "column": 24
-          }
-        },
-        {
-          "name": "startedTranslationUnit",
-          "type": "CXIdxClientContainer (CXClientData, void *)",
-          "returnType": "CXIdxClientContainer",
-          "parameters": [
-            {
-              "name": "client_data",
-              "type": "CXClientData",
-              "location": {
-                "file": "Index.h",
-                "line": 92,
-                "column": 15
-              }
-            },
-            {
-              "name": "reserved",
-              "type": "void*",
-              "location": {
-                "file": "Index.h",
-                "line": 6529,
-                "column": 56
-              }
-            }
-          ],
-          "isWrapped": true,
-          "location": {
-            "file": "Index.h",
-            "line": 6528,
-            "column": 26
-          }
-        },
-        {
-          "name": "indexDeclaration",
-          "type": "void (CXClientData, CXIdxDeclInfo *)",
-          "returnType": "void",
-          "parameters": [
-            {
-              "name": "client_data",
-              "type": "CXClientData",
-              "location": {
-                "file": "Index.h",
-                "line": 92,
-                "column": 15
-              }
-            },
-            {
-              "name": "",
-              "type": "CXIdxDeclInfo*",
-              "location": {
-                "file": "Index.h",
-                "line": 6360,
-                "column": 3
-              }
-            }
-          ],
-          "isWrapped": true,
-          "location": {
-            "file": "Index.h",
-            "line": 6531,
-            "column": 10
-          }
-        },
-        {
-          "name": "indexEntityReference",
-          "type": "void (CXClientData, CXIdxEntityRefInfo *)",
-          "returnType": "void",
-          "parameters": [
-            {
-              "name": "client_data",
-              "type": "CXClientData",
-              "location": {
-                "file": "Index.h",
-                "line": 92,
-                "column": 15
-              }
-            },
-            {
-              "name": "",
-              "type": "CXIdxEntityRefInfo*",
-              "location": {
-                "file": "Index.h",
-                "line": 6487,
-                "column": 3
-              }
-            }
-          ],
-          "isWrapped": true,
-          "location": {
-            "file": "Index.h",
-            "line": 6536,
-            "column": 10
-          }
-        }
-      ],
       "location": {
         "file": "Index.h",
         "line": 6539,
@@ -9283,7 +9329,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 6487,
@@ -9304,7 +9349,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 6325,
@@ -9397,7 +9441,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 6321,
@@ -9439,7 +9482,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 6310,
@@ -9582,7 +9624,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 6360,
@@ -9634,7 +9675,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 6237,
@@ -9706,7 +9746,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 6213,
@@ -9739,6 +9778,7 @@
           "name": "Length",
           "type": "unsigned long",
           "offset": 16,
+          "padding": 4,
           "location": {
             "file": "Index.h",
             "line": 117,
@@ -9747,7 +9787,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 101,
@@ -9789,7 +9828,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 6414,
@@ -9830,7 +9868,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 6377,
@@ -9881,7 +9918,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 6332,
@@ -9922,7 +9958,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 6408,
@@ -9954,7 +9989,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 6388,
@@ -9995,7 +10029,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 6383,
@@ -10056,7 +10089,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 6402,
@@ -10088,7 +10120,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 6371,
@@ -10129,7 +10160,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 6394,
@@ -10160,48 +10190,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [
-        {
-          "name": "visit",
-          "type": "CXVisitorResult (void *, CXCursor, CXSourceRange)",
-          "returnType": "CXVisitorResult",
-          "parameters": [
-            {
-              "name": "context",
-              "type": "void*",
-              "location": {
-                "file": "Index.h",
-                "line": 6091,
-                "column": 39
-              }
-            },
-            {
-              "name": "",
-              "type": "CXCursor",
-              "location": {
-                "file": "Index.h",
-                "line": 2686,
-                "column": 3
-              }
-            },
-            {
-              "name": "",
-              "type": "CXSourceRange",
-              "location": {
-                "file": "Index.h",
-                "line": 471,
-                "column": 3
-              }
-            }
-          ],
-          "isWrapped": true,
-          "location": {
-            "file": "Index.h",
-            "line": 6091,
-            "column": 26
-          }
-        }
-      ],
       "location": {
         "file": "Index.h",
         "line": 6092,
@@ -10242,7 +10230,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 471,
@@ -10274,7 +10261,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "CXString.h",
         "line": 40,
@@ -10306,7 +10292,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 5474,
@@ -10338,7 +10323,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 5147,
@@ -10369,7 +10353,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 4974,
@@ -10401,7 +10384,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "CXString.h",
         "line": 45,
@@ -10472,7 +10454,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 2894,
@@ -10513,7 +10494,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 167,
@@ -10555,7 +10535,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 1661,
@@ -10568,7 +10547,6 @@
         {
           "name": "kind",
           "type": "CXTUResourceUsageKind",
-          "padding": 4,
           "location": {
             "file": "Index.h",
             "line": 1609,
@@ -10578,7 +10556,7 @@
         {
           "name": "amount",
           "type": "unsigned long",
-          "offset": 8,
+          "offset": 4,
           "location": {
             "file": "Index.h",
             "line": 1644,
@@ -10587,7 +10565,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 1645,
@@ -10619,7 +10596,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 700,
@@ -10640,7 +10616,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "Index.h",
         "line": 371,
@@ -10652,7 +10627,7 @@
     {
       "name": "CXVisitorResult",
       "type": "CXVisitorResult",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXVisit_Break",
@@ -10681,7 +10656,7 @@
     {
       "name": "CXCursorKind",
       "type": "CXCursorKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXCursor_UnexposedDecl",
@@ -13078,7 +13053,7 @@
     {
       "name": "CXTypeKind",
       "type": "CXTypeKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXType_Invalid",
@@ -14169,7 +14144,7 @@
     {
       "name": "CXSymbolRole",
       "type": "CXSymbolRole",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXSymbolRole_None",
@@ -14270,7 +14245,7 @@
     {
       "name": "CXIdxAttrKind",
       "type": "CXIdxAttrKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXIdxAttr_Unexposed",
@@ -14317,7 +14292,7 @@
     {
       "name": "CXIdxEntityLanguage",
       "type": "CXIdxEntityLanguage",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXIdxEntityLang_None",
@@ -14373,7 +14348,7 @@
     {
       "name": "CXIdxEntityCXXTemplateKind",
       "type": "CXIdxEntityCXXTemplateKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXIdxEntity_NonTemplate",
@@ -14420,7 +14395,7 @@
     {
       "name": "CXIdxEntityKind",
       "type": "CXIdxEntityKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXIdxEntity_Unexposed",
@@ -14674,7 +14649,7 @@
     {
       "name": "CXIdxEntityRefKind",
       "type": "CXIdxEntityRefKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXIdxEntityRef_Direct",
@@ -14704,7 +14679,7 @@
     {
       "name": "CXIdxObjCContainerKind",
       "type": "CXIdxObjCContainerKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXIdxObjCContainer_ForwardRef",
@@ -14742,7 +14717,7 @@
     {
       "name": "CXResult",
       "type": "CXResult",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXResult_Success",
@@ -14780,7 +14755,7 @@
     {
       "name": "CXEvalResultKind",
       "type": "CXEvalResultKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXEval_Int",
@@ -14854,7 +14829,7 @@
     {
       "name": "CXAvailabilityKind",
       "type": "CXAvailabilityKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXAvailability_Available",
@@ -14901,7 +14876,7 @@
     {
       "name": "CXCompletionChunkKind",
       "type": "CXCompletionChunkKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXCompletionChunk_Optional",
@@ -15101,7 +15076,7 @@
     {
       "name": "CXTokenKind",
       "type": "CXTokenKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXToken_Punctuation",
@@ -15157,7 +15132,7 @@
     {
       "name": "CXPrintingPolicyProperty",
       "type": "CXPrintingPolicyProperty",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXPrintingPolicy_Indentation",
@@ -15411,7 +15386,7 @@
     {
       "name": "CXChildVisitResult",
       "type": "CXChildVisitResult",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXChildVisit_Break",
@@ -15449,7 +15424,7 @@
     {
       "name": "CX_StorageClass",
       "type": "CX_StorageClass",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CX_SC_Invalid",
@@ -15532,7 +15507,7 @@
     {
       "name": "CX_CXXAccessSpecifier",
       "type": "CX_CXXAccessSpecifier",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CX_CXXInvalidAccessSpecifier",
@@ -15579,7 +15554,7 @@
     {
       "name": "CXRefQualifierKind",
       "type": "CXRefQualifierKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXRefQualifier_None",
@@ -15617,7 +15592,7 @@
     {
       "name": "CXTypeNullabilityKind",
       "type": "CXTypeNullabilityKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXTypeNullability_NonNull",
@@ -15673,7 +15648,7 @@
     {
       "name": "CXCallingConv",
       "type": "CXCallingConv",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXCallingConv_Default",
@@ -15864,7 +15839,7 @@
     {
       "name": "CXTemplateArgumentKind",
       "type": "CXTemplateArgumentKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXTemplateArgumentKind_Null",
@@ -15965,7 +15940,7 @@
     {
       "name": "CXTLSKind",
       "type": "CXTLSKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXTLS_None",
@@ -16003,7 +15978,7 @@
     {
       "name": "CXLanguageKind",
       "type": "CXLanguageKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXLanguage_Invalid",
@@ -16050,7 +16025,7 @@
     {
       "name": "CXVisibilityKind",
       "type": "CXVisibilityKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXVisibility_Invalid",
@@ -16097,7 +16072,7 @@
     {
       "name": "CXLinkageKind",
       "type": "CXLinkageKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXLinkage_Invalid",
@@ -16153,7 +16128,7 @@
     {
       "name": "CXTUResourceUsageKind",
       "type": "CXTUResourceUsageKind",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXTUResourceUsage_AST",
@@ -16327,7 +16302,7 @@
     {
       "name": "CXErrorCode",
       "type": "CXErrorCode",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXError_Success",
@@ -16383,7 +16358,7 @@
     {
       "name": "CXDiagnosticSeverity",
       "type": "CXDiagnosticSeverity",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXDiagnostic_Ignored",
@@ -16439,7 +16414,7 @@
     {
       "name": "CXLoadDiag_Error",
       "type": "CXLoadDiag_Error",
-      "typeInteger": "unsigned int",
+      "typeInteger": "int",
       "values": [
         {
           "name": "CXLoadDiag_None",
@@ -16785,6 +16760,13 @@
       }
     },
     {
+      "name": "int",
+      "kind": "primitive",
+      "sizeOf": 4,
+      "alignOf": 4,
+      "isSystem": true
+    },
+    {
       "name": "CXCursorKind",
       "kind": "enum",
       "sizeOf": 4,
@@ -16794,13 +16776,6 @@
         "line": 1706,
         "column": 6
       }
-    },
-    {
-      "name": "int",
-      "kind": "primitive",
-      "sizeOf": 4,
-      "alignOf": 4,
-      "isSystem": true
     },
     {
       "name": "void*[3]",
@@ -17057,105 +17032,6 @@
       }
     },
     {
-      "name": "CXDiagnosticSet",
-      "kind": "typedef",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "location": {
-        "file": "Index.h",
-        "line": 780,
-        "column": 15
-      }
-    },
-    {
-      "name": "CXIdxIncludedFileInfo*",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "location": {
-        "file": "Index.h",
-        "line": 6213,
-        "column": 3
-      }
-    },
-    {
-      "name": "CXIdxIncludedFileInfo",
-      "kind": "typedef",
-      "sizeOf": 56,
-      "alignOf": 8,
-      "location": {
-        "file": "Index.h",
-        "line": 6213,
-        "column": 3
-      }
-    },
-    {
-      "name": "CXIdxImportedASTFileInfo*",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "location": {
-        "file": "Index.h",
-        "line": 6237,
-        "column": 3
-      }
-    },
-    {
-      "name": "CXIdxImportedASTFileInfo",
-      "kind": "typedef",
-      "sizeOf": 48,
-      "alignOf": 8,
-      "location": {
-        "file": "Index.h",
-        "line": 6237,
-        "column": 3
-      }
-    },
-    {
-      "name": "CXIdxClientASTFile",
-      "kind": "typedef",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "location": {
-        "file": "Index.h",
-        "line": 6180,
-        "column": 15
-      }
-    },
-    {
-      "name": "CXIdxClientContainer",
-      "kind": "typedef",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "location": {
-        "file": "Index.h",
-        "line": 6174,
-        "column": 15
-      }
-    },
-    {
-      "name": "CXIdxDeclInfo*",
-      "kind": "pointer",
-      "sizeOf": 8,
-      "alignOf": 8,
-      "location": {
-        "file": "Index.h",
-        "line": 6360,
-        "column": 3
-      }
-    },
-    {
-      "name": "CXIdxDeclInfo",
-      "kind": "typedef",
-      "sizeOf": 128,
-      "alignOf": 8,
-      "location": {
-        "file": "Index.h",
-        "line": 6360,
-        "column": 3
-      }
-    },
-    {
       "name": "CXIdxEntityRefInfo*",
       "kind": "pointer",
       "sizeOf": 8,
@@ -17335,6 +17211,72 @@
       }
     },
     {
+      "name": "CXIdxDeclInfo*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "Index.h",
+        "line": 6360,
+        "column": 3
+      }
+    },
+    {
+      "name": "CXIdxDeclInfo",
+      "kind": "typedef",
+      "sizeOf": 128,
+      "alignOf": 8,
+      "location": {
+        "file": "Index.h",
+        "line": 6360,
+        "column": 3
+      }
+    },
+    {
+      "name": "CXIdxClientContainer",
+      "kind": "typedef",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "Index.h",
+        "line": 6174,
+        "column": 15
+      }
+    },
+    {
+      "name": "CXIdxImportedASTFileInfo*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "Index.h",
+        "line": 6237,
+        "column": 3
+      }
+    },
+    {
+      "name": "CXIdxImportedASTFileInfo",
+      "kind": "typedef",
+      "sizeOf": 48,
+      "alignOf": 8,
+      "location": {
+        "file": "Index.h",
+        "line": 6237,
+        "column": 3
+      }
+    },
+    {
+      "name": "CXIdxClientASTFile",
+      "kind": "typedef",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "Index.h",
+        "line": 6180,
+        "column": 15
+      }
+    },
+    {
       "name": "CXModule",
       "kind": "typedef",
       "sizeOf": 8,
@@ -17342,6 +17284,39 @@
       "location": {
         "file": "Index.h",
         "line": 4679,
+        "column": 15
+      }
+    },
+    {
+      "name": "CXIdxIncludedFileInfo*",
+      "kind": "pointer",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "Index.h",
+        "line": 6213,
+        "column": 3
+      }
+    },
+    {
+      "name": "CXIdxIncludedFileInfo",
+      "kind": "typedef",
+      "sizeOf": 56,
+      "alignOf": 8,
+      "location": {
+        "file": "Index.h",
+        "line": 6213,
+        "column": 3
+      }
+    },
+    {
+      "name": "CXDiagnosticSet",
+      "kind": "typedef",
+      "sizeOf": 8,
+      "alignOf": 8,
+      "location": {
+        "file": "Index.h",
+        "line": 780,
         "column": 15
       }
     },
@@ -17388,8 +17363,8 @@
     {
       "name": "unsigned long",
       "kind": "primitive",
-      "sizeOf": 8,
-      "alignOf": 8,
+      "sizeOf": 4,
+      "alignOf": 4,
       "isSystem": true
     },
     {
@@ -18286,8 +18261,8 @@
     {
       "name": "CXTUResourceUsageEntry",
       "kind": "typedef",
-      "sizeOf": 16,
-      "alignOf": 8,
+      "sizeOf": 8,
+      "alignOf": 4,
       "location": {
         "file": "Index.h",
         "line": 1645,

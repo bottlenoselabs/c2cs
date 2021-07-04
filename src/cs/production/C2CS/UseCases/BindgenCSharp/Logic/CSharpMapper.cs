@@ -19,9 +19,7 @@ namespace C2CS.UseCases.BindgenCSharp
         private readonly ImmutableDictionary<string, string> _aliasesLookup;
         private readonly ImmutableHashSet<string> _builtinAliases;
         private readonly ImmutableHashSet<string> _ignoredTypeNames;
-
         private readonly Dictionary<string, string> _generatedFunctionPointersNamesByCNames = new();
-        private readonly List<CSharpFunctionPointer> _generatedFunctionPointers = new();
 
         public CSharpMapper(
             string className,
@@ -63,8 +61,6 @@ namespace C2CS.UseCases.BindgenCSharp
 
             var functionExterns = Functions(
                 abstractSyntaxTree.Functions);
-            var functionPointers = FunctionPointers(
-                abstractSyntaxTree.FunctionPointers);
 
             var recordsBuilder = ImmutableArray.CreateBuilder<CRecord>();
             foreach (var record in abstractSyntaxTree.Records)
@@ -92,6 +88,8 @@ namespace C2CS.UseCases.BindgenCSharp
                 typedefsBuilder.Add(typedef);
             }
 
+            var functionPointers = FunctionPointers(
+                abstractSyntaxTree.FunctionPointers);
             var typedefs = Typedefs(typedefsBuilder.ToImmutable());
             var opaqueDataTypes = OpaqueDataTypes(
                 abstractSyntaxTree.OpaqueTypes);
@@ -254,13 +252,8 @@ namespace C2CS.UseCases.BindgenCSharp
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (var functionPointerC in functionPointers)
             {
-                var functionPointerCSharp = FunctionPointer(functionPointerC)!;
+                var functionPointerCSharp = FunctionPointer(functionPointerC);
                 builder.Add(functionPointerCSharp);
-            }
-
-            foreach (var generatedFunctionPointerCSharp in _generatedFunctionPointers)
-            {
-                builder.Add(generatedFunctionPointerCSharp);
             }
 
             var result = builder.ToImmutable();
@@ -269,8 +262,9 @@ namespace C2CS.UseCases.BindgenCSharp
 
         private CSharpFunctionPointer FunctionPointer(CFunctionPointer functionPointerC)
         {
-            var x = CType(functionPointerC.Name);
-            var name = TypeNameMapFunctionPointer(x);
+            var typeName = string.IsNullOrEmpty(functionPointerC.Name) ? functionPointerC.Type : functionPointerC.Name;
+            var typeC = CType(typeName);
+            var typeNameCSharp = TypeNameMapFunctionPointer(typeC);
 
             var originalCodeLocationComment = OriginalCodeLocationComment(functionPointerC);
             var returnTypeC = CType(functionPointerC.ReturnType);
@@ -278,7 +272,7 @@ namespace C2CS.UseCases.BindgenCSharp
             var parameters = FunctionPointerParameters(functionPointerC.Parameters);
 
             var result = new CSharpFunctionPointer(
-                name,
+                typeNameCSharp,
                 originalCodeLocationComment,
                 returnTypeCSharp,
                 parameters);
@@ -351,14 +345,12 @@ namespace C2CS.UseCases.BindgenCSharp
             var typeCSharp = Type(typeC);
             var fields = StructFields(recordC.Fields);
             var nestedStructs = NestedStructs(recordC.NestedRecords);
-            var nestedFunctionPointers = NestedFunctionPointers(recordC.NestedFunctionPointers);
 
             return new CSharpStruct(
                 originalCodeLocationComment,
                 typeCSharp,
                 fields,
-                nestedStructs,
-                nestedFunctionPointers);
+                nestedStructs);
         }
 
         private ImmutableArray<CSharpStructField> StructFields(
@@ -424,32 +416,6 @@ namespace C2CS.UseCases.BindgenCSharp
                 }
 
                 builder.Add(structCSharp);
-            }
-
-            var result = builder.ToImmutable();
-            return result;
-        }
-
-        private ImmutableArray<CSharpFunctionPointer> NestedFunctionPointers(ImmutableArray<CFunctionPointer> functionPointers)
-        {
-            var builder = ImmutableArray.CreateBuilder<CSharpFunctionPointer>(functionPointers.Length);
-
-            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var functionPointerC in functionPointers)
-            {
-                var functionPointerCSharp = FunctionPointer(functionPointerC);
-
-                if (functionPointerCSharp == null)
-                {
-                    continue;
-                }
-
-                if (_ignoredTypeNames.Contains(functionPointerCSharp.Name))
-                {
-                    continue;
-                }
-
-                builder.Add(functionPointerCSharp);
             }
 
             var result = builder.ToImmutable();
@@ -690,7 +656,6 @@ namespace C2CS.UseCases.BindgenCSharp
             var returnTypeNameCSharp = returnTypeCSharp.Name.Replace("*", "Ptr");
             var returnTypeStringCapitalized = char.ToUpper(returnTypeNameCSharp[0], CultureInfo.InvariantCulture) + returnTypeNameCSharp.Substring(1);
 
-            var functionPointerParameters = new List<CSharpFunctionPointerParameter>();
             var parameterStringsCSharp = new List<string>();
             var parameterStringsC = typeC.Name.Substring(indexOfFirstParentheses)
                 .Trim('(', ')').Split(',', StringSplitOptions.RemoveEmptyEntries)
@@ -710,22 +675,12 @@ namespace C2CS.UseCases.BindgenCSharp
                 var typeNameCSharpCapitalized = char.ToUpper(typeNameCSharp[0], CultureInfo.InvariantCulture) +
                                                 typeNameCSharp.Substring(1);
                 parameterStringsCSharp.Add(typeNameCSharpCapitalized);
-
-                var functionPointerParameter = new CSharpFunctionPointerParameter(parameterTypeCSharp.Name, string.Empty, parameterTypeCSharp);
-                functionPointerParameters.Add(functionPointerParameter);
             }
 
             var className = _className.ToUpper(CultureInfo.InvariantCulture);
             var parameterStringsCSharpJoined = string.Join('_', parameterStringsCSharp);
             functionPointerNameCSharp = $"FnPtr_{className}_{parameterStringsCSharpJoined}_{returnTypeStringCapitalized}".Replace("__", "_");
             _generatedFunctionPointersNamesByCNames.Add(typeC.Name, functionPointerNameCSharp);
-
-            var functionPointerCSharp = new CSharpFunctionPointer(
-                functionPointerNameCSharp,
-                $"// {CKind.FunctionPointer} @ Generated",
-                returnTypeCSharp,
-                functionPointerParameters.ToImmutableArray());
-            _generatedFunctionPointers.Add(functionPointerCSharp);
 
             return functionPointerNameCSharp;
         }

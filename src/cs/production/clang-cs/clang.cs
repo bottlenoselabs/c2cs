@@ -15,6 +15,7 @@ using System.Runtime.CompilerServices;
 using C2CS;
 
 #nullable enable
+#pragma warning disable 1591
 
 public static unsafe partial class clang
 {
@@ -415,7 +416,7 @@ public static unsafe partial class clang
     }
 
     // Function @ Index.h:5092:21
-    public static void clang_executeOnThread(FnPtrPointerVoid fn, void* user_data, uint stack_size)
+    public static void clang_executeOnThread(FnPtr_CLANG_VoidPtr_Void fn, void* user_data, uint stack_size)
     {
         _virtualTable.clang_executeOnThread(fn, user_data, stack_size);
     }
@@ -2059,11 +2060,81 @@ public static unsafe partial class clang
         public delegate* unmanaged<CXCursor, CXClientData, CXVisitorResult> Pointer;
     }
 
+    // FunctionPointer @ Index.h:6536:10
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_CLANG_CXClientData_CXIdxEntityRefInfoPtr_Void
+    {
+        public delegate* unmanaged<CXClientData, CXIdxEntityRefInfo*, void> Pointer;
+    }
+
+    // FunctionPointer @ Index.h:6531:10
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_CLANG_CXClientData_CXIdxDeclInfoPtr_Void
+    {
+        public delegate* unmanaged<CXClientData, CXIdxDeclInfo*, void> Pointer;
+    }
+
+    // FunctionPointer @ Index.h:6528:26
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_CLANG_CXClientData_VoidPtr_CXIdxClientContainer
+    {
+        public delegate* unmanaged<CXClientData, void*, CXIdxClientContainer> Pointer;
+    }
+
+    // FunctionPointer @ Index.h:6522:24
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_CLANG_CXClientData_CXIdxImportedASTFileInfoPtr_CXIdxClientASTFile
+    {
+        public delegate* unmanaged<CXClientData, CXIdxImportedASTFileInfo*, CXIdxClientASTFile> Pointer;
+    }
+
+    // FunctionPointer @ Index.h:6511:21
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_CLANG_CXClientData_CXIdxIncludedFileInfoPtr_CXIdxClientFile
+    {
+        public delegate* unmanaged<CXClientData, CXIdxIncludedFileInfo*, CXIdxClientFile> Pointer;
+    }
+
+    // FunctionPointer @ Index.h:6505:21
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_CLANG_CXClientData_CXFile_VoidPtr_CXIdxClientFile
+    {
+        public delegate* unmanaged<CXClientData, CXFile, void*, CXIdxClientFile> Pointer;
+    }
+
+    // FunctionPointer @ Index.h:6503:10
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_CLANG_CXClientData_CXDiagnosticSet_VoidPtr_Void
+    {
+        public delegate* unmanaged<CXClientData, CXDiagnosticSet, void*, void> Pointer;
+    }
+
+    // FunctionPointer @ Index.h:6498:9
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_CLANG_CXClientData_VoidPtr_Int
+    {
+        public delegate* unmanaged<CXClientData, void*, int> Pointer;
+    }
+
+    // FunctionPointer @ Index.h:6091:26
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_CLANG_VoidPtr_CXCursor_CXSourceRange_CXVisitorResult
+    {
+        public delegate* unmanaged<void*, CXCursor, CXSourceRange, CXVisitorResult> Pointer;
+    }
+
     // FunctionPointer @ Index.h:5929:16
     [StructLayout(LayoutKind.Sequential)]
     public struct CXInclusionVisitor
     {
         public delegate* unmanaged<CXFile, CXSourceLocation*, uint, CXClientData, void> Pointer;
+    }
+
+    // FunctionPointer @ Index.h:5092:50
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_CLANG_VoidPtr_Void
+    {
+        public delegate* unmanaged<void*, void> Pointer;
     }
 
     // FunctionPointer @ Index.h:4191:35
@@ -2177,84 +2248,28 @@ public static unsafe partial class clang
     public struct IndexerCallbacks
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public FnPtr_abortQuery abortQuery;
+        public FnPtr_CLANG_CXClientData_VoidPtr_Int abortQuery;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtr_diagnostic diagnostic;
+        public FnPtr_CLANG_CXClientData_CXDiagnosticSet_VoidPtr_Void diagnostic;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public FnPtr_enteredMainFile enteredMainFile;
+        public FnPtr_CLANG_CXClientData_CXFile_VoidPtr_CXIdxClientFile enteredMainFile;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public FnPtr_ppIncludedFile ppIncludedFile;
+        public FnPtr_CLANG_CXClientData_CXIdxIncludedFileInfoPtr_CXIdxClientFile ppIncludedFile;
 
         [FieldOffset(32)] // size = 8, padding = 0
-        public FnPtr_importedASTFile importedASTFile;
+        public FnPtr_CLANG_CXClientData_CXIdxImportedASTFileInfoPtr_CXIdxClientASTFile importedASTFile;
 
         [FieldOffset(40)] // size = 8, padding = 0
-        public FnPtr_startedTranslationUnit startedTranslationUnit;
+        public FnPtr_CLANG_CXClientData_VoidPtr_CXIdxClientContainer startedTranslationUnit;
 
         [FieldOffset(48)] // size = 8, padding = 0
-        public FnPtr_indexDeclaration indexDeclaration;
+        public FnPtr_CLANG_CXClientData_CXIdxDeclInfoPtr_Void indexDeclaration;
 
         [FieldOffset(56)] // size = 8, padding = 0
-        public FnPtr_indexEntityReference indexEntityReference;
-
-        // FunctionPointer @ Index.h:6498:9
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_abortQuery
-        {
-            public delegate* unmanaged<CXClientData, void*, int> Pointer;
-        }
-
-        // FunctionPointer @ Index.h:6503:10
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_diagnostic
-        {
-            public delegate* unmanaged<CXClientData, CXDiagnosticSet, void*, void> Pointer;
-        }
-
-        // FunctionPointer @ Index.h:6505:21
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_enteredMainFile
-        {
-            public delegate* unmanaged<CXClientData, CXFile, void*, CXIdxClientFile> Pointer;
-        }
-
-        // FunctionPointer @ Index.h:6511:21
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_ppIncludedFile
-        {
-            public delegate* unmanaged<CXClientData, CXIdxIncludedFileInfo*, CXIdxClientFile> Pointer;
-        }
-
-        // FunctionPointer @ Index.h:6522:24
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_importedASTFile
-        {
-            public delegate* unmanaged<CXClientData, CXIdxImportedASTFileInfo*, CXIdxClientASTFile> Pointer;
-        }
-
-        // FunctionPointer @ Index.h:6528:26
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_startedTranslationUnit
-        {
-            public delegate* unmanaged<CXClientData, void*, CXIdxClientContainer> Pointer;
-        }
-
-        // FunctionPointer @ Index.h:6531:10
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_indexDeclaration
-        {
-            public delegate* unmanaged<CXClientData, CXIdxDeclInfo*, void> Pointer;
-        }
-
-        // FunctionPointer @ Index.h:6536:10
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_indexEntityReference
-        {
-            public delegate* unmanaged<CXClientData, CXIdxEntityRefInfo*, void> Pointer;
-        }
+        public FnPtr_CLANG_CXClientData_CXIdxEntityRefInfoPtr_Void indexEntityReference;
     }
 
     // Struct @ Index.h:6487:3
@@ -2428,8 +2443,8 @@ public static unsafe partial class clang
         [FieldOffset(8)] // size = 8, padding = 0
         public CString Contents;
 
-        [FieldOffset(16)] // size = 8, padding = 0
-        public ulong Length;
+        [FieldOffset(16)] // size = 4, padding = 4
+        public uint Length;
     }
 
     // Struct @ Index.h:6414:3
@@ -2569,14 +2584,7 @@ public static unsafe partial class clang
         public void* context;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public FnPtr_visit visit;
-
-        // FunctionPointer @ Index.h:6091:26
-        [StructLayout(LayoutKind.Sequential)]
-        public struct FnPtr_visit
-        {
-            public delegate* unmanaged<void*, CXCursor, CXSourceRange, CXVisitorResult> Pointer;
-        }
+        public FnPtr_CLANG_VoidPtr_CXCursor_CXSourceRange_CXVisitorResult visit;
     }
 
     // Struct @ Index.h:471:3
@@ -2726,14 +2734,14 @@ public static unsafe partial class clang
     }
 
     // Struct @ Index.h:1645:3
-    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct CXTUResourceUsageEntry
     {
-        [FieldOffset(0)] // size = 4, padding = 4
+        [FieldOffset(0)] // size = 4, padding = 0
         public CXTUResourceUsageKind kind;
 
-        [FieldOffset(8)] // size = 8, padding = 0
-        public ulong amount;
+        [FieldOffset(4)] // size = 4, padding = 0
+        public uint amount;
     }
 
     // Struct @ Index.h:700:3
@@ -3019,774 +3027,773 @@ public static unsafe partial class clang
     }
 
     // Enum @ Index.h:6087:6
-    public enum CXVisitorResult : uint
+    public enum CXVisitorResult : int
     {
-        CXVisit_Break = 0U,
-        CXVisit_Continue = 1U
+        CXVisit_Break = 0,
+        CXVisit_Continue = 1
     }
 
     // Enum @ Index.h:1706:6
-    public enum CXCursorKind : uint
+    public enum CXCursorKind : int
     {
-        CXCursor_UnexposedDecl = 1U,
-        CXCursor_StructDecl = 2U,
-        CXCursor_UnionDecl = 3U,
-        CXCursor_ClassDecl = 4U,
-        CXCursor_EnumDecl = 5U,
-        CXCursor_FieldDecl = 6U,
-        CXCursor_EnumConstantDecl = 7U,
-        CXCursor_FunctionDecl = 8U,
-        CXCursor_VarDecl = 9U,
-        CXCursor_ParmDecl = 10U,
-        CXCursor_ObjCInterfaceDecl = 11U,
-        CXCursor_ObjCCategoryDecl = 12U,
-        CXCursor_ObjCProtocolDecl = 13U,
-        CXCursor_ObjCPropertyDecl = 14U,
-        CXCursor_ObjCIvarDecl = 15U,
-        CXCursor_ObjCInstanceMethodDecl = 16U,
-        CXCursor_ObjCClassMethodDecl = 17U,
-        CXCursor_ObjCImplementationDecl = 18U,
-        CXCursor_ObjCCategoryImplDecl = 19U,
-        CXCursor_TypedefDecl = 20U,
-        CXCursor_CXXMethod = 21U,
-        CXCursor_Namespace = 22U,
-        CXCursor_LinkageSpec = 23U,
-        CXCursor_Constructor = 24U,
-        CXCursor_Destructor = 25U,
-        CXCursor_ConversionFunction = 26U,
-        CXCursor_TemplateTypeParameter = 27U,
-        CXCursor_NonTypeTemplateParameter = 28U,
-        CXCursor_TemplateTemplateParameter = 29U,
-        CXCursor_FunctionTemplate = 30U,
-        CXCursor_ClassTemplate = 31U,
-        CXCursor_ClassTemplatePartialSpecialization = 32U,
-        CXCursor_NamespaceAlias = 33U,
-        CXCursor_UsingDirective = 34U,
-        CXCursor_UsingDeclaration = 35U,
-        CXCursor_TypeAliasDecl = 36U,
-        CXCursor_ObjCSynthesizeDecl = 37U,
-        CXCursor_ObjCDynamicDecl = 38U,
-        CXCursor_CXXAccessSpecifier = 39U,
-        CXCursor_FirstDecl = 1U,
-        CXCursor_LastDecl = 39U,
-        CXCursor_FirstRef = 40U,
-        CXCursor_ObjCSuperClassRef = 40U,
-        CXCursor_ObjCProtocolRef = 41U,
-        CXCursor_ObjCClassRef = 42U,
-        CXCursor_TypeRef = 43U,
-        CXCursor_CXXBaseSpecifier = 44U,
-        CXCursor_TemplateRef = 45U,
-        CXCursor_NamespaceRef = 46U,
-        CXCursor_MemberRef = 47U,
-        CXCursor_LabelRef = 48U,
-        CXCursor_OverloadedDeclRef = 49U,
-        CXCursor_VariableRef = 50U,
-        CXCursor_LastRef = 50U,
-        CXCursor_FirstInvalid = 70U,
-        CXCursor_InvalidFile = 70U,
-        CXCursor_NoDeclFound = 71U,
-        CXCursor_NotImplemented = 72U,
-        CXCursor_InvalidCode = 73U,
-        CXCursor_LastInvalid = 73U,
-        CXCursor_FirstExpr = 100U,
-        CXCursor_UnexposedExpr = 100U,
-        CXCursor_DeclRefExpr = 101U,
-        CXCursor_MemberRefExpr = 102U,
-        CXCursor_CallExpr = 103U,
-        CXCursor_ObjCMessageExpr = 104U,
-        CXCursor_BlockExpr = 105U,
-        CXCursor_IntegerLiteral = 106U,
-        CXCursor_FloatingLiteral = 107U,
-        CXCursor_ImaginaryLiteral = 108U,
-        CXCursor_StringLiteral = 109U,
-        CXCursor_CharacterLiteral = 110U,
-        CXCursor_ParenExpr = 111U,
-        CXCursor_UnaryOperator = 112U,
-        CXCursor_ArraySubscriptExpr = 113U,
-        CXCursor_BinaryOperator = 114U,
-        CXCursor_CompoundAssignOperator = 115U,
-        CXCursor_ConditionalOperator = 116U,
-        CXCursor_CStyleCastExpr = 117U,
-        CXCursor_CompoundLiteralExpr = 118U,
-        CXCursor_InitListExpr = 119U,
-        CXCursor_AddrLabelExpr = 120U,
-        CXCursor_StmtExpr = 121U,
-        CXCursor_GenericSelectionExpr = 122U,
-        CXCursor_GNUNullExpr = 123U,
-        CXCursor_CXXStaticCastExpr = 124U,
-        CXCursor_CXXDynamicCastExpr = 125U,
-        CXCursor_CXXReinterpretCastExpr = 126U,
-        CXCursor_CXXConstCastExpr = 127U,
-        CXCursor_CXXFunctionalCastExpr = 128U,
-        CXCursor_CXXTypeidExpr = 129U,
-        CXCursor_CXXBoolLiteralExpr = 130U,
-        CXCursor_CXXNullPtrLiteralExpr = 131U,
-        CXCursor_CXXThisExpr = 132U,
-        CXCursor_CXXThrowExpr = 133U,
-        CXCursor_CXXNewExpr = 134U,
-        CXCursor_CXXDeleteExpr = 135U,
-        CXCursor_UnaryExpr = 136U,
-        CXCursor_ObjCStringLiteral = 137U,
-        CXCursor_ObjCEncodeExpr = 138U,
-        CXCursor_ObjCSelectorExpr = 139U,
-        CXCursor_ObjCProtocolExpr = 140U,
-        CXCursor_ObjCBridgedCastExpr = 141U,
-        CXCursor_PackExpansionExpr = 142U,
-        CXCursor_SizeOfPackExpr = 143U,
-        CXCursor_LambdaExpr = 144U,
-        CXCursor_ObjCBoolLiteralExpr = 145U,
-        CXCursor_ObjCSelfExpr = 146U,
-        CXCursor_OMPArraySectionExpr = 147U,
-        CXCursor_ObjCAvailabilityCheckExpr = 148U,
-        CXCursor_FixedPointLiteral = 149U,
-        CXCursor_OMPArrayShapingExpr = 150U,
-        CXCursor_OMPIteratorExpr = 151U,
-        CXCursor_CXXAddrspaceCastExpr = 152U,
-        CXCursor_LastExpr = 152U,
-        CXCursor_FirstStmt = 200U,
-        CXCursor_UnexposedStmt = 200U,
-        CXCursor_LabelStmt = 201U,
-        CXCursor_CompoundStmt = 202U,
-        CXCursor_CaseStmt = 203U,
-        CXCursor_DefaultStmt = 204U,
-        CXCursor_IfStmt = 205U,
-        CXCursor_SwitchStmt = 206U,
-        CXCursor_WhileStmt = 207U,
-        CXCursor_DoStmt = 208U,
-        CXCursor_ForStmt = 209U,
-        CXCursor_GotoStmt = 210U,
-        CXCursor_IndirectGotoStmt = 211U,
-        CXCursor_ContinueStmt = 212U,
-        CXCursor_BreakStmt = 213U,
-        CXCursor_ReturnStmt = 214U,
-        CXCursor_GCCAsmStmt = 215U,
-        CXCursor_AsmStmt = 215U,
-        CXCursor_ObjCAtTryStmt = 216U,
-        CXCursor_ObjCAtCatchStmt = 217U,
-        CXCursor_ObjCAtFinallyStmt = 218U,
-        CXCursor_ObjCAtThrowStmt = 219U,
-        CXCursor_ObjCAtSynchronizedStmt = 220U,
-        CXCursor_ObjCAutoreleasePoolStmt = 221U,
-        CXCursor_ObjCForCollectionStmt = 222U,
-        CXCursor_CXXCatchStmt = 223U,
-        CXCursor_CXXTryStmt = 224U,
-        CXCursor_CXXForRangeStmt = 225U,
-        CXCursor_SEHTryStmt = 226U,
-        CXCursor_SEHExceptStmt = 227U,
-        CXCursor_SEHFinallyStmt = 228U,
-        CXCursor_MSAsmStmt = 229U,
-        CXCursor_NullStmt = 230U,
-        CXCursor_DeclStmt = 231U,
-        CXCursor_OMPParallelDirective = 232U,
-        CXCursor_OMPSimdDirective = 233U,
-        CXCursor_OMPForDirective = 234U,
-        CXCursor_OMPSectionsDirective = 235U,
-        CXCursor_OMPSectionDirective = 236U,
-        CXCursor_OMPSingleDirective = 237U,
-        CXCursor_OMPParallelForDirective = 238U,
-        CXCursor_OMPParallelSectionsDirective = 239U,
-        CXCursor_OMPTaskDirective = 240U,
-        CXCursor_OMPMasterDirective = 241U,
-        CXCursor_OMPCriticalDirective = 242U,
-        CXCursor_OMPTaskyieldDirective = 243U,
-        CXCursor_OMPBarrierDirective = 244U,
-        CXCursor_OMPTaskwaitDirective = 245U,
-        CXCursor_OMPFlushDirective = 246U,
-        CXCursor_SEHLeaveStmt = 247U,
-        CXCursor_OMPOrderedDirective = 248U,
-        CXCursor_OMPAtomicDirective = 249U,
-        CXCursor_OMPForSimdDirective = 250U,
-        CXCursor_OMPParallelForSimdDirective = 251U,
-        CXCursor_OMPTargetDirective = 252U,
-        CXCursor_OMPTeamsDirective = 253U,
-        CXCursor_OMPTaskgroupDirective = 254U,
-        CXCursor_OMPCancellationPointDirective = 255U,
-        CXCursor_OMPCancelDirective = 256U,
-        CXCursor_OMPTargetDataDirective = 257U,
-        CXCursor_OMPTaskLoopDirective = 258U,
-        CXCursor_OMPTaskLoopSimdDirective = 259U,
-        CXCursor_OMPDistributeDirective = 260U,
-        CXCursor_OMPTargetEnterDataDirective = 261U,
-        CXCursor_OMPTargetExitDataDirective = 262U,
-        CXCursor_OMPTargetParallelDirective = 263U,
-        CXCursor_OMPTargetParallelForDirective = 264U,
-        CXCursor_OMPTargetUpdateDirective = 265U,
-        CXCursor_OMPDistributeParallelForDirective = 266U,
-        CXCursor_OMPDistributeParallelForSimdDirective = 267U,
-        CXCursor_OMPDistributeSimdDirective = 268U,
-        CXCursor_OMPTargetParallelForSimdDirective = 269U,
-        CXCursor_OMPTargetSimdDirective = 270U,
-        CXCursor_OMPTeamsDistributeDirective = 271U,
-        CXCursor_OMPTeamsDistributeSimdDirective = 272U,
-        CXCursor_OMPTeamsDistributeParallelForSimdDirective = 273U,
-        CXCursor_OMPTeamsDistributeParallelForDirective = 274U,
-        CXCursor_OMPTargetTeamsDirective = 275U,
-        CXCursor_OMPTargetTeamsDistributeDirective = 276U,
-        CXCursor_OMPTargetTeamsDistributeParallelForDirective = 277U,
-        CXCursor_OMPTargetTeamsDistributeParallelForSimdDirective = 278U,
-        CXCursor_OMPTargetTeamsDistributeSimdDirective = 279U,
-        CXCursor_BuiltinBitCastExpr = 280U,
-        CXCursor_OMPMasterTaskLoopDirective = 281U,
-        CXCursor_OMPParallelMasterTaskLoopDirective = 282U,
-        CXCursor_OMPMasterTaskLoopSimdDirective = 283U,
-        CXCursor_OMPParallelMasterTaskLoopSimdDirective = 284U,
-        CXCursor_OMPParallelMasterDirective = 285U,
-        CXCursor_OMPDepobjDirective = 286U,
-        CXCursor_OMPScanDirective = 287U,
-        CXCursor_LastStmt = 287U,
-        CXCursor_TranslationUnit = 300U,
-        CXCursor_FirstAttr = 400U,
-        CXCursor_UnexposedAttr = 400U,
-        CXCursor_IBActionAttr = 401U,
-        CXCursor_IBOutletAttr = 402U,
-        CXCursor_IBOutletCollectionAttr = 403U,
-        CXCursor_CXXFinalAttr = 404U,
-        CXCursor_CXXOverrideAttr = 405U,
-        CXCursor_AnnotateAttr = 406U,
-        CXCursor_AsmLabelAttr = 407U,
-        CXCursor_PackedAttr = 408U,
-        CXCursor_PureAttr = 409U,
-        CXCursor_ConstAttr = 410U,
-        CXCursor_NoDuplicateAttr = 411U,
-        CXCursor_CUDAConstantAttr = 412U,
-        CXCursor_CUDADeviceAttr = 413U,
-        CXCursor_CUDAGlobalAttr = 414U,
-        CXCursor_CUDAHostAttr = 415U,
-        CXCursor_CUDASharedAttr = 416U,
-        CXCursor_VisibilityAttr = 417U,
-        CXCursor_DLLExport = 418U,
-        CXCursor_DLLImport = 419U,
-        CXCursor_NSReturnsRetained = 420U,
-        CXCursor_NSReturnsNotRetained = 421U,
-        CXCursor_NSReturnsAutoreleased = 422U,
-        CXCursor_NSConsumesSelf = 423U,
-        CXCursor_NSConsumed = 424U,
-        CXCursor_ObjCException = 425U,
-        CXCursor_ObjCNSObject = 426U,
-        CXCursor_ObjCIndependentClass = 427U,
-        CXCursor_ObjCPreciseLifetime = 428U,
-        CXCursor_ObjCReturnsInnerPointer = 429U,
-        CXCursor_ObjCRequiresSuper = 430U,
-        CXCursor_ObjCRootClass = 431U,
-        CXCursor_ObjCSubclassingRestricted = 432U,
-        CXCursor_ObjCExplicitProtocolImpl = 433U,
-        CXCursor_ObjCDesignatedInitializer = 434U,
-        CXCursor_ObjCRuntimeVisible = 435U,
-        CXCursor_ObjCBoxable = 436U,
-        CXCursor_FlagEnum = 437U,
-        CXCursor_ConvergentAttr = 438U,
-        CXCursor_WarnUnusedAttr = 439U,
-        CXCursor_WarnUnusedResultAttr = 440U,
-        CXCursor_AlignedAttr = 441U,
-        CXCursor_LastAttr = 441U,
-        CXCursor_PreprocessingDirective = 500U,
-        CXCursor_MacroDefinition = 501U,
-        CXCursor_MacroExpansion = 502U,
-        CXCursor_MacroInstantiation = 502U,
-        CXCursor_InclusionDirective = 503U,
-        CXCursor_FirstPreprocessing = 500U,
-        CXCursor_LastPreprocessing = 503U,
-        CXCursor_ModuleImportDecl = 600U,
-        CXCursor_TypeAliasTemplateDecl = 601U,
-        CXCursor_StaticAssert = 602U,
-        CXCursor_FriendDecl = 603U,
-        CXCursor_FirstExtraDecl = 600U,
-        CXCursor_LastExtraDecl = 603U,
-        CXCursor_OverloadCandidate = 700U
+        CXCursor_UnexposedDecl = 1,
+        CXCursor_StructDecl = 2,
+        CXCursor_UnionDecl = 3,
+        CXCursor_ClassDecl = 4,
+        CXCursor_EnumDecl = 5,
+        CXCursor_FieldDecl = 6,
+        CXCursor_EnumConstantDecl = 7,
+        CXCursor_FunctionDecl = 8,
+        CXCursor_VarDecl = 9,
+        CXCursor_ParmDecl = 10,
+        CXCursor_ObjCInterfaceDecl = 11,
+        CXCursor_ObjCCategoryDecl = 12,
+        CXCursor_ObjCProtocolDecl = 13,
+        CXCursor_ObjCPropertyDecl = 14,
+        CXCursor_ObjCIvarDecl = 15,
+        CXCursor_ObjCInstanceMethodDecl = 16,
+        CXCursor_ObjCClassMethodDecl = 17,
+        CXCursor_ObjCImplementationDecl = 18,
+        CXCursor_ObjCCategoryImplDecl = 19,
+        CXCursor_TypedefDecl = 20,
+        CXCursor_CXXMethod = 21,
+        CXCursor_Namespace = 22,
+        CXCursor_LinkageSpec = 23,
+        CXCursor_Constructor = 24,
+        CXCursor_Destructor = 25,
+        CXCursor_ConversionFunction = 26,
+        CXCursor_TemplateTypeParameter = 27,
+        CXCursor_NonTypeTemplateParameter = 28,
+        CXCursor_TemplateTemplateParameter = 29,
+        CXCursor_FunctionTemplate = 30,
+        CXCursor_ClassTemplate = 31,
+        CXCursor_ClassTemplatePartialSpecialization = 32,
+        CXCursor_NamespaceAlias = 33,
+        CXCursor_UsingDirective = 34,
+        CXCursor_UsingDeclaration = 35,
+        CXCursor_TypeAliasDecl = 36,
+        CXCursor_ObjCSynthesizeDecl = 37,
+        CXCursor_ObjCDynamicDecl = 38,
+        CXCursor_CXXAccessSpecifier = 39,
+        CXCursor_FirstDecl = 1,
+        CXCursor_LastDecl = 39,
+        CXCursor_FirstRef = 40,
+        CXCursor_ObjCSuperClassRef = 40,
+        CXCursor_ObjCProtocolRef = 41,
+        CXCursor_ObjCClassRef = 42,
+        CXCursor_TypeRef = 43,
+        CXCursor_CXXBaseSpecifier = 44,
+        CXCursor_TemplateRef = 45,
+        CXCursor_NamespaceRef = 46,
+        CXCursor_MemberRef = 47,
+        CXCursor_LabelRef = 48,
+        CXCursor_OverloadedDeclRef = 49,
+        CXCursor_VariableRef = 50,
+        CXCursor_LastRef = 50,
+        CXCursor_FirstInvalid = 70,
+        CXCursor_InvalidFile = 70,
+        CXCursor_NoDeclFound = 71,
+        CXCursor_NotImplemented = 72,
+        CXCursor_InvalidCode = 73,
+        CXCursor_LastInvalid = 73,
+        CXCursor_FirstExpr = 100,
+        CXCursor_UnexposedExpr = 100,
+        CXCursor_DeclRefExpr = 101,
+        CXCursor_MemberRefExpr = 102,
+        CXCursor_CallExpr = 103,
+        CXCursor_ObjCMessageExpr = 104,
+        CXCursor_BlockExpr = 105,
+        CXCursor_IntegerLiteral = 106,
+        CXCursor_FloatingLiteral = 107,
+        CXCursor_ImaginaryLiteral = 108,
+        CXCursor_StringLiteral = 109,
+        CXCursor_CharacterLiteral = 110,
+        CXCursor_ParenExpr = 111,
+        CXCursor_UnaryOperator = 112,
+        CXCursor_ArraySubscriptExpr = 113,
+        CXCursor_BinaryOperator = 114,
+        CXCursor_CompoundAssignOperator = 115,
+        CXCursor_ConditionalOperator = 116,
+        CXCursor_CStyleCastExpr = 117,
+        CXCursor_CompoundLiteralExpr = 118,
+        CXCursor_InitListExpr = 119,
+        CXCursor_AddrLabelExpr = 120,
+        CXCursor_StmtExpr = 121,
+        CXCursor_GenericSelectionExpr = 122,
+        CXCursor_GNUNullExpr = 123,
+        CXCursor_CXXStaticCastExpr = 124,
+        CXCursor_CXXDynamicCastExpr = 125,
+        CXCursor_CXXReinterpretCastExpr = 126,
+        CXCursor_CXXConstCastExpr = 127,
+        CXCursor_CXXFunctionalCastExpr = 128,
+        CXCursor_CXXTypeidExpr = 129,
+        CXCursor_CXXBoolLiteralExpr = 130,
+        CXCursor_CXXNullPtrLiteralExpr = 131,
+        CXCursor_CXXThisExpr = 132,
+        CXCursor_CXXThrowExpr = 133,
+        CXCursor_CXXNewExpr = 134,
+        CXCursor_CXXDeleteExpr = 135,
+        CXCursor_UnaryExpr = 136,
+        CXCursor_ObjCStringLiteral = 137,
+        CXCursor_ObjCEncodeExpr = 138,
+        CXCursor_ObjCSelectorExpr = 139,
+        CXCursor_ObjCProtocolExpr = 140,
+        CXCursor_ObjCBridgedCastExpr = 141,
+        CXCursor_PackExpansionExpr = 142,
+        CXCursor_SizeOfPackExpr = 143,
+        CXCursor_LambdaExpr = 144,
+        CXCursor_ObjCBoolLiteralExpr = 145,
+        CXCursor_ObjCSelfExpr = 146,
+        CXCursor_OMPArraySectionExpr = 147,
+        CXCursor_ObjCAvailabilityCheckExpr = 148,
+        CXCursor_FixedPointLiteral = 149,
+        CXCursor_OMPArrayShapingExpr = 150,
+        CXCursor_OMPIteratorExpr = 151,
+        CXCursor_CXXAddrspaceCastExpr = 152,
+        CXCursor_LastExpr = 152,
+        CXCursor_FirstStmt = 200,
+        CXCursor_UnexposedStmt = 200,
+        CXCursor_LabelStmt = 201,
+        CXCursor_CompoundStmt = 202,
+        CXCursor_CaseStmt = 203,
+        CXCursor_DefaultStmt = 204,
+        CXCursor_IfStmt = 205,
+        CXCursor_SwitchStmt = 206,
+        CXCursor_WhileStmt = 207,
+        CXCursor_DoStmt = 208,
+        CXCursor_ForStmt = 209,
+        CXCursor_GotoStmt = 210,
+        CXCursor_IndirectGotoStmt = 211,
+        CXCursor_ContinueStmt = 212,
+        CXCursor_BreakStmt = 213,
+        CXCursor_ReturnStmt = 214,
+        CXCursor_GCCAsmStmt = 215,
+        CXCursor_AsmStmt = 215,
+        CXCursor_ObjCAtTryStmt = 216,
+        CXCursor_ObjCAtCatchStmt = 217,
+        CXCursor_ObjCAtFinallyStmt = 218,
+        CXCursor_ObjCAtThrowStmt = 219,
+        CXCursor_ObjCAtSynchronizedStmt = 220,
+        CXCursor_ObjCAutoreleasePoolStmt = 221,
+        CXCursor_ObjCForCollectionStmt = 222,
+        CXCursor_CXXCatchStmt = 223,
+        CXCursor_CXXTryStmt = 224,
+        CXCursor_CXXForRangeStmt = 225,
+        CXCursor_SEHTryStmt = 226,
+        CXCursor_SEHExceptStmt = 227,
+        CXCursor_SEHFinallyStmt = 228,
+        CXCursor_MSAsmStmt = 229,
+        CXCursor_NullStmt = 230,
+        CXCursor_DeclStmt = 231,
+        CXCursor_OMPParallelDirective = 232,
+        CXCursor_OMPSimdDirective = 233,
+        CXCursor_OMPForDirective = 234,
+        CXCursor_OMPSectionsDirective = 235,
+        CXCursor_OMPSectionDirective = 236,
+        CXCursor_OMPSingleDirective = 237,
+        CXCursor_OMPParallelForDirective = 238,
+        CXCursor_OMPParallelSectionsDirective = 239,
+        CXCursor_OMPTaskDirective = 240,
+        CXCursor_OMPMasterDirective = 241,
+        CXCursor_OMPCriticalDirective = 242,
+        CXCursor_OMPTaskyieldDirective = 243,
+        CXCursor_OMPBarrierDirective = 244,
+        CXCursor_OMPTaskwaitDirective = 245,
+        CXCursor_OMPFlushDirective = 246,
+        CXCursor_SEHLeaveStmt = 247,
+        CXCursor_OMPOrderedDirective = 248,
+        CXCursor_OMPAtomicDirective = 249,
+        CXCursor_OMPForSimdDirective = 250,
+        CXCursor_OMPParallelForSimdDirective = 251,
+        CXCursor_OMPTargetDirective = 252,
+        CXCursor_OMPTeamsDirective = 253,
+        CXCursor_OMPTaskgroupDirective = 254,
+        CXCursor_OMPCancellationPointDirective = 255,
+        CXCursor_OMPCancelDirective = 256,
+        CXCursor_OMPTargetDataDirective = 257,
+        CXCursor_OMPTaskLoopDirective = 258,
+        CXCursor_OMPTaskLoopSimdDirective = 259,
+        CXCursor_OMPDistributeDirective = 260,
+        CXCursor_OMPTargetEnterDataDirective = 261,
+        CXCursor_OMPTargetExitDataDirective = 262,
+        CXCursor_OMPTargetParallelDirective = 263,
+        CXCursor_OMPTargetParallelForDirective = 264,
+        CXCursor_OMPTargetUpdateDirective = 265,
+        CXCursor_OMPDistributeParallelForDirective = 266,
+        CXCursor_OMPDistributeParallelForSimdDirective = 267,
+        CXCursor_OMPDistributeSimdDirective = 268,
+        CXCursor_OMPTargetParallelForSimdDirective = 269,
+        CXCursor_OMPTargetSimdDirective = 270,
+        CXCursor_OMPTeamsDistributeDirective = 271,
+        CXCursor_OMPTeamsDistributeSimdDirective = 272,
+        CXCursor_OMPTeamsDistributeParallelForSimdDirective = 273,
+        CXCursor_OMPTeamsDistributeParallelForDirective = 274,
+        CXCursor_OMPTargetTeamsDirective = 275,
+        CXCursor_OMPTargetTeamsDistributeDirective = 276,
+        CXCursor_OMPTargetTeamsDistributeParallelForDirective = 277,
+        CXCursor_OMPTargetTeamsDistributeParallelForSimdDirective = 278,
+        CXCursor_OMPTargetTeamsDistributeSimdDirective = 279,
+        CXCursor_BuiltinBitCastExpr = 280,
+        CXCursor_OMPMasterTaskLoopDirective = 281,
+        CXCursor_OMPParallelMasterTaskLoopDirective = 282,
+        CXCursor_OMPMasterTaskLoopSimdDirective = 283,
+        CXCursor_OMPParallelMasterTaskLoopSimdDirective = 284,
+        CXCursor_OMPParallelMasterDirective = 285,
+        CXCursor_OMPDepobjDirective = 286,
+        CXCursor_OMPScanDirective = 287,
+        CXCursor_LastStmt = 287,
+        CXCursor_TranslationUnit = 300,
+        CXCursor_FirstAttr = 400,
+        CXCursor_UnexposedAttr = 400,
+        CXCursor_IBActionAttr = 401,
+        CXCursor_IBOutletAttr = 402,
+        CXCursor_IBOutletCollectionAttr = 403,
+        CXCursor_CXXFinalAttr = 404,
+        CXCursor_CXXOverrideAttr = 405,
+        CXCursor_AnnotateAttr = 406,
+        CXCursor_AsmLabelAttr = 407,
+        CXCursor_PackedAttr = 408,
+        CXCursor_PureAttr = 409,
+        CXCursor_ConstAttr = 410,
+        CXCursor_NoDuplicateAttr = 411,
+        CXCursor_CUDAConstantAttr = 412,
+        CXCursor_CUDADeviceAttr = 413,
+        CXCursor_CUDAGlobalAttr = 414,
+        CXCursor_CUDAHostAttr = 415,
+        CXCursor_CUDASharedAttr = 416,
+        CXCursor_VisibilityAttr = 417,
+        CXCursor_DLLExport = 418,
+        CXCursor_DLLImport = 419,
+        CXCursor_NSReturnsRetained = 420,
+        CXCursor_NSReturnsNotRetained = 421,
+        CXCursor_NSReturnsAutoreleased = 422,
+        CXCursor_NSConsumesSelf = 423,
+        CXCursor_NSConsumed = 424,
+        CXCursor_ObjCException = 425,
+        CXCursor_ObjCNSObject = 426,
+        CXCursor_ObjCIndependentClass = 427,
+        CXCursor_ObjCPreciseLifetime = 428,
+        CXCursor_ObjCReturnsInnerPointer = 429,
+        CXCursor_ObjCRequiresSuper = 430,
+        CXCursor_ObjCRootClass = 431,
+        CXCursor_ObjCSubclassingRestricted = 432,
+        CXCursor_ObjCExplicitProtocolImpl = 433,
+        CXCursor_ObjCDesignatedInitializer = 434,
+        CXCursor_ObjCRuntimeVisible = 435,
+        CXCursor_ObjCBoxable = 436,
+        CXCursor_FlagEnum = 437,
+        CXCursor_ConvergentAttr = 438,
+        CXCursor_WarnUnusedAttr = 439,
+        CXCursor_WarnUnusedResultAttr = 440,
+        CXCursor_AlignedAttr = 441,
+        CXCursor_LastAttr = 441,
+        CXCursor_PreprocessingDirective = 500,
+        CXCursor_MacroDefinition = 501,
+        CXCursor_MacroExpansion = 502,
+        CXCursor_MacroInstantiation = 502,
+        CXCursor_InclusionDirective = 503,
+        CXCursor_FirstPreprocessing = 500,
+        CXCursor_LastPreprocessing = 503,
+        CXCursor_ModuleImportDecl = 600,
+        CXCursor_TypeAliasTemplateDecl = 601,
+        CXCursor_StaticAssert = 602,
+        CXCursor_FriendDecl = 603,
+        CXCursor_FirstExtraDecl = 600,
+        CXCursor_LastExtraDecl = 603,
+        CXCursor_OverloadCandidate = 700
     }
 
     // Enum @ Index.h:3226:6
-    public enum CXTypeKind : uint
+    public enum CXTypeKind : int
     {
-        CXType_Invalid = 0U,
-        CXType_Unexposed = 1U,
-        CXType_Void = 2U,
-        CXType_Bool = 3U,
-        CXType_Char_U = 4U,
-        CXType_UChar = 5U,
-        CXType_Char16 = 6U,
-        CXType_Char32 = 7U,
-        CXType_UShort = 8U,
-        CXType_UInt = 9U,
-        CXType_ULong = 10U,
-        CXType_ULongLong = 11U,
-        CXType_UInt128 = 12U,
-        CXType_Char_S = 13U,
-        CXType_SChar = 14U,
-        CXType_WChar = 15U,
-        CXType_Short = 16U,
-        CXType_Int = 17U,
-        CXType_Long = 18U,
-        CXType_LongLong = 19U,
-        CXType_Int128 = 20U,
-        CXType_Float = 21U,
-        CXType_Double = 22U,
-        CXType_LongDouble = 23U,
-        CXType_NullPtr = 24U,
-        CXType_Overload = 25U,
-        CXType_Dependent = 26U,
-        CXType_ObjCId = 27U,
-        CXType_ObjCClass = 28U,
-        CXType_ObjCSel = 29U,
-        CXType_Float128 = 30U,
-        CXType_Half = 31U,
-        CXType_Float16 = 32U,
-        CXType_ShortAccum = 33U,
-        CXType_Accum = 34U,
-        CXType_LongAccum = 35U,
-        CXType_UShortAccum = 36U,
-        CXType_UAccum = 37U,
-        CXType_ULongAccum = 38U,
-        CXType_BFloat16 = 39U,
-        CXType_FirstBuiltin = 2U,
-        CXType_LastBuiltin = 39U,
-        CXType_Complex = 100U,
-        CXType_Pointer = 101U,
-        CXType_BlockPointer = 102U,
-        CXType_LValueReference = 103U,
-        CXType_RValueReference = 104U,
-        CXType_Record = 105U,
-        CXType_Enum = 106U,
-        CXType_Typedef = 107U,
-        CXType_ObjCInterface = 108U,
-        CXType_ObjCObjectPointer = 109U,
-        CXType_FunctionNoProto = 110U,
-        CXType_FunctionProto = 111U,
-        CXType_ConstantArray = 112U,
-        CXType_Vector = 113U,
-        CXType_IncompleteArray = 114U,
-        CXType_VariableArray = 115U,
-        CXType_DependentSizedArray = 116U,
-        CXType_MemberPointer = 117U,
-        CXType_Auto = 118U,
-        CXType_Elaborated = 119U,
-        CXType_Pipe = 120U,
-        CXType_OCLImage1dRO = 121U,
-        CXType_OCLImage1dArrayRO = 122U,
-        CXType_OCLImage1dBufferRO = 123U,
-        CXType_OCLImage2dRO = 124U,
-        CXType_OCLImage2dArrayRO = 125U,
-        CXType_OCLImage2dDepthRO = 126U,
-        CXType_OCLImage2dArrayDepthRO = 127U,
-        CXType_OCLImage2dMSAARO = 128U,
-        CXType_OCLImage2dArrayMSAARO = 129U,
-        CXType_OCLImage2dMSAADepthRO = 130U,
-        CXType_OCLImage2dArrayMSAADepthRO = 131U,
-        CXType_OCLImage3dRO = 132U,
-        CXType_OCLImage1dWO = 133U,
-        CXType_OCLImage1dArrayWO = 134U,
-        CXType_OCLImage1dBufferWO = 135U,
-        CXType_OCLImage2dWO = 136U,
-        CXType_OCLImage2dArrayWO = 137U,
-        CXType_OCLImage2dDepthWO = 138U,
-        CXType_OCLImage2dArrayDepthWO = 139U,
-        CXType_OCLImage2dMSAAWO = 140U,
-        CXType_OCLImage2dArrayMSAAWO = 141U,
-        CXType_OCLImage2dMSAADepthWO = 142U,
-        CXType_OCLImage2dArrayMSAADepthWO = 143U,
-        CXType_OCLImage3dWO = 144U,
-        CXType_OCLImage1dRW = 145U,
-        CXType_OCLImage1dArrayRW = 146U,
-        CXType_OCLImage1dBufferRW = 147U,
-        CXType_OCLImage2dRW = 148U,
-        CXType_OCLImage2dArrayRW = 149U,
-        CXType_OCLImage2dDepthRW = 150U,
-        CXType_OCLImage2dArrayDepthRW = 151U,
-        CXType_OCLImage2dMSAARW = 152U,
-        CXType_OCLImage2dArrayMSAARW = 153U,
-        CXType_OCLImage2dMSAADepthRW = 154U,
-        CXType_OCLImage2dArrayMSAADepthRW = 155U,
-        CXType_OCLImage3dRW = 156U,
-        CXType_OCLSampler = 157U,
-        CXType_OCLEvent = 158U,
-        CXType_OCLQueue = 159U,
-        CXType_OCLReserveID = 160U,
-        CXType_ObjCObject = 161U,
-        CXType_ObjCTypeParam = 162U,
-        CXType_Attributed = 163U,
-        CXType_OCLIntelSubgroupAVCMcePayload = 164U,
-        CXType_OCLIntelSubgroupAVCImePayload = 165U,
-        CXType_OCLIntelSubgroupAVCRefPayload = 166U,
-        CXType_OCLIntelSubgroupAVCSicPayload = 167U,
-        CXType_OCLIntelSubgroupAVCMceResult = 168U,
-        CXType_OCLIntelSubgroupAVCImeResult = 169U,
-        CXType_OCLIntelSubgroupAVCRefResult = 170U,
-        CXType_OCLIntelSubgroupAVCSicResult = 171U,
-        CXType_OCLIntelSubgroupAVCImeResultSingleRefStreamout = 172U,
-        CXType_OCLIntelSubgroupAVCImeResultDualRefStreamout = 173U,
-        CXType_OCLIntelSubgroupAVCImeSingleRefStreamin = 174U,
-        CXType_OCLIntelSubgroupAVCImeDualRefStreamin = 175U,
-        CXType_ExtVector = 176U,
-        CXType_Atomic = 177U
+        CXType_Invalid = 0,
+        CXType_Unexposed = 1,
+        CXType_Void = 2,
+        CXType_Bool = 3,
+        CXType_Char_U = 4,
+        CXType_UChar = 5,
+        CXType_Char16 = 6,
+        CXType_Char32 = 7,
+        CXType_UShort = 8,
+        CXType_UInt = 9,
+        CXType_ULong = 10,
+        CXType_ULongLong = 11,
+        CXType_UInt128 = 12,
+        CXType_Char_S = 13,
+        CXType_SChar = 14,
+        CXType_WChar = 15,
+        CXType_Short = 16,
+        CXType_Int = 17,
+        CXType_Long = 18,
+        CXType_LongLong = 19,
+        CXType_Int128 = 20,
+        CXType_Float = 21,
+        CXType_Double = 22,
+        CXType_LongDouble = 23,
+        CXType_NullPtr = 24,
+        CXType_Overload = 25,
+        CXType_Dependent = 26,
+        CXType_ObjCId = 27,
+        CXType_ObjCClass = 28,
+        CXType_ObjCSel = 29,
+        CXType_Float128 = 30,
+        CXType_Half = 31,
+        CXType_Float16 = 32,
+        CXType_ShortAccum = 33,
+        CXType_Accum = 34,
+        CXType_LongAccum = 35,
+        CXType_UShortAccum = 36,
+        CXType_UAccum = 37,
+        CXType_ULongAccum = 38,
+        CXType_BFloat16 = 39,
+        CXType_FirstBuiltin = 2,
+        CXType_LastBuiltin = 39,
+        CXType_Complex = 100,
+        CXType_Pointer = 101,
+        CXType_BlockPointer = 102,
+        CXType_LValueReference = 103,
+        CXType_RValueReference = 104,
+        CXType_Record = 105,
+        CXType_Enum = 106,
+        CXType_Typedef = 107,
+        CXType_ObjCInterface = 108,
+        CXType_ObjCObjectPointer = 109,
+        CXType_FunctionNoProto = 110,
+        CXType_FunctionProto = 111,
+        CXType_ConstantArray = 112,
+        CXType_Vector = 113,
+        CXType_IncompleteArray = 114,
+        CXType_VariableArray = 115,
+        CXType_DependentSizedArray = 116,
+        CXType_MemberPointer = 117,
+        CXType_Auto = 118,
+        CXType_Elaborated = 119,
+        CXType_Pipe = 120,
+        CXType_OCLImage1dRO = 121,
+        CXType_OCLImage1dArrayRO = 122,
+        CXType_OCLImage1dBufferRO = 123,
+        CXType_OCLImage2dRO = 124,
+        CXType_OCLImage2dArrayRO = 125,
+        CXType_OCLImage2dDepthRO = 126,
+        CXType_OCLImage2dArrayDepthRO = 127,
+        CXType_OCLImage2dMSAARO = 128,
+        CXType_OCLImage2dArrayMSAARO = 129,
+        CXType_OCLImage2dMSAADepthRO = 130,
+        CXType_OCLImage2dArrayMSAADepthRO = 131,
+        CXType_OCLImage3dRO = 132,
+        CXType_OCLImage1dWO = 133,
+        CXType_OCLImage1dArrayWO = 134,
+        CXType_OCLImage1dBufferWO = 135,
+        CXType_OCLImage2dWO = 136,
+        CXType_OCLImage2dArrayWO = 137,
+        CXType_OCLImage2dDepthWO = 138,
+        CXType_OCLImage2dArrayDepthWO = 139,
+        CXType_OCLImage2dMSAAWO = 140,
+        CXType_OCLImage2dArrayMSAAWO = 141,
+        CXType_OCLImage2dMSAADepthWO = 142,
+        CXType_OCLImage2dArrayMSAADepthWO = 143,
+        CXType_OCLImage3dWO = 144,
+        CXType_OCLImage1dRW = 145,
+        CXType_OCLImage1dArrayRW = 146,
+        CXType_OCLImage1dBufferRW = 147,
+        CXType_OCLImage2dRW = 148,
+        CXType_OCLImage2dArrayRW = 149,
+        CXType_OCLImage2dDepthRW = 150,
+        CXType_OCLImage2dArrayDepthRW = 151,
+        CXType_OCLImage2dMSAARW = 152,
+        CXType_OCLImage2dArrayMSAARW = 153,
+        CXType_OCLImage2dMSAADepthRW = 154,
+        CXType_OCLImage2dArrayMSAADepthRW = 155,
+        CXType_OCLImage3dRW = 156,
+        CXType_OCLSampler = 157,
+        CXType_OCLEvent = 158,
+        CXType_OCLQueue = 159,
+        CXType_OCLReserveID = 160,
+        CXType_ObjCObject = 161,
+        CXType_ObjCTypeParam = 162,
+        CXType_Attributed = 163,
+        CXType_OCLIntelSubgroupAVCMcePayload = 164,
+        CXType_OCLIntelSubgroupAVCImePayload = 165,
+        CXType_OCLIntelSubgroupAVCRefPayload = 166,
+        CXType_OCLIntelSubgroupAVCSicPayload = 167,
+        CXType_OCLIntelSubgroupAVCMceResult = 168,
+        CXType_OCLIntelSubgroupAVCImeResult = 169,
+        CXType_OCLIntelSubgroupAVCRefResult = 170,
+        CXType_OCLIntelSubgroupAVCSicResult = 171,
+        CXType_OCLIntelSubgroupAVCImeResultSingleRefStreamout = 172,
+        CXType_OCLIntelSubgroupAVCImeResultDualRefStreamout = 173,
+        CXType_OCLIntelSubgroupAVCImeSingleRefStreamin = 174,
+        CXType_OCLIntelSubgroupAVCImeDualRefStreamin = 175,
+        CXType_ExtVector = 176,
+        CXType_Atomic = 177
     }
 
     // Enum @ Index.h:6451:3
-    public enum CXSymbolRole : uint
+    public enum CXSymbolRole : int
     {
-        CXSymbolRole_None = 0U,
-        CXSymbolRole_Declaration = 1U,
-        CXSymbolRole_Definition = 2U,
-        CXSymbolRole_Reference = 4U,
-        CXSymbolRole_Read = 8U,
-        CXSymbolRole_Write = 16U,
-        CXSymbolRole_Call = 32U,
-        CXSymbolRole_Dynamic = 64U,
-        CXSymbolRole_AddressOf = 128U,
-        CXSymbolRole_Implicit = 256U
+        CXSymbolRole_None = 0,
+        CXSymbolRole_Declaration = 1,
+        CXSymbolRole_Definition = 2,
+        CXSymbolRole_Reference = 4,
+        CXSymbolRole_Read = 8,
+        CXSymbolRole_Write = 16,
+        CXSymbolRole_Call = 32,
+        CXSymbolRole_Dynamic = 64,
+        CXSymbolRole_AddressOf = 128,
+        CXSymbolRole_Implicit = 256
     }
 
     // Enum @ Index.h:6304:3
-    public enum CXIdxAttrKind : uint
+    public enum CXIdxAttrKind : int
     {
-        CXIdxAttr_Unexposed = 0U,
-        CXIdxAttr_IBAction = 1U,
-        CXIdxAttr_IBOutlet = 2U,
-        CXIdxAttr_IBOutletCollection = 3U
+        CXIdxAttr_Unexposed = 0,
+        CXIdxAttr_IBAction = 1,
+        CXIdxAttr_IBOutlet = 2,
+        CXIdxAttr_IBOutletCollection = 3
     }
 
     // Enum @ Index.h:6280:3
-    public enum CXIdxEntityLanguage : uint
+    public enum CXIdxEntityLanguage : int
     {
-        CXIdxEntityLang_None = 0U,
-        CXIdxEntityLang_C = 1U,
-        CXIdxEntityLang_ObjC = 2U,
-        CXIdxEntityLang_CXX = 3U,
-        CXIdxEntityLang_Swift = 4U
+        CXIdxEntityLang_None = 0,
+        CXIdxEntityLang_C = 1,
+        CXIdxEntityLang_ObjC = 2,
+        CXIdxEntityLang_CXX = 3,
+        CXIdxEntityLang_Swift = 4
     }
 
     // Enum @ Index.h:6297:3
-    public enum CXIdxEntityCXXTemplateKind : uint
+    public enum CXIdxEntityCXXTemplateKind : int
     {
-        CXIdxEntity_NonTemplate = 0U,
-        CXIdxEntity_Template = 1U,
-        CXIdxEntity_TemplatePartialSpecialization = 2U,
-        CXIdxEntity_TemplateSpecialization = 3U
+        CXIdxEntity_NonTemplate = 0,
+        CXIdxEntity_Template = 1,
+        CXIdxEntity_TemplatePartialSpecialization = 2,
+        CXIdxEntity_TemplateSpecialization = 3
     }
 
     // Enum @ Index.h:6272:3
-    public enum CXIdxEntityKind : uint
+    public enum CXIdxEntityKind : int
     {
-        CXIdxEntity_Unexposed = 0U,
-        CXIdxEntity_Typedef = 1U,
-        CXIdxEntity_Function = 2U,
-        CXIdxEntity_Variable = 3U,
-        CXIdxEntity_Field = 4U,
-        CXIdxEntity_EnumConstant = 5U,
-        CXIdxEntity_ObjCClass = 6U,
-        CXIdxEntity_ObjCProtocol = 7U,
-        CXIdxEntity_ObjCCategory = 8U,
-        CXIdxEntity_ObjCInstanceMethod = 9U,
-        CXIdxEntity_ObjCClassMethod = 10U,
-        CXIdxEntity_ObjCProperty = 11U,
-        CXIdxEntity_ObjCIvar = 12U,
-        CXIdxEntity_Enum = 13U,
-        CXIdxEntity_Struct = 14U,
-        CXIdxEntity_Union = 15U,
-        CXIdxEntity_CXXClass = 16U,
-        CXIdxEntity_CXXNamespace = 17U,
-        CXIdxEntity_CXXNamespaceAlias = 18U,
-        CXIdxEntity_CXXStaticVariable = 19U,
-        CXIdxEntity_CXXStaticMethod = 20U,
-        CXIdxEntity_CXXInstanceMethod = 21U,
-        CXIdxEntity_CXXConstructor = 22U,
-        CXIdxEntity_CXXDestructor = 23U,
-        CXIdxEntity_CXXConversionFunction = 24U,
-        CXIdxEntity_CXXTypeAlias = 25U,
-        CXIdxEntity_CXXInterface = 26U
+        CXIdxEntity_Unexposed = 0,
+        CXIdxEntity_Typedef = 1,
+        CXIdxEntity_Function = 2,
+        CXIdxEntity_Variable = 3,
+        CXIdxEntity_Field = 4,
+        CXIdxEntity_EnumConstant = 5,
+        CXIdxEntity_ObjCClass = 6,
+        CXIdxEntity_ObjCProtocol = 7,
+        CXIdxEntity_ObjCCategory = 8,
+        CXIdxEntity_ObjCInstanceMethod = 9,
+        CXIdxEntity_ObjCClassMethod = 10,
+        CXIdxEntity_ObjCProperty = 11,
+        CXIdxEntity_ObjCIvar = 12,
+        CXIdxEntity_Enum = 13,
+        CXIdxEntity_Struct = 14,
+        CXIdxEntity_Union = 15,
+        CXIdxEntity_CXXClass = 16,
+        CXIdxEntity_CXXNamespace = 17,
+        CXIdxEntity_CXXNamespaceAlias = 18,
+        CXIdxEntity_CXXStaticVariable = 19,
+        CXIdxEntity_CXXStaticMethod = 20,
+        CXIdxEntity_CXXInstanceMethod = 21,
+        CXIdxEntity_CXXConstructor = 22,
+        CXIdxEntity_CXXDestructor = 23,
+        CXIdxEntity_CXXConversionFunction = 24,
+        CXIdxEntity_CXXTypeAlias = 25,
+        CXIdxEntity_CXXInterface = 26
     }
 
     // Enum @ Index.h:6432:3
-    public enum CXIdxEntityRefKind : uint
+    public enum CXIdxEntityRefKind : int
     {
-        CXIdxEntityRef_Direct = 1U,
-        CXIdxEntityRef_Implicit = 2U
+        CXIdxEntityRef_Direct = 1,
+        CXIdxEntityRef_Implicit = 2
     }
 
     // Enum @ Index.h:6366:3
-    public enum CXIdxObjCContainerKind : uint
+    public enum CXIdxObjCContainerKind : int
     {
-        CXIdxObjCContainer_ForwardRef = 0U,
-        CXIdxObjCContainer_Interface = 1U,
-        CXIdxObjCContainer_Implementation = 2U
+        CXIdxObjCContainer_ForwardRef = 0,
+        CXIdxObjCContainer_Interface = 1,
+        CXIdxObjCContainer_Implementation = 2
     }
 
     // Enum @ Index.h:6109:3
-    public enum CXResult : uint
+    public enum CXResult : int
     {
-        CXResult_Success = 0U,
-        CXResult_Invalid = 1U,
-        CXResult_VisitBreak = 2U
+        CXResult_Success = 0,
+        CXResult_Invalid = 1,
+        CXResult_VisitBreak = 2
     }
 
     // Enum @ Index.h:5954:3
-    public enum CXEvalResultKind : uint
+    public enum CXEvalResultKind : int
     {
-        CXEval_Int = 1U,
-        CXEval_Float = 2U,
-        CXEval_ObjCStrLiteral = 3U,
-        CXEval_StrLiteral = 4U,
-        CXEval_CFStr = 5U,
-        CXEval_Other = 6U,
-        CXEval_UnExposed = 0U
+        CXEval_Int = 1,
+        CXEval_Float = 2,
+        CXEval_ObjCStrLiteral = 3,
+        CXEval_StrLiteral = 4,
+        CXEval_CFStr = 5,
+        CXEval_Other = 6,
+        CXEval_UnExposed = 0
     }
 
     // Enum @ Index.h:125:6
-    public enum CXAvailabilityKind : uint
+    public enum CXAvailabilityKind : int
     {
-        CXAvailability_Available = 0U,
-        CXAvailability_Deprecated = 1U,
-        CXAvailability_NotAvailable = 2U,
-        CXAvailability_NotAccessible = 3U
+        CXAvailability_Available = 0,
+        CXAvailability_Deprecated = 1,
+        CXAvailability_NotAvailable = 2,
+        CXAvailability_NotAccessible = 3
     }
 
     // Enum @ Index.h:5156:6
-    public enum CXCompletionChunkKind : uint
+    public enum CXCompletionChunkKind : int
     {
-        CXCompletionChunk_Optional = 0U,
-        CXCompletionChunk_TypedText = 1U,
-        CXCompletionChunk_Text = 2U,
-        CXCompletionChunk_Placeholder = 3U,
-        CXCompletionChunk_Informative = 4U,
-        CXCompletionChunk_CurrentParameter = 5U,
-        CXCompletionChunk_LeftParen = 6U,
-        CXCompletionChunk_RightParen = 7U,
-        CXCompletionChunk_LeftBracket = 8U,
-        CXCompletionChunk_RightBracket = 9U,
-        CXCompletionChunk_LeftBrace = 10U,
-        CXCompletionChunk_RightBrace = 11U,
-        CXCompletionChunk_LeftAngle = 12U,
-        CXCompletionChunk_RightAngle = 13U,
-        CXCompletionChunk_Comma = 14U,
-        CXCompletionChunk_ResultType = 15U,
-        CXCompletionChunk_Colon = 16U,
-        CXCompletionChunk_SemiColon = 17U,
-        CXCompletionChunk_Equal = 18U,
-        CXCompletionChunk_HorizontalSpace = 19U,
-        CXCompletionChunk_VerticalSpace = 20U
+        CXCompletionChunk_Optional = 0,
+        CXCompletionChunk_TypedText = 1,
+        CXCompletionChunk_Text = 2,
+        CXCompletionChunk_Placeholder = 3,
+        CXCompletionChunk_Informative = 4,
+        CXCompletionChunk_CurrentParameter = 5,
+        CXCompletionChunk_LeftParen = 6,
+        CXCompletionChunk_RightParen = 7,
+        CXCompletionChunk_LeftBracket = 8,
+        CXCompletionChunk_RightBracket = 9,
+        CXCompletionChunk_LeftBrace = 10,
+        CXCompletionChunk_RightBrace = 11,
+        CXCompletionChunk_LeftAngle = 12,
+        CXCompletionChunk_RightAngle = 13,
+        CXCompletionChunk_Comma = 14,
+        CXCompletionChunk_ResultType = 15,
+        CXCompletionChunk_Colon = 16,
+        CXCompletionChunk_SemiColon = 17,
+        CXCompletionChunk_Equal = 18,
+        CXCompletionChunk_HorizontalSpace = 19,
+        CXCompletionChunk_VerticalSpace = 20
     }
 
     // Enum @ Index.h:4966:3
-    public enum CXTokenKind : uint
+    public enum CXTokenKind : int
     {
-        CXToken_Punctuation = 0U,
-        CXToken_Keyword = 1U,
-        CXToken_Identifier = 2U,
-        CXToken_Literal = 3U,
-        CXToken_Comment = 4U
+        CXToken_Punctuation = 0,
+        CXToken_Keyword = 1,
+        CXToken_Identifier = 2,
+        CXToken_Literal = 3,
+        CXToken_Comment = 4
     }
 
     // Enum @ Index.h:4339:6
-    public enum CXPrintingPolicyProperty : uint
+    public enum CXPrintingPolicyProperty : int
     {
-        CXPrintingPolicy_Indentation = 0U,
-        CXPrintingPolicy_SuppressSpecifiers = 1U,
-        CXPrintingPolicy_SuppressTagKeyword = 2U,
-        CXPrintingPolicy_IncludeTagDefinition = 3U,
-        CXPrintingPolicy_SuppressScope = 4U,
-        CXPrintingPolicy_SuppressUnwrittenScope = 5U,
-        CXPrintingPolicy_SuppressInitializers = 6U,
-        CXPrintingPolicy_ConstantArraySizeAsWritten = 7U,
-        CXPrintingPolicy_AnonymousTagLocations = 8U,
-        CXPrintingPolicy_SuppressStrongLifetime = 9U,
-        CXPrintingPolicy_SuppressLifetimeQualifiers = 10U,
-        CXPrintingPolicy_SuppressTemplateArgsInCXXConstructors = 11U,
-        CXPrintingPolicy_Bool = 12U,
-        CXPrintingPolicy_Restrict = 13U,
-        CXPrintingPolicy_Alignof = 14U,
-        CXPrintingPolicy_UnderscoreAlignof = 15U,
-        CXPrintingPolicy_UseVoidForZeroParams = 16U,
-        CXPrintingPolicy_TerseOutput = 17U,
-        CXPrintingPolicy_PolishForDeclaration = 18U,
-        CXPrintingPolicy_Half = 19U,
-        CXPrintingPolicy_MSWChar = 20U,
-        CXPrintingPolicy_IncludeNewlines = 21U,
-        CXPrintingPolicy_MSVCFormatting = 22U,
-        CXPrintingPolicy_ConstantsAsWritten = 23U,
-        CXPrintingPolicy_SuppressImplicitBase = 24U,
-        CXPrintingPolicy_FullyQualifiedName = 25U,
-        CXPrintingPolicy_LastProperty = 25U
+        CXPrintingPolicy_Indentation = 0,
+        CXPrintingPolicy_SuppressSpecifiers = 1,
+        CXPrintingPolicy_SuppressTagKeyword = 2,
+        CXPrintingPolicy_IncludeTagDefinition = 3,
+        CXPrintingPolicy_SuppressScope = 4,
+        CXPrintingPolicy_SuppressUnwrittenScope = 5,
+        CXPrintingPolicy_SuppressInitializers = 6,
+        CXPrintingPolicy_ConstantArraySizeAsWritten = 7,
+        CXPrintingPolicy_AnonymousTagLocations = 8,
+        CXPrintingPolicy_SuppressStrongLifetime = 9,
+        CXPrintingPolicy_SuppressLifetimeQualifiers = 10,
+        CXPrintingPolicy_SuppressTemplateArgsInCXXConstructors = 11,
+        CXPrintingPolicy_Bool = 12,
+        CXPrintingPolicy_Restrict = 13,
+        CXPrintingPolicy_Alignof = 14,
+        CXPrintingPolicy_UnderscoreAlignof = 15,
+        CXPrintingPolicy_UseVoidForZeroParams = 16,
+        CXPrintingPolicy_TerseOutput = 17,
+        CXPrintingPolicy_PolishForDeclaration = 18,
+        CXPrintingPolicy_Half = 19,
+        CXPrintingPolicy_MSWChar = 20,
+        CXPrintingPolicy_IncludeNewlines = 21,
+        CXPrintingPolicy_MSVCFormatting = 22,
+        CXPrintingPolicy_ConstantsAsWritten = 23,
+        CXPrintingPolicy_SuppressImplicitBase = 24,
+        CXPrintingPolicy_FullyQualifiedName = 25,
+        CXPrintingPolicy_LastProperty = 25
     }
 
     // Enum @ Index.h:4162:6
-    public enum CXChildVisitResult : uint
+    public enum CXChildVisitResult : int
     {
-        CXChildVisit_Break = 0U,
-        CXChildVisit_Continue = 1U,
-        CXChildVisit_Recurse = 2U
+        CXChildVisit_Break = 0,
+        CXChildVisit_Continue = 1,
+        CXChildVisit_Recurse = 2
     }
 
     // Enum @ Index.h:4078:6
-    public enum CX_StorageClass : uint
+    public enum CX_StorageClass : int
     {
-        CX_SC_Invalid = 0U,
-        CX_SC_None = 1U,
-        CX_SC_Extern = 2U,
-        CX_SC_Static = 3U,
-        CX_SC_PrivateExtern = 4U,
-        CX_SC_OpenCLWorkGroupLocal = 5U,
-        CX_SC_Auto = 6U,
-        CX_SC_Register = 7U
+        CX_SC_Invalid = 0,
+        CX_SC_None = 1,
+        CX_SC_Extern = 2,
+        CX_SC_Static = 3,
+        CX_SC_PrivateExtern = 4,
+        CX_SC_OpenCLWorkGroupLocal = 5,
+        CX_SC_Auto = 6,
+        CX_SC_Register = 7
     }
 
     // Enum @ Index.h:4058:6
-    public enum CX_CXXAccessSpecifier : uint
+    public enum CX_CXXAccessSpecifier : int
     {
-        CX_CXXInvalidAccessSpecifier = 0U,
-        CX_CXXPublic = 1U,
-        CX_CXXProtected = 2U,
-        CX_CXXPrivate = 3U
+        CX_CXXInvalidAccessSpecifier = 0,
+        CX_CXXPublic = 1,
+        CX_CXXProtected = 2,
+        CX_CXXPrivate = 3
     }
 
     // Enum @ Index.h:4009:6
-    public enum CXRefQualifierKind : uint
+    public enum CXRefQualifierKind : int
     {
-        CXRefQualifier_None = 0U,
-        CXRefQualifier_LValue = 1U,
-        CXRefQualifier_RValue = 2U
+        CXRefQualifier_None = 0,
+        CXRefQualifier_LValue = 1,
+        CXRefQualifier_RValue = 2
     }
 
     // Enum @ Index.h:3845:6
-    public enum CXTypeNullabilityKind : uint
+    public enum CXTypeNullabilityKind : int
     {
-        CXTypeNullability_NonNull = 0U,
-        CXTypeNullability_Nullable = 1U,
-        CXTypeNullability_Unspecified = 2U,
-        CXTypeNullability_Invalid = 3U,
-        CXTypeNullability_NullableResult = 4U
+        CXTypeNullability_NonNull = 0,
+        CXTypeNullability_Nullable = 1,
+        CXTypeNullability_Unspecified = 2,
+        CXTypeNullability_Invalid = 3,
+        CXTypeNullability_NullableResult = 4
     }
 
     // Enum @ Index.h:3377:6
-    public enum CXCallingConv : uint
+    public enum CXCallingConv : int
     {
-        CXCallingConv_Default = 0U,
-        CXCallingConv_C = 1U,
-        CXCallingConv_X86StdCall = 2U,
-        CXCallingConv_X86FastCall = 3U,
-        CXCallingConv_X86ThisCall = 4U,
-        CXCallingConv_X86Pascal = 5U,
-        CXCallingConv_AAPCS = 6U,
-        CXCallingConv_AAPCS_VFP = 7U,
-        CXCallingConv_X86RegCall = 8U,
-        CXCallingConv_IntelOclBicc = 9U,
-        CXCallingConv_Win64 = 10U,
-        CXCallingConv_X86_64Win64 = 10U,
-        CXCallingConv_X86_64SysV = 11U,
-        CXCallingConv_X86VectorCall = 12U,
-        CXCallingConv_Swift = 13U,
-        CXCallingConv_PreserveMost = 14U,
-        CXCallingConv_PreserveAll = 15U,
-        CXCallingConv_AArch64VectorCall = 16U,
-        CXCallingConv_Invalid = 100U,
-        CXCallingConv_Unexposed = 200U
+        CXCallingConv_Default = 0,
+        CXCallingConv_C = 1,
+        CXCallingConv_X86StdCall = 2,
+        CXCallingConv_X86FastCall = 3,
+        CXCallingConv_X86ThisCall = 4,
+        CXCallingConv_X86Pascal = 5,
+        CXCallingConv_AAPCS = 6,
+        CXCallingConv_AAPCS_VFP = 7,
+        CXCallingConv_X86RegCall = 8,
+        CXCallingConv_IntelOclBicc = 9,
+        CXCallingConv_Win64 = 10,
+        CXCallingConv_X86_64Win64 = 10,
+        CXCallingConv_X86_64SysV = 11,
+        CXCallingConv_X86VectorCall = 12,
+        CXCallingConv_Swift = 13,
+        CXCallingConv_PreserveMost = 14,
+        CXCallingConv_PreserveAll = 15,
+        CXCallingConv_AArch64VectorCall = 16,
+        CXCallingConv_Invalid = 100,
+        CXCallingConv_Unexposed = 200
     }
 
     // Enum @ Index.h:3492:6
-    public enum CXTemplateArgumentKind : uint
+    public enum CXTemplateArgumentKind : int
     {
-        CXTemplateArgumentKind_Null = 0U,
-        CXTemplateArgumentKind_Type = 1U,
-        CXTemplateArgumentKind_Declaration = 2U,
-        CXTemplateArgumentKind_NullPtr = 3U,
-        CXTemplateArgumentKind_Integral = 4U,
-        CXTemplateArgumentKind_Template = 5U,
-        CXTemplateArgumentKind_TemplateExpansion = 6U,
-        CXTemplateArgumentKind_Expression = 7U,
-        CXTemplateArgumentKind_Pack = 8U,
-        CXTemplateArgumentKind_Invalid = 9U
+        CXTemplateArgumentKind_Null = 0,
+        CXTemplateArgumentKind_Type = 1,
+        CXTemplateArgumentKind_Declaration = 2,
+        CXTemplateArgumentKind_NullPtr = 3,
+        CXTemplateArgumentKind_Integral = 4,
+        CXTemplateArgumentKind_Template = 5,
+        CXTemplateArgumentKind_TemplateExpansion = 6,
+        CXTemplateArgumentKind_Expression = 7,
+        CXTemplateArgumentKind_Pack = 8,
+        CXTemplateArgumentKind_Invalid = 9
     }
 
     // Enum @ Index.h:2982:6
-    public enum CXTLSKind : uint
+    public enum CXTLSKind : int
     {
-        CXTLS_None = 0U,
-        CXTLS_Dynamic = 1U,
-        CXTLS_Static = 2U
+        CXTLS_None = 0,
+        CXTLS_Dynamic = 1,
+        CXTLS_Static = 2
     }
 
     // Enum @ Index.h:2966:6
-    public enum CXLanguageKind : uint
+    public enum CXLanguageKind : int
     {
-        CXLanguage_Invalid = 0U,
-        CXLanguage_C = 1U,
-        CXLanguage_ObjC = 2U,
-        CXLanguage_CPlusPlus = 3U
+        CXLanguage_Invalid = 0,
+        CXLanguage_C = 1,
+        CXLanguage_ObjC = 2,
+        CXLanguage_CPlusPlus = 3
     }
 
     // Enum @ Index.h:2822:6
-    public enum CXVisibilityKind : uint
+    public enum CXVisibilityKind : int
     {
-        CXVisibility_Invalid = 0U,
-        CXVisibility_Hidden = 1U,
-        CXVisibility_Protected = 2U,
-        CXVisibility_Default = 3U
+        CXVisibility_Invalid = 0,
+        CXVisibility_Hidden = 1,
+        CXVisibility_Protected = 2,
+        CXVisibility_Default = 3
     }
 
     // Enum @ Index.h:2799:6
-    public enum CXLinkageKind : uint
+    public enum CXLinkageKind : int
     {
-        CXLinkage_Invalid = 0U,
-        CXLinkage_NoLinkage = 1U,
-        CXLinkage_Internal = 2U,
-        CXLinkage_UniqueExternal = 3U,
-        CXLinkage_External = 4U
+        CXLinkage_Invalid = 0,
+        CXLinkage_NoLinkage = 1,
+        CXLinkage_Internal = 2,
+        CXLinkage_UniqueExternal = 3,
+        CXLinkage_External = 4
     }
 
     // Enum @ Index.h:1609:6
-    public enum CXTUResourceUsageKind : uint
+    public enum CXTUResourceUsageKind : int
     {
-        CXTUResourceUsage_AST = 1U,
-        CXTUResourceUsage_Identifiers = 2U,
-        CXTUResourceUsage_Selectors = 3U,
-        CXTUResourceUsage_GlobalCompletionResults = 4U,
-        CXTUResourceUsage_SourceManagerContentCache = 5U,
-        CXTUResourceUsage_AST_SideTables = 6U,
-        CXTUResourceUsage_SourceManager_Membuffer_Malloc = 7U,
-        CXTUResourceUsage_SourceManager_Membuffer_MMap = 8U,
-        CXTUResourceUsage_ExternalASTSource_Membuffer_Malloc = 9U,
-        CXTUResourceUsage_ExternalASTSource_Membuffer_MMap = 10U,
-        CXTUResourceUsage_Preprocessor = 11U,
-        CXTUResourceUsage_PreprocessingRecord = 12U,
-        CXTUResourceUsage_SourceManager_DataStructures = 13U,
-        CXTUResourceUsage_Preprocessor_HeaderSearch = 14U,
-        CXTUResourceUsage_MEMORY_IN_BYTES_BEGIN = 1U,
-        CXTUResourceUsage_MEMORY_IN_BYTES_END = 14U,
-        CXTUResourceUsage_First = 1U,
-        CXTUResourceUsage_Last = 14U
+        CXTUResourceUsage_AST = 1,
+        CXTUResourceUsage_Identifiers = 2,
+        CXTUResourceUsage_Selectors = 3,
+        CXTUResourceUsage_GlobalCompletionResults = 4,
+        CXTUResourceUsage_SourceManagerContentCache = 5,
+        CXTUResourceUsage_AST_SideTables = 6,
+        CXTUResourceUsage_SourceManager_Membuffer_Malloc = 7,
+        CXTUResourceUsage_SourceManager_Membuffer_MMap = 8,
+        CXTUResourceUsage_ExternalASTSource_Membuffer_Malloc = 9,
+        CXTUResourceUsage_ExternalASTSource_Membuffer_MMap = 10,
+        CXTUResourceUsage_Preprocessor = 11,
+        CXTUResourceUsage_PreprocessingRecord = 12,
+        CXTUResourceUsage_SourceManager_DataStructures = 13,
+        CXTUResourceUsage_Preprocessor_HeaderSearch = 14,
+        CXTUResourceUsage_MEMORY_IN_BYTES_BEGIN = 1,
+        CXTUResourceUsage_MEMORY_IN_BYTES_END = 14,
+        CXTUResourceUsage_First = 1,
+        CXTUResourceUsage_Last = 14
     }
 
     // Enum @ CXErrorCode.h:28:6
-    public enum CXErrorCode : uint
+    public enum CXErrorCode : int
     {
-        CXError_Success = 0U,
-        CXError_Failure = 1U,
-        CXError_Crashed = 2U,
-        CXError_InvalidArguments = 3U,
-        CXError_ASTReadError = 4U
+        CXError_Success = 0,
+        CXError_Failure = 1,
+        CXError_Crashed = 2,
+        CXError_InvalidArguments = 3,
+        CXError_ASTReadError = 4
     }
 
     // Enum @ Index.h:739:6
-    public enum CXDiagnosticSeverity : uint
+    public enum CXDiagnosticSeverity : int
     {
-        CXDiagnostic_Ignored = 0U,
-        CXDiagnostic_Note = 1U,
-        CXDiagnostic_Warning = 2U,
-        CXDiagnostic_Error = 3U,
-        CXDiagnostic_Fatal = 4U
+        CXDiagnostic_Ignored = 0,
+        CXDiagnostic_Note = 1,
+        CXDiagnostic_Warning = 2,
+        CXDiagnostic_Error = 3,
+        CXDiagnostic_Fatal = 4
     }
 
     // Enum @ Index.h:803:6
-    public enum CXLoadDiag_Error : uint
+    public enum CXLoadDiag_Error : int
     {
-        CXLoadDiag_None = 0U,
-        CXLoadDiag_Unknown = 1U,
-        CXLoadDiag_CannotLoad = 2U,
-        CXLoadDiag_InvalidFile = 3U
+        CXLoadDiag_None = 0,
+        CXLoadDiag_Unknown = 1,
+        CXLoadDiag_CannotLoad = 2,
+        CXLoadDiag_InvalidFile = 3
     }
 
     private static void _LoadVirtualTable()
     {
         #region "Functions"
-
         _virtualTable.clang_Type_visitFields = (delegate* unmanaged[Cdecl]<CXType, CXFieldVisitor, CXClientData, uint>)Runtime.LibraryGetExport(_libraryHandle, "clang_Type_visitFields");
         _virtualTable.clang_indexLoc_getCXSourceLocation = (delegate* unmanaged[Cdecl]<CXIdxLoc, CXSourceLocation>)Runtime.LibraryGetExport(_libraryHandle, "clang_indexLoc_getCXSourceLocation");
         _virtualTable.clang_indexLoc_getFileLocation = (delegate* unmanaged[Cdecl]<CXIdxLoc, CXIdxClientFile*, CXFile*, ulong*, ulong*, ulong*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_indexLoc_getFileLocation");
@@ -3849,7 +3856,7 @@ public static unsafe partial class clang
         _virtualTable.clang_getCompletionChunkCompletionString = (delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXCompletionString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCompletionChunkCompletionString");
         _virtualTable.clang_getCompletionChunkText = (delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCompletionChunkText");
         _virtualTable.clang_getCompletionChunkKind = (delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXCompletionChunkKind>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCompletionChunkKind");
-        _virtualTable.clang_executeOnThread = (delegate* unmanaged[Cdecl]<FnPtrPointerVoid, void*, uint, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_executeOnThread");
+        _virtualTable.clang_executeOnThread = (delegate* unmanaged[Cdecl]<FnPtr_CLANG_VoidPtr_Void, void*, uint, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_executeOnThread");
         _virtualTable.clang_enableStackTraces = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "clang_enableStackTraces");
         _virtualTable.clang_getDefinitionSpellingAndExtent = (delegate* unmanaged[Cdecl]<CXCursor, CString*, CString*, ulong*, ulong*, ulong*, ulong*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_getDefinitionSpellingAndExtent");
         _virtualTable.clang_getCursorKindSpelling = (delegate* unmanaged[Cdecl]<CXCursorKind, CXString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCursorKindSpelling");
@@ -4122,12 +4129,9 @@ public static unsafe partial class clang
         _virtualTable.clang_disposeStringSet = (delegate* unmanaged[Cdecl]<CXStringSet*, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_disposeStringSet");
         _virtualTable.clang_disposeString = (delegate* unmanaged[Cdecl]<CXString, void>)Runtime.LibraryGetExport(_libraryHandle, "clang_disposeString");
         _virtualTable.clang_getCString = (delegate* unmanaged[Cdecl]<CXString, CString>)Runtime.LibraryGetExport(_libraryHandle, "clang_getCString");
-
         #endregion
 
         #region "Variables"
-
-
 
         #endregion
     }
@@ -4198,7 +4202,7 @@ public static unsafe partial class clang
         _virtualTable.clang_getCompletionChunkCompletionString = (delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXCompletionString>)IntPtr.Zero;
         _virtualTable.clang_getCompletionChunkText = (delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXString>)IntPtr.Zero;
         _virtualTable.clang_getCompletionChunkKind = (delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXCompletionChunkKind>)IntPtr.Zero;
-        _virtualTable.clang_executeOnThread = (delegate* unmanaged[Cdecl]<FnPtrPointerVoid, void*, uint, void>)IntPtr.Zero;
+        _virtualTable.clang_executeOnThread = (delegate* unmanaged[Cdecl]<FnPtr_CLANG_VoidPtr_Void, void*, uint, void>)IntPtr.Zero;
         _virtualTable.clang_enableStackTraces = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
         _virtualTable.clang_getDefinitionSpellingAndExtent = (delegate* unmanaged[Cdecl]<CXCursor, CString*, CString*, ulong*, ulong*, ulong*, ulong*, void>)IntPtr.Zero;
         _virtualTable.clang_getCursorKindSpelling = (delegate* unmanaged[Cdecl]<CXCursorKind, CXString>)IntPtr.Zero;
@@ -4552,7 +4556,7 @@ public static unsafe partial class clang
         public delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXCompletionString> clang_getCompletionChunkCompletionString;
         public delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXString> clang_getCompletionChunkText;
         public delegate* unmanaged[Cdecl]<CXCompletionString, uint, CXCompletionChunkKind> clang_getCompletionChunkKind;
-        public delegate* unmanaged[Cdecl]<FnPtrPointerVoid, void*, uint, void> clang_executeOnThread;
+        public delegate* unmanaged[Cdecl]<FnPtr_CLANG_VoidPtr_Void, void*, uint, void> clang_executeOnThread;
         public delegate* unmanaged[Cdecl]<void> clang_enableStackTraces;
         public delegate* unmanaged[Cdecl]<CXCursor, CString*, CString*, ulong*, ulong*, ulong*, ulong*, void> clang_getDefinitionSpellingAndExtent;
         public delegate* unmanaged[Cdecl]<CXCursorKind, CXString> clang_getCursorKindSpelling;

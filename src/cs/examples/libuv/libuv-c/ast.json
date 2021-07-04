@@ -9015,7 +9015,7 @@
   "functionPointers": [
     {
       "name": "uv_thread_cb",
-      "type": "uv_thread_cb",
+      "type": "void (void *)",
       "returnType": "void",
       "parameters": [
         {
@@ -9035,8 +9035,19 @@
       }
     },
     {
+      "name": "",
+      "type": "void (void)",
+      "returnType": "void",
+      "parameters": [],
+      "location": {
+        "file": "uv.h",
+        "line": 1750,
+        "column": 49
+      }
+    },
+    {
       "name": "uv_random_cb",
-      "type": "uv_random_cb",
+      "type": "void (uv_random_t *, int, void *, size_t)",
       "returnType": "void",
       "parameters": [
         {
@@ -9085,7 +9096,7 @@
     },
     {
       "name": "uv_fs_event_cb",
-      "type": "uv_fs_event_cb",
+      "type": "void (uv_fs_event_t *, char *, int, int)",
       "returnType": "void",
       "parameters": [
         {
@@ -9133,7 +9144,7 @@
     },
     {
       "name": "uv_signal_cb",
-      "type": "uv_signal_cb",
+      "type": "void (uv_signal_t *, int)",
       "returnType": "void",
       "parameters": [
         {
@@ -9163,7 +9174,7 @@
     },
     {
       "name": "uv_fs_poll_cb",
-      "type": "uv_fs_poll_cb",
+      "type": "void (uv_fs_poll_t *, int, uv_stat_t *, uv_stat_t *)",
       "returnType": "void",
       "parameters": [
         {
@@ -9211,7 +9222,7 @@
     },
     {
       "name": "uv_fs_cb",
-      "type": "uv_fs_cb",
+      "type": "void (uv_fs_t *)",
       "returnType": "void",
       "parameters": [
         {
@@ -9232,7 +9243,7 @@
     },
     {
       "name": "uv_after_work_cb",
-      "type": "uv_after_work_cb",
+      "type": "void (uv_work_t *, int)",
       "returnType": "void",
       "parameters": [
         {
@@ -9262,7 +9273,7 @@
     },
     {
       "name": "uv_work_cb",
-      "type": "uv_work_cb",
+      "type": "void (uv_work_t *)",
       "returnType": "void",
       "parameters": [
         {
@@ -9283,7 +9294,7 @@
     },
     {
       "name": "uv_exit_cb",
-      "type": "uv_exit_cb",
+      "type": "void (uv_process_t *, int64_t, int)",
       "returnType": "void",
       "parameters": [
         {
@@ -9323,7 +9334,7 @@
     },
     {
       "name": "uv_getnameinfo_cb",
-      "type": "uv_getnameinfo_cb",
+      "type": "void (uv_getnameinfo_t *, int, char *, char *)",
       "returnType": "void",
       "parameters": [
         {
@@ -9371,7 +9382,7 @@
     },
     {
       "name": "uv_getaddrinfo_cb",
-      "type": "uv_getaddrinfo_cb",
+      "type": "void (uv_getaddrinfo_t *, int, addrinfo *)",
       "returnType": "void",
       "parameters": [
         {
@@ -9411,7 +9422,7 @@
     },
     {
       "name": "uv_timer_cb",
-      "type": "uv_timer_cb",
+      "type": "void (uv_timer_t *)",
       "returnType": "void",
       "parameters": [
         {
@@ -9432,7 +9443,7 @@
     },
     {
       "name": "uv_async_cb",
-      "type": "uv_async_cb",
+      "type": "void (uv_async_t *)",
       "returnType": "void",
       "parameters": [
         {
@@ -9453,7 +9464,7 @@
     },
     {
       "name": "uv_idle_cb",
-      "type": "uv_idle_cb",
+      "type": "void (uv_idle_t *)",
       "returnType": "void",
       "parameters": [
         {
@@ -9474,7 +9485,7 @@
     },
     {
       "name": "uv_check_cb",
-      "type": "uv_check_cb",
+      "type": "void (uv_check_t *)",
       "returnType": "void",
       "parameters": [
         {
@@ -9495,7 +9506,7 @@
     },
     {
       "name": "uv_prepare_cb",
-      "type": "uv_prepare_cb",
+      "type": "void (uv_prepare_t *)",
       "returnType": "void",
       "parameters": [
         {
@@ -9516,7 +9527,7 @@
     },
     {
       "name": "uv_poll_cb",
-      "type": "uv_poll_cb",
+      "type": "void (uv_poll_t *, int, int)",
       "returnType": "void",
       "parameters": [
         {
@@ -9555,7 +9566,7 @@
     },
     {
       "name": "uv_connect_cb",
-      "type": "uv_connect_cb",
+      "type": "void (uv_connect_t *, int)",
       "returnType": "void",
       "parameters": [
         {
@@ -9585,7 +9596,7 @@
     },
     {
       "name": "uv_udp_recv_cb",
-      "type": "uv_udp_recv_cb",
+      "type": "void (uv_udp_t *, ssize_t, uv_buf_t *, sockaddr *, unsigned int)",
       "returnType": "void",
       "parameters": [
         {
@@ -9643,7 +9654,7 @@
     },
     {
       "name": "uv_alloc_cb",
-      "type": "uv_alloc_cb",
+      "type": "void (uv_handle_t *, size_t, uv_buf_t *)",
       "returnType": "void",
       "parameters": [
         {
@@ -9683,7 +9694,7 @@
     },
     {
       "name": "uv_udp_send_cb",
-      "type": "uv_udp_send_cb",
+      "type": "void (uv_udp_send_t *, int)",
       "returnType": "void",
       "parameters": [
         {
@@ -9713,7 +9724,7 @@
     },
     {
       "name": "uv_close_cb",
-      "type": "uv_close_cb",
+      "type": "void (uv_handle_t *)",
       "returnType": "void",
       "parameters": [
         {
@@ -9734,7 +9745,7 @@
     },
     {
       "name": "uv_write_cb",
-      "type": "uv_write_cb",
+      "type": "void (uv_write_t *, int)",
       "returnType": "void",
       "parameters": [
         {
@@ -9764,7 +9775,7 @@
     },
     {
       "name": "uv_read_cb",
-      "type": "uv_read_cb",
+      "type": "void (uv_stream_t *, ssize_t, uv_buf_t *)",
       "returnType": "void",
       "parameters": [
         {
@@ -9803,7 +9814,7 @@
     },
     {
       "name": "uv_connection_cb",
-      "type": "uv_connection_cb",
+      "type": "void (uv_stream_t *, int)",
       "returnType": "void",
       "parameters": [
         {
@@ -9833,7 +9844,7 @@
     },
     {
       "name": "uv_walk_cb",
-      "type": "uv_walk_cb",
+      "type": "void (uv_handle_t *, void *)",
       "returnType": "void",
       "parameters": [
         {
@@ -9863,7 +9874,7 @@
     },
     {
       "name": "uv_shutdown_cb",
-      "type": "uv_shutdown_cb",
+      "type": "void (uv_shutdown_t *, int)",
       "returnType": "void",
       "parameters": [
         {
@@ -9893,7 +9904,7 @@
     },
     {
       "name": "uv_free_func",
-      "type": "uv_free_func",
+      "type": "void (void *)",
       "returnType": "void",
       "parameters": [
         {
@@ -9914,7 +9925,7 @@
     },
     {
       "name": "uv_calloc_func",
-      "type": "uv_calloc_func",
+      "type": "void *(size_t, size_t)",
       "returnType": "void*",
       "parameters": [
         {
@@ -9946,7 +9957,7 @@
     },
     {
       "name": "uv_realloc_func",
-      "type": "uv_realloc_func",
+      "type": "void *(void *, size_t)",
       "returnType": "void*",
       "parameters": [
         {
@@ -9977,7 +9988,7 @@
     },
     {
       "name": "uv_malloc_func",
-      "type": "uv_malloc_func",
+      "type": "void *(size_t)",
       "returnType": "void*",
       "parameters": [
         {
@@ -10025,7 +10036,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "uv.h",
         "line": 1774,
@@ -10059,7 +10069,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "uv.h",
         "line": 1187,
@@ -10091,7 +10100,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "win.h",
         "line": 323,
@@ -10113,7 +10121,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "minwindef.h",
         "line": 250,
@@ -10297,7 +10304,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "uv.h",
         "line": 366,
@@ -10328,7 +10334,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "uv.h",
         "line": 346,
@@ -10360,7 +10365,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "uv.h",
         "line": 244,
@@ -10393,7 +10397,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "win.h",
         "line": 229,
@@ -10444,7 +10447,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "uv.h",
         "line": 246,
@@ -10475,7 +10477,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "uv.h",
         "line": 241,
@@ -10564,7 +10565,6 @@
             }
           ],
           "nestedRecords": [],
-          "nestedFunctionPointers": [],
           "location": {
             "file": "uv.h",
             "line": 1116,
@@ -10597,7 +10597,6 @@
             }
           ],
           "nestedRecords": [],
-          "nestedFunctionPointers": [],
           "location": {
             "file": "uv.h",
             "line": 1120,
@@ -10605,7 +10604,6 @@
           }
         }
       ],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "uv.h",
         "line": 243,
@@ -10647,7 +10645,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "uv.h",
         "line": 242,
@@ -10713,7 +10710,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "uv.h",
         "line": 1098,
@@ -10774,7 +10770,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "uv.h",
         "line": 245,
@@ -10959,7 +10954,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "uv.h",
         "line": 1206,
@@ -10990,7 +10984,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "uv.h",
         "line": 1182,
@@ -11102,7 +11095,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "uv.h",
         "line": 1010,
@@ -11159,7 +11151,6 @@
             }
           ],
           "nestedRecords": [],
-          "nestedFunctionPointers": [],
           "location": {
             "file": "uv.h",
             "line": 961,
@@ -11167,7 +11158,6 @@
           }
         }
       ],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "uv.h",
         "line": 965,

@@ -369,7 +369,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var nestedNodes = CreateNestedNodes(typeName, cursor, node);
 
             var nestedRecords = nestedNodes.Where(x => x is CRecord).Cast<CRecord>().ToImmutableArray();
-            var nestedFunctionPointers = nestedNodes.Where(x => x is CFunctionPointer).Cast<CFunctionPointer>().ToImmutableArray();
 
             var typeCursor = clang_getTypeDeclaration(node.Type);
             var isUnion = typeCursor.kind == CXCursorKind.CXCursor_UnionDecl;
@@ -380,8 +379,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 IsUnion = isUnion,
                 Type = typeName,
                 Fields = fields,
-                NestedRecords = nestedRecords,
-                NestedFunctionPointers = nestedFunctionPointers
+                NestedRecords = nestedRecords
             };
 
             var isAnonymous = clang_Cursor_isAnonymous(typeCursor) > 0;
@@ -462,17 +460,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         private void ExploreFunctionPointer(string typeName, CXCursor cursor, CXType type, CXType originalType, ClangLocation location, Node parentNode)
         {
-            // check if this function pointer originates from a typedef...
-            //  typedefs always have a name, thus, if the function pointer originates from a typedef, the function pointer
-            //  will have a name, otherwise the function pointer won't have a name
-            //  if the function pointer does not have a name, we should not add it
-            //  instead the function pointer will be added when mapping the nested struct
-            var canVisit = originalType.kind == CXTypeKind.CXType_Typedef;
-            if (!canVisit)
-            {
-                return;
-            }
-
             if (type.kind == CXTypeKind.CXType_Pointer)
             {
                 type = clang_getPointeeType(type);
@@ -627,15 +614,20 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         private CFunctionPointer CreateFunctionPointer(
             string typeName, CXCursor cursor, Node parentNode, CXType originalType, CXType type, ClangLocation location)
         {
-            ExpandType(parentNode, cursor, cursor, type, originalType, typeName);
-
             var parameters = CreateFunctionPointerParameters(cursor, parentNode);
 
             var returnType = clang_getResultType(type);
             var returnTypeName = TypeName(parentNode.TypeName!, CKind.FunctionPointerResult, returnType, cursor);
             ExpandType(parentNode, cursor, cursor, returnType, returnType, returnTypeName);
 
-            var name = cursor.Name();
+            var name = string.Empty;
+            if (cursor.kind == CXCursorKind.CXCursor_TypedefDecl)
+            {
+                name = cursor.Name();
+                var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
+                var pointeeType = clang_getPointeeType(underlyingType);
+                typeName = TypeName(parentNode.TypeName!, CKind.FunctionPointer, pointeeType, cursor);
+            }
 
             var functionPointer = new CFunctionPointer
             {
@@ -815,15 +807,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                     return true;
                 }
 
-                if (type.kind == CXTypeKind.CXType_Pointer)
-                {
-                    var pointeeType = clang_getPointeeType(type);
-                    if (pointeeType.kind == CXTypeKind.CXType_FunctionProto)
-                    {
-                        return true;
-                    }
-                }
-
                 return false;
             });
 
@@ -869,9 +852,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
             var recordFields = CreateRecordFields(typeName, cursor, parentNode);
             var nestedNodes = CreateNestedNodes(typeName, cursor, parentNode);
-
             var nestedRecords = nestedNodes.Where(x => x is CRecord).Cast<CRecord>().ToImmutableArray();
-            var nestedFunctionPointers = nestedNodes.Where(x => x is CFunctionPointer).Cast<CFunctionPointer>().ToImmutableArray();
 
             var typeCursor = clang_getTypeDeclaration(type);
             var isUnion = typeCursor.kind == CXCursorKind.CXCursor_UnionDecl;
@@ -882,8 +863,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 IsUnion = isUnion,
                 Type = typeName,
                 Fields = recordFields,
-                NestedRecords = nestedRecords,
-                NestedFunctionPointers = nestedFunctionPointers
+                NestedRecords = nestedRecords
             };
         }
 
@@ -1022,6 +1002,8 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                         return sizeOfAlias == -2 ? (CKind.OpaqueType, cursorType) : (CKind.Typedef, cursorType);
                     }
 
+                case CXTypeKind.CXType_FunctionNoProto:
+                    return (CKind.Function, cursorType);
                 case CXTypeKind.CXType_FunctionProto:
                     return (CKind.FunctionPointer, cursorType);
                 case CXTypeKind.CXType_Pointer:

@@ -22,7 +22,7 @@ ast
 -s
 {rootDirectory}/ext/clang/include
 -o
-{rootDirectory}/src/cs/prod/clang-c/ast.json
+{rootDirectory}/src/cs/production/clang-c/ast.json
 ";
         var argumentsArray =
             arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
@@ -34,9 +34,9 @@ ast
         var arguments = @$"
 cs
 -i
-{rootDirectory}/src/cs/prod/clang-c/ast.json
+{rootDirectory}/src/cs/production/clang-c/ast.json
 -o
-{rootDirectory}/src/cs/prod/clang-cs/clang.cs
+{rootDirectory}/src/cs/production/clang-cs/clang.cs
 
 ";
         var argumentsArray =

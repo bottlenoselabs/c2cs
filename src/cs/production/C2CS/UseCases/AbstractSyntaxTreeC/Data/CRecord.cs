@@ -23,9 +23,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         [JsonPropertyName("nestedRecords")]
         public ImmutableArray<CRecord> NestedRecords { get; set; } = ImmutableArray<CRecord>.Empty;
 
-        [JsonPropertyName("nestedFunctionPointers")]
-        public ImmutableArray<CFunctionPointer> NestedFunctionPointers { get; set; } = ImmutableArray<CFunctionPointer>.Empty;
-
         public override string ToString()
         {
             var kind= IsUnion ? "Union" : "Struct";

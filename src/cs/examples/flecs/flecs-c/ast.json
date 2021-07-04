@@ -12300,7 +12300,7 @@
   "functionPointers": [
     {
       "name": "ecs_iter_next_action_t",
-      "type": "ecs_iter_next_action_t",
+      "type": "_Bool (ecs_iter_t *)",
       "returnType": "_Bool",
       "parameters": [
         {
@@ -12321,7 +12321,7 @@
     },
     {
       "name": "ecs_ctx_free_t",
-      "type": "ecs_ctx_free_t",
+      "type": "void (void *)",
       "returnType": "void",
       "parameters": [
         {
@@ -12342,7 +12342,7 @@
     },
     {
       "name": "ecs_system_status_action_t",
-      "type": "ecs_system_status_action_t",
+      "type": "void (ecs_world_t *, ecs_entity_t, ecs_system_status_t, void *)",
       "returnType": "void",
       "parameters": [
         {
@@ -12390,7 +12390,7 @@
     },
     {
       "name": "ecs_iter_action_t",
-      "type": "ecs_iter_action_t",
+      "type": "void (ecs_iter_t *)",
       "returnType": "void",
       "parameters": [
         {
@@ -12411,7 +12411,7 @@
     },
     {
       "name": "ecs_rank_type_action_t",
-      "type": "ecs_rank_type_action_t",
+      "type": "int32_t (ecs_world_t *, ecs_entity_t, ecs_type_t)",
       "returnType": "int32_t",
       "parameters": [
         {
@@ -12450,7 +12450,7 @@
     },
     {
       "name": "ecs_compare_action_t",
-      "type": "ecs_compare_action_t",
+      "type": "int (ecs_entity_t, void *, ecs_entity_t, void *)",
       "returnType": "int",
       "parameters": [
         {
@@ -12498,7 +12498,7 @@
     },
     {
       "name": "ecs_module_action_t",
-      "type": "ecs_module_action_t",
+      "type": "void (ecs_world_t *)",
       "returnType": "void",
       "parameters": [
         {
@@ -12519,7 +12519,7 @@
     },
     {
       "name": "ecs_move_t",
-      "type": "ecs_move_t",
+      "type": "void (ecs_world_t *, ecs_entity_t, ecs_entity_t *, ecs_entity_t *, void *, void *, size_t, int32_t, void *)",
       "returnType": "void",
       "parameters": [
         {
@@ -12614,7 +12614,7 @@
     },
     {
       "name": "ecs_copy_t",
-      "type": "ecs_copy_t",
+      "type": "void (ecs_world_t *, ecs_entity_t, ecs_entity_t *, ecs_entity_t *, void *, void *, size_t, int32_t, void *)",
       "returnType": "void",
       "parameters": [
         {
@@ -12709,7 +12709,7 @@
     },
     {
       "name": "ecs_xtor_t",
-      "type": "ecs_xtor_t",
+      "type": "void (ecs_world_t *, ecs_entity_t, ecs_entity_t *, void *, size_t, int32_t, void *)",
       "returnType": "void",
       "parameters": [
         {
@@ -12786,7 +12786,7 @@
     },
     {
       "name": "ecs_fini_action_t",
-      "type": "ecs_fini_action_t",
+      "type": "void (ecs_world_t *, void *)",
       "returnType": "void",
       "parameters": [
         {
@@ -12816,7 +12816,7 @@
     },
     {
       "name": "ecs_os_api_module_to_path_t",
-      "type": "ecs_os_api_module_to_path_t",
+      "type": "char *(char *)",
       "returnType": "char*",
       "parameters": [
         {
@@ -12837,7 +12837,7 @@
     },
     {
       "name": "ecs_os_api_dlclose_t",
-      "type": "ecs_os_api_dlclose_t",
+      "type": "void (ecs_os_dl_t)",
       "returnType": "void",
       "parameters": [
         {
@@ -12858,7 +12858,7 @@
     },
     {
       "name": "ecs_os_api_dlproc_t",
-      "type": "ecs_os_api_dlproc_t",
+      "type": "ecs_os_proc_t (ecs_os_dl_t, char *)",
       "returnType": "ecs_os_proc_t",
       "parameters": [
         {
@@ -12888,7 +12888,7 @@
     },
     {
       "name": "ecs_os_proc_t",
-      "type": "ecs_os_proc_t",
+      "type": "void (void)",
       "returnType": "void",
       "parameters": [],
       "location": {
@@ -12899,7 +12899,7 @@
     },
     {
       "name": "ecs_os_api_dlopen_t",
-      "type": "ecs_os_api_dlopen_t",
+      "type": "ecs_os_dl_t (char *)",
       "returnType": "ecs_os_dl_t",
       "parameters": [
         {
@@ -12920,7 +12920,7 @@
     },
     {
       "name": "ecs_os_api_abort_t",
-      "type": "ecs_os_api_abort_t",
+      "type": "void (void)",
       "returnType": "void",
       "parameters": [],
       "location": {
@@ -12931,7 +12931,7 @@
     },
     {
       "name": "ecs_os_api_log_t",
-      "type": "ecs_os_api_log_t",
+      "type": "void (char *, va_list)",
       "returnType": "void",
       "parameters": [
         {
@@ -12962,7 +12962,7 @@
     },
     {
       "name": "ecs_os_api_get_time_t",
-      "type": "ecs_os_api_get_time_t",
+      "type": "void (ecs_time_t *)",
       "returnType": "void",
       "parameters": [
         {
@@ -12983,7 +12983,7 @@
     },
     {
       "name": "ecs_os_api_sleep_t",
-      "type": "ecs_os_api_sleep_t",
+      "type": "void (int32_t, int32_t)",
       "returnType": "void",
       "parameters": [
         {
@@ -13015,7 +13015,7 @@
     },
     {
       "name": "ecs_os_api_cond_wait_t",
-      "type": "ecs_os_api_cond_wait_t",
+      "type": "void (ecs_os_cond_t, ecs_os_mutex_t)",
       "returnType": "void",
       "parameters": [
         {
@@ -13045,7 +13045,7 @@
     },
     {
       "name": "ecs_os_api_cond_broadcast_t",
-      "type": "ecs_os_api_cond_broadcast_t",
+      "type": "void (ecs_os_cond_t)",
       "returnType": "void",
       "parameters": [
         {
@@ -13066,7 +13066,7 @@
     },
     {
       "name": "ecs_os_api_cond_signal_t",
-      "type": "ecs_os_api_cond_signal_t",
+      "type": "void (ecs_os_cond_t)",
       "returnType": "void",
       "parameters": [
         {
@@ -13087,7 +13087,7 @@
     },
     {
       "name": "ecs_os_api_cond_free_t",
-      "type": "ecs_os_api_cond_free_t",
+      "type": "void (ecs_os_cond_t)",
       "returnType": "void",
       "parameters": [
         {
@@ -13108,7 +13108,7 @@
     },
     {
       "name": "ecs_os_api_cond_new_t",
-      "type": "ecs_os_api_cond_new_t",
+      "type": "ecs_os_cond_t (void)",
       "returnType": "ecs_os_cond_t",
       "parameters": [],
       "location": {
@@ -13119,7 +13119,7 @@
     },
     {
       "name": "ecs_os_api_mutex_lock_t",
-      "type": "ecs_os_api_mutex_lock_t",
+      "type": "void (ecs_os_mutex_t)",
       "returnType": "void",
       "parameters": [
         {
@@ -13140,7 +13140,7 @@
     },
     {
       "name": "ecs_os_api_mutex_free_t",
-      "type": "ecs_os_api_mutex_free_t",
+      "type": "void (ecs_os_mutex_t)",
       "returnType": "void",
       "parameters": [
         {
@@ -13161,7 +13161,7 @@
     },
     {
       "name": "ecs_os_api_mutex_new_t",
-      "type": "ecs_os_api_mutex_new_t",
+      "type": "ecs_os_mutex_t (void)",
       "returnType": "ecs_os_mutex_t",
       "parameters": [],
       "location": {
@@ -13172,7 +13172,7 @@
     },
     {
       "name": "ecs_os_api_ainc_t",
-      "type": "ecs_os_api_ainc_t",
+      "type": "int (int32_t *)",
       "returnType": "int",
       "parameters": [
         {
@@ -13194,7 +13194,7 @@
     },
     {
       "name": "ecs_os_api_thread_join_t",
-      "type": "ecs_os_api_thread_join_t",
+      "type": "void *(ecs_os_thread_t)",
       "returnType": "void*",
       "parameters": [
         {
@@ -13215,7 +13215,7 @@
     },
     {
       "name": "ecs_os_api_thread_new_t",
-      "type": "ecs_os_api_thread_new_t",
+      "type": "ecs_os_thread_t (ecs_os_thread_callback_t, void *)",
       "returnType": "ecs_os_thread_t",
       "parameters": [
         {
@@ -13245,7 +13245,7 @@
     },
     {
       "name": "ecs_os_thread_callback_t",
-      "type": "ecs_os_thread_callback_t",
+      "type": "void *(void *)",
       "returnType": "void*",
       "parameters": [
         {
@@ -13266,7 +13266,7 @@
     },
     {
       "name": "ecs_os_api_strdup_t",
-      "type": "ecs_os_api_strdup_t",
+      "type": "char *(char *)",
       "returnType": "char*",
       "parameters": [
         {
@@ -13287,7 +13287,7 @@
     },
     {
       "name": "ecs_os_api_free_t",
-      "type": "ecs_os_api_free_t",
+      "type": "void (void *)",
       "returnType": "void",
       "parameters": [
         {
@@ -13308,7 +13308,7 @@
     },
     {
       "name": "ecs_os_api_calloc_t",
-      "type": "ecs_os_api_calloc_t",
+      "type": "void *(ecs_size_t)",
       "returnType": "void*",
       "parameters": [
         {
@@ -13329,7 +13329,7 @@
     },
     {
       "name": "ecs_os_api_realloc_t",
-      "type": "ecs_os_api_realloc_t",
+      "type": "void *(void *, ecs_size_t)",
       "returnType": "void*",
       "parameters": [
         {
@@ -13359,7 +13359,7 @@
     },
     {
       "name": "ecs_os_api_malloc_t",
-      "type": "ecs_os_api_malloc_t",
+      "type": "void *(ecs_size_t)",
       "returnType": "void*",
       "parameters": [
         {
@@ -13380,7 +13380,7 @@
     },
     {
       "name": "ecs_os_api_fini_t",
-      "type": "ecs_os_api_fini_t",
+      "type": "void (void)",
       "returnType": "void",
       "parameters": [],
       "location": {
@@ -13391,7 +13391,7 @@
     },
     {
       "name": "ecs_os_api_init_t",
-      "type": "ecs_os_api_init_t",
+      "type": "void (void)",
       "returnType": "void",
       "parameters": [],
       "location": {
@@ -13402,7 +13402,7 @@
     },
     {
       "name": "ecs_comparator_t",
-      "type": "ecs_comparator_t",
+      "type": "int (void *, void *)",
       "returnType": "int",
       "parameters": [
         {
@@ -13466,7 +13466,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "stats.h",
         "line": 29,
@@ -13497,7 +13496,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "stats.h",
         "line": 112,
@@ -13541,7 +13539,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "vector.h",
         "line": 90,
@@ -13602,7 +13599,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "stats.h",
         "line": 101,
@@ -13633,7 +13629,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "stats.h",
         "line": 35,
@@ -13685,7 +13680,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "stats.h",
         "line": 92,
@@ -13998,7 +13992,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "stats.h",
         "line": 78,
@@ -14031,7 +14024,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "api_types.h",
         "line": 31,
@@ -14345,7 +14337,6 @@
             }
           ],
           "nestedRecords": [],
-          "nestedFunctionPointers": [],
           "location": {
             "file": "api_types.h",
             "line": 170,
@@ -14353,7 +14344,6 @@
           }
         }
       ],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "flecs.h",
         "line": 89,
@@ -14406,7 +14396,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "api_types.h",
         "line": 131,
@@ -14509,7 +14498,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "flecs.h",
         "line": 261,
@@ -14614,7 +14602,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "flecs.h",
         "line": 236,
@@ -14666,7 +14653,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "flecs.h",
         "line": 214,
@@ -14722,7 +14708,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "flecs.h",
         "line": 205,
@@ -14787,7 +14772,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "api_types.h",
         "line": 123,
@@ -14831,7 +14815,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "api_types.h",
         "line": 80,
@@ -14884,7 +14867,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "api_types.h",
         "line": 106,
@@ -14937,7 +14919,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "api_types.h",
         "line": 98,
@@ -15000,7 +14981,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "map.h",
         "line": 46,
@@ -15033,7 +15013,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "api_types.h",
         "line": 69,
@@ -15105,7 +15084,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "api_types.h",
         "line": 90,
@@ -15188,7 +15166,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "flecs.h",
         "line": 92,
@@ -15241,7 +15218,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "reader_writer.h",
         "line": 128,
@@ -15412,7 +15388,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "reader_writer.h",
         "line": 121,
@@ -15467,7 +15442,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "reader_writer.h",
         "line": 98,
@@ -15549,7 +15523,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "reader_writer.h",
         "line": 91,
@@ -15759,7 +15732,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "reader_writer.h",
         "line": 81,
@@ -15862,7 +15834,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "dbg.h",
         "line": 35,
@@ -15925,7 +15896,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "dbg.h",
         "line": 23,
@@ -15957,7 +15927,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "api_types.h",
         "line": 202,
@@ -16032,7 +16001,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "system.h",
         "line": 277,
@@ -16174,7 +16142,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "system.h",
         "line": 121,
@@ -16255,7 +16222,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "flecs.h",
         "line": 405,
@@ -16328,7 +16294,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "flecs.h",
         "line": 371,
@@ -16430,7 +16395,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "flecs.h",
         "line": 332,
@@ -16541,7 +16505,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "flecs.h",
         "line": 440,
@@ -16582,7 +16545,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "flecs.h",
         "line": 348,
@@ -16625,7 +16587,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "flecs.h",
         "line": 340,
@@ -16811,7 +16772,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "flecs.h",
         "line": 520,
@@ -16872,7 +16832,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "flecs.h",
         "line": 479,
@@ -16905,7 +16864,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "os_api.h",
         "line": 43,
@@ -17236,7 +17194,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "os_api.h",
         "line": 251,
@@ -17333,7 +17290,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "strbuf.h",
         "line": 75,
@@ -17366,7 +17322,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "strbuf.h",
         "line": 50,
@@ -17419,7 +17374,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "strbuf.h",
         "line": 35,
@@ -17450,7 +17404,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "strbuf.h",
         "line": 40,

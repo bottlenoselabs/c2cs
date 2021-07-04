@@ -10,20 +10,17 @@ namespace C2CS.UseCases.BindgenCSharp
         public readonly CSharpType Type;
         public readonly ImmutableArray<CSharpStructField> Fields;
         public readonly ImmutableArray<CSharpStruct> NestedStructs;
-        public readonly ImmutableArray<CSharpFunctionPointer> NestedFunctionPointers;
 
         public CSharpStruct(
             string codeLocationComment,
             CSharpType type,
             ImmutableArray<CSharpStructField> fields,
-            ImmutableArray<CSharpStruct> nestedStructs,
-            ImmutableArray<CSharpFunctionPointer> nestedFunctionPointers)
+            ImmutableArray<CSharpStruct> nestedStructs)
             : base(type.Name, codeLocationComment)
         {
             Type = type;
             Fields = fields;
             NestedStructs = nestedStructs;
-            NestedFunctionPointers = nestedFunctionPointers;
         }
 
         // Required for debugger string with records

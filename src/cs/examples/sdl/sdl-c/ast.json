@@ -19995,7 +19995,7 @@
   "functionPointers": [
     {
       "name": "SDL_TimerCallback",
-      "type": "SDL_TimerCallback",
+      "type": "Uint32 (Uint32, void *)",
       "returnType": "Uint32",
       "parameters": [
         {
@@ -20025,7 +20025,7 @@
     },
     {
       "name": "SDL_LogOutputFunction",
-      "type": "SDL_LogOutputFunction",
+      "type": "void (void *, int, SDL_LogPriority, char *)",
       "returnType": "void",
       "parameters": [
         {
@@ -20073,7 +20073,7 @@
     },
     {
       "name": "SDL_HintCallback",
-      "type": "SDL_HintCallback",
+      "type": "void (void *, char *, char *, char *)",
       "returnType": "void",
       "parameters": [
         {
@@ -20121,7 +20121,7 @@
     },
     {
       "name": "SDL_EventFilter",
-      "type": "SDL_EventFilter",
+      "type": "int (void *, SDL_Event *)",
       "returnType": "int",
       "parameters": [
         {
@@ -20151,7 +20151,7 @@
     },
     {
       "name": "SDL_HitTest",
-      "type": "SDL_HitTest",
+      "type": "SDL_HitTestResult (SDL_Window *, SDL_Point *, void *)",
       "returnType": "SDL_HitTestResult",
       "parameters": [
         {
@@ -20190,7 +20190,7 @@
     },
     {
       "name": "SDL_AudioFilter",
-      "type": "SDL_AudioFilter",
+      "type": "void (SDL_AudioCVT *, SDL_AudioFormat)",
       "returnType": "void",
       "parameters": [
         {
@@ -20220,7 +20220,7 @@
     },
     {
       "name": "SDL_AudioCallback",
-      "type": "SDL_AudioCallback",
+      "type": "void (void *, Uint8 *, int)",
       "returnType": "void",
       "parameters": [
         {
@@ -20258,8 +20258,29 @@
       }
     },
     {
+      "name": "",
+      "type": "void (void *)",
+      "returnType": "void",
+      "parameters": [
+        {
+          "name": "",
+          "type": "void*",
+          "location": {
+            "file": "SDL_thread.h",
+            "line": 440,
+            "column": 105
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_thread.h",
+        "line": 440,
+        "column": 88
+      }
+    },
+    {
       "name": "pfnSDL_CurrentEndThread",
-      "type": "pfnSDL_CurrentEndThread",
+      "type": "void (unsigned int)",
       "returnType": "void",
       "parameters": [
         {
@@ -20280,7 +20301,7 @@
     },
     {
       "name": "pfnSDL_CurrentBeginThread",
-      "type": "pfnSDL_CurrentBeginThread",
+      "type": "uintptr_t (void *, unsigned int, unsigned int (*)(void *) __attribute__((stdcall)), void *, unsigned int, unsigned int *)",
       "returnType": "uintptr_t",
       "parameters": [
         {
@@ -20345,8 +20366,50 @@
       }
     },
     {
+      "name": "",
+      "type": "unsigned int (void *)",
+      "returnType": "unsigned int",
+      "parameters": [
+        {
+          "name": "",
+          "type": "void*",
+          "location": {
+            "file": "SDL_thread.h",
+            "line": 115,
+            "column": 72
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_thread.h",
+        "line": 115,
+        "column": 60
+      }
+    },
+    {
+      "name": "",
+      "type": "int (void *)",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "",
+          "type": "void*",
+          "location": {
+            "file": "SDL_thread.h",
+            "line": 135,
+            "column": 57
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_thread.h",
+        "line": 135,
+        "column": 46
+      }
+    },
+    {
       "name": "SDL_ThreadFunction",
-      "type": "SDL_ThreadFunction",
+      "type": "int (void *)",
       "returnType": "int",
       "parameters": [
         {
@@ -20367,7 +20430,7 @@
     },
     {
       "name": "SDL_AssertionHandler",
-      "type": "SDL_AssertionHandler",
+      "type": "SDL_AssertState (SDL_AssertData *, void *)",
       "returnType": "SDL_AssertState",
       "parameters": [
         {
@@ -20396,8 +20459,38 @@
       }
     },
     {
+      "name": "",
+      "type": "int (void *, void *)",
+      "returnType": "int",
+      "parameters": [
+        {
+          "name": "",
+          "type": "void*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 434,
+            "column": 107
+          }
+        },
+        {
+          "name": "",
+          "type": "void*",
+          "location": {
+            "file": "SDL_stdinc.h",
+            "line": 434,
+            "column": 121
+          }
+        }
+      ],
+      "location": {
+        "file": "SDL_stdinc.h",
+        "line": 434,
+        "column": 85
+      }
+    },
+    {
       "name": "SDL_free_func",
-      "type": "SDL_free_func",
+      "type": "void (void *)",
       "returnType": "void",
       "parameters": [
         {
@@ -20418,7 +20511,7 @@
     },
     {
       "name": "SDL_realloc_func",
-      "type": "SDL_realloc_func",
+      "type": "void *(void *, size_t)",
       "returnType": "void*",
       "parameters": [
         {
@@ -20449,7 +20542,7 @@
     },
     {
       "name": "SDL_calloc_func",
-      "type": "SDL_calloc_func",
+      "type": "void *(size_t, size_t)",
       "returnType": "void*",
       "parameters": [
         {
@@ -20481,7 +20574,7 @@
     },
     {
       "name": "SDL_malloc_func",
-      "type": "SDL_malloc_func",
+      "type": "void *(size_t)",
       "returnType": "void*",
       "parameters": [
         {
@@ -20527,7 +20620,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_locale.h",
         "line": 47,
@@ -20568,7 +20660,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_version.h",
         "line": 56,
@@ -20599,7 +20690,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_shape.h",
         "line": 106,
@@ -20629,7 +20719,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_shape.h",
         "line": 98,
@@ -20680,7 +20769,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_pixels.h",
         "line": 310,
@@ -20815,7 +20903,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_surface.h",
         "line": 95,
@@ -20866,7 +20953,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_rect.h",
         "line": 81,
@@ -21068,7 +21154,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_pixels.h",
         "line": 345,
@@ -21120,7 +21205,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_pixels.h",
         "line": 319,
@@ -21151,7 +21235,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_rect.h",
         "line": 64,
@@ -21202,7 +21285,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_rect.h",
         "line": 93,
@@ -21233,7 +21315,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_rect.h",
         "line": 52,
@@ -21304,7 +21385,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_render.h",
         "line": 86,
@@ -21387,7 +21467,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_messagebox.h",
         "line": 105,
@@ -21408,7 +21487,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_messagebox.h",
         "line": 89,
@@ -21449,7 +21527,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_messagebox.h",
         "line": 71,
@@ -21490,7 +21567,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_messagebox.h",
         "line": 63,
@@ -21566,7 +21642,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_haptic.h",
         "line": 819,
@@ -21720,7 +21795,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_haptic.h",
         "line": 738,
@@ -21752,7 +21826,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_haptic.h",
         "line": 463,
@@ -21804,7 +21877,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_haptic.h",
         "line": 696,
@@ -21937,7 +22009,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_haptic.h",
         "line": 671,
@@ -22070,7 +22141,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_haptic.h",
         "line": 633,
@@ -22223,7 +22293,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_haptic.h",
         "line": 585,
@@ -22345,7 +22414,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_haptic.h",
         "line": 499,
@@ -22627,7 +22695,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 631,
@@ -22679,7 +22746,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 526,
@@ -22770,7 +22836,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 512,
@@ -22872,7 +22937,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 496,
@@ -22983,7 +23047,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 479,
@@ -23024,7 +23087,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 586,
@@ -23095,7 +23157,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 569,
@@ -23126,7 +23187,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 547,
@@ -23177,7 +23237,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 538,
@@ -23258,7 +23317,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 461,
@@ -23319,7 +23377,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 447,
@@ -23410,7 +23467,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 435,
@@ -23451,7 +23507,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 420,
@@ -23532,7 +23587,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 409,
@@ -23633,7 +23687,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 394,
@@ -23674,7 +23727,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 377,
@@ -23755,7 +23807,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 367,
@@ -23836,7 +23887,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 353,
@@ -23937,7 +23987,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 333,
@@ -24038,7 +24087,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 317,
@@ -24119,7 +24167,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 301,
@@ -24230,7 +24277,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 287,
@@ -24331,7 +24377,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 270,
@@ -24382,7 +24427,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 254,
@@ -24453,7 +24497,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 241,
@@ -24544,7 +24587,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 227,
@@ -24596,7 +24638,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_keyboard.h",
         "line": 53,
@@ -24697,7 +24738,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 212,
@@ -24788,7 +24828,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 196,
@@ -24819,7 +24858,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_events.h",
         "line": 181,
@@ -24871,7 +24909,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_touch.h",
         "line": 58,
@@ -24959,7 +24996,6 @@
                 }
               ],
               "nestedRecords": [],
-              "nestedFunctionPointers": [],
               "location": {
                 "file": "SDL_gamecontroller.h",
                 "line": 91,
@@ -24967,7 +25003,6 @@
               }
             }
           ],
-          "nestedFunctionPointers": [],
           "location": {
             "file": "SDL_gamecontroller.h",
             "line": 87,
@@ -24975,7 +25010,6 @@
           }
         }
       ],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_gamecontroller.h",
         "line": 97,
@@ -24996,7 +25030,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_joystick.h",
         "line": 74,
@@ -25057,7 +25090,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_video.h",
         "line": 60,
@@ -25180,7 +25212,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_audio.h",
         "line": 241,
@@ -25281,7 +25312,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_audio.h",
         "line": 191,
@@ -25302,7 +25332,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_atomic.h",
         "line": 238,
@@ -25384,7 +25413,6 @@
         }
       ],
       "nestedRecords": [],
-      "nestedFunctionPointers": [],
       "location": {
         "file": "SDL_assert.h",
         "line": 124,

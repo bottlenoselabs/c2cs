@@ -1790,6 +1790,13 @@ public static unsafe partial class uv
         public delegate* unmanaged<void*, void> Pointer;
     }
 
+    // FunctionPointer @ uv.h:1750:49
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_UV_Void
+    {
+        public delegate* unmanaged<void> Pointer;
+    }
+
     // FunctionPointer @ uv.h:338:16
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_random_cb
@@ -1998,13 +2005,6 @@ public static unsafe partial class uv
     public struct uv_malloc_func
     {
         public delegate* unmanaged<ulong, void*> Pointer;
-    }
-
-    // FunctionPointer @ Generated
-    [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_UV_Void
-    {
-        public delegate* unmanaged<void> Pointer;
     }
 
     // Struct @ uv.h:1774:36

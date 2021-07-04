@@ -374,7 +374,7 @@ public struct {functionPointerName}
 		private StructDeclarationSyntax EmitStruct(CSharpStruct @struct, bool isNested = false)
 		{
 			var memberSyntaxes = EmitStructMembers(
-				@struct.Name, @struct.Fields, @struct.NestedStructs, @struct.NestedFunctionPointers);
+				@struct.Name, @struct.Fields, @struct.NestedStructs);
 			var memberStrings = memberSyntaxes.Select(x => x.ToFullString());
 			var members = string.Join("\n\n", memberStrings);
 
@@ -399,8 +399,7 @@ public struct {@struct.Name}
 		private MemberDeclarationSyntax[] EmitStructMembers(
 			string structName,
 			ImmutableArray<CSharpStructField> fields,
-			ImmutableArray<CSharpStruct> nestedStructs,
-			ImmutableArray<CSharpFunctionPointer> nestedFunctionPointers)
+			ImmutableArray<CSharpStruct> nestedStructs)
 		{
 			var builder = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
 
@@ -425,12 +424,6 @@ public struct {@struct.Name}
 			foreach (var nestedStruct in nestedStructs)
 			{
 				var syntax = EmitStruct(nestedStruct, true);
-				builder.Add(syntax);
-			}
-
-			foreach (var nestedFunctionPointer in nestedFunctionPointers)
-			{
-				var syntax = EmitFunctionPointer(nestedFunctionPointer, true);
 				builder.Add(syntax);
 			}
 

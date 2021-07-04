@@ -4556,6 +4556,13 @@ public static unsafe partial class SDL
         public delegate* unmanaged<void*, byte*, int, void> Pointer;
     }
 
+    // FunctionPointer @ SDL_thread.h:440:88
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SDL_VoidPtr_Void
+    {
+        public delegate* unmanaged<void*, void> Pointer;
+    }
+
     // FunctionPointer @ SDL_thread.h:117:25
     [StructLayout(LayoutKind.Sequential)]
     public struct pfnSDL_CurrentEndThread
@@ -4570,6 +4577,20 @@ public static unsafe partial class SDL
         public delegate* unmanaged<void*, uint, FnPtr_SDL_VoidPtr_Uint, void*, uint, ulong*, UIntPtr> Pointer;
     }
 
+    // FunctionPointer @ SDL_thread.h:115:60
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SDL_VoidPtr_Uint
+    {
+        public delegate* unmanaged<void*, uint> Pointer;
+    }
+
+    // FunctionPointer @ SDL_thread.h:135:46
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SDL_VoidPtr_Int
+    {
+        public delegate* unmanaged<void*, int> Pointer;
+    }
+
     // FunctionPointer @ SDL_thread.h:88:24
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_ThreadFunction
@@ -4582,6 +4603,13 @@ public static unsafe partial class SDL
     public struct SDL_AssertionHandler
     {
         public delegate* unmanaged<SDL_AssertData*, void*, SDL_AssertState> Pointer;
+    }
+
+    // FunctionPointer @ SDL_stdinc.h:434:85
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FnPtr_SDL_VoidPtr_VoidPtr_Int
+    {
+        public delegate* unmanaged<void*, void*, int> Pointer;
     }
 
     // FunctionPointer @ SDL_stdinc.h:403:24
@@ -4610,34 +4638,6 @@ public static unsafe partial class SDL
     public struct SDL_malloc_func
     {
         public delegate* unmanaged<ulong, void*> Pointer;
-    }
-
-    // FunctionPointer @ Generated
-    [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SDL_VoidPtr_Void
-    {
-        public delegate* unmanaged<void*, void> Pointer;
-    }
-
-    // FunctionPointer @ Generated
-    [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SDL_VoidPtr_Int
-    {
-        public delegate* unmanaged<void*, int> Pointer;
-    }
-
-    // FunctionPointer @ Generated
-    [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SDL_VoidPtr_VoidPtr_Int
-    {
-        public delegate* unmanaged<void*, void*, int> Pointer;
-    }
-
-    // FunctionPointer @ Generated
-    [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SDL_VoidPtr_Uint
-    {
-        public delegate* unmanaged<void*, uint> Pointer;
     }
 
     // Struct @ SDL_locale.h:47:3
