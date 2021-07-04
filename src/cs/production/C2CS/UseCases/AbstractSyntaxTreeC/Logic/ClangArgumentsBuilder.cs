@@ -92,11 +92,19 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                     AddSystemIncludesMac(args);
                     break;
                 case RuntimePlatform.Linux:
-                    // TODO: Do we need to do anything specific?
+                    AddSystemIncludesLinux(args);
                     break;
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        private static void AddSystemIncludesLinux(ImmutableArray<string>.Builder args)
+        {
+            // TODO: Is this always going to work? Be good if this was more bullet proof. If you know better fix it!
+            const string directoryPath = "/usr/lib/gcc/x86_64-linux-gnu/9";
+            var systemIncludeCommandLineArg = $"-isystem{directoryPath}";
+            args.Add(systemIncludeCommandLineArg);
         }
 
         private static void AddSystemIncludesWindows(ImmutableArray<string>.Builder clangArgumentsBuilder)
