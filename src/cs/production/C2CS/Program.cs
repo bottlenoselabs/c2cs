@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.Invocation;
@@ -180,7 +181,11 @@ namespace C2CS
 				defines,
 				clangArgs);
 			var useCase = new UseCases.AbstractSyntaxTreeC.UseCase();
-			useCase.Execute(request);
+			var response = useCase.Execute(request);
+			if (response.Status == UseCaseOutputStatus.Failure)
+			{
+				Environment.Exit(1);
+			}
 		}
 
 		private static void BindgenCSharp(
@@ -195,7 +200,11 @@ namespace C2CS
 			var request = new UseCases.BindgenCSharp.Request(
 				inputFile, outputFile, typeAliases, ignoredTypes, libraryName2);
 			var useCase = new UseCases.BindgenCSharp.UseCase();
-			useCase.Execute(request);
+			var response = useCase.Execute(request);
+			if (response.Status == UseCaseOutputStatus.Failure)
+			{
+				Environment.Exit(1);
+			}
 		}
 	}
 }
