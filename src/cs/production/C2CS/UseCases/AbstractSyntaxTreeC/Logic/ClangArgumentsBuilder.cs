@@ -102,7 +102,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         private static void AddSystemIncludesLinux(ImmutableArray<string>.Builder args)
         {
             // TODO: Is this always going to work? Be good if this was more bullet proof. If you know better fix it!
-            const string directoryPath = "/usr/lib/gcc/x86_64-linux-gnu/9/";
+            const string directoryPath = "/usr/lib/gcc/x86_64-linux-gnu/9/include/";
             var systemIncludeCommandLineArg = $"-isystem{directoryPath}";
             args.Add(systemIncludeCommandLineArg);
         }
