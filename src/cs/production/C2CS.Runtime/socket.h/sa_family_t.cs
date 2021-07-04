@@ -25,7 +25,8 @@ namespace C2CS
         /// </summary>
         AF_INET = 2,
 
-        /// <summary>
+        // TODO: Figure out how to deal with this without using compiler directives
+        /*/// <summary>
         ///     IP (Internet Protocol) version 6. Used for both UDP (User Datagram Protocol) and TCP (Transmission Control
         ///     Protocol) transport layers.
         /// </summary>
@@ -38,6 +39,6 @@ namespace C2CS
     10
 #else
     0
-#endif
+#endif*/
     }
 }
