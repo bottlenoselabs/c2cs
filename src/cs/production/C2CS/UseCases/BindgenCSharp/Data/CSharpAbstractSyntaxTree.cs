@@ -19,8 +19,6 @@ namespace C2CS.UseCases.BindgenCSharp
 
         public readonly ImmutableArray<CSharpEnum> Enums;
 
-        public readonly ImmutableArray<CSharpVariable> VariablesExtern;
-
         public CSharpAbstractSyntaxTree(
             ImmutableArray<CSharpFunction> functionExterns,
             ImmutableArray<CSharpFunctionPointer> functionPointers,
@@ -36,7 +34,6 @@ namespace C2CS.UseCases.BindgenCSharp
             Typedefs = typedefs;
             OpaqueDataTypes = opaqueDataTypes;
             Enums = enums;
-            VariablesExtern = variablesExtern;
         }
     }
 }
