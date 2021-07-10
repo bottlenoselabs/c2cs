@@ -13,9 +13,7 @@ namespace C2CS
     public static unsafe partial class Runtime
     {
         private static readonly Dictionary<uint, CString> StringHashesToPointers = new();
-
-        private static readonly Dictionary<IntPtr, string>
-            PointersToStrings = new(); // use `IntPtr` as the key for better performance
+        private static readonly Dictionary<IntPtr, string> PointersToStrings = new();
 
         // NOTE: On portability, technically `char` in C could be signed or unsigned depending on the computer architecture,
         //  resulting in technically two different type bindings when transpiling C headers to C#. However, to make peace
@@ -48,17 +46,9 @@ namespace C2CS
                 return result;
             }
 
-#if NETCOREAPP
             // calls ASM/C/C++ functions to calculate length and then "FastAllocate" the string with the GC
             // https://mattwarren.org/2016/05/31/Strings-and-the-CLR-a-Special-Relationship/
             result = Marshal.PtrToStringAnsi(ptr);
-#else
-        // if you get here you need to ask yourself:
-        //  (1) how do I calculate the length of a ANSI string?
-        //  (2) how do I convert the ANSI string to a UTF-16 string? Note that each `char` in C# is UTF-16, 2 bytes.
-        //  (3) how and where do I store the memory for the resulting UTF-16 string?
-        throw new NotImplementedException();
-#endif
 
             if (string.IsNullOrEmpty(result))
             {
@@ -86,16 +76,7 @@ namespace C2CS
             }
 
             // ReSharper disable once JoinDeclarationAndInitializer
-            IntPtr pointer;
-#if NETCOREAPP
-            pointer = Marshal.StringToHGlobalAnsi(str);
-#else
-        // if you get here you need to ask yourself:
-        //  (1) how do I calculate the number of bytes required for the ANSI string from an UTP-16 C# string?
-        //  (2) how do I convert the UTF-16 string to an ANSI string? Note that each `char` in C# is UTF-16, 2 bytes.
-        //  (3) how and where do I store the memory for the resulting ANSI string?
-        throw new NotImplementedException();
-#endif
+            var pointer = Marshal.StringToHGlobalAnsi(str);
             StringHashesToPointers.Add(hash, new CString(pointer));
             PointersToStrings.Add(pointer, str);
 
