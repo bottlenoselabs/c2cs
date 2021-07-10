@@ -19,9 +19,5 @@ namespace C2CS
     [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Public API.")]
     public static partial class Runtime
     {
-        static Runtime()
-        {
-            GetNativeLibrarySearchDirectories();
-        }
     }
 }

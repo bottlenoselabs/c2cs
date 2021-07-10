@@ -63,7 +63,7 @@ namespace C2CS
         /// <summary>
         ///     Versions of WebAssembly (64-bit) on some WASI (WebAssembly System Interface) compliant host program such as a modern web browser.
         /// </summary>
-        Web = 8,
+        Browser = 8,
 
         // TODO: tvOS, RaspberryPi, WebAssembly, PlayStation4, PlayStationVita, Switch etc
     }

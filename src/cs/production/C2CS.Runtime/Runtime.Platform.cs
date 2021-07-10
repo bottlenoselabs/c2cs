@@ -11,33 +11,7 @@ namespace C2CS
         /// <summary>
         ///     Gets the current <see cref="RuntimePlatform" />.
         /// </summary>
-        public static RuntimePlatform Platform
-        {
-            get
-            {
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    return RuntimePlatform.Windows;
-                }
-
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                {
-                    return RuntimePlatform.macOS;
-                }
-
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                {
-                    return RuntimePlatform.Linux;
-                }
-
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
-                {
-                    return RuntimePlatform.Linux;
-                }
-
-                return RuntimePlatform.Unknown;
-            }
-        }
+        public static RuntimePlatform Platform => GetRuntimePlatform();
 
         /// <summary>
         ///     Gets the library file name extension given a <see cref="RuntimePlatform" />.
@@ -53,13 +27,14 @@ namespace C2CS
                 case RuntimePlatform.Windows:
                     return ".dll";
                 case RuntimePlatform.macOS:
+                case RuntimePlatform.tvOS:
                 case RuntimePlatform.iOS:
                     return ".dylib";
                 case RuntimePlatform.Linux:
                 case RuntimePlatform.FreeBSD:
                 case RuntimePlatform.Android:
                     return ".so";
-                case RuntimePlatform.Web:
+                case RuntimePlatform.Browser:
                     throw new NotImplementedException();
                 case RuntimePlatform.Unknown:
                     throw new NotImplementedException();
@@ -82,18 +57,60 @@ namespace C2CS
                 case RuntimePlatform.Windows:
                     return string.Empty;
                 case RuntimePlatform.macOS:
+                case RuntimePlatform.tvOS:
                 case RuntimePlatform.iOS:
                 case RuntimePlatform.Linux:
                 case RuntimePlatform.FreeBSD:
                 case RuntimePlatform.Android:
                     return "lib";
-                case RuntimePlatform.Web:
+                case RuntimePlatform.Browser:
                     throw new NotImplementedException();
                 case RuntimePlatform.Unknown:
                     throw new NotImplementedException();
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(runtimePlatform), runtimePlatform, null);
             }
+        }
+
+        private static RuntimePlatform GetRuntimePlatform()
+        {
+            if (OperatingSystem.IsWindows())
+            {
+                return RuntimePlatform.Windows;
+            }
+
+            if (OperatingSystem.IsMacOS())
+            {
+                return RuntimePlatform.macOS;
+            }
+
+            if (OperatingSystem.IsLinux())
+            {
+                return RuntimePlatform.Linux;
+            }
+
+            if (OperatingSystem.IsAndroid())
+            {
+                return RuntimePlatform.Android;
+            }
+
+            if (OperatingSystem.IsIOS())
+            {
+                return RuntimePlatform.iOS;
+            }
+
+            if (OperatingSystem.IsTvOS())
+            {
+                return RuntimePlatform.tvOS;
+            }
+
+            if (OperatingSystem.IsBrowser())
+            {
+                return RuntimePlatform.Browser;
+            }
+
+            return RuntimePlatform.Unknown;
         }
     }
 }
