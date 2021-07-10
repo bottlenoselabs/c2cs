@@ -20,2675 +20,1514 @@ using C2CS;
 public static unsafe partial class flecs
 {
     private const string LibraryName = "flecs";
-    private static IntPtr _libraryHandle;
-
-    static flecs()
-    {
-        TryLoadApi();
-    }
-
-    public static bool TryLoadApi(string? libraryName = LibraryName)
-    {
-        UnloadApi();
-        _libraryHandle = Runtime.LibraryLoad(libraryName!);
-        if (_libraryHandle == IntPtr.Zero) return false;
-        _LoadVirtualTable();
-        return true;
-    }
-
-    public static void UnloadApi()
-    {
-        if (_libraryHandle == IntPtr.Zero) return;
-        _UnloadVirtualTable();
-        Runtime.LibraryUnload(_libraryHandle);
-    }
-
-    // Variable @ flecs.h:77:29
-    public static ecs_type_t FLECS__TEcsRateFilter
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsRateFilter);
-    }
-
-    // Variable @ flecs.h:77:29
-    public static ecs_type_t FLECS__TEcsTimer
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsTimer);
-    }
-
-    // Variable @ flecs.h:77:29
-    public static ecs_type_t FLECS__TEcsTickSource
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsTickSource);
-    }
-
-    // Variable @ flecs.h:77:29
-    public static ecs_type_t FLECS__TEcsSystem
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsSystem);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsPostFrame
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPostFrame);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsOnStore
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnStore);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsPreStore
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPreStore);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsPostUpdate
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPostUpdate);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsOnValidate
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnValidate);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsOnUpdate
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnUpdate);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsPreUpdate
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPreUpdate);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsPostLoad
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPostLoad);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsOnLoad
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnLoad);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsPreFrame
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPreFrame);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsPipeline
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPipeline);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsInactive
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsInactive);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsDisabledIntern
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsDisabledIntern);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsMonitor
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsMonitor);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsOnDemand
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnDemand);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsThrow
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsThrow);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsDelete
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsDelete);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsRemove
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsRemove);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsOnDeleteObject
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnDeleteObject);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsOnDelete
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnDelete);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsUnSet
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsUnSet);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsOnSet
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnSet);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsOnRemove
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnRemove);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsOnAdd
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsOnAdd);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsHidden
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsHidden);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsDisabled
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsDisabled);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsPrefab
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsPrefab);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsModule
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsModule);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsIsA
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsIsA);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsChildOf
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsChildOf);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsFinal
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsFinal);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsTransitive
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsTransitive);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsThis
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsThis);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsWildcard
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsWildcard);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsWorld
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsWorld);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsFlecsCore
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsFlecsCore);
-    }
-
-    // Variable @ flecs.h:74:18
-    public static ecs_entity_t EcsFlecs
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_entity_t>(_virtualTable.EcsFlecs);
-    }
-
-    // Variable @ flecs.h:71:18
-    public static ecs_id_t ECS_DISABLED
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_id_t>(_virtualTable.ECS_DISABLED);
-    }
-
-    // Variable @ flecs.h:71:18
-    public static ecs_id_t ECS_OWNED
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_id_t>(_virtualTable.ECS_OWNED);
-    }
-
-    // Variable @ flecs.h:71:18
-    public static ecs_id_t ECS_PAIR
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_id_t>(_virtualTable.ECS_PAIR);
-    }
-
-    // Variable @ flecs.h:71:18
-    public static ecs_id_t ECS_SWITCH
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_id_t>(_virtualTable.ECS_SWITCH);
-    }
-
-    // Variable @ flecs.h:71:18
-    public static ecs_id_t ECS_CASE
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_id_t>(_virtualTable.ECS_CASE);
-    }
-
-    // Variable @ flecs.h:77:29
-    public static ecs_type_t FLECS__TEcsName
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsName);
-    }
-
-    // Variable @ flecs.h:77:29
-    public static ecs_type_t FLECS__TEcsType
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsType);
-    }
-
-    // Variable @ flecs.h:77:29
-    public static ecs_type_t FLECS__TEcsComponentLifecycle
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsComponentLifecycle);
-    }
-
-    // Variable @ flecs.h:77:29
-    public static ecs_type_t FLECS__TEcsComponent
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_type_t>(_virtualTable.FLECS__TEcsComponent);
-    }
-
-    // Variable @ os_api.h:251:3
-    public static ecs_os_api_t ecs_os_api
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<ecs_os_api_t>(_virtualTable.ecs_os_api);
-    }
-
-    // Variable @ System
-    public static long ecs_os_api_free_count
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<long>(_virtualTable.ecs_os_api_free_count);
-    }
-
-    // Variable @ System
-    public static long ecs_os_api_calloc_count
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<long>(_virtualTable.ecs_os_api_calloc_count);
-    }
-
-    // Variable @ System
-    public static long ecs_os_api_realloc_count
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<long>(_virtualTable.ecs_os_api_realloc_count);
-    }
-
-    // Variable @ System
-    public static long ecs_os_api_malloc_count
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => Runtime.ReadMemory<long>(_virtualTable.ecs_os_api_malloc_count);
-    }
 
     // Function @ stats.h:178:16
-    public static void ecs_gauge_reduce(ecs_gauge_t* dst, int t_dst, ecs_gauge_t* src, int t_src)
-    {
-        _virtualTable.ecs_gauge_reduce(dst, t_dst, src, t_src);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_gauge_reduce(ecs_gauge_t* dst, int t_dst, ecs_gauge_t* src, int t_src);
 
     // Function @ stats.h:172:16
-    public static CBool ecs_get_pipeline_stats(ecs_world_t* world, ecs_entity_t pipeline, ecs_pipeline_stats_t* stats)
-    {
-        return _virtualTable.ecs_get_pipeline_stats(world, pipeline, stats);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_get_pipeline_stats(ecs_world_t* world, ecs_entity_t pipeline, ecs_pipeline_stats_t* stats);
 
     // Function @ stats.h:157:16
-    public static CBool ecs_get_system_stats(ecs_world_t* world, ecs_entity_t system, ecs_system_stats_t* stats)
-    {
-        return _virtualTable.ecs_get_system_stats(world, system, stats);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_get_system_stats(ecs_world_t* world, ecs_entity_t system, ecs_system_stats_t* stats);
 
     // Function @ stats.h:143:16
-    public static void ecs_get_query_stats(ecs_world_t* world, ecs_query_t* query, ecs_query_stats_t* s)
-    {
-        _virtualTable.ecs_get_query_stats(world, query, s);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_get_query_stats(ecs_world_t* world, ecs_query_t* query, ecs_query_stats_t* s);
 
     // Function @ stats.h:132:16
-    public static void ecs_dump_world_stats(ecs_world_t* world, ecs_world_stats_t* stats)
-    {
-        _virtualTable.ecs_dump_world_stats(world, stats);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_dump_world_stats(ecs_world_t* world, ecs_world_stats_t* stats);
 
     // Function @ stats.h:121:16
-    public static void ecs_get_world_stats(ecs_world_t* world, ecs_world_stats_t* stats)
-    {
-        _virtualTable.ecs_get_world_stats(world, stats);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_get_world_stats(ecs_world_t* world, ecs_world_stats_t* stats);
 
     // Function @ direct_access.h:313:6
-    public static void ecs_record_move_to(ecs_world_t* world, ecs_record_t* r, int column, ulong size, void* value, int count)
-    {
-        _virtualTable.ecs_record_move_to(world, r, column, size, value, count);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_record_move_to(ecs_world_t* world, ecs_record_t* r, int column, ulong size, void* value, int count);
 
     // Function @ direct_access.h:292:6
-    public static void ecs_record_copy_pod_to(ecs_world_t* world, ecs_record_t* r, int column, ulong size, void* value, int count)
-    {
-        _virtualTable.ecs_record_copy_pod_to(world, r, column, size, value, count);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_record_copy_pod_to(ecs_world_t* world, ecs_record_t* r, int column, ulong size, void* value, int count);
 
     // Function @ direct_access.h:271:6
-    public static void ecs_record_copy_to(ecs_world_t* world, ecs_record_t* r, int column, ulong size, void* value, int count)
-    {
-        _virtualTable.ecs_record_copy_to(world, r, column, size, value, count);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_record_copy_to(ecs_world_t* world, ecs_record_t* r, int column, ulong size, void* value, int count);
 
     // Function @ direct_access.h:249:7
-    public static void* ecs_record_get_column(ecs_record_t* r, int column, ulong size)
-    {
-        return _virtualTable.ecs_record_get_column(r, column, size);
-    }
+    [DllImport("flecs")]
+    public static extern void* ecs_record_get_column(ecs_record_t* r, int column, ulong size);
 
     // Function @ direct_access.h:237:15
-    public static ecs_record_t* ecs_record_ensure(ecs_world_t* world, ecs_entity_t entity)
-    {
-        return _virtualTable.ecs_record_ensure(world, entity);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_record_t* ecs_record_ensure(ecs_world_t* world, ecs_entity_t entity);
 
     // Function @ direct_access.h:223:15
-    public static ecs_record_t* ecs_record_find(ecs_world_t* world, ecs_entity_t entity)
-    {
-        return _virtualTable.ecs_record_find(world, entity);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_record_t* ecs_record_find(ecs_world_t* world, ecs_entity_t entity);
 
     // Function @ direct_access.h:197:6
-    public static void ecs_table_delete_column(ecs_world_t* world, ecs_table_t* table, int column, ecs_vector_t* vector)
-    {
-        _virtualTable.ecs_table_delete_column(world, table, column, vector);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_table_delete_column(ecs_world_t* world, ecs_table_t* table, int column, ecs_vector_t* vector);
 
     // Function @ direct_access.h:158:6
-    public static void ecs_table_set_entities(ecs_table_t* table, ecs_vector_t* entities, ecs_vector_t* records)
-    {
-        _virtualTable.ecs_table_set_entities(table, entities, records);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_table_set_entities(ecs_table_t* table, ecs_vector_t* entities, ecs_vector_t* records);
 
     // Function @ direct_access.h:133:6
-    public static void ecs_records_update(ecs_world_t* world, ecs_vector_t* entities, ecs_vector_t* records, ecs_table_t* table)
-    {
-        _virtualTable.ecs_records_update(world, entities, records, table);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_records_update(ecs_world_t* world, ecs_vector_t* entities, ecs_vector_t* records, ecs_table_t* table);
 
     // Function @ direct_access.h:121:6
-    public static void ecs_records_clear(ecs_vector_t* records)
-    {
-        _virtualTable.ecs_records_clear(records);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_records_clear(ecs_vector_t* records);
 
     // Function @ direct_access.h:110:15
-    public static ecs_vector_t* ecs_table_get_records(ecs_table_t* table)
-    {
-        return _virtualTable.ecs_table_get_records(table);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_vector_t* ecs_table_get_records(ecs_table_t* table);
 
     // Function @ direct_access.h:98:15
-    public static ecs_vector_t* ecs_table_get_entities(ecs_table_t* table)
-    {
-        return _virtualTable.ecs_table_get_entities(table);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_vector_t* ecs_table_get_entities(ecs_table_t* table);
 
     // Function @ direct_access.h:83:15
-    public static ecs_vector_t* ecs_table_set_column(ecs_world_t* world, ecs_table_t* table, int column, ecs_vector_t* vector)
-    {
-        return _virtualTable.ecs_table_set_column(world, table, column, vector);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_vector_t* ecs_table_set_column(ecs_world_t* world, ecs_table_t* table, int column, ecs_vector_t* vector);
 
     // Function @ direct_access.h:50:15
-    public static ecs_vector_t* ecs_table_get_column(ecs_table_t* table, int column)
-    {
-        return _virtualTable.ecs_table_get_column(table, column);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_vector_t* ecs_table_get_column(ecs_table_t* table, int column);
 
     // Function @ direct_access.h:34:9
-    public static int ecs_table_find_column(ecs_table_t* table, ecs_entity_t component)
-    {
-        return _virtualTable.ecs_table_find_column(table, component);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_table_find_column(ecs_table_t* table, ecs_entity_t component);
 
     // Function @ snapshot.h:94:6
-    public static void ecs_snapshot_free(ecs_snapshot_t* snapshot)
-    {
-        _virtualTable.ecs_snapshot_free(snapshot);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_snapshot_free(ecs_snapshot_t* snapshot);
 
     // Function @ snapshot.h:83:6
-    public static CBool ecs_snapshot_next(ecs_iter_t* iter)
-    {
-        return _virtualTable.ecs_snapshot_next(iter);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_snapshot_next(ecs_iter_t* iter);
 
     // Function @ snapshot.h:73:12
-    public static ecs_iter_t ecs_snapshot_iter(ecs_snapshot_t* snapshot, ecs_filter_t* filter)
-    {
-        return _virtualTable.ecs_snapshot_iter(snapshot, filter);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_iter_t ecs_snapshot_iter(ecs_snapshot_t* snapshot, ecs_filter_t* filter);
 
     // Function @ snapshot.h:64:6
-    public static void ecs_snapshot_restore(ecs_world_t* world, ecs_snapshot_t* snapshot)
-    {
-        _virtualTable.ecs_snapshot_restore(world, snapshot);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_snapshot_restore(ecs_world_t* world, ecs_snapshot_t* snapshot);
 
     // Function @ snapshot.h:45:17
-    public static ecs_snapshot_t* ecs_snapshot_take_w_iter(ecs_iter_t* iter, ecs_iter_next_action_t action)
-    {
-        return _virtualTable.ecs_snapshot_take_w_iter(iter, action);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_snapshot_t* ecs_snapshot_take_w_iter(ecs_iter_t* iter, ecs_iter_next_action_t action);
 
     // Function @ snapshot.h:33:17
-    public static ecs_snapshot_t* ecs_snapshot_take(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_snapshot_take(world);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_snapshot_t* ecs_snapshot_take(ecs_world_t* world);
 
     // Function @ reader_writer.h:213:9
-    public static int ecs_writer_write(CString buffer, int size, ecs_writer_t* writer)
-    {
-        return _virtualTable.ecs_writer_write(buffer, size, writer);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_writer_write(CString buffer, int size, ecs_writer_t* writer);
 
     // Function @ reader_writer.h:190:14
-    public static ecs_writer_t ecs_writer_init(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_writer_init(world);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_writer_t ecs_writer_init(ecs_world_t* world);
 
     // Function @ reader_writer.h:171:9
-    public static int ecs_reader_read(CString buffer, int size, ecs_reader_t* reader)
-    {
-        return _virtualTable.ecs_reader_read(buffer, size, reader);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_reader_read(CString buffer, int size, ecs_reader_t* reader);
 
     // Function @ reader_writer.h:152:14
-    public static ecs_reader_t ecs_reader_init_w_iter(ecs_iter_t* iter, ecs_iter_next_action_t next)
-    {
-        return _virtualTable.ecs_reader_init_w_iter(iter, next);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_reader_t ecs_reader_init_w_iter(ecs_iter_t* iter, ecs_iter_next_action_t next);
 
     // Function @ reader_writer.h:138:14
-    public static ecs_reader_t ecs_reader_init(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_reader_init(world);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_reader_t ecs_reader_init(ecs_world_t* world);
 
     // Function @ queue.h:79:6
-    public static void ecs_queue_free(ecs_queue_t* queue)
-    {
-        _virtualTable.ecs_queue_free(queue);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_queue_free(ecs_queue_t* queue);
 
     // Function @ queue.h:75:9
-    public static int ecs_queue_count(ecs_queue_t* queue)
-    {
-        return _virtualTable.ecs_queue_count(queue);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_queue_count(ecs_queue_t* queue);
 
     // Function @ queue.h:71:9
-    public static int ecs_queue_index(ecs_queue_t* queue)
-    {
-        return _virtualTable.ecs_queue_index(queue);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_queue_index(ecs_queue_t* queue);
 
     // Function @ queue.h:62:7
-    public static void* _ecs_queue_last(ecs_queue_t* queue, ecs_size_t elem_size, short offset)
-    {
-        return _virtualTable._ecs_queue_last(queue, elem_size, offset);
-    }
+    [DllImport("flecs")]
+    public static extern void* _ecs_queue_last(ecs_queue_t* queue, ecs_size_t elem_size, short offset);
 
     // Function @ queue.h:49:7
-    public static void* _ecs_queue_get(ecs_queue_t* queue, ecs_size_t elem_size, short offset, int index)
-    {
-        return _virtualTable._ecs_queue_get(queue, elem_size, offset, index);
-    }
+    [DllImport("flecs")]
+    public static extern void* _ecs_queue_get(ecs_queue_t* queue, ecs_size_t elem_size, short offset, int index);
 
     // Function @ queue.h:40:7
-    public static void* _ecs_queue_push(ecs_queue_t* queue, ecs_size_t elem_size, short offset)
-    {
-        return _virtualTable._ecs_queue_push(queue, elem_size, offset);
-    }
+    [DllImport("flecs")]
+    public static extern void* _ecs_queue_push(ecs_queue_t* queue, ecs_size_t elem_size, short offset);
 
     // Function @ queue.h:30:14
-    public static ecs_queue_t* _ecs_queue_from_array(ecs_size_t elem_size, short offset, int elem_count, void* array)
-    {
-        return _virtualTable._ecs_queue_from_array(elem_size, offset, elem_count, array);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_queue_t* _ecs_queue_from_array(ecs_size_t elem_size, short offset, int elem_count, void* array);
 
     // Function @ queue.h:21:14
-    public static ecs_queue_t* _ecs_queue_new(ecs_size_t elem_size, short offset, int elem_count)
-    {
-        return _virtualTable._ecs_queue_new(elem_size, offset, elem_count);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_queue_t* _ecs_queue_new(ecs_size_t elem_size, short offset, int elem_count);
 
     // Function @ parser.h:46:7
-    public static CString ecs_parse_term(ecs_world_t* world, CString name, CString expr, CString ptr, ecs_term_t* term_out)
-    {
-        return _virtualTable.ecs_parse_term(world, name, expr, ptr, term_out);
-    }
+    [DllImport("flecs")]
+    public static extern CString ecs_parse_term(ecs_world_t* world, CString name, CString expr, CString ptr, ecs_term_t* term_out);
 
     // Function @ dbg.h:60:6
-    public static void ecs_dbg_table(ecs_world_t* world, ecs_table_t* table, ecs_dbg_table_t* dbg_out)
-    {
-        _virtualTable.ecs_dbg_table(world, table, dbg_out);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_dbg_table(ecs_world_t* world, ecs_table_t* table, ecs_dbg_table_t* dbg_out);
 
     // Function @ dbg.h:54:6
-    public static CBool ecs_dbg_filter_table(ecs_world_t* world, ecs_table_t* table, ecs_filter_t* filter)
-    {
-        return _virtualTable.ecs_dbg_filter_table(world, table, filter);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_dbg_filter_table(ecs_world_t* world, ecs_table_t* table, ecs_filter_t* filter);
 
     // Function @ dbg.h:49:14
-    public static ecs_table_t* ecs_dbg_get_table(ecs_world_t* world, int index)
-    {
-        return _virtualTable.ecs_dbg_get_table(world, index);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_table_t* ecs_dbg_get_table(ecs_world_t* world, int index);
 
     // Function @ dbg.h:44:14
-    public static ecs_table_t* ecs_dbg_find_table(ecs_world_t* world, ecs_type_t type)
-    {
-        return _virtualTable.ecs_dbg_find_table(world, type);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_table_t* ecs_dbg_find_table(ecs_world_t* world, ecs_type_t type);
 
     // Function @ dbg.h:38:6
-    public static void ecs_dbg_entity(ecs_world_t* world, ecs_entity_t entity, ecs_dbg_entity_t* dbg_out)
-    {
-        _virtualTable.ecs_dbg_entity(world, entity, dbg_out);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_dbg_entity(ecs_world_t* world, ecs_entity_t entity, ecs_dbg_entity_t* dbg_out);
 
     // Function @ bulk.h:127:6
-    public static void ecs_bulk_delete(ecs_world_t* world, ecs_filter_t* filter)
-    {
-        _virtualTable.ecs_bulk_delete(world, filter);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_bulk_delete(ecs_world_t* world, ecs_filter_t* filter);
 
     // Function @ bulk.h:102:6
-    public static void ecs_bulk_add_remove_type(ecs_world_t* world, ecs_type_t to_add, ecs_type_t to_remove, ecs_filter_t* filter)
-    {
-        _virtualTable.ecs_bulk_add_remove_type(world, to_add, to_remove, filter);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_bulk_add_remove_type(ecs_world_t* world, ecs_type_t to_add, ecs_type_t to_remove, ecs_filter_t* filter);
 
     // Function @ bulk.h:77:6
-    public static void ecs_bulk_remove_type(ecs_world_t* world, ecs_type_t type, ecs_filter_t* filter)
-    {
-        _virtualTable.ecs_bulk_remove_type(world, type, filter);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_bulk_remove_type(ecs_world_t* world, ecs_type_t type, ecs_filter_t* filter);
 
     // Function @ bulk.h:63:6
-    public static void ecs_bulk_remove_entity(ecs_world_t* world, ecs_entity_t entity_remove, ecs_filter_t* filter)
-    {
-        _virtualTable.ecs_bulk_remove_entity(world, entity_remove, filter);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_bulk_remove_entity(ecs_world_t* world, ecs_entity_t entity_remove, ecs_filter_t* filter);
 
     // Function @ bulk.h:38:6
-    public static void ecs_bulk_add_type(ecs_world_t* world, ecs_type_t type, ecs_filter_t* filter)
-    {
-        _virtualTable.ecs_bulk_add_type(world, type, filter);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_bulk_add_type(ecs_world_t* world, ecs_type_t type, ecs_filter_t* filter);
 
     // Function @ bulk.h:24:6
-    public static void ecs_bulk_add_entity(ecs_world_t* world, ecs_entity_t entity_add, ecs_filter_t* filter)
-    {
-        _virtualTable.ecs_bulk_add_entity(world, entity_add, filter);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_bulk_add_entity(ecs_world_t* world, ecs_entity_t entity_add, ecs_filter_t* filter);
 
     // Function @ timer.h:246:6
-    public static void FlecsTimerImport(ecs_world_t* world)
-    {
-        _virtualTable.FlecsTimerImport(world);
-    }
+    [DllImport("flecs")]
+    public static extern void FlecsTimerImport(ecs_world_t* world);
 
     // Function @ timer.h:230:6
-    public static void ecs_set_tick_source(ecs_world_t* world, ecs_entity_t system, ecs_entity_t tick_source)
-    {
-        _virtualTable.ecs_set_tick_source(world, system, tick_source);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_set_tick_source(ecs_world_t* world, ecs_entity_t system, ecs_entity_t tick_source);
 
     // Function @ timer.h:201:14
-    public static ecs_entity_t ecs_set_rate(ecs_world_t* world, ecs_entity_t tick_source, int rate, ecs_entity_t source)
-    {
-        return _virtualTable.ecs_set_rate(world, tick_source, rate, source);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_set_rate(ecs_world_t* world, ecs_entity_t tick_source, int rate, ecs_entity_t source);
 
     // Function @ timer.h:166:6
-    public static void ecs_stop_timer(ecs_world_t* world, ecs_entity_t tick_source)
-    {
-        _virtualTable.ecs_stop_timer(world, tick_source);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_stop_timer(ecs_world_t* world, ecs_entity_t tick_source);
 
     // Function @ timer.h:154:6
-    public static void ecs_start_timer(ecs_world_t* world, ecs_entity_t tick_source)
-    {
-        _virtualTable.ecs_start_timer(world, tick_source);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_start_timer(ecs_world_t* world, ecs_entity_t tick_source);
 
     // Function @ timer.h:140:13
-    public static float ecs_get_interval(ecs_world_t* world, ecs_entity_t tick_source)
-    {
-        return _virtualTable.ecs_get_interval(world, tick_source);
-    }
+    [DllImport("flecs")]
+    public static extern float ecs_get_interval(ecs_world_t* world, ecs_entity_t tick_source);
 
     // Function @ timer.h:126:14
-    public static ecs_entity_t ecs_set_interval(ecs_world_t* world, ecs_entity_t tick_source, float interval)
-    {
-        return _virtualTable.ecs_set_interval(world, tick_source, interval);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_set_interval(ecs_world_t* world, ecs_entity_t tick_source, float interval);
 
     // Function @ timer.h:104:13
-    public static float ecs_get_timeout(ecs_world_t* world, ecs_entity_t tick_source)
-    {
-        return _virtualTable.ecs_get_timeout(world, tick_source);
-    }
+    [DllImport("flecs")]
+    public static extern float ecs_get_timeout(ecs_world_t* world, ecs_entity_t tick_source);
 
     // Function @ timer.h:79:14
-    public static ecs_entity_t ecs_set_timeout(ecs_world_t* world, ecs_entity_t tick_source, float timeout)
-    {
-        return _virtualTable.ecs_set_timeout(world, tick_source, timeout);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_set_timeout(ecs_world_t* world, ecs_entity_t tick_source, float timeout);
 
     // Function @ pipeline.h:169:6
-    public static void FlecsPipelineImport(ecs_world_t* world)
-    {
-        _virtualTable.FlecsPipelineImport(world);
-    }
+    [DllImport("flecs")]
+    public static extern void FlecsPipelineImport(ecs_world_t* world);
 
     // Function @ pipeline.h:155:6
-    public static void ecs_set_threads(ecs_world_t* world, int threads)
-    {
-        _virtualTable.ecs_set_threads(world, threads);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_set_threads(ecs_world_t* world, int threads);
 
     // Function @ pipeline.h:141:6
-    public static void ecs_deactivate_systems(ecs_world_t* world)
-    {
-        _virtualTable.ecs_deactivate_systems(world);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_deactivate_systems(ecs_world_t* world);
 
     // Function @ pipeline.h:125:6
-    public static void ecs_pipeline_run(ecs_world_t* world, ecs_entity_t pipeline, float delta_time)
-    {
-        _virtualTable.ecs_pipeline_run(world, pipeline, delta_time);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_pipeline_run(ecs_world_t* world, ecs_entity_t pipeline, float delta_time);
 
     // Function @ pipeline.h:103:6
-    public static void ecs_reset_clock(ecs_world_t* world)
-    {
-        _virtualTable.ecs_reset_clock(world);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_reset_clock(ecs_world_t* world);
 
     // Function @ pipeline.h:93:6
-    public static void ecs_set_time_scale(ecs_world_t* world, float scale)
-    {
-        _virtualTable.ecs_set_time_scale(world, scale);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_set_time_scale(ecs_world_t* world, float scale);
 
     // Function @ pipeline.h:82:6
-    public static CBool ecs_progress(ecs_world_t* world, float delta_time)
-    {
-        return _virtualTable.ecs_progress(world, delta_time);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_progress(ecs_world_t* world, float delta_time);
 
     // Function @ pipeline.h:60:14
-    public static ecs_entity_t ecs_get_pipeline(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_get_pipeline(world);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_get_pipeline(ecs_world_t* world);
 
     // Function @ pipeline.h:49:6
-    public static void ecs_set_pipeline(ecs_world_t* world, ecs_entity_t pipeline)
-    {
-        _virtualTable.ecs_set_pipeline(world, pipeline);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_set_pipeline(ecs_world_t* world, ecs_entity_t pipeline);
 
     // Function @ system.h:321:6
-    public static void FlecsSystemImport(ecs_world_t* world)
-    {
-        _virtualTable.FlecsSystemImport(world);
-    }
+    [DllImport("flecs")]
+    public static extern void FlecsSystemImport(ecs_world_t* world);
 
     // Function @ system.h:304:6
-    public static CBool ecs_dbg_match_entity(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t system, ecs_match_failure_t* failure_info_out)
-    {
-        return _virtualTable.ecs_dbg_match_entity(world, entity, system, failure_info_out);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_dbg_match_entity(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t system, ecs_match_failure_t* failure_info_out);
 
     // Function @ system.h:298:12
-    public static ecs_type_t ecs_dbg_get_column_type(ecs_world_t* world, ecs_entity_t system, int column_index)
-    {
-        return _virtualTable.ecs_dbg_get_column_type(world, system, column_index);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_type_t ecs_dbg_get_column_type(ecs_world_t* world, ecs_entity_t system, int column_index);
 
     // Function @ system.h:292:14
-    public static ecs_table_t* ecs_dbg_get_inactive_table(ecs_world_t* world, ecs_dbg_system_t* dbg, int index)
-    {
-        return _virtualTable.ecs_dbg_get_inactive_table(world, dbg, index);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_table_t* ecs_dbg_get_inactive_table(ecs_world_t* world, ecs_dbg_system_t* dbg, int index);
 
     // Function @ system.h:286:14
-    public static ecs_table_t* ecs_dbg_get_active_table(ecs_world_t* world, ecs_dbg_system_t* dbg, int index)
-    {
-        return _virtualTable.ecs_dbg_get_active_table(world, dbg, index);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_table_t* ecs_dbg_get_active_table(ecs_world_t* world, ecs_dbg_system_t* dbg, int index);
 
     // Function @ system.h:280:5
-    public static int ecs_dbg_system(ecs_world_t* world, ecs_entity_t system, ecs_dbg_system_t* dbg_out)
-    {
-        return _virtualTable.ecs_dbg_system(world, system, dbg_out);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_dbg_system(ecs_world_t* world, ecs_entity_t system, ecs_dbg_system_t* dbg_out);
 
     // Function @ system.h:262:7
-    public static void* ecs_get_system_ctx(ecs_world_t* world, ecs_entity_t system)
-    {
-        return _virtualTable.ecs_get_system_ctx(world, system);
-    }
+    [DllImport("flecs")]
+    public static extern void* ecs_get_system_ctx(ecs_world_t* world, ecs_entity_t system);
 
     // Function @ system.h:249:14
-    public static ecs_query_t* ecs_get_query(ecs_world_t* world, ecs_entity_t system)
-    {
-        return _virtualTable.ecs_get_query(world, system);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_query_t* ecs_get_query(ecs_world_t* world, ecs_entity_t system);
 
     // Function @ system.h:230:14
-    public static ecs_entity_t ecs_run_w_filter(ecs_world_t* world, ecs_entity_t system, float delta_time, int offset, int limit, ecs_filter_t* filter, void* param)
-    {
-        return _virtualTable.ecs_run_w_filter(world, system, delta_time, offset, limit, filter, param);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_run_w_filter(ecs_world_t* world, ecs_entity_t system, float delta_time, int offset, int limit, ecs_filter_t* filter, void* param);
 
     // Function @ system.h:200:14
-    public static ecs_entity_t ecs_run_worker(ecs_world_t* world, ecs_entity_t system, int stage_current, int stage_count, float delta_time, void* param)
-    {
-        return _virtualTable.ecs_run_worker(world, system, stage_current, stage_count, delta_time, param);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_run_worker(ecs_world_t* world, ecs_entity_t system, int stage_current, int stage_count, float delta_time, void* param);
 
     // Function @ system.h:183:14
-    public static ecs_entity_t ecs_run(ecs_world_t* world, ecs_entity_t system, float delta_time, void* param)
-    {
-        return _virtualTable.ecs_run(world, system, delta_time, param);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_run(ecs_world_t* world, ecs_entity_t system, float delta_time, void* param);
 
     // Function @ system.h:125:14
-    public static ecs_entity_t ecs_system_init(ecs_world_t* world, ecs_system_desc_t* desc)
-    {
-        return _virtualTable.ecs_system_init(world, desc);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_system_init(ecs_world_t* world, ecs_system_desc_t* desc);
 
     // Function @ module.h:69:14
-    public static ecs_entity_t ecs_import_from_library(ecs_world_t* world, CString library_name, CString module_name)
-    {
-        return _virtualTable.ecs_import_from_library(world, library_name, module_name);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_import_from_library(ecs_world_t* world, CString library_name, CString module_name);
 
     // Function @ module.h:42:14
-    public static ecs_entity_t ecs_import(ecs_world_t* world, ecs_module_action_t module, CString module_name, void* handles_out, ulong handles_size)
-    {
-        return _virtualTable.ecs_import(world, module, module_name, handles_out, handles_size);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_import(ecs_world_t* world, ecs_module_action_t module, CString module_name, void* handles_out, ulong handles_size);
 
     // Function @ flecs.h:3609:9
-    public static int ecs_table_count(ecs_table_t* table)
-    {
-        return _virtualTable.ecs_table_count(table);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_table_count(ecs_table_t* table);
 
     // Function @ flecs.h:3593:14
-    public static ecs_record_t ecs_table_insert(ecs_world_t* world, ecs_table_t* table, ecs_entity_t entity, ecs_record_t* @record)
-    {
-        return _virtualTable.ecs_table_insert(world, table, entity, @record);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_record_t ecs_table_insert(ecs_world_t* world, ecs_table_t* table, ecs_entity_t entity, ecs_record_t* @record);
 
     // Function @ flecs.h:3567:12
-    public static ecs_type_t ecs_table_get_type(ecs_table_t* table)
-    {
-        return _virtualTable.ecs_table_get_type(table);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_type_t ecs_table_get_type(ecs_table_t* table);
 
     // Function @ flecs.h:3557:14
-    public static ecs_table_t* ecs_table_from_type(ecs_world_t* world, ecs_type_t type)
-    {
-        return _virtualTable.ecs_table_from_type(world, type);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_table_t* ecs_table_from_type(ecs_world_t* world, ecs_type_t type);
 
     // Function @ flecs.h:3545:14
-    public static ecs_table_t* ecs_table_from_str(ecs_world_t* world, CString type)
-    {
-        return _virtualTable.ecs_table_from_str(world, type);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_table_t* ecs_table_from_str(ecs_world_t* world, CString type);
 
     // Function @ flecs.h:3523:6
-    public static CBool ecs_stage_is_async(ecs_world_t* stage)
-    {
-        return _virtualTable.ecs_stage_is_async(stage);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_stage_is_async(ecs_world_t* stage);
 
     // Function @ flecs.h:3513:6
-    public static void ecs_async_stage_free(ecs_world_t* stage)
-    {
-        _virtualTable.ecs_async_stage_free(stage);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_async_stage_free(ecs_world_t* stage);
 
     // Function @ flecs.h:3503:14
-    public static ecs_world_t* ecs_async_stage_new(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_async_stage_new(world);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_world_t* ecs_async_stage_new(ecs_world_t* world);
 
     // Function @ flecs.h:3481:6
-    public static CBool ecs_stage_is_readonly(ecs_world_t* stage)
-    {
-        return _virtualTable.ecs_stage_is_readonly(stage);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_stage_is_readonly(ecs_world_t* stage);
 
     // Function @ flecs.h:3470:20
-    public static ecs_world_t* ecs_get_world(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_get_world(world);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_world_t* ecs_get_world(ecs_world_t* world);
 
     // Function @ flecs.h:3461:14
-    public static ecs_world_t* ecs_get_stage(ecs_world_t* world, int stage_id)
-    {
-        return _virtualTable.ecs_get_stage(world, stage_id);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_world_t* ecs_get_stage(ecs_world_t* world, int stage_id);
 
     // Function @ flecs.h:3442:9
-    public static int ecs_get_stage_id(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_get_stage_id(world);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_get_stage_id(ecs_world_t* world);
 
     // Function @ flecs.h:3431:9
-    public static int ecs_get_stage_count(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_get_stage_count(world);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_get_stage_count(ecs_world_t* world);
 
     // Function @ flecs.h:3420:6
-    public static void ecs_set_stages(ecs_world_t* world, int stages)
-    {
-        _virtualTable.ecs_set_stages(world, stages);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_set_stages(ecs_world_t* world, int stages);
 
     // Function @ flecs.h:3402:6
-    public static void ecs_set_automerge(ecs_world_t* world, CBool automerge)
-    {
-        _virtualTable.ecs_set_automerge(world, automerge);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_set_automerge(ecs_world_t* world, CBool automerge);
 
     // Function @ flecs.h:3382:6
-    public static CBool ecs_defer_end(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_defer_end(world);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_defer_end(ecs_world_t* world);
 
     // Function @ flecs.h:3370:6
-    public static CBool ecs_defer_begin(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_defer_begin(world);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_defer_begin(ecs_world_t* world);
 
     // Function @ flecs.h:3357:6
-    public static void ecs_merge(ecs_world_t* world)
-    {
-        _virtualTable.ecs_merge(world);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_merge(ecs_world_t* world);
 
     // Function @ flecs.h:3343:6
-    public static void ecs_staging_end(ecs_world_t* world)
-    {
-        _virtualTable.ecs_staging_end(world);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_staging_end(ecs_world_t* world);
 
     // Function @ flecs.h:3330:6
-    public static CBool ecs_staging_begin(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_staging_begin(world);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_staging_begin(ecs_world_t* world);
 
     // Function @ flecs.h:3307:6
-    public static void ecs_frame_end(ecs_world_t* world)
-    {
-        _virtualTable.ecs_frame_end(world);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_frame_end(ecs_world_t* world);
 
     // Function @ flecs.h:3296:13
-    public static float ecs_frame_begin(ecs_world_t* world, float delta_time)
-    {
-        return _virtualTable.ecs_frame_begin(world, delta_time);
-    }
+    [DllImport("flecs")]
+    public static extern float ecs_frame_begin(ecs_world_t* world, float delta_time);
 
     // Function @ flecs.h:3265:8
-    public static ulong ecs_iter_column_size(ecs_iter_t* it, int index)
-    {
-        return _virtualTable.ecs_iter_column_size(it, index);
-    }
+    [DllImport("flecs")]
+    public static extern ulong ecs_iter_column_size(ecs_iter_t* it, int index);
 
     // Function @ flecs.h:3247:7
-    public static void* ecs_iter_column_w_size(ecs_iter_t* it, ulong size, int index)
-    {
-        return _virtualTable.ecs_iter_column_w_size(it, size, index);
-    }
+    [DllImport("flecs")]
+    public static extern void* ecs_iter_column_w_size(ecs_iter_t* it, ulong size, int index);
 
     // Function @ flecs.h:3215:9
-    public static int ecs_iter_find_column(ecs_iter_t* it, ecs_id_t id)
-    {
-        return _virtualTable.ecs_iter_find_column(it, id);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_iter_find_column(ecs_iter_t* it, ecs_id_t id);
 
     // Function @ flecs.h:3192:12
-    public static ecs_type_t ecs_iter_type(ecs_iter_t* it)
-    {
-        return _virtualTable.ecs_iter_type(it);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_type_t ecs_iter_type(ecs_iter_t* it);
 
     // Function @ flecs.h:3180:6
-    public static CBool ecs_term_is_owned(ecs_iter_t* it, int index)
-    {
-        return _virtualTable.ecs_term_is_owned(it, index);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_term_is_owned(ecs_iter_t* it, int index);
 
     // Function @ flecs.h:3166:6
-    public static CBool ecs_term_is_readonly(ecs_iter_t* it, int index)
-    {
-        return _virtualTable.ecs_term_is_readonly(it, index);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_term_is_readonly(ecs_iter_t* it, int index);
 
     // Function @ flecs.h:3153:8
-    public static ulong ecs_term_size(ecs_iter_t* it, int index)
-    {
-        return _virtualTable.ecs_term_size(it, index);
-    }
+    [DllImport("flecs")]
+    public static extern ulong ecs_term_size(ecs_iter_t* it, int index);
 
     // Function @ flecs.h:3141:14
-    public static ecs_entity_t ecs_term_source(ecs_iter_t* it, int index)
-    {
-        return _virtualTable.ecs_term_source(it, index);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_term_source(ecs_iter_t* it, int index);
 
     // Function @ flecs.h:3123:10
-    public static ecs_id_t ecs_term_id(ecs_iter_t* it, int index)
-    {
-        return _virtualTable.ecs_term_id(it, index);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_id_t ecs_term_id(ecs_iter_t* it, int index);
 
     // Function @ flecs.h:3104:7
-    public static void* ecs_term_w_size(ecs_iter_t* it, ulong size, int index)
-    {
-        return _virtualTable.ecs_term_w_size(it, size, index);
-    }
+    [DllImport("flecs")]
+    public static extern void* ecs_term_w_size(ecs_iter_t* it, ulong size, int index);
 
     // Function @ flecs.h:3068:7
-    public static void* ecs_get_trigger_ctx(ecs_world_t* world, ecs_entity_t trigger)
-    {
-        return _virtualTable.ecs_get_trigger_ctx(world, trigger);
-    }
+    [DllImport("flecs")]
+    public static extern void* ecs_get_trigger_ctx(ecs_world_t* world, ecs_entity_t trigger);
 
     // Function @ flecs.h:3055:14
-    public static ecs_entity_t ecs_trigger_init(ecs_world_t* world, ecs_trigger_desc_t* desc)
-    {
-        return _virtualTable.ecs_trigger_init(world, desc);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_trigger_init(ecs_world_t* world, ecs_trigger_desc_t* desc);
 
     // Function @ flecs.h:3030:6
-    public static CBool ecs_query_orphaned(ecs_query_t* query)
-    {
-        return _virtualTable.ecs_query_orphaned(query);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_query_orphaned(ecs_query_t* query);
 
     // Function @ flecs.h:3018:6
-    public static CBool ecs_query_changed(ecs_query_t* query)
-    {
-        return _virtualTable.ecs_query_changed(query);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_query_changed(ecs_query_t* query);
 
     // Function @ flecs.h:3002:6
-    public static CBool ecs_query_next_worker(ecs_iter_t* it, int stage_current, int stage_count)
-    {
-        return _virtualTable.ecs_query_next_worker(it, stage_current, stage_count);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_query_next_worker(ecs_iter_t* it, int stage_current, int stage_count);
 
     // Function @ flecs.h:2982:6
-    public static CBool ecs_query_next_w_filter(ecs_iter_t* iter, ecs_filter_t* filter)
-    {
-        return _virtualTable.ecs_query_next_w_filter(iter, filter);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_query_next_w_filter(ecs_iter_t* iter, ecs_filter_t* filter);
 
     // Function @ flecs.h:2970:6
-    public static CBool ecs_query_next(ecs_iter_t* iter)
-    {
-        return _virtualTable.ecs_query_next(iter);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_query_next(ecs_iter_t* iter);
 
     // Function @ flecs.h:2955:12
-    public static ecs_iter_t ecs_query_iter_page(ecs_query_t* query, int offset, int limit)
-    {
-        return _virtualTable.ecs_query_iter_page(query, offset, limit);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_iter_t ecs_query_iter_page(ecs_query_t* query, int offset, int limit);
 
     // Function @ flecs.h:2942:12
-    public static ecs_iter_t ecs_query_iter(ecs_query_t* query)
-    {
-        return _virtualTable.ecs_query_iter(query);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_iter_t ecs_query_iter(ecs_query_t* query);
 
     // Function @ flecs.h:2912:6
-    public static void ecs_query_fini(ecs_query_t* query)
-    {
-        _virtualTable.ecs_query_fini(query);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_query_fini(ecs_query_t* query);
 
     // Function @ flecs.h:2900:14
-    public static ecs_query_t* ecs_query_init(ecs_world_t* world, ecs_query_desc_t* desc)
-    {
-        return _virtualTable.ecs_query_init(world, desc);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_query_t* ecs_query_init(ecs_world_t* world, ecs_query_desc_t* desc);
 
     // Function @ flecs.h:2854:6
-    public static CBool ecs_filter_next(ecs_iter_t* iter)
-    {
-        return _virtualTable.ecs_filter_next(iter);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_filter_next(ecs_iter_t* iter);
 
     // Function @ flecs.h:2840:12
-    public static ecs_iter_t ecs_filter_iter(ecs_world_t* world, ecs_filter_t* filter)
-    {
-        return _virtualTable.ecs_filter_iter(world, filter);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_iter_t ecs_filter_iter(ecs_world_t* world, ecs_filter_t* filter);
 
     // Function @ flecs.h:2825:6
-    public static CBool ecs_filter_match_entity(ecs_world_t* world, ecs_filter_t* filter, ecs_entity_t e)
-    {
-        return _virtualTable.ecs_filter_match_entity(world, filter, e);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_filter_match_entity(ecs_world_t* world, ecs_filter_t* filter, ecs_entity_t e);
 
     // Function @ flecs.h:2805:7
-    public static CString ecs_filter_str(ecs_world_t* world, ecs_filter_t* filter)
-    {
-        return _virtualTable.ecs_filter_str(world, filter);
-    }
+    [DllImport("flecs")]
+    public static extern CString ecs_filter_str(ecs_world_t* world, ecs_filter_t* filter);
 
     // Function @ flecs.h:2796:5
-    public static int ecs_filter_finalize(ecs_world_t* world, ecs_filter_t* filter)
-    {
-        return _virtualTable.ecs_filter_finalize(world, filter);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_filter_finalize(ecs_world_t* world, ecs_filter_t* filter);
 
     // Function @ flecs.h:2779:6
-    public static void ecs_filter_fini(ecs_filter_t* filter)
-    {
-        _virtualTable.ecs_filter_fini(filter);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_filter_fini(ecs_filter_t* filter);
 
     // Function @ flecs.h:2768:5
-    public static int ecs_filter_init(ecs_world_t* world, ecs_filter_t* filter_out, ecs_filter_desc_t* desc)
-    {
-        return _virtualTable.ecs_filter_init(world, filter_out, desc);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_filter_init(ecs_world_t* world, ecs_filter_t* filter_out, ecs_filter_desc_t* desc);
 
     // Function @ flecs.h:2735:6
-    public static CBool ecs_id_match(ecs_id_t id, ecs_id_t pattern)
-    {
-        return _virtualTable.ecs_id_match(id, pattern);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_id_match(ecs_id_t id, ecs_id_t pattern);
 
     // Function @ flecs.h:2724:6
-    public static void ecs_term_fini(ecs_term_t* term)
-    {
-        _virtualTable.ecs_term_fini(term);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_term_fini(ecs_term_t* term);
 
     // Function @ flecs.h:2714:12
-    public static ecs_term_t ecs_term_move(ecs_term_t* src)
-    {
-        return _virtualTable.ecs_term_move(src);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_term_t ecs_term_move(ecs_term_t* src);
 
     // Function @ flecs.h:2700:12
-    public static ecs_term_t ecs_term_copy(ecs_term_t* src)
-    {
-        return _virtualTable.ecs_term_copy(src);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_term_t ecs_term_copy(ecs_term_t* src);
 
     // Function @ flecs.h:2685:5
-    public static int ecs_term_finalize(ecs_world_t* world, CString name, CString expr, ecs_term_t* term)
-    {
-        return _virtualTable.ecs_term_finalize(world, name, expr, term);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_term_finalize(ecs_world_t* world, CString name, CString expr, ecs_term_t* term);
 
     // Function @ flecs.h:2661:6
-    public static CBool ecs_term_is_trivial(ecs_term_t* term)
-    {
-        return _virtualTable.ecs_term_is_trivial(term);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_term_is_trivial(ecs_term_t* term);
 
     // Function @ flecs.h:2634:6
-    public static CBool ecs_term_is_set(ecs_term_t* term)
-    {
-        return _virtualTable.ecs_term_is_set(term);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_term_is_set(ecs_term_t* term);
 
     // Function @ flecs.h:2610:13
-    public static CString ecs_set_name_prefix(ecs_world_t* world, CString prefix)
-    {
-        return _virtualTable.ecs_set_name_prefix(world, prefix);
-    }
+    [DllImport("flecs")]
+    public static extern CString ecs_set_name_prefix(ecs_world_t* world, CString prefix);
 
     // Function @ flecs.h:2597:14
-    public static ecs_entity_t ecs_get_scope(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_get_scope(world);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_get_scope(ecs_world_t* world);
 
     // Function @ flecs.h:2585:14
-    public static ecs_entity_t ecs_set_scope(ecs_world_t* world, ecs_entity_t scope)
-    {
-        return _virtualTable.ecs_set_scope(world, scope);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_set_scope(ecs_world_t* world, ecs_entity_t scope);
 
     // Function @ flecs.h:2570:6
-    public static CBool ecs_scope_next(ecs_iter_t* it)
-    {
-        return _virtualTable.ecs_scope_next(it);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_scope_next(ecs_iter_t* it);
 
     // Function @ flecs.h:2556:12
-    public static ecs_iter_t ecs_scope_iter_w_filter(ecs_world_t* world, ecs_entity_t parent, ecs_filter_t* filter)
-    {
-        return _virtualTable.ecs_scope_iter_w_filter(world, parent, filter);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_iter_t ecs_scope_iter_w_filter(ecs_world_t* world, ecs_entity_t parent, ecs_filter_t* filter);
 
     // Function @ flecs.h:2544:12
-    public static ecs_iter_t ecs_scope_iter(ecs_world_t* world, ecs_entity_t parent)
-    {
-        return _virtualTable.ecs_scope_iter(world, parent);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_iter_t ecs_scope_iter(ecs_world_t* world, ecs_entity_t parent);
 
     // Function @ flecs.h:2531:9
-    public static int ecs_get_child_count(ecs_world_t* world, ecs_entity_t entity)
-    {
-        return _virtualTable.ecs_get_child_count(world, entity);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_get_child_count(ecs_world_t* world, ecs_entity_t entity);
 
     // Function @ flecs.h:2484:14
-    public static ecs_entity_t ecs_add_path_w_sep(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t parent, CString path, CString sep, CString prefix)
-    {
-        return _virtualTable.ecs_add_path_w_sep(world, entity, parent, path, sep, prefix);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_add_path_w_sep(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t parent, CString path, CString sep, CString prefix);
 
     // Function @ flecs.h:2440:14
-    public static ecs_entity_t ecs_new_from_path_w_sep(ecs_world_t* world, ecs_entity_t parent, CString path, CString sep, CString prefix)
-    {
-        return _virtualTable.ecs_new_from_path_w_sep(world, parent, path, sep, prefix);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_new_from_path_w_sep(ecs_world_t* world, ecs_entity_t parent, CString path, CString sep, CString prefix);
 
     // Function @ flecs.h:2391:7
-    public static CString ecs_get_path_w_sep(ecs_world_t* world, ecs_entity_t parent, ecs_entity_t child, ecs_entity_t component, CString sep, CString prefix)
-    {
-        return _virtualTable.ecs_get_path_w_sep(world, parent, child, component, sep, prefix);
-    }
+    [DllImport("flecs")]
+    public static extern CString ecs_get_path_w_sep(ecs_world_t* world, ecs_entity_t parent, ecs_entity_t child, ecs_entity_t component, CString sep, CString prefix);
 
     // Function @ flecs.h:2359:6
-    public static void ecs_use(ecs_world_t* world, ecs_entity_t entity, CString name)
-    {
-        _virtualTable.ecs_use(world, entity, name);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_use(ecs_world_t* world, ecs_entity_t entity, CString name);
 
     // Function @ flecs.h:2353:14
-    public static ecs_entity_t ecs_lookup_symbol(ecs_world_t* world, CString name)
-    {
-        return _virtualTable.ecs_lookup_symbol(world, name);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_lookup_symbol(ecs_world_t* world, CString name);
 
     // Function @ flecs.h:2312:14
-    public static ecs_entity_t ecs_lookup_path_w_sep(ecs_world_t* world, ecs_entity_t parent, CString path, CString sep, CString prefix, CBool recursive)
-    {
-        return _virtualTable.ecs_lookup_path_w_sep(world, parent, path, sep, prefix, recursive);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_lookup_path_w_sep(ecs_world_t* world, ecs_entity_t parent, CString path, CString sep, CString prefix, CBool recursive);
 
     // Function @ flecs.h:2288:14
-    public static ecs_entity_t ecs_lookup_child(ecs_world_t* world, ecs_entity_t parent, CString name)
-    {
-        return _virtualTable.ecs_lookup_child(world, parent, name);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_lookup_child(ecs_world_t* world, ecs_entity_t parent, CString name);
 
     // Function @ flecs.h:2274:14
-    public static ecs_entity_t ecs_lookup(ecs_world_t* world, CString name)
-    {
-        return _virtualTable.ecs_lookup(world, name);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_lookup(ecs_world_t* world, CString name);
 
     // Function @ flecs.h:2253:9
-    public static int ecs_count_filter(ecs_world_t* world, ecs_filter_t* filter)
-    {
-        return _virtualTable.ecs_count_filter(world, filter);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_count_filter(ecs_world_t* world, ecs_filter_t* filter);
 
     // Function @ flecs.h:2231:9
-    public static int ecs_count_id(ecs_world_t* world, ecs_id_t entity)
-    {
-        return _virtualTable.ecs_count_id(world, entity);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_count_id(ecs_world_t* world, ecs_id_t entity);
 
     // Function @ flecs.h:2218:6
-    public static void ecs_enable(ecs_world_t* world, ecs_entity_t entity, CBool enabled)
-    {
-        _virtualTable.ecs_enable(world, entity, enabled);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_enable(ecs_world_t* world, ecs_entity_t entity, CBool enabled);
 
     // Function @ flecs.h:2189:14
-    public static ecs_entity_t ecs_get_object_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t rel, ecs_id_t id)
-    {
-        return _virtualTable.ecs_get_object_w_id(world, entity, rel, id);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_get_object_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t rel, ecs_id_t id);
 
     // Function @ flecs.h:2171:8
-    public static ulong ecs_id_str(ecs_world_t* world, ecs_id_t entity, CString buffer, ulong buffer_len)
-    {
-        return _virtualTable.ecs_id_str(world, entity, buffer, buffer_len);
-    }
+    [DllImport("flecs")]
+    public static extern ulong ecs_id_str(ecs_world_t* world, ecs_id_t entity, CString buffer, ulong buffer_len);
 
     // Function @ flecs.h:2158:13
-    public static CString ecs_role_str(ecs_entity_t entity)
-    {
-        return _virtualTable.ecs_role_str(entity);
-    }
+    [DllImport("flecs")]
+    public static extern CString ecs_role_str(ecs_entity_t entity);
 
     // Function @ flecs.h:2146:13
-    public static CString ecs_get_name(ecs_world_t* world, ecs_entity_t entity)
-    {
-        return _virtualTable.ecs_get_name(world, entity);
-    }
+    [DllImport("flecs")]
+    public static extern CString ecs_get_name(ecs_world_t* world, ecs_entity_t entity);
 
     // Function @ flecs.h:2134:14
-    public static ecs_entity_t ecs_get_typeid(ecs_world_t* world, ecs_entity_t e)
-    {
-        return _virtualTable.ecs_get_typeid(world, e);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_get_typeid(ecs_world_t* world, ecs_entity_t e);
 
     // Function @ flecs.h:2123:12
-    public static ecs_type_t ecs_get_type(ecs_world_t* world, ecs_entity_t entity)
-    {
-        return _virtualTable.ecs_get_type(world, entity);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_type_t ecs_get_type(ecs_world_t* world, ecs_entity_t entity);
 
     // Function @ flecs.h:2112:6
-    public static CBool ecs_exists(ecs_world_t* world, ecs_entity_t e)
-    {
-        return _virtualTable.ecs_exists(world, e);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_exists(ecs_world_t* world, ecs_entity_t e);
 
     // Function @ flecs.h:2100:6
-    public static void ecs_ensure(ecs_world_t* world, ecs_entity_t e)
-    {
-        _virtualTable.ecs_ensure(world, e);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_ensure(ecs_world_t* world, ecs_entity_t e);
 
     // Function @ flecs.h:2072:14
-    public static ecs_entity_t ecs_get_alive(ecs_world_t* world, ecs_entity_t e)
-    {
-        return _virtualTable.ecs_get_alive(world, e);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_get_alive(ecs_world_t* world, ecs_entity_t e);
 
     // Function @ flecs.h:2051:6
-    public static CBool ecs_is_alive(ecs_world_t* world, ecs_entity_t e)
-    {
-        return _virtualTable.ecs_is_alive(world, e);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_is_alive(ecs_world_t* world, ecs_entity_t e);
 
     // Function @ flecs.h:2040:6
-    public static CBool ecs_is_valid(ecs_world_t* world, ecs_entity_t e)
-    {
-        return _virtualTable.ecs_is_valid(world, e);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_is_valid(ecs_world_t* world, ecs_entity_t e);
 
     // Function @ flecs.h:1989:6
-    public static CBool ecs_has_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
-    {
-        return _virtualTable.ecs_has_id(world, entity, id);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_has_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
     // Function @ flecs.h:1914:14
-    public static ecs_entity_t ecs_set_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, ulong size, void* ptr)
-    {
-        return _virtualTable.ecs_set_id(world, entity, id, size, ptr);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_set_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, ulong size, void* ptr);
 
     // Function @ flecs.h:1885:6
-    public static void ecs_modified_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
-    {
-        _virtualTable.ecs_modified_w_id(world, entity, id);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_modified_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
     // Function @ flecs.h:1856:7
-    public static void* ecs_get_mut_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, CBool* is_added)
-    {
-        return _virtualTable.ecs_get_mut_w_id(world, entity, id, is_added);
-    }
+    [DllImport("flecs")]
+    public static extern void* ecs_get_mut_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, CBool* is_added);
 
     // Function @ flecs.h:1828:14
-    public static ecs_entity_t ecs_get_case(ecs_world_t* world, ecs_entity_t e, ecs_entity_t sw)
-    {
-        return _virtualTable.ecs_get_case(world, e, sw);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_get_case(ecs_world_t* world, ecs_entity_t e, ecs_entity_t sw);
 
     // Function @ flecs.h:1800:13
-    public static void* ecs_get_ref_w_id(ecs_world_t* world, ecs_ref_t* @ref, ecs_entity_t entity, ecs_id_t id)
-    {
-        return _virtualTable.ecs_get_ref_w_id(world, @ref, entity, id);
-    }
+    [DllImport("flecs")]
+    public static extern void* ecs_get_ref_w_id(ecs_world_t* world, ecs_ref_t* @ref, ecs_entity_t entity, ecs_id_t id);
 
     // Function @ flecs.h:1770:13
-    public static void* ecs_get_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
-    {
-        return _virtualTable.ecs_get_id(world, entity, id);
-    }
+    [DllImport("flecs")]
+    public static extern void* ecs_get_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
     // Function @ flecs.h:1748:6
-    public static void ecs_delete_children(ecs_world_t* world, ecs_entity_t parent)
-    {
-        _virtualTable.ecs_delete_children(world, parent);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_delete_children(ecs_world_t* world, ecs_entity_t parent);
 
     // Function @ flecs.h:1735:6
-    public static void ecs_delete(ecs_world_t* world, ecs_entity_t entity)
-    {
-        _virtualTable.ecs_delete(world, entity);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_delete(ecs_world_t* world, ecs_entity_t entity);
 
     // Function @ flecs.h:1721:6
-    public static void ecs_clear(ecs_world_t* world, ecs_entity_t entity)
-    {
-        _virtualTable.ecs_clear(world, entity);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_clear(ecs_world_t* world, ecs_entity_t entity);
 
     // Function @ flecs.h:1522:10
-    public static ecs_id_t ecs_make_pair(ecs_entity_t relation, ecs_entity_t @object)
-    {
-        return _virtualTable.ecs_make_pair(relation, @object);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_id_t ecs_make_pair(ecs_entity_t relation, ecs_entity_t @object);
 
     // Function @ flecs.h:1498:6
-    public static CBool ecs_is_component_enabled_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
-    {
-        return _virtualTable.ecs_is_component_enabled_w_id(world, entity, id);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_is_component_enabled_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
     // Function @ flecs.h:1478:6
-    public static void ecs_enable_component_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, CBool enable)
-    {
-        _virtualTable.ecs_enable_component_w_id(world, entity, id, enable);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_enable_component_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, CBool enable);
 
     // Function @ flecs.h:1434:6
-    public static void ecs_remove_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
-    {
-        _virtualTable.ecs_remove_id(world, entity, id);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_remove_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
     // Function @ flecs.h:1402:6
-    public static void ecs_add_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
-    {
-        _virtualTable.ecs_add_id(world, entity, id);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_add_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
     // Function @ flecs.h:1379:14
-    public static ecs_entity_t ecs_clone(ecs_world_t* world, ecs_entity_t dst, ecs_entity_t src, CBool copy_value)
-    {
-        return _virtualTable.ecs_clone(world, dst, src, copy_value);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_clone(ecs_world_t* world, ecs_entity_t dst, ecs_entity_t src, CBool copy_value);
 
     // Function @ flecs.h:1347:21
-    public static ecs_entity_t* ecs_bulk_new_w_data(ecs_world_t* world, int count, ecs_entities_t* component_ids, void* data)
-    {
-        return _virtualTable.ecs_bulk_new_w_data(world, count, component_ids, data);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t* ecs_bulk_new_w_data(ecs_world_t* world, int count, ecs_entities_t* component_ids, void* data);
 
     // Function @ flecs.h:1329:21
-    public static ecs_entity_t* ecs_bulk_new_w_id(ecs_world_t* world, ecs_id_t id, int count)
-    {
-        return _virtualTable.ecs_bulk_new_w_id(world, id, count);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t* ecs_bulk_new_w_id(ecs_world_t* world, ecs_id_t id, int count);
 
     // Function @ flecs.h:1315:14
-    public static ecs_entity_t ecs_type_init(ecs_world_t* world, ecs_type_desc_t* desc)
-    {
-        return _virtualTable.ecs_type_init(world, desc);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_type_init(ecs_world_t* world, ecs_type_desc_t* desc);
 
     // Function @ flecs.h:1292:14
-    public static ecs_entity_t ecs_component_init(ecs_world_t* world, ecs_component_desc_t* desc)
-    {
-        return _virtualTable.ecs_component_init(world, desc);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_component_init(ecs_world_t* world, ecs_component_desc_t* desc);
 
     // Function @ flecs.h:1274:14
-    public static ecs_entity_t ecs_entity_init(ecs_world_t* world, ecs_entity_desc_t* desc)
-    {
-        return _virtualTable.ecs_entity_init(world, desc);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_entity_init(ecs_world_t* world, ecs_entity_desc_t* desc);
 
     // Function @ flecs.h:1238:14
-    public static ecs_entity_t ecs_new_w_id(ecs_world_t* world, ecs_id_t id)
-    {
-        return _virtualTable.ecs_new_w_id(world, id);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_new_w_id(ecs_world_t* world, ecs_id_t id);
 
     // Function @ flecs.h:1226:14
-    public static ecs_entity_t ecs_new_component_id(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_new_component_id(world);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_new_component_id(ecs_world_t* world);
 
     // Function @ flecs.h:1213:14
-    public static ecs_entity_t ecs_new_id(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_new_id(world);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_new_id(ecs_world_t* world);
 
     // Function @ flecs.h:1196:9
-    public static int ecs_get_threads(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_get_threads(world);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_get_threads(ecs_world_t* world);
 
     // Function @ flecs.h:1190:6
-    public static void ecs_set_target_fps(ecs_world_t* world, float fps)
-    {
-        _virtualTable.ecs_set_target_fps(world, fps);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_set_target_fps(ecs_world_t* world, float fps);
 
     // Function @ flecs.h:1170:16
-    public static void ecs_measure_system_time(ecs_world_t* world, CBool enable)
-    {
-        _virtualTable.ecs_measure_system_time(world, enable);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_measure_system_time(ecs_world_t* world, CBool enable);
 
     // Function @ flecs.h:1156:16
-    public static void ecs_measure_frame_time(ecs_world_t* world, CBool enable)
-    {
-        _virtualTable.ecs_measure_frame_time(world, enable);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_measure_frame_time(ecs_world_t* world, CBool enable);
 
     // Function @ flecs.h:1142:6
-    public static void ecs_tracing_enable(int level)
-    {
-        _virtualTable.ecs_tracing_enable(level);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_tracing_enable(int level);
 
     // Function @ flecs.h:1121:6
-    public static void ecs_end_wait(ecs_world_t* world)
-    {
-        _virtualTable.ecs_end_wait(world);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_end_wait(ecs_world_t* world);
 
     // Function @ flecs.h:1111:6
-    public static void ecs_begin_wait(ecs_world_t* world)
-    {
-        _virtualTable.ecs_begin_wait(world);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_begin_wait(ecs_world_t* world);
 
     // Function @ flecs.h:1097:6
-    public static void ecs_unlock(ecs_world_t* world)
-    {
-        _virtualTable.ecs_unlock(world);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_unlock(ecs_world_t* world);
 
     // Function @ flecs.h:1088:6
-    public static void ecs_lock(ecs_world_t* world)
-    {
-        _virtualTable.ecs_lock(world);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_lock(ecs_world_t* world);
 
     // Function @ flecs.h:1078:6
-    public static CBool ecs_enable_locking(ecs_world_t* world, CBool enable)
-    {
-        return _virtualTable.ecs_enable_locking(world, enable);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_enable_locking(ecs_world_t* world, CBool enable);
 
     // Function @ flecs.h:1057:6
-    public static CBool ecs_enable_range_check(ecs_world_t* world, CBool enable)
-    {
-        return _virtualTable.ecs_enable_range_check(world, enable);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_enable_range_check(ecs_world_t* world, CBool enable);
 
     // Function @ flecs.h:1041:6
-    public static void ecs_set_entity_range(ecs_world_t* world, ecs_entity_t id_start, ecs_entity_t id_end)
-    {
-        _virtualTable.ecs_set_entity_range(world, id_start, id_end);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_set_entity_range(ecs_world_t* world, ecs_entity_t id_start, ecs_entity_t id_end);
 
     // Function @ flecs.h:1021:6
-    public static void ecs_dim(ecs_world_t* world, int entity_count)
-    {
-        _virtualTable.ecs_dim(world, entity_count);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_dim(ecs_world_t* world, int entity_count);
 
     // Function @ flecs.h:1008:25
-    public static ecs_world_info_t* ecs_get_world_info(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_get_world_info(world);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_world_info_t* ecs_get_world_info(ecs_world_t* world);
 
     // Function @ flecs.h:998:7
-    public static void* ecs_get_context(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_get_context(world);
-    }
+    [DllImport("flecs")]
+    public static extern void* ecs_get_context(ecs_world_t* world);
 
     // Function @ flecs.h:986:6
-    public static void ecs_set_context(ecs_world_t* world, void* ctx)
-    {
-        _virtualTable.ecs_set_context(world, ctx);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_set_context(ecs_world_t* world, void* ctx);
 
     // Function @ flecs.h:968:6
-    public static void ecs_set_component_actions_w_id(ecs_world_t* world, ecs_id_t id, EcsComponentLifecycle* actions)
-    {
-        _virtualTable.ecs_set_component_actions_w_id(world, id, actions);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_set_component_actions_w_id(ecs_world_t* world, ecs_id_t id, EcsComponentLifecycle* actions);
 
     // Function @ flecs.h:958:6
-    public static CBool ecs_should_quit(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_should_quit(world);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_should_quit(ecs_world_t* world);
 
     // Function @ flecs.h:950:6
-    public static void ecs_quit(ecs_world_t* world)
-    {
-        _virtualTable.ecs_quit(world);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_quit(ecs_world_t* world);
 
     // Function @ flecs.h:938:6
-    public static void ecs_run_post_frame(ecs_world_t* world, ecs_fini_action_t action, void* ctx)
-    {
-        _virtualTable.ecs_run_post_frame(world, action, ctx);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_run_post_frame(ecs_world_t* world, ecs_fini_action_t action, void* ctx);
 
     // Function @ flecs.h:925:6
-    public static void ecs_atfini(ecs_world_t* world, ecs_fini_action_t action, void* ctx)
-    {
-        _virtualTable.ecs_atfini(world, action, ctx);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_atfini(ecs_world_t* world, ecs_fini_action_t action, void* ctx);
 
     // Function @ flecs.h:914:5
-    public static int ecs_fini(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_fini(world);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_fini(ecs_world_t* world);
 
     // Function @ flecs.h:903:14
-    public static ecs_world_t* ecs_init_w_args(int argc, CString* argv)
-    {
-        return _virtualTable.ecs_init_w_args(argc, argv);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_world_t* ecs_init_w_args(int argc, CString* argv);
 
     // Function @ flecs.h:893:14
-    public static ecs_world_t* ecs_mini()
-    {
-        return _virtualTable.ecs_mini();
-    }
+    [DllImport("flecs")]
+    public static extern ecs_world_t* ecs_mini();
 
     // Function @ flecs.h:886:14
-    public static ecs_world_t* ecs_init()
-    {
-        return _virtualTable.ecs_init();
-    }
+    [DllImport("flecs")]
+    public static extern ecs_world_t* ecs_init();
 
     // Function @ deprecated.h:550:6
-    public static void ecs_query_group_by(ecs_world_t* world, ecs_query_t* query, ecs_entity_t component, ecs_rank_type_action_t rank_action)
-    {
-        _virtualTable.ecs_query_group_by(world, query, component, rank_action);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_query_group_by(ecs_world_t* world, ecs_query_t* query, ecs_entity_t component, ecs_rank_type_action_t rank_action);
 
     // Function @ deprecated.h:542:6
-    public static void ecs_query_order_by(ecs_world_t* world, ecs_query_t* query, ecs_entity_t component, ecs_compare_action_t compare)
-    {
-        _virtualTable.ecs_query_order_by(world, query, component, compare);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_query_order_by(ecs_world_t* world, ecs_query_t* query, ecs_entity_t component, ecs_compare_action_t compare);
 
     // Function @ deprecated.h:537:6
-    public static void ecs_query_free(ecs_query_t* query)
-    {
-        _virtualTable.ecs_query_free(query);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_query_free(ecs_query_t* query);
 
     // Function @ deprecated.h:530:14
-    public static ecs_query_t* ecs_subquery_new(ecs_world_t* world, ecs_query_t* parent, CString sig)
-    {
-        return _virtualTable.ecs_subquery_new(world, parent, sig);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_query_t* ecs_subquery_new(ecs_world_t* world, ecs_query_t* parent, CString sig);
 
     // Function @ deprecated.h:524:14
-    public static ecs_query_t* ecs_query_new(ecs_world_t* world, CString sig)
-    {
-        return _virtualTable.ecs_query_new(world, sig);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_query_t* ecs_query_new(ecs_world_t* world, CString sig);
 
     // Function @ deprecated.h:516:14
-    public static ecs_entity_t ecs_set_rate_filter(ecs_world_t* world, ecs_entity_t filter, int rate, ecs_entity_t source)
-    {
-        return _virtualTable.ecs_set_rate_filter(world, filter, rate, source);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_set_rate_filter(ecs_world_t* world, ecs_entity_t filter, int rate, ecs_entity_t source);
 
     // Function @ deprecated.h:510:9
-    public static int ecs_table_component_index(ecs_iter_t* it, ecs_entity_t component)
-    {
-        return _virtualTable.ecs_table_component_index(it, component);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_table_component_index(ecs_iter_t* it, ecs_entity_t component);
 
     // Function @ deprecated.h:504:8
-    public static ulong ecs_table_column_size(ecs_iter_t* it, int column)
-    {
-        return _virtualTable.ecs_table_column_size(it, column);
-    }
+    [DllImport("flecs")]
+    public static extern ulong ecs_table_column_size(ecs_iter_t* it, int column);
 
     // Function @ deprecated.h:498:7
-    public static void* ecs_table_column(ecs_iter_t* it, int column)
-    {
-        return _virtualTable.ecs_table_column(it, column);
-    }
+    [DllImport("flecs")]
+    public static extern void* ecs_table_column(ecs_iter_t* it, int column);
 
     // Function @ deprecated.h:492:6
-    public static CBool ecs_is_owned(ecs_iter_t* it, int column)
-    {
-        return _virtualTable.ecs_is_owned(it, column);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_is_owned(ecs_iter_t* it, int column);
 
     // Function @ deprecated.h:486:6
-    public static CBool ecs_is_readonly(ecs_iter_t* it, int column)
-    {
-        return _virtualTable.ecs_is_readonly(it, column);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_is_readonly(ecs_iter_t* it, int column);
 
     // Function @ deprecated.h:480:8
-    public static ulong ecs_column_size(ecs_iter_t* it, int column)
-    {
-        return _virtualTable.ecs_column_size(it, column);
-    }
+    [DllImport("flecs")]
+    public static extern ulong ecs_column_size(ecs_iter_t* it, int column);
 
     // Function @ deprecated.h:474:12
-    public static ecs_type_t ecs_column_type(ecs_iter_t* it, int column)
-    {
-        return _virtualTable.ecs_column_type(it, column);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_type_t ecs_column_type(ecs_iter_t* it, int column);
 
     // Function @ deprecated.h:468:14
-    public static ecs_entity_t ecs_column_entity(ecs_iter_t* it, int column)
-    {
-        return _virtualTable.ecs_column_entity(it, column);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_column_entity(ecs_iter_t* it, int column);
 
     // Function @ deprecated.h:462:14
-    public static ecs_entity_t ecs_column_source(ecs_iter_t* it, int column)
-    {
-        return _virtualTable.ecs_column_source(it, column);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_column_source(ecs_iter_t* it, int column);
 
     // Function @ deprecated.h:451:7
-    public static void* ecs_element_w_size(ecs_iter_t* it, ulong size, int column, int row)
-    {
-        return _virtualTable.ecs_element_w_size(it, size, column, row);
-    }
+    [DllImport("flecs")]
+    public static extern void* ecs_element_w_size(ecs_iter_t* it, ulong size, int column, int row);
 
     // Function @ deprecated.h:445:9
-    public static int ecs_column_index_from_name(ecs_iter_t* it, CString name)
-    {
-        return _virtualTable.ecs_column_index_from_name(it, name);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_column_index_from_name(ecs_iter_t* it, CString name);
 
     // Function @ deprecated.h:435:7
-    public static void* ecs_column_w_size(ecs_iter_t* it, ulong size, int column)
-    {
-        return _virtualTable.ecs_column_w_size(it, size, column);
-    }
+    [DllImport("flecs")]
+    public static extern void* ecs_column_w_size(ecs_iter_t* it, ulong size, int column);
 
     // Function @ deprecated.h:427:6
-    public static CBool ecs_type_owns_entity(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity, CBool owned)
-    {
-        return _virtualTable.ecs_type_owns_entity(world, type, entity, owned);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_type_owns_entity(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity, CBool owned);
 
     // Function @ deprecated.h:420:6
-    public static CBool ecs_type_has_entity(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity)
-    {
-        return _virtualTable.ecs_type_has_entity(world, type, entity);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_type_has_entity(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity);
 
     // Function @ deprecated.h:414:14
-    public static ecs_entity_t ecs_type_to_entity(ecs_world_t* world, ecs_type_t type)
-    {
-        return _virtualTable.ecs_type_to_entity(world, type);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_type_to_entity(ecs_world_t* world, ecs_type_t type);
 
     // Function @ deprecated.h:408:12
-    public static ecs_type_t ecs_type_from_entity(ecs_world_t* world, ecs_entity_t entity)
-    {
-        return _virtualTable.ecs_type_from_entity(world, entity);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_type_t ecs_type_from_entity(ecs_world_t* world, ecs_entity_t entity);
 
     // Function @ deprecated.h:400:6
-    public static void ecs_add_remove_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id_add, ecs_id_t id_remove)
-    {
-        _virtualTable.ecs_add_remove_entity(world, entity, id_add, id_remove);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_add_remove_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id_add, ecs_id_t id_remove);
 
     // Function @ deprecated.h:393:6
-    public static void ecs_remove_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
-    {
-        _virtualTable.ecs_remove_entity(world, entity, id);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_remove_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
     // Function @ deprecated.h:386:6
-    public static void ecs_add_entity(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t entity_add)
-    {
-        _virtualTable.ecs_add_entity(world, entity, entity_add);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_add_entity(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t entity_add);
 
     // Function @ deprecated.h:381:9
-    public static int ecs_get_thread_index(ecs_world_t* world)
-    {
-        return _virtualTable.ecs_get_thread_index(world);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_get_thread_index(ecs_world_t* world);
 
     // Function @ deprecated.h:371:14
-    public static ecs_entity_t ecs_get_parent_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
-    {
-        return _virtualTable.ecs_get_parent_w_entity(world, entity, id);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_get_parent_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
     // Function @ deprecated.h:363:8
-    public static ulong ecs_entity_str(ecs_world_t* world, ecs_id_t entity, CString buffer, ulong buffer_len)
-    {
-        return _virtualTable.ecs_entity_str(world, entity, buffer, buffer_len);
-    }
+    [DllImport("flecs")]
+    public static extern ulong ecs_entity_str(ecs_world_t* world, ecs_id_t entity, CString buffer, ulong buffer_len);
 
     // Function @ deprecated.h:356:6
-    public static CBool ecs_has_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
-    {
-        return _virtualTable.ecs_has_entity(world, entity, id);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_has_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
     // Function @ deprecated.h:347:14
-    public static ecs_entity_t ecs_set_ptr_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, ulong size, void* ptr)
-    {
-        return _virtualTable.ecs_set_ptr_w_entity(world, entity, id, size, ptr);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_set_ptr_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, ulong size, void* ptr);
 
     // Function @ deprecated.h:340:6
-    public static void ecs_modified_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
-    {
-        _virtualTable.ecs_modified_w_entity(world, entity, id);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_modified_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
     // Function @ deprecated.h:332:7
-    public static void* ecs_get_mut_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, CBool* is_added)
-    {
-        return _virtualTable.ecs_get_mut_w_entity(world, entity, id, is_added);
-    }
+    [DllImport("flecs")]
+    public static extern void* ecs_get_mut_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, CBool* is_added);
 
     // Function @ deprecated.h:324:13
-    public static void* ecs_get_ref_w_entity(ecs_world_t* world, ecs_ref_t* @ref, ecs_entity_t entity, ecs_id_t id)
-    {
-        return _virtualTable.ecs_get_ref_w_entity(world, @ref, entity, id);
-    }
+    [DllImport("flecs")]
+    public static extern void* ecs_get_ref_w_entity(ecs_world_t* world, ecs_ref_t* @ref, ecs_entity_t entity, ecs_id_t id);
 
     // Function @ deprecated.h:317:13
-    public static void* ecs_get_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
-    {
-        return _virtualTable.ecs_get_w_entity(world, entity, id);
-    }
+    [DllImport("flecs")]
+    public static extern void* ecs_get_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
     // Function @ deprecated.h:310:13
-    public static void* ecs_get_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
-    {
-        return _virtualTable.ecs_get_w_id(world, entity, id);
-    }
+    [DllImport("flecs")]
+    public static extern void* ecs_get_w_id(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
     // Function @ deprecated.h:303:6
-    public static CBool ecs_is_component_enabled_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id)
-    {
-        return _virtualTable.ecs_is_component_enabled_w_entity(world, entity, id);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_is_component_enabled_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id);
 
     // Function @ deprecated.h:295:6
-    public static void ecs_enable_component_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, CBool enable)
-    {
-        _virtualTable.ecs_enable_component_w_entity(world, entity, id, enable);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_enable_component_w_entity(ecs_world_t* world, ecs_entity_t entity, ecs_id_t id, CBool enable);
 
     // Function @ deprecated.h:288:21
-    public static ecs_entity_t* ecs_bulk_new_w_entity(ecs_world_t* world, ecs_id_t id, int count)
-    {
-        return _virtualTable.ecs_bulk_new_w_entity(world, id, count);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t* ecs_bulk_new_w_entity(ecs_world_t* world, ecs_id_t id, int count);
 
     // Function @ deprecated.h:282:14
-    public static ecs_entity_t ecs_new_w_entity(ecs_world_t* world, ecs_id_t id)
-    {
-        return _virtualTable.ecs_new_w_entity(world, id);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_new_w_entity(ecs_world_t* world, ecs_id_t id);
 
     // Function @ deprecated.h:275:6
-    public static void ecs_set_component_actions_w_entity(ecs_world_t* world, ecs_id_t id, EcsComponentLifecycle* actions)
-    {
-        _virtualTable.ecs_set_component_actions_w_entity(world, id, actions);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_set_component_actions_w_entity(ecs_world_t* world, ecs_id_t id, EcsComponentLifecycle* actions);
 
     // Function @ deprecated.h:269:9
-    public static int ecs_count_w_filter(ecs_world_t* world, ecs_filter_t* filter)
-    {
-        return _virtualTable.ecs_count_w_filter(world, filter);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_count_w_filter(ecs_world_t* world, ecs_filter_t* filter);
 
     // Function @ deprecated.h:263:9
-    public static int ecs_count_entity(ecs_world_t* world, ecs_id_t entity)
-    {
-        return _virtualTable.ecs_count_entity(world, entity);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_count_entity(ecs_world_t* world, ecs_id_t entity);
 
     // Function @ deprecated.h:257:9
-    public static int ecs_count_type(ecs_world_t* world, ecs_type_t type)
-    {
-        return _virtualTable.ecs_count_type(world, type);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_count_type(ecs_world_t* world, ecs_type_t type);
 
     // Function @ deprecated.h:250:6
-    public static CBool ecs_has_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t type)
-    {
-        return _virtualTable.ecs_has_type(world, entity, type);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_has_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t type);
 
     // Function @ deprecated.h:242:6
-    public static void ecs_add_remove_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t to_add, ecs_type_t to_remove)
-    {
-        _virtualTable.ecs_add_remove_type(world, entity, to_add, to_remove);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_add_remove_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t to_add, ecs_type_t to_remove);
 
     // Function @ deprecated.h:235:6
-    public static void ecs_remove_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t type)
-    {
-        _virtualTable.ecs_remove_type(world, entity, type);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_remove_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t type);
 
     // Function @ deprecated.h:228:6
-    public static void ecs_add_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t type)
-    {
-        _virtualTable.ecs_add_type(world, entity, type);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_add_type(ecs_world_t* world, ecs_entity_t entity, ecs_type_t type);
 
     // Function @ deprecated.h:221:21
-    public static ecs_entity_t* ecs_bulk_new_w_type(ecs_world_t* world, ecs_type_t type, int count)
-    {
-        return _virtualTable.ecs_bulk_new_w_type(world, type, count);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t* ecs_bulk_new_w_type(ecs_world_t* world, ecs_type_t type, int count);
 
     // Function @ deprecated.h:215:14
-    public static ecs_entity_t ecs_new_w_type(ecs_world_t* world, ecs_type_t type)
-    {
-        return _virtualTable.ecs_new_w_type(world, type);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_new_w_type(ecs_world_t* world, ecs_type_t type);
 
     // Function @ deprecated.h:208:6
-    public static void ecs_dim_type(ecs_world_t* world, ecs_type_t type, int entity_count)
-    {
-        _virtualTable.ecs_dim_type(world, type, entity_count);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_dim_type(ecs_world_t* world, ecs_type_t type, int entity_count);
 
     // Function @ type.h:109:9
-    public static int ecs_type_match(ecs_type_t type, int start_index, ecs_entity_t pair)
-    {
-        return _virtualTable.ecs_type_match(type, start_index, pair);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_type_match(ecs_type_t type, int start_index, ecs_entity_t pair);
 
     // Function @ type.h:104:9
-    public static int ecs_type_index_of(ecs_type_t type, ecs_entity_t component)
-    {
-        return _virtualTable.ecs_type_index_of(type, component);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_type_index_of(ecs_type_t type, ecs_entity_t component);
 
     // Function @ type.h:98:14
-    public static ecs_entity_t ecs_type_get_entity_for_xor(ecs_world_t* world, ecs_type_t type, ecs_entity_t xor_tag)
-    {
-        return _virtualTable.ecs_type_get_entity_for_xor(world, type, xor_tag);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_type_get_entity_for_xor(ecs_world_t* world, ecs_type_t type, ecs_entity_t xor_tag);
 
     // Function @ type.h:88:6
-    public static CBool ecs_type_find_id(ecs_world_t* world, ecs_type_t type, ecs_entity_t id, ecs_entity_t rel, int min_depth, int max_depth, ecs_entity_t* @out)
-    {
-        return _virtualTable.ecs_type_find_id(world, type, id, rel, min_depth, max_depth, @out);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_type_find_id(ecs_world_t* world, ecs_type_t type, ecs_entity_t id, ecs_entity_t rel, int min_depth, int max_depth, ecs_entity_t* @out);
 
     // Function @ type.h:81:6
-    public static CBool ecs_type_owns_type(ecs_world_t* world, ecs_type_t type, ecs_type_t has, CBool owned)
-    {
-        return _virtualTable.ecs_type_owns_type(world, type, has, owned);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_type_owns_type(ecs_world_t* world, ecs_type_t type, ecs_type_t has, CBool owned);
 
     // Function @ type.h:74:6
-    public static CBool ecs_type_owns_id(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity, CBool owned)
-    {
-        return _virtualTable.ecs_type_owns_id(world, type, entity, owned);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_type_owns_id(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity, CBool owned);
 
     // Function @ type.h:68:6
-    public static CBool ecs_type_has_type(ecs_world_t* world, ecs_type_t type, ecs_type_t has)
-    {
-        return _virtualTable.ecs_type_has_type(world, type, has);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_type_has_type(ecs_world_t* world, ecs_type_t type, ecs_type_t has);
 
     // Function @ type.h:62:6
-    public static CBool ecs_type_has_id(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity)
-    {
-        return _virtualTable.ecs_type_has_id(world, type, entity);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_type_has_id(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity);
 
     // Function @ type.h:56:12
-    public static ecs_type_t ecs_type_remove(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity)
-    {
-        return _virtualTable.ecs_type_remove(world, type, entity);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_type_t ecs_type_remove(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity);
 
     // Function @ type.h:50:12
-    public static ecs_type_t ecs_type_add(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity)
-    {
-        return _virtualTable.ecs_type_add(world, type, entity);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_type_t ecs_type_add(ecs_world_t* world, ecs_type_t type, ecs_entity_t entity);
 
     // Function @ type.h:43:12
-    public static ecs_type_t ecs_type_merge(ecs_world_t* world, ecs_type_t type, ecs_type_t type_add, ecs_type_t type_remove)
-    {
-        return _virtualTable.ecs_type_merge(world, type, type_add, type_remove);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_type_t ecs_type_merge(ecs_world_t* world, ecs_type_t type, ecs_type_t type_add, ecs_type_t type_remove);
 
     // Function @ type.h:37:12
-    public static ecs_type_t ecs_type_find(ecs_world_t* world, ecs_entity_t* array, int count)
-    {
-        return _virtualTable.ecs_type_find(world, array, count);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_type_t ecs_type_find(ecs_world_t* world, ecs_entity_t* array, int count);
 
     // Function @ type.h:32:12
-    public static ecs_type_t ecs_type_from_str(ecs_world_t* world, CString expr)
-    {
-        return _virtualTable.ecs_type_from_str(world, expr);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_type_t ecs_type_from_str(ecs_world_t* world, CString expr);
 
     // Function @ type.h:27:7
-    public static CString ecs_type_str(ecs_world_t* world, ecs_type_t type)
-    {
-        return _virtualTable.ecs_type_str(world, type);
-    }
+    [DllImport("flecs")]
+    public static extern CString ecs_type_str(ecs_world_t* world, ecs_type_t type);
 
     // Function @ type.h:22:14
-    public static ecs_entity_t ecs_type_to_id(ecs_world_t* world, ecs_type_t type)
-    {
-        return _virtualTable.ecs_type_to_id(world, type);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_type_to_id(ecs_world_t* world, ecs_type_t type);
 
     // Function @ type.h:17:12
-    public static ecs_type_t ecs_type_from_id(ecs_world_t* world, ecs_entity_t entity)
-    {
-        return _virtualTable.ecs_type_from_id(world, entity);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_type_t ecs_type_from_id(ecs_world_t* world, ecs_entity_t entity);
 
     // Function @ log.h:158:6
-    public static void _ecs_parser_error(CString name, CString expr, long column, CString fmt)
-    {
-        _virtualTable._ecs_parser_error(name, expr, column, fmt);
-    }
+    [DllImport("flecs")]
+    public static extern void _ecs_parser_error(CString name, CString expr, long column, CString fmt);
 
     // Function @ log.h:141:6
-    public static void _ecs_assert(CBool condition, int error_code, CString param, CString condition_str, CString file, int line)
-    {
-        _virtualTable._ecs_assert(condition, error_code, param, condition_str, file, line);
-    }
+    [DllImport("flecs")]
+    public static extern void _ecs_assert(CBool condition, int error_code, CString param, CString condition_str, CString file, int line);
 
     // Function @ log.h:130:6
-    public static void _ecs_abort(int error_code, CString param, CString file, int line)
-    {
-        _virtualTable._ecs_abort(error_code, param, file, line);
-    }
+    [DllImport("flecs")]
+    public static extern void _ecs_abort(int error_code, CString param, CString file, int line);
 
     // Function @ log.h:125:13
-    public static CString ecs_strerror(int error_code)
-    {
-        return _virtualTable.ecs_strerror(error_code);
-    }
+    [DllImport("flecs")]
+    public static extern CString ecs_strerror(int error_code);
 
     // Function @ log.h:71:6
-    public static void ecs_log_pop()
-    {
-        _virtualTable.ecs_log_pop();
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_log_pop();
 
     // Function @ log.h:68:6
-    public static void ecs_log_push()
-    {
-        _virtualTable.ecs_log_push();
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_log_push();
 
     // Function @ log.h:62:6
-    public static void _ecs_deprecated(CString file, int line, CString msg)
-    {
-        _virtualTable._ecs_deprecated(file, line, msg);
-    }
+    [DllImport("flecs")]
+    public static extern void _ecs_deprecated(CString file, int line, CString msg);
 
     // Function @ log.h:55:6
-    public static void _ecs_err(CString file, int line, CString fmt)
-    {
-        _virtualTable._ecs_err(file, line, fmt);
-    }
+    [DllImport("flecs")]
+    public static extern void _ecs_err(CString file, int line, CString fmt);
 
     // Function @ log.h:48:6
-    public static void _ecs_warn(CString file, int line, CString fmt)
-    {
-        _virtualTable._ecs_warn(file, line, fmt);
-    }
+    [DllImport("flecs")]
+    public static extern void _ecs_warn(CString file, int line, CString fmt);
 
     // Function @ log.h:40:6
-    public static void _ecs_trace(int level, CString file, int line, CString fmt)
-    {
-        _virtualTable._ecs_trace(level, file, line, fmt);
-    }
+    [DllImport("flecs")]
+    public static extern void _ecs_trace(int level, CString file, int line, CString fmt);
 
     // Function @ api_support.h:80:15
-    public static ecs_filter_t* ecs_query_get_filter(ecs_query_t* query)
-    {
-        return _virtualTable.ecs_query_get_filter(query);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_filter_t* ecs_query_get_filter(ecs_query_t* query);
 
     // Function @ api_support.h:75:6
-    public static CBool ecs_identifier_is_var(CString id)
-    {
-        return _virtualTable.ecs_identifier_is_var(id);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_identifier_is_var(CString id);
 
     // Function @ api_support.h:72:6
-    public static CBool ecs_identifier_is_0(CString id)
-    {
-        return _virtualTable.ecs_identifier_is_0(id);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_identifier_is_0(CString id);
 
     // Function @ api_support.h:64:6
-    public static CBool ecs_component_has_actions(ecs_world_t* world, ecs_entity_t component)
-    {
-        return _virtualTable.ecs_component_has_actions(world, component);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_component_has_actions(ecs_world_t* world, ecs_entity_t component);
 
     // Function @ api_support.h:60:7
-    public static CString ecs_module_path_from_c(CString c_name)
-    {
-        return _virtualTable.ecs_module_path_from_c(c_name);
-    }
+    [DllImport("flecs")]
+    public static extern CString ecs_module_path_from_c(CString c_name);
 
     // Function @ api_support.h:52:14
-    public static ecs_entity_t ecs_new_module(ecs_world_t* world, ecs_entity_t e, CString name, ulong size, ulong alignment)
-    {
-        return _virtualTable.ecs_new_module(world, e, name, size, alignment);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_entity_t ecs_new_module(ecs_world_t* world, ecs_entity_t e, CString name, ulong size, ulong alignment);
 
     // Function @ os_api.h:431:6
-    public static CBool ecs_os_has_modules()
-    {
-        return _virtualTable.ecs_os_has_modules();
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_os_has_modules();
 
     // Function @ os_api.h:427:6
-    public static CBool ecs_os_has_dl()
-    {
-        return _virtualTable.ecs_os_has_dl();
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_os_has_dl();
 
     // Function @ os_api.h:423:6
-    public static CBool ecs_os_has_logging()
-    {
-        return _virtualTable.ecs_os_has_logging();
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_os_has_logging();
 
     // Function @ os_api.h:419:6
-    public static CBool ecs_os_has_time()
-    {
-        return _virtualTable.ecs_os_has_time();
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_os_has_time();
 
     // Function @ os_api.h:415:6
-    public static CBool ecs_os_has_threading()
-    {
-        return _virtualTable.ecs_os_has_threading();
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_os_has_threading();
 
     // Function @ os_api.h:411:6
-    public static CBool ecs_os_has_heap()
-    {
-        return _virtualTable.ecs_os_has_heap();
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_os_has_heap();
 
     // Function @ os_api.h:405:7
-    public static void* ecs_os_memdup(void* src, ecs_size_t size)
-    {
-        return _virtualTable.ecs_os_memdup(src, size);
-    }
+    [DllImport("flecs")]
+    public static extern void* ecs_os_memdup(void* src, ecs_size_t size);
 
     // Function @ os_api.h:401:8
-    public static double ecs_time_to_double(ecs_time_t t)
-    {
-        return _virtualTable.ecs_time_to_double(t);
-    }
+    [DllImport("flecs")]
+    public static extern double ecs_time_to_double(ecs_time_t t);
 
     // Function @ os_api.h:395:12
-    public static ecs_time_t ecs_time_sub(ecs_time_t t1, ecs_time_t t2)
-    {
-        return _virtualTable.ecs_time_sub(t1, t2);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_time_t ecs_time_sub(ecs_time_t t1, ecs_time_t t2);
 
     // Function @ os_api.h:390:8
-    public static double ecs_time_measure(ecs_time_t* start)
-    {
-        return _virtualTable.ecs_time_measure(start);
-    }
+    [DllImport("flecs")]
+    public static extern double ecs_time_measure(ecs_time_t* start);
 
     // Function @ os_api.h:385:6
-    public static void ecs_sleepf(double t)
-    {
-        _virtualTable.ecs_sleepf(t);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_sleepf(double t);
 
     // Function @ os_api.h:369:6
-    public static void ecs_os_dbg(CString fmt)
-    {
-        _virtualTable.ecs_os_dbg(fmt);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_os_dbg(CString fmt);
 
     // Function @ os_api.h:366:6
-    public static void ecs_os_err(CString fmt)
-    {
-        _virtualTable.ecs_os_err(fmt);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_os_err(CString fmt);
 
     // Function @ os_api.h:363:6
-    public static void ecs_os_warn(CString fmt)
-    {
-        _virtualTable.ecs_os_warn(fmt);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_os_warn(CString fmt);
 
     // Function @ os_api.h:360:6
-    public static void ecs_os_log(CString fmt)
-    {
-        _virtualTable.ecs_os_log(fmt);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_os_log(CString fmt);
 
     // Function @ os_api.h:267:6
-    public static void ecs_os_set_api_defaults()
-    {
-        _virtualTable.ecs_os_set_api_defaults();
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_os_set_api_defaults();
 
     // Function @ os_api.h:263:6
-    public static void ecs_os_set_api(ecs_os_api_t* os_api)
-    {
-        _virtualTable.ecs_os_set_api(os_api);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_os_set_api(ecs_os_api_t* os_api);
 
     // Function @ os_api.h:260:6
-    public static void ecs_os_fini()
-    {
-        _virtualTable.ecs_os_fini();
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_os_fini();
 
     // Function @ os_api.h:257:6
-    public static void ecs_os_init()
-    {
-        _virtualTable.ecs_os_init();
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_os_init();
 
     // Function @ strbuf.h:166:6
-    public static CBool ecs_strbuf_list_appendstr(ecs_strbuf_t* buffer, CString str)
-    {
-        return _virtualTable.ecs_strbuf_list_appendstr(buffer, str);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_strbuf_list_appendstr(ecs_strbuf_t* buffer, CString str);
 
     // Function @ strbuf.h:159:6
-    public static CBool ecs_strbuf_list_append(ecs_strbuf_t* buffer, CString fmt)
-    {
-        return _virtualTable.ecs_strbuf_list_append(buffer, fmt);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_strbuf_list_append(ecs_strbuf_t* buffer, CString fmt);
 
     // Function @ strbuf.h:154:6
-    public static void ecs_strbuf_list_next(ecs_strbuf_t* buffer)
-    {
-        _virtualTable.ecs_strbuf_list_next(buffer);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_strbuf_list_next(ecs_strbuf_t* buffer);
 
     // Function @ strbuf.h:148:6
-    public static void ecs_strbuf_list_pop(ecs_strbuf_t* buffer, CString list_close)
-    {
-        _virtualTable.ecs_strbuf_list_pop(buffer, list_close);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_strbuf_list_pop(ecs_strbuf_t* buffer, CString list_close);
 
     // Function @ strbuf.h:141:6
-    public static void ecs_strbuf_list_push(ecs_strbuf_t* buffer, CString list_open, CString separator)
-    {
-        _virtualTable.ecs_strbuf_list_push(buffer, list_open, separator);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_strbuf_list_push(ecs_strbuf_t* buffer, CString list_open, CString separator);
 
     // Function @ strbuf.h:136:6
-    public static void ecs_strbuf_reset(ecs_strbuf_t* buffer)
-    {
-        _virtualTable.ecs_strbuf_reset(buffer);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_strbuf_reset(ecs_strbuf_t* buffer);
 
     // Function @ strbuf.h:131:7
-    public static CString ecs_strbuf_get(ecs_strbuf_t* buffer)
-    {
-        return _virtualTable.ecs_strbuf_get(buffer);
-    }
+    [DllImport("flecs")]
+    public static extern CString ecs_strbuf_get(ecs_strbuf_t* buffer);
 
     // Function @ strbuf.h:124:6
-    public static CBool ecs_strbuf_appendstrn(ecs_strbuf_t* buffer, CString str, int n)
-    {
-        return _virtualTable.ecs_strbuf_appendstrn(buffer, str, n);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_strbuf_appendstrn(ecs_strbuf_t* buffer, CString str, int n);
 
     // Function @ strbuf.h:117:6
-    public static CBool ecs_strbuf_appendstr_zerocpy_const(ecs_strbuf_t* buffer, CString str)
-    {
-        return _virtualTable.ecs_strbuf_appendstr_zerocpy_const(buffer, str);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_strbuf_appendstr_zerocpy_const(ecs_strbuf_t* buffer, CString str);
 
     // Function @ strbuf.h:110:6
-    public static CBool ecs_strbuf_appendstr_zerocpy(ecs_strbuf_t* buffer, CString str)
-    {
-        return _virtualTable.ecs_strbuf_appendstr_zerocpy(buffer, str);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_strbuf_appendstr_zerocpy(ecs_strbuf_t* buffer, CString str);
 
     // Function @ strbuf.h:103:6
-    public static CBool ecs_strbuf_mergebuff(ecs_strbuf_t* dst_buffer, ecs_strbuf_t* src_buffer)
-    {
-        return _virtualTable.ecs_strbuf_mergebuff(dst_buffer, src_buffer);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_strbuf_mergebuff(ecs_strbuf_t* dst_buffer, ecs_strbuf_t* src_buffer);
 
     // Function @ strbuf.h:96:6
-    public static CBool ecs_strbuf_appendstr(ecs_strbuf_t* buffer, CString str)
-    {
-        return _virtualTable.ecs_strbuf_appendstr(buffer, str);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_strbuf_appendstr(ecs_strbuf_t* buffer, CString str);
 
     // Function @ strbuf.h:88:6
-    public static CBool ecs_strbuf_vappend(ecs_strbuf_t* buffer, CString fmt, IntPtr args)
-    {
-        return _virtualTable.ecs_strbuf_vappend(buffer, fmt, args);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_strbuf_vappend(ecs_strbuf_t* buffer, CString fmt, IntPtr args);
 
     // Function @ strbuf.h:80:6
-    public static CBool ecs_strbuf_append(ecs_strbuf_t* buffer, CString fmt)
-    {
-        return _virtualTable.ecs_strbuf_append(buffer, fmt);
-    }
+    [DllImport("flecs")]
+    public static extern CBool ecs_strbuf_append(ecs_strbuf_t* buffer, CString fmt);
 
     // Function @ map.h:165:6
-    public static void ecs_map_memory(ecs_map_t* map, int* allocd, int* used)
-    {
-        _virtualTable.ecs_map_memory(map, allocd, used);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_map_memory(ecs_map_t* map, int* allocd, int* used);
 
     // Function @ map.h:159:6
-    public static void ecs_map_set_size(ecs_map_t* map, int elem_count)
-    {
-        _virtualTable.ecs_map_set_size(map, elem_count);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_map_set_size(ecs_map_t* map, int elem_count);
 
     // Function @ map.h:153:6
-    public static void ecs_map_grow(ecs_map_t* map, int elem_count)
-    {
-        _virtualTable.ecs_map_grow(map, elem_count);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_map_grow(ecs_map_t* map, int elem_count);
 
     // Function @ map.h:144:7
-    public static void* _ecs_map_next_ptr(ecs_map_iter_t* iter, ecs_map_key_t* key)
-    {
-        return _virtualTable._ecs_map_next_ptr(iter, key);
-    }
+    [DllImport("flecs")]
+    public static extern void* _ecs_map_next_ptr(ecs_map_iter_t* iter, ecs_map_key_t* key);
 
     // Function @ map.h:134:7
-    public static void* _ecs_map_next(ecs_map_iter_t* iter, ecs_size_t elem_size, ecs_map_key_t* key)
-    {
-        return _virtualTable._ecs_map_next(iter, elem_size, key);
-    }
+    [DllImport("flecs")]
+    public static extern void* _ecs_map_next(ecs_map_iter_t* iter, ecs_size_t elem_size, ecs_map_key_t* key);
 
     // Function @ map.h:129:16
-    public static ecs_map_iter_t ecs_map_iter(ecs_map_t* map)
-    {
-        return _virtualTable.ecs_map_iter(map);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_map_iter_t ecs_map_iter(ecs_map_t* map);
 
     // Function @ map.h:124:9
-    public static int ecs_map_bucket_count(ecs_map_t* map)
-    {
-        return _virtualTable.ecs_map_bucket_count(map);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_map_bucket_count(ecs_map_t* map);
 
     // Function @ map.h:119:9
-    public static int ecs_map_count(ecs_map_t* map)
-    {
-        return _virtualTable.ecs_map_count(map);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_map_count(ecs_map_t* map);
 
     // Function @ map.h:114:6
-    public static void ecs_map_clear(ecs_map_t* map)
-    {
-        _virtualTable.ecs_map_clear(map);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_map_clear(ecs_map_t* map);
 
     // Function @ map.h:108:6
-    public static void ecs_map_remove(ecs_map_t* map, ecs_map_key_t key)
-    {
-        _virtualTable.ecs_map_remove(map, key);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_map_remove(ecs_map_t* map, ecs_map_key_t key);
 
     // Function @ map.h:103:6
-    public static void ecs_map_free(ecs_map_t* map)
-    {
-        _virtualTable.ecs_map_free(map);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_map_free(ecs_map_t* map);
 
     // Function @ map.h:92:7
-    public static void* _ecs_map_set(ecs_map_t* map, ecs_size_t elem_size, ecs_map_key_t key, void* payload)
-    {
-        return _virtualTable._ecs_map_set(map, elem_size, key, payload);
-    }
+    [DllImport("flecs")]
+    public static extern void* _ecs_map_set(ecs_map_t* map, ecs_size_t elem_size, ecs_map_key_t key, void* payload);
 
     // Function @ map.h:82:8
-    public static void* _ecs_map_ensure(ecs_map_t* map, ecs_size_t elem_size, ecs_map_key_t key)
-    {
-        return _virtualTable._ecs_map_ensure(map, elem_size, key);
-    }
+    [DllImport("flecs")]
+    public static extern void* _ecs_map_ensure(ecs_map_t* map, ecs_size_t elem_size, ecs_map_key_t key);
 
     // Function @ map.h:73:8
-    public static void* _ecs_map_get_ptr(ecs_map_t* map, ecs_map_key_t key)
-    {
-        return _virtualTable._ecs_map_get_ptr(map, key);
-    }
+    [DllImport("flecs")]
+    public static extern void* _ecs_map_get_ptr(ecs_map_t* map, ecs_map_key_t key);
 
     // Function @ map.h:60:8
-    public static void* _ecs_map_get(ecs_map_t* map, ecs_size_t elem_size, ecs_map_key_t key)
-    {
-        return _virtualTable._ecs_map_get(map, elem_size, key);
-    }
+    [DllImport("flecs")]
+    public static extern void* _ecs_map_get(ecs_map_t* map, ecs_size_t elem_size, ecs_map_key_t key);
 
     // Function @ map.h:50:13
-    public static ecs_map_t* _ecs_map_new(ecs_size_t elem_size, ecs_size_t alignment, int elem_count)
-    {
-        return _virtualTable._ecs_map_new(elem_size, alignment, elem_count);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_map_t* _ecs_map_new(ecs_size_t elem_size, ecs_size_t alignment, int elem_count);
 
     // Function @ vector.h:370:15
-    public static ecs_vector_t* _ecs_vector_copy(ecs_vector_t* src, ecs_size_t elem_size, short offset)
-    {
-        return _virtualTable._ecs_vector_copy(src, elem_size, offset);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_vector_t* _ecs_vector_copy(ecs_vector_t* src, ecs_size_t elem_size, short offset);
 
     // Function @ vector.h:355:6
-    public static void _ecs_vector_memory(ecs_vector_t* vector, ecs_size_t elem_size, short offset, int* allocd, int* used)
-    {
-        _virtualTable._ecs_vector_memory(vector, elem_size, offset, allocd, used);
-    }
+    [DllImport("flecs")]
+    public static extern void _ecs_vector_memory(ecs_vector_t* vector, ecs_size_t elem_size, short offset, int* allocd, int* used);
 
     // Function @ vector.h:344:6
-    public static void _ecs_vector_sort(ecs_vector_t* vector, ecs_size_t elem_size, short offset, ecs_comparator_t compare_action)
-    {
-        _virtualTable._ecs_vector_sort(vector, elem_size, offset, compare_action);
-    }
+    [DllImport("flecs")]
+    public static extern void _ecs_vector_sort(ecs_vector_t* vector, ecs_size_t elem_size, short offset, ecs_comparator_t compare_action);
 
     // Function @ vector.h:331:7
-    public static void* _ecs_vector_first(ecs_vector_t* vector, ecs_size_t elem_size, short offset)
-    {
-        return _virtualTable._ecs_vector_first(vector, elem_size, offset);
-    }
+    [DllImport("flecs")]
+    public static extern void* _ecs_vector_first(ecs_vector_t* vector, ecs_size_t elem_size, short offset);
 
     // Function @ vector.h:326:9
-    public static int ecs_vector_size(ecs_vector_t* vector)
-    {
-        return _virtualTable.ecs_vector_size(vector);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_vector_size(ecs_vector_t* vector);
 
     // Function @ vector.h:321:9
-    public static int ecs_vector_count(ecs_vector_t* vector)
-    {
-        return _virtualTable.ecs_vector_count(vector);
-    }
+    [DllImport("flecs")]
+    public static extern int ecs_vector_count(ecs_vector_t* vector);
 
     // Function @ vector.h:307:9
-    public static int _ecs_vector_set_count(ecs_vector_t** vector, ecs_size_t elem_size, short offset, int elem_count)
-    {
-        return _virtualTable._ecs_vector_set_count(vector, elem_size, offset, elem_count);
-    }
+    [DllImport("flecs")]
+    public static extern int _ecs_vector_set_count(ecs_vector_t** vector, ecs_size_t elem_size, short offset, int elem_count);
 
     // Function @ vector.h:292:9
-    public static int _ecs_vector_set_size(ecs_vector_t** vector, ecs_size_t elem_size, short offset, int elem_count)
-    {
-        return _virtualTable._ecs_vector_set_size(vector, elem_size, offset, elem_count);
-    }
+    [DllImport("flecs")]
+    public static extern int _ecs_vector_set_size(ecs_vector_t** vector, ecs_size_t elem_size, short offset, int elem_count);
 
     // Function @ vector.h:281:9
-    public static int _ecs_vector_grow(ecs_vector_t** vector, ecs_size_t elem_size, short offset, int elem_count)
-    {
-        return _virtualTable._ecs_vector_grow(vector, elem_size, offset, elem_count);
-    }
+    [DllImport("flecs")]
+    public static extern int _ecs_vector_grow(ecs_vector_t** vector, ecs_size_t elem_size, short offset, int elem_count);
 
     // Function @ vector.h:271:6
-    public static void _ecs_vector_reclaim(ecs_vector_t** vector, ecs_size_t elem_size, short offset)
-    {
-        _virtualTable._ecs_vector_reclaim(vector, elem_size, offset);
-    }
+    [DllImport("flecs")]
+    public static extern void _ecs_vector_reclaim(ecs_vector_t** vector, ecs_size_t elem_size, short offset);
 
     // Function @ vector.h:257:9
-    public static int _ecs_vector_remove_index(ecs_vector_t* vector, ecs_size_t elem_size, short offset, int index)
-    {
-        return _virtualTable._ecs_vector_remove_index(vector, elem_size, offset, index);
-    }
+    [DllImport("flecs")]
+    public static extern int _ecs_vector_remove_index(ecs_vector_t* vector, ecs_size_t elem_size, short offset, int index);
 
     // Function @ vector.h:245:9
-    public static int _ecs_vector_move_index(ecs_vector_t** dst, ecs_vector_t* src, ecs_size_t elem_size, short offset, int index)
-    {
-        return _virtualTable._ecs_vector_move_index(dst, src, elem_size, offset, index);
-    }
+    [DllImport("flecs")]
+    public static extern int _ecs_vector_move_index(ecs_vector_t** dst, ecs_vector_t* src, ecs_size_t elem_size, short offset, int index);
 
     // Function @ vector.h:234:6
-    public static CBool _ecs_vector_pop(ecs_vector_t* vector, ecs_size_t elem_size, short offset, void* value)
-    {
-        return _virtualTable._ecs_vector_pop(vector, elem_size, offset, value);
-    }
+    [DllImport("flecs")]
+    public static extern CBool _ecs_vector_pop(ecs_vector_t* vector, ecs_size_t elem_size, short offset, void* value);
 
     // Function @ vector.h:229:6
-    public static void ecs_vector_remove_last(ecs_vector_t* vector)
-    {
-        _virtualTable.ecs_vector_remove_last(vector);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_vector_remove_last(ecs_vector_t* vector);
 
     // Function @ vector.h:218:9
-    public static int _ecs_vector_set_min_count(ecs_vector_t** vector_inout, ecs_size_t elem_size, short offset, int elem_count)
-    {
-        return _virtualTable._ecs_vector_set_min_count(vector_inout, elem_size, offset, elem_count);
-    }
+    [DllImport("flecs")]
+    public static extern int _ecs_vector_set_min_count(ecs_vector_t** vector_inout, ecs_size_t elem_size, short offset, int elem_count);
 
     // Function @ vector.h:206:9
-    public static int _ecs_vector_set_min_size(ecs_vector_t** array_inout, ecs_size_t elem_size, short offset, int elem_count)
-    {
-        return _virtualTable._ecs_vector_set_min_size(array_inout, elem_size, offset, elem_count);
-    }
+    [DllImport("flecs")]
+    public static extern int _ecs_vector_set_min_size(ecs_vector_t** array_inout, ecs_size_t elem_size, short offset, int elem_count);
 
     // Function @ vector.h:195:7
-    public static void* _ecs_vector_last(ecs_vector_t* vector, ecs_size_t elem_size, short offset)
-    {
-        return _virtualTable._ecs_vector_last(vector, elem_size, offset);
-    }
+    [DllImport("flecs")]
+    public static extern void* _ecs_vector_last(ecs_vector_t* vector, ecs_size_t elem_size, short offset);
 
     // Function @ vector.h:181:7
-    public static void* _ecs_vector_get(ecs_vector_t* vector, ecs_size_t elem_size, short offset, int index)
-    {
-        return _virtualTable._ecs_vector_get(vector, elem_size, offset, index);
-    }
+    [DllImport("flecs")]
+    public static extern void* _ecs_vector_get(ecs_vector_t* vector, ecs_size_t elem_size, short offset, int index);
 
     // Function @ vector.h:167:7
-    public static void* _ecs_vector_addn(ecs_vector_t** array_inout, ecs_size_t elem_size, short offset, int elem_count)
-    {
-        return _virtualTable._ecs_vector_addn(array_inout, elem_size, offset, elem_count);
-    }
+    [DllImport("flecs")]
+    public static extern void* _ecs_vector_addn(ecs_vector_t** array_inout, ecs_size_t elem_size, short offset, int elem_count);
 
     // Function @ vector.h:154:7
-    public static void* _ecs_vector_add(ecs_vector_t** array_inout, ecs_size_t elem_size, short offset)
-    {
-        return _virtualTable._ecs_vector_add(array_inout, elem_size, offset);
-    }
+    [DllImport("flecs")]
+    public static extern void* _ecs_vector_add(ecs_vector_t** array_inout, ecs_size_t elem_size, short offset);
 
     // Function @ vector.h:148:6
-    public static void ecs_vector_assert_alignment(ecs_vector_t* vector, ecs_size_t elem_alignment)
-    {
-        _virtualTable.ecs_vector_assert_alignment(vector, elem_alignment);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_vector_assert_alignment(ecs_vector_t* vector, ecs_size_t elem_alignment);
 
     // Function @ vector.h:142:6
-    public static void ecs_vector_assert_size(ecs_vector_t* vector_inout, ecs_size_t elem_size)
-    {
-        _virtualTable.ecs_vector_assert_size(vector_inout, elem_size);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_vector_assert_size(ecs_vector_t* vector_inout, ecs_size_t elem_size);
 
     // Function @ vector.h:137:6
-    public static void ecs_vector_clear(ecs_vector_t* vector)
-    {
-        _virtualTable.ecs_vector_clear(vector);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_vector_clear(ecs_vector_t* vector);
 
     // Function @ vector.h:132:6
-    public static void ecs_vector_free(ecs_vector_t* vector)
-    {
-        _virtualTable.ecs_vector_free(vector);
-    }
+    [DllImport("flecs")]
+    public static extern void ecs_vector_free(ecs_vector_t* vector);
 
     // Function @ vector.h:122:6
-    public static void _ecs_vector_zero(ecs_vector_t* vector, ecs_size_t elem_size, short offset)
-    {
-        _virtualTable._ecs_vector_zero(vector, elem_size, offset);
-    }
+    [DllImport("flecs")]
+    public static extern void _ecs_vector_zero(ecs_vector_t* vector, ecs_size_t elem_size, short offset);
 
     // Function @ vector.h:111:15
-    public static ecs_vector_t* _ecs_vector_from_array(ecs_size_t elem_size, short offset, int elem_count, void* array)
-    {
-        return _virtualTable._ecs_vector_from_array(elem_size, offset, elem_count, array);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_vector_t* _ecs_vector_from_array(ecs_size_t elem_size, short offset, int elem_count, void* array);
 
     // Function @ vector.h:98:15
-    public static ecs_vector_t* _ecs_vector_new(ecs_size_t elem_size, short offset, int elem_count)
-    {
-        return _virtualTable._ecs_vector_new(elem_size, offset, elem_count);
-    }
+    [DllImport("flecs")]
+    public static extern ecs_vector_t* _ecs_vector_new(ecs_size_t elem_size, short offset, int elem_count);
 
     // FunctionPointer @ flecs.h:124:16
     [StructLayout(LayoutKind.Sequential)]
@@ -4535,1442 +3374,102 @@ public static unsafe partial class flecs
     }
 
     // Enum @ flecs.h:244:3
-    public enum ecs_match_kind_t : int
+    public enum ecs_match_kind_t : uint
     {
-        EcsMatchDefault = 0,
-        EcsMatchAll = 1,
-        EcsMatchAny = 2,
-        EcsMatchExact = 3
+        EcsMatchDefault = 0U,
+        EcsMatchAll = 1U,
+        EcsMatchAny = 2U,
+        EcsMatchExact = 3U
     }
 
     // Enum @ flecs.h:194:3
-    public enum ecs_oper_kind_t : int
+    public enum ecs_oper_kind_t : uint
     {
-        EcsAnd = 0,
-        EcsOr = 1,
-        EcsNot = 2,
-        EcsOptional = 3,
-        EcsAndFrom = 4,
-        EcsOrFrom = 5,
-        EcsNotFrom = 6
+        EcsAnd = 0U,
+        EcsOr = 1U,
+        EcsNot = 2U,
+        EcsOptional = 3U,
+        EcsAndFrom = 4U,
+        EcsOrFrom = 5U,
+        EcsNotFrom = 6U
     }
 
     // Enum @ flecs.h:183:3
-    public enum ecs_var_kind_t : int
+    public enum ecs_var_kind_t : uint
     {
-        EcsVarDefault = 0,
-        EcsVarIsEntity = 1,
-        EcsVarIsVariable = 2
+        EcsVarDefault = 0U,
+        EcsVarIsEntity = 1U,
+        EcsVarIsVariable = 2U
     }
 
     // Enum @ flecs.h:176:3
-    public enum ecs_inout_kind_t : int
+    public enum ecs_inout_kind_t : uint
     {
-        EcsInOutDefault = 0,
-        EcsInOut = 1,
-        EcsIn = 2,
-        EcsOut = 3
+        EcsInOutDefault = 0U,
+        EcsInOut = 1U,
+        EcsIn = 2U,
+        EcsOut = 3U
     }
 
     // Enum @ api_types.h:114:3
-    public enum ecs_query_iter_kind_t : int
+    public enum ecs_query_iter_kind_t : uint
     {
-        EcsQuerySimpleIter = 0,
-        EcsQueryPagedIter = 1,
-        EcsQuerySortedIter = 2,
-        EcsQuerySwitchIter = 3
+        EcsQuerySimpleIter = 0U,
+        EcsQueryPagedIter = 1U,
+        EcsQuerySortedIter = 2U,
+        EcsQuerySwitchIter = 3U
     }
 
     // Enum @ reader_writer.h:47:3
-    public enum ecs_blob_header_kind_t : int
+    public enum ecs_blob_header_kind_t : uint
     {
-        EcsStreamHeader = 0,
-        EcsTableSegment = 1,
-        EcsFooterSegment = 2,
-        EcsTableHeader = 3,
-        EcsTableTypeSize = 4,
-        EcsTableType = 5,
-        EcsTableSize = 6,
-        EcsTableColumn = 7,
-        EcsTableColumnHeader = 8,
-        EcsTableColumnSize = 9,
-        EcsTableColumnData = 10,
-        EcsTableColumnNameHeader = 11,
-        EcsTableColumnNameLength = 12,
-        EcsTableColumnName = 13,
-        EcsStreamFooter = 14
+        EcsStreamHeader = 0U,
+        EcsTableSegment = 1U,
+        EcsFooterSegment = 2U,
+        EcsTableHeader = 3U,
+        EcsTableTypeSize = 4U,
+        EcsTableType = 5U,
+        EcsTableSize = 6U,
+        EcsTableColumn = 7U,
+        EcsTableColumnHeader = 8U,
+        EcsTableColumnSize = 9U,
+        EcsTableColumnData = 10U,
+        EcsTableColumnNameHeader = 11U,
+        EcsTableColumnNameLength = 12U,
+        EcsTableColumnName = 13U,
+        EcsStreamFooter = 14U
     }
 
     // Enum @ api_types.h:197:3
-    public enum EcsMatchFailureReason : int
+    public enum EcsMatchFailureReason : uint
     {
-        EcsMatchOk = 0,
-        EcsMatchNotASystem = 1,
-        EcsMatchSystemIsATask = 2,
-        EcsMatchEntityIsDisabled = 3,
-        EcsMatchEntityIsPrefab = 4,
-        EcsMatchFromSelf = 5,
-        EcsMatchFromOwned = 6,
-        EcsMatchFromShared = 7,
-        EcsMatchFromContainer = 8,
-        EcsMatchFromEntity = 9,
-        EcsMatchOrFromSelf = 10,
-        EcsMatchOrFromOwned = 11,
-        EcsMatchOrFromShared = 12,
-        EcsMatchOrFromContainer = 13,
-        EcsMatchNotFromSelf = 14,
-        EcsMatchNotFromOwned = 15,
-        EcsMatchNotFromShared = 16,
-        EcsMatchNotFromContainer = 17
+        EcsMatchOk = 0U,
+        EcsMatchNotASystem = 1U,
+        EcsMatchSystemIsATask = 2U,
+        EcsMatchEntityIsDisabled = 3U,
+        EcsMatchEntityIsPrefab = 4U,
+        EcsMatchFromSelf = 5U,
+        EcsMatchFromOwned = 6U,
+        EcsMatchFromShared = 7U,
+        EcsMatchFromContainer = 8U,
+        EcsMatchFromEntity = 9U,
+        EcsMatchOrFromSelf = 10U,
+        EcsMatchOrFromOwned = 11U,
+        EcsMatchOrFromShared = 12U,
+        EcsMatchOrFromContainer = 13U,
+        EcsMatchNotFromSelf = 14U,
+        EcsMatchNotFromOwned = 15U,
+        EcsMatchNotFromShared = 16U,
+        EcsMatchNotFromContainer = 17U
     }
 
     // Enum @ system.h:52:3
-    public enum ecs_system_status_t : int
+    public enum ecs_system_status_t : uint
     {
-        EcsSystemStatusNone = 0,
-        EcsSystemEnabled = 1,
-        EcsSystemDisabled = 2,
-        EcsSystemActivated = 3,
-        EcsSystemDeactivated = 4
+        EcsSystemStatusNone = 0U,
+        EcsSystemEnabled = 1U,
+        EcsSystemDisabled = 2U,
+        EcsSystemActivated = 3U,
+        EcsSystemDeactivated = 4U
     }
-
-    private static void _LoadVirtualTable()
-    {
-        #region "Functions"
-        _virtualTable.ecs_gauge_reduce = (delegate* unmanaged[Cdecl]<ecs_gauge_t*, int, ecs_gauge_t*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_gauge_reduce");
-        _virtualTable.ecs_get_pipeline_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_pipeline_stats_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_pipeline_stats");
-        _virtualTable.ecs_get_system_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_system_stats_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_system_stats");
-        _virtualTable.ecs_get_query_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, ecs_query_stats_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_query_stats");
-        _virtualTable.ecs_dump_world_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_stats_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dump_world_stats");
-        _virtualTable.ecs_get_world_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_stats_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_world_stats");
-        _virtualTable.ecs_record_move_to = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_record_t*, int, ulong, void*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_record_move_to");
-        _virtualTable.ecs_record_copy_pod_to = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_record_t*, int, ulong, void*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_record_copy_pod_to");
-        _virtualTable.ecs_record_copy_to = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_record_t*, int, ulong, void*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_record_copy_to");
-        _virtualTable.ecs_record_get_column = (delegate* unmanaged[Cdecl]<ecs_record_t*, int, ulong, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_record_get_column");
-        _virtualTable.ecs_record_ensure = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_record_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_record_ensure");
-        _virtualTable.ecs_record_find = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_record_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_record_find");
-        _virtualTable.ecs_table_delete_column = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, int, ecs_vector_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_delete_column");
-        _virtualTable.ecs_table_set_entities = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_vector_t*, ecs_vector_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_set_entities");
-        _virtualTable.ecs_records_update = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_vector_t*, ecs_vector_t*, ecs_table_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_records_update");
-        _virtualTable.ecs_records_clear = (delegate* unmanaged[Cdecl]<ecs_vector_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_records_clear");
-        _virtualTable.ecs_table_get_records = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_vector_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_get_records");
-        _virtualTable.ecs_table_get_entities = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_vector_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_get_entities");
-        _virtualTable.ecs_table_set_column = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, int, ecs_vector_t*, ecs_vector_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_set_column");
-        _virtualTable.ecs_table_get_column = (delegate* unmanaged[Cdecl]<ecs_table_t*, int, ecs_vector_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_get_column");
-        _virtualTable.ecs_table_find_column = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_entity_t, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_find_column");
-        _virtualTable.ecs_snapshot_free = (delegate* unmanaged[Cdecl]<ecs_snapshot_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_snapshot_free");
-        _virtualTable.ecs_snapshot_next = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_snapshot_next");
-        _virtualTable.ecs_snapshot_iter = (delegate* unmanaged[Cdecl]<ecs_snapshot_t*, ecs_filter_t*, ecs_iter_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_snapshot_iter");
-        _virtualTable.ecs_snapshot_restore = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_snapshot_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_snapshot_restore");
-        _virtualTable.ecs_snapshot_take_w_iter = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_iter_next_action_t, ecs_snapshot_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_snapshot_take_w_iter");
-        _virtualTable.ecs_snapshot_take = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_snapshot_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_snapshot_take");
-        _virtualTable.ecs_writer_write = (delegate* unmanaged[Cdecl]<CString, int, ecs_writer_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_writer_write");
-        _virtualTable.ecs_writer_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_writer_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_writer_init");
-        _virtualTable.ecs_reader_read = (delegate* unmanaged[Cdecl]<CString, int, ecs_reader_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_reader_read");
-        _virtualTable.ecs_reader_init_w_iter = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_iter_next_action_t, ecs_reader_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_reader_init_w_iter");
-        _virtualTable.ecs_reader_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_reader_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_reader_init");
-        _virtualTable.ecs_queue_free = (delegate* unmanaged[Cdecl]<ecs_queue_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_queue_free");
-        _virtualTable.ecs_queue_count = (delegate* unmanaged[Cdecl]<ecs_queue_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_queue_count");
-        _virtualTable.ecs_queue_index = (delegate* unmanaged[Cdecl]<ecs_queue_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_queue_index");
-        _virtualTable._ecs_queue_last = (delegate* unmanaged[Cdecl]<ecs_queue_t*, ecs_size_t, short, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_queue_last");
-        _virtualTable._ecs_queue_get = (delegate* unmanaged[Cdecl]<ecs_queue_t*, ecs_size_t, short, int, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_queue_get");
-        _virtualTable._ecs_queue_push = (delegate* unmanaged[Cdecl]<ecs_queue_t*, ecs_size_t, short, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_queue_push");
-        _virtualTable._ecs_queue_from_array = (delegate* unmanaged[Cdecl]<ecs_size_t, short, int, void*, ecs_queue_t*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_queue_from_array");
-        _virtualTable._ecs_queue_new = (delegate* unmanaged[Cdecl]<ecs_size_t, short, int, ecs_queue_t*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_queue_new");
-        _virtualTable.ecs_parse_term = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString, CString, ecs_term_t*, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_parse_term");
-        _virtualTable.ecs_dbg_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, ecs_dbg_table_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_table");
-        _virtualTable.ecs_dbg_filter_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, ecs_filter_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_filter_table");
-        _virtualTable.ecs_dbg_get_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, ecs_table_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_get_table");
-        _virtualTable.ecs_dbg_find_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_table_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_find_table");
-        _virtualTable.ecs_dbg_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_dbg_entity_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_entity");
-        _virtualTable.ecs_bulk_delete = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_delete");
-        _virtualTable.ecs_bulk_add_remove_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, ecs_filter_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_add_remove_type");
-        _virtualTable.ecs_bulk_remove_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_filter_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_remove_type");
-        _virtualTable.ecs_bulk_remove_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_filter_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_remove_entity");
-        _virtualTable.ecs_bulk_add_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_filter_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_add_type");
-        _virtualTable.ecs_bulk_add_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_filter_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_add_entity");
-        _virtualTable.FlecsTimerImport = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "FlecsTimerImport");
-        _virtualTable.ecs_set_tick_source = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_tick_source");
-        _virtualTable.ecs_set_rate = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, ecs_entity_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_rate");
-        _virtualTable.ecs_stop_timer = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_stop_timer");
-        _virtualTable.ecs_start_timer = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_start_timer");
-        _virtualTable.ecs_get_interval = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_interval");
-        _virtualTable.ecs_set_interval = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_interval");
-        _virtualTable.ecs_get_timeout = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_timeout");
-        _virtualTable.ecs_set_timeout = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_timeout");
-        _virtualTable.FlecsPipelineImport = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "FlecsPipelineImport");
-        _virtualTable.ecs_set_threads = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_threads");
-        _virtualTable.ecs_deactivate_systems = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_deactivate_systems");
-        _virtualTable.ecs_pipeline_run = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_pipeline_run");
-        _virtualTable.ecs_reset_clock = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_reset_clock");
-        _virtualTable.ecs_set_time_scale = (delegate* unmanaged[Cdecl]<ecs_world_t*, float, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_time_scale");
-        _virtualTable.ecs_progress = (delegate* unmanaged[Cdecl]<ecs_world_t*, float, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_progress");
-        _virtualTable.ecs_get_pipeline = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_pipeline");
-        _virtualTable.ecs_set_pipeline = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_pipeline");
-        _virtualTable.FlecsSystemImport = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "FlecsSystemImport");
-        _virtualTable.ecs_dbg_match_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_match_failure_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_match_entity");
-        _virtualTable.ecs_dbg_get_column_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_get_column_type");
-        _virtualTable.ecs_dbg_get_inactive_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_dbg_system_t*, int, ecs_table_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_get_inactive_table");
-        _virtualTable.ecs_dbg_get_active_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_dbg_system_t*, int, ecs_table_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_get_active_table");
-        _virtualTable.ecs_dbg_system = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_dbg_system_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dbg_system");
-        _virtualTable.ecs_get_system_ctx = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_system_ctx");
-        _virtualTable.ecs_get_query = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_query_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_query");
-        _virtualTable.ecs_run_w_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, int, int, ecs_filter_t*, void*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_run_w_filter");
-        _virtualTable.ecs_run_worker = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, int, float, void*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_run_worker");
-        _virtualTable.ecs_run = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, void*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_run");
-        _virtualTable.ecs_system_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_system_desc_t*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_system_init");
-        _virtualTable.ecs_import_from_library = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_import_from_library");
-        _virtualTable.ecs_import = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_module_action_t, CString, void*, ulong, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_import");
-        _virtualTable.ecs_table_count = (delegate* unmanaged[Cdecl]<ecs_table_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_count");
-        _virtualTable.ecs_table_insert = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, ecs_entity_t, ecs_record_t*, ecs_record_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_insert");
-        _virtualTable.ecs_table_get_type = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_get_type");
-        _virtualTable.ecs_table_from_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_table_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_from_type");
-        _virtualTable.ecs_table_from_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_table_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_from_str");
-        _virtualTable.ecs_stage_is_async = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_stage_is_async");
-        _virtualTable.ecs_async_stage_free = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_async_stage_free");
-        _virtualTable.ecs_async_stage_new = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_async_stage_new");
-        _virtualTable.ecs_stage_is_readonly = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_stage_is_readonly");
-        _virtualTable.ecs_get_world = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_world");
-        _virtualTable.ecs_get_stage = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, ecs_world_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_stage");
-        _virtualTable.ecs_get_stage_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_stage_id");
-        _virtualTable.ecs_get_stage_count = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_stage_count");
-        _virtualTable.ecs_set_stages = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_stages");
-        _virtualTable.ecs_set_automerge = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_automerge");
-        _virtualTable.ecs_defer_end = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_defer_end");
-        _virtualTable.ecs_defer_begin = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_defer_begin");
-        _virtualTable.ecs_merge = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_merge");
-        _virtualTable.ecs_staging_end = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_staging_end");
-        _virtualTable.ecs_staging_begin = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_staging_begin");
-        _virtualTable.ecs_frame_end = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_frame_end");
-        _virtualTable.ecs_frame_begin = (delegate* unmanaged[Cdecl]<ecs_world_t*, float, float>)Runtime.LibraryGetExport(_libraryHandle, "ecs_frame_begin");
-        _virtualTable.ecs_iter_column_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong>)Runtime.LibraryGetExport(_libraryHandle, "ecs_iter_column_size");
-        _virtualTable.ecs_iter_column_w_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_iter_column_w_size");
-        _virtualTable.ecs_iter_find_column = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_id_t, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_iter_find_column");
-        _virtualTable.ecs_iter_type = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_iter_type");
-        _virtualTable.ecs_term_is_owned = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_is_owned");
-        _virtualTable.ecs_term_is_readonly = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_is_readonly");
-        _virtualTable.ecs_term_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_size");
-        _virtualTable.ecs_term_source = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_source");
-        _virtualTable.ecs_term_id = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_id_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_id");
-        _virtualTable.ecs_term_w_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_w_size");
-        _virtualTable.ecs_get_trigger_ctx = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_trigger_ctx");
-        _virtualTable.ecs_trigger_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_trigger_desc_t*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_trigger_init");
-        _virtualTable.ecs_query_orphaned = (delegate* unmanaged[Cdecl]<ecs_query_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_orphaned");
-        _virtualTable.ecs_query_changed = (delegate* unmanaged[Cdecl]<ecs_query_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_changed");
-        _virtualTable.ecs_query_next_worker = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, int, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_next_worker");
-        _virtualTable.ecs_query_next_w_filter = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_filter_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_next_w_filter");
-        _virtualTable.ecs_query_next = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_next");
-        _virtualTable.ecs_query_iter_page = (delegate* unmanaged[Cdecl]<ecs_query_t*, int, int, ecs_iter_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_iter_page");
-        _virtualTable.ecs_query_iter = (delegate* unmanaged[Cdecl]<ecs_query_t*, ecs_iter_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_iter");
-        _virtualTable.ecs_query_fini = (delegate* unmanaged[Cdecl]<ecs_query_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_fini");
-        _virtualTable.ecs_query_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_desc_t*, ecs_query_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_init");
-        _virtualTable.ecs_filter_next = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_filter_next");
-        _virtualTable.ecs_filter_iter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, ecs_iter_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_filter_iter");
-        _virtualTable.ecs_filter_match_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, ecs_entity_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_filter_match_entity");
-        _virtualTable.ecs_filter_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_filter_str");
-        _virtualTable.ecs_filter_finalize = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_filter_finalize");
-        _virtualTable.ecs_filter_fini = (delegate* unmanaged[Cdecl]<ecs_filter_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_filter_fini");
-        _virtualTable.ecs_filter_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, ecs_filter_desc_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_filter_init");
-        _virtualTable.ecs_id_match = (delegate* unmanaged[Cdecl]<ecs_id_t, ecs_id_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_id_match");
-        _virtualTable.ecs_term_fini = (delegate* unmanaged[Cdecl]<ecs_term_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_fini");
-        _virtualTable.ecs_term_move = (delegate* unmanaged[Cdecl]<ecs_term_t*, ecs_term_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_move");
-        _virtualTable.ecs_term_copy = (delegate* unmanaged[Cdecl]<ecs_term_t*, ecs_term_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_copy");
-        _virtualTable.ecs_term_finalize = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString, ecs_term_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_finalize");
-        _virtualTable.ecs_term_is_trivial = (delegate* unmanaged[Cdecl]<ecs_term_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_is_trivial");
-        _virtualTable.ecs_term_is_set = (delegate* unmanaged[Cdecl]<ecs_term_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_term_is_set");
-        _virtualTable.ecs_set_name_prefix = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_name_prefix");
-        _virtualTable.ecs_get_scope = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_scope");
-        _virtualTable.ecs_set_scope = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_scope");
-        _virtualTable.ecs_scope_next = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_scope_next");
-        _virtualTable.ecs_scope_iter_w_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_filter_t*, ecs_iter_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_scope_iter_w_filter");
-        _virtualTable.ecs_scope_iter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_iter_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_scope_iter");
-        _virtualTable.ecs_get_child_count = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_child_count");
-        _virtualTable.ecs_add_path_w_sep = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, CString, CString, CString, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_add_path_w_sep");
-        _virtualTable.ecs_new_from_path_w_sep = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, CString, CString, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_new_from_path_w_sep");
-        _virtualTable.ecs_get_path_w_sep = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_entity_t, CString, CString, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_path_w_sep");
-        _virtualTable.ecs_use = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_use");
-        _virtualTable.ecs_lookup_symbol = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_lookup_symbol");
-        _virtualTable.ecs_lookup_path_w_sep = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, CString, CString, CBool, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_lookup_path_w_sep");
-        _virtualTable.ecs_lookup_child = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_lookup_child");
-        _virtualTable.ecs_lookup = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_lookup");
-        _virtualTable.ecs_count_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_count_filter");
-        _virtualTable.ecs_count_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_count_id");
-        _virtualTable.ecs_enable = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_enable");
-        _virtualTable.ecs_get_object_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_id_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_object_w_id");
-        _virtualTable.ecs_id_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, CString, ulong, ulong>)Runtime.LibraryGetExport(_libraryHandle, "ecs_id_str");
-        _virtualTable.ecs_role_str = (delegate* unmanaged[Cdecl]<ecs_entity_t, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_role_str");
-        _virtualTable.ecs_get_name = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_name");
-        _virtualTable.ecs_get_typeid = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_typeid");
-        _virtualTable.ecs_get_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_type");
-        _virtualTable.ecs_exists = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_exists");
-        _virtualTable.ecs_ensure = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_ensure");
-        _virtualTable.ecs_get_alive = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_alive");
-        _virtualTable.ecs_is_alive = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_is_alive");
-        _virtualTable.ecs_is_valid = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_is_valid");
-        _virtualTable.ecs_has_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_has_id");
-        _virtualTable.ecs_set_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ulong, void*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_id");
-        _virtualTable.ecs_modified_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_modified_w_id");
-        _virtualTable.ecs_get_mut_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool*, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_mut_w_id");
-        _virtualTable.ecs_get_case = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_case");
-        _virtualTable.ecs_get_ref_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_ref_t*, ecs_entity_t, ecs_id_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_ref_w_id");
-        _virtualTable.ecs_get_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_id");
-        _virtualTable.ecs_delete_children = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_delete_children");
-        _virtualTable.ecs_delete = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_delete");
-        _virtualTable.ecs_clear = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_clear");
-        _virtualTable.ecs_make_pair = (delegate* unmanaged[Cdecl]<ecs_entity_t, ecs_entity_t, ecs_id_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_make_pair");
-        _virtualTable.ecs_is_component_enabled_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_is_component_enabled_w_id");
-        _virtualTable.ecs_enable_component_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_enable_component_w_id");
-        _virtualTable.ecs_remove_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_remove_id");
-        _virtualTable.ecs_add_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_add_id");
-        _virtualTable.ecs_clone = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, CBool, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_clone");
-        _virtualTable.ecs_bulk_new_w_data = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, ecs_entities_t*, void*, ecs_entity_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_new_w_data");
-        _virtualTable.ecs_bulk_new_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int, ecs_entity_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_new_w_id");
-        _virtualTable.ecs_type_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_desc_t*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_init");
-        _virtualTable.ecs_component_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_component_desc_t*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_component_init");
-        _virtualTable.ecs_entity_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_desc_t*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_entity_init");
-        _virtualTable.ecs_new_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_new_w_id");
-        _virtualTable.ecs_new_component_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_new_component_id");
-        _virtualTable.ecs_new_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_new_id");
-        _virtualTable.ecs_get_threads = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_threads");
-        _virtualTable.ecs_set_target_fps = (delegate* unmanaged[Cdecl]<ecs_world_t*, float, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_target_fps");
-        _virtualTable.ecs_measure_system_time = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_measure_system_time");
-        _virtualTable.ecs_measure_frame_time = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_measure_frame_time");
-        _virtualTable.ecs_tracing_enable = (delegate* unmanaged[Cdecl]<int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_tracing_enable");
-        _virtualTable.ecs_end_wait = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_end_wait");
-        _virtualTable.ecs_begin_wait = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_begin_wait");
-        _virtualTable.ecs_unlock = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_unlock");
-        _virtualTable.ecs_lock = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_lock");
-        _virtualTable.ecs_enable_locking = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_enable_locking");
-        _virtualTable.ecs_enable_range_check = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_enable_range_check");
-        _virtualTable.ecs_set_entity_range = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_entity_range");
-        _virtualTable.ecs_dim = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dim");
-        _virtualTable.ecs_get_world_info = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_info_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_world_info");
-        _virtualTable.ecs_get_context = (delegate* unmanaged[Cdecl]<ecs_world_t*, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_context");
-        _virtualTable.ecs_set_context = (delegate* unmanaged[Cdecl]<ecs_world_t*, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_context");
-        _virtualTable.ecs_set_component_actions_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, EcsComponentLifecycle*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_component_actions_w_id");
-        _virtualTable.ecs_should_quit = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_should_quit");
-        _virtualTable.ecs_quit = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_quit");
-        _virtualTable.ecs_run_post_frame = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_fini_action_t, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_run_post_frame");
-        _virtualTable.ecs_atfini = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_fini_action_t, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_atfini");
-        _virtualTable.ecs_fini = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_fini");
-        _virtualTable.ecs_init_w_args = (delegate* unmanaged[Cdecl]<int, CString*, ecs_world_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_init_w_args");
-        _virtualTable.ecs_mini = (delegate* unmanaged[Cdecl]<ecs_world_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_mini");
-        _virtualTable.ecs_init = (delegate* unmanaged[Cdecl]<ecs_world_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_init");
-        _virtualTable.ecs_query_group_by = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, ecs_entity_t, ecs_rank_type_action_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_group_by");
-        _virtualTable.ecs_query_order_by = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, ecs_entity_t, ecs_compare_action_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_order_by");
-        _virtualTable.ecs_query_free = (delegate* unmanaged[Cdecl]<ecs_query_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_free");
-        _virtualTable.ecs_subquery_new = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, CString, ecs_query_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_subquery_new");
-        _virtualTable.ecs_query_new = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_query_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_new");
-        _virtualTable.ecs_set_rate_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, ecs_entity_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_rate_filter");
-        _virtualTable.ecs_table_component_index = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_entity_t, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_component_index");
-        _virtualTable.ecs_table_column_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_column_size");
-        _virtualTable.ecs_table_column = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_table_column");
-        _virtualTable.ecs_is_owned = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_is_owned");
-        _virtualTable.ecs_is_readonly = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_is_readonly");
-        _virtualTable.ecs_column_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong>)Runtime.LibraryGetExport(_libraryHandle, "ecs_column_size");
-        _virtualTable.ecs_column_type = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_column_type");
-        _virtualTable.ecs_column_entity = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_column_entity");
-        _virtualTable.ecs_column_source = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_column_source");
-        _virtualTable.ecs_element_w_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, int, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_element_w_size");
-        _virtualTable.ecs_column_index_from_name = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CString, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_column_index_from_name");
-        _virtualTable.ecs_column_w_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_column_w_size");
-        _virtualTable.ecs_type_owns_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_owns_entity");
-        _virtualTable.ecs_type_has_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_has_entity");
-        _virtualTable.ecs_type_to_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_to_entity");
-        _virtualTable.ecs_type_from_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_from_entity");
-        _virtualTable.ecs_add_remove_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ecs_id_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_add_remove_entity");
-        _virtualTable.ecs_remove_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_remove_entity");
-        _virtualTable.ecs_add_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_add_entity");
-        _virtualTable.ecs_get_thread_index = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_thread_index");
-        _virtualTable.ecs_get_parent_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_parent_w_entity");
-        _virtualTable.ecs_entity_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, CString, ulong, ulong>)Runtime.LibraryGetExport(_libraryHandle, "ecs_entity_str");
-        _virtualTable.ecs_has_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_has_entity");
-        _virtualTable.ecs_set_ptr_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ulong, void*, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_ptr_w_entity");
-        _virtualTable.ecs_modified_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_modified_w_entity");
-        _virtualTable.ecs_get_mut_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool*, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_mut_w_entity");
-        _virtualTable.ecs_get_ref_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_ref_t*, ecs_entity_t, ecs_id_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_ref_w_entity");
-        _virtualTable.ecs_get_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_w_entity");
-        _virtualTable.ecs_get_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_get_w_id");
-        _virtualTable.ecs_is_component_enabled_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_is_component_enabled_w_entity");
-        _virtualTable.ecs_enable_component_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_enable_component_w_entity");
-        _virtualTable.ecs_bulk_new_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int, ecs_entity_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_new_w_entity");
-        _virtualTable.ecs_new_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_new_w_entity");
-        _virtualTable.ecs_set_component_actions_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, EcsComponentLifecycle*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_set_component_actions_w_entity");
-        _virtualTable.ecs_count_w_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_count_w_filter");
-        _virtualTable.ecs_count_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_count_entity");
-        _virtualTable.ecs_count_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_count_type");
-        _virtualTable.ecs_has_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_has_type");
-        _virtualTable.ecs_add_remove_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, ecs_type_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_add_remove_type");
-        _virtualTable.ecs_remove_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_remove_type");
-        _virtualTable.ecs_add_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_add_type");
-        _virtualTable.ecs_bulk_new_w_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, int, ecs_entity_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_bulk_new_w_type");
-        _virtualTable.ecs_new_w_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_new_w_type");
-        _virtualTable.ecs_dim_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_dim_type");
-        _virtualTable.ecs_type_match = (delegate* unmanaged[Cdecl]<ecs_type_t, int, ecs_entity_t, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_match");
-        _virtualTable.ecs_type_index_of = (delegate* unmanaged[Cdecl]<ecs_type_t, ecs_entity_t, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_index_of");
-        _virtualTable.ecs_type_get_entity_for_xor = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_get_entity_for_xor");
-        _virtualTable.ecs_type_find_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_entity_t, int, int, ecs_entity_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_find_id");
-        _virtualTable.ecs_type_owns_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, CBool, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_owns_type");
-        _virtualTable.ecs_type_owns_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_owns_id");
-        _virtualTable.ecs_type_has_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_has_type");
-        _virtualTable.ecs_type_has_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_has_id");
-        _virtualTable.ecs_type_remove = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_remove");
-        _virtualTable.ecs_type_add = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_add");
-        _virtualTable.ecs_type_merge = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, ecs_type_t, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_merge");
-        _virtualTable.ecs_type_find = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t*, int, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_find");
-        _virtualTable.ecs_type_from_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_from_str");
-        _virtualTable.ecs_type_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_str");
-        _virtualTable.ecs_type_to_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_to_id");
-        _virtualTable.ecs_type_from_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_type_from_id");
-        _virtualTable._ecs_parser_error = (delegate* unmanaged[Cdecl]<CString, CString, long, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_parser_error");
-        _virtualTable._ecs_assert = (delegate* unmanaged[Cdecl]<CBool, int, CString, CString, CString, int, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_assert");
-        _virtualTable._ecs_abort = (delegate* unmanaged[Cdecl]<int, CString, CString, int, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_abort");
-        _virtualTable.ecs_strerror = (delegate* unmanaged[Cdecl]<int, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strerror");
-        _virtualTable.ecs_log_pop = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_log_pop");
-        _virtualTable.ecs_log_push = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_log_push");
-        _virtualTable._ecs_deprecated = (delegate* unmanaged[Cdecl]<CString, int, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_deprecated");
-        _virtualTable._ecs_err = (delegate* unmanaged[Cdecl]<CString, int, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_err");
-        _virtualTable._ecs_warn = (delegate* unmanaged[Cdecl]<CString, int, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_warn");
-        _virtualTable._ecs_trace = (delegate* unmanaged[Cdecl]<int, CString, int, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_trace");
-        _virtualTable.ecs_query_get_filter = (delegate* unmanaged[Cdecl]<ecs_query_t*, ecs_filter_t*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_query_get_filter");
-        _virtualTable.ecs_identifier_is_var = (delegate* unmanaged[Cdecl]<CString, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_identifier_is_var");
-        _virtualTable.ecs_identifier_is_0 = (delegate* unmanaged[Cdecl]<CString, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_identifier_is_0");
-        _virtualTable.ecs_component_has_actions = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_component_has_actions");
-        _virtualTable.ecs_module_path_from_c = (delegate* unmanaged[Cdecl]<CString, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_module_path_from_c");
-        _virtualTable.ecs_new_module = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, ulong, ulong, ecs_entity_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_new_module");
-        _virtualTable.ecs_os_has_modules = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_has_modules");
-        _virtualTable.ecs_os_has_dl = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_has_dl");
-        _virtualTable.ecs_os_has_logging = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_has_logging");
-        _virtualTable.ecs_os_has_time = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_has_time");
-        _virtualTable.ecs_os_has_threading = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_has_threading");
-        _virtualTable.ecs_os_has_heap = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_has_heap");
-        _virtualTable.ecs_os_memdup = (delegate* unmanaged[Cdecl]<void*, ecs_size_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_memdup");
-        _virtualTable.ecs_time_to_double = (delegate* unmanaged[Cdecl]<ecs_time_t, double>)Runtime.LibraryGetExport(_libraryHandle, "ecs_time_to_double");
-        _virtualTable.ecs_time_sub = (delegate* unmanaged[Cdecl]<ecs_time_t, ecs_time_t, ecs_time_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_time_sub");
-        _virtualTable.ecs_time_measure = (delegate* unmanaged[Cdecl]<ecs_time_t*, double>)Runtime.LibraryGetExport(_libraryHandle, "ecs_time_measure");
-        _virtualTable.ecs_sleepf = (delegate* unmanaged[Cdecl]<double, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_sleepf");
-        _virtualTable.ecs_os_dbg = (delegate* unmanaged[Cdecl]<CString, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_dbg");
-        _virtualTable.ecs_os_err = (delegate* unmanaged[Cdecl]<CString, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_err");
-        _virtualTable.ecs_os_warn = (delegate* unmanaged[Cdecl]<CString, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_warn");
-        _virtualTable.ecs_os_log = (delegate* unmanaged[Cdecl]<CString, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_log");
-        _virtualTable.ecs_os_set_api_defaults = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_set_api_defaults");
-        _virtualTable.ecs_os_set_api = (delegate* unmanaged[Cdecl]<ecs_os_api_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_set_api");
-        _virtualTable.ecs_os_fini = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_fini");
-        _virtualTable.ecs_os_init = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_os_init");
-        _virtualTable.ecs_strbuf_list_appendstr = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_list_appendstr");
-        _virtualTable.ecs_strbuf_list_append = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_list_append");
-        _virtualTable.ecs_strbuf_list_next = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_list_next");
-        _virtualTable.ecs_strbuf_list_pop = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_list_pop");
-        _virtualTable.ecs_strbuf_list_push = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_list_push");
-        _virtualTable.ecs_strbuf_reset = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_reset");
-        _virtualTable.ecs_strbuf_get = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_get");
-        _virtualTable.ecs_strbuf_appendstrn = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, int, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_appendstrn");
-        _virtualTable.ecs_strbuf_appendstr_zerocpy_const = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_appendstr_zerocpy_const");
-        _virtualTable.ecs_strbuf_appendstr_zerocpy = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_appendstr_zerocpy");
-        _virtualTable.ecs_strbuf_mergebuff = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, ecs_strbuf_t*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_mergebuff");
-        _virtualTable.ecs_strbuf_appendstr = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_appendstr");
-        _virtualTable.ecs_strbuf_vappend = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, IntPtr, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_vappend");
-        _virtualTable.ecs_strbuf_append = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)Runtime.LibraryGetExport(_libraryHandle, "ecs_strbuf_append");
-        _virtualTable.ecs_map_memory = (delegate* unmanaged[Cdecl]<ecs_map_t*, int*, int*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_map_memory");
-        _virtualTable.ecs_map_set_size = (delegate* unmanaged[Cdecl]<ecs_map_t*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_map_set_size");
-        _virtualTable.ecs_map_grow = (delegate* unmanaged[Cdecl]<ecs_map_t*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_map_grow");
-        _virtualTable._ecs_map_next_ptr = (delegate* unmanaged[Cdecl]<ecs_map_iter_t*, ecs_map_key_t*, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_map_next_ptr");
-        _virtualTable._ecs_map_next = (delegate* unmanaged[Cdecl]<ecs_map_iter_t*, ecs_size_t, ecs_map_key_t*, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_map_next");
-        _virtualTable.ecs_map_iter = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_map_iter_t>)Runtime.LibraryGetExport(_libraryHandle, "ecs_map_iter");
-        _virtualTable.ecs_map_bucket_count = (delegate* unmanaged[Cdecl]<ecs_map_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_map_bucket_count");
-        _virtualTable.ecs_map_count = (delegate* unmanaged[Cdecl]<ecs_map_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_map_count");
-        _virtualTable.ecs_map_clear = (delegate* unmanaged[Cdecl]<ecs_map_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_map_clear");
-        _virtualTable.ecs_map_remove = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_map_key_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_map_remove");
-        _virtualTable.ecs_map_free = (delegate* unmanaged[Cdecl]<ecs_map_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_map_free");
-        _virtualTable._ecs_map_set = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_size_t, ecs_map_key_t, void*, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_map_set");
-        _virtualTable._ecs_map_ensure = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_size_t, ecs_map_key_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_map_ensure");
-        _virtualTable._ecs_map_get_ptr = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_map_key_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_map_get_ptr");
-        _virtualTable._ecs_map_get = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_size_t, ecs_map_key_t, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_map_get");
-        _virtualTable._ecs_map_new = (delegate* unmanaged[Cdecl]<ecs_size_t, ecs_size_t, int, ecs_map_t*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_map_new");
-        _virtualTable._ecs_vector_copy = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, ecs_vector_t*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_copy");
-        _virtualTable._ecs_vector_memory = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, int*, int*, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_memory");
-        _virtualTable._ecs_vector_sort = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, ecs_comparator_t, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_sort");
-        _virtualTable._ecs_vector_first = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_first");
-        _virtualTable.ecs_vector_size = (delegate* unmanaged[Cdecl]<ecs_vector_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_vector_size");
-        _virtualTable.ecs_vector_count = (delegate* unmanaged[Cdecl]<ecs_vector_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "ecs_vector_count");
-        _virtualTable._ecs_vector_set_count = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_set_count");
-        _virtualTable._ecs_vector_set_size = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_set_size");
-        _virtualTable._ecs_vector_grow = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_grow");
-        _virtualTable._ecs_vector_reclaim = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_reclaim");
-        _virtualTable._ecs_vector_remove_index = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, int, int>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_remove_index");
-        _virtualTable._ecs_vector_move_index = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_vector_t*, ecs_size_t, short, int, int>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_move_index");
-        _virtualTable._ecs_vector_pop = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_pop");
-        _virtualTable.ecs_vector_remove_last = (delegate* unmanaged[Cdecl]<ecs_vector_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_vector_remove_last");
-        _virtualTable._ecs_vector_set_min_count = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_set_min_count");
-        _virtualTable._ecs_vector_set_min_size = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_set_min_size");
-        _virtualTable._ecs_vector_last = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_last");
-        _virtualTable._ecs_vector_get = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, int, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_get");
-        _virtualTable._ecs_vector_addn = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_addn");
-        _virtualTable._ecs_vector_add = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, void*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_add");
-        _virtualTable.ecs_vector_assert_alignment = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_vector_assert_alignment");
-        _virtualTable.ecs_vector_assert_size = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_vector_assert_size");
-        _virtualTable.ecs_vector_clear = (delegate* unmanaged[Cdecl]<ecs_vector_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_vector_clear");
-        _virtualTable.ecs_vector_free = (delegate* unmanaged[Cdecl]<ecs_vector_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "ecs_vector_free");
-        _virtualTable._ecs_vector_zero = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_zero");
-        _virtualTable._ecs_vector_from_array = (delegate* unmanaged[Cdecl]<ecs_size_t, short, int, void*, ecs_vector_t*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_from_array");
-        _virtualTable._ecs_vector_new = (delegate* unmanaged[Cdecl]<ecs_size_t, short, int, ecs_vector_t*>)Runtime.LibraryGetExport(_libraryHandle, "_ecs_vector_new");
-        #endregion
-
-        #region "Variables"
-        _virtualTable.FLECS__TEcsRateFilter = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsRateFilter");
-        _virtualTable.FLECS__TEcsTimer = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsTimer");
-        _virtualTable.FLECS__TEcsTickSource = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsTickSource");
-        _virtualTable.FLECS__TEcsSystem = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsSystem");
-        _virtualTable.EcsPostFrame = Runtime.LibraryGetExport(_libraryHandle, "EcsPostFrame");
-        _virtualTable.EcsOnStore = Runtime.LibraryGetExport(_libraryHandle, "EcsOnStore");
-        _virtualTable.EcsPreStore = Runtime.LibraryGetExport(_libraryHandle, "EcsPreStore");
-        _virtualTable.EcsPostUpdate = Runtime.LibraryGetExport(_libraryHandle, "EcsPostUpdate");
-        _virtualTable.EcsOnValidate = Runtime.LibraryGetExport(_libraryHandle, "EcsOnValidate");
-        _virtualTable.EcsOnUpdate = Runtime.LibraryGetExport(_libraryHandle, "EcsOnUpdate");
-        _virtualTable.EcsPreUpdate = Runtime.LibraryGetExport(_libraryHandle, "EcsPreUpdate");
-        _virtualTable.EcsPostLoad = Runtime.LibraryGetExport(_libraryHandle, "EcsPostLoad");
-        _virtualTable.EcsOnLoad = Runtime.LibraryGetExport(_libraryHandle, "EcsOnLoad");
-        _virtualTable.EcsPreFrame = Runtime.LibraryGetExport(_libraryHandle, "EcsPreFrame");
-        _virtualTable.EcsPipeline = Runtime.LibraryGetExport(_libraryHandle, "EcsPipeline");
-        _virtualTable.EcsInactive = Runtime.LibraryGetExport(_libraryHandle, "EcsInactive");
-        _virtualTable.EcsDisabledIntern = Runtime.LibraryGetExport(_libraryHandle, "EcsDisabledIntern");
-        _virtualTable.EcsMonitor = Runtime.LibraryGetExport(_libraryHandle, "EcsMonitor");
-        _virtualTable.EcsOnDemand = Runtime.LibraryGetExport(_libraryHandle, "EcsOnDemand");
-        _virtualTable.EcsThrow = Runtime.LibraryGetExport(_libraryHandle, "EcsThrow");
-        _virtualTable.EcsDelete = Runtime.LibraryGetExport(_libraryHandle, "EcsDelete");
-        _virtualTable.EcsRemove = Runtime.LibraryGetExport(_libraryHandle, "EcsRemove");
-        _virtualTable.EcsOnDeleteObject = Runtime.LibraryGetExport(_libraryHandle, "EcsOnDeleteObject");
-        _virtualTable.EcsOnDelete = Runtime.LibraryGetExport(_libraryHandle, "EcsOnDelete");
-        _virtualTable.EcsUnSet = Runtime.LibraryGetExport(_libraryHandle, "EcsUnSet");
-        _virtualTable.EcsOnSet = Runtime.LibraryGetExport(_libraryHandle, "EcsOnSet");
-        _virtualTable.EcsOnRemove = Runtime.LibraryGetExport(_libraryHandle, "EcsOnRemove");
-        _virtualTable.EcsOnAdd = Runtime.LibraryGetExport(_libraryHandle, "EcsOnAdd");
-        _virtualTable.EcsHidden = Runtime.LibraryGetExport(_libraryHandle, "EcsHidden");
-        _virtualTable.EcsDisabled = Runtime.LibraryGetExport(_libraryHandle, "EcsDisabled");
-        _virtualTable.EcsPrefab = Runtime.LibraryGetExport(_libraryHandle, "EcsPrefab");
-        _virtualTable.EcsModule = Runtime.LibraryGetExport(_libraryHandle, "EcsModule");
-        _virtualTable.EcsIsA = Runtime.LibraryGetExport(_libraryHandle, "EcsIsA");
-        _virtualTable.EcsChildOf = Runtime.LibraryGetExport(_libraryHandle, "EcsChildOf");
-        _virtualTable.EcsFinal = Runtime.LibraryGetExport(_libraryHandle, "EcsFinal");
-        _virtualTable.EcsTransitive = Runtime.LibraryGetExport(_libraryHandle, "EcsTransitive");
-        _virtualTable.EcsThis = Runtime.LibraryGetExport(_libraryHandle, "EcsThis");
-        _virtualTable.EcsWildcard = Runtime.LibraryGetExport(_libraryHandle, "EcsWildcard");
-        _virtualTable.EcsWorld = Runtime.LibraryGetExport(_libraryHandle, "EcsWorld");
-        _virtualTable.EcsFlecsCore = Runtime.LibraryGetExport(_libraryHandle, "EcsFlecsCore");
-        _virtualTable.EcsFlecs = Runtime.LibraryGetExport(_libraryHandle, "EcsFlecs");
-        _virtualTable.ECS_DISABLED = Runtime.LibraryGetExport(_libraryHandle, "ECS_DISABLED");
-        _virtualTable.ECS_OWNED = Runtime.LibraryGetExport(_libraryHandle, "ECS_OWNED");
-        _virtualTable.ECS_PAIR = Runtime.LibraryGetExport(_libraryHandle, "ECS_PAIR");
-        _virtualTable.ECS_SWITCH = Runtime.LibraryGetExport(_libraryHandle, "ECS_SWITCH");
-        _virtualTable.ECS_CASE = Runtime.LibraryGetExport(_libraryHandle, "ECS_CASE");
-        _virtualTable.FLECS__TEcsName = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsName");
-        _virtualTable.FLECS__TEcsType = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsType");
-        _virtualTable.FLECS__TEcsComponentLifecycle = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsComponentLifecycle");
-        _virtualTable.FLECS__TEcsComponent = Runtime.LibraryGetExport(_libraryHandle, "FLECS__TEcsComponent");
-        _virtualTable.ecs_os_api = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api");
-        _virtualTable.ecs_os_api_free_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_free_count");
-        _virtualTable.ecs_os_api_calloc_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_calloc_count");
-        _virtualTable.ecs_os_api_realloc_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_realloc_count");
-        _virtualTable.ecs_os_api_malloc_count = Runtime.LibraryGetExport(_libraryHandle, "ecs_os_api_malloc_count");
-        #endregion
-    }
-
-    private static void _UnloadVirtualTable()
-    {
-        #region "Functions"
-
-        _virtualTable.ecs_gauge_reduce = (delegate* unmanaged[Cdecl]<ecs_gauge_t*, int, ecs_gauge_t*, int, void>)IntPtr.Zero;
-        _virtualTable.ecs_get_pipeline_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_pipeline_stats_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_get_system_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_system_stats_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_get_query_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, ecs_query_stats_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_dump_world_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_stats_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_get_world_stats = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_stats_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_record_move_to = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_record_t*, int, ulong, void*, int, void>)IntPtr.Zero;
-        _virtualTable.ecs_record_copy_pod_to = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_record_t*, int, ulong, void*, int, void>)IntPtr.Zero;
-        _virtualTable.ecs_record_copy_to = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_record_t*, int, ulong, void*, int, void>)IntPtr.Zero;
-        _virtualTable.ecs_record_get_column = (delegate* unmanaged[Cdecl]<ecs_record_t*, int, ulong, void*>)IntPtr.Zero;
-        _virtualTable.ecs_record_ensure = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_record_t*>)IntPtr.Zero;
-        _virtualTable.ecs_record_find = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_record_t*>)IntPtr.Zero;
-        _virtualTable.ecs_table_delete_column = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, int, ecs_vector_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_table_set_entities = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_vector_t*, ecs_vector_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_records_update = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_vector_t*, ecs_vector_t*, ecs_table_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_records_clear = (delegate* unmanaged[Cdecl]<ecs_vector_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_table_get_records = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_vector_t*>)IntPtr.Zero;
-        _virtualTable.ecs_table_get_entities = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_vector_t*>)IntPtr.Zero;
-        _virtualTable.ecs_table_set_column = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, int, ecs_vector_t*, ecs_vector_t*>)IntPtr.Zero;
-        _virtualTable.ecs_table_get_column = (delegate* unmanaged[Cdecl]<ecs_table_t*, int, ecs_vector_t*>)IntPtr.Zero;
-        _virtualTable.ecs_table_find_column = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_entity_t, int>)IntPtr.Zero;
-        _virtualTable.ecs_snapshot_free = (delegate* unmanaged[Cdecl]<ecs_snapshot_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_snapshot_next = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_snapshot_iter = (delegate* unmanaged[Cdecl]<ecs_snapshot_t*, ecs_filter_t*, ecs_iter_t>)IntPtr.Zero;
-        _virtualTable.ecs_snapshot_restore = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_snapshot_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_snapshot_take_w_iter = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_iter_next_action_t, ecs_snapshot_t*>)IntPtr.Zero;
-        _virtualTable.ecs_snapshot_take = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_snapshot_t*>)IntPtr.Zero;
-        _virtualTable.ecs_writer_write = (delegate* unmanaged[Cdecl]<CString, int, ecs_writer_t*, int>)IntPtr.Zero;
-        _virtualTable.ecs_writer_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_writer_t>)IntPtr.Zero;
-        _virtualTable.ecs_reader_read = (delegate* unmanaged[Cdecl]<CString, int, ecs_reader_t*, int>)IntPtr.Zero;
-        _virtualTable.ecs_reader_init_w_iter = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_iter_next_action_t, ecs_reader_t>)IntPtr.Zero;
-        _virtualTable.ecs_reader_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_reader_t>)IntPtr.Zero;
-        _virtualTable.ecs_queue_free = (delegate* unmanaged[Cdecl]<ecs_queue_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_queue_count = (delegate* unmanaged[Cdecl]<ecs_queue_t*, int>)IntPtr.Zero;
-        _virtualTable.ecs_queue_index = (delegate* unmanaged[Cdecl]<ecs_queue_t*, int>)IntPtr.Zero;
-        _virtualTable._ecs_queue_last = (delegate* unmanaged[Cdecl]<ecs_queue_t*, ecs_size_t, short, void*>)IntPtr.Zero;
-        _virtualTable._ecs_queue_get = (delegate* unmanaged[Cdecl]<ecs_queue_t*, ecs_size_t, short, int, void*>)IntPtr.Zero;
-        _virtualTable._ecs_queue_push = (delegate* unmanaged[Cdecl]<ecs_queue_t*, ecs_size_t, short, void*>)IntPtr.Zero;
-        _virtualTable._ecs_queue_from_array = (delegate* unmanaged[Cdecl]<ecs_size_t, short, int, void*, ecs_queue_t*>)IntPtr.Zero;
-        _virtualTable._ecs_queue_new = (delegate* unmanaged[Cdecl]<ecs_size_t, short, int, ecs_queue_t*>)IntPtr.Zero;
-        _virtualTable.ecs_parse_term = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString, CString, ecs_term_t*, CString>)IntPtr.Zero;
-        _virtualTable.ecs_dbg_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, ecs_dbg_table_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_dbg_filter_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, ecs_filter_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_dbg_get_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, ecs_table_t*>)IntPtr.Zero;
-        _virtualTable.ecs_dbg_find_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_table_t*>)IntPtr.Zero;
-        _virtualTable.ecs_dbg_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_dbg_entity_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_bulk_delete = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_bulk_add_remove_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, ecs_filter_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_bulk_remove_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_filter_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_bulk_remove_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_filter_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_bulk_add_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_filter_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_bulk_add_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_filter_t*, void>)IntPtr.Zero;
-        _virtualTable.FlecsTimerImport = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_set_tick_source = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_set_rate = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, ecs_entity_t, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_stop_timer = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_start_timer = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_get_interval = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float>)IntPtr.Zero;
-        _virtualTable.ecs_set_interval = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_get_timeout = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float>)IntPtr.Zero;
-        _virtualTable.ecs_set_timeout = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.FlecsPipelineImport = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_set_threads = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, void>)IntPtr.Zero;
-        _virtualTable.ecs_deactivate_systems = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_pipeline_run = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, void>)IntPtr.Zero;
-        _virtualTable.ecs_reset_clock = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_set_time_scale = (delegate* unmanaged[Cdecl]<ecs_world_t*, float, void>)IntPtr.Zero;
-        _virtualTable.ecs_progress = (delegate* unmanaged[Cdecl]<ecs_world_t*, float, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_get_pipeline = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_set_pipeline = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)IntPtr.Zero;
-        _virtualTable.FlecsSystemImport = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_dbg_match_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_match_failure_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_dbg_get_column_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, ecs_type_t>)IntPtr.Zero;
-        _virtualTable.ecs_dbg_get_inactive_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_dbg_system_t*, int, ecs_table_t*>)IntPtr.Zero;
-        _virtualTable.ecs_dbg_get_active_table = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_dbg_system_t*, int, ecs_table_t*>)IntPtr.Zero;
-        _virtualTable.ecs_dbg_system = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_dbg_system_t*, int>)IntPtr.Zero;
-        _virtualTable.ecs_get_system_ctx = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void*>)IntPtr.Zero;
-        _virtualTable.ecs_get_query = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_query_t*>)IntPtr.Zero;
-        _virtualTable.ecs_run_w_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, int, int, ecs_filter_t*, void*, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_run_worker = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, int, float, void*, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_run = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, void*, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_system_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_system_desc_t*, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_import_from_library = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_import = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_module_action_t, CString, void*, ulong, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_table_count = (delegate* unmanaged[Cdecl]<ecs_table_t*, int>)IntPtr.Zero;
-        _virtualTable.ecs_table_insert = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, ecs_entity_t, ecs_record_t*, ecs_record_t>)IntPtr.Zero;
-        _virtualTable.ecs_table_get_type = (delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_type_t>)IntPtr.Zero;
-        _virtualTable.ecs_table_from_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_table_t*>)IntPtr.Zero;
-        _virtualTable.ecs_table_from_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_table_t*>)IntPtr.Zero;
-        _virtualTable.ecs_stage_is_async = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_async_stage_free = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_async_stage_new = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_t*>)IntPtr.Zero;
-        _virtualTable.ecs_stage_is_readonly = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_get_world = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_t*>)IntPtr.Zero;
-        _virtualTable.ecs_get_stage = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, ecs_world_t*>)IntPtr.Zero;
-        _virtualTable.ecs_get_stage_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)IntPtr.Zero;
-        _virtualTable.ecs_get_stage_count = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)IntPtr.Zero;
-        _virtualTable.ecs_set_stages = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, void>)IntPtr.Zero;
-        _virtualTable.ecs_set_automerge = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, void>)IntPtr.Zero;
-        _virtualTable.ecs_defer_end = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_defer_begin = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_merge = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_staging_end = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_staging_begin = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_frame_end = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_frame_begin = (delegate* unmanaged[Cdecl]<ecs_world_t*, float, float>)IntPtr.Zero;
-        _virtualTable.ecs_iter_column_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong>)IntPtr.Zero;
-        _virtualTable.ecs_iter_column_w_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, void*>)IntPtr.Zero;
-        _virtualTable.ecs_iter_find_column = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_id_t, int>)IntPtr.Zero;
-        _virtualTable.ecs_iter_type = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_type_t>)IntPtr.Zero;
-        _virtualTable.ecs_term_is_owned = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_term_is_readonly = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_term_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong>)IntPtr.Zero;
-        _virtualTable.ecs_term_source = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_term_id = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_id_t>)IntPtr.Zero;
-        _virtualTable.ecs_term_w_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, void*>)IntPtr.Zero;
-        _virtualTable.ecs_get_trigger_ctx = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void*>)IntPtr.Zero;
-        _virtualTable.ecs_trigger_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_trigger_desc_t*, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_query_orphaned = (delegate* unmanaged[Cdecl]<ecs_query_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_query_changed = (delegate* unmanaged[Cdecl]<ecs_query_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_query_next_worker = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, int, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_query_next_w_filter = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_filter_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_query_next = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_query_iter_page = (delegate* unmanaged[Cdecl]<ecs_query_t*, int, int, ecs_iter_t>)IntPtr.Zero;
-        _virtualTable.ecs_query_iter = (delegate* unmanaged[Cdecl]<ecs_query_t*, ecs_iter_t>)IntPtr.Zero;
-        _virtualTable.ecs_query_fini = (delegate* unmanaged[Cdecl]<ecs_query_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_query_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_desc_t*, ecs_query_t*>)IntPtr.Zero;
-        _virtualTable.ecs_filter_next = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_filter_iter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, ecs_iter_t>)IntPtr.Zero;
-        _virtualTable.ecs_filter_match_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, ecs_entity_t, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_filter_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, CString>)IntPtr.Zero;
-        _virtualTable.ecs_filter_finalize = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, int>)IntPtr.Zero;
-        _virtualTable.ecs_filter_fini = (delegate* unmanaged[Cdecl]<ecs_filter_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_filter_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, ecs_filter_desc_t*, int>)IntPtr.Zero;
-        _virtualTable.ecs_id_match = (delegate* unmanaged[Cdecl]<ecs_id_t, ecs_id_t, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_term_fini = (delegate* unmanaged[Cdecl]<ecs_term_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_term_move = (delegate* unmanaged[Cdecl]<ecs_term_t*, ecs_term_t>)IntPtr.Zero;
-        _virtualTable.ecs_term_copy = (delegate* unmanaged[Cdecl]<ecs_term_t*, ecs_term_t>)IntPtr.Zero;
-        _virtualTable.ecs_term_finalize = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString, ecs_term_t*, int>)IntPtr.Zero;
-        _virtualTable.ecs_term_is_trivial = (delegate* unmanaged[Cdecl]<ecs_term_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_term_is_set = (delegate* unmanaged[Cdecl]<ecs_term_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_set_name_prefix = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString>)IntPtr.Zero;
-        _virtualTable.ecs_get_scope = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_set_scope = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_scope_next = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_scope_iter_w_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_filter_t*, ecs_iter_t>)IntPtr.Zero;
-        _virtualTable.ecs_scope_iter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_iter_t>)IntPtr.Zero;
-        _virtualTable.ecs_get_child_count = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int>)IntPtr.Zero;
-        _virtualTable.ecs_add_path_w_sep = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, CString, CString, CString, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_new_from_path_w_sep = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, CString, CString, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_get_path_w_sep = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_entity_t, CString, CString, CString>)IntPtr.Zero;
-        _virtualTable.ecs_use = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, void>)IntPtr.Zero;
-        _virtualTable.ecs_lookup_symbol = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_lookup_path_w_sep = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, CString, CString, CBool, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_lookup_child = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_lookup = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_count_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, int>)IntPtr.Zero;
-        _virtualTable.ecs_count_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int>)IntPtr.Zero;
-        _virtualTable.ecs_enable = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool, void>)IntPtr.Zero;
-        _virtualTable.ecs_get_object_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_id_t, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_id_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, CString, ulong, ulong>)IntPtr.Zero;
-        _virtualTable.ecs_role_str = (delegate* unmanaged[Cdecl]<ecs_entity_t, CString>)IntPtr.Zero;
-        _virtualTable.ecs_get_name = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString>)IntPtr.Zero;
-        _virtualTable.ecs_get_typeid = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_get_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t>)IntPtr.Zero;
-        _virtualTable.ecs_exists = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_ensure = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_get_alive = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_is_alive = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_is_valid = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_has_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_set_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ulong, void*, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_modified_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_get_mut_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool*, void*>)IntPtr.Zero;
-        _virtualTable.ecs_get_case = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_get_ref_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_ref_t*, ecs_entity_t, ecs_id_t, void*>)IntPtr.Zero;
-        _virtualTable.ecs_get_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void*>)IntPtr.Zero;
-        _virtualTable.ecs_delete_children = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_delete = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_clear = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_make_pair = (delegate* unmanaged[Cdecl]<ecs_entity_t, ecs_entity_t, ecs_id_t>)IntPtr.Zero;
-        _virtualTable.ecs_is_component_enabled_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_enable_component_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool, void>)IntPtr.Zero;
-        _virtualTable.ecs_remove_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_add_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_clone = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, CBool, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_bulk_new_w_data = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, ecs_entities_t*, void*, ecs_entity_t*>)IntPtr.Zero;
-        _virtualTable.ecs_bulk_new_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int, ecs_entity_t*>)IntPtr.Zero;
-        _virtualTable.ecs_type_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_desc_t*, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_component_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_component_desc_t*, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_entity_init = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_desc_t*, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_new_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_new_component_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_new_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_get_threads = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)IntPtr.Zero;
-        _virtualTable.ecs_set_target_fps = (delegate* unmanaged[Cdecl]<ecs_world_t*, float, void>)IntPtr.Zero;
-        _virtualTable.ecs_measure_system_time = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, void>)IntPtr.Zero;
-        _virtualTable.ecs_measure_frame_time = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, void>)IntPtr.Zero;
-        _virtualTable.ecs_tracing_enable = (delegate* unmanaged[Cdecl]<int, void>)IntPtr.Zero;
-        _virtualTable.ecs_end_wait = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_begin_wait = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_unlock = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_lock = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_enable_locking = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_enable_range_check = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_set_entity_range = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_dim = (delegate* unmanaged[Cdecl]<ecs_world_t*, int, void>)IntPtr.Zero;
-        _virtualTable.ecs_get_world_info = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_info_t*>)IntPtr.Zero;
-        _virtualTable.ecs_get_context = (delegate* unmanaged[Cdecl]<ecs_world_t*, void*>)IntPtr.Zero;
-        _virtualTable.ecs_set_context = (delegate* unmanaged[Cdecl]<ecs_world_t*, void*, void>)IntPtr.Zero;
-        _virtualTable.ecs_set_component_actions_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, EcsComponentLifecycle*, void>)IntPtr.Zero;
-        _virtualTable.ecs_should_quit = (delegate* unmanaged[Cdecl]<ecs_world_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_quit = (delegate* unmanaged[Cdecl]<ecs_world_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_run_post_frame = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_fini_action_t, void*, void>)IntPtr.Zero;
-        _virtualTable.ecs_atfini = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_fini_action_t, void*, void>)IntPtr.Zero;
-        _virtualTable.ecs_fini = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)IntPtr.Zero;
-        _virtualTable.ecs_init_w_args = (delegate* unmanaged[Cdecl]<int, CString*, ecs_world_t*>)IntPtr.Zero;
-        _virtualTable.ecs_mini = (delegate* unmanaged[Cdecl]<ecs_world_t*>)IntPtr.Zero;
-        _virtualTable.ecs_init = (delegate* unmanaged[Cdecl]<ecs_world_t*>)IntPtr.Zero;
-        _virtualTable.ecs_query_group_by = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, ecs_entity_t, ecs_rank_type_action_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_query_order_by = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, ecs_entity_t, ecs_compare_action_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_query_free = (delegate* unmanaged[Cdecl]<ecs_query_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_subquery_new = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, CString, ecs_query_t*>)IntPtr.Zero;
-        _virtualTable.ecs_query_new = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_query_t*>)IntPtr.Zero;
-        _virtualTable.ecs_set_rate_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, ecs_entity_t, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_table_component_index = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_entity_t, int>)IntPtr.Zero;
-        _virtualTable.ecs_table_column_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong>)IntPtr.Zero;
-        _virtualTable.ecs_table_column = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, void*>)IntPtr.Zero;
-        _virtualTable.ecs_is_owned = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_is_readonly = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_column_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong>)IntPtr.Zero;
-        _virtualTable.ecs_column_type = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_type_t>)IntPtr.Zero;
-        _virtualTable.ecs_column_entity = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_column_source = (delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_element_w_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, int, void*>)IntPtr.Zero;
-        _virtualTable.ecs_column_index_from_name = (delegate* unmanaged[Cdecl]<ecs_iter_t*, CString, int>)IntPtr.Zero;
-        _virtualTable.ecs_column_w_size = (delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, void*>)IntPtr.Zero;
-        _virtualTable.ecs_type_owns_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_type_has_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_type_to_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_type_from_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t>)IntPtr.Zero;
-        _virtualTable.ecs_add_remove_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ecs_id_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_remove_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_add_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_get_thread_index = (delegate* unmanaged[Cdecl]<ecs_world_t*, int>)IntPtr.Zero;
-        _virtualTable.ecs_get_parent_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_entity_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, CString, ulong, ulong>)IntPtr.Zero;
-        _virtualTable.ecs_has_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_set_ptr_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ulong, void*, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_modified_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_get_mut_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool*, void*>)IntPtr.Zero;
-        _virtualTable.ecs_get_ref_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_ref_t*, ecs_entity_t, ecs_id_t, void*>)IntPtr.Zero;
-        _virtualTable.ecs_get_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void*>)IntPtr.Zero;
-        _virtualTable.ecs_get_w_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void*>)IntPtr.Zero;
-        _virtualTable.ecs_is_component_enabled_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_enable_component_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool, void>)IntPtr.Zero;
-        _virtualTable.ecs_bulk_new_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int, ecs_entity_t*>)IntPtr.Zero;
-        _virtualTable.ecs_new_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_set_component_actions_w_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, EcsComponentLifecycle*, void>)IntPtr.Zero;
-        _virtualTable.ecs_count_w_filter = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, int>)IntPtr.Zero;
-        _virtualTable.ecs_count_entity = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int>)IntPtr.Zero;
-        _virtualTable.ecs_count_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, int>)IntPtr.Zero;
-        _virtualTable.ecs_has_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_add_remove_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, ecs_type_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_remove_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_add_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_bulk_new_w_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, int, ecs_entity_t*>)IntPtr.Zero;
-        _virtualTable.ecs_new_w_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_dim_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, int, void>)IntPtr.Zero;
-        _virtualTable.ecs_type_match = (delegate* unmanaged[Cdecl]<ecs_type_t, int, ecs_entity_t, int>)IntPtr.Zero;
-        _virtualTable.ecs_type_index_of = (delegate* unmanaged[Cdecl]<ecs_type_t, ecs_entity_t, int>)IntPtr.Zero;
-        _virtualTable.ecs_type_get_entity_for_xor = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_type_find_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_entity_t, int, int, ecs_entity_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_type_owns_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, CBool, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_type_owns_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_type_has_type = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_type_has_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_type_remove = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_type_t>)IntPtr.Zero;
-        _virtualTable.ecs_type_add = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_type_t>)IntPtr.Zero;
-        _virtualTable.ecs_type_merge = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, ecs_type_t, ecs_type_t>)IntPtr.Zero;
-        _virtualTable.ecs_type_find = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t*, int, ecs_type_t>)IntPtr.Zero;
-        _virtualTable.ecs_type_from_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_type_t>)IntPtr.Zero;
-        _virtualTable.ecs_type_str = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, CString>)IntPtr.Zero;
-        _virtualTable.ecs_type_to_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_type_from_id = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t>)IntPtr.Zero;
-        _virtualTable._ecs_parser_error = (delegate* unmanaged[Cdecl]<CString, CString, long, CString, void>)IntPtr.Zero;
-        _virtualTable._ecs_assert = (delegate* unmanaged[Cdecl]<CBool, int, CString, CString, CString, int, void>)IntPtr.Zero;
-        _virtualTable._ecs_abort = (delegate* unmanaged[Cdecl]<int, CString, CString, int, void>)IntPtr.Zero;
-        _virtualTable.ecs_strerror = (delegate* unmanaged[Cdecl]<int, CString>)IntPtr.Zero;
-        _virtualTable.ecs_log_pop = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.ecs_log_push = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable._ecs_deprecated = (delegate* unmanaged[Cdecl]<CString, int, CString, void>)IntPtr.Zero;
-        _virtualTable._ecs_err = (delegate* unmanaged[Cdecl]<CString, int, CString, void>)IntPtr.Zero;
-        _virtualTable._ecs_warn = (delegate* unmanaged[Cdecl]<CString, int, CString, void>)IntPtr.Zero;
-        _virtualTable._ecs_trace = (delegate* unmanaged[Cdecl]<int, CString, int, CString, void>)IntPtr.Zero;
-        _virtualTable.ecs_query_get_filter = (delegate* unmanaged[Cdecl]<ecs_query_t*, ecs_filter_t*>)IntPtr.Zero;
-        _virtualTable.ecs_identifier_is_var = (delegate* unmanaged[Cdecl]<CString, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_identifier_is_0 = (delegate* unmanaged[Cdecl]<CString, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_component_has_actions = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_module_path_from_c = (delegate* unmanaged[Cdecl]<CString, CString>)IntPtr.Zero;
-        _virtualTable.ecs_new_module = (delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, ulong, ulong, ecs_entity_t>)IntPtr.Zero;
-        _virtualTable.ecs_os_has_modules = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.ecs_os_has_dl = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.ecs_os_has_logging = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.ecs_os_has_time = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.ecs_os_has_threading = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.ecs_os_has_heap = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.ecs_os_memdup = (delegate* unmanaged[Cdecl]<void*, ecs_size_t, void*>)IntPtr.Zero;
-        _virtualTable.ecs_time_to_double = (delegate* unmanaged[Cdecl]<ecs_time_t, double>)IntPtr.Zero;
-        _virtualTable.ecs_time_sub = (delegate* unmanaged[Cdecl]<ecs_time_t, ecs_time_t, ecs_time_t>)IntPtr.Zero;
-        _virtualTable.ecs_time_measure = (delegate* unmanaged[Cdecl]<ecs_time_t*, double>)IntPtr.Zero;
-        _virtualTable.ecs_sleepf = (delegate* unmanaged[Cdecl]<double, void>)IntPtr.Zero;
-        _virtualTable.ecs_os_dbg = (delegate* unmanaged[Cdecl]<CString, void>)IntPtr.Zero;
-        _virtualTable.ecs_os_err = (delegate* unmanaged[Cdecl]<CString, void>)IntPtr.Zero;
-        _virtualTable.ecs_os_warn = (delegate* unmanaged[Cdecl]<CString, void>)IntPtr.Zero;
-        _virtualTable.ecs_os_log = (delegate* unmanaged[Cdecl]<CString, void>)IntPtr.Zero;
-        _virtualTable.ecs_os_set_api_defaults = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.ecs_os_set_api = (delegate* unmanaged[Cdecl]<ecs_os_api_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_os_fini = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.ecs_os_init = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.ecs_strbuf_list_appendstr = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_strbuf_list_append = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_strbuf_list_next = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_strbuf_list_pop = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, void>)IntPtr.Zero;
-        _virtualTable.ecs_strbuf_list_push = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CString, void>)IntPtr.Zero;
-        _virtualTable.ecs_strbuf_reset = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_strbuf_get = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString>)IntPtr.Zero;
-        _virtualTable.ecs_strbuf_appendstrn = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, int, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_strbuf_appendstr_zerocpy_const = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_strbuf_appendstr_zerocpy = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_strbuf_mergebuff = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, ecs_strbuf_t*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_strbuf_appendstr = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_strbuf_vappend = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, IntPtr, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_strbuf_append = (delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_map_memory = (delegate* unmanaged[Cdecl]<ecs_map_t*, int*, int*, void>)IntPtr.Zero;
-        _virtualTable.ecs_map_set_size = (delegate* unmanaged[Cdecl]<ecs_map_t*, int, void>)IntPtr.Zero;
-        _virtualTable.ecs_map_grow = (delegate* unmanaged[Cdecl]<ecs_map_t*, int, void>)IntPtr.Zero;
-        _virtualTable._ecs_map_next_ptr = (delegate* unmanaged[Cdecl]<ecs_map_iter_t*, ecs_map_key_t*, void*>)IntPtr.Zero;
-        _virtualTable._ecs_map_next = (delegate* unmanaged[Cdecl]<ecs_map_iter_t*, ecs_size_t, ecs_map_key_t*, void*>)IntPtr.Zero;
-        _virtualTable.ecs_map_iter = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_map_iter_t>)IntPtr.Zero;
-        _virtualTable.ecs_map_bucket_count = (delegate* unmanaged[Cdecl]<ecs_map_t*, int>)IntPtr.Zero;
-        _virtualTable.ecs_map_count = (delegate* unmanaged[Cdecl]<ecs_map_t*, int>)IntPtr.Zero;
-        _virtualTable.ecs_map_clear = (delegate* unmanaged[Cdecl]<ecs_map_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_map_remove = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_map_key_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_map_free = (delegate* unmanaged[Cdecl]<ecs_map_t*, void>)IntPtr.Zero;
-        _virtualTable._ecs_map_set = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_size_t, ecs_map_key_t, void*, void*>)IntPtr.Zero;
-        _virtualTable._ecs_map_ensure = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_size_t, ecs_map_key_t, void*>)IntPtr.Zero;
-        _virtualTable._ecs_map_get_ptr = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_map_key_t, void*>)IntPtr.Zero;
-        _virtualTable._ecs_map_get = (delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_size_t, ecs_map_key_t, void*>)IntPtr.Zero;
-        _virtualTable._ecs_map_new = (delegate* unmanaged[Cdecl]<ecs_size_t, ecs_size_t, int, ecs_map_t*>)IntPtr.Zero;
-        _virtualTable._ecs_vector_copy = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, ecs_vector_t*>)IntPtr.Zero;
-        _virtualTable._ecs_vector_memory = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, int*, int*, void>)IntPtr.Zero;
-        _virtualTable._ecs_vector_sort = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, ecs_comparator_t, void>)IntPtr.Zero;
-        _virtualTable._ecs_vector_first = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void*>)IntPtr.Zero;
-        _virtualTable.ecs_vector_size = (delegate* unmanaged[Cdecl]<ecs_vector_t*, int>)IntPtr.Zero;
-        _virtualTable.ecs_vector_count = (delegate* unmanaged[Cdecl]<ecs_vector_t*, int>)IntPtr.Zero;
-        _virtualTable._ecs_vector_set_count = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)IntPtr.Zero;
-        _virtualTable._ecs_vector_set_size = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)IntPtr.Zero;
-        _virtualTable._ecs_vector_grow = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)IntPtr.Zero;
-        _virtualTable._ecs_vector_reclaim = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, void>)IntPtr.Zero;
-        _virtualTable._ecs_vector_remove_index = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, int, int>)IntPtr.Zero;
-        _virtualTable._ecs_vector_move_index = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_vector_t*, ecs_size_t, short, int, int>)IntPtr.Zero;
-        _virtualTable._ecs_vector_pop = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void*, CBool>)IntPtr.Zero;
-        _virtualTable.ecs_vector_remove_last = (delegate* unmanaged[Cdecl]<ecs_vector_t*, void>)IntPtr.Zero;
-        _virtualTable._ecs_vector_set_min_count = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)IntPtr.Zero;
-        _virtualTable._ecs_vector_set_min_size = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int>)IntPtr.Zero;
-        _virtualTable._ecs_vector_last = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void*>)IntPtr.Zero;
-        _virtualTable._ecs_vector_get = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, int, void*>)IntPtr.Zero;
-        _virtualTable._ecs_vector_addn = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, void*>)IntPtr.Zero;
-        _virtualTable._ecs_vector_add = (delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, void*>)IntPtr.Zero;
-        _virtualTable.ecs_vector_assert_alignment = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_vector_assert_size = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, void>)IntPtr.Zero;
-        _virtualTable.ecs_vector_clear = (delegate* unmanaged[Cdecl]<ecs_vector_t*, void>)IntPtr.Zero;
-        _virtualTable.ecs_vector_free = (delegate* unmanaged[Cdecl]<ecs_vector_t*, void>)IntPtr.Zero;
-        _virtualTable._ecs_vector_zero = (delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void>)IntPtr.Zero;
-        _virtualTable._ecs_vector_from_array = (delegate* unmanaged[Cdecl]<ecs_size_t, short, int, void*, ecs_vector_t*>)IntPtr.Zero;
-        _virtualTable._ecs_vector_new = (delegate* unmanaged[Cdecl]<ecs_size_t, short, int, ecs_vector_t*>)IntPtr.Zero;
-
-        #endregion
-
-        #region "Variables"
-
-        _virtualTable.FLECS__TEcsRateFilter = IntPtr.Zero;
-        _virtualTable.FLECS__TEcsTimer = IntPtr.Zero;
-        _virtualTable.FLECS__TEcsTickSource = IntPtr.Zero;
-        _virtualTable.FLECS__TEcsSystem = IntPtr.Zero;
-        _virtualTable.EcsPostFrame = IntPtr.Zero;
-        _virtualTable.EcsOnStore = IntPtr.Zero;
-        _virtualTable.EcsPreStore = IntPtr.Zero;
-        _virtualTable.EcsPostUpdate = IntPtr.Zero;
-        _virtualTable.EcsOnValidate = IntPtr.Zero;
-        _virtualTable.EcsOnUpdate = IntPtr.Zero;
-        _virtualTable.EcsPreUpdate = IntPtr.Zero;
-        _virtualTable.EcsPostLoad = IntPtr.Zero;
-        _virtualTable.EcsOnLoad = IntPtr.Zero;
-        _virtualTable.EcsPreFrame = IntPtr.Zero;
-        _virtualTable.EcsPipeline = IntPtr.Zero;
-        _virtualTable.EcsInactive = IntPtr.Zero;
-        _virtualTable.EcsDisabledIntern = IntPtr.Zero;
-        _virtualTable.EcsMonitor = IntPtr.Zero;
-        _virtualTable.EcsOnDemand = IntPtr.Zero;
-        _virtualTable.EcsThrow = IntPtr.Zero;
-        _virtualTable.EcsDelete = IntPtr.Zero;
-        _virtualTable.EcsRemove = IntPtr.Zero;
-        _virtualTable.EcsOnDeleteObject = IntPtr.Zero;
-        _virtualTable.EcsOnDelete = IntPtr.Zero;
-        _virtualTable.EcsUnSet = IntPtr.Zero;
-        _virtualTable.EcsOnSet = IntPtr.Zero;
-        _virtualTable.EcsOnRemove = IntPtr.Zero;
-        _virtualTable.EcsOnAdd = IntPtr.Zero;
-        _virtualTable.EcsHidden = IntPtr.Zero;
-        _virtualTable.EcsDisabled = IntPtr.Zero;
-        _virtualTable.EcsPrefab = IntPtr.Zero;
-        _virtualTable.EcsModule = IntPtr.Zero;
-        _virtualTable.EcsIsA = IntPtr.Zero;
-        _virtualTable.EcsChildOf = IntPtr.Zero;
-        _virtualTable.EcsFinal = IntPtr.Zero;
-        _virtualTable.EcsTransitive = IntPtr.Zero;
-        _virtualTable.EcsThis = IntPtr.Zero;
-        _virtualTable.EcsWildcard = IntPtr.Zero;
-        _virtualTable.EcsWorld = IntPtr.Zero;
-        _virtualTable.EcsFlecsCore = IntPtr.Zero;
-        _virtualTable.EcsFlecs = IntPtr.Zero;
-        _virtualTable.ECS_DISABLED = IntPtr.Zero;
-        _virtualTable.ECS_OWNED = IntPtr.Zero;
-        _virtualTable.ECS_PAIR = IntPtr.Zero;
-        _virtualTable.ECS_SWITCH = IntPtr.Zero;
-        _virtualTable.ECS_CASE = IntPtr.Zero;
-        _virtualTable.FLECS__TEcsName = IntPtr.Zero;
-        _virtualTable.FLECS__TEcsType = IntPtr.Zero;
-        _virtualTable.FLECS__TEcsComponentLifecycle = IntPtr.Zero;
-        _virtualTable.FLECS__TEcsComponent = IntPtr.Zero;
-        _virtualTable.ecs_os_api = IntPtr.Zero;
-        _virtualTable.ecs_os_api_free_count = IntPtr.Zero;
-        _virtualTable.ecs_os_api_calloc_count = IntPtr.Zero;
-        _virtualTable.ecs_os_api_realloc_count = IntPtr.Zero;
-        _virtualTable.ecs_os_api_malloc_count = IntPtr.Zero;
-
-        #endregion
-    }
-
-    // The virtual table represents a list of pointers to functions or variables which are resolved in a late manner.
-    //	This allows for flexibility in swapping implementations at runtime.
-    //	You can think of it in traditional OOP terms in C# as the locations of the virtual methods and/or properties of an object.
-    public struct _VirtualTable
-    {
-        #region "Function Pointers"
-        // These pointers hold the locations in the native library where functions are located at runtime.
-        // See: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
-
-        public delegate* unmanaged[Cdecl]<ecs_gauge_t*, int, ecs_gauge_t*, int, void> ecs_gauge_reduce;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_pipeline_stats_t*, CBool> ecs_get_pipeline_stats;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_system_stats_t*, CBool> ecs_get_system_stats;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, ecs_query_stats_t*, void> ecs_get_query_stats;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_stats_t*, void> ecs_dump_world_stats;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_stats_t*, void> ecs_get_world_stats;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_record_t*, int, ulong, void*, int, void> ecs_record_move_to;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_record_t*, int, ulong, void*, int, void> ecs_record_copy_pod_to;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_record_t*, int, ulong, void*, int, void> ecs_record_copy_to;
-        public delegate* unmanaged[Cdecl]<ecs_record_t*, int, ulong, void*> ecs_record_get_column;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_record_t*> ecs_record_ensure;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_record_t*> ecs_record_find;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, int, ecs_vector_t*, void> ecs_table_delete_column;
-        public delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_vector_t*, ecs_vector_t*, void> ecs_table_set_entities;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_vector_t*, ecs_vector_t*, ecs_table_t*, void> ecs_records_update;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t*, void> ecs_records_clear;
-        public delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_vector_t*> ecs_table_get_records;
-        public delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_vector_t*> ecs_table_get_entities;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, int, ecs_vector_t*, ecs_vector_t*> ecs_table_set_column;
-        public delegate* unmanaged[Cdecl]<ecs_table_t*, int, ecs_vector_t*> ecs_table_get_column;
-        public delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_entity_t, int> ecs_table_find_column;
-        public delegate* unmanaged[Cdecl]<ecs_snapshot_t*, void> ecs_snapshot_free;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool> ecs_snapshot_next;
-        public delegate* unmanaged[Cdecl]<ecs_snapshot_t*, ecs_filter_t*, ecs_iter_t> ecs_snapshot_iter;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_snapshot_t*, void> ecs_snapshot_restore;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_iter_next_action_t, ecs_snapshot_t*> ecs_snapshot_take_w_iter;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_snapshot_t*> ecs_snapshot_take;
-        public delegate* unmanaged[Cdecl]<CString, int, ecs_writer_t*, int> ecs_writer_write;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_writer_t> ecs_writer_init;
-        public delegate* unmanaged[Cdecl]<CString, int, ecs_reader_t*, int> ecs_reader_read;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_iter_next_action_t, ecs_reader_t> ecs_reader_init_w_iter;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_reader_t> ecs_reader_init;
-        public delegate* unmanaged[Cdecl]<ecs_queue_t*, void> ecs_queue_free;
-        public delegate* unmanaged[Cdecl]<ecs_queue_t*, int> ecs_queue_count;
-        public delegate* unmanaged[Cdecl]<ecs_queue_t*, int> ecs_queue_index;
-        public delegate* unmanaged[Cdecl]<ecs_queue_t*, ecs_size_t, short, void*> _ecs_queue_last;
-        public delegate* unmanaged[Cdecl]<ecs_queue_t*, ecs_size_t, short, int, void*> _ecs_queue_get;
-        public delegate* unmanaged[Cdecl]<ecs_queue_t*, ecs_size_t, short, void*> _ecs_queue_push;
-        public delegate* unmanaged[Cdecl]<ecs_size_t, short, int, void*, ecs_queue_t*> _ecs_queue_from_array;
-        public delegate* unmanaged[Cdecl]<ecs_size_t, short, int, ecs_queue_t*> _ecs_queue_new;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString, CString, ecs_term_t*, CString> ecs_parse_term;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, ecs_dbg_table_t*, void> ecs_dbg_table;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, ecs_filter_t*, CBool> ecs_dbg_filter_table;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, int, ecs_table_t*> ecs_dbg_get_table;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_table_t*> ecs_dbg_find_table;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_dbg_entity_t*, void> ecs_dbg_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, void> ecs_bulk_delete;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, ecs_filter_t*, void> ecs_bulk_add_remove_type;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_filter_t*, void> ecs_bulk_remove_type;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_filter_t*, void> ecs_bulk_remove_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_filter_t*, void> ecs_bulk_add_type;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_filter_t*, void> ecs_bulk_add_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> FlecsTimerImport;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, void> ecs_set_tick_source;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, ecs_entity_t, ecs_entity_t> ecs_set_rate;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void> ecs_stop_timer;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void> ecs_start_timer;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float> ecs_get_interval;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, ecs_entity_t> ecs_set_interval;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float> ecs_get_timeout;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, ecs_entity_t> ecs_set_timeout;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> FlecsPipelineImport;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, int, void> ecs_set_threads;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_deactivate_systems;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, void> ecs_pipeline_run;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_reset_clock;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, float, void> ecs_set_time_scale;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, float, CBool> ecs_progress;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t> ecs_get_pipeline;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void> ecs_set_pipeline;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> FlecsSystemImport;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_match_failure_t*, CBool> ecs_dbg_match_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, ecs_type_t> ecs_dbg_get_column_type;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_dbg_system_t*, int, ecs_table_t*> ecs_dbg_get_inactive_table;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_dbg_system_t*, int, ecs_table_t*> ecs_dbg_get_active_table;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_dbg_system_t*, int> ecs_dbg_system;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void*> ecs_get_system_ctx;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_query_t*> ecs_get_query;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, int, int, ecs_filter_t*, void*, ecs_entity_t> ecs_run_w_filter;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, int, float, void*, ecs_entity_t> ecs_run_worker;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, float, void*, ecs_entity_t> ecs_run;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_system_desc_t*, ecs_entity_t> ecs_system_init;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString, ecs_entity_t> ecs_import_from_library;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_module_action_t, CString, void*, ulong, ecs_entity_t> ecs_import;
-        public delegate* unmanaged[Cdecl]<ecs_table_t*, int> ecs_table_count;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_table_t*, ecs_entity_t, ecs_record_t*, ecs_record_t> ecs_table_insert;
-        public delegate* unmanaged[Cdecl]<ecs_table_t*, ecs_type_t> ecs_table_get_type;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_table_t*> ecs_table_from_type;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_table_t*> ecs_table_from_str;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool> ecs_stage_is_async;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_async_stage_free;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_t*> ecs_async_stage_new;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool> ecs_stage_is_readonly;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_t*> ecs_get_world;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, int, ecs_world_t*> ecs_get_stage;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, int> ecs_get_stage_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, int> ecs_get_stage_count;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, int, void> ecs_set_stages;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, void> ecs_set_automerge;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool> ecs_defer_end;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool> ecs_defer_begin;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_merge;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_staging_end;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool> ecs_staging_begin;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_frame_end;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, float, float> ecs_frame_begin;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong> ecs_iter_column_size;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, void*> ecs_iter_column_w_size;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_id_t, int> ecs_iter_find_column;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_type_t> ecs_iter_type;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool> ecs_term_is_owned;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool> ecs_term_is_readonly;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong> ecs_term_size;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_entity_t> ecs_term_source;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_id_t> ecs_term_id;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, void*> ecs_term_w_size;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void*> ecs_get_trigger_ctx;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_trigger_desc_t*, ecs_entity_t> ecs_trigger_init;
-        public delegate* unmanaged[Cdecl]<ecs_query_t*, CBool> ecs_query_orphaned;
-        public delegate* unmanaged[Cdecl]<ecs_query_t*, CBool> ecs_query_changed;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, int, CBool> ecs_query_next_worker;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_filter_t*, CBool> ecs_query_next_w_filter;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool> ecs_query_next;
-        public delegate* unmanaged[Cdecl]<ecs_query_t*, int, int, ecs_iter_t> ecs_query_iter_page;
-        public delegate* unmanaged[Cdecl]<ecs_query_t*, ecs_iter_t> ecs_query_iter;
-        public delegate* unmanaged[Cdecl]<ecs_query_t*, void> ecs_query_fini;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_desc_t*, ecs_query_t*> ecs_query_init;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool> ecs_filter_next;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, ecs_iter_t> ecs_filter_iter;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, ecs_entity_t, CBool> ecs_filter_match_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, CString> ecs_filter_str;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, int> ecs_filter_finalize;
-        public delegate* unmanaged[Cdecl]<ecs_filter_t*, void> ecs_filter_fini;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, ecs_filter_desc_t*, int> ecs_filter_init;
-        public delegate* unmanaged[Cdecl]<ecs_id_t, ecs_id_t, CBool> ecs_id_match;
-        public delegate* unmanaged[Cdecl]<ecs_term_t*, void> ecs_term_fini;
-        public delegate* unmanaged[Cdecl]<ecs_term_t*, ecs_term_t> ecs_term_move;
-        public delegate* unmanaged[Cdecl]<ecs_term_t*, ecs_term_t> ecs_term_copy;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString, ecs_term_t*, int> ecs_term_finalize;
-        public delegate* unmanaged[Cdecl]<ecs_term_t*, CBool> ecs_term_is_trivial;
-        public delegate* unmanaged[Cdecl]<ecs_term_t*, CBool> ecs_term_is_set;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CString, CString> ecs_set_name_prefix;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t> ecs_get_scope;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t> ecs_set_scope;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, CBool> ecs_scope_next;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_filter_t*, ecs_iter_t> ecs_scope_iter_w_filter;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_iter_t> ecs_scope_iter;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int> ecs_get_child_count;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, CString, CString, CString, ecs_entity_t> ecs_add_path_w_sep;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, CString, CString, ecs_entity_t> ecs_new_from_path_w_sep;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_entity_t, CString, CString, CString> ecs_get_path_w_sep;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, void> ecs_use;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_entity_t> ecs_lookup_symbol;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, CString, CString, CBool, ecs_entity_t> ecs_lookup_path_w_sep;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, ecs_entity_t> ecs_lookup_child;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_entity_t> ecs_lookup;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, int> ecs_count_filter;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int> ecs_count_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool, void> ecs_enable;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_id_t, ecs_entity_t> ecs_get_object_w_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, CString, ulong, ulong> ecs_id_str;
-        public delegate* unmanaged[Cdecl]<ecs_entity_t, CString> ecs_role_str;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString> ecs_get_name;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t> ecs_get_typeid;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t> ecs_get_type;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool> ecs_exists;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void> ecs_ensure;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t> ecs_get_alive;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool> ecs_is_alive;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool> ecs_is_valid;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool> ecs_has_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ulong, void*, ecs_entity_t> ecs_set_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void> ecs_modified_w_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool*, void*> ecs_get_mut_w_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, ecs_entity_t> ecs_get_case;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_ref_t*, ecs_entity_t, ecs_id_t, void*> ecs_get_ref_w_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void*> ecs_get_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void> ecs_delete_children;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void> ecs_delete;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, void> ecs_clear;
-        public delegate* unmanaged[Cdecl]<ecs_entity_t, ecs_entity_t, ecs_id_t> ecs_make_pair;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool> ecs_is_component_enabled_w_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool, void> ecs_enable_component_w_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void> ecs_remove_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void> ecs_add_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, CBool, ecs_entity_t> ecs_clone;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, int, ecs_entities_t*, void*, ecs_entity_t*> ecs_bulk_new_w_data;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int, ecs_entity_t*> ecs_bulk_new_w_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_desc_t*, ecs_entity_t> ecs_type_init;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_component_desc_t*, ecs_entity_t> ecs_component_init;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_desc_t*, ecs_entity_t> ecs_entity_init;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, ecs_entity_t> ecs_new_w_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t> ecs_new_component_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t> ecs_new_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, int> ecs_get_threads;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, float, void> ecs_set_target_fps;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, void> ecs_measure_system_time;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, void> ecs_measure_frame_time;
-        public delegate* unmanaged[Cdecl]<int, void> ecs_tracing_enable;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_end_wait;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_begin_wait;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_unlock;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_lock;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, CBool> ecs_enable_locking;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool, CBool> ecs_enable_range_check;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, void> ecs_set_entity_range;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, int, void> ecs_dim;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_world_info_t*> ecs_get_world_info;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, void*> ecs_get_context;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, void*, void> ecs_set_context;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, EcsComponentLifecycle*, void> ecs_set_component_actions_w_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CBool> ecs_should_quit;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, void> ecs_quit;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_fini_action_t, void*, void> ecs_run_post_frame;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_fini_action_t, void*, void> ecs_atfini;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, int> ecs_fini;
-        public delegate* unmanaged[Cdecl]<int, CString*, ecs_world_t*> ecs_init_w_args;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*> ecs_mini;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*> ecs_init;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, ecs_entity_t, ecs_rank_type_action_t, void> ecs_query_group_by;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, ecs_entity_t, ecs_compare_action_t, void> ecs_query_order_by;
-        public delegate* unmanaged[Cdecl]<ecs_query_t*, void> ecs_query_free;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_query_t*, CString, ecs_query_t*> ecs_subquery_new;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_query_t*> ecs_query_new;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, int, ecs_entity_t, ecs_entity_t> ecs_set_rate_filter;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ecs_entity_t, int> ecs_table_component_index;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong> ecs_table_column_size;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, void*> ecs_table_column;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool> ecs_is_owned;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, CBool> ecs_is_readonly;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ulong> ecs_column_size;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_type_t> ecs_column_type;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_entity_t> ecs_column_entity;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, int, ecs_entity_t> ecs_column_source;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, int, void*> ecs_element_w_size;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, CString, int> ecs_column_index_from_name;
-        public delegate* unmanaged[Cdecl]<ecs_iter_t*, ulong, int, void*> ecs_column_w_size;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool, CBool> ecs_type_owns_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool> ecs_type_has_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t> ecs_type_to_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t> ecs_type_from_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ecs_id_t, void> ecs_add_remove_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void> ecs_remove_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_entity_t, void> ecs_add_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, int> ecs_get_thread_index;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ecs_entity_t> ecs_get_parent_w_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, CString, ulong, ulong> ecs_entity_str;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool> ecs_has_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, ulong, void*, ecs_entity_t> ecs_set_ptr_w_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void> ecs_modified_w_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool*, void*> ecs_get_mut_w_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_ref_t*, ecs_entity_t, ecs_id_t, void*> ecs_get_ref_w_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void*> ecs_get_w_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, void*> ecs_get_w_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool> ecs_is_component_enabled_w_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_id_t, CBool, void> ecs_enable_component_w_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int, ecs_entity_t*> ecs_bulk_new_w_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, ecs_entity_t> ecs_new_w_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, EcsComponentLifecycle*, void> ecs_set_component_actions_w_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_filter_t*, int> ecs_count_w_filter;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_id_t, int> ecs_count_entity;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, int> ecs_count_type;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, CBool> ecs_has_type;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, ecs_type_t, void> ecs_add_remove_type;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, void> ecs_remove_type;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t, void> ecs_add_type;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, int, ecs_entity_t*> ecs_bulk_new_w_type;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t> ecs_new_w_type;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, int, void> ecs_dim_type;
-        public delegate* unmanaged[Cdecl]<ecs_type_t, int, ecs_entity_t, int> ecs_type_match;
-        public delegate* unmanaged[Cdecl]<ecs_type_t, ecs_entity_t, int> ecs_type_index_of;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_entity_t> ecs_type_get_entity_for_xor;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_entity_t, int, int, ecs_entity_t*, CBool> ecs_type_find_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, CBool, CBool> ecs_type_owns_type;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool, CBool> ecs_type_owns_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, CBool> ecs_type_has_type;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, CBool> ecs_type_has_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_type_t> ecs_type_remove;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t, ecs_type_t> ecs_type_add;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_type_t, ecs_type_t, ecs_type_t> ecs_type_merge;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t*, int, ecs_type_t> ecs_type_find;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, CString, ecs_type_t> ecs_type_from_str;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, CString> ecs_type_str;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_type_t, ecs_entity_t> ecs_type_to_id;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, ecs_type_t> ecs_type_from_id;
-        public delegate* unmanaged[Cdecl]<CString, CString, long, CString, void> _ecs_parser_error;
-        public delegate* unmanaged[Cdecl]<CBool, int, CString, CString, CString, int, void> _ecs_assert;
-        public delegate* unmanaged[Cdecl]<int, CString, CString, int, void> _ecs_abort;
-        public delegate* unmanaged[Cdecl]<int, CString> ecs_strerror;
-        public delegate* unmanaged[Cdecl]<void> ecs_log_pop;
-        public delegate* unmanaged[Cdecl]<void> ecs_log_push;
-        public delegate* unmanaged[Cdecl]<CString, int, CString, void> _ecs_deprecated;
-        public delegate* unmanaged[Cdecl]<CString, int, CString, void> _ecs_err;
-        public delegate* unmanaged[Cdecl]<CString, int, CString, void> _ecs_warn;
-        public delegate* unmanaged[Cdecl]<int, CString, int, CString, void> _ecs_trace;
-        public delegate* unmanaged[Cdecl]<ecs_query_t*, ecs_filter_t*> ecs_query_get_filter;
-        public delegate* unmanaged[Cdecl]<CString, CBool> ecs_identifier_is_var;
-        public delegate* unmanaged[Cdecl]<CString, CBool> ecs_identifier_is_0;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CBool> ecs_component_has_actions;
-        public delegate* unmanaged[Cdecl]<CString, CString> ecs_module_path_from_c;
-        public delegate* unmanaged[Cdecl]<ecs_world_t*, ecs_entity_t, CString, ulong, ulong, ecs_entity_t> ecs_new_module;
-        public delegate* unmanaged[Cdecl]<CBool> ecs_os_has_modules;
-        public delegate* unmanaged[Cdecl]<CBool> ecs_os_has_dl;
-        public delegate* unmanaged[Cdecl]<CBool> ecs_os_has_logging;
-        public delegate* unmanaged[Cdecl]<CBool> ecs_os_has_time;
-        public delegate* unmanaged[Cdecl]<CBool> ecs_os_has_threading;
-        public delegate* unmanaged[Cdecl]<CBool> ecs_os_has_heap;
-        public delegate* unmanaged[Cdecl]<void*, ecs_size_t, void*> ecs_os_memdup;
-        public delegate* unmanaged[Cdecl]<ecs_time_t, double> ecs_time_to_double;
-        public delegate* unmanaged[Cdecl]<ecs_time_t, ecs_time_t, ecs_time_t> ecs_time_sub;
-        public delegate* unmanaged[Cdecl]<ecs_time_t*, double> ecs_time_measure;
-        public delegate* unmanaged[Cdecl]<double, void> ecs_sleepf;
-        public delegate* unmanaged[Cdecl]<CString, void> ecs_os_dbg;
-        public delegate* unmanaged[Cdecl]<CString, void> ecs_os_err;
-        public delegate* unmanaged[Cdecl]<CString, void> ecs_os_warn;
-        public delegate* unmanaged[Cdecl]<CString, void> ecs_os_log;
-        public delegate* unmanaged[Cdecl]<void> ecs_os_set_api_defaults;
-        public delegate* unmanaged[Cdecl]<ecs_os_api_t*, void> ecs_os_set_api;
-        public delegate* unmanaged[Cdecl]<void> ecs_os_fini;
-        public delegate* unmanaged[Cdecl]<void> ecs_os_init;
-        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool> ecs_strbuf_list_appendstr;
-        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool> ecs_strbuf_list_append;
-        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, void> ecs_strbuf_list_next;
-        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, void> ecs_strbuf_list_pop;
-        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CString, void> ecs_strbuf_list_push;
-        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, void> ecs_strbuf_reset;
-        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString> ecs_strbuf_get;
-        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, int, CBool> ecs_strbuf_appendstrn;
-        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool> ecs_strbuf_appendstr_zerocpy_const;
-        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool> ecs_strbuf_appendstr_zerocpy;
-        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, ecs_strbuf_t*, CBool> ecs_strbuf_mergebuff;
-        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool> ecs_strbuf_appendstr;
-        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, IntPtr, CBool> ecs_strbuf_vappend;
-        public delegate* unmanaged[Cdecl]<ecs_strbuf_t*, CString, CBool> ecs_strbuf_append;
-        public delegate* unmanaged[Cdecl]<ecs_map_t*, int*, int*, void> ecs_map_memory;
-        public delegate* unmanaged[Cdecl]<ecs_map_t*, int, void> ecs_map_set_size;
-        public delegate* unmanaged[Cdecl]<ecs_map_t*, int, void> ecs_map_grow;
-        public delegate* unmanaged[Cdecl]<ecs_map_iter_t*, ecs_map_key_t*, void*> _ecs_map_next_ptr;
-        public delegate* unmanaged[Cdecl]<ecs_map_iter_t*, ecs_size_t, ecs_map_key_t*, void*> _ecs_map_next;
-        public delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_map_iter_t> ecs_map_iter;
-        public delegate* unmanaged[Cdecl]<ecs_map_t*, int> ecs_map_bucket_count;
-        public delegate* unmanaged[Cdecl]<ecs_map_t*, int> ecs_map_count;
-        public delegate* unmanaged[Cdecl]<ecs_map_t*, void> ecs_map_clear;
-        public delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_map_key_t, void> ecs_map_remove;
-        public delegate* unmanaged[Cdecl]<ecs_map_t*, void> ecs_map_free;
-        public delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_size_t, ecs_map_key_t, void*, void*> _ecs_map_set;
-        public delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_size_t, ecs_map_key_t, void*> _ecs_map_ensure;
-        public delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_map_key_t, void*> _ecs_map_get_ptr;
-        public delegate* unmanaged[Cdecl]<ecs_map_t*, ecs_size_t, ecs_map_key_t, void*> _ecs_map_get;
-        public delegate* unmanaged[Cdecl]<ecs_size_t, ecs_size_t, int, ecs_map_t*> _ecs_map_new;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, ecs_vector_t*> _ecs_vector_copy;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, int*, int*, void> _ecs_vector_memory;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, ecs_comparator_t, void> _ecs_vector_sort;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void*> _ecs_vector_first;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t*, int> ecs_vector_size;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t*, int> ecs_vector_count;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int> _ecs_vector_set_count;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int> _ecs_vector_set_size;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int> _ecs_vector_grow;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, void> _ecs_vector_reclaim;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, int, int> _ecs_vector_remove_index;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_vector_t*, ecs_size_t, short, int, int> _ecs_vector_move_index;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void*, CBool> _ecs_vector_pop;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t*, void> ecs_vector_remove_last;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int> _ecs_vector_set_min_count;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, int> _ecs_vector_set_min_size;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void*> _ecs_vector_last;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, int, void*> _ecs_vector_get;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, int, void*> _ecs_vector_addn;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t**, ecs_size_t, short, void*> _ecs_vector_add;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, void> ecs_vector_assert_alignment;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, void> ecs_vector_assert_size;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t*, void> ecs_vector_clear;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t*, void> ecs_vector_free;
-        public delegate* unmanaged[Cdecl]<ecs_vector_t*, ecs_size_t, short, void> _ecs_vector_zero;
-        public delegate* unmanaged[Cdecl]<ecs_size_t, short, int, void*, ecs_vector_t*> _ecs_vector_from_array;
-        public delegate* unmanaged[Cdecl]<ecs_size_t, short, int, ecs_vector_t*> _ecs_vector_new;
-
-        #endregion
-
-        #region "Variables"
-        // These pointers hold the locations in the native library where global variables are located at runtime.
-        //	The value pointed by these pointers are updated by reading/writing memory.
-
-        public IntPtr FLECS__TEcsRateFilter;
-        public IntPtr FLECS__TEcsTimer;
-        public IntPtr FLECS__TEcsTickSource;
-        public IntPtr FLECS__TEcsSystem;
-        public IntPtr EcsPostFrame;
-        public IntPtr EcsOnStore;
-        public IntPtr EcsPreStore;
-        public IntPtr EcsPostUpdate;
-        public IntPtr EcsOnValidate;
-        public IntPtr EcsOnUpdate;
-        public IntPtr EcsPreUpdate;
-        public IntPtr EcsPostLoad;
-        public IntPtr EcsOnLoad;
-        public IntPtr EcsPreFrame;
-        public IntPtr EcsPipeline;
-        public IntPtr EcsInactive;
-        public IntPtr EcsDisabledIntern;
-        public IntPtr EcsMonitor;
-        public IntPtr EcsOnDemand;
-        public IntPtr EcsThrow;
-        public IntPtr EcsDelete;
-        public IntPtr EcsRemove;
-        public IntPtr EcsOnDeleteObject;
-        public IntPtr EcsOnDelete;
-        public IntPtr EcsUnSet;
-        public IntPtr EcsOnSet;
-        public IntPtr EcsOnRemove;
-        public IntPtr EcsOnAdd;
-        public IntPtr EcsHidden;
-        public IntPtr EcsDisabled;
-        public IntPtr EcsPrefab;
-        public IntPtr EcsModule;
-        public IntPtr EcsIsA;
-        public IntPtr EcsChildOf;
-        public IntPtr EcsFinal;
-        public IntPtr EcsTransitive;
-        public IntPtr EcsThis;
-        public IntPtr EcsWildcard;
-        public IntPtr EcsWorld;
-        public IntPtr EcsFlecsCore;
-        public IntPtr EcsFlecs;
-        public IntPtr ECS_DISABLED;
-        public IntPtr ECS_OWNED;
-        public IntPtr ECS_PAIR;
-        public IntPtr ECS_SWITCH;
-        public IntPtr ECS_CASE;
-        public IntPtr FLECS__TEcsName;
-        public IntPtr FLECS__TEcsType;
-        public IntPtr FLECS__TEcsComponentLifecycle;
-        public IntPtr FLECS__TEcsComponent;
-        public IntPtr ecs_os_api;
-        public IntPtr ecs_os_api_free_count;
-        public IntPtr ecs_os_api_calloc_count;
-        public IntPtr ecs_os_api_realloc_count;
-        public IntPtr ecs_os_api_malloc_count;
-
-        #endregion
-    }
-
-    private static _VirtualTable _virtualTable;
 }
