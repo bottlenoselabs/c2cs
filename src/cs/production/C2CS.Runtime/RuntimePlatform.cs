@@ -65,6 +65,6 @@ namespace C2CS
         /// </summary>
         Browser = 8,
 
-        // TODO: tvOS, RaspberryPi, WebAssembly, PlayStation4, PlayStationVita, Switch etc
+        // TODO: RaspberryPi, PlayStation4, PlayStationVita, Switch etc
     }
 }

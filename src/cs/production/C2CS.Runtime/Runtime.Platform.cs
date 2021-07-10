@@ -67,7 +67,6 @@ namespace C2CS
                     throw new NotImplementedException();
                 case RuntimePlatform.Unknown:
                     throw new NotImplementedException();
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(runtimePlatform), runtimePlatform, null);
             }
