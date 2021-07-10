@@ -1,5 +1,5 @@
 {
-  "fileName": "clang-c\\Index.h",
+  "fileName": "clang-c/Index.h",
   "functions": [
     {
       "name": "clang_Type_visitFields",
@@ -7935,9 +7935,9 @@
           "name": "size",
           "type": "size_t*",
           "location": {
-            "file": "vcruntime.h",
-            "line": 193,
-            "column": 30,
+            "file": "_size_t.h",
+            "line": 31,
+            "column": 32,
             "isSystem": true
           }
         }
@@ -9778,7 +9778,6 @@
           "name": "Length",
           "type": "unsigned long",
           "offset": 16,
-          "padding": 4,
           "location": {
             "file": "Index.h",
             "line": 117,
@@ -10547,6 +10546,7 @@
         {
           "name": "kind",
           "type": "CXTUResourceUsageKind",
+          "padding": 4,
           "location": {
             "file": "Index.h",
             "line": 1609,
@@ -10556,7 +10556,7 @@
         {
           "name": "amount",
           "type": "unsigned long",
-          "offset": 4,
+          "offset": 8,
           "location": {
             "file": "Index.h",
             "line": 1644,
@@ -10627,7 +10627,7 @@
     {
       "name": "CXVisitorResult",
       "type": "CXVisitorResult",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXVisit_Break",
@@ -10656,7 +10656,7 @@
     {
       "name": "CXCursorKind",
       "type": "CXCursorKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXCursor_UnexposedDecl",
@@ -13053,7 +13053,7 @@
     {
       "name": "CXTypeKind",
       "type": "CXTypeKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXType_Invalid",
@@ -14144,7 +14144,7 @@
     {
       "name": "CXSymbolRole",
       "type": "CXSymbolRole",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXSymbolRole_None",
@@ -14245,7 +14245,7 @@
     {
       "name": "CXIdxAttrKind",
       "type": "CXIdxAttrKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXIdxAttr_Unexposed",
@@ -14292,7 +14292,7 @@
     {
       "name": "CXIdxEntityLanguage",
       "type": "CXIdxEntityLanguage",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXIdxEntityLang_None",
@@ -14348,7 +14348,7 @@
     {
       "name": "CXIdxEntityCXXTemplateKind",
       "type": "CXIdxEntityCXXTemplateKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXIdxEntity_NonTemplate",
@@ -14395,7 +14395,7 @@
     {
       "name": "CXIdxEntityKind",
       "type": "CXIdxEntityKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXIdxEntity_Unexposed",
@@ -14649,7 +14649,7 @@
     {
       "name": "CXIdxEntityRefKind",
       "type": "CXIdxEntityRefKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXIdxEntityRef_Direct",
@@ -14679,7 +14679,7 @@
     {
       "name": "CXIdxObjCContainerKind",
       "type": "CXIdxObjCContainerKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXIdxObjCContainer_ForwardRef",
@@ -14717,7 +14717,7 @@
     {
       "name": "CXResult",
       "type": "CXResult",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXResult_Success",
@@ -14755,7 +14755,7 @@
     {
       "name": "CXEvalResultKind",
       "type": "CXEvalResultKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXEval_Int",
@@ -14829,7 +14829,7 @@
     {
       "name": "CXAvailabilityKind",
       "type": "CXAvailabilityKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXAvailability_Available",
@@ -14876,7 +14876,7 @@
     {
       "name": "CXCompletionChunkKind",
       "type": "CXCompletionChunkKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXCompletionChunk_Optional",
@@ -15076,7 +15076,7 @@
     {
       "name": "CXTokenKind",
       "type": "CXTokenKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXToken_Punctuation",
@@ -15132,7 +15132,7 @@
     {
       "name": "CXPrintingPolicyProperty",
       "type": "CXPrintingPolicyProperty",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXPrintingPolicy_Indentation",
@@ -15386,7 +15386,7 @@
     {
       "name": "CXChildVisitResult",
       "type": "CXChildVisitResult",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXChildVisit_Break",
@@ -15424,7 +15424,7 @@
     {
       "name": "CX_StorageClass",
       "type": "CX_StorageClass",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CX_SC_Invalid",
@@ -15507,7 +15507,7 @@
     {
       "name": "CX_CXXAccessSpecifier",
       "type": "CX_CXXAccessSpecifier",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CX_CXXInvalidAccessSpecifier",
@@ -15554,7 +15554,7 @@
     {
       "name": "CXRefQualifierKind",
       "type": "CXRefQualifierKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXRefQualifier_None",
@@ -15592,7 +15592,7 @@
     {
       "name": "CXTypeNullabilityKind",
       "type": "CXTypeNullabilityKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXTypeNullability_NonNull",
@@ -15648,7 +15648,7 @@
     {
       "name": "CXCallingConv",
       "type": "CXCallingConv",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXCallingConv_Default",
@@ -15839,7 +15839,7 @@
     {
       "name": "CXTemplateArgumentKind",
       "type": "CXTemplateArgumentKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXTemplateArgumentKind_Null",
@@ -15940,7 +15940,7 @@
     {
       "name": "CXTLSKind",
       "type": "CXTLSKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXTLS_None",
@@ -15978,7 +15978,7 @@
     {
       "name": "CXLanguageKind",
       "type": "CXLanguageKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXLanguage_Invalid",
@@ -16025,7 +16025,7 @@
     {
       "name": "CXVisibilityKind",
       "type": "CXVisibilityKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXVisibility_Invalid",
@@ -16072,7 +16072,7 @@
     {
       "name": "CXLinkageKind",
       "type": "CXLinkageKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXLinkage_Invalid",
@@ -16128,7 +16128,7 @@
     {
       "name": "CXTUResourceUsageKind",
       "type": "CXTUResourceUsageKind",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXTUResourceUsage_AST",
@@ -16302,7 +16302,7 @@
     {
       "name": "CXErrorCode",
       "type": "CXErrorCode",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXError_Success",
@@ -16358,7 +16358,7 @@
     {
       "name": "CXDiagnosticSeverity",
       "type": "CXDiagnosticSeverity",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXDiagnostic_Ignored",
@@ -16414,7 +16414,7 @@
     {
       "name": "CXLoadDiag_Error",
       "type": "CXLoadDiag_Error",
-      "typeInteger": "int",
+      "typeInteger": "unsigned int",
       "values": [
         {
           "name": "CXLoadDiag_None",
@@ -16760,13 +16760,6 @@
       }
     },
     {
-      "name": "int",
-      "kind": "primitive",
-      "sizeOf": 4,
-      "alignOf": 4,
-      "isSystem": true
-    },
-    {
       "name": "CXCursorKind",
       "kind": "enum",
       "sizeOf": 4,
@@ -16776,6 +16769,13 @@
         "line": 1706,
         "column": 6
       }
+    },
+    {
+      "name": "int",
+      "kind": "primitive",
+      "sizeOf": 4,
+      "alignOf": 4,
+      "isSystem": true
     },
     {
       "name": "void*[3]",
@@ -17363,8 +17363,8 @@
     {
       "name": "unsigned long",
       "kind": "primitive",
-      "sizeOf": 4,
-      "alignOf": 4,
+      "sizeOf": 8,
+      "alignOf": 8,
       "isSystem": true
     },
     {
@@ -18261,8 +18261,8 @@
     {
       "name": "CXTUResourceUsageEntry",
       "kind": "typedef",
-      "sizeOf": 8,
-      "alignOf": 4,
+      "sizeOf": 16,
+      "alignOf": 8,
       "location": {
         "file": "Index.h",
         "line": 1645,

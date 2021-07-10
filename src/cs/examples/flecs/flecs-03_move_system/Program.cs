@@ -76,7 +76,7 @@ internal static unsafe class Program
         {
             entity = new ecs_entity_desc_t { name = Systems.Move.Name }
         };
-        systemDescriptor.entity.add[0] = EcsOnUpdate;
+        // systemDescriptor.entity.add[0] = EcsOnUpdate;
         var queryFilterTerms = systemDescriptor.query.filter.terms;
         queryFilterTerms[0].id = positionComponent;
         queryFilterTerms[1].id = velocityComponent;

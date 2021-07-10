@@ -63,7 +63,7 @@ internal static unsafe class Program
                 name = Systems.PrintMessage.Name
             }
         };
-        systemDescriptor.entity.add[0] = EcsOnUpdate;
+        // systemDescriptor.entity.add[0] = EcsOnUpdate;
         systemDescriptor.query.filter.terms[0] = new ecs_term_t
         {
             id = component

@@ -20,1768 +20,1166 @@ using C2CS;
 public static unsafe partial class uv
 {
     private const string LibraryName = "uv";
-    private static IntPtr _libraryHandle;
-
-    static uv()
-    {
-        TryLoadApi();
-    }
-
-    public static bool TryLoadApi(string? libraryName = LibraryName)
-    {
-        UnloadApi();
-        _libraryHandle = Runtime.LibraryLoad(libraryName!);
-        if (_libraryHandle == IntPtr.Zero) return false;
-        _LoadVirtualTable();
-        return true;
-    }
-
-    public static void UnloadApi()
-    {
-        if (_libraryHandle == IntPtr.Zero) return;
-        _UnloadVirtualTable();
-        Runtime.LibraryUnload(_libraryHandle);
-    }
 
     // Function @ uv.h:1814:16
-    public static void uv_loop_set_data(uv_loop_t* param, void* data)
-    {
-        _virtualTable.uv_loop_set_data(param, data);
-    }
+    [DllImport("uv")]
+    public static extern void uv_loop_set_data(uv_loop_t* param, void* data);
 
     // Function @ uv.h:1813:17
-    public static void* uv_loop_get_data(uv_loop_t* param)
-    {
-        return _virtualTable.uv_loop_get_data(param);
-    }
+    [DllImport("uv")]
+    public static extern void* uv_loop_get_data(uv_loop_t* param);
 
     // Function @ uv.h:1782:15
-    public static int uv_thread_equal(uv_thread_t* t1, uv_thread_t* t2)
-    {
-        return _virtualTable.uv_thread_equal(t1, t2);
-    }
+    [DllImport("uv")]
+    public static extern int uv_thread_equal(uv_thread_t* t1, uv_thread_t* t2);
 
     // Function @ uv.h:1781:15
-    public static int uv_thread_join(uv_thread_t* tid)
-    {
-        return _virtualTable.uv_thread_join(tid);
-    }
+    [DllImport("uv")]
+    public static extern int uv_thread_join(uv_thread_t* tid);
 
     // Function @ uv.h:1780:23
-    public static uv_thread_t uv_thread_self()
-    {
-        return _virtualTable.uv_thread_self();
-    }
+    [DllImport("uv")]
+    public static extern uv_thread_t uv_thread_self();
 
     // Function @ uv.h:1776:15
-    public static int uv_thread_create_ex(uv_thread_t* tid, uv_thread_options_t* @params, uv_thread_cb entry, void* arg)
-    {
-        return _virtualTable.uv_thread_create_ex(tid, @params, entry, arg);
-    }
+    [DllImport("uv")]
+    public static extern int uv_thread_create_ex(uv_thread_t* tid, uv_thread_options_t* @params, uv_thread_cb entry, void* arg);
 
     // Function @ uv.h:1761:15
-    public static int uv_thread_create(uv_thread_t* tid, uv_thread_cb entry, void* arg)
-    {
-        return _virtualTable.uv_thread_create(tid, entry, arg);
-    }
+    [DllImport("uv")]
+    public static extern int uv_thread_create(uv_thread_t* tid, uv_thread_cb entry, void* arg);
 
     // Function @ uv.h:1757:15
-    public static int uv_gettimeofday(uv_timeval64_t* tv)
-    {
-        return _virtualTable.uv_gettimeofday(tv);
-    }
+    [DllImport("uv")]
+    public static extern int uv_gettimeofday(uv_timeval64_t* tv);
 
     // Function @ uv.h:1755:16
-    public static void uv_key_set(uv_key_t* key, void* value)
-    {
-        _virtualTable.uv_key_set(key, value);
-    }
+    [DllImport("uv")]
+    public static extern void uv_key_set(uv_key_t* key, void* value);
 
     // Function @ uv.h:1754:17
-    public static void* uv_key_get(uv_key_t* key)
-    {
-        return _virtualTable.uv_key_get(key);
-    }
+    [DllImport("uv")]
+    public static extern void* uv_key_get(uv_key_t* key);
 
     // Function @ uv.h:1753:16
-    public static void uv_key_delete(uv_key_t* key)
-    {
-        _virtualTable.uv_key_delete(key);
-    }
+    [DllImport("uv")]
+    public static extern void uv_key_delete(uv_key_t* key);
 
     // Function @ uv.h:1752:15
-    public static int uv_key_create(uv_key_t* key)
-    {
-        return _virtualTable.uv_key_create(key);
-    }
+    [DllImport("uv")]
+    public static extern int uv_key_create(uv_key_t* key);
 
     // Function @ uv.h:1750:16
-    public static void uv_once(uv_once_t* guard, FnPtr_UV_Void callback)
-    {
-        _virtualTable.uv_once(guard, callback);
-    }
+    [DllImport("uv")]
+    public static extern void uv_once(uv_once_t* guard, FnPtr_UV_Void callback);
 
     // Function @ uv.h:1746:15
-    public static int uv_cond_timedwait(uv_cond_t* cond, uv_mutex_t* mutex, ulong timeout)
-    {
-        return _virtualTable.uv_cond_timedwait(cond, mutex, timeout);
-    }
+    [DllImport("uv")]
+    public static extern int uv_cond_timedwait(uv_cond_t* cond, uv_mutex_t* mutex, ulong timeout);
 
     // Function @ uv.h:1745:16
-    public static void uv_cond_wait(uv_cond_t* cond, uv_mutex_t* mutex)
-    {
-        _virtualTable.uv_cond_wait(cond, mutex);
-    }
+    [DllImport("uv")]
+    public static extern void uv_cond_wait(uv_cond_t* cond, uv_mutex_t* mutex);
 
     // Function @ uv.h:1743:15
-    public static int uv_barrier_wait(uv_barrier_t* barrier)
-    {
-        return _virtualTable.uv_barrier_wait(barrier);
-    }
+    [DllImport("uv")]
+    public static extern int uv_barrier_wait(uv_barrier_t* barrier);
 
     // Function @ uv.h:1742:16
-    public static void uv_barrier_destroy(uv_barrier_t* barrier)
-    {
-        _virtualTable.uv_barrier_destroy(barrier);
-    }
+    [DllImport("uv")]
+    public static extern void uv_barrier_destroy(uv_barrier_t* barrier);
 
     // Function @ uv.h:1741:15
-    public static int uv_barrier_init(uv_barrier_t* barrier, uint count)
-    {
-        return _virtualTable.uv_barrier_init(barrier, count);
-    }
+    [DllImport("uv")]
+    public static extern int uv_barrier_init(uv_barrier_t* barrier, uint count);
 
     // Function @ uv.h:1739:16
-    public static void uv_cond_broadcast(uv_cond_t* cond)
-    {
-        _virtualTable.uv_cond_broadcast(cond);
-    }
+    [DllImport("uv")]
+    public static extern void uv_cond_broadcast(uv_cond_t* cond);
 
     // Function @ uv.h:1738:16
-    public static void uv_cond_signal(uv_cond_t* cond)
-    {
-        _virtualTable.uv_cond_signal(cond);
-    }
+    [DllImport("uv")]
+    public static extern void uv_cond_signal(uv_cond_t* cond);
 
     // Function @ uv.h:1737:16
-    public static void uv_cond_destroy(uv_cond_t* cond)
-    {
-        _virtualTable.uv_cond_destroy(cond);
-    }
+    [DllImport("uv")]
+    public static extern void uv_cond_destroy(uv_cond_t* cond);
 
     // Function @ uv.h:1736:15
-    public static int uv_cond_init(uv_cond_t* cond)
-    {
-        return _virtualTable.uv_cond_init(cond);
-    }
+    [DllImport("uv")]
+    public static extern int uv_cond_init(uv_cond_t* cond);
 
     // Function @ uv.h:1734:15
-    public static int uv_sem_trywait(uv_sem_t* sem)
-    {
-        return _virtualTable.uv_sem_trywait(sem);
-    }
+    [DllImport("uv")]
+    public static extern int uv_sem_trywait(uv_sem_t* sem);
 
     // Function @ uv.h:1733:16
-    public static void uv_sem_wait(uv_sem_t* sem)
-    {
-        _virtualTable.uv_sem_wait(sem);
-    }
+    [DllImport("uv")]
+    public static extern void uv_sem_wait(uv_sem_t* sem);
 
     // Function @ uv.h:1732:16
-    public static void uv_sem_post(uv_sem_t* sem)
-    {
-        _virtualTable.uv_sem_post(sem);
-    }
+    [DllImport("uv")]
+    public static extern void uv_sem_post(uv_sem_t* sem);
 
     // Function @ uv.h:1731:16
-    public static void uv_sem_destroy(uv_sem_t* sem)
-    {
-        _virtualTable.uv_sem_destroy(sem);
-    }
+    [DllImport("uv")]
+    public static extern void uv_sem_destroy(uv_sem_t* sem);
 
     // Function @ uv.h:1730:15
-    public static int uv_sem_init(uv_sem_t* sem, uint value)
-    {
-        return _virtualTable.uv_sem_init(sem, value);
-    }
+    [DllImport("uv")]
+    public static extern int uv_sem_init(uv_sem_t* sem, uint value);
 
     // Function @ uv.h:1728:16
-    public static void uv_rwlock_wrunlock(uv_rwlock_t* rwlock)
-    {
-        _virtualTable.uv_rwlock_wrunlock(rwlock);
-    }
+    [DllImport("uv")]
+    public static extern void uv_rwlock_wrunlock(uv_rwlock_t* rwlock);
 
     // Function @ uv.h:1727:15
-    public static int uv_rwlock_trywrlock(uv_rwlock_t* rwlock)
-    {
-        return _virtualTable.uv_rwlock_trywrlock(rwlock);
-    }
+    [DllImport("uv")]
+    public static extern int uv_rwlock_trywrlock(uv_rwlock_t* rwlock);
 
     // Function @ uv.h:1726:16
-    public static void uv_rwlock_wrlock(uv_rwlock_t* rwlock)
-    {
-        _virtualTable.uv_rwlock_wrlock(rwlock);
-    }
+    [DllImport("uv")]
+    public static extern void uv_rwlock_wrlock(uv_rwlock_t* rwlock);
 
     // Function @ uv.h:1725:16
-    public static void uv_rwlock_rdunlock(uv_rwlock_t* rwlock)
-    {
-        _virtualTable.uv_rwlock_rdunlock(rwlock);
-    }
+    [DllImport("uv")]
+    public static extern void uv_rwlock_rdunlock(uv_rwlock_t* rwlock);
 
     // Function @ uv.h:1724:15
-    public static int uv_rwlock_tryrdlock(uv_rwlock_t* rwlock)
-    {
-        return _virtualTable.uv_rwlock_tryrdlock(rwlock);
-    }
+    [DllImport("uv")]
+    public static extern int uv_rwlock_tryrdlock(uv_rwlock_t* rwlock);
 
     // Function @ uv.h:1723:16
-    public static void uv_rwlock_rdlock(uv_rwlock_t* rwlock)
-    {
-        _virtualTable.uv_rwlock_rdlock(rwlock);
-    }
+    [DllImport("uv")]
+    public static extern void uv_rwlock_rdlock(uv_rwlock_t* rwlock);
 
     // Function @ uv.h:1722:16
-    public static void uv_rwlock_destroy(uv_rwlock_t* rwlock)
-    {
-        _virtualTable.uv_rwlock_destroy(rwlock);
-    }
+    [DllImport("uv")]
+    public static extern void uv_rwlock_destroy(uv_rwlock_t* rwlock);
 
     // Function @ uv.h:1721:15
-    public static int uv_rwlock_init(uv_rwlock_t* rwlock)
-    {
-        return _virtualTable.uv_rwlock_init(rwlock);
-    }
+    [DllImport("uv")]
+    public static extern int uv_rwlock_init(uv_rwlock_t* rwlock);
 
     // Function @ uv.h:1719:16
-    public static void uv_mutex_unlock(uv_mutex_t* handle)
-    {
-        _virtualTable.uv_mutex_unlock(handle);
-    }
+    [DllImport("uv")]
+    public static extern void uv_mutex_unlock(uv_mutex_t* handle);
 
     // Function @ uv.h:1718:15
-    public static int uv_mutex_trylock(uv_mutex_t* handle)
-    {
-        return _virtualTable.uv_mutex_trylock(handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_mutex_trylock(uv_mutex_t* handle);
 
     // Function @ uv.h:1717:16
-    public static void uv_mutex_lock(uv_mutex_t* handle)
-    {
-        _virtualTable.uv_mutex_lock(handle);
-    }
+    [DllImport("uv")]
+    public static extern void uv_mutex_lock(uv_mutex_t* handle);
 
     // Function @ uv.h:1716:16
-    public static void uv_mutex_destroy(uv_mutex_t* handle)
-    {
-        _virtualTable.uv_mutex_destroy(handle);
-    }
+    [DllImport("uv")]
+    public static extern void uv_mutex_destroy(uv_mutex_t* handle);
 
     // Function @ uv.h:1715:15
-    public static int uv_mutex_init_recursive(uv_mutex_t* handle)
-    {
-        return _virtualTable.uv_mutex_init_recursive(handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_mutex_init_recursive(uv_mutex_t* handle);
 
     // Function @ uv.h:1714:15
-    public static int uv_mutex_init(uv_mutex_t* handle)
-    {
-        return _virtualTable.uv_mutex_init(handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_mutex_init(uv_mutex_t* handle);
 
     // Function @ uv.h:1712:23
-    public static CString uv_dlerror(uv_lib_t* lib)
-    {
-        return _virtualTable.uv_dlerror(lib);
-    }
+    [DllImport("uv")]
+    public static extern CString uv_dlerror(uv_lib_t* lib);
 
     // Function @ uv.h:1711:15
-    public static int uv_dlsym(uv_lib_t* lib, CString name, void** ptr)
-    {
-        return _virtualTable.uv_dlsym(lib, name, ptr);
-    }
+    [DllImport("uv")]
+    public static extern int uv_dlsym(uv_lib_t* lib, CString name, void** ptr);
 
     // Function @ uv.h:1710:16
-    public static void uv_dlclose(uv_lib_t* lib)
-    {
-        _virtualTable.uv_dlclose(lib);
-    }
+    [DllImport("uv")]
+    public static extern void uv_dlclose(uv_lib_t* lib);
 
     // Function @ uv.h:1709:15
-    public static int uv_dlopen(CString filename, uv_lib_t* lib)
-    {
-        return _virtualTable.uv_dlopen(filename, lib);
-    }
+    [DllImport("uv")]
+    public static extern int uv_dlopen(CString filename, uv_lib_t* lib);
 
     // Function @ uv.h:1707:16
-    public static void uv_disable_stdio_inheritance()
-    {
-        _virtualTable.uv_disable_stdio_inheritance();
-    }
+    [DllImport("uv")]
+    public static extern void uv_disable_stdio_inheritance();
 
     // Function @ uv.h:1705:16
-    public static void uv_sleep(uint msec)
-    {
-        _virtualTable.uv_sleep(msec);
-    }
+    [DllImport("uv")]
+    public static extern void uv_sleep(uint msec);
 
     // Function @ uv.h:1704:20
-    public static ulong uv_hrtime()
-    {
-        return _virtualTable.uv_hrtime();
-    }
+    [DllImport("uv")]
+    public static extern ulong uv_hrtime();
 
     // Function @ uv.h:1702:20
-    public static ulong uv_get_constrained_memory()
-    {
-        return _virtualTable.uv_get_constrained_memory();
-    }
+    [DllImport("uv")]
+    public static extern ulong uv_get_constrained_memory();
 
     // Function @ uv.h:1701:20
-    public static ulong uv_get_total_memory()
-    {
-        return _virtualTable.uv_get_total_memory();
-    }
+    [DllImport("uv")]
+    public static extern ulong uv_get_total_memory();
 
     // Function @ uv.h:1700:20
-    public static ulong uv_get_free_memory()
-    {
-        return _virtualTable.uv_get_free_memory();
-    }
+    [DllImport("uv")]
+    public static extern ulong uv_get_free_memory();
 
     // Function @ uv.h:1698:15
-    public static int uv_chdir(CString dir)
-    {
-        return _virtualTable.uv_chdir(dir);
-    }
+    [DllImport("uv")]
+    public static extern int uv_chdir(CString dir);
 
     // Function @ uv.h:1696:15
-    public static int uv_cwd(CString buffer, ulong* size)
-    {
-        return _virtualTable.uv_cwd(buffer, size);
-    }
+    [DllImport("uv")]
+    public static extern int uv_cwd(CString buffer, ulong* size);
 
     // Function @ uv.h:1694:15
-    public static int uv_exepath(CString buffer, ulong* size)
-    {
-        return _virtualTable.uv_exepath(buffer, size);
-    }
+    [DllImport("uv")]
+    public static extern int uv_exepath(CString buffer, ulong* size);
 
     // Function @ uv.h:1690:15
-    public static int uv_if_indextoiid(uint ifindex, CString buffer, ulong* size)
-    {
-        return _virtualTable.uv_if_indextoiid(ifindex, buffer, size);
-    }
+    [DllImport("uv")]
+    public static extern int uv_if_indextoiid(uint ifindex, CString buffer, ulong* size);
 
     // Function @ uv.h:1687:15
-    public static int uv_if_indextoname(uint ifindex, CString buffer, ulong* size)
-    {
-        return _virtualTable.uv_if_indextoname(ifindex, buffer, size);
-    }
+    [DllImport("uv")]
+    public static extern int uv_if_indextoname(uint ifindex, CString buffer, ulong* size);
 
     // Function @ uv.h:1672:15
-    public static int uv_random(uv_loop_t* loop, uv_random_t* req, void* buf, ulong buflen, uint flags, uv_random_cb cb)
-    {
-        return _virtualTable.uv_random(loop, req, buf, buflen, flags, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_random(uv_loop_t* loop, uv_random_t* req, void* buf, ulong buflen, uint flags, uv_random_cb cb);
 
     // Function @ uv.h:1657:15
-    public static int uv_inet_pton(int af, CString src, void* dst)
-    {
-        return _virtualTable.uv_inet_pton(af, src, dst);
-    }
+    [DllImport("uv")]
+    public static extern int uv_inet_pton(int af, CString src, void* dst);
 
     // Function @ uv.h:1656:15
-    public static int uv_inet_ntop(int af, void* src, CString dst, ulong size)
-    {
-        return _virtualTable.uv_inet_ntop(af, src, dst, size);
-    }
+    [DllImport("uv")]
+    public static extern int uv_inet_ntop(int af, void* src, CString dst, ulong size);
 
     // Function @ uv.h:1654:15
-    public static int uv_ip6_name(sockaddr_in6* src, CString dst, ulong size)
-    {
-        return _virtualTable.uv_ip6_name(src, dst, size);
-    }
+    [DllImport("uv")]
+    public static extern int uv_ip6_name(sockaddr_in6* src, CString dst, ulong size);
 
     // Function @ uv.h:1653:15
-    public static int uv_ip4_name(sockaddr_in* src, CString dst, ulong size)
-    {
-        return _virtualTable.uv_ip4_name(src, dst, size);
-    }
+    [DllImport("uv")]
+    public static extern int uv_ip4_name(sockaddr_in* src, CString dst, ulong size);
 
     // Function @ uv.h:1651:15
-    public static int uv_ip6_addr(CString ip, int port, sockaddr_in6* addr)
-    {
-        return _virtualTable.uv_ip6_addr(ip, port, addr);
-    }
+    [DllImport("uv")]
+    public static extern int uv_ip6_addr(CString ip, int port, sockaddr_in6* addr);
 
     // Function @ uv.h:1650:15
-    public static int uv_ip4_addr(CString ip, int port, sockaddr_in* addr)
-    {
-        return _virtualTable.uv_ip4_addr(ip, port, addr);
-    }
+    [DllImport("uv")]
+    public static extern int uv_ip4_addr(CString ip, int port, sockaddr_in* addr);
 
     // Function @ uv.h:1646:15
-    public static int uv_fs_event_getpath(uv_fs_event_t* handle, CString buffer, ulong* size)
-    {
-        return _virtualTable.uv_fs_event_getpath(handle, buffer, size);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_event_getpath(uv_fs_event_t* handle, CString buffer, ulong* size);
 
     // Function @ uv.h:1645:15
-    public static int uv_fs_event_stop(uv_fs_event_t* handle)
-    {
-        return _virtualTable.uv_fs_event_stop(handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_event_stop(uv_fs_event_t* handle);
 
     // Function @ uv.h:1641:15
-    public static int uv_fs_event_start(uv_fs_event_t* handle, uv_fs_event_cb cb, CString path, uint flags)
-    {
-        return _virtualTable.uv_fs_event_start(handle, cb, path, flags);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_event_start(uv_fs_event_t* handle, uv_fs_event_cb cb, CString path, uint flags);
 
     // Function @ uv.h:1640:15
-    public static int uv_fs_event_init(uv_loop_t* loop, uv_fs_event_t* handle)
-    {
-        return _virtualTable.uv_fs_event_init(loop, handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_event_init(uv_loop_t* loop, uv_fs_event_t* handle);
 
     // Function @ uv.h:1606:16
-    public static void uv_loadavg(double* avg)
-    {
-        _virtualTable.uv_loadavg(avg);
-    }
+    [DllImport("uv")]
+    public static extern void uv_loadavg(double* avg);
 
     // Function @ uv.h:1604:15
-    public static int uv_signal_stop(uv_signal_t* handle)
-    {
-        return _virtualTable.uv_signal_stop(handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_signal_stop(uv_signal_t* handle);
 
     // Function @ uv.h:1601:15
-    public static int uv_signal_start_oneshot(uv_signal_t* handle, uv_signal_cb signal_cb, int signum)
-    {
-        return _virtualTable.uv_signal_start_oneshot(handle, signal_cb, signum);
-    }
+    [DllImport("uv")]
+    public static extern int uv_signal_start_oneshot(uv_signal_t* handle, uv_signal_cb signal_cb, int signum);
 
     // Function @ uv.h:1598:15
-    public static int uv_signal_start(uv_signal_t* handle, uv_signal_cb signal_cb, int signum)
-    {
-        return _virtualTable.uv_signal_start(handle, signal_cb, signum);
-    }
+    [DllImport("uv")]
+    public static extern int uv_signal_start(uv_signal_t* handle, uv_signal_cb signal_cb, int signum);
 
     // Function @ uv.h:1597:15
-    public static int uv_signal_init(uv_loop_t* loop, uv_signal_t* handle)
-    {
-        return _virtualTable.uv_signal_init(loop, handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_signal_init(uv_loop_t* loop, uv_signal_t* handle);
 
     // Function @ uv.h:1585:15
-    public static int uv_fs_poll_getpath(uv_fs_poll_t* handle, CString buffer, ulong* size)
-    {
-        return _virtualTable.uv_fs_poll_getpath(handle, buffer, size);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_poll_getpath(uv_fs_poll_t* handle, CString buffer, ulong* size);
 
     // Function @ uv.h:1584:15
-    public static int uv_fs_poll_stop(uv_fs_poll_t* handle)
-    {
-        return _virtualTable.uv_fs_poll_stop(handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_poll_stop(uv_fs_poll_t* handle);
 
     // Function @ uv.h:1580:15
-    public static int uv_fs_poll_start(uv_fs_poll_t* handle, uv_fs_poll_cb poll_cb, CString path, uint interval)
-    {
-        return _virtualTable.uv_fs_poll_start(handle, poll_cb, path, interval);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_poll_start(uv_fs_poll_t* handle, uv_fs_poll_cb poll_cb, CString path, uint interval);
 
     // Function @ uv.h:1579:15
-    public static int uv_fs_poll_init(uv_loop_t* loop, uv_fs_poll_t* handle)
-    {
-        return _virtualTable.uv_fs_poll_init(loop, handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_poll_init(uv_loop_t* loop, uv_fs_poll_t* handle);
 
     // Function @ uv.h:1550:15
-    public static int uv_fs_statfs(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_statfs(loop, req, path, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_statfs(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
 
     // Function @ uv.h:1544:15
-    public static int uv_fs_lchown(uv_loop_t* loop, uv_fs_t* req, CString path, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_lchown(loop, req, path, uid, gid, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_lchown(uv_loop_t* loop, uv_fs_t* req, CString path, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb);
 
     // Function @ uv.h:1538:15
-    public static int uv_fs_fchown(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_fchown(loop, req, file, uid, gid, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_fchown(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb);
 
     // Function @ uv.h:1532:15
-    public static int uv_fs_chown(uv_loop_t* loop, uv_fs_t* req, CString path, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_chown(loop, req, path, uid, gid, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_chown(uv_loop_t* loop, uv_fs_t* req, CString path, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb);
 
     // Function @ uv.h:1527:15
-    public static int uv_fs_fchmod(uv_loop_t* loop, uv_fs_t* req, uv_file file, int mode, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_fchmod(loop, req, file, mode, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_fchmod(uv_loop_t* loop, uv_fs_t* req, uv_file file, int mode, uv_fs_cb cb);
 
     // Function @ uv.h:1523:15
-    public static int uv_fs_realpath(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_realpath(loop, req, path, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_realpath(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
 
     // Function @ uv.h:1519:15
-    public static int uv_fs_readlink(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_readlink(loop, req, path, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_readlink(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
 
     // Function @ uv.h:1513:15
-    public static int uv_fs_symlink(uv_loop_t* loop, uv_fs_t* req, CString path, CString new_path, int flags, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_symlink(loop, req, path, new_path, flags, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_symlink(uv_loop_t* loop, uv_fs_t* req, CString path, CString new_path, int flags, uv_fs_cb cb);
 
     // Function @ uv.h:1495:15
-    public static int uv_fs_link(uv_loop_t* loop, uv_fs_t* req, CString path, CString new_path, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_link(loop, req, path, new_path, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_link(uv_loop_t* loop, uv_fs_t* req, CString path, CString new_path, uv_fs_cb cb);
 
     // Function @ uv.h:1491:15
-    public static int uv_fs_lstat(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_lstat(loop, req, path, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_lstat(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
 
     // Function @ uv.h:1485:15
-    public static int uv_fs_lutime(uv_loop_t* loop, uv_fs_t* req, CString path, double atime, double mtime, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_lutime(loop, req, path, atime, mtime, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_lutime(uv_loop_t* loop, uv_fs_t* req, CString path, double atime, double mtime, uv_fs_cb cb);
 
     // Function @ uv.h:1479:15
-    public static int uv_fs_futime(uv_loop_t* loop, uv_fs_t* req, uv_file file, double atime, double mtime, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_futime(loop, req, file, atime, mtime, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_futime(uv_loop_t* loop, uv_fs_t* req, uv_file file, double atime, double mtime, uv_fs_cb cb);
 
     // Function @ uv.h:1473:15
-    public static int uv_fs_utime(uv_loop_t* loop, uv_fs_t* req, CString path, double atime, double mtime, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_utime(loop, req, path, atime, mtime, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_utime(uv_loop_t* loop, uv_fs_t* req, CString path, double atime, double mtime, uv_fs_cb cb);
 
     // Function @ uv.h:1468:15
-    public static int uv_fs_chmod(uv_loop_t* loop, uv_fs_t* req, CString path, int mode, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_chmod(loop, req, path, mode, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_chmod(uv_loop_t* loop, uv_fs_t* req, CString path, int mode, uv_fs_cb cb);
 
     // Function @ uv.h:1463:15
-    public static int uv_fs_access(uv_loop_t* loop, uv_fs_t* req, CString path, int mode, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_access(loop, req, path, mode, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_access(uv_loop_t* loop, uv_fs_t* req, CString path, int mode, uv_fs_cb cb);
 
     // Function @ uv.h:1456:15
-    public static int uv_fs_sendfile(uv_loop_t* loop, uv_fs_t* req, uv_file out_fd, uv_file in_fd, long in_offset, ulong length, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_sendfile(loop, req, out_fd, in_fd, in_offset, length, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_sendfile(uv_loop_t* loop, uv_fs_t* req, uv_file out_fd, uv_file in_fd, long in_offset, ulong length, uv_fs_cb cb);
 
     // Function @ uv.h:1451:15
-    public static int uv_fs_ftruncate(uv_loop_t* loop, uv_fs_t* req, uv_file file, long offset, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_ftruncate(loop, req, file, offset, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_ftruncate(uv_loop_t* loop, uv_fs_t* req, uv_file file, long offset, uv_fs_cb cb);
 
     // Function @ uv.h:1447:15
-    public static int uv_fs_fdatasync(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_fdatasync(loop, req, file, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_fdatasync(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_fs_cb cb);
 
     // Function @ uv.h:1443:15
-    public static int uv_fs_fsync(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_fsync(loop, req, file, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_fsync(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_fs_cb cb);
 
     // Function @ uv.h:1438:15
-    public static int uv_fs_rename(uv_loop_t* loop, uv_fs_t* req, CString path, CString new_path, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_rename(loop, req, path, new_path, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_rename(uv_loop_t* loop, uv_fs_t* req, CString path, CString new_path, uv_fs_cb cb);
 
     // Function @ uv.h:1434:15
-    public static int uv_fs_fstat(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_fstat(loop, req, file, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_fstat(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_fs_cb cb);
 
     // Function @ uv.h:1430:15
-    public static int uv_fs_stat(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_stat(loop, req, path, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_stat(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
 
     // Function @ uv.h:1426:15
-    public static int uv_fs_closedir(uv_loop_t* loop, uv_fs_t* req, uv_dir_t* dir, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_closedir(loop, req, dir, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_closedir(uv_loop_t* loop, uv_fs_t* req, uv_dir_t* dir, uv_fs_cb cb);
 
     // Function @ uv.h:1422:15
-    public static int uv_fs_readdir(uv_loop_t* loop, uv_fs_t* req, uv_dir_t* dir, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_readdir(loop, req, dir, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_readdir(uv_loop_t* loop, uv_fs_t* req, uv_dir_t* dir, uv_fs_cb cb);
 
     // Function @ uv.h:1418:15
-    public static int uv_fs_opendir(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_opendir(loop, req, path, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_opendir(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
 
     // Function @ uv.h:1416:15
-    public static int uv_fs_scandir_next(uv_fs_t* req, uv_dirent_t* ent)
-    {
-        return _virtualTable.uv_fs_scandir_next(req, ent);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_scandir_next(uv_fs_t* req, uv_dirent_t* ent);
 
     // Function @ uv.h:1411:15
-    public static int uv_fs_scandir(uv_loop_t* loop, uv_fs_t* req, CString path, int flags, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_scandir(loop, req, path, flags, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_scandir(uv_loop_t* loop, uv_fs_t* req, CString path, int flags, uv_fs_cb cb);
 
     // Function @ uv.h:1407:15
-    public static int uv_fs_rmdir(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_rmdir(loop, req, path, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_rmdir(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
 
     // Function @ uv.h:1403:15
-    public static int uv_fs_mkstemp(uv_loop_t* loop, uv_fs_t* req, CString tpl, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_mkstemp(loop, req, tpl, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_mkstemp(uv_loop_t* loop, uv_fs_t* req, CString tpl, uv_fs_cb cb);
 
     // Function @ uv.h:1399:15
-    public static int uv_fs_mkdtemp(uv_loop_t* loop, uv_fs_t* req, CString tpl, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_mkdtemp(loop, req, tpl, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_mkdtemp(uv_loop_t* loop, uv_fs_t* req, CString tpl, uv_fs_cb cb);
 
     // Function @ uv.h:1394:15
-    public static int uv_fs_mkdir(uv_loop_t* loop, uv_fs_t* req, CString path, int mode, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_mkdir(loop, req, path, mode, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_mkdir(uv_loop_t* loop, uv_fs_t* req, CString path, int mode, uv_fs_cb cb);
 
     // Function @ uv.h:1388:15
-    public static int uv_fs_copyfile(uv_loop_t* loop, uv_fs_t* req, CString path, CString new_path, int flags, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_copyfile(loop, req, path, new_path, flags, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_copyfile(uv_loop_t* loop, uv_fs_t* req, CString path, CString new_path, int flags, uv_fs_cb cb);
 
     // Function @ uv.h:1363:15
-    public static int uv_fs_write(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_buf_t* bufs, uint nbufs, long offset, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_write(loop, req, file, bufs, nbufs, offset, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_write(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_buf_t* bufs, uint nbufs, long offset, uv_fs_cb cb);
 
     // Function @ uv.h:1359:15
-    public static int uv_fs_unlink(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_unlink(loop, req, path, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_unlink(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
 
     // Function @ uv.h:1352:15
-    public static int uv_fs_read(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_buf_t* bufs, uint nbufs, long offset, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_read(loop, req, file, bufs, nbufs, offset, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_read(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_buf_t* bufs, uint nbufs, long offset, uv_fs_cb cb);
 
     // Function @ uv.h:1346:15
-    public static int uv_fs_open(uv_loop_t* loop, uv_fs_t* req, CString path, int flags, int mode, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_open(loop, req, path, flags, mode, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_open(uv_loop_t* loop, uv_fs_t* req, CString path, int flags, int mode, uv_fs_cb cb);
 
     // Function @ uv.h:1342:15
-    public static int uv_fs_close(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_fs_cb cb)
-    {
-        return _virtualTable.uv_fs_close(loop, req, file, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_close(uv_loop_t* loop, uv_fs_t* req, uv_file file, uv_fs_cb cb);
 
     // Function @ uv.h:1341:16
-    public static void uv_fs_req_cleanup(uv_fs_t* req)
-    {
-        _virtualTable.uv_fs_req_cleanup(req);
-    }
+    [DllImport("uv")]
+    public static extern void uv_fs_req_cleanup(uv_fs_t* req);
 
     // Function @ uv.h:1339:22
-    public static uv_stat_t* uv_fs_get_statbuf(uv_fs_t* param)
-    {
-        return _virtualTable.uv_fs_get_statbuf(param);
-    }
+    [DllImport("uv")]
+    public static extern uv_stat_t* uv_fs_get_statbuf(uv_fs_t* param);
 
     // Function @ uv.h:1338:23
-    public static CString uv_fs_get_path(uv_fs_t* param)
-    {
-        return _virtualTable.uv_fs_get_path(param);
-    }
+    [DllImport("uv")]
+    public static extern CString uv_fs_get_path(uv_fs_t* param);
 
     // Function @ uv.h:1337:17
-    public static void* uv_fs_get_ptr(uv_fs_t* param)
-    {
-        return _virtualTable.uv_fs_get_ptr(param);
-    }
+    [DllImport("uv")]
+    public static extern void* uv_fs_get_ptr(uv_fs_t* param);
 
     // Function @ uv.h:1336:15
-    public static int uv_fs_get_system_error(uv_fs_t* param)
-    {
-        return _virtualTable.uv_fs_get_system_error(param);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fs_get_system_error(uv_fs_t* param);
 
     // Function @ uv.h:1335:19
-    public static ssize_t uv_fs_get_result(uv_fs_t* param)
-    {
-        return _virtualTable.uv_fs_get_result(param);
-    }
+    [DllImport("uv")]
+    public static extern long uv_fs_get_result(uv_fs_t* param);
 
     // Function @ uv.h:1334:22
-    public static uv_fs_type uv_fs_get_type(uv_fs_t* param)
-    {
-        return _virtualTable.uv_fs_get_type(param);
-    }
+    [DllImport("uv")]
+    public static extern uv_fs_type uv_fs_get_type(uv_fs_t* param);
 
     // Function @ uv.h:1271:20
-    public static ulong uv_metrics_idle_time(uv_loop_t* loop)
-    {
-        return _virtualTable.uv_metrics_idle_time(loop);
-    }
+    [DllImport("uv")]
+    public static extern ulong uv_metrics_idle_time(uv_loop_t* loop);
 
     // Function @ uv.h:1269:15
-    public static int uv_os_uname(uv_utsname_t* buffer)
-    {
-        return _virtualTable.uv_os_uname(buffer);
-    }
+    [DllImport("uv")]
+    public static extern int uv_os_uname(uv_utsname_t* buffer);
 
     // Function @ uv.h:1267:15
-    public static int uv_os_gethostname(CString buffer, ulong* size)
-    {
-        return _virtualTable.uv_os_gethostname(buffer, size);
-    }
+    [DllImport("uv")]
+    public static extern int uv_os_gethostname(CString buffer, ulong* size);
 
     // Function @ uv.h:1254:15
-    public static int uv_os_unsetenv(CString name)
-    {
-        return _virtualTable.uv_os_unsetenv(name);
-    }
+    [DllImport("uv")]
+    public static extern int uv_os_unsetenv(CString name);
 
     // Function @ uv.h:1253:15
-    public static int uv_os_setenv(CString name, CString value)
-    {
-        return _virtualTable.uv_os_setenv(name, value);
-    }
+    [DllImport("uv")]
+    public static extern int uv_os_setenv(CString name, CString value);
 
     // Function @ uv.h:1252:15
-    public static int uv_os_getenv(CString name, CString buffer, ulong* size)
-    {
-        return _virtualTable.uv_os_getenv(name, buffer, size);
-    }
+    [DllImport("uv")]
+    public static extern int uv_os_getenv(CString name, CString buffer, ulong* size);
 
     // Function @ uv.h:1251:16
-    public static void uv_os_free_environ(uv_env_item_t* envitems, int count)
-    {
-        _virtualTable.uv_os_free_environ(envitems, count);
-    }
+    [DllImport("uv")]
+    public static extern void uv_os_free_environ(uv_env_item_t* envitems, int count);
 
     // Function @ uv.h:1250:15
-    public static int uv_os_environ(uv_env_item_t** envitems, long* count)
-    {
-        return _virtualTable.uv_os_environ(envitems, count);
-    }
+    [DllImport("uv")]
+    public static extern int uv_os_environ(uv_env_item_t** envitems, long* count);
 
     // Function @ uv.h:1242:16
-    public static void uv_free_interface_addresses(uv_interface_address_t* addresses, int count)
-    {
-        _virtualTable.uv_free_interface_addresses(addresses, count);
-    }
+    [DllImport("uv")]
+    public static extern void uv_free_interface_addresses(uv_interface_address_t* addresses, int count);
 
     // Function @ uv.h:1240:15
-    public static int uv_interface_addresses(uv_interface_address_t** addresses, long* count)
-    {
-        return _virtualTable.uv_interface_addresses(addresses, count);
-    }
+    [DllImport("uv")]
+    public static extern int uv_interface_addresses(uv_interface_address_t** addresses, long* count);
 
     // Function @ uv.h:1238:16
-    public static void uv_free_cpu_info(uv_cpu_info_t* cpu_infos, int count)
-    {
-        _virtualTable.uv_free_cpu_info(cpu_infos, count);
-    }
+    [DllImport("uv")]
+    public static extern void uv_free_cpu_info(uv_cpu_info_t* cpu_infos, int count);
 
     // Function @ uv.h:1237:15
-    public static int uv_cpu_info(uv_cpu_info_t** cpu_infos, long* count)
-    {
-        return _virtualTable.uv_cpu_info(cpu_infos, count);
-    }
+    [DllImport("uv")]
+    public static extern int uv_cpu_info(uv_cpu_info_t** cpu_infos, long* count);
 
     // Function @ uv.h:1235:15
-    public static int uv_os_setpriority(uv_pid_t pid, int priority)
-    {
-        return _virtualTable.uv_os_setpriority(pid, priority);
-    }
+    [DllImport("uv")]
+    public static extern int uv_os_setpriority(uv_pid_t pid, int priority);
 
     // Function @ uv.h:1234:15
-    public static int uv_os_getpriority(uv_pid_t pid, long* priority)
-    {
-        return _virtualTable.uv_os_getpriority(pid, priority);
-    }
+    [DllImport("uv")]
+    public static extern int uv_os_getpriority(uv_pid_t pid, long* priority);
 
     // Function @ uv.h:1215:20
-    public static uv_pid_t uv_os_getppid()
-    {
-        return _virtualTable.uv_os_getppid();
-    }
+    [DllImport("uv")]
+    public static extern uv_pid_t uv_os_getppid();
 
     // Function @ uv.h:1214:20
-    public static uv_pid_t uv_os_getpid()
-    {
-        return _virtualTable.uv_os_getpid();
-    }
+    [DllImport("uv")]
+    public static extern uv_pid_t uv_os_getpid();
 
     // Function @ uv.h:1213:16
-    public static void uv_os_free_passwd(uv_passwd_t* pwd)
-    {
-        _virtualTable.uv_os_free_passwd(pwd);
-    }
+    [DllImport("uv")]
+    public static extern void uv_os_free_passwd(uv_passwd_t* pwd);
 
     // Function @ uv.h:1212:15
-    public static int uv_os_get_passwd(uv_passwd_t* pwd)
-    {
-        return _virtualTable.uv_os_get_passwd(pwd);
-    }
+    [DllImport("uv")]
+    public static extern int uv_os_get_passwd(uv_passwd_t* pwd);
 
     // Function @ uv.h:1211:15
-    public static int uv_os_tmpdir(CString buffer, ulong* size)
-    {
-        return _virtualTable.uv_os_tmpdir(buffer, size);
-    }
+    [DllImport("uv")]
+    public static extern int uv_os_tmpdir(CString buffer, ulong* size);
 
     // Function @ uv.h:1210:15
-    public static int uv_os_homedir(CString buffer, ulong* size)
-    {
-        return _virtualTable.uv_os_homedir(buffer, size);
-    }
+    [DllImport("uv")]
+    public static extern int uv_os_homedir(CString buffer, ulong* size);
 
     // Function @ uv.h:1208:15
-    public static int uv_getrusage(uv_rusage_t* rusage)
-    {
-        return _virtualTable.uv_getrusage(rusage);
-    }
+    [DllImport("uv")]
+    public static extern int uv_getrusage(uv_rusage_t* rusage);
 
     // Function @ uv.h:1177:15
-    public static int uv_open_osfhandle(uv_os_fd_t os_fd)
-    {
-        return _virtualTable.uv_open_osfhandle(os_fd);
-    }
+    [DllImport("uv")]
+    public static extern int uv_open_osfhandle(uv_os_fd_t os_fd);
 
     // Function @ uv.h:1176:22
-    public static uv_os_fd_t uv_get_osfhandle(int fd)
-    {
-        return _virtualTable.uv_get_osfhandle(fd);
-    }
+    [DllImport("uv")]
+    public static extern uv_os_fd_t uv_get_osfhandle(int fd);
 
     // Function @ uv.h:1175:15
-    public static int uv_uptime(double* uptime)
-    {
-        return _virtualTable.uv_uptime(uptime);
-    }
+    [DllImport("uv")]
+    public static extern int uv_uptime(double* uptime);
 
     // Function @ uv.h:1174:15
-    public static int uv_resident_set_memory(ulong* rss)
-    {
-        return _virtualTable.uv_resident_set_memory(rss);
-    }
+    [DllImport("uv")]
+    public static extern int uv_resident_set_memory(ulong* rss);
 
     // Function @ uv.h:1173:15
-    public static int uv_set_process_title(CString title)
-    {
-        return _virtualTable.uv_set_process_title(title);
-    }
+    [DllImport("uv")]
+    public static extern int uv_set_process_title(CString title);
 
     // Function @ uv.h:1172:15
-    public static int uv_get_process_title(CString buffer, ulong size)
-    {
-        return _virtualTable.uv_get_process_title(buffer, size);
-    }
+    [DllImport("uv")]
+    public static extern int uv_get_process_title(CString buffer, ulong size);
 
     // Function @ uv.h:1171:18
-    public static CString* uv_setup_args(int argc, CString* argv)
-    {
-        return _virtualTable.uv_setup_args(argc, argv);
-    }
+    [DllImport("uv")]
+    public static extern CString* uv_setup_args(int argc, CString* argv);
 
     // Function @ uv.h:1095:15
-    public static int uv_cancel(uv_req_t* req)
-    {
-        return _virtualTable.uv_cancel(req);
-    }
+    [DllImport("uv")]
+    public static extern int uv_cancel(uv_req_t* req);
 
     // Function @ uv.h:1090:15
-    public static int uv_queue_work(uv_loop_t* loop, uv_work_t* req, uv_work_cb work_cb, uv_after_work_cb after_work_cb)
-    {
-        return _virtualTable.uv_queue_work(loop, req, work_cb, after_work_cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_queue_work(uv_loop_t* loop, uv_work_t* req, uv_work_cb work_cb, uv_after_work_cb after_work_cb);
 
     // Function @ uv.h:1076:20
-    public static uv_pid_t uv_process_get_pid(uv_process_t* param)
-    {
-        return _virtualTable.uv_process_get_pid(param);
-    }
+    [DllImport("uv")]
+    public static extern uv_pid_t uv_process_get_pid(uv_process_t* param);
 
     // Function @ uv.h:1075:15
-    public static int uv_kill(int pid, int signum)
-    {
-        return _virtualTable.uv_kill(pid, signum);
-    }
+    [DllImport("uv")]
+    public static extern int uv_kill(int pid, int signum);
 
     // Function @ uv.h:1074:15
-    public static int uv_process_kill(uv_process_t* param, int signum)
-    {
-        return _virtualTable.uv_process_kill(param, signum);
-    }
+    [DllImport("uv")]
+    public static extern int uv_process_kill(uv_process_t* param, int signum);
 
     // Function @ uv.h:1071:15
-    public static int uv_spawn(uv_loop_t* loop, uv_process_t* handle, uv_process_options_t* options)
-    {
-        return _virtualTable.uv_spawn(loop, handle, options);
-    }
+    [DllImport("uv")]
+    public static extern int uv_spawn(uv_loop_t* loop, uv_process_t* handle, uv_process_options_t* options);
 
     // Function @ uv.h:926:15
-    public static int uv_getnameinfo(uv_loop_t* loop, uv_getnameinfo_t* req, uv_getnameinfo_cb getnameinfo_cb, sockaddr* addr, int flags)
-    {
-        return _virtualTable.uv_getnameinfo(loop, req, getnameinfo_cb, addr, flags);
-    }
+    [DllImport("uv")]
+    public static extern int uv_getnameinfo(uv_loop_t* loop, uv_getnameinfo_t* req, uv_getnameinfo_cb getnameinfo_cb, sockaddr* addr, int flags);
 
     // Function @ uv.h:910:16
-    public static void uv_freeaddrinfo(addrinfo* ai)
-    {
-        _virtualTable.uv_freeaddrinfo(ai);
-    }
+    [DllImport("uv")]
+    public static extern void uv_freeaddrinfo(addrinfo* ai);
 
     // Function @ uv.h:904:15
-    public static int uv_getaddrinfo(uv_loop_t* loop, uv_getaddrinfo_t* req, uv_getaddrinfo_cb getaddrinfo_cb, CString node, CString service, addrinfo* hints)
-    {
-        return _virtualTable.uv_getaddrinfo(loop, req, getaddrinfo_cb, node, service, hints);
-    }
+    [DllImport("uv")]
+    public static extern int uv_getaddrinfo(uv_loop_t* loop, uv_getaddrinfo_t* req, uv_getaddrinfo_cb getaddrinfo_cb, CString node, CString service, addrinfo* hints);
 
     // Function @ uv.h:887:20
-    public static ulong uv_timer_get_due_in(uv_timer_t* handle)
-    {
-        return _virtualTable.uv_timer_get_due_in(handle);
-    }
+    [DllImport("uv")]
+    public static extern ulong uv_timer_get_due_in(uv_timer_t* handle);
 
     // Function @ uv.h:886:20
-    public static ulong uv_timer_get_repeat(uv_timer_t* handle)
-    {
-        return _virtualTable.uv_timer_get_repeat(handle);
-    }
+    [DllImport("uv")]
+    public static extern ulong uv_timer_get_repeat(uv_timer_t* handle);
 
     // Function @ uv.h:885:16
-    public static void uv_timer_set_repeat(uv_timer_t* handle, ulong repeat)
-    {
-        _virtualTable.uv_timer_set_repeat(handle, repeat);
-    }
+    [DllImport("uv")]
+    public static extern void uv_timer_set_repeat(uv_timer_t* handle, ulong repeat);
 
     // Function @ uv.h:884:15
-    public static int uv_timer_again(uv_timer_t* handle)
-    {
-        return _virtualTable.uv_timer_again(handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_timer_again(uv_timer_t* handle);
 
     // Function @ uv.h:883:15
-    public static int uv_timer_stop(uv_timer_t* handle)
-    {
-        return _virtualTable.uv_timer_stop(handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_timer_stop(uv_timer_t* handle);
 
     // Function @ uv.h:879:15
-    public static int uv_timer_start(uv_timer_t* handle, uv_timer_cb cb, ulong timeout, ulong repeat)
-    {
-        return _virtualTable.uv_timer_start(handle, cb, timeout, repeat);
-    }
+    [DllImport("uv")]
+    public static extern int uv_timer_start(uv_timer_t* handle, uv_timer_cb cb, ulong timeout, ulong repeat);
 
     // Function @ uv.h:878:15
-    public static int uv_timer_init(uv_loop_t* param, uv_timer_t* handle)
-    {
-        return _virtualTable.uv_timer_init(param, handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_timer_init(uv_loop_t* param, uv_timer_t* handle);
 
     // Function @ uv.h:865:15
-    public static int uv_async_send(uv_async_t* async)
-    {
-        return _virtualTable.uv_async_send(async);
-    }
+    [DllImport("uv")]
+    public static extern int uv_async_send(uv_async_t* async);
 
     // Function @ uv.h:862:15
-    public static int uv_async_init(uv_loop_t* param, uv_async_t* async, uv_async_cb async_cb)
-    {
-        return _virtualTable.uv_async_init(param, async, async_cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_async_init(uv_loop_t* param, uv_async_t* async, uv_async_cb async_cb);
 
     // Function @ uv.h:854:15
-    public static int uv_idle_stop(uv_idle_t* idle)
-    {
-        return _virtualTable.uv_idle_stop(idle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_idle_stop(uv_idle_t* idle);
 
     // Function @ uv.h:853:15
-    public static int uv_idle_start(uv_idle_t* idle, uv_idle_cb cb)
-    {
-        return _virtualTable.uv_idle_start(idle, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_idle_start(uv_idle_t* idle, uv_idle_cb cb);
 
     // Function @ uv.h:852:15
-    public static int uv_idle_init(uv_loop_t* param, uv_idle_t* idle)
-    {
-        return _virtualTable.uv_idle_init(param, idle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_idle_init(uv_loop_t* param, uv_idle_t* idle);
 
     // Function @ uv.h:844:15
-    public static int uv_check_stop(uv_check_t* check)
-    {
-        return _virtualTable.uv_check_stop(check);
-    }
+    [DllImport("uv")]
+    public static extern int uv_check_stop(uv_check_t* check);
 
     // Function @ uv.h:843:15
-    public static int uv_check_start(uv_check_t* check, uv_check_cb cb)
-    {
-        return _virtualTable.uv_check_start(check, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_check_start(uv_check_t* check, uv_check_cb cb);
 
     // Function @ uv.h:842:15
-    public static int uv_check_init(uv_loop_t* param, uv_check_t* check)
-    {
-        return _virtualTable.uv_check_init(param, check);
-    }
+    [DllImport("uv")]
+    public static extern int uv_check_init(uv_loop_t* param, uv_check_t* check);
 
     // Function @ uv.h:834:15
-    public static int uv_prepare_stop(uv_prepare_t* prepare)
-    {
-        return _virtualTable.uv_prepare_stop(prepare);
-    }
+    [DllImport("uv")]
+    public static extern int uv_prepare_stop(uv_prepare_t* prepare);
 
     // Function @ uv.h:833:15
-    public static int uv_prepare_start(uv_prepare_t* prepare, uv_prepare_cb cb)
-    {
-        return _virtualTable.uv_prepare_start(prepare, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_prepare_start(uv_prepare_t* prepare, uv_prepare_cb cb);
 
     // Function @ uv.h:832:15
-    public static int uv_prepare_init(uv_loop_t* param, uv_prepare_t* prepare)
-    {
-        return _virtualTable.uv_prepare_init(param, prepare);
-    }
+    [DllImport("uv")]
+    public static extern int uv_prepare_init(uv_loop_t* param, uv_prepare_t* prepare);
 
     // Function @ uv.h:824:15
-    public static int uv_poll_stop(uv_poll_t* handle)
-    {
-        return _virtualTable.uv_poll_stop(handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_poll_stop(uv_poll_t* handle);
 
     // Function @ uv.h:823:15
-    public static int uv_poll_start(uv_poll_t* handle, int events, uv_poll_cb cb)
-    {
-        return _virtualTable.uv_poll_start(handle, events, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_poll_start(uv_poll_t* handle, int events, uv_poll_cb cb);
 
     // Function @ uv.h:820:15
-    public static int uv_poll_init_socket(uv_loop_t* loop, uv_poll_t* handle, uv_os_sock_t socket)
-    {
-        return _virtualTable.uv_poll_init_socket(loop, handle, socket);
-    }
+    [DllImport("uv")]
+    public static extern int uv_poll_init_socket(uv_loop_t* loop, uv_poll_t* handle, uv_os_sock_t socket);
 
     // Function @ uv.h:819:15
-    public static int uv_poll_init(uv_loop_t* loop, uv_poll_t* handle, int fd)
-    {
-        return _virtualTable.uv_poll_init(loop, handle, fd);
-    }
+    [DllImport("uv")]
+    public static extern int uv_poll_init(uv_loop_t* loop, uv_poll_t* handle, int fd);
 
     // Function @ uv.h:803:15
-    public static int uv_pipe_chmod(uv_pipe_t* handle, int flags)
-    {
-        return _virtualTable.uv_pipe_chmod(handle, flags);
-    }
+    [DllImport("uv")]
+    public static extern int uv_pipe_chmod(uv_pipe_t* handle, int flags);
 
     // Function @ uv.h:802:26
-    public static uv_handle_type uv_pipe_pending_type(uv_pipe_t* handle)
-    {
-        return _virtualTable.uv_pipe_pending_type(handle);
-    }
+    [DllImport("uv")]
+    public static extern uv_handle_type uv_pipe_pending_type(uv_pipe_t* handle);
 
     // Function @ uv.h:801:15
-    public static int uv_pipe_pending_count(uv_pipe_t* handle)
-    {
-        return _virtualTable.uv_pipe_pending_count(handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_pipe_pending_count(uv_pipe_t* handle);
 
     // Function @ uv.h:800:16
-    public static void uv_pipe_pending_instances(uv_pipe_t* handle, int count)
-    {
-        _virtualTable.uv_pipe_pending_instances(handle, count);
-    }
+    [DllImport("uv")]
+    public static extern void uv_pipe_pending_instances(uv_pipe_t* handle, int count);
 
     // Function @ uv.h:797:15
-    public static int uv_pipe_getpeername(uv_pipe_t* handle, CString buffer, ulong* size)
-    {
-        return _virtualTable.uv_pipe_getpeername(handle, buffer, size);
-    }
+    [DllImport("uv")]
+    public static extern int uv_pipe_getpeername(uv_pipe_t* handle, CString buffer, ulong* size);
 
     // Function @ uv.h:794:15
-    public static int uv_pipe_getsockname(uv_pipe_t* handle, CString buffer, ulong* size)
-    {
-        return _virtualTable.uv_pipe_getsockname(handle, buffer, size);
-    }
+    [DllImport("uv")]
+    public static extern int uv_pipe_getsockname(uv_pipe_t* handle, CString buffer, ulong* size);
 
     // Function @ uv.h:790:16
-    public static void uv_pipe_connect(uv_connect_t* req, uv_pipe_t* handle, CString name, uv_connect_cb cb)
-    {
-        _virtualTable.uv_pipe_connect(req, handle, name, cb);
-    }
+    [DllImport("uv")]
+    public static extern void uv_pipe_connect(uv_connect_t* req, uv_pipe_t* handle, CString name, uv_connect_cb cb);
 
     // Function @ uv.h:789:15
-    public static int uv_pipe_bind(uv_pipe_t* handle, CString name)
-    {
-        return _virtualTable.uv_pipe_bind(handle, name);
-    }
+    [DllImport("uv")]
+    public static extern int uv_pipe_bind(uv_pipe_t* handle, CString name);
 
     // Function @ uv.h:788:15
-    public static int uv_pipe_open(uv_pipe_t* param, uv_file file)
-    {
-        return _virtualTable.uv_pipe_open(param, file);
-    }
+    [DllImport("uv")]
+    public static extern int uv_pipe_open(uv_pipe_t* param, uv_file file);
 
     // Function @ uv.h:787:15
-    public static int uv_pipe_init(uv_loop_t* param, uv_pipe_t* handle, int ipc)
-    {
-        return _virtualTable.uv_pipe_init(param, handle, ipc);
-    }
+    [DllImport("uv")]
+    public static extern int uv_pipe_init(uv_loop_t* param, uv_pipe_t* handle, int ipc);
 
     // Function @ uv.h:772:26
-    public static uv_handle_type uv_guess_handle(uv_file file)
-    {
-        return _virtualTable.uv_guess_handle(file);
-    }
+    [DllImport("uv")]
+    public static extern uv_handle_type uv_guess_handle(uv_file file);
 
     // Function @ uv.h:760:15
-    public static int uv_tty_get_vterm_state(uv_tty_vtermstate_t* state)
-    {
-        return _virtualTable.uv_tty_get_vterm_state(state);
-    }
+    [DllImport("uv")]
+    public static extern int uv_tty_get_vterm_state(uv_tty_vtermstate_t* state);
 
     // Function @ uv.h:759:16
-    public static void uv_tty_set_vterm_state(uv_tty_vtermstate_t state)
-    {
-        _virtualTable.uv_tty_set_vterm_state(state);
-    }
+    [DllImport("uv")]
+    public static extern void uv_tty_set_vterm_state(uv_tty_vtermstate_t state);
 
     // Function @ uv.h:758:15
-    public static int uv_tty_get_winsize(uv_tty_t* param, long* width, long* height)
-    {
-        return _virtualTable.uv_tty_get_winsize(param, width, height);
-    }
+    [DllImport("uv")]
+    public static extern int uv_tty_get_winsize(uv_tty_t* param, long* width, long* height);
 
     // Function @ uv.h:757:15
-    public static int uv_tty_reset_mode()
-    {
-        return _virtualTable.uv_tty_reset_mode();
-    }
+    [DllImport("uv")]
+    public static extern int uv_tty_reset_mode();
 
     // Function @ uv.h:756:15
-    public static int uv_tty_set_mode(uv_tty_t* param, uv_tty_mode_t mode)
-    {
-        return _virtualTable.uv_tty_set_mode(param, mode);
-    }
+    [DllImport("uv")]
+    public static extern int uv_tty_set_mode(uv_tty_t* param, uv_tty_mode_t mode);
 
     // Function @ uv.h:755:15
-    public static int uv_tty_init(uv_loop_t* param, uv_tty_t* param2, uv_file fd, int readable)
-    {
-        return _virtualTable.uv_tty_init(param, param2, fd, readable);
-    }
+    [DllImport("uv")]
+    public static extern int uv_tty_init(uv_loop_t* param, uv_tty_t* param2, uv_file fd, int readable);
 
     // Function @ uv.h:719:18
-    public static ulong uv_udp_get_send_queue_count(uv_udp_t* handle)
-    {
-        return _virtualTable.uv_udp_get_send_queue_count(handle);
-    }
+    [DllImport("uv")]
+    public static extern ulong uv_udp_get_send_queue_count(uv_udp_t* handle);
 
     // Function @ uv.h:718:18
-    public static ulong uv_udp_get_send_queue_size(uv_udp_t* handle)
-    {
-        return _virtualTable.uv_udp_get_send_queue_size(handle);
-    }
+    [DllImport("uv")]
+    public static extern ulong uv_udp_get_send_queue_size(uv_udp_t* handle);
 
     // Function @ uv.h:717:15
-    public static int uv_udp_recv_stop(uv_udp_t* handle)
-    {
-        return _virtualTable.uv_udp_recv_stop(handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_recv_stop(uv_udp_t* handle);
 
     // Function @ uv.h:716:15
-    public static int uv_udp_using_recvmmsg(uv_udp_t* handle)
-    {
-        return _virtualTable.uv_udp_using_recvmmsg(handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_using_recvmmsg(uv_udp_t* handle);
 
     // Function @ uv.h:713:15
-    public static int uv_udp_recv_start(uv_udp_t* handle, uv_alloc_cb alloc_cb, uv_udp_recv_cb recv_cb)
-    {
-        return _virtualTable.uv_udp_recv_start(handle, alloc_cb, recv_cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_recv_start(uv_udp_t* handle, uv_alloc_cb alloc_cb, uv_udp_recv_cb recv_cb);
 
     // Function @ uv.h:709:15
-    public static int uv_udp_try_send(uv_udp_t* handle, uv_buf_t* bufs, uint nbufs, sockaddr* addr)
-    {
-        return _virtualTable.uv_udp_try_send(handle, bufs, nbufs, addr);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_try_send(uv_udp_t* handle, uv_buf_t* bufs, uint nbufs, sockaddr* addr);
 
     // Function @ uv.h:703:15
-    public static int uv_udp_send(uv_udp_send_t* req, uv_udp_t* handle, uv_buf_t* bufs, uint nbufs, sockaddr* addr, uv_udp_send_cb send_cb)
-    {
-        return _virtualTable.uv_udp_send(req, handle, bufs, nbufs, addr, send_cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_send(uv_udp_send_t* req, uv_udp_t* handle, uv_buf_t* bufs, uint nbufs, sockaddr* addr, uv_udp_send_cb send_cb);
 
     // Function @ uv.h:702:15
-    public static int uv_udp_set_ttl(uv_udp_t* handle, int ttl)
-    {
-        return _virtualTable.uv_udp_set_ttl(handle, ttl);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_set_ttl(uv_udp_t* handle, int ttl);
 
     // Function @ uv.h:701:15
-    public static int uv_udp_set_broadcast(uv_udp_t* handle, int on)
-    {
-        return _virtualTable.uv_udp_set_broadcast(handle, on);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_set_broadcast(uv_udp_t* handle, int on);
 
     // Function @ uv.h:699:15
-    public static int uv_udp_set_multicast_interface(uv_udp_t* handle, CString interface_addr)
-    {
-        return _virtualTable.uv_udp_set_multicast_interface(handle, interface_addr);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_set_multicast_interface(uv_udp_t* handle, CString interface_addr);
 
     // Function @ uv.h:698:15
-    public static int uv_udp_set_multicast_ttl(uv_udp_t* handle, int ttl)
-    {
-        return _virtualTable.uv_udp_set_multicast_ttl(handle, ttl);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_set_multicast_ttl(uv_udp_t* handle, int ttl);
 
     // Function @ uv.h:697:15
-    public static int uv_udp_set_multicast_loop(uv_udp_t* handle, int on)
-    {
-        return _virtualTable.uv_udp_set_multicast_loop(handle, on);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_set_multicast_loop(uv_udp_t* handle, int on);
 
     // Function @ uv.h:692:15
-    public static int uv_udp_set_source_membership(uv_udp_t* handle, CString multicast_addr, CString interface_addr, CString source_addr, uv_membership membership)
-    {
-        return _virtualTable.uv_udp_set_source_membership(handle, multicast_addr, interface_addr, source_addr, membership);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_set_source_membership(uv_udp_t* handle, CString multicast_addr, CString interface_addr, CString source_addr, uv_membership membership);
 
     // Function @ uv.h:688:15
-    public static int uv_udp_set_membership(uv_udp_t* handle, CString multicast_addr, CString interface_addr, uv_membership membership)
-    {
-        return _virtualTable.uv_udp_set_membership(handle, multicast_addr, interface_addr, membership);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_set_membership(uv_udp_t* handle, CString multicast_addr, CString interface_addr, uv_membership membership);
 
     // Function @ uv.h:685:15
-    public static int uv_udp_getsockname(uv_udp_t* handle, sockaddr* name, long* namelen)
-    {
-        return _virtualTable.uv_udp_getsockname(handle, name, namelen);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_getsockname(uv_udp_t* handle, sockaddr* name, long* namelen);
 
     // Function @ uv.h:682:15
-    public static int uv_udp_getpeername(uv_udp_t* handle, sockaddr* name, long* namelen)
-    {
-        return _virtualTable.uv_udp_getpeername(handle, name, namelen);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_getpeername(uv_udp_t* handle, sockaddr* name, long* namelen);
 
     // Function @ uv.h:680:15
-    public static int uv_udp_connect(uv_udp_t* handle, sockaddr* addr)
-    {
-        return _virtualTable.uv_udp_connect(handle, addr);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_connect(uv_udp_t* handle, sockaddr* addr);
 
     // Function @ uv.h:677:15
-    public static int uv_udp_bind(uv_udp_t* handle, sockaddr* addr, uint flags)
-    {
-        return _virtualTable.uv_udp_bind(handle, addr, flags);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_bind(uv_udp_t* handle, sockaddr* addr, uint flags);
 
     // Function @ uv.h:676:15
-    public static int uv_udp_open(uv_udp_t* handle, uv_os_sock_t sock)
-    {
-        return _virtualTable.uv_udp_open(handle, sock);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_open(uv_udp_t* handle, uv_os_sock_t sock);
 
     // Function @ uv.h:675:15
-    public static int uv_udp_init_ex(uv_loop_t* param, uv_udp_t* handle, uint flags)
-    {
-        return _virtualTable.uv_udp_init_ex(param, handle, flags);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_init_ex(uv_loop_t* param, uv_udp_t* handle, uint flags);
 
     // Function @ uv.h:674:15
-    public static int uv_udp_init(uv_loop_t* param, uv_udp_t* handle)
-    {
-        return _virtualTable.uv_udp_init(param, handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_udp_init(uv_loop_t* param, uv_udp_t* handle);
 
     // Function @ uv.h:583:15
-    public static int uv_tcp_connect(uv_connect_t* req, uv_tcp_t* handle, sockaddr* addr, uv_connect_cb cb)
-    {
-        return _virtualTable.uv_tcp_connect(req, handle, addr, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_tcp_connect(uv_connect_t* req, uv_tcp_t* handle, sockaddr* addr, uv_connect_cb cb);
 
     // Function @ uv.h:582:15
-    public static int uv_tcp_close_reset(uv_tcp_t* handle, uv_close_cb close_cb)
-    {
-        return _virtualTable.uv_tcp_close_reset(handle, close_cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_tcp_close_reset(uv_tcp_t* handle, uv_close_cb close_cb);
 
     // Function @ uv.h:579:15
-    public static int uv_tcp_getpeername(uv_tcp_t* handle, sockaddr* name, long* namelen)
-    {
-        return _virtualTable.uv_tcp_getpeername(handle, name, namelen);
-    }
+    [DllImport("uv")]
+    public static extern int uv_tcp_getpeername(uv_tcp_t* handle, sockaddr* name, long* namelen);
 
     // Function @ uv.h:576:15
-    public static int uv_tcp_getsockname(uv_tcp_t* handle, sockaddr* name, long* namelen)
-    {
-        return _virtualTable.uv_tcp_getsockname(handle, name, namelen);
-    }
+    [DllImport("uv")]
+    public static extern int uv_tcp_getsockname(uv_tcp_t* handle, sockaddr* name, long* namelen);
 
     // Function @ uv.h:573:15
-    public static int uv_tcp_bind(uv_tcp_t* handle, sockaddr* addr, uint flags)
-    {
-        return _virtualTable.uv_tcp_bind(handle, addr, flags);
-    }
+    [DllImport("uv")]
+    public static extern int uv_tcp_bind(uv_tcp_t* handle, sockaddr* addr, uint flags);
 
     // Function @ uv.h:566:15
-    public static int uv_tcp_simultaneous_accepts(uv_tcp_t* handle, int enable)
-    {
-        return _virtualTable.uv_tcp_simultaneous_accepts(handle, enable);
-    }
+    [DllImport("uv")]
+    public static extern int uv_tcp_simultaneous_accepts(uv_tcp_t* handle, int enable);
 
     // Function @ uv.h:563:15
-    public static int uv_tcp_keepalive(uv_tcp_t* handle, int enable, uint delay)
-    {
-        return _virtualTable.uv_tcp_keepalive(handle, enable, delay);
-    }
+    [DllImport("uv")]
+    public static extern int uv_tcp_keepalive(uv_tcp_t* handle, int enable, uint delay);
 
     // Function @ uv.h:562:15
-    public static int uv_tcp_nodelay(uv_tcp_t* handle, int enable)
-    {
-        return _virtualTable.uv_tcp_nodelay(handle, enable);
-    }
+    [DllImport("uv")]
+    public static extern int uv_tcp_nodelay(uv_tcp_t* handle, int enable);
 
     // Function @ uv.h:561:15
-    public static int uv_tcp_open(uv_tcp_t* handle, uv_os_sock_t sock)
-    {
-        return _virtualTable.uv_tcp_open(handle, sock);
-    }
+    [DllImport("uv")]
+    public static extern int uv_tcp_open(uv_tcp_t* handle, uv_os_sock_t sock);
 
     // Function @ uv.h:560:15
-    public static int uv_tcp_init_ex(uv_loop_t* param, uv_tcp_t* handle, uint flags)
-    {
-        return _virtualTable.uv_tcp_init_ex(param, handle, flags);
-    }
+    [DllImport("uv")]
+    public static extern int uv_tcp_init_ex(uv_loop_t* param, uv_tcp_t* handle, uint flags);
 
     // Function @ uv.h:559:15
-    public static int uv_tcp_init(uv_loop_t* param, uv_tcp_t* handle)
-    {
-        return _virtualTable.uv_tcp_init(param, handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_tcp_init(uv_loop_t* param, uv_tcp_t* handle);
 
     // Function @ uv.h:545:15
-    public static int uv_is_closing(uv_handle_t* handle)
-    {
-        return _virtualTable.uv_is_closing(handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_is_closing(uv_handle_t* handle);
 
     // Function @ uv.h:543:15
-    public static int uv_stream_set_blocking(uv_stream_t* handle, int blocking)
-    {
-        return _virtualTable.uv_stream_set_blocking(handle, blocking);
-    }
+    [DllImport("uv")]
+    public static extern int uv_stream_set_blocking(uv_stream_t* handle, int blocking);
 
     // Function @ uv.h:541:15
-    public static int uv_is_writable(uv_stream_t* handle)
-    {
-        return _virtualTable.uv_is_writable(handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_is_writable(uv_stream_t* handle);
 
     // Function @ uv.h:540:15
-    public static int uv_is_readable(uv_stream_t* handle)
-    {
-        return _virtualTable.uv_is_readable(handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_is_readable(uv_stream_t* handle);
 
     // Function @ uv.h:526:15
-    public static int uv_try_write(uv_stream_t* handle, uv_buf_t* bufs, uint nbufs)
-    {
-        return _virtualTable.uv_try_write(handle, bufs, nbufs);
-    }
+    [DllImport("uv")]
+    public static extern int uv_try_write(uv_stream_t* handle, uv_buf_t* bufs, uint nbufs);
 
     // Function @ uv.h:520:15
-    public static int uv_write2(uv_write_t* req, uv_stream_t* handle, uv_buf_t* bufs, uint nbufs, uv_stream_t* send_handle, uv_write_cb cb)
-    {
-        return _virtualTable.uv_write2(req, handle, bufs, nbufs, send_handle, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_write2(uv_write_t* req, uv_stream_t* handle, uv_buf_t* bufs, uint nbufs, uv_stream_t* send_handle, uv_write_cb cb);
 
     // Function @ uv.h:515:15
-    public static int uv_write(uv_write_t* req, uv_stream_t* handle, uv_buf_t* bufs, uint nbufs, uv_write_cb cb)
-    {
-        return _virtualTable.uv_write(req, handle, bufs, nbufs, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_write(uv_write_t* req, uv_stream_t* handle, uv_buf_t* bufs, uint nbufs, uv_write_cb cb);
 
     // Function @ uv.h:513:15
-    public static int uv_read_stop(uv_stream_t* param)
-    {
-        return _virtualTable.uv_read_stop(param);
-    }
+    [DllImport("uv")]
+    public static extern int uv_read_stop(uv_stream_t* param);
 
     // Function @ uv.h:510:15
-    public static int uv_read_start(uv_stream_t* param, uv_alloc_cb alloc_cb, uv_read_cb read_cb)
-    {
-        return _virtualTable.uv_read_start(param, alloc_cb, read_cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_read_start(uv_stream_t* param, uv_alloc_cb alloc_cb, uv_read_cb read_cb);
 
     // Function @ uv.h:508:15
-    public static int uv_accept(uv_stream_t* server, uv_stream_t* client)
-    {
-        return _virtualTable.uv_accept(server, client);
-    }
+    [DllImport("uv")]
+    public static extern int uv_accept(uv_stream_t* server, uv_stream_t* client);
 
     // Function @ uv.h:507:15
-    public static int uv_listen(uv_stream_t* stream, int backlog, uv_connection_cb cb)
-    {
-        return _virtualTable.uv_listen(stream, backlog, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_listen(uv_stream_t* stream, int backlog, uv_connection_cb cb);
 
     // Function @ uv.h:505:18
-    public static ulong uv_stream_get_write_queue_size(uv_stream_t* stream)
-    {
-        return _virtualTable.uv_stream_get_write_queue_size(stream);
-    }
+    [DllImport("uv")]
+    public static extern ulong uv_stream_get_write_queue_size(uv_stream_t* stream);
 
     // Function @ uv.h:479:15
-    public static int uv_socketpair(int type, int protocol, uv_os_sock_t* socket_vector, int flags0, int flags1)
-    {
-        return _virtualTable.uv_socketpair(type, protocol, socket_vector, flags0, flags1);
-    }
+    [DllImport("uv")]
+    public static extern int uv_socketpair(int type, int protocol, uv_os_sock_t* socket_vector, int flags0, int flags1);
 
     // Function @ uv.h:478:15
-    public static int uv_pipe(uv_file* fds, int read_flags, int write_flags)
-    {
-        return _virtualTable.uv_pipe(fds, read_flags, write_flags);
-    }
+    [DllImport("uv")]
+    public static extern int uv_pipe(uv_file* fds, int read_flags, int write_flags);
 
     // Function @ uv.h:476:20
-    public static uv_buf_t uv_buf_init(CString @base, uint len)
-    {
-        return _virtualTable.uv_buf_init(@base, len);
-    }
+    [DllImport("uv")]
+    public static extern uv_buf_t uv_buf_init(CString @base, uint len);
 
     // Function @ uv.h:474:15
-    public static int uv_fileno(uv_handle_t* handle, uv_os_fd_t* fd)
-    {
-        return _virtualTable.uv_fileno(handle, fd);
-    }
+    [DllImport("uv")]
+    public static extern int uv_fileno(uv_handle_t* handle, uv_os_fd_t* fd);
 
     // Function @ uv.h:472:15
-    public static int uv_recv_buffer_size(uv_handle_t* handle, long* value)
-    {
-        return _virtualTable.uv_recv_buffer_size(handle, value);
-    }
+    [DllImport("uv")]
+    public static extern int uv_recv_buffer_size(uv_handle_t* handle, long* value);
 
     // Function @ uv.h:471:15
-    public static int uv_send_buffer_size(uv_handle_t* handle, long* value)
-    {
-        return _virtualTable.uv_send_buffer_size(handle, value);
-    }
+    [DllImport("uv")]
+    public static extern int uv_send_buffer_size(uv_handle_t* handle, long* value);
 
     // Function @ uv.h:469:16
-    public static void uv_close(uv_handle_t* handle, uv_close_cb close_cb)
-    {
-        _virtualTable.uv_close(handle, close_cb);
-    }
+    [DllImport("uv")]
+    public static extern void uv_close(uv_handle_t* handle, uv_close_cb close_cb);
 
     // Function @ uv.h:467:16
-    public static void uv_print_active_handles(uv_loop_t* loop, FILE* stream)
-    {
-        _virtualTable.uv_print_active_handles(loop, stream);
-    }
+    [DllImport("uv")]
+    public static extern void uv_print_active_handles(uv_loop_t* loop, FILE* stream);
 
     // Function @ uv.h:466:16
-    public static void uv_print_all_handles(uv_loop_t* loop, FILE* stream)
-    {
-        _virtualTable.uv_print_all_handles(loop, stream);
-    }
+    [DllImport("uv")]
+    public static extern void uv_print_all_handles(uv_loop_t* loop, FILE* stream);
 
     // Function @ uv.h:463:16
-    public static void uv_walk(uv_loop_t* loop, uv_walk_cb walk_cb, void* arg)
-    {
-        _virtualTable.uv_walk(loop, walk_cb, arg);
-    }
+    [DllImport("uv")]
+    public static extern void uv_walk(uv_loop_t* loop, uv_walk_cb walk_cb, void* arg);
 
     // Function @ uv.h:461:15
-    public static int uv_is_active(uv_handle_t* handle)
-    {
-        return _virtualTable.uv_is_active(handle);
-    }
+    [DllImport("uv")]
+    public static extern int uv_is_active(uv_handle_t* handle);
 
     // Function @ uv.h:459:23
-    public static CString uv_req_type_name(uv_req_type type)
-    {
-        return _virtualTable.uv_req_type_name(type);
-    }
+    [DllImport("uv")]
+    public static extern CString uv_req_type_name(uv_req_type type);
 
     // Function @ uv.h:458:23
-    public static uv_req_type uv_req_get_type(uv_req_t* req)
-    {
-        return _virtualTable.uv_req_get_type(req);
-    }
+    [DllImport("uv")]
+    public static extern uv_req_type uv_req_get_type(uv_req_t* req);
 
     // Function @ uv.h:457:16
-    public static void uv_req_set_data(uv_req_t* req, void* data)
-    {
-        _virtualTable.uv_req_set_data(req, data);
-    }
+    [DllImport("uv")]
+    public static extern void uv_req_set_data(uv_req_t* req, void* data);
 
     // Function @ uv.h:456:17
-    public static void* uv_req_get_data(uv_req_t* req)
-    {
-        return _virtualTable.uv_req_get_data(req);
-    }
+    [DllImport("uv")]
+    public static extern void* uv_req_get_data(uv_req_t* req);
 
     // Function @ uv.h:455:18
-    public static ulong uv_req_size(uv_req_type type)
-    {
-        return _virtualTable.uv_req_size(type);
-    }
+    [DllImport("uv")]
+    public static extern ulong uv_req_size(uv_req_type type);
 
     // Function @ uv.h:453:16
-    public static void uv_handle_set_data(uv_handle_t* handle, void* data)
-    {
-        _virtualTable.uv_handle_set_data(handle, data);
-    }
+    [DllImport("uv")]
+    public static extern void uv_handle_set_data(uv_handle_t* handle, void* data);
 
     // Function @ uv.h:452:22
-    public static uv_loop_t* uv_handle_get_loop(uv_handle_t* handle)
-    {
-        return _virtualTable.uv_handle_get_loop(handle);
-    }
+    [DllImport("uv")]
+    public static extern uv_loop_t* uv_handle_get_loop(uv_handle_t* handle);
 
     // Function @ uv.h:451:17
-    public static void* uv_handle_get_data(uv_handle_t* handle)
-    {
-        return _virtualTable.uv_handle_get_data(handle);
-    }
+    [DllImport("uv")]
+    public static extern void* uv_handle_get_data(uv_handle_t* handle);
 
     // Function @ uv.h:450:23
-    public static CString uv_handle_type_name(uv_handle_type type)
-    {
-        return _virtualTable.uv_handle_type_name(type);
-    }
+    [DllImport("uv")]
+    public static extern CString uv_handle_type_name(uv_handle_type type);
 
     // Function @ uv.h:449:26
-    public static uv_handle_type uv_handle_get_type(uv_handle_t* handle)
-    {
-        return _virtualTable.uv_handle_get_type(handle);
-    }
+    [DllImport("uv")]
+    public static extern uv_handle_type uv_handle_get_type(uv_handle_t* handle);
 
     // Function @ uv.h:448:18
-    public static ulong uv_handle_size(uv_handle_type type)
-    {
-        return _virtualTable.uv_handle_size(type);
-    }
+    [DllImport("uv")]
+    public static extern ulong uv_handle_size(uv_handle_type type);
 
     // Function @ uv.h:416:15
-    public static int uv_shutdown(uv_shutdown_t* req, uv_stream_t* handle, uv_shutdown_cb cb)
-    {
-        return _virtualTable.uv_shutdown(req, handle, cb);
-    }
+    [DllImport("uv")]
+    public static extern int uv_shutdown(uv_shutdown_t* req, uv_stream_t* handle, uv_shutdown_cb cb);
 
     // Function @ uv.h:394:17
-    public static CString uv_err_name_r(int err, CString buf, ulong buflen)
-    {
-        return _virtualTable.uv_err_name_r(err, buf, buflen);
-    }
+    [DllImport("uv")]
+    public static extern CString uv_err_name_r(int err, CString buf, ulong buflen);
 
     // Function @ uv.h:393:23
-    public static CString uv_err_name(int err)
-    {
-        return _virtualTable.uv_err_name(err);
-    }
+    [DllImport("uv")]
+    public static extern CString uv_err_name(int err);
 
     // Function @ uv.h:391:17
-    public static CString uv_strerror_r(int err, CString buf, ulong buflen)
-    {
-        return _virtualTable.uv_strerror_r(err, buf, buflen);
-    }
+    [DllImport("uv")]
+    public static extern CString uv_strerror_r(int err, CString buf, ulong buflen);
 
     // Function @ uv.h:390:23
-    public static CString uv_strerror(int err)
-    {
-        return _virtualTable.uv_strerror(err);
-    }
+    [DllImport("uv")]
+    public static extern CString uv_strerror(int err);
 
     // Function @ uv.h:388:15
-    public static int uv_translate_sys_error(int sys_errno)
-    {
-        return _virtualTable.uv_translate_sys_error(sys_errno);
-    }
+    [DllImport("uv")]
+    public static extern int uv_translate_sys_error(int sys_errno);
 
     // Function @ uv.h:307:15
-    public static int uv_backend_timeout(uv_loop_t* param)
-    {
-        return _virtualTable.uv_backend_timeout(param);
-    }
+    [DllImport("uv")]
+    public static extern int uv_backend_timeout(uv_loop_t* param);
 
     // Function @ uv.h:306:15
-    public static int uv_backend_fd(uv_loop_t* param)
-    {
-        return _virtualTable.uv_backend_fd(param);
-    }
+    [DllImport("uv")]
+    public static extern int uv_backend_fd(uv_loop_t* param);
 
     // Function @ uv.h:304:20
-    public static ulong uv_now(uv_loop_t* param)
-    {
-        return _virtualTable.uv_now(param);
-    }
+    [DllImport("uv")]
+    public static extern ulong uv_now(uv_loop_t* param);
 
     // Function @ uv.h:303:16
-    public static void uv_update_time(uv_loop_t* param)
-    {
-        _virtualTable.uv_update_time(param);
-    }
+    [DllImport("uv")]
+    public static extern void uv_update_time(uv_loop_t* param);
 
     // Function @ uv.h:301:15
-    public static int uv_has_ref(uv_handle_t* param)
-    {
-        return _virtualTable.uv_has_ref(param);
-    }
+    [DllImport("uv")]
+    public static extern int uv_has_ref(uv_handle_t* param);
 
     // Function @ uv.h:300:16
-    public static void uv_unref(uv_handle_t* param)
-    {
-        _virtualTable.uv_unref(param);
-    }
+    [DllImport("uv")]
+    public static extern void uv_unref(uv_handle_t* param);
 
     // Function @ uv.h:299:16
-    public static void uv_ref(uv_handle_t* param)
-    {
-        _virtualTable.uv_ref(param);
-    }
+    [DllImport("uv")]
+    public static extern void uv_ref(uv_handle_t* param);
 
     // Function @ uv.h:297:16
-    public static void uv_stop(uv_loop_t* param)
-    {
-        _virtualTable.uv_stop(param);
-    }
+    [DllImport("uv")]
+    public static extern void uv_stop(uv_loop_t* param);
 
     // Function @ uv.h:296:15
-    public static int uv_run(uv_loop_t* param, uv_run_mode mode)
-    {
-        return _virtualTable.uv_run(param, mode);
-    }
+    [DllImport("uv")]
+    public static extern int uv_run(uv_loop_t* param, uv_run_mode mode);
 
     // Function @ uv.h:294:15
-    public static int uv_loop_fork(uv_loop_t* loop)
-    {
-        return _virtualTable.uv_loop_fork(loop);
-    }
+    [DllImport("uv")]
+    public static extern int uv_loop_fork(uv_loop_t* loop);
 
     // Function @ uv.h:293:15
-    public static int uv_loop_configure(uv_loop_t* loop, uv_loop_option option)
-    {
-        return _virtualTable.uv_loop_configure(loop, option);
-    }
+    [DllImport("uv")]
+    public static extern int uv_loop_configure(uv_loop_t* loop, uv_loop_option option);
 
     // Function @ uv.h:292:15
-    public static int uv_loop_alive(uv_loop_t* loop)
-    {
-        return _virtualTable.uv_loop_alive(loop);
-    }
+    [DllImport("uv")]
+    public static extern int uv_loop_alive(uv_loop_t* loop);
 
     // Function @ uv.h:291:18
-    public static ulong uv_loop_size()
-    {
-        return _virtualTable.uv_loop_size();
-    }
+    [DllImport("uv")]
+    public static extern ulong uv_loop_size();
 
     // Function @ uv.h:290:16
-    public static void uv_loop_delete(uv_loop_t* param)
-    {
-        _virtualTable.uv_loop_delete(param);
-    }
+    [DllImport("uv")]
+    public static extern void uv_loop_delete(uv_loop_t* param);
 
     // Function @ uv.h:284:22
-    public static uv_loop_t* uv_loop_new()
-    {
-        return _virtualTable.uv_loop_new();
-    }
+    [DllImport("uv")]
+    public static extern uv_loop_t* uv_loop_new();
 
     // Function @ uv.h:278:15
-    public static int uv_loop_close(uv_loop_t* loop)
-    {
-        return _virtualTable.uv_loop_close(loop);
-    }
+    [DllImport("uv")]
+    public static extern int uv_loop_close(uv_loop_t* loop);
 
     // Function @ uv.h:277:15
-    public static int uv_loop_init(uv_loop_t* loop)
-    {
-        return _virtualTable.uv_loop_init(loop);
-    }
+    [DllImport("uv")]
+    public static extern int uv_loop_init(uv_loop_t* loop);
 
     // Function @ uv.h:276:22
-    public static uv_loop_t* uv_default_loop()
-    {
-        return _virtualTable.uv_default_loop();
-    }
+    [DllImport("uv")]
+    public static extern uv_loop_t* uv_default_loop();
 
     // Function @ uv.h:271:15
-    public static int uv_replace_allocator(uv_malloc_func malloc_func, uv_realloc_func realloc_func, uv_calloc_func calloc_func, uv_free_func free_func)
-    {
-        return _virtualTable.uv_replace_allocator(malloc_func, realloc_func, calloc_func, free_func);
-    }
+    [DllImport("uv")]
+    public static extern int uv_replace_allocator(uv_malloc_func malloc_func, uv_realloc_func realloc_func, uv_calloc_func calloc_func, uv_free_func free_func);
 
     // Function @ uv.h:269:16
-    public static void uv_library_shutdown()
-    {
-        _virtualTable.uv_library_shutdown();
-    }
+    [DllImport("uv")]
+    public static extern void uv_library_shutdown();
 
     // Function @ uv.h:262:23
-    public static CString uv_version_string()
-    {
-        return _virtualTable.uv_version_string();
-    }
+    [DllImport("uv")]
+    public static extern CString uv_version_string();
 
     // Function @ uv.h:261:24
-    public static uint uv_version()
-    {
-        return _virtualTable.uv_version();
-    }
+    [DllImport("uv")]
+    public static extern uint uv_version();
 
     // FunctionPointer @ uv.h:1759:16
     [StructLayout(LayoutKind.Sequential)]
@@ -1920,7 +1318,7 @@ public static unsafe partial class uv
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_udp_recv_cb
     {
-        public delegate* unmanaged<uv_udp_t*, ssize_t, uv_buf_t*, sockaddr*, uint, void> Pointer;
+        public delegate* unmanaged<uv_udp_t*, long, uv_buf_t*, sockaddr*, uint, void> Pointer;
     }
 
     // FunctionPointer @ uv.h:309:16
@@ -1955,7 +1353,7 @@ public static unsafe partial class uv
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_read_cb
     {
-        public delegate* unmanaged<uv_stream_t*, ssize_t, uv_buf_t*, void> Pointer;
+        public delegate* unmanaged<uv_stream_t*, long, uv_buf_t*, void> Pointer;
     }
 
     // FunctionPointer @ uv.h:318:16
@@ -2029,27 +1427,19 @@ public static unsafe partial class uv
         public int tv_usec;
     }
 
-    // Struct @ win.h:323:3
+    // Struct @ unix.h:221:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct uv_lib_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public HMODULE handle;
+        public void* handle;
 
         [FieldOffset(8)] // size = 8, padding = 0
         public CString errmsg;
     }
 
-    // Struct @ System
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct HINSTANCE__
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int unused;
-    }
-
     // Struct @ uv.h:366:3
-    [StructLayout(LayoutKind.Explicit, Size = 128, Pack = 8)]
+    [StructLayout(LayoutKind.Explicit, Size = 160, Pack = 8)]
     public struct uv_stat_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
@@ -2088,28 +1478,28 @@ public static unsafe partial class uv
         [FieldOffset(88)] // size = 8, padding = 0
         public ulong st_gen;
 
-        [FieldOffset(96)] // size = 8, padding = 0
+        [FieldOffset(96)] // size = 16, padding = 0
         public uv_timespec_t st_atim;
 
-        [FieldOffset(104)] // size = 8, padding = 0
+        [FieldOffset(112)] // size = 16, padding = 0
         public uv_timespec_t st_mtim;
 
-        [FieldOffset(112)] // size = 8, padding = 0
+        [FieldOffset(128)] // size = 16, padding = 0
         public uv_timespec_t st_ctim;
 
-        [FieldOffset(120)] // size = 8, padding = 0
+        [FieldOffset(144)] // size = 16, padding = 0
         public uv_timespec_t st_birthtim;
     }
 
     // Struct @ uv.h:346:3
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct uv_timespec_t
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int tv_sec;
+        [FieldOffset(0)] // size = 8, padding = 0
+        public long tv_sec;
 
-        [FieldOffset(4)] // size = 4, padding = 0
-        public int tv_nsec;
+        [FieldOffset(8)] // size = 8, padding = 0
+        public long tv_nsec;
     }
 
     // Struct @ uv.h:244:28
@@ -2123,15 +1513,15 @@ public static unsafe partial class uv
         public uv_dirent_type_t type;
     }
 
-    // Struct @ win.h:229:3
+    // Struct @ unix.h:126:3
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct uv_buf_t
     {
-        [FieldOffset(0)] // size = 4, padding = 4
-        public ULONG len;
+        [FieldOffset(0)] // size = 8, padding = 0
+        public CString @base;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public CString @base;
+        public ulong len;
     }
 
     // Struct @ uv.h:246:29
@@ -2304,87 +1694,87 @@ public static unsafe partial class uv
     }
 
     // Struct @ uv.h:245:28
-    [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
+    [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
     public struct uv_passwd_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
         public CString username;
 
-        [FieldOffset(8)] // size = 4, padding = 0
-        public int uid;
-
-        [FieldOffset(12)] // size = 4, padding = 0
-        public int gid;
+        [FieldOffset(8)] // size = 8, padding = 0
+        public long uid;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public CString shell;
+        public long gid;
 
         [FieldOffset(24)] // size = 8, padding = 0
+        public CString shell;
+
+        [FieldOffset(32)] // size = 8, padding = 0
         public CString homedir;
     }
 
     // Struct @ uv.h:1206:3
-    [StructLayout(LayoutKind.Explicit, Size = 128, Pack = 8)]
+    [StructLayout(LayoutKind.Explicit, Size = 144, Pack = 8)]
     public struct uv_rusage_t
     {
-        [FieldOffset(0)] // size = 8, padding = 0
+        [FieldOffset(0)] // size = 16, padding = 0
         public uv_timeval_t ru_utime;
 
-        [FieldOffset(8)] // size = 8, padding = 0
+        [FieldOffset(16)] // size = 16, padding = 0
         public uv_timeval_t ru_stime;
 
-        [FieldOffset(16)] // size = 8, padding = 0
+        [FieldOffset(32)] // size = 8, padding = 0
         public ulong ru_maxrss;
 
-        [FieldOffset(24)] // size = 8, padding = 0
+        [FieldOffset(40)] // size = 8, padding = 0
         public ulong ru_ixrss;
 
-        [FieldOffset(32)] // size = 8, padding = 0
+        [FieldOffset(48)] // size = 8, padding = 0
         public ulong ru_idrss;
 
-        [FieldOffset(40)] // size = 8, padding = 0
+        [FieldOffset(56)] // size = 8, padding = 0
         public ulong ru_isrss;
 
-        [FieldOffset(48)] // size = 8, padding = 0
+        [FieldOffset(64)] // size = 8, padding = 0
         public ulong ru_minflt;
 
-        [FieldOffset(56)] // size = 8, padding = 0
+        [FieldOffset(72)] // size = 8, padding = 0
         public ulong ru_majflt;
 
-        [FieldOffset(64)] // size = 8, padding = 0
+        [FieldOffset(80)] // size = 8, padding = 0
         public ulong ru_nswap;
 
-        [FieldOffset(72)] // size = 8, padding = 0
+        [FieldOffset(88)] // size = 8, padding = 0
         public ulong ru_inblock;
 
-        [FieldOffset(80)] // size = 8, padding = 0
+        [FieldOffset(96)] // size = 8, padding = 0
         public ulong ru_oublock;
 
-        [FieldOffset(88)] // size = 8, padding = 0
+        [FieldOffset(104)] // size = 8, padding = 0
         public ulong ru_msgsnd;
 
-        [FieldOffset(96)] // size = 8, padding = 0
+        [FieldOffset(112)] // size = 8, padding = 0
         public ulong ru_msgrcv;
 
-        [FieldOffset(104)] // size = 8, padding = 0
+        [FieldOffset(120)] // size = 8, padding = 0
         public ulong ru_nsignals;
 
-        [FieldOffset(112)] // size = 8, padding = 0
+        [FieldOffset(128)] // size = 8, padding = 0
         public ulong ru_nvcsw;
 
-        [FieldOffset(120)] // size = 8, padding = 0
+        [FieldOffset(136)] // size = 8, padding = 0
         public ulong ru_nivcsw;
     }
 
     // Struct @ uv.h:1182:3
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
+    [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct uv_timeval_t
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public int tv_sec;
+        [FieldOffset(0)] // size = 8, padding = 0
+        public long tv_sec;
 
-        [FieldOffset(4)] // size = 4, padding = 0
-        public int tv_usec;
+        [FieldOffset(8)] // size = 8, padding = 0
+        public long tv_usec;
     }
 
     // Struct @ uv.h:1010:3
@@ -2415,10 +1805,10 @@ public static unsafe partial class uv
         [FieldOffset(48)] // size = 8, padding = 0
         public uv_stdio_container_t* stdio;
 
-        [FieldOffset(56)] // size = 1, padding = 0
+        [FieldOffset(56)] // size = 4, padding = 0
         public uv_uid_t uid;
 
-        [FieldOffset(57)] // size = 1, padding = 6
+        [FieldOffset(60)] // size = 4, padding = 0
         public uv_gid_t gid;
     }
 
@@ -2450,43 +1840,43 @@ public static unsafe partial class uv
     {
     }
 
-    // OpaqueType @ win.h:286:3
+    // OpaqueType @ unix.h:141:23
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_key_t
     {
     }
 
-    // OpaqueType @ win.h:293:3
+    // OpaqueType @ unix.h:135:24
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_once_t
     {
     }
 
-    // OpaqueType @ win.h:240:26
+    // OpaqueType @ unix.h:137:25
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_mutex_t
     {
     }
 
-    // OpaqueType @ win.h:257:3
+    // OpaqueType @ unix.h:140:24
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_cond_t
     {
     }
 
-    // OpaqueType @ win.h:282:3
+    // OpaqueType @ unix.h:162:3
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_barrier_t
     {
     }
 
-    // OpaqueType @ win.h:238:16
+    // OpaqueType @ unix.h:139:27
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_sem_t
     {
     }
 
-    // OpaqueType @ win.h:274:3
+    // OpaqueType @ unix.h:138:26
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_rwlock_t
     {
@@ -2654,73 +2044,40 @@ public static unsafe partial class uv
     {
     }
 
-    // Typedef @ win.h:236:16
+    // Typedef @ unix.h:136:19
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct uv_thread_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public HANDLE Data;
+        public pthread_t Data;
 
-        public static implicit operator HANDLE(uv_thread_t data) => data.Data;
-        public static implicit operator uv_thread_t(HANDLE data) => new() { Data = data };
+        public static implicit operator pthread_t(uv_thread_t data) => data.Data;
+        public static implicit operator uv_thread_t(pthread_t data) => new() { Data = data };
     }
 
-    // Typedef @ System
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct HANDLE
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public void* Data;
-
-        public static implicit operator void*(HANDLE data) => data.Data;
-        public static implicit operator HANDLE(void* data) => new() { Data = data };
-    }
-
-    // Typedef @ System
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct HMODULE
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public HINSTANCE Data;
-
-        public static implicit operator HINSTANCE(HMODULE data) => data.Data;
-        public static implicit operator HMODULE(HINSTANCE data) => new() { Data = data };
-    }
-
-    // Typedef @ System
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct HINSTANCE
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public HINSTANCE__* Data;
-
-        public static implicit operator HINSTANCE__*(HINSTANCE data) => data.Data;
-        public static implicit operator HINSTANCE(HINSTANCE__* data) => new() { Data = data };
-    }
-
-    // Typedef @ win.h:297:23
-    [StructLayout(LayoutKind.Explicit, Size = 1, Pack = 1)]
+    // Typedef @ unix.h:168:15
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct uv_gid_t
     {
-        [FieldOffset(0)] // size = 1, padding = 0
-        public byte Data;
+        [FieldOffset(0)] // size = 4, padding = 0
+        public gid_t Data;
 
-        public static implicit operator byte(uv_gid_t data) => data.Data;
-        public static implicit operator uv_gid_t(byte data) => new() { Data = data };
+        public static implicit operator gid_t(uv_gid_t data) => data.Data;
+        public static implicit operator uv_gid_t(gid_t data) => new() { Data = data };
     }
 
-    // Typedef @ win.h:296:23
-    [StructLayout(LayoutKind.Explicit, Size = 1, Pack = 1)]
+    // Typedef @ unix.h:169:15
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct uv_uid_t
     {
-        [FieldOffset(0)] // size = 1, padding = 0
-        public byte Data;
+        [FieldOffset(0)] // size = 4, padding = 0
+        public uid_t Data;
 
-        public static implicit operator byte(uv_uid_t data) => data.Data;
-        public static implicit operator uv_uid_t(byte data) => new() { Data = data };
+        public static implicit operator uid_t(uv_uid_t data) => data.Data;
+        public static implicit operator uv_uid_t(uid_t data) => new() { Data = data };
     }
 
-    // Typedef @ win.h:231:13
+    // Typedef @ unix.h:128:13
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct uv_file
     {
@@ -2731,105 +2088,50 @@ public static unsafe partial class uv
         public static implicit operator uv_file(int data) => new() { Data = data };
     }
 
-    // Typedef @ System
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct ULONG
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public DWORD Data;
-
-        public static implicit operator DWORD(ULONG data) => data.Data;
-        public static implicit operator ULONG(DWORD data) => new() { Data = data };
-    }
-
-    // Typedef @ System
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
-    public struct DWORD
-    {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint Data;
-
-        public static implicit operator uint(DWORD data) => data.Data;
-        public static implicit operator DWORD(uint data) => new() { Data = data };
-    }
-
-    // Typedef @ win.h:27:18
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct ssize_t
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public IntPtr Data;
-
-        public static implicit operator IntPtr(ssize_t data) => data.Data;
-        public static implicit operator ssize_t(IntPtr data) => new() { Data = data };
-    }
-
-    // Typedef @ win.h:234:13
+    // Typedef @ unix.h:131:15
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct uv_pid_t
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public int Data;
+        public pid_t Data;
 
-        public static implicit operator int(uv_pid_t data) => data.Data;
-        public static implicit operator uv_pid_t(int data) => new() { Data = data };
+        public static implicit operator pid_t(uv_pid_t data) => data.Data;
+        public static implicit operator uv_pid_t(pid_t data) => new() { Data = data };
     }
 
-    // Typedef @ win.h:233:16
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    // Typedef @ unix.h:130:13
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct uv_os_fd_t
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public HANDLE Data;
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int Data;
 
-        public static implicit operator HANDLE(uv_os_fd_t data) => data.Data;
-        public static implicit operator uv_os_fd_t(HANDLE data) => new() { Data = data };
+        public static implicit operator int(uv_os_fd_t data) => data.Data;
+        public static implicit operator uv_os_fd_t(int data) => new() { Data = data };
     }
 
-    // Typedef @ win.h:232:16
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
+    // Typedef @ unix.h:129:13
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct uv_os_sock_t
     {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public SOCKET Data;
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int Data;
 
-        public static implicit operator SOCKET(uv_os_sock_t data) => data.Data;
-        public static implicit operator uv_os_sock_t(SOCKET data) => new() { Data = data };
-    }
-
-    // Typedef @ System
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct SOCKET
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public UINT_PTR Data;
-
-        public static implicit operator UINT_PTR(SOCKET data) => data.Data;
-        public static implicit operator SOCKET(UINT_PTR data) => new() { Data = data };
-    }
-
-    // Typedef @ System
-    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
-    public struct UINT_PTR
-    {
-        [FieldOffset(0)] // size = 8, padding = 0
-        public ulong Data;
-
-        public static implicit operator ulong(UINT_PTR data) => data.Data;
-        public static implicit operator UINT_PTR(ulong data) => new() { Data = data };
+        public static implicit operator int(uv_os_sock_t data) => data.Data;
+        public static implicit operator uv_os_sock_t(int data) => new() { Data = data };
     }
 
     // Enum @ uv.h:1164:3
-    public enum uv_dirent_type_t : int
+    public enum uv_dirent_type_t : uint
     {
-        UV_DIRENT_UNKNOWN = 0,
-        UV_DIRENT_FILE = 1,
-        UV_DIRENT_DIR = 2,
-        UV_DIRENT_LINK = 3,
-        UV_DIRENT_FIFO = 4,
-        UV_DIRENT_SOCKET = 5,
-        UV_DIRENT_CHAR = 6,
-        UV_DIRENT_BLOCK = 7
+        UV_DIRENT_UNKNOWN = 0U,
+        UV_DIRENT_FILE = 1U,
+        UV_DIRENT_DIR = 2U,
+        UV_DIRENT_LINK = 3U,
+        UV_DIRENT_FIFO = 4U,
+        UV_DIRENT_SOCKET = 5U,
+        UV_DIRENT_CHAR = 6U,
+        UV_DIRENT_BLOCK = 7U
     }
 
     // Enum @ uv.h:1312:3
@@ -2876,1018 +2178,93 @@ public static unsafe partial class uv
     }
 
     // Enum @ uv.h:956:3
-    public enum uv_stdio_flags : int
+    public enum uv_stdio_flags : uint
     {
-        UV_IGNORE = 0,
-        UV_CREATE_PIPE = 1,
-        UV_INHERIT_FD = 2,
-        UV_INHERIT_STREAM = 4,
-        UV_READABLE_PIPE = 16,
-        UV_WRITABLE_PIPE = 32,
-        UV_NONBLOCK_PIPE = 64,
-        UV_OVERLAPPED_PIPE = 64
+        UV_IGNORE = 0U,
+        UV_CREATE_PIPE = 1U,
+        UV_INHERIT_FD = 2U,
+        UV_INHERIT_STREAM = 4U,
+        UV_READABLE_PIPE = 16U,
+        UV_WRITABLE_PIPE = 32U,
+        UV_NONBLOCK_PIPE = 64U,
+        UV_OVERLAPPED_PIPE = 64U
     }
 
     // Enum @ uv.h:196:3
-    public enum uv_handle_type : int
+    public enum uv_handle_type : uint
     {
-        UV_UNKNOWN_HANDLE = 0,
-        UV_ASYNC = 1,
-        UV_CHECK = 2,
-        UV_FS_EVENT = 3,
-        UV_FS_POLL = 4,
-        UV_HANDLE = 5,
-        UV_IDLE = 6,
-        UV_NAMED_PIPE = 7,
-        UV_POLL = 8,
-        UV_PREPARE = 9,
-        UV_PROCESS = 10,
-        UV_STREAM = 11,
-        UV_TCP = 12,
-        UV_TIMER = 13,
-        UV_TTY = 14,
-        UV_UDP = 15,
-        UV_SIGNAL = 16,
-        UV_FILE = 17,
-        UV_HANDLE_TYPE_MAX = 18
+        UV_UNKNOWN_HANDLE = 0U,
+        UV_ASYNC = 1U,
+        UV_CHECK = 2U,
+        UV_FS_EVENT = 3U,
+        UV_FS_POLL = 4U,
+        UV_HANDLE = 5U,
+        UV_IDLE = 6U,
+        UV_NAMED_PIPE = 7U,
+        UV_POLL = 8U,
+        UV_PREPARE = 9U,
+        UV_PROCESS = 10U,
+        UV_STREAM = 11U,
+        UV_TCP = 12U,
+        UV_TIMER = 13U,
+        UV_TTY = 14U,
+        UV_UDP = 15U,
+        UV_SIGNAL = 16U,
+        UV_FILE = 17U,
+        UV_HANDLE_TYPE_MAX = 18U
     }
 
     // Enum @ uv.h:752:3
-    public enum uv_tty_vtermstate_t : int
+    public enum uv_tty_vtermstate_t : uint
     {
-        UV_TTY_SUPPORTED = 0,
-        UV_TTY_UNSUPPORTED = 1
+        UV_TTY_SUPPORTED = 0U,
+        UV_TTY_UNSUPPORTED = 1U
     }
 
     // Enum @ uv.h:740:3
-    public enum uv_tty_mode_t : int
+    public enum uv_tty_mode_t : uint
     {
-        UV_TTY_MODE_NORMAL = 0,
-        UV_TTY_MODE_RAW = 1,
-        UV_TTY_MODE_IO = 2
+        UV_TTY_MODE_NORMAL = 0U,
+        UV_TTY_MODE_RAW = 1U,
+        UV_TTY_MODE_IO = 2U
     }
 
     // Enum @ uv.h:385:3
-    public enum uv_membership : int
+    public enum uv_membership : uint
     {
-        UV_LEAVE_GROUP = 0,
-        UV_JOIN_GROUP = 1
+        UV_LEAVE_GROUP = 0U,
+        UV_JOIN_GROUP = 1U
     }
 
     // Enum @ uv.h:205:3
-    public enum uv_req_type : int
+    public enum uv_req_type : uint
     {
-        UV_UNKNOWN_REQ = 0,
-        UV_REQ = 1,
-        UV_CONNECT = 2,
-        UV_WRITE = 3,
-        UV_SHUTDOWN = 4,
-        UV_UDP_SEND = 5,
-        UV_FS = 6,
-        UV_WORK = 7,
-        UV_GETADDRINFO = 8,
-        UV_GETNAMEINFO = 9,
-        UV_RANDOM = 10,
-        UV_ACCEPT = 11,
-        UV_FS_EVENT_REQ = 12,
-        UV_POLL_REQ = 13,
-        UV_PROCESS_EXIT = 14,
-        UV_READ = 15,
-        UV_UDP_RECV = 16,
-        UV_WAKEUP = 17,
-        UV_SIGNAL_REQ = 18,
-        UV_REQ_TYPE_MAX = 19
+        UV_UNKNOWN_REQ = 0U,
+        UV_REQ = 1U,
+        UV_CONNECT = 2U,
+        UV_WRITE = 3U,
+        UV_SHUTDOWN = 4U,
+        UV_UDP_SEND = 5U,
+        UV_FS = 6U,
+        UV_WORK = 7U,
+        UV_GETADDRINFO = 8U,
+        UV_GETNAMEINFO = 9U,
+        UV_RANDOM = 10U,
+        UV_REQ_TYPE_MAX = 11U
     }
 
     // Enum @ uv.h:258:3
-    public enum uv_run_mode : int
+    public enum uv_run_mode : uint
     {
-        UV_RUN_DEFAULT = 0,
-        UV_RUN_ONCE = 1,
-        UV_RUN_NOWAIT = 2
+        UV_RUN_DEFAULT = 0U,
+        UV_RUN_ONCE = 1U,
+        UV_RUN_NOWAIT = 2U
     }
 
     // Enum @ uv.h:252:3
-    public enum uv_loop_option : int
+    public enum uv_loop_option : uint
     {
-        UV_LOOP_BLOCK_SIGNAL = 0,
-        UV_METRICS_IDLE_TIME = 1
+        UV_LOOP_BLOCK_SIGNAL = 0U,
+        UV_METRICS_IDLE_TIME = 1U
     }
-
-    private static void _LoadVirtualTable()
-    {
-        #region "Functions"
-        _virtualTable.uv_loop_set_data = (delegate* unmanaged[Cdecl]<uv_loop_t*, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_loop_set_data");
-        _virtualTable.uv_loop_get_data = (delegate* unmanaged[Cdecl]<uv_loop_t*, void*>)Runtime.LibraryGetExport(_libraryHandle, "uv_loop_get_data");
-        _virtualTable.uv_thread_equal = (delegate* unmanaged[Cdecl]<uv_thread_t*, uv_thread_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_thread_equal");
-        _virtualTable.uv_thread_join = (delegate* unmanaged[Cdecl]<uv_thread_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_thread_join");
-        _virtualTable.uv_thread_self = (delegate* unmanaged[Cdecl]<uv_thread_t>)Runtime.LibraryGetExport(_libraryHandle, "uv_thread_self");
-        _virtualTable.uv_thread_create_ex = (delegate* unmanaged[Cdecl]<uv_thread_t*, uv_thread_options_t*, uv_thread_cb, void*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_thread_create_ex");
-        _virtualTable.uv_thread_create = (delegate* unmanaged[Cdecl]<uv_thread_t*, uv_thread_cb, void*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_thread_create");
-        _virtualTable.uv_gettimeofday = (delegate* unmanaged[Cdecl]<uv_timeval64_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_gettimeofday");
-        _virtualTable.uv_key_set = (delegate* unmanaged[Cdecl]<uv_key_t*, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_key_set");
-        _virtualTable.uv_key_get = (delegate* unmanaged[Cdecl]<uv_key_t*, void*>)Runtime.LibraryGetExport(_libraryHandle, "uv_key_get");
-        _virtualTable.uv_key_delete = (delegate* unmanaged[Cdecl]<uv_key_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_key_delete");
-        _virtualTable.uv_key_create = (delegate* unmanaged[Cdecl]<uv_key_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_key_create");
-        _virtualTable.uv_once = (delegate* unmanaged[Cdecl]<uv_once_t*, FnPtr_UV_Void, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_once");
-        _virtualTable.uv_cond_timedwait = (delegate* unmanaged[Cdecl]<uv_cond_t*, uv_mutex_t*, ulong, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_cond_timedwait");
-        _virtualTable.uv_cond_wait = (delegate* unmanaged[Cdecl]<uv_cond_t*, uv_mutex_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_cond_wait");
-        _virtualTable.uv_barrier_wait = (delegate* unmanaged[Cdecl]<uv_barrier_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_barrier_wait");
-        _virtualTable.uv_barrier_destroy = (delegate* unmanaged[Cdecl]<uv_barrier_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_barrier_destroy");
-        _virtualTable.uv_barrier_init = (delegate* unmanaged[Cdecl]<uv_barrier_t*, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_barrier_init");
-        _virtualTable.uv_cond_broadcast = (delegate* unmanaged[Cdecl]<uv_cond_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_cond_broadcast");
-        _virtualTable.uv_cond_signal = (delegate* unmanaged[Cdecl]<uv_cond_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_cond_signal");
-        _virtualTable.uv_cond_destroy = (delegate* unmanaged[Cdecl]<uv_cond_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_cond_destroy");
-        _virtualTable.uv_cond_init = (delegate* unmanaged[Cdecl]<uv_cond_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_cond_init");
-        _virtualTable.uv_sem_trywait = (delegate* unmanaged[Cdecl]<uv_sem_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_sem_trywait");
-        _virtualTable.uv_sem_wait = (delegate* unmanaged[Cdecl]<uv_sem_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_sem_wait");
-        _virtualTable.uv_sem_post = (delegate* unmanaged[Cdecl]<uv_sem_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_sem_post");
-        _virtualTable.uv_sem_destroy = (delegate* unmanaged[Cdecl]<uv_sem_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_sem_destroy");
-        _virtualTable.uv_sem_init = (delegate* unmanaged[Cdecl]<uv_sem_t*, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_sem_init");
-        _virtualTable.uv_rwlock_wrunlock = (delegate* unmanaged[Cdecl]<uv_rwlock_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_rwlock_wrunlock");
-        _virtualTable.uv_rwlock_trywrlock = (delegate* unmanaged[Cdecl]<uv_rwlock_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_rwlock_trywrlock");
-        _virtualTable.uv_rwlock_wrlock = (delegate* unmanaged[Cdecl]<uv_rwlock_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_rwlock_wrlock");
-        _virtualTable.uv_rwlock_rdunlock = (delegate* unmanaged[Cdecl]<uv_rwlock_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_rwlock_rdunlock");
-        _virtualTable.uv_rwlock_tryrdlock = (delegate* unmanaged[Cdecl]<uv_rwlock_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_rwlock_tryrdlock");
-        _virtualTable.uv_rwlock_rdlock = (delegate* unmanaged[Cdecl]<uv_rwlock_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_rwlock_rdlock");
-        _virtualTable.uv_rwlock_destroy = (delegate* unmanaged[Cdecl]<uv_rwlock_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_rwlock_destroy");
-        _virtualTable.uv_rwlock_init = (delegate* unmanaged[Cdecl]<uv_rwlock_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_rwlock_init");
-        _virtualTable.uv_mutex_unlock = (delegate* unmanaged[Cdecl]<uv_mutex_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_mutex_unlock");
-        _virtualTable.uv_mutex_trylock = (delegate* unmanaged[Cdecl]<uv_mutex_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_mutex_trylock");
-        _virtualTable.uv_mutex_lock = (delegate* unmanaged[Cdecl]<uv_mutex_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_mutex_lock");
-        _virtualTable.uv_mutex_destroy = (delegate* unmanaged[Cdecl]<uv_mutex_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_mutex_destroy");
-        _virtualTable.uv_mutex_init_recursive = (delegate* unmanaged[Cdecl]<uv_mutex_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_mutex_init_recursive");
-        _virtualTable.uv_mutex_init = (delegate* unmanaged[Cdecl]<uv_mutex_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_mutex_init");
-        _virtualTable.uv_dlerror = (delegate* unmanaged[Cdecl]<uv_lib_t*, CString>)Runtime.LibraryGetExport(_libraryHandle, "uv_dlerror");
-        _virtualTable.uv_dlsym = (delegate* unmanaged[Cdecl]<uv_lib_t*, CString, void**, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_dlsym");
-        _virtualTable.uv_dlclose = (delegate* unmanaged[Cdecl]<uv_lib_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_dlclose");
-        _virtualTable.uv_dlopen = (delegate* unmanaged[Cdecl]<CString, uv_lib_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_dlopen");
-        _virtualTable.uv_disable_stdio_inheritance = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "uv_disable_stdio_inheritance");
-        _virtualTable.uv_sleep = (delegate* unmanaged[Cdecl]<uint, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_sleep");
-        _virtualTable.uv_hrtime = (delegate* unmanaged[Cdecl]<ulong>)Runtime.LibraryGetExport(_libraryHandle, "uv_hrtime");
-        _virtualTable.uv_get_constrained_memory = (delegate* unmanaged[Cdecl]<ulong>)Runtime.LibraryGetExport(_libraryHandle, "uv_get_constrained_memory");
-        _virtualTable.uv_get_total_memory = (delegate* unmanaged[Cdecl]<ulong>)Runtime.LibraryGetExport(_libraryHandle, "uv_get_total_memory");
-        _virtualTable.uv_get_free_memory = (delegate* unmanaged[Cdecl]<ulong>)Runtime.LibraryGetExport(_libraryHandle, "uv_get_free_memory");
-        _virtualTable.uv_chdir = (delegate* unmanaged[Cdecl]<CString, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_chdir");
-        _virtualTable.uv_cwd = (delegate* unmanaged[Cdecl]<CString, ulong*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_cwd");
-        _virtualTable.uv_exepath = (delegate* unmanaged[Cdecl]<CString, ulong*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_exepath");
-        _virtualTable.uv_if_indextoiid = (delegate* unmanaged[Cdecl]<uint, CString, ulong*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_if_indextoiid");
-        _virtualTable.uv_if_indextoname = (delegate* unmanaged[Cdecl]<uint, CString, ulong*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_if_indextoname");
-        _virtualTable.uv_random = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_random_t*, void*, ulong, uint, uv_random_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_random");
-        _virtualTable.uv_inet_pton = (delegate* unmanaged[Cdecl]<int, CString, void*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_inet_pton");
-        _virtualTable.uv_inet_ntop = (delegate* unmanaged[Cdecl]<int, void*, CString, ulong, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_inet_ntop");
-        _virtualTable.uv_ip6_name = (delegate* unmanaged[Cdecl]<sockaddr_in6*, CString, ulong, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_ip6_name");
-        _virtualTable.uv_ip4_name = (delegate* unmanaged[Cdecl]<sockaddr_in*, CString, ulong, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_ip4_name");
-        _virtualTable.uv_ip6_addr = (delegate* unmanaged[Cdecl]<CString, int, sockaddr_in6*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_ip6_addr");
-        _virtualTable.uv_ip4_addr = (delegate* unmanaged[Cdecl]<CString, int, sockaddr_in*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_ip4_addr");
-        _virtualTable.uv_fs_event_getpath = (delegate* unmanaged[Cdecl]<uv_fs_event_t*, CString, ulong*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_event_getpath");
-        _virtualTable.uv_fs_event_stop = (delegate* unmanaged[Cdecl]<uv_fs_event_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_event_stop");
-        _virtualTable.uv_fs_event_start = (delegate* unmanaged[Cdecl]<uv_fs_event_t*, uv_fs_event_cb, CString, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_event_start");
-        _virtualTable.uv_fs_event_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_event_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_event_init");
-        _virtualTable.uv_loadavg = (delegate* unmanaged[Cdecl]<double*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_loadavg");
-        _virtualTable.uv_signal_stop = (delegate* unmanaged[Cdecl]<uv_signal_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_signal_stop");
-        _virtualTable.uv_signal_start_oneshot = (delegate* unmanaged[Cdecl]<uv_signal_t*, uv_signal_cb, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_signal_start_oneshot");
-        _virtualTable.uv_signal_start = (delegate* unmanaged[Cdecl]<uv_signal_t*, uv_signal_cb, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_signal_start");
-        _virtualTable.uv_signal_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_signal_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_signal_init");
-        _virtualTable.uv_fs_poll_getpath = (delegate* unmanaged[Cdecl]<uv_fs_poll_t*, CString, ulong*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_poll_getpath");
-        _virtualTable.uv_fs_poll_stop = (delegate* unmanaged[Cdecl]<uv_fs_poll_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_poll_stop");
-        _virtualTable.uv_fs_poll_start = (delegate* unmanaged[Cdecl]<uv_fs_poll_t*, uv_fs_poll_cb, CString, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_poll_start");
-        _virtualTable.uv_fs_poll_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_poll_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_poll_init");
-        _virtualTable.uv_fs_statfs = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_statfs");
-        _virtualTable.uv_fs_lchown = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_uid_t, uv_gid_t, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_lchown");
-        _virtualTable.uv_fs_fchown = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_uid_t, uv_gid_t, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_fchown");
-        _virtualTable.uv_fs_chown = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_uid_t, uv_gid_t, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_chown");
-        _virtualTable.uv_fs_fchmod = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, int, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_fchmod");
-        _virtualTable.uv_fs_realpath = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_realpath");
-        _virtualTable.uv_fs_readlink = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_readlink");
-        _virtualTable.uv_fs_symlink = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, CString, int, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_symlink");
-        _virtualTable.uv_fs_link = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, CString, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_link");
-        _virtualTable.uv_fs_lstat = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_lstat");
-        _virtualTable.uv_fs_lutime = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, double, double, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_lutime");
-        _virtualTable.uv_fs_futime = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, double, double, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_futime");
-        _virtualTable.uv_fs_utime = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, double, double, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_utime");
-        _virtualTable.uv_fs_chmod = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_chmod");
-        _virtualTable.uv_fs_access = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_access");
-        _virtualTable.uv_fs_sendfile = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_file, long, ulong, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_sendfile");
-        _virtualTable.uv_fs_ftruncate = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, long, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_ftruncate");
-        _virtualTable.uv_fs_fdatasync = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_fdatasync");
-        _virtualTable.uv_fs_fsync = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_fsync");
-        _virtualTable.uv_fs_rename = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, CString, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_rename");
-        _virtualTable.uv_fs_fstat = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_fstat");
-        _virtualTable.uv_fs_stat = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_stat");
-        _virtualTable.uv_fs_closedir = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_dir_t*, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_closedir");
-        _virtualTable.uv_fs_readdir = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_dir_t*, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_readdir");
-        _virtualTable.uv_fs_opendir = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_opendir");
-        _virtualTable.uv_fs_scandir_next = (delegate* unmanaged[Cdecl]<uv_fs_t*, uv_dirent_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_scandir_next");
-        _virtualTable.uv_fs_scandir = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_scandir");
-        _virtualTable.uv_fs_rmdir = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_rmdir");
-        _virtualTable.uv_fs_mkstemp = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_mkstemp");
-        _virtualTable.uv_fs_mkdtemp = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_mkdtemp");
-        _virtualTable.uv_fs_mkdir = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_mkdir");
-        _virtualTable.uv_fs_copyfile = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, CString, int, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_copyfile");
-        _virtualTable.uv_fs_write = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_buf_t*, uint, long, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_write");
-        _virtualTable.uv_fs_unlink = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_unlink");
-        _virtualTable.uv_fs_read = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_buf_t*, uint, long, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_read");
-        _virtualTable.uv_fs_open = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, int, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_open");
-        _virtualTable.uv_fs_close = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_fs_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_close");
-        _virtualTable.uv_fs_req_cleanup = (delegate* unmanaged[Cdecl]<uv_fs_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_req_cleanup");
-        _virtualTable.uv_fs_get_statbuf = (delegate* unmanaged[Cdecl]<uv_fs_t*, uv_stat_t*>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_get_statbuf");
-        _virtualTable.uv_fs_get_path = (delegate* unmanaged[Cdecl]<uv_fs_t*, CString>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_get_path");
-        _virtualTable.uv_fs_get_ptr = (delegate* unmanaged[Cdecl]<uv_fs_t*, void*>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_get_ptr");
-        _virtualTable.uv_fs_get_system_error = (delegate* unmanaged[Cdecl]<uv_fs_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_get_system_error");
-        _virtualTable.uv_fs_get_result = (delegate* unmanaged[Cdecl]<uv_fs_t*, ssize_t>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_get_result");
-        _virtualTable.uv_fs_get_type = (delegate* unmanaged[Cdecl]<uv_fs_t*, uv_fs_type>)Runtime.LibraryGetExport(_libraryHandle, "uv_fs_get_type");
-        _virtualTable.uv_metrics_idle_time = (delegate* unmanaged[Cdecl]<uv_loop_t*, ulong>)Runtime.LibraryGetExport(_libraryHandle, "uv_metrics_idle_time");
-        _virtualTable.uv_os_uname = (delegate* unmanaged[Cdecl]<uv_utsname_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_os_uname");
-        _virtualTable.uv_os_gethostname = (delegate* unmanaged[Cdecl]<CString, ulong*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_os_gethostname");
-        _virtualTable.uv_os_unsetenv = (delegate* unmanaged[Cdecl]<CString, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_os_unsetenv");
-        _virtualTable.uv_os_setenv = (delegate* unmanaged[Cdecl]<CString, CString, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_os_setenv");
-        _virtualTable.uv_os_getenv = (delegate* unmanaged[Cdecl]<CString, CString, ulong*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_os_getenv");
-        _virtualTable.uv_os_free_environ = (delegate* unmanaged[Cdecl]<uv_env_item_t*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_os_free_environ");
-        _virtualTable.uv_os_environ = (delegate* unmanaged[Cdecl]<uv_env_item_t**, long*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_os_environ");
-        _virtualTable.uv_free_interface_addresses = (delegate* unmanaged[Cdecl]<uv_interface_address_t*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_free_interface_addresses");
-        _virtualTable.uv_interface_addresses = (delegate* unmanaged[Cdecl]<uv_interface_address_t**, long*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_interface_addresses");
-        _virtualTable.uv_free_cpu_info = (delegate* unmanaged[Cdecl]<uv_cpu_info_t*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_free_cpu_info");
-        _virtualTable.uv_cpu_info = (delegate* unmanaged[Cdecl]<uv_cpu_info_t**, long*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_cpu_info");
-        _virtualTable.uv_os_setpriority = (delegate* unmanaged[Cdecl]<uv_pid_t, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_os_setpriority");
-        _virtualTable.uv_os_getpriority = (delegate* unmanaged[Cdecl]<uv_pid_t, long*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_os_getpriority");
-        _virtualTable.uv_os_getppid = (delegate* unmanaged[Cdecl]<uv_pid_t>)Runtime.LibraryGetExport(_libraryHandle, "uv_os_getppid");
-        _virtualTable.uv_os_getpid = (delegate* unmanaged[Cdecl]<uv_pid_t>)Runtime.LibraryGetExport(_libraryHandle, "uv_os_getpid");
-        _virtualTable.uv_os_free_passwd = (delegate* unmanaged[Cdecl]<uv_passwd_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_os_free_passwd");
-        _virtualTable.uv_os_get_passwd = (delegate* unmanaged[Cdecl]<uv_passwd_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_os_get_passwd");
-        _virtualTable.uv_os_tmpdir = (delegate* unmanaged[Cdecl]<CString, ulong*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_os_tmpdir");
-        _virtualTable.uv_os_homedir = (delegate* unmanaged[Cdecl]<CString, ulong*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_os_homedir");
-        _virtualTable.uv_getrusage = (delegate* unmanaged[Cdecl]<uv_rusage_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_getrusage");
-        _virtualTable.uv_open_osfhandle = (delegate* unmanaged[Cdecl]<uv_os_fd_t, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_open_osfhandle");
-        _virtualTable.uv_get_osfhandle = (delegate* unmanaged[Cdecl]<int, uv_os_fd_t>)Runtime.LibraryGetExport(_libraryHandle, "uv_get_osfhandle");
-        _virtualTable.uv_uptime = (delegate* unmanaged[Cdecl]<double*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_uptime");
-        _virtualTable.uv_resident_set_memory = (delegate* unmanaged[Cdecl]<ulong*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_resident_set_memory");
-        _virtualTable.uv_set_process_title = (delegate* unmanaged[Cdecl]<CString, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_set_process_title");
-        _virtualTable.uv_get_process_title = (delegate* unmanaged[Cdecl]<CString, ulong, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_get_process_title");
-        _virtualTable.uv_setup_args = (delegate* unmanaged[Cdecl]<int, CString*, CString*>)Runtime.LibraryGetExport(_libraryHandle, "uv_setup_args");
-        _virtualTable.uv_cancel = (delegate* unmanaged[Cdecl]<uv_req_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_cancel");
-        _virtualTable.uv_queue_work = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_work_t*, uv_work_cb, uv_after_work_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_queue_work");
-        _virtualTable.uv_process_get_pid = (delegate* unmanaged[Cdecl]<uv_process_t*, uv_pid_t>)Runtime.LibraryGetExport(_libraryHandle, "uv_process_get_pid");
-        _virtualTable.uv_kill = (delegate* unmanaged[Cdecl]<int, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_kill");
-        _virtualTable.uv_process_kill = (delegate* unmanaged[Cdecl]<uv_process_t*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_process_kill");
-        _virtualTable.uv_spawn = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_process_t*, uv_process_options_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_spawn");
-        _virtualTable.uv_getnameinfo = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_getnameinfo_t*, uv_getnameinfo_cb, sockaddr*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_getnameinfo");
-        _virtualTable.uv_freeaddrinfo = (delegate* unmanaged[Cdecl]<addrinfo*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_freeaddrinfo");
-        _virtualTable.uv_getaddrinfo = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_getaddrinfo_t*, uv_getaddrinfo_cb, CString, CString, addrinfo*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_getaddrinfo");
-        _virtualTable.uv_timer_get_due_in = (delegate* unmanaged[Cdecl]<uv_timer_t*, ulong>)Runtime.LibraryGetExport(_libraryHandle, "uv_timer_get_due_in");
-        _virtualTable.uv_timer_get_repeat = (delegate* unmanaged[Cdecl]<uv_timer_t*, ulong>)Runtime.LibraryGetExport(_libraryHandle, "uv_timer_get_repeat");
-        _virtualTable.uv_timer_set_repeat = (delegate* unmanaged[Cdecl]<uv_timer_t*, ulong, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_timer_set_repeat");
-        _virtualTable.uv_timer_again = (delegate* unmanaged[Cdecl]<uv_timer_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_timer_again");
-        _virtualTable.uv_timer_stop = (delegate* unmanaged[Cdecl]<uv_timer_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_timer_stop");
-        _virtualTable.uv_timer_start = (delegate* unmanaged[Cdecl]<uv_timer_t*, uv_timer_cb, ulong, ulong, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_timer_start");
-        _virtualTable.uv_timer_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_timer_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_timer_init");
-        _virtualTable.uv_async_send = (delegate* unmanaged[Cdecl]<uv_async_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_async_send");
-        _virtualTable.uv_async_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_async_t*, uv_async_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_async_init");
-        _virtualTable.uv_idle_stop = (delegate* unmanaged[Cdecl]<uv_idle_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_idle_stop");
-        _virtualTable.uv_idle_start = (delegate* unmanaged[Cdecl]<uv_idle_t*, uv_idle_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_idle_start");
-        _virtualTable.uv_idle_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_idle_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_idle_init");
-        _virtualTable.uv_check_stop = (delegate* unmanaged[Cdecl]<uv_check_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_check_stop");
-        _virtualTable.uv_check_start = (delegate* unmanaged[Cdecl]<uv_check_t*, uv_check_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_check_start");
-        _virtualTable.uv_check_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_check_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_check_init");
-        _virtualTable.uv_prepare_stop = (delegate* unmanaged[Cdecl]<uv_prepare_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_prepare_stop");
-        _virtualTable.uv_prepare_start = (delegate* unmanaged[Cdecl]<uv_prepare_t*, uv_prepare_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_prepare_start");
-        _virtualTable.uv_prepare_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_prepare_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_prepare_init");
-        _virtualTable.uv_poll_stop = (delegate* unmanaged[Cdecl]<uv_poll_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_poll_stop");
-        _virtualTable.uv_poll_start = (delegate* unmanaged[Cdecl]<uv_poll_t*, int, uv_poll_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_poll_start");
-        _virtualTable.uv_poll_init_socket = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_poll_t*, uv_os_sock_t, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_poll_init_socket");
-        _virtualTable.uv_poll_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_poll_t*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_poll_init");
-        _virtualTable.uv_pipe_chmod = (delegate* unmanaged[Cdecl]<uv_pipe_t*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_pipe_chmod");
-        _virtualTable.uv_pipe_pending_type = (delegate* unmanaged[Cdecl]<uv_pipe_t*, uv_handle_type>)Runtime.LibraryGetExport(_libraryHandle, "uv_pipe_pending_type");
-        _virtualTable.uv_pipe_pending_count = (delegate* unmanaged[Cdecl]<uv_pipe_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_pipe_pending_count");
-        _virtualTable.uv_pipe_pending_instances = (delegate* unmanaged[Cdecl]<uv_pipe_t*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_pipe_pending_instances");
-        _virtualTable.uv_pipe_getpeername = (delegate* unmanaged[Cdecl]<uv_pipe_t*, CString, ulong*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_pipe_getpeername");
-        _virtualTable.uv_pipe_getsockname = (delegate* unmanaged[Cdecl]<uv_pipe_t*, CString, ulong*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_pipe_getsockname");
-        _virtualTable.uv_pipe_connect = (delegate* unmanaged[Cdecl]<uv_connect_t*, uv_pipe_t*, CString, uv_connect_cb, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_pipe_connect");
-        _virtualTable.uv_pipe_bind = (delegate* unmanaged[Cdecl]<uv_pipe_t*, CString, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_pipe_bind");
-        _virtualTable.uv_pipe_open = (delegate* unmanaged[Cdecl]<uv_pipe_t*, uv_file, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_pipe_open");
-        _virtualTable.uv_pipe_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_pipe_t*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_pipe_init");
-        _virtualTable.uv_guess_handle = (delegate* unmanaged[Cdecl]<uv_file, uv_handle_type>)Runtime.LibraryGetExport(_libraryHandle, "uv_guess_handle");
-        _virtualTable.uv_tty_get_vterm_state = (delegate* unmanaged[Cdecl]<uv_tty_vtermstate_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_tty_get_vterm_state");
-        _virtualTable.uv_tty_set_vterm_state = (delegate* unmanaged[Cdecl]<uv_tty_vtermstate_t, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_tty_set_vterm_state");
-        _virtualTable.uv_tty_get_winsize = (delegate* unmanaged[Cdecl]<uv_tty_t*, long*, long*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_tty_get_winsize");
-        _virtualTable.uv_tty_reset_mode = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "uv_tty_reset_mode");
-        _virtualTable.uv_tty_set_mode = (delegate* unmanaged[Cdecl]<uv_tty_t*, uv_tty_mode_t, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_tty_set_mode");
-        _virtualTable.uv_tty_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_tty_t*, uv_file, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_tty_init");
-        _virtualTable.uv_udp_get_send_queue_count = (delegate* unmanaged[Cdecl]<uv_udp_t*, ulong>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_get_send_queue_count");
-        _virtualTable.uv_udp_get_send_queue_size = (delegate* unmanaged[Cdecl]<uv_udp_t*, ulong>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_get_send_queue_size");
-        _virtualTable.uv_udp_recv_stop = (delegate* unmanaged[Cdecl]<uv_udp_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_recv_stop");
-        _virtualTable.uv_udp_using_recvmmsg = (delegate* unmanaged[Cdecl]<uv_udp_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_using_recvmmsg");
-        _virtualTable.uv_udp_recv_start = (delegate* unmanaged[Cdecl]<uv_udp_t*, uv_alloc_cb, uv_udp_recv_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_recv_start");
-        _virtualTable.uv_udp_try_send = (delegate* unmanaged[Cdecl]<uv_udp_t*, uv_buf_t*, uint, sockaddr*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_try_send");
-        _virtualTable.uv_udp_send = (delegate* unmanaged[Cdecl]<uv_udp_send_t*, uv_udp_t*, uv_buf_t*, uint, sockaddr*, uv_udp_send_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_send");
-        _virtualTable.uv_udp_set_ttl = (delegate* unmanaged[Cdecl]<uv_udp_t*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_set_ttl");
-        _virtualTable.uv_udp_set_broadcast = (delegate* unmanaged[Cdecl]<uv_udp_t*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_set_broadcast");
-        _virtualTable.uv_udp_set_multicast_interface = (delegate* unmanaged[Cdecl]<uv_udp_t*, CString, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_set_multicast_interface");
-        _virtualTable.uv_udp_set_multicast_ttl = (delegate* unmanaged[Cdecl]<uv_udp_t*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_set_multicast_ttl");
-        _virtualTable.uv_udp_set_multicast_loop = (delegate* unmanaged[Cdecl]<uv_udp_t*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_set_multicast_loop");
-        _virtualTable.uv_udp_set_source_membership = (delegate* unmanaged[Cdecl]<uv_udp_t*, CString, CString, CString, uv_membership, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_set_source_membership");
-        _virtualTable.uv_udp_set_membership = (delegate* unmanaged[Cdecl]<uv_udp_t*, CString, CString, uv_membership, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_set_membership");
-        _virtualTable.uv_udp_getsockname = (delegate* unmanaged[Cdecl]<uv_udp_t*, sockaddr*, long*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_getsockname");
-        _virtualTable.uv_udp_getpeername = (delegate* unmanaged[Cdecl]<uv_udp_t*, sockaddr*, long*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_getpeername");
-        _virtualTable.uv_udp_connect = (delegate* unmanaged[Cdecl]<uv_udp_t*, sockaddr*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_connect");
-        _virtualTable.uv_udp_bind = (delegate* unmanaged[Cdecl]<uv_udp_t*, sockaddr*, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_bind");
-        _virtualTable.uv_udp_open = (delegate* unmanaged[Cdecl]<uv_udp_t*, uv_os_sock_t, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_open");
-        _virtualTable.uv_udp_init_ex = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_udp_t*, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_init_ex");
-        _virtualTable.uv_udp_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_udp_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_udp_init");
-        _virtualTable.uv_tcp_connect = (delegate* unmanaged[Cdecl]<uv_connect_t*, uv_tcp_t*, sockaddr*, uv_connect_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_tcp_connect");
-        _virtualTable.uv_tcp_close_reset = (delegate* unmanaged[Cdecl]<uv_tcp_t*, uv_close_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_tcp_close_reset");
-        _virtualTable.uv_tcp_getpeername = (delegate* unmanaged[Cdecl]<uv_tcp_t*, sockaddr*, long*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_tcp_getpeername");
-        _virtualTable.uv_tcp_getsockname = (delegate* unmanaged[Cdecl]<uv_tcp_t*, sockaddr*, long*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_tcp_getsockname");
-        _virtualTable.uv_tcp_bind = (delegate* unmanaged[Cdecl]<uv_tcp_t*, sockaddr*, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_tcp_bind");
-        _virtualTable.uv_tcp_simultaneous_accepts = (delegate* unmanaged[Cdecl]<uv_tcp_t*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_tcp_simultaneous_accepts");
-        _virtualTable.uv_tcp_keepalive = (delegate* unmanaged[Cdecl]<uv_tcp_t*, int, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_tcp_keepalive");
-        _virtualTable.uv_tcp_nodelay = (delegate* unmanaged[Cdecl]<uv_tcp_t*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_tcp_nodelay");
-        _virtualTable.uv_tcp_open = (delegate* unmanaged[Cdecl]<uv_tcp_t*, uv_os_sock_t, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_tcp_open");
-        _virtualTable.uv_tcp_init_ex = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_tcp_t*, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_tcp_init_ex");
-        _virtualTable.uv_tcp_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_tcp_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_tcp_init");
-        _virtualTable.uv_is_closing = (delegate* unmanaged[Cdecl]<uv_handle_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_is_closing");
-        _virtualTable.uv_stream_set_blocking = (delegate* unmanaged[Cdecl]<uv_stream_t*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_stream_set_blocking");
-        _virtualTable.uv_is_writable = (delegate* unmanaged[Cdecl]<uv_stream_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_is_writable");
-        _virtualTable.uv_is_readable = (delegate* unmanaged[Cdecl]<uv_stream_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_is_readable");
-        _virtualTable.uv_try_write = (delegate* unmanaged[Cdecl]<uv_stream_t*, uv_buf_t*, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_try_write");
-        _virtualTable.uv_write2 = (delegate* unmanaged[Cdecl]<uv_write_t*, uv_stream_t*, uv_buf_t*, uint, uv_stream_t*, uv_write_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_write2");
-        _virtualTable.uv_write = (delegate* unmanaged[Cdecl]<uv_write_t*, uv_stream_t*, uv_buf_t*, uint, uv_write_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_write");
-        _virtualTable.uv_read_stop = (delegate* unmanaged[Cdecl]<uv_stream_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_read_stop");
-        _virtualTable.uv_read_start = (delegate* unmanaged[Cdecl]<uv_stream_t*, uv_alloc_cb, uv_read_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_read_start");
-        _virtualTable.uv_accept = (delegate* unmanaged[Cdecl]<uv_stream_t*, uv_stream_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_accept");
-        _virtualTable.uv_listen = (delegate* unmanaged[Cdecl]<uv_stream_t*, int, uv_connection_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_listen");
-        _virtualTable.uv_stream_get_write_queue_size = (delegate* unmanaged[Cdecl]<uv_stream_t*, ulong>)Runtime.LibraryGetExport(_libraryHandle, "uv_stream_get_write_queue_size");
-        _virtualTable.uv_socketpair = (delegate* unmanaged[Cdecl]<int, int, uv_os_sock_t*, int, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_socketpair");
-        _virtualTable.uv_pipe = (delegate* unmanaged[Cdecl]<uv_file*, int, int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_pipe");
-        _virtualTable.uv_buf_init = (delegate* unmanaged[Cdecl]<CString, uint, uv_buf_t>)Runtime.LibraryGetExport(_libraryHandle, "uv_buf_init");
-        _virtualTable.uv_fileno = (delegate* unmanaged[Cdecl]<uv_handle_t*, uv_os_fd_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_fileno");
-        _virtualTable.uv_recv_buffer_size = (delegate* unmanaged[Cdecl]<uv_handle_t*, long*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_recv_buffer_size");
-        _virtualTable.uv_send_buffer_size = (delegate* unmanaged[Cdecl]<uv_handle_t*, long*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_send_buffer_size");
-        _virtualTable.uv_close = (delegate* unmanaged[Cdecl]<uv_handle_t*, uv_close_cb, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_close");
-        _virtualTable.uv_print_active_handles = (delegate* unmanaged[Cdecl]<uv_loop_t*, FILE*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_print_active_handles");
-        _virtualTable.uv_print_all_handles = (delegate* unmanaged[Cdecl]<uv_loop_t*, FILE*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_print_all_handles");
-        _virtualTable.uv_walk = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_walk_cb, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_walk");
-        _virtualTable.uv_is_active = (delegate* unmanaged[Cdecl]<uv_handle_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_is_active");
-        _virtualTable.uv_req_type_name = (delegate* unmanaged[Cdecl]<uv_req_type, CString>)Runtime.LibraryGetExport(_libraryHandle, "uv_req_type_name");
-        _virtualTable.uv_req_get_type = (delegate* unmanaged[Cdecl]<uv_req_t*, uv_req_type>)Runtime.LibraryGetExport(_libraryHandle, "uv_req_get_type");
-        _virtualTable.uv_req_set_data = (delegate* unmanaged[Cdecl]<uv_req_t*, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_req_set_data");
-        _virtualTable.uv_req_get_data = (delegate* unmanaged[Cdecl]<uv_req_t*, void*>)Runtime.LibraryGetExport(_libraryHandle, "uv_req_get_data");
-        _virtualTable.uv_req_size = (delegate* unmanaged[Cdecl]<uv_req_type, ulong>)Runtime.LibraryGetExport(_libraryHandle, "uv_req_size");
-        _virtualTable.uv_handle_set_data = (delegate* unmanaged[Cdecl]<uv_handle_t*, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_handle_set_data");
-        _virtualTable.uv_handle_get_loop = (delegate* unmanaged[Cdecl]<uv_handle_t*, uv_loop_t*>)Runtime.LibraryGetExport(_libraryHandle, "uv_handle_get_loop");
-        _virtualTable.uv_handle_get_data = (delegate* unmanaged[Cdecl]<uv_handle_t*, void*>)Runtime.LibraryGetExport(_libraryHandle, "uv_handle_get_data");
-        _virtualTable.uv_handle_type_name = (delegate* unmanaged[Cdecl]<uv_handle_type, CString>)Runtime.LibraryGetExport(_libraryHandle, "uv_handle_type_name");
-        _virtualTable.uv_handle_get_type = (delegate* unmanaged[Cdecl]<uv_handle_t*, uv_handle_type>)Runtime.LibraryGetExport(_libraryHandle, "uv_handle_get_type");
-        _virtualTable.uv_handle_size = (delegate* unmanaged[Cdecl]<uv_handle_type, ulong>)Runtime.LibraryGetExport(_libraryHandle, "uv_handle_size");
-        _virtualTable.uv_shutdown = (delegate* unmanaged[Cdecl]<uv_shutdown_t*, uv_stream_t*, uv_shutdown_cb, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_shutdown");
-        _virtualTable.uv_err_name_r = (delegate* unmanaged[Cdecl]<int, CString, ulong, CString>)Runtime.LibraryGetExport(_libraryHandle, "uv_err_name_r");
-        _virtualTable.uv_err_name = (delegate* unmanaged[Cdecl]<int, CString>)Runtime.LibraryGetExport(_libraryHandle, "uv_err_name");
-        _virtualTable.uv_strerror_r = (delegate* unmanaged[Cdecl]<int, CString, ulong, CString>)Runtime.LibraryGetExport(_libraryHandle, "uv_strerror_r");
-        _virtualTable.uv_strerror = (delegate* unmanaged[Cdecl]<int, CString>)Runtime.LibraryGetExport(_libraryHandle, "uv_strerror");
-        _virtualTable.uv_translate_sys_error = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_translate_sys_error");
-        _virtualTable.uv_backend_timeout = (delegate* unmanaged[Cdecl]<uv_loop_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_backend_timeout");
-        _virtualTable.uv_backend_fd = (delegate* unmanaged[Cdecl]<uv_loop_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_backend_fd");
-        _virtualTable.uv_now = (delegate* unmanaged[Cdecl]<uv_loop_t*, ulong>)Runtime.LibraryGetExport(_libraryHandle, "uv_now");
-        _virtualTable.uv_update_time = (delegate* unmanaged[Cdecl]<uv_loop_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_update_time");
-        _virtualTable.uv_has_ref = (delegate* unmanaged[Cdecl]<uv_handle_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_has_ref");
-        _virtualTable.uv_unref = (delegate* unmanaged[Cdecl]<uv_handle_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_unref");
-        _virtualTable.uv_ref = (delegate* unmanaged[Cdecl]<uv_handle_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_ref");
-        _virtualTable.uv_stop = (delegate* unmanaged[Cdecl]<uv_loop_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_stop");
-        _virtualTable.uv_run = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_run_mode, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_run");
-        _virtualTable.uv_loop_fork = (delegate* unmanaged[Cdecl]<uv_loop_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_loop_fork");
-        _virtualTable.uv_loop_configure = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_loop_option, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_loop_configure");
-        _virtualTable.uv_loop_alive = (delegate* unmanaged[Cdecl]<uv_loop_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_loop_alive");
-        _virtualTable.uv_loop_size = (delegate* unmanaged[Cdecl]<ulong>)Runtime.LibraryGetExport(_libraryHandle, "uv_loop_size");
-        _virtualTable.uv_loop_delete = (delegate* unmanaged[Cdecl]<uv_loop_t*, void>)Runtime.LibraryGetExport(_libraryHandle, "uv_loop_delete");
-        _virtualTable.uv_loop_new = (delegate* unmanaged[Cdecl]<uv_loop_t*>)Runtime.LibraryGetExport(_libraryHandle, "uv_loop_new");
-        _virtualTable.uv_loop_close = (delegate* unmanaged[Cdecl]<uv_loop_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_loop_close");
-        _virtualTable.uv_loop_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_loop_init");
-        _virtualTable.uv_default_loop = (delegate* unmanaged[Cdecl]<uv_loop_t*>)Runtime.LibraryGetExport(_libraryHandle, "uv_default_loop");
-        _virtualTable.uv_replace_allocator = (delegate* unmanaged[Cdecl]<uv_malloc_func, uv_realloc_func, uv_calloc_func, uv_free_func, int>)Runtime.LibraryGetExport(_libraryHandle, "uv_replace_allocator");
-        _virtualTable.uv_library_shutdown = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "uv_library_shutdown");
-        _virtualTable.uv_version_string = (delegate* unmanaged[Cdecl]<CString>)Runtime.LibraryGetExport(_libraryHandle, "uv_version_string");
-        _virtualTable.uv_version = (delegate* unmanaged[Cdecl]<uint>)Runtime.LibraryGetExport(_libraryHandle, "uv_version");
-        #endregion
-
-        #region "Variables"
-
-        #endregion
-    }
-
-    private static void _UnloadVirtualTable()
-    {
-        #region "Functions"
-
-        _virtualTable.uv_loop_set_data = (delegate* unmanaged[Cdecl]<uv_loop_t*, void*, void>)IntPtr.Zero;
-        _virtualTable.uv_loop_get_data = (delegate* unmanaged[Cdecl]<uv_loop_t*, void*>)IntPtr.Zero;
-        _virtualTable.uv_thread_equal = (delegate* unmanaged[Cdecl]<uv_thread_t*, uv_thread_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_thread_join = (delegate* unmanaged[Cdecl]<uv_thread_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_thread_self = (delegate* unmanaged[Cdecl]<uv_thread_t>)IntPtr.Zero;
-        _virtualTable.uv_thread_create_ex = (delegate* unmanaged[Cdecl]<uv_thread_t*, uv_thread_options_t*, uv_thread_cb, void*, int>)IntPtr.Zero;
-        _virtualTable.uv_thread_create = (delegate* unmanaged[Cdecl]<uv_thread_t*, uv_thread_cb, void*, int>)IntPtr.Zero;
-        _virtualTable.uv_gettimeofday = (delegate* unmanaged[Cdecl]<uv_timeval64_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_key_set = (delegate* unmanaged[Cdecl]<uv_key_t*, void*, void>)IntPtr.Zero;
-        _virtualTable.uv_key_get = (delegate* unmanaged[Cdecl]<uv_key_t*, void*>)IntPtr.Zero;
-        _virtualTable.uv_key_delete = (delegate* unmanaged[Cdecl]<uv_key_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_key_create = (delegate* unmanaged[Cdecl]<uv_key_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_once = (delegate* unmanaged[Cdecl]<uv_once_t*, FnPtr_UV_Void, void>)IntPtr.Zero;
-        _virtualTable.uv_cond_timedwait = (delegate* unmanaged[Cdecl]<uv_cond_t*, uv_mutex_t*, ulong, int>)IntPtr.Zero;
-        _virtualTable.uv_cond_wait = (delegate* unmanaged[Cdecl]<uv_cond_t*, uv_mutex_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_barrier_wait = (delegate* unmanaged[Cdecl]<uv_barrier_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_barrier_destroy = (delegate* unmanaged[Cdecl]<uv_barrier_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_barrier_init = (delegate* unmanaged[Cdecl]<uv_barrier_t*, uint, int>)IntPtr.Zero;
-        _virtualTable.uv_cond_broadcast = (delegate* unmanaged[Cdecl]<uv_cond_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_cond_signal = (delegate* unmanaged[Cdecl]<uv_cond_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_cond_destroy = (delegate* unmanaged[Cdecl]<uv_cond_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_cond_init = (delegate* unmanaged[Cdecl]<uv_cond_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_sem_trywait = (delegate* unmanaged[Cdecl]<uv_sem_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_sem_wait = (delegate* unmanaged[Cdecl]<uv_sem_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_sem_post = (delegate* unmanaged[Cdecl]<uv_sem_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_sem_destroy = (delegate* unmanaged[Cdecl]<uv_sem_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_sem_init = (delegate* unmanaged[Cdecl]<uv_sem_t*, uint, int>)IntPtr.Zero;
-        _virtualTable.uv_rwlock_wrunlock = (delegate* unmanaged[Cdecl]<uv_rwlock_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_rwlock_trywrlock = (delegate* unmanaged[Cdecl]<uv_rwlock_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_rwlock_wrlock = (delegate* unmanaged[Cdecl]<uv_rwlock_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_rwlock_rdunlock = (delegate* unmanaged[Cdecl]<uv_rwlock_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_rwlock_tryrdlock = (delegate* unmanaged[Cdecl]<uv_rwlock_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_rwlock_rdlock = (delegate* unmanaged[Cdecl]<uv_rwlock_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_rwlock_destroy = (delegate* unmanaged[Cdecl]<uv_rwlock_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_rwlock_init = (delegate* unmanaged[Cdecl]<uv_rwlock_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_mutex_unlock = (delegate* unmanaged[Cdecl]<uv_mutex_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_mutex_trylock = (delegate* unmanaged[Cdecl]<uv_mutex_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_mutex_lock = (delegate* unmanaged[Cdecl]<uv_mutex_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_mutex_destroy = (delegate* unmanaged[Cdecl]<uv_mutex_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_mutex_init_recursive = (delegate* unmanaged[Cdecl]<uv_mutex_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_mutex_init = (delegate* unmanaged[Cdecl]<uv_mutex_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_dlerror = (delegate* unmanaged[Cdecl]<uv_lib_t*, CString>)IntPtr.Zero;
-        _virtualTable.uv_dlsym = (delegate* unmanaged[Cdecl]<uv_lib_t*, CString, void**, int>)IntPtr.Zero;
-        _virtualTable.uv_dlclose = (delegate* unmanaged[Cdecl]<uv_lib_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_dlopen = (delegate* unmanaged[Cdecl]<CString, uv_lib_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_disable_stdio_inheritance = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.uv_sleep = (delegate* unmanaged[Cdecl]<uint, void>)IntPtr.Zero;
-        _virtualTable.uv_hrtime = (delegate* unmanaged[Cdecl]<ulong>)IntPtr.Zero;
-        _virtualTable.uv_get_constrained_memory = (delegate* unmanaged[Cdecl]<ulong>)IntPtr.Zero;
-        _virtualTable.uv_get_total_memory = (delegate* unmanaged[Cdecl]<ulong>)IntPtr.Zero;
-        _virtualTable.uv_get_free_memory = (delegate* unmanaged[Cdecl]<ulong>)IntPtr.Zero;
-        _virtualTable.uv_chdir = (delegate* unmanaged[Cdecl]<CString, int>)IntPtr.Zero;
-        _virtualTable.uv_cwd = (delegate* unmanaged[Cdecl]<CString, ulong*, int>)IntPtr.Zero;
-        _virtualTable.uv_exepath = (delegate* unmanaged[Cdecl]<CString, ulong*, int>)IntPtr.Zero;
-        _virtualTable.uv_if_indextoiid = (delegate* unmanaged[Cdecl]<uint, CString, ulong*, int>)IntPtr.Zero;
-        _virtualTable.uv_if_indextoname = (delegate* unmanaged[Cdecl]<uint, CString, ulong*, int>)IntPtr.Zero;
-        _virtualTable.uv_random = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_random_t*, void*, ulong, uint, uv_random_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_inet_pton = (delegate* unmanaged[Cdecl]<int, CString, void*, int>)IntPtr.Zero;
-        _virtualTable.uv_inet_ntop = (delegate* unmanaged[Cdecl]<int, void*, CString, ulong, int>)IntPtr.Zero;
-        _virtualTable.uv_ip6_name = (delegate* unmanaged[Cdecl]<sockaddr_in6*, CString, ulong, int>)IntPtr.Zero;
-        _virtualTable.uv_ip4_name = (delegate* unmanaged[Cdecl]<sockaddr_in*, CString, ulong, int>)IntPtr.Zero;
-        _virtualTable.uv_ip6_addr = (delegate* unmanaged[Cdecl]<CString, int, sockaddr_in6*, int>)IntPtr.Zero;
-        _virtualTable.uv_ip4_addr = (delegate* unmanaged[Cdecl]<CString, int, sockaddr_in*, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_event_getpath = (delegate* unmanaged[Cdecl]<uv_fs_event_t*, CString, ulong*, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_event_stop = (delegate* unmanaged[Cdecl]<uv_fs_event_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_event_start = (delegate* unmanaged[Cdecl]<uv_fs_event_t*, uv_fs_event_cb, CString, uint, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_event_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_event_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_loadavg = (delegate* unmanaged[Cdecl]<double*, void>)IntPtr.Zero;
-        _virtualTable.uv_signal_stop = (delegate* unmanaged[Cdecl]<uv_signal_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_signal_start_oneshot = (delegate* unmanaged[Cdecl]<uv_signal_t*, uv_signal_cb, int, int>)IntPtr.Zero;
-        _virtualTable.uv_signal_start = (delegate* unmanaged[Cdecl]<uv_signal_t*, uv_signal_cb, int, int>)IntPtr.Zero;
-        _virtualTable.uv_signal_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_signal_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_poll_getpath = (delegate* unmanaged[Cdecl]<uv_fs_poll_t*, CString, ulong*, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_poll_stop = (delegate* unmanaged[Cdecl]<uv_fs_poll_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_poll_start = (delegate* unmanaged[Cdecl]<uv_fs_poll_t*, uv_fs_poll_cb, CString, uint, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_poll_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_poll_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_statfs = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_lchown = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_uid_t, uv_gid_t, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_fchown = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_uid_t, uv_gid_t, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_chown = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_uid_t, uv_gid_t, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_fchmod = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, int, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_realpath = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_readlink = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_symlink = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, CString, int, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_link = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, CString, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_lstat = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_lutime = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, double, double, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_futime = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, double, double, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_utime = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, double, double, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_chmod = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_access = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_sendfile = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_file, long, ulong, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_ftruncate = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, long, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_fdatasync = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_fsync = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_rename = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, CString, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_fstat = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_stat = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_closedir = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_dir_t*, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_readdir = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_dir_t*, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_opendir = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_scandir_next = (delegate* unmanaged[Cdecl]<uv_fs_t*, uv_dirent_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_scandir = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_rmdir = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_mkstemp = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_mkdtemp = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_mkdir = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_copyfile = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, CString, int, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_write = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_buf_t*, uint, long, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_unlink = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_read = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_buf_t*, uint, long, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_open = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, int, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_close = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_fs_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_req_cleanup = (delegate* unmanaged[Cdecl]<uv_fs_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_fs_get_statbuf = (delegate* unmanaged[Cdecl]<uv_fs_t*, uv_stat_t*>)IntPtr.Zero;
-        _virtualTable.uv_fs_get_path = (delegate* unmanaged[Cdecl]<uv_fs_t*, CString>)IntPtr.Zero;
-        _virtualTable.uv_fs_get_ptr = (delegate* unmanaged[Cdecl]<uv_fs_t*, void*>)IntPtr.Zero;
-        _virtualTable.uv_fs_get_system_error = (delegate* unmanaged[Cdecl]<uv_fs_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_fs_get_result = (delegate* unmanaged[Cdecl]<uv_fs_t*, ssize_t>)IntPtr.Zero;
-        _virtualTable.uv_fs_get_type = (delegate* unmanaged[Cdecl]<uv_fs_t*, uv_fs_type>)IntPtr.Zero;
-        _virtualTable.uv_metrics_idle_time = (delegate* unmanaged[Cdecl]<uv_loop_t*, ulong>)IntPtr.Zero;
-        _virtualTable.uv_os_uname = (delegate* unmanaged[Cdecl]<uv_utsname_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_os_gethostname = (delegate* unmanaged[Cdecl]<CString, ulong*, int>)IntPtr.Zero;
-        _virtualTable.uv_os_unsetenv = (delegate* unmanaged[Cdecl]<CString, int>)IntPtr.Zero;
-        _virtualTable.uv_os_setenv = (delegate* unmanaged[Cdecl]<CString, CString, int>)IntPtr.Zero;
-        _virtualTable.uv_os_getenv = (delegate* unmanaged[Cdecl]<CString, CString, ulong*, int>)IntPtr.Zero;
-        _virtualTable.uv_os_free_environ = (delegate* unmanaged[Cdecl]<uv_env_item_t*, int, void>)IntPtr.Zero;
-        _virtualTable.uv_os_environ = (delegate* unmanaged[Cdecl]<uv_env_item_t**, long*, int>)IntPtr.Zero;
-        _virtualTable.uv_free_interface_addresses = (delegate* unmanaged[Cdecl]<uv_interface_address_t*, int, void>)IntPtr.Zero;
-        _virtualTable.uv_interface_addresses = (delegate* unmanaged[Cdecl]<uv_interface_address_t**, long*, int>)IntPtr.Zero;
-        _virtualTable.uv_free_cpu_info = (delegate* unmanaged[Cdecl]<uv_cpu_info_t*, int, void>)IntPtr.Zero;
-        _virtualTable.uv_cpu_info = (delegate* unmanaged[Cdecl]<uv_cpu_info_t**, long*, int>)IntPtr.Zero;
-        _virtualTable.uv_os_setpriority = (delegate* unmanaged[Cdecl]<uv_pid_t, int, int>)IntPtr.Zero;
-        _virtualTable.uv_os_getpriority = (delegate* unmanaged[Cdecl]<uv_pid_t, long*, int>)IntPtr.Zero;
-        _virtualTable.uv_os_getppid = (delegate* unmanaged[Cdecl]<uv_pid_t>)IntPtr.Zero;
-        _virtualTable.uv_os_getpid = (delegate* unmanaged[Cdecl]<uv_pid_t>)IntPtr.Zero;
-        _virtualTable.uv_os_free_passwd = (delegate* unmanaged[Cdecl]<uv_passwd_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_os_get_passwd = (delegate* unmanaged[Cdecl]<uv_passwd_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_os_tmpdir = (delegate* unmanaged[Cdecl]<CString, ulong*, int>)IntPtr.Zero;
-        _virtualTable.uv_os_homedir = (delegate* unmanaged[Cdecl]<CString, ulong*, int>)IntPtr.Zero;
-        _virtualTable.uv_getrusage = (delegate* unmanaged[Cdecl]<uv_rusage_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_open_osfhandle = (delegate* unmanaged[Cdecl]<uv_os_fd_t, int>)IntPtr.Zero;
-        _virtualTable.uv_get_osfhandle = (delegate* unmanaged[Cdecl]<int, uv_os_fd_t>)IntPtr.Zero;
-        _virtualTable.uv_uptime = (delegate* unmanaged[Cdecl]<double*, int>)IntPtr.Zero;
-        _virtualTable.uv_resident_set_memory = (delegate* unmanaged[Cdecl]<ulong*, int>)IntPtr.Zero;
-        _virtualTable.uv_set_process_title = (delegate* unmanaged[Cdecl]<CString, int>)IntPtr.Zero;
-        _virtualTable.uv_get_process_title = (delegate* unmanaged[Cdecl]<CString, ulong, int>)IntPtr.Zero;
-        _virtualTable.uv_setup_args = (delegate* unmanaged[Cdecl]<int, CString*, CString*>)IntPtr.Zero;
-        _virtualTable.uv_cancel = (delegate* unmanaged[Cdecl]<uv_req_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_queue_work = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_work_t*, uv_work_cb, uv_after_work_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_process_get_pid = (delegate* unmanaged[Cdecl]<uv_process_t*, uv_pid_t>)IntPtr.Zero;
-        _virtualTable.uv_kill = (delegate* unmanaged[Cdecl]<int, int, int>)IntPtr.Zero;
-        _virtualTable.uv_process_kill = (delegate* unmanaged[Cdecl]<uv_process_t*, int, int>)IntPtr.Zero;
-        _virtualTable.uv_spawn = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_process_t*, uv_process_options_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_getnameinfo = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_getnameinfo_t*, uv_getnameinfo_cb, sockaddr*, int, int>)IntPtr.Zero;
-        _virtualTable.uv_freeaddrinfo = (delegate* unmanaged[Cdecl]<addrinfo*, void>)IntPtr.Zero;
-        _virtualTable.uv_getaddrinfo = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_getaddrinfo_t*, uv_getaddrinfo_cb, CString, CString, addrinfo*, int>)IntPtr.Zero;
-        _virtualTable.uv_timer_get_due_in = (delegate* unmanaged[Cdecl]<uv_timer_t*, ulong>)IntPtr.Zero;
-        _virtualTable.uv_timer_get_repeat = (delegate* unmanaged[Cdecl]<uv_timer_t*, ulong>)IntPtr.Zero;
-        _virtualTable.uv_timer_set_repeat = (delegate* unmanaged[Cdecl]<uv_timer_t*, ulong, void>)IntPtr.Zero;
-        _virtualTable.uv_timer_again = (delegate* unmanaged[Cdecl]<uv_timer_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_timer_stop = (delegate* unmanaged[Cdecl]<uv_timer_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_timer_start = (delegate* unmanaged[Cdecl]<uv_timer_t*, uv_timer_cb, ulong, ulong, int>)IntPtr.Zero;
-        _virtualTable.uv_timer_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_timer_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_async_send = (delegate* unmanaged[Cdecl]<uv_async_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_async_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_async_t*, uv_async_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_idle_stop = (delegate* unmanaged[Cdecl]<uv_idle_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_idle_start = (delegate* unmanaged[Cdecl]<uv_idle_t*, uv_idle_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_idle_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_idle_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_check_stop = (delegate* unmanaged[Cdecl]<uv_check_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_check_start = (delegate* unmanaged[Cdecl]<uv_check_t*, uv_check_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_check_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_check_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_prepare_stop = (delegate* unmanaged[Cdecl]<uv_prepare_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_prepare_start = (delegate* unmanaged[Cdecl]<uv_prepare_t*, uv_prepare_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_prepare_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_prepare_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_poll_stop = (delegate* unmanaged[Cdecl]<uv_poll_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_poll_start = (delegate* unmanaged[Cdecl]<uv_poll_t*, int, uv_poll_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_poll_init_socket = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_poll_t*, uv_os_sock_t, int>)IntPtr.Zero;
-        _virtualTable.uv_poll_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_poll_t*, int, int>)IntPtr.Zero;
-        _virtualTable.uv_pipe_chmod = (delegate* unmanaged[Cdecl]<uv_pipe_t*, int, int>)IntPtr.Zero;
-        _virtualTable.uv_pipe_pending_type = (delegate* unmanaged[Cdecl]<uv_pipe_t*, uv_handle_type>)IntPtr.Zero;
-        _virtualTable.uv_pipe_pending_count = (delegate* unmanaged[Cdecl]<uv_pipe_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_pipe_pending_instances = (delegate* unmanaged[Cdecl]<uv_pipe_t*, int, void>)IntPtr.Zero;
-        _virtualTable.uv_pipe_getpeername = (delegate* unmanaged[Cdecl]<uv_pipe_t*, CString, ulong*, int>)IntPtr.Zero;
-        _virtualTable.uv_pipe_getsockname = (delegate* unmanaged[Cdecl]<uv_pipe_t*, CString, ulong*, int>)IntPtr.Zero;
-        _virtualTable.uv_pipe_connect = (delegate* unmanaged[Cdecl]<uv_connect_t*, uv_pipe_t*, CString, uv_connect_cb, void>)IntPtr.Zero;
-        _virtualTable.uv_pipe_bind = (delegate* unmanaged[Cdecl]<uv_pipe_t*, CString, int>)IntPtr.Zero;
-        _virtualTable.uv_pipe_open = (delegate* unmanaged[Cdecl]<uv_pipe_t*, uv_file, int>)IntPtr.Zero;
-        _virtualTable.uv_pipe_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_pipe_t*, int, int>)IntPtr.Zero;
-        _virtualTable.uv_guess_handle = (delegate* unmanaged[Cdecl]<uv_file, uv_handle_type>)IntPtr.Zero;
-        _virtualTable.uv_tty_get_vterm_state = (delegate* unmanaged[Cdecl]<uv_tty_vtermstate_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_tty_set_vterm_state = (delegate* unmanaged[Cdecl]<uv_tty_vtermstate_t, void>)IntPtr.Zero;
-        _virtualTable.uv_tty_get_winsize = (delegate* unmanaged[Cdecl]<uv_tty_t*, long*, long*, int>)IntPtr.Zero;
-        _virtualTable.uv_tty_reset_mode = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.uv_tty_set_mode = (delegate* unmanaged[Cdecl]<uv_tty_t*, uv_tty_mode_t, int>)IntPtr.Zero;
-        _virtualTable.uv_tty_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_tty_t*, uv_file, int, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_get_send_queue_count = (delegate* unmanaged[Cdecl]<uv_udp_t*, ulong>)IntPtr.Zero;
-        _virtualTable.uv_udp_get_send_queue_size = (delegate* unmanaged[Cdecl]<uv_udp_t*, ulong>)IntPtr.Zero;
-        _virtualTable.uv_udp_recv_stop = (delegate* unmanaged[Cdecl]<uv_udp_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_using_recvmmsg = (delegate* unmanaged[Cdecl]<uv_udp_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_recv_start = (delegate* unmanaged[Cdecl]<uv_udp_t*, uv_alloc_cb, uv_udp_recv_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_try_send = (delegate* unmanaged[Cdecl]<uv_udp_t*, uv_buf_t*, uint, sockaddr*, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_send = (delegate* unmanaged[Cdecl]<uv_udp_send_t*, uv_udp_t*, uv_buf_t*, uint, sockaddr*, uv_udp_send_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_set_ttl = (delegate* unmanaged[Cdecl]<uv_udp_t*, int, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_set_broadcast = (delegate* unmanaged[Cdecl]<uv_udp_t*, int, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_set_multicast_interface = (delegate* unmanaged[Cdecl]<uv_udp_t*, CString, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_set_multicast_ttl = (delegate* unmanaged[Cdecl]<uv_udp_t*, int, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_set_multicast_loop = (delegate* unmanaged[Cdecl]<uv_udp_t*, int, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_set_source_membership = (delegate* unmanaged[Cdecl]<uv_udp_t*, CString, CString, CString, uv_membership, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_set_membership = (delegate* unmanaged[Cdecl]<uv_udp_t*, CString, CString, uv_membership, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_getsockname = (delegate* unmanaged[Cdecl]<uv_udp_t*, sockaddr*, long*, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_getpeername = (delegate* unmanaged[Cdecl]<uv_udp_t*, sockaddr*, long*, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_connect = (delegate* unmanaged[Cdecl]<uv_udp_t*, sockaddr*, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_bind = (delegate* unmanaged[Cdecl]<uv_udp_t*, sockaddr*, uint, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_open = (delegate* unmanaged[Cdecl]<uv_udp_t*, uv_os_sock_t, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_init_ex = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_udp_t*, uint, int>)IntPtr.Zero;
-        _virtualTable.uv_udp_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_udp_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_tcp_connect = (delegate* unmanaged[Cdecl]<uv_connect_t*, uv_tcp_t*, sockaddr*, uv_connect_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_tcp_close_reset = (delegate* unmanaged[Cdecl]<uv_tcp_t*, uv_close_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_tcp_getpeername = (delegate* unmanaged[Cdecl]<uv_tcp_t*, sockaddr*, long*, int>)IntPtr.Zero;
-        _virtualTable.uv_tcp_getsockname = (delegate* unmanaged[Cdecl]<uv_tcp_t*, sockaddr*, long*, int>)IntPtr.Zero;
-        _virtualTable.uv_tcp_bind = (delegate* unmanaged[Cdecl]<uv_tcp_t*, sockaddr*, uint, int>)IntPtr.Zero;
-        _virtualTable.uv_tcp_simultaneous_accepts = (delegate* unmanaged[Cdecl]<uv_tcp_t*, int, int>)IntPtr.Zero;
-        _virtualTable.uv_tcp_keepalive = (delegate* unmanaged[Cdecl]<uv_tcp_t*, int, uint, int>)IntPtr.Zero;
-        _virtualTable.uv_tcp_nodelay = (delegate* unmanaged[Cdecl]<uv_tcp_t*, int, int>)IntPtr.Zero;
-        _virtualTable.uv_tcp_open = (delegate* unmanaged[Cdecl]<uv_tcp_t*, uv_os_sock_t, int>)IntPtr.Zero;
-        _virtualTable.uv_tcp_init_ex = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_tcp_t*, uint, int>)IntPtr.Zero;
-        _virtualTable.uv_tcp_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_tcp_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_is_closing = (delegate* unmanaged[Cdecl]<uv_handle_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_stream_set_blocking = (delegate* unmanaged[Cdecl]<uv_stream_t*, int, int>)IntPtr.Zero;
-        _virtualTable.uv_is_writable = (delegate* unmanaged[Cdecl]<uv_stream_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_is_readable = (delegate* unmanaged[Cdecl]<uv_stream_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_try_write = (delegate* unmanaged[Cdecl]<uv_stream_t*, uv_buf_t*, uint, int>)IntPtr.Zero;
-        _virtualTable.uv_write2 = (delegate* unmanaged[Cdecl]<uv_write_t*, uv_stream_t*, uv_buf_t*, uint, uv_stream_t*, uv_write_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_write = (delegate* unmanaged[Cdecl]<uv_write_t*, uv_stream_t*, uv_buf_t*, uint, uv_write_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_read_stop = (delegate* unmanaged[Cdecl]<uv_stream_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_read_start = (delegate* unmanaged[Cdecl]<uv_stream_t*, uv_alloc_cb, uv_read_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_accept = (delegate* unmanaged[Cdecl]<uv_stream_t*, uv_stream_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_listen = (delegate* unmanaged[Cdecl]<uv_stream_t*, int, uv_connection_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_stream_get_write_queue_size = (delegate* unmanaged[Cdecl]<uv_stream_t*, ulong>)IntPtr.Zero;
-        _virtualTable.uv_socketpair = (delegate* unmanaged[Cdecl]<int, int, uv_os_sock_t*, int, int, int>)IntPtr.Zero;
-        _virtualTable.uv_pipe = (delegate* unmanaged[Cdecl]<uv_file*, int, int, int>)IntPtr.Zero;
-        _virtualTable.uv_buf_init = (delegate* unmanaged[Cdecl]<CString, uint, uv_buf_t>)IntPtr.Zero;
-        _virtualTable.uv_fileno = (delegate* unmanaged[Cdecl]<uv_handle_t*, uv_os_fd_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_recv_buffer_size = (delegate* unmanaged[Cdecl]<uv_handle_t*, long*, int>)IntPtr.Zero;
-        _virtualTable.uv_send_buffer_size = (delegate* unmanaged[Cdecl]<uv_handle_t*, long*, int>)IntPtr.Zero;
-        _virtualTable.uv_close = (delegate* unmanaged[Cdecl]<uv_handle_t*, uv_close_cb, void>)IntPtr.Zero;
-        _virtualTable.uv_print_active_handles = (delegate* unmanaged[Cdecl]<uv_loop_t*, FILE*, void>)IntPtr.Zero;
-        _virtualTable.uv_print_all_handles = (delegate* unmanaged[Cdecl]<uv_loop_t*, FILE*, void>)IntPtr.Zero;
-        _virtualTable.uv_walk = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_walk_cb, void*, void>)IntPtr.Zero;
-        _virtualTable.uv_is_active = (delegate* unmanaged[Cdecl]<uv_handle_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_req_type_name = (delegate* unmanaged[Cdecl]<uv_req_type, CString>)IntPtr.Zero;
-        _virtualTable.uv_req_get_type = (delegate* unmanaged[Cdecl]<uv_req_t*, uv_req_type>)IntPtr.Zero;
-        _virtualTable.uv_req_set_data = (delegate* unmanaged[Cdecl]<uv_req_t*, void*, void>)IntPtr.Zero;
-        _virtualTable.uv_req_get_data = (delegate* unmanaged[Cdecl]<uv_req_t*, void*>)IntPtr.Zero;
-        _virtualTable.uv_req_size = (delegate* unmanaged[Cdecl]<uv_req_type, ulong>)IntPtr.Zero;
-        _virtualTable.uv_handle_set_data = (delegate* unmanaged[Cdecl]<uv_handle_t*, void*, void>)IntPtr.Zero;
-        _virtualTable.uv_handle_get_loop = (delegate* unmanaged[Cdecl]<uv_handle_t*, uv_loop_t*>)IntPtr.Zero;
-        _virtualTable.uv_handle_get_data = (delegate* unmanaged[Cdecl]<uv_handle_t*, void*>)IntPtr.Zero;
-        _virtualTable.uv_handle_type_name = (delegate* unmanaged[Cdecl]<uv_handle_type, CString>)IntPtr.Zero;
-        _virtualTable.uv_handle_get_type = (delegate* unmanaged[Cdecl]<uv_handle_t*, uv_handle_type>)IntPtr.Zero;
-        _virtualTable.uv_handle_size = (delegate* unmanaged[Cdecl]<uv_handle_type, ulong>)IntPtr.Zero;
-        _virtualTable.uv_shutdown = (delegate* unmanaged[Cdecl]<uv_shutdown_t*, uv_stream_t*, uv_shutdown_cb, int>)IntPtr.Zero;
-        _virtualTable.uv_err_name_r = (delegate* unmanaged[Cdecl]<int, CString, ulong, CString>)IntPtr.Zero;
-        _virtualTable.uv_err_name = (delegate* unmanaged[Cdecl]<int, CString>)IntPtr.Zero;
-        _virtualTable.uv_strerror_r = (delegate* unmanaged[Cdecl]<int, CString, ulong, CString>)IntPtr.Zero;
-        _virtualTable.uv_strerror = (delegate* unmanaged[Cdecl]<int, CString>)IntPtr.Zero;
-        _virtualTable.uv_translate_sys_error = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.uv_backend_timeout = (delegate* unmanaged[Cdecl]<uv_loop_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_backend_fd = (delegate* unmanaged[Cdecl]<uv_loop_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_now = (delegate* unmanaged[Cdecl]<uv_loop_t*, ulong>)IntPtr.Zero;
-        _virtualTable.uv_update_time = (delegate* unmanaged[Cdecl]<uv_loop_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_has_ref = (delegate* unmanaged[Cdecl]<uv_handle_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_unref = (delegate* unmanaged[Cdecl]<uv_handle_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_ref = (delegate* unmanaged[Cdecl]<uv_handle_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_stop = (delegate* unmanaged[Cdecl]<uv_loop_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_run = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_run_mode, int>)IntPtr.Zero;
-        _virtualTable.uv_loop_fork = (delegate* unmanaged[Cdecl]<uv_loop_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_loop_configure = (delegate* unmanaged[Cdecl]<uv_loop_t*, uv_loop_option, int>)IntPtr.Zero;
-        _virtualTable.uv_loop_alive = (delegate* unmanaged[Cdecl]<uv_loop_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_loop_size = (delegate* unmanaged[Cdecl]<ulong>)IntPtr.Zero;
-        _virtualTable.uv_loop_delete = (delegate* unmanaged[Cdecl]<uv_loop_t*, void>)IntPtr.Zero;
-        _virtualTable.uv_loop_new = (delegate* unmanaged[Cdecl]<uv_loop_t*>)IntPtr.Zero;
-        _virtualTable.uv_loop_close = (delegate* unmanaged[Cdecl]<uv_loop_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_loop_init = (delegate* unmanaged[Cdecl]<uv_loop_t*, int>)IntPtr.Zero;
-        _virtualTable.uv_default_loop = (delegate* unmanaged[Cdecl]<uv_loop_t*>)IntPtr.Zero;
-        _virtualTable.uv_replace_allocator = (delegate* unmanaged[Cdecl]<uv_malloc_func, uv_realloc_func, uv_calloc_func, uv_free_func, int>)IntPtr.Zero;
-        _virtualTable.uv_library_shutdown = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.uv_version_string = (delegate* unmanaged[Cdecl]<CString>)IntPtr.Zero;
-        _virtualTable.uv_version = (delegate* unmanaged[Cdecl]<uint>)IntPtr.Zero;
-
-        #endregion
-
-        #region "Variables"
-
-
-
-        #endregion
-    }
-
-    // The virtual table represents a list of pointers to functions or variables which are resolved in a late manner.
-    //	This allows for flexibility in swapping implementations at runtime.
-    //	You can think of it in traditional OOP terms in C# as the locations of the virtual methods and/or properties of an object.
-    public struct _VirtualTable
-    {
-        #region "Function Pointers"
-        // These pointers hold the locations in the native library where functions are located at runtime.
-        // See: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
-
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, void*, void> uv_loop_set_data;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, void*> uv_loop_get_data;
-        public delegate* unmanaged[Cdecl]<uv_thread_t*, uv_thread_t*, int> uv_thread_equal;
-        public delegate* unmanaged[Cdecl]<uv_thread_t*, int> uv_thread_join;
-        public delegate* unmanaged[Cdecl]<uv_thread_t> uv_thread_self;
-        public delegate* unmanaged[Cdecl]<uv_thread_t*, uv_thread_options_t*, uv_thread_cb, void*, int> uv_thread_create_ex;
-        public delegate* unmanaged[Cdecl]<uv_thread_t*, uv_thread_cb, void*, int> uv_thread_create;
-        public delegate* unmanaged[Cdecl]<uv_timeval64_t*, int> uv_gettimeofday;
-        public delegate* unmanaged[Cdecl]<uv_key_t*, void*, void> uv_key_set;
-        public delegate* unmanaged[Cdecl]<uv_key_t*, void*> uv_key_get;
-        public delegate* unmanaged[Cdecl]<uv_key_t*, void> uv_key_delete;
-        public delegate* unmanaged[Cdecl]<uv_key_t*, int> uv_key_create;
-        public delegate* unmanaged[Cdecl]<uv_once_t*, FnPtr_UV_Void, void> uv_once;
-        public delegate* unmanaged[Cdecl]<uv_cond_t*, uv_mutex_t*, ulong, int> uv_cond_timedwait;
-        public delegate* unmanaged[Cdecl]<uv_cond_t*, uv_mutex_t*, void> uv_cond_wait;
-        public delegate* unmanaged[Cdecl]<uv_barrier_t*, int> uv_barrier_wait;
-        public delegate* unmanaged[Cdecl]<uv_barrier_t*, void> uv_barrier_destroy;
-        public delegate* unmanaged[Cdecl]<uv_barrier_t*, uint, int> uv_barrier_init;
-        public delegate* unmanaged[Cdecl]<uv_cond_t*, void> uv_cond_broadcast;
-        public delegate* unmanaged[Cdecl]<uv_cond_t*, void> uv_cond_signal;
-        public delegate* unmanaged[Cdecl]<uv_cond_t*, void> uv_cond_destroy;
-        public delegate* unmanaged[Cdecl]<uv_cond_t*, int> uv_cond_init;
-        public delegate* unmanaged[Cdecl]<uv_sem_t*, int> uv_sem_trywait;
-        public delegate* unmanaged[Cdecl]<uv_sem_t*, void> uv_sem_wait;
-        public delegate* unmanaged[Cdecl]<uv_sem_t*, void> uv_sem_post;
-        public delegate* unmanaged[Cdecl]<uv_sem_t*, void> uv_sem_destroy;
-        public delegate* unmanaged[Cdecl]<uv_sem_t*, uint, int> uv_sem_init;
-        public delegate* unmanaged[Cdecl]<uv_rwlock_t*, void> uv_rwlock_wrunlock;
-        public delegate* unmanaged[Cdecl]<uv_rwlock_t*, int> uv_rwlock_trywrlock;
-        public delegate* unmanaged[Cdecl]<uv_rwlock_t*, void> uv_rwlock_wrlock;
-        public delegate* unmanaged[Cdecl]<uv_rwlock_t*, void> uv_rwlock_rdunlock;
-        public delegate* unmanaged[Cdecl]<uv_rwlock_t*, int> uv_rwlock_tryrdlock;
-        public delegate* unmanaged[Cdecl]<uv_rwlock_t*, void> uv_rwlock_rdlock;
-        public delegate* unmanaged[Cdecl]<uv_rwlock_t*, void> uv_rwlock_destroy;
-        public delegate* unmanaged[Cdecl]<uv_rwlock_t*, int> uv_rwlock_init;
-        public delegate* unmanaged[Cdecl]<uv_mutex_t*, void> uv_mutex_unlock;
-        public delegate* unmanaged[Cdecl]<uv_mutex_t*, int> uv_mutex_trylock;
-        public delegate* unmanaged[Cdecl]<uv_mutex_t*, void> uv_mutex_lock;
-        public delegate* unmanaged[Cdecl]<uv_mutex_t*, void> uv_mutex_destroy;
-        public delegate* unmanaged[Cdecl]<uv_mutex_t*, int> uv_mutex_init_recursive;
-        public delegate* unmanaged[Cdecl]<uv_mutex_t*, int> uv_mutex_init;
-        public delegate* unmanaged[Cdecl]<uv_lib_t*, CString> uv_dlerror;
-        public delegate* unmanaged[Cdecl]<uv_lib_t*, CString, void**, int> uv_dlsym;
-        public delegate* unmanaged[Cdecl]<uv_lib_t*, void> uv_dlclose;
-        public delegate* unmanaged[Cdecl]<CString, uv_lib_t*, int> uv_dlopen;
-        public delegate* unmanaged[Cdecl]<void> uv_disable_stdio_inheritance;
-        public delegate* unmanaged[Cdecl]<uint, void> uv_sleep;
-        public delegate* unmanaged[Cdecl]<ulong> uv_hrtime;
-        public delegate* unmanaged[Cdecl]<ulong> uv_get_constrained_memory;
-        public delegate* unmanaged[Cdecl]<ulong> uv_get_total_memory;
-        public delegate* unmanaged[Cdecl]<ulong> uv_get_free_memory;
-        public delegate* unmanaged[Cdecl]<CString, int> uv_chdir;
-        public delegate* unmanaged[Cdecl]<CString, ulong*, int> uv_cwd;
-        public delegate* unmanaged[Cdecl]<CString, ulong*, int> uv_exepath;
-        public delegate* unmanaged[Cdecl]<uint, CString, ulong*, int> uv_if_indextoiid;
-        public delegate* unmanaged[Cdecl]<uint, CString, ulong*, int> uv_if_indextoname;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_random_t*, void*, ulong, uint, uv_random_cb, int> uv_random;
-        public delegate* unmanaged[Cdecl]<int, CString, void*, int> uv_inet_pton;
-        public delegate* unmanaged[Cdecl]<int, void*, CString, ulong, int> uv_inet_ntop;
-        public delegate* unmanaged[Cdecl]<sockaddr_in6*, CString, ulong, int> uv_ip6_name;
-        public delegate* unmanaged[Cdecl]<sockaddr_in*, CString, ulong, int> uv_ip4_name;
-        public delegate* unmanaged[Cdecl]<CString, int, sockaddr_in6*, int> uv_ip6_addr;
-        public delegate* unmanaged[Cdecl]<CString, int, sockaddr_in*, int> uv_ip4_addr;
-        public delegate* unmanaged[Cdecl]<uv_fs_event_t*, CString, ulong*, int> uv_fs_event_getpath;
-        public delegate* unmanaged[Cdecl]<uv_fs_event_t*, int> uv_fs_event_stop;
-        public delegate* unmanaged[Cdecl]<uv_fs_event_t*, uv_fs_event_cb, CString, uint, int> uv_fs_event_start;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_event_t*, int> uv_fs_event_init;
-        public delegate* unmanaged[Cdecl]<double*, void> uv_loadavg;
-        public delegate* unmanaged[Cdecl]<uv_signal_t*, int> uv_signal_stop;
-        public delegate* unmanaged[Cdecl]<uv_signal_t*, uv_signal_cb, int, int> uv_signal_start_oneshot;
-        public delegate* unmanaged[Cdecl]<uv_signal_t*, uv_signal_cb, int, int> uv_signal_start;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_signal_t*, int> uv_signal_init;
-        public delegate* unmanaged[Cdecl]<uv_fs_poll_t*, CString, ulong*, int> uv_fs_poll_getpath;
-        public delegate* unmanaged[Cdecl]<uv_fs_poll_t*, int> uv_fs_poll_stop;
-        public delegate* unmanaged[Cdecl]<uv_fs_poll_t*, uv_fs_poll_cb, CString, uint, int> uv_fs_poll_start;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_poll_t*, int> uv_fs_poll_init;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int> uv_fs_statfs;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_uid_t, uv_gid_t, uv_fs_cb, int> uv_fs_lchown;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_uid_t, uv_gid_t, uv_fs_cb, int> uv_fs_fchown;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_uid_t, uv_gid_t, uv_fs_cb, int> uv_fs_chown;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, int, uv_fs_cb, int> uv_fs_fchmod;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int> uv_fs_realpath;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int> uv_fs_readlink;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, CString, int, uv_fs_cb, int> uv_fs_symlink;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, CString, uv_fs_cb, int> uv_fs_link;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int> uv_fs_lstat;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, double, double, uv_fs_cb, int> uv_fs_lutime;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, double, double, uv_fs_cb, int> uv_fs_futime;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, double, double, uv_fs_cb, int> uv_fs_utime;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, uv_fs_cb, int> uv_fs_chmod;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, uv_fs_cb, int> uv_fs_access;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_file, long, ulong, uv_fs_cb, int> uv_fs_sendfile;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, long, uv_fs_cb, int> uv_fs_ftruncate;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_fs_cb, int> uv_fs_fdatasync;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_fs_cb, int> uv_fs_fsync;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, CString, uv_fs_cb, int> uv_fs_rename;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_fs_cb, int> uv_fs_fstat;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int> uv_fs_stat;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_dir_t*, uv_fs_cb, int> uv_fs_closedir;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_dir_t*, uv_fs_cb, int> uv_fs_readdir;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int> uv_fs_opendir;
-        public delegate* unmanaged[Cdecl]<uv_fs_t*, uv_dirent_t*, int> uv_fs_scandir_next;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, uv_fs_cb, int> uv_fs_scandir;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int> uv_fs_rmdir;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int> uv_fs_mkstemp;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int> uv_fs_mkdtemp;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, uv_fs_cb, int> uv_fs_mkdir;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, CString, int, uv_fs_cb, int> uv_fs_copyfile;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_buf_t*, uint, long, uv_fs_cb, int> uv_fs_write;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, uv_fs_cb, int> uv_fs_unlink;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_buf_t*, uint, long, uv_fs_cb, int> uv_fs_read;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, CString, int, int, uv_fs_cb, int> uv_fs_open;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_fs_t*, uv_file, uv_fs_cb, int> uv_fs_close;
-        public delegate* unmanaged[Cdecl]<uv_fs_t*, void> uv_fs_req_cleanup;
-        public delegate* unmanaged[Cdecl]<uv_fs_t*, uv_stat_t*> uv_fs_get_statbuf;
-        public delegate* unmanaged[Cdecl]<uv_fs_t*, CString> uv_fs_get_path;
-        public delegate* unmanaged[Cdecl]<uv_fs_t*, void*> uv_fs_get_ptr;
-        public delegate* unmanaged[Cdecl]<uv_fs_t*, int> uv_fs_get_system_error;
-        public delegate* unmanaged[Cdecl]<uv_fs_t*, ssize_t> uv_fs_get_result;
-        public delegate* unmanaged[Cdecl]<uv_fs_t*, uv_fs_type> uv_fs_get_type;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, ulong> uv_metrics_idle_time;
-        public delegate* unmanaged[Cdecl]<uv_utsname_t*, int> uv_os_uname;
-        public delegate* unmanaged[Cdecl]<CString, ulong*, int> uv_os_gethostname;
-        public delegate* unmanaged[Cdecl]<CString, int> uv_os_unsetenv;
-        public delegate* unmanaged[Cdecl]<CString, CString, int> uv_os_setenv;
-        public delegate* unmanaged[Cdecl]<CString, CString, ulong*, int> uv_os_getenv;
-        public delegate* unmanaged[Cdecl]<uv_env_item_t*, int, void> uv_os_free_environ;
-        public delegate* unmanaged[Cdecl]<uv_env_item_t**, long*, int> uv_os_environ;
-        public delegate* unmanaged[Cdecl]<uv_interface_address_t*, int, void> uv_free_interface_addresses;
-        public delegate* unmanaged[Cdecl]<uv_interface_address_t**, long*, int> uv_interface_addresses;
-        public delegate* unmanaged[Cdecl]<uv_cpu_info_t*, int, void> uv_free_cpu_info;
-        public delegate* unmanaged[Cdecl]<uv_cpu_info_t**, long*, int> uv_cpu_info;
-        public delegate* unmanaged[Cdecl]<uv_pid_t, int, int> uv_os_setpriority;
-        public delegate* unmanaged[Cdecl]<uv_pid_t, long*, int> uv_os_getpriority;
-        public delegate* unmanaged[Cdecl]<uv_pid_t> uv_os_getppid;
-        public delegate* unmanaged[Cdecl]<uv_pid_t> uv_os_getpid;
-        public delegate* unmanaged[Cdecl]<uv_passwd_t*, void> uv_os_free_passwd;
-        public delegate* unmanaged[Cdecl]<uv_passwd_t*, int> uv_os_get_passwd;
-        public delegate* unmanaged[Cdecl]<CString, ulong*, int> uv_os_tmpdir;
-        public delegate* unmanaged[Cdecl]<CString, ulong*, int> uv_os_homedir;
-        public delegate* unmanaged[Cdecl]<uv_rusage_t*, int> uv_getrusage;
-        public delegate* unmanaged[Cdecl]<uv_os_fd_t, int> uv_open_osfhandle;
-        public delegate* unmanaged[Cdecl]<int, uv_os_fd_t> uv_get_osfhandle;
-        public delegate* unmanaged[Cdecl]<double*, int> uv_uptime;
-        public delegate* unmanaged[Cdecl]<ulong*, int> uv_resident_set_memory;
-        public delegate* unmanaged[Cdecl]<CString, int> uv_set_process_title;
-        public delegate* unmanaged[Cdecl]<CString, ulong, int> uv_get_process_title;
-        public delegate* unmanaged[Cdecl]<int, CString*, CString*> uv_setup_args;
-        public delegate* unmanaged[Cdecl]<uv_req_t*, int> uv_cancel;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_work_t*, uv_work_cb, uv_after_work_cb, int> uv_queue_work;
-        public delegate* unmanaged[Cdecl]<uv_process_t*, uv_pid_t> uv_process_get_pid;
-        public delegate* unmanaged[Cdecl]<int, int, int> uv_kill;
-        public delegate* unmanaged[Cdecl]<uv_process_t*, int, int> uv_process_kill;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_process_t*, uv_process_options_t*, int> uv_spawn;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_getnameinfo_t*, uv_getnameinfo_cb, sockaddr*, int, int> uv_getnameinfo;
-        public delegate* unmanaged[Cdecl]<addrinfo*, void> uv_freeaddrinfo;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_getaddrinfo_t*, uv_getaddrinfo_cb, CString, CString, addrinfo*, int> uv_getaddrinfo;
-        public delegate* unmanaged[Cdecl]<uv_timer_t*, ulong> uv_timer_get_due_in;
-        public delegate* unmanaged[Cdecl]<uv_timer_t*, ulong> uv_timer_get_repeat;
-        public delegate* unmanaged[Cdecl]<uv_timer_t*, ulong, void> uv_timer_set_repeat;
-        public delegate* unmanaged[Cdecl]<uv_timer_t*, int> uv_timer_again;
-        public delegate* unmanaged[Cdecl]<uv_timer_t*, int> uv_timer_stop;
-        public delegate* unmanaged[Cdecl]<uv_timer_t*, uv_timer_cb, ulong, ulong, int> uv_timer_start;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_timer_t*, int> uv_timer_init;
-        public delegate* unmanaged[Cdecl]<uv_async_t*, int> uv_async_send;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_async_t*, uv_async_cb, int> uv_async_init;
-        public delegate* unmanaged[Cdecl]<uv_idle_t*, int> uv_idle_stop;
-        public delegate* unmanaged[Cdecl]<uv_idle_t*, uv_idle_cb, int> uv_idle_start;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_idle_t*, int> uv_idle_init;
-        public delegate* unmanaged[Cdecl]<uv_check_t*, int> uv_check_stop;
-        public delegate* unmanaged[Cdecl]<uv_check_t*, uv_check_cb, int> uv_check_start;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_check_t*, int> uv_check_init;
-        public delegate* unmanaged[Cdecl]<uv_prepare_t*, int> uv_prepare_stop;
-        public delegate* unmanaged[Cdecl]<uv_prepare_t*, uv_prepare_cb, int> uv_prepare_start;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_prepare_t*, int> uv_prepare_init;
-        public delegate* unmanaged[Cdecl]<uv_poll_t*, int> uv_poll_stop;
-        public delegate* unmanaged[Cdecl]<uv_poll_t*, int, uv_poll_cb, int> uv_poll_start;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_poll_t*, uv_os_sock_t, int> uv_poll_init_socket;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_poll_t*, int, int> uv_poll_init;
-        public delegate* unmanaged[Cdecl]<uv_pipe_t*, int, int> uv_pipe_chmod;
-        public delegate* unmanaged[Cdecl]<uv_pipe_t*, uv_handle_type> uv_pipe_pending_type;
-        public delegate* unmanaged[Cdecl]<uv_pipe_t*, int> uv_pipe_pending_count;
-        public delegate* unmanaged[Cdecl]<uv_pipe_t*, int, void> uv_pipe_pending_instances;
-        public delegate* unmanaged[Cdecl]<uv_pipe_t*, CString, ulong*, int> uv_pipe_getpeername;
-        public delegate* unmanaged[Cdecl]<uv_pipe_t*, CString, ulong*, int> uv_pipe_getsockname;
-        public delegate* unmanaged[Cdecl]<uv_connect_t*, uv_pipe_t*, CString, uv_connect_cb, void> uv_pipe_connect;
-        public delegate* unmanaged[Cdecl]<uv_pipe_t*, CString, int> uv_pipe_bind;
-        public delegate* unmanaged[Cdecl]<uv_pipe_t*, uv_file, int> uv_pipe_open;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_pipe_t*, int, int> uv_pipe_init;
-        public delegate* unmanaged[Cdecl]<uv_file, uv_handle_type> uv_guess_handle;
-        public delegate* unmanaged[Cdecl]<uv_tty_vtermstate_t*, int> uv_tty_get_vterm_state;
-        public delegate* unmanaged[Cdecl]<uv_tty_vtermstate_t, void> uv_tty_set_vterm_state;
-        public delegate* unmanaged[Cdecl]<uv_tty_t*, long*, long*, int> uv_tty_get_winsize;
-        public delegate* unmanaged[Cdecl]<int> uv_tty_reset_mode;
-        public delegate* unmanaged[Cdecl]<uv_tty_t*, uv_tty_mode_t, int> uv_tty_set_mode;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_tty_t*, uv_file, int, int> uv_tty_init;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, ulong> uv_udp_get_send_queue_count;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, ulong> uv_udp_get_send_queue_size;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, int> uv_udp_recv_stop;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, int> uv_udp_using_recvmmsg;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, uv_alloc_cb, uv_udp_recv_cb, int> uv_udp_recv_start;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, uv_buf_t*, uint, sockaddr*, int> uv_udp_try_send;
-        public delegate* unmanaged[Cdecl]<uv_udp_send_t*, uv_udp_t*, uv_buf_t*, uint, sockaddr*, uv_udp_send_cb, int> uv_udp_send;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, int, int> uv_udp_set_ttl;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, int, int> uv_udp_set_broadcast;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, CString, int> uv_udp_set_multicast_interface;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, int, int> uv_udp_set_multicast_ttl;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, int, int> uv_udp_set_multicast_loop;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, CString, CString, CString, uv_membership, int> uv_udp_set_source_membership;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, CString, CString, uv_membership, int> uv_udp_set_membership;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, sockaddr*, long*, int> uv_udp_getsockname;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, sockaddr*, long*, int> uv_udp_getpeername;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, sockaddr*, int> uv_udp_connect;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, sockaddr*, uint, int> uv_udp_bind;
-        public delegate* unmanaged[Cdecl]<uv_udp_t*, uv_os_sock_t, int> uv_udp_open;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_udp_t*, uint, int> uv_udp_init_ex;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_udp_t*, int> uv_udp_init;
-        public delegate* unmanaged[Cdecl]<uv_connect_t*, uv_tcp_t*, sockaddr*, uv_connect_cb, int> uv_tcp_connect;
-        public delegate* unmanaged[Cdecl]<uv_tcp_t*, uv_close_cb, int> uv_tcp_close_reset;
-        public delegate* unmanaged[Cdecl]<uv_tcp_t*, sockaddr*, long*, int> uv_tcp_getpeername;
-        public delegate* unmanaged[Cdecl]<uv_tcp_t*, sockaddr*, long*, int> uv_tcp_getsockname;
-        public delegate* unmanaged[Cdecl]<uv_tcp_t*, sockaddr*, uint, int> uv_tcp_bind;
-        public delegate* unmanaged[Cdecl]<uv_tcp_t*, int, int> uv_tcp_simultaneous_accepts;
-        public delegate* unmanaged[Cdecl]<uv_tcp_t*, int, uint, int> uv_tcp_keepalive;
-        public delegate* unmanaged[Cdecl]<uv_tcp_t*, int, int> uv_tcp_nodelay;
-        public delegate* unmanaged[Cdecl]<uv_tcp_t*, uv_os_sock_t, int> uv_tcp_open;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_tcp_t*, uint, int> uv_tcp_init_ex;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_tcp_t*, int> uv_tcp_init;
-        public delegate* unmanaged[Cdecl]<uv_handle_t*, int> uv_is_closing;
-        public delegate* unmanaged[Cdecl]<uv_stream_t*, int, int> uv_stream_set_blocking;
-        public delegate* unmanaged[Cdecl]<uv_stream_t*, int> uv_is_writable;
-        public delegate* unmanaged[Cdecl]<uv_stream_t*, int> uv_is_readable;
-        public delegate* unmanaged[Cdecl]<uv_stream_t*, uv_buf_t*, uint, int> uv_try_write;
-        public delegate* unmanaged[Cdecl]<uv_write_t*, uv_stream_t*, uv_buf_t*, uint, uv_stream_t*, uv_write_cb, int> uv_write2;
-        public delegate* unmanaged[Cdecl]<uv_write_t*, uv_stream_t*, uv_buf_t*, uint, uv_write_cb, int> uv_write;
-        public delegate* unmanaged[Cdecl]<uv_stream_t*, int> uv_read_stop;
-        public delegate* unmanaged[Cdecl]<uv_stream_t*, uv_alloc_cb, uv_read_cb, int> uv_read_start;
-        public delegate* unmanaged[Cdecl]<uv_stream_t*, uv_stream_t*, int> uv_accept;
-        public delegate* unmanaged[Cdecl]<uv_stream_t*, int, uv_connection_cb, int> uv_listen;
-        public delegate* unmanaged[Cdecl]<uv_stream_t*, ulong> uv_stream_get_write_queue_size;
-        public delegate* unmanaged[Cdecl]<int, int, uv_os_sock_t*, int, int, int> uv_socketpair;
-        public delegate* unmanaged[Cdecl]<uv_file*, int, int, int> uv_pipe;
-        public delegate* unmanaged[Cdecl]<CString, uint, uv_buf_t> uv_buf_init;
-        public delegate* unmanaged[Cdecl]<uv_handle_t*, uv_os_fd_t*, int> uv_fileno;
-        public delegate* unmanaged[Cdecl]<uv_handle_t*, long*, int> uv_recv_buffer_size;
-        public delegate* unmanaged[Cdecl]<uv_handle_t*, long*, int> uv_send_buffer_size;
-        public delegate* unmanaged[Cdecl]<uv_handle_t*, uv_close_cb, void> uv_close;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, FILE*, void> uv_print_active_handles;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, FILE*, void> uv_print_all_handles;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_walk_cb, void*, void> uv_walk;
-        public delegate* unmanaged[Cdecl]<uv_handle_t*, int> uv_is_active;
-        public delegate* unmanaged[Cdecl]<uv_req_type, CString> uv_req_type_name;
-        public delegate* unmanaged[Cdecl]<uv_req_t*, uv_req_type> uv_req_get_type;
-        public delegate* unmanaged[Cdecl]<uv_req_t*, void*, void> uv_req_set_data;
-        public delegate* unmanaged[Cdecl]<uv_req_t*, void*> uv_req_get_data;
-        public delegate* unmanaged[Cdecl]<uv_req_type, ulong> uv_req_size;
-        public delegate* unmanaged[Cdecl]<uv_handle_t*, void*, void> uv_handle_set_data;
-        public delegate* unmanaged[Cdecl]<uv_handle_t*, uv_loop_t*> uv_handle_get_loop;
-        public delegate* unmanaged[Cdecl]<uv_handle_t*, void*> uv_handle_get_data;
-        public delegate* unmanaged[Cdecl]<uv_handle_type, CString> uv_handle_type_name;
-        public delegate* unmanaged[Cdecl]<uv_handle_t*, uv_handle_type> uv_handle_get_type;
-        public delegate* unmanaged[Cdecl]<uv_handle_type, ulong> uv_handle_size;
-        public delegate* unmanaged[Cdecl]<uv_shutdown_t*, uv_stream_t*, uv_shutdown_cb, int> uv_shutdown;
-        public delegate* unmanaged[Cdecl]<int, CString, ulong, CString> uv_err_name_r;
-        public delegate* unmanaged[Cdecl]<int, CString> uv_err_name;
-        public delegate* unmanaged[Cdecl]<int, CString, ulong, CString> uv_strerror_r;
-        public delegate* unmanaged[Cdecl]<int, CString> uv_strerror;
-        public delegate* unmanaged[Cdecl]<int, int> uv_translate_sys_error;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, int> uv_backend_timeout;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, int> uv_backend_fd;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, ulong> uv_now;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, void> uv_update_time;
-        public delegate* unmanaged[Cdecl]<uv_handle_t*, int> uv_has_ref;
-        public delegate* unmanaged[Cdecl]<uv_handle_t*, void> uv_unref;
-        public delegate* unmanaged[Cdecl]<uv_handle_t*, void> uv_ref;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, void> uv_stop;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_run_mode, int> uv_run;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, int> uv_loop_fork;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, uv_loop_option, int> uv_loop_configure;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, int> uv_loop_alive;
-        public delegate* unmanaged[Cdecl]<ulong> uv_loop_size;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, void> uv_loop_delete;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*> uv_loop_new;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, int> uv_loop_close;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*, int> uv_loop_init;
-        public delegate* unmanaged[Cdecl]<uv_loop_t*> uv_default_loop;
-        public delegate* unmanaged[Cdecl]<uv_malloc_func, uv_realloc_func, uv_calloc_func, uv_free_func, int> uv_replace_allocator;
-        public delegate* unmanaged[Cdecl]<void> uv_library_shutdown;
-        public delegate* unmanaged[Cdecl]<CString> uv_version_string;
-        public delegate* unmanaged[Cdecl]<uint> uv_version;
-
-        #endregion
-
-        #region "Variables"
-        // These pointers hold the locations in the native library where global variables are located at runtime.
-        //	The value pointed by these pointers are updated by reading/writing memory.
-
-
-
-        #endregion
-    }
-
-    private static _VirtualTable _virtualTable;
 }
