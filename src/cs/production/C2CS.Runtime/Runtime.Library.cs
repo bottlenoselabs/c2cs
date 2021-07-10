@@ -15,53 +15,6 @@ namespace C2CS
     {
         private static ImmutableArray<string> _nativeSearchDirectories;
 
-        public static IntPtr LibraryLoad(string libraryName)
-        {
-            if (string.IsNullOrEmpty(libraryName))
-            {
-                return IntPtr.Zero;
-            }
-
-            var libraryFilePath = LibraryFilePath(libraryName);
-            if (string.IsNullOrEmpty(libraryFilePath))
-            {
-                PrintLibraryNotFound(libraryName);
-                return IntPtr.Zero;
-            }
-
-            Unsafe.SkipInit<IntPtr>(out var handle);
-
-            if (!NativeLibrary.TryLoad(libraryFilePath, out handle))
-            {
-                PrintLibraryLoadError(libraryFilePath);
-                return IntPtr.Zero;
-            }
-
-            return handle;
-        }
-
-        public static void LibraryUnload(IntPtr libraryHandle)
-        {
-            NativeLibrary.Free(libraryHandle);
-        }
-
-        public static IntPtr LibraryGetExport(IntPtr libraryHandle, string name)
-        {
-            if (libraryHandle == IntPtr.Zero)
-            {
-                return IntPtr.Zero;
-            }
-
-            Unsafe.SkipInit<IntPtr>(out var address);
-
-            if (!NativeLibrary.TryGetExport(libraryHandle, name, out address))
-            {
-                return IntPtr.Zero;
-            }
-
-            return address;
-        }
-
         private static void GetNativeLibrarySearchDirectories()
         {
             // For security purposes we don't allow loading a library by just any path;
