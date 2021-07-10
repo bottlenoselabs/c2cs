@@ -20,4492 +20,2954 @@ using C2CS;
 public static unsafe partial class SDL
 {
     private const string LibraryName = "SDL2";
-    private static IntPtr _libraryHandle;
-
-    static SDL()
-    {
-        TryLoadApi();
-    }
-
-    public static bool TryLoadApi(string? libraryName = LibraryName)
-    {
-        UnloadApi();
-        _libraryHandle = Runtime.LibraryLoad(libraryName!);
-        if (_libraryHandle == IntPtr.Zero) return false;
-        _LoadVirtualTable();
-        return true;
-    }
-
-    public static void UnloadApi()
-    {
-        if (_libraryHandle == IntPtr.Zero) return;
-        _UnloadVirtualTable();
-        Runtime.LibraryUnload(_libraryHandle);
-    }
 
     // Function @ SDL.h:212:30
-    public static void SDL_Quit()
-    {
-        _virtualTable.SDL_Quit();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_Quit();
 
     // Function @ SDL.h:190:32
-    public static uint SDL_WasInit(uint flags)
-    {
-        return _virtualTable.SDL_WasInit(flags);
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_WasInit(uint flags);
 
     // Function @ SDL.h:175:30
-    public static void SDL_QuitSubSystem(uint flags)
-    {
-        _virtualTable.SDL_QuitSubSystem(flags);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_QuitSubSystem(uint flags);
 
     // Function @ SDL.h:155:29
-    public static int SDL_InitSubSystem(uint flags)
-    {
-        return _virtualTable.SDL_InitSubSystem(flags);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_InitSubSystem(uint flags);
 
     // Function @ SDL.h:140:29
-    public static int SDL_Init(uint flags)
-    {
-        return _virtualTable.SDL_Init(flags);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_Init(uint flags);
 
     // Function @ SDL_misc.h:69:29
-    public static int SDL_OpenURL(CString url)
-    {
-        return _virtualTable.SDL_OpenURL(url);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_OpenURL(CString url);
 
     // Function @ SDL_locale.h:89:38
-    public static SDL_Locale* SDL_GetPreferredLocales()
-    {
-        return _virtualTable.SDL_GetPreferredLocales();
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Locale* SDL_GetPreferredLocales();
 
     // Function @ SDL_version.h:161:44
-    public static int SDL_GetRevisionNumber()
-    {
-        return _virtualTable.SDL_GetRevisionNumber();
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetRevisionNumber();
 
     // Function @ SDL_version.h:150:37
-    public static CString SDL_GetRevision()
-    {
-        return _virtualTable.SDL_GetRevision();
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetRevision();
 
     // Function @ SDL_version.h:123:30
-    public static void SDL_GetVersion(SDL_version* ver)
-    {
-        _virtualTable.SDL_GetVersion(ver);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_GetVersion(SDL_version* ver);
 
     // Function @ SDL_timer.h:161:34
-    public static CBool SDL_RemoveTimer(SDL_TimerID id)
-    {
-        return _virtualTable.SDL_RemoveTimer(id);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_RemoveTimer(SDL_TimerID id);
 
     // Function @ SDL_timer.h:148:37
-    public static SDL_TimerID SDL_AddTimer(uint interval, SDL_TimerCallback callback, void* param)
-    {
-        return _virtualTable.SDL_AddTimer(interval, callback, param);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_TimerID SDL_AddTimer(uint interval, SDL_TimerCallback callback, void* param);
 
     // Function @ SDL_timer.h:101:30
-    public static void SDL_Delay(uint ms)
-    {
-        _virtualTable.SDL_Delay(ms);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_Delay(uint ms);
 
     // Function @ SDL_timer.h:90:32
-    public static ulong SDL_GetPerformanceFrequency()
-    {
-        return _virtualTable.SDL_GetPerformanceFrequency();
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_GetPerformanceFrequency();
 
     // Function @ SDL_timer.h:79:32
-    public static ulong SDL_GetPerformanceCounter()
-    {
-        return _virtualTable.SDL_GetPerformanceCounter();
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_GetPerformanceCounter();
 
     // Function @ SDL_timer.h:50:32
-    public static uint SDL_GetTicks()
-    {
-        return _virtualTable.SDL_GetTicks();
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_GetTicks();
 
     // Function @ SDL_shape.h:136:29
-    public static int SDL_GetShapedWindowMode(SDL_Window* window, SDL_WindowShapeMode* shape_mode)
-    {
-        return _virtualTable.SDL_GetShapedWindowMode(window, shape_mode);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetShapedWindowMode(SDL_Window* window, SDL_WindowShapeMode* shape_mode);
 
     // Function @ SDL_shape.h:121:29
-    public static int SDL_SetWindowShape(SDL_Window* window, SDL_Surface* shape, SDL_WindowShapeMode* shape_mode)
-    {
-        return _virtualTable.SDL_SetWindowShape(window, shape, shape_mode);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetWindowShape(SDL_Window* window, SDL_Surface* shape, SDL_WindowShapeMode* shape_mode);
 
     // Function @ SDL_shape.h:77:34
-    public static CBool SDL_IsShapedWindow(SDL_Window* window)
-    {
-        return _virtualTable.SDL_IsShapedWindow(window);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_IsShapedWindow(SDL_Window* window);
 
     // Function @ SDL_shape.h:66:38
-    public static SDL_Window* SDL_CreateShapedWindow(CString title, uint x, uint y, uint w, uint h, uint flags)
-    {
-        return _virtualTable.SDL_CreateShapedWindow(title, x, y, w, h, flags);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Window* SDL_CreateShapedWindow(CString title, uint x, uint y, uint w, uint h, uint flags);
 
     // Function @ SDL_render.h:1611:31
-    public static void* SDL_RenderGetMetalCommandEncoder(SDL_Renderer* renderer)
-    {
-        return _virtualTable.SDL_RenderGetMetalCommandEncoder(renderer);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_RenderGetMetalCommandEncoder(SDL_Renderer* renderer);
 
     // Function @ SDL_render.h:1597:31
-    public static void* SDL_RenderGetMetalLayer(SDL_Renderer* renderer)
-    {
-        return _virtualTable.SDL_RenderGetMetalLayer(renderer);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_RenderGetMetalLayer(SDL_Renderer* renderer);
 
     // Function @ SDL_render.h:1583:29
-    public static int SDL_GL_UnbindTexture(SDL_Texture* texture)
-    {
-        return _virtualTable.SDL_GL_UnbindTexture(texture);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GL_UnbindTexture(SDL_Texture* texture);
 
     // Function @ SDL_render.h:1570:29
-    public static int SDL_GL_BindTexture(SDL_Texture* texture, float* texw, float* texh)
-    {
-        return _virtualTable.SDL_GL_BindTexture(texture, texw, texh);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GL_BindTexture(SDL_Texture* texture, float* texw, float* texh);
 
     // Function @ SDL_render.h:1532:29
-    public static int SDL_RenderFlush(SDL_Renderer* renderer)
-    {
-        return _virtualTable.SDL_RenderFlush(renderer);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderFlush(SDL_Renderer* renderer);
 
     // Function @ SDL_render.h:1501:30
-    public static void SDL_DestroyRenderer(SDL_Renderer* renderer)
-    {
-        _virtualTable.SDL_DestroyRenderer(renderer);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_DestroyRenderer(SDL_Renderer* renderer);
 
     // Function @ SDL_render.h:1492:30
-    public static void SDL_DestroyTexture(SDL_Texture* texture)
-    {
-        _virtualTable.SDL_DestroyTexture(texture);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_DestroyTexture(SDL_Texture* texture);
 
     // Function @ SDL_render.h:1479:30
-    public static void SDL_RenderPresent(SDL_Renderer* renderer)
-    {
-        _virtualTable.SDL_RenderPresent(renderer);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_RenderPresent(SDL_Renderer* renderer);
 
     // Function @ SDL_render.h:1440:29
-    public static int SDL_RenderReadPixels(SDL_Renderer* renderer, SDL_Rect* rect, uint format, void* pixels, int pitch)
-    {
-        return _virtualTable.SDL_RenderReadPixels(renderer, rect, format, pixels, pitch);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderReadPixels(SDL_Renderer* renderer, SDL_Rect* rect, uint format, void* pixels, int pitch);
 
     // Function @ SDL_render.h:1409:29
-    public static int SDL_RenderCopyExF(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect* srcrect, SDL_FRect* dstrect, double angle, SDL_FPoint* center, SDL_RendererFlip flip)
-    {
-        return _virtualTable.SDL_RenderCopyExF(renderer, texture, srcrect, dstrect, angle, center, flip);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderCopyExF(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect* srcrect, SDL_FRect* dstrect, double angle, SDL_FPoint* center, SDL_RendererFlip flip);
 
     // Function @ SDL_render.h:1388:29
-    public static int SDL_RenderCopyF(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect* srcrect, SDL_FRect* dstrect)
-    {
-        return _virtualTable.SDL_RenderCopyF(renderer, texture, srcrect, dstrect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderCopyF(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect* srcrect, SDL_FRect* dstrect);
 
     // Function @ SDL_render.h:1372:29
-    public static int SDL_RenderFillRectsF(SDL_Renderer* renderer, SDL_FRect* rects, int count)
-    {
-        return _virtualTable.SDL_RenderFillRectsF(renderer, rects, count);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderFillRectsF(SDL_Renderer* renderer, SDL_FRect* rects, int count);
 
     // Function @ SDL_render.h:1360:29
-    public static int SDL_RenderFillRectF(SDL_Renderer* renderer, SDL_FRect* rect)
-    {
-        return _virtualTable.SDL_RenderFillRectF(renderer, rect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderFillRectF(SDL_Renderer* renderer, SDL_FRect* rect);
 
     // Function @ SDL_render.h:1347:29
-    public static int SDL_RenderDrawRectsF(SDL_Renderer* renderer, SDL_FRect* rects, int count)
-    {
-        return _virtualTable.SDL_RenderDrawRectsF(renderer, rects, count);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderDrawRectsF(SDL_Renderer* renderer, SDL_FRect* rects, int count);
 
     // Function @ SDL_render.h:1335:29
-    public static int SDL_RenderDrawRectF(SDL_Renderer* renderer, SDL_FRect* rect)
-    {
-        return _virtualTable.SDL_RenderDrawRectF(renderer, rect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderDrawRectF(SDL_Renderer* renderer, SDL_FRect* rect);
 
     // Function @ SDL_render.h:1324:29
-    public static int SDL_RenderDrawLinesF(SDL_Renderer* renderer, SDL_FPoint* points, int count)
-    {
-        return _virtualTable.SDL_RenderDrawLinesF(renderer, points, count);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderDrawLinesF(SDL_Renderer* renderer, SDL_FPoint* points, int count);
 
     // Function @ SDL_render.h:1312:29
-    public static int SDL_RenderDrawLineF(SDL_Renderer* renderer, float x1, float y1, float x2, float y2)
-    {
-        return _virtualTable.SDL_RenderDrawLineF(renderer, x1, y1, x2, y2);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderDrawLineF(SDL_Renderer* renderer, float x1, float y1, float x2, float y2);
 
     // Function @ SDL_render.h:1298:29
-    public static int SDL_RenderDrawPointsF(SDL_Renderer* renderer, SDL_FPoint* points, int count)
-    {
-        return _virtualTable.SDL_RenderDrawPointsF(renderer, points, count);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderDrawPointsF(SDL_Renderer* renderer, SDL_FPoint* points, int count);
 
     // Function @ SDL_render.h:1287:29
-    public static int SDL_RenderDrawPointF(SDL_Renderer* renderer, float x, float y)
-    {
-        return _virtualTable.SDL_RenderDrawPointF(renderer, x, y);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderDrawPointF(SDL_Renderer* renderer, float x, float y);
 
     // Function @ SDL_render.h:1270:29
-    public static int SDL_RenderCopyEx(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect* srcrect, SDL_Rect* dstrect, double angle, SDL_Point* center, SDL_RendererFlip flip)
-    {
-        return _virtualTable.SDL_RenderCopyEx(renderer, texture, srcrect, dstrect, angle, center, flip);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderCopyEx(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect* srcrect, SDL_Rect* dstrect, double angle, SDL_Point* center, SDL_RendererFlip flip);
 
     // Function @ SDL_render.h:1228:29
-    public static int SDL_RenderCopy(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect* srcrect, SDL_Rect* dstrect)
-    {
-        return _virtualTable.SDL_RenderCopy(renderer, texture, srcrect, dstrect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderCopy(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect* srcrect, SDL_Rect* dstrect);
 
     // Function @ SDL_render.h:1198:29
-    public static int SDL_RenderFillRects(SDL_Renderer* renderer, SDL_Rect* rects, int count)
-    {
-        return _virtualTable.SDL_RenderFillRects(renderer, rects, count);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderFillRects(SDL_Renderer* renderer, SDL_Rect* rects, int count);
 
     // Function @ SDL_render.h:1175:29
-    public static int SDL_RenderFillRect(SDL_Renderer* renderer, SDL_Rect* rect)
-    {
-        return _virtualTable.SDL_RenderFillRect(renderer, rect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderFillRect(SDL_Renderer* renderer, SDL_Rect* rect);
 
     // Function @ SDL_render.h:1147:29
-    public static int SDL_RenderDrawRects(SDL_Renderer* renderer, SDL_Rect* rects, int count)
-    {
-        return _virtualTable.SDL_RenderDrawRects(renderer, rects, count);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderDrawRects(SDL_Renderer* renderer, SDL_Rect* rects, int count);
 
     // Function @ SDL_render.h:1123:29
-    public static int SDL_RenderDrawRect(SDL_Renderer* renderer, SDL_Rect* rect)
-    {
-        return _virtualTable.SDL_RenderDrawRect(renderer, rect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderDrawRect(SDL_Renderer* renderer, SDL_Rect* rect);
 
     // Function @ SDL_render.h:1099:29
-    public static int SDL_RenderDrawLines(SDL_Renderer* renderer, SDL_Point* points, int count)
-    {
-        return _virtualTable.SDL_RenderDrawLines(renderer, points, count);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderDrawLines(SDL_Renderer* renderer, SDL_Point* points, int count);
 
     // Function @ SDL_render.h:1073:29
-    public static int SDL_RenderDrawLine(SDL_Renderer* renderer, int x1, int y1, int x2, int y2)
-    {
-        return _virtualTable.SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderDrawLine(SDL_Renderer* renderer, int x1, int y1, int x2, int y2);
 
     // Function @ SDL_render.h:1042:29
-    public static int SDL_RenderDrawPoints(SDL_Renderer* renderer, SDL_Point* points, int count)
-    {
-        return _virtualTable.SDL_RenderDrawPoints(renderer, points, count);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderDrawPoints(SDL_Renderer* renderer, SDL_Point* points, int count);
 
     // Function @ SDL_render.h:1018:29
-    public static int SDL_RenderDrawPoint(SDL_Renderer* renderer, int x, int y)
-    {
-        return _virtualTable.SDL_RenderDrawPoint(renderer, x, y);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderDrawPoint(SDL_Renderer* renderer, int x, int y);
 
     // Function @ SDL_render.h:993:29
-    public static int SDL_RenderClear(SDL_Renderer* renderer)
-    {
-        return _virtualTable.SDL_RenderClear(renderer);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderClear(SDL_Renderer* renderer);
 
     // Function @ SDL_render.h:976:29
-    public static int SDL_GetRenderDrawBlendMode(SDL_Renderer* renderer, SDL_BlendMode* blendMode)
-    {
-        return _virtualTable.SDL_GetRenderDrawBlendMode(renderer, blendMode);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetRenderDrawBlendMode(SDL_Renderer* renderer, SDL_BlendMode* blendMode);
 
     // Function @ SDL_render.h:963:29
-    public static int SDL_SetRenderDrawBlendMode(SDL_Renderer* renderer, SDL_BlendMode blendMode)
-    {
-        return _virtualTable.SDL_SetRenderDrawBlendMode(renderer, blendMode);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetRenderDrawBlendMode(SDL_Renderer* renderer, SDL_BlendMode blendMode);
 
     // Function @ SDL_render.h:939:29
-    public static int SDL_GetRenderDrawColor(SDL_Renderer* renderer, byte* r, byte* g, byte* b, byte* a)
-    {
-        return _virtualTable.SDL_GetRenderDrawColor(renderer, r, g, b, a);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetRenderDrawColor(SDL_Renderer* renderer, byte* r, byte* g, byte* b, byte* a);
 
     // Function @ SDL_render.h:918:29
-    public static int SDL_SetRenderDrawColor(SDL_Renderer* renderer, byte r, byte g, byte b, byte a)
-    {
-        return _virtualTable.SDL_SetRenderDrawColor(renderer, r, g, b, a);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetRenderDrawColor(SDL_Renderer* renderer, byte r, byte g, byte b, byte a);
 
     // Function @ SDL_render.h:888:30
-    public static void SDL_RenderGetScale(SDL_Renderer* renderer, float* scaleX, float* scaleY)
-    {
-        _virtualTable.SDL_RenderGetScale(renderer, scaleX, scaleY);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_RenderGetScale(SDL_Renderer* renderer, float* scaleX, float* scaleY);
 
     // Function @ SDL_render.h:874:29
-    public static int SDL_RenderSetScale(SDL_Renderer* renderer, float scaleX, float scaleY)
-    {
-        return _virtualTable.SDL_RenderSetScale(renderer, scaleX, scaleY);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderSetScale(SDL_Renderer* renderer, float scaleX, float scaleY);
 
     // Function @ SDL_render.h:849:34
-    public static CBool SDL_RenderIsClipEnabled(SDL_Renderer* renderer)
-    {
-        return _virtualTable.SDL_RenderIsClipEnabled(renderer);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_RenderIsClipEnabled(SDL_Renderer* renderer);
 
     // Function @ SDL_render.h:834:30
-    public static void SDL_RenderGetClipRect(SDL_Renderer* renderer, SDL_Rect* rect)
-    {
-        _virtualTable.SDL_RenderGetClipRect(renderer, rect);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_RenderGetClipRect(SDL_Renderer* renderer, SDL_Rect* rect);
 
     // Function @ SDL_render.h:820:29
-    public static int SDL_RenderSetClipRect(SDL_Renderer* renderer, SDL_Rect* rect)
-    {
-        return _virtualTable.SDL_RenderSetClipRect(renderer, rect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderSetClipRect(SDL_Renderer* renderer, SDL_Rect* rect);
 
     // Function @ SDL_render.h:804:30
-    public static void SDL_RenderGetViewport(SDL_Renderer* renderer, SDL_Rect* rect)
-    {
-        _virtualTable.SDL_RenderGetViewport(renderer, rect);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_RenderGetViewport(SDL_Renderer* renderer, SDL_Rect* rect);
 
     // Function @ SDL_render.h:793:29
-    public static int SDL_RenderSetViewport(SDL_Renderer* renderer, SDL_Rect* rect)
-    {
-        return _virtualTable.SDL_RenderSetViewport(renderer, rect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderSetViewport(SDL_Renderer* renderer, SDL_Rect* rect);
 
     // Function @ SDL_render.h:777:34
-    public static CBool SDL_RenderGetIntegerScale(SDL_Renderer* renderer)
-    {
-        return _virtualTable.SDL_RenderGetIntegerScale(renderer);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_RenderGetIntegerScale(SDL_Renderer* renderer);
 
     // Function @ SDL_render.h:763:29
-    public static int SDL_RenderSetIntegerScale(SDL_Renderer* renderer, CBool enable)
-    {
-        return _virtualTable.SDL_RenderSetIntegerScale(renderer, enable);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderSetIntegerScale(SDL_Renderer* renderer, CBool enable);
 
     // Function @ SDL_render.h:744:30
-    public static void SDL_RenderGetLogicalSize(SDL_Renderer* renderer, long* w, long* h)
-    {
-        _virtualTable.SDL_RenderGetLogicalSize(renderer, w, h);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_RenderGetLogicalSize(SDL_Renderer* renderer, long* w, long* h);
 
     // Function @ SDL_render.h:727:29
-    public static int SDL_RenderSetLogicalSize(SDL_Renderer* renderer, int w, int h)
-    {
-        return _virtualTable.SDL_RenderSetLogicalSize(renderer, w, h);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RenderSetLogicalSize(SDL_Renderer* renderer, int w, int h);
 
     // Function @ SDL_render.h:700:39
-    public static SDL_Texture* SDL_GetRenderTarget(SDL_Renderer* renderer)
-    {
-        return _virtualTable.SDL_GetRenderTarget(renderer);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Texture* SDL_GetRenderTarget(SDL_Renderer* renderer);
 
     // Function @ SDL_render.h:684:29
-    public static int SDL_SetRenderTarget(SDL_Renderer* renderer, SDL_Texture* texture)
-    {
-        return _virtualTable.SDL_SetRenderTarget(renderer, texture);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetRenderTarget(SDL_Renderer* renderer, SDL_Texture* texture);
 
     // Function @ SDL_render.h:660:34
-    public static CBool SDL_RenderTargetSupported(SDL_Renderer* renderer)
-    {
-        return _virtualTable.SDL_RenderTargetSupported(renderer);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_RenderTargetSupported(SDL_Renderer* renderer);
 
     // Function @ SDL_render.h:648:30
-    public static void SDL_UnlockTexture(SDL_Texture* texture)
-    {
-        _virtualTable.SDL_UnlockTexture(texture);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_UnlockTexture(SDL_Texture* texture);
 
     // Function @ SDL_render.h:629:29
-    public static int SDL_LockTextureToSurface(SDL_Texture* texture, SDL_Rect* rect, SDL_Surface** surface)
-    {
-        return _virtualTable.SDL_LockTextureToSurface(texture, rect, surface);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_LockTextureToSurface(SDL_Texture* texture, SDL_Rect* rect, SDL_Surface** surface);
 
     // Function @ SDL_render.h:595:29
-    public static int SDL_LockTexture(SDL_Texture* texture, SDL_Rect* rect, void** pixels, long* pitch)
-    {
-        return _virtualTable.SDL_LockTexture(texture, rect, pixels, pitch);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_LockTexture(SDL_Texture* texture, SDL_Rect* rect, void** pixels, long* pitch);
 
     // Function @ SDL_render.h:565:29
-    public static int SDL_UpdateNVTexture(SDL_Texture* texture, SDL_Rect* rect, byte* Yplane, int Ypitch, byte* UVplane, int UVpitch)
-    {
-        return _virtualTable.SDL_UpdateNVTexture(texture, rect, Yplane, Ypitch, UVplane, UVpitch);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_UpdateNVTexture(SDL_Texture* texture, SDL_Rect* rect, byte* Yplane, int Ypitch, byte* UVplane, int UVpitch);
 
     // Function @ SDL_render.h:543:29
-    public static int SDL_UpdateYUVTexture(SDL_Texture* texture, SDL_Rect* rect, byte* Yplane, int Ypitch, byte* Uplane, int Upitch, byte* Vplane, int Vpitch)
-    {
-        return _virtualTable.SDL_UpdateYUVTexture(texture, rect, Yplane, Ypitch, Uplane, Upitch, Vplane, Vpitch);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_UpdateYUVTexture(SDL_Texture* texture, SDL_Rect* rect, byte* Yplane, int Ypitch, byte* Uplane, int Upitch, byte* Vplane, int Vpitch);
 
     // Function @ SDL_render.h:512:29
-    public static int SDL_UpdateTexture(SDL_Texture* texture, SDL_Rect* rect, void* pixels, int pitch)
-    {
-        return _virtualTable.SDL_UpdateTexture(texture, rect, pixels, pitch);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_UpdateTexture(SDL_Texture* texture, SDL_Rect* rect, void* pixels, int pitch);
 
     // Function @ SDL_render.h:482:29
-    public static int SDL_GetTextureScaleMode(SDL_Texture* texture, SDL_ScaleMode* scaleMode)
-    {
-        return _virtualTable.SDL_GetTextureScaleMode(texture, scaleMode);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetTextureScaleMode(SDL_Texture* texture, SDL_ScaleMode* scaleMode);
 
     // Function @ SDL_render.h:470:29
-    public static int SDL_SetTextureScaleMode(SDL_Texture* texture, SDL_ScaleMode scaleMode)
-    {
-        return _virtualTable.SDL_SetTextureScaleMode(texture, scaleMode);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetTextureScaleMode(SDL_Texture* texture, SDL_ScaleMode scaleMode);
 
     // Function @ SDL_render.h:456:29
-    public static int SDL_GetTextureBlendMode(SDL_Texture* texture, SDL_BlendMode* blendMode)
-    {
-        return _virtualTable.SDL_GetTextureBlendMode(texture, blendMode);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetTextureBlendMode(SDL_Texture* texture, SDL_BlendMode* blendMode);
 
     // Function @ SDL_render.h:443:29
-    public static int SDL_SetTextureBlendMode(SDL_Texture* texture, SDL_BlendMode blendMode)
-    {
-        return _virtualTable.SDL_SetTextureBlendMode(texture, blendMode);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetTextureBlendMode(SDL_Texture* texture, SDL_BlendMode blendMode);
 
     // Function @ SDL_render.h:425:29
-    public static int SDL_GetTextureAlphaMod(SDL_Texture* texture, byte* alpha)
-    {
-        return _virtualTable.SDL_GetTextureAlphaMod(texture, alpha);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetTextureAlphaMod(SDL_Texture* texture, byte* alpha);
 
     // Function @ SDL_render.h:410:29
-    public static int SDL_SetTextureAlphaMod(SDL_Texture* texture, byte alpha)
-    {
-        return _virtualTable.SDL_SetTextureAlphaMod(texture, alpha);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetTextureAlphaMod(SDL_Texture* texture, byte alpha);
 
     // Function @ SDL_render.h:387:29
-    public static int SDL_GetTextureColorMod(SDL_Texture* texture, byte* r, byte* g, byte* b)
-    {
-        return _virtualTable.SDL_GetTextureColorMod(texture, r, g, b);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetTextureColorMod(SDL_Texture* texture, byte* r, byte* g, byte* b);
 
     // Function @ SDL_render.h:370:29
-    public static int SDL_SetTextureColorMod(SDL_Texture* texture, byte r, byte g, byte b)
-    {
-        return _virtualTable.SDL_SetTextureColorMod(texture, r, g, b);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetTextureColorMod(SDL_Texture* texture, byte r, byte g, byte b);
 
     // Function @ SDL_render.h:344:29
-    public static int SDL_QueryTexture(SDL_Texture* texture, uint* format, long* access, long* w, long* h)
-    {
-        return _virtualTable.SDL_QueryTexture(texture, format, access, w, h);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_QueryTexture(SDL_Texture* texture, uint* format, long* access, long* w, long* h);
 
     // Function @ SDL_render.h:326:39
-    public static SDL_Texture* SDL_CreateTextureFromSurface(SDL_Renderer* renderer, SDL_Surface* surface)
-    {
-        return _virtualTable.SDL_CreateTextureFromSurface(renderer, surface);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Texture* SDL_CreateTextureFromSurface(SDL_Renderer* renderer, SDL_Surface* surface);
 
     // Function @ SDL_render.h:299:39
-    public static SDL_Texture* SDL_CreateTexture(SDL_Renderer* renderer, uint format, int access, int w, int h)
-    {
-        return _virtualTable.SDL_CreateTexture(renderer, format, access, w, h);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Texture* SDL_CreateTexture(SDL_Renderer* renderer, uint format, int access, int w, int h);
 
     // Function @ SDL_render.h:276:29
-    public static int SDL_GetRendererOutputSize(SDL_Renderer* renderer, long* w, long* h)
-    {
-        return _virtualTable.SDL_GetRendererOutputSize(renderer, w, h);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetRendererOutputSize(SDL_Renderer* renderer, long* w, long* h);
 
     // Function @ SDL_render.h:256:29
-    public static int SDL_GetRendererInfo(SDL_Renderer* renderer, SDL_RendererInfo* info)
-    {
-        return _virtualTable.SDL_GetRendererInfo(renderer, info);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetRendererInfo(SDL_Renderer* renderer, SDL_RendererInfo* info);
 
     // Function @ SDL_render.h:243:40
-    public static SDL_Renderer* SDL_GetRenderer(SDL_Window* window)
-    {
-        return _virtualTable.SDL_GetRenderer(window);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Renderer* SDL_GetRenderer(SDL_Window* window);
 
     // Function @ SDL_render.h:232:40
-    public static SDL_Renderer* SDL_CreateSoftwareRenderer(SDL_Surface* surface)
-    {
-        return _virtualTable.SDL_CreateSoftwareRenderer(surface);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Renderer* SDL_CreateSoftwareRenderer(SDL_Surface* surface);
 
     // Function @ SDL_render.h:212:40
-    public static SDL_Renderer* SDL_CreateRenderer(SDL_Window* window, int index, uint flags)
-    {
-        return _virtualTable.SDL_CreateRenderer(window, index, flags);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Renderer* SDL_CreateRenderer(SDL_Window* window, int index, uint flags);
 
     // Function @ SDL_render.h:192:29
-    public static int SDL_CreateWindowAndRenderer(int width, int height, uint window_flags, SDL_Window** window, SDL_Renderer** renderer)
-    {
-        return _virtualTable.SDL_CreateWindowAndRenderer(width, height, window_flags, window, renderer);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_CreateWindowAndRenderer(int width, int height, uint window_flags, SDL_Window** window, SDL_Renderer** renderer);
 
     // Function @ SDL_render.h:174:29
-    public static int SDL_GetRenderDriverInfo(int index, SDL_RendererInfo* info)
-    {
-        return _virtualTable.SDL_GetRenderDriverInfo(index, info);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetRenderDriverInfo(int index, SDL_RendererInfo* info);
 
     // Function @ SDL_render.h:160:29
-    public static int SDL_GetNumRenderDrivers()
-    {
-        return _virtualTable.SDL_GetNumRenderDrivers();
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetNumRenderDrivers();
 
     // Function @ SDL_power.h:76:40
-    public static SDL_PowerState SDL_GetPowerInfo(long* secs, long* pct)
-    {
-        return _virtualTable.SDL_GetPowerInfo(secs, pct);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_PowerState SDL_GetPowerInfo(long* secs, long* pct);
 
     // Function @ SDL_metal.h:106:30
-    public static void SDL_Metal_GetDrawableSize(SDL_Window* window, long* w, long* h)
-    {
-        _virtualTable.SDL_Metal_GetDrawableSize(window, w, h);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_Metal_GetDrawableSize(SDL_Window* window, long* w, long* h);
 
     // Function @ SDL_metal.h:83:31
-    public static void* SDL_Metal_GetLayer(SDL_MetalView view)
-    {
-        return _virtualTable.SDL_Metal_GetLayer(view);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_Metal_GetLayer(SDL_MetalView view);
 
     // Function @ SDL_metal.h:76:30
-    public static void SDL_Metal_DestroyView(SDL_MetalView view)
-    {
-        _virtualTable.SDL_Metal_DestroyView(view);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_Metal_DestroyView(SDL_MetalView view);
 
     // Function @ SDL_metal.h:66:39
-    public static SDL_MetalView SDL_Metal_CreateView(SDL_Window* window)
-    {
-        return _virtualTable.SDL_Metal_CreateView(window);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_MetalView SDL_Metal_CreateView(SDL_Window* window);
 
     // Function @ SDL_messagebox.h:180:29
-    public static int SDL_ShowSimpleMessageBox(uint flags, CString title, CString message, SDL_Window* window)
-    {
-        return _virtualTable.SDL_ShowSimpleMessageBox(flags, title, message, window);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_ShowSimpleMessageBox(uint flags, CString title, CString message, SDL_Window* window);
 
     // Function @ SDL_messagebox.h:140:29
-    public static int SDL_ShowMessageBox(SDL_MessageBoxData* messageboxdata, long* buttonid)
-    {
-        return _virtualTable.SDL_ShowMessageBox(messageboxdata, buttonid);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_ShowMessageBox(SDL_MessageBoxData* messageboxdata, long* buttonid);
 
     // Function @ SDL_log.h:364:30
-    public static void SDL_LogSetOutputFunction(SDL_LogOutputFunction callback, void* userdata)
-    {
-        _virtualTable.SDL_LogSetOutputFunction(callback, userdata);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_LogSetOutputFunction(SDL_LogOutputFunction callback, void* userdata);
 
     // Function @ SDL_log.h:354:30
-    public static void SDL_LogGetOutputFunction(SDL_LogOutputFunction* callback, void** userdata)
-    {
-        _virtualTable.SDL_LogGetOutputFunction(callback, userdata);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_LogGetOutputFunction(SDL_LogOutputFunction* callback, void** userdata);
 
     // Function @ SDL_log.h:328:30
-    public static void SDL_LogMessageV(int category, SDL_LogPriority priority, CString fmt, IntPtr ap)
-    {
-        _virtualTable.SDL_LogMessageV(category, priority, fmt, ap);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_LogMessageV(int category, SDL_LogPriority priority, CString fmt, IntPtr ap);
 
     // Function @ SDL_log.h:305:30
-    public static void SDL_LogMessage(int category, SDL_LogPriority priority, CString fmt)
-    {
-        _virtualTable.SDL_LogMessage(category, priority, fmt);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_LogMessage(int category, SDL_LogPriority priority, CString fmt);
 
     // Function @ SDL_log.h:285:30
-    public static void SDL_LogCritical(int category, CString fmt)
-    {
-        _virtualTable.SDL_LogCritical(category, fmt);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_LogCritical(int category, CString fmt);
 
     // Function @ SDL_log.h:266:30
-    public static void SDL_LogError(int category, CString fmt)
-    {
-        _virtualTable.SDL_LogError(category, fmt);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_LogError(int category, CString fmt);
 
     // Function @ SDL_log.h:247:30
-    public static void SDL_LogWarn(int category, CString fmt)
-    {
-        _virtualTable.SDL_LogWarn(category, fmt);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_LogWarn(int category, CString fmt);
 
     // Function @ SDL_log.h:228:30
-    public static void SDL_LogInfo(int category, CString fmt)
-    {
-        _virtualTable.SDL_LogInfo(category, fmt);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_LogInfo(int category, CString fmt);
 
     // Function @ SDL_log.h:209:30
-    public static void SDL_LogDebug(int category, CString fmt)
-    {
-        _virtualTable.SDL_LogDebug(category, fmt);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_LogDebug(int category, CString fmt);
 
     // Function @ SDL_log.h:190:30
-    public static void SDL_LogVerbose(int category, CString fmt)
-    {
-        _virtualTable.SDL_LogVerbose(category, fmt);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_LogVerbose(int category, CString fmt);
 
     // Function @ SDL_log.h:171:30
-    public static void SDL_Log(CString fmt)
-    {
-        _virtualTable.SDL_Log(fmt);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_Log(CString fmt);
 
     // Function @ SDL_log.h:153:30
-    public static void SDL_LogResetPriorities()
-    {
-        _virtualTable.SDL_LogResetPriorities();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_LogResetPriorities();
 
     // Function @ SDL_log.h:143:41
-    public static SDL_LogPriority SDL_LogGetPriority(int category)
-    {
-        return _virtualTable.SDL_LogGetPriority(category);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_LogPriority SDL_LogGetPriority(int category);
 
     // Function @ SDL_log.h:132:30
-    public static void SDL_LogSetPriority(int category, SDL_LogPriority priority)
-    {
-        _virtualTable.SDL_LogSetPriority(category, priority);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_LogSetPriority(int category, SDL_LogPriority priority);
 
     // Function @ SDL_log.h:121:30
-    public static void SDL_LogSetAllPriority(SDL_LogPriority priority)
-    {
-        _virtualTable.SDL_LogSetAllPriority(priority);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_LogSetAllPriority(SDL_LogPriority priority);
 
     // Function @ SDL_loadso.h:99:30
-    public static void SDL_UnloadObject(void* handle)
-    {
-        _virtualTable.SDL_UnloadObject(handle);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_UnloadObject(void* handle);
 
     // Function @ SDL_loadso.h:88:31
-    public static void* SDL_LoadFunction(void* handle, CString name)
-    {
-        return _virtualTable.SDL_LoadFunction(handle, name);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_LoadFunction(void* handle, CString name);
 
     // Function @ SDL_loadso.h:63:31
-    public static void* SDL_LoadObject(CString sofile)
-    {
-        return _virtualTable.SDL_LoadObject(sofile);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_LoadObject(CString sofile);
 
     // Function @ SDL_hints.h:1783:30
-    public static void SDL_ClearHints()
-    {
-        _virtualTable.SDL_ClearHints();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_ClearHints();
 
     // Function @ SDL_hints.h:1774:30
-    public static void SDL_DelHintCallback(CString name, SDL_HintCallback callback, void* userdata)
-    {
-        _virtualTable.SDL_DelHintCallback(name, callback, userdata);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_DelHintCallback(CString name, SDL_HintCallback callback, void* userdata);
 
     // Function @ SDL_hints.h:1758:30
-    public static void SDL_AddHintCallback(CString name, SDL_HintCallback callback, void* userdata)
-    {
-        _virtualTable.SDL_AddHintCallback(name, callback, userdata);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_AddHintCallback(CString name, SDL_HintCallback callback, void* userdata);
 
     // Function @ SDL_hints.h:1734:34
-    public static CBool SDL_GetHintBoolean(CString name, CBool default_value)
-    {
-        return _virtualTable.SDL_GetHintBoolean(name, default_value);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_GetHintBoolean(CString name, CBool default_value);
 
     // Function @ SDL_hints.h:1719:38
-    public static CString SDL_GetHint(CString name)
-    {
-        return _virtualTable.SDL_GetHint(name);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetHint(CString name);
 
     // Function @ SDL_hints.h:1707:34
-    public static CBool SDL_SetHint(CString name, CString value)
-    {
-        return _virtualTable.SDL_SetHint(name, value);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_SetHint(CString name, CString value);
 
     // Function @ SDL_hints.h:1689:34
-    public static CBool SDL_SetHintWithPriority(CString name, CString value, SDL_HintPriority priority)
-    {
-        return _virtualTable.SDL_SetHintWithPriority(name, value, priority);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_SetHintWithPriority(CString name, CString value, SDL_HintPriority priority);
 
     // Function @ SDL_haptic.h:1311:29
-    public static int SDL_HapticRumbleStop(SDL_Haptic* haptic)
-    {
-        return _virtualTable.SDL_HapticRumbleStop(haptic);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticRumbleStop(SDL_Haptic* haptic);
 
     // Function @ SDL_haptic.h:1298:29
-    public static int SDL_HapticRumblePlay(SDL_Haptic* haptic, float strength, uint length)
-    {
-        return _virtualTable.SDL_HapticRumblePlay(haptic, strength, length);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticRumblePlay(SDL_Haptic* haptic, float strength, uint length);
 
     // Function @ SDL_haptic.h:1283:29
-    public static int SDL_HapticRumbleInit(SDL_Haptic* haptic)
-    {
-        return _virtualTable.SDL_HapticRumbleInit(haptic);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticRumbleInit(SDL_Haptic* haptic);
 
     // Function @ SDL_haptic.h:1267:29
-    public static int SDL_HapticRumbleSupported(SDL_Haptic* haptic)
-    {
-        return _virtualTable.SDL_HapticRumbleSupported(haptic);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticRumbleSupported(SDL_Haptic* haptic);
 
     // Function @ SDL_haptic.h:1253:29
-    public static int SDL_HapticStopAll(SDL_Haptic* haptic)
-    {
-        return _virtualTable.SDL_HapticStopAll(haptic);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticStopAll(SDL_Haptic* haptic);
 
     // Function @ SDL_haptic.h:1244:29
-    public static int SDL_HapticUnpause(SDL_Haptic* haptic)
-    {
-        return _virtualTable.SDL_HapticUnpause(haptic);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticUnpause(SDL_Haptic* haptic);
 
     // Function @ SDL_haptic.h:1231:29
-    public static int SDL_HapticPause(SDL_Haptic* haptic)
-    {
-        return _virtualTable.SDL_HapticPause(haptic);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticPause(SDL_Haptic* haptic);
 
     // Function @ SDL_haptic.h:1213:29
-    public static int SDL_HapticSetAutocenter(SDL_Haptic* haptic, int autocenter)
-    {
-        return _virtualTable.SDL_HapticSetAutocenter(haptic, autocenter);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticSetAutocenter(SDL_Haptic* haptic, int autocenter);
 
     // Function @ SDL_haptic.h:1196:29
-    public static int SDL_HapticSetGain(SDL_Haptic* haptic, int gain)
-    {
-        return _virtualTable.SDL_HapticSetGain(haptic, gain);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticSetGain(SDL_Haptic* haptic, int gain);
 
     // Function @ SDL_haptic.h:1174:29
-    public static int SDL_HapticGetEffectStatus(SDL_Haptic* haptic, int effect)
-    {
-        return _virtualTable.SDL_HapticGetEffectStatus(haptic, effect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticGetEffectStatus(SDL_Haptic* haptic, int effect);
 
     // Function @ SDL_haptic.h:1155:30
-    public static void SDL_HapticDestroyEffect(SDL_Haptic* haptic, int effect)
-    {
-        _virtualTable.SDL_HapticDestroyEffect(haptic, effect);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_HapticDestroyEffect(SDL_Haptic* haptic, int effect);
 
     // Function @ SDL_haptic.h:1139:29
-    public static int SDL_HapticStopEffect(SDL_Haptic* haptic, int effect)
-    {
-        return _virtualTable.SDL_HapticStopEffect(haptic, effect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticStopEffect(SDL_Haptic* haptic, int effect);
 
     // Function @ SDL_haptic.h:1122:29
-    public static int SDL_HapticRunEffect(SDL_Haptic* haptic, int effect, uint iterations)
-    {
-        return _virtualTable.SDL_HapticRunEffect(haptic, effect, iterations);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticRunEffect(SDL_Haptic* haptic, int effect, uint iterations);
 
     // Function @ SDL_haptic.h:1096:29
-    public static int SDL_HapticUpdateEffect(SDL_Haptic* haptic, int effect, SDL_HapticEffect* data)
-    {
-        return _virtualTable.SDL_HapticUpdateEffect(haptic, effect, data);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticUpdateEffect(SDL_Haptic* haptic, int effect, SDL_HapticEffect* data);
 
     // Function @ SDL_haptic.h:1072:29
-    public static int SDL_HapticNewEffect(SDL_Haptic* haptic, SDL_HapticEffect* effect)
-    {
-        return _virtualTable.SDL_HapticNewEffect(haptic, effect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticNewEffect(SDL_Haptic* haptic, SDL_HapticEffect* effect);
 
     // Function @ SDL_haptic.h:1055:29
-    public static int SDL_HapticEffectSupported(SDL_Haptic* haptic, SDL_HapticEffect* effect)
-    {
-        return _virtualTable.SDL_HapticEffectSupported(haptic, effect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticEffectSupported(SDL_Haptic* haptic, SDL_HapticEffect* effect);
 
     // Function @ SDL_haptic.h:1038:29
-    public static int SDL_HapticNumAxes(SDL_Haptic* haptic)
-    {
-        return _virtualTable.SDL_HapticNumAxes(haptic);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticNumAxes(SDL_Haptic* haptic);
 
     // Function @ SDL_haptic.h:1025:38
-    public static uint SDL_HapticQuery(SDL_Haptic* haptic)
-    {
-        return _virtualTable.SDL_HapticQuery(haptic);
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_HapticQuery(SDL_Haptic* haptic);
 
     // Function @ SDL_haptic.h:1011:29
-    public static int SDL_HapticNumEffectsPlaying(SDL_Haptic* haptic)
-    {
-        return _virtualTable.SDL_HapticNumEffectsPlaying(haptic);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticNumEffectsPlaying(SDL_Haptic* haptic);
 
     // Function @ SDL_haptic.h:993:29
-    public static int SDL_HapticNumEffects(SDL_Haptic* haptic)
-    {
-        return _virtualTable.SDL_HapticNumEffects(haptic);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticNumEffects(SDL_Haptic* haptic);
 
     // Function @ SDL_haptic.h:975:30
-    public static void SDL_HapticClose(SDL_Haptic* haptic)
-    {
-        _virtualTable.SDL_HapticClose(haptic);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_HapticClose(SDL_Haptic* haptic);
 
     // Function @ SDL_haptic.h:965:37
-    public static SDL_Haptic* SDL_HapticOpenFromJoystick(SDL_Joystick* joystick)
-    {
-        return _virtualTable.SDL_HapticOpenFromJoystick(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Haptic* SDL_HapticOpenFromJoystick(SDL_Joystick* joystick);
 
     // Function @ SDL_haptic.h:942:29
-    public static int SDL_JoystickIsHaptic(SDL_Joystick* joystick)
-    {
-        return _virtualTable.SDL_JoystickIsHaptic(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_JoystickIsHaptic(SDL_Joystick* joystick);
 
     // Function @ SDL_haptic.h:928:37
-    public static SDL_Haptic* SDL_HapticOpenFromMouse()
-    {
-        return _virtualTable.SDL_HapticOpenFromMouse();
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Haptic* SDL_HapticOpenFromMouse();
 
     // Function @ SDL_haptic.h:915:29
-    public static int SDL_MouseIsHaptic()
-    {
-        return _virtualTable.SDL_MouseIsHaptic();
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_MouseIsHaptic();
 
     // Function @ SDL_haptic.h:904:29
-    public static int SDL_HapticIndex(SDL_Haptic* haptic)
-    {
-        return _virtualTable.SDL_HapticIndex(haptic);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticIndex(SDL_Haptic* haptic);
 
     // Function @ SDL_haptic.h:890:29
-    public static int SDL_HapticOpened(int device_index)
-    {
-        return _virtualTable.SDL_HapticOpened(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_HapticOpened(int device_index);
 
     // Function @ SDL_haptic.h:876:37
-    public static SDL_Haptic* SDL_HapticOpen(int device_index)
-    {
-        return _virtualTable.SDL_HapticOpen(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Haptic* SDL_HapticOpen(int device_index);
 
     // Function @ SDL_haptic.h:849:37
-    public static CString SDL_HapticName(int device_index)
-    {
-        return _virtualTable.SDL_HapticName(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_HapticName(int device_index);
 
     // Function @ SDL_haptic.h:833:29
-    public static int SDL_NumHaptics()
-    {
-        return _virtualTable.SDL_NumHaptics();
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_NumHaptics();
 
     // Function @ SDL_filesystem.h:135:31
-    public static CString SDL_GetPrefPath(CString org, CString app)
-    {
-        return _virtualTable.SDL_GetPrefPath(org, app);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetPrefPath(CString org, CString app);
 
     // Function @ SDL_filesystem.h:78:31
-    public static CString SDL_GetBasePath()
-    {
-        return _virtualTable.SDL_GetBasePath();
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetBasePath();
 
     // Function @ SDL_events.h:1084:32
-    public static uint SDL_RegisterEvents(int numevents)
-    {
-        return _virtualTable.SDL_RegisterEvents(numevents);
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_RegisterEvents(int numevents);
 
     // Function @ SDL_events.h:1062:31
-    public static byte SDL_EventState(uint type, int state)
-    {
-        return _virtualTable.SDL_EventState(type, state);
-    }
+    [DllImport("SDL2")]
+    public static extern byte SDL_EventState(uint type, int state);
 
     // Function @ SDL_events.h:1036:30
-    public static void SDL_FilterEvents(SDL_EventFilter filter, void* userdata)
-    {
-        _virtualTable.SDL_FilterEvents(filter, userdata);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_FilterEvents(SDL_EventFilter filter, void* userdata);
 
     // Function @ SDL_events.h:1019:30
-    public static void SDL_DelEventWatch(SDL_EventFilter filter, void* userdata)
-    {
-        _virtualTable.SDL_DelEventWatch(filter, userdata);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_DelEventWatch(SDL_EventFilter filter, void* userdata);
 
     // Function @ SDL_events.h:1004:30
-    public static void SDL_AddEventWatch(SDL_EventFilter filter, void* userdata)
-    {
-        _virtualTable.SDL_AddEventWatch(filter, userdata);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_AddEventWatch(SDL_EventFilter filter, void* userdata);
 
     // Function @ SDL_events.h:977:34
-    public static CBool SDL_GetEventFilter(SDL_EventFilter* filter, void** userdata)
-    {
-        return _virtualTable.SDL_GetEventFilter(filter, userdata);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_GetEventFilter(SDL_EventFilter* filter, void** userdata);
 
     // Function @ SDL_events.h:961:30
-    public static void SDL_SetEventFilter(SDL_EventFilter filter, void* userdata)
-    {
-        _virtualTable.SDL_SetEventFilter(filter, userdata);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SetEventFilter(SDL_EventFilter filter, void* userdata);
 
     // Function @ SDL_events.h:904:29
-    public static int SDL_PushEvent(SDL_Event* @event)
-    {
-        return _virtualTable.SDL_PushEvent(@event);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_PushEvent(SDL_Event* @event);
 
     // Function @ SDL_events.h:871:29
-    public static int SDL_WaitEventTimeout(SDL_Event* @event, int timeout)
-    {
-        return _virtualTable.SDL_WaitEventTimeout(@event, timeout);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_WaitEventTimeout(SDL_Event* @event, int timeout);
 
     // Function @ SDL_events.h:847:29
-    public static int SDL_WaitEvent(SDL_Event* @event)
-    {
-        return _virtualTable.SDL_WaitEvent(@event);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_WaitEvent(SDL_Event* @event);
 
     // Function @ SDL_events.h:827:29
-    public static int SDL_PollEvent(SDL_Event* @event)
-    {
-        return _virtualTable.SDL_PollEvent(@event);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_PollEvent(SDL_Event* @event);
 
     // Function @ SDL_events.h:782:30
-    public static void SDL_FlushEvents(uint minType, uint maxType)
-    {
-        _virtualTable.SDL_FlushEvents(minType, maxType);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_FlushEvents(uint minType, uint maxType);
 
     // Function @ SDL_events.h:759:30
-    public static void SDL_FlushEvent(uint type)
-    {
-        _virtualTable.SDL_FlushEvent(type);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_FlushEvent(uint type);
 
     // Function @ SDL_events.h:739:34
-    public static CBool SDL_HasEvents(uint minType, uint maxType)
-    {
-        return _virtualTable.SDL_HasEvents(minType, maxType);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasEvents(uint minType, uint maxType);
 
     // Function @ SDL_events.h:722:34
-    public static CBool SDL_HasEvent(uint type)
-    {
-        return _virtualTable.SDL_HasEvent(type);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasEvent(uint type);
 
     // Function @ SDL_events.h:705:29
-    public static int SDL_PeepEvents(SDL_Event* events, int numevents, SDL_eventaction action, uint minType, uint maxType)
-    {
-        return _virtualTable.SDL_PeepEvents(events, numevents, action, minType, maxType);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_PeepEvents(SDL_Event* events, int numevents, SDL_eventaction action, uint minType, uint maxType);
 
     // Function @ SDL_events.h:659:30
-    public static void SDL_PumpEvents()
-    {
-        _virtualTable.SDL_PumpEvents();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_PumpEvents();
 
     // Function @ SDL_gesture.h:107:29
-    public static int SDL_LoadDollarTemplates(SDL_TouchID touchId, SDL_RWops* src)
-    {
-        return _virtualTable.SDL_LoadDollarTemplates(touchId, src);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_LoadDollarTemplates(SDL_TouchID touchId, SDL_RWops* src);
 
     // Function @ SDL_gesture.h:91:29
-    public static int SDL_SaveDollarTemplate(SDL_GestureID gestureId, SDL_RWops* dst)
-    {
-        return _virtualTable.SDL_SaveDollarTemplate(gestureId, dst);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SaveDollarTemplate(SDL_GestureID gestureId, SDL_RWops* dst);
 
     // Function @ SDL_gesture.h:76:29
-    public static int SDL_SaveAllDollarTemplates(SDL_RWops* dst)
-    {
-        return _virtualTable.SDL_SaveAllDollarTemplates(dst);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SaveAllDollarTemplates(SDL_RWops* dst);
 
     // Function @ SDL_gesture.h:61:29
-    public static int SDL_RecordGesture(SDL_TouchID touchId)
-    {
-        return _virtualTable.SDL_RecordGesture(touchId);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RecordGesture(SDL_TouchID touchId);
 
     // Function @ SDL_touch.h:128:38
-    public static SDL_Finger* SDL_GetTouchFinger(SDL_TouchID touchID, int index)
-    {
-        return _virtualTable.SDL_GetTouchFinger(touchID, index);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Finger* SDL_GetTouchFinger(SDL_TouchID touchID, int index);
 
     // Function @ SDL_touch.h:114:29
-    public static int SDL_GetNumTouchFingers(SDL_TouchID touchID)
-    {
-        return _virtualTable.SDL_GetNumTouchFingers(touchID);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetNumTouchFingers(SDL_TouchID touchID);
 
     // Function @ SDL_touch.h:101:45
-    public static SDL_TouchDeviceType SDL_GetTouchDeviceType(SDL_TouchID touchID)
-    {
-        return _virtualTable.SDL_GetTouchDeviceType(touchID);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_TouchDeviceType SDL_GetTouchDeviceType(SDL_TouchID touchID);
 
     // Function @ SDL_touch.h:96:37
-    public static SDL_TouchID SDL_GetTouchDevice(int index)
-    {
-        return _virtualTable.SDL_GetTouchDevice(index);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_TouchID SDL_GetTouchDevice(int index);
 
     // Function @ SDL_touch.h:83:29
-    public static int SDL_GetNumTouchDevices()
-    {
-        return _virtualTable.SDL_GetNumTouchDevices();
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetNumTouchDevices();
 
     // Function @ SDL_gamecontroller.h:831:30
-    public static void SDL_GameControllerClose(SDL_GameController* gamecontroller)
-    {
-        _virtualTable.SDL_GameControllerClose(gamecontroller);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_GameControllerClose(SDL_GameController* gamecontroller);
 
     // Function @ SDL_gamecontroller.h:821:29
-    public static int SDL_GameControllerSetLED(SDL_GameController* gamecontroller, byte red, byte green, byte blue)
-    {
-        return _virtualTable.SDL_GameControllerSetLED(gamecontroller, red, green, blue);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GameControllerSetLED(SDL_GameController* gamecontroller, byte red, byte green, byte blue);
 
     // Function @ SDL_gamecontroller.h:810:34
-    public static CBool SDL_GameControllerHasLED(SDL_GameController* gamecontroller)
-    {
-        return _virtualTable.SDL_GameControllerHasLED(gamecontroller);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_GameControllerHasLED(SDL_GameController* gamecontroller);
 
     // Function @ SDL_gamecontroller.h:801:29
-    public static int SDL_GameControllerRumbleTriggers(SDL_GameController* gamecontroller, ushort left_rumble, ushort right_rumble, uint duration_ms)
-    {
-        return _virtualTable.SDL_GameControllerRumbleTriggers(gamecontroller, left_rumble, right_rumble, duration_ms);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GameControllerRumbleTriggers(SDL_GameController* gamecontroller, ushort left_rumble, ushort right_rumble, uint duration_ms);
 
     // Function @ SDL_gamecontroller.h:781:29
-    public static int SDL_GameControllerRumble(SDL_GameController* gamecontroller, ushort low_frequency_rumble, ushort high_frequency_rumble, uint duration_ms)
-    {
-        return _virtualTable.SDL_GameControllerRumble(gamecontroller, low_frequency_rumble, high_frequency_rumble, duration_ms);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GameControllerRumble(SDL_GameController* gamecontroller, ushort low_frequency_rumble, ushort high_frequency_rumble, uint duration_ms);
 
     // Function @ SDL_gamecontroller.h:765:29
-    public static int SDL_GameControllerGetSensorData(SDL_GameController* gamecontroller, SDL_SensorType type, float* data, int num_values)
-    {
-        return _virtualTable.SDL_GameControllerGetSensorData(gamecontroller, type, data, num_values);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GameControllerGetSensorData(SDL_GameController* gamecontroller, SDL_SensorType type, float* data, int num_values);
 
     // Function @ SDL_gamecontroller.h:751:34
-    public static CBool SDL_GameControllerIsSensorEnabled(SDL_GameController* gamecontroller, SDL_SensorType type)
-    {
-        return _virtualTable.SDL_GameControllerIsSensorEnabled(gamecontroller, type);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_GameControllerIsSensorEnabled(SDL_GameController* gamecontroller, SDL_SensorType type);
 
     // Function @ SDL_gamecontroller.h:741:29
-    public static int SDL_GameControllerSetSensorEnabled(SDL_GameController* gamecontroller, SDL_SensorType type, CBool enabled)
-    {
-        return _virtualTable.SDL_GameControllerSetSensorEnabled(gamecontroller, type, enabled);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GameControllerSetSensorEnabled(SDL_GameController* gamecontroller, SDL_SensorType type, CBool enabled);
 
     // Function @ SDL_gamecontroller.h:730:34
-    public static CBool SDL_GameControllerHasSensor(SDL_GameController* gamecontroller, SDL_SensorType type)
-    {
-        return _virtualTable.SDL_GameControllerHasSensor(gamecontroller, type);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_GameControllerHasSensor(SDL_GameController* gamecontroller, SDL_SensorType type);
 
     // Function @ SDL_gamecontroller.h:720:29
-    public static int SDL_GameControllerGetTouchpadFinger(SDL_GameController* gamecontroller, int touchpad, int finger, byte* state, float* x, float* y, float* pressure)
-    {
-        return _virtualTable.SDL_GameControllerGetTouchpadFinger(gamecontroller, touchpad, finger, state, x, y, pressure);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GameControllerGetTouchpadFinger(SDL_GameController* gamecontroller, int touchpad, int finger, byte* state, float* x, float* y, float* pressure);
 
     // Function @ SDL_gamecontroller.h:715:29
-    public static int SDL_GameControllerGetNumTouchpadFingers(SDL_GameController* gamecontroller, int touchpad)
-    {
-        return _virtualTable.SDL_GameControllerGetNumTouchpadFingers(gamecontroller, touchpad);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GameControllerGetNumTouchpadFingers(SDL_GameController* gamecontroller, int touchpad);
 
     // Function @ SDL_gamecontroller.h:710:29
-    public static int SDL_GameControllerGetNumTouchpads(SDL_GameController* gamecontroller)
-    {
-        return _virtualTable.SDL_GameControllerGetNumTouchpads(gamecontroller);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GameControllerGetNumTouchpads(SDL_GameController* gamecontroller);
 
     // Function @ SDL_gamecontroller.h:704:31
-    public static byte SDL_GameControllerGetButton(SDL_GameController* gamecontroller, SDL_GameControllerButton button)
-    {
-        return _virtualTable.SDL_GameControllerGetButton(gamecontroller, button);
-    }
+    [DllImport("SDL2")]
+    public static extern byte SDL_GameControllerGetButton(SDL_GameController* gamecontroller, SDL_GameControllerButton button);
 
     // Function @ SDL_gamecontroller.h:689:34
-    public static CBool SDL_GameControllerHasButton(SDL_GameController* gamecontroller, SDL_GameControllerButton button)
-    {
-        return _virtualTable.SDL_GameControllerHasButton(gamecontroller, button);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_GameControllerHasButton(SDL_GameController* gamecontroller, SDL_GameControllerButton button);
 
     // Function @ SDL_gamecontroller.h:676:1
-    public static SDL_GameControllerButtonBind SDL_GameControllerGetBindForButton(SDL_GameController* gamecontroller, SDL_GameControllerButton button)
-    {
-        return _virtualTable.SDL_GameControllerGetBindForButton(gamecontroller, button);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_GameControllerButtonBind SDL_GameControllerGetBindForButton(SDL_GameController* gamecontroller, SDL_GameControllerButton button);
 
     // Function @ SDL_gamecontroller.h:660:37
-    public static CString SDL_GameControllerGetStringForButton(SDL_GameControllerButton button)
-    {
-        return _virtualTable.SDL_GameControllerGetStringForButton(button);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GameControllerGetStringForButton(SDL_GameControllerButton button);
 
     // Function @ SDL_gamecontroller.h:644:50
-    public static SDL_GameControllerButton SDL_GameControllerGetButtonFromString(CString str)
-    {
-        return _virtualTable.SDL_GameControllerGetButtonFromString(str);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_GameControllerButton SDL_GameControllerGetButtonFromString(CString str);
 
     // Function @ SDL_gamecontroller.h:599:1
-    public static short SDL_GameControllerGetAxis(SDL_GameController* gamecontroller, SDL_GameControllerAxis axis)
-    {
-        return _virtualTable.SDL_GameControllerGetAxis(gamecontroller, axis);
-    }
+    [DllImport("SDL2")]
+    public static extern short SDL_GameControllerGetAxis(SDL_GameController* gamecontroller, SDL_GameControllerAxis axis);
 
     // Function @ SDL_gamecontroller.h:579:1
-    public static CBool SDL_GameControllerHasAxis(SDL_GameController* gamecontroller, SDL_GameControllerAxis axis)
-    {
-        return _virtualTable.SDL_GameControllerHasAxis(gamecontroller, axis);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_GameControllerHasAxis(SDL_GameController* gamecontroller, SDL_GameControllerAxis axis);
 
     // Function @ SDL_gamecontroller.h:565:1
-    public static SDL_GameControllerButtonBind SDL_GameControllerGetBindForAxis(SDL_GameController* gamecontroller, SDL_GameControllerAxis axis)
-    {
-        return _virtualTable.SDL_GameControllerGetBindForAxis(gamecontroller, axis);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_GameControllerButtonBind SDL_GameControllerGetBindForAxis(SDL_GameController* gamecontroller, SDL_GameControllerAxis axis);
 
     // Function @ SDL_gamecontroller.h:549:37
-    public static CString SDL_GameControllerGetStringForAxis(SDL_GameControllerAxis axis)
-    {
-        return _virtualTable.SDL_GameControllerGetStringForAxis(axis);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GameControllerGetStringForAxis(SDL_GameControllerAxis axis);
 
     // Function @ SDL_gamecontroller.h:535:48
-    public static SDL_GameControllerAxis SDL_GameControllerGetAxisFromString(CString str)
-    {
-        return _virtualTable.SDL_GameControllerGetAxisFromString(str);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_GameControllerAxis SDL_GameControllerGetAxisFromString(CString str);
 
     // Function @ SDL_gamecontroller.h:497:30
-    public static void SDL_GameControllerUpdate()
-    {
-        _virtualTable.SDL_GameControllerUpdate();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_GameControllerUpdate();
 
     // Function @ SDL_gamecontroller.h:488:29
-    public static int SDL_GameControllerEventState(int state)
-    {
-        return _virtualTable.SDL_GameControllerEventState(state);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GameControllerEventState(int state);
 
     // Function @ SDL_gamecontroller.h:468:39
-    public static SDL_Joystick* SDL_GameControllerGetJoystick(SDL_GameController* gamecontroller)
-    {
-        return _virtualTable.SDL_GameControllerGetJoystick(gamecontroller);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Joystick* SDL_GameControllerGetJoystick(SDL_GameController* gamecontroller);
 
     // Function @ SDL_gamecontroller.h:449:34
-    public static CBool SDL_GameControllerGetAttached(SDL_GameController* gamecontroller)
-    {
-        return _virtualTable.SDL_GameControllerGetAttached(gamecontroller);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_GameControllerGetAttached(SDL_GameController* gamecontroller);
 
     // Function @ SDL_gamecontroller.h:436:38
-    public static CString SDL_GameControllerGetSerial(SDL_GameController* gamecontroller)
-    {
-        return _virtualTable.SDL_GameControllerGetSerial(gamecontroller);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GameControllerGetSerial(SDL_GameController* gamecontroller);
 
     // Function @ SDL_gamecontroller.h:426:32
-    public static ushort SDL_GameControllerGetProductVersion(SDL_GameController* gamecontroller)
-    {
-        return _virtualTable.SDL_GameControllerGetProductVersion(gamecontroller);
-    }
+    [DllImport("SDL2")]
+    public static extern ushort SDL_GameControllerGetProductVersion(SDL_GameController* gamecontroller);
 
     // Function @ SDL_gamecontroller.h:416:32
-    public static ushort SDL_GameControllerGetProduct(SDL_GameController* gamecontroller)
-    {
-        return _virtualTable.SDL_GameControllerGetProduct(gamecontroller);
-    }
+    [DllImport("SDL2")]
+    public static extern ushort SDL_GameControllerGetProduct(SDL_GameController* gamecontroller);
 
     // Function @ SDL_gamecontroller.h:406:32
-    public static ushort SDL_GameControllerGetVendor(SDL_GameController* gamecontroller)
-    {
-        return _virtualTable.SDL_GameControllerGetVendor(gamecontroller);
-    }
+    [DllImport("SDL2")]
+    public static extern ushort SDL_GameControllerGetVendor(SDL_GameController* gamecontroller);
 
     // Function @ SDL_gamecontroller.h:396:30
-    public static void SDL_GameControllerSetPlayerIndex(SDL_GameController* gamecontroller, int player_index)
-    {
-        _virtualTable.SDL_GameControllerSetPlayerIndex(gamecontroller, player_index);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_GameControllerSetPlayerIndex(SDL_GameController* gamecontroller, int player_index);
 
     // Function @ SDL_gamecontroller.h:388:29
-    public static int SDL_GameControllerGetPlayerIndex(SDL_GameController* gamecontroller)
-    {
-        return _virtualTable.SDL_GameControllerGetPlayerIndex(gamecontroller);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GameControllerGetPlayerIndex(SDL_GameController* gamecontroller);
 
     // Function @ SDL_gamecontroller.h:378:48
-    public static SDL_GameControllerType SDL_GameControllerGetType(SDL_GameController* gamecontroller)
-    {
-        return _virtualTable.SDL_GameControllerGetType(gamecontroller);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_GameControllerType SDL_GameControllerGetType(SDL_GameController* gamecontroller);
 
     // Function @ SDL_gamecontroller.h:367:37
-    public static CString SDL_GameControllerName(SDL_GameController* gamecontroller)
-    {
-        return _virtualTable.SDL_GameControllerName(gamecontroller);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GameControllerName(SDL_GameController* gamecontroller);
 
     // Function @ SDL_gamecontroller.h:349:45
-    public static SDL_GameController* SDL_GameControllerFromPlayerIndex(int player_index)
-    {
-        return _virtualTable.SDL_GameControllerFromPlayerIndex(player_index);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_GameController* SDL_GameControllerFromPlayerIndex(int player_index);
 
     // Function @ SDL_gamecontroller.h:334:45
-    public static SDL_GameController* SDL_GameControllerFromInstanceID(SDL_JoystickID joyid)
-    {
-        return _virtualTable.SDL_GameControllerFromInstanceID(joyid);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_GameController* SDL_GameControllerFromInstanceID(SDL_JoystickID joyid);
 
     // Function @ SDL_gamecontroller.h:323:45
-    public static SDL_GameController* SDL_GameControllerOpen(int joystick_index)
-    {
-        return _virtualTable.SDL_GameControllerOpen(joystick_index);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_GameController* SDL_GameControllerOpen(int joystick_index);
 
     // Function @ SDL_gamecontroller.h:299:31
-    public static CString SDL_GameControllerMappingForDeviceIndex(int joystick_index)
-    {
-        return _virtualTable.SDL_GameControllerMappingForDeviceIndex(joystick_index);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GameControllerMappingForDeviceIndex(int joystick_index);
 
     // Function @ SDL_gamecontroller.h:287:48
-    public static SDL_GameControllerType SDL_GameControllerTypeForIndex(int joystick_index)
-    {
-        return _virtualTable.SDL_GameControllerTypeForIndex(joystick_index);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_GameControllerType SDL_GameControllerTypeForIndex(int joystick_index);
 
     // Function @ SDL_gamecontroller.h:276:37
-    public static CString SDL_GameControllerNameForIndex(int joystick_index)
-    {
-        return _virtualTable.SDL_GameControllerNameForIndex(joystick_index);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GameControllerNameForIndex(int joystick_index);
 
     // Function @ SDL_gamecontroller.h:254:34
-    public static CBool SDL_IsGameController(int joystick_index)
-    {
-        return _virtualTable.SDL_IsGameController(joystick_index);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_IsGameController(int joystick_index);
 
     // Function @ SDL_gamecontroller.h:236:32
-    public static CString SDL_GameControllerMapping(SDL_GameController* gamecontroller)
-    {
-        return _virtualTable.SDL_GameControllerMapping(gamecontroller);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GameControllerMapping(SDL_GameController* gamecontroller);
 
     // Function @ SDL_gamecontroller.h:217:32
-    public static CString SDL_GameControllerMappingForGUID(SDL_JoystickGUID guid)
-    {
-        return _virtualTable.SDL_GameControllerMappingForGUID(guid);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GameControllerMappingForGUID(SDL_JoystickGUID guid);
 
     // Function @ SDL_gamecontroller.h:203:32
-    public static CString SDL_GameControllerMappingForIndex(int mapping_index)
-    {
-        return _virtualTable.SDL_GameControllerMappingForIndex(mapping_index);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GameControllerMappingForIndex(int mapping_index);
 
     // Function @ SDL_gamecontroller.h:195:29
-    public static int SDL_GameControllerNumMappings()
-    {
-        return _virtualTable.SDL_GameControllerNumMappings();
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GameControllerNumMappings();
 
     // Function @ SDL_gamecontroller.h:188:29
-    public static int SDL_GameControllerAddMapping(CString mappingString)
-    {
-        return _virtualTable.SDL_GameControllerAddMapping(mappingString);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GameControllerAddMapping(CString mappingString);
 
     // Function @ SDL_gamecontroller.h:154:29
-    public static int SDL_GameControllerAddMappingsFromRW(SDL_RWops* rw, int freerw)
-    {
-        return _virtualTable.SDL_GameControllerAddMappingsFromRW(rw, freerw);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GameControllerAddMappingsFromRW(SDL_RWops* rw, int freerw);
 
     // Function @ SDL_sensor.h:258:30
-    public static void SDL_SensorUpdate()
-    {
-        _virtualTable.SDL_SensorUpdate();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SensorUpdate();
 
     // Function @ SDL_sensor.h:247:30
-    public static void SDL_SensorClose(SDL_Sensor* sensor)
-    {
-        _virtualTable.SDL_SensorClose(sensor);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SensorClose(SDL_Sensor* sensor);
 
     // Function @ SDL_sensor.h:240:29
-    public static int SDL_SensorGetData(SDL_Sensor* sensor, float* data, int num_values)
-    {
-        return _virtualTable.SDL_SensorGetData(sensor, data, num_values);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SensorGetData(SDL_Sensor* sensor, float* data, int num_values);
 
     // Function @ SDL_sensor.h:228:38
-    public static SDL_SensorID SDL_SensorGetInstanceID(SDL_Sensor* sensor)
-    {
-        return _virtualTable.SDL_SensorGetInstanceID(sensor);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_SensorID SDL_SensorGetInstanceID(SDL_Sensor* sensor);
 
     // Function @ SDL_sensor.h:220:29
-    public static int SDL_SensorGetNonPortableType(SDL_Sensor* sensor)
-    {
-        return _virtualTable.SDL_SensorGetNonPortableType(sensor);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SensorGetNonPortableType(SDL_Sensor* sensor);
 
     // Function @ SDL_sensor.h:212:40
-    public static SDL_SensorType SDL_SensorGetType(SDL_Sensor* sensor)
-    {
-        return _virtualTable.SDL_SensorGetType(sensor);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_SensorType SDL_SensorGetType(SDL_Sensor* sensor);
 
     // Function @ SDL_sensor.h:203:37
-    public static CString SDL_SensorGetName(SDL_Sensor* sensor)
-    {
-        return _virtualTable.SDL_SensorGetName(sensor);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_SensorGetName(SDL_Sensor* sensor);
 
     // Function @ SDL_sensor.h:195:37
-    public static SDL_Sensor* SDL_SensorFromInstanceID(SDL_SensorID instance_id)
-    {
-        return _virtualTable.SDL_SensorFromInstanceID(instance_id);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Sensor* SDL_SensorFromInstanceID(SDL_SensorID instance_id);
 
     // Function @ SDL_sensor.h:187:37
-    public static SDL_Sensor* SDL_SensorOpen(int device_index)
-    {
-        return _virtualTable.SDL_SensorOpen(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Sensor* SDL_SensorOpen(int device_index);
 
     // Function @ SDL_sensor.h:179:38
-    public static SDL_SensorID SDL_SensorGetDeviceInstanceID(int device_index)
-    {
-        return _virtualTable.SDL_SensorGetDeviceInstanceID(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_SensorID SDL_SensorGetDeviceInstanceID(int device_index);
 
     // Function @ SDL_sensor.h:171:29
-    public static int SDL_SensorGetDeviceNonPortableType(int device_index)
-    {
-        return _virtualTable.SDL_SensorGetDeviceNonPortableType(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SensorGetDeviceNonPortableType(int device_index);
 
     // Function @ SDL_sensor.h:162:40
-    public static SDL_SensorType SDL_SensorGetDeviceType(int device_index)
-    {
-        return _virtualTable.SDL_SensorGetDeviceType(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_SensorType SDL_SensorGetDeviceType(int device_index);
 
     // Function @ SDL_sensor.h:153:37
-    public static CString SDL_SensorGetDeviceName(int device_index)
-    {
-        return _virtualTable.SDL_SensorGetDeviceName(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_SensorGetDeviceName(int device_index);
 
     // Function @ SDL_sensor.h:145:29
-    public static int SDL_NumSensors()
-    {
-        return _virtualTable.SDL_NumSensors();
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_NumSensors();
 
     // Function @ SDL_sensor.h:138:30
-    public static void SDL_UnlockSensors()
-    {
-        _virtualTable.SDL_UnlockSensors();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_UnlockSensors();
 
     // Function @ SDL_sensor.h:137:30
-    public static void SDL_LockSensors()
-    {
-        _virtualTable.SDL_LockSensors();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_LockSensors();
 
     // Function @ SDL_joystick.h:803:48
-    public static SDL_JoystickPowerLevel SDL_JoystickCurrentPowerLevel(SDL_Joystick* joystick)
-    {
-        return _virtualTable.SDL_JoystickCurrentPowerLevel(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_JoystickPowerLevel SDL_JoystickCurrentPowerLevel(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:792:30
-    public static void SDL_JoystickClose(SDL_Joystick* joystick)
-    {
-        _virtualTable.SDL_JoystickClose(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_JoystickClose(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:783:29
-    public static int SDL_JoystickSetLED(SDL_Joystick* joystick, byte red, byte green, byte blue)
-    {
-        return _virtualTable.SDL_JoystickSetLED(joystick, red, green, blue);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_JoystickSetLED(SDL_Joystick* joystick, byte red, byte green, byte blue);
 
     // Function @ SDL_joystick.h:768:34
-    public static CBool SDL_JoystickHasLED(SDL_Joystick* joystick)
-    {
-        return _virtualTable.SDL_JoystickHasLED(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_JoystickHasLED(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:757:29
-    public static int SDL_JoystickRumbleTriggers(SDL_Joystick* joystick, ushort left_rumble, ushort right_rumble, uint duration_ms)
-    {
-        return _virtualTable.SDL_JoystickRumbleTriggers(joystick, left_rumble, right_rumble, duration_ms);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_JoystickRumbleTriggers(SDL_Joystick* joystick, ushort left_rumble, ushort right_rumble, uint duration_ms);
 
     // Function @ SDL_joystick.h:736:29
-    public static int SDL_JoystickRumble(SDL_Joystick* joystick, ushort low_frequency_rumble, ushort high_frequency_rumble, uint duration_ms)
-    {
-        return _virtualTable.SDL_JoystickRumble(joystick, low_frequency_rumble, high_frequency_rumble, duration_ms);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_JoystickRumble(SDL_Joystick* joystick, ushort low_frequency_rumble, ushort high_frequency_rumble, uint duration_ms);
 
     // Function @ SDL_joystick.h:718:31
-    public static byte SDL_JoystickGetButton(SDL_Joystick* joystick, int button)
-    {
-        return _virtualTable.SDL_JoystickGetButton(joystick, button);
-    }
+    [DllImport("SDL2")]
+    public static extern byte SDL_JoystickGetButton(SDL_Joystick* joystick, int button);
 
     // Function @ SDL_joystick.h:705:29
-    public static int SDL_JoystickGetBall(SDL_Joystick* joystick, int ball, long* dx, long* dy)
-    {
-        return _virtualTable.SDL_JoystickGetBall(joystick, ball, dx, dy);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_JoystickGetBall(SDL_Joystick* joystick, int ball, long* dx, long* dy);
 
     // Function @ SDL_joystick.h:684:31
-    public static byte SDL_JoystickGetHat(SDL_Joystick* joystick, int hat)
-    {
-        return _virtualTable.SDL_JoystickGetHat(joystick, hat);
-    }
+    [DllImport("SDL2")]
+    public static extern byte SDL_JoystickGetHat(SDL_Joystick* joystick, int hat);
 
     // Function @ SDL_joystick.h:645:34
-    public static CBool SDL_JoystickGetAxisInitialState(SDL_Joystick* joystick, int axis, short* state)
-    {
-        return _virtualTable.SDL_JoystickGetAxisInitialState(joystick, axis, state);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_JoystickGetAxisInitialState(SDL_Joystick* joystick, int axis, short* state);
 
     // Function @ SDL_joystick.h:630:32
-    public static short SDL_JoystickGetAxis(SDL_Joystick* joystick, int axis)
-    {
-        return _virtualTable.SDL_JoystickGetAxis(joystick, axis);
-    }
+    [DllImport("SDL2")]
+    public static extern short SDL_JoystickGetAxis(SDL_Joystick* joystick, int axis);
 
     // Function @ SDL_joystick.h:605:29
-    public static int SDL_JoystickEventState(int state)
-    {
-        return _virtualTable.SDL_JoystickEventState(state);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_JoystickEventState(int state);
 
     // Function @ SDL_joystick.h:582:30
-    public static void SDL_JoystickUpdate()
-    {
-        _virtualTable.SDL_JoystickUpdate();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_JoystickUpdate();
 
     // Function @ SDL_joystick.h:572:29
-    public static int SDL_JoystickNumButtons(SDL_Joystick* joystick)
-    {
-        return _virtualTable.SDL_JoystickNumButtons(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_JoystickNumButtons(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:560:29
-    public static int SDL_JoystickNumHats(SDL_Joystick* joystick)
-    {
-        return _virtualTable.SDL_JoystickNumHats(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_JoystickNumHats(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:548:29
-    public static int SDL_JoystickNumBalls(SDL_Joystick* joystick)
-    {
-        return _virtualTable.SDL_JoystickNumBalls(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_JoystickNumBalls(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:532:29
-    public static int SDL_JoystickNumAxes(SDL_Joystick* joystick)
-    {
-        return _virtualTable.SDL_JoystickNumAxes(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_JoystickNumAxes(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:515:40
-    public static SDL_JoystickID SDL_JoystickInstanceID(SDL_Joystick* joystick)
-    {
-        return _virtualTable.SDL_JoystickInstanceID(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_JoystickID SDL_JoystickInstanceID(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:504:34
-    public static CBool SDL_JoystickGetAttached(SDL_Joystick* joystick)
-    {
-        return _virtualTable.SDL_JoystickGetAttached(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_JoystickGetAttached(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:492:42
-    public static SDL_JoystickGUID SDL_JoystickGetGUIDFromString(CString pchGUID)
-    {
-        return _virtualTable.SDL_JoystickGetGUIDFromString(pchGUID);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_JoystickGUID SDL_JoystickGetGUIDFromString(CString pchGUID);
 
     // Function @ SDL_joystick.h:478:30
-    public static void SDL_JoystickGetGUIDString(SDL_JoystickGUID guid, CString pszGUID, int cbGUID)
-    {
-        _virtualTable.SDL_JoystickGetGUIDString(guid, pszGUID, cbGUID);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_JoystickGetGUIDString(SDL_JoystickGUID guid, CString pszGUID, int cbGUID);
 
     // Function @ SDL_joystick.h:463:42
-    public static SDL_JoystickType SDL_JoystickGetType(SDL_Joystick* joystick)
-    {
-        return _virtualTable.SDL_JoystickGetType(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_JoystickType SDL_JoystickGetType(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:455:38
-    public static CString SDL_JoystickGetSerial(SDL_Joystick* joystick)
-    {
-        return _virtualTable.SDL_JoystickGetSerial(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_JoystickGetSerial(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:445:32
-    public static ushort SDL_JoystickGetProductVersion(SDL_Joystick* joystick)
-    {
-        return _virtualTable.SDL_JoystickGetProductVersion(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern ushort SDL_JoystickGetProductVersion(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:436:32
-    public static ushort SDL_JoystickGetProduct(SDL_Joystick* joystick)
-    {
-        return _virtualTable.SDL_JoystickGetProduct(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern ushort SDL_JoystickGetProduct(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:426:32
-    public static ushort SDL_JoystickGetVendor(SDL_Joystick* joystick)
-    {
-        return _virtualTable.SDL_JoystickGetVendor(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern ushort SDL_JoystickGetVendor(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:416:42
-    public static SDL_JoystickGUID SDL_JoystickGetGUID(SDL_Joystick* joystick)
-    {
-        return _virtualTable.SDL_JoystickGetGUID(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_JoystickGUID SDL_JoystickGetGUID(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:401:30
-    public static void SDL_JoystickSetPlayerIndex(SDL_Joystick* joystick, int player_index)
-    {
-        _virtualTable.SDL_JoystickSetPlayerIndex(joystick, player_index);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_JoystickSetPlayerIndex(SDL_Joystick* joystick, int player_index);
 
     // Function @ SDL_joystick.h:393:29
-    public static int SDL_JoystickGetPlayerIndex(SDL_Joystick* joystick)
-    {
-        return _virtualTable.SDL_JoystickGetPlayerIndex(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_JoystickGetPlayerIndex(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:382:37
-    public static CString SDL_JoystickName(SDL_Joystick* joystick)
-    {
-        return _virtualTable.SDL_JoystickName(joystick);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_JoystickName(SDL_Joystick* joystick);
 
     // Function @ SDL_joystick.h:368:29
-    public static int SDL_JoystickSetVirtualHat(SDL_Joystick* joystick, int hat, byte value)
-    {
-        return _virtualTable.SDL_JoystickSetVirtualHat(joystick, hat, value);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_JoystickSetVirtualHat(SDL_Joystick* joystick, int hat, byte value);
 
     // Function @ SDL_joystick.h:352:29
-    public static int SDL_JoystickSetVirtualButton(SDL_Joystick* joystick, int button, byte value)
-    {
-        return _virtualTable.SDL_JoystickSetVirtualButton(joystick, button, value);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_JoystickSetVirtualButton(SDL_Joystick* joystick, int button, byte value);
 
     // Function @ SDL_joystick.h:336:29
-    public static int SDL_JoystickSetVirtualAxis(SDL_Joystick* joystick, int axis, short value)
-    {
-        return _virtualTable.SDL_JoystickSetVirtualAxis(joystick, axis, value);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_JoystickSetVirtualAxis(SDL_Joystick* joystick, int axis, short value);
 
     // Function @ SDL_joystick.h:320:34
-    public static CBool SDL_JoystickIsVirtual(int device_index)
-    {
-        return _virtualTable.SDL_JoystickIsVirtual(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_JoystickIsVirtual(int device_index);
 
     // Function @ SDL_joystick.h:312:29
-    public static int SDL_JoystickDetachVirtual(int device_index)
-    {
-        return _virtualTable.SDL_JoystickDetachVirtual(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_JoystickDetachVirtual(int device_index);
 
     // Function @ SDL_joystick.h:300:29
-    public static int SDL_JoystickAttachVirtual(SDL_JoystickType type, int naxes, int nbuttons, int nhats)
-    {
-        return _virtualTable.SDL_JoystickAttachVirtual(type, naxes, nbuttons, nhats);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_JoystickAttachVirtual(SDL_JoystickType type, int naxes, int nbuttons, int nhats);
 
     // Function @ SDL_joystick.h:293:39
-    public static SDL_Joystick* SDL_JoystickFromPlayerIndex(int player_index)
-    {
-        return _virtualTable.SDL_JoystickFromPlayerIndex(player_index);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Joystick* SDL_JoystickFromPlayerIndex(int player_index);
 
     // Function @ SDL_joystick.h:284:39
-    public static SDL_Joystick* SDL_JoystickFromInstanceID(SDL_JoystickID instance_id)
-    {
-        return _virtualTable.SDL_JoystickFromInstanceID(instance_id);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Joystick* SDL_JoystickFromInstanceID(SDL_JoystickID instance_id);
 
     // Function @ SDL_joystick.h:273:39
-    public static SDL_Joystick* SDL_JoystickOpen(int device_index)
-    {
-        return _virtualTable.SDL_JoystickOpen(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Joystick* SDL_JoystickOpen(int device_index);
 
     // Function @ SDL_joystick.h:253:40
-    public static SDL_JoystickID SDL_JoystickGetDeviceInstanceID(int device_index)
-    {
-        return _virtualTable.SDL_JoystickGetDeviceInstanceID(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_JoystickID SDL_JoystickGetDeviceInstanceID(int device_index);
 
     // Function @ SDL_joystick.h:240:42
-    public static SDL_JoystickType SDL_JoystickGetDeviceType(int device_index)
-    {
-        return _virtualTable.SDL_JoystickGetDeviceType(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_JoystickType SDL_JoystickGetDeviceType(int device_index);
 
     // Function @ SDL_joystick.h:228:32
-    public static ushort SDL_JoystickGetDeviceProductVersion(int device_index)
-    {
-        return _virtualTable.SDL_JoystickGetDeviceProductVersion(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern ushort SDL_JoystickGetDeviceProductVersion(int device_index);
 
     // Function @ SDL_joystick.h:215:32
-    public static ushort SDL_JoystickGetDeviceProduct(int device_index)
-    {
-        return _virtualTable.SDL_JoystickGetDeviceProduct(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern ushort SDL_JoystickGetDeviceProduct(int device_index);
 
     // Function @ SDL_joystick.h:202:32
-    public static ushort SDL_JoystickGetDeviceVendor(int device_index)
-    {
-        return _virtualTable.SDL_JoystickGetDeviceVendor(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern ushort SDL_JoystickGetDeviceVendor(int device_index);
 
     // Function @ SDL_joystick.h:189:42
-    public static SDL_JoystickGUID SDL_JoystickGetDeviceGUID(int device_index)
-    {
-        return _virtualTable.SDL_JoystickGetDeviceGUID(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_JoystickGUID SDL_JoystickGetDeviceGUID(int device_index);
 
     // Function @ SDL_joystick.h:173:29
-    public static int SDL_JoystickGetDevicePlayerIndex(int device_index)
-    {
-        return _virtualTable.SDL_JoystickGetDevicePlayerIndex(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_JoystickGetDevicePlayerIndex(int device_index);
 
     // Function @ SDL_joystick.h:167:37
-    public static CString SDL_JoystickNameForIndex(int device_index)
-    {
-        return _virtualTable.SDL_JoystickNameForIndex(device_index);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_JoystickNameForIndex(int device_index);
 
     // Function @ SDL_joystick.h:152:29
-    public static int SDL_NumJoysticks()
-    {
-        return _virtualTable.SDL_NumJoysticks();
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_NumJoysticks();
 
     // Function @ SDL_joystick.h:141:30
-    public static void SDL_UnlockJoysticks()
-    {
-        _virtualTable.SDL_UnlockJoysticks();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_UnlockJoysticks();
 
     // Function @ SDL_joystick.h:128:30
-    public static void SDL_LockJoysticks()
-    {
-        _virtualTable.SDL_LockJoysticks();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_LockJoysticks();
 
     // Function @ SDL_mouse.h:394:29
-    public static int SDL_ShowCursor(int toggle)
-    {
-        return _virtualTable.SDL_ShowCursor(toggle);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_ShowCursor(int toggle);
 
     // Function @ SDL_mouse.h:374:30
-    public static void SDL_FreeCursor(SDL_Cursor* cursor)
-    {
-        _virtualTable.SDL_FreeCursor(cursor);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_FreeCursor(SDL_Cursor* cursor);
 
     // Function @ SDL_mouse.h:360:37
-    public static SDL_Cursor* SDL_GetDefaultCursor()
-    {
-        return _virtualTable.SDL_GetDefaultCursor();
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Cursor* SDL_GetDefaultCursor();
 
     // Function @ SDL_mouse.h:349:37
-    public static SDL_Cursor* SDL_GetCursor()
-    {
-        return _virtualTable.SDL_GetCursor();
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Cursor* SDL_GetCursor();
 
     // Function @ SDL_mouse.h:337:30
-    public static void SDL_SetCursor(SDL_Cursor* cursor)
-    {
-        _virtualTable.SDL_SetCursor(cursor);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SetCursor(SDL_Cursor* cursor);
 
     // Function @ SDL_mouse.h:321:37
-    public static SDL_Cursor* SDL_CreateSystemCursor(SDL_SystemCursor id)
-    {
-        return _virtualTable.SDL_CreateSystemCursor(id);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Cursor* SDL_CreateSystemCursor(SDL_SystemCursor id);
 
     // Function @ SDL_mouse.h:306:37
-    public static SDL_Cursor* SDL_CreateColorCursor(SDL_Surface* surface, int hot_x, int hot_y)
-    {
-        return _virtualTable.SDL_CreateColorCursor(surface, hot_x, hot_y);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Cursor* SDL_CreateColorCursor(SDL_Surface* surface, int hot_x, int hot_y);
 
     // Function @ SDL_mouse.h:287:37
-    public static SDL_Cursor* SDL_CreateCursor(byte* data, byte* mask, int w, int h, int hot_x, int hot_y)
-    {
-        return _virtualTable.SDL_CreateCursor(data, mask, w, h, hot_x, hot_y);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Cursor* SDL_CreateCursor(byte* data, byte* mask, int w, int h, int hot_x, int hot_y);
 
     // Function @ SDL_mouse.h:245:34
-    public static CBool SDL_GetRelativeMouseMode()
-    {
-        return _virtualTable.SDL_GetRelativeMouseMode();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_GetRelativeMouseMode();
 
     // Function @ SDL_mouse.h:236:29
-    public static int SDL_CaptureMouse(CBool enabled)
-    {
-        return _virtualTable.SDL_CaptureMouse(enabled);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_CaptureMouse(CBool enabled);
 
     // Function @ SDL_mouse.h:199:29
-    public static int SDL_SetRelativeMouseMode(CBool enabled)
-    {
-        return _virtualTable.SDL_SetRelativeMouseMode(enabled);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetRelativeMouseMode(CBool enabled);
 
     // Function @ SDL_mouse.h:180:29
-    public static int SDL_WarpMouseGlobal(int x, int y)
-    {
-        return _virtualTable.SDL_WarpMouseGlobal(x, y);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_WarpMouseGlobal(int x, int y);
 
     // Function @ SDL_mouse.h:160:30
-    public static void SDL_WarpMouseInWindow(SDL_Window* window, int x, int y)
-    {
-        _virtualTable.SDL_WarpMouseInWindow(window, x, y);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_WarpMouseInWindow(SDL_Window* window, int x, int y);
 
     // Function @ SDL_mouse.h:146:32
-    public static uint SDL_GetRelativeMouseState(long* x, long* y)
-    {
-        return _virtualTable.SDL_GetRelativeMouseState(x, y);
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_GetRelativeMouseState(long* x, long* y);
 
     // Function @ SDL_mouse.h:129:32
-    public static uint SDL_GetGlobalMouseState(long* x, long* y)
-    {
-        return _virtualTable.SDL_GetGlobalMouseState(x, y);
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_GetGlobalMouseState(long* x, long* y);
 
     // Function @ SDL_mouse.h:100:32
-    public static uint SDL_GetMouseState(long* x, long* y)
-    {
-        return _virtualTable.SDL_GetMouseState(x, y);
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_GetMouseState(long* x, long* y);
 
     // Function @ SDL_mouse.h:79:38
-    public static SDL_Window* SDL_GetMouseFocus()
-    {
-        return _virtualTable.SDL_GetMouseFocus();
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Window* SDL_GetMouseFocus();
 
     // Function @ SDL_keyboard.h:284:34
-    public static CBool SDL_IsScreenKeyboardShown(SDL_Window* window)
-    {
-        return _virtualTable.SDL_IsScreenKeyboardShown(window);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_IsScreenKeyboardShown(SDL_Window* window);
 
     // Function @ SDL_keyboard.h:272:34
-    public static CBool SDL_HasScreenKeyboardSupport()
-    {
-        return _virtualTable.SDL_HasScreenKeyboardSupport();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasScreenKeyboardSupport();
 
     // Function @ SDL_keyboard.h:259:30
-    public static void SDL_SetTextInputRect(SDL_Rect* rect)
-    {
-        _virtualTable.SDL_SetTextInputRect(rect);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SetTextInputRect(SDL_Rect* rect);
 
     // Function @ SDL_keyboard.h:249:30
-    public static void SDL_StopTextInput()
-    {
-        _virtualTable.SDL_StopTextInput();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_StopTextInput();
 
     // Function @ SDL_keyboard.h:242:34
-    public static CBool SDL_IsTextInputActive()
-    {
-        return _virtualTable.SDL_IsTextInputActive();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_IsTextInputActive();
 
     // Function @ SDL_keyboard.h:231:30
-    public static void SDL_StartTextInput()
-    {
-        _virtualTable.SDL_StartTextInput();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_StartTextInput();
 
     // Function @ SDL_keyboard.h:216:37
-    public static SDL_Keycode SDL_GetKeyFromName(CString name)
-    {
-        return _virtualTable.SDL_GetKeyFromName(name);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Keycode SDL_GetKeyFromName(CString name);
 
     // Function @ SDL_keyboard.h:203:37
-    public static CString SDL_GetKeyName(SDL_Keycode key)
-    {
-        return _virtualTable.SDL_GetKeyName(key);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetKeyName(SDL_Keycode key);
 
     // Function @ SDL_keyboard.h:186:38
-    public static SDL_Scancode SDL_GetScancodeFromName(CString name)
-    {
-        return _virtualTable.SDL_GetScancodeFromName(name);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Scancode SDL_GetScancodeFromName(CString name);
 
     // Function @ SDL_keyboard.h:171:37
-    public static CString SDL_GetScancodeName(SDL_Scancode scancode)
-    {
-        return _virtualTable.SDL_GetScancodeName(scancode);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetScancodeName(SDL_Scancode scancode);
 
     // Function @ SDL_keyboard.h:146:38
-    public static SDL_Scancode SDL_GetScancodeFromKey(SDL_Keycode key)
-    {
-        return _virtualTable.SDL_GetScancodeFromKey(key);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Scancode SDL_GetScancodeFromKey(SDL_Keycode key);
 
     // Function @ SDL_keyboard.h:132:37
-    public static SDL_Keycode SDL_GetKeyFromScancode(SDL_Scancode scancode)
-    {
-        return _virtualTable.SDL_GetKeyFromScancode(scancode);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Keycode SDL_GetKeyFromScancode(SDL_Scancode scancode);
 
     // Function @ SDL_keyboard.h:118:30
-    public static void SDL_SetModState(SDL_Keymod modstate)
-    {
-        _virtualTable.SDL_SetModState(modstate);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SetModState(SDL_Keymod modstate);
 
     // Function @ SDL_keyboard.h:101:36
-    public static SDL_Keymod SDL_GetModState()
-    {
-        return _virtualTable.SDL_GetModState();
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Keymod SDL_GetModState();
 
     // Function @ SDL_keyboard.h:90:38
-    public static byte* SDL_GetKeyboardState(long* numkeys)
-    {
-        return _virtualTable.SDL_GetKeyboardState(numkeys);
-    }
+    [DllImport("SDL2")]
+    public static extern byte* SDL_GetKeyboardState(long* numkeys);
 
     // Function @ SDL_keyboard.h:62:38
-    public static SDL_Window* SDL_GetKeyboardFocus()
-    {
-        return _virtualTable.SDL_GetKeyboardFocus();
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Window* SDL_GetKeyboardFocus();
 
     // Function @ SDL_video.h:1869:30
-    public static void SDL_GL_DeleteContext(SDL_GLContext context)
-    {
-        _virtualTable.SDL_GL_DeleteContext(context);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_GL_DeleteContext(SDL_GLContext context);
 
     // Function @ SDL_video.h:1860:30
-    public static void SDL_GL_SwapWindow(SDL_Window* window)
-    {
-        _virtualTable.SDL_GL_SwapWindow(window);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_GL_SwapWindow(SDL_Window* window);
 
     // Function @ SDL_video.h:1846:29
-    public static int SDL_GL_GetSwapInterval()
-    {
-        return _virtualTable.SDL_GL_GetSwapInterval();
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GL_GetSwapInterval();
 
     // Function @ SDL_video.h:1829:29
-    public static int SDL_GL_SetSwapInterval(int interval)
-    {
-        return _virtualTable.SDL_GL_SetSwapInterval(interval);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GL_SetSwapInterval(int interval);
 
     // Function @ SDL_video.h:1794:30
-    public static void SDL_GL_GetDrawableSize(SDL_Window* window, long* w, long* h)
-    {
-        _virtualTable.SDL_GL_GetDrawableSize(window, w, h);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_GL_GetDrawableSize(SDL_Window* window, long* w, long* h);
 
     // Function @ SDL_video.h:1772:39
-    public static SDL_GLContext SDL_GL_GetCurrentContext()
-    {
-        return _virtualTable.SDL_GL_GetCurrentContext();
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_GLContext SDL_GL_GetCurrentContext();
 
     // Function @ SDL_video.h:1760:37
-    public static SDL_Window* SDL_GL_GetCurrentWindow()
-    {
-        return _virtualTable.SDL_GL_GetCurrentWindow();
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Window* SDL_GL_GetCurrentWindow();
 
     // Function @ SDL_video.h:1749:29
-    public static int SDL_GL_MakeCurrent(SDL_Window* window, SDL_GLContext context)
-    {
-        return _virtualTable.SDL_GL_MakeCurrent(window, context);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GL_MakeCurrent(SDL_Window* window, SDL_GLContext context);
 
     // Function @ SDL_video.h:1734:39
-    public static SDL_GLContext SDL_GL_CreateContext(SDL_Window* window)
-    {
-        return _virtualTable.SDL_GL_CreateContext(window);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_GLContext SDL_GL_CreateContext(SDL_Window* window);
 
     // Function @ SDL_video.h:1714:29
-    public static int SDL_GL_GetAttribute(SDL_GLattr attr, long* value)
-    {
-        return _virtualTable.SDL_GL_GetAttribute(attr, value);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GL_GetAttribute(SDL_GLattr attr, long* value);
 
     // Function @ SDL_video.h:1701:29
-    public static int SDL_GL_SetAttribute(SDL_GLattr attr, int value)
-    {
-        return _virtualTable.SDL_GL_SetAttribute(attr, value);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GL_SetAttribute(SDL_GLattr attr, int value);
 
     // Function @ SDL_video.h:1682:30
-    public static void SDL_GL_ResetAttributes()
-    {
-        _virtualTable.SDL_GL_ResetAttributes();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_GL_ResetAttributes();
 
     // Function @ SDL_video.h:1670:34
-    public static CBool SDL_GL_ExtensionSupported(CString extension)
-    {
-        return _virtualTable.SDL_GL_ExtensionSupported(extension);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_GL_ExtensionSupported(CString extension);
 
     // Function @ SDL_video.h:1649:30
-    public static void SDL_GL_UnloadLibrary()
-    {
-        _virtualTable.SDL_GL_UnloadLibrary();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_GL_UnloadLibrary();
 
     // Function @ SDL_video.h:1642:31
-    public static void* SDL_GL_GetProcAddress(CString proc)
-    {
-        return _virtualTable.SDL_GL_GetProcAddress(proc);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_GL_GetProcAddress(CString proc);
 
     // Function @ SDL_video.h:1591:29
-    public static int SDL_GL_LoadLibrary(CString path)
-    {
-        return _virtualTable.SDL_GL_LoadLibrary(path);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GL_LoadLibrary(CString path);
 
     // Function @ SDL_video.h:1565:30
-    public static void SDL_DisableScreenSaver()
-    {
-        _virtualTable.SDL_DisableScreenSaver();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_DisableScreenSaver();
 
     // Function @ SDL_video.h:1552:30
-    public static void SDL_EnableScreenSaver()
-    {
-        _virtualTable.SDL_EnableScreenSaver();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_EnableScreenSaver();
 
     // Function @ SDL_video.h:1542:34
-    public static CBool SDL_IsScreenSaverEnabled()
-    {
-        return _virtualTable.SDL_IsScreenSaverEnabled();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_IsScreenSaverEnabled();
 
     // Function @ SDL_video.h:1523:30
-    public static void SDL_DestroyWindow(SDL_Window* window)
-    {
-        _virtualTable.SDL_DestroyWindow(window);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_DestroyWindow(SDL_Window* window);
 
     // Function @ SDL_video.h:1508:29
-    public static int SDL_SetWindowHitTest(SDL_Window* window, SDL_HitTest callback, void* callback_data)
-    {
-        return _virtualTable.SDL_SetWindowHitTest(window, callback, callback_data);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetWindowHitTest(SDL_Window* window, SDL_HitTest callback, void* callback_data);
 
     // Function @ SDL_video.h:1430:29
-    public static int SDL_GetWindowGammaRamp(SDL_Window* window, ushort* red, ushort* green, ushort* blue)
-    {
-        return _virtualTable.SDL_GetWindowGammaRamp(window, red, green, blue);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetWindowGammaRamp(SDL_Window* window, ushort* red, ushort* green, ushort* blue);
 
     // Function @ SDL_video.h:1404:29
-    public static int SDL_SetWindowGammaRamp(SDL_Window* window, ushort* red, ushort* green, ushort* blue)
-    {
-        return _virtualTable.SDL_SetWindowGammaRamp(window, red, green, blue);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetWindowGammaRamp(SDL_Window* window, ushort* red, ushort* green, ushort* blue);
 
     // Function @ SDL_video.h:1375:29
-    public static int SDL_SetWindowInputFocus(SDL_Window* window)
-    {
-        return _virtualTable.SDL_SetWindowInputFocus(window);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetWindowInputFocus(SDL_Window* window);
 
     // Function @ SDL_video.h:1358:29
-    public static int SDL_SetWindowModalFor(SDL_Window* modal_window, SDL_Window* parent_window)
-    {
-        return _virtualTable.SDL_SetWindowModalFor(modal_window, parent_window);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetWindowModalFor(SDL_Window* modal_window, SDL_Window* parent_window);
 
     // Function @ SDL_video.h:1346:29
-    public static int SDL_GetWindowOpacity(SDL_Window* window, float* out_opacity)
-    {
-        return _virtualTable.SDL_GetWindowOpacity(window, out_opacity);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetWindowOpacity(SDL_Window* window, float* out_opacity);
 
     // Function @ SDL_video.h:1325:29
-    public static int SDL_SetWindowOpacity(SDL_Window* window, float opacity)
-    {
-        return _virtualTable.SDL_SetWindowOpacity(window, opacity);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetWindowOpacity(SDL_Window* window, float opacity);
 
     // Function @ SDL_video.h:1306:31
-    public static float SDL_GetWindowBrightness(SDL_Window* window)
-    {
-        return _virtualTable.SDL_GetWindowBrightness(window);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_GetWindowBrightness(SDL_Window* window);
 
     // Function @ SDL_video.h:1289:29
-    public static int SDL_SetWindowBrightness(SDL_Window* window, float brightness)
-    {
-        return _virtualTable.SDL_SetWindowBrightness(window, brightness);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetWindowBrightness(SDL_Window* window, float brightness);
 
     // Function @ SDL_video.h:1263:38
-    public static SDL_Window* SDL_GetGrabbedWindow()
-    {
-        return _virtualTable.SDL_GetGrabbedWindow();
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Window* SDL_GetGrabbedWindow();
 
     // Function @ SDL_video.h:1251:34
-    public static CBool SDL_GetWindowMouseGrab(SDL_Window* window)
-    {
-        return _virtualTable.SDL_GetWindowMouseGrab(window);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_GetWindowMouseGrab(SDL_Window* window);
 
     // Function @ SDL_video.h:1240:34
-    public static CBool SDL_GetWindowKeyboardGrab(SDL_Window* window)
-    {
-        return _virtualTable.SDL_GetWindowKeyboardGrab(window);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_GetWindowKeyboardGrab(SDL_Window* window);
 
     // Function @ SDL_video.h:1229:34
-    public static CBool SDL_GetWindowGrab(SDL_Window* window)
-    {
-        return _virtualTable.SDL_GetWindowGrab(window);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_GetWindowGrab(SDL_Window* window);
 
     // Function @ SDL_video.h:1218:30
-    public static void SDL_SetWindowMouseGrab(SDL_Window* window, CBool grabbed)
-    {
-        _virtualTable.SDL_SetWindowMouseGrab(window, grabbed);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SetWindowMouseGrab(SDL_Window* window, CBool grabbed);
 
     // Function @ SDL_video.h:1202:30
-    public static void SDL_SetWindowKeyboardGrab(SDL_Window* window, CBool grabbed)
-    {
-        _virtualTable.SDL_SetWindowKeyboardGrab(window, grabbed);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SetWindowKeyboardGrab(SDL_Window* window, CBool grabbed);
 
     // Function @ SDL_video.h:1186:30
-    public static void SDL_SetWindowGrab(SDL_Window* window, CBool grabbed)
-    {
-        _virtualTable.SDL_SetWindowGrab(window, grabbed);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SetWindowGrab(SDL_Window* window, CBool grabbed);
 
     // Function @ SDL_video.h:1168:29
-    public static int SDL_UpdateWindowSurfaceRects(SDL_Window* window, SDL_Rect* rects, int numrects)
-    {
-        return _virtualTable.SDL_UpdateWindowSurfaceRects(window, rects, numrects);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_UpdateWindowSurfaceRects(SDL_Window* window, SDL_Rect* rects, int numrects);
 
     // Function @ SDL_video.h:1148:29
-    public static int SDL_UpdateWindowSurface(SDL_Window* window)
-    {
-        return _virtualTable.SDL_UpdateWindowSurface(window);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_UpdateWindowSurface(SDL_Window* window);
 
     // Function @ SDL_video.h:1131:39
-    public static SDL_Surface* SDL_GetWindowSurface(SDL_Window* window)
-    {
-        return _virtualTable.SDL_GetWindowSurface(window);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Surface* SDL_GetWindowSurface(SDL_Window* window);
 
     // Function @ SDL_video.h:1107:29
-    public static int SDL_SetWindowFullscreen(SDL_Window* window, uint flags)
-    {
-        return _virtualTable.SDL_SetWindowFullscreen(window, flags);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetWindowFullscreen(SDL_Window* window, uint flags);
 
     // Function @ SDL_video.h:1088:30
-    public static void SDL_RestoreWindow(SDL_Window* window)
-    {
-        _virtualTable.SDL_RestoreWindow(window);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_RestoreWindow(SDL_Window* window);
 
     // Function @ SDL_video.h:1078:30
-    public static void SDL_MinimizeWindow(SDL_Window* window)
-    {
-        _virtualTable.SDL_MinimizeWindow(window);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_MinimizeWindow(SDL_Window* window);
 
     // Function @ SDL_video.h:1068:30
-    public static void SDL_MaximizeWindow(SDL_Window* window)
-    {
-        _virtualTable.SDL_MaximizeWindow(window);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_MaximizeWindow(SDL_Window* window);
 
     // Function @ SDL_video.h:1058:30
-    public static void SDL_RaiseWindow(SDL_Window* window)
-    {
-        _virtualTable.SDL_RaiseWindow(window);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_RaiseWindow(SDL_Window* window);
 
     // Function @ SDL_video.h:1051:30
-    public static void SDL_HideWindow(SDL_Window* window)
-    {
-        _virtualTable.SDL_HideWindow(window);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_HideWindow(SDL_Window* window);
 
     // Function @ SDL_video.h:1042:30
-    public static void SDL_ShowWindow(SDL_Window* window)
-    {
-        _virtualTable.SDL_ShowWindow(window);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_ShowWindow(SDL_Window* window);
 
     // Function @ SDL_video.h:1032:30
-    public static void SDL_SetWindowAlwaysOnTop(SDL_Window* window, CBool on_top)
-    {
-        _virtualTable.SDL_SetWindowAlwaysOnTop(window, on_top);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SetWindowAlwaysOnTop(SDL_Window* window, CBool on_top);
 
     // Function @ SDL_video.h:1016:30
-    public static void SDL_SetWindowResizable(SDL_Window* window, CBool resizable)
-    {
-        _virtualTable.SDL_SetWindowResizable(window, resizable);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SetWindowResizable(SDL_Window* window, CBool resizable);
 
     // Function @ SDL_video.h:997:30
-    public static void SDL_SetWindowBordered(SDL_Window* window, CBool bordered)
-    {
-        _virtualTable.SDL_SetWindowBordered(window, bordered);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SetWindowBordered(SDL_Window* window, CBool bordered);
 
     // Function @ SDL_video.h:978:30
-    public static void SDL_GetWindowMaximumSize(SDL_Window* window, long* w, long* h)
-    {
-        _virtualTable.SDL_GetWindowMaximumSize(window, w, h);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_GetWindowMaximumSize(SDL_Window* window, long* w, long* h);
 
     // Function @ SDL_video.h:963:30
-    public static void SDL_SetWindowMaximumSize(SDL_Window* window, int max_w, int max_h)
-    {
-        _virtualTable.SDL_SetWindowMaximumSize(window, max_w, max_h);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SetWindowMaximumSize(SDL_Window* window, int max_w, int max_h);
 
     // Function @ SDL_video.h:950:30
-    public static void SDL_GetWindowMinimumSize(SDL_Window* window, long* w, long* h)
-    {
-        _virtualTable.SDL_GetWindowMinimumSize(window, w, h);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_GetWindowMinimumSize(SDL_Window* window, long* w, long* h);
 
     // Function @ SDL_video.h:935:30
-    public static void SDL_SetWindowMinimumSize(SDL_Window* window, int min_w, int min_h)
-    {
-        _virtualTable.SDL_SetWindowMinimumSize(window, min_w, min_h);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SetWindowMinimumSize(SDL_Window* window, int min_w, int min_h);
 
     // Function @ SDL_video.h:921:29
-    public static int SDL_GetWindowBordersSize(SDL_Window* window, long* top, long* left, long* bottom, long* right)
-    {
-        return _virtualTable.SDL_GetWindowBordersSize(window, top, left, bottom, right);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetWindowBordersSize(SDL_Window* window, long* top, long* left, long* bottom, long* right);
 
     // Function @ SDL_video.h:886:30
-    public static void SDL_GetWindowSize(SDL_Window* window, long* w, long* h)
-    {
-        _virtualTable.SDL_GetWindowSize(window, w, h);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_GetWindowSize(SDL_Window* window, long* w, long* h);
 
     // Function @ SDL_video.h:861:30
-    public static void SDL_SetWindowSize(SDL_Window* window, int w, int h)
-    {
-        _virtualTable.SDL_SetWindowSize(window, w, h);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SetWindowSize(SDL_Window* window, int w, int h);
 
     // Function @ SDL_video.h:838:30
-    public static void SDL_GetWindowPosition(SDL_Window* window, long* x, long* y)
-    {
-        _virtualTable.SDL_GetWindowPosition(window, x, y);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_GetWindowPosition(SDL_Window* window, long* x, long* y);
 
     // Function @ SDL_video.h:821:30
-    public static void SDL_SetWindowPosition(SDL_Window* window, int x, int y)
-    {
-        _virtualTable.SDL_SetWindowPosition(window, x, y);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SetWindowPosition(SDL_Window* window, int x, int y);
 
     // Function @ SDL_video.h:805:31
-    public static void* SDL_GetWindowData(SDL_Window* window, CString name)
-    {
-        return _virtualTable.SDL_GetWindowData(window, name);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_GetWindowData(SDL_Window* window, CString name);
 
     // Function @ SDL_video.h:792:31
-    public static void* SDL_SetWindowData(SDL_Window* window, CString name, void* userdata)
-    {
-        return _virtualTable.SDL_SetWindowData(window, name, userdata);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_SetWindowData(SDL_Window* window, CString name, void* userdata);
 
     // Function @ SDL_video.h:777:30
-    public static void SDL_SetWindowIcon(SDL_Window* window, SDL_Surface* icon)
-    {
-        _virtualTable.SDL_SetWindowIcon(window, icon);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SetWindowIcon(SDL_Window* window, SDL_Surface* icon);
 
     // Function @ SDL_video.h:769:37
-    public static CString SDL_GetWindowTitle(SDL_Window* window)
-    {
-        return _virtualTable.SDL_GetWindowTitle(window);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetWindowTitle(SDL_Window* window);
 
     // Function @ SDL_video.h:757:30
-    public static void SDL_SetWindowTitle(SDL_Window* window, CString title)
-    {
-        _virtualTable.SDL_SetWindowTitle(window, title);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SetWindowTitle(SDL_Window* window, CString title);
 
     // Function @ SDL_video.h:745:32
-    public static uint SDL_GetWindowFlags(SDL_Window* window)
-    {
-        return _virtualTable.SDL_GetWindowFlags(window);
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_GetWindowFlags(SDL_Window* window);
 
     // Function @ SDL_video.h:729:38
-    public static SDL_Window* SDL_GetWindowFromID(uint id)
-    {
-        return _virtualTable.SDL_GetWindowFromID(id);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Window* SDL_GetWindowFromID(uint id);
 
     // Function @ SDL_video.h:715:32
-    public static uint SDL_GetWindowID(SDL_Window* window)
-    {
-        return _virtualTable.SDL_GetWindowID(window);
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_GetWindowID(SDL_Window* window);
 
     // Function @ SDL_video.h:699:38
-    public static SDL_Window* SDL_CreateWindowFrom(void* data)
-    {
-        return _virtualTable.SDL_CreateWindowFrom(data);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Window* SDL_CreateWindowFrom(void* data);
 
     // Function @ SDL_video.h:680:38
-    public static SDL_Window* SDL_CreateWindow(CString title, int x, int y, int w, int h, uint flags)
-    {
-        return _virtualTable.SDL_CreateWindow(title, x, y, w, h, flags);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Window* SDL_CreateWindow(CString title, int x, int y, int w, int h, uint flags);
 
     // Function @ SDL_video.h:610:32
-    public static uint SDL_GetWindowPixelFormat(SDL_Window* window)
-    {
-        return _virtualTable.SDL_GetWindowPixelFormat(window);
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_GetWindowPixelFormat(SDL_Window* window);
 
     // Function @ SDL_video.h:599:29
-    public static int SDL_GetWindowDisplayMode(SDL_Window* window, SDL_DisplayMode* mode)
-    {
-        return _virtualTable.SDL_GetWindowDisplayMode(window, mode);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetWindowDisplayMode(SDL_Window* window, SDL_DisplayMode* mode);
 
     // Function @ SDL_video.h:584:29
-    public static int SDL_SetWindowDisplayMode(SDL_Window* window, SDL_DisplayMode* mode)
-    {
-        return _virtualTable.SDL_SetWindowDisplayMode(window, mode);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetWindowDisplayMode(SDL_Window* window, SDL_DisplayMode* mode);
 
     // Function @ SDL_video.h:565:29
-    public static int SDL_GetWindowDisplayIndex(SDL_Window* window)
-    {
-        return _virtualTable.SDL_GetWindowDisplayIndex(window);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetWindowDisplayIndex(SDL_Window* window);
 
     // Function @ SDL_video.h:552:43
-    public static SDL_DisplayMode* SDL_GetClosestDisplayMode(int displayIndex, SDL_DisplayMode* mode, SDL_DisplayMode* closest)
-    {
-        return _virtualTable.SDL_GetClosestDisplayMode(displayIndex, mode, closest);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_DisplayMode* SDL_GetClosestDisplayMode(int displayIndex, SDL_DisplayMode* mode, SDL_DisplayMode* closest);
 
     // Function @ SDL_video.h:528:29
-    public static int SDL_GetCurrentDisplayMode(int displayIndex, SDL_DisplayMode* mode)
-    {
-        return _virtualTable.SDL_GetCurrentDisplayMode(displayIndex, mode);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetCurrentDisplayMode(int displayIndex, SDL_DisplayMode* mode);
 
     // Function @ SDL_video.h:507:29
-    public static int SDL_GetDesktopDisplayMode(int displayIndex, SDL_DisplayMode* mode)
-    {
-        return _virtualTable.SDL_GetDesktopDisplayMode(displayIndex, mode);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetDesktopDisplayMode(int displayIndex, SDL_DisplayMode* mode);
 
     // Function @ SDL_video.h:486:29
-    public static int SDL_GetDisplayMode(int displayIndex, int modeIndex, SDL_DisplayMode* mode)
-    {
-        return _virtualTable.SDL_GetDisplayMode(displayIndex, modeIndex, mode);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetDisplayMode(int displayIndex, int modeIndex, SDL_DisplayMode* mode);
 
     // Function @ SDL_video.h:464:29
-    public static int SDL_GetNumDisplayModes(int displayIndex)
-    {
-        return _virtualTable.SDL_GetNumDisplayModes(displayIndex);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetNumDisplayModes(int displayIndex);
 
     // Function @ SDL_video.h:447:48
-    public static SDL_DisplayOrientation SDL_GetDisplayOrientation(int displayIndex)
-    {
-        return _virtualTable.SDL_GetDisplayOrientation(displayIndex);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_DisplayOrientation SDL_GetDisplayOrientation(int displayIndex);
 
     // Function @ SDL_video.h:436:29
-    public static int SDL_GetDisplayDPI(int displayIndex, float* ddpi, float* hdpi, float* vdpi)
-    {
-        return _virtualTable.SDL_GetDisplayDPI(displayIndex, ddpi, hdpi, vdpi);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetDisplayDPI(int displayIndex, float* ddpi, float* hdpi, float* vdpi);
 
     // Function @ SDL_video.h:410:29
-    public static int SDL_GetDisplayUsableBounds(int displayIndex, SDL_Rect* rect)
-    {
-        return _virtualTable.SDL_GetDisplayUsableBounds(displayIndex, rect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetDisplayUsableBounds(int displayIndex, SDL_Rect* rect);
 
     // Function @ SDL_video.h:379:29
-    public static int SDL_GetDisplayBounds(int displayIndex, SDL_Rect* rect)
-    {
-        return _virtualTable.SDL_GetDisplayBounds(displayIndex, rect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetDisplayBounds(int displayIndex, SDL_Rect* rect);
 
     // Function @ SDL_video.h:365:38
-    public static CString SDL_GetDisplayName(int displayIndex)
-    {
-        return _virtualTable.SDL_GetDisplayName(displayIndex);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetDisplayName(int displayIndex);
 
     // Function @ SDL_video.h:351:29
-    public static int SDL_GetNumVideoDisplays()
-    {
-        return _virtualTable.SDL_GetNumVideoDisplays();
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetNumVideoDisplays();
 
     // Function @ SDL_video.h:339:37
-    public static CString SDL_GetCurrentVideoDriver()
-    {
-        return _virtualTable.SDL_GetCurrentVideoDriver();
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetCurrentVideoDriver();
 
     // Function @ SDL_video.h:326:30
-    public static void SDL_VideoQuit()
-    {
-        _virtualTable.SDL_VideoQuit();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_VideoQuit();
 
     // Function @ SDL_video.h:317:29
-    public static int SDL_VideoInit(CString driver_name)
-    {
-        return _virtualTable.SDL_VideoInit(driver_name);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_VideoInit(CString driver_name);
 
     // Function @ SDL_video.h:288:37
-    public static CString SDL_GetVideoDriver(int index)
-    {
-        return _virtualTable.SDL_GetVideoDriver(index);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetVideoDriver(int index);
 
     // Function @ SDL_video.h:275:29
-    public static int SDL_GetNumVideoDrivers()
-    {
-        return _virtualTable.SDL_GetNumVideoDrivers();
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetNumVideoDrivers();
 
     // Function @ SDL_surface.h:875:49
-    public static SDL_YUV_CONVERSION_MODE SDL_GetYUVConversionModeForResolution(int width, int height)
-    {
-        return _virtualTable.SDL_GetYUVConversionModeForResolution(width, height);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_YUV_CONVERSION_MODE SDL_GetYUVConversionModeForResolution(int width, int height);
 
     // Function @ SDL_surface.h:870:49
-    public static SDL_YUV_CONVERSION_MODE SDL_GetYUVConversionMode()
-    {
-        return _virtualTable.SDL_GetYUVConversionMode();
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_YUV_CONVERSION_MODE SDL_GetYUVConversionMode();
 
     // Function @ SDL_surface.h:865:30
-    public static void SDL_SetYUVConversionMode(SDL_YUV_CONVERSION_MODE mode)
-    {
-        _virtualTable.SDL_SetYUVConversionMode(mode);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SetYUVConversionMode(SDL_YUV_CONVERSION_MODE mode);
 
     // Function @ SDL_surface.h:858:29
-    public static int SDL_LowerBlitScaled(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect)
-    {
-        return _virtualTable.SDL_LowerBlitScaled(src, srcrect, dst, dstrect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_LowerBlitScaled(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect);
 
     // Function @ SDL_surface.h:837:29
-    public static int SDL_UpperBlitScaled(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect)
-    {
-        return _virtualTable.SDL_UpperBlitScaled(src, srcrect, dst, dstrect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_UpperBlitScaled(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect);
 
     // Function @ SDL_surface.h:821:29
-    public static int SDL_SoftStretchLinear(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect)
-    {
-        return _virtualTable.SDL_SoftStretchLinear(src, srcrect, dst, dstrect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SoftStretchLinear(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect);
 
     // Function @ SDL_surface.h:813:29
-    public static int SDL_SoftStretch(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect)
-    {
-        return _virtualTable.SDL_SoftStretch(src, srcrect, dst, dstrect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SoftStretch(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect);
 
     // Function @ SDL_surface.h:800:29
-    public static int SDL_LowerBlit(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect)
-    {
-        return _virtualTable.SDL_LowerBlit(src, srcrect, dst, dstrect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_LowerBlit(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect);
 
     // Function @ SDL_surface.h:776:29
-    public static int SDL_UpperBlit(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect)
-    {
-        return _virtualTable.SDL_UpperBlit(src, srcrect, dst, dstrect);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_UpperBlit(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect);
 
     // Function @ SDL_surface.h:705:29
-    public static int SDL_FillRects(SDL_Surface* dst, SDL_Rect* rects, int count, uint color)
-    {
-        return _virtualTable.SDL_FillRects(dst, rects, count, color);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_FillRects(SDL_Surface* dst, SDL_Rect* rects, int count, uint color);
 
     // Function @ SDL_surface.h:681:29
-    public static int SDL_FillRect(SDL_Surface* dst, SDL_Rect* rect, uint color)
-    {
-        return _virtualTable.SDL_FillRect(dst, rect, color);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_FillRect(SDL_Surface* dst, SDL_Rect* rect, uint color);
 
     // Function @ SDL_surface.h:654:29
-    public static int SDL_ConvertPixels(int width, int height, uint src_format, void* src, int src_pitch, uint dst_format, void* dst, int dst_pitch)
-    {
-        return _virtualTable.SDL_ConvertPixels(width, height, src_format, src, src_pitch, dst_format, dst, dst_pitch);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_ConvertPixels(int width, int height, uint src_format, void* src, int src_pitch, uint dst_format, void* dst, int dst_pitch);
 
     // Function @ SDL_surface.h:637:38
-    public static SDL_Surface* SDL_ConvertSurfaceFormat(SDL_Surface* src, uint pixel_format, uint flags)
-    {
-        return _virtualTable.SDL_ConvertSurfaceFormat(src, pixel_format, flags);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Surface* SDL_ConvertSurfaceFormat(SDL_Surface* src, uint pixel_format, uint flags);
 
     // Function @ SDL_surface.h:614:38
-    public static SDL_Surface* SDL_ConvertSurface(SDL_Surface* src, SDL_PixelFormat* fmt, uint flags)
-    {
-        return _virtualTable.SDL_ConvertSurface(src, fmt, flags);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Surface* SDL_ConvertSurface(SDL_Surface* src, SDL_PixelFormat* fmt, uint flags);
 
     // Function @ SDL_surface.h:592:38
-    public static SDL_Surface* SDL_DuplicateSurface(SDL_Surface* surface)
-    {
-        return _virtualTable.SDL_DuplicateSurface(surface);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Surface* SDL_DuplicateSurface(SDL_Surface* surface);
 
     // Function @ SDL_surface.h:580:30
-    public static void SDL_GetClipRect(SDL_Surface* surface, SDL_Rect* rect)
-    {
-        _virtualTable.SDL_GetClipRect(surface, rect);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_GetClipRect(SDL_Surface* surface, SDL_Rect* rect);
 
     // Function @ SDL_surface.h:563:34
-    public static CBool SDL_SetClipRect(SDL_Surface* surface, SDL_Rect* rect)
-    {
-        return _virtualTable.SDL_SetClipRect(surface, rect);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_SetClipRect(SDL_Surface* surface, SDL_Rect* rect);
 
     // Function @ SDL_surface.h:542:29
-    public static int SDL_GetSurfaceBlendMode(SDL_Surface* surface, SDL_BlendMode* blendMode)
-    {
-        return _virtualTable.SDL_GetSurfaceBlendMode(surface, blendMode);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetSurfaceBlendMode(SDL_Surface* surface, SDL_BlendMode* blendMode);
 
     // Function @ SDL_surface.h:529:29
-    public static int SDL_SetSurfaceBlendMode(SDL_Surface* surface, SDL_BlendMode blendMode)
-    {
-        return _virtualTable.SDL_SetSurfaceBlendMode(surface, blendMode);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetSurfaceBlendMode(SDL_Surface* surface, SDL_BlendMode blendMode);
 
     // Function @ SDL_surface.h:512:29
-    public static int SDL_GetSurfaceAlphaMod(SDL_Surface* surface, byte* alpha)
-    {
-        return _virtualTable.SDL_GetSurfaceAlphaMod(surface, alpha);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetSurfaceAlphaMod(SDL_Surface* surface, byte* alpha);
 
     // Function @ SDL_surface.h:498:29
-    public static int SDL_SetSurfaceAlphaMod(SDL_Surface* surface, byte alpha)
-    {
-        return _virtualTable.SDL_SetSurfaceAlphaMod(surface, alpha);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetSurfaceAlphaMod(SDL_Surface* surface, byte alpha);
 
     // Function @ SDL_surface.h:478:29
-    public static int SDL_GetSurfaceColorMod(SDL_Surface* surface, byte* r, byte* g, byte* b)
-    {
-        return _virtualTable.SDL_GetSurfaceColorMod(surface, r, g, b);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetSurfaceColorMod(SDL_Surface* surface, byte* r, byte* g, byte* b);
 
     // Function @ SDL_surface.h:461:29
-    public static int SDL_SetSurfaceColorMod(SDL_Surface* surface, byte r, byte g, byte b)
-    {
-        return _virtualTable.SDL_SetSurfaceColorMod(surface, r, g, b);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetSurfaceColorMod(SDL_Surface* surface, byte r, byte g, byte b);
 
     // Function @ SDL_surface.h:439:29
-    public static int SDL_GetColorKey(SDL_Surface* surface, uint* key)
-    {
-        return _virtualTable.SDL_GetColorKey(surface, key);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetColorKey(SDL_Surface* surface, uint* key);
 
     // Function @ SDL_surface.h:421:34
-    public static CBool SDL_HasColorKey(SDL_Surface* surface)
-    {
-        return _virtualTable.SDL_HasColorKey(surface);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasColorKey(SDL_Surface* surface);
 
     // Function @ SDL_surface.h:407:29
-    public static int SDL_SetColorKey(SDL_Surface* surface, int flag, uint key)
-    {
-        return _virtualTable.SDL_SetColorKey(surface, flag, key);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetColorKey(SDL_Surface* surface, int flag, uint key);
 
     // Function @ SDL_surface.h:386:34
-    public static CBool SDL_HasSurfaceRLE(SDL_Surface* surface)
-    {
-        return _virtualTable.SDL_HasSurfaceRLE(surface);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasSurfaceRLE(SDL_Surface* surface);
 
     // Function @ SDL_surface.h:373:29
-    public static int SDL_SetSurfaceRLE(SDL_Surface* surface, int flag)
-    {
-        return _virtualTable.SDL_SetSurfaceRLE(surface, flag);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetSurfaceRLE(SDL_Surface* surface, int flag);
 
     // Function @ SDL_surface.h:347:29
-    public static int SDL_SaveBMP_RW(SDL_Surface* surface, SDL_RWops* dst, int freedst)
-    {
-        return _virtualTable.SDL_SaveBMP_RW(surface, dst, freedst);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SaveBMP_RW(SDL_Surface* surface, SDL_RWops* dst, int freedst);
 
     // Function @ SDL_surface.h:319:38
-    public static SDL_Surface* SDL_LoadBMP_RW(SDL_RWops* src, int freesrc)
-    {
-        return _virtualTable.SDL_LoadBMP_RW(src, freesrc);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Surface* SDL_LoadBMP_RW(SDL_RWops* src, int freesrc);
 
     // Function @ SDL_surface.h:303:30
-    public static void SDL_UnlockSurface(SDL_Surface* surface)
-    {
-        _virtualTable.SDL_UnlockSurface(surface);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_UnlockSurface(SDL_Surface* surface);
 
     // Function @ SDL_surface.h:294:29
-    public static int SDL_LockSurface(SDL_Surface* surface)
-    {
-        return _virtualTable.SDL_LockSurface(surface);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_LockSurface(SDL_Surface* surface);
 
     // Function @ SDL_surface.h:272:29
-    public static int SDL_SetSurfacePalette(SDL_Surface* surface, SDL_Palette* palette)
-    {
-        return _virtualTable.SDL_SetSurfacePalette(surface, palette);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetSurfacePalette(SDL_Surface* surface, SDL_Palette* palette);
 
     // Function @ SDL_surface.h:260:30
-    public static void SDL_FreeSurface(SDL_Surface* surface)
-    {
-        _virtualTable.SDL_FreeSurface(surface);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_FreeSurface(SDL_Surface* surface);
 
     // Function @ SDL_surface.h:245:38
-    public static SDL_Surface* SDL_CreateRGBSurfaceWithFormatFrom(void* pixels, int width, int height, int depth, int pitch, uint format)
-    {
-        return _virtualTable.SDL_CreateRGBSurfaceWithFormatFrom(pixels, width, height, depth, pitch, format);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Surface* SDL_CreateRGBSurfaceWithFormatFrom(void* pixels, int width, int height, int depth, int pitch, uint format);
 
     // Function @ SDL_surface.h:210:38
-    public static SDL_Surface* SDL_CreateRGBSurfaceFrom(void* pixels, int width, int height, int depth, int pitch, uint Rmask, uint Gmask, uint Bmask, uint Amask)
-    {
-        return _virtualTable.SDL_CreateRGBSurfaceFrom(pixels, width, height, depth, pitch, Rmask, Gmask, Bmask, Amask);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Surface* SDL_CreateRGBSurfaceFrom(void* pixels, int width, int height, int depth, int pitch, uint Rmask, uint Gmask, uint Bmask, uint Amask);
 
     // Function @ SDL_surface.h:181:38
-    public static SDL_Surface* SDL_CreateRGBSurfaceWithFormat(uint flags, int width, int height, int depth, uint format)
-    {
-        return _virtualTable.SDL_CreateRGBSurfaceWithFormat(flags, width, height, depth, format);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Surface* SDL_CreateRGBSurfaceWithFormat(uint flags, int width, int height, int depth, uint format);
 
     // Function @ SDL_surface.h:156:38
-    public static SDL_Surface* SDL_CreateRGBSurface(uint flags, int width, int height, int depth, uint Rmask, uint Gmask, uint Bmask, uint Amask)
-    {
-        return _virtualTable.SDL_CreateRGBSurface(flags, width, height, depth, Rmask, Gmask, Bmask, Amask);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Surface* SDL_CreateRGBSurface(uint flags, int width, int height, int depth, uint Rmask, uint Gmask, uint Bmask, uint Amask);
 
     // Function @ SDL_blendmode.h:185:39
-    public static SDL_BlendMode SDL_ComposeCustomBlendMode(SDL_BlendFactor srcColorFactor, SDL_BlendFactor dstColorFactor, SDL_BlendOperation colorOperation, SDL_BlendFactor srcAlphaFactor, SDL_BlendFactor dstAlphaFactor, SDL_BlendOperation alphaOperation)
-    {
-        return _virtualTable.SDL_ComposeCustomBlendMode(srcColorFactor, dstColorFactor, colorOperation, srcAlphaFactor, dstAlphaFactor, alphaOperation);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_BlendMode SDL_ComposeCustomBlendMode(SDL_BlendFactor srcColorFactor, SDL_BlendFactor dstColorFactor, SDL_BlendOperation colorOperation, SDL_BlendFactor srcAlphaFactor, SDL_BlendFactor dstAlphaFactor, SDL_BlendOperation alphaOperation);
 
     // Function @ SDL_rect.h:205:34
-    public static CBool SDL_IntersectRectAndLine(SDL_Rect* rect, long* X1, long* Y1, long* X2, long* Y2)
-    {
-        return _virtualTable.SDL_IntersectRectAndLine(rect, X1, Y1, X2, Y2);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_IntersectRectAndLine(SDL_Rect* rect, long* X1, long* Y1, long* X2, long* Y2);
 
     // Function @ SDL_rect.h:184:34
-    public static CBool SDL_EnclosePoints(SDL_Point* points, int count, SDL_Rect* clip, SDL_Rect* result)
-    {
-        return _virtualTable.SDL_EnclosePoints(points, count, clip, result);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_EnclosePoints(SDL_Point* points, int count, SDL_Rect* clip, SDL_Rect* result);
 
     // Function @ SDL_rect.h:165:30
-    public static void SDL_UnionRect(SDL_Rect* A, SDL_Rect* B, SDL_Rect* result)
-    {
-        _virtualTable.SDL_UnionRect(A, B, result);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_UnionRect(SDL_Rect* A, SDL_Rect* B, SDL_Rect* result);
 
     // Function @ SDL_rect.h:153:34
-    public static CBool SDL_IntersectRect(SDL_Rect* A, SDL_Rect* B, SDL_Rect* result)
-    {
-        return _virtualTable.SDL_IntersectRect(A, B, result);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_IntersectRect(SDL_Rect* A, SDL_Rect* B, SDL_Rect* result);
 
     // Function @ SDL_rect.h:135:34
-    public static CBool SDL_HasIntersection(SDL_Rect* A, SDL_Rect* B)
-    {
-        return _virtualTable.SDL_HasIntersection(A, B);
-    }
-
-    // Function @ SDL_rect.h:116:27
-    public static CBool SDL_RectEquals(SDL_Rect* a, SDL_Rect* b)
-    {
-        return _virtualTable.SDL_RectEquals(a, b);
-    }
-
-    // Function @ SDL_rect.h:108:27
-    public static CBool SDL_RectEmpty(SDL_Rect* r)
-    {
-        return _virtualTable.SDL_RectEmpty(r);
-    }
-
-    // Function @ SDL_rect.h:99:27
-    public static CBool SDL_PointInRect(SDL_Point* p, SDL_Rect* r)
-    {
-        return _virtualTable.SDL_PointInRect(p, r);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasIntersection(SDL_Rect* A, SDL_Rect* B);
 
     // Function @ SDL_pixels.h:602:30
-    public static void SDL_CalculateGammaRamp(float gamma, ushort* ramp)
-    {
-        _virtualTable.SDL_CalculateGammaRamp(gamma, ramp);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_CalculateGammaRamp(float gamma, ushort* ramp);
 
     // Function @ SDL_pixels.h:589:30
-    public static void SDL_GetRGBA(uint pixel, SDL_PixelFormat* format, byte* r, byte* g, byte* b, byte* a)
-    {
-        _virtualTable.SDL_GetRGBA(pixel, format, r, g, b, a);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_GetRGBA(uint pixel, SDL_PixelFormat* format, byte* r, byte* g, byte* b, byte* a);
 
     // Function @ SDL_pixels.h:562:30
-    public static void SDL_GetRGB(uint pixel, SDL_PixelFormat* format, byte* r, byte* g, byte* b)
-    {
-        _virtualTable.SDL_GetRGB(pixel, format, r, g, b);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_GetRGB(uint pixel, SDL_PixelFormat* format, byte* r, byte* g, byte* b);
 
     // Function @ SDL_pixels.h:539:32
-    public static uint SDL_MapRGBA(SDL_PixelFormat* format, byte r, byte g, byte b, byte a)
-    {
-        return _virtualTable.SDL_MapRGBA(format, r, g, b, a);
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_MapRGBA(SDL_PixelFormat* format, byte r, byte g, byte b, byte a);
 
     // Function @ SDL_pixels.h:506:32
-    public static uint SDL_MapRGB(SDL_PixelFormat* format, byte r, byte g, byte b)
-    {
-        return _virtualTable.SDL_MapRGB(format, r, g, b);
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_MapRGB(SDL_PixelFormat* format, byte r, byte g, byte b);
 
     // Function @ SDL_pixels.h:476:30
-    public static void SDL_FreePalette(SDL_Palette* palette)
-    {
-        _virtualTable.SDL_FreePalette(palette);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_FreePalette(SDL_Palette* palette);
 
     // Function @ SDL_pixels.h:465:29
-    public static int SDL_SetPaletteColors(SDL_Palette* palette, SDL_Color* colors, int firstcolor, int ncolors)
-    {
-        return _virtualTable.SDL_SetPaletteColors(palette, colors, firstcolor, ncolors);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetPaletteColors(SDL_Palette* palette, SDL_Color* colors, int firstcolor, int ncolors);
 
     // Function @ SDL_pixels.h:449:29
-    public static int SDL_SetPixelFormatPalette(SDL_PixelFormat* format, SDL_Palette* palette)
-    {
-        return _virtualTable.SDL_SetPixelFormatPalette(format, palette);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetPixelFormatPalette(SDL_PixelFormat* format, SDL_Palette* palette);
 
     // Function @ SDL_pixels.h:436:38
-    public static SDL_Palette* SDL_AllocPalette(int ncolors)
-    {
-        return _virtualTable.SDL_AllocPalette(ncolors);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_Palette* SDL_AllocPalette(int ncolors);
 
     // Function @ SDL_pixels.h:422:30
-    public static void SDL_FreeFormat(SDL_PixelFormat* format)
-    {
-        _virtualTable.SDL_FreeFormat(format);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_FreeFormat(SDL_PixelFormat* format);
 
     // Function @ SDL_pixels.h:413:43
-    public static SDL_PixelFormat* SDL_AllocFormat(uint pixel_format)
-    {
-        return _virtualTable.SDL_AllocFormat(pixel_format);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_PixelFormat* SDL_AllocFormat(uint pixel_format);
 
     // Function @ SDL_pixels.h:394:32
-    public static uint SDL_MasksToPixelFormatEnum(int bpp, uint Rmask, uint Gmask, uint Bmask, uint Amask)
-    {
-        return _virtualTable.SDL_MasksToPixelFormatEnum(bpp, Rmask, Gmask, Bmask, Amask);
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_MasksToPixelFormatEnum(int bpp, uint Rmask, uint Gmask, uint Bmask, uint Amask);
 
     // Function @ SDL_pixels.h:372:34
-    public static CBool SDL_PixelFormatEnumToMasks(uint format, long* bpp, uint* Rmask, uint* Gmask, uint* Bmask, uint* Amask)
-    {
-        return _virtualTable.SDL_PixelFormatEnumToMasks(format, bpp, Rmask, Gmask, Bmask, Amask);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_PixelFormatEnumToMasks(uint format, long* bpp, uint* Rmask, uint* Gmask, uint* Bmask, uint* Amask);
 
     // Function @ SDL_pixels.h:356:37
-    public static CString SDL_GetPixelFormatName(uint format)
-    {
-        return _virtualTable.SDL_GetPixelFormatName(format);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetPixelFormatName(uint format);
 
     // Function @ SDL_cpuinfo.h:512:30
-    public static void SDL_SIMDFree(void* ptr)
-    {
-        _virtualTable.SDL_SIMDFree(ptr);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SIMDFree(void* ptr);
 
     // Function @ SDL_cpuinfo.h:490:32
-    public static void* SDL_SIMDRealloc(void* mem, ulong len)
-    {
-        return _virtualTable.SDL_SIMDRealloc(mem, len);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_SIMDRealloc(void* mem, ulong len);
 
     // Function @ SDL_cpuinfo.h:468:32
-    public static void* SDL_SIMDAlloc(ulong len)
-    {
-        return _virtualTable.SDL_SIMDAlloc(len);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_SIMDAlloc(ulong len);
 
     // Function @ SDL_cpuinfo.h:431:32
-    public static ulong SDL_SIMDGetAlignment()
-    {
-        return _virtualTable.SDL_SIMDGetAlignment();
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_SIMDGetAlignment();
 
     // Function @ SDL_cpuinfo.h:415:29
-    public static int SDL_GetSystemRAM()
-    {
-        return _virtualTable.SDL_GetSystemRAM();
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetSystemRAM();
 
     // Function @ SDL_cpuinfo.h:406:34
-    public static CBool SDL_HasNEON()
-    {
-        return _virtualTable.SDL_HasNEON();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasNEON();
 
     // Function @ SDL_cpuinfo.h:397:34
-    public static CBool SDL_HasARMSIMD()
-    {
-        return _virtualTable.SDL_HasARMSIMD();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasARMSIMD();
 
     // Function @ SDL_cpuinfo.h:384:34
-    public static CBool SDL_HasAVX512F()
-    {
-        return _virtualTable.SDL_HasAVX512F();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasAVX512F();
 
     // Function @ SDL_cpuinfo.h:373:34
-    public static CBool SDL_HasAVX2()
-    {
-        return _virtualTable.SDL_HasAVX2();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasAVX2();
 
     // Function @ SDL_cpuinfo.h:351:34
-    public static CBool SDL_HasAVX()
-    {
-        return _virtualTable.SDL_HasAVX();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasAVX();
 
     // Function @ SDL_cpuinfo.h:329:34
-    public static CBool SDL_HasSSE42()
-    {
-        return _virtualTable.SDL_HasSSE42();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasSSE42();
 
     // Function @ SDL_cpuinfo.h:309:34
-    public static CBool SDL_HasSSE41()
-    {
-        return _virtualTable.SDL_HasSSE41();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasSSE41();
 
     // Function @ SDL_cpuinfo.h:289:34
-    public static CBool SDL_HasSSE3()
-    {
-        return _virtualTable.SDL_HasSSE3();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasSSE3();
 
     // Function @ SDL_cpuinfo.h:269:34
-    public static CBool SDL_HasSSE2()
-    {
-        return _virtualTable.SDL_HasSSE2();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasSSE2();
 
     // Function @ SDL_cpuinfo.h:249:34
-    public static CBool SDL_HasSSE()
-    {
-        return _virtualTable.SDL_HasSSE();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasSSE();
 
     // Function @ SDL_cpuinfo.h:229:34
-    public static CBool SDL_Has3DNow()
-    {
-        return _virtualTable.SDL_Has3DNow();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_Has3DNow();
 
     // Function @ SDL_cpuinfo.h:209:34
-    public static CBool SDL_HasMMX()
-    {
-        return _virtualTable.SDL_HasMMX();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasMMX();
 
     // Function @ SDL_cpuinfo.h:189:34
-    public static CBool SDL_HasAltiVec()
-    {
-        return _virtualTable.SDL_HasAltiVec();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasAltiVec();
 
     // Function @ SDL_cpuinfo.h:169:34
-    public static CBool SDL_HasRDTSC()
-    {
-        return _virtualTable.SDL_HasRDTSC();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasRDTSC();
 
     // Function @ SDL_cpuinfo.h:149:29
-    public static int SDL_GetCPUCacheLineSize()
-    {
-        return _virtualTable.SDL_GetCPUCacheLineSize();
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetCPUCacheLineSize();
 
     // Function @ SDL_cpuinfo.h:137:29
-    public static int SDL_GetCPUCount()
-    {
-        return _virtualTable.SDL_GetCPUCount();
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetCPUCount();
 
     // Function @ SDL_clipboard.h:78:34
-    public static CBool SDL_HasClipboardText()
-    {
-        return _virtualTable.SDL_HasClipboardText();
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_HasClipboardText();
 
     // Function @ SDL_clipboard.h:66:32
-    public static CString SDL_GetClipboardText()
-    {
-        return _virtualTable.SDL_GetClipboardText();
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetClipboardText();
 
     // Function @ SDL_clipboard.h:51:29
-    public static int SDL_SetClipboardText(CString text)
-    {
-        return _virtualTable.SDL_SetClipboardText(text);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetClipboardText(CString text);
 
     // Function @ SDL_audio.h:1145:30
-    public static void SDL_CloseAudioDevice(SDL_AudioDeviceID dev)
-    {
-        _virtualTable.SDL_CloseAudioDevice(dev);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_CloseAudioDevice(SDL_AudioDeviceID dev);
 
     // Function @ SDL_audio.h:1144:30
-    public static void SDL_CloseAudio()
-    {
-        _virtualTable.SDL_CloseAudio();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_CloseAudio();
 
     // Function @ SDL_audio.h:1128:30
-    public static void SDL_UnlockAudioDevice(SDL_AudioDeviceID dev)
-    {
-        _virtualTable.SDL_UnlockAudioDevice(dev);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_UnlockAudioDevice(SDL_AudioDeviceID dev);
 
     // Function @ SDL_audio.h:1127:30
-    public static void SDL_UnlockAudio()
-    {
-        _virtualTable.SDL_UnlockAudio();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_UnlockAudio();
 
     // Function @ SDL_audio.h:1126:30
-    public static void SDL_LockAudioDevice(SDL_AudioDeviceID dev)
-    {
-        _virtualTable.SDL_LockAudioDevice(dev);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_LockAudioDevice(SDL_AudioDeviceID dev);
 
     // Function @ SDL_audio.h:1125:30
-    public static void SDL_LockAudio()
-    {
-        _virtualTable.SDL_LockAudio();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_LockAudio();
 
     // Function @ SDL_audio.h:1113:30
-    public static void SDL_ClearQueuedAudio(SDL_AudioDeviceID dev)
-    {
-        _virtualTable.SDL_ClearQueuedAudio(dev);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_ClearQueuedAudio(SDL_AudioDeviceID dev);
 
     // Function @ SDL_audio.h:1079:32
-    public static uint SDL_GetQueuedAudioSize(SDL_AudioDeviceID dev)
-    {
-        return _virtualTable.SDL_GetQueuedAudioSize(dev);
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_GetQueuedAudioSize(SDL_AudioDeviceID dev);
 
     // Function @ SDL_audio.h:1044:32
-    public static uint SDL_DequeueAudio(SDL_AudioDeviceID dev, void* data, uint len)
-    {
-        return _virtualTable.SDL_DequeueAudio(dev, data, len);
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_DequeueAudio(SDL_AudioDeviceID dev, void* data, uint len);
 
     // Function @ SDL_audio.h:996:29
-    public static int SDL_QueueAudio(SDL_AudioDeviceID dev, void* data, uint len)
-    {
-        return _virtualTable.SDL_QueueAudio(dev, data, len);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_QueueAudio(SDL_AudioDeviceID dev, void* data, uint len);
 
     // Function @ SDL_audio.h:949:30
-    public static void SDL_MixAudioFormat(byte* dst, byte* src, SDL_AudioFormat format, uint len, int volume)
-    {
-        _virtualTable.SDL_MixAudioFormat(dst, src, format, len, volume);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_MixAudioFormat(byte* dst, byte* src, SDL_AudioFormat format, uint len, int volume);
 
     // Function @ SDL_audio.h:918:30
-    public static void SDL_MixAudio(byte* dst, byte* src, uint len, int volume)
-    {
-        _virtualTable.SDL_MixAudio(dst, src, len, volume);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_MixAudio(byte* dst, byte* src, uint len, int volume);
 
     // Function @ SDL_audio.h:895:30
-    public static void SDL_FreeAudioStream(SDL_AudioStream* stream)
-    {
-        _virtualTable.SDL_FreeAudioStream(stream);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_FreeAudioStream(SDL_AudioStream* stream);
 
     // Function @ SDL_audio.h:883:30
-    public static void SDL_AudioStreamClear(SDL_AudioStream* stream)
-    {
-        _virtualTable.SDL_AudioStreamClear(stream);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_AudioStreamClear(SDL_AudioStream* stream);
 
     // Function @ SDL_audio.h:871:29
-    public static int SDL_AudioStreamFlush(SDL_AudioStream* stream)
-    {
-        return _virtualTable.SDL_AudioStreamFlush(stream);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_AudioStreamFlush(SDL_AudioStream* stream);
 
     // Function @ SDL_audio.h:854:29
-    public static int SDL_AudioStreamAvailable(SDL_AudioStream* stream)
-    {
-        return _virtualTable.SDL_AudioStreamAvailable(stream);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_AudioStreamAvailable(SDL_AudioStream* stream);
 
     // Function @ SDL_audio.h:839:29
-    public static int SDL_AudioStreamGet(SDL_AudioStream* stream, void* buf, int len)
-    {
-        return _virtualTable.SDL_AudioStreamGet(stream, buf, len);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_AudioStreamGet(SDL_AudioStream* stream, void* buf, int len);
 
     // Function @ SDL_audio.h:822:29
-    public static int SDL_AudioStreamPut(SDL_AudioStream* stream, void* buf, int len)
-    {
-        return _virtualTable.SDL_AudioStreamPut(stream, buf, len);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_AudioStreamPut(SDL_AudioStream* stream, void* buf, int len);
 
     // Function @ SDL_audio.h:800:43
-    public static SDL_AudioStream* SDL_NewAudioStream(SDL_AudioFormat src_format, byte src_channels, int src_rate, SDL_AudioFormat dst_format, byte dst_channels, int dst_rate)
-    {
-        return _virtualTable.SDL_NewAudioStream(src_format, src_channels, src_rate, dst_format, dst_channels, dst_rate);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_AudioStream* SDL_NewAudioStream(SDL_AudioFormat src_format, byte src_channels, int src_rate, SDL_AudioFormat dst_format, byte dst_channels, int dst_rate);
 
     // Function @ SDL_audio.h:769:29
-    public static int SDL_ConvertAudio(SDL_AudioCVT* cvt)
-    {
-        return _virtualTable.SDL_ConvertAudio(cvt);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_ConvertAudio(SDL_AudioCVT* cvt);
 
     // Function @ SDL_audio.h:725:29
-    public static int SDL_BuildAudioCVT(SDL_AudioCVT* cvt, SDL_AudioFormat src_format, byte src_channels, int src_rate, SDL_AudioFormat dst_format, byte dst_channels, int dst_rate)
-    {
-        return _virtualTable.SDL_BuildAudioCVT(cvt, src_format, src_channels, src_rate, dst_format, dst_channels, dst_rate);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_BuildAudioCVT(SDL_AudioCVT* cvt, SDL_AudioFormat src_format, byte src_channels, int src_rate, SDL_AudioFormat dst_format, byte dst_channels, int dst_rate);
 
     // Function @ SDL_audio.h:692:30
-    public static void SDL_FreeWAV(byte* audio_buf)
-    {
-        _virtualTable.SDL_FreeWAV(audio_buf);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_FreeWAV(byte* audio_buf);
 
     // Function @ SDL_audio.h:666:40
-    public static SDL_AudioSpec* SDL_LoadWAV_RW(SDL_RWops* src, int freesrc, SDL_AudioSpec* spec, byte** audio_buf, uint* audio_len)
-    {
-        return _virtualTable.SDL_LoadWAV_RW(src, freesrc, spec, audio_buf, audio_len);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_AudioSpec* SDL_LoadWAV_RW(SDL_RWops* src, int freesrc, SDL_AudioSpec* spec, byte** audio_buf, uint* audio_len);
 
     // Function @ SDL_audio.h:587:30
-    public static void SDL_PauseAudioDevice(SDL_AudioDeviceID dev, int pause_on)
-    {
-        _virtualTable.SDL_PauseAudioDevice(dev, pause_on);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_PauseAudioDevice(SDL_AudioDeviceID dev, int pause_on);
 
     // Function @ SDL_audio.h:586:30
-    public static void SDL_PauseAudio(int pause_on)
-    {
-        _virtualTable.SDL_PauseAudio(pause_on);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_PauseAudio(int pause_on);
 
     // Function @ SDL_audio.h:573:41
-    public static SDL_AudioStatus SDL_GetAudioDeviceStatus(SDL_AudioDeviceID dev)
-    {
-        return _virtualTable.SDL_GetAudioDeviceStatus(dev);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_AudioStatus SDL_GetAudioDeviceStatus(SDL_AudioDeviceID dev);
 
     // Function @ SDL_audio.h:572:41
-    public static SDL_AudioStatus SDL_GetAudioStatus()
-    {
-        return _virtualTable.SDL_GetAudioStatus();
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_AudioStatus SDL_GetAudioStatus();
 
     // Function @ SDL_audio.h:551:43
-    public static SDL_AudioDeviceID SDL_OpenAudioDevice(CString device, int iscapture, SDL_AudioSpec* desired, SDL_AudioSpec* obtained, int allowed_changes)
-    {
-        return _virtualTable.SDL_OpenAudioDevice(device, iscapture, desired, obtained, allowed_changes);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_AudioDeviceID SDL_OpenAudioDevice(CString device, int iscapture, SDL_AudioSpec* desired, SDL_AudioSpec* obtained, int allowed_changes);
 
     // Function @ SDL_audio.h:440:29
-    public static int SDL_GetAudioDeviceSpec(int index, int iscapture, SDL_AudioSpec* spec)
-    {
-        return _virtualTable.SDL_GetAudioDeviceSpec(index, iscapture, spec);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetAudioDeviceSpec(int index, int iscapture, SDL_AudioSpec* spec);
 
     // Function @ SDL_audio.h:415:37
-    public static CString SDL_GetAudioDeviceName(int index, int iscapture)
-    {
-        return _virtualTable.SDL_GetAudioDeviceName(index, iscapture);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetAudioDeviceName(int index, int iscapture);
 
     // Function @ SDL_audio.h:391:29
-    public static int SDL_GetNumAudioDevices(int iscapture)
-    {
-        return _virtualTable.SDL_GetNumAudioDevices(iscapture);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetNumAudioDevices(int iscapture);
 
     // Function @ SDL_audio.h:333:29
-    public static int SDL_OpenAudio(SDL_AudioSpec* desired, SDL_AudioSpec* obtained)
-    {
-        return _virtualTable.SDL_OpenAudio(desired, obtained);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_OpenAudio(SDL_AudioSpec* desired, SDL_AudioSpec* obtained);
 
     // Function @ SDL_audio.h:285:37
-    public static CString SDL_GetCurrentAudioDriver()
-    {
-        return _virtualTable.SDL_GetCurrentAudioDriver();
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetCurrentAudioDriver();
 
     // Function @ SDL_audio.h:266:30
-    public static void SDL_AudioQuit()
-    {
-        _virtualTable.SDL_AudioQuit();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_AudioQuit();
 
     // Function @ SDL_audio.h:265:29
-    public static int SDL_AudioInit(CString driver_name)
-    {
-        return _virtualTable.SDL_AudioInit(driver_name);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_AudioInit(CString driver_name);
 
     // Function @ SDL_audio.h:254:37
-    public static CString SDL_GetAudioDriver(int index)
-    {
-        return _virtualTable.SDL_GetAudioDriver(index);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetAudioDriver(int index);
 
     // Function @ SDL_audio.h:253:29
-    public static int SDL_GetNumAudioDrivers()
-    {
-        return _virtualTable.SDL_GetNumAudioDrivers();
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetNumAudioDrivers();
 
     // Function @ SDL_rwops.h:401:32
-    public static ulong SDL_WriteBE64(SDL_RWops* dst, ulong value)
-    {
-        return _virtualTable.SDL_WriteBE64(dst, value);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_WriteBE64(SDL_RWops* dst, ulong value);
 
     // Function @ SDL_rwops.h:400:32
-    public static ulong SDL_WriteLE64(SDL_RWops* dst, ulong value)
-    {
-        return _virtualTable.SDL_WriteLE64(dst, value);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_WriteLE64(SDL_RWops* dst, ulong value);
 
     // Function @ SDL_rwops.h:399:32
-    public static ulong SDL_WriteBE32(SDL_RWops* dst, uint value)
-    {
-        return _virtualTable.SDL_WriteBE32(dst, value);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_WriteBE32(SDL_RWops* dst, uint value);
 
     // Function @ SDL_rwops.h:398:32
-    public static ulong SDL_WriteLE32(SDL_RWops* dst, uint value)
-    {
-        return _virtualTable.SDL_WriteLE32(dst, value);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_WriteLE32(SDL_RWops* dst, uint value);
 
     // Function @ SDL_rwops.h:397:32
-    public static ulong SDL_WriteBE16(SDL_RWops* dst, ushort value)
-    {
-        return _virtualTable.SDL_WriteBE16(dst, value);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_WriteBE16(SDL_RWops* dst, ushort value);
 
     // Function @ SDL_rwops.h:396:32
-    public static ulong SDL_WriteLE16(SDL_RWops* dst, ushort value)
-    {
-        return _virtualTable.SDL_WriteLE16(dst, value);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_WriteLE16(SDL_RWops* dst, ushort value);
 
     // Function @ SDL_rwops.h:395:32
-    public static ulong SDL_WriteU8(SDL_RWops* dst, byte value)
-    {
-        return _virtualTable.SDL_WriteU8(dst, value);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_WriteU8(SDL_RWops* dst, byte value);
 
     // Function @ SDL_rwops.h:386:32
-    public static ulong SDL_ReadBE64(SDL_RWops* src)
-    {
-        return _virtualTable.SDL_ReadBE64(src);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_ReadBE64(SDL_RWops* src);
 
     // Function @ SDL_rwops.h:385:32
-    public static ulong SDL_ReadLE64(SDL_RWops* src)
-    {
-        return _virtualTable.SDL_ReadLE64(src);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_ReadLE64(SDL_RWops* src);
 
     // Function @ SDL_rwops.h:384:32
-    public static uint SDL_ReadBE32(SDL_RWops* src)
-    {
-        return _virtualTable.SDL_ReadBE32(src);
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_ReadBE32(SDL_RWops* src);
 
     // Function @ SDL_rwops.h:383:32
-    public static uint SDL_ReadLE32(SDL_RWops* src)
-    {
-        return _virtualTable.SDL_ReadLE32(src);
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_ReadLE32(SDL_RWops* src);
 
     // Function @ SDL_rwops.h:382:32
-    public static ushort SDL_ReadBE16(SDL_RWops* src)
-    {
-        return _virtualTable.SDL_ReadBE16(src);
-    }
+    [DllImport("SDL2")]
+    public static extern ushort SDL_ReadBE16(SDL_RWops* src);
 
     // Function @ SDL_rwops.h:381:32
-    public static ushort SDL_ReadLE16(SDL_RWops* src)
-    {
-        return _virtualTable.SDL_ReadLE16(src);
-    }
+    [DllImport("SDL2")]
+    public static extern ushort SDL_ReadLE16(SDL_RWops* src);
 
     // Function @ SDL_rwops.h:380:31
-    public static byte SDL_ReadU8(SDL_RWops* src)
-    {
-        return _virtualTable.SDL_ReadU8(src);
-    }
+    [DllImport("SDL2")]
+    public static extern byte SDL_ReadU8(SDL_RWops* src);
 
     // Function @ SDL_rwops.h:372:31
-    public static void* SDL_LoadFile(CString file, ulong* datasize)
-    {
-        return _virtualTable.SDL_LoadFile(file, datasize);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_LoadFile(CString file, ulong* datasize);
 
     // Function @ SDL_rwops.h:355:31
-    public static void* SDL_LoadFile_RW(SDL_RWops* src, ulong* datasize, int freesrc)
-    {
-        return _virtualTable.SDL_LoadFile_RW(src, datasize, freesrc);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_LoadFile_RW(SDL_RWops* src, ulong* datasize, int freesrc);
 
     // Function @ SDL_rwops.h:339:29
-    public static int SDL_RWclose(SDL_RWops* context)
-    {
-        return _virtualTable.SDL_RWclose(context);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_RWclose(SDL_RWops* context);
 
     // Function @ SDL_rwops.h:309:32
-    public static ulong SDL_RWwrite(SDL_RWops* context, void* ptr, ulong size, ulong num)
-    {
-        return _virtualTable.SDL_RWwrite(context, ptr, size, num);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_RWwrite(SDL_RWops* context, void* ptr, ulong size, ulong num);
 
     // Function @ SDL_rwops.h:279:32
-    public static ulong SDL_RWread(SDL_RWops* context, void* ptr, ulong size, ulong maxnum)
-    {
-        return _virtualTable.SDL_RWread(context, ptr, size, maxnum);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_RWread(SDL_RWops* context, void* ptr, ulong size, ulong maxnum);
 
     // Function @ SDL_rwops.h:251:32
-    public static long SDL_RWtell(SDL_RWops* context)
-    {
-        return _virtualTable.SDL_RWtell(context);
-    }
+    [DllImport("SDL2")]
+    public static extern long SDL_RWtell(SDL_RWops* context);
 
     // Function @ SDL_rwops.h:227:32
-    public static long SDL_RWseek(SDL_RWops* context, long offset, int whence)
-    {
-        return _virtualTable.SDL_RWseek(context, offset, whence);
-    }
+    [DllImport("SDL2")]
+    public static extern long SDL_RWseek(SDL_RWops* context, long offset, int whence);
 
     // Function @ SDL_rwops.h:194:32
-    public static long SDL_RWsize(SDL_RWops* context)
-    {
-        return _virtualTable.SDL_RWsize(context);
-    }
+    [DllImport("SDL2")]
+    public static extern long SDL_RWsize(SDL_RWops* context);
 
     // Function @ SDL_rwops.h:178:30
-    public static void SDL_FreeRW(SDL_RWops* area)
-    {
-        _virtualTable.SDL_FreeRW(area);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_FreeRW(SDL_RWops* area);
 
     // Function @ SDL_rwops.h:177:36
-    public static SDL_RWops* SDL_AllocRW()
-    {
-        return _virtualTable.SDL_AllocRW();
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_RWops* SDL_AllocRW();
 
     // Function @ SDL_rwops.h:171:36
-    public static SDL_RWops* SDL_RWFromConstMem(void* mem, int size)
-    {
-        return _virtualTable.SDL_RWFromConstMem(mem, size);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_RWops* SDL_RWFromConstMem(void* mem, int size);
 
     // Function @ SDL_rwops.h:170:36
-    public static SDL_RWops* SDL_RWFromMem(void* mem, int size)
-    {
-        return _virtualTable.SDL_RWFromMem(mem, size);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_RWops* SDL_RWFromMem(void* mem, int size);
 
-    // Function @ SDL_rwops.h:166:36
-    public static SDL_RWops* SDL_RWFromFP(void* fp, CBool autoclose)
-    {
-        return _virtualTable.SDL_RWFromFP(fp, autoclose);
-    }
+    // Function @ SDL_rwops.h:163:36
+    [DllImport("SDL2")]
+    public static extern SDL_RWops* SDL_RWFromFP(FILE* fp, CBool autoclose);
 
     // Function @ SDL_rwops.h:159:36
-    public static SDL_RWops* SDL_RWFromFile(CString file, CString mode)
-    {
-        return _virtualTable.SDL_RWFromFile(file, mode);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_RWops* SDL_RWFromFile(CString file, CString mode);
 
     // Function @ SDL_thread.h:445:30
-    public static void SDL_TLSCleanup()
-    {
-        _virtualTable.SDL_TLSCleanup();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_TLSCleanup();
 
     // Function @ SDL_thread.h:440:29
-    public static int SDL_TLSSet(SDL_TLSID id, void* value, FnPtr_SDL_VoidPtr_Void destructor)
-    {
-        return _virtualTable.SDL_TLSSet(id, value, destructor);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_TLSSet(SDL_TLSID id, void* value, FnPtr_SDL_VoidPtr_Void destructor);
 
     // Function @ SDL_thread.h:415:32
-    public static void* SDL_TLSGet(SDL_TLSID id)
-    {
-        return _virtualTable.SDL_TLSGet(id);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_TLSGet(SDL_TLSID id);
 
     // Function @ SDL_thread.h:401:35
-    public static SDL_TLSID SDL_TLSCreate()
-    {
-        return _virtualTable.SDL_TLSCreate();
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_TLSID SDL_TLSCreate();
 
     // Function @ SDL_thread.h:386:30
-    public static void SDL_DetachThread(SDL_Thread* thread)
-    {
-        _virtualTable.SDL_DetachThread(thread);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_DetachThread(SDL_Thread* thread);
 
     // Function @ SDL_thread.h:350:30
-    public static void SDL_WaitThread(SDL_Thread* thread, long* status)
-    {
-        _virtualTable.SDL_WaitThread(thread, status);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_WaitThread(SDL_Thread* thread, long* status);
 
     // Function @ SDL_thread.h:317:29
-    public static int SDL_SetThreadPriority(SDL_ThreadPriority priority)
-    {
-        return _virtualTable.SDL_SetThreadPriority(priority);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetThreadPriority(SDL_ThreadPriority priority);
 
     // Function @ SDL_thread.h:304:38
-    public static SDL_threadID SDL_GetThreadID(SDL_Thread* thread)
-    {
-        return _virtualTable.SDL_GetThreadID(thread);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_threadID SDL_GetThreadID(SDL_Thread* thread);
 
     // Function @ SDL_thread.h:289:38
-    public static SDL_threadID SDL_ThreadID()
-    {
-        return _virtualTable.SDL_ThreadID();
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_threadID SDL_ThreadID();
 
     // Function @ SDL_thread.h:273:37
-    public static CString SDL_GetThreadName(SDL_Thread* thread)
-    {
-        return _virtualTable.SDL_GetThreadName(thread);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetThreadName(SDL_Thread* thread);
 
-    // Function @ SDL_thread.h:135:1
-    public static SDL_Thread* SDL_CreateThreadWithStackSize(FnPtr_SDL_VoidPtr_Int fn, CString name, ulong stacksize, void* data, pfnSDL_CurrentBeginThread pfnBeginThread, pfnSDL_CurrentEndThread pfnEndThread)
-    {
-        return _virtualTable.SDL_CreateThreadWithStackSize(fn, name, stacksize, data, pfnBeginThread, pfnEndThread);
-    }
+    // Function @ SDL_thread.h:257:1
+    [DllImport("SDL2")]
+    public static extern SDL_Thread* SDL_CreateThreadWithStackSize(SDL_ThreadFunction fn, CString name, ulong stacksize, void* data);
 
-    // Function @ SDL_thread.h:130:1
-    public static SDL_Thread* SDL_CreateThread(SDL_ThreadFunction fn, CString name, void* data, pfnSDL_CurrentBeginThread pfnBeginThread, pfnSDL_CurrentEndThread pfnEndThread)
-    {
-        return _virtualTable.SDL_CreateThread(fn, name, data, pfnBeginThread, pfnEndThread);
-    }
+    // Function @ SDL_thread.h:212:1
+    [DllImport("SDL2")]
+    public static extern SDL_Thread* SDL_CreateThread(SDL_ThreadFunction fn, CString name, void* data);
 
     // Function @ SDL_mutex.h:422:29
-    public static int SDL_CondWaitTimeout(SDL_cond* cond, SDL_mutex* mutex, uint ms)
-    {
-        return _virtualTable.SDL_CondWaitTimeout(cond, mutex, ms);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_CondWaitTimeout(SDL_cond* cond, SDL_mutex* mutex, uint ms);
 
     // Function @ SDL_mutex.h:395:29
-    public static int SDL_CondWait(SDL_cond* cond, SDL_mutex* mutex)
-    {
-        return _virtualTable.SDL_CondWait(cond, mutex);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_CondWait(SDL_cond* cond, SDL_mutex* mutex);
 
     // Function @ SDL_mutex.h:369:29
-    public static int SDL_CondBroadcast(SDL_cond* cond)
-    {
-        return _virtualTable.SDL_CondBroadcast(cond);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_CondBroadcast(SDL_cond* cond);
 
     // Function @ SDL_mutex.h:354:29
-    public static int SDL_CondSignal(SDL_cond* cond)
-    {
-        return _virtualTable.SDL_CondSignal(cond);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_CondSignal(SDL_cond* cond);
 
     // Function @ SDL_mutex.h:339:30
-    public static void SDL_DestroyCond(SDL_cond* cond)
-    {
-        _virtualTable.SDL_DestroyCond(cond);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_DestroyCond(SDL_cond* cond);
 
     // Function @ SDL_mutex.h:326:35
-    public static SDL_cond* SDL_CreateCond()
-    {
-        return _virtualTable.SDL_CreateCond();
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_cond* SDL_CreateCond();
 
     // Function @ SDL_mutex.h:300:32
-    public static uint SDL_SemValue(SDL_sem* sem)
-    {
-        return _virtualTable.SDL_SemValue(sem);
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_SemValue(SDL_sem* sem);
 
     // Function @ SDL_mutex.h:290:29
-    public static int SDL_SemPost(SDL_sem* sem)
-    {
-        return _virtualTable.SDL_SemPost(sem);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SemPost(SDL_sem* sem);
 
     // Function @ SDL_mutex.h:274:29
-    public static int SDL_SemWaitTimeout(SDL_sem* sem, uint ms)
-    {
-        return _virtualTable.SDL_SemWaitTimeout(sem, ms);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SemWaitTimeout(SDL_sem* sem, uint ms);
 
     // Function @ SDL_mutex.h:250:29
-    public static int SDL_SemTryWait(SDL_sem* sem)
-    {
-        return _virtualTable.SDL_SemTryWait(sem);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SemTryWait(SDL_sem* sem);
 
     // Function @ SDL_mutex.h:228:29
-    public static int SDL_SemWait(SDL_sem* sem)
-    {
-        return _virtualTable.SDL_SemWait(sem);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SemWait(SDL_sem* sem);
 
     // Function @ SDL_mutex.h:203:30
-    public static void SDL_DestroySemaphore(SDL_sem* sem)
-    {
-        _virtualTable.SDL_DestroySemaphore(sem);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_DestroySemaphore(SDL_sem* sem);
 
     // Function @ SDL_mutex.h:186:34
-    public static SDL_sem* SDL_CreateSemaphore(uint initial_value)
-    {
-        return _virtualTable.SDL_CreateSemaphore(initial_value);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_sem* SDL_CreateSemaphore(uint initial_value);
 
     // Function @ SDL_mutex.h:152:30
-    public static void SDL_DestroyMutex(SDL_mutex* mutex)
-    {
-        _virtualTable.SDL_DestroyMutex(mutex);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_DestroyMutex(SDL_mutex* mutex);
 
     // Function @ SDL_mutex.h:133:29
-    public static int SDL_UnlockMutex(SDL_mutex* mutex)
-    {
-        return _virtualTable.SDL_UnlockMutex(mutex);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_UnlockMutex(SDL_mutex* mutex);
 
     // Function @ SDL_mutex.h:116:29
-    public static int SDL_TryLockMutex(SDL_mutex* mutex)
-    {
-        return _virtualTable.SDL_TryLockMutex(mutex);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_TryLockMutex(SDL_mutex* mutex);
 
     // Function @ SDL_mutex.h:95:29
-    public static int SDL_LockMutex(SDL_mutex* mutex)
-    {
-        return _virtualTable.SDL_LockMutex(mutex);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_LockMutex(SDL_mutex* mutex);
 
     // Function @ SDL_mutex.h:79:36
-    public static SDL_mutex* SDL_CreateMutex()
-    {
-        return _virtualTable.SDL_CreateMutex();
-    }
-
-    // Function @ SDL_endian.h:270:1
-    public static float SDL_SwapFloat(float x)
-    {
-        return _virtualTable.SDL_SwapFloat(x);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_mutex* SDL_CreateMutex();
 
     // Function @ SDL_error.h:143:29
-    public static int SDL_Error(SDL_errorcode code)
-    {
-        return _virtualTable.SDL_Error(code);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_Error(SDL_errorcode code);
 
     // Function @ SDL_error.h:121:30
-    public static void SDL_ClearError()
-    {
-        _virtualTable.SDL_ClearError();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_ClearError();
 
     // Function @ SDL_error.h:113:32
-    public static CString SDL_GetErrorMsg(CString errstr, int maxlen)
-    {
-        return _virtualTable.SDL_GetErrorMsg(errstr, maxlen);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetErrorMsg(CString errstr, int maxlen);
 
     // Function @ SDL_error.h:98:37
-    public static CString SDL_GetError()
-    {
-        return _virtualTable.SDL_GetError();
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetError();
 
     // Function @ SDL_error.h:64:29
-    public static int SDL_SetError(CString fmt)
-    {
-        return _virtualTable.SDL_SetError(fmt);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetError(CString fmt);
 
     // Function @ SDL_atomic.h:370:31
-    public static void* SDL_AtomicGetPtr(void** a)
-    {
-        return _virtualTable.SDL_AtomicGetPtr(a);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_AtomicGetPtr(void** a);
 
     // Function @ SDL_atomic.h:356:31
-    public static void* SDL_AtomicSetPtr(void** a, void* v)
-    {
-        return _virtualTable.SDL_AtomicSetPtr(a, v);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_AtomicSetPtr(void** a, void* v);
 
     // Function @ SDL_atomic.h:341:34
-    public static CBool SDL_AtomicCASPtr(void** a, void* oldval, void* newval)
-    {
-        return _virtualTable.SDL_AtomicCASPtr(a, oldval, newval);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_AtomicCASPtr(void** a, void* oldval, void* newval);
 
     // Function @ SDL_atomic.h:304:29
-    public static int SDL_AtomicAdd(SDL_atomic_t* a, int v)
-    {
-        return _virtualTable.SDL_AtomicAdd(a, v);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_AtomicAdd(SDL_atomic_t* a, int v);
 
     // Function @ SDL_atomic.h:287:29
-    public static int SDL_AtomicGet(SDL_atomic_t* a)
-    {
-        return _virtualTable.SDL_AtomicGet(a);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_AtomicGet(SDL_atomic_t* a);
 
     // Function @ SDL_atomic.h:274:29
-    public static int SDL_AtomicSet(SDL_atomic_t* a, int v)
-    {
-        return _virtualTable.SDL_AtomicSet(a, v);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_AtomicSet(SDL_atomic_t* a, int v);
 
     // Function @ SDL_atomic.h:258:34
-    public static CBool SDL_AtomicCAS(SDL_atomic_t* a, int oldval, int newval)
-    {
-        return _virtualTable.SDL_AtomicCAS(a, oldval, newval);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_AtomicCAS(SDL_atomic_t* a, int oldval, int newval);
 
     // Function @ SDL_atomic.h:178:30
-    public static void SDL_MemoryBarrierAcquireFunction()
-    {
-        _virtualTable.SDL_MemoryBarrierAcquireFunction();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_MemoryBarrierAcquireFunction();
 
     // Function @ SDL_atomic.h:177:30
-    public static void SDL_MemoryBarrierReleaseFunction()
-    {
-        _virtualTable.SDL_MemoryBarrierReleaseFunction();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_MemoryBarrierReleaseFunction();
 
     // Function @ SDL_atomic.h:134:30
-    public static void SDL_AtomicUnlock(SDL_SpinLock* @lock)
-    {
-        _virtualTable.SDL_AtomicUnlock(@lock);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_AtomicUnlock(SDL_SpinLock* @lock);
 
     // Function @ SDL_atomic.h:117:30
-    public static void SDL_AtomicLock(SDL_SpinLock* @lock)
-    {
-        _virtualTable.SDL_AtomicLock(@lock);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_AtomicLock(SDL_SpinLock* @lock);
 
     // Function @ SDL_atomic.h:104:34
-    public static CBool SDL_AtomicTryLock(SDL_SpinLock* @lock)
-    {
-        return _virtualTable.SDL_AtomicTryLock(@lock);
-    }
+    [DllImport("SDL2")]
+    public static extern CBool SDL_AtomicTryLock(SDL_SpinLock* @lock);
 
     // Function @ SDL_assert.h:302:30
-    public static void SDL_ResetAssertionReport()
-    {
-        _virtualTable.SDL_ResetAssertionReport();
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_ResetAssertionReport();
 
     // Function @ SDL_assert.h:290:48
-    public static SDL_AssertData* SDL_GetAssertionReport()
-    {
-        return _virtualTable.SDL_GetAssertionReport();
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_AssertData* SDL_GetAssertionReport();
 
     // Function @ SDL_assert.h:264:46
-    public static SDL_AssertionHandler SDL_GetAssertionHandler(void** puserdata)
-    {
-        return _virtualTable.SDL_GetAssertionHandler(puserdata);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_AssertionHandler SDL_GetAssertionHandler(void** puserdata);
 
     // Function @ SDL_assert.h:241:46
-    public static SDL_AssertionHandler SDL_GetDefaultAssertionHandler()
-    {
-        return _virtualTable.SDL_GetDefaultAssertionHandler();
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_AssertionHandler SDL_GetDefaultAssertionHandler();
 
     // Function @ SDL_assert.h:222:30
-    public static void SDL_SetAssertionHandler(SDL_AssertionHandler handler, void* userdata)
-    {
-        _virtualTable.SDL_SetAssertionHandler(handler, userdata);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_SetAssertionHandler(SDL_AssertionHandler handler, void* userdata);
 
     // Function @ SDL_assert.h:129:41
-    public static SDL_AssertState SDL_ReportAssertion(SDL_AssertData* param, CString param2, CString param3, int param4)
-    {
-        return _virtualTable.SDL_ReportAssertion(param, param2, param3, param4);
-    }
-
-    // Function @ SDL_assert.h:52:25
-    public static void __debugbreak()
-    {
-        _virtualTable.__debugbreak();
-    }
-
-    // Function @ SDL_stdinc.h:674:24
-    public static void* SDL_memcpy4(void* dst, void* src, ulong dwords)
-    {
-        return _virtualTable.SDL_memcpy4(dst, src, dwords);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_AssertState SDL_ReportAssertion(SDL_AssertData* param, CString param2, CString param3, int param4);
 
     // Function @ SDL_stdinc.h:619:31
-    public static CString SDL_iconv_string(CString tocode, CString fromcode, CString inbuf, ulong inbytesleft)
-    {
-        return _virtualTable.SDL_iconv_string(tocode, fromcode, inbuf, inbytesleft);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_iconv_string(CString tocode, CString fromcode, CString inbuf, ulong inbytesleft);
 
     // Function @ SDL_stdinc.h:612:32
-    public static ulong SDL_iconv(SDL_iconv_t cd, CString* inbuf, ulong* inbytesleft, CString* outbuf, ulong* outbytesleft)
-    {
-        return _virtualTable.SDL_iconv(cd, inbuf, inbytesleft, outbuf, outbytesleft);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_iconv(SDL_iconv_t cd, CString* inbuf, ulong* inbytesleft, CString* outbuf, ulong* outbytesleft);
 
     // Function @ SDL_stdinc.h:611:29
-    public static int SDL_iconv_close(SDL_iconv_t cd)
-    {
-        return _virtualTable.SDL_iconv_close(cd);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_iconv_close(SDL_iconv_t cd);
 
     // Function @ SDL_stdinc.h:609:37
-    public static SDL_iconv_t SDL_iconv_open(CString tocode, CString fromcode)
-    {
-        return _virtualTable.SDL_iconv_open(tocode, fromcode);
-    }
+    [DllImport("SDL2")]
+    public static extern SDL_iconv_t SDL_iconv_open(CString tocode, CString fromcode);
 
     // Function @ SDL_stdinc.h:599:31
-    public static float SDL_tanf(float x)
-    {
-        return _virtualTable.SDL_tanf(x);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_tanf(float x);
 
     // Function @ SDL_stdinc.h:598:32
-    public static double SDL_tan(double x)
-    {
-        return _virtualTable.SDL_tan(x);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_tan(double x);
 
     // Function @ SDL_stdinc.h:597:31
-    public static float SDL_sqrtf(float x)
-    {
-        return _virtualTable.SDL_sqrtf(x);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_sqrtf(float x);
 
     // Function @ SDL_stdinc.h:596:32
-    public static double SDL_sqrt(double x)
-    {
-        return _virtualTable.SDL_sqrt(x);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_sqrt(double x);
 
     // Function @ SDL_stdinc.h:595:31
-    public static float SDL_sinf(float x)
-    {
-        return _virtualTable.SDL_sinf(x);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_sinf(float x);
 
     // Function @ SDL_stdinc.h:594:32
-    public static double SDL_sin(double x)
-    {
-        return _virtualTable.SDL_sin(x);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_sin(double x);
 
     // Function @ SDL_stdinc.h:593:31
-    public static float SDL_scalbnf(float x, int n)
-    {
-        return _virtualTable.SDL_scalbnf(x, n);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_scalbnf(float x, int n);
 
     // Function @ SDL_stdinc.h:592:32
-    public static double SDL_scalbn(double x, int n)
-    {
-        return _virtualTable.SDL_scalbn(x, n);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_scalbn(double x, int n);
 
     // Function @ SDL_stdinc.h:591:30
-    public static int SDL_lroundf(float x)
-    {
-        return _virtualTable.SDL_lroundf(x);
-    }
+    [DllImport("SDL2")]
+    public static extern long SDL_lroundf(float x);
 
     // Function @ SDL_stdinc.h:590:30
-    public static int SDL_lround(double x)
-    {
-        return _virtualTable.SDL_lround(x);
-    }
+    [DllImport("SDL2")]
+    public static extern long SDL_lround(double x);
 
     // Function @ SDL_stdinc.h:589:31
-    public static float SDL_roundf(float x)
-    {
-        return _virtualTable.SDL_roundf(x);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_roundf(float x);
 
     // Function @ SDL_stdinc.h:588:32
-    public static double SDL_round(double x)
-    {
-        return _virtualTable.SDL_round(x);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_round(double x);
 
     // Function @ SDL_stdinc.h:587:31
-    public static float SDL_powf(float x, float y)
-    {
-        return _virtualTable.SDL_powf(x, y);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_powf(float x, float y);
 
     // Function @ SDL_stdinc.h:586:32
-    public static double SDL_pow(double x, double y)
-    {
-        return _virtualTable.SDL_pow(x, y);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_pow(double x, double y);
 
     // Function @ SDL_stdinc.h:585:31
-    public static float SDL_log10f(float x)
-    {
-        return _virtualTable.SDL_log10f(x);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_log10f(float x);
 
     // Function @ SDL_stdinc.h:584:32
-    public static double SDL_log10(double x)
-    {
-        return _virtualTable.SDL_log10(x);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_log10(double x);
 
     // Function @ SDL_stdinc.h:583:31
-    public static float SDL_logf(float x)
-    {
-        return _virtualTable.SDL_logf(x);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_logf(float x);
 
     // Function @ SDL_stdinc.h:582:32
-    public static double SDL_log(double x)
-    {
-        return _virtualTable.SDL_log(x);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_log(double x);
 
     // Function @ SDL_stdinc.h:581:31
-    public static float SDL_fmodf(float x, float y)
-    {
-        return _virtualTable.SDL_fmodf(x, y);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_fmodf(float x, float y);
 
     // Function @ SDL_stdinc.h:580:32
-    public static double SDL_fmod(double x, double y)
-    {
-        return _virtualTable.SDL_fmod(x, y);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_fmod(double x, double y);
 
     // Function @ SDL_stdinc.h:579:31
-    public static float SDL_truncf(float x)
-    {
-        return _virtualTable.SDL_truncf(x);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_truncf(float x);
 
     // Function @ SDL_stdinc.h:578:32
-    public static double SDL_trunc(double x)
-    {
-        return _virtualTable.SDL_trunc(x);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_trunc(double x);
 
     // Function @ SDL_stdinc.h:577:31
-    public static float SDL_floorf(float x)
-    {
-        return _virtualTable.SDL_floorf(x);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_floorf(float x);
 
     // Function @ SDL_stdinc.h:576:32
-    public static double SDL_floor(double x)
-    {
-        return _virtualTable.SDL_floor(x);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_floor(double x);
 
     // Function @ SDL_stdinc.h:575:31
-    public static float SDL_fabsf(float x)
-    {
-        return _virtualTable.SDL_fabsf(x);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_fabsf(float x);
 
     // Function @ SDL_stdinc.h:574:32
-    public static double SDL_fabs(double x)
-    {
-        return _virtualTable.SDL_fabs(x);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_fabs(double x);
 
     // Function @ SDL_stdinc.h:573:31
-    public static float SDL_expf(float x)
-    {
-        return _virtualTable.SDL_expf(x);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_expf(float x);
 
     // Function @ SDL_stdinc.h:572:32
-    public static double SDL_exp(double x)
-    {
-        return _virtualTable.SDL_exp(x);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_exp(double x);
 
     // Function @ SDL_stdinc.h:571:31
-    public static float SDL_cosf(float x)
-    {
-        return _virtualTable.SDL_cosf(x);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_cosf(float x);
 
     // Function @ SDL_stdinc.h:570:32
-    public static double SDL_cos(double x)
-    {
-        return _virtualTable.SDL_cos(x);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_cos(double x);
 
     // Function @ SDL_stdinc.h:569:31
-    public static float SDL_copysignf(float x, float y)
-    {
-        return _virtualTable.SDL_copysignf(x, y);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_copysignf(float x, float y);
 
     // Function @ SDL_stdinc.h:568:32
-    public static double SDL_copysign(double x, double y)
-    {
-        return _virtualTable.SDL_copysign(x, y);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_copysign(double x, double y);
 
     // Function @ SDL_stdinc.h:567:31
-    public static float SDL_ceilf(float x)
-    {
-        return _virtualTable.SDL_ceilf(x);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_ceilf(float x);
 
     // Function @ SDL_stdinc.h:566:32
-    public static double SDL_ceil(double x)
-    {
-        return _virtualTable.SDL_ceil(x);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_ceil(double x);
 
     // Function @ SDL_stdinc.h:565:31
-    public static float SDL_atan2f(float x, float y)
-    {
-        return _virtualTable.SDL_atan2f(x, y);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_atan2f(float x, float y);
 
     // Function @ SDL_stdinc.h:564:32
-    public static double SDL_atan2(double x, double y)
-    {
-        return _virtualTable.SDL_atan2(x, y);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_atan2(double x, double y);
 
     // Function @ SDL_stdinc.h:563:31
-    public static float SDL_atanf(float x)
-    {
-        return _virtualTable.SDL_atanf(x);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_atanf(float x);
 
     // Function @ SDL_stdinc.h:562:32
-    public static double SDL_atan(double x)
-    {
-        return _virtualTable.SDL_atan(x);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_atan(double x);
 
     // Function @ SDL_stdinc.h:561:31
-    public static float SDL_asinf(float x)
-    {
-        return _virtualTable.SDL_asinf(x);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_asinf(float x);
 
     // Function @ SDL_stdinc.h:560:32
-    public static double SDL_asin(double x)
-    {
-        return _virtualTable.SDL_asin(x);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_asin(double x);
 
     // Function @ SDL_stdinc.h:559:31
-    public static float SDL_acosf(float x)
-    {
-        return _virtualTable.SDL_acosf(x);
-    }
+    [DllImport("SDL2")]
+    public static extern float SDL_acosf(float x);
 
     // Function @ SDL_stdinc.h:558:32
-    public static double SDL_acos(double x)
-    {
-        return _virtualTable.SDL_acos(x);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_acos(double x);
 
     // Function @ SDL_stdinc.h:550:29
-    public static int SDL_vsnprintf(CString text, ulong maxlen, CString fmt, IntPtr ap)
-    {
-        return _virtualTable.SDL_vsnprintf(text, maxlen, fmt, ap);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_vsnprintf(CString text, ulong maxlen, CString fmt, IntPtr ap);
 
     // Function @ SDL_stdinc.h:549:29
-    public static int SDL_snprintf(CString text, ulong maxlen, CString fmt)
-    {
-        return _virtualTable.SDL_snprintf(text, maxlen, fmt);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_snprintf(CString text, ulong maxlen, CString fmt);
 
     // Function @ SDL_stdinc.h:548:29
-    public static int SDL_vsscanf(CString text, CString fmt, IntPtr ap)
-    {
-        return _virtualTable.SDL_vsscanf(text, fmt, ap);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_vsscanf(CString text, CString fmt, IntPtr ap);
 
     // Function @ SDL_stdinc.h:547:29
-    public static int SDL_sscanf(CString text, CString fmt)
-    {
-        return _virtualTable.SDL_sscanf(text, fmt);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_sscanf(CString text, CString fmt);
 
     // Function @ SDL_stdinc.h:545:29
-    public static int SDL_strncasecmp(CString str1, CString str2, ulong len)
-    {
-        return _virtualTable.SDL_strncasecmp(str1, str2, len);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_strncasecmp(CString str1, CString str2, ulong len);
 
     // Function @ SDL_stdinc.h:544:29
-    public static int SDL_strcasecmp(CString str1, CString str2)
-    {
-        return _virtualTable.SDL_strcasecmp(str1, str2);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_strcasecmp(CString str1, CString str2);
 
     // Function @ SDL_stdinc.h:543:29
-    public static int SDL_strncmp(CString str1, CString str2, ulong maxlen)
-    {
-        return _virtualTable.SDL_strncmp(str1, str2, maxlen);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_strncmp(CString str1, CString str2, ulong maxlen);
 
     // Function @ SDL_stdinc.h:542:29
-    public static int SDL_strcmp(CString str1, CString str2)
-    {
-        return _virtualTable.SDL_strcmp(str1, str2);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_strcmp(CString str1, CString str2);
 
     // Function @ SDL_stdinc.h:540:32
-    public static double SDL_strtod(CString str, CString* endp)
-    {
-        return _virtualTable.SDL_strtod(str, endp);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_strtod(CString str, CString* endp);
 
     // Function @ SDL_stdinc.h:539:32
-    public static ulong SDL_strtoull(CString str, CString* endp, int @base)
-    {
-        return _virtualTable.SDL_strtoull(str, endp, @base);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_strtoull(CString str, CString* endp, int @base);
 
     // Function @ SDL_stdinc.h:538:32
-    public static long SDL_strtoll(CString str, CString* endp, int @base)
-    {
-        return _virtualTable.SDL_strtoll(str, endp, @base);
-    }
+    [DllImport("SDL2")]
+    public static extern long SDL_strtoll(CString str, CString* endp, int @base);
 
     // Function @ SDL_stdinc.h:537:39
-    public static uint SDL_strtoul(CString str, CString* endp, int @base)
-    {
-        return _virtualTable.SDL_strtoul(str, endp, @base);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_strtoul(CString str, CString* endp, int @base);
 
     // Function @ SDL_stdinc.h:536:30
-    public static int SDL_strtol(CString str, CString* endp, int @base)
-    {
-        return _virtualTable.SDL_strtol(str, endp, @base);
-    }
+    [DllImport("SDL2")]
+    public static extern long SDL_strtol(CString str, CString* endp, int @base);
 
     // Function @ SDL_stdinc.h:535:32
-    public static double SDL_atof(CString str)
-    {
-        return _virtualTable.SDL_atof(str);
-    }
+    [DllImport("SDL2")]
+    public static extern double SDL_atof(CString str);
 
     // Function @ SDL_stdinc.h:534:29
-    public static int SDL_atoi(CString str)
-    {
-        return _virtualTable.SDL_atoi(str);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_atoi(CString str);
 
     // Function @ SDL_stdinc.h:532:31
-    public static CString SDL_ulltoa(ulong value, CString str, int radix)
-    {
-        return _virtualTable.SDL_ulltoa(value, str, radix);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_ulltoa(ulong value, CString str, int radix);
 
     // Function @ SDL_stdinc.h:531:31
-    public static CString SDL_lltoa(long value, CString str, int radix)
-    {
-        return _virtualTable.SDL_lltoa(value, str, radix);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_lltoa(long value, CString str, int radix);
 
     // Function @ SDL_stdinc.h:530:31
-    public static CString SDL_ultoa(uint value, CString str, int radix)
-    {
-        return _virtualTable.SDL_ultoa(value, str, radix);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_ultoa(ulong value, CString str, int radix);
 
     // Function @ SDL_stdinc.h:529:31
-    public static CString SDL_ltoa(int value, CString str, int radix)
-    {
-        return _virtualTable.SDL_ltoa(value, str, radix);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_ltoa(long value, CString str, int radix);
 
     // Function @ SDL_stdinc.h:528:31
-    public static CString SDL_uitoa(uint value, CString str, int radix)
-    {
-        return _virtualTable.SDL_uitoa(value, str, radix);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_uitoa(uint value, CString str, int radix);
 
     // Function @ SDL_stdinc.h:527:31
-    public static CString SDL_itoa(int value, CString str, int radix)
-    {
-        return _virtualTable.SDL_itoa(value, str, radix);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_itoa(int value, CString str, int radix);
 
     // Function @ SDL_stdinc.h:525:32
-    public static ulong SDL_utf8strlen(CString str)
-    {
-        return _virtualTable.SDL_utf8strlen(str);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_utf8strlen(CString str);
 
     // Function @ SDL_stdinc.h:524:31
-    public static CString SDL_strtokr(CString s1, CString s2, CString* saveptr)
-    {
-        return _virtualTable.SDL_strtokr(s1, s2, saveptr);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_strtokr(CString s1, CString s2, CString* saveptr);
 
     // Function @ SDL_stdinc.h:523:31
-    public static CString SDL_strstr(CString haystack, CString needle)
-    {
-        return _virtualTable.SDL_strstr(haystack, needle);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_strstr(CString haystack, CString needle);
 
     // Function @ SDL_stdinc.h:522:31
-    public static CString SDL_strrchr(CString str, int c)
-    {
-        return _virtualTable.SDL_strrchr(str, c);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_strrchr(CString str, int c);
 
     // Function @ SDL_stdinc.h:521:31
-    public static CString SDL_strchr(CString str, int c)
-    {
-        return _virtualTable.SDL_strchr(str, c);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_strchr(CString str, int c);
 
     // Function @ SDL_stdinc.h:520:31
-    public static CString SDL_strlwr(CString str)
-    {
-        return _virtualTable.SDL_strlwr(str);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_strlwr(CString str);
 
     // Function @ SDL_stdinc.h:519:31
-    public static CString SDL_strupr(CString str)
-    {
-        return _virtualTable.SDL_strupr(str);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_strupr(CString str);
 
     // Function @ SDL_stdinc.h:518:31
-    public static CString SDL_strrev(CString str)
-    {
-        return _virtualTable.SDL_strrev(str);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_strrev(CString str);
 
     // Function @ SDL_stdinc.h:517:31
-    public static CString SDL_strdup(CString str)
-    {
-        return _virtualTable.SDL_strdup(str);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_strdup(CString str);
 
     // Function @ SDL_stdinc.h:516:32
-    public static ulong SDL_strlcat(CString dst, CString src, ulong maxlen)
-    {
-        return _virtualTable.SDL_strlcat(dst, src, maxlen);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_strlcat(CString dst, CString src, ulong maxlen);
 
     // Function @ SDL_stdinc.h:515:32
-    public static ulong SDL_utf8strlcpy(CString dst, CString src, ulong dst_bytes)
-    {
-        return _virtualTable.SDL_utf8strlcpy(dst, src, dst_bytes);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_utf8strlcpy(CString dst, CString src, ulong dst_bytes);
 
     // Function @ SDL_stdinc.h:514:32
-    public static ulong SDL_strlcpy(CString dst, CString src, ulong maxlen)
-    {
-        return _virtualTable.SDL_strlcpy(dst, src, maxlen);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_strlcpy(CString dst, CString src, ulong maxlen);
 
     // Function @ SDL_stdinc.h:513:32
-    public static ulong SDL_strlen(CString str)
-    {
-        return _virtualTable.SDL_strlen(str);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_strlen(CString str);
 
     // Function @ SDL_stdinc.h:511:29
-    public static int SDL_wcsncasecmp(wchar_t* str1, wchar_t* str2, ulong len)
-    {
-        return _virtualTable.SDL_wcsncasecmp(str1, str2, len);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_wcsncasecmp(wchar_t* str1, wchar_t* str2, ulong len);
 
     // Function @ SDL_stdinc.h:510:29
-    public static int SDL_wcscasecmp(wchar_t* str1, wchar_t* str2)
-    {
-        return _virtualTable.SDL_wcscasecmp(str1, str2);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_wcscasecmp(wchar_t* str1, wchar_t* str2);
 
     // Function @ SDL_stdinc.h:509:29
-    public static int SDL_wcsncmp(wchar_t* str1, wchar_t* str2, ulong maxlen)
-    {
-        return _virtualTable.SDL_wcsncmp(str1, str2, maxlen);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_wcsncmp(wchar_t* str1, wchar_t* str2, ulong maxlen);
 
     // Function @ SDL_stdinc.h:508:29
-    public static int SDL_wcscmp(wchar_t* str1, wchar_t* str2)
-    {
-        return _virtualTable.SDL_wcscmp(str1, str2);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_wcscmp(wchar_t* str1, wchar_t* str2);
 
     // Function @ SDL_stdinc.h:506:34
-    public static wchar_t* SDL_wcsstr(wchar_t* haystack, wchar_t* needle)
-    {
-        return _virtualTable.SDL_wcsstr(haystack, needle);
-    }
+    [DllImport("SDL2")]
+    public static extern wchar_t* SDL_wcsstr(wchar_t* haystack, wchar_t* needle);
 
     // Function @ SDL_stdinc.h:505:34
-    public static wchar_t* SDL_wcsdup(wchar_t* wstr)
-    {
-        return _virtualTable.SDL_wcsdup(wstr);
-    }
+    [DllImport("SDL2")]
+    public static extern wchar_t* SDL_wcsdup(wchar_t* wstr);
 
     // Function @ SDL_stdinc.h:504:32
-    public static ulong SDL_wcslcat(wchar_t* dst, wchar_t* src, ulong maxlen)
-    {
-        return _virtualTable.SDL_wcslcat(dst, src, maxlen);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_wcslcat(wchar_t* dst, wchar_t* src, ulong maxlen);
 
     // Function @ SDL_stdinc.h:503:32
-    public static ulong SDL_wcslcpy(wchar_t* dst, wchar_t* src, ulong maxlen)
-    {
-        return _virtualTable.SDL_wcslcpy(dst, src, maxlen);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_wcslcpy(wchar_t* dst, wchar_t* src, ulong maxlen);
 
     // Function @ SDL_stdinc.h:502:32
-    public static ulong SDL_wcslen(wchar_t* wstr)
-    {
-        return _virtualTable.SDL_wcslen(wstr);
-    }
+    [DllImport("SDL2")]
+    public static extern ulong SDL_wcslen(wchar_t* wstr);
 
     // Function @ SDL_stdinc.h:500:29
-    public static int SDL_memcmp(void* s1, void* s2, ulong len)
-    {
-        return _virtualTable.SDL_memcmp(s1, s2, len);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_memcmp(void* s1, void* s2, ulong len);
 
     // Function @ SDL_stdinc.h:499:31
-    public static void* SDL_memmove(void* dst, void* src, ulong len)
-    {
-        return _virtualTable.SDL_memmove(dst, src, len);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_memmove(void* dst, void* src, ulong len);
 
     // Function @ SDL_stdinc.h:497:31
-    public static void* SDL_memcpy(void* dst, void* src, ulong len)
-    {
-        return _virtualTable.SDL_memcpy(dst, src, len);
-    }
-
-    // Function @ SDL_stdinc.h:467:23
-    public static void SDL_memset4(void* dst, uint val, ulong dwords)
-    {
-        _virtualTable.SDL_memset4(dst, val, dwords);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_memcpy(void* dst, void* src, ulong len);
 
     // Function @ SDL_stdinc.h:460:31
-    public static void* SDL_memset(void* dst, int c, ulong len)
-    {
-        return _virtualTable.SDL_memset(dst, c, len);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_memset(void* dst, int c, ulong len);
 
     // Function @ SDL_stdinc.h:458:32
-    public static uint SDL_crc32(uint crc, void* data, ulong len)
-    {
-        return _virtualTable.SDL_crc32(crc, data, len);
-    }
+    [DllImport("SDL2")]
+    public static extern uint SDL_crc32(uint crc, void* data, ulong len);
 
     // Function @ SDL_stdinc.h:456:29
-    public static int SDL_tolower(int x)
-    {
-        return _virtualTable.SDL_tolower(x);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_tolower(int x);
 
     // Function @ SDL_stdinc.h:455:29
-    public static int SDL_toupper(int x)
-    {
-        return _virtualTable.SDL_toupper(x);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_toupper(int x);
 
     // Function @ SDL_stdinc.h:454:29
-    public static int SDL_isgraph(int x)
-    {
-        return _virtualTable.SDL_isgraph(x);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_isgraph(int x);
 
     // Function @ SDL_stdinc.h:453:29
-    public static int SDL_isprint(int x)
-    {
-        return _virtualTable.SDL_isprint(x);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_isprint(int x);
 
     // Function @ SDL_stdinc.h:452:29
-    public static int SDL_islower(int x)
-    {
-        return _virtualTable.SDL_islower(x);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_islower(int x);
 
     // Function @ SDL_stdinc.h:451:29
-    public static int SDL_isupper(int x)
-    {
-        return _virtualTable.SDL_isupper(x);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_isupper(int x);
 
     // Function @ SDL_stdinc.h:450:29
-    public static int SDL_isspace(int x)
-    {
-        return _virtualTable.SDL_isspace(x);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_isspace(int x);
 
     // Function @ SDL_stdinc.h:449:29
-    public static int SDL_ispunct(int x)
-    {
-        return _virtualTable.SDL_ispunct(x);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_ispunct(int x);
 
     // Function @ SDL_stdinc.h:448:29
-    public static int SDL_isxdigit(int x)
-    {
-        return _virtualTable.SDL_isxdigit(x);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_isxdigit(int x);
 
     // Function @ SDL_stdinc.h:447:29
-    public static int SDL_isdigit(int x)
-    {
-        return _virtualTable.SDL_isdigit(x);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_isdigit(int x);
 
     // Function @ SDL_stdinc.h:446:29
-    public static int SDL_iscntrl(int x)
-    {
-        return _virtualTable.SDL_iscntrl(x);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_iscntrl(int x);
 
     // Function @ SDL_stdinc.h:445:29
-    public static int SDL_isblank(int x)
-    {
-        return _virtualTable.SDL_isblank(x);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_isblank(int x);
 
     // Function @ SDL_stdinc.h:444:29
-    public static int SDL_isalnum(int x)
-    {
-        return _virtualTable.SDL_isalnum(x);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_isalnum(int x);
 
     // Function @ SDL_stdinc.h:443:29
-    public static int SDL_isalpha(int x)
-    {
-        return _virtualTable.SDL_isalpha(x);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_isalpha(int x);
 
     // Function @ SDL_stdinc.h:436:29
-    public static int SDL_abs(int x)
-    {
-        return _virtualTable.SDL_abs(x);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_abs(int x);
 
     // Function @ SDL_stdinc.h:434:30
-    public static void SDL_qsort(void* @base, ulong nmemb, ulong size, FnPtr_SDL_VoidPtr_VoidPtr_Int compare)
-    {
-        _virtualTable.SDL_qsort(@base, nmemb, size, compare);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_qsort(void* @base, ulong nmemb, ulong size, FnPtr_SDL_VoidPtr_VoidPtr_Int compare);
 
     // Function @ SDL_stdinc.h:432:29
-    public static int SDL_setenv(CString name, CString value, int overwrite)
-    {
-        return _virtualTable.SDL_setenv(name, value, overwrite);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_setenv(CString name, CString value, int overwrite);
 
     // Function @ SDL_stdinc.h:431:31
-    public static CString SDL_getenv(CString name)
-    {
-        return _virtualTable.SDL_getenv(name);
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_getenv(CString name);
 
     // Function @ SDL_stdinc.h:429:29
-    public static int SDL_GetNumAllocations()
-    {
-        return _virtualTable.SDL_GetNumAllocations();
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_GetNumAllocations();
 
     // Function @ SDL_stdinc.h:421:29
-    public static int SDL_SetMemoryFunctions(SDL_malloc_func malloc_func, SDL_calloc_func calloc_func, SDL_realloc_func realloc_func, SDL_free_func free_func)
-    {
-        return _virtualTable.SDL_SetMemoryFunctions(malloc_func, calloc_func, realloc_func, free_func);
-    }
+    [DllImport("SDL2")]
+    public static extern int SDL_SetMemoryFunctions(SDL_malloc_func malloc_func, SDL_calloc_func calloc_func, SDL_realloc_func realloc_func, SDL_free_func free_func);
 
     // Function @ SDL_stdinc.h:408:30
-    public static void SDL_GetMemoryFunctions(SDL_malloc_func* malloc_func, SDL_calloc_func* calloc_func, SDL_realloc_func* realloc_func, SDL_free_func* free_func)
-    {
-        _virtualTable.SDL_GetMemoryFunctions(malloc_func, calloc_func, realloc_func, free_func);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_GetMemoryFunctions(SDL_malloc_func* malloc_func, SDL_calloc_func* calloc_func, SDL_realloc_func* realloc_func, SDL_free_func* free_func);
 
     // Function @ SDL_stdinc.h:398:30
-    public static void SDL_free(void* mem)
-    {
-        _virtualTable.SDL_free(mem);
-    }
+    [DllImport("SDL2")]
+    public static extern void SDL_free(void* mem);
 
     // Function @ SDL_stdinc.h:397:31
-    public static void* SDL_realloc(void* mem, ulong size)
-    {
-        return _virtualTable.SDL_realloc(mem, size);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_realloc(void* mem, ulong size);
 
     // Function @ SDL_stdinc.h:396:31
-    public static void* SDL_calloc(ulong nmemb, ulong size)
-    {
-        return _virtualTable.SDL_calloc(nmemb, size);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_calloc(ulong nmemb, ulong size);
 
     // Function @ SDL_stdinc.h:395:31
-    public static void* SDL_malloc(ulong size)
-    {
-        return _virtualTable.SDL_malloc(size);
-    }
+    [DllImport("SDL2")]
+    public static extern void* SDL_malloc(ulong size);
 
     // Function @ SDL_platform.h:202:38
-    public static CString SDL_GetPlatform()
-    {
-        return _virtualTable.SDL_GetPlatform();
-    }
+    [DllImport("SDL2")]
+    public static extern CString SDL_GetPlatform();
 
     // FunctionPointer @ SDL_timer.h:111:27
     [StructLayout(LayoutKind.Sequential)]
@@ -4561,34 +3023,6 @@ public static unsafe partial class SDL
     public struct FnPtr_SDL_VoidPtr_Void
     {
         public delegate* unmanaged<void*, void> Pointer;
-    }
-
-    // FunctionPointer @ SDL_thread.h:117:25
-    [StructLayout(LayoutKind.Sequential)]
-    public struct pfnSDL_CurrentEndThread
-    {
-        public delegate* unmanaged<uint, void> Pointer;
-    }
-
-    // FunctionPointer @ SDL_thread.h:114:30
-    [StructLayout(LayoutKind.Sequential)]
-    public struct pfnSDL_CurrentBeginThread
-    {
-        public delegate* unmanaged<void*, uint, FnPtr_SDL_VoidPtr_Uint, void*, uint, ulong*, UIntPtr> Pointer;
-    }
-
-    // FunctionPointer @ SDL_thread.h:115:60
-    [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SDL_VoidPtr_Uint
-    {
-        public delegate* unmanaged<void*, uint> Pointer;
-    }
-
-    // FunctionPointer @ SDL_thread.h:135:46
-    [StructLayout(LayoutKind.Sequential)]
-    public struct FnPtr_SDL_VoidPtr_Int
-    {
-        public delegate* unmanaged<void*, int> Pointer;
     }
 
     // FunctionPointer @ SDL_thread.h:88:24
@@ -6324,7 +4758,7 @@ public static unsafe partial class SDL
     }
 
     // Struct @ SDL_audio.h:241:23
-    [StructLayout(LayoutKind.Explicit, Size = 136, Pack = 8)]
+    [StructLayout(LayoutKind.Explicit, Size = 128, Pack = 1)]
     public struct SDL_AudioCVT
     {
         [FieldOffset(0)] // size = 4, padding = 0
@@ -6348,13 +4782,13 @@ public static unsafe partial class SDL
         [FieldOffset(28)] // size = 4, padding = 0
         public int len_cvt;
 
-        [FieldOffset(32)] // size = 4, padding = 4
+        [FieldOffset(32)] // size = 4, padding = 0
         public int len_mult;
 
-        [FieldOffset(40)] // size = 8, padding = 0
+        [FieldOffset(36)] // size = 8, padding = 0
         public double len_ratio;
 
-        [FieldOffset(48)] // size = 80, padding = 0
+        [FieldOffset(44)] // size = 80, padding = 0
         public fixed ulong _filters[80 / 8]; // SDL_AudioFilter[10]
 
         public Span<SDL_AudioFilter> filters
@@ -6370,7 +4804,7 @@ public static unsafe partial class SDL
             }
         }
 
-        [FieldOffset(128)] // size = 4, padding = 4
+        [FieldOffset(124)] // size = 4, padding = 0
         public int filter_index;
     }
 
@@ -6675,14 +5109,14 @@ public static unsafe partial class SDL
     }
 
     // Typedef @ SDL_thread.h:60:23
-    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct SDL_threadID
     {
-        [FieldOffset(0)] // size = 4, padding = 0
-        public uint Data;
+        [FieldOffset(0)] // size = 8, padding = 0
+        public ulong Data;
 
-        public static implicit operator uint(SDL_threadID data) => data.Data;
-        public static implicit operator SDL_threadID(uint data) => new() { Data = data };
+        public static implicit operator ulong(SDL_threadID data) => data.Data;
+        public static implicit operator SDL_threadID(ulong data) => new() { Data = data };
     }
 
     // Typedef @ SDL_atomic.h:89:13
@@ -6708,344 +5142,355 @@ public static unsafe partial class SDL
     }
 
     // Typedef @ System
-    [StructLayout(LayoutKind.Explicit, Size = 2, Pack = 2)]
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct wchar_t
     {
-        [FieldOffset(0)] // size = 2, padding = 0
-        public ushort Data;
+        [FieldOffset(0)] // size = 4, padding = 0
+        public __darwin_wchar_t Data;
 
-        public static implicit operator ushort(wchar_t data) => data.Data;
-        public static implicit operator wchar_t(ushort data) => new() { Data = data };
+        public static implicit operator __darwin_wchar_t(wchar_t data) => data.Data;
+        public static implicit operator wchar_t(__darwin_wchar_t data) => new() { Data = data };
+    }
+
+    // Typedef @ System
+    [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
+    public struct __darwin_wchar_t
+    {
+        [FieldOffset(0)] // size = 4, padding = 0
+        public int Data;
+
+        public static implicit operator int(__darwin_wchar_t data) => data.Data;
+        public static implicit operator __darwin_wchar_t(int data) => new() { Data = data };
     }
 
     // Enum @ SDL_stdinc.h:171:3
-    public enum SDL_bool : int
+    public enum SDL_bool : uint
     {
-        SDL_FALSE = 0,
-        SDL_TRUE = 1
+        SDL_FALSE = 0U,
+        SDL_TRUE = 1U
     }
 
     // Enum @ SDL_shape.h:89:3
-    public enum WindowShapeMode : int
+    public enum WindowShapeMode : uint
     {
-        ShapeModeDefault = 0,
-        ShapeModeBinarizeAlpha = 1,
-        ShapeModeReverseBinarizeAlpha = 2,
-        ShapeModeColorKey = 3
+        ShapeModeDefault = 0U,
+        ShapeModeBinarizeAlpha = 1U,
+        ShapeModeReverseBinarizeAlpha = 2U,
+        ShapeModeColorKey = 3U
     }
 
     // Enum @ SDL_render.h:126:3
-    public enum SDL_RendererFlip : int
+    public enum SDL_RendererFlip : uint
     {
-        SDL_FLIP_NONE = 0,
-        SDL_FLIP_HORIZONTAL = 1,
-        SDL_FLIP_VERTICAL = 2
+        SDL_FLIP_NONE = 0U,
+        SDL_FLIP_HORIZONTAL = 1U,
+        SDL_FLIP_VERTICAL = 2U
     }
 
     // Enum @ SDL_blendmode.h:60:3
-    public enum SDL_BlendMode : int
+    public enum SDL_BlendMode : uint
     {
-        SDL_BLENDMODE_NONE = 0,
-        SDL_BLENDMODE_BLEND = 1,
-        SDL_BLENDMODE_ADD = 2,
-        SDL_BLENDMODE_MOD = 4,
-        SDL_BLENDMODE_MUL = 8,
-        SDL_BLENDMODE_INVALID = 2147483647
+        SDL_BLENDMODE_NONE = 0U,
+        SDL_BLENDMODE_BLEND = 1U,
+        SDL_BLENDMODE_ADD = 2U,
+        SDL_BLENDMODE_MOD = 4U,
+        SDL_BLENDMODE_MUL = 8U,
+        SDL_BLENDMODE_INVALID = 2147483647U
     }
 
     // Enum @ SDL_render.h:96:3
-    public enum SDL_ScaleMode : int
+    public enum SDL_ScaleMode : uint
     {
-        SDL_ScaleModeNearest = 0,
-        SDL_ScaleModeLinear = 1,
-        SDL_ScaleModeBest = 2
+        SDL_ScaleModeNearest = 0U,
+        SDL_ScaleModeLinear = 1U,
+        SDL_ScaleModeBest = 2U
     }
 
     // Enum @ SDL_power.h:49:3
-    public enum SDL_PowerState : int
+    public enum SDL_PowerState : uint
     {
-        SDL_POWERSTATE_UNKNOWN = 0,
-        SDL_POWERSTATE_ON_BATTERY = 1,
-        SDL_POWERSTATE_NO_BATTERY = 2,
-        SDL_POWERSTATE_CHARGING = 3,
-        SDL_POWERSTATE_CHARGED = 4
+        SDL_POWERSTATE_UNKNOWN = 0U,
+        SDL_POWERSTATE_ON_BATTERY = 1U,
+        SDL_POWERSTATE_NO_BATTERY = 2U,
+        SDL_POWERSTATE_CHARGING = 3U,
+        SDL_POWERSTATE_CHARGED = 4U
     }
 
     // Enum @ SDL_log.h:111:3
-    public enum SDL_LogPriority : int
+    public enum SDL_LogPriority : uint
     {
-        SDL_LOG_PRIORITY_VERBOSE = 1,
-        SDL_LOG_PRIORITY_DEBUG = 2,
-        SDL_LOG_PRIORITY_INFO = 3,
-        SDL_LOG_PRIORITY_WARN = 4,
-        SDL_LOG_PRIORITY_ERROR = 5,
-        SDL_LOG_PRIORITY_CRITICAL = 6,
-        SDL_NUM_LOG_PRIORITIES = 7
+        SDL_LOG_PRIORITY_VERBOSE = 1U,
+        SDL_LOG_PRIORITY_DEBUG = 2U,
+        SDL_LOG_PRIORITY_INFO = 3U,
+        SDL_LOG_PRIORITY_WARN = 4U,
+        SDL_LOG_PRIORITY_ERROR = 5U,
+        SDL_LOG_PRIORITY_CRITICAL = 6U,
+        SDL_NUM_LOG_PRIORITIES = 7U
     }
 
     // Enum @ SDL_hints.h:1671:3
-    public enum SDL_HintPriority : int
+    public enum SDL_HintPriority : uint
     {
-        SDL_HINT_DEFAULT = 0,
-        SDL_HINT_NORMAL = 1,
-        SDL_HINT_OVERRIDE = 2
+        SDL_HINT_DEFAULT = 0U,
+        SDL_HINT_NORMAL = 1U,
+        SDL_HINT_OVERRIDE = 2U
     }
 
     // Enum @ SDL_scancode.h:409:3
-    public enum SDL_Scancode : int
+    public enum SDL_Scancode : uint
     {
-        SDL_SCANCODE_UNKNOWN = 0,
-        SDL_SCANCODE_A = 4,
-        SDL_SCANCODE_B = 5,
-        SDL_SCANCODE_C = 6,
-        SDL_SCANCODE_D = 7,
-        SDL_SCANCODE_E = 8,
-        SDL_SCANCODE_F = 9,
-        SDL_SCANCODE_G = 10,
-        SDL_SCANCODE_H = 11,
-        SDL_SCANCODE_I = 12,
-        SDL_SCANCODE_J = 13,
-        SDL_SCANCODE_K = 14,
-        SDL_SCANCODE_L = 15,
-        SDL_SCANCODE_M = 16,
-        SDL_SCANCODE_N = 17,
-        SDL_SCANCODE_O = 18,
-        SDL_SCANCODE_P = 19,
-        SDL_SCANCODE_Q = 20,
-        SDL_SCANCODE_R = 21,
-        SDL_SCANCODE_S = 22,
-        SDL_SCANCODE_T = 23,
-        SDL_SCANCODE_U = 24,
-        SDL_SCANCODE_V = 25,
-        SDL_SCANCODE_W = 26,
-        SDL_SCANCODE_X = 27,
-        SDL_SCANCODE_Y = 28,
-        SDL_SCANCODE_Z = 29,
-        SDL_SCANCODE_1 = 30,
-        SDL_SCANCODE_2 = 31,
-        SDL_SCANCODE_3 = 32,
-        SDL_SCANCODE_4 = 33,
-        SDL_SCANCODE_5 = 34,
-        SDL_SCANCODE_6 = 35,
-        SDL_SCANCODE_7 = 36,
-        SDL_SCANCODE_8 = 37,
-        SDL_SCANCODE_9 = 38,
-        SDL_SCANCODE_0 = 39,
-        SDL_SCANCODE_RETURN = 40,
-        SDL_SCANCODE_ESCAPE = 41,
-        SDL_SCANCODE_BACKSPACE = 42,
-        SDL_SCANCODE_TAB = 43,
-        SDL_SCANCODE_SPACE = 44,
-        SDL_SCANCODE_MINUS = 45,
-        SDL_SCANCODE_EQUALS = 46,
-        SDL_SCANCODE_LEFTBRACKET = 47,
-        SDL_SCANCODE_RIGHTBRACKET = 48,
-        SDL_SCANCODE_BACKSLASH = 49,
-        SDL_SCANCODE_NONUSHASH = 50,
-        SDL_SCANCODE_SEMICOLON = 51,
-        SDL_SCANCODE_APOSTROPHE = 52,
-        SDL_SCANCODE_GRAVE = 53,
-        SDL_SCANCODE_COMMA = 54,
-        SDL_SCANCODE_PERIOD = 55,
-        SDL_SCANCODE_SLASH = 56,
-        SDL_SCANCODE_CAPSLOCK = 57,
-        SDL_SCANCODE_F1 = 58,
-        SDL_SCANCODE_F2 = 59,
-        SDL_SCANCODE_F3 = 60,
-        SDL_SCANCODE_F4 = 61,
-        SDL_SCANCODE_F5 = 62,
-        SDL_SCANCODE_F6 = 63,
-        SDL_SCANCODE_F7 = 64,
-        SDL_SCANCODE_F8 = 65,
-        SDL_SCANCODE_F9 = 66,
-        SDL_SCANCODE_F10 = 67,
-        SDL_SCANCODE_F11 = 68,
-        SDL_SCANCODE_F12 = 69,
-        SDL_SCANCODE_PRINTSCREEN = 70,
-        SDL_SCANCODE_SCROLLLOCK = 71,
-        SDL_SCANCODE_PAUSE = 72,
-        SDL_SCANCODE_INSERT = 73,
-        SDL_SCANCODE_HOME = 74,
-        SDL_SCANCODE_PAGEUP = 75,
-        SDL_SCANCODE_DELETE = 76,
-        SDL_SCANCODE_END = 77,
-        SDL_SCANCODE_PAGEDOWN = 78,
-        SDL_SCANCODE_RIGHT = 79,
-        SDL_SCANCODE_LEFT = 80,
-        SDL_SCANCODE_DOWN = 81,
-        SDL_SCANCODE_UP = 82,
-        SDL_SCANCODE_NUMLOCKCLEAR = 83,
-        SDL_SCANCODE_KP_DIVIDE = 84,
-        SDL_SCANCODE_KP_MULTIPLY = 85,
-        SDL_SCANCODE_KP_MINUS = 86,
-        SDL_SCANCODE_KP_PLUS = 87,
-        SDL_SCANCODE_KP_ENTER = 88,
-        SDL_SCANCODE_KP_1 = 89,
-        SDL_SCANCODE_KP_2 = 90,
-        SDL_SCANCODE_KP_3 = 91,
-        SDL_SCANCODE_KP_4 = 92,
-        SDL_SCANCODE_KP_5 = 93,
-        SDL_SCANCODE_KP_6 = 94,
-        SDL_SCANCODE_KP_7 = 95,
-        SDL_SCANCODE_KP_8 = 96,
-        SDL_SCANCODE_KP_9 = 97,
-        SDL_SCANCODE_KP_0 = 98,
-        SDL_SCANCODE_KP_PERIOD = 99,
-        SDL_SCANCODE_NONUSBACKSLASH = 100,
-        SDL_SCANCODE_APPLICATION = 101,
-        SDL_SCANCODE_POWER = 102,
-        SDL_SCANCODE_KP_EQUALS = 103,
-        SDL_SCANCODE_F13 = 104,
-        SDL_SCANCODE_F14 = 105,
-        SDL_SCANCODE_F15 = 106,
-        SDL_SCANCODE_F16 = 107,
-        SDL_SCANCODE_F17 = 108,
-        SDL_SCANCODE_F18 = 109,
-        SDL_SCANCODE_F19 = 110,
-        SDL_SCANCODE_F20 = 111,
-        SDL_SCANCODE_F21 = 112,
-        SDL_SCANCODE_F22 = 113,
-        SDL_SCANCODE_F23 = 114,
-        SDL_SCANCODE_F24 = 115,
-        SDL_SCANCODE_EXECUTE = 116,
-        SDL_SCANCODE_HELP = 117,
-        SDL_SCANCODE_MENU = 118,
-        SDL_SCANCODE_SELECT = 119,
-        SDL_SCANCODE_STOP = 120,
-        SDL_SCANCODE_AGAIN = 121,
-        SDL_SCANCODE_UNDO = 122,
-        SDL_SCANCODE_CUT = 123,
-        SDL_SCANCODE_COPY = 124,
-        SDL_SCANCODE_PASTE = 125,
-        SDL_SCANCODE_FIND = 126,
-        SDL_SCANCODE_MUTE = 127,
-        SDL_SCANCODE_VOLUMEUP = 128,
-        SDL_SCANCODE_VOLUMEDOWN = 129,
-        SDL_SCANCODE_KP_COMMA = 133,
-        SDL_SCANCODE_KP_EQUALSAS400 = 134,
-        SDL_SCANCODE_INTERNATIONAL1 = 135,
-        SDL_SCANCODE_INTERNATIONAL2 = 136,
-        SDL_SCANCODE_INTERNATIONAL3 = 137,
-        SDL_SCANCODE_INTERNATIONAL4 = 138,
-        SDL_SCANCODE_INTERNATIONAL5 = 139,
-        SDL_SCANCODE_INTERNATIONAL6 = 140,
-        SDL_SCANCODE_INTERNATIONAL7 = 141,
-        SDL_SCANCODE_INTERNATIONAL8 = 142,
-        SDL_SCANCODE_INTERNATIONAL9 = 143,
-        SDL_SCANCODE_LANG1 = 144,
-        SDL_SCANCODE_LANG2 = 145,
-        SDL_SCANCODE_LANG3 = 146,
-        SDL_SCANCODE_LANG4 = 147,
-        SDL_SCANCODE_LANG5 = 148,
-        SDL_SCANCODE_LANG6 = 149,
-        SDL_SCANCODE_LANG7 = 150,
-        SDL_SCANCODE_LANG8 = 151,
-        SDL_SCANCODE_LANG9 = 152,
-        SDL_SCANCODE_ALTERASE = 153,
-        SDL_SCANCODE_SYSREQ = 154,
-        SDL_SCANCODE_CANCEL = 155,
-        SDL_SCANCODE_CLEAR = 156,
-        SDL_SCANCODE_PRIOR = 157,
-        SDL_SCANCODE_RETURN2 = 158,
-        SDL_SCANCODE_SEPARATOR = 159,
-        SDL_SCANCODE_OUT = 160,
-        SDL_SCANCODE_OPER = 161,
-        SDL_SCANCODE_CLEARAGAIN = 162,
-        SDL_SCANCODE_CRSEL = 163,
-        SDL_SCANCODE_EXSEL = 164,
-        SDL_SCANCODE_KP_00 = 176,
-        SDL_SCANCODE_KP_000 = 177,
-        SDL_SCANCODE_THOUSANDSSEPARATOR = 178,
-        SDL_SCANCODE_DECIMALSEPARATOR = 179,
-        SDL_SCANCODE_CURRENCYUNIT = 180,
-        SDL_SCANCODE_CURRENCYSUBUNIT = 181,
-        SDL_SCANCODE_KP_LEFTPAREN = 182,
-        SDL_SCANCODE_KP_RIGHTPAREN = 183,
-        SDL_SCANCODE_KP_LEFTBRACE = 184,
-        SDL_SCANCODE_KP_RIGHTBRACE = 185,
-        SDL_SCANCODE_KP_TAB = 186,
-        SDL_SCANCODE_KP_BACKSPACE = 187,
-        SDL_SCANCODE_KP_A = 188,
-        SDL_SCANCODE_KP_B = 189,
-        SDL_SCANCODE_KP_C = 190,
-        SDL_SCANCODE_KP_D = 191,
-        SDL_SCANCODE_KP_E = 192,
-        SDL_SCANCODE_KP_F = 193,
-        SDL_SCANCODE_KP_XOR = 194,
-        SDL_SCANCODE_KP_POWER = 195,
-        SDL_SCANCODE_KP_PERCENT = 196,
-        SDL_SCANCODE_KP_LESS = 197,
-        SDL_SCANCODE_KP_GREATER = 198,
-        SDL_SCANCODE_KP_AMPERSAND = 199,
-        SDL_SCANCODE_KP_DBLAMPERSAND = 200,
-        SDL_SCANCODE_KP_VERTICALBAR = 201,
-        SDL_SCANCODE_KP_DBLVERTICALBAR = 202,
-        SDL_SCANCODE_KP_COLON = 203,
-        SDL_SCANCODE_KP_HASH = 204,
-        SDL_SCANCODE_KP_SPACE = 205,
-        SDL_SCANCODE_KP_AT = 206,
-        SDL_SCANCODE_KP_EXCLAM = 207,
-        SDL_SCANCODE_KP_MEMSTORE = 208,
-        SDL_SCANCODE_KP_MEMRECALL = 209,
-        SDL_SCANCODE_KP_MEMCLEAR = 210,
-        SDL_SCANCODE_KP_MEMADD = 211,
-        SDL_SCANCODE_KP_MEMSUBTRACT = 212,
-        SDL_SCANCODE_KP_MEMMULTIPLY = 213,
-        SDL_SCANCODE_KP_MEMDIVIDE = 214,
-        SDL_SCANCODE_KP_PLUSMINUS = 215,
-        SDL_SCANCODE_KP_CLEAR = 216,
-        SDL_SCANCODE_KP_CLEARENTRY = 217,
-        SDL_SCANCODE_KP_BINARY = 218,
-        SDL_SCANCODE_KP_OCTAL = 219,
-        SDL_SCANCODE_KP_DECIMAL = 220,
-        SDL_SCANCODE_KP_HEXADECIMAL = 221,
-        SDL_SCANCODE_LCTRL = 224,
-        SDL_SCANCODE_LSHIFT = 225,
-        SDL_SCANCODE_LALT = 226,
-        SDL_SCANCODE_LGUI = 227,
-        SDL_SCANCODE_RCTRL = 228,
-        SDL_SCANCODE_RSHIFT = 229,
-        SDL_SCANCODE_RALT = 230,
-        SDL_SCANCODE_RGUI = 231,
-        SDL_SCANCODE_MODE = 257,
-        SDL_SCANCODE_AUDIONEXT = 258,
-        SDL_SCANCODE_AUDIOPREV = 259,
-        SDL_SCANCODE_AUDIOSTOP = 260,
-        SDL_SCANCODE_AUDIOPLAY = 261,
-        SDL_SCANCODE_AUDIOMUTE = 262,
-        SDL_SCANCODE_MEDIASELECT = 263,
-        SDL_SCANCODE_WWW = 264,
-        SDL_SCANCODE_MAIL = 265,
-        SDL_SCANCODE_CALCULATOR = 266,
-        SDL_SCANCODE_COMPUTER = 267,
-        SDL_SCANCODE_AC_SEARCH = 268,
-        SDL_SCANCODE_AC_HOME = 269,
-        SDL_SCANCODE_AC_BACK = 270,
-        SDL_SCANCODE_AC_FORWARD = 271,
-        SDL_SCANCODE_AC_STOP = 272,
-        SDL_SCANCODE_AC_REFRESH = 273,
-        SDL_SCANCODE_AC_BOOKMARKS = 274,
-        SDL_SCANCODE_BRIGHTNESSDOWN = 275,
-        SDL_SCANCODE_BRIGHTNESSUP = 276,
-        SDL_SCANCODE_DISPLAYSWITCH = 277,
-        SDL_SCANCODE_KBDILLUMTOGGLE = 278,
-        SDL_SCANCODE_KBDILLUMDOWN = 279,
-        SDL_SCANCODE_KBDILLUMUP = 280,
-        SDL_SCANCODE_EJECT = 281,
-        SDL_SCANCODE_SLEEP = 282,
-        SDL_SCANCODE_APP1 = 283,
-        SDL_SCANCODE_APP2 = 284,
-        SDL_SCANCODE_AUDIOREWIND = 285,
-        SDL_SCANCODE_AUDIOFASTFORWARD = 286,
-        SDL_NUM_SCANCODES = 512
+        SDL_SCANCODE_UNKNOWN = 0U,
+        SDL_SCANCODE_A = 4U,
+        SDL_SCANCODE_B = 5U,
+        SDL_SCANCODE_C = 6U,
+        SDL_SCANCODE_D = 7U,
+        SDL_SCANCODE_E = 8U,
+        SDL_SCANCODE_F = 9U,
+        SDL_SCANCODE_G = 10U,
+        SDL_SCANCODE_H = 11U,
+        SDL_SCANCODE_I = 12U,
+        SDL_SCANCODE_J = 13U,
+        SDL_SCANCODE_K = 14U,
+        SDL_SCANCODE_L = 15U,
+        SDL_SCANCODE_M = 16U,
+        SDL_SCANCODE_N = 17U,
+        SDL_SCANCODE_O = 18U,
+        SDL_SCANCODE_P = 19U,
+        SDL_SCANCODE_Q = 20U,
+        SDL_SCANCODE_R = 21U,
+        SDL_SCANCODE_S = 22U,
+        SDL_SCANCODE_T = 23U,
+        SDL_SCANCODE_U = 24U,
+        SDL_SCANCODE_V = 25U,
+        SDL_SCANCODE_W = 26U,
+        SDL_SCANCODE_X = 27U,
+        SDL_SCANCODE_Y = 28U,
+        SDL_SCANCODE_Z = 29U,
+        SDL_SCANCODE_1 = 30U,
+        SDL_SCANCODE_2 = 31U,
+        SDL_SCANCODE_3 = 32U,
+        SDL_SCANCODE_4 = 33U,
+        SDL_SCANCODE_5 = 34U,
+        SDL_SCANCODE_6 = 35U,
+        SDL_SCANCODE_7 = 36U,
+        SDL_SCANCODE_8 = 37U,
+        SDL_SCANCODE_9 = 38U,
+        SDL_SCANCODE_0 = 39U,
+        SDL_SCANCODE_RETURN = 40U,
+        SDL_SCANCODE_ESCAPE = 41U,
+        SDL_SCANCODE_BACKSPACE = 42U,
+        SDL_SCANCODE_TAB = 43U,
+        SDL_SCANCODE_SPACE = 44U,
+        SDL_SCANCODE_MINUS = 45U,
+        SDL_SCANCODE_EQUALS = 46U,
+        SDL_SCANCODE_LEFTBRACKET = 47U,
+        SDL_SCANCODE_RIGHTBRACKET = 48U,
+        SDL_SCANCODE_BACKSLASH = 49U,
+        SDL_SCANCODE_NONUSHASH = 50U,
+        SDL_SCANCODE_SEMICOLON = 51U,
+        SDL_SCANCODE_APOSTROPHE = 52U,
+        SDL_SCANCODE_GRAVE = 53U,
+        SDL_SCANCODE_COMMA = 54U,
+        SDL_SCANCODE_PERIOD = 55U,
+        SDL_SCANCODE_SLASH = 56U,
+        SDL_SCANCODE_CAPSLOCK = 57U,
+        SDL_SCANCODE_F1 = 58U,
+        SDL_SCANCODE_F2 = 59U,
+        SDL_SCANCODE_F3 = 60U,
+        SDL_SCANCODE_F4 = 61U,
+        SDL_SCANCODE_F5 = 62U,
+        SDL_SCANCODE_F6 = 63U,
+        SDL_SCANCODE_F7 = 64U,
+        SDL_SCANCODE_F8 = 65U,
+        SDL_SCANCODE_F9 = 66U,
+        SDL_SCANCODE_F10 = 67U,
+        SDL_SCANCODE_F11 = 68U,
+        SDL_SCANCODE_F12 = 69U,
+        SDL_SCANCODE_PRINTSCREEN = 70U,
+        SDL_SCANCODE_SCROLLLOCK = 71U,
+        SDL_SCANCODE_PAUSE = 72U,
+        SDL_SCANCODE_INSERT = 73U,
+        SDL_SCANCODE_HOME = 74U,
+        SDL_SCANCODE_PAGEUP = 75U,
+        SDL_SCANCODE_DELETE = 76U,
+        SDL_SCANCODE_END = 77U,
+        SDL_SCANCODE_PAGEDOWN = 78U,
+        SDL_SCANCODE_RIGHT = 79U,
+        SDL_SCANCODE_LEFT = 80U,
+        SDL_SCANCODE_DOWN = 81U,
+        SDL_SCANCODE_UP = 82U,
+        SDL_SCANCODE_NUMLOCKCLEAR = 83U,
+        SDL_SCANCODE_KP_DIVIDE = 84U,
+        SDL_SCANCODE_KP_MULTIPLY = 85U,
+        SDL_SCANCODE_KP_MINUS = 86U,
+        SDL_SCANCODE_KP_PLUS = 87U,
+        SDL_SCANCODE_KP_ENTER = 88U,
+        SDL_SCANCODE_KP_1 = 89U,
+        SDL_SCANCODE_KP_2 = 90U,
+        SDL_SCANCODE_KP_3 = 91U,
+        SDL_SCANCODE_KP_4 = 92U,
+        SDL_SCANCODE_KP_5 = 93U,
+        SDL_SCANCODE_KP_6 = 94U,
+        SDL_SCANCODE_KP_7 = 95U,
+        SDL_SCANCODE_KP_8 = 96U,
+        SDL_SCANCODE_KP_9 = 97U,
+        SDL_SCANCODE_KP_0 = 98U,
+        SDL_SCANCODE_KP_PERIOD = 99U,
+        SDL_SCANCODE_NONUSBACKSLASH = 100U,
+        SDL_SCANCODE_APPLICATION = 101U,
+        SDL_SCANCODE_POWER = 102U,
+        SDL_SCANCODE_KP_EQUALS = 103U,
+        SDL_SCANCODE_F13 = 104U,
+        SDL_SCANCODE_F14 = 105U,
+        SDL_SCANCODE_F15 = 106U,
+        SDL_SCANCODE_F16 = 107U,
+        SDL_SCANCODE_F17 = 108U,
+        SDL_SCANCODE_F18 = 109U,
+        SDL_SCANCODE_F19 = 110U,
+        SDL_SCANCODE_F20 = 111U,
+        SDL_SCANCODE_F21 = 112U,
+        SDL_SCANCODE_F22 = 113U,
+        SDL_SCANCODE_F23 = 114U,
+        SDL_SCANCODE_F24 = 115U,
+        SDL_SCANCODE_EXECUTE = 116U,
+        SDL_SCANCODE_HELP = 117U,
+        SDL_SCANCODE_MENU = 118U,
+        SDL_SCANCODE_SELECT = 119U,
+        SDL_SCANCODE_STOP = 120U,
+        SDL_SCANCODE_AGAIN = 121U,
+        SDL_SCANCODE_UNDO = 122U,
+        SDL_SCANCODE_CUT = 123U,
+        SDL_SCANCODE_COPY = 124U,
+        SDL_SCANCODE_PASTE = 125U,
+        SDL_SCANCODE_FIND = 126U,
+        SDL_SCANCODE_MUTE = 127U,
+        SDL_SCANCODE_VOLUMEUP = 128U,
+        SDL_SCANCODE_VOLUMEDOWN = 129U,
+        SDL_SCANCODE_KP_COMMA = 133U,
+        SDL_SCANCODE_KP_EQUALSAS400 = 134U,
+        SDL_SCANCODE_INTERNATIONAL1 = 135U,
+        SDL_SCANCODE_INTERNATIONAL2 = 136U,
+        SDL_SCANCODE_INTERNATIONAL3 = 137U,
+        SDL_SCANCODE_INTERNATIONAL4 = 138U,
+        SDL_SCANCODE_INTERNATIONAL5 = 139U,
+        SDL_SCANCODE_INTERNATIONAL6 = 140U,
+        SDL_SCANCODE_INTERNATIONAL7 = 141U,
+        SDL_SCANCODE_INTERNATIONAL8 = 142U,
+        SDL_SCANCODE_INTERNATIONAL9 = 143U,
+        SDL_SCANCODE_LANG1 = 144U,
+        SDL_SCANCODE_LANG2 = 145U,
+        SDL_SCANCODE_LANG3 = 146U,
+        SDL_SCANCODE_LANG4 = 147U,
+        SDL_SCANCODE_LANG5 = 148U,
+        SDL_SCANCODE_LANG6 = 149U,
+        SDL_SCANCODE_LANG7 = 150U,
+        SDL_SCANCODE_LANG8 = 151U,
+        SDL_SCANCODE_LANG9 = 152U,
+        SDL_SCANCODE_ALTERASE = 153U,
+        SDL_SCANCODE_SYSREQ = 154U,
+        SDL_SCANCODE_CANCEL = 155U,
+        SDL_SCANCODE_CLEAR = 156U,
+        SDL_SCANCODE_PRIOR = 157U,
+        SDL_SCANCODE_RETURN2 = 158U,
+        SDL_SCANCODE_SEPARATOR = 159U,
+        SDL_SCANCODE_OUT = 160U,
+        SDL_SCANCODE_OPER = 161U,
+        SDL_SCANCODE_CLEARAGAIN = 162U,
+        SDL_SCANCODE_CRSEL = 163U,
+        SDL_SCANCODE_EXSEL = 164U,
+        SDL_SCANCODE_KP_00 = 176U,
+        SDL_SCANCODE_KP_000 = 177U,
+        SDL_SCANCODE_THOUSANDSSEPARATOR = 178U,
+        SDL_SCANCODE_DECIMALSEPARATOR = 179U,
+        SDL_SCANCODE_CURRENCYUNIT = 180U,
+        SDL_SCANCODE_CURRENCYSUBUNIT = 181U,
+        SDL_SCANCODE_KP_LEFTPAREN = 182U,
+        SDL_SCANCODE_KP_RIGHTPAREN = 183U,
+        SDL_SCANCODE_KP_LEFTBRACE = 184U,
+        SDL_SCANCODE_KP_RIGHTBRACE = 185U,
+        SDL_SCANCODE_KP_TAB = 186U,
+        SDL_SCANCODE_KP_BACKSPACE = 187U,
+        SDL_SCANCODE_KP_A = 188U,
+        SDL_SCANCODE_KP_B = 189U,
+        SDL_SCANCODE_KP_C = 190U,
+        SDL_SCANCODE_KP_D = 191U,
+        SDL_SCANCODE_KP_E = 192U,
+        SDL_SCANCODE_KP_F = 193U,
+        SDL_SCANCODE_KP_XOR = 194U,
+        SDL_SCANCODE_KP_POWER = 195U,
+        SDL_SCANCODE_KP_PERCENT = 196U,
+        SDL_SCANCODE_KP_LESS = 197U,
+        SDL_SCANCODE_KP_GREATER = 198U,
+        SDL_SCANCODE_KP_AMPERSAND = 199U,
+        SDL_SCANCODE_KP_DBLAMPERSAND = 200U,
+        SDL_SCANCODE_KP_VERTICALBAR = 201U,
+        SDL_SCANCODE_KP_DBLVERTICALBAR = 202U,
+        SDL_SCANCODE_KP_COLON = 203U,
+        SDL_SCANCODE_KP_HASH = 204U,
+        SDL_SCANCODE_KP_SPACE = 205U,
+        SDL_SCANCODE_KP_AT = 206U,
+        SDL_SCANCODE_KP_EXCLAM = 207U,
+        SDL_SCANCODE_KP_MEMSTORE = 208U,
+        SDL_SCANCODE_KP_MEMRECALL = 209U,
+        SDL_SCANCODE_KP_MEMCLEAR = 210U,
+        SDL_SCANCODE_KP_MEMADD = 211U,
+        SDL_SCANCODE_KP_MEMSUBTRACT = 212U,
+        SDL_SCANCODE_KP_MEMMULTIPLY = 213U,
+        SDL_SCANCODE_KP_MEMDIVIDE = 214U,
+        SDL_SCANCODE_KP_PLUSMINUS = 215U,
+        SDL_SCANCODE_KP_CLEAR = 216U,
+        SDL_SCANCODE_KP_CLEARENTRY = 217U,
+        SDL_SCANCODE_KP_BINARY = 218U,
+        SDL_SCANCODE_KP_OCTAL = 219U,
+        SDL_SCANCODE_KP_DECIMAL = 220U,
+        SDL_SCANCODE_KP_HEXADECIMAL = 221U,
+        SDL_SCANCODE_LCTRL = 224U,
+        SDL_SCANCODE_LSHIFT = 225U,
+        SDL_SCANCODE_LALT = 226U,
+        SDL_SCANCODE_LGUI = 227U,
+        SDL_SCANCODE_RCTRL = 228U,
+        SDL_SCANCODE_RSHIFT = 229U,
+        SDL_SCANCODE_RALT = 230U,
+        SDL_SCANCODE_RGUI = 231U,
+        SDL_SCANCODE_MODE = 257U,
+        SDL_SCANCODE_AUDIONEXT = 258U,
+        SDL_SCANCODE_AUDIOPREV = 259U,
+        SDL_SCANCODE_AUDIOSTOP = 260U,
+        SDL_SCANCODE_AUDIOPLAY = 261U,
+        SDL_SCANCODE_AUDIOMUTE = 262U,
+        SDL_SCANCODE_MEDIASELECT = 263U,
+        SDL_SCANCODE_WWW = 264U,
+        SDL_SCANCODE_MAIL = 265U,
+        SDL_SCANCODE_CALCULATOR = 266U,
+        SDL_SCANCODE_COMPUTER = 267U,
+        SDL_SCANCODE_AC_SEARCH = 268U,
+        SDL_SCANCODE_AC_HOME = 269U,
+        SDL_SCANCODE_AC_BACK = 270U,
+        SDL_SCANCODE_AC_FORWARD = 271U,
+        SDL_SCANCODE_AC_STOP = 272U,
+        SDL_SCANCODE_AC_REFRESH = 273U,
+        SDL_SCANCODE_AC_BOOKMARKS = 274U,
+        SDL_SCANCODE_BRIGHTNESSDOWN = 275U,
+        SDL_SCANCODE_BRIGHTNESSUP = 276U,
+        SDL_SCANCODE_DISPLAYSWITCH = 277U,
+        SDL_SCANCODE_KBDILLUMTOGGLE = 278U,
+        SDL_SCANCODE_KBDILLUMDOWN = 279U,
+        SDL_SCANCODE_KBDILLUMUP = 280U,
+        SDL_SCANCODE_EJECT = 281U,
+        SDL_SCANCODE_SLEEP = 282U,
+        SDL_SCANCODE_APP1 = 283U,
+        SDL_SCANCODE_APP2 = 284U,
+        SDL_SCANCODE_AUDIOREWIND = 285U,
+        SDL_SCANCODE_AUDIOFASTFORWARD = 286U,
+        SDL_NUM_SCANCODES = 512U
     }
 
     // Enum @ SDL_events.h:667:3
-    public enum SDL_eventaction : int
+    public enum SDL_eventaction : uint
     {
-        SDL_ADDEVENT = 0,
-        SDL_PEEKEVENT = 1,
-        SDL_GETEVENT = 2
+        SDL_ADDEVENT = 0U,
+        SDL_PEEKEVENT = 1U,
+        SDL_GETEVENT = 2U
     }
 
     // Enum @ SDL_touch.h:50:3
@@ -7095,12 +5540,12 @@ public static unsafe partial class SDL
     }
 
     // Enum @ SDL_gamecontroller.h:79:3
-    public enum SDL_GameControllerBindType : int
+    public enum SDL_GameControllerBindType : uint
     {
-        SDL_CONTROLLER_BINDTYPE_NONE = 0,
-        SDL_CONTROLLER_BINDTYPE_BUTTON = 1,
-        SDL_CONTROLLER_BINDTYPE_AXIS = 2,
-        SDL_CONTROLLER_BINDTYPE_HAT = 3
+        SDL_CONTROLLER_BINDTYPE_NONE = 0U,
+        SDL_CONTROLLER_BINDTYPE_BUTTON = 1U,
+        SDL_CONTROLLER_BINDTYPE_AXIS = 2U,
+        SDL_CONTROLLER_BINDTYPE_HAT = 3U
     }
 
     // Enum @ SDL_gamecontroller.h:519:3
@@ -7117,16 +5562,16 @@ public static unsafe partial class SDL
     }
 
     // Enum @ SDL_gamecontroller.h:71:3
-    public enum SDL_GameControllerType : int
+    public enum SDL_GameControllerType : uint
     {
-        SDL_CONTROLLER_TYPE_UNKNOWN = 0,
-        SDL_CONTROLLER_TYPE_XBOX360 = 1,
-        SDL_CONTROLLER_TYPE_XBOXONE = 2,
-        SDL_CONTROLLER_TYPE_PS3 = 3,
-        SDL_CONTROLLER_TYPE_PS4 = 4,
-        SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_PRO = 5,
-        SDL_CONTROLLER_TYPE_VIRTUAL = 6,
-        SDL_CONTROLLER_TYPE_PS5 = 7
+        SDL_CONTROLLER_TYPE_UNKNOWN = 0U,
+        SDL_CONTROLLER_TYPE_XBOX360 = 1U,
+        SDL_CONTROLLER_TYPE_XBOXONE = 2U,
+        SDL_CONTROLLER_TYPE_PS3 = 3U,
+        SDL_CONTROLLER_TYPE_PS4 = 4U,
+        SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_PRO = 5U,
+        SDL_CONTROLLER_TYPE_VIRTUAL = 6U,
+        SDL_CONTROLLER_TYPE_PS5 = 7U
     }
 
     // Enum @ SDL_joystick.h:108:3
@@ -7142,2465 +5587,186 @@ public static unsafe partial class SDL
     }
 
     // Enum @ SDL_joystick.h:97:3
-    public enum SDL_JoystickType : int
+    public enum SDL_JoystickType : uint
     {
-        SDL_JOYSTICK_TYPE_UNKNOWN = 0,
-        SDL_JOYSTICK_TYPE_GAMECONTROLLER = 1,
-        SDL_JOYSTICK_TYPE_WHEEL = 2,
-        SDL_JOYSTICK_TYPE_ARCADE_STICK = 3,
-        SDL_JOYSTICK_TYPE_FLIGHT_STICK = 4,
-        SDL_JOYSTICK_TYPE_DANCE_PAD = 5,
-        SDL_JOYSTICK_TYPE_GUITAR = 6,
-        SDL_JOYSTICK_TYPE_DRUM_KIT = 7,
-        SDL_JOYSTICK_TYPE_ARCADE_PAD = 8,
-        SDL_JOYSTICK_TYPE_THROTTLE = 9
+        SDL_JOYSTICK_TYPE_UNKNOWN = 0U,
+        SDL_JOYSTICK_TYPE_GAMECONTROLLER = 1U,
+        SDL_JOYSTICK_TYPE_WHEEL = 2U,
+        SDL_JOYSTICK_TYPE_ARCADE_STICK = 3U,
+        SDL_JOYSTICK_TYPE_FLIGHT_STICK = 4U,
+        SDL_JOYSTICK_TYPE_DANCE_PAD = 5U,
+        SDL_JOYSTICK_TYPE_GUITAR = 6U,
+        SDL_JOYSTICK_TYPE_DRUM_KIT = 7U,
+        SDL_JOYSTICK_TYPE_ARCADE_PAD = 8U,
+        SDL_JOYSTICK_TYPE_THROTTLE = 9U
     }
 
     // Enum @ SDL_mouse.h:61:3
-    public enum SDL_SystemCursor : int
+    public enum SDL_SystemCursor : uint
     {
-        SDL_SYSTEM_CURSOR_ARROW = 0,
-        SDL_SYSTEM_CURSOR_IBEAM = 1,
-        SDL_SYSTEM_CURSOR_WAIT = 2,
-        SDL_SYSTEM_CURSOR_CROSSHAIR = 3,
-        SDL_SYSTEM_CURSOR_WAITARROW = 4,
-        SDL_SYSTEM_CURSOR_SIZENWSE = 5,
-        SDL_SYSTEM_CURSOR_SIZENESW = 6,
-        SDL_SYSTEM_CURSOR_SIZEWE = 7,
-        SDL_SYSTEM_CURSOR_SIZENS = 8,
-        SDL_SYSTEM_CURSOR_SIZEALL = 9,
-        SDL_SYSTEM_CURSOR_NO = 10,
-        SDL_SYSTEM_CURSOR_HAND = 11,
-        SDL_NUM_SYSTEM_CURSORS = 12
+        SDL_SYSTEM_CURSOR_ARROW = 0U,
+        SDL_SYSTEM_CURSOR_IBEAM = 1U,
+        SDL_SYSTEM_CURSOR_WAIT = 2U,
+        SDL_SYSTEM_CURSOR_CROSSHAIR = 3U,
+        SDL_SYSTEM_CURSOR_WAITARROW = 4U,
+        SDL_SYSTEM_CURSOR_SIZENWSE = 5U,
+        SDL_SYSTEM_CURSOR_SIZENESW = 6U,
+        SDL_SYSTEM_CURSOR_SIZEWE = 7U,
+        SDL_SYSTEM_CURSOR_SIZENS = 8U,
+        SDL_SYSTEM_CURSOR_SIZEALL = 9U,
+        SDL_SYSTEM_CURSOR_NO = 10U,
+        SDL_SYSTEM_CURSOR_HAND = 11U,
+        SDL_NUM_SYSTEM_CURSORS = 12U
     }
 
     // Enum @ SDL_keycode.h:347:3
-    public enum SDL_Keymod : int
+    public enum SDL_Keymod : uint
     {
-        KMOD_NONE = 0,
-        KMOD_LSHIFT = 1,
-        KMOD_RSHIFT = 2,
-        KMOD_LCTRL = 64,
-        KMOD_RCTRL = 128,
-        KMOD_LALT = 256,
-        KMOD_RALT = 512,
-        KMOD_LGUI = 1024,
-        KMOD_RGUI = 2048,
-        KMOD_NUM = 4096,
-        KMOD_CAPS = 8192,
-        KMOD_MODE = 16384,
-        KMOD_RESERVED = 32768,
-        KMOD_CTRL = 192,
-        KMOD_SHIFT = 3,
-        KMOD_ALT = 768,
-        KMOD_GUI = 3072
+        KMOD_NONE = 0U,
+        KMOD_LSHIFT = 1U,
+        KMOD_RSHIFT = 2U,
+        KMOD_LCTRL = 64U,
+        KMOD_RCTRL = 128U,
+        KMOD_LALT = 256U,
+        KMOD_RALT = 512U,
+        KMOD_LGUI = 1024U,
+        KMOD_RGUI = 2048U,
+        KMOD_NUM = 4096U,
+        KMOD_CAPS = 8192U,
+        KMOD_MODE = 16384U,
+        KMOD_RESERVED = 32768U,
+        KMOD_CTRL = 192U,
+        KMOD_SHIFT = 3U,
+        KMOD_ALT = 768U,
+        KMOD_GUI = 3072U
     }
 
     // Enum @ SDL_video.h:236:3
-    public enum SDL_GLattr : int
+    public enum SDL_GLattr : uint
     {
-        SDL_GL_RED_SIZE = 0,
-        SDL_GL_GREEN_SIZE = 1,
-        SDL_GL_BLUE_SIZE = 2,
-        SDL_GL_ALPHA_SIZE = 3,
-        SDL_GL_BUFFER_SIZE = 4,
-        SDL_GL_DOUBLEBUFFER = 5,
-        SDL_GL_DEPTH_SIZE = 6,
-        SDL_GL_STENCIL_SIZE = 7,
-        SDL_GL_ACCUM_RED_SIZE = 8,
-        SDL_GL_ACCUM_GREEN_SIZE = 9,
-        SDL_GL_ACCUM_BLUE_SIZE = 10,
-        SDL_GL_ACCUM_ALPHA_SIZE = 11,
-        SDL_GL_STEREO = 12,
-        SDL_GL_MULTISAMPLEBUFFERS = 13,
-        SDL_GL_MULTISAMPLESAMPLES = 14,
-        SDL_GL_ACCELERATED_VISUAL = 15,
-        SDL_GL_RETAINED_BACKING = 16,
-        SDL_GL_CONTEXT_MAJOR_VERSION = 17,
-        SDL_GL_CONTEXT_MINOR_VERSION = 18,
-        SDL_GL_CONTEXT_EGL = 19,
-        SDL_GL_CONTEXT_FLAGS = 20,
-        SDL_GL_CONTEXT_PROFILE_MASK = 21,
-        SDL_GL_SHARE_WITH_CURRENT_CONTEXT = 22,
-        SDL_GL_FRAMEBUFFER_SRGB_CAPABLE = 23,
-        SDL_GL_CONTEXT_RELEASE_BEHAVIOR = 24,
-        SDL_GL_CONTEXT_RESET_NOTIFICATION = 25,
-        SDL_GL_CONTEXT_NO_ERROR = 26
+        SDL_GL_RED_SIZE = 0U,
+        SDL_GL_GREEN_SIZE = 1U,
+        SDL_GL_BLUE_SIZE = 2U,
+        SDL_GL_ALPHA_SIZE = 3U,
+        SDL_GL_BUFFER_SIZE = 4U,
+        SDL_GL_DOUBLEBUFFER = 5U,
+        SDL_GL_DEPTH_SIZE = 6U,
+        SDL_GL_STENCIL_SIZE = 7U,
+        SDL_GL_ACCUM_RED_SIZE = 8U,
+        SDL_GL_ACCUM_GREEN_SIZE = 9U,
+        SDL_GL_ACCUM_BLUE_SIZE = 10U,
+        SDL_GL_ACCUM_ALPHA_SIZE = 11U,
+        SDL_GL_STEREO = 12U,
+        SDL_GL_MULTISAMPLEBUFFERS = 13U,
+        SDL_GL_MULTISAMPLESAMPLES = 14U,
+        SDL_GL_ACCELERATED_VISUAL = 15U,
+        SDL_GL_RETAINED_BACKING = 16U,
+        SDL_GL_CONTEXT_MAJOR_VERSION = 17U,
+        SDL_GL_CONTEXT_MINOR_VERSION = 18U,
+        SDL_GL_CONTEXT_EGL = 19U,
+        SDL_GL_CONTEXT_FLAGS = 20U,
+        SDL_GL_CONTEXT_PROFILE_MASK = 21U,
+        SDL_GL_SHARE_WITH_CURRENT_CONTEXT = 22U,
+        SDL_GL_FRAMEBUFFER_SRGB_CAPABLE = 23U,
+        SDL_GL_CONTEXT_RELEASE_BEHAVIOR = 24U,
+        SDL_GL_CONTEXT_RESET_NOTIFICATION = 25U,
+        SDL_GL_CONTEXT_NO_ERROR = 26U
     }
 
     // Enum @ SDL_video.h:1452:3
-    public enum SDL_HitTestResult : int
+    public enum SDL_HitTestResult : uint
     {
-        SDL_HITTEST_NORMAL = 0,
-        SDL_HITTEST_DRAGGABLE = 1,
-        SDL_HITTEST_RESIZE_TOPLEFT = 2,
-        SDL_HITTEST_RESIZE_TOP = 3,
-        SDL_HITTEST_RESIZE_TOPRIGHT = 4,
-        SDL_HITTEST_RESIZE_RIGHT = 5,
-        SDL_HITTEST_RESIZE_BOTTOMRIGHT = 6,
-        SDL_HITTEST_RESIZE_BOTTOM = 7,
-        SDL_HITTEST_RESIZE_BOTTOMLEFT = 8,
-        SDL_HITTEST_RESIZE_LEFT = 9
+        SDL_HITTEST_NORMAL = 0U,
+        SDL_HITTEST_DRAGGABLE = 1U,
+        SDL_HITTEST_RESIZE_TOPLEFT = 2U,
+        SDL_HITTEST_RESIZE_TOP = 3U,
+        SDL_HITTEST_RESIZE_TOPRIGHT = 4U,
+        SDL_HITTEST_RESIZE_RIGHT = 5U,
+        SDL_HITTEST_RESIZE_BOTTOMRIGHT = 6U,
+        SDL_HITTEST_RESIZE_BOTTOM = 7U,
+        SDL_HITTEST_RESIZE_BOTTOMLEFT = 8U,
+        SDL_HITTEST_RESIZE_LEFT = 9U
     }
 
     // Enum @ SDL_video.h:197:3
-    public enum SDL_DisplayOrientation : int
+    public enum SDL_DisplayOrientation : uint
     {
-        SDL_ORIENTATION_UNKNOWN = 0,
-        SDL_ORIENTATION_LANDSCAPE = 1,
-        SDL_ORIENTATION_LANDSCAPE_FLIPPED = 2,
-        SDL_ORIENTATION_PORTRAIT = 3,
-        SDL_ORIENTATION_PORTRAIT_FLIPPED = 4
+        SDL_ORIENTATION_UNKNOWN = 0U,
+        SDL_ORIENTATION_LANDSCAPE = 1U,
+        SDL_ORIENTATION_LANDSCAPE_FLIPPED = 2U,
+        SDL_ORIENTATION_PORTRAIT = 3U,
+        SDL_ORIENTATION_PORTRAIT_FLIPPED = 4U
     }
 
     // Enum @ SDL_surface.h:112:3
-    public enum SDL_YUV_CONVERSION_MODE : int
+    public enum SDL_YUV_CONVERSION_MODE : uint
     {
-        SDL_YUV_CONVERSION_JPEG = 0,
-        SDL_YUV_CONVERSION_BT601 = 1,
-        SDL_YUV_CONVERSION_BT709 = 2,
-        SDL_YUV_CONVERSION_AUTOMATIC = 3
+        SDL_YUV_CONVERSION_JPEG = 0U,
+        SDL_YUV_CONVERSION_BT601 = 1U,
+        SDL_YUV_CONVERSION_BT709 = 2U,
+        SDL_YUV_CONVERSION_AUTOMATIC = 3U
     }
 
     // Enum @ SDL_blendmode.h:73:3
-    public enum SDL_BlendOperation : int
+    public enum SDL_BlendOperation : uint
     {
-        SDL_BLENDOPERATION_ADD = 1,
-        SDL_BLENDOPERATION_SUBTRACT = 2,
-        SDL_BLENDOPERATION_REV_SUBTRACT = 3,
-        SDL_BLENDOPERATION_MINIMUM = 4,
-        SDL_BLENDOPERATION_MAXIMUM = 5
+        SDL_BLENDOPERATION_ADD = 1U,
+        SDL_BLENDOPERATION_SUBTRACT = 2U,
+        SDL_BLENDOPERATION_REV_SUBTRACT = 3U,
+        SDL_BLENDOPERATION_MINIMUM = 4U,
+        SDL_BLENDOPERATION_MAXIMUM = 5U
     }
 
     // Enum @ SDL_blendmode.h:91:3
-    public enum SDL_BlendFactor : int
+    public enum SDL_BlendFactor : uint
     {
-        SDL_BLENDFACTOR_ZERO = 1,
-        SDL_BLENDFACTOR_ONE = 2,
-        SDL_BLENDFACTOR_SRC_COLOR = 3,
-        SDL_BLENDFACTOR_ONE_MINUS_SRC_COLOR = 4,
-        SDL_BLENDFACTOR_SRC_ALPHA = 5,
-        SDL_BLENDFACTOR_ONE_MINUS_SRC_ALPHA = 6,
-        SDL_BLENDFACTOR_DST_COLOR = 7,
-        SDL_BLENDFACTOR_ONE_MINUS_DST_COLOR = 8,
-        SDL_BLENDFACTOR_DST_ALPHA = 9,
-        SDL_BLENDFACTOR_ONE_MINUS_DST_ALPHA = 10
+        SDL_BLENDFACTOR_ZERO = 1U,
+        SDL_BLENDFACTOR_ONE = 2U,
+        SDL_BLENDFACTOR_SRC_COLOR = 3U,
+        SDL_BLENDFACTOR_ONE_MINUS_SRC_COLOR = 4U,
+        SDL_BLENDFACTOR_SRC_ALPHA = 5U,
+        SDL_BLENDFACTOR_ONE_MINUS_SRC_ALPHA = 6U,
+        SDL_BLENDFACTOR_DST_COLOR = 7U,
+        SDL_BLENDFACTOR_ONE_MINUS_DST_COLOR = 8U,
+        SDL_BLENDFACTOR_DST_ALPHA = 9U,
+        SDL_BLENDFACTOR_ONE_MINUS_DST_ALPHA = 10U
     }
 
     // Enum @ SDL_audio.h:571:3
-    public enum SDL_AudioStatus : int
+    public enum SDL_AudioStatus : uint
     {
-        SDL_AUDIO_STOPPED = 0,
-        SDL_AUDIO_PLAYING = 1,
-        SDL_AUDIO_PAUSED = 2
+        SDL_AUDIO_STOPPED = 0U,
+        SDL_AUDIO_PLAYING = 1U,
+        SDL_AUDIO_PAUSED = 2U
     }
 
     // Enum @ SDL_thread.h:80:3
-    public enum SDL_ThreadPriority : int
+    public enum SDL_ThreadPriority : uint
     {
-        SDL_THREAD_PRIORITY_LOW = 0,
-        SDL_THREAD_PRIORITY_NORMAL = 1,
-        SDL_THREAD_PRIORITY_HIGH = 2,
-        SDL_THREAD_PRIORITY_TIME_CRITICAL = 3
+        SDL_THREAD_PRIORITY_LOW = 0U,
+        SDL_THREAD_PRIORITY_NORMAL = 1U,
+        SDL_THREAD_PRIORITY_HIGH = 2U,
+        SDL_THREAD_PRIORITY_TIME_CRITICAL = 3U
     }
 
     // Enum @ SDL_error.h:141:3
-    public enum SDL_errorcode : int
+    public enum SDL_errorcode : uint
     {
-        SDL_ENOMEM = 0,
-        SDL_EFREAD = 1,
-        SDL_EFWRITE = 2,
-        SDL_EFSEEK = 3,
-        SDL_UNSUPPORTED = 4,
-        SDL_LASTERROR = 5
+        SDL_ENOMEM = 0U,
+        SDL_EFREAD = 1U,
+        SDL_EFWRITE = 2U,
+        SDL_EFSEEK = 3U,
+        SDL_UNSUPPORTED = 4U,
+        SDL_LASTERROR = 5U
     }
 
     // Enum @ SDL_assert.h:113:3
-    public enum SDL_AssertState : int
+    public enum SDL_AssertState : uint
     {
-        SDL_ASSERTION_RETRY = 0,
-        SDL_ASSERTION_BREAK = 1,
-        SDL_ASSERTION_ABORT = 2,
-        SDL_ASSERTION_IGNORE = 3,
-        SDL_ASSERTION_ALWAYS_IGNORE = 4
+        SDL_ASSERTION_RETRY = 0U,
+        SDL_ASSERTION_BREAK = 1U,
+        SDL_ASSERTION_ABORT = 2U,
+        SDL_ASSERTION_IGNORE = 3U,
+        SDL_ASSERTION_ALWAYS_IGNORE = 4U
     }
-
-    private static void _LoadVirtualTable()
-    {
-        #region "Functions"
-        _virtualTable.SDL_Quit = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_Quit");
-        _virtualTable.SDL_WasInit = (delegate* unmanaged[Cdecl]<uint, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_WasInit");
-        _virtualTable.SDL_QuitSubSystem = (delegate* unmanaged[Cdecl]<uint, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_QuitSubSystem");
-        _virtualTable.SDL_InitSubSystem = (delegate* unmanaged[Cdecl]<uint, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_InitSubSystem");
-        _virtualTable.SDL_Init = (delegate* unmanaged[Cdecl]<uint, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_Init");
-        _virtualTable.SDL_OpenURL = (delegate* unmanaged[Cdecl]<CString, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_OpenURL");
-        _virtualTable.SDL_GetPreferredLocales = (delegate* unmanaged[Cdecl]<SDL_Locale*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetPreferredLocales");
-        _virtualTable.SDL_GetRevisionNumber = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetRevisionNumber");
-        _virtualTable.SDL_GetRevision = (delegate* unmanaged[Cdecl]<CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetRevision");
-        _virtualTable.SDL_GetVersion = (delegate* unmanaged[Cdecl]<SDL_version*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetVersion");
-        _virtualTable.SDL_RemoveTimer = (delegate* unmanaged[Cdecl]<SDL_TimerID, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RemoveTimer");
-        _virtualTable.SDL_AddTimer = (delegate* unmanaged[Cdecl]<uint, SDL_TimerCallback, void*, SDL_TimerID>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AddTimer");
-        _virtualTable.SDL_Delay = (delegate* unmanaged[Cdecl]<uint, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_Delay");
-        _virtualTable.SDL_GetPerformanceFrequency = (delegate* unmanaged[Cdecl]<ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetPerformanceFrequency");
-        _virtualTable.SDL_GetPerformanceCounter = (delegate* unmanaged[Cdecl]<ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetPerformanceCounter");
-        _virtualTable.SDL_GetTicks = (delegate* unmanaged[Cdecl]<uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetTicks");
-        _virtualTable.SDL_GetShapedWindowMode = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_WindowShapeMode*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetShapedWindowMode");
-        _virtualTable.SDL_SetWindowShape = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Surface*, SDL_WindowShapeMode*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowShape");
-        _virtualTable.SDL_IsShapedWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_IsShapedWindow");
-        _virtualTable.SDL_CreateShapedWindow = (delegate* unmanaged[Cdecl]<CString, uint, uint, uint, uint, uint, SDL_Window*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateShapedWindow");
-        _virtualTable.SDL_RenderGetMetalCommandEncoder = (delegate* unmanaged[Cdecl]<SDL_Renderer*, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderGetMetalCommandEncoder");
-        _virtualTable.SDL_RenderGetMetalLayer = (delegate* unmanaged[Cdecl]<SDL_Renderer*, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderGetMetalLayer");
-        _virtualTable.SDL_GL_UnbindTexture = (delegate* unmanaged[Cdecl]<SDL_Texture*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GL_UnbindTexture");
-        _virtualTable.SDL_GL_BindTexture = (delegate* unmanaged[Cdecl]<SDL_Texture*, float*, float*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GL_BindTexture");
-        _virtualTable.SDL_RenderFlush = (delegate* unmanaged[Cdecl]<SDL_Renderer*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderFlush");
-        _virtualTable.SDL_DestroyRenderer = (delegate* unmanaged[Cdecl]<SDL_Renderer*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_DestroyRenderer");
-        _virtualTable.SDL_DestroyTexture = (delegate* unmanaged[Cdecl]<SDL_Texture*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_DestroyTexture");
-        _virtualTable.SDL_RenderPresent = (delegate* unmanaged[Cdecl]<SDL_Renderer*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderPresent");
-        _virtualTable.SDL_RenderReadPixels = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, uint, void*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderReadPixels");
-        _virtualTable.SDL_RenderCopyExF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_FRect*, double, SDL_FPoint*, SDL_RendererFlip, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderCopyExF");
-        _virtualTable.SDL_RenderCopyF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_FRect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderCopyF");
-        _virtualTable.SDL_RenderFillRectsF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_FRect*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderFillRectsF");
-        _virtualTable.SDL_RenderFillRectF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_FRect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderFillRectF");
-        _virtualTable.SDL_RenderDrawRectsF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_FRect*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderDrawRectsF");
-        _virtualTable.SDL_RenderDrawRectF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_FRect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderDrawRectF");
-        _virtualTable.SDL_RenderDrawLinesF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_FPoint*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderDrawLinesF");
-        _virtualTable.SDL_RenderDrawLineF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, float, float, float, float, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderDrawLineF");
-        _virtualTable.SDL_RenderDrawPointsF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_FPoint*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderDrawPointsF");
-        _virtualTable.SDL_RenderDrawPointF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, float, float, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderDrawPointF");
-        _virtualTable.SDL_RenderCopyEx = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*, double, SDL_Point*, SDL_RendererFlip, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderCopyEx");
-        _virtualTable.SDL_RenderCopy = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderCopy");
-        _virtualTable.SDL_RenderFillRects = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderFillRects");
-        _virtualTable.SDL_RenderFillRect = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderFillRect");
-        _virtualTable.SDL_RenderDrawRects = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderDrawRects");
-        _virtualTable.SDL_RenderDrawRect = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderDrawRect");
-        _virtualTable.SDL_RenderDrawLines = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Point*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderDrawLines");
-        _virtualTable.SDL_RenderDrawLine = (delegate* unmanaged[Cdecl]<SDL_Renderer*, int, int, int, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderDrawLine");
-        _virtualTable.SDL_RenderDrawPoints = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Point*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderDrawPoints");
-        _virtualTable.SDL_RenderDrawPoint = (delegate* unmanaged[Cdecl]<SDL_Renderer*, int, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderDrawPoint");
-        _virtualTable.SDL_RenderClear = (delegate* unmanaged[Cdecl]<SDL_Renderer*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderClear");
-        _virtualTable.SDL_GetRenderDrawBlendMode = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_BlendMode*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetRenderDrawBlendMode");
-        _virtualTable.SDL_SetRenderDrawBlendMode = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_BlendMode, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetRenderDrawBlendMode");
-        _virtualTable.SDL_GetRenderDrawColor = (delegate* unmanaged[Cdecl]<SDL_Renderer*, byte*, byte*, byte*, byte*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetRenderDrawColor");
-        _virtualTable.SDL_SetRenderDrawColor = (delegate* unmanaged[Cdecl]<SDL_Renderer*, byte, byte, byte, byte, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetRenderDrawColor");
-        _virtualTable.SDL_RenderGetScale = (delegate* unmanaged[Cdecl]<SDL_Renderer*, float*, float*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderGetScale");
-        _virtualTable.SDL_RenderSetScale = (delegate* unmanaged[Cdecl]<SDL_Renderer*, float, float, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderSetScale");
-        _virtualTable.SDL_RenderIsClipEnabled = (delegate* unmanaged[Cdecl]<SDL_Renderer*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderIsClipEnabled");
-        _virtualTable.SDL_RenderGetClipRect = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderGetClipRect");
-        _virtualTable.SDL_RenderSetClipRect = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderSetClipRect");
-        _virtualTable.SDL_RenderGetViewport = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderGetViewport");
-        _virtualTable.SDL_RenderSetViewport = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderSetViewport");
-        _virtualTable.SDL_RenderGetIntegerScale = (delegate* unmanaged[Cdecl]<SDL_Renderer*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderGetIntegerScale");
-        _virtualTable.SDL_RenderSetIntegerScale = (delegate* unmanaged[Cdecl]<SDL_Renderer*, CBool, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderSetIntegerScale");
-        _virtualTable.SDL_RenderGetLogicalSize = (delegate* unmanaged[Cdecl]<SDL_Renderer*, long*, long*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderGetLogicalSize");
-        _virtualTable.SDL_RenderSetLogicalSize = (delegate* unmanaged[Cdecl]<SDL_Renderer*, int, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderSetLogicalSize");
-        _virtualTable.SDL_GetRenderTarget = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Texture*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetRenderTarget");
-        _virtualTable.SDL_SetRenderTarget = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Texture*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetRenderTarget");
-        _virtualTable.SDL_RenderTargetSupported = (delegate* unmanaged[Cdecl]<SDL_Renderer*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RenderTargetSupported");
-        _virtualTable.SDL_UnlockTexture = (delegate* unmanaged[Cdecl]<SDL_Texture*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_UnlockTexture");
-        _virtualTable.SDL_LockTextureToSurface = (delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_Rect*, SDL_Surface**, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LockTextureToSurface");
-        _virtualTable.SDL_LockTexture = (delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_Rect*, void**, long*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LockTexture");
-        _virtualTable.SDL_UpdateNVTexture = (delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_Rect*, byte*, int, byte*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_UpdateNVTexture");
-        _virtualTable.SDL_UpdateYUVTexture = (delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_Rect*, byte*, int, byte*, int, byte*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_UpdateYUVTexture");
-        _virtualTable.SDL_UpdateTexture = (delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_Rect*, void*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_UpdateTexture");
-        _virtualTable.SDL_GetTextureScaleMode = (delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_ScaleMode*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetTextureScaleMode");
-        _virtualTable.SDL_SetTextureScaleMode = (delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_ScaleMode, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetTextureScaleMode");
-        _virtualTable.SDL_GetTextureBlendMode = (delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_BlendMode*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetTextureBlendMode");
-        _virtualTable.SDL_SetTextureBlendMode = (delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_BlendMode, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetTextureBlendMode");
-        _virtualTable.SDL_GetTextureAlphaMod = (delegate* unmanaged[Cdecl]<SDL_Texture*, byte*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetTextureAlphaMod");
-        _virtualTable.SDL_SetTextureAlphaMod = (delegate* unmanaged[Cdecl]<SDL_Texture*, byte, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetTextureAlphaMod");
-        _virtualTable.SDL_GetTextureColorMod = (delegate* unmanaged[Cdecl]<SDL_Texture*, byte*, byte*, byte*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetTextureColorMod");
-        _virtualTable.SDL_SetTextureColorMod = (delegate* unmanaged[Cdecl]<SDL_Texture*, byte, byte, byte, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetTextureColorMod");
-        _virtualTable.SDL_QueryTexture = (delegate* unmanaged[Cdecl]<SDL_Texture*, uint*, long*, long*, long*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_QueryTexture");
-        _virtualTable.SDL_CreateTextureFromSurface = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Surface*, SDL_Texture*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateTextureFromSurface");
-        _virtualTable.SDL_CreateTexture = (delegate* unmanaged[Cdecl]<SDL_Renderer*, uint, int, int, int, SDL_Texture*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateTexture");
-        _virtualTable.SDL_GetRendererOutputSize = (delegate* unmanaged[Cdecl]<SDL_Renderer*, long*, long*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetRendererOutputSize");
-        _virtualTable.SDL_GetRendererInfo = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_RendererInfo*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetRendererInfo");
-        _virtualTable.SDL_GetRenderer = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Renderer*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetRenderer");
-        _virtualTable.SDL_CreateSoftwareRenderer = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Renderer*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateSoftwareRenderer");
-        _virtualTable.SDL_CreateRenderer = (delegate* unmanaged[Cdecl]<SDL_Window*, int, uint, SDL_Renderer*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateRenderer");
-        _virtualTable.SDL_CreateWindowAndRenderer = (delegate* unmanaged[Cdecl]<int, int, uint, SDL_Window**, SDL_Renderer**, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateWindowAndRenderer");
-        _virtualTable.SDL_GetRenderDriverInfo = (delegate* unmanaged[Cdecl]<int, SDL_RendererInfo*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetRenderDriverInfo");
-        _virtualTable.SDL_GetNumRenderDrivers = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetNumRenderDrivers");
-        _virtualTable.SDL_GetPowerInfo = (delegate* unmanaged[Cdecl]<long*, long*, SDL_PowerState>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetPowerInfo");
-        _virtualTable.SDL_Metal_GetDrawableSize = (delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_Metal_GetDrawableSize");
-        _virtualTable.SDL_Metal_GetLayer = (delegate* unmanaged[Cdecl]<SDL_MetalView, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_Metal_GetLayer");
-        _virtualTable.SDL_Metal_DestroyView = (delegate* unmanaged[Cdecl]<SDL_MetalView, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_Metal_DestroyView");
-        _virtualTable.SDL_Metal_CreateView = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_MetalView>)Runtime.LibraryGetExport(_libraryHandle, "SDL_Metal_CreateView");
-        _virtualTable.SDL_ShowSimpleMessageBox = (delegate* unmanaged[Cdecl]<uint, CString, CString, SDL_Window*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ShowSimpleMessageBox");
-        _virtualTable.SDL_ShowMessageBox = (delegate* unmanaged[Cdecl]<SDL_MessageBoxData*, long*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ShowMessageBox");
-        _virtualTable.SDL_LogSetOutputFunction = (delegate* unmanaged[Cdecl]<SDL_LogOutputFunction, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LogSetOutputFunction");
-        _virtualTable.SDL_LogGetOutputFunction = (delegate* unmanaged[Cdecl]<SDL_LogOutputFunction*, void**, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LogGetOutputFunction");
-        _virtualTable.SDL_LogMessageV = (delegate* unmanaged[Cdecl]<int, SDL_LogPriority, CString, IntPtr, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LogMessageV");
-        _virtualTable.SDL_LogMessage = (delegate* unmanaged[Cdecl]<int, SDL_LogPriority, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LogMessage");
-        _virtualTable.SDL_LogCritical = (delegate* unmanaged[Cdecl]<int, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LogCritical");
-        _virtualTable.SDL_LogError = (delegate* unmanaged[Cdecl]<int, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LogError");
-        _virtualTable.SDL_LogWarn = (delegate* unmanaged[Cdecl]<int, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LogWarn");
-        _virtualTable.SDL_LogInfo = (delegate* unmanaged[Cdecl]<int, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LogInfo");
-        _virtualTable.SDL_LogDebug = (delegate* unmanaged[Cdecl]<int, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LogDebug");
-        _virtualTable.SDL_LogVerbose = (delegate* unmanaged[Cdecl]<int, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LogVerbose");
-        _virtualTable.SDL_Log = (delegate* unmanaged[Cdecl]<CString, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_Log");
-        _virtualTable.SDL_LogResetPriorities = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LogResetPriorities");
-        _virtualTable.SDL_LogGetPriority = (delegate* unmanaged[Cdecl]<int, SDL_LogPriority>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LogGetPriority");
-        _virtualTable.SDL_LogSetPriority = (delegate* unmanaged[Cdecl]<int, SDL_LogPriority, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LogSetPriority");
-        _virtualTable.SDL_LogSetAllPriority = (delegate* unmanaged[Cdecl]<SDL_LogPriority, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LogSetAllPriority");
-        _virtualTable.SDL_UnloadObject = (delegate* unmanaged[Cdecl]<void*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_UnloadObject");
-        _virtualTable.SDL_LoadFunction = (delegate* unmanaged[Cdecl]<void*, CString, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LoadFunction");
-        _virtualTable.SDL_LoadObject = (delegate* unmanaged[Cdecl]<CString, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LoadObject");
-        _virtualTable.SDL_ClearHints = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ClearHints");
-        _virtualTable.SDL_DelHintCallback = (delegate* unmanaged[Cdecl]<CString, SDL_HintCallback, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_DelHintCallback");
-        _virtualTable.SDL_AddHintCallback = (delegate* unmanaged[Cdecl]<CString, SDL_HintCallback, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AddHintCallback");
-        _virtualTable.SDL_GetHintBoolean = (delegate* unmanaged[Cdecl]<CString, CBool, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetHintBoolean");
-        _virtualTable.SDL_GetHint = (delegate* unmanaged[Cdecl]<CString, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetHint");
-        _virtualTable.SDL_SetHint = (delegate* unmanaged[Cdecl]<CString, CString, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetHint");
-        _virtualTable.SDL_SetHintWithPriority = (delegate* unmanaged[Cdecl]<CString, CString, SDL_HintPriority, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetHintWithPriority");
-        _virtualTable.SDL_HapticRumbleStop = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticRumbleStop");
-        _virtualTable.SDL_HapticRumblePlay = (delegate* unmanaged[Cdecl]<SDL_Haptic*, float, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticRumblePlay");
-        _virtualTable.SDL_HapticRumbleInit = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticRumbleInit");
-        _virtualTable.SDL_HapticRumbleSupported = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticRumbleSupported");
-        _virtualTable.SDL_HapticStopAll = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticStopAll");
-        _virtualTable.SDL_HapticUnpause = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticUnpause");
-        _virtualTable.SDL_HapticPause = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticPause");
-        _virtualTable.SDL_HapticSetAutocenter = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticSetAutocenter");
-        _virtualTable.SDL_HapticSetGain = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticSetGain");
-        _virtualTable.SDL_HapticGetEffectStatus = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticGetEffectStatus");
-        _virtualTable.SDL_HapticDestroyEffect = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticDestroyEffect");
-        _virtualTable.SDL_HapticStopEffect = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticStopEffect");
-        _virtualTable.SDL_HapticRunEffect = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticRunEffect");
-        _virtualTable.SDL_HapticUpdateEffect = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int, SDL_HapticEffect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticUpdateEffect");
-        _virtualTable.SDL_HapticNewEffect = (delegate* unmanaged[Cdecl]<SDL_Haptic*, SDL_HapticEffect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticNewEffect");
-        _virtualTable.SDL_HapticEffectSupported = (delegate* unmanaged[Cdecl]<SDL_Haptic*, SDL_HapticEffect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticEffectSupported");
-        _virtualTable.SDL_HapticNumAxes = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticNumAxes");
-        _virtualTable.SDL_HapticQuery = (delegate* unmanaged[Cdecl]<SDL_Haptic*, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticQuery");
-        _virtualTable.SDL_HapticNumEffectsPlaying = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticNumEffectsPlaying");
-        _virtualTable.SDL_HapticNumEffects = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticNumEffects");
-        _virtualTable.SDL_HapticClose = (delegate* unmanaged[Cdecl]<SDL_Haptic*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticClose");
-        _virtualTable.SDL_HapticOpenFromJoystick = (delegate* unmanaged[Cdecl]<SDL_Joystick*, SDL_Haptic*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticOpenFromJoystick");
-        _virtualTable.SDL_JoystickIsHaptic = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickIsHaptic");
-        _virtualTable.SDL_HapticOpenFromMouse = (delegate* unmanaged[Cdecl]<SDL_Haptic*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticOpenFromMouse");
-        _virtualTable.SDL_MouseIsHaptic = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_MouseIsHaptic");
-        _virtualTable.SDL_HapticIndex = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticIndex");
-        _virtualTable.SDL_HapticOpened = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticOpened");
-        _virtualTable.SDL_HapticOpen = (delegate* unmanaged[Cdecl]<int, SDL_Haptic*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticOpen");
-        _virtualTable.SDL_HapticName = (delegate* unmanaged[Cdecl]<int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HapticName");
-        _virtualTable.SDL_NumHaptics = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_NumHaptics");
-        _virtualTable.SDL_GetPrefPath = (delegate* unmanaged[Cdecl]<CString, CString, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetPrefPath");
-        _virtualTable.SDL_GetBasePath = (delegate* unmanaged[Cdecl]<CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetBasePath");
-        _virtualTable.SDL_RegisterEvents = (delegate* unmanaged[Cdecl]<int, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RegisterEvents");
-        _virtualTable.SDL_EventState = (delegate* unmanaged[Cdecl]<uint, int, byte>)Runtime.LibraryGetExport(_libraryHandle, "SDL_EventState");
-        _virtualTable.SDL_FilterEvents = (delegate* unmanaged[Cdecl]<SDL_EventFilter, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_FilterEvents");
-        _virtualTable.SDL_DelEventWatch = (delegate* unmanaged[Cdecl]<SDL_EventFilter, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_DelEventWatch");
-        _virtualTable.SDL_AddEventWatch = (delegate* unmanaged[Cdecl]<SDL_EventFilter, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AddEventWatch");
-        _virtualTable.SDL_GetEventFilter = (delegate* unmanaged[Cdecl]<SDL_EventFilter*, void**, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetEventFilter");
-        _virtualTable.SDL_SetEventFilter = (delegate* unmanaged[Cdecl]<SDL_EventFilter, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetEventFilter");
-        _virtualTable.SDL_PushEvent = (delegate* unmanaged[Cdecl]<SDL_Event*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_PushEvent");
-        _virtualTable.SDL_WaitEventTimeout = (delegate* unmanaged[Cdecl]<SDL_Event*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_WaitEventTimeout");
-        _virtualTable.SDL_WaitEvent = (delegate* unmanaged[Cdecl]<SDL_Event*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_WaitEvent");
-        _virtualTable.SDL_PollEvent = (delegate* unmanaged[Cdecl]<SDL_Event*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_PollEvent");
-        _virtualTable.SDL_FlushEvents = (delegate* unmanaged[Cdecl]<uint, uint, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_FlushEvents");
-        _virtualTable.SDL_FlushEvent = (delegate* unmanaged[Cdecl]<uint, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_FlushEvent");
-        _virtualTable.SDL_HasEvents = (delegate* unmanaged[Cdecl]<uint, uint, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasEvents");
-        _virtualTable.SDL_HasEvent = (delegate* unmanaged[Cdecl]<uint, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasEvent");
-        _virtualTable.SDL_PeepEvents = (delegate* unmanaged[Cdecl]<SDL_Event*, int, SDL_eventaction, uint, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_PeepEvents");
-        _virtualTable.SDL_PumpEvents = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_PumpEvents");
-        _virtualTable.SDL_LoadDollarTemplates = (delegate* unmanaged[Cdecl]<SDL_TouchID, SDL_RWops*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LoadDollarTemplates");
-        _virtualTable.SDL_SaveDollarTemplate = (delegate* unmanaged[Cdecl]<SDL_GestureID, SDL_RWops*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SaveDollarTemplate");
-        _virtualTable.SDL_SaveAllDollarTemplates = (delegate* unmanaged[Cdecl]<SDL_RWops*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SaveAllDollarTemplates");
-        _virtualTable.SDL_RecordGesture = (delegate* unmanaged[Cdecl]<SDL_TouchID, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RecordGesture");
-        _virtualTable.SDL_GetTouchFinger = (delegate* unmanaged[Cdecl]<SDL_TouchID, int, SDL_Finger*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetTouchFinger");
-        _virtualTable.SDL_GetNumTouchFingers = (delegate* unmanaged[Cdecl]<SDL_TouchID, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetNumTouchFingers");
-        _virtualTable.SDL_GetTouchDeviceType = (delegate* unmanaged[Cdecl]<SDL_TouchID, SDL_TouchDeviceType>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetTouchDeviceType");
-        _virtualTable.SDL_GetTouchDevice = (delegate* unmanaged[Cdecl]<int, SDL_TouchID>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetTouchDevice");
-        _virtualTable.SDL_GetNumTouchDevices = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetNumTouchDevices");
-        _virtualTable.SDL_GameControllerClose = (delegate* unmanaged[Cdecl]<SDL_GameController*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerClose");
-        _virtualTable.SDL_GameControllerSetLED = (delegate* unmanaged[Cdecl]<SDL_GameController*, byte, byte, byte, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerSetLED");
-        _virtualTable.SDL_GameControllerHasLED = (delegate* unmanaged[Cdecl]<SDL_GameController*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerHasLED");
-        _virtualTable.SDL_GameControllerRumbleTriggers = (delegate* unmanaged[Cdecl]<SDL_GameController*, ushort, ushort, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerRumbleTriggers");
-        _virtualTable.SDL_GameControllerRumble = (delegate* unmanaged[Cdecl]<SDL_GameController*, ushort, ushort, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerRumble");
-        _virtualTable.SDL_GameControllerGetSensorData = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_SensorType, float*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetSensorData");
-        _virtualTable.SDL_GameControllerIsSensorEnabled = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_SensorType, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerIsSensorEnabled");
-        _virtualTable.SDL_GameControllerSetSensorEnabled = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_SensorType, CBool, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerSetSensorEnabled");
-        _virtualTable.SDL_GameControllerHasSensor = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_SensorType, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerHasSensor");
-        _virtualTable.SDL_GameControllerGetTouchpadFinger = (delegate* unmanaged[Cdecl]<SDL_GameController*, int, int, byte*, float*, float*, float*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetTouchpadFinger");
-        _virtualTable.SDL_GameControllerGetNumTouchpadFingers = (delegate* unmanaged[Cdecl]<SDL_GameController*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetNumTouchpadFingers");
-        _virtualTable.SDL_GameControllerGetNumTouchpads = (delegate* unmanaged[Cdecl]<SDL_GameController*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetNumTouchpads");
-        _virtualTable.SDL_GameControllerGetButton = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerButton, byte>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetButton");
-        _virtualTable.SDL_GameControllerHasButton = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerButton, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerHasButton");
-        _virtualTable.SDL_GameControllerGetBindForButton = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerButton, SDL_GameControllerButtonBind>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetBindForButton");
-        _virtualTable.SDL_GameControllerGetStringForButton = (delegate* unmanaged[Cdecl]<SDL_GameControllerButton, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetStringForButton");
-        _virtualTable.SDL_GameControllerGetButtonFromString = (delegate* unmanaged[Cdecl]<CString, SDL_GameControllerButton>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetButtonFromString");
-        _virtualTable.SDL_GameControllerGetAxis = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerAxis, short>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetAxis");
-        _virtualTable.SDL_GameControllerHasAxis = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerAxis, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerHasAxis");
-        _virtualTable.SDL_GameControllerGetBindForAxis = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerAxis, SDL_GameControllerButtonBind>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetBindForAxis");
-        _virtualTable.SDL_GameControllerGetStringForAxis = (delegate* unmanaged[Cdecl]<SDL_GameControllerAxis, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetStringForAxis");
-        _virtualTable.SDL_GameControllerGetAxisFromString = (delegate* unmanaged[Cdecl]<CString, SDL_GameControllerAxis>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetAxisFromString");
-        _virtualTable.SDL_GameControllerUpdate = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerUpdate");
-        _virtualTable.SDL_GameControllerEventState = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerEventState");
-        _virtualTable.SDL_GameControllerGetJoystick = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_Joystick*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetJoystick");
-        _virtualTable.SDL_GameControllerGetAttached = (delegate* unmanaged[Cdecl]<SDL_GameController*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetAttached");
-        _virtualTable.SDL_GameControllerGetSerial = (delegate* unmanaged[Cdecl]<SDL_GameController*, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetSerial");
-        _virtualTable.SDL_GameControllerGetProductVersion = (delegate* unmanaged[Cdecl]<SDL_GameController*, ushort>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetProductVersion");
-        _virtualTable.SDL_GameControllerGetProduct = (delegate* unmanaged[Cdecl]<SDL_GameController*, ushort>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetProduct");
-        _virtualTable.SDL_GameControllerGetVendor = (delegate* unmanaged[Cdecl]<SDL_GameController*, ushort>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetVendor");
-        _virtualTable.SDL_GameControllerSetPlayerIndex = (delegate* unmanaged[Cdecl]<SDL_GameController*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerSetPlayerIndex");
-        _virtualTable.SDL_GameControllerGetPlayerIndex = (delegate* unmanaged[Cdecl]<SDL_GameController*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetPlayerIndex");
-        _virtualTable.SDL_GameControllerGetType = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerType>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerGetType");
-        _virtualTable.SDL_GameControllerName = (delegate* unmanaged[Cdecl]<SDL_GameController*, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerName");
-        _virtualTable.SDL_GameControllerFromPlayerIndex = (delegate* unmanaged[Cdecl]<int, SDL_GameController*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerFromPlayerIndex");
-        _virtualTable.SDL_GameControllerFromInstanceID = (delegate* unmanaged[Cdecl]<SDL_JoystickID, SDL_GameController*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerFromInstanceID");
-        _virtualTable.SDL_GameControllerOpen = (delegate* unmanaged[Cdecl]<int, SDL_GameController*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerOpen");
-        _virtualTable.SDL_GameControllerMappingForDeviceIndex = (delegate* unmanaged[Cdecl]<int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerMappingForDeviceIndex");
-        _virtualTable.SDL_GameControllerTypeForIndex = (delegate* unmanaged[Cdecl]<int, SDL_GameControllerType>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerTypeForIndex");
-        _virtualTable.SDL_GameControllerNameForIndex = (delegate* unmanaged[Cdecl]<int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerNameForIndex");
-        _virtualTable.SDL_IsGameController = (delegate* unmanaged[Cdecl]<int, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_IsGameController");
-        _virtualTable.SDL_GameControllerMapping = (delegate* unmanaged[Cdecl]<SDL_GameController*, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerMapping");
-        _virtualTable.SDL_GameControllerMappingForGUID = (delegate* unmanaged[Cdecl]<SDL_JoystickGUID, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerMappingForGUID");
-        _virtualTable.SDL_GameControllerMappingForIndex = (delegate* unmanaged[Cdecl]<int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerMappingForIndex");
-        _virtualTable.SDL_GameControllerNumMappings = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerNumMappings");
-        _virtualTable.SDL_GameControllerAddMapping = (delegate* unmanaged[Cdecl]<CString, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerAddMapping");
-        _virtualTable.SDL_GameControllerAddMappingsFromRW = (delegate* unmanaged[Cdecl]<SDL_RWops*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GameControllerAddMappingsFromRW");
-        _virtualTable.SDL_SensorUpdate = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SensorUpdate");
-        _virtualTable.SDL_SensorClose = (delegate* unmanaged[Cdecl]<SDL_Sensor*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SensorClose");
-        _virtualTable.SDL_SensorGetData = (delegate* unmanaged[Cdecl]<SDL_Sensor*, float*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SensorGetData");
-        _virtualTable.SDL_SensorGetInstanceID = (delegate* unmanaged[Cdecl]<SDL_Sensor*, SDL_SensorID>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SensorGetInstanceID");
-        _virtualTable.SDL_SensorGetNonPortableType = (delegate* unmanaged[Cdecl]<SDL_Sensor*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SensorGetNonPortableType");
-        _virtualTable.SDL_SensorGetType = (delegate* unmanaged[Cdecl]<SDL_Sensor*, SDL_SensorType>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SensorGetType");
-        _virtualTable.SDL_SensorGetName = (delegate* unmanaged[Cdecl]<SDL_Sensor*, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SensorGetName");
-        _virtualTable.SDL_SensorFromInstanceID = (delegate* unmanaged[Cdecl]<SDL_SensorID, SDL_Sensor*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SensorFromInstanceID");
-        _virtualTable.SDL_SensorOpen = (delegate* unmanaged[Cdecl]<int, SDL_Sensor*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SensorOpen");
-        _virtualTable.SDL_SensorGetDeviceInstanceID = (delegate* unmanaged[Cdecl]<int, SDL_SensorID>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SensorGetDeviceInstanceID");
-        _virtualTable.SDL_SensorGetDeviceNonPortableType = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SensorGetDeviceNonPortableType");
-        _virtualTable.SDL_SensorGetDeviceType = (delegate* unmanaged[Cdecl]<int, SDL_SensorType>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SensorGetDeviceType");
-        _virtualTable.SDL_SensorGetDeviceName = (delegate* unmanaged[Cdecl]<int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SensorGetDeviceName");
-        _virtualTable.SDL_NumSensors = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_NumSensors");
-        _virtualTable.SDL_UnlockSensors = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_UnlockSensors");
-        _virtualTable.SDL_LockSensors = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LockSensors");
-        _virtualTable.SDL_JoystickCurrentPowerLevel = (delegate* unmanaged[Cdecl]<SDL_Joystick*, SDL_JoystickPowerLevel>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickCurrentPowerLevel");
-        _virtualTable.SDL_JoystickClose = (delegate* unmanaged[Cdecl]<SDL_Joystick*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickClose");
-        _virtualTable.SDL_JoystickSetLED = (delegate* unmanaged[Cdecl]<SDL_Joystick*, byte, byte, byte, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickSetLED");
-        _virtualTable.SDL_JoystickHasLED = (delegate* unmanaged[Cdecl]<SDL_Joystick*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickHasLED");
-        _virtualTable.SDL_JoystickRumbleTriggers = (delegate* unmanaged[Cdecl]<SDL_Joystick*, ushort, ushort, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickRumbleTriggers");
-        _virtualTable.SDL_JoystickRumble = (delegate* unmanaged[Cdecl]<SDL_Joystick*, ushort, ushort, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickRumble");
-        _virtualTable.SDL_JoystickGetButton = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int, byte>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetButton");
-        _virtualTable.SDL_JoystickGetBall = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int, long*, long*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetBall");
-        _virtualTable.SDL_JoystickGetHat = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int, byte>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetHat");
-        _virtualTable.SDL_JoystickGetAxisInitialState = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int, short*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetAxisInitialState");
-        _virtualTable.SDL_JoystickGetAxis = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int, short>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetAxis");
-        _virtualTable.SDL_JoystickEventState = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickEventState");
-        _virtualTable.SDL_JoystickUpdate = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickUpdate");
-        _virtualTable.SDL_JoystickNumButtons = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickNumButtons");
-        _virtualTable.SDL_JoystickNumHats = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickNumHats");
-        _virtualTable.SDL_JoystickNumBalls = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickNumBalls");
-        _virtualTable.SDL_JoystickNumAxes = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickNumAxes");
-        _virtualTable.SDL_JoystickInstanceID = (delegate* unmanaged[Cdecl]<SDL_Joystick*, SDL_JoystickID>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickInstanceID");
-        _virtualTable.SDL_JoystickGetAttached = (delegate* unmanaged[Cdecl]<SDL_Joystick*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetAttached");
-        _virtualTable.SDL_JoystickGetGUIDFromString = (delegate* unmanaged[Cdecl]<CString, SDL_JoystickGUID>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetGUIDFromString");
-        _virtualTable.SDL_JoystickGetGUIDString = (delegate* unmanaged[Cdecl]<SDL_JoystickGUID, CString, int, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetGUIDString");
-        _virtualTable.SDL_JoystickGetType = (delegate* unmanaged[Cdecl]<SDL_Joystick*, SDL_JoystickType>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetType");
-        _virtualTable.SDL_JoystickGetSerial = (delegate* unmanaged[Cdecl]<SDL_Joystick*, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetSerial");
-        _virtualTable.SDL_JoystickGetProductVersion = (delegate* unmanaged[Cdecl]<SDL_Joystick*, ushort>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetProductVersion");
-        _virtualTable.SDL_JoystickGetProduct = (delegate* unmanaged[Cdecl]<SDL_Joystick*, ushort>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetProduct");
-        _virtualTable.SDL_JoystickGetVendor = (delegate* unmanaged[Cdecl]<SDL_Joystick*, ushort>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetVendor");
-        _virtualTable.SDL_JoystickGetGUID = (delegate* unmanaged[Cdecl]<SDL_Joystick*, SDL_JoystickGUID>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetGUID");
-        _virtualTable.SDL_JoystickSetPlayerIndex = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickSetPlayerIndex");
-        _virtualTable.SDL_JoystickGetPlayerIndex = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetPlayerIndex");
-        _virtualTable.SDL_JoystickName = (delegate* unmanaged[Cdecl]<SDL_Joystick*, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickName");
-        _virtualTable.SDL_JoystickSetVirtualHat = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int, byte, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickSetVirtualHat");
-        _virtualTable.SDL_JoystickSetVirtualButton = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int, byte, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickSetVirtualButton");
-        _virtualTable.SDL_JoystickSetVirtualAxis = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int, short, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickSetVirtualAxis");
-        _virtualTable.SDL_JoystickIsVirtual = (delegate* unmanaged[Cdecl]<int, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickIsVirtual");
-        _virtualTable.SDL_JoystickDetachVirtual = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickDetachVirtual");
-        _virtualTable.SDL_JoystickAttachVirtual = (delegate* unmanaged[Cdecl]<SDL_JoystickType, int, int, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickAttachVirtual");
-        _virtualTable.SDL_JoystickFromPlayerIndex = (delegate* unmanaged[Cdecl]<int, SDL_Joystick*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickFromPlayerIndex");
-        _virtualTable.SDL_JoystickFromInstanceID = (delegate* unmanaged[Cdecl]<SDL_JoystickID, SDL_Joystick*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickFromInstanceID");
-        _virtualTable.SDL_JoystickOpen = (delegate* unmanaged[Cdecl]<int, SDL_Joystick*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickOpen");
-        _virtualTable.SDL_JoystickGetDeviceInstanceID = (delegate* unmanaged[Cdecl]<int, SDL_JoystickID>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetDeviceInstanceID");
-        _virtualTable.SDL_JoystickGetDeviceType = (delegate* unmanaged[Cdecl]<int, SDL_JoystickType>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetDeviceType");
-        _virtualTable.SDL_JoystickGetDeviceProductVersion = (delegate* unmanaged[Cdecl]<int, ushort>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetDeviceProductVersion");
-        _virtualTable.SDL_JoystickGetDeviceProduct = (delegate* unmanaged[Cdecl]<int, ushort>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetDeviceProduct");
-        _virtualTable.SDL_JoystickGetDeviceVendor = (delegate* unmanaged[Cdecl]<int, ushort>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetDeviceVendor");
-        _virtualTable.SDL_JoystickGetDeviceGUID = (delegate* unmanaged[Cdecl]<int, SDL_JoystickGUID>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetDeviceGUID");
-        _virtualTable.SDL_JoystickGetDevicePlayerIndex = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickGetDevicePlayerIndex");
-        _virtualTable.SDL_JoystickNameForIndex = (delegate* unmanaged[Cdecl]<int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_JoystickNameForIndex");
-        _virtualTable.SDL_NumJoysticks = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_NumJoysticks");
-        _virtualTable.SDL_UnlockJoysticks = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_UnlockJoysticks");
-        _virtualTable.SDL_LockJoysticks = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LockJoysticks");
-        _virtualTable.SDL_ShowCursor = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ShowCursor");
-        _virtualTable.SDL_FreeCursor = (delegate* unmanaged[Cdecl]<SDL_Cursor*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_FreeCursor");
-        _virtualTable.SDL_GetDefaultCursor = (delegate* unmanaged[Cdecl]<SDL_Cursor*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetDefaultCursor");
-        _virtualTable.SDL_GetCursor = (delegate* unmanaged[Cdecl]<SDL_Cursor*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetCursor");
-        _virtualTable.SDL_SetCursor = (delegate* unmanaged[Cdecl]<SDL_Cursor*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetCursor");
-        _virtualTable.SDL_CreateSystemCursor = (delegate* unmanaged[Cdecl]<SDL_SystemCursor, SDL_Cursor*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateSystemCursor");
-        _virtualTable.SDL_CreateColorCursor = (delegate* unmanaged[Cdecl]<SDL_Surface*, int, int, SDL_Cursor*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateColorCursor");
-        _virtualTable.SDL_CreateCursor = (delegate* unmanaged[Cdecl]<byte*, byte*, int, int, int, int, SDL_Cursor*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateCursor");
-        _virtualTable.SDL_GetRelativeMouseMode = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetRelativeMouseMode");
-        _virtualTable.SDL_CaptureMouse = (delegate* unmanaged[Cdecl]<CBool, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CaptureMouse");
-        _virtualTable.SDL_SetRelativeMouseMode = (delegate* unmanaged[Cdecl]<CBool, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetRelativeMouseMode");
-        _virtualTable.SDL_WarpMouseGlobal = (delegate* unmanaged[Cdecl]<int, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_WarpMouseGlobal");
-        _virtualTable.SDL_WarpMouseInWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, int, int, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_WarpMouseInWindow");
-        _virtualTable.SDL_GetRelativeMouseState = (delegate* unmanaged[Cdecl]<long*, long*, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetRelativeMouseState");
-        _virtualTable.SDL_GetGlobalMouseState = (delegate* unmanaged[Cdecl]<long*, long*, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetGlobalMouseState");
-        _virtualTable.SDL_GetMouseState = (delegate* unmanaged[Cdecl]<long*, long*, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetMouseState");
-        _virtualTable.SDL_GetMouseFocus = (delegate* unmanaged[Cdecl]<SDL_Window*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetMouseFocus");
-        _virtualTable.SDL_IsScreenKeyboardShown = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_IsScreenKeyboardShown");
-        _virtualTable.SDL_HasScreenKeyboardSupport = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasScreenKeyboardSupport");
-        _virtualTable.SDL_SetTextInputRect = (delegate* unmanaged[Cdecl]<SDL_Rect*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetTextInputRect");
-        _virtualTable.SDL_StopTextInput = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_StopTextInput");
-        _virtualTable.SDL_IsTextInputActive = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_IsTextInputActive");
-        _virtualTable.SDL_StartTextInput = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_StartTextInput");
-        _virtualTable.SDL_GetKeyFromName = (delegate* unmanaged[Cdecl]<CString, SDL_Keycode>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetKeyFromName");
-        _virtualTable.SDL_GetKeyName = (delegate* unmanaged[Cdecl]<SDL_Keycode, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetKeyName");
-        _virtualTable.SDL_GetScancodeFromName = (delegate* unmanaged[Cdecl]<CString, SDL_Scancode>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetScancodeFromName");
-        _virtualTable.SDL_GetScancodeName = (delegate* unmanaged[Cdecl]<SDL_Scancode, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetScancodeName");
-        _virtualTable.SDL_GetScancodeFromKey = (delegate* unmanaged[Cdecl]<SDL_Keycode, SDL_Scancode>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetScancodeFromKey");
-        _virtualTable.SDL_GetKeyFromScancode = (delegate* unmanaged[Cdecl]<SDL_Scancode, SDL_Keycode>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetKeyFromScancode");
-        _virtualTable.SDL_SetModState = (delegate* unmanaged[Cdecl]<SDL_Keymod, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetModState");
-        _virtualTable.SDL_GetModState = (delegate* unmanaged[Cdecl]<SDL_Keymod>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetModState");
-        _virtualTable.SDL_GetKeyboardState = (delegate* unmanaged[Cdecl]<long*, byte*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetKeyboardState");
-        _virtualTable.SDL_GetKeyboardFocus = (delegate* unmanaged[Cdecl]<SDL_Window*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetKeyboardFocus");
-        _virtualTable.SDL_GL_DeleteContext = (delegate* unmanaged[Cdecl]<SDL_GLContext, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GL_DeleteContext");
-        _virtualTable.SDL_GL_SwapWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GL_SwapWindow");
-        _virtualTable.SDL_GL_GetSwapInterval = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GL_GetSwapInterval");
-        _virtualTable.SDL_GL_SetSwapInterval = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GL_SetSwapInterval");
-        _virtualTable.SDL_GL_GetDrawableSize = (delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GL_GetDrawableSize");
-        _virtualTable.SDL_GL_GetCurrentContext = (delegate* unmanaged[Cdecl]<SDL_GLContext>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GL_GetCurrentContext");
-        _virtualTable.SDL_GL_GetCurrentWindow = (delegate* unmanaged[Cdecl]<SDL_Window*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GL_GetCurrentWindow");
-        _virtualTable.SDL_GL_MakeCurrent = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_GLContext, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GL_MakeCurrent");
-        _virtualTable.SDL_GL_CreateContext = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_GLContext>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GL_CreateContext");
-        _virtualTable.SDL_GL_GetAttribute = (delegate* unmanaged[Cdecl]<SDL_GLattr, long*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GL_GetAttribute");
-        _virtualTable.SDL_GL_SetAttribute = (delegate* unmanaged[Cdecl]<SDL_GLattr, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GL_SetAttribute");
-        _virtualTable.SDL_GL_ResetAttributes = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GL_ResetAttributes");
-        _virtualTable.SDL_GL_ExtensionSupported = (delegate* unmanaged[Cdecl]<CString, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GL_ExtensionSupported");
-        _virtualTable.SDL_GL_UnloadLibrary = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GL_UnloadLibrary");
-        _virtualTable.SDL_GL_GetProcAddress = (delegate* unmanaged[Cdecl]<CString, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GL_GetProcAddress");
-        _virtualTable.SDL_GL_LoadLibrary = (delegate* unmanaged[Cdecl]<CString, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GL_LoadLibrary");
-        _virtualTable.SDL_DisableScreenSaver = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_DisableScreenSaver");
-        _virtualTable.SDL_EnableScreenSaver = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_EnableScreenSaver");
-        _virtualTable.SDL_IsScreenSaverEnabled = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_IsScreenSaverEnabled");
-        _virtualTable.SDL_DestroyWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_DestroyWindow");
-        _virtualTable.SDL_SetWindowHitTest = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_HitTest, void*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowHitTest");
-        _virtualTable.SDL_GetWindowGammaRamp = (delegate* unmanaged[Cdecl]<SDL_Window*, ushort*, ushort*, ushort*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowGammaRamp");
-        _virtualTable.SDL_SetWindowGammaRamp = (delegate* unmanaged[Cdecl]<SDL_Window*, ushort*, ushort*, ushort*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowGammaRamp");
-        _virtualTable.SDL_SetWindowInputFocus = (delegate* unmanaged[Cdecl]<SDL_Window*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowInputFocus");
-        _virtualTable.SDL_SetWindowModalFor = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Window*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowModalFor");
-        _virtualTable.SDL_GetWindowOpacity = (delegate* unmanaged[Cdecl]<SDL_Window*, float*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowOpacity");
-        _virtualTable.SDL_SetWindowOpacity = (delegate* unmanaged[Cdecl]<SDL_Window*, float, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowOpacity");
-        _virtualTable.SDL_GetWindowBrightness = (delegate* unmanaged[Cdecl]<SDL_Window*, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowBrightness");
-        _virtualTable.SDL_SetWindowBrightness = (delegate* unmanaged[Cdecl]<SDL_Window*, float, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowBrightness");
-        _virtualTable.SDL_GetGrabbedWindow = (delegate* unmanaged[Cdecl]<SDL_Window*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetGrabbedWindow");
-        _virtualTable.SDL_GetWindowMouseGrab = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowMouseGrab");
-        _virtualTable.SDL_GetWindowKeyboardGrab = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowKeyboardGrab");
-        _virtualTable.SDL_GetWindowGrab = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowGrab");
-        _virtualTable.SDL_SetWindowMouseGrab = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowMouseGrab");
-        _virtualTable.SDL_SetWindowKeyboardGrab = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowKeyboardGrab");
-        _virtualTable.SDL_SetWindowGrab = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowGrab");
-        _virtualTable.SDL_UpdateWindowSurfaceRects = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Rect*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_UpdateWindowSurfaceRects");
-        _virtualTable.SDL_UpdateWindowSurface = (delegate* unmanaged[Cdecl]<SDL_Window*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_UpdateWindowSurface");
-        _virtualTable.SDL_GetWindowSurface = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Surface*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowSurface");
-        _virtualTable.SDL_SetWindowFullscreen = (delegate* unmanaged[Cdecl]<SDL_Window*, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowFullscreen");
-        _virtualTable.SDL_RestoreWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RestoreWindow");
-        _virtualTable.SDL_MinimizeWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_MinimizeWindow");
-        _virtualTable.SDL_MaximizeWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_MaximizeWindow");
-        _virtualTable.SDL_RaiseWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RaiseWindow");
-        _virtualTable.SDL_HideWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HideWindow");
-        _virtualTable.SDL_ShowWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ShowWindow");
-        _virtualTable.SDL_SetWindowAlwaysOnTop = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowAlwaysOnTop");
-        _virtualTable.SDL_SetWindowResizable = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowResizable");
-        _virtualTable.SDL_SetWindowBordered = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowBordered");
-        _virtualTable.SDL_GetWindowMaximumSize = (delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowMaximumSize");
-        _virtualTable.SDL_SetWindowMaximumSize = (delegate* unmanaged[Cdecl]<SDL_Window*, int, int, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowMaximumSize");
-        _virtualTable.SDL_GetWindowMinimumSize = (delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowMinimumSize");
-        _virtualTable.SDL_SetWindowMinimumSize = (delegate* unmanaged[Cdecl]<SDL_Window*, int, int, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowMinimumSize");
-        _virtualTable.SDL_GetWindowBordersSize = (delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, long*, long*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowBordersSize");
-        _virtualTable.SDL_GetWindowSize = (delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowSize");
-        _virtualTable.SDL_SetWindowSize = (delegate* unmanaged[Cdecl]<SDL_Window*, int, int, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowSize");
-        _virtualTable.SDL_GetWindowPosition = (delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowPosition");
-        _virtualTable.SDL_SetWindowPosition = (delegate* unmanaged[Cdecl]<SDL_Window*, int, int, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowPosition");
-        _virtualTable.SDL_GetWindowData = (delegate* unmanaged[Cdecl]<SDL_Window*, CString, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowData");
-        _virtualTable.SDL_SetWindowData = (delegate* unmanaged[Cdecl]<SDL_Window*, CString, void*, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowData");
-        _virtualTable.SDL_SetWindowIcon = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Surface*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowIcon");
-        _virtualTable.SDL_GetWindowTitle = (delegate* unmanaged[Cdecl]<SDL_Window*, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowTitle");
-        _virtualTable.SDL_SetWindowTitle = (delegate* unmanaged[Cdecl]<SDL_Window*, CString, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowTitle");
-        _virtualTable.SDL_GetWindowFlags = (delegate* unmanaged[Cdecl]<SDL_Window*, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowFlags");
-        _virtualTable.SDL_GetWindowFromID = (delegate* unmanaged[Cdecl]<uint, SDL_Window*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowFromID");
-        _virtualTable.SDL_GetWindowID = (delegate* unmanaged[Cdecl]<SDL_Window*, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowID");
-        _virtualTable.SDL_CreateWindowFrom = (delegate* unmanaged[Cdecl]<void*, SDL_Window*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateWindowFrom");
-        _virtualTable.SDL_CreateWindow = (delegate* unmanaged[Cdecl]<CString, int, int, int, int, uint, SDL_Window*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateWindow");
-        _virtualTable.SDL_GetWindowPixelFormat = (delegate* unmanaged[Cdecl]<SDL_Window*, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowPixelFormat");
-        _virtualTable.SDL_GetWindowDisplayMode = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_DisplayMode*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowDisplayMode");
-        _virtualTable.SDL_SetWindowDisplayMode = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_DisplayMode*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetWindowDisplayMode");
-        _virtualTable.SDL_GetWindowDisplayIndex = (delegate* unmanaged[Cdecl]<SDL_Window*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetWindowDisplayIndex");
-        _virtualTable.SDL_GetClosestDisplayMode = (delegate* unmanaged[Cdecl]<int, SDL_DisplayMode*, SDL_DisplayMode*, SDL_DisplayMode*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetClosestDisplayMode");
-        _virtualTable.SDL_GetCurrentDisplayMode = (delegate* unmanaged[Cdecl]<int, SDL_DisplayMode*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetCurrentDisplayMode");
-        _virtualTable.SDL_GetDesktopDisplayMode = (delegate* unmanaged[Cdecl]<int, SDL_DisplayMode*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetDesktopDisplayMode");
-        _virtualTable.SDL_GetDisplayMode = (delegate* unmanaged[Cdecl]<int, int, SDL_DisplayMode*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetDisplayMode");
-        _virtualTable.SDL_GetNumDisplayModes = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetNumDisplayModes");
-        _virtualTable.SDL_GetDisplayOrientation = (delegate* unmanaged[Cdecl]<int, SDL_DisplayOrientation>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetDisplayOrientation");
-        _virtualTable.SDL_GetDisplayDPI = (delegate* unmanaged[Cdecl]<int, float*, float*, float*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetDisplayDPI");
-        _virtualTable.SDL_GetDisplayUsableBounds = (delegate* unmanaged[Cdecl]<int, SDL_Rect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetDisplayUsableBounds");
-        _virtualTable.SDL_GetDisplayBounds = (delegate* unmanaged[Cdecl]<int, SDL_Rect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetDisplayBounds");
-        _virtualTable.SDL_GetDisplayName = (delegate* unmanaged[Cdecl]<int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetDisplayName");
-        _virtualTable.SDL_GetNumVideoDisplays = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetNumVideoDisplays");
-        _virtualTable.SDL_GetCurrentVideoDriver = (delegate* unmanaged[Cdecl]<CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetCurrentVideoDriver");
-        _virtualTable.SDL_VideoQuit = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_VideoQuit");
-        _virtualTable.SDL_VideoInit = (delegate* unmanaged[Cdecl]<CString, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_VideoInit");
-        _virtualTable.SDL_GetVideoDriver = (delegate* unmanaged[Cdecl]<int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetVideoDriver");
-        _virtualTable.SDL_GetNumVideoDrivers = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetNumVideoDrivers");
-        _virtualTable.SDL_GetYUVConversionModeForResolution = (delegate* unmanaged[Cdecl]<int, int, SDL_YUV_CONVERSION_MODE>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetYUVConversionModeForResolution");
-        _virtualTable.SDL_GetYUVConversionMode = (delegate* unmanaged[Cdecl]<SDL_YUV_CONVERSION_MODE>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetYUVConversionMode");
-        _virtualTable.SDL_SetYUVConversionMode = (delegate* unmanaged[Cdecl]<SDL_YUV_CONVERSION_MODE, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetYUVConversionMode");
-        _virtualTable.SDL_LowerBlitScaled = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, SDL_Surface*, SDL_Rect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LowerBlitScaled");
-        _virtualTable.SDL_UpperBlitScaled = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, SDL_Surface*, SDL_Rect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_UpperBlitScaled");
-        _virtualTable.SDL_SoftStretchLinear = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, SDL_Surface*, SDL_Rect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SoftStretchLinear");
-        _virtualTable.SDL_SoftStretch = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, SDL_Surface*, SDL_Rect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SoftStretch");
-        _virtualTable.SDL_LowerBlit = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, SDL_Surface*, SDL_Rect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LowerBlit");
-        _virtualTable.SDL_UpperBlit = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, SDL_Surface*, SDL_Rect*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_UpperBlit");
-        _virtualTable.SDL_FillRects = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, int, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_FillRects");
-        _virtualTable.SDL_FillRect = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_FillRect");
-        _virtualTable.SDL_ConvertPixels = (delegate* unmanaged[Cdecl]<int, int, uint, void*, int, uint, void*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ConvertPixels");
-        _virtualTable.SDL_ConvertSurfaceFormat = (delegate* unmanaged[Cdecl]<SDL_Surface*, uint, uint, SDL_Surface*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ConvertSurfaceFormat");
-        _virtualTable.SDL_ConvertSurface = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_PixelFormat*, uint, SDL_Surface*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ConvertSurface");
-        _virtualTable.SDL_DuplicateSurface = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Surface*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_DuplicateSurface");
-        _virtualTable.SDL_GetClipRect = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetClipRect");
-        _virtualTable.SDL_SetClipRect = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetClipRect");
-        _virtualTable.SDL_GetSurfaceBlendMode = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_BlendMode*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetSurfaceBlendMode");
-        _virtualTable.SDL_SetSurfaceBlendMode = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_BlendMode, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetSurfaceBlendMode");
-        _virtualTable.SDL_GetSurfaceAlphaMod = (delegate* unmanaged[Cdecl]<SDL_Surface*, byte*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetSurfaceAlphaMod");
-        _virtualTable.SDL_SetSurfaceAlphaMod = (delegate* unmanaged[Cdecl]<SDL_Surface*, byte, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetSurfaceAlphaMod");
-        _virtualTable.SDL_GetSurfaceColorMod = (delegate* unmanaged[Cdecl]<SDL_Surface*, byte*, byte*, byte*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetSurfaceColorMod");
-        _virtualTable.SDL_SetSurfaceColorMod = (delegate* unmanaged[Cdecl]<SDL_Surface*, byte, byte, byte, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetSurfaceColorMod");
-        _virtualTable.SDL_GetColorKey = (delegate* unmanaged[Cdecl]<SDL_Surface*, uint*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetColorKey");
-        _virtualTable.SDL_HasColorKey = (delegate* unmanaged[Cdecl]<SDL_Surface*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasColorKey");
-        _virtualTable.SDL_SetColorKey = (delegate* unmanaged[Cdecl]<SDL_Surface*, int, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetColorKey");
-        _virtualTable.SDL_HasSurfaceRLE = (delegate* unmanaged[Cdecl]<SDL_Surface*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasSurfaceRLE");
-        _virtualTable.SDL_SetSurfaceRLE = (delegate* unmanaged[Cdecl]<SDL_Surface*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetSurfaceRLE");
-        _virtualTable.SDL_SaveBMP_RW = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_RWops*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SaveBMP_RW");
-        _virtualTable.SDL_LoadBMP_RW = (delegate* unmanaged[Cdecl]<SDL_RWops*, int, SDL_Surface*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LoadBMP_RW");
-        _virtualTable.SDL_UnlockSurface = (delegate* unmanaged[Cdecl]<SDL_Surface*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_UnlockSurface");
-        _virtualTable.SDL_LockSurface = (delegate* unmanaged[Cdecl]<SDL_Surface*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LockSurface");
-        _virtualTable.SDL_SetSurfacePalette = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Palette*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetSurfacePalette");
-        _virtualTable.SDL_FreeSurface = (delegate* unmanaged[Cdecl]<SDL_Surface*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_FreeSurface");
-        _virtualTable.SDL_CreateRGBSurfaceWithFormatFrom = (delegate* unmanaged[Cdecl]<void*, int, int, int, int, uint, SDL_Surface*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateRGBSurfaceWithFormatFrom");
-        _virtualTable.SDL_CreateRGBSurfaceFrom = (delegate* unmanaged[Cdecl]<void*, int, int, int, int, uint, uint, uint, uint, SDL_Surface*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateRGBSurfaceFrom");
-        _virtualTable.SDL_CreateRGBSurfaceWithFormat = (delegate* unmanaged[Cdecl]<uint, int, int, int, uint, SDL_Surface*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateRGBSurfaceWithFormat");
-        _virtualTable.SDL_CreateRGBSurface = (delegate* unmanaged[Cdecl]<uint, int, int, int, uint, uint, uint, uint, SDL_Surface*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateRGBSurface");
-        _virtualTable.SDL_ComposeCustomBlendMode = (delegate* unmanaged[Cdecl]<SDL_BlendFactor, SDL_BlendFactor, SDL_BlendOperation, SDL_BlendFactor, SDL_BlendFactor, SDL_BlendOperation, SDL_BlendMode>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ComposeCustomBlendMode");
-        _virtualTable.SDL_IntersectRectAndLine = (delegate* unmanaged[Cdecl]<SDL_Rect*, long*, long*, long*, long*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_IntersectRectAndLine");
-        _virtualTable.SDL_EnclosePoints = (delegate* unmanaged[Cdecl]<SDL_Point*, int, SDL_Rect*, SDL_Rect*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_EnclosePoints");
-        _virtualTable.SDL_UnionRect = (delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, SDL_Rect*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_UnionRect");
-        _virtualTable.SDL_IntersectRect = (delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, SDL_Rect*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_IntersectRect");
-        _virtualTable.SDL_HasIntersection = (delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasIntersection");
-        _virtualTable.SDL_RectEquals = (delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RectEquals");
-        _virtualTable.SDL_RectEmpty = (delegate* unmanaged[Cdecl]<SDL_Rect*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RectEmpty");
-        _virtualTable.SDL_PointInRect = (delegate* unmanaged[Cdecl]<SDL_Point*, SDL_Rect*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_PointInRect");
-        _virtualTable.SDL_CalculateGammaRamp = (delegate* unmanaged[Cdecl]<float, ushort*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CalculateGammaRamp");
-        _virtualTable.SDL_GetRGBA = (delegate* unmanaged[Cdecl]<uint, SDL_PixelFormat*, byte*, byte*, byte*, byte*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetRGBA");
-        _virtualTable.SDL_GetRGB = (delegate* unmanaged[Cdecl]<uint, SDL_PixelFormat*, byte*, byte*, byte*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetRGB");
-        _virtualTable.SDL_MapRGBA = (delegate* unmanaged[Cdecl]<SDL_PixelFormat*, byte, byte, byte, byte, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_MapRGBA");
-        _virtualTable.SDL_MapRGB = (delegate* unmanaged[Cdecl]<SDL_PixelFormat*, byte, byte, byte, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_MapRGB");
-        _virtualTable.SDL_FreePalette = (delegate* unmanaged[Cdecl]<SDL_Palette*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_FreePalette");
-        _virtualTable.SDL_SetPaletteColors = (delegate* unmanaged[Cdecl]<SDL_Palette*, SDL_Color*, int, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetPaletteColors");
-        _virtualTable.SDL_SetPixelFormatPalette = (delegate* unmanaged[Cdecl]<SDL_PixelFormat*, SDL_Palette*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetPixelFormatPalette");
-        _virtualTable.SDL_AllocPalette = (delegate* unmanaged[Cdecl]<int, SDL_Palette*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AllocPalette");
-        _virtualTable.SDL_FreeFormat = (delegate* unmanaged[Cdecl]<SDL_PixelFormat*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_FreeFormat");
-        _virtualTable.SDL_AllocFormat = (delegate* unmanaged[Cdecl]<uint, SDL_PixelFormat*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AllocFormat");
-        _virtualTable.SDL_MasksToPixelFormatEnum = (delegate* unmanaged[Cdecl]<int, uint, uint, uint, uint, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_MasksToPixelFormatEnum");
-        _virtualTable.SDL_PixelFormatEnumToMasks = (delegate* unmanaged[Cdecl]<uint, long*, uint*, uint*, uint*, uint*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_PixelFormatEnumToMasks");
-        _virtualTable.SDL_GetPixelFormatName = (delegate* unmanaged[Cdecl]<uint, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetPixelFormatName");
-        _virtualTable.SDL_SIMDFree = (delegate* unmanaged[Cdecl]<void*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SIMDFree");
-        _virtualTable.SDL_SIMDRealloc = (delegate* unmanaged[Cdecl]<void*, ulong, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SIMDRealloc");
-        _virtualTable.SDL_SIMDAlloc = (delegate* unmanaged[Cdecl]<ulong, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SIMDAlloc");
-        _virtualTable.SDL_SIMDGetAlignment = (delegate* unmanaged[Cdecl]<ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SIMDGetAlignment");
-        _virtualTable.SDL_GetSystemRAM = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetSystemRAM");
-        _virtualTable.SDL_HasNEON = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasNEON");
-        _virtualTable.SDL_HasARMSIMD = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasARMSIMD");
-        _virtualTable.SDL_HasAVX512F = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasAVX512F");
-        _virtualTable.SDL_HasAVX2 = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasAVX2");
-        _virtualTable.SDL_HasAVX = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasAVX");
-        _virtualTable.SDL_HasSSE42 = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasSSE42");
-        _virtualTable.SDL_HasSSE41 = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasSSE41");
-        _virtualTable.SDL_HasSSE3 = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasSSE3");
-        _virtualTable.SDL_HasSSE2 = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasSSE2");
-        _virtualTable.SDL_HasSSE = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasSSE");
-        _virtualTable.SDL_Has3DNow = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_Has3DNow");
-        _virtualTable.SDL_HasMMX = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasMMX");
-        _virtualTable.SDL_HasAltiVec = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasAltiVec");
-        _virtualTable.SDL_HasRDTSC = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasRDTSC");
-        _virtualTable.SDL_GetCPUCacheLineSize = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetCPUCacheLineSize");
-        _virtualTable.SDL_GetCPUCount = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetCPUCount");
-        _virtualTable.SDL_HasClipboardText = (delegate* unmanaged[Cdecl]<CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_HasClipboardText");
-        _virtualTable.SDL_GetClipboardText = (delegate* unmanaged[Cdecl]<CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetClipboardText");
-        _virtualTable.SDL_SetClipboardText = (delegate* unmanaged[Cdecl]<CString, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetClipboardText");
-        _virtualTable.SDL_CloseAudioDevice = (delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CloseAudioDevice");
-        _virtualTable.SDL_CloseAudio = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CloseAudio");
-        _virtualTable.SDL_UnlockAudioDevice = (delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_UnlockAudioDevice");
-        _virtualTable.SDL_UnlockAudio = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_UnlockAudio");
-        _virtualTable.SDL_LockAudioDevice = (delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LockAudioDevice");
-        _virtualTable.SDL_LockAudio = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LockAudio");
-        _virtualTable.SDL_ClearQueuedAudio = (delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ClearQueuedAudio");
-        _virtualTable.SDL_GetQueuedAudioSize = (delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetQueuedAudioSize");
-        _virtualTable.SDL_DequeueAudio = (delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, void*, uint, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_DequeueAudio");
-        _virtualTable.SDL_QueueAudio = (delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, void*, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_QueueAudio");
-        _virtualTable.SDL_MixAudioFormat = (delegate* unmanaged[Cdecl]<byte*, byte*, SDL_AudioFormat, uint, int, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_MixAudioFormat");
-        _virtualTable.SDL_MixAudio = (delegate* unmanaged[Cdecl]<byte*, byte*, uint, int, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_MixAudio");
-        _virtualTable.SDL_FreeAudioStream = (delegate* unmanaged[Cdecl]<SDL_AudioStream*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_FreeAudioStream");
-        _virtualTable.SDL_AudioStreamClear = (delegate* unmanaged[Cdecl]<SDL_AudioStream*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AudioStreamClear");
-        _virtualTable.SDL_AudioStreamFlush = (delegate* unmanaged[Cdecl]<SDL_AudioStream*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AudioStreamFlush");
-        _virtualTable.SDL_AudioStreamAvailable = (delegate* unmanaged[Cdecl]<SDL_AudioStream*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AudioStreamAvailable");
-        _virtualTable.SDL_AudioStreamGet = (delegate* unmanaged[Cdecl]<SDL_AudioStream*, void*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AudioStreamGet");
-        _virtualTable.SDL_AudioStreamPut = (delegate* unmanaged[Cdecl]<SDL_AudioStream*, void*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AudioStreamPut");
-        _virtualTable.SDL_NewAudioStream = (delegate* unmanaged[Cdecl]<SDL_AudioFormat, byte, int, SDL_AudioFormat, byte, int, SDL_AudioStream*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_NewAudioStream");
-        _virtualTable.SDL_ConvertAudio = (delegate* unmanaged[Cdecl]<SDL_AudioCVT*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ConvertAudio");
-        _virtualTable.SDL_BuildAudioCVT = (delegate* unmanaged[Cdecl]<SDL_AudioCVT*, SDL_AudioFormat, byte, int, SDL_AudioFormat, byte, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_BuildAudioCVT");
-        _virtualTable.SDL_FreeWAV = (delegate* unmanaged[Cdecl]<byte*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_FreeWAV");
-        _virtualTable.SDL_LoadWAV_RW = (delegate* unmanaged[Cdecl]<SDL_RWops*, int, SDL_AudioSpec*, byte**, uint*, SDL_AudioSpec*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LoadWAV_RW");
-        _virtualTable.SDL_PauseAudioDevice = (delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, int, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_PauseAudioDevice");
-        _virtualTable.SDL_PauseAudio = (delegate* unmanaged[Cdecl]<int, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_PauseAudio");
-        _virtualTable.SDL_GetAudioDeviceStatus = (delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, SDL_AudioStatus>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetAudioDeviceStatus");
-        _virtualTable.SDL_GetAudioStatus = (delegate* unmanaged[Cdecl]<SDL_AudioStatus>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetAudioStatus");
-        _virtualTable.SDL_OpenAudioDevice = (delegate* unmanaged[Cdecl]<CString, int, SDL_AudioSpec*, SDL_AudioSpec*, int, SDL_AudioDeviceID>)Runtime.LibraryGetExport(_libraryHandle, "SDL_OpenAudioDevice");
-        _virtualTable.SDL_GetAudioDeviceSpec = (delegate* unmanaged[Cdecl]<int, int, SDL_AudioSpec*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetAudioDeviceSpec");
-        _virtualTable.SDL_GetAudioDeviceName = (delegate* unmanaged[Cdecl]<int, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetAudioDeviceName");
-        _virtualTable.SDL_GetNumAudioDevices = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetNumAudioDevices");
-        _virtualTable.SDL_OpenAudio = (delegate* unmanaged[Cdecl]<SDL_AudioSpec*, SDL_AudioSpec*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_OpenAudio");
-        _virtualTable.SDL_GetCurrentAudioDriver = (delegate* unmanaged[Cdecl]<CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetCurrentAudioDriver");
-        _virtualTable.SDL_AudioQuit = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AudioQuit");
-        _virtualTable.SDL_AudioInit = (delegate* unmanaged[Cdecl]<CString, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AudioInit");
-        _virtualTable.SDL_GetAudioDriver = (delegate* unmanaged[Cdecl]<int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetAudioDriver");
-        _virtualTable.SDL_GetNumAudioDrivers = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetNumAudioDrivers");
-        _virtualTable.SDL_WriteBE64 = (delegate* unmanaged[Cdecl]<SDL_RWops*, ulong, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_WriteBE64");
-        _virtualTable.SDL_WriteLE64 = (delegate* unmanaged[Cdecl]<SDL_RWops*, ulong, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_WriteLE64");
-        _virtualTable.SDL_WriteBE32 = (delegate* unmanaged[Cdecl]<SDL_RWops*, uint, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_WriteBE32");
-        _virtualTable.SDL_WriteLE32 = (delegate* unmanaged[Cdecl]<SDL_RWops*, uint, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_WriteLE32");
-        _virtualTable.SDL_WriteBE16 = (delegate* unmanaged[Cdecl]<SDL_RWops*, ushort, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_WriteBE16");
-        _virtualTable.SDL_WriteLE16 = (delegate* unmanaged[Cdecl]<SDL_RWops*, ushort, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_WriteLE16");
-        _virtualTable.SDL_WriteU8 = (delegate* unmanaged[Cdecl]<SDL_RWops*, byte, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_WriteU8");
-        _virtualTable.SDL_ReadBE64 = (delegate* unmanaged[Cdecl]<SDL_RWops*, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ReadBE64");
-        _virtualTable.SDL_ReadLE64 = (delegate* unmanaged[Cdecl]<SDL_RWops*, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ReadLE64");
-        _virtualTable.SDL_ReadBE32 = (delegate* unmanaged[Cdecl]<SDL_RWops*, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ReadBE32");
-        _virtualTable.SDL_ReadLE32 = (delegate* unmanaged[Cdecl]<SDL_RWops*, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ReadLE32");
-        _virtualTable.SDL_ReadBE16 = (delegate* unmanaged[Cdecl]<SDL_RWops*, ushort>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ReadBE16");
-        _virtualTable.SDL_ReadLE16 = (delegate* unmanaged[Cdecl]<SDL_RWops*, ushort>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ReadLE16");
-        _virtualTable.SDL_ReadU8 = (delegate* unmanaged[Cdecl]<SDL_RWops*, byte>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ReadU8");
-        _virtualTable.SDL_LoadFile = (delegate* unmanaged[Cdecl]<CString, ulong*, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LoadFile");
-        _virtualTable.SDL_LoadFile_RW = (delegate* unmanaged[Cdecl]<SDL_RWops*, ulong*, int, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LoadFile_RW");
-        _virtualTable.SDL_RWclose = (delegate* unmanaged[Cdecl]<SDL_RWops*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RWclose");
-        _virtualTable.SDL_RWwrite = (delegate* unmanaged[Cdecl]<SDL_RWops*, void*, ulong, ulong, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RWwrite");
-        _virtualTable.SDL_RWread = (delegate* unmanaged[Cdecl]<SDL_RWops*, void*, ulong, ulong, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RWread");
-        _virtualTable.SDL_RWtell = (delegate* unmanaged[Cdecl]<SDL_RWops*, long>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RWtell");
-        _virtualTable.SDL_RWseek = (delegate* unmanaged[Cdecl]<SDL_RWops*, long, int, long>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RWseek");
-        _virtualTable.SDL_RWsize = (delegate* unmanaged[Cdecl]<SDL_RWops*, long>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RWsize");
-        _virtualTable.SDL_FreeRW = (delegate* unmanaged[Cdecl]<SDL_RWops*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_FreeRW");
-        _virtualTable.SDL_AllocRW = (delegate* unmanaged[Cdecl]<SDL_RWops*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AllocRW");
-        _virtualTable.SDL_RWFromConstMem = (delegate* unmanaged[Cdecl]<void*, int, SDL_RWops*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RWFromConstMem");
-        _virtualTable.SDL_RWFromMem = (delegate* unmanaged[Cdecl]<void*, int, SDL_RWops*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RWFromMem");
-        _virtualTable.SDL_RWFromFP = (delegate* unmanaged[Cdecl]<void*, CBool, SDL_RWops*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RWFromFP");
-        _virtualTable.SDL_RWFromFile = (delegate* unmanaged[Cdecl]<CString, CString, SDL_RWops*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_RWFromFile");
-        _virtualTable.SDL_TLSCleanup = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_TLSCleanup");
-        _virtualTable.SDL_TLSSet = (delegate* unmanaged[Cdecl]<SDL_TLSID, void*, FnPtr_SDL_VoidPtr_Void, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_TLSSet");
-        _virtualTable.SDL_TLSGet = (delegate* unmanaged[Cdecl]<SDL_TLSID, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_TLSGet");
-        _virtualTable.SDL_TLSCreate = (delegate* unmanaged[Cdecl]<SDL_TLSID>)Runtime.LibraryGetExport(_libraryHandle, "SDL_TLSCreate");
-        _virtualTable.SDL_DetachThread = (delegate* unmanaged[Cdecl]<SDL_Thread*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_DetachThread");
-        _virtualTable.SDL_WaitThread = (delegate* unmanaged[Cdecl]<SDL_Thread*, long*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_WaitThread");
-        _virtualTable.SDL_SetThreadPriority = (delegate* unmanaged[Cdecl]<SDL_ThreadPriority, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetThreadPriority");
-        _virtualTable.SDL_GetThreadID = (delegate* unmanaged[Cdecl]<SDL_Thread*, SDL_threadID>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetThreadID");
-        _virtualTable.SDL_ThreadID = (delegate* unmanaged[Cdecl]<SDL_threadID>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ThreadID");
-        _virtualTable.SDL_GetThreadName = (delegate* unmanaged[Cdecl]<SDL_Thread*, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetThreadName");
-        _virtualTable.SDL_CreateThreadWithStackSize = (delegate* unmanaged[Cdecl]<FnPtr_SDL_VoidPtr_Int, CString, ulong, void*, pfnSDL_CurrentBeginThread, pfnSDL_CurrentEndThread, SDL_Thread*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateThreadWithStackSize");
-        _virtualTable.SDL_CreateThread = (delegate* unmanaged[Cdecl]<SDL_ThreadFunction, CString, void*, pfnSDL_CurrentBeginThread, pfnSDL_CurrentEndThread, SDL_Thread*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateThread");
-        _virtualTable.SDL_CondWaitTimeout = (delegate* unmanaged[Cdecl]<SDL_cond*, SDL_mutex*, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CondWaitTimeout");
-        _virtualTable.SDL_CondWait = (delegate* unmanaged[Cdecl]<SDL_cond*, SDL_mutex*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CondWait");
-        _virtualTable.SDL_CondBroadcast = (delegate* unmanaged[Cdecl]<SDL_cond*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CondBroadcast");
-        _virtualTable.SDL_CondSignal = (delegate* unmanaged[Cdecl]<SDL_cond*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CondSignal");
-        _virtualTable.SDL_DestroyCond = (delegate* unmanaged[Cdecl]<SDL_cond*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_DestroyCond");
-        _virtualTable.SDL_CreateCond = (delegate* unmanaged[Cdecl]<SDL_cond*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateCond");
-        _virtualTable.SDL_SemValue = (delegate* unmanaged[Cdecl]<SDL_sem*, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SemValue");
-        _virtualTable.SDL_SemPost = (delegate* unmanaged[Cdecl]<SDL_sem*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SemPost");
-        _virtualTable.SDL_SemWaitTimeout = (delegate* unmanaged[Cdecl]<SDL_sem*, uint, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SemWaitTimeout");
-        _virtualTable.SDL_SemTryWait = (delegate* unmanaged[Cdecl]<SDL_sem*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SemTryWait");
-        _virtualTable.SDL_SemWait = (delegate* unmanaged[Cdecl]<SDL_sem*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SemWait");
-        _virtualTable.SDL_DestroySemaphore = (delegate* unmanaged[Cdecl]<SDL_sem*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_DestroySemaphore");
-        _virtualTable.SDL_CreateSemaphore = (delegate* unmanaged[Cdecl]<uint, SDL_sem*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateSemaphore");
-        _virtualTable.SDL_DestroyMutex = (delegate* unmanaged[Cdecl]<SDL_mutex*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_DestroyMutex");
-        _virtualTable.SDL_UnlockMutex = (delegate* unmanaged[Cdecl]<SDL_mutex*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_UnlockMutex");
-        _virtualTable.SDL_TryLockMutex = (delegate* unmanaged[Cdecl]<SDL_mutex*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_TryLockMutex");
-        _virtualTable.SDL_LockMutex = (delegate* unmanaged[Cdecl]<SDL_mutex*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_LockMutex");
-        _virtualTable.SDL_CreateMutex = (delegate* unmanaged[Cdecl]<SDL_mutex*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_CreateMutex");
-        _virtualTable.SDL_SwapFloat = (delegate* unmanaged[Cdecl]<float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SwapFloat");
-        _virtualTable.SDL_Error = (delegate* unmanaged[Cdecl]<SDL_errorcode, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_Error");
-        _virtualTable.SDL_ClearError = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ClearError");
-        _virtualTable.SDL_GetErrorMsg = (delegate* unmanaged[Cdecl]<CString, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetErrorMsg");
-        _virtualTable.SDL_GetError = (delegate* unmanaged[Cdecl]<CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetError");
-        _virtualTable.SDL_SetError = (delegate* unmanaged[Cdecl]<CString, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetError");
-        _virtualTable.SDL_AtomicGetPtr = (delegate* unmanaged[Cdecl]<void**, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AtomicGetPtr");
-        _virtualTable.SDL_AtomicSetPtr = (delegate* unmanaged[Cdecl]<void**, void*, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AtomicSetPtr");
-        _virtualTable.SDL_AtomicCASPtr = (delegate* unmanaged[Cdecl]<void**, void*, void*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AtomicCASPtr");
-        _virtualTable.SDL_AtomicAdd = (delegate* unmanaged[Cdecl]<SDL_atomic_t*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AtomicAdd");
-        _virtualTable.SDL_AtomicGet = (delegate* unmanaged[Cdecl]<SDL_atomic_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AtomicGet");
-        _virtualTable.SDL_AtomicSet = (delegate* unmanaged[Cdecl]<SDL_atomic_t*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AtomicSet");
-        _virtualTable.SDL_AtomicCAS = (delegate* unmanaged[Cdecl]<SDL_atomic_t*, int, int, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AtomicCAS");
-        _virtualTable.SDL_MemoryBarrierAcquireFunction = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_MemoryBarrierAcquireFunction");
-        _virtualTable.SDL_MemoryBarrierReleaseFunction = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_MemoryBarrierReleaseFunction");
-        _virtualTable.SDL_AtomicUnlock = (delegate* unmanaged[Cdecl]<SDL_SpinLock*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AtomicUnlock");
-        _virtualTable.SDL_AtomicLock = (delegate* unmanaged[Cdecl]<SDL_SpinLock*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AtomicLock");
-        _virtualTable.SDL_AtomicTryLock = (delegate* unmanaged[Cdecl]<SDL_SpinLock*, CBool>)Runtime.LibraryGetExport(_libraryHandle, "SDL_AtomicTryLock");
-        _virtualTable.SDL_ResetAssertionReport = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ResetAssertionReport");
-        _virtualTable.SDL_GetAssertionReport = (delegate* unmanaged[Cdecl]<SDL_AssertData*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetAssertionReport");
-        _virtualTable.SDL_GetAssertionHandler = (delegate* unmanaged[Cdecl]<void**, SDL_AssertionHandler>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetAssertionHandler");
-        _virtualTable.SDL_GetDefaultAssertionHandler = (delegate* unmanaged[Cdecl]<SDL_AssertionHandler>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetDefaultAssertionHandler");
-        _virtualTable.SDL_SetAssertionHandler = (delegate* unmanaged[Cdecl]<SDL_AssertionHandler, void*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetAssertionHandler");
-        _virtualTable.SDL_ReportAssertion = (delegate* unmanaged[Cdecl]<SDL_AssertData*, CString, CString, int, SDL_AssertState>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ReportAssertion");
-        _virtualTable.__debugbreak = (delegate* unmanaged[Cdecl]<void>)Runtime.LibraryGetExport(_libraryHandle, "__debugbreak");
-        _virtualTable.SDL_memcpy4 = (delegate* unmanaged[Cdecl]<void*, void*, ulong, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_memcpy4");
-        _virtualTable.SDL_iconv_string = (delegate* unmanaged[Cdecl]<CString, CString, CString, ulong, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_iconv_string");
-        _virtualTable.SDL_iconv = (delegate* unmanaged[Cdecl]<SDL_iconv_t, CString*, ulong*, CString*, ulong*, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_iconv");
-        _virtualTable.SDL_iconv_close = (delegate* unmanaged[Cdecl]<SDL_iconv_t, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_iconv_close");
-        _virtualTable.SDL_iconv_open = (delegate* unmanaged[Cdecl]<CString, CString, SDL_iconv_t>)Runtime.LibraryGetExport(_libraryHandle, "SDL_iconv_open");
-        _virtualTable.SDL_tanf = (delegate* unmanaged[Cdecl]<float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_tanf");
-        _virtualTable.SDL_tan = (delegate* unmanaged[Cdecl]<double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_tan");
-        _virtualTable.SDL_sqrtf = (delegate* unmanaged[Cdecl]<float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_sqrtf");
-        _virtualTable.SDL_sqrt = (delegate* unmanaged[Cdecl]<double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_sqrt");
-        _virtualTable.SDL_sinf = (delegate* unmanaged[Cdecl]<float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_sinf");
-        _virtualTable.SDL_sin = (delegate* unmanaged[Cdecl]<double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_sin");
-        _virtualTable.SDL_scalbnf = (delegate* unmanaged[Cdecl]<float, int, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_scalbnf");
-        _virtualTable.SDL_scalbn = (delegate* unmanaged[Cdecl]<double, int, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_scalbn");
-        _virtualTable.SDL_lroundf = (delegate* unmanaged[Cdecl]<float, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_lroundf");
-        _virtualTable.SDL_lround = (delegate* unmanaged[Cdecl]<double, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_lround");
-        _virtualTable.SDL_roundf = (delegate* unmanaged[Cdecl]<float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_roundf");
-        _virtualTable.SDL_round = (delegate* unmanaged[Cdecl]<double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_round");
-        _virtualTable.SDL_powf = (delegate* unmanaged[Cdecl]<float, float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_powf");
-        _virtualTable.SDL_pow = (delegate* unmanaged[Cdecl]<double, double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_pow");
-        _virtualTable.SDL_log10f = (delegate* unmanaged[Cdecl]<float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_log10f");
-        _virtualTable.SDL_log10 = (delegate* unmanaged[Cdecl]<double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_log10");
-        _virtualTable.SDL_logf = (delegate* unmanaged[Cdecl]<float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_logf");
-        _virtualTable.SDL_log = (delegate* unmanaged[Cdecl]<double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_log");
-        _virtualTable.SDL_fmodf = (delegate* unmanaged[Cdecl]<float, float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_fmodf");
-        _virtualTable.SDL_fmod = (delegate* unmanaged[Cdecl]<double, double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_fmod");
-        _virtualTable.SDL_truncf = (delegate* unmanaged[Cdecl]<float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_truncf");
-        _virtualTable.SDL_trunc = (delegate* unmanaged[Cdecl]<double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_trunc");
-        _virtualTable.SDL_floorf = (delegate* unmanaged[Cdecl]<float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_floorf");
-        _virtualTable.SDL_floor = (delegate* unmanaged[Cdecl]<double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_floor");
-        _virtualTable.SDL_fabsf = (delegate* unmanaged[Cdecl]<float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_fabsf");
-        _virtualTable.SDL_fabs = (delegate* unmanaged[Cdecl]<double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_fabs");
-        _virtualTable.SDL_expf = (delegate* unmanaged[Cdecl]<float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_expf");
-        _virtualTable.SDL_exp = (delegate* unmanaged[Cdecl]<double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_exp");
-        _virtualTable.SDL_cosf = (delegate* unmanaged[Cdecl]<float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_cosf");
-        _virtualTable.SDL_cos = (delegate* unmanaged[Cdecl]<double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_cos");
-        _virtualTable.SDL_copysignf = (delegate* unmanaged[Cdecl]<float, float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_copysignf");
-        _virtualTable.SDL_copysign = (delegate* unmanaged[Cdecl]<double, double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_copysign");
-        _virtualTable.SDL_ceilf = (delegate* unmanaged[Cdecl]<float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ceilf");
-        _virtualTable.SDL_ceil = (delegate* unmanaged[Cdecl]<double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ceil");
-        _virtualTable.SDL_atan2f = (delegate* unmanaged[Cdecl]<float, float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_atan2f");
-        _virtualTable.SDL_atan2 = (delegate* unmanaged[Cdecl]<double, double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_atan2");
-        _virtualTable.SDL_atanf = (delegate* unmanaged[Cdecl]<float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_atanf");
-        _virtualTable.SDL_atan = (delegate* unmanaged[Cdecl]<double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_atan");
-        _virtualTable.SDL_asinf = (delegate* unmanaged[Cdecl]<float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_asinf");
-        _virtualTable.SDL_asin = (delegate* unmanaged[Cdecl]<double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_asin");
-        _virtualTable.SDL_acosf = (delegate* unmanaged[Cdecl]<float, float>)Runtime.LibraryGetExport(_libraryHandle, "SDL_acosf");
-        _virtualTable.SDL_acos = (delegate* unmanaged[Cdecl]<double, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_acos");
-        _virtualTable.SDL_vsnprintf = (delegate* unmanaged[Cdecl]<CString, ulong, CString, IntPtr, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_vsnprintf");
-        _virtualTable.SDL_snprintf = (delegate* unmanaged[Cdecl]<CString, ulong, CString, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_snprintf");
-        _virtualTable.SDL_vsscanf = (delegate* unmanaged[Cdecl]<CString, CString, IntPtr, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_vsscanf");
-        _virtualTable.SDL_sscanf = (delegate* unmanaged[Cdecl]<CString, CString, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_sscanf");
-        _virtualTable.SDL_strncasecmp = (delegate* unmanaged[Cdecl]<CString, CString, ulong, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strncasecmp");
-        _virtualTable.SDL_strcasecmp = (delegate* unmanaged[Cdecl]<CString, CString, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strcasecmp");
-        _virtualTable.SDL_strncmp = (delegate* unmanaged[Cdecl]<CString, CString, ulong, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strncmp");
-        _virtualTable.SDL_strcmp = (delegate* unmanaged[Cdecl]<CString, CString, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strcmp");
-        _virtualTable.SDL_strtod = (delegate* unmanaged[Cdecl]<CString, CString*, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strtod");
-        _virtualTable.SDL_strtoull = (delegate* unmanaged[Cdecl]<CString, CString*, int, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strtoull");
-        _virtualTable.SDL_strtoll = (delegate* unmanaged[Cdecl]<CString, CString*, int, long>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strtoll");
-        _virtualTable.SDL_strtoul = (delegate* unmanaged[Cdecl]<CString, CString*, int, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strtoul");
-        _virtualTable.SDL_strtol = (delegate* unmanaged[Cdecl]<CString, CString*, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strtol");
-        _virtualTable.SDL_atof = (delegate* unmanaged[Cdecl]<CString, double>)Runtime.LibraryGetExport(_libraryHandle, "SDL_atof");
-        _virtualTable.SDL_atoi = (delegate* unmanaged[Cdecl]<CString, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_atoi");
-        _virtualTable.SDL_ulltoa = (delegate* unmanaged[Cdecl]<ulong, CString, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ulltoa");
-        _virtualTable.SDL_lltoa = (delegate* unmanaged[Cdecl]<long, CString, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_lltoa");
-        _virtualTable.SDL_ultoa = (delegate* unmanaged[Cdecl]<uint, CString, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ultoa");
-        _virtualTable.SDL_ltoa = (delegate* unmanaged[Cdecl]<int, CString, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ltoa");
-        _virtualTable.SDL_uitoa = (delegate* unmanaged[Cdecl]<uint, CString, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_uitoa");
-        _virtualTable.SDL_itoa = (delegate* unmanaged[Cdecl]<int, CString, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_itoa");
-        _virtualTable.SDL_utf8strlen = (delegate* unmanaged[Cdecl]<CString, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_utf8strlen");
-        _virtualTable.SDL_strtokr = (delegate* unmanaged[Cdecl]<CString, CString, CString*, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strtokr");
-        _virtualTable.SDL_strstr = (delegate* unmanaged[Cdecl]<CString, CString, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strstr");
-        _virtualTable.SDL_strrchr = (delegate* unmanaged[Cdecl]<CString, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strrchr");
-        _virtualTable.SDL_strchr = (delegate* unmanaged[Cdecl]<CString, int, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strchr");
-        _virtualTable.SDL_strlwr = (delegate* unmanaged[Cdecl]<CString, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strlwr");
-        _virtualTable.SDL_strupr = (delegate* unmanaged[Cdecl]<CString, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strupr");
-        _virtualTable.SDL_strrev = (delegate* unmanaged[Cdecl]<CString, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strrev");
-        _virtualTable.SDL_strdup = (delegate* unmanaged[Cdecl]<CString, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strdup");
-        _virtualTable.SDL_strlcat = (delegate* unmanaged[Cdecl]<CString, CString, ulong, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strlcat");
-        _virtualTable.SDL_utf8strlcpy = (delegate* unmanaged[Cdecl]<CString, CString, ulong, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_utf8strlcpy");
-        _virtualTable.SDL_strlcpy = (delegate* unmanaged[Cdecl]<CString, CString, ulong, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strlcpy");
-        _virtualTable.SDL_strlen = (delegate* unmanaged[Cdecl]<CString, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_strlen");
-        _virtualTable.SDL_wcsncasecmp = (delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, ulong, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_wcsncasecmp");
-        _virtualTable.SDL_wcscasecmp = (delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_wcscasecmp");
-        _virtualTable.SDL_wcsncmp = (delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, ulong, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_wcsncmp");
-        _virtualTable.SDL_wcscmp = (delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_wcscmp");
-        _virtualTable.SDL_wcsstr = (delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, wchar_t*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_wcsstr");
-        _virtualTable.SDL_wcsdup = (delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_wcsdup");
-        _virtualTable.SDL_wcslcat = (delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, ulong, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_wcslcat");
-        _virtualTable.SDL_wcslcpy = (delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, ulong, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_wcslcpy");
-        _virtualTable.SDL_wcslen = (delegate* unmanaged[Cdecl]<wchar_t*, ulong>)Runtime.LibraryGetExport(_libraryHandle, "SDL_wcslen");
-        _virtualTable.SDL_memcmp = (delegate* unmanaged[Cdecl]<void*, void*, ulong, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_memcmp");
-        _virtualTable.SDL_memmove = (delegate* unmanaged[Cdecl]<void*, void*, ulong, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_memmove");
-        _virtualTable.SDL_memcpy = (delegate* unmanaged[Cdecl]<void*, void*, ulong, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_memcpy");
-        _virtualTable.SDL_memset4 = (delegate* unmanaged[Cdecl]<void*, uint, ulong, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_memset4");
-        _virtualTable.SDL_memset = (delegate* unmanaged[Cdecl]<void*, int, ulong, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_memset");
-        _virtualTable.SDL_crc32 = (delegate* unmanaged[Cdecl]<uint, void*, ulong, uint>)Runtime.LibraryGetExport(_libraryHandle, "SDL_crc32");
-        _virtualTable.SDL_tolower = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_tolower");
-        _virtualTable.SDL_toupper = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_toupper");
-        _virtualTable.SDL_isgraph = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_isgraph");
-        _virtualTable.SDL_isprint = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_isprint");
-        _virtualTable.SDL_islower = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_islower");
-        _virtualTable.SDL_isupper = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_isupper");
-        _virtualTable.SDL_isspace = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_isspace");
-        _virtualTable.SDL_ispunct = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_ispunct");
-        _virtualTable.SDL_isxdigit = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_isxdigit");
-        _virtualTable.SDL_isdigit = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_isdigit");
-        _virtualTable.SDL_iscntrl = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_iscntrl");
-        _virtualTable.SDL_isblank = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_isblank");
-        _virtualTable.SDL_isalnum = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_isalnum");
-        _virtualTable.SDL_isalpha = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_isalpha");
-        _virtualTable.SDL_abs = (delegate* unmanaged[Cdecl]<int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_abs");
-        _virtualTable.SDL_qsort = (delegate* unmanaged[Cdecl]<void*, ulong, ulong, FnPtr_SDL_VoidPtr_VoidPtr_Int, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_qsort");
-        _virtualTable.SDL_setenv = (delegate* unmanaged[Cdecl]<CString, CString, int, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_setenv");
-        _virtualTable.SDL_getenv = (delegate* unmanaged[Cdecl]<CString, CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_getenv");
-        _virtualTable.SDL_GetNumAllocations = (delegate* unmanaged[Cdecl]<int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetNumAllocations");
-        _virtualTable.SDL_SetMemoryFunctions = (delegate* unmanaged[Cdecl]<SDL_malloc_func, SDL_calloc_func, SDL_realloc_func, SDL_free_func, int>)Runtime.LibraryGetExport(_libraryHandle, "SDL_SetMemoryFunctions");
-        _virtualTable.SDL_GetMemoryFunctions = (delegate* unmanaged[Cdecl]<SDL_malloc_func*, SDL_calloc_func*, SDL_realloc_func*, SDL_free_func*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetMemoryFunctions");
-        _virtualTable.SDL_free = (delegate* unmanaged[Cdecl]<void*, void>)Runtime.LibraryGetExport(_libraryHandle, "SDL_free");
-        _virtualTable.SDL_realloc = (delegate* unmanaged[Cdecl]<void*, ulong, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_realloc");
-        _virtualTable.SDL_calloc = (delegate* unmanaged[Cdecl]<ulong, ulong, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_calloc");
-        _virtualTable.SDL_malloc = (delegate* unmanaged[Cdecl]<ulong, void*>)Runtime.LibraryGetExport(_libraryHandle, "SDL_malloc");
-        _virtualTable.SDL_GetPlatform = (delegate* unmanaged[Cdecl]<CString>)Runtime.LibraryGetExport(_libraryHandle, "SDL_GetPlatform");
-        #endregion
-
-        #region "Variables"
-
-        #endregion
-    }
-
-    private static void _UnloadVirtualTable()
-    {
-        #region "Functions"
-
-        _virtualTable.SDL_Quit = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_WasInit = (delegate* unmanaged[Cdecl]<uint, uint>)IntPtr.Zero;
-        _virtualTable.SDL_QuitSubSystem = (delegate* unmanaged[Cdecl]<uint, void>)IntPtr.Zero;
-        _virtualTable.SDL_InitSubSystem = (delegate* unmanaged[Cdecl]<uint, int>)IntPtr.Zero;
-        _virtualTable.SDL_Init = (delegate* unmanaged[Cdecl]<uint, int>)IntPtr.Zero;
-        _virtualTable.SDL_OpenURL = (delegate* unmanaged[Cdecl]<CString, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetPreferredLocales = (delegate* unmanaged[Cdecl]<SDL_Locale*>)IntPtr.Zero;
-        _virtualTable.SDL_GetRevisionNumber = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.SDL_GetRevision = (delegate* unmanaged[Cdecl]<CString>)IntPtr.Zero;
-        _virtualTable.SDL_GetVersion = (delegate* unmanaged[Cdecl]<SDL_version*, void>)IntPtr.Zero;
-        _virtualTable.SDL_RemoveTimer = (delegate* unmanaged[Cdecl]<SDL_TimerID, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_AddTimer = (delegate* unmanaged[Cdecl]<uint, SDL_TimerCallback, void*, SDL_TimerID>)IntPtr.Zero;
-        _virtualTable.SDL_Delay = (delegate* unmanaged[Cdecl]<uint, void>)IntPtr.Zero;
-        _virtualTable.SDL_GetPerformanceFrequency = (delegate* unmanaged[Cdecl]<ulong>)IntPtr.Zero;
-        _virtualTable.SDL_GetPerformanceCounter = (delegate* unmanaged[Cdecl]<ulong>)IntPtr.Zero;
-        _virtualTable.SDL_GetTicks = (delegate* unmanaged[Cdecl]<uint>)IntPtr.Zero;
-        _virtualTable.SDL_GetShapedWindowMode = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_WindowShapeMode*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowShape = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Surface*, SDL_WindowShapeMode*, int>)IntPtr.Zero;
-        _virtualTable.SDL_IsShapedWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_CreateShapedWindow = (delegate* unmanaged[Cdecl]<CString, uint, uint, uint, uint, uint, SDL_Window*>)IntPtr.Zero;
-        _virtualTable.SDL_RenderGetMetalCommandEncoder = (delegate* unmanaged[Cdecl]<SDL_Renderer*, void*>)IntPtr.Zero;
-        _virtualTable.SDL_RenderGetMetalLayer = (delegate* unmanaged[Cdecl]<SDL_Renderer*, void*>)IntPtr.Zero;
-        _virtualTable.SDL_GL_UnbindTexture = (delegate* unmanaged[Cdecl]<SDL_Texture*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GL_BindTexture = (delegate* unmanaged[Cdecl]<SDL_Texture*, float*, float*, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderFlush = (delegate* unmanaged[Cdecl]<SDL_Renderer*, int>)IntPtr.Zero;
-        _virtualTable.SDL_DestroyRenderer = (delegate* unmanaged[Cdecl]<SDL_Renderer*, void>)IntPtr.Zero;
-        _virtualTable.SDL_DestroyTexture = (delegate* unmanaged[Cdecl]<SDL_Texture*, void>)IntPtr.Zero;
-        _virtualTable.SDL_RenderPresent = (delegate* unmanaged[Cdecl]<SDL_Renderer*, void>)IntPtr.Zero;
-        _virtualTable.SDL_RenderReadPixels = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, uint, void*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderCopyExF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_FRect*, double, SDL_FPoint*, SDL_RendererFlip, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderCopyF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_FRect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderFillRectsF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_FRect*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderFillRectF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_FRect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderDrawRectsF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_FRect*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderDrawRectF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_FRect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderDrawLinesF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_FPoint*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderDrawLineF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, float, float, float, float, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderDrawPointsF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_FPoint*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderDrawPointF = (delegate* unmanaged[Cdecl]<SDL_Renderer*, float, float, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderCopyEx = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*, double, SDL_Point*, SDL_RendererFlip, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderCopy = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderFillRects = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderFillRect = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderDrawRects = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderDrawRect = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderDrawLines = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Point*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderDrawLine = (delegate* unmanaged[Cdecl]<SDL_Renderer*, int, int, int, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderDrawPoints = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Point*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderDrawPoint = (delegate* unmanaged[Cdecl]<SDL_Renderer*, int, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderClear = (delegate* unmanaged[Cdecl]<SDL_Renderer*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetRenderDrawBlendMode = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_BlendMode*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SetRenderDrawBlendMode = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_BlendMode, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetRenderDrawColor = (delegate* unmanaged[Cdecl]<SDL_Renderer*, byte*, byte*, byte*, byte*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SetRenderDrawColor = (delegate* unmanaged[Cdecl]<SDL_Renderer*, byte, byte, byte, byte, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderGetScale = (delegate* unmanaged[Cdecl]<SDL_Renderer*, float*, float*, void>)IntPtr.Zero;
-        _virtualTable.SDL_RenderSetScale = (delegate* unmanaged[Cdecl]<SDL_Renderer*, float, float, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderIsClipEnabled = (delegate* unmanaged[Cdecl]<SDL_Renderer*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_RenderGetClipRect = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, void>)IntPtr.Zero;
-        _virtualTable.SDL_RenderSetClipRect = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderGetViewport = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, void>)IntPtr.Zero;
-        _virtualTable.SDL_RenderSetViewport = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderGetIntegerScale = (delegate* unmanaged[Cdecl]<SDL_Renderer*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_RenderSetIntegerScale = (delegate* unmanaged[Cdecl]<SDL_Renderer*, CBool, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderGetLogicalSize = (delegate* unmanaged[Cdecl]<SDL_Renderer*, long*, long*, void>)IntPtr.Zero;
-        _virtualTable.SDL_RenderSetLogicalSize = (delegate* unmanaged[Cdecl]<SDL_Renderer*, int, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetRenderTarget = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Texture*>)IntPtr.Zero;
-        _virtualTable.SDL_SetRenderTarget = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Texture*, int>)IntPtr.Zero;
-        _virtualTable.SDL_RenderTargetSupported = (delegate* unmanaged[Cdecl]<SDL_Renderer*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_UnlockTexture = (delegate* unmanaged[Cdecl]<SDL_Texture*, void>)IntPtr.Zero;
-        _virtualTable.SDL_LockTextureToSurface = (delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_Rect*, SDL_Surface**, int>)IntPtr.Zero;
-        _virtualTable.SDL_LockTexture = (delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_Rect*, void**, long*, int>)IntPtr.Zero;
-        _virtualTable.SDL_UpdateNVTexture = (delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_Rect*, byte*, int, byte*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_UpdateYUVTexture = (delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_Rect*, byte*, int, byte*, int, byte*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_UpdateTexture = (delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_Rect*, void*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetTextureScaleMode = (delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_ScaleMode*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SetTextureScaleMode = (delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_ScaleMode, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetTextureBlendMode = (delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_BlendMode*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SetTextureBlendMode = (delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_BlendMode, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetTextureAlphaMod = (delegate* unmanaged[Cdecl]<SDL_Texture*, byte*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SetTextureAlphaMod = (delegate* unmanaged[Cdecl]<SDL_Texture*, byte, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetTextureColorMod = (delegate* unmanaged[Cdecl]<SDL_Texture*, byte*, byte*, byte*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SetTextureColorMod = (delegate* unmanaged[Cdecl]<SDL_Texture*, byte, byte, byte, int>)IntPtr.Zero;
-        _virtualTable.SDL_QueryTexture = (delegate* unmanaged[Cdecl]<SDL_Texture*, uint*, long*, long*, long*, int>)IntPtr.Zero;
-        _virtualTable.SDL_CreateTextureFromSurface = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Surface*, SDL_Texture*>)IntPtr.Zero;
-        _virtualTable.SDL_CreateTexture = (delegate* unmanaged[Cdecl]<SDL_Renderer*, uint, int, int, int, SDL_Texture*>)IntPtr.Zero;
-        _virtualTable.SDL_GetRendererOutputSize = (delegate* unmanaged[Cdecl]<SDL_Renderer*, long*, long*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetRendererInfo = (delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_RendererInfo*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetRenderer = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Renderer*>)IntPtr.Zero;
-        _virtualTable.SDL_CreateSoftwareRenderer = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Renderer*>)IntPtr.Zero;
-        _virtualTable.SDL_CreateRenderer = (delegate* unmanaged[Cdecl]<SDL_Window*, int, uint, SDL_Renderer*>)IntPtr.Zero;
-        _virtualTable.SDL_CreateWindowAndRenderer = (delegate* unmanaged[Cdecl]<int, int, uint, SDL_Window**, SDL_Renderer**, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetRenderDriverInfo = (delegate* unmanaged[Cdecl]<int, SDL_RendererInfo*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetNumRenderDrivers = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.SDL_GetPowerInfo = (delegate* unmanaged[Cdecl]<long*, long*, SDL_PowerState>)IntPtr.Zero;
-        _virtualTable.SDL_Metal_GetDrawableSize = (delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, void>)IntPtr.Zero;
-        _virtualTable.SDL_Metal_GetLayer = (delegate* unmanaged[Cdecl]<SDL_MetalView, void*>)IntPtr.Zero;
-        _virtualTable.SDL_Metal_DestroyView = (delegate* unmanaged[Cdecl]<SDL_MetalView, void>)IntPtr.Zero;
-        _virtualTable.SDL_Metal_CreateView = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_MetalView>)IntPtr.Zero;
-        _virtualTable.SDL_ShowSimpleMessageBox = (delegate* unmanaged[Cdecl]<uint, CString, CString, SDL_Window*, int>)IntPtr.Zero;
-        _virtualTable.SDL_ShowMessageBox = (delegate* unmanaged[Cdecl]<SDL_MessageBoxData*, long*, int>)IntPtr.Zero;
-        _virtualTable.SDL_LogSetOutputFunction = (delegate* unmanaged[Cdecl]<SDL_LogOutputFunction, void*, void>)IntPtr.Zero;
-        _virtualTable.SDL_LogGetOutputFunction = (delegate* unmanaged[Cdecl]<SDL_LogOutputFunction*, void**, void>)IntPtr.Zero;
-        _virtualTable.SDL_LogMessageV = (delegate* unmanaged[Cdecl]<int, SDL_LogPriority, CString, IntPtr, void>)IntPtr.Zero;
-        _virtualTable.SDL_LogMessage = (delegate* unmanaged[Cdecl]<int, SDL_LogPriority, CString, void>)IntPtr.Zero;
-        _virtualTable.SDL_LogCritical = (delegate* unmanaged[Cdecl]<int, CString, void>)IntPtr.Zero;
-        _virtualTable.SDL_LogError = (delegate* unmanaged[Cdecl]<int, CString, void>)IntPtr.Zero;
-        _virtualTable.SDL_LogWarn = (delegate* unmanaged[Cdecl]<int, CString, void>)IntPtr.Zero;
-        _virtualTable.SDL_LogInfo = (delegate* unmanaged[Cdecl]<int, CString, void>)IntPtr.Zero;
-        _virtualTable.SDL_LogDebug = (delegate* unmanaged[Cdecl]<int, CString, void>)IntPtr.Zero;
-        _virtualTable.SDL_LogVerbose = (delegate* unmanaged[Cdecl]<int, CString, void>)IntPtr.Zero;
-        _virtualTable.SDL_Log = (delegate* unmanaged[Cdecl]<CString, void>)IntPtr.Zero;
-        _virtualTable.SDL_LogResetPriorities = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_LogGetPriority = (delegate* unmanaged[Cdecl]<int, SDL_LogPriority>)IntPtr.Zero;
-        _virtualTable.SDL_LogSetPriority = (delegate* unmanaged[Cdecl]<int, SDL_LogPriority, void>)IntPtr.Zero;
-        _virtualTable.SDL_LogSetAllPriority = (delegate* unmanaged[Cdecl]<SDL_LogPriority, void>)IntPtr.Zero;
-        _virtualTable.SDL_UnloadObject = (delegate* unmanaged[Cdecl]<void*, void>)IntPtr.Zero;
-        _virtualTable.SDL_LoadFunction = (delegate* unmanaged[Cdecl]<void*, CString, void*>)IntPtr.Zero;
-        _virtualTable.SDL_LoadObject = (delegate* unmanaged[Cdecl]<CString, void*>)IntPtr.Zero;
-        _virtualTable.SDL_ClearHints = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_DelHintCallback = (delegate* unmanaged[Cdecl]<CString, SDL_HintCallback, void*, void>)IntPtr.Zero;
-        _virtualTable.SDL_AddHintCallback = (delegate* unmanaged[Cdecl]<CString, SDL_HintCallback, void*, void>)IntPtr.Zero;
-        _virtualTable.SDL_GetHintBoolean = (delegate* unmanaged[Cdecl]<CString, CBool, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_GetHint = (delegate* unmanaged[Cdecl]<CString, CString>)IntPtr.Zero;
-        _virtualTable.SDL_SetHint = (delegate* unmanaged[Cdecl]<CString, CString, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_SetHintWithPriority = (delegate* unmanaged[Cdecl]<CString, CString, SDL_HintPriority, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_HapticRumbleStop = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticRumblePlay = (delegate* unmanaged[Cdecl]<SDL_Haptic*, float, uint, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticRumbleInit = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticRumbleSupported = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticStopAll = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticUnpause = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticPause = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticSetAutocenter = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticSetGain = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticGetEffectStatus = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticDestroyEffect = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int, void>)IntPtr.Zero;
-        _virtualTable.SDL_HapticStopEffect = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticRunEffect = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int, uint, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticUpdateEffect = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int, SDL_HapticEffect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticNewEffect = (delegate* unmanaged[Cdecl]<SDL_Haptic*, SDL_HapticEffect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticEffectSupported = (delegate* unmanaged[Cdecl]<SDL_Haptic*, SDL_HapticEffect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticNumAxes = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticQuery = (delegate* unmanaged[Cdecl]<SDL_Haptic*, uint>)IntPtr.Zero;
-        _virtualTable.SDL_HapticNumEffectsPlaying = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticNumEffects = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticClose = (delegate* unmanaged[Cdecl]<SDL_Haptic*, void>)IntPtr.Zero;
-        _virtualTable.SDL_HapticOpenFromJoystick = (delegate* unmanaged[Cdecl]<SDL_Joystick*, SDL_Haptic*>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickIsHaptic = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticOpenFromMouse = (delegate* unmanaged[Cdecl]<SDL_Haptic*>)IntPtr.Zero;
-        _virtualTable.SDL_MouseIsHaptic = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticIndex = (delegate* unmanaged[Cdecl]<SDL_Haptic*, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticOpened = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_HapticOpen = (delegate* unmanaged[Cdecl]<int, SDL_Haptic*>)IntPtr.Zero;
-        _virtualTable.SDL_HapticName = (delegate* unmanaged[Cdecl]<int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_NumHaptics = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.SDL_GetPrefPath = (delegate* unmanaged[Cdecl]<CString, CString, CString>)IntPtr.Zero;
-        _virtualTable.SDL_GetBasePath = (delegate* unmanaged[Cdecl]<CString>)IntPtr.Zero;
-        _virtualTable.SDL_RegisterEvents = (delegate* unmanaged[Cdecl]<int, uint>)IntPtr.Zero;
-        _virtualTable.SDL_EventState = (delegate* unmanaged[Cdecl]<uint, int, byte>)IntPtr.Zero;
-        _virtualTable.SDL_FilterEvents = (delegate* unmanaged[Cdecl]<SDL_EventFilter, void*, void>)IntPtr.Zero;
-        _virtualTable.SDL_DelEventWatch = (delegate* unmanaged[Cdecl]<SDL_EventFilter, void*, void>)IntPtr.Zero;
-        _virtualTable.SDL_AddEventWatch = (delegate* unmanaged[Cdecl]<SDL_EventFilter, void*, void>)IntPtr.Zero;
-        _virtualTable.SDL_GetEventFilter = (delegate* unmanaged[Cdecl]<SDL_EventFilter*, void**, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_SetEventFilter = (delegate* unmanaged[Cdecl]<SDL_EventFilter, void*, void>)IntPtr.Zero;
-        _virtualTable.SDL_PushEvent = (delegate* unmanaged[Cdecl]<SDL_Event*, int>)IntPtr.Zero;
-        _virtualTable.SDL_WaitEventTimeout = (delegate* unmanaged[Cdecl]<SDL_Event*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_WaitEvent = (delegate* unmanaged[Cdecl]<SDL_Event*, int>)IntPtr.Zero;
-        _virtualTable.SDL_PollEvent = (delegate* unmanaged[Cdecl]<SDL_Event*, int>)IntPtr.Zero;
-        _virtualTable.SDL_FlushEvents = (delegate* unmanaged[Cdecl]<uint, uint, void>)IntPtr.Zero;
-        _virtualTable.SDL_FlushEvent = (delegate* unmanaged[Cdecl]<uint, void>)IntPtr.Zero;
-        _virtualTable.SDL_HasEvents = (delegate* unmanaged[Cdecl]<uint, uint, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_HasEvent = (delegate* unmanaged[Cdecl]<uint, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_PeepEvents = (delegate* unmanaged[Cdecl]<SDL_Event*, int, SDL_eventaction, uint, uint, int>)IntPtr.Zero;
-        _virtualTable.SDL_PumpEvents = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_LoadDollarTemplates = (delegate* unmanaged[Cdecl]<SDL_TouchID, SDL_RWops*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SaveDollarTemplate = (delegate* unmanaged[Cdecl]<SDL_GestureID, SDL_RWops*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SaveAllDollarTemplates = (delegate* unmanaged[Cdecl]<SDL_RWops*, int>)IntPtr.Zero;
-        _virtualTable.SDL_RecordGesture = (delegate* unmanaged[Cdecl]<SDL_TouchID, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetTouchFinger = (delegate* unmanaged[Cdecl]<SDL_TouchID, int, SDL_Finger*>)IntPtr.Zero;
-        _virtualTable.SDL_GetNumTouchFingers = (delegate* unmanaged[Cdecl]<SDL_TouchID, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetTouchDeviceType = (delegate* unmanaged[Cdecl]<SDL_TouchID, SDL_TouchDeviceType>)IntPtr.Zero;
-        _virtualTable.SDL_GetTouchDevice = (delegate* unmanaged[Cdecl]<int, SDL_TouchID>)IntPtr.Zero;
-        _virtualTable.SDL_GetNumTouchDevices = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerClose = (delegate* unmanaged[Cdecl]<SDL_GameController*, void>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerSetLED = (delegate* unmanaged[Cdecl]<SDL_GameController*, byte, byte, byte, int>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerHasLED = (delegate* unmanaged[Cdecl]<SDL_GameController*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerRumbleTriggers = (delegate* unmanaged[Cdecl]<SDL_GameController*, ushort, ushort, uint, int>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerRumble = (delegate* unmanaged[Cdecl]<SDL_GameController*, ushort, ushort, uint, int>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetSensorData = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_SensorType, float*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerIsSensorEnabled = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_SensorType, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerSetSensorEnabled = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_SensorType, CBool, int>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerHasSensor = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_SensorType, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetTouchpadFinger = (delegate* unmanaged[Cdecl]<SDL_GameController*, int, int, byte*, float*, float*, float*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetNumTouchpadFingers = (delegate* unmanaged[Cdecl]<SDL_GameController*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetNumTouchpads = (delegate* unmanaged[Cdecl]<SDL_GameController*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetButton = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerButton, byte>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerHasButton = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerButton, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetBindForButton = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerButton, SDL_GameControllerButtonBind>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetStringForButton = (delegate* unmanaged[Cdecl]<SDL_GameControllerButton, CString>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetButtonFromString = (delegate* unmanaged[Cdecl]<CString, SDL_GameControllerButton>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetAxis = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerAxis, short>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerHasAxis = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerAxis, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetBindForAxis = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerAxis, SDL_GameControllerButtonBind>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetStringForAxis = (delegate* unmanaged[Cdecl]<SDL_GameControllerAxis, CString>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetAxisFromString = (delegate* unmanaged[Cdecl]<CString, SDL_GameControllerAxis>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerUpdate = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerEventState = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetJoystick = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_Joystick*>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetAttached = (delegate* unmanaged[Cdecl]<SDL_GameController*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetSerial = (delegate* unmanaged[Cdecl]<SDL_GameController*, CString>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetProductVersion = (delegate* unmanaged[Cdecl]<SDL_GameController*, ushort>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetProduct = (delegate* unmanaged[Cdecl]<SDL_GameController*, ushort>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetVendor = (delegate* unmanaged[Cdecl]<SDL_GameController*, ushort>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerSetPlayerIndex = (delegate* unmanaged[Cdecl]<SDL_GameController*, int, void>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetPlayerIndex = (delegate* unmanaged[Cdecl]<SDL_GameController*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerGetType = (delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerType>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerName = (delegate* unmanaged[Cdecl]<SDL_GameController*, CString>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerFromPlayerIndex = (delegate* unmanaged[Cdecl]<int, SDL_GameController*>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerFromInstanceID = (delegate* unmanaged[Cdecl]<SDL_JoystickID, SDL_GameController*>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerOpen = (delegate* unmanaged[Cdecl]<int, SDL_GameController*>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerMappingForDeviceIndex = (delegate* unmanaged[Cdecl]<int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerTypeForIndex = (delegate* unmanaged[Cdecl]<int, SDL_GameControllerType>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerNameForIndex = (delegate* unmanaged[Cdecl]<int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_IsGameController = (delegate* unmanaged[Cdecl]<int, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerMapping = (delegate* unmanaged[Cdecl]<SDL_GameController*, CString>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerMappingForGUID = (delegate* unmanaged[Cdecl]<SDL_JoystickGUID, CString>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerMappingForIndex = (delegate* unmanaged[Cdecl]<int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerNumMappings = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerAddMapping = (delegate* unmanaged[Cdecl]<CString, int>)IntPtr.Zero;
-        _virtualTable.SDL_GameControllerAddMappingsFromRW = (delegate* unmanaged[Cdecl]<SDL_RWops*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_SensorUpdate = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_SensorClose = (delegate* unmanaged[Cdecl]<SDL_Sensor*, void>)IntPtr.Zero;
-        _virtualTable.SDL_SensorGetData = (delegate* unmanaged[Cdecl]<SDL_Sensor*, float*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_SensorGetInstanceID = (delegate* unmanaged[Cdecl]<SDL_Sensor*, SDL_SensorID>)IntPtr.Zero;
-        _virtualTable.SDL_SensorGetNonPortableType = (delegate* unmanaged[Cdecl]<SDL_Sensor*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SensorGetType = (delegate* unmanaged[Cdecl]<SDL_Sensor*, SDL_SensorType>)IntPtr.Zero;
-        _virtualTable.SDL_SensorGetName = (delegate* unmanaged[Cdecl]<SDL_Sensor*, CString>)IntPtr.Zero;
-        _virtualTable.SDL_SensorFromInstanceID = (delegate* unmanaged[Cdecl]<SDL_SensorID, SDL_Sensor*>)IntPtr.Zero;
-        _virtualTable.SDL_SensorOpen = (delegate* unmanaged[Cdecl]<int, SDL_Sensor*>)IntPtr.Zero;
-        _virtualTable.SDL_SensorGetDeviceInstanceID = (delegate* unmanaged[Cdecl]<int, SDL_SensorID>)IntPtr.Zero;
-        _virtualTable.SDL_SensorGetDeviceNonPortableType = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_SensorGetDeviceType = (delegate* unmanaged[Cdecl]<int, SDL_SensorType>)IntPtr.Zero;
-        _virtualTable.SDL_SensorGetDeviceName = (delegate* unmanaged[Cdecl]<int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_NumSensors = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.SDL_UnlockSensors = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_LockSensors = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickCurrentPowerLevel = (delegate* unmanaged[Cdecl]<SDL_Joystick*, SDL_JoystickPowerLevel>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickClose = (delegate* unmanaged[Cdecl]<SDL_Joystick*, void>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickSetLED = (delegate* unmanaged[Cdecl]<SDL_Joystick*, byte, byte, byte, int>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickHasLED = (delegate* unmanaged[Cdecl]<SDL_Joystick*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickRumbleTriggers = (delegate* unmanaged[Cdecl]<SDL_Joystick*, ushort, ushort, uint, int>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickRumble = (delegate* unmanaged[Cdecl]<SDL_Joystick*, ushort, ushort, uint, int>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetButton = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int, byte>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetBall = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int, long*, long*, int>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetHat = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int, byte>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetAxisInitialState = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int, short*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetAxis = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int, short>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickEventState = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickUpdate = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickNumButtons = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickNumHats = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickNumBalls = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickNumAxes = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickInstanceID = (delegate* unmanaged[Cdecl]<SDL_Joystick*, SDL_JoystickID>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetAttached = (delegate* unmanaged[Cdecl]<SDL_Joystick*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetGUIDFromString = (delegate* unmanaged[Cdecl]<CString, SDL_JoystickGUID>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetGUIDString = (delegate* unmanaged[Cdecl]<SDL_JoystickGUID, CString, int, void>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetType = (delegate* unmanaged[Cdecl]<SDL_Joystick*, SDL_JoystickType>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetSerial = (delegate* unmanaged[Cdecl]<SDL_Joystick*, CString>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetProductVersion = (delegate* unmanaged[Cdecl]<SDL_Joystick*, ushort>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetProduct = (delegate* unmanaged[Cdecl]<SDL_Joystick*, ushort>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetVendor = (delegate* unmanaged[Cdecl]<SDL_Joystick*, ushort>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetGUID = (delegate* unmanaged[Cdecl]<SDL_Joystick*, SDL_JoystickGUID>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickSetPlayerIndex = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int, void>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetPlayerIndex = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickName = (delegate* unmanaged[Cdecl]<SDL_Joystick*, CString>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickSetVirtualHat = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int, byte, int>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickSetVirtualButton = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int, byte, int>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickSetVirtualAxis = (delegate* unmanaged[Cdecl]<SDL_Joystick*, int, short, int>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickIsVirtual = (delegate* unmanaged[Cdecl]<int, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickDetachVirtual = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickAttachVirtual = (delegate* unmanaged[Cdecl]<SDL_JoystickType, int, int, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickFromPlayerIndex = (delegate* unmanaged[Cdecl]<int, SDL_Joystick*>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickFromInstanceID = (delegate* unmanaged[Cdecl]<SDL_JoystickID, SDL_Joystick*>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickOpen = (delegate* unmanaged[Cdecl]<int, SDL_Joystick*>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetDeviceInstanceID = (delegate* unmanaged[Cdecl]<int, SDL_JoystickID>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetDeviceType = (delegate* unmanaged[Cdecl]<int, SDL_JoystickType>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetDeviceProductVersion = (delegate* unmanaged[Cdecl]<int, ushort>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetDeviceProduct = (delegate* unmanaged[Cdecl]<int, ushort>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetDeviceVendor = (delegate* unmanaged[Cdecl]<int, ushort>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetDeviceGUID = (delegate* unmanaged[Cdecl]<int, SDL_JoystickGUID>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickGetDevicePlayerIndex = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_JoystickNameForIndex = (delegate* unmanaged[Cdecl]<int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_NumJoysticks = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.SDL_UnlockJoysticks = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_LockJoysticks = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_ShowCursor = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_FreeCursor = (delegate* unmanaged[Cdecl]<SDL_Cursor*, void>)IntPtr.Zero;
-        _virtualTable.SDL_GetDefaultCursor = (delegate* unmanaged[Cdecl]<SDL_Cursor*>)IntPtr.Zero;
-        _virtualTable.SDL_GetCursor = (delegate* unmanaged[Cdecl]<SDL_Cursor*>)IntPtr.Zero;
-        _virtualTable.SDL_SetCursor = (delegate* unmanaged[Cdecl]<SDL_Cursor*, void>)IntPtr.Zero;
-        _virtualTable.SDL_CreateSystemCursor = (delegate* unmanaged[Cdecl]<SDL_SystemCursor, SDL_Cursor*>)IntPtr.Zero;
-        _virtualTable.SDL_CreateColorCursor = (delegate* unmanaged[Cdecl]<SDL_Surface*, int, int, SDL_Cursor*>)IntPtr.Zero;
-        _virtualTable.SDL_CreateCursor = (delegate* unmanaged[Cdecl]<byte*, byte*, int, int, int, int, SDL_Cursor*>)IntPtr.Zero;
-        _virtualTable.SDL_GetRelativeMouseMode = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_CaptureMouse = (delegate* unmanaged[Cdecl]<CBool, int>)IntPtr.Zero;
-        _virtualTable.SDL_SetRelativeMouseMode = (delegate* unmanaged[Cdecl]<CBool, int>)IntPtr.Zero;
-        _virtualTable.SDL_WarpMouseGlobal = (delegate* unmanaged[Cdecl]<int, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_WarpMouseInWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, int, int, void>)IntPtr.Zero;
-        _virtualTable.SDL_GetRelativeMouseState = (delegate* unmanaged[Cdecl]<long*, long*, uint>)IntPtr.Zero;
-        _virtualTable.SDL_GetGlobalMouseState = (delegate* unmanaged[Cdecl]<long*, long*, uint>)IntPtr.Zero;
-        _virtualTable.SDL_GetMouseState = (delegate* unmanaged[Cdecl]<long*, long*, uint>)IntPtr.Zero;
-        _virtualTable.SDL_GetMouseFocus = (delegate* unmanaged[Cdecl]<SDL_Window*>)IntPtr.Zero;
-        _virtualTable.SDL_IsScreenKeyboardShown = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_HasScreenKeyboardSupport = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_SetTextInputRect = (delegate* unmanaged[Cdecl]<SDL_Rect*, void>)IntPtr.Zero;
-        _virtualTable.SDL_StopTextInput = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_IsTextInputActive = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_StartTextInput = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_GetKeyFromName = (delegate* unmanaged[Cdecl]<CString, SDL_Keycode>)IntPtr.Zero;
-        _virtualTable.SDL_GetKeyName = (delegate* unmanaged[Cdecl]<SDL_Keycode, CString>)IntPtr.Zero;
-        _virtualTable.SDL_GetScancodeFromName = (delegate* unmanaged[Cdecl]<CString, SDL_Scancode>)IntPtr.Zero;
-        _virtualTable.SDL_GetScancodeName = (delegate* unmanaged[Cdecl]<SDL_Scancode, CString>)IntPtr.Zero;
-        _virtualTable.SDL_GetScancodeFromKey = (delegate* unmanaged[Cdecl]<SDL_Keycode, SDL_Scancode>)IntPtr.Zero;
-        _virtualTable.SDL_GetKeyFromScancode = (delegate* unmanaged[Cdecl]<SDL_Scancode, SDL_Keycode>)IntPtr.Zero;
-        _virtualTable.SDL_SetModState = (delegate* unmanaged[Cdecl]<SDL_Keymod, void>)IntPtr.Zero;
-        _virtualTable.SDL_GetModState = (delegate* unmanaged[Cdecl]<SDL_Keymod>)IntPtr.Zero;
-        _virtualTable.SDL_GetKeyboardState = (delegate* unmanaged[Cdecl]<long*, byte*>)IntPtr.Zero;
-        _virtualTable.SDL_GetKeyboardFocus = (delegate* unmanaged[Cdecl]<SDL_Window*>)IntPtr.Zero;
-        _virtualTable.SDL_GL_DeleteContext = (delegate* unmanaged[Cdecl]<SDL_GLContext, void>)IntPtr.Zero;
-        _virtualTable.SDL_GL_SwapWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, void>)IntPtr.Zero;
-        _virtualTable.SDL_GL_GetSwapInterval = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.SDL_GL_SetSwapInterval = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_GL_GetDrawableSize = (delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, void>)IntPtr.Zero;
-        _virtualTable.SDL_GL_GetCurrentContext = (delegate* unmanaged[Cdecl]<SDL_GLContext>)IntPtr.Zero;
-        _virtualTable.SDL_GL_GetCurrentWindow = (delegate* unmanaged[Cdecl]<SDL_Window*>)IntPtr.Zero;
-        _virtualTable.SDL_GL_MakeCurrent = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_GLContext, int>)IntPtr.Zero;
-        _virtualTable.SDL_GL_CreateContext = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_GLContext>)IntPtr.Zero;
-        _virtualTable.SDL_GL_GetAttribute = (delegate* unmanaged[Cdecl]<SDL_GLattr, long*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GL_SetAttribute = (delegate* unmanaged[Cdecl]<SDL_GLattr, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_GL_ResetAttributes = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_GL_ExtensionSupported = (delegate* unmanaged[Cdecl]<CString, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_GL_UnloadLibrary = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_GL_GetProcAddress = (delegate* unmanaged[Cdecl]<CString, void*>)IntPtr.Zero;
-        _virtualTable.SDL_GL_LoadLibrary = (delegate* unmanaged[Cdecl]<CString, int>)IntPtr.Zero;
-        _virtualTable.SDL_DisableScreenSaver = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_EnableScreenSaver = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_IsScreenSaverEnabled = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_DestroyWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, void>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowHitTest = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_HitTest, void*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowGammaRamp = (delegate* unmanaged[Cdecl]<SDL_Window*, ushort*, ushort*, ushort*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowGammaRamp = (delegate* unmanaged[Cdecl]<SDL_Window*, ushort*, ushort*, ushort*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowInputFocus = (delegate* unmanaged[Cdecl]<SDL_Window*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowModalFor = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Window*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowOpacity = (delegate* unmanaged[Cdecl]<SDL_Window*, float*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowOpacity = (delegate* unmanaged[Cdecl]<SDL_Window*, float, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowBrightness = (delegate* unmanaged[Cdecl]<SDL_Window*, float>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowBrightness = (delegate* unmanaged[Cdecl]<SDL_Window*, float, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetGrabbedWindow = (delegate* unmanaged[Cdecl]<SDL_Window*>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowMouseGrab = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowKeyboardGrab = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowGrab = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowMouseGrab = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool, void>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowKeyboardGrab = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool, void>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowGrab = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool, void>)IntPtr.Zero;
-        _virtualTable.SDL_UpdateWindowSurfaceRects = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Rect*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_UpdateWindowSurface = (delegate* unmanaged[Cdecl]<SDL_Window*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowSurface = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Surface*>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowFullscreen = (delegate* unmanaged[Cdecl]<SDL_Window*, uint, int>)IntPtr.Zero;
-        _virtualTable.SDL_RestoreWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, void>)IntPtr.Zero;
-        _virtualTable.SDL_MinimizeWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, void>)IntPtr.Zero;
-        _virtualTable.SDL_MaximizeWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, void>)IntPtr.Zero;
-        _virtualTable.SDL_RaiseWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, void>)IntPtr.Zero;
-        _virtualTable.SDL_HideWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, void>)IntPtr.Zero;
-        _virtualTable.SDL_ShowWindow = (delegate* unmanaged[Cdecl]<SDL_Window*, void>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowAlwaysOnTop = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool, void>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowResizable = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool, void>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowBordered = (delegate* unmanaged[Cdecl]<SDL_Window*, CBool, void>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowMaximumSize = (delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, void>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowMaximumSize = (delegate* unmanaged[Cdecl]<SDL_Window*, int, int, void>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowMinimumSize = (delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, void>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowMinimumSize = (delegate* unmanaged[Cdecl]<SDL_Window*, int, int, void>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowBordersSize = (delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, long*, long*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowSize = (delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, void>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowSize = (delegate* unmanaged[Cdecl]<SDL_Window*, int, int, void>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowPosition = (delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, void>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowPosition = (delegate* unmanaged[Cdecl]<SDL_Window*, int, int, void>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowData = (delegate* unmanaged[Cdecl]<SDL_Window*, CString, void*>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowData = (delegate* unmanaged[Cdecl]<SDL_Window*, CString, void*, void*>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowIcon = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Surface*, void>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowTitle = (delegate* unmanaged[Cdecl]<SDL_Window*, CString>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowTitle = (delegate* unmanaged[Cdecl]<SDL_Window*, CString, void>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowFlags = (delegate* unmanaged[Cdecl]<SDL_Window*, uint>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowFromID = (delegate* unmanaged[Cdecl]<uint, SDL_Window*>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowID = (delegate* unmanaged[Cdecl]<SDL_Window*, uint>)IntPtr.Zero;
-        _virtualTable.SDL_CreateWindowFrom = (delegate* unmanaged[Cdecl]<void*, SDL_Window*>)IntPtr.Zero;
-        _virtualTable.SDL_CreateWindow = (delegate* unmanaged[Cdecl]<CString, int, int, int, int, uint, SDL_Window*>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowPixelFormat = (delegate* unmanaged[Cdecl]<SDL_Window*, uint>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowDisplayMode = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_DisplayMode*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SetWindowDisplayMode = (delegate* unmanaged[Cdecl]<SDL_Window*, SDL_DisplayMode*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetWindowDisplayIndex = (delegate* unmanaged[Cdecl]<SDL_Window*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetClosestDisplayMode = (delegate* unmanaged[Cdecl]<int, SDL_DisplayMode*, SDL_DisplayMode*, SDL_DisplayMode*>)IntPtr.Zero;
-        _virtualTable.SDL_GetCurrentDisplayMode = (delegate* unmanaged[Cdecl]<int, SDL_DisplayMode*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetDesktopDisplayMode = (delegate* unmanaged[Cdecl]<int, SDL_DisplayMode*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetDisplayMode = (delegate* unmanaged[Cdecl]<int, int, SDL_DisplayMode*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetNumDisplayModes = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetDisplayOrientation = (delegate* unmanaged[Cdecl]<int, SDL_DisplayOrientation>)IntPtr.Zero;
-        _virtualTable.SDL_GetDisplayDPI = (delegate* unmanaged[Cdecl]<int, float*, float*, float*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetDisplayUsableBounds = (delegate* unmanaged[Cdecl]<int, SDL_Rect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetDisplayBounds = (delegate* unmanaged[Cdecl]<int, SDL_Rect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetDisplayName = (delegate* unmanaged[Cdecl]<int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_GetNumVideoDisplays = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.SDL_GetCurrentVideoDriver = (delegate* unmanaged[Cdecl]<CString>)IntPtr.Zero;
-        _virtualTable.SDL_VideoQuit = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_VideoInit = (delegate* unmanaged[Cdecl]<CString, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetVideoDriver = (delegate* unmanaged[Cdecl]<int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_GetNumVideoDrivers = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.SDL_GetYUVConversionModeForResolution = (delegate* unmanaged[Cdecl]<int, int, SDL_YUV_CONVERSION_MODE>)IntPtr.Zero;
-        _virtualTable.SDL_GetYUVConversionMode = (delegate* unmanaged[Cdecl]<SDL_YUV_CONVERSION_MODE>)IntPtr.Zero;
-        _virtualTable.SDL_SetYUVConversionMode = (delegate* unmanaged[Cdecl]<SDL_YUV_CONVERSION_MODE, void>)IntPtr.Zero;
-        _virtualTable.SDL_LowerBlitScaled = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, SDL_Surface*, SDL_Rect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_UpperBlitScaled = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, SDL_Surface*, SDL_Rect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SoftStretchLinear = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, SDL_Surface*, SDL_Rect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SoftStretch = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, SDL_Surface*, SDL_Rect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_LowerBlit = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, SDL_Surface*, SDL_Rect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_UpperBlit = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, SDL_Surface*, SDL_Rect*, int>)IntPtr.Zero;
-        _virtualTable.SDL_FillRects = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, int, uint, int>)IntPtr.Zero;
-        _virtualTable.SDL_FillRect = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, uint, int>)IntPtr.Zero;
-        _virtualTable.SDL_ConvertPixels = (delegate* unmanaged[Cdecl]<int, int, uint, void*, int, uint, void*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_ConvertSurfaceFormat = (delegate* unmanaged[Cdecl]<SDL_Surface*, uint, uint, SDL_Surface*>)IntPtr.Zero;
-        _virtualTable.SDL_ConvertSurface = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_PixelFormat*, uint, SDL_Surface*>)IntPtr.Zero;
-        _virtualTable.SDL_DuplicateSurface = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Surface*>)IntPtr.Zero;
-        _virtualTable.SDL_GetClipRect = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, void>)IntPtr.Zero;
-        _virtualTable.SDL_SetClipRect = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_GetSurfaceBlendMode = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_BlendMode*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SetSurfaceBlendMode = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_BlendMode, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetSurfaceAlphaMod = (delegate* unmanaged[Cdecl]<SDL_Surface*, byte*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SetSurfaceAlphaMod = (delegate* unmanaged[Cdecl]<SDL_Surface*, byte, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetSurfaceColorMod = (delegate* unmanaged[Cdecl]<SDL_Surface*, byte*, byte*, byte*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SetSurfaceColorMod = (delegate* unmanaged[Cdecl]<SDL_Surface*, byte, byte, byte, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetColorKey = (delegate* unmanaged[Cdecl]<SDL_Surface*, uint*, int>)IntPtr.Zero;
-        _virtualTable.SDL_HasColorKey = (delegate* unmanaged[Cdecl]<SDL_Surface*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_SetColorKey = (delegate* unmanaged[Cdecl]<SDL_Surface*, int, uint, int>)IntPtr.Zero;
-        _virtualTable.SDL_HasSurfaceRLE = (delegate* unmanaged[Cdecl]<SDL_Surface*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_SetSurfaceRLE = (delegate* unmanaged[Cdecl]<SDL_Surface*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_SaveBMP_RW = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_RWops*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_LoadBMP_RW = (delegate* unmanaged[Cdecl]<SDL_RWops*, int, SDL_Surface*>)IntPtr.Zero;
-        _virtualTable.SDL_UnlockSurface = (delegate* unmanaged[Cdecl]<SDL_Surface*, void>)IntPtr.Zero;
-        _virtualTable.SDL_LockSurface = (delegate* unmanaged[Cdecl]<SDL_Surface*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SetSurfacePalette = (delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Palette*, int>)IntPtr.Zero;
-        _virtualTable.SDL_FreeSurface = (delegate* unmanaged[Cdecl]<SDL_Surface*, void>)IntPtr.Zero;
-        _virtualTable.SDL_CreateRGBSurfaceWithFormatFrom = (delegate* unmanaged[Cdecl]<void*, int, int, int, int, uint, SDL_Surface*>)IntPtr.Zero;
-        _virtualTable.SDL_CreateRGBSurfaceFrom = (delegate* unmanaged[Cdecl]<void*, int, int, int, int, uint, uint, uint, uint, SDL_Surface*>)IntPtr.Zero;
-        _virtualTable.SDL_CreateRGBSurfaceWithFormat = (delegate* unmanaged[Cdecl]<uint, int, int, int, uint, SDL_Surface*>)IntPtr.Zero;
-        _virtualTable.SDL_CreateRGBSurface = (delegate* unmanaged[Cdecl]<uint, int, int, int, uint, uint, uint, uint, SDL_Surface*>)IntPtr.Zero;
-        _virtualTable.SDL_ComposeCustomBlendMode = (delegate* unmanaged[Cdecl]<SDL_BlendFactor, SDL_BlendFactor, SDL_BlendOperation, SDL_BlendFactor, SDL_BlendFactor, SDL_BlendOperation, SDL_BlendMode>)IntPtr.Zero;
-        _virtualTable.SDL_IntersectRectAndLine = (delegate* unmanaged[Cdecl]<SDL_Rect*, long*, long*, long*, long*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_EnclosePoints = (delegate* unmanaged[Cdecl]<SDL_Point*, int, SDL_Rect*, SDL_Rect*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_UnionRect = (delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, SDL_Rect*, void>)IntPtr.Zero;
-        _virtualTable.SDL_IntersectRect = (delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, SDL_Rect*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_HasIntersection = (delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_RectEquals = (delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_RectEmpty = (delegate* unmanaged[Cdecl]<SDL_Rect*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_PointInRect = (delegate* unmanaged[Cdecl]<SDL_Point*, SDL_Rect*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_CalculateGammaRamp = (delegate* unmanaged[Cdecl]<float, ushort*, void>)IntPtr.Zero;
-        _virtualTable.SDL_GetRGBA = (delegate* unmanaged[Cdecl]<uint, SDL_PixelFormat*, byte*, byte*, byte*, byte*, void>)IntPtr.Zero;
-        _virtualTable.SDL_GetRGB = (delegate* unmanaged[Cdecl]<uint, SDL_PixelFormat*, byte*, byte*, byte*, void>)IntPtr.Zero;
-        _virtualTable.SDL_MapRGBA = (delegate* unmanaged[Cdecl]<SDL_PixelFormat*, byte, byte, byte, byte, uint>)IntPtr.Zero;
-        _virtualTable.SDL_MapRGB = (delegate* unmanaged[Cdecl]<SDL_PixelFormat*, byte, byte, byte, uint>)IntPtr.Zero;
-        _virtualTable.SDL_FreePalette = (delegate* unmanaged[Cdecl]<SDL_Palette*, void>)IntPtr.Zero;
-        _virtualTable.SDL_SetPaletteColors = (delegate* unmanaged[Cdecl]<SDL_Palette*, SDL_Color*, int, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_SetPixelFormatPalette = (delegate* unmanaged[Cdecl]<SDL_PixelFormat*, SDL_Palette*, int>)IntPtr.Zero;
-        _virtualTable.SDL_AllocPalette = (delegate* unmanaged[Cdecl]<int, SDL_Palette*>)IntPtr.Zero;
-        _virtualTable.SDL_FreeFormat = (delegate* unmanaged[Cdecl]<SDL_PixelFormat*, void>)IntPtr.Zero;
-        _virtualTable.SDL_AllocFormat = (delegate* unmanaged[Cdecl]<uint, SDL_PixelFormat*>)IntPtr.Zero;
-        _virtualTable.SDL_MasksToPixelFormatEnum = (delegate* unmanaged[Cdecl]<int, uint, uint, uint, uint, uint>)IntPtr.Zero;
-        _virtualTable.SDL_PixelFormatEnumToMasks = (delegate* unmanaged[Cdecl]<uint, long*, uint*, uint*, uint*, uint*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_GetPixelFormatName = (delegate* unmanaged[Cdecl]<uint, CString>)IntPtr.Zero;
-        _virtualTable.SDL_SIMDFree = (delegate* unmanaged[Cdecl]<void*, void>)IntPtr.Zero;
-        _virtualTable.SDL_SIMDRealloc = (delegate* unmanaged[Cdecl]<void*, ulong, void*>)IntPtr.Zero;
-        _virtualTable.SDL_SIMDAlloc = (delegate* unmanaged[Cdecl]<ulong, void*>)IntPtr.Zero;
-        _virtualTable.SDL_SIMDGetAlignment = (delegate* unmanaged[Cdecl]<ulong>)IntPtr.Zero;
-        _virtualTable.SDL_GetSystemRAM = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.SDL_HasNEON = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_HasARMSIMD = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_HasAVX512F = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_HasAVX2 = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_HasAVX = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_HasSSE42 = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_HasSSE41 = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_HasSSE3 = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_HasSSE2 = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_HasSSE = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_Has3DNow = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_HasMMX = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_HasAltiVec = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_HasRDTSC = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_GetCPUCacheLineSize = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.SDL_GetCPUCount = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.SDL_HasClipboardText = (delegate* unmanaged[Cdecl]<CBool>)IntPtr.Zero;
-        _virtualTable.SDL_GetClipboardText = (delegate* unmanaged[Cdecl]<CString>)IntPtr.Zero;
-        _virtualTable.SDL_SetClipboardText = (delegate* unmanaged[Cdecl]<CString, int>)IntPtr.Zero;
-        _virtualTable.SDL_CloseAudioDevice = (delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, void>)IntPtr.Zero;
-        _virtualTable.SDL_CloseAudio = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_UnlockAudioDevice = (delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, void>)IntPtr.Zero;
-        _virtualTable.SDL_UnlockAudio = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_LockAudioDevice = (delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, void>)IntPtr.Zero;
-        _virtualTable.SDL_LockAudio = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_ClearQueuedAudio = (delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, void>)IntPtr.Zero;
-        _virtualTable.SDL_GetQueuedAudioSize = (delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, uint>)IntPtr.Zero;
-        _virtualTable.SDL_DequeueAudio = (delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, void*, uint, uint>)IntPtr.Zero;
-        _virtualTable.SDL_QueueAudio = (delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, void*, uint, int>)IntPtr.Zero;
-        _virtualTable.SDL_MixAudioFormat = (delegate* unmanaged[Cdecl]<byte*, byte*, SDL_AudioFormat, uint, int, void>)IntPtr.Zero;
-        _virtualTable.SDL_MixAudio = (delegate* unmanaged[Cdecl]<byte*, byte*, uint, int, void>)IntPtr.Zero;
-        _virtualTable.SDL_FreeAudioStream = (delegate* unmanaged[Cdecl]<SDL_AudioStream*, void>)IntPtr.Zero;
-        _virtualTable.SDL_AudioStreamClear = (delegate* unmanaged[Cdecl]<SDL_AudioStream*, void>)IntPtr.Zero;
-        _virtualTable.SDL_AudioStreamFlush = (delegate* unmanaged[Cdecl]<SDL_AudioStream*, int>)IntPtr.Zero;
-        _virtualTable.SDL_AudioStreamAvailable = (delegate* unmanaged[Cdecl]<SDL_AudioStream*, int>)IntPtr.Zero;
-        _virtualTable.SDL_AudioStreamGet = (delegate* unmanaged[Cdecl]<SDL_AudioStream*, void*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_AudioStreamPut = (delegate* unmanaged[Cdecl]<SDL_AudioStream*, void*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_NewAudioStream = (delegate* unmanaged[Cdecl]<SDL_AudioFormat, byte, int, SDL_AudioFormat, byte, int, SDL_AudioStream*>)IntPtr.Zero;
-        _virtualTable.SDL_ConvertAudio = (delegate* unmanaged[Cdecl]<SDL_AudioCVT*, int>)IntPtr.Zero;
-        _virtualTable.SDL_BuildAudioCVT = (delegate* unmanaged[Cdecl]<SDL_AudioCVT*, SDL_AudioFormat, byte, int, SDL_AudioFormat, byte, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_FreeWAV = (delegate* unmanaged[Cdecl]<byte*, void>)IntPtr.Zero;
-        _virtualTable.SDL_LoadWAV_RW = (delegate* unmanaged[Cdecl]<SDL_RWops*, int, SDL_AudioSpec*, byte**, uint*, SDL_AudioSpec*>)IntPtr.Zero;
-        _virtualTable.SDL_PauseAudioDevice = (delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, int, void>)IntPtr.Zero;
-        _virtualTable.SDL_PauseAudio = (delegate* unmanaged[Cdecl]<int, void>)IntPtr.Zero;
-        _virtualTable.SDL_GetAudioDeviceStatus = (delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, SDL_AudioStatus>)IntPtr.Zero;
-        _virtualTable.SDL_GetAudioStatus = (delegate* unmanaged[Cdecl]<SDL_AudioStatus>)IntPtr.Zero;
-        _virtualTable.SDL_OpenAudioDevice = (delegate* unmanaged[Cdecl]<CString, int, SDL_AudioSpec*, SDL_AudioSpec*, int, SDL_AudioDeviceID>)IntPtr.Zero;
-        _virtualTable.SDL_GetAudioDeviceSpec = (delegate* unmanaged[Cdecl]<int, int, SDL_AudioSpec*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetAudioDeviceName = (delegate* unmanaged[Cdecl]<int, int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_GetNumAudioDevices = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_OpenAudio = (delegate* unmanaged[Cdecl]<SDL_AudioSpec*, SDL_AudioSpec*, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetCurrentAudioDriver = (delegate* unmanaged[Cdecl]<CString>)IntPtr.Zero;
-        _virtualTable.SDL_AudioQuit = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_AudioInit = (delegate* unmanaged[Cdecl]<CString, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetAudioDriver = (delegate* unmanaged[Cdecl]<int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_GetNumAudioDrivers = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.SDL_WriteBE64 = (delegate* unmanaged[Cdecl]<SDL_RWops*, ulong, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_WriteLE64 = (delegate* unmanaged[Cdecl]<SDL_RWops*, ulong, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_WriteBE32 = (delegate* unmanaged[Cdecl]<SDL_RWops*, uint, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_WriteLE32 = (delegate* unmanaged[Cdecl]<SDL_RWops*, uint, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_WriteBE16 = (delegate* unmanaged[Cdecl]<SDL_RWops*, ushort, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_WriteLE16 = (delegate* unmanaged[Cdecl]<SDL_RWops*, ushort, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_WriteU8 = (delegate* unmanaged[Cdecl]<SDL_RWops*, byte, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_ReadBE64 = (delegate* unmanaged[Cdecl]<SDL_RWops*, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_ReadLE64 = (delegate* unmanaged[Cdecl]<SDL_RWops*, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_ReadBE32 = (delegate* unmanaged[Cdecl]<SDL_RWops*, uint>)IntPtr.Zero;
-        _virtualTable.SDL_ReadLE32 = (delegate* unmanaged[Cdecl]<SDL_RWops*, uint>)IntPtr.Zero;
-        _virtualTable.SDL_ReadBE16 = (delegate* unmanaged[Cdecl]<SDL_RWops*, ushort>)IntPtr.Zero;
-        _virtualTable.SDL_ReadLE16 = (delegate* unmanaged[Cdecl]<SDL_RWops*, ushort>)IntPtr.Zero;
-        _virtualTable.SDL_ReadU8 = (delegate* unmanaged[Cdecl]<SDL_RWops*, byte>)IntPtr.Zero;
-        _virtualTable.SDL_LoadFile = (delegate* unmanaged[Cdecl]<CString, ulong*, void*>)IntPtr.Zero;
-        _virtualTable.SDL_LoadFile_RW = (delegate* unmanaged[Cdecl]<SDL_RWops*, ulong*, int, void*>)IntPtr.Zero;
-        _virtualTable.SDL_RWclose = (delegate* unmanaged[Cdecl]<SDL_RWops*, int>)IntPtr.Zero;
-        _virtualTable.SDL_RWwrite = (delegate* unmanaged[Cdecl]<SDL_RWops*, void*, ulong, ulong, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_RWread = (delegate* unmanaged[Cdecl]<SDL_RWops*, void*, ulong, ulong, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_RWtell = (delegate* unmanaged[Cdecl]<SDL_RWops*, long>)IntPtr.Zero;
-        _virtualTable.SDL_RWseek = (delegate* unmanaged[Cdecl]<SDL_RWops*, long, int, long>)IntPtr.Zero;
-        _virtualTable.SDL_RWsize = (delegate* unmanaged[Cdecl]<SDL_RWops*, long>)IntPtr.Zero;
-        _virtualTable.SDL_FreeRW = (delegate* unmanaged[Cdecl]<SDL_RWops*, void>)IntPtr.Zero;
-        _virtualTable.SDL_AllocRW = (delegate* unmanaged[Cdecl]<SDL_RWops*>)IntPtr.Zero;
-        _virtualTable.SDL_RWFromConstMem = (delegate* unmanaged[Cdecl]<void*, int, SDL_RWops*>)IntPtr.Zero;
-        _virtualTable.SDL_RWFromMem = (delegate* unmanaged[Cdecl]<void*, int, SDL_RWops*>)IntPtr.Zero;
-        _virtualTable.SDL_RWFromFP = (delegate* unmanaged[Cdecl]<void*, CBool, SDL_RWops*>)IntPtr.Zero;
-        _virtualTable.SDL_RWFromFile = (delegate* unmanaged[Cdecl]<CString, CString, SDL_RWops*>)IntPtr.Zero;
-        _virtualTable.SDL_TLSCleanup = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_TLSSet = (delegate* unmanaged[Cdecl]<SDL_TLSID, void*, FnPtr_SDL_VoidPtr_Void, int>)IntPtr.Zero;
-        _virtualTable.SDL_TLSGet = (delegate* unmanaged[Cdecl]<SDL_TLSID, void*>)IntPtr.Zero;
-        _virtualTable.SDL_TLSCreate = (delegate* unmanaged[Cdecl]<SDL_TLSID>)IntPtr.Zero;
-        _virtualTable.SDL_DetachThread = (delegate* unmanaged[Cdecl]<SDL_Thread*, void>)IntPtr.Zero;
-        _virtualTable.SDL_WaitThread = (delegate* unmanaged[Cdecl]<SDL_Thread*, long*, void>)IntPtr.Zero;
-        _virtualTable.SDL_SetThreadPriority = (delegate* unmanaged[Cdecl]<SDL_ThreadPriority, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetThreadID = (delegate* unmanaged[Cdecl]<SDL_Thread*, SDL_threadID>)IntPtr.Zero;
-        _virtualTable.SDL_ThreadID = (delegate* unmanaged[Cdecl]<SDL_threadID>)IntPtr.Zero;
-        _virtualTable.SDL_GetThreadName = (delegate* unmanaged[Cdecl]<SDL_Thread*, CString>)IntPtr.Zero;
-        _virtualTable.SDL_CreateThreadWithStackSize = (delegate* unmanaged[Cdecl]<FnPtr_SDL_VoidPtr_Int, CString, ulong, void*, pfnSDL_CurrentBeginThread, pfnSDL_CurrentEndThread, SDL_Thread*>)IntPtr.Zero;
-        _virtualTable.SDL_CreateThread = (delegate* unmanaged[Cdecl]<SDL_ThreadFunction, CString, void*, pfnSDL_CurrentBeginThread, pfnSDL_CurrentEndThread, SDL_Thread*>)IntPtr.Zero;
-        _virtualTable.SDL_CondWaitTimeout = (delegate* unmanaged[Cdecl]<SDL_cond*, SDL_mutex*, uint, int>)IntPtr.Zero;
-        _virtualTable.SDL_CondWait = (delegate* unmanaged[Cdecl]<SDL_cond*, SDL_mutex*, int>)IntPtr.Zero;
-        _virtualTable.SDL_CondBroadcast = (delegate* unmanaged[Cdecl]<SDL_cond*, int>)IntPtr.Zero;
-        _virtualTable.SDL_CondSignal = (delegate* unmanaged[Cdecl]<SDL_cond*, int>)IntPtr.Zero;
-        _virtualTable.SDL_DestroyCond = (delegate* unmanaged[Cdecl]<SDL_cond*, void>)IntPtr.Zero;
-        _virtualTable.SDL_CreateCond = (delegate* unmanaged[Cdecl]<SDL_cond*>)IntPtr.Zero;
-        _virtualTable.SDL_SemValue = (delegate* unmanaged[Cdecl]<SDL_sem*, uint>)IntPtr.Zero;
-        _virtualTable.SDL_SemPost = (delegate* unmanaged[Cdecl]<SDL_sem*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SemWaitTimeout = (delegate* unmanaged[Cdecl]<SDL_sem*, uint, int>)IntPtr.Zero;
-        _virtualTable.SDL_SemTryWait = (delegate* unmanaged[Cdecl]<SDL_sem*, int>)IntPtr.Zero;
-        _virtualTable.SDL_SemWait = (delegate* unmanaged[Cdecl]<SDL_sem*, int>)IntPtr.Zero;
-        _virtualTable.SDL_DestroySemaphore = (delegate* unmanaged[Cdecl]<SDL_sem*, void>)IntPtr.Zero;
-        _virtualTable.SDL_CreateSemaphore = (delegate* unmanaged[Cdecl]<uint, SDL_sem*>)IntPtr.Zero;
-        _virtualTable.SDL_DestroyMutex = (delegate* unmanaged[Cdecl]<SDL_mutex*, void>)IntPtr.Zero;
-        _virtualTable.SDL_UnlockMutex = (delegate* unmanaged[Cdecl]<SDL_mutex*, int>)IntPtr.Zero;
-        _virtualTable.SDL_TryLockMutex = (delegate* unmanaged[Cdecl]<SDL_mutex*, int>)IntPtr.Zero;
-        _virtualTable.SDL_LockMutex = (delegate* unmanaged[Cdecl]<SDL_mutex*, int>)IntPtr.Zero;
-        _virtualTable.SDL_CreateMutex = (delegate* unmanaged[Cdecl]<SDL_mutex*>)IntPtr.Zero;
-        _virtualTable.SDL_SwapFloat = (delegate* unmanaged[Cdecl]<float, float>)IntPtr.Zero;
-        _virtualTable.SDL_Error = (delegate* unmanaged[Cdecl]<SDL_errorcode, int>)IntPtr.Zero;
-        _virtualTable.SDL_ClearError = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_GetErrorMsg = (delegate* unmanaged[Cdecl]<CString, int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_GetError = (delegate* unmanaged[Cdecl]<CString>)IntPtr.Zero;
-        _virtualTable.SDL_SetError = (delegate* unmanaged[Cdecl]<CString, int>)IntPtr.Zero;
-        _virtualTable.SDL_AtomicGetPtr = (delegate* unmanaged[Cdecl]<void**, void*>)IntPtr.Zero;
-        _virtualTable.SDL_AtomicSetPtr = (delegate* unmanaged[Cdecl]<void**, void*, void*>)IntPtr.Zero;
-        _virtualTable.SDL_AtomicCASPtr = (delegate* unmanaged[Cdecl]<void**, void*, void*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_AtomicAdd = (delegate* unmanaged[Cdecl]<SDL_atomic_t*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_AtomicGet = (delegate* unmanaged[Cdecl]<SDL_atomic_t*, int>)IntPtr.Zero;
-        _virtualTable.SDL_AtomicSet = (delegate* unmanaged[Cdecl]<SDL_atomic_t*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_AtomicCAS = (delegate* unmanaged[Cdecl]<SDL_atomic_t*, int, int, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_MemoryBarrierAcquireFunction = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_MemoryBarrierReleaseFunction = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_AtomicUnlock = (delegate* unmanaged[Cdecl]<SDL_SpinLock*, void>)IntPtr.Zero;
-        _virtualTable.SDL_AtomicLock = (delegate* unmanaged[Cdecl]<SDL_SpinLock*, void>)IntPtr.Zero;
-        _virtualTable.SDL_AtomicTryLock = (delegate* unmanaged[Cdecl]<SDL_SpinLock*, CBool>)IntPtr.Zero;
-        _virtualTable.SDL_ResetAssertionReport = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_GetAssertionReport = (delegate* unmanaged[Cdecl]<SDL_AssertData*>)IntPtr.Zero;
-        _virtualTable.SDL_GetAssertionHandler = (delegate* unmanaged[Cdecl]<void**, SDL_AssertionHandler>)IntPtr.Zero;
-        _virtualTable.SDL_GetDefaultAssertionHandler = (delegate* unmanaged[Cdecl]<SDL_AssertionHandler>)IntPtr.Zero;
-        _virtualTable.SDL_SetAssertionHandler = (delegate* unmanaged[Cdecl]<SDL_AssertionHandler, void*, void>)IntPtr.Zero;
-        _virtualTable.SDL_ReportAssertion = (delegate* unmanaged[Cdecl]<SDL_AssertData*, CString, CString, int, SDL_AssertState>)IntPtr.Zero;
-        _virtualTable.__debugbreak = (delegate* unmanaged[Cdecl]<void>)IntPtr.Zero;
-        _virtualTable.SDL_memcpy4 = (delegate* unmanaged[Cdecl]<void*, void*, ulong, void*>)IntPtr.Zero;
-        _virtualTable.SDL_iconv_string = (delegate* unmanaged[Cdecl]<CString, CString, CString, ulong, CString>)IntPtr.Zero;
-        _virtualTable.SDL_iconv = (delegate* unmanaged[Cdecl]<SDL_iconv_t, CString*, ulong*, CString*, ulong*, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_iconv_close = (delegate* unmanaged[Cdecl]<SDL_iconv_t, int>)IntPtr.Zero;
-        _virtualTable.SDL_iconv_open = (delegate* unmanaged[Cdecl]<CString, CString, SDL_iconv_t>)IntPtr.Zero;
-        _virtualTable.SDL_tanf = (delegate* unmanaged[Cdecl]<float, float>)IntPtr.Zero;
-        _virtualTable.SDL_tan = (delegate* unmanaged[Cdecl]<double, double>)IntPtr.Zero;
-        _virtualTable.SDL_sqrtf = (delegate* unmanaged[Cdecl]<float, float>)IntPtr.Zero;
-        _virtualTable.SDL_sqrt = (delegate* unmanaged[Cdecl]<double, double>)IntPtr.Zero;
-        _virtualTable.SDL_sinf = (delegate* unmanaged[Cdecl]<float, float>)IntPtr.Zero;
-        _virtualTable.SDL_sin = (delegate* unmanaged[Cdecl]<double, double>)IntPtr.Zero;
-        _virtualTable.SDL_scalbnf = (delegate* unmanaged[Cdecl]<float, int, float>)IntPtr.Zero;
-        _virtualTable.SDL_scalbn = (delegate* unmanaged[Cdecl]<double, int, double>)IntPtr.Zero;
-        _virtualTable.SDL_lroundf = (delegate* unmanaged[Cdecl]<float, int>)IntPtr.Zero;
-        _virtualTable.SDL_lround = (delegate* unmanaged[Cdecl]<double, int>)IntPtr.Zero;
-        _virtualTable.SDL_roundf = (delegate* unmanaged[Cdecl]<float, float>)IntPtr.Zero;
-        _virtualTable.SDL_round = (delegate* unmanaged[Cdecl]<double, double>)IntPtr.Zero;
-        _virtualTable.SDL_powf = (delegate* unmanaged[Cdecl]<float, float, float>)IntPtr.Zero;
-        _virtualTable.SDL_pow = (delegate* unmanaged[Cdecl]<double, double, double>)IntPtr.Zero;
-        _virtualTable.SDL_log10f = (delegate* unmanaged[Cdecl]<float, float>)IntPtr.Zero;
-        _virtualTable.SDL_log10 = (delegate* unmanaged[Cdecl]<double, double>)IntPtr.Zero;
-        _virtualTable.SDL_logf = (delegate* unmanaged[Cdecl]<float, float>)IntPtr.Zero;
-        _virtualTable.SDL_log = (delegate* unmanaged[Cdecl]<double, double>)IntPtr.Zero;
-        _virtualTable.SDL_fmodf = (delegate* unmanaged[Cdecl]<float, float, float>)IntPtr.Zero;
-        _virtualTable.SDL_fmod = (delegate* unmanaged[Cdecl]<double, double, double>)IntPtr.Zero;
-        _virtualTable.SDL_truncf = (delegate* unmanaged[Cdecl]<float, float>)IntPtr.Zero;
-        _virtualTable.SDL_trunc = (delegate* unmanaged[Cdecl]<double, double>)IntPtr.Zero;
-        _virtualTable.SDL_floorf = (delegate* unmanaged[Cdecl]<float, float>)IntPtr.Zero;
-        _virtualTable.SDL_floor = (delegate* unmanaged[Cdecl]<double, double>)IntPtr.Zero;
-        _virtualTable.SDL_fabsf = (delegate* unmanaged[Cdecl]<float, float>)IntPtr.Zero;
-        _virtualTable.SDL_fabs = (delegate* unmanaged[Cdecl]<double, double>)IntPtr.Zero;
-        _virtualTable.SDL_expf = (delegate* unmanaged[Cdecl]<float, float>)IntPtr.Zero;
-        _virtualTable.SDL_exp = (delegate* unmanaged[Cdecl]<double, double>)IntPtr.Zero;
-        _virtualTable.SDL_cosf = (delegate* unmanaged[Cdecl]<float, float>)IntPtr.Zero;
-        _virtualTable.SDL_cos = (delegate* unmanaged[Cdecl]<double, double>)IntPtr.Zero;
-        _virtualTable.SDL_copysignf = (delegate* unmanaged[Cdecl]<float, float, float>)IntPtr.Zero;
-        _virtualTable.SDL_copysign = (delegate* unmanaged[Cdecl]<double, double, double>)IntPtr.Zero;
-        _virtualTable.SDL_ceilf = (delegate* unmanaged[Cdecl]<float, float>)IntPtr.Zero;
-        _virtualTable.SDL_ceil = (delegate* unmanaged[Cdecl]<double, double>)IntPtr.Zero;
-        _virtualTable.SDL_atan2f = (delegate* unmanaged[Cdecl]<float, float, float>)IntPtr.Zero;
-        _virtualTable.SDL_atan2 = (delegate* unmanaged[Cdecl]<double, double, double>)IntPtr.Zero;
-        _virtualTable.SDL_atanf = (delegate* unmanaged[Cdecl]<float, float>)IntPtr.Zero;
-        _virtualTable.SDL_atan = (delegate* unmanaged[Cdecl]<double, double>)IntPtr.Zero;
-        _virtualTable.SDL_asinf = (delegate* unmanaged[Cdecl]<float, float>)IntPtr.Zero;
-        _virtualTable.SDL_asin = (delegate* unmanaged[Cdecl]<double, double>)IntPtr.Zero;
-        _virtualTable.SDL_acosf = (delegate* unmanaged[Cdecl]<float, float>)IntPtr.Zero;
-        _virtualTable.SDL_acos = (delegate* unmanaged[Cdecl]<double, double>)IntPtr.Zero;
-        _virtualTable.SDL_vsnprintf = (delegate* unmanaged[Cdecl]<CString, ulong, CString, IntPtr, int>)IntPtr.Zero;
-        _virtualTable.SDL_snprintf = (delegate* unmanaged[Cdecl]<CString, ulong, CString, int>)IntPtr.Zero;
-        _virtualTable.SDL_vsscanf = (delegate* unmanaged[Cdecl]<CString, CString, IntPtr, int>)IntPtr.Zero;
-        _virtualTable.SDL_sscanf = (delegate* unmanaged[Cdecl]<CString, CString, int>)IntPtr.Zero;
-        _virtualTable.SDL_strncasecmp = (delegate* unmanaged[Cdecl]<CString, CString, ulong, int>)IntPtr.Zero;
-        _virtualTable.SDL_strcasecmp = (delegate* unmanaged[Cdecl]<CString, CString, int>)IntPtr.Zero;
-        _virtualTable.SDL_strncmp = (delegate* unmanaged[Cdecl]<CString, CString, ulong, int>)IntPtr.Zero;
-        _virtualTable.SDL_strcmp = (delegate* unmanaged[Cdecl]<CString, CString, int>)IntPtr.Zero;
-        _virtualTable.SDL_strtod = (delegate* unmanaged[Cdecl]<CString, CString*, double>)IntPtr.Zero;
-        _virtualTable.SDL_strtoull = (delegate* unmanaged[Cdecl]<CString, CString*, int, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_strtoll = (delegate* unmanaged[Cdecl]<CString, CString*, int, long>)IntPtr.Zero;
-        _virtualTable.SDL_strtoul = (delegate* unmanaged[Cdecl]<CString, CString*, int, uint>)IntPtr.Zero;
-        _virtualTable.SDL_strtol = (delegate* unmanaged[Cdecl]<CString, CString*, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_atof = (delegate* unmanaged[Cdecl]<CString, double>)IntPtr.Zero;
-        _virtualTable.SDL_atoi = (delegate* unmanaged[Cdecl]<CString, int>)IntPtr.Zero;
-        _virtualTable.SDL_ulltoa = (delegate* unmanaged[Cdecl]<ulong, CString, int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_lltoa = (delegate* unmanaged[Cdecl]<long, CString, int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_ultoa = (delegate* unmanaged[Cdecl]<uint, CString, int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_ltoa = (delegate* unmanaged[Cdecl]<int, CString, int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_uitoa = (delegate* unmanaged[Cdecl]<uint, CString, int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_itoa = (delegate* unmanaged[Cdecl]<int, CString, int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_utf8strlen = (delegate* unmanaged[Cdecl]<CString, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_strtokr = (delegate* unmanaged[Cdecl]<CString, CString, CString*, CString>)IntPtr.Zero;
-        _virtualTable.SDL_strstr = (delegate* unmanaged[Cdecl]<CString, CString, CString>)IntPtr.Zero;
-        _virtualTable.SDL_strrchr = (delegate* unmanaged[Cdecl]<CString, int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_strchr = (delegate* unmanaged[Cdecl]<CString, int, CString>)IntPtr.Zero;
-        _virtualTable.SDL_strlwr = (delegate* unmanaged[Cdecl]<CString, CString>)IntPtr.Zero;
-        _virtualTable.SDL_strupr = (delegate* unmanaged[Cdecl]<CString, CString>)IntPtr.Zero;
-        _virtualTable.SDL_strrev = (delegate* unmanaged[Cdecl]<CString, CString>)IntPtr.Zero;
-        _virtualTable.SDL_strdup = (delegate* unmanaged[Cdecl]<CString, CString>)IntPtr.Zero;
-        _virtualTable.SDL_strlcat = (delegate* unmanaged[Cdecl]<CString, CString, ulong, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_utf8strlcpy = (delegate* unmanaged[Cdecl]<CString, CString, ulong, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_strlcpy = (delegate* unmanaged[Cdecl]<CString, CString, ulong, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_strlen = (delegate* unmanaged[Cdecl]<CString, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_wcsncasecmp = (delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, ulong, int>)IntPtr.Zero;
-        _virtualTable.SDL_wcscasecmp = (delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, int>)IntPtr.Zero;
-        _virtualTable.SDL_wcsncmp = (delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, ulong, int>)IntPtr.Zero;
-        _virtualTable.SDL_wcscmp = (delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, int>)IntPtr.Zero;
-        _virtualTable.SDL_wcsstr = (delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, wchar_t*>)IntPtr.Zero;
-        _virtualTable.SDL_wcsdup = (delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*>)IntPtr.Zero;
-        _virtualTable.SDL_wcslcat = (delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, ulong, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_wcslcpy = (delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, ulong, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_wcslen = (delegate* unmanaged[Cdecl]<wchar_t*, ulong>)IntPtr.Zero;
-        _virtualTable.SDL_memcmp = (delegate* unmanaged[Cdecl]<void*, void*, ulong, int>)IntPtr.Zero;
-        _virtualTable.SDL_memmove = (delegate* unmanaged[Cdecl]<void*, void*, ulong, void*>)IntPtr.Zero;
-        _virtualTable.SDL_memcpy = (delegate* unmanaged[Cdecl]<void*, void*, ulong, void*>)IntPtr.Zero;
-        _virtualTable.SDL_memset4 = (delegate* unmanaged[Cdecl]<void*, uint, ulong, void>)IntPtr.Zero;
-        _virtualTable.SDL_memset = (delegate* unmanaged[Cdecl]<void*, int, ulong, void*>)IntPtr.Zero;
-        _virtualTable.SDL_crc32 = (delegate* unmanaged[Cdecl]<uint, void*, ulong, uint>)IntPtr.Zero;
-        _virtualTable.SDL_tolower = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_toupper = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_isgraph = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_isprint = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_islower = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_isupper = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_isspace = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_ispunct = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_isxdigit = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_isdigit = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_iscntrl = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_isblank = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_isalnum = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_isalpha = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_abs = (delegate* unmanaged[Cdecl]<int, int>)IntPtr.Zero;
-        _virtualTable.SDL_qsort = (delegate* unmanaged[Cdecl]<void*, ulong, ulong, FnPtr_SDL_VoidPtr_VoidPtr_Int, void>)IntPtr.Zero;
-        _virtualTable.SDL_setenv = (delegate* unmanaged[Cdecl]<CString, CString, int, int>)IntPtr.Zero;
-        _virtualTable.SDL_getenv = (delegate* unmanaged[Cdecl]<CString, CString>)IntPtr.Zero;
-        _virtualTable.SDL_GetNumAllocations = (delegate* unmanaged[Cdecl]<int>)IntPtr.Zero;
-        _virtualTable.SDL_SetMemoryFunctions = (delegate* unmanaged[Cdecl]<SDL_malloc_func, SDL_calloc_func, SDL_realloc_func, SDL_free_func, int>)IntPtr.Zero;
-        _virtualTable.SDL_GetMemoryFunctions = (delegate* unmanaged[Cdecl]<SDL_malloc_func*, SDL_calloc_func*, SDL_realloc_func*, SDL_free_func*, void>)IntPtr.Zero;
-        _virtualTable.SDL_free = (delegate* unmanaged[Cdecl]<void*, void>)IntPtr.Zero;
-        _virtualTable.SDL_realloc = (delegate* unmanaged[Cdecl]<void*, ulong, void*>)IntPtr.Zero;
-        _virtualTable.SDL_calloc = (delegate* unmanaged[Cdecl]<ulong, ulong, void*>)IntPtr.Zero;
-        _virtualTable.SDL_malloc = (delegate* unmanaged[Cdecl]<ulong, void*>)IntPtr.Zero;
-        _virtualTable.SDL_GetPlatform = (delegate* unmanaged[Cdecl]<CString>)IntPtr.Zero;
-
-        #endregion
-
-        #region "Variables"
-
-
-
-        #endregion
-    }
-
-    // The virtual table represents a list of pointers to functions or variables which are resolved in a late manner.
-    //	This allows for flexibility in swapping implementations at runtime.
-    //	You can think of it in traditional OOP terms in C# as the locations of the virtual methods and/or properties of an object.
-    public struct _VirtualTable
-    {
-        #region "Function Pointers"
-        // These pointers hold the locations in the native library where functions are located at runtime.
-        // See: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/function-pointers
-
-        public delegate* unmanaged[Cdecl]<void> SDL_Quit;
-        public delegate* unmanaged[Cdecl]<uint, uint> SDL_WasInit;
-        public delegate* unmanaged[Cdecl]<uint, void> SDL_QuitSubSystem;
-        public delegate* unmanaged[Cdecl]<uint, int> SDL_InitSubSystem;
-        public delegate* unmanaged[Cdecl]<uint, int> SDL_Init;
-        public delegate* unmanaged[Cdecl]<CString, int> SDL_OpenURL;
-        public delegate* unmanaged[Cdecl]<SDL_Locale*> SDL_GetPreferredLocales;
-        public delegate* unmanaged[Cdecl]<int> SDL_GetRevisionNumber;
-        public delegate* unmanaged[Cdecl]<CString> SDL_GetRevision;
-        public delegate* unmanaged[Cdecl]<SDL_version*, void> SDL_GetVersion;
-        public delegate* unmanaged[Cdecl]<SDL_TimerID, CBool> SDL_RemoveTimer;
-        public delegate* unmanaged[Cdecl]<uint, SDL_TimerCallback, void*, SDL_TimerID> SDL_AddTimer;
-        public delegate* unmanaged[Cdecl]<uint, void> SDL_Delay;
-        public delegate* unmanaged[Cdecl]<ulong> SDL_GetPerformanceFrequency;
-        public delegate* unmanaged[Cdecl]<ulong> SDL_GetPerformanceCounter;
-        public delegate* unmanaged[Cdecl]<uint> SDL_GetTicks;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, SDL_WindowShapeMode*, int> SDL_GetShapedWindowMode;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Surface*, SDL_WindowShapeMode*, int> SDL_SetWindowShape;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, CBool> SDL_IsShapedWindow;
-        public delegate* unmanaged[Cdecl]<CString, uint, uint, uint, uint, uint, SDL_Window*> SDL_CreateShapedWindow;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, void*> SDL_RenderGetMetalCommandEncoder;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, void*> SDL_RenderGetMetalLayer;
-        public delegate* unmanaged[Cdecl]<SDL_Texture*, int> SDL_GL_UnbindTexture;
-        public delegate* unmanaged[Cdecl]<SDL_Texture*, float*, float*, int> SDL_GL_BindTexture;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, int> SDL_RenderFlush;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, void> SDL_DestroyRenderer;
-        public delegate* unmanaged[Cdecl]<SDL_Texture*, void> SDL_DestroyTexture;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, void> SDL_RenderPresent;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, uint, void*, int, int> SDL_RenderReadPixels;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_FRect*, double, SDL_FPoint*, SDL_RendererFlip, int> SDL_RenderCopyExF;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_FRect*, int> SDL_RenderCopyF;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_FRect*, int, int> SDL_RenderFillRectsF;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_FRect*, int> SDL_RenderFillRectF;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_FRect*, int, int> SDL_RenderDrawRectsF;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_FRect*, int> SDL_RenderDrawRectF;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_FPoint*, int, int> SDL_RenderDrawLinesF;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, float, float, float, float, int> SDL_RenderDrawLineF;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_FPoint*, int, int> SDL_RenderDrawPointsF;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, float, float, int> SDL_RenderDrawPointF;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*, double, SDL_Point*, SDL_RendererFlip, int> SDL_RenderCopyEx;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*, int> SDL_RenderCopy;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, int, int> SDL_RenderFillRects;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, int> SDL_RenderFillRect;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, int, int> SDL_RenderDrawRects;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, int> SDL_RenderDrawRect;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Point*, int, int> SDL_RenderDrawLines;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, int, int, int, int, int> SDL_RenderDrawLine;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Point*, int, int> SDL_RenderDrawPoints;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, int, int, int> SDL_RenderDrawPoint;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, int> SDL_RenderClear;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_BlendMode*, int> SDL_GetRenderDrawBlendMode;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_BlendMode, int> SDL_SetRenderDrawBlendMode;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, byte*, byte*, byte*, byte*, int> SDL_GetRenderDrawColor;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, byte, byte, byte, byte, int> SDL_SetRenderDrawColor;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, float*, float*, void> SDL_RenderGetScale;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, float, float, int> SDL_RenderSetScale;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, CBool> SDL_RenderIsClipEnabled;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, void> SDL_RenderGetClipRect;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, int> SDL_RenderSetClipRect;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, void> SDL_RenderGetViewport;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Rect*, int> SDL_RenderSetViewport;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, CBool> SDL_RenderGetIntegerScale;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, CBool, int> SDL_RenderSetIntegerScale;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, long*, long*, void> SDL_RenderGetLogicalSize;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, int, int, int> SDL_RenderSetLogicalSize;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Texture*> SDL_GetRenderTarget;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Texture*, int> SDL_SetRenderTarget;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, CBool> SDL_RenderTargetSupported;
-        public delegate* unmanaged[Cdecl]<SDL_Texture*, void> SDL_UnlockTexture;
-        public delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_Rect*, SDL_Surface**, int> SDL_LockTextureToSurface;
-        public delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_Rect*, void**, long*, int> SDL_LockTexture;
-        public delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_Rect*, byte*, int, byte*, int, int> SDL_UpdateNVTexture;
-        public delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_Rect*, byte*, int, byte*, int, byte*, int, int> SDL_UpdateYUVTexture;
-        public delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_Rect*, void*, int, int> SDL_UpdateTexture;
-        public delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_ScaleMode*, int> SDL_GetTextureScaleMode;
-        public delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_ScaleMode, int> SDL_SetTextureScaleMode;
-        public delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_BlendMode*, int> SDL_GetTextureBlendMode;
-        public delegate* unmanaged[Cdecl]<SDL_Texture*, SDL_BlendMode, int> SDL_SetTextureBlendMode;
-        public delegate* unmanaged[Cdecl]<SDL_Texture*, byte*, int> SDL_GetTextureAlphaMod;
-        public delegate* unmanaged[Cdecl]<SDL_Texture*, byte, int> SDL_SetTextureAlphaMod;
-        public delegate* unmanaged[Cdecl]<SDL_Texture*, byte*, byte*, byte*, int> SDL_GetTextureColorMod;
-        public delegate* unmanaged[Cdecl]<SDL_Texture*, byte, byte, byte, int> SDL_SetTextureColorMod;
-        public delegate* unmanaged[Cdecl]<SDL_Texture*, uint*, long*, long*, long*, int> SDL_QueryTexture;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_Surface*, SDL_Texture*> SDL_CreateTextureFromSurface;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, uint, int, int, int, SDL_Texture*> SDL_CreateTexture;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, long*, long*, int> SDL_GetRendererOutputSize;
-        public delegate* unmanaged[Cdecl]<SDL_Renderer*, SDL_RendererInfo*, int> SDL_GetRendererInfo;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Renderer*> SDL_GetRenderer;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Renderer*> SDL_CreateSoftwareRenderer;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, int, uint, SDL_Renderer*> SDL_CreateRenderer;
-        public delegate* unmanaged[Cdecl]<int, int, uint, SDL_Window**, SDL_Renderer**, int> SDL_CreateWindowAndRenderer;
-        public delegate* unmanaged[Cdecl]<int, SDL_RendererInfo*, int> SDL_GetRenderDriverInfo;
-        public delegate* unmanaged[Cdecl]<int> SDL_GetNumRenderDrivers;
-        public delegate* unmanaged[Cdecl]<long*, long*, SDL_PowerState> SDL_GetPowerInfo;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, void> SDL_Metal_GetDrawableSize;
-        public delegate* unmanaged[Cdecl]<SDL_MetalView, void*> SDL_Metal_GetLayer;
-        public delegate* unmanaged[Cdecl]<SDL_MetalView, void> SDL_Metal_DestroyView;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, SDL_MetalView> SDL_Metal_CreateView;
-        public delegate* unmanaged[Cdecl]<uint, CString, CString, SDL_Window*, int> SDL_ShowSimpleMessageBox;
-        public delegate* unmanaged[Cdecl]<SDL_MessageBoxData*, long*, int> SDL_ShowMessageBox;
-        public delegate* unmanaged[Cdecl]<SDL_LogOutputFunction, void*, void> SDL_LogSetOutputFunction;
-        public delegate* unmanaged[Cdecl]<SDL_LogOutputFunction*, void**, void> SDL_LogGetOutputFunction;
-        public delegate* unmanaged[Cdecl]<int, SDL_LogPriority, CString, IntPtr, void> SDL_LogMessageV;
-        public delegate* unmanaged[Cdecl]<int, SDL_LogPriority, CString, void> SDL_LogMessage;
-        public delegate* unmanaged[Cdecl]<int, CString, void> SDL_LogCritical;
-        public delegate* unmanaged[Cdecl]<int, CString, void> SDL_LogError;
-        public delegate* unmanaged[Cdecl]<int, CString, void> SDL_LogWarn;
-        public delegate* unmanaged[Cdecl]<int, CString, void> SDL_LogInfo;
-        public delegate* unmanaged[Cdecl]<int, CString, void> SDL_LogDebug;
-        public delegate* unmanaged[Cdecl]<int, CString, void> SDL_LogVerbose;
-        public delegate* unmanaged[Cdecl]<CString, void> SDL_Log;
-        public delegate* unmanaged[Cdecl]<void> SDL_LogResetPriorities;
-        public delegate* unmanaged[Cdecl]<int, SDL_LogPriority> SDL_LogGetPriority;
-        public delegate* unmanaged[Cdecl]<int, SDL_LogPriority, void> SDL_LogSetPriority;
-        public delegate* unmanaged[Cdecl]<SDL_LogPriority, void> SDL_LogSetAllPriority;
-        public delegate* unmanaged[Cdecl]<void*, void> SDL_UnloadObject;
-        public delegate* unmanaged[Cdecl]<void*, CString, void*> SDL_LoadFunction;
-        public delegate* unmanaged[Cdecl]<CString, void*> SDL_LoadObject;
-        public delegate* unmanaged[Cdecl]<void> SDL_ClearHints;
-        public delegate* unmanaged[Cdecl]<CString, SDL_HintCallback, void*, void> SDL_DelHintCallback;
-        public delegate* unmanaged[Cdecl]<CString, SDL_HintCallback, void*, void> SDL_AddHintCallback;
-        public delegate* unmanaged[Cdecl]<CString, CBool, CBool> SDL_GetHintBoolean;
-        public delegate* unmanaged[Cdecl]<CString, CString> SDL_GetHint;
-        public delegate* unmanaged[Cdecl]<CString, CString, CBool> SDL_SetHint;
-        public delegate* unmanaged[Cdecl]<CString, CString, SDL_HintPriority, CBool> SDL_SetHintWithPriority;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, int> SDL_HapticRumbleStop;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, float, uint, int> SDL_HapticRumblePlay;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, int> SDL_HapticRumbleInit;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, int> SDL_HapticRumbleSupported;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, int> SDL_HapticStopAll;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, int> SDL_HapticUnpause;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, int> SDL_HapticPause;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, int, int> SDL_HapticSetAutocenter;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, int, int> SDL_HapticSetGain;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, int, int> SDL_HapticGetEffectStatus;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, int, void> SDL_HapticDestroyEffect;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, int, int> SDL_HapticStopEffect;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, int, uint, int> SDL_HapticRunEffect;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, int, SDL_HapticEffect*, int> SDL_HapticUpdateEffect;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, SDL_HapticEffect*, int> SDL_HapticNewEffect;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, SDL_HapticEffect*, int> SDL_HapticEffectSupported;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, int> SDL_HapticNumAxes;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, uint> SDL_HapticQuery;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, int> SDL_HapticNumEffectsPlaying;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, int> SDL_HapticNumEffects;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, void> SDL_HapticClose;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, SDL_Haptic*> SDL_HapticOpenFromJoystick;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, int> SDL_JoystickIsHaptic;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*> SDL_HapticOpenFromMouse;
-        public delegate* unmanaged[Cdecl]<int> SDL_MouseIsHaptic;
-        public delegate* unmanaged[Cdecl]<SDL_Haptic*, int> SDL_HapticIndex;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_HapticOpened;
-        public delegate* unmanaged[Cdecl]<int, SDL_Haptic*> SDL_HapticOpen;
-        public delegate* unmanaged[Cdecl]<int, CString> SDL_HapticName;
-        public delegate* unmanaged[Cdecl]<int> SDL_NumHaptics;
-        public delegate* unmanaged[Cdecl]<CString, CString, CString> SDL_GetPrefPath;
-        public delegate* unmanaged[Cdecl]<CString> SDL_GetBasePath;
-        public delegate* unmanaged[Cdecl]<int, uint> SDL_RegisterEvents;
-        public delegate* unmanaged[Cdecl]<uint, int, byte> SDL_EventState;
-        public delegate* unmanaged[Cdecl]<SDL_EventFilter, void*, void> SDL_FilterEvents;
-        public delegate* unmanaged[Cdecl]<SDL_EventFilter, void*, void> SDL_DelEventWatch;
-        public delegate* unmanaged[Cdecl]<SDL_EventFilter, void*, void> SDL_AddEventWatch;
-        public delegate* unmanaged[Cdecl]<SDL_EventFilter*, void**, CBool> SDL_GetEventFilter;
-        public delegate* unmanaged[Cdecl]<SDL_EventFilter, void*, void> SDL_SetEventFilter;
-        public delegate* unmanaged[Cdecl]<SDL_Event*, int> SDL_PushEvent;
-        public delegate* unmanaged[Cdecl]<SDL_Event*, int, int> SDL_WaitEventTimeout;
-        public delegate* unmanaged[Cdecl]<SDL_Event*, int> SDL_WaitEvent;
-        public delegate* unmanaged[Cdecl]<SDL_Event*, int> SDL_PollEvent;
-        public delegate* unmanaged[Cdecl]<uint, uint, void> SDL_FlushEvents;
-        public delegate* unmanaged[Cdecl]<uint, void> SDL_FlushEvent;
-        public delegate* unmanaged[Cdecl]<uint, uint, CBool> SDL_HasEvents;
-        public delegate* unmanaged[Cdecl]<uint, CBool> SDL_HasEvent;
-        public delegate* unmanaged[Cdecl]<SDL_Event*, int, SDL_eventaction, uint, uint, int> SDL_PeepEvents;
-        public delegate* unmanaged[Cdecl]<void> SDL_PumpEvents;
-        public delegate* unmanaged[Cdecl]<SDL_TouchID, SDL_RWops*, int> SDL_LoadDollarTemplates;
-        public delegate* unmanaged[Cdecl]<SDL_GestureID, SDL_RWops*, int> SDL_SaveDollarTemplate;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, int> SDL_SaveAllDollarTemplates;
-        public delegate* unmanaged[Cdecl]<SDL_TouchID, int> SDL_RecordGesture;
-        public delegate* unmanaged[Cdecl]<SDL_TouchID, int, SDL_Finger*> SDL_GetTouchFinger;
-        public delegate* unmanaged[Cdecl]<SDL_TouchID, int> SDL_GetNumTouchFingers;
-        public delegate* unmanaged[Cdecl]<SDL_TouchID, SDL_TouchDeviceType> SDL_GetTouchDeviceType;
-        public delegate* unmanaged[Cdecl]<int, SDL_TouchID> SDL_GetTouchDevice;
-        public delegate* unmanaged[Cdecl]<int> SDL_GetNumTouchDevices;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, void> SDL_GameControllerClose;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, byte, byte, byte, int> SDL_GameControllerSetLED;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, CBool> SDL_GameControllerHasLED;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, ushort, ushort, uint, int> SDL_GameControllerRumbleTriggers;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, ushort, ushort, uint, int> SDL_GameControllerRumble;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_SensorType, float*, int, int> SDL_GameControllerGetSensorData;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_SensorType, CBool> SDL_GameControllerIsSensorEnabled;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_SensorType, CBool, int> SDL_GameControllerSetSensorEnabled;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_SensorType, CBool> SDL_GameControllerHasSensor;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, int, int, byte*, float*, float*, float*, int> SDL_GameControllerGetTouchpadFinger;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, int, int> SDL_GameControllerGetNumTouchpadFingers;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, int> SDL_GameControllerGetNumTouchpads;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerButton, byte> SDL_GameControllerGetButton;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerButton, CBool> SDL_GameControllerHasButton;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerButton, SDL_GameControllerButtonBind> SDL_GameControllerGetBindForButton;
-        public delegate* unmanaged[Cdecl]<SDL_GameControllerButton, CString> SDL_GameControllerGetStringForButton;
-        public delegate* unmanaged[Cdecl]<CString, SDL_GameControllerButton> SDL_GameControllerGetButtonFromString;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerAxis, short> SDL_GameControllerGetAxis;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerAxis, CBool> SDL_GameControllerHasAxis;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerAxis, SDL_GameControllerButtonBind> SDL_GameControllerGetBindForAxis;
-        public delegate* unmanaged[Cdecl]<SDL_GameControllerAxis, CString> SDL_GameControllerGetStringForAxis;
-        public delegate* unmanaged[Cdecl]<CString, SDL_GameControllerAxis> SDL_GameControllerGetAxisFromString;
-        public delegate* unmanaged[Cdecl]<void> SDL_GameControllerUpdate;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_GameControllerEventState;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_Joystick*> SDL_GameControllerGetJoystick;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, CBool> SDL_GameControllerGetAttached;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, CString> SDL_GameControllerGetSerial;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, ushort> SDL_GameControllerGetProductVersion;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, ushort> SDL_GameControllerGetProduct;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, ushort> SDL_GameControllerGetVendor;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, int, void> SDL_GameControllerSetPlayerIndex;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, int> SDL_GameControllerGetPlayerIndex;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, SDL_GameControllerType> SDL_GameControllerGetType;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, CString> SDL_GameControllerName;
-        public delegate* unmanaged[Cdecl]<int, SDL_GameController*> SDL_GameControllerFromPlayerIndex;
-        public delegate* unmanaged[Cdecl]<SDL_JoystickID, SDL_GameController*> SDL_GameControllerFromInstanceID;
-        public delegate* unmanaged[Cdecl]<int, SDL_GameController*> SDL_GameControllerOpen;
-        public delegate* unmanaged[Cdecl]<int, CString> SDL_GameControllerMappingForDeviceIndex;
-        public delegate* unmanaged[Cdecl]<int, SDL_GameControllerType> SDL_GameControllerTypeForIndex;
-        public delegate* unmanaged[Cdecl]<int, CString> SDL_GameControllerNameForIndex;
-        public delegate* unmanaged[Cdecl]<int, CBool> SDL_IsGameController;
-        public delegate* unmanaged[Cdecl]<SDL_GameController*, CString> SDL_GameControllerMapping;
-        public delegate* unmanaged[Cdecl]<SDL_JoystickGUID, CString> SDL_GameControllerMappingForGUID;
-        public delegate* unmanaged[Cdecl]<int, CString> SDL_GameControllerMappingForIndex;
-        public delegate* unmanaged[Cdecl]<int> SDL_GameControllerNumMappings;
-        public delegate* unmanaged[Cdecl]<CString, int> SDL_GameControllerAddMapping;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, int, int> SDL_GameControllerAddMappingsFromRW;
-        public delegate* unmanaged[Cdecl]<void> SDL_SensorUpdate;
-        public delegate* unmanaged[Cdecl]<SDL_Sensor*, void> SDL_SensorClose;
-        public delegate* unmanaged[Cdecl]<SDL_Sensor*, float*, int, int> SDL_SensorGetData;
-        public delegate* unmanaged[Cdecl]<SDL_Sensor*, SDL_SensorID> SDL_SensorGetInstanceID;
-        public delegate* unmanaged[Cdecl]<SDL_Sensor*, int> SDL_SensorGetNonPortableType;
-        public delegate* unmanaged[Cdecl]<SDL_Sensor*, SDL_SensorType> SDL_SensorGetType;
-        public delegate* unmanaged[Cdecl]<SDL_Sensor*, CString> SDL_SensorGetName;
-        public delegate* unmanaged[Cdecl]<SDL_SensorID, SDL_Sensor*> SDL_SensorFromInstanceID;
-        public delegate* unmanaged[Cdecl]<int, SDL_Sensor*> SDL_SensorOpen;
-        public delegate* unmanaged[Cdecl]<int, SDL_SensorID> SDL_SensorGetDeviceInstanceID;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_SensorGetDeviceNonPortableType;
-        public delegate* unmanaged[Cdecl]<int, SDL_SensorType> SDL_SensorGetDeviceType;
-        public delegate* unmanaged[Cdecl]<int, CString> SDL_SensorGetDeviceName;
-        public delegate* unmanaged[Cdecl]<int> SDL_NumSensors;
-        public delegate* unmanaged[Cdecl]<void> SDL_UnlockSensors;
-        public delegate* unmanaged[Cdecl]<void> SDL_LockSensors;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, SDL_JoystickPowerLevel> SDL_JoystickCurrentPowerLevel;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, void> SDL_JoystickClose;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, byte, byte, byte, int> SDL_JoystickSetLED;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, CBool> SDL_JoystickHasLED;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, ushort, ushort, uint, int> SDL_JoystickRumbleTriggers;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, ushort, ushort, uint, int> SDL_JoystickRumble;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, int, byte> SDL_JoystickGetButton;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, int, long*, long*, int> SDL_JoystickGetBall;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, int, byte> SDL_JoystickGetHat;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, int, short*, CBool> SDL_JoystickGetAxisInitialState;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, int, short> SDL_JoystickGetAxis;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_JoystickEventState;
-        public delegate* unmanaged[Cdecl]<void> SDL_JoystickUpdate;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, int> SDL_JoystickNumButtons;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, int> SDL_JoystickNumHats;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, int> SDL_JoystickNumBalls;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, int> SDL_JoystickNumAxes;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, SDL_JoystickID> SDL_JoystickInstanceID;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, CBool> SDL_JoystickGetAttached;
-        public delegate* unmanaged[Cdecl]<CString, SDL_JoystickGUID> SDL_JoystickGetGUIDFromString;
-        public delegate* unmanaged[Cdecl]<SDL_JoystickGUID, CString, int, void> SDL_JoystickGetGUIDString;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, SDL_JoystickType> SDL_JoystickGetType;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, CString> SDL_JoystickGetSerial;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, ushort> SDL_JoystickGetProductVersion;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, ushort> SDL_JoystickGetProduct;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, ushort> SDL_JoystickGetVendor;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, SDL_JoystickGUID> SDL_JoystickGetGUID;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, int, void> SDL_JoystickSetPlayerIndex;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, int> SDL_JoystickGetPlayerIndex;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, CString> SDL_JoystickName;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, int, byte, int> SDL_JoystickSetVirtualHat;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, int, byte, int> SDL_JoystickSetVirtualButton;
-        public delegate* unmanaged[Cdecl]<SDL_Joystick*, int, short, int> SDL_JoystickSetVirtualAxis;
-        public delegate* unmanaged[Cdecl]<int, CBool> SDL_JoystickIsVirtual;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_JoystickDetachVirtual;
-        public delegate* unmanaged[Cdecl]<SDL_JoystickType, int, int, int, int> SDL_JoystickAttachVirtual;
-        public delegate* unmanaged[Cdecl]<int, SDL_Joystick*> SDL_JoystickFromPlayerIndex;
-        public delegate* unmanaged[Cdecl]<SDL_JoystickID, SDL_Joystick*> SDL_JoystickFromInstanceID;
-        public delegate* unmanaged[Cdecl]<int, SDL_Joystick*> SDL_JoystickOpen;
-        public delegate* unmanaged[Cdecl]<int, SDL_JoystickID> SDL_JoystickGetDeviceInstanceID;
-        public delegate* unmanaged[Cdecl]<int, SDL_JoystickType> SDL_JoystickGetDeviceType;
-        public delegate* unmanaged[Cdecl]<int, ushort> SDL_JoystickGetDeviceProductVersion;
-        public delegate* unmanaged[Cdecl]<int, ushort> SDL_JoystickGetDeviceProduct;
-        public delegate* unmanaged[Cdecl]<int, ushort> SDL_JoystickGetDeviceVendor;
-        public delegate* unmanaged[Cdecl]<int, SDL_JoystickGUID> SDL_JoystickGetDeviceGUID;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_JoystickGetDevicePlayerIndex;
-        public delegate* unmanaged[Cdecl]<int, CString> SDL_JoystickNameForIndex;
-        public delegate* unmanaged[Cdecl]<int> SDL_NumJoysticks;
-        public delegate* unmanaged[Cdecl]<void> SDL_UnlockJoysticks;
-        public delegate* unmanaged[Cdecl]<void> SDL_LockJoysticks;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_ShowCursor;
-        public delegate* unmanaged[Cdecl]<SDL_Cursor*, void> SDL_FreeCursor;
-        public delegate* unmanaged[Cdecl]<SDL_Cursor*> SDL_GetDefaultCursor;
-        public delegate* unmanaged[Cdecl]<SDL_Cursor*> SDL_GetCursor;
-        public delegate* unmanaged[Cdecl]<SDL_Cursor*, void> SDL_SetCursor;
-        public delegate* unmanaged[Cdecl]<SDL_SystemCursor, SDL_Cursor*> SDL_CreateSystemCursor;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, int, int, SDL_Cursor*> SDL_CreateColorCursor;
-        public delegate* unmanaged[Cdecl]<byte*, byte*, int, int, int, int, SDL_Cursor*> SDL_CreateCursor;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_GetRelativeMouseMode;
-        public delegate* unmanaged[Cdecl]<CBool, int> SDL_CaptureMouse;
-        public delegate* unmanaged[Cdecl]<CBool, int> SDL_SetRelativeMouseMode;
-        public delegate* unmanaged[Cdecl]<int, int, int> SDL_WarpMouseGlobal;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, int, int, void> SDL_WarpMouseInWindow;
-        public delegate* unmanaged[Cdecl]<long*, long*, uint> SDL_GetRelativeMouseState;
-        public delegate* unmanaged[Cdecl]<long*, long*, uint> SDL_GetGlobalMouseState;
-        public delegate* unmanaged[Cdecl]<long*, long*, uint> SDL_GetMouseState;
-        public delegate* unmanaged[Cdecl]<SDL_Window*> SDL_GetMouseFocus;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, CBool> SDL_IsScreenKeyboardShown;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_HasScreenKeyboardSupport;
-        public delegate* unmanaged[Cdecl]<SDL_Rect*, void> SDL_SetTextInputRect;
-        public delegate* unmanaged[Cdecl]<void> SDL_StopTextInput;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_IsTextInputActive;
-        public delegate* unmanaged[Cdecl]<void> SDL_StartTextInput;
-        public delegate* unmanaged[Cdecl]<CString, SDL_Keycode> SDL_GetKeyFromName;
-        public delegate* unmanaged[Cdecl]<SDL_Keycode, CString> SDL_GetKeyName;
-        public delegate* unmanaged[Cdecl]<CString, SDL_Scancode> SDL_GetScancodeFromName;
-        public delegate* unmanaged[Cdecl]<SDL_Scancode, CString> SDL_GetScancodeName;
-        public delegate* unmanaged[Cdecl]<SDL_Keycode, SDL_Scancode> SDL_GetScancodeFromKey;
-        public delegate* unmanaged[Cdecl]<SDL_Scancode, SDL_Keycode> SDL_GetKeyFromScancode;
-        public delegate* unmanaged[Cdecl]<SDL_Keymod, void> SDL_SetModState;
-        public delegate* unmanaged[Cdecl]<SDL_Keymod> SDL_GetModState;
-        public delegate* unmanaged[Cdecl]<long*, byte*> SDL_GetKeyboardState;
-        public delegate* unmanaged[Cdecl]<SDL_Window*> SDL_GetKeyboardFocus;
-        public delegate* unmanaged[Cdecl]<SDL_GLContext, void> SDL_GL_DeleteContext;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, void> SDL_GL_SwapWindow;
-        public delegate* unmanaged[Cdecl]<int> SDL_GL_GetSwapInterval;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_GL_SetSwapInterval;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, void> SDL_GL_GetDrawableSize;
-        public delegate* unmanaged[Cdecl]<SDL_GLContext> SDL_GL_GetCurrentContext;
-        public delegate* unmanaged[Cdecl]<SDL_Window*> SDL_GL_GetCurrentWindow;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, SDL_GLContext, int> SDL_GL_MakeCurrent;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, SDL_GLContext> SDL_GL_CreateContext;
-        public delegate* unmanaged[Cdecl]<SDL_GLattr, long*, int> SDL_GL_GetAttribute;
-        public delegate* unmanaged[Cdecl]<SDL_GLattr, int, int> SDL_GL_SetAttribute;
-        public delegate* unmanaged[Cdecl]<void> SDL_GL_ResetAttributes;
-        public delegate* unmanaged[Cdecl]<CString, CBool> SDL_GL_ExtensionSupported;
-        public delegate* unmanaged[Cdecl]<void> SDL_GL_UnloadLibrary;
-        public delegate* unmanaged[Cdecl]<CString, void*> SDL_GL_GetProcAddress;
-        public delegate* unmanaged[Cdecl]<CString, int> SDL_GL_LoadLibrary;
-        public delegate* unmanaged[Cdecl]<void> SDL_DisableScreenSaver;
-        public delegate* unmanaged[Cdecl]<void> SDL_EnableScreenSaver;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_IsScreenSaverEnabled;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, void> SDL_DestroyWindow;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, SDL_HitTest, void*, int> SDL_SetWindowHitTest;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, ushort*, ushort*, ushort*, int> SDL_GetWindowGammaRamp;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, ushort*, ushort*, ushort*, int> SDL_SetWindowGammaRamp;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, int> SDL_SetWindowInputFocus;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Window*, int> SDL_SetWindowModalFor;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, float*, int> SDL_GetWindowOpacity;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, float, int> SDL_SetWindowOpacity;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, float> SDL_GetWindowBrightness;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, float, int> SDL_SetWindowBrightness;
-        public delegate* unmanaged[Cdecl]<SDL_Window*> SDL_GetGrabbedWindow;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, CBool> SDL_GetWindowMouseGrab;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, CBool> SDL_GetWindowKeyboardGrab;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, CBool> SDL_GetWindowGrab;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, CBool, void> SDL_SetWindowMouseGrab;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, CBool, void> SDL_SetWindowKeyboardGrab;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, CBool, void> SDL_SetWindowGrab;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Rect*, int, int> SDL_UpdateWindowSurfaceRects;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, int> SDL_UpdateWindowSurface;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Surface*> SDL_GetWindowSurface;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, uint, int> SDL_SetWindowFullscreen;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, void> SDL_RestoreWindow;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, void> SDL_MinimizeWindow;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, void> SDL_MaximizeWindow;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, void> SDL_RaiseWindow;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, void> SDL_HideWindow;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, void> SDL_ShowWindow;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, CBool, void> SDL_SetWindowAlwaysOnTop;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, CBool, void> SDL_SetWindowResizable;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, CBool, void> SDL_SetWindowBordered;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, void> SDL_GetWindowMaximumSize;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, int, int, void> SDL_SetWindowMaximumSize;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, void> SDL_GetWindowMinimumSize;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, int, int, void> SDL_SetWindowMinimumSize;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, long*, long*, int> SDL_GetWindowBordersSize;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, void> SDL_GetWindowSize;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, int, int, void> SDL_SetWindowSize;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, long*, long*, void> SDL_GetWindowPosition;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, int, int, void> SDL_SetWindowPosition;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, CString, void*> SDL_GetWindowData;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, CString, void*, void*> SDL_SetWindowData;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, SDL_Surface*, void> SDL_SetWindowIcon;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, CString> SDL_GetWindowTitle;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, CString, void> SDL_SetWindowTitle;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, uint> SDL_GetWindowFlags;
-        public delegate* unmanaged[Cdecl]<uint, SDL_Window*> SDL_GetWindowFromID;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, uint> SDL_GetWindowID;
-        public delegate* unmanaged[Cdecl]<void*, SDL_Window*> SDL_CreateWindowFrom;
-        public delegate* unmanaged[Cdecl]<CString, int, int, int, int, uint, SDL_Window*> SDL_CreateWindow;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, uint> SDL_GetWindowPixelFormat;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, SDL_DisplayMode*, int> SDL_GetWindowDisplayMode;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, SDL_DisplayMode*, int> SDL_SetWindowDisplayMode;
-        public delegate* unmanaged[Cdecl]<SDL_Window*, int> SDL_GetWindowDisplayIndex;
-        public delegate* unmanaged[Cdecl]<int, SDL_DisplayMode*, SDL_DisplayMode*, SDL_DisplayMode*> SDL_GetClosestDisplayMode;
-        public delegate* unmanaged[Cdecl]<int, SDL_DisplayMode*, int> SDL_GetCurrentDisplayMode;
-        public delegate* unmanaged[Cdecl]<int, SDL_DisplayMode*, int> SDL_GetDesktopDisplayMode;
-        public delegate* unmanaged[Cdecl]<int, int, SDL_DisplayMode*, int> SDL_GetDisplayMode;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_GetNumDisplayModes;
-        public delegate* unmanaged[Cdecl]<int, SDL_DisplayOrientation> SDL_GetDisplayOrientation;
-        public delegate* unmanaged[Cdecl]<int, float*, float*, float*, int> SDL_GetDisplayDPI;
-        public delegate* unmanaged[Cdecl]<int, SDL_Rect*, int> SDL_GetDisplayUsableBounds;
-        public delegate* unmanaged[Cdecl]<int, SDL_Rect*, int> SDL_GetDisplayBounds;
-        public delegate* unmanaged[Cdecl]<int, CString> SDL_GetDisplayName;
-        public delegate* unmanaged[Cdecl]<int> SDL_GetNumVideoDisplays;
-        public delegate* unmanaged[Cdecl]<CString> SDL_GetCurrentVideoDriver;
-        public delegate* unmanaged[Cdecl]<void> SDL_VideoQuit;
-        public delegate* unmanaged[Cdecl]<CString, int> SDL_VideoInit;
-        public delegate* unmanaged[Cdecl]<int, CString> SDL_GetVideoDriver;
-        public delegate* unmanaged[Cdecl]<int> SDL_GetNumVideoDrivers;
-        public delegate* unmanaged[Cdecl]<int, int, SDL_YUV_CONVERSION_MODE> SDL_GetYUVConversionModeForResolution;
-        public delegate* unmanaged[Cdecl]<SDL_YUV_CONVERSION_MODE> SDL_GetYUVConversionMode;
-        public delegate* unmanaged[Cdecl]<SDL_YUV_CONVERSION_MODE, void> SDL_SetYUVConversionMode;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, SDL_Surface*, SDL_Rect*, int> SDL_LowerBlitScaled;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, SDL_Surface*, SDL_Rect*, int> SDL_UpperBlitScaled;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, SDL_Surface*, SDL_Rect*, int> SDL_SoftStretchLinear;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, SDL_Surface*, SDL_Rect*, int> SDL_SoftStretch;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, SDL_Surface*, SDL_Rect*, int> SDL_LowerBlit;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, SDL_Surface*, SDL_Rect*, int> SDL_UpperBlit;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, int, uint, int> SDL_FillRects;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, uint, int> SDL_FillRect;
-        public delegate* unmanaged[Cdecl]<int, int, uint, void*, int, uint, void*, int, int> SDL_ConvertPixels;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, uint, uint, SDL_Surface*> SDL_ConvertSurfaceFormat;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_PixelFormat*, uint, SDL_Surface*> SDL_ConvertSurface;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Surface*> SDL_DuplicateSurface;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, void> SDL_GetClipRect;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Rect*, CBool> SDL_SetClipRect;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_BlendMode*, int> SDL_GetSurfaceBlendMode;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_BlendMode, int> SDL_SetSurfaceBlendMode;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, byte*, int> SDL_GetSurfaceAlphaMod;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, byte, int> SDL_SetSurfaceAlphaMod;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, byte*, byte*, byte*, int> SDL_GetSurfaceColorMod;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, byte, byte, byte, int> SDL_SetSurfaceColorMod;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, uint*, int> SDL_GetColorKey;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, CBool> SDL_HasColorKey;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, int, uint, int> SDL_SetColorKey;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, CBool> SDL_HasSurfaceRLE;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, int, int> SDL_SetSurfaceRLE;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_RWops*, int, int> SDL_SaveBMP_RW;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, int, SDL_Surface*> SDL_LoadBMP_RW;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, void> SDL_UnlockSurface;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, int> SDL_LockSurface;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, SDL_Palette*, int> SDL_SetSurfacePalette;
-        public delegate* unmanaged[Cdecl]<SDL_Surface*, void> SDL_FreeSurface;
-        public delegate* unmanaged[Cdecl]<void*, int, int, int, int, uint, SDL_Surface*> SDL_CreateRGBSurfaceWithFormatFrom;
-        public delegate* unmanaged[Cdecl]<void*, int, int, int, int, uint, uint, uint, uint, SDL_Surface*> SDL_CreateRGBSurfaceFrom;
-        public delegate* unmanaged[Cdecl]<uint, int, int, int, uint, SDL_Surface*> SDL_CreateRGBSurfaceWithFormat;
-        public delegate* unmanaged[Cdecl]<uint, int, int, int, uint, uint, uint, uint, SDL_Surface*> SDL_CreateRGBSurface;
-        public delegate* unmanaged[Cdecl]<SDL_BlendFactor, SDL_BlendFactor, SDL_BlendOperation, SDL_BlendFactor, SDL_BlendFactor, SDL_BlendOperation, SDL_BlendMode> SDL_ComposeCustomBlendMode;
-        public delegate* unmanaged[Cdecl]<SDL_Rect*, long*, long*, long*, long*, CBool> SDL_IntersectRectAndLine;
-        public delegate* unmanaged[Cdecl]<SDL_Point*, int, SDL_Rect*, SDL_Rect*, CBool> SDL_EnclosePoints;
-        public delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, SDL_Rect*, void> SDL_UnionRect;
-        public delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, SDL_Rect*, CBool> SDL_IntersectRect;
-        public delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, CBool> SDL_HasIntersection;
-        public delegate* unmanaged[Cdecl]<SDL_Rect*, SDL_Rect*, CBool> SDL_RectEquals;
-        public delegate* unmanaged[Cdecl]<SDL_Rect*, CBool> SDL_RectEmpty;
-        public delegate* unmanaged[Cdecl]<SDL_Point*, SDL_Rect*, CBool> SDL_PointInRect;
-        public delegate* unmanaged[Cdecl]<float, ushort*, void> SDL_CalculateGammaRamp;
-        public delegate* unmanaged[Cdecl]<uint, SDL_PixelFormat*, byte*, byte*, byte*, byte*, void> SDL_GetRGBA;
-        public delegate* unmanaged[Cdecl]<uint, SDL_PixelFormat*, byte*, byte*, byte*, void> SDL_GetRGB;
-        public delegate* unmanaged[Cdecl]<SDL_PixelFormat*, byte, byte, byte, byte, uint> SDL_MapRGBA;
-        public delegate* unmanaged[Cdecl]<SDL_PixelFormat*, byte, byte, byte, uint> SDL_MapRGB;
-        public delegate* unmanaged[Cdecl]<SDL_Palette*, void> SDL_FreePalette;
-        public delegate* unmanaged[Cdecl]<SDL_Palette*, SDL_Color*, int, int, int> SDL_SetPaletteColors;
-        public delegate* unmanaged[Cdecl]<SDL_PixelFormat*, SDL_Palette*, int> SDL_SetPixelFormatPalette;
-        public delegate* unmanaged[Cdecl]<int, SDL_Palette*> SDL_AllocPalette;
-        public delegate* unmanaged[Cdecl]<SDL_PixelFormat*, void> SDL_FreeFormat;
-        public delegate* unmanaged[Cdecl]<uint, SDL_PixelFormat*> SDL_AllocFormat;
-        public delegate* unmanaged[Cdecl]<int, uint, uint, uint, uint, uint> SDL_MasksToPixelFormatEnum;
-        public delegate* unmanaged[Cdecl]<uint, long*, uint*, uint*, uint*, uint*, CBool> SDL_PixelFormatEnumToMasks;
-        public delegate* unmanaged[Cdecl]<uint, CString> SDL_GetPixelFormatName;
-        public delegate* unmanaged[Cdecl]<void*, void> SDL_SIMDFree;
-        public delegate* unmanaged[Cdecl]<void*, ulong, void*> SDL_SIMDRealloc;
-        public delegate* unmanaged[Cdecl]<ulong, void*> SDL_SIMDAlloc;
-        public delegate* unmanaged[Cdecl]<ulong> SDL_SIMDGetAlignment;
-        public delegate* unmanaged[Cdecl]<int> SDL_GetSystemRAM;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_HasNEON;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_HasARMSIMD;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_HasAVX512F;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_HasAVX2;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_HasAVX;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_HasSSE42;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_HasSSE41;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_HasSSE3;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_HasSSE2;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_HasSSE;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_Has3DNow;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_HasMMX;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_HasAltiVec;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_HasRDTSC;
-        public delegate* unmanaged[Cdecl]<int> SDL_GetCPUCacheLineSize;
-        public delegate* unmanaged[Cdecl]<int> SDL_GetCPUCount;
-        public delegate* unmanaged[Cdecl]<CBool> SDL_HasClipboardText;
-        public delegate* unmanaged[Cdecl]<CString> SDL_GetClipboardText;
-        public delegate* unmanaged[Cdecl]<CString, int> SDL_SetClipboardText;
-        public delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, void> SDL_CloseAudioDevice;
-        public delegate* unmanaged[Cdecl]<void> SDL_CloseAudio;
-        public delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, void> SDL_UnlockAudioDevice;
-        public delegate* unmanaged[Cdecl]<void> SDL_UnlockAudio;
-        public delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, void> SDL_LockAudioDevice;
-        public delegate* unmanaged[Cdecl]<void> SDL_LockAudio;
-        public delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, void> SDL_ClearQueuedAudio;
-        public delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, uint> SDL_GetQueuedAudioSize;
-        public delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, void*, uint, uint> SDL_DequeueAudio;
-        public delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, void*, uint, int> SDL_QueueAudio;
-        public delegate* unmanaged[Cdecl]<byte*, byte*, SDL_AudioFormat, uint, int, void> SDL_MixAudioFormat;
-        public delegate* unmanaged[Cdecl]<byte*, byte*, uint, int, void> SDL_MixAudio;
-        public delegate* unmanaged[Cdecl]<SDL_AudioStream*, void> SDL_FreeAudioStream;
-        public delegate* unmanaged[Cdecl]<SDL_AudioStream*, void> SDL_AudioStreamClear;
-        public delegate* unmanaged[Cdecl]<SDL_AudioStream*, int> SDL_AudioStreamFlush;
-        public delegate* unmanaged[Cdecl]<SDL_AudioStream*, int> SDL_AudioStreamAvailable;
-        public delegate* unmanaged[Cdecl]<SDL_AudioStream*, void*, int, int> SDL_AudioStreamGet;
-        public delegate* unmanaged[Cdecl]<SDL_AudioStream*, void*, int, int> SDL_AudioStreamPut;
-        public delegate* unmanaged[Cdecl]<SDL_AudioFormat, byte, int, SDL_AudioFormat, byte, int, SDL_AudioStream*> SDL_NewAudioStream;
-        public delegate* unmanaged[Cdecl]<SDL_AudioCVT*, int> SDL_ConvertAudio;
-        public delegate* unmanaged[Cdecl]<SDL_AudioCVT*, SDL_AudioFormat, byte, int, SDL_AudioFormat, byte, int, int> SDL_BuildAudioCVT;
-        public delegate* unmanaged[Cdecl]<byte*, void> SDL_FreeWAV;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, int, SDL_AudioSpec*, byte**, uint*, SDL_AudioSpec*> SDL_LoadWAV_RW;
-        public delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, int, void> SDL_PauseAudioDevice;
-        public delegate* unmanaged[Cdecl]<int, void> SDL_PauseAudio;
-        public delegate* unmanaged[Cdecl]<SDL_AudioDeviceID, SDL_AudioStatus> SDL_GetAudioDeviceStatus;
-        public delegate* unmanaged[Cdecl]<SDL_AudioStatus> SDL_GetAudioStatus;
-        public delegate* unmanaged[Cdecl]<CString, int, SDL_AudioSpec*, SDL_AudioSpec*, int, SDL_AudioDeviceID> SDL_OpenAudioDevice;
-        public delegate* unmanaged[Cdecl]<int, int, SDL_AudioSpec*, int> SDL_GetAudioDeviceSpec;
-        public delegate* unmanaged[Cdecl]<int, int, CString> SDL_GetAudioDeviceName;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_GetNumAudioDevices;
-        public delegate* unmanaged[Cdecl]<SDL_AudioSpec*, SDL_AudioSpec*, int> SDL_OpenAudio;
-        public delegate* unmanaged[Cdecl]<CString> SDL_GetCurrentAudioDriver;
-        public delegate* unmanaged[Cdecl]<void> SDL_AudioQuit;
-        public delegate* unmanaged[Cdecl]<CString, int> SDL_AudioInit;
-        public delegate* unmanaged[Cdecl]<int, CString> SDL_GetAudioDriver;
-        public delegate* unmanaged[Cdecl]<int> SDL_GetNumAudioDrivers;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, ulong, ulong> SDL_WriteBE64;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, ulong, ulong> SDL_WriteLE64;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, uint, ulong> SDL_WriteBE32;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, uint, ulong> SDL_WriteLE32;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, ushort, ulong> SDL_WriteBE16;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, ushort, ulong> SDL_WriteLE16;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, byte, ulong> SDL_WriteU8;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, ulong> SDL_ReadBE64;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, ulong> SDL_ReadLE64;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, uint> SDL_ReadBE32;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, uint> SDL_ReadLE32;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, ushort> SDL_ReadBE16;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, ushort> SDL_ReadLE16;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, byte> SDL_ReadU8;
-        public delegate* unmanaged[Cdecl]<CString, ulong*, void*> SDL_LoadFile;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, ulong*, int, void*> SDL_LoadFile_RW;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, int> SDL_RWclose;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, void*, ulong, ulong, ulong> SDL_RWwrite;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, void*, ulong, ulong, ulong> SDL_RWread;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, long> SDL_RWtell;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, long, int, long> SDL_RWseek;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, long> SDL_RWsize;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*, void> SDL_FreeRW;
-        public delegate* unmanaged[Cdecl]<SDL_RWops*> SDL_AllocRW;
-        public delegate* unmanaged[Cdecl]<void*, int, SDL_RWops*> SDL_RWFromConstMem;
-        public delegate* unmanaged[Cdecl]<void*, int, SDL_RWops*> SDL_RWFromMem;
-        public delegate* unmanaged[Cdecl]<void*, CBool, SDL_RWops*> SDL_RWFromFP;
-        public delegate* unmanaged[Cdecl]<CString, CString, SDL_RWops*> SDL_RWFromFile;
-        public delegate* unmanaged[Cdecl]<void> SDL_TLSCleanup;
-        public delegate* unmanaged[Cdecl]<SDL_TLSID, void*, FnPtr_SDL_VoidPtr_Void, int> SDL_TLSSet;
-        public delegate* unmanaged[Cdecl]<SDL_TLSID, void*> SDL_TLSGet;
-        public delegate* unmanaged[Cdecl]<SDL_TLSID> SDL_TLSCreate;
-        public delegate* unmanaged[Cdecl]<SDL_Thread*, void> SDL_DetachThread;
-        public delegate* unmanaged[Cdecl]<SDL_Thread*, long*, void> SDL_WaitThread;
-        public delegate* unmanaged[Cdecl]<SDL_ThreadPriority, int> SDL_SetThreadPriority;
-        public delegate* unmanaged[Cdecl]<SDL_Thread*, SDL_threadID> SDL_GetThreadID;
-        public delegate* unmanaged[Cdecl]<SDL_threadID> SDL_ThreadID;
-        public delegate* unmanaged[Cdecl]<SDL_Thread*, CString> SDL_GetThreadName;
-        public delegate* unmanaged[Cdecl]<FnPtr_SDL_VoidPtr_Int, CString, ulong, void*, pfnSDL_CurrentBeginThread, pfnSDL_CurrentEndThread, SDL_Thread*> SDL_CreateThreadWithStackSize;
-        public delegate* unmanaged[Cdecl]<SDL_ThreadFunction, CString, void*, pfnSDL_CurrentBeginThread, pfnSDL_CurrentEndThread, SDL_Thread*> SDL_CreateThread;
-        public delegate* unmanaged[Cdecl]<SDL_cond*, SDL_mutex*, uint, int> SDL_CondWaitTimeout;
-        public delegate* unmanaged[Cdecl]<SDL_cond*, SDL_mutex*, int> SDL_CondWait;
-        public delegate* unmanaged[Cdecl]<SDL_cond*, int> SDL_CondBroadcast;
-        public delegate* unmanaged[Cdecl]<SDL_cond*, int> SDL_CondSignal;
-        public delegate* unmanaged[Cdecl]<SDL_cond*, void> SDL_DestroyCond;
-        public delegate* unmanaged[Cdecl]<SDL_cond*> SDL_CreateCond;
-        public delegate* unmanaged[Cdecl]<SDL_sem*, uint> SDL_SemValue;
-        public delegate* unmanaged[Cdecl]<SDL_sem*, int> SDL_SemPost;
-        public delegate* unmanaged[Cdecl]<SDL_sem*, uint, int> SDL_SemWaitTimeout;
-        public delegate* unmanaged[Cdecl]<SDL_sem*, int> SDL_SemTryWait;
-        public delegate* unmanaged[Cdecl]<SDL_sem*, int> SDL_SemWait;
-        public delegate* unmanaged[Cdecl]<SDL_sem*, void> SDL_DestroySemaphore;
-        public delegate* unmanaged[Cdecl]<uint, SDL_sem*> SDL_CreateSemaphore;
-        public delegate* unmanaged[Cdecl]<SDL_mutex*, void> SDL_DestroyMutex;
-        public delegate* unmanaged[Cdecl]<SDL_mutex*, int> SDL_UnlockMutex;
-        public delegate* unmanaged[Cdecl]<SDL_mutex*, int> SDL_TryLockMutex;
-        public delegate* unmanaged[Cdecl]<SDL_mutex*, int> SDL_LockMutex;
-        public delegate* unmanaged[Cdecl]<SDL_mutex*> SDL_CreateMutex;
-        public delegate* unmanaged[Cdecl]<float, float> SDL_SwapFloat;
-        public delegate* unmanaged[Cdecl]<SDL_errorcode, int> SDL_Error;
-        public delegate* unmanaged[Cdecl]<void> SDL_ClearError;
-        public delegate* unmanaged[Cdecl]<CString, int, CString> SDL_GetErrorMsg;
-        public delegate* unmanaged[Cdecl]<CString> SDL_GetError;
-        public delegate* unmanaged[Cdecl]<CString, int> SDL_SetError;
-        public delegate* unmanaged[Cdecl]<void**, void*> SDL_AtomicGetPtr;
-        public delegate* unmanaged[Cdecl]<void**, void*, void*> SDL_AtomicSetPtr;
-        public delegate* unmanaged[Cdecl]<void**, void*, void*, CBool> SDL_AtomicCASPtr;
-        public delegate* unmanaged[Cdecl]<SDL_atomic_t*, int, int> SDL_AtomicAdd;
-        public delegate* unmanaged[Cdecl]<SDL_atomic_t*, int> SDL_AtomicGet;
-        public delegate* unmanaged[Cdecl]<SDL_atomic_t*, int, int> SDL_AtomicSet;
-        public delegate* unmanaged[Cdecl]<SDL_atomic_t*, int, int, CBool> SDL_AtomicCAS;
-        public delegate* unmanaged[Cdecl]<void> SDL_MemoryBarrierAcquireFunction;
-        public delegate* unmanaged[Cdecl]<void> SDL_MemoryBarrierReleaseFunction;
-        public delegate* unmanaged[Cdecl]<SDL_SpinLock*, void> SDL_AtomicUnlock;
-        public delegate* unmanaged[Cdecl]<SDL_SpinLock*, void> SDL_AtomicLock;
-        public delegate* unmanaged[Cdecl]<SDL_SpinLock*, CBool> SDL_AtomicTryLock;
-        public delegate* unmanaged[Cdecl]<void> SDL_ResetAssertionReport;
-        public delegate* unmanaged[Cdecl]<SDL_AssertData*> SDL_GetAssertionReport;
-        public delegate* unmanaged[Cdecl]<void**, SDL_AssertionHandler> SDL_GetAssertionHandler;
-        public delegate* unmanaged[Cdecl]<SDL_AssertionHandler> SDL_GetDefaultAssertionHandler;
-        public delegate* unmanaged[Cdecl]<SDL_AssertionHandler, void*, void> SDL_SetAssertionHandler;
-        public delegate* unmanaged[Cdecl]<SDL_AssertData*, CString, CString, int, SDL_AssertState> SDL_ReportAssertion;
-        public delegate* unmanaged[Cdecl]<void> __debugbreak;
-        public delegate* unmanaged[Cdecl]<void*, void*, ulong, void*> SDL_memcpy4;
-        public delegate* unmanaged[Cdecl]<CString, CString, CString, ulong, CString> SDL_iconv_string;
-        public delegate* unmanaged[Cdecl]<SDL_iconv_t, CString*, ulong*, CString*, ulong*, ulong> SDL_iconv;
-        public delegate* unmanaged[Cdecl]<SDL_iconv_t, int> SDL_iconv_close;
-        public delegate* unmanaged[Cdecl]<CString, CString, SDL_iconv_t> SDL_iconv_open;
-        public delegate* unmanaged[Cdecl]<float, float> SDL_tanf;
-        public delegate* unmanaged[Cdecl]<double, double> SDL_tan;
-        public delegate* unmanaged[Cdecl]<float, float> SDL_sqrtf;
-        public delegate* unmanaged[Cdecl]<double, double> SDL_sqrt;
-        public delegate* unmanaged[Cdecl]<float, float> SDL_sinf;
-        public delegate* unmanaged[Cdecl]<double, double> SDL_sin;
-        public delegate* unmanaged[Cdecl]<float, int, float> SDL_scalbnf;
-        public delegate* unmanaged[Cdecl]<double, int, double> SDL_scalbn;
-        public delegate* unmanaged[Cdecl]<float, int> SDL_lroundf;
-        public delegate* unmanaged[Cdecl]<double, int> SDL_lround;
-        public delegate* unmanaged[Cdecl]<float, float> SDL_roundf;
-        public delegate* unmanaged[Cdecl]<double, double> SDL_round;
-        public delegate* unmanaged[Cdecl]<float, float, float> SDL_powf;
-        public delegate* unmanaged[Cdecl]<double, double, double> SDL_pow;
-        public delegate* unmanaged[Cdecl]<float, float> SDL_log10f;
-        public delegate* unmanaged[Cdecl]<double, double> SDL_log10;
-        public delegate* unmanaged[Cdecl]<float, float> SDL_logf;
-        public delegate* unmanaged[Cdecl]<double, double> SDL_log;
-        public delegate* unmanaged[Cdecl]<float, float, float> SDL_fmodf;
-        public delegate* unmanaged[Cdecl]<double, double, double> SDL_fmod;
-        public delegate* unmanaged[Cdecl]<float, float> SDL_truncf;
-        public delegate* unmanaged[Cdecl]<double, double> SDL_trunc;
-        public delegate* unmanaged[Cdecl]<float, float> SDL_floorf;
-        public delegate* unmanaged[Cdecl]<double, double> SDL_floor;
-        public delegate* unmanaged[Cdecl]<float, float> SDL_fabsf;
-        public delegate* unmanaged[Cdecl]<double, double> SDL_fabs;
-        public delegate* unmanaged[Cdecl]<float, float> SDL_expf;
-        public delegate* unmanaged[Cdecl]<double, double> SDL_exp;
-        public delegate* unmanaged[Cdecl]<float, float> SDL_cosf;
-        public delegate* unmanaged[Cdecl]<double, double> SDL_cos;
-        public delegate* unmanaged[Cdecl]<float, float, float> SDL_copysignf;
-        public delegate* unmanaged[Cdecl]<double, double, double> SDL_copysign;
-        public delegate* unmanaged[Cdecl]<float, float> SDL_ceilf;
-        public delegate* unmanaged[Cdecl]<double, double> SDL_ceil;
-        public delegate* unmanaged[Cdecl]<float, float, float> SDL_atan2f;
-        public delegate* unmanaged[Cdecl]<double, double, double> SDL_atan2;
-        public delegate* unmanaged[Cdecl]<float, float> SDL_atanf;
-        public delegate* unmanaged[Cdecl]<double, double> SDL_atan;
-        public delegate* unmanaged[Cdecl]<float, float> SDL_asinf;
-        public delegate* unmanaged[Cdecl]<double, double> SDL_asin;
-        public delegate* unmanaged[Cdecl]<float, float> SDL_acosf;
-        public delegate* unmanaged[Cdecl]<double, double> SDL_acos;
-        public delegate* unmanaged[Cdecl]<CString, ulong, CString, IntPtr, int> SDL_vsnprintf;
-        public delegate* unmanaged[Cdecl]<CString, ulong, CString, int> SDL_snprintf;
-        public delegate* unmanaged[Cdecl]<CString, CString, IntPtr, int> SDL_vsscanf;
-        public delegate* unmanaged[Cdecl]<CString, CString, int> SDL_sscanf;
-        public delegate* unmanaged[Cdecl]<CString, CString, ulong, int> SDL_strncasecmp;
-        public delegate* unmanaged[Cdecl]<CString, CString, int> SDL_strcasecmp;
-        public delegate* unmanaged[Cdecl]<CString, CString, ulong, int> SDL_strncmp;
-        public delegate* unmanaged[Cdecl]<CString, CString, int> SDL_strcmp;
-        public delegate* unmanaged[Cdecl]<CString, CString*, double> SDL_strtod;
-        public delegate* unmanaged[Cdecl]<CString, CString*, int, ulong> SDL_strtoull;
-        public delegate* unmanaged[Cdecl]<CString, CString*, int, long> SDL_strtoll;
-        public delegate* unmanaged[Cdecl]<CString, CString*, int, uint> SDL_strtoul;
-        public delegate* unmanaged[Cdecl]<CString, CString*, int, int> SDL_strtol;
-        public delegate* unmanaged[Cdecl]<CString, double> SDL_atof;
-        public delegate* unmanaged[Cdecl]<CString, int> SDL_atoi;
-        public delegate* unmanaged[Cdecl]<ulong, CString, int, CString> SDL_ulltoa;
-        public delegate* unmanaged[Cdecl]<long, CString, int, CString> SDL_lltoa;
-        public delegate* unmanaged[Cdecl]<uint, CString, int, CString> SDL_ultoa;
-        public delegate* unmanaged[Cdecl]<int, CString, int, CString> SDL_ltoa;
-        public delegate* unmanaged[Cdecl]<uint, CString, int, CString> SDL_uitoa;
-        public delegate* unmanaged[Cdecl]<int, CString, int, CString> SDL_itoa;
-        public delegate* unmanaged[Cdecl]<CString, ulong> SDL_utf8strlen;
-        public delegate* unmanaged[Cdecl]<CString, CString, CString*, CString> SDL_strtokr;
-        public delegate* unmanaged[Cdecl]<CString, CString, CString> SDL_strstr;
-        public delegate* unmanaged[Cdecl]<CString, int, CString> SDL_strrchr;
-        public delegate* unmanaged[Cdecl]<CString, int, CString> SDL_strchr;
-        public delegate* unmanaged[Cdecl]<CString, CString> SDL_strlwr;
-        public delegate* unmanaged[Cdecl]<CString, CString> SDL_strupr;
-        public delegate* unmanaged[Cdecl]<CString, CString> SDL_strrev;
-        public delegate* unmanaged[Cdecl]<CString, CString> SDL_strdup;
-        public delegate* unmanaged[Cdecl]<CString, CString, ulong, ulong> SDL_strlcat;
-        public delegate* unmanaged[Cdecl]<CString, CString, ulong, ulong> SDL_utf8strlcpy;
-        public delegate* unmanaged[Cdecl]<CString, CString, ulong, ulong> SDL_strlcpy;
-        public delegate* unmanaged[Cdecl]<CString, ulong> SDL_strlen;
-        public delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, ulong, int> SDL_wcsncasecmp;
-        public delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, int> SDL_wcscasecmp;
-        public delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, ulong, int> SDL_wcsncmp;
-        public delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, int> SDL_wcscmp;
-        public delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, wchar_t*> SDL_wcsstr;
-        public delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*> SDL_wcsdup;
-        public delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, ulong, ulong> SDL_wcslcat;
-        public delegate* unmanaged[Cdecl]<wchar_t*, wchar_t*, ulong, ulong> SDL_wcslcpy;
-        public delegate* unmanaged[Cdecl]<wchar_t*, ulong> SDL_wcslen;
-        public delegate* unmanaged[Cdecl]<void*, void*, ulong, int> SDL_memcmp;
-        public delegate* unmanaged[Cdecl]<void*, void*, ulong, void*> SDL_memmove;
-        public delegate* unmanaged[Cdecl]<void*, void*, ulong, void*> SDL_memcpy;
-        public delegate* unmanaged[Cdecl]<void*, uint, ulong, void> SDL_memset4;
-        public delegate* unmanaged[Cdecl]<void*, int, ulong, void*> SDL_memset;
-        public delegate* unmanaged[Cdecl]<uint, void*, ulong, uint> SDL_crc32;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_tolower;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_toupper;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_isgraph;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_isprint;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_islower;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_isupper;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_isspace;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_ispunct;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_isxdigit;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_isdigit;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_iscntrl;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_isblank;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_isalnum;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_isalpha;
-        public delegate* unmanaged[Cdecl]<int, int> SDL_abs;
-        public delegate* unmanaged[Cdecl]<void*, ulong, ulong, FnPtr_SDL_VoidPtr_VoidPtr_Int, void> SDL_qsort;
-        public delegate* unmanaged[Cdecl]<CString, CString, int, int> SDL_setenv;
-        public delegate* unmanaged[Cdecl]<CString, CString> SDL_getenv;
-        public delegate* unmanaged[Cdecl]<int> SDL_GetNumAllocations;
-        public delegate* unmanaged[Cdecl]<SDL_malloc_func, SDL_calloc_func, SDL_realloc_func, SDL_free_func, int> SDL_SetMemoryFunctions;
-        public delegate* unmanaged[Cdecl]<SDL_malloc_func*, SDL_calloc_func*, SDL_realloc_func*, SDL_free_func*, void> SDL_GetMemoryFunctions;
-        public delegate* unmanaged[Cdecl]<void*, void> SDL_free;
-        public delegate* unmanaged[Cdecl]<void*, ulong, void*> SDL_realloc;
-        public delegate* unmanaged[Cdecl]<ulong, ulong, void*> SDL_calloc;
-        public delegate* unmanaged[Cdecl]<ulong, void*> SDL_malloc;
-        public delegate* unmanaged[Cdecl]<CString> SDL_GetPlatform;
-
-        #endregion
-
-        #region "Variables"
-        // These pointers hold the locations in the native library where global variables are located at runtime.
-        //	The value pointed by these pointers are updated by reading/writing memory.
-
-
-
-        #endregion
-    }
-
-    private static _VirtualTable _virtualTable;
 }
