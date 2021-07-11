@@ -343,6 +343,45 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var integerType = clang_getEnumDeclIntegerType(typeCursor);
             var integerTypeName = TypeName(parentNode.TypeName!, CKind.Enum, integerType, cursor);
 
+            // TRICK: Force unsigned integer; enums in C could be signed or unsigned depending the platform architecture.
+            //  This makes for a slightly different bindings between Windows/macOS/Linux where the enum is different type
+            if (integerTypeName == "signed char" || integerTypeName == "char")
+            {
+                integerTypeName = "unsigned char";
+            }
+            else if (integerTypeName == "short" || integerTypeName == "signed short")
+            {
+                integerTypeName = "unsigned short";
+            }
+            else if (integerTypeName == "short int" || integerTypeName == "signed short int")
+            {
+                integerTypeName = "unsigned short int";
+            }
+            else if (integerTypeName == "signed")
+            {
+                integerTypeName = "unsigned";
+            }
+            else if (integerTypeName == "int" || integerTypeName == "signed int")
+            {
+                integerTypeName = "unsigned int";
+            }
+            else if (integerTypeName == "long" || integerTypeName == "signed long")
+            {
+                integerTypeName = "unsigned long";
+            }
+            else if (integerTypeName == "long int" || integerTypeName == "signed long int")
+            {
+                integerTypeName = "unsigned long int";
+            }
+            else if (integerTypeName == "long long" || integerTypeName == "signed long long")
+            {
+                integerTypeName = "unsigned long long";
+            }
+            else if (typeName == "long long int" || typeName == "signed long long int")
+            {
+                integerTypeName = "unsigned long long int";
+            }
+
             ExpandType(parentNode, cursor, cursor, integerType, integerType, integerTypeName);
 
             var enumValues = CreateEnumValues(typeCursor);
