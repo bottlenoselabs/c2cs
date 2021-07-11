@@ -6,49 +6,49 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{E5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "flecs", "flecs", "{9DF4EA4F-7358-4EC3-BFB0-DE25E5E6DE6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flecs-01_helloworld", "examples\flecs\flecs-01_helloworld\flecs-01_helloworld.csproj", "{D67EFBBE-F6DE-4F54-8EE1-07C04E1C3439}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flecs-01_helloworld", "src\cs\examples\flecs\flecs-01_helloworld\flecs-01_helloworld.csproj", "{D67EFBBE-F6DE-4F54-8EE1-07C04E1C3439}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flecs-c", "examples\flecs\flecs-c\flecs-c.csproj", "{E264514C-A7C3-45DC-9C8A-BB5459034CF5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flecs-c", "src\cs\examples\flecs\flecs-c\flecs-c.csproj", "{E264514C-A7C3-45DC-9C8A-BB5459034CF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flecs-cs", "examples\flecs\flecs-cs\flecs-cs.csproj", "{5F632788-114C-4026-ABDF-1FD03065AE33}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flecs-cs", "src\cs\examples\flecs\flecs-cs\flecs-cs.csproj", "{5F632788-114C-4026-ABDF-1FD03065AE33}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "helloworld", "helloworld", "{69316361-0268-46E8-ADE6-89102DEB3166}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-c", "examples\helloworld\helloworld-c\helloworld-c.csproj", "{1DD50076-2E66-4EC4-99AA-D8F2539EF48D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-c", "src\cs\examples\helloworld\helloworld-c\helloworld-c.csproj", "{1DD50076-2E66-4EC4-99AA-D8F2539EF48D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-cs", "examples\helloworld\helloworld-cs\helloworld-cs.csproj", "{3549CD6F-971A-4456-8F80-EFC826AECC04}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-cs", "src\cs\examples\helloworld\helloworld-cs\helloworld-cs.csproj", "{3549CD6F-971A-4456-8F80-EFC826AECC04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flecs-02_simple_system", "examples\flecs\flecs-02_simple_system\flecs-02_simple_system.csproj", "{F70479E3-89C6-4B14-8366-549D0F9E9781}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flecs-02_simple_system", "src\cs\examples\flecs\flecs-02_simple_system\flecs-02_simple_system.csproj", "{F70479E3-89C6-4B14-8366-549D0F9E9781}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flecs-03_move_system", "examples\flecs\flecs-03_move_system\flecs-03_move_system.csproj", "{67B80DF3-C867-4197-B5B6-6B695FD17DE9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flecs-03_move_system", "src\cs\examples\flecs\flecs-03_move_system\flecs-03_move_system.csproj", "{67B80DF3-C867-4197-B5B6-6B695FD17DE9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libuv", "libuv", "{A29D2E9C-40E8-472D-8849-31D030CB7919}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libuv-c", "examples\libuv\libuv-c\libuv-c.csproj", "{8788992D-4F3D-4FD5-8C22-FAC502CC9594}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libuv-c", "src\cs\examples\libuv\libuv-c\libuv-c.csproj", "{8788992D-4F3D-4FD5-8C22-FAC502CC9594}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libuv-cs", "examples\libuv\libuv-cs\libuv-cs.csproj", "{2C08BAC7-43B8-4727-9B46-66F10F65FA97}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libuv-cs", "src\cs\examples\libuv\libuv-cs\libuv-cs.csproj", "{2C08BAC7-43B8-4727-9B46-66F10F65FA97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libuv-01_helloworld", "examples\libuv\libuv-01_helloworld\libuv-01_helloworld.csproj", "{3E632E2B-0FC4-4946-BEED-911796CCC34D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libuv-01_helloworld", "src\cs\examples\libuv\libuv-01_helloworld\libuv-01_helloworld.csproj", "{3E632E2B-0FC4-4946-BEED-911796CCC34D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libuv-02_tick", "examples\libuv\libuv-02_tick\libuv-02_tick.csproj", "{D137A27B-4C75-4EFC-8AE5-9270997A5DE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libuv-02_tick", "src\cs\examples\libuv\libuv-02_tick\libuv-02_tick.csproj", "{D137A27B-4C75-4EFC-8AE5-9270997A5DE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flecs-04_simple_module", "examples\flecs\flecs-04_simple_module\flecs-04_simple_module.csproj", "{B1FA7B9B-9871-4670-ADFD-F06231181CCC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flecs-04_simple_module", "src\cs\examples\flecs\flecs-04_simple_module\flecs-04_simple_module.csproj", "{B1FA7B9B-9871-4670-ADFD-F06231181CCC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sdl", "sdl", "{71D78358-5C45-49BF-ABBF-326548C90C74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sdl-c", "examples\sdl\sdl-c\sdl-c.csproj", "{68AA668B-4080-4167-9D96-E35394229110}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sdl-c", "src\cs\examples\sdl\sdl-c\sdl-c.csproj", "{68AA668B-4080-4167-9D96-E35394229110}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sdl-cs", "examples\sdl\sdl-cs\sdl-cs.csproj", "{4180583D-B310-4C97-AC63-534EFA113DAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sdl-cs", "src\cs\examples\sdl\sdl-cs\sdl-cs.csproj", "{4180583D-B310-4C97-AC63-534EFA113DAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sdl-01_helloworld", "examples\sdl\sdl-01_helloworld\sdl-01_helloworld.csproj", "{1E67D542-2D9F-4F10-AB63-DC646DDBCE4D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sdl-01_helloworld", "src\cs\examples\sdl\sdl-01_helloworld\sdl-01_helloworld.csproj", "{1E67D542-2D9F-4F10-AB63-DC646DDBCE4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clang-cs", "production\clang-cs\clang-cs.csproj", "{D22C766F-7E8B-4E81-899E-6CA1E624779B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clang-cs", "src\cs\production\clang-cs\clang-cs.csproj", "{D22C766F-7E8B-4E81-899E-6CA1E624779B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clang-c", "production\clang-c\clang-c.csproj", "{2CF10B9A-7845-4DB7-9B02-75D62A4DABA4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clang-c", "src\cs\production\clang-c\clang-c.csproj", "{2CF10B9A-7845-4DB7-9B02-75D62A4DABA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS", "production\C2CS\C2CS.csproj", "{2E53A130-519C-4C5F-8D76-86CEA17A160F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS", "src\cs\production\C2CS\C2CS.csproj", "{2E53A130-519C-4C5F-8D76-86CEA17A160F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Runtime", "production\C2CS.Runtime\C2CS.Runtime.csproj", "{16C004F6-755D-4976-9EEB-A61BE1223AF2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Runtime", "src\cs\production\C2CS.Runtime\C2CS.Runtime.csproj", "{16C004F6-755D-4976-9EEB-A61BE1223AF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
