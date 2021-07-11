@@ -13,7 +13,7 @@ internal static class Program
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
         GenerateAbstractSyntaxTree(rootDirectory);
         GenerateBindingsCSharp(rootDirectory);
-        BuildLibrary(rootDirectory);
+        // BuildLibrary(rootDirectory);
     }
 
     private static void BuildLibrary(string rootDirectory)
@@ -49,12 +49,18 @@ ast
 {rootDirectory}/src/cs/examples/sdl/sdl-c/ast.json
 -g
 SDL_main.h
+SDL_assert.h
 SDL_system.h
+SDL_stdinc.h
+SDL_thread.h
+SDL_endian.h
 -p
 SDL_RWops
+SDL_AudioCVT
+SDL_Thread
 ";
         var argumentsArray =
-            arguments.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 
@@ -78,9 +84,11 @@ Sint8 -> sbyte
 Sint16 -> short
 Sint32 -> int
 Sint64 -> long
+-g
+SDL_bool
 ".Trim();
         var argumentsArray =
-            arguments.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 }
