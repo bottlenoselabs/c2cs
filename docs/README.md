@@ -100,8 +100,8 @@ This includes building and running the various examples as part of the project.
 
 ### Visual Studio / Rider / MonoDevelop
 
-Open `./src/dotnet/C2CS.sln`
+Open `./C2CS.sln`
 
 ### Command Line Interface (CLI)
 
-`dotnet build ./src/dotnet/C2CS.sln`
+`dotnet build`
