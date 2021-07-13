@@ -44,13 +44,25 @@ If you are not familiar already with interoperability of C/C++ with C#, it's ass
 
 Automatically generate the bindings by compiling/parsing a C `.h` file. Essentially, the C public API for the target operating system + architecture is transpiled to C#.  
 
-This includes all C extern functions and variables which are transpiled to `static` methods or properties respecitively in C#. Also includes transpiling all the C types to C# which are found through transitive property to the extern functions such as: `struct`s, `enum`s, and `const`s. C# `struct`s are generated instead of `class`es on purpose to achieve 1-1 bit-representation of C to C# types called *blittable* types. The reason for blittable types is to achieve pass-through marshalling and active avoidance of the Garbage Collector in C# for best possible runtime performance and portability when doing interoperability.
+This includes all C extern functions which are transpiled to `static` methods respecitively in C# using `DllImport` attribute. Also includes transpiling all the C types to C# which are found through transitive property to the extern functions such as: `struct`s, `enum`s, and `const`s. C# `struct`s are generated instead of `class`es on purpose to achieve 1-1 bit-representation of C to C# types called *blittable* types. The reason for blittable types is to achieve pass-through marshalling and active avoidance of the Garbage Collector in C# for best possible runtime performance and portability when doing interoperability.
 
 This is all accomplished by using [libclang](https://clang.llvm.org/docs/Tooling.html) for parsing C and [Roslyn](https://github.com/dotnet/roslyn) for generating C#. All naming is left as found in the header file of the C code.
 
+#### Technical details
+
+##### Dynamic linking
+
+At runtime, if the C library is dynamically linked (`.dll`/`.dylib`/`.so`) it gets loaded with `dlopen` (Unix) or `LoadLibrary` (Windows) at first usage of a function. Said function is then resolved using `dlsym` (Unix) or `GetProcAddress` (Windows) to a memory address which is the function to call. This all happens automatically by the .NET runtime using the `DllImport` attribute.
+
+##### Static linking
+
+Statically linking a C library (`.lib`/`.a`) is something that is necessary for some platforms such as iOS and Xbox. This requires an ahead of time compilation. Other platforms may wish to statically link for better security or performance in some cases. Using `DllImport` in C# allows for static linking with the appropriate toolchains such as [NativeAOT](https://github.com/dotnet/runtimelab/tree/feature/NativeAOT) without changing the C# code.
+
+The main reason for statically linking a C library is "security" but it's really about total control of what gets executed on the devices. Since a dynamic library can be loaded and unloaded at runtime, you could download additional executable code and load it at runtime (think "plug-in" or "video game mods"). For certain environments which are ["walled gardens"](https://en.wikipedia.org/wiki/Closed_platform), dynamic linking is considered a Pandora's box that must be strictly controlled and thus the alternative is static linking. Dynamic linking is ubiquitous beyond such walled gardens.
+
 ### Limitations
 
-1. If you are not using .NET Core 3.1+ nor .NET 5+ then things possibly won't work when passing structs by value in some contexts. https://docs.microsoft.com/en-us/dotnet/standard/native-interop/customize-struct-marshaling
+1. If you are not using .NET Core 3.1+ nor .NET 5+ then passing structs by value won't work in some contexts. https://docs.microsoft.com/en-us/dotnet/standard/native-interop/customize-struct-marshaling
 > ❌ AVOID using LayoutKind.Explicit when marshaling structures on non-Windows platforms if you need to target runtimes before .NET Core 3.0. The .NET Core runtime before 3.0 doesn't support passing explicit structures by value to native functions on Intel or AMD 64-bit non-Windows systems. However, the runtime supports passing explicit structures by reference on all platforms.
 
 2. Pointers such as `void*` will always be different size across different architectures. E.g., `x86` pointers are 4 bytes and `x64` (aswell as `arm64`) pointers are 8 bytes. Thus, if you need to have bindings for `x86`/`arm32` and `x64`/`arm64` you will need to have two seperate bindings. However, 64 bit is pretty ubiquitous on Windows these days, at least for gaming, as you can see from [Steam hardware survey where 64-bit is 99%+](https://store.steampowered.com/hwsurvey/directx/). Additionally, you can see that the ["trend" is that 64-bit is becoming standard over time with 32-bit getting dropped](https://en.wikipedia.org/wiki/64-bit_computing#64-bit_operating_system_timeline). Additionally in some contexts, the "built-in" C integer types could have different bit width on different architectures. E.g. `long` is at **minimum** 32 bits (4 bytes). On Windows x64 it is reported by the Microsoft Visual C++ (MSCV) to be actually 64 bits (8 bytes). For sanity sake you should always use the integer types from `stdint.h` such as `uint8_t`, `int32_t`, `uint64_t`, etc. Otherwise, the bindings could be slightly different for the same architecture accoss platforms such as Windows, macOS (BSD-like), and Linux to which you would need seperate bindings for these differences.
@@ -78,7 +90,7 @@ Everything in the [**external linkage**](https://stackoverflow.com/questions/135
 |:x:|Implicit types.<sup>7</sup>|
 |:x:|`va_list`.<sup>8</sup>|
 
-<sup>1</sup>: `dlsym` on Unix and `GetProcAddress` on Windows allow getting the address of a variable exported for shared libraries (`.dll`/`.dylib`/`.so`). However, there is no way to do the same for static libraries after they are linked. There is also no alternative for `DllImport` in C# for variables. The recommended way to expose variable externs to C# from C is to instead create "getter" and/or "setter" function externs. Statically linking a library is something that is necessary for some platforms such as iOS and Xbox. Thus, variable externs are not supported for simplicity.
+<sup>1</sup>: `dlsym` on Unix and `GetProcAddress` on Windows allow getting the address of a variable exported for shared libraries (`.dll`/`.dylib`/`.so`). However, there is no way to do the same for static libraries after they are linked. There is also no alternative for `DllImport` in C# for variables. The recommended way to expose variable externs to C# from C is to instead create "getter" and/or "setter" function externs. Thus, variable externs are not supported for simplicity. 
 
 <sup>2</sup>: For structs (and unions within structs), distinguishing between public/private fields is not possible automatically. If the record is transtive to a function extern then it will be transpiled as if all the fields were public. In some cases this may not be appropriate to which there is the following options. Either, (1) use proper information hiding with C headers so the private fields are not in transtive property to a public function extern, or (2) use pointers to access the struct and manually specify the struct as an opaque type for input to `C2CS`. Option 2 is the approach taken for generating bindings for https://github.com/libuv/libuv because `libuv` makes use of mixing public/private struct fields and struct inheritance.
 
