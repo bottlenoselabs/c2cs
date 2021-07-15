@@ -1,5 +1,6 @@
 {
   "fileName": "uv.h",
+  "bitness": 64,
   "functions": [
     {
       "name": "uv_loop_set_data",
