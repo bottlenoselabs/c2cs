@@ -20,4 +20,31 @@
         </None>
     </ItemGroup>
 
+    <ItemGroup Condition="'$(IsWindows)' == 'true' AND '$(Architecture)' == 'x64'">
+        <Compile Remove="flecs.win32.cs" />
+        <Compile Update="flecs.win64.cs" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(IsWindows)' == 'true' AND '$(Architecture)' == 'x86'">
+        <Compile Update="flecs.win32.cs" />
+        <Compile Remove="flecs.win64.cs" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(IsWindows)' != 'true'">
+        <Compile Remove="flecs.win32.cs" />
+        <Compile Remove="flecs.win64.cs" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(IsMacOS)' == 'true' AND '$(Architecture)' == 'x64'">
+        <Compile Remove="flecs.osx32.cs" />
+        <Compile Update="flecs.osx64.cs" />
+    </ItemGroup>
+    <!-- x86 on macOS is no longer really a thing -->
+    <ItemGroup Condition="'$(IsMacOS)' == 'true' AND '$(Architecture)' == 'x86'">
+        <Compile Remove="flecs.osx32.cs" />
+        <Compile Remove="flecs.osx64.cs" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(IsMacOS)' == 'false'">
+        <Compile Remove="flecs.osx32.cs" />
+        <Compile Remove="flecs.osx64.cs" />
+    </ItemGroup>
+
 </Project>
