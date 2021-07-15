@@ -21,6 +21,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 request.AutomaticallyFindSoftwareDevelopmentKit,
                 request.IncludeDirectories,
                 request.Defines,
+                request.Bitness,
                 request.ClangArgs,
                 Parse);
 
@@ -44,12 +45,14 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             bool automaticallyFindSoftwareDevelopmentKit,
             ImmutableArray<string> includeDirectories,
             ImmutableArray<string> defines,
+            int bitness,
             ImmutableArray<string> clangArguments)
         {
             var clangArgs = ClangArgumentsBuilder.Build(
                 automaticallyFindSoftwareDevelopmentKit,
                 includeDirectories,
                 defines,
+                bitness,
                 clangArguments);
             return ClangParser.ParseTranslationUnit(inputFilePath, clangArgs);
         }

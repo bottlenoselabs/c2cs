@@ -1,4 +1,4 @@
-// Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
+﻿// Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
@@ -91,6 +91,14 @@ namespace C2CS
 			};
 			command.AddOption(definesOption);
 
+			var bitOption = new Option<int>(
+				new[] {"--bitness", "-b"},
+				"The bitness to parse the C code as. Default is the current architecture of host operating system. E.g. the default for x64 Windows is `64`. Possible values are `32` where pointers are 4 bytes, or `64` where pointers are 8 bytes.")
+			{
+				IsRequired = false
+			};
+			command.AddOption(bitOption);
+
 			var clangArgsOption = new Option<IEnumerable<string>?>(
 				new[] {"--clangArgs", "-a"},
 				"Additional Clang arguments to use when parsing C code.")
@@ -107,6 +115,7 @@ namespace C2CS
 				IEnumerable<string?>?,
 				IEnumerable<string?>?,
 				IEnumerable<string?>?,
+				int?,
 				IEnumerable<string?>?
 			>(AbstractSyntaxTreeC);
 			return command;
@@ -177,6 +186,7 @@ namespace C2CS
 			IEnumerable<string?>? ignoredFiles,
 			IEnumerable<string?>? opaqueTypes,
 			IEnumerable<string?>? defines,
+			int? bitness,
 			IEnumerable<string?>? clangArgs)
 		{
 			var request = new UseCases.AbstractSyntaxTreeC.Request(
@@ -187,6 +197,7 @@ namespace C2CS
 				ignoredFiles,
 				opaqueTypes,
 				defines,
+				bitness,
 				clangArgs);
 			var useCase = new UseCases.AbstractSyntaxTreeC.UseCase();
 			var response = useCase.Execute(request);

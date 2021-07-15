@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace C2CS.UseCases.AbstractSyntaxTreeC
 {
@@ -25,6 +26,8 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         public ImmutableArray<string> Defines { get; }
 
+        public int Bitness { get; }
+
         public ImmutableArray<string> ClangArgs { get; }
 
         public Request(
@@ -35,6 +38,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             IEnumerable<string?>? ignoredFiles,
             IEnumerable<string?>? opaqueTypes,
             IEnumerable<string?>? defines,
+            int? bitness,
             IEnumerable<string?>? clangArgs)
         {
             InputFile = inputFile;
@@ -44,6 +48,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             IgnoredFiles = ToImmutableArray(ignoredFiles);
             OpaqueTypes = ToImmutableArray(opaqueTypes);
             Defines = ToImmutableArray(defines);
+            Bitness = CreateBitness(bitness);
             ClangArgs = ToImmutableArray(clangArgs);
         }
 
@@ -64,6 +69,16 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             }
 
             return result;
+        }
+
+        private static int CreateBitness(int? bitness)
+        {
+            if (bitness != null)
+            {
+                return bitness.Value;
+            }
+
+            return RuntimeInformation.OSArchitecture is Architecture.Arm64 or Architecture.X64 ? 64 : 32;
         }
 
         private static ImmutableArray<string> ToImmutableArray(IEnumerable<string?>? enumerable)
