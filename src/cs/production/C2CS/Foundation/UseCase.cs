@@ -204,7 +204,7 @@ namespace C2CS
 
         private void BeginStep(int index, string stepName)
         {
-            Console.WriteLine($"{_name}: Started step ({index}/{_stepCount}) '{stepName}'");
+            Console.WriteLine($"\tStarted step ({index}/{_stepCount}) '{stepName}'");
             _stepStopwatch.Start();
             GarbageCollect();
         }
@@ -213,7 +213,7 @@ namespace C2CS
         {
             _stepStopwatch.Stop();
             Console.WriteLine(
-                $"{_name}: Finished step ({index}/{_stepCount}) '{stepName}' in {_stepStopwatch.Elapsed.TotalMilliseconds} ms");
+                $"\tFinished step ({index}/{_stepCount}) '{stepName}' in {_stepStopwatch.Elapsed.TotalMilliseconds} ms");
             _stepStopwatch.Reset();
             GarbageCollect();
         }
