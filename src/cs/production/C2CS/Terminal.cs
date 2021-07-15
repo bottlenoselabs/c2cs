@@ -92,8 +92,8 @@ namespace C2CS
             }
             else
             {
-                var platform = Runtime.Platform;
-                if (platform == RuntimePlatform.Windows)
+                var platform = Runtime.OperatingSystem;
+                if (platform == RuntimeOperatingSystem.Windows)
                 {
                     processStartInfo.FileName = "wsl";
                     processStartInfo.Arguments = command;
@@ -127,8 +127,8 @@ namespace C2CS
 
             var cMakeCommand = "cmake -S . -B cmake-build-release -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release";
 
-            var platform = Runtime.Platform;
-            if (platform == RuntimePlatform.Windows)
+            var platform = Runtime.OperatingSystem;
+            if (platform == RuntimeOperatingSystem.Windows)
             {
                 var toolchainFilePath = WindowsToLinuxPath($"{rootDirectory}/src/c/mingw-w64-x86_64.cmake");
                 cMakeCommand += $" -DCMAKE_TOOLCHAIN_FILE='{toolchainFilePath}'";
@@ -152,7 +152,7 @@ namespace C2CS
                 return false;
             }
 
-            var runtimePlatform = Runtime.Platform;
+            var runtimePlatform = Runtime.OperatingSystem;
             var libraryFileNameExtension = Runtime.LibraryFileNameExtension(runtimePlatform);
             var outputFilePaths = Directory.EnumerateFiles(
                 outputDirectoryPath, $"*{libraryFileNameExtension}", SearchOption.AllDirectories);
@@ -161,7 +161,7 @@ namespace C2CS
                 var targetFilePath = outputFilePath.Replace(outputDirectoryPath, targetLibraryDirectoryPath);
                 var targetFileName = Path.GetFileName(targetFilePath);
 
-                if (platform == RuntimePlatform.Windows)
+                if (platform == RuntimeOperatingSystem.Windows)
                 {
                     if (targetFileName.StartsWith("lib", StringComparison.InvariantCulture))
                     {
