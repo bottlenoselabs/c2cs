@@ -27,11 +27,11 @@ internal static class Program
         var runtimeIdentifier64Bits = runtimeIdentifierOperatingSystem + "64";
 
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
-        GenerateAbstractSyntaxTree(rootDirectory, runtimeIdentifier64Bits);
+        /*GenerateAbstractSyntaxTree(rootDirectory, runtimeIdentifier64Bits);
         GenerateAbstractSyntaxTree(rootDirectory, runtimeIdentifier32Bits);
         GenerateBindingsCSharp(rootDirectory, runtimeIdentifier64Bits);
-        GenerateBindingsCSharp(rootDirectory, runtimeIdentifier32Bits);
-        // BuildLibrary(rootDirectory);
+        GenerateBindingsCSharp(rootDirectory, runtimeIdentifier32Bits);*/
+        BuildLibrary(rootDirectory);
     }
 
     private static void BuildLibrary(string rootDirectory)
@@ -57,7 +57,7 @@ ast
 {rootDirectory}/src/cs/examples/flecs/flecs-c/ast.{runtimeIdentifier}.json
 ";
         var argumentsArray =
-            arguments.Split(new[] { "\n", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 
@@ -71,7 +71,7 @@ cs
 {rootDirectory}/src/cs/examples/flecs/flecs-cs/flecs.{runtimeIdentifier}.cs
 ";
         var argumentsArray =
-            arguments.Split(new[] { "\n", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 }
