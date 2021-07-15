@@ -1,4 +1,4 @@
-﻿// Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
+// Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
@@ -156,7 +156,15 @@ namespace C2CS
 			};
 			command.AddOption(libraryNameOption);
 
-			command.Handler = CommandHandler.Create<FileInfo, FileInfo, IEnumerable<string?>?, IEnumerable<string?>?, string>(BindgenCSharp);
+			var classNameOption = new Option<string?>(
+				new[] {"--className", "-c"},
+				"The name of the C# static class.")
+			{
+				IsRequired = false
+			};
+			command.AddOption(classNameOption);
+
+			command.Handler = CommandHandler.Create<FileInfo, FileInfo, IEnumerable<string?>?, IEnumerable<string?>?, string?, string?>(BindgenCSharp);
 			return command;
 		}
 
@@ -193,12 +201,14 @@ namespace C2CS
 			FileInfo outputFile,
 			IEnumerable<string?>? typeAliases,
 			IEnumerable<string?>? ignoredTypes,
-			string? libraryName)
+			string? libraryName,
+			string? className)
 		{
 			var libraryName2 = string.IsNullOrEmpty(libraryName) ? string.Empty : libraryName;
+			var className2 = string.IsNullOrEmpty(className) ? string.Empty : className;
 
 			var request = new UseCases.BindgenCSharp.Request(
-				inputFile, outputFile, typeAliases, ignoredTypes, libraryName2);
+				inputFile, outputFile, typeAliases, ignoredTypes, libraryName2, className2);
 			var useCase = new UseCases.BindgenCSharp.UseCase();
 			var response = useCase.Execute(request);
 			if (response.Status == UseCaseOutputStatus.Failure)

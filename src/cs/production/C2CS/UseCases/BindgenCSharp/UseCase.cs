@@ -17,7 +17,7 @@ namespace C2CS.UseCases.BindgenCSharp
             Validate(request);
             TotalSteps(4);
 
-            var className = Path.GetFileNameWithoutExtension(request.OutputFile.FullName);
+            var className = string.IsNullOrEmpty(request.ClassName) ? Path.GetFileNameWithoutExtension(request.OutputFile.FullName) : request.ClassName;
             var libraryName = string.IsNullOrEmpty(request.LibraryName) ? className : request.LibraryName;
 
             var abstractSyntaxTreeC = Step(
