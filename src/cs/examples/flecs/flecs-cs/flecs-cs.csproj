@@ -42,7 +42,7 @@
         <Compile Remove="flecs.osx32.cs" />
         <Compile Remove="flecs.osx64.cs" />
     </ItemGroup>
-    <ItemGroup Condition="'$(IsMacOS)' == 'false'">
+    <ItemGroup Condition="'$(IsMacOS)' != 'true'">
         <Compile Remove="flecs.osx32.cs" />
         <Compile Remove="flecs.osx64.cs" />
     </ItemGroup>

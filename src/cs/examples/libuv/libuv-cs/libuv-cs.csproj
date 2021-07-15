@@ -42,7 +42,7 @@
         <Compile Remove="uv.osx32.cs" />
         <Compile Remove="uv.osx64.cs" />
     </ItemGroup>
-    <ItemGroup Condition="'$(IsMacOS)' == 'false'">
+    <ItemGroup Condition="'$(IsMacOS)' != 'true'">
         <Compile Remove="uv.osx32.cs" />
         <Compile Remove="uv.osx64.cs" />
     </ItemGroup>

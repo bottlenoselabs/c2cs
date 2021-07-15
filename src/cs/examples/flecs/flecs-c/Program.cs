@@ -55,11 +55,9 @@ ast
 {rootDirectory}/ext/flecs/include/flecs.h
 -o
 {rootDirectory}/src/cs/examples/flecs/flecs-c/ast.{runtimeIdentifier}.json
--b
-{bitness}
 ";
         var argumentsArray =
-            arguments.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 
@@ -73,7 +71,7 @@ cs
 {rootDirectory}/src/cs/examples/flecs/flecs-cs/flecs.{runtimeIdentifier}.cs
 ";
         var argumentsArray =
-            arguments.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 }

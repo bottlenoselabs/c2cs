@@ -42,7 +42,7 @@
         <Compile Remove="SDL.osx32.cs" />
         <Compile Remove="SDL.osx64.cs" />
     </ItemGroup>
-    <ItemGroup Condition="'$(IsMacOS)' == 'false'">
+    <ItemGroup Condition="'$(IsMacOS)' != 'true'">
         <Compile Remove="SDL.osx32.cs" />
         <Compile Remove="SDL.osx64.cs" />
     </ItemGroup>

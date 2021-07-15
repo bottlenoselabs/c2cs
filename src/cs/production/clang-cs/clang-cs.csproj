@@ -37,7 +37,7 @@
         <Compile Remove="clang.osx32.cs" />
         <Compile Remove="clang.osx64.cs" />
     </ItemGroup>
-    <ItemGroup Condition="'$(IsMacOS)' == 'false'">
+    <ItemGroup Condition="'$(IsMacOS)' != 'true'">
         <Compile Remove="clang.osx32.cs" />
         <Compile Remove="clang.osx64.cs" />
     </ItemGroup>
