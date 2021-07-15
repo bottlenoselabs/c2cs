@@ -22,7 +22,7 @@ namespace C2CS
             // https://docs.microsoft.com/en-us/dotnet/core/dependency-loading/default-probing#unmanaged-native-library-probing
             if (AppContext.GetData("NATIVE_DLL_SEARCH_DIRECTORIES") is string nativeSearchDirectoriesString)
             {
-                var nativeSearchDirectoriesDelimiter = Platform == RuntimePlatform.Windows ? ';' : ':';
+                var nativeSearchDirectoriesDelimiter = OperatingSystem == RuntimeOperatingSystem.Windows ? ';' : ':';
                 var nativeSearchDirectories =
                     nativeSearchDirectoriesString!.Split(nativeSearchDirectoriesDelimiter, StringSplitOptions.RemoveEmptyEntries).ToList();
 
@@ -54,7 +54,7 @@ namespace C2CS
 
         private static string LibraryFilePath(string libraryName)
         {
-            var runtimePlatform = Platform;
+            var runtimePlatform = OperatingSystem;
             var libraryFileNamePrefix = LibraryFileNamePrefix(runtimePlatform);
             var libraryFileNameExtension = LibraryFileNameExtension(runtimePlatform);
             var libraryFileName = $@"{libraryFileNamePrefix}{libraryName}{libraryFileNameExtension}";
@@ -68,7 +68,7 @@ namespace C2CS
                 }
 
                 // TRICK: Cross compiling for Windows on Linux automatically adds the prefix "lib"
-                if (Platform == RuntimePlatform.Windows)
+                if (OperatingSystem == RuntimeOperatingSystem.Windows)
                 {
                     var libraryFilePath2 = Path.Combine(searchDirectory, "lib" + libraryFileName);
                     if (File.Exists(libraryFilePath2))
@@ -83,7 +83,7 @@ namespace C2CS
 
         private static void PrintLibraryNotFound(string libraryName)
         {
-            var runtimePlatform = Platform;
+            var runtimePlatform = OperatingSystem;
             var libraryFileNamePrefix = LibraryFileNamePrefix(runtimePlatform);
             var libraryFileNameExtension = LibraryFileNameExtension(runtimePlatform);
             var libraryFileName = $@"{libraryFileNamePrefix}{libraryName}{libraryFileNameExtension}";
@@ -91,7 +91,7 @@ namespace C2CS
             Console.WriteLine($"The library could not be found: '{libraryFileName}'. Expected to find the library in one of the following paths:");
             foreach (var searchDirectory in _nativeSearchDirectories)
             {
-                if (Platform == RuntimePlatform.Windows)
+                if (OperatingSystem == RuntimeOperatingSystem.Windows)
                 {
                     var libraryFilePath = Path.Combine(searchDirectory, libraryFileName);
                     var libraryFilePath2 = Path.Combine(searchDirectory, "lib" + libraryFileName);

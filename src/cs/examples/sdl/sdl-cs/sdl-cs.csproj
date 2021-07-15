@@ -20,4 +20,31 @@
         </None>
     </ItemGroup>
 
+    <ItemGroup Condition="'$(IsWindows)' == 'true' AND '$(Architecture)' == 'x64'">
+        <Compile Remove="SDL.win32.cs" />
+        <Compile Update="SDL.win64.cs" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(IsWindows)' == 'true' AND '$(Architecture)' == 'x86'">
+        <Compile Update="SDL.win32.cs" />
+        <Compile Remove="SDL.win64.cs" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(IsWindows)' != 'true'">
+        <Compile Remove="SDL.win32.cs" />
+        <Compile Remove="SDL.win64.cs" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(IsMacOS)' == 'true' AND '$(Architecture)' == 'x64'">
+        <Compile Remove="SDL.osx32.cs" />
+        <Compile Update="SDL.osx64.cs" />
+    </ItemGroup>
+    <!-- x86 on macOS is no longer really a thing -->
+    <ItemGroup Condition="'$(IsMacOS)' == 'true' AND '$(Architecture)' == 'x86'">
+        <Compile Remove="SDL.osx32.cs" />
+        <Compile Remove="SDL.osx64.cs" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(IsMacOS)' != 'true'">
+        <Compile Remove="SDL.osx32.cs" />
+        <Compile Remove="SDL.osx64.cs" />
+    </ItemGroup>
+
 </Project>

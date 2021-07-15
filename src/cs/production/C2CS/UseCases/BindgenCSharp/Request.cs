@@ -21,18 +21,22 @@ namespace C2CS.UseCases.BindgenCSharp
 
         public string LibraryName { get; }
 
+        public string ClassName { get; }
+
         public Request(
             FileInfo inputFile,
             FileInfo outputFile,
             IEnumerable<string?>? typeAliases,
             IEnumerable<string?>? ignoredTypeNames,
-            string libraryName)
+            string libraryName,
+            string className)
         {
             InputFile = inputFile;
             OutputFile = outputFile;
             TypeAliases = CreateTypeAliases(typeAliases);
             IgnoredTypeNames = CreateIgnoredTypeNames(ignoredTypeNames);
             LibraryName = libraryName;
+            ClassName = className;
         }
 
         private static ImmutableArray<CSharpTypeAlias> CreateTypeAliases(IEnumerable<string?>? typeAliases)

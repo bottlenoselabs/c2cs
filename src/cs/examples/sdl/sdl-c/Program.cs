@@ -10,10 +10,29 @@ internal static class Program
 {
     private static void Main()
     {
+        var runtimeIdentifierOperatingSystem = string.Empty;
+        if (OperatingSystem.IsWindows())
+        {
+            runtimeIdentifierOperatingSystem = "win";
+        }
+        else if (OperatingSystem.IsMacOS())
+        {
+            runtimeIdentifierOperatingSystem = "osx";
+        }
+        else if (OperatingSystem.IsLinux())
+        {
+            runtimeIdentifierOperatingSystem = "linux";
+        }
+
+        var runtimeIdentifier32Bits = runtimeIdentifierOperatingSystem + "32";
+        var runtimeIdentifier64Bits = runtimeIdentifierOperatingSystem + "64";
+
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
-        GenerateAbstractSyntaxTree(rootDirectory);
-        GenerateBindingsCSharp(rootDirectory);
-        BuildLibrary(rootDirectory);
+        GenerateAbstractSyntaxTree(rootDirectory, runtimeIdentifier64Bits);
+        GenerateAbstractSyntaxTree(rootDirectory, runtimeIdentifier32Bits);
+        GenerateBindingsCSharp(rootDirectory, runtimeIdentifier64Bits);
+        GenerateBindingsCSharp(rootDirectory, runtimeIdentifier32Bits);
+        // BuildLibrary(rootDirectory);
     }
 
     private static void BuildLibrary(string rootDirectory)
@@ -39,33 +58,43 @@ internal static class Program
         }
     }
 
-    private static void GenerateAbstractSyntaxTree(string rootDirectory)
+    private static void GenerateAbstractSyntaxTree(string rootDirectory, string runtimeIdentifier)
     {
+        var bitness = runtimeIdentifier.EndsWith("64", StringComparison.InvariantCulture) ? "64" : "32";
+
         var arguments = @$"
 ast
 -i
 {rootDirectory}/ext/SDL/include/SDL.h
 -o
-{rootDirectory}/src/cs/examples/sdl/sdl-c/ast.json
+{rootDirectory}/src/cs/examples/sdl/sdl-c/ast.{runtimeIdentifier}.json
+-b
+{bitness}
 -g
 SDL_main.h
+SDL_assert.h
 SDL_system.h
+SDL_stdinc.h
+SDL_thread.h
+SDL_endian.h
 -p
 SDL_RWops
+SDL_AudioCVT
+SDL_Thread
 ";
         var argumentsArray =
-            arguments.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 
-    private static void GenerateBindingsCSharp(string rootDirectory)
+    private static void GenerateBindingsCSharp(string rootDirectory, string runtimeIdentifier)
     {
         var arguments = @$"
 cs
 -i
-{rootDirectory}/src/cs/examples/sdl/sdl-c/ast.json
+{rootDirectory}/src/cs/examples/sdl/sdl-c/ast.{runtimeIdentifier}.json
 -o
-{rootDirectory}/src/cs/examples/sdl/sdl-cs/SDL.cs
+{rootDirectory}/src/cs/examples/sdl/sdl-cs/SDL.{runtimeIdentifier}.cs
 -l
 SDL2
 -a
@@ -78,9 +107,11 @@ Sint8 -> sbyte
 Sint16 -> short
 Sint32 -> int
 Sint64 -> long
+-g
+SDL_bool
 ".Trim();
         var argumentsArray =
-            arguments.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 }

@@ -40,17 +40,16 @@ Usage:
   C2CS ast [options]
 
 Options:
-  -i, --inputFile <inputFile> (REQUIRED)                                Path of the input `.h` header file.
-  -o, --outputFile <outputFile> (REQUIRED)                              Path of the output abstract syntax tree `.json` file.
-  -f, --automaticallyFindSoftwareDevelopmentKit                         Find software development kit for C/C++ automatically. Default is
-  <automaticallyFindSoftwareDevelopmentKit>                             true.
-  -s, --includeDirectories <includeDirectories>                         Search directories for `#include` usages to use when parsing C
-                                                                        code.
-  -g, --ignoredFiles <ignoredFiles>                                     Header files to ignore.
-  -p, --opaqueTypes <opaqueTypes>                                       Types by name that will be forced to be opaque.
-  -d, --defines <defines>                                               Object-like macros to use when parsing C code.
-  -a, --clangArgs <clangArgs>                                           Additional Clang arguments to use when parsing C code.
-  -?, -h, --help                                                        Show help and usage information
+  -i, --inputFile <inputFile> (REQUIRED)                                                     Path of the input `.h` header file.
+  -o, --outputFile <outputFile> (REQUIRED)                                                   Path of the output abstract syntax tree `.json` file.
+  -f, --automaticallyFindSoftwareDevelopmentKit <automaticallyFindSoftwareDevelopmentKit>    Find software development kit for C/C++ automatically. Default is true.
+  -s, --includeDirectories <includeDirectories>                                              Search directories for `#include` usages to use when parsing C code.
+  -g, --ignoredFiles <ignoredFiles>                                                          Header files to ignore.
+  -p, --opaqueTypes <opaqueTypes>                                                            Types by name that will be forced to be opaque.
+  -d, --defines <defines>                                                                    Object-like macros to use when parsing C code.
+  -b, --bitness <bitness>                                                                    The bitness to parse the C code as. Default is the current architecture of host operating system. E.g. the default for x64 Windows is `64`. Possible values are `32` where pointers are 4 bytes, or `64` where pointers are 8 bytes.
+  -a, --clangArgs <clangArgs>                                                                Additional Clang arguments to use when parsing C code.
+  -?, -h, --help                                                                             Show help and usage information
 ```
 
 ### `cs`
@@ -70,6 +69,7 @@ Options:
   -a, --typeAliases <typeAliases>             Types by name that will be remapped.
   -g, --ignoredTypes <ignoredTypes>           Types by name that will be ignored; types are ignored after remapping type names.
   -l, --libraryName <libraryName>             The name of the dynamic link library (without the file extension) used for P/Invoke with C#.
+  -c, --className <className>                 The name of the C# static class.
   -?, -h, --help                              Show help and usage information
 ```
 

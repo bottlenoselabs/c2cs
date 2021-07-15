@@ -21,6 +21,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 request.AutomaticallyFindSoftwareDevelopmentKit,
                 request.IncludeDirectories,
                 request.Defines,
+                request.Bitness,
                 request.ClangArgs,
                 Parse);
 
@@ -30,6 +31,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 request.IncludeDirectories,
                 request.IgnoredFiles,
                 request.OpaqueTypes,
+                request.Bitness,
                 Explore);
 
             Step(
@@ -44,12 +46,14 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             bool automaticallyFindSoftwareDevelopmentKit,
             ImmutableArray<string> includeDirectories,
             ImmutableArray<string> defines,
+            int bitness,
             ImmutableArray<string> clangArguments)
         {
             var clangArgs = ClangArgumentsBuilder.Build(
                 automaticallyFindSoftwareDevelopmentKit,
                 includeDirectories,
                 defines,
+                bitness,
                 clangArguments);
             return ClangParser.ParseTranslationUnit(inputFilePath, clangArgs);
         }
@@ -58,10 +62,11 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             clang.CXTranslationUnit translationUnit,
             ImmutableArray<string> includeDirectories,
             ImmutableArray<string> ignoredFiles,
-            ImmutableArray<string> opaqueTypes)
+            ImmutableArray<string> opaqueTypes,
+            int bitness)
         {
             var clangExplorer = new ClangExplorer(Diagnostics, includeDirectories, ignoredFiles, opaqueTypes);
-            return clangExplorer.AbstractSyntaxTree(translationUnit);
+            return clangExplorer.AbstractSyntaxTree(translationUnit, bitness);
         }
 
         private static void Write(

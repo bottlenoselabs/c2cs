@@ -185,9 +185,26 @@ namespace C2CS
             return output;
         }
 
+        protected TOutput Step<TInput1, TInput2, TInput3, TInput4, TInput5, TInput6, TOutput>(
+            string stepName,
+            TInput1 input1,
+            TInput2 input2,
+            TInput3 input3,
+            TInput4 input4,
+            TInput5 input5,
+            TInput6 input6,
+            Func<TInput1, TInput2, TInput3, TInput4, TInput5, TInput6, TOutput> func)
+        {
+            _stepIndex++;
+            BeginStep(_stepIndex, stepName);
+            var output = func(input1, input2, input3, input4, input5, input6);
+            EndStep(_stepIndex, stepName);
+            return output;
+        }
+
         private void BeginStep(int index, string stepName)
         {
-            Console.WriteLine($"{_name}: Started step ({index}/{_stepCount}) '{stepName}'");
+            Console.WriteLine($"\tStarted step ({index}/{_stepCount}) '{stepName}'");
             _stepStopwatch.Start();
             GarbageCollect();
         }
@@ -196,7 +213,7 @@ namespace C2CS
         {
             _stepStopwatch.Stop();
             Console.WriteLine(
-                $"{_name}: Finished step ({index}/{_stepCount}) '{stepName}' in {_stepStopwatch.Elapsed.TotalMilliseconds} ms");
+                $"\tFinished step ({index}/{_stepCount}) '{stepName}' in {_stepStopwatch.Elapsed.TotalMilliseconds} ms");
             _stepStopwatch.Reset();
             GarbageCollect();
         }

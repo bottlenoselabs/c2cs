@@ -307,7 +307,7 @@ public static unsafe class ClangExtensions
         {
             return new ClangLocation
             {
-                Path = cursor.Name()
+                FileName = cursor.Name()
             };
         }
 
@@ -324,7 +324,7 @@ public static unsafe class ClangExtensions
         {
             return new ClangLocation
             {
-                Path = string.Empty
+                FileName = string.Empty
             };
         }
 
@@ -333,10 +333,11 @@ public static unsafe class ClangExtensions
 
         return new ClangLocation
         {
-            Path = Path.GetFileName(fileNamePath),
+            FileName = Path.GetFileName(fileNamePath),
+            FilePath = Path.GetFullPath(fileNamePath),
             LineNumber = (int) lineNumber,
             LineColumn = (int) columnNumber,
-            IsSystem = cursor.IsSystem()
+            IsBuiltin = clang_getCursorType(cursor).IsPrimitive()
         };
     }
 

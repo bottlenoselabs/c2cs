@@ -16,24 +16,75 @@ namespace C2CS.UseCases.BindgenCSharp
     {
         private readonly string _className;
         private ImmutableDictionary<string, CType> _types = null!;
-        private readonly ImmutableDictionary<string, string> _aliasesLookup;
+        private readonly ImmutableDictionary<string, string> _userTypeNameAliases;
         private readonly ImmutableHashSet<string> _builtinAliases;
         private readonly ImmutableHashSet<string> _ignoredTypeNames;
         private readonly Dictionary<string, string> _generatedFunctionPointersNamesByCNames = new();
+        private readonly Dictionary<string, string> _systemTypeNameAliases;
+
+        private static Dictionary<string, string> SystemTypeNameAliases(int bitness)
+        {
+            var aliases = new Dictionary<string, string>();
+
+            if (Runtime.OperatingSystem == RuntimeOperatingSystem.Windows)
+            {
+                aliases.Add("DWORD", "uint");
+                aliases.Add("ULONG", "uint");
+                aliases.Add("UINT_PTR", "UIntPtr");
+                aliases.Add("INT_PTR", "IntPtr");
+                aliases.Add("HANDLE", "void*");
+                aliases.Add("SOCKET", "void*");
+            }
+
+            if (Runtime.OperatingSystem == RuntimeOperatingSystem.macOS ||
+                Runtime.OperatingSystem == RuntimeOperatingSystem.iOS ||
+                Runtime.OperatingSystem == RuntimeOperatingSystem.tvOS)
+            {
+                aliases.Add("__uint32_t", "uint");
+                aliases.Add("__uint16_t", "ushort");
+                aliases.Add("__uint8_t", "byte");
+                aliases.Add("__int32_t", "int");
+
+                aliases.Add("__darwin_pthread_t", "IntPtr");
+                aliases.Add("__darwin_uid_t", "uint");
+                aliases.Add("__darwin_pid_t", "int");
+                aliases.Add("__darwin_gid_t", "uint");
+                aliases.Add("__darwin_socklen_t", "uint");
+                aliases.Add("_opaque_pthread_t", string.Empty); // remove
+                aliases.Add("__darwin_pthread_handler_rec", string.Empty); // remove
+
+                if (bitness == 32)
+                {
+                    aliases.Add("__darwin_time_t", "int");
+                }
+                else if (bitness == 64)
+                {
+                    aliases.Add("__darwin_time_t", "long");
+                }
+                else
+                {
+                    throw new NotImplementedException($"{bitness}-bit is not implemented.");
+                }
+            }
+
+            return aliases;
+        }
 
         public CSharpMapper(
             string className,
             ImmutableArray<CSharpTypeAlias> typeAliases,
-            ImmutableArray<string> ignoredTypeNames)
+            ImmutableArray<string> ignoredTypeNames,
+            int bitness)
         {
             _className = className;
+            _systemTypeNameAliases = SystemTypeNameAliases(bitness);
 
-            var aliasesLookup = new Dictionary<string, string>();
+            var userAliases = new Dictionary<string, string>();
             var builtinAliases = new HashSet<string>();
 
             foreach (var typeAlias in typeAliases)
             {
-                aliasesLookup.Add(typeAlias.From, typeAlias.To);
+                userAliases.Add(typeAlias.From, typeAlias.To);
 
                 if (typeAlias.To
                     is "byte"
@@ -50,9 +101,11 @@ namespace C2CS.UseCases.BindgenCSharp
                 }
             }
 
-            _aliasesLookup = aliasesLookup.ToImmutableDictionary();
+            _userTypeNameAliases = userAliases.ToImmutableDictionary();
             _builtinAliases = builtinAliases.ToImmutableHashSet();
-            _ignoredTypeNames = ignoredTypeNames.ToImmutableHashSet();
+            _ignoredTypeNames = ignoredTypeNames
+                .Concat(_systemTypeNameAliases.Keys)
+                .ToImmutableHashSet();
         }
 
         public CSharpAbstractSyntaxTree AbstractSyntaxTree(CAbstractSyntaxTree abstractSyntaxTree)
@@ -65,7 +118,8 @@ namespace C2CS.UseCases.BindgenCSharp
             var recordsBuilder = ImmutableArray.CreateBuilder<CRecord>();
             foreach (var record in abstractSyntaxTree.Records)
             {
-                if (_builtinAliases.Contains(record.Type))
+                if (_builtinAliases.Contains(record.Type) ||
+                    _ignoredTypeNames.Contains(record.Type))
                 {
                     // short circuit, prevents emitting the type
                     continue;
@@ -79,7 +133,8 @@ namespace C2CS.UseCases.BindgenCSharp
             var typedefsBuilder = ImmutableArray.CreateBuilder<CTypedef>();
             foreach (var typedef in abstractSyntaxTree.Typedefs)
             {
-                if (_builtinAliases.Contains(typedef.Name))
+                if (_builtinAliases.Contains(typedef.Name) ||
+                    _ignoredTypeNames.Contains(typedef.Name))
                 {
                     // short circuit, prevents emitting the type
                     continue;
@@ -94,7 +149,6 @@ namespace C2CS.UseCases.BindgenCSharp
             var opaqueDataTypes = OpaqueDataTypes(
                 abstractSyntaxTree.OpaqueTypes);
             var enums = Enums(abstractSyntaxTree.Enums);
-            var variables = Variables(abstractSyntaxTree.Variables);
 
             var result = new CSharpAbstractSyntaxTree(
                 functionExterns,
@@ -102,8 +156,7 @@ namespace C2CS.UseCases.BindgenCSharp
                 structs,
                 typedefs,
                 opaqueDataTypes,
-                enums,
-                variables);
+                enums);
 
             _types = null!;
 
@@ -132,6 +185,7 @@ namespace C2CS.UseCases.BindgenCSharp
             var originalCodeLocationComment = OriginalCodeLocationComment(cFunction);
 
             var cType = CType(cFunction.ReturnType);
+
             var returnType = Type(cType);
             var callingConvention = CSharpFunctionCallingConvention(cFunction.CallingConvention);
             var parameters = CSharpFunctionParameters(cFunction.Parameters);
@@ -558,33 +612,6 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private ImmutableArray<CSharpVariable> Variables(
-            ImmutableArray<CVariable> clangVariables)
-        {
-            var builder = ImmutableArray.CreateBuilder<CSharpVariable>(clangVariables.Length);
-
-            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var clangVariable in clangVariables)
-            {
-                var variable = Variable(clangVariable);
-                builder.Add(variable);
-            }
-
-            var result = builder.ToImmutable();
-            return result;
-        }
-
-        private CSharpVariable Variable(CVariable cVariable)
-        {
-            var name = cVariable.Name;
-            var originalCodeLocationComment = OriginalCodeLocationComment(cVariable);
-            var cType = CType(cVariable.Type);
-            var type = Type(cType);
-
-            var result = new CSharpVariable(name, originalCodeLocationComment, type);
-            return result;
-        }
-
         private CSharpType Type(CType cType, string? typeName = null)
         {
             var typeName2 = typeName ?? TypeName(cType);
@@ -719,12 +746,17 @@ namespace C2CS.UseCases.BindgenCSharp
         {
             if (!isSystem)
             {
-                if (_aliasesLookup.TryGetValue(typeName, out var aliasName))
+                if (_userTypeNameAliases.TryGetValue(typeName, out var aliasName))
                 {
                     return aliasName;
                 }
 
                 return typeName;
+            }
+
+            if (_systemTypeNameAliases.TryGetValue(typeName, out var mappedTypeName))
+            {
+                return mappedTypeName;
             }
 
             switch (typeName)
@@ -826,9 +858,9 @@ namespace C2CS.UseCases.BindgenCSharp
             var location = node.Location;
 
             string result;
-            if (location.IsSystem)
+            if (location.IsBuiltin)
             {
-                result = $"// {kindString} @ System";
+                result = $"// {kindString} @ Builtin";
             }
             else
             {

@@ -13,11 +13,13 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             bool automaticallyFindSoftwareDevelopmentKit,
             ImmutableArray<string> includeDirectories,
             ImmutableArray<string> defines,
+            int bitness,
             ImmutableArray<string> additionalArgs)
         {
             var builder = ImmutableArray.CreateBuilder<string>();
 
             AddDefault(builder);
+            AddBitness(builder, bitness);
             AddUserIncludes(builder, includeDirectories);
             AddDefines(builder, defines);
             AddAdditionalArgs(builder, additionalArgs);
@@ -36,6 +38,11 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             args.Add("--std=c11");
             args.Add("-Wno-pragma-once-outside-header");
             args.Add("-fno-blocks");
+        }
+
+        private static void AddBitness(ImmutableArray<string>.Builder args, int bitness)
+        {
+            args.Add($"-m{bitness}");
         }
 
         private static void AddUserIncludes(
@@ -82,16 +89,16 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         private static void AddSystemIncludes(ImmutableArray<string>.Builder args)
         {
-            var runtime = Runtime.Platform;
+            var runtime = Runtime.OperatingSystem;
             switch (runtime)
             {
-                case RuntimePlatform.Windows:
+                case RuntimeOperatingSystem.Windows:
                     AddSystemIncludesWindows(args);
                     break;
-                case RuntimePlatform.macOS:
+                case RuntimeOperatingSystem.macOS:
                     AddSystemIncludesMac(args);
                     break;
-                case RuntimePlatform.Linux:
+                case RuntimeOperatingSystem.Linux:
                     AddSystemIncludesLinux(args);
                     break;
                 default:

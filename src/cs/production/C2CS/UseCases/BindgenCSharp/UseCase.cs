@@ -17,7 +17,18 @@ namespace C2CS.UseCases.BindgenCSharp
             Validate(request);
             TotalSteps(4);
 
-            var className = Path.GetFileNameWithoutExtension(request.OutputFile.FullName);
+            string className;
+            if (string.IsNullOrEmpty(request.ClassName))
+            {
+                var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(request.OutputFile.FullName);
+                var firstIndexOfPeriod = fileNameWithoutExtension.IndexOf('.');
+                className = firstIndexOfPeriod == -1 ? fileNameWithoutExtension : fileNameWithoutExtension[..firstIndexOfPeriod];
+            }
+            else
+            {
+                className = request.ClassName;
+            }
+
             var libraryName = string.IsNullOrEmpty(request.LibraryName) ? className : request.LibraryName;
 
             var abstractSyntaxTreeC = Step(
@@ -31,6 +42,7 @@ namespace C2CS.UseCases.BindgenCSharp
                 abstractSyntaxTreeC,
                 request.TypeAliases,
                 request.IgnoredTypeNames,
+                abstractSyntaxTreeC.Bitness,
                 MapCToCSharp);
 
             var codeCSharp = Step(
@@ -77,9 +89,10 @@ namespace C2CS.UseCases.BindgenCSharp
             string className,
             CAbstractSyntaxTree abstractSyntaxTree,
             ImmutableArray<CSharpTypeAlias> typeAliases,
-            ImmutableArray<string> ignoredTypeNames)
+            ImmutableArray<string> ignoredTypeNames,
+            int bitness)
         {
-            var mapper = new CSharpMapper(className, typeAliases, ignoredTypeNames);
+            var mapper = new CSharpMapper(className, typeAliases, ignoredTypeNames, bitness);
             return mapper.AbstractSyntaxTree(abstractSyntaxTree);
         }
 

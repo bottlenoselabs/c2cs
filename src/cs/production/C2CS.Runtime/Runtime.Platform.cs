@@ -9,107 +9,111 @@ namespace C2CS
     public static partial class Runtime
     {
         /// <summary>
-        ///     Gets the current <see cref="RuntimePlatform" />.
+        ///     Gets the current <see cref="RuntimeOperatingSystem" />.
         /// </summary>
-        public static RuntimePlatform Platform => GetRuntimePlatform();
+        public static RuntimeOperatingSystem OperatingSystem => GetRuntimePlatform();
 
         /// <summary>
-        ///     Gets the library file name extension given a <see cref="RuntimePlatform" />.
+        ///     Gets the library file name extension given a <see cref="RuntimeOperatingSystem" />.
         /// </summary>
-        /// <param name="runtimePlatform">The runtime platform.</param>
-        /// <returns>A <see cref="string" /> containing the library file name extension for the <paramref name="runtimePlatform" />.</returns>
-        /// <exception cref="NotImplementedException"><paramref name="runtimePlatform" /> is not available yet with .NET 5.</exception>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="runtimePlatform"/> is not a known valid value.</exception>
-        public static string LibraryFileNameExtension(RuntimePlatform runtimePlatform)
+        /// <param name="operatingSystem">The runtime platform.</param>
+        /// <returns>A <see cref="string" /> containing the library file name extension for the <paramref name="operatingSystem" />.</returns>
+        /// <exception cref="NotImplementedException"><paramref name="operatingSystem" /> is not available yet with .NET 5.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="operatingSystem"/> is not a known valid value.</exception>
+        public static string LibraryFileNameExtension(RuntimeOperatingSystem operatingSystem)
         {
-            switch (runtimePlatform)
+            switch (operatingSystem)
             {
-                case RuntimePlatform.Windows:
+                case RuntimeOperatingSystem.Windows:
                     return ".dll";
-                case RuntimePlatform.macOS:
-                case RuntimePlatform.tvOS:
-                case RuntimePlatform.iOS:
+                case RuntimeOperatingSystem.macOS:
+                case RuntimeOperatingSystem.tvOS:
                     return ".dylib";
-                case RuntimePlatform.Linux:
-                case RuntimePlatform.FreeBSD:
-                case RuntimePlatform.Android:
+                case RuntimeOperatingSystem.Linux:
+                case RuntimeOperatingSystem.FreeBSD:
+                case RuntimeOperatingSystem.Android:
                     return ".so";
-                case RuntimePlatform.Browser:
+                case RuntimeOperatingSystem.Browser:
+                case RuntimeOperatingSystem.PlayStation:
+                case RuntimeOperatingSystem.Xbox:
+                    throw new InvalidOperationException("Dynamic linking of a library is not possible for Xbox.");
+                case RuntimeOperatingSystem.iOS:
+                    throw new InvalidOperationException("Dynamic linking of a library is not possible for iOS.");
+                case RuntimeOperatingSystem.Unknown:
                     throw new NotImplementedException();
-                case RuntimePlatform.Unknown:
                     throw new NotImplementedException();
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(runtimePlatform), runtimePlatform, null);
+                    throw new ArgumentOutOfRangeException(nameof(operatingSystem), operatingSystem, null);
             }
         }
 
         /// <summary>
-        ///     Gets the library file name prefix for a <see cref="RuntimePlatform" />.
+        ///     Gets the library file name prefix for a <see cref="RuntimeOperatingSystem" />.
         /// </summary>
-        /// <param name="runtimePlatform">The runtime platform.</param>
-        /// <returns>A <see cref="string" /> containing the library file name prefix for the <paramref name="runtimePlatform" />.</returns>
-        /// <exception cref="NotImplementedException"><paramref name="runtimePlatform" /> is not available yet with .NET 5.</exception>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="runtimePlatform"/> is not a known valid value.</exception>
-        public static string LibraryFileNamePrefix(RuntimePlatform runtimePlatform)
+        /// <param name="targetOperatingSystem">The runtime platform.</param>
+        /// <returns>A <see cref="string" /> containing the library file name prefix for the <paramref name="targetOperatingSystem" />.</returns>
+        /// <exception cref="NotImplementedException"><paramref name="targetOperatingSystem" /> is not available yet with .NET 5.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="targetOperatingSystem"/> is not a known valid value.</exception>
+        public static string LibraryFileNamePrefix(RuntimeOperatingSystem targetOperatingSystem)
         {
-            switch (runtimePlatform)
+            switch (targetOperatingSystem)
             {
-                case RuntimePlatform.Windows:
+                case RuntimeOperatingSystem.Windows:
                     return string.Empty;
-                case RuntimePlatform.macOS:
-                case RuntimePlatform.tvOS:
-                case RuntimePlatform.iOS:
-                case RuntimePlatform.Linux:
-                case RuntimePlatform.FreeBSD:
-                case RuntimePlatform.Android:
+                case RuntimeOperatingSystem.macOS:
+                case RuntimeOperatingSystem.tvOS:
+                case RuntimeOperatingSystem.iOS:
+                case RuntimeOperatingSystem.Linux:
+                case RuntimeOperatingSystem.FreeBSD:
+                case RuntimeOperatingSystem.Android:
                     return "lib";
-                case RuntimePlatform.Browser:
+                case RuntimeOperatingSystem.Browser:
                     throw new NotImplementedException();
-                case RuntimePlatform.Unknown:
+                case RuntimeOperatingSystem.Unknown:
                     throw new NotImplementedException();
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(runtimePlatform), runtimePlatform, null);
+                    throw new ArgumentOutOfRangeException(nameof(targetOperatingSystem), targetOperatingSystem, null);
             }
         }
 
-        private static RuntimePlatform GetRuntimePlatform()
+        private static RuntimeOperatingSystem GetRuntimePlatform()
         {
-            if (OperatingSystem.IsWindows())
+            if (System.OperatingSystem.IsWindows())
             {
-                return RuntimePlatform.Windows;
+                return RuntimeOperatingSystem.Windows;
             }
 
-            if (OperatingSystem.IsMacOS())
+            if (System.OperatingSystem.IsMacOS())
             {
-                return RuntimePlatform.macOS;
+                return RuntimeOperatingSystem.macOS;
             }
 
-            if (OperatingSystem.IsLinux())
+            if (System.OperatingSystem.IsLinux())
             {
-                return RuntimePlatform.Linux;
+                return RuntimeOperatingSystem.Linux;
             }
 
-            if (OperatingSystem.IsAndroid())
+            if (System.OperatingSystem.IsAndroid())
             {
-                return RuntimePlatform.Android;
+                return RuntimeOperatingSystem.Android;
             }
 
-            if (OperatingSystem.IsIOS())
+            if (System.OperatingSystem.IsIOS())
             {
-                return RuntimePlatform.iOS;
+                return RuntimeOperatingSystem.iOS;
             }
 
-            if (OperatingSystem.IsTvOS())
+            if (System.OperatingSystem.IsTvOS())
             {
-                return RuntimePlatform.tvOS;
+                return RuntimeOperatingSystem.tvOS;
             }
 
-            if (OperatingSystem.IsBrowser())
+            if (System.OperatingSystem.IsBrowser())
             {
-                return RuntimePlatform.Browser;
+                return RuntimeOperatingSystem.Browser;
             }
 
-            return RuntimePlatform.Unknown;
+            return RuntimeOperatingSystem.Unknown;
         }
     }
 }

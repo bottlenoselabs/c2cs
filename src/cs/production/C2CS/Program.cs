@@ -91,6 +91,14 @@ namespace C2CS
 			};
 			command.AddOption(definesOption);
 
+			var bitOption = new Option<int>(
+				new[] {"--bitness", "-b"},
+				"The bitness to parse the C code as. Default is the current architecture of host operating system. E.g. the default for x64 Windows is `64`. Possible values are `32` where pointers are 4 bytes, or `64` where pointers are 8 bytes.")
+			{
+				IsRequired = false
+			};
+			command.AddOption(bitOption);
+
 			var clangArgsOption = new Option<IEnumerable<string>?>(
 				new[] {"--clangArgs", "-a"},
 				"Additional Clang arguments to use when parsing C code.")
@@ -107,6 +115,7 @@ namespace C2CS
 				IEnumerable<string?>?,
 				IEnumerable<string?>?,
 				IEnumerable<string?>?,
+				int?,
 				IEnumerable<string?>?
 			>(AbstractSyntaxTreeC);
 			return command;
@@ -156,7 +165,15 @@ namespace C2CS
 			};
 			command.AddOption(libraryNameOption);
 
-			command.Handler = CommandHandler.Create<FileInfo, FileInfo, IEnumerable<string?>?, IEnumerable<string?>?, string>(BindgenCSharp);
+			var classNameOption = new Option<string?>(
+				new[] {"--className", "-c"},
+				"The name of the C# static class.")
+			{
+				IsRequired = false
+			};
+			command.AddOption(classNameOption);
+
+			command.Handler = CommandHandler.Create<FileInfo, FileInfo, IEnumerable<string?>?, IEnumerable<string?>?, string?, string?>(BindgenCSharp);
 			return command;
 		}
 
@@ -169,6 +186,7 @@ namespace C2CS
 			IEnumerable<string?>? ignoredFiles,
 			IEnumerable<string?>? opaqueTypes,
 			IEnumerable<string?>? defines,
+			int? bitness,
 			IEnumerable<string?>? clangArgs)
 		{
 			var request = new UseCases.AbstractSyntaxTreeC.Request(
@@ -179,6 +197,7 @@ namespace C2CS
 				ignoredFiles,
 				opaqueTypes,
 				defines,
+				bitness,
 				clangArgs);
 			var useCase = new UseCases.AbstractSyntaxTreeC.UseCase();
 			var response = useCase.Execute(request);
@@ -193,12 +212,14 @@ namespace C2CS
 			FileInfo outputFile,
 			IEnumerable<string?>? typeAliases,
 			IEnumerable<string?>? ignoredTypes,
-			string? libraryName)
+			string? libraryName,
+			string? className)
 		{
 			var libraryName2 = string.IsNullOrEmpty(libraryName) ? string.Empty : libraryName;
+			var className2 = string.IsNullOrEmpty(className) ? string.Empty : className;
 
 			var request = new UseCases.BindgenCSharp.Request(
-				inputFile, outputFile, typeAliases, ignoredTypes, libraryName2);
+				inputFile, outputFile, typeAliases, ignoredTypes, libraryName2, className2);
 			var useCase = new UseCases.BindgenCSharp.UseCase();
 			var response = useCase.Execute(request);
 			if (response.Status == UseCaseOutputStatus.Failure)

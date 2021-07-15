@@ -14,6 +14,9 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         [JsonPropertyName("fileName")]
         public string FileName { get; set; } = string.Empty;
 
+        [JsonPropertyName("bitness")]
+        public int Bitness { get; set; }
+
         [JsonPropertyName("functions")]
         public ImmutableArray<CFunction> Functions { get; set; } = ImmutableArray<CFunction>.Empty;
 

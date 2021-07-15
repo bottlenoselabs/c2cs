@@ -32,16 +32,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         {
             "FILE",
             "DIR",
-            "pid_t",
-            "uid_t",
-            "gid_t",
-            "time_t",
-            "pthread_t",
-            "sockaddr",
-            "addrinfo",
-            "sockaddr_in",
-            "sockaddr_in6",
-            "socklen_t",
             "size_t",
             "ssize_t",
             "int8_t",
@@ -69,7 +59,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             _opaqueTypeNames = opaqueTypes.ToImmutableHashSet();
         }
 
-        public CAbstractSyntaxTree AbstractSyntaxTree(CXTranslationUnit translationUnit)
+        public CAbstractSyntaxTree AbstractSyntaxTree(CXTranslationUnit translationUnit, int bitness)
         {
             ExpandTranslationUnit(translationUnit);
             Explore();
@@ -87,7 +77,8 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
             return new CAbstractSyntaxTree
             {
-                FileName = location.Path,
+                FileName = location.FileName,
+                Bitness = bitness,
                 Functions = functions,
                 FunctionPointers = functionPointers,
                 Records = records,
@@ -200,7 +191,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             }
 
             var fileLocation = actualType.FileLocation(cursor);
-            if (string.IsNullOrEmpty(fileLocation.Path))
+            if (string.IsNullOrEmpty(fileLocation.FileName))
             {
                 var up = new ClangExplorerException("Unexpected null file path for a type/cursor combination; this is a bug.");
                 throw up;
@@ -208,16 +199,16 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
             foreach (var includeDirectory in _includeDirectories)
             {
-                if (!fileLocation.Path.Contains(includeDirectory))
+                if (!fileLocation.FileName.Contains(includeDirectory))
                 {
                     continue;
                 }
 
-                fileLocation.Path = fileLocation.Path.Replace(includeDirectory, string.Empty).Trim('/', '\\');
+                fileLocation.FileName = fileLocation.FileName.Replace(includeDirectory, string.Empty).Trim('/', '\\');
                 break;
             }
 
-            return _ignoredFiles.Contains(fileLocation.Path);
+            return _ignoredFiles.Contains(fileLocation.FileName);
         }
 
         private void ExploreTranslationUnit(Node node)
@@ -343,6 +334,45 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var integerType = clang_getEnumDeclIntegerType(typeCursor);
             var integerTypeName = TypeName(parentNode.TypeName!, CKind.Enum, integerType, cursor);
 
+            // TRICK: Force unsigned integer; enums in C could be signed or unsigned depending the platform architecture.
+            //  This makes for a slightly different bindings between Windows/macOS/Linux where the enum is different type
+            if (integerTypeName == "signed char" || integerTypeName == "char")
+            {
+                integerTypeName = "unsigned char";
+            }
+            else if (integerTypeName == "short" || integerTypeName == "signed short")
+            {
+                integerTypeName = "unsigned short";
+            }
+            else if (integerTypeName == "short int" || integerTypeName == "signed short int")
+            {
+                integerTypeName = "unsigned short int";
+            }
+            else if (integerTypeName == "signed")
+            {
+                integerTypeName = "unsigned";
+            }
+            else if (integerTypeName == "int" || integerTypeName == "signed int")
+            {
+                integerTypeName = "unsigned int";
+            }
+            else if (integerTypeName == "long" || integerTypeName == "signed long")
+            {
+                integerTypeName = "unsigned long";
+            }
+            else if (integerTypeName == "long int" || integerTypeName == "signed long int")
+            {
+                integerTypeName = "unsigned long int";
+            }
+            else if (integerTypeName == "long long" || integerTypeName == "signed long long")
+            {
+                integerTypeName = "unsigned long long";
+            }
+            else if (typeName == "long long int" || typeName == "signed long long int")
+            {
+                integerTypeName = "unsigned long long int";
+            }
+
             ExpandType(parentNode, cursor, cursor, integerType, integerType, integerTypeName);
 
             var enumValues = CreateEnumValues(typeCursor);
@@ -362,8 +392,15 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         private void ExploreRecord(Node node, Node parentNode)
         {
             var typeName = node.TypeName!;
-            var cursor = node.Cursor;
             var location = node.Location;
+
+            if (_opaqueTypeNames.Contains(typeName))
+            {
+                ExploreOpaqueType(typeName, location);
+                return;
+            }
+
+            var cursor = node.Cursor;
 
             var fields = CreateRecordFields(typeName, cursor, parentNode);
             var nestedNodes = CreateNestedNodes(typeName, cursor, node);
@@ -397,19 +434,19 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         private void ExploreTypedef(Node node, Node parentNode)
         {
             var typeName = node.TypeName!;
-            var cursor = node.Cursor;
-            var type = node.Type;
             var location = node.Location;
-
-            var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
-            var (aliasKind, aliasType) = TypeKind(underlyingType);
-            var aliasCursor = clang_getTypeDeclaration(aliasType);
 
             if (_opaqueTypeNames.Contains(typeName))
             {
                 ExploreOpaqueType(typeName, location);
                 return;
             }
+
+            var cursor = node.Cursor;
+            var type = node.Type;
+            var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
+            var (aliasKind, aliasType) = TypeKind(underlyingType);
+            var aliasCursor = clang_getTypeDeclaration(aliasType);
 
             if (aliasKind == CKind.Enum)
             {
@@ -953,10 +990,10 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
             if (location != null)
             {
-                var filePath = location.Value.Path;
-                if (_ignoredFiles.Contains(filePath))
+                var fileName = location.Value.FileName;
+                if (_ignoredFiles.Contains(fileName))
                 {
-                    var diagnostic = new DiagnosticTypeFromIgnoredFile(typeName, filePath);
+                    var diagnostic = new DiagnosticTypeFromIgnoredFile(typeName, fileName);
                     _diagnostics.Add(diagnostic);
                 }
             }
@@ -1209,7 +1246,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             else
             {
                 location = type.Value.FileLocation(cursor);
-                if (string.IsNullOrEmpty(location.Path))
+                if (string.IsNullOrEmpty(location.FileName))
                 {
                     location = cursor.FileLocation();
                 }
@@ -1217,9 +1254,9 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
             foreach (var includeDirectory in _includeDirectories)
             {
-                if (location.Path.Contains(includeDirectory))
+                if (location.FileName.Contains(includeDirectory))
                 {
-                    location.Path = location.Path.Replace(includeDirectory, string.Empty).Trim('/', '\\');
+                    location.FileName = location.FileName.Replace(includeDirectory, string.Empty).Trim('/', '\\');
                     break;
                 }
             }
@@ -1250,14 +1287,18 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             {
                 Kind = kind;
 
-                if (string.IsNullOrEmpty(location.Path))
+                if (string.IsNullOrEmpty(location.FileName))
                 {
                     if (type.IsPrimitive())
                     {
+                        // Primitives don't have a location
                         Location = new ClangLocation
                         {
-                            Path = "System",
-                            IsSystem = true
+                            FilePath = string.Empty,
+                            FileName = "Builtin",
+                            LineColumn = 0,
+                            LineNumber = 0,
+                            IsBuiltin = true
                         };
                     }
                     else

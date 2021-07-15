@@ -19,5 +19,32 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
+    
+    <ItemGroup Condition="'$(IsWindows)' == 'true' AND '$(Architecture)' == 'x64'">
+        <Compile Remove="uv.win32.cs" />
+        <Compile Update="uv.win64.cs" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(IsWindows)' == 'true' AND '$(Architecture)' == 'x86'">
+        <Compile Update="uv.win32.cs" />
+        <Compile Remove="uv.win64.cs" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(IsWindows)' != 'true'">
+        <Compile Remove="uv.win32.cs" />
+        <Compile Remove="uv.win64.cs" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(IsMacOS)' == 'true' AND '$(Architecture)' == 'x64'">
+        <Compile Remove="uv.osx32.cs" />
+        <Compile Update="uv.osx64.cs" />
+    </ItemGroup>
+    <!-- x86 on macOS is no longer really a thing -->
+    <ItemGroup Condition="'$(IsMacOS)' == 'true' AND '$(Architecture)' == 'x86'">
+        <Compile Remove="uv.osx32.cs" />
+        <Compile Remove="uv.osx64.cs" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(IsMacOS)' != 'true'">
+        <Compile Remove="uv.osx32.cs" />
+        <Compile Remove="uv.osx64.cs" />
+    </ItemGroup>
 
 </Project>

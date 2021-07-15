@@ -1,12 +1,14 @@
 {
   "fileName": "helloworld.h",
+  "bitness": 64,
   "functions": [
     {
       "name": "hello_world",
       "returnType": "void",
       "parameters": [],
       "location": {
-        "file": "helloworld.h",
+        "fileName": "helloworld.h",
+        "filePath": "/Users/lstranks/Programming/c2cs/src/c/examples/helloworld/include/helloworld.h",
         "line": 6,
         "column": 6
       }
