@@ -18,7 +18,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var cursorName = cursor.Name();
             var location = cursor.FileLocation();
             Message = $@"
-Unexpected error while exploring Clang header: {cursorName} @ {location.Path}:{location.LineNumber}:{location.LineColumn}
+Unexpected error while exploring Clang header: {cursorName} @ {location.FilePath}:{location.LineNumber}:{location.LineColumn}
 ".Trim();
         }
 
@@ -28,7 +28,7 @@ Unexpected error while exploring Clang header: {cursorName} @ {location.Path}:{l
             var typeName = type.Name();
             var location = cursor.FileLocation();
             Message = $@"
-Unexpected error while exploring Clang header: {typeName} @ {location.Path}:{location.LineNumber}:{location.LineColumn}
+Unexpected error while exploring Clang header: {typeName} @ {location.FilePath}:{location.LineNumber}:{location.LineColumn}
 ".Trim();
         }
 
