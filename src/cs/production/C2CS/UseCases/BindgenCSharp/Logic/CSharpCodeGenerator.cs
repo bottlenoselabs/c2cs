@@ -121,7 +121,7 @@ public static unsafe partial class {className}
 
 			var code = $@"
 {function.CodeLocationComment}
-[DllImport(""{_libraryName}"")]
+[DllImport(LibraryName)]
 public static extern {function.ReturnType.Name} {function.Name}({parameters});
 ";
 
