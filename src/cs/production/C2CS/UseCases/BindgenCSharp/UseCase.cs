@@ -17,7 +17,18 @@ namespace C2CS.UseCases.BindgenCSharp
             Validate(request);
             TotalSteps(4);
 
-            var className = string.IsNullOrEmpty(request.ClassName) ? Path.GetFileNameWithoutExtension(request.OutputFile.FullName) : request.ClassName;
+            string className;
+            if (string.IsNullOrEmpty(request.ClassName))
+            {
+                var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(request.OutputFile.FullName);
+                var firstIndexOfPeriod = fileNameWithoutExtension.IndexOf('.');
+                className = firstIndexOfPeriod == -1 ? fileNameWithoutExtension : fileNameWithoutExtension[..firstIndexOfPeriod];
+            }
+            else
+            {
+                className = request.ClassName;
+            }
+
             var libraryName = string.IsNullOrEmpty(request.LibraryName) ? className : request.LibraryName;
 
             var abstractSyntaxTreeC = Step(
