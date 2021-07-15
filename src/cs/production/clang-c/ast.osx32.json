@@ -1,5 +1,6 @@
 {
   "fileName": "clang-c/Index.h",
+  "bitness": 32,
   "functions": [
     {
       "name": "clang_Type_visitFields",
