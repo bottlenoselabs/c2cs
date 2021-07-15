@@ -32,7 +32,7 @@ ast
 {rootDirectory}/src/cs/examples/helloworld/helloworld-c/ast.json
 ";
         var argumentsArray =
-            arguments.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 
@@ -46,7 +46,7 @@ cs
 {rootDirectory}/src/cs/examples/helloworld/helloworld-cs/helloworld.cs
 ";
         var argumentsArray =
-            arguments.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 }

@@ -27,11 +27,11 @@ internal static class Program
         var runtimeIdentifier64Bits = runtimeIdentifierOperatingSystem + "64";
 
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
-        /*GenerateAbstractSyntaxTree(rootDirectory, runtimeIdentifier64Bits);
+        GenerateAbstractSyntaxTree(rootDirectory, runtimeIdentifier64Bits);
         GenerateAbstractSyntaxTree(rootDirectory, runtimeIdentifier32Bits);
         GenerateBindingsCSharp(rootDirectory, runtimeIdentifier64Bits);
-        GenerateBindingsCSharp(rootDirectory, runtimeIdentifier32Bits);*/
-        BuildLibrary(rootDirectory);
+        GenerateBindingsCSharp(rootDirectory, runtimeIdentifier32Bits);
+        // BuildLibrary(rootDirectory);
     }
 
     private static void BuildLibrary(string rootDirectory)

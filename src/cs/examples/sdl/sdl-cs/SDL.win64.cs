@@ -21,2461 +21,2461 @@ public static unsafe partial class SDL
 {
     private const string LibraryName = "SDL2";
 
-    // Function @ SDL.h:212:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL.h)
+    // Function @ SDL.h:212:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL.h)
     [DllImport(LibraryName)]
     public static extern void SDL_Quit();
 
-    // Function @ SDL.h:190:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL.h)
+    // Function @ SDL.h:190:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL.h)
     [DllImport(LibraryName)]
     public static extern uint SDL_WasInit(uint flags);
 
-    // Function @ SDL.h:175:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL.h)
+    // Function @ SDL.h:175:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL.h)
     [DllImport(LibraryName)]
     public static extern void SDL_QuitSubSystem(uint flags);
 
-    // Function @ SDL.h:155:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL.h)
+    // Function @ SDL.h:155:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL.h)
     [DllImport(LibraryName)]
     public static extern int SDL_InitSubSystem(uint flags);
 
-    // Function @ SDL.h:140:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL.h)
+    // Function @ SDL.h:140:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL.h)
     [DllImport(LibraryName)]
     public static extern int SDL_Init(uint flags);
 
-    // Function @ SDL_misc.h:69:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_misc.h)
+    // Function @ SDL_misc.h:69:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_misc.h)
     [DllImport(LibraryName)]
     public static extern int SDL_OpenURL(CString url);
 
-    // Function @ SDL_locale.h:89:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_locale.h)
+    // Function @ SDL_locale.h:89:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_locale.h)
     [DllImport(LibraryName)]
     public static extern SDL_Locale* SDL_GetPreferredLocales();
 
-    // Function @ SDL_version.h:161:44 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_version.h)
+    // Function @ SDL_version.h:161:44 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_version.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetRevisionNumber();
 
-    // Function @ SDL_version.h:150:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_version.h)
+    // Function @ SDL_version.h:150:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_version.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GetRevision();
 
-    // Function @ SDL_version.h:123:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_version.h)
+    // Function @ SDL_version.h:123:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_version.h)
     [DllImport(LibraryName)]
     public static extern void SDL_GetVersion(SDL_version* ver);
 
-    // Function @ SDL_timer.h:161:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_timer.h)
+    // Function @ SDL_timer.h:161:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_timer.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_RemoveTimer(SDL_TimerID id);
 
-    // Function @ SDL_timer.h:148:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_timer.h)
+    // Function @ SDL_timer.h:148:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_timer.h)
     [DllImport(LibraryName)]
     public static extern SDL_TimerID SDL_AddTimer(uint interval, SDL_TimerCallback callback, void* param);
 
-    // Function @ SDL_timer.h:101:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_timer.h)
+    // Function @ SDL_timer.h:101:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_timer.h)
     [DllImport(LibraryName)]
     public static extern void SDL_Delay(uint ms);
 
-    // Function @ SDL_timer.h:90:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_timer.h)
+    // Function @ SDL_timer.h:90:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_timer.h)
     [DllImport(LibraryName)]
     public static extern ulong SDL_GetPerformanceFrequency();
 
-    // Function @ SDL_timer.h:79:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_timer.h)
+    // Function @ SDL_timer.h:79:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_timer.h)
     [DllImport(LibraryName)]
     public static extern ulong SDL_GetPerformanceCounter();
 
-    // Function @ SDL_timer.h:50:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_timer.h)
+    // Function @ SDL_timer.h:50:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_timer.h)
     [DllImport(LibraryName)]
     public static extern uint SDL_GetTicks();
 
-    // Function @ SDL_shape.h:136:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_shape.h)
+    // Function @ SDL_shape.h:136:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_shape.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetShapedWindowMode(SDL_Window* window, SDL_WindowShapeMode* shape_mode);
 
-    // Function @ SDL_shape.h:121:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_shape.h)
+    // Function @ SDL_shape.h:121:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_shape.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetWindowShape(SDL_Window* window, SDL_Surface* shape, SDL_WindowShapeMode* shape_mode);
 
-    // Function @ SDL_shape.h:77:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_shape.h)
+    // Function @ SDL_shape.h:77:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_shape.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_IsShapedWindow(SDL_Window* window);
 
-    // Function @ SDL_shape.h:66:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_shape.h)
+    // Function @ SDL_shape.h:66:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_shape.h)
     [DllImport(LibraryName)]
     public static extern SDL_Window* SDL_CreateShapedWindow(CString title, uint x, uint y, uint w, uint h, uint flags);
 
-    // Function @ SDL_render.h:1611:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1611:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern void* SDL_RenderGetMetalCommandEncoder(SDL_Renderer* renderer);
 
-    // Function @ SDL_render.h:1597:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1597:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern void* SDL_RenderGetMetalLayer(SDL_Renderer* renderer);
 
-    // Function @ SDL_render.h:1583:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1583:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GL_UnbindTexture(SDL_Texture* texture);
 
-    // Function @ SDL_render.h:1570:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1570:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GL_BindTexture(SDL_Texture* texture, float* texw, float* texh);
 
-    // Function @ SDL_render.h:1532:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1532:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderFlush(SDL_Renderer* renderer);
 
-    // Function @ SDL_render.h:1501:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1501:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern void SDL_DestroyRenderer(SDL_Renderer* renderer);
 
-    // Function @ SDL_render.h:1492:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1492:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern void SDL_DestroyTexture(SDL_Texture* texture);
 
-    // Function @ SDL_render.h:1479:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1479:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern void SDL_RenderPresent(SDL_Renderer* renderer);
 
-    // Function @ SDL_render.h:1440:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1440:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderReadPixels(SDL_Renderer* renderer, SDL_Rect* rect, uint format, void* pixels, int pitch);
 
-    // Function @ SDL_render.h:1409:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1409:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderCopyExF(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect* srcrect, SDL_FRect* dstrect, double angle, SDL_FPoint* center, SDL_RendererFlip flip);
 
-    // Function @ SDL_render.h:1388:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1388:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderCopyF(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect* srcrect, SDL_FRect* dstrect);
 
-    // Function @ SDL_render.h:1372:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1372:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderFillRectsF(SDL_Renderer* renderer, SDL_FRect* rects, int count);
 
-    // Function @ SDL_render.h:1360:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1360:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderFillRectF(SDL_Renderer* renderer, SDL_FRect* rect);
 
-    // Function @ SDL_render.h:1347:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1347:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderDrawRectsF(SDL_Renderer* renderer, SDL_FRect* rects, int count);
 
-    // Function @ SDL_render.h:1335:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1335:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderDrawRectF(SDL_Renderer* renderer, SDL_FRect* rect);
 
-    // Function @ SDL_render.h:1324:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1324:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderDrawLinesF(SDL_Renderer* renderer, SDL_FPoint* points, int count);
 
-    // Function @ SDL_render.h:1312:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1312:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderDrawLineF(SDL_Renderer* renderer, float x1, float y1, float x2, float y2);
 
-    // Function @ SDL_render.h:1298:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1298:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderDrawPointsF(SDL_Renderer* renderer, SDL_FPoint* points, int count);
 
-    // Function @ SDL_render.h:1287:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1287:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderDrawPointF(SDL_Renderer* renderer, float x, float y);
 
-    // Function @ SDL_render.h:1270:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1270:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderCopyEx(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect* srcrect, SDL_Rect* dstrect, double angle, SDL_Point* center, SDL_RendererFlip flip);
 
-    // Function @ SDL_render.h:1228:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1228:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderCopy(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect* srcrect, SDL_Rect* dstrect);
 
-    // Function @ SDL_render.h:1198:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1198:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderFillRects(SDL_Renderer* renderer, SDL_Rect* rects, int count);
 
-    // Function @ SDL_render.h:1175:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1175:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderFillRect(SDL_Renderer* renderer, SDL_Rect* rect);
 
-    // Function @ SDL_render.h:1147:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1147:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderDrawRects(SDL_Renderer* renderer, SDL_Rect* rects, int count);
 
-    // Function @ SDL_render.h:1123:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1123:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderDrawRect(SDL_Renderer* renderer, SDL_Rect* rect);
 
-    // Function @ SDL_render.h:1099:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1099:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderDrawLines(SDL_Renderer* renderer, SDL_Point* points, int count);
 
-    // Function @ SDL_render.h:1073:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1073:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderDrawLine(SDL_Renderer* renderer, int x1, int y1, int x2, int y2);
 
-    // Function @ SDL_render.h:1042:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1042:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderDrawPoints(SDL_Renderer* renderer, SDL_Point* points, int count);
 
-    // Function @ SDL_render.h:1018:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:1018:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderDrawPoint(SDL_Renderer* renderer, int x, int y);
 
-    // Function @ SDL_render.h:993:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:993:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderClear(SDL_Renderer* renderer);
 
-    // Function @ SDL_render.h:976:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:976:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetRenderDrawBlendMode(SDL_Renderer* renderer, SDL_BlendMode* blendMode);
 
-    // Function @ SDL_render.h:963:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:963:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetRenderDrawBlendMode(SDL_Renderer* renderer, SDL_BlendMode blendMode);
 
-    // Function @ SDL_render.h:939:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:939:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetRenderDrawColor(SDL_Renderer* renderer, byte* r, byte* g, byte* b, byte* a);
 
-    // Function @ SDL_render.h:918:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:918:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetRenderDrawColor(SDL_Renderer* renderer, byte r, byte g, byte b, byte a);
 
-    // Function @ SDL_render.h:888:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:888:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern void SDL_RenderGetScale(SDL_Renderer* renderer, float* scaleX, float* scaleY);
 
-    // Function @ SDL_render.h:874:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:874:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderSetScale(SDL_Renderer* renderer, float scaleX, float scaleY);
 
-    // Function @ SDL_render.h:849:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:849:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_RenderIsClipEnabled(SDL_Renderer* renderer);
 
-    // Function @ SDL_render.h:834:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:834:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern void SDL_RenderGetClipRect(SDL_Renderer* renderer, SDL_Rect* rect);
 
-    // Function @ SDL_render.h:820:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:820:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderSetClipRect(SDL_Renderer* renderer, SDL_Rect* rect);
 
-    // Function @ SDL_render.h:804:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:804:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern void SDL_RenderGetViewport(SDL_Renderer* renderer, SDL_Rect* rect);
 
-    // Function @ SDL_render.h:793:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:793:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderSetViewport(SDL_Renderer* renderer, SDL_Rect* rect);
 
-    // Function @ SDL_render.h:777:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:777:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_RenderGetIntegerScale(SDL_Renderer* renderer);
 
-    // Function @ SDL_render.h:763:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:763:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderSetIntegerScale(SDL_Renderer* renderer, CBool enable);
 
-    // Function @ SDL_render.h:744:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:744:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern void SDL_RenderGetLogicalSize(SDL_Renderer* renderer, long* w, long* h);
 
-    // Function @ SDL_render.h:727:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:727:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RenderSetLogicalSize(SDL_Renderer* renderer, int w, int h);
 
-    // Function @ SDL_render.h:700:39 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:700:39 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern SDL_Texture* SDL_GetRenderTarget(SDL_Renderer* renderer);
 
-    // Function @ SDL_render.h:684:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:684:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetRenderTarget(SDL_Renderer* renderer, SDL_Texture* texture);
 
-    // Function @ SDL_render.h:660:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:660:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_RenderTargetSupported(SDL_Renderer* renderer);
 
-    // Function @ SDL_render.h:648:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:648:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern void SDL_UnlockTexture(SDL_Texture* texture);
 
-    // Function @ SDL_render.h:629:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:629:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_LockTextureToSurface(SDL_Texture* texture, SDL_Rect* rect, SDL_Surface** surface);
 
-    // Function @ SDL_render.h:595:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:595:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_LockTexture(SDL_Texture* texture, SDL_Rect* rect, void** pixels, long* pitch);
 
-    // Function @ SDL_render.h:565:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:565:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_UpdateNVTexture(SDL_Texture* texture, SDL_Rect* rect, byte* Yplane, int Ypitch, byte* UVplane, int UVpitch);
 
-    // Function @ SDL_render.h:543:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:543:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_UpdateYUVTexture(SDL_Texture* texture, SDL_Rect* rect, byte* Yplane, int Ypitch, byte* Uplane, int Upitch, byte* Vplane, int Vpitch);
 
-    // Function @ SDL_render.h:512:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:512:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_UpdateTexture(SDL_Texture* texture, SDL_Rect* rect, void* pixels, int pitch);
 
-    // Function @ SDL_render.h:482:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:482:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetTextureScaleMode(SDL_Texture* texture, SDL_ScaleMode* scaleMode);
 
-    // Function @ SDL_render.h:470:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:470:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetTextureScaleMode(SDL_Texture* texture, SDL_ScaleMode scaleMode);
 
-    // Function @ SDL_render.h:456:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:456:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetTextureBlendMode(SDL_Texture* texture, SDL_BlendMode* blendMode);
 
-    // Function @ SDL_render.h:443:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:443:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetTextureBlendMode(SDL_Texture* texture, SDL_BlendMode blendMode);
 
-    // Function @ SDL_render.h:425:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:425:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetTextureAlphaMod(SDL_Texture* texture, byte* alpha);
 
-    // Function @ SDL_render.h:410:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:410:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetTextureAlphaMod(SDL_Texture* texture, byte alpha);
 
-    // Function @ SDL_render.h:387:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:387:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetTextureColorMod(SDL_Texture* texture, byte* r, byte* g, byte* b);
 
-    // Function @ SDL_render.h:370:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:370:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetTextureColorMod(SDL_Texture* texture, byte r, byte g, byte b);
 
-    // Function @ SDL_render.h:344:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:344:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_QueryTexture(SDL_Texture* texture, uint* format, long* access, long* w, long* h);
 
-    // Function @ SDL_render.h:326:39 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:326:39 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern SDL_Texture* SDL_CreateTextureFromSurface(SDL_Renderer* renderer, SDL_Surface* surface);
 
-    // Function @ SDL_render.h:299:39 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:299:39 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern SDL_Texture* SDL_CreateTexture(SDL_Renderer* renderer, uint format, int access, int w, int h);
 
-    // Function @ SDL_render.h:276:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:276:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetRendererOutputSize(SDL_Renderer* renderer, long* w, long* h);
 
-    // Function @ SDL_render.h:256:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:256:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetRendererInfo(SDL_Renderer* renderer, SDL_RendererInfo* info);
 
-    // Function @ SDL_render.h:243:40 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:243:40 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern SDL_Renderer* SDL_GetRenderer(SDL_Window* window);
 
-    // Function @ SDL_render.h:232:40 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:232:40 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern SDL_Renderer* SDL_CreateSoftwareRenderer(SDL_Surface* surface);
 
-    // Function @ SDL_render.h:212:40 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:212:40 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern SDL_Renderer* SDL_CreateRenderer(SDL_Window* window, int index, uint flags);
 
-    // Function @ SDL_render.h:192:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:192:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_CreateWindowAndRenderer(int width, int height, uint window_flags, SDL_Window** window, SDL_Renderer** renderer);
 
-    // Function @ SDL_render.h:174:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:174:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetRenderDriverInfo(int index, SDL_RendererInfo* info);
 
-    // Function @ SDL_render.h:160:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Function @ SDL_render.h:160:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetNumRenderDrivers();
 
-    // Function @ SDL_power.h:76:40 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_power.h)
+    // Function @ SDL_power.h:76:40 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_power.h)
     [DllImport(LibraryName)]
     public static extern SDL_PowerState SDL_GetPowerInfo(long* secs, long* pct);
 
-    // Function @ SDL_metal.h:106:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_metal.h)
+    // Function @ SDL_metal.h:106:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_metal.h)
     [DllImport(LibraryName)]
     public static extern void SDL_Metal_GetDrawableSize(SDL_Window* window, long* w, long* h);
 
-    // Function @ SDL_metal.h:83:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_metal.h)
+    // Function @ SDL_metal.h:83:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_metal.h)
     [DllImport(LibraryName)]
     public static extern void* SDL_Metal_GetLayer(SDL_MetalView view);
 
-    // Function @ SDL_metal.h:76:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_metal.h)
+    // Function @ SDL_metal.h:76:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_metal.h)
     [DllImport(LibraryName)]
     public static extern void SDL_Metal_DestroyView(SDL_MetalView view);
 
-    // Function @ SDL_metal.h:66:39 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_metal.h)
+    // Function @ SDL_metal.h:66:39 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_metal.h)
     [DllImport(LibraryName)]
     public static extern SDL_MetalView SDL_Metal_CreateView(SDL_Window* window);
 
-    // Function @ SDL_messagebox.h:180:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_messagebox.h)
+    // Function @ SDL_messagebox.h:180:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_messagebox.h)
     [DllImport(LibraryName)]
     public static extern int SDL_ShowSimpleMessageBox(uint flags, CString title, CString message, SDL_Window* window);
 
-    // Function @ SDL_messagebox.h:140:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_messagebox.h)
+    // Function @ SDL_messagebox.h:140:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_messagebox.h)
     [DllImport(LibraryName)]
     public static extern int SDL_ShowMessageBox(SDL_MessageBoxData* messageboxdata, long* buttonid);
 
-    // Function @ SDL_log.h:364:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_log.h)
+    // Function @ SDL_log.h:364:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_log.h)
     [DllImport(LibraryName)]
     public static extern void SDL_LogSetOutputFunction(SDL_LogOutputFunction callback, void* userdata);
 
-    // Function @ SDL_log.h:354:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_log.h)
+    // Function @ SDL_log.h:354:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_log.h)
     [DllImport(LibraryName)]
     public static extern void SDL_LogGetOutputFunction(SDL_LogOutputFunction* callback, void** userdata);
 
-    // Function @ SDL_log.h:328:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_log.h)
+    // Function @ SDL_log.h:328:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_log.h)
     [DllImport(LibraryName)]
     public static extern void SDL_LogMessageV(int category, SDL_LogPriority priority, CString fmt, IntPtr ap);
 
-    // Function @ SDL_log.h:305:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_log.h)
+    // Function @ SDL_log.h:305:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_log.h)
     [DllImport(LibraryName)]
     public static extern void SDL_LogMessage(int category, SDL_LogPriority priority, CString fmt);
 
-    // Function @ SDL_log.h:285:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_log.h)
+    // Function @ SDL_log.h:285:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_log.h)
     [DllImport(LibraryName)]
     public static extern void SDL_LogCritical(int category, CString fmt);
 
-    // Function @ SDL_log.h:266:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_log.h)
+    // Function @ SDL_log.h:266:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_log.h)
     [DllImport(LibraryName)]
     public static extern void SDL_LogError(int category, CString fmt);
 
-    // Function @ SDL_log.h:247:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_log.h)
+    // Function @ SDL_log.h:247:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_log.h)
     [DllImport(LibraryName)]
     public static extern void SDL_LogWarn(int category, CString fmt);
 
-    // Function @ SDL_log.h:228:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_log.h)
+    // Function @ SDL_log.h:228:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_log.h)
     [DllImport(LibraryName)]
     public static extern void SDL_LogInfo(int category, CString fmt);
 
-    // Function @ SDL_log.h:209:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_log.h)
+    // Function @ SDL_log.h:209:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_log.h)
     [DllImport(LibraryName)]
     public static extern void SDL_LogDebug(int category, CString fmt);
 
-    // Function @ SDL_log.h:190:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_log.h)
+    // Function @ SDL_log.h:190:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_log.h)
     [DllImport(LibraryName)]
     public static extern void SDL_LogVerbose(int category, CString fmt);
 
-    // Function @ SDL_log.h:171:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_log.h)
+    // Function @ SDL_log.h:171:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_log.h)
     [DllImport(LibraryName)]
     public static extern void SDL_Log(CString fmt);
 
-    // Function @ SDL_log.h:153:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_log.h)
+    // Function @ SDL_log.h:153:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_log.h)
     [DllImport(LibraryName)]
     public static extern void SDL_LogResetPriorities();
 
-    // Function @ SDL_log.h:143:41 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_log.h)
+    // Function @ SDL_log.h:143:41 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_log.h)
     [DllImport(LibraryName)]
     public static extern SDL_LogPriority SDL_LogGetPriority(int category);
 
-    // Function @ SDL_log.h:132:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_log.h)
+    // Function @ SDL_log.h:132:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_log.h)
     [DllImport(LibraryName)]
     public static extern void SDL_LogSetPriority(int category, SDL_LogPriority priority);
 
-    // Function @ SDL_log.h:121:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_log.h)
+    // Function @ SDL_log.h:121:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_log.h)
     [DllImport(LibraryName)]
     public static extern void SDL_LogSetAllPriority(SDL_LogPriority priority);
 
-    // Function @ SDL_loadso.h:99:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_loadso.h)
+    // Function @ SDL_loadso.h:99:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_loadso.h)
     [DllImport(LibraryName)]
     public static extern void SDL_UnloadObject(void* handle);
 
-    // Function @ SDL_loadso.h:88:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_loadso.h)
+    // Function @ SDL_loadso.h:88:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_loadso.h)
     [DllImport(LibraryName)]
     public static extern void* SDL_LoadFunction(void* handle, CString name);
 
-    // Function @ SDL_loadso.h:63:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_loadso.h)
+    // Function @ SDL_loadso.h:63:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_loadso.h)
     [DllImport(LibraryName)]
     public static extern void* SDL_LoadObject(CString sofile);
 
-    // Function @ SDL_hints.h:1783:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_hints.h)
+    // Function @ SDL_hints.h:1783:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_hints.h)
     [DllImport(LibraryName)]
     public static extern void SDL_ClearHints();
 
-    // Function @ SDL_hints.h:1774:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_hints.h)
+    // Function @ SDL_hints.h:1774:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_hints.h)
     [DllImport(LibraryName)]
     public static extern void SDL_DelHintCallback(CString name, SDL_HintCallback callback, void* userdata);
 
-    // Function @ SDL_hints.h:1758:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_hints.h)
+    // Function @ SDL_hints.h:1758:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_hints.h)
     [DllImport(LibraryName)]
     public static extern void SDL_AddHintCallback(CString name, SDL_HintCallback callback, void* userdata);
 
-    // Function @ SDL_hints.h:1734:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_hints.h)
+    // Function @ SDL_hints.h:1734:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_hints.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_GetHintBoolean(CString name, CBool default_value);
 
-    // Function @ SDL_hints.h:1719:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_hints.h)
+    // Function @ SDL_hints.h:1719:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_hints.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GetHint(CString name);
 
-    // Function @ SDL_hints.h:1707:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_hints.h)
+    // Function @ SDL_hints.h:1707:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_hints.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_SetHint(CString name, CString value);
 
-    // Function @ SDL_hints.h:1689:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_hints.h)
+    // Function @ SDL_hints.h:1689:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_hints.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_SetHintWithPriority(CString name, CString value, SDL_HintPriority priority);
 
-    // Function @ SDL_haptic.h:1311:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1311:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticRumbleStop(SDL_Haptic* haptic);
 
-    // Function @ SDL_haptic.h:1298:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1298:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticRumblePlay(SDL_Haptic* haptic, float strength, uint length);
 
-    // Function @ SDL_haptic.h:1283:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1283:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticRumbleInit(SDL_Haptic* haptic);
 
-    // Function @ SDL_haptic.h:1267:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1267:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticRumbleSupported(SDL_Haptic* haptic);
 
-    // Function @ SDL_haptic.h:1253:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1253:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticStopAll(SDL_Haptic* haptic);
 
-    // Function @ SDL_haptic.h:1244:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1244:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticUnpause(SDL_Haptic* haptic);
 
-    // Function @ SDL_haptic.h:1231:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1231:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticPause(SDL_Haptic* haptic);
 
-    // Function @ SDL_haptic.h:1213:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1213:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticSetAutocenter(SDL_Haptic* haptic, int autocenter);
 
-    // Function @ SDL_haptic.h:1196:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1196:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticSetGain(SDL_Haptic* haptic, int gain);
 
-    // Function @ SDL_haptic.h:1174:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1174:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticGetEffectStatus(SDL_Haptic* haptic, int effect);
 
-    // Function @ SDL_haptic.h:1155:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1155:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern void SDL_HapticDestroyEffect(SDL_Haptic* haptic, int effect);
 
-    // Function @ SDL_haptic.h:1139:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1139:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticStopEffect(SDL_Haptic* haptic, int effect);
 
-    // Function @ SDL_haptic.h:1122:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1122:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticRunEffect(SDL_Haptic* haptic, int effect, uint iterations);
 
-    // Function @ SDL_haptic.h:1096:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1096:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticUpdateEffect(SDL_Haptic* haptic, int effect, SDL_HapticEffect* data);
 
-    // Function @ SDL_haptic.h:1072:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1072:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticNewEffect(SDL_Haptic* haptic, SDL_HapticEffect* effect);
 
-    // Function @ SDL_haptic.h:1055:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1055:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticEffectSupported(SDL_Haptic* haptic, SDL_HapticEffect* effect);
 
-    // Function @ SDL_haptic.h:1038:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1038:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticNumAxes(SDL_Haptic* haptic);
 
-    // Function @ SDL_haptic.h:1025:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1025:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern uint SDL_HapticQuery(SDL_Haptic* haptic);
 
-    // Function @ SDL_haptic.h:1011:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:1011:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticNumEffectsPlaying(SDL_Haptic* haptic);
 
-    // Function @ SDL_haptic.h:993:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:993:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticNumEffects(SDL_Haptic* haptic);
 
-    // Function @ SDL_haptic.h:975:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:975:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern void SDL_HapticClose(SDL_Haptic* haptic);
 
-    // Function @ SDL_haptic.h:965:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:965:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern SDL_Haptic* SDL_HapticOpenFromJoystick(SDL_Joystick* joystick);
 
-    // Function @ SDL_haptic.h:942:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:942:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_JoystickIsHaptic(SDL_Joystick* joystick);
 
-    // Function @ SDL_haptic.h:928:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:928:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern SDL_Haptic* SDL_HapticOpenFromMouse();
 
-    // Function @ SDL_haptic.h:915:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:915:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_MouseIsHaptic();
 
-    // Function @ SDL_haptic.h:904:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:904:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticIndex(SDL_Haptic* haptic);
 
-    // Function @ SDL_haptic.h:890:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:890:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_HapticOpened(int device_index);
 
-    // Function @ SDL_haptic.h:876:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:876:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern SDL_Haptic* SDL_HapticOpen(int device_index);
 
-    // Function @ SDL_haptic.h:849:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:849:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_HapticName(int device_index);
 
-    // Function @ SDL_haptic.h:833:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Function @ SDL_haptic.h:833:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_NumHaptics();
 
-    // Function @ SDL_filesystem.h:135:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_filesystem.h)
+    // Function @ SDL_filesystem.h:135:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_filesystem.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GetPrefPath(CString org, CString app);
 
-    // Function @ SDL_filesystem.h:78:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_filesystem.h)
+    // Function @ SDL_filesystem.h:78:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_filesystem.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GetBasePath();
 
-    // Function @ SDL_events.h:1084:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Function @ SDL_events.h:1084:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [DllImport(LibraryName)]
     public static extern uint SDL_RegisterEvents(int numevents);
 
-    // Function @ SDL_events.h:1062:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Function @ SDL_events.h:1062:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [DllImport(LibraryName)]
     public static extern byte SDL_EventState(uint type, int state);
 
-    // Function @ SDL_events.h:1036:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Function @ SDL_events.h:1036:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [DllImport(LibraryName)]
     public static extern void SDL_FilterEvents(SDL_EventFilter filter, void* userdata);
 
-    // Function @ SDL_events.h:1019:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Function @ SDL_events.h:1019:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [DllImport(LibraryName)]
     public static extern void SDL_DelEventWatch(SDL_EventFilter filter, void* userdata);
 
-    // Function @ SDL_events.h:1004:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Function @ SDL_events.h:1004:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [DllImport(LibraryName)]
     public static extern void SDL_AddEventWatch(SDL_EventFilter filter, void* userdata);
 
-    // Function @ SDL_events.h:977:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Function @ SDL_events.h:977:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_GetEventFilter(SDL_EventFilter* filter, void** userdata);
 
-    // Function @ SDL_events.h:961:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Function @ SDL_events.h:961:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SetEventFilter(SDL_EventFilter filter, void* userdata);
 
-    // Function @ SDL_events.h:904:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Function @ SDL_events.h:904:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [DllImport(LibraryName)]
     public static extern int SDL_PushEvent(SDL_Event* @event);
 
-    // Function @ SDL_events.h:871:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Function @ SDL_events.h:871:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [DllImport(LibraryName)]
     public static extern int SDL_WaitEventTimeout(SDL_Event* @event, int timeout);
 
-    // Function @ SDL_events.h:847:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Function @ SDL_events.h:847:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [DllImport(LibraryName)]
     public static extern int SDL_WaitEvent(SDL_Event* @event);
 
-    // Function @ SDL_events.h:827:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Function @ SDL_events.h:827:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [DllImport(LibraryName)]
     public static extern int SDL_PollEvent(SDL_Event* @event);
 
-    // Function @ SDL_events.h:782:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Function @ SDL_events.h:782:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [DllImport(LibraryName)]
     public static extern void SDL_FlushEvents(uint minType, uint maxType);
 
-    // Function @ SDL_events.h:759:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Function @ SDL_events.h:759:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [DllImport(LibraryName)]
     public static extern void SDL_FlushEvent(uint type);
 
-    // Function @ SDL_events.h:739:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Function @ SDL_events.h:739:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasEvents(uint minType, uint maxType);
 
-    // Function @ SDL_events.h:722:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Function @ SDL_events.h:722:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasEvent(uint type);
 
-    // Function @ SDL_events.h:705:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Function @ SDL_events.h:705:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [DllImport(LibraryName)]
     public static extern int SDL_PeepEvents(SDL_Event* events, int numevents, SDL_eventaction action, uint minType, uint maxType);
 
-    // Function @ SDL_events.h:659:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Function @ SDL_events.h:659:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [DllImport(LibraryName)]
     public static extern void SDL_PumpEvents();
 
-    // Function @ SDL_gesture.h:107:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gesture.h)
+    // Function @ SDL_gesture.h:107:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gesture.h)
     [DllImport(LibraryName)]
     public static extern int SDL_LoadDollarTemplates(SDL_TouchID touchId, SDL_RWops* src);
 
-    // Function @ SDL_gesture.h:91:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gesture.h)
+    // Function @ SDL_gesture.h:91:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gesture.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SaveDollarTemplate(SDL_GestureID gestureId, SDL_RWops* dst);
 
-    // Function @ SDL_gesture.h:76:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gesture.h)
+    // Function @ SDL_gesture.h:76:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gesture.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SaveAllDollarTemplates(SDL_RWops* dst);
 
-    // Function @ SDL_gesture.h:61:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gesture.h)
+    // Function @ SDL_gesture.h:61:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gesture.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RecordGesture(SDL_TouchID touchId);
 
-    // Function @ SDL_touch.h:128:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_touch.h)
+    // Function @ SDL_touch.h:128:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_touch.h)
     [DllImport(LibraryName)]
     public static extern SDL_Finger* SDL_GetTouchFinger(SDL_TouchID touchID, int index);
 
-    // Function @ SDL_touch.h:114:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_touch.h)
+    // Function @ SDL_touch.h:114:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_touch.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetNumTouchFingers(SDL_TouchID touchID);
 
-    // Function @ SDL_touch.h:101:45 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_touch.h)
+    // Function @ SDL_touch.h:101:45 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_touch.h)
     [DllImport(LibraryName)]
     public static extern SDL_TouchDeviceType SDL_GetTouchDeviceType(SDL_TouchID touchID);
 
-    // Function @ SDL_touch.h:96:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_touch.h)
+    // Function @ SDL_touch.h:96:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_touch.h)
     [DllImport(LibraryName)]
     public static extern SDL_TouchID SDL_GetTouchDevice(int index);
 
-    // Function @ SDL_touch.h:83:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_touch.h)
+    // Function @ SDL_touch.h:83:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_touch.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetNumTouchDevices();
 
-    // Function @ SDL_gamecontroller.h:831:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:831:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern void SDL_GameControllerClose(SDL_GameController* gamecontroller);
 
-    // Function @ SDL_gamecontroller.h:821:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:821:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GameControllerSetLED(SDL_GameController* gamecontroller, byte red, byte green, byte blue);
 
-    // Function @ SDL_gamecontroller.h:810:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:810:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_GameControllerHasLED(SDL_GameController* gamecontroller);
 
-    // Function @ SDL_gamecontroller.h:801:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:801:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GameControllerRumbleTriggers(SDL_GameController* gamecontroller, ushort left_rumble, ushort right_rumble, uint duration_ms);
 
-    // Function @ SDL_gamecontroller.h:781:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:781:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GameControllerRumble(SDL_GameController* gamecontroller, ushort low_frequency_rumble, ushort high_frequency_rumble, uint duration_ms);
 
-    // Function @ SDL_gamecontroller.h:765:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:765:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GameControllerGetSensorData(SDL_GameController* gamecontroller, SDL_SensorType type, float* data, int num_values);
 
-    // Function @ SDL_gamecontroller.h:751:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:751:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_GameControllerIsSensorEnabled(SDL_GameController* gamecontroller, SDL_SensorType type);
 
-    // Function @ SDL_gamecontroller.h:741:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:741:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GameControllerSetSensorEnabled(SDL_GameController* gamecontroller, SDL_SensorType type, CBool enabled);
 
-    // Function @ SDL_gamecontroller.h:730:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:730:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_GameControllerHasSensor(SDL_GameController* gamecontroller, SDL_SensorType type);
 
-    // Function @ SDL_gamecontroller.h:720:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:720:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GameControllerGetTouchpadFinger(SDL_GameController* gamecontroller, int touchpad, int finger, byte* state, float* x, float* y, float* pressure);
 
-    // Function @ SDL_gamecontroller.h:715:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:715:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GameControllerGetNumTouchpadFingers(SDL_GameController* gamecontroller, int touchpad);
 
-    // Function @ SDL_gamecontroller.h:710:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:710:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GameControllerGetNumTouchpads(SDL_GameController* gamecontroller);
 
-    // Function @ SDL_gamecontroller.h:704:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:704:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern byte SDL_GameControllerGetButton(SDL_GameController* gamecontroller, SDL_GameControllerButton button);
 
-    // Function @ SDL_gamecontroller.h:689:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:689:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_GameControllerHasButton(SDL_GameController* gamecontroller, SDL_GameControllerButton button);
 
-    // Function @ SDL_gamecontroller.h:676:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:676:1 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern SDL_GameControllerButtonBind SDL_GameControllerGetBindForButton(SDL_GameController* gamecontroller, SDL_GameControllerButton button);
 
-    // Function @ SDL_gamecontroller.h:660:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:660:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GameControllerGetStringForButton(SDL_GameControllerButton button);
 
-    // Function @ SDL_gamecontroller.h:644:50 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:644:50 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern SDL_GameControllerButton SDL_GameControllerGetButtonFromString(CString str);
 
-    // Function @ SDL_gamecontroller.h:599:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:599:1 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern short SDL_GameControllerGetAxis(SDL_GameController* gamecontroller, SDL_GameControllerAxis axis);
 
-    // Function @ SDL_gamecontroller.h:579:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:579:1 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_GameControllerHasAxis(SDL_GameController* gamecontroller, SDL_GameControllerAxis axis);
 
-    // Function @ SDL_gamecontroller.h:565:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:565:1 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern SDL_GameControllerButtonBind SDL_GameControllerGetBindForAxis(SDL_GameController* gamecontroller, SDL_GameControllerAxis axis);
 
-    // Function @ SDL_gamecontroller.h:549:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:549:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GameControllerGetStringForAxis(SDL_GameControllerAxis axis);
 
-    // Function @ SDL_gamecontroller.h:535:48 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:535:48 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern SDL_GameControllerAxis SDL_GameControllerGetAxisFromString(CString str);
 
-    // Function @ SDL_gamecontroller.h:497:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:497:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern void SDL_GameControllerUpdate();
 
-    // Function @ SDL_gamecontroller.h:488:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:488:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GameControllerEventState(int state);
 
-    // Function @ SDL_gamecontroller.h:468:39 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:468:39 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern SDL_Joystick* SDL_GameControllerGetJoystick(SDL_GameController* gamecontroller);
 
-    // Function @ SDL_gamecontroller.h:449:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:449:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_GameControllerGetAttached(SDL_GameController* gamecontroller);
 
-    // Function @ SDL_gamecontroller.h:436:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:436:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GameControllerGetSerial(SDL_GameController* gamecontroller);
 
-    // Function @ SDL_gamecontroller.h:426:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:426:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern ushort SDL_GameControllerGetProductVersion(SDL_GameController* gamecontroller);
 
-    // Function @ SDL_gamecontroller.h:416:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:416:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern ushort SDL_GameControllerGetProduct(SDL_GameController* gamecontroller);
 
-    // Function @ SDL_gamecontroller.h:406:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:406:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern ushort SDL_GameControllerGetVendor(SDL_GameController* gamecontroller);
 
-    // Function @ SDL_gamecontroller.h:396:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:396:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern void SDL_GameControllerSetPlayerIndex(SDL_GameController* gamecontroller, int player_index);
 
-    // Function @ SDL_gamecontroller.h:388:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:388:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GameControllerGetPlayerIndex(SDL_GameController* gamecontroller);
 
-    // Function @ SDL_gamecontroller.h:378:48 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:378:48 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern SDL_GameControllerType SDL_GameControllerGetType(SDL_GameController* gamecontroller);
 
-    // Function @ SDL_gamecontroller.h:367:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:367:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GameControllerName(SDL_GameController* gamecontroller);
 
-    // Function @ SDL_gamecontroller.h:349:45 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:349:45 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern SDL_GameController* SDL_GameControllerFromPlayerIndex(int player_index);
 
-    // Function @ SDL_gamecontroller.h:334:45 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:334:45 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern SDL_GameController* SDL_GameControllerFromInstanceID(SDL_JoystickID joyid);
 
-    // Function @ SDL_gamecontroller.h:323:45 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:323:45 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern SDL_GameController* SDL_GameControllerOpen(int joystick_index);
 
-    // Function @ SDL_gamecontroller.h:299:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:299:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GameControllerMappingForDeviceIndex(int joystick_index);
 
-    // Function @ SDL_gamecontroller.h:287:48 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:287:48 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern SDL_GameControllerType SDL_GameControllerTypeForIndex(int joystick_index);
 
-    // Function @ SDL_gamecontroller.h:276:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:276:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GameControllerNameForIndex(int joystick_index);
 
-    // Function @ SDL_gamecontroller.h:254:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:254:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_IsGameController(int joystick_index);
 
-    // Function @ SDL_gamecontroller.h:236:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:236:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GameControllerMapping(SDL_GameController* gamecontroller);
 
-    // Function @ SDL_gamecontroller.h:217:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:217:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GameControllerMappingForGUID(SDL_JoystickGUID guid);
 
-    // Function @ SDL_gamecontroller.h:203:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:203:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GameControllerMappingForIndex(int mapping_index);
 
-    // Function @ SDL_gamecontroller.h:195:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:195:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GameControllerNumMappings();
 
-    // Function @ SDL_gamecontroller.h:188:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:188:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GameControllerAddMapping(CString mappingString);
 
-    // Function @ SDL_gamecontroller.h:154:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Function @ SDL_gamecontroller.h:154:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GameControllerAddMappingsFromRW(SDL_RWops* rw, int freerw);
 
-    // Function @ SDL_sensor.h:258:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // Function @ SDL_sensor.h:258:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SensorUpdate();
 
-    // Function @ SDL_sensor.h:247:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // Function @ SDL_sensor.h:247:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SensorClose(SDL_Sensor* sensor);
 
-    // Function @ SDL_sensor.h:240:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // Function @ SDL_sensor.h:240:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SensorGetData(SDL_Sensor* sensor, float* data, int num_values);
 
-    // Function @ SDL_sensor.h:228:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // Function @ SDL_sensor.h:228:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     [DllImport(LibraryName)]
     public static extern SDL_SensorID SDL_SensorGetInstanceID(SDL_Sensor* sensor);
 
-    // Function @ SDL_sensor.h:220:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // Function @ SDL_sensor.h:220:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SensorGetNonPortableType(SDL_Sensor* sensor);
 
-    // Function @ SDL_sensor.h:212:40 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // Function @ SDL_sensor.h:212:40 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     [DllImport(LibraryName)]
     public static extern SDL_SensorType SDL_SensorGetType(SDL_Sensor* sensor);
 
-    // Function @ SDL_sensor.h:203:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // Function @ SDL_sensor.h:203:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_SensorGetName(SDL_Sensor* sensor);
 
-    // Function @ SDL_sensor.h:195:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // Function @ SDL_sensor.h:195:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     [DllImport(LibraryName)]
     public static extern SDL_Sensor* SDL_SensorFromInstanceID(SDL_SensorID instance_id);
 
-    // Function @ SDL_sensor.h:187:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // Function @ SDL_sensor.h:187:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     [DllImport(LibraryName)]
     public static extern SDL_Sensor* SDL_SensorOpen(int device_index);
 
-    // Function @ SDL_sensor.h:179:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // Function @ SDL_sensor.h:179:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     [DllImport(LibraryName)]
     public static extern SDL_SensorID SDL_SensorGetDeviceInstanceID(int device_index);
 
-    // Function @ SDL_sensor.h:171:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // Function @ SDL_sensor.h:171:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SensorGetDeviceNonPortableType(int device_index);
 
-    // Function @ SDL_sensor.h:162:40 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // Function @ SDL_sensor.h:162:40 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     [DllImport(LibraryName)]
     public static extern SDL_SensorType SDL_SensorGetDeviceType(int device_index);
 
-    // Function @ SDL_sensor.h:153:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // Function @ SDL_sensor.h:153:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_SensorGetDeviceName(int device_index);
 
-    // Function @ SDL_sensor.h:145:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // Function @ SDL_sensor.h:145:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     [DllImport(LibraryName)]
     public static extern int SDL_NumSensors();
 
-    // Function @ SDL_sensor.h:138:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // Function @ SDL_sensor.h:138:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     [DllImport(LibraryName)]
     public static extern void SDL_UnlockSensors();
 
-    // Function @ SDL_sensor.h:137:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // Function @ SDL_sensor.h:137:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     [DllImport(LibraryName)]
     public static extern void SDL_LockSensors();
 
-    // Function @ SDL_joystick.h:803:48 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:803:48 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern SDL_JoystickPowerLevel SDL_JoystickCurrentPowerLevel(SDL_Joystick* joystick);
 
-    // Function @ SDL_joystick.h:792:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:792:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern void SDL_JoystickClose(SDL_Joystick* joystick);
 
-    // Function @ SDL_joystick.h:783:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:783:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern int SDL_JoystickSetLED(SDL_Joystick* joystick, byte red, byte green, byte blue);
 
-    // Function @ SDL_joystick.h:768:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:768:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_JoystickHasLED(SDL_Joystick* joystick);
 
-    // Function @ SDL_joystick.h:757:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:757:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern int SDL_JoystickRumbleTriggers(SDL_Joystick* joystick, ushort left_rumble, ushort right_rumble, uint duration_ms);
 
-    // Function @ SDL_joystick.h:736:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:736:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern int SDL_JoystickRumble(SDL_Joystick* joystick, ushort low_frequency_rumble, ushort high_frequency_rumble, uint duration_ms);
 
-    // Function @ SDL_joystick.h:718:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:718:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern byte SDL_JoystickGetButton(SDL_Joystick* joystick, int button);
 
-    // Function @ SDL_joystick.h:705:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:705:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern int SDL_JoystickGetBall(SDL_Joystick* joystick, int ball, long* dx, long* dy);
 
-    // Function @ SDL_joystick.h:684:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:684:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern byte SDL_JoystickGetHat(SDL_Joystick* joystick, int hat);
 
-    // Function @ SDL_joystick.h:645:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:645:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_JoystickGetAxisInitialState(SDL_Joystick* joystick, int axis, short* state);
 
-    // Function @ SDL_joystick.h:630:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:630:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern short SDL_JoystickGetAxis(SDL_Joystick* joystick, int axis);
 
-    // Function @ SDL_joystick.h:605:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:605:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern int SDL_JoystickEventState(int state);
 
-    // Function @ SDL_joystick.h:582:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:582:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern void SDL_JoystickUpdate();
 
-    // Function @ SDL_joystick.h:572:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:572:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern int SDL_JoystickNumButtons(SDL_Joystick* joystick);
 
-    // Function @ SDL_joystick.h:560:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:560:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern int SDL_JoystickNumHats(SDL_Joystick* joystick);
 
-    // Function @ SDL_joystick.h:548:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:548:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern int SDL_JoystickNumBalls(SDL_Joystick* joystick);
 
-    // Function @ SDL_joystick.h:532:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:532:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern int SDL_JoystickNumAxes(SDL_Joystick* joystick);
 
-    // Function @ SDL_joystick.h:515:40 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:515:40 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern SDL_JoystickID SDL_JoystickInstanceID(SDL_Joystick* joystick);
 
-    // Function @ SDL_joystick.h:504:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:504:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_JoystickGetAttached(SDL_Joystick* joystick);
 
-    // Function @ SDL_joystick.h:492:42 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:492:42 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern SDL_JoystickGUID SDL_JoystickGetGUIDFromString(CString pchGUID);
 
-    // Function @ SDL_joystick.h:478:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:478:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern void SDL_JoystickGetGUIDString(SDL_JoystickGUID guid, CString pszGUID, int cbGUID);
 
-    // Function @ SDL_joystick.h:463:42 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:463:42 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern SDL_JoystickType SDL_JoystickGetType(SDL_Joystick* joystick);
 
-    // Function @ SDL_joystick.h:455:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:455:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_JoystickGetSerial(SDL_Joystick* joystick);
 
-    // Function @ SDL_joystick.h:445:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:445:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern ushort SDL_JoystickGetProductVersion(SDL_Joystick* joystick);
 
-    // Function @ SDL_joystick.h:436:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:436:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern ushort SDL_JoystickGetProduct(SDL_Joystick* joystick);
 
-    // Function @ SDL_joystick.h:426:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:426:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern ushort SDL_JoystickGetVendor(SDL_Joystick* joystick);
 
-    // Function @ SDL_joystick.h:416:42 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:416:42 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern SDL_JoystickGUID SDL_JoystickGetGUID(SDL_Joystick* joystick);
 
-    // Function @ SDL_joystick.h:401:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:401:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern void SDL_JoystickSetPlayerIndex(SDL_Joystick* joystick, int player_index);
 
-    // Function @ SDL_joystick.h:393:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:393:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern int SDL_JoystickGetPlayerIndex(SDL_Joystick* joystick);
 
-    // Function @ SDL_joystick.h:382:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:382:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_JoystickName(SDL_Joystick* joystick);
 
-    // Function @ SDL_joystick.h:368:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:368:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern int SDL_JoystickSetVirtualHat(SDL_Joystick* joystick, int hat, byte value);
 
-    // Function @ SDL_joystick.h:352:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:352:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern int SDL_JoystickSetVirtualButton(SDL_Joystick* joystick, int button, byte value);
 
-    // Function @ SDL_joystick.h:336:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:336:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern int SDL_JoystickSetVirtualAxis(SDL_Joystick* joystick, int axis, short value);
 
-    // Function @ SDL_joystick.h:320:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:320:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_JoystickIsVirtual(int device_index);
 
-    // Function @ SDL_joystick.h:312:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:312:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern int SDL_JoystickDetachVirtual(int device_index);
 
-    // Function @ SDL_joystick.h:300:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:300:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern int SDL_JoystickAttachVirtual(SDL_JoystickType type, int naxes, int nbuttons, int nhats);
 
-    // Function @ SDL_joystick.h:293:39 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:293:39 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern SDL_Joystick* SDL_JoystickFromPlayerIndex(int player_index);
 
-    // Function @ SDL_joystick.h:284:39 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:284:39 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern SDL_Joystick* SDL_JoystickFromInstanceID(SDL_JoystickID instance_id);
 
-    // Function @ SDL_joystick.h:273:39 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:273:39 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern SDL_Joystick* SDL_JoystickOpen(int device_index);
 
-    // Function @ SDL_joystick.h:253:40 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:253:40 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern SDL_JoystickID SDL_JoystickGetDeviceInstanceID(int device_index);
 
-    // Function @ SDL_joystick.h:240:42 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:240:42 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern SDL_JoystickType SDL_JoystickGetDeviceType(int device_index);
 
-    // Function @ SDL_joystick.h:228:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:228:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern ushort SDL_JoystickGetDeviceProductVersion(int device_index);
 
-    // Function @ SDL_joystick.h:215:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:215:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern ushort SDL_JoystickGetDeviceProduct(int device_index);
 
-    // Function @ SDL_joystick.h:202:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:202:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern ushort SDL_JoystickGetDeviceVendor(int device_index);
 
-    // Function @ SDL_joystick.h:189:42 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:189:42 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern SDL_JoystickGUID SDL_JoystickGetDeviceGUID(int device_index);
 
-    // Function @ SDL_joystick.h:173:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:173:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern int SDL_JoystickGetDevicePlayerIndex(int device_index);
 
-    // Function @ SDL_joystick.h:167:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:167:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_JoystickNameForIndex(int device_index);
 
-    // Function @ SDL_joystick.h:152:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:152:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern int SDL_NumJoysticks();
 
-    // Function @ SDL_joystick.h:141:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:141:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern void SDL_UnlockJoysticks();
 
-    // Function @ SDL_joystick.h:128:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Function @ SDL_joystick.h:128:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [DllImport(LibraryName)]
     public static extern void SDL_LockJoysticks();
 
-    // Function @ SDL_mouse.h:394:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // Function @ SDL_mouse.h:394:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     [DllImport(LibraryName)]
     public static extern int SDL_ShowCursor(int toggle);
 
-    // Function @ SDL_mouse.h:374:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // Function @ SDL_mouse.h:374:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     [DllImport(LibraryName)]
     public static extern void SDL_FreeCursor(SDL_Cursor* cursor);
 
-    // Function @ SDL_mouse.h:360:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // Function @ SDL_mouse.h:360:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     [DllImport(LibraryName)]
     public static extern SDL_Cursor* SDL_GetDefaultCursor();
 
-    // Function @ SDL_mouse.h:349:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // Function @ SDL_mouse.h:349:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     [DllImport(LibraryName)]
     public static extern SDL_Cursor* SDL_GetCursor();
 
-    // Function @ SDL_mouse.h:337:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // Function @ SDL_mouse.h:337:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SetCursor(SDL_Cursor* cursor);
 
-    // Function @ SDL_mouse.h:321:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // Function @ SDL_mouse.h:321:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     [DllImport(LibraryName)]
     public static extern SDL_Cursor* SDL_CreateSystemCursor(SDL_SystemCursor id);
 
-    // Function @ SDL_mouse.h:306:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // Function @ SDL_mouse.h:306:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     [DllImport(LibraryName)]
     public static extern SDL_Cursor* SDL_CreateColorCursor(SDL_Surface* surface, int hot_x, int hot_y);
 
-    // Function @ SDL_mouse.h:287:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // Function @ SDL_mouse.h:287:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     [DllImport(LibraryName)]
     public static extern SDL_Cursor* SDL_CreateCursor(byte* data, byte* mask, int w, int h, int hot_x, int hot_y);
 
-    // Function @ SDL_mouse.h:245:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // Function @ SDL_mouse.h:245:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_GetRelativeMouseMode();
 
-    // Function @ SDL_mouse.h:236:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // Function @ SDL_mouse.h:236:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     [DllImport(LibraryName)]
     public static extern int SDL_CaptureMouse(CBool enabled);
 
-    // Function @ SDL_mouse.h:199:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // Function @ SDL_mouse.h:199:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetRelativeMouseMode(CBool enabled);
 
-    // Function @ SDL_mouse.h:180:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // Function @ SDL_mouse.h:180:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     [DllImport(LibraryName)]
     public static extern int SDL_WarpMouseGlobal(int x, int y);
 
-    // Function @ SDL_mouse.h:160:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // Function @ SDL_mouse.h:160:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     [DllImport(LibraryName)]
     public static extern void SDL_WarpMouseInWindow(SDL_Window* window, int x, int y);
 
-    // Function @ SDL_mouse.h:146:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // Function @ SDL_mouse.h:146:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     [DllImport(LibraryName)]
     public static extern uint SDL_GetRelativeMouseState(long* x, long* y);
 
-    // Function @ SDL_mouse.h:129:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // Function @ SDL_mouse.h:129:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     [DllImport(LibraryName)]
     public static extern uint SDL_GetGlobalMouseState(long* x, long* y);
 
-    // Function @ SDL_mouse.h:100:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // Function @ SDL_mouse.h:100:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     [DllImport(LibraryName)]
     public static extern uint SDL_GetMouseState(long* x, long* y);
 
-    // Function @ SDL_mouse.h:79:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // Function @ SDL_mouse.h:79:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     [DllImport(LibraryName)]
     public static extern SDL_Window* SDL_GetMouseFocus();
 
-    // Function @ SDL_keyboard.h:284:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keyboard.h)
+    // Function @ SDL_keyboard.h:284:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keyboard.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_IsScreenKeyboardShown(SDL_Window* window);
 
-    // Function @ SDL_keyboard.h:272:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keyboard.h)
+    // Function @ SDL_keyboard.h:272:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keyboard.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasScreenKeyboardSupport();
 
-    // Function @ SDL_keyboard.h:259:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keyboard.h)
+    // Function @ SDL_keyboard.h:259:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keyboard.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SetTextInputRect(SDL_Rect* rect);
 
-    // Function @ SDL_keyboard.h:249:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keyboard.h)
+    // Function @ SDL_keyboard.h:249:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keyboard.h)
     [DllImport(LibraryName)]
     public static extern void SDL_StopTextInput();
 
-    // Function @ SDL_keyboard.h:242:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keyboard.h)
+    // Function @ SDL_keyboard.h:242:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keyboard.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_IsTextInputActive();
 
-    // Function @ SDL_keyboard.h:231:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keyboard.h)
+    // Function @ SDL_keyboard.h:231:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keyboard.h)
     [DllImport(LibraryName)]
     public static extern void SDL_StartTextInput();
 
-    // Function @ SDL_keyboard.h:216:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keyboard.h)
+    // Function @ SDL_keyboard.h:216:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keyboard.h)
     [DllImport(LibraryName)]
     public static extern SDL_Keycode SDL_GetKeyFromName(CString name);
 
-    // Function @ SDL_keyboard.h:203:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keyboard.h)
+    // Function @ SDL_keyboard.h:203:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keyboard.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GetKeyName(SDL_Keycode key);
 
-    // Function @ SDL_keyboard.h:186:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keyboard.h)
+    // Function @ SDL_keyboard.h:186:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keyboard.h)
     [DllImport(LibraryName)]
     public static extern SDL_Scancode SDL_GetScancodeFromName(CString name);
 
-    // Function @ SDL_keyboard.h:171:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keyboard.h)
+    // Function @ SDL_keyboard.h:171:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keyboard.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GetScancodeName(SDL_Scancode scancode);
 
-    // Function @ SDL_keyboard.h:146:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keyboard.h)
+    // Function @ SDL_keyboard.h:146:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keyboard.h)
     [DllImport(LibraryName)]
     public static extern SDL_Scancode SDL_GetScancodeFromKey(SDL_Keycode key);
 
-    // Function @ SDL_keyboard.h:132:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keyboard.h)
+    // Function @ SDL_keyboard.h:132:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keyboard.h)
     [DllImport(LibraryName)]
     public static extern SDL_Keycode SDL_GetKeyFromScancode(SDL_Scancode scancode);
 
-    // Function @ SDL_keyboard.h:118:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keyboard.h)
+    // Function @ SDL_keyboard.h:118:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keyboard.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SetModState(SDL_Keymod modstate);
 
-    // Function @ SDL_keyboard.h:101:36 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keyboard.h)
+    // Function @ SDL_keyboard.h:101:36 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keyboard.h)
     [DllImport(LibraryName)]
     public static extern SDL_Keymod SDL_GetModState();
 
-    // Function @ SDL_keyboard.h:90:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keyboard.h)
+    // Function @ SDL_keyboard.h:90:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keyboard.h)
     [DllImport(LibraryName)]
     public static extern byte* SDL_GetKeyboardState(long* numkeys);
 
-    // Function @ SDL_keyboard.h:62:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keyboard.h)
+    // Function @ SDL_keyboard.h:62:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keyboard.h)
     [DllImport(LibraryName)]
     public static extern SDL_Window* SDL_GetKeyboardFocus();
 
-    // Function @ SDL_video.h:1869:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1869:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_GL_DeleteContext(SDL_GLContext context);
 
-    // Function @ SDL_video.h:1860:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1860:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_GL_SwapWindow(SDL_Window* window);
 
-    // Function @ SDL_video.h:1846:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1846:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GL_GetSwapInterval();
 
-    // Function @ SDL_video.h:1829:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1829:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GL_SetSwapInterval(int interval);
 
-    // Function @ SDL_video.h:1794:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1794:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_GL_GetDrawableSize(SDL_Window* window, long* w, long* h);
 
-    // Function @ SDL_video.h:1772:39 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1772:39 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern SDL_GLContext SDL_GL_GetCurrentContext();
 
-    // Function @ SDL_video.h:1760:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1760:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern SDL_Window* SDL_GL_GetCurrentWindow();
 
-    // Function @ SDL_video.h:1749:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1749:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GL_MakeCurrent(SDL_Window* window, SDL_GLContext context);
 
-    // Function @ SDL_video.h:1734:39 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1734:39 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern SDL_GLContext SDL_GL_CreateContext(SDL_Window* window);
 
-    // Function @ SDL_video.h:1714:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1714:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GL_GetAttribute(SDL_GLattr attr, long* value);
 
-    // Function @ SDL_video.h:1701:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1701:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GL_SetAttribute(SDL_GLattr attr, int value);
 
-    // Function @ SDL_video.h:1682:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1682:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_GL_ResetAttributes();
 
-    // Function @ SDL_video.h:1670:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1670:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_GL_ExtensionSupported(CString extension);
 
-    // Function @ SDL_video.h:1649:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1649:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_GL_UnloadLibrary();
 
-    // Function @ SDL_video.h:1642:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1642:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void* SDL_GL_GetProcAddress(CString proc);
 
-    // Function @ SDL_video.h:1591:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1591:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GL_LoadLibrary(CString path);
 
-    // Function @ SDL_video.h:1565:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1565:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_DisableScreenSaver();
 
-    // Function @ SDL_video.h:1552:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1552:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_EnableScreenSaver();
 
-    // Function @ SDL_video.h:1542:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1542:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_IsScreenSaverEnabled();
 
-    // Function @ SDL_video.h:1523:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1523:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_DestroyWindow(SDL_Window* window);
 
-    // Function @ SDL_video.h:1508:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1508:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetWindowHitTest(SDL_Window* window, SDL_HitTest callback, void* callback_data);
 
-    // Function @ SDL_video.h:1430:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1430:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetWindowGammaRamp(SDL_Window* window, ushort* red, ushort* green, ushort* blue);
 
-    // Function @ SDL_video.h:1404:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1404:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetWindowGammaRamp(SDL_Window* window, ushort* red, ushort* green, ushort* blue);
 
-    // Function @ SDL_video.h:1375:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1375:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetWindowInputFocus(SDL_Window* window);
 
-    // Function @ SDL_video.h:1358:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1358:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetWindowModalFor(SDL_Window* modal_window, SDL_Window* parent_window);
 
-    // Function @ SDL_video.h:1346:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1346:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetWindowOpacity(SDL_Window* window, float* out_opacity);
 
-    // Function @ SDL_video.h:1325:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1325:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetWindowOpacity(SDL_Window* window, float opacity);
 
-    // Function @ SDL_video.h:1306:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1306:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern float SDL_GetWindowBrightness(SDL_Window* window);
 
-    // Function @ SDL_video.h:1289:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1289:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetWindowBrightness(SDL_Window* window, float brightness);
 
-    // Function @ SDL_video.h:1263:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1263:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern SDL_Window* SDL_GetGrabbedWindow();
 
-    // Function @ SDL_video.h:1251:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1251:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_GetWindowMouseGrab(SDL_Window* window);
 
-    // Function @ SDL_video.h:1240:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1240:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_GetWindowKeyboardGrab(SDL_Window* window);
 
-    // Function @ SDL_video.h:1229:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1229:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_GetWindowGrab(SDL_Window* window);
 
-    // Function @ SDL_video.h:1218:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1218:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SetWindowMouseGrab(SDL_Window* window, CBool grabbed);
 
-    // Function @ SDL_video.h:1202:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1202:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SetWindowKeyboardGrab(SDL_Window* window, CBool grabbed);
 
-    // Function @ SDL_video.h:1186:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1186:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SetWindowGrab(SDL_Window* window, CBool grabbed);
 
-    // Function @ SDL_video.h:1168:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1168:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_UpdateWindowSurfaceRects(SDL_Window* window, SDL_Rect* rects, int numrects);
 
-    // Function @ SDL_video.h:1148:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1148:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_UpdateWindowSurface(SDL_Window* window);
 
-    // Function @ SDL_video.h:1131:39 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1131:39 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern SDL_Surface* SDL_GetWindowSurface(SDL_Window* window);
 
-    // Function @ SDL_video.h:1107:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1107:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetWindowFullscreen(SDL_Window* window, uint flags);
 
-    // Function @ SDL_video.h:1088:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1088:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_RestoreWindow(SDL_Window* window);
 
-    // Function @ SDL_video.h:1078:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1078:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_MinimizeWindow(SDL_Window* window);
 
-    // Function @ SDL_video.h:1068:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1068:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_MaximizeWindow(SDL_Window* window);
 
-    // Function @ SDL_video.h:1058:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1058:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_RaiseWindow(SDL_Window* window);
 
-    // Function @ SDL_video.h:1051:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1051:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_HideWindow(SDL_Window* window);
 
-    // Function @ SDL_video.h:1042:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1042:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_ShowWindow(SDL_Window* window);
 
-    // Function @ SDL_video.h:1032:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1032:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SetWindowAlwaysOnTop(SDL_Window* window, CBool on_top);
 
-    // Function @ SDL_video.h:1016:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:1016:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SetWindowResizable(SDL_Window* window, CBool resizable);
 
-    // Function @ SDL_video.h:997:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:997:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SetWindowBordered(SDL_Window* window, CBool bordered);
 
-    // Function @ SDL_video.h:978:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:978:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_GetWindowMaximumSize(SDL_Window* window, long* w, long* h);
 
-    // Function @ SDL_video.h:963:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:963:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SetWindowMaximumSize(SDL_Window* window, int max_w, int max_h);
 
-    // Function @ SDL_video.h:950:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:950:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_GetWindowMinimumSize(SDL_Window* window, long* w, long* h);
 
-    // Function @ SDL_video.h:935:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:935:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SetWindowMinimumSize(SDL_Window* window, int min_w, int min_h);
 
-    // Function @ SDL_video.h:921:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:921:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetWindowBordersSize(SDL_Window* window, long* top, long* left, long* bottom, long* right);
 
-    // Function @ SDL_video.h:886:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:886:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_GetWindowSize(SDL_Window* window, long* w, long* h);
 
-    // Function @ SDL_video.h:861:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:861:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SetWindowSize(SDL_Window* window, int w, int h);
 
-    // Function @ SDL_video.h:838:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:838:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_GetWindowPosition(SDL_Window* window, long* x, long* y);
 
-    // Function @ SDL_video.h:821:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:821:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SetWindowPosition(SDL_Window* window, int x, int y);
 
-    // Function @ SDL_video.h:805:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:805:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void* SDL_GetWindowData(SDL_Window* window, CString name);
 
-    // Function @ SDL_video.h:792:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:792:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void* SDL_SetWindowData(SDL_Window* window, CString name, void* userdata);
 
-    // Function @ SDL_video.h:777:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:777:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SetWindowIcon(SDL_Window* window, SDL_Surface* icon);
 
-    // Function @ SDL_video.h:769:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:769:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GetWindowTitle(SDL_Window* window);
 
-    // Function @ SDL_video.h:757:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:757:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SetWindowTitle(SDL_Window* window, CString title);
 
-    // Function @ SDL_video.h:745:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:745:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern uint SDL_GetWindowFlags(SDL_Window* window);
 
-    // Function @ SDL_video.h:729:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:729:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern SDL_Window* SDL_GetWindowFromID(uint id);
 
-    // Function @ SDL_video.h:715:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:715:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern uint SDL_GetWindowID(SDL_Window* window);
 
-    // Function @ SDL_video.h:699:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:699:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern SDL_Window* SDL_CreateWindowFrom(void* data);
 
-    // Function @ SDL_video.h:680:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:680:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern SDL_Window* SDL_CreateWindow(CString title, int x, int y, int w, int h, uint flags);
 
-    // Function @ SDL_video.h:610:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:610:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern uint SDL_GetWindowPixelFormat(SDL_Window* window);
 
-    // Function @ SDL_video.h:599:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:599:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetWindowDisplayMode(SDL_Window* window, SDL_DisplayMode* mode);
 
-    // Function @ SDL_video.h:584:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:584:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetWindowDisplayMode(SDL_Window* window, SDL_DisplayMode* mode);
 
-    // Function @ SDL_video.h:565:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:565:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetWindowDisplayIndex(SDL_Window* window);
 
-    // Function @ SDL_video.h:552:43 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:552:43 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern SDL_DisplayMode* SDL_GetClosestDisplayMode(int displayIndex, SDL_DisplayMode* mode, SDL_DisplayMode* closest);
 
-    // Function @ SDL_video.h:528:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:528:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetCurrentDisplayMode(int displayIndex, SDL_DisplayMode* mode);
 
-    // Function @ SDL_video.h:507:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:507:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetDesktopDisplayMode(int displayIndex, SDL_DisplayMode* mode);
 
-    // Function @ SDL_video.h:486:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:486:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetDisplayMode(int displayIndex, int modeIndex, SDL_DisplayMode* mode);
 
-    // Function @ SDL_video.h:464:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:464:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetNumDisplayModes(int displayIndex);
 
-    // Function @ SDL_video.h:447:48 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:447:48 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern SDL_DisplayOrientation SDL_GetDisplayOrientation(int displayIndex);
 
-    // Function @ SDL_video.h:436:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:436:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetDisplayDPI(int displayIndex, float* ddpi, float* hdpi, float* vdpi);
 
-    // Function @ SDL_video.h:410:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:410:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetDisplayUsableBounds(int displayIndex, SDL_Rect* rect);
 
-    // Function @ SDL_video.h:379:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:379:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetDisplayBounds(int displayIndex, SDL_Rect* rect);
 
-    // Function @ SDL_video.h:365:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:365:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GetDisplayName(int displayIndex);
 
-    // Function @ SDL_video.h:351:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:351:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetNumVideoDisplays();
 
-    // Function @ SDL_video.h:339:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:339:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GetCurrentVideoDriver();
 
-    // Function @ SDL_video.h:326:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:326:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern void SDL_VideoQuit();
 
-    // Function @ SDL_video.h:317:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:317:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_VideoInit(CString driver_name);
 
-    // Function @ SDL_video.h:288:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:288:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GetVideoDriver(int index);
 
-    // Function @ SDL_video.h:275:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Function @ SDL_video.h:275:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetNumVideoDrivers();
 
-    // Function @ SDL_surface.h:875:49 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:875:49 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern SDL_YUV_CONVERSION_MODE SDL_GetYUVConversionModeForResolution(int width, int height);
 
-    // Function @ SDL_surface.h:870:49 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:870:49 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern SDL_YUV_CONVERSION_MODE SDL_GetYUVConversionMode();
 
-    // Function @ SDL_surface.h:865:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:865:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SetYUVConversionMode(SDL_YUV_CONVERSION_MODE mode);
 
-    // Function @ SDL_surface.h:858:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:858:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_LowerBlitScaled(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect);
 
-    // Function @ SDL_surface.h:837:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:837:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_UpperBlitScaled(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect);
 
-    // Function @ SDL_surface.h:821:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:821:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SoftStretchLinear(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect);
 
-    // Function @ SDL_surface.h:813:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:813:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SoftStretch(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect);
 
-    // Function @ SDL_surface.h:800:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:800:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_LowerBlit(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect);
 
-    // Function @ SDL_surface.h:776:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:776:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_UpperBlit(SDL_Surface* src, SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect);
 
-    // Function @ SDL_surface.h:705:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:705:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_FillRects(SDL_Surface* dst, SDL_Rect* rects, int count, uint color);
 
-    // Function @ SDL_surface.h:681:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:681:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_FillRect(SDL_Surface* dst, SDL_Rect* rect, uint color);
 
-    // Function @ SDL_surface.h:654:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:654:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_ConvertPixels(int width, int height, uint src_format, void* src, int src_pitch, uint dst_format, void* dst, int dst_pitch);
 
-    // Function @ SDL_surface.h:637:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:637:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern SDL_Surface* SDL_ConvertSurfaceFormat(SDL_Surface* src, uint pixel_format, uint flags);
 
-    // Function @ SDL_surface.h:614:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:614:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern SDL_Surface* SDL_ConvertSurface(SDL_Surface* src, SDL_PixelFormat* fmt, uint flags);
 
-    // Function @ SDL_surface.h:592:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:592:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern SDL_Surface* SDL_DuplicateSurface(SDL_Surface* surface);
 
-    // Function @ SDL_surface.h:580:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:580:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern void SDL_GetClipRect(SDL_Surface* surface, SDL_Rect* rect);
 
-    // Function @ SDL_surface.h:563:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:563:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_SetClipRect(SDL_Surface* surface, SDL_Rect* rect);
 
-    // Function @ SDL_surface.h:542:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:542:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetSurfaceBlendMode(SDL_Surface* surface, SDL_BlendMode* blendMode);
 
-    // Function @ SDL_surface.h:529:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:529:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetSurfaceBlendMode(SDL_Surface* surface, SDL_BlendMode blendMode);
 
-    // Function @ SDL_surface.h:512:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:512:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetSurfaceAlphaMod(SDL_Surface* surface, byte* alpha);
 
-    // Function @ SDL_surface.h:498:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:498:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetSurfaceAlphaMod(SDL_Surface* surface, byte alpha);
 
-    // Function @ SDL_surface.h:478:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:478:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetSurfaceColorMod(SDL_Surface* surface, byte* r, byte* g, byte* b);
 
-    // Function @ SDL_surface.h:461:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:461:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetSurfaceColorMod(SDL_Surface* surface, byte r, byte g, byte b);
 
-    // Function @ SDL_surface.h:439:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:439:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetColorKey(SDL_Surface* surface, uint* key);
 
-    // Function @ SDL_surface.h:421:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:421:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasColorKey(SDL_Surface* surface);
 
-    // Function @ SDL_surface.h:407:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:407:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetColorKey(SDL_Surface* surface, int flag, uint key);
 
-    // Function @ SDL_surface.h:386:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:386:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasSurfaceRLE(SDL_Surface* surface);
 
-    // Function @ SDL_surface.h:373:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:373:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetSurfaceRLE(SDL_Surface* surface, int flag);
 
-    // Function @ SDL_surface.h:347:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:347:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SaveBMP_RW(SDL_Surface* surface, SDL_RWops* dst, int freedst);
 
-    // Function @ SDL_surface.h:319:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:319:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern SDL_Surface* SDL_LoadBMP_RW(SDL_RWops* src, int freesrc);
 
-    // Function @ SDL_surface.h:303:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:303:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern void SDL_UnlockSurface(SDL_Surface* surface);
 
-    // Function @ SDL_surface.h:294:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:294:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_LockSurface(SDL_Surface* surface);
 
-    // Function @ SDL_surface.h:272:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:272:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetSurfacePalette(SDL_Surface* surface, SDL_Palette* palette);
 
-    // Function @ SDL_surface.h:260:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:260:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern void SDL_FreeSurface(SDL_Surface* surface);
 
-    // Function @ SDL_surface.h:245:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:245:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern SDL_Surface* SDL_CreateRGBSurfaceWithFormatFrom(void* pixels, int width, int height, int depth, int pitch, uint format);
 
-    // Function @ SDL_surface.h:210:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:210:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern SDL_Surface* SDL_CreateRGBSurfaceFrom(void* pixels, int width, int height, int depth, int pitch, uint Rmask, uint Gmask, uint Bmask, uint Amask);
 
-    // Function @ SDL_surface.h:181:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:181:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern SDL_Surface* SDL_CreateRGBSurfaceWithFormat(uint flags, int width, int height, int depth, uint format);
 
-    // Function @ SDL_surface.h:156:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Function @ SDL_surface.h:156:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [DllImport(LibraryName)]
     public static extern SDL_Surface* SDL_CreateRGBSurface(uint flags, int width, int height, int depth, uint Rmask, uint Gmask, uint Bmask, uint Amask);
 
-    // Function @ SDL_blendmode.h:185:39 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_blendmode.h)
+    // Function @ SDL_blendmode.h:185:39 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_blendmode.h)
     [DllImport(LibraryName)]
     public static extern SDL_BlendMode SDL_ComposeCustomBlendMode(SDL_BlendFactor srcColorFactor, SDL_BlendFactor dstColorFactor, SDL_BlendOperation colorOperation, SDL_BlendFactor srcAlphaFactor, SDL_BlendFactor dstAlphaFactor, SDL_BlendOperation alphaOperation);
 
-    // Function @ SDL_rect.h:205:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rect.h)
+    // Function @ SDL_rect.h:205:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rect.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_IntersectRectAndLine(SDL_Rect* rect, long* X1, long* Y1, long* X2, long* Y2);
 
-    // Function @ SDL_rect.h:184:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rect.h)
+    // Function @ SDL_rect.h:184:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rect.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_EnclosePoints(SDL_Point* points, int count, SDL_Rect* clip, SDL_Rect* result);
 
-    // Function @ SDL_rect.h:165:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rect.h)
+    // Function @ SDL_rect.h:165:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rect.h)
     [DllImport(LibraryName)]
     public static extern void SDL_UnionRect(SDL_Rect* A, SDL_Rect* B, SDL_Rect* result);
 
-    // Function @ SDL_rect.h:153:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rect.h)
+    // Function @ SDL_rect.h:153:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rect.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_IntersectRect(SDL_Rect* A, SDL_Rect* B, SDL_Rect* result);
 
-    // Function @ SDL_rect.h:135:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rect.h)
+    // Function @ SDL_rect.h:135:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rect.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasIntersection(SDL_Rect* A, SDL_Rect* B);
 
-    // Function @ SDL_rect.h:116:27 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rect.h)
+    // Function @ SDL_rect.h:116:27 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rect.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_RectEquals(SDL_Rect* a, SDL_Rect* b);
 
-    // Function @ SDL_rect.h:108:27 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rect.h)
+    // Function @ SDL_rect.h:108:27 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rect.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_RectEmpty(SDL_Rect* r);
 
-    // Function @ SDL_rect.h:99:27 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rect.h)
+    // Function @ SDL_rect.h:99:27 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rect.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_PointInRect(SDL_Point* p, SDL_Rect* r);
 
-    // Function @ SDL_pixels.h:602:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_pixels.h)
+    // Function @ SDL_pixels.h:602:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_pixels.h)
     [DllImport(LibraryName)]
     public static extern void SDL_CalculateGammaRamp(float gamma, ushort* ramp);
 
-    // Function @ SDL_pixels.h:589:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_pixels.h)
+    // Function @ SDL_pixels.h:589:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_pixels.h)
     [DllImport(LibraryName)]
     public static extern void SDL_GetRGBA(uint pixel, SDL_PixelFormat* format, byte* r, byte* g, byte* b, byte* a);
 
-    // Function @ SDL_pixels.h:562:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_pixels.h)
+    // Function @ SDL_pixels.h:562:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_pixels.h)
     [DllImport(LibraryName)]
     public static extern void SDL_GetRGB(uint pixel, SDL_PixelFormat* format, byte* r, byte* g, byte* b);
 
-    // Function @ SDL_pixels.h:539:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_pixels.h)
+    // Function @ SDL_pixels.h:539:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_pixels.h)
     [DllImport(LibraryName)]
     public static extern uint SDL_MapRGBA(SDL_PixelFormat* format, byte r, byte g, byte b, byte a);
 
-    // Function @ SDL_pixels.h:506:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_pixels.h)
+    // Function @ SDL_pixels.h:506:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_pixels.h)
     [DllImport(LibraryName)]
     public static extern uint SDL_MapRGB(SDL_PixelFormat* format, byte r, byte g, byte b);
 
-    // Function @ SDL_pixels.h:476:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_pixels.h)
+    // Function @ SDL_pixels.h:476:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_pixels.h)
     [DllImport(LibraryName)]
     public static extern void SDL_FreePalette(SDL_Palette* palette);
 
-    // Function @ SDL_pixels.h:465:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_pixels.h)
+    // Function @ SDL_pixels.h:465:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_pixels.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetPaletteColors(SDL_Palette* palette, SDL_Color* colors, int firstcolor, int ncolors);
 
-    // Function @ SDL_pixels.h:449:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_pixels.h)
+    // Function @ SDL_pixels.h:449:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_pixels.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetPixelFormatPalette(SDL_PixelFormat* format, SDL_Palette* palette);
 
-    // Function @ SDL_pixels.h:436:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_pixels.h)
+    // Function @ SDL_pixels.h:436:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_pixels.h)
     [DllImport(LibraryName)]
     public static extern SDL_Palette* SDL_AllocPalette(int ncolors);
 
-    // Function @ SDL_pixels.h:422:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_pixels.h)
+    // Function @ SDL_pixels.h:422:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_pixels.h)
     [DllImport(LibraryName)]
     public static extern void SDL_FreeFormat(SDL_PixelFormat* format);
 
-    // Function @ SDL_pixels.h:413:43 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_pixels.h)
+    // Function @ SDL_pixels.h:413:43 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_pixels.h)
     [DllImport(LibraryName)]
     public static extern SDL_PixelFormat* SDL_AllocFormat(uint pixel_format);
 
-    // Function @ SDL_pixels.h:394:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_pixels.h)
+    // Function @ SDL_pixels.h:394:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_pixels.h)
     [DllImport(LibraryName)]
     public static extern uint SDL_MasksToPixelFormatEnum(int bpp, uint Rmask, uint Gmask, uint Bmask, uint Amask);
 
-    // Function @ SDL_pixels.h:372:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_pixels.h)
+    // Function @ SDL_pixels.h:372:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_pixels.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_PixelFormatEnumToMasks(uint format, long* bpp, uint* Rmask, uint* Gmask, uint* Bmask, uint* Amask);
 
-    // Function @ SDL_pixels.h:356:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_pixels.h)
+    // Function @ SDL_pixels.h:356:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_pixels.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GetPixelFormatName(uint format);
 
-    // Function @ SDL_cpuinfo.h:512:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:512:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern void SDL_SIMDFree(void* ptr);
 
-    // Function @ SDL_cpuinfo.h:490:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:490:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern void* SDL_SIMDRealloc(void* mem, ulong len);
 
-    // Function @ SDL_cpuinfo.h:468:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:468:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern void* SDL_SIMDAlloc(ulong len);
 
-    // Function @ SDL_cpuinfo.h:431:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:431:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern ulong SDL_SIMDGetAlignment();
 
-    // Function @ SDL_cpuinfo.h:415:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:415:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetSystemRAM();
 
-    // Function @ SDL_cpuinfo.h:406:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:406:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasNEON();
 
-    // Function @ SDL_cpuinfo.h:397:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:397:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasARMSIMD();
 
-    // Function @ SDL_cpuinfo.h:384:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:384:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasAVX512F();
 
-    // Function @ SDL_cpuinfo.h:373:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:373:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasAVX2();
 
-    // Function @ SDL_cpuinfo.h:351:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:351:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasAVX();
 
-    // Function @ SDL_cpuinfo.h:329:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:329:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasSSE42();
 
-    // Function @ SDL_cpuinfo.h:309:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:309:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasSSE41();
 
-    // Function @ SDL_cpuinfo.h:289:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:289:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasSSE3();
 
-    // Function @ SDL_cpuinfo.h:269:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:269:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasSSE2();
 
-    // Function @ SDL_cpuinfo.h:249:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:249:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasSSE();
 
-    // Function @ SDL_cpuinfo.h:229:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:229:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_Has3DNow();
 
-    // Function @ SDL_cpuinfo.h:209:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:209:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasMMX();
 
-    // Function @ SDL_cpuinfo.h:189:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:189:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasAltiVec();
 
-    // Function @ SDL_cpuinfo.h:169:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:169:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasRDTSC();
 
-    // Function @ SDL_cpuinfo.h:149:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:149:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetCPUCacheLineSize();
 
-    // Function @ SDL_cpuinfo.h:137:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_cpuinfo.h)
+    // Function @ SDL_cpuinfo.h:137:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_cpuinfo.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetCPUCount();
 
-    // Function @ SDL_clipboard.h:78:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_clipboard.h)
+    // Function @ SDL_clipboard.h:78:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_clipboard.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_HasClipboardText();
 
-    // Function @ SDL_clipboard.h:66:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_clipboard.h)
+    // Function @ SDL_clipboard.h:66:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_clipboard.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GetClipboardText();
 
-    // Function @ SDL_clipboard.h:51:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_clipboard.h)
+    // Function @ SDL_clipboard.h:51:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_clipboard.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetClipboardText(CString text);
 
-    // Function @ SDL_audio.h:1145:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:1145:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern void SDL_CloseAudioDevice(SDL_AudioDeviceID dev);
 
-    // Function @ SDL_audio.h:1144:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:1144:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern void SDL_CloseAudio();
 
-    // Function @ SDL_audio.h:1128:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:1128:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern void SDL_UnlockAudioDevice(SDL_AudioDeviceID dev);
 
-    // Function @ SDL_audio.h:1127:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:1127:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern void SDL_UnlockAudio();
 
-    // Function @ SDL_audio.h:1126:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:1126:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern void SDL_LockAudioDevice(SDL_AudioDeviceID dev);
 
-    // Function @ SDL_audio.h:1125:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:1125:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern void SDL_LockAudio();
 
-    // Function @ SDL_audio.h:1113:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:1113:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern void SDL_ClearQueuedAudio(SDL_AudioDeviceID dev);
 
-    // Function @ SDL_audio.h:1079:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:1079:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern uint SDL_GetQueuedAudioSize(SDL_AudioDeviceID dev);
 
-    // Function @ SDL_audio.h:1044:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:1044:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern uint SDL_DequeueAudio(SDL_AudioDeviceID dev, void* data, uint len);
 
-    // Function @ SDL_audio.h:996:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:996:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern int SDL_QueueAudio(SDL_AudioDeviceID dev, void* data, uint len);
 
-    // Function @ SDL_audio.h:949:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:949:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern void SDL_MixAudioFormat(byte* dst, byte* src, SDL_AudioFormat format, uint len, int volume);
 
-    // Function @ SDL_audio.h:918:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:918:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern void SDL_MixAudio(byte* dst, byte* src, uint len, int volume);
 
-    // Function @ SDL_audio.h:895:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:895:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern void SDL_FreeAudioStream(SDL_AudioStream* stream);
 
-    // Function @ SDL_audio.h:883:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:883:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern void SDL_AudioStreamClear(SDL_AudioStream* stream);
 
-    // Function @ SDL_audio.h:871:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:871:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern int SDL_AudioStreamFlush(SDL_AudioStream* stream);
 
-    // Function @ SDL_audio.h:854:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:854:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern int SDL_AudioStreamAvailable(SDL_AudioStream* stream);
 
-    // Function @ SDL_audio.h:839:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:839:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern int SDL_AudioStreamGet(SDL_AudioStream* stream, void* buf, int len);
 
-    // Function @ SDL_audio.h:822:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:822:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern int SDL_AudioStreamPut(SDL_AudioStream* stream, void* buf, int len);
 
-    // Function @ SDL_audio.h:800:43 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:800:43 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern SDL_AudioStream* SDL_NewAudioStream(SDL_AudioFormat src_format, byte src_channels, int src_rate, SDL_AudioFormat dst_format, byte dst_channels, int dst_rate);
 
-    // Function @ SDL_audio.h:769:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:769:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern int SDL_ConvertAudio(SDL_AudioCVT* cvt);
 
-    // Function @ SDL_audio.h:725:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:725:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern int SDL_BuildAudioCVT(SDL_AudioCVT* cvt, SDL_AudioFormat src_format, byte src_channels, int src_rate, SDL_AudioFormat dst_format, byte dst_channels, int dst_rate);
 
-    // Function @ SDL_audio.h:692:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:692:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern void SDL_FreeWAV(byte* audio_buf);
 
-    // Function @ SDL_audio.h:666:40 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:666:40 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern SDL_AudioSpec* SDL_LoadWAV_RW(SDL_RWops* src, int freesrc, SDL_AudioSpec* spec, byte** audio_buf, uint* audio_len);
 
-    // Function @ SDL_audio.h:587:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:587:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern void SDL_PauseAudioDevice(SDL_AudioDeviceID dev, int pause_on);
 
-    // Function @ SDL_audio.h:586:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:586:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern void SDL_PauseAudio(int pause_on);
 
-    // Function @ SDL_audio.h:573:41 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:573:41 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern SDL_AudioStatus SDL_GetAudioDeviceStatus(SDL_AudioDeviceID dev);
 
-    // Function @ SDL_audio.h:572:41 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:572:41 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern SDL_AudioStatus SDL_GetAudioStatus();
 
-    // Function @ SDL_audio.h:551:43 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:551:43 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern SDL_AudioDeviceID SDL_OpenAudioDevice(CString device, int iscapture, SDL_AudioSpec* desired, SDL_AudioSpec* obtained, int allowed_changes);
 
-    // Function @ SDL_audio.h:440:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:440:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetAudioDeviceSpec(int index, int iscapture, SDL_AudioSpec* spec);
 
-    // Function @ SDL_audio.h:415:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:415:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GetAudioDeviceName(int index, int iscapture);
 
-    // Function @ SDL_audio.h:391:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:391:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetNumAudioDevices(int iscapture);
 
-    // Function @ SDL_audio.h:333:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:333:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern int SDL_OpenAudio(SDL_AudioSpec* desired, SDL_AudioSpec* obtained);
 
-    // Function @ SDL_audio.h:285:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:285:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GetCurrentAudioDriver();
 
-    // Function @ SDL_audio.h:266:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:266:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern void SDL_AudioQuit();
 
-    // Function @ SDL_audio.h:265:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:265:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern int SDL_AudioInit(CString driver_name);
 
-    // Function @ SDL_audio.h:254:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:254:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GetAudioDriver(int index);
 
-    // Function @ SDL_audio.h:253:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Function @ SDL_audio.h:253:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [DllImport(LibraryName)]
     public static extern int SDL_GetNumAudioDrivers();
 
-    // Function @ SDL_rwops.h:401:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:401:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern ulong SDL_WriteBE64(SDL_RWops* dst, ulong value);
 
-    // Function @ SDL_rwops.h:400:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:400:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern ulong SDL_WriteLE64(SDL_RWops* dst, ulong value);
 
-    // Function @ SDL_rwops.h:399:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:399:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern ulong SDL_WriteBE32(SDL_RWops* dst, uint value);
 
-    // Function @ SDL_rwops.h:398:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:398:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern ulong SDL_WriteLE32(SDL_RWops* dst, uint value);
 
-    // Function @ SDL_rwops.h:397:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:397:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern ulong SDL_WriteBE16(SDL_RWops* dst, ushort value);
 
-    // Function @ SDL_rwops.h:396:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:396:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern ulong SDL_WriteLE16(SDL_RWops* dst, ushort value);
 
-    // Function @ SDL_rwops.h:395:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:395:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern ulong SDL_WriteU8(SDL_RWops* dst, byte value);
 
-    // Function @ SDL_rwops.h:386:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:386:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern ulong SDL_ReadBE64(SDL_RWops* src);
 
-    // Function @ SDL_rwops.h:385:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:385:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern ulong SDL_ReadLE64(SDL_RWops* src);
 
-    // Function @ SDL_rwops.h:384:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:384:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern uint SDL_ReadBE32(SDL_RWops* src);
 
-    // Function @ SDL_rwops.h:383:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:383:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern uint SDL_ReadLE32(SDL_RWops* src);
 
-    // Function @ SDL_rwops.h:382:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:382:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern ushort SDL_ReadBE16(SDL_RWops* src);
 
-    // Function @ SDL_rwops.h:381:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:381:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern ushort SDL_ReadLE16(SDL_RWops* src);
 
-    // Function @ SDL_rwops.h:380:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:380:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern byte SDL_ReadU8(SDL_RWops* src);
 
-    // Function @ SDL_rwops.h:372:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:372:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern void* SDL_LoadFile(CString file, ulong* datasize);
 
-    // Function @ SDL_rwops.h:355:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:355:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern void* SDL_LoadFile_RW(SDL_RWops* src, ulong* datasize, int freesrc);
 
-    // Function @ SDL_rwops.h:339:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:339:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern int SDL_RWclose(SDL_RWops* context);
 
-    // Function @ SDL_rwops.h:309:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:309:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern ulong SDL_RWwrite(SDL_RWops* context, void* ptr, ulong size, ulong num);
 
-    // Function @ SDL_rwops.h:279:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:279:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern ulong SDL_RWread(SDL_RWops* context, void* ptr, ulong size, ulong maxnum);
 
-    // Function @ SDL_rwops.h:251:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:251:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern long SDL_RWtell(SDL_RWops* context);
 
-    // Function @ SDL_rwops.h:227:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:227:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern long SDL_RWseek(SDL_RWops* context, long offset, int whence);
 
-    // Function @ SDL_rwops.h:194:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:194:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern long SDL_RWsize(SDL_RWops* context);
 
-    // Function @ SDL_rwops.h:178:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:178:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern void SDL_FreeRW(SDL_RWops* area);
 
-    // Function @ SDL_rwops.h:177:36 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:177:36 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern SDL_RWops* SDL_AllocRW();
 
-    // Function @ SDL_rwops.h:171:36 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:171:36 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern SDL_RWops* SDL_RWFromConstMem(void* mem, int size);
 
-    // Function @ SDL_rwops.h:170:36 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:170:36 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern SDL_RWops* SDL_RWFromMem(void* mem, int size);
 
-    // Function @ SDL_rwops.h:166:36 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:166:36 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern SDL_RWops* SDL_RWFromFP(void* fp, CBool autoclose);
 
-    // Function @ SDL_rwops.h:159:36 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // Function @ SDL_rwops.h:159:36 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [DllImport(LibraryName)]
     public static extern SDL_RWops* SDL_RWFromFile(CString file, CString mode);
 
-    // Function @ SDL_mutex.h:422:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // Function @ SDL_mutex.h:422:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [DllImport(LibraryName)]
     public static extern int SDL_CondWaitTimeout(SDL_cond* cond, SDL_mutex* mutex, uint ms);
 
-    // Function @ SDL_mutex.h:395:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // Function @ SDL_mutex.h:395:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [DllImport(LibraryName)]
     public static extern int SDL_CondWait(SDL_cond* cond, SDL_mutex* mutex);
 
-    // Function @ SDL_mutex.h:369:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // Function @ SDL_mutex.h:369:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [DllImport(LibraryName)]
     public static extern int SDL_CondBroadcast(SDL_cond* cond);
 
-    // Function @ SDL_mutex.h:354:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // Function @ SDL_mutex.h:354:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [DllImport(LibraryName)]
     public static extern int SDL_CondSignal(SDL_cond* cond);
 
-    // Function @ SDL_mutex.h:339:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // Function @ SDL_mutex.h:339:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [DllImport(LibraryName)]
     public static extern void SDL_DestroyCond(SDL_cond* cond);
 
-    // Function @ SDL_mutex.h:326:35 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // Function @ SDL_mutex.h:326:35 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [DllImport(LibraryName)]
     public static extern SDL_cond* SDL_CreateCond();
 
-    // Function @ SDL_mutex.h:300:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // Function @ SDL_mutex.h:300:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [DllImport(LibraryName)]
     public static extern uint SDL_SemValue(SDL_sem* sem);
 
-    // Function @ SDL_mutex.h:290:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // Function @ SDL_mutex.h:290:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SemPost(SDL_sem* sem);
 
-    // Function @ SDL_mutex.h:274:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // Function @ SDL_mutex.h:274:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SemWaitTimeout(SDL_sem* sem, uint ms);
 
-    // Function @ SDL_mutex.h:250:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // Function @ SDL_mutex.h:250:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SemTryWait(SDL_sem* sem);
 
-    // Function @ SDL_mutex.h:228:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // Function @ SDL_mutex.h:228:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SemWait(SDL_sem* sem);
 
-    // Function @ SDL_mutex.h:203:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // Function @ SDL_mutex.h:203:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [DllImport(LibraryName)]
     public static extern void SDL_DestroySemaphore(SDL_sem* sem);
 
-    // Function @ SDL_mutex.h:186:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // Function @ SDL_mutex.h:186:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [DllImport(LibraryName)]
     public static extern SDL_sem* SDL_CreateSemaphore(uint initial_value);
 
-    // Function @ SDL_mutex.h:152:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // Function @ SDL_mutex.h:152:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [DllImport(LibraryName)]
     public static extern void SDL_DestroyMutex(SDL_mutex* mutex);
 
-    // Function @ SDL_mutex.h:133:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // Function @ SDL_mutex.h:133:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [DllImport(LibraryName)]
     public static extern int SDL_UnlockMutex(SDL_mutex* mutex);
 
-    // Function @ SDL_mutex.h:116:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // Function @ SDL_mutex.h:116:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [DllImport(LibraryName)]
     public static extern int SDL_TryLockMutex(SDL_mutex* mutex);
 
-    // Function @ SDL_mutex.h:95:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // Function @ SDL_mutex.h:95:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [DllImport(LibraryName)]
     public static extern int SDL_LockMutex(SDL_mutex* mutex);
 
-    // Function @ SDL_mutex.h:79:36 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // Function @ SDL_mutex.h:79:36 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [DllImport(LibraryName)]
     public static extern SDL_mutex* SDL_CreateMutex();
 
-    // Function @ SDL_error.h:143:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_error.h)
+    // Function @ SDL_error.h:143:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_error.h)
     [DllImport(LibraryName)]
     public static extern int SDL_Error(SDL_errorcode code);
 
-    // Function @ SDL_error.h:121:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_error.h)
+    // Function @ SDL_error.h:121:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_error.h)
     [DllImport(LibraryName)]
     public static extern void SDL_ClearError();
 
-    // Function @ SDL_error.h:113:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_error.h)
+    // Function @ SDL_error.h:113:32 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_error.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GetErrorMsg(CString errstr, int maxlen);
 
-    // Function @ SDL_error.h:98:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_error.h)
+    // Function @ SDL_error.h:98:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_error.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GetError();
 
-    // Function @ SDL_error.h:64:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_error.h)
+    // Function @ SDL_error.h:64:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_error.h)
     [DllImport(LibraryName)]
     public static extern int SDL_SetError(CString fmt);
 
-    // Function @ SDL_atomic.h:370:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_atomic.h)
+    // Function @ SDL_atomic.h:370:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_atomic.h)
     [DllImport(LibraryName)]
     public static extern void* SDL_AtomicGetPtr(void** a);
 
-    // Function @ SDL_atomic.h:356:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_atomic.h)
+    // Function @ SDL_atomic.h:356:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_atomic.h)
     [DllImport(LibraryName)]
     public static extern void* SDL_AtomicSetPtr(void** a, void* v);
 
-    // Function @ SDL_atomic.h:341:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_atomic.h)
+    // Function @ SDL_atomic.h:341:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_atomic.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_AtomicCASPtr(void** a, void* oldval, void* newval);
 
-    // Function @ SDL_atomic.h:304:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_atomic.h)
+    // Function @ SDL_atomic.h:304:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_atomic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_AtomicAdd(SDL_atomic_t* a, int v);
 
-    // Function @ SDL_atomic.h:287:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_atomic.h)
+    // Function @ SDL_atomic.h:287:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_atomic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_AtomicGet(SDL_atomic_t* a);
 
-    // Function @ SDL_atomic.h:274:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_atomic.h)
+    // Function @ SDL_atomic.h:274:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_atomic.h)
     [DllImport(LibraryName)]
     public static extern int SDL_AtomicSet(SDL_atomic_t* a, int v);
 
-    // Function @ SDL_atomic.h:258:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_atomic.h)
+    // Function @ SDL_atomic.h:258:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_atomic.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_AtomicCAS(SDL_atomic_t* a, int oldval, int newval);
 
-    // Function @ SDL_atomic.h:178:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_atomic.h)
+    // Function @ SDL_atomic.h:178:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_atomic.h)
     [DllImport(LibraryName)]
     public static extern void SDL_MemoryBarrierAcquireFunction();
 
-    // Function @ SDL_atomic.h:177:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_atomic.h)
+    // Function @ SDL_atomic.h:177:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_atomic.h)
     [DllImport(LibraryName)]
     public static extern void SDL_MemoryBarrierReleaseFunction();
 
-    // Function @ SDL_atomic.h:134:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_atomic.h)
+    // Function @ SDL_atomic.h:134:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_atomic.h)
     [DllImport(LibraryName)]
     public static extern void SDL_AtomicUnlock(SDL_SpinLock* @lock);
 
-    // Function @ SDL_atomic.h:117:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_atomic.h)
+    // Function @ SDL_atomic.h:117:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_atomic.h)
     [DllImport(LibraryName)]
     public static extern void SDL_AtomicLock(SDL_SpinLock* @lock);
 
-    // Function @ SDL_atomic.h:104:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_atomic.h)
+    // Function @ SDL_atomic.h:104:34 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_atomic.h)
     [DllImport(LibraryName)]
     public static extern CBool SDL_AtomicTryLock(SDL_SpinLock* @lock);
 
-    // Function @ SDL_platform.h:202:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_platform.h)
+    // Function @ SDL_platform.h:202:38 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_platform.h)
     [DllImport(LibraryName)]
     public static extern CString SDL_GetPlatform();
 
-    // FunctionPointer @ SDL_timer.h:111:27 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_timer.h)
+    // FunctionPointer @ SDL_timer.h:111:27 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_timer.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_TimerCallback
     {
         public delegate* unmanaged<uint, void*, uint> Pointer;
     }
 
-    // FunctionPointer @ SDL_log.h:342:24 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_log.h)
+    // FunctionPointer @ SDL_log.h:342:24 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_log.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_LogOutputFunction
     {
         public delegate* unmanaged<void*, int, SDL_LogPriority, CString, void> Pointer;
     }
 
-    // FunctionPointer @ SDL_hints.h:1744:24 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_hints.h)
+    // FunctionPointer @ SDL_hints.h:1744:24 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_hints.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_HintCallback
     {
         public delegate* unmanaged<void*, CString, CString, CString, void> Pointer;
     }
 
-    // FunctionPointer @ SDL_events.h:919:24 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // FunctionPointer @ SDL_events.h:919:24 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_EventFilter
     {
         public delegate* unmanaged<void*, SDL_Event*, int> Pointer;
     }
 
-    // FunctionPointer @ SDL_video.h:1464:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // FunctionPointer @ SDL_video.h:1464:37 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_HitTest
     {
         public delegate* unmanaged<SDL_Window*, SDL_Point*, void*, SDL_HitTestResult> Pointer;
     }
 
-    // FunctionPointer @ SDL_audio.h:165:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // FunctionPointer @ SDL_audio.h:165:25 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_AudioCallback
     {
         public delegate* unmanaged<void*, byte*, int, void> Pointer;
     }
 
-    // Struct @ SDL_locale.h:47:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_locale.h)
+    // Struct @ SDL_locale.h:47:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_locale.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct SDL_Locale
     {
@@ -2486,7 +2486,7 @@ public static unsafe partial class SDL
         public CString country;
     }
 
-    // Struct @ SDL_version.h:56:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_version.h)
+    // Struct @ SDL_version.h:56:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_version.h)
     [StructLayout(LayoutKind.Explicit, Size = 3, Pack = 1)]
     public struct SDL_version
     {
@@ -2500,7 +2500,7 @@ public static unsafe partial class SDL
         public byte patch;
     }
 
-    // Struct @ SDL_shape.h:106:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_shape.h)
+    // Struct @ SDL_shape.h:106:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_shape.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct SDL_WindowShapeMode
     {
@@ -2511,7 +2511,7 @@ public static unsafe partial class SDL
         public SDL_WindowShapeParams parameters;
     }
 
-    // Struct @ SDL_shape.h:98:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_shape.h)
+    // Struct @ SDL_shape.h:98:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_shape.h)
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 1)]
     public struct SDL_WindowShapeParams
     {
@@ -2522,7 +2522,7 @@ public static unsafe partial class SDL
         public SDL_Color colorKey;
     }
 
-    // Struct @ SDL_pixels.h:310:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_pixels.h)
+    // Struct @ SDL_pixels.h:310:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_pixels.h)
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 1)]
     public struct SDL_Color
     {
@@ -2539,7 +2539,7 @@ public static unsafe partial class SDL
         public byte a;
     }
 
-    // Struct @ SDL_surface.h:95:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Struct @ SDL_surface.h:95:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [StructLayout(LayoutKind.Explicit, Size = 96, Pack = 8)]
     public struct SDL_Surface
     {
@@ -2580,7 +2580,7 @@ public static unsafe partial class SDL
         public int refcount;
     }
 
-    // Struct @ SDL_rect.h:81:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rect.h)
+    // Struct @ SDL_rect.h:81:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rect.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct SDL_Rect
     {
@@ -2597,7 +2597,7 @@ public static unsafe partial class SDL
         public int h;
     }
 
-    // Struct @ SDL_pixels.h:345:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_pixels.h)
+    // Struct @ SDL_pixels.h:345:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_pixels.h)
     [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
     public struct SDL_PixelFormat
     {
@@ -2672,7 +2672,7 @@ public static unsafe partial class SDL
         public SDL_PixelFormat* next;
     }
 
-    // Struct @ SDL_pixels.h:319:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_pixels.h)
+    // Struct @ SDL_pixels.h:319:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_pixels.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct SDL_Palette
     {
@@ -2689,7 +2689,7 @@ public static unsafe partial class SDL
         public int refcount;
     }
 
-    // Struct @ SDL_rect.h:64:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rect.h)
+    // Struct @ SDL_rect.h:64:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rect.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct SDL_FPoint
     {
@@ -2700,7 +2700,7 @@ public static unsafe partial class SDL
         public float y;
     }
 
-    // Struct @ SDL_rect.h:93:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rect.h)
+    // Struct @ SDL_rect.h:93:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rect.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct SDL_FRect
     {
@@ -2717,7 +2717,7 @@ public static unsafe partial class SDL
         public float h;
     }
 
-    // Struct @ SDL_rect.h:52:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rect.h)
+    // Struct @ SDL_rect.h:52:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rect.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct SDL_Point
     {
@@ -2728,7 +2728,7 @@ public static unsafe partial class SDL
         public int y;
     }
 
-    // Struct @ SDL_render.h:86:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Struct @ SDL_render.h:86:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [StructLayout(LayoutKind.Explicit, Size = 88, Pack = 8)]
     public struct SDL_RendererInfo
     {
@@ -2764,7 +2764,7 @@ public static unsafe partial class SDL
         public int max_texture_height;
     }
 
-    // Struct @ SDL_messagebox.h:105:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_messagebox.h)
+    // Struct @ SDL_messagebox.h:105:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_messagebox.h)
     [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
     public struct SDL_MessageBoxData
     {
@@ -2790,7 +2790,7 @@ public static unsafe partial class SDL
         public SDL_MessageBoxColorScheme* colorScheme;
     }
 
-    // Struct @ SDL_messagebox.h:89:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_messagebox.h)
+    // Struct @ SDL_messagebox.h:89:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_messagebox.h)
     [StructLayout(LayoutKind.Explicit, Size = 15, Pack = 1)]
     public struct SDL_MessageBoxColorScheme
     {
@@ -2811,7 +2811,7 @@ public static unsafe partial class SDL
         }
     }
 
-    // Struct @ SDL_messagebox.h:71:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_messagebox.h)
+    // Struct @ SDL_messagebox.h:71:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_messagebox.h)
     [StructLayout(LayoutKind.Explicit, Size = 3, Pack = 1)]
     public struct SDL_MessageBoxColor
     {
@@ -2825,7 +2825,7 @@ public static unsafe partial class SDL
         public byte b;
     }
 
-    // Struct @ SDL_messagebox.h:63:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_messagebox.h)
+    // Struct @ SDL_messagebox.h:63:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_messagebox.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct SDL_MessageBoxButtonData
     {
@@ -2839,7 +2839,7 @@ public static unsafe partial class SDL
         public CString text;
     }
 
-    // Struct @ SDL_haptic.h:819:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Struct @ SDL_haptic.h:819:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8)]
     public struct SDL_HapticEffect
     {
@@ -2865,7 +2865,7 @@ public static unsafe partial class SDL
         public SDL_HapticCustom custom;
     }
 
-    // Struct @ SDL_haptic.h:738:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Struct @ SDL_haptic.h:738:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
     public struct SDL_HapticCustom
     {
@@ -2912,7 +2912,7 @@ public static unsafe partial class SDL
         public ushort fade_level;
     }
 
-    // Struct @ SDL_haptic.h:463:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Struct @ SDL_haptic.h:463:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct SDL_HapticDirection
     {
@@ -2936,7 +2936,7 @@ public static unsafe partial class SDL
         }
     }
 
-    // Struct @ SDL_haptic.h:696:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Struct @ SDL_haptic.h:696:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct SDL_HapticLeftRight
     {
@@ -2953,7 +2953,7 @@ public static unsafe partial class SDL
         public ushort small_magnitude;
     }
 
-    // Struct @ SDL_haptic.h:671:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Struct @ SDL_haptic.h:671:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [StructLayout(LayoutKind.Explicit, Size = 44, Pack = 4)]
     public struct SDL_HapticRamp
     {
@@ -2994,7 +2994,7 @@ public static unsafe partial class SDL
         public ushort fade_level;
     }
 
-    // Struct @ SDL_haptic.h:633:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Struct @ SDL_haptic.h:633:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [StructLayout(LayoutKind.Explicit, Size = 68, Pack = 4)]
     public struct SDL_HapticCondition
     {
@@ -3113,7 +3113,7 @@ public static unsafe partial class SDL
         }
     }
 
-    // Struct @ SDL_haptic.h:585:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Struct @ SDL_haptic.h:585:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 4)]
     public struct SDL_HapticPeriodic
     {
@@ -3160,7 +3160,7 @@ public static unsafe partial class SDL
         public ushort fade_level;
     }
 
-    // Struct @ SDL_haptic.h:499:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // Struct @ SDL_haptic.h:499:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 4)]
     public struct SDL_HapticConstant
     {
@@ -3198,7 +3198,7 @@ public static unsafe partial class SDL
         public ushort fade_level;
     }
 
-    // Struct @ SDL_events.h:631:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:631:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
     public struct SDL_Event
     {
@@ -3306,7 +3306,7 @@ public static unsafe partial class SDL
         }
     }
 
-    // Struct @ SDL_events.h:526:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:526:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct SDL_DropEvent
     {
@@ -3323,7 +3323,7 @@ public static unsafe partial class SDL
         public uint windowID;
     }
 
-    // Struct @ SDL_events.h:512:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:512:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
     public struct SDL_DollarGestureEvent
     {
@@ -3352,7 +3352,7 @@ public static unsafe partial class SDL
         public float y;
     }
 
-    // Struct @ SDL_events.h:496:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:496:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 40, Pack = 8)]
     public struct SDL_MultiGestureEvent
     {
@@ -3384,7 +3384,7 @@ public static unsafe partial class SDL
         public ushort padding;
     }
 
-    // Struct @ SDL_events.h:479:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:479:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
     public struct SDL_TouchFingerEvent
     {
@@ -3419,7 +3419,7 @@ public static unsafe partial class SDL
         public uint windowID;
     }
 
-    // Struct @ SDL_events.h:586:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:586:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct SDL_SysWMEvent
     {
@@ -3433,7 +3433,7 @@ public static unsafe partial class SDL
         public SDL_SysWMmsg* msg;
     }
 
-    // Struct @ SDL_events.h:569:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:569:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
     public struct SDL_UserEvent
     {
@@ -3456,7 +3456,7 @@ public static unsafe partial class SDL
         public void* data2;
     }
 
-    // Struct @ SDL_events.h:547:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:547:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct SDL_QuitEvent
     {
@@ -3467,7 +3467,7 @@ public static unsafe partial class SDL
         public uint timestamp;
     }
 
-    // Struct @ SDL_events.h:538:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:538:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 36, Pack = 4)]
     public struct SDL_SensorEvent
     {
@@ -3497,7 +3497,7 @@ public static unsafe partial class SDL
         }
     }
 
-    // Struct @ SDL_events.h:461:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:461:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct SDL_AudioDeviceEvent
     {
@@ -3523,7 +3523,7 @@ public static unsafe partial class SDL
         public byte padding3;
     }
 
-    // Struct @ SDL_events.h:447:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:447:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
     public struct SDL_ControllerSensorEvent
     {
@@ -3556,7 +3556,7 @@ public static unsafe partial class SDL
         }
     }
 
-    // Struct @ SDL_events.h:435:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:435:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 4)]
     public struct SDL_ControllerTouchpadEvent
     {
@@ -3585,7 +3585,7 @@ public static unsafe partial class SDL
         public float pressure;
     }
 
-    // Struct @ SDL_events.h:420:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:420:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct SDL_ControllerDeviceEvent
     {
@@ -3599,7 +3599,7 @@ public static unsafe partial class SDL
         public int which;
     }
 
-    // Struct @ SDL_events.h:409:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:409:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct SDL_ControllerButtonEvent
     {
@@ -3625,7 +3625,7 @@ public static unsafe partial class SDL
         public byte padding2;
     }
 
-    // Struct @ SDL_events.h:394:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:394:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 20, Pack = 4)]
     public struct SDL_ControllerAxisEvent
     {
@@ -3657,7 +3657,7 @@ public static unsafe partial class SDL
         public ushort padding4;
     }
 
-    // Struct @ SDL_events.h:377:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:377:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct SDL_JoyDeviceEvent
     {
@@ -3671,7 +3671,7 @@ public static unsafe partial class SDL
         public int which;
     }
 
-    // Struct @ SDL_events.h:367:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:367:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct SDL_JoyButtonEvent
     {
@@ -3697,7 +3697,7 @@ public static unsafe partial class SDL
         public byte padding2;
     }
 
-    // Struct @ SDL_events.h:353:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:353:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct SDL_JoyHatEvent
     {
@@ -3723,7 +3723,7 @@ public static unsafe partial class SDL
         public byte padding2;
     }
 
-    // Struct @ SDL_events.h:333:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:333:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 20, Pack = 4)]
     public struct SDL_JoyBallEvent
     {
@@ -3755,7 +3755,7 @@ public static unsafe partial class SDL
         public short yrel;
     }
 
-    // Struct @ SDL_events.h:317:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:317:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 20, Pack = 4)]
     public struct SDL_JoyAxisEvent
     {
@@ -3787,7 +3787,7 @@ public static unsafe partial class SDL
         public ushort padding4;
     }
 
-    // Struct @ SDL_events.h:301:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:301:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
     public struct SDL_MouseWheelEvent
     {
@@ -3813,7 +3813,7 @@ public static unsafe partial class SDL
         public uint direction;
     }
 
-    // Struct @ SDL_events.h:287:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:287:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 28, Pack = 4)]
     public struct SDL_MouseButtonEvent
     {
@@ -3848,7 +3848,7 @@ public static unsafe partial class SDL
         public int y;
     }
 
-    // Struct @ SDL_events.h:270:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:270:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 36, Pack = 4)]
     public struct SDL_MouseMotionEvent
     {
@@ -3880,7 +3880,7 @@ public static unsafe partial class SDL
         public int yrel;
     }
 
-    // Struct @ SDL_events.h:254:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:254:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 44, Pack = 4)]
     public struct SDL_TextInputEvent
     {
@@ -3910,7 +3910,7 @@ public static unsafe partial class SDL
         }
     }
 
-    // Struct @ SDL_events.h:241:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:241:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 52, Pack = 4)]
     public struct SDL_TextEditingEvent
     {
@@ -3946,7 +3946,7 @@ public static unsafe partial class SDL
         public int length;
     }
 
-    // Struct @ SDL_events.h:227:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:227:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 4)]
     public struct SDL_KeyboardEvent
     {
@@ -3975,7 +3975,7 @@ public static unsafe partial class SDL
         public SDL_Keysym keysym;
     }
 
-    // Struct @ SDL_keyboard.h:53:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keyboard.h)
+    // Struct @ SDL_keyboard.h:53:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keyboard.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 4)]
     public struct SDL_Keysym
     {
@@ -3992,7 +3992,7 @@ public static unsafe partial class SDL
         public uint unused;
     }
 
-    // Struct @ SDL_events.h:212:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:212:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 4)]
     public struct SDL_WindowEvent
     {
@@ -4024,7 +4024,7 @@ public static unsafe partial class SDL
         public int data2;
     }
 
-    // Struct @ SDL_events.h:196:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:196:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 20, Pack = 4)]
     public struct SDL_DisplayEvent
     {
@@ -4053,7 +4053,7 @@ public static unsafe partial class SDL
         public int data1;
     }
 
-    // Struct @ SDL_events.h:181:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Struct @ SDL_events.h:181:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct SDL_CommonEvent
     {
@@ -4064,7 +4064,7 @@ public static unsafe partial class SDL
         public uint timestamp;
     }
 
-    // Struct @ SDL_touch.h:58:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_touch.h)
+    // Struct @ SDL_touch.h:58:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_touch.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct SDL_Finger
     {
@@ -4081,7 +4081,7 @@ public static unsafe partial class SDL
         public float pressure;
     }
 
-    // Struct @ SDL_gamecontroller.h:97:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Struct @ SDL_gamecontroller.h:97:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct SDL_GameControllerButtonBind
     {
@@ -4091,7 +4091,7 @@ public static unsafe partial class SDL
         [FieldOffset(4)] // size = 8, padding = 0
         public SDL_GameControllerButtonBind_value value;
 
-        // Union @ SDL_gamecontroller.h:87:5 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+        // Union @ SDL_gamecontroller.h:87:5 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
         [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
         public struct SDL_GameControllerButtonBind_value
         {
@@ -4104,7 +4104,7 @@ public static unsafe partial class SDL
             [FieldOffset(0)] // size = 8, padding = 0
             public SDL_GameControllerButtonBind_value_hat hat;
 
-            // Struct @ SDL_gamecontroller.h:91:9 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+            // Struct @ SDL_gamecontroller.h:91:9 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
             [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
             public struct SDL_GameControllerButtonBind_value_hat
             {
@@ -4117,7 +4117,7 @@ public static unsafe partial class SDL
         }
     }
 
-    // Struct @ SDL_joystick.h:74:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Struct @ SDL_joystick.h:74:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 1)]
     public struct SDL_JoystickGUID
     {
@@ -4138,7 +4138,7 @@ public static unsafe partial class SDL
         }
     }
 
-    // Struct @ SDL_video.h:60:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Struct @ SDL_video.h:60:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct SDL_DisplayMode
     {
@@ -4158,7 +4158,7 @@ public static unsafe partial class SDL
         public void* driverdata;
     }
 
-    // Struct @ SDL_audio.h:191:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Struct @ SDL_audio.h:191:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
     public struct SDL_AudioSpec
     {
@@ -4190,7 +4190,7 @@ public static unsafe partial class SDL
         public void* userdata;
     }
 
-    // Struct @ SDL_atomic.h:238:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_atomic.h)
+    // Struct @ SDL_atomic.h:238:31 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_atomic.h)
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct SDL_atomic_t
     {
@@ -4198,103 +4198,103 @@ public static unsafe partial class SDL
         public int value;
     }
 
-    // OpaqueType @ SDL_video.h:94:27 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // OpaqueType @ SDL_video.h:94:27 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_Window
     {
     }
 
-    // OpaqueType @ SDL_surface.h:91:12 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // OpaqueType @ SDL_surface.h:91:12 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_BlitMap
     {
     }
 
-    // OpaqueType @ SDL_render.h:132:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // OpaqueType @ SDL_render.h:132:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_Renderer
     {
     }
 
-    // OpaqueType @ SDL_render.h:138:28 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // OpaqueType @ SDL_render.h:138:28 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_Texture
     {
     }
 
-    // OpaqueType @ SDL_haptic.h:141:28 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_haptic.h)
+    // OpaqueType @ SDL_haptic.h:141:28 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_haptic.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_Haptic
     {
     }
 
-    // OpaqueType @ SDL_joystick.h:69:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // OpaqueType @ SDL_joystick.h:69:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_Joystick
     {
     }
 
-    // OpaqueType @ SDL_events.h:573:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // OpaqueType @ SDL_events.h:573:29 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_SysWMmsg
     {
     }
 
-    // OpaqueType @ SDL_rwops.h:149:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_rwops.h)
+    // OpaqueType @ SDL_rwops.h:149:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_rwops.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_RWops
     {
     }
 
-    // OpaqueType @ SDL_gamecontroller.h:59:36 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // OpaqueType @ SDL_gamecontroller.h:59:36 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_GameController
     {
     }
 
-    // OpaqueType @ SDL_sensor.h:52:28 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // OpaqueType @ SDL_sensor.h:52:28 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_Sensor
     {
     }
 
-    // OpaqueType @ SDL_mouse.h:41:27 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // OpaqueType @ SDL_mouse.h:41:27 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_Cursor
     {
     }
 
-    // OpaqueType @ SDL_audio.h:780:33 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // OpaqueType @ SDL_audio.h:780:33 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_AudioStream
     {
     }
 
-    // OpaqueType @ SDL_audio.h:241:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // OpaqueType @ SDL_audio.h:241:23 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_AudioCVT
     {
     }
 
-    // OpaqueType @ SDL_mutex.h:59:26 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // OpaqueType @ SDL_mutex.h:59:26 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_mutex
     {
     }
 
-    // OpaqueType @ SDL_mutex.h:312:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // OpaqueType @ SDL_mutex.h:312:25 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_cond
     {
     }
 
-    // OpaqueType @ SDL_mutex.h:164:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mutex.h)
+    // OpaqueType @ SDL_mutex.h:164:30 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mutex.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct SDL_sem
     {
     }
 
-    // Typedef @ SDL_timer.h:116:13 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_timer.h)
+    // Typedef @ SDL_timer.h:116:13 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_timer.h)
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct SDL_TimerID
     {
@@ -4305,7 +4305,7 @@ public static unsafe partial class SDL
         public static implicit operator SDL_TimerID(int data) => new() { Data = data };
     }
 
-    // Typedef @ SDL_metal.h:44:15 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_metal.h)
+    // Typedef @ SDL_metal.h:44:15 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_metal.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct SDL_MetalView
     {
@@ -4316,7 +4316,7 @@ public static unsafe partial class SDL
         public static implicit operator SDL_MetalView(void* data) => new() { Data = data };
     }
 
-    // Typedef @ SDL_gesture.h:44:16 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gesture.h)
+    // Typedef @ SDL_gesture.h:44:16 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gesture.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct SDL_GestureID
     {
@@ -4327,7 +4327,7 @@ public static unsafe partial class SDL
         public static implicit operator SDL_GestureID(long data) => new() { Data = data };
     }
 
-    // Typedef @ SDL_touch.h:41:16 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_touch.h)
+    // Typedef @ SDL_touch.h:41:16 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_touch.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct SDL_TouchID
     {
@@ -4338,7 +4338,7 @@ public static unsafe partial class SDL
         public static implicit operator SDL_TouchID(long data) => new() { Data = data };
     }
 
-    // Typedef @ SDL_touch.h:42:16 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_touch.h)
+    // Typedef @ SDL_touch.h:42:16 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_touch.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct SDL_FingerID
     {
@@ -4349,7 +4349,7 @@ public static unsafe partial class SDL
         public static implicit operator SDL_FingerID(long data) => new() { Data = data };
     }
 
-    // Typedef @ SDL_joystick.h:83:16 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Typedef @ SDL_joystick.h:83:16 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct SDL_JoystickID
     {
@@ -4360,7 +4360,7 @@ public static unsafe partial class SDL
         public static implicit operator SDL_JoystickID(int data) => new() { Data = data };
     }
 
-    // Typedef @ SDL_keycode.h:45:16 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keycode.h)
+    // Typedef @ SDL_keycode.h:45:16 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keycode.h)
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct SDL_Keycode
     {
@@ -4371,7 +4371,7 @@ public static unsafe partial class SDL
         public static implicit operator SDL_Keycode(int data) => new() { Data = data };
     }
 
-    // Typedef @ SDL_sensor.h:60:16 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // Typedef @ SDL_sensor.h:60:16 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct SDL_SensorID
     {
@@ -4382,7 +4382,7 @@ public static unsafe partial class SDL
         public static implicit operator SDL_SensorID(int data) => new() { Data = data };
     }
 
-    // Typedef @ SDL_video.h:202:15 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Typedef @ SDL_video.h:202:15 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct SDL_GLContext
     {
@@ -4393,7 +4393,7 @@ public static unsafe partial class SDL
         public static implicit operator SDL_GLContext(void* data) => new() { Data = data };
     }
 
-    // Typedef @ SDL_audio.h:345:16 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Typedef @ SDL_audio.h:345:16 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct SDL_AudioDeviceID
     {
@@ -4404,7 +4404,7 @@ public static unsafe partial class SDL
         public static implicit operator SDL_AudioDeviceID(uint data) => new() { Data = data };
     }
 
-    // Typedef @ SDL_audio.h:66:16 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Typedef @ SDL_audio.h:66:16 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     [StructLayout(LayoutKind.Explicit, Size = 2, Pack = 2)]
     public struct SDL_AudioFormat
     {
@@ -4415,7 +4415,7 @@ public static unsafe partial class SDL
         public static implicit operator SDL_AudioFormat(ushort data) => new() { Data = data };
     }
 
-    // Typedef @ SDL_atomic.h:89:13 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_atomic.h)
+    // Typedef @ SDL_atomic.h:89:13 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_atomic.h)
     [StructLayout(LayoutKind.Explicit, Size = 4, Pack = 4)]
     public struct SDL_SpinLock
     {
@@ -4426,7 +4426,7 @@ public static unsafe partial class SDL
         public static implicit operator SDL_SpinLock(int data) => new() { Data = data };
     }
 
-    // Enum @ SDL_shape.h:89:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_shape.h)
+    // Enum @ SDL_shape.h:89:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_shape.h)
     public enum WindowShapeMode : uint
     {
         ShapeModeDefault = 0U,
@@ -4435,7 +4435,7 @@ public static unsafe partial class SDL
         ShapeModeColorKey = 3U
     }
 
-    // Enum @ SDL_render.h:126:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Enum @ SDL_render.h:126:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     public enum SDL_RendererFlip : uint
     {
         SDL_FLIP_NONE = 0U,
@@ -4443,7 +4443,7 @@ public static unsafe partial class SDL
         SDL_FLIP_VERTICAL = 2U
     }
 
-    // Enum @ SDL_blendmode.h:60:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_blendmode.h)
+    // Enum @ SDL_blendmode.h:60:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_blendmode.h)
     public enum SDL_BlendMode : uint
     {
         SDL_BLENDMODE_NONE = 0U,
@@ -4454,7 +4454,7 @@ public static unsafe partial class SDL
         SDL_BLENDMODE_INVALID = 2147483647U
     }
 
-    // Enum @ SDL_render.h:96:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_render.h)
+    // Enum @ SDL_render.h:96:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_render.h)
     public enum SDL_ScaleMode : uint
     {
         SDL_ScaleModeNearest = 0U,
@@ -4462,7 +4462,7 @@ public static unsafe partial class SDL
         SDL_ScaleModeBest = 2U
     }
 
-    // Enum @ SDL_power.h:49:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_power.h)
+    // Enum @ SDL_power.h:49:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_power.h)
     public enum SDL_PowerState : uint
     {
         SDL_POWERSTATE_UNKNOWN = 0U,
@@ -4472,7 +4472,7 @@ public static unsafe partial class SDL
         SDL_POWERSTATE_CHARGED = 4U
     }
 
-    // Enum @ SDL_log.h:111:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_log.h)
+    // Enum @ SDL_log.h:111:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_log.h)
     public enum SDL_LogPriority : uint
     {
         SDL_LOG_PRIORITY_VERBOSE = 1U,
@@ -4484,7 +4484,7 @@ public static unsafe partial class SDL
         SDL_NUM_LOG_PRIORITIES = 7U
     }
 
-    // Enum @ SDL_hints.h:1671:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_hints.h)
+    // Enum @ SDL_hints.h:1671:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_hints.h)
     public enum SDL_HintPriority : uint
     {
         SDL_HINT_DEFAULT = 0U,
@@ -4492,7 +4492,7 @@ public static unsafe partial class SDL
         SDL_HINT_OVERRIDE = 2U
     }
 
-    // Enum @ SDL_scancode.h:409:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_scancode.h)
+    // Enum @ SDL_scancode.h:409:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_scancode.h)
     public enum SDL_Scancode : uint
     {
         SDL_SCANCODE_UNKNOWN = 0U,
@@ -4741,7 +4741,7 @@ public static unsafe partial class SDL
         SDL_NUM_SCANCODES = 512U
     }
 
-    // Enum @ SDL_events.h:667:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_events.h)
+    // Enum @ SDL_events.h:667:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_events.h)
     public enum SDL_eventaction : uint
     {
         SDL_ADDEVENT = 0U,
@@ -4749,7 +4749,7 @@ public static unsafe partial class SDL
         SDL_GETEVENT = 2U
     }
 
-    // Enum @ SDL_touch.h:50:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_touch.h)
+    // Enum @ SDL_touch.h:50:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_touch.h)
     public enum SDL_TouchDeviceType : uint
     {
         SDL_TOUCH_DEVICE_INVALID = 4294967295U,
@@ -4758,7 +4758,7 @@ public static unsafe partial class SDL
         SDL_TOUCH_DEVICE_INDIRECT_RELATIVE = 2U
     }
 
-    // Enum @ SDL_sensor.h:75:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_sensor.h)
+    // Enum @ SDL_sensor.h:75:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_sensor.h)
     public enum SDL_SensorType : uint
     {
         SDL_SENSOR_INVALID = 4294967295U,
@@ -4767,7 +4767,7 @@ public static unsafe partial class SDL
         SDL_SENSOR_GYRO = 2U
     }
 
-    // Enum @ SDL_gamecontroller.h:629:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Enum @ SDL_gamecontroller.h:629:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     public enum SDL_GameControllerButton : uint
     {
         SDL_CONTROLLER_BUTTON_INVALID = 4294967295U,
@@ -4795,7 +4795,7 @@ public static unsafe partial class SDL
         SDL_CONTROLLER_BUTTON_MAX = 21U
     }
 
-    // Enum @ SDL_gamecontroller.h:79:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Enum @ SDL_gamecontroller.h:79:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     public enum SDL_GameControllerBindType : uint
     {
         SDL_CONTROLLER_BINDTYPE_NONE = 0U,
@@ -4804,7 +4804,7 @@ public static unsafe partial class SDL
         SDL_CONTROLLER_BINDTYPE_HAT = 3U
     }
 
-    // Enum @ SDL_gamecontroller.h:519:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Enum @ SDL_gamecontroller.h:519:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     public enum SDL_GameControllerAxis : uint
     {
         SDL_CONTROLLER_AXIS_INVALID = 4294967295U,
@@ -4817,7 +4817,7 @@ public static unsafe partial class SDL
         SDL_CONTROLLER_AXIS_MAX = 6U
     }
 
-    // Enum @ SDL_gamecontroller.h:71:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_gamecontroller.h)
+    // Enum @ SDL_gamecontroller.h:71:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_gamecontroller.h)
     public enum SDL_GameControllerType : uint
     {
         SDL_CONTROLLER_TYPE_UNKNOWN = 0U,
@@ -4830,7 +4830,7 @@ public static unsafe partial class SDL
         SDL_CONTROLLER_TYPE_PS5 = 7U
     }
 
-    // Enum @ SDL_joystick.h:108:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Enum @ SDL_joystick.h:108:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     public enum SDL_JoystickPowerLevel : uint
     {
         SDL_JOYSTICK_POWER_UNKNOWN = 4294967295U,
@@ -4842,7 +4842,7 @@ public static unsafe partial class SDL
         SDL_JOYSTICK_POWER_MAX = 5U
     }
 
-    // Enum @ SDL_joystick.h:97:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_joystick.h)
+    // Enum @ SDL_joystick.h:97:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_joystick.h)
     public enum SDL_JoystickType : uint
     {
         SDL_JOYSTICK_TYPE_UNKNOWN = 0U,
@@ -4857,7 +4857,7 @@ public static unsafe partial class SDL
         SDL_JOYSTICK_TYPE_THROTTLE = 9U
     }
 
-    // Enum @ SDL_mouse.h:61:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_mouse.h)
+    // Enum @ SDL_mouse.h:61:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_mouse.h)
     public enum SDL_SystemCursor : uint
     {
         SDL_SYSTEM_CURSOR_ARROW = 0U,
@@ -4875,7 +4875,7 @@ public static unsafe partial class SDL
         SDL_NUM_SYSTEM_CURSORS = 12U
     }
 
-    // Enum @ SDL_keycode.h:347:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_keycode.h)
+    // Enum @ SDL_keycode.h:347:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_keycode.h)
     public enum SDL_Keymod : uint
     {
         KMOD_NONE = 0U,
@@ -4897,7 +4897,7 @@ public static unsafe partial class SDL
         KMOD_GUI = 3072U
     }
 
-    // Enum @ SDL_video.h:236:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Enum @ SDL_video.h:236:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     public enum SDL_GLattr : uint
     {
         SDL_GL_RED_SIZE = 0U,
@@ -4929,7 +4929,7 @@ public static unsafe partial class SDL
         SDL_GL_CONTEXT_NO_ERROR = 26U
     }
 
-    // Enum @ SDL_video.h:1452:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Enum @ SDL_video.h:1452:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     public enum SDL_HitTestResult : uint
     {
         SDL_HITTEST_NORMAL = 0U,
@@ -4944,7 +4944,7 @@ public static unsafe partial class SDL
         SDL_HITTEST_RESIZE_LEFT = 9U
     }
 
-    // Enum @ SDL_video.h:197:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_video.h)
+    // Enum @ SDL_video.h:197:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_video.h)
     public enum SDL_DisplayOrientation : uint
     {
         SDL_ORIENTATION_UNKNOWN = 0U,
@@ -4954,7 +4954,7 @@ public static unsafe partial class SDL
         SDL_ORIENTATION_PORTRAIT_FLIPPED = 4U
     }
 
-    // Enum @ SDL_surface.h:112:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_surface.h)
+    // Enum @ SDL_surface.h:112:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_surface.h)
     public enum SDL_YUV_CONVERSION_MODE : uint
     {
         SDL_YUV_CONVERSION_JPEG = 0U,
@@ -4963,7 +4963,7 @@ public static unsafe partial class SDL
         SDL_YUV_CONVERSION_AUTOMATIC = 3U
     }
 
-    // Enum @ SDL_blendmode.h:73:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_blendmode.h)
+    // Enum @ SDL_blendmode.h:73:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_blendmode.h)
     public enum SDL_BlendOperation : uint
     {
         SDL_BLENDOPERATION_ADD = 1U,
@@ -4973,7 +4973,7 @@ public static unsafe partial class SDL
         SDL_BLENDOPERATION_MAXIMUM = 5U
     }
 
-    // Enum @ SDL_blendmode.h:91:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_blendmode.h)
+    // Enum @ SDL_blendmode.h:91:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_blendmode.h)
     public enum SDL_BlendFactor : uint
     {
         SDL_BLENDFACTOR_ZERO = 1U,
@@ -4988,7 +4988,7 @@ public static unsafe partial class SDL
         SDL_BLENDFACTOR_ONE_MINUS_DST_ALPHA = 10U
     }
 
-    // Enum @ SDL_audio.h:571:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_audio.h)
+    // Enum @ SDL_audio.h:571:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_audio.h)
     public enum SDL_AudioStatus : uint
     {
         SDL_AUDIO_STOPPED = 0U,
@@ -4996,7 +4996,7 @@ public static unsafe partial class SDL
         SDL_AUDIO_PAUSED = 2U
     }
 
-    // Enum @ SDL_error.h:141:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\SDL\include\SDL_error.h)
+    // Enum @ SDL_error.h:141:3 (C:\Users\lithi\Programming\c2cs\ext\SDL\include\SDL_error.h)
     public enum SDL_errorcode : uint
     {
         SDL_ENOMEM = 0U,

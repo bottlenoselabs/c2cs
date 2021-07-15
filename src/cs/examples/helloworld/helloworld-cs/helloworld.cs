@@ -21,7 +21,7 @@ public static unsafe partial class helloworld
 {
     private const string LibraryName = "helloworld";
 
-    // Function @ helloworld.h:6:6 (/mnt/c/Users/lithi/Programming/c2cs/src/c/examples/helloworld/include/helloworld.h)
+    // Function @ helloworld.h:6:6 (C:\Users\lithi\Programming\c2cs\src\c\examples\helloworld\include\helloworld.h)
     [DllImport(LibraryName)]
     public static extern void hello_world();
 }
