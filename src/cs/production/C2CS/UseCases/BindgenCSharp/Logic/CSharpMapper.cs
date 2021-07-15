@@ -36,6 +36,27 @@ namespace C2CS.UseCases.BindgenCSharp
                 aliases.Add("SOCKET", "void*");
             }
 
+            if (Runtime.OperatingSystem == RuntimeOperatingSystem.Linux)
+            {
+                aliases.Add("__gid_t", "uint");
+                aliases.Add("__uid_t", "uint");
+                aliases.Add("__pid_t", "int");
+                aliases.Add("__socklen_t", "uint");
+
+                if (bitness == 32)
+                {
+                    aliases.Add("__time_t", "int");
+                }
+                else if (bitness == 64)
+                {
+                    aliases.Add("__time_t", "long");
+                }
+                else
+                {
+                    throw new NotImplementedException($"{bitness}-bit is not implemented.");
+                }
+            }
+
             if (Runtime.OperatingSystem == RuntimeOperatingSystem.macOS ||
                 Runtime.OperatingSystem == RuntimeOperatingSystem.iOS ||
                 Runtime.OperatingSystem == RuntimeOperatingSystem.tvOS)

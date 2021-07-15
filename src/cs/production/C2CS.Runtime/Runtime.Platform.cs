@@ -11,7 +11,12 @@ namespace C2CS
         /// <summary>
         ///     Gets the current <see cref="RuntimeOperatingSystem" />.
         /// </summary>
-        public static RuntimeOperatingSystem OperatingSystem => GetRuntimePlatform();
+        public static RuntimeOperatingSystem OperatingSystem => GetRuntimeOperatingSystem();
+
+        /// <summary>
+        ///     Gets the current <see cref="RuntimeArchitecture" />.
+        /// </summary>
+        public static RuntimeArchitecture Architecture => GetRuntimeArchitecture();
 
         /// <summary>
         ///     Gets the library file name extension given a <see cref="RuntimeOperatingSystem" />.
@@ -40,7 +45,6 @@ namespace C2CS
                 case RuntimeOperatingSystem.iOS:
                     throw new InvalidOperationException("Dynamic linking of a library is not possible for iOS.");
                 case RuntimeOperatingSystem.Unknown:
-                    throw new NotImplementedException();
                     throw new NotImplementedException();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(operatingSystem), operatingSystem, null);
@@ -76,7 +80,20 @@ namespace C2CS
             }
         }
 
-        private static RuntimeOperatingSystem GetRuntimePlatform()
+        private static RuntimeArchitecture GetRuntimeArchitecture()
+        {
+            return RuntimeInformation.OSArchitecture switch
+            {
+                System.Runtime.InteropServices.Architecture.Arm64 => RuntimeArchitecture.ARM64,
+                System.Runtime.InteropServices.Architecture.Arm => RuntimeArchitecture.ARM32,
+                System.Runtime.InteropServices.Architecture.X86 => RuntimeArchitecture.X86,
+                System.Runtime.InteropServices.Architecture.X64 => RuntimeArchitecture.X64,
+                System.Runtime.InteropServices.Architecture.Wasm => RuntimeArchitecture.Unknown,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
+        private static RuntimeOperatingSystem GetRuntimeOperatingSystem()
         {
             if (System.OperatingSystem.IsWindows())
             {

@@ -35,11 +35,23 @@
     <!-- x86 on macOS is no longer really a thing -->
     <ItemGroup Condition="'$(IsMacOS)' == 'true' AND '$(Architecture)' == 'x86'">
         <Compile Remove="clang.osx32.cs" />
-        <Compile Remove="clang.osx64.cs" />
     </ItemGroup>
     <ItemGroup Condition="'$(IsMacOS)' != 'true'">
         <Compile Remove="clang.osx32.cs" />
         <Compile Remove="clang.osx64.cs" />
+    </ItemGroup>
+    
+    <ItemGroup Condition="'$(IsLinux)' == 'true' AND '$(Architecture)' == 'x64'">
+        <Compile Remove="clang.linux32.cs" />
+        <Compile Update="clang.linux64.cs" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(IsLinux)' == 'true' AND '$(Architecture)' == 'x86'">
+        <Compile Update="clang.linux32.cs" />
+        <Compile Remove="clang.linux64.cs" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(IsLinux)' != 'true'">
+        <Compile Remove="clang.linux32.cs" />
+        <Compile Remove="clang.linux64.cs" />
     </ItemGroup>
 
 </Project>

@@ -20,6 +20,7 @@ publish/
 lib/
 *.dll
 *.dylib
+*.so
 
 # macOS
 .DS_Store

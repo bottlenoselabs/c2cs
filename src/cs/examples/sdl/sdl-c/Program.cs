@@ -45,10 +45,11 @@ internal static class Program
             Environment.Exit(1);
         }
 
-        var oldLibraryFilePath = Path.Combine(targetLibraryDirectoryPath, "libSDL2-2.0.dylib");
+        var libraryFileNameExtension = Runtime.LibraryFileNameExtension(Runtime.OperatingSystem);
+        var oldLibraryFilePath = Path.Combine(targetLibraryDirectoryPath, $"libSDL2-2.0{libraryFileNameExtension}");
         if (File.Exists(oldLibraryFilePath))
         {
-            var newLibraryFilePath = Path.Combine(targetLibraryDirectoryPath, "libSDL2.dylib");
+            var newLibraryFilePath = Path.Combine(targetLibraryDirectoryPath, $"libSDL2{libraryFileNameExtension}");
             if (File.Exists(newLibraryFilePath))
             {
                 File.Delete(newLibraryFilePath);
@@ -70,6 +71,13 @@ ast
 {rootDirectory}/src/cs/examples/sdl/sdl-c/ast.{runtimeIdentifier}.json
 -b
 {bitness}
+-d
+SDL_DISABLE_MM3DNOW_H
+SDL_DISABLE_IMMINTRIN_H
+SDL_DISABLE_MMINTRIN_H
+SDL_DISABLE_XMMINTRIN_H
+SDL_DISABLE_EMMINTRIN_H
+SDL_DISABLE_PMMINTRIN_H
 -g
 SDL_main.h
 SDL_assert.h
@@ -83,7 +91,7 @@ SDL_AudioCVT
 SDL_Thread
 ";
         var argumentsArray =
-            arguments.Split(new[] { "\n", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 
@@ -111,7 +119,7 @@ Sint64 -> long
 SDL_bool
 ".Trim();
         var argumentsArray =
-            arguments.Split(new[] { "\n", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 }

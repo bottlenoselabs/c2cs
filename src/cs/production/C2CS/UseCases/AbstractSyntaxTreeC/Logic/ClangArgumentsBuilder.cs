@@ -35,7 +35,16 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         private static void AddDefault(ImmutableArray<string>.Builder args)
         {
             args.Add("--language=c");
-            args.Add("--std=c11");
+
+            if (Runtime.OperatingSystem == RuntimeOperatingSystem.Linux)
+            {
+                args.Add("--std=gnu11");
+            }
+            else
+            {
+                args.Add("--std=c11");
+            }
+
             args.Add("-Wno-pragma-once-outside-header");
             args.Add("-fno-blocks");
         }

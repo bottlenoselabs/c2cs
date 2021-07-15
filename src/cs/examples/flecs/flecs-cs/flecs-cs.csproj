@@ -18,6 +18,9 @@
         <None Update="**/*.dylib">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="**/*.so">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup Condition="'$(IsWindows)' == 'true' AND '$(Architecture)' == 'x64'">
@@ -45,6 +48,19 @@
     <ItemGroup Condition="'$(IsMacOS)' != 'true'">
         <Compile Remove="flecs.osx32.cs" />
         <Compile Remove="flecs.osx64.cs" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(IsLinux)' == 'true' AND '$(Architecture)' == 'x64'">
+        <Compile Remove="flecs.linux32.cs" />
+        <Compile Update="flecs.linux64.cs" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(IsLinux)' == 'true' AND '$(Architecture)' == 'x86'">
+        <Compile Update="flecs.linux32.cs" />
+        <Compile Remove="flecs.linux64.cs" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(IsLinux)' != 'true'">
+        <Compile Remove="flecs.linux32.cs" />
+        <Compile Remove="flecs.linux64.cs" />
     </ItemGroup>
 
 </Project>

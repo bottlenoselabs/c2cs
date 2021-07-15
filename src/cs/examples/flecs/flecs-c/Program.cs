@@ -57,7 +57,7 @@ ast
 {rootDirectory}/src/cs/examples/flecs/flecs-c/ast.{runtimeIdentifier}.json
 ";
         var argumentsArray =
-            arguments.Split(new[] { "\n", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 
@@ -71,7 +71,7 @@ cs
 {rootDirectory}/src/cs/examples/flecs/flecs-cs/flecs.{runtimeIdentifier}.cs
 ";
         var argumentsArray =
-            arguments.Split(new[] { "\n", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 }

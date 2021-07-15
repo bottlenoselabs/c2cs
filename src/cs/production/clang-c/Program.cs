@@ -3,6 +3,7 @@
 
 using System;
 using System.IO;
+using C2CS;
 
 internal static class Program
 {
@@ -48,7 +49,7 @@ ast
 {bitness}
 ";
         var argumentsArray =
-            arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 
@@ -63,7 +64,7 @@ cs
 
 ";
         var argumentsArray =
-            arguments.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 }

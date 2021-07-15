@@ -56,6 +56,7 @@ ast
 -o
 {rootDirectory}/src/cs/examples/libuv/libuv-c/ast.{runtimeIdentifier}.json
 -b {bitness}
+-a-lpthread
 -p
 uv_loop_t
 uv_handle_t
@@ -98,7 +99,7 @@ sockaddr_in6
 sockaddr_in
 ";
         var argumentsArray =
-            arguments.Split(new[] { "\n", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 
@@ -114,7 +115,7 @@ cs
 uv
 ";
         var argumentsArray =
-            arguments.Split(new[] { "\n", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 }

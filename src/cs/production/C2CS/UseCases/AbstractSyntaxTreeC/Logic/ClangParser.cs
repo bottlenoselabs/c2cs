@@ -61,7 +61,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         {
             // ReSharper disable BitwiseOperatorOnEnumWithoutFlags
             const uint options = 0x00001000 | // CXTranslationUnit_IncludeAttributedTypes
-                                 0x00002000 | // CXTranslationUnit_VisitImplicitAttributes
                                  0x00004000 | // CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles
                                  0x00000040 | // CXTranslationUnit_SkipFunctionBodies
                                  0x0;
