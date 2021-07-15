@@ -9,10 +9,29 @@ internal static class Program
 {
     private static void Main()
     {
+        var runtimeIdentifierOperatingSystem = string.Empty;
+        if (OperatingSystem.IsWindows())
+        {
+            runtimeIdentifierOperatingSystem = "win";
+        }
+        else if (OperatingSystem.IsMacOS())
+        {
+            runtimeIdentifierOperatingSystem = "osx";
+        }
+        else if (OperatingSystem.IsLinux())
+        {
+            runtimeIdentifierOperatingSystem = "linux";
+        }
+
+        var runtimeIdentifier32Bits = runtimeIdentifierOperatingSystem + "32";
+        var runtimeIdentifier64Bits = runtimeIdentifierOperatingSystem + "64";
+
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
-        GenerateAbstractSyntaxTree(rootDirectory);
-        GenerateBindingsCSharp(rootDirectory);
-        BuildLibrary(rootDirectory);
+        GenerateAbstractSyntaxTree(rootDirectory, runtimeIdentifier64Bits);
+        GenerateAbstractSyntaxTree(rootDirectory, runtimeIdentifier32Bits);
+        GenerateBindingsCSharp(rootDirectory, runtimeIdentifier32Bits);
+        GenerateBindingsCSharp(rootDirectory, runtimeIdentifier64Bits);
+        // BuildLibrary(rootDirectory);
     }
 
     private static void BuildLibrary(string rootDirectory)
@@ -26,14 +45,17 @@ internal static class Program
         }
     }
 
-    private static void GenerateAbstractSyntaxTree(string rootDirectory)
+    private static void GenerateAbstractSyntaxTree(string rootDirectory, string runtimeIdentifier)
     {
+        var bitness = runtimeIdentifier.EndsWith("64", StringComparison.InvariantCulture) ? "64" : "32";
+
         var arguments = @$"
 ast
 -i
 {rootDirectory}/ext/libuv/include/uv.h
 -o
-{rootDirectory}/src/cs/examples/libuv/libuv-c/ast.json
+{rootDirectory}/src/cs/examples/libuv/libuv-c/ast.{runtimeIdentifier}.json
+-b {bitness}
 -p
 uv_loop_t
 uv_handle_t
@@ -70,23 +92,29 @@ uv_rwlock_t
 uv_sem_t
 uv_cond_t
 uv_barrier_t
+uv_lib_t
+sockaddr
+sockaddr_in6
+sockaddr_in
 ";
         var argumentsArray =
-            arguments.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 
-    private static void GenerateBindingsCSharp(string rootDirectory)
+    private static void GenerateBindingsCSharp(string rootDirectory, string runtimeIdentifier)
     {
         var arguments = @$"
 cs
 -i
-{rootDirectory}/src/cs/examples/libuv/libuv-c/ast.json
+{rootDirectory}/src/cs/examples/libuv/libuv-c/ast.{runtimeIdentifier}.json
 -o
-{rootDirectory}/src/cs/examples/libuv/libuv-cs/uv.cs
+{rootDirectory}/src/cs/examples/libuv/libuv-cs/uv.{runtimeIdentifier}.cs
+-c
+uv
 ";
         var argumentsArray =
-            arguments.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            arguments.Split(new[] { "\n", Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 }
