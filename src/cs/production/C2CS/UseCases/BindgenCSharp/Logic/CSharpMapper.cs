@@ -20,9 +20,9 @@ namespace C2CS.UseCases.BindgenCSharp
         private readonly ImmutableHashSet<string> _builtinAliases;
         private readonly ImmutableHashSet<string> _ignoredTypeNames;
         private readonly Dictionary<string, string> _generatedFunctionPointersNamesByCNames = new();
-        private readonly Dictionary<string, string> _systemTypeNameAliases = SystemTypeNameAliases();
+        private readonly Dictionary<string, string> _systemTypeNameAliases;
 
-        private static Dictionary<string, string> SystemTypeNameAliases()
+        private static Dictionary<string, string> SystemTypeNameAliases(int bitness)
         {
             var aliases = new Dictionary<string, string>();
 
@@ -52,6 +52,19 @@ namespace C2CS.UseCases.BindgenCSharp
                 aliases.Add("__darwin_socklen_t", "uint");
                 aliases.Add("_opaque_pthread_t", string.Empty); // remove
                 aliases.Add("__darwin_pthread_handler_rec", string.Empty); // remove
+
+                if (bitness == 32)
+                {
+                    aliases.Add("__darwin_time_t", "int");
+                }
+                else if (bitness == 64)
+                {
+                    aliases.Add("__darwin_time_t", "long");
+                }
+                else
+                {
+                    throw new NotImplementedException($"{bitness}-bit is not implemented.");
+                }
             }
 
             return aliases;
@@ -60,9 +73,11 @@ namespace C2CS.UseCases.BindgenCSharp
         public CSharpMapper(
             string className,
             ImmutableArray<CSharpTypeAlias> typeAliases,
-            ImmutableArray<string> ignoredTypeNames)
+            ImmutableArray<string> ignoredTypeNames,
+            int bitness)
         {
             _className = className;
+            _systemTypeNameAliases = SystemTypeNameAliases(bitness);
 
             var userAliases = new Dictionary<string, string>();
             var builtinAliases = new HashSet<string>();
@@ -134,7 +149,6 @@ namespace C2CS.UseCases.BindgenCSharp
             var opaqueDataTypes = OpaqueDataTypes(
                 abstractSyntaxTree.OpaqueTypes);
             var enums = Enums(abstractSyntaxTree.Enums);
-            var variables = Variables(abstractSyntaxTree.Variables);
 
             var result = new CSharpAbstractSyntaxTree(
                 functionExterns,
@@ -142,8 +156,7 @@ namespace C2CS.UseCases.BindgenCSharp
                 structs,
                 typedefs,
                 opaqueDataTypes,
-                enums,
-                variables);
+                enums);
 
             _types = null!;
 
@@ -596,33 +609,6 @@ namespace C2CS.UseCases.BindgenCSharp
                 originalCodeLocationComment,
                 value);
 
-            return result;
-        }
-
-        private ImmutableArray<CSharpVariable> Variables(
-            ImmutableArray<CVariable> clangVariables)
-        {
-            var builder = ImmutableArray.CreateBuilder<CSharpVariable>(clangVariables.Length);
-
-            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var clangVariable in clangVariables)
-            {
-                var variable = Variable(clangVariable);
-                builder.Add(variable);
-            }
-
-            var result = builder.ToImmutable();
-            return result;
-        }
-
-        private CSharpVariable Variable(CVariable cVariable)
-        {
-            var name = cVariable.Name;
-            var originalCodeLocationComment = OriginalCodeLocationComment(cVariable);
-            var cType = CType(cVariable.Type);
-            var type = Type(cType);
-
-            var result = new CSharpVariable(name, originalCodeLocationComment, type);
             return result;
         }
 

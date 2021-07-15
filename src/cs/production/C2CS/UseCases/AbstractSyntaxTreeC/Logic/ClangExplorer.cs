@@ -59,7 +59,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             _opaqueTypeNames = opaqueTypes.ToImmutableHashSet();
         }
 
-        public CAbstractSyntaxTree AbstractSyntaxTree(CXTranslationUnit translationUnit)
+        public CAbstractSyntaxTree AbstractSyntaxTree(CXTranslationUnit translationUnit, int bitness)
         {
             ExpandTranslationUnit(translationUnit);
             Explore();
@@ -78,6 +78,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             return new CAbstractSyntaxTree
             {
                 FileName = location.FileName,
+                Bitness = bitness,
                 Functions = functions,
                 FunctionPointers = functionPointers,
                 Records = records,

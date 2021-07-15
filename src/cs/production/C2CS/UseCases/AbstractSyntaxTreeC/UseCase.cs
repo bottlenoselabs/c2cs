@@ -31,6 +31,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 request.IncludeDirectories,
                 request.IgnoredFiles,
                 request.OpaqueTypes,
+                request.Bitness,
                 Explore);
 
             Step(
@@ -61,10 +62,11 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             clang.CXTranslationUnit translationUnit,
             ImmutableArray<string> includeDirectories,
             ImmutableArray<string> ignoredFiles,
-            ImmutableArray<string> opaqueTypes)
+            ImmutableArray<string> opaqueTypes,
+            int bitness)
         {
             var clangExplorer = new ClangExplorer(Diagnostics, includeDirectories, ignoredFiles, opaqueTypes);
-            return clangExplorer.AbstractSyntaxTree(translationUnit);
+            return clangExplorer.AbstractSyntaxTree(translationUnit, bitness);
         }
 
         private static void Write(

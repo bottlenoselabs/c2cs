@@ -42,6 +42,7 @@ namespace C2CS.UseCases.BindgenCSharp
                 abstractSyntaxTreeC,
                 request.TypeAliases,
                 request.IgnoredTypeNames,
+                abstractSyntaxTreeC.Bitness,
                 MapCToCSharp);
 
             var codeCSharp = Step(
@@ -88,9 +89,10 @@ namespace C2CS.UseCases.BindgenCSharp
             string className,
             CAbstractSyntaxTree abstractSyntaxTree,
             ImmutableArray<CSharpTypeAlias> typeAliases,
-            ImmutableArray<string> ignoredTypeNames)
+            ImmutableArray<string> ignoredTypeNames,
+            int bitness)
         {
-            var mapper = new CSharpMapper(className, typeAliases, ignoredTypeNames);
+            var mapper = new CSharpMapper(className, typeAliases, ignoredTypeNames, bitness);
             return mapper.AbstractSyntaxTree(abstractSyntaxTree);
         }
 

@@ -25,8 +25,7 @@ namespace C2CS.UseCases.BindgenCSharp
             ImmutableArray<CSharpStruct> structs,
             ImmutableArray<CSharpTypedef> typedefs,
             ImmutableArray<CSharpOpaqueType> opaqueDataTypes,
-            ImmutableArray<CSharpEnum> enums,
-            ImmutableArray<CSharpVariable> variablesExtern)
+            ImmutableArray<CSharpEnum> enums)
         {
             FunctionExterns = functionExterns;
             FunctionPointers = functionPointers;
