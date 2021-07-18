@@ -27,7 +27,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 CFunctionPointer => CKind.FunctionPointer,
                 COpaqueType => CKind.OpaqueType,
                 CRecord => CKind.Record,
-                CRecordField => CKind.RecordField,
                 CTypedef => CKind.Typedef,
                 CVariable => CKind.Variable,
                 _ => CKind.Unknown

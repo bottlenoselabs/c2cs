@@ -305,7 +305,8 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         {
             var callingConvention = CreateFunctionCallingConvention(type);
             var resultType = clang_getCursorResultType(cursor);
-            var resultTypeName = TypeName(parentNode.TypeName!, CKind.FunctionResult, resultType, cursor);
+            var (kind, actualType) = TypeKind(resultType);
+            var resultTypeName = TypeName(parentNode.TypeName!, kind, actualType, cursor);
 
             ExpandType(parentNode, cursor, cursor, resultType, resultType, resultTypeName);
 
@@ -654,7 +655,8 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var parameters = CreateFunctionPointerParameters(cursor, parentNode);
 
             var returnType = clang_getResultType(type);
-            var returnTypeName = TypeName(parentNode.TypeName!, CKind.FunctionPointerResult, returnType, cursor);
+            var (kind, actualReturnType) = TypeKind(returnType);
+            var returnTypeName = TypeName(parentNode.TypeName!, kind, actualReturnType, cursor);
             ExpandType(parentNode, cursor, cursor, returnType, returnType, returnTypeName);
 
             var name = string.Empty;
@@ -801,7 +803,8 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var name = cursor.Name();
             var type = clang_getCursorType(cursor);
             var codeLocation = Location(cursor, type);
-            var typeName = TypeName(recordName, CKind.RecordField, type, cursor);
+            var (kind, actualType) = TypeKind(type);
+            var typeName = TypeName(recordName, kind, actualType, cursor);
 
             ExpandType(parentNode, cursor, cursor, type, type, typeName);
 
@@ -1207,12 +1210,9 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 CKind.Array => type.Name(),
                 CKind.Variable => type.Name(),
                 CKind.Function => cursor.Name(),
-                CKind.FunctionResult => type.Name(cursor),
                 CKind.FunctionPointer => type.Name(),
-                CKind.FunctionPointerResult => type.Name(cursor),
                 CKind.Typedef => type.Name(),
                 CKind.Record => type.Name(),
-                CKind.RecordField => type.Name(cursor),
                 CKind.Enum => type.Name(),
                 CKind.OpaqueType => type.Name(),
                 _ => throw new ClangExplorerException($"Unexpected node kind '{kind}'.")
