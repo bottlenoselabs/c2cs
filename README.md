@@ -17,12 +17,14 @@ For documentation see the [docs/README.md](docs/README.md). This includes:
 
 ## Bindings catalog
 
-Create an issue for a request of a C library and I'll be happy to setup a repository with bindings. 
+Catalog of C# bindings for C libraries I have setup and tested myself.
 
 |Name|Description|C|C#|
 |:-:|:-:|:-:|:-:|
 |sokol|minimal cross-platform standalone C headers|https://github.com/floooh/sokol|https://github.com/lithiumtoast/sokol-cs|
 |SDL|Simple Directmedia Layer|https://github.com/libsdl-org/SDL|https://github.com/lithiumtoast/sdl-cs|
+
+Want to see a C library not seen here? Create an issue for a request of a C library and I'll be happy to setup a repository with bindings. 
 
 ## Background: Why?
 
