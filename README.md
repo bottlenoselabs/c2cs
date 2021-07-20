@@ -24,6 +24,7 @@ Create an issue for a request of a C library and I'll be happy to setup a reposi
 |Name|Description|C|C#|
 |:-:|:-:|:-:|:-:|
 |sokol|minimal cross-platform standalone C headers|https://github.com/floooh/sokol|https://github.com/lithiumtoast/sokol-cs|
+|SDL|Simple Directmedia Layer|https://github.com/libsdl-org/SDL|https://github.com/lithiumtoast/sdl2-cs|
 
 ## Background: Why?
 
