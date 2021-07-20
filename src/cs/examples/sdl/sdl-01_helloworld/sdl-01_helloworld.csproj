@@ -1,8 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-    <!-- Project references -->
-    <ItemGroup>
-        <ProjectReference Include="..\sdl-cs\sdl-cs.csproj" />
-    </ItemGroup>
-
-</Project>
