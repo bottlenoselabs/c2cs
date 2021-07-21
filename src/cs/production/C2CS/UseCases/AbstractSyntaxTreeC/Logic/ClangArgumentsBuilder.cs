@@ -134,6 +134,12 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             }
 
             var sdkHighestVersionDirectoryPath = GetHighestVersionDirectoryPathFrom(sdkDirectoryPath);
+            if (string.IsNullOrEmpty(sdkHighestVersionDirectoryPath))
+            {
+                throw new CParserException(
+                    $"Unable to find a Windows SDK version. Expected a Windows SDK version at '{sdkDirectoryPath}'. Do you need install the a software development kit for Windows? https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk/");
+            }
+
             var systemIncludeCommandLineArgSdk = $@"-isystem{sdkHighestVersionDirectoryPath}\ucrt";
             clangArgumentsBuilder.Add(systemIncludeCommandLineArgSdk);
 
@@ -148,8 +154,15 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
             var visualStudioInstallationDirectoryPath =
                 "-latest -property installationPath".ShCaptureStandardOutput(fileName: vsWhereFilePath);
+
             var mscvVersionsDirectoryPath = Path.Combine(visualStudioInstallationDirectoryPath, @"VC\Tools\MSVC");
             var mscvHighestVersionDirectoryPath = GetHighestVersionDirectoryPathFrom(mscvVersionsDirectoryPath);
+            if (string.IsNullOrEmpty(mscvHighestVersionDirectoryPath))
+            {
+                throw new CParserException(
+                    $"Unable to find a version for Microsoft Visual C++ (MSVC) build tools. Expected a version of MSCV at the path '{mscvVersionsDirectoryPath}'. Do you need to install the Microsoft Visual C++ (MSVC) build tools?");
+            }
+
             var mscvIncludeDirectoryPath = Path.Combine(mscvHighestVersionDirectoryPath, "include");
             if (!Directory.Exists(mscvIncludeDirectoryPath))
             {
@@ -172,6 +185,12 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             const string commandLineToolsClangDirectoryPath = "/Library/Developer/CommandLineTools/usr/lib/clang";
             var clangHighestVersionDirectoryPath =
                 GetHighestVersionDirectoryPathFrom(commandLineToolsClangDirectoryPath);
+            if (string.IsNullOrEmpty(clangHighestVersionDirectoryPath))
+            {
+                throw new CParserException(
+                    $"Unable to find a version of clang. Expected a version of clang at '{commandLineToolsClangDirectoryPath}'. Do you need to install CommandLineTools for macOS?");
+            }
+
             var systemIncludeCommandLineArgClang = $"-isystem{clangHighestVersionDirectoryPath}/include";
             clangArgumentsBuilder.Add(systemIncludeCommandLineArgClang);
 
@@ -196,7 +215,11 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             {
                 var versionStringIndex = directoryPath.LastIndexOf(Path.DirectorySeparatorChar);
                 var versionString = directoryPath[(versionStringIndex + 1)..];
-                var version = Version.Parse(versionString);
+                if (!Version.TryParse(versionString, out var version))
+                {
+                    continue;
+                }
+
                 if (version < highestVersion)
                 {
                     continue;
