@@ -20,7 +20,7 @@ For documentation see the [docs/README.md](docs/README.md). This includes:
 Catalog of C# bindings for C libraries I have setup and tested myself.
 
 |Name|Category|Description|C# bindings|
-|:-:|:-:|:-:|:-:|:-:|
+|:-:|:-:|:-:|:-:|
 |[sokol](https://github.com/floooh/sokol)|graphics,windowing,audio|minimal cross-platform standalone C headers|https://github.com/lithiumtoast/sokol-cs|
 |[SDL](https://github.com/libsdl-org/SDL)|graphics,windowing,audio|Simple Directmedia Layer|https://github.com/lithiumtoast/sdl-cs|
 |[stb](https://github.com/nothings/stb)|graphics,audio,etc|single-file public domain libraries for C/C++|https://github.com/lithiumtoast/sdl-cs|
