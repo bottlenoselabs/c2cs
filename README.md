@@ -19,10 +19,11 @@ For documentation see the [docs/README.md](docs/README.md). This includes:
 
 Catalog of C# bindings for C libraries I have setup and tested myself.
 
-|Name|Description|C|C#|
-|:-:|:-:|:-:|:-:|
-|sokol|minimal cross-platform standalone C headers|https://github.com/floooh/sokol|https://github.com/lithiumtoast/sokol-cs|
-|SDL|Simple Directmedia Layer|https://github.com/libsdl-org/SDL|https://github.com/lithiumtoast/sdl-cs|
+|Name|Category|Description|C|C#|
+|:-:|:-:|:-:|:-:|:-:|
+|sokol|graphics,windowing,audio|minimal cross-platform standalone C headers|https://github.com/floooh/sokol|https://github.com/lithiumtoast/sokol-cs|
+|SDL|graphics,windowing,audio|Simple Directmedia Layer|https://github.com/libsdl-org/SDL|https://github.com/lithiumtoast/sdl-cs|
+|stb|graphics,audio,etc|single-file public domain libraries for C/C++|https://github.com/libsdl-org/SDL|https://github.com/lithiumtoast/sdl-cs|
 
 Want to see a C library not seen here? Create an issue for a request of a C library and I'll be happy to setup a repository with bindings. 
 
