@@ -1071,7 +1071,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                     return (CKind.Array, cursorType);
             }
 
-            var up = new ClangExplorerException($"Unknown type kind '{type.kind}.'");
+            var up = new ClangExplorerException($"Unknown type kind '{type.kind}'.");
             throw up;
         }
 

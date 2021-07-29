@@ -145,6 +145,7 @@ public static unsafe class ClangExtensions
             CXTypeKind.CXType_Void => true,
             CXTypeKind.CXType_Bool => true,
             CXTypeKind.CXType_Char_S => true,
+            CXTypeKind.CXType_SChar => true,
             CXTypeKind.CXType_Char_U => true,
             CXTypeKind.CXType_UChar => true,
             CXTypeKind.CXType_UShort => true,
