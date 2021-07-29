@@ -54,7 +54,7 @@ At runtime, if the C library is "dynamic" (meaning the `.dll`/`.dylib`/`.so` fil
 
 In the case of dynamic loading, said function has to additionally be resolved by *symbol* from user code using `dlsym` (Unix) or `GetProcAddress` (Windows) to get the pointer to the function in virtual memory (function pointer). Then to call said function requires one level of *indirection* stemming from the use of the pointer. This is suboptimal compared to dynamic linking but is the current affairs of how the `DllImport` works in just-in-time compilation environments of .NET for platform invoke (P/Invoke).
 
-With the advancement of ahead-of-time compilation in Mono and .NET 5 ([NativeAOT](https://github.com/dotnet/runtimelab/tree/feature/NativeAOT)), dynamic linking can be achieved resulting in *direct* platform invoke (P/Invoke) resulting in better performance by lack of the *indirection* use of the extra pointer. The feature is called ["DirectPInvoke"](https://github.com/dotnet/runtimelab/blob/feature/NativeAOT/docs/using-nativeaot/interop.md).
+With the advancement of ahead-of-time compilation in Mono and .NET 5 ([NativeAOT](https://github.com/dotnet/runtimelab/tree/feature/NativeAOT)), **dynamic linking** can be achieved instead of **dynamic loading** resulting in *direct* platform invoke (P/Invoke) which has better performance by lack of the *indirection* use of the extra pointer. The feature is called ["DirectPInvoke"](https://github.com/dotnet/runtimelab/blob/feature/NativeAOT/docs/using-nativeaot/interop.md).
 
 ##### Static linking
 
