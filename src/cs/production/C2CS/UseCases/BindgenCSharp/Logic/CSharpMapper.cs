@@ -752,7 +752,7 @@ namespace C2CS.UseCases.BindgenCSharp
                 pointerTypeName = pointerTypeName[..x] + "*" + pointerTypeName[(y + 1)..];
             }
 
-            if (pointerTypeName.StartsWith("char*"))
+            if (pointerTypeName.StartsWith("char*", StringComparison.InvariantCulture))
             {
                 return pointerTypeName.Replace("char*", "CString");
             }
