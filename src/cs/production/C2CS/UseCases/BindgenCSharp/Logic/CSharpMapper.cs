@@ -752,15 +752,17 @@ namespace C2CS.UseCases.BindgenCSharp
                 pointerTypeName = pointerTypeName[..x] + "*" + pointerTypeName[(y + 1)..];
             }
 
+            var elementTypeName = pointerTypeName.TrimEnd('*');
+            var pointersTypeName = pointerTypeName[elementTypeName.Length..];
+            var mappedElementTypeName = TypeNameMapElement(elementTypeName, sizeOf, isSystem);
+            pointerTypeName = mappedElementTypeName + pointersTypeName;
+
             if (pointerTypeName.StartsWith("char*", StringComparison.InvariantCulture))
             {
                 return pointerTypeName.Replace("char*", "CString");
             }
 
-            var elementTypeName = pointerTypeName.TrimEnd('*');
-            var pointersTypeName = pointerTypeName[elementTypeName.Length..];
-            var mappedElementTypeName = TypeNameMapElement(elementTypeName, sizeOf, isSystem);
-            return mappedElementTypeName + pointersTypeName;
+            return pointerTypeName;
         }
 
         private string TypeNameMapElement(string typeName, int sizeOf, bool isSystem)
