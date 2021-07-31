@@ -286,7 +286,7 @@ public fixed {typeName} _{field.Name}[{field.Type.SizeOf}/{field.Type.AlignOf}];
 		{
 			string code;
 
-			if (field.Type.Name == "CString")
+			if (field.Type.Name == "CString8U")
 			{
 				code = $@"
 public string {field.Name}
@@ -296,8 +296,25 @@ public string {field.Name}
 		fixed ({structName}*@this = &this)
 		{{
 			var pointer = &@this->_{field.Name}[0];
-            var cString = new CString(pointer);
-            return Runtime.String(cString);
+            var cString = new CString8U(pointer);
+            return Runtime.String8U(cString);
+		}}
+	}}
+}}
+".Trim();
+			}
+			else if (field.Type.Name == "CString16U")
+			{
+				code = $@"
+public string {field.Name}
+{{
+	get
+	{{
+		fixed ({structName}*@this = &this)
+		{{
+			var pointer = &@this->_{field.Name}[0];
+            var cString = new CString16U(pointer);
+            return Runtime.String16U(cString);
 		}}
 	}}
 }}

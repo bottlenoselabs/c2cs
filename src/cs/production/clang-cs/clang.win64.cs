@@ -19,1440 +19,1440 @@ using C2CS;
 
 public static unsafe partial class clang
 {
-    private const string LibraryName = "libclang";
+    private const string LibraryName = "clang";
 
-    // Function @ Index.h:6768:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6768:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Type_visitFields(CXType T, CXFieldVisitor visitor, CXClientData client_data);
 
-    // Function @ Index.h:6733:18 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6733:18 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceLocation clang_indexLoc_getCXSourceLocation(CXIdxLoc loc);
 
-    // Function @ Index.h:6723:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6723:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_indexLoc_getFileLocation(CXIdxLoc loc, CXIdxClientFile* indexFile, CXFile* file, ulong* line, ulong* column, ulong* offset);
 
-    // Function @ Index.h:6711:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6711:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_indexTranslationUnit(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CXTranslationUnit param2);
 
-    // Function @ Index.h:6688:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6688:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_indexSourceFileFullArgv(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CString8U source_filename, CString8U* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
 
-    // Function @ Index.h:6676:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6676:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_indexSourceFile(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CString8U source_filename, CString8U* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
 
-    // Function @ Index.h:6610:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6610:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_IndexAction_dispose(CXIndexAction param);
 
-    // Function @ Index.h:6602:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6602:30 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXIndexAction clang_IndexAction_create(CXIndex CIdx);
 
-    // Function @ Index.h:6587:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6587:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_index_setClientEntity(CXIdxEntityInfo* param, CXIdxClientEntity param2);
 
-    // Function @ Index.h:6582:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6582:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXIdxClientEntity clang_index_getClientEntity(CXIdxEntityInfo* param);
 
-    // Function @ Index.h:6575:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6575:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_index_setClientContainer(CXIdxContainerInfo* param, CXIdxClientContainer param2);
 
-    // Function @ Index.h:6569:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6569:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXIdxClientContainer clang_index_getClientContainer(CXIdxContainerInfo* param);
 
-    // Function @ Index.h:6562:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6562:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXIdxCXXClassDeclInfo* clang_index_getCXXClassDeclInfo(CXIdxDeclInfo* param);
 
-    // Function @ Index.h:6559:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6559:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXIdxIBOutletCollectionAttrInfo* clang_index_getIBOutletCollectionAttrInfo(CXIdxAttrInfo* param);
 
-    // Function @ Index.h:6556:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6556:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXIdxObjCPropertyDeclInfo* clang_index_getObjCPropertyDeclInfo(CXIdxDeclInfo* param);
 
-    // Function @ Index.h:6553:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6553:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXIdxObjCProtocolRefListInfo* clang_index_getObjCProtocolRefListInfo(CXIdxDeclInfo* param);
 
-    // Function @ Index.h:6550:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6550:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXIdxObjCCategoryDeclInfo* clang_index_getObjCCategoryDeclInfo(CXIdxDeclInfo* param);
 
-    // Function @ Index.h:6546:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6546:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXIdxObjCInterfaceDeclInfo* clang_index_getObjCInterfaceDeclInfo(CXIdxDeclInfo* param);
 
-    // Function @ Index.h:6543:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6543:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXIdxObjCContainerDeclInfo* clang_index_getObjCContainerDeclInfo(CXIdxDeclInfo* param);
 
-    // Function @ Index.h:6541:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6541:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_index_isEntityObjCContainerKind(CXIdxEntityKind param);
 
-    // Function @ Index.h:6140:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6140:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXResult clang_findIncludesInFile(CXTranslationUnit TU, CXFile file, CXCursorAndRangeVisitor visitor);
 
-    // Function @ Index.h:6125:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6125:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXResult clang_findReferencesInFile(CXCursor cursor, CXFile file, CXCursorAndRangeVisitor visitor);
 
-    // Function @ Index.h:6076:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6076:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_remap_dispose(CXRemapping param);
 
-    // Function @ Index.h:6069:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6069:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_remap_getFilenames(CXRemapping param, uint index, CXString* original, CXString* transformed);
 
-    // Function @ Index.h:6059:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6059:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_remap_getNumFiles(CXRemapping param);
 
-    // Function @ Index.h:6053:13 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6053:13 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXRemapping clang_getRemappingsFromFileList(CString8U* filePaths, uint numFiles);
 
-    // Function @ Index.h:6040:28 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6040:28 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXRemapping clang_getRemappings(CString8U path);
 
-    // Function @ Index.h:6017:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6017:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_EvalResult_dispose(CXEvalResult E);
 
-    // Function @ Index.h:6012:28 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6012:28 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CString8U clang_EvalResult_getAsStr(CXEvalResult E);
 
-    // Function @ Index.h:6004:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:6004:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern double clang_EvalResult_getAsDouble(CXEvalResult E);
 
-    // Function @ Index.h:5998:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5998:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern ulong clang_EvalResult_getAsUnsigned(CXEvalResult E);
 
-    // Function @ Index.h:5991:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5991:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_EvalResult_isUnsignedInt(CXEvalResult E);
 
-    // Function @ Index.h:5985:26 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5985:26 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern long clang_EvalResult_getAsLongLong(CXEvalResult E);
 
-    // Function @ Index.h:5978:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5978:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_EvalResult_getAsInt(CXEvalResult E);
 
-    // Function @ Index.h:5972:33 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5972:33 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXEvalResultKind clang_EvalResult_getKind(CXEvalResult E);
 
-    // Function @ Index.h:5967:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5967:29 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXEvalResult clang_Cursor_Evaluate(CXCursor C);
 
-    // Function @ Index.h:5940:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5940:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_getInclusions(CXTranslationUnit tu, CXInclusionVisitor visitor, CXClientData client_data);
 
-    // Function @ Index.h:5916:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5916:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_toggleCrashRecovery(uint isEnabled);
 
-    // Function @ Index.h:5908:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5908:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getClangVersion();
 
-    // Function @ Index.h:5892:10 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5892:10 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_codeCompleteGetObjCSelector(CXCodeCompleteResults* Results);
 
-    // Function @ Index.h:5878:10 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5878:10 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_codeCompleteGetContainerUSR(CXCodeCompleteResults* Results);
 
-    // Function @ Index.h:5865:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5865:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursorKind clang_codeCompleteGetContainerKind(CXCodeCompleteResults* Results, ulong* IsIncomplete);
 
-    // Function @ Index.h:5845:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5845:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern ulong clang_codeCompleteGetContexts(CXCodeCompleteResults* Results);
 
-    // Function @ Index.h:5831:14 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5831:14 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXDiagnostic clang_codeCompleteGetDiagnostic(CXCodeCompleteResults* Results, uint Index);
 
-    // Function @ Index.h:5819:10 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5819:10 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_codeCompleteGetNumDiagnostics(CXCodeCompleteResults* Results);
 
-    // Function @ Index.h:5812:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5812:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_disposeCodeCompleteResults(CXCodeCompleteResults* Results);
 
-    // Function @ Index.h:5805:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5805:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_sortCodeCompletionResults(CXCompletionResult* Results, uint NumResults);
 
-    // Function @ Index.h:5792:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5792:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCodeCompleteResults* clang_codeCompleteAt(CXTranslationUnit TU, CString8U complete_filename, uint complete_line, uint complete_column, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
 
-    // Function @ Index.h:5720:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5720:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_defaultCodeCompleteOptions();
 
-    // Function @ Index.h:5536:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5536:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getCompletionFixIt(CXCodeCompleteResults* results, uint completion_index, uint fixit_index, CXSourceRange* replacement_range);
 
-    // Function @ Index.h:5490:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5490:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_getCompletionNumFixIts(CXCodeCompleteResults* results, uint completion_index);
 
-    // Function @ Index.h:5454:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5454:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCompletionString clang_getCursorCompletionString(CXCursor cursor);
 
-    // Function @ Index.h:5442:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5442:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getCompletionBriefComment(CXCompletionString completion_string);
 
-    // Function @ Index.h:5434:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5434:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getCompletionParent(CXCompletionString completion_string, CXCursorKind* kind);
 
-    // Function @ Index.h:5415:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5415:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getCompletionAnnotation(CXCompletionString completion_string, uint annotation_number);
 
-    // Function @ Index.h:5402:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5402:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_getCompletionNumAnnotations(CXCompletionString completion_string);
 
-    // Function @ Index.h:5390:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5390:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXAvailabilityKind clang_getCompletionAvailability(CXCompletionString completion_string);
 
-    // Function @ Index.h:5379:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5379:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_getCompletionPriority(CXCompletionString completion_string);
 
-    // Function @ Index.h:5364:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5364:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_getNumCompletionChunks(CXCompletionString completion_string);
 
-    // Function @ Index.h:5357:35 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5357:35 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCompletionString clang_getCompletionChunkCompletionString(CXCompletionString completion_string, uint chunk_number);
 
-    // Function @ Index.h:5343:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5343:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getCompletionChunkText(CXCompletionString completion_string, uint chunk_number);
 
-    // Function @ Index.h:5330:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5330:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCompletionChunkKind clang_getCompletionChunkKind(CXCompletionString completion_string, uint chunk_number);
 
-    // Function @ Index.h:5092:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5092:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_executeOnThread(FnPtr_CLANG_VoidPtr_Void fn, void* user_data, uint stack_size);
 
-    // Function @ Index.h:5091:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5091:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_enableStackTraces();
 
-    // Function @ Index.h:5088:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5088:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_getDefinitionSpellingAndExtent(CXCursor param, CString8U* startBuf, CString8U* endBuf, ulong* startLine, ulong* startColumn, ulong* endLine, ulong* endColumn);
 
-    // Function @ Index.h:5087:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5087:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getCursorKindSpelling(CXCursorKind Kind);
 
-    // Function @ Index.h:5070:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5070:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_disposeTokens(CXTranslationUnit TU, CXToken* Tokens, uint NumTokens);
 
-    // Function @ Index.h:5064:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5064:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_annotateTokens(CXTranslationUnit TU, CXToken* Tokens, uint NumTokens, CXCursor* Cursors);
 
-    // Function @ Index.h:5031:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5031:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_tokenize(CXTranslationUnit TU, CXSourceRange Range, CXToken** Tokens, ulong* NumTokens);
 
-    // Function @ Index.h:5012:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5012:30 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceRange clang_getTokenExtent(CXTranslationUnit param, CXToken param2);
 
-    // Function @ Index.h:5006:33 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5006:33 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceLocation clang_getTokenLocation(CXTranslationUnit param, CXToken param2);
 
-    // Function @ Index.h:5001:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:5001:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getTokenSpelling(CXTranslationUnit param, CXToken param2);
 
-    // Function @ Index.h:4993:28 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4993:28 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXTokenKind clang_getTokenKind(CXToken param);
 
-    // Function @ Index.h:4987:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4987:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXToken* clang_getToken(CXTranslationUnit TU, CXSourceLocation Location);
 
-    // Function @ Index.h:4895:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4895:30 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceRange clang_getCursorReferenceNameRange(CXCursor C, uint NameFlags, uint PieceIndex);
 
-    // Function @ Index.h:4875:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4875:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursor clang_getSpecializedCursorTemplate(CXCursor C);
 
-    // Function @ Index.h:4845:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4845:34 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursorKind clang_getTemplateCursorKind(CXCursor C);
 
-    // Function @ Index.h:4826:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4826:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_CXXMethod_isConst(CXCursor C);
 
-    // Function @ Index.h:4820:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4820:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_EnumDecl_isScoped(CXCursor C);
 
-    // Function @ Index.h:4815:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4815:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_CXXRecord_isAbstract(CXCursor C);
 
-    // Function @ Index.h:4809:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4809:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_CXXMethod_isVirtual(CXCursor C);
 
-    // Function @ Index.h:4802:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4802:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_CXXMethod_isStatic(CXCursor C);
 
-    // Function @ Index.h:4796:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4796:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_CXXMethod_isPureVirtual(CXCursor C);
 
-    // Function @ Index.h:4790:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4790:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_CXXMethod_isDefaulted(CXCursor C);
 
-    // Function @ Index.h:4785:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4785:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_CXXField_isMutable(CXCursor C);
 
-    // Function @ Index.h:4780:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4780:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_CXXConstructor_isMoveConstructor(CXCursor C);
 
-    // Function @ Index.h:4775:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4775:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_CXXConstructor_isDefaultConstructor(CXCursor C);
 
-    // Function @ Index.h:4770:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4770:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_CXXConstructor_isCopyConstructor(CXCursor C);
 
-    // Function @ Index.h:4765:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4765:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_CXXConstructor_isConvertingConstructor(CXCursor C);
 
-    // Function @ Index.h:4745:8 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4745:8 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXFile clang_Module_getTopLevelHeader(CXTranslationUnit param, CXModule Module, uint Index);
 
-    // Function @ Index.h:4734:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4734:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Module_getNumTopLevelHeaders(CXTranslationUnit param, CXModule Module);
 
-    // Function @ Index.h:4727:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4727:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_Module_isSystem(CXModule Module);
 
-    // Function @ Index.h:4720:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4720:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_Module_getFullName(CXModule Module);
 
-    // Function @ Index.h:4713:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4713:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_Module_getName(CXModule Module);
 
-    // Function @ Index.h:4705:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4705:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXModule clang_Module_getParent(CXModule Module);
 
-    // Function @ Index.h:4697:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4697:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXFile clang_Module_getASTFile(CXModule Module);
 
-    // Function @ Index.h:4690:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4690:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXModule clang_getModuleForFile(CXTranslationUnit param, CXFile param2);
 
-    // Function @ Index.h:4684:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4684:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXModule clang_Cursor_getModule(CXCursor C);
 
-    // Function @ Index.h:4665:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4665:29 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXStringSet* clang_Cursor_getObjCManglings(CXCursor param);
 
-    // Function @ Index.h:4659:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4659:29 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXStringSet* clang_Cursor_getCXXManglings(CXCursor param);
 
-    // Function @ Index.h:4653:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4653:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_Cursor_getMangling(CXCursor param);
 
-    // Function @ Index.h:4639:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4639:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_Cursor_getBriefCommentText(CXCursor C);
 
-    // Function @ Index.h:4632:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4632:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_Cursor_getRawCommentText(CXCursor C);
 
-    // Function @ Index.h:4626:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4626:30 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceRange clang_Cursor_getCommentRange(CXCursor C);
 
-    // Function @ Index.h:4616:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4616:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Cursor_isExternalSymbol(CXCursor C, CXString* language, CXString* definedIn, ulong* isGenerated);
 
-    // Function @ Index.h:4601:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4601:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Cursor_isVariadic(CXCursor C);
 
-    // Function @ Index.h:4596:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4596:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Cursor_isObjCOptional(CXCursor C);
 
-    // Function @ Index.h:4589:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4589:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Cursor_getObjCDeclQualifiers(CXCursor C);
 
-    // Function @ Index.h:4567:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4567:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_Cursor_getObjCPropertySetterName(CXCursor C);
 
-    // Function @ Index.h:4561:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4561:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_Cursor_getObjCPropertyGetterName(CXCursor C);
 
-    // Function @ Index.h:4555:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4555:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Cursor_getObjCPropertyAttributes(CXCursor C, uint reserved);
 
-    // Function @ Index.h:4525:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4525:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_Cursor_getReceiverType(CXCursor C);
 
-    // Function @ Index.h:4519:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4519:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_Cursor_isDynamicCall(CXCursor C);
 
-    // Function @ Index.h:4506:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4506:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_Cursor_getObjCSelectorIndex(CXCursor param);
 
-    // Function @ Index.h:4493:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4493:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursor clang_getCanonicalCursor(CXCursor param);
 
-    // Function @ Index.h:4467:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4467:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_isCursorDefinition(CXCursor param);
 
-    // Function @ Index.h:4461:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4461:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursor clang_getCursorDefinition(CXCursor param);
 
-    // Function @ Index.h:4431:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4431:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursor clang_getCursorReferenced(CXCursor param);
 
-    // Function @ Index.h:4419:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4419:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getCursorDisplayName(CXCursor param);
 
-    // Function @ Index.h:4409:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4409:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getCursorPrettyPrinted(CXCursor Cursor, CXPrintingPolicy Policy);
 
-    // Function @ Index.h:4396:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4396:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_PrintingPolicy_dispose(CXPrintingPolicy Policy);
 
-    // Function @ Index.h:4391:33 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4391:33 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXPrintingPolicy clang_getCursorPrintingPolicy(CXCursor param);
 
-    // Function @ Index.h:4381:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4381:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_PrintingPolicy_setProperty(CXPrintingPolicy Policy, CXPrintingPolicyProperty Property, uint Value);
 
-    // Function @ Index.h:4374:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4374:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_PrintingPolicy_getProperty(CXPrintingPolicy Policy, CXPrintingPolicyProperty Property);
 
-    // Function @ Index.h:4325:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4325:30 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceRange clang_Cursor_getSpellingNameRange(CXCursor param, uint pieceIndex, uint options);
 
-    // Function @ Index.h:4312:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4312:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getCursorSpelling(CXCursor param);
 
-    // Function @ Index.h:4306:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4306:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_constructUSR_ObjCProperty(CString8U property, CXString classUSR);
 
-    // Function @ Index.h:4298:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4298:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_constructUSR_ObjCMethod(CString8U name, uint isInstanceMethod, CXString classUSR);
 
-    // Function @ Index.h:4291:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4291:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_constructUSR_ObjCIvar(CString8U name, CXString classUSR);
 
-    // Function @ Index.h:4285:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4285:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_constructUSR_ObjCProtocol(CString8U protocol_name);
 
-    // Function @ Index.h:4278:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4278:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_constructUSR_ObjCCategory(CString8U class_name, CString8U category_name);
 
-    // Function @ Index.h:4273:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4273:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_constructUSR_ObjCClass(CString8U class_name);
 
-    // Function @ Index.h:4268:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4268:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getCursorUSR(CXCursor param);
 
-    // Function @ Index.h:4217:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4217:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_visitChildren(CXCursor parent, CXCursorVisitor visitor, CXClientData client_data);
 
-    // Function @ Index.h:4140:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4140:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getIBOutletCollectionType(CXCursor param);
 
-    // Function @ Index.h:4122:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4122:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursor clang_getOverloadedDecl(CXCursor cursor, uint index);
 
-    // Function @ Index.h:4106:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4106:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_getNumOverloadedDecls(CXCursor cursor);
 
-    // Function @ Index.h:4095:37 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4095:37 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CX_StorageClass clang_Cursor_getStorageClass(CXCursor param);
 
-    // Function @ Index.h:4072:43 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4072:43 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CX_CXXAccessSpecifier clang_getCXXAccessSpecifier(CXCursor param);
 
-    // Function @ Index.h:4052:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4052:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_isVirtualBase(CXCursor param);
 
-    // Function @ Index.h:4046:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4046:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Cursor_isBitField(CXCursor C);
 
-    // Function @ Index.h:4040:40 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4040:40 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXRefQualifierKind clang_Type_getCXXRefQualifier(CXType T);
 
-    // Function @ Index.h:4031:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4031:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_Type_getTemplateArgumentAsType(CXType T, uint i);
 
-    // Function @ Index.h:4022:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4022:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_Type_getNumTemplateArguments(CXType T);
 
-    // Function @ Index.h:4007:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4007:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Cursor_isInlineNamespace(CXCursor C);
 
-    // Function @ Index.h:4001:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:4001:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Cursor_isAnonymousRecordDecl(CXCursor C);
 
-    // Function @ Index.h:3995:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3995:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Cursor_isAnonymous(CXCursor C);
 
-    // Function @ Index.h:3989:26 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3989:26 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern long clang_Cursor_getOffsetOfField(CXCursor C);
 
-    // Function @ Index.h:3974:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3974:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_Type_getValueType(CXType CT);
 
-    // Function @ Index.h:3967:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3967:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_Type_getModifiedType(CXType T);
 
-    // Function @ Index.h:3960:26 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3960:26 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern long clang_Type_getOffsetOf(CXType T, CString8U S);
 
-    // Function @ Index.h:3945:26 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3945:26 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern long clang_Type_getSizeOf(CXType T);
 
-    // Function @ Index.h:3934:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3934:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_Type_getClassType(CXType T);
 
-    // Function @ Index.h:3927:26 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3927:26 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern long clang_Type_getAlignOf(CXType T);
 
-    // Function @ Index.h:3878:43 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3878:43 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXTypeNullabilityKind clang_Type_getNullability(CXType T);
 
-    // Function @ Index.h:3843:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3843:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Type_isTransparentTagTypedef(CXType T);
 
-    // Function @ Index.h:3833:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3833:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_Type_getNamedType(CXType T);
 
-    // Function @ Index.h:3826:26 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3826:26 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern long clang_getArraySize(CXType T);
 
-    // Function @ Index.h:3819:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3819:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getArrayElementType(CXType T);
 
-    // Function @ Index.h:3812:26 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3812:26 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern long clang_getNumElements(CXType T);
 
-    // Function @ Index.h:3804:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3804:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getElementType(CXType T);
 
-    // Function @ Index.h:3796:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3796:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_isPODType(CXType T);
 
-    // Function @ Index.h:3790:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3790:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_getCursorExceptionSpecificationType(CXCursor C);
 
-    // Function @ Index.h:3781:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3781:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getCursorResultType(CXCursor C);
 
-    // Function @ Index.h:3774:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3774:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_isFunctionTypeVariadic(CXType T);
 
-    // Function @ Index.h:3769:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3769:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_Type_getObjCTypeArg(CXType T, uint i);
 
-    // Function @ Index.h:3761:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3761:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Type_getNumObjCTypeArgs(CXType T);
 
-    // Function @ Index.h:3754:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3754:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursor clang_Type_getObjCProtocolDecl(CXType T, uint i);
 
-    // Function @ Index.h:3746:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3746:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Type_getNumObjCProtocolRefs(CXType T);
 
-    // Function @ Index.h:3739:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3739:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_Type_getObjCObjectBaseType(CXType T);
 
-    // Function @ Index.h:3732:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3732:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getArgType(CXType T, uint i);
 
-    // Function @ Index.h:3724:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3724:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_getNumArgTypes(CXType T);
 
-    // Function @ Index.h:3716:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3716:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_getExceptionSpecificationType(CXType T);
 
-    // Function @ Index.h:3708:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3708:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getResultType(CXType T);
 
-    // Function @ Index.h:3701:35 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3701:35 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCallingConv clang_getFunctionTypeCallingConv(CXType T);
 
-    // Function @ Index.h:3694:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3694:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getTypeKindSpelling(CXTypeKind K);
 
-    // Function @ Index.h:3689:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3689:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_Type_getObjCEncoding(CXType type);
 
-    // Function @ Index.h:3684:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3684:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getDeclObjCTypeEncoding(CXCursor C);
 
-    // Function @ Index.h:3679:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3679:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursor clang_getTypeDeclaration(CXType T);
 
-    // Function @ Index.h:3674:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3674:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getPointeeType(CXType T);
 
-    // Function @ Index.h:3669:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3669:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getTypedefName(CXType CT);
 
-    // Function @ Index.h:3664:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3664:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_getAddressSpace(CXType T);
 
-    // Function @ Index.h:3659:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3659:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_isRestrictQualifiedType(CXType T);
 
-    // Function @ Index.h:3652:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3652:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_isVolatileQualifiedType(CXType T);
 
-    // Function @ Index.h:3645:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3645:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Cursor_isFunctionInlined(CXCursor C);
 
-    // Function @ Index.h:3639:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3639:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Cursor_isMacroBuiltin(CXCursor C);
 
-    // Function @ Index.h:3633:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3633:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Cursor_isMacroFunctionLike(CXCursor C);
 
-    // Function @ Index.h:3627:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3627:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_isConstQualifiedType(CXType T);
 
-    // Function @ Index.h:3620:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3620:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getCanonicalType(CXType T);
 
-    // Function @ Index.h:3610:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3610:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_equalTypes(CXType A, CXType B);
 
-    // Function @ Index.h:3602:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3602:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern ulong clang_Cursor_getTemplateArgumentUnsignedValue(CXCursor C, uint I);
 
-    // Function @ Index.h:3581:26 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3581:26 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern long clang_Cursor_getTemplateArgumentValue(CXCursor C, uint I);
 
-    // Function @ Index.h:3561:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3561:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_Cursor_getTemplateArgumentType(CXCursor C, uint I);
 
-    // Function @ Index.h:3541:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3541:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXTemplateArgumentKind clang_Cursor_getTemplateArgumentKind(CXCursor C, uint I);
 
-    // Function @ Index.h:3522:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3522:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_Cursor_getNumTemplateArguments(CXCursor C);
 
-    // Function @ Index.h:3484:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3484:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursor clang_Cursor_getArgument(CXCursor C, uint i);
 
-    // Function @ Index.h:3475:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3475:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_Cursor_getNumArguments(CXCursor C);
 
-    // Function @ Index.h:3466:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3466:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_getFieldDeclBitWidth(CXCursor C);
 
-    // Function @ Index.h:3459:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3459:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern ulong clang_getEnumConstantDeclUnsignedValue(CXCursor C);
 
-    // Function @ Index.h:3448:26 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3448:26 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern long clang_getEnumConstantDeclValue(CXCursor C);
 
-    // Function @ Index.h:3438:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3438:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getEnumDeclIntegerType(CXCursor C);
 
-    // Function @ Index.h:3430:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3430:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getTypedefDeclUnderlyingType(CXCursor C);
 
-    // Function @ Index.h:3422:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3422:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getTypeSpelling(CXType CT);
 
-    // Function @ Index.h:3414:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3414:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getCursorType(CXCursor C);
 
-    // Function @ Index.h:3211:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3211:30 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceRange clang_getCursorExtent(CXCursor param);
 
-    // Function @ Index.h:3198:33 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3198:33 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceLocation clang_getCursorLocation(CXCursor param);
 
-    // Function @ Index.h:3186:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3186:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursor clang_getCursor(CXTranslationUnit param, CXSourceLocation param2);
 
-    // Function @ Index.h:3154:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3154:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXFile clang_getIncludedFile(CXCursor cursor);
 
-    // Function @ Index.h:3148:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3148:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_disposeOverriddenCursors(CXCursor* overridden);
 
-    // Function @ Index.h:3140:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3140:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_getOverriddenCursors(CXCursor cursor, CXCursor** overridden, ulong* num_overridden);
 
-    // Function @ Index.h:3095:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3095:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursor clang_getCursorLexicalParent(CXCursor cursor);
 
-    // Function @ Index.h:3059:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3059:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursor clang_getCursorSemanticParent(CXCursor cursor);
 
-    // Function @ Index.h:3023:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3023:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_CXCursorSet_insert(CXCursorSet cset, CXCursor cursor);
 
-    // Function @ Index.h:3015:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3015:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_CXCursorSet_contains(CXCursorSet cset, CXCursor cursor);
 
-    // Function @ Index.h:3008:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3008:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_disposeCXCursorSet(CXCursorSet cset);
 
-    // Function @ Index.h:3003:28 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:3003:28 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursorSet clang_createCXCursorSet();
 
-    // Function @ Index.h:2993:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2993:34 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXTranslationUnit clang_Cursor_getTranslationUnit(CXCursor param);
 
-    // Function @ Index.h:2988:31 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2988:31 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXTLSKind clang_getCursorTLSKind(CXCursor cursor);
 
-    // Function @ Index.h:2976:36 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2976:36 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXLanguageKind clang_getCursorLanguage(CXCursor cursor);
 
-    // Function @ Index.h:2961:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2961:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_Cursor_hasVarDeclExternalStorage(CXCursor cursor);
 
-    // Function @ Index.h:2954:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2954:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_Cursor_hasVarDeclGlobalStorage(CXCursor cursor);
 
-    // Function @ Index.h:2947:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2947:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursor clang_Cursor_getVarDeclInitializer(CXCursor cursor);
 
-    // Function @ Index.h:2941:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2941:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_disposeCXPlatformAvailability(CXPlatformAvailability* availability);
 
-    // Function @ Index.h:2932:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2932:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_getCursorPlatformAvailability(CXCursor cursor, long* always_deprecated, CXString* deprecated_message, long* always_unavailable, CXString* unavailable_message, CXPlatformAvailability* availability, int availability_size);
 
-    // Function @ Index.h:2857:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2857:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXAvailabilityKind clang_getCursorAvailability(CXCursor cursor);
 
-    // Function @ Index.h:2846:38 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2846:38 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXVisibilityKind clang_getCursorVisibility(CXCursor cursor);
 
-    // Function @ Index.h:2820:35 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2820:35 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXLinkageKind clang_getCursorLinkage(CXCursor cursor);
 
-    // Function @ Index.h:2794:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2794:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_isUnexposed(CXCursorKind param);
 
-    // Function @ Index.h:2788:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2788:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_isPreprocessing(CXCursorKind param);
 
-    // Function @ Index.h:2782:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2782:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_isTranslationUnit(CXCursorKind param);
 
-    // Function @ Index.h:2776:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2776:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_isInvalid(CXCursorKind param);
 
-    // Function @ Index.h:2770:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2770:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Cursor_hasAttrs(CXCursor C);
 
-    // Function @ Index.h:2765:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2765:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_isAttribute(CXCursorKind param);
 
-    // Function @ Index.h:2760:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2760:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_isStatement(CXCursorKind param);
 
-    // Function @ Index.h:2755:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2755:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_isExpression(CXCursorKind param);
 
-    // Function @ Index.h:2750:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2750:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_isReference(CXCursorKind param);
 
-    // Function @ Index.h:2740:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2740:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_isInvalidDeclaration(CXCursor param);
 
-    // Function @ Index.h:2730:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2730:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_isDeclaration(CXCursorKind param);
 
-    // Function @ Index.h:2725:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2725:34 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursorKind clang_getCursorKind(CXCursor param);
 
-    // Function @ Index.h:2720:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2720:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_hashCursor(CXCursor param);
 
-    // Function @ Index.h:2715:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2715:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_Cursor_isNull(CXCursor cursor);
 
-    // Function @ Index.h:2710:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2710:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_equalCursors(CXCursor param, CXCursor param2);
 
-    // Function @ Index.h:2705:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2705:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursor clang_getTranslationUnitCursor(CXTranslationUnit param);
 
-    // Function @ Index.h:2697:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:2697:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursor clang_getNullCursor();
 
-    // Function @ Index.h:1697:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1697:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_TargetInfo_getPointerWidth(CXTargetInfo Info);
 
-    // Function @ Index.h:1690:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1690:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_TargetInfo_getTriple(CXTargetInfo Info);
 
-    // Function @ Index.h:1683:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1683:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_TargetInfo_dispose(CXTargetInfo Info);
 
-    // Function @ Index.h:1678:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1678:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXTargetInfo clang_getTranslationUnitTargetInfo(CXTranslationUnit CTUnit);
 
-    // Function @ Index.h:1670:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1670:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_disposeCXTUResourceUsage(CXTUResourceUsage usage);
 
-    // Function @ Index.h:1668:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1668:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXTUResourceUsage clang_getCXTUResourceUsage(CXTranslationUnit TU);
 
-    // Function @ Index.h:1637:13 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1637:13 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CString8U clang_getTUResourceUsageName(CXTUResourceUsageKind kind);
 
-    // Function @ Index.h:1602:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1602:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_reparseTranslationUnit(CXTranslationUnit TU, uint num_unsaved_files, CXUnsavedFile* unsaved_files, uint options);
 
-    // Function @ Index.h:1560:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1560:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_defaultReparseOptions(CXTranslationUnit TU);
 
-    // Function @ Index.h:1534:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1534:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_disposeTranslationUnit(CXTranslationUnit param);
 
-    // Function @ Index.h:1529:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1529:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_suspendTranslationUnit(CXTranslationUnit param);
 
-    // Function @ Index.h:1518:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1518:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_saveTranslationUnit(CXTranslationUnit TU, CString8U FileName, uint options);
 
-    // Function @ Index.h:1458:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1458:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_defaultSaveOptions(CXTranslationUnit TU);
 
-    // Function @ Index.h:1429:33 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1429:33 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXErrorCode clang_parseTranslationUnit2FullArgv(CXIndex CIdx, CString8U source_filename, CString8U* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
 
-    // Function @ Index.h:1418:33 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1418:33 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXErrorCode clang_parseTranslationUnit2(CXIndex CIdx, CString8U source_filename, CString8U* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
 
-    // Function @ Index.h:1368:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1368:34 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXTranslationUnit clang_parseTranslationUnit(CXIndex CIdx, CString8U source_filename, CString8U* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
 
-    // Function @ Index.h:1360:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1360:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_defaultEditingTranslationUnitOptions();
 
-    // Function @ Index.h:1189:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1189:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXErrorCode clang_createTranslationUnit2(CXIndex CIdx, CString8U ast_filename, CXTranslationUnit* out_TU);
 
-    // Function @ Index.h:1178:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1178:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXTranslationUnit clang_createTranslationUnit(CXIndex CIdx, CString8U ast_filename);
 
-    // Function @ Index.h:1166:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1166:34 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXTranslationUnit clang_createTranslationUnitFromSourceFile(CXIndex CIdx, CString8U source_filename, int num_clang_command_line_args, CString8U* clang_command_line_args, uint num_unsaved_files, CXUnsavedFile* unsaved_files);
 
-    // Function @ Index.h:1124:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1124:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getTranslationUnitSpelling(CXTranslationUnit CTUnit);
 
-    // Function @ Index.h:1103:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1103:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getDiagnosticFixIt(CXDiagnostic Diagnostic, uint FixIt, CXSourceRange* ReplacementRange);
 
-    // Function @ Index.h:1076:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1076:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_getDiagnosticNumFixIts(CXDiagnostic Diagnostic);
 
-    // Function @ Index.h:1069:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1069:30 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceRange clang_getDiagnosticRange(CXDiagnostic Diagnostic, uint Range);
 
-    // Function @ Index.h:1054:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1054:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_getDiagnosticNumRanges(CXDiagnostic param);
 
-    // Function @ Index.h:1048:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1048:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getDiagnosticCategoryText(CXDiagnostic param);
 
-    // Function @ Index.h:1041:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1041:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getDiagnosticCategoryName(uint Category);
 
-    // Function @ Index.h:1028:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1028:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_getDiagnosticCategory(CXDiagnostic param);
 
-    // Function @ Index.h:1015:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1015:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getDiagnosticOption(CXDiagnostic Diag, CXString* Disable);
 
-    // Function @ Index.h:1001:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:1001:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getDiagnosticSpelling(CXDiagnostic param);
 
-    // Function @ Index.h:996:33 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:996:33 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceLocation clang_getDiagnosticLocation(CXDiagnostic param);
 
-    // Function @ Index.h:988:5 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:988:5 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXDiagnosticSeverity clang_getDiagnosticSeverity(CXDiagnostic param);
 
-    // Function @ Index.h:982:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:982:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_defaultDiagnosticDisplayOptions();
 
-    // Function @ Index.h:972:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:972:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_formatDiagnostic(CXDiagnostic Diagnostic, uint Options);
 
-    // Function @ Index.h:887:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:887:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_disposeDiagnostic(CXDiagnostic Diagnostic);
 
-    // Function @ Index.h:882:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:882:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXDiagnosticSet clang_getDiagnosticSetFromTU(CXTranslationUnit Unit);
 
-    // Function @ Index.h:872:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:872:29 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXDiagnostic clang_getDiagnostic(CXTranslationUnit Unit, uint Index);
 
-    // Function @ Index.h:861:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:861:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_getNumDiagnostics(CXTranslationUnit Unit);
 
-    // Function @ Index.h:855:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:855:32 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXDiagnosticSet clang_getChildDiagnostics(CXDiagnostic D);
 
-    // Function @ Index.h:847:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:847:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_disposeDiagnosticSet(CXDiagnosticSet Diags);
 
-    // Function @ Index.h:841:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:841:32 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXDiagnosticSet clang_loadDiagnostics(CString8U file, CXLoadDiag_Error* error, CXString* errorString);
 
-    // Function @ Index.h:796:29 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:796:29 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXDiagnostic clang_getDiagnosticInSet(CXDiagnosticSet Diags, uint Index);
 
-    // Function @ Index.h:785:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:785:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_getNumDiagnosticsInSet(CXDiagnosticSet Diags);
 
-    // Function @ Index.h:724:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:724:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_disposeSourceRangeList(CXSourceRangeList* ranges);
 
-    // Function @ Index.h:719:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:719:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceRangeList* clang_getAllSkippedRanges(CXTranslationUnit tu);
 
-    // Function @ Index.h:708:35 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:708:35 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceRangeList* clang_getSkippedRanges(CXTranslationUnit tu, CXFile file);
 
-    // Function @ Index.h:688:33 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:688:33 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceLocation clang_getRangeEnd(CXSourceRange range);
 
-    // Function @ Index.h:682:33 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:682:33 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceLocation clang_getRangeStart(CXSourceRange range);
 
-    // Function @ Index.h:674:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:674:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_getFileLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset);
 
-    // Function @ Index.h:646:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:646:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_getSpellingLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset);
 
-    // Function @ Index.h:619:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:619:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_getInstantiationLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset);
 
-    // Function @ Index.h:607:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:607:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_getPresumedLocation(CXSourceLocation location, CXString* filename, ulong* line, ulong* column);
 
-    // Function @ Index.h:562:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:562:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_getExpansionLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset);
 
-    // Function @ Index.h:538:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:538:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_Range_isNull(CXSourceRange range);
 
-    // Function @ Index.h:532:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:532:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_equalRanges(CXSourceRange range1, CXSourceRange range2);
 
-    // Function @ Index.h:524:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:524:30 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceRange clang_getRange(CXSourceLocation begin, CXSourceLocation end);
 
-    // Function @ Index.h:518:30 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:518:30 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceRange clang_getNullRange();
 
-    // Function @ Index.h:513:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:513:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_Location_isFromMainFile(CXSourceLocation location);
 
-    // Function @ Index.h:507:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:507:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_Location_isInSystemHeader(CXSourceLocation location);
 
-    // Function @ Index.h:500:33 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:500:33 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceLocation clang_getLocationForOffset(CXTranslationUnit tu, CXFile file, uint offset);
 
-    // Function @ Index.h:493:33 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:493:33 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceLocation clang_getLocation(CXTranslationUnit tu, CXFile file, uint line, uint column);
 
-    // Function @ Index.h:486:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:486:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_equalLocations(CXSourceLocation loc1, CXSourceLocation loc2);
 
-    // Function @ Index.h:476:33 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:476:33 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceLocation clang_getNullLocation();
 
-    // Function @ Index.h:430:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:430:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_File_tryGetRealPathName(CXFile file);
 
-    // Function @ Index.h:423:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:423:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_File_isEqual(CXFile file1, CXFile file2);
 
-    // Function @ Index.h:416:28 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:416:28 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CString8U clang_getFileContents(CXTranslationUnit tu, CXFile file, ulong* size);
 
-    // Function @ Index.h:401:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:401:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXFile clang_getFile(CXTranslationUnit tu, CString8U file_name);
 
-    // Function @ Index.h:388:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:388:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_isFileMultipleIncludeGuarded(CXTranslationUnit tu, CXFile file);
 
-    // Function @ Index.h:381:20 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:381:20 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_getFileUniqueID(CXFile file, CXFileUniqueID* outID);
 
-    // Function @ Index.h:363:23 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:363:23 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern time_t clang_getFileTime(CXFile SFile);
 
-    // Function @ Index.h:358:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:358:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getFileName(CXFile SFile);
 
-    // Function @ Index.h:342:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:342:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_CXIndex_setInvocationEmissionPathOption(CXIndex param, CString8U Path);
 
-    // Function @ Index.h:332:25 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:332:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_CXIndex_getGlobalOptions(CXIndex param);
 
-    // Function @ Index.h:324:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:324:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_CXIndex_setGlobalOptions(CXIndex param, uint options);
 
-    // Function @ Index.h:275:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:275:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_disposeIndex(CXIndex index);
 
-    // Function @ Index.h:266:24 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Function @ Index.h:266:24 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
     public static extern CXIndex clang_createIndex(int excludeDeclarationsFromPCH, int displayDiagnostics);
 
-    // Function @ BuildSystem.h:144:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\BuildSystem.h)
+    // Function @ BuildSystem.h:144:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\BuildSystem.h)
     [DllImport(LibraryName)]
     public static extern void clang_ModuleMapDescriptor_dispose(CXModuleMapDescriptor param);
 
-    // Function @ BuildSystem.h:137:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\BuildSystem.h)
+    // Function @ BuildSystem.h:137:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\BuildSystem.h)
     [DllImport(LibraryName)]
     public static extern CXErrorCode clang_ModuleMapDescriptor_writeToBuffer(CXModuleMapDescriptor param, uint options, CString8U* out_buffer_ptr, ulong* out_buffer_size);
 
-    // Function @ BuildSystem.h:124:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\BuildSystem.h)
+    // Function @ BuildSystem.h:124:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\BuildSystem.h)
     [DllImport(LibraryName)]
     public static extern CXErrorCode clang_ModuleMapDescriptor_setUmbrellaHeader(CXModuleMapDescriptor param, CString8U name);
 
-    // Function @ BuildSystem.h:116:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\BuildSystem.h)
+    // Function @ BuildSystem.h:116:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\BuildSystem.h)
     [DllImport(LibraryName)]
     public static extern CXErrorCode clang_ModuleMapDescriptor_setFrameworkModuleName(CXModuleMapDescriptor param, CString8U name);
 
-    // Function @ BuildSystem.h:109:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\BuildSystem.h)
+    // Function @ BuildSystem.h:109:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\BuildSystem.h)
     [DllImport(LibraryName)]
     public static extern CXModuleMapDescriptor clang_ModuleMapDescriptor_create(uint options);
 
-    // Function @ BuildSystem.h:95:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\BuildSystem.h)
+    // Function @ BuildSystem.h:95:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\BuildSystem.h)
     [DllImport(LibraryName)]
     public static extern void clang_VirtualFileOverlay_dispose(CXVirtualFileOverlay param);
 
-    // Function @ BuildSystem.h:90:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\BuildSystem.h)
+    // Function @ BuildSystem.h:90:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\BuildSystem.h)
     [DllImport(LibraryName)]
     public static extern void clang_free(void* buffer);
 
-    // Function @ BuildSystem.h:80:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\BuildSystem.h)
+    // Function @ BuildSystem.h:80:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\BuildSystem.h)
     [DllImport(LibraryName)]
     public static extern CXErrorCode clang_VirtualFileOverlay_writeToBuffer(CXVirtualFileOverlay param, uint options, CString8U* out_buffer_ptr, ulong* out_buffer_size);
 
-    // Function @ BuildSystem.h:67:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\BuildSystem.h)
+    // Function @ BuildSystem.h:67:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\BuildSystem.h)
     [DllImport(LibraryName)]
     public static extern CXErrorCode clang_VirtualFileOverlay_setCaseSensitivity(CXVirtualFileOverlay param, int caseSensitive);
 
-    // Function @ BuildSystem.h:56:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\BuildSystem.h)
+    // Function @ BuildSystem.h:56:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\BuildSystem.h)
     [DllImport(LibraryName)]
     public static extern CXErrorCode clang_VirtualFileOverlay_addFileMapping(CXVirtualFileOverlay param, CString8U virtualPath, CString8U realPath);
 
-    // Function @ BuildSystem.h:48:1 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\BuildSystem.h)
+    // Function @ BuildSystem.h:48:1 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\BuildSystem.h)
     [DllImport(LibraryName)]
     public static extern CXVirtualFileOverlay clang_VirtualFileOverlay_create(uint options);
 
-    // Function @ BuildSystem.h:33:35 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\BuildSystem.h)
+    // Function @ BuildSystem.h:33:35 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\BuildSystem.h)
     [DllImport(LibraryName)]
     public static extern ulong clang_getBuildSessionTimestamp();
 
-    // Function @ CXString.h:60:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\CXString.h)
+    // Function @ CXString.h:60:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\CXString.h)
     [DllImport(LibraryName)]
     public static extern void clang_disposeStringSet(CXStringSet* set);
 
-    // Function @ CXString.h:55:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\CXString.h)
+    // Function @ CXString.h:55:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\CXString.h)
     [DllImport(LibraryName)]
     public static extern void clang_disposeString(CXString @string);
 
-    // Function @ CXString.h:50:28 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\CXString.h)
+    // Function @ CXString.h:50:28 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\CXString.h)
     [DllImport(LibraryName)]
     public static extern CString8U clang_getCString(CXString @string);
 
-    // FunctionPointer @ Index.h:6746:32 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // FunctionPointer @ Index.h:6746:32 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct CXFieldVisitor
     {
         public delegate* unmanaged<CXCursor, CXClientData, CXVisitorResult> Pointer;
     }
 
-    // FunctionPointer @ Index.h:6536:10 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // FunctionPointer @ Index.h:6536:10 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct FnPtr_CLANG_CXClientData_CXIdxEntityRefInfoPtr_Void
     {
         public delegate* unmanaged<CXClientData, CXIdxEntityRefInfo*, void> Pointer;
     }
 
-    // FunctionPointer @ Index.h:6531:10 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // FunctionPointer @ Index.h:6531:10 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct FnPtr_CLANG_CXClientData_CXIdxDeclInfoPtr_Void
     {
         public delegate* unmanaged<CXClientData, CXIdxDeclInfo*, void> Pointer;
     }
 
-    // FunctionPointer @ Index.h:6528:26 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // FunctionPointer @ Index.h:6528:26 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct FnPtr_CLANG_CXClientData_VoidPtr_CXIdxClientContainer
     {
         public delegate* unmanaged<CXClientData, void*, CXIdxClientContainer> Pointer;
     }
 
-    // FunctionPointer @ Index.h:6522:24 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // FunctionPointer @ Index.h:6522:24 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct FnPtr_CLANG_CXClientData_CXIdxImportedASTFileInfoPtr_CXIdxClientASTFile
     {
         public delegate* unmanaged<CXClientData, CXIdxImportedASTFileInfo*, CXIdxClientASTFile> Pointer;
     }
 
-    // FunctionPointer @ Index.h:6511:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // FunctionPointer @ Index.h:6511:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct FnPtr_CLANG_CXClientData_CXIdxIncludedFileInfoPtr_CXIdxClientFile
     {
         public delegate* unmanaged<CXClientData, CXIdxIncludedFileInfo*, CXIdxClientFile> Pointer;
     }
 
-    // FunctionPointer @ Index.h:6505:21 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // FunctionPointer @ Index.h:6505:21 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct FnPtr_CLANG_CXClientData_CXFile_VoidPtr_CXIdxClientFile
     {
         public delegate* unmanaged<CXClientData, CXFile, void*, CXIdxClientFile> Pointer;
     }
 
-    // FunctionPointer @ Index.h:6503:10 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // FunctionPointer @ Index.h:6503:10 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct FnPtr_CLANG_CXClientData_CXDiagnosticSet_VoidPtr_Void
     {
         public delegate* unmanaged<CXClientData, CXDiagnosticSet, void*, void> Pointer;
     }
 
-    // FunctionPointer @ Index.h:6498:9 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // FunctionPointer @ Index.h:6498:9 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct FnPtr_CLANG_CXClientData_VoidPtr_Int
     {
         public delegate* unmanaged<CXClientData, void*, int> Pointer;
     }
 
-    // FunctionPointer @ Index.h:6091:26 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // FunctionPointer @ Index.h:6091:26 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct FnPtr_CLANG_VoidPtr_CXCursor_CXSourceRange_CXVisitorResult
     {
         public delegate* unmanaged<void*, CXCursor, CXSourceRange, CXVisitorResult> Pointer;
     }
 
-    // FunctionPointer @ Index.h:5929:16 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // FunctionPointer @ Index.h:5929:16 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct CXInclusionVisitor
     {
         public delegate* unmanaged<CXFile, CXSourceLocation*, uint, CXClientData, void> Pointer;
     }
 
-    // FunctionPointer @ Index.h:5092:50 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // FunctionPointer @ Index.h:5092:50 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct FnPtr_CLANG_VoidPtr_Void
     {
         public delegate* unmanaged<void*, void> Pointer;
     }
 
-    // FunctionPointer @ Index.h:4191:35 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // FunctionPointer @ Index.h:4191:35 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct CXCursorVisitor
     {
         public delegate* unmanaged<CXCursor, CXCursor, CXClientData, CXChildVisitResult> Pointer;
     }
 
-    // Struct @ Index.h:2686:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:2686:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
     public struct CXCursor
     {
@@ -1479,7 +1479,7 @@ public static unsafe partial class clang
         }
     }
 
-    // Struct @ Index.h:3409:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:3409:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXType
     {
@@ -1503,7 +1503,7 @@ public static unsafe partial class clang
         }
     }
 
-    // Struct @ Index.h:6188:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6188:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXIdxLoc
     {
@@ -1527,7 +1527,7 @@ public static unsafe partial class clang
         public uint int_data;
     }
 
-    // Struct @ Index.h:459:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:459:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXSourceLocation
     {
@@ -1551,7 +1551,7 @@ public static unsafe partial class clang
         public uint int_data;
     }
 
-    // Struct @ Index.h:6539:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6539:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
     public struct IndexerCallbacks
     {
@@ -1580,7 +1580,7 @@ public static unsafe partial class clang
         public FnPtr_CLANG_CXClientData_CXIdxEntityRefInfoPtr_Void indexEntityReference;
     }
 
-    // Struct @ Index.h:6487:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6487:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 96, Pack = 8)]
     public struct CXIdxEntityRefInfo
     {
@@ -1606,7 +1606,7 @@ public static unsafe partial class clang
         public CXSymbolRole role;
     }
 
-    // Struct @ Index.h:6325:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6325:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
     public struct CXIdxContainerInfo
     {
@@ -1614,7 +1614,7 @@ public static unsafe partial class clang
         public CXCursor cursor;
     }
 
-    // Struct @ Index.h:6321:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6321:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8)]
     public struct CXIdxEntityInfo
     {
@@ -1643,7 +1643,7 @@ public static unsafe partial class clang
         public uint numAttributes;
     }
 
-    // Struct @ Index.h:6310:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6310:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
     public struct CXIdxAttrInfo
     {
@@ -1657,7 +1657,7 @@ public static unsafe partial class clang
         public CXIdxLoc loc;
     }
 
-    // Struct @ Index.h:6360:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6360:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 128, Pack = 8)]
     public struct CXIdxDeclInfo
     {
@@ -1701,7 +1701,7 @@ public static unsafe partial class clang
         public uint flags;
     }
 
-    // Struct @ Index.h:6237:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6237:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 48, Pack = 8)]
     public struct CXIdxImportedASTFileInfo
     {
@@ -1718,7 +1718,7 @@ public static unsafe partial class clang
         public int isImplicit;
     }
 
-    // Struct @ Index.h:6213:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6213:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 56, Pack = 8)]
     public struct CXIdxIncludedFileInfo
     {
@@ -1741,7 +1741,7 @@ public static unsafe partial class clang
         public int isModuleImport;
     }
 
-    // Struct @ Index.h:101:8 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:101:8 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXUnsavedFile
     {
@@ -1755,7 +1755,7 @@ public static unsafe partial class clang
         public uint Length;
     }
 
-    // Struct @ Index.h:6414:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6414:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXIdxCXXClassDeclInfo
     {
@@ -1769,7 +1769,7 @@ public static unsafe partial class clang
         public uint numBases;
     }
 
-    // Struct @ Index.h:6377:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6377:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
     public struct CXIdxBaseClassInfo
     {
@@ -1783,7 +1783,7 @@ public static unsafe partial class clang
         public CXIdxLoc loc;
     }
 
-    // Struct @ Index.h:6332:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6332:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8)]
     public struct CXIdxIBOutletCollectionAttrInfo
     {
@@ -1800,7 +1800,7 @@ public static unsafe partial class clang
         public CXIdxLoc classLoc;
     }
 
-    // Struct @ Index.h:6408:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6408:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXIdxObjCPropertyDeclInfo
     {
@@ -1814,7 +1814,7 @@ public static unsafe partial class clang
         public CXIdxEntityInfo* setter;
     }
 
-    // Struct @ Index.h:6388:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6388:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXIdxObjCProtocolRefListInfo
     {
@@ -1825,7 +1825,7 @@ public static unsafe partial class clang
         public uint numProtocols;
     }
 
-    // Struct @ Index.h:6383:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6383:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 64, Pack = 8)]
     public struct CXIdxObjCProtocolRefInfo
     {
@@ -1839,7 +1839,7 @@ public static unsafe partial class clang
         public CXIdxLoc loc;
     }
 
-    // Struct @ Index.h:6402:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6402:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 80, Pack = 8)]
     public struct CXIdxObjCCategoryDeclInfo
     {
@@ -1859,7 +1859,7 @@ public static unsafe partial class clang
         public CXIdxObjCProtocolRefListInfo* protocols;
     }
 
-    // Struct @ Index.h:6371:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6371:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXIdxObjCContainerDeclInfo
     {
@@ -1870,7 +1870,7 @@ public static unsafe partial class clang
         public CXIdxObjCContainerKind kind;
     }
 
-    // Struct @ Index.h:6394:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6394:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXIdxObjCInterfaceDeclInfo
     {
@@ -1884,7 +1884,7 @@ public static unsafe partial class clang
         public CXIdxObjCProtocolRefListInfo* protocols;
     }
 
-    // Struct @ Index.h:6092:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:6092:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXCursorAndRangeVisitor
     {
@@ -1895,7 +1895,7 @@ public static unsafe partial class clang
         public FnPtr_CLANG_VoidPtr_CXCursor_CXSourceRange_CXVisitorResult visit;
     }
 
-    // Struct @ Index.h:471:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:471:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXSourceRange
     {
@@ -1922,7 +1922,7 @@ public static unsafe partial class clang
         public uint end_int_data;
     }
 
-    // Struct @ CXString.h:40:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\CXString.h)
+    // Struct @ CXString.h:40:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\CXString.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXString
     {
@@ -1933,7 +1933,7 @@ public static unsafe partial class clang
         public uint private_flags;
     }
 
-    // Struct @ Index.h:5474:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:5474:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXCodeCompleteResults
     {
@@ -1944,7 +1944,7 @@ public static unsafe partial class clang
         public uint NumResults;
     }
 
-    // Struct @ Index.h:5147:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:5147:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXCompletionResult
     {
@@ -1955,7 +1955,7 @@ public static unsafe partial class clang
         public CXCompletionString CompletionString;
     }
 
-    // Struct @ Index.h:4974:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:4974:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXToken
     {
@@ -1979,7 +1979,7 @@ public static unsafe partial class clang
         public void* ptr_data;
     }
 
-    // Struct @ CXString.h:45:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\CXString.h)
+    // Struct @ CXString.h:45:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\CXString.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXStringSet
     {
@@ -1990,7 +1990,7 @@ public static unsafe partial class clang
         public uint Count;
     }
 
-    // Struct @ Index.h:2894:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:2894:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 72, Pack = 8)]
     public struct CXPlatformAvailability
     {
@@ -2013,7 +2013,7 @@ public static unsafe partial class clang
         public CXString Message;
     }
 
-    // Struct @ Index.h:167:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:167:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 12, Pack = 4)]
     public struct CXVersion
     {
@@ -2027,7 +2027,7 @@ public static unsafe partial class clang
         public int Subminor;
     }
 
-    // Struct @ Index.h:1661:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:1661:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXTUResourceUsage
     {
@@ -2041,7 +2041,7 @@ public static unsafe partial class clang
         public CXTUResourceUsageEntry* entries;
     }
 
-    // Struct @ Index.h:1645:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:1645:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 4)]
     public struct CXTUResourceUsageEntry
     {
@@ -2052,7 +2052,7 @@ public static unsafe partial class clang
         public uint amount;
     }
 
-    // Struct @ Index.h:700:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:700:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXSourceRangeList
     {
@@ -2063,7 +2063,7 @@ public static unsafe partial class clang
         public CXSourceRange* ranges;
     }
 
-    // Struct @ Index.h:371:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Struct @ Index.h:371:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXFileUniqueID
     {
@@ -2084,37 +2084,37 @@ public static unsafe partial class clang
         }
     }
 
-    // OpaqueType @ Index.h:86:16 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // OpaqueType @ Index.h:86:16 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct CXTranslationUnitImpl
     {
     }
 
-    // OpaqueType @ Index.h:2998:16 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // OpaqueType @ Index.h:2998:16 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct CXCursorSetImpl
     {
     }
 
-    // OpaqueType @ Index.h:81:16 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // OpaqueType @ Index.h:81:16 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct CXTargetInfoImpl
     {
     }
 
-    // OpaqueType @ BuildSystem.h:100:16 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\BuildSystem.h)
+    // OpaqueType @ BuildSystem.h:100:16 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\BuildSystem.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct CXModuleMapDescriptorImpl
     {
     }
 
-    // OpaqueType @ BuildSystem.h:39:16 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\BuildSystem.h)
+    // OpaqueType @ BuildSystem.h:39:16 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\BuildSystem.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct CXVirtualFileOverlayImpl
     {
     }
 
-    // Typedef @ Index.h:92:15 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Typedef @ Index.h:92:15 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXClientData
     {
@@ -2125,7 +2125,7 @@ public static unsafe partial class clang
         public static implicit operator CXClientData(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:353:15 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Typedef @ Index.h:353:15 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXFile
     {
@@ -2136,7 +2136,7 @@ public static unsafe partial class clang
         public static implicit operator CXFile(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:6163:15 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Typedef @ Index.h:6163:15 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIdxClientFile
     {
@@ -2147,7 +2147,7 @@ public static unsafe partial class clang
         public static implicit operator CXIdxClientFile(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:86:39 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Typedef @ Index.h:86:39 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXTranslationUnit
     {
@@ -2158,7 +2158,7 @@ public static unsafe partial class clang
         public static implicit operator CXTranslationUnit(CXTranslationUnitImpl* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:6174:15 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Typedef @ Index.h:6174:15 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIdxClientContainer
     {
@@ -2169,7 +2169,7 @@ public static unsafe partial class clang
         public static implicit operator CXIdxClientContainer(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:6180:15 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Typedef @ Index.h:6180:15 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIdxClientASTFile
     {
@@ -2180,7 +2180,7 @@ public static unsafe partial class clang
         public static implicit operator CXIdxClientASTFile(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:4679:15 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Typedef @ Index.h:4679:15 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXModule
     {
@@ -2191,7 +2191,7 @@ public static unsafe partial class clang
         public static implicit operator CXModule(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:780:15 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Typedef @ Index.h:780:15 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXDiagnosticSet
     {
@@ -2202,7 +2202,7 @@ public static unsafe partial class clang
         public static implicit operator CXDiagnosticSet(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:6594:15 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Typedef @ Index.h:6594:15 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIndexAction
     {
@@ -2213,7 +2213,7 @@ public static unsafe partial class clang
         public static implicit operator CXIndexAction(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:75:15 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Typedef @ Index.h:75:15 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIndex
     {
@@ -2224,7 +2224,7 @@ public static unsafe partial class clang
         public static implicit operator CXIndex(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:6168:15 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Typedef @ Index.h:6168:15 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIdxClientEntity
     {
@@ -2235,7 +2235,7 @@ public static unsafe partial class clang
         public static implicit operator CXIdxClientEntity(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:6030:15 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Typedef @ Index.h:6030:15 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXRemapping
     {
@@ -2246,7 +2246,7 @@ public static unsafe partial class clang
         public static implicit operator CXRemapping(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:5959:15 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Typedef @ Index.h:5959:15 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXEvalResult
     {
@@ -2257,7 +2257,7 @@ public static unsafe partial class clang
         public static implicit operator CXEvalResult(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:5124:15 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Typedef @ Index.h:5124:15 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXCompletionString
     {
@@ -2268,7 +2268,7 @@ public static unsafe partial class clang
         public static implicit operator CXCompletionString(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:775:15 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Typedef @ Index.h:775:15 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXDiagnostic
     {
@@ -2279,7 +2279,7 @@ public static unsafe partial class clang
         public static implicit operator CXDiagnostic(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:4332:15 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Typedef @ Index.h:4332:15 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXPrintingPolicy
     {
@@ -2290,7 +2290,7 @@ public static unsafe partial class clang
         public static implicit operator CXPrintingPolicy(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:2998:33 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Typedef @ Index.h:2998:33 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXCursorSet
     {
@@ -2301,7 +2301,7 @@ public static unsafe partial class clang
         public static implicit operator CXCursorSet(CXCursorSetImpl* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:81:34 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Typedef @ Index.h:81:34 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXTargetInfo
     {
@@ -2334,7 +2334,7 @@ public static unsafe partial class clang
         public static implicit operator __time64_t(long data) => new() { Data = data };
     }
 
-    // Typedef @ BuildSystem.h:100:43 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\BuildSystem.h)
+    // Typedef @ BuildSystem.h:100:43 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\BuildSystem.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXModuleMapDescriptor
     {
@@ -2345,7 +2345,7 @@ public static unsafe partial class clang
         public static implicit operator CXModuleMapDescriptor(CXModuleMapDescriptorImpl* data) => new() { Data = data };
     }
 
-    // Typedef @ BuildSystem.h:39:42 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\BuildSystem.h)
+    // Typedef @ BuildSystem.h:39:42 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\BuildSystem.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXVirtualFileOverlay
     {
@@ -2356,14 +2356,14 @@ public static unsafe partial class clang
         public static implicit operator CXVirtualFileOverlay(CXVirtualFileOverlayImpl* data) => new() { Data = data };
     }
 
-    // Enum @ Index.h:6087:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:6087:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXVisitorResult : uint
     {
         CXVisit_Break = 0U,
         CXVisit_Continue = 1U
     }
 
-    // Enum @ Index.h:1706:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:1706:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXCursorKind : uint
     {
         CXCursor_UnexposedDecl = 1U,
@@ -2633,7 +2633,7 @@ public static unsafe partial class clang
         CXCursor_OverloadCandidate = 700U
     }
 
-    // Enum @ Index.h:3226:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:3226:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXTypeKind : uint
     {
         CXType_Invalid = 0U,
@@ -2758,7 +2758,7 @@ public static unsafe partial class clang
         CXType_Atomic = 177U
     }
 
-    // Enum @ Index.h:6451:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:6451:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXSymbolRole : uint
     {
         CXSymbolRole_None = 0U,
@@ -2773,7 +2773,7 @@ public static unsafe partial class clang
         CXSymbolRole_Implicit = 256U
     }
 
-    // Enum @ Index.h:6304:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:6304:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXIdxAttrKind : uint
     {
         CXIdxAttr_Unexposed = 0U,
@@ -2782,7 +2782,7 @@ public static unsafe partial class clang
         CXIdxAttr_IBOutletCollection = 3U
     }
 
-    // Enum @ Index.h:6280:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:6280:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXIdxEntityLanguage : uint
     {
         CXIdxEntityLang_None = 0U,
@@ -2792,7 +2792,7 @@ public static unsafe partial class clang
         CXIdxEntityLang_Swift = 4U
     }
 
-    // Enum @ Index.h:6297:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:6297:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXIdxEntityCXXTemplateKind : uint
     {
         CXIdxEntity_NonTemplate = 0U,
@@ -2801,7 +2801,7 @@ public static unsafe partial class clang
         CXIdxEntity_TemplateSpecialization = 3U
     }
 
-    // Enum @ Index.h:6272:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:6272:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXIdxEntityKind : uint
     {
         CXIdxEntity_Unexposed = 0U,
@@ -2833,14 +2833,14 @@ public static unsafe partial class clang
         CXIdxEntity_CXXInterface = 26U
     }
 
-    // Enum @ Index.h:6432:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:6432:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXIdxEntityRefKind : uint
     {
         CXIdxEntityRef_Direct = 1U,
         CXIdxEntityRef_Implicit = 2U
     }
 
-    // Enum @ Index.h:6366:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:6366:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXIdxObjCContainerKind : uint
     {
         CXIdxObjCContainer_ForwardRef = 0U,
@@ -2848,7 +2848,7 @@ public static unsafe partial class clang
         CXIdxObjCContainer_Implementation = 2U
     }
 
-    // Enum @ Index.h:6109:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:6109:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXResult : uint
     {
         CXResult_Success = 0U,
@@ -2856,7 +2856,7 @@ public static unsafe partial class clang
         CXResult_VisitBreak = 2U
     }
 
-    // Enum @ Index.h:5954:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:5954:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXEvalResultKind : uint
     {
         CXEval_Int = 1U,
@@ -2868,7 +2868,7 @@ public static unsafe partial class clang
         CXEval_UnExposed = 0U
     }
 
-    // Enum @ Index.h:125:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:125:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXAvailabilityKind : uint
     {
         CXAvailability_Available = 0U,
@@ -2877,7 +2877,7 @@ public static unsafe partial class clang
         CXAvailability_NotAccessible = 3U
     }
 
-    // Enum @ Index.h:5156:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:5156:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXCompletionChunkKind : uint
     {
         CXCompletionChunk_Optional = 0U,
@@ -2903,7 +2903,7 @@ public static unsafe partial class clang
         CXCompletionChunk_VerticalSpace = 20U
     }
 
-    // Enum @ Index.h:4966:3 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:4966:3 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXTokenKind : uint
     {
         CXToken_Punctuation = 0U,
@@ -2913,7 +2913,7 @@ public static unsafe partial class clang
         CXToken_Comment = 4U
     }
 
-    // Enum @ Index.h:4339:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:4339:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXPrintingPolicyProperty : uint
     {
         CXPrintingPolicy_Indentation = 0U,
@@ -2945,7 +2945,7 @@ public static unsafe partial class clang
         CXPrintingPolicy_LastProperty = 25U
     }
 
-    // Enum @ Index.h:4162:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:4162:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXChildVisitResult : uint
     {
         CXChildVisit_Break = 0U,
@@ -2953,7 +2953,7 @@ public static unsafe partial class clang
         CXChildVisit_Recurse = 2U
     }
 
-    // Enum @ Index.h:4078:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:4078:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CX_StorageClass : uint
     {
         CX_SC_Invalid = 0U,
@@ -2966,7 +2966,7 @@ public static unsafe partial class clang
         CX_SC_Register = 7U
     }
 
-    // Enum @ Index.h:4058:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:4058:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CX_CXXAccessSpecifier : uint
     {
         CX_CXXInvalidAccessSpecifier = 0U,
@@ -2975,7 +2975,7 @@ public static unsafe partial class clang
         CX_CXXPrivate = 3U
     }
 
-    // Enum @ Index.h:4009:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:4009:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXRefQualifierKind : uint
     {
         CXRefQualifier_None = 0U,
@@ -2983,7 +2983,7 @@ public static unsafe partial class clang
         CXRefQualifier_RValue = 2U
     }
 
-    // Enum @ Index.h:3845:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:3845:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXTypeNullabilityKind : uint
     {
         CXTypeNullability_NonNull = 0U,
@@ -2993,7 +2993,7 @@ public static unsafe partial class clang
         CXTypeNullability_NullableResult = 4U
     }
 
-    // Enum @ Index.h:3377:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:3377:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXCallingConv : uint
     {
         CXCallingConv_Default = 0U,
@@ -3018,7 +3018,7 @@ public static unsafe partial class clang
         CXCallingConv_Unexposed = 200U
     }
 
-    // Enum @ Index.h:3492:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:3492:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXTemplateArgumentKind : uint
     {
         CXTemplateArgumentKind_Null = 0U,
@@ -3033,7 +3033,7 @@ public static unsafe partial class clang
         CXTemplateArgumentKind_Invalid = 9U
     }
 
-    // Enum @ Index.h:2982:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:2982:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXTLSKind : uint
     {
         CXTLS_None = 0U,
@@ -3041,7 +3041,7 @@ public static unsafe partial class clang
         CXTLS_Static = 2U
     }
 
-    // Enum @ Index.h:2966:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:2966:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXLanguageKind : uint
     {
         CXLanguage_Invalid = 0U,
@@ -3050,7 +3050,7 @@ public static unsafe partial class clang
         CXLanguage_CPlusPlus = 3U
     }
 
-    // Enum @ Index.h:2822:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:2822:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXVisibilityKind : uint
     {
         CXVisibility_Invalid = 0U,
@@ -3059,7 +3059,7 @@ public static unsafe partial class clang
         CXVisibility_Default = 3U
     }
 
-    // Enum @ Index.h:2799:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:2799:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXLinkageKind : uint
     {
         CXLinkage_Invalid = 0U,
@@ -3069,7 +3069,7 @@ public static unsafe partial class clang
         CXLinkage_External = 4U
     }
 
-    // Enum @ Index.h:1609:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:1609:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXTUResourceUsageKind : uint
     {
         CXTUResourceUsage_AST = 1U,
@@ -3092,7 +3092,7 @@ public static unsafe partial class clang
         CXTUResourceUsage_Last = 14U
     }
 
-    // Enum @ CXErrorCode.h:28:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\CXErrorCode.h)
+    // Enum @ CXErrorCode.h:28:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\CXErrorCode.h)
     public enum CXErrorCode : uint
     {
         CXError_Success = 0U,
@@ -3102,7 +3102,7 @@ public static unsafe partial class clang
         CXError_ASTReadError = 4U
     }
 
-    // Enum @ Index.h:739:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:739:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXDiagnosticSeverity : uint
     {
         CXDiagnostic_Ignored = 0U,
@@ -3112,7 +3112,7 @@ public static unsafe partial class clang
         CXDiagnostic_Fatal = 4U
     }
 
-    // Enum @ Index.h:803:6 (C:\Users\lithi\Programming\sokol-cs\ext\c2cs\ext\clang\include\clang-c\Index.h)
+    // Enum @ Index.h:803:6 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     public enum CXLoadDiag_Error : uint
     {
         CXLoadDiag_None = 0U,

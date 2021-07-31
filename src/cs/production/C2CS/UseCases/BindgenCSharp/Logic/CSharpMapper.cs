@@ -754,7 +754,7 @@ namespace C2CS.UseCases.BindgenCSharp
 
             if (pointerTypeName.StartsWith("char*", StringComparison.InvariantCulture))
             {
-                return pointerTypeName.Replace("char*", "CString");
+                return pointerTypeName.Replace("char*", "CString8U");
             }
 
             var elementTypeName = pointerTypeName.TrimEnd('*');
@@ -762,11 +762,11 @@ namespace C2CS.UseCases.BindgenCSharp
             var mappedElementTypeName = TypeNameMapElement(elementTypeName, sizeOf, isSystem);
             pointerTypeName = mappedElementTypeName + pointersTypeName;
 
-            // need to check again in case it was an alias; can not check once because char->byte when mapped
-            if (pointerTypeName.StartsWith("char*", StringComparison.InvariantCulture))
-            {
-                return pointerTypeName.Replace("char*", "CString");
-            }
+            // // need to check again in case it was an alias but it would be
+            // if (pointerTypeName.StartsWith("char*", StringComparison.InvariantCulture))
+            // {
+            //     return pointerTypeName.Replace("char*", "CString16U");
+            // }
 
             return pointerTypeName;
         }
