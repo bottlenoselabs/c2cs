@@ -14,7 +14,8 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             ImmutableArray<string> clangArgs)
         {
             var clangArgsConcat = string.Join(" ", clangArgs);
-            Console.WriteLine($"libclang arguments: {clangArgsConcat}");
+            Console.WriteLine($"libclang: Parsing '{headerFilePath}' with the following arguments...");
+            Console.WriteLine($"\t{clangArgsConcat}");
 
             if (!TryParseTranslationUnit(headerFilePath, clangArgs, out var translationUnit))
             {

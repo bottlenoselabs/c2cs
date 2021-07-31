@@ -11,9 +11,9 @@ namespace C2CS.UseCases.BindgenCSharp
 {
     public class Request : UseCaseRequest
     {
-        public FileInfo InputFile { get; }
+        public string InputFilePath { get; }
 
-        public FileInfo OutputFile { get; }
+        public string OutputFilePath { get; }
 
         public ImmutableArray<CSharpTypeAlias> TypeAliases { get; }
 
@@ -24,15 +24,15 @@ namespace C2CS.UseCases.BindgenCSharp
         public string ClassName { get; }
 
         public Request(
-            FileInfo inputFile,
-            FileInfo outputFile,
+            string inputFilePath,
+            string outputFilePath,
             IEnumerable<string?>? typeAliases,
             IEnumerable<string?>? ignoredTypeNames,
             string libraryName,
             string className)
         {
-            InputFile = inputFile;
-            OutputFile = outputFile;
+            InputFilePath = inputFilePath;
+            OutputFilePath = outputFilePath;
             TypeAliases = CreateTypeAliases(typeAliases);
             IgnoredTypeNames = CreateIgnoredTypeNames(ignoredTypeNames);
             LibraryName = libraryName;

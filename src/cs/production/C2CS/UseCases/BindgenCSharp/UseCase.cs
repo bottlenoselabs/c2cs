@@ -20,7 +20,7 @@ namespace C2CS.UseCases.BindgenCSharp
             string className;
             if (string.IsNullOrEmpty(request.ClassName))
             {
-                var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(request.OutputFile.FullName);
+                var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(request.OutputFilePath);
                 var firstIndexOfPeriod = fileNameWithoutExtension.IndexOf('.');
                 className = firstIndexOfPeriod == -1 ? fileNameWithoutExtension : fileNameWithoutExtension[..firstIndexOfPeriod];
             }
@@ -33,7 +33,7 @@ namespace C2CS.UseCases.BindgenCSharp
 
             var abstractSyntaxTreeC = Step(
                 "Load C abstract syntax tree from disk",
-                request.InputFile.FullName,
+                request.InputFilePath,
                 LoadAbstractSyntaxTree);
 
             var abstractSyntaxTreeCSharp = Step(
@@ -54,16 +54,16 @@ namespace C2CS.UseCases.BindgenCSharp
 
             Step(
                 "Write C# code to disk",
-                request.OutputFile.FullName,
+                request.OutputFilePath,
                 codeCSharp,
                 WriteCSharpCode);
         }
 
         private static void Validate(Request request)
         {
-            if (!request.InputFile.Exists)
+            if (!File.Exists(request.InputFilePath))
             {
-                throw new UseCaseException($"File does not exist: `{request.InputFile.FullName}`.");
+                throw new UseCaseException($"File does not exist: `{request.InputFilePath}`.");
             }
         }
 

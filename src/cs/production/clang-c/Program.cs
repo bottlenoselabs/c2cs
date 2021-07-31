@@ -26,7 +26,15 @@ internal static class Program
         var runtimeIdentifier32Bits = runtimeIdentifierOperatingSystem + "32";
         var runtimeIdentifier64Bits = runtimeIdentifierOperatingSystem + "64";
 
-        var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
+        var searchDirectory = Path.TrimEndingDirectorySeparator(AppContext.BaseDirectory);
+        var directoryName = searchDirectory[(searchDirectory.LastIndexOf(Path.DirectorySeparatorChar) + 1)..];
+        while (directoryName != "bin")
+        {
+            searchDirectory = Path.GetFullPath(Path.Combine(searchDirectory, ".."));
+            directoryName = searchDirectory[(searchDirectory.LastIndexOf(Path.DirectorySeparatorChar) + 1)..];
+        }
+
+        var rootDirectory = Path.GetFullPath(Path.Combine(searchDirectory, ".."));
         GenerateAbstractSyntaxTree(rootDirectory, runtimeIdentifier64Bits);
         GenerateAbstractSyntaxTree(rootDirectory, runtimeIdentifier32Bits);
         GenerateBindingsCSharp(rootDirectory, runtimeIdentifier64Bits);

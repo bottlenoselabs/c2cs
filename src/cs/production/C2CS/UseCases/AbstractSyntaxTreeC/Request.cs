@@ -12,9 +12,9 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 {
     public class Request : UseCaseRequest
     {
-        public FileInfo InputFile { get; }
+        public string InputFilePath { get; }
 
-        public FileInfo OutputFile { get; }
+        public string OutputFilePath { get; }
 
         public bool AutomaticallyFindSoftwareDevelopmentKit { get; }
 
@@ -31,8 +31,8 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         public ImmutableArray<string> ClangArgs { get; }
 
         public Request(
-            FileInfo inputFile,
-            FileInfo outputFile,
+            string inputFilePath,
+            string outputFilePath,
             bool? automaticallyFindSoftwareDevelopmentKit,
             IEnumerable<string?>? includeDirectories,
             IEnumerable<string?>? ignoredFiles,
@@ -41,10 +41,10 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             int? bitness,
             IEnumerable<string?>? clangArgs)
         {
-            InputFile = inputFile;
-            OutputFile = outputFile;
+            InputFilePath = inputFilePath;
+            OutputFilePath = outputFilePath;
             AutomaticallyFindSoftwareDevelopmentKit = automaticallyFindSoftwareDevelopmentKit ?? true;
-            IncludeDirectories = CreateIncludeDirectories(inputFile, includeDirectories);
+            IncludeDirectories = CreateIncludeDirectories(inputFilePath, includeDirectories);
             IgnoredFiles = ToImmutableArray(ignoredFiles);
             OpaqueTypes = ToImmutableArray(opaqueTypes);
             Defines = ToImmutableArray(defines);
@@ -53,14 +53,14 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         }
 
         private static ImmutableArray<string> CreateIncludeDirectories(
-            FileInfo inputFile,
+            string inputFilePath,
             IEnumerable<string?>? includeDirectories)
         {
             var result = ToImmutableArray(includeDirectories);
 
             if (result.IsDefaultOrEmpty)
             {
-                var directoryPath = Path.GetDirectoryName(inputFile.FullName)!;
+                var directoryPath = Path.GetDirectoryName(inputFilePath)!;
                 result = new[] {directoryPath}.ToImmutableArray();
             }
             else

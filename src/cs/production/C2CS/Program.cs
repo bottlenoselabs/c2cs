@@ -35,7 +35,7 @@ namespace C2CS
 			var command =
 				new Command("ast", "Dump the abstract syntax tree of a C `.h` file to a `.json` file.");
 
-			var inputFileOption = new Option<FileInfo>(
+			var inputFileOption = new Option<string>(
 				new[] {"--inputFile", "-i"},
 				"Path of the input `.h` header file.")
 			{
@@ -43,7 +43,7 @@ namespace C2CS
 			};
 			command.AddOption(inputFileOption);
 
-			var outputFileOption = new Option<FileInfo>(
+			var outputFileOption = new Option<string>(
 				new[] {"--outputFile", "-o"},
 				"Path of the output abstract syntax tree `.json` file.")
 			{
@@ -108,8 +108,8 @@ namespace C2CS
 			command.AddOption(clangArgsOption);
 
 			command.Handler = CommandHandler.Create<
-				FileInfo,
-				FileInfo,
+				string,
+				string,
 				bool?,
 				IEnumerable<string?>?,
 				IEnumerable<string?>?,
@@ -125,7 +125,7 @@ namespace C2CS
 		{
 			var command = new Command("cs", "Generate C# bindings from a C abstract syntax tree `.json` file.");
 
-			var inputFileOption = new Option<FileInfo>(
+			var inputFileOption = new Option<string>(
 				new[] {"--inputFile", "-i"},
 				"Path of the input abstract syntax tree `.json` file.")
 			{
@@ -133,7 +133,7 @@ namespace C2CS
 			};
 			command.AddOption(inputFileOption);
 
-			var outputFileOption = new Option<FileInfo>(
+			var outputFileOption = new Option<string>(
 				new[] {"--outputFile", "-o"},
 				"Path of the output C# `.cs` file.")
 			{
@@ -173,14 +173,14 @@ namespace C2CS
 			};
 			command.AddOption(classNameOption);
 
-			command.Handler = CommandHandler.Create<FileInfo, FileInfo, IEnumerable<string?>?, IEnumerable<string?>?, string?, string?>(BindgenCSharp);
+			command.Handler = CommandHandler.Create<string, string, IEnumerable<string?>?, IEnumerable<string?>?, string?, string?>(BindgenCSharp);
 			return command;
 		}
 
 		// NOTE: parameter name must match full name of command line option
 		private static void AbstractSyntaxTreeC(
-			FileInfo inputFile,
-			FileInfo outputFile,
+			string inputFile,
+			string outputFile,
 			bool? automaticallyFindSoftwareDevelopmentKit,
 			IEnumerable<string?>? includeDirectories,
 			IEnumerable<string?>? ignoredFiles,
@@ -208,8 +208,8 @@ namespace C2CS
 		}
 
 		private static void BindgenCSharp(
-			FileInfo inputFile,
-			FileInfo outputFile,
+			string inputFile,
+			string outputFile,
 			IEnumerable<string?>? typeAliases,
 			IEnumerable<string?>? ignoredTypes,
 			string? libraryName,

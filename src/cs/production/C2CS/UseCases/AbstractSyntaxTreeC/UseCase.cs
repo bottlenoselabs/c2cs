@@ -13,11 +13,12 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
     {
         protected override void Execute(Request request, Response response)
         {
+            Validate(request);
             TotalSteps(3);
 
             var translationUnit = Step(
                 "Parse C code from disk",
-                request.InputFile.FullName,
+                request.InputFilePath,
                 request.AutomaticallyFindSoftwareDevelopmentKit,
                 request.IncludeDirectories,
                 request.Defines,
@@ -36,9 +37,17 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
             Step(
                 "Write C abstract syntax tree to disk",
-                request.OutputFile.FullName,
+                request.OutputFilePath,
                 abstractSyntaxTreeC,
                 Write);
+        }
+
+        private static void Validate(Request request)
+        {
+            if (!File.Exists(request.InputFilePath))
+            {
+                throw new UseCaseException($"File does not exist: `{request.InputFilePath}`.");
+            }
         }
 
         private static clang.CXTranslationUnit Parse(

@@ -19,7 +19,7 @@ using C2CS;
 
 public static unsafe partial class clang
 {
-    private const string LibraryName = "clang";
+    private const string LibraryName = "libclang";
 
     // Function @ Index.h:6768:25 (C:\Users\lithi\Programming\c2cs\ext\clang\include\clang-c\Index.h)
     [DllImport(LibraryName)]
