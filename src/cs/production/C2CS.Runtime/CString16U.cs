@@ -12,50 +12,50 @@ namespace C2CS
     [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
     [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Public API.")]
-    public readonly unsafe struct CString
+    public readonly unsafe struct CString16U
     {
         internal readonly IntPtr _value;
 
         public bool IsNull => _value == IntPtr.Zero;
 
-        public CString(byte* value)
+        public CString16U(byte* value)
         {
             _value = (IntPtr) value;
         }
 
-        public CString(IntPtr value)
+        public CString16U(IntPtr value)
         {
             _value = value;
         }
 
-        public CString(string s)
+        public CString16U(string s)
         {
-            _value = Runtime.CString(s);
+            _value = Runtime.CString16U(s);
         }
 
-        public static explicit operator CString(IntPtr ptr)
+        public static explicit operator CString16U(IntPtr ptr)
         {
             return new(ptr);
         }
 
-        public static implicit operator CString(byte* value)
+        public static implicit operator CString16U(byte* value)
         {
             return new((IntPtr)value);
         }
 
-        public static implicit operator IntPtr(CString ptr)
+        public static implicit operator IntPtr(CString16U ptr)
         {
             return ptr._value;
         }
 
-        public static implicit operator string(CString ptr)
+        public static implicit operator string(CString16U ptr)
         {
-            return Runtime.String(ptr);
+            return Runtime.String16U(ptr);
         }
 
-        public static implicit operator CString(string str)
+        public static implicit operator CString16U(string str)
         {
-            return Runtime.CString(str);
+            return Runtime.CString16U(str);
         }
 
         /// <inheritdoc />
@@ -67,7 +67,7 @@ namespace C2CS
         /// <inheritdoc />
         public override string ToString()
         {
-            return Runtime.String(this);
+            return Runtime.String16U(this);
         }
     }
 }

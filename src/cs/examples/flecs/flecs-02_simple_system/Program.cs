@@ -13,7 +13,7 @@ internal static unsafe class Program
         [StructLayout(LayoutKind.Sequential)] // Sequential necessary so C# is not allowed to reorganize the struct
         public struct Message
         {
-            public CString Text;
+            public CString8U Text;
         }
     }
 
@@ -31,18 +31,18 @@ internal static unsafe class Program
                 /* Iterate all the messages */
                 for (var i = 0; i < msg.Length; i++)
                 {
-                    var text = Runtime.String(msg[i].Text);
+                    var text = Runtime.String8U(msg[i].Text);
                     Console.WriteLine(text);
                 }
             }
 
-            public static readonly CString Name = "PrintMessage";
+            public static readonly CString8U Name = "PrintMessage";
         }
     }
 
     public static class Entities
     {
-        public static readonly CString MyEntity = "MyEntity";
+        public static readonly CString8U MyEntity = "MyEntity";
     }
 
     private static int Main(string[] args)

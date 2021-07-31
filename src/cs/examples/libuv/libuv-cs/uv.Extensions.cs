@@ -28,7 +28,7 @@ public static unsafe partial class uv
     public static string GetErrorCodeName(int errorCode)
     {
         var cString = uv_err_name(errorCode);
-        var result = Runtime.String(cString);
+        var result = Runtime.String8U(cString);
         return result;
     }
 
@@ -36,7 +36,7 @@ public static unsafe partial class uv
     {
         var buffer = stackalloc byte[512];
         var cString = uv_strerror_r(errorCode, buffer, 512);
-        var result = Runtime.String(cString);
+        var result = Runtime.String8U(cString);
         return result;
     }
 }

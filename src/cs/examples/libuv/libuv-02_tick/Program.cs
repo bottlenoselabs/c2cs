@@ -165,7 +165,7 @@ internal static unsafe class Program
 
         var handleType = uv_handle_get_type(handle);
         var cStringHandleTypeName = uv_handle_type_name(handleType);
-        var handleTypeName = Runtime.String(cStringHandleTypeName);
+        var handleTypeName = Runtime.String8U(cStringHandleTypeName);
         uv_close(handle, new uv_close_cb {Pointer = &OnHandleClosed});
         Console.WriteLine($"Handle of type '{handleTypeName}' is closing.");
     }
@@ -175,7 +175,7 @@ internal static unsafe class Program
     {
         var handleType = uv_handle_get_type(handle);
         var cStringHandleTypeName = uv_handle_type_name(handleType);
-        var handleTypeName = Runtime.String(cStringHandleTypeName);
+        var handleTypeName = Runtime.String8U(cStringHandleTypeName);
         Console.WriteLine($"Handle of type '{handleTypeName}' is closed.");
     }
 }

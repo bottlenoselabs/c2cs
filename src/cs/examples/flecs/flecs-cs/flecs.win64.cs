@@ -131,7 +131,7 @@ public static unsafe partial class flecs
 
     // Function @ reader_writer.h:213:9 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\addons\reader_writer.h)
     [DllImport(LibraryName)]
-    public static extern int ecs_writer_write(CString buffer, int size, ecs_writer_t* writer);
+    public static extern int ecs_writer_write(CString8U buffer, int size, ecs_writer_t* writer);
 
     // Function @ reader_writer.h:190:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\addons\reader_writer.h)
     [DllImport(LibraryName)]
@@ -139,7 +139,7 @@ public static unsafe partial class flecs
 
     // Function @ reader_writer.h:171:9 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\addons\reader_writer.h)
     [DllImport(LibraryName)]
-    public static extern int ecs_reader_read(CString buffer, int size, ecs_reader_t* reader);
+    public static extern int ecs_reader_read(CString8U buffer, int size, ecs_reader_t* reader);
 
     // Function @ reader_writer.h:152:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\addons\reader_writer.h)
     [DllImport(LibraryName)]
@@ -183,7 +183,7 @@ public static unsafe partial class flecs
 
     // Function @ parser.h:46:7 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\addons\parser.h)
     [DllImport(LibraryName)]
-    public static extern CString ecs_parse_term(ecs_world_t* world, CString name, CString expr, CString ptr, ecs_term_t* term_out);
+    public static extern CString8U ecs_parse_term(ecs_world_t* world, CString8U name, CString8U expr, CString8U ptr, ecs_term_t* term_out);
 
     // Function @ dbg.h:60:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\addons\dbg.h)
     [DllImport(LibraryName)]
@@ -351,11 +351,11 @@ public static unsafe partial class flecs
 
     // Function @ module.h:69:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\addons\module.h)
     [DllImport(LibraryName)]
-    public static extern ecs_entity_t ecs_import_from_library(ecs_world_t* world, CString library_name, CString module_name);
+    public static extern ecs_entity_t ecs_import_from_library(ecs_world_t* world, CString8U library_name, CString8U module_name);
 
     // Function @ module.h:42:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\addons\module.h)
     [DllImport(LibraryName)]
-    public static extern ecs_entity_t ecs_import(ecs_world_t* world, ecs_module_action_t module, CString module_name, void* handles_out, ulong handles_size);
+    public static extern ecs_entity_t ecs_import(ecs_world_t* world, ecs_module_action_t module, CString8U module_name, void* handles_out, ulong handles_size);
 
     // Function @ flecs.h:3609:9 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
@@ -375,7 +375,7 @@ public static unsafe partial class flecs
 
     // Function @ flecs.h:3545:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
-    public static extern ecs_table_t* ecs_table_from_str(ecs_world_t* world, CString type);
+    public static extern ecs_table_t* ecs_table_from_str(ecs_world_t* world, CString8U type);
 
     // Function @ flecs.h:3523:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
@@ -543,7 +543,7 @@ public static unsafe partial class flecs
 
     // Function @ flecs.h:2805:7 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
-    public static extern CString ecs_filter_str(ecs_world_t* world, ecs_filter_t* filter);
+    public static extern CString8U ecs_filter_str(ecs_world_t* world, ecs_filter_t* filter);
 
     // Function @ flecs.h:2796:5 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
@@ -575,7 +575,7 @@ public static unsafe partial class flecs
 
     // Function @ flecs.h:2685:5 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
-    public static extern int ecs_term_finalize(ecs_world_t* world, CString name, CString expr, ecs_term_t* term);
+    public static extern int ecs_term_finalize(ecs_world_t* world, CString8U name, CString8U expr, ecs_term_t* term);
 
     // Function @ flecs.h:2661:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
@@ -587,7 +587,7 @@ public static unsafe partial class flecs
 
     // Function @ flecs.h:2610:13 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
-    public static extern CString ecs_set_name_prefix(ecs_world_t* world, CString prefix);
+    public static extern CString8U ecs_set_name_prefix(ecs_world_t* world, CString8U prefix);
 
     // Function @ flecs.h:2597:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
@@ -615,35 +615,35 @@ public static unsafe partial class flecs
 
     // Function @ flecs.h:2484:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
-    public static extern ecs_entity_t ecs_add_path_w_sep(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t parent, CString path, CString sep, CString prefix);
+    public static extern ecs_entity_t ecs_add_path_w_sep(ecs_world_t* world, ecs_entity_t entity, ecs_entity_t parent, CString8U path, CString8U sep, CString8U prefix);
 
     // Function @ flecs.h:2440:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
-    public static extern ecs_entity_t ecs_new_from_path_w_sep(ecs_world_t* world, ecs_entity_t parent, CString path, CString sep, CString prefix);
+    public static extern ecs_entity_t ecs_new_from_path_w_sep(ecs_world_t* world, ecs_entity_t parent, CString8U path, CString8U sep, CString8U prefix);
 
     // Function @ flecs.h:2391:7 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
-    public static extern CString ecs_get_path_w_sep(ecs_world_t* world, ecs_entity_t parent, ecs_entity_t child, ecs_entity_t component, CString sep, CString prefix);
+    public static extern CString8U ecs_get_path_w_sep(ecs_world_t* world, ecs_entity_t parent, ecs_entity_t child, ecs_entity_t component, CString8U sep, CString8U prefix);
 
     // Function @ flecs.h:2359:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
-    public static extern void ecs_use(ecs_world_t* world, ecs_entity_t entity, CString name);
+    public static extern void ecs_use(ecs_world_t* world, ecs_entity_t entity, CString8U name);
 
     // Function @ flecs.h:2353:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
-    public static extern ecs_entity_t ecs_lookup_symbol(ecs_world_t* world, CString name);
+    public static extern ecs_entity_t ecs_lookup_symbol(ecs_world_t* world, CString8U name);
 
     // Function @ flecs.h:2312:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
-    public static extern ecs_entity_t ecs_lookup_path_w_sep(ecs_world_t* world, ecs_entity_t parent, CString path, CString sep, CString prefix, CBool recursive);
+    public static extern ecs_entity_t ecs_lookup_path_w_sep(ecs_world_t* world, ecs_entity_t parent, CString8U path, CString8U sep, CString8U prefix, CBool recursive);
 
     // Function @ flecs.h:2288:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
-    public static extern ecs_entity_t ecs_lookup_child(ecs_world_t* world, ecs_entity_t parent, CString name);
+    public static extern ecs_entity_t ecs_lookup_child(ecs_world_t* world, ecs_entity_t parent, CString8U name);
 
     // Function @ flecs.h:2274:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
-    public static extern ecs_entity_t ecs_lookup(ecs_world_t* world, CString name);
+    public static extern ecs_entity_t ecs_lookup(ecs_world_t* world, CString8U name);
 
     // Function @ flecs.h:2253:9 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
@@ -663,15 +663,15 @@ public static unsafe partial class flecs
 
     // Function @ flecs.h:2171:8 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
-    public static extern ulong ecs_id_str(ecs_world_t* world, ecs_id_t entity, CString buffer, ulong buffer_len);
+    public static extern ulong ecs_id_str(ecs_world_t* world, ecs_id_t entity, CString8U buffer, ulong buffer_len);
 
     // Function @ flecs.h:2158:13 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
-    public static extern CString ecs_role_str(ecs_entity_t entity);
+    public static extern CString8U ecs_role_str(ecs_entity_t entity);
 
     // Function @ flecs.h:2146:13 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
-    public static extern CString ecs_get_name(ecs_world_t* world, ecs_entity_t entity);
+    public static extern CString8U ecs_get_name(ecs_world_t* world, ecs_entity_t entity);
 
     // Function @ flecs.h:2134:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
@@ -887,7 +887,7 @@ public static unsafe partial class flecs
 
     // Function @ flecs.h:903:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
-    public static extern ecs_world_t* ecs_init_w_args(int argc, CString* argv);
+    public static extern ecs_world_t* ecs_init_w_args(int argc, CString8U* argv);
 
     // Function @ flecs.h:893:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
     [DllImport(LibraryName)]
@@ -911,11 +911,11 @@ public static unsafe partial class flecs
 
     // Function @ deprecated.h:530:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\addons\deprecated.h)
     [DllImport(LibraryName)]
-    public static extern ecs_query_t* ecs_subquery_new(ecs_world_t* world, ecs_query_t* parent, CString sig);
+    public static extern ecs_query_t* ecs_subquery_new(ecs_world_t* world, ecs_query_t* parent, CString8U sig);
 
     // Function @ deprecated.h:524:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\addons\deprecated.h)
     [DllImport(LibraryName)]
-    public static extern ecs_query_t* ecs_query_new(ecs_world_t* world, CString sig);
+    public static extern ecs_query_t* ecs_query_new(ecs_world_t* world, CString8U sig);
 
     // Function @ deprecated.h:516:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\addons\deprecated.h)
     [DllImport(LibraryName)]
@@ -963,7 +963,7 @@ public static unsafe partial class flecs
 
     // Function @ deprecated.h:445:9 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\addons\deprecated.h)
     [DllImport(LibraryName)]
-    public static extern int ecs_column_index_from_name(ecs_iter_t* it, CString name);
+    public static extern int ecs_column_index_from_name(ecs_iter_t* it, CString8U name);
 
     // Function @ deprecated.h:435:7 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\addons\deprecated.h)
     [DllImport(LibraryName)]
@@ -1007,7 +1007,7 @@ public static unsafe partial class flecs
 
     // Function @ deprecated.h:363:8 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\addons\deprecated.h)
     [DllImport(LibraryName)]
-    public static extern ulong ecs_entity_str(ecs_world_t* world, ecs_id_t entity, CString buffer, ulong buffer_len);
+    public static extern ulong ecs_entity_str(ecs_world_t* world, ecs_id_t entity, CString8U buffer, ulong buffer_len);
 
     // Function @ deprecated.h:356:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\addons\deprecated.h)
     [DllImport(LibraryName)]
@@ -1147,11 +1147,11 @@ public static unsafe partial class flecs
 
     // Function @ type.h:32:12 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\type.h)
     [DllImport(LibraryName)]
-    public static extern ecs_type_t ecs_type_from_str(ecs_world_t* world, CString expr);
+    public static extern ecs_type_t ecs_type_from_str(ecs_world_t* world, CString8U expr);
 
     // Function @ type.h:27:7 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\type.h)
     [DllImport(LibraryName)]
-    public static extern CString ecs_type_str(ecs_world_t* world, ecs_type_t type);
+    public static extern CString8U ecs_type_str(ecs_world_t* world, ecs_type_t type);
 
     // Function @ type.h:22:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\type.h)
     [DllImport(LibraryName)]
@@ -1163,19 +1163,19 @@ public static unsafe partial class flecs
 
     // Function @ log.h:158:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\log.h)
     [DllImport(LibraryName)]
-    public static extern void _ecs_parser_error(CString name, CString expr, long column, CString fmt);
+    public static extern void _ecs_parser_error(CString8U name, CString8U expr, long column, CString8U fmt);
 
     // Function @ log.h:141:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\log.h)
     [DllImport(LibraryName)]
-    public static extern void _ecs_assert(CBool condition, int error_code, CString param, CString condition_str, CString file, int line);
+    public static extern void _ecs_assert(CBool condition, int error_code, CString8U param, CString8U condition_str, CString8U file, int line);
 
     // Function @ log.h:130:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\log.h)
     [DllImport(LibraryName)]
-    public static extern void _ecs_abort(int error_code, CString param, CString file, int line);
+    public static extern void _ecs_abort(int error_code, CString8U param, CString8U file, int line);
 
     // Function @ log.h:125:13 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\log.h)
     [DllImport(LibraryName)]
-    public static extern CString ecs_strerror(int error_code);
+    public static extern CString8U ecs_strerror(int error_code);
 
     // Function @ log.h:71:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\log.h)
     [DllImport(LibraryName)]
@@ -1187,19 +1187,19 @@ public static unsafe partial class flecs
 
     // Function @ log.h:62:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\log.h)
     [DllImport(LibraryName)]
-    public static extern void _ecs_deprecated(CString file, int line, CString msg);
+    public static extern void _ecs_deprecated(CString8U file, int line, CString8U msg);
 
     // Function @ log.h:55:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\log.h)
     [DllImport(LibraryName)]
-    public static extern void _ecs_err(CString file, int line, CString fmt);
+    public static extern void _ecs_err(CString8U file, int line, CString8U fmt);
 
     // Function @ log.h:48:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\log.h)
     [DllImport(LibraryName)]
-    public static extern void _ecs_warn(CString file, int line, CString fmt);
+    public static extern void _ecs_warn(CString8U file, int line, CString8U fmt);
 
     // Function @ log.h:40:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\log.h)
     [DllImport(LibraryName)]
-    public static extern void _ecs_trace(int level, CString file, int line, CString fmt);
+    public static extern void _ecs_trace(int level, CString8U file, int line, CString8U fmt);
 
     // Function @ api_support.h:80:15 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\api_support.h)
     [DllImport(LibraryName)]
@@ -1207,11 +1207,11 @@ public static unsafe partial class flecs
 
     // Function @ api_support.h:75:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\api_support.h)
     [DllImport(LibraryName)]
-    public static extern CBool ecs_identifier_is_var(CString id);
+    public static extern CBool ecs_identifier_is_var(CString8U id);
 
     // Function @ api_support.h:72:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\api_support.h)
     [DllImport(LibraryName)]
-    public static extern CBool ecs_identifier_is_0(CString id);
+    public static extern CBool ecs_identifier_is_0(CString8U id);
 
     // Function @ api_support.h:64:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\api_support.h)
     [DllImport(LibraryName)]
@@ -1219,11 +1219,11 @@ public static unsafe partial class flecs
 
     // Function @ api_support.h:60:7 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\api_support.h)
     [DllImport(LibraryName)]
-    public static extern CString ecs_module_path_from_c(CString c_name);
+    public static extern CString8U ecs_module_path_from_c(CString8U c_name);
 
     // Function @ api_support.h:52:14 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\api_support.h)
     [DllImport(LibraryName)]
-    public static extern ecs_entity_t ecs_new_module(ecs_world_t* world, ecs_entity_t e, CString name, ulong size, ulong alignment);
+    public static extern ecs_entity_t ecs_new_module(ecs_world_t* world, ecs_entity_t e, CString8U name, ulong size, ulong alignment);
 
     // Function @ os_api.h:431:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\os_api.h)
     [DllImport(LibraryName)]
@@ -1271,19 +1271,19 @@ public static unsafe partial class flecs
 
     // Function @ os_api.h:369:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\os_api.h)
     [DllImport(LibraryName)]
-    public static extern void ecs_os_dbg(CString fmt);
+    public static extern void ecs_os_dbg(CString8U fmt);
 
     // Function @ os_api.h:366:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\os_api.h)
     [DllImport(LibraryName)]
-    public static extern void ecs_os_err(CString fmt);
+    public static extern void ecs_os_err(CString8U fmt);
 
     // Function @ os_api.h:363:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\os_api.h)
     [DllImport(LibraryName)]
-    public static extern void ecs_os_warn(CString fmt);
+    public static extern void ecs_os_warn(CString8U fmt);
 
     // Function @ os_api.h:360:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\os_api.h)
     [DllImport(LibraryName)]
-    public static extern void ecs_os_log(CString fmt);
+    public static extern void ecs_os_log(CString8U fmt);
 
     // Function @ os_api.h:267:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\os_api.h)
     [DllImport(LibraryName)]
@@ -1303,11 +1303,11 @@ public static unsafe partial class flecs
 
     // Function @ strbuf.h:166:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\strbuf.h)
     [DllImport(LibraryName)]
-    public static extern CBool ecs_strbuf_list_appendstr(ecs_strbuf_t* buffer, CString str);
+    public static extern CBool ecs_strbuf_list_appendstr(ecs_strbuf_t* buffer, CString8U str);
 
     // Function @ strbuf.h:159:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\strbuf.h)
     [DllImport(LibraryName)]
-    public static extern CBool ecs_strbuf_list_append(ecs_strbuf_t* buffer, CString fmt);
+    public static extern CBool ecs_strbuf_list_append(ecs_strbuf_t* buffer, CString8U fmt);
 
     // Function @ strbuf.h:154:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\strbuf.h)
     [DllImport(LibraryName)]
@@ -1315,11 +1315,11 @@ public static unsafe partial class flecs
 
     // Function @ strbuf.h:148:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\strbuf.h)
     [DllImport(LibraryName)]
-    public static extern void ecs_strbuf_list_pop(ecs_strbuf_t* buffer, CString list_close);
+    public static extern void ecs_strbuf_list_pop(ecs_strbuf_t* buffer, CString8U list_close);
 
     // Function @ strbuf.h:141:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\strbuf.h)
     [DllImport(LibraryName)]
-    public static extern void ecs_strbuf_list_push(ecs_strbuf_t* buffer, CString list_open, CString separator);
+    public static extern void ecs_strbuf_list_push(ecs_strbuf_t* buffer, CString8U list_open, CString8U separator);
 
     // Function @ strbuf.h:136:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\strbuf.h)
     [DllImport(LibraryName)]
@@ -1327,19 +1327,19 @@ public static unsafe partial class flecs
 
     // Function @ strbuf.h:131:7 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\strbuf.h)
     [DllImport(LibraryName)]
-    public static extern CString ecs_strbuf_get(ecs_strbuf_t* buffer);
+    public static extern CString8U ecs_strbuf_get(ecs_strbuf_t* buffer);
 
     // Function @ strbuf.h:124:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\strbuf.h)
     [DllImport(LibraryName)]
-    public static extern CBool ecs_strbuf_appendstrn(ecs_strbuf_t* buffer, CString str, int n);
+    public static extern CBool ecs_strbuf_appendstrn(ecs_strbuf_t* buffer, CString8U str, int n);
 
     // Function @ strbuf.h:117:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\strbuf.h)
     [DllImport(LibraryName)]
-    public static extern CBool ecs_strbuf_appendstr_zerocpy_const(ecs_strbuf_t* buffer, CString str);
+    public static extern CBool ecs_strbuf_appendstr_zerocpy_const(ecs_strbuf_t* buffer, CString8U str);
 
     // Function @ strbuf.h:110:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\strbuf.h)
     [DllImport(LibraryName)]
-    public static extern CBool ecs_strbuf_appendstr_zerocpy(ecs_strbuf_t* buffer, CString str);
+    public static extern CBool ecs_strbuf_appendstr_zerocpy(ecs_strbuf_t* buffer, CString8U str);
 
     // Function @ strbuf.h:103:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\strbuf.h)
     [DllImport(LibraryName)]
@@ -1347,15 +1347,15 @@ public static unsafe partial class flecs
 
     // Function @ strbuf.h:96:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\strbuf.h)
     [DllImport(LibraryName)]
-    public static extern CBool ecs_strbuf_appendstr(ecs_strbuf_t* buffer, CString str);
+    public static extern CBool ecs_strbuf_appendstr(ecs_strbuf_t* buffer, CString8U str);
 
     // Function @ strbuf.h:88:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\strbuf.h)
     [DllImport(LibraryName)]
-    public static extern CBool ecs_strbuf_vappend(ecs_strbuf_t* buffer, CString fmt, IntPtr args);
+    public static extern CBool ecs_strbuf_vappend(ecs_strbuf_t* buffer, CString8U fmt, IntPtr args);
 
     // Function @ strbuf.h:80:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\strbuf.h)
     [DllImport(LibraryName)]
-    public static extern CBool ecs_strbuf_append(ecs_strbuf_t* buffer, CString fmt);
+    public static extern CBool ecs_strbuf_append(ecs_strbuf_t* buffer, CString8U fmt);
 
     // Function @ map.h:165:6 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\map.h)
     [DllImport(LibraryName)]
@@ -1610,7 +1610,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_os_api_module_to_path_t
     {
-        public delegate* unmanaged<CString, CString> Pointer;
+        public delegate* unmanaged<CString8U, CString8U> Pointer;
     }
 
     // FunctionPointer @ os_api.h:181:8 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\os_api.h)
@@ -1624,7 +1624,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_os_api_dlproc_t
     {
-        public delegate* unmanaged<ecs_os_dl_t, CString, ecs_os_proc_t> Pointer;
+        public delegate* unmanaged<ecs_os_dl_t, CString8U, ecs_os_proc_t> Pointer;
     }
 
     // FunctionPointer @ os_api.h:58:16 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\os_api.h)
@@ -1638,7 +1638,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_os_api_dlopen_t
     {
-        public delegate* unmanaged<CString, ecs_os_dl_t> Pointer;
+        public delegate* unmanaged<CString8U, ecs_os_dl_t> Pointer;
     }
 
     // FunctionPointer @ os_api.h:167:8 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\os_api.h)
@@ -1652,7 +1652,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_os_api_log_t
     {
-        public delegate* unmanaged<CString, IntPtr, void> Pointer;
+        public delegate* unmanaged<CString8U, IntPtr, void> Pointer;
     }
 
     // FunctionPointer @ os_api.h:156:8 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\os_api.h)
@@ -1757,7 +1757,7 @@ public static unsafe partial class flecs
     [StructLayout(LayoutKind.Sequential)]
     public struct ecs_os_api_strdup_t
     {
-        public delegate* unmanaged<CString, CString> Pointer;
+        public delegate* unmanaged<CString8U, CString8U> Pointer;
     }
 
     // FunctionPointer @ os_api.h:74:8 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\os_api.h)
@@ -2182,10 +2182,10 @@ public static unsafe partial class flecs
         public int term_count_actual;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public CString name;
+        public CString8U name;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public CString expr;
+        public CString8U expr;
 
         [FieldOffset(32)] // size = 8, padding = 0
         public ecs_type_t include;
@@ -2236,7 +2236,7 @@ public static unsafe partial class flecs
         public ecs_id_t role;
 
         [FieldOffset(176)] // size = 8, padding = 0
-        public CString name;
+        public CString8U name;
 
         [FieldOffset(184)] // size = 4, padding = 0
         public int index;
@@ -2253,7 +2253,7 @@ public static unsafe partial class flecs
         public ecs_entity_t entity;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public CString name;
+        public CString8U name;
 
         [FieldOffset(16)] // size = 4, padding = 4
         public ecs_var_kind_t var;
@@ -2499,7 +2499,7 @@ public static unsafe partial class flecs
     public struct ecs_name_writer_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public CString name;
+        public CString8U name;
 
         [FieldOffset(8)] // size = 4, padding = 0
         public int written;
@@ -2587,7 +2587,7 @@ public static unsafe partial class flecs
         public int row_count;
 
         [FieldOffset(80)] // size = 8, padding = 0
-        public CString name;
+        public CString8U name;
 
         [FieldOffset(88)] // size = 4, padding = 0
         public ecs_size_t name_len;
@@ -2785,10 +2785,10 @@ public static unsafe partial class flecs
         public CBool substitute_default;
 
         [FieldOffset(3088)] // size = 8, padding = 0
-        public CString expr;
+        public CString8U expr;
 
         [FieldOffset(3096)] // size = 8, padding = 0
-        public CString name;
+        public CString8U name;
     }
 
     // Struct @ flecs.h:332:3 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
@@ -2799,13 +2799,13 @@ public static unsafe partial class flecs
         public ecs_entity_t entity;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public CString name;
+        public CString8U name;
 
         [FieldOffset(16)] // size = 8, padding = 0
-        public CString sep;
+        public CString8U sep;
 
         [FieldOffset(24)] // size = 8, padding = 0
-        public CString symbol;
+        public CString8U symbol;
 
         [FieldOffset(32)] // size = 1, padding = 7
         public CBool use_low_id;
@@ -2843,10 +2843,10 @@ public static unsafe partial class flecs
         }
 
         [FieldOffset(552)] // size = 8, padding = 0
-        public CString add_expr;
+        public CString8U add_expr;
 
         [FieldOffset(560)] // size = 8, padding = 0
-        public CString remove_expr;
+        public CString8U remove_expr;
     }
 
     // Struct @ flecs.h:440:3 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
@@ -2860,10 +2860,10 @@ public static unsafe partial class flecs
         public ecs_term_t term;
 
         [FieldOffset(760)] // size = 8, padding = 0
-        public CString name;
+        public CString8U name;
 
         [FieldOffset(768)] // size = 8, padding = 0
-        public CString expr;
+        public CString8U expr;
 
         [FieldOffset(776)] // size = 64, padding = 0
         public fixed ulong _events[64 / 8]; // ecs_entity_t[8]
@@ -2921,7 +2921,7 @@ public static unsafe partial class flecs
         }
 
         [FieldOffset(824)] // size = 8, padding = 0
-        public CString ids_expr;
+        public CString8U ids_expr;
     }
 
     // Struct @ flecs.h:340:3 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs.h)
@@ -3131,7 +3131,7 @@ public static unsafe partial class flecs
     public struct ecs_strbuf_t
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public CString buf;
+        public CString8U buf;
 
         [FieldOffset(8)] // size = 4, padding = 0
         public int max;
@@ -3176,7 +3176,7 @@ public static unsafe partial class flecs
         public int count;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public CString separator;
+        public CString8U separator;
     }
 
     // Struct @ strbuf.h:35:3 (C:\Users\lithi\Programming\c2cs\ext\flecs\include\flecs\private\strbuf.h)
@@ -3190,7 +3190,7 @@ public static unsafe partial class flecs
         public int pos;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public CString buf;
+        public CString8U buf;
 
         [FieldOffset(16)] // size = 8, padding = 0
         public ecs_strbuf_element* next;
@@ -3213,8 +3213,8 @@ public static unsafe partial class flecs
                 fixed (ecs_strbuf_element_embedded* @this = &this)
                 {
                     var pointer = &@this->_buf[0];
-                    var cString = new CString(pointer);
-                    return Runtime.String(cString);
+                    var cString = new CString8U(pointer);
+                    return Runtime.String8U(cString);
                 }
             }
         }
