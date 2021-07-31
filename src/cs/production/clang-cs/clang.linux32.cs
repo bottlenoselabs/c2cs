@@ -1359,7 +1359,7 @@ public static unsafe partial class clang
 
     // Function @ CXString.h:50:28 (/mnt/c/Users/lithi/Programming/c2cs/ext/clang/include/clang-c/CXString.h)
     [DllImport(LibraryName)]
-    public static extern CString8U clang_getCString8U(CXString @string);
+    public static extern CString8U clang_getCString(CXString @string);
 
     // FunctionPointer @ Index.h:6746:32 (/mnt/c/Users/lithi/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [StructLayout(LayoutKind.Sequential)]
