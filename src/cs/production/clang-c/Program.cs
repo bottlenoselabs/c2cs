@@ -61,7 +61,8 @@ cs
 {rootDirectory}/src/cs/production/clang-c/ast.{runtimeIdentifier}.json
 -o
 {rootDirectory}/src/cs/production/clang-cs/clang.{runtimeIdentifier}.cs
-
+-l
+libclang
 ";
         var argumentsArray =
             arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
