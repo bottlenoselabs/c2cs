@@ -1,8 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-    
-    <!-- Project references -->
-    <ItemGroup>
-        <ProjectReference Include="..\flecs-cs\flecs-cs.csproj" />
-    </ItemGroup>
-
-</Project>
