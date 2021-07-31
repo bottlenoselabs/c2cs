@@ -39,11 +39,11 @@ public static unsafe partial class clang
 
     // Function @ Index.h:6688:20 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern int clang_indexSourceFileFullArgv(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
+    public static extern int clang_indexSourceFileFullArgv(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CString8U source_filename, CString8U* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
 
     // Function @ Index.h:6676:20 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern int clang_indexSourceFile(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
+    public static extern int clang_indexSourceFile(CXIndexAction param, CXClientData client_data, IndexerCallbacks* index_callbacks, uint index_callbacks_size, uint index_options, CString8U source_filename, CString8U* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, CXTranslationUnit* out_TU, uint TU_options);
 
     // Function @ Index.h:6610:21 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
@@ -123,11 +123,11 @@ public static unsafe partial class clang
 
     // Function @ Index.h:6053:13 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CXRemapping clang_getRemappingsFromFileList(CString* filePaths, uint numFiles);
+    public static extern CXRemapping clang_getRemappingsFromFileList(CString8U* filePaths, uint numFiles);
 
     // Function @ Index.h:6040:28 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CXRemapping clang_getRemappings(CString path);
+    public static extern CXRemapping clang_getRemappings(CString8U path);
 
     // Function @ Index.h:6017:21 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
@@ -135,7 +135,7 @@ public static unsafe partial class clang
 
     // Function @ Index.h:6012:28 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CString clang_EvalResult_getAsStr(CXEvalResult E);
+    public static extern CString8U clang_EvalResult_getAsStr(CXEvalResult E);
 
     // Function @ Index.h:6004:23 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
@@ -211,7 +211,7 @@ public static unsafe partial class clang
 
     // Function @ Index.h:5792:1 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CXCodeCompleteResults* clang_codeCompleteAt(CXTranslationUnit TU, CString complete_filename, uint complete_line, uint complete_column, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
+    public static extern CXCodeCompleteResults* clang_codeCompleteAt(CXTranslationUnit TU, CString8U complete_filename, uint complete_line, uint complete_column, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
 
     // Function @ Index.h:5720:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
@@ -279,7 +279,7 @@ public static unsafe partial class clang
 
     // Function @ Index.h:5088:21 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern void clang_getDefinitionSpellingAndExtent(CXCursor param, CString* startBuf, CString* endBuf, uint* startLine, uint* startColumn, uint* endLine, uint* endColumn);
+    public static extern void clang_getDefinitionSpellingAndExtent(CXCursor param, CString8U* startBuf, CString8U* endBuf, uint* startLine, uint* startColumn, uint* endLine, uint* endColumn);
 
     // Function @ Index.h:5087:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
@@ -527,27 +527,27 @@ public static unsafe partial class clang
 
     // Function @ Index.h:4306:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CXString clang_constructUSR_ObjCProperty(CString property, CXString classUSR);
+    public static extern CXString clang_constructUSR_ObjCProperty(CString8U property, CXString classUSR);
 
     // Function @ Index.h:4298:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CXString clang_constructUSR_ObjCMethod(CString name, uint isInstanceMethod, CXString classUSR);
+    public static extern CXString clang_constructUSR_ObjCMethod(CString8U name, uint isInstanceMethod, CXString classUSR);
 
     // Function @ Index.h:4291:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CXString clang_constructUSR_ObjCIvar(CString name, CXString classUSR);
+    public static extern CXString clang_constructUSR_ObjCIvar(CString8U name, CXString classUSR);
 
     // Function @ Index.h:4285:1 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CXString clang_constructUSR_ObjCProtocol(CString protocol_name);
+    public static extern CXString clang_constructUSR_ObjCProtocol(CString8U protocol_name);
 
     // Function @ Index.h:4278:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CXString clang_constructUSR_ObjCCategory(CString class_name, CString category_name);
+    public static extern CXString clang_constructUSR_ObjCCategory(CString8U class_name, CString8U category_name);
 
     // Function @ Index.h:4273:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CXString clang_constructUSR_ObjCClass(CString class_name);
+    public static extern CXString clang_constructUSR_ObjCClass(CString8U class_name);
 
     // Function @ Index.h:4268:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
@@ -623,7 +623,7 @@ public static unsafe partial class clang
 
     // Function @ Index.h:3960:26 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern long clang_Type_getOffsetOf(CXType T, CString S);
+    public static extern long clang_Type_getOffsetOf(CXType T, CString8U S);
 
     // Function @ Index.h:3945:26 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
@@ -1023,7 +1023,7 @@ public static unsafe partial class clang
 
     // Function @ Index.h:1637:13 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CString clang_getTUResourceUsageName(CXTUResourceUsageKind kind);
+    public static extern CString8U clang_getTUResourceUsageName(CXTUResourceUsageKind kind);
 
     // Function @ Index.h:1602:1 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
@@ -1043,7 +1043,7 @@ public static unsafe partial class clang
 
     // Function @ Index.h:1518:20 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern int clang_saveTranslationUnit(CXTranslationUnit TU, CString FileName, uint options);
+    public static extern int clang_saveTranslationUnit(CXTranslationUnit TU, CString8U FileName, uint options);
 
     // Function @ Index.h:1458:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
@@ -1051,15 +1051,15 @@ public static unsafe partial class clang
 
     // Function @ Index.h:1429:33 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CXErrorCode clang_parseTranslationUnit2FullArgv(CXIndex CIdx, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
+    public static extern CXErrorCode clang_parseTranslationUnit2FullArgv(CXIndex CIdx, CString8U source_filename, CString8U* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
 
     // Function @ Index.h:1418:33 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CXErrorCode clang_parseTranslationUnit2(CXIndex CIdx, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
+    public static extern CXErrorCode clang_parseTranslationUnit2(CXIndex CIdx, CString8U source_filename, CString8U* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
 
     // Function @ Index.h:1368:34 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CXTranslationUnit clang_parseTranslationUnit(CXIndex CIdx, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
+    public static extern CXTranslationUnit clang_parseTranslationUnit(CXIndex CIdx, CString8U source_filename, CString8U* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options);
 
     // Function @ Index.h:1360:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
@@ -1067,15 +1067,15 @@ public static unsafe partial class clang
 
     // Function @ Index.h:1189:1 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CXErrorCode clang_createTranslationUnit2(CXIndex CIdx, CString ast_filename, CXTranslationUnit* out_TU);
+    public static extern CXErrorCode clang_createTranslationUnit2(CXIndex CIdx, CString8U ast_filename, CXTranslationUnit* out_TU);
 
     // Function @ Index.h:1178:1 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CXTranslationUnit clang_createTranslationUnit(CXIndex CIdx, CString ast_filename);
+    public static extern CXTranslationUnit clang_createTranslationUnit(CXIndex CIdx, CString8U ast_filename);
 
     // Function @ Index.h:1166:34 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CXTranslationUnit clang_createTranslationUnitFromSourceFile(CXIndex CIdx, CString source_filename, int num_clang_command_line_args, CString* clang_command_line_args, uint num_unsaved_files, CXUnsavedFile* unsaved_files);
+    public static extern CXTranslationUnit clang_createTranslationUnitFromSourceFile(CXIndex CIdx, CString8U source_filename, int num_clang_command_line_args, CString8U* clang_command_line_args, uint num_unsaved_files, CXUnsavedFile* unsaved_files);
 
     // Function @ Index.h:1124:1 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
@@ -1159,7 +1159,7 @@ public static unsafe partial class clang
 
     // Function @ Index.h:841:32 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CXDiagnosticSet clang_loadDiagnostics(CString file, CXLoadDiag_Error* error, CXString* errorString);
+    public static extern CXDiagnosticSet clang_loadDiagnostics(CString8U file, CXLoadDiag_Error* error, CXString* errorString);
 
     // Function @ Index.h:796:29 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
@@ -1259,11 +1259,11 @@ public static unsafe partial class clang
 
     // Function @ Index.h:416:28 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CString clang_getFileContents(CXTranslationUnit tu, CXFile file, uint* size);
+    public static extern CString8U clang_getFileContents(CXTranslationUnit tu, CXFile file, uint* size);
 
     // Function @ Index.h:401:23 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CXFile clang_getFile(CXTranslationUnit tu, CString file_name);
+    public static extern CXFile clang_getFile(CXTranslationUnit tu, CString8U file_name);
 
     // Function @ Index.h:388:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
@@ -1283,7 +1283,7 @@ public static unsafe partial class clang
 
     // Function @ Index.h:342:1 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern void clang_CXIndex_setInvocationEmissionPathOption(CXIndex param, CString Path);
+    public static extern void clang_CXIndex_setInvocationEmissionPathOption(CXIndex param, CString8U Path);
 
     // Function @ Index.h:332:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
@@ -1307,15 +1307,15 @@ public static unsafe partial class clang
 
     // Function @ BuildSystem.h:137:1 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/BuildSystem.h)
     [DllImport(LibraryName)]
-    public static extern CXErrorCode clang_ModuleMapDescriptor_writeToBuffer(CXModuleMapDescriptor param, uint options, CString* out_buffer_ptr, uint* out_buffer_size);
+    public static extern CXErrorCode clang_ModuleMapDescriptor_writeToBuffer(CXModuleMapDescriptor param, uint options, CString8U* out_buffer_ptr, uint* out_buffer_size);
 
     // Function @ BuildSystem.h:124:1 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/BuildSystem.h)
     [DllImport(LibraryName)]
-    public static extern CXErrorCode clang_ModuleMapDescriptor_setUmbrellaHeader(CXModuleMapDescriptor param, CString name);
+    public static extern CXErrorCode clang_ModuleMapDescriptor_setUmbrellaHeader(CXModuleMapDescriptor param, CString8U name);
 
     // Function @ BuildSystem.h:116:1 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/BuildSystem.h)
     [DllImport(LibraryName)]
-    public static extern CXErrorCode clang_ModuleMapDescriptor_setFrameworkModuleName(CXModuleMapDescriptor param, CString name);
+    public static extern CXErrorCode clang_ModuleMapDescriptor_setFrameworkModuleName(CXModuleMapDescriptor param, CString8U name);
 
     // Function @ BuildSystem.h:109:1 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/BuildSystem.h)
     [DllImport(LibraryName)]
@@ -1331,7 +1331,7 @@ public static unsafe partial class clang
 
     // Function @ BuildSystem.h:80:1 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/BuildSystem.h)
     [DllImport(LibraryName)]
-    public static extern CXErrorCode clang_VirtualFileOverlay_writeToBuffer(CXVirtualFileOverlay param, uint options, CString* out_buffer_ptr, uint* out_buffer_size);
+    public static extern CXErrorCode clang_VirtualFileOverlay_writeToBuffer(CXVirtualFileOverlay param, uint options, CString8U* out_buffer_ptr, uint* out_buffer_size);
 
     // Function @ BuildSystem.h:67:1 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/BuildSystem.h)
     [DllImport(LibraryName)]
@@ -1339,7 +1339,7 @@ public static unsafe partial class clang
 
     // Function @ BuildSystem.h:56:1 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/BuildSystem.h)
     [DllImport(LibraryName)]
-    public static extern CXErrorCode clang_VirtualFileOverlay_addFileMapping(CXVirtualFileOverlay param, CString virtualPath, CString realPath);
+    public static extern CXErrorCode clang_VirtualFileOverlay_addFileMapping(CXVirtualFileOverlay param, CString8U virtualPath, CString8U realPath);
 
     // Function @ BuildSystem.h:48:1 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/BuildSystem.h)
     [DllImport(LibraryName)]
@@ -1359,7 +1359,7 @@ public static unsafe partial class clang
 
     // Function @ CXString.h:50:28 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/CXString.h)
     [DllImport(LibraryName)]
-    public static extern CString clang_getCString(CXString @string);
+    public static extern CString8U clang_getCString8U(CXString @string);
 
     // FunctionPointer @ Index.h:6746:32 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [StructLayout(LayoutKind.Sequential)]
@@ -1628,10 +1628,10 @@ public static unsafe partial class clang
         public CXIdxEntityLanguage lang;
 
         [FieldOffset(12)] // size = 4, padding = 0
-        public CString name;
+        public CString8U name;
 
         [FieldOffset(16)] // size = 4, padding = 0
-        public CString USR;
+        public CString8U USR;
 
         [FieldOffset(20)] // size = 20, padding = 0
         public CXCursor cursor;
@@ -1726,7 +1726,7 @@ public static unsafe partial class clang
         public CXIdxLoc hashLoc;
 
         [FieldOffset(12)] // size = 4, padding = 0
-        public CString filename;
+        public CString8U filename;
 
         [FieldOffset(16)] // size = 4, padding = 0
         public CXFile file;
@@ -1746,10 +1746,10 @@ public static unsafe partial class clang
     public struct CXUnsavedFile
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public CString Filename;
+        public CString8U Filename;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public CString Contents;
+        public CString8U Contents;
 
         [FieldOffset(8)] // size = 4, padding = 0
         public uint Length;
@@ -2453,7 +2453,7 @@ public static unsafe partial class clang
         CXCursor_CXXNewExpr = 134U,
         CXCursor_CXXDeleteExpr = 135U,
         CXCursor_UnaryExpr = 136U,
-        CXCursor_ObjCStringLiteral = 137U,
+        CXCursor_ObjCString8ULiteral = 137U,
         CXCursor_ObjCEncodeExpr = 138U,
         CXCursor_ObjCSelectorExpr = 139U,
         CXCursor_ObjCProtocolExpr = 140U,
