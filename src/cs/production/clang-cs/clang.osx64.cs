@@ -2453,7 +2453,7 @@ public static unsafe partial class clang
         CXCursor_CXXNewExpr = 134U,
         CXCursor_CXXDeleteExpr = 135U,
         CXCursor_UnaryExpr = 136U,
-        CXCursor_ObjCString8ULiteral = 137U,
+        CXCursor_ObjCStringLiteral = 137U,
         CXCursor_ObjCEncodeExpr = 138U,
         CXCursor_ObjCSelectorExpr = 139U,
         CXCursor_ObjCProtocolExpr = 140U,

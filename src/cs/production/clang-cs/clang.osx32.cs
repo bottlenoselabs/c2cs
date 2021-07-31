@@ -19,7 +19,7 @@ using C2CS;
 
 public static unsafe partial class clang
 {
-    private const string LibraryName = "clang";
+    private const string LibraryName = "libclang";
 
     // Function @ Index.h:6768:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     [DllImport(LibraryName)]
@@ -2453,7 +2453,7 @@ public static unsafe partial class clang
         CXCursor_CXXNewExpr = 134U,
         CXCursor_CXXDeleteExpr = 135U,
         CXCursor_UnaryExpr = 136U,
-        CXCursor_ObjCString8ULiteral = 137U,
+        CXCursor_ObjCStringLiteral = 137U,
         CXCursor_ObjCEncodeExpr = 138U,
         CXCursor_ObjCSelectorExpr = 139U,
         CXCursor_ObjCProtocolExpr = 140U,
