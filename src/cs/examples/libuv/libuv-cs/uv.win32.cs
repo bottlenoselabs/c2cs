@@ -187,11 +187,11 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1712:23 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern CString uv_dlerror(uv_lib_t* lib);
+    public static extern CString8U uv_dlerror(uv_lib_t* lib);
 
     // Function @ uv.h:1711:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_dlsym(uv_lib_t* lib, CString name, void** ptr);
+    public static extern int uv_dlsym(uv_lib_t* lib, CString8U name, void** ptr);
 
     // Function @ uv.h:1710:16 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -199,7 +199,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1709:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_dlopen(CString filename, uv_lib_t* lib);
+    public static extern int uv_dlopen(CString8U filename, uv_lib_t* lib);
 
     // Function @ uv.h:1707:16 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -227,23 +227,23 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1698:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_chdir(CString dir);
+    public static extern int uv_chdir(CString8U dir);
 
     // Function @ uv.h:1696:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_cwd(CString buffer, uint* size);
+    public static extern int uv_cwd(CString8U buffer, uint* size);
 
     // Function @ uv.h:1694:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_exepath(CString buffer, uint* size);
+    public static extern int uv_exepath(CString8U buffer, uint* size);
 
     // Function @ uv.h:1690:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_if_indextoiid(uint ifindex, CString buffer, uint* size);
+    public static extern int uv_if_indextoiid(uint ifindex, CString8U buffer, uint* size);
 
     // Function @ uv.h:1687:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_if_indextoname(uint ifindex, CString buffer, uint* size);
+    public static extern int uv_if_indextoname(uint ifindex, CString8U buffer, uint* size);
 
     // Function @ uv.h:1672:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -251,31 +251,31 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1657:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_inet_pton(int af, CString src, void* dst);
+    public static extern int uv_inet_pton(int af, CString8U src, void* dst);
 
     // Function @ uv.h:1656:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_inet_ntop(int af, void* src, CString dst, uint size);
+    public static extern int uv_inet_ntop(int af, void* src, CString8U dst, uint size);
 
     // Function @ uv.h:1654:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_ip6_name(sockaddr_in6* src, CString dst, uint size);
+    public static extern int uv_ip6_name(sockaddr_in6* src, CString8U dst, uint size);
 
     // Function @ uv.h:1653:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_ip4_name(sockaddr_in* src, CString dst, uint size);
+    public static extern int uv_ip4_name(sockaddr_in* src, CString8U dst, uint size);
 
     // Function @ uv.h:1651:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_ip6_addr(CString ip, int port, sockaddr_in6* addr);
+    public static extern int uv_ip6_addr(CString8U ip, int port, sockaddr_in6* addr);
 
     // Function @ uv.h:1650:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_ip4_addr(CString ip, int port, sockaddr_in* addr);
+    public static extern int uv_ip4_addr(CString8U ip, int port, sockaddr_in* addr);
 
     // Function @ uv.h:1646:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_event_getpath(uv_fs_event_t* handle, CString buffer, uint* size);
+    public static extern int uv_fs_event_getpath(uv_fs_event_t* handle, CString8U buffer, uint* size);
 
     // Function @ uv.h:1645:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -283,7 +283,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1641:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_event_start(uv_fs_event_t* handle, uv_fs_event_cb cb, CString path, uint flags);
+    public static extern int uv_fs_event_start(uv_fs_event_t* handle, uv_fs_event_cb cb, CString8U path, uint flags);
 
     // Function @ uv.h:1640:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -311,7 +311,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1585:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_poll_getpath(uv_fs_poll_t* handle, CString buffer, uint* size);
+    public static extern int uv_fs_poll_getpath(uv_fs_poll_t* handle, CString8U buffer, uint* size);
 
     // Function @ uv.h:1584:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -319,7 +319,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1580:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_poll_start(uv_fs_poll_t* handle, uv_fs_poll_cb poll_cb, CString path, uint interval);
+    public static extern int uv_fs_poll_start(uv_fs_poll_t* handle, uv_fs_poll_cb poll_cb, CString8U path, uint interval);
 
     // Function @ uv.h:1579:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -327,11 +327,11 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1550:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_statfs(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
+    public static extern int uv_fs_statfs(uv_loop_t* loop, uv_fs_t* req, CString8U path, uv_fs_cb cb);
 
     // Function @ uv.h:1544:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_lchown(uv_loop_t* loop, uv_fs_t* req, CString path, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb);
+    public static extern int uv_fs_lchown(uv_loop_t* loop, uv_fs_t* req, CString8U path, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb);
 
     // Function @ uv.h:1538:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -339,7 +339,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1532:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_chown(uv_loop_t* loop, uv_fs_t* req, CString path, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb);
+    public static extern int uv_fs_chown(uv_loop_t* loop, uv_fs_t* req, CString8U path, uv_uid_t uid, uv_gid_t gid, uv_fs_cb cb);
 
     // Function @ uv.h:1527:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -347,27 +347,27 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1523:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_realpath(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
+    public static extern int uv_fs_realpath(uv_loop_t* loop, uv_fs_t* req, CString8U path, uv_fs_cb cb);
 
     // Function @ uv.h:1519:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_readlink(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
+    public static extern int uv_fs_readlink(uv_loop_t* loop, uv_fs_t* req, CString8U path, uv_fs_cb cb);
 
     // Function @ uv.h:1513:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_symlink(uv_loop_t* loop, uv_fs_t* req, CString path, CString new_path, int flags, uv_fs_cb cb);
+    public static extern int uv_fs_symlink(uv_loop_t* loop, uv_fs_t* req, CString8U path, CString8U new_path, int flags, uv_fs_cb cb);
 
     // Function @ uv.h:1495:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_link(uv_loop_t* loop, uv_fs_t* req, CString path, CString new_path, uv_fs_cb cb);
+    public static extern int uv_fs_link(uv_loop_t* loop, uv_fs_t* req, CString8U path, CString8U new_path, uv_fs_cb cb);
 
     // Function @ uv.h:1491:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_lstat(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
+    public static extern int uv_fs_lstat(uv_loop_t* loop, uv_fs_t* req, CString8U path, uv_fs_cb cb);
 
     // Function @ uv.h:1485:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_lutime(uv_loop_t* loop, uv_fs_t* req, CString path, double atime, double mtime, uv_fs_cb cb);
+    public static extern int uv_fs_lutime(uv_loop_t* loop, uv_fs_t* req, CString8U path, double atime, double mtime, uv_fs_cb cb);
 
     // Function @ uv.h:1479:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -375,15 +375,15 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1473:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_utime(uv_loop_t* loop, uv_fs_t* req, CString path, double atime, double mtime, uv_fs_cb cb);
+    public static extern int uv_fs_utime(uv_loop_t* loop, uv_fs_t* req, CString8U path, double atime, double mtime, uv_fs_cb cb);
 
     // Function @ uv.h:1468:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_chmod(uv_loop_t* loop, uv_fs_t* req, CString path, int mode, uv_fs_cb cb);
+    public static extern int uv_fs_chmod(uv_loop_t* loop, uv_fs_t* req, CString8U path, int mode, uv_fs_cb cb);
 
     // Function @ uv.h:1463:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_access(uv_loop_t* loop, uv_fs_t* req, CString path, int mode, uv_fs_cb cb);
+    public static extern int uv_fs_access(uv_loop_t* loop, uv_fs_t* req, CString8U path, int mode, uv_fs_cb cb);
 
     // Function @ uv.h:1456:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -403,7 +403,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1438:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_rename(uv_loop_t* loop, uv_fs_t* req, CString path, CString new_path, uv_fs_cb cb);
+    public static extern int uv_fs_rename(uv_loop_t* loop, uv_fs_t* req, CString8U path, CString8U new_path, uv_fs_cb cb);
 
     // Function @ uv.h:1434:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -411,7 +411,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1430:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_stat(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
+    public static extern int uv_fs_stat(uv_loop_t* loop, uv_fs_t* req, CString8U path, uv_fs_cb cb);
 
     // Function @ uv.h:1426:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -423,7 +423,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1418:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_opendir(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
+    public static extern int uv_fs_opendir(uv_loop_t* loop, uv_fs_t* req, CString8U path, uv_fs_cb cb);
 
     // Function @ uv.h:1416:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -431,27 +431,27 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1411:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_scandir(uv_loop_t* loop, uv_fs_t* req, CString path, int flags, uv_fs_cb cb);
+    public static extern int uv_fs_scandir(uv_loop_t* loop, uv_fs_t* req, CString8U path, int flags, uv_fs_cb cb);
 
     // Function @ uv.h:1407:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_rmdir(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
+    public static extern int uv_fs_rmdir(uv_loop_t* loop, uv_fs_t* req, CString8U path, uv_fs_cb cb);
 
     // Function @ uv.h:1403:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_mkstemp(uv_loop_t* loop, uv_fs_t* req, CString tpl, uv_fs_cb cb);
+    public static extern int uv_fs_mkstemp(uv_loop_t* loop, uv_fs_t* req, CString8U tpl, uv_fs_cb cb);
 
     // Function @ uv.h:1399:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_mkdtemp(uv_loop_t* loop, uv_fs_t* req, CString tpl, uv_fs_cb cb);
+    public static extern int uv_fs_mkdtemp(uv_loop_t* loop, uv_fs_t* req, CString8U tpl, uv_fs_cb cb);
 
     // Function @ uv.h:1394:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_mkdir(uv_loop_t* loop, uv_fs_t* req, CString path, int mode, uv_fs_cb cb);
+    public static extern int uv_fs_mkdir(uv_loop_t* loop, uv_fs_t* req, CString8U path, int mode, uv_fs_cb cb);
 
     // Function @ uv.h:1388:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_copyfile(uv_loop_t* loop, uv_fs_t* req, CString path, CString new_path, int flags, uv_fs_cb cb);
+    public static extern int uv_fs_copyfile(uv_loop_t* loop, uv_fs_t* req, CString8U path, CString8U new_path, int flags, uv_fs_cb cb);
 
     // Function @ uv.h:1363:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -459,7 +459,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1359:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_unlink(uv_loop_t* loop, uv_fs_t* req, CString path, uv_fs_cb cb);
+    public static extern int uv_fs_unlink(uv_loop_t* loop, uv_fs_t* req, CString8U path, uv_fs_cb cb);
 
     // Function @ uv.h:1352:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -467,7 +467,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1346:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_fs_open(uv_loop_t* loop, uv_fs_t* req, CString path, int flags, int mode, uv_fs_cb cb);
+    public static extern int uv_fs_open(uv_loop_t* loop, uv_fs_t* req, CString8U path, int flags, int mode, uv_fs_cb cb);
 
     // Function @ uv.h:1342:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -483,7 +483,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1338:23 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern CString uv_fs_get_path(uv_fs_t* param);
+    public static extern CString8U uv_fs_get_path(uv_fs_t* param);
 
     // Function @ uv.h:1337:17 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -511,19 +511,19 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1267:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_os_gethostname(CString buffer, uint* size);
+    public static extern int uv_os_gethostname(CString8U buffer, uint* size);
 
     // Function @ uv.h:1254:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_os_unsetenv(CString name);
+    public static extern int uv_os_unsetenv(CString8U name);
 
     // Function @ uv.h:1253:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_os_setenv(CString name, CString value);
+    public static extern int uv_os_setenv(CString8U name, CString8U value);
 
     // Function @ uv.h:1252:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_os_getenv(CString name, CString buffer, uint* size);
+    public static extern int uv_os_getenv(CString8U name, CString8U buffer, uint* size);
 
     // Function @ uv.h:1251:16 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -575,11 +575,11 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1211:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_os_tmpdir(CString buffer, uint* size);
+    public static extern int uv_os_tmpdir(CString8U buffer, uint* size);
 
     // Function @ uv.h:1210:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_os_homedir(CString buffer, uint* size);
+    public static extern int uv_os_homedir(CString8U buffer, uint* size);
 
     // Function @ uv.h:1208:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -603,15 +603,15 @@ public static unsafe partial class uv
 
     // Function @ uv.h:1173:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_set_process_title(CString title);
+    public static extern int uv_set_process_title(CString8U title);
 
     // Function @ uv.h:1172:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_get_process_title(CString buffer, uint size);
+    public static extern int uv_get_process_title(CString8U buffer, uint size);
 
     // Function @ uv.h:1171:18 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern CString* uv_setup_args(int argc, CString* argv);
+    public static extern CString8U* uv_setup_args(int argc, CString8U* argv);
 
     // Function @ uv.h:1095:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -647,7 +647,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:904:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_getaddrinfo(uv_loop_t* loop, uv_getaddrinfo_t* req, uv_getaddrinfo_cb getaddrinfo_cb, CString node, CString service, addrinfo* hints);
+    public static extern int uv_getaddrinfo(uv_loop_t* loop, uv_getaddrinfo_t* req, uv_getaddrinfo_cb getaddrinfo_cb, CString8U node, CString8U service, addrinfo* hints);
 
     // Function @ uv.h:887:20 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -755,19 +755,19 @@ public static unsafe partial class uv
 
     // Function @ uv.h:797:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_pipe_getpeername(uv_pipe_t* handle, CString buffer, uint* size);
+    public static extern int uv_pipe_getpeername(uv_pipe_t* handle, CString8U buffer, uint* size);
 
     // Function @ uv.h:794:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_pipe_getsockname(uv_pipe_t* handle, CString buffer, uint* size);
+    public static extern int uv_pipe_getsockname(uv_pipe_t* handle, CString8U buffer, uint* size);
 
     // Function @ uv.h:790:16 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern void uv_pipe_connect(uv_connect_t* req, uv_pipe_t* handle, CString name, uv_connect_cb cb);
+    public static extern void uv_pipe_connect(uv_connect_t* req, uv_pipe_t* handle, CString8U name, uv_connect_cb cb);
 
     // Function @ uv.h:789:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_pipe_bind(uv_pipe_t* handle, CString name);
+    public static extern int uv_pipe_bind(uv_pipe_t* handle, CString8U name);
 
     // Function @ uv.h:788:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -843,7 +843,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:699:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_udp_set_multicast_interface(uv_udp_t* handle, CString interface_addr);
+    public static extern int uv_udp_set_multicast_interface(uv_udp_t* handle, CString8U interface_addr);
 
     // Function @ uv.h:698:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -855,11 +855,11 @@ public static unsafe partial class uv
 
     // Function @ uv.h:692:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_udp_set_source_membership(uv_udp_t* handle, CString multicast_addr, CString interface_addr, CString source_addr, uv_membership membership);
+    public static extern int uv_udp_set_source_membership(uv_udp_t* handle, CString8U multicast_addr, CString8U interface_addr, CString8U source_addr, uv_membership membership);
 
     // Function @ uv.h:688:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern int uv_udp_set_membership(uv_udp_t* handle, CString multicast_addr, CString interface_addr, uv_membership membership);
+    public static extern int uv_udp_set_membership(uv_udp_t* handle, CString8U multicast_addr, CString8U interface_addr, uv_membership membership);
 
     // Function @ uv.h:685:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -991,7 +991,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:476:20 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern uv_buf_t uv_buf_init(CString @base, uint len);
+    public static extern uv_buf_t uv_buf_init(CString8U @base, uint len);
 
     // Function @ uv.h:474:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -1027,7 +1027,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:459:23 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern CString uv_req_type_name(uv_req_type type);
+    public static extern CString8U uv_req_type_name(uv_req_type type);
 
     // Function @ uv.h:458:23 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -1059,7 +1059,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:450:23 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern CString uv_handle_type_name(uv_handle_type type);
+    public static extern CString8U uv_handle_type_name(uv_handle_type type);
 
     // Function @ uv.h:449:26 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -1075,19 +1075,19 @@ public static unsafe partial class uv
 
     // Function @ uv.h:394:17 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern CString uv_err_name_r(int err, CString buf, uint buflen);
+    public static extern CString8U uv_err_name_r(int err, CString8U buf, uint buflen);
 
     // Function @ uv.h:393:23 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern CString uv_err_name(int err);
+    public static extern CString8U uv_err_name(int err);
 
     // Function @ uv.h:391:17 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern CString uv_strerror_r(int err, CString buf, uint buflen);
+    public static extern CString8U uv_strerror_r(int err, CString8U buf, uint buflen);
 
     // Function @ uv.h:390:23 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern CString uv_strerror(int err);
+    public static extern CString8U uv_strerror(int err);
 
     // Function @ uv.h:388:15 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -1175,7 +1175,7 @@ public static unsafe partial class uv
 
     // Function @ uv.h:262:23 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
-    public static extern CString uv_version_string();
+    public static extern CString8U uv_version_string();
 
     // Function @ uv.h:261:24 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
     [DllImport(LibraryName)]
@@ -1206,7 +1206,7 @@ public static unsafe partial class uv
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_fs_event_cb
     {
-        public delegate* unmanaged<uv_fs_event_t*, CString, int, int, void> Pointer;
+        public delegate* unmanaged<uv_fs_event_t*, CString8U, int, int, void> Pointer;
     }
 
     // FunctionPointer @ uv.h:379:16 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
@@ -1255,7 +1255,7 @@ public static unsafe partial class uv
     [StructLayout(LayoutKind.Sequential)]
     public struct uv_getnameinfo_cb
     {
-        public delegate* unmanaged<uv_getnameinfo_t*, int, CString, CString, void> Pointer;
+        public delegate* unmanaged<uv_getnameinfo_t*, int, CString8U, CString8U, void> Pointer;
     }
 
     // FunctionPointer @ uv.h:331:16 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
@@ -1496,7 +1496,7 @@ public static unsafe partial class uv
     public struct uv_dirent_t
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public CString name;
+        public CString8U name;
 
         [FieldOffset(4)] // size = 4, padding = 0
         public uv_dirent_type_t type;
@@ -1510,7 +1510,7 @@ public static unsafe partial class uv
         public uint len;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public CString @base;
+        public CString8U @base;
     }
 
     // Struct @ uv.h:246:29 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
@@ -1527,8 +1527,8 @@ public static unsafe partial class uv
                 fixed (uv_utsname_t* @this = &this)
                 {
                     var pointer = &@this->_sysname[0];
-                    var cString = new CString(pointer);
-                    return Runtime.String(cString);
+                    var cString = new CString8U(pointer);
+                    return Runtime.String8U(cString);
                 }
             }
         }
@@ -1543,8 +1543,8 @@ public static unsafe partial class uv
                 fixed (uv_utsname_t* @this = &this)
                 {
                     var pointer = &@this->_release[0];
-                    var cString = new CString(pointer);
-                    return Runtime.String(cString);
+                    var cString = new CString8U(pointer);
+                    return Runtime.String8U(cString);
                 }
             }
         }
@@ -1559,8 +1559,8 @@ public static unsafe partial class uv
                 fixed (uv_utsname_t* @this = &this)
                 {
                     var pointer = &@this->_version[0];
-                    var cString = new CString(pointer);
-                    return Runtime.String(cString);
+                    var cString = new CString8U(pointer);
+                    return Runtime.String8U(cString);
                 }
             }
         }
@@ -1575,8 +1575,8 @@ public static unsafe partial class uv
                 fixed (uv_utsname_t* @this = &this)
                 {
                     var pointer = &@this->_machine[0];
-                    var cString = new CString(pointer);
-                    return Runtime.String(cString);
+                    var cString = new CString8U(pointer);
+                    return Runtime.String8U(cString);
                 }
             }
         }
@@ -1587,10 +1587,10 @@ public static unsafe partial class uv
     public struct uv_env_item_t
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public CString name;
+        public CString8U name;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public CString value;
+        public CString8U value;
     }
 
     // Struct @ uv.h:243:39 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
@@ -1598,7 +1598,7 @@ public static unsafe partial class uv
     public struct uv_interface_address_t
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public CString name;
+        public CString8U name;
 
         [FieldOffset(4)] // size = 6, padding = 2
         public fixed byte _phys_addr[6 / 1]; // char[6]
@@ -1610,8 +1610,8 @@ public static unsafe partial class uv
                 fixed (uv_interface_address_t* @this = &this)
                 {
                     var pointer = &@this->_phys_addr[0];
-                    var cString = new CString(pointer);
-                    return Runtime.String(cString);
+                    var cString = new CString8U(pointer);
+                    return Runtime.String8U(cString);
                 }
             }
         }
@@ -1653,7 +1653,7 @@ public static unsafe partial class uv
     public struct uv_cpu_info_t
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public CString model;
+        public CString8U model;
 
         [FieldOffset(4)] // size = 4, padding = 0
         public int speed;
@@ -1687,7 +1687,7 @@ public static unsafe partial class uv
     public struct uv_passwd_t
     {
         [FieldOffset(0)] // size = 4, padding = 0
-        public CString username;
+        public CString8U username;
 
         [FieldOffset(4)] // size = 4, padding = 0
         public int uid;
@@ -1696,10 +1696,10 @@ public static unsafe partial class uv
         public int gid;
 
         [FieldOffset(12)] // size = 4, padding = 0
-        public CString shell;
+        public CString8U shell;
 
         [FieldOffset(16)] // size = 4, padding = 0
-        public CString homedir;
+        public CString8U homedir;
     }
 
     // Struct @ uv.h:1206:3 (C:\Users\lithi\Programming\c2cs\ext\libuv\include\uv.h)
@@ -1774,16 +1774,16 @@ public static unsafe partial class uv
         public uv_exit_cb exit_cb;
 
         [FieldOffset(4)] // size = 4, padding = 0
-        public CString file;
+        public CString8U file;
 
         [FieldOffset(8)] // size = 4, padding = 0
-        public CString* args;
+        public CString8U* args;
 
         [FieldOffset(12)] // size = 4, padding = 0
-        public CString* env;
+        public CString8U* env;
 
         [FieldOffset(16)] // size = 4, padding = 0
-        public CString cwd;
+        public CString8U cwd;
 
         [FieldOffset(20)] // size = 4, padding = 0
         public uint flags;
@@ -1843,7 +1843,7 @@ public static unsafe partial class uv
         public uint ai_addrlen;
 
         [FieldOffset(20)] // size = 4, padding = 0
-        public CString ai_canonname;
+        public CString8U ai_canonname;
 
         [FieldOffset(24)] // size = 4, padding = 0
         public sockaddr* ai_addr;
