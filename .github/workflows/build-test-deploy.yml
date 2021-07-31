@@ -41,7 +41,7 @@ jobs:
     - name: "Use GitVersion"
       uses: gittools/actions/gitversion/execute@v0.9.6
 
-    - run: echo "$GITVERSION_MAJOR.$GITVERSION_MINOR.$GITVERSION_COMMITSSINCEVERSIONSOURCE" >> nuget-version.txt
+    - run: echo "$GITVERSION_MAJOR.$GITVERSION_MINOR.$GITVERSION_PATCH.$GITVERSION_COMMITSSINCEVERSIONSOURCE" >> nuget-version.txt
 
     - name: 'Upload NuGetVersion version artifact'
       uses: actions/upload-artifact@v2
