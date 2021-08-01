@@ -173,7 +173,23 @@ namespace C2CS
 			};
 			command.AddOption(classNameOption);
 
-			command.Handler = CommandHandler.Create<string, string, IEnumerable<string?>?, IEnumerable<string?>?, string?, string?>(BindgenCSharp);
+			var usingNamespacesOption = new Option<IEnumerable<string?>>(
+				new[] {"--namespaces", "-n"},
+				"Namespaces near the top of C# file as using statements.")
+			{
+				IsRequired = false
+			};
+			command.AddOption(usingNamespacesOption);
+
+			command.Handler = CommandHandler.Create<
+				string,
+				string,
+				IEnumerable<string?>?,
+				IEnumerable<string?>?,
+				string?,
+				string?,
+				IEnumerable<string?>?
+			>(BindgenCSharp);
 			return command;
 		}
 
@@ -213,13 +229,20 @@ namespace C2CS
 			IEnumerable<string?>? typeAliases,
 			IEnumerable<string?>? ignoredTypes,
 			string? libraryName,
-			string? className)
+			string? className,
+			IEnumerable<string?>? usingNamespaces)
 		{
 			var libraryName2 = string.IsNullOrEmpty(libraryName) ? string.Empty : libraryName;
 			var className2 = string.IsNullOrEmpty(className) ? string.Empty : className;
 
 			var request = new UseCases.BindgenCSharp.Request(
-				inputFile, outputFile, typeAliases, ignoredTypes, libraryName2, className2);
+				inputFile,
+				outputFile,
+				typeAliases,
+				ignoredTypes,
+				libraryName2,
+				className2,
+				usingNamespaces);
 			var useCase = new UseCases.BindgenCSharp.UseCase();
 			var response = useCase.Execute(request);
 			if (response.Status == UseCaseOutputStatus.Failure)

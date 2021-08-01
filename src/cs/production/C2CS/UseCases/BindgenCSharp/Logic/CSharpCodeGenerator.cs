@@ -18,11 +18,13 @@ namespace C2CS.UseCases.BindgenCSharp
 	{
 		private readonly string _className;
 		private readonly string _libraryName;
+		private readonly ImmutableArray<string> _usingNamespaces;
 
-		public CSharpCodeGenerator(string className, string libraryName)
+		public CSharpCodeGenerator(string className, string libraryName, ImmutableArray<string> usingNamespaces)
 		{
 			_className = className;
 			_libraryName = libraryName;
+			_usingNamespaces = usingNamespaces;
 		}
 
 		public string EmitCode(CSharpAbstractSyntaxTree abstractSyntaxTree)
@@ -40,6 +42,7 @@ namespace C2CS.UseCases.BindgenCSharp
 			var compilationUnit = EmitCompilationUnit(
 				_className,
 				_libraryName,
+				_usingNamespaces,
 				membersToAdd);
 			return compilationUnit.ToFullString();
 		}
@@ -47,6 +50,7 @@ namespace C2CS.UseCases.BindgenCSharp
 		private static CompilationUnitSyntax EmitCompilationUnit(
 			string className,
 			string libraryName,
+			ImmutableArray<string> usingNamespaces,
 			MemberDeclarationSyntax[] members)
 		{
 			var code = $@"
@@ -63,6 +67,7 @@ namespace C2CS.UseCases.BindgenCSharp
 using System;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+{string.Join("\n", usingNamespaces.Select(x => $"using {x};"))}
 using C2CS;
 
 #nullable enable

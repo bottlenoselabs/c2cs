@@ -23,13 +23,16 @@ namespace C2CS.UseCases.BindgenCSharp
 
         public string ClassName { get; }
 
+        public ImmutableArray<string> UsingNamespaces { get; }
+
         public Request(
             string inputFilePath,
             string outputFilePath,
             IEnumerable<string?>? typeAliases,
             IEnumerable<string?>? ignoredTypeNames,
             string libraryName,
-            string className)
+            string className,
+            IEnumerable<string?>? usingNamespaces)
         {
             InputFilePath = inputFilePath;
             OutputFilePath = outputFilePath;
@@ -37,6 +40,7 @@ namespace C2CS.UseCases.BindgenCSharp
             IgnoredTypeNames = CreateIgnoredTypeNames(ignoredTypeNames);
             LibraryName = libraryName;
             ClassName = className;
+            UsingNamespaces = CreateUsingNamespaces(usingNamespaces);
         }
 
         private static ImmutableArray<CSharpTypeAlias> CreateTypeAliases(IEnumerable<string?>? typeAliases)
@@ -83,6 +87,20 @@ namespace C2CS.UseCases.BindgenCSharp
             }
 
             var nonNull = ignoredTypeNames!
+                .Select(x => x?.Trim())
+                .Where(x => !string.IsNullOrEmpty(x))
+                .Cast<string>();
+            return nonNull.ToImmutableArray();
+        }
+
+        private static ImmutableArray<string> CreateUsingNamespaces(IEnumerable<string?>? usingNamespaces)
+        {
+            if (usingNamespaces == null)
+            {
+                return ImmutableArray<string>.Empty;
+            }
+
+            var nonNull = usingNamespaces!
                 .Select(x => x?.Trim())
                 .Where(x => !string.IsNullOrEmpty(x))
                 .Cast<string>();

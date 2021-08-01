@@ -50,6 +50,7 @@ namespace C2CS.UseCases.BindgenCSharp
                 abstractSyntaxTreeCSharp,
                 className,
                 libraryName,
+                request.UsingNamespaces,
                 GenerateCSharpCode);
 
             Step(
@@ -97,9 +98,9 @@ namespace C2CS.UseCases.BindgenCSharp
         }
 
         private static string GenerateCSharpCode(
-            CSharpAbstractSyntaxTree abstractSyntaxTree, string className, string libraryName)
+            CSharpAbstractSyntaxTree abstractSyntaxTree, string className, string libraryName, ImmutableArray<string> usingNamespaces)
         {
-            var codeGenerator = new CSharpCodeGenerator(className, libraryName);
+            var codeGenerator = new CSharpCodeGenerator(className, libraryName, usingNamespaces);
             return codeGenerator.EmitCode(abstractSyntaxTree);
         }
 
