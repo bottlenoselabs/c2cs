@@ -175,7 +175,7 @@ namespace C2CS
 
 			var usingNamespacesOption = new Option<IEnumerable<string?>>(
 				new[] {"--namespaces", "-n"},
-				"Namespaces near the top of C# file as using statements.")
+				"Additional namespaces to inject near the top of C# file as using statements.")
 			{
 				IsRequired = false
 			};
