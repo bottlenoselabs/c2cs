@@ -4,6 +4,11 @@
     <PropertyGroup>
         <RootNamespace>C2CS</RootNamespace>
     </PropertyGroup>
+    
+    <!-- My-MSBuild settings -->
+    <PropertyGroup>
+        <EnableCodeCoverage>false</EnableCodeCoverage>
+    </PropertyGroup>
 
     <!-- NuGet -->
     <PropertyGroup>
