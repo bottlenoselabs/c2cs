@@ -7,6 +7,9 @@ using System.Runtime.InteropServices;
 
 namespace C2CS
 {
+    /// <summary>
+    ///     A pointer value type; represents the 8-bit C type `char*`.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
     [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
@@ -14,54 +17,104 @@ namespace C2CS
     [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Public API.")]
     public readonly unsafe struct CString8U
     {
-        internal readonly IntPtr _value;
+        internal readonly IntPtr _ptr;
 
-        public bool IsNull => _value == IntPtr.Zero;
+        /// <summary>
+        ///     Gets a <see cref="bool" /> value indicating whether this <see cref="CString8U" /> is a null pointer.
+        /// </summary>
+        public bool IsNull => _ptr == IntPtr.Zero;
 
-        public CString8U(byte* value)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CString8U" /> struct.
+        /// </summary>
+        /// <param name="ptr">The pointer value.</param>
+        public CString8U(byte* ptr)
         {
-            _value = (IntPtr) value;
+            _ptr = (IntPtr)ptr;
         }
 
-        public CString8U(IntPtr value)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CString8U" /> struct.
+        /// </summary>
+        /// <param name="ptr">The pointer value.</param>
+        public CString8U(IntPtr ptr)
         {
-            _value = value;
+            _ptr = ptr;
         }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CString8U" /> struct.
+        /// </summary>
+        /// <param name="s">The string.</param>
         public CString8U(string s)
         {
-            _value = Runtime.CString8U(s);
+            _ptr = Runtime.CString8U(s);
         }
 
+        /// <summary>
+        ///     Performs an explicit conversion from a <see cref="IntPtr" /> to a <see cref="CString8U" />.
+        /// </summary>
+        /// <param name="ptr">The pointer.</param>
+        /// <returns>
+        ///     The resulting <see cref="CString8U" />.
+        /// </returns>
         public static explicit operator CString8U(IntPtr ptr)
         {
-            return new(ptr);
+            return new CString8U(ptr);
         }
 
-        public static implicit operator CString8U(byte* value)
+        /// <summary>
+        ///     Performs an implicit conversion from a byte pointer to a <see cref="CString8U" />.
+        /// </summary>
+        /// <param name="ptr">The pointer.</param>
+        /// <returns>
+        ///     The resulting <see cref="CString8U" />.
+        /// </returns>
+        public static implicit operator CString8U(byte* ptr)
         {
-            return new((IntPtr)value);
+            return new CString8U((IntPtr)ptr);
         }
 
+        /// <summary>
+        ///     Performs an implicit conversion from a <see cref="CString8U" /> to a <see cref="IntPtr" />.
+        /// </summary>
+        /// <param name="ptr">The <see cref="CString8U" />.</param>
+        /// <returns>
+        ///     The resulting <see cref="IntPtr" />.
+        /// </returns>
         public static implicit operator IntPtr(CString8U ptr)
         {
-            return ptr._value;
+            return ptr._ptr;
         }
 
-        public static implicit operator string(CString8U ptr)
+        /// <summary>
+        ///     Performs an implicit conversion from a <see cref="CString8U" /> to a <see cref="string" />.
+        /// </summary>
+        /// <param name="value">The <see cref="CString8U" />.</param>
+        /// <returns>
+        ///     The resulting <see cref="string" />.
+        /// </returns>
+        public static implicit operator string(CString8U value)
         {
-            return Runtime.String8U(ptr);
+            return Runtime.String8U(value);
         }
 
-        public static implicit operator CString8U(string str)
+        /// <summary>
+        ///     Performs an implicit conversion from a <see cref="string" /> to a <see cref="CString8U" />.
+        /// </summary>
+        /// <param name="s">The <see cref="string" />.</param>
+        /// <returns>
+        ///     The resulting <see cref="CString8U" />.
+        /// </returns>
+        public static implicit operator CString8U(string s)
         {
-            return Runtime.CString8U(str);
+            return Runtime.CString8U(s);
         }
 
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return (int)Runtime.djb2((byte*) _value);
+            return (int)Runtime.djb2((byte*)_ptr);
         }
 
         /// <inheritdoc />

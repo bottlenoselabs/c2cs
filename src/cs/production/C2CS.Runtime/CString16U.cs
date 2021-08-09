@@ -7,6 +7,9 @@ using System.Runtime.InteropServices;
 
 namespace C2CS
 {
+    /// <summary>
+    ///     A pointer value type; represents the 16-bit C type `char16_t*`.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
     [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
@@ -14,54 +17,104 @@ namespace C2CS
     [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Public API.")]
     public readonly unsafe struct CString16U
     {
-        internal readonly IntPtr _value;
+        internal readonly IntPtr _ptr;
 
-        public bool IsNull => _value == IntPtr.Zero;
+        /// <summary>
+        ///     Gets a <see cref="bool" /> value indicating whether this <see cref="CString16U" /> is a null pointer.
+        /// </summary>
+        public bool IsNull => _ptr == IntPtr.Zero;
 
-        public CString16U(byte* value)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CString16U" /> struct.
+        /// </summary>
+        /// <param name="ptr">The pointer value.</param>
+        public CString16U(byte* ptr)
         {
-            _value = (IntPtr) value;
+            _ptr = (IntPtr) ptr;
         }
 
-        public CString16U(IntPtr value)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CString16U" /> struct.
+        /// </summary>
+        /// <param name="ptr">The pointer value.</param>
+        public CString16U(IntPtr ptr)
         {
-            _value = value;
+            _ptr = ptr;
         }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CString16U" /> struct.
+        /// </summary>
+        /// <param name="s">The string value.</param>
         public CString16U(string s)
         {
-            _value = Runtime.CString16U(s);
+            _ptr = Runtime.CString16U(s);
         }
 
+        /// <summary>
+        ///     Performs an explicit conversion from a <see cref="IntPtr" /> to a <see cref="CString16U" />.
+        /// </summary>
+        /// <param name="ptr">The pointer.</param>
+        /// <returns>
+        ///     The resulting <see cref="CString16U" />.
+        /// </returns>
         public static explicit operator CString16U(IntPtr ptr)
         {
             return new(ptr);
         }
 
-        public static implicit operator CString16U(byte* value)
+        /// <summary>
+        ///     Performs an implicit conversion from a byte pointer to a <see cref="CString16U" />.
+        /// </summary>
+        /// <param name="ptr">The pointer.</param>
+        /// <returns>
+        ///     The resulting <see cref="CString16U" />.
+        /// </returns>
+        public static implicit operator CString16U(byte* ptr)
         {
-            return new((IntPtr)value);
+            return new((IntPtr)ptr);
         }
 
-        public static implicit operator IntPtr(CString16U ptr)
+        /// <summary>
+        ///     Performs an implicit conversion from a <see cref="CString16U" /> to a <see cref="IntPtr" />.
+        /// </summary>
+        /// <param name="value">The pointer.</param>
+        /// <returns>
+        ///     The resulting <see cref="IntPtr" />.
+        /// </returns>
+        public static implicit operator IntPtr(CString16U value)
         {
-            return ptr._value;
+            return value._ptr;
         }
 
-        public static implicit operator string(CString16U ptr)
+        /// <summary>
+        ///     Performs an implicit conversion from a <see cref="CString16U" /> to a <see cref="string" />.
+        /// </summary>
+        /// <param name="value">The <see cref="CString16U" />.</param>
+        /// <returns>
+        ///     The resulting <see cref="string" />.
+        /// </returns>
+        public static implicit operator string(CString16U value)
         {
-            return Runtime.String16U(ptr);
+            return Runtime.String16U(value);
         }
 
-        public static implicit operator CString16U(string str)
+        /// <summary>
+        ///     Performs an implicit conversion from a <see cref="string" /> to a <see cref="CString16U" />.
+        /// </summary>
+        /// <param name="s">The <see cref="string" />.</param>
+        /// <returns>
+        ///     The resulting <see cref="CString16U" />.
+        /// </returns>
+        public static implicit operator CString16U(string s)
         {
-            return Runtime.CString16U(str);
+            return Runtime.CString16U(s);
         }
 
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return (int)Runtime.djb2((byte*) _value);
+            return (int)Runtime.djb2((byte*) _ptr);
         }
 
         /// <inheritdoc />

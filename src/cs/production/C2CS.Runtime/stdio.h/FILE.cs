@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace C2CS
 {
+    /// <summary>
+    /// TODO: Remove.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
     [SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]

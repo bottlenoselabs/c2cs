@@ -21,7 +21,7 @@ namespace C2CS
         // NOTE: On portability, technically `char` in C could be signed or unsigned depending on the computer architecture,
         //  resulting in technically two different type bindings when transpiling C headers to C#. However, to make peace
         //  with the world, I settle on a compromise:
-        //      `CString` is `char*`. When exposing public functions of ANSI/UTF8 strings in C#, you should only care about
+        //      `CString8U` is `char*`. When exposing public functions of ANSI/UTF8 strings in C#, you should only care about
         //      `char*` as a single "thing" not about it's parts "char" and "*".
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace C2CS
                 return result;
             }
 
-            var hash = djb2((byte*) ptr._value);
+            var hash = djb2((byte*) ptr._ptr);
             if (StringHashesToPointers8U.TryGetValue(hash, out var pointer2))
             {
                 result = PointersToStrings8U[pointer2];
@@ -82,7 +82,7 @@ namespace C2CS
                 return result;
             }
 
-            var hash = djb2((byte*) ptr._value);
+            var hash = djb2((byte*) ptr._ptr);
             if (StringHashesToPointers16U.TryGetValue(hash, out var pointer2))
             {
                 result = PointersToStrings16U[pointer2];
@@ -241,7 +241,7 @@ namespace C2CS
         /// <param name="ptr">The string.</param>
         public static void FreeCString8U(CString8U ptr)
         {
-            if (!PointersToStrings8U.ContainsKey(ptr._value))
+            if (!PointersToStrings8U.ContainsKey(ptr._ptr))
             {
                 return;
             }
@@ -249,7 +249,7 @@ namespace C2CS
             Marshal.FreeHGlobal(ptr);
             var hash = djb2(ptr);
             StringHashesToPointers8U.Remove(hash);
-            PointersToStrings8U.Remove(ptr._value);
+            PointersToStrings8U.Remove(ptr._ptr);
         }
 
         /// <summary>
@@ -260,7 +260,7 @@ namespace C2CS
         /// <param name="ptr">The string.</param>
         public static void FreeCString16U(CString16U ptr)
         {
-            if (!PointersToStrings16U.ContainsKey(ptr._value))
+            if (!PointersToStrings16U.ContainsKey(ptr._ptr))
             {
                 return;
             }
@@ -268,7 +268,7 @@ namespace C2CS
             Marshal.FreeHGlobal(ptr);
             var hash = djb2(ptr);
             StringHashesToPointers16U.Remove(hash);
-            PointersToStrings16U.Remove(ptr._value);
+            PointersToStrings16U.Remove(ptr._ptr);
         }
 
         // djb2 is named after https://en.wikipedia.org/wiki/Daniel_J._Bernstein
