@@ -46,30 +46,16 @@ This includes all C extern functions which are transpiled to `static` methods re
 
 This is all accomplished by using [libclang](https://clang.llvm.org/docs/Tooling.html) for parsing C and [Roslyn](https://github.com/dotnet/roslyn) for generating C#. All naming is left as found in the C header `.h` file(s).
 
-#### Technical details
-
-##### Dynamic loading & dynamic linking
-
-At runtime, if the C library is "dynamic" (meaning the `.dll`/`.dylib`/`.so` file is external to the executable), it gets loaded into virtual memory by operating system at runtime at first usage of an external function (this is called dynamic linking) or by user code via `dlopen` on Unix or `LoadLibrary` on Windows (this is called dynamic loading).
-
-In the case of dynamic loading, said function has to additionally be resolved by *symbol* from user code using `dlsym` (Unix) or `GetProcAddress` (Windows) to get the pointer to the function in virtual memory (function pointer). Then to call said function requires one level of *indirection* stemming from the use of the pointer. This is suboptimal compared to dynamic linking but is the current affairs of how the `DllImport` works in just-in-time compilation environments of .NET for platform invoke (P/Invoke).
-
-With the advancement of ahead-of-time compilation in Mono and .NET 5 ([NativeAOT](https://github.com/dotnet/runtimelab/tree/feature/NativeAOT)), **dynamic linking** can be achieved instead of **dynamic loading** resulting in *direct* platform invoke (P/Invoke) which has better performance by lack of the *indirection* use of the extra pointer. The feature is called ["DirectPInvoke"](https://github.com/dotnet/runtimelab/blob/feature/NativeAOT/docs/using-nativeaot/interop.md).
-
-##### Static linking
-
-Statically linking a C library (`.lib`/`.a`) is something that is necessary for some platforms such as iOS and Xbox. This requires ahead-of-time (AOT) compilation as mentioned in dynamic linking.
-
-The main reason for statically linking a C library is "security" but it's really about total control of what gets executed on the devices. Since a dynamic library can be loaded at startup or at runtime by user code, you could hypothetically download additional executable code from somewhere and have it load it at next startup or directly at runtime (think plugins or video game mods). For certain environments which are ["walled gardens"](https://en.wikipedia.org/wiki/Closed_platform) such as iOS or Nintendo Switch, dynamic loading and/or dynamic linking is considered a Pandora's box that must be strictly controlled to which static linking is sometimes the preferred or only alternative method for enforcing centralization. E.g. a "jailbroke" iOS device or a "homebrew" Nintendo Switch is how the [community of "hackers"](https://en.wikipedia.org/wiki/Hacker_culture) such as enthusiasts, amateur developers, or modders hack their devices for enjoyment, curisoity, or extending a product or software on said device. It's how [individuals added emojis to iOS before Apple did to which Apple adopted the changes](https://en.wikipedia.org/wiki/IOS_jailbreaking#Device_customization) (a common theme/relationship for even video game studios and modders). It's also how the [police, criminals, and governments do more nefarious activities such as surveillance, warfare, and/or politics](https://en.wikipedia.org/wiki/Pegasus_(spyware)). Dynamic linking and dynamic loading is ubiquitous beyond such walled gardens or for devices which escaped the walled gardens.
+![c2cs|width=400px](./docs/c2cs.png)
 
 ### Limitations
 
-1. If you are not using .NET Core 3.1+ nor .NET 5+ then passing structs by value won't work in some contexts. https://docs.microsoft.com/en-us/dotnet/standard/native-interop/customize-struct-marshaling
+1. If you are not using Windows before .NET Core 3.1+ then passing structs by value won't work in some contexts. https://docs.microsoft.com/en-us/dotnet/standard/native-interop/customize-struct-marshaling
 > ❌ AVOID using LayoutKind.Explicit when marshaling structures on non-Windows platforms if you need to target runtimes before .NET Core 3.0. The .NET Core runtime before 3.0 doesn't support passing explicit structures by value to native functions on Intel or AMD 64-bit non-Windows systems. However, the runtime supports passing explicit structures by reference on all platforms.
 
-2. Pointers such as `void*` will always be different size across different architectures. E.g., `x86` pointers are 4 bytes and `x64` (aswell as `arm64`) pointers are 8 bytes. Thus, if you need to have bindings for `x86`/`arm32` and `x64`/`arm64` you will need to have two seperate bindings. However, 64 bit is pretty ubiquitous on Windows these days, at least for gaming, as you can see from [Steam hardware survey where 64-bit is 99%+](https://store.steampowered.com/hwsurvey/directx/). Additionally, you can see that the ["trend" is that 64-bit is becoming standard over time with 32-bit getting dropped](https://en.wikipedia.org/wiki/64-bit_computing#64-bit_operating_system_timeline). Additionally in some contexts, the "built-in" C integer types could have different bit width on different architectures. E.g. `long` is at **minimum** 32 bits (4 bytes). On Windows x64 it is reported by the Microsoft Visual C++ (MSCV) to be actually 64 bits (8 bytes). For sanity sake you should always use the integer types from `stdint.h` such as `uint8_t`, `int32_t`, `uint64_t`, etc.
+1. Pointers such as `void*` will always be different size across ABIs. E.g., `x86` pointers are 4 bytes and `x64` (aswell as `arm64`) pointers are 8 bytes. Thus, if you need to have bindings for `x86`/`arm32` and `x64`/`arm64` you will need to have two seperate bindings. However, 64 bit is pretty ubiquitous on Windows these days, at least for gaming, as you can see from [Steam hardware survey where 64-bit is 99%+](https://store.steampowered.com/hwsurvey/directx/). Additionally, you can see that the ["trend" is that 64-bit is becoming standard over time with 32-bit getting dropped](https://en.wikipedia.org/wiki/64-bit_computing#64-bit_operating_system_timeline). Additionally in some contexts, the "built-in" C integer types could have different bit width for different ABIs. E.g. `long` is at **minimum** 32 bits (4 bytes). On Windows `x64` it is reported by the Microsoft Visual C++ (MSCV) to be actually 64 bits (8 bytes). For sanity sake you should always use the integer types from `stdint.h` such as `uint8_t`, `int32_t`, `uint64_t`, etc.
 
-3. This solution does not work for every C library. This is due to some technical limitations where some C libraries are not "bindgen-friendly".
+2. This solution does not work for every C library. This is due to some technical limitations where some C libraries are not "bindgen-friendly".
 
 #### What does it mean for a C library to be bindgen-friendly?
 
@@ -126,6 +112,23 @@ Mentioned here for completeness. I do believe you should be aware of other appro
 - https://github.com/SharpGenTools/SharpGenTools
 - https://github.com/xoofx/CppAst.NET
 - https://github.com/rds1983/Sichem
+
+### Technical details
+
+#### Dynamic loading & dynamic linking
+
+At runtime, if the C library is "dynamic" (meaning the `.dll`/`.dylib`/`.so` file is external to the executable), it gets loaded into virtual memory by operating system at runtime at first usage of an external function (this is called dynamic linking) or by user code via `dlopen` on Unix or `LoadLibrary` on Windows (this is called dynamic loading).
+
+In the case of **dynamic loading**, said function has to additionally be resolved by *symbol* from user code using `dlsym` (Unix) or `GetProcAddress` (Windows) to get the pointer to the function in virtual memory (function pointer). Then to call said function requires one level of *indirection* stemming from the use of the pointer. This is suboptimal compared to dynamic linking but is the current affairs of how the `DllImport` works in just-in-time compilation environments of .NET for platform invoke (P/Invoke).
+
+With the advancement of ahead-of-time compilation in Mono and .NET 5 ([NativeAOT](https://github.com/dotnet/runtimelab/tree/feature/NativeAOT)), **dynamic linking** can be achieved instead of **dynamic loading** resulting in *direct* platform invoke (P/Invoke) which has better performance by lack of the *indirection* use of the extra pointer. The feature is called ["DirectPInvoke"](https://github.com/dotnet/runtimelab/blob/feature/NativeAOT/docs/using-nativeaot/interop.md).
+
+#### Static linking
+
+Statically linking a C library (`.lib`/`.a`) is something that is necessary for some platforms such as iOS and Xbox. This requires ahead-of-time (AOT) compilation as mentioned in dynamic linking.
+
+The main reason for statically linking a C library is "security" but it's really about total control of what gets executed on the devices. Since a dynamic library can be loaded at startup or at runtime by user code, you could hypothetically download additional executable code from somewhere and have it load it at next startup or directly at runtime (think plugins or video game mods). For certain environments which are ["walled gardens"](https://en.wikipedia.org/wiki/Closed_platform) such as iOS or Nintendo Switch, dynamic loading and/or dynamic linking is considered a Pandora's box that must be strictly controlled to which static linking is sometimes the preferred or only alternative method for enforcing centralization. E.g. a "jailbroke" iOS device or a "homebrew" Nintendo Switch is how the [community of "hackers"](https://en.wikipedia.org/wiki/Hacker_culture) such as enthusiasts, amateur developers, or modders hack their devices for enjoyment, curisoity, or extending a product or software on said device. It's how [individuals added emojis to iOS before Apple did to which Apple adopted the changes](https://en.wikipedia.org/wiki/IOS_jailbreaking#Device_customization) (a common theme/relationship for even video game studios and modders). It's also how the [police, criminals, and governments do more nefarious activities such as surveillance, warfare, and/or politics](https://en.wikipedia.org/wiki/Pegasus_(spyware)). Dynamic linking and dynamic loading is ubiquitous beyond such walled gardens or for devices which escaped the walled gardens.
+
 
 ## Lessons learned
 
