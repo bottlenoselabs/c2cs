@@ -7,9 +7,9 @@ using static clang;
 
 namespace C2CS.UseCases.AbstractSyntaxTreeC
 {
-    public static class ClangParser
+    public static class ClangTranslationUnitParser
     {
-        public static CXTranslationUnit ParseTranslationUnit(
+        public static CXTranslationUnit Parse(
             string headerFilePath,
             ImmutableArray<string> clangArgs)
         {

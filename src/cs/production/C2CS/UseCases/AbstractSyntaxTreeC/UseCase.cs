@@ -64,7 +64,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 defines,
                 bitness,
                 clangArguments);
-            return ClangParser.ParseTranslationUnit(inputFilePath, clangArgs);
+            return ClangTranslationUnitParser.Parse(inputFilePath, clangArgs);
         }
 
         private CAbstractSyntaxTree Explore(
@@ -74,7 +74,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             ImmutableArray<string> opaqueTypes,
             int bitness)
         {
-            var clangExplorer = new ClangExplorer(Diagnostics, includeDirectories, ignoredFiles, opaqueTypes);
+            var clangExplorer = new ClangTranslationUnitExplorer(Diagnostics, includeDirectories, ignoredFiles, opaqueTypes);
             return clangExplorer.AbstractSyntaxTree(translationUnit, bitness);
         }
 

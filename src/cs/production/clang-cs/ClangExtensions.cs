@@ -212,6 +212,11 @@ public static unsafe class ClangExtensions
                     break;
                 case CXTypeKind.CXType_Enum:
                     result = cursorType.Name();
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        result = type.NameInternal();
+                    }
+
                     break;
                 case CXTypeKind.CXType_ConstantArray:
                     var elementTypeConstantArray = clang_getArrayElementType(type);

@@ -11,7 +11,7 @@ using static clang;
 
 namespace C2CS.UseCases.AbstractSyntaxTreeC
 {
-    public class ClangExplorer
+    public class ClangTranslationUnitExplorer
     {
         private readonly DiagnosticsSink _diagnostics;
         private readonly ImmutableHashSet<string> _ignoredFiles;
@@ -20,6 +20,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         private readonly List<Node> _frontier = new();
         private readonly Dictionary<string, bool> _validTypeNames = new();
         private readonly Dictionary<string, CType> _typesByName = new();
+        private readonly HashSet<string> _enumsVisited = new();
         private readonly List<CType> _types = new();
         private readonly List<CVariable> _variables = new();
         private readonly List<CFunction> _functions = new();
@@ -47,7 +48,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             "va_list",
         };
 
-        public ClangExplorer(
+        public ClangTranslationUnitExplorer(
             DiagnosticsSink diagnostics,
             ImmutableArray<string> includeDirectories,
             ImmutableArray<string> ignoredFiles,
@@ -166,7 +167,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 case CKind.Primitive:
                     break;
                 default:
-                    var up = new ClangExplorerException($"Unknown explorer node '{node.Kind}'.");
+                    var up = new ClangExplorerException($"Unexpected explorer node '{node.Kind}'.");
                     throw up;
             }
         }
@@ -213,17 +214,19 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         private void ExploreTranslationUnit(Node node)
         {
-            var externCursors = node.Cursor.GetDescendents(IsExternCursor);
+            var cursors = node.Cursor.GetDescendents(IsCursorToBeExtracted);
 
-            foreach (var externCursor in externCursors)
+            foreach (var cursor in cursors)
             {
-                ExpandExtern(node, externCursor);
+                ExpandExtern(node, cursor);
             }
 
-            static bool IsExternCursor(CXCursor cursor, CXCursor cursorParent)
+            static bool IsCursorToBeExtracted(CXCursor cursor, CXCursor cursorParent)
             {
                 var kind = clang_getCursorKind(cursor);
-                if (kind != CXCursorKind.CXCursor_FunctionDecl && kind != CXCursorKind.CXCursor_VarDecl)
+                if (kind != CXCursorKind.CXCursor_FunctionDecl &&
+                    kind != CXCursorKind.CXCursor_VarDecl &&
+                    kind != CXCursorKind.CXCursor_EnumDecl)
                 {
                     return false;
                 }
@@ -246,12 +249,13 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             {
                 CXCursorKind.CXCursor_FunctionDecl => CKind.Function,
                 CXCursorKind.CXCursor_VarDecl => CKind.Variable,
+                CXCursorKind.CXCursor_EnumDecl => CKind.Enum,
                 _ => CKind.Unknown
             };
 
             if (kind == CKind.Unknown)
             {
-                var up = new ClangExplorerException($"Expected 'FunctionDecl' or 'VarDecl' but found '{cursor.kind}'.");
+                var up = new ClangExplorerException($"Expected 'FunctionDecl', 'VarDecl', or 'EnumDecl' but found '{cursor.kind}'.");
                 throw up;
             }
 
@@ -326,6 +330,13 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         private void ExploreEnum(string typeName, CXCursor cursor, CXType type, ClangLocation location, Node parentNode)
         {
+            if (_enumsVisited.Contains(typeName))
+            {
+                return;
+            }
+
+            _enumsVisited.Add(typeName);
+
             var typeCursor = clang_getTypeDeclaration(type);
             if (typeCursor.kind == CXCursorKind.CXCursor_NoDeclFound)
             {
