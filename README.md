@@ -129,7 +129,6 @@ Statically linking a C library (`.lib`/`.a`) is something that is necessary for 
 
 The main reason for statically linking a C library is "security" but it's really about total control of what gets executed on the devices. Since a dynamic library can be loaded at startup or at runtime by user code, you could hypothetically download additional executable code from somewhere and have it load it at next startup or directly at runtime (think plugins or video game mods). For certain environments which are ["walled gardens"](https://en.wikipedia.org/wiki/Closed_platform) such as iOS or Nintendo Switch, dynamic loading and/or dynamic linking is considered a Pandora's box that must be strictly controlled to which static linking is sometimes the preferred or only alternative method for enforcing centralization. E.g. a "jailbroke" iOS device or a "homebrew" Nintendo Switch is how the [community of "hackers"](https://en.wikipedia.org/wiki/Hacker_culture) such as enthusiasts, amateur developers, or modders hack their devices for enjoyment, curisoity, or extending a product or software on said device. It's how [individuals added emojis to iOS before Apple did to which Apple adopted the changes](https://en.wikipedia.org/wiki/IOS_jailbreaking#Device_customization) (a common theme/relationship for even video game studios and modders). It's also how the [police, criminals, and governments do more nefarious activities such as surveillance, warfare, and/or politics](https://en.wikipedia.org/wiki/Pegasus_(spyware)). Dynamic linking and dynamic loading is ubiquitous beyond such walled gardens or for devices which escaped the walled gardens.
 
-
 ## Lessons learned
 
 ### Marshalling
@@ -157,7 +156,5 @@ There are a few exceptions to this detailed below. See the [LICENSE](LICENSE) fi
 `C2CS` uses `libclang` which the header files are included as part of the repository under [`ext/clang`](./ext/clang). This is because `C2CS` generates bindings for `libclang` to which `C2CS` generates bindings for `libclang` and other C libraries. The C header `.h` files (no source code `.c`/`.cpp` files) for `libclang` are included for convience of a source-of-truth for re-generating the bindings. These files are licensed under the Apache License v2.0 with LLVM Exceptions; see the [ext/clang/LICENSE.txt](./ext/clang/LICENSE.txt) for more details. The packaged binaries for `libclang` are used from and maintained by https://github.com/microsoft/ClangSharp.
 
 `C2CS` has Git submodules to various C libraries which are included as part of this repository for purposes of testing and demonstrating by examples. These Git submodules can be considered ["vendoring"](https://stackoverflow.com/questions/26217488/what-is-vendoring). The source code for these projects can be found under the `ext` folder which is short for "external". Each of these libraries have their own license and they are not used by `C2CS` directly for purposes of the tool.
-
-</details>
 
 
