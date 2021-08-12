@@ -29,6 +29,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         private readonly List<COpaqueType> _opaqueDataTypes = new();
         private readonly List<CTypedef> _typedefs = new();
         private readonly List<CFunctionPointer> _functionPointers = new();
+        private readonly ImmutableHashSet<string> _whitelistFunctionNames;
         private readonly HashSet<string> _systemIgnoredTypeNames = new()
         {
             "FILE",
@@ -52,12 +53,14 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             DiagnosticsSink diagnostics,
             ImmutableArray<string> includeDirectories,
             ImmutableArray<string> ignoredFiles,
-            ImmutableArray<string> opaqueTypes)
+            ImmutableArray<string> opaqueTypes,
+            ImmutableArray<string> whitelistFunctionNames)
         {
             _diagnostics = diagnostics;
             _ignoredFiles = ignoredFiles.ToImmutableHashSet();
             _includeDirectories = includeDirectories;
             _opaqueTypeNames = opaqueTypes.ToImmutableHashSet();
+            _whitelistFunctionNames = whitelistFunctionNames.ToImmutableHashSet();
         }
 
         public CAbstractSyntaxTree AbstractSyntaxTree(CXTranslationUnit translationUnit, int bitness)
@@ -216,9 +219,27 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         {
             var cursors = node.Cursor.GetDescendents(IsCursorToBeExtracted);
 
-            foreach (var cursor in cursors)
+            if (_whitelistFunctionNames.IsEmpty)
             {
-                ExpandExtern(node, cursor);
+                foreach (var cursor in cursors)
+                {
+                    ExpandExtern(node, cursor);
+                }
+            }
+            else
+            {
+                foreach (var cursor in cursors)
+                {
+                    var functionName = cursor.Name();
+                    var isWhitelisted = cursor.kind == CXCursorKind.CXCursor_FunctionDecl &&
+                                        _whitelistFunctionNames.Contains(functionName);
+                    if (!isWhitelisted)
+                    {
+                        continue;
+                    }
+
+                    ExpandExtern(node, cursor);
+                }
             }
 
             static bool IsCursorToBeExtracted(CXCursor cursor, CXCursor cursorParent)

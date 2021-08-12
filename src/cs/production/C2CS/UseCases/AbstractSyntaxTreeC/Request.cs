@@ -30,6 +30,8 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         public ImmutableArray<string> ClangArgs { get; }
 
+        public ImmutableArray<string> WhitelistFunctionNames { get;  }
+
         public Request(
             string inputFilePath,
             string outputFilePath,
@@ -39,7 +41,8 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             IEnumerable<string?>? opaqueTypes,
             IEnumerable<string?>? defines,
             int? bitness,
-            IEnumerable<string?>? clangArgs)
+            IEnumerable<string?>? clangArgs,
+            string? whitelistFunctionsFilePath)
         {
             InputFilePath = inputFilePath;
             OutputFilePath = outputFilePath;
@@ -50,6 +53,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             Defines = ToImmutableArray(defines);
             Bitness = CreateBitness(bitness);
             ClangArgs = ToImmutableArray(clangArgs);
+            WhitelistFunctionNames = CreateWhitelistFunctionNames(whitelistFunctionsFilePath);
         }
 
         private static ImmutableArray<string> CreateIncludeDirectories(
@@ -87,6 +91,31 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var result =
                 nonNull.Where(x => !string.IsNullOrEmpty(x)).Cast<string>().ToImmutableArray();
             return result;
+        }
+
+        private static ImmutableArray<string> CreateWhitelistFunctionNames(string? whitelistFunctionsFilePath)
+        {
+            if (string.IsNullOrEmpty(whitelistFunctionsFilePath))
+            {
+                return ImmutableArray<string>.Empty;
+            }
+
+            if (!File.Exists(whitelistFunctionsFilePath))
+            {
+                return ImmutableArray<string>.Empty;
+            }
+
+            var fileContent = File.ReadAllText(whitelistFunctionsFilePath);
+            var fileContentLines = fileContent.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+
+            var functionNames = ImmutableArray.CreateBuilder<string>();
+            foreach (var line in fileContentLines)
+            {
+                string functionName = line.Contains("!") ? line.Split(new[] { "!" }, StringSplitOptions.RemoveEmptyEntries)[1] : line;
+                functionNames.Add(functionName);
+            }
+
+            return functionNames.ToImmutable();
         }
     }
 }

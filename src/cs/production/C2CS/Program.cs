@@ -37,7 +37,7 @@ namespace C2CS
 
 			var inputFileOption = new Option<string>(
 				new[] {"--inputFile", "-i"},
-				"Path of the input `.h` header file.")
+				"File path of the input `.h` header file.")
 			{
 				IsRequired = true
 			};
@@ -45,7 +45,7 @@ namespace C2CS
 
 			var outputFileOption = new Option<string>(
 				new[] {"--outputFile", "-o"},
-				"Path of the output abstract syntax tree `.json` file.")
+				"File path of the output abstract syntax tree `.json` file.")
 			{
 				IsRequired = true
 			};
@@ -53,7 +53,7 @@ namespace C2CS
 
 			var automaticallyFindSoftwareDevelopmentKitOption = new Option<IEnumerable<string>?>(
 				new[] {"--automaticallyFindSoftwareDevelopmentKit", "-f"},
-				"Find software development kit for C/C++ automatically. Default is true.")
+				"Find software development kit for C/C++ automatically. Default is `true`.")
 			{
 				IsRequired = false
 			};
@@ -69,7 +69,7 @@ namespace C2CS
 
 			var ignoredFilesOption = new Option<IEnumerable<string?>?>(
 				new[] {"--ignoredFiles", "-g"},
-				"Header files to ignore.")
+				"Header files to ignore by file name with extension (exclude directory path).")
 			{
 				IsRequired = false
 			};
@@ -107,6 +107,14 @@ namespace C2CS
 			};
 			command.AddOption(clangArgsOption);
 
+			var whitelistFunctionsOption = new Option<string?>(
+				new[] {"--whitelistFunctionsFile", "-w"},
+				"The file path to a text file containing a set of function names delimited by new line. These functions will strictly only be considered for bindgen; this has implications for transitive types. Each function name may start with some text followed by a `!` character before the name of the function; this allows to re-use the same file for input to DirectPInvoke with NativeAOT.")
+			{
+				IsRequired = false
+			};
+			command.AddOption(whitelistFunctionsOption);
+
 			command.Handler = CommandHandler.Create<
 				string,
 				string,
@@ -116,7 +124,8 @@ namespace C2CS
 				IEnumerable<string?>?,
 				IEnumerable<string?>?,
 				int?,
-				IEnumerable<string?>?
+				IEnumerable<string?>?,
+				string?
 			>(AbstractSyntaxTreeC);
 			return command;
 		}
@@ -127,7 +136,7 @@ namespace C2CS
 
 			var inputFileOption = new Option<string>(
 				new[] {"--inputFile", "-i"},
-				"Path of the input abstract syntax tree `.json` file.")
+				"File path of the input abstract syntax tree `.json` file.")
 			{
 				IsRequired = true
 			};
@@ -135,7 +144,7 @@ namespace C2CS
 
 			var outputFileOption = new Option<string>(
 				new[] {"--outputFile", "-o"},
-				"Path of the output C# `.cs` file.")
+				"File path of the output C# `.cs` file.")
 			{
 				IsRequired = true
 			};
@@ -203,7 +212,8 @@ namespace C2CS
 			IEnumerable<string?>? opaqueTypes,
 			IEnumerable<string?>? defines,
 			int? bitness,
-			IEnumerable<string?>? clangArgs)
+			IEnumerable<string?>? clangArgs,
+			string? whitelistFunctionsFile)
 		{
 			var request = new UseCases.AbstractSyntaxTreeC.Request(
 				inputFile,
@@ -214,7 +224,8 @@ namespace C2CS
 				opaqueTypes,
 				defines,
 				bitness,
-				clangArgs);
+				clangArgs,
+				whitelistFunctionsFile);
 			var useCase = new UseCases.AbstractSyntaxTreeC.UseCase();
 			var response = useCase.Execute(request);
 			if (response.Status == UseCaseOutputStatus.Failure)
