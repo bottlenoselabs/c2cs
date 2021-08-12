@@ -219,16 +219,9 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         {
             var cursors = node.Cursor.GetDescendents(IsCursorToBeExtracted);
 
-            if (_whitelistFunctionNames.IsEmpty)
+            foreach (var cursor in cursors)
             {
-                foreach (var cursor in cursors)
-                {
-                    ExpandExtern(node, cursor);
-                }
-            }
-            else
-            {
-                foreach (var cursor in cursors)
+                if (cursor.kind == CXCursorKind.CXCursor_FunctionDecl && !_whitelistFunctionNames.IsEmpty)
                 {
                     var functionName = cursor.Name();
                     var isWhitelisted = cursor.kind == CXCursorKind.CXCursor_FunctionDecl &&
@@ -237,9 +230,9 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                     {
                         continue;
                     }
-
-                    ExpandExtern(node, cursor);
                 }
+
+                ExpandExtern(node, cursor);
             }
 
             static bool IsCursorToBeExtracted(CXCursor cursor, CXCursor cursorParent)
