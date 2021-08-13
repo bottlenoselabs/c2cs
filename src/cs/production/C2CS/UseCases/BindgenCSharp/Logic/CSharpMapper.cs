@@ -170,6 +170,7 @@ namespace C2CS.UseCases.BindgenCSharp
             var opaqueDataTypes = OpaqueDataTypes(
                 abstractSyntaxTree.OpaqueTypes);
             var enums = Enums(abstractSyntaxTree.Enums);
+            var pseudoEnums = Enums(abstractSyntaxTree.PseudoEnums);
 
             var result = new CSharpAbstractSyntaxTree(
                 functionExterns,
@@ -177,7 +178,8 @@ namespace C2CS.UseCases.BindgenCSharp
                 structs,
                 typedefs,
                 opaqueDataTypes,
-                enums);
+                enums,
+                pseudoEnums);
 
             _types = null!;
 

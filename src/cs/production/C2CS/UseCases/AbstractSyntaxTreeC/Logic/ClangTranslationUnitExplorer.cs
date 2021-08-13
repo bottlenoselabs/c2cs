@@ -20,11 +20,11 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         private readonly List<Node> _frontier = new();
         private readonly Dictionary<string, bool> _validTypeNames = new();
         private readonly Dictionary<string, CType> _typesByName = new();
-        private readonly HashSet<string> _enumsVisited = new();
         private readonly List<CType> _types = new();
         private readonly List<CVariable> _variables = new();
         private readonly List<CFunction> _functions = new();
         private readonly List<CEnum> _enums = new();
+        private readonly List<CEnum> _pseudoEnums = new();
         private readonly List<CRecord> _records = new();
         private readonly List<COpaqueType> _opaqueDataTypes = new();
         private readonly List<CTypedef> _typedefs = new();
@@ -79,6 +79,16 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var typedefs = _typedefs.ToImmutableArray();
             var variables = _variables.ToImmutableArray();
 
+            var pseudoEnums = new List<CEnum>();
+            var enumNames = _enums.Select(x => x.Name).ToImmutableHashSet();
+            foreach (var pseudoEnum in _pseudoEnums)
+            {
+                if (!enumNames.Contains(pseudoEnum.Name))
+                {
+                    pseudoEnums.Add(pseudoEnum);
+                }
+            }
+
             return new CAbstractSyntaxTree
             {
                 FileName = location.FileName,
@@ -87,6 +97,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 FunctionPointers = functionPointers,
                 Records = records,
                 Enums = enums,
+                PseudoEnums = pseudoEnums.ToImmutableArray(),
                 OpaqueTypes = opaqueTypes,
                 Typedefs = typedefs,
                 Variables = variables,
@@ -232,7 +243,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                     }
                 }
 
-                ExpandExtern(node, cursor);
+                ExpandTranslationUnitCursor(node, cursor);
             }
 
             static bool IsCursorToBeExtracted(CXCursor cursor, CXCursor cursorParent)
@@ -257,7 +268,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             }
         }
 
-        private void ExpandExtern(Node parentNode, CXCursor cursor)
+        private void ExpandTranslationUnitCursor(Node parentNode, CXCursor cursor)
         {
             var kind = cursor.kind switch
             {
@@ -284,7 +295,14 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 return;
             }
 
-            ExpandNode(kind, location, parentNode, cursor, type, type, name, typeName);
+            if (kind == CKind.Enum)
+            {
+                ExploreEnum(typeName, cursor, type, location, parentNode, true);
+            }
+            else
+            {
+                ExpandNode(kind, location, parentNode, cursor, type, type, name, typeName);
+            }
         }
 
         private void ExpandArray(Node node)
@@ -342,15 +360,8 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             _functions.Add(function);
         }
 
-        private void ExploreEnum(string typeName, CXCursor cursor, CXType type, ClangLocation location, Node parentNode)
+        private void ExploreEnum(string typeName, CXCursor cursor, CXType type, ClangLocation location, Node parentNode, bool isPseudo = false)
         {
-            if (_enumsVisited.Contains(typeName))
-            {
-                return;
-            }
-
-            _enumsVisited.Add(typeName);
-
             var typeCursor = clang_getTypeDeclaration(type);
             if (typeCursor.kind == CXCursorKind.CXCursor_NoDeclFound)
             {
@@ -412,7 +423,14 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 Values = enumValues
             };
 
-            _enums.Add(@enum);
+            if (isPseudo)
+            {
+                _pseudoEnums.Add(@enum);
+            }
+            else
+            {
+                _enums.Add(@enum);
+            }
         }
 
         private void ExploreRecord(Node node, Node parentNode)

@@ -2,8 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Microsoft.CodeAnalysis;
@@ -37,6 +37,7 @@ namespace C2CS.UseCases.BindgenCSharp
 			EmitOpaqueDataTypes(builder, abstractSyntaxTree.OpaqueDataTypes);
 			EmitTypedefs(builder, abstractSyntaxTree.Typedefs);
 			EmitEnums(builder, abstractSyntaxTree.Enums);
+			EmitPseudoEnums(builder, abstractSyntaxTree.PseudoEnums);
 
 			var membersToAdd = builder.ToArray();
 			var compilationUnit = EmitCompilationUnit(
@@ -281,8 +282,7 @@ public {field.Type.Name} {field.Name};
 public fixed {typeName} _{field.Name}[{field.Type.SizeOf}/{field.Type.AlignOf}]; // {field.Type.OriginalName}
 ".Trim();
 
-			var member = ParseMemberCode<FieldDeclarationSyntax>(code);
-			return member;
+			return ParseMemberCode<FieldDeclarationSyntax>(code);
 		}
 
 		private static PropertyDeclarationSyntax EmitStructFieldFixedBufferProperty(
@@ -349,8 +349,7 @@ public Span<{elementType}> {field.Name}
 ".Trim();
 			}
 
-			var member = ParseMemberCode<PropertyDeclarationSyntax>(code);
-			return member;
+			return ParseMemberCode<PropertyDeclarationSyntax>(code);
 		}
 
 		private static void EmitOpaqueDataTypes(
@@ -374,8 +373,7 @@ public struct {opaqueType.Name}
 }}
 ";
 
-			var member = ParseMemberCode<StructDeclarationSyntax>(code)!;
-			return member;
+			return ParseMemberCode<StructDeclarationSyntax>(code);
 		}
 
 		private static void EmitTypedefs(
@@ -404,7 +402,7 @@ public struct {typedef.Name}
 }}
 ";
 
-			var member = ParseMemberCode<StructDeclarationSyntax>(code)!;
+			var member = ParseMemberCode<StructDeclarationSyntax>(code);
 			return member;
 		}
 
@@ -464,6 +462,44 @@ public enum {@enum.Name} : {@enum.IntegerType}
 			};
 
 			return EqualsValueClause(LiteralExpression(SyntaxKind.NumericLiteralExpression, literalToken));
+		}
+
+		private static void EmitPseudoEnums(
+			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
+			ImmutableArray<CSharpEnum> pseudoEnums)
+		{
+			foreach (var pseudoEnum in pseudoEnums)
+			{
+				EmitPseudoEnum(builder, pseudoEnum);
+			}
+		}
+
+		private static void EmitPseudoEnum(
+			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
+			CSharpEnum pseudoEnum)
+		{
+			var hasAddedLocationComment = false;
+			foreach (var pseudoEnumConstant in pseudoEnum.Values)
+			{
+				if (!hasAddedLocationComment)
+				{
+					hasAddedLocationComment = true;
+					var code = $@"
+{pseudoEnum.CodeLocationComment.Replace("Enum ", $"Pseudo enum '{pseudoEnum.Name}' ")}
+public const uint {pseudoEnumConstant.Name} = {pseudoEnumConstant.Value};
+";
+					var member = ParseMemberCode<FieldDeclarationSyntax>(code);
+					builder.Add(member);
+				}
+				else
+				{
+					var code = $@"
+public const uint {pseudoEnumConstant.Name} = {pseudoEnumConstant.Value};
+".TrimStart();
+					var member = ParseMemberCode<FieldDeclarationSyntax>(code);
+					builder.Add(member);
+				}
+			}
 		}
 
 		private static T ParseMemberCode<T>(string memberCode)
