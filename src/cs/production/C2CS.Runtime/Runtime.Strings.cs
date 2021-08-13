@@ -289,7 +289,7 @@ namespace C2CS
             // this coincides with a linear congruential generator for generating pseudo-randomized numbers: https://en.wikipedia.org/wiki/Linear_congruential_generator
             // the basic LCG algorithm is: x(i) = ((a * x(i -1)) + c) + mod m
             // note that integer overflow is equivalent to a modulus operation of the bit width so it's often the case that `m` = 2^32
-            // eureka! notice that djb2 then resembles an LCG: x(i) = (a * x(i -1)) + c
+            // eureka! notice that djb2 then resembles an LCG: x(i) = a * x(i-1) + c
             // for the LCG to generate as random as possible values the value of `a` has some limitations (period length):
             // 1: `m` and `c` are co-prime
             //  this is true when `c` is odd because the only common divisor that could exist between 2^n and `c` is 2
