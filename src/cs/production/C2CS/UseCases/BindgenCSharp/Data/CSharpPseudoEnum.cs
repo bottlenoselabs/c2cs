@@ -1,19 +1,24 @@
 // Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System.Collections.Immutable;
+
 namespace C2CS.UseCases.BindgenCSharp
 {
-    public record CSharpEnumValue : CSharpNode
+    public record CSharpPseudoEnum : CSharpNode
     {
-        public readonly ulong Value;
+        public readonly CSharpType IntegerType;
+        public readonly ImmutableArray<CSharpEnumValue> Values;
 
-        public CSharpEnumValue(
+        public CSharpPseudoEnum(
             string name,
-            string locationComment,
-            ulong value)
-            : base(name, locationComment)
+            string codeLocationComment,
+            CSharpType integerType,
+            ImmutableArray<CSharpEnumValue> values)
+            : base(name, codeLocationComment)
         {
-            Value = value;
+            IntegerType = integerType;
+            Values = values;
         }
 
         // Required for debugger string with records

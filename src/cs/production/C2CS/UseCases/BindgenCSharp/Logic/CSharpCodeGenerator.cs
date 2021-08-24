@@ -452,7 +452,7 @@ public enum {@enum.Name} : {@enum.IntegerType}
 			return builder.ToArray();
 		}
 
-		private static EqualsValueClauseSyntax EmitEnumEqualsValue(long value, string enumTypeName)
+		private static EqualsValueClauseSyntax EmitEnumEqualsValue(ulong value, string enumTypeName)
 		{
 			var literalToken = enumTypeName switch
 			{
@@ -466,7 +466,7 @@ public enum {@enum.Name} : {@enum.IntegerType}
 
 		private static void EmitPseudoEnums(
 			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
-			ImmutableArray<CSharpEnum> pseudoEnums)
+			ImmutableArray<CSharpPseudoEnum> pseudoEnums)
 		{
 			foreach (var pseudoEnum in pseudoEnums)
 			{
@@ -476,7 +476,7 @@ public enum {@enum.Name} : {@enum.IntegerType}
 
 		private static void EmitPseudoEnum(
 			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
-			CSharpEnum pseudoEnum)
+			CSharpPseudoEnum pseudoEnum)
 		{
 			var hasAddedLocationComment = false;
 			foreach (var pseudoEnumConstant in pseudoEnum.Values)

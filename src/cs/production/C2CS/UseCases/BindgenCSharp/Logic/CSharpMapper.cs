@@ -170,7 +170,7 @@ namespace C2CS.UseCases.BindgenCSharp
             var opaqueDataTypes = OpaqueDataTypes(
                 abstractSyntaxTree.OpaqueTypes);
             var enums = Enums(abstractSyntaxTree.Enums);
-            var pseudoEnums = Enums(abstractSyntaxTree.PseudoEnums);
+            var pseudoEnums = PseudoEnums(abstractSyntaxTree.PseudoEnums);
 
             var result = new CSharpAbstractSyntaxTree(
                 functionExterns,
@@ -599,6 +599,45 @@ namespace C2CS.UseCases.BindgenCSharp
             var values = EnumValues(cEnum.Values);
 
             var result = new CSharpEnum(
+                name,
+                originalCodeLocationComment,
+                integerType,
+                values);
+            return result;
+        }
+
+        private ImmutableArray<CSharpPseudoEnum> PseudoEnums(ImmutableArray<CEnum> enums)
+        {
+            var builder = ImmutableArray.CreateBuilder<CSharpPseudoEnum>(enums.Length);
+
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var enumC in enums)
+            {
+                var enumCSharp = PseudoEnum(enumC);
+
+                if (_ignoredTypeNames.Contains(enumCSharp.Name))
+                {
+                    continue;
+                }
+
+                builder.Add(enumCSharp);
+            }
+
+            var result = builder.ToImmutable();
+            return result;
+        }
+
+        private CSharpPseudoEnum PseudoEnum(CEnum @enum)
+        {
+            var name = @enum.Name;
+            var originalCodeLocationComment = OriginalCodeLocationComment(@enum);
+            originalCodeLocationComment =
+                originalCodeLocationComment.Replace("Enum ", $"Pseudo enum '{@enum.Name}' ");
+            var cIntegerType = CType(@enum.IntegerType);
+            var integerType = Type(cIntegerType);
+            var values = EnumValues(@enum.Values);
+
+            var result = new CSharpPseudoEnum(
                 name,
                 originalCodeLocationComment,
                 integerType,

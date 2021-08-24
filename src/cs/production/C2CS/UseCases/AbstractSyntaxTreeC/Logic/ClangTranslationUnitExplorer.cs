@@ -978,7 +978,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         private CEnumValue CreateEnumValue(CXCursor cursor, string? name = null)
         {
-            var value = clang_getEnumConstantDeclValue(cursor);
+            var value = (ulong)clang_getEnumConstantDeclValue(cursor);
             var location = Location(cursor);
             name ??= cursor.Name();
 

@@ -14,7 +14,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         public string Name { get; set; } = string.Empty;
 
         [JsonPropertyName("value")]
-        public long Value { get; set; }
+        public ulong Value { get; set; }
 
         public override string ToString()
         {
