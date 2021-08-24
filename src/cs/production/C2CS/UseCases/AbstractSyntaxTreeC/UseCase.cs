@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Immutable;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -33,7 +34,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 request.IgnoredFiles,
                 request.OpaqueTypes,
                 request.WhitelistFunctionNames,
-                request.Bitness,
+                request.Bitness ?? (RuntimeInformation.OSArchitecture is Architecture.Arm64 or Architecture.X64 ? 64 : 32),
                 Explore);
 
             Step(
@@ -56,7 +57,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             bool automaticallyFindSoftwareDevelopmentKit,
             ImmutableArray<string> includeDirectories,
             ImmutableArray<string> defines,
-            int bitness,
+            int? bitness,
             ImmutableArray<string> clangArguments)
         {
             var clangArgs = ClangArgumentsBuilder.Build(

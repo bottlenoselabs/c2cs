@@ -5,14 +5,16 @@
         <RootNamespace />
     </PropertyGroup>
 
-    <!-- NuGet packaage references -->
+    <!-- NuGet package references -->
     <ItemGroup>
-        <PackageReference Include="libclang.runtime.osx-x64" Version="10.0.0" Condition="$([MSBuild]::IsOsPlatform('OSX'))" />
-        <PackageReference Include="libclang.runtime.ubuntu.20.04-x64" Version="10.0.0" Condition="$([MSBuild]::IsOsPlatform('Linux'))" />
-        <PackageReference Include="libclang.runtime.win-x64" Version="10.0.0" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
+        <PackageReference Include="libclang.runtime.osx-x64" Version="12.0.0" Condition="$([MSBuild]::IsOsPlatform('OSX'))" />
+        <PackageReference Include="libclang.runtime.ubuntu.20.04-x64" Version="12.0.0" Condition="$([MSBuild]::IsOsPlatform('Linux'))" />
+        <PackageReference Include="libclang.runtime.win-x64" Version="12.0.0" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
     </ItemGroup>
+    
+    <!-- Project references -->
     <ItemGroup>
-      <ProjectReference Include="..\C2CS.Runtime\C2CS.Runtime.csproj" />
+      <ProjectReference Include="..\C2CS.Common\C2CS.Common.csproj" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(IsWindows)' == 'true' AND '$(Architecture)' == 'x64'">

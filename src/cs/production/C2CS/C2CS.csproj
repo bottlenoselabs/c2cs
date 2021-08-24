@@ -8,11 +8,11 @@
     
     <!-- NuGet packaage references -->
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2021.1.0" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0-2.final" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.10.0-2.final" />
-        <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="3.10.0-2.final" />
-        <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20574.7" />
+        <PackageReference Include="JetBrains.Annotations" Version="2021.2.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.0-3.final" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.0.0-3.final" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.0.0-3.final" />
+        <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
 <!--        <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="6.0.0-*" />-->
     </ItemGroup>
     
@@ -20,6 +20,9 @@
     <ItemGroup>
         <ProjectReference Include="..\C2CS.Runtime\C2CS.Runtime.csproj" />
         <ProjectReference Include="..\clang-cs\clang-cs.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="UseCases\Macros\Logic" />
     </ItemGroup>
 
 </Project>

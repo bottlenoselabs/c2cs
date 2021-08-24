@@ -228,6 +228,62 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         private void ExploreTranslationUnit(Node node)
         {
+            var c = node.Cursor.GetDescendents((child, parent) => true);
+            foreach (var cursor in c)
+            {
+                var name = cursor.Name();
+                var kind = clang_getCursorKind(cursor);
+
+                if (kind != CXCursorKind.CXCursor_MacroDefinition)
+                {
+                    continue;
+                }
+
+                if (name.StartsWith("SDL_", StringComparison.InvariantCulture) &&
+                    !name.EndsWith("_H", StringComparison.InvariantCulture))
+                {
+                    continue;
+                }
+
+                if (clang_Cursor_isMacroFunctionLike(cursor) != 0)
+                {
+                    continue;
+                }
+
+                if (clang_Cursor_isMacroBuiltin(cursor) != 0)
+                {
+                    continue;
+                }
+
+                if (cursor.IsSystem())
+                {
+                    continue;
+                }
+
+                var location = Location(cursor);
+                if (string.IsNullOrEmpty(location.FilePath))
+                {
+                    continue;
+                }
+
+                var isSystem = true;
+                foreach (var includeDirectory in _includeDirectories)
+                {
+                    if (location.FilePath.StartsWith(includeDirectory, StringComparison.InvariantCulture))
+                    {
+                        isSystem = false;
+                        break;
+                    }
+                }
+
+                if (isSystem)
+                {
+                    continue;
+                }
+
+                Console.WriteLine($"Name: {name}, {Location(cursor).FilePath}");
+            }
+
             var cursors = node.Cursor.GetDescendents(IsCursorToBeExtracted);
 
             foreach (var cursor in cursors)

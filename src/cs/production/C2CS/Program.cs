@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.Invocation;
-using System.IO;
+using C2CS.UseCases.Macros;
 
 namespace C2CS
 {
@@ -26,6 +26,9 @@ namespace C2CS
 
 			var bindgenCSharpCommand = CommandBindgenCSharp();
 			rootCommand.Add(bindgenCSharpCommand);
+
+			var printMacrosCommand = CommandPrintMacroNames();
+			rootCommand.Add(printMacrosCommand);
 
 			return rootCommand;
 		}
@@ -202,6 +205,42 @@ namespace C2CS
 			return command;
 		}
 
+		private static Command CommandPrintMacroNames()
+		{
+			var command = new Command("macros", "Print macro definitions. Useful to generate a blacklist or a whitelist of object-like macros for use in bindgen.");
+
+			var inputFileOption = new Option<string>(
+				new[] {"--inputFile", "-i"},
+				"File path of the input `.h` header file.")
+			{
+				IsRequired = true
+			};
+			command.AddOption(inputFileOption);
+
+			var automaticallyFindSoftwareDevelopmentKitOption = new Option<IEnumerable<string>?>(
+				new[] {"--automaticallyFindSoftwareDevelopmentKit", "-f"},
+				"Find software development kit for C/C++ automatically. Default is `true`.")
+			{
+				IsRequired = false
+			};
+			command.AddOption(automaticallyFindSoftwareDevelopmentKitOption);
+
+			var includeDirectoriesOption = new Option<IEnumerable<string?>?>(
+				new[] {"--includeDirectories", "-s"},
+				"Search directories for `#include` usages to use when parsing C code.")
+			{
+				IsRequired = false
+			};
+			command.AddOption(includeDirectoriesOption);
+
+			command.Handler = CommandHandler.Create<
+				string,
+				bool?,
+				IEnumerable<string?>?
+			>(PrintMacroNames);
+			return command;
+		}
+
 		// NOTE: parameter name must match full name of command line option
 		private static void AbstractSyntaxTreeC(
 			string inputFile,
@@ -227,6 +266,23 @@ namespace C2CS
 				clangArgs,
 				whitelistFunctionsFile);
 			var useCase = new UseCases.AbstractSyntaxTreeC.UseCase();
+			var response = useCase.Execute(request);
+			if (response.Status == UseCaseOutputStatus.Failure)
+			{
+				Environment.Exit(1);
+			}
+		}
+
+		private static void PrintMacroNames(
+			string inputFile,
+			bool? automaticallyFindSoftwareDevelopmentKit,
+			IEnumerable<string?>? includeDirectories)
+		{
+			var request = new Request(
+				inputFile,
+				automaticallyFindSoftwareDevelopmentKit,
+				includeDirectories);
+			var useCase = new UseCase();
 			var response = useCase.Execute(request);
 			if (response.Status == UseCaseOutputStatus.Failure)
 			{

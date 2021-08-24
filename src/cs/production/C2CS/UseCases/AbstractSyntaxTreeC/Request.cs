@@ -26,7 +26,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         public ImmutableArray<string> Defines { get; }
 
-        public int Bitness { get; }
+        public int? Bitness { get; }
 
         public ImmutableArray<string> ClangArgs { get; }
 
@@ -51,7 +51,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             IgnoredFiles = ToImmutableArray(ignoredFiles);
             OpaqueTypes = ToImmutableArray(opaqueTypes);
             Defines = ToImmutableArray(defines);
-            Bitness = CreateBitness(bitness);
+            Bitness = bitness;
             ClangArgs = ToImmutableArray(clangArgs);
             WhitelistFunctionNames = CreateWhitelistFunctionNames(whitelistFunctionsFilePath);
         }
@@ -73,16 +73,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             }
 
             return result;
-        }
-
-        private static int CreateBitness(int? bitness)
-        {
-            if (bitness != null)
-            {
-                return bitness.Value;
-            }
-
-            return RuntimeInformation.OSArchitecture is Architecture.Arm64 or Architecture.X64 ? 64 : 32;
         }
 
         private static ImmutableArray<string> ToImmutableArray(IEnumerable<string?>? enumerable)

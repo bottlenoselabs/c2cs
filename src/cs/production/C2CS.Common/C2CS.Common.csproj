@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- MSBuild project settings -->
+    <PropertyGroup>
+        <RootNamespace>C2CS</RootNamespace>
+    </PropertyGroup>
+
+    <!-- NuGet packaage references -->
+    <ItemGroup>
+      <PackageReference Include="JetBrains.Annotations" Version="2021.2.0" />
+    </ItemGroup>
+    
+    <!-- Project references -->
+    <ItemGroup>
+      <ProjectReference Include="..\C2CS.Runtime\C2CS.Runtime.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -3,13 +3,10 @@
 
 using System;
 
-namespace C2CS.UseCases.AbstractSyntaxTreeC
+public class ClangException : Exception
 {
-    public class CParserException : Exception
+    public ClangException(string message)
+        : base(message)
     {
-        public CParserException(string message)
-            : base(message)
-        {
-        }
     }
 }
