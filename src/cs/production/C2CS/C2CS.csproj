@@ -21,8 +21,5 @@
         <ProjectReference Include="..\C2CS.Runtime\C2CS.Runtime.csproj" />
         <ProjectReference Include="..\clang-cs\clang-cs.csproj" />
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="UseCases\Macros\Logic" />
-    </ItemGroup>
 
 </Project>

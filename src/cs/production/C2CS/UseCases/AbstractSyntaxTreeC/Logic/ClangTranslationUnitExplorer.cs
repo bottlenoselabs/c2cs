@@ -618,7 +618,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var isIgnored = _systemIgnoredTypeNames.Contains(typeName);
             if (isSystem && isIgnored)
             {
-                _diagnostics.Add(new DiagnosticSystemTypeIgnored(type));
                 value = false;
             }
             else
