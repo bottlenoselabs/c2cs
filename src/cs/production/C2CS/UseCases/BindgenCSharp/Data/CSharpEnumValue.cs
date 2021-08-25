@@ -5,12 +5,12 @@ namespace C2CS.UseCases.BindgenCSharp
 {
     public record CSharpEnumValue : CSharpNode
     {
-        public readonly ulong Value;
+        public readonly long Value;
 
         public CSharpEnumValue(
             string name,
             string locationComment,
-            ulong value)
+            long value)
             : base(name, locationComment)
         {
             Value = value;

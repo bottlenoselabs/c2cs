@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Immutable;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Microsoft.CodeAnalysis;
@@ -452,7 +451,7 @@ public enum {@enum.Name} : {@enum.IntegerType}
 			return builder.ToArray();
 		}
 
-		private static EqualsValueClauseSyntax EmitEnumEqualsValue(ulong value, string enumTypeName)
+		private static EqualsValueClauseSyntax EmitEnumEqualsValue(long value, string enumTypeName)
 		{
 			var literalToken = enumTypeName switch
 			{
@@ -486,7 +485,7 @@ public enum {@enum.Name} : {@enum.IntegerType}
 					hasAddedLocationComment = true;
 					var code = $@"
 {pseudoEnum.CodeLocationComment.Replace("Enum ", $"Pseudo enum '{pseudoEnum.Name}' ")}
-public const uint {pseudoEnumConstant.Name} = {pseudoEnumConstant.Value};
+public const int {pseudoEnumConstant.Name} = {pseudoEnumConstant.Value};
 ";
 					var member = ParseMemberCode<FieldDeclarationSyntax>(code);
 					builder.Add(member);
@@ -494,7 +493,7 @@ public const uint {pseudoEnumConstant.Name} = {pseudoEnumConstant.Value};
 				else
 				{
 					var code = $@"
-public const uint {pseudoEnumConstant.Name} = {pseudoEnumConstant.Value};
+public const int {pseudoEnumConstant.Name} = {pseudoEnumConstant.Value};
 ".TrimStart();
 					var member = ParseMemberCode<FieldDeclarationSyntax>(code);
 					builder.Add(member);

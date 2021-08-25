@@ -429,41 +429,41 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
             // TRICK: Force unsigned integer; enums in C could be signed or unsigned depending the platform architecture.
             //  This makes for a slightly different bindings between Windows/macOS/Linux where the enum is different type
-            if (integerTypeName == "signed char" || integerTypeName == "char")
+            if (integerTypeName == "unsigned char" || integerTypeName == "char")
             {
-                integerTypeName = "unsigned char";
+                integerTypeName = "signed char";
             }
-            else if (integerTypeName == "short" || integerTypeName == "signed short")
+            else if (integerTypeName == "short" || integerTypeName == "unsigned short")
             {
-                integerTypeName = "unsigned short";
+                integerTypeName = "signed short";
             }
-            else if (integerTypeName == "short int" || integerTypeName == "signed short int")
+            else if (integerTypeName == "short int" || integerTypeName == "unsigned short int")
             {
-                integerTypeName = "unsigned short int";
+                integerTypeName = "signed short int";
             }
-            else if (integerTypeName == "signed")
+            else if (integerTypeName == "unsigned")
             {
-                integerTypeName = "unsigned";
+                integerTypeName = "signed";
             }
-            else if (integerTypeName == "int" || integerTypeName == "signed int")
+            else if (integerTypeName == "int" || integerTypeName == "unsigned int")
             {
-                integerTypeName = "unsigned int";
+                integerTypeName = "signed int";
             }
-            else if (integerTypeName == "long" || integerTypeName == "signed long")
+            else if (integerTypeName == "long" || integerTypeName == "unsigned long")
             {
-                integerTypeName = "unsigned long";
+                integerTypeName = "signed long";
             }
-            else if (integerTypeName == "long int" || integerTypeName == "signed long int")
+            else if (integerTypeName == "long int" || integerTypeName == "unsigned long int")
             {
-                integerTypeName = "unsigned long int";
+                integerTypeName = "signed long int";
             }
-            else if (integerTypeName == "long long" || integerTypeName == "signed long long")
+            else if (integerTypeName == "long long" || integerTypeName == "unsigned long long")
             {
-                integerTypeName = "unsigned long long";
+                integerTypeName = "signed long long";
             }
-            else if (typeName == "long long int" || typeName == "signed long long int")
+            else if (typeName == "long long int" || typeName == "unsigned long long int")
             {
-                integerTypeName = "unsigned long long int";
+                integerTypeName = "signed long long int";
             }
 
             ExpandType(parentNode, cursor, cursor, integerType, integerType, integerTypeName);
@@ -1034,7 +1034,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         private CEnumValue CreateEnumValue(CXCursor cursor, string? name = null)
         {
-            var value = (ulong)clang_getEnumConstantDeclValue(cursor);
+            var value = clang_getEnumConstantDeclValue(cursor);
             var location = Location(cursor);
             name ??= cursor.Name();
 
