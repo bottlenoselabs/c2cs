@@ -5,10 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using C2CS.UseCases.AbstractSyntaxTreeC;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace C2CS.UseCases.BindgenCSharp
 {
@@ -18,7 +20,7 @@ namespace C2CS.UseCases.BindgenCSharp
         private ImmutableDictionary<string, CType> _types = null!;
         private readonly ImmutableDictionary<string, string> _userTypeNameAliases;
         private readonly ImmutableHashSet<string> _builtinAliases;
-        private readonly ImmutableHashSet<string> _ignoredTypeNames;
+        private readonly ImmutableHashSet<string> _ignoredNames;
         private readonly Dictionary<string, string> _generatedFunctionPointersNamesByCNames = new();
         private readonly Dictionary<string, string> _systemTypeNameAliases;
 
@@ -124,7 +126,7 @@ namespace C2CS.UseCases.BindgenCSharp
 
             _userTypeNameAliases = userAliases.ToImmutableDictionary();
             _builtinAliases = builtinAliases.ToImmutableHashSet();
-            _ignoredTypeNames = ignoredTypeNames
+            _ignoredNames = ignoredTypeNames
                 .Concat(_systemTypeNameAliases.Keys)
                 .ToImmutableHashSet();
         }
@@ -139,8 +141,8 @@ namespace C2CS.UseCases.BindgenCSharp
             var recordsBuilder = ImmutableArray.CreateBuilder<CRecord>();
             foreach (var record in abstractSyntaxTree.Records)
             {
-                if (_builtinAliases.Contains(record.Type) ||
-                    _ignoredTypeNames.Contains(record.Type))
+                if (_builtinAliases.Contains(record.Name) ||
+                    _ignoredNames.Contains(record.Name))
                 {
                     // short circuit, prevents emitting the type
                     continue;
@@ -155,7 +157,7 @@ namespace C2CS.UseCases.BindgenCSharp
             foreach (var typedef in abstractSyntaxTree.Typedefs)
             {
                 if (_builtinAliases.Contains(typedef.Name) ||
-                    _ignoredTypeNames.Contains(typedef.Name))
+                    _ignoredNames.Contains(typedef.Name))
                 {
                     // short circuit, prevents emitting the type
                     continue;
@@ -171,6 +173,7 @@ namespace C2CS.UseCases.BindgenCSharp
                 abstractSyntaxTree.OpaqueTypes);
             var enums = Enums(abstractSyntaxTree.Enums);
             var pseudoEnums = PseudoEnums(abstractSyntaxTree.PseudoEnums);
+            var constants = Constants(abstractSyntaxTree.Constants);
 
             var result = new CSharpAbstractSyntaxTree(
                 functionExterns,
@@ -179,7 +182,8 @@ namespace C2CS.UseCases.BindgenCSharp
                 typedefs,
                 opaqueDataTypes,
                 enums,
-                pseudoEnums);
+                pseudoEnums,
+                constants);
 
             _types = null!;
 
@@ -403,7 +407,7 @@ namespace C2CS.UseCases.BindgenCSharp
             {
                 var structCSharp = Struct(recordC);
 
-                if (_ignoredTypeNames.Contains(structCSharp.Name))
+                if (_ignoredNames.Contains(structCSharp.Name))
                 {
                     continue;
                 }
@@ -418,7 +422,7 @@ namespace C2CS.UseCases.BindgenCSharp
         private CSharpStruct Struct(CRecord recordC)
         {
             var originalCodeLocationComment = OriginalCodeLocationComment(recordC);
-            var typeC = CType(recordC.Type);
+            var typeC = CType(recordC.Name);
             var typeCSharp = Type(typeC);
             var fields = StructFields(recordC.Fields);
             var nestedStructs = NestedStructs(recordC.NestedRecords);
@@ -487,7 +491,7 @@ namespace C2CS.UseCases.BindgenCSharp
             {
                 var structCSharp = Struct(recordC);
 
-                if (_ignoredTypeNames.Contains(structCSharp.Name))
+                if (_ignoredNames.Contains(structCSharp.Name))
                 {
                     continue;
                 }
@@ -509,7 +513,7 @@ namespace C2CS.UseCases.BindgenCSharp
             {
                 var opaqueDataTypeCSharp = OpaqueDataType(opaqueDataTypeC);
 
-                if (_ignoredTypeNames.Contains(opaqueDataTypeCSharp.Name))
+                if (_ignoredNames.Contains(opaqueDataTypeCSharp.Name))
                 {
                     continue;
                 }
@@ -542,7 +546,7 @@ namespace C2CS.UseCases.BindgenCSharp
             {
                 var typedefCSharp = Typedef(typedefC);
 
-                if (_ignoredTypeNames.Contains(typedefCSharp.Name))
+                if (_ignoredNames.Contains(typedefCSharp.Name))
                 {
                     continue;
                 }
@@ -578,7 +582,7 @@ namespace C2CS.UseCases.BindgenCSharp
             {
                 var enumCSharp = Enum(enumC);
 
-                if (_ignoredTypeNames.Contains(enumCSharp.Name))
+                if (_ignoredNames.Contains(enumCSharp.Name))
                 {
                     continue;
                 }
@@ -615,7 +619,7 @@ namespace C2CS.UseCases.BindgenCSharp
             {
                 var enumCSharp = PseudoEnum(enumC);
 
-                if (_ignoredTypeNames.Contains(enumCSharp.Name))
+                if (_ignoredNames.Contains(enumCSharp.Name))
                 {
                     continue;
                 }
@@ -645,14 +649,14 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private ImmutableArray<CSharpEnumValue> EnumValues(ImmutableArray<CEnumValue> clangEnumValues)
+        private ImmutableArray<CSharpEnumValue> EnumValues(ImmutableArray<CEnumValue> enumValues)
         {
-            var builder = ImmutableArray.CreateBuilder<CSharpEnumValue>(clangEnumValues.Length);
+            var builder = ImmutableArray.CreateBuilder<CSharpEnumValue>(enumValues.Length);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var clangEnumValue in clangEnumValues)
+            foreach (var cEnumValue in enumValues)
             {
-                var @enum = EnumValue(clangEnumValue);
+                var @enum = EnumValue(cEnumValue);
                 builder.Add(@enum);
             }
 
@@ -660,11 +664,11 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        private CSharpEnumValue EnumValue(CEnumValue cEnumValue)
+        private CSharpEnumValue EnumValue(CEnumValue enumValue)
         {
-            var name = cEnumValue.Name;
-            var originalCodeLocationComment = OriginalCodeLocationComment(cEnumValue);
-            var value = cEnumValue.Value;
+            var name = enumValue.Name;
+            var originalCodeLocationComment = OriginalCodeLocationComment(enumValue);
+            var value = enumValue.Value;
 
             var result = new CSharpEnumValue(
                 name,
@@ -672,6 +676,103 @@ namespace C2CS.UseCases.BindgenCSharp
                 value);
 
             return result;
+        }
+
+        private ImmutableArray<CSharpConstant> Constants(ImmutableArray<CMacroObject> constants)
+        {
+            var builder = ImmutableArray.CreateBuilder<CSharpConstant>(constants.Length);
+
+            var lookup = new Dictionary<string, CSharpConstant>();
+
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+            foreach (var cConstant in constants)
+            {
+                if (_ignoredNames.Contains(cConstant.Name))
+                {
+                    continue;
+                }
+
+                var constant = Constant(cConstant, lookup);
+                builder.Add(constant);
+                lookup.Add(constant.Name, constant);
+            }
+
+            var result = builder.ToImmutable();
+            return result;
+        }
+
+        private CSharpConstant Constant(CMacroObject macroObject, Dictionary<string, CSharpConstant> lookup)
+        {
+            var originalCodeLocationComment = OriginalCodeLocationComment(macroObject);
+
+            var tokens = macroObject.Tokens;
+
+            foreach (var keyValuePair in _systemTypeNameAliases)
+            {
+                if (tokens.Contains(keyValuePair.Key))
+                {
+                    tokens = tokens.Replace(keyValuePair.Key, keyValuePair.Value);
+                }
+            }
+
+            foreach (var keyValuePair in _userTypeNameAliases)
+            {
+                if (tokens.Contains(keyValuePair.Key))
+                {
+                    tokens = tokens.Replace(keyValuePair.Key, keyValuePair.Value);
+                }
+            }
+
+            if (tokens.Contains("size_t"))
+            {
+                tokens = tokens.Replace("size_t", "ulong");
+            }
+
+            var (type, value) = GetMacroExpressionTypeAndValue(tokens, lookup);
+
+            var result = new CSharpConstant(
+                macroObject.Name,
+                originalCodeLocationComment,
+                type,
+                value);
+            return result;
+        }
+
+        private static (string Type, string Value) GetMacroExpressionTypeAndValue(
+            ImmutableArray<string> tokens, IReadOnlyDictionary<string, CSharpConstant> lookup)
+        {
+            var dependentMacros = new List<string>();
+            foreach (var token in tokens)
+            {
+                if (lookup.TryGetValue(token, out var dependentMacro))
+                {
+                    dependentMacros.Add($"var {dependentMacro.Name} = {dependentMacro.Value};");
+                }
+            }
+
+            var value = string.Join(string.Empty, tokens);
+            var code = @$"
+{string.Join("\n", dependentMacros)}
+var x = {value};
+".Trim();
+            var syntaxTree = CSharpSyntaxTree.ParseText(code);
+            var variables = syntaxTree.GetRoot().DescendantNodesAndSelf().OfType<VariableDeclarationSyntax>();
+            var expression = variables.Last().Variables.Single().Initializer!.Value;
+            var mscorlib = MetadataReference.CreateFromFile(typeof(string).Assembly.Location);
+            var compilation = CSharpCompilation.Create("Assembly")
+                .AddReferences(mscorlib)
+                .AddSyntaxTrees(syntaxTree);
+            var semanticModel = compilation.GetSemanticModel(syntaxTree);
+            var typeInfo = semanticModel.GetTypeInfo(expression);
+            var type = typeInfo.ConvertedType!.ToString()!;
+
+            if (value.StartsWith("(uint)-", StringComparison.InvariantCulture) ||
+                value.StartsWith("(ulong)-", StringComparison.InvariantCulture))
+            {
+                value = $"unchecked({value})";
+            }
+
+            return (type, value);
         }
 
         private CSharpType Type(CType cType, string? typeName = null)
@@ -802,12 +903,6 @@ namespace C2CS.UseCases.BindgenCSharp
             var pointersTypeName = pointerTypeName[elementTypeName.Length..];
             var mappedElementTypeName = TypeNameMapElement(elementTypeName, sizeOf, isSystem);
             pointerTypeName = mappedElementTypeName + pointersTypeName;
-
-            // // need to check again in case it was an alias but it would be
-            // if (pointerTypeName.StartsWith("char*", StringComparison.InvariantCulture))
-            // {
-            //     return pointerTypeName.Replace("char*", "CString16U");
-            // }
 
             return pointerTypeName;
         }

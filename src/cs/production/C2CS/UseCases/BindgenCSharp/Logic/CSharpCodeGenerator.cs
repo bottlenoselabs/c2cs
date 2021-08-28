@@ -37,6 +37,7 @@ namespace C2CS.UseCases.BindgenCSharp
 			EmitTypedefs(builder, abstractSyntaxTree.Typedefs);
 			EmitEnums(builder, abstractSyntaxTree.Enums);
 			EmitPseudoEnums(builder, abstractSyntaxTree.PseudoEnums);
+			EmitConstants(builder, abstractSyntaxTree.Constants);
 
 			var membersToAdd = builder.ToArray();
 			var compilationUnit = EmitCompilationUnit(
@@ -499,6 +500,28 @@ public const int {pseudoEnumConstant.Name} = {pseudoEnumConstant.Value};
 					builder.Add(member);
 				}
 			}
+		}
+
+		private static void EmitConstants(
+			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
+			ImmutableArray<CSharpConstant> constants)
+		{
+			foreach (var constant in constants)
+			{
+				var field = EmitConstant(constant);
+				builder.Add(field);
+			}
+		}
+
+		private static FieldDeclarationSyntax EmitConstant(CSharpConstant constant)
+		{
+			var code = $@"
+{constant.CodeLocationComment}
+public const {constant.Type} {constant.Name} = {constant.Value};
+";
+
+			var member = ParseMemberCode<FieldDeclarationSyntax>(code);
+			return member;
 		}
 
 		private static T ParseMemberCode<T>(string memberCode)

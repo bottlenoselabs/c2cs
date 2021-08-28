@@ -18,6 +18,7 @@
     
     <!-- Project references -->
     <ItemGroup>
+        <ProjectReference Include="$(GitRepositoryPath)ext\dsa\src\cs\production\DSA\DSA.csproj" />
         <ProjectReference Include="..\C2CS.Runtime\C2CS.Runtime.csproj" />
         <ProjectReference Include="..\clang-cs\clang-cs.csproj" />
     </ItemGroup>

@@ -21,6 +21,8 @@ namespace C2CS.UseCases.BindgenCSharp
 
         public readonly ImmutableArray<CSharpPseudoEnum> PseudoEnums;
 
+        public readonly ImmutableArray<CSharpConstant> Constants;
+
         public CSharpAbstractSyntaxTree(
             ImmutableArray<CSharpFunction> functionExterns,
             ImmutableArray<CSharpFunctionPointer> functionPointers,
@@ -28,7 +30,8 @@ namespace C2CS.UseCases.BindgenCSharp
             ImmutableArray<CSharpTypedef> typedefs,
             ImmutableArray<CSharpOpaqueType> opaqueDataTypes,
             ImmutableArray<CSharpEnum> enums,
-            ImmutableArray<CSharpPseudoEnum> pseudoEnums)
+            ImmutableArray<CSharpPseudoEnum> pseudoEnums,
+            ImmutableArray<CSharpConstant> constants)
         {
             FunctionExterns = functionExterns;
             FunctionPointers = functionPointers;
@@ -37,6 +40,7 @@ namespace C2CS.UseCases.BindgenCSharp
             OpaqueDataTypes = opaqueDataTypes;
             Enums = enums;
             PseudoEnums = pseudoEnums;
+            Constants = constants;
         }
     }
 }

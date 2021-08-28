@@ -11,8 +11,8 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
     [PublicAPI]
     public record CRecord : CNode
     {
-        [JsonPropertyName("type")]
-        public string Type { get; set; } = string.Empty;
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = string.Empty;
 
         [JsonPropertyName("isUnion")]
         public bool IsUnion { get; set; }
@@ -26,7 +26,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         public override string ToString()
         {
             var kind= IsUnion ? "Union" : "Struct";
-            return $"{kind} {Type} @ {Location.ToString()}";
+            return $"{kind} {Name} @ {Location.ToString()}";
         }
     }
 }

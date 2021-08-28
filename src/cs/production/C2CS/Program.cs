@@ -161,13 +161,13 @@ namespace C2CS
 			};
 			command.AddOption(typeAliasesOption);
 
-			var ignoredTypesOption = new Option<IEnumerable<string?>?>(
-				new[] {"--ignoredTypes", "-g"},
-				"Types by name that will be ignored; types are ignored after remapping type names.")
+			var ignoredNamesOption = new Option<IEnumerable<string?>?>(
+				new[] {"--ignoredNames", "-g"},
+				"Names (types, functions, macros, etc) that will be ignored; types are ignored after remapping type names.")
 			{
 				IsRequired = false
 			};
-			command.AddOption(ignoredTypesOption);
+			command.AddOption(ignoredNamesOption);
 
 			var libraryNameOption = new Option<string?>(
 				new[] {"--libraryName", "-l"},
@@ -294,7 +294,7 @@ namespace C2CS
 			string inputFile,
 			string outputFile,
 			IEnumerable<string?>? typeAliases,
-			IEnumerable<string?>? ignoredTypes,
+			IEnumerable<string?>? ignoredNames,
 			string? libraryName,
 			string? className,
 			IEnumerable<string?>? namespaces)
@@ -306,7 +306,7 @@ namespace C2CS
 				inputFile,
 				outputFile,
 				typeAliases,
-				ignoredTypes,
+				ignoredNames,
 				libraryName2,
 				className2,
 				namespaces);

@@ -18,5 +18,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         OpaqueType,
         Typedef,
         Variable,
+        MacroObjectLike
     }
 }

@@ -43,5 +43,8 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         [JsonPropertyName("types")]
         public ImmutableArray<CType> Types { get; set; } = ImmutableArray<CType>.Empty;
+
+        [JsonPropertyName("constants")]
+        public ImmutableArray<CMacroObject> Constants { get; set; } = ImmutableArray<CMacroObject>.Empty;
     }
 }

@@ -6,19 +6,23 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
-using C2CS.UseCases.BindgenCSharp;
+using DSA;
 using static clang;
 
 namespace C2CS.UseCases.AbstractSyntaxTreeC
 {
     public class ClangTranslationUnitExplorer
     {
+        private readonly ArrayDeque<Node> _frontierGeneral = new();
+        private readonly ArrayDeque<Node> _frontierMacros = new();
+
         private readonly DiagnosticsSink _diagnostics;
         private readonly ImmutableHashSet<string> _ignoredFiles;
         private readonly ImmutableHashSet<string> _opaqueTypeNames;
         private readonly ImmutableArray<string> _includeDirectories;
-        private readonly List<Node> _frontier = new();
         private readonly Dictionary<string, bool> _validTypeNames = new();
+
+        private readonly HashSet<string> _names = new();
         private readonly Dictionary<string, CType> _typesByName = new();
         private readonly List<CType> _types = new();
         private readonly List<CVariable> _variables = new();
@@ -29,7 +33,12 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
         private readonly List<COpaqueType> _opaqueDataTypes = new();
         private readonly List<CTypedef> _typedefs = new();
         private readonly List<CFunctionPointer> _functionPointers = new();
+
+        private readonly List<CMacroObject> _macroObjects = new();
+        private readonly HashSet<string> _macroFunctionLikeNames = new();
+
         private readonly ImmutableHashSet<string> _whitelistFunctionNames;
+
         private readonly HashSet<string> _systemIgnoredTypeNames = new()
         {
             "FILE",
@@ -46,7 +55,96 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             "uint64_t",
             "uintptr_t",
             "intptr_t",
-            "va_list",
+            "va_list"
+        };
+
+        private readonly HashSet<string> _ignoredMacroTokens = new()
+        {
+            // print conversion specifiers
+            "PRId8",
+            "PRId16",
+            "PRId32",
+            "PRId64",
+            "PRIdFAST8",
+            "PRIdFAST16",
+            "PRIdFAST32",
+            "PRIdFAST64",
+            "PRIdLEAST8",
+            "PRIdLEAST16",
+            "PRIdLEAST32",
+            "PRIdLEAST64",
+            "PRIdMAX",
+            "PRIdPTR",
+            "PRIi8",
+            "PRIi16",
+            "PRIi32",
+            "PRIi64",
+            "PRIiFAST8",
+            "PRIiFAST16",
+            "PRIiFAST32",
+            "PRIiFAST64",
+            "PRIiLEAST8",
+            "PRIiLEAST16",
+            "PRIiLEAST32",
+            "PRIiLEAST64",
+            "PRIiMAX",
+            "PRIiPTR",
+            "PRIo8",
+            "PRIo16",
+            "PRIo32",
+            "PRIo64",
+            "PRIoFAST8",
+            "PRIoFAST16",
+            "PRIoFAST32",
+            "PRIoFAST64",
+            "PRIoLEAST8",
+            "PRIoLEAST16",
+            "PRIoLEAST32",
+            "PRIoLEAST64",
+            "PRIoMAX",
+            "PRIoPTR",
+            "PRIu8",
+            "PRIu16",
+            "PRIu32",
+            "PRIu64",
+            "PRIuFAST8",
+            "PRIuFAST16",
+            "PRIuFAST32",
+            "PRIuFAST64",
+            "PRIuLEAST8",
+            "PRIuLEAST16",
+            "PRIuLEAST32",
+            "PRIuLEAST64",
+            "PRIuMAX",
+            "PRIuPTR",
+            "PRIx8",
+            "PRIx16",
+            "PRIx32",
+            "PRIx64",
+            "PRIxFAST8",
+            "PRIxFAST16",
+            "PRIxFAST32",
+            "PRIxFAST64",
+            "PRIxLEAST8",
+            "PRIxLEAST16",
+            "PRIxLEAST32",
+            "PRIxLEAST64",
+            "PRIxMAX",
+            "PRIxPTR",
+            "PRIX8",
+            "PRIX16",
+            "PRIX32",
+            "PRIX64",
+            "PRIXFAST8",
+            "PRIXFAST16",
+            "PRIXFAST32",
+            "PRIXFAST64",
+            "PRIXLEAST8",
+            "PRIXLEAST16",
+            "PRIXLEAST32",
+            "PRIXLEAST64",
+            "PRIXMAX",
+            "PRIXPTR",
         };
 
         public ClangTranslationUnitExplorer(
@@ -65,7 +163,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         public CAbstractSyntaxTree AbstractSyntaxTree(CXTranslationUnit translationUnit, int bitness)
         {
-            ExpandTranslationUnit(translationUnit);
+            VisitTranslationUnit(translationUnit);
             Explore();
 
             var cursor = clang_getTranslationUnitCursor(translationUnit);
@@ -78,6 +176,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var opaqueTypes = _opaqueDataTypes.ToImmutableArray();
             var typedefs = _typedefs.ToImmutableArray();
             var variables = _variables.ToImmutableArray();
+            var constants = _macroObjects.ToImmutableArray();
 
             var pseudoEnums = new List<CEnum>();
             var enumNames = _enums.Select(x => x.Name).ToImmutableHashSet();
@@ -101,16 +200,18 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 OpaqueTypes = opaqueTypes,
                 Typedefs = typedefs,
                 Variables = variables,
-                Types = _types.ToImmutableArray()
+                Types = _types.ToImmutableArray(),
+                Constants = constants
             };
         }
 
-        private void ExpandTranslationUnit(CXTranslationUnit translationUnit)
+        private void VisitTranslationUnit(CXTranslationUnit translationUnit)
         {
             var cursor = clang_getTranslationUnitCursor(translationUnit);
+
             var type = clang_getCursorType(cursor);
             var location = Location(cursor);
-            ExpandNode(
+            AddExplorerNode(
                 CKind.TranslationUnit,
                 location,
                 null,
@@ -123,29 +224,22 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         private void Explore()
         {
-            // The idea is that we keep track of nodes we wish to process next when we encounter them.
-            //  The concept of "frontier" comes from artificial intelligence textbooks on the subject of graph
-            //  traversal such as solving mazes or otherwise "exploring" the environment for a solution.
-            //  Here we use it as an array which acts like stack data structure with first-in-last-out (FILO) behaviour.
-            //  I.e., we add append items to the end of the array, and remove items from end of the array.
-            //  Using a stack data structures with FILO leads to behaviour of depth-first-search (DFS) with post-order
-            //  traversal. I.e., starting from a the root of the tree (the translation unit) we recursively go deeper
-            //  and deeper into children nodes (cursors that are of interest such as an Enum, Struct, Function, etc) until
-            //  we hit a leaf (some cursor that has no children cursors). As we go along we visit the last node (cursor)
-            //  that was expanded. This is appropriate because we want to add nodes as we encounter them along
-            //  our graph traversal journey but not immediately process them; rather we want to process the next node
-            //  once we are finished processing our current node.
-
-            while (_frontier.Count > 0)
+            while (_frontierGeneral.Count > 0)
             {
-                var node = _frontier[^1];
-                _frontier.RemoveAt(_frontier.Count - 1); // RemoveAt() allows us to achieve O(1), while Remove() is O(n)
+                var node = _frontierGeneral.PopFront()!;
+                ExploreNode(node);
+            }
+
+            while (_frontierMacros.Count > 0)
+            {
+                var node = _frontierMacros.PopFront()!;
                 ExploreNode(node);
             }
         }
 
         private void ExploreNode(Node node)
         {
+            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
             switch (node.Kind)
             {
                 case CKind.TranslationUnit:
@@ -173,12 +267,15 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                     ExploreFunctionPointer(node.TypeName!, node.Cursor, node.Type, node.OriginalType, node.Location, node.Parent!);
                     break;
                 case CKind.Array:
-                    ExpandArray(node);
+                    ExploreArray(node);
                     break;
                 case CKind.Pointer:
-                    ExpandPointer(node);
+                    ExplorePointer(node);
                     break;
                 case CKind.Primitive:
+                    break;
+                case CKind.MacroObjectLike:
+                    ExploreMacro(node);
                     break;
                 default:
                     var up = new ClangExplorerException($"Unexpected explorer node '{node.Kind}'.");
@@ -186,14 +283,16 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             }
         }
 
-        private bool TypeIsIgnored(CXType type, CXCursor cursor)
+        private bool IsIgnored(CXType type, CXCursor cursor)
         {
             if (cursor.kind == CXCursorKind.CXCursor_TranslationUnit)
             {
                 return false;
             }
 
-            var (kind, actualType) = TypeKind(type);
+            var (kind, actualType) = cursor.kind != CXCursorKind.CXCursor_MacroDefinition
+                ? TypeKind(type)
+                : (CKind.MacroObjectLike, default);
             if (kind == CKind.Primitive)
             {
                 return false;
@@ -202,13 +301,14 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             if (kind == CKind.Array)
             {
                 var elementType = clang_getElementType(actualType);
-                return TypeIsIgnored(elementType, cursor);
+                return IsIgnored(elementType, cursor);
             }
 
-            var fileLocation = actualType.FileLocation(cursor);
+            var fileLocation = kind == CKind.MacroObjectLike ? cursor.FileLocation() : actualType.FileLocation(cursor);
             if (string.IsNullOrEmpty(fileLocation.FileName))
             {
-                var up = new ClangExplorerException("Unexpected null file path for a type/cursor combination; this is a bug.");
+                var up = new ClangExplorerException(
+                    "Unexpected null file path for a type/cursor combination; this is a bug.");
                 throw up;
             }
 
@@ -228,95 +328,61 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
         private void ExploreTranslationUnit(Node node)
         {
-            var c = node.Cursor.GetDescendents((child, parent) => true);
-            foreach (var cursor in c)
+            var interestingCursors = node.Cursor.GetDescendents(IsCursorOfInterest);
+            foreach (var cursor in interestingCursors)
             {
-                var name = cursor.Name();
-                var kind = clang_getCursorKind(cursor);
-
-                if (kind != CXCursorKind.CXCursor_MacroDefinition)
+                if (!IsWhitelisted(cursor, _whitelistFunctionNames))
                 {
                     continue;
                 }
 
-                if (name.StartsWith("SDL_", StringComparison.InvariantCulture) &&
-                    !name.EndsWith("_H", StringComparison.InvariantCulture))
-                {
-                    continue;
-                }
-
-                if (clang_Cursor_isMacroFunctionLike(cursor) != 0)
-                {
-                    continue;
-                }
-
-                if (clang_Cursor_isMacroBuiltin(cursor) != 0)
-                {
-                    continue;
-                }
-
-                if (cursor.IsSystem())
-                {
-                    continue;
-                }
-
-                var location = Location(cursor);
-                if (string.IsNullOrEmpty(location.FilePath))
-                {
-                    continue;
-                }
-
-                var isSystem = true;
-                foreach (var includeDirectory in _includeDirectories)
-                {
-                    if (location.FilePath.StartsWith(includeDirectory, StringComparison.InvariantCulture))
-                    {
-                        isSystem = false;
-                        break;
-                    }
-                }
-
-                if (isSystem)
-                {
-                    continue;
-                }
-
-                Console.WriteLine($"Name: {name}, {Location(cursor).FilePath}");
+                VisitTranslationUnitCursor(node, cursor);
             }
 
-            var cursors = node.Cursor.GetDescendents(IsCursorToBeExtracted);
-
-            foreach (var cursor in cursors)
+            static bool IsWhitelisted(CXCursor cursor, ImmutableHashSet<string> whitelistFunctionNames)
             {
-                if (cursor.kind == CXCursorKind.CXCursor_FunctionDecl && !_whitelistFunctionNames.IsEmpty)
+                if (whitelistFunctionNames.IsEmpty)
                 {
-                    var functionName = cursor.Name();
-                    var isWhitelisted = cursor.kind == CXCursorKind.CXCursor_FunctionDecl &&
-                                        _whitelistFunctionNames.Contains(functionName);
-                    if (!isWhitelisted)
-                    {
-                        continue;
-                    }
+                    return true;
                 }
 
-                ExpandTranslationUnitCursor(node, cursor);
+                if (cursor.kind != CXCursorKind.CXCursor_FunctionDecl)
+                {
+                    return false;
+                }
+
+                var functionName = cursor.Name();
+                var whitelisted = cursor.kind == CXCursorKind.CXCursor_FunctionDecl &&
+                                  whitelistFunctionNames.Contains(functionName);
+                return whitelisted;
             }
 
-            static bool IsCursorToBeExtracted(CXCursor cursor, CXCursor cursorParent)
+            static bool IsCursorOfInterest(CXCursor cursor, CXCursor cursorParent)
             {
                 var kind = clang_getCursorKind(cursor);
                 if (kind != CXCursorKind.CXCursor_FunctionDecl &&
                     kind != CXCursorKind.CXCursor_VarDecl &&
-                    kind != CXCursorKind.CXCursor_EnumDecl)
+                    kind != CXCursorKind.CXCursor_EnumDecl &&
+                    kind != CXCursorKind.CXCursor_MacroDefinition)
                 {
                     return false;
                 }
 
-                var linkage = clang_getCursorLinkage(cursor);
-                var isExternallyLinked = linkage == CXLinkageKind.CXLinkage_External;
-                if (!isExternallyLinked)
+                if (kind == CXCursorKind.CXCursor_MacroDefinition)
                 {
-                    return false;
+                    if (clang_Cursor_isMacroBuiltin(cursor) != 0)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    var linkage = clang_getCursorLinkage(cursor);
+                    var isExternallyLinked = linkage == CXLinkageKind.CXLinkage_External;
+                    if (!isExternallyLinked)
+                    {
+                        return false;
+                    }
                 }
 
                 var isSystemCursor = cursor.IsSystem();
@@ -324,64 +390,183 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             }
         }
 
-        private void ExpandTranslationUnitCursor(Node parentNode, CXCursor cursor)
+        private void VisitTranslationUnitCursor(Node parentNode, CXCursor cursor)
         {
             var kind = cursor.kind switch
             {
                 CXCursorKind.CXCursor_FunctionDecl => CKind.Function,
                 CXCursorKind.CXCursor_VarDecl => CKind.Variable,
                 CXCursorKind.CXCursor_EnumDecl => CKind.Enum,
+                CXCursorKind.CXCursor_MacroDefinition => CKind.MacroObjectLike,
                 _ => CKind.Unknown
             };
 
             if (kind == CKind.Unknown)
             {
-                var up = new ClangExplorerException($"Expected 'FunctionDecl', 'VarDecl', or 'EnumDecl' but found '{cursor.kind}'.");
+                var up = new ClangExplorerException(
+                    $"Expected 'FunctionDecl', 'VarDecl', or 'EnumDecl' but found '{cursor.kind}'.");
                 throw up;
             }
 
-            var type = clang_getCursorType(cursor);
-            var typeName = TypeName(parentNode.TypeName!, kind, type, cursor);
             var name = cursor.Name();
-            var location = Location(cursor, type);
 
-            var isIgnored = TypeIsIgnored(type, cursor);
-            if (isIgnored)
+            if (kind == CKind.MacroObjectLike)
             {
-                return;
-            }
-
-            if (kind == CKind.Enum)
-            {
-                ExploreEnum(typeName, cursor, type, location, parentNode, true);
+                var location = Location(cursor);
+                AddExplorerNode(kind, location, parentNode, cursor, default, default, name, string.Empty);
             }
             else
             {
-                ExpandNode(kind, location, parentNode, cursor, type, type, name, typeName);
+                var type = clang_getCursorType(cursor);
+                var location = Location(cursor, type);
+                var typeName = TypeName(parentNode.TypeName!, kind, type, cursor);
+
+                var isIgnored = IsIgnored(type, cursor);
+                if (isIgnored)
+                {
+                    return;
+                }
+
+                if (kind == CKind.Enum)
+                {
+                    ExploreEnum(typeName, cursor, type, location, parentNode, true);
+                }
+                else
+                {
+                    AddExplorerNode(kind, location, parentNode, cursor, type, type, name, typeName);
+                }
             }
         }
 
-        private void ExpandArray(Node node)
+        private void ExploreArray(Node node)
         {
             var elementType = clang_getElementType(node.Type);
             var (kind, type) = TypeKind(elementType);
             var typeCursor = clang_getTypeDeclaration(type);
             var typeName = TypeName(node.TypeName!, kind, type, typeCursor);
-            ExpandType(node, typeCursor, typeCursor, type, type, typeName);
+            VisitType(node, typeCursor, typeCursor, type, type, typeName);
         }
 
-        private void ExpandPointer(Node node)
+        private void ExplorePointer(Node node)
         {
             var pointeeType = clang_getPointeeType(node.Type);
             var (kind, type) = TypeKind(pointeeType);
             var typeCursor = clang_getTypeDeclaration(type);
             var typeName = TypeName(node.TypeName!, kind, type, typeCursor);
-            ExpandType(node, typeCursor, typeCursor, type, type, typeName);
+            VisitType(node, typeCursor, typeCursor, type, type, typeName);
         }
 
-        private void ExploreVariable(string name, string typeName, CXCursor cursor, CXType type, ClangLocation location, Node parentNode)
+        private void ExploreMacro(Node node)
         {
-            ExpandType(parentNode, cursor, cursor, type, type, typeName);
+            var name = node.Name!;
+            var location = node.Location;
+
+            // Function-like macros currently not implemented
+            // https://github.com/lithiumtoast/c2cs/issues/35
+            if (clang_Cursor_isMacroFunctionLike(node.Cursor) != 0)
+            {
+                _macroFunctionLikeNames.Add(name);
+                return;
+            }
+
+            // It is assumed that macros with a name which starts with an underscore are not supposed to be exposed in the public API
+            if (name.StartsWith("_", StringComparison.InvariantCulture))
+            {
+                return;
+            }
+
+            // libclang doesn't have a thing where we can easily get a value of a macro
+            // we need to:
+            //  1. get the text range of the cursor
+            //  2. get the tokens over said text range
+            //  3. go through the tokens to parse the value
+            // this means we get to do token parsing ourselves, yay!
+            // NOTE: The first token will always be the name of the macro
+            var translationUnit = clang_Cursor_getTranslationUnit(node.Cursor);
+            string[] tokens;
+            unsafe
+            {
+                var range = clang_getCursorExtent(node.Cursor);
+                var tokensC = (CXToken*)0;
+                ulong tokensCount = 0;
+
+                clang_tokenize(translationUnit, range, &tokensC, &tokensCount);
+
+                var macroIsFlag = tokensCount is 0 or 1;
+                if (macroIsFlag)
+                {
+                    clang_disposeTokens(translationUnit, tokensC, (uint)tokensCount);
+                    return;
+                }
+
+                tokens = new string[tokensCount - 1];
+                for (var i = 1; i < (int)tokensCount; i++)
+                {
+                    var spelling = clang_getTokenSpelling(translationUnit, tokensC[i]);
+                    tokens[i - 1] = clang_getCString(spelling);
+                }
+
+                clang_disposeTokens(translationUnit, tokensC, (uint)tokensCount);
+            }
+
+            // Ignore macros with certain tokens
+            foreach (var token in tokens)
+            {
+                if (_macroFunctionLikeNames.Contains(token))
+                {
+                    return;
+                }
+
+                if (_ignoredMacroTokens.Contains(token))
+                {
+                    return;
+                }
+            }
+
+            // Ignore macros which are definitions for C extension keywords such as __attribute__ or use such keywords
+            if (tokens.Any(x =>
+                x.StartsWith("__", StringComparison.InvariantCulture) &&
+                x.EndsWith("__", StringComparison.InvariantCulture)))
+            {
+                return;
+            }
+
+            // Remove redundant parenthesis
+            if (tokens.Length > 2)
+            {
+                if (tokens[0] == "(" && tokens[^1] == ")")
+                {
+                    var newTokens = new string[tokens.Length - 2];
+                    Array.Copy(tokens, 1, newTokens, 0, tokens.Length - 2);
+                    tokens = newTokens;
+                }
+            }
+
+            // Ignore macros which are forward declarations
+            if (tokens.Length == 1 && _names.Contains(tokens[0]))
+            {
+                return;
+            }
+
+            var macro = new CMacroObject
+            {
+                Name = name,
+                Tokens = tokens.ToImmutableArray(),
+                Location = location
+            };
+
+            _macroObjects.Add(macro);
+        }
+
+        private void ExploreVariable(
+            string name,
+            string typeName,
+            CXCursor cursor,
+            CXType type,
+            ClangLocation location,
+            Node parentNode)
+        {
+            VisitType(parentNode, cursor, cursor, type, type, typeName);
 
             var variable = new CVariable
             {
@@ -391,6 +576,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             };
 
             _variables.Add(variable);
+            _names.Add(name);
         }
 
         private void ExploreFunction(string name, CXCursor cursor, CXType type, ClangLocation location, Node parentNode)
@@ -400,7 +586,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var (kind, actualType) = TypeKind(resultType);
             var resultTypeName = TypeName(parentNode.TypeName!, kind, actualType, cursor);
 
-            ExpandType(parentNode, cursor, cursor, resultType, resultType, resultTypeName);
+            VisitType(parentNode, cursor, cursor, resultType, resultType, resultTypeName);
 
             var parameters = CreateFunctionParameters(cursor, parentNode);
 
@@ -414,9 +600,16 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             };
 
             _functions.Add(function);
+            _names.Add(function.Name);
         }
 
-        private void ExploreEnum(string typeName, CXCursor cursor, CXType type, ClangLocation location, Node parentNode, bool isPseudo = false)
+        private void ExploreEnum(
+            string typeName,
+            CXCursor cursor,
+            CXType type,
+            ClangLocation location,
+            Node parentNode,
+            bool isPseudo = false)
         {
             var typeCursor = clang_getTypeDeclaration(type);
             if (typeCursor.kind == CXCursorKind.CXCursor_NoDeclFound)
@@ -427,46 +620,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var integerType = clang_getEnumDeclIntegerType(typeCursor);
             var integerTypeName = TypeName(parentNode.TypeName!, CKind.Enum, integerType, cursor);
 
-            // TRICK: Force unsigned integer; enums in C could be signed or unsigned depending the platform architecture.
-            //  This makes for a slightly different bindings between Windows/macOS/Linux where the enum is different type
-            if (integerTypeName == "unsigned char" || integerTypeName == "char")
-            {
-                integerTypeName = "signed char";
-            }
-            else if (integerTypeName == "short" || integerTypeName == "unsigned short")
-            {
-                integerTypeName = "signed short";
-            }
-            else if (integerTypeName == "short int" || integerTypeName == "unsigned short int")
-            {
-                integerTypeName = "signed short int";
-            }
-            else if (integerTypeName == "unsigned")
-            {
-                integerTypeName = "signed";
-            }
-            else if (integerTypeName == "int" || integerTypeName == "unsigned int")
-            {
-                integerTypeName = "signed int";
-            }
-            else if (integerTypeName == "long" || integerTypeName == "unsigned long")
-            {
-                integerTypeName = "signed long";
-            }
-            else if (integerTypeName == "long int" || integerTypeName == "unsigned long int")
-            {
-                integerTypeName = "signed long int";
-            }
-            else if (integerTypeName == "long long" || integerTypeName == "unsigned long long")
-            {
-                integerTypeName = "signed long long";
-            }
-            else if (typeName == "long long int" || typeName == "unsigned long long int")
-            {
-                integerTypeName = "signed long long int";
-            }
-
-            ExpandType(parentNode, cursor, cursor, integerType, integerType, integerTypeName);
+            VisitType(parentNode, cursor, cursor, integerType, integerType, integerTypeName);
 
             var enumValues = CreateEnumValues(typeCursor);
 
@@ -487,6 +641,8 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             {
                 _enums.Add(@enum);
             }
+
+            _names.Add(@enum.Name);
         }
 
         private void ExploreRecord(Node node, Node parentNode)
@@ -514,7 +670,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             {
                 Location = location,
                 IsUnion = isUnion,
-                Type = typeName,
+                Name = typeName,
                 Fields = fields,
                 NestedRecords = nestedRecords
             };
@@ -529,6 +685,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             }
 
             _records.Add(record);
+            _names.Add(record.Name);
         }
 
         private void ExploreTypedef(Node node, Node parentNode)
@@ -572,7 +729,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             }
 
             var aliasTypeName = TypeName(parentNode.TypeName!, aliasKind, aliasType, aliasCursor);
-            ExpandType(parentNode, aliasCursor, cursor, aliasType, aliasType, aliasTypeName);
+            VisitType(parentNode, aliasCursor, cursor, aliasType, aliasType, aliasTypeName);
 
             var typedef = new CTypedef
             {
@@ -582,6 +739,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             };
 
             _typedefs.Add(typedef);
+            _names.Add(typedef.Name);
         }
 
         private void ExploreOpaqueType(string typeName, ClangLocation location)
@@ -593,9 +751,16 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             };
 
             _opaqueDataTypes.Add(opaqueDataType);
+            _names.Add(opaqueDataType.Name);
         }
 
-        private void ExploreFunctionPointer(string typeName, CXCursor cursor, CXType type, CXType originalType, ClangLocation location, Node parentNode)
+        private void ExploreFunctionPointer(
+            string typeName,
+            CXCursor cursor,
+            CXType type,
+            CXType originalType,
+            ClangLocation location,
+            Node parentNode)
         {
             if (type.kind == CXTypeKind.CXType_Pointer)
             {
@@ -605,6 +770,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var functionPointer = CreateFunctionPointer(typeName, cursor, parentNode, originalType, type, location);
 
             _functionPointers.Add(functionPointer);
+            _names.Add(functionPointer.Name);
         }
 
         private bool TypeNameIsValid(CXType type, string typeName)
@@ -665,7 +831,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             return true;
         }
 
-        private void ExpandNode(
+        private void AddExplorerNode(
             CKind kind,
             ClangLocation location,
             Node? parent,
@@ -675,13 +841,15 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             string name,
             string typeName)
         {
-            if (kind != CKind.TranslationUnit && type.kind == CXTypeKind.CXType_Invalid)
+            if (kind != CKind.TranslationUnit &&
+                kind != CKind.MacroObjectLike &&
+                type.kind == CXTypeKind.CXType_Invalid)
             {
-                var up = new ClangExplorerException("Expanding node can't be invalid type kind.");
+                var up = new ClangExplorerException("Explorer node can't be invalid type kind.");
                 throw up;
             }
 
-            var isIgnored = TypeIsIgnored(type, cursor);
+            var isIgnored = IsIgnored(type, cursor);
             if (isIgnored)
             {
                 return;
@@ -696,7 +864,15 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 originalType,
                 name,
                 typeName);
-            _frontier.Add(node);
+
+            if (kind == CKind.MacroObjectLike)
+            {
+                _frontierMacros.PushBack(node);
+            }
+            else
+            {
+                _frontierGeneral.PushBack(node);
+            }
         }
 
         private static CFunctionCallingConvention CreateFunctionCallingConvention(CXType type)
@@ -736,7 +912,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var (kind, typeActual) = TypeKind(type);
             var typeName = TypeName(parentNode.TypeName!, kind, typeActual, cursor);
 
-            ExpandType(parentNode, cursor, cursor, type, type, typeName);
+            VisitType(parentNode, cursor, cursor, type, type, typeName);
             var codeLocation = Location(cursor, type);
 
             return new CFunctionParameter
@@ -755,7 +931,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var returnType = clang_getResultType(type);
             var (kind, actualReturnType) = TypeKind(returnType);
             var returnTypeName = TypeName(parentNode.TypeName!, kind, actualReturnType, cursor);
-            ExpandType(parentNode, cursor, cursor, returnType, returnType, returnTypeName);
+            VisitType(parentNode, cursor, cursor, returnType, returnType, returnTypeName);
 
             var name = string.Empty;
             if (cursor.kind == CXCursorKind.CXCursor_TypedefDecl)
@@ -772,7 +948,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 Location = location,
                 Type = typeName,
                 ReturnType = returnTypeName,
-                Parameters = parameters,
+                Parameters = parameters
             };
 
             return functionPointer;
@@ -805,7 +981,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var (kind, actualType) = TypeKind(type);
             var typeName = TypeName(parentNode.TypeName!, kind, actualType, cursor);
 
-            ExpandType(parentNode, cursor, cursor, type, type, typeName);
+            VisitType(parentNode, cursor, cursor, type, type, typeName);
 
             return new CFunctionPointerParameter
             {
@@ -871,7 +1047,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             {
                 var fieldLast = builder[^1];
                 var cursorType = clang_getCursorType(cursor);
-                var recordSize = (int) clang_Type_getSizeOf(cursorType);
+                var recordSize = (int)clang_Type_getSizeOf(cursorType);
                 var typeName = Value(fieldLast.Type);
                 var type = _typesByName[typeName];
                 var fieldLastTypeSize = type.SizeOf!.Value;
@@ -904,9 +1080,9 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             var (kind, actualType) = TypeKind(type);
             var typeName = TypeName(recordName, kind, actualType, cursor);
 
-            ExpandType(parentNode, cursor, cursor, type, type, typeName);
+            VisitType(parentNode, cursor, cursor, type, type, typeName);
 
-            var offset = (int) (clang_Cursor_getOffsetOfField(cursor) / 8);
+            var offset = (int)(clang_Cursor_getOffsetOfField(cursor) / 8);
 
             return new CRecordField
             {
@@ -999,7 +1175,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             {
                 Location = location,
                 IsUnion = isUnion,
-                Type = typeName,
+                Name = typeName,
                 Fields = recordFields,
                 NestedRecords = nestedRecords
             };
@@ -1041,7 +1217,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             {
                 Location = location,
                 Name = name,
-                Value = value,
+                Value = value
             };
         }
 
@@ -1054,11 +1230,11 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 declaration = cursor;
             }
 
-            var sizeOfValue = (int) clang_Type_getSizeOf(type);
+            var sizeOfValue = (int)clang_Type_getSizeOf(type);
             int? sizeOf = sizeOfValue >= 0 ? sizeOfValue : null;
-            var alignOfValue = (int) clang_Type_getAlignOf(type);
+            var alignOfValue = (int)clang_Type_getAlignOf(type);
             int? alignOf = alignOfValue >= 0 ? alignOfValue : null;
-            var arraySizeValue = (int) clang_getArraySize(type);
+            var arraySizeValue = (int)clang_getArraySize(type);
             int? arraySize = arraySizeValue >= 0 ? arraySizeValue : null;
             var isSystemType = type.IsSystem();
 
@@ -1066,7 +1242,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             if (type.kind == CXTypeKind.CXType_ConstantArray)
             {
                 var elementType = clang_getElementType(type);
-                elementSize = (int) clang_Type_getSizeOf(elementType);
+                elementSize = (int)clang_Type_getSizeOf(elementType);
             }
 
             ClangLocation? location = null;
@@ -1203,7 +1379,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             return underlyingCursor;
         }
 
-        private void ExpandType(
+        private void VisitType(
             Node parentNode,
             CXCursor cursor,
             CXCursor originalCursor,
@@ -1229,13 +1405,13 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 var pointeeKind = TypeKind(pointeeType);
                 var pointeeCursor = clang_getTypeDeclaration(pointeeType);
                 var pointeeTypeName = TypeName(parentNode.TypeName!, pointeeKind.Kind, pointeeKind.Type, pointeeCursor);
-                ExpandType(parentNode, pointeeCursor, originalCursor, pointeeKind.Type, type, pointeeTypeName);
+                VisitType(parentNode, pointeeCursor, originalCursor, pointeeKind.Type, type, pointeeTypeName);
                 return;
             }
 
             if (typeKind.Kind == CKind.Typedef)
             {
-                ExpandTypedef(parentNode, typeKind.Type, typeName);
+                VisitTypedef(parentNode, typeKind.Type, typeName);
             }
             else
             {
@@ -1266,15 +1442,23 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 }
 
                 var location = Location(locationCursor);
-                ExpandNode(typeKind.Kind, location, parentNode, cursor, typeKind.Type, originalType, string.Empty, typeName);
+                AddExplorerNode(
+                    typeKind.Kind,
+                    location,
+                    parentNode,
+                    cursor,
+                    typeKind.Type,
+                    originalType,
+                    string.Empty,
+                    typeName);
             }
         }
 
-        private void ExpandTypedef(Node parentNode, CXType type, string typeName)
+        private void VisitTypedef(Node parentNode, CXType type, string typeName)
         {
             var typedefCursor = clang_getTypeDeclaration(type);
             var location = typedefCursor.FileLocation();
-            ExpandNode(CKind.Typedef, location, parentNode, typedefCursor, type, type, string.Empty, typeName);
+            AddExplorerNode(CKind.Typedef, location, parentNode, typedefCursor, type, type, string.Empty, typeName);
         }
 
         private string TypeName(string parentTypeName, CKind kind, CXType type, CXCursor cursor)
@@ -1329,6 +1513,25 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             if (string.IsNullOrEmpty(typeName))
             {
                 throw new ClangExplorerException($"Type name was not found for '{kind}'.");
+            }
+
+            if (kind == CKind.Enum)
+            {
+                typeName = typeName switch
+                {
+                    // TRICK: Force signed integer; enums in C could be signed or unsigned depending the platform architecture.
+                    //  This makes for a slightly different bindings between Windows/macOS/Linux where the enum is different type
+                    "unsigned char" or "char" => "signed char",
+                    "short" or "unsigned short" => "signed short",
+                    "short int" or "unsigned short int" => "signed short int",
+                    "unsigned" => "signed",
+                    "int" or "unsigned int" => "signed int",
+                    "long" or "unsigned long" => "signed long",
+                    "long int" or "unsigned long int" => "signed long int",
+                    "long long" or "unsigned long long" => "signed long long",
+                    "long long int" or "unsigned long long int" => "signed long long int",
+                    _ => typeName
+                };
             }
 
             return typeName;

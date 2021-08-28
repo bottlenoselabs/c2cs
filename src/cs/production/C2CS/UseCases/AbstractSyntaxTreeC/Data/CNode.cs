@@ -29,6 +29,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 CRecord => CKind.Record,
                 CTypedef => CKind.Typedef,
                 CVariable => CKind.Variable,
+                CMacroObject => CKind.MacroObjectLike,
                 _ => CKind.Unknown
             };
         }
