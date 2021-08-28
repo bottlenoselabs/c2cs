@@ -7,3 +7,6 @@
 [submodule "ext/libuv"]
 	path = ext/libuv
 	url = https://github.com/libuv/libuv.git
+[submodule "ext/dsa"]
+	path = ext/dsa
+	url = https://github.com/lithiumtoast/dsa
