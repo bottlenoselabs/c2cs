@@ -25,8 +25,6 @@ jobs:
     steps:
     - name: "Clone Git repository"
       uses: actions/checkout@v2
-      with:
-        submodules: 'true'
 
     - name: "Git fetch all history for all tags and branches"
       run: git fetch --prune --unshallow
@@ -78,8 +76,7 @@ jobs:
     - name: "Clone Git repository"
       uses: actions/checkout@master
       with:
-        submodules: true
-        lfs: true
+        submodules: 'recursive'
 
     - name: "Install .NET"
       uses: actions/setup-dotnet@v1
