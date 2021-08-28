@@ -4,7 +4,7 @@ C to C# dynamic library bindings code generator. In go `.h` file, out come `.cs`
 
 ## Download
 
-|[Windows (x64)](https://nightly.link/lithiumtoast/c2cs/workflows/build-test-deploy/develop/win-x64.zip)|[macOS](https://nightly.link/lithiumtoast/c2cs/workflows/build-test-deploy/develop/osx-x64.zip)|[Ubuntu 20.04](https://nightly.link/lithiumtoast/c2cs/workflows/build-test-deploy/develop/ubuntu.20.04-x64.zip)|
+|[Windows (x64)](https://nightly.link/lithiumtoast/c2cs/workflows/build-test-deploy/develop/win-x64.zip)|[macOS (x64)](https://nightly.link/lithiumtoast/c2cs/workflows/build-test-deploy/develop/osx-x64.zip)|[Ubuntu 20.04 (x64)](https://nightly.link/lithiumtoast/c2cs/workflows/build-test-deploy/develop/ubuntu.20.04-x64.zip)|
 |---|---|---|
 
 ## Documentation
@@ -50,12 +50,11 @@ This is all accomplished by using [libclang](https://clang.llvm.org/docs/Tooling
 
 ### Limitations
 
-1. If you are not using Windows before .NET Core 3.1+ then passing structs by value won't work in some contexts. https://docs.microsoft.com/en-us/dotnet/standard/native-interop/customize-struct-marshaling
-> ❌ AVOID using LayoutKind.Explicit when marshaling structures on non-Windows platforms if you need to target runtimes before .NET Core 3.0. The .NET Core runtime before 3.0 doesn't support passing explicit structures by value to native functions on Intel or AMD 64-bit non-Windows systems. However, the runtime supports passing explicit structures by reference on all platforms.
+1. .NET 5+ because C# 9 function pointers are used. 
 
-1. Pointers such as `void*` can have different sizes across target computer architectures. E.g., `x86` pointers are 4 bytes and `x64` (aswell as `arm64`) pointers are 8 bytes. Thus, if you need to have bindings for `x86`/`arm32` and `x64`/`arm64` you will need to have two seperate bindings. However, 64 bit is pretty ubiquitous on Windows these days, at least for gaming, as you can see from [Steam hardware survey where 64-bit is 99%+](https://store.steampowered.com/hwsurvey/directx/). Additionally, you can see that the ["trend" is that 64-bit is becoming standard over time with 32-bit getting dropped](https://en.wikipedia.org/wiki/64-bit_computing#64-bit_operating_system_timeline). Additionally in some contexts, the "built-in" C integer types could have different bit width for different ABIs. E.g. `long` is at **minimum** 32 bits (4 bytes). On Windows `x64` it is reported by the Microsoft Visual C++ (MSCV) to be actually 64 bits (8 bytes). For sanity sake you should always use the integer types from `stdint.h` such as `uint8_t`, `int32_t`, `uint64_t`, etc.
+2. Pointers such as `void*` can have different sizes across target computer architectures. E.g., `x86` pointers are 4 bytes and `x64` (aswell as `arm64`) pointers are 8 bytes. Thus, if you need to have bindings for `x86`/`arm32` and `x64`/`arm64` you will need to have two seperate bindings. However, 64 bit is pretty ubiquitous on Windows these days, at least for gaming, as you can see from [Steam hardware survey where 64-bit is 99%+](https://store.steampowered.com/hwsurvey/directx/). Additionally, you can see that the ["trend" is that 64-bit is becoming standard over time with 32-bit getting dropped](https://en.wikipedia.org/wiki/64-bit_computing#64-bit_operating_system_timeline). Additionally in some contexts, the "built-in" C integer types could have different bit width for different ABIs. E.g. `long` is at **minimum** 32 bits (4 bytes). On Windows `x64` it is reported by the Microsoft Visual C++ (MSCV) to be actually 64 bits (8 bytes). For sanity sake you should always use the integer types from `stdint.h` such as `uint8_t`, `int32_t`, `uint64_t`, etc.
 
-2. This solution does not work for every C library. This is due to some technical limitations where some C libraries are not "bindgen-friendly".
+3. This solution does not work for every C library. This is due to some technical limitations where some C libraries are not "bindgen-friendly".
 
 #### What does it mean for a C library to be bindgen-friendly?
 
@@ -72,7 +71,7 @@ Everything in the [**external linkage**](https://stackoverflow.com/questions/135
 |:white_check_mark:|Opaque types.<sup>5</sup>|
 |:white_check_mark:|Typedefs. (a.k.a, type aliases.)|
 |:o:|Function-like macros.<sup>6</sup>|
-|:o:|Object-like macros.<sup>7</sup>|
+|:white_check_mark:|Object-like macros.<sup>7</sup>|
 |:x:|C++.|
 |:x:|Objective-C.|
 |:o:|Implicit types.<sup>8</sup>|
@@ -90,7 +89,7 @@ Everything in the [**external linkage**](https://stackoverflow.com/questions/135
 
 <sup>6</sup>: Function-like macros are only possible if the parameters' types can be inferred 100% of the time during preprocessor; otherwise, not possible. **Not yet implemented**.
 
-<sup>7</sup>: Object-like macros are only possible if the type can inferred 100% of the time during preprocessor; otherwise, not possible. **Not yet implemented**.
+<sup>7</sup>: Object-like macros have limited support. They are transpiled to constants in C# which the value type is determined by evaluating the value of the macro as an C# expression.
 
 <sup>8</sup>: Types must be explicitly transtive to a function extern so they can be found. The only exception is enums that are part of external linkage to which such enums are transpiled. This is a commonly found in some C libraries such as https://github.com/libsdl-org/SDL where functions take integers as part of their API but are actually expecting an enum.
 
