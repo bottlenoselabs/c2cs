@@ -17,7 +17,7 @@ namespace C2CS.UseCases.BindgenCSharp
 
         public ImmutableArray<CSharpTypeAlias> TypeAliases { get; }
 
-        public ImmutableArray<string> IgnoredTypeNames { get; }
+        public ImmutableArray<string> IgnoredNames { get; }
 
         public string LibraryName { get; }
 
@@ -29,7 +29,7 @@ namespace C2CS.UseCases.BindgenCSharp
             string inputFilePath,
             string outputFilePath,
             IEnumerable<string?>? typeAliases,
-            IEnumerable<string?>? ignoredTypeNames,
+            string ignoredNamesFilePath,
             string libraryName,
             string className,
             IEnumerable<string?>? usingNamespaces)
@@ -37,7 +37,7 @@ namespace C2CS.UseCases.BindgenCSharp
             InputFilePath = inputFilePath;
             OutputFilePath = outputFilePath;
             TypeAliases = CreateTypeAliases(typeAliases);
-            IgnoredTypeNames = CreateIgnoredTypeNames(ignoredTypeNames);
+            IgnoredNames = CreateIgnoredNames(ignoredNamesFilePath);
             LibraryName = libraryName;
             ClassName = className;
             UsingNamespaces = CreateUsingNamespaces(usingNamespaces);
@@ -79,18 +79,14 @@ namespace C2CS.UseCases.BindgenCSharp
             return builder.ToImmutable();
         }
 
-        private static ImmutableArray<string> CreateIgnoredTypeNames(IEnumerable<string?>? ignoredTypeNames)
+        private static ImmutableArray<string> CreateIgnoredNames(string ignoredNamesFilePath)
         {
-            if (ignoredTypeNames == null)
-            {
-                return ImmutableArray<string>.Empty;
-            }
-
-            var nonNull = ignoredTypeNames!
-                .Select(x => x?.Trim())
-                .Where(x => !string.IsNullOrEmpty(x))
-                .Cast<string>();
-            return nonNull.ToImmutableArray();
+            var text = File.ReadAllText(ignoredNamesFilePath);
+            var ignoredNamesSplit = text.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+            var ignoredNames = ignoredNamesSplit
+                .Select(x => x.Trim())
+                .Where(x => !string.IsNullOrEmpty(x));
+            return ignoredNames.ToImmutableArray();
         }
 
         private static ImmutableArray<string> CreateUsingNamespaces(IEnumerable<string?>? usingNamespaces)

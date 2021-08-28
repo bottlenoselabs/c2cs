@@ -41,7 +41,7 @@ namespace C2CS.UseCases.BindgenCSharp
                 className,
                 abstractSyntaxTreeC,
                 request.TypeAliases,
-                request.IgnoredTypeNames,
+                request.IgnoredNames,
                 abstractSyntaxTreeC.Bitness,
                 MapCToCSharp);
 
