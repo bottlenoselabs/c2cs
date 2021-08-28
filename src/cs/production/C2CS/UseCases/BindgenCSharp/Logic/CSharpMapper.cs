@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -738,6 +739,10 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
+        [SuppressMessage(
+            "Microsoft.CodeQuality.SingleFile",
+            "IL3000:AvoidAccessingAssemblyFilePathWhenPublishingAsASingleFile",
+            Justification = "mscorlib")]
         private static (string Type, string Value) GetMacroExpressionTypeAndValue(
             ImmutableArray<string> tokens, IReadOnlyDictionary<string, CSharpConstant> lookup)
         {
