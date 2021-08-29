@@ -717,30 +717,64 @@ namespace C2CS.UseCases.BindgenCSharp
         private CSharpConstant? Constant(CMacroObject macroObject, Dictionary<string, CSharpConstant> lookup)
         {
             var originalCodeLocationComment = OriginalCodeLocationComment(macroObject);
-            var tokens = macroObject.Tokens;
+            var tokens = macroObject.Tokens.ToArray();
 
-            foreach (var keyValuePair in _systemTypeNameAliases)
+            for (var i = 0; i < tokens.Length; i++)
             {
-                if (tokens.Contains(keyValuePair.Key))
+                var token = tokens[i];
+
+                foreach (var keyValuePair in _systemTypeNameAliases)
                 {
-                    tokens = tokens.Replace(keyValuePair.Key, keyValuePair.Value);
+                    if (token == keyValuePair.Key)
+                    {
+                        token = tokens[i] = keyValuePair.Value;
+                    }
+                }
+
+                foreach (var keyValuePair in _userTypeNameAliases)
+                {
+                    if (token == keyValuePair.Key)
+                    {
+                        token = tokens[i] = keyValuePair.Value;
+                    }
+                }
+
+                if (token == "size_t")
+                {
+                    token = tokens[i] = "ulong";
+                }
+
+                if (token.ToLower(CultureInfo.InvariantCulture).EndsWith("ull", StringComparison.InvariantCulture))
+                {
+                    var possibleIntegerToken = token[..^3];
+
+                    if (possibleIntegerToken.StartsWith("0x", StringComparison.InvariantCulture))
+                    {
+                        possibleIntegerToken = possibleIntegerToken[2..];
+                        if (ulong.TryParse(possibleIntegerToken, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out _))
+                        {
+                            token = tokens[i] = $"0x{possibleIntegerToken}UL";
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+                    else
+                    {
+                        if (ulong.TryParse(possibleIntegerToken, NumberStyles.Integer, CultureInfo.InvariantCulture, out _))
+                        {
+                            token = tokens[i] = $"{possibleIntegerToken}UL";
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
                 }
             }
 
-            foreach (var keyValuePair in _userTypeNameAliases)
-            {
-                if (tokens.Contains(keyValuePair.Key))
-                {
-                    tokens = tokens.Replace(keyValuePair.Key, keyValuePair.Value);
-                }
-            }
-
-            if (tokens.Contains("size_t"))
-            {
-                tokens = tokens.Replace("size_t", "ulong");
-            }
-
-            var typeValue = GetMacroExpressionTypeAndValue(tokens, lookup);
+            var typeValue = GetMacroExpressionTypeAndValue(tokens.ToImmutableArray(), lookup);
             if (typeValue == null)
             {
                 return null;
