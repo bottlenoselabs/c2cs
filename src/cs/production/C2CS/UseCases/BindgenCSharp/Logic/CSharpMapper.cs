@@ -25,7 +25,7 @@ namespace C2CS.UseCases.BindgenCSharp
         private readonly ImmutableHashSet<string> _ignoredNames;
         private readonly Dictionary<string, string> _generatedFunctionPointersNamesByCNames = new();
         private readonly Dictionary<string, string> _systemTypeNameAliases;
-        private string _mscorlibPath = string.Empty;
+        private string _dotNetPath = string.Empty;
 
         private static Dictionary<string, string> SystemTypeNameAliases(int bitness)
         {
@@ -717,7 +717,6 @@ namespace C2CS.UseCases.BindgenCSharp
         private CSharpConstant? Constant(CMacroObject macroObject, Dictionary<string, CSharpConstant> lookup)
         {
             var originalCodeLocationComment = OriginalCodeLocationComment(macroObject);
-
             var tokens = macroObject.Tokens;
 
             foreach (var keyValuePair in _systemTypeNameAliases)
@@ -748,6 +747,10 @@ namespace C2CS.UseCases.BindgenCSharp
             }
 
             var (type, value) = typeValue.Value;
+            if (type == "?")
+            {
+                return null;
+            }
 
             var result = new CSharpConstant(
                 macroObject.Name,
@@ -771,15 +774,15 @@ namespace C2CS.UseCases.BindgenCSharp
 
             var value = string.Join(string.Empty, tokens);
             var code = @$"
+using System;
 {string.Join("\n", dependentMacros)}
 var x = {value};
 ".Trim();
 
-            if (string.IsNullOrEmpty(_mscorlibPath))
+            if (string.IsNullOrEmpty(_dotNetPath))
             {
-                var dotNetPath = Terminal.DotNetPath();
-                _mscorlibPath = Path.Combine(dotNetPath, "mscorlib.dll");
-                if (!File.Exists(_mscorlibPath))
+                _dotNetPath = Terminal.DotNetPath();
+                if (!Directory.Exists(_dotNetPath))
                 {
                     return null;
                 }
@@ -788,9 +791,11 @@ var x = {value};
             var syntaxTree = CSharpSyntaxTree.ParseText(code);
             var variables = syntaxTree.GetRoot().DescendantNodesAndSelf().OfType<VariableDeclarationSyntax>();
             var expression = variables.Last().Variables.Single().Initializer!.Value;
-            var mscorlib = MetadataReference.CreateFromFile(_mscorlibPath);
+            var mscorlib = MetadataReference.CreateFromFile(Path.Combine(_dotNetPath, "mscorlib.dll"));
+            var privatecorelib =
+                MetadataReference.CreateFromFile(Path.Combine(_dotNetPath, "System.Private.CoreLib.dll"));
             var compilation = CSharpCompilation.Create("Assembly")
-                .AddReferences(mscorlib)
+                .AddReferences(mscorlib, privatecorelib)
                 .AddSyntaxTrees(syntaxTree);
             var semanticModel = compilation.GetSemanticModel(syntaxTree);
             var typeInfo = semanticModel.GetTypeInfo(expression);
