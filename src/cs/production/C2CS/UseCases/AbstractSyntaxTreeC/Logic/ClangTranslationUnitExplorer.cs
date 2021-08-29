@@ -536,6 +536,12 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 return;
             }
 
+            // Ignore macros which are for purposes of externs
+            if (tokens.Length is 1 or 2 && tokens[0] == "extern")
+            {
+                return;
+            }
+
             // Remove redundant parenthesis
             if (tokens.Length > 2)
             {

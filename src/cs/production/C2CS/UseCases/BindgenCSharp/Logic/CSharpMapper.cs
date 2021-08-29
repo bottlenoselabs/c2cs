@@ -799,6 +799,12 @@ var x = {value};
                 .AddSyntaxTrees(syntaxTree);
             var semanticModel = compilation.GetSemanticModel(syntaxTree);
             var typeInfo = semanticModel.GetTypeInfo(expression);
+
+            if (typeInfo.ConvertedType == null)
+            {
+                return null;
+            }
+
             var type = typeInfo.ConvertedType!.ToString()!;
 
             if (value.StartsWith("(uint)-", StringComparison.InvariantCulture) ||
