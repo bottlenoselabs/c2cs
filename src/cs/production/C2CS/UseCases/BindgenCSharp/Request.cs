@@ -81,6 +81,11 @@ namespace C2CS.UseCases.BindgenCSharp
 
         private static ImmutableArray<string> CreateIgnoredNames(string ignoredNamesFilePath)
         {
+            if (string.IsNullOrEmpty(ignoredNamesFilePath))
+            {
+                return ImmutableArray<string>.Empty;
+            }
+
             var text = File.ReadAllText(ignoredNamesFilePath);
             var ignoredNamesSplit = text.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
             var ignoredNames = ignoredNamesSplit
