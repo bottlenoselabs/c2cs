@@ -348,7 +348,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 
                 if (cursor.kind != CXCursorKind.CXCursor_FunctionDecl)
                 {
-                    return false;
+                    return true;
                 }
 
                 var functionName = cursor.Name();
@@ -371,6 +371,12 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 if (kind == CXCursorKind.CXCursor_MacroDefinition)
                 {
                     if (clang_Cursor_isMacroBuiltin(cursor) != 0)
+                    {
+                        return false;
+                    }
+
+                    var location = cursor.FileLocation();
+                    if (string.IsNullOrEmpty(location.FileName))
                     {
                         return false;
                     }
