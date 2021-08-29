@@ -352,8 +352,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 }
 
                 var functionName = cursor.Name();
-                var whitelisted = cursor.kind == CXCursorKind.CXCursor_FunctionDecl &&
-                                  whitelistFunctionNames.Contains(functionName);
+                var whitelisted = whitelistFunctionNames.Contains(functionName);
                 return whitelisted;
             }
 
