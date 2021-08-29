@@ -9,18 +9,10 @@ namespace C2CS
     [PublicAPI]
     public class DiagnosticPanic : Diagnostic
     {
-        public string? StackTrace { get; }
-
         public DiagnosticPanic(Exception exception)
             : base(DiagnosticSeverity.Panic)
         {
-            Summary = exception.Message;
-            StackTrace = exception.StackTrace;
-        }
-
-        public override string ToString()
-        {
-            return $"{GetDiagnosticSeverityShortString()}: {Summary}\n{StackTrace}";
+            Summary = $"{exception.Message}{Environment.NewLine}{exception.StackTrace}";
         }
     }
 }

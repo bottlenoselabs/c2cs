@@ -700,7 +700,7 @@ namespace C2CS.UseCases.BindgenCSharp
                 var constant = Constant(macroObject, lookup);
                 if (constant == null)
                 {
-                    var diagnostic = new DiagnosticMacroObjectNotTranspiled(macroObject.Name);
+                    var diagnostic = new DiagnosticMacroObjectNotTranspiled(macroObject.Name, macroObject.Location);
                     _diagnostics.Add(diagnostic);
                 }
                 else

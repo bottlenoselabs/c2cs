@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using DSA;
 using static clang;
@@ -532,12 +533,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             if (tokens.Any(x =>
                 x.StartsWith("__", StringComparison.InvariantCulture) &&
                 x.EndsWith("__", StringComparison.InvariantCulture)))
-            {
-                return;
-            }
-
-            // Ignore macros which are for purposes of externs
-            if (tokens.Length is 1 or 2 && tokens[0] == "extern")
             {
                 return;
             }

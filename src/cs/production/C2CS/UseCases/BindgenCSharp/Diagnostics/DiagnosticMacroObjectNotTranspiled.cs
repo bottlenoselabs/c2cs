@@ -5,12 +5,10 @@ namespace C2CS.UseCases.BindgenCSharp
 {
     public class DiagnosticMacroObjectNotTranspiled : Diagnostic
     {
-        public string MacroName { get; }
-
-        public DiagnosticMacroObjectNotTranspiled(string macroName)
+        public DiagnosticMacroObjectNotTranspiled(string name, ClangLocation loc)
             : base(DiagnosticSeverity.Warning)
         {
-            MacroName = macroName;
+            Summary = $"The macro `{name}` at {loc.FilePath}:{loc.LineNumber}:{loc.LineColumn} was not transpiled.";
         }
     }
 }
