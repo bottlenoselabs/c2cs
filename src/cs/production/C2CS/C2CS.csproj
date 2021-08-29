@@ -4,6 +4,8 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <RootNamespace>C2CS</RootNamespace>
+        <InvariantGlobalization>true</InvariantGlobalization>
+        <SatelliteResourceLanguages>en</SatelliteResourceLanguages> <!-- Removes culture folders on publish output -->
     </PropertyGroup>
     
     <!-- NuGet packaage references -->
@@ -13,7 +15,7 @@
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.0.0-3.final" />
         <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.0.0-3.final" />
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
-<!--        <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="6.0.0-*" />-->
+        <!-- <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="7.0.0-*" /> -->
     </ItemGroup>
     
     <!-- Project references -->

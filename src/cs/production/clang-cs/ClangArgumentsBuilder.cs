@@ -153,7 +153,7 @@ public static class ClangArgumentsBuilder
         }
 
         var visualStudioInstallationDirectoryPath =
-            "-latest -property installationPath".ShCaptureStandardOutput(fileName: vsWhereFilePath);
+            "-latest -property installationPath".RunCommandWithCapturingStandardOutput(fileName: vsWhereFilePath);
 
         var mscvVersionsDirectoryPath = Path.Combine(visualStudioInstallationDirectoryPath, @"VC\Tools\MSVC");
         var mscvHighestVersionDirectoryPath = GetHighestVersionDirectoryPathFrom(mscvVersionsDirectoryPath);
@@ -194,7 +194,7 @@ public static class ClangArgumentsBuilder
         var systemIncludeCommandLineArgClang = $"-isystem{clangHighestVersionDirectoryPath}/include";
         clangArgumentsBuilder.Add(systemIncludeCommandLineArgClang);
 
-        var softwareDevelopmentKitDirectoryPath = "xcrun --sdk macosx --show-sdk-path".ShCaptureStandardOutput();
+        var softwareDevelopmentKitDirectoryPath = "xcrun --sdk macosx --show-sdk-path".RunCommandWithCapturingStandardOutput();
         if (!Directory.Exists(softwareDevelopmentKitDirectoryPath))
         {
             throw new ClangException(

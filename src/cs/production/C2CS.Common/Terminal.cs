@@ -13,7 +13,7 @@ namespace C2CS
     [PublicAPI]
     public static class Terminal
     {
-        public static string ShCaptureStandardOutput(this string command, string? workingDirectory = null, string? fileName = null)
+        public static string RunCommandWithCapturingStandardOutput(this string command, string? workingDirectory = null, string? fileName = null)
         {
             var process = CreateProcess(command, workingDirectory, fileName);
 
@@ -24,7 +24,7 @@ namespace C2CS
             return result;
         }
 
-        public static bool Sh(this string command, string? workingDirectory, string? fileName = null)
+        public static bool RunCommandWithoutCapturingOutput(this string command, string? workingDirectory, string? fileName = null)
         {
             var process = CreateProcess(command, workingDirectory, fileName);
 
@@ -134,13 +134,13 @@ namespace C2CS
                 cMakeCommand += $" -DCMAKE_TOOLCHAIN_FILE='{toolchainFilePath}'";
             }
 
-            var isSuccess = cMakeCommand.Sh(cMakeDirectoryPath);
+            var isSuccess = cMakeCommand.RunCommandWithoutCapturingOutput(cMakeDirectoryPath);
             if (!isSuccess)
             {
                 return false;
             }
 
-            isSuccess = "make -C ./cmake-build-release".Sh(cMakeDirectoryPath);
+            isSuccess = "make -C ./cmake-build-release".RunCommandWithoutCapturingOutput(cMakeDirectoryPath);
             if (!isSuccess)
             {
                 return false;
@@ -188,6 +188,33 @@ namespace C2CS
             Directory.Delete($"{cMakeDirectoryPath}/cmake-build-release", true);
 
             return true;
+        }
+
+        public static string DotNetPath()
+        {
+            Version dotNetRuntimeVersion = new(0, 0, 0, 0);
+            var dotNetPath = string.Empty;
+            var dotnetRuntimesString = "dotnet --list-runtimes".RunCommandWithCapturingStandardOutput();
+            var dotnetRuntimesStrings = dotnetRuntimesString.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var x in dotnetRuntimesStrings)
+            {
+                var parse = x.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                if (!parse[0].Contains("Microsoft.NETCore.App"))
+                {
+                    continue;
+                }
+
+                var version = Version.Parse(parse[1]);
+                if (version <= dotNetRuntimeVersion)
+                {
+                    continue;
+                }
+
+                dotNetRuntimeVersion = version;
+                dotNetPath = Path.Combine(parse[2].Trim('[', ']'), version.ToString());
+            }
+
+            return dotNetPath;
         }
 
         private static string WindowsToLinuxPath(string path)

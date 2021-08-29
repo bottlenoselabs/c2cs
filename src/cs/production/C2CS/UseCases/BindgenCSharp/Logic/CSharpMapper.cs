@@ -4,8 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using C2CS.UseCases.AbstractSyntaxTreeC;
@@ -17,6 +17,7 @@ namespace C2CS.UseCases.BindgenCSharp
 {
     public class CSharpMapper
     {
+        private readonly DiagnosticsSink _diagnostics;
         private readonly string _className;
         private ImmutableDictionary<string, CType> _types = null!;
         private readonly ImmutableDictionary<string, string> _userTypeNameAliases;
@@ -24,6 +25,7 @@ namespace C2CS.UseCases.BindgenCSharp
         private readonly ImmutableHashSet<string> _ignoredNames;
         private readonly Dictionary<string, string> _generatedFunctionPointersNamesByCNames = new();
         private readonly Dictionary<string, string> _systemTypeNameAliases;
+        private string _mscorlibPath = string.Empty;
 
         private static Dictionary<string, string> SystemTypeNameAliases(int bitness)
         {
@@ -98,8 +100,10 @@ namespace C2CS.UseCases.BindgenCSharp
             string className,
             ImmutableArray<CSharpTypeAlias> typeAliases,
             ImmutableArray<string> ignoredTypeNames,
-            int bitness)
+            int bitness,
+            DiagnosticsSink diagnostics)
         {
+            _diagnostics = diagnostics;
             _className = className;
             _systemTypeNameAliases = SystemTypeNameAliases(bitness);
 
@@ -686,23 +690,31 @@ namespace C2CS.UseCases.BindgenCSharp
             var lookup = new Dictionary<string, CSharpConstant>();
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var cConstant in constants)
+            foreach (var macroObject in constants)
             {
-                if (_ignoredNames.Contains(cConstant.Name))
+                if (_ignoredNames.Contains(macroObject.Name))
                 {
                     continue;
                 }
 
-                var constant = Constant(cConstant, lookup);
-                builder.Add(constant);
-                lookup.Add(constant.Name, constant);
+                var constant = Constant(macroObject, lookup);
+                if (constant == null)
+                {
+                    var diagnostic = new DiagnosticMacroObjectNotTranspiled(macroObject.Name);
+                    _diagnostics.Add(diagnostic);
+                }
+                else
+                {
+                    builder.Add(constant);
+                    lookup.Add(constant.Name, constant);
+                }
             }
 
             var result = builder.ToImmutable();
             return result;
         }
 
-        private CSharpConstant Constant(CMacroObject macroObject, Dictionary<string, CSharpConstant> lookup)
+        private CSharpConstant? Constant(CMacroObject macroObject, Dictionary<string, CSharpConstant> lookup)
         {
             var originalCodeLocationComment = OriginalCodeLocationComment(macroObject);
 
@@ -729,7 +741,13 @@ namespace C2CS.UseCases.BindgenCSharp
                 tokens = tokens.Replace("size_t", "ulong");
             }
 
-            var (type, value) = GetMacroExpressionTypeAndValue(tokens, lookup);
+            var typeValue = GetMacroExpressionTypeAndValue(tokens, lookup);
+            if (typeValue == null)
+            {
+                return null;
+            }
+
+            var (type, value) = typeValue.Value;
 
             var result = new CSharpConstant(
                 macroObject.Name,
@@ -739,11 +757,7 @@ namespace C2CS.UseCases.BindgenCSharp
             return result;
         }
 
-        [SuppressMessage(
-            "Microsoft.CodeQuality.SingleFile",
-            "IL3000:AvoidAccessingAssemblyFilePathWhenPublishingAsASingleFile",
-            Justification = "mscorlib")]
-        private static (string Type, string Value) GetMacroExpressionTypeAndValue(
+        private (string Type, string Value)? GetMacroExpressionTypeAndValue(
             ImmutableArray<string> tokens, IReadOnlyDictionary<string, CSharpConstant> lookup)
         {
             var dependentMacros = new List<string>();
@@ -760,10 +774,21 @@ namespace C2CS.UseCases.BindgenCSharp
 {string.Join("\n", dependentMacros)}
 var x = {value};
 ".Trim();
+
+            if (string.IsNullOrEmpty(_mscorlibPath))
+            {
+                var dotNetPath = Terminal.DotNetPath();
+                _mscorlibPath = Path.Combine(dotNetPath, "mscorlib.dll");
+                if (!File.Exists(_mscorlibPath))
+                {
+                    return null;
+                }
+            }
+
             var syntaxTree = CSharpSyntaxTree.ParseText(code);
             var variables = syntaxTree.GetRoot().DescendantNodesAndSelf().OfType<VariableDeclarationSyntax>();
             var expression = variables.Last().Variables.Single().Initializer!.Value;
-            var mscorlib = MetadataReference.CreateFromFile(typeof(string).Assembly.Location);
+            var mscorlib = MetadataReference.CreateFromFile(_mscorlibPath);
             var compilation = CSharpCompilation.Create("Assembly")
                 .AddReferences(mscorlib)
                 .AddSyntaxTrees(syntaxTree);
