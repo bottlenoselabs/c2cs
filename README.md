@@ -23,6 +23,7 @@ Catalog of C# bindings for C libraries I have setup and tested myself.
 |:-:|:-:|:-:|
 |[sokol](https://github.com/floooh/sokol)|minimal cross-platform standalone C headers|https://github.com/lithiumtoast/sokol-cs|
 |[SDL](https://github.com/libsdl-org/SDL)|Simple Directmedia Layer|https://github.com/lithiumtoast/sdl-cs|
+|[flecs](https://github.com/SanderMertens/flecs)|A fast entity component system (ECS) for C/C++|https://github.com/lithiumtoast/flecs-cs|
 |[stb](https://github.com/nothings/stb)|single-file public domain libraries for C/C++|https://github.com/lithiumtoast/stb-cs|
 
 Want to see a C library not seen here? Create an issue for a request of a C library and I'll be happy to setup a repository with bindings. 
