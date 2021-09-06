@@ -1237,6 +1237,18 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             }
 
             var sizeOfValue = (int)clang_Type_getSizeOf(type);
+            if (sizeOfValue == -2)
+            {
+                if (type.kind == CXTypeKind.CXType_IncompleteArray)
+                {
+                    var elementType = clang_getElementType(type);
+                    if (elementType.kind == CXTypeKind.CXType_Pointer)
+                    {
+                        sizeOfValue = (int)clang_Type_getSizeOf(elementType);
+                    }
+                }
+            }
+
             int? sizeOf = sizeOfValue >= 0 ? sizeOfValue : null;
             var alignOfValue = (int)clang_Type_getAlignOf(type);
             int? alignOf = alignOfValue >= 0 ? alignOfValue : null;
