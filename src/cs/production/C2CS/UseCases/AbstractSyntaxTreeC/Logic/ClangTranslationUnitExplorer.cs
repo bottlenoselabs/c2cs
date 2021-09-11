@@ -509,7 +509,15 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 for (var i = 1; i < (int)tokensCount; i++)
                 {
                     var spelling = clang_getTokenSpelling(translationUnit, tokensC[i]);
-                    tokens[i - 1] = clang_getCString(spelling);
+                    var cString = (string)clang_getCString(spelling);
+
+                    // CLANG BUG?: https://github.com/FNA-XNA/FAudio/blob/b84599a5e6d7811b02329709a166a337de158c5e/include/FAPOBase.h#L90
+                    if (cString.StartsWith('\\'))
+                    {
+                        cString = cString.TrimStart('\\');
+                    }
+
+                    tokens[i - 1] = cString.Trim();
                 }
 
                 clang_disposeTokens(translationUnit, tokensC, (uint)tokensCount);
