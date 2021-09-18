@@ -3,12 +3,12 @@
 
 namespace C2CS.UseCases.BindgenCSharp
 {
-    public class DiagnosticMacroObjectNotTranspiled : Diagnostic
+    public class DiagnosticMacroObjectAlreadyExists : Diagnostic
     {
-        public DiagnosticMacroObjectNotTranspiled(string name, ClangLocation loc)
+        public DiagnosticMacroObjectAlreadyExists(string name, ClangLocation loc)
             : base(DiagnosticSeverity.Warning)
         {
-            Summary = $"The object-like macro '{name}' at {loc.FilePath}:{loc.LineNumber}:{loc.LineColumn} was not transpiled.";
+            Summary = $"The object-like macro '{name}' at {loc.FilePath}:{loc.LineNumber}:{loc.LineColumn} already previously exists.";
         }
     }
 }

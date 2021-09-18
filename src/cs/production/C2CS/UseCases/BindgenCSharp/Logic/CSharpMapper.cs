@@ -703,6 +703,11 @@ namespace C2CS.UseCases.BindgenCSharp
                     var diagnostic = new DiagnosticMacroObjectNotTranspiled(macroObject.Name, macroObject.Location);
                     _diagnostics.Add(diagnostic);
                 }
+                else if (lookup.ContainsKey(constant.Name))
+                {
+                    var diagnostic = new DiagnosticMacroObjectAlreadyExists(macroObject.Name, macroObject.Location);
+                    _diagnostics.Add(diagnostic);
+                }
                 else
                 {
                     builder.Add(constant);
