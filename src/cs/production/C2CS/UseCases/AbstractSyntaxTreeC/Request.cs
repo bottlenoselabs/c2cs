@@ -65,7 +65,15 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             if (result.IsDefaultOrEmpty)
             {
                 var directoryPath = Path.GetDirectoryName(inputFilePath)!;
-                result = new[] {directoryPath}.ToImmutableArray();
+                if (string.IsNullOrEmpty(directoryPath))
+                {
+                    directoryPath = Environment.CurrentDirectory;
+                }
+
+                result = new[]
+                {
+                    directoryPath
+                }.ToImmutableArray();
             }
             else
             {
