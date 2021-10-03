@@ -86,6 +86,12 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
             string outputFilePath, CAbstractSyntaxTree abstractSyntaxTree)
         {
             var outputDirectory = Path.GetDirectoryName(outputFilePath)!;
+            if (string.IsNullOrEmpty(outputDirectory))
+            {
+                outputDirectory = AppContext.BaseDirectory;
+                outputFilePath = Path.Combine(Environment.CurrentDirectory, outputFilePath);
+            }
+
             if (!Directory.Exists(outputDirectory))
             {
                 Directory.CreateDirectory(outputDirectory);

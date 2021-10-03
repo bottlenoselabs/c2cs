@@ -110,6 +110,12 @@ namespace C2CS.UseCases.BindgenCSharp
             string outputFilePath, string codeCSharp)
         {
             var outputDirectory = Path.GetDirectoryName(outputFilePath)!;
+            if (string.IsNullOrEmpty(outputDirectory))
+            {
+                outputDirectory = AppContext.BaseDirectory;
+                outputFilePath = Path.Combine(Environment.CurrentDirectory, outputFilePath);
+            }
+
             if (!Directory.Exists(outputDirectory))
             {
                 Directory.CreateDirectory(outputDirectory);
