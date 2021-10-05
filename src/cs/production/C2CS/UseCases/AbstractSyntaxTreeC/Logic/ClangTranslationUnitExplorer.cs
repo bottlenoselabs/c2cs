@@ -953,7 +953,8 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 name = cursor.Name();
                 var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
                 var pointeeType = clang_getPointeeType(underlyingType);
-                typeName = TypeName(parentNode.TypeName!, CKind.FunctionPointer, pointeeType, cursor);
+                var functionProtoType = pointeeType.kind == CXTypeKind.CXType_Invalid ? underlyingType : pointeeType;
+                typeName = TypeName(parentNode.TypeName!, CKind.FunctionPointer, functionProtoType, cursor);
             }
 
             var functionPointer = new CFunctionPointer
