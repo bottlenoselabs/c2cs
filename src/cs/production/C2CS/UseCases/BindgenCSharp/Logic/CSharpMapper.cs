@@ -979,6 +979,11 @@ var x = {value};
                 return pointerTypeName.Replace("char*", "CString8U");
             }
 
+            if (pointerTypeName.StartsWith("wchar_t*", StringComparison.InvariantCulture))
+            {
+                return pointerTypeName.Replace("wchar_t*", "CString16U");
+            }
+
             var elementTypeName = pointerTypeName.TrimEnd('*');
             var pointersTypeName = pointerTypeName[elementTypeName.Length..];
             var mappedElementTypeName = TypeNameMapElement(elementTypeName, sizeOf, isSystem);
