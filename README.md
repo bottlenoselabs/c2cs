@@ -53,9 +53,11 @@ This is all accomplished by using [libclang](https://clang.llvm.org/docs/Tooling
 
 1. .NET 5+ because C# 9 function pointers are used. 
 
-2. Pointers such as `void*` can have different sizes across target computer architectures. E.g., `x86` pointers are 4 bytes and `x64` (aswell as `arm64`) pointers are 8 bytes. Thus, if you need to have bindings for `x86`/`arm32` and `x64`/`arm64` you will need to have two seperate bindings. However, 64 bit is pretty ubiquitous on Windows these days, at least for gaming, as you can see from [Steam hardware survey where 64-bit is 99%+](https://store.steampowered.com/hwsurvey/directx/). Additionally, you can see that the ["trend" is that 64-bit is becoming standard over time with 32-bit getting dropped](https://en.wikipedia.org/wiki/64-bit_computing#64-bit_operating_system_timeline). Additionally in some contexts, the "built-in" C integer types could have different bit width for different ABIs. E.g. `long` is at **minimum** 32 bits (4 bytes). On Windows `x64` it is reported by the Microsoft Visual C++ (MSCV) to be actually 64 bits (8 bytes). For sanity sake you should always use the integer types from `stdint.h` such as `uint8_t`, `int32_t`, `uint64_t`, etc.
+2. Pointers such as `void*` can have different sizes across target computer architectures. E.g., `x86` pointers are 4 bytes and `x64` (aswell as `arm64`) pointers are 8 bytes. Thus, if you need to have bindings for `x86`/`arm32` and `x64`/`arm64` you will need to have two seperate bindings. However, 64 bit is pretty ubiquitous on Windows these days, at least for gaming, as you can see from [Steam hardware survey where 64-bit is 99%+](https://store.steampowered.com/hwsurvey/directx/). Additionally, you can see that the ["trend" is that 64-bit is becoming standard over time with 32-bit getting dropped](https://en.wikipedia.org/wiki/64-bit_computing#64-bit_operating_system_timeline).
 
-3. This solution does not work for every C library. This is due to some technical limitations where some C libraries are not "bindgen-friendly".
+3. The "built-in" C integer types could have different bit width for different ABIs. E.g. `long` is at **minimum** 32 bits (4 bytes). On Windows `x64` it is reported by the Microsoft Visual C++ (MSCV) to be actually 64 bits (8 bytes). For sanity sake you should always use the integer types from `stdint.h` such as `uint8_t`, `int32_t`, `uint64_t`, etc. Otherwise you may need to have multiple bindings for each ABI because types will be of different bit sizes.
+
+4. This solution does not work for every C library. This is due to some technical limitations where some C libraries are not "bindgen-friendly".
 
 #### What does it mean for a C library to be bindgen-friendly?
 
