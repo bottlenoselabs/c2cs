@@ -1,4 +1,4 @@
-﻿// Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
+// Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
@@ -193,6 +193,14 @@ namespace C2CS
 			};
 			command.AddOption(namespacesOption);
 
+			var moreManagedOption = new Option<bool>(
+				new[] { "--moremanaged", "-mm" },
+				"Try to generate more safe managed bindings.")
+			{
+				IsRequired = false
+			};
+			command.AddOption(moreManagedOption);
+
 			command.Handler = CommandHandler.Create<
 				string,
 				string,
@@ -200,7 +208,8 @@ namespace C2CS
 				string,
 				string?,
 				string?,
-				IEnumerable<string?>?
+				IEnumerable<string?>?,
+				bool
 			>(BindgenCSharp);
 			return command;
 		}
@@ -297,7 +306,8 @@ namespace C2CS
 			string ignoredNamesFile,
 			string? libraryName,
 			string? className,
-			IEnumerable<string?>? namespaces)
+			IEnumerable<string?>? namespaces,
+			bool moremanaged)
 		{
 			var libraryName2 = string.IsNullOrEmpty(libraryName) ? string.Empty : libraryName;
 			var className2 = string.IsNullOrEmpty(className) ? string.Empty : className;
@@ -309,7 +319,8 @@ namespace C2CS
 				ignoredNamesFile,
 				libraryName2,
 				className2,
-				namespaces);
+				namespaces,
+				moremanaged);
 			var useCase = new UseCases.BindgenCSharp.UseCase();
 			var response = useCase.Execute(request);
 			if (response.Status == UseCaseOutputStatus.Failure)

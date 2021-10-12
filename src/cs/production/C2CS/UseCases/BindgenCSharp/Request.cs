@@ -9,21 +9,23 @@ using System.Linq;
 
 namespace C2CS.UseCases.BindgenCSharp
 {
-    public class Request : UseCaseRequest
-    {
-        public string InputFilePath { get; }
+	public class Request : UseCaseRequest
+	{
+		public string InputFilePath { get; }
 
-        public string OutputFilePath { get; }
+		public string OutputFilePath { get; }
 
-        public ImmutableArray<CSharpTypeAlias> TypeAliases { get; }
+		public ImmutableArray<CSharpTypeAlias> TypeAliases { get; }
 
-        public ImmutableArray<string> IgnoredNames { get; }
+		public ImmutableArray<string> IgnoredNames { get; }
 
-        public string LibraryName { get; }
+		public string LibraryName { get; }
 
-        public string ClassName { get; }
+		public string ClassName { get; }
 
-        public ImmutableArray<string> UsingNamespaces { get; }
+		public ImmutableArray<string> UsingNamespaces { get; }
+
+		public bool MoreManaged {get;}
 
         public Request(
             string inputFilePath,
@@ -32,7 +34,8 @@ namespace C2CS.UseCases.BindgenCSharp
             string ignoredNamesFilePath,
             string libraryName,
             string className,
-            IEnumerable<string?>? usingNamespaces)
+            IEnumerable<string?>? usingNamespaces,
+			bool moremanaged)
         {
             InputFilePath = inputFilePath;
             OutputFilePath = outputFilePath;
@@ -41,7 +44,8 @@ namespace C2CS.UseCases.BindgenCSharp
             LibraryName = libraryName;
             ClassName = className;
             UsingNamespaces = CreateUsingNamespaces(usingNamespaces);
-        }
+			MoreManaged = moremanaged;
+		}
 
         private static ImmutableArray<CSharpTypeAlias> CreateTypeAliases(IEnumerable<string?>? typeAliases)
         {

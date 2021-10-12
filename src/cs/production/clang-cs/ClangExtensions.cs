@@ -130,9 +130,9 @@ public static unsafe class ClangExtensions
             result = result.Replace("enum ", string.Empty);
         }
 
-        if (result.Contains("const "))
+        if (result.Contains("const const "))
         {
-            result = result.Replace("const ", string.Empty);
+            result = result.Replace("const const ", "const ");
         }
 
         return result;
@@ -198,7 +198,10 @@ public static unsafe class ClangExtensions
                     {
                         // Pointer to some type
                         var pointeeTypeName = Name(pointeeType, pointeeCursor);
-                        result = $"{pointeeTypeName}*";
+						if (clang_isConstQualifiedType(pointeeType) == 1)
+							result = $"const {pointeeTypeName}*";
+						else
+							result = $"{pointeeTypeName}*";
                     }
 
                     break;

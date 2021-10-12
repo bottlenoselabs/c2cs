@@ -13,18 +13,14 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace C2CS.UseCases.BindgenCSharp
 {
-	public interface ICSharpCodeGenerator
-	{
-		string EmitCode(CSharpAbstractSyntaxTree abstractSyntaxTree);
-	}
 
-	public class CSharpCodeGenerator : ICSharpCodeGenerator
+	public class CSharpCodeGeneratorManaged : ICSharpCodeGenerator
 	{
 		private readonly string _className;
 		private readonly string _libraryName;
 		private readonly ImmutableArray<string> _usingNamespaces;
 
-		public CSharpCodeGenerator(string className, string libraryName, ImmutableArray<string> usingNamespaces)
+		public CSharpCodeGeneratorManaged(string className, string libraryName, ImmutableArray<string> usingNamespaces)
 		{
 			_className = className;
 			_libraryName = libraryName;
@@ -35,10 +31,12 @@ namespace C2CS.UseCases.BindgenCSharp
 		{
 			var builder = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
 
-			EmitFunctionExterns(builder, abstractSyntaxTree.FunctionExterns);
+			EmitFunctionExterns(builder, abstractSyntaxTree);
 			EmitFunctionPointers(builder, abstractSyntaxTree.FunctionPointers);
 			EmitStructs(builder, abstractSyntaxTree.Structs);
 			EmitOpaqueDataTypes(builder, abstractSyntaxTree.OpaqueDataTypes);
+
+			//In order to collapse them this is removed!
 			EmitTypedefs(builder, abstractSyntaxTree.Typedefs);
 			EmitEnums(builder, abstractSyntaxTree.Enums);
 			EmitPseudoEnums(builder, abstractSyntaxTree.PseudoEnums);
@@ -100,8 +98,9 @@ public static unsafe partial class {className}
 
 		private void EmitFunctionExterns(
 			ImmutableArray<MemberDeclarationSyntax>.Builder builder,
-			ImmutableArray<CSharpFunction> functionExterns)
+			CSharpAbstractSyntaxTree abstractSyntaxTree)
 		{
+			ImmutableArray<CSharpFunction> functionExterns = abstractSyntaxTree.FunctionExterns;
 			foreach (var functionExtern in functionExterns)
 			{
 				// https://github.com/lithiumtoast/c2cs/issues/15
@@ -120,15 +119,43 @@ public static unsafe partial class {className}
 					continue;
 				}
 
-				var member = EmitFunctionExtern(functionExtern);
+				var member = EmitFunctionExtern(abstractSyntaxTree, functionExtern);
 				builder.Add(member);
 			}
 		}
 
-		private MethodDeclarationSyntax EmitFunctionExtern(CSharpFunction function)
+		private string getUnderlyingTypeInFunctionString(CSharpAbstractSyntaxTree abstractSyntaxTree, CSharpType type)
+		{
+			bool isPointer = type.Name.EndsWith("*");
+			if (isPointer && CSharpMapperManaged.IsCSBuiltinType(type.Name[..^1]))
+			{
+				if (type.Name == "void*")
+					return "IntPtr";
+				return type.Name;
+			}
+
+			string typeName = isPointer ? type.Name[..^1] : type.Name;
+			do
+			{
+				var newfound = abstractSyntaxTree.Typedefs.FirstOrDefault(t => t.Name == typeName);
+				if (newfound != null)
+					typeName = newfound.UnderlyingType.Name;
+				else
+					break;
+			} while (true);
+
+			if (typeName == "void*")
+				typeName = "IntPtr";
+			if (isPointer)
+				return $"ref {typeName}";
+			else
+				return typeName;
+		}
+
+		private MethodDeclarationSyntax EmitFunctionExtern(CSharpAbstractSyntaxTree abstractSyntaxTree, CSharpFunction function)
 		{
 			var parameterStrings = function.Parameters.Select(
-				x => $@"{x.Type.Name} {x.Name}");
+				x => $@"{getUnderlyingTypeInFunctionString(abstractSyntaxTree,x.Type)} {x.Name}");
 			var parameters = string.Join(',', parameterStrings);
 
 			var code = $@"
@@ -236,7 +263,8 @@ public struct {@struct.Name}
 
 					var methodMember = EmitStructFieldFixedBufferProperty(
 						structName, field);
-					builder.Add(methodMember);
+					if (methodMember != null)
+						builder.Add(methodMember);
 				}
 			}
 
@@ -254,8 +282,15 @@ public struct {@struct.Name}
 		{
 			var code = $@"
 [FieldOffset({field.Offset})] // size = {field.Type.SizeOf}, padding = {field.Padding}
-public {field.Type.Name} {field.Name};
-".Trim();
+";
+
+			if (field.Type.Name.StartsWith("["))
+			{
+				code += $"{field.Type.Name.Replace(")]",")] public ")} {field.Name};";
+			}
+			else
+				code += $"public {field.Type.Name} {field.Name};";
+			code = code.Trim();
 
 			var member = ParseMemberCode<FieldDeclarationSyntax>(code);
 			return member;
@@ -266,7 +301,7 @@ public {field.Type.Name} {field.Name};
 		{
 			string typeName;
 
-			if (field.IsWrapped)
+			if (field.IsWrapped && !field.Type.Name.StartsWith("["))
 			{
 				typeName = field.Type.AlignOf switch
 				{
@@ -282,7 +317,26 @@ public {field.Type.Name} {field.Name};
 				typeName = field.Type.Name;
 			}
 
-			var code = $@"
+			string code;
+			if (field.Type.Name.StartsWith("["))
+			{
+				if (typeName.Contains("SizeConst ="))
+				{
+					code = $@"
+[FieldOffset({field.Offset})] // size = {field.Type.SizeOf}, padding = {field.Padding}
+{typeName.Replace(")]", ")] public ")} {field.Name}; // {field.Type.OriginalName}
+".Trim();
+				}
+				else
+				{
+					code = $@"
+[FieldOffset({field.Offset})] // size = {field.Type.SizeOf}, padding = {field.Padding}
+{typeName.Replace(")]", $", SizeConst = {field.Type.SizeOf}/{field.Type.AlignOf})]").Replace(")]", ")] public ")} {field.Name}; // {field.Type.OriginalName}
+".Trim();
+				}
+			}
+			else
+				code = $@"
 [FieldOffset({field.Offset})] // size = {field.Type.SizeOf}, padding = {field.Padding}
 public fixed {typeName} _{field.Name}[{field.Type.SizeOf}/{field.Type.AlignOf}]; // {field.Type.OriginalName}
 ".Trim();
@@ -290,7 +344,7 @@ public fixed {typeName} _{field.Name}[{field.Type.SizeOf}/{field.Type.AlignOf}];
 			return ParseMemberCode<FieldDeclarationSyntax>(code);
 		}
 
-		private static PropertyDeclarationSyntax EmitStructFieldFixedBufferProperty(
+		private static PropertyDeclarationSyntax? EmitStructFieldFixedBufferProperty(
 			string structName,
 			CSharpStructField field)
 		{
@@ -306,8 +360,7 @@ public string {field.Name}
 		fixed ({structName}*@this = &this)
 		{{
 			var pointer = &@this->_{field.Name}[0];
-            var cString = new CString8U(pointer);
-            return Runtime.String8U(cString);
+            return Marshal.PtrToStringUTF8((IntPtr)pointer)!;
 		}}
 	}}
 }}
@@ -323,16 +376,28 @@ public string {field.Name}
 		fixed ({structName}*@this = &this)
 		{{
 			var pointer = &@this->_{field.Name}[0];
-            var cString = new CString16U(pointer);
-            return Runtime.String16U(cString);
+			return Marshal.PtrToStringUni((IntPtr)pointer)!;
 		}}
 	}}
 }}
 ".Trim();
 			}
+			else if (field.Type.Name.StartsWith("[") && field.Type.Name.Contains("]string"))
+			{
+				return null;
+			}
+			else if (field.Type.Name.StartsWith("[") && field.Type.Name.EndsWith("[]"))
+			{
+				return null;
+			}
 			else
 			{
-				var elementType = field.Type.Name[..^1];
+				var typeName = field.Type.Name;
+				if (typeName.Contains("[") && typeName.Contains(")]"))
+				{
+					typeName = typeName.Remove(typeName.IndexOf("["), typeName.IndexOf(")]") + 1 - typeName.IndexOf("["));
+				}
+				var elementType = typeName[..^1];
 				if (elementType.EndsWith('*'))
 				{
 					elementType = "IntPtr";
@@ -387,6 +452,9 @@ public struct {opaqueType.Name}
 		{
 			foreach (var typedef in typedefs)
 			{
+				if (typedef.Name == "wchar_t")
+					continue;
+
 				var member = EmitTypedef(typedef);
 				builder.Add(member);
 			}

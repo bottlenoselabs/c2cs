@@ -95,8 +95,8 @@ namespace C2CS
                 var platform = Runtime.OperatingSystem;
                 if (platform == RuntimeOperatingSystem.Windows)
                 {
-                    processStartInfo.FileName = "wsl";
-                    processStartInfo.Arguments = command;
+                    processStartInfo.FileName = "cmd";
+                    processStartInfo.Arguments = $"/c {command}";
                 }
                 else
                 {
@@ -198,13 +198,29 @@ namespace C2CS
             var dotnetRuntimesStrings = dotnetRuntimesString.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var x in dotnetRuntimesStrings)
             {
-                var parse = x.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+				var parse = x.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+				//x format is Microsoft.AspNetCore.App 3.1.19 [C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App]
+				//so we should not break on spaces possible in path.
+				//this stupidity is for that!
+				for (int i = 3; i < parse.Length; i++)
+				{
+					parse[2] += " " + parse[i];
+				}
                 if (!parse[0].Contains("Microsoft.NETCore.App"))
                 {
                     continue;
                 }
 
-                var version = Version.Parse(parse[1]);
+				Version? version;
+				try
+				{
+					version = Version.Parse(parse[1]);
+				}
+				catch
+				{
+					continue;
+				}
+
                 if (version <= dotNetRuntimeVersion)
                 {
                     continue;

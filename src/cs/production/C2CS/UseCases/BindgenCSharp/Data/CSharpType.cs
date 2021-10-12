@@ -3,15 +3,31 @@
 
 namespace C2CS.UseCases.BindgenCSharp
 {
-    public readonly struct CSharpType
-    {
-        public readonly string Name;
-        public readonly string OriginalName;
-        public readonly int SizeOf;
-        public readonly int AlignOf;
-        public readonly int ArraySize;
+	public readonly struct CSharpType
+	{
+		public readonly string Name;
+		public readonly string OriginalName;
+		public readonly int SizeOf;
+		public readonly int AlignOf;
+		public readonly int ArraySize;
 
-        public bool IsArray => ArraySize > 0;
+		public bool IsArray => ArraySize > 0;
+
+		public bool IsBlittable => Name switch
+		{
+			"byte" => true,
+			"sbyte" => true,
+			"short" => true,
+			"ushort" => true,
+			"int" => true,
+			"uint" => true,
+			"long" => true,
+			"ulong" => true,
+			"single" => true,
+			"double" => true,
+			_ => false,
+		};
+			
 
         public CSharpType(
             string name,

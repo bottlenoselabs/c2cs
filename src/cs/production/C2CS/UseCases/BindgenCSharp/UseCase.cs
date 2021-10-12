@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Text.Json;
@@ -34,7 +35,8 @@ namespace C2CS.UseCases.BindgenCSharp
             var abstractSyntaxTreeC = Step(
                 "Load C abstract syntax tree from disk",
                 request.InputFilePath,
-                LoadAbstractSyntaxTree);
+				request.MoreManaged,
+				LoadAbstractSyntaxTree);
 
             var abstractSyntaxTreeCSharp = Step(
                 "Map C abstract syntax tree to C#",
@@ -44,6 +46,7 @@ namespace C2CS.UseCases.BindgenCSharp
                 request.IgnoredNames,
                 abstractSyntaxTreeC.Bitness,
                 Diagnostics,
+				request.MoreManaged,
                 MapCToCSharp);
 
             var codeCSharp = Step(
@@ -52,7 +55,8 @@ namespace C2CS.UseCases.BindgenCSharp
                 className,
                 libraryName,
                 request.UsingNamespaces,
-                GenerateCSharpCode);
+				request.MoreManaged,
+				GenerateCSharpCode);
 
             Step(
                 "Write C# code to disk",
@@ -69,7 +73,7 @@ namespace C2CS.UseCases.BindgenCSharp
             }
         }
 
-        private static CAbstractSyntaxTree LoadAbstractSyntaxTree(string inputFilePath)
+        private static CAbstractSyntaxTree LoadAbstractSyntaxTree(string inputFilePath, bool moreManaged)
         {
             var fileContents = File.ReadAllText(inputFilePath);
 
@@ -84,6 +88,37 @@ namespace C2CS.UseCases.BindgenCSharp
             };
 
             var abstractSyntaxTree = JsonSerializer.Deserialize<CAbstractSyntaxTree>(fileContents, options)!;
+
+			//This seems it is just easier to do it in this stupid way!
+			//I dont know how much trouble this can make but this is collapsing all typedefs to their underlying types
+			//Should we care much about typedefs in PInvoke?
+			if (moreManaged)
+			{
+				var typedefs = abstractSyntaxTree.Typedefs;
+				abstractSyntaxTree.Typedefs = new ImmutableArray<CTypedef>();
+				var newfileContents = JsonSerializer.Serialize(abstractSyntaxTree, options);
+
+				var newtypedefs = new List<CTypedef>();
+				foreach (var typedef in typedefs)
+				{
+					//if pointer to udnerlying exist. It is best to ignore for now!
+					if (newfileContents.Contains($"\"type\": \"{typedef.Name}*\""))
+					{
+						newtypedefs.Add(typedef);
+					}
+
+					newfileContents = newfileContents.Replace($"\"type\": \"{typedef.Name}\"", $"\"type\": \"{typedef.UnderlyingType}\"");
+
+					if (!newfileContents.Contains($"\"returnType\": \"{typedef.Name}*\""))
+						newfileContents = newfileContents.Replace($"\"returnType\": \"{typedef.Name}\"", $"\"returnType\": \"{typedef.UnderlyingType}\"");
+				}
+
+				abstractSyntaxTree = JsonSerializer.Deserialize<CAbstractSyntaxTree>(newfileContents, options)!;
+				abstractSyntaxTree.Typedefs = ImmutableArray.Create(newtypedefs.ToArray());
+
+
+				
+			} 
             return abstractSyntaxTree;
         }
 
@@ -93,16 +128,31 @@ namespace C2CS.UseCases.BindgenCSharp
             ImmutableArray<CSharpTypeAlias> typeAliases,
             ImmutableArray<string> ignoredTypeNames,
             int bitness,
-            DiagnosticsSink diagnostics)
+            DiagnosticsSink diagnostics,
+			bool moreManaged)
         {
-            var mapper = new CSharpMapper(className, typeAliases, ignoredTypeNames, bitness, diagnostics);
-            return mapper.AbstractSyntaxTree(abstractSyntaxTree);
+			ICSharpMapper mapper;
+			if (moreManaged)
+				mapper = new CSharpMapperManaged(className, typeAliases, ignoredTypeNames, bitness, diagnostics, moreManaged);
+			else
+				mapper = new CSharpMapper(className, typeAliases, ignoredTypeNames, bitness, diagnostics, moreManaged);
+
+			return mapper.AbstractSyntaxTree(abstractSyntaxTree);
         }
 
         private static string GenerateCSharpCode(
-            CSharpAbstractSyntaxTree abstractSyntaxTree, string className, string libraryName, ImmutableArray<string> usingNamespaces)
+            CSharpAbstractSyntaxTree abstractSyntaxTree, string className, string libraryName, ImmutableArray<string> usingNamespaces, bool moreManaged)
         {
-            var codeGenerator = new CSharpCodeGenerator(className, libraryName, usingNamespaces);
+			ICSharpCodeGenerator codeGenerator;
+			if (moreManaged)
+			{
+				codeGenerator = new CSharpCodeGeneratorManaged(className, libraryName, usingNamespaces);
+			}
+			else
+			{
+				codeGenerator = new CSharpCodeGenerator(className, libraryName, usingNamespaces);
+			} 
+            
             return codeGenerator.EmitCode(abstractSyntaxTree);
         }
 
