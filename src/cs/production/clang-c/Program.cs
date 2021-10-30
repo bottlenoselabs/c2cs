@@ -9,23 +9,6 @@ internal static class Program
 {
     private static void Main()
     {
-        var runtimeIdentifierOperatingSystem = string.Empty;
-        if (OperatingSystem.IsWindows())
-        {
-            runtimeIdentifierOperatingSystem = "win";
-        }
-        else if (OperatingSystem.IsMacOS())
-        {
-            runtimeIdentifierOperatingSystem = "osx";
-        }
-        else if (OperatingSystem.IsLinux())
-        {
-            runtimeIdentifierOperatingSystem = "linux";
-        }
-
-        var runtimeIdentifier32Bits = runtimeIdentifierOperatingSystem + "32";
-        var runtimeIdentifier64Bits = runtimeIdentifierOperatingSystem + "64";
-
         var searchDirectory = Path.TrimEndingDirectorySeparator(AppContext.BaseDirectory);
         var directoryName = searchDirectory[(searchDirectory.LastIndexOf(Path.DirectorySeparatorChar) + 1)..];
         while (directoryName != "bin")
@@ -35,16 +18,13 @@ internal static class Program
         }
 
         var rootDirectory = Path.GetFullPath(Path.Combine(searchDirectory, ".."));
-        GenerateAbstractSyntaxTree(rootDirectory, runtimeIdentifier64Bits);
-        GenerateAbstractSyntaxTree(rootDirectory, runtimeIdentifier32Bits);
-        GenerateBindingsCSharp(rootDirectory, runtimeIdentifier64Bits);
-        GenerateBindingsCSharp(rootDirectory, runtimeIdentifier32Bits);
+        GenerateCAbstractSyntaxTree(rootDirectory);
+        GenerateCSharpBindings(rootDirectory);
     }
 
-    private static void GenerateAbstractSyntaxTree(string rootDirectory, string runtimeIdentifier)
+    private static void GenerateCAbstractSyntaxTree(string rootDirectory)
     {
-        var bitness = runtimeIdentifier.EndsWith("64", StringComparison.InvariantCulture) ? "64" : "32";
-
+        const string bitness = "64";
         var arguments = @$"
 ast
 -i
@@ -52,23 +32,25 @@ ast
 -s
 {rootDirectory}/ext/clang/include
 -o
-{rootDirectory}/src/cs/production/clang-c/ast.{runtimeIdentifier}.json
+{rootDirectory}/src/cs/production/clang-c/ast/clang.json
 -b
 {bitness}
+-w
+{rootDirectory}/src/cs/production/clang-c/api.txt
 ";
         var argumentsArray =
             arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
         C2CS.Program.Main(argumentsArray);
     }
 
-    private static void GenerateBindingsCSharp(string rootDirectory, string runtimeIdentifier)
+    private static void GenerateCSharpBindings(string rootDirectory)
     {
         var arguments = @$"
 cs
 -i
-{rootDirectory}/src/cs/production/clang-c/ast.{runtimeIdentifier}.json
+{rootDirectory}/src/cs/production/clang-c/ast/clang.json
 -o
-{rootDirectory}/src/cs/production/clang-cs/clang.{runtimeIdentifier}.cs
+{rootDirectory}/src/cs/production/clang-cs/clang.cs
 -l
 libclang
 ";

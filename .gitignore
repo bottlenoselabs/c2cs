@@ -22,5 +22,8 @@ lib/
 *.dylib
 *.so
 
+# C2CS artifacts
+ast/
+
 # macOS
 .DS_Store
