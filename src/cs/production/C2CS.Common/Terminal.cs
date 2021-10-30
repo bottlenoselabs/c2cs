@@ -125,14 +125,7 @@ namespace C2CS
                 throw new DirectoryNotFoundException(cMakeDirectoryPath);
             }
 
-            var cMakeCommand = "cmake -S . -B cmake-build-release -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release";
-
-            var platform = Runtime.OperatingSystem;
-            if (platform == RuntimeOperatingSystem.Windows)
-            {
-                var toolchainFilePath = WindowsToLinuxPath($"{rootDirectory}/src/c/mingw-w64-x86_64.cmake");
-                cMakeCommand += $" -DCMAKE_TOOLCHAIN_FILE='{toolchainFilePath}'";
-            }
+            var cMakeCommand = "cmake -S . -B cmake-build-release -DCMAKE_BUILD_TYPE=Release";
 
             var isSuccess = cMakeCommand.RunCommandWithoutCapturingOutput(cMakeDirectoryPath);
             if (!isSuccess)
@@ -161,7 +154,7 @@ namespace C2CS
                 var targetFilePath = outputFilePath.Replace(outputDirectoryPath, targetLibraryDirectoryPath);
                 var targetFileName = Path.GetFileName(targetFilePath);
 
-                if (platform == RuntimeOperatingSystem.Windows)
+                if (runtimePlatform == RuntimeOperatingSystem.Windows)
                 {
                     if (targetFileName.StartsWith("lib", StringComparison.InvariantCulture))
                     {

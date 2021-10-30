@@ -3,7 +3,7 @@
 Here you will find documentation for `C2CS` including:
 
 - [How to use `C2CS`](#how-to-use).
-- [How to build `C2CS` and the examples from source](#building-from-source).
+- [How to build `C2CS` from source](#building-from-source).
 - [Examples](#examples).
 
 ## How to use
@@ -71,29 +71,7 @@ Options:
   -?, -h, --help                              Show help and usage information
 ```
 
-## Examples
-
-Here you will find examples of C libraries being demonstrated with `C2CS` as smoke tests or otherwise used directly.
-
-### Hello world
-
-Hello world example of calling a C function from C#. This is meant to be minimalistic to demonstrate the minimum required things to get this working.
-
-Run the C# project [`helloworld-c`](/src/cs/examples/helloworld/helloworld-c/Program.cs) to build the shared library and generate the bindings for the [`helloworld`](/src/c/examples/helloworld/helloworld) C project.
-
-The C# bindings will be written to [`helloworld.cs`](/src/cs/examples/helloworld/helloworld-cs/helloworld.cs).
-
-### [libclang](./001_LIBCLANG.md)
-
-`C2CS` uses bindings generated for libclang using `C2CS`. In this sense, the `C2CS` project eats it's own dogfood.
-
-Run the C# project [`clang-c`](/src/dotnet/prod/libclang-c/Program.cs) to build the shared library and generate the bindings. This project is not like other examples because the generated bindings are used as part of C2CS in the next build. This means that C2CS generates bindings for libclang which then can generate bindings for libclang.
-
-If you just want to see the bindings, you can take a look at [`libclang.cs`](/src/dotnet/prod/libclang-cs/libclang.cs).
-
 ## Building from source
-
-This includes building and running the various examples as part of the project.
 
 ### Prerequisites
 
@@ -107,7 +85,8 @@ This includes building and running the various examples as part of the project.
     - macOS:
       1. Install XCode CommandLineTools (gcc, clang, etc): ```xcode-select --install```
       2. Install XCode through the App Store (necessary for SDKs).
-      3. Install CMake: ```brew install cmake```
+      3. Install Brew if you have not already: https://brew.sh
+      4. Install CMake: ```brew install cmake```
     - Linux:
       1. Install the software build tools for your distro including GCC, Clang, and CMake.
 3. Clone the repository with submodules: `git clone --recurse-submodules https://github.com/lithiumtoast/c2cs.git`.
@@ -119,3 +98,22 @@ Open `./C2CS.sln`
 ### Command Line Interface (CLI)
 
 `dotnet build`
+
+## Examples
+
+Here you will find examples of C libraries being demonstrated with `C2CS` as smoke tests or otherwise used directly.
+
+### Hello world
+
+Hello world example of callings C functions from C#. This is meant to be minimalistic to demonstrate the minimum required things to get this working.
+
+1. Run the C# project [`helloworld-c`](/src/cs/examples/helloworld/helloworld-c/Program.cs). This builds the example shared library and generate the bindings for the [`my_c_library`](/src/cs/examples/helloworld/helloworld-c/my_c_library) C project. The C# bindings will be written to [`my_c_library.cs`](/src/cs/examples/helloworld/helloworld-cs/my_c_library.cs).
+2. Run the C# project [`helloworld-cs`](/src/cs/examples/helloworld/helloworld-cs/Program.cs). You should see output to the console of C functions being called from C#.
+
+### [libclang](./001_LIBCLANG.md)
+
+`C2CS` uses bindings generated for libclang using `C2CS`. In this sense, the `C2CS` project eats it's own dogfood.
+
+Run the C# project [`clang-c`](/src/dotnet/prod/libclang-c/Program.cs) to build the shared library and generate the bindings. This project is not like other examples because the generated bindings are used as part of C2CS in the next build. This means that C2CS generates bindings for libclang which then can generate bindings for libclang.
+
+If you just want to see the bindings, you can take a look at [`libclang.cs`](/src/dotnet/prod/libclang-cs/libclang.cs).

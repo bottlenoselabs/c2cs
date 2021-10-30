@@ -10,16 +10,21 @@ internal static class Program
     private static void Main()
     {
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
+        if (!BuildLibrary(rootDirectory))
+        {
+            // Error building C library
+            return;
+        }
+
         GenerateAbstractSyntaxTree(rootDirectory);
         GenerateBindingsCSharp(rootDirectory);
-        // BuildLibrary(rootDirectory);
     }
 
-    private static void BuildLibrary(string rootDirectory)
+    private static bool BuildLibrary(string rootDirectory)
     {
-        var cMakeDirectoryPath = Path.GetFullPath(Path.Combine(rootDirectory, "src/c/examples/helloworld"));
+        var cMakeDirectoryPath = Path.GetFullPath($"{rootDirectory}/src/cs/examples/helloworld/helloworld-c/my_c_library");
         var targetLibraryDirectoryPath = Path.GetFullPath($"{rootDirectory}/src/cs/examples/helloworld/helloworld-cs");
-        Terminal.CMake(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
+        return Terminal.CMake(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
     }
 
     private static void GenerateAbstractSyntaxTree(string rootDirectory)
@@ -27,9 +32,9 @@ internal static class Program
         var arguments = @$"
 ast
 -i
-{rootDirectory}/src/c/examples/helloworld/include/helloworld.h
+{rootDirectory}/src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h
 -o
-{rootDirectory}/src/cs/examples/helloworld/helloworld-c/ast.json
+{rootDirectory}/src/cs/examples/helloworld/helloworld-c/my_c_library/ast/ast.json
 ";
         var argumentsArray =
             arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
@@ -41,9 +46,9 @@ ast
         var arguments = @$"
 cs
 -i
-{rootDirectory}/src/cs/examples/helloworld/helloworld-c/ast.json
+{rootDirectory}/src/cs/examples/helloworld/helloworld-c/my_c_library/ast/ast.json
 -o
-{rootDirectory}/src/cs/examples/helloworld/helloworld-cs/helloworld.cs
+{rootDirectory}/src/cs/examples/helloworld/helloworld-cs/my_c_library.cs
 ";
         var argumentsArray =
             arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
