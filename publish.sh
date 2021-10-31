@@ -9,13 +9,4 @@ if [[ ! -z "$1" ]]; then
     fi
 fi
 
-dotnet publish \
-$DIR/src/cs/production/C2CS/C2CS.csproj \
---output $DIR/publish/$RID \
---configuration Release \
---runtime $RID \
---self-contained \
-/p:PublishSingleFile=true \
-/p:DebugType=embedded \
-/p:IncludeNativeLibrariesForSelfExtract=false \
-/p:GenerateDocumentationFile=false
+dotnet publish $DIR/src/cs/production/C2CS/C2CS.csproj --output $DIR/publish/$RID --configuration Release --runtime $RID --self-contained /p:PublishSingleFile=true /p:DebugType=embedded /p:IncludeNativeLibrariesForSelfExtract=false /p:GenerateDocumentationFile=false
