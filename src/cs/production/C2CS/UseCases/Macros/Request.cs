@@ -7,59 +7,58 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 
-namespace C2CS.UseCases.Macros
+namespace C2CS.UseCases.Macros;
+
+public class Request : UseCaseRequest
 {
-    public class Request : UseCaseRequest
+    public string InputFilePath { get; }
+
+    public bool AutomaticallyFindSoftwareDevelopmentKit { get; }
+
+    public ImmutableArray<string> IncludeDirectories { get; }
+
+    public Request(
+        string inputFilePath,
+        bool? automaticallyFindSoftwareDevelopmentKit,
+        IEnumerable<string?>? includeDirectories)
     {
-        public string InputFilePath { get; }
+        InputFilePath = inputFilePath;
+        AutomaticallyFindSoftwareDevelopmentKit = automaticallyFindSoftwareDevelopmentKit ?? true;
+        IncludeDirectories = CreateIncludeDirectories(inputFilePath, includeDirectories);
+    }
 
-        public bool AutomaticallyFindSoftwareDevelopmentKit { get; }
+    private static ImmutableArray<string> CreateIncludeDirectories(
+        string inputFilePath,
+        IEnumerable<string?>? includeDirectories)
+    {
+        var result = ToImmutableArray(includeDirectories);
 
-        public ImmutableArray<string> IncludeDirectories { get; }
-
-        public Request(
-            string inputFilePath,
-            bool? automaticallyFindSoftwareDevelopmentKit,
-            IEnumerable<string?>? includeDirectories)
+        if (result.IsDefaultOrEmpty)
         {
-            InputFilePath = inputFilePath;
-            AutomaticallyFindSoftwareDevelopmentKit = automaticallyFindSoftwareDevelopmentKit ?? true;
-            IncludeDirectories = CreateIncludeDirectories(inputFilePath, includeDirectories);
-        }
-
-        private static ImmutableArray<string> CreateIncludeDirectories(
-            string inputFilePath,
-            IEnumerable<string?>? includeDirectories)
-        {
-            var result = ToImmutableArray(includeDirectories);
-
-            if (result.IsDefaultOrEmpty)
+            var directoryPath = Path.GetDirectoryName(inputFilePath)!;
+            if (string.IsNullOrEmpty(directoryPath))
             {
-                var directoryPath = Path.GetDirectoryName(inputFilePath)!;
-                if (string.IsNullOrEmpty(directoryPath))
-                {
-                    directoryPath = Environment.CurrentDirectory;
-                }
-
-                result = new[]
-                {
-                    directoryPath
-                }.ToImmutableArray();
-            }
-            else
-            {
-                result = result.Select(Path.GetFullPath).ToImmutableArray();
+                directoryPath = Environment.CurrentDirectory;
             }
 
-            return result;
+            result = new[]
+            {
+                directoryPath
+            }.ToImmutableArray();
+        }
+        else
+        {
+            result = result.Select(Path.GetFullPath).ToImmutableArray();
         }
 
-        private static ImmutableArray<string> ToImmutableArray(IEnumerable<string?>? enumerable)
-        {
-            var nonNull = enumerable?.ToArray() ?? Array.Empty<string>();
-            var result =
-                nonNull.Where(x => !string.IsNullOrEmpty(x)).Cast<string>().ToImmutableArray();
-            return result;
-        }
+        return result;
+    }
+
+    private static ImmutableArray<string> ToImmutableArray(IEnumerable<string?>? enumerable)
+    {
+        var nonNull = enumerable?.ToArray() ?? Array.Empty<string>();
+        var result =
+            nonNull.Where(x => !string.IsNullOrEmpty(x)).Cast<string>().ToImmutableArray();
+        return result;
     }
 }

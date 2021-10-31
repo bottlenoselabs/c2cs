@@ -3,29 +3,28 @@
 
 using System.Collections.Immutable;
 
-namespace C2CS.UseCases.BindgenCSharp
+namespace C2CS.UseCases.BindgenCSharp;
+
+public record CSharpPseudoEnum : CSharpNode
 {
-    public record CSharpPseudoEnum : CSharpNode
+    public readonly CSharpType IntegerType;
+    public readonly ImmutableArray<CSharpEnumValue> Values;
+
+    public CSharpPseudoEnum(
+        string name,
+        string codeLocationComment,
+        CSharpType integerType,
+        ImmutableArray<CSharpEnumValue> values)
+        : base(name, codeLocationComment)
     {
-        public readonly CSharpType IntegerType;
-        public readonly ImmutableArray<CSharpEnumValue> Values;
+        IntegerType = integerType;
+        Values = values;
+    }
 
-        public CSharpPseudoEnum(
-            string name,
-            string codeLocationComment,
-            CSharpType integerType,
-            ImmutableArray<CSharpEnumValue> values)
-            : base(name, codeLocationComment)
-        {
-            IntegerType = integerType;
-            Values = values;
-        }
-
-        // Required for debugger string with records
-        // ReSharper disable once RedundantOverriddenMember
-        public override string ToString()
-        {
-            return base.ToString();
-        }
+    // Required for debugger string with records
+    // ReSharper disable once RedundantOverriddenMember
+    public override string ToString()
+    {
+        return base.ToString();
     }
 }

@@ -3,13 +3,12 @@
 
 using System;
 
-namespace C2CS
+namespace C2CS;
+
+public class UseCaseException : Exception
 {
-    public class UseCaseException : Exception
+    public UseCaseException(string message)
+        : base(message)
     {
-        public UseCaseException(string message)
-            : base(message)
-        {
-        }
     }
 }

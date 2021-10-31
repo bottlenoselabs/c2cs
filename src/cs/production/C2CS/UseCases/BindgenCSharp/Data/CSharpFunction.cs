@@ -3,32 +3,31 @@
 
 using System.Collections.Immutable;
 
-namespace C2CS.UseCases.BindgenCSharp
+namespace C2CS.UseCases.BindgenCSharp;
+
+public record CSharpFunction : CSharpNode
 {
-    public record CSharpFunction : CSharpNode
+    public readonly CSharpType ReturnType;
+    public readonly CSharpFunctionCallingConvention CallingConvention;
+    public readonly ImmutableArray<CSharpFunctionParameter> Parameters;
+
+    public CSharpFunction(
+        string name,
+        string codeLocationComment,
+        CSharpFunctionCallingConvention callingConvention,
+        CSharpType returnType,
+        ImmutableArray<CSharpFunctionParameter> parameters)
+        : base(name, codeLocationComment)
     {
-        public readonly CSharpType ReturnType;
-        public readonly CSharpFunctionCallingConvention CallingConvention;
-        public readonly ImmutableArray<CSharpFunctionParameter> Parameters;
+        ReturnType = returnType;
+        CallingConvention = callingConvention;
+        Parameters = parameters;
+    }
 
-        public CSharpFunction(
-            string name,
-            string codeLocationComment,
-            CSharpFunctionCallingConvention callingConvention,
-            CSharpType returnType,
-            ImmutableArray<CSharpFunctionParameter> parameters)
-            : base(name, codeLocationComment)
-        {
-            ReturnType = returnType;
-            CallingConvention = callingConvention;
-            Parameters = parameters;
-        }
-
-        // Required for debugger string with records
-        // ReSharper disable once RedundantOverriddenMember
-        public override string ToString()
-        {
-            return base.ToString();
-        }
+    // Required for debugger string with records
+    // ReSharper disable once RedundantOverriddenMember
+    public override string ToString()
+    {
+        return base.ToString();
     }
 }

@@ -3,44 +3,43 @@
 
 using System.Collections.Immutable;
 
-namespace C2CS.UseCases.BindgenCSharp
+namespace C2CS.UseCases.BindgenCSharp;
+
+public readonly struct CSharpAbstractSyntaxTree
 {
-    public readonly struct CSharpAbstractSyntaxTree
+    public readonly ImmutableArray<CSharpFunction> FunctionExterns;
+
+    public readonly ImmutableArray<CSharpFunctionPointer> FunctionPointers;
+
+    public readonly ImmutableArray<CSharpStruct> Structs;
+
+    public readonly ImmutableArray<CSharpTypedef> Typedefs;
+
+    public readonly ImmutableArray<CSharpOpaqueType> OpaqueDataTypes;
+
+    public readonly ImmutableArray<CSharpEnum> Enums;
+
+    public readonly ImmutableArray<CSharpPseudoEnum> PseudoEnums;
+
+    public readonly ImmutableArray<CSharpConstant> Constants;
+
+    public CSharpAbstractSyntaxTree(
+        ImmutableArray<CSharpFunction> functionExterns,
+        ImmutableArray<CSharpFunctionPointer> functionPointers,
+        ImmutableArray<CSharpStruct> structs,
+        ImmutableArray<CSharpTypedef> typedefs,
+        ImmutableArray<CSharpOpaqueType> opaqueDataTypes,
+        ImmutableArray<CSharpEnum> enums,
+        ImmutableArray<CSharpPseudoEnum> pseudoEnums,
+        ImmutableArray<CSharpConstant> constants)
     {
-        public readonly ImmutableArray<CSharpFunction> FunctionExterns;
-
-        public readonly ImmutableArray<CSharpFunctionPointer> FunctionPointers;
-
-        public readonly ImmutableArray<CSharpStruct> Structs;
-
-        public readonly ImmutableArray<CSharpTypedef> Typedefs;
-
-        public readonly ImmutableArray<CSharpOpaqueType> OpaqueDataTypes;
-
-        public readonly ImmutableArray<CSharpEnum> Enums;
-
-        public readonly ImmutableArray<CSharpPseudoEnum> PseudoEnums;
-
-        public readonly ImmutableArray<CSharpConstant> Constants;
-
-        public CSharpAbstractSyntaxTree(
-            ImmutableArray<CSharpFunction> functionExterns,
-            ImmutableArray<CSharpFunctionPointer> functionPointers,
-            ImmutableArray<CSharpStruct> structs,
-            ImmutableArray<CSharpTypedef> typedefs,
-            ImmutableArray<CSharpOpaqueType> opaqueDataTypes,
-            ImmutableArray<CSharpEnum> enums,
-            ImmutableArray<CSharpPseudoEnum> pseudoEnums,
-            ImmutableArray<CSharpConstant> constants)
-        {
-            FunctionExterns = functionExterns;
-            FunctionPointers = functionPointers;
-            Structs = structs;
-            Typedefs = typedefs;
-            OpaqueDataTypes = opaqueDataTypes;
-            Enums = enums;
-            PseudoEnums = pseudoEnums;
-            Constants = constants;
-        }
+        FunctionExterns = functionExterns;
+        FunctionPointers = functionPointers;
+        Structs = structs;
+        Typedefs = typedefs;
+        OpaqueDataTypes = opaqueDataTypes;
+        Enums = enums;
+        PseudoEnums = pseudoEnums;
+        Constants = constants;
     }
 }

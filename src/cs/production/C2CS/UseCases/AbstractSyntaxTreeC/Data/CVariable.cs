@@ -3,19 +3,18 @@
 
 using System.Text.Json.Serialization;
 
-namespace C2CS.UseCases.AbstractSyntaxTreeC
+namespace C2CS.UseCases.AbstractSyntaxTreeC;
+
+public record CVariable : CNode
 {
-    public record CVariable : CNode
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("type")]
+    public string Type { get; set; } = string.Empty;
+
+    public override string ToString()
     {
-        [JsonPropertyName("name")]
-        public string Name { get; set; } = string.Empty;
-
-        [JsonPropertyName("type")]
-        public string Type { get; set; } = string.Empty;
-
-        public override string ToString()
-        {
-            return $"Variable '{Name}': {Type} @ {Location.ToString()}";
-        }
+        return $"Variable '{Name}': {Type} @ {Location.ToString()}";
     }
 }

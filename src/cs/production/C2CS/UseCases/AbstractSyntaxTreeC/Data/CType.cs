@@ -4,42 +4,41 @@
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
-namespace C2CS.UseCases.AbstractSyntaxTreeC
+namespace C2CS.UseCases.AbstractSyntaxTreeC;
+
+// NOTE: Properties are required for System.Text.Json serialization
+[PublicAPI]
+public class CType
 {
-    // NOTE: Properties are required for System.Text.Json serialization
-    [PublicAPI]
-    public class CType
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("kind")]
+    public CKind Kind { get; set; } = CKind.Unknown;
+
+    [JsonPropertyName("sizeOf")]
+    public int? SizeOf { get; set; }
+
+    [JsonPropertyName("alignOf")]
+    public int? AlignOf { get; set; }
+
+    [JsonPropertyName("sizeOfElement")]
+    public int? ElementSize { get; set; }
+
+    [JsonPropertyName("arraySize")]
+    public int? ArraySize { get; set; }
+
+    [JsonPropertyName("isSystem")]
+    public bool IsSystem { get; set; }
+
+    [JsonPropertyName("isAnonymous")]
+    public bool IsAnonymous { get; set; }
+
+    [JsonPropertyName("location")]
+    public ClangLocation? Location { get; set; }
+
+    public override string ToString()
     {
-        [JsonPropertyName("name")]
-        public string Name { get; set; } = string.Empty;
-
-        [JsonPropertyName("kind")]
-        public CKind Kind { get; set; } = CKind.Unknown;
-
-        [JsonPropertyName("sizeOf")]
-        public int? SizeOf { get; set; }
-
-        [JsonPropertyName("alignOf")]
-        public int? AlignOf { get; set; }
-
-        [JsonPropertyName("sizeOfElement")]
-        public int? ElementSize { get; set; }
-
-        [JsonPropertyName("arraySize")]
-        public int? ArraySize { get; set; }
-
-        [JsonPropertyName("isSystem")]
-        public bool IsSystem { get; set; }
-
-        [JsonPropertyName("isAnonymous")]
-        public bool IsAnonymous { get; set; }
-
-        [JsonPropertyName("location")]
-        public ClangLocation? Location { get; set; }
-
-        public override string ToString()
-        {
-            return Name;
-        }
+        return Name;
     }
 }

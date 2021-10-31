@@ -9,15 +9,14 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("StyleCop.Naming", "SA1307:AccessibleFieldsMustBeginWithUpperCaseLetter", Justification = "C style.")]
 [assembly: SuppressMessage("StyleCop.Naming", "SA1310:FieldNamesMustNotContainUnderscore", Justification = "C style.")]
 
-namespace C2CS
+namespace C2CS;
+
+/// <summary>
+///     The collection of utilities for interoperability with native libraries in C#. Used by code which is generated
+///     using the C2CS tool: https://github.com/lithiumtoast/c2cs.
+/// </summary>
+[SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
+[SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Public API.")]
+public static partial class Runtime
 {
-    /// <summary>
-    ///     The collection of utilities for interoperability with native libraries in C#. Used by code which is generated
-    ///     using the C2CS tool: https://github.com/lithiumtoast/c2cs.
-    /// </summary>
-    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
-    [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Public API.")]
-    public static partial class Runtime
-    {
-    }
 }

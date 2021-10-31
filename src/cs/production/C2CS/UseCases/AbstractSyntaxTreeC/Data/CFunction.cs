@@ -5,27 +5,26 @@ using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
-namespace C2CS.UseCases.AbstractSyntaxTreeC
+namespace C2CS.UseCases.AbstractSyntaxTreeC;
+
+// NOTE: Properties are required for System.Text.Json serialization
+[PublicAPI]
+public record CFunction : CNode
 {
-    // NOTE: Properties are required for System.Text.Json serialization
-    [PublicAPI]
-    public record CFunction : CNode
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("callingConvention")]
+    public CFunctionCallingConvention CallingConvention { get; set; } = CFunctionCallingConvention.C;
+
+    [JsonPropertyName("returnType")]
+    public string ReturnType { get; set; } = null!;
+
+    [JsonPropertyName("parameters")]
+    public ImmutableArray<CFunctionParameter> Parameters { get; set; } = ImmutableArray<CFunctionParameter>.Empty;
+
+    public override string ToString()
     {
-        [JsonPropertyName("name")]
-        public string Name { get; set; } = string.Empty;
-
-        [JsonPropertyName("callingConvention")]
-        public CFunctionCallingConvention CallingConvention { get; set; } = CFunctionCallingConvention.C;
-
-        [JsonPropertyName("returnType")]
-        public string ReturnType { get; set; } = null!;
-
-        [JsonPropertyName("parameters")]
-        public ImmutableArray<CFunctionParameter> Parameters { get; set; } = ImmutableArray<CFunctionParameter>.Empty;
-
-        public override string ToString()
-        {
-            return $"FunctionExtern '{Name}' @ {Location.ToString()}";
-        }
+        return $"FunctionExtern '{Name}' @ {Location.ToString()}";
     }
 }

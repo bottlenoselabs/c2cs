@@ -4,34 +4,33 @@
 using System;
 using static clang;
 
-namespace C2CS.UseCases.AbstractSyntaxTreeC
-{
-    internal class ClangExplorerException : Exception
-    {
-        public ClangExplorerException(string message)
-        {
-            Message = message;
-        }
+namespace C2CS.UseCases.AbstractSyntaxTreeC;
 
-        public ClangExplorerException(CXCursor cursor)
-        {
-            var cursorName = cursor.Name();
-            var location = cursor.FileLocation();
-            Message = $@"
+internal class ClangExplorerException : Exception
+{
+    public ClangExplorerException(string message)
+    {
+        Message = message;
+    }
+
+    public ClangExplorerException(CXCursor cursor)
+    {
+        var cursorName = cursor.Name();
+        var location = cursor.FileLocation();
+        Message = $@"
 Unexpected error while exploring Clang header: {cursorName} @ {location.FilePath}:{location.LineNumber}:{location.LineColumn}
 ".Trim();
-        }
+    }
 
-        public ClangExplorerException(CXType type, CXCursor cursor)
-            : this(cursor)
-        {
-            var typeName = type.Name();
-            var location = cursor.FileLocation();
-            Message = $@"
+    public ClangExplorerException(CXType type, CXCursor cursor)
+        : this(cursor)
+    {
+        var typeName = type.Name();
+        var location = cursor.FileLocation();
+        Message = $@"
 Unexpected error while exploring Clang header: {typeName} @ {location.FilePath}:{location.LineNumber}:{location.LineColumn}
 ".Trim();
-        }
-
-        public override string Message { get; }
     }
+
+    public override string Message { get; }
 }

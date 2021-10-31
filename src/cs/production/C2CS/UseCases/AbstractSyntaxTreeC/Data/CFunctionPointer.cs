@@ -5,27 +5,26 @@ using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
-namespace C2CS.UseCases.AbstractSyntaxTreeC
+namespace C2CS.UseCases.AbstractSyntaxTreeC;
+
+// NOTE: Properties are required for System.Text.Json serialization
+[PublicAPI]
+public record CFunctionPointer : CNode
 {
-    // NOTE: Properties are required for System.Text.Json serialization
-    [PublicAPI]
-    public record CFunctionPointer : CNode
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("type")]
+    public string Type { get; set; } = string.Empty;
+
+    [JsonPropertyName("returnType")]
+    public string ReturnType { get; set; } = string.Empty;
+
+    [JsonPropertyName("parameters")]
+    public ImmutableArray<CFunctionPointerParameter> Parameters { get; set; } = ImmutableArray<CFunctionPointerParameter>.Empty;
+
+    public override string ToString()
     {
-        [JsonPropertyName("name")]
-        public string Name { get; set; } = string.Empty;
-
-        [JsonPropertyName("type")]
-        public string Type { get; set; } = string.Empty;
-
-        [JsonPropertyName("returnType")]
-        public string ReturnType { get; set; } = string.Empty;
-
-        [JsonPropertyName("parameters")]
-        public ImmutableArray<CFunctionPointerParameter> Parameters { get; set; } = ImmutableArray<CFunctionPointerParameter>.Empty;
-
-        public override string ToString()
-        {
-            return $"FunctionPointer {Type} @ {Location.ToString()}";
-        }
+        return $"FunctionPointer {Type} @ {Location.ToString()}";
     }
 }
