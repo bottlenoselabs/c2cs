@@ -10,7 +10,6 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 {
     // NOTE: Properties are required for System.Text.Json serialization
     [PublicAPI]
-    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
     public record CAbstractSyntaxTree
     {
         [JsonPropertyName("fileName")]
