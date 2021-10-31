@@ -219,7 +219,7 @@ public static class Terminal
             }
 
             dotNetRuntimeVersion = version;
-            dotNetPath = Path.Combine(parse[2].Trim('[', ']'), version.ToString());
+            dotNetPath = Path.Combine(parse[2].Trim('[', ']'), parse[1]);
         }
 
         return dotNetPath;
