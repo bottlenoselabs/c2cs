@@ -8,224 +8,231 @@ using System.IO;
 using System.Threading;
 using JetBrains.Annotations;
 
-namespace C2CS
+namespace C2CS;
+
+[PublicAPI]
+public static class Terminal
 {
-    [PublicAPI]
-    public static class Terminal
+    public static string RunCommandWithCapturingStandardOutput(this string command, string? workingDirectory = null, string? fileName = null)
     {
-        public static string RunCommandWithCapturingStandardOutput(this string command, string? workingDirectory = null, string? fileName = null)
+        var process = CreateProcess(command, workingDirectory, fileName);
+
+        process.Start();
+        process.WaitForExit();
+
+        var result = process.StandardOutput.ReadToEnd().Trim('\n', '\r');
+        return result;
+    }
+
+    public static bool RunCommandWithoutCapturingOutput(this string command, string? workingDirectory, string? fileName = null)
+    {
+        var process = CreateProcess(command, workingDirectory, fileName);
+
+        process.OutputDataReceived += OnProcessOnOutputDataReceived;
+        process.ErrorDataReceived += OnProcessOnErrorDataReceived;
+
+        process.Start();
+
+        while (!process.HasExited)
         {
-            var process = CreateProcess(command, workingDirectory, fileName);
+            Thread.Sleep(100);
 
-            process.Start();
-            process.WaitForExit();
-
-            var result = process.StandardOutput.ReadToEnd().Trim('\n', '\r');
-            return result;
-        }
-
-        public static bool RunCommandWithoutCapturingOutput(this string command, string? workingDirectory, string? fileName = null)
-        {
-            var process = CreateProcess(command, workingDirectory, fileName);
-
-            process.OutputDataReceived += OnProcessOnOutputDataReceived;
-            process.ErrorDataReceived += OnProcessOnErrorDataReceived;
-
-            process.Start();
-
-            while (!process.HasExited)
+            try
             {
-                Thread.Sleep(100);
-
-                try
-                {
-                    process.BeginOutputReadLine();
-                }
-                catch (InvalidOperationException)
-                {
-                    process.CancelOutputRead();
-                }
-
-                try
-                {
-                    process.BeginErrorReadLine();
-                }
-                catch (InvalidOperationException)
-                {
-                    process.CancelErrorRead();
-                }
+                process.BeginOutputReadLine();
+            }
+            catch (InvalidOperationException)
+            {
+                process.CancelOutputRead();
             }
 
-            return process.ExitCode == 0;
-        }
-
-        private static void OnProcessOnErrorDataReceived(object sender, DataReceivedEventArgs args)
-        {
-            Console.WriteLine(args.Data);
-        }
-
-        private static void OnProcessOnOutputDataReceived(object sender, DataReceivedEventArgs args)
-        {
-            Console.WriteLine(args.Data);
-        }
-
-        private static Process CreateProcess(string command, string? workingDirectory, string? fileName)
-        {
-            if (workingDirectory != null && !Directory.Exists(workingDirectory))
+            try
             {
-                throw new DirectoryNotFoundException(workingDirectory);
+                process.BeginErrorReadLine();
             }
-
-            var processStartInfo = new ProcessStartInfo
+            catch (InvalidOperationException)
             {
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                WorkingDirectory = workingDirectory ?? Environment.CurrentDirectory,
-                CreateNoWindow = true,
-            };
+                process.CancelErrorRead();
+            }
+        }
 
-            if (!string.IsNullOrEmpty(fileName))
+        return process.ExitCode == 0;
+    }
+
+    private static void OnProcessOnErrorDataReceived(object sender, DataReceivedEventArgs args)
+    {
+        Console.WriteLine(args.Data);
+    }
+
+    private static void OnProcessOnOutputDataReceived(object sender, DataReceivedEventArgs args)
+    {
+        Console.WriteLine(args.Data);
+    }
+
+    private static Process CreateProcess(string command, string? workingDirectory, string? fileName)
+    {
+        if (workingDirectory != null && !Directory.Exists(workingDirectory))
+        {
+            throw new DirectoryNotFoundException(workingDirectory);
+        }
+
+        var processStartInfo = new ProcessStartInfo
+        {
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            WorkingDirectory = workingDirectory ?? Environment.CurrentDirectory,
+            CreateNoWindow = true,
+        };
+
+        if (!string.IsNullOrEmpty(fileName))
+        {
+            processStartInfo.FileName = fileName;
+            processStartInfo.Arguments = command;
+        }
+        else
+        {
+            var platform = Runtime.OperatingSystem;
+            if (platform == RuntimeOperatingSystem.Windows)
             {
-                processStartInfo.FileName = fileName;
+                processStartInfo.FileName = "wsl";
                 processStartInfo.Arguments = command;
             }
             else
             {
-                var platform = Runtime.OperatingSystem;
-                if (platform == RuntimeOperatingSystem.Windows)
-                {
-                    processStartInfo.FileName = "wsl";
-                    processStartInfo.Arguments = command;
-                }
-                else
-                {
-                    processStartInfo.FileName = "bash";
-                    var escapedArgs = command.Replace($"\"", $"\\\"");
-                    processStartInfo.Arguments = $"-c \"{escapedArgs}\"";
-                }
+                processStartInfo.FileName = "bash";
+                var escapedArgs = command.Replace($"\"", $"\\\"");
+                processStartInfo.Arguments = $"-c \"{escapedArgs}\"";
             }
-
-            var process = new Process
-            {
-                StartInfo = processStartInfo
-            };
-            return process;
         }
 
-        public static bool CMake(string rootDirectory, string cMakeDirectoryPath, string targetLibraryDirectoryPath)
+        var process = new Process
         {
-            if (!Directory.Exists(rootDirectory))
-            {
-                throw new DirectoryNotFoundException(cMakeDirectoryPath);
-            }
+            StartInfo = processStartInfo
+        };
+        return process;
+    }
 
-            if (!Directory.Exists(cMakeDirectoryPath))
-            {
-                throw new DirectoryNotFoundException(cMakeDirectoryPath);
-            }
-
-            var cMakeCommand = "cmake -S . -B cmake-build-release -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release";
-
-            var platform = Runtime.OperatingSystem;
-            if (platform == RuntimeOperatingSystem.Windows)
-            {
-                var toolchainFilePath = WindowsToLinuxPath($"{rootDirectory}/mingw-w64-x86_64.cmake");
-                cMakeCommand += $" -DCMAKE_TOOLCHAIN_FILE=\"{toolchainFilePath}\"";
-            }
-
-            var isSuccess = cMakeCommand.RunCommandWithoutCapturingOutput(cMakeDirectoryPath);
-            if (!isSuccess)
-            {
-                return false;
-            }
-
-            isSuccess = "make -C ./cmake-build-release".RunCommandWithoutCapturingOutput(cMakeDirectoryPath);
-            if (!isSuccess)
-            {
-                return false;
-            }
-
-            var outputDirectoryPath = Path.Combine(cMakeDirectoryPath, "lib");
-            if (!Directory.Exists(outputDirectoryPath))
-            {
-                return false;
-            }
-
-            var runtimePlatform = Runtime.OperatingSystem;
-            var libraryFileNameExtension = Runtime.LibraryFileNameExtension(runtimePlatform);
-            var outputFilePaths = Directory.EnumerateFiles(
-                outputDirectoryPath, $"*{libraryFileNameExtension}", SearchOption.AllDirectories);
-            foreach (var outputFilePath in outputFilePaths)
-            {
-                var targetFilePath = outputFilePath.Replace(outputDirectoryPath, targetLibraryDirectoryPath);
-                var targetFileName = Path.GetFileName(targetFilePath);
-
-                if (runtimePlatform == RuntimeOperatingSystem.Windows)
-                {
-                    if (targetFileName.StartsWith("lib", StringComparison.InvariantCulture))
-                    {
-                        targetFileName = targetFileName[3..];
-                    }
-                }
-
-                var targetFileDirectoryPath = Path.GetDirectoryName(targetFilePath)!;
-                targetFilePath = Path.Combine(targetFileDirectoryPath, targetFileName);
-                if (!Directory.Exists(targetFileDirectoryPath))
-                {
-                    Directory.CreateDirectory(targetFileDirectoryPath);
-                }
-
-                if (File.Exists(targetFilePath))
-                {
-                    File.Delete(targetFilePath);
-                }
-
-                File.Copy(outputFilePath, targetFilePath);
-            }
-
-            Directory.Delete(outputDirectoryPath, true);
-            Directory.Delete($"{cMakeDirectoryPath}/cmake-build-release", true);
-
-            return true;
-        }
-
-        public static string DotNetPath()
+    public static bool CMake(string rootDirectory, string cMakeDirectoryPath, string targetLibraryDirectoryPath)
+    {
+        if (!Directory.Exists(rootDirectory))
         {
-            Version dotNetRuntimeVersion = new(0, 0, 0, 0);
-            var dotNetPath = string.Empty;
-            var dotnetRuntimesString = "dotnet --list-runtimes".RunCommandWithCapturingStandardOutput();
-            var dotnetRuntimesStrings = dotnetRuntimesString.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var x in dotnetRuntimesStrings)
+            throw new DirectoryNotFoundException(cMakeDirectoryPath);
+        }
+
+        if (!Directory.Exists(cMakeDirectoryPath))
+        {
+            throw new DirectoryNotFoundException(cMakeDirectoryPath);
+        }
+
+        var cMakeCommand = "cmake -S . -B cmake-build-release -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release";
+
+        var platform = Runtime.OperatingSystem;
+        if (platform == RuntimeOperatingSystem.Windows)
+        {
+            var toolchainFilePath = WindowsToLinuxPath($"{rootDirectory}/mingw-w64-x86_64.cmake");
+            cMakeCommand += $" -DCMAKE_TOOLCHAIN_FILE=\"{toolchainFilePath}\"";
+        }
+
+        var isSuccess = cMakeCommand.RunCommandWithoutCapturingOutput(cMakeDirectoryPath);
+        if (!isSuccess)
+        {
+            return false;
+        }
+
+        isSuccess = "make -C ./cmake-build-release".RunCommandWithoutCapturingOutput(cMakeDirectoryPath);
+        if (!isSuccess)
+        {
+            return false;
+        }
+
+        var outputDirectoryPath = Path.Combine(cMakeDirectoryPath, "lib");
+        if (!Directory.Exists(outputDirectoryPath))
+        {
+            return false;
+        }
+
+        var runtimePlatform = Runtime.OperatingSystem;
+        var libraryFileNameExtension = Runtime.LibraryFileNameExtension(runtimePlatform);
+        var outputFilePaths = Directory.EnumerateFiles(
+            outputDirectoryPath, $"*{libraryFileNameExtension}", SearchOption.AllDirectories);
+        foreach (var outputFilePath in outputFilePaths)
+        {
+            var targetFilePath = outputFilePath.Replace(outputDirectoryPath, targetLibraryDirectoryPath);
+            var targetFileName = Path.GetFileName(targetFilePath);
+
+            if (runtimePlatform == RuntimeOperatingSystem.Windows)
             {
-                var parse = x.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-                if (!parse[0].Contains("Microsoft.NETCore.App"))
+                if (targetFileName.StartsWith("lib", StringComparison.InvariantCulture))
                 {
-                    continue;
+                    targetFileName = targetFileName[3..];
                 }
-
-                var version = Version.Parse(parse[1]);
-                if (version <= dotNetRuntimeVersion)
-                {
-                    continue;
-                }
-
-                dotNetRuntimeVersion = version;
-                dotNetPath = Path.Combine(parse[2].Trim('[', ']'), version.ToString());
             }
 
-            return dotNetPath;
+            var targetFileDirectoryPath = Path.GetDirectoryName(targetFilePath)!;
+            targetFilePath = Path.Combine(targetFileDirectoryPath, targetFileName);
+            if (!Directory.Exists(targetFileDirectoryPath))
+            {
+                Directory.CreateDirectory(targetFileDirectoryPath);
+            }
+
+            if (File.Exists(targetFilePath))
+            {
+                File.Delete(targetFilePath);
+            }
+
+            File.Copy(outputFilePath, targetFilePath);
         }
 
-        private static string WindowsToLinuxPath(string path)
+        Directory.Delete(outputDirectoryPath, true);
+        Directory.Delete($"{cMakeDirectoryPath}/cmake-build-release", true);
+
+        return true;
+    }
+
+    public static string DotNetPath()
+    {
+        Version dotNetRuntimeVersion = new(0, 0, 0, 0);
+        var dotNetPath = string.Empty;
+        var dotnetRuntimesString = "dotnet --list-runtimes".RunCommandWithCapturingStandardOutput();
+        var dotnetRuntimesStrings = dotnetRuntimesString.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+        foreach (var x in dotnetRuntimesStrings)
         {
-            var pathWindows = Path.GetFullPath(path);
-            var pathRootWindows = Path.GetPathRoot(pathWindows)!;
-            var pathRootLinux = $"/mnt/{pathRootWindows.ToLower(CultureInfo.InvariantCulture)[0]}/";
-            var pathLinux = pathWindows
-                .Replace(pathRootWindows, pathRootLinux)
-                .Replace('\\', '/');
-            return pathLinux;
+            var parse = x.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            if (!parse[0].Contains("Microsoft.NETCore.App"))
+            {
+                continue;
+            }
+
+            var versionCandidate = parse[1];
+            var versionCharIndexHyphen = versionCandidate.IndexOf('-');
+            if (versionCharIndexHyphen != -1)
+            {
+                // can possibly happen for release candidates of .NET
+                versionCandidate = versionCandidate[..versionCharIndexHyphen];
+            }
+
+            var version = Version.Parse(versionCandidate);
+            if (version <= dotNetRuntimeVersion)
+            {
+                continue;
+            }
+
+            dotNetRuntimeVersion = version;
+            dotNetPath = Path.Combine(parse[2].Trim('[', ']'), version.ToString());
         }
+
+        return dotNetPath;
+    }
+
+    private static string WindowsToLinuxPath(string path)
+    {
+        var pathWindows = Path.GetFullPath(path);
+        var pathRootWindows = Path.GetPathRoot(pathWindows)!;
+        var pathRootLinux = $"/mnt/{pathRootWindows.ToLower(CultureInfo.InvariantCulture)[0]}/";
+        var pathLinux = pathWindows
+            .Replace(pathRootWindows, pathRootLinux)
+            .Replace('\\', '/');
+        return pathLinux;
     }
 }

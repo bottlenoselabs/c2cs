@@ -4,21 +4,20 @@
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
-namespace C2CS.UseCases.AbstractSyntaxTreeC
+namespace C2CS.UseCases.AbstractSyntaxTreeC;
+
+// NOTE: Properties are required for System.Text.Json serialization
+[PublicAPI]
+public record CEnumValue : CNode
 {
-    // NOTE: Properties are required for System.Text.Json serialization
-    [PublicAPI]
-    public record CEnumValue : CNode
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("value")]
+    public long Value { get; set; }
+
+    public override string ToString()
     {
-        [JsonPropertyName("name")]
-        public string Name { get; set; } = string.Empty;
-
-        [JsonPropertyName("value")]
-        public long Value { get; set; }
-
-        public override string ToString()
-        {
-            return $"EnumValue '{Name}' = {Value} @ {Location.ToString()}";
-        }
+        return $"EnumValue '{Name}' = {Value} @ {Location.ToString()}";
     }
 }

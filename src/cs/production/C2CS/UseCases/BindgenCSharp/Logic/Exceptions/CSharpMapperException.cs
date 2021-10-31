@@ -3,13 +3,12 @@
 
 using System;
 
-namespace C2CS.UseCases.BindgenCSharp
+namespace C2CS.UseCases.BindgenCSharp;
+
+public class CSharpMapperException : Exception
 {
-    public class CSharpMapperException : Exception
+    public CSharpMapperException(string message)
+        : base(message)
     {
-        public CSharpMapperException(string message)
-            : base(message)
-        {
-        }
     }
 }

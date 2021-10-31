@@ -3,13 +3,12 @@
 
 using System;
 
-namespace C2CS.UseCases.BindgenCSharp
+namespace C2CS.UseCases.BindgenCSharp;
+
+public class CSharpCodeGenerationException : Exception
 {
-    public class CSharpCodeGenerationException : Exception
+    public CSharpCodeGenerationException(string message)
+        : base(message)
     {
-        public CSharpCodeGenerationException(string message)
-            : base(message)
-        {
-        }
     }
 }

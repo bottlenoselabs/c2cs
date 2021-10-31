@@ -4,15 +4,14 @@
 using System;
 using JetBrains.Annotations;
 
-namespace C2CS
+namespace C2CS;
+
+[PublicAPI]
+public class DiagnosticPanic : Diagnostic
 {
-    [PublicAPI]
-    public class DiagnosticPanic : Diagnostic
+    public DiagnosticPanic(Exception exception)
+        : base(DiagnosticSeverity.Panic)
     {
-        public DiagnosticPanic(Exception exception)
-            : base(DiagnosticSeverity.Panic)
-        {
-            Summary = $"{exception.Message}{Environment.NewLine}{exception.StackTrace}";
-        }
+        Summary = $"{exception.Message}{Environment.NewLine}{exception.StackTrace}";
     }
 }

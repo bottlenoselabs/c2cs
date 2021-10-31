@@ -5,124 +5,111 @@ using System;
 using System.Collections.Immutable;
 using System.IO;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using C2CS.UseCases.AbstractSyntaxTreeC;
 
-namespace C2CS.UseCases.BindgenCSharp
+namespace C2CS.UseCases.BindgenCSharp;
+
+public class UseCase : UseCase<Request, Response>
 {
-    public class UseCase : UseCase<Request, Response>
+    protected override void Execute(Request request, Response response)
     {
-        protected override void Execute(Request request, Response response)
+        Validate(request);
+        TotalSteps(4);
+
+        string className;
+        if (string.IsNullOrEmpty(request.ClassName))
         {
-            Validate(request);
-            TotalSteps(4);
-
-            string className;
-            if (string.IsNullOrEmpty(request.ClassName))
-            {
-                var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(request.OutputFilePath);
-                var firstIndexOfPeriod = fileNameWithoutExtension.IndexOf('.');
-                className = firstIndexOfPeriod == -1 ? fileNameWithoutExtension : fileNameWithoutExtension[..firstIndexOfPeriod];
-            }
-            else
-            {
-                className = request.ClassName;
-            }
-
-            var libraryName = string.IsNullOrEmpty(request.LibraryName) ? className : request.LibraryName;
-
-            var abstractSyntaxTreeC = Step(
-                "Load C abstract syntax tree from disk",
-                request.InputFilePath,
-                LoadAbstractSyntaxTree);
-
-            var abstractSyntaxTreeCSharp = Step(
-                "Map C abstract syntax tree to C#",
-                className,
-                abstractSyntaxTreeC,
-                request.TypeAliases,
-                request.IgnoredNames,
-                abstractSyntaxTreeC.Bitness,
-                Diagnostics,
-                MapCToCSharp);
-
-            var codeCSharp = Step(
-                "Generate C# code",
-                abstractSyntaxTreeCSharp,
-                className,
-                libraryName,
-                request.UsingNamespaces,
-                GenerateCSharpCode);
-
-            Step(
-                "Write C# code to disk",
-                request.OutputFilePath,
-                codeCSharp,
-                WriteCSharpCode);
+            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(request.OutputFilePath);
+            var firstIndexOfPeriod = fileNameWithoutExtension.IndexOf('.');
+            className = firstIndexOfPeriod == -1 ? fileNameWithoutExtension : fileNameWithoutExtension[..firstIndexOfPeriod];
+        }
+        else
+        {
+            className = request.ClassName;
         }
 
-        private static void Validate(Request request)
+        var libraryName = string.IsNullOrEmpty(request.LibraryName) ? className : request.LibraryName;
+
+        var abstractSyntaxTreeC = Step(
+            "Load C abstract syntax tree from disk",
+            request.InputFilePath,
+            LoadAbstractSyntaxTree);
+
+        var abstractSyntaxTreeCSharp = Step(
+            "Map C abstract syntax tree to C#",
+            className,
+            abstractSyntaxTreeC,
+            request.TypeAliases,
+            request.IgnoredNames,
+            abstractSyntaxTreeC.Bitness,
+            Diagnostics,
+            MapCToCSharp);
+
+        var codeCSharp = Step(
+            "Generate C# code",
+            abstractSyntaxTreeCSharp,
+            className,
+            libraryName,
+            request.UsingNamespaces,
+            GenerateCSharpCode);
+
+        Step(
+            "Write C# code to disk",
+            request.OutputFilePath,
+            codeCSharp,
+            WriteCSharpCode);
+    }
+
+    private static void Validate(Request request)
+    {
+        if (!File.Exists(request.InputFilePath))
         {
-            if (!File.Exists(request.InputFilePath))
-            {
-                throw new UseCaseException($"File does not exist: `{request.InputFilePath}`.");
-            }
+            throw new UseCaseException($"File does not exist: `{request.InputFilePath}`.");
+        }
+    }
+
+    private static CAbstractSyntaxTree LoadAbstractSyntaxTree(string inputFilePath)
+    {
+        var fileContents = File.ReadAllText(inputFilePath);
+        var abstractSyntaxTree = JsonSerializer.Deserialize(fileContents, CJsonSerializerContext.Default.CAbstractSyntaxTree)!;
+        return abstractSyntaxTree;
+    }
+
+    private static CSharpAbstractSyntaxTree MapCToCSharp(
+        string className,
+        CAbstractSyntaxTree abstractSyntaxTree,
+        ImmutableArray<CSharpTypeAlias> typeAliases,
+        ImmutableArray<string> ignoredTypeNames,
+        int bitness,
+        DiagnosticsSink diagnostics)
+    {
+        var mapper = new CSharpMapper(className, typeAliases, ignoredTypeNames, bitness, diagnostics);
+        return mapper.AbstractSyntaxTree(abstractSyntaxTree);
+    }
+
+    private static string GenerateCSharpCode(
+        CSharpAbstractSyntaxTree abstractSyntaxTree, string className, string libraryName, ImmutableArray<string> usingNamespaces)
+    {
+        var codeGenerator = new CSharpCodeGenerator(className, libraryName, usingNamespaces);
+        return codeGenerator.EmitCode(abstractSyntaxTree);
+    }
+
+    private static void WriteCSharpCode(
+        string outputFilePath, string codeCSharp)
+    {
+        var outputDirectory = Path.GetDirectoryName(outputFilePath)!;
+        if (string.IsNullOrEmpty(outputDirectory))
+        {
+            outputDirectory = AppContext.BaseDirectory;
+            outputFilePath = Path.Combine(Environment.CurrentDirectory, outputFilePath);
         }
 
-        private static CAbstractSyntaxTree LoadAbstractSyntaxTree(string inputFilePath)
+        if (!Directory.Exists(outputDirectory))
         {
-            var fileContents = File.ReadAllText(inputFilePath);
-
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
-                Converters =
-                {
-                    new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-                }
-            };
-
-            var abstractSyntaxTree = JsonSerializer.Deserialize<CAbstractSyntaxTree>(fileContents, options)!;
-            return abstractSyntaxTree;
+            Directory.CreateDirectory(outputDirectory);
         }
 
-        private static CSharpAbstractSyntaxTree MapCToCSharp(
-            string className,
-            CAbstractSyntaxTree abstractSyntaxTree,
-            ImmutableArray<CSharpTypeAlias> typeAliases,
-            ImmutableArray<string> ignoredTypeNames,
-            int bitness,
-            DiagnosticsSink diagnostics)
-        {
-            var mapper = new CSharpMapper(className, typeAliases, ignoredTypeNames, bitness, diagnostics);
-            return mapper.AbstractSyntaxTree(abstractSyntaxTree);
-        }
-
-        private static string GenerateCSharpCode(
-            CSharpAbstractSyntaxTree abstractSyntaxTree, string className, string libraryName, ImmutableArray<string> usingNamespaces)
-        {
-            var codeGenerator = new CSharpCodeGenerator(className, libraryName, usingNamespaces);
-            return codeGenerator.EmitCode(abstractSyntaxTree);
-        }
-
-        private static void WriteCSharpCode(
-            string outputFilePath, string codeCSharp)
-        {
-            var outputDirectory = Path.GetDirectoryName(outputFilePath)!;
-            if (string.IsNullOrEmpty(outputDirectory))
-            {
-                outputDirectory = AppContext.BaseDirectory;
-                outputFilePath = Path.Combine(Environment.CurrentDirectory, outputFilePath);
-            }
-
-            if (!Directory.Exists(outputDirectory))
-            {
-                Directory.CreateDirectory(outputDirectory);
-            }
-
-            File.WriteAllText(outputFilePath, codeCSharp);
-            Console.WriteLine(outputFilePath);
-        }
+        File.WriteAllText(outputFilePath, codeCSharp);
+        Console.WriteLine(outputFilePath);
     }
 }

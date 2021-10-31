@@ -7,105 +7,104 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 
-namespace C2CS.UseCases.BindgenCSharp
+namespace C2CS.UseCases.BindgenCSharp;
+
+public class Request : UseCaseRequest
 {
-    public class Request : UseCaseRequest
+    public string InputFilePath { get; }
+
+    public string OutputFilePath { get; }
+
+    public ImmutableArray<CSharpTypeAlias> TypeAliases { get; }
+
+    public ImmutableArray<string> IgnoredNames { get; }
+
+    public string LibraryName { get; }
+
+    public string ClassName { get; }
+
+    public ImmutableArray<string> UsingNamespaces { get; }
+
+    public Request(
+        string inputFilePath,
+        string outputFilePath,
+        IEnumerable<string?>? typeAliases,
+        string ignoredNamesFilePath,
+        string libraryName,
+        string className,
+        IEnumerable<string?>? usingNamespaces)
     {
-        public string InputFilePath { get; }
+        InputFilePath = inputFilePath;
+        OutputFilePath = outputFilePath;
+        TypeAliases = CreateTypeAliases(typeAliases);
+        IgnoredNames = CreateIgnoredNames(ignoredNamesFilePath);
+        LibraryName = libraryName;
+        ClassName = className;
+        UsingNamespaces = CreateUsingNamespaces(usingNamespaces);
+    }
 
-        public string OutputFilePath { get; }
-
-        public ImmutableArray<CSharpTypeAlias> TypeAliases { get; }
-
-        public ImmutableArray<string> IgnoredNames { get; }
-
-        public string LibraryName { get; }
-
-        public string ClassName { get; }
-
-        public ImmutableArray<string> UsingNamespaces { get; }
-
-        public Request(
-            string inputFilePath,
-            string outputFilePath,
-            IEnumerable<string?>? typeAliases,
-            string ignoredNamesFilePath,
-            string libraryName,
-            string className,
-            IEnumerable<string?>? usingNamespaces)
+    private static ImmutableArray<CSharpTypeAlias> CreateTypeAliases(IEnumerable<string?>? typeAliases)
+    {
+        if (typeAliases == null)
         {
-            InputFilePath = inputFilePath;
-            OutputFilePath = outputFilePath;
-            TypeAliases = CreateTypeAliases(typeAliases);
-            IgnoredNames = CreateIgnoredNames(ignoredNamesFilePath);
-            LibraryName = libraryName;
-            ClassName = className;
-            UsingNamespaces = CreateUsingNamespaces(usingNamespaces);
+            return ImmutableArray<CSharpTypeAlias>.Empty;
         }
 
-        private static ImmutableArray<CSharpTypeAlias> CreateTypeAliases(IEnumerable<string?>? typeAliases)
+        var builder = ImmutableArray.CreateBuilder<CSharpTypeAlias>();
+        foreach (var typeAliasString in typeAliases!)
         {
-            if (typeAliases == null)
+            if (string.IsNullOrEmpty(typeAliasString))
             {
-                return ImmutableArray<CSharpTypeAlias>.Empty;
+                continue;
             }
 
-            var builder = ImmutableArray.CreateBuilder<CSharpTypeAlias>();
-            foreach (var typeAliasString in typeAliases!)
+            var parse = typeAliasString.Split("->", StringSplitOptions.RemoveEmptyEntries);
+            if (parse.Length != 2)
             {
-                if (string.IsNullOrEmpty(typeAliasString))
-                {
-                    continue;
-                }
-
-                var parse = typeAliasString.Split("->", StringSplitOptions.RemoveEmptyEntries);
-                if (parse.Length != 2)
-                {
-                    continue;
-                }
-
-                var typeFrom = parse[0].Trim();
-                var typeTo = parse[1].Trim();
-
-                var typeAlias = new CSharpTypeAlias
-                {
-                    From = typeFrom,
-                    To = typeTo
-                };
-
-                builder.Add(typeAlias);
+                continue;
             }
 
-            return builder.ToImmutable();
+            var typeFrom = parse[0].Trim();
+            var typeTo = parse[1].Trim();
+
+            var typeAlias = new CSharpTypeAlias
+            {
+                From = typeFrom,
+                To = typeTo
+            };
+
+            builder.Add(typeAlias);
         }
 
-        private static ImmutableArray<string> CreateIgnoredNames(string ignoredNamesFilePath)
-        {
-            if (string.IsNullOrEmpty(ignoredNamesFilePath))
-            {
-                return ImmutableArray<string>.Empty;
-            }
+        return builder.ToImmutable();
+    }
 
-            var text = File.ReadAllText(ignoredNamesFilePath);
-            var ignoredNamesSplit = text.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-            var ignoredNames = ignoredNamesSplit
-                .Select(x => x.Trim())
-                .Where(x => !string.IsNullOrEmpty(x));
-            return ignoredNames.ToImmutableArray();
+    private static ImmutableArray<string> CreateIgnoredNames(string ignoredNamesFilePath)
+    {
+        if (string.IsNullOrEmpty(ignoredNamesFilePath))
+        {
+            return ImmutableArray<string>.Empty;
         }
 
-        private static ImmutableArray<string> CreateUsingNamespaces(IEnumerable<string?>? usingNamespaces)
-        {
-            if (usingNamespaces == null)
-            {
-                return ImmutableArray<string>.Empty;
-            }
+        var text = File.ReadAllText(ignoredNamesFilePath);
+        var ignoredNamesSplit = text.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+        var ignoredNames = ignoredNamesSplit
+            .Select(x => x.Trim())
+            .Where(x => !string.IsNullOrEmpty(x));
+        return ignoredNames.ToImmutableArray();
+    }
 
-            var nonNull = usingNamespaces!
-                .Select(x => x?.Trim())
-                .Where(x => !string.IsNullOrEmpty(x))
-                .Cast<string>();
-            return nonNull.ToImmutableArray();
+    private static ImmutableArray<string> CreateUsingNamespaces(IEnumerable<string?>? usingNamespaces)
+    {
+        if (usingNamespaces == null)
+        {
+            return ImmutableArray<string>.Empty;
         }
+
+        var nonNull = usingNamespaces!
+            .Select(x => x?.Trim())
+            .Where(x => !string.IsNullOrEmpty(x))
+            .Cast<string>();
+        return nonNull.ToImmutableArray();
     }
 }

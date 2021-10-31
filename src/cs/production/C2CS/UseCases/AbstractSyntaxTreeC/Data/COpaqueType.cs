@@ -3,16 +3,15 @@
 
 using System.Text.Json.Serialization;
 
-namespace C2CS.UseCases.AbstractSyntaxTreeC
-{
-    public record COpaqueType : CNode
-    {
-        [JsonPropertyName("name")]
-        public string Name { get; set; } = string.Empty;
+namespace C2CS.UseCases.AbstractSyntaxTreeC;
 
-        public override string ToString()
-        {
-            return $"OpaqueType '{Name}' @ {Location.ToString()}";
-        }
+public record COpaqueType : CNode
+{
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
+
+    public override string ToString()
+    {
+        return $"OpaqueType '{Name}' @ {Location.ToString()}";
     }
 }

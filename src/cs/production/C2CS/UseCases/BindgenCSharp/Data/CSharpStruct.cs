@@ -3,31 +3,30 @@
 
 using System.Collections.Immutable;
 
-namespace C2CS.UseCases.BindgenCSharp
+namespace C2CS.UseCases.BindgenCSharp;
+
+public record CSharpStruct : CSharpNode
 {
-    public record CSharpStruct : CSharpNode
+    public readonly CSharpType Type;
+    public readonly ImmutableArray<CSharpStructField> Fields;
+    public readonly ImmutableArray<CSharpStruct> NestedStructs;
+
+    public CSharpStruct(
+        string codeLocationComment,
+        CSharpType type,
+        ImmutableArray<CSharpStructField> fields,
+        ImmutableArray<CSharpStruct> nestedStructs)
+        : base(type.Name, codeLocationComment)
     {
-        public readonly CSharpType Type;
-        public readonly ImmutableArray<CSharpStructField> Fields;
-        public readonly ImmutableArray<CSharpStruct> NestedStructs;
+        Type = type;
+        Fields = fields;
+        NestedStructs = nestedStructs;
+    }
 
-        public CSharpStruct(
-            string codeLocationComment,
-            CSharpType type,
-            ImmutableArray<CSharpStructField> fields,
-            ImmutableArray<CSharpStruct> nestedStructs)
-            : base(type.Name, codeLocationComment)
-        {
-            Type = type;
-            Fields = fields;
-            NestedStructs = nestedStructs;
-        }
-
-        // Required for debugger string with records
-        // ReSharper disable once RedundantOverriddenMember
-        public override string ToString()
-        {
-            return base.ToString();
-        }
+    // Required for debugger string with records
+    // ReSharper disable once RedundantOverriddenMember
+    public override string ToString()
+    {
+        return base.ToString();
     }
 }

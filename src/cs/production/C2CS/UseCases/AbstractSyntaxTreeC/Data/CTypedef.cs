@@ -4,21 +4,20 @@
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
-namespace C2CS.UseCases.AbstractSyntaxTreeC
+namespace C2CS.UseCases.AbstractSyntaxTreeC;
+
+// NOTE: Properties are required for System.Text.Json serialization
+[PublicAPI]
+public record CTypedef : CNode
 {
-    // NOTE: Properties are required for System.Text.Json serialization
-    [PublicAPI]
-    public record CTypedef : CNode
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("underlyingType")]
+    public string UnderlyingType { get; set; } = string.Empty;
+
+    public override string ToString()
     {
-        [JsonPropertyName("name")]
-        public string Name { get; set; } = string.Empty;
-
-        [JsonPropertyName("underlyingType")]
-        public string UnderlyingType { get; set; } = string.Empty;
-
-        public override string ToString()
-        {
-            return $"Record '{Name}': {UnderlyingType} @ {Location.ToString()}";
-        }
+        return $"Record '{Name}': {UnderlyingType} @ {Location.ToString()}";
     }
 }

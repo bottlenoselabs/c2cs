@@ -4,19 +4,18 @@
 using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 
-namespace C2CS.UseCases.AbstractSyntaxTreeC
+namespace C2CS.UseCases.AbstractSyntaxTreeC;
+
+public record CMacroObject : CNode
 {
-    public record CMacroObject : CNode
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("tokens")]
+    public ImmutableArray<string> Tokens { get; set; } = ImmutableArray<string>.Empty;
+
+    public override string ToString()
     {
-        [JsonPropertyName("name")]
-        public string Name { get; set; } = string.Empty;
-
-        [JsonPropertyName("tokens")]
-        public ImmutableArray<string> Tokens { get; set; } = ImmutableArray<string>.Empty;
-
-        public override string ToString()
-        {
-            return $"MacroObject '{Name}' @ {Location.ToString()}";
-        }
+        return $"MacroObject '{Name}' @ {Location.ToString()}";
     }
 }

@@ -4,16 +4,15 @@
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
-namespace C2CS.UseCases.BindgenCSharp
-{
-    // NOTE: Properties are required for System.Text.Json serialization
-    [PublicAPI]
-    public class CSharpTypeAlias
-    {
-        [JsonPropertyName("from")]
-        public string From { get; set; } = string.Empty;
+namespace C2CS.UseCases.BindgenCSharp;
 
-        [JsonPropertyName("to")]
-        public string To { get; set; } = string.Empty;
-    }
+// NOTE: Properties are required for System.Text.Json serialization
+[PublicAPI]
+public class CSharpTypeAlias
+{
+    [JsonPropertyName("from")]
+    public string From { get; set; } = string.Empty;
+
+    [JsonPropertyName("to")]
+    public string To { get; set; } = string.Empty;
 }

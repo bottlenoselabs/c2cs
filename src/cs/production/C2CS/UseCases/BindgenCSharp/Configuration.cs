@@ -5,13 +5,12 @@ using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
-namespace C2CS.UseCases.BindgenCSharp
+namespace C2CS.UseCases.BindgenCSharp;
+
+// NOTE: Properties are required for System.Text.Json serialization
+[PublicAPI]
+public class Configuration
 {
-	// NOTE: Properties are required for System.Text.Json serialization
-    [PublicAPI]
-    public class Configuration
-    {
-		[JsonPropertyName("aliases")]
-		public ImmutableArray<CSharpTypeAlias> Aliases { get; set; } = ImmutableArray<CSharpTypeAlias>.Empty;
-    }
+	[JsonPropertyName("aliases")]
+	public ImmutableArray<CSharpTypeAlias> Aliases { get; set; } = ImmutableArray<CSharpTypeAlias>.Empty;
 }

@@ -7,124 +7,123 @@ using System.Collections.Immutable;
 using System.IO;
 using static clang;
 
-namespace C2CS.UseCases.Macros
+namespace C2CS.UseCases.Macros;
+
+public class UseCase : UseCase<Request, Response>
 {
-    public class UseCase : UseCase<Request, Response>
+    protected override void Execute(Request request, Response response)
     {
-        protected override void Execute(Request request, Response response)
+        Validate(request);
+        TotalSteps(3);
+
+        var translationUnit = Step(
+            "Parse C code from disk",
+            request.InputFilePath,
+            request.AutomaticallyFindSoftwareDevelopmentKit,
+            request.IncludeDirectories,
+            Parse);
+
+        Step(
+            "Print macro names",
+            translationUnit,
+            request.IncludeDirectories,
+            PrintMacroNames);
+    }
+
+    private static void Validate(Request request)
+    {
+        if (!File.Exists(request.InputFilePath))
         {
-            Validate(request);
-            TotalSteps(3);
+            throw new UseCaseException($"File does not exist: `{request.InputFilePath}`.");
+        }
+    }
 
-            var translationUnit = Step(
-                "Parse C code from disk",
-                request.InputFilePath,
-                request.AutomaticallyFindSoftwareDevelopmentKit,
-                request.IncludeDirectories,
-                Parse);
+    private static CXTranslationUnit Parse(
+        string inputFilePath,
+        bool automaticallyFindSoftwareDevelopmentKit,
+        ImmutableArray<string> includeDirectories)
+    {
+        var clangArgs = ClangArgumentsBuilder.Build(
+            automaticallyFindSoftwareDevelopmentKit,
+            includeDirectories,
+            ImmutableArray<string>.Empty,
+            null,
+            ImmutableArray<string>.Empty);
+        return ClangTranslationUnitParser.Parse(inputFilePath, clangArgs);
+    }
 
-            Step(
-                "Print macro names",
-                translationUnit,
-                request.IncludeDirectories,
-                PrintMacroNames);
+    private static void PrintMacroNames(
+        CXTranslationUnit translationUnit,
+        ImmutableArray<string> includeDirectories)
+    {
+        var translationUnitCursor = clang_getTranslationUnitCursor(translationUnit);
+        var macros = translationUnitCursor.GetDescendents(IsObjectLikeMacro);
+        var macroNames = new HashSet<string>();
+
+        foreach (var macro in macros)
+        {
+            var name = macro.Name();
+            var location = macro.FileLocation();
+            if (string.IsNullOrEmpty(location.FilePath))
+            {
+                continue;
+            }
+
+            var isInInclude = false;
+            foreach (var includeDirectory in includeDirectories)
+            {
+                if (location.FilePath.StartsWith(includeDirectory, StringComparison.InvariantCulture))
+                {
+                    isInInclude = true;
+                    break;
+                }
+            }
+
+            if (!isInInclude)
+            {
+                continue;
+            }
+
+            if (macroNames.Contains(name))
+            {
+                continue;
+            }
+
+            macroNames.Add(name);
         }
 
-        private static void Validate(Request request)
+        foreach (var name in macroNames)
         {
-            if (!File.Exists(request.InputFilePath))
-            {
-                throw new UseCaseException($"File does not exist: `{request.InputFilePath}`.");
-            }
+            // TODO: Follow up on the macro initialization to see if it's a constant value
+            Console.WriteLine(name);
         }
 
-        private static CXTranslationUnit Parse(
-            string inputFilePath,
-            bool automaticallyFindSoftwareDevelopmentKit,
-            ImmutableArray<string> includeDirectories)
+        static bool IsObjectLikeMacro(CXCursor cursor, CXCursor parent)
         {
-            var clangArgs = ClangArgumentsBuilder.Build(
-                automaticallyFindSoftwareDevelopmentKit,
-                includeDirectories,
-                ImmutableArray<string>.Empty,
-                null,
-                ImmutableArray<string>.Empty);
-            return ClangTranslationUnitParser.Parse(inputFilePath, clangArgs);
-        }
+            var name = cursor.Name();
+            var kind = clang_getCursorKind(cursor);
 
-        private static void PrintMacroNames(
-            CXTranslationUnit translationUnit,
-            ImmutableArray<string> includeDirectories)
-        {
-            var translationUnitCursor = clang_getTranslationUnitCursor(translationUnit);
-            var macros = translationUnitCursor.GetDescendents(IsObjectLikeMacro);
-            var macroNames = new HashSet<string>();
-
-            foreach (var macro in macros)
+            if (kind != CXCursorKind.CXCursor_MacroDefinition)
             {
-                var name = macro.Name();
-                var location = macro.FileLocation();
-                if (string.IsNullOrEmpty(location.FilePath))
-                {
-                    continue;
-                }
-
-                var isInInclude = false;
-                foreach (var includeDirectory in includeDirectories)
-                {
-                    if (location.FilePath.StartsWith(includeDirectory, StringComparison.InvariantCulture))
-                    {
-                        isInInclude = true;
-                        break;
-                    }
-                }
-
-                if (!isInInclude)
-                {
-                    continue;
-                }
-
-                if (macroNames.Contains(name))
-                {
-                    continue;
-                }
-
-                macroNames.Add(name);
+                return false;
             }
 
-            foreach (var name in macroNames)
+            if (clang_Cursor_isMacroFunctionLike(cursor) != 0)
             {
-                // TODO: Follow up on the macro initialization to see if it's a constant value
-                Console.WriteLine(name);
+                return false;
             }
 
-            static bool IsObjectLikeMacro(CXCursor cursor, CXCursor parent)
+            if (clang_Cursor_isMacroBuiltin(cursor) != 0)
             {
-                var name = cursor.Name();
-                var kind = clang_getCursorKind(cursor);
-
-                if (kind != CXCursorKind.CXCursor_MacroDefinition)
-                {
-                    return false;
-                }
-
-                if (clang_Cursor_isMacroFunctionLike(cursor) != 0)
-                {
-                    return false;
-                }
-
-                if (clang_Cursor_isMacroBuiltin(cursor) != 0)
-                {
-                    return false;
-                }
-
-                if (cursor.IsSystem())
-                {
-                    return false;
-                }
-
-                return true;
+                return false;
             }
+
+            if (cursor.IsSystem())
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

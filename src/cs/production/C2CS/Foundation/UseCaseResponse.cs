@@ -3,33 +3,32 @@
 
 using System.Collections.Immutable;
 
-namespace C2CS
+namespace C2CS;
+
+public abstract class UseCaseResponse
 {
-    public abstract class UseCaseResponse
+    public UseCaseOutputStatus Status { get; private set; }
+
+    public ImmutableArray<Diagnostic> Diagnostics { get; private set; }
+
+    internal void WithDiagnostics(ImmutableArray<Diagnostic> diagnostics)
     {
-        public UseCaseOutputStatus Status { get; private set; }
+        Diagnostics = diagnostics;
+        Status = CalculateStatus(diagnostics);
+    }
 
-        public ImmutableArray<Diagnostic> Diagnostics { get; private set; }
-
-        internal void WithDiagnostics(ImmutableArray<Diagnostic> diagnostics)
+    private static UseCaseOutputStatus CalculateStatus(ImmutableArray<Diagnostic> diagnostics)
+    {
+        // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+        foreach (var diagnostic in diagnostics)
         {
-            Diagnostics = diagnostics;
-            Status = CalculateStatus(diagnostics);
-        }
-
-        private static UseCaseOutputStatus CalculateStatus(ImmutableArray<Diagnostic> diagnostics)
-        {
-            // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
-            foreach (var diagnostic in diagnostics)
+            if (diagnostic.Severity == DiagnosticSeverity.Error ||
+                diagnostic.Severity == DiagnosticSeverity.Panic)
             {
-                if (diagnostic.Severity == DiagnosticSeverity.Error ||
-                    diagnostic.Severity == DiagnosticSeverity.Panic)
-                {
-                    return UseCaseOutputStatus.Failure;
-                }
+                return UseCaseOutputStatus.Failure;
             }
-
-            return UseCaseOutputStatus.Success;
         }
+
+        return UseCaseOutputStatus.Success;
     }
 }

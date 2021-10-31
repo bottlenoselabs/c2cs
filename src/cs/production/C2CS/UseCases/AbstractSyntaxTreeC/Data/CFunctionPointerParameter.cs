@@ -4,21 +4,20 @@
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
-namespace C2CS.UseCases.AbstractSyntaxTreeC
+namespace C2CS.UseCases.AbstractSyntaxTreeC;
+
+// NOTE: Properties are required for System.Text.Json serialization
+[PublicAPI]
+public record CFunctionPointerParameter : CNode
 {
-    // NOTE: Properties are required for System.Text.Json serialization
-    [PublicAPI]
-    public record CFunctionPointerParameter : CNode
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("type")]
+    public string Type { get; set; } = null!;
+
+    public override string ToString()
     {
-        [JsonPropertyName("name")]
-        public string Name { get; set; } = string.Empty;
-
-        [JsonPropertyName("type")]
-        public string Type { get; set; } = null!;
-
-        public override string ToString()
-        {
-            return $"FunctionPointerParameter '{Name}': {Type} @ {Location.ToString()}";
-        }
+        return $"FunctionPointerParameter '{Name}': {Type} @ {Location.ToString()}";
     }
 }

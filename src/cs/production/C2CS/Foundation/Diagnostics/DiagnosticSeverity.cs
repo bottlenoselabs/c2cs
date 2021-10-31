@@ -3,32 +3,31 @@
 
 using JetBrains.Annotations;
 
-namespace C2CS
+namespace C2CS;
+
+/// <summary>
+///     Defines different levels of program runtime feedback.
+/// </summary>
+[PublicAPI]
+public enum DiagnosticSeverity
 {
     /// <summary>
-    ///     Defines different levels of program runtime feedback.
+    ///     Verbose and ignorable.
     /// </summary>
-    [PublicAPI]
-    public enum DiagnosticSeverity
-    {
-        /// <summary>
-        ///     Verbose and ignorable.
-        /// </summary>
-        Information,
+    Information,
 
-        /// <summary>
-        ///     Suspicious; indicative of an expected but possibly undesired outcome. Does not halt the program.
-        /// </summary>
-        Warning,
+    /// <summary>
+    ///     Suspicious; indicative of an expected but possibly undesired outcome. Does not halt the program.
+    /// </summary>
+    Warning,
 
-        /// <summary>
-        ///     Unacceptable; indicative of an unexpected result. Does not halt the program.
-        /// </summary>
-        Error,
+    /// <summary>
+    ///     Unacceptable; indicative of an unexpected result. Does not halt the program.
+    /// </summary>
+    Error,
 
-        /// <summary>
-        ///     Crash; gracefully exit the program with a stack trace.
-        /// </summary>
-        Panic
-    }
+    /// <summary>
+    ///     Crash; gracefully exit the program with a stack trace.
+    /// </summary>
+    Panic
 }

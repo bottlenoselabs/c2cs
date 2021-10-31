@@ -6,34 +6,33 @@ using System.Collections.Immutable;
 using System.Linq;
 using JetBrains.Annotations;
 
-namespace C2CS
+namespace C2CS;
+
+[PublicAPI]
+public sealed class DiagnosticsSink
 {
-    [PublicAPI]
-    public sealed class DiagnosticsSink
+    private readonly List<Diagnostic> _diagnostics = new();
+
+    public bool HasError
     {
-        private readonly List<Diagnostic> _diagnostics = new();
+        get => _diagnostics.Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
+    }
 
-        public bool HasError
-        {
-            get => _diagnostics.Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
-        }
+    public void Add(Diagnostic diagnostic)
+    {
+        _diagnostics.Add(diagnostic);
+    }
 
-        public void Add(Diagnostic diagnostic)
+    public void AddRange(IEnumerable<Diagnostic> diagnostics)
+    {
+        foreach (var diagnostic in diagnostics)
         {
-            _diagnostics.Add(diagnostic);
+            Add(diagnostic);
         }
+    }
 
-        public void AddRange(IEnumerable<Diagnostic> diagnostics)
-        {
-            foreach (var diagnostic in diagnostics)
-            {
-                Add(diagnostic);
-            }
-        }
-
-        public ImmutableArray<Diagnostic> GetAll()
-        {
-            return _diagnostics.ToImmutableArray();
-        }
+    public ImmutableArray<Diagnostic> GetAll()
+    {
+        return _diagnostics.ToImmutableArray();
     }
 }

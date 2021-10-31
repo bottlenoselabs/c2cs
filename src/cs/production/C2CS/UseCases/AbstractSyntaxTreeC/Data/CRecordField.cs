@@ -4,27 +4,26 @@
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
-namespace C2CS.UseCases.AbstractSyntaxTreeC
+namespace C2CS.UseCases.AbstractSyntaxTreeC;
+
+// NOTE: Properties are required for System.Text.Json serialization
+[PublicAPI]
+public record CRecordField : CNode
 {
-    // NOTE: Properties are required for System.Text.Json serialization
-    [PublicAPI]
-    public record CRecordField : CNode
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("type")]
+    public string Type { get; set; } = string.Empty;
+
+    [JsonPropertyName("offset")]
+    public int Offset { get; set; }
+
+    [JsonPropertyName("padding")]
+    public int Padding { get; set; }
+
+    public override string ToString()
     {
-        [JsonPropertyName("name")]
-        public string Name { get; set; } = string.Empty;
-
-        [JsonPropertyName("type")]
-        public string Type { get; set; } = string.Empty;
-
-        [JsonPropertyName("offset")]
-        public int Offset { get; set; }
-
-        [JsonPropertyName("padding")]
-        public int Padding { get; set; }
-
-        public override string ToString()
-        {
-            return $"RecordField '{Name}': {Type} @ {Location.ToString()}";
-        }
+        return $"RecordField '{Name}': {Type} @ {Location.ToString()}";
     }
 }
