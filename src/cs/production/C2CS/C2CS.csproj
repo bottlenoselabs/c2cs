@@ -17,8 +17,8 @@
         <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.0.0-3.final" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0-rc.2.21480.5" />
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
-        <!-- NativeAOT for macOS is, at this time of commit, busted for osx-arm64 (Apple Sillicon laptop/desktop).-->
-        <PackageReference Condition="'$(IsMacOS)' != 'true'" Include="Microsoft.DotNet.ILCompiler" Version="7.0.0-*" />
+        <!-- NativeAOT for macOS is, at this time of commit, busted for osx-arm64 (Apple Sillicon laptop/desktop). -->
+        <!-- <PackageReference Condition="'$(IsMacOS)' != 'true'" Include="Microsoft.DotNet.ILCompiler" Version="7.0.0-*" /> -->
     </ItemGroup>
     
     <!-- Project references -->
