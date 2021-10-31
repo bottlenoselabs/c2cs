@@ -7,10 +7,6 @@
         <RootNamespace>C2CS</RootNamespace>
         <InvariantGlobalization>true</InvariantGlobalization>
         <SatelliteResourceLanguages>en</SatelliteResourceLanguages> <!-- Removes culture folders on publish output -->
-        <PublishSingleFile>true</PublishSingleFile>
-        <DebugType>embedded</DebugType>
-        <IncludeNativeLibrariesForSelfExtract>false</IncludeNativeLibrariesForSelfExtract>
-        <GenerateDocumentationFile>false</GenerateDocumentationFile>
     </PropertyGroup>
     
     <!-- NuGet packaage references -->
