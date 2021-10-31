@@ -116,6 +116,7 @@ jobs:
         path: './nuget-packages-packed/*/**'
 
     - name: "Build C2CS"
+      shell: bash
       run: bash ./publish.sh ${{ env.DOTNET_RID }}
 
     - name: "Ensure C2CS is executable (macOS)"
