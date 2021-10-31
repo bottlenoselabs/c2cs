@@ -1,9 +1,6 @@
 [submodule "ext/my-msbuild"]
 	path = ext/my-msbuild
 	url = https://github.com/lithiumtoast/my-msbuild.git
-[submodule "ext/flecs"]
-	path = ext/flecs
-	url = https://github.com/SanderMertens/flecs.git
 [submodule "ext/dsa"]
 	path = ext/dsa
 	url = https://github.com/lithiumtoast/dsa
