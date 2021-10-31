@@ -81,6 +81,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '${{ env.DOTNET_SDK_VERSION }}'
+        include-prerelease: true
 
     - name: "Clean solution"
       run: dotnet clean --configuration Release && dotnet nuget locals all --clear
@@ -141,6 +142,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '${{ env.DOTNET_SDK_VERSION }}'
+        include-prerelease: true
 
     - name: "Download NuGet Packages"
       uses: actions/download-artifact@v1
