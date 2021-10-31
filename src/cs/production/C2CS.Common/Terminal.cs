@@ -125,7 +125,14 @@ namespace C2CS
                 throw new DirectoryNotFoundException(cMakeDirectoryPath);
             }
 
-            var cMakeCommand = "cmake -S . -B cmake-build-release -DCMAKE_BUILD_TYPE=Release";
+            var cMakeCommand = "cmake -S . -B cmake-build-release -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release";
+
+            var platform = Runtime.OperatingSystem;
+            if (platform == RuntimeOperatingSystem.Windows)
+            {
+                var toolchainFilePath = WindowsToLinuxPath($"{rootDirectory}/mingw-w64-x86_64.cmake");
+                cMakeCommand += $" -DCMAKE_TOOLCHAIN_FILE=\"{toolchainFilePath}\"";
+            }
 
             var isSuccess = cMakeCommand.RunCommandWithoutCapturingOutput(cMakeDirectoryPath);
             if (!isSuccess)

@@ -16,11 +16,11 @@ void pass_string(const char* s)
 void pass_integers_by_value(uint16_t a, int32_t b, uint64_t c)
 {
     uint64_t sum = a + b + c;
-    printf("%llu\n", sum);
+    printf("%lu\n", sum);
 }
 
-void pass_integers_by_reference(uint16_t* a, int32_t* b, uint64_t* c)
+void pass_integers_by_reference(const uint16_t* a, const int32_t* b, const uint64_t* c)
 {
     uint64_t sum = *a + *b + *c;
-    printf("%llu\n", sum);
+    printf("%lu\n", sum);
 }
