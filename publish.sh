@@ -13,8 +13,34 @@ dotnet publish $DIR/src/cs/production/C2CS/C2CS.csproj \
 --output $DIR/publish/$RID \
 --configuration Release \
 --runtime $RID \
---no-self-contained \
+--self-contained \
+'/property:MSBuildTreatWarningsAsErrors=false' \
+'/property:ILLinkTreatWarningsAsErrors=false' \
+'/property:SuppressTrimAnalysisWarnings=false' \
+'/property:EnableTrimAnalyzer=true' \
+'/property:ILLinkWarningLevel=9999' \
+'/property:TrimmerSingleWarn=false' \
+'/property:TrimmerRemoveSymbols=true' \
 '/property:PublishSingleFile=true' \
-'/property:DebugType=embedded' \
-'/property:IncludeNativeLibrariesForSelfExtract=true' \
-'/property:GenerateDocumentationFile=false'
+'/property:CopyLocalLockFileAssemblies=false' \
+'/property:GenerateTargetFrameworkAttribute=false' \
+'/property:DebugType=none' \
+'/property:DebugSymbols=false' \
+'/property:IncludeNativeLibrariesForSelfExtract=false' \
+'/property:GenerateDocumentationFile=false' \
+'/property:SatelliteResourceLanguages=en' \
+'/property:InvariantGlobalization=true' \
+'/property:PublishTrimmed=true' \
+'/property:TrimMode=link' \
+'/property:PublishReadyToRun=false' \
+'/property:EnableUnsafeBinaryFormatterSerialization=false' \
+'/property:EnableUnsafeUTF7Encoding=false' \
+'/property:EventSourceSupport=false' \
+'/property:HttpActivityPropagationSupport=false' \
+'/property:MetadataUpdaterSupport=false' \
+'/property:UseNativeHttpHandler=true' \
+'/property:UseSystemResourceKeys=true' \
+'/property:DebuggerSupport=false' \
+'/property:IlcGenerateCompleteTypeMetadata=true' \
+'/property:IlcInvariantGlobalization=true' \
+'/property:IlcFoldIdenticalMethodBodies=true'

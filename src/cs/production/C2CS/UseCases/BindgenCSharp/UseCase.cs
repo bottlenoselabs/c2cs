@@ -72,18 +72,7 @@ namespace C2CS.UseCases.BindgenCSharp
         private static CAbstractSyntaxTree LoadAbstractSyntaxTree(string inputFilePath)
         {
             var fileContents = File.ReadAllText(inputFilePath);
-
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
-                Converters =
-                {
-                    new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-                }
-            };
-
-            var abstractSyntaxTree = JsonSerializer.Deserialize<CAbstractSyntaxTree>(fileContents, options)!;
+            var abstractSyntaxTree = JsonSerializer.Deserialize(fileContents, CJsonSerializerContext.Default.CAbstractSyntaxTree)!;
             return abstractSyntaxTree;
         }
 

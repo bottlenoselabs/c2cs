@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
@@ -9,6 +10,7 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
 {
     // NOTE: Properties are required for System.Text.Json serialization
     [PublicAPI]
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
     public record CAbstractSyntaxTree
     {
         [JsonPropertyName("fileName")]

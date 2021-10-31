@@ -24,3 +24,18 @@ void pass_integers_by_reference(const uint16_t* a, const int32_t* b, const uint6
     uint64_t sum = *a + *b + *c;
     printf("%lu\n", sum);
 }
+
+void pass_enum(const my_enum_week_day e)
+{
+    switch (e)
+    {
+        case MY_ENUM_TYPE_UNKNOWN:
+            printf("UNKNOWN");
+            break;
+        case MY_ENUM_TYPE_MONDAY:
+            printf("MONDAY");
+            break;
+        default:
+            printf("???");
+    }
+}

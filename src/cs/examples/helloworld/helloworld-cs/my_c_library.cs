@@ -22,19 +22,35 @@ public static unsafe partial class my_c_library
 {
     private const string LibraryName = "my_c_library";
 
-    // Function @ my_c_library.h:11:28 (/Users/lstranks/Programming/c2cs/src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h)
+    // Function @ my_c_library.h:21:28 (/Users/lstranks/Programming/c2cs/src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h)
     [DllImport(LibraryName)]
     public static extern void hello_world();
 
-    // Function @ my_c_library.h:12:28 (/Users/lstranks/Programming/c2cs/src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h)
+    // Function @ my_c_library.h:22:28 (/Users/lstranks/Programming/c2cs/src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h)
     [DllImport(LibraryName)]
     public static extern void pass_string(CString8U s);
 
-    // Function @ my_c_library.h:13:28 (/Users/lstranks/Programming/c2cs/src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h)
+    // Function @ my_c_library.h:23:28 (/Users/lstranks/Programming/c2cs/src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h)
     [DllImport(LibraryName)]
     public static extern void pass_integers_by_value(ushort a, int b, ulong c);
 
-    // Function @ my_c_library.h:14:28 (/Users/lstranks/Programming/c2cs/src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h)
+    // Function @ my_c_library.h:24:28 (/Users/lstranks/Programming/c2cs/src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h)
     [DllImport(LibraryName)]
     public static extern void pass_integers_by_reference(ushort* a, int* b, ulong* c);
+
+    // Function @ my_c_library.h:25:28 (/Users/lstranks/Programming/c2cs/src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h)
+    [DllImport(LibraryName)]
+    public static extern void pass_enum(my_enum_week_day e);
+
+    // Enum @ my_c_library.h:19:3 (/Users/lstranks/Programming/c2cs/src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h)
+    public enum my_enum_week_day : int
+    {
+        MY_ENUM_TYPE_UNKNOWN = 0,
+        MY_ENUM_TYPE_MONDAY = 1,
+        MY_ENUM_TYPE_TUESDAY = 2,
+        MY_ENUM_TYPE_WEDNESDAY = 3,
+        MY_ENUM_TYPE_THURSDAY = 4,
+        MY_ENUM_TYPE_FRIDAY = 5,
+        _MY_ENUM_TYPE_FORCE_U32 = 2147483647
+    }
 }

@@ -97,22 +97,12 @@ namespace C2CS.UseCases.AbstractSyntaxTreeC
                 Directory.CreateDirectory(outputDirectory);
             }
 
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
-                Converters =
-                {
-                    new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-                }
-            };
-
             if (File.Exists(outputFilePath))
             {
                 File.Delete(outputFilePath);
             }
 
-            var fileContents = JsonSerializer.Serialize(abstractSyntaxTree, options);
+            var fileContents = JsonSerializer.Serialize(abstractSyntaxTree, CJsonSerializerContext.Default.CAbstractSyntaxTree);
 
             // File.WriteAllText doesn't flush until process exits on macOS .NET 5 lol
             using var fileStream = new FileStream(outputFilePath, FileMode.OpenOrCreate);
