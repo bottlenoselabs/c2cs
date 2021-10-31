@@ -204,7 +204,15 @@ namespace C2CS
                     continue;
                 }
 
-                var version = Version.Parse(parse[1]);
+                var versionCandidate = parse[1];
+                var versionCharIndexHyphen = versionCandidate.IndexOf('-');
+                if (versionCharIndexHyphen != -1)
+                {
+                    // can possibly happen for release candidates of .NET
+                    versionCandidate = versionCandidate[..versionCharIndexHyphen];
+                }
+
+                var version = Version.Parse(versionCandidate);
                 if (version <= dotNetRuntimeVersion)
                 {
                     continue;

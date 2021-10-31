@@ -22,19 +22,19 @@ public static unsafe partial class my_c_library
 {
     private const string LibraryName = "my_c_library";
 
-    // Function @ my_c_library.h:11:28 (C:\Users\lithi\Programming\c2cs\src\cs\examples\helloworld\helloworld-c\my_c_library\include\my_c_library.h)
+    // Function @ my_c_library.h:11:28 (/Users/lstranks/Programming/c2cs/src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h)
     [DllImport(LibraryName)]
     public static extern void hello_world();
 
-    // Function @ my_c_library.h:12:28 (C:\Users\lithi\Programming\c2cs\src\cs\examples\helloworld\helloworld-c\my_c_library\include\my_c_library.h)
+    // Function @ my_c_library.h:12:28 (/Users/lstranks/Programming/c2cs/src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h)
     [DllImport(LibraryName)]
     public static extern void pass_string(CString8U s);
 
-    // Function @ my_c_library.h:13:28 (C:\Users\lithi\Programming\c2cs\src\cs\examples\helloworld\helloworld-c\my_c_library\include\my_c_library.h)
+    // Function @ my_c_library.h:13:28 (/Users/lstranks/Programming/c2cs/src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h)
     [DllImport(LibraryName)]
     public static extern void pass_integers_by_value(ushort a, int b, ulong c);
 
-    // Function @ my_c_library.h:14:28 (C:\Users\lithi\Programming\c2cs\src\cs\examples\helloworld\helloworld-c\my_c_library\include\my_c_library.h)
+    // Function @ my_c_library.h:14:28 (/Users/lstranks/Programming/c2cs/src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h)
     [DllImport(LibraryName)]
     public static extern void pass_integers_by_reference(ushort* a, int* b, ulong* c);
 }
