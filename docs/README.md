@@ -75,7 +75,7 @@ Options:
 
 ### Prerequisites
 
-1. Install [.NET 5](https://dotnet.microsoft.com/download).
+1. Install [.NET 6](https://dotnet.microsoft.com/download).
 2. Install build tools for C/C++.
     - Windows:
       1. Install [Windows Subsystem for Linux v2](https://docs.microsoft.com/en-us/windows/wsl/install-win10) (WSL2).

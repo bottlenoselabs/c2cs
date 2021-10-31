@@ -51,7 +51,7 @@ This is all accomplished by using [libclang](https://clang.llvm.org/docs/Tooling
 
 ### Limitations
 
-1. .NET 5+ because C# 9 function pointers are used. 
+1. .NET 5+ because C# 9 function pointers are used. `C2CS` is made using .NET 6 but can create bindings for at least .NET 5.
 
 2. Pointers such as `void*` can have different sizes across target computer architectures. E.g., `x86` pointers are 4 bytes and `x64` (aswell as `arm64`) pointers are 8 bytes. Thus, if you need to have bindings for `x86`/`arm32` and `x64`/`arm64` you will need to have two seperate bindings. However, 64 bit is pretty ubiquitous on Windows these days, at least for gaming, as you can see from [Steam hardware survey where 64-bit is 99%+](https://store.steampowered.com/hwsurvey/directx/). Additionally, you can see that the ["trend" is that 64-bit is becoming standard over time with 32-bit getting dropped](https://en.wikipedia.org/wiki/64-bit_computing#64-bit_operating_system_timeline).
 
