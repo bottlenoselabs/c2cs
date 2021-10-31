@@ -14,7 +14,7 @@ dotnet publish $DIR/src/cs/production/C2CS/C2CS.csproj \
 --configuration Release \
 --runtime $RID \
 --self-contained \
-'/p:PublishSingleFile=true' \
-'/p:DebugType=embedded' \
-'/p:IncludeNativeLibrariesForSelfExtract=false' \
-'/p:GenerateDocumentationFile=false'
+'/property:PublishSingleFile=true' \
+'/property:DebugType=embedded' \
+'/property:IncludeNativeLibrariesForSelfExtract=false' \
+'/property:GenerateDocumentationFile=false'
