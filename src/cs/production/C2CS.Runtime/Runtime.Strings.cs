@@ -13,9 +13,9 @@ namespace C2CS;
 public static unsafe partial class Runtime
 {
     private static readonly Dictionary<uint, CString8U> StringHashesToPointers8U = new();
-    private static readonly Dictionary<IntPtr, string> PointersToStrings8U = new();
+    private static readonly Dictionary<nint, string> PointersToStrings8U = new();
     private static readonly Dictionary<uint, CString16U> StringHashesToPointers16U = new();
-    private static readonly Dictionary<IntPtr, string> PointersToStrings16U = new();
+    private static readonly Dictionary<nint, string> PointersToStrings16U = new();
 
     // NOTE: On portability, technically `char` in C could be signed or unsigned depending on the computer architecture,
     //  resulting in technically two different type bindings when transpiling C headers to C#. However, to make peace
@@ -36,7 +36,7 @@ public static unsafe partial class Runtime
             return string.Empty;
         }
 
-        if (PointersToStrings8U.TryGetValue(ptr, out var result))
+        if (PointersToStrings8U.TryGetValue(ptr._ptr, out var result))
         {
             return result;
         }
@@ -44,13 +44,13 @@ public static unsafe partial class Runtime
         var hash = djb2((byte*) ptr._ptr);
         if (StringHashesToPointers8U.TryGetValue(hash, out var pointer2))
         {
-            result = PointersToStrings8U[pointer2];
+            result = PointersToStrings8U[pointer2._ptr];
             return result;
         }
 
         // calls ASM/C/C++ functions to calculate length and then "FastAllocate" the string with the GC
         // https://mattwarren.org/2016/05/31/Strings-and-the-CLR-a-Special-Relationship/
-        result = Marshal.PtrToStringAnsi(ptr);
+        result = Marshal.PtrToStringAnsi(ptr._ptr);
 
         if (string.IsNullOrEmpty(result))
         {
@@ -58,7 +58,7 @@ public static unsafe partial class Runtime
         }
 
         StringHashesToPointers8U.Add(hash, ptr);
-        PointersToStrings8U.Add(ptr, result);
+        PointersToStrings8U.Add(ptr._ptr, result);
 
         return result;
     }
@@ -76,7 +76,7 @@ public static unsafe partial class Runtime
             return string.Empty;
         }
 
-        if (PointersToStrings16U.TryGetValue(ptr, out var result))
+        if (PointersToStrings16U.TryGetValue(ptr._ptr, out var result))
         {
             return result;
         }
@@ -84,13 +84,13 @@ public static unsafe partial class Runtime
         var hash = djb2((byte*) ptr._ptr);
         if (StringHashesToPointers16U.TryGetValue(hash, out var pointer2))
         {
-            result = PointersToStrings16U[pointer2];
+            result = PointersToStrings16U[pointer2._ptr];
             return result;
         }
 
         // calls ASM/C/C++ functions to calculate length and then "FastAllocate" the string with the GC
         // https://mattwarren.org/2016/05/31/Strings-and-the-CLR-a-Special-Relationship/
-        result = Marshal.PtrToStringUni(pointer2);
+        result = Marshal.PtrToStringUni(pointer2._ptr);
 
         if (string.IsNullOrEmpty(result))
         {
@@ -98,7 +98,7 @@ public static unsafe partial class Runtime
         }
 
         StringHashesToPointers16U.Add(hash, ptr);
-        PointersToStrings16U.Add(ptr, result);
+        PointersToStrings16U.Add(ptr._ptr, result);
 
         return result;
     }

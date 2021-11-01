@@ -219,14 +219,14 @@ public static unsafe partial class clang
         [FieldOffset(0)] // size = 16, padding = 0
         public fixed ulong _ptr_data[16 / 8]; // void*[2]
 
-        public Span<IntPtr> ptr_data
+        public Span<nint> ptr_data
         {
             get
             {
                 fixed (CXSourceLocation* @this = &this)
                 {
                     var pointer = &@this->_ptr_data[0];
-                    var span = new Span<IntPtr>(pointer, 2);
+                    var span = new Span<nint>(pointer, 2);
                     return span;
                 }
             }
@@ -263,14 +263,14 @@ public static unsafe partial class clang
         [FieldOffset(8)] // size = 24, padding = 0
         public fixed ulong _data[24 / 8]; // void*[3]
 
-        public Span<IntPtr> data
+        public Span<nint> data
         {
             get
             {
                 fixed (CXCursor* @this = &this)
                 {
                     var pointer = &@this->_data[0];
-                    var span = new Span<IntPtr>(pointer, 3);
+                    var span = new Span<nint>(pointer, 3);
                     return span;
                 }
             }
@@ -284,14 +284,14 @@ public static unsafe partial class clang
         [FieldOffset(0)] // size = 16, padding = 0
         public fixed ulong _ptr_data[16 / 8]; // void*[2]
 
-        public Span<IntPtr> ptr_data
+        public Span<nint> ptr_data
         {
             get
             {
                 fixed (CXSourceRange* @this = &this)
                 {
                     var pointer = &@this->_ptr_data[0];
-                    var span = new Span<IntPtr>(pointer, 2);
+                    var span = new Span<nint>(pointer, 2);
                     return span;
                 }
             }
@@ -314,14 +314,14 @@ public static unsafe partial class clang
         [FieldOffset(8)] // size = 16, padding = 0
         public fixed ulong _data[16 / 8]; // void*[2]
 
-        public Span<IntPtr> data
+        public Span<nint> data
         {
             get
             {
                 fixed (CXType* @this = &this)
                 {
                     var pointer = &@this->_data[0];
-                    var span = new Span<IntPtr>(pointer, 2);
+                    var span = new Span<nint>(pointer, 2);
                     return span;
                 }
             }

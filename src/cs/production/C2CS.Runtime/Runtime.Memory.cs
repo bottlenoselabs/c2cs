@@ -26,7 +26,7 @@ public static unsafe partial class Runtime
     /// <param name="pointer">The pointer to the allocated memory.</param>
     public static void FreeMemory(void* pointer)
     {
-        Marshal.FreeHGlobal((IntPtr)pointer);
+        Marshal.FreeHGlobal((nint)pointer);
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public static unsafe partial class Runtime
     /// <param name="address">The memory address.</param>
     /// <typeparam name="T">The blittable value type.</typeparam>
     /// <returns>The read blittable value type <see cref="Runtime.ReadMemory{T}" /> from memory.</returns>
-    public static T ReadMemory<T>(IntPtr address)
+    public static T ReadMemory<T>(nint address)
         where T : unmanaged
     {
         var source = (void*)address;

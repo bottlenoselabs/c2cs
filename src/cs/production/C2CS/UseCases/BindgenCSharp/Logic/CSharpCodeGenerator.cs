@@ -330,7 +330,7 @@ public string {field.Name}
 			var elementType = field.Type.Name[..^1];
 			if (elementType.EndsWith('*'))
 			{
-				elementType = "IntPtr";
+				elementType = "nint";
 			}
 
 			code = $@"

@@ -17,12 +17,12 @@ namespace C2CS;
 [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Public API.")]
 public readonly unsafe struct CString16U
 {
-    internal readonly IntPtr _ptr;
+    internal readonly nint _ptr;
 
     /// <summary>
     ///     Gets a <see cref="bool" /> value indicating whether this <see cref="CString16U" /> is a null pointer.
     /// </summary>
-    public bool IsNull => _ptr == IntPtr.Zero;
+    public bool IsNull => _ptr == 0;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="CString16U" /> struct.
@@ -30,14 +30,14 @@ public readonly unsafe struct CString16U
     /// <param name="ptr">The pointer value.</param>
     public CString16U(byte* ptr)
     {
-        _ptr = (IntPtr) ptr;
+        _ptr = (nint)ptr;
     }
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="CString16U" /> struct.
     /// </summary>
     /// <param name="ptr">The pointer value.</param>
-    public CString16U(IntPtr ptr)
+    public CString16U(nint ptr)
     {
         _ptr = ptr;
     }
@@ -58,7 +58,7 @@ public readonly unsafe struct CString16U
     /// <returns>
     ///     The resulting <see cref="CString16U" />.
     /// </returns>
-    public static explicit operator CString16U(IntPtr ptr)
+    public static explicit operator CString16U(nint ptr)
     {
         return new(ptr);
     }
@@ -72,7 +72,7 @@ public readonly unsafe struct CString16U
     /// </returns>
     public static implicit operator CString16U(byte* ptr)
     {
-        return new((IntPtr)ptr);
+        return new((nint)ptr);
     }
 
     /// <summary>
@@ -82,7 +82,7 @@ public readonly unsafe struct CString16U
     /// <returns>
     ///     The resulting <see cref="IntPtr" />.
     /// </returns>
-    public static implicit operator IntPtr(CString16U value)
+    public static implicit operator nint(CString16U value)
     {
         return value._ptr;
     }

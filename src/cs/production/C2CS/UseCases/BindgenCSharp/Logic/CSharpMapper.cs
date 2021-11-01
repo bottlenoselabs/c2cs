@@ -71,7 +71,7 @@ public class CSharpMapper
             aliases.Add("__uint8_t", "byte");
             aliases.Add("__int32_t", "int");
 
-            aliases.Add("__darwin_pthread_t", "IntPtr");
+            aliases.Add("__darwin_pthread_t", "nint");
             aliases.Add("__darwin_uid_t", "uint");
             aliases.Add("__darwin_pid_t", "int");
             aliases.Add("__darwin_gid_t", "uint");
@@ -895,7 +895,7 @@ var x = {value};
         // TODO: https://github.com/lithiumtoast/c2cs/issues/15
         if (typeName == "va_list")
         {
-            typeName = "IntPtr";
+            typeName = "nint";
         }
 
         return typeName;
