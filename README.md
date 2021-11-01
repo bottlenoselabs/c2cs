@@ -4,7 +4,7 @@ C to C# dynamic library bindings code generator. In go `.h` file, out come `.cs`
 
 ## Download
 
-|[Windows (x64)](https://nightly.link/lithiumtoast/c2cs/workflows/build-test-deploy/develop/win-x64.zip)|[macOS (x64)](https://nightly.link/lithiumtoast/c2cs/workflows/build-test-deploy/develop/osx-x64.zip)|[Ubuntu 20.04 (x64)](https://nightly.link/lithiumtoast/c2cs/workflows/build-test-deploy/develop/ubuntu.20.04-x64.zip)|
+|[Windows (x64)](https://nightly.link/lithiumtoast/c2cs/workflows/build-test-deploy/main/win-x64.zip)|[macOS (x64)](https://nightly.link/lithiumtoast/c2cs/workflows/build-test-deploy/main/osx-x64.zip)|[Ubuntu 20.04 (x64)](https://nightly.link/lithiumtoast/c2cs/workflows/build-test-deploy/main/ubuntu.20.04-x64.zip)|
 |---|---|---|
 
 ## Documentation
