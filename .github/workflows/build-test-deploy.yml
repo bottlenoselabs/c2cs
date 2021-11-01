@@ -9,11 +9,11 @@ env:
 
 on:
   push:
-    branches: [staging]
+    branches: [main]
     tags: [v*]
     paths-ignore: ['**/*.md']
   pull_request_target:
-    branches: [staging]
+    branches: [main]
 
 jobs:
 
