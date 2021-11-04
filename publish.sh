@@ -24,8 +24,8 @@ dotnet publish $DIR/src/cs/production/C2CS/C2CS.csproj \
 '/property:PublishSingleFile=true' \
 '/property:CopyLocalLockFileAssemblies=false' \
 '/property:GenerateTargetFrameworkAttribute=false' \
-'/property:DebugType=none' \
-'/property:DebugSymbols=false' \
+'/property:DebugType=embedded' \
+'/property:DebugSymbols=true' \
 '/property:IncludeNativeLibrariesForSelfExtract=false' \
 '/property:GenerateDocumentationFile=false' \
 '/property:SatelliteResourceLanguages=en' \
@@ -40,7 +40,7 @@ dotnet publish $DIR/src/cs/production/C2CS/C2CS.csproj \
 '/property:MetadataUpdaterSupport=false' \
 '/property:UseNativeHttpHandler=true' \
 '/property:UseSystemResourceKeys=true' \
-'/property:DebuggerSupport=false' \
+'/property:DebuggerSupport=true' \
 '/property:IlcGenerateCompleteTypeMetadata=true' \
 '/property:IlcInvariantGlobalization=true' \
 '/property:IlcFoldIdenticalMethodBodies=true'
