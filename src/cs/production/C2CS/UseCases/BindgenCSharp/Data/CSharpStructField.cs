@@ -9,6 +9,7 @@ public record CSharpStructField : CSharpNode
     public readonly int Offset;
     public readonly int Padding;
     public readonly bool IsWrapped;
+    public readonly string BackingFieldName;
 
     public CSharpStructField(
         string name,
@@ -23,6 +24,7 @@ public record CSharpStructField : CSharpNode
         Offset = offset;
         Padding = padding;
         IsWrapped = isWrapped;
+        BackingFieldName = name.StartsWith("@") ? $"_{name[1..]}" : $"_{name}";
     }
 
     // Required for debugger string with records
