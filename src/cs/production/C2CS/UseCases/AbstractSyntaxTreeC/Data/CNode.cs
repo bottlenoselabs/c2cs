@@ -29,7 +29,7 @@ public record CNode : IComparable<CNode>
             CRecord => CKind.Record,
             CTypedef => CKind.Typedef,
             CVariable => CKind.Variable,
-            CMacroObject => CKind.MacroObjectLike,
+            CMacroDefinition => CKind.MacroDefinition,
             _ => CKind.Unknown
         };
     }

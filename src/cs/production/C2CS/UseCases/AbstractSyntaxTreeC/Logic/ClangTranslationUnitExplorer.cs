@@ -34,7 +34,7 @@ public class ClangTranslationUnitExplorer
     private readonly List<CTypedef> _typedefs = new();
     private readonly List<CFunctionPointer> _functionPointers = new();
 
-    private readonly List<CMacroObject> _macroObjects = new();
+    private readonly List<CMacroDefinition> _macroObjects = new();
     private readonly HashSet<string> _macroFunctionLikeNames = new();
 
     private readonly ImmutableHashSet<string> _whitelistFunctionNames;
@@ -274,7 +274,7 @@ public class ClangTranslationUnitExplorer
                 break;
             case CKind.Primitive:
                 break;
-            case CKind.MacroObjectLike:
+            case CKind.MacroDefinition:
                 ExploreMacro(node);
                 break;
             default:
@@ -292,7 +292,7 @@ public class ClangTranslationUnitExplorer
 
         var (kind, actualType) = cursor.kind != CXCursorKind.CXCursor_MacroDefinition
             ? TypeKind(type)
-            : (CKind.MacroObjectLike, default);
+            : (CKind.MacroDefinition, default);
         if (kind == CKind.Primitive)
         {
             return false;
@@ -304,7 +304,7 @@ public class ClangTranslationUnitExplorer
             return IsIgnored(elementType, cursor);
         }
 
-        var fileLocation = kind == CKind.MacroObjectLike ? cursor.FileLocation() : actualType.FileLocation(cursor);
+        var fileLocation = kind == CKind.MacroDefinition ? cursor.FileLocation() : actualType.FileLocation(cursor);
         if (string.IsNullOrEmpty(fileLocation.FileName))
         {
             var up = new ClangExplorerException(
@@ -402,7 +402,7 @@ public class ClangTranslationUnitExplorer
             CXCursorKind.CXCursor_FunctionDecl => CKind.Function,
             CXCursorKind.CXCursor_VarDecl => CKind.Variable,
             CXCursorKind.CXCursor_EnumDecl => CKind.Enum,
-            CXCursorKind.CXCursor_MacroDefinition => CKind.MacroObjectLike,
+            CXCursorKind.CXCursor_MacroDefinition => CKind.MacroDefinition,
             _ => CKind.Unknown
         };
 
@@ -415,7 +415,7 @@ public class ClangTranslationUnitExplorer
 
         var name = cursor.Name();
 
-        if (kind == CKind.MacroObjectLike)
+        if (kind == CKind.MacroDefinition)
         {
             var location = Location(cursor);
             AddExplorerNode(kind, location, parentNode, cursor, default, default, name, string.Empty);
@@ -561,7 +561,7 @@ public class ClangTranslationUnitExplorer
             return;
         }
 
-        var macro = new CMacroObject
+        var macro = new CMacroDefinition
         {
             Name = name,
             Tokens = tokens.ToImmutableArray(),
@@ -855,7 +855,7 @@ public class ClangTranslationUnitExplorer
         string typeName)
     {
         if (kind != CKind.TranslationUnit &&
-            kind != CKind.MacroObjectLike &&
+            kind != CKind.MacroDefinition &&
             type.kind == CXTypeKind.CXType_Invalid)
         {
             var up = new ClangExplorerException("Explorer node can't be invalid type kind.");
@@ -878,7 +878,7 @@ public class ClangTranslationUnitExplorer
             name,
             typeName);
 
-        if (kind == CKind.MacroObjectLike)
+        if (kind == CKind.MacroDefinition)
         {
             _frontierMacros.PushBack(node);
         }

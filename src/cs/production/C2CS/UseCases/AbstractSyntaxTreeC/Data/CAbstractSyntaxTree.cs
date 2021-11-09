@@ -45,5 +45,5 @@ public record CAbstractSyntaxTree
     public ImmutableArray<CType> Types { get; set; } = ImmutableArray<CType>.Empty;
 
     [JsonPropertyName("constants")]
-    public ImmutableArray<CMacroObject> Constants { get; set; } = ImmutableArray<CMacroObject>.Empty;
+    public ImmutableArray<CMacroDefinition> Constants { get; set; } = ImmutableArray<CMacroDefinition>.Empty;
 }

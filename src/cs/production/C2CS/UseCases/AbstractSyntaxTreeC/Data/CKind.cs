@@ -18,5 +18,5 @@ public enum CKind
     OpaqueType,
     Typedef,
     Variable,
-    MacroObjectLike
+    MacroDefinition
 }
