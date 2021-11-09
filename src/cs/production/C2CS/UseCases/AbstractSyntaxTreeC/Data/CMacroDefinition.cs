@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace C2CS.UseCases.AbstractSyntaxTreeC;
 
-public record CMacroObject : CNode
+public record CMacroDefinition : CNode
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
@@ -16,6 +16,6 @@ public record CMacroObject : CNode
 
     public override string ToString()
     {
-        return $"MacroObject '{Name}' @ {Location.ToString()}";
+        return $"Macro '{Name}' @ {Location.ToString()}";
     }
 }

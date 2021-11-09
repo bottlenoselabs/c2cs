@@ -683,7 +683,7 @@ public class CSharpMapper
         return result;
     }
 
-    private ImmutableArray<CSharpConstant> Constants(ImmutableArray<CMacroObject> constants)
+    private ImmutableArray<CSharpConstant> Constants(ImmutableArray<CMacroDefinition> constants)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpConstant>(constants.Length);
 
@@ -719,28 +719,28 @@ public class CSharpMapper
         return result;
     }
 
-    private CSharpConstant? Constant(CMacroObject macroObject, Dictionary<string, CSharpConstant> lookup)
+    private CSharpConstant? Constant(CMacroDefinition macroDefinition, Dictionary<string, CSharpConstant> lookup)
     {
-        var originalCodeLocationComment = OriginalCodeLocationComment(macroObject);
-        var tokens = macroObject.Tokens.ToArray();
+        var originalCodeLocationComment = OriginalCodeLocationComment(macroDefinition);
+        var tokens = macroDefinition.Tokens.ToArray();
 
         for (var i = 0; i < tokens.Length; i++)
         {
             var token = tokens[i];
 
-            foreach (var keyValuePair in _systemTypeNameAliases)
+            foreach (var (typeName, typeNameAlias) in _systemTypeNameAliases)
             {
-                if (token == keyValuePair.Key)
+                if (token == typeName)
                 {
-                    token = tokens[i] = keyValuePair.Value;
+                    token = tokens[i] = typeNameAlias;
                 }
             }
 
-            foreach (var keyValuePair in _userTypeNameAliases)
+            foreach (var (typeName, typeNameAlias) in _userTypeNameAliases)
             {
-                if (token == keyValuePair.Key)
+                if (token == typeName)
                 {
-                    token = tokens[i] = keyValuePair.Value;
+                    token = tokens[i] = typeNameAlias;
                 }
             }
 
@@ -792,7 +792,7 @@ public class CSharpMapper
         }
 
         var result = new CSharpConstant(
-            macroObject.Name,
+            macroDefinition.Name,
             originalCodeLocationComment,
             type,
             value);
@@ -828,8 +828,15 @@ var x = {value};
         }
 
         var syntaxTree = CSharpSyntaxTree.ParseText(code);
-        var variables = syntaxTree.GetRoot().DescendantNodesAndSelf().OfType<VariableDeclarationSyntax>();
-        var expression = variables.Last().Variables.Single().Initializer!.Value;
+        var variableDeclarations = syntaxTree.GetRoot().DescendantNodesAndSelf().OfType<VariableDeclarationSyntax>();
+        var variables = variableDeclarations.Last().Variables;
+        if (variables.Count > 1)
+        {
+            // something is wrong with the macro; it's probably not an object-like macro
+            return null;
+        }
+
+        var expression = variables.Single().Initializer!.Value;
         var mscorlib = MetadataReference.CreateFromFile(Path.Combine(_dotNetPath, "mscorlib.dll"));
         var privatecorelib =
             MetadataReference.CreateFromFile(Path.Combine(_dotNetPath, "System.Private.CoreLib.dll"));
