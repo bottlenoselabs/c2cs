@@ -279,7 +279,7 @@ public {field.Type.Name} {field.Name};
 
 		var code = $@"
 [FieldOffset({field.Offset})] // size = {field.Type.SizeOf}, padding = {field.Padding}
-public fixed {typeName} _{field.Name}[{field.Type.SizeOf}/{field.Type.AlignOf}]; // {field.Type.OriginalName}
+public fixed {typeName} {field.BackingFieldName}[{field.Type.SizeOf}/{field.Type.AlignOf}]; // {field.Type.OriginalName}
 ".Trim();
 
 		return ParseMemberCode<FieldDeclarationSyntax>(code);
@@ -300,7 +300,7 @@ public string {field.Name}
 	{{
 		fixed ({structName}*@this = &this)
 		{{
-			var pointer = &@this->_{field.Name}[0];
+			var pointer = &@this->{field.BackingFieldName}[0];
             var cString = new CString8U(pointer);
             return Runtime.String8U(cString);
 		}}
@@ -317,7 +317,7 @@ public string {field.Name}
 	{{
 		fixed ({structName}*@this = &this)
 		{{
-			var pointer = &@this->_{field.Name}[0];
+			var pointer = &@this->{field.BackingFieldName}[0];
             var cString = new CString16U(pointer);
             return Runtime.String16U(cString);
 		}}
@@ -340,7 +340,7 @@ public Span<{elementType}> {field.Name}
 	{{
 		fixed ({structName}*@this = &this)
 		{{
-			var pointer = &@this->_{field.Name}[0];
+			var pointer = &@this->{field.BackingFieldName}[0];
 			var span = new Span<{elementType}>(pointer, {field.Type.ArraySize});
 			return span;
 		}}
