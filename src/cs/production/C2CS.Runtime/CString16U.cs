@@ -4,6 +4,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using JetBrains.Annotations;
 
 namespace C2CS;
 
@@ -11,10 +12,7 @@ namespace C2CS;
 ///     A pointer value type; represents the 16-bit C type `char16_t*`.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-[SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
-[SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
-[SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
-[SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Public API.")]
+[PublicAPI]
 public readonly unsafe struct CString16U
 {
     internal readonly nint _ptr;
@@ -114,7 +112,7 @@ public readonly unsafe struct CString16U
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return (int)Runtime.djb2((byte*) _ptr);
+        return (int)Runtime.Djb2((byte*) _ptr);
     }
 
     /// <inheritdoc />

@@ -1246,9 +1246,9 @@ public static unsafe partial class clang
     public const int CXIndexOpt_SuppressWarnings = 8;
     public const int CXIndexOpt_SkipParsedBodiesInSession = 16;
 
-    // MacroObjectLike @ Index.h:35:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // MacroDefinition @ Index.h:35:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     public const int CINDEX_VERSION_MAJOR = 0;
 
-    // MacroObjectLike @ Index.h:36:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // MacroDefinition @ Index.h:36:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
     public const int CINDEX_VERSION_MINOR = 61;
 }
