@@ -311,9 +311,11 @@ public static unsafe class ClangExtensions
     {
         if (cursor.kind == CXCursorKind.CXCursor_TranslationUnit)
         {
+            var filePath = cursor.Name();
             return new ClangLocation
             {
-                FileName = cursor.Name()
+                FileName = Path.GetFileName(filePath),
+                FilePath = filePath
             };
         }
 

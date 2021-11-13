@@ -29,7 +29,9 @@ public struct ClangLocation : IComparable<ClangLocation>
             return $"{FileName}";
         }
 
-        return $"{FileName}:{LineNumber}:{LineColumn} ({FilePath})";
+        return string.IsNullOrEmpty(FilePath) || FilePath == FileName ?
+            $"{FileName}:{LineNumber}:{LineColumn}" :
+            $"{FileName}:{LineNumber}:{LineColumn} ({FilePath})";
     }
 
     public bool Equals(ClangLocation other)

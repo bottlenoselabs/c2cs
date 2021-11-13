@@ -22,186 +22,186 @@ public static unsafe partial class clang
 {
     private const string LibraryName = "libclang";
 
-    // Function @ CXString.h:50:28 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/CXString.h)
+    // Function @ CXString.h:50:28 (clang-c/CXString.h)
     [DllImport(LibraryName)]
     public static extern CString8U clang_getCString(CXString @string);
 
-    // Function @ Index.h:266:24 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:266:24 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXIndex clang_createIndex(int excludeDeclarationsFromPCH, int displayDiagnostics);
 
-    // Function @ Index.h:358:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:358:25 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getFileName(CXFile SFile);
 
-    // Function @ Index.h:507:20 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:507:20 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern int clang_Location_isInSystemHeader(CXSourceLocation location);
 
-    // Function @ Index.h:674:21 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:674:21 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_getFileLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset);
 
-    // Function @ Index.h:861:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:861:25 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_getNumDiagnostics(CXTranslationUnit Unit);
 
-    // Function @ Index.h:872:29 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:872:29 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXDiagnostic clang_getDiagnostic(CXTranslationUnit Unit, uint Index);
 
-    // Function @ Index.h:972:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:972:25 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_formatDiagnostic(CXDiagnostic Diagnostic, uint Options);
 
-    // Function @ Index.h:982:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:982:25 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_defaultDiagnosticDisplayOptions();
 
-    // Function @ Index.h:988:5 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:988:5 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXDiagnosticSeverity clang_getDiagnosticSeverity(CXDiagnostic param);
 
-    // Function @ Index.h:1418:33 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:1418:33 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXErrorCode clang_parseTranslationUnit2(CXIndex CIdx, CString8U source_filename, CString8U* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
 
-    // Function @ Index.h:2705:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:2705:25 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursor clang_getTranslationUnitCursor(CXTranslationUnit param);
 
-    // Function @ Index.h:2725:34 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:2725:34 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursorKind clang_getCursorKind(CXCursor param);
 
-    // Function @ Index.h:2820:35 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:2820:35 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXLinkageKind clang_getCursorLinkage(CXCursor cursor);
 
-    // Function @ Index.h:2993:34 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:2993:34 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXTranslationUnit clang_Cursor_getTranslationUnit(CXCursor param);
 
-    // Function @ Index.h:3198:33 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3198:33 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceLocation clang_getCursorLocation(CXCursor param);
 
-    // Function @ Index.h:3211:30 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3211:30 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXSourceRange clang_getCursorExtent(CXCursor param);
 
-    // Function @ Index.h:3414:23 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3414:23 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getCursorType(CXCursor C);
 
-    // Function @ Index.h:3422:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3422:25 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getTypeSpelling(CXType CT);
 
-    // Function @ Index.h:3430:23 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3430:23 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getTypedefDeclUnderlyingType(CXCursor C);
 
-    // Function @ Index.h:3438:23 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3438:23 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getEnumDeclIntegerType(CXCursor C);
 
-    // Function @ Index.h:3448:26 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3448:26 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern long clang_getEnumConstantDeclValue(CXCursor C);
 
-    // Function @ Index.h:3633:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3633:25 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Cursor_isMacroFunctionLike(CXCursor C);
 
-    // Function @ Index.h:3639:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3639:25 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Cursor_isMacroBuiltin(CXCursor C);
 
-    // Function @ Index.h:3674:23 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3674:23 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getPointeeType(CXType T);
 
-    // Function @ Index.h:3679:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3679:25 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXCursor clang_getTypeDeclaration(CXType T);
 
-    // Function @ Index.h:3701:35 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3701:35 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXCallingConv clang_getFunctionTypeCallingConv(CXType T);
 
-    // Function @ Index.h:3708:23 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3708:23 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getResultType(CXType T);
 
-    // Function @ Index.h:3781:23 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3781:23 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getCursorResultType(CXCursor C);
 
-    // Function @ Index.h:3804:23 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3804:23 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getElementType(CXType T);
 
-    // Function @ Index.h:3819:23 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3819:23 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_getArrayElementType(CXType T);
 
-    // Function @ Index.h:3826:26 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3826:26 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern long clang_getArraySize(CXType T);
 
-    // Function @ Index.h:3833:23 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3833:23 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_Type_getNamedType(CXType T);
 
-    // Function @ Index.h:3927:26 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3927:26 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern long clang_Type_getAlignOf(CXType T);
 
-    // Function @ Index.h:3945:26 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3945:26 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern long clang_Type_getSizeOf(CXType T);
 
-    // Function @ Index.h:3967:23 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3967:23 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXType clang_Type_getModifiedType(CXType T);
 
-    // Function @ Index.h:3989:26 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3989:26 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern long clang_Cursor_getOffsetOfField(CXCursor C);
 
-    // Function @ Index.h:3995:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:3995:25 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_Cursor_isAnonymous(CXCursor C);
 
-    // Function @ Index.h:4217:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:4217:25 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern uint clang_visitChildren(CXCursor parent, CXCursorVisitor visitor, CXClientData client_data);
 
-    // Function @ Index.h:4312:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:4312:25 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getCursorSpelling(CXCursor param);
 
-    // Function @ Index.h:5001:25 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:5001:25 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern CXString clang_getTokenSpelling(CXTranslationUnit param, CXToken param2);
 
-    // Function @ Index.h:5031:21 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:5031:21 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_tokenize(CXTranslationUnit TU, CXSourceRange Range, CXToken** Tokens, ulong* NumTokens);
 
-    // Function @ Index.h:5070:21 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Function @ Index.h:5070:21 (clang-c/Index.h)
     [DllImport(LibraryName)]
     public static extern void clang_disposeTokens(CXTranslationUnit TU, CXToken* Tokens, uint NumTokens);
 
-    // FunctionPointer @ Index.h:4191:35 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // FunctionPointer @ Index.h:4191:35 (clang-c/Index.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct CXCursorVisitor
     {
         public delegate* unmanaged<CXCursor, CXCursor, CXClientData, CXChildVisitResult> Pointer;
     }
 
-    // Struct @ CXString.h:40:3 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/CXString.h)
+    // Struct @ CXString.h:40:3 (clang-c/CXString.h)
     [StructLayout(LayoutKind.Explicit, Size = 16, Pack = 8)]
     public struct CXString
     {
@@ -212,7 +212,7 @@ public static unsafe partial class clang
         public uint private_flags;
     }
 
-    // Struct @ Index.h:459:3 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Struct @ Index.h:459:3 (clang-c/Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXSourceLocation
     {
@@ -236,7 +236,7 @@ public static unsafe partial class clang
         public uint int_data;
     }
 
-    // Struct @ Index.h:101:8 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Struct @ Index.h:101:8 (clang-c/Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXUnsavedFile
     {
@@ -250,7 +250,7 @@ public static unsafe partial class clang
         public ulong Length;
     }
 
-    // Struct @ Index.h:2686:3 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Struct @ Index.h:2686:3 (clang-c/Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
     public struct CXCursor
     {
@@ -277,7 +277,7 @@ public static unsafe partial class clang
         }
     }
 
-    // Struct @ Index.h:471:3 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Struct @ Index.h:471:3 (clang-c/Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXSourceRange
     {
@@ -304,7 +304,7 @@ public static unsafe partial class clang
         public uint end_int_data;
     }
 
-    // Struct @ Index.h:3409:3 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Struct @ Index.h:3409:3 (clang-c/Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXType
     {
@@ -328,7 +328,7 @@ public static unsafe partial class clang
         }
     }
 
-    // Struct @ Index.h:4974:3 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Struct @ Index.h:4974:3 (clang-c/Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
     public struct CXToken
     {
@@ -352,13 +352,13 @@ public static unsafe partial class clang
         public void* ptr_data;
     }
 
-    // OpaqueType @ Index.h:86:16 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // OpaqueType @ Index.h:86:16 (clang-c/Index.h)
     [StructLayout(LayoutKind.Sequential)]
     public struct CXTranslationUnitImpl
     {
     }
 
-    // Typedef @ Index.h:75:15 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Typedef @ Index.h:75:15 (clang-c/Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXIndex
     {
@@ -369,7 +369,7 @@ public static unsafe partial class clang
         public static implicit operator CXIndex(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:353:15 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Typedef @ Index.h:353:15 (clang-c/Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXFile
     {
@@ -380,7 +380,7 @@ public static unsafe partial class clang
         public static implicit operator CXFile(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:86:39 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Typedef @ Index.h:86:39 (clang-c/Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXTranslationUnit
     {
@@ -391,7 +391,7 @@ public static unsafe partial class clang
         public static implicit operator CXTranslationUnit(CXTranslationUnitImpl* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:775:15 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Typedef @ Index.h:775:15 (clang-c/Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXDiagnostic
     {
@@ -402,7 +402,7 @@ public static unsafe partial class clang
         public static implicit operator CXDiagnostic(void* data) => new() { Data = data };
     }
 
-    // Typedef @ Index.h:92:15 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Typedef @ Index.h:92:15 (clang-c/Index.h)
     [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 8)]
     public struct CXClientData
     {
@@ -413,7 +413,7 @@ public static unsafe partial class clang
         public static implicit operator CXClientData(void* data) => new() { Data = data };
     }
 
-    // Enum @ Index.h:739:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Enum @ Index.h:739:6 (clang-c/Index.h)
     public enum CXDiagnosticSeverity : int
     {
         CXDiagnostic_Ignored = 0,
@@ -423,7 +423,7 @@ public static unsafe partial class clang
         CXDiagnostic_Fatal = 4
     }
 
-    // Enum @ CXErrorCode.h:28:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/CXErrorCode.h)
+    // Enum @ CXErrorCode.h:28:6 (clang-c/CXErrorCode.h)
     public enum CXErrorCode : int
     {
         CXError_Success = 0,
@@ -433,7 +433,7 @@ public static unsafe partial class clang
         CXError_ASTReadError = 4
     }
 
-    // Enum @ Index.h:1706:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Enum @ Index.h:1706:6 (clang-c/Index.h)
     public enum CXCursorKind : int
     {
         CXCursor_UnexposedDecl = 1,
@@ -703,7 +703,7 @@ public static unsafe partial class clang
         CXCursor_OverloadCandidate = 700
     }
 
-    // Enum @ Index.h:2799:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Enum @ Index.h:2799:6 (clang-c/Index.h)
     public enum CXLinkageKind : int
     {
         CXLinkage_Invalid = 0,
@@ -713,7 +713,7 @@ public static unsafe partial class clang
         CXLinkage_External = 4
     }
 
-    // Enum @ Index.h:3377:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Enum @ Index.h:3377:6 (clang-c/Index.h)
     public enum CXCallingConv : int
     {
         CXCallingConv_Default = 0,
@@ -738,7 +738,7 @@ public static unsafe partial class clang
         CXCallingConv_Unexposed = 200
     }
 
-    // Enum @ Index.h:3226:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Enum @ Index.h:3226:6 (clang-c/Index.h)
     public enum CXTypeKind : int
     {
         CXType_Invalid = 0,
@@ -863,7 +863,7 @@ public static unsafe partial class clang
         CXType_Atomic = 177
     }
 
-    // Enum @ Index.h:4162:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Enum @ Index.h:4162:6 (clang-c/Index.h)
     public enum CXChildVisitResult : int
     {
         CXChildVisit_Break = 0,
@@ -871,13 +871,13 @@ public static unsafe partial class clang
         CXChildVisit_Recurse = 2
     }
 
-    // Pseudo enum 'CXAvailabilityKind' @ Index.h:125:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXAvailabilityKind' @ Index.h:125:6 (clang-c/Index.h)
     public const int CXAvailability_Available = 0;
     public const int CXAvailability_Deprecated = 1;
     public const int CXAvailability_NotAvailable = 2;
     public const int CXAvailability_NotAccessible = 3;
 
-    // Pseudo enum 'CXCursor_ExceptionSpecificationKind' @ Index.h:174:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXCursor_ExceptionSpecificationKind' @ Index.h:174:6 (clang-c/Index.h)
     public const int CXCursor_ExceptionSpecificationKind_None = 0;
     public const int CXCursor_ExceptionSpecificationKind_DynamicNone = 1;
     public const int CXCursor_ExceptionSpecificationKind_Dynamic = 2;
@@ -889,19 +889,19 @@ public static unsafe partial class clang
     public const int CXCursor_ExceptionSpecificationKind_Unparsed = 8;
     public const int CXCursor_ExceptionSpecificationKind_NoThrow = 9;
 
-    // Pseudo enum 'CXGlobalOptFlags' @ Index.h:277:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXGlobalOptFlags' @ Index.h:277:9 (clang-c/Index.h)
     public const int CXGlobalOpt_None = 0;
     public const int CXGlobalOpt_ThreadBackgroundPriorityForIndexing = 1;
     public const int CXGlobalOpt_ThreadBackgroundPriorityForEditing = 2;
     public const int CXGlobalOpt_ThreadBackgroundPriorityForAll = 3;
 
-    // Pseudo enum 'CXLoadDiag_Error' @ Index.h:803:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXLoadDiag_Error' @ Index.h:803:6 (clang-c/Index.h)
     public const int CXLoadDiag_None = 0;
     public const int CXLoadDiag_Unknown = 1;
     public const int CXLoadDiag_CannotLoad = 2;
     public const int CXLoadDiag_InvalidFile = 3;
 
-    // Pseudo enum 'CXDiagnosticDisplayOptions' @ Index.h:895:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXDiagnosticDisplayOptions' @ Index.h:895:6 (clang-c/Index.h)
     public const int CXDiagnostic_DisplaySourceLocation = 1;
     public const int CXDiagnostic_DisplayColumn = 2;
     public const int CXDiagnostic_DisplaySourceRanges = 4;
@@ -909,7 +909,7 @@ public static unsafe partial class clang
     public const int CXDiagnostic_DisplayCategoryId = 16;
     public const int CXDiagnostic_DisplayCategoryName = 32;
 
-    // Pseudo enum 'CXTranslationUnit_Flags' @ Index.h:1199:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXTranslationUnit_Flags' @ Index.h:1199:6 (clang-c/Index.h)
     public const int CXTranslationUnit_None = 0;
     public const int CXTranslationUnit_DetailedPreprocessingRecord = 1;
     public const int CXTranslationUnit_Incomplete = 2;
@@ -928,19 +928,19 @@ public static unsafe partial class clang
     public const int CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles = 16384;
     public const int CXTranslationUnit_RetainExcludedConditionalBlocks = 32768;
 
-    // Pseudo enum 'CXSaveTranslationUnit_Flags' @ Index.h:1442:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXSaveTranslationUnit_Flags' @ Index.h:1442:6 (clang-c/Index.h)
     public const int CXSaveTranslationUnit_None = 0;
 
-    // Pseudo enum 'CXSaveError' @ Index.h:1464:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXSaveError' @ Index.h:1464:6 (clang-c/Index.h)
     public const int CXSaveError_None = 0;
     public const int CXSaveError_Unknown = 1;
     public const int CXSaveError_TranslationErrors = 2;
     public const int CXSaveError_InvalidTU = 3;
 
-    // Pseudo enum 'CXReparse_Flags' @ Index.h:1543:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXReparse_Flags' @ Index.h:1543:6 (clang-c/Index.h)
     public const int CXReparse_None = 0;
 
-    // Pseudo enum 'CXTUResourceUsageKind' @ Index.h:1609:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXTUResourceUsageKind' @ Index.h:1609:6 (clang-c/Index.h)
     public const int CXTUResourceUsage_AST = 1;
     public const int CXTUResourceUsage_Identifiers = 2;
     public const int CXTUResourceUsage_Selectors = 3;
@@ -960,24 +960,24 @@ public static unsafe partial class clang
     public const int CXTUResourceUsage_First = 1;
     public const int CXTUResourceUsage_Last = 14;
 
-    // Pseudo enum 'CXVisibilityKind' @ Index.h:2822:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXVisibilityKind' @ Index.h:2822:6 (clang-c/Index.h)
     public const int CXVisibility_Invalid = 0;
     public const int CXVisibility_Hidden = 1;
     public const int CXVisibility_Protected = 2;
     public const int CXVisibility_Default = 3;
 
-    // Pseudo enum 'CXLanguageKind' @ Index.h:2966:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXLanguageKind' @ Index.h:2966:6 (clang-c/Index.h)
     public const int CXLanguage_Invalid = 0;
     public const int CXLanguage_C = 1;
     public const int CXLanguage_ObjC = 2;
     public const int CXLanguage_CPlusPlus = 3;
 
-    // Pseudo enum 'CXTLSKind' @ Index.h:2982:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXTLSKind' @ Index.h:2982:6 (clang-c/Index.h)
     public const int CXTLS_None = 0;
     public const int CXTLS_Dynamic = 1;
     public const int CXTLS_Static = 2;
 
-    // Pseudo enum 'CXTemplateArgumentKind' @ Index.h:3492:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXTemplateArgumentKind' @ Index.h:3492:6 (clang-c/Index.h)
     public const int CXTemplateArgumentKind_Null = 0;
     public const int CXTemplateArgumentKind_Type = 1;
     public const int CXTemplateArgumentKind_Declaration = 2;
@@ -989,14 +989,14 @@ public static unsafe partial class clang
     public const int CXTemplateArgumentKind_Pack = 8;
     public const int CXTemplateArgumentKind_Invalid = 9;
 
-    // Pseudo enum 'CXTypeNullabilityKind' @ Index.h:3845:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXTypeNullabilityKind' @ Index.h:3845:6 (clang-c/Index.h)
     public const int CXTypeNullability_NonNull = 0;
     public const int CXTypeNullability_Nullable = 1;
     public const int CXTypeNullability_Unspecified = 2;
     public const int CXTypeNullability_Invalid = 3;
     public const int CXTypeNullability_NullableResult = 4;
 
-    // Pseudo enum 'CXTypeLayoutError' @ Index.h:3888:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXTypeLayoutError' @ Index.h:3888:6 (clang-c/Index.h)
     public const int CXTypeLayoutError_Invalid = -1;
     public const int CXTypeLayoutError_Incomplete = -2;
     public const int CXTypeLayoutError_Dependent = -3;
@@ -1004,18 +1004,18 @@ public static unsafe partial class clang
     public const int CXTypeLayoutError_InvalidFieldName = -5;
     public const int CXTypeLayoutError_Undeduced = -6;
 
-    // Pseudo enum 'CXRefQualifierKind' @ Index.h:4009:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXRefQualifierKind' @ Index.h:4009:6 (clang-c/Index.h)
     public const int CXRefQualifier_None = 0;
     public const int CXRefQualifier_LValue = 1;
     public const int CXRefQualifier_RValue = 2;
 
-    // Pseudo enum 'CX_CXXAccessSpecifier' @ Index.h:4058:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CX_CXXAccessSpecifier' @ Index.h:4058:6 (clang-c/Index.h)
     public const int CX_CXXInvalidAccessSpecifier = 0;
     public const int CX_CXXPublic = 1;
     public const int CX_CXXProtected = 2;
     public const int CX_CXXPrivate = 3;
 
-    // Pseudo enum 'CX_StorageClass' @ Index.h:4078:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CX_StorageClass' @ Index.h:4078:6 (clang-c/Index.h)
     public const int CX_SC_Invalid = 0;
     public const int CX_SC_None = 1;
     public const int CX_SC_Extern = 2;
@@ -1025,7 +1025,7 @@ public static unsafe partial class clang
     public const int CX_SC_Auto = 6;
     public const int CX_SC_Register = 7;
 
-    // Pseudo enum 'CXPrintingPolicyProperty' @ Index.h:4339:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXPrintingPolicyProperty' @ Index.h:4339:6 (clang-c/Index.h)
     public const int CXPrintingPolicy_Indentation = 0;
     public const int CXPrintingPolicy_SuppressSpecifiers = 1;
     public const int CXPrintingPolicy_SuppressTagKeyword = 2;
@@ -1054,7 +1054,7 @@ public static unsafe partial class clang
     public const int CXPrintingPolicy_FullyQualifiedName = 25;
     public const int CXPrintingPolicy_LastProperty = 25;
 
-    // Pseudo enum 'CXObjCPropertyAttrKind' @ Index.h:4530:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXObjCPropertyAttrKind' @ Index.h:4530:9 (clang-c/Index.h)
     public const int CXObjCPropertyAttr_noattr = 0;
     public const int CXObjCPropertyAttr_readonly = 1;
     public const int CXObjCPropertyAttr_getter = 2;
@@ -1070,7 +1070,7 @@ public static unsafe partial class clang
     public const int CXObjCPropertyAttr_unsafe_unretained = 2048;
     public const int CXObjCPropertyAttr_class = 4096;
 
-    // Pseudo enum 'CXObjCDeclQualifierKind' @ Index.h:4573:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXObjCDeclQualifierKind' @ Index.h:4573:9 (clang-c/Index.h)
     public const int CXObjCDeclQualifier_None = 0;
     public const int CXObjCDeclQualifier_In = 1;
     public const int CXObjCDeclQualifier_Inout = 2;
@@ -1079,19 +1079,19 @@ public static unsafe partial class clang
     public const int CXObjCDeclQualifier_Byref = 16;
     public const int CXObjCDeclQualifier_Oneway = 32;
 
-    // Pseudo enum 'CXNameRefFlags' @ Index.h:4898:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXNameRefFlags' @ Index.h:4898:6 (clang-c/Index.h)
     public const int CXNameRange_WantQualifier = 1;
     public const int CXNameRange_WantTemplateArgs = 2;
     public const int CXNameRange_WantSinglePiece = 4;
 
-    // Pseudo enum 'CXTokenKind' @ Index.h:4941:14 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXTokenKind' @ Index.h:4941:14 (clang-c/Index.h)
     public const int CXToken_Punctuation = 0;
     public const int CXToken_Keyword = 1;
     public const int CXToken_Identifier = 2;
     public const int CXToken_Literal = 3;
     public const int CXToken_Comment = 4;
 
-    // Pseudo enum 'CXCompletionChunkKind' @ Index.h:5156:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXCompletionChunkKind' @ Index.h:5156:6 (clang-c/Index.h)
     public const int CXCompletionChunk_Optional = 0;
     public const int CXCompletionChunk_TypedText = 1;
     public const int CXCompletionChunk_Text = 2;
@@ -1114,14 +1114,14 @@ public static unsafe partial class clang
     public const int CXCompletionChunk_HorizontalSpace = 19;
     public const int CXCompletionChunk_VerticalSpace = 20;
 
-    // Pseudo enum 'CXCodeComplete_Flags' @ Index.h:5547:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXCodeComplete_Flags' @ Index.h:5547:6 (clang-c/Index.h)
     public const int CXCodeComplete_IncludeMacros = 1;
     public const int CXCodeComplete_IncludeCodePatterns = 2;
     public const int CXCodeComplete_IncludeBriefComments = 4;
     public const int CXCodeComplete_SkipPreamble = 8;
     public const int CXCodeComplete_IncludeCompletionsWithFixIts = 16;
 
-    // Pseudo enum 'CXCompletionContext' @ Index.h:5586:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXCompletionContext' @ Index.h:5586:6 (clang-c/Index.h)
     public const int CXCompletionContext_Unexposed = 0;
     public const int CXCompletionContext_AnyType = 1;
     public const int CXCompletionContext_AnyValue = 2;
@@ -1148,7 +1148,7 @@ public static unsafe partial class clang
     public const int CXCompletionContext_IncludedFile = 4194304;
     public const int CXCompletionContext_Unknown = 8388607;
 
-    // Pseudo enum 'CXEvalResultKind' @ Index.h:5944:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXEvalResultKind' @ Index.h:5944:9 (clang-c/Index.h)
     public const int CXEval_Int = 1;
     public const int CXEval_Float = 2;
     public const int CXEval_ObjCStrLiteral = 3;
@@ -1157,16 +1157,16 @@ public static unsafe partial class clang
     public const int CXEval_Other = 6;
     public const int CXEval_UnExposed = 0;
 
-    // Pseudo enum 'CXVisitorResult' @ Index.h:6087:6 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXVisitorResult' @ Index.h:6087:6 (clang-c/Index.h)
     public const int CXVisit_Break = 0;
     public const int CXVisit_Continue = 1;
 
-    // Pseudo enum 'CXResult' @ Index.h:6094:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXResult' @ Index.h:6094:9 (clang-c/Index.h)
     public const int CXResult_Success = 0;
     public const int CXResult_Invalid = 1;
     public const int CXResult_VisitBreak = 2;
 
-    // Pseudo enum 'CXIdxEntityKind' @ Index.h:6239:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXIdxEntityKind' @ Index.h:6239:9 (clang-c/Index.h)
     public const int CXIdxEntity_Unexposed = 0;
     public const int CXIdxEntity_Typedef = 1;
     public const int CXIdxEntity_Function = 2;
@@ -1195,38 +1195,38 @@ public static unsafe partial class clang
     public const int CXIdxEntity_CXXTypeAlias = 25;
     public const int CXIdxEntity_CXXInterface = 26;
 
-    // Pseudo enum 'CXIdxEntityLanguage' @ Index.h:6274:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXIdxEntityLanguage' @ Index.h:6274:9 (clang-c/Index.h)
     public const int CXIdxEntityLang_None = 0;
     public const int CXIdxEntityLang_C = 1;
     public const int CXIdxEntityLang_ObjC = 2;
     public const int CXIdxEntityLang_CXX = 3;
     public const int CXIdxEntityLang_Swift = 4;
 
-    // Pseudo enum 'CXIdxEntityCXXTemplateKind' @ Index.h:6292:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXIdxEntityCXXTemplateKind' @ Index.h:6292:9 (clang-c/Index.h)
     public const int CXIdxEntity_NonTemplate = 0;
     public const int CXIdxEntity_Template = 1;
     public const int CXIdxEntity_TemplatePartialSpecialization = 2;
     public const int CXIdxEntity_TemplateSpecialization = 3;
 
-    // Pseudo enum 'CXIdxAttrKind' @ Index.h:6299:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXIdxAttrKind' @ Index.h:6299:9 (clang-c/Index.h)
     public const int CXIdxAttr_Unexposed = 0;
     public const int CXIdxAttr_IBAction = 1;
     public const int CXIdxAttr_IBOutlet = 2;
     public const int CXIdxAttr_IBOutletCollection = 3;
 
-    // Pseudo enum 'CXIdxDeclInfoFlags' @ Index.h:6334:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXIdxDeclInfoFlags' @ Index.h:6334:9 (clang-c/Index.h)
     public const int CXIdxDeclFlag_Skipped = 1;
 
-    // Pseudo enum 'CXIdxObjCContainerKind' @ Index.h:6362:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXIdxObjCContainerKind' @ Index.h:6362:9 (clang-c/Index.h)
     public const int CXIdxObjCContainer_ForwardRef = 0;
     public const int CXIdxObjCContainer_Interface = 1;
     public const int CXIdxObjCContainer_Implementation = 2;
 
-    // Pseudo enum 'CXIdxEntityRefKind' @ Index.h:6422:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXIdxEntityRefKind' @ Index.h:6422:9 (clang-c/Index.h)
     public const int CXIdxEntityRef_Direct = 1;
     public const int CXIdxEntityRef_Implicit = 2;
 
-    // Pseudo enum 'CXSymbolRole' @ Index.h:6440:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXSymbolRole' @ Index.h:6440:9 (clang-c/Index.h)
     public const int CXSymbolRole_None = 0;
     public const int CXSymbolRole_Declaration = 1;
     public const int CXSymbolRole_Definition = 2;
@@ -1238,7 +1238,7 @@ public static unsafe partial class clang
     public const int CXSymbolRole_AddressOf = 128;
     public const int CXSymbolRole_Implicit = 256;
 
-    // Pseudo enum 'CXIndexOptFlags' @ Index.h:6612:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // Pseudo enum 'CXIndexOptFlags' @ Index.h:6612:9 (clang-c/Index.h)
     public const int CXIndexOpt_None = 0;
     public const int CXIndexOpt_SuppressRedundantRefs = 1;
     public const int CXIndexOpt_IndexFunctionLocalSymbols = 2;
@@ -1246,9 +1246,9 @@ public static unsafe partial class clang
     public const int CXIndexOpt_SuppressWarnings = 8;
     public const int CXIndexOpt_SkipParsedBodiesInSession = 16;
 
-    // MacroDefinition @ Index.h:35:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // MacroDefinition @ Index.h:35:9 (clang-c/Index.h)
     public const int CINDEX_VERSION_MAJOR = 0;
 
-    // MacroDefinition @ Index.h:36:9 (/Users/lstranks/Programming/c2cs/ext/clang/include/clang-c/Index.h)
+    // MacroDefinition @ Index.h:36:9 (clang-c/Index.h)
     public const int CINDEX_VERSION_MINOR = 61;
 }

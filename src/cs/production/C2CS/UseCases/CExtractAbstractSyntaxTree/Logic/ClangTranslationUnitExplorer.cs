@@ -305,7 +305,7 @@ public class ClangTranslationUnitExplorer
             return IsIgnored(elementType, cursor);
         }
 
-        var fileLocation = kind == CKind.MacroDefinition ? cursor.FileLocation() : actualType.FileLocation(cursor);
+        var fileLocation = kind == CKind.MacroDefinition ? Location(cursor) : Location(cursor, actualType);
         if (string.IsNullOrEmpty(fileLocation.FileName))
         {
             var up = new ClangExplorerException(
@@ -1484,7 +1484,7 @@ public class ClangTranslationUnitExplorer
     private void VisitTypedef(Node parentNode, CXType type, string typeName)
     {
         var typedefCursor = clang_getTypeDeclaration(type);
-        var location = typedefCursor.FileLocation();
+        var location = Location(typedefCursor);
         AddExplorerNode(CKind.Typedef, location, parentNode, typedefCursor, type, type, string.Empty, typeName);
     }
 
@@ -1582,9 +1582,9 @@ public class ClangTranslationUnitExplorer
 
         foreach (var includeDirectory in _includeDirectories)
         {
-            if (location.FileName.Contains(includeDirectory))
+            if (location.FilePath.Contains(includeDirectory))
             {
-                location.FileName = location.FileName.Replace(includeDirectory, string.Empty).Trim('/', '\\');
+                location.FilePath = location.FilePath.Replace(includeDirectory, string.Empty).Trim('/', '\\');
                 break;
             }
         }
