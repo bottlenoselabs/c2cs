@@ -7,6 +7,7 @@ using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using C2CS.UseCases.CSharpBindgen;
 
 namespace C2CS;
 
@@ -238,7 +239,7 @@ public static class Program
 		IEnumerable<string?>? clangArgs,
 		string? whitelistFunctionsFile)
 	{
-		var request = new UseCases.AbstractSyntaxTreeC.Request(
+		var request = new UseCases.CExtractAbstractSyntaxTree.CExtractAbstractSyntaxTreeRequest(
 			inputFile,
 			outputFile,
 			automaticallyFindSoftwareDevelopmentKit,
@@ -249,7 +250,7 @@ public static class Program
 			bitness,
 			clangArgs,
 			whitelistFunctionsFile);
-		var useCase = new UseCases.AbstractSyntaxTreeC.UseCase();
+		var useCase = new UseCases.CExtractAbstractSyntaxTree.CExtractAbstractSyntaxTreeUseCase();
 		var response = useCase.Execute(request);
 		if (response.Status == UseCaseOutputStatus.Failure)
 		{
@@ -269,7 +270,7 @@ public static class Program
 		var libraryName2 = string.IsNullOrEmpty(libraryName) ? string.Empty : libraryName;
 		var className2 = string.IsNullOrEmpty(className) ? string.Empty : className;
 
-		var request = new UseCases.BindgenCSharp.Request(
+		var request = new CSharpBindgenRequest(
 			inputFile,
 			outputFile,
 			typeAliases,
@@ -277,7 +278,7 @@ public static class Program
 			libraryName2,
 			className2,
 			namespaces);
-		var useCase = new UseCases.BindgenCSharp.UseCase();
+		var useCase = new CSharpBindgenUseCase();
 		var response = useCase.Execute(request);
 		if (response.Status == UseCaseOutputStatus.Failure)
 		{
