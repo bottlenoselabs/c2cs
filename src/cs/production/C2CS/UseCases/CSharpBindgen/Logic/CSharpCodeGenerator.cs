@@ -17,12 +17,15 @@ public class CSharpCodeGenerator
 {
 	private readonly string _className;
 	private readonly string _libraryName;
+	private readonly string _namespace;
 	private readonly ImmutableArray<string> _usingNamespaces;
 
-	public CSharpCodeGenerator(string className, string libraryName, ImmutableArray<string> usingNamespaces)
+	public CSharpCodeGenerator(
+		string className, string libraryName, string @namespace, ImmutableArray<string> usingNamespaces)
 	{
 		_className = className;
 		_libraryName = libraryName;
+		_namespace = @namespace;
 		_usingNamespaces = usingNamespaces;
 	}
 
@@ -43,6 +46,7 @@ public class CSharpCodeGenerator
 		var compilationUnit = EmitCompilationUnit(
 			_className,
 			_libraryName,
+			_namespace,
 			_usingNamespaces,
 			membersToAdd);
 		return compilationUnit.ToFullString();
@@ -51,6 +55,7 @@ public class CSharpCodeGenerator
 	private static CompilationUnitSyntax EmitCompilationUnit(
 		string className,
 		string libraryName,
+		string @namespace,
 		ImmutableArray<string> usingNamespaces,
 		MemberDeclarationSyntax[] members)
 	{
@@ -73,19 +78,47 @@ using C2CS;
 
 #nullable enable
 #pragma warning disable 1591
+";
+		var isUsingNamespace = !string.IsNullOrEmpty(@namespace);
 
+		if (isUsingNamespace)
+		{
+			code += $@"
+namespace {@namespace}
+{{
+";
+		}
+
+		code += $@"
 public static unsafe partial class {className}
 {{
     private const string LibraryName = ""{libraryName}"";
 }}
 ";
 
+		if (isUsingNamespace)
+		{
+			code += $@"
+}}
+";
+		}
+
 		var syntaxTree = ParseSyntaxTree(code);
 		var compilationUnit = syntaxTree.GetCompilationUnitRoot();
-		var @class = (ClassDeclarationSyntax)compilationUnit.Members[0];
+		ClassDeclarationSyntax @classDeclaration;
 
-		var newClass = @class.AddMembers(members);
-		var newCompilationUnit = compilationUnit.ReplaceNode(@class, newClass);
+		if (isUsingNamespace)
+		{
+			var namespaceDeclaration = (NamespaceDeclarationSyntax)compilationUnit.Members[0];
+			classDeclaration = (ClassDeclarationSyntax)namespaceDeclaration.Members[0];
+		}
+		else
+		{
+			classDeclaration = (ClassDeclarationSyntax)compilationUnit.Members[0];
+		}
+
+		var newClass = @classDeclaration.AddMembers(members);
+		var newCompilationUnit = compilationUnit.ReplaceNode(@classDeclaration, newClass);
 
 		var workspace = new AdhocWorkspace();
 		var newCompilationUnitFormatted = (CompilationUnitSyntax)Formatter.Format(newCompilationUnit, workspace);

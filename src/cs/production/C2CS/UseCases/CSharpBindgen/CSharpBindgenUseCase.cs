@@ -50,6 +50,7 @@ public class CSharpBindgenUseCase : UseCase<CSharpBindgenRequest, CSharpBindgenR
             abstractSyntaxTreeCSharp,
             className,
             libraryName,
+            request.Namespace,
             request.UsingNamespaces,
             GenerateCSharpCode);
 
@@ -88,9 +89,14 @@ public class CSharpBindgenUseCase : UseCase<CSharpBindgenRequest, CSharpBindgenR
     }
 
     private static string GenerateCSharpCode(
-        CSharpAbstractSyntaxTree abstractSyntaxTree, string className, string libraryName, ImmutableArray<string> usingNamespaces)
+        CSharpAbstractSyntaxTree abstractSyntaxTree,
+        string className,
+        string libraryName,
+        string @namespace,
+        ImmutableArray<string> usingNamespaces)
     {
-        var codeGenerator = new CSharpCodeGenerator(className, libraryName, usingNamespaces);
+        var codeGenerator = new CSharpCodeGenerator(
+            className, libraryName, @namespace, usingNamespaces);
         return codeGenerator.EmitCode(abstractSyntaxTree);
     }
 
