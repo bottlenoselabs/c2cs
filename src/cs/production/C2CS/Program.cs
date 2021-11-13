@@ -206,13 +206,21 @@ public static class Program
 		};
 		command.AddOption(classNameOption);
 
-		var namespacesOption = new Option<IEnumerable<string?>>(
-			new[] {"--namespaces", "-n"},
+		var injectNamespacesOption = new Option<IEnumerable<string?>>(
+			new[] {"--injectNamespaces", "-n"},
 			"Additional namespaces to inject near the top of C# file as using statements.")
 		{
 			IsRequired = false
 		};
-		command.AddOption(namespacesOption);
+		command.AddOption(injectNamespacesOption);
+
+		var wrapNamespaceOption = new Option<string?>(
+			new[] { "--wrapNamespace", "-w" },
+			"The namespace to be used for C# static class. If not specified the C# static class does not have a namespace to which it is in the global namespace.")
+		{
+			IsRequired = false
+		};
+		command.AddOption(wrapNamespaceOption);
 
 		command.Handler = CommandHandler.Create<
 			string,
@@ -221,7 +229,8 @@ public static class Program
 			string,
 			string?,
 			string?,
-			IEnumerable<string?>?
+			IEnumerable<string?>?,
+			string?
 		>(BindgenCSharp);
 		return command;
 	}
@@ -265,7 +274,8 @@ public static class Program
 		string ignoredNamesFile,
 		string? libraryName,
 		string? className,
-		IEnumerable<string?>? namespaces)
+		IEnumerable<string?>? injectNamespaces,
+		string? wrapNamespace)
 	{
 		var libraryName2 = string.IsNullOrEmpty(libraryName) ? string.Empty : libraryName;
 		var className2 = string.IsNullOrEmpty(className) ? string.Empty : className;
@@ -277,7 +287,8 @@ public static class Program
 			ignoredNamesFile,
 			libraryName2,
 			className2,
-			namespaces);
+			injectNamespaces,
+			wrapNamespace);
 		var useCase = new CSharpBindgenUseCase();
 		var response = useCase.Execute(request);
 		if (response.Status == UseCaseOutputStatus.Failure)

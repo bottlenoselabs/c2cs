@@ -23,6 +23,8 @@ public class CSharpBindgenRequest : UseCaseRequest
 
     public string ClassName { get; }
 
+    public string Namespace { get; }
+
     public ImmutableArray<string> UsingNamespaces { get; }
 
     public CSharpBindgenRequest(
@@ -32,7 +34,8 @@ public class CSharpBindgenRequest : UseCaseRequest
         string ignoredNamesFilePath,
         string libraryName,
         string className,
-        IEnumerable<string?>? usingNamespaces)
+        IEnumerable<string?>? usingNamespaces,
+        string? @namespace)
     {
         InputFilePath = inputFilePath;
         OutputFilePath = outputFilePath;
@@ -41,6 +44,7 @@ public class CSharpBindgenRequest : UseCaseRequest
         LibraryName = libraryName;
         ClassName = className;
         UsingNamespaces = CreateUsingNamespaces(usingNamespaces);
+        Namespace = @namespace ?? string.Empty;
     }
 
     private static ImmutableArray<CSharpTypeAlias> CreateTypeAliases(IEnumerable<string?>? typeAliases)

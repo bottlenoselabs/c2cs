@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Lucas Girouard-Stranks (https://github.com/lithiumtoast). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using static my_c_library;
+using static my_c_library_namespace.my_c_library;
 
 internal static class Program
 {

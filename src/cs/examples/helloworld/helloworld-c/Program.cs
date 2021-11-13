@@ -49,6 +49,8 @@ cs
 {rootDirectory}/src/cs/examples/helloworld/helloworld-c/my_c_library/ast/ast.json
 -o
 {rootDirectory}/src/cs/examples/helloworld/helloworld-cs/my_c_library.cs
+-w
+my_c_library_namespace
 ";
         var argumentsArray =
             arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
