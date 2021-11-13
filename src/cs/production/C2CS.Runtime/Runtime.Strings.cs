@@ -41,7 +41,7 @@ public static unsafe partial class Runtime
             return result;
         }
 
-        var hash = djb2((byte*) ptr._ptr);
+        var hash = Djb2((byte*) ptr._ptr);
         if (StringHashesToPointers8U.TryGetValue(hash, out var pointer2))
         {
             result = PointersToStrings8U[pointer2._ptr];
@@ -81,7 +81,7 @@ public static unsafe partial class Runtime
             return result;
         }
 
-        var hash = djb2((byte*) ptr._ptr);
+        var hash = Djb2((byte*) ptr._ptr);
         if (StringHashesToPointers16U.TryGetValue(hash, out var pointer2))
         {
             result = PointersToStrings16U[pointer2._ptr];
@@ -111,7 +111,7 @@ public static unsafe partial class Runtime
     /// <returns>A C string pointer.</returns>
     public static CString8U CString8U(string str)
     {
-        var hash = djb2(str);
+        var hash = Djb22(str);
         if (StringHashesToPointers8U.TryGetValue(hash, out var r))
         {
             return r;
@@ -133,7 +133,7 @@ public static unsafe partial class Runtime
     /// <returns>A C string pointer.</returns>
     public static CString16U CString16U(string str)
     {
-        var hash = djb2(str);
+        var hash = Djb22(str);
         if (StringHashesToPointers16U.TryGetValue(hash, out var r))
         {
             return r;
@@ -246,7 +246,7 @@ public static unsafe partial class Runtime
         }
 
         Marshal.FreeHGlobal(ptr);
-        var hash = djb2(ptr);
+        var hash = Djb22(ptr);
         StringHashesToPointers8U.Remove(hash);
         PointersToStrings8U.Remove(ptr._ptr);
     }
@@ -265,7 +265,7 @@ public static unsafe partial class Runtime
         }
 
         Marshal.FreeHGlobal(ptr);
-        var hash = djb2(ptr);
+        var hash = Djb22(ptr);
         StringHashesToPointers16U.Remove(hash);
         PointersToStrings16U.Remove(ptr._ptr);
     }
@@ -276,7 +276,7 @@ public static unsafe partial class Runtime
     //  (2) http://www.cse.yorku.ca/~oz/hash.html
     //  (3) https://groups.google.com/g/comp.lang.c/c/lSKWXiuNOAk/m/zstZ3SRhCjgJ
     [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Algorithm name.")]
-    internal static uint djb2(byte* str)
+    internal static uint Djb2(byte* str)
     {
         // Lucas Girouard-Stranks: my explanation of djb2
         // basic hash algorithm; we want each character in the string to have some bias related to it's position for calculating the hash
@@ -318,7 +318,7 @@ public static unsafe partial class Runtime
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Algorithm name.")]
-    internal static uint djb2(ushort* str)
+    internal static uint Djb21(ushort* str)
     {
         uint hash = 5381;
 
@@ -335,7 +335,7 @@ public static unsafe partial class Runtime
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Algorithm name.")]
-    private static uint djb2(string str)
+    private static uint Djb22(string str)
     {
         uint hash = 5381;
 

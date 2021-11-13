@@ -13,24 +13,5 @@ internal class ClangExplorerException : Exception
         Message = message;
     }
 
-    public ClangExplorerException(CXCursor cursor)
-    {
-        var cursorName = cursor.Name();
-        var location = cursor.FileLocation();
-        Message = $@"
-Unexpected error while exploring Clang header: {cursorName} @ {location.FilePath}:{location.LineNumber}:{location.LineColumn}
-".Trim();
-    }
-
-    public ClangExplorerException(CXType type, CXCursor cursor)
-        : this(cursor)
-    {
-        var typeName = type.Name();
-        var location = cursor.FileLocation();
-        Message = $@"
-Unexpected error while exploring Clang header: {typeName} @ {location.FilePath}:{location.LineNumber}:{location.LineColumn}
-".Trim();
-    }
-
     public override string Message { get; }
 }

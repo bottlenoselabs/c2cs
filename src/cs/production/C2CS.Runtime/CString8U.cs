@@ -114,7 +114,7 @@ public readonly unsafe struct CString8U
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return (int)Runtime.djb2((byte*)_ptr);
+        return (int)Runtime.Djb2((byte*)_ptr);
     }
 
     /// <inheritdoc />
