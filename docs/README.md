@@ -38,16 +38,22 @@ Usage:
   C2CS ast [options]
 
 Options:
-  -i, --inputFile <inputFile> (REQUIRED)                                                     Path of the input `.h` header file.
-  -o, --outputFile <outputFile> (REQUIRED)                                                   Path of the output abstract syntax tree `.json` file.
-  -f, --automaticallyFindSoftwareDevelopmentKit <automaticallyFindSoftwareDevelopmentKit>    Find software development kit for C/C++ automatically. Default is true.
-  -s, --includeDirectories <includeDirectories>                                              Search directories for `#include` usages to use when parsing C code.
-  -g, --ignoredFiles <ignoredFiles>                                                          Header files to ignore.
-  -p, --opaqueTypes <opaqueTypes>                                                            Types by name that will be forced to be opaque.
-  -d, --defines <defines>                                                                    Object-like macros to use when parsing C code.
-  -b, --bitness <bitness>                                                                    The bitness to parse the C code as. Default is the current architecture of host operating system. E.g. the default for x64 Windows is `64`. Possible values are `32` where pointers are 4 bytes, or `64` where pointers are 8 bytes.
-  -a, --clangArgs <clangArgs>                                                                Additional Clang arguments to use when parsing C code.
-  -?, -h, --help                                                                             Show help and usage information
+  -i, --inputFile <inputFile> (REQUIRED)                                                   File path of the input `.h` header file.
+  -o, --outputFile <outputFile> (REQUIRED)                                                 File path of the output abstract syntax tree `.json` file.
+  -f, --automaticallyFindSoftwareDevelopmentKit <automaticallyFindSoftwareDevelopmentKit>  Find software development kit for C/C++ automatically. Default is `true`.
+  -s, --includeDirectories <includeDirectories>                                            Search directories for `#include` usages to use when parsing C code.
+  -g, --ignoredFiles <ignoredFiles>                                                        Header files to ignore by file name with extension (exclude directory path).
+  -p, --opaqueTypes <opaqueTypes>                                                          Types by name that will be forced to be opaque.
+  -d, --defines <defines>                                                                  Object-like macros to use when parsing C code.
+  -b, --bitness <bitness>                                                                  The bitness to parse the C code as. Default is the current architecture of host operating system. E.g. 
+                                                                                           the default for x64 Windows is `64`. Possible values are `32` where pointers are 4 bytes, or `64` where 
+                                                                                           pointers are 8 bytes.
+  -a, --clangArgs <clangArgs>                                                              Additional Clang arguments to use when parsing C code.
+  -w, --whitelistFunctionsFile <whitelistFunctionsFile>                                    The file path to a text file containing a set of function names delimited by new line. These functions 
+                                                                                           will strictly only be considered for bindgen; this has implications for transitive types. Each function 
+                                                                                           name may start with some text followed by a `!` character before the name of the function; this allows to 
+                                                                                           re-use the same file for input to DirectPInvoke with NativeAOT.
+  -?, -h, --help                                                                           Show help and usage information
 ```
 
 ### `cs`
@@ -62,13 +68,15 @@ Usage:
   C2CS cs [options]
 
 Options:
-  -i, --inputFile <inputFile> (REQUIRED)      Path of the input abstract syntax tree `.json` file.
-  -o, --outputFile <outputFile> (REQUIRED)    Path of the output C# `.cs` file.
-  -a, --typeAliases <typeAliases>             Types by name that will be remapped.
-  -g, --ignoredTypes <ignoredTypes>           Types by name that will be ignored; types are ignored after remapping type names.
-  -l, --libraryName <libraryName>             The name of the dynamic link library (without the file extension) used for P/Invoke with C#.
-  -c, --className <className>                 The name of the C# static class.
-  -?, -h, --help                              Show help and usage information
+  -i, --inputFile <inputFile> (REQUIRED)     File path of the input abstract syntax tree `.json` file.
+  -o, --outputFile <outputFile> (REQUIRED)   File path of the output C# `.cs` file.
+  -a, --typeAliases <typeAliases>            Types by name that will be remapped.
+  -g, --ignoredNamesFile <ignoredNamesFile>  File path of the text file with new-line separated names (types, functions, macros, etc) that will be ignored; types are ignored after remapping type names.
+  -l, --libraryName <libraryName>            The name of the dynamic link library (without the file extension) used for P/Invoke with C#.
+  -c, --className <className>                The name of the C# static class.
+  -n, --injectNamespaces <injectNamespaces>  Additional namespaces to inject near the top of C# file as using statements.
+  -w, --wrapNamespace <wrapNamespace>        The namespace to be used for C# static class. If not specified the C# static class does not have a namespace to which it is in the global namespace.
+  -?, -h, --help                             Show help and usage information
 ```
 
 ## Building from source
