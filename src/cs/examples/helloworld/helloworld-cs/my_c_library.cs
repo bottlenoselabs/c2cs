@@ -20,7 +20,6 @@ using C2CS;
 
 namespace my_c_library_namespace
 {
-
     public static unsafe partial class my_c_library
     {
         private const string LibraryName = "my_c_library";
@@ -57,5 +56,4 @@ namespace my_c_library_namespace
             _MY_ENUM_TYPE_FORCE_U32 = 2147483647
         }
     }
-
 }

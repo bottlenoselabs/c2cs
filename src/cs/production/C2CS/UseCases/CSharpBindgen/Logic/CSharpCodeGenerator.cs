@@ -78,6 +78,7 @@ using C2CS;
 
 #nullable enable
 #pragma warning disable 1591
+
 ";
 		var isUsingNamespace = !string.IsNullOrEmpty(@namespace);
 
@@ -86,7 +87,7 @@ using C2CS;
 			code += $@"
 namespace {@namespace}
 {{
-";
+".Trim();
 		}
 
 		code += $@"
@@ -94,13 +95,13 @@ public static unsafe partial class {className}
 {{
     private const string LibraryName = ""{libraryName}"";
 }}
-";
+".Trim();
 
 		if (isUsingNamespace)
 		{
 			code += $@"
 }}
-";
+".Trim();
 		}
 
 		var syntaxTree = ParseSyntaxTree(code);
