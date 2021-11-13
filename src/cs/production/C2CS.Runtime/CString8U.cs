@@ -4,6 +4,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using JetBrains.Annotations;
 
 namespace C2CS;
 
@@ -11,10 +12,7 @@ namespace C2CS;
 ///     A pointer value type; represents the 8-bit C type `char*`.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-[SuppressMessage("ReSharper", "InconsistentNaming", Justification = "C style.")]
-[SuppressMessage("ReSharper", "IdentifierTypo", Justification = "C style.")]
-[SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
-[SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Public API.")]
+[PublicAPI]
 public readonly unsafe struct CString8U
 {
     internal readonly nint _ptr;

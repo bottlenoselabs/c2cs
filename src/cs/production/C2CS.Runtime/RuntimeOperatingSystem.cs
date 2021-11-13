@@ -2,14 +2,14 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
 
 namespace C2CS;
 
 /// <summary>
 ///     Defines the native runtime operating systems.
 /// </summary>
-[SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Public API.")]
-[SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global", Justification = "Public API.")]
+[PublicAPI]
 public enum RuntimeOperatingSystem
 {
     /// <summary>

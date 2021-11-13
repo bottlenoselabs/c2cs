@@ -159,7 +159,7 @@ public static unsafe partial class Runtime
     public static CString8U* CString8UArray(ReadOnlySpan<string> values)
     {
         var pointerSize = IntPtr.Size;
-        var result = (CString8U*) AllocateMemory(pointerSize * values.Length);
+        var result = (CString8U*) Marshal.AllocHGlobal(pointerSize * values.Length);
         for (var i = 0; i < values.Length; ++i)
         {
             var @string = values[i];
@@ -182,7 +182,7 @@ public static unsafe partial class Runtime
     public static CString16U* CString16UArray(ReadOnlySpan<string> values)
     {
         var pointerSize = IntPtr.Size;
-        var result = (CString16U*) AllocateMemory(pointerSize * values.Length);
+        var result = (CString16U*) Marshal.AllocHGlobal(pointerSize * values.Length);
         for (var i = 0; i < values.Length; ++i)
         {
             var @string = values[i];
@@ -219,17 +219,17 @@ public static unsafe partial class Runtime
     ///     <see cref="string" /> objects which happened during <see cref="String8U" /> or
     ///     <see cref="CString8U" />. Does <b>not</b> garbage collect.
     /// </summary>
-    /// <param name="ptrs">The C string pointers.</param>
+    /// <param name="pointers">The C string pointers.</param>
     /// <param name="count">The number of C string pointers.</param>
-    public static void FreeCStrings(CString8U* ptrs, int count)
+    public static void FreeCStrings(CString8U* pointers, int count)
     {
         for (var i = 0; i < count; i++)
         {
-            var ptr = ptrs[i];
+            var ptr = pointers[i];
             FreeCString8U(ptr);
         }
 
-        FreeMemory(ptrs);
+        Marshal.FreeHGlobal((IntPtr)pointers);
     }
 
     /// <summary>
