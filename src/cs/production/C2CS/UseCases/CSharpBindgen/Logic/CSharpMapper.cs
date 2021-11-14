@@ -836,7 +836,14 @@ var x = {value};
             return null;
         }
 
-        var expression = variables.Single().Initializer!.Value;
+        var variable = variables.Single();
+        var variableInitializer = variable.Initializer;
+        if (variableInitializer == null)
+        {
+            return null;
+        }
+
+        var expression = variableInitializer.Value;
         var mscorlib = MetadataReference.CreateFromFile(Path.Combine(_dotNetPath, "mscorlib.dll"));
         var privatecorelib =
             MetadataReference.CreateFromFile(Path.Combine(_dotNetPath, "System.Private.CoreLib.dll"));
