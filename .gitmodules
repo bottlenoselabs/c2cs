@@ -1,6 +1,3 @@
 [submodule "ext/my-msbuild"]
 	path = ext/my-msbuild
 	url = https://github.com/lithiumtoast/my-msbuild.git
-[submodule "ext/dsa"]
-	path = ext/dsa
-	url = https://github.com/lithiumtoast/dsa
