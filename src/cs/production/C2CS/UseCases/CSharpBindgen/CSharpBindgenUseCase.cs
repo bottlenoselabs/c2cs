@@ -5,6 +5,7 @@ using System;
 using System.Collections.Immutable;
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using C2CS.UseCases.CExtractAbstractSyntaxTree;
 
 namespace C2CS.UseCases.CSharpBindgen;
@@ -72,7 +73,16 @@ public class CSharpBindgenUseCase : UseCase<CSharpBindgenRequest, CSharpBindgenR
     private static CAbstractSyntaxTree LoadAbstractSyntaxTree(string inputFilePath)
     {
         var fileContents = File.ReadAllText(inputFilePath);
-        var abstractSyntaxTree = JsonSerializer.Deserialize(fileContents, CJsonSerializerContext.Default.CAbstractSyntaxTree)!;
+        var serializerOptions = new JsonSerializerOptions()
+        {
+            WriteIndented = true,
+            Converters =
+            {
+                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+            }
+        };
+        var serializerContext = new CJsonSerializerContext(serializerOptions);
+        var abstractSyntaxTree = JsonSerializer.Deserialize(fileContents, serializerContext.CAbstractSyntaxTree)!;
         return abstractSyntaxTree;
     }
 
