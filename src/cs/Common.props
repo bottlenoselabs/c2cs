@@ -2,4 +2,10 @@
 
     <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove('$(MSBuildProjectDirectory)', '.gitignore'))/ext/my-msbuild/My-MSBuild.props" />
 
+    <!-- StyleCop -->
+    <PropertyGroup>
+        <StyleCopSettingsFileName>StyleCop.json</StyleCopSettingsFileName>
+        <StyleCopSettingsFilePath>$(MSBuildThisFileDirectory)/$(StyleCopSettingsFileName)</StyleCopSettingsFilePath>
+    </PropertyGroup>
+
 </Project>
