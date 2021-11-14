@@ -6,6 +6,7 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace C2CS.UseCases.CExtractAbstractSyntaxTree;
 
@@ -101,7 +102,16 @@ public class CExtractAbstractSyntaxTreeUseCase : UseCase<CExtractAbstractSyntaxT
             File.Delete(outputFilePath);
         }
 
-        var fileContents = JsonSerializer.Serialize(abstractSyntaxTree, CJsonSerializerContext.Default.CAbstractSyntaxTree);
+        var serializerOptions = new JsonSerializerOptions()
+        {
+            WriteIndented = true,
+            Converters =
+            {
+                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+            }
+        };
+        var serializerContext = new CJsonSerializerContext(serializerOptions);
+        var fileContents = JsonSerializer.Serialize(abstractSyntaxTree, serializerContext.Options);
 
         // File.WriteAllText doesn't flush until process exits on macOS .NET 5 lol
         using var fileStream = new FileStream(outputFilePath, FileMode.OpenOrCreate);
