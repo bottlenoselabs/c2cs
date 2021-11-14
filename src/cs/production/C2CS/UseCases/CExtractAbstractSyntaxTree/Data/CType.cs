@@ -17,7 +17,7 @@ public class CType
     public CKind Kind { get; set; } = CKind.Unknown;
 
     [JsonPropertyName("sizeOf")]
-    public int? SizeOf { get; set; }
+    public int SizeOf { get; set; }
 
     [JsonPropertyName("alignOf")]
     public int? AlignOf { get; set; }

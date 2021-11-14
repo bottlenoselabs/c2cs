@@ -1045,8 +1045,7 @@ public class ClangTranslationUnitExplorer
             var fieldPrevious = builder[i - 1];
             var typeName = Value(fieldPrevious.Type);
             var type = _typesByName[typeName];
-
-            var fieldPreviousTypeSizeOf = type!.SizeOf!.Value;
+            var fieldPreviousTypeSizeOf = type.SizeOf;
             var expectedFieldOffset = fieldPrevious.Offset + fieldPreviousTypeSizeOf;
             var hasPadding = recordField.Offset != 0 && recordField.Offset != expectedFieldOffset;
             if (!hasPadding)
@@ -1065,7 +1064,7 @@ public class ClangTranslationUnitExplorer
             var recordSize = (int)clang_Type_getSizeOf(cursorType);
             var typeName = Value(fieldLast.Type);
             var type = _typesByName[typeName];
-            var fieldLastTypeSize = type.SizeOf!.Value;
+            var fieldLastTypeSize = type.SizeOf;
             var expectedLastFieldOffset = recordSize - fieldLastTypeSize;
             if (fieldLast.Offset != expectedLastFieldOffset)
             {
@@ -1245,20 +1244,23 @@ public class ClangTranslationUnitExplorer
             declaration = cursor;
         }
 
-        var sizeOfValue = (int)clang_Type_getSizeOf(type);
-        if (sizeOfValue == -2)
-        {
-            if (type.kind == CXTypeKind.CXType_IncompleteArray)
-            {
-                var elementType = clang_getElementType(type);
-                if (elementType.kind == CXTypeKind.CXType_Pointer)
-                {
-                    sizeOfValue = (int)clang_Type_getSizeOf(elementType);
-                }
-            }
-        }
+        // if (type.kind == CXTypeKind.CXType_IncompleteArray)
+            // {
+            //     var elementType = clang_getElementType(type);
+            //     if (elementType.kind == CXTypeKind.CXType_Typedef)
+            //     {
+            //         var elementCursor = clang_getTypeDeclaration(elementType);
+            //         var underlyingCursor = ClangUnderlyingCursor(elementCursor);
+            //         elementType = clang_getTypedefDeclUnderlyingType(x);
+            //     }
+            //
+            //     if (elementType.kind == CXTypeKind.CXType_Pointer)
+            //     {
+            //         sizeOfValue = (int)clang_Type_getSizeOf(elementType);
+            //     }
+            // }
 
-        int? sizeOf = sizeOfValue >= 0 ? sizeOfValue : null;
+        var sizeOf = SizeOf(type);
         var alignOfValue = (int)clang_Type_getAlignOf(type);
         int? alignOf = alignOfValue >= 0 ? alignOfValue : null;
         var arraySizeValue = (int)clang_getArraySize(type);
@@ -1303,6 +1305,38 @@ public class ClangTranslationUnitExplorer
         }
 
         return cType;
+    }
+
+    private static int SizeOf(CXType type)
+    {
+        var sizeOf = (int)clang_Type_getSizeOf(type);
+        if (sizeOf >= 0)
+        {
+            return sizeOf;
+        }
+
+        if (sizeOf != -2)
+        {
+            throw new ClangExplorerException("Unexpected size for Clang type. Please submit an issue on GitHub!");
+        }
+
+        var (kind, underlyingType) = TypeKind(type);
+        switch (kind)
+        {
+            case CKind.Array:
+                if (type.kind != CXTypeKind.CXType_IncompleteArray)
+                {
+                    throw new ClangExplorerException("Unexpected case when determining size for Clang type. Please submit an issue on GitHub!");
+                }
+
+                return (int) clang_Type_getAlignOf(type);
+            case CKind.Primitive:
+                return 0;
+            case CKind.Pointer:
+                return (int)clang_Type_getSizeOf(underlyingType);
+            default:
+                throw new ClangExplorerException("Unexpected case when determining size for Clang type. Please submit an issue on GitHub!");
+        }
     }
 
     private static (CKind Kind, CXType Type) TypeKind(CXType type)

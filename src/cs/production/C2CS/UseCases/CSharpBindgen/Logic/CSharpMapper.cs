@@ -865,7 +865,7 @@ var x = {value};
     private CSharpType Type(CType cType, string? typeName = null)
     {
         var typeName2 = typeName ?? TypeName(cType);
-        var sizeOf = cType.SizeOf ?? 0;
+        var sizeOf = cType.SizeOf;
         var alignOf = cType.AlignOf ?? 0;
         var fixedBufferSize = cType.ArraySize ?? 0;
 
@@ -887,7 +887,7 @@ var x = {value};
         }
 
         var name = type.Name;
-        var elementTypeSize = type.ElementSize ?? type.SizeOf ?? 0;
+        var elementTypeSize = type.ElementSize ?? type.SizeOf;
         string typeName;
 
         if (name.EndsWith("*", StringComparison.InvariantCulture) || name.EndsWith("]", StringComparison.InvariantCulture))
