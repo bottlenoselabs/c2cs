@@ -102,7 +102,7 @@ public class CExtractAbstractSyntaxTreeUseCase : UseCase<CExtractAbstractSyntaxT
 
             var fileExtension = Path.GetExtension(target);
             File.Copy(
-                Path.Combine(extractDirectory, $"runtimes/{runtimeIdentifier}/native/libclang.{fileExtension}"),
+                Path.Combine(extractDirectory, $"runtimes/{runtimeIdentifier}/native/libclang{fileExtension}"),
                 target);
         }
 
