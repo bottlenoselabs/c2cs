@@ -1,0 +1,163 @@
+name: "production"
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_SDK_VERSION: 6.0.x
+  NUGET_ACCESS_TOKEN: ${{ secrets.NUGET_ACCESS_TOKEN }}
+  NUGET_SOURCE_URL: 'https://api.nuget.org/v3/index.json'
+
+on:
+  push:
+    tags: [v*]
+
+jobs:
+
+  gitversion-job:
+    name: "GitVersion"
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: "Clone Git repository"
+      uses: actions/checkout@v2
+
+    - name: "Git fetch all history for all tags and branches"
+      run: git fetch --prune --unshallow
+
+    - name: "Install GitVersion"
+      uses: gittools/actions/gitversion/setup@v0.9.6
+      env: 
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: true # workaround for https://github.blog/changelog/2020-10-01-github-actions-deprecating-set-env-and-add-path-commands/ until the execute action is updated
+      with:
+        versionSpec: '5.x'
+          
+    - name: "Use GitVersion"
+      uses: gittools/actions/gitversion/execute@v0.9.6
+
+    - run: echo "$GITVERSION_MAJOR.$GITVERSION_MINOR.$GITVERSION_COMMITSSINCEVERSIONSOURCE" >> version.txt
+
+    - name: 'Upload version artifact'
+      uses: actions/upload-artifact@v2
+      with:
+        name: version
+        path: version.txt
+
+  build-test-pack-job:
+    name: "Build"
+    needs: [gitversion-job]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+
+    steps:
+
+    - name: "Download version artifact"
+      uses: actions/download-artifact@v2
+      with:
+        name: nuget-version
+
+    - name: "Read version"
+      id: version
+      shell: bash
+      run: |
+        echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
+
+    - name: "Print version"
+      shell: bash
+      run: |
+        echo $VERSION
+
+    - name: "Clone Git repository"
+      uses: actions/checkout@master
+      with:
+        submodules: 'recursive'
+
+    - name: "Install .NET"
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '${{ env.DOTNET_SDK_VERSION }}'
+        include-prerelease: true
+
+    - name: "Clean solution"
+      run: dotnet clean --configuration Release && dotnet nuget locals all --clear
+
+    - name: ".NET runtime identifier (Windows)"
+      if: matrix.os == 'windows-latest'
+      run: echo "DOTNET_RID=win-x64" >> $env:GITHUB_ENV
+
+    - name: ".NET runtime identifier (macOS)"
+      if: matrix.os == 'macos-latest'
+      run: echo "DOTNET_RID=osx-x64" >> $GITHUB_ENV
+
+    - name: ".NET runtime identifier (Ubuntu)"
+      if: matrix.os == 'ubuntu-latest'
+      run: echo "DOTNET_RID=ubuntu.20.04-x64" >> $GITHUB_ENV
+
+    - name: "Build solution"
+      run: dotnet build --nologo --verbosity minimal --configuration Release /p:Version='${{ env.VERSION }}'
+
+    - name: "Test solution"
+      run: dotnet test --nologo --verbosity normal --configuration Release --no-build
+
+    - name: "Pack solution"
+      if: matrix.os == 'ubuntu-latest'
+      run: dotnet pack --nologo --output "./nuget-packages-packed" --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ env.VERSION }}'
+
+    - name: "Upload packages"
+      if: matrix.os == 'ubuntu-latest'
+      uses: actions/upload-artifact@v2
+      with:
+        name: nuget-packages-packed
+        path: './nuget-packages-packed/*/**'
+
+    - name: "Build C2CS"
+      shell: bash
+      run: bash ./publish.sh ${{ env.DOTNET_RID }}
+
+    - name: "Ensure C2CS is executable (macOS)"
+      if: matrix.os == 'macos-latest'
+      run: chmod +x './publish/${{ env.DOTNET_RID }}/C2CS'
+
+    - name: "Ensure C2CS is executable (Ubuntu)"
+      if: matrix.os == 'ubuntu-latest'
+      run: chmod +x './publish/${{ env.DOTNET_RID }}/C2CS'
+
+    - name: "Upload C2CS build artifacts"
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.DOTNET_RID }}
+        path: './publish/${{ env.DOTNET_RID }}/*'
+
+  deploy-job:
+    name: "Deploy"
+    needs: [build-test-pack-job]
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: "Install .NET"
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '${{ env.DOTNET_SDK_VERSION }}'
+        include-prerelease: true
+
+    - name: "Download NuGet Packages"
+      uses: actions/download-artifact@v1
+      with:
+        name: nuget-packages-packed
+        path: './nuget-packages-packed'
+
+    - name: "Echo Packages"
+      run: find ./nuget-packages-packed/ -not -type d -exec basename {} \;
+
+    - name: "Add packages source: MyGet"
+      run: dotnet nuget add source $MYGET_SOURCE_URL --name "MyGet"
+
+    - name: "Upload Packages: MyGet"
+      run: dotnet nuget push "./**/*.nupkg" --source "MyGet" --skip-duplicate --api-key $MYGET_ACCESS_TOKEN
+
+    - name: "Add packages source: NuGet"
+      run: dotnet nuget add source $NUGET_SOURCE_URL --name "NuGet"
+
+    - name: "Upload Packages: NuGet"
+      run: dotnet nuget push "./**/*.nupkg" --source "NuGet" --skip-duplicate --api-key $NUGET_ACCESS_TOKEN 

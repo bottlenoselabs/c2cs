@@ -1,19 +1,13 @@
-name: "Build test deploy"
+name: "staging"
 
 env:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_SDK_VERSION: 6.0.x
-  MYGET_ACCESS_TOKEN: ${{ secrets.MYGET_ACCESS_TOKEN }}
-  MYGET_SOURCE_URL: 'https://www.myget.org/F/lithiumtoast/api/v3/index.json'
+  NUGET_ACCESS_TOKEN: ${{ secrets.MYGET_ACCESS_TOKEN }}
+  NUGET_SOURCE_URL: 'https://www.myget.org/F/bottlenoselabs/api/v3/index.json'
 
-on:
-  push:
-    branches: [main]
-    tags: [v*]
-    paths-ignore: ['**/*.md']
-  pull_request_target:
-    branches: [main]
+on: [push, pull_request]
 
 jobs:
 
@@ -38,13 +32,13 @@ jobs:
     - name: "Use GitVersion"
       uses: gittools/actions/gitversion/execute@v0.9.6
 
-    - run: echo "$GITVERSION_MAJOR.$GITVERSION_MINOR.$GITVERSION_COMMITSSINCEVERSIONSOURCE" >> nuget-version.txt
+    - run: echo "$GITVERSION_MAJOR.$GITVERSION_MINOR.$GITVERSION_COMMITSSINCEVERSIONSOURCE" >> version.txt
 
-    - name: 'Upload NuGetVersion version artifact'
+    - name: 'Upload version artifact'
       uses: actions/upload-artifact@v2
       with:
-        name: nuget-version
-        path: nuget-version.txt
+        name: version
+        path: version.txt
 
   build-test-pack-job:
     name: "Build"
@@ -65,7 +59,7 @@ jobs:
       id: version
       shell: bash
       run: |
-        echo "VERSION=$(cat nuget-version.txt)" >> $GITHUB_ENV
+        echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
 
     - name: "Print version artifact"
       shell: bash
@@ -158,4 +152,10 @@ jobs:
       run: dotnet nuget add source $MYGET_SOURCE_URL --name "MyGet"
 
     - name: "Upload Packages: MyGet"
-      run: dotnet nuget push "./**/*.nupkg" --source "MyGet" --skip-duplicate --api-key $MYGET_ACCESS_TOKEN 
+      run: dotnet nuget push "./**/*.nupkg" --source "MyGet" --skip-duplicate --api-key $MYGET_ACCESS_TOKEN
+
+    - name: "Add packages source: NuGet"
+      run: dotnet nuget add source $NUGET_SOURCE_URL --name "NuGet"
+
+    - name: "Upload Packages: NuGet"
+      run: dotnet nuget push "./**/*.nupkg" --source "NuGet" --skip-duplicate --api-key $NUGET_ACCESS_TOKEN 
