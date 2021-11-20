@@ -1,17 +1,41 @@
-name: "release"
+name: "devops"
 
 env:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_SDK_VERSION: 6.0.x
+
   NUGET_ACCESS_TOKEN: ${{ secrets.NUGET_ACCESS_TOKEN }}
   NUGET_SOURCE_URL: 'https://api.nuget.org/v3/index.json'
 
 on:
   push:
-    tags: [v*]
+    tags:
+      - v*
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
 
 jobs:
+
+  env-job:
+    steps:
+
+    - name: "staging"
+      if: github.event_name != 'release'
+      run: |
+        echo "NUGET_SOURCE_URL='https://www.myget.org/F/bottlenoselabs/api/v3/index.json'" >> $GITHUB_ENV
+        echo "NUGET_ACCESS_TOKEN=${{ secrets.MYGET_ACCESS_TOKEN }}" >> $GITHUB_ENV
+
+    - name: "release"
+      if: github.event_name == 'release' && github.event.action == 'created'
+      run: |
+        echo "NUGET_SOURCE_URL='https://api.nuget.org/v3/index.json'" >> $GITHUB_ENV
+        echo "NUGET_ACCESS_TOKEN=${{ secrets.MYGET_ACCESS_TOKEN }}" >> $GITHUB_ENV
 
   gitversion-job:
     name: "GitVersion"
@@ -57,13 +81,13 @@ jobs:
       with:
         name: version
 
-    - name: "Read version"
+    - name: "Read version artifact"
       id: version
       shell: bash
       run: |
         echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
 
-    - name: "Print version"
+    - name: "Print version artifact"
       shell: bash
       run: |
         echo $VERSION
