@@ -23,7 +23,7 @@ dotnet tool install c2cs --global
 dotnet tool install c2cs --global --add-source https://www.myget.org/F/bottlenoselabs/api/v3/index.json --version "*-*"
 ```
 
-For a specific pre-release, including a specific pull-request or the latest Git commit of the `main` branch see: https://www.myget.org/feed/bottlenoselabs/package/nuget/C2CS 
+For a specific pre-release, including a specific pull-request or the latest Git commit of the `main` branch, see: https://www.myget.org/feed/bottlenoselabs/package/nuget/C2CS 
 
 ## How to use
 
