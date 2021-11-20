@@ -14,32 +14,18 @@ on:
     paths-ignore:
       - '**.md'
   pull_request:
-    types: [assigned, opened, synchronize, reopened]
+    types:
+      - assigned
+      - opened
+      - synchronize
+      - reopened
     paths-ignore:
       - '**.md'
 
 jobs:
 
-  env-job:
-    name: "Setup environment"
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: "staging"
-      if: github.event_name != 'release'
-      run: |
-        echo "NUGET_SOURCE_URL='https://www.myget.org/F/bottlenoselabs/api/v3/index.json'" >> $GITHUB_ENV
-        echo "NUGET_ACCESS_TOKEN=${{ secrets.MYGET_ACCESS_TOKEN }}" >> $GITHUB_ENV
-
-    - name: "release"
-      if: github.event_name == 'release' && github.event.action == 'created'
-      run: |
-        echo "NUGET_SOURCE_URL='https://api.nuget.org/v3/index.json'" >> $GITHUB_ENV
-        echo "NUGET_ACCESS_TOKEN=${{ secrets.MYGET_ACCESS_TOKEN }}" >> $GITHUB_ENV
-
   version-job:
     name: "Calculate version"
-    needs: [env-job]
     runs-on: ubuntu-latest
 
     steps:
@@ -129,6 +115,18 @@ jobs:
     needs: [build-test-pack-job]
     runs-on: ubuntu-latest
     steps:
+
+    - name: "Staging"
+      if: github.event_name != 'release'
+      run: |
+        echo "NUGET_SOURCE_URL='https://www.myget.org/F/bottlenoselabs/api/v3/index.json'" >> $GITHUB_ENV
+        echo "NUGET_ACCESS_TOKEN=${{ secrets.MYGET_ACCESS_TOKEN }}" >> $GITHUB_ENV
+
+    - name: "Release"
+      if: github.event_name == 'release' && github.event.action == 'created'
+      run: |
+        echo "NUGET_SOURCE_URL='https://api.nuget.org/v3/index.json'" >> $GITHUB_ENV
+        echo "NUGET_ACCESS_TOKEN=${{ secrets.MYGET_ACCESS_TOKEN }}" >> $GITHUB_ENV
 
     - name: "Install .NET"
       uses: actions/setup-dotnet@v1
