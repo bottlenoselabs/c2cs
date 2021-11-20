@@ -2,15 +2,11 @@
 
 C to C# library bindings code generator. In go `.h` file, out come `.cs` file.
 
-## Download
-
-|[Windows (x64)](https://nightly.link/lithiumtoast/c2cs/workflows/build-test-deploy/main/win-x64.zip)|[macOS (x64)](https://nightly.link/lithiumtoast/c2cs/workflows/build-test-deploy/main/osx-x64.zip)|[Ubuntu 20.04 (x64)](https://nightly.link/lithiumtoast/c2cs/workflows/build-test-deploy/main/ubuntu.20.04-x64.zip)|
-|---|---|---|
-
 ## Documentation
 
 For documentation see the [docs/README.md](docs/README.md). This includes:
 
+- [How to install `C2CS`](docs/README.md#install)
 - [How to use `C2CS`](docs/README.md#how-to-use).
 - [How to build `C2CS` and the examples from source](docs/README.md#building-from-source).
 - [Examples](docs/README.md#examples).

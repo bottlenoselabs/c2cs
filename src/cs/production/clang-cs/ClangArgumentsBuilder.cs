@@ -209,7 +209,7 @@ public static class ClangArgumentsBuilder
     {
         var versionDirectoryPaths = Directory.EnumerateDirectories(sdkDirectoryPath);
         var result = string.Empty;
-        Version highestVersion = Version.Parse("0.0.0");
+        var highestVersion = Version.Parse("0.0.0");
 
         foreach (var directoryPath in versionDirectoryPaths)
         {
