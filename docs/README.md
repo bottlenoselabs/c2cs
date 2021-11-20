@@ -2,9 +2,26 @@
 
 Here you will find documentation for `C2CS` including:
 
+- [Install](#install)
 - [How to use `C2CS`](#how-to-use).
 - [How to build `C2CS` from source](#building-from-source).
 - [Examples](#examples).
+
+## Install
+
+`C2CS` is distributed as a NuGet tool. To get started all you need is the .NET software development kit to access `dotnet tool`.
+
+### Latest release
+
+```bash
+dotnet tool install c2cs --global 
+```
+
+### Latest Git commit of `main` branch
+
+```bash
+dotnet tool install c2cs --global --add-source https://www.myget.org/F/bottlenoselabs/api/v3/index.json
+```
 
 ## How to use
 
