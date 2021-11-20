@@ -7,7 +7,15 @@ env:
   NUGET_ACCESS_TOKEN: ${{ secrets.MYGET_ACCESS_TOKEN }}
   NUGET_SOURCE_URL: 'https://www.myget.org/F/bottlenoselabs/api/v3/index.json'
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
 
 jobs:
 
