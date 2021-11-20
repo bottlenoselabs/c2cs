@@ -5,12 +5,6 @@
         <TargetFramework>net6.0</TargetFramework>
         <RootNamespace />
     </PropertyGroup>
-
-    <!-- NuGet package references -->
-    <ItemGroup>
-        <PackageReference Include="libclang.runtime.ubuntu.20.04-x64" Version="12.0.0" />
-        <PackageReference Include="libclang.runtime.win-x64" Version="12.0.0" />
-    </ItemGroup>
     
     <!-- Project references -->
     <ItemGroup>

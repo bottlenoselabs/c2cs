@@ -5,36 +5,15 @@ using System;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.Invocation;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using C2CS.UseCases.CSharpBindgen;
 
 namespace C2CS;
 
 public static class Program
 {
-	private static bool _importResolverIsSet;
-
 	public static int Main(string[] args)
 	{
-		if (!_importResolverIsSet)
-		{
-			_importResolverIsSet = true;
-			NativeLibrary.SetDllImportResolver(typeof(clang).Assembly, ResolveClang);
-		}
-
 		return CreateRootCommand().InvokeAsync(args).Result;
-	}
-
-	private static IntPtr ResolveClang(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
-	{
-		var operatingSystem = Runtime.OperatingSystem;
-		if (operatingSystem == RuntimeOperatingSystem.macOS)
-		{
-			return NativeLibrary.Load("/Library/Developer/CommandLineTools/usr/lib/libclang.dylib");
-		}
-
-		return NativeLibrary.Load(libraryName);
 	}
 
 	private static Command CreateRootCommand()

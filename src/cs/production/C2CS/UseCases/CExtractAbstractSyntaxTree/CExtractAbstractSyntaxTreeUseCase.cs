@@ -4,6 +4,9 @@
 using System;
 using System.Collections.Immutable;
 using System.IO;
+using System.IO.Compression;
+using System.Net.Http;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -12,10 +15,14 @@ namespace C2CS.UseCases.CExtractAbstractSyntaxTree;
 
 public class CExtractAbstractSyntaxTreeUseCase : UseCase<CExtractAbstractSyntaxTreeRequest, CExtractAbstractSyntaxTreeResponse>
 {
+    private static string _clangNativeLibraryPath = null!;
+
     protected override void Execute(CExtractAbstractSyntaxTreeRequest cExtractAbstractSyntaxTreeRequest, CExtractAbstractSyntaxTreeResponse response)
     {
         Validate(cExtractAbstractSyntaxTreeRequest);
-        TotalSteps(3);
+        TotalSteps(4);
+
+        Step("Setup Clang", Runtime.OperatingSystem, SetupClang);
 
         var translationUnit = Step(
             "Parse C code from disk",
@@ -42,6 +49,84 @@ public class CExtractAbstractSyntaxTreeUseCase : UseCase<CExtractAbstractSyntaxT
             cExtractAbstractSyntaxTreeRequest.OutputFilePath,
             abstractSyntaxTreeC,
             Write);
+    }
+
+    private static void SetupClang(RuntimeOperatingSystem operatingSystem)
+    {
+        if (operatingSystem == RuntimeOperatingSystem.macOS)
+        {
+            _clangNativeLibraryPath = "/Library/Developer/CommandLineTools/usr/lib/libclang.dylib";
+            if (!File.Exists(_clangNativeLibraryPath))
+            {
+                throw new ClangException(
+                        "Please install CommandLineTools for macOS. This will install `libclang.dylib`. Use the command `xcode-select --install`.");
+            }
+        }
+        else if (operatingSystem == RuntimeOperatingSystem.Linux)
+        {
+            _clangNativeLibraryPath = Path.Combine(AppContext.BaseDirectory, "libclang.so");
+            if (!File.Exists(_clangNativeLibraryPath))
+            {
+                DownloadLibClang("ubuntu.20.04-x64", _clangNativeLibraryPath);
+            }
+        }
+        else if (operatingSystem == RuntimeOperatingSystem.Windows)
+        {
+            _clangNativeLibraryPath = Path.Combine(AppContext.BaseDirectory, "libclang.dll");
+            if (!File.Exists(_clangNativeLibraryPath))
+            {
+                DownloadLibClang("win-x64", _clangNativeLibraryPath);
+            }
+        }
+
+        static void DownloadLibClang(string runtimeIdentifier, string target)
+        {
+            var zipFilePath = Path.Combine(AppContext.BaseDirectory, "libclang.zip");
+            if (File.Exists(zipFilePath))
+            {
+                File.Delete(zipFilePath);
+            }
+
+            DownloadFile(
+                $"https://www.nuget.org/api/v2/package/libclang.runtime.{runtimeIdentifier}",
+                zipFilePath);
+
+            var extractDirectory = Path.Combine(AppContext.BaseDirectory, "libclang");
+            if (Directory.Exists(extractDirectory))
+            {
+                Directory.Delete(extractDirectory, true);
+            }
+
+            Directory.CreateDirectory(extractDirectory);
+            ZipFile.ExtractToDirectory(zipFilePath, extractDirectory);
+
+            var fileExtension = Path.GetExtension(target);
+            File.Copy(
+                Path.Combine(extractDirectory, $"runtimes/{runtimeIdentifier}/native/libclang.{fileExtension}"),
+                target);
+        }
+
+        static void DownloadFile(string url, string filePath)
+        {
+            using var client = new HttpClient();
+            using var response = client.GetStreamAsync(url).Result;
+            using var fileStream = new FileStream(filePath, FileMode.CreateNew);
+            response.CopyToAsync(fileStream).Wait();
+        }
+
+        try
+        {
+            NativeLibrary.SetDllImportResolver(typeof(clang).Assembly, ResolveClang);
+        }
+        catch (ArgumentException)
+        {
+            // already set; ignore
+        }
+    }
+
+    private static IntPtr ResolveClang(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
+    {
+        return NativeLibrary.Load(_clangNativeLibraryPath);
     }
 
     private static void Validate(CExtractAbstractSyntaxTreeRequest cExtractAbstractSyntaxTreeRequest)
