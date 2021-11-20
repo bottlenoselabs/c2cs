@@ -55,7 +55,7 @@ jobs:
     - name: "Download version artifact"
       uses: actions/download-artifact@v2
       with:
-        name: nuget-version
+        name: version
 
     - name: "Read version"
       id: version
