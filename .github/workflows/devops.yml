@@ -23,8 +23,9 @@ on:
 jobs:
 
   env-job:
-    steps:
+    name: "Setup environment"
 
+    steps:
     - name: "staging"
       if: github.event_name != 'release'
       run: |
@@ -37,8 +38,9 @@ jobs:
         echo "NUGET_SOURCE_URL='https://api.nuget.org/v3/index.json'" >> $GITHUB_ENV
         echo "NUGET_ACCESS_TOKEN=${{ secrets.MYGET_ACCESS_TOKEN }}" >> $GITHUB_ENV
 
-  gitversion-job:
-    name: "GitVersion"
+  version-job:
+    name: "Calculate version"
+    needs: [env-job]
     runs-on: ubuntu-latest
 
     steps:
@@ -68,7 +70,7 @@ jobs:
 
   build-test-pack-job:
     name: "Build"
-    needs: [gitversion-job]
+    needs: [version-job]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
