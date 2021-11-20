@@ -25,6 +25,7 @@ jobs:
 
   env-job:
     name: "Setup environment"
+    runs-on: ubuntu-latest
 
     steps:
     - name: "staging"
