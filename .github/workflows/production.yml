@@ -150,14 +150,8 @@ jobs:
     - name: "Echo Packages"
       run: find ./nuget-packages-packed/ -not -type d -exec basename {} \;
 
-    - name: "Add packages source: MyGet"
-      run: dotnet nuget add source $MYGET_SOURCE_URL --name "MyGet"
+    - name: "Add packages source"
+      run: dotnet nuget add source $MYGET_SOURCE_URL --name "nuget"
 
-    - name: "Upload Packages: MyGet"
-      run: dotnet nuget push "./**/*.nupkg" --source "MyGet" --skip-duplicate --api-key $MYGET_ACCESS_TOKEN
-
-    - name: "Add packages source: NuGet"
-      run: dotnet nuget add source $NUGET_SOURCE_URL --name "NuGet"
-
-    - name: "Upload Packages: NuGet"
-      run: dotnet nuget push "./**/*.nupkg" --source "NuGet" --skip-duplicate --api-key $NUGET_ACCESS_TOKEN 
+    - name: "Upload Packages"
+      run: dotnet nuget push "./**/*.nupkg" --source "nuget" --skip-duplicate --api-key $NUGET_ACCESS_TOKEN
