@@ -13,32 +13,29 @@ namespace C2CS;
 
 public static class Program
 {
-#if MACOS
 	private static bool _importResolverIsSet;
-#endif
 
 	public static int Main(string[] args)
 	{
-#if MACOS
 		if (!_importResolverIsSet)
 		{
 			_importResolverIsSet = true;
 			NativeLibrary.SetDllImportResolver(typeof(clang).Assembly, ResolveClang);
 		}
-#endif
 
 		return CreateRootCommand().InvokeAsync(args).Result;
 	}
 
-#if MACOS
 	private static IntPtr ResolveClang(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
 	{
 		var operatingSystem = Runtime.OperatingSystem;
-		return operatingSystem == RuntimeOperatingSystem.macOS ?
-			NativeLibrary.Load("/Library/Developer/CommandLineTools/usr/lib/libclang.dylib") :
-			IntPtr.Zero;
+		if (operatingSystem == RuntimeOperatingSystem.macOS)
+		{
+			return NativeLibrary.Load("/Library/Developer/CommandLineTools/usr/lib/libclang.dylib");
+		}
+
+		return NativeLibrary.Load(libraryName);
 	}
-#endif
 
 	private static Command CreateRootCommand()
 	{
