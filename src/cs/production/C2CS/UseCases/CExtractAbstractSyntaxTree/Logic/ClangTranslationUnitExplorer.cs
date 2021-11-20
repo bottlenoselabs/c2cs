@@ -1306,7 +1306,7 @@ public class ClangTranslationUnitExplorer
         return cType;
     }
 
-    private static int SizeOf(CXType type)
+    private int SizeOf(CXType type)
     {
         var sizeOf = (int)clang_Type_getSizeOf(type);
         if (sizeOf >= 0)
@@ -1330,11 +1330,13 @@ public class ClangTranslationUnitExplorer
 
                 return (int) clang_Type_getAlignOf(type);
             case CKind.Primitive:
+            case CKind.OpaqueType:
                 return 0;
             case CKind.Pointer:
                 return (int)clang_Type_getSizeOf(underlyingType);
             default:
-                throw new ClangExplorerException("Unexpected case when determining size for Clang type. Please submit an issue on GitHub!");
+                var location = Location(clang_getTypeDeclaration(type), type);
+                throw new ClangExplorerException($"Unexpected case when determining size for Clang type: {location}. Please submit an issue on GitHub!");
         }
     }
 
