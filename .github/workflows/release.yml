@@ -1,4 +1,4 @@
-name: "production"
+name: "release"
 
 env:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
