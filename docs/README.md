@@ -17,11 +17,13 @@ Here you will find documentation for `C2CS` including:
 dotnet tool install c2cs --global 
 ```
 
-### Latest Git commit of `main` branch
+### Latest pre-release
 
 ```bash
-dotnet tool install c2cs --global --add-source https://www.myget.org/F/bottlenoselabs/api/v3/index.json
+dotnet tool install c2cs --global --add-source https://www.myget.org/F/bottlenoselabs/api/v3/index.json --version "*-*"
 ```
+
+For a specific pre-release, including a specific pull-request or the latest Git commit of the `main` branch see: https://www.myget.org/feed/bottlenoselabs/package/nuget/C2CS 
 
 ## How to use
 
