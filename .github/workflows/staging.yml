@@ -32,7 +32,7 @@ jobs:
     - name: "Use GitVersion"
       uses: gittools/actions/gitversion/execute@v0.9.6
 
-    - run: echo "$GITVERSION_MAJOR.$GITVERSION_MINOR.$GITVERSION_COMMITSSINCEVERSIONSOURCE" >> version.txt
+    - run: echo "$NuGetVersionV2" >> version.txt
 
     - name: 'Upload version artifact'
       uses: actions/upload-artifact@v2
