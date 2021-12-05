@@ -8,7 +8,7 @@
 
     <!-- NuGet packaage references -->
     <ItemGroup>
-      <PackageReference Include="JetBrains.Annotations" Version="2021.2.0" />
+        <PackageReference Include="JetBrains.Annotations" Version="2021.2.0" />
     </ItemGroup>
     
     <!-- Project references -->

@@ -1,0 +1,10 @@
+<Project>
+
+    <!-- MSBuild.Tools settings -->
+    <PropertyGroup>
+        <EnableAnalyzers>true</EnableAnalyzers>
+        <EnableAnalyzersStyleCop>true</EnableAnalyzersStyleCop>
+        <EnableRootNamespace>false</EnableRootNamespace>
+    </PropertyGroup>
+
+</Project>

@@ -1,11 +1,12 @@
 <Project>
 
-    <Import Project="../Common.props" />
-
+    <Import Project="../Directory.Build.props" />
+    
     <!-- MSBuild project settings -->
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
     <!-- My-MSBuild project settings -->

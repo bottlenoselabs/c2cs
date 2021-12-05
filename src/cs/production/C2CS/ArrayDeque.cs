@@ -9,134 +9,134 @@ using JetBrains.Annotations;
 
 namespace C2CS
 {
-    // TODO: Add unit tests.
-    // TODO: Allow for a custom resize function.
-    // TODO: Use a struct enumerator.
+	// TODO: Add unit tests.
+	// TODO: Allow for a custom resize function.
+	// TODO: Use a struct enumerator.
 
-    /// <summary>
-    ///     Represents an array container of elements which can added to and removed from either the front or back in
-    ///     amortized constant time; a double ended queue (deque).
-    /// </summary>
-    /// <typeparam name="T">The type of an element stored in the deque.</typeparam>
-    [PublicAPI]
-    public class ArrayDeque<T> : IList<T>
-    {
-        private const int DefaultCapacity = 16;
-        private int _frontArrayIndex;
-        private T[] _elements;
+	/// <summary>
+	///     Represents an array container of elements which can added to and removed from either the front or back in
+	///     amortized constant time; a double ended queue (deque).
+	/// </summary>
+	/// <typeparam name="T">The type of an element stored in the deque.</typeparam>
+	[PublicAPI]
+	public class ArrayDeque<T> : IList<T>
+	{
+		private const int DefaultCapacity = 16;
+		private int _frontArrayIndex;
+		private T[] _elements;
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="ArrayDeque{T}" /> class to be empty with default initial
-        ///     capacity.
-        /// </summary>
-        public ArrayDeque()
-        {
-            _elements = Array.Empty<T>();
-        }
+		/// <summary>
+		///     Initializes a new instance of the <see cref="ArrayDeque{T}" /> class to be empty with default initial
+		///     capacity.
+		/// </summary>
+		public ArrayDeque()
+		{
+			_elements = Array.Empty<T>();
+		}
 
-        /// <summary>
-        ///     Gets or sets the total number of elements that can be contained before resizing the internal array is
-        ///     required.
-        /// </summary>
-        /// <returns>
-        ///     A 32-bit signed integer that is non-negative.
-        /// </returns>
-        /// <remarks>
-        ///     <para>
-        ///         When changing the <see cref="Capacity" /> to be less than the <see cref="Count" />, elements will
-        ///         be removed so that <see cref="Count" /> is equal to the new <see cref="Capacity" />.
-        ///     </para>
-        /// </remarks>
-        public int Capacity
-        {
-            get => _elements.Length;
-            set => SetCapacity(value);
-        }
+		/// <summary>
+		///     Gets or sets the total number of elements that can be contained before resizing the internal array is
+		///     required.
+		/// </summary>
+		/// <returns>
+		///     A 32-bit signed integer that is non-negative.
+		/// </returns>
+		/// <remarks>
+		///     <para>
+		///         When changing the <see cref="Capacity" /> to be less than the <see cref="Count" />, elements will
+		///         be removed so that <see cref="Count" /> is equal to the new <see cref="Capacity" />.
+		///     </para>
+		/// </remarks>
+		public int Capacity
+		{
+			get => _elements.Length;
+			set => SetCapacity(value);
+		}
 
-        private void SetCapacity(int value)
-        {
-            if (value == Capacity)
-            {
-                return;
-            }
+		private void SetCapacity(int value)
+		{
+			if (value == Capacity)
+			{
+				return;
+			}
 
-            if (value < Count)
-            {
-                Count = value;
-            }
+			if (value < Count)
+			{
+				Count = value;
+			}
 
-            if (value == 0)
-            {
-                _elements = Array.Empty<T>();
-                return;
-            }
+			if (value == 0)
+			{
+				_elements = Array.Empty<T>();
+				return;
+			}
 
-            var elements = new T[value];
-            CopyTo(elements, 0);
+			var elements = new T[value];
+			CopyTo(elements, 0);
 
-            _frontArrayIndex = 0;
-            _elements = elements;
-        }
+			_frontArrayIndex = 0;
+			_elements = elements;
+		}
 
-        /// <summary>
-        ///     Gets or sets the element at the specified index in the <see cref="ArrayDeque{T}" />.
-        /// </summary>
-        /// <param name="index">The zero-based index of the element to get or set.</param>
-        /// <returns>The element at the specified index.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">
-        ///     <paramref name="index" /> was out of range; it must be non-negative and less than <see cref="Count" />.
-        /// </exception>
-        public T this[int index]
-        {
-            get
-            {
-                var arrayIndex = GetArrayIndex(index);
-                if (arrayIndex == -1)
-                {
-                    throw new ArgumentOutOfRangeException(
-                    	nameof(index),
-                    	"Index was out of range; it must be non-negative and less than count.");
-                }
+		/// <summary>
+		///     Gets or sets the element at the specified index in the <see cref="ArrayDeque{T}" />.
+		/// </summary>
+		/// <param name="index">The zero-based index of the element to get or set.</param>
+		/// <returns>The element at the specified index.</returns>
+		/// <exception cref="ArgumentOutOfRangeException">
+		///     <paramref name="index" /> was out of range; it must be non-negative and less than <see cref="Count" />.
+		/// </exception>
+		public T this[int index]
+		{
+			get
+			{
+				var arrayIndex = GetArrayIndex(index);
+				if (arrayIndex == -1)
+				{
+					throw new ArgumentOutOfRangeException(
+						nameof(index),
+						"Index was out of range; it must be non-negative and less than count.");
+				}
 
-                return _elements[arrayIndex];
-            }
+				return _elements[arrayIndex];
+			}
 
-            set
-            {
-                var arrayIndex = GetArrayIndex(index);
-                if (arrayIndex == -1)
-                {
-                    throw new ArgumentOutOfRangeException(
-                    	nameof(index),
-                    	"Index was out of range; it must be non-negative and less than count.");
-                }
+			set
+			{
+				var arrayIndex = GetArrayIndex(index);
+				if (arrayIndex == -1)
+				{
+					throw new ArgumentOutOfRangeException(
+						nameof(index),
+						"Index was out of range; it must be non-negative and less than count.");
+				}
 
-                _elements[arrayIndex] = value;
-            }
-        }
+				_elements[arrayIndex] = value;
+			}
+		}
 
-        /// <summary>
-        ///     Gets the number of elements contained in the <see cref="ArrayDeque{T}" />.
-        /// </summary>
-        /// <returns>A 32-bit signed integer that is non-negative.</returns>
-        public int Count { get; private set; }
+		/// <summary>
+		///     Gets the number of elements contained in the <see cref="ArrayDeque{T}" />.
+		/// </summary>
+		/// <returns>A 32-bit signed integer that is non-negative.</returns>
+		public int Count { get; private set; }
 
-         /// <summary>
-        ///     Adds an element to the front of the <see cref="ArrayDeque{T}" />.
-        /// </summary>
-        /// <param name="item">The element to add.</param>
-        /// <remarks>
-        ///     <para>
-        ///         This method is amortized constant time, O(1)+, operation.
-        ///     </para>
-        /// </remarks>
-        public void PushFront(T item)
-        {
-            EnsureCapacity(Count + 1);
-            _frontArrayIndex = (_frontArrayIndex - 1 + _elements.Length) % _elements.Length;
-            _elements[_frontArrayIndex] = item;
-            Count++;
-        }
+		/// <summary>
+		///     Adds an element to the front of the <see cref="ArrayDeque{T}" />.
+		/// </summary>
+		/// <param name="item">The element to add.</param>
+		/// <remarks>
+		///     <para>
+		///         This method is amortized constant time, O(1)+, operation.
+		///     </para>
+		/// </remarks>
+		public void PushFront(T item)
+		{
+			EnsureCapacity(Count + 1);
+			_frontArrayIndex = (_frontArrayIndex - 1 + _elements.Length) % _elements.Length;
+			_elements[_frontArrayIndex] = item;
+			Count++;
+		}
 
         /// <summary>
         ///     Adds an element to the back of the <see cref="ArrayDeque{T}" />.
@@ -274,9 +274,9 @@ namespace C2CS
 
                 for (var i = 0; i < (_frontArrayIndex + Count) % Capacity; i++)
                 {
-                    yield return _elements[i];
-                }
-            }
+					yield return _elements[i];
+				}
+			}
         }
 
         IEnumerator IEnumerable.GetEnumerator()

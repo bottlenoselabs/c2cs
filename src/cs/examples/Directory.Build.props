@@ -1,6 +1,6 @@
 <Project>
 
-    <Import Project="../Common.props" />
+    <Import Project="../Directory.Build.props" />
 
     <!-- MSBuild project settings -->
     <PropertyGroup>
@@ -13,8 +13,8 @@
     
     <!-- My-MSBuild project settings -->
     <PropertyGroup>
-        <EnableAnalyzers>true</EnableAnalyzers>
-        <EnableAnalyzersStyleCop>true</EnableAnalyzersStyleCop>
+        <EnableAnalyzers>false</EnableAnalyzers>
+        <EnableAnalyzersStyleCop>false</EnableAnalyzersStyleCop>
         <EnableRootNamespace>false</EnableRootNamespace>
     </PropertyGroup>
 

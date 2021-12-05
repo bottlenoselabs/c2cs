@@ -9,7 +9,7 @@
 
     <!-- Project references -->
     <ItemGroup>
-      <ProjectReference Include="..\C2CS\C2CS.csproj" />
+        <ProjectReference Include="..\C2CS\C2CS.csproj" />
     </ItemGroup>
 
 </Project>
