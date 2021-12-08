@@ -3,16 +3,11 @@
 
 namespace C2CS.UseCases.CSharpBindgen;
 
-public record CSharpTypedef : CSharpNode
+public record CSharpTypedef(
+    string Name,
+    string CodeLocationComment,
+    CSharpType UnderlyingType)
+    : CSharpNode(Name, CodeLocationComment)
 {
-    public CSharpType UnderlyingType;
-
-    public CSharpTypedef(
-        string name,
-        string locationComment,
-        CSharpType underlyingType)
-        : base(name, locationComment)
-    {
-        UnderlyingType = underlyingType;
-    }
+    public CSharpType UnderlyingType = UnderlyingType;
 }

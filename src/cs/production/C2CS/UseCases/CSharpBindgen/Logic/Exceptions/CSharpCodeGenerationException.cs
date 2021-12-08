@@ -7,8 +7,17 @@ namespace C2CS.UseCases.CSharpBindgen;
 
 public class CSharpCodeGenerationException : Exception
 {
+    public CSharpCodeGenerationException()
+    {
+    }
+
     public CSharpCodeGenerationException(string message)
         : base(message)
     {
     }
+
+    public CSharpCodeGenerationException(string message, Exception innerException)
+        : base(message, innerException)
+	{
+	}
 }

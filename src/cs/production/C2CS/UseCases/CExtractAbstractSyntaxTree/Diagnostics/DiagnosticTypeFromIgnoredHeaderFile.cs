@@ -8,6 +8,7 @@ public class DiagnosticTypeFromIgnoredHeaderFile : Diagnostic
     public DiagnosticTypeFromIgnoredHeaderFile(string typeName, string filePath)
         : base(DiagnosticSeverity.Warning)
     {
-        Summary = $"The type '{typeName}' belongs to the ignored file '{filePath}', but is used in the abstract syntax tree.";
+        Summary =
+            $"The type '{typeName}' belongs to the ignored file '{filePath}', but is used in the abstract syntax tree.";
     }
 }

@@ -13,40 +13,43 @@ using System.Text.Json.Serialization;
 
 namespace C2CS.UseCases.CExtractAbstractSyntaxTree;
 
-public class CExtractAbstractSyntaxTreeUseCase : UseCase<CExtractAbstractSyntaxTreeRequest, CExtractAbstractSyntaxTreeResponse>
+public class
+    CExtractAbstractSyntaxTreeUseCase : UseCase<CExtractAbstractSyntaxTreeRequest, CExtractAbstractSyntaxTreeResponse>
 {
     private static string _clangNativeLibraryPath = null!;
 
-    protected override void Execute(CExtractAbstractSyntaxTreeRequest cExtractAbstractSyntaxTreeRequest, CExtractAbstractSyntaxTreeResponse response)
+    protected override void Execute(
+        CExtractAbstractSyntaxTreeRequest request,
+        CExtractAbstractSyntaxTreeResponse response)
     {
-        Validate(cExtractAbstractSyntaxTreeRequest);
+        Validate(request);
         TotalSteps(4);
 
         Step("Setup Clang", Runtime.OperatingSystem, SetupClang);
 
         var translationUnit = Step(
             "Parse C code from disk",
-            cExtractAbstractSyntaxTreeRequest.InputFilePath,
-            cExtractAbstractSyntaxTreeRequest.AutomaticallyFindSoftwareDevelopmentKit,
-            cExtractAbstractSyntaxTreeRequest.IncludeDirectories,
-            cExtractAbstractSyntaxTreeRequest.Defines,
-            cExtractAbstractSyntaxTreeRequest.Bitness,
-            cExtractAbstractSyntaxTreeRequest.ClangArgs,
+            request.InputFilePath,
+            request.AutomaticallyFindSoftwareDevelopmentKit,
+            request.IncludeDirectories,
+            request.Defines,
+            request.Bitness,
+            request.ClangArgs,
             Parse);
 
         var abstractSyntaxTreeC = Step(
             "Extract C abstract syntax tree",
             translationUnit,
-            cExtractAbstractSyntaxTreeRequest.IncludeDirectories,
-            cExtractAbstractSyntaxTreeRequest.IgnoredFiles,
-            cExtractAbstractSyntaxTreeRequest.OpaqueTypes,
-            cExtractAbstractSyntaxTreeRequest.WhitelistFunctionNames,
-            cExtractAbstractSyntaxTreeRequest.Bitness ?? (RuntimeInformation.OSArchitecture is Architecture.Arm64 or Architecture.X64 ? 64 : 32),
+            request.IncludeDirectories,
+            request.IgnoredFiles,
+            request.OpaqueTypes,
+            request.WhitelistFunctionNames,
+            request.Bitness ?? (RuntimeInformation.OSArchitecture is Architecture.Arm64 or Architecture.X64 ? 64 : 32),
             Explore);
 
         Step(
             "Write C abstract syntax tree to disk",
-            cExtractAbstractSyntaxTreeRequest.OutputFilePath,
+            request.OutputFilePath,
             abstractSyntaxTreeC,
             Write);
     }
@@ -59,7 +62,7 @@ public class CExtractAbstractSyntaxTreeUseCase : UseCase<CExtractAbstractSyntaxT
             if (!File.Exists(_clangNativeLibraryPath))
             {
                 throw new ClangException(
-                        "Please install CommandLineTools for macOS. This will install `libclang.dylib`. Use the command `xcode-select --install`.");
+                    "Please install CommandLineTools for macOS. This will install `libclang.dylib`. Use the command `xcode-select --install`.");
             }
         }
         else if (operatingSystem == RuntimeOperatingSystem.Linux)
@@ -109,7 +112,8 @@ public class CExtractAbstractSyntaxTreeUseCase : UseCase<CExtractAbstractSyntaxT
         static void DownloadFile(string url, string filePath)
         {
             using var client = new HttpClient();
-            using var response = client.GetStreamAsync(url).Result;
+            var uri = new Uri(url);
+            using var response = client.GetStreamAsync(uri).Result;
             using var fileStream = new FileStream(filePath, FileMode.CreateNew);
             response.CopyToAsync(fileStream).Wait();
         }

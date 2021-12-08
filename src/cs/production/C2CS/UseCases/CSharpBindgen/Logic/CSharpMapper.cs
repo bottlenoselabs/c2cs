@@ -180,15 +180,17 @@ public class CSharpMapper
         var pseudoEnums = PseudoEnums(abstractSyntaxTree.PseudoEnums);
         var constants = Constants(abstractSyntaxTree.Constants);
 
-        var result = new CSharpAbstractSyntaxTree(
-            functionExterns,
-            functionPointers,
-            structs,
-            typedefs,
-            opaqueDataTypes,
-            enums,
-            pseudoEnums,
-            constants);
+        var result = new CSharpAbstractSyntaxTree
+        {
+            FunctionExterns = functionExterns,
+            FunctionPointers = functionPointers,
+            Structs = structs,
+            Typedefs = typedefs,
+            OpaqueDataTypes = opaqueDataTypes,
+            Enums = enums,
+            PseudoEnums = pseudoEnums,
+            Constants = constants
+        };
 
         _types = null!;
 
@@ -301,7 +303,7 @@ public class CSharpMapper
 
         static string ParameterNameUniqueSuffix(string parameterNameWithoutSuffix, string parameterSuffix)
         {
-            if (parameterSuffix == string.Empty)
+            if (string.IsNullOrEmpty(parameterSuffix))
             {
                 return parameterNameWithoutSuffix + "2";
             }
@@ -474,7 +476,7 @@ public class CSharpMapper
 
         var offset = recordFieldC.Offset;
         var padding = recordFieldC.Padding;
-        var isWrapped = typeCSharp.IsArray && !IsValidFixedBufferType(typeCSharp.Name);
+        var isWrapped = typeCSharp.IsArray && !IsValidFixedBufferType(typeCSharp.Name ?? string.Empty);
 
         var result = new CSharpStructField(
             name,
@@ -641,7 +643,7 @@ public class CSharpMapper
         var name = @enum.Name;
         var originalCodeLocationComment = OriginalCodeLocationComment(@enum);
         originalCodeLocationComment =
-            originalCodeLocationComment.Replace("Enum ", $"Pseudo enum '{@enum.Name}' ");
+            originalCodeLocationComment.Replace("Enum ", $"Pseudo enum '{@enum.Name}' ", StringComparison.InvariantCulture);
         var cIntegerType = CType(@enum.IntegerType);
         var integerType = Type(cIntegerType);
         var values = EnumValues(@enum.Values);
@@ -749,14 +751,18 @@ public class CSharpMapper
                 token = tokens[i] = "ulong";
             }
 
-            if (token.ToLower(CultureInfo.InvariantCulture).EndsWith("ull", StringComparison.InvariantCulture))
+            if (token.ToUpper(CultureInfo.InvariantCulture).EndsWith("ULL", StringComparison.InvariantCulture))
             {
                 var possibleIntegerToken = token[..^3];
 
                 if (possibleIntegerToken.StartsWith("0x", StringComparison.InvariantCulture))
                 {
                     possibleIntegerToken = possibleIntegerToken[2..];
-                    if (ulong.TryParse(possibleIntegerToken, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out _))
+                    if (ulong.TryParse(
+                            possibleIntegerToken,
+                            NumberStyles.HexNumber,
+                            CultureInfo.InvariantCulture,
+                            out _))
                     {
                         token = tokens[i] = $"0x{possibleIntegerToken}UL";
                     }
@@ -876,12 +882,14 @@ var x = {value};
         var alignOf = cType.AlignOf ?? 0;
         var fixedBufferSize = cType.ArraySize ?? 0;
 
-        var result = new CSharpType(
-            typeName2,
-            cType.Name,
-            sizeOf,
-            alignOf,
-            fixedBufferSize);
+        var result = new CSharpType
+        {
+            Name = typeName2,
+            OriginalName = cType.Name,
+            SizeOf = sizeOf,
+            AlignOf = alignOf,
+            ArraySize = fixedBufferSize
+        };
 
         return result;
     }
@@ -897,7 +905,8 @@ var x = {value};
         var elementTypeSize = type.ElementSize ?? type.SizeOf;
         string typeName;
 
-        if (name.EndsWith("*", StringComparison.InvariantCulture) || name.EndsWith("]", StringComparison.InvariantCulture))
+        if (name.EndsWith("*", StringComparison.InvariantCulture) ||
+            name.EndsWith("]", StringComparison.InvariantCulture))
         {
             typeName = TypeNameMapPointer(type, elementTypeSize, type.IsSystem);
         }
@@ -933,17 +942,19 @@ var x = {value};
             return functionPointerNameCSharp;
         }
 
-        var indexOfFirstParentheses = typeC.Name.IndexOf('(');
-        var returnTypeStringC = typeC.Name.Substring(0, indexOfFirstParentheses).Replace(" *", "*").Trim();
+        var indexOfFirstParentheses = typeC.Name.IndexOf('(', StringComparison.InvariantCulture);
+        var returnTypeStringC = typeC.Name.Substring(0, indexOfFirstParentheses).Replace(" *", "*", StringComparison.InvariantCulture).Trim();
         var returnTypeC = CType(returnTypeStringC);
         var returnTypeCSharp = Type(returnTypeC);
-        var returnTypeNameCSharp = returnTypeCSharp.Name.Replace("*", "Ptr");
-        var returnTypeStringCapitalized = char.ToUpper(returnTypeNameCSharp[0], CultureInfo.InvariantCulture) + returnTypeNameCSharp.Substring(1);
+        var returnTypeNameCSharpOriginal = returnTypeCSharp.Name ?? string.Empty;
+        var returnTypeNameCSharp = returnTypeNameCSharpOriginal.Replace("*", "Ptr", StringComparison.InvariantCulture);
+        var returnTypeStringCapitalized = char.ToUpper(returnTypeNameCSharp[0], CultureInfo.InvariantCulture) +
+                                          returnTypeNameCSharp.Substring(1);
 
         var parameterStringsCSharp = new List<string>();
         var parameterStringsC = typeC.Name.Substring(indexOfFirstParentheses)
             .Trim('(', ')').Split(',', StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => x.Replace(" *", "*"))
+            .Select(x => x.Replace(" *", "*", StringComparison.InvariantCulture))
             .Select(x => x.Trim()).ToArray();
         foreach (var typeNameC in parameterStringsC)
         {
@@ -955,15 +966,16 @@ var x = {value};
                 continue;
             }
 
-            var typeNameCSharp = parameterTypeCSharp.Name.Replace("*", "Ptr");
-            var typeNameCSharpCapitalized = char.ToUpper(typeNameCSharp[0], CultureInfo.InvariantCulture) +
-                                            typeNameCSharp.Substring(1);
+            var typeNameCSharpOriginal = parameterTypeCSharp.Name ?? string.Empty;
+            var typeNameCSharp = typeNameCSharpOriginal.Replace("*", "Ptr", StringComparison.InvariantCulture);
+            var typeNameCSharpCapitalized = char.ToUpper(typeNameCSharp[0], CultureInfo.InvariantCulture) + typeNameCSharp[1..];
             parameterStringsCSharp.Add(typeNameCSharpCapitalized);
         }
 
         var className = _className.ToUpper(CultureInfo.InvariantCulture);
         var parameterStringsCSharpJoined = string.Join('_', parameterStringsCSharp);
-        functionPointerNameCSharp = $"FnPtr_{className}_{parameterStringsCSharpJoined}_{returnTypeStringCapitalized}".Replace("__", "_");
+        functionPointerNameCSharp =
+            $"FnPtr_{className}_{parameterStringsCSharpJoined}_{returnTypeStringCapitalized}".Replace("__", "_", StringComparison.InvariantCulture);
         _generatedFunctionPointersNamesByCNames.Add(typeC.Name, functionPointerNameCSharp);
 
         return functionPointerNameCSharp;
@@ -976,7 +988,7 @@ var x = {value};
         // Replace [] with *
         while (true)
         {
-            var x = pointerTypeName.IndexOf('[');
+            var x = pointerTypeName.IndexOf('[', StringComparison.InvariantCulture);
 
             if (x == -1)
             {
@@ -990,12 +1002,12 @@ var x = {value};
 
         if (pointerTypeName.StartsWith("char*", StringComparison.InvariantCulture))
         {
-            return pointerTypeName.Replace("char*", "CString8U");
+            return pointerTypeName.Replace("char*", "CString8U", StringComparison.InvariantCulture);
         }
 
         if (pointerTypeName.StartsWith("wchar_t*", StringComparison.InvariantCulture))
         {
-            return pointerTypeName.Replace("wchar_t*", "CString16U");
+            return pointerTypeName.Replace("wchar_t*", "CString16U", StringComparison.InvariantCulture);
         }
 
         var elementTypeName = pointerTypeName.TrimEnd('*');

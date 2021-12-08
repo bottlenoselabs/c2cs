@@ -3,18 +3,13 @@
 
 namespace C2CS.UseCases.CSharpBindgen;
 
-public record CSharpEnumValue : CSharpNode
+public record CSharpEnumValue(
+    string Name,
+    string CodeLocationComment,
+    long Value)
+    : CSharpNode(Name, CodeLocationComment)
 {
-    public readonly long Value;
-
-    public CSharpEnumValue(
-        string name,
-        string locationComment,
-        long value)
-        : base(name, locationComment)
-    {
-        Value = value;
-    }
+    public readonly long Value = Value;
 
     // Required for debugger string with records
     // ReSharper disable once RedundantOverriddenMember

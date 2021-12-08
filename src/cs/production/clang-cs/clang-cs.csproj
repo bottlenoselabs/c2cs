@@ -5,10 +5,10 @@
         <TargetFramework>net6.0</TargetFramework>
         <RootNamespace />
     </PropertyGroup>
-    
+
     <!-- Project references -->
     <ItemGroup>
-      <ProjectReference Include="..\C2CS.Common\C2CS.Common.csproj" />
+        <ProjectReference Include="..\C2CS.Common\C2CS.Common.csproj" />
     </ItemGroup>
 
 </Project>

@@ -21,7 +21,8 @@ public record CFunctionPointer : CNode
     public string ReturnType { get; set; } = string.Empty;
 
     [JsonPropertyName("parameters")]
-    public ImmutableArray<CFunctionPointerParameter> Parameters { get; set; } = ImmutableArray<CFunctionPointerParameter>.Empty;
+    public ImmutableArray<CFunctionPointerParameter> Parameters { get; set; } =
+        ImmutableArray<CFunctionPointerParameter>.Empty;
 
     public override string ToString()
     {

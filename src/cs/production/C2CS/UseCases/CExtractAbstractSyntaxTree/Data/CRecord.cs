@@ -25,7 +25,7 @@ public record CRecord : CNode
 
     public override string ToString()
     {
-        var kind= IsUnion ? "Union" : "Struct";
+        var kind = IsUnion ? "Union" : "Struct";
         return $"{kind} {Name} @ {Location.ToString()}";
     }
 }

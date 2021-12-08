@@ -16,7 +16,7 @@
         <RepositoryUrl>https://github.com/bottlenoselabs/c2cs</RepositoryUrl>
         <PackageDescription>C to C# library bindings code generator. In go .h file, out come .cs file.</PackageDescription>
     </PropertyGroup>
-    
+
     <!-- NuGet packaage references -->
     <ItemGroup>
         <PackageReference Include="JetBrains.Annotations" Version="2021.2.0" />
@@ -28,7 +28,7 @@
         <!-- NativeAOT for macOS is, at this time of commit, busted for osx-arm64 (Apple Sillicon laptop/desktop). -->
         <!-- <PackageReference Condition="'$(IsMacOS)' != 'true'" Include="Microsoft.DotNet.ILCompiler" Version="7.0.0-*" /> -->
     </ItemGroup>
-    
+
     <!-- Project references -->
     <ItemGroup>
         <ProjectReference Include="..\C2CS.Runtime\C2CS.Runtime.csproj" />

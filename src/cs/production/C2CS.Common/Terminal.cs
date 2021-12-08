@@ -3,19 +3,22 @@
 
 using System;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Threading;
 using JetBrains.Annotations;
 
+// ReSharper disable once EmptyNamespace
 namespace C2CS;
 
 [PublicAPI]
 public static class Terminal
 {
-    public static string RunCommandWithCapturingStandardOutput(this string command, string? workingDirectory = null, string? fileName = null)
+    public static string RunCommandWithCapturingStandardOutput(
+        this string command,
+        string? workingDirectory = null,
+        string? fileName = null)
     {
-        var process = CreateProcess(command, workingDirectory, fileName);
+        using var process = CreateProcess(command, workingDirectory, fileName);
 
         process.Start();
         process.WaitForExit();
@@ -24,9 +27,12 @@ public static class Terminal
         return result;
     }
 
-    public static bool RunCommandWithoutCapturingOutput(this string command, string? workingDirectory, string? fileName = null)
+    public static bool RunCommandWithoutCapturingOutput(
+        this string command,
+        string? workingDirectory,
+        string? fileName = null)
     {
-        var process = CreateProcess(command, workingDirectory, fileName);
+        using var process = CreateProcess(command, workingDirectory, fileName);
 
         process.OutputDataReceived += OnProcessOnOutputDataReceived;
         process.ErrorDataReceived += OnProcessOnErrorDataReceived;
@@ -101,7 +107,7 @@ public static class Terminal
             else
             {
                 processStartInfo.FileName = "bash";
-                var escapedArgs = command.Replace($"\"", $"\\\"");
+                var escapedArgs = command.Replace($"\"", $"\\\"", StringComparison.InvariantCulture);
                 processStartInfo.Arguments = $"-c \"{escapedArgs}\"";
             }
         }
@@ -158,7 +164,7 @@ public static class Terminal
             outputDirectoryPath, $"*{libraryFileNameExtension}", SearchOption.AllDirectories);
         foreach (var outputFilePath in outputFilePaths)
         {
-            var targetFilePath = outputFilePath.Replace(outputDirectoryPath, targetLibraryDirectoryPath);
+            var targetFilePath = outputFilePath.Replace(outputDirectoryPath, targetLibraryDirectoryPath, StringComparison.InvariantCulture);
             var targetFileName = Path.GetFileName(targetFilePath);
 
             if (runtimePlatform == RuntimeOperatingSystem.Windows)
@@ -195,17 +201,18 @@ public static class Terminal
         Version dotNetRuntimeVersion = new(0, 0, 0, 0);
         var dotNetPath = string.Empty;
         var dotnetRuntimesString = "dotnet --list-runtimes".RunCommandWithCapturingStandardOutput();
-        var dotnetRuntimesStrings = dotnetRuntimesString.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+        var dotnetRuntimesStrings =
+            dotnetRuntimesString.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
         foreach (var x in dotnetRuntimesStrings)
         {
             var parse = x.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-            if (!parse[0].Contains("Microsoft.NETCore.App"))
+            if (!parse[0].Contains("Microsoft.NETCore.App", StringComparison.InvariantCulture))
             {
                 continue;
             }
 
             var versionCandidate = parse[1];
-            var versionCharIndexHyphen = versionCandidate.IndexOf('-');
+            var versionCharIndexHyphen = versionCandidate.IndexOf('-', StringComparison.InvariantCulture);
             if (versionCharIndexHyphen != -1)
             {
                 // can possibly happen for release candidates of .NET
@@ -229,9 +236,9 @@ public static class Terminal
     {
         var pathWindows = Path.GetFullPath(path);
         var pathRootWindows = Path.GetPathRoot(pathWindows)!;
-        var pathRootLinux = $"/mnt/{pathRootWindows.ToLower(CultureInfo.InvariantCulture)[0]}/";
+        var pathRootLinux = $"/mnt/{pathRootWindows.ToUpperInvariant()[0]}/";
         var pathLinux = pathWindows
-            .Replace(pathRootWindows, pathRootLinux)
+            .Replace(pathRootWindows, pathRootLinux, StringComparison.InvariantCulture)
             .Replace('\\', '/');
         return pathLinux;
     }

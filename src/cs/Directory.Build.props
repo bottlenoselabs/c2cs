@@ -7,10 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="bottlenoselabs.MSBuild.Tools" Version="0.1.87">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>build</IncludeAssets>
-      </PackageReference>
+        <PackageReference Include="bottlenoselabs.MSBuild.Tools" Version="0.1.114">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>build</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
 </Project>

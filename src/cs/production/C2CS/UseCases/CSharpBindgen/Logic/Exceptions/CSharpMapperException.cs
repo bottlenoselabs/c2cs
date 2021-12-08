@@ -7,8 +7,17 @@ namespace C2CS.UseCases.CSharpBindgen;
 
 public class CSharpMapperException : Exception
 {
+    public CSharpMapperException()
+    {
+    }
+
     public CSharpMapperException(string message)
         : base(message)
     {
     }
+
+    public CSharpMapperException(string message, Exception innerException)
+        : base(message, innerException)
+	{
+	}
 }

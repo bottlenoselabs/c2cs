@@ -5,41 +5,21 @@ using System.Collections.Immutable;
 
 namespace C2CS.UseCases.CSharpBindgen;
 
-public readonly struct CSharpAbstractSyntaxTree
+public class CSharpAbstractSyntaxTree
 {
-    public readonly ImmutableArray<CSharpFunction> FunctionExterns;
+    public ImmutableArray<CSharpFunction> FunctionExterns { get; init; }
 
-    public readonly ImmutableArray<CSharpFunctionPointer> FunctionPointers;
+    public ImmutableArray<CSharpFunctionPointer> FunctionPointers { get; init; }
 
-    public readonly ImmutableArray<CSharpStruct> Structs;
+    public ImmutableArray<CSharpStruct> Structs { get; init; }
 
-    public readonly ImmutableArray<CSharpTypedef> Typedefs;
+    public ImmutableArray<CSharpTypedef> Typedefs { get; init; }
 
-    public readonly ImmutableArray<CSharpOpaqueType> OpaqueDataTypes;
+    public ImmutableArray<CSharpOpaqueType> OpaqueDataTypes { get; init; }
 
-    public readonly ImmutableArray<CSharpEnum> Enums;
+    public ImmutableArray<CSharpEnum> Enums { get; init; }
 
-    public readonly ImmutableArray<CSharpPseudoEnum> PseudoEnums;
+    public ImmutableArray<CSharpPseudoEnum> PseudoEnums { get; init; }
 
-    public readonly ImmutableArray<CSharpConstant> Constants;
-
-    public CSharpAbstractSyntaxTree(
-        ImmutableArray<CSharpFunction> functionExterns,
-        ImmutableArray<CSharpFunctionPointer> functionPointers,
-        ImmutableArray<CSharpStruct> structs,
-        ImmutableArray<CSharpTypedef> typedefs,
-        ImmutableArray<CSharpOpaqueType> opaqueDataTypes,
-        ImmutableArray<CSharpEnum> enums,
-        ImmutableArray<CSharpPseudoEnum> pseudoEnums,
-        ImmutableArray<CSharpConstant> constants)
-    {
-        FunctionExterns = functionExterns;
-        FunctionPointers = functionPointers;
-        Structs = structs;
-        Typedefs = typedefs;
-        OpaqueDataTypes = opaqueDataTypes;
-        Enums = enums;
-        PseudoEnums = pseudoEnums;
-        Constants = constants;
-    }
+    public ImmutableArray<CSharpConstant> Constants { get; init; }
 }

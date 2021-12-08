@@ -19,7 +19,9 @@ public static class ClangArgumentsBuilder
         var builder = ImmutableArray.CreateBuilder<string>();
 
         AddDefault(builder);
-        AddBitness(builder, bitness ?? (RuntimeInformation.OSArchitecture is Architecture.Arm64 or Architecture.X64 ? 64 : 32));
+        AddBitness(
+            builder,
+            bitness ?? (RuntimeInformation.OSArchitecture is Architecture.Arm64 or Architecture.X64 ? 64 : 32));
         AddUserIncludes(builder, includeDirectories);
         AddDefines(builder, defines);
         AddAdditionalArgs(builder, additionalArgs);
@@ -194,7 +196,8 @@ public static class ClangArgumentsBuilder
         var systemIncludeCommandLineArgClang = $"-isystem{clangHighestVersionDirectoryPath}/include";
         clangArgumentsBuilder.Add(systemIncludeCommandLineArgClang);
 
-        var softwareDevelopmentKitDirectoryPath = "xcrun --sdk macosx --show-sdk-path".RunCommandWithCapturingStandardOutput();
+        var softwareDevelopmentKitDirectoryPath =
+            "xcrun --sdk macosx --show-sdk-path".RunCommandWithCapturingStandardOutput();
         if (!Directory.Exists(softwareDevelopmentKitDirectoryPath))
         {
             throw new ClangException(

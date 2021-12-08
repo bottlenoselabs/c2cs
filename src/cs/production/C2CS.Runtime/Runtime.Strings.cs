@@ -27,38 +27,38 @@ public static unsafe partial class Runtime
     ///     Converts a <see cref="string" /> from a C style string of type `char` (one dimensional byte array
     ///     terminated by a <c>0x0</c>) by allocating and copying.
     /// </summary>
-    /// <param name="ptr">A pointer to the C string.</param>
-    /// <returns>A <see cref="string" /> equivalent of <paramref name="ptr" />.</returns>
-    public static string String8U(CString8U ptr)
+    /// <param name="value">A pointer to the C string.</param>
+    /// <returns>A <see cref="string" /> equivalent of <paramref name="value" />.</returns>
+    public static string String8U(CString8U value)
     {
-        if (ptr.IsNull)
+        if (value.IsNull)
         {
             return string.Empty;
         }
 
-        if (PointersToStrings8U.TryGetValue(ptr._ptr, out var result))
+        if (PointersToStrings8U.TryGetValue(value._pointer, out var result))
         {
             return result;
         }
 
-        var hash = Djb2((byte*) ptr._ptr);
+        var hash = Djb2((byte*)value._pointer);
         if (StringHashesToPointers8U.TryGetValue(hash, out var pointer2))
         {
-            result = PointersToStrings8U[pointer2._ptr];
+            result = PointersToStrings8U[pointer2._pointer];
             return result;
         }
 
         // calls ASM/C/C++ functions to calculate length and then "FastAllocate" the string with the GC
         // https://mattwarren.org/2016/05/31/Strings-and-the-CLR-a-Special-Relationship/
-        result = Marshal.PtrToStringAnsi(ptr._ptr);
+        result = Marshal.PtrToStringAnsi(value._pointer);
 
         if (string.IsNullOrEmpty(result))
         {
             return string.Empty;
         }
 
-        StringHashesToPointers8U.Add(hash, ptr);
-        PointersToStrings8U.Add(ptr._ptr, result);
+        StringHashesToPointers8U.Add(hash, value);
+        PointersToStrings8U.Add(value._pointer, result);
 
         return result;
     }
@@ -67,38 +67,38 @@ public static unsafe partial class Runtime
     ///     Converts a <see cref="string" /> from a C style string of type `wchar_t` (one dimensional ushort array
     ///     terminated by a <c>0x0</c>) by allocating and copying.
     /// </summary>
-    /// <param name="ptr">A pointer to the C string.</param>
-    /// <returns>A <see cref="string" /> equivalent of <paramref name="ptr" />.</returns>
-    public static string String16U(CString16U ptr)
+    /// <param name="value">A pointer to the C string.</param>
+    /// <returns>A <see cref="string" /> equivalent of <paramref name="value" />.</returns>
+    public static string String16U(CString16U value)
     {
-        if (ptr.IsNull)
+        if (value.IsNull)
         {
             return string.Empty;
         }
 
-        if (PointersToStrings16U.TryGetValue(ptr._ptr, out var result))
+        if (PointersToStrings16U.TryGetValue(value._pointer, out var result))
         {
             return result;
         }
 
-        var hash = Djb2((byte*) ptr._ptr);
+        var hash = Djb2((byte*)value._pointer);
         if (StringHashesToPointers16U.TryGetValue(hash, out var pointer2))
         {
-            result = PointersToStrings16U[pointer2._ptr];
+            result = PointersToStrings16U[pointer2._pointer];
             return result;
         }
 
         // calls ASM/C/C++ functions to calculate length and then "FastAllocate" the string with the GC
         // https://mattwarren.org/2016/05/31/Strings-and-the-CLR-a-Special-Relationship/
-        result = Marshal.PtrToStringUni(pointer2._ptr);
+        result = Marshal.PtrToStringUni(pointer2._pointer);
 
         if (string.IsNullOrEmpty(result))
         {
             return string.Empty;
         }
 
-        StringHashesToPointers16U.Add(hash, ptr);
-        PointersToStrings16U.Add(ptr._ptr, result);
+        StringHashesToPointers16U.Add(hash, value);
+        PointersToStrings16U.Add(value._pointer, result);
 
         return result;
     }
@@ -111,7 +111,9 @@ public static unsafe partial class Runtime
     /// <returns>A C string pointer.</returns>
     public static CString8U CString8U(string str)
     {
+#pragma warning disable CA1062
         var hash = Djb22(str);
+#pragma warning restore CA1062
         if (StringHashesToPointers8U.TryGetValue(hash, out var r))
         {
             return r;
@@ -159,7 +161,7 @@ public static unsafe partial class Runtime
     public static CString8U* CString8UArray(ReadOnlySpan<string> values)
     {
         var pointerSize = IntPtr.Size;
-        var result = (CString8U*) Marshal.AllocHGlobal(pointerSize * values.Length);
+        var result = (CString8U*)Marshal.AllocHGlobal(pointerSize * values.Length);
         for (var i = 0; i < values.Length; ++i)
         {
             var @string = values[i];
@@ -182,7 +184,7 @@ public static unsafe partial class Runtime
     public static CString16U* CString16UArray(ReadOnlySpan<string> values)
     {
         var pointerSize = IntPtr.Size;
-        var result = (CString16U*) Marshal.AllocHGlobal(pointerSize * values.Length);
+        var result = (CString16U*)Marshal.AllocHGlobal(pointerSize * values.Length);
         for (var i = 0; i < values.Length; ++i)
         {
             var @string = values[i];
@@ -237,18 +239,18 @@ public static unsafe partial class Runtime
     ///     <see cref="string" /> object which happened during <see cref="String8U" /> or <see cref="CString8U" />.
     ///     Does <b>not</b> garbage collect.
     /// </summary>
-    /// <param name="ptr">The string.</param>
-    public static void FreeCString8U(CString8U ptr)
+    /// <param name="value">The string.</param>
+    public static void FreeCString8U(CString8U value)
     {
-        if (!PointersToStrings8U.ContainsKey(ptr._ptr))
+        if (!PointersToStrings8U.ContainsKey(value._pointer))
         {
             return;
         }
 
-        Marshal.FreeHGlobal(ptr);
-        var hash = Djb22(ptr);
+        Marshal.FreeHGlobal(value);
+        var hash = Djb22(value);
         StringHashesToPointers8U.Remove(hash);
-        PointersToStrings8U.Remove(ptr._ptr);
+        PointersToStrings8U.Remove(value._pointer);
     }
 
     /// <summary>
@@ -256,18 +258,18 @@ public static unsafe partial class Runtime
     ///     <see cref="string" /> object which happened during <see cref="String16U" /> or <see cref="CString16U" />.
     ///     Does <b>not</b> garbage collect.
     /// </summary>
-    /// <param name="ptr">The string.</param>
-    public static void FreeCString16U(CString16U ptr)
+    /// <param name="value">The string.</param>
+    public static void FreeCString16U(CString16U value)
     {
-        if (!PointersToStrings16U.ContainsKey(ptr._ptr))
+        if (!PointersToStrings16U.ContainsKey(value._pointer))
         {
             return;
         }
 
-        Marshal.FreeHGlobal(ptr);
-        var hash = Djb22(ptr);
+        Marshal.FreeHGlobal(value);
+        var hash = Djb22(value);
         StringHashesToPointers16U.Remove(hash);
-        PointersToStrings16U.Remove(ptr._ptr);
+        PointersToStrings16U.Remove(value._pointer);
     }
 
     // djb2 is named after https://en.wikipedia.org/wiki/Daniel_J._Bernstein

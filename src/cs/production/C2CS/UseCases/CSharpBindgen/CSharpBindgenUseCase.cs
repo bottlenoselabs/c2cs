@@ -21,8 +21,10 @@ public class CSharpBindgenUseCase : UseCase<CSharpBindgenRequest, CSharpBindgenR
         if (string.IsNullOrEmpty(request.ClassName))
         {
             var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(request.OutputFilePath);
-            var firstIndexOfPeriod = fileNameWithoutExtension.IndexOf('.');
-            className = firstIndexOfPeriod == -1 ? fileNameWithoutExtension : fileNameWithoutExtension[..firstIndexOfPeriod];
+            var firstIndexOfPeriod = fileNameWithoutExtension.IndexOf('.', StringComparison.InvariantCulture);
+            className = firstIndexOfPeriod == -1
+                ? fileNameWithoutExtension
+                : fileNameWithoutExtension[..firstIndexOfPeriod];
         }
         else
         {

@@ -8,6 +8,7 @@ public class DiagnosticMacroObjectNotTranspiled : Diagnostic
     public DiagnosticMacroObjectNotTranspiled(string name, ClangLocation loc)
         : base(DiagnosticSeverity.Warning)
     {
-        Summary = $"The object-like macro '{name}' at {loc.FilePath}:{loc.LineNumber}:{loc.LineColumn} was not transpiled.";
+        Summary =
+            $"The object-like macro '{name}' at {loc.FilePath}:{loc.LineNumber}:{loc.LineColumn} was not transpiled.";
     }
 }

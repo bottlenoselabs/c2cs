@@ -38,7 +38,7 @@ public static unsafe class ClangExtensions
         _visitInstances[visitsCount - 1] = visitData;
 
         var clientData = default(CXClientData);
-        clientData.Data = (void*) _visitsCount;
+        clientData.Data = (void*)_visitsCount;
         clang_visitChildren(cursor, Visit, clientData);
 
         Interlocked.Decrement(ref _visitsCount);
@@ -50,7 +50,7 @@ public static unsafe class ClangExtensions
     [UnmanagedCallersOnly]
     private static CXChildVisitResult Visitor(CXCursor child, CXCursor parent, CXClientData clientData)
     {
-        var index = (int) clientData.Data;
+        var index = (int)clientData.Data;
         var data = _visitInstances[index - 1];
 
         var result = data.Predicate(child, parent);
@@ -115,24 +115,24 @@ public static unsafe class ClangExtensions
 
     private static string SanitizeClangName(string result)
     {
-        if (result.Contains("struct "))
+        if (result.Contains("struct ", StringComparison.InvariantCulture))
         {
-            result = result.Replace("struct ", string.Empty);
+            result = result.Replace("struct ", string.Empty, StringComparison.InvariantCulture);
         }
 
-        if (result.Contains("union "))
+        if (result.Contains("union ", StringComparison.InvariantCulture))
         {
-            result = result.Replace("union ", string.Empty);
+            result = result.Replace("union ", string.Empty, StringComparison.InvariantCulture);
         }
 
-        if (result.Contains("enum "))
+        if (result.Contains("enum ", StringComparison.InvariantCulture))
         {
-            result = result.Replace("enum ", string.Empty);
+            result = result.Replace("enum ", string.Empty, StringComparison.InvariantCulture);
         }
 
-        if (result.Contains("const "))
+        if (result.Contains("const ", StringComparison.InvariantCulture))
         {
-            result = result.Replace("const ", string.Empty);
+            result = result.Replace("const ", string.Empty, StringComparison.InvariantCulture);
         }
 
         return result;
@@ -166,7 +166,7 @@ public static unsafe class ClangExtensions
     {
         var spellingC = clang_getTypeSpelling(type);
         string spelling = clang_getCString(spellingC);
-        if (spelling == string.Empty)
+        if (string.IsNullOrEmpty(spelling))
         {
             return string.Empty;
         }
@@ -327,7 +327,7 @@ public static unsafe class ClangExtensions
 
         clang_getFileLocation(location, &file, &lineNumber, &columnNumber, &offset);
 
-        var handle = (IntPtr) file.Data;
+        var handle = (IntPtr)file.Data;
         if (handle == IntPtr.Zero)
         {
             return new ClangLocation
@@ -343,8 +343,8 @@ public static unsafe class ClangExtensions
         {
             FileName = Path.GetFileName(fileNamePath),
             FilePath = Path.GetFullPath(fileNamePath),
-            LineNumber = (int) lineNumber,
-            LineColumn = (int) columnNumber,
+            LineNumber = (int)lineNumber,
+            LineColumn = (int)columnNumber,
             IsBuiltin = clang_getCursorType(cursor).IsPrimitive()
         };
     }

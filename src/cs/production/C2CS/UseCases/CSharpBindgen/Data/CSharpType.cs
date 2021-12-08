@@ -3,32 +3,22 @@
 
 namespace C2CS.UseCases.CSharpBindgen;
 
-public readonly struct CSharpType
+public class CSharpType
 {
-    public readonly string Name;
-    public readonly string OriginalName;
-    public readonly int SizeOf;
-    public readonly int AlignOf;
-    public readonly int ArraySize;
+    public string? Name { get; init; }
+
+    public string? OriginalName { get; init; }
+
+    public int SizeOf { get; init; }
+
+    public int AlignOf { get; init; }
+
+    public int ArraySize { get; init; }
 
     public bool IsArray => ArraySize > 0;
 
-    public CSharpType(
-        string name,
-        string originalName,
-        int sizeOf,
-        int alignOf,
-        int arraySize)
-    {
-        Name = name;
-        OriginalName = originalName;
-        SizeOf = sizeOf;
-        AlignOf = alignOf;
-        ArraySize = arraySize;
-    }
-
     public override string ToString()
     {
-        return Name;
+        return string.IsNullOrEmpty(Name) ? string.Empty : Name;
     }
 }

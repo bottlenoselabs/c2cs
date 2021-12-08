@@ -3,18 +3,12 @@
 
 namespace C2CS.UseCases.CSharpBindgen;
 
-public record CSharpNode
+public record CSharpNode(
+    string? Name,
+    string? CodeLocationComment)
 {
-    public readonly string Name;
-    public readonly string CodeLocationComment;
-
-    public CSharpNode(
-        string name,
-        string locationComment)
-    {
-        Name = name;
-        CodeLocationComment = locationComment;
-    }
+    public readonly string Name = string.IsNullOrEmpty(Name) ? string.Empty : Name;
+    public readonly string CodeLocationComment = string.IsNullOrEmpty(CodeLocationComment) ? string.Empty : CodeLocationComment;
 
     // Required for debugger string with records
     // ReSharper disable once RedundantOverriddenMember

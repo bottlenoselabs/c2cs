@@ -2,10 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 // NOTE: Properties are required for System.Text.Json serialization
-public struct ClangLocation : IComparable<ClangLocation>
+public struct ClangLocation : IComparable<ClangLocation>, IEquatable<ClangLocation>
 {
     [JsonPropertyName("fileName")]
     public string FileName { get; set; }
@@ -29,9 +30,9 @@ public struct ClangLocation : IComparable<ClangLocation>
             return $"{FileName}";
         }
 
-        return string.IsNullOrEmpty(FilePath) || FilePath == FileName ?
-            $"{FileName}:{LineNumber}:{LineColumn}" :
-            $"{FileName}:{LineNumber}:{LineColumn} ({FilePath})";
+        return string.IsNullOrEmpty(FilePath) || FilePath == FileName
+            ? $"{FileName}:{LineNumber}:{LineColumn}"
+            : $"{FileName}:{LineNumber}:{LineColumn} ({FilePath})";
     }
 
     public bool Equals(ClangLocation other)
@@ -78,21 +79,21 @@ public struct ClangLocation : IComparable<ClangLocation>
 
     public static bool operator <(ClangLocation first, ClangLocation second)
     {
-        throw new NotImplementedException();
+        return first.CompareTo(second) < 0;
     }
 
     public static bool operator >(ClangLocation first, ClangLocation second)
     {
-        throw new NotImplementedException();
+        return first.CompareTo(second) > 0;
     }
 
     public static bool operator >=(ClangLocation first, ClangLocation second)
     {
-        throw new NotImplementedException();
+        return first.CompareTo(second) >= 0;
     }
 
     public static bool operator <=(ClangLocation first, ClangLocation second)
     {
-        throw new NotImplementedException();
+        return first.CompareTo(second) <= 0;
     }
 }

@@ -5,21 +5,15 @@ using System.Collections.Immutable;
 
 namespace C2CS.UseCases.CSharpBindgen;
 
-public record CSharpFunctionPointer : CSharpNode
+public record CSharpFunctionPointer(
+    string Name,
+    string CodeLocationComment,
+    CSharpType ReturnType,
+    ImmutableArray<CSharpFunctionPointerParameter> Parameters)
+    : CSharpNode(Name, CodeLocationComment)
 {
-    public readonly CSharpType ReturnType;
-    public readonly ImmutableArray<CSharpFunctionPointerParameter> Parameters;
-
-    public CSharpFunctionPointer(
-        string name,
-        string codeLocationComment,
-        CSharpType returnType,
-        ImmutableArray<CSharpFunctionPointerParameter> parameters)
-        : base(name, codeLocationComment)
-    {
-        ReturnType = returnType;
-        Parameters = parameters;
-    }
+    public readonly CSharpType ReturnType = ReturnType;
+    public readonly ImmutableArray<CSharpFunctionPointerParameter> Parameters = Parameters;
 
     // Required for debugger string with records
     // ReSharper disable once RedundantOverriddenMember

@@ -5,21 +5,15 @@ using System.Collections.Immutable;
 
 namespace C2CS.UseCases.CSharpBindgen;
 
-public record CSharpEnum : CSharpNode
+public record CSharpEnum(
+    string Name,
+    string CodeLocationComment,
+    CSharpType IntegerType,
+    ImmutableArray<CSharpEnumValue> Values)
+    : CSharpNode(Name, CodeLocationComment)
 {
-    public readonly CSharpType IntegerType;
-    public readonly ImmutableArray<CSharpEnumValue> Values;
-
-    public CSharpEnum(
-        string name,
-        string codeLocationComment,
-        CSharpType integerType,
-        ImmutableArray<CSharpEnumValue> values)
-        : base(name, codeLocationComment)
-    {
-        IntegerType = integerType;
-        Values = values;
-    }
+    public readonly CSharpType IntegerType = IntegerType;
+    public readonly ImmutableArray<CSharpEnumValue> Values = Values;
 
     // Required for debugger string with records
     // ReSharper disable once RedundantOverriddenMember

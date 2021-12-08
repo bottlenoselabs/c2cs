@@ -53,21 +53,21 @@ public record CNode : IComparable<CNode>
 
     public static bool operator <(CNode first, CNode second)
     {
-        throw new NotImplementedException();
+        return first.CompareTo(second) < 0;
     }
 
     public static bool operator >(CNode first, CNode second)
     {
-        throw new NotImplementedException();
+        return first.CompareTo(second) > 0;
     }
 
     public static bool operator >=(CNode first, CNode second)
     {
-        throw new NotImplementedException();
+        return first.CompareTo(second) >= 0;
     }
 
     public static bool operator <=(CNode first, CNode second)
     {
-        throw new NotImplementedException();
+        return first.CompareTo(second) <= 0;
     }
 }

@@ -77,7 +77,7 @@ public static class ClangTranslationUnitParser
                 cSourceFilePath,
                 cCommandLineArgs,
                 commandLineArgs.Length,
-                (clang.CXUnsavedFile*) IntPtr.Zero,
+                (clang.CXUnsavedFile*)IntPtr.Zero,
                 0,
                 options,
                 translationUnitPointer);

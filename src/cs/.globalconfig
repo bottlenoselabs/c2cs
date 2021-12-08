@@ -1,9 +1,0 @@
-# NOTE: Requires .NET 5 SDK (VS2019 16.8 or later)
-#   but recommended to use .NET 6 SDK for better support and features such as `global_level`
-#   https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files#global-analyzerconfig
-is_global = true
-global_level = 101
-
-# StyleCop Rules
-# Description: StyleCop code analysis rules for C# projects.
-dotnet_diagnostic.SA1309.severity = none

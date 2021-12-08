@@ -11,6 +11,6 @@ namespace C2CS.UseCases.CSharpBindgen;
 [PublicAPI]
 public class CSharpBindgenConfiguration
 {
-	[JsonPropertyName("aliases")]
-	public ImmutableArray<CSharpTypeAlias> Aliases { get; set; } = ImmutableArray<CSharpTypeAlias>.Empty;
+    [JsonPropertyName("aliases")]
+    public ImmutableArray<CSharpTypeAlias> Aliases { get; set; } = ImmutableArray<CSharpTypeAlias>.Empty;
 }

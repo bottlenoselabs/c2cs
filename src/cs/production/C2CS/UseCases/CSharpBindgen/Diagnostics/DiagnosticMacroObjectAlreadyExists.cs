@@ -8,6 +8,7 @@ public class DiagnosticMacroObjectAlreadyExists : Diagnostic
     public DiagnosticMacroObjectAlreadyExists(string name, ClangLocation loc)
         : base(DiagnosticSeverity.Warning)
     {
-        Summary = $"The object-like macro '{name}' at {loc.FilePath}:{loc.LineNumber}:{loc.LineColumn} already previously exists.";
+        Summary =
+            $"The object-like macro '{name}' at {loc.FilePath}:{loc.LineNumber}:{loc.LineColumn} already previously exists.";
     }
 }

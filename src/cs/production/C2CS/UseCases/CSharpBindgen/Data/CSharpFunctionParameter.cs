@@ -3,18 +3,13 @@
 
 namespace C2CS.UseCases.CSharpBindgen;
 
-public record CSharpFunctionParameter : CSharpNode
+public record CSharpFunctionParameter(
+    string Name,
+    string CodeLocationComment,
+    CSharpType Type)
+    : CSharpNode(Name, CodeLocationComment)
 {
-    public readonly CSharpType Type;
-
-    public CSharpFunctionParameter(
-        string name,
-        string codeLocationComment,
-        CSharpType type)
-        : base(name, codeLocationComment)
-    {
-        Type = type;
-    }
+    public readonly CSharpType Type = Type;
 
     // Required for debugger string with records
     // ReSharper disable once RedundantOverriddenMember

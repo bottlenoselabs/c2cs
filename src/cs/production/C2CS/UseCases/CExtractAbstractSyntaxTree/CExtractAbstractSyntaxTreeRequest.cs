@@ -29,7 +29,7 @@ public class CExtractAbstractSyntaxTreeRequest : UseCaseRequest
 
     public ImmutableArray<string> ClangArgs { get; }
 
-    public ImmutableArray<string> WhitelistFunctionNames { get;  }
+    public ImmutableArray<string> WhitelistFunctionNames { get; }
 
     public CExtractAbstractSyntaxTreeRequest(
         string inputFilePath,
@@ -108,7 +108,9 @@ public class CExtractAbstractSyntaxTreeRequest : UseCaseRequest
         var functionNames = ImmutableArray.CreateBuilder<string>();
         foreach (var line in fileContentLines)
         {
-            string functionName = line.Contains("!") ? line.Split(new[] { "!" }, StringSplitOptions.RemoveEmptyEntries)[1] : line;
+            var functionName = line.Contains('!', StringComparison.InvariantCulture)
+                ? line.Split(new[] { "!" }, StringSplitOptions.RemoveEmptyEntries)[1]
+                : line;
             functionNames.Add(functionName);
         }
 

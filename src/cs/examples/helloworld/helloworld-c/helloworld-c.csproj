@@ -10,5 +10,5 @@
     <ItemGroup>
         <ProjectReference Include="../../../production/C2CS/C2CS.csproj" />
     </ItemGroup>
-    
+
 </Project>
