@@ -18,8 +18,21 @@ on:
       - '**.md'
 
 jobs:
-  dotnet-job:
-    name: "Build, test, pack, and deploy .NET"
+  c2cs_runtime-job:
+    name: ".NET: C2CS.Runtime"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: bottlenoselabs/github-actions-dotnet@v1
+        with:
+          repository: '${{ github.repository }}'
+          solution-or-project: './src/cs/production/C2CS.Runtime/C2CS.Runtime.csproj'
+          dotnet-sdk-version: '6.0.x'
+          is-enabled-pack: 'true'
+          publish-environment: 'staging'
+          myget-access-token: '${{ secrets.MYGET_ACCESS_TOKEN }}'
+          nuget-access-token: '${{ secrets.NUGET_ACCESS_TOKEN }}'
+  c2cs-job:
+    name: ".NET: C2CS"
     strategy:
       matrix:
         os: [windows-latest, macos-latest, ubuntu-latest]
@@ -28,6 +41,7 @@ jobs:
       - uses: bottlenoselabs/github-actions-dotnet@v1
         with:
           repository: '${{ github.repository }}'
+          solution-or-project: './src/cs/production/C2CS/C2CS.csproj'
           dotnet-sdk-version: '6.0.x'
           is-enabled-pack: ${{ matrix.os == 'ubuntu-latest' }}
           publish-environment: 'staging'
