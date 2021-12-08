@@ -14,7 +14,7 @@ Here you will find documentation for `C2CS` including:
 ### Latest release
 
 ```bash
-dotnet tool install c2cs --global 
+dotnet tool install bottlenoselabs.c2cs --global 
 ```
 
 ### Latest pre-release
