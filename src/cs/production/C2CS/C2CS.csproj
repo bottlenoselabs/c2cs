@@ -19,7 +19,6 @@
 
     <!-- NuGet packaage references -->
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2021.2.0" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.0-3.final" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.0.0-3.final" />
         <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.0.0-3.final" />
