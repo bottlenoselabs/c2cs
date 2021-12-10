@@ -3,6 +3,7 @@
     <!-- MSBuild project settings -->
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
         <RootNamespace />
     </PropertyGroup>
 

@@ -5,6 +5,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <OutputType>Exe</OutputType>
         <RootNamespace>C2CS</RootNamespace>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
         <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
     </PropertyGroup>
 

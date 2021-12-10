@@ -175,11 +175,6 @@ public readonly unsafe struct CString8U : IEquatable<CString8U>
         return Runtime.String8U(this);
     }
 
-    public bool Equals(CBool other)
-    {
-        throw new NotImplementedException();
-    }
-
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
