@@ -37,8 +37,8 @@ public class CSharpMapper
             aliases.Add("ULONG", "uint");
             aliases.Add("UINT_PTR", "UIntPtr");
             aliases.Add("INT_PTR", "IntPtr");
-            aliases.Add("HANDLE", "void*");
-            aliases.Add("SOCKET", "void*");
+            aliases.Add("HANDLE", "nint");
+            aliases.Add("SOCKET", "nint");
         }
 
         if (Runtime.OperatingSystem == RuntimeOperatingSystem.Linux)
@@ -1008,6 +1008,16 @@ var x = {value};
         if (pointerTypeName.StartsWith("wchar_t*", StringComparison.InvariantCulture))
         {
             return pointerTypeName.Replace("wchar_t*", "CString16U", StringComparison.InvariantCulture);
+        }
+
+        if (pointerTypeName.StartsWith("FILE*", StringComparison.InvariantCulture))
+        {
+            return pointerTypeName.Replace("FILE*", "nint", StringComparison.InvariantCulture);
+        }
+
+        if (pointerTypeName.StartsWith("DIR*", StringComparison.InvariantCulture))
+        {
+            return pointerTypeName.Replace("DIR*", "nint", StringComparison.InvariantCulture);
         }
 
         var elementTypeName = pointerTypeName.TrimEnd('*');
