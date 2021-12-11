@@ -130,7 +130,12 @@ public class
 
     private static IntPtr ResolveClang(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
     {
-        return NativeLibrary.Load(_clangNativeLibraryPath);
+        if (!NativeLibrary.TryLoad(_clangNativeLibraryPath, out var handle))
+        {
+            throw new ClangException($"Could not load libclang: {_clangNativeLibraryPath}");
+        }
+
+        return handle;
     }
 
     private static void Validate(CExtractAbstractSyntaxTreeRequest cExtractAbstractSyntaxTreeRequest)
