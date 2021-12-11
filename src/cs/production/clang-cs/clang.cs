@@ -24,7 +24,7 @@ public static unsafe partial class clang
 
     // Function @ CXString.h:50:28 (clang-c/CXString.h)
     [DllImport(LibraryName)]
-    public static extern CString8U clang_getCString(CXString @string);
+    public static extern CString clang_getCString(CXString @string);
 
     // Function @ Index.h:266:24 (clang-c/Index.h)
     [DllImport(LibraryName)]
@@ -64,7 +64,7 @@ public static unsafe partial class clang
 
     // Function @ Index.h:1418:33 (clang-c/Index.h)
     [DllImport(LibraryName)]
-    public static extern CXErrorCode clang_parseTranslationUnit2(CXIndex CIdx, CString8U source_filename, CString8U* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
+    public static extern CXErrorCode clang_parseTranslationUnit2(CXIndex CIdx, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
 
     // Function @ Index.h:2705:25 (clang-c/Index.h)
     [DllImport(LibraryName)]
@@ -241,10 +241,10 @@ public static unsafe partial class clang
     public struct CXUnsavedFile
     {
         [FieldOffset(0)] // size = 8, padding = 0
-        public CString8U Filename;
+        public CString Filename;
 
         [FieldOffset(8)] // size = 8, padding = 0
-        public CString8U Contents;
+        public CString Contents;
 
         [FieldOffset(16)] // size = 8, padding = 0
         public ulong Length;

@@ -8,162 +8,162 @@ using JetBrains.Annotations;
 namespace C2CS;
 
 /// <summary>
-///     A pointer value type; represents the 16-bit C type `char16_t*`.
+///     A pointer value type that represents a wide string; C type `wchar_t*`.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
 [PublicAPI]
-public readonly unsafe struct CString16U : IEquatable<CString16U>
+public readonly unsafe struct CStringWide : IEquatable<CStringWide>
 {
     internal readonly nint _pointer;
 
     /// <summary>
-    ///     Gets a <see cref="bool" /> value indicating whether this <see cref="CString16U" /> is a null pointer.
+    ///     Gets a <see cref="bool" /> value indicating whether this <see cref="CStringWide" /> is a null pointer.
     /// </summary>
     public bool IsNull => _pointer == 0;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="CString16U" /> struct.
+    ///     Initializes a new instance of the <see cref="CStringWide" /> struct.
     /// </summary>
     /// <param name="value">The pointer value.</param>
-    public CString16U(byte* value)
+    public CStringWide(byte* value)
     {
         _pointer = (nint)value;
     }
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="CString16U" /> struct.
+    ///     Initializes a new instance of the <see cref="CStringWide" /> struct.
     /// </summary>
     /// <param name="value">The pointer value.</param>
-    public CString16U(nint value)
+    public CStringWide(nint value)
     {
         _pointer = value;
     }
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="CString16U" /> struct.
+    ///     Initializes a new instance of the <see cref="CStringWide" /> struct.
     /// </summary>
     /// <param name="s">The string value.</param>
-    public CString16U(string s)
+    public CStringWide(string s)
     {
         _pointer = Runtime.CString16U(s);
     }
 
     /// <summary>
-    ///     Performs an explicit conversion from a <see cref="IntPtr" /> to a <see cref="CString16U" />.
+    ///     Performs an explicit conversion from a <see cref="IntPtr" /> to a <see cref="CStringWide" />.
     /// </summary>
     /// <param name="value">The pointer value.</param>
     /// <returns>
-    ///     The resulting <see cref="CString16U" />.
+    ///     The resulting <see cref="CStringWide" />.
     /// </returns>
-    public static explicit operator CString16U(nint value)
+    public static explicit operator CStringWide(nint value)
     {
         return FromIntPtr(value);
     }
 
     /// <summary>
-    ///     Performs an explicit conversion from a <see cref="IntPtr" /> to a <see cref="CString16U" />.
+    ///     Performs an explicit conversion from a <see cref="IntPtr" /> to a <see cref="CStringWide" />.
     /// </summary>
     /// <param name="value">The pointer value.</param>
     /// <returns>
-    ///     The resulting <see cref="CString16U" />.
+    ///     The resulting <see cref="CStringWide" />.
     /// </returns>
-    public static CString16U FromIntPtr(nint value)
+    public static CStringWide FromIntPtr(nint value)
     {
         return new(value);
     }
 
     /// <summary>
-    ///     Performs an implicit conversion from a byte pointer to a <see cref="CString16U" />.
+    ///     Performs an implicit conversion from a byte pointer to a <see cref="CStringWide" />.
     /// </summary>
     /// <param name="value">The pointer value.</param>
     /// <returns>
-    ///     The resulting <see cref="CString16U" />.
+    ///     The resulting <see cref="CStringWide" />.
     /// </returns>
-    public static implicit operator CString16U(byte* value)
+    public static implicit operator CStringWide(byte* value)
     {
         return From(value);
     }
 
     /// <summary>
-    ///     Performs an implicit conversion from a byte pointer to a <see cref="CString16U" />.
+    ///     Performs an implicit conversion from a byte pointer to a <see cref="CStringWide" />.
     /// </summary>
     /// <param name="value">The pointer value.</param>
     /// <returns>
-    ///     The resulting <see cref="CString16U" />.
+    ///     The resulting <see cref="CStringWide" />.
     /// </returns>
-    public static CString16U From(byte* value)
+    public static CStringWide From(byte* value)
     {
         return new((nint)value);
     }
 
     /// <summary>
-    ///     Performs an implicit conversion from a <see cref="CString16U" /> to a <see cref="IntPtr" />.
+    ///     Performs an implicit conversion from a <see cref="CStringWide" /> to a <see cref="IntPtr" />.
     /// </summary>
     /// <param name="value">The pointer.</param>
     /// <returns>
     ///     The resulting <see cref="IntPtr" />.
     /// </returns>
-    public static implicit operator nint(CString16U value)
+    public static implicit operator nint(CStringWide value)
     {
         return value._pointer;
     }
 
     /// <summary>
-    ///     Performs an implicit conversion from a <see cref="CString16U" /> to a <see cref="IntPtr" />.
+    ///     Performs an implicit conversion from a <see cref="CStringWide" /> to a <see cref="IntPtr" />.
     /// </summary>
     /// <param name="value">The pointer.</param>
     /// <returns>
     ///     The resulting <see cref="IntPtr" />.
     /// </returns>
-    public static nint ToIntPtr(CString16U value)
+    public static nint ToIntPtr(CStringWide value)
     {
         return value._pointer;
     }
 
     /// <summary>
-    ///     Performs an implicit conversion from a <see cref="CString16U" /> to a <see cref="string" />.
+    ///     Performs an implicit conversion from a <see cref="CStringWide" /> to a <see cref="string" />.
     /// </summary>
-    /// <param name="value">The <see cref="CString16U" />.</param>
+    /// <param name="value">The <see cref="CStringWide" />.</param>
     /// <returns>
     ///     The resulting <see cref="string" />.
     /// </returns>
-    public static implicit operator string(CString16U value)
+    public static implicit operator string(CStringWide value)
     {
         return ToString(value);
     }
 
     /// <summary>
-    ///     Performs an implicit conversion from a <see cref="CString16U" /> to a <see cref="string" />.
+    ///     Performs an implicit conversion from a <see cref="CStringWide" /> to a <see cref="string" />.
     /// </summary>
-    /// <param name="value">The <see cref="CString16U" />.</param>
+    /// <param name="value">The <see cref="CStringWide" />.</param>
     /// <returns>
     ///     The resulting <see cref="string" />.
     /// </returns>
-    public static string ToString(CString16U value)
+    public static string ToString(CStringWide value)
     {
-        return Runtime.String16U(value);
+        return Runtime.StringWide(value);
     }
 
     /// <summary>
-    ///     Performs an implicit conversion from a <see cref="string" /> to a <see cref="CString16U" />.
+    ///     Performs an implicit conversion from a <see cref="string" /> to a <see cref="CStringWide" />.
     /// </summary>
     /// <param name="s">The <see cref="string" />.</param>
     /// <returns>
-    ///     The resulting <see cref="CString16U" />.
+    ///     The resulting <see cref="CStringWide" />.
     /// </returns>
-    public static implicit operator CString16U(string s)
+    public static implicit operator CStringWide(string s)
     {
         return FromString(s);
     }
 
     /// <summary>
-    ///     Performs an implicit conversion from a <see cref="string" /> to a <see cref="CString16U" />.
+    ///     Performs an implicit conversion from a <see cref="string" /> to a <see cref="CStringWide" />.
     /// </summary>
     /// <param name="s">The <see cref="string" />.</param>
     /// <returns>
-    ///     The resulting <see cref="CString16U" />.
+    ///     The resulting <see cref="CStringWide" />.
     /// </returns>
-    public static CString16U FromString(string s)
+    public static CStringWide FromString(string s)
     {
         return Runtime.CString16U(s);
     }
@@ -171,17 +171,17 @@ public readonly unsafe struct CString16U : IEquatable<CString16U>
     /// <inheritdoc />
     public override string ToString()
     {
-        return Runtime.String16U(this);
+        return Runtime.StringWide(this);
     }
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
-        return obj is CBool b && Equals(b);
+        return obj is CStringWide value && Equals(value);
     }
 
     /// <inheritdoc />
-    public bool Equals(CString16U other)
+    public bool Equals(CStringWide other)
     {
         return _pointer == other._pointer;
     }
@@ -193,12 +193,12 @@ public readonly unsafe struct CString16U : IEquatable<CString16U>
     }
 
     /// <summary>
-    ///     Returns a value that indicates whether two specified <see cref="CString16U" /> structures are equal.
+    ///     Returns a value that indicates whether two specified <see cref="CStringWide" /> structures are equal.
     /// </summary>
-    /// <param name="left">The first <see cref="CString16U" /> to compare.</param>
-    /// <param name="right">The second <see cref="CString16U" /> to compare.</param>
+    /// <param name="left">The first <see cref="CStringWide" /> to compare.</param>
+    /// <param name="right">The second <see cref="CStringWide" /> to compare.</param>
     /// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> are equal; otherwise, <c>false</c>.</returns>
-    public static bool operator ==(CString16U left, CString16U right)
+    public static bool operator ==(CStringWide left, CStringWide right)
     {
         return left._pointer == right._pointer;
     }
@@ -206,21 +206,21 @@ public readonly unsafe struct CString16U : IEquatable<CString16U>
     /// <summary>
     ///     Returns a value that indicates whether two specified <see cref="CBool" /> structures are not equal.
     /// </summary>
-    /// <param name="left">The first <see cref="CString16U" /> to compare.</param>
-    /// <param name="right">The second <see cref="CString16U" /> to compare.</param>
+    /// <param name="left">The first <see cref="CStringWide" /> to compare.</param>
+    /// <param name="right">The second <see cref="CStringWide" /> to compare.</param>
     /// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> are not equal; otherwise, <c>false</c>.</returns>
-    public static bool operator !=(CString16U left, CString16U right)
+    public static bool operator !=(CStringWide left, CStringWide right)
     {
         return !(left == right);
     }
 
     /// <summary>
-    ///     Returns a value that indicates whether two specified <see cref="CString16U" /> structures are equal.
+    ///     Returns a value that indicates whether two specified <see cref="CStringWide" /> structures are equal.
     /// </summary>
-    /// <param name="left">The first <see cref="CString16U" /> to compare.</param>
-    /// <param name="right">The second <see cref="CString16U" /> to compare.</param>
+    /// <param name="left">The first <see cref="CStringWide" /> to compare.</param>
+    /// <param name="right">The second <see cref="CStringWide" /> to compare.</param>
     /// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> are equal; otherwise, <c>false</c>.</returns>
-    public static bool Equals(CString16U left, CString16U right)
+    public static bool Equals(CStringWide left, CStringWide right)
     {
         return left._pointer == right._pointer;
     }

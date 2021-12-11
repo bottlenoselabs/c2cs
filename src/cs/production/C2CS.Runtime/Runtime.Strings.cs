@@ -12,15 +12,15 @@ namespace C2CS;
 
 public static unsafe partial class Runtime
 {
-    private static readonly Dictionary<uint, CString8U> StringHashesToPointers8U = new();
+    private static readonly Dictionary<uint, CString> StringHashesToPointers8U = new();
     private static readonly Dictionary<nint, string> PointersToStrings8U = new();
-    private static readonly Dictionary<uint, CString16U> StringHashesToPointers16U = new();
+    private static readonly Dictionary<uint, CStringWide> StringHashesToPointers16U = new();
     private static readonly Dictionary<nint, string> PointersToStrings16U = new();
 
     // NOTE: On portability, technically `char` in C could be signed or unsigned depending on the computer architecture,
     //  resulting in technically two different type bindings when transpiling C headers to C#. However, to make peace
     //  with the world, I settle on a compromise:
-    //      `CString8U` is `char*`. When exposing public functions of ANSI/UTF8 strings in C#, you should only care about
+    //      `CString` is `char*`. When exposing public functions of ANSI/UTF8 strings in C#, you should only care about
     //      `char*` as a single "thing" not about it's parts "char" and "*".
 
     /// <summary>
@@ -29,7 +29,7 @@ public static unsafe partial class Runtime
     /// </summary>
     /// <param name="value">A pointer to the C string.</param>
     /// <returns>A <see cref="string" /> equivalent of <paramref name="value" />.</returns>
-    public static string String8U(CString8U value)
+    public static string String(CString value)
     {
         if (value.IsNull)
         {
@@ -69,7 +69,7 @@ public static unsafe partial class Runtime
     /// </summary>
     /// <param name="value">A pointer to the C string.</param>
     /// <returns>A <see cref="string" /> equivalent of <paramref name="value" />.</returns>
-    public static string String16U(CString16U value)
+    public static string StringWide(CStringWide value)
     {
         if (value.IsNull)
         {
@@ -109,7 +109,7 @@ public static unsafe partial class Runtime
     /// </summary>
     /// <param name="str">The <see cref="string" />.</param>
     /// <returns>A C string pointer.</returns>
-    public static CString8U CString8U(string str)
+    public static CString CString(string str)
     {
 #pragma warning disable CA1062
         var hash = Djb22(str);
@@ -121,10 +121,10 @@ public static unsafe partial class Runtime
 
         // ReSharper disable once JoinDeclarationAndInitializer
         var pointer = Marshal.StringToHGlobalAnsi(str);
-        StringHashesToPointers8U.Add(hash, new CString8U(pointer));
+        StringHashesToPointers8U.Add(hash, new CString(pointer));
         PointersToStrings8U.Add(pointer, str);
 
-        return new CString8U(pointer);
+        return new CString(pointer);
     }
 
     /// <summary>
@@ -133,7 +133,7 @@ public static unsafe partial class Runtime
     /// </summary>
     /// <param name="str">The <see cref="string" />.</param>
     /// <returns>A C string pointer.</returns>
-    public static CString16U CString16U(string str)
+    public static CStringWide CString16U(string str)
     {
         var hash = Djb22(str);
         if (StringHashesToPointers16U.TryGetValue(hash, out var r))
@@ -143,10 +143,10 @@ public static unsafe partial class Runtime
 
         // ReSharper disable once JoinDeclarationAndInitializer
         var pointer = Marshal.StringToHGlobalAnsi(str);
-        StringHashesToPointers16U.Add(hash, new CString16U(pointer));
+        StringHashesToPointers16U.Add(hash, new CStringWide(pointer));
         PointersToStrings16U.Add(pointer, str);
 
-        return new CString16U(pointer);
+        return new CStringWide(pointer);
     }
 
     /// <summary>
@@ -154,18 +154,18 @@ public static unsafe partial class Runtime
     ///     dimensional byte arrays each terminated by a <c>0x0</c>) by allocating and copying.
     /// </summary>
     /// <remarks>
-    ///     <para>Calls <see cref="CString8U" />.</para>
+    ///     <para>Calls <see cref="CString" />.</para>
     /// </remarks>
     /// <param name="values">The strings.</param>
     /// <returns>An array pointer of C string pointers. You are responsible for freeing the returned pointer.</returns>
-    public static CString8U* CString8UArray(ReadOnlySpan<string> values)
+    public static CString* CStringArray(ReadOnlySpan<string> values)
     {
         var pointerSize = IntPtr.Size;
-        var result = (CString8U*)Marshal.AllocHGlobal(pointerSize * values.Length);
+        var result = (CString*)Marshal.AllocHGlobal(pointerSize * values.Length);
         for (var i = 0; i < values.Length; ++i)
         {
             var @string = values[i];
-            var cString = CString8U(@string);
+            var cString = CString(@string);
             result[i] = cString;
         }
 
@@ -177,14 +177,14 @@ public static unsafe partial class Runtime
     ///     dimensional ushort arrays each terminated by a <c>0x0</c>) by allocating and copying.
     /// </summary>
     /// <remarks>
-    ///     <para>Calls <see cref="CString8U" />.</para>
+    ///     <para>Calls <see cref="CString" />.</para>
     /// </remarks>
     /// <param name="values">The strings.</param>
     /// <returns>An array pointer of C string pointers. You are responsible for freeing the returned pointer.</returns>
-    public static CString16U* CString16UArray(ReadOnlySpan<string> values)
+    public static CStringWide* CStringWideArray(ReadOnlySpan<string> values)
     {
         var pointerSize = IntPtr.Size;
-        var result = (CString16U*)Marshal.AllocHGlobal(pointerSize * values.Length);
+        var result = (CStringWide*)Marshal.AllocHGlobal(pointerSize * values.Length);
         for (var i = 0; i < values.Length; ++i)
         {
             var @string = values[i];
@@ -197,7 +197,7 @@ public static unsafe partial class Runtime
 
     /// <summary>
     ///     Frees the memory for all previously allocated C strings and releases references to all <see cref="string" />
-    ///     objects which happened during <see cref="String8U" />, <see cref="String16U"/>, <see cref="CString8U"/>
+    ///     objects which happened during <see cref="String" />, <see cref="StringWide"/>, <see cref="CString"/>
     ///     or <see cref="CString16U" />. Does <b>not</b> garbage collect.
     /// </summary>
     public static void FreeAllStrings()
@@ -218,17 +218,17 @@ public static unsafe partial class Runtime
 
     /// <summary>
     ///     Frees the memory for specific previously allocated C strings and releases associated references to
-    ///     <see cref="string" /> objects which happened during <see cref="String8U" /> or
-    ///     <see cref="CString8U" />. Does <b>not</b> garbage collect.
+    ///     <see cref="string" /> objects which happened during <see cref="String" /> or
+    ///     <see cref="CString" />. Does <b>not</b> garbage collect.
     /// </summary>
     /// <param name="pointers">The C string pointers.</param>
     /// <param name="count">The number of C string pointers.</param>
-    public static void FreeCStrings(CString8U* pointers, int count)
+    public static void FreeCStrings(CString* pointers, int count)
     {
         for (var i = 0; i < count; i++)
         {
             var ptr = pointers[i];
-            FreeCString8U(ptr);
+            FreeCString(ptr);
         }
 
         Marshal.FreeHGlobal((IntPtr)pointers);
@@ -236,11 +236,11 @@ public static unsafe partial class Runtime
 
     /// <summary>
     ///     Frees the memory for the previously allocated C string and releases reference to the
-    ///     <see cref="string" /> object which happened during <see cref="String8U" /> or <see cref="CString8U" />.
+    ///     <see cref="string" /> object which happened during <see cref="String" /> or <see cref="CString" />.
     ///     Does <b>not</b> garbage collect.
     /// </summary>
     /// <param name="value">The string.</param>
-    public static void FreeCString8U(CString8U value)
+    public static void FreeCString(CString value)
     {
         if (!PointersToStrings8U.ContainsKey(value._pointer))
         {
@@ -255,11 +255,11 @@ public static unsafe partial class Runtime
 
     /// <summary>
     ///     Frees the memory for the previously allocated C string and releases reference to the
-    ///     <see cref="string" /> object which happened during <see cref="String16U" /> or <see cref="CString16U" />.
+    ///     <see cref="string" /> object which happened during <see cref="StringWide" /> or <see cref="CString16U" />.
     ///     Does <b>not</b> garbage collect.
     /// </summary>
     /// <param name="value">The string.</param>
-    public static void FreeCString16U(CString16U value)
+    public static void FreeCStringWide(CStringWide value)
     {
         if (!PointersToStrings16U.ContainsKey(value._pointer))
         {

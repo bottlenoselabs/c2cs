@@ -171,9 +171,11 @@ public class CSharpMapper
             typedefsBuilder.Add(typedef);
         }
 
+        // Typedefs need to be processed first as they can generate aliases on the fly
+        var typedefs = Typedefs(typedefsBuilder.ToImmutable());
+
         var functionPointers = FunctionPointers(
             abstractSyntaxTree.FunctionPointers);
-        var typedefs = Typedefs(typedefsBuilder.ToImmutable());
         var opaqueDataTypes = OpaqueDataTypes(
             abstractSyntaxTree.OpaqueTypes);
         var enums = Enums(abstractSyntaxTree.Enums);
@@ -552,6 +554,10 @@ public class CSharpMapper
         foreach (var typedefC in typedefs)
         {
             var typedefCSharp = Typedef(typedefC);
+            if (typedefCSharp == null)
+            {
+                continue;
+            }
 
             if (_ignoredNames.Contains(typedefCSharp.Name))
             {
@@ -565,12 +571,19 @@ public class CSharpMapper
         return result;
     }
 
-    private CSharpTypedef Typedef(CTypedef typedefC)
+    private CSharpTypedef? Typedef(CTypedef typedefC)
     {
         var name = typedefC.Name;
         var originalCodeLocationComment = OriginalCodeLocationComment(typedefC);
-        var underlingTypeC = CType(typedefC.UnderlyingType);
-        var underlyingTypeCSharp = Type(underlingTypeC);
+        var underlyingTypeC = CType(typedefC.UnderlyingType);
+        var typeC = CType(typedefC.Name);
+        if (typeC.IsSystem && underlyingTypeC.IsSystem)
+        {
+            var diagnostic = new DiagnosticSystemTypedef(name, typedefC.Location, underlyingTypeC.Name);
+            _diagnostics.Add(diagnostic);
+        }
+
+        var underlyingTypeCSharp = Type(underlyingTypeC);
 
         var result = new CSharpTypedef(
             name,
@@ -1002,12 +1015,12 @@ var x = {value};
 
         if (pointerTypeName.StartsWith("char*", StringComparison.InvariantCulture))
         {
-            return pointerTypeName.Replace("char*", "CString8U", StringComparison.InvariantCulture);
+            return pointerTypeName.Replace("char*", "CString", StringComparison.InvariantCulture);
         }
 
         if (pointerTypeName.StartsWith("wchar_t*", StringComparison.InvariantCulture))
         {
-            return pointerTypeName.Replace("wchar_t*", "CString16U", StringComparison.InvariantCulture);
+            return pointerTypeName.Replace("wchar_t*", "CStringWide", StringComparison.InvariantCulture);
         }
 
         if (pointerTypeName.StartsWith("FILE*", StringComparison.InvariantCulture))
@@ -1040,15 +1053,17 @@ var x = {value};
             return typeName;
         }
 
-        if (_systemTypeNameAliases.TryGetValue(typeName, out var mappedTypeName))
+        if (_systemTypeNameAliases.TryGetValue(typeName, out var mappedSystemTypeName))
         {
-            return mappedTypeName;
+            return mappedSystemTypeName;
         }
 
         switch (typeName)
         {
             case "char":
                 return "byte";
+            case "wchar_t":
+                return "CWideChar";
             case "bool":
             case "_Bool":
                 return "CBool";

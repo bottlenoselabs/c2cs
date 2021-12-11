@@ -30,7 +30,7 @@ namespace my_c_library_namespace
 
         // Function @ my_c_library.h:22:28
         [DllImport(LibraryName)]
-        public static extern void pass_string(CString8U s);
+        public static extern void pass_string(CString s);
 
         // Function @ my_c_library.h:23:28
         [DllImport(LibraryName)]

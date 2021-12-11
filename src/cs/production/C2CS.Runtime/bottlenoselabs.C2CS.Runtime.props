@@ -1,0 +1,19 @@
+<Project>
+  
+  <PropertyGroup>
+    <C2CSRuntimeContentDirectoryPath Condition="Exists('$(MSBuildThisFileDirectory)/CBool.cs')">$(MSBuildThisFileDirectory)</C2CSRuntimeContentDirectoryPath>
+    <C2CSRuntimeContentDirectoryPath Condition="Exists('$(MSBuildThisFileDirectory)/../content/CBool.cs')">$(MSBuildThisFileDirectory)/../content</C2CSRuntimeContentDirectoryPath>
+  </PropertyGroup>
+  
+  <!-- Content include all files + compile all .cs files -->
+  <ItemGroup>
+    <Content Include="$(C2CSRuntimeContentDirectoryPath)/**/*.*" >
+      <Pack>false</Pack>
+      <Link>Properties/bottlenoselabs/$(PackageId)/%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>
+    <Compile Include="$(C2CSRuntimeContentDirectoryPath)/**/*.cs" >
+      <Link>Properties/bottlenoselabs/$(PackageId)/%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+  </ItemGroup>
+
+</Project>

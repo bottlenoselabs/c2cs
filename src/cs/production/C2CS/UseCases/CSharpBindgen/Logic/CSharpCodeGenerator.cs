@@ -325,7 +325,7 @@ public fixed {typeName} {field.BackingFieldName}[{field.Type.SizeOf}/{field.Type
     {
         string code;
 
-        if (field.Type.Name == "CString8U")
+        if (field.Type.Name == "CString")
         {
             code = $@"
 public string {field.Name}
@@ -335,14 +335,14 @@ public string {field.Name}
 		fixed ({structName}*@this = &this)
 		{{
 			var pointer = &@this->{field.BackingFieldName}[0];
-            var cString = new CString8U(pointer);
-            return Runtime.String8U(cString);
+            var cString = new CString(pointer);
+            return Runtime.String(cString);
 		}}
 	}}
 }}
 ".Trim();
         }
-        else if (field.Type.Name == "CString16U")
+        else if (field.Type.Name == "CStringWide")
         {
             code = $@"
 public string {field.Name}
@@ -352,8 +352,8 @@ public string {field.Name}
 		fixed ({structName}*@this = &this)
 		{{
 			var pointer = &@this->{field.BackingFieldName}[0];
-            var cString = new CString16U(pointer);
-            return Runtime.String16U(cString);
+            var cString = new CStringWide(pointer);
+            return Runtime.StringWide(cString);
 		}}
 	}}
 }}
