@@ -9,10 +9,10 @@
   <ItemGroup>
     <Content Include="$(C2CSRuntimeContentDirectoryPath)/**/*.*" >
       <Pack>false</Pack>
-      <Link>Properties/bottlenoselabs/$(PackageId)/%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <Link>Properties/bottlenoselabs/$(MSBuildThisFileName)/%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Content>
     <Compile Include="$(C2CSRuntimeContentDirectoryPath)/**/*.cs" >
-      <Link>Properties/bottlenoselabs/$(PackageId)/%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <Link>Properties/bottlenoselabs/$(MSBuildThisFileName)/%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Compile>
   </ItemGroup>
 
