@@ -25,8 +25,8 @@ dotnet tool install bottlenoselabs.c2cs --global --add-source https://www.myget.
 
 - 💡 For a specific pre-release, including a specific pull-request or the latest Git commit of the `main` branch, see: https://www.myget.org/feed/bottlenoselabs/package/nuget/bottlenoselabs.C2CS.
 - 💡 If you see a specific version but the `dotnet tool` command doesn't see it, try clearing your NuGet caches:
-```
-bash dotnet nuget locals all --clear
+```bash
+dotnet nuget locals all --clear
 ```
 
 ## How to use
