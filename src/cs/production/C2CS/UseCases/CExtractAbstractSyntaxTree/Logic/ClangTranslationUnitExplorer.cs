@@ -1542,11 +1542,11 @@ public class ClangTranslationUnitExplorer
         AddExplorerNode(CKind.Typedef, location, parentNode, typedefCursor, type, type, string.Empty, typeName);
     }
 
-    private string TypeName(string parentTypeName, CKind kind, CXType type, CXCursor cursor)
+    private string TypeName(string? parentTypeName, CKind kind, CXType type, CXCursor cursor)
     {
         var typeCursor = clang_getTypeDeclaration(type);
         var isAnonymous = clang_Cursor_isAnonymous(typeCursor) != 0;
-        if (isAnonymous)
+        if (isAnonymous && !string.IsNullOrEmpty(parentTypeName))
         {
             var anonymousCursor = clang_getTypeDeclaration(type);
             var cursorName = cursor.Name();

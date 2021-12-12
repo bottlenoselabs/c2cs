@@ -2,12 +2,13 @@
 
 Here you will find documentation for `C2CS` including:
 
-- [Install](#install)
-- [How to use `C2CS`](#how-to-use).
-- [How to build `C2CS` from source](#building-from-source).
+- [Installing `C2CS`](#installing-c2cs)
+- [How to use `C2CS`](#how-to-use-c2cs).
+- [How to use `C2CS.Runtime`](#how-to-use-c2csruntime).
+- [How to build `C2CS` from source](#building-c2cs-from-source).
 - [Examples](#examples).
 
-## Install
+## Installing `C2CS`
 
 `C2CS` is distributed as a NuGet tool. To get started all you need is the .NET software development kit to access `dotnet tool`.
 
@@ -29,7 +30,7 @@ dotnet tool install bottlenoselabs.c2cs --global --add-source https://www.myget.
 dotnet nuget locals all --clear
 ```
 
-## How to use
+## How to use `C2CS`
 
 To generate bindings for a C library there is two stages: `ast` and `cs`.
 
@@ -102,7 +103,55 @@ Options:
   -?, -h, --help                             Show help and usage information
 ```
 
-## Building from source
+## How to use `C2CS.Runtime`
+
+The `C2CS.Runtime` NuGet package for C# projects is required for the generated bindings because there are helper types and methods or otherwise "glue" that make interoperability with C in C# possible, easier, and more idiomatic.
+
+Just like `C2CS`, `C2CS.Runtime` is distributed as a NuGet package. You can add it to your `.csproj` using the package id `bottlenoselabs.C2CS.Runtime`. You should always use the same version as `C2CS`. For example, in your `.csproj`:
+
+```xml
+<!-- NuGet package references -->
+<ItemGroup>
+  <PackageReference Include="bottlenoselabs.C2CS.Runtime" Version="x.y.z" PrivateAssets="true" />
+</ItemGroup>  
+```
+
+Note that `PrivateAssets` is `true` so that the NuGet package does not flow to any projects which depend on your C# project. This is required because additional C# files are packaged not as assemblies but as raw C# `.cs` files which your C# project will compile. Having it flow to other C# projects transitively will result in compiler errors.
+
+### Getting a pre-release package of `C2CS.Runtime` 
+
+While `C2CS` is being developed, the packages are not deployed to nuget.org, but rather a different feed. To make the pre-release feed accessible so that you can access the pre-release NuGet package in your C# project, create or modify your `NuGet.config` file which should be beside your `.sln` or `.csproj`. (Where to place it is depending if you want to apply to just one C# project in your solution or all your C# projects in your solution).
+
+For example, the following `NuGet.config` file has the `bottlenoselabs` added as a key with a key value pointing to the feed URI.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <packageSources>
+        <clear />
+        <add key="nuget" value="https://api.nuget.org/v3/index.json" />
+        <add key="bottlenoselabs" value="https://www.myget.org/F/bottlenoselabs/api/v3/index.json" />
+    </packageSources>
+</configuration>
+```
+
+### Custom C# project properties for `C2CS.Runtime`
+
+Because `C2CS.Runtime` ships with C# `.cs` files that your C# project compiles, it is possible to configure some settings for the code in your C# project `.csproj` file.
+
+#### `SIZEOF_WCHAR_T`:
+
+Use a value of `1`, `2`, or `4` to specify the backing byte field size of `CCharWide`. `CCharWide` in C# is intended to be blittable to `wchar_t` in C. The default value is `2` on Windows + macOS like operating systems, and `4` on Linux like operating systems.
+
+Example:
+
+```xml
+<PropertyGroup>
+  <SIZEOF_WCHAR_T>2</SIZEOF_WCHAR_T>
+</PropertyGroup>
+```  
+
+## Building `C2CS` from source
 
 ### Prerequisites
 

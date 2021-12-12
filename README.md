@@ -61,7 +61,8 @@ Everything in the [**external linkage**](https://stackoverflow.com/questions/135
 |:x:|C++.|
 |:x:|Objective-C.|
 |:o:|Implicit types.<sup>8</sup>|
-|:x:|`va_list`.<sup>9</sup>|
+|:x:|`va_list`<sup>9</sup>|
+|:white_check_mark:|`wchar_t`<sup>10</sup>|
 
 <sup>1</sup>: `dlsym` on Unix and `GetProcAddress` on Windows allow getting the address of a variable exported for shared libraries (`.dll`/`.dylib`/`.so`). However, there is no way to do the same for statically linked libraries. There is also no alternative for `DllImport` in C# for extern variables. The recommended way to expose variable externs to C# from C is to instead create "getter" and/or "setter" function externs. Thus, variable externs are not supported for simplicity.
 
@@ -80,6 +81,8 @@ Everything in the [**external linkage**](https://stackoverflow.com/questions/135
 <sup>8</sup>: Types must be explicitly transtive to a function extern so they can be found. The only exception is enums that are part of external linkage to which such enums are transpiled. This is a commonly found in some C libraries such as https://github.com/libsdl-org/SDL where functions take integers as part of their API but are actually expecting an enum.
 
 <sup>9</sup>: For support with `va_list` see https://github.com/lithiumtoast/c2cs/issues/15.
+
+<sup>10</sup>: `wchar_t*` is mapped to `CStringWide` which is an opaque pointer, that is fine. What is not fine is that `wchar_t` itself is a problem for cross-platform because by default it is 2 bytes on Windows and 4 bytes on Linux (it also be 1 byte on some embedded systems or otherwise different on various hardware). It can be forced to be the same across hardware using the `-fshort-wchar` compiler flag, but this has consequences. Some hardware vendors enforce that all linked objects must use the same `wchar_t` size, including libraries. It is then not possible or at very least unstable to link an object file compiled with `-fshort-wchar`, with another object file that is compiled without `-fshort-wchar` such as standard libraries. The approach taken for `C2CS` is to use either 1, 2 or 4 for the C# mapped type `CCharWide` that is blittable to `wchar_t`. The exact size of bytes depend on the target operating system by default but can be overriden by specifying the property `SIZEOF_WCHAR_T` to a value of `1`, `2`, or `4` in your C# project. For more information on how this works, please see [How to use `C2CS.Runtime` - Custom C# project properties for `C2CS.Runtime`](docs/README.md#custom-c-project-properties-for-c2csruntime). Note however that if any of your public header structs use `wchar_t` then the resulting struct may be different sizes across platforms. In such a case it is no different than pointers limitation mentioned earlier in terms of a solution.
 
 #### What do I do if I want to generate bindings for a non bindgen-friendly C library?
 

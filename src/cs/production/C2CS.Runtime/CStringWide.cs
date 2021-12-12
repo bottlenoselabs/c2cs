@@ -45,7 +45,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// <param name="s">The string value.</param>
     public CStringWide(string s)
     {
-        _pointer = Runtime.CString16U(s);
+        _pointer = Runtime.CStringWide(s);
     }
 
     /// <summary>
@@ -165,7 +165,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// </returns>
     public static CStringWide FromString(string s)
     {
-        return Runtime.CString16U(s);
+        return Runtime.CStringWide(s);
     }
 
     /// <inheritdoc />

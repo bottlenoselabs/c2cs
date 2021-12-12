@@ -36,7 +36,7 @@ namespace C2CS
         /// <returns>A <see cref="CBool" />.</returns>
         public static implicit operator CBool(bool value)
         {
-            return new CBool(value);
+            return CBool.FromBoolean(value);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace C2CS
         /// <returns>A <see cref="bool" />.</returns>
         public static implicit operator bool(CBool value)
         {
-            return Convert.ToBoolean(value._value);
+            return ToBoolean(value);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace C2CS
         /// <inheritdoc />
         public override string ToString()
         {
-            return Convert.ToBoolean(_value).ToString();
+            return ToBoolean(this).ToString();
         }
 
         /// <inheritdoc />

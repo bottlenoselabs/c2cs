@@ -31,6 +31,8 @@ public class CSharpMapper
     {
         var aliases = new Dictionary<string, string>();
 
+        aliases.Add("wchar_t", string.Empty); // remove
+
         if (Runtime.OperatingSystem == RuntimeOperatingSystem.Windows)
         {
             aliases.Add("DWORD", "uint");
@@ -78,6 +80,7 @@ public class CSharpMapper
             aliases.Add("__darwin_socklen_t", "uint");
             aliases.Add("_opaque_pthread_t", string.Empty); // remove
             aliases.Add("__darwin_pthread_handler_rec", string.Empty); // remove
+            aliases.Add("__darwin_wchar_t", string.Empty); // remove
 
             if (bitness == 32)
             {
@@ -123,7 +126,9 @@ public class CSharpMapper
                 or "uint"
                 or "long"
                 or "ulong"
-                or "CBool")
+                or "CBool"
+                or "CChar"
+                or "CCharWide")
             {
                 builtinAliases.Add(typeAlias.From);
             }
@@ -1061,7 +1066,7 @@ var x = {value};
         switch (typeName)
         {
             case "char":
-                return "byte";
+                return "CChar";
             case "wchar_t":
                 return "CWideChar";
             case "bool":

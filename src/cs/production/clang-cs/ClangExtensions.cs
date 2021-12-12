@@ -342,7 +342,7 @@ public static unsafe class ClangExtensions
         return new ClangLocation
         {
             FileName = Path.GetFileName(fileNamePath),
-            FilePath = Path.GetFullPath(fileNamePath),
+            FilePath = string.IsNullOrEmpty(fileNamePath) ? string.Empty : Path.GetFullPath(fileNamePath),
             LineNumber = (int)lineNumber,
             LineColumn = (int)columnNumber,
             IsBuiltin = clang_getCursorType(cursor).IsPrimitive()
