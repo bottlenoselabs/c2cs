@@ -17,7 +17,7 @@ public readonly unsafe struct CString : IEquatable<CString>
     internal readonly nint _pointer;
 
     /// <summary>
-    ///     Gets a <see cref="bool" /> value indicating whether this <see cref="CString" /> is a null pointer.
+    ///     Gets a value indicating whether this <see cref="CString" /> is a null pointer.
     /// </summary>
     public bool IsNull => _pointer == 0;
 
