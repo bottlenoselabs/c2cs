@@ -112,11 +112,11 @@ Just like `C2CS`, `C2CS.Runtime` is distributed as a NuGet package. You can add 
 ```xml
 <!-- NuGet package references -->
 <ItemGroup>
-  <PackageReference Include="bottlenoselabs.C2CS.Runtime" Version="x.y.z" PrivateAssets="true" />
+  <PackageReference Include="bottlenoselabs.C2CS.Runtime" Version="x.y.z" PrivateAssets="all" />
 </ItemGroup>  
 ```
 
-Note that `PrivateAssets` is `true` so that the NuGet package does not flow to any projects which depend on your C# project. This is required because additional C# files are packaged not as assemblies but as raw C# `.cs` files which your C# project will compile. Having it flow to other C# projects transitively will result in compiler errors.
+Note that `PrivateAssets` is `all` so that the NuGet package does not flow to any projects which depend on your C# project. This is required because additional C# files are packaged not as assemblies but as raw C# `.cs` files which your C# project will compile. Having it flow to other C# projects transitively will result in compiler errors.
 
 ### Getting a pre-release package of `C2CS.Runtime` 
 
