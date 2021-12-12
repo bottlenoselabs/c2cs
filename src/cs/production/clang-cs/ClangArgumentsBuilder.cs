@@ -49,7 +49,6 @@ public static class ClangArgumentsBuilder
 
         args.Add("-Wno-pragma-once-outside-header");
         args.Add("-fno-blocks");
-        args.Add("-fshort-wchar"); // sets the size of wchar_t to 2 bytes
     }
 
     private static void AddBitness(ImmutableArray<string>.Builder args, int bitness)
