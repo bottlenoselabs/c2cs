@@ -157,6 +157,12 @@ public static class ClangArgumentsBuilder
         var visualStudioInstallationDirectoryPath =
             "-latest -property installationPath".RunCommandWithCapturingStandardOutput(fileName: vsWhereFilePath);
 
+        if (string.IsNullOrEmpty(visualStudioInstallationDirectoryPath))
+        {
+            throw new ClangException(
+                $"Please install the Microsoft Visual C++ (MSVC) build tools.");
+        }
+
         var mscvVersionsDirectoryPath = Path.Combine(visualStudioInstallationDirectoryPath, @"VC\Tools\MSVC");
         var mscvHighestVersionDirectoryPath = GetHighestVersionDirectoryPathFrom(mscvVersionsDirectoryPath);
         if (string.IsNullOrEmpty(mscvHighestVersionDirectoryPath))
