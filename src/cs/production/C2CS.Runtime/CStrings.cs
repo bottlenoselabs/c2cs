@@ -1,16 +1,12 @@
-﻿// Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
-#nullable enable
-
-namespace C2CS;
-
-public static unsafe partial class Runtime
+/// <summary>
+///     The collection of utility methods for interoperability with C style strings in C#.
+/// </summary>
+public static unsafe class CStrings
 {
     private static readonly Dictionary<uint, CString> StringHashesToPointers = new();
     private static readonly Dictionary<nint, string> PointersToStrings = new();
@@ -111,9 +107,7 @@ public static unsafe partial class Runtime
     /// <returns>A C string pointer.</returns>
     public static CString CString(string str)
     {
-#pragma warning disable CA1062
-        var hash = Djb22(str);
-#pragma warning restore CA1062
+        var hash = Djb2(str);
         if (StringHashesToPointers.TryGetValue(hash, out var r))
         {
             return r;
@@ -135,7 +129,7 @@ public static unsafe partial class Runtime
     /// <returns>A C string pointer.</returns>
     public static CStringWide CStringWide(string str)
     {
-        var hash = Djb22(str);
+        var hash = Djb2(str);
         if (StringHashesToPointersWide.TryGetValue(hash, out var r))
         {
             return r;
@@ -248,7 +242,7 @@ public static unsafe partial class Runtime
         }
 
         Marshal.FreeHGlobal(value);
-        var hash = Djb22(value);
+        var hash = Djb2(value);
         StringHashesToPointers.Remove(hash);
         PointersToStrings.Remove(value._pointer);
     }
@@ -267,7 +261,7 @@ public static unsafe partial class Runtime
         }
 
         Marshal.FreeHGlobal(value);
-        var hash = Djb22(value);
+        var hash = Djb2(value);
         StringHashesToPointersWide.Remove(hash);
         PointersToStringsWide.Remove(value._pointer);
     }
@@ -277,8 +271,7 @@ public static unsafe partial class Runtime
     //  (1) https://stackoverflow.com/a/7666577/2171957
     //  (2) http://www.cse.yorku.ca/~oz/hash.html
     //  (3) https://groups.google.com/g/comp.lang.c/c/lSKWXiuNOAk/m/zstZ3SRhCjgJ
-    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Algorithm name.")]
-    internal static uint Djb2(byte* str)
+    private static uint Djb2(byte* str)
     {
         // Lucas Girouard-Stranks: my explanation of djb2
         // basic hash algorithm; we want each character in the string to have some bias related to it's position for calculating the hash
@@ -319,25 +312,7 @@ public static unsafe partial class Runtime
         return hash;
     }
 
-    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Algorithm name.")]
-    internal static uint Djb21(ushort* str)
-    {
-        uint hash = 5381;
-
-        unchecked
-        {
-            uint c;
-            while ((c = *str++) != 0)
-            {
-                hash = ((hash << 5) + hash) + c; // hash * 33 + c
-            }
-        }
-
-        return hash;
-    }
-
-    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Algorithm name.")]
-    private static uint Djb22(string str)
+    private static uint Djb2(string str)
     {
         uint hash = 5381;
 

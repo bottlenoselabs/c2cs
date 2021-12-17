@@ -1,17 +1,10 @@
-// Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
-
 using System;
 using System.Runtime.InteropServices;
-using JetBrains.Annotations;
-
-namespace C2CS;
 
 /// <summary>
 ///     A pointer value type of bytes that represent a string; the C type `char*`.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-[PublicAPI]
 public readonly unsafe struct CString : IEquatable<CString>
 {
     internal readonly nint _pointer;
@@ -45,7 +38,7 @@ public readonly unsafe struct CString : IEquatable<CString>
     /// <param name="s">The string value.</param>
     public CString(string s)
     {
-        _pointer = Runtime.CString(s);
+        _pointer = CStrings.CString(s);
     }
 
     /// <summary>
@@ -141,7 +134,7 @@ public readonly unsafe struct CString : IEquatable<CString>
     /// </returns>
     public static string ToString(CString value)
     {
-        return Runtime.String(value);
+        return CStrings.String(value);
     }
 
     /// <summary>
@@ -165,13 +158,13 @@ public readonly unsafe struct CString : IEquatable<CString>
     /// </returns>
     public static CString FromString(string s)
     {
-        return Runtime.CString(s);
+        return CStrings.CString(s);
     }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return Runtime.String(this);
+        return CStrings.String(this);
     }
 
     /// <inheritdoc />

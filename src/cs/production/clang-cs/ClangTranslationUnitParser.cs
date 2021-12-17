@@ -34,7 +34,7 @@ public static class ClangTranslationUnitParser
             Console.Error.Write("\t");
             var clangString = clang.clang_formatDiagnostic(diagnostic, defaultDisplayOptions);
             var diagnosticStringC = clang.clang_getCString(clangString);
-            var diagnosticString = Runtime.String(diagnosticStringC);
+            var diagnosticString = clang.CStrings.String(diagnosticStringC);
             Console.Error.WriteLine(diagnosticString);
 
             var severity = clang.clang_getDiagnosticSeverity(diagnostic);
@@ -66,8 +66,8 @@ public static class ClangTranslationUnitParser
                              0x0;
 
         var index = clang.clang_createIndex(0, 0);
-        var cSourceFilePath = Runtime.CString(filePath);
-        var cCommandLineArgs = Runtime.CStringArray(commandLineArgs.AsSpan());
+        var cSourceFilePath = clang.CStrings.CString(filePath);
+        var cCommandLineArgs = clang.CStrings.CStringArray(commandLineArgs.AsSpan());
 
         clang.CXErrorCode errorCode;
         fixed (clang.CXTranslationUnit* translationUnitPointer = &translationUnit)

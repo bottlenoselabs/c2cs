@@ -33,7 +33,7 @@ public class CSharpMapper
 
         aliases.Add("wchar_t", string.Empty); // remove
 
-        if (Runtime.OperatingSystem == RuntimeOperatingSystem.Windows)
+        if (Platform.OperatingSystem == RuntimeOperatingSystem.Windows)
         {
             aliases.Add("DWORD", "uint");
             aliases.Add("ULONG", "uint");
@@ -43,7 +43,7 @@ public class CSharpMapper
             aliases.Add("SOCKET", "nint");
         }
 
-        if (Runtime.OperatingSystem == RuntimeOperatingSystem.Linux)
+        if (Platform.OperatingSystem == RuntimeOperatingSystem.Linux)
         {
             aliases.Add("__gid_t", "uint");
             aliases.Add("__uid_t", "uint");
@@ -64,9 +64,9 @@ public class CSharpMapper
             }
         }
 
-        if (Runtime.OperatingSystem == RuntimeOperatingSystem.macOS ||
-            Runtime.OperatingSystem == RuntimeOperatingSystem.iOS ||
-            Runtime.OperatingSystem == RuntimeOperatingSystem.tvOS)
+        if (Platform.OperatingSystem == RuntimeOperatingSystem.macOS ||
+            Platform.OperatingSystem == RuntimeOperatingSystem.iOS ||
+            Platform.OperatingSystem == RuntimeOperatingSystem.tvOS)
         {
             aliases.Add("__uint32_t", "uint");
             aliases.Add("__uint16_t", "ushort");

@@ -6,7 +6,10 @@ using System.Runtime.InteropServices;
 
 namespace C2CS;
 
-public static partial class Runtime
+/// <summary>
+///     The collection of utilities for platform interoperability with native libraries in C#.
+/// </summary>
+public static class Platform
 {
     /// <summary>
     ///     Gets the current <see cref="RuntimeOperatingSystem" />.

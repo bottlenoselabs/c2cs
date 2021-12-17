@@ -98,7 +98,7 @@ public static class Terminal
         }
         else
         {
-            var platform = Runtime.OperatingSystem;
+            var platform = Platform.OperatingSystem;
             if (platform == RuntimeOperatingSystem.Windows)
             {
                 processStartInfo.FileName = "wsl";
@@ -133,7 +133,7 @@ public static class Terminal
 
         var cMakeCommand = "cmake -S . -B cmake-build-release -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=Release";
 
-        var platform = Runtime.OperatingSystem;
+        var platform = Platform.OperatingSystem;
         if (platform == RuntimeOperatingSystem.Windows)
         {
             var toolchainFilePath = WindowsToLinuxPath($"{rootDirectory}/mingw-w64-x86_64.cmake");
@@ -158,8 +158,8 @@ public static class Terminal
             return false;
         }
 
-        var runtimePlatform = Runtime.OperatingSystem;
-        var libraryFileNameExtension = Runtime.LibraryFileNameExtension(runtimePlatform);
+        var runtimePlatform = Platform.OperatingSystem;
+        var libraryFileNameExtension = Platform.LibraryFileNameExtension(runtimePlatform);
         var outputFilePaths = Directory.EnumerateFiles(
             outputDirectoryPath, $"*{libraryFileNameExtension}", SearchOption.AllDirectories);
         foreach (var outputFilePath in outputFilePaths)

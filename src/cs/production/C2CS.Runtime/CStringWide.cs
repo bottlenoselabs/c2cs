@@ -1,17 +1,10 @@
-// Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
-
 using System;
 using System.Runtime.InteropServices;
-using JetBrains.Annotations;
-
-namespace C2CS;
 
 /// <summary>
 ///     A pointer value type that represents a wide string; C type `wchar_t*`.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-[PublicAPI]
 public readonly unsafe struct CStringWide : IEquatable<CStringWide>
 {
     internal readonly nint _pointer;
@@ -45,7 +38,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// <param name="s">The string value.</param>
     public CStringWide(string s)
     {
-        _pointer = Runtime.CStringWide(s);
+        _pointer = CStrings.CStringWide(s);
     }
 
     /// <summary>
@@ -141,7 +134,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// </returns>
     public static string ToString(CStringWide value)
     {
-        return Runtime.StringWide(value);
+        return CStrings.StringWide(value);
     }
 
     /// <summary>
@@ -165,13 +158,13 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// </returns>
     public static CStringWide FromString(string s)
     {
-        return Runtime.CStringWide(s);
+        return CStrings.CStringWide(s);
     }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return Runtime.StringWide(this);
+        return CStrings.StringWide(this);
     }
 
     /// <inheritdoc />

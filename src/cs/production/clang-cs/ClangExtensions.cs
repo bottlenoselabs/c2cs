@@ -7,7 +7,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
-using C2CS;
 using static clang;
 
 public static unsafe class ClangExtensions
@@ -253,7 +252,7 @@ public static unsafe class ClangExtensions
         var spelling = clang_getTypeSpelling(clangType);
 
         var resultC = clang_getCString(spelling);
-        var result = Runtime.String(resultC);
+        var result = clang.CStrings.String(resultC);
         if (string.IsNullOrEmpty(result))
         {
             return string.Empty;

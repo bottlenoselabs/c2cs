@@ -25,7 +25,7 @@ public class
         Validate(request);
         TotalSteps(4);
 
-        Step("Setup Clang", Runtime.OperatingSystem, SetupClang);
+        Step("Setup Clang", Platform.OperatingSystem, SetupClang);
 
         var translationUnit = Step(
             "Parse C code from disk",
