@@ -2,18 +2,8 @@ name: "main"
 
 on:
   push:
-    tags:
-      - v*
     branches:
       - main
-    paths-ignore:
-      - '**.md'
-  pull_request:
-    types:
-      - assigned
-      - opened
-      - synchronize
-      - reopened
     paths-ignore:
       - '**.md'
 
