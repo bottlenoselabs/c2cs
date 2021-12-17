@@ -108,7 +108,6 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 {string.Join("\n", usingNamespaces.Select(x => $"using {x};"))}
-using C2CS;
 
 #nullable enable
 #pragma warning disable 1591
@@ -332,7 +331,7 @@ public fixed {typeName} {field.BackingFieldName}[{field.Type.SizeOf}/{field.Type
         return ParseMemberCode<FieldDeclarationSyntax>(code);
     }
 
-    private static PropertyDeclarationSyntax EmitStructFieldFixedBufferProperty(
+    private PropertyDeclarationSyntax EmitStructFieldFixedBufferProperty(
         string structName,
         CSharpStructField field)
     {
@@ -349,7 +348,7 @@ public string {field.Name}
 		{{
 			var pointer = &@this->{field.BackingFieldName}[0];
             var cString = new CString(pointer);
-            return Runtime.String(cString);
+            return {_className}.CStrings.String(cString);
 		}}
 	}}
 }}
@@ -366,7 +365,7 @@ public string {field.Name}
 		{{
 			var pointer = &@this->{field.BackingFieldName}[0];
             var cString = new CStringWide(pointer);
-            return Runtime.StringWide(cString);
+            return {_className}.CStrings.StringWide(cString);
 		}}
 	}}
 }}
