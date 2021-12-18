@@ -33,20 +33,19 @@ public static class Platform
         switch (operatingSystem)
         {
             case RuntimeOperatingSystem.Windows:
+            case RuntimeOperatingSystem.Xbox:
                 return ".dll";
             case RuntimeOperatingSystem.macOS:
             case RuntimeOperatingSystem.tvOS:
+            case RuntimeOperatingSystem.iOS:
                 return ".dylib";
             case RuntimeOperatingSystem.Linux:
             case RuntimeOperatingSystem.FreeBSD:
             case RuntimeOperatingSystem.Android:
+            case RuntimeOperatingSystem.PlayStation:
                 return ".so";
             case RuntimeOperatingSystem.Browser:
-            case RuntimeOperatingSystem.PlayStation:
-            case RuntimeOperatingSystem.Xbox:
-                throw new InvalidOperationException("Dynamic linking of a library is not possible for Xbox.");
-            case RuntimeOperatingSystem.iOS:
-                throw new InvalidOperationException("Dynamic linking of a library is not possible for iOS.");
+            case RuntimeOperatingSystem.Switch:
             case RuntimeOperatingSystem.Unknown:
                 throw new NotImplementedException();
             default:
@@ -66,6 +65,7 @@ public static class Platform
         switch (targetOperatingSystem)
         {
             case RuntimeOperatingSystem.Windows:
+            case RuntimeOperatingSystem.Xbox:
                 return string.Empty;
             case RuntimeOperatingSystem.macOS:
             case RuntimeOperatingSystem.tvOS:
@@ -73,9 +73,10 @@ public static class Platform
             case RuntimeOperatingSystem.Linux:
             case RuntimeOperatingSystem.FreeBSD:
             case RuntimeOperatingSystem.Android:
+            case RuntimeOperatingSystem.PlayStation:
                 return "lib";
             case RuntimeOperatingSystem.Browser:
-                throw new NotImplementedException();
+            case RuntimeOperatingSystem.Switch:
             case RuntimeOperatingSystem.Unknown:
                 throw new NotImplementedException();
             default:
@@ -92,6 +93,7 @@ public static class Platform
             System.Runtime.InteropServices.Architecture.X86 => RuntimeArchitecture.X86,
             System.Runtime.InteropServices.Architecture.X64 => RuntimeArchitecture.X64,
             System.Runtime.InteropServices.Architecture.Wasm => RuntimeArchitecture.Unknown,
+            System.Runtime.InteropServices.Architecture.S390x => RuntimeArchitecture.Unknown,
             _ => throw new ArgumentOutOfRangeException()
         };
     }
