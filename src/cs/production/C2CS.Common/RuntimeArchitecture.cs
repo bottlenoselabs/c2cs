@@ -19,8 +19,7 @@ public enum RuntimeArchitecture
 
     /// <summary>
     ///     Intel x86_x64 64-bit computing architecture. Commonly found in modern desktop platforms such as Windows
-    ///     10 with power users such as the general gamer audience for PC. Also commonly found in some eighth
-    ///     generation consoles such as Xbox One and PlayStation 4.
+    ///     10. Also commonly found in some eighth generation consoles such as Xbox One and PlayStation 4.
     /// </summary>
     X64 = 1,
 
