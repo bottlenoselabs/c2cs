@@ -1639,7 +1639,7 @@ public class ClangTranslationUnitExplorer
 
         foreach (var includeDirectory in _includeDirectories)
         {
-            if (location.FilePath.Contains(includeDirectory, StringComparison.InvariantCulture))
+	        if (location.FilePath.Contains(includeDirectory, StringComparison.InvariantCulture))
             {
                 location.FilePath = location.FilePath.Replace(includeDirectory, string.Empty, StringComparison.InvariantCulture).Trim('/', '\\');
                 break;
