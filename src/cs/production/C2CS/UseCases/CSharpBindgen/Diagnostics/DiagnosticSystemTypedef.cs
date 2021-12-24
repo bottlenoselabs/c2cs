@@ -9,6 +9,6 @@ public class DiagnosticSystemTypedef : Diagnostic
         : base(DiagnosticSeverity.Warning)
     {
         Summary =
-            $"The typedef '{typeName}' at {loc.FilePath}:{loc.LineNumber}:{loc.LineColumn} is a system alias to the system type '{underlyingTypeName}'.";
+            $"The typedef '{typeName}' at {loc.FilePath}:{loc.LineNumber}:{loc.LineColumn} is a system alias to the system type '{underlyingTypeName}'. If you intend to have cross-platform bindings this is a problem; please create an issue on GitHub.";
     }
 }
