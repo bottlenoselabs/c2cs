@@ -71,7 +71,7 @@ public class CExtractAbstractSyntaxTreeRequest : UseCaseRequest
 
             result = new[]
             {
-                directoryPath
+                Path.GetFullPath(directoryPath)
             }.ToImmutableArray();
         }
         else
