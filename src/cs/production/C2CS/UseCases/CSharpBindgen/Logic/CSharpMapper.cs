@@ -83,6 +83,8 @@ public class CSharpMapper
 	        aliases.Add("HINSTANCE", "nint"); // A handle to an instance
 	        aliases.Add("HWND", "nint"); // A handle to a window
 	        aliases.Add("SOCKET", "nint"); // A handle to a socket
+	        aliases.Add("HINSTANCE__", string.Empty); // remove
+	        aliases.Add("HWND__", string.Empty); // remove
         }
 
         if (Platform.OperatingSystem == RuntimeOperatingSystem.Linux)
