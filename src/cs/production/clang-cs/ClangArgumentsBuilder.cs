@@ -129,7 +129,7 @@ public static class ClangArgumentsBuilder
     {
         var sdkDirectoryPath =
             Environment.ExpandEnvironmentVariables(@"%ProgramFiles(x86)%\Windows Kits\10\Include");
-        if (string.IsNullOrEmpty(sdkDirectoryPath))
+        if (!string.IsNullOrEmpty(sdkDirectoryPath) && !Directory.Exists(sdkDirectoryPath))
         {
             throw new ClangException(
                 "Please install the software development kit (SDK) for Windows 10: https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk/");
@@ -148,34 +148,33 @@ public static class ClangArgumentsBuilder
         var vsWhereFilePath =
             Environment.ExpandEnvironmentVariables(
                 @"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe");
-        if (!File.Exists(vsWhereFilePath))
+        var visualStudioInstallationDirectoryPath =
+	        "-latest -property installationPath".RunCommandWithCapturingStandardOutput(fileName: vsWhereFilePath);
+        if (!File.Exists(vsWhereFilePath) || string.IsNullOrEmpty(visualStudioInstallationDirectoryPath))
         {
             throw new ClangException(
                 "Please install Visual Studio 2017 or later (community, professional, or enterprise).");
         }
 
-        var visualStudioInstallationDirectoryPath =
-            "-latest -property installationPath".RunCommandWithCapturingStandardOutput(fileName: vsWhereFilePath);
-
-        if (string.IsNullOrEmpty(visualStudioInstallationDirectoryPath))
+        var mscvVersionsDirectoryPath = Path.Combine(visualStudioInstallationDirectoryPath, @"VC\Tools\MSVC");
+        if (!Directory.Exists(mscvVersionsDirectoryPath))
         {
-            throw new ClangException(
-                $"Please install the Microsoft Visual C++ (MSVC) build tools.");
+	        throw new ClangException(
+		        $"Please install the Microsoft Visual C++ (MSVC) build tools for Visual Studio ({visualStudioInstallationDirectoryPath}).");
         }
 
-        var mscvVersionsDirectoryPath = Path.Combine(visualStudioInstallationDirectoryPath, @"VC\Tools\MSVC");
         var mscvHighestVersionDirectoryPath = GetHighestVersionDirectoryPathFrom(mscvVersionsDirectoryPath);
         if (string.IsNullOrEmpty(mscvHighestVersionDirectoryPath))
         {
             throw new ClangException(
-                $"Unable to find a version for Microsoft Visual C++ (MSVC) build tools. Expected a version of MSCV at the path '{mscvVersionsDirectoryPath}'. Do you need to install the Microsoft Visual C++ (MSVC) build tools?");
+                $"Unable to find a version for Microsoft Visual C++ (MSVC) build tools for Visual Studio ({visualStudioInstallationDirectoryPath}).");
         }
 
         var mscvIncludeDirectoryPath = Path.Combine(mscvHighestVersionDirectoryPath, "include");
         if (!Directory.Exists(mscvIncludeDirectoryPath))
         {
             throw new ClangException(
-                "Please install Microsoft Visual C++ (MSVC) build tools through Visual Studio installer (modification of Visual Studio installed components).");
+                $"Please install Microsoft Visual C++ (MSVC) build tools for Visual Studio ({visualStudioInstallationDirectoryPath}).");
         }
 
         var systemIncludeCommandLineArg = $"-isystem{mscvIncludeDirectoryPath}";
