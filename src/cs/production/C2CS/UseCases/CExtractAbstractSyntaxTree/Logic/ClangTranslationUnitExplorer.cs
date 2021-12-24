@@ -447,8 +447,9 @@ public class ClangTranslationUnitExplorer
         var elementType = clang_getElementType(node.Type);
         var (kind, type) = TypeKind(elementType);
         var typeCursor = clang_getTypeDeclaration(type);
+        var cursor = typeCursor.kind == CXCursorKind.CXCursor_NoDeclFound ? node.Cursor : typeCursor;
         var typeName = TypeName(node.TypeName!, kind, type, typeCursor);
-        VisitType(node, typeCursor, typeCursor, type, type, typeName);
+        VisitType(node, cursor, node.Cursor, type, type, typeName);
     }
 
     private void ExplorePointer(ClangTranslationUnitExplorerNode node)
@@ -717,37 +718,27 @@ public class ClangTranslationUnitExplorer
             return;
         }
 
-        var cursor = node.Cursor;
         var type = node.Type;
-        var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
+        var underlyingType = clang_getTypedefDeclUnderlyingType(node.Cursor);
         var (aliasKind, aliasType) = TypeKind(underlyingType);
         var aliasCursor = clang_getTypeDeclaration(aliasType);
+        var cursor = aliasCursor.kind == CXCursorKind.CXCursor_NoDeclFound ? node.Cursor : aliasCursor;
 
-        if (aliasKind == CKind.Enum)
+        switch (aliasKind)
         {
-            ExploreEnum(typeName, aliasCursor, aliasType, location, parentNode);
-            return;
+	        case CKind.Enum:
+		        ExploreEnum(typeName, cursor, aliasType, location, parentNode);
+		        return;
+	        case CKind.Record:
+		        ExploreRecord(node, parentNode);
+		        return;
+	        case CKind.FunctionPointer:
+		        ExploreFunctionPointer(typeName, cursor, aliasType, type, location, parentNode);
+		        return;
         }
 
-        if (aliasKind == CKind.Record)
-        {
-            ExploreRecord(node, parentNode);
-            return;
-        }
-
-        if (aliasKind == CKind.FunctionPointer)
-        {
-            if (aliasCursor.kind == CXCursorKind.CXCursor_NoDeclFound)
-            {
-                aliasCursor = cursor;
-            }
-
-            ExploreFunctionPointer(typeName, aliasCursor, aliasType, type, location, parentNode);
-            return;
-        }
-
-        var aliasTypeName = TypeName(parentNode.TypeName!, aliasKind, aliasType, aliasCursor);
-        VisitType(parentNode, aliasCursor, cursor, aliasType, aliasType, aliasTypeName);
+        var aliasTypeName = TypeName(parentNode.TypeName!, aliasKind, aliasType, cursor);
+        VisitType(parentNode, cursor, node.Cursor, aliasType, aliasType, aliasTypeName);
 
         var typedef = new CTypedef
         {
@@ -1468,29 +1459,41 @@ public class ClangTranslationUnitExplorer
         CXType originalType,
         string typeName)
     {
-        if (!RegisterTypeIsNew(typeName, type, cursor))
+	    if (cursor.kind == CXCursorKind.CXCursor_NoDeclFound)
+	    {
+		    throw new ClangExplorerException("NoDecl cursor.");
+	    }
+
+	    if (!RegisterTypeIsNew(typeName, type, cursor))
         {
             return;
         }
 
-        var isValidTypeName = TypeNameIsValid(type, typeName);
-        if (!isValidTypeName)
+	    var isValidTypeName = TypeNameIsValid(type, typeName);
+	    if (!isValidTypeName)
         {
             return;
         }
 
-        var typeKind = TypeKind(type);
-        if (typeKind.Kind == CKind.Pointer)
+	    var typeKind = TypeKind(type);
+	    if (typeKind.Kind == CKind.Pointer)
         {
             var pointeeType = clang_getPointeeType(typeKind.Type);
             var pointeeKind = TypeKind(pointeeType);
             var pointeeCursor = clang_getTypeDeclaration(pointeeType);
-            var pointeeTypeName = TypeName(parentNode.TypeName!, pointeeKind.Kind, pointeeKind.Type, pointeeCursor);
-            VisitType(parentNode, pointeeCursor, originalCursor, pointeeKind.Type, type, pointeeTypeName);
+            var pointeeCursor2 = pointeeCursor.kind == CXCursorKind.CXCursor_NoDeclFound ? cursor : pointeeCursor;
+            var pointeeTypeName = TypeName(parentNode.TypeName!, pointeeKind.Kind, pointeeKind.Type, pointeeCursor2);
+            VisitType(
+	            parentNode,
+	            pointeeCursor2,
+	            originalCursor,
+	            pointeeKind.Type,
+	            type,
+	            pointeeTypeName);
             return;
         }
 
-        if (typeKind.Kind == CKind.Typedef)
+	    if (typeKind.Kind == CKind.Typedef)
         {
             VisitTypedef(parentNode, typeKind.Type, typeName);
         }
