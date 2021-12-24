@@ -5,6 +5,7 @@ using System;
 using System.Collections.Immutable;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -138,11 +139,19 @@ public class
         return handle;
     }
 
-    private static void Validate(CExtractAbstractSyntaxTreeRequest cExtractAbstractSyntaxTreeRequest)
+    private static void Validate(CExtractAbstractSyntaxTreeRequest request)
     {
-        if (!File.Exists(cExtractAbstractSyntaxTreeRequest.InputFilePath))
+        if (!File.Exists(request.InputFilePath))
         {
-            throw new UseCaseException($"File does not exist: `{cExtractAbstractSyntaxTreeRequest.InputFilePath}`.");
+            throw new UseCaseException($"The input file does not exist: `{request.InputFilePath}`.");
+        }
+
+        foreach (var includeDirectory in request.IncludeDirectories)
+        {
+	        if (!Directory.Exists(includeDirectory))
+	        {
+		        throw new UseCaseException($"The include directory does not exist: `{includeDirectory}`.");
+	        }
         }
     }
 
