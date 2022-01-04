@@ -16,7 +16,7 @@ public class RequestBindgenCSharp : UseCaseRequest
         string? libraryName,
         string? @namespace,
         string? className,
-        ImmutableArray<(string? SourceName, string? TargetName)>? mappedTypeNames,
+        ImmutableArray<CSharpTypeAlias>? mappedTypeNames,
         ImmutableArray<string?>? ignoredTypeNames,
         string? headerCodeRegionFilePath,
         string? footerCodeRegionFilePath)
@@ -77,8 +77,7 @@ public class RequestBindgenCSharp : UseCaseRequest
         return defaultFilePath;
     }
 
-    private static ImmutableArray<CSharpTypeAlias> VerifyTypeAliases(
-        ImmutableArray<(string? SourceName, string? TargetName)>? mappedTypeNames)
+    private static ImmutableArray<CSharpTypeAlias> VerifyTypeAliases(ImmutableArray<CSharpTypeAlias>? mappedTypeNames)
     {
         if (mappedTypeNames == null || mappedTypeNames.Value.IsDefaultOrEmpty)
         {
@@ -86,19 +85,8 @@ public class RequestBindgenCSharp : UseCaseRequest
         }
 
         var builder = ImmutableArray.CreateBuilder<CSharpTypeAlias>();
-        foreach (var (sourceName, targetName) in mappedTypeNames)
+        foreach (var typeAlias in mappedTypeNames)
         {
-            if (string.IsNullOrEmpty(sourceName) || string.IsNullOrEmpty(targetName))
-            {
-                continue;
-            }
-
-            var typeAlias = new CSharpTypeAlias
-            {
-                From = sourceName,
-                To = targetName
-            };
-
             builder.Add(typeAlias);
         }
 

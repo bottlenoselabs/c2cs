@@ -362,7 +362,7 @@ public string {field.Name}
 		{{
 			var pointer = &@this->{field.BackingFieldName}[0];
             var cString = new CString(pointer);
-            return {_className}.CStrings.String(cString);
+            return Runtime.CStrings.String(cString);
 		}}
 	}}
 }}
@@ -379,7 +379,7 @@ public string {field.Name}
 		{{
 			var pointer = &@this->{field.BackingFieldName}[0];
             var cString = new CStringWide(pointer);
-            return {_className}.CStrings.StringWide(cString);
+            return Runtime.CStrings.StringWide(cString);
 		}}
 	}}
 }}

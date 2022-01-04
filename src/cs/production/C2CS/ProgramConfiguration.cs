@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using C2CS.UseCases.BindgenCSharp;
 
 namespace C2CS;
 
@@ -62,7 +63,7 @@ public class ProgramConfiguration
     ///     be found when parsing C code and get mapped to the target name when generating C# code. Does not change the
     ///     type's bit layout.
     /// </summary>
-    public ImmutableArray<(string? SourceName, string? TargetName)>? MappedTypeNames { get; set; }
+    public ImmutableArray<CSharpTypeAlias>? MappedTypeNames { get; set; }
 
     /// <summary>
     ///     Determines whether the software development kit (SDK) for C/C++ is attempted to be found. Default is

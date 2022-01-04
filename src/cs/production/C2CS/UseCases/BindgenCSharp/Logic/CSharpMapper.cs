@@ -43,9 +43,9 @@ public class CSharpMapper
 
         foreach (var typeAlias in typeAliases)
         {
-            userAliases.Add(typeAlias.From, typeAlias.To);
+            userAliases.Add(typeAlias.Source, typeAlias.Target);
 
-            if (typeAlias.To
+            if (typeAlias.Target
                 is "byte"
                 or "sbyte"
                 or "short"
@@ -58,7 +58,7 @@ public class CSharpMapper
                 or "CChar"
                 or "CCharWide")
             {
-                builtinAliases.Add(typeAlias.From);
+                builtinAliases.Add(typeAlias.Source);
             }
         }
 
