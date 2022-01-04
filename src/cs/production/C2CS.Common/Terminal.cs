@@ -88,7 +88,7 @@ public static class Terminal
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             WorkingDirectory = workingDirectory ?? Environment.CurrentDirectory,
-            CreateNoWindow = true,
+            CreateNoWindow = true
         };
 
         if (!string.IsNullOrEmpty(fileName))
@@ -107,7 +107,7 @@ public static class Terminal
             else
             {
                 processStartInfo.FileName = "bash";
-                var escapedArgs = command.Replace($"\"", $"\\\"", StringComparison.InvariantCulture);
+                var escapedArgs = command.Replace("\"", "\\\"", StringComparison.InvariantCulture);
                 processStartInfo.Arguments = $"-c \"{escapedArgs}\"";
             }
         }
@@ -164,7 +164,8 @@ public static class Terminal
             outputDirectoryPath, $"*{libraryFileNameExtension}", SearchOption.AllDirectories);
         foreach (var outputFilePath in outputFilePaths)
         {
-            var targetFilePath = outputFilePath.Replace(outputDirectoryPath, targetLibraryDirectoryPath, StringComparison.InvariantCulture);
+            var targetFilePath = outputFilePath.Replace(
+                    outputDirectoryPath, targetLibraryDirectoryPath, StringComparison.InvariantCulture);
             var targetFileName = Path.GetFileName(targetFilePath);
 
             if (runtimePlatform == RuntimeOperatingSystem.Windows)

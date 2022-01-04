@@ -4,12 +4,12 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
-        <RootNamespace />
+        <RootNamespace/>
     </PropertyGroup>
 
     <!-- Project references -->
     <ItemGroup>
-        <ProjectReference Include="..\C2CS.Common\C2CS.Common.csproj" />
+        <ProjectReference Include="..\C2CS.Common\C2CS.Common.csproj"/>
     </ItemGroup>
 
 </Project>

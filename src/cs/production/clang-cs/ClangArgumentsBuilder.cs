@@ -149,7 +149,7 @@ public static class ClangArgumentsBuilder
             Environment.ExpandEnvironmentVariables(
                 @"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe");
         var visualStudioInstallationDirectoryPath =
-	        "-latest -property installationPath".RunCommandWithCapturingStandardOutput(fileName: vsWhereFilePath);
+            "-latest -property installationPath".RunCommandWithCapturingStandardOutput(fileName: vsWhereFilePath);
         if (!File.Exists(vsWhereFilePath) || string.IsNullOrEmpty(visualStudioInstallationDirectoryPath))
         {
             throw new ClangException(
@@ -159,8 +159,8 @@ public static class ClangArgumentsBuilder
         var mscvVersionsDirectoryPath = Path.Combine(visualStudioInstallationDirectoryPath, @"VC\Tools\MSVC");
         if (!Directory.Exists(mscvVersionsDirectoryPath))
         {
-	        throw new ClangException(
-		        $"Please install the Microsoft Visual C++ (MSVC) build tools for Visual Studio ({visualStudioInstallationDirectoryPath}).");
+            throw new ClangException(
+                $"Please install the Microsoft Visual C++ (MSVC) build tools for Visual Studio ({visualStudioInstallationDirectoryPath}).");
         }
 
         var mscvHighestVersionDirectoryPath = GetHighestVersionDirectoryPathFrom(mscvVersionsDirectoryPath);

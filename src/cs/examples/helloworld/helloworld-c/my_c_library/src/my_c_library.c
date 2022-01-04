@@ -29,10 +29,10 @@ void pass_enum(const my_enum_week_day e)
 {
     switch (e)
     {
-        case MY_ENUM_TYPE_UNKNOWN:
+        case MY_ENUM_WEEK_DAY_UNKNOWN:
             printf("UNKNOWN");
             break;
-        case MY_ENUM_TYPE_MONDAY:
+        case MY_ENUM_WEEK_DAY_MONDAY:
             printf("MONDAY");
             break;
         default:

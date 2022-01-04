@@ -31,6 +31,21 @@ public abstract class Diagnostic
     /// </summary>
     public string? Summary { get; protected set; }
 
+    protected string DiagnosticSeverityShortString
+    {
+        get
+        {
+            return Severity switch
+            {
+                DiagnosticSeverity.Information => "INFO",
+                DiagnosticSeverity.Error => "ERROR",
+                DiagnosticSeverity.Warning => "WARN",
+                DiagnosticSeverity.Panic => "PANIC",
+                _ => string.Empty
+            };
+        }
+    }
+
     public override string ToString()
     {
         return $"{DiagnosticSeverityShortString}: [{GetName()}] {Summary}";
@@ -46,20 +61,5 @@ public abstract class Diagnostic
         }
 
         return typeName.Replace("Diagnostic", string.Empty, StringComparison.InvariantCulture);
-    }
-
-    protected string DiagnosticSeverityShortString
-    {
-        get
-        {
-            return Severity switch
-            {
-                DiagnosticSeverity.Information => "INFO",
-                DiagnosticSeverity.Error => "ERROR",
-                DiagnosticSeverity.Warning => "WARN",
-                DiagnosticSeverity.Panic => "PANIC",
-                _ => string.Empty
-            };
-        }
     }
 }

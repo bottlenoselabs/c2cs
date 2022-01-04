@@ -10,5 +10,12 @@
     <ItemGroup>
         <ProjectReference Include="../../../production/C2CS/C2CS.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <None Remove="config.json" />
+      <Content Include="config.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
 
 </Project>

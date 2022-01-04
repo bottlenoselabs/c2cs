@@ -25,9 +25,12 @@ public static class Platform
     ///     Gets the library file name extension given a <see cref="RuntimeOperatingSystem" />.
     /// </summary>
     /// <param name="operatingSystem">The runtime platform.</param>
-    /// <returns>A <see cref="string" /> containing the library file name extension for the <paramref name="operatingSystem" />.</returns>
+    /// <returns>
+    ///     A <see cref="string" /> containing the library file name extension for the <paramref name="operatingSystem" />
+    ///     .
+    /// </returns>
     /// <exception cref="NotImplementedException"><paramref name="operatingSystem" /> is not available yet with .NET 5.</exception>
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="operatingSystem"/> is not a known valid value.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="operatingSystem" /> is not a known valid value.</exception>
     public static string LibraryFileNameExtension(RuntimeOperatingSystem operatingSystem)
     {
         switch (operatingSystem)
@@ -57,9 +60,12 @@ public static class Platform
     ///     Gets the library file name prefix for a <see cref="RuntimeOperatingSystem" />.
     /// </summary>
     /// <param name="targetOperatingSystem">The runtime platform.</param>
-    /// <returns>A <see cref="string" /> containing the library file name prefix for the <paramref name="targetOperatingSystem" />.</returns>
+    /// <returns>
+    ///     A <see cref="string" /> containing the library file name prefix for the
+    ///     <paramref name="targetOperatingSystem" />.
+    /// </returns>
     /// <exception cref="NotImplementedException"><paramref name="targetOperatingSystem" /> is not available yet with .NET 5.</exception>
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="targetOperatingSystem"/> is not a known valid value.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="targetOperatingSystem" /> is not a known valid value.</exception>
     public static string LibraryFileNamePrefix(RuntimeOperatingSystem targetOperatingSystem)
     {
         switch (targetOperatingSystem)

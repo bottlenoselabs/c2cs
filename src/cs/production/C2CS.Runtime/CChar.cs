@@ -94,7 +94,7 @@ public readonly struct CChar : IEquatable<byte>, IEquatable<CChar>
     /// </summary>
     /// <param name="left">The first <see cref="CChar" /> to compare.</param>
     /// <param name="right">The second <see cref="CChar" /> to compare.</param>
-    /// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> are equal; otherwise, <c>false</c>.</returns>
+    /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are equal; otherwise, <c>false</c>.</returns>
     public static bool operator ==(CChar left, CChar right)
     {
         return left._value == right._value;
@@ -105,7 +105,7 @@ public readonly struct CChar : IEquatable<byte>, IEquatable<CChar>
     /// </summary>
     /// <param name="left">The first <see cref="CChar" /> to compare.</param>
     /// <param name="right">The second <see cref="CChar" /> to compare.</param>
-    /// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> are not equal; otherwise, <c>false</c>.</returns>
+    /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are not equal; otherwise, <c>false</c>.</returns>
     public static bool operator !=(CChar left, CChar right)
     {
         return !(left == right);
@@ -116,7 +116,7 @@ public readonly struct CChar : IEquatable<byte>, IEquatable<CChar>
     /// </summary>
     /// <param name="left">The first <see cref="CChar" /> to compare.</param>
     /// <param name="right">The second <see cref="CChar" /> to compare.</param>
-    /// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> are equal; otherwise, <c>false</c>.</returns>
+    /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are equal; otherwise, <c>false</c>.</returns>
     public static bool Equals(CChar left, CChar right)
     {
         return left._value == right._value;

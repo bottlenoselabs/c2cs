@@ -16,8 +16,8 @@ internal static class Program
             return;
         }
 
-        GenerateAbstractSyntaxTree(rootDirectory);
-        GenerateBindingsCSharp(rootDirectory);
+        GenerateBindingsCSharp();
+        // GenerateBindingsCSharp(rootDirectory);
     }
 
     private static bool BuildLibrary(string rootDirectory)
@@ -28,33 +28,21 @@ internal static class Program
         return Terminal.CMake(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
     }
 
-    private static void GenerateAbstractSyntaxTree(string rootDirectory)
+    private static void GenerateBindingsCSharp()
     {
-        var arguments = @$"
-ast
--i
-{rootDirectory}/src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h
--o
-{rootDirectory}/src/cs/examples/helloworld/helloworld-c/my_c_library/ast/ast.json
-";
-        var argumentsArray =
-            arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-        C2CS.Program.Main(argumentsArray);
+        C2CS.Program.Main();
     }
 
-    private static void GenerateBindingsCSharp(string rootDirectory)
-    {
-        var arguments = @$"
-cs
--i
-{rootDirectory}/src/cs/examples/helloworld/helloworld-c/my_c_library/ast/ast.json
--o
-{rootDirectory}/src/cs/examples/helloworld/helloworld-cs/my_c_library.cs
--w
-my_c_library_namespace
-";
-        var argumentsArray =
-            arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-        C2CS.Program.Main(argumentsArray);
-    }
+// private static void GenerateBindingsCSharp(string rootDirectory)
+//     {
+//         var arguments = @$"
+// cs
+// {rootDirectory}/src/cs/examples/helloworld/helloworld-c/my_c_library/ast/ast.json
+// -n
+// my_c_library_namespace
+// ";
+//         var argumentsArray =
+//             arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+//         C2CS.Program.Main(argumentsArray);
+//     }
 }

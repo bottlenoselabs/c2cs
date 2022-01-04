@@ -3,7 +3,7 @@
     <!-- MSBuild project settings -->
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace />
+        <RootNamespace/>
     </PropertyGroup>
 
     <!-- MSBuild.Tools settings -->
@@ -11,9 +11,9 @@
         <EnableCodeCoverage>false</EnableCodeCoverage>
         <EnableAnalyzers>false</EnableAnalyzers>
     </PropertyGroup>
-    
+
     <ItemGroup>
-        <EmbeddedResource Include="$(MSBuildThisFileDirectory)/**/*.cs" />
+        <EmbeddedResource Include="$(MSBuildThisFileDirectory)/**/*.cs"/>
     </ItemGroup>
 
 </Project>

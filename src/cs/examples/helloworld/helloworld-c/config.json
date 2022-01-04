@@ -1,0 +1,19 @@
+{
+  "inputFilePath": "../../../../src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h",
+  "outputFilePath": "../../../../src/cs/examples/helloworld/helloworld-cs/my_c_library.cs",
+  "abstractSyntaxTreeOutputFilePath": null,
+  "libraryName": null,
+  "namespaceName": "my_c_library_namespace",
+  "className": null,
+  "headerCodeRegionFilePath": null,
+  "footerCodeRegionFilePath": null,
+  "mappedTypeNames": null,
+  "isEnabledFindSdk": true,
+  "machineBitWidth": null,
+  "includeDirectories": null,
+  "defines": null,
+  "excludedHeaderFiles": null,
+  "ignoredTypeNames": null,
+  "opaqueTypeNames": null,
+  "clangArguments": null
+}

@@ -13,10 +13,7 @@ public sealed class DiagnosticsSink
 {
     private readonly List<Diagnostic> _diagnostics = new();
 
-    public bool HasError
-    {
-        get => _diagnostics.Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
-    }
+    public bool HasError => _diagnostics.Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error);
 
     public void Add(Diagnostic diagnostic)
     {

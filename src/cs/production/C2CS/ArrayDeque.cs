@@ -21,8 +21,8 @@ namespace C2CS;
 public sealed class ArrayDeque<T> : IList<T>
 {
     private const int DefaultCapacity = 16;
-    private int _frontArrayIndex;
     private T[] _elements;
+    private int _frontArrayIndex;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="ArrayDeque{T}" /> class to be empty with default initial
@@ -50,31 +50,6 @@ public sealed class ArrayDeque<T> : IList<T>
     {
         get => _elements.Length;
         set => SetCapacity(value);
-    }
-
-    private void SetCapacity(int value)
-    {
-        if (value == Capacity)
-        {
-            return;
-        }
-
-        if (value < Count)
-        {
-            Count = value;
-        }
-
-        if (value == 0)
-        {
-            _elements = Array.Empty<T>();
-            return;
-        }
-
-        var elements = new T[value];
-        CopyTo(elements, 0);
-
-        _frontArrayIndex = 0;
-        _elements = elements;
     }
 
     /// <summary>
@@ -119,6 +94,129 @@ public sealed class ArrayDeque<T> : IList<T>
     /// </summary>
     /// <returns>A 32-bit signed integer that is non-negative.</returns>
     public int Count { get; private set; }
+
+    bool ICollection<T>.IsReadOnly => false;
+
+    /// <summary>
+    ///     Returns an enumerator that iterates through the elements.
+    /// </summary>
+    /// <returns>An <see cref="IEnumerator{T}" />.</returns>
+    public IEnumerator<T> GetEnumerator()
+    {
+        if (Count == 0)
+        {
+            yield break;
+        }
+
+        if (Count <= _elements.Length - _frontArrayIndex)
+        {
+            for (var i = _frontArrayIndex; i < _frontArrayIndex + Count; i++)
+            {
+                yield return _elements[i];
+            }
+        }
+        else
+        {
+            for (var i = _frontArrayIndex; i < Capacity; i++)
+            {
+                yield return _elements[i];
+            }
+
+            for (var i = 0; i < (_frontArrayIndex + Count) % Capacity; i++)
+            {
+                yield return _elements[i];
+            }
+        }
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    void ICollection<T>.Add(T item)
+    {
+        PushBack(item);
+    }
+
+    public int IndexOf(T item)
+    {
+        throw new NotImplementedException();
+    }
+
+    void IList<T>.Insert(int index, T item)
+    {
+        throw new NotImplementedException();
+    }
+
+    bool ICollection<T>.Remove(T item)
+    {
+        throw new NotImplementedException();
+    }
+
+    void IList<T>.RemoveAt(int index)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    ///     Removes all elements without changing the <see cref="Capacity" />.
+    /// </summary>
+    public void Clear()
+    {
+        if (Count == 0)
+        {
+            return;
+        }
+
+        if (Count > _elements.Length - _frontArrayIndex)
+        {
+            Array.Clear(_elements, _frontArrayIndex, _elements.Length - _frontArrayIndex);
+            Array.Clear(_elements, 0, _frontArrayIndex + Count - _elements.Length);
+        }
+        else
+        {
+            Array.Clear(_elements, _frontArrayIndex, Count);
+        }
+
+        Count = 0;
+        _frontArrayIndex = 0;
+    }
+
+    public bool Contains(T item)
+    {
+        throw new NotImplementedException();
+    }
+
+    void ICollection<T>.CopyTo(T[] array, int arrayIndex)
+    {
+        CopyTo(array, arrayIndex);
+    }
+
+    private void SetCapacity(int value)
+    {
+        if (value == Capacity)
+        {
+            return;
+        }
+
+        if (value < Count)
+        {
+            Count = value;
+        }
+
+        if (value == 0)
+        {
+            _elements = Array.Empty<T>();
+            return;
+        }
+
+        var elements = new T[value];
+        CopyTo(elements, 0);
+
+        _frontArrayIndex = 0;
+        _elements = elements;
+    }
 
     /// <summary>
     ///     Adds an element to the front of the <see cref="ArrayDeque{T}" />.
@@ -242,104 +340,6 @@ public sealed class ArrayDeque<T> : IList<T>
     public T? PeekBack()
     {
         return Get(Count - 1);
-    }
-
-    bool ICollection<T>.IsReadOnly => false;
-
-    /// <summary>
-    ///     Returns an enumerator that iterates through the elements.
-    /// </summary>
-    /// <returns>An <see cref="IEnumerator{T}" />.</returns>
-    public IEnumerator<T> GetEnumerator()
-    {
-        if (Count == 0)
-        {
-            yield break;
-        }
-
-        if (Count <= _elements.Length - _frontArrayIndex)
-        {
-            for (var i = _frontArrayIndex; i < _frontArrayIndex + Count; i++)
-            {
-                yield return _elements[i];
-            }
-        }
-        else
-        {
-            for (var i = _frontArrayIndex; i < Capacity; i++)
-            {
-                yield return _elements[i];
-            }
-
-            for (var i = 0; i < (_frontArrayIndex + Count) % Capacity; i++)
-            {
-                yield return _elements[i];
-            }
-        }
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    void ICollection<T>.Add(T item)
-    {
-        PushBack(item);
-    }
-
-    public int IndexOf(T item)
-    {
-        throw new NotImplementedException();
-    }
-
-    void IList<T>.Insert(int index, T item)
-    {
-        throw new NotImplementedException();
-    }
-
-    bool ICollection<T>.Remove(T item)
-    {
-        throw new NotImplementedException();
-    }
-
-    void IList<T>.RemoveAt(int index)
-    {
-        throw new NotImplementedException();
-    }
-
-    /// <summary>
-    ///     Removes all elements without changing the <see cref="Capacity" />.
-    /// </summary>
-    public void Clear()
-    {
-        if (Count == 0)
-        {
-            return;
-        }
-
-        if (Count > _elements.Length - _frontArrayIndex)
-        {
-            Array.Clear(_elements, _frontArrayIndex, _elements.Length - _frontArrayIndex);
-            Array.Clear(_elements, 0, _frontArrayIndex + Count - _elements.Length);
-        }
-        else
-        {
-            Array.Clear(_elements, _frontArrayIndex, Count);
-        }
-
-        Count = 0;
-        _frontArrayIndex = 0;
-    }
-
-    public bool Contains(T item)
-    {
-        throw new NotImplementedException();
-    }
-
-    void ICollection<T>.CopyTo(T[] array, int arrayIndex)
-    {
-        CopyTo(array, arrayIndex);
     }
 
     private void CopyTo(T[] array, int arrayIndex)

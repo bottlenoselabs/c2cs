@@ -23,7 +23,7 @@ public readonly struct CBool : IEquatable<CBool>
     /// <returns>A <see cref="CBool" />.</returns>
     public static implicit operator CBool(bool value)
     {
-        return CBool.FromBoolean(value);
+        return FromBoolean(value);
     }
 
     /// <summary>
@@ -85,7 +85,7 @@ public readonly struct CBool : IEquatable<CBool>
     /// </summary>
     /// <param name="left">The first <see cref="CBool" /> to compare.</param>
     /// <param name="right">The second <see cref="CBool" /> to compare.</param>
-    /// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> are equal; otherwise, <c>false</c>.</returns>
+    /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are equal; otherwise, <c>false</c>.</returns>
     public static bool operator ==(CBool left, CBool right)
     {
         return left._value == right._value;
@@ -96,7 +96,7 @@ public readonly struct CBool : IEquatable<CBool>
     /// </summary>
     /// <param name="left">The first <see cref="CBool" /> to compare.</param>
     /// <param name="right">The second <see cref="CBool" /> to compare.</param>
-    /// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> are not equal; otherwise, <c>false</c>.</returns>
+    /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are not equal; otherwise, <c>false</c>.</returns>
     public static bool operator !=(CBool left, CBool right)
     {
         return !(left == right);
@@ -107,7 +107,7 @@ public readonly struct CBool : IEquatable<CBool>
     /// </summary>
     /// <param name="left">The first <see cref="CBool" /> to compare.</param>
     /// <param name="right">The second <see cref="CBool" /> to compare.</param>
-    /// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> are equal; otherwise, <c>false</c>.</returns>
+    /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are equal; otherwise, <c>false</c>.</returns>
     public static bool Equals(CBool left, CBool right)
     {
         return left._value == right._value;

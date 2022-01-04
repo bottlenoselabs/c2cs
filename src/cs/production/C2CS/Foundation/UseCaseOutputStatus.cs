@@ -6,5 +6,5 @@ namespace C2CS;
 public enum UseCaseOutputStatus
 {
     Failure,
-    Success,
+    Success
 }

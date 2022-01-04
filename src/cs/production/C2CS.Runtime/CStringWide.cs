@@ -62,7 +62,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// </returns>
     public static CStringWide FromIntPtr(nint value)
     {
-        return new(value);
+        return new CStringWide(value);
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// </returns>
     public static CStringWide From(byte* value)
     {
-        return new((nint)value);
+        return new CStringWide((nint)value);
     }
 
     /// <summary>
@@ -190,7 +190,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// </summary>
     /// <param name="left">The first <see cref="CStringWide" /> to compare.</param>
     /// <param name="right">The second <see cref="CStringWide" /> to compare.</param>
-    /// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> are equal; otherwise, <c>false</c>.</returns>
+    /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are equal; otherwise, <c>false</c>.</returns>
     public static bool operator ==(CStringWide left, CStringWide right)
     {
         return left._pointer == right._pointer;
@@ -201,7 +201,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// </summary>
     /// <param name="left">The first <see cref="CStringWide" /> to compare.</param>
     /// <param name="right">The second <see cref="CStringWide" /> to compare.</param>
-    /// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> are not equal; otherwise, <c>false</c>.</returns>
+    /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are not equal; otherwise, <c>false</c>.</returns>
     public static bool operator !=(CStringWide left, CStringWide right)
     {
         return !(left == right);
@@ -212,7 +212,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// </summary>
     /// <param name="left">The first <see cref="CStringWide" /> to compare.</param>
     /// <param name="right">The second <see cref="CStringWide" /> to compare.</param>
-    /// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> are equal; otherwise, <c>false</c>.</returns>
+    /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are equal; otherwise, <c>false</c>.</returns>
     public static bool Equals(CStringWide left, CStringWide right)
     {
         return left._pointer == right._pointer;

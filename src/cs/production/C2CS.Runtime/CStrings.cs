@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 /// <summary>
@@ -12,12 +11,6 @@ public static unsafe class CStrings
     private static readonly Dictionary<nint, string> PointersToStrings = new();
     private static readonly Dictionary<uint, CStringWide> StringHashesToPointersWide = new();
     private static readonly Dictionary<nint, string> PointersToStringsWide = new();
-
-    // NOTE: On portability, technically `char` in C could be signed or unsigned depending on the computer architecture,
-    //  resulting in technically two different type bindings when transpiling C headers to C#. However, to make peace
-    //  with the world, I settle on a compromise:
-    //      `CString` is `char*`. When exposing public functions of ANSI/UTF8 strings in C#, you should only care about
-    //      `char*` as a single "thing" not about it's parts "char" and "*".
 
     /// <summary>
     ///     Converts a C style string (ANSI or UTF-8) of type `char` (one dimensional byte array
@@ -191,7 +184,7 @@ public static unsafe class CStrings
 
     /// <summary>
     ///     Frees the memory for all previously allocated C strings and releases references to all <see cref="string" />
-    ///     objects which happened during <see cref="String" />, <see cref="StringWide"/>, <see cref="CString"/>
+    ///     objects which happened during <see cref="String" />, <see cref="StringWide" />, <see cref="CString" />
     ///     or <see cref="CStringWide" />. Does <b>not</b> garbage collect.
     /// </summary>
     public static void FreeAllStrings()
@@ -273,31 +266,6 @@ public static unsafe class CStrings
     //  (3) https://groups.google.com/g/comp.lang.c/c/lSKWXiuNOAk/m/zstZ3SRhCjgJ
     private static uint Djb2(byte* str)
     {
-        // Lucas Girouard-Stranks: my explanation of djb2
-        // basic hash algorithm; we want each character in the string to have some bias related to it's position for calculating the hash
-        // this is to prevent strings with the same characters but scrambled to not have the same hash values
-        // hash = str[0] + g * (str[1] + g * (str[2] + g * (str[3] + g ... * (str[n-2] + g * (str[n-1] + g)))))
-        // hash(-1) = x; hash(i) = (hash(i-1) * g) + str[i];
-        // note that `i` is an element of the range inclusive from 0 to n-1, where `n` is the length of the string
-        // Daniel Bernstein choose `g` to be 33 and hash(-1) to be 5381
-        // this coincides with a linear congruential generator for generating pseudo-randomized numbers: https://en.wikipedia.org/wiki/Linear_congruential_generator
-        // the basic LCG algorithm is: x(i) = ((a * x(i -1)) + c) + mod m
-        // note that integer overflow is equivalent to a modulus operation of the bit width so it's often the case that `m` = 2^32
-        // eureka! notice that djb2 then resembles an LCG: x(i) = a * x(i-1) + c
-        // for the LCG to generate as random as possible values the value of `a` has some limitations (period length):
-        // 1: `m` and `c` are co-prime
-        //  this is true when `c` is odd because the only common divisor that could exist between 2^n and `c` is 2
-        //  however the fact that condition is not always met is "okay", it still results in a "good enough" LCG
-        // 2: `a-1` is divisible by all prime factors of `m`
-        //  `a-1` = 32 which is divisible by 2, so of course it's divisible by the only prime factor of 2^n which is 2
-        // 3: `a-1` is divisible by 4 if `m` is divisible by 4
-        //  this is true, `a-1` being 32 is divisible by 2^2 and so is 2^n where n >= 2
-        // note that a good non-cryptographic hash function is NOT intended to generate random numbers
-        // instead the intention is that when inputs are nearly identical (one character is different in the string)
-        //  that the output is widely different, this is where the first condition NOT being met MIGHT actually be a good thing
-        // hopefully someone smarter than me one day will write or talk about the relationship of pseudorandom number
-        //  generator (PRNG) and non-cryptographic hash functions for the purposes of data structures like a hashtable
-
         uint hash = 5381;
 
         unchecked
@@ -305,7 +273,7 @@ public static unsafe class CStrings
             uint c;
             while ((c = *str++) != 0)
             {
-                hash = ((hash << 5) + hash) + c; // hash * 33 + c
+                hash = (hash << 5) + hash + c; // hash * 33 + c
             }
         }
 

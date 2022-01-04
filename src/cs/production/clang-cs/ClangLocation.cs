@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 // NOTE: Properties are required for System.Text.Json serialization

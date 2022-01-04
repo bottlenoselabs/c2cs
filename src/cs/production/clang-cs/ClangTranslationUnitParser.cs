@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Immutable;
-using C2CS;
 
 public static class ClangTranslationUnitParser
 {

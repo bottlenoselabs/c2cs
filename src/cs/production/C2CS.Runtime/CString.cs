@@ -62,7 +62,7 @@ public readonly unsafe struct CString : IEquatable<CString>
     /// </returns>
     public static CString FromIntPtr(nint value)
     {
-        return new(value);
+        return new CString(value);
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ public readonly unsafe struct CString : IEquatable<CString>
     /// </returns>
     public static CString From(byte* value)
     {
-        return new((nint)value);
+        return new CString((nint)value);
     }
 
     /// <summary>
@@ -190,7 +190,7 @@ public readonly unsafe struct CString : IEquatable<CString>
     /// </summary>
     /// <param name="left">The first <see cref="CString" /> to compare.</param>
     /// <param name="right">The second <see cref="CString" /> to compare.</param>
-    /// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> are equal; otherwise, <c>false</c>.</returns>
+    /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are equal; otherwise, <c>false</c>.</returns>
     public static bool operator ==(CString left, CString right)
     {
         return left._pointer == right._pointer;
@@ -201,7 +201,7 @@ public readonly unsafe struct CString : IEquatable<CString>
     /// </summary>
     /// <param name="left">The first <see cref="CString" /> to compare.</param>
     /// <param name="right">The second <see cref="CString" /> to compare.</param>
-    /// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> are not equal; otherwise, <c>false</c>.</returns>
+    /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are not equal; otherwise, <c>false</c>.</returns>
     public static bool operator !=(CString left, CString right)
     {
         return !(left == right);
@@ -212,7 +212,7 @@ public readonly unsafe struct CString : IEquatable<CString>
     /// </summary>
     /// <param name="left">The first <see cref="CString" /> to compare.</param>
     /// <param name="right">The second <see cref="CString" /> to compare.</param>
-    /// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> are equal; otherwise, <c>false</c>.</returns>
+    /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are equal; otherwise, <c>false</c>.</returns>
     public static bool Equals(CString left, CString right)
     {
         return left._pointer == right._pointer;

@@ -15,16 +15,16 @@ public abstract class UseCase<TRequest, TResponse>
 {
     private readonly string _name;
     private readonly Stopwatch _stepStopwatch;
-    private int _stepIndex;
     private int _stepCount;
-
-    protected DiagnosticsSink Diagnostics { get; } = new();
+    private int _stepIndex;
 
     protected UseCase()
     {
         _name = GetName();
         _stepStopwatch = new Stopwatch();
     }
+
+    protected DiagnosticsSink Diagnostics { get; } = new();
 
     public TResponse Execute(TRequest request)
     {
@@ -72,6 +72,10 @@ public abstract class UseCase<TRequest, TResponse>
             {
                 Console.WriteLine(
                     $" However there are {response.Diagnostics.Length} diagnostics to report. This may be indicative of unexpected results. Please review the following diagnostics:");
+            }
+            else
+            {
+                Console.WriteLine();
             }
         }
         else

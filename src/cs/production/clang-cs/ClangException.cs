@@ -5,17 +5,17 @@ using System;
 
 public class ClangException : Exception
 {
-	public ClangException()
+    public ClangException()
     {
     }
 
-	public ClangException(string message)
+    public ClangException(string message)
         : base(message)
     {
     }
 
-	public ClangException(string message, Exception innerException)
+    public ClangException(string message, Exception innerException)
         : base(message, innerException)
-	{
-	}
+    {
+    }
 }
