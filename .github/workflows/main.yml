@@ -6,6 +6,8 @@ on:
       - main
     paths-ignore:
       - '**.md'
+  release:
+    types: [published, created, edited]
 
 jobs:
   dotnet-job:
@@ -17,6 +19,8 @@ jobs:
           repository: '${{ github.repository }}'
           dotnet-sdk-version: '6.0.x'
           is-enabled-pack: 'true'
+          upload-myget-org: '${{ github.event_name == 'push' }}'
+          upload-nuget-org: '${{ github.event_name == 'release' }}'
           myget-access-token: '${{ secrets.MYGET_ACCESS_TOKEN }}'
           nuget-access-token: '${{ secrets.NUGET_ACCESS_TOKEN }}'
 
