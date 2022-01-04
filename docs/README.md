@@ -32,86 +32,96 @@ dotnet nuget locals all --clear
 
 ## How to use `C2CS`
 
-To generate bindings for a C library there is two stages: `ast` and `cs`.
+To generate bindings for a C library you need to use a configuration `.json` file which specifies the input to C2CS.
 
-```
-C2CS:
-  C2CS - C to C# bindings code generator.
-
-Usage:
-  C2CS [options] [command]
-
-Options:
-  --version         Show version information
-  -?, -h, --help    Show help and usage information
-
-Commands:
-  ast    Dump the abstract syntax tree of a C `.h` file to a `.json` file.
-  cs     Generate C# bindings from a C abstract syntax tree `.json` file.
+```json
+{
+  "inputFilePath": "path/to/library.h",
+  "outputFilePath": "path/to/library.cs"
+}
 ```
 
-### `ast`
+By default running `c2cs` via terminal will search for a `config.json` file in the current directory. If you want to use a specific `.json` file, specify the file path as the first argument: `c2cs myConfig.json`
 
-Dump the abstract syntax tree of a C `.h` file to a `.json` file. This essentially extracts all the information necessary for generating bindings.
+### Configuration `.json` properties
 
-```
-ast:
-  Dump the abstract syntax tree of a C `.h` file to a `.json` file.
+#### `inputFilePath`
 
-Usage:
-  C2CS ast [options]
+Path of the input `.h` header file.
 
-Options:
-  -i, --inputFile <inputFile> (REQUIRED)                                                   File path of the input `.h` header file.
-  -o, --outputFile <outputFile> (REQUIRED)                                                 File path of the output abstract syntax tree `.json` file.
-  -f, --automaticallyFindSoftwareDevelopmentKit <automaticallyFindSoftwareDevelopmentKit>  Find software development kit for C/C++ automatically. Default is `true`.
-  -s, --includeDirectories <includeDirectories>                                            Search directories for `#include` usages to use when parsing C code.
-  -g, --ignoredFiles <ignoredFiles>                                                        Header files to ignore by file name with extension (exclude directory path).
-  -p, --opaqueTypes <opaqueTypes>                                                          Types by name that will be forced to be opaque.
-  -d, --defines <defines>                                                                  Object-like macros to use when parsing C code.
-  -b, --bitness <bitness>                                                                  The bitness to parse the C code as. Default is the current architecture of host operating system. E.g. 
-                                                                                           the default for x64 Windows is `64`. Possible values are `32` where pointers are 4 bytes, or `64` where 
-                                                                                           pointers are 8 bytes.
-  -a, --clangArgs <clangArgs>                                                              Additional Clang arguments to use when parsing C code.
-  -w, --whitelistFunctionsFile <whitelistFunctionsFile>                                    The file path to a text file containing a set of function names delimited by new line. These functions 
-                                                                                           will strictly only be considered for bindgen; this has implications for transitive types. Each function 
-                                                                                           name may start with some text followed by a `!` character before the name of the function; this allows to 
-                                                                                           re-use the same file for input to DirectPInvoke with NativeAOT.
-  -?, -h, --help                                                                           Show help and usage information
-```
+#### `outputFilePath`
 
-### `cs`
+Path of the output C# `.cs` file. If not specified, defaults to a file path using the current directory, a file name without extension that matches the `inputFilePath`, and a `.cs` file name extension.
 
-Generate C# bindings from a C abstract syntax tree `.json` file. This is the stage where the C# code is generated from the abstract syntax tree.
+#### `abstractSyntaxTreeOutputFilePath`
 
-```
-cs:
-  Generate C# bindings from a C abstract syntax tree `.json` file.
+Path of the intermediate output abstract syntax tree `.json` file. If not specified, defaults to a random temporary file.
 
-Usage:
-  C2CS cs [options]
+#### `libraryName`
 
-Options:
-  -i, --inputFile <inputFile> (REQUIRED)     File path of the input abstract syntax tree `.json` file.
-  -o, --outputFile <outputFile> (REQUIRED)   File path of the output C# `.cs` file.
-  -a, --typeAliases <typeAliases>            Types by name that will be remapped.
-  -g, --ignoredNamesFile <ignoredNamesFile>  File path of the text file with new-line separated names (types, functions, macros, etc) that will be ignored; types are ignored after remapping type names.
-  -l, --libraryName <libraryName>            The name of the dynamic link library (without the file extension) used for P/Invoke with C#.
-  -c, --className <className>                The name of the C# static class.
-  -n, --injectNamespaces <injectNamespaces>  Additional namespaces to inject near the top of C# file as using statements.
-  -w, --wrapNamespace <wrapNamespace>        The namespace to be used for C# static class. If not specified the C# static class does not have a namespace to which it is in the global namespace.
-  -?, -h, --help                             Show help and usage information
-```
+The name of the dynamic link library (without the file extension) used for platform invoke (P/Invoke) with C#. If not specified, the library name is the same as the name of the `inputFilePath` without the directory name and without the file extension.
+
+#### `namespaceName`
+
+The name of the namespace to be used for the C# static class. If not specified, the namespace is the same as the `libraryName`.
+
+#### `className`
+
+The name of the C# static class. If not specified, the class name is the same as the `libraryName`.
+
+#### `headerCodeRegionFilePath`
+
+Path of the text file which to add the file's contents to the top of the C# file. Useful for comments, extra namespace using statements, or additional code that needs to be added to the generated C# file.
+
+#### `footerCodeRegionFilePath`
+
+Path of the text file which to add the file's contents to the bottom of the C# file. Useful for comments or additional code that needs to be added to the generated C# file.
+
+#### `mappedTypeNames`
+
+Pairs of strings for re-mapping type names. Each pair has source name and a target name. The source name may be found when parsing C code and get mapped to the target name when generating C# code. Does not change the type's bit layout.
+
+#### `isEnabledFindSdk`
+
+Determines whether the software development kit (SDK) for C/C++ is attempted to be found. Default is `true`. If `true`, the C/C++ header files for the current operating system are attempted to be found. In such a case, if the C/C++ header files can not be found, then an error is generated which halts the program. If `false`, the C/C++ header files will likely be missing causing Clang to generate parsing errors which also halts the program. In such a case, the missing C/C++ header files can be supplied to Clang using `clangArguments` such as `"-isystemPATH/TO/SYSTEM/HEADER/DIRECTORY"`.
+
+#### `machineBitWidth`
+
+The bit width of the computer architecture to use when parsing C code. Default is `null`. If `null`, the bit width of host operating system's computer architecture is used. E.g. the default for x64 Windows is `64`. Possible values are `null`, `32` where pointers are 4 bytes, or `64` where pointers are 8 bytes.
+
+#### `includeDirectories`
+
+Search directory paths to use for `#include` usages when parsing C code. If `null`, uses the directory path of `inputFilePath`.
+
+#### `defines`
+
+Object-like macros to use when parsing C code.
+
+#### `excludedHeaderFiles`
+
+C header file names to exclude. File names are relative to `includeDirectories`.
+
+#### `ignoredTypeNames`
+
+Type names that may be found when parsing C code that will be ignored when generating C# code. Types are ignored after mapping type names using `mappedTypeNames`.
+
+#### `opaqueTypeNames`
+
+Type names that may be found when parsing C code that will be interpreted as opaque types. Opaque types are often used with a pointer to hide the information about the bit layout behind the pointer.
+
+#### `clangArguments`
+
+Additional Clang arguments to use when parsing C code.
 
 ## How to use `C2CS.Runtime`
 
-The `C2CS.Runtime` C# code is directly added to the bottom of the generated bindings. They are helper structs and methods and methods or otherwise "glue" that make interoperability with C in C# possible, easier, and more idiomatic.
+The `C2CS.Runtime` C# code is directly added to the bottom of the generated bindings in a class named `Runtime` with a C# region named `C2CS.Runtime`. The `Runtime` static class contains helper structs, methods, and other kind of "glue" that make interoperability with C in C# easier and more idiomatic.
 
 ### Custom C# project properties for `C2CS.Runtime`
 
 #### `SIZEOF_WCHAR_T`:
 
-The following only applies and is of interest to you, if you are using `wchar_t` directly in the public C header. Note that `wchar_t*` does not apply, it has to be directly using `wchar_t`. 
+The following only applies and is of interest to you if you are using `wchar_t` directly in the public C header. Note that `wchar_t*` does not apply, it has to be directly using `wchar_t`. 
 
 Use a value of `1`, `2`, or `4` to specify the backing byte field size of `CCharWide`. `CCharWide` in C# is intended to be blittable to `wchar_t` in C. There is no default value set for `SIZEOF_WCHAR_T` but the default size of `CCharWide` is 2. This is incorrect on some platforms like Linux.
 

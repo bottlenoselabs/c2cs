@@ -21,7 +21,7 @@ public class ProgramConfiguration
     public string? OutputFilePath { get; set; }
 
     /// <summary>
-    ///     Path of the intermediate output abstract syntax tree `.json` file. If not specified, defaults to random
+    ///     Path of the intermediate output abstract syntax tree `.json` file. If not specified, defaults to a random
     ///     temporary file.
     /// </summary>
     public string? AbstractSyntaxTreeOutputFilePath { get; set; }
@@ -34,7 +34,7 @@ public class ProgramConfiguration
     public string? LibraryName { get; set; }
 
     /// <summary>
-    ///     The name of the namespace to be used for C# static class. If not specified, the namespace is the same as the
+    ///     The name of the namespace to be used for the C# static class. If not specified, the namespace is the same as the
     ///     <see cref="LibraryName" />.
     /// </summary>
     public string? NamespaceName { get; set; }
@@ -83,8 +83,8 @@ public class ProgramConfiguration
     public int? MachineBitWidth { get; set; }
 
     /// <summary>
-    ///     Search directory paths to use for `#include` usages when parsing C code.
-    ///     If <see cref="ImmutableArray{T}.Empty" />, uses the directory path of <see cref="InputFilePath" />.
+    ///     Search directory paths to use for `#include` usages when parsing C code. If <b>null</b>, uses the
+    ///     directory path of <see cref="InputFilePath" />.
     /// </summary>
     public ImmutableArray<string?>? IncludeDirectories { get; set; }
 
