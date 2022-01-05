@@ -5,7 +5,7 @@ on:
     paths-ignore:
       - '**.md'
   release:
-    types: [published, created, edited]
+    types: [published]
 
 jobs:
   dotnet-job:
