@@ -1,6 +1,7 @@
 assembly-versioning-scheme: None
-mode: Mainline
-continuous-delivery-fallback-tag: ''
+mode: ContinuousDeployment
+tag-prefix: "[vV]"
+continuous-delivery-fallback-tag: ""
 branches: {}
 ignore:
   sha: []
