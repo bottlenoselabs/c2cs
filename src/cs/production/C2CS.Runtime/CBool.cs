@@ -53,7 +53,7 @@ public readonly struct CBool : IEquatable<CBool>
     /// <returns>A <see cref="bool" />.</returns>
     public static bool ToBoolean(CBool value)
     {
-        return Convert.ToBoolean(value);
+        return Convert.ToBoolean(value._value);
     }
 
     /// <inheritdoc />
