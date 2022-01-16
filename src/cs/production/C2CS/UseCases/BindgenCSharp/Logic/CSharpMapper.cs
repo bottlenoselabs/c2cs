@@ -585,7 +585,9 @@ public class CSharpMapper
 
     private CSharpOpaqueType OpaqueDataType(COpaqueType opaqueTypeC)
     {
-        var name = opaqueTypeC.Name;
+        var typeC = CType(opaqueTypeC.Name);
+        var typeCSharp = Type(typeC);
+        var name = typeCSharp.Name!;
         var originalCodeLocationComment = OriginalCodeLocationComment(opaqueTypeC);
 
         var opaqueTypeCSharp = new CSharpOpaqueType(
