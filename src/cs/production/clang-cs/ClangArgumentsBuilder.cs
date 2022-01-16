@@ -149,7 +149,7 @@ public static class ClangArgumentsBuilder
             Environment.ExpandEnvironmentVariables(
                 @"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe");
         var visualStudioInstallationDirectoryPath =
-            "-latest -property installationPath".RunCommandWithCapturingStandardOutput(fileName: vsWhereFilePath);
+            "-latest -property installationPath".ShellCaptureOutput(fileName: vsWhereFilePath);
         if (!File.Exists(vsWhereFilePath) || string.IsNullOrEmpty(visualStudioInstallationDirectoryPath))
         {
             throw new ClangException(
@@ -202,7 +202,7 @@ public static class ClangArgumentsBuilder
         clangArgumentsBuilder.Add(systemIncludeCommandLineArgClang);
 
         var softwareDevelopmentKitDirectoryPath =
-            "xcrun --sdk macosx --show-sdk-path".RunCommandWithCapturingStandardOutput();
+            "xcrun --sdk macosx --show-sdk-path".ShellCaptureOutput();
         if (!Directory.Exists(softwareDevelopmentKitDirectoryPath))
         {
             throw new ClangException(
