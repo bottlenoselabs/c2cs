@@ -2,6 +2,7 @@
 
     <!-- MSBuild settings -->
     <PropertyGroup>
+        <BaseOutputPath>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), .gitignore))/bin/$(MSBuildProjectName)</BaseOutputPath>
         <BaseIntermediateOutputPath>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), .gitignore))/obj/$(MSBuildProjectName)/$(Configuration)</BaseIntermediateOutputPath>
         <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
     </PropertyGroup>
