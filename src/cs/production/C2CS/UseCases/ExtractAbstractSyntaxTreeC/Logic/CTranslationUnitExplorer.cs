@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
-using static clang;
+using static bottlenoselabs.clang;
 
 namespace C2CS.UseCases.ExtractAbstractSyntaxTreeC;
 
@@ -110,6 +110,7 @@ public class CTranslationUnitExplorer
     };
 
     private readonly ImmutableArray<string> _includeDirectories;
+    private readonly ImmutableHashSet<string> _functionNamesWhitelist;
     private readonly HashSet<string> _macroFunctionLikeNames = new();
 
     private readonly List<CMacroDefinition> _macroObjects = new();
@@ -149,12 +150,14 @@ public class CTranslationUnitExplorer
         DiagnosticsSink diagnostics,
         ImmutableArray<string> includeDirectories,
         ImmutableArray<string> ignoredFiles,
-        ImmutableArray<string> opaqueTypes)
+        ImmutableArray<string> opaqueTypes,
+        ImmutableArray<string> functionNamesWhitelist)
     {
         _diagnostics = diagnostics;
         _ignoredFiles = ignoredFiles.ToImmutableHashSet();
         _includeDirectories = includeDirectories;
         _opaqueTypeNames = opaqueTypes.ToImmutableHashSet();
+        _functionNamesWhitelist = functionNamesWhitelist.ToImmutableHashSet();
     }
 
     public CAbstractSyntaxTree AbstractSyntaxTree(CXTranslationUnit translationUnit, int bitness)
@@ -576,6 +579,11 @@ public class CTranslationUnitExplorer
         ClangLocation location,
         ClangExplorerNode parentNode)
     {
+        if (!_functionNamesWhitelist.IsEmpty && !_functionNamesWhitelist.Contains(name))
+        {
+            return;
+        }
+
         var callingConvention = CreateFunctionCallingConvention(type);
         var resultType = clang_getCursorResultType(cursor);
         var (kind, actualType) = TypeKind(resultType);

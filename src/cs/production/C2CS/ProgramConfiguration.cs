@@ -106,6 +106,13 @@ public class ProgramConfiguration
     public ImmutableArray<string?>? IgnoredTypeNames { get; set; }
 
     /// <summary>
+    ///     The C function names to explicitly include when parsing C code. Default is <c>null</c>. If <c>null</c>,
+    ///     no white list applies to which all C function names that are found are eligible for C# code generation.
+    ///     Note that C function names which are excluded also exclude any transitive types.
+    /// </summary>
+    public ImmutableArray<string?>? FunctionNamesWhiteList { get; set; }
+
+    /// <summary>
     ///     Type names that may be found when parsing C code that will be interpreted as opaque types. Opaque types are
     ///     often used with a pointer to hide the information about the bit layout behind the pointer.
     /// </summary>

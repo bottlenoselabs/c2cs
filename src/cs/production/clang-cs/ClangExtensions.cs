@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
-using static clang;
+using static bottlenoselabs.clang;
 
 public static unsafe class ClangExtensions
 {
@@ -252,7 +252,7 @@ public static unsafe class ClangExtensions
         var spelling = clang_getTypeSpelling(clangType);
 
         var resultC = clang_getCString(spelling);
-        var result = clang.CStrings.String(resultC);
+        var result = Runtime.CStrings.String(resultC);
         if (string.IsNullOrEmpty(result))
         {
             return string.Empty;

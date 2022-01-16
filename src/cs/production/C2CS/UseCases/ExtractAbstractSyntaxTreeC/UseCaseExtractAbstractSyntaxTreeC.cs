@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using static bottlenoselabs.clang;
 
 namespace C2CS.UseCases.ExtractAbstractSyntaxTreeC;
 
@@ -46,6 +47,7 @@ public class
             request.IncludeDirectories,
             request.ExcludedHeaderFiles,
             request.OpaqueTypeNames,
+            request.FunctionNamesWhitelist,
             request.MachineBitWidth,
             Explore);
 
@@ -122,7 +124,7 @@ public class
 
         try
         {
-            NativeLibrary.SetDllImportResolver(typeof(clang).Assembly, ResolveClang);
+            NativeLibrary.SetDllImportResolver(typeof(bottlenoselabs.clang).Assembly, ResolveClang);
         }
         catch (ArgumentException)
         {
@@ -156,7 +158,7 @@ public class
         }
     }
 
-    private static clang.CXTranslationUnit Parse(
+    private static CXTranslationUnit Parse(
         string inputFilePath,
         bool automaticallyFindSoftwareDevelopmentKit,
         ImmutableArray<string> includeDirectories,
@@ -174,14 +176,15 @@ public class
     }
 
     private CAbstractSyntaxTree Explore(
-        clang.CXTranslationUnit translationUnit,
+        CXTranslationUnit translationUnit,
         ImmutableArray<string> includeDirectories,
         ImmutableArray<string> excludedHeaderFiles,
         ImmutableArray<string> opaqueTypeNames,
+        ImmutableArray<string> functionNamesWhitelist,
         int machineBitWidth)
     {
         var clangExplorer = new CTranslationUnitExplorer(
-            Diagnostics, includeDirectories, excludedHeaderFiles, opaqueTypeNames);
+            Diagnostics, includeDirectories, excludedHeaderFiles, opaqueTypeNames, functionNamesWhitelist);
         return clangExplorer.AbstractSyntaxTree(translationUnit, machineBitWidth);
     }
 

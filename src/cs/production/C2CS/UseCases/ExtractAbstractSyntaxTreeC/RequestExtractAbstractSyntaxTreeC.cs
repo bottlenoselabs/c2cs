@@ -18,6 +18,7 @@ public class RequestExtractAbstractSyntaxTreeC : UseCaseRequest
         ImmutableArray<string?>? includeDirectories,
         ImmutableArray<string?>? excludedHeaderFiles,
         ImmutableArray<string?>? opaqueTypeNames,
+        ImmutableArray<string?>? functionNamesWhitelist,
         ImmutableArray<string?>? defines,
         ImmutableArray<string?>? clangArgs)
     {
@@ -28,6 +29,7 @@ public class RequestExtractAbstractSyntaxTreeC : UseCaseRequest
         IncludeDirectories = VerifyIncludeDirectories(includeDirectories, InputFilePath);
         ExcludedHeaderFiles = VerifyImmutableArray(excludedHeaderFiles);
         OpaqueTypeNames = VerifyImmutableArray(opaqueTypeNames);
+        FunctionNamesWhitelist = VerifyImmutableArray(functionNamesWhitelist);
         ClangDefines = VerifyImmutableArray(defines);
         ClangArguments = VerifyImmutableArray(clangArgs);
     }
@@ -45,6 +47,8 @@ public class RequestExtractAbstractSyntaxTreeC : UseCaseRequest
     public ImmutableArray<string> ExcludedHeaderFiles { get; }
 
     public ImmutableArray<string> OpaqueTypeNames { get; }
+
+    public ImmutableArray<string> FunctionNamesWhitelist { get; }
 
     public ImmutableArray<string> ClangDefines { get; }
 
@@ -123,32 +127,5 @@ public class RequestExtractAbstractSyntaxTreeC : UseCaseRequest
         var result = array.Value
             .Where(x => !string.IsNullOrEmpty(x)).Cast<string>().ToImmutableArray();
         return result;
-    }
-
-    private static ImmutableArray<string> VerifyWhitelistFunctionNames(string? whitelistFunctionsFilePath)
-    {
-        if (string.IsNullOrEmpty(whitelistFunctionsFilePath))
-        {
-            return ImmutableArray<string>.Empty;
-        }
-
-        if (!File.Exists(whitelistFunctionsFilePath))
-        {
-            return ImmutableArray<string>.Empty;
-        }
-
-        var fileContent = File.ReadAllText(whitelistFunctionsFilePath);
-        var fileContentLines = fileContent.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-
-        var functionNames = ImmutableArray.CreateBuilder<string>();
-        foreach (var line in fileContentLines)
-        {
-            var functionName = line.Contains('!', StringComparison.InvariantCulture)
-                ? line.Split(new[] { "!" }, StringSplitOptions.RemoveEmptyEntries)[1]
-                : line;
-            functionNames.Add(functionName);
-        }
-
-        return functionNames.ToImmutable();
     }
 }

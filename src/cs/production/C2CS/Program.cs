@@ -37,6 +37,7 @@ public static class Program
             c.IncludeDirectories,
             c.ExcludedHeaderFiles,
             c.OpaqueTypeNames,
+            c.FunctionNamesWhiteList,
             c.Defines,
             c.ClangArguments);
         var useCase = new UseCaseExtractAbstractSyntaxTreeC();

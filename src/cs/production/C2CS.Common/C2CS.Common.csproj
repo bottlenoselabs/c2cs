@@ -8,15 +8,4 @@
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
     </PropertyGroup>
 
-    <!-- NuGet packaage references -->
-
-    <!-- Project references -->
-    <ItemGroup>
-        <ProjectReference Include="..\C2CS.Runtime\C2CS.Runtime.csproj"/>
-    </ItemGroup>
-    <ItemGroup>
-        <None Include="RuntimeArchitecture.cs"/>
-        <None Include="RuntimeOperatingSystem.cs"/>
-    </ItemGroup>
-
 </Project>
