@@ -167,7 +167,7 @@ public static class Terminal
             throw new DirectoryNotFoundException(cMakeDirectoryPath);
         }
 
-        var libraryOutputDirectoryPathNormalized = libraryOutputDirectoryPath.Replace("\\", "/");
+        var libraryOutputDirectoryPathNormalized = libraryOutputDirectoryPath.Replace("\\", "/", StringComparison.InvariantCulture);
         var isSuccess = $"cmake -S . -B cmake-build-release -DCMAKE_BUILD_TYPE=Release -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY={libraryOutputDirectoryPathNormalized} -DCMAKE_LIBRARY_OUTPUT_DIRECTORY={libraryOutputDirectoryPathNormalized} -DCMAKE_RUNTIME_OUTPUT_DIRECTORY={libraryOutputDirectoryPathNormalized} -DCMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE={libraryOutputDirectoryPathNormalized}"
             .Shell(cMakeDirectoryPath, windowsUsePowerShell: false);
         if (!isSuccess)
