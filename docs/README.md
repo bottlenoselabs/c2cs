@@ -144,10 +144,8 @@ To set it:
 1. Install [.NET 6](https://dotnet.microsoft.com/download).
 2. Install build tools for C/C++.
     - Windows:
-      1. Install [Windows Subsystem for Linux v2](https://docs.microsoft.com/en-us/windows/wsl/install-win10) (WSL2).
-      2. Install Ubuntu for WSL2.
-      3. Install build tools for Ubuntu: ```wsl sudo apt-get update && sudo apt-get install cmake gcc clang gdb```
-      4. Install build tools for Ubuntu to cross-compile to Windows: ```wsl sudo apt-get update && sudo apt-get mingw-w64```
+      1. Install Git Bash. (Usually installed with Git for Windows: https://git-scm.com/downloads.)
+      2. Install MSCV (Microsoft Visual C++) Build Tools + some C/C++ SDK for Windows. (You can use Visual Studio Installer application to install the C/C++ workload or the components individually. You can also install it all via web or appropriate command line.)
     - macOS:
       1. Install XCode CommandLineTools (gcc, clang, etc): ```xcode-select --install```
       2. Install XCode through the App Store (necessary for SDKs).
