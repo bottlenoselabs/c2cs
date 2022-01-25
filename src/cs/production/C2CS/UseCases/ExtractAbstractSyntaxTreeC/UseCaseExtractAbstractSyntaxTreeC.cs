@@ -24,42 +24,35 @@ public class
         ResponseExtractAbstractSyntaxTreeC response)
     {
         Validate(request);
-        TotalSteps(4);
 
-        Step(
-            "Setup Clang",
-            Platform.OperatingSystem,
-            SetupClang);
+        SetupClang(Platform.OperatingSystem);
 
-        var translationUnit = Step(
-            "Parse C code from disk",
+        var translationUnit = Parse(
             request.InputFilePath,
             request.IsEnabledFindSdk,
             request.IncludeDirectories,
             request.ClangDefines,
             request.MachineBitWidth,
-            request.ClangArguments,
-            Parse);
+            request.ClangArguments);
 
-        var abstractSyntaxTreeC = Step(
-            "Extract C abstract syntax tree",
+        var abstractSyntaxTreeC = Explore(
             translationUnit,
             request.IncludeDirectories,
             request.ExcludedHeaderFiles,
             request.OpaqueTypeNames,
             request.FunctionNamesWhitelist,
-            request.MachineBitWidth,
-            Explore);
+            request.MachineBitWidth);
 
-        Step(
-            "Write C abstract syntax tree to disk",
+        Write(
             request.OutputFilePath,
-            abstractSyntaxTreeC,
-            Write);
+            abstractSyntaxTreeC);
     }
 
-    private static void SetupClang(RuntimeOperatingSystem operatingSystem)
+    [UseCaseStep("Setup Clang")]
+    private void SetupClang(RuntimeOperatingSystem operatingSystem)
     {
+        BeginStep();
+
         if (operatingSystem == RuntimeOperatingSystem.macOS)
         {
             _clangNativeLibraryPath = "/Library/Developer/CommandLineTools/usr/lib/libclang.dylib";
@@ -85,6 +78,8 @@ public class
                 DownloadLibClang("win-x64", _clangNativeLibraryPath);
             }
         }
+
+        EndStep();
 
         static void DownloadLibClang(string runtimeIdentifier, string target)
         {
@@ -158,7 +153,8 @@ public class
         }
     }
 
-    private static CXTranslationUnit Parse(
+    [UseCaseStep("Parse C code from disk")]
+    private CXTranslationUnit Parse(
         string inputFilePath,
         bool automaticallyFindSoftwareDevelopmentKit,
         ImmutableArray<string> includeDirectories,
@@ -166,15 +162,19 @@ public class
         int bitness,
         ImmutableArray<string> clangArguments)
     {
+        BeginStep();
         var clangArgs = ClangArgumentsBuilder.Build(
             automaticallyFindSoftwareDevelopmentKit,
             includeDirectories,
             defines,
             bitness,
             clangArguments);
-        return ClangTranslationUnitParser.Parse(inputFilePath, clangArgs);
+        var result = ClangTranslationUnitParser.Parse(inputFilePath, clangArgs);
+        EndStep();
+        return result;
     }
 
+    [UseCaseStep("Extract C abstract syntax tree")]
     private CAbstractSyntaxTree Explore(
         CXTranslationUnit translationUnit,
         ImmutableArray<string> includeDirectories,
@@ -183,14 +183,19 @@ public class
         ImmutableArray<string> functionNamesWhitelist,
         int machineBitWidth)
     {
+        BeginStep();
         var clangExplorer = new CTranslationUnitExplorer(
             Diagnostics, includeDirectories, excludedHeaderFiles, opaqueTypeNames, functionNamesWhitelist);
-        return clangExplorer.AbstractSyntaxTree(translationUnit, machineBitWidth);
+        var result = clangExplorer.AbstractSyntaxTree(translationUnit, machineBitWidth);
+        EndStep();
+        return result;
     }
 
-    private static void Write(
+    [UseCaseStep("Write C abstract syntax tree to disk")]
+    private void Write(
         string outputFilePath, CAbstractSyntaxTree abstractSyntaxTree)
     {
+        BeginStep();
         var outputDirectory = Path.GetDirectoryName(outputFilePath)!;
         if (string.IsNullOrEmpty(outputDirectory))
         {
@@ -227,5 +232,6 @@ public class
         fileStream.Close();
 
         Console.WriteLine(outputFilePath);
+        EndStep();
     }
 }

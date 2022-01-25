@@ -15,38 +15,25 @@ public class UseCaseBindgenCSharp : UseCase<RequestBindgenCSharp, ResponseBindge
     protected override void Execute(RequestBindgenCSharp request, ResponseBindgenCSharp response)
     {
         Validate(request);
-        TotalSteps(4);
 
-        var abstractSyntaxTreeC = Step(
-            "Load C abstract syntax tree from disk",
-            request.InputFilePath,
-            LoadAbstractSyntaxTree);
+        var abstractSyntaxTree = LoadCAbstractSyntaxTreeFromFileStorage(request.InputFilePath);
 
-        var abstractSyntaxTreeCSharp = Step(
-            "Map C abstract syntax tree to C#",
-            request.ClassName,
-            abstractSyntaxTreeC,
+        var abstractSyntaxTreeCSharp = MapCAbstractSyntaxTreeToCSharp(
+            abstractSyntaxTree,
             request.TypeAliases,
             request.IgnoredTypeNames,
-            abstractSyntaxTreeC.Bitness,
-            Diagnostics,
-            MapCToCSharp);
+            abstractSyntaxTree.Bitness,
+            Diagnostics);
 
-        var codeCSharp = Step(
-            "Generate C# code",
+        var codeCSharp = GenerateCSharpCode(
             abstractSyntaxTreeCSharp,
             request.ClassName,
             request.LibraryName,
             request.NamespaceName,
             request.HeaderCodeRegion,
-            request.FooterCodeRegion,
-            GenerateCSharpCode);
+            request.FooterCodeRegion);
 
-        Step(
-            "Write C# code to disk",
-            request.OutputFilePath,
-            codeCSharp,
-            WriteCSharpCode);
+        WriteCSharpCodeToFileStorage(request.OutputFilePath, codeCSharp);
     }
 
     private static void Validate(RequestBindgenCSharp request)
@@ -57,8 +44,10 @@ public class UseCaseBindgenCSharp : UseCase<RequestBindgenCSharp, ResponseBindge
         }
     }
 
-    private static CAbstractSyntaxTree LoadAbstractSyntaxTree(string inputFilePath)
+    [UseCaseStep("Load C abstract syntax tree from file storage.")]
+    private CAbstractSyntaxTree LoadCAbstractSyntaxTreeFromFileStorage(string inputFilePath)
     {
+        BeginStep();
         var fileContents = File.ReadAllText(inputFilePath);
         var serializerOptions = new JsonSerializerOptions
         {
@@ -70,22 +59,31 @@ public class UseCaseBindgenCSharp : UseCase<RequestBindgenCSharp, ResponseBindge
         };
         var serializerContext = new CJsonSerializerContext(serializerOptions);
         var abstractSyntaxTree = JsonSerializer.Deserialize(fileContents, serializerContext.CAbstractSyntaxTree)!;
+        EndStep();
+
         return abstractSyntaxTree;
     }
 
-    private static CSharpAbstractSyntaxTree MapCToCSharp(
-        string className,
+    [UseCaseStep("Map C abstract syntax tree to C#")]
+    private CSharpAbstractSyntaxTree MapCAbstractSyntaxTreeToCSharp(
         CAbstractSyntaxTree abstractSyntaxTree,
         ImmutableArray<CSharpTypeAlias> typeAliases,
         ImmutableArray<string> ignoredTypeNames,
         int bitness,
         DiagnosticsSink diagnostics)
     {
-        var mapper = new CSharpMapper(className, typeAliases, ignoredTypeNames, bitness, diagnostics);
-        return mapper.AbstractSyntaxTree(abstractSyntaxTree);
+        BeginStep();
+        var mapperParameters = new CSharpMapperParameters(
+            typeAliases, ignoredTypeNames, bitness, diagnostics);
+        var mapper = new CSharpMapper(mapperParameters);
+        var result = mapper.AbstractSyntaxTree(abstractSyntaxTree);
+        EndStep();
+
+        return result;
     }
 
-    private static string GenerateCSharpCode(
+    [UseCaseStep("Generate C# code")]
+    private string GenerateCSharpCode(
         CSharpAbstractSyntaxTree abstractSyntaxTree,
         string className,
         string libraryName,
@@ -93,14 +91,20 @@ public class UseCaseBindgenCSharp : UseCase<RequestBindgenCSharp, ResponseBindge
         string headerCodeRegion,
         string footerCodeRegion)
     {
+        BeginStep();
         var codeGenerator = new CSharpCodeGenerator(
             className, libraryName, namespaceName, headerCodeRegion, footerCodeRegion);
-        return codeGenerator.EmitCode(abstractSyntaxTree);
+        var result = codeGenerator.EmitCode(abstractSyntaxTree);
+        EndStep();
+
+        return result;
     }
 
-    private static void WriteCSharpCode(
+    [UseCaseStep("Write C# code to file storage")]
+    private void WriteCSharpCodeToFileStorage(
         string outputFilePath, string codeCSharp)
     {
+        BeginStep();
         var outputDirectory = Path.GetDirectoryName(outputFilePath)!;
         if (string.IsNullOrEmpty(outputDirectory))
         {
@@ -115,5 +119,6 @@ public class UseCaseBindgenCSharp : UseCase<RequestBindgenCSharp, ResponseBindge
 
         File.WriteAllText(outputFilePath, codeCSharp);
         Console.WriteLine(outputFilePath);
+        EndStep();
     }
 }

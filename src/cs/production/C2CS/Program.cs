@@ -78,7 +78,7 @@ public static class Program
             1 => args![0],
             0 => Path.Combine(Environment.CurrentDirectory, "config.json"),
             _ => throw new InvalidOperationException(
-                "Unsupported number of arguments. Please specify zero arguments or one argument. For documentation please visit: https://github.com/bottlenoselabs/c2cs/blob/main/docs/README.md")
+                "Unsupported number of arguments. Please specify zero arguments or one argument with the file path of the configuration `.json` file.")
         };
 
         try
