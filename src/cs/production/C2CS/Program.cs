@@ -8,6 +8,8 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using C2CS.UseCases.BindgenCSharp;
 using C2CS.UseCases.ExtractAbstractSyntaxTreeC;
+using Request = C2CS.UseCases.ExtractAbstractSyntaxTreeC.Request;
+using UseCase = C2CS.UseCases.ExtractAbstractSyntaxTreeC.UseCase;
 
 namespace C2CS;
 
@@ -29,7 +31,7 @@ public static class Program
 
     private static string ExtractAbstractSyntaxTreeC(ProgramConfiguration c)
     {
-        var request = new RequestExtractAbstractSyntaxTreeC(
+        var request = new Request(
             c.InputFilePath,
             c.AbstractSyntaxTreeOutputFilePath,
             c.IsEnabledFindSdk,
@@ -40,7 +42,7 @@ public static class Program
             c.FunctionNamesWhiteList,
             c.Defines,
             c.ClangArguments);
-        var useCase = new UseCaseExtractAbstractSyntaxTreeC();
+        var useCase = new UseCase();
         var response = useCase.Execute(request);
         if (response.Status == UseCaseOutputStatus.Failure)
         {
@@ -52,7 +54,7 @@ public static class Program
 
     private static void BindgenCSharp(string inputFilePath, ProgramConfiguration c)
     {
-        var request = new RequestBindgenCSharp(
+        var request = new UseCases.BindgenCSharp.Request(
             inputFilePath,
             c.OutputFilePath,
             c.LibraryName,
@@ -62,7 +64,7 @@ public static class Program
             c.IgnoredTypeNames,
             c.HeaderCodeRegionFilePath,
             c.FooterCodeRegionFilePath);
-        var useCase = new UseCaseBindgenCSharp();
+        var useCase = new UseCases.BindgenCSharp.UseCase();
         var response = useCase.Execute(request);
         if (response.Status == UseCaseOutputStatus.Failure)
         {

@@ -10,9 +10,9 @@ using C2CS.UseCases.ExtractAbstractSyntaxTreeC;
 
 namespace C2CS.UseCases.BindgenCSharp;
 
-public class UseCaseBindgenCSharp : UseCase<RequestBindgenCSharp, ResponseBindgenCSharp>
+public class UseCase : UseCase<Request, Response>
 {
-    protected override void Execute(RequestBindgenCSharp request, ResponseBindgenCSharp response)
+    protected override void Execute(Request request, Response response)
     {
         Validate(request);
 
@@ -36,7 +36,7 @@ public class UseCaseBindgenCSharp : UseCase<RequestBindgenCSharp, ResponseBindge
         WriteCSharpCodeToFileStorage(request.OutputFilePath, codeCSharp);
     }
 
-    private static void Validate(RequestBindgenCSharp request)
+    private static void Validate(Request request)
     {
         if (!File.Exists(request.InputFilePath))
         {

@@ -8,9 +8,9 @@ using System.Linq;
 
 namespace C2CS.UseCases.BindgenCSharp;
 
-public class RequestBindgenCSharp : UseCaseRequest
+public class Request : UseCaseRequest
 {
-    public RequestBindgenCSharp(
+    public Request(
         string? inputFilePath,
         string? outputFilePath,
         string? libraryName,

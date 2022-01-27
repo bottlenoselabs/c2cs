@@ -8,9 +8,9 @@ using System.Linq;
 
 namespace C2CS.UseCases.ExtractAbstractSyntaxTreeC;
 
-public class RequestExtractAbstractSyntaxTreeC : UseCaseRequest
+public class Request : UseCaseRequest
 {
-    public RequestExtractAbstractSyntaxTreeC(
+    public Request(
         string? inputFilePath,
         string? outputFilePath,
         bool? isEnabledFindSdk,

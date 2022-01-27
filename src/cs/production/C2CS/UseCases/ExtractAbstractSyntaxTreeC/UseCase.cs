@@ -14,14 +14,13 @@ using static bottlenoselabs.clang;
 
 namespace C2CS.UseCases.ExtractAbstractSyntaxTreeC;
 
-public class
-    UseCaseExtractAbstractSyntaxTreeC : UseCase<RequestExtractAbstractSyntaxTreeC, ResponseExtractAbstractSyntaxTreeC>
+public class UseCase : UseCase<Request, Response>
 {
     private static string _clangNativeLibraryPath = null!;
 
     protected override void Execute(
-        RequestExtractAbstractSyntaxTreeC request,
-        ResponseExtractAbstractSyntaxTreeC response)
+        Request request,
+        Response response)
     {
         Validate(request);
 
@@ -137,7 +136,7 @@ public class
         return handle;
     }
 
-    private static void Validate(RequestExtractAbstractSyntaxTreeC request)
+    private static void Validate(Request request)
     {
         if (!File.Exists(request.InputFilePath))
         {

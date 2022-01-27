@@ -9,7 +9,7 @@ namespace C2CS.UseCases.BindgenCSharp;
 
 // NOTE: Properties are required for System.Text.Json serialization
 [PublicAPI]
-public class ConfigurationBindgenCSharp
+public class Configuration
 {
     [JsonPropertyName("aliases")]
     public ImmutableArray<CSharpTypeAlias> Aliases { get; set; } = ImmutableArray<CSharpTypeAlias>.Empty;
