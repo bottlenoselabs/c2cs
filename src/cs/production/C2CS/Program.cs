@@ -2,14 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using C2CS.UseCases.BindgenCSharp;
-using C2CS.UseCases.ExtractAbstractSyntaxTreeC;
-using Request = C2CS.UseCases.ExtractAbstractSyntaxTreeC.Request;
-using UseCase = C2CS.UseCases.ExtractAbstractSyntaxTreeC.UseCase;
+using System.Linq;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC;
 
 namespace C2CS;
 
@@ -17,21 +11,28 @@ public static class Program
 {
     public static int Main(string[]? args = null)
     {
-        var configuration = GetConfigurationFrom(args);
-        return EntryPoint(configuration);
+        if (args != null && args.Length == 2 && args[0] == "build")
+        {
+            return Feature.BuildLibraryC.Program.Main(args.Skip(1).ToArray());
+        }
+        else
+        {
+            var configuration = Configuration.GetFrom(args);
+            return EntryPoint(configuration);
+        }
     }
 
     // ReSharper disable once MemberCanBePrivate.Global
-    public static int EntryPoint(ProgramConfiguration configuration)
+    public static int EntryPoint(Configuration configuration)
     {
         var jsonFilePath = ExtractAbstractSyntaxTreeC(configuration);
         BindgenCSharp(jsonFilePath, configuration);
         return Environment.ExitCode;
     }
 
-    private static string ExtractAbstractSyntaxTreeC(ProgramConfiguration c)
+    private static string ExtractAbstractSyntaxTreeC(Configuration c)
     {
-        var request = new Request(
+        var request = new Feature.ExtractAbstractSyntaxTreeC.Input(
             c.InputFilePath,
             c.AbstractSyntaxTreeOutputFilePath,
             c.IsEnabledFindSdk,
@@ -52,9 +53,9 @@ public static class Program
         return request.OutputFilePath;
     }
 
-    private static void BindgenCSharp(string inputFilePath, ProgramConfiguration c)
+    private static void BindgenCSharp(string inputFilePath, Configuration c)
     {
-        var request = new UseCases.BindgenCSharp.Request(
+        var request = new Feature.BindgenCSharp.Input(
             inputFilePath,
             c.OutputFilePath,
             c.LibraryName,
@@ -64,47 +65,11 @@ public static class Program
             c.IgnoredTypeNames,
             c.HeaderCodeRegionFilePath,
             c.FooterCodeRegionFilePath);
-        var useCase = new UseCases.BindgenCSharp.UseCase();
+        var useCase = new Feature.BindgenCSharp.UseCase();
         var response = useCase.Execute(request);
         if (response.Status == UseCaseOutputStatus.Failure)
         {
             Environment.Exit(1);
-        }
-    }
-
-    private static ProgramConfiguration GetConfigurationFrom(IReadOnlyList<string>? args)
-    {
-        var argsCount = args?.Count ?? 0;
-        var configurationFilePath = argsCount switch
-        {
-            1 => args![0],
-            0 => Path.Combine(Environment.CurrentDirectory, "config.json"),
-            _ => throw new InvalidOperationException(
-                "Unsupported number of arguments. Please specify zero arguments or one argument with the file path of the configuration `.json` file.")
-        };
-
-        try
-        {
-            var fileContents = File.ReadAllText(configurationFilePath);
-            var jsonSerializerOptions = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-                PropertyNameCaseInsensitive = true,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
-
-                Converters =
-                {
-                    new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-                }
-            };
-            var serializerContext = new ProgramConfigurationSerializerContext(jsonSerializerOptions);
-            var configuration = JsonSerializer.Deserialize(fileContents, serializerContext.ProgramConfiguration)!;
-            return configuration;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
         }
     }
 }

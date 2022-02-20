@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <NoWarn>$(NoWarn);CA1724</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\C2CS.Common\C2CS.Common.csproj" />
+      <ProjectReference Include="..\C2CS.Feature.ExtractAbstractSyntaxTreeC\C2CS.Feature.ExtractAbstractSyntaxTreeC.csproj" />
+      <ProjectReference Include="..\C2CS.Runtime\C2CS.Runtime.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0-1.final" />
+      <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.2.0-1.final" />
+      <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.2.0-1.final" />
+    </ItemGroup>
+
+</Project>

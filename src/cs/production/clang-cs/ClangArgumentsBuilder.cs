@@ -38,7 +38,7 @@ public static class ClangArgumentsBuilder
     {
         args.Add("--language=c");
 
-        if (Platform.OperatingSystem == RuntimeOperatingSystem.Linux)
+        if (Platform.HostOperatingSystem == RuntimeOperatingSystem.Linux)
         {
             args.Add("--std=gnu11");
         }
@@ -100,7 +100,7 @@ public static class ClangArgumentsBuilder
 
     private static void AddSystemIncludes(ImmutableArray<string>.Builder args)
     {
-        var runtime = Platform.OperatingSystem;
+        var runtime = Platform.HostOperatingSystem;
         switch (runtime)
         {
             case RuntimeOperatingSystem.Windows:

@@ -7,6 +7,7 @@
         <RootNamespace>C2CS</RootNamespace>
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
         <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+        <NoWarn>$(NoWarn);CA1724</NoWarn>
     </PropertyGroup>
 
     <!-- NuGet -->
@@ -20,9 +21,6 @@
 
     <!-- NuGet packaage references -->
     <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.0-3.final" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.0.0-3.final" />
-        <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.0.0-3.final" />
         <PackageReference Include="System.Text.Json" Version="6.0.0" />
         <!-- NativeAOT for macOS is, at this time of commit, busted for osx-arm64 (Apple Sillicon laptop/desktop). -->
         <!-- <PackageReference Condition="'$(IsMacOS)' != 'true'" Include="Microsoft.DotNet.ILCompiler" Version="7.0.0-*" /> -->
@@ -30,7 +28,10 @@
 
     <!-- Project references -->
     <ItemGroup>
+        <ProjectReference Include="..\C2CS.Feature.BindgenCSharp\C2CS.Feature.BindgenCSharp.csproj" />
+        <ProjectReference Include="..\C2CS.Feature.ExtractAbstractSyntaxTreeC\C2CS.Feature.ExtractAbstractSyntaxTreeC.csproj" />
         <ProjectReference Include="..\C2CS.Runtime\C2CS.Runtime.csproj" />
+        <ProjectReference Include="..\C2CS.Feature.BuildLibraryC\C2CS.Feature.BuildLibraryC.csproj" />
         <ProjectReference Include="..\clang-cs\clang-cs.csproj" />
     </ItemGroup>
 

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- MSBuild project settings -->
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <NoWarn>$(NoWarn);CA1724</NoWarn>
+    </PropertyGroup>
+
+    <!-- Project references -->
+    <ItemGroup>
+      <ProjectReference Include="..\C2CS.Common\C2CS.Common.csproj" />
+      <ProjectReference Include="..\clang-cs\clang-cs.csproj" />
+    </ItemGroup>
+
+</Project>
