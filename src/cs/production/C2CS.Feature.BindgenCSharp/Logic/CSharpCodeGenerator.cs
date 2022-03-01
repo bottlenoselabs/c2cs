@@ -180,13 +180,21 @@ namespace {namespaceName}
 
     private MethodDeclarationSyntax FunctionExtern(CSharpFunction function)
     {
+        var callingConvention = function.CallingConvention switch
+        {
+            CSharpFunctionCallingConvention.Cdecl => "CallingConvention = CallingConvention.Cdecl",
+            CSharpFunctionCallingConvention.StdCall => "CallingConvention = CallingConvention.StdCall",
+            _ => string.Empty,
+        };
+        var dllImportParameters = string.Join(',', "LibraryName", callingConvention);
+
         var parameterStrings = function.Parameters.Select(
             x => $@"{x.Type.Name} {x.Name}");
         var parameters = string.Join(',', parameterStrings);
 
         var code = $@"
 {function.CodeLocationComment}
-[DllImport(LibraryName)]
+[DllImport({dllImportParameters})]
 public static extern {function.ReturnType.Name} {function.Name}({parameters});
 ";
 

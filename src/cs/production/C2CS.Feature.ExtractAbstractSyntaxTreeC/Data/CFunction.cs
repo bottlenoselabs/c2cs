@@ -15,7 +15,7 @@ public record CFunction : CNode
     public string Name { get; set; } = string.Empty;
 
     [JsonPropertyName("callingConvention")]
-    public CFunctionCallingConvention CallingConvention { get; set; } = CFunctionCallingConvention.C;
+    public CFunctionCallingConvention CallingConvention { get; set; } = CFunctionCallingConvention.Cdecl;
 
     [JsonPropertyName("returnType")]
     public string ReturnType { get; set; } = null!;

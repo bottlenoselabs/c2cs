@@ -6,5 +6,6 @@ namespace C2CS.Feature.BindgenCSharp.Data;
 public enum CSharpFunctionCallingConvention
 {
     Default = 0,
-    Cdecl
+    Cdecl = 1,
+    StdCall = 2,
 }

@@ -5,6 +5,6 @@ namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
 
 public enum CFunctionCallingConvention
 {
-    C = 0
-    // TODO: Add more calling conventions
+    Cdecl = 0,
+    StdCall = 1
 }

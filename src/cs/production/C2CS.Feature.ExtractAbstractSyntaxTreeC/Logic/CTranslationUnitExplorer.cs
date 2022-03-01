@@ -874,7 +874,8 @@ public class CTranslationUnitExplorer
         var callingConvention = clang_getFunctionTypeCallingConv(type);
         var result = callingConvention switch
         {
-            CXCallingConv.CXCallingConv_C => CFunctionCallingConvention.C,
+            CXCallingConv.CXCallingConv_C => CFunctionCallingConvention.Cdecl,
+            CXCallingConv.CXCallingConv_X86StdCall => CFunctionCallingConvention.StdCall,
             _ => throw new UseCaseException($"Unknown calling convention '{callingConvention}'.")
         };
 

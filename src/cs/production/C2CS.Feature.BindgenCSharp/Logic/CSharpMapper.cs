@@ -170,7 +170,8 @@ public class CSharpMapper
     {
         var result = cFunctionCallingConvention switch
         {
-            CFunctionCallingConvention.C => Data.CSharpFunctionCallingConvention.Cdecl,
+            CFunctionCallingConvention.Cdecl => Data.CSharpFunctionCallingConvention.Cdecl,
+            CFunctionCallingConvention.StdCall => Data.CSharpFunctionCallingConvention.StdCall,
             _ => throw new ArgumentOutOfRangeException(
                 nameof(cFunctionCallingConvention), cFunctionCallingConvention, null)
         };
