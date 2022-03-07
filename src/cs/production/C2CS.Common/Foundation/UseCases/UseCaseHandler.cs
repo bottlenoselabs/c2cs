@@ -13,6 +13,7 @@ namespace C2CS;
 
 [PublicAPI]
 public abstract class UseCaseHandler<TInput, TOutput>
+    where TInput : UseCaseInput<TOutput>
     where TOutput : UseCaseOutput, new()
 {
     private readonly string _useCaseName;
@@ -49,6 +50,7 @@ public abstract class UseCaseHandler<TInput, TOutput>
 
     protected DiagnosticsSink Diagnostics { get; } = new();
 
+    [DebuggerHidden]
     public TOutput Execute(TInput input)
     {
         var response = Begin(input);
@@ -59,12 +61,12 @@ public abstract class UseCaseHandler<TInput, TOutput>
         }
         catch (Exception e)
         {
-            Panic(e);
-
             if (Debugger.IsAttached)
             {
                 throw;
             }
+
+            Panic(e);
         }
 
         End(response);

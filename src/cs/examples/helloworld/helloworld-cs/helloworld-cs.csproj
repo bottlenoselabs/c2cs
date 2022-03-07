@@ -3,7 +3,7 @@
     <!-- MSBuild project settings -->
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <RootNamespace/>
+        <RootNamespace />
     </PropertyGroup>
 
     <!-- Project references -->

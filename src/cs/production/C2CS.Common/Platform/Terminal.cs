@@ -89,8 +89,8 @@ public static class Terminal
         }
         else
         {
-            var platform = Platform.HostOperatingSystem;
-            if (platform == RuntimeOperatingSystem.Windows)
+            var platform = RuntimePlatform.Host;
+            if (platform.OperatingSystem == RuntimeOperatingSystem.Windows)
             {
                 if (windowsUsePowerShell)
                 {
@@ -188,8 +188,8 @@ public static class Terminal
             return false;
         }
 
-        var runtimePlatform = Platform.HostOperatingSystem;
-        var libraryFileNameExtension = Platform.LibraryFileNameExtension(runtimePlatform);
+        var runtimePlatform = RuntimePlatform.Host;
+        var libraryFileNameExtension = RuntimePlatform.LibraryFileNameExtension(runtimePlatform.OperatingSystem);
         var outputFilePaths = Directory.EnumerateFiles(
             outputDirectoryPath, $"*{libraryFileNameExtension}", SearchOption.AllDirectories);
         foreach (var outputFilePath in outputFilePaths)
@@ -198,7 +198,7 @@ public static class Terminal
                     outputDirectoryPath, libraryOutputDirectoryPath, StringComparison.InvariantCulture);
             var targetFileName = Path.GetFileName(targetFilePath);
 
-            if (runtimePlatform == RuntimeOperatingSystem.Windows)
+            if (runtimePlatform.OperatingSystem == RuntimeOperatingSystem.Windows)
             {
                 if (targetFileName.StartsWith("lib", StringComparison.InvariantCulture))
                 {

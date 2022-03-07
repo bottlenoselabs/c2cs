@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Immutable;
 using System.IO;
-using System.Runtime.InteropServices;
 using C2CS;
 
 public static class ClangArgumentsBuilder
@@ -13,32 +12,70 @@ public static class ClangArgumentsBuilder
         bool automaticallyFindSoftwareDevelopmentKit,
         ImmutableArray<string> includeDirectories,
         ImmutableArray<string> defines,
-        int? bitness,
+        RuntimePlatform targetPlatform,
         ImmutableArray<string> additionalArgs)
     {
         var builder = ImmutableArray.CreateBuilder<string>();
 
-        AddDefault(builder);
-        AddBitness(
-            builder,
-            bitness ?? (RuntimeInformation.OSArchitecture is Architecture.Arm64 or Architecture.X64 ? 64 : 32));
+        AddDefault(builder, targetPlatform);
+        AddBitness(builder, targetPlatform);
         AddUserIncludes(builder, includeDirectories);
         AddDefines(builder, defines);
+        AddTargetTriple(builder, targetPlatform);
         AddAdditionalArgs(builder, additionalArgs);
 
         if (automaticallyFindSoftwareDevelopmentKit)
         {
-            AddSystemIncludes(builder);
+            AddSystemIncludes(builder, targetPlatform);
         }
 
         return builder.ToImmutable();
     }
 
-    private static void AddDefault(ImmutableArray<string>.Builder args)
+    private static void AddTargetTriple(ImmutableArray<string>.Builder args, RuntimePlatform targetPlatform)
+    {
+        var arch = targetPlatform.Architecture switch
+        {
+            RuntimeArchitecture.X64 => "x86_64",
+            RuntimeArchitecture.X86 => "x86",
+            RuntimeArchitecture.ARM32 => "arm",
+            RuntimeArchitecture.ARM64 => "aarch64",
+            _ => string.Empty
+        };
+
+        var vendor = targetPlatform.OperatingSystem switch
+        {
+            RuntimeOperatingSystem.Windows => "pc",
+            RuntimeOperatingSystem.macOS => "apple",
+            RuntimeOperatingSystem.iOS => "apple",
+            RuntimeOperatingSystem.tvOS => "apple",
+            _ => string.Empty
+        };
+
+        var os = targetPlatform.OperatingSystem switch
+        {
+            RuntimeOperatingSystem.Windows => "win32",
+            RuntimeOperatingSystem.macOS => "darwin",
+            RuntimeOperatingSystem.iOS => "ios",
+            RuntimeOperatingSystem.tvOS => "tvos",
+            _ => string.Empty
+        };
+
+        if (string.IsNullOrEmpty(arch) || string.IsNullOrEmpty(vendor) || string.IsNullOrEmpty(os))
+        {
+            // Skip
+            return;
+        }
+
+        var targetTripleString = $"--target={arch}-{vendor}-{os}";
+        args.Add(targetTripleString);
+    }
+
+    private static void AddDefault(ImmutableArray<string>.Builder args, RuntimePlatform platform)
     {
         args.Add("--language=c");
 
-        if (Platform.HostOperatingSystem == RuntimeOperatingSystem.Linux)
+        if (platform.OperatingSystem == RuntimeOperatingSystem.Linux)
         {
             args.Add("--std=gnu11");
         }
@@ -51,9 +88,25 @@ public static class ClangArgumentsBuilder
         args.Add("-fno-blocks");
     }
 
-    private static void AddBitness(ImmutableArray<string>.Builder args, int bitness)
+    private static void AddBitness(ImmutableArray<string>.Builder args, RuntimePlatform targetPlatform)
     {
-        args.Add($"-m{bitness}");
+        var architecture = targetPlatform.Architecture;
+        if (architecture == RuntimeArchitecture.Unknown)
+        {
+            architecture = RuntimePlatform.Host.Architecture;
+        }
+
+#pragma warning disable CS8509
+        var bitness = architecture switch
+#pragma warning restore CS8509
+        {
+            RuntimeArchitecture.X64 => 64,
+            RuntimeArchitecture.X86 => 32,
+            RuntimeArchitecture.ARM64 => 64,
+            RuntimeArchitecture.ARM32 => 32
+        };
+
+        // args.Add($"-m{bitness}");
     }
 
     private static void AddUserIncludes(
@@ -98,20 +151,29 @@ public static class ClangArgumentsBuilder
         }
     }
 
-    private static void AddSystemIncludes(ImmutableArray<string>.Builder args)
+    private static void AddSystemIncludes(ImmutableArray<string>.Builder args, RuntimePlatform targetPlatform)
     {
-        var runtime = Platform.HostOperatingSystem;
-        switch (runtime)
+        switch (targetPlatform.OperatingSystem)
         {
             case RuntimeOperatingSystem.Windows:
                 AddSystemIncludesWindows(args);
                 break;
             case RuntimeOperatingSystem.macOS:
+            case RuntimeOperatingSystem.iOS:
+            case RuntimeOperatingSystem.tvOS:
                 AddSystemIncludesMac(args);
                 break;
             case RuntimeOperatingSystem.Linux:
+            case RuntimeOperatingSystem.Android:
                 AddSystemIncludesLinux(args);
                 break;
+            case RuntimeOperatingSystem.Unknown:
+                throw new NotSupportedException();
+            case RuntimeOperatingSystem.FreeBSD:
+            case RuntimeOperatingSystem.Browser:
+            case RuntimeOperatingSystem.PlayStation:
+            case RuntimeOperatingSystem.Xbox:
+            case RuntimeOperatingSystem.Switch:
             default:
                 throw new NotImplementedException();
         }

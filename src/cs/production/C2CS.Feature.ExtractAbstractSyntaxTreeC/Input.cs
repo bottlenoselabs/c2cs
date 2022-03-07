@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 
 namespace C2CS.Feature.ExtractAbstractSyntaxTreeC;
 
-public class Input
+public class Input : UseCaseInput<Output>
 {
     public string InputFilePath { get; }
 
@@ -13,7 +13,7 @@ public class Input
 
     public bool IsEnabledFindSdk { get; }
 
-    public int MachineBitWidth { get; }
+    public RuntimePlatform TargetPlatform { get; }
 
     public ImmutableArray<string> IncludeDirectories { get; }
 
@@ -27,28 +27,18 @@ public class Input
 
     public ImmutableArray<string> ClangArguments { get; }
 
-    public Input(
-        string? inputFilePath,
-        string? outputFilePath,
-        bool? isEnabledFindSdk,
-        int? machineBitWidth,
-        ImmutableArray<string?>? includeDirectories,
-        ImmutableArray<string?>? excludedHeaderFiles,
-        ImmutableArray<string?>? opaqueTypeNames,
-        ImmutableArray<string?>? functionNamesWhitelist,
-        ImmutableArray<string?>? defines,
-        ImmutableArray<string?>? clangArgs)
+    public Input(ConfigurationExtractAbstractSyntaxTreeC configuration)
     {
-        InputFilePath = VerifyInputFilePath(inputFilePath);
-        OutputFilePath = VerifyOutputFilePath(outputFilePath);
-        IsEnabledFindSdk = isEnabledFindSdk ?? true;
-        MachineBitWidth = VerifyMachineBitWidth(machineBitWidth);
-        IncludeDirectories = VerifyIncludeDirectories(includeDirectories, InputFilePath);
-        ExcludedHeaderFiles = VerifyImmutableArray(excludedHeaderFiles);
-        OpaqueTypeNames = VerifyImmutableArray(opaqueTypeNames);
-        FunctionNamesWhitelist = VerifyImmutableArray(functionNamesWhitelist);
-        ClangDefines = VerifyImmutableArray(defines);
-        ClangArguments = VerifyImmutableArray(clangArgs);
+        InputFilePath = VerifyInputFilePath(configuration.InputFilePath);
+        TargetPlatform = VerifyTargetPlatform(configuration.TargetPlatform);
+        OutputFilePath = VerifyOutputFilePath(configuration.OutputFileDirectory, TargetPlatform);
+        IsEnabledFindSdk = configuration.IsEnabledFindSdk ?? true;
+        IncludeDirectories = VerifyIncludeDirectories(configuration.IncludeDirectories, InputFilePath);
+        ExcludedHeaderFiles = VerifyImmutableArray(configuration.ExcludedHeaderFiles);
+        OpaqueTypeNames = VerifyImmutableArray(configuration.OpaqueTypeNames);
+        FunctionNamesWhitelist = VerifyImmutableArray(configuration.FunctionNamesWhiteList);
+        ClangDefines = VerifyImmutableArray(configuration.Defines);
+        ClangArguments = VerifyImmutableArray(configuration.ClangArguments);
     }
 
     private static string VerifyInputFilePath(string? inputFilePath)
@@ -61,30 +51,37 @@ public class Input
         return Path.GetFullPath(inputFilePath);
     }
 
-    private static string VerifyOutputFilePath(string? outputFilePath)
+    private static string VerifyOutputFilePath(string? outputFileDirectory, RuntimePlatform targetPlatform)
     {
-        if (!string.IsNullOrEmpty(outputFilePath))
+        string directoryPath;
+        // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
+        if (string.IsNullOrEmpty(outputFileDirectory))
         {
-            return Path.GetFullPath(outputFilePath);
+            directoryPath = Path.Combine(Environment.CurrentDirectory, "ast");
+        }
+        else
+        {
+            directoryPath = Path.GetFullPath(outputFileDirectory);
         }
 
-        var defaultFilePath = Path.GetTempFileName();
+        var defaultFilePath = Path.Combine(directoryPath, targetPlatform + ".json");
         return defaultFilePath;
     }
 
-    private static int VerifyMachineBitWidth(int? machineBitWidth)
+    private static RuntimePlatform VerifyTargetPlatform(string? targetPlatform)
     {
-        if (machineBitWidth == null)
+        if (targetPlatform == null)
         {
-            return Platform.HostArchitecture switch
-            {
-                RuntimeArchitecture.ARM32 or RuntimeArchitecture.X86 => 32,
-                RuntimeArchitecture.ARM64 or RuntimeArchitecture.X64 => 64,
-                _ => throw new UseCaseException("Unknown runtime architecture.")
-            };
+            return RuntimePlatform.Host;
         }
 
-        return machineBitWidth.Value;
+        var runtimePlatform = RuntimePlatform.FromString(targetPlatform);
+        if (runtimePlatform == RuntimePlatform.Unknown)
+        {
+            throw new UseCaseException($"Unknown target platform '{runtimePlatform}'.");
+        }
+
+        return runtimePlatform;
     }
 
     private static ImmutableArray<string> VerifyIncludeDirectories(

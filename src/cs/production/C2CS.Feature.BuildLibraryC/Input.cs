@@ -1,21 +1,20 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System.Collections.Immutable;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using C2CS.Feature.BuildLibraryC.Data.Serialization;
-using C2CS.Feature.BuildLibraryC.Domain;
+using C2CS.Feature.BuildLibraryC.Data.Model;
+using JsonSerializerContext = C2CS.Feature.BuildLibraryC.Data.Serialization.JsonSerializerContext;
 
 namespace C2CS.Feature.BuildLibraryC;
 
-public class Input
+public class Input : UseCaseInput<Output>
 {
-    public ImmutableArray<BuildTarget> BuildTargets { get; }
+    public BuildProject Project { get; }
 
-    public Input(ImmutableArray<BuildTarget> buildTargets)
+    public Input(BuildProject project)
     {
-        BuildTargets = buildTargets;
+        Project = project;
     }
 
     public static Input GetFrom(IReadOnlyList<string>? args)
@@ -44,9 +43,9 @@ public class Input
                 }
             };
 
-            var serializerContext = new InputDataSerializerContext(jsonSerializerOptions);
-            var data = JsonSerializer.Deserialize(fileContents, serializerContext.InputData)!;
-            var input = DomainMapper.InputFrom(data);
+            var serializerContext = new JsonSerializerContext(jsonSerializerOptions);
+            var buildProject = JsonSerializer.Deserialize(fileContents, serializerContext.BuildProject)!;
+            var input = new Input(buildProject);
             return input;
         }
         catch (Exception e)

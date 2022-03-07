@@ -9,12 +9,12 @@ internal static class Program
 {
     private static void Main()
     {
-        var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
-        if (!BuildLibrary(rootDirectory))
-        {
-            // Error building C library
-            return;
-        }
+        // var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
+        // if (!BuildLibrary(rootDirectory))
+        // {
+        //     // Error building C library
+        //     return;
+        // }
 
         GenerateBindingsCSharp();
         // GenerateBindingsCSharp(rootDirectory);
@@ -22,6 +22,7 @@ internal static class Program
 
     private static bool BuildLibrary(string rootDirectory)
     {
+        C2CS.Feature.BuildLibraryC.Program.Main();
         var cMakeDirectoryPath =
             Path.GetFullPath($"{rootDirectory}/src/cs/examples/helloworld/helloworld-c/my_c_library");
         var targetLibraryDirectoryPath = Path.GetFullPath($"{rootDirectory}/src/cs/examples/helloworld/helloworld-cs");
@@ -30,7 +31,8 @@ internal static class Program
 
     private static void GenerateBindingsCSharp()
     {
-        C2CS.Program.Main();
+        // C2CS.Program.Main(new[] { "ast" });
+        C2CS.Program.Main(new[] { "cs" });
     }
 
 // private static void GenerateBindingsCSharp(string rootDirectory)

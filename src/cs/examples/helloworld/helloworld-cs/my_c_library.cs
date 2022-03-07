@@ -24,36 +24,76 @@ namespace my_c_library_namespace
     {
         private const string LibraryName = "my_c_library";
 
-        // Function @ my_c_library.h:21:28
-        [DllImport(LibraryName)]
-        public static extern void hello_world();
-
-        // Function @ my_c_library.h:22:28
-        [DllImport(LibraryName)]
-        public static extern void pass_string(CString s);
-
-        // Function @ my_c_library.h:23:28
-        [DllImport(LibraryName)]
-        public static extern void pass_integers_by_value(ushort a, int b, ulong c);
-
-        // Function @ my_c_library.h:24:28
-        [DllImport(LibraryName)]
-        public static extern void pass_integers_by_reference(ushort* a, int* b, ulong* c);
-
-        // Function @ my_c_library.h:25:28
-        [DllImport(LibraryName)]
-        public static extern void pass_enum(my_enum_week_day e);
-
-        // Enum @ my_c_library.h:19:3
-        public enum my_enum_week_day : int
+        public static class osx_x64
         {
-            MY_ENUM_WEEK_DAY_UNKNOWN = 0,
-            MY_ENUM_WEEK_DAY_MONDAY = 1,
-            MY_ENUM_WEEK_DAY_TUESDAY = 2,
-            MY_ENUM_WEEK_DAY_WEDNESDAY = 3,
-            MY_ENUM_WEEK_DAY_THURSDAY = 4,
-            MY_ENUM_WEEK_DAY_FRIDAY = 5,
-            _MY_ENUM_WEEK_DAY_FORCE_U32 = 2147483647
+
+            // Function @ my_c_library.h:21:28
+            [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+            public static extern void hello_world();
+
+            // Function @ my_c_library.h:22:28
+            [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+            public static extern void pass_string(CString s);
+
+            // Function @ my_c_library.h:23:28
+            [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+            public static extern void pass_integers_by_value(ushort a, int b, ulong c);
+
+            // Function @ my_c_library.h:24:28
+            [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+            public static extern void pass_integers_by_reference(ushort* a, int* b, ulong* c);
+
+            // Function @ my_c_library.h:25:28
+            [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+            public static extern void pass_enum(my_enum_week_day e);
+
+            // Enum @ my_c_library.h:19:3
+            public enum my_enum_week_day : int
+            {
+                MY_ENUM_WEEK_DAY_UNKNOWN = 0,
+                MY_ENUM_WEEK_DAY_MONDAY = 1,
+                MY_ENUM_WEEK_DAY_TUESDAY = 2,
+                MY_ENUM_WEEK_DAY_WEDNESDAY = 3,
+                MY_ENUM_WEEK_DAY_THURSDAY = 4,
+                MY_ENUM_WEEK_DAY_FRIDAY = 5,
+                _MY_ENUM_WEEK_DAY_FORCE_U32 = 2147483647
+            }
+        }
+
+        public static class osx_arm64
+        {
+
+            // Function @ my_c_library.h:21:28
+            [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+            public static extern void hello_world();
+
+            // Function @ my_c_library.h:22:28
+            [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+            public static extern void pass_string(CString s);
+
+            // Function @ my_c_library.h:23:28
+            [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+            public static extern void pass_integers_by_value(ushort a, int b, ulong c);
+
+            // Function @ my_c_library.h:24:28
+            [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+            public static extern void pass_integers_by_reference(ushort* a, int* b, ulong* c);
+
+            // Function @ my_c_library.h:25:28
+            [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
+            public static extern void pass_enum(my_enum_week_day e);
+
+            // Enum @ my_c_library.h:19:3
+            public enum my_enum_week_day : int
+            {
+                MY_ENUM_WEEK_DAY_UNKNOWN = 0,
+                MY_ENUM_WEEK_DAY_MONDAY = 1,
+                MY_ENUM_WEEK_DAY_TUESDAY = 2,
+                MY_ENUM_WEEK_DAY_WEDNESDAY = 3,
+                MY_ENUM_WEEK_DAY_THURSDAY = 4,
+                MY_ENUM_WEEK_DAY_FRIDAY = 5,
+                _MY_ENUM_WEEK_DAY_FORCE_U32 = 2147483647
+            }
         }
 
         #region C2CS.Runtime

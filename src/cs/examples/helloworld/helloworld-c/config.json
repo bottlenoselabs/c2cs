@@ -1,19 +1,22 @@
 {
-  "inputFilePath": "../../../../src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h",
-  "outputFilePath": "../../../../src/cs/examples/helloworld/helloworld-cs/my_c_library.cs",
-  "abstractSyntaxTreeOutputFilePath": null,
-  "libraryName": null,
-  "namespaceName": "my_c_library_namespace",
-  "className": null,
-  "headerCodeRegionFilePath": null,
-  "footerCodeRegionFilePath": null,
-  "mappedTypeNames": null,
-  "isEnabledFindSdk": true,
-  "machineBitWidth": null,
-  "includeDirectories": null,
-  "defines": null,
-  "excludedHeaderFiles": null,
-  "ignoredTypeNames": null,
-  "opaqueTypeNames": null,
-  "clangArguments": null
+  "ast": {
+    "inputFilePath": "../../../../src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h",
+    "outputFileDirectory": "../../../../src/cs/examples/helloworld/helloworld-c/my_c_library/ast",
+    "includeDirectories": null,
+    "defines": null,
+    "functionNamesWhiteList": null,
+    "opaqueTypeNames": null,
+    "excludedHeaderFiles": null,
+    "clangArguments": null
+  },
+  "cs": {
+    "inputFileDirectory": "../../../../src/cs/examples/helloworld/helloworld-c/my_c_library/ast",
+    "outputFilePath": "../../../../src/cs/examples/helloworld/helloworld-cs/my_c_library.cs",
+    "libraryName": null,
+    "namespaceName": "my_c_library_namespace",
+    "className": null,
+    "ignoredTypeNames": null,
+    "headerCodeRegionFilePath": null,
+    "footerCodeRegionFilePath": null
+  }
 }

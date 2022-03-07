@@ -2,19 +2,19 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
-using C2CS.Feature.BindgenCSharp.Data;
+using C2CS.Feature.BindgenCSharp.Data.Model;
 
 namespace C2CS.Feature.BindgenCSharp;
 
-public class Input
+public class Input : UseCaseInput<Output>
 {
-    public string InputFilePath { get; }
+    public ImmutableArray<string> InputFilePaths { get; }
 
     public string OutputFilePath { get; }
 
     public ImmutableArray<CSharpTypeAlias> TypeAliases { get; }
 
-    public ImmutableArray<string> IgnoredTypeNames { get; }
+    public ImmutableArray<string> IgnoredNames { get; }
 
     public string LibraryName { get; }
 
@@ -26,53 +26,62 @@ public class Input
 
     public string FooterCodeRegion { get; }
 
-    public Input(
-        string? inputFilePath,
-        string? outputFilePath,
-        string? libraryName,
-        string? @namespace,
-        string? className,
-        ImmutableArray<CSharpTypeAlias>? mappedTypeNames,
-        ImmutableArray<string?>? ignoredTypeNames,
-        string? headerCodeRegionFilePath,
-        string? footerCodeRegionFilePath)
+    public Input(ConfigurationBindgenCSharp configuration)
     {
-        InputFilePath = VerifyInputFilePath(inputFilePath);
-        OutputFilePath = VerifyOutputFilePath(outputFilePath, InputFilePath);
-        ClassName = VerifyClassName(className, OutputFilePath);
-        LibraryName = VerifyLibraryName(libraryName, ClassName);
-        NamespaceName = VerifyNamespace(@namespace, LibraryName);
-        TypeAliases = VerifyTypeAliases(mappedTypeNames);
-        IgnoredTypeNames = VerifyIgnoredTypeNames(ignoredTypeNames);
-        HeaderCodeRegion = VerifyHeaderCodeRegion(headerCodeRegionFilePath);
-        FooterCodeRegion = VerifyFooterCodeRegion(footerCodeRegionFilePath);
+        InputFilePaths = VerifyInputFilePaths(configuration.InputFileDirectory);
+        OutputFilePath = VerifyOutputFilePath(configuration.OutputFilePath);
+        ClassName = VerifyClassName(configuration.ClassName, OutputFilePath);
+        LibraryName = VerifyLibraryName(configuration.LibraryName, ClassName);
+        NamespaceName = VerifyNamespace(configuration.NamespaceName, LibraryName);
+        TypeAliases = VerifyTypeAliases(configuration.MappedTypeNames);
+        IgnoredNames = VerifyIgnoredTypeNames(configuration.IgnoredNames);
+        HeaderCodeRegion = VerifyHeaderCodeRegion(configuration.HeaderCodeRegionFilePath);
+        FooterCodeRegion = VerifyFooterCodeRegion(configuration.FooterCodeRegionFilePath);
     }
 
-    private static string VerifyInputFilePath(string? inputFilePath)
+    private static ImmutableArray<string> VerifyInputFilePaths(string? inputDirectoryPath)
     {
-        if (string.IsNullOrWhiteSpace(inputFilePath))
+        string directoryPath;
+        if (string.IsNullOrWhiteSpace(inputDirectoryPath))
         {
-            throw new UseCaseException("The input file can not be null, empty, or whitespace.");
+            directoryPath = Path.Combine(Environment.CurrentDirectory, "ast");
+        }
+        else
+        {
+            if (!Directory.Exists(inputDirectoryPath))
+            {
+                throw new UseCaseException($"The abstract syntax tree input directory '{inputDirectoryPath}' does not exist.");
+            }
+
+            directoryPath = inputDirectoryPath;
         }
 
-        if (!File.Exists(inputFilePath))
+        var builder = ImmutableArray.CreateBuilder<string>();
+        var filePaths = Directory.EnumerateFiles(directoryPath!);
+        foreach (var filePath in filePaths)
         {
-            throw new UseCaseException($"The input file does not exist: {inputFilePath}");
+            var fileName = Path.GetFileName(filePath);
+            var runtimePlatformString = fileName.Replace(".json", string.Empty, StringComparison.InvariantCulture);
+            var runtimePlatform = RuntimePlatform.FromString(runtimePlatformString);
+            if (runtimePlatform == RuntimePlatform.Unknown)
+            {
+                throw new UseCaseException($"Unknown platform '{runtimePlatform}' for abstract syntax tree.");
+            }
+
+            builder.Add(filePath);
         }
 
-        return inputFilePath;
+        return builder.ToImmutable();
     }
 
-    private static string VerifyOutputFilePath(string? outputFilePath, string inputFilePath)
+    private static string VerifyOutputFilePath(string? outputFilePath)
     {
         if (!string.IsNullOrEmpty(outputFilePath))
         {
             return Path.GetFullPath(outputFilePath);
         }
 
-        var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(inputFilePath);
-        var defaultFilePath = Path.Combine(Environment.CurrentDirectory, $"{fileNameWithoutExtension}.cs");
-        return defaultFilePath;
+        throw new UseCaseException($"The output file path can not be an empty or null string.");
     }
 
     private static ImmutableArray<CSharpTypeAlias> VerifyTypeAliases(ImmutableArray<CSharpTypeAlias>? mappedTypeNames)

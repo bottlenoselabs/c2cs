@@ -38,8 +38,9 @@ public static class ClangTranslationUnitParser
             Console.Error.WriteLine(diagnosticString);
 
             var severity = clang_getDiagnosticSeverity(diagnostic);
-            if (severity == CXDiagnosticSeverity.CXDiagnostic_Error ||
-                severity == CXDiagnosticSeverity.CXDiagnostic_Fatal)
+            if (severity is
+                CXDiagnosticSeverity.CXDiagnostic_Error or
+                CXDiagnosticSeverity.CXDiagnostic_Fatal)
             {
                 hasErrors = true;
             }
