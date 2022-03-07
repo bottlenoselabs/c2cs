@@ -1261,10 +1261,24 @@ public class CTranslationUnitExplorer
         var isSystemType = type.IsSystem();
 
         int? elementSize = null;
-        if (type.kind == CXTypeKind.CXType_ConstantArray)
+        var elementType = type;
+
+        while (true)
         {
-            var elementType = clang_getElementType(type);
-            elementSize = (int)clang_Type_getSizeOf(elementType);
+            if (elementType.kind == CXTypeKind.CXType_ConstantArray)
+            {
+                elementType = clang_getElementType(elementType);
+                elementSize = (int)clang_Type_getSizeOf(elementType);
+            }
+            else if (elementType.kind == CXTypeKind.CXType_Pointer)
+            {
+                elementType = clang_getPointeeType(elementType);
+                elementSize = (int)clang_Type_getSizeOf(elementType);
+            }
+            else
+            {
+                break;
+            }
         }
 
         ClangLocation? location = null;
