@@ -875,17 +875,16 @@ var x = {value};
         }
 
         var name = type.Name;
-        var elementTypeSize = type.ElementSize ?? type.SizeOf;
         string typeName;
 
         if (name.EndsWith("*", StringComparison.InvariantCulture) ||
             name.EndsWith("]", StringComparison.InvariantCulture))
         {
-            typeName = TypeNameMapPointer(type, elementTypeSize, type.IsSystem);
+            typeName = TypeNameMapPointer(types, type);
         }
         else
         {
-            typeName = TypeNameMapElement(name, elementTypeSize, type.IsSystem);
+            typeName = TypeNameMapElement(name, type.SizeOf, type.IsSystem);
         }
 
         // TODO: https://github.com/lithiumtoast/c2cs/issues/15
@@ -958,7 +957,7 @@ var x = {value};
         return functionPointerNameCSharp;
     }
 
-    private string TypeNameMapPointer(CType type, int sizeOf, bool isSystem)
+    private string TypeNameMapPointer(ImmutableDictionary<string, CType> types, CType type)
     {
         var pointerTypeName = type.Name;
 
@@ -999,7 +998,9 @@ var x = {value};
 
         var elementTypeName = pointerTypeName.TrimEnd('*');
         var pointersTypeName = pointerTypeName[elementTypeName.Length..];
-        var mappedElementTypeName = TypeNameMapElement(elementTypeName, sizeOf, isSystem);
+
+        var elementType = CType(types, elementTypeName);
+        var mappedElementTypeName = TypeNameMapElement(elementType.Name, elementType.SizeOf, elementType.IsSystem);
         pointerTypeName = mappedElementTypeName + pointersTypeName;
 
         return pointerTypeName;
