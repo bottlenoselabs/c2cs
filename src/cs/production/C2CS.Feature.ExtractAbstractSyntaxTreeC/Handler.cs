@@ -39,6 +39,8 @@ public class Handler : UseCaseHandler<Input, Output>
             input.FunctionNamesWhitelist,
             input.TargetPlatform);
 
+        output.AbstractSyntaxTree = abstractSyntaxTreeC;
+
         Write(
             input.OutputFilePath,
             abstractSyntaxTreeC);

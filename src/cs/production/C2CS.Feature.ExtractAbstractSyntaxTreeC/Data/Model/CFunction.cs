@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
@@ -23,6 +24,7 @@ public record CFunction : CNode
     [JsonPropertyName("parameters")]
     public ImmutableArray<CFunctionParameter> Parameters { get; set; } = ImmutableArray<CFunctionParameter>.Empty;
 
+    [ExcludeFromCodeCoverage]
     public override string ToString()
     {
         return $"FunctionExtern '{Name}' @ {Location.ToString()}";

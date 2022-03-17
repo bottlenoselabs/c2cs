@@ -11,6 +11,11 @@
         <RuntimeIdentifiers>win-x64;osx-x64;osx-arm64;linux-x64</RuntimeIdentifiers>
     </PropertyGroup>
 
+    <!-- MSBuild.Tools project settings -->
+    <PropertyGroup>
+        <EnableCodeCoverage>false</EnableCodeCoverage>
+    </PropertyGroup>
+
     <!-- NuGet -->
     <PropertyGroup>
         <IsPackable>true</IsPackable>

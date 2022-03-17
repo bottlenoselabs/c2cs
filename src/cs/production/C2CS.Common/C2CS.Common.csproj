@@ -8,4 +8,9 @@
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
     </PropertyGroup>
 
+    <!-- MSBuild.Tools project settings -->
+    <PropertyGroup>
+        <EnableCodeCoverage>false</EnableCodeCoverage>
+    </PropertyGroup>
+
 </Project>

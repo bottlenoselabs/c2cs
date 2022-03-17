@@ -1,14 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+    <!-- MSBuild project settings -->
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
+        <RootNamespace>C2CS.IntegrationTests</RootNamespace>
+    </PropertyGroup>
+
+    <!-- MSBuild.Tools project settings -->
+    <PropertyGroup>
+        <EnableCodeCoverage>false</EnableCodeCoverage>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0"/>
-        <PackageReference Include="xunit" Version="2.4.1"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+        <PackageReference Include="xunit" Version="2.4.1" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -17,6 +24,16 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="../../production/C2CS.Feature.ExtractAbstractSyntaxTreeC/C2CS.Feature.ExtractAbstractSyntaxTreeC.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="my_c_library/**/*">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

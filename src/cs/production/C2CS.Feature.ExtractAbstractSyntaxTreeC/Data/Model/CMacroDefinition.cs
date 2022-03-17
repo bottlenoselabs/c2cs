@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
@@ -14,6 +15,7 @@ public record CMacroDefinition : CNode
     [JsonPropertyName("tokens")]
     public ImmutableArray<string> Tokens { get; set; } = ImmutableArray<string>.Empty;
 
+    [ExcludeFromCodeCoverage]
     public override string ToString()
     {
         return $"Macro '{Name}' @ {Location.ToString()}";

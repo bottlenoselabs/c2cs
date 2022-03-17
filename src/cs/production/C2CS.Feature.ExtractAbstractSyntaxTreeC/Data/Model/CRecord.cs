@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
@@ -23,6 +24,7 @@ public record CRecord : CNode
     [JsonPropertyName("nestedRecords")]
     public ImmutableArray<CRecord> NestedRecords { get; set; } = ImmutableArray<CRecord>.Empty;
 
+    [ExcludeFromCodeCoverage]
     public override string ToString()
     {
         var kind = IsUnion ? "Union" : "Struct";

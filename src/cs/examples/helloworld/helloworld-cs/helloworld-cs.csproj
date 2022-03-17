@@ -6,11 +6,6 @@
         <RootNamespace />
     </PropertyGroup>
 
-    <!-- Project references -->
-    <!--    <ItemGroup>-->
-    <!--        <ProjectReference Include="../../../production/C2CS/C2CS.csproj" />-->
-    <!--    </ItemGroup>-->
-
     <!-- Copy native libraries -->
     <ItemGroup>
         <None Update="**/*.dll">

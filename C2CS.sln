@@ -28,7 +28,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Feature.BindgenCSharp"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{995D2D9A-AAF6-4034-8625-5BB812C2870F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.UnitTests", "src\cs\tests\C2CS.UnitTests\C2CS.UnitTests.csproj", "{3C179AE6-E9B5-4B89-B441-863FF393CC85}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.IntegrationTests", "src\cs\tests\C2CS.IntegrationTests\C2CS.IntegrationTests.csproj", "{3C179AE6-E9B5-4B89-B441-863FF393CC85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

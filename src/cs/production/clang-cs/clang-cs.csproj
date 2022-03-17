@@ -7,6 +7,11 @@
         <RootNamespace />
     </PropertyGroup>
 
+    <!-- MSBuild.Tools project settings -->
+    <PropertyGroup>
+        <EnableCodeCoverage>false</EnableCodeCoverage>
+    </PropertyGroup>
+
     <!-- Project references -->
     <ItemGroup>
         <ProjectReference Include="..\C2CS.Common\C2CS.Common.csproj" />

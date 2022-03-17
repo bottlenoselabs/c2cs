@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
@@ -23,6 +24,7 @@ public record CEnum : CNode
     [JsonPropertyName("values")]
     public ImmutableArray<CEnumValue> Values { get; set; } = ImmutableArray<CEnumValue>.Empty;
 
+    [ExcludeFromCodeCoverage]
     public override string ToString()
     {
         return $"Enum '{Type}': {IntegerType} @ {Location.ToString()}";

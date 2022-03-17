@@ -1,6 +1,7 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
@@ -22,6 +23,7 @@ public record CRecordField : CNode
     [JsonPropertyName("padding")]
     public int Padding { get; set; }
 
+    [ExcludeFromCodeCoverage]
     public override string ToString()
     {
         return $"RecordField '{Name}': {Type} @ {Location.ToString()}";
