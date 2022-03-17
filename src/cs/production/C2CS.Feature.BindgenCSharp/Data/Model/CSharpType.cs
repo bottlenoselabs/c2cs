@@ -3,7 +3,7 @@
 
 namespace C2CS.Feature.BindgenCSharp.Data.Model;
 
-public class CSharpType
+public sealed record CSharpType
 {
     public string? Name { get; init; }
 

@@ -7,7 +7,7 @@ namespace C2CS.Feature.BindgenCSharp.Data.Model;
 
 public record CSharpAbstractSyntaxTree
 {
-    public CSharpNodes SharedNodes { get; init; } = null!;
+    public CSharpNodes PlatformAgnosticNodes { get; init; } = null!;
 
     public ImmutableArray<(RuntimePlatform Platform, CSharpNodes Nodes)> PlatformSpecificNodes { get; init; } =
         ImmutableArray<(RuntimePlatform Platform, CSharpNodes Nodes)>.Empty;

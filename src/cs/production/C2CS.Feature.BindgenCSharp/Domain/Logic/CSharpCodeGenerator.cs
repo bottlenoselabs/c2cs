@@ -38,7 +38,7 @@ public class CSharpCodeGenerator
     {
         var members = new List<MemberDeclarationSyntax>();
 
-        var sharedNodes = abstractSyntaxTree.SharedNodes;
+        var sharedNodes = abstractSyntaxTree.PlatformAgnosticNodes;
         FunctionExterns(members, sharedNodes.Functions);
         FunctionPointers(members, sharedNodes.FunctionPointers);
         Structs(members, sharedNodes.Structs);

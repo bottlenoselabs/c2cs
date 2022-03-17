@@ -8,7 +8,7 @@ namespace C2CS.Feature.BindgenCSharp.Data.Model;
 
 // NOTE: Properties are required for System.Text.Json serialization
 [PublicAPI]
-public class CSharpTypeAlias
+public sealed class CSharpTypeAlias
 {
     [JsonPropertyName("source")]
     public string Source { get; set; } = string.Empty;

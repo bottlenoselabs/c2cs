@@ -5,22 +5,37 @@ using System.Collections.Immutable;
 
 namespace C2CS.Feature.BindgenCSharp.Data.Model;
 
-public record CSharpFunction(
-        string Name,
-        string CodeLocationComment,
-        CSharpFunctionCallingConvention CallingConvention,
-        CSharpType ReturnType,
-        ImmutableArray<CSharpFunctionParameter> Parameters)
-    : CSharpNode(Name, CodeLocationComment)
+public sealed class CSharpFunction : CSharpNode
 {
-    public readonly CSharpFunctionCallingConvention CallingConvention = CallingConvention;
-    public readonly ImmutableArray<CSharpFunctionParameter> Parameters = Parameters;
-    public readonly CSharpType ReturnType = ReturnType;
+    public readonly CSharpFunctionCallingConvention CallingConvention;
 
-    // Required for debugger string with records
-    // ReSharper disable once RedundantOverriddenMember
-    public override string ToString()
+    public readonly ImmutableArray<CSharpFunctionParameter> Parameters;
+
+    public readonly CSharpType ReturnType;
+
+    public CSharpFunction(
+        string name,
+        string codeLocationComment,
+        int? sizeOf,
+        CSharpFunctionCallingConvention callingConvention,
+        CSharpType returnType,
+        ImmutableArray<CSharpFunctionParameter> parameters)
+        : base(name, codeLocationComment, sizeOf)
     {
-        return base.ToString();
+        CallingConvention = callingConvention;
+        ReturnType = returnType;
+        Parameters = parameters;
+    }
+
+    public override bool Equals(CSharpNode? other)
+    {
+        if (!base.Equals(other) || other is not CSharpFunction other2)
+        {
+            return false;
+        }
+
+        return CallingConvention == other2.CallingConvention &&
+               ReturnType == other2.ReturnType &&
+               Parameters.SequenceEqual(other2.Parameters);
     }
 }

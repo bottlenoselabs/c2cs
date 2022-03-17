@@ -5,21 +5,34 @@ using System.Collections.Immutable;
 
 namespace C2CS.Feature.BindgenCSharp.Data.Model;
 
-public record CSharpStruct(
-        string CodeLocationComment,
-        CSharpType Type,
-        ImmutableArray<CSharpStructField> Fields,
-        ImmutableArray<CSharpStruct> NestedStructs)
-    : CSharpNode(Type.Name, CodeLocationComment)
+public sealed class CSharpStruct : CSharpNode
 {
-    public readonly ImmutableArray<CSharpStructField> Fields = Fields;
-    public readonly ImmutableArray<CSharpStruct> NestedStructs = NestedStructs;
-    public readonly CSharpType Type = Type;
+    public readonly ImmutableArray<CSharpStructField> Fields;
+    public readonly ImmutableArray<CSharpStruct> NestedStructs;
+    public readonly CSharpType Type;
 
-    // Required for debugger string with records
-    // ReSharper disable once RedundantOverriddenMember
-    public override string ToString()
+    public CSharpStruct(
+        string codeLocationComment,
+        int? sizeOf,
+        CSharpType type,
+        ImmutableArray<CSharpStructField> fields,
+        ImmutableArray<CSharpStruct> nestedStructs)
+        : base(type.Name, codeLocationComment, sizeOf)
     {
-        return base.ToString();
+        Fields = fields;
+        NestedStructs = nestedStructs;
+        Type = type;
+    }
+
+    public override bool Equals(CSharpNode? other)
+    {
+        if (!base.Equals(other) || other is not CSharpStruct other2)
+        {
+            return false;
+        }
+
+        return Type == other2.Type &&
+               Fields.SequenceEqual(other2.Fields) &&
+               NestedStructs.SequenceEqual(other2.NestedStructs);
     }
 }

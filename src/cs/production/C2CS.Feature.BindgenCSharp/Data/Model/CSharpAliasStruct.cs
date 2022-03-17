@@ -3,11 +3,27 @@
 
 namespace C2CS.Feature.BindgenCSharp.Data.Model;
 
-public record CSharpAliasStruct(
-        string Name,
-        string CodeLocationComment,
-        CSharpType UnderlyingType)
-    : CSharpNode(Name, CodeLocationComment)
+public sealed class CSharpAliasStruct : CSharpNode
 {
-    public readonly CSharpType UnderlyingType = UnderlyingType;
+    public readonly CSharpType UnderlyingType;
+
+    public CSharpAliasStruct(
+        string name,
+        string codeLocationComment,
+        int? sizeOf,
+        CSharpType underlyingType)
+        : base(name, codeLocationComment, sizeOf)
+    {
+        UnderlyingType = underlyingType;
+    }
+
+    public override bool Equals(CSharpNode? other)
+    {
+        if (!base.Equals(other) || other is not CSharpAliasStruct other2)
+        {
+            return false;
+        }
+
+        return UnderlyingType == other2.UnderlyingType;
+    }
 }

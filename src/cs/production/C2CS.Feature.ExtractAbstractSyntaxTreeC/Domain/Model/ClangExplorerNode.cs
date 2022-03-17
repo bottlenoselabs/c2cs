@@ -33,15 +33,7 @@ public class ClangExplorerNode
         {
             if (type.IsPrimitive())
             {
-                // Primitives don't have a location
-                Location = new ClangLocation
-                {
-                    FilePath = string.Empty,
-                    FileName = "Builtin",
-                    LineColumn = 0,
-                    LineNumber = 0,
-                    IsBuiltin = true
-                };
+                Location = ClangLocation.BuiltIn;
             }
             else
             {

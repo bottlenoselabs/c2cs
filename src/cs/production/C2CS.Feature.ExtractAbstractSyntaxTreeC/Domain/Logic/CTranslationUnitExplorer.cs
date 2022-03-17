@@ -1261,16 +1261,17 @@ public class CTranslationUnitExplorer
         int? arraySize = arraySizeValue >= 0 ? arraySizeValue : null;
         var isSystemType = type.IsSystem();
 
+        var typeKind = TypeKind(type);
+
         int? elementSize = null;
-        if (type.kind == CXTypeKind.CXType_ConstantArray)
+        if (typeKind.Kind == CKind.Array)
         {
-            var elementType = clang_getElementType(type);
+            var x = TypeKind(typeKind.Type);
+            var elementType = clang_getElementType(x.Type);
             elementSize = (int)clang_Type_getSizeOf(elementType);
         }
 
         ClangLocation? location = null;
-
-        var typeKind = TypeKind(type);
         if (typeKind.Kind != CKind.Primitive && !isSystemType)
         {
             location = Location(declaration, type);

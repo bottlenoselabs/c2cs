@@ -3,18 +3,27 @@
 
 namespace C2CS.Feature.BindgenCSharp.Data.Model;
 
-public record CSharpFunctionParameter(
-        string Name,
-        string CodeLocationComment,
-        CSharpType Type)
-    : CSharpNode(Name, CodeLocationComment)
+public sealed class CSharpFunctionParameter : CSharpNode
 {
-    public readonly CSharpType Type = Type;
+    public readonly CSharpType Type;
 
-    // Required for debugger string with records
-    // ReSharper disable once RedundantOverriddenMember
-    public override string ToString()
+    public CSharpFunctionParameter(
+        string name,
+        string codeLocationComment,
+        int? sizeOf,
+        CSharpType type)
+        : base(name, codeLocationComment, sizeOf)
     {
-        return base.ToString();
+        Type = type;
+    }
+
+    public override bool Equals(CSharpNode? other)
+    {
+        if (!base.Equals(other) || other is not CSharpFunctionParameter other2)
+        {
+            return false;
+        }
+
+        return Type == other2.Type;
     }
 }

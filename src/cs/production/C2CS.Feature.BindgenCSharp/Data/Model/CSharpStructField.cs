@@ -3,7 +3,7 @@
 
 namespace C2CS.Feature.BindgenCSharp.Data.Model;
 
-public record CSharpStructField : CSharpNode
+public sealed class CSharpStructField : CSharpNode
 {
     public readonly string BackingFieldName;
     public readonly bool IsWrapped;
@@ -14,11 +14,12 @@ public record CSharpStructField : CSharpNode
     public CSharpStructField(
         string name,
         string codeLocationComment,
+        int? sizeOf,
         CSharpType type,
         int offset,
         int padding,
         bool isWrapped)
-        : base(name, codeLocationComment)
+        : base(name, codeLocationComment, sizeOf)
     {
         Type = type;
         Offset = offset;
@@ -27,10 +28,17 @@ public record CSharpStructField : CSharpNode
         BackingFieldName = name.StartsWith("@", StringComparison.InvariantCulture) ? $"_{name[1..]}" : $"_{name}";
     }
 
-    // Required for debugger string with records
-    // ReSharper disable once RedundantOverriddenMember
-    public override string ToString()
+    public override bool Equals(CSharpNode? other)
     {
-        return base.ToString();
+        if (!base.Equals(other) || other is not CSharpStructField other2)
+        {
+            return false;
+        }
+
+        return BackingFieldName == other2.BackingFieldName &&
+               IsWrapped == other2.IsWrapped &&
+               Offset == other2.Offset &&
+               Padding == other2.Padding &&
+               Type == other2.Type;
     }
 }

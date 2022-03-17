@@ -5,20 +5,32 @@ using System.Collections.Immutable;
 
 namespace C2CS.Feature.BindgenCSharp.Data.Model;
 
-public record CSharpFunctionPointer(
-        string Name,
-        string CodeLocationComment,
-        CSharpType ReturnType,
-        ImmutableArray<CSharpFunctionPointerParameter> Parameters)
-    : CSharpNode(Name, CodeLocationComment)
+public sealed class CSharpFunctionPointer : CSharpNode
 {
-    public readonly ImmutableArray<CSharpFunctionPointerParameter> Parameters = Parameters;
-    public readonly CSharpType ReturnType = ReturnType;
+    public readonly ImmutableArray<CSharpFunctionPointerParameter> Parameters;
 
-    // Required for debugger string with records
-    // ReSharper disable once RedundantOverriddenMember
-    public override string ToString()
+    public readonly CSharpType ReturnType;
+
+    public CSharpFunctionPointer(
+        string name,
+        string codeLocationComment,
+        int? sizeOf,
+        CSharpType returnType,
+        ImmutableArray<CSharpFunctionPointerParameter> parameters)
+        : base(name, codeLocationComment, sizeOf)
     {
-        return base.ToString();
+        Parameters = parameters;
+        ReturnType = returnType;
+    }
+
+    public override bool Equals(CSharpNode? other)
+    {
+        if (!base.Equals(other) || other is not CSharpFunctionPointer other2)
+        {
+            return false;
+        }
+
+        return ReturnType == other2.ReturnType &&
+               Parameters.SequenceEqual(other2.Parameters);
     }
 }

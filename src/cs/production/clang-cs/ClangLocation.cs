@@ -5,7 +5,7 @@ using System;
 using System.Text.Json.Serialization;
 
 // NOTE: Properties are required for System.Text.Json serialization
-public struct ClangLocation : IComparable<ClangLocation>, IEquatable<ClangLocation>
+public record struct ClangLocation : IComparable<ClangLocation>
 {
     [JsonPropertyName("fileName")]
     public string FileName { get; set; }
@@ -22,6 +22,17 @@ public struct ClangLocation : IComparable<ClangLocation>, IEquatable<ClangLocati
     [JsonPropertyName("isBuiltin")]
     public bool IsBuiltin { get; set; }
 
+#pragma warning disable CA2211
+    public static ClangLocation BuiltIn = new()
+#pragma warning restore CA2211
+    {
+        FilePath = string.Empty,
+        FileName = "Builtin",
+        LineColumn = 0,
+        LineNumber = 0,
+        IsBuiltin = true
+    };
+
     public override string ToString()
     {
         if (LineNumber == 0 && LineColumn == 0)
@@ -34,46 +45,27 @@ public struct ClangLocation : IComparable<ClangLocation>, IEquatable<ClangLocati
             : $"{FileName}:{LineNumber}:{LineColumn} ({FilePath})";
     }
 
-    public bool Equals(ClangLocation other)
-    {
-        return FilePath == other.FilePath && LineNumber == other.LineNumber;
-    }
-
-    public override bool Equals(object? obj)
-    {
-        return obj is ClangLocation other && Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(FilePath, LineNumber, LineColumn);
-    }
-
     public int CompareTo(ClangLocation other)
     {
-        // ReSharper disable once JoinDeclarationAndInitializer
-        int result;
-
-        result = string.Compare(FileName, other.FileName, StringComparison.Ordinal);
-        // ReSharper disable once ConvertIfStatementToReturnStatement
+        var result = string.Compare(FileName, other.FileName, StringComparison.Ordinal);
         if (result != 0)
         {
             return result;
         }
 
         result = LineNumber.CompareTo(other.LineNumber);
+        if (result != 0)
+        {
+            return result;
+        }
+
+        result = LineColumn.CompareTo(other.LineColumn);
+        if (result != 0)
+        {
+            return result;
+        }
 
         return result;
-    }
-
-    public static bool operator ==(ClangLocation first, ClangLocation second)
-    {
-        return first.Equals(second);
-    }
-
-    public static bool operator !=(ClangLocation first, ClangLocation second)
-    {
-        return !(first == second);
     }
 
     public static bool operator <(ClangLocation first, ClangLocation second)

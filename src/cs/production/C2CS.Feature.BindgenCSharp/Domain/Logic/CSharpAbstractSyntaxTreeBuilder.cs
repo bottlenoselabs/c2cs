@@ -9,87 +9,138 @@ namespace C2CS.Feature.BindgenCSharp.Domain.Logic;
 public class CSharpAbstractSyntaxTreeBuilder
 {
     private readonly HashSet<RuntimePlatform> _platforms = new();
+    private readonly Dictionary<string, List<PlatformCandidateNode>> _candidateNodesByName = new();
 
-    private readonly Dictionary<string, (RuntimePlatform Platform, CSharpFunction Function)?> _sharedFunctionCandidates = new();
-    private readonly Dictionary<RuntimePlatform, List<CSharpFunction>> _functionsByPlatform = new();
+    private readonly ImmutableArray<CSharpFunction>.Builder _agnosticFunctions = ImmutableArray.CreateBuilder<CSharpFunction>();
+    private readonly ImmutableArray<CSharpFunctionPointer>.Builder _agnosticFunctionPointers = ImmutableArray.CreateBuilder<CSharpFunctionPointer>();
+    private readonly ImmutableArray<CSharpStruct>.Builder _agnosticStructs = ImmutableArray.CreateBuilder<CSharpStruct>();
+    private readonly ImmutableArray<CSharpAliasStruct>.Builder _agnosticAliasStructs = ImmutableArray.CreateBuilder<CSharpAliasStruct>();
+    private readonly ImmutableArray<CSharpOpaqueStruct>.Builder _agnosticOpaqueStructs = ImmutableArray.CreateBuilder<CSharpOpaqueStruct>();
+    private readonly ImmutableArray<CSharpEnum>.Builder _agnosticEnums = ImmutableArray.CreateBuilder<CSharpEnum>();
+    private readonly ImmutableArray<CSharpPseudoEnum>.Builder _agnosticPseudoEnums = ImmutableArray.CreateBuilder<CSharpPseudoEnum>();
+    private readonly ImmutableArray<CSharpConstant>.Builder _agnosticConstants = ImmutableArray.CreateBuilder<CSharpConstant>();
 
-    private readonly Dictionary<string, (RuntimePlatform Platform, CSharpFunctionPointer FunctionPointer)?> _sharedFunctionPointerCandidates = new();
-    private readonly Dictionary<RuntimePlatform, List<CSharpFunctionPointer>> _functionPointersByPlatform = new();
-
-    private readonly Dictionary<string, (RuntimePlatform Platform, CSharpStruct Struct)?> _sharedStructCandidates = new();
-    private readonly Dictionary<RuntimePlatform, List<CSharpStruct>> _structsByPlatform = new();
-
-    private readonly Dictionary<string, (RuntimePlatform Platform, CSharpAliasStruct AliasStruct)?> _sharedAliasStructsCandidates = new();
-    private readonly Dictionary<RuntimePlatform, List<CSharpAliasStruct>> _aliasStructsByPlatform = new();
-
-    private readonly Dictionary<string, (RuntimePlatform Platform, CSharpOpaqueStruct OpaqueStruct)?> _sharedOpaqueStructCandidates = new();
-    private readonly Dictionary<RuntimePlatform, List<CSharpOpaqueStruct>> _opaqueStructsByPlatform = new();
-
-    private readonly Dictionary<string, (RuntimePlatform Platform, CSharpEnum Enum)?> _sharedEnumCandidates = new();
-    private readonly Dictionary<RuntimePlatform, List<CSharpEnum>> _enumsByPlatform = new();
-
-    private readonly Dictionary<string, (RuntimePlatform Platform, CSharpPseudoEnum PseudoEnum)?> _sharedPseudoEnumCandidates = new();
-    private readonly Dictionary<RuntimePlatform, List<CSharpPseudoEnum>> _pseudoEnumsByPlatform = new();
-
-    private readonly Dictionary<string, (RuntimePlatform Platform, CSharpConstant Constant)?> _sharedConstantCandidates = new();
-    private readonly Dictionary<RuntimePlatform, List<CSharpConstant>> _constantsByPlatform = new();
+    private readonly Dictionary<RuntimePlatform, ImmutableArray<CSharpFunction>.Builder> _functionsByPlatform = new();
+    private readonly Dictionary<RuntimePlatform, ImmutableArray<CSharpFunctionPointer>.Builder> _functionPointersByPlatform = new();
+    private readonly Dictionary<RuntimePlatform, ImmutableArray<CSharpStruct>.Builder> _structsByPlatform = new();
+    private readonly Dictionary<RuntimePlatform, ImmutableArray<CSharpAliasStruct>.Builder> _aliasStructsByPlatform = new();
+    private readonly Dictionary<RuntimePlatform, ImmutableArray<CSharpOpaqueStruct>.Builder> _opaqueStructsByPlatform = new();
+    private readonly Dictionary<RuntimePlatform, ImmutableArray<CSharpEnum>.Builder> _enumsByPlatform = new();
+    private readonly Dictionary<RuntimePlatform, ImmutableArray<CSharpPseudoEnum>.Builder> _pseudoEnumsByPlatform = new();
+    private readonly Dictionary<RuntimePlatform, ImmutableArray<CSharpConstant>.Builder> _constantsByPlatform = new();
 
     public void Add(RuntimePlatform platform, CSharpNodes nodes)
     {
-        _platforms.Add(platform);
-        AddFunctions(platform, nodes.Functions);
-        AddFunctionPointers(platform, nodes.FunctionPointers);
-        AddStructs(platform, nodes.Structs);
-        AddAliasStructs(platform, nodes.AliasStructs);
+        AddPlatform(platform);
+        AddCandidateFunctions(platform, nodes.Functions);
+        AddCandidateFunctionPointers(platform, nodes.FunctionPointers);
+        AddCandidateStructs(platform, nodes.Structs);
+        AddCandidateAliasStructs(platform, nodes.AliasStructs);
         AddOpaqueStructs(platform, nodes.OpaqueStructs);
-        AddEnums(platform, nodes.Enums);
-        AddPseudoEnums(platform, nodes.PseudoEnums);
-        AddConstants(platform, nodes.Constants);
+        AddCandidateEnums(platform, nodes.Enums);
+        AddCandidatePseudoEnums(platform, nodes.PseudoEnums);
+        AddCandidateConstants(platform, nodes.Constants);
+    }
+
+    private void AddPlatform(RuntimePlatform platform)
+    {
+        var alreadyAdded = _platforms.Contains(platform);
+        if (alreadyAdded)
+        {
+            return;
+        }
+
+        _platforms.Add(platform);
+        _functionsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpFunction>();
+        _functionPointersByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpFunctionPointer>();
+        _structsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpStruct>();
+        _aliasStructsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpAliasStruct>();
+        _enumsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpEnum>();
+        _pseudoEnumsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpPseudoEnum>();
+        _constantsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpConstant>();
+        _opaqueStructsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpOpaqueStruct>();
     }
 
     public CSharpAbstractSyntaxTree Build()
     {
-        var sharedNodes = BuildSharedNodes();
-        var platformSpecificNodes = PlatformSpecificNodes();
+        foreach (var (_, nodes) in _candidateNodesByName)
+        {
+            CreateNodes(nodes);
+        }
 
         var ast = new CSharpAbstractSyntaxTree
         {
-            SharedNodes = sharedNodes,
-            PlatformSpecificNodes = platformSpecificNodes,
+            PlatformAgnosticNodes = PlatformAgnosticNodes(),
+            PlatformSpecificNodes = PlatformSpecificNodes()
         };
 
         return ast;
     }
 
-    private CSharpNodes BuildSharedNodes()
+    private void CreateNodes(List<PlatformCandidateNode> platformNodes)
     {
-        var functions = _sharedFunctionCandidates
-            .Where(x => x.Value != null).Select(x => x.Value!.Value.Function).ToImmutableArray();
-        var functionPointers = _sharedFunctionPointerCandidates
-            .Where(x => x.Value != null).Select(x => x.Value!.Value.FunctionPointer).ToImmutableArray();
-        var structs = _sharedStructCandidates
-            .Where(x => x.Value != null).Select(x => x.Value!.Value.Struct).ToImmutableArray();
-        var aliasStructs = _sharedAliasStructsCandidates
-            .Where(x => x.Value != null).Select(x => x.Value!.Value.AliasStruct).ToImmutableArray();
-        var opaqueStructs = _sharedOpaqueStructCandidates
-            .Where(x => x.Value != null).Select(x => x.Value!.Value.OpaqueStruct).ToImmutableArray();
-        var enums = _sharedEnumCandidates
-            .Where(x => x.Value != null).Select(x => x.Value!.Value.Enum).ToImmutableArray();
-        var pseudoEnums = _sharedPseudoEnumCandidates
-            .Where(x => x.Value != null).Select(x => x.Value!.Value.PseudoEnum).ToImmutableArray();
-        var constants = _sharedConstantCandidates
-            .Where(x => x.Value != null).Select(x => x.Value!.Value.Constant).ToImmutableArray();
+        if (platformNodes.Count == 0)
+        {
+            return;
+        }
 
+        var allAreSame = true;
+        var firstNode = platformNodes.First().CSharpNode;
+        foreach (var platformNode in platformNodes)
+        {
+            var canBeMerged = CanMergeNodes(platformNode.CSharpNode, firstNode);
+            if (canBeMerged)
+            {
+                continue;
+            }
+
+            var x = platformNode.CSharpNode as CSharpFunction;
+            var y = platformNode.CSharpNode as CSharpFunction;
+
+            if (x?.CodeLocationComment != y?.CodeLocationComment)
+            {
+                Console.WriteLine();
+            }
+
+            allAreSame = false;
+            break;
+        }
+
+        if (allAreSame)
+        {
+            CreatePlatformAgnosticNode(firstNode);
+        }
+        else
+        {
+            foreach (var platformNode in platformNodes)
+            {
+                CreatePlatformSpecificNode(platformNode.Platform, platformNode.CSharpNode);
+            }
+        }
+    }
+
+    private bool CanMergeNodes(CSharpNode firstNode, CSharpNode secondNode)
+    {
+        if (!firstNode.Equals(secondNode))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private CSharpNodes PlatformAgnosticNodes()
+    {
         var sharedNodes = new CSharpNodes
         {
-            Functions = functions,
-            FunctionPointers = functionPointers,
-            Structs = structs,
-            AliasStructs = aliasStructs,
-            OpaqueStructs = opaqueStructs,
-            Enums = enums,
-            PseudoEnums = pseudoEnums,
-            Constants = constants
+            Functions = _agnosticFunctions.ToImmutable(),
+            FunctionPointers = _agnosticFunctionPointers.ToImmutable(),
+            Structs = _agnosticStructs.ToImmutable(),
+            AliasStructs = _agnosticAliasStructs.ToImmutable(),
+            OpaqueStructs = _agnosticOpaqueStructs.ToImmutable(),
+            Enums = _agnosticEnums.ToImmutable(),
+            PseudoEnums = _agnosticPseudoEnums.ToImmutable(),
+            Constants = _agnosticConstants.ToImmutable()
         };
 
         return sharedNodes;
@@ -151,253 +202,211 @@ public class CSharpAbstractSyntaxTreeBuilder
         return nodes;
     }
 
-    private void AddFunctions(
+    private void AddCandidateFunctions(
         RuntimePlatform platform, ImmutableArray<CSharpFunction> functions)
     {
-        _functionsByPlatform.Add(platform, new List<CSharpFunction>());
-
         foreach (var function in functions)
         {
-            AddFunction(platform, function);
+            AddCandidateNode(platform, function);
         }
     }
 
-    private void AddFunction(RuntimePlatform platform, CSharpFunction function)
-    {
-        var sharedCandidates = _sharedFunctionCandidates;
-        if (!sharedCandidates.TryGetValue(function.Name, out var entry))
-        {
-            sharedCandidates.Add(function.Name, (platform, function));
-        }
-        else
-        {
-            _functionsByPlatform[platform].Add(function);
-
-            if (entry == null)
-            {
-                return;
-            }
-
-            _functionsByPlatform[entry.Value.Platform].Add(entry.Value.Function);
-            sharedCandidates[function.Name] = null;
-        }
-    }
-
-    private void AddFunctionPointers(
+    private void AddCandidateFunctionPointers(
         RuntimePlatform platform, ImmutableArray<CSharpFunctionPointer> functionPointers)
     {
-        _functionPointersByPlatform.Add(platform, new List<CSharpFunctionPointer>());
-
         foreach (var functionPointer in functionPointers)
         {
-            AddFunctionPointer(platform, functionPointer);
+            AddCandidateNode(platform, functionPointer);
         }
     }
 
-    private void AddFunctionPointer(RuntimePlatform platform, CSharpFunctionPointer functionPointer)
+    private void AddCandidateStructs(
+        RuntimePlatform platform, ImmutableArray<CSharpStruct> structs)
     {
-        var sharedCandidates = _sharedFunctionPointerCandidates;
-        if (!sharedCandidates.TryGetValue(functionPointer.Name, out var entry))
-        {
-            sharedCandidates.Add(functionPointer.Name, (platform, functionPointer));
-        }
-        else
-        {
-            _functionPointersByPlatform[platform].Add(functionPointer);
-
-            if (entry == null)
-            {
-                return;
-            }
-
-            _functionPointersByPlatform[entry.Value.Platform].Add(entry.Value.FunctionPointer);
-            sharedCandidates[functionPointer.Name] = null;
-        }
-    }
-
-    private void AddStructs(RuntimePlatform platform, ImmutableArray<CSharpStruct> structs)
-    {
-        _structsByPlatform.Add(platform, new List<CSharpStruct>());
-
         foreach (var @struct in structs)
         {
-            AddStruct(platform, @struct);
+            AddCandidateNode(platform, @struct);
         }
     }
 
-    private void AddStruct(RuntimePlatform platform, CSharpStruct @struct)
+    private void AddCandidateAliasStructs(
+        RuntimePlatform platform, ImmutableArray<CSharpAliasStruct> aliasStructs)
     {
-        var sharedCandidates = _sharedStructCandidates;
-        if (!sharedCandidates.TryGetValue(@struct.Name, out var entry))
+        foreach (var aliasStruct in aliasStructs)
         {
-            sharedCandidates.Add(@struct.Name, (platform, @struct));
-        }
-        else
-        {
-            _structsByPlatform[platform].Add(@struct);
-
-            if (entry == null)
-            {
-                return;
-            }
-
-            _structsByPlatform[entry.Value.Platform].Add(entry.Value.Struct);
-            sharedCandidates[@struct.Name] = null;
+            AddCandidateNode(platform, aliasStruct);
         }
     }
 
-    private void AddAliasStructs(RuntimePlatform platform, ImmutableArray<CSharpAliasStruct> typedefs)
+    private void AddOpaqueStructs(
+        RuntimePlatform platform, ImmutableArray<CSharpOpaqueStruct> opaqueDataTypes)
     {
-        _aliasStructsByPlatform.Add(platform, new List<CSharpAliasStruct>());
-
-        foreach (var typedef in typedefs)
-        {
-            AddAliasStruct(platform, typedef);
-        }
-    }
-
-    private void AddAliasStruct(RuntimePlatform platform, CSharpAliasStruct aliasStruct)
-    {
-        var sharedCandidates = _sharedAliasStructsCandidates;
-        if (!sharedCandidates.TryGetValue(aliasStruct.Name, out var entry))
-        {
-            sharedCandidates.Add(aliasStruct.Name, (platform, aliasStruct));
-        }
-        else
-        {
-            _aliasStructsByPlatform[platform].Add(aliasStruct);
-
-            if (entry == null)
-            {
-                return;
-            }
-
-            _aliasStructsByPlatform[entry.Value.Platform].Add(entry.Value.AliasStruct);
-            sharedCandidates[aliasStruct.Name] = null;
-        }
-    }
-
-    private void AddOpaqueStructs(RuntimePlatform platform, ImmutableArray<CSharpOpaqueStruct> opaqueDataTypes)
-    {
-        _opaqueStructsByPlatform.Add(platform, new List<CSharpOpaqueStruct>());
-
         foreach (var opaqueType in opaqueDataTypes)
         {
-            AddOpaqueStruct(platform, opaqueType);
+            AddCandidateNode(platform, opaqueType);
         }
     }
 
-    private void AddOpaqueStruct(RuntimePlatform platform, CSharpOpaqueStruct opaqueStruct)
+    private void AddCandidateEnums(
+        RuntimePlatform platform, ImmutableArray<CSharpEnum> enums)
     {
-        var sharedStructOpaqueCandidates = _sharedOpaqueStructCandidates;
-        if (!sharedStructOpaqueCandidates.TryGetValue(opaqueStruct.Name, out var entry))
-        {
-            sharedStructOpaqueCandidates.Add(opaqueStruct.Name, (platform, opaqueStruct));
-        }
-        else
-        {
-            _opaqueStructsByPlatform[platform].Add(opaqueStruct);
-
-            if (entry == null)
-            {
-                return;
-            }
-
-            _opaqueStructsByPlatform[entry.Value.Platform].Add(entry.Value.OpaqueStruct);
-            sharedStructOpaqueCandidates[opaqueStruct.Name] = null;
-        }
-    }
-
-    private void AddEnums(RuntimePlatform platform, ImmutableArray<CSharpEnum> enums)
-    {
-        _enumsByPlatform.Add(platform, new List<CSharpEnum>());
-
         foreach (var @enum in enums)
         {
-            AddEnum(platform, @enum);
+            AddCandidateNode(platform, @enum);
         }
     }
 
-    private void AddEnum(RuntimePlatform platform, CSharpEnum @enum)
+    private void AddCandidatePseudoEnums(
+        RuntimePlatform platform, ImmutableArray<CSharpPseudoEnum> pseudoEnums)
     {
-        var sharedEnumsCandidates = _sharedEnumCandidates;
-        if (!sharedEnumsCandidates.TryGetValue(@enum.Name, out var entry))
-        {
-            sharedEnumsCandidates.Add(@enum.Name, (platform, @enum));
-        }
-        else
-        {
-            _enumsByPlatform[platform].Add(@enum);
-
-            if (entry == null)
-            {
-                return;
-            }
-
-            _enumsByPlatform[entry.Value.Platform].Add(entry.Value.Enum);
-            sharedEnumsCandidates[@enum.Name] = null;
-        }
-    }
-
-    private void AddPseudoEnums(RuntimePlatform platform, ImmutableArray<CSharpPseudoEnum> pseudoEnums)
-    {
-        _pseudoEnumsByPlatform.Add(platform, new List<CSharpPseudoEnum>());
-
         foreach (var pseudoEnum in pseudoEnums)
         {
-            AddPseudoEnum(platform, pseudoEnum);
+            AddCandidateNode(platform, pseudoEnum);
         }
     }
 
-    private void AddPseudoEnum(RuntimePlatform platform, CSharpPseudoEnum pseudoEnum)
+    private void AddCandidateConstants(
+        RuntimePlatform platform, ImmutableArray<CSharpConstant> constants)
     {
-        var sharedPseudoEnumsCandidates = _sharedPseudoEnumCandidates;
-        if (!sharedPseudoEnumsCandidates.TryGetValue(pseudoEnum.Name, out var entry))
-        {
-            sharedPseudoEnumsCandidates.Add(pseudoEnum.Name, (platform, pseudoEnum));
-        }
-        else
-        {
-            _pseudoEnumsByPlatform[platform].Add(pseudoEnum);
-
-            if (entry == null)
-            {
-                return;
-            }
-
-            _pseudoEnumsByPlatform[entry.Value.Platform].Add(entry.Value.PseudoEnum);
-            sharedPseudoEnumsCandidates[pseudoEnum.Name] = null;
-        }
-    }
-
-    private void AddConstants(RuntimePlatform platform, ImmutableArray<CSharpConstant> constants)
-    {
-        _constantsByPlatform.Add(platform, new List<CSharpConstant>());
-
         foreach (var constant in constants)
         {
-            AddConstant(platform, constant);
+            AddCandidateNode(platform, constant);
         }
     }
 
-    private void AddConstant(RuntimePlatform platform, CSharpConstant constant)
+    private void AddCandidateNode(RuntimePlatform platform, CSharpNode node)
     {
-        var sharedConstantCandidates = _sharedConstantCandidates;
-        if (!sharedConstantCandidates.TryGetValue(constant.Name, out var entry))
+        var candidateNode = new PlatformCandidateNode
         {
-            sharedConstantCandidates.Add(constant.Name, (platform, constant));
+            Platform = platform,
+            CSharpNode = node
+        };
+
+        var isFirstTimeEncounteredName = !_candidateNodesByName.TryGetValue(node.Name, out var nodes);
+        if (isFirstTimeEncounteredName)
+        {
+            nodes = new List<PlatformCandidateNode> { candidateNode };
+            _candidateNodesByName.Add(node.Name, nodes);
         }
         else
         {
-            _constantsByPlatform[platform].Add(constant);
-
-            if (entry == null)
-            {
-                return;
-            }
-
-            _constantsByPlatform[entry.Value.Platform].Add(entry.Value.Constant);
-            sharedConstantCandidates[constant.Name] = null;
+            nodes!.Add(candidateNode);
         }
+    }
+
+    private void CreatePlatformAgnosticNode(CSharpNode node)
+    {
+        switch (node)
+        {
+            case CSharpFunction function:
+                AddNodeFunction(null, function);
+                break;
+            case CSharpFunctionPointer functionPointer:
+                AddNodeFunctionPointer(null, functionPointer);
+                break;
+            case CSharpStruct @struct:
+                AddNodeStruct(null, @struct);
+                break;
+            case CSharpAliasStruct aliasStruct:
+                AddNodeAliasStruct(null, aliasStruct);
+                break;
+            case CSharpOpaqueStruct opaqueStruct:
+                AddNodeOpaqueStruct(null, opaqueStruct);
+                break;
+            case CSharpEnum @enum:
+                AddNodeEnum(null, @enum);
+                break;
+            case CSharpPseudoEnum pseudoEnum:
+                AddNodePseudoEnum(null, pseudoEnum);
+                break;
+            case CSharpConstant constant:
+                AddNodeConstant(null, constant);
+                break;
+        }
+    }
+
+    private void CreatePlatformSpecificNode(RuntimePlatform platform, CSharpNode node)
+    {
+        switch (node)
+        {
+            case CSharpFunction function:
+                AddNodeFunction(platform, function);
+                break;
+            case CSharpFunctionPointer functionPointer:
+                AddNodeFunctionPointer(platform, functionPointer);
+                break;
+            case CSharpStruct @struct:
+                AddNodeStruct(platform, @struct);
+                break;
+            case CSharpAliasStruct aliasStruct:
+                AddNodeAliasStruct(platform, aliasStruct);
+                break;
+            case CSharpOpaqueStruct opaqueStruct:
+                AddNodeOpaqueStruct(platform, opaqueStruct);
+                break;
+            case CSharpEnum @enum:
+                AddNodeEnum(platform, @enum);
+                break;
+            case CSharpPseudoEnum pseudoEnum:
+                AddNodePseudoEnum(platform, pseudoEnum);
+                break;
+            case CSharpConstant constant:
+                AddNodeConstant(platform, constant);
+                break;
+        }
+    }
+
+    private void AddNodeFunction(RuntimePlatform? platform, CSharpFunction node)
+    {
+        var builder = platform != null ? _functionsByPlatform[platform.Value] : _agnosticFunctions;
+        builder.Add(node);
+    }
+
+    private void AddNodeFunctionPointer(RuntimePlatform? platform, CSharpFunctionPointer node)
+    {
+        var builder = platform != null ? _functionPointersByPlatform[platform.Value] : _agnosticFunctionPointers;
+        builder.Add(node);
+    }
+
+    private void AddNodeStruct(RuntimePlatform? platform, CSharpStruct node)
+    {
+        var builder = platform != null ? _structsByPlatform[platform.Value] : _agnosticStructs;
+        builder.Add(node);
+    }
+
+    private void AddNodeAliasStruct(RuntimePlatform? platform, CSharpAliasStruct node)
+    {
+        var builder = platform != null ? _aliasStructsByPlatform[platform.Value] : _agnosticAliasStructs;
+        builder.Add(node);
+    }
+
+    private void AddNodeOpaqueStruct(RuntimePlatform? platform, CSharpOpaqueStruct node)
+    {
+        var builder = platform != null ? _opaqueStructsByPlatform[platform.Value] : _agnosticOpaqueStructs;
+        builder.Add(node);
+    }
+
+    private void AddNodeEnum(RuntimePlatform? platform, CSharpEnum node)
+    {
+        var builder = platform != null ? _enumsByPlatform[platform.Value] : _agnosticEnums;
+        builder.Add(node);
+    }
+
+    private void AddNodePseudoEnum(RuntimePlatform? platform, CSharpPseudoEnum node)
+    {
+        var builder = platform != null ? _pseudoEnumsByPlatform[platform.Value] : _agnosticPseudoEnums;
+        builder.Add(node);
+    }
+
+    private void AddNodeConstant(RuntimePlatform? platform, CSharpConstant node)
+    {
+        var builder = platform != null ? _constantsByPlatform[platform.Value] : _agnosticConstants;
+        builder.Add(node);
+    }
+
+    private record struct PlatformCandidateNode
+    {
+        public RuntimePlatform Platform;
+        public CSharpNode CSharpNode;
     }
 }

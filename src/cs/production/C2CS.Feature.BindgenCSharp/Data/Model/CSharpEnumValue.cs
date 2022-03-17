@@ -3,18 +3,27 @@
 
 namespace C2CS.Feature.BindgenCSharp.Data.Model;
 
-public record CSharpEnumValue(
-        string Name,
-        string CodeLocationComment,
-        long Value)
-    : CSharpNode(Name, CodeLocationComment)
+public sealed class CSharpEnumValue : CSharpNode
 {
-    public readonly long Value = Value;
+    public readonly long Value;
 
-    // Required for debugger string with records
-    // ReSharper disable once RedundantOverriddenMember
-    public override string ToString()
+    public CSharpEnumValue(
+        string name,
+        string codeLocationComment,
+        int? sizeOf,
+        long value)
+        : base(name, codeLocationComment, sizeOf)
     {
-        return base.ToString();
+        Value = value;
+    }
+
+    public override bool Equals(CSharpNode? other)
+    {
+        if (!base.Equals(other) || other is not CSharpEnumValue other2)
+        {
+            return false;
+        }
+
+        return Value == other2.Value;
     }
 }

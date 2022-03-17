@@ -5,20 +5,31 @@ using System.Collections.Immutable;
 
 namespace C2CS.Feature.BindgenCSharp.Data.Model;
 
-public record CSharpPseudoEnum(
-        string Name,
-        string CodeLocationComment,
-        CSharpType IntegerType,
-        ImmutableArray<CSharpEnumValue> Values)
-    : CSharpNode(Name, CodeLocationComment)
+public sealed class CSharpPseudoEnum : CSharpNode
 {
-    public readonly CSharpType IntegerType = IntegerType;
-    public readonly ImmutableArray<CSharpEnumValue> Values = Values;
+    public readonly CSharpType IntegerType;
+    public readonly ImmutableArray<CSharpEnumValue> Values;
 
-    // Required for debugger string with records
-    // ReSharper disable once RedundantOverriddenMember
-    public override string ToString()
+    public CSharpPseudoEnum(
+        string name,
+        string codeLocationComment,
+        int? sizeOf,
+        CSharpType integerType,
+        ImmutableArray<CSharpEnumValue> values)
+        : base(name, codeLocationComment, sizeOf)
     {
-        return base.ToString();
+        IntegerType = integerType;
+        Values = values;
+    }
+
+    public override bool Equals(CSharpNode? other)
+    {
+        if (!base.Equals(other) || other is not CSharpPseudoEnum other2)
+        {
+            return false;
+        }
+
+        return IntegerType == other2.IntegerType &&
+               Values.SequenceEqual(other2.Values);
     }
 }

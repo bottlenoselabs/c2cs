@@ -67,7 +67,7 @@ public class Handler : UseCaseHandler<Input, Output>
         return builder.ToImmutable();
     }
 
-    [UseCaseStep("Map C nodes to C# platform specific nodes")]
+    [UseCaseStep("Map each C abstract syntax tree into to C# platform specific nodes")]
     private ImmutableDictionary<RuntimePlatform, CSharpNodes> MapCNodesToCSharpNodes(
         ImmutableArray<CAbstractSyntaxTree> abstractSyntaxTrees,
         ImmutableArray<CSharpTypeAlias> typeAliases,
@@ -85,7 +85,7 @@ public class Handler : UseCaseHandler<Input, Output>
         return result;
     }
 
-    [UseCaseStep("Flatten platform specific C# nodes into cross-platform C# abstract syntax tree")]
+    [UseCaseStep("Split or flatten platform specific C# nodes into a C# abstract syntax tree")]
     private CSharpAbstractSyntaxTree Map(ImmutableDictionary<RuntimePlatform, CSharpNodes> nodesByPlatform)
     {
         BeginStep();

@@ -6,8 +6,6 @@ using System.IO.Compression;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Serialization;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Logic;

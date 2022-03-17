@@ -3,15 +3,23 @@
 
 namespace C2CS.Feature.BindgenCSharp.Data.Model;
 
-public record CSharpOpaqueStruct(
-        string Name,
-        string CodeLocationComment)
-    : CSharpNode(Name, CodeLocationComment)
+public sealed class CSharpOpaqueStruct : CSharpNode
 {
-    // Required for debugger string with records
-    // ReSharper disable once RedundantOverriddenMember
-    public override string ToString()
+    public CSharpOpaqueStruct(
+        string name,
+        string codeLocationComment,
+        int? sizeOf)
+        : base(name, codeLocationComment, sizeOf)
     {
-        return base.ToString();
+    }
+
+    public override bool Equals(CSharpNode? other)
+    {
+        if (!base.Equals(other) || other is not CSharpOpaqueStruct)
+        {
+            return false;
+        }
+
+        return true;
     }
 }
