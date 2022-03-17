@@ -27,7 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="../../production/C2CS.Feature.ExtractAbstractSyntaxTreeC/C2CS.Feature.ExtractAbstractSyntaxTreeC.csproj" />
+      <ProjectReference Include="../../production/features/C2CS.Feature.ExtractAbstractSyntaxTreeC/C2CS.Feature.ExtractAbstractSyntaxTreeC.csproj" />
     </ItemGroup>
 
     <ItemGroup>

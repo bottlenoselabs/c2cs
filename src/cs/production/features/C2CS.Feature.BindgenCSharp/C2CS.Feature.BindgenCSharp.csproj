@@ -8,9 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\C2CS.Common\C2CS.Common.csproj" />
-      <ProjectReference Include="..\C2CS.Feature.ExtractAbstractSyntaxTreeC\C2CS.Feature.ExtractAbstractSyntaxTreeC.csproj" />
-      <ProjectReference Include="..\C2CS.Runtime\C2CS.Runtime.csproj" />
+      <ProjectReference Include="../../C2CS.Common/C2CS.Common.csproj" />
+      <ProjectReference Include="../C2CS.Feature.ExtractAbstractSyntaxTreeC/C2CS.Feature.ExtractAbstractSyntaxTreeC.csproj" />
+      <ProjectReference Include="../../C2CS.Runtime/C2CS.Runtime.csproj" />
     </ItemGroup>
 
     <ItemGroup>
