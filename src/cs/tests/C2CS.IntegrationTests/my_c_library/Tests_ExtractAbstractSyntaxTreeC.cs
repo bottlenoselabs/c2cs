@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
-using System.ComponentModel;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 using JetBrains.Annotations;
@@ -14,7 +13,7 @@ using Xunit;
 #pragma warning disable IDE1006
 #pragma warning disable CA1034
 
-namespace C2CS.IntegrationTests;
+namespace C2CS.IntegrationTests.my_c_library;
 
 [Trait("Integration", "my_c_library")]
 public class Tests_ExtractAbstractSyntaxTreeC : IClassFixture<Tests_ExtractAbstractSyntaxTreeC.Fixture>
