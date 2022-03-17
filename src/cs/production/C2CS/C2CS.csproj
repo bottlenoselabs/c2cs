@@ -38,7 +38,7 @@
         <ProjectReference Include="../features/C2CS.Feature.BindgenCSharp/C2CS.Feature.BindgenCSharp.csproj" />
         <ProjectReference Include="../features/C2CS.Feature.ExtractAbstractSyntaxTreeC/C2CS.Feature.ExtractAbstractSyntaxTreeC.csproj" />
         <ProjectReference Include="../features/C2CS.Feature.BuildLibraryC/C2CS.Feature.BuildLibraryC.csproj" />
-        <ProjectReference Include="../features/C2CS.Runtime/C2CS.Runtime.csproj" />
+        <ProjectReference Include="../C2CS.Runtime/C2CS.Runtime.csproj" />
         <ProjectReference Include="../clang-cs/clang-cs.csproj" />
     </ItemGroup>
 
