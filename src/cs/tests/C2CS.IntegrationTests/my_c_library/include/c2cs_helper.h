@@ -18,7 +18,7 @@
     #elif defined(__aarch64__) || defined(_M_ARM64)
         #define C2CS_RUNTIME_PLATFORM_NAME "linux-arm64"
     #else
-        #error "Failed to determine runtime platform name: Linux not yet implemented."
+        #error "Failed to determine runtime platform name: Unknown computer architecture for Linux."
     #endif
 #elif defined(__APPLE__) && defined(__MACH__)
     #include <TargetConditionals.h>
