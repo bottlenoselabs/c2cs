@@ -1,31 +1,28 @@
 #if defined(_WIN32)
-    #define C2CS_RUNTIME_OPERATING_SYSTEM_NAME "win"
-    #if defined(_WIN64)
-        #if defined(_M_AMD64)
-            #define C2CS_RUNTIME_PLATFORM_NAME "win-x64"
-        #elif defined(_M_ARM64)
-            #define C2CS_RUNTIME_PLATFORM_NAME "win-arm64"
-        #else
-            #error "Failed to determine runtime platform name: Unknown computer architecture for Windows (64-bit)."
-        #endif
+    #if defined(_M_AMD64) || defined(_M_X64)
+        #define C2CS_RUNTIME_PLATFORM_NAME "win-x64"
+    #elif defined(_M_IX86)
+        #define C2CS_RUNTIME_PLATFORM_NAME "win-x86"
+    #elif defined(_M_ARM)
+        #define C2CS_RUNTIME_PLATFORM_NAME "win-arm"
+    #elif defined(_M_ARM64)
+        #define C2CS_RUNTIME_PLATFORM_NAME "win-arm64"
     #else
-        #if defined(_M_IX86)
-            #define C2CS_RUNTIME_PLATFORM_NAME "win-x86"
-        #elif defined(_M_ARM)
-            #define C2CS_RUNTIME_PLATFORM_NAME "win-arm"
-        #else
-            #error "Failed to determine runtime platform name: Unknown computer architecture for Windows (32-bit)."
-        #endif
+        #error "Failed to determine runtime platform name: Unknown computer architecture for Windows."
     #endif
 #elif defined(__linux__)
-    #define C2CS_RUNTIME_OPERATING_SYSTEM_NAME "linux"
-    // Debian, Ubuntu, Gentoo, Fedora, openSUSE, RedHat, Centos and other
-    #error "Failed to determine runtime platform name: Linux not yet implemented."
+    #if defined(__x86_64__) || defined(_M_AMD64) || defined(_M_X64)
+        #define C2CS_RUNTIME_PLATFORM_NAME "linux-x64"
+    #elif defined(i386) || defined(__i386__) || defined(__i386) || defined(_M_IX86)
+        #define C2CS_RUNTIME_PLATFORM_NAME "linux-x86"
+    #elif defined(__aarch64__) || defined(_M_ARM64)
+        #define C2CS_RUNTIME_PLATFORM_NAME "linux-arm64"
+    #else
+        #error "Failed to determine runtime platform name: Linux not yet implemented."
+    #endif
 #elif defined(__APPLE__) && defined(__MACH__)
-    #error "Failed to determine runtime platform name: macOS not yet implemented."
     #include <TargetConditionals.h>
     #if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
-        #define C2CS_RUNTIME_OPERATING_SYSTEM_NAME "ios"
         #if TARGET_CPU_X86
             #define C2CS_RUNTIME_PLATFORM_NAME "ios-x86"
         #elif TARGET_CPU_X86_64
@@ -38,7 +35,6 @@
             #error "Failed to determine runtime platform name: Unknown computer architecture for iOS."
         #endif
     #elif TARGET_OS_MAC
-        #define C2CS_RUNTIME_OPERATING_SYSTEM_NAME "osx"
         #if TARGET_CPU_X86
             #define C2CS_RUNTIME_PLATFORM_NAME "osx-x86"
         #elif TARGET_CPU_X86_64
