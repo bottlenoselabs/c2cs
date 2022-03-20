@@ -1,10 +1,10 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
 using System.Collections.Immutable;
-using System.IO;
-using C2CS;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Exceptions;
+
+namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Logic;
 
 public static class ClangArgumentsBuilder
 {

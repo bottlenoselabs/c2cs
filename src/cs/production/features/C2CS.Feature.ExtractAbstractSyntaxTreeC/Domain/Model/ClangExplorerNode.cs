@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Logic;
 using static bottlenoselabs.clang;
 
 namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Model;
@@ -10,7 +11,7 @@ public class ClangExplorerNode
 {
     public readonly CXCursor Cursor;
     public readonly CKind Kind;
-    public readonly ClangLocation Location;
+    public readonly CLocation Location;
     public readonly string? Name;
     public readonly CXType OriginalType;
     public readonly ClangExplorerNode? Parent;
@@ -19,7 +20,7 @@ public class ClangExplorerNode
 
     public ClangExplorerNode(
         CKind kind,
-        ClangLocation location,
+        CLocation location,
         ClangExplorerNode? parent,
         CXCursor cursor,
         CXType type,
@@ -33,7 +34,7 @@ public class ClangExplorerNode
         {
             if (type.IsPrimitive())
             {
-                Location = ClangLocation.BuiltIn;
+                Location = CLocation.BuiltIn;
             }
             else
             {

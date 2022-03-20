@@ -1,13 +1,17 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
 using System.Collections.Immutable;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Diagnostics;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Exceptions;
 using static bottlenoselabs.clang;
+
+namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Logic;
 
 public static class ClangTranslationUnitParser
 {
     public static CXTranslationUnit Parse(
+        DiagnosticsSink diagnosticsSink,
         string headerFilePath,
         ImmutableArray<string> clangArgs)
     {
@@ -20,35 +24,37 @@ public static class ClangTranslationUnitParser
             throw new ClangException("libclang failed.");
         }
 
-        var diagnostics = GetCompilationDiagnostics(translationUnit);
-        if (diagnostics.IsDefaultOrEmpty)
+        var clangDiagnostics = GetCompilationDiagnostics(translationUnit);
+        if (clangDiagnostics.IsDefaultOrEmpty)
         {
             return translationUnit;
         }
 
         var defaultDisplayOptions = clang_defaultDiagnosticDisplayOptions();
         Console.Error.WriteLine("Clang diagnostics:");
-        var hasErrors = false;
-        foreach (var diagnostic in diagnostics)
+        foreach (var clangDiagnostic in clangDiagnostics)
         {
             Console.Error.Write("\t");
-            var clangString = clang_formatDiagnostic(diagnostic, defaultDisplayOptions);
+            var clangString = clang_formatDiagnostic(clangDiagnostic, defaultDisplayOptions);
             var diagnosticStringC = clang_getCString(clangString);
             var diagnosticString = Runtime.CStrings.String(diagnosticStringC);
+
             Console.Error.WriteLine(diagnosticString);
 
-            var severity = clang_getDiagnosticSeverity(diagnostic);
-            if (severity is
-                CXDiagnosticSeverity.CXDiagnostic_Error or
-                CXDiagnosticSeverity.CXDiagnostic_Fatal)
-            {
-                hasErrors = true;
-            }
-        }
+            var severity = clang_getDiagnosticSeverity(clangDiagnostic);
 
-        if (hasErrors)
-        {
-            throw new ClangException("Clang parsing errors.");
+            var diagnosticSeverity = severity switch
+            {
+                CXDiagnosticSeverity.CXDiagnostic_Fatal => DiagnosticSeverity.Panic,
+                CXDiagnosticSeverity.CXDiagnostic_Error => DiagnosticSeverity.Error,
+                CXDiagnosticSeverity.CXDiagnostic_Warning => DiagnosticSeverity.Warning,
+                CXDiagnosticSeverity.CXDiagnostic_Note => DiagnosticSeverity.Information,
+                CXDiagnosticSeverity.CXDiagnostic_Ignored => DiagnosticSeverity.Information,
+                _ => DiagnosticSeverity.Error
+            };
+
+            var diagnostic = new ClangDiagnostic(diagnosticSeverity, diagnosticString);
+            diagnosticsSink.Add(diagnostic);
         }
 
         return translationUnit;

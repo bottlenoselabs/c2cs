@@ -33,7 +33,7 @@ public class CType
     public bool IsSystem { get; set; }
 
     [JsonPropertyName("location")]
-    public ClangLocation? Location { get; set; }
+    public CLocation? Location { get; set; }
 
     [ExcludeFromCodeCoverage]
     public override string ToString()

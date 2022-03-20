@@ -2,14 +2,20 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Text;
 
 namespace C2CS;
 
-public class UseCaseException : Exception
+public sealed class UseCaseException : Exception
 {
     public UseCaseException()
-        : this(CreateMessage(string.Empty))
+    {
+    }
+
+    public UseCaseException(string message, Exception innerException)
+        : base(message, innerException)
     {
     }
 
@@ -18,22 +24,48 @@ public class UseCaseException : Exception
     {
     }
 
-    public UseCaseException(string message, Exception innerException)
-        : base(CreateMessage(message), innerException)
+    public UseCaseException(ImmutableArray<Diagnostic> diagnostics)
+        : this(CreateMessage(diagnostics))
     {
     }
 
     private static string CreateMessage(string message)
     {
-        var name = UseCaseNamespaceName();
-        return string.IsNullOrEmpty(message) ? name : $"{name}: {message}";
+        var featureName = FeatureName();
+        if (string.IsNullOrEmpty(message))
+        {
+            return featureName;
+        }
+
+        return featureName + Environment.NewLine + message;
     }
 
-    private static string UseCaseNamespaceName(int skipFrames = 3)
+    private static string CreateMessage(ImmutableArray<Diagnostic> diagnostics)
     {
+        var stringBuilder = new StringBuilder();
+        foreach (var diagnostic in diagnostics)
+        {
+            stringBuilder.AppendLine(diagnostic.Summary);
+        }
+
+        var result = stringBuilder.ToString();
+        return result;
+    }
+
+    private static string FeatureName()
+    {
+        var skipFrames = 0;
+        var featureNamespace = typeof(UseCaseException).Namespace! + ".Feature";
+
         while (true)
         {
-            var method = new StackFrame(skipFrames, false).GetMethod()!;
+            var stackFrame = new StackFrame(skipFrames, false);
+            var method = stackFrame.GetMethod();
+            if (method == null)
+            {
+                return string.Empty;
+            }
+
             var declaringType = method.DeclaringType;
             var typeNamespace = declaringType?.Namespace!;
             if (string.IsNullOrEmpty(typeNamespace))
@@ -42,21 +74,13 @@ public class UseCaseException : Exception
                 continue;
             }
 
-            var currentNamespaceName = typeof(UseCaseException).Namespace!;
-            if (!typeNamespace.StartsWith(currentNamespaceName, StringComparison.InvariantCulture))
+            if (!typeNamespace.StartsWith(featureNamespace, StringComparison.InvariantCulture))
             {
                 skipFrames++;
                 continue;
             }
 
-            var candidateNamespaceName = typeNamespace[currentNamespaceName.Length..].Trim('.');
-            const string useCasesNamespaceName = "UseCases.";
-            if (candidateNamespaceName.StartsWith(useCasesNamespaceName, StringComparison.InvariantCulture))
-            {
-                candidateNamespaceName = candidateNamespaceName[useCasesNamespaceName.Length..];
-            }
-
-            return candidateNamespaceName;
+            return typeNamespace;
         }
     }
 }

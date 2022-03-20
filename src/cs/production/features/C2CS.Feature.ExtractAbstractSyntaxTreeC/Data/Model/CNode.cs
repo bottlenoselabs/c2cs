@@ -11,7 +11,7 @@ namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 public record CNode : IComparable<CNode>
 {
     [JsonPropertyName("location")]
-    public ClangLocation Location { get; set; }
+    public CLocation Location { get; set; }
 
     [JsonIgnore]
     public CKind Kind => GetKind();

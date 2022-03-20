@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text.Json;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Serialization;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Exceptions;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Logic;
 using static bottlenoselabs.clang;
 
@@ -57,7 +58,7 @@ public class Handler : UseCaseHandler<Input, Output>
             _clangNativeLibraryPath = "/Library/Developer/CommandLineTools/usr/lib/libclang.dylib";
             if (!File.Exists(_clangNativeLibraryPath))
             {
-                throw new ClangException(
+                throw new InvalidOperationException(
                     "Please install CommandLineTools for macOS. This will install `libclang.dylib`. Use the command `xcode-select --install`.");
             }
         }
@@ -168,7 +169,8 @@ public class Handler : UseCaseHandler<Input, Output>
             defines,
             targetPlatform,
             clangArguments);
-        var result = ClangTranslationUnitParser.Parse(inputFilePath, clangArgs);
+        var result = ClangTranslationUnitParser.Parse(
+            Diagnostics, inputFilePath, clangArgs);
         EndStep();
         return result;
     }
@@ -183,7 +185,7 @@ public class Handler : UseCaseHandler<Input, Output>
         RuntimePlatform targetPlatform)
     {
         BeginStep();
-        var clangExplorer = new CTranslationUnitExplorer(
+        var clangExplorer = new ClangTranslationUnitExplorer(
             Diagnostics,
             includeDirectories,
             excludedHeaderFiles,

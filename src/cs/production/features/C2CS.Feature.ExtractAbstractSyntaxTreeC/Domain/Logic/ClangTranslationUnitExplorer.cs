@@ -10,7 +10,7 @@ using static bottlenoselabs.clang;
 
 namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Logic;
 
-public class CTranslationUnitExplorer
+public class ClangTranslationUnitExplorer
 {
     private readonly DiagnosticsSink _diagnostics;
     private readonly List<CEnum> _enums = new();
@@ -148,7 +148,7 @@ public class CTranslationUnitExplorer
 
     private readonly RuntimePlatform _targetPlatform;
 
-    public CTranslationUnitExplorer(
+    public ClangTranslationUnitExplorer(
         DiagnosticsSink diagnostics,
         ImmutableArray<string> includeDirectories,
         ImmutableArray<string> ignoredFiles,
@@ -573,7 +573,7 @@ public class CTranslationUnitExplorer
         string typeName,
         CXCursor cursor,
         CXType type,
-        ClangLocation location,
+        CLocation location,
         ClangExplorerNode parentNode)
     {
         VisitType(parentNode, cursor, cursor, type, type, typeName);
@@ -593,7 +593,7 @@ public class CTranslationUnitExplorer
         string name,
         CXCursor cursor,
         CXType type,
-        ClangLocation location,
+        CLocation location,
         ClangExplorerNode parentNode)
     {
         if (!_functionNamesWhitelist.IsEmpty && !_functionNamesWhitelist.Contains(name))
@@ -627,7 +627,7 @@ public class CTranslationUnitExplorer
         string typeName,
         CXCursor cursor,
         CXType type,
-        ClangLocation location,
+        CLocation location,
         ClangExplorerNode parentNode,
         bool isPseudo = false)
     {
@@ -753,7 +753,7 @@ public class CTranslationUnitExplorer
         _names.Add(typedef.Name);
     }
 
-    private void ExploreOpaqueType(string typeName, ClangLocation location)
+    private void ExploreOpaqueType(string typeName, CLocation location)
     {
         var opaqueDataType = new COpaqueType
         {
@@ -770,7 +770,7 @@ public class CTranslationUnitExplorer
         CXCursor cursor,
         CXType type,
         CXType originalType,
-        ClangLocation location,
+        CLocation location,
         ClangExplorerNode parentNode)
     {
         if (type.kind == CXTypeKind.CXType_Pointer)
@@ -844,7 +844,7 @@ public class CTranslationUnitExplorer
 
     private void AddExplorerNode(
         CKind kind,
-        ClangLocation location,
+        CLocation location,
         ClangExplorerNode? parent,
         CXCursor cursor,
         CXType type,
@@ -942,7 +942,7 @@ public class CTranslationUnitExplorer
         ClangExplorerNode parentNode,
         CXType originalType,
         CXType type,
-        ClangLocation location)
+        CLocation location)
     {
         var parameters = CreateFunctionPointerParameters(cursor, parentNode);
 
@@ -1287,7 +1287,7 @@ public class CTranslationUnitExplorer
             elementSize = (int)clang_Type_getSizeOf(elementType);
         }
 
-        ClangLocation? location = null;
+        CLocation? location = null;
         if (typeKind.Kind != CKind.Primitive && !isSystemType)
         {
             location = Location(declaration, type);
@@ -1625,9 +1625,9 @@ public class CTranslationUnitExplorer
         return typeName;
     }
 
-    private ClangLocation Location(CXCursor cursor, CXType? type = null)
+    private CLocation Location(CXCursor cursor, CXType? type = null)
     {
-        ClangLocation location;
+        CLocation location;
         if (type == null)
         {
             location = cursor.FileLocation();

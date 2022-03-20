@@ -124,6 +124,7 @@ public abstract class UseCaseHandler<TInput, TOutput>
         var stepMetaData = _stepsMetaData[_stepIndex++];
         var stepCount = _stepsMetaData.Length;
         Console.WriteLine($"\tStarted step ({_stepIndex}/{stepCount}) '{stepMetaData.Name}'");
+
         _stepStopwatch.Start();
         GarbageCollect();
     }
@@ -133,10 +134,20 @@ public abstract class UseCaseHandler<TInput, TOutput>
         var stepMetaData = _stepsMetaData[_stepIndex - 1];
         var stepCount = _stepsMetaData.Length;
         _stepStopwatch.Stop();
+
         Console.WriteLine(
             $"\tFinished step ({_stepIndex}/{stepCount}) '{stepMetaData.Name}' in {_stepStopwatch.Elapsed.TotalMilliseconds} ms");
+
         _stepStopwatch.Reset();
         GarbageCollect();
+
+        if (!Diagnostics.HasError)
+        {
+            return;
+        }
+
+        var diagnostics = Diagnostics.GetAll();
+        throw new UseCaseException(diagnostics);
     }
 
     private string GetUseCaseName()

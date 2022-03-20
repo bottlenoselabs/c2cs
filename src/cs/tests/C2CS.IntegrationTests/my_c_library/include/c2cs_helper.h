@@ -22,6 +22,7 @@
     // Debian, Ubuntu, Gentoo, Fedora, openSUSE, RedHat, Centos and other
     #error "Failed to determine runtime platform name: Linux not yet implemented."
 #elif defined(__APPLE__) && defined(__MACH__)
+    #error "Failed to determine runtime platform name: macOS not yet implemented."
     #include <TargetConditionals.h>
     #if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
         #define C2CS_RUNTIME_OPERATING_SYSTEM_NAME "ios"

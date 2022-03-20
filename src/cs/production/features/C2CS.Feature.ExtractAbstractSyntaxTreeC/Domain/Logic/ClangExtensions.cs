@@ -1,13 +1,13 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Runtime.InteropServices;
-using System.Threading;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 using static bottlenoselabs.clang;
+
+namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Logic;
 
 public static unsafe class ClangExtensions
 {
@@ -262,7 +262,7 @@ public static unsafe class ClangExtensions
         return result;
     }
 
-    public static ClangLocation FileLocation(this CXType type, CXCursor cursor)
+    public static CLocation FileLocation(this CXType type, CXCursor cursor)
     {
         // The cursor type could be a pointer, which if so, we need to drill down to the pointee type
         //  if we don't, then the location will be the declaration of where the pointer is used which is not
@@ -306,12 +306,12 @@ public static unsafe class ClangExtensions
         return FileLocation(declaration);
     }
 
-    public static ClangLocation FileLocation(this CXCursor cursor)
+    public static CLocation FileLocation(this CXCursor cursor)
     {
         if (cursor.kind == CXCursorKind.CXCursor_TranslationUnit)
         {
             var filePath = cursor.Name();
-            return new ClangLocation
+            return new CLocation
             {
                 FileName = Path.GetFileName(filePath),
                 FilePath = filePath
@@ -329,7 +329,7 @@ public static unsafe class ClangExtensions
         var handle = (IntPtr)file.Data;
         if (handle == IntPtr.Zero)
         {
-            return new ClangLocation
+            return new CLocation
             {
                 FileName = string.Empty
             };
@@ -338,7 +338,7 @@ public static unsafe class ClangExtensions
         var fileName = clang_getFileName(file);
         string fileNamePath = clang_getCString(fileName);
 
-        return new ClangLocation
+        return new CLocation
         {
             FileName = Path.GetFileName(fileNamePath),
             FilePath = string.IsNullOrEmpty(fileNamePath) ? string.Empty : Path.GetFullPath(fileNamePath),
