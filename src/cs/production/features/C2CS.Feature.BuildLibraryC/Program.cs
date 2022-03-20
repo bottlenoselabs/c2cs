@@ -8,7 +8,7 @@ public static class Program
     public static int Main(string[]? args = null)
     {
         var input = Input.GetFrom(args);
-        var handler = new UseCaseHandler();
+        var handler = new Handler();
         var output = handler.Execute(input);
         return output.Status == UseCaseOutputStatus.Success ? 0 : 1;
     }

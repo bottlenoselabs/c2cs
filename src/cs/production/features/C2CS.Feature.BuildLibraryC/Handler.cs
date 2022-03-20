@@ -3,10 +3,16 @@
 
 namespace C2CS.Feature.BuildLibraryC;
 
-public class UseCaseHandler : UseCaseHandler<Input, Output>
+public class Handler : UseCaseHandler<Input, Output>
 {
     protected override void Execute(Input input, Output output)
     {
+        var targets = input.Project.Targets;
+        if (targets.IsDefaultOrEmpty)
+        {
+            return;
+        }
+
         foreach (var buildTarget in input.Project.Targets)
         {
             Console.WriteLine(buildTarget);

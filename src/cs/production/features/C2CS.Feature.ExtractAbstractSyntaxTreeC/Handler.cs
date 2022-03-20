@@ -184,8 +184,13 @@ public class Handler : UseCaseHandler<Input, Output>
     {
         BeginStep();
         var clangExplorer = new CTranslationUnitExplorer(
-            Diagnostics, includeDirectories, excludedHeaderFiles, opaqueTypeNames, functionNamesWhitelist);
-        var result = clangExplorer.AbstractSyntaxTree(translationUnit, targetPlatform);
+            Diagnostics,
+            includeDirectories,
+            excludedHeaderFiles,
+            opaqueTypeNames,
+            functionNamesWhitelist,
+            targetPlatform);
+        var result = clangExplorer.AbstractSyntaxTree(translationUnit);
         EndStep();
         return result;
     }

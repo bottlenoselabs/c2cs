@@ -146,22 +146,25 @@ public class CTranslationUnitExplorer
     private readonly Dictionary<string, bool> _validTypeNames = new();
     private readonly List<CVariable> _variables = new();
 
+    private readonly RuntimePlatform _targetPlatform;
+
     public CTranslationUnitExplorer(
         DiagnosticsSink diagnostics,
         ImmutableArray<string> includeDirectories,
         ImmutableArray<string> ignoredFiles,
         ImmutableArray<string> opaqueTypes,
-        ImmutableArray<string> functionNamesWhitelist)
+        ImmutableArray<string> functionNamesWhitelist,
+        RuntimePlatform targetPlatform)
     {
         _diagnostics = diagnostics;
         _ignoredFiles = ignoredFiles.ToImmutableHashSet();
         _includeDirectories = includeDirectories;
         _opaqueTypeNames = opaqueTypes.ToImmutableHashSet();
         _functionNamesWhitelist = functionNamesWhitelist.ToImmutableHashSet();
+        _targetPlatform = targetPlatform;
     }
 
-    public CAbstractSyntaxTree AbstractSyntaxTree(
-        CXTranslationUnit translationUnit, RuntimePlatform targetPlatform)
+    public CAbstractSyntaxTree AbstractSyntaxTree(CXTranslationUnit translationUnit)
     {
         VisitTranslationUnit(translationUnit);
         Explore();
@@ -191,7 +194,7 @@ public class CTranslationUnitExplorer
         return new CAbstractSyntaxTree
         {
             FileName = location.FileName,
-            Platform = targetPlatform,
+            Platform = _targetPlatform,
             Functions = functions,
             FunctionPointers = functionPointers,
             Records = records,
@@ -539,6 +542,19 @@ public class CTranslationUnitExplorer
         // Ignore macros which are forward declarations
         if (tokens.Length == 1 && _names.Contains(tokens[0]))
         {
+            return;
+        }
+
+        if (name == "C2CS_RUNTIME_PLATFORM_NAME")
+        {
+            var actualPlatformName = tokens.Length != 1 ? string.Empty : tokens[0].Replace("\"", string.Empty, StringComparison.InvariantCulture);
+            var expectedPlatformName = _targetPlatform.ToString();
+            if (actualPlatformName != expectedPlatformName)
+            {
+                var diagnostic = new PlatformMismatchDiagnostic(actualPlatformName, expectedPlatformName);
+                _diagnostics.Add(diagnostic);
+            }
+
             return;
         }
 
