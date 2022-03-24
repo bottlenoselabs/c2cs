@@ -3,12 +3,12 @@
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using C2CS.Feature.BuildLibraryC.Data.Model;
-using JsonSerializerContext = C2CS.Feature.BuildLibraryC.Data.Serialization.JsonSerializerContext;
+using C2CS.Feature.BuildLibraryC.Data;
+using JsonSerializerContext = C2CS.Feature.BuildLibraryC.Data.JsonSerializerContext;
 
 namespace C2CS.Feature.BuildLibraryC;
 
-public class Input : UseCaseInput<Output>
+public class Input
 {
     public BuildProject Project { get; }
 

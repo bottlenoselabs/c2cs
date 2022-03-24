@@ -19,13 +19,13 @@ public class Configuration
     ///     The configuration for extracting the C abstract syntax tree from a header file.
     /// </summary>
     [JsonPropertyName("ast")]
-    public ConfigurationExtractAbstractSyntaxTreeC? ExtractAbstractSyntaxTreeC { get; set; }
+    public RequestExtractAbstractSyntaxTreeC? ExtractAbstractSyntaxTreeC { get; set; }
 
     /// <summary>
     ///     The configuration for generating C# code.
     /// </summary>
     [JsonPropertyName("cs")]
-    public ConfigurationBindgenCSharp? BindgenCSharp { get; set; }
+    public RequestBindgenCSharp? BindgenCSharp { get; set; }
 
     public static Configuration LoadFrom(string filePath)
     {

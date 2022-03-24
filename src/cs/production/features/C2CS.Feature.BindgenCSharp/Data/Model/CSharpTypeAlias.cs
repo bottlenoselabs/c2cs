@@ -4,7 +4,7 @@
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
-namespace C2CS.Feature.BindgenCSharp.Data.Model;
+namespace C2CS.Feature.BindgenCSharp.Data;
 
 // NOTE: Properties are required for System.Text.Json serialization
 [PublicAPI]

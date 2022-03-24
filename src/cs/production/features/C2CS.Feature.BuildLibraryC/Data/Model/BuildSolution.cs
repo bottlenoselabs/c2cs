@@ -3,7 +3,7 @@
 
 using System.Collections.Immutable;
 
-namespace C2CS.Feature.BuildLibraryC.Data.Model;
+namespace C2CS.Feature.BuildLibraryC.Data;
 
 // NOTE: Properties are required for System.Text.Json serialization
 // NOTE: This class is considered un-sanitized input; all strings and other types could be null.

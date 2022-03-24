@@ -11,8 +11,8 @@
     </PropertyGroup>
 
     <!-- Project references -->
-    <ItemGroup> 
-        <ProjectReference Include="../../C2CS.Common/C2CS.Common.csproj" />
+    <ItemGroup>
+        <ProjectReference Include="../../infrastructure/C2CS.Common/C2CS.Common.csproj"/>
     </ItemGroup>
 
 </Project>

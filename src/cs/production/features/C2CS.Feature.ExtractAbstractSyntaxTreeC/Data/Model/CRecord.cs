@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
-namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
+namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
 
 // NOTE: Properties are required for System.Text.Json serialization
 [PublicAPI]

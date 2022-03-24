@@ -10,8 +10,8 @@
 
     <!-- Project references -->
     <ItemGroup>
-      <ProjectReference Include="../../C2CS.Common/C2CS.Common.csproj" />
-      <ProjectReference Include="../../clang-cs/clang-cs.csproj" />
+        <ProjectReference Include="../../infrastructure/C2CS.Common/C2CS.Common.csproj"/>
+        <ProjectReference Include="../../infrastructure/clang-cs/clang-cs.csproj"/>
     </ItemGroup>
 
 </Project>

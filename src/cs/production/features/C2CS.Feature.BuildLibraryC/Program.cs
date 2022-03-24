@@ -7,9 +7,10 @@ public static class Program
 {
     public static int Main(string[]? args = null)
     {
-        var input = Input.GetFrom(args);
-        var handler = new Handler();
-        var output = handler.Execute(input);
+        // var input = Input.GetFrom(args);
+        var request = new Request();
+        var useCase = new UseCase();
+        var output = useCase.Execute(request);
         return output.Status == UseCaseOutputStatus.Success ? 0 : 1;
     }
 }

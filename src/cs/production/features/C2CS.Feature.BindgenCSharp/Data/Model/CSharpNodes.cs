@@ -3,7 +3,7 @@
 
 using System.Collections.Immutable;
 
-namespace C2CS.Feature.BindgenCSharp.Data.Model;
+namespace C2CS.Feature.BindgenCSharp.Data;
 
 public record CSharpNodes
 {

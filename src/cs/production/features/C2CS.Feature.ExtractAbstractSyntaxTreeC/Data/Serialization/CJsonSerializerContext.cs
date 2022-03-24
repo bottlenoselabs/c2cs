@@ -3,9 +3,8 @@
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 
-namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Serialization;
+namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
 
 [JsonSourceGenerationOptions(
     WriteIndented = true,

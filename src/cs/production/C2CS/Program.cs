@@ -61,29 +61,27 @@ public static class Program
 
     private static void ExtractAbstractSyntaxTreeC()
     {
-        var c = Configuration.LoadFrom("config.json");
-        var configuration = c.ExtractAbstractSyntaxTreeC;
-        if (configuration == null)
+        var configuration = Configuration.LoadFrom("config.json");
+        var request = configuration.ExtractAbstractSyntaxTreeC;
+        if (request == null)
         {
             throw new UseCaseException("The configuration for `ast` is null.");
         }
 
-        var request = new Feature.ExtractAbstractSyntaxTreeC.Input(configuration);
-        var useCase = new Feature.ExtractAbstractSyntaxTreeC.Handler();
+        var useCase = new Feature.ExtractAbstractSyntaxTreeC.UseCase();
         useCase.Execute(request);
     }
 
     private static void BindgenCSharp()
     {
-        var c = Configuration.LoadFrom("config.json");
-        var configuration = c.BindgenCSharp;
-        if (configuration == null)
+        var configuration = Configuration.LoadFrom("config.json");
+        var request = configuration.BindgenCSharp;
+        if (request == null)
         {
             throw new UseCaseException("The configuration for `cs` is null.");
         }
 
-        var request = new Feature.BindgenCSharp.Input(configuration);
-        var useCase = new Feature.BindgenCSharp.Handler();
+        var useCase = new Feature.BindgenCSharp.UseCase();
         useCase.Execute(request);
     }
 }
