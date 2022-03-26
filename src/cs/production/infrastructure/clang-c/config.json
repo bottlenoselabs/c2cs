@@ -55,6 +55,10 @@
   },
   "cs": {
     "outputFilePath": "../../../../src/cs/production/infrastructure/clang-cs/clang.cs",
-    "namespaceName": "bottlenoselabs"
+    "namespaceName": "bottlenoselabs",
+    "ignoredNames": [
+      "LLVM_CLANG_C_STRICT_PROTOTYPES_BEGIN",
+      "LLVM_CLANG_C_STRICT_PROTOTYPES_END"
+    ]
   }
 }

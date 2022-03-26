@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
-using System.Collections.Immutable;
 using System.Diagnostics;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;

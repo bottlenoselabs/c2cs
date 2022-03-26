@@ -16,10 +16,12 @@
     <ItemGroup>
         <ProjectReference Include="../../C2CS/C2CS.csproj"/>
     </ItemGroup>
+    
+    <!-- Copy config-->
     <ItemGroup>
-        <None Update="config.json">
+        <Content Include="config.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
+        </Content>
     </ItemGroup>
 
 </Project>

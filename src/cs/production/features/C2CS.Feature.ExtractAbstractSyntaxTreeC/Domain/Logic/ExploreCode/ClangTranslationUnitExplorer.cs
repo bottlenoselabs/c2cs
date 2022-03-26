@@ -137,10 +137,10 @@ public sealed class ClangTranslationUnitExplorer
                 break;
             case CKind.FunctionPointer:
                 ExploreFunctionPointer(
-                    context, node.TypeName!, node.Cursor, node.Type, node.OriginalType, node.Location, node.Parent!);
+                    context, node.TypeName!, node.Cursor, node.Type, node.Location, node.Parent!);
                 break;
             case CKind.Array:
-                ExploreArray(context, node);
+                VisitArray(context, node);
                 break;
             case CKind.Pointer:
                 ExplorePointer(context, node);
@@ -297,7 +297,7 @@ public sealed class ClangTranslationUnitExplorer
         }
     }
 
-    private void ExploreArray(
+    private void VisitArray(
         ClangTranslationUnitExplorerContext context, ClangTranslationUnitExplorerNode node)
     {
         var elementType = clang_getElementType(node.Type);
@@ -321,6 +321,13 @@ public sealed class ClangTranslationUnitExplorer
     private void ExploreMacro(ClangTranslationUnitExplorerContext context, ClangTranslationUnitExplorerNode node)
     {
         var name = node.Name!;
+        if (context.Names.Contains(name))
+        {
+            var diagnostic = new DiagnosticMacroAlreadyExists(name);
+            context.Diagnostics.Add(diagnostic);
+            return;
+        }
+
         var location = node.Location;
 
         // Function-like macros currently not implemented
@@ -331,8 +338,14 @@ public sealed class ClangTranslationUnitExplorer
             return;
         }
 
-        // It is assumed that macros with a name which starts with an underscore are not supposed to be exposed in the public API
+        // Assume that macros with a name which starts with an underscore are not supposed to be exposed in the public API
         if (name.StartsWith("_", StringComparison.InvariantCulture))
+        {
+            return;
+        }
+
+        // Assume that macro ending with "API_DECL" are not interesting for bindgen
+        if (name.EndsWith("API_DECL", StringComparison.InvariantCulture))
         {
             return;
         }
@@ -387,6 +400,7 @@ public sealed class ClangTranslationUnitExplorer
                 return;
             }
 
+            // cinttypes.h
             if (token.StartsWith("PRI", StringComparison.InvariantCulture))
             {
                 return;
@@ -438,7 +452,9 @@ public sealed class ClangTranslationUnitExplorer
             Location = location
         };
 
+        context.Names.Add(name);
         context.MacroObjects.Add(macro);
+        _logger.ExploreCodeMacro(name);
     }
 
     private void ExploreVariable(
@@ -450,6 +466,8 @@ public sealed class ClangTranslationUnitExplorer
         CLocation location,
         ClangTranslationUnitExplorerNode parentNode)
     {
+        _logger.ExploreCodeVariable(name);
+
         VisitType(context, parentNode, cursor, cursor, type, type, typeName);
 
         var variable = new CVariable
@@ -461,8 +479,6 @@ public sealed class ClangTranslationUnitExplorer
 
         context.Variables.Add(variable);
         context.Names.Add(name);
-
-        _logger.ExploreCodeVariable(name);
     }
 
     private void ExploreFunction(
@@ -477,6 +493,8 @@ public sealed class ClangTranslationUnitExplorer
         {
             return;
         }
+
+        _logger.ExploreCodeFunction(name);
 
         var callingConvention = CreateFunctionCallingConvention(type);
         var resultType = clang_getCursorResultType(cursor);
@@ -498,8 +516,6 @@ public sealed class ClangTranslationUnitExplorer
 
         context.Functions.Add(function);
         context.Names.Add(function.Name);
-
-        _logger.ExploreCodeFunction(name);
     }
 
     private void ExploreEnum(
@@ -514,6 +530,8 @@ public sealed class ClangTranslationUnitExplorer
         {
             return;
         }
+
+        _logger.ExploreCodeEnum(typeName);
 
         var typeCursor = clang_getTypeDeclaration(type);
         if (typeCursor.kind == CXCursorKind.CXCursor_NoDeclFound)
@@ -539,7 +557,6 @@ public sealed class ClangTranslationUnitExplorer
 
         context.Enums.Add(@enum);
         context.Names.Add(@enum.Name);
-        _logger.ExploreCodeEnum(typeName);
     }
 
     private void ExploreRecord(
@@ -553,6 +570,8 @@ public sealed class ClangTranslationUnitExplorer
             ExploreOpaqueType(context, typeName, location);
             return;
         }
+
+        _logger.ExploreCodeRecord(typeName);
 
         var cursor = node.Cursor;
 
@@ -584,8 +603,6 @@ public sealed class ClangTranslationUnitExplorer
 
         context.Records.Add(record);
         context.Names.Add(record.Name);
-
-        _logger.ExploreCodeRecord(typeName);
     }
 
     private void ExploreTypedef(
@@ -602,7 +619,8 @@ public sealed class ClangTranslationUnitExplorer
             return;
         }
 
-        var type = node.Type;
+        _logger.ExploreCodeTypedef(typeName);
+
         var underlyingType = clang_getTypedefDeclUnderlyingType(node.Cursor);
         var (aliasKind, aliasType) = TypeKind(underlyingType);
         var aliasCursor = clang_getTypeDeclaration(aliasType);
@@ -617,7 +635,7 @@ public sealed class ClangTranslationUnitExplorer
                 ExploreRecord(context, node, parentNode);
                 return;
             case CKind.FunctionPointer:
-                ExploreFunctionPointer(context, typeName, cursor, aliasType, type, location, parentNode);
+                ExploreFunctionPointer(context, typeName, cursor, aliasType, location, parentNode);
                 return;
         }
 
@@ -637,6 +655,8 @@ public sealed class ClangTranslationUnitExplorer
 
     private void ExploreOpaqueType(ClangTranslationUnitExplorerContext context, string typeName, CLocation location)
     {
+        _logger.ExploreCodeOpaqueType(typeName);
+
         var opaqueDataType = new COpaqueType
         {
             Name = typeName,
@@ -652,10 +672,11 @@ public sealed class ClangTranslationUnitExplorer
         string typeName,
         CXCursor cursor,
         CXType type,
-        CXType originalType,
         CLocation location,
         ClangTranslationUnitExplorerNode parentNode)
     {
+        _logger.ExploreCodeFunctionPointer(typeName);
+
         if (type.kind == CXTypeKind.CXType_Pointer)
         {
             type = clang_getPointeeType(type);
@@ -1388,6 +1409,8 @@ public sealed class ClangTranslationUnitExplorer
             return;
         }
 
+        _logger.ExploreCodeVisitType(typeName);
+
         var typeKind = TypeKind(type);
         if (typeKind.Kind == CKind.Pointer)
         {
@@ -1519,8 +1542,6 @@ public sealed class ClangTranslationUnitExplorer
         {
             typeName = typeName switch
             {
-                // TRICK: Force signed integer; enums in C could be signed or unsigned depending the platform architecture.
-                //  This makes for a slightly different bindings between Windows/macOS/Linux where the enum is different type
                 "unsigned char" or "char" => "signed char",
                 "short" or "unsigned short" => "signed short",
                 "short int" or "unsigned short int" => "signed short int",

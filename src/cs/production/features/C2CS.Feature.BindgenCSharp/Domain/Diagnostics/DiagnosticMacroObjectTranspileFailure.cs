@@ -5,15 +5,15 @@ using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 
 namespace C2CS.Feature.BindgenCSharp.Domain.Diagnostics;
 
-public sealed class DiagnosticMacroObjectAlreadyExists : Diagnostic
+public sealed class DiagnosticMacroObjectTranspileFailure : Diagnostic
 {
-    public DiagnosticMacroObjectAlreadyExists(string name, CLocation location)
+    public DiagnosticMacroObjectTranspileFailure(string name, CLocation location)
         : base(DiagnosticSeverity.Warning, CreateMessage(name, location))
     {
     }
 
     private static string CreateMessage(string name, CLocation location)
     {
-        return $"The object-like macro '{name}' at {location.FilePath}:{location.LineNumber}:{location.LineColumn} already previously exists.";
+        return $"The object-like macro '{name}' at {location.FilePath}:{location.LineNumber}:{location.LineColumn} failed to be transpiled.";
     }
 }

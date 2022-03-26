@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using C2CS.Feature.BindgenCSharp.Data;
 using C2CS.Feature.BindgenCSharp.Domain.Diagnostics;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -88,7 +89,7 @@ public sealed class CSharpMapper
         var aliasStructs = AliasStructs(typesByName, ast.Typedefs);
         var functionPointers = FunctionPointers(typesByName, ast.FunctionPointers);
         var opaqueDataTypes = OpaqueDataTypes(typesByName, ast.OpaqueTypes);
-        var enums = Enums(typesByName, ast.Enums, ast.Platform);
+        var enums = Enums(typesByName, ast.Enums);
         var constants = Constants(ast.Constants);
 
         var nodes = new CSharpNodes
@@ -550,15 +551,14 @@ public sealed class CSharpMapper
 
     private ImmutableArray<CSharpEnum> Enums(
         ImmutableDictionary<string, CType> types,
-        ImmutableArray<CEnum> enums,
-        RuntimePlatform platform)
+        ImmutableArray<CEnum> enums)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpEnum>(enums.Length);
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var enumC in enums)
         {
-            var enumCSharp = Enum(types, enumC, platform);
+            var enumCSharp = Enum(types, enumC);
 
             if (_ignoredNames.Contains(enumCSharp.Name))
             {
@@ -574,8 +574,7 @@ public sealed class CSharpMapper
 
     private CSharpEnum Enum(
         ImmutableDictionary<string, CType> types,
-        CEnum @enum,
-        RuntimePlatform platform)
+        CEnum @enum)
     {
         var name = @enum.Name;
         var originalCodeLocationComment = OriginalCodeLocationComment(@enum);
@@ -639,18 +638,7 @@ public sealed class CSharpMapper
             var constant = Constant(macroObject, lookup);
             if (constant == null)
             {
-                if (macroObject.Name.EndsWith("API_DECL", StringComparison.InvariantCulture))
-                {
-                    // Silently swallow
-                    continue;
-                }
-
-                var diagnostic = new DiagnosticMacroObjectNotTranspiled(macroObject.Name, macroObject.Location);
-                _parameters.DiagnosticsSink.Add(diagnostic);
-            }
-            else if (lookup.ContainsKey(constant.Name))
-            {
-                var diagnostic = new DiagnosticMacroObjectAlreadyExists(macroObject.Name, macroObject.Location);
+                var diagnostic = new DiagnosticMacroObjectTranspileFailure(macroObject.Name, macroObject.Location);
                 _parameters.DiagnosticsSink.Add(diagnostic);
             }
             else

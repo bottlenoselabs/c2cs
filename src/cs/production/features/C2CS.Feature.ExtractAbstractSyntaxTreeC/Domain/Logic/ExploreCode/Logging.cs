@@ -25,6 +25,12 @@ internal static class Logging
             LoggingEventRegistry.CreateEventIdentifier("Explore C header file: Translation unit"),
             "- Translation unit {FilePath}");
 
+    private static readonly Action<ILogger, string, Exception> ActionExploreCodeMacro =
+        LoggerMessage.Define<string>(
+            LogLevel.Trace,
+            LoggingEventRegistry.CreateEventIdentifier("Explore C header file: Macro"),
+            "- Macro {Name}");
+
     private static readonly Action<ILogger, string, Exception> ActionExploreCodeVariable =
         LoggerMessage.Define<string>(
             LogLevel.Trace,
@@ -49,6 +55,30 @@ internal static class Logging
             LoggingEventRegistry.CreateEventIdentifier("Explore C header file: Record"),
             "- Record {Name}");
 
+    private static readonly Action<ILogger, string, Exception> ActionExploreCodeTypedef =
+        LoggerMessage.Define<string>(
+            LogLevel.Trace,
+            LoggingEventRegistry.CreateEventIdentifier("Explore C header file: Typedef"),
+            "- Typedef {Name}");
+
+    private static readonly Action<ILogger, string, Exception> ActionExploreCodeOpaqueType =
+        LoggerMessage.Define<string>(
+            LogLevel.Trace,
+            LoggingEventRegistry.CreateEventIdentifier("Explore C header file: Opaque type"),
+            "- Opaque type {Name}");
+
+    private static readonly Action<ILogger, string, Exception> ActionExploreCodeFunctionPointer =
+        LoggerMessage.Define<string>(
+            LogLevel.Trace,
+            LoggingEventRegistry.CreateEventIdentifier("Explore C header file: Function pointer"),
+            "- Function pointer {Name}");
+
+    private static readonly Action<ILogger, string, Exception> ActionExploreCodeType =
+        LoggerMessage.Define<string>(
+            LogLevel.Trace,
+            LoggingEventRegistry.CreateEventIdentifier("Explore C header file: Type"),
+            "- Type {TypeName}");
+
     public static void ExploreCodeFailed(this ILogger logger, Exception exception)
     {
         ActionExploreCodeFailed(logger, exception);
@@ -62,6 +92,11 @@ internal static class Logging
     public static void ExploreCodeTranslationUnit(this ILogger logger, string filePath)
     {
         ActionExploreCodeTranslationUnit(logger, filePath, null!);
+    }
+
+    public static void ExploreCodeMacro(this ILogger logger, string name)
+    {
+        ActionExploreCodeMacro(logger, name, null!);
     }
 
     public static void ExploreCodeVariable(this ILogger logger, string name)
@@ -82,5 +117,25 @@ internal static class Logging
     public static void ExploreCodeRecord(this ILogger logger, string name)
     {
         ActionExploreCodeRecord(logger, name, null!);
+    }
+
+    public static void ExploreCodeTypedef(this ILogger logger, string name)
+    {
+        ActionExploreCodeTypedef(logger, name, null!);
+    }
+
+    public static void ExploreCodeOpaqueType(this ILogger logger, string name)
+    {
+        ActionExploreCodeOpaqueType(logger, name, null!);
+    }
+
+    public static void ExploreCodeFunctionPointer(this ILogger logger, string name)
+    {
+        ActionExploreCodeFunctionPointer(logger, name, null!);
+    }
+
+    public static void ExploreCodeVisitType(this ILogger logger, string name)
+    {
+        ActionExploreCodeType(logger, name, null!);
     }
 }
