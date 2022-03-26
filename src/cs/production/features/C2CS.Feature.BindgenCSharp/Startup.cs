@@ -3,12 +3,12 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace C2CS.IntegrationTests;
+namespace C2CS.Feature.BindgenCSharp;
 
 public static class Startup
 {
     public static void ConfigureServices(IServiceCollection services)
     {
-        my_c_library.Startup.ConfigureServices(services);
+        services.AddTransient<BindgenUseCase>();
     }
 }

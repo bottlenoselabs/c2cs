@@ -4,27 +4,28 @@
 using C2CS.Feature.BindgenCSharp;
 using Xunit;
 
+// ReSharper disable ParameterOnlyUsedForPreconditionCheck.Local
+
 namespace C2CS.IntegrationTests.my_c_library.Fixtures;
 
 public sealed class BindgenCSharpFixture
 {
-    private readonly ExtractAbstractSyntaxTreeCFixture _fixture;
-
-    public BindgenCSharpFixture(ExtractAbstractSyntaxTreeCFixture extractAbstractSyntaxTreeCFixture)
+    public BindgenCSharpFixture(
+        BindgenUseCase useCase,
+        ExtractAbstractSyntaxTreeCFixture ast)
     {
-        _fixture = extractAbstractSyntaxTreeCFixture;
+        Assert.True(ast.Response.IsSuccessful);
+        Assert.True(ast.Response.Diagnostics.Length == 0);
 
-        var request = new RequestBindgenCSharp
+        var request = new BindgenRequest
         {
             InputFileDirectory = "my_c_library/c/ast",
-            OutputFilePath = "my_c_library/c/my_c_library.cs",
-            WorkingDirectory = "../../../../src/cs/tests/C2CS.Tests.Integration"
+            OutputFilePath = "my_c_library/c/my_c_library.cs"
         };
 
-        var useCase = new UseCase();
         var response = useCase.Execute(request);
 
-        Assert.True(response.Status == UseCaseOutputStatus.Success);
+        Assert.True(response.IsSuccessful);
         Assert.True(response.Diagnostics.Length == 0);
     }
 }

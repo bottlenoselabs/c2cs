@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
         <RootNamespace>C2CS.IntegrationTests</RootNamespace>
-        <NoWarn>$(NoWarn);CA1707;CA2000;SA1300;IDE1006;CA1034</NoWarn>
+        <NoWarn>$(NoWarn);CA1707;CA2000;SA1300;IDE1006;CA1034;CA1051;CA1062;CA1724</NoWarn>
     </PropertyGroup>
 
     <!-- MSBuild.Tools project settings -->
@@ -15,10 +15,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0"/>
-        <PackageReference Include="xunit" Version="2.4.1"/>
-        <PackageReference Include="Xunit.DependencyInjection" Version="8.4.0"/>
-        <PackageReference Include="Xunit.DependencyInjection.Logging" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+        <PackageReference Include="xunit" Version="2.4.1" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -30,9 +28,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="../../production/features/C2CS.Feature.ExtractAbstractSyntaxTreeC/C2CS.Feature.ExtractAbstractSyntaxTreeC.csproj"/>
-        <ProjectReference Include="../../production/features/C2CS.Feature.BindgenCSharp/C2CS.Feature.BindgenCSharp.csproj"/>
-        <ProjectReference Include="../../production/features/C2CS.Feature.BuildLibraryC/C2CS.Feature.BuildLibraryC.csproj"/>
+        <ProjectReference Include="../../production/C2CS/C2CS.csproj" />
+    </ItemGroup>
+    
+    <!-- Copy C code files-->
+    <ItemGroup>
+        <Content Include="my_c_library/c/**/*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
     
 </Project>

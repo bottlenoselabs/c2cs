@@ -7,17 +7,17 @@ namespace C2CS;
 
 public abstract class UseCaseResponse
 {
-    public UseCaseOutputStatus Status { get; private set; }
+    public bool IsSuccessful { get; internal set; }
 
     public ImmutableArray<Diagnostic> Diagnostics { get; private set; }
 
     internal void WithDiagnostics(ImmutableArray<Diagnostic> diagnostics)
     {
         Diagnostics = diagnostics;
-        Status = CalculateStatus(diagnostics);
+        IsSuccessful = CalculateIsSuccessful(diagnostics);
     }
 
-    private static UseCaseOutputStatus CalculateStatus(ImmutableArray<Diagnostic> diagnostics)
+    private static bool CalculateIsSuccessful(ImmutableArray<Diagnostic> diagnostics)
     {
         // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
         foreach (var diagnostic in diagnostics)
@@ -26,10 +26,10 @@ public abstract class UseCaseResponse
                 DiagnosticSeverity.Error or
                 DiagnosticSeverity.Panic)
             {
-                return UseCaseOutputStatus.Failure;
+                return false;
             }
         }
 
-        return UseCaseOutputStatus.Success;
+        return true;
     }
 }

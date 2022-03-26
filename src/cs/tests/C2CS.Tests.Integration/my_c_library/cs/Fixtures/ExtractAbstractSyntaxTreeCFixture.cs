@@ -13,23 +13,24 @@ public sealed class ExtractAbstractSyntaxTreeCFixture
     public readonly ImmutableDictionary<string, CFunction> FunctionsByName;
     public readonly ImmutableDictionary<string, CEnum> EnumsByName;
 
-    public ExtractAbstractSyntaxTreeCFixture()
+    public ExtractAbstractSyntaxTreeResponse Response { get; }
+
+    public ExtractAbstractSyntaxTreeCFixture(ExtractAbstractSyntaxTreeUseCase useCase, CJsonSerializer cJsonSerializer)
     {
-        var request = new RequestExtractAbstractSyntaxTreeC
+        var request = new ExtractAbstractSyntaxTreeRequest
         {
             IsEnabledFindSdk = true,
             InputFilePath = "my_c_library/c/include/my_c_library.h",
-            OutputFileDirectory = "my_c_library/c/ast",
-            WorkingDirectory = "../../../../src/cs/tests/C2CS.Tests.Integration"
+            OutputFileDirectory = "my_c_library/c/ast"
         };
 
-        var useCase = new UseCase();
-        var response = useCase.Execute(request);
+        Response = useCase.Execute(request);
 
-        Assert.True(response.Status == UseCaseOutputStatus.Success);
-        Assert.True(response.Diagnostics.Length == 0);
+        Assert.True(Response.IsSuccessful);
+        Assert.True(Response.Diagnostics.Length == 0);
 
-        var ast = response.AbstractSyntaxTree;
+        Assert.True(Response.FilePath != null);
+        var ast = cJsonSerializer.Read(Response.FilePath!);
         Assert.True(ast != null);
 
         FunctionsByName = ast!.Functions.ToImmutableDictionary(x => x.Name, x => x);

@@ -2,12 +2,10 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Logging;
 
 namespace C2CS;
 
@@ -16,45 +14,36 @@ public abstract class UseCase<TRequest, TInput, TResponse>
     where TRequest : UseCaseRequest
     where TResponse : UseCaseResponse, new()
 {
-    private readonly string _useCaseName;
+    public readonly ILogger Logger;
+    private IDisposable? _loggerScope;
+    private IDisposable? _loggerScopeStep;
+    private readonly string _name;
+    private readonly Stopwatch _stopwatch;
     private readonly Stopwatch _stepStopwatch;
-    private readonly UseCaseStepMetaData[] _stepsMetaData;
     private readonly UseCaseValidator<TRequest, TInput> _validator;
-    private int _stepIndex;
 
-    protected UseCase(UseCaseValidator<TRequest, TInput> validator)
+    protected UseCase(string name, ILogger logger, UseCaseValidator<TRequest, TInput> validator)
     {
-        _useCaseName = GetName();
+        Logger = logger;
+        _name = name;
+        _stopwatch = new Stopwatch();
         _stepStopwatch = new Stopwatch();
-        _stepsMetaData = GetStepsMetaData().ToArray();
         _validator = validator;
-    }
-
-    private IEnumerable<UseCaseStepMetaData> GetStepsMetaData()
-    {
-        var methods = GetType().GetRuntimeMethods();
-        var useCaseStepAttributes = methods
-            .Select(x => x.GetCustomAttribute<UseCaseStepAttribute>())
-            .Where(x => x != null)
-            .Cast<UseCaseStepAttribute>()
-            .ToArray();
-
-        foreach (var attribute in useCaseStepAttributes)
-        {
-            var useCaseStepMetaData = new UseCaseStepMetaData
-            {
-                Name = attribute.StepName
-            };
-
-            yield return useCaseStepMetaData;
-        }
     }
 
     protected DiagnosticsSink Diagnostics { get; } = new();
 
     [DebuggerHidden]
-    public TResponse Execute(TRequest request)
+    public TResponse Execute(TRequest? request)
     {
+        if (request == null)
+        {
+            return new TResponse
+            {
+                IsSuccessful = false
+            };
+        }
+
         var previousCurrentDirectory = Environment.CurrentDirectory;
         Environment.CurrentDirectory = request.WorkingDirectory ?? Environment.CurrentDirectory;
 
@@ -90,37 +79,34 @@ public abstract class UseCase<TRequest, TInput, TResponse>
 
     private void Begin()
     {
+        _loggerScope = Logger.BeginScope(_name);
+        _stopwatch.Reset();
         _stepStopwatch.Reset();
         GarbageCollect();
-        Console.WriteLine(
-            $"{_useCaseName}: Started.");
+        Logger.UseCaseStarted();
+        _stopwatch.Start();
     }
 
     private void End(TResponse response)
     {
+        _stopwatch.Stop();
+        var timeSpan = _stopwatch.Elapsed;
+
         response.WithDiagnostics(Diagnostics.GetAll());
 
-        if (response.Status == UseCaseOutputStatus.Success)
+        if (response.IsSuccessful)
         {
-            Console.Write(
-                $"{_useCaseName}: Finished successfully.");
-            if (response.Diagnostics.Length > 0)
-            {
-                Console.WriteLine(
-                    $" However there are {response.Diagnostics.Length} diagnostics to report. This may be indicative of unexpected results. Please review the following diagnostics:");
-            }
-            else
-            {
-                Console.WriteLine();
-            }
+            Logger.UseCaseSucceeded(timeSpan);
         }
         else
         {
-            Console.WriteLine(
-                $"{_useCaseName}: Finished unsuccessfully. Review the following diagnostics for reason(s) why:");
+            Logger.UseCaseFailed(timeSpan);
         }
 
-        PrintDiagnostics(response.Diagnostics);
+        LogDiagnostics(response.Diagnostics);
+
+        _loggerScope?.Dispose();
+        _loggerScope = null;
         GarbageCollect();
     }
 
@@ -130,26 +116,22 @@ public abstract class UseCase<TRequest, TInput, TResponse>
         Diagnostics.Add(diagnostic);
     }
 
-    protected void BeginStep()
+    protected void BeginStep(string stepName)
     {
-        var stepMetaData = _stepsMetaData[_stepIndex++];
-        var stepCount = _stepsMetaData.Length;
-        Console.WriteLine($"\tStarted step ({_stepIndex}/{stepCount}) '{stepMetaData.Name}'");
-
-        _stepStopwatch.Start();
+        _stepStopwatch.Reset();
+        _loggerScopeStep = Logger.BeginScope(stepName);
         GarbageCollect();
+        Logger.UseCaseStepStarted();
+        _stepStopwatch.Start();
     }
 
     protected void EndStep()
     {
-        var stepMetaData = _stepsMetaData[_stepIndex - 1];
-        var stepCount = _stepsMetaData.Length;
         _stepStopwatch.Stop();
-
-        Console.WriteLine(
-            $"\tFinished step ({_stepIndex}/{stepCount}) '{stepMetaData.Name}' in {_stepStopwatch.Elapsed.TotalMilliseconds} ms");
-
-        _stepStopwatch.Reset();
+        var timeSpan = _stepStopwatch.Elapsed;
+        Logger.UseCaseStepFinished(timeSpan);
+        _loggerScopeStep?.Dispose();
+        _loggerScopeStep = null;
         GarbageCollect();
 
         if (!Diagnostics.HasError)
@@ -161,16 +143,7 @@ public abstract class UseCase<TRequest, TInput, TResponse>
         throw new UseCaseException(diagnostics);
     }
 
-    private string GetName()
-    {
-        var type = GetType()!;
-        var namespaceName = type.Namespace;
-        var lastNamespaceIndex = namespaceName!.LastIndexOf('.');
-        var name = namespaceName[(lastNamespaceIndex + 1)..];
-        return name;
-    }
-
-    private static void PrintDiagnostics(ImmutableArray<Diagnostic> diagnostics)
+    private static void LogDiagnostics(ImmutableArray<Diagnostic> diagnostics)
     {
         foreach (var diagnostic in diagnostics)
         {
