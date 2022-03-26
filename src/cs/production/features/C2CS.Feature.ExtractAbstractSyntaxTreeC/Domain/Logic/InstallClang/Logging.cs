@@ -7,19 +7,17 @@ namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Logic.InstallClang;
 
 internal static class Logging
 {
-    private const string Name = "Install Clang";
-
     private static readonly Action<ILogger, Exception> ActionFailed =
         LoggerMessage.Define(
             LogLevel.Trace,
-            LoggingEventRegistry.CreateEventIdentifier(Name + ": Failed."),
-            "- " + Name + ": Failed.");
+            LoggingEventRegistry.CreateEventIdentifier("Install Clang: Failed"),
+            "- Failed");
 
     private static readonly Action<ILogger, Exception> ActionSuccess =
         LoggerMessage.Define(
             LogLevel.Trace,
-            LoggingEventRegistry.CreateEventIdentifier(Name + ": Success."),
-            "- " + Name + ": Success.");
+            LoggingEventRegistry.CreateEventIdentifier("Install Clang: Success"),
+            "- Success");
 
     public static void InstallClangFailed(this ILogger logger, Exception exception)
     {

@@ -54,7 +54,7 @@
     ]
   },
   "cs": {
-    "outputFilePath": "../../../../src/cs/production/clang-cs/clang.cs",
+    "outputFilePath": "../../../../src/cs/production/infrastructure/clang-cs/clang.cs",
     "namespaceName": "bottlenoselabs"
   }
 }

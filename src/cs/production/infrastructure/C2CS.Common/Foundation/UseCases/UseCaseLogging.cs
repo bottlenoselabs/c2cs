@@ -10,28 +10,28 @@ internal static class UseCaseLogging
 {
     private static readonly Action<ILogger, Exception> ActionUseCaseStarted = LoggerMessage.Define(
         LogLevel.Information,
-        LoggingEventRegistry.CreateEventIdentifier("Use case started."),
-        "- Started.");
+        LoggingEventRegistry.CreateEventIdentifier("Use case started"),
+        "- Started");
 
     private static readonly Action<ILogger, TimeSpan, Exception> ActionUseCaseSucceeded = LoggerMessage.Define<TimeSpan>(
         LogLevel.Information,
-        LoggingEventRegistry.CreateEventIdentifier("Use case success."),
-        "- Success in {Elapsed:s\\.fff} seconds.");
+        LoggingEventRegistry.CreateEventIdentifier("Use case success"),
+        "- Success in {Elapsed:s\\.fff} seconds");
 
     private static readonly Action<ILogger, TimeSpan, Exception> ActionUseCaseFailed = LoggerMessage.Define<TimeSpan>(
         LogLevel.Information,
-        LoggingEventRegistry.CreateEventIdentifier("Use case failed."),
-        "- Failed in {Elapsed:s\\.fff} seconds.");
+        LoggingEventRegistry.CreateEventIdentifier("Use case failed"),
+        "- Failed in {Elapsed:s\\.fff} seconds");
 
     private static readonly Action<ILogger, Exception> ActionUseCaseStepStarted = LoggerMessage.Define(
         LogLevel.Information,
-        LoggingEventRegistry.CreateEventIdentifier("Use case step started."),
-        "- Step started.");
+        LoggingEventRegistry.CreateEventIdentifier("Use case step started"),
+        "- Step started");
 
     private static readonly Action<ILogger, TimeSpan, Exception> ActionUseCaseStepFinished = LoggerMessage.Define<TimeSpan>(
         LogLevel.Information,
-        LoggingEventRegistry.CreateEventIdentifier("Use case step finished."),
-        "- Step finished in {Elapsed:s\\.fff} seconds.");
+        LoggingEventRegistry.CreateEventIdentifier("Use case step finished"),
+        "- Step finished in {Elapsed:s\\.fff} seconds");
 
     public static void UseCaseStarted(this ILogger logger)
     {

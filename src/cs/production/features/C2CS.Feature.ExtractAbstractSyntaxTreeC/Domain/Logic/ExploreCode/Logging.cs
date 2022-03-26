@@ -7,49 +7,47 @@ namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Logic.ExploreCode;
 
 internal static class Logging
 {
-    private const string Name = "Explore C header file";
-
     private static readonly Action<ILogger, Exception> ActionExploreCodeFailed =
         LoggerMessage.Define(
             LogLevel.Trace,
-            LoggingEventRegistry.CreateEventIdentifier(Name + ": Failed."),
-            "- " + Name + ": Failed.");
+            LoggingEventRegistry.CreateEventIdentifier("Explore C header file: Failed"),
+            "- Failed");
 
     private static readonly Action<ILogger, Exception> ActionExploreCodeSuccess =
         LoggerMessage.Define(
             LogLevel.Trace,
-            LoggingEventRegistry.CreateEventIdentifier(Name + ": Success."),
-            "- " + Name + ": Success.");
+            LoggingEventRegistry.CreateEventIdentifier("Explore C header file: Success"),
+            "- Success");
 
     private static readonly Action<ILogger, string, Exception> ActionExploreCodeTranslationUnit =
         LoggerMessage.Define<string>(
             LogLevel.Trace,
-            LoggingEventRegistry.CreateEventIdentifier(Name + ": Translation unit."),
-            "- " + Name + ": Translation unit {FilePath}.");
+            LoggingEventRegistry.CreateEventIdentifier("Explore C header file: Translation unit"),
+            "- Translation unit {FilePath}");
 
     private static readonly Action<ILogger, string, Exception> ActionExploreCodeVariable =
         LoggerMessage.Define<string>(
             LogLevel.Trace,
-            LoggingEventRegistry.CreateEventIdentifier(Name + ": Variable."),
-            "- " + Name + ": Variable {Name}.");
+            LoggingEventRegistry.CreateEventIdentifier("Explore C header file: Variable"),
+            "- Variable {Name}");
 
     private static readonly Action<ILogger, string, Exception> ActionExploreCodeFunction =
         LoggerMessage.Define<string>(
             LogLevel.Trace,
-            LoggingEventRegistry.CreateEventIdentifier(Name + ": Function."),
-            "- " + Name + ": Function {Name}.");
+            LoggingEventRegistry.CreateEventIdentifier("Explore C header file: Function"),
+            "- Function {Name}");
 
     private static readonly Action<ILogger, string, Exception> ActionExploreCodeEnum =
         LoggerMessage.Define<string>(
             LogLevel.Trace,
-            LoggingEventRegistry.CreateEventIdentifier(Name + ": Enum."),
-            "- " + Name + ": Enum {Name}.");
+            LoggingEventRegistry.CreateEventIdentifier("Explore C header file: Enum"),
+            "- Enum {Name}");
 
     private static readonly Action<ILogger, string, Exception> ActionExploreCodeRecord =
         LoggerMessage.Define<string>(
             LogLevel.Trace,
-            LoggingEventRegistry.CreateEventIdentifier(Name + ": Enum."),
-            "- " + Name + ": Record {Name}.");
+            LoggingEventRegistry.CreateEventIdentifier("Explore C header file: Record"),
+            "- Record {Name}");
 
     public static void ExploreCodeFailed(this ILogger logger, Exception exception)
     {

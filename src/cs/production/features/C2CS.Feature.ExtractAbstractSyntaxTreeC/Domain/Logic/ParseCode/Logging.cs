@@ -7,19 +7,17 @@ namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Logic.ParseCode;
 
 internal static class Logging
 {
-    private const string Name = "Parsing C header file";
-
     private static readonly Action<ILogger, string, string, Exception> ActionFailed =
         LoggerMessage.Define<string, string>(
             LogLevel.Trace,
-            LoggingEventRegistry.CreateEventIdentifier("Parse translation unit: Failed."),
-            "- " + Name + ": Failed. Path: {FilePath} ; Clang arguments: {Arguments}");
+            LoggingEventRegistry.CreateEventIdentifier("Parse translation unit: Failed"),
+            "- Failed. Path: {FilePath} ; Clang arguments: {Arguments}");
 
     private static readonly Action<ILogger, string, string, int, Exception> ActionSuccess =
         LoggerMessage.Define<string, string, int>(
             LogLevel.Trace,
-            LoggingEventRegistry.CreateEventIdentifier("Parse translation unit: Success."),
-            "- " + Name + ": Success. Path: {FilePath} ; Clang arguments: {Arguments} ; Diagnostics: {DiagnosticsCount}");
+            LoggingEventRegistry.CreateEventIdentifier("Parse translation unit: Success"),
+            "- Success. Path: {FilePath} ; Clang arguments: {Arguments} ; Diagnostics: {DiagnosticsCount}");
 
     public static void ParseTranslationUnitFailed(this ILogger logger, string filePath, string arguments, Exception exception)
     {

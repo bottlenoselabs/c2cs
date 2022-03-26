@@ -25,175 +25,175 @@ namespace bottlenoselabs
         private const string LibraryName = "clang";
 
         // Function @ CXString.h:50:28 (clang-c/CXString.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CString clang_getCString(CXString @string);
 
         // Function @ Index.h:266:24 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXIndex clang_createIndex(int excludeDeclarationsFromPCH, int displayDiagnostics);
 
         // Function @ Index.h:358:25 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXString clang_getFileName(CXFile SFile);
 
         // Function @ Index.h:507:20 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int clang_Location_isInSystemHeader(CXSourceLocation location);
 
         // Function @ Index.h:674:21 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void clang_getFileLocation(CXSourceLocation location, CXFile* file, ulong* line, ulong* column, ulong* offset);
 
         // Function @ Index.h:861:25 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint clang_getNumDiagnostics(CXTranslationUnit Unit);
 
         // Function @ Index.h:872:29 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXDiagnostic clang_getDiagnostic(CXTranslationUnit Unit, uint Index);
 
         // Function @ Index.h:972:25 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXString clang_formatDiagnostic(CXDiagnostic Diagnostic, uint Options);
 
         // Function @ Index.h:982:25 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint clang_defaultDiagnosticDisplayOptions();
 
         // Function @ Index.h:988:5 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXDiagnosticSeverity clang_getDiagnosticSeverity(CXDiagnostic param);
 
         // Function @ Index.h:1418:33 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXErrorCode clang_parseTranslationUnit2(CXIndex CIdx, CString source_filename, CString* command_line_args, int num_command_line_args, CXUnsavedFile* unsaved_files, uint num_unsaved_files, uint options, CXTranslationUnit* out_TU);
 
         // Function @ Index.h:2705:25 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXCursor clang_getTranslationUnitCursor(CXTranslationUnit param);
 
         // Function @ Index.h:2725:34 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXCursorKind clang_getCursorKind(CXCursor param);
 
         // Function @ Index.h:2820:35 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXLinkageKind clang_getCursorLinkage(CXCursor cursor);
 
         // Function @ Index.h:2993:34 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXTranslationUnit clang_Cursor_getTranslationUnit(CXCursor param);
 
         // Function @ Index.h:3198:33 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXSourceLocation clang_getCursorLocation(CXCursor param);
 
         // Function @ Index.h:3211:30 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXSourceRange clang_getCursorExtent(CXCursor param);
 
         // Function @ Index.h:3414:23 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXType clang_getCursorType(CXCursor C);
 
         // Function @ Index.h:3422:25 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXString clang_getTypeSpelling(CXType CT);
 
         // Function @ Index.h:3430:23 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXType clang_getTypedefDeclUnderlyingType(CXCursor C);
 
         // Function @ Index.h:3438:23 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXType clang_getEnumDeclIntegerType(CXCursor C);
 
         // Function @ Index.h:3448:26 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern long clang_getEnumConstantDeclValue(CXCursor C);
 
         // Function @ Index.h:3633:25 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint clang_Cursor_isMacroFunctionLike(CXCursor C);
 
         // Function @ Index.h:3639:25 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint clang_Cursor_isMacroBuiltin(CXCursor C);
 
         // Function @ Index.h:3674:23 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXType clang_getPointeeType(CXType T);
 
         // Function @ Index.h:3679:25 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXCursor clang_getTypeDeclaration(CXType T);
 
         // Function @ Index.h:3701:35 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXCallingConv clang_getFunctionTypeCallingConv(CXType T);
 
         // Function @ Index.h:3708:23 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXType clang_getResultType(CXType T);
 
         // Function @ Index.h:3781:23 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXType clang_getCursorResultType(CXCursor C);
 
         // Function @ Index.h:3804:23 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXType clang_getElementType(CXType T);
 
         // Function @ Index.h:3819:23 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXType clang_getArrayElementType(CXType T);
 
         // Function @ Index.h:3826:26 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern long clang_getArraySize(CXType T);
 
         // Function @ Index.h:3833:23 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXType clang_Type_getNamedType(CXType T);
 
         // Function @ Index.h:3927:26 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern long clang_Type_getAlignOf(CXType T);
 
         // Function @ Index.h:3945:26 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern long clang_Type_getSizeOf(CXType T);
 
         // Function @ Index.h:3967:23 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXType clang_Type_getModifiedType(CXType T);
 
         // Function @ Index.h:3989:26 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern long clang_Cursor_getOffsetOfField(CXCursor C);
 
         // Function @ Index.h:3995:25 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint clang_Cursor_isAnonymous(CXCursor C);
 
         // Function @ Index.h:4217:25 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint clang_visitChildren(CXCursor parent, CXCursorVisitor visitor, CXClientData client_data);
 
         // Function @ Index.h:4312:25 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXString clang_getCursorSpelling(CXCursor param);
 
         // Function @ Index.h:5001:25 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern CXString clang_getTokenSpelling(CXTranslationUnit param, CXToken param2);
 
         // Function @ Index.h:5031:21 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void clang_tokenize(CXTranslationUnit TU, CXSourceRange Range, CXToken** Tokens, ulong* NumTokens);
 
         // Function @ Index.h:5070:21 (clang-c/Index.h)
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void clang_disposeTokens(CXTranslationUnit TU, CXToken* Tokens, uint NumTokens);
 
         // FunctionPointer @ Index.h:4191:35 (clang-c/Index.h)
@@ -415,6 +415,49 @@ namespace bottlenoselabs
             public static implicit operator CXClientData(void* data) => new() { Data = data };
         }
 
+        // Enum @ CXErrorCode.h:28:6 (clang-c/CXErrorCode.h)
+        public enum CXErrorCode : int
+        {
+            CXError_Success = 0,
+            CXError_Failure = 1,
+            CXError_Crashed = 2,
+            CXError_InvalidArguments = 3,
+            CXError_ASTReadError = 4
+        }
+
+        // Enum @ Index.h:125:6 (clang-c/Index.h)
+        public enum CXAvailabilityKind : int
+        {
+            CXAvailability_Available = 0,
+            CXAvailability_Deprecated = 1,
+            CXAvailability_NotAvailable = 2,
+            CXAvailability_NotAccessible = 3
+        }
+
+        // Enum @ Index.h:174:6 (clang-c/Index.h)
+        public enum CXCursor_ExceptionSpecificationKind : int
+        {
+            CXCursor_ExceptionSpecificationKind_None = 0,
+            CXCursor_ExceptionSpecificationKind_DynamicNone = 1,
+            CXCursor_ExceptionSpecificationKind_Dynamic = 2,
+            CXCursor_ExceptionSpecificationKind_MSAny = 3,
+            CXCursor_ExceptionSpecificationKind_BasicNoexcept = 4,
+            CXCursor_ExceptionSpecificationKind_ComputedNoexcept = 5,
+            CXCursor_ExceptionSpecificationKind_Unevaluated = 6,
+            CXCursor_ExceptionSpecificationKind_Uninstantiated = 7,
+            CXCursor_ExceptionSpecificationKind_Unparsed = 8,
+            CXCursor_ExceptionSpecificationKind_NoThrow = 9
+        }
+
+        // Enum @ Index.h:277:9 (clang-c/Index.h)
+        public enum CXGlobalOptFlags : int
+        {
+            CXGlobalOpt_None = 0,
+            CXGlobalOpt_ThreadBackgroundPriorityForIndexing = 1,
+            CXGlobalOpt_ThreadBackgroundPriorityForEditing = 2,
+            CXGlobalOpt_ThreadBackgroundPriorityForAll = 3
+        }
+
         // Enum @ Index.h:739:6 (clang-c/Index.h)
         public enum CXDiagnosticSeverity : int
         {
@@ -425,14 +468,90 @@ namespace bottlenoselabs
             CXDiagnostic_Fatal = 4
         }
 
-        // Enum @ CXErrorCode.h:28:6 (clang-c/CXErrorCode.h)
-        public enum CXErrorCode : int
+        // Enum @ Index.h:803:6 (clang-c/Index.h)
+        public enum CXLoadDiag_Error : int
         {
-            CXError_Success = 0,
-            CXError_Failure = 1,
-            CXError_Crashed = 2,
-            CXError_InvalidArguments = 3,
-            CXError_ASTReadError = 4
+            CXLoadDiag_None = 0,
+            CXLoadDiag_Unknown = 1,
+            CXLoadDiag_CannotLoad = 2,
+            CXLoadDiag_InvalidFile = 3
+        }
+
+        // Enum @ Index.h:895:6 (clang-c/Index.h)
+        public enum CXDiagnosticDisplayOptions : int
+        {
+            CXDiagnostic_DisplaySourceLocation = 1,
+            CXDiagnostic_DisplayColumn = 2,
+            CXDiagnostic_DisplaySourceRanges = 4,
+            CXDiagnostic_DisplayOption = 8,
+            CXDiagnostic_DisplayCategoryId = 16,
+            CXDiagnostic_DisplayCategoryName = 32
+        }
+
+        // Enum @ Index.h:1199:6 (clang-c/Index.h)
+        public enum CXTranslationUnit_Flags : int
+        {
+            CXTranslationUnit_None = 0,
+            CXTranslationUnit_DetailedPreprocessingRecord = 1,
+            CXTranslationUnit_Incomplete = 2,
+            CXTranslationUnit_PrecompiledPreamble = 4,
+            CXTranslationUnit_CacheCompletionResults = 8,
+            CXTranslationUnit_ForSerialization = 16,
+            CXTranslationUnit_CXXChainedPCH = 32,
+            CXTranslationUnit_SkipFunctionBodies = 64,
+            CXTranslationUnit_IncludeBriefCommentsInCodeCompletion = 128,
+            CXTranslationUnit_CreatePreambleOnFirstParse = 256,
+            CXTranslationUnit_KeepGoing = 512,
+            CXTranslationUnit_SingleFileParse = 1024,
+            CXTranslationUnit_LimitSkipFunctionBodiesToPreamble = 2048,
+            CXTranslationUnit_IncludeAttributedTypes = 4096,
+            CXTranslationUnit_VisitImplicitAttributes = 8192,
+            CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles = 16384,
+            CXTranslationUnit_RetainExcludedConditionalBlocks = 32768
+        }
+
+        // Enum @ Index.h:1442:6 (clang-c/Index.h)
+        public enum CXSaveTranslationUnit_Flags : int
+        {
+            CXSaveTranslationUnit_None = 0
+        }
+
+        // Enum @ Index.h:1464:6 (clang-c/Index.h)
+        public enum CXSaveError : int
+        {
+            CXSaveError_None = 0,
+            CXSaveError_Unknown = 1,
+            CXSaveError_TranslationErrors = 2,
+            CXSaveError_InvalidTU = 3
+        }
+
+        // Enum @ Index.h:1543:6 (clang-c/Index.h)
+        public enum CXReparse_Flags : int
+        {
+            CXReparse_None = 0
+        }
+
+        // Enum @ Index.h:1609:6 (clang-c/Index.h)
+        public enum CXTUResourceUsageKind : int
+        {
+            CXTUResourceUsage_AST = 1,
+            CXTUResourceUsage_Identifiers = 2,
+            CXTUResourceUsage_Selectors = 3,
+            CXTUResourceUsage_GlobalCompletionResults = 4,
+            CXTUResourceUsage_SourceManagerContentCache = 5,
+            CXTUResourceUsage_AST_SideTables = 6,
+            CXTUResourceUsage_SourceManager_Membuffer_Malloc = 7,
+            CXTUResourceUsage_SourceManager_Membuffer_MMap = 8,
+            CXTUResourceUsage_ExternalASTSource_Membuffer_Malloc = 9,
+            CXTUResourceUsage_ExternalASTSource_Membuffer_MMap = 10,
+            CXTUResourceUsage_Preprocessor = 11,
+            CXTUResourceUsage_PreprocessingRecord = 12,
+            CXTUResourceUsage_SourceManager_DataStructures = 13,
+            CXTUResourceUsage_Preprocessor_HeaderSearch = 14,
+            CXTUResourceUsage_MEMORY_IN_BYTES_BEGIN = 1,
+            CXTUResourceUsage_MEMORY_IN_BYTES_END = 14,
+            CXTUResourceUsage_First = 1,
+            CXTUResourceUsage_Last = 14
         }
 
         // Enum @ Index.h:1706:6 (clang-c/Index.h)
@@ -715,29 +834,30 @@ namespace bottlenoselabs
             CXLinkage_External = 4
         }
 
-        // Enum @ Index.h:3377:6 (clang-c/Index.h)
-        public enum CXCallingConv : int
+        // Enum @ Index.h:2822:6 (clang-c/Index.h)
+        public enum CXVisibilityKind : int
         {
-            CXCallingConv_Default = 0,
-            CXCallingConv_C = 1,
-            CXCallingConv_X86StdCall = 2,
-            CXCallingConv_X86FastCall = 3,
-            CXCallingConv_X86ThisCall = 4,
-            CXCallingConv_X86Pascal = 5,
-            CXCallingConv_AAPCS = 6,
-            CXCallingConv_AAPCS_VFP = 7,
-            CXCallingConv_X86RegCall = 8,
-            CXCallingConv_IntelOclBicc = 9,
-            CXCallingConv_Win64 = 10,
-            CXCallingConv_X86_64Win64 = 10,
-            CXCallingConv_X86_64SysV = 11,
-            CXCallingConv_X86VectorCall = 12,
-            CXCallingConv_Swift = 13,
-            CXCallingConv_PreserveMost = 14,
-            CXCallingConv_PreserveAll = 15,
-            CXCallingConv_AArch64VectorCall = 16,
-            CXCallingConv_Invalid = 100,
-            CXCallingConv_Unexposed = 200
+            CXVisibility_Invalid = 0,
+            CXVisibility_Hidden = 1,
+            CXVisibility_Protected = 2,
+            CXVisibility_Default = 3
+        }
+
+        // Enum @ Index.h:2966:6 (clang-c/Index.h)
+        public enum CXLanguageKind : int
+        {
+            CXLanguage_Invalid = 0,
+            CXLanguage_C = 1,
+            CXLanguage_ObjC = 2,
+            CXLanguage_CPlusPlus = 3
+        }
+
+        // Enum @ Index.h:2982:6 (clang-c/Index.h)
+        public enum CXTLSKind : int
+        {
+            CXTLS_None = 0,
+            CXTLS_Dynamic = 1,
+            CXTLS_Static = 2
         }
 
         // Enum @ Index.h:3226:6 (clang-c/Index.h)
@@ -865,6 +985,97 @@ namespace bottlenoselabs
             CXType_Atomic = 177
         }
 
+        // Enum @ Index.h:3377:6 (clang-c/Index.h)
+        public enum CXCallingConv : int
+        {
+            CXCallingConv_Default = 0,
+            CXCallingConv_C = 1,
+            CXCallingConv_X86StdCall = 2,
+            CXCallingConv_X86FastCall = 3,
+            CXCallingConv_X86ThisCall = 4,
+            CXCallingConv_X86Pascal = 5,
+            CXCallingConv_AAPCS = 6,
+            CXCallingConv_AAPCS_VFP = 7,
+            CXCallingConv_X86RegCall = 8,
+            CXCallingConv_IntelOclBicc = 9,
+            CXCallingConv_Win64 = 10,
+            CXCallingConv_X86_64Win64 = 10,
+            CXCallingConv_X86_64SysV = 11,
+            CXCallingConv_X86VectorCall = 12,
+            CXCallingConv_Swift = 13,
+            CXCallingConv_PreserveMost = 14,
+            CXCallingConv_PreserveAll = 15,
+            CXCallingConv_AArch64VectorCall = 16,
+            CXCallingConv_Invalid = 100,
+            CXCallingConv_Unexposed = 200
+        }
+
+        // Enum @ Index.h:3492:6 (clang-c/Index.h)
+        public enum CXTemplateArgumentKind : int
+        {
+            CXTemplateArgumentKind_Null = 0,
+            CXTemplateArgumentKind_Type = 1,
+            CXTemplateArgumentKind_Declaration = 2,
+            CXTemplateArgumentKind_NullPtr = 3,
+            CXTemplateArgumentKind_Integral = 4,
+            CXTemplateArgumentKind_Template = 5,
+            CXTemplateArgumentKind_TemplateExpansion = 6,
+            CXTemplateArgumentKind_Expression = 7,
+            CXTemplateArgumentKind_Pack = 8,
+            CXTemplateArgumentKind_Invalid = 9
+        }
+
+        // Enum @ Index.h:3845:6 (clang-c/Index.h)
+        public enum CXTypeNullabilityKind : int
+        {
+            CXTypeNullability_NonNull = 0,
+            CXTypeNullability_Nullable = 1,
+            CXTypeNullability_Unspecified = 2,
+            CXTypeNullability_Invalid = 3,
+            CXTypeNullability_NullableResult = 4
+        }
+
+        // Enum @ Index.h:3888:6 (clang-c/Index.h)
+        public enum CXTypeLayoutError : int
+        {
+            CXTypeLayoutError_Invalid = -1,
+            CXTypeLayoutError_Incomplete = -2,
+            CXTypeLayoutError_Dependent = -3,
+            CXTypeLayoutError_NotConstantSize = -4,
+            CXTypeLayoutError_InvalidFieldName = -5,
+            CXTypeLayoutError_Undeduced = -6
+        }
+
+        // Enum @ Index.h:4009:6 (clang-c/Index.h)
+        public enum CXRefQualifierKind : int
+        {
+            CXRefQualifier_None = 0,
+            CXRefQualifier_LValue = 1,
+            CXRefQualifier_RValue = 2
+        }
+
+        // Enum @ Index.h:4058:6 (clang-c/Index.h)
+        public enum CX_CXXAccessSpecifier : int
+        {
+            CX_CXXInvalidAccessSpecifier = 0,
+            CX_CXXPublic = 1,
+            CX_CXXProtected = 2,
+            CX_CXXPrivate = 3
+        }
+
+        // Enum @ Index.h:4078:6 (clang-c/Index.h)
+        public enum CX_StorageClass : int
+        {
+            CX_SC_Invalid = 0,
+            CX_SC_None = 1,
+            CX_SC_Extern = 2,
+            CX_SC_Static = 3,
+            CX_SC_PrivateExtern = 4,
+            CX_SC_OpenCLWorkGroupLocal = 5,
+            CX_SC_Auto = 6,
+            CX_SC_Register = 7
+        }
+
         // Enum @ Index.h:4162:6 (clang-c/Index.h)
         public enum CXChildVisitResult : int
         {
@@ -873,380 +1084,286 @@ namespace bottlenoselabs
             CXChildVisit_Recurse = 2
         }
 
-        // Pseudo enum 'CXAvailabilityKind' @ Index.h:125:6 (clang-c/Index.h)
-        public const int CXAvailability_Available = 0;
-        public const int CXAvailability_Deprecated = 1;
-        public const int CXAvailability_NotAvailable = 2;
-        public const int CXAvailability_NotAccessible = 3;
+        // Enum @ Index.h:4339:6 (clang-c/Index.h)
+        public enum CXPrintingPolicyProperty : int
+        {
+            CXPrintingPolicy_Indentation = 0,
+            CXPrintingPolicy_SuppressSpecifiers = 1,
+            CXPrintingPolicy_SuppressTagKeyword = 2,
+            CXPrintingPolicy_IncludeTagDefinition = 3,
+            CXPrintingPolicy_SuppressScope = 4,
+            CXPrintingPolicy_SuppressUnwrittenScope = 5,
+            CXPrintingPolicy_SuppressInitializers = 6,
+            CXPrintingPolicy_ConstantArraySizeAsWritten = 7,
+            CXPrintingPolicy_AnonymousTagLocations = 8,
+            CXPrintingPolicy_SuppressStrongLifetime = 9,
+            CXPrintingPolicy_SuppressLifetimeQualifiers = 10,
+            CXPrintingPolicy_SuppressTemplateArgsInCXXConstructors = 11,
+            CXPrintingPolicy_Bool = 12,
+            CXPrintingPolicy_Restrict = 13,
+            CXPrintingPolicy_Alignof = 14,
+            CXPrintingPolicy_UnderscoreAlignof = 15,
+            CXPrintingPolicy_UseVoidForZeroParams = 16,
+            CXPrintingPolicy_TerseOutput = 17,
+            CXPrintingPolicy_PolishForDeclaration = 18,
+            CXPrintingPolicy_Half = 19,
+            CXPrintingPolicy_MSWChar = 20,
+            CXPrintingPolicy_IncludeNewlines = 21,
+            CXPrintingPolicy_MSVCFormatting = 22,
+            CXPrintingPolicy_ConstantsAsWritten = 23,
+            CXPrintingPolicy_SuppressImplicitBase = 24,
+            CXPrintingPolicy_FullyQualifiedName = 25,
+            CXPrintingPolicy_LastProperty = 25
+        }
 
-        // Pseudo enum 'CXCursor_ExceptionSpecificationKind' @ Index.h:174:6 (clang-c/Index.h)
-        public const int CXCursor_ExceptionSpecificationKind_None = 0;
-        public const int CXCursor_ExceptionSpecificationKind_DynamicNone = 1;
-        public const int CXCursor_ExceptionSpecificationKind_Dynamic = 2;
-        public const int CXCursor_ExceptionSpecificationKind_MSAny = 3;
-        public const int CXCursor_ExceptionSpecificationKind_BasicNoexcept = 4;
-        public const int CXCursor_ExceptionSpecificationKind_ComputedNoexcept = 5;
-        public const int CXCursor_ExceptionSpecificationKind_Unevaluated = 6;
-        public const int CXCursor_ExceptionSpecificationKind_Uninstantiated = 7;
-        public const int CXCursor_ExceptionSpecificationKind_Unparsed = 8;
-        public const int CXCursor_ExceptionSpecificationKind_NoThrow = 9;
+        // Enum @ Index.h:4530:9 (clang-c/Index.h)
+        public enum CXObjCPropertyAttrKind : int
+        {
+            CXObjCPropertyAttr_noattr = 0,
+            CXObjCPropertyAttr_readonly = 1,
+            CXObjCPropertyAttr_getter = 2,
+            CXObjCPropertyAttr_assign = 4,
+            CXObjCPropertyAttr_readwrite = 8,
+            CXObjCPropertyAttr_retain = 16,
+            CXObjCPropertyAttr_copy = 32,
+            CXObjCPropertyAttr_nonatomic = 64,
+            CXObjCPropertyAttr_setter = 128,
+            CXObjCPropertyAttr_atomic = 256,
+            CXObjCPropertyAttr_weak = 512,
+            CXObjCPropertyAttr_strong = 1024,
+            CXObjCPropertyAttr_unsafe_unretained = 2048,
+            CXObjCPropertyAttr_class = 4096
+        }
 
-        // Pseudo enum 'CXGlobalOptFlags' @ Index.h:277:9 (clang-c/Index.h)
-        public const int CXGlobalOpt_None = 0;
-        public const int CXGlobalOpt_ThreadBackgroundPriorityForIndexing = 1;
-        public const int CXGlobalOpt_ThreadBackgroundPriorityForEditing = 2;
-        public const int CXGlobalOpt_ThreadBackgroundPriorityForAll = 3;
+        // Enum @ Index.h:4573:9 (clang-c/Index.h)
+        public enum CXObjCDeclQualifierKind : int
+        {
+            CXObjCDeclQualifier_None = 0,
+            CXObjCDeclQualifier_In = 1,
+            CXObjCDeclQualifier_Inout = 2,
+            CXObjCDeclQualifier_Out = 4,
+            CXObjCDeclQualifier_Bycopy = 8,
+            CXObjCDeclQualifier_Byref = 16,
+            CXObjCDeclQualifier_Oneway = 32
+        }
 
-        // Pseudo enum 'CXLoadDiag_Error' @ Index.h:803:6 (clang-c/Index.h)
-        public const int CXLoadDiag_None = 0;
-        public const int CXLoadDiag_Unknown = 1;
-        public const int CXLoadDiag_CannotLoad = 2;
-        public const int CXLoadDiag_InvalidFile = 3;
+        // Enum @ Index.h:4898:6 (clang-c/Index.h)
+        public enum CXNameRefFlags : int
+        {
+            CXNameRange_WantQualifier = 1,
+            CXNameRange_WantTemplateArgs = 2,
+            CXNameRange_WantSinglePiece = 4
+        }
 
-        // Pseudo enum 'CXDiagnosticDisplayOptions' @ Index.h:895:6 (clang-c/Index.h)
-        public const int CXDiagnostic_DisplaySourceLocation = 1;
-        public const int CXDiagnostic_DisplayColumn = 2;
-        public const int CXDiagnostic_DisplaySourceRanges = 4;
-        public const int CXDiagnostic_DisplayOption = 8;
-        public const int CXDiagnostic_DisplayCategoryId = 16;
-        public const int CXDiagnostic_DisplayCategoryName = 32;
+        // Enum @ Index.h:4941:14 (clang-c/Index.h)
+        public enum CXTokenKind : int
+        {
+            CXToken_Punctuation = 0,
+            CXToken_Keyword = 1,
+            CXToken_Identifier = 2,
+            CXToken_Literal = 3,
+            CXToken_Comment = 4
+        }
 
-        // Pseudo enum 'CXTranslationUnit_Flags' @ Index.h:1199:6 (clang-c/Index.h)
-        public const int CXTranslationUnit_None = 0;
-        public const int CXTranslationUnit_DetailedPreprocessingRecord = 1;
-        public const int CXTranslationUnit_Incomplete = 2;
-        public const int CXTranslationUnit_PrecompiledPreamble = 4;
-        public const int CXTranslationUnit_CacheCompletionResults = 8;
-        public const int CXTranslationUnit_ForSerialization = 16;
-        public const int CXTranslationUnit_CXXChainedPCH = 32;
-        public const int CXTranslationUnit_SkipFunctionBodies = 64;
-        public const int CXTranslationUnit_IncludeBriefCommentsInCodeCompletion = 128;
-        public const int CXTranslationUnit_CreatePreambleOnFirstParse = 256;
-        public const int CXTranslationUnit_KeepGoing = 512;
-        public const int CXTranslationUnit_SingleFileParse = 1024;
-        public const int CXTranslationUnit_LimitSkipFunctionBodiesToPreamble = 2048;
-        public const int CXTranslationUnit_IncludeAttributedTypes = 4096;
-        public const int CXTranslationUnit_VisitImplicitAttributes = 8192;
-        public const int CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles = 16384;
-        public const int CXTranslationUnit_RetainExcludedConditionalBlocks = 32768;
+        // Enum @ Index.h:5156:6 (clang-c/Index.h)
+        public enum CXCompletionChunkKind : int
+        {
+            CXCompletionChunk_Optional = 0,
+            CXCompletionChunk_TypedText = 1,
+            CXCompletionChunk_Text = 2,
+            CXCompletionChunk_Placeholder = 3,
+            CXCompletionChunk_Informative = 4,
+            CXCompletionChunk_CurrentParameter = 5,
+            CXCompletionChunk_LeftParen = 6,
+            CXCompletionChunk_RightParen = 7,
+            CXCompletionChunk_LeftBracket = 8,
+            CXCompletionChunk_RightBracket = 9,
+            CXCompletionChunk_LeftBrace = 10,
+            CXCompletionChunk_RightBrace = 11,
+            CXCompletionChunk_LeftAngle = 12,
+            CXCompletionChunk_RightAngle = 13,
+            CXCompletionChunk_Comma = 14,
+            CXCompletionChunk_ResultType = 15,
+            CXCompletionChunk_Colon = 16,
+            CXCompletionChunk_SemiColon = 17,
+            CXCompletionChunk_Equal = 18,
+            CXCompletionChunk_HorizontalSpace = 19,
+            CXCompletionChunk_VerticalSpace = 20
+        }
 
-        // Pseudo enum 'CXSaveTranslationUnit_Flags' @ Index.h:1442:6 (clang-c/Index.h)
-        public const int CXSaveTranslationUnit_None = 0;
+        // Enum @ Index.h:5547:6 (clang-c/Index.h)
+        public enum CXCodeComplete_Flags : int
+        {
+            CXCodeComplete_IncludeMacros = 1,
+            CXCodeComplete_IncludeCodePatterns = 2,
+            CXCodeComplete_IncludeBriefComments = 4,
+            CXCodeComplete_SkipPreamble = 8,
+            CXCodeComplete_IncludeCompletionsWithFixIts = 16
+        }
 
-        // Pseudo enum 'CXSaveError' @ Index.h:1464:6 (clang-c/Index.h)
-        public const int CXSaveError_None = 0;
-        public const int CXSaveError_Unknown = 1;
-        public const int CXSaveError_TranslationErrors = 2;
-        public const int CXSaveError_InvalidTU = 3;
+        // Enum @ Index.h:5586:6 (clang-c/Index.h)
+        public enum CXCompletionContext : int
+        {
+            CXCompletionContext_Unexposed = 0,
+            CXCompletionContext_AnyType = 1,
+            CXCompletionContext_AnyValue = 2,
+            CXCompletionContext_ObjCObjectValue = 4,
+            CXCompletionContext_ObjCSelectorValue = 8,
+            CXCompletionContext_CXXClassTypeValue = 16,
+            CXCompletionContext_DotMemberAccess = 32,
+            CXCompletionContext_ArrowMemberAccess = 64,
+            CXCompletionContext_ObjCPropertyAccess = 128,
+            CXCompletionContext_EnumTag = 256,
+            CXCompletionContext_UnionTag = 512,
+            CXCompletionContext_StructTag = 1024,
+            CXCompletionContext_ClassTag = 2048,
+            CXCompletionContext_Namespace = 4096,
+            CXCompletionContext_NestedNameSpecifier = 8192,
+            CXCompletionContext_ObjCInterface = 16384,
+            CXCompletionContext_ObjCProtocol = 32768,
+            CXCompletionContext_ObjCCategory = 65536,
+            CXCompletionContext_ObjCInstanceMessage = 131072,
+            CXCompletionContext_ObjCClassMessage = 262144,
+            CXCompletionContext_ObjCSelectorName = 524288,
+            CXCompletionContext_MacroName = 1048576,
+            CXCompletionContext_NaturalLanguage = 2097152,
+            CXCompletionContext_IncludedFile = 4194304,
+            CXCompletionContext_Unknown = 8388607
+        }
 
-        // Pseudo enum 'CXReparse_Flags' @ Index.h:1543:6 (clang-c/Index.h)
-        public const int CXReparse_None = 0;
+        // Enum @ Index.h:5944:9 (clang-c/Index.h)
+        public enum CXEvalResultKind : int
+        {
+            CXEval_Int = 1,
+            CXEval_Float = 2,
+            CXEval_ObjCStrLiteral = 3,
+            CXEval_StrLiteral = 4,
+            CXEval_CFStr = 5,
+            CXEval_Other = 6,
+            CXEval_UnExposed = 0
+        }
 
-        // Pseudo enum 'CXTUResourceUsageKind' @ Index.h:1609:6 (clang-c/Index.h)
-        public const int CXTUResourceUsage_AST = 1;
-        public const int CXTUResourceUsage_Identifiers = 2;
-        public const int CXTUResourceUsage_Selectors = 3;
-        public const int CXTUResourceUsage_GlobalCompletionResults = 4;
-        public const int CXTUResourceUsage_SourceManagerContentCache = 5;
-        public const int CXTUResourceUsage_AST_SideTables = 6;
-        public const int CXTUResourceUsage_SourceManager_Membuffer_Malloc = 7;
-        public const int CXTUResourceUsage_SourceManager_Membuffer_MMap = 8;
-        public const int CXTUResourceUsage_ExternalASTSource_Membuffer_Malloc = 9;
-        public const int CXTUResourceUsage_ExternalASTSource_Membuffer_MMap = 10;
-        public const int CXTUResourceUsage_Preprocessor = 11;
-        public const int CXTUResourceUsage_PreprocessingRecord = 12;
-        public const int CXTUResourceUsage_SourceManager_DataStructures = 13;
-        public const int CXTUResourceUsage_Preprocessor_HeaderSearch = 14;
-        public const int CXTUResourceUsage_MEMORY_IN_BYTES_BEGIN = 1;
-        public const int CXTUResourceUsage_MEMORY_IN_BYTES_END = 14;
-        public const int CXTUResourceUsage_First = 1;
-        public const int CXTUResourceUsage_Last = 14;
+        // Enum @ Index.h:6087:6 (clang-c/Index.h)
+        public enum CXVisitorResult : int
+        {
+            CXVisit_Break = 0,
+            CXVisit_Continue = 1
+        }
 
-        // Pseudo enum 'CXVisibilityKind' @ Index.h:2822:6 (clang-c/Index.h)
-        public const int CXVisibility_Invalid = 0;
-        public const int CXVisibility_Hidden = 1;
-        public const int CXVisibility_Protected = 2;
-        public const int CXVisibility_Default = 3;
+        // Enum @ Index.h:6094:9 (clang-c/Index.h)
+        public enum CXResult : int
+        {
+            CXResult_Success = 0,
+            CXResult_Invalid = 1,
+            CXResult_VisitBreak = 2
+        }
 
-        // Pseudo enum 'CXLanguageKind' @ Index.h:2966:6 (clang-c/Index.h)
-        public const int CXLanguage_Invalid = 0;
-        public const int CXLanguage_C = 1;
-        public const int CXLanguage_ObjC = 2;
-        public const int CXLanguage_CPlusPlus = 3;
+        // Enum @ Index.h:6239:9 (clang-c/Index.h)
+        public enum CXIdxEntityKind : int
+        {
+            CXIdxEntity_Unexposed = 0,
+            CXIdxEntity_Typedef = 1,
+            CXIdxEntity_Function = 2,
+            CXIdxEntity_Variable = 3,
+            CXIdxEntity_Field = 4,
+            CXIdxEntity_EnumConstant = 5,
+            CXIdxEntity_ObjCClass = 6,
+            CXIdxEntity_ObjCProtocol = 7,
+            CXIdxEntity_ObjCCategory = 8,
+            CXIdxEntity_ObjCInstanceMethod = 9,
+            CXIdxEntity_ObjCClassMethod = 10,
+            CXIdxEntity_ObjCProperty = 11,
+            CXIdxEntity_ObjCIvar = 12,
+            CXIdxEntity_Enum = 13,
+            CXIdxEntity_Struct = 14,
+            CXIdxEntity_Union = 15,
+            CXIdxEntity_CXXClass = 16,
+            CXIdxEntity_CXXNamespace = 17,
+            CXIdxEntity_CXXNamespaceAlias = 18,
+            CXIdxEntity_CXXStaticVariable = 19,
+            CXIdxEntity_CXXStaticMethod = 20,
+            CXIdxEntity_CXXInstanceMethod = 21,
+            CXIdxEntity_CXXConstructor = 22,
+            CXIdxEntity_CXXDestructor = 23,
+            CXIdxEntity_CXXConversionFunction = 24,
+            CXIdxEntity_CXXTypeAlias = 25,
+            CXIdxEntity_CXXInterface = 26
+        }
 
-        // Pseudo enum 'CXTLSKind' @ Index.h:2982:6 (clang-c/Index.h)
-        public const int CXTLS_None = 0;
-        public const int CXTLS_Dynamic = 1;
-        public const int CXTLS_Static = 2;
+        // Enum @ Index.h:6274:9 (clang-c/Index.h)
+        public enum CXIdxEntityLanguage : int
+        {
+            CXIdxEntityLang_None = 0,
+            CXIdxEntityLang_C = 1,
+            CXIdxEntityLang_ObjC = 2,
+            CXIdxEntityLang_CXX = 3,
+            CXIdxEntityLang_Swift = 4
+        }
 
-        // Pseudo enum 'CXTemplateArgumentKind' @ Index.h:3492:6 (clang-c/Index.h)
-        public const int CXTemplateArgumentKind_Null = 0;
-        public const int CXTemplateArgumentKind_Type = 1;
-        public const int CXTemplateArgumentKind_Declaration = 2;
-        public const int CXTemplateArgumentKind_NullPtr = 3;
-        public const int CXTemplateArgumentKind_Integral = 4;
-        public const int CXTemplateArgumentKind_Template = 5;
-        public const int CXTemplateArgumentKind_TemplateExpansion = 6;
-        public const int CXTemplateArgumentKind_Expression = 7;
-        public const int CXTemplateArgumentKind_Pack = 8;
-        public const int CXTemplateArgumentKind_Invalid = 9;
+        // Enum @ Index.h:6292:9 (clang-c/Index.h)
+        public enum CXIdxEntityCXXTemplateKind : int
+        {
+            CXIdxEntity_NonTemplate = 0,
+            CXIdxEntity_Template = 1,
+            CXIdxEntity_TemplatePartialSpecialization = 2,
+            CXIdxEntity_TemplateSpecialization = 3
+        }
 
-        // Pseudo enum 'CXTypeNullabilityKind' @ Index.h:3845:6 (clang-c/Index.h)
-        public const int CXTypeNullability_NonNull = 0;
-        public const int CXTypeNullability_Nullable = 1;
-        public const int CXTypeNullability_Unspecified = 2;
-        public const int CXTypeNullability_Invalid = 3;
-        public const int CXTypeNullability_NullableResult = 4;
+        // Enum @ Index.h:6299:9 (clang-c/Index.h)
+        public enum CXIdxAttrKind : int
+        {
+            CXIdxAttr_Unexposed = 0,
+            CXIdxAttr_IBAction = 1,
+            CXIdxAttr_IBOutlet = 2,
+            CXIdxAttr_IBOutletCollection = 3
+        }
 
-        // Pseudo enum 'CXTypeLayoutError' @ Index.h:3888:6 (clang-c/Index.h)
-        public const int CXTypeLayoutError_Invalid = -1;
-        public const int CXTypeLayoutError_Incomplete = -2;
-        public const int CXTypeLayoutError_Dependent = -3;
-        public const int CXTypeLayoutError_NotConstantSize = -4;
-        public const int CXTypeLayoutError_InvalidFieldName = -5;
-        public const int CXTypeLayoutError_Undeduced = -6;
+        // Enum @ Index.h:6334:9 (clang-c/Index.h)
+        public enum CXIdxDeclInfoFlags : int
+        {
+            CXIdxDeclFlag_Skipped = 1
+        }
 
-        // Pseudo enum 'CXRefQualifierKind' @ Index.h:4009:6 (clang-c/Index.h)
-        public const int CXRefQualifier_None = 0;
-        public const int CXRefQualifier_LValue = 1;
-        public const int CXRefQualifier_RValue = 2;
+        // Enum @ Index.h:6362:9 (clang-c/Index.h)
+        public enum CXIdxObjCContainerKind : int
+        {
+            CXIdxObjCContainer_ForwardRef = 0,
+            CXIdxObjCContainer_Interface = 1,
+            CXIdxObjCContainer_Implementation = 2
+        }
 
-        // Pseudo enum 'CX_CXXAccessSpecifier' @ Index.h:4058:6 (clang-c/Index.h)
-        public const int CX_CXXInvalidAccessSpecifier = 0;
-        public const int CX_CXXPublic = 1;
-        public const int CX_CXXProtected = 2;
-        public const int CX_CXXPrivate = 3;
+        // Enum @ Index.h:6422:9 (clang-c/Index.h)
+        public enum CXIdxEntityRefKind : int
+        {
+            CXIdxEntityRef_Direct = 1,
+            CXIdxEntityRef_Implicit = 2
+        }
 
-        // Pseudo enum 'CX_StorageClass' @ Index.h:4078:6 (clang-c/Index.h)
-        public const int CX_SC_Invalid = 0;
-        public const int CX_SC_None = 1;
-        public const int CX_SC_Extern = 2;
-        public const int CX_SC_Static = 3;
-        public const int CX_SC_PrivateExtern = 4;
-        public const int CX_SC_OpenCLWorkGroupLocal = 5;
-        public const int CX_SC_Auto = 6;
-        public const int CX_SC_Register = 7;
+        // Enum @ Index.h:6440:9 (clang-c/Index.h)
+        public enum CXSymbolRole : int
+        {
+            CXSymbolRole_None = 0,
+            CXSymbolRole_Declaration = 1,
+            CXSymbolRole_Definition = 2,
+            CXSymbolRole_Reference = 4,
+            CXSymbolRole_Read = 8,
+            CXSymbolRole_Write = 16,
+            CXSymbolRole_Call = 32,
+            CXSymbolRole_Dynamic = 64,
+            CXSymbolRole_AddressOf = 128,
+            CXSymbolRole_Implicit = 256
+        }
 
-        // Pseudo enum 'CXPrintingPolicyProperty' @ Index.h:4339:6 (clang-c/Index.h)
-        public const int CXPrintingPolicy_Indentation = 0;
-        public const int CXPrintingPolicy_SuppressSpecifiers = 1;
-        public const int CXPrintingPolicy_SuppressTagKeyword = 2;
-        public const int CXPrintingPolicy_IncludeTagDefinition = 3;
-        public const int CXPrintingPolicy_SuppressScope = 4;
-        public const int CXPrintingPolicy_SuppressUnwrittenScope = 5;
-        public const int CXPrintingPolicy_SuppressInitializers = 6;
-        public const int CXPrintingPolicy_ConstantArraySizeAsWritten = 7;
-        public const int CXPrintingPolicy_AnonymousTagLocations = 8;
-        public const int CXPrintingPolicy_SuppressStrongLifetime = 9;
-        public const int CXPrintingPolicy_SuppressLifetimeQualifiers = 10;
-        public const int CXPrintingPolicy_SuppressTemplateArgsInCXXConstructors = 11;
-        public const int CXPrintingPolicy_Bool = 12;
-        public const int CXPrintingPolicy_Restrict = 13;
-        public const int CXPrintingPolicy_Alignof = 14;
-        public const int CXPrintingPolicy_UnderscoreAlignof = 15;
-        public const int CXPrintingPolicy_UseVoidForZeroParams = 16;
-        public const int CXPrintingPolicy_TerseOutput = 17;
-        public const int CXPrintingPolicy_PolishForDeclaration = 18;
-        public const int CXPrintingPolicy_Half = 19;
-        public const int CXPrintingPolicy_MSWChar = 20;
-        public const int CXPrintingPolicy_IncludeNewlines = 21;
-        public const int CXPrintingPolicy_MSVCFormatting = 22;
-        public const int CXPrintingPolicy_ConstantsAsWritten = 23;
-        public const int CXPrintingPolicy_SuppressImplicitBase = 24;
-        public const int CXPrintingPolicy_FullyQualifiedName = 25;
-        public const int CXPrintingPolicy_LastProperty = 25;
-
-        // Pseudo enum 'CXObjCPropertyAttrKind' @ Index.h:4530:9 (clang-c/Index.h)
-        public const int CXObjCPropertyAttr_noattr = 0;
-        public const int CXObjCPropertyAttr_readonly = 1;
-        public const int CXObjCPropertyAttr_getter = 2;
-        public const int CXObjCPropertyAttr_assign = 4;
-        public const int CXObjCPropertyAttr_readwrite = 8;
-        public const int CXObjCPropertyAttr_retain = 16;
-        public const int CXObjCPropertyAttr_copy = 32;
-        public const int CXObjCPropertyAttr_nonatomic = 64;
-        public const int CXObjCPropertyAttr_setter = 128;
-        public const int CXObjCPropertyAttr_atomic = 256;
-        public const int CXObjCPropertyAttr_weak = 512;
-        public const int CXObjCPropertyAttr_strong = 1024;
-        public const int CXObjCPropertyAttr_unsafe_unretained = 2048;
-        public const int CXObjCPropertyAttr_class = 4096;
-
-        // Pseudo enum 'CXObjCDeclQualifierKind' @ Index.h:4573:9 (clang-c/Index.h)
-        public const int CXObjCDeclQualifier_None = 0;
-        public const int CXObjCDeclQualifier_In = 1;
-        public const int CXObjCDeclQualifier_Inout = 2;
-        public const int CXObjCDeclQualifier_Out = 4;
-        public const int CXObjCDeclQualifier_Bycopy = 8;
-        public const int CXObjCDeclQualifier_Byref = 16;
-        public const int CXObjCDeclQualifier_Oneway = 32;
-
-        // Pseudo enum 'CXNameRefFlags' @ Index.h:4898:6 (clang-c/Index.h)
-        public const int CXNameRange_WantQualifier = 1;
-        public const int CXNameRange_WantTemplateArgs = 2;
-        public const int CXNameRange_WantSinglePiece = 4;
-
-        // Pseudo enum 'CXTokenKind' @ Index.h:4941:14 (clang-c/Index.h)
-        public const int CXToken_Punctuation = 0;
-        public const int CXToken_Keyword = 1;
-        public const int CXToken_Identifier = 2;
-        public const int CXToken_Literal = 3;
-        public const int CXToken_Comment = 4;
-
-        // Pseudo enum 'CXCompletionChunkKind' @ Index.h:5156:6 (clang-c/Index.h)
-        public const int CXCompletionChunk_Optional = 0;
-        public const int CXCompletionChunk_TypedText = 1;
-        public const int CXCompletionChunk_Text = 2;
-        public const int CXCompletionChunk_Placeholder = 3;
-        public const int CXCompletionChunk_Informative = 4;
-        public const int CXCompletionChunk_CurrentParameter = 5;
-        public const int CXCompletionChunk_LeftParen = 6;
-        public const int CXCompletionChunk_RightParen = 7;
-        public const int CXCompletionChunk_LeftBracket = 8;
-        public const int CXCompletionChunk_RightBracket = 9;
-        public const int CXCompletionChunk_LeftBrace = 10;
-        public const int CXCompletionChunk_RightBrace = 11;
-        public const int CXCompletionChunk_LeftAngle = 12;
-        public const int CXCompletionChunk_RightAngle = 13;
-        public const int CXCompletionChunk_Comma = 14;
-        public const int CXCompletionChunk_ResultType = 15;
-        public const int CXCompletionChunk_Colon = 16;
-        public const int CXCompletionChunk_SemiColon = 17;
-        public const int CXCompletionChunk_Equal = 18;
-        public const int CXCompletionChunk_HorizontalSpace = 19;
-        public const int CXCompletionChunk_VerticalSpace = 20;
-
-        // Pseudo enum 'CXCodeComplete_Flags' @ Index.h:5547:6 (clang-c/Index.h)
-        public const int CXCodeComplete_IncludeMacros = 1;
-        public const int CXCodeComplete_IncludeCodePatterns = 2;
-        public const int CXCodeComplete_IncludeBriefComments = 4;
-        public const int CXCodeComplete_SkipPreamble = 8;
-        public const int CXCodeComplete_IncludeCompletionsWithFixIts = 16;
-
-        // Pseudo enum 'CXCompletionContext' @ Index.h:5586:6 (clang-c/Index.h)
-        public const int CXCompletionContext_Unexposed = 0;
-        public const int CXCompletionContext_AnyType = 1;
-        public const int CXCompletionContext_AnyValue = 2;
-        public const int CXCompletionContext_ObjCObjectValue = 4;
-        public const int CXCompletionContext_ObjCSelectorValue = 8;
-        public const int CXCompletionContext_CXXClassTypeValue = 16;
-        public const int CXCompletionContext_DotMemberAccess = 32;
-        public const int CXCompletionContext_ArrowMemberAccess = 64;
-        public const int CXCompletionContext_ObjCPropertyAccess = 128;
-        public const int CXCompletionContext_EnumTag = 256;
-        public const int CXCompletionContext_UnionTag = 512;
-        public const int CXCompletionContext_StructTag = 1024;
-        public const int CXCompletionContext_ClassTag = 2048;
-        public const int CXCompletionContext_Namespace = 4096;
-        public const int CXCompletionContext_NestedNameSpecifier = 8192;
-        public const int CXCompletionContext_ObjCInterface = 16384;
-        public const int CXCompletionContext_ObjCProtocol = 32768;
-        public const int CXCompletionContext_ObjCCategory = 65536;
-        public const int CXCompletionContext_ObjCInstanceMessage = 131072;
-        public const int CXCompletionContext_ObjCClassMessage = 262144;
-        public const int CXCompletionContext_ObjCSelectorName = 524288;
-        public const int CXCompletionContext_MacroName = 1048576;
-        public const int CXCompletionContext_NaturalLanguage = 2097152;
-        public const int CXCompletionContext_IncludedFile = 4194304;
-        public const int CXCompletionContext_Unknown = 8388607;
-
-        // Pseudo enum 'CXEvalResultKind' @ Index.h:5944:9 (clang-c/Index.h)
-        public const int CXEval_Int = 1;
-        public const int CXEval_Float = 2;
-        public const int CXEval_ObjCStrLiteral = 3;
-        public const int CXEval_StrLiteral = 4;
-        public const int CXEval_CFStr = 5;
-        public const int CXEval_Other = 6;
-        public const int CXEval_UnExposed = 0;
-
-        // Pseudo enum 'CXVisitorResult' @ Index.h:6087:6 (clang-c/Index.h)
-        public const int CXVisit_Break = 0;
-        public const int CXVisit_Continue = 1;
-
-        // Pseudo enum 'CXResult' @ Index.h:6094:9 (clang-c/Index.h)
-        public const int CXResult_Success = 0;
-        public const int CXResult_Invalid = 1;
-        public const int CXResult_VisitBreak = 2;
-
-        // Pseudo enum 'CXIdxEntityKind' @ Index.h:6239:9 (clang-c/Index.h)
-        public const int CXIdxEntity_Unexposed = 0;
-        public const int CXIdxEntity_Typedef = 1;
-        public const int CXIdxEntity_Function = 2;
-        public const int CXIdxEntity_Variable = 3;
-        public const int CXIdxEntity_Field = 4;
-        public const int CXIdxEntity_EnumConstant = 5;
-        public const int CXIdxEntity_ObjCClass = 6;
-        public const int CXIdxEntity_ObjCProtocol = 7;
-        public const int CXIdxEntity_ObjCCategory = 8;
-        public const int CXIdxEntity_ObjCInstanceMethod = 9;
-        public const int CXIdxEntity_ObjCClassMethod = 10;
-        public const int CXIdxEntity_ObjCProperty = 11;
-        public const int CXIdxEntity_ObjCIvar = 12;
-        public const int CXIdxEntity_Enum = 13;
-        public const int CXIdxEntity_Struct = 14;
-        public const int CXIdxEntity_Union = 15;
-        public const int CXIdxEntity_CXXClass = 16;
-        public const int CXIdxEntity_CXXNamespace = 17;
-        public const int CXIdxEntity_CXXNamespaceAlias = 18;
-        public const int CXIdxEntity_CXXStaticVariable = 19;
-        public const int CXIdxEntity_CXXStaticMethod = 20;
-        public const int CXIdxEntity_CXXInstanceMethod = 21;
-        public const int CXIdxEntity_CXXConstructor = 22;
-        public const int CXIdxEntity_CXXDestructor = 23;
-        public const int CXIdxEntity_CXXConversionFunction = 24;
-        public const int CXIdxEntity_CXXTypeAlias = 25;
-        public const int CXIdxEntity_CXXInterface = 26;
-
-        // Pseudo enum 'CXIdxEntityLanguage' @ Index.h:6274:9 (clang-c/Index.h)
-        public const int CXIdxEntityLang_None = 0;
-        public const int CXIdxEntityLang_C = 1;
-        public const int CXIdxEntityLang_ObjC = 2;
-        public const int CXIdxEntityLang_CXX = 3;
-        public const int CXIdxEntityLang_Swift = 4;
-
-        // Pseudo enum 'CXIdxEntityCXXTemplateKind' @ Index.h:6292:9 (clang-c/Index.h)
-        public const int CXIdxEntity_NonTemplate = 0;
-        public const int CXIdxEntity_Template = 1;
-        public const int CXIdxEntity_TemplatePartialSpecialization = 2;
-        public const int CXIdxEntity_TemplateSpecialization = 3;
-
-        // Pseudo enum 'CXIdxAttrKind' @ Index.h:6299:9 (clang-c/Index.h)
-        public const int CXIdxAttr_Unexposed = 0;
-        public const int CXIdxAttr_IBAction = 1;
-        public const int CXIdxAttr_IBOutlet = 2;
-        public const int CXIdxAttr_IBOutletCollection = 3;
-
-        // Pseudo enum 'CXIdxDeclInfoFlags' @ Index.h:6334:9 (clang-c/Index.h)
-        public const int CXIdxDeclFlag_Skipped = 1;
-
-        // Pseudo enum 'CXIdxObjCContainerKind' @ Index.h:6362:9 (clang-c/Index.h)
-        public const int CXIdxObjCContainer_ForwardRef = 0;
-        public const int CXIdxObjCContainer_Interface = 1;
-        public const int CXIdxObjCContainer_Implementation = 2;
-
-        // Pseudo enum 'CXIdxEntityRefKind' @ Index.h:6422:9 (clang-c/Index.h)
-        public const int CXIdxEntityRef_Direct = 1;
-        public const int CXIdxEntityRef_Implicit = 2;
-
-        // Pseudo enum 'CXSymbolRole' @ Index.h:6440:9 (clang-c/Index.h)
-        public const int CXSymbolRole_None = 0;
-        public const int CXSymbolRole_Declaration = 1;
-        public const int CXSymbolRole_Definition = 2;
-        public const int CXSymbolRole_Reference = 4;
-        public const int CXSymbolRole_Read = 8;
-        public const int CXSymbolRole_Write = 16;
-        public const int CXSymbolRole_Call = 32;
-        public const int CXSymbolRole_Dynamic = 64;
-        public const int CXSymbolRole_AddressOf = 128;
-        public const int CXSymbolRole_Implicit = 256;
-
-        // Pseudo enum 'CXIndexOptFlags' @ Index.h:6612:9 (clang-c/Index.h)
-        public const int CXIndexOpt_None = 0;
-        public const int CXIndexOpt_SuppressRedundantRefs = 1;
-        public const int CXIndexOpt_IndexFunctionLocalSymbols = 2;
-        public const int CXIndexOpt_IndexImplicitTemplateInstantiations = 4;
-        public const int CXIndexOpt_SuppressWarnings = 8;
-        public const int CXIndexOpt_SkipParsedBodiesInSession = 16;
+        // Enum @ Index.h:6612:9 (clang-c/Index.h)
+        public enum CXIndexOptFlags : int
+        {
+            CXIndexOpt_None = 0,
+            CXIndexOpt_SuppressRedundantRefs = 1,
+            CXIndexOpt_IndexFunctionLocalSymbols = 2,
+            CXIndexOpt_IndexImplicitTemplateInstantiations = 4,
+            CXIndexOpt_SuppressWarnings = 8,
+            CXIndexOpt_SkipParsedBodiesInSession = 16
+        }
 
         // MacroDefinition @ Index.h:35:9 (clang-c/Index.h)
         public const int CINDEX_VERSION_MAJOR = 0;
