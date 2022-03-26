@@ -7,11 +7,15 @@ using JetBrains.Annotations;
 namespace C2CS;
 
 [PublicAPI]
-public class DiagnosticPanic : Diagnostic
+public sealed class DiagnosticPanic : Diagnostic
 {
     public DiagnosticPanic(Exception exception)
-        : base(DiagnosticSeverity.Panic)
+        : base(DiagnosticSeverity.Panic, CreateMessage(exception))
     {
-        Summary = $"{exception.Message}{Environment.NewLine}{exception.StackTrace}";
+    }
+
+    private static string CreateMessage(Exception exception)
+    {
+        return $"{exception.Message}{Environment.NewLine}{exception.StackTrace}";
     }
 }

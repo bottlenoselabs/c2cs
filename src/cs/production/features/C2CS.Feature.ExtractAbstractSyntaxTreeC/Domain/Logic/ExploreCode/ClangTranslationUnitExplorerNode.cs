@@ -1,26 +1,26 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 using static bottlenoselabs.clang;
 
-namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain;
+namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Logic.ExploreCode;
 
-public class ExplorerNodeClang
+internal sealed class ClangTranslationUnitExplorerNode
 {
     public readonly CXCursor Cursor;
     public readonly CKind Kind;
     public readonly CLocation Location;
     public readonly string? Name;
     public readonly CXType OriginalType;
-    public readonly ExplorerNodeClang? Parent;
+    public readonly ClangTranslationUnitExplorerNode? Parent;
     public readonly CXType Type;
     public readonly string? TypeName;
 
-    public ExplorerNodeClang(
+    public ClangTranslationUnitExplorerNode(
         CKind kind,
         CLocation location,
-        ExplorerNodeClang? parent,
+        ClangTranslationUnitExplorerNode? parent,
         CXCursor cursor,
         CXType type,
         CXType originalType,

@@ -143,11 +143,11 @@ public abstract class UseCase<TRequest, TInput, TResponse>
         throw new UseCaseException(diagnostics);
     }
 
-    private static void LogDiagnostics(ImmutableArray<Diagnostic> diagnostics)
+    private void LogDiagnostics(ImmutableArray<Diagnostic> diagnostics)
     {
         foreach (var diagnostic in diagnostics)
         {
-            Console.WriteLine(diagnostic);
+            diagnostic.Log(Logger);
         }
     }
 

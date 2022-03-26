@@ -2,10 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Exceptions;
 
-namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain;
+namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Logic.ParseCode;
 
-public static class ClangArgumentsBuilder
+internal static class ClangArgumentsBuilder
 {
     public static ImmutableArray<string> Build(
         bool automaticallyFindSoftwareDevelopmentKit,
@@ -16,8 +17,7 @@ public static class ClangArgumentsBuilder
     {
         var builder = ImmutableArray.CreateBuilder<string>();
 
-        AddDefault(builder, targetPlatform);
-        AddBitness(builder, targetPlatform);
+        AddDefaults(builder, targetPlatform);
         AddUserIncludes(builder, includeDirectories);
         AddDefines(builder, defines);
         AddTargetTriple(builder, targetPlatform);
@@ -62,7 +62,6 @@ public static class ClangArgumentsBuilder
 
         if (string.IsNullOrEmpty(arch) || string.IsNullOrEmpty(vendor) || string.IsNullOrEmpty(os))
         {
-            // Skip
             return;
         }
 
@@ -70,7 +69,7 @@ public static class ClangArgumentsBuilder
         args.Add(targetTripleString);
     }
 
-    private static void AddDefault(ImmutableArray<string>.Builder args, RuntimePlatform platform)
+    private static void AddDefaults(ImmutableArray<string>.Builder args, RuntimePlatform platform)
     {
         args.Add("--language=c");
 
@@ -85,27 +84,6 @@ public static class ClangArgumentsBuilder
 
         args.Add("-Wno-pragma-once-outside-header");
         args.Add("-fno-blocks");
-    }
-
-    private static void AddBitness(ImmutableArray<string>.Builder args, RuntimePlatform targetPlatform)
-    {
-        var architecture = targetPlatform.Architecture;
-        if (architecture == RuntimeArchitecture.Unknown)
-        {
-            architecture = RuntimePlatform.Host.Architecture;
-        }
-
-#pragma warning disable CS8509
-        var bitness = architecture switch
-#pragma warning restore CS8509
-        {
-            RuntimeArchitecture.X64 => 64,
-            RuntimeArchitecture.X86 => 32,
-            RuntimeArchitecture.ARM64 => 64,
-            RuntimeArchitecture.ARM32 => 32
-        };
-
-        // args.Add($"-m{bitness}");
     }
 
     private static void AddUserIncludes(

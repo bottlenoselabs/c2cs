@@ -2,8 +2,9 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Text.Json.Serialization;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 
-namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
+namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Serialization;
 
 [JsonSourceGenerationOptions(
     WriteIndented = true,

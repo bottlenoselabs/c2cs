@@ -6,9 +6,12 @@ namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain;
 public class DiagnosticTypeFromIgnoredHeader : Diagnostic
 {
     public DiagnosticTypeFromIgnoredHeader(string typeName, string headerFilePath)
-        : base(DiagnosticSeverity.Warning)
+        : base(DiagnosticSeverity.Warning, CreateMessage(typeName, headerFilePath))
     {
-        Summary =
-            $"The type '{typeName}' belongs to the ignored header file '{headerFilePath}', but is used in the abstract syntax tree.";
+    }
+
+    private static string CreateMessage(string typeName, string headerFilePath)
+    {
+        return $"The type '{typeName}' belongs to the ignored header file '{headerFilePath}', but is used in the abstract syntax tree.";
     }
 }

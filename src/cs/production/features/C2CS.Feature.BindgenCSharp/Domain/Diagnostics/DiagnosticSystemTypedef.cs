@@ -2,15 +2,19 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 
 namespace C2CS.Feature.BindgenCSharp.Domain;
 
 public class DiagnosticSystemTypedef : Diagnostic
 {
-    public DiagnosticSystemTypedef(string typeName, CLocation loc, string underlyingTypeName)
-        : base(DiagnosticSeverity.Warning)
+    public DiagnosticSystemTypedef(string typeName, CLocation location, string underlyingTypeName)
+        : base(DiagnosticSeverity.Warning, CreateMessage(typeName, location, underlyingTypeName))
     {
-        Summary =
-            $"The typedef '{typeName}' at {loc.FilePath}:{loc.LineNumber}:{loc.LineColumn} is a system alias to the system type '{underlyingTypeName}'. If you intend to have cross-platform bindings this is a problem; please create an issue on GitHub.";
+    }
+
+    private static string CreateMessage(string typeName, CLocation location, string underlyingTypeName)
+    {
+        return $"The typedef '{typeName}' at {location.FilePath}:{location.LineNumber}:{location.LineColumn} is a system alias to the system type '{underlyingTypeName}'. If you intend to have cross-platform bindings this is a problem; please create an issue on GitHub.";
     }
 }

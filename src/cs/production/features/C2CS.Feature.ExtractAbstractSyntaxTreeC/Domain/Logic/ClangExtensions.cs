@@ -5,9 +5,10 @@ using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 using static bottlenoselabs.clang;
 
-namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain;
+namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Logic;
 
 public static unsafe class ClangExtensions
 {

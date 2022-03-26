@@ -4,7 +4,7 @@
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
-namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
+namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 
 // NOTE: Properties are required for System.Text.Json serialization
 [PublicAPI]

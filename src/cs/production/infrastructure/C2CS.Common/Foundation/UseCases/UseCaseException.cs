@@ -45,7 +45,7 @@ public sealed class UseCaseException : Exception
         var stringBuilder = new StringBuilder();
         foreach (var diagnostic in diagnostics)
         {
-            stringBuilder.AppendLine(diagnostic.Summary);
+            stringBuilder.AppendLine(diagnostic.Message);
         }
 
         var result = stringBuilder.ToString();

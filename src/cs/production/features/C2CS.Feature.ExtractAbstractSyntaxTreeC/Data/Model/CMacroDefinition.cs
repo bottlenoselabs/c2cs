@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
-namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
+namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 
 public record CMacroDefinition : CNode
 {

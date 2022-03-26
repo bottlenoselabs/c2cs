@@ -4,6 +4,8 @@
 using System.Collections.Immutable;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Serialization;
 using Xunit;
 
 namespace C2CS.IntegrationTests.my_c_library.Fixtures;

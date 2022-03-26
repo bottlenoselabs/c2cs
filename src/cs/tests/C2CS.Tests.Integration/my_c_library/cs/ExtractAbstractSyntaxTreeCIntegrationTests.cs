@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 using C2CS.IntegrationTests.my_c_library.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;

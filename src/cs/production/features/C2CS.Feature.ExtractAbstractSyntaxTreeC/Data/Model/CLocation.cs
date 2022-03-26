@@ -3,7 +3,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
+namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 
 // NOTE: Properties are required for System.Text.Json serialization
 

@@ -39,10 +39,8 @@ public static class Startup
     {
         services.AddSingleton<IFileSystem, FileSystem>();
         services.AddSingleton(new CommandLineArgumentsProvider(args ?? Environment.GetCommandLineArgs()));
-        services.Configure<SimpleConsoleFormatterOptions>(
-            o => o.IncludeScopes = true);
-        services.AddLogging(b =>
-            b.AddSimpleConsole(options =>
+        services.AddLogging(x =>
+            x.AddSimpleConsole(options =>
             {
                 options.ColorBehavior = LoggerColorBehavior.Disabled;
                 options.SingleLine = true;
@@ -50,9 +48,8 @@ public static class Startup
                 options.UseUtcTimestamp = true;
                 options.TimestampFormat = "yyyy-dd-MM HH:mm:ss ";
             }));
-        services.AddSingleton(provider =>
-            provider.GetRequiredService<ILoggerProvider>()
-                .CreateLogger(Assembly.GetExecutingAssembly().GetName().Name!));
+        services.AddSingleton(x =>
+            x.GetRequiredService<ILoggerProvider>().CreateLogger(string.Empty));
         services.AddHostedService<CommandLineService>();
         services.AddSingleton<RootCommand, CommandLineInterface>();
         services.AddSingleton<ConfigurationService>();
