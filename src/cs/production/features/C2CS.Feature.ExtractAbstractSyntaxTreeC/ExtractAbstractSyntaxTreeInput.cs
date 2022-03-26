@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 
 namespace C2CS.Feature.ExtractAbstractSyntaxTreeC;
 
-public class ExtractAbstractSyntaxTreeInput
+public sealed class ExtractAbstractSyntaxTreeInput
 {
     public string InputFilePath { get; init; } = string.Empty;
 

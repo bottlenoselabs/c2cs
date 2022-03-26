@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 
 namespace C2CS.Feature.BindgenCSharp.Data;
 
-public record CSharpNodes
+public sealed record CSharpNodes
 {
     public ImmutableArray<CSharpFunction> Functions { get; init; }
 

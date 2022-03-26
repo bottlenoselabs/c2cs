@@ -8,7 +8,7 @@ namespace C2CS.Feature.BindgenCSharp;
 
 // NOTE: Properties are required for System.Text.Json serialization
 // NOTE: This class must have a unique name across namespaces for usage in System.Text.Json source generators.
-public class BindgenRequest : UseCaseRequest
+public sealed class BindgenRequest : UseCaseRequest
 {
     /// <summary>
     ///     Path of the input abstract syntax tree directory. The directory should contain one or more previously

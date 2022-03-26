@@ -4,6 +4,7 @@
 using System.Collections.Immutable;
 using System.Diagnostics;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Diagnostics;
 using Microsoft.Extensions.Logging;
 using static bottlenoselabs.clang;
 

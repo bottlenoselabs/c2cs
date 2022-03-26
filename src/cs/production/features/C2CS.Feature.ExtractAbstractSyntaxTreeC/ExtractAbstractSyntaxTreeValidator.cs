@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 
 namespace C2CS.Feature.ExtractAbstractSyntaxTreeC;
 
-public class ExtractAbstractSyntaxTreeValidator : UseCaseValidator<ExtractAbstractSyntaxTreeRequest, ExtractAbstractSyntaxTreeInput>
+public sealed class ExtractAbstractSyntaxTreeValidator : UseCaseValidator<ExtractAbstractSyntaxTreeRequest, ExtractAbstractSyntaxTreeInput>
 {
     public override ExtractAbstractSyntaxTreeInput Validate(ExtractAbstractSyntaxTreeRequest request)
     {

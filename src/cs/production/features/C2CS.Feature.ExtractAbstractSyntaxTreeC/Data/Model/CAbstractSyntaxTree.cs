@@ -3,12 +3,10 @@
 
 using System.Collections.Immutable;
 using System.Text.Json.Serialization;
-using JetBrains.Annotations;
 
 namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 
 // NOTE: Properties are required for System.Text.Json serialization
-[PublicAPI]
 public record CAbstractSyntaxTree
 {
     [JsonPropertyName("fileName")]

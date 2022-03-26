@@ -5,15 +5,15 @@ using System.Collections.Immutable;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using C2CS.Feature.BindgenCSharp.Data;
-using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
+using C2CS.Feature.BindgenCSharp.Domain.Diagnostics;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace C2CS.Feature.BindgenCSharp.Domain;
+namespace C2CS.Feature.BindgenCSharp.Domain.Logic.Mapper;
 
-public class CSharpMapper
+public sealed class CSharpMapper
 {
     private readonly CSharpMapperParameters _parameters;
 

@@ -13,7 +13,7 @@ using static bottlenoselabs.clang;
 
 namespace C2CS.Feature.ExtractAbstractSyntaxTreeC;
 
-public class ExtractAbstractSyntaxTreeUseCase : UseCase<
+public sealed class ExtractAbstractSyntaxTreeUseCase : UseCase<
     ExtractAbstractSyntaxTreeRequest, ExtractAbstractSyntaxTreeInput, ExtractAbstractSyntaxTreeResponse>
 {
     private readonly IServiceProvider _services;
@@ -75,7 +75,7 @@ public class ExtractAbstractSyntaxTreeUseCase : UseCase<
         RuntimePlatform targetPlatform,
         ImmutableArray<string> clangArguments)
     {
-        BeginStep("Parse C code");
+        BeginStep("Parse");
 
         var clangArgs = ClangArgumentsBuilder.Build(
             automaticallyFindSoftwareDevelopmentKit,
@@ -100,7 +100,7 @@ public class ExtractAbstractSyntaxTreeUseCase : UseCase<
         ImmutableArray<string> functionNamesWhitelist,
         RuntimePlatform targetPlatform)
     {
-        BeginStep("Extract C abstract syntax tree");
+        BeginStep("Extract");
 
         var context = new ClangTranslationUnitExplorerContext(
             Diagnostics,
@@ -119,7 +119,7 @@ public class ExtractAbstractSyntaxTreeUseCase : UseCase<
     private void Write(
         string outputFilePath, CAbstractSyntaxTree abstractSyntaxTree)
     {
-        BeginStep("Write C abstract syntax tree");
+        BeginStep("Write");
         var cJsonSerializer = _services.GetService<CJsonSerializer>()!;
         cJsonSerializer.Write(abstractSyntaxTree, outputFilePath);
         EndStep();

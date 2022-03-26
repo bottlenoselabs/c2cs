@@ -4,6 +4,8 @@
 using System.Collections.Immutable;
 using C2CS.Feature.BindgenCSharp.Data;
 using C2CS.Feature.BindgenCSharp.Domain;
+using C2CS.Feature.BindgenCSharp.Domain.Logic.CodeGenerator;
+using C2CS.Feature.BindgenCSharp.Domain.Logic.Mapper;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Serialization;
@@ -11,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace C2CS.Feature.BindgenCSharp;
 
-public class BindgenUseCase : UseCase<BindgenRequest, BindgenInput, BindgenResponse>
+public sealed class BindgenUseCase : UseCase<BindgenRequest, BindgenInput, BindgenResponse>
 {
     private readonly CJsonSerializer _cJsonSerializer;
 

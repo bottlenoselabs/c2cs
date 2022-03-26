@@ -10,9 +10,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace C2CS.Feature.BindgenCSharp.Domain;
+namespace C2CS.Feature.BindgenCSharp.Domain.Logic.CodeGenerator;
 
-public class GeneratorCSharpCode
+public sealed class GeneratorCSharpCode
 {
     private readonly string _className;
     private readonly string _libraryName;

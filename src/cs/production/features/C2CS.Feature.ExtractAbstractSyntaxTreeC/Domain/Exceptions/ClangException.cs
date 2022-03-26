@@ -3,7 +3,7 @@
 
 namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Exceptions;
 
-public class ClangException : Exception
+public sealed class ClangException : Exception
 {
     public ClangException()
     {

@@ -1,12 +1,11 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 
-namespace C2CS.Feature.BindgenCSharp.Domain;
+namespace C2CS.Feature.BindgenCSharp.Domain.Diagnostics;
 
-public class DiagnosticSystemTypedef : Diagnostic
+public sealed class DiagnosticSystemTypedef : Diagnostic
 {
     public DiagnosticSystemTypedef(string typeName, CLocation location, string underlyingTypeName)
         : base(DiagnosticSeverity.Warning, CreateMessage(typeName, location, underlyingTypeName))

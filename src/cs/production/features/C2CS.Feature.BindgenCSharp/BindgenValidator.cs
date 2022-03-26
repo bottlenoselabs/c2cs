@@ -6,7 +6,7 @@ using C2CS.Feature.BindgenCSharp.Data;
 
 namespace C2CS.Feature.BindgenCSharp;
 
-public class BindgenValidator : UseCaseValidator<BindgenRequest, BindgenInput>
+public sealed class BindgenValidator : UseCaseValidator<BindgenRequest, BindgenInput>
 {
     public override BindgenInput Validate(BindgenRequest request)
     {

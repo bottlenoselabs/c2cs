@@ -1,12 +1,11 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 
-namespace C2CS.Feature.BindgenCSharp.Domain;
+namespace C2CS.Feature.BindgenCSharp.Domain.Diagnostics;
 
-public class DiagnosticMacroObjectNotTranspiled : Diagnostic
+public sealed class DiagnosticMacroObjectNotTranspiled : Diagnostic
 {
     public DiagnosticMacroObjectNotTranspiled(string name, CLocation location)
         : base(DiagnosticSeverity.Warning, CreateMessage(name, location))

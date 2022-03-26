@@ -3,7 +3,7 @@
 
 namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Diagnostics;
 
-public class DiagnosticClang : Diagnostic
+public sealed class DiagnosticClang : Diagnostic
 {
     public DiagnosticClang(DiagnosticSeverity severity, string message)
         : base(severity, message)

@@ -4,9 +4,9 @@
 using System.Collections.Immutable;
 using C2CS.Feature.BindgenCSharp.Data;
 
-namespace C2CS.Feature.BindgenCSharp.Domain;
+namespace C2CS.Feature.BindgenCSharp.Domain.Logic.CodeGenerator;
 
-public class BuilderCSharpAbstractSyntaxTree
+public sealed class BuilderCSharpAbstractSyntaxTree
 {
     private readonly HashSet<RuntimePlatform> _platforms = new();
     private readonly Dictionary<string, List<PlatformCandidateNode>> _candidateNodesByName = new();

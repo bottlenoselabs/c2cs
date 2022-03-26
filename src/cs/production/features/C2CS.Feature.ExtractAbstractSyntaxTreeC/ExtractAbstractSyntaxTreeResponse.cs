@@ -3,7 +3,7 @@
 
 namespace C2CS.Feature.ExtractAbstractSyntaxTreeC;
 
-public class ExtractAbstractSyntaxTreeResponse : UseCaseResponse
+public sealed class ExtractAbstractSyntaxTreeResponse : UseCaseResponse
 {
     public string? FilePath { get; init; }
 }

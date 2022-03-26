@@ -2,12 +2,10 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Text.Json.Serialization;
-using JetBrains.Annotations;
 
 namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 
 // NOTE: Properties are required for System.Text.Json serialization
-[PublicAPI]
 public record CNode : IComparable<CNode>
 {
     [JsonPropertyName("location")]

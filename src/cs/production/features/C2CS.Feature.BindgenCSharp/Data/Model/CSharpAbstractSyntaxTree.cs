@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 
 namespace C2CS.Feature.BindgenCSharp.Data;
 
-public record CSharpAbstractSyntaxTree
+public sealed record CSharpAbstractSyntaxTree
 {
     public CSharpNodes PlatformAgnosticNodes { get; init; } = null!;
 

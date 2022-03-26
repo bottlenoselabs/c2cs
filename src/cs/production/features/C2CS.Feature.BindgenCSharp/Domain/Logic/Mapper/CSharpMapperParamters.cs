@@ -4,7 +4,7 @@
 using System.Collections.Immutable;
 using C2CS.Feature.BindgenCSharp.Data;
 
-namespace C2CS.Feature.BindgenCSharp.Domain;
+namespace C2CS.Feature.BindgenCSharp.Domain.Logic.Mapper;
 
 public sealed class CSharpMapperParameters
 {

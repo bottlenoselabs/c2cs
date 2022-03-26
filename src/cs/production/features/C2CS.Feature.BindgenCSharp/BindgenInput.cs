@@ -6,7 +6,7 @@ using C2CS.Feature.BindgenCSharp.Data;
 
 namespace C2CS.Feature.BindgenCSharp;
 
-public class BindgenInput
+public sealed class BindgenInput
 {
     public ImmutableArray<string> InputFilePaths { get; init; }
 
