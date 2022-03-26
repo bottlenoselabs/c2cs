@@ -4,18 +4,39 @@
 using System.Collections.Immutable;
 using System.Diagnostics;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
+using Microsoft.Extensions.Logging;
 using static bottlenoselabs.clang;
 
 namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Logic.ExploreCode;
 
 public sealed class ClangTranslationUnitExplorer
 {
+    private readonly ILogger _logger;
+
+    public ClangTranslationUnitExplorer(ILogger logger)
+    {
+        _logger = logger;
+    }
+
     public CAbstractSyntaxTree AbstractSyntaxTree(
         ClangTranslationUnitExplorerContext context, CXTranslationUnit translationUnit)
     {
-        VisitTranslationUnit(context, translationUnit);
-        Explore(context);
-        return Result(context, translationUnit);
+        CAbstractSyntaxTree result;
+
+        try
+        {
+            VisitTranslationUnit(context, translationUnit);
+            Explore(context);
+            result = Result(context, translationUnit);
+            _logger.ExploreCodeSuccess();
+        }
+        catch (Exception e)
+        {
+            _logger.ExploreCodeFailed(e);
+            throw;
+        }
+
+        return result;
     }
 
     private CAbstractSyntaxTree Result(
@@ -34,17 +55,7 @@ public sealed class ClangTranslationUnitExplorer
         var variables = context.Variables.ToImmutableArray();
         var constants = context.MacroObjects.ToImmutableArray();
 
-        var pseudoEnums = new List<CEnum>();
-        var enumNames = context.Enums.Select(x => x.Name).ToImmutableHashSet();
-        foreach (var pseudoEnum in context.PseudoEnums)
-        {
-            if (!enumNames.Contains(pseudoEnum.Name))
-            {
-                pseudoEnums.Add(pseudoEnum);
-            }
-        }
-
-        return new CAbstractSyntaxTree
+        var result = new CAbstractSyntaxTree
         {
             FileName = location.FileName,
             Platform = context.TargetPlatform,
@@ -52,13 +63,14 @@ public sealed class ClangTranslationUnitExplorer
             FunctionPointers = functionPointers,
             Records = records,
             Enums = enums,
-            PseudoEnums = pseudoEnums.ToImmutableArray(),
             OpaqueTypes = opaqueTypes,
             Typedefs = typedefs,
             Variables = variables,
             Types = context.Types.ToImmutableArray(),
             Constants = constants
         };
+
+        return result;
     }
 
     private void VisitTranslationUnit(ClangTranslationUnitExplorerContext context, CXTranslationUnit translationUnit)
@@ -67,6 +79,8 @@ public sealed class ClangTranslationUnitExplorer
 
         var type = clang_getCursorType(cursor);
         var location = Location(context, cursor);
+
+        _logger.ExploreCodeTranslationUnit(location.FileName);
         AddExplorerNode(
             context,
             CKind.TranslationUnit,
@@ -273,7 +287,7 @@ public sealed class ClangTranslationUnitExplorer
 
             if (kind == CKind.Enum)
             {
-                ExploreEnum(context, typeName, cursor, type, location, parentNode, true);
+                ExploreEnum(context, typeName, cursor, type, location, parentNode);
             }
             else
             {
@@ -446,6 +460,8 @@ public sealed class ClangTranslationUnitExplorer
 
         context.Variables.Add(variable);
         context.Names.Add(name);
+
+        _logger.ExploreCodeVariable(name);
     }
 
     private void ExploreFunction(
@@ -481,6 +497,8 @@ public sealed class ClangTranslationUnitExplorer
 
         context.Functions.Add(function);
         context.Names.Add(function.Name);
+
+        _logger.ExploreCodeFunction(name);
     }
 
     private void ExploreEnum(
@@ -489,9 +507,13 @@ public sealed class ClangTranslationUnitExplorer
         CXCursor cursor,
         CXType type,
         CLocation location,
-        ClangTranslationUnitExplorerNode parentNode,
-        bool isPseudo = false)
+        ClangTranslationUnitExplorerNode parentNode)
     {
+        if (context.Names.Contains(typeName))
+        {
+            return;
+        }
+
         var typeCursor = clang_getTypeDeclaration(type);
         if (typeCursor.kind == CXCursorKind.CXCursor_NoDeclFound)
         {
@@ -514,16 +536,9 @@ public sealed class ClangTranslationUnitExplorer
             Values = enumValues
         };
 
-        if (isPseudo)
-        {
-            context.PseudoEnums.Add(@enum);
-        }
-        else
-        {
-            context.Enums.Add(@enum);
-        }
-
+        context.Enums.Add(@enum);
         context.Names.Add(@enum.Name);
+        _logger.ExploreCodeEnum(typeName);
     }
 
     private void ExploreRecord(
@@ -568,6 +583,8 @@ public sealed class ClangTranslationUnitExplorer
 
         context.Records.Add(record);
         context.Names.Add(record.Name);
+
+        _logger.ExploreCodeRecord(typeName);
     }
 
     private void ExploreTypedef(

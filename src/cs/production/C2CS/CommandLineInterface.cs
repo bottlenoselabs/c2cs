@@ -44,7 +44,7 @@ internal class CommandLineInterface : RootCommand
         {
             var configuration = _configurationService.Read("config.json");
             var request = configuration.ExtractAbstractSyntaxTreeC;
-            var useCase = _serviceProvider.GetService<Feature.ExtractAbstractSyntaxTreeC.ExtractAbstractSyntaxTreeUseCase>()!;
+            var useCase = _serviceProvider.GetService<ExtractAbstractSyntaxTreeUseCase>()!;
             useCase.Execute(request);
         });
         return command;

@@ -29,9 +29,6 @@ public record CAbstractSyntaxTree
     [JsonPropertyName("enums")]
     public ImmutableArray<CEnum> Enums { get; set; } = ImmutableArray<CEnum>.Empty;
 
-    [JsonPropertyName("pseudoEnums")]
-    public ImmutableArray<CEnum> PseudoEnums { get; set; } = ImmutableArray<CEnum>.Empty;
-
     [JsonPropertyName("opaqueTypes")]
     public ImmutableArray<COpaqueType> OpaqueTypes { get; set; } = ImmutableArray<COpaqueType>.Empty;
 

@@ -1,10 +1,9 @@
 {
+  "ast": {
     "inputFilePath": "../../../../ext/clang/include/clang-c/Index.h",
     "includeDirectories": [
       "../../../../ext/clang/include"
     ],
-    "outputFilePath": "../../../../src/cs/production/clang-cs/clang.cs",
-    "namespaceName": "bottlenoselabs",
     "functionNamesWhitelist": [
       "clang_Cursor_getOffsetOfField",
       "clang_Cursor_getTranslationUnit",
@@ -53,4 +52,9 @@
       "clang_tokenize",
       "clang_visitChildren"
     ]
+  },
+  "cs": {
+    "outputFilePath": "../../../../src/cs/production/clang-cs/clang.cs",
+    "namespaceName": "bottlenoselabs"
   }
+}

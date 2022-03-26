@@ -19,7 +19,5 @@ public record CSharpNodes
 
     public ImmutableArray<CSharpEnum> Enums { get; init; }
 
-    public ImmutableArray<CSharpPseudoEnum> PseudoEnums { get; init; }
-
     public ImmutableArray<CSharpConstant> Constants { get; init; }
 }

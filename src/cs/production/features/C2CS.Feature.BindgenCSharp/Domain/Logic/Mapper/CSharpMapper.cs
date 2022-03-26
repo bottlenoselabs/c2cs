@@ -89,7 +89,6 @@ public class CSharpMapper
         var functionPointers = FunctionPointers(typesByName, ast.FunctionPointers);
         var opaqueDataTypes = OpaqueDataTypes(typesByName, ast.OpaqueTypes);
         var enums = Enums(typesByName, ast.Enums, ast.Platform);
-        var pseudoEnums = PseudoEnums(typesByName, ast.PseudoEnums);
         var constants = Constants(ast.Constants);
 
         var nodes = new CSharpNodes
@@ -100,7 +99,6 @@ public class CSharpMapper
             AliasStructs = aliasStructs,
             OpaqueStructs = opaqueDataTypes,
             Enums = enums,
-            PseudoEnums = pseudoEnums,
             Constants = constants
         };
         return nodes;
@@ -586,51 +584,6 @@ public class CSharpMapper
         var values = EnumValues(@enum.Values);
 
         var result = new CSharpEnum(
-            name,
-            originalCodeLocationComment,
-            cIntegerType.SizeOf,
-            integerType,
-            values);
-        return result;
-    }
-
-    private ImmutableArray<CSharpPseudoEnum> PseudoEnums(
-        ImmutableDictionary<string, CType> types,
-        ImmutableArray<CEnum> enums)
-    {
-        var builder = ImmutableArray.CreateBuilder<CSharpPseudoEnum>(enums.Length);
-
-        // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-        foreach (var enumC in enums)
-        {
-            var enumCSharp = PseudoEnum(types, enumC);
-
-            if (_ignoredNames.Contains(enumCSharp.Name))
-            {
-                continue;
-            }
-
-            builder.Add(enumCSharp);
-        }
-
-        var result = builder.ToImmutable();
-        return result;
-    }
-
-    private CSharpPseudoEnum PseudoEnum(
-        ImmutableDictionary<string, CType> types,
-        CEnum @enum)
-    {
-        var name = @enum.Name;
-        var originalCodeLocationComment = OriginalCodeLocationComment(@enum);
-        originalCodeLocationComment =
-            originalCodeLocationComment.Replace(
-                "Enum ", $"Pseudo enum '{@enum.Name}' ", StringComparison.InvariantCulture);
-        var cIntegerType = CType(types, @enum.IntegerType);
-        var integerType = Type(types, cIntegerType);
-        var values = EnumValues(@enum.Values);
-
-        var result = new CSharpPseudoEnum(
             name,
             originalCodeLocationComment,
             cIntegerType.SizeOf,

@@ -45,7 +45,6 @@ public class GeneratorCSharpCode
         OpaqueDataTypes(members, sharedNodes.OpaqueStructs);
         Typedefs(members, sharedNodes.AliasStructs);
         Enums(members, sharedNodes.Enums);
-        PseudoEnums(members, sharedNodes.PseudoEnums);
         Constants(members, sharedNodes.Constants);
 
         var platformSpecificNodes = abstractSyntaxTree.PlatformSpecificNodes;
@@ -61,7 +60,6 @@ public class GeneratorCSharpCode
                 OpaqueDataTypes(platformSpecificMembers, nodes.OpaqueStructs);
                 Typedefs(platformSpecificMembers, nodes.AliasStructs);
                 Enums(platformSpecificMembers, nodes.Enums);
-                PseudoEnums(platformSpecificMembers, nodes.PseudoEnums);
                 Constants(platformSpecificMembers, nodes.Constants);
 
                 var platformSpecificClassName = platform.ToString().Replace("-", "_", StringComparison.InvariantCulture);
@@ -580,49 +578,6 @@ public enum {@enum.Name} : {@enum.IntegerType}
         };
 
         return EqualsValueClause(LiteralExpression(SyntaxKind.NumericLiteralExpression, literalToken));
-    }
-
-    private static void PseudoEnums(
-        List<MemberDeclarationSyntax> members,
-        ImmutableArray<CSharpPseudoEnum> pseudoEnums)
-    {
-        if (pseudoEnums.IsDefaultOrEmpty)
-        {
-            return;
-        }
-
-        foreach (var pseudoEnum in pseudoEnums)
-        {
-            PseudoEnum(members, pseudoEnum);
-        }
-    }
-
-    private static void PseudoEnum(
-        List<MemberDeclarationSyntax> members,
-        CSharpPseudoEnum pseudoEnum)
-    {
-        var hasAddedLocationComment = false;
-        foreach (var pseudoEnumConstant in pseudoEnum.Values)
-        {
-            if (!hasAddedLocationComment)
-            {
-                hasAddedLocationComment = true;
-                var code = $@"
-{pseudoEnum.CodeLocationComment.Replace("Enum ", $"Pseudo enum '{pseudoEnum.Name}' ", StringComparison.InvariantCulture)}
-public const int {pseudoEnumConstant.Name} = {pseudoEnumConstant.Value};
-";
-                var member = ParseMemberCode<FieldDeclarationSyntax>(code);
-                members.Add(member);
-            }
-            else
-            {
-                var code = $@"
-public const int {pseudoEnumConstant.Name} = {pseudoEnumConstant.Value};
-".TrimStart();
-                var member = ParseMemberCode<FieldDeclarationSyntax>(code);
-                members.Add(member);
-            }
-        }
     }
 
     private static void Constants(

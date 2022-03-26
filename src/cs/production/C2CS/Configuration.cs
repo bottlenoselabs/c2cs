@@ -16,7 +16,7 @@ internal sealed class Configuration
     ///     The configuration for extracting the C abstract syntax tree from a header file.
     /// </summary>
     [JsonPropertyName("ast")]
-    public Feature.ExtractAbstractSyntaxTreeC.ExtractAbstractSyntaxTreeRequest? ExtractAbstractSyntaxTreeC { get; set; }
+    public ExtractAbstractSyntaxTreeRequest? ExtractAbstractSyntaxTreeC { get; set; }
 
     /// <summary>
     ///     The configuration for generating C# code.

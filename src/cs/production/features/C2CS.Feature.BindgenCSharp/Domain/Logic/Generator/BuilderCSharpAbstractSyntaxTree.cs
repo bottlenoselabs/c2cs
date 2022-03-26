@@ -17,7 +17,6 @@ public class BuilderCSharpAbstractSyntaxTree
     private readonly ImmutableArray<CSharpAliasStruct>.Builder _agnosticAliasStructs = ImmutableArray.CreateBuilder<CSharpAliasStruct>();
     private readonly ImmutableArray<CSharpOpaqueStruct>.Builder _agnosticOpaqueStructs = ImmutableArray.CreateBuilder<CSharpOpaqueStruct>();
     private readonly ImmutableArray<CSharpEnum>.Builder _agnosticEnums = ImmutableArray.CreateBuilder<CSharpEnum>();
-    private readonly ImmutableArray<CSharpPseudoEnum>.Builder _agnosticPseudoEnums = ImmutableArray.CreateBuilder<CSharpPseudoEnum>();
     private readonly ImmutableArray<CSharpConstant>.Builder _agnosticConstants = ImmutableArray.CreateBuilder<CSharpConstant>();
 
     private readonly Dictionary<RuntimePlatform, ImmutableArray<CSharpFunction>.Builder> _functionsByPlatform = new();
@@ -26,7 +25,6 @@ public class BuilderCSharpAbstractSyntaxTree
     private readonly Dictionary<RuntimePlatform, ImmutableArray<CSharpAliasStruct>.Builder> _aliasStructsByPlatform = new();
     private readonly Dictionary<RuntimePlatform, ImmutableArray<CSharpOpaqueStruct>.Builder> _opaqueStructsByPlatform = new();
     private readonly Dictionary<RuntimePlatform, ImmutableArray<CSharpEnum>.Builder> _enumsByPlatform = new();
-    private readonly Dictionary<RuntimePlatform, ImmutableArray<CSharpPseudoEnum>.Builder> _pseudoEnumsByPlatform = new();
     private readonly Dictionary<RuntimePlatform, ImmutableArray<CSharpConstant>.Builder> _constantsByPlatform = new();
 
     public void Add(RuntimePlatform platform, CSharpNodes nodes)
@@ -38,7 +36,6 @@ public class BuilderCSharpAbstractSyntaxTree
         AddCandidateAliasStructs(platform, nodes.AliasStructs);
         AddOpaqueStructs(platform, nodes.OpaqueStructs);
         AddCandidateEnums(platform, nodes.Enums);
-        AddCandidatePseudoEnums(platform, nodes.PseudoEnums);
         AddCandidateConstants(platform, nodes.Constants);
     }
 
@@ -56,7 +53,6 @@ public class BuilderCSharpAbstractSyntaxTree
         _structsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpStruct>();
         _aliasStructsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpAliasStruct>();
         _enumsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpEnum>();
-        _pseudoEnumsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpPseudoEnum>();
         _constantsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpConstant>();
         _opaqueStructsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpOpaqueStruct>();
     }
@@ -92,14 +88,6 @@ public class BuilderCSharpAbstractSyntaxTree
             if (canBeMerged)
             {
                 continue;
-            }
-
-            var x = platformNode.CSharpNode as CSharpFunction;
-            var y = platformNode.CSharpNode as CSharpFunction;
-
-            if (x?.CodeLocationComment != y?.CodeLocationComment)
-            {
-                Console.WriteLine();
             }
 
             allAreSame = false;
@@ -139,7 +127,6 @@ public class BuilderCSharpAbstractSyntaxTree
             AliasStructs = _agnosticAliasStructs.ToImmutable(),
             OpaqueStructs = _agnosticOpaqueStructs.ToImmutable(),
             Enums = _agnosticEnums.ToImmutable(),
-            PseudoEnums = _agnosticPseudoEnums.ToImmutable(),
             Constants = _agnosticConstants.ToImmutable()
         };
 
@@ -172,7 +159,6 @@ public class BuilderCSharpAbstractSyntaxTree
         var aliasStructs = _aliasStructsByPlatform[platform].ToImmutableArray();
         var opaqueStructs = _opaqueStructsByPlatform[platform].ToImmutableArray();
         var enums = _enumsByPlatform[platform].ToImmutableArray();
-        var pseudoEnums = _pseudoEnumsByPlatform[platform].ToImmutableArray();
         var constants = _constantsByPlatform[platform].ToImmutableArray();
 
         if (functions.IsDefaultOrEmpty &&
@@ -181,7 +167,6 @@ public class BuilderCSharpAbstractSyntaxTree
             aliasStructs.IsDefaultOrEmpty &&
             opaqueStructs.IsDefaultOrEmpty &&
             enums.IsDefaultOrEmpty &&
-            pseudoEnums.IsDefaultOrEmpty &&
             constants.IsDefaultOrEmpty)
         {
             return null;
@@ -195,7 +180,6 @@ public class BuilderCSharpAbstractSyntaxTree
             AliasStructs = aliasStructs,
             OpaqueStructs = opaqueStructs,
             Enums = enums,
-            PseudoEnums = pseudoEnums,
             Constants = constants
         };
 
@@ -256,15 +240,6 @@ public class BuilderCSharpAbstractSyntaxTree
         }
     }
 
-    private void AddCandidatePseudoEnums(
-        RuntimePlatform platform, ImmutableArray<CSharpPseudoEnum> pseudoEnums)
-    {
-        foreach (var pseudoEnum in pseudoEnums)
-        {
-            AddCandidateNode(platform, pseudoEnum);
-        }
-    }
-
     private void AddCandidateConstants(
         RuntimePlatform platform, ImmutableArray<CSharpConstant> constants)
     {
@@ -316,9 +291,6 @@ public class BuilderCSharpAbstractSyntaxTree
             case CSharpEnum @enum:
                 AddNodeEnum(null, @enum);
                 break;
-            case CSharpPseudoEnum pseudoEnum:
-                AddNodePseudoEnum(null, pseudoEnum);
-                break;
             case CSharpConstant constant:
                 AddNodeConstant(null, constant);
                 break;
@@ -346,9 +318,6 @@ public class BuilderCSharpAbstractSyntaxTree
                 break;
             case CSharpEnum @enum:
                 AddNodeEnum(platform, @enum);
-                break;
-            case CSharpPseudoEnum pseudoEnum:
-                AddNodePseudoEnum(platform, pseudoEnum);
                 break;
             case CSharpConstant constant:
                 AddNodeConstant(platform, constant);
@@ -389,12 +358,6 @@ public class BuilderCSharpAbstractSyntaxTree
     private void AddNodeEnum(RuntimePlatform? platform, CSharpEnum node)
     {
         var builder = platform != null ? _enumsByPlatform[platform.Value] : _agnosticEnums;
-        builder.Add(node);
-    }
-
-    private void AddNodePseudoEnum(RuntimePlatform? platform, CSharpPseudoEnum node)
-    {
-        var builder = platform != null ? _pseudoEnumsByPlatform[platform.Value] : _agnosticPseudoEnums;
         builder.Add(node);
     }
 

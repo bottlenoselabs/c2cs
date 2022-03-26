@@ -29,7 +29,6 @@ public sealed class ClangTranslationUnitExplorerContext
     internal readonly List<CMacroDefinition> MacroObjects = new();
     internal readonly HashSet<string> Names = new();
     internal readonly List<COpaqueType> OpaqueDataTypes = new();
-    internal readonly List<CEnum> PseudoEnums = new();
     internal readonly List<CRecord> Records = new();
     internal readonly HashSet<string> SystemIgnoredTypeNames = DefaultSystemIgnoredTypeNames();
     internal readonly List<CTypedef> Typedefs = new();

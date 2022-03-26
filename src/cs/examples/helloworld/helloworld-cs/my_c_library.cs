@@ -44,7 +44,7 @@ namespace my_c_library_namespace
         [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void pass_enum(my_enum_week_day e);
 
-        // Enum @ my_c_library.h:19:3
+        // Enum @ my_c_library.h:11:14
         public enum my_enum_week_day : int
         {
             MY_ENUM_WEEK_DAY_UNKNOWN = 0,

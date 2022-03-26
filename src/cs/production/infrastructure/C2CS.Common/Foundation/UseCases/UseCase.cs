@@ -103,7 +103,10 @@ public abstract class UseCase<TRequest, TInput, TResponse>
             Logger.UseCaseFailed(timeSpan);
         }
 
-        LogDiagnostics(response.Diagnostics);
+        foreach (var diagnostic in response.Diagnostics)
+        {
+            diagnostic.Log(Logger);
+        }
 
         _loggerScope?.Dispose();
         _loggerScope = null;
@@ -141,14 +144,6 @@ public abstract class UseCase<TRequest, TInput, TResponse>
 
         var diagnostics = Diagnostics.GetAll();
         throw new UseCaseException(diagnostics);
-    }
-
-    private void LogDiagnostics(ImmutableArray<Diagnostic> diagnostics)
-    {
-        foreach (var diagnostic in diagnostics)
-        {
-            diagnostic.Log(Logger);
-        }
     }
 
     private static void GarbageCollect()
