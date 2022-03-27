@@ -39,18 +39,18 @@ internal sealed class CommandLineService : IHostedService
 
     private void Main()
     {
-        int exitCode;
+        var exitCode = _rootCommand.Invoke(_commandLineArguments);
 
-        if (_commandLineArguments.Length != 0)
-        {
-            exitCode = _rootCommand.Invoke(_commandLineArguments);
-        }
-        else
-        {
-            var helpBuilder = new HelpBuilder(LocalizationResources.Instance, Console.WindowWidth);
-            helpBuilder.Write(_rootCommand, Console.Out);
-            exitCode = 0;
-        }
+        // if (_commandLineArguments.Length != 0)
+        // {
+        //     exitCode = _rootCommand.Invoke(_commandLineArguments);
+        // }
+        // else
+        // {
+        //     var helpBuilder = new HelpBuilder(LocalizationResources.Instance, Console.WindowWidth);
+        //     helpBuilder.Write(_rootCommand, Console.Out);
+        //     exitCode = 0;
+        // }
 
         Environment.ExitCode = exitCode;
         _applicationLifetime.StopApplication();

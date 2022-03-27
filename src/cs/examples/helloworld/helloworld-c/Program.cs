@@ -1,8 +1,7 @@
 ﻿// Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System.IO;
-using C2CS;
+using System;
 
 internal static class Program
 {
@@ -30,8 +29,7 @@ internal static class Program
 
     private static void GenerateBindingsCSharp()
     {
-        C2CS.Program.Main(new[] { "ast" });
-        C2CS.Program.Main(new[] { "cs" });
+        C2CS.Program.Main(Array.Empty<string>());
     }
 
 // private static void GenerateBindingsCSharp(string rootDirectory)

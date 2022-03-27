@@ -17,9 +17,7 @@ public static class Startup
     public static IHost CreateHost(string[] args)
     {
         return new HostBuilder()
-            .UseConsoleLifetime().ConfigureServices(
-                x => x.Configure<ConsoleLifetimeOptions>(
-                    o => o.SuppressStatusMessages = true))
+            .UseConsoleLifetime()
             .BuildHostCommon(args)
             .Build();
     }

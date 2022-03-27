@@ -34,33 +34,45 @@ internal class CommandLineInterface : RootCommand
 
         var bindgenCSharpCommand = CommandBindgenCSharp();
         Add(bindgenCSharpCommand);
+
+        this.SetHandler(Handle);
+    }
+
+    private void Handle()
+    {
+        HandleAbstractSyntaxTreeC();
+        HandleBindgenCSharp();
     }
 
     private Command CommandAbstractSyntaxTreeC()
     {
         var command = new Command(
             "ast", "Dump the abstract syntax tree of a C `.h` file to a `.json` file.");
-        command.SetHandler(() =>
-        {
-            var configuration = _configurationJsonSerializer.Read("config.json");
-            var request = configuration.ExtractAbstractSyntaxTreeC;
-            var useCase = _serviceProvider.GetService<ExtractAbstractSyntaxTreeUseCase>()!;
-            useCase.Execute(request);
-        });
+        command.SetHandler(HandleAbstractSyntaxTreeC);
         return command;
+    }
+
+    private void HandleAbstractSyntaxTreeC()
+    {
+        var configuration = _configurationJsonSerializer.Read("config.json");
+        var request = configuration.ExtractAbstractSyntaxTreeC;
+        var useCase = _serviceProvider.GetService<ExtractAbstractSyntaxTreeUseCase>()!;
+        useCase.Execute(request);
     }
 
     private Command CommandBindgenCSharp()
     {
         var command = new Command(
-            "cs", "Generate C# bindings from a C abstract syntax tree `.json` file.");
-        command.SetHandler(() =>
-        {
-            var configuration = _configurationJsonSerializer.Read("config.json");
-            var request = configuration.BindgenCSharp;
-            var useCase = _serviceProvider.GetService<BindgenUseCase>()!;
-            useCase.Execute(request);
-        });
+            "cs", "Generate C# bindings from one or more C abstract syntax tree `.json` files.");
+        command.SetHandler(HandleBindgenCSharp);
         return command;
+    }
+
+    private void HandleBindgenCSharp()
+    {
+        var configuration = _configurationJsonSerializer.Read("config.json");
+        var request = configuration.BindgenCSharp;
+        var useCase = _serviceProvider.GetService<BindgenUseCase>()!;
+        useCase.Execute(request);
     }
 }
