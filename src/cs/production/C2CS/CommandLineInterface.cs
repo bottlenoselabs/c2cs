@@ -22,55 +22,45 @@ internal class CommandLineInterface : RootCommand
         _configurationJsonSerializer = configurationJsonSerializer;
         _serviceProvider = serviceProvider;
 
-        var configurationOption = new Option(
-            new[] { "--configuration", "-c" },
-            "File path of the configuration `.json` file.",
-            typeof(string),
-            () => "config.json");
+        var configurationOption = new Option<string>(
+            new[] { "--configurationFilePath", "-c" },
+            () => "config.json",
+            "File path of the configuration `.json` file.")
+        {
+            IsRequired = false
+        };
         AddGlobalOption(configurationOption);
 
-        var abstractSyntaxTreeCommand = CommandAbstractSyntaxTreeC();
+        var abstractSyntaxTreeCommand = new Command(
+            "ast", "Dump the abstract syntax tree of a C `.h` file to a `.json` file.");
+        abstractSyntaxTreeCommand.SetHandler<string>(HandleAbstractSyntaxTreeC, configurationOption);
         Add(abstractSyntaxTreeCommand);
 
-        var bindgenCSharpCommand = CommandBindgenCSharp();
+        var bindgenCSharpCommand = new Command(
+            "cs", "Generate C# bindings from one or more C abstract syntax tree `.json` files.");
+        bindgenCSharpCommand.SetHandler<string>(HandleBindgenCSharp, configurationOption);
         Add(bindgenCSharpCommand);
 
-        this.SetHandler(Handle);
+        this.SetHandler<string>(Handle, configurationOption);
     }
 
-    private void Handle()
+    private void Handle(string configurationFilePath)
     {
-        HandleAbstractSyntaxTreeC();
-        HandleBindgenCSharp();
+        HandleAbstractSyntaxTreeC(configurationFilePath);
+        HandleBindgenCSharp(configurationFilePath);
     }
 
-    private Command CommandAbstractSyntaxTreeC()
+    private void HandleAbstractSyntaxTreeC(string configurationFilePath)
     {
-        var command = new Command(
-            "ast", "Dump the abstract syntax tree of a C `.h` file to a `.json` file.");
-        command.SetHandler(HandleAbstractSyntaxTreeC);
-        return command;
-    }
-
-    private void HandleAbstractSyntaxTreeC()
-    {
-        var configuration = _configurationJsonSerializer.Read("config.json");
+        var configuration = _configurationJsonSerializer.Read(configurationFilePath);
         var request = configuration.ExtractAbstractSyntaxTreeC;
         var useCase = _serviceProvider.GetService<ExtractAbstractSyntaxTreeUseCase>()!;
         useCase.Execute(request);
     }
 
-    private Command CommandBindgenCSharp()
+    private void HandleBindgenCSharp(string configurationFilePath)
     {
-        var command = new Command(
-            "cs", "Generate C# bindings from one or more C abstract syntax tree `.json` files.");
-        command.SetHandler(HandleBindgenCSharp);
-        return command;
-    }
-
-    private void HandleBindgenCSharp()
-    {
-        var configuration = _configurationJsonSerializer.Read("config.json");
+        var configuration = _configurationJsonSerializer.Read(configurationFilePath);
         var request = configuration.BindgenCSharp;
         var useCase = _serviceProvider.GetService<BindgenUseCase>()!;
         useCase.Execute(request);
