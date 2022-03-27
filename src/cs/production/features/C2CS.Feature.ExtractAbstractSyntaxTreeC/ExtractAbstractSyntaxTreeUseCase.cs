@@ -14,20 +14,19 @@ using static bottlenoselabs.clang;
 namespace C2CS.Feature.ExtractAbstractSyntaxTreeC;
 
 public sealed class ExtractAbstractSyntaxTreeUseCase : UseCase<
-    ExtractAbstractSyntaxTreeRequest, ExtractAbstractSyntaxTreeInput, ExtractAbstractSyntaxTreeResponse>
+    ExtractAbstractSyntaxTreeRequest, ExtractAbstractSyntaxTreeInput, ExtractAbstractSyntaxTreeOutput>
 {
     private readonly IServiceProvider _services;
 
-    public ExtractAbstractSyntaxTreeUseCase(
-        ILogger logger,
-        IServiceProvider services,
-        ExtractAbstractSyntaxTreeValidator validator)
-        : base("Extract AST C", logger, validator)
+    public override string Name => "Extract AST C";
+
+    public ExtractAbstractSyntaxTreeUseCase(ILogger logger, IServiceProvider services, ExtractAbstractSyntaxTreeValidator validator)
+        : base(logger, services, validator)
     {
         _services = services;
     }
 
-    protected override ExtractAbstractSyntaxTreeResponse Execute(ExtractAbstractSyntaxTreeInput input)
+    protected override void Execute(ExtractAbstractSyntaxTreeInput input, ExtractAbstractSyntaxTreeOutput output)
     {
         InstallClang();
 
@@ -48,13 +47,6 @@ public sealed class ExtractAbstractSyntaxTreeUseCase : UseCase<
             input.TargetPlatform);
 
         Write(input.OutputFilePath, abstractSyntaxTreeC);
-
-        var response = new ExtractAbstractSyntaxTreeResponse
-        {
-            FilePath = input.OutputFilePath
-        };
-
-        return response;
     }
 
     private void InstallClang()

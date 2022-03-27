@@ -2,12 +2,20 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using System.IO.Abstractions;
 using C2CS.Feature.BindgenCSharp.Data;
 
 namespace C2CS.Feature.BindgenCSharp;
 
 public sealed class BindgenValidator : UseCaseValidator<BindgenRequest, BindgenInput>
 {
+    private readonly IFileSystem _fileSystem;
+
+    public BindgenValidator(IFileSystem fileSystem)
+    {
+        _fileSystem = fileSystem;
+    }
+
     public override BindgenInput Validate(BindgenRequest request)
     {
         var inputFilePaths = InputFilePaths(request.InputFileDirectory);
@@ -34,16 +42,16 @@ public sealed class BindgenValidator : UseCaseValidator<BindgenRequest, BindgenI
         };
     }
 
-    private static ImmutableArray<string> InputFilePaths(string? inputDirectoryPath)
+    private ImmutableArray<string> InputFilePaths(string? inputDirectoryPath)
     {
         string directoryPath;
         if (string.IsNullOrWhiteSpace(inputDirectoryPath))
         {
-            directoryPath = Path.Combine(Environment.CurrentDirectory, "ast");
+            directoryPath = _fileSystem.Path.Combine(Environment.CurrentDirectory, "ast");
         }
         else
         {
-            if (!Directory.Exists(inputDirectoryPath))
+            if (!_fileSystem.Directory.Exists(inputDirectoryPath))
             {
                 throw new UseCaseException($"The abstract syntax tree input directory '{inputDirectoryPath}' does not exist.");
             }
@@ -52,10 +60,10 @@ public sealed class BindgenValidator : UseCaseValidator<BindgenRequest, BindgenI
         }
 
         var builder = ImmutableArray.CreateBuilder<string>();
-        var filePaths = Directory.EnumerateFiles(directoryPath);
+        var filePaths = _fileSystem.Directory.EnumerateFiles(directoryPath);
         foreach (var filePath in filePaths)
         {
-            var fileName = Path.GetFileName(filePath);
+            var fileName = _fileSystem.Path.GetFileName(filePath);
             var runtimePlatformString = fileName.Replace(".json", string.Empty, StringComparison.InvariantCulture);
             var runtimePlatform = RuntimePlatform.FromString(runtimePlatformString);
             if (runtimePlatform == RuntimePlatform.Unknown)
@@ -69,14 +77,17 @@ public sealed class BindgenValidator : UseCaseValidator<BindgenRequest, BindgenI
         return builder.ToImmutable();
     }
 
-    private static string OutputFilePath(string? outputFilePath)
+    private string OutputFilePath(string? outputFilePath)
     {
-        if (!string.IsNullOrEmpty(outputFilePath))
+        if (string.IsNullOrEmpty(outputFilePath))
         {
-            return Path.GetFullPath(outputFilePath);
+            throw new UseCaseException($"The output file path can not be an empty or null string.");
         }
 
-        throw new UseCaseException($"The output file path can not be an empty or null string.");
+        var result = _fileSystem.Path.GetFullPath(outputFilePath);
+        var directoryPath = _fileSystem.Path.GetDirectoryName(outputFilePath);
+        _fileSystem.Directory.CreateDirectory(directoryPath);
+        return result;
     }
 
     private static ImmutableArray<CSharpTypeAlias> TypeAliases(ImmutableArray<CSharpTypeAlias>? mappedTypeNames)

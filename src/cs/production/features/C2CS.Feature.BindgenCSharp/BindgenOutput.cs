@@ -3,7 +3,6 @@
 
 namespace C2CS.Feature.BindgenCSharp;
 
-public sealed class BindgenResponse : UseCaseResponse
+public sealed class BindgenOutput : UseCaseOutput<BindgenInput>
 {
-    public string Code { get; init; } = string.Empty;
 }

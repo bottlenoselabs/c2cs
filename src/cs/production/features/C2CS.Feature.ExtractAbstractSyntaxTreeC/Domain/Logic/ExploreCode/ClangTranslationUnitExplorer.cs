@@ -619,8 +619,6 @@ public sealed class ClangTranslationUnitExplorer
             return;
         }
 
-        _logger.ExploreCodeTypedef(typeName);
-
         var underlyingType = clang_getTypedefDeclUnderlyingType(node.Cursor);
         var (aliasKind, aliasType) = TypeKind(underlyingType);
         var aliasCursor = clang_getTypeDeclaration(aliasType);
@@ -638,6 +636,8 @@ public sealed class ClangTranslationUnitExplorer
                 ExploreFunctionPointer(context, typeName, cursor, aliasType, location, parentNode);
                 return;
         }
+
+        _logger.ExploreCodeTypedef(typeName);
 
         var aliasTypeName = TypeName(parentNode.TypeName!, aliasKind, aliasType, cursor);
         VisitType(context, parentNode, cursor, node.Cursor, aliasType, aliasType, aliasTypeName);
@@ -710,19 +710,24 @@ public sealed class ClangTranslationUnitExplorer
         return value;
     }
 
-    private bool RegisterTypeIsNew(ClangTranslationUnitExplorerContext context, string typeName, CXType type, CXCursor cursor)
+    private bool IsNewType(ClangTranslationUnitExplorerContext context, string typeName, CXType type, CXCursor cursor)
     {
         if (string.IsNullOrEmpty(typeName))
         {
-            return true;
+            return false;
         }
 
         var alreadyVisited = context.TypesByName.TryGetValue(typeName, out var typeC);
         if (alreadyVisited)
         {
+            if (typeC == null)
+            {
+                return false;
+            }
+
             // attempt to see if we have a definition for a previous opaque type, to which we should that info instead
             //  this can happen if one header file has a forward type, but another header file has the definition
-            if (typeC!.Kind != CKind.OpaqueType)
+            if (typeC.Kind != CKind.OpaqueType)
             {
                 return false;
             }
@@ -739,7 +744,6 @@ public sealed class ClangTranslationUnitExplorer
         }
 
         typeC = Type(context, typeName, cursor, type);
-
         context.TypesByName.Add(typeName, typeC);
         context.Types.Add(typeC);
 
@@ -1183,22 +1187,6 @@ public sealed class ClangTranslationUnitExplorer
             declaration = cursor;
         }
 
-        // if (type.kind == CXTypeKind.CXType_IncompleteArray)
-        // {
-        //     var elementType = clang_getElementType(type);
-        //     if (elementType.kind == CXTypeKind.CXType_Typedef)
-        //     {
-        //         var elementCursor = clang_getTypeDeclaration(elementType);
-        //         var underlyingCursor = ClangUnderlyingCursor(elementCursor);
-        //         elementType = clang_getTypedefDeclUnderlyingType(x);
-        //     }
-        //
-        //     if (elementType.kind == CXTypeKind.CXType_Pointer)
-        //     {
-        //         sizeOfValue = (int)clang_Type_getSizeOf(elementType);
-        //     }
-        // }
-
         var sizeOf = SizeOf(context, type);
         var alignOfValue = (int)clang_Type_getAlignOf(type);
         int? alignOf = alignOfValue >= 0 ? alignOfValue : null;
@@ -1206,18 +1194,18 @@ public sealed class ClangTranslationUnitExplorer
         int? arraySize = arraySizeValue >= 0 ? arraySizeValue : null;
         var isSystemType = type.IsSystem();
 
-        var typeKind = TypeKind(type);
+        var (kind, kindType) = TypeKind(type);
 
         int? elementSize = null;
-        if (typeKind.Kind == CKind.Array)
+        if (kind == CKind.Array)
         {
-            var x = TypeKind(typeKind.Type);
-            var elementType = clang_getElementType(x.Type);
+            var (_, arrayType) = TypeKind(kindType);
+            var elementType = clang_getElementType(arrayType);
             elementSize = (int)clang_Type_getSizeOf(elementType);
         }
 
         CLocation? location = null;
-        if (typeKind.Kind != CKind.Primitive && !isSystemType)
+        if (kind != CKind.Primitive && !isSystemType)
         {
             location = Location(context, declaration, type);
         }
@@ -1225,7 +1213,7 @@ public sealed class ClangTranslationUnitExplorer
         var cType = new CType
         {
             Name = typeName,
-            Kind = typeKind.Kind,
+            Kind = kind,
             SizeOf = sizeOf,
             AlignOf = alignOf,
             ElementSize = elementSize,
@@ -1398,7 +1386,7 @@ public sealed class ClangTranslationUnitExplorer
             throw new UseCaseException("NoDecl cursor.");
         }
 
-        if (!RegisterTypeIsNew(context, typeName, type, cursor))
+        if (!IsNewType(context, typeName, type, cursor))
         {
             return;
         }
@@ -1409,47 +1397,39 @@ public sealed class ClangTranslationUnitExplorer
             return;
         }
 
+        var (kind, kindType) = TypeKind(type);
+        if (kind == CKind.Typedef)
+        {
+            VisitTypedef(context, parentNode, kindType, typeName);
+            return;
+        }
+
         _logger.ExploreCodeVisitType(typeName);
 
-        var typeKind = TypeKind(type);
-        if (typeKind.Kind == CKind.Pointer)
+        if (kind == CKind.Pointer)
         {
-            var pointeeType = clang_getPointeeType(typeKind.Type);
-            var pointeeKind = TypeKind(pointeeType);
+            var pointeeType = clang_getPointeeType(kindType);
+            var (pointeeKind, pointeeKindType) = TypeKind(pointeeType);
             var pointeeCursor = clang_getTypeDeclaration(pointeeType);
             var pointeeCursor2 = pointeeCursor.kind == CXCursorKind.CXCursor_NoDeclFound ? cursor : pointeeCursor;
-            var pointeeTypeName = TypeName(parentNode.TypeName!, pointeeKind.Kind, pointeeKind.Type, pointeeCursor2);
+            var pointeeTypeName = TypeName(parentNode.TypeName!, pointeeKind, pointeeKindType, pointeeCursor2);
             VisitType(
                 context,
                 parentNode,
                 pointeeCursor2,
                 originalCursor,
-                pointeeKind.Type,
+                pointeeKindType,
                 type,
                 pointeeTypeName);
-            return;
-        }
-
-        if (typeKind.Kind == CKind.Typedef)
-        {
-            VisitTypedef(context, parentNode, typeKind.Type, typeName);
         }
         else
         {
-            CXType locationType;
-            if (type.kind == CXTypeKind.CXType_IncompleteArray ||
-                type.kind == CXTypeKind.CXType_ConstantArray)
+            var locationType = type.kind switch
             {
-                locationType = clang_getElementType(type);
-            }
-            else if (type.kind == CXTypeKind.CXType_Pointer)
-            {
-                locationType = clang_getPointeeType(type);
-            }
-            else
-            {
-                locationType = type;
-            }
+                CXTypeKind.CXType_IncompleteArray or CXTypeKind.CXType_ConstantArray => clang_getElementType(type),
+                CXTypeKind.CXType_Pointer => clang_getPointeeType(type),
+                _ => type
+            };
 
             var locationCursor = clang_getTypeDeclaration(locationType);
             if (locationCursor.kind == CXCursorKind.CXCursor_NoDeclFound)
@@ -1465,11 +1445,11 @@ public sealed class ClangTranslationUnitExplorer
             var location = Location(context, locationCursor);
             AddExplorerNode(
                 context,
-                typeKind.Kind,
+                kind,
                 location,
                 parentNode,
                 cursor,
-                typeKind.Type,
+                kindType,
                 originalType,
                 string.Empty,
                 typeName);
@@ -1523,11 +1503,7 @@ public sealed class ClangTranslationUnitExplorer
             _ => throw new UseCaseException($"Unexpected node kind '{kind}'.")
         };
 
-        if (type.kind == CXTypeKind.CXType_IncompleteArray)
-        {
-            typeName = $"{typeName}";
-        }
-        else if (type.kind == CXTypeKind.CXType_ConstantArray)
+        if (type.kind == CXTypeKind.CXType_ConstantArray)
         {
             var arraySize = clang_getArraySize(type);
             typeName = $"{typeName}[{arraySize}]";

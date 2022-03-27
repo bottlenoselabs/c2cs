@@ -11,6 +11,6 @@ namespace C2CS;
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
     GenerationMode = JsonSourceGenerationMode.Metadata)]
 [JsonSerializable(typeof(Configuration))]
-internal partial class ConfigurationSerializerContext : JsonSerializerContext
+public partial class ConfigurationSerializerContext : JsonSerializerContext
 {
 }

@@ -3,27 +3,25 @@
 
 using System.Collections.Immutable;
 using C2CS.Feature.BindgenCSharp.Data;
-using C2CS.Feature.BindgenCSharp.Domain;
 using C2CS.Feature.BindgenCSharp.Domain.Logic.CodeGenerator;
 using C2CS.Feature.BindgenCSharp.Domain.Logic.Mapper;
-using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Serialization;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.Feature.BindgenCSharp;
 
-public sealed class BindgenUseCase : UseCase<BindgenRequest, BindgenInput, BindgenResponse>
+public sealed class BindgenUseCase : UseCase<BindgenRequest, BindgenInput, BindgenOutput>
 {
-    private readonly CJsonSerializer _cJsonSerializer;
+    public override string Name => "Bindgen C#";
 
-    public BindgenUseCase(ILogger logger, CJsonSerializer cJsonSerializer)
-        : base("Bindgen C#", logger, new BindgenValidator())
+    public BindgenUseCase(ILogger logger, IServiceProvider services, BindgenValidator validator)
+        : base(logger, services, validator)
     {
-        _cJsonSerializer = cJsonSerializer;
     }
 
-    protected override BindgenResponse Execute(BindgenInput input)
+    protected override void Execute(BindgenInput input, BindgenOutput output)
     {
         var abstractSyntaxTreesC = LoadCAbstractSyntaxTrees(input.InputFilePaths);
 
@@ -44,22 +42,18 @@ public sealed class BindgenUseCase : UseCase<BindgenRequest, BindgenInput, Bindg
             input.FooterCodeRegion);
 
         WriteCSharpCodeToFileStorage(input.OutputFilePath, code);
-
-        var response = new BindgenResponse
-        {
-            Code = code
-        };
-        return response;
     }
 
     private ImmutableArray<CAbstractSyntaxTree> LoadCAbstractSyntaxTrees(ImmutableArray<string> filePaths)
     {
         BeginStep("Load");
 
+        var cJsonSerializer = Services.GetService<CJsonSerializer>()!;
+
         var builder = ImmutableArray.CreateBuilder<CAbstractSyntaxTree>();
         foreach (var filePath in filePaths)
         {
-            var ast = _cJsonSerializer.Read(filePath);
+            var ast = cJsonSerializer.Read(filePath);
             builder.Add(ast);
         }
 
@@ -126,20 +120,7 @@ public sealed class BindgenUseCase : UseCase<BindgenRequest, BindgenInput, Bindg
     {
         BeginStep("Write file");
 
-        var outputDirectory = Path.GetDirectoryName(outputFilePath)!;
-        if (string.IsNullOrEmpty(outputDirectory))
-        {
-            outputDirectory = AppContext.BaseDirectory;
-            outputFilePath = Path.Combine(Environment.CurrentDirectory, outputFilePath);
-        }
-
-        if (!Directory.Exists(outputDirectory))
-        {
-            Directory.CreateDirectory(outputDirectory);
-        }
-
         File.WriteAllText(outputFilePath, codeCSharp);
-
         Console.WriteLine(outputFilePath);
 
         EndStep();

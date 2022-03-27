@@ -5,13 +5,15 @@ using System.Collections.Immutable;
 
 namespace C2CS;
 
-public abstract class UseCaseResponse
+public abstract class UseCaseOutput<TInput>
 {
-    public bool IsSuccessful { get; internal set; }
+    public bool IsSuccessful { get; private set; }
+
+    public TInput Input { get; internal set; } = default!;
 
     public ImmutableArray<Diagnostic> Diagnostics { get; private set; }
 
-    internal void WithDiagnostics(ImmutableArray<Diagnostic> diagnostics)
+    internal void Complete(ImmutableArray<Diagnostic> diagnostics)
     {
         Diagnostics = diagnostics;
         IsSuccessful = CalculateIsSuccessful(diagnostics);

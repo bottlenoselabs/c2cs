@@ -9,6 +9,7 @@ public static class Startup
 {
     public static void ConfigureServices(IServiceCollection services)
     {
-        services.AddTransient<BuildLibraryUseCase>();
+        services.AddSingleton<BuildLibraryUseCase>();
+        services.AddSingleton<BuildLibraryValidator>();
     }
 }

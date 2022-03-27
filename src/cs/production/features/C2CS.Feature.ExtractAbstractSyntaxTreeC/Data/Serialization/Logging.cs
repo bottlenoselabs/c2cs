@@ -17,7 +17,7 @@ internal static class Logging
         LoggerMessage.Define<string>(
             LogLevel.Trace,
             LoggingEventRegistry.CreateEventIdentifier("Serialize abstract syntax tree C: failure."),
-            "- Read abstract syntax tree C. Failed. Path: {FilePath}");
+            "- Read abstract syntax tree C. Failed. Path: {FilePath}.");
 
     private static readonly Action<ILogger, string, Exception> ActionWriteAbstractSyntaxTreeSuccess =
         LoggerMessage.Define<string>(
@@ -29,7 +29,7 @@ internal static class Logging
         LoggerMessage.Define<string>(
             LogLevel.Trace,
             LoggingEventRegistry.CreateEventIdentifier("Write abstract syntax tree C: failure."),
-            "- Write abstract syntax tree C. Failed. Path: {FilePath}");
+            "- Write abstract syntax tree C. Failed. Path: {FilePath}.");
 
     public static void ReadAbstractSyntaxTreeCSuccess(this ILogger logger, string filePath)
     {

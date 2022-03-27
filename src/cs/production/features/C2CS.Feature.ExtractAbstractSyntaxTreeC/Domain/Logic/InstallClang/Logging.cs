@@ -10,7 +10,7 @@ internal static class Logging
     private static readonly Action<ILogger, Exception> ActionFailed =
         LoggerMessage.Define(
             LogLevel.Trace,
-            LoggingEventRegistry.CreateEventIdentifier("Install Clang: Failed"),
+            LoggingEventRegistry.CreateEventIdentifier("Install Clang: Failed."),
             "- Failed");
 
     private static readonly Action<ILogger, Exception> ActionSuccess =

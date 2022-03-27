@@ -10,8 +10,15 @@ namespace C2CS;
 // NOTE: Properties are required for System.Text.Json serialization
 // NOTE: This class is considered un-sanitized input; all strings and other types could be null.
 // NOTE: This class must have a unique name across namespaces for usage in System.Text.Json source generators.
-internal sealed class Configuration
+public sealed class Configuration
 {
+    /// <summary>
+    ///     Path of the input and output abstract syntax tree directory. The directory will be written to with a `.json`
+    ///     file for the target platform when extracting the abstract syntax tree for C and the same `.json` files will
+    ///     be read when generating C# code.
+    /// </summary>
+    public string? InputOutputFileDirectory { get; set; }
+
     /// <summary>
     ///     The configuration for extracting the C abstract syntax tree from a header file.
     /// </summary>

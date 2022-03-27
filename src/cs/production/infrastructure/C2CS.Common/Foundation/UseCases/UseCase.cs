@@ -9,11 +9,13 @@ using Microsoft.Extensions.Logging;
 namespace C2CS;
 
 [PublicAPI]
-public abstract class UseCase<TRequest, TInput, TResponse>
+public abstract class UseCase<TRequest, TInput, TOutput>
     where TRequest : UseCaseRequest
-    where TResponse : UseCaseResponse, new()
+    where TOutput : UseCaseOutput<TInput>, new()
 {
     public readonly ILogger Logger;
+    public readonly IServiceProvider Services;
+
     private IDisposable? _loggerScope;
     private IDisposable? _loggerScopeStep;
     private readonly string _name;
@@ -21,10 +23,16 @@ public abstract class UseCase<TRequest, TInput, TResponse>
     private readonly Stopwatch _stepStopwatch;
     private readonly UseCaseValidator<TRequest, TInput> _validator;
 
-    protected UseCase(string name, ILogger logger, UseCaseValidator<TRequest, TInput> validator)
+    public abstract string Name { get; }
+
+    protected UseCase(ILogger logger, IServiceProvider services, UseCaseValidator<TRequest, TInput> validator)
     {
         Logger = logger;
-        _name = name;
+        Services = services;
+
+        // ReSharper disable once VirtualMemberCallInConstructor
+        _name = Name;
+
         _stopwatch = new Stopwatch();
         _stepStopwatch = new Stopwatch();
         _validator = validator;
@@ -33,25 +41,22 @@ public abstract class UseCase<TRequest, TInput, TResponse>
     protected DiagnosticsSink Diagnostics { get; } = new();
 
     [DebuggerHidden]
-    public TResponse Execute(TRequest? request)
+    public TOutput Execute(TRequest? request)
     {
+        var output = new TOutput();
         if (request == null)
         {
-            return new TResponse
-            {
-                IsSuccessful = false
-            };
+            return output;
         }
 
         var previousCurrentDirectory = Environment.CurrentDirectory;
         Environment.CurrentDirectory = request.WorkingDirectory ?? Environment.CurrentDirectory;
 
         Begin();
-        TResponse? response = null;
         try
         {
-            var input = _validator.Validate(request);
-            response = Execute(input);
+            output.Input = _validator.Validate(request);
+            Execute(output.Input, output);
         }
         catch (Exception e)
         {
@@ -69,12 +74,11 @@ public abstract class UseCase<TRequest, TInput, TResponse>
             Environment.CurrentDirectory = previousCurrentDirectory;
         }
 
-        response ??= new TResponse();
-        End(response);
-        return response;
+        End(output);
+        return output;
     }
 
-    protected abstract TResponse? Execute(TInput input);
+    protected abstract void Execute(TInput input, TOutput output);
 
     private void Begin()
     {
@@ -86,12 +90,12 @@ public abstract class UseCase<TRequest, TInput, TResponse>
         _stopwatch.Start();
     }
 
-    private void End(TResponse response)
+    private void End(TOutput response)
     {
         _stopwatch.Stop();
         var timeSpan = _stopwatch.Elapsed;
 
-        response.WithDiagnostics(Diagnostics.GetAll());
+        response.Complete(Diagnostics.GetAll());
 
         if (response.IsSuccessful)
         {

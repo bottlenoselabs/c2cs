@@ -6,7 +6,7 @@ using C2CS.Feature.BuildLibraryC.Data;
 
 namespace C2CS.Feature.BuildLibraryC;
 
-public class BuildLibraryResponse : UseCaseResponse
+public class BuildLibraryOutput : UseCaseOutput<BuildLibraryInput>
 {
     public ImmutableArray<BuildTargetResult> BuildTargetResults { get; }
 }

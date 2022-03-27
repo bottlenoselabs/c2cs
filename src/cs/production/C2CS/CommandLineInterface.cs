@@ -11,15 +11,15 @@ namespace C2CS;
 
 internal class CommandLineInterface : RootCommand
 {
-    private readonly ConfigurationService _configurationService;
+    private readonly ConfigurationJsonSerializer _configurationJsonSerializer;
     private readonly IServiceProvider _serviceProvider;
 
     public CommandLineInterface(
-        ConfigurationService configurationService,
+        ConfigurationJsonSerializer configurationJsonSerializer,
         IServiceProvider serviceProvider)
         : base("C2CS - C to C# bindings code generator.")
     {
-        _configurationService = configurationService;
+        _configurationJsonSerializer = configurationJsonSerializer;
         _serviceProvider = serviceProvider;
 
         var configurationOption = new Option(
@@ -42,7 +42,7 @@ internal class CommandLineInterface : RootCommand
             "ast", "Dump the abstract syntax tree of a C `.h` file to a `.json` file.");
         command.SetHandler(() =>
         {
-            var configuration = _configurationService.Read("config.json");
+            var configuration = _configurationJsonSerializer.Read("config.json");
             var request = configuration.ExtractAbstractSyntaxTreeC;
             var useCase = _serviceProvider.GetService<ExtractAbstractSyntaxTreeUseCase>()!;
             useCase.Execute(request);
@@ -56,7 +56,7 @@ internal class CommandLineInterface : RootCommand
             "cs", "Generate C# bindings from a C abstract syntax tree `.json` file.");
         command.SetHandler(() =>
         {
-            var configuration = _configurationService.Read("config.json");
+            var configuration = _configurationJsonSerializer.Read("config.json");
             var request = configuration.BindgenCSharp;
             var useCase = _serviceProvider.GetService<BindgenUseCase>()!;
             useCase.Execute(request);

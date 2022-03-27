@@ -9,6 +9,7 @@ public static class Startup
 {
     public static void ConfigureServices(IServiceCollection services)
     {
-        services.AddTransient<BindgenUseCase>();
+        services.AddSingleton<BindgenUseCase>();
+        services.AddSingleton<BindgenValidator>();
     }
 }

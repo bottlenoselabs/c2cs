@@ -52,7 +52,7 @@ public static class Startup
             x.GetRequiredService<ILoggerProvider>().CreateLogger(string.Empty));
         services.AddHostedService<CommandLineService>();
         services.AddSingleton<RootCommand, CommandLineInterface>();
-        services.AddSingleton<ConfigurationService>();
+        services.AddSingleton<ConfigurationJsonSerializer>();
 
         Feature.ExtractAbstractSyntaxTreeC.Startup.ConfigureServices(services);
         Feature.BindgenCSharp.Startup.ConfigureServices(services);

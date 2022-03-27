@@ -9,13 +9,13 @@ using Microsoft.Extensions.Logging;
 
 namespace C2CS;
 
-internal sealed class ConfigurationService
+public sealed class ConfigurationJsonSerializer
 {
     private readonly ILogger _logger;
     private readonly IFileSystem _fileSystem;
     private readonly ConfigurationSerializerContext _serializerContext;
 
-    public ConfigurationService(ILogger logger, IFileSystem fileSystem)
+    public ConfigurationJsonSerializer(ILogger logger, IFileSystem fileSystem)
     {
         _logger = logger;
         _fileSystem = fileSystem;
@@ -41,6 +41,17 @@ internal sealed class ConfigurationService
         {
             var fileContents = _fileSystem.File.ReadAllText(fullFilePath);
             var configuration = JsonSerializer.Deserialize(fileContents, _serializerContext.Configuration)!;
+
+            if (configuration.ExtractAbstractSyntaxTreeC != null && string.IsNullOrEmpty(configuration.ExtractAbstractSyntaxTreeC.OutputFileDirectory))
+            {
+                configuration.ExtractAbstractSyntaxTreeC.OutputFileDirectory = configuration.InputOutputFileDirectory;
+            }
+
+            if (configuration.BindgenCSharp != null && string.IsNullOrEmpty(configuration.BindgenCSharp.InputFileDirectory))
+            {
+                configuration.BindgenCSharp.InputFileDirectory = configuration.InputOutputFileDirectory;
+            }
+
             _logger.ConfigurationLoadSuccess(fullFilePath);
             return configuration;
         }

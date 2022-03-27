@@ -10,7 +10,7 @@ internal static class Logging
     private static readonly Action<ILogger, Exception> ActionExploreCodeFailed =
         LoggerMessage.Define(
             LogLevel.Trace,
-            LoggingEventRegistry.CreateEventIdentifier("Explore C header file: Failed"),
+            LoggingEventRegistry.CreateEventIdentifier("Explore C header file: Failed."),
             "- Failed");
 
     private static readonly Action<ILogger, Exception> ActionExploreCodeSuccess =
