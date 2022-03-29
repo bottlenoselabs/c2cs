@@ -40,7 +40,7 @@ public static class Startup
         services.AddLogging(x =>
             x.AddSimpleConsole(options =>
             {
-                options.ColorBehavior = LoggerColorBehavior.Disabled;
+                options.ColorBehavior = LoggerColorBehavior.Enabled;
                 options.SingleLine = true;
                 options.IncludeScopes = true;
                 options.UseUtcTimestamp = true;

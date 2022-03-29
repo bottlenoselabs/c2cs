@@ -3,7 +3,7 @@
 
 using System.Collections.Immutable;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC;
-using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Serialization;
 using Xunit;
 
@@ -11,35 +11,57 @@ namespace C2CS.IntegrationTests.my_c_library.Fixtures;
 
 public sealed class ExtractAbstractSyntaxTreeCFixture
 {
-    public readonly ImmutableDictionary<string, CFunction> FunctionsByName;
-    public readonly ImmutableDictionary<string, CEnum> EnumsByName;
+    public readonly ImmutableArray<AbstractSyntaxTreeFixtureData> AbstractSyntaxTrees;
 
-    public ExtractAbstractSyntaxTreeOutput Output { get; }
+    public sealed class AbstractSyntaxTreeFixtureData
+    {
+        public ImmutableDictionary<string, CFunction> FunctionsByName { get; init; } = ImmutableDictionary<string, CFunction>.Empty;
+
+        public ImmutableDictionary<string, CEnum> EnumsByName { get; init; } = ImmutableDictionary<string, CEnum>.Empty;
+    }
+
+    public ExtractOutput Output { get; }
 
     public ExtractAbstractSyntaxTreeCFixture(
-        ExtractAbstractSyntaxTreeUseCase useCase,
+        ExtractUseCase useCase,
         CJsonSerializer cJsonSerializer,
         ConfigurationJsonSerializer configurationJsonSerializer)
     {
         var configuration = configurationJsonSerializer.Read("my_c_library/config.json");
-        var request = configuration.ExtractAbstractSyntaxTreeC;
+        var request = configuration.ExtractC;
+        Assert.True(request != null);
 
-        var output = Output = useCase.Execute(request);
+        var output = Output = useCase.Execute(request!);
         var input = output.Input;
 
         Assert.True(output.IsSuccessful);
         Assert.True(output.Diagnostics.Length == 0);
 
-        Assert.True(input.OutputFilePath != null);
-        var ast = cJsonSerializer.Read(input.OutputFilePath!);
-        Assert.True(ast != null);
+        var builder = ImmutableArray.CreateBuilder<AbstractSyntaxTreeFixtureData>();
 
-        FunctionsByName = ast!.Functions.ToImmutableDictionary(x => x.Name, x => x);
-        EnumsByName = ast.Enums.ToImmutableDictionary(x => x.Name, x => x);
+        foreach (var inputAbstractSyntaxTree in input.InputAbstractSyntaxTrees)
+        {
+            Assert.True(inputAbstractSyntaxTree.OutputFilePath != null);
+            var ast = cJsonSerializer.Read(inputAbstractSyntaxTree.OutputFilePath!);
+            Assert.True(ast != null);
 
-        Assert.True(FunctionsByName.TryGetValue("c2cs_get_runtime_platform_name", out var function));
-        Assert.True(function!.CallingConvention == CFunctionCallingConvention.Cdecl);
-        Assert.True(function.ReturnType == "char*");
-        Assert.True(function.Parameters.IsDefaultOrEmpty);
+            var functionsByName = ast!.Functions.ToImmutableDictionary(x => x.Name, x => x);
+            var enumsByName = ast.Enums.ToImmutableDictionary(x => x.Name, x => x);
+
+            Assert.True(functionsByName.TryGetValue("c2cs_get_runtime_platform_name", out var function));
+            Assert.True(function!.CallingConvention == CFunctionCallingConvention.Cdecl);
+            Assert.True(function.ReturnType == "char*");
+            Assert.True(function.Parameters.IsDefaultOrEmpty);
+
+            var data = new AbstractSyntaxTreeFixtureData
+            {
+                FunctionsByName = functionsByName,
+                EnumsByName = enumsByName
+            };
+
+            builder.Add(data);
+        }
+
+        AbstractSyntaxTrees = builder.ToImmutable();
     }
 }

@@ -1,21 +1,20 @@
 {
-  "inputOutputFileDirectory": "../../../../src/cs/examples/helloworld/helloworld-c/my_c_library/ast",
+  "directory": "../../../../src/cs/examples/helloworld/helloworld-c/my_c_library/ast",
   "ast": {
-    "inputFilePath": "../../../../src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h",
-    "includeDirectories": null,
-    "defines": null,
-    "functionNamesWhiteList": null,
-    "opaqueTypeNames": null,
-    "excludedHeaderFiles": null,
-    "clangArguments": null
+    "input_file": "../../../../src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h",
+    "platforms": {
+      "aarch64-apple-darwin": {},
+      "x86_64-apple-darwin": {}
+    }
   },
   "cs": {
-    "outputFilePath": "../../../../src/cs/examples/helloworld/helloworld-cs/my_c_library.cs",
-    "libraryName": null,
-    "namespaceName": "my_c_library_namespace",
-    "className": null,
-    "ignoredTypeNames": null,
-    "headerCodeRegionFilePath": null,
-    "footerCodeRegionFilePath": null
+    "output_file": "../../../../src/cs/examples/helloworld/helloworld-cs/my_c_library.cs",
+    "library_name": null,
+    "namespace_name": "my_c_library_namespace",
+    "class_name": null,
+    "ignored": null,
+    "mapped": null,
+    "region_header_file": null,
+    "region_footer_file": null
   }
 }

@@ -2,9 +2,9 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Serialization;
-using C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Logic.ExploreCode;
-using C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Logic.InstallClang;
-using C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.Logic.ParseCode;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.ExploreCode;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.InstallClang;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Domain.ParseCode;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace C2CS.Feature.ExtractAbstractSyntaxTreeC;
@@ -18,11 +18,12 @@ public static class Startup
 
         // Logic
         services.AddSingleton<ClangInstaller>();
+        services.AddSingleton<ClangArgumentsBuilder>();
         services.AddSingleton<ClangTranslationUnitParser>();
         services.AddSingleton<ClangTranslationUnitExplorer>();
 
         // Use case
-        services.AddTransient<ExtractAbstractSyntaxTreeUseCase>();
-        services.AddSingleton<ExtractAbstractSyntaxTreeValidator>();
+        services.AddTransient<ExtractUseCase>();
+        services.AddSingleton<ExtractValidator>();
     }
 }

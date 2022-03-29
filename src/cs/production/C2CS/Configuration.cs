@@ -1,6 +1,7 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 using C2CS.Feature.BindgenCSharp;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC;
@@ -17,13 +18,14 @@ public sealed class Configuration
     ///     file for the target platform when extracting the abstract syntax tree for C and the same `.json` files will
     ///     be read when generating C# code.
     /// </summary>
+    [JsonPropertyName("directory")]
     public string? InputOutputFileDirectory { get; set; }
 
     /// <summary>
-    ///     The configuration for extracting the C abstract syntax tree from a header file.
+    ///     The configuration for extracting the C abstract syntax tree(s) from a header file.
     /// </summary>
     [JsonPropertyName("ast")]
-    public ExtractAbstractSyntaxTreeRequest? ExtractAbstractSyntaxTreeC { get; set; }
+    public ExtractRequest? ExtractC { get; set; }
 
     /// <summary>
     ///     The configuration for generating C# code.

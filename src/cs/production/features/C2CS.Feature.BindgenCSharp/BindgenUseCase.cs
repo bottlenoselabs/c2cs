@@ -3,9 +3,9 @@
 
 using System.Collections.Immutable;
 using C2CS.Feature.BindgenCSharp.Data;
-using C2CS.Feature.BindgenCSharp.Domain.Logic.CodeGenerator;
-using C2CS.Feature.BindgenCSharp.Domain.Logic.Mapper;
-using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
+using C2CS.Feature.BindgenCSharp.Domain.CodeGenerator;
+using C2CS.Feature.BindgenCSharp.Domain.Mapper;
+using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
 using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -62,7 +62,7 @@ public sealed class BindgenUseCase : UseCase<BindgenRequest, BindgenInput, Bindg
         return builder.ToImmutable();
     }
 
-    private ImmutableDictionary<RuntimePlatform, CSharpNodes> MapCNodesToCSharpNodes(
+    private ImmutableDictionary<TargetPlatform, CSharpNodes> MapCNodesToCSharpNodes(
         ImmutableArray<CAbstractSyntaxTree> abstractSyntaxTrees,
         ImmutableArray<CSharpTypeAlias> typeAliases,
         ImmutableArray<string> ignoredTypeNames,
@@ -79,7 +79,7 @@ public sealed class BindgenUseCase : UseCase<BindgenRequest, BindgenInput, Bindg
         return result;
     }
 
-    private CSharpAbstractSyntaxTree AbstractSyntaxTree(ImmutableDictionary<RuntimePlatform, CSharpNodes> nodesByPlatform)
+    private CSharpAbstractSyntaxTree AbstractSyntaxTree(ImmutableDictionary<TargetPlatform, CSharpNodes> nodesByPlatform)
     {
         BeginStep("Split/flatten platform specific nodes");
 

@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
 using JetBrains.Annotations;
 
 // ReSharper disable once EmptyNamespace
@@ -89,8 +88,8 @@ public static class Terminal
         }
         else
         {
-            var platform = RuntimePlatform.Host;
-            if (platform.OperatingSystem == RuntimeOperatingSystem.Windows)
+            var operatingSystem = Platform.OperatingSystem;
+            if (operatingSystem == TargetOperatingSystem.Windows)
             {
                 if (windowsUsePowerShell)
                 {
@@ -188,8 +187,8 @@ public static class Terminal
             return false;
         }
 
-        var runtimePlatform = RuntimePlatform.Host;
-        var libraryFileNameExtension = RuntimePlatform.LibraryFileNameExtension(runtimePlatform.OperatingSystem);
+        var operatingSystem = Platform.OperatingSystem;
+        var libraryFileNameExtension = Platform.LibraryFileNameExtension(operatingSystem);
         var outputFilePaths = Directory.EnumerateFiles(
             outputDirectoryPath, $"*{libraryFileNameExtension}", SearchOption.AllDirectories);
         foreach (var outputFilePath in outputFilePaths)
@@ -198,7 +197,7 @@ public static class Terminal
                     outputDirectoryPath, libraryOutputDirectoryPath, StringComparison.InvariantCulture);
             var targetFileName = Path.GetFileName(targetFilePath);
 
-            if (runtimePlatform.OperatingSystem == RuntimeOperatingSystem.Windows)
+            if (operatingSystem == TargetOperatingSystem.Windows)
             {
                 if (targetFileName.StartsWith("lib", StringComparison.InvariantCulture))
                 {

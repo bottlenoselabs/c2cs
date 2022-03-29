@@ -30,7 +30,7 @@ public sealed class BindgenCSharpFixture
         var request = configuration.BindgenCSharp;
         Assert.True(request != null);
 
-        var output = useCase.Execute(request);
+        var output = useCase.Execute(request!);
         Assert.True(output != null);
         var input = output!.Input;
 

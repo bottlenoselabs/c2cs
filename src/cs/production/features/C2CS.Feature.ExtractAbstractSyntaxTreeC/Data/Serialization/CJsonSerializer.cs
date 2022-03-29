@@ -4,7 +4,6 @@
 using System.IO.Abstractions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Model;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Serialization;

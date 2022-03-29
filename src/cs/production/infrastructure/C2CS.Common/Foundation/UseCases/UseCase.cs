@@ -41,13 +41,9 @@ public abstract class UseCase<TRequest, TInput, TOutput>
     protected DiagnosticsSink Diagnostics { get; } = new();
 
     [DebuggerHidden]
-    public TOutput Execute(TRequest? request)
+    public TOutput Execute(TRequest request)
     {
         var output = new TOutput();
-        if (request == null)
-        {
-            return output;
-        }
 
         var previousCurrentDirectory = Environment.CurrentDirectory;
         Environment.CurrentDirectory = request.WorkingDirectory ?? Environment.CurrentDirectory;

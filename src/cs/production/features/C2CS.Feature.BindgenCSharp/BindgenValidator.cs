@@ -64,11 +64,11 @@ public sealed class BindgenValidator : UseCaseValidator<BindgenRequest, BindgenI
         foreach (var filePath in filePaths)
         {
             var fileName = _fileSystem.Path.GetFileName(filePath);
-            var runtimePlatformString = fileName.Replace(".json", string.Empty, StringComparison.InvariantCulture);
-            var runtimePlatform = RuntimePlatform.FromString(runtimePlatformString);
-            if (runtimePlatform == RuntimePlatform.Unknown)
+            var platformString = fileName.Replace(".json", string.Empty, StringComparison.InvariantCulture);
+            var platform = new TargetPlatform(platformString);
+            if (platform == TargetPlatform.Unknown)
             {
-                throw new UseCaseException($"Unknown platform '{runtimePlatform}' for abstract syntax tree.");
+                throw new UseCaseException($"Unknown platform '{platform}' for abstract syntax tree.");
             }
 
             builder.Add(filePath);

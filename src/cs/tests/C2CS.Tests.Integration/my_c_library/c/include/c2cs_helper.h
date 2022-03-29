@@ -1,48 +1,40 @@
 #if defined(_WIN32)
     #if defined(_M_AMD64) || defined(_M_X64)
-        #define C2CS_RUNTIME_PLATFORM_NAME "win-x64"
+        #define C2CS_RUNTIME_PLATFORM_NAME "x86_64-pc-windows"
     #elif defined(_M_IX86)
-        #define C2CS_RUNTIME_PLATFORM_NAME "win-x86"
-    #elif defined(_M_ARM)
-        #define C2CS_RUNTIME_PLATFORM_NAME "win-arm"
+        #define C2CS_RUNTIME_PLATFORM_NAME "i686-pc-windows"
     #elif defined(_M_ARM64)
-        #define C2CS_RUNTIME_PLATFORM_NAME "win-arm64"
+        #define C2CS_RUNTIME_PLATFORM_NAME "aarch64-pc-windows"
     #else
         #error "Failed to determine runtime platform name: Unknown computer architecture for Windows."
     #endif
 #elif defined(__linux__)
     #if defined(__x86_64__) || defined(_M_AMD64) || defined(_M_X64)
-        #define C2CS_RUNTIME_PLATFORM_NAME "linux-x64"
+        #define C2CS_RUNTIME_PLATFORM_NAME "x86_64-unknown-linux-gnu"
     #elif defined(i386) || defined(__i386__) || defined(__i386) || defined(_M_IX86)
-        #define C2CS_RUNTIME_PLATFORM_NAME "linux-x86"
+        #define C2CS_RUNTIME_PLATFORM_NAME "i686-unknown-linux-gnu"
     #elif defined(__aarch64__) || defined(_M_ARM64)
-        #define C2CS_RUNTIME_PLATFORM_NAME "linux-arm64"
+        #define C2CS_RUNTIME_PLATFORM_NAME "aarch64-unknown-linux-gnu"
     #else
         #error "Failed to determine runtime platform name: Unknown computer architecture for Linux."
     #endif
 #elif defined(__APPLE__) && defined(__MACH__)
     #include <TargetConditionals.h>
     #if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
-        #if TARGET_CPU_X86
-            #define C2CS_RUNTIME_PLATFORM_NAME "ios-x86"
-        #elif TARGET_CPU_X86_64
-            #define C2CS_RUNTIME_PLATFORM_NAME "ios-x64"
-        #elif TARGET_CPU_ARM
-            #define C2CS_RUNTIME_PLATFORM_NAME "ios-arm"
+        #if TARGET_CPU_X86_64
+            #define C2CS_RUNTIME_PLATFORM_NAME "x86_64-apple-ios"
         #elif TARGET_CPU_ARM64
-            #define C2CS_RUNTIME_PLATFORM_NAME "ios-arm64"
+            #define C2CS_RUNTIME_PLATFORM_NAME "aarch64-apple-ios"
         #else
             #error "Failed to determine runtime platform name: Unknown computer architecture for iOS."
         #endif
     #elif TARGET_OS_MAC
         #if TARGET_CPU_X86
-            #define C2CS_RUNTIME_PLATFORM_NAME "osx-x86"
+            #define C2CS_RUNTIME_PLATFORM_NAME "i686-apple-darwin"
         #elif TARGET_CPU_X86_64
-            #define C2CS_RUNTIME_PLATFORM_NAME "osx-x64"
-        #elif TARGET_CPU_ARM
-            #define C2CS_RUNTIME_PLATFORM_NAME "osx-arm"
+            #define C2CS_RUNTIME_PLATFORM_NAME "x86_64-apple-darwin"
         #elif TARGET_CPU_ARM64
-            #define C2CS_RUNTIME_PLATFORM_NAME "osx-arm64"
+            #define C2CS_RUNTIME_PLATFORM_NAME "aarch64-apple-darwin"
         #else
             #error "Failed to determine runtime platform name: Unknown computer architecture for macOS."
         #endif

@@ -32,12 +32,12 @@ internal class CommandLineInterface : RootCommand
         AddGlobalOption(configurationOption);
 
         var abstractSyntaxTreeCommand = new Command(
-            "ast", "Dump the abstract syntax tree of a C `.h` file to a `.json` file.");
-        abstractSyntaxTreeCommand.SetHandler<string>(HandleAbstractSyntaxTreeC, configurationOption);
+            "ast", "Dump the abstract syntax tree of a C `.h` file to one ore more `.json` files per platform.");
+        abstractSyntaxTreeCommand.SetHandler<string>(HandleAbstractSyntaxTreesC, configurationOption);
         Add(abstractSyntaxTreeCommand);
 
         var bindgenCSharpCommand = new Command(
-            "cs", "Generate C# bindings from one or more C abstract syntax tree `.json` files.");
+            "cs", "Generate a C# bindings `.cs` file from one or more C abstract syntax tree `.json` files per platform.");
         bindgenCSharpCommand.SetHandler<string>(HandleBindgenCSharp, configurationOption);
         Add(bindgenCSharpCommand);
 
@@ -46,15 +46,20 @@ internal class CommandLineInterface : RootCommand
 
     private void Handle(string configurationFilePath)
     {
-        HandleAbstractSyntaxTreeC(configurationFilePath);
+        HandleAbstractSyntaxTreesC(configurationFilePath);
         HandleBindgenCSharp(configurationFilePath);
     }
 
-    private void HandleAbstractSyntaxTreeC(string configurationFilePath)
+    private void HandleAbstractSyntaxTreesC(string configurationFilePath)
     {
         var configuration = _configurationJsonSerializer.Read(configurationFilePath);
-        var request = configuration.ExtractAbstractSyntaxTreeC;
-        var useCase = _serviceProvider.GetService<ExtractAbstractSyntaxTreeUseCase>()!;
+        var request = configuration.ExtractC;
+        if (request == null)
+        {
+            return;
+        }
+
+        var useCase = _serviceProvider.GetService<ExtractUseCase>()!;
         useCase.Execute(request);
     }
 
@@ -62,6 +67,11 @@ internal class CommandLineInterface : RootCommand
     {
         var configuration = _configurationJsonSerializer.Read(configurationFilePath);
         var request = configuration.BindgenCSharp;
+        if (request == null)
+        {
+            return;
+        }
+
         var useCase = _serviceProvider.GetService<BindgenUseCase>()!;
         useCase.Execute(request);
     }

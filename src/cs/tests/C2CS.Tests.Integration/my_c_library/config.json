@@ -1,10 +1,14 @@
 {
-  "inputOutputFileDirectory": "my_c_library/c/ast",
+  "directory": "my_c_library/c/ast",
   "ast": {
-    "inputFilePath": "my_c_library/c/include/my_c_library.h"
+    "input_file": "my_c_library/c/include/my_c_library.h",
+    "platforms": {
+      "aarch64-apple-darwin": {},
+      "x86_64-apple-darwin": {}
+    }
   },
   "cs": {
-    "outputFilePath": "my_c_library/c/my_c_library.cs",
-    "namespaceName": "bottlenoselabs"
+    "output_file": "my_c_library/c/my_c_library.cs",
+    "namespace": "bottlenoselabs"
   }
 }
