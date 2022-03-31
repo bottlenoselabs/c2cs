@@ -38,12 +38,12 @@ jobs:
 
     - name: ".NET"
       uses: bottlenoselabs/github-actions-dotnet@v2
-        with:
-          repository: '${{ github.repository }}'
-          dotnet-sdk-version: '6.0.x'
-          is-enabled-pack: 'true'
-          upload-myget-org: "${{ github.event_name == 'push' || startsWith(github.ref, 'refs/tags/v') }}"
-          upload-nuget-org: "${{ startsWith(github.ref, 'refs/tags/v') }}"
-          myget-access-token: '${{ secrets.MYGET_ACCESS_TOKEN }}'
-          nuget-access-token: '${{ secrets.NUGET_ACCESS_TOKEN }}'
+      with:
+        repository: '${{ github.repository }}'
+        dotnet-sdk-version: '6.0.x'
+        is-enabled-pack: 'true'
+        upload-myget-org: "${{ github.event_name == 'push' || startsWith(github.ref, 'refs/tags/v') }}"
+        upload-nuget-org: "${{ startsWith(github.ref, 'refs/tags/v') }}"
+        myget-access-token: '${{ secrets.MYGET_ACCESS_TOKEN }}'
+        nuget-access-token: '${{ secrets.NUGET_ACCESS_TOKEN }}'
 
