@@ -3,15 +3,18 @@
 
 using System.Collections.Immutable;
 using System.IO.Abstractions;
+using Microsoft.Extensions.Logging;
 
 namespace C2CS.Feature.ReadCodeC.Domain.ParseCode;
 
 public class ClangArgumentsBuilder
 {
+    private readonly ILogger _logger;
     private readonly IFileSystem _fileSystem;
 
-    public ClangArgumentsBuilder(IFileSystem fileSystem)
+    public ClangArgumentsBuilder(ILogger logger, IFileSystem fileSystem)
     {
+        _logger = logger;
         _fileSystem = fileSystem;
     }
 
@@ -133,12 +136,6 @@ public class ClangArgumentsBuilder
         }
     }
 
-    private static void AddSystemIncludeDirectory(ImmutableArray<string>.Builder args, string directoryPath)
-    {
-        var systemIncludeCommandLineArg = $"-isystem{directoryPath}";
-        args.Add(systemIncludeCommandLineArg);
-    }
-
     private void AddSystemIncludesLinux(ImmutableArray<string>.Builder args)
     {
         AddSystemIncludeDirectory(args, "/usr/include");
@@ -199,6 +196,18 @@ public class ClangArgumentsBuilder
         }
 
         AddSystemIncludeDirectory(args, mscvIncludeDirectoryPath);
+    }
+
+    private void AddSystemIncludeDirectory(ImmutableArray<string>.Builder args, string directoryPath)
+    {
+        if (!_fileSystem.Directory.Exists(directoryPath))
+        {
+            _logger.SystemIncludeDirectoryDoesNotExist(directoryPath);
+            return;
+        }
+
+        var systemIncludeCommandLineArg = $"-isystem{directoryPath}";
+        args.Add(systemIncludeCommandLineArg);
     }
 
     private void AddSystemIncludesMac(ImmutableArray<string>.Builder args)
