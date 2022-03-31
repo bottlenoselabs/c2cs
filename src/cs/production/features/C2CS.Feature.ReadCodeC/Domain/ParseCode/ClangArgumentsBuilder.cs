@@ -133,15 +133,20 @@ public class ClangArgumentsBuilder
         }
     }
 
-    private void AddSystemIncludesLinux(ImmutableArray<string>.Builder args)
+    private static void AddSystemIncludeDirectory(ImmutableArray<string>.Builder args, string directoryPath)
     {
-        // TODO: Is this always going to work? Be good if this was more bullet proof. If you know better fix it!
-        const string directoryPath = "/usr/lib/gcc/x86_64-linux-gnu/9/include/";
         var systemIncludeCommandLineArg = $"-isystem{directoryPath}";
         args.Add(systemIncludeCommandLineArg);
     }
 
-    private void AddSystemIncludesWindows(ImmutableArray<string>.Builder clangArgumentsBuilder)
+    private void AddSystemIncludesLinux(ImmutableArray<string>.Builder args)
+    {
+        AddSystemIncludeDirectory(args, "/usr/include");
+        // TODO: Is this always going to work? Be good if this was more bullet proof. If you know better fix it!
+        AddSystemIncludeDirectory(args, "/usr/lib/gcc/x86_64-linux-gnu/9/include/");
+    }
+
+    private void AddSystemIncludesWindows(ImmutableArray<string>.Builder args)
     {
         var sdkDirectoryPath =
             Environment.ExpandEnvironmentVariables(@"%ProgramFiles(x86)%\Windows Kits\10\Include");
@@ -159,7 +164,7 @@ public class ClangArgumentsBuilder
         }
 
         var systemIncludeCommandLineArgSdk = $@"-isystem{sdkHighestVersionDirectoryPath}\ucrt";
-        clangArgumentsBuilder.Add(systemIncludeCommandLineArgSdk);
+        args.Add(systemIncludeCommandLineArgSdk);
 
         var vsWhereFilePath =
             Environment.ExpandEnvironmentVariables(
@@ -193,11 +198,10 @@ public class ClangArgumentsBuilder
                 $"Please install Microsoft Visual C++ (MSVC) build tools for Visual Studio ({visualStudioInstallationDirectoryPath}).");
         }
 
-        var systemIncludeCommandLineArg = $"-isystem{mscvIncludeDirectoryPath}";
-        clangArgumentsBuilder.Add(systemIncludeCommandLineArg);
+        AddSystemIncludeDirectory(args, mscvIncludeDirectoryPath);
     }
 
-    private void AddSystemIncludesMac(ImmutableArray<string>.Builder clangArgumentsBuilder)
+    private void AddSystemIncludesMac(ImmutableArray<string>.Builder args)
     {
         if (!_fileSystem.Directory.Exists("/Library/Developer/CommandLineTools"))
         {
@@ -215,7 +219,7 @@ public class ClangArgumentsBuilder
         }
 
         var systemIncludeCommandLineArgClang = $"-isystem{clangHighestVersionDirectoryPath}/include";
-        clangArgumentsBuilder.Add(systemIncludeCommandLineArgClang);
+        args.Add(systemIncludeCommandLineArgClang);
 
         var softwareDevelopmentKitDirectoryPath =
             "xcrun --sdk macosx --show-sdk-path".ShellCaptureOutput();
@@ -225,8 +229,7 @@ public class ClangArgumentsBuilder
                 "Please install XCode for macOS. This will install the software development kit (SDK) which gives access to common C/C++/ObjC headers.");
         }
 
-        var systemIncludeCommandLineArgSdk = $"-isystem{softwareDevelopmentKitDirectoryPath}/usr/include";
-        clangArgumentsBuilder.Add(systemIncludeCommandLineArgSdk);
+        AddSystemIncludeDirectory(args, $"{softwareDevelopmentKitDirectoryPath}/usr/include");
     }
 
     private string GetHighestVersionDirectoryPathFrom(string sdkDirectoryPath)
