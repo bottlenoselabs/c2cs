@@ -34,8 +34,7 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install \
-          gcc
+        sudo apt-get install gcc
 
     - name: ".NET"
       uses: bottlenoselabs/github-actions-dotnet@v2
