@@ -8,9 +8,37 @@ on:
 jobs:
   dotnet-job:
     name: ".NET"
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.platform.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+        - { name: Windows (mingw32),      os: windows-latest, shell: 'msys2 {0}', msystem: mingw32, msys-env: mingw-w64-i686 }
+        - { name: Windows (mingw64),      os: windows-latest, shell: 'msys2 {0}', msystem: mingw64, msys-env: mingw-w64-x86_64 }
+        - { name: Linux,                  os: ubuntu-20.04,   shell: bash,   flags: -GNinja }
+        - { name: macOS,                  os: macos-latest,   shell: bash }
     steps:
-      - uses: bottlenoselabs/github-actions-dotnet@v2
+
+    - name: "Set up MSYS2"
+      if: matrix.platform.shell == 'msys2 {0}'
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: ${{ matrix.platform.msystem }}
+        install: >-
+          ${{ matrix.platform.msys-env }}-gcc
+          ${{ matrix.platform.msys-env }}-cmake
+          ${{ matrix.platform.msys-env }}-ninja
+          ${{ matrix.platform.msys-env }}-pkg-config
+  
+    - name: "Install Linux dependencies"
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install \
+          gcc
+
+    - name: ".NET"
+      uses: bottlenoselabs/github-actions-dotnet@v2
         with:
           repository: '${{ github.repository }}'
           dotnet-sdk-version: '6.0.x'
