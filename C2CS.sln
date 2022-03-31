@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-c", "src\cs\exam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-cs", "src\cs\examples\helloworld\helloworld-cs\helloworld-cs.csproj", "{3549CD6F-971A-4456-8F80-EFC826AECC04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "c2cs", "src\cs\production\c2cs\c2cs.csproj", "{2E53A130-519C-4C5F-8D76-86CEA17A160F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS", "src\cs\production\C2CS\C2CS.csproj", "{2E53A130-519C-4C5F-8D76-86CEA17A160F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{995D2D9A-AAF6-4034-8625-5BB812C2870F}"
 EndProject
