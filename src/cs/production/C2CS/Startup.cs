@@ -5,6 +5,8 @@ using System;
 using System.CommandLine;
 using System.IO.Abstractions;
 using System.Reflection;
+using C2CS.Data.Serialization;
+using C2CS.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -52,8 +54,8 @@ public static class Startup
         services.AddSingleton<RootCommand, CommandLineInterface>();
         services.AddSingleton<ConfigurationJsonSerializer>();
 
-        Feature.ExtractAbstractSyntaxTreeC.Startup.ConfigureServices(services);
-        Feature.BindgenCSharp.Startup.ConfigureServices(services);
+        Feature.ReadCodeC.Startup.ConfigureServices(services);
+        Feature.WriteCodeCSharp.Startup.ConfigureServices(services);
         Feature.BuildLibraryC.Startup.ConfigureServices(services);
     }
 }

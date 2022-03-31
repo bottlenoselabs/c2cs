@@ -27,6 +27,7 @@
 
     <!-- NuGet packaage references -->
     <ItemGroup>
+        <PackageReference Include="JsonSchema.Net" Version="2.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
         <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.1.0" />
@@ -42,8 +43,8 @@
 
     <!-- Project references -->
     <ItemGroup>
-        <ProjectReference Include="../features/C2CS.Feature.BindgenCSharp/C2CS.Feature.BindgenCSharp.csproj" />
-        <ProjectReference Include="../features/C2CS.Feature.ExtractAbstractSyntaxTreeC/C2CS.Feature.ExtractAbstractSyntaxTreeC.csproj" />
+        <ProjectReference Include="..\features\C2CS.Feature.WriteCodeCSharp\C2CS.Feature.WriteCodeCSharp.csproj" />
+        <ProjectReference Include="..\features\C2CS.Feature.ReadCodeC\C2CS.Feature.ReadCodeC.csproj" />
         <ProjectReference Include="../features/C2CS.Feature.BuildLibraryC/C2CS.Feature.BuildLibraryC.csproj" />
         <ProjectReference Include="../infrastructure/C2CS.Runtime/C2CS.Runtime.csproj" />
         <ProjectReference Include="../infrastructure/clang-cs/clang-cs.csproj" />

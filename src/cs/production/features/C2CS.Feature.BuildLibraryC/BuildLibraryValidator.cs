@@ -3,9 +3,9 @@
 
 namespace C2CS.Feature.BuildLibraryC;
 
-public class BuildLibraryValidator : UseCaseValidator<BuildLibraryRequest, BuildLibraryInput>
+public class BuildLibraryValidator : UseCaseValidator<BuildLibraryConfiguration, BuildLibraryInput>
 {
-    public override BuildLibraryInput Validate(BuildLibraryRequest request)
+    public override BuildLibraryInput Validate(BuildLibraryConfiguration configuration)
     {
         throw new NotImplementedException();
     }

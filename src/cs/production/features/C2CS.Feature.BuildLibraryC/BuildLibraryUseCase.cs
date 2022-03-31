@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace C2CS.Feature.BuildLibraryC;
 
-public class BuildLibraryUseCase : UseCase<BuildLibraryRequest, BuildLibraryInput, BuildLibraryOutput>
+public class BuildLibraryUseCase : UseCase<BuildLibraryConfiguration, BuildLibraryInput, BuildLibraryOutput>
 {
     public override string Name => "Build C library";
 

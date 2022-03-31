@@ -18,11 +18,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Tests.Integration", "s
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "features", "features", "{FF3312B1-10D2-4B8A-AD43-3F6D9CE5E61F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Feature.ExtractAbstractSyntaxTreeC", "src\cs\production\features\C2CS.Feature.ExtractAbstractSyntaxTreeC\C2CS.Feature.ExtractAbstractSyntaxTreeC.csproj", "{EB040AE8-5CF1-4A79-9881-2B5CAED4D224}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Feature.ReadCodeC", "src\cs\production\features\C2CS.Feature.ReadCodeC\C2CS.Feature.ReadCodeC.csproj", "{EB040AE8-5CF1-4A79-9881-2B5CAED4D224}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Feature.BuildLibraryC", "src\cs\production\features\C2CS.Feature.BuildLibraryC\C2CS.Feature.BuildLibraryC.csproj", "{00E6F00B-FF25-40AA-BE41-5A736FA1541C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Feature.BindgenCSharp", "src\cs\production\features\C2CS.Feature.BindgenCSharp\C2CS.Feature.BindgenCSharp.csproj", "{56251683-F977-4AFC-A51D-733F9D022A61}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Feature.WriteCodeCSharp", "src\cs\production\features\C2CS.Feature.WriteCodeCSharp\C2CS.Feature.WriteCodeCSharp.csproj", "{56251683-F977-4AFC-A51D-733F9D022A61}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastructure", "{3F11D389-67E8-40D9-B235-224F27F7BFC8}"
 EndProject

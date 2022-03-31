@@ -2,9 +2,12 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
-using C2CS.Feature.ExtractAbstractSyntaxTreeC;
-using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data;
-using C2CS.Feature.ExtractAbstractSyntaxTreeC.Data.Serialization;
+using C2CS.Data.Serialization;
+using C2CS.Feature.ReadCodeC;
+using C2CS.Feature.ReadCodeC.Data;
+using C2CS.Feature.ReadCodeC.Data.Serialization;
+using C2CS.Feature.ReadCodeC.Domain;
+using C2CS.Serialization;
 using Xunit;
 
 namespace C2CS.IntegrationTests.my_c_library.Fixtures;
@@ -20,29 +23,28 @@ public sealed class ExtractAbstractSyntaxTreeCFixture
         public ImmutableDictionary<string, CEnum> EnumsByName { get; init; } = ImmutableDictionary<string, CEnum>.Empty;
     }
 
-    public ExtractOutput Output { get; }
+    public ReadCodeCOutput Output { get; }
 
     public ExtractAbstractSyntaxTreeCFixture(
-        ExtractUseCase useCase,
+        ReadCodeCUseCase useCase,
         CJsonSerializer cJsonSerializer,
         ConfigurationJsonSerializer configurationJsonSerializer)
     {
         var configuration = configurationJsonSerializer.Read("my_c_library/config.json");
-        var request = configuration.ExtractC;
+        var request = configuration.ReadC;
         Assert.True(request != null);
 
         var output = Output = useCase.Execute(request!);
-        var input = output.Input;
 
         Assert.True(output.IsSuccessful);
         Assert.True(output.Diagnostics.Length == 0);
 
         var builder = ImmutableArray.CreateBuilder<AbstractSyntaxTreeFixtureData>();
 
-        foreach (var inputAbstractSyntaxTree in input.InputAbstractSyntaxTrees)
+        foreach (var options in output.AbstractSyntaxTreesOptions)
         {
-            Assert.True(inputAbstractSyntaxTree.OutputFilePath != null);
-            var ast = cJsonSerializer.Read(inputAbstractSyntaxTree.OutputFilePath!);
+            Assert.True(options.OutputFilePath != null);
+            var ast = cJsonSerializer.Read(options.OutputFilePath!);
             Assert.True(ast != null);
 
             var functionsByName = ast!.Functions.ToImmutableDictionary(x => x.Name, x => x);

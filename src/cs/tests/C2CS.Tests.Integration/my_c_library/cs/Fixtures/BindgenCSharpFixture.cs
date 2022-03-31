@@ -3,7 +3,9 @@
 
 using System.Collections.Immutable;
 using System.IO.Abstractions;
-using C2CS.Feature.BindgenCSharp;
+using C2CS.Data.Serialization;
+using C2CS.Feature.WriteCodeCSharp;
+using C2CS.Serialization;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Xunit;
@@ -18,7 +20,7 @@ public sealed class BindgenCSharpFixture
     public readonly ImmutableDictionary<string, EnumDeclarationSyntax> EnumsByName;
 
     public BindgenCSharpFixture(
-        BindgenUseCase useCase,
+        WriteCodeCSharpUseCase useCase,
         IFileSystem fileSystem,
         ConfigurationJsonSerializer configurationJsonSerializer,
         ExtractAbstractSyntaxTreeCFixture ast)
@@ -27,7 +29,7 @@ public sealed class BindgenCSharpFixture
         Assert.True(ast.Output.Diagnostics.Length == 0);
 
         var configuration = configurationJsonSerializer.Read("my_c_library/config.json");
-        var request = configuration.BindgenCSharp;
+        var request = configuration.WriteCSharp;
         Assert.True(request != null);
 
         var output = useCase.Execute(request!);

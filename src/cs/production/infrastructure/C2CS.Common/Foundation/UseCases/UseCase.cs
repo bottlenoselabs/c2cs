@@ -10,7 +10,7 @@ namespace C2CS;
 
 [PublicAPI]
 public abstract class UseCase<TRequest, TInput, TOutput>
-    where TRequest : UseCaseRequest
+    where TRequest : UseCaseConfiguration
     where TOutput : UseCaseOutput<TInput>, new()
 {
     public readonly ILogger Logger;
@@ -25,7 +25,12 @@ public abstract class UseCase<TRequest, TInput, TOutput>
 
     public abstract string Name { get; }
 
-    protected UseCase(ILogger logger, IServiceProvider services, UseCaseValidator<TRequest, TInput> validator)
+    protected DiagnosticsSink Diagnostics { get; } = new();
+
+    protected UseCase(
+        ILogger logger,
+        IServiceProvider services,
+        UseCaseValidator<TRequest, TInput> validator)
     {
         Logger = logger;
         Services = services;
@@ -37,8 +42,6 @@ public abstract class UseCase<TRequest, TInput, TOutput>
         _stepStopwatch = new Stopwatch();
         _validator = validator;
     }
-
-    protected DiagnosticsSink Diagnostics { get; } = new();
 
     [DebuggerHidden]
     public TOutput Execute(TRequest request)

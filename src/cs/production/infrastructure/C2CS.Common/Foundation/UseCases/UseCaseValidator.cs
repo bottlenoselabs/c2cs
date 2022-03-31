@@ -3,8 +3,8 @@
 
 namespace C2CS;
 
-public abstract class UseCaseValidator<TRequest, TInput>
-    where TRequest : UseCaseRequest
+public abstract class UseCaseValidator<TConfiguration, TInput>
+    where TConfiguration : UseCaseConfiguration
 {
-    public abstract TInput Validate(TRequest request);
+    public abstract TInput Validate(TConfiguration configuration);
 }
