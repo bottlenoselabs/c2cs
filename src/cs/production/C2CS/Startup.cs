@@ -4,9 +4,7 @@
 using System;
 using System.CommandLine;
 using System.IO.Abstractions;
-using System.Reflection;
 using C2CS.Data.Serialization;
-using C2CS.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
