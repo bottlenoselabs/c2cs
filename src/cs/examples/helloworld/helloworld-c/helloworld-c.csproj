@@ -8,7 +8,7 @@
 
     <!-- Project references -->
     <ItemGroup>
-        <ProjectReference Include="../../../production/C2CS/C2CS.csproj" />
+        <ProjectReference Include="../../../production/c2cs/c2cs.csproj" />
     </ItemGroup>
     
     <ItemGroup>

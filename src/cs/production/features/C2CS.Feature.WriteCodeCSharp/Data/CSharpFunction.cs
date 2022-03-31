@@ -38,11 +38,6 @@ public sealed class CSharpFunction : CSharpNode
                ReturnType == other2.ReturnType &&
                Parameters.SequenceEqual(other2.Parameters);
 
-        if (result == false)
-        {
-            Console.WriteLine();
-        }
-
         return result;
     }
 }

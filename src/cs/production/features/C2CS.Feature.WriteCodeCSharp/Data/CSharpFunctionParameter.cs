@@ -25,12 +25,6 @@ public sealed class CSharpFunctionParameter : CSharpNode
         }
 
         var result = Type == other2.Type;
-
-        if (result == false)
-        {
-            Console.WriteLine();
-        }
-
         return result;
     }
 }
