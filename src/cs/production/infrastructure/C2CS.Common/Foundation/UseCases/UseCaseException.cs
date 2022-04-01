@@ -24,11 +24,6 @@ public sealed class UseCaseException : Exception
     {
     }
 
-    public UseCaseException(ImmutableArray<Diagnostic> diagnostics)
-        : this(CreateMessage(diagnostics))
-    {
-    }
-
     private static string CreateMessage(string message)
     {
         var featureName = FeatureName();
@@ -38,18 +33,6 @@ public sealed class UseCaseException : Exception
         }
 
         return featureName + Environment.NewLine + message;
-    }
-
-    private static string CreateMessage(ImmutableArray<Diagnostic> diagnostics)
-    {
-        var stringBuilder = new StringBuilder();
-        foreach (var diagnostic in diagnostics)
-        {
-            stringBuilder.AppendLine(diagnostic.Message);
-        }
-
-        var result = stringBuilder.ToString();
-        return result;
     }
 
     private static string FeatureName()

@@ -9,8 +9,8 @@ using Microsoft.Extensions.Logging;
 namespace C2CS;
 
 [PublicAPI]
-public abstract class UseCase<TRequest, TInput, TOutput>
-    where TRequest : UseCaseConfiguration
+public abstract class UseCase<TConfiguration, TInput, TOutput>
+    where TConfiguration : UseCaseConfiguration
     where TOutput : UseCaseOutput<TInput>, new()
 {
     public readonly ILogger Logger;
@@ -21,7 +21,7 @@ public abstract class UseCase<TRequest, TInput, TOutput>
     private readonly string _name;
     private readonly Stopwatch _stopwatch;
     private readonly Stopwatch _stepStopwatch;
-    private readonly UseCaseValidator<TRequest, TInput> _validator;
+    private readonly UseCaseValidator<TConfiguration, TInput> _validator;
 
     public abstract string Name { get; }
 
@@ -30,7 +30,7 @@ public abstract class UseCase<TRequest, TInput, TOutput>
     protected UseCase(
         ILogger logger,
         IServiceProvider services,
-        UseCaseValidator<TRequest, TInput> validator)
+        UseCaseValidator<TConfiguration, TInput> validator)
     {
         Logger = logger;
         Services = services;
@@ -44,18 +44,22 @@ public abstract class UseCase<TRequest, TInput, TOutput>
     }
 
     [DebuggerHidden]
-    public TOutput Execute(TRequest request)
+    public TOutput Execute(TConfiguration configuration)
     {
         var output = new TOutput();
 
         var previousCurrentDirectory = Environment.CurrentDirectory;
-        Environment.CurrentDirectory = request.WorkingDirectory ?? Environment.CurrentDirectory;
+        Environment.CurrentDirectory = configuration.WorkingDirectory ?? Environment.CurrentDirectory;
 
         Begin();
         try
         {
-            output.Input = _validator.Validate(request);
+            output.Input = _validator.Validate(configuration);
             Execute(output.Input, output);
+        }
+        catch (UseCaseStepFailedException)
+        {
+            // used as a way to exit the control flow of the current use case execution and end immediately
         }
         catch (Exception e)
         {
@@ -139,13 +143,10 @@ public abstract class UseCase<TRequest, TInput, TOutput>
         _loggerScopeStep = null;
         GarbageCollect();
 
-        if (!Diagnostics.HasError)
+        if (Diagnostics.HasFaulted)
         {
-            return;
+            throw new UseCaseStepFailedException();
         }
-
-        var diagnostics = Diagnostics.GetAll();
-        throw new UseCaseException(diagnostics);
     }
 
     private static void GarbageCollect()

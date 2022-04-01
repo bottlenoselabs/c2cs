@@ -45,7 +45,7 @@ public record struct TargetPlatform(string Target)
     /// </summary>
     public static readonly TargetPlatform Unknown = new("unknown-unknown-unknown");
 
- #region Windows
+    #region Windows
 
     /// <summary>
     ///     x86 Windows (32-bit, Windows 7+).
