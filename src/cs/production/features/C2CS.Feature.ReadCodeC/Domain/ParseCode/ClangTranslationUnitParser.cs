@@ -25,12 +25,13 @@ public sealed class ClangTranslationUnitParser
 
         if (!TryParseTranslationUnit(filePath, arguments, out var translationUnit))
         {
-            var up = new ClangException("Clang failed. Are the arguments incorrect or invalid?");
-            _logger.ParseTranslationUnitFailed(filePath, argumentsString, up);
+            var up = new ClangException();
+            _logger.ParseTranslationUnitFailedArguments(filePath, argumentsString, up);
             throw up;
         }
 
         var clangDiagnostics = GetClangDiagnostics(translationUnit);
+        bool isSuccess = false;
         if (!clangDiagnostics.IsDefaultOrEmpty)
         {
             var defaultDisplayOptions = clang_defaultDiagnosticDisplayOptions();
@@ -51,12 +52,25 @@ public sealed class ClangTranslationUnitParser
                     _ => DiagnosticSeverity.Error
                 };
 
+                if (severity == CXDiagnosticSeverity.CXDiagnostic_Error ||
+                    severity == CXDiagnosticSeverity.CXDiagnostic_Fatal)
+                {
+                    isSuccess = false;
+                }
+
                 var diagnostic = new ClangTranslationUnitParserDiagnostic(diagnosticSeverity, diagnosticString);
                 diagnosticsSink.Add(diagnostic);
             }
         }
 
-        _logger.ParseTranslationUnitSuccess(filePath, argumentsString, clangDiagnostics.Length);
+        if (isSuccess)
+        {
+            _logger.ParseTranslationUnitSuccess(filePath, argumentsString, clangDiagnostics.Length);
+        }
+        else
+        {
+            _logger.ParseTranslationUnitFailedDiagnostics(filePath, argumentsString, clangDiagnostics.Length);
+        }
 
         return translationUnit;
     }
