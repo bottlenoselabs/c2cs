@@ -22,21 +22,21 @@ public class ClangArgumentsBuilder
         TargetPlatform targetPlatform,
         ImmutableArray<string> additionalArgs)
     {
-        var builder = ImmutableArray.CreateBuilder<string>();
+        var args = ImmutableArray.CreateBuilder<string>();
 
-        AddDefaults(builder, targetPlatform);
-        AddUserIncludes(builder, includeDirectories);
-        AddDefines(builder, defines);
-        AddTargetTriple(builder, targetPlatform);
-        AddAdditionalArgs(builder, additionalArgs);
+        AddDefaults(args, targetPlatform);
+        AddUserIncludes(args, includeDirectories);
+        AddDefines(args, defines);
+        AddTargetTriple(args, targetPlatform);
+        AddAdditionalArgs(args, additionalArgs);
 
         if (automaticallyFindSystemHeaders)
         {
-            var systemIncludeDirectories = SystemIncludeDirectories(builder, targetPlatform);
-            AddSystemIncludeDirectories(systemIncludeDirectories, builder);
+            var systemIncludeDirectories = SystemIncludeDirectories(args, targetPlatform);
+            AddSystemIncludeDirectories(args, systemIncludeDirectories);
         }
 
-        return builder.ToImmutable();
+        return args.ToImmutable();
     }
 
     private void AddTargetTriple(ImmutableArray<string>.Builder args, TargetPlatform platform)
@@ -104,21 +104,22 @@ public class ClangArgumentsBuilder
         }
     }
 
-    private void AddSystemIncludeDirectories(ImmutableArray<string> systemIncludeDirectories, ImmutableArray<string>.Builder builder)
+    private void AddSystemIncludeDirectories(
+        ImmutableArray<string>.Builder args, ImmutableArray<string> directories)
     {
-        foreach (var directory in systemIncludeDirectories)
+        foreach (var directory in directories)
         {
             if (!_fileSystem.Directory.Exists(directory))
             {
                 continue;
             }
 
-            var systemIncludeCommandLineArg = $"-isystem{directory}";
-            builder.Add(systemIncludeCommandLineArg);
+            args.Add($"-isystem{directory}");
         }
     }
 
-    private ImmutableArray<string> SystemIncludeDirectories(ImmutableArray<string>.Builder args, TargetPlatform targetPlatform)
+    private ImmutableArray<string> SystemIncludeDirectories(
+        ImmutableArray<string>.Builder args, TargetPlatform targetPlatform)
     {
         var hostOperatingSystem = Platform.OperatingSystem;
         var targetOperatingSystem = targetPlatform.OperatingSystem;

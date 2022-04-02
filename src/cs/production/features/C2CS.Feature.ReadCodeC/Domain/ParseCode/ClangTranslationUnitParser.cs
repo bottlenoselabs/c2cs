@@ -32,7 +32,7 @@ public sealed class ClangTranslationUnitParser
         }
 
         var clangDiagnostics = GetClangDiagnostics(translationUnit);
-        bool isSuccess = false;
+        var isSuccess = true;
         if (!clangDiagnostics.IsDefaultOrEmpty)
         {
             var defaultDisplayOptions = clang_defaultDiagnosticDisplayOptions();
