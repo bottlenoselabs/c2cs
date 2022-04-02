@@ -21,9 +21,9 @@ internal static class Logging
 
     private static readonly Action<ILogger, string, string, int, Exception> ActionParseFailedDiagnostics =
         LoggerMessage.Define<string, string, int>(
-            LogLevel.Trace,
+            LogLevel.Error,
             LoggingEventRegistry.CreateEventIdentifier("Parse translation unit: Failed"),
-            "- Failed. One or more diagnostics that are errors or fatal. Path: {FilePath} ; Clang arguments: {Arguments} ; Diagnostics: {DiagnosticsCount}");
+            "- Failed. One or more Clang diagnostics are reported when parsing that are an error or fatal. Path: {FilePath} ; Clang arguments: {Arguments} ; Diagnostics: {DiagnosticsCount}");
 
     private static readonly Action<ILogger, string, Exception> ActionSystemIncludeDirectoryDoesNotExist =
         LoggerMessage.Define<string>(
