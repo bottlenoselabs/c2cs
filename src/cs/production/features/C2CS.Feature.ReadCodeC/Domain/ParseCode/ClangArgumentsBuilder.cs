@@ -158,6 +158,7 @@ public class ClangArgumentsBuilder
     private void SystemIncludeDirectoriesLinuxHost(ImmutableArray<string>.Builder directories)
     {
         directories.Add("/usr/include");
+        directories.Add("/usr/include/x86_64-linux-gnu");
     }
 
     private void SystemIncludeDirectoriesWindowsHost(ImmutableArray<string>.Builder directories)
