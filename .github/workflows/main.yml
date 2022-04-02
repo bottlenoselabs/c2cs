@@ -38,7 +38,6 @@ jobs:
 
     - name: ".NET"
       uses: bottlenoselabs/github-actions-dotnet@v2
-      continue-on-error: true
       with:
         repository: '${{ github.repository }}'
         dotnet-sdk-version: '6.0.x'
@@ -49,8 +48,9 @@ jobs:
         nuget-access-token: '${{ secrets.NUGET_ACCESS_TOKEN }}'
 
     - uses: actions/upload-artifact@v3
+      if: ${{ failure() }}
       with:
-        name: "Test Data ${{ matrix.platform.name }}"
+        name: "Failing Test Data ${{ matrix.platform.name }}"
         path: |
           ${{ github.workspace }}/bin/*Tests*/**/*.cs
           ${{ github.workspace }}/bin/*Tests*/**/ast/*.json
