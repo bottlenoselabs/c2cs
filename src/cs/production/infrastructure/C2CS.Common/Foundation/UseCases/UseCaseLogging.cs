@@ -19,7 +19,7 @@ internal static class UseCaseLogging
         "- Success in {Elapsed:s\\.fff} seconds");
 
     private static readonly Action<ILogger, TimeSpan, Exception> ActionUseCaseFailed = LoggerMessage.Define<TimeSpan>(
-        LogLevel.Information,
+        LogLevel.Error,
         LoggingEventRegistry.CreateEventIdentifier("Use case failed"),
         "- Failed in {Elapsed:s\\.fff} seconds");
 
