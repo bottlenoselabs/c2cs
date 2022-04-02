@@ -50,7 +50,7 @@ jobs:
 
     - uses: actions/upload-artifact@v3
       with:
-        name: "TestData"
+        name: "Test Data ${{ matrix.platform.name }}"
         path: |
           ${{ github.workspace }}/bin/*Tests*/**/*.cs
           ${{ github.workspace }}/bin/*Tests*/**/ast/*.json
