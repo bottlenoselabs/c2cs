@@ -25,8 +25,7 @@ public sealed class BindgenCSharpFixture
         ConfigurationJsonSerializer configurationJsonSerializer,
         ExtractAbstractSyntaxTreeCFixture ast)
     {
-        Assert.True(ast.Output.IsSuccessful);
-        Assert.True(ast.Output.Diagnostics.Length == 0);
+        Assert.True(!ast.AbstractSyntaxTrees.IsDefaultOrEmpty);
 
         var configuration = configurationJsonSerializer.Read("my_c_library/config.json");
         var request = configuration.WriteCSharp;

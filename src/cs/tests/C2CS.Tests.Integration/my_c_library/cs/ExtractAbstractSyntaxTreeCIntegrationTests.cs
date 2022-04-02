@@ -16,6 +16,7 @@ public class ExtractAbstractSyntaxTreeCIntegrationTests : IntegrationTest
     public ExtractAbstractSyntaxTreeCIntegrationTests()
     {
         _fixture = Services.GetService<ExtractAbstractSyntaxTreeCFixture>()!;
+        _fixture.AssertPlatform();
     }
 
     [Fact]
