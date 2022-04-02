@@ -22,6 +22,7 @@ public class ExtractAbstractSyntaxTreeCIntegrationTests : IntegrationTest
     [Fact]
     public void function_void_void()
     {
+        Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
         foreach (var ast in _fixture.AbstractSyntaxTrees)
         {
             Assert.True(ast.FunctionsByName.TryGetValue(nameof(function_void_void), out var value));
@@ -35,6 +36,7 @@ public class ExtractAbstractSyntaxTreeCIntegrationTests : IntegrationTest
     [Fact]
     public void function_void_string()
     {
+        Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
         foreach (var ast in _fixture.AbstractSyntaxTrees)
         {
             Assert.True(ast.FunctionsByName.TryGetValue(nameof(function_void_string), out var value));
@@ -53,6 +55,7 @@ public class ExtractAbstractSyntaxTreeCIntegrationTests : IntegrationTest
     [Fact]
     public void function_void_uint16_int32_uint64()
     {
+        Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
         foreach (var ast in _fixture.AbstractSyntaxTrees)
         {
             Assert.True(ast.FunctionsByName.TryGetValue(nameof(function_void_uint16_int32_uint64), out var value));
@@ -77,6 +80,7 @@ public class ExtractAbstractSyntaxTreeCIntegrationTests : IntegrationTest
     [Fact]
     public void function_void_uint16ptr_int32ptr_uint64ptr()
     {
+        Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
         foreach (var ast in _fixture.AbstractSyntaxTrees)
         {
             Assert.True(ast.FunctionsByName.TryGetValue(
@@ -103,6 +107,7 @@ public class ExtractAbstractSyntaxTreeCIntegrationTests : IntegrationTest
     [Fact]
     public void function_void_enum()
     {
+        Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
         foreach (var ast in _fixture.AbstractSyntaxTrees)
         {
             Assert.True(ast.FunctionsByName.TryGetValue(nameof(function_void_enum), out var value));
@@ -121,6 +126,7 @@ public class ExtractAbstractSyntaxTreeCIntegrationTests : IntegrationTest
     [Fact]
     public void enum_force_uint32()
     {
+        Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
         foreach (var ast in _fixture.AbstractSyntaxTrees)
         {
             Assert.True(ast.EnumsByName.TryGetValue(nameof(enum_force_uint32), out var value));

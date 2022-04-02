@@ -69,7 +69,9 @@ public sealed class ExtractAbstractSyntaxTreeCFixture
 
     public void AssertPlatform()
     {
-        foreach (var abstractSyntaxTree in AbstractSyntaxTrees!)
+        Assert.True(AbstractSyntaxTrees.Length > 0);
+
+        foreach (var abstractSyntaxTree in AbstractSyntaxTrees)
         {
             Assert.True(abstractSyntaxTree.FunctionsByName.TryGetValue("c2cs_get_runtime_platform_name", out var function));
             Assert.Equal(CFunctionCallingConvention.Cdecl, function!.CallingConvention);
