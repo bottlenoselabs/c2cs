@@ -39,7 +39,6 @@ public sealed class BindgenCSharpFixture
         Assert.True(output.Diagnostics.Length == 0);
 
         var code = fileSystem.File.ReadAllText(input.OutputFilePath);
-        Console.WriteLine(code);
         var compilationUnitSyntax = CSharpSyntaxTree.ParseText(code).GetCompilationUnitRoot();
 
         Assert.True(compilationUnitSyntax.Members.Count == 1);

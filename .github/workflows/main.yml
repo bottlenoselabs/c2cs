@@ -47,3 +47,8 @@ jobs:
         myget-access-token: '${{ secrets.MYGET_ACCESS_TOKEN }}'
         nuget-access-token: '${{ secrets.NUGET_ACCESS_TOKEN }}'
 
+    - uses: actions/upload-artifact@v3
+      with:
+        name: tests
+        path: ./bin/C2CS.Tests.*/
+
