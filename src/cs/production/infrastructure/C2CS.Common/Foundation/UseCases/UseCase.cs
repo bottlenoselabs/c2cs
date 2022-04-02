@@ -111,25 +111,14 @@ public abstract class UseCase<TConfiguration, TInput, TOutput>
             Logger.UseCaseFailed(timeSpan);
         }
 
-        var isPanic = false;
         foreach (var diagnostic in response.Diagnostics)
         {
             diagnostic.Log(Logger);
-
-            if (!isPanic && diagnostic.Severity == DiagnosticSeverity.Panic)
-            {
-                isPanic = true;
-            }
         }
 
         _loggerScope?.Dispose();
         _loggerScope = null;
         GarbageCollect();
-
-        if (isPanic)
-        {
-            throw new UseCasePanicException();
-        }
     }
 
     private void Panic(Exception e)
