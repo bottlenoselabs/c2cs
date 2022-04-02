@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using C2CS.Feature.ReadCodeC.Data;
+using C2CS.Foundation.Diagnostics;
 
 namespace C2CS.Feature.WriteCodeCSharp.Domain.Mapper.Diagnostics;
 

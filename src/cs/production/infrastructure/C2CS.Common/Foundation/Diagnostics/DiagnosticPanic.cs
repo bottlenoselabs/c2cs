@@ -4,7 +4,7 @@
 using System;
 using JetBrains.Annotations;
 
-namespace C2CS;
+namespace C2CS.Foundation.Diagnostics;
 
 [PublicAPI]
 public sealed class DiagnosticPanic : Diagnostic

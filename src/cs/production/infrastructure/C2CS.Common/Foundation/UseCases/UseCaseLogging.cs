@@ -2,9 +2,10 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using C2CS.Foundation.Logging;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS;
+namespace C2CS.Foundation.UseCases;
 
 internal static class UseCaseLogging
 {

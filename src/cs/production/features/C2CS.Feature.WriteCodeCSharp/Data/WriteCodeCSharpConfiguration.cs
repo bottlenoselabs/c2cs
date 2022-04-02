@@ -4,6 +4,7 @@
 using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 using C2CS.Feature.WriteCodeCSharp.Data.Model;
+using C2CS.Foundation.UseCases;
 using JetBrains.Annotations;
 
 namespace C2CS.Feature.WriteCodeCSharp.Data;

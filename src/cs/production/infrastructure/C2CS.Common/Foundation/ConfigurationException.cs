@@ -3,7 +3,7 @@
 
 using System;
 
-namespace C2CS;
+namespace C2CS.Foundation;
 
 public class ConfigurationException : Exception
 {

@@ -3,6 +3,7 @@
 
 using System.Collections.Immutable;
 using C2CS.Feature.BuildLibraryC.Data;
+using C2CS.Foundation.UseCases;
 
 namespace C2CS.Feature.BuildLibraryC;
 

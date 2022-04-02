@@ -2,11 +2,9 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
-using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Text;
 
-namespace C2CS;
+namespace C2CS.Foundation.UseCases.Exceptions;
 
 public sealed class UseCaseException : Exception
 {

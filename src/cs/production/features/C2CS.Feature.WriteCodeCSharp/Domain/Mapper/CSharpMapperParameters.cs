@@ -4,6 +4,7 @@
 using System.Collections.Immutable;
 using C2CS.Feature.WriteCodeCSharp.Data;
 using C2CS.Feature.WriteCodeCSharp.Data.Model;
+using C2CS.Foundation.Diagnostics;
 
 namespace C2CS.Feature.WriteCodeCSharp.Domain.Mapper;
 

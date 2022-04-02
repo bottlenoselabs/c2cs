@@ -18,13 +18,15 @@ public enum NativeArchitecture
     Unknown = 0,
 
     /// <summary>
-    ///     Intel x86_x64 64-bit computing architecture. Commonly found in modern desktop platforms such as Windows
-    ///     10. Also commonly found in some eighth generation consoles such as Xbox One and PlayStation 4.
+    ///     Intel or AMD (Advanced Micro Devices) x86_x64 64-bit computing architecture. Commonly found in modern
+    ///     desktop platforms such as Windows 10. Also commonly found in some eighth generation consoles such as Xbox
+    ///     One and PlayStation 4.
     /// </summary>
     X64 = 1,
 
     /// <summary>
-    ///     Intel x86 32-bit computing architecture. Commonly found in legacy desktop platforms.
+    ///     Intel or AMD (Advanced Micro Devices) x86 32-bit computing architecture. Commonly found in legacy desktop
+    ///     platforms.
     /// </summary>
     X86 = 2,
 

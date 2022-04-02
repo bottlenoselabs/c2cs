@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using C2CS.Feature.ReadCodeC.Data;
 using C2CS.Feature.WriteCodeCSharp.Data;
+using C2CS.Foundation.Data.Serialization;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.Data.Serialization;

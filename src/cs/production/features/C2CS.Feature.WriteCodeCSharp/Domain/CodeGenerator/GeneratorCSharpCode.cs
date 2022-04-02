@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.Reflection;
 using C2CS.Feature.WriteCodeCSharp.Data;
 using C2CS.Feature.WriteCodeCSharp.Data.Model;
+using C2CS.Foundation.UseCases.Exceptions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;

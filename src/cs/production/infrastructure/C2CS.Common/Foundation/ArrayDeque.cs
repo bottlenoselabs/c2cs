@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
-namespace C2CS;
+namespace C2CS.Foundation;
 // TODO: Add unit tests.
 // TODO: Allow for a custom resize function.
 // TODO: Use a struct enumerator.

@@ -5,6 +5,8 @@ using System.Collections.Immutable;
 using System.IO.Abstractions;
 using C2CS.Feature.WriteCodeCSharp.Data;
 using C2CS.Feature.WriteCodeCSharp.Data.Model;
+using C2CS.Foundation.UseCases;
+using C2CS.Foundation.UseCases.Exceptions;
 
 namespace C2CS.Feature.WriteCodeCSharp.Domain;
 

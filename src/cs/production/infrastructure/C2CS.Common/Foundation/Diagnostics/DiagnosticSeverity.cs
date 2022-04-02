@@ -3,7 +3,7 @@
 
 using JetBrains.Annotations;
 
-namespace C2CS;
+namespace C2CS.Foundation.Diagnostics;
 
 /// <summary>
 ///     Defines different levels of program runtime feedback.

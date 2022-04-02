@@ -4,7 +4,7 @@
 using System.Linq;
 using System.Text.Json;
 
-namespace C2CS.Data.Serialization;
+namespace C2CS.Foundation.Data.Serialization;
 
 public class SnakeCaseNamingPolicy : JsonNamingPolicy
 {

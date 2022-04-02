@@ -2,10 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using C2CS.Foundation.Logging;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS;
+namespace C2CS.Foundation.Diagnostics;
 
 /// <summary>
 ///     Program runtime feedback that is not necessarily a run-time exception.

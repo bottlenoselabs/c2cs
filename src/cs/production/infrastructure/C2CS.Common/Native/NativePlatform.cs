@@ -23,7 +23,7 @@ namespace C2CS;
 ///     Defines the native platforms.
 /// </summary>
 [PublicAPI]
-[JsonConverter(typeof(TargetPlatformJsonConverter))]
+[JsonConverter(typeof(NativePlatformJsonConverter))]
 public record struct NativePlatform(string Target)
 {
     internal string Target = Target;

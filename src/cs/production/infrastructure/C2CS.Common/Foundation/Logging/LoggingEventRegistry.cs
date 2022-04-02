@@ -3,7 +3,7 @@
 
 using Microsoft.Extensions.Logging;
 
-namespace C2CS;
+namespace C2CS.Foundation.Logging;
 
 public static class LoggingEventRegistry
 {

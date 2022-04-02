@@ -3,6 +3,7 @@
 
 using System.Collections.Immutable;
 using C2CS.Feature.ReadCodeC.Domain.ParseCode.Diagnostics;
+using C2CS.Foundation.Diagnostics;
 using Microsoft.Extensions.Logging;
 using static bottlenoselabs.clang;
 

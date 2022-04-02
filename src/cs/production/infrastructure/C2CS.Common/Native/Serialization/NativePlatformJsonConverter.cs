@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace C2CS.Serialization;
 
-public class TargetPlatformJsonConverter : JsonConverter<NativePlatform>
+public class NativePlatformJsonConverter : JsonConverter<NativePlatform>
 {
     public override NativePlatform Read(
         ref Utf8JsonReader reader,

@@ -9,6 +9,8 @@ using C2CS.Feature.WriteCodeCSharp.Data.Model;
 using C2CS.Feature.WriteCodeCSharp.Domain;
 using C2CS.Feature.WriteCodeCSharp.Domain.CodeGenerator;
 using C2CS.Feature.WriteCodeCSharp.Domain.Mapper;
+using C2CS.Foundation.Diagnostics;
+using C2CS.Foundation.UseCases;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 

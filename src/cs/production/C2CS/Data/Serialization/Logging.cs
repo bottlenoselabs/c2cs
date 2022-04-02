@@ -2,6 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using C2CS.Foundation;
+using C2CS.Foundation.Logging;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.Data.Serialization;

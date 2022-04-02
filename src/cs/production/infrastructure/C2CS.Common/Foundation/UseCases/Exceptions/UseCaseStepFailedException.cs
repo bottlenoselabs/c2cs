@@ -3,7 +3,7 @@
 
 using System;
 
-namespace C2CS;
+namespace C2CS.Foundation.UseCases.Exceptions;
 
 #pragma warning disable CA1032
 #pragma warning disable CA1064
