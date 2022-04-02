@@ -138,12 +138,22 @@ public abstract class UseCase<TConfiguration, TInput, TOutput>
     {
         _stepStopwatch.Stop();
         var timeSpan = _stepStopwatch.Elapsed;
-        Logger.UseCaseStepFinished(timeSpan);
+
+        var isSuccess = !Diagnostics.HasFaulted;
+        if (isSuccess)
+        {
+            Logger.UseCaseStepSucceeded(timeSpan);
+        }
+        else
+        {
+            Logger.UseCaseStepFailed(timeSpan);
+        }
+
         _loggerScopeStep?.Dispose();
         _loggerScopeStep = null;
         GarbageCollect();
 
-        if (Diagnostics.HasFaulted)
+        if (!isSuccess)
         {
             throw new UseCaseStepFailedException();
         }

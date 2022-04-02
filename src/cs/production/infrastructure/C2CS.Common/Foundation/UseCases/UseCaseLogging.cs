@@ -11,27 +11,32 @@ internal static class UseCaseLogging
     private static readonly Action<ILogger, Exception> ActionUseCaseStarted = LoggerMessage.Define(
         LogLevel.Information,
         LoggingEventRegistry.CreateEventIdentifier("Use case started"),
-        "- Started");
+        "- Use case started");
 
     private static readonly Action<ILogger, TimeSpan, Exception> ActionUseCaseSucceeded = LoggerMessage.Define<TimeSpan>(
         LogLevel.Information,
         LoggingEventRegistry.CreateEventIdentifier("Use case success"),
-        "- Success in {Elapsed:s\\.fff} seconds");
+        "- Use case success in {Elapsed:s\\.fff} seconds");
 
     private static readonly Action<ILogger, TimeSpan, Exception> ActionUseCaseFailed = LoggerMessage.Define<TimeSpan>(
         LogLevel.Error,
         LoggingEventRegistry.CreateEventIdentifier("Use case failed"),
-        "- Failed in {Elapsed:s\\.fff} seconds");
+        "- Use case failed in {Elapsed:s\\.fff} seconds");
 
     private static readonly Action<ILogger, Exception> ActionUseCaseStepStarted = LoggerMessage.Define(
         LogLevel.Information,
         LoggingEventRegistry.CreateEventIdentifier("Use case step started"),
-        "- Step started");
+        "- Use case step started");
 
-    private static readonly Action<ILogger, TimeSpan, Exception> ActionUseCaseStepFinished = LoggerMessage.Define<TimeSpan>(
+    private static readonly Action<ILogger, TimeSpan, Exception> ActionUseCaseStepSucceeded = LoggerMessage.Define<TimeSpan>(
         LogLevel.Information,
-        LoggingEventRegistry.CreateEventIdentifier("Use case step finished"),
-        "- Step finished in {Elapsed:s\\.fff} seconds");
+        LoggingEventRegistry.CreateEventIdentifier("Use case step success"),
+        "- Use case step success in {Elapsed:s\\.fff} seconds");
+
+    private static readonly Action<ILogger, TimeSpan, Exception> ActionUseCaseStepFailed = LoggerMessage.Define<TimeSpan>(
+        LogLevel.Error,
+        LoggingEventRegistry.CreateEventIdentifier("Use case step failed"),
+        "- Use case step failed in {Elapsed:s\\.fff} seconds");
 
     public static void UseCaseStarted(this ILogger logger)
     {
@@ -53,8 +58,13 @@ internal static class UseCaseLogging
         ActionUseCaseStepStarted(logger, null!);
     }
 
-    public static void UseCaseStepFinished(this ILogger logger, TimeSpan timeSpan)
+    public static void UseCaseStepSucceeded(this ILogger logger, TimeSpan timeSpan)
     {
-        ActionUseCaseStepFinished(logger, timeSpan, null!);
+        ActionUseCaseStepSucceeded(logger, timeSpan, null!);
+    }
+
+    public static void UseCaseStepFailed(this ILogger logger, TimeSpan timeSpan)
+    {
+        ActionUseCaseStepFailed(logger, timeSpan, null!);
     }
 }
