@@ -49,6 +49,6 @@ jobs:
 
     - uses: actions/upload-artifact@v3
       with:
-        name: tests
-        path: ./bin/C2CS.Tests.*/
+        name: "tests"
+        path: ${{ github.workspace }}/bin/*Tests*/
 
