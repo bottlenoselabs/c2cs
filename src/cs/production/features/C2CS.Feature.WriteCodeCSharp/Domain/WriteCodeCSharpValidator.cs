@@ -66,8 +66,8 @@ public sealed class WriteCodeCSharpValidator : UseCaseValidator<WriteCodeCSharpC
         {
             var fileName = _fileSystem.Path.GetFileName(filePath);
             var platformString = fileName.Replace(".json", string.Empty, StringComparison.InvariantCulture);
-            var platform = new TargetPlatform(platformString);
-            if (platform == TargetPlatform.Unknown)
+            var platform = new NativePlatform(platformString);
+            if (platform == NativePlatform.Unknown)
             {
                 throw new UseCaseException($"Unknown platform '{platform}' for abstract syntax tree.");
             }

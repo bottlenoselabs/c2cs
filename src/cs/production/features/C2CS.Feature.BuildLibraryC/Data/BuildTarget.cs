@@ -9,9 +9,9 @@ namespace C2CS.Feature.BuildLibraryC.Data;
 // NOTE: This class is considered un-sanitized input; all strings and other types could be null.
 public class BuildTarget
 {
-    public TargetOperatingSystem OperatingSystem { get; set; } = TargetOperatingSystem.Unknown;
+    public NativeOperatingSystem OperatingSystem { get; set; } = NativeOperatingSystem.Unknown;
 
-    public ImmutableArray<TargetArchitecture> TargetArchitectures { get; set; } = ImmutableArray<TargetArchitecture>.Empty;
+    public ImmutableArray<NativeArchitecture> TargetArchitectures { get; set; } = ImmutableArray<NativeArchitecture>.Empty;
 
     public bool IsEnabledCombineArchitectures { get; set; }
 

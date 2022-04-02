@@ -16,15 +16,15 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         if (configuration.ConfigurationAbstractSyntaxTrees == null)
         {
             var abstractSyntaxTreeRequests = new Dictionary<string, ReadCodeCConfigurationAbstractSyntaxTree?>();
-            var targetPlatform = Platform.Target;
+            var targetPlatform = Native.Platform;
             abstractSyntaxTreeRequests.Add(targetPlatform.ToString(), null);
             configuration.ConfigurationAbstractSyntaxTrees = abstractSyntaxTreeRequests;
         }
 
-        foreach (var (platformString, configurationAbstractSyntaxTree) in configuration.ConfigurationAbstractSyntaxTrees)
+        foreach (var (targetPlatformString, configurationAbstractSyntaxTree) in configuration.ConfigurationAbstractSyntaxTrees)
         {
-            var platform = VerifyPlatform(platformString);
-            var outputFilePath = VerifyOutputFilePath(configurationAbstractSyntaxTree?.OutputFileDirectory, platform);
+            var targetPlatform = VerifyTargetPlatform(targetPlatformString);
+            var outputFilePath = VerifyOutputFilePath(configurationAbstractSyntaxTree?.OutputFileDirectory, targetPlatform);
             var isEnabledFindSystemHeaders = configurationAbstractSyntaxTree?.IsEnabledFindSystemHeaders ?? true;
             var includeDirectories =
                 VerifyIncludeDirectories(configurationAbstractSyntaxTree?.IncludeDirectories, inputFilePath);
@@ -36,7 +36,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
 
             var inputAbstractSyntaxTree = new ReadCodeCAbstractSyntaxTreeOptions
             {
-                Platform = platform,
+                TargetPlatform = targetPlatform,
                 OutputFilePath = outputFilePath,
                 IsEnabledFindSystemHeaders = isEnabledFindSystemHeaders,
                 IncludeDirectories = includeDirectories,
@@ -74,7 +74,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         return filePath;
     }
 
-    private static string VerifyOutputFilePath(string? outputFileDirectory, TargetPlatform targetPlatform)
+    private static string VerifyOutputFilePath(string? outputFileDirectory, NativePlatform nativePlatform)
     {
         string directoryPath;
         // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
@@ -87,30 +87,30 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
             directoryPath = Path.GetFullPath(outputFileDirectory);
         }
 
-        var defaultFilePath = Path.Combine(directoryPath, targetPlatform + ".json");
+        var defaultFilePath = Path.Combine(directoryPath, nativePlatform + ".json");
         return defaultFilePath;
     }
 
-    private static TargetPlatform VerifyPlatform(string? platformString)
+    private static NativePlatform VerifyTargetPlatform(string? targetPlatformString)
     {
-        if (string.IsNullOrEmpty(platformString))
+        if (string.IsNullOrEmpty(targetPlatformString))
         {
             throw new UseCaseException("Platform can not be null.");
         }
 
-        var platform = new TargetPlatform(platformString);
+        var platform = new NativePlatform(targetPlatformString);
 
-        if (platform.Architecture == TargetArchitecture.Unknown && platform.OperatingSystem == TargetOperatingSystem.Unknown)
+        if (platform.Architecture == NativeArchitecture.Unknown && platform.OperatingSystem == NativeOperatingSystem.Unknown)
         {
             throw new UseCaseException($"Unknown platform `{platform}`.");
         }
 
-        if (platform.OperatingSystem == TargetOperatingSystem.Unknown)
+        if (platform.OperatingSystem == NativeOperatingSystem.Unknown)
         {
             throw new UseCaseException($"Unknown operating system for platform '{platform}'.");
         }
 
-        if (platform.Architecture == TargetArchitecture.Unknown)
+        if (platform.Architecture == NativeArchitecture.Unknown)
         {
             throw new UseCaseException($"Unknown architecture for platform '{platform}'.");
         }

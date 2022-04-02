@@ -24,7 +24,7 @@ public sealed class ClangInstaller
         _fileSystem = fileSystem;
     }
 
-    public void Install(TargetOperatingSystem operatingSystem)
+    public void Install(NativeOperatingSystem operatingSystem)
     {
         lock (_lock)
         {
@@ -38,9 +38,9 @@ public sealed class ClangInstaller
             {
                 _clangNativeLibraryPath = operatingSystem switch
                 {
-                    TargetOperatingSystem.Windows => InstallWindows(),
-                    TargetOperatingSystem.Linux => InstallLinux(),
-                    TargetOperatingSystem.macOS => InstallMacOs(),
+                    NativeOperatingSystem.Windows => InstallWindows(),
+                    NativeOperatingSystem.Linux => InstallLinux(),
+                    NativeOperatingSystem.macOS => InstallMacOs(),
                     _ => string.Empty
                 };
             }

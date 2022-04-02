@@ -19,7 +19,7 @@ public class ClangArgumentsBuilder
         bool automaticallyFindSystemHeaders,
         ImmutableArray<string> includeDirectories,
         ImmutableArray<string> defines,
-        TargetPlatform targetPlatform,
+        NativePlatform targetPlatform,
         ImmutableArray<string> additionalArgs)
     {
         var args = ImmutableArray.CreateBuilder<string>();
@@ -32,24 +32,24 @@ public class ClangArgumentsBuilder
 
         if (automaticallyFindSystemHeaders)
         {
-            var systemIncludeDirectories = SystemIncludeDirectories(args, targetPlatform);
+            var systemIncludeDirectories = SystemIncludeDirectories(targetPlatform);
             AddSystemIncludeDirectories(args, systemIncludeDirectories);
         }
 
         return args.ToImmutable();
     }
 
-    private void AddTargetTriple(ImmutableArray<string>.Builder args, TargetPlatform platform)
+    private void AddTargetTriple(ImmutableArray<string>.Builder args, NativePlatform platform)
     {
         var targetTripleString = $"--target={platform}";
         args.Add(targetTripleString);
     }
 
-    private void AddDefaults(ImmutableArray<string>.Builder args, TargetPlatform platform)
+    private void AddDefaults(ImmutableArray<string>.Builder args, NativePlatform platform)
     {
         args.Add("--language=c");
 
-        if (platform.OperatingSystem == TargetOperatingSystem.Linux)
+        if (platform.OperatingSystem == NativeOperatingSystem.Linux)
         {
             args.Add("--std=gnu11");
         }
@@ -118,52 +118,49 @@ public class ClangArgumentsBuilder
         }
     }
 
-    private ImmutableArray<string> SystemIncludeDirectories(
-        ImmutableArray<string>.Builder args, TargetPlatform targetPlatform)
+    private ImmutableArray<string> SystemIncludeDirectories(NativePlatform targetPlatform)
     {
-        var hostOperatingSystem = Platform.OperatingSystem;
+        var hostOperatingSystem = Native.OperatingSystem;
         var targetOperatingSystem = targetPlatform.OperatingSystem;
 
-        Console.WriteLine(hostOperatingSystem);
-        Console.WriteLine(targetOperatingSystem);
-
-        var builder = ImmutableArray.CreateBuilder<string>();
+        var directories = ImmutableArray.CreateBuilder<string>();
 
         switch (hostOperatingSystem)
         {
-            case TargetOperatingSystem.Windows when targetOperatingSystem is
-                TargetOperatingSystem.Windows:
+            case NativeOperatingSystem.Windows:
             {
-                SystemIncludeDirectoriesWindows(builder);
+                SystemIncludeDirectoriesWindowsHost(directories);
                 break;
             }
 
-            case TargetOperatingSystem.macOS when targetOperatingSystem is
-                TargetOperatingSystem.macOS:
+            case NativeOperatingSystem.macOS:
             {
-                AddSystemIncludesMac(args);
+                SystemIncludesDirectoriesMacOsHost(directories);
+
+                if (targetOperatingSystem == NativeOperatingSystem.macOS)
+                {
+                    SystemIncludesDirectoriesMacOsTarget(directories);
+                }
+
                 break;
             }
 
-            case TargetOperatingSystem.Linux when targetOperatingSystem is
-                TargetOperatingSystem.Linux:
+            case NativeOperatingSystem.Linux:
             {
-                AddSystemIncludesLinux(args);
+                SystemIncludeDirectoriesLinuxHost(directories);
                 break;
             }
         }
 
-        return builder.ToImmutable();
+        return directories.ToImmutable();
     }
 
-    private void AddSystemIncludesLinux(ImmutableArray<string>.Builder directories)
+    private void SystemIncludeDirectoriesLinuxHost(ImmutableArray<string>.Builder directories)
     {
         directories.Add("/usr/include");
-        // TODO: Is this always going to work? Be good if this was more bullet proof. If you know better fix it!
-        directories.Add("/usr/lib/gcc/x86_64-linux-gnu/9/include/");
     }
 
-    private void SystemIncludeDirectoriesWindows(ImmutableArray<string>.Builder directories)
+    private void SystemIncludeDirectoriesWindowsHost(ImmutableArray<string>.Builder directories)
     {
         var sdkDirectoryPath =
             Environment.ExpandEnvironmentVariables(@"%ProgramFiles(x86)%\Windows Kits\10\Include");
@@ -218,7 +215,7 @@ public class ClangArgumentsBuilder
         directories.Add(mscvIncludeDirectoryPath);
     }
 
-    private void AddSystemIncludesMac(ImmutableArray<string>.Builder directories)
+    private void SystemIncludesDirectoriesMacOsHost(ImmutableArray<string>.Builder directories)
     {
         if (!_fileSystem.Directory.Exists("/Library/Developer/CommandLineTools"))
         {
@@ -237,7 +234,10 @@ public class ClangArgumentsBuilder
 
         var systemIncludeCommandLineArgClang = $"-isystem{clangHighestVersionDirectoryPath}/include";
         directories.Add(systemIncludeCommandLineArgClang);
+    }
 
+    private void SystemIncludesDirectoriesMacOsTarget(ImmutableArray<string>.Builder directories)
+    {
         var softwareDevelopmentKitDirectoryPath =
             "xcrun --sdk macosx --show-sdk-path".ShellCaptureOutput();
         if (!_fileSystem.Directory.Exists(softwareDevelopmentKitDirectoryPath))

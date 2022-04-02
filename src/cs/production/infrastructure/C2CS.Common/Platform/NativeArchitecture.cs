@@ -10,7 +10,7 @@ namespace C2CS;
 ///     Defines the native computer architectures.
 /// </summary>
 [PublicAPI]
-public enum TargetArchitecture
+public enum NativeArchitecture
 {
     /// <summary>
     ///     Unknown computer architecture.

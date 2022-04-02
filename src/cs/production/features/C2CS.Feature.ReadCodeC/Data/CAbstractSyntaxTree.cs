@@ -13,7 +13,7 @@ public record CAbstractSyntaxTree
     public string FileName { get; set; } = string.Empty;
 
     [JsonPropertyName("platform")]
-    public TargetPlatform Platform { get; set; } = TargetPlatform.Unknown;
+    public NativePlatform Platform { get; set; } = NativePlatform.Unknown;
 
     [JsonPropertyName("functions")]
     public ImmutableArray<CFunction> Functions { get; set; } = ImmutableArray<CFunction>.Empty;

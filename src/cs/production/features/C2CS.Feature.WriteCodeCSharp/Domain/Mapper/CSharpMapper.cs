@@ -58,10 +58,10 @@ public sealed class CSharpMapper
             .ToImmutableHashSet();
     }
 
-    public ImmutableDictionary<TargetPlatform, CSharpNodes> Map(
+    public ImmutableDictionary<NativePlatform, CSharpNodes> Map(
         ImmutableArray<CAbstractSyntaxTree> abstractSyntaxTrees)
     {
-        var builder = ImmutableDictionary.CreateBuilder<TargetPlatform, CSharpNodes>();
+        var builder = ImmutableDictionary.CreateBuilder<NativePlatform, CSharpNodes>();
 
         foreach (var ast in abstractSyntaxTrees)
         {
@@ -108,7 +108,7 @@ public sealed class CSharpMapper
     private ImmutableArray<CSharpFunction> Functions(
         ImmutableDictionary<string, CType> types,
         ImmutableArray<CFunction> clangFunctionExterns,
-        TargetPlatform platform)
+        NativePlatform platform)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpFunction>(clangFunctionExterns.Length);
 
@@ -123,7 +123,7 @@ public sealed class CSharpMapper
         return result;
     }
 
-    private CSharpFunction Function(ImmutableDictionary<string, CType> types, CFunction cFunction, TargetPlatform platform)
+    private CSharpFunction Function(ImmutableDictionary<string, CType> types, CFunction cFunction, NativePlatform platform)
     {
         var name = cFunction.Name;
         var originalCodeLocationComment = OriginalCodeLocationComment(cFunction);
@@ -173,7 +173,7 @@ public sealed class CSharpMapper
     private ImmutableArray<CSharpFunctionParameter> CSharpFunctionParameters(
         ImmutableDictionary<string, CType> types,
         ImmutableArray<CFunctionParameter> functionExternParameters,
-        TargetPlatform platform)
+        NativePlatform platform)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpFunctionParameter>(functionExternParameters.Length);
         var parameterNames = new List<string>();
@@ -234,7 +234,7 @@ public sealed class CSharpMapper
         ImmutableDictionary<string, CType> types,
         CFunctionParameter functionParameter,
         string parameterName,
-        TargetPlatform platform)
+        NativePlatform platform)
     {
         var name = SanitizeIdentifier(parameterName);
         var originalCodeLocationComment = OriginalCodeLocationComment(functionParameter);
@@ -334,7 +334,7 @@ public sealed class CSharpMapper
     private ImmutableArray<CSharpStruct> Structs(
         ImmutableDictionary<string, CType> types,
         ImmutableArray<CRecord> records,
-        TargetPlatform platform)
+        NativePlatform platform)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpStruct>(records.Length);
 
@@ -364,7 +364,7 @@ public sealed class CSharpMapper
     private CSharpStruct Struct(
         ImmutableDictionary<string, CType> types,
         CRecord record,
-        TargetPlatform platform)
+        NativePlatform platform)
     {
         var originalCodeLocationComment = OriginalCodeLocationComment(record);
         var typeC = CType(types, record.Name);
@@ -383,7 +383,7 @@ public sealed class CSharpMapper
     private ImmutableArray<CSharpStructField> StructFields(
         ImmutableDictionary<string, CType> types,
         ImmutableArray<CRecordField> recordFields,
-        TargetPlatform platform)
+        NativePlatform platform)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpStructField>(recordFields.Length);
 
@@ -436,7 +436,7 @@ public sealed class CSharpMapper
     private ImmutableArray<CSharpStruct> NestedStructs(
         ImmutableDictionary<string, CType> types,
         ImmutableArray<CRecord> records,
-        TargetPlatform platform)
+        NativePlatform platform)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpStruct>(records.Length);
 

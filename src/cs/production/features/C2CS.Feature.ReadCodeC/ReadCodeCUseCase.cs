@@ -29,7 +29,7 @@ public sealed class ReadCodeCUseCase : UseCase<
 
     protected override void Execute(ReadCodeCInput input, ReadCodeCOutput output)
     {
-        InstallClang(Platform.OperatingSystem);
+        InstallClang(Native.OperatingSystem);
 
         var builder = ImmutableArray.CreateBuilder<ReadCodeCAbstractSyntaxTreeOptions>();
 
@@ -40,7 +40,7 @@ public sealed class ReadCodeCUseCase : UseCase<
                 options.IsEnabledFindSystemHeaders,
                 options.IncludeDirectories,
                 options.ClangDefines,
-                options.Platform,
+                options.TargetPlatform,
                 options.ClangArguments);
 
             if (!translationUnit.HasValue)
@@ -54,9 +54,9 @@ public sealed class ReadCodeCUseCase : UseCase<
                 options.ExcludedHeaderFiles,
                 options.OpaqueTypeNames,
                 options.FunctionNamesWhitelist,
-                options.Platform);
+                options.TargetPlatform);
 
-            Write(options.OutputFilePath, abstractSyntaxTreeC, options.Platform);
+            Write(options.OutputFilePath, abstractSyntaxTreeC, options.TargetPlatform);
 
             builder.Add(options);
         }
@@ -64,7 +64,7 @@ public sealed class ReadCodeCUseCase : UseCase<
         output.AbstractSyntaxTreesOptions = builder.ToImmutable();
     }
 
-    private void InstallClang(TargetOperatingSystem operatingSystem)
+    private void InstallClang(NativeOperatingSystem operatingSystem)
     {
         BeginStep($"Install Clang {operatingSystem}");
 
@@ -79,10 +79,10 @@ public sealed class ReadCodeCUseCase : UseCase<
         bool automaticallyFindSystemHeaders,
         ImmutableArray<string> includeDirectories,
         ImmutableArray<string> defines,
-        TargetPlatform platform,
+        NativePlatform targetPlatform,
         ImmutableArray<string> clangArguments)
     {
-        BeginStep($"Parse {platform}");
+        BeginStep($"Parse {targetPlatform}");
 
         var clangArgumentsBuilder = _services.GetService<ClangArgumentsBuilder>()!;
 
@@ -90,7 +90,7 @@ public sealed class ReadCodeCUseCase : UseCase<
             automaticallyFindSystemHeaders,
             includeDirectories,
             defines,
-            platform,
+            targetPlatform,
             clangArguments);
 
         if (arguments == null)
@@ -113,7 +113,7 @@ public sealed class ReadCodeCUseCase : UseCase<
         ImmutableArray<string> excludedHeaderFiles,
         ImmutableArray<string> opaqueTypeNames,
         ImmutableArray<string> functionNamesWhitelist,
-        TargetPlatform platform)
+        NativePlatform platform)
     {
         BeginStep($"Extract {platform}");
 
@@ -132,7 +132,7 @@ public sealed class ReadCodeCUseCase : UseCase<
     }
 
     private void Write(
-        string outputFilePath, CAbstractSyntaxTree abstractSyntaxTree, TargetPlatform platform)
+        string outputFilePath, CAbstractSyntaxTree abstractSyntaxTree, NativePlatform platform)
     {
         BeginStep($"Write {platform}");
         var cJsonSerializer = _services.GetService<CJsonSerializer>()!;

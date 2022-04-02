@@ -7,10 +7,10 @@ using JetBrains.Annotations;
 namespace C2CS;
 
 /// <summary>
-///     Defines the native runtime operating systems.
+///     Defines the native operating systems.
 /// </summary>
 [PublicAPI]
-public enum TargetOperatingSystem
+public enum NativeOperatingSystem
 {
     /// <summary>
     ///     Unknown operating system.

@@ -59,7 +59,7 @@ public sealed class ClangTranslationUnitExplorer
         var result = new CAbstractSyntaxTree
         {
             FileName = location.FileName,
-            Platform = context.TargetPlatform,
+            Platform = context.NativePlatform,
             Functions = functions,
             FunctionPointers = functionPointers,
             Records = records,
@@ -434,7 +434,7 @@ public sealed class ClangTranslationUnitExplorer
         if (name == "C2CS_RUNTIME_PLATFORM_NAME")
         {
             var actualPlatformName = tokens.Length != 1 ? string.Empty : tokens[0].Replace("\"", string.Empty, StringComparison.InvariantCulture);
-            var expectedPlatformName = context.TargetPlatform.ToString();
+            var expectedPlatformName = context.NativePlatform.ToString();
             if (actualPlatformName != expectedPlatformName)
             {
                 var diagnostic = new PlatformMismatchDiagnostic(actualPlatformName, expectedPlatformName);

@@ -7,9 +7,9 @@ using System.Text.Json.Serialization;
 
 namespace C2CS.Serialization;
 
-public class TargetPlatformJsonConverter : JsonConverter<TargetPlatform>
+public class TargetPlatformJsonConverter : JsonConverter<NativePlatform>
 {
-    public override TargetPlatform Read(
+    public override NativePlatform Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options)
@@ -17,16 +17,16 @@ public class TargetPlatformJsonConverter : JsonConverter<TargetPlatform>
         var value = reader.GetString();
         if (string.IsNullOrEmpty(value))
         {
-            return TargetPlatform.Unknown;
+            return NativePlatform.Unknown;
         }
 
-        var result = new TargetPlatform(value);
+        var result = new NativePlatform(value);
         return result;
     }
 
     public override void Write(
         Utf8JsonWriter writer,
-        TargetPlatform value,
+        NativePlatform value,
         JsonSerializerOptions options)
     {
         writer.WriteStringValue(value.Target);
