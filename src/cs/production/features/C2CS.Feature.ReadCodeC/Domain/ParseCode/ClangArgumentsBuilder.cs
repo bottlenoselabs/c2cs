@@ -3,23 +3,20 @@
 
 using System.Collections.Immutable;
 using System.IO.Abstractions;
-using Microsoft.Extensions.Logging;
 
 namespace C2CS.Feature.ReadCodeC.Domain.ParseCode;
 
 public class ClangArgumentsBuilder
 {
-    private readonly ILogger _logger;
     private readonly IFileSystem _fileSystem;
 
-    public ClangArgumentsBuilder(ILogger logger, IFileSystem fileSystem)
+    public ClangArgumentsBuilder(IFileSystem fileSystem)
     {
-        _logger = logger;
         _fileSystem = fileSystem;
     }
 
     public ImmutableArray<string>? Build(
-        bool automaticallyFindSoftwareDevelopmentKit,
+        bool automaticallyFindSystemHeaders,
         ImmutableArray<string> includeDirectories,
         ImmutableArray<string> defines,
         TargetPlatform targetPlatform,
@@ -33,9 +30,10 @@ public class ClangArgumentsBuilder
         AddTargetTriple(builder, targetPlatform);
         AddAdditionalArgs(builder, additionalArgs);
 
-        if (automaticallyFindSoftwareDevelopmentKit)
+        if (automaticallyFindSystemHeaders)
         {
-            AddSystemIncludes(builder, targetPlatform);
+            var systemIncludeDirectories = SystemIncludeDirectories(builder, targetPlatform);
+            AddSystemIncludeDirectories(systemIncludeDirectories, builder);
         }
 
         return builder.ToImmutable();
@@ -106,17 +104,36 @@ public class ClangArgumentsBuilder
         }
     }
 
-    private void AddSystemIncludes(ImmutableArray<string>.Builder args, TargetPlatform targetPlatform)
+    private void AddSystemIncludeDirectories(ImmutableArray<string> systemIncludeDirectories, ImmutableArray<string>.Builder builder)
+    {
+        foreach (var directory in systemIncludeDirectories)
+        {
+            if (!_fileSystem.Directory.Exists(directory))
+            {
+                continue;
+            }
+
+            var systemIncludeCommandLineArg = $"-isystem{directory}";
+            builder.Add(systemIncludeCommandLineArg);
+        }
+    }
+
+    private ImmutableArray<string> SystemIncludeDirectories(ImmutableArray<string>.Builder args, TargetPlatform targetPlatform)
     {
         var hostOperatingSystem = Platform.OperatingSystem;
         var targetOperatingSystem = targetPlatform.OperatingSystem;
+
+        Console.WriteLine(hostOperatingSystem);
+        Console.WriteLine(targetOperatingSystem);
+
+        var builder = ImmutableArray.CreateBuilder<string>();
 
         switch (hostOperatingSystem)
         {
             case TargetOperatingSystem.Windows when targetOperatingSystem is
                 TargetOperatingSystem.Windows:
             {
-                AddSystemIncludesWindows(args);
+                SystemIncludeDirectoriesWindows(builder);
                 break;
             }
 
@@ -134,16 +151,18 @@ public class ClangArgumentsBuilder
                 break;
             }
         }
+
+        return builder.ToImmutable();
     }
 
-    private void AddSystemIncludesLinux(ImmutableArray<string>.Builder args)
+    private void AddSystemIncludesLinux(ImmutableArray<string>.Builder directories)
     {
-        AddSystemIncludeDirectory(args, "/usr/include");
+        directories.Add("/usr/include");
         // TODO: Is this always going to work? Be good if this was more bullet proof. If you know better fix it!
-        AddSystemIncludeDirectory(args, "/usr/lib/gcc/x86_64-linux-gnu/9/include/");
+        directories.Add("/usr/lib/gcc/x86_64-linux-gnu/9/include/");
     }
 
-    private void AddSystemIncludesWindows(ImmutableArray<string>.Builder args)
+    private void SystemIncludeDirectoriesWindows(ImmutableArray<string>.Builder directories)
     {
         var sdkDirectoryPath =
             Environment.ExpandEnvironmentVariables(@"%ProgramFiles(x86)%\Windows Kits\10\Include");
@@ -161,7 +180,7 @@ public class ClangArgumentsBuilder
         }
 
         var systemIncludeCommandLineArgSdk = $@"-isystem{sdkHighestVersionDirectoryPath}\ucrt";
-        args.Add(systemIncludeCommandLineArgSdk);
+        directories.Add(systemIncludeCommandLineArgSdk);
 
         var vsWhereFilePath =
             Environment.ExpandEnvironmentVariables(
@@ -195,22 +214,10 @@ public class ClangArgumentsBuilder
                 $"Please install Microsoft Visual C++ (MSVC) build tools for Visual Studio ({visualStudioInstallationDirectoryPath}).");
         }
 
-        AddSystemIncludeDirectory(args, mscvIncludeDirectoryPath);
+        directories.Add(mscvIncludeDirectoryPath);
     }
 
-    private void AddSystemIncludeDirectory(ImmutableArray<string>.Builder args, string directoryPath)
-    {
-        if (!_fileSystem.Directory.Exists(directoryPath))
-        {
-            _logger.SystemIncludeDirectoryDoesNotExist(directoryPath);
-            return;
-        }
-
-        var systemIncludeCommandLineArg = $"-isystem{directoryPath}";
-        args.Add(systemIncludeCommandLineArg);
-    }
-
-    private void AddSystemIncludesMac(ImmutableArray<string>.Builder args)
+    private void AddSystemIncludesMac(ImmutableArray<string>.Builder directories)
     {
         if (!_fileSystem.Directory.Exists("/Library/Developer/CommandLineTools"))
         {
@@ -228,7 +235,7 @@ public class ClangArgumentsBuilder
         }
 
         var systemIncludeCommandLineArgClang = $"-isystem{clangHighestVersionDirectoryPath}/include";
-        args.Add(systemIncludeCommandLineArgClang);
+        directories.Add(systemIncludeCommandLineArgClang);
 
         var softwareDevelopmentKitDirectoryPath =
             "xcrun --sdk macosx --show-sdk-path".ShellCaptureOutput();
@@ -238,7 +245,7 @@ public class ClangArgumentsBuilder
                 "Please install XCode for macOS. This will install the software development kit (SDK) which gives access to common C/C++/ObjC headers.");
         }
 
-        AddSystemIncludeDirectory(args, $"{softwareDevelopmentKitDirectoryPath}/usr/include");
+        directories.Add($"{softwareDevelopmentKitDirectoryPath}/usr/include");
     }
 
     private string GetHighestVersionDirectoryPathFrom(string sdkDirectoryPath)

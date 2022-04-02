@@ -4,7 +4,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using C2CS.Feature.BuildLibraryC.Data;
-using JsonSerializerContext = C2CS.Feature.BuildLibraryC.Data.JsonSerializerContext;
+using JsonSerializerContext = C2CS.Feature.BuildLibraryC.Data.Serialization.JsonSerializerContext;
 
 namespace C2CS.Feature.BuildLibraryC;
 

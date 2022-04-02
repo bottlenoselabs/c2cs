@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using C2CS.Feature.ReadCodeC.Data.Serialization;
+using C2CS.Feature.ReadCodeC.Domain;
 using C2CS.Feature.ReadCodeC.Domain.ExploreCode;
 using C2CS.Feature.ReadCodeC.Domain.InstallClang;
 using C2CS.Feature.ReadCodeC.Domain.ParseCode;

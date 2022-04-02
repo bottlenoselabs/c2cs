@@ -1,34 +1,30 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-namespace C2CS.Feature.WriteCodeCSharp.Data;
+namespace C2CS.Feature.WriteCodeCSharp.Data.Model;
 
-public sealed class CSharpConstant : CSharpNode
+public sealed class CSharpFunctionParameter : CSharpNode
 {
-    public readonly string Type;
+    public readonly CSharpType Type;
 
-    public readonly string Value;
-
-    public CSharpConstant(
+    public CSharpFunctionParameter(
         string name,
         string codeLocationComment,
         int? sizeOf,
-        string type,
-        string value)
+        CSharpType type)
         : base(name, codeLocationComment, sizeOf)
     {
         Type = type;
-        Value = value;
     }
 
     public override bool Equals(CSharpNode? other)
     {
-        if (!base.Equals(other) || other is not CSharpConstant other2)
+        if (!base.Equals(other) || other is not CSharpFunctionParameter other2)
         {
             return false;
         }
 
-        return Type == other2.Type &&
-               Value == other2.Value;
+        var result = Type == other2.Type;
+        return result;
     }
 }

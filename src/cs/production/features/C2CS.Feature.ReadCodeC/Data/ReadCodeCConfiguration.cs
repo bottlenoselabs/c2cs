@@ -19,6 +19,6 @@ public sealed class ReadCodeCConfiguration : UseCaseConfiguration
     [JsonPropertyName("platforms")]
     [Json.Schema.Generation.Description("The target platform configurations for extracting the abstract syntax trees. Each target platform is a Clang target triple. See the C2CS docs for more details about what target platforms are available.")]
 #pragma warning disable CA2227
-    public Dictionary<string, ReadCodeCConfigurationAbstractSyntaxTree?>? RequestAbstractSyntaxTrees { get; set; }
+    public Dictionary<string, ReadCodeCConfigurationAbstractSyntaxTree?>? ConfigurationAbstractSyntaxTrees { get; set; }
 #pragma warning restore CA2227
 }

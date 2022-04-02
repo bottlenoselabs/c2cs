@@ -25,12 +25,6 @@ internal static class Logging
             LoggingEventRegistry.CreateEventIdentifier("Parse translation unit: Failed"),
             "- Failed. One or more Clang diagnostics are reported when parsing that are an error or fatal. Path: {FilePath} ; Clang arguments: {Arguments} ; Diagnostics: {DiagnosticsCount}");
 
-    private static readonly Action<ILogger, string, Exception> ActionSystemIncludeDirectoryDoesNotExist =
-        LoggerMessage.Define<string>(
-            LogLevel.Trace,
-            LoggingEventRegistry.CreateEventIdentifier("System include directory does not exist."),
-            "- The system include directory does not exist: {DirectoryPath}.");
-
     public static void ParseTranslationUnitFailedArguments(this ILogger logger, string filePath, string arguments, Exception exception)
     {
         ActionParseFailedArguments(logger, filePath, arguments, exception);
@@ -44,10 +38,5 @@ internal static class Logging
     public static void ParseTranslationUnitFailedDiagnostics(this ILogger logger, string filePath, string arguments, int diagnosticsCount)
     {
         ActionParseFailedDiagnostics(logger, filePath, arguments, diagnosticsCount, null!);
-    }
-
-    public static void SystemIncludeDirectoryDoesNotExist(this ILogger logger, string directoryPath)
-    {
-        ActionSystemIncludeDirectoryDoesNotExist(logger, directoryPath, null!);
     }
 }

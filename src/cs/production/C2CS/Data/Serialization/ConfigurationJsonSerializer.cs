@@ -60,9 +60,9 @@ public sealed class ConfigurationJsonSerializer
     private static void Polyfill(Configuration configuration)
     {
         var requestExtractC = configuration.ReadC;
-        if (requestExtractC?.RequestAbstractSyntaxTrees != null)
+        if (requestExtractC?.ConfigurationAbstractSyntaxTrees != null)
         {
-            foreach (var (_, extractAbstractSyntaxTreeC) in requestExtractC.RequestAbstractSyntaxTrees)
+            foreach (var (_, extractAbstractSyntaxTreeC) in requestExtractC.ConfigurationAbstractSyntaxTrees)
             {
                 if (extractAbstractSyntaxTreeC != null)
                 {

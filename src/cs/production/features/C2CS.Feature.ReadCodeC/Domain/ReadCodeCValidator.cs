@@ -3,9 +3,8 @@
 
 using System.Collections.Immutable;
 using C2CS.Feature.ReadCodeC.Data;
-using C2CS.Feature.ReadCodeC.Domain;
 
-namespace C2CS.Feature.ReadCodeC;
+namespace C2CS.Feature.ReadCodeC.Domain;
 
 public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration, ReadCodeCInput>
 {
@@ -14,32 +13,32 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         var inputFilePath = VerifyInputFilePath(configuration.InputFilePath);
 
         var optionsBuilder = ImmutableArray.CreateBuilder<ReadCodeCAbstractSyntaxTreeOptions>();
-        if (configuration.RequestAbstractSyntaxTrees == null)
+        if (configuration.ConfigurationAbstractSyntaxTrees == null)
         {
             var abstractSyntaxTreeRequests = new Dictionary<string, ReadCodeCConfigurationAbstractSyntaxTree?>();
             var targetPlatform = Platform.Target;
             abstractSyntaxTreeRequests.Add(targetPlatform.ToString(), null);
-            configuration.RequestAbstractSyntaxTrees = abstractSyntaxTreeRequests;
+            configuration.ConfigurationAbstractSyntaxTrees = abstractSyntaxTreeRequests;
         }
 
-        foreach (var (platformString, requestAbstractSyntaxTree) in configuration.RequestAbstractSyntaxTrees)
+        foreach (var (platformString, configurationAbstractSyntaxTree) in configuration.ConfigurationAbstractSyntaxTrees)
         {
             var platform = VerifyPlatform(platformString);
-            var outputFilePath = VerifyOutputFilePath(requestAbstractSyntaxTree?.OutputFileDirectory, platform);
-            var isEnabledFindSdk = requestAbstractSyntaxTree?.IsEnabledFindSdk ?? true;
+            var outputFilePath = VerifyOutputFilePath(configurationAbstractSyntaxTree?.OutputFileDirectory, platform);
+            var isEnabledFindSystemHeaders = configurationAbstractSyntaxTree?.IsEnabledFindSystemHeaders ?? true;
             var includeDirectories =
-                VerifyIncludeDirectories(requestAbstractSyntaxTree?.IncludeDirectories, inputFilePath);
-            var excludedHeaderFiles = VerifyImmutableArray(requestAbstractSyntaxTree?.ExcludedHeaderFiles);
-            var opaqueTypeNames = VerifyImmutableArray(requestAbstractSyntaxTree?.OpaqueTypeNames);
-            var functionNamesWhitelist = VerifyImmutableArray(requestAbstractSyntaxTree?.FunctionNamesWhiteList);
-            var clangDefines = VerifyImmutableArray(requestAbstractSyntaxTree?.Defines);
-            var clangArguments = VerifyImmutableArray(requestAbstractSyntaxTree?.ClangArguments);
+                VerifyIncludeDirectories(configurationAbstractSyntaxTree?.IncludeDirectories, inputFilePath);
+            var excludedHeaderFiles = VerifyImmutableArray(configurationAbstractSyntaxTree?.ExcludedHeaderFiles);
+            var opaqueTypeNames = VerifyImmutableArray(configurationAbstractSyntaxTree?.OpaqueTypeNames);
+            var functionNamesWhitelist = VerifyImmutableArray(configurationAbstractSyntaxTree?.FunctionNamesWhiteList);
+            var clangDefines = VerifyImmutableArray(configurationAbstractSyntaxTree?.Defines);
+            var clangArguments = VerifyImmutableArray(configurationAbstractSyntaxTree?.ClangArguments);
 
             var inputAbstractSyntaxTree = new ReadCodeCAbstractSyntaxTreeOptions
             {
                 Platform = platform,
                 OutputFilePath = outputFilePath,
-                IsEnabledFindSdk = isEnabledFindSdk,
+                IsEnabledFindSystemHeaders = isEnabledFindSystemHeaders,
                 IncludeDirectories = includeDirectories,
                 ExcludedHeaderFiles = excludedHeaderFiles,
                 OpaqueTypeNames = opaqueTypeNames,

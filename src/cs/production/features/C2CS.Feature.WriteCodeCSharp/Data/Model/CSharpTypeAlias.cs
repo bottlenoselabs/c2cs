@@ -3,7 +3,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace C2CS.Feature.WriteCodeCSharp.Data;
+namespace C2CS.Feature.WriteCodeCSharp.Data.Model;
 
 // NOTE: Properties are required for System.Text.Json serialization
 public sealed class CSharpTypeAlias

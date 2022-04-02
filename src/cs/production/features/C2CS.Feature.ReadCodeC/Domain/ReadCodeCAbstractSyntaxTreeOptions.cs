@@ -9,7 +9,7 @@ public sealed class ReadCodeCAbstractSyntaxTreeOptions
 {
     public string OutputFilePath { get; init; } = string.Empty;
 
-    public bool IsEnabledFindSdk { get; init; }
+    public bool IsEnabledFindSystemHeaders { get; init; }
 
     public TargetPlatform Platform { get; init; }
 

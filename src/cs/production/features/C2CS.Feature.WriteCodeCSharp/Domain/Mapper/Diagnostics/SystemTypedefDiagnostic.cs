@@ -3,7 +3,7 @@
 
 using C2CS.Feature.ReadCodeC.Data;
 
-namespace C2CS.Feature.WriteCodeCSharp.Domain.Mapper;
+namespace C2CS.Feature.WriteCodeCSharp.Domain.Mapper.Diagnostics;
 
 public sealed class SystemTypedefDiagnostic : Diagnostic
 {

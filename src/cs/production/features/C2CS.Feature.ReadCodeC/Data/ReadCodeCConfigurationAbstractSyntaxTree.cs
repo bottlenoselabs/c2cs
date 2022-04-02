@@ -13,9 +13,9 @@ public sealed class ReadCodeCConfigurationAbstractSyntaxTree
     [JsonIgnore]
     public string? OutputFileDirectory { get; set; }
 
-    [JsonPropertyName("find_sdk")]
-    [Json.Schema.Generation.Description("Determines whether the software development kit (SDK) for C/C++ is attempted to be found. Default is `true`. If `true`, the C/C++ header files for the current operating system are attempted to be found by some reasonable means. If the C/C++ header files can not be found, then an error is generated which halts the program. If `false`, the C/C++ header files will likely be missing causing Clang to generate parsing errors which also halts the program. In such a case, the missing C/C++ header files can be supplied to Clang using the `ClangArguments` property such as \"-isystemPATH/TO/SYSTEM/HEADER/DIRECTORY\"")]
-    public bool? IsEnabledFindSdk { get; set; } = true;
+    [JsonPropertyName("find_system_headers")]
+    [Json.Schema.Generation.Description("Determines whether system C/C++ headers are attempted to be found and passed to Clang. Default is `true`.")]
+    public bool? IsEnabledFindSystemHeaders { get; set; } = true;
 
     [JsonPropertyName("include")]
     [Json.Schema.Generation.Description("Search directory paths to use for `#include` usages when parsing C code.")]

@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using C2CS.Feature.ReadCodeC.Domain.ParseCode.Diagnostics;
 using Microsoft.Extensions.Logging;
 using static bottlenoselabs.clang;
 

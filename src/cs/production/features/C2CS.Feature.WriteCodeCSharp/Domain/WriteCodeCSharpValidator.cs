@@ -4,9 +4,9 @@
 using System.Collections.Immutable;
 using System.IO.Abstractions;
 using C2CS.Feature.WriteCodeCSharp.Data;
-using C2CS.Feature.WriteCodeCSharp.Domain;
+using C2CS.Feature.WriteCodeCSharp.Data.Model;
 
-namespace C2CS.Feature.WriteCodeCSharp;
+namespace C2CS.Feature.WriteCodeCSharp.Domain;
 
 public sealed class WriteCodeCSharpValidator : UseCaseValidator<WriteCodeCSharpConfiguration, WriteCodeCSharpInput>
 {

@@ -3,7 +3,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace C2CS.Feature.BuildLibraryC.Data;
+namespace C2CS.Feature.BuildLibraryC.Data.Serialization;
 
 [JsonSourceGenerationOptions(
     WriteIndented = true,

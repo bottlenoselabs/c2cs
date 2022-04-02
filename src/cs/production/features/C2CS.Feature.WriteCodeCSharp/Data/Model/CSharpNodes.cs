@@ -3,7 +3,7 @@
 
 using System.Collections.Immutable;
 
-namespace C2CS.Feature.WriteCodeCSharp.Data;
+namespace C2CS.Feature.WriteCodeCSharp.Data.Model;
 
 public sealed record CSharpNodes
 {
