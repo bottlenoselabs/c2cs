@@ -1,11 +1,11 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System;
 using System.Collections.Immutable;
 using System.IO.Abstractions;
 using C2CS.Data.Serialization;
 using C2CS.Feature.WriteCodeCSharp;
-using C2CS.Serialization;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Xunit;
@@ -38,7 +38,8 @@ public sealed class BindgenCSharpFixture
         Assert.True(output.IsSuccessful);
         Assert.True(output.Diagnostics.Length == 0);
 
-        var code = fileSystem.File.ReadAllText(input!.OutputFilePath);
+        var code = fileSystem.File.ReadAllText(input.OutputFilePath);
+        Console.WriteLine(code);
         var compilationUnitSyntax = CSharpSyntaxTree.ParseText(code).GetCompilationUnitRoot();
 
         Assert.True(compilationUnitSyntax.Members.Count == 1);
