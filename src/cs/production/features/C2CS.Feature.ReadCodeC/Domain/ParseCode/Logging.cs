@@ -9,7 +9,7 @@ internal static class Logging
 {
     private static readonly Action<ILogger, string, string, Exception> ActionParseFailedArguments =
         LoggerMessage.Define<string, string>(
-            LogLevel.Trace,
+            LogLevel.Error,
             LoggingEventRegistry.CreateEventIdentifier("Parse translation unit: Failed"),
             "- Failed. The arguments are incorrect or invalid. Path: {FilePath} ; Clang arguments: {Arguments}");
 
