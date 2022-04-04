@@ -432,13 +432,12 @@ public sealed class ClangTranslationUnitExplorer
             return;
         }
 
-        if (name == "C2CS_RUNTIME_PLATFORM_NAME")
+        if (name == "C2CS_RUNTIME_TARGET_PLATFORM_NAME")
         {
             var actualPlatformName = tokens.Length != 1 ? string.Empty : tokens[0].Replace("\"", string.Empty, StringComparison.InvariantCulture);
             var actualPlatform = new TargetPlatform(actualPlatformName);
             var expectedPlatform = context.TargetPlatform;
-            if (actualPlatform.OperatingSystem != expectedPlatform.OperatingSystem &&
-                actualPlatform.Architecture != expectedPlatform.Architecture)
+            if (actualPlatform != expectedPlatform)
             {
                 var diagnostic = new PlatformMismatchDiagnostic(actualPlatform, expectedPlatform);
                 context.Diagnostics.Add(diagnostic);
