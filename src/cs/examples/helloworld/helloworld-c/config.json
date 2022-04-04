@@ -5,8 +5,8 @@
   "ast": {
     "input_file": "../../../../src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h",
     "platforms": {
-      "aarch64-pc-windows": {},
-      "x86_64-pc-windows": {},
+      "aarch64-pc-windows-gnu": {},
+      "x86_64-pc-windows-gnu": {},
       "aarch64-apple-darwin": {},
       "x86_64-apple-darwin": {},
       "aarch64-unknown-linux-gnu": {},
