@@ -81,7 +81,7 @@ public enum NativeOperatingSystem
     /// <summary>
     ///     Versions of the PlayStation operating system. Otherwise known as "Orbis OS". Based on <see cref="FreeBSD" />.
     /// </summary>
-    PlayStation = 9,
+    PlayStation4 = 9,
 
     /// <summary>
     ///     Versions of the Xbox operating system.

@@ -66,7 +66,7 @@ public sealed class WriteCodeCSharpUseCase : UseCase<WriteCodeCSharpConfiguratio
         return builder.ToImmutable();
     }
 
-    private ImmutableDictionary<NativePlatform, CSharpNodes> MapCNodesToCSharpNodes(
+    private ImmutableDictionary<TargetPlatform, CSharpNodes> MapCNodesToCSharpNodes(
         ImmutableArray<CAbstractSyntaxTree> abstractSyntaxTrees,
         ImmutableArray<CSharpTypeAlias> typeAliases,
         ImmutableArray<string> ignoredTypeNames,
@@ -83,7 +83,7 @@ public sealed class WriteCodeCSharpUseCase : UseCase<WriteCodeCSharpConfiguratio
         return result;
     }
 
-    private CSharpAbstractSyntaxTree AbstractSyntaxTree(ImmutableDictionary<NativePlatform, CSharpNodes> nodesByPlatform)
+    private CSharpAbstractSyntaxTree AbstractSyntaxTree(ImmutableDictionary<TargetPlatform, CSharpNodes> nodesByPlatform)
     {
         BeginStep("Split/flatten platform specific nodes");
 

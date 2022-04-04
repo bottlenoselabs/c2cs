@@ -12,12 +12,13 @@ public sealed class CSharpEnum : CSharpNode
     public readonly ImmutableArray<CSharpEnumValue> Values;
 
     public CSharpEnum(
+        TargetPlatform platform,
         string name,
         string codeLocationComment,
         int? sizeOf,
         CSharpType integerType,
         ImmutableArray<CSharpEnumValue> values)
-        : base(name, codeLocationComment, sizeOf)
+        : base(platform, name, codeLocationComment, sizeOf)
     {
         IntegerType = integerType;
         Values = values;

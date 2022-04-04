@@ -19,7 +19,7 @@ public class ClangArgumentsBuilder
         bool automaticallyFindSystemHeaders,
         ImmutableArray<string> includeDirectories,
         ImmutableArray<string> defines,
-        NativePlatform targetPlatform,
+        TargetPlatform targetPlatform,
         ImmutableArray<string> additionalArgs)
     {
         var args = ImmutableArray.CreateBuilder<string>();
@@ -39,13 +39,13 @@ public class ClangArgumentsBuilder
         return args.ToImmutable();
     }
 
-    private void AddTargetTriple(ImmutableArray<string>.Builder args, NativePlatform platform)
+    private void AddTargetTriple(ImmutableArray<string>.Builder args, TargetPlatform platform)
     {
         var targetTripleString = $"--target={platform}";
         args.Add(targetTripleString);
     }
 
-    private void AddDefaults(ImmutableArray<string>.Builder args, NativePlatform platform)
+    private void AddDefaults(ImmutableArray<string>.Builder args, TargetPlatform platform)
     {
         args.Add("--language=c");
 
@@ -118,7 +118,7 @@ public class ClangArgumentsBuilder
         }
     }
 
-    private ImmutableArray<string> SystemIncludeDirectories(NativePlatform targetPlatform)
+    private ImmutableArray<string> SystemIncludeDirectories(TargetPlatform targetPlatform)
     {
         var hostOperatingSystem = Native.OperatingSystem;
         var targetOperatingSystem = targetPlatform.OperatingSystem;

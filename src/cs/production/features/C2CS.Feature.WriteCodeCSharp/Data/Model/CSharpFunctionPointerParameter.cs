@@ -7,8 +7,9 @@ public sealed class CSharpFunctionPointerParameter : CSharpNode
 {
     public readonly CSharpType Type;
 
-    public CSharpFunctionPointerParameter(string name, string codeLocationComment, int? sizeOf, CSharpType type)
-        : base(name, codeLocationComment, sizeOf)
+    public CSharpFunctionPointerParameter(
+        TargetPlatform platform, string name, string codeLocationComment, int? sizeOf, CSharpType type)
+        : base(platform, name, codeLocationComment, sizeOf)
     {
         Type = type;
     }

@@ -59,10 +59,10 @@ public sealed class CSharpMapper
             .ToImmutableHashSet();
     }
 
-    public ImmutableDictionary<NativePlatform, CSharpNodes> Map(
+    public ImmutableDictionary<TargetPlatform, CSharpNodes> Map(
         ImmutableArray<CAbstractSyntaxTree> abstractSyntaxTrees)
     {
-        var builder = ImmutableDictionary.CreateBuilder<NativePlatform, CSharpNodes>();
+        var builder = ImmutableDictionary.CreateBuilder<TargetPlatform, CSharpNodes>();
 
         foreach (var ast in abstractSyntaxTrees)
         {
@@ -75,23 +75,16 @@ public sealed class CSharpMapper
 
     private CSharpNodes CSharpNodes(CAbstractSyntaxTree ast)
     {
-        var typesByNameBuilder = ImmutableDictionary.CreateBuilder<string, CType>();
+        var context = new CSharpMapperContext(ast.Platform, ast.Types);
 
-        foreach (var type in ast.Types)
-        {
-            typesByNameBuilder.Add(type.Name, type);
-        }
-
-        var typesByName = typesByNameBuilder.ToImmutable();
-
-        var functions = Functions(typesByName, ast.Functions, ast.Platform);
-        var structs = Structs(typesByName, ast.Records, ast.Platform);
+        var functions = Functions(context, ast.Functions);
+        var structs = Structs(context, ast.Records);
         // Typedefs need to be processed first as they can generate aliases on the fly
-        var aliasStructs = AliasStructs(typesByName, ast.Typedefs);
-        var functionPointers = FunctionPointers(typesByName, ast.FunctionPointers);
-        var opaqueDataTypes = OpaqueDataTypes(typesByName, ast.OpaqueTypes);
-        var enums = Enums(typesByName, ast.Enums);
-        var constants = Constants(ast.Constants);
+        var aliasStructs = AliasStructs(context, ast.Typedefs);
+        var functionPointers = FunctionPointers(context, ast.FunctionPointers);
+        var opaqueDataTypes = OpaqueDataTypes(context, ast.OpaqueTypes);
+        var enums = Enums(context, ast.Enums);
+        var constants = Constants(context, ast.Constants);
 
         var nodes = new CSharpNodes
         {
@@ -107,16 +100,15 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpFunction> Functions(
-        ImmutableDictionary<string, CType> types,
-        ImmutableArray<CFunction> clangFunctionExterns,
-        NativePlatform platform)
+        CSharpMapperContext context,
+        ImmutableArray<CFunction> clangFunctionExterns)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpFunction>(clangFunctionExterns.Length);
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var clangFunctionExtern in clangFunctionExterns)
         {
-            var functionExtern = Function(types, clangFunctionExtern, platform);
+            var functionExtern = Function(context, clangFunctionExtern);
             builder.Add(functionExtern);
         }
 
@@ -124,18 +116,19 @@ public sealed class CSharpMapper
         return result;
     }
 
-    private CSharpFunction Function(ImmutableDictionary<string, CType> types, CFunction cFunction, NativePlatform platform)
+    private CSharpFunction Function(CSharpMapperContext context, CFunction cFunction)
     {
         var name = cFunction.Name;
         var originalCodeLocationComment = OriginalCodeLocationComment(cFunction);
 
-        var cType = CType(types, cFunction.ReturnType);
+        var cType = CType(context, cFunction.ReturnType);
 
-        var returnType = Type(types, cType);
+        var returnType = Type(context, cType);
         var callingConvention = CSharpFunctionCallingConvention(cFunction.CallingConvention);
-        var parameters = CSharpFunctionParameters(types, cFunction.Parameters, platform);
+        var parameters = CSharpFunctionParameters(context, cFunction.Parameters);
 
         var result = new CSharpFunction(
+            context.Platform,
             name,
             originalCodeLocationComment,
             null,
@@ -146,9 +139,9 @@ public sealed class CSharpMapper
         return result;
     }
 
-    private static CType CType(ImmutableDictionary<string, CType> types, string typeName)
+    private static CType CType(CSharpMapperContext context, string typeName)
     {
-        if (types.TryGetValue(typeName, out var type))
+        if (context.TypesByName.TryGetValue(typeName, out var type))
         {
             return type;
         }
@@ -158,23 +151,22 @@ public sealed class CSharpMapper
     }
 
     private static CSharpFunctionCallingConvention CSharpFunctionCallingConvention(
-        CFunctionCallingConvention cFunctionCallingConvention)
+        CFunctionCallingConvention callingConvention)
     {
-        var result = cFunctionCallingConvention switch
+        var result = callingConvention switch
         {
             CFunctionCallingConvention.Cdecl => Data.Model.CSharpFunctionCallingConvention.Cdecl,
             CFunctionCallingConvention.StdCall => Data.Model.CSharpFunctionCallingConvention.StdCall,
             _ => throw new ArgumentOutOfRangeException(
-                nameof(cFunctionCallingConvention), cFunctionCallingConvention, null)
+                nameof(callingConvention), callingConvention, null)
         };
 
         return result;
     }
 
     private ImmutableArray<CSharpFunctionParameter> CSharpFunctionParameters(
-        ImmutableDictionary<string, CType> types,
-        ImmutableArray<CFunctionParameter> functionExternParameters,
-        NativePlatform platform)
+        CSharpMapperContext context,
+        ImmutableArray<CFunctionParameter> functionExternParameters)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpFunctionParameter>(functionExternParameters.Length);
         var parameterNames = new List<string>();
@@ -185,7 +177,7 @@ public sealed class CSharpMapper
             var parameterName = CSharpUniqueParameterName(functionExternParameterC.Name, parameterNames);
             parameterNames.Add(parameterName);
             var functionExternParameterCSharp =
-                FunctionParameter(types, functionExternParameterC, parameterName, platform);
+                FunctionParameter(context, functionExternParameterC, parameterName);
             builder.Add(functionExternParameterCSharp);
         }
 
@@ -232,17 +224,17 @@ public sealed class CSharpMapper
     }
 
     private CSharpFunctionParameter FunctionParameter(
-        ImmutableDictionary<string, CType> types,
+        CSharpMapperContext context,
         CFunctionParameter functionParameter,
-        string parameterName,
-        NativePlatform platform)
+        string parameterName)
     {
         var name = SanitizeIdentifier(parameterName);
         var originalCodeLocationComment = OriginalCodeLocationComment(functionParameter);
-        var typeC = CType(types, functionParameter.Type);
-        var typeCSharp = Type(types, typeC);
+        var typeC = CType(context, functionParameter.Type);
+        var typeCSharp = Type(context, typeC);
 
         var functionParameterCSharp = new CSharpFunctionParameter(
+            context.Platform,
             name,
             originalCodeLocationComment,
             typeC.SizeOf,
@@ -252,7 +244,7 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpFunctionPointer> FunctionPointers(
-        ImmutableDictionary<string, CType> types,
+        CSharpMapperContext context,
         ImmutableArray<CFunctionPointer> functionPointers)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpFunctionPointer>(functionPointers.Length);
@@ -260,7 +252,7 @@ public sealed class CSharpMapper
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var functionPointer in functionPointers)
         {
-            var functionPointerCSharp = FunctionPointer(types, functionPointer);
+            var functionPointerCSharp = FunctionPointer(context, functionPointer);
             builder.Add(functionPointerCSharp);
         }
 
@@ -269,19 +261,20 @@ public sealed class CSharpMapper
     }
 
     private CSharpFunctionPointer FunctionPointer(
-        ImmutableDictionary<string, CType> types,
+        CSharpMapperContext context,
         CFunctionPointer functionPointer)
     {
         var typeName = string.IsNullOrEmpty(functionPointer.Name) ? functionPointer.Type : functionPointer.Name;
-        var typeC = CType(types, typeName);
-        var typeNameCSharp = TypeNameMapFunctionPointer(types, typeC);
+        var typeC = CType(context, typeName);
+        var typeNameCSharp = TypeNameMapFunctionPointer(context, typeC);
 
         var originalCodeLocationComment = OriginalCodeLocationComment(functionPointer);
-        var returnTypeC = CType(types, functionPointer.ReturnType);
-        var returnTypeCSharp = Type(types, returnTypeC);
-        var parameters = FunctionPointerParameters(types, functionPointer.Parameters);
+        var returnTypeC = CType(context, functionPointer.ReturnType);
+        var returnTypeCSharp = Type(context, returnTypeC);
+        var parameters = FunctionPointerParameters(context, functionPointer.Parameters);
 
         var result = new CSharpFunctionPointer(
+            context.Platform,
             typeNameCSharp,
             originalCodeLocationComment,
             typeC.SizeOf,
@@ -292,7 +285,7 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpFunctionPointerParameter> FunctionPointerParameters(
-        ImmutableDictionary<string, CType> types,
+        CSharpMapperContext context,
         ImmutableArray<CFunctionPointerParameter> functionPointerParameters)
     {
         var builder =
@@ -305,7 +298,7 @@ public sealed class CSharpMapper
             var parameterName = CSharpUniqueParameterName(functionPointerParameterC.Name, parameterNames);
             parameterNames.Add(parameterName);
             var functionExternParameterCSharp =
-                FunctionPointerParameter(types, functionPointerParameterC, parameterName);
+                FunctionPointerParameter(context, functionPointerParameterC, parameterName);
             builder.Add(functionExternParameterCSharp);
         }
 
@@ -314,16 +307,17 @@ public sealed class CSharpMapper
     }
 
     private CSharpFunctionPointerParameter FunctionPointerParameter(
-        ImmutableDictionary<string, CType> types,
+        CSharpMapperContext context,
         CFunctionPointerParameter functionPointerParameter,
         string parameterName)
     {
         var name = SanitizeIdentifier(parameterName);
         var originalCodeLocationComment = OriginalCodeLocationComment(functionPointerParameter);
-        var typeC = CType(types, functionPointerParameter.Type);
-        var typeCSharp = Type(types, typeC);
+        var typeC = CType(context, functionPointerParameter.Type);
+        var typeCSharp = Type(context, typeC);
 
         var result = new CSharpFunctionPointerParameter(
+            context.Platform,
             name,
             originalCodeLocationComment,
             typeC.SizeOf,
@@ -333,9 +327,8 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpStruct> Structs(
-        ImmutableDictionary<string, CType> types,
-        ImmutableArray<CRecord> records,
-        NativePlatform platform)
+        CSharpMapperContext context,
+        ImmutableArray<CRecord> records)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpStruct>(records.Length);
 
@@ -349,7 +342,7 @@ public sealed class CSharpMapper
                 continue;
             }
 
-            var structCSharp = Struct(types, record, platform);
+            var structCSharp = Struct(context, record);
             if (_ignoredNames.Contains(structCSharp.Name))
             {
                 continue;
@@ -363,17 +356,17 @@ public sealed class CSharpMapper
     }
 
     private CSharpStruct Struct(
-        ImmutableDictionary<string, CType> types,
-        CRecord record,
-        NativePlatform platform)
+        CSharpMapperContext context,
+        CRecord record)
     {
         var originalCodeLocationComment = OriginalCodeLocationComment(record);
-        var typeC = CType(types, record.Name);
-        var typeCSharp = Type(types, typeC);
-        var fields = StructFields(types, record.Fields, platform);
-        var nestedStructs = NestedStructs(types, record.NestedRecords, platform);
+        var typeC = CType(context, record.Name);
+        var typeCSharp = Type(context, typeC);
+        var fields = StructFields(context, record.Fields);
+        var nestedStructs = NestedStructs(context, record.NestedRecords);
 
         return new CSharpStruct(
+            context.Platform,
             originalCodeLocationComment,
             typeC.SizeOf,
             typeCSharp,
@@ -382,16 +375,15 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpStructField> StructFields(
-        ImmutableDictionary<string, CType> types,
-        ImmutableArray<CRecordField> recordFields,
-        NativePlatform platform)
+        CSharpMapperContext context,
+        ImmutableArray<CRecordField> recordFields)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpStructField>(recordFields.Length);
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var recordField in recordFields)
         {
-            var structFieldCSharp = StructField(types, recordField);
+            var structFieldCSharp = StructField(context, recordField);
             builder.Add(structFieldCSharp);
         }
 
@@ -400,22 +392,22 @@ public sealed class CSharpMapper
     }
 
     private CSharpStructField StructField(
-        ImmutableDictionary<string, CType> types,
+        CSharpMapperContext context,
         CRecordField recordField)
     {
         var name = SanitizeIdentifier(recordField.Name);
         var codeLocationComment = OriginalCodeLocationComment(recordField);
-        var typeC = CType(types, recordField.Type);
+        var typeC = CType(context, recordField.Type);
 
         CSharpType typeCSharp;
         if (typeC.Kind == CKind.FunctionPointer)
         {
-            var functionPointerName = TypeNameMapFunctionPointer(types, typeC);
-            typeCSharp = Type(types, typeC, functionPointerName);
+            var functionPointerName = TypeNameMapFunctionPointer(context, typeC);
+            typeCSharp = Type(context, typeC, functionPointerName);
         }
         else
         {
-            typeCSharp = Type(types, typeC);
+            typeCSharp = Type(context, typeC);
         }
 
         var offset = recordField.Offset;
@@ -423,6 +415,7 @@ public sealed class CSharpMapper
         var isWrapped = typeCSharp.IsArray && !IsValidFixedBufferType(typeCSharp.Name ?? string.Empty);
 
         var result = new CSharpStructField(
+            context.Platform,
             name,
             codeLocationComment,
             typeC.SizeOf,
@@ -435,16 +428,15 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpStruct> NestedStructs(
-        ImmutableDictionary<string, CType> types,
-        ImmutableArray<CRecord> records,
-        NativePlatform platform)
+        CSharpMapperContext context,
+        ImmutableArray<CRecord> records)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpStruct>(records.Length);
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-        foreach (var recordC in records)
+        foreach (var record in records)
         {
-            var structCSharp = Struct(types, recordC, platform);
+            var structCSharp = Struct(context, record);
             if (_ignoredNames.Contains(structCSharp.Name))
             {
                 continue;
@@ -458,7 +450,7 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpOpaqueStruct> OpaqueDataTypes(
-        ImmutableDictionary<string, CType> types,
+        CSharpMapperContext context,
         ImmutableArray<COpaqueType> opaqueDataTypes)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpOpaqueStruct>(opaqueDataTypes.Length);
@@ -466,7 +458,7 @@ public sealed class CSharpMapper
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var opaqueDataTypeC in opaqueDataTypes)
         {
-            var opaqueDataTypeCSharp = OpaqueDataStruct(types, opaqueDataTypeC);
+            var opaqueDataTypeCSharp = OpaqueDataStruct(context, opaqueDataTypeC);
 
             if (_ignoredNames.Contains(opaqueDataTypeCSharp.Name))
             {
@@ -481,15 +473,16 @@ public sealed class CSharpMapper
     }
 
     private CSharpOpaqueStruct OpaqueDataStruct(
-        ImmutableDictionary<string, CType> types,
+        CSharpMapperContext context,
         COpaqueType opaqueType)
     {
-        var typeC = CType(types, opaqueType.Name);
-        var typeCSharp = Type(types, typeC);
+        var typeC = CType(context, opaqueType.Name);
+        var typeCSharp = Type(context, typeC);
         var name = typeCSharp.Name!;
         var originalCodeLocationComment = OriginalCodeLocationComment(opaqueType);
 
         var opaqueTypeCSharp = new CSharpOpaqueStruct(
+            context.Platform,
             name,
             originalCodeLocationComment,
             typeC.SizeOf);
@@ -498,7 +491,7 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpAliasStruct> AliasStructs(
-        ImmutableDictionary<string, CType> types,
+        CSharpMapperContext context,
         ImmutableArray<CTypedef> typedefs)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpAliasStruct>(typedefs.Length);
@@ -512,7 +505,7 @@ public sealed class CSharpMapper
                 continue;
             }
 
-            var aliasStruct = AliasStruct(types, typedef);
+            var aliasStruct = AliasStruct(context, typedef);
             if (_ignoredNames.Contains(aliasStruct.Name))
             {
                 continue;
@@ -526,22 +519,23 @@ public sealed class CSharpMapper
     }
 
     private CSharpAliasStruct AliasStruct(
-        ImmutableDictionary<string, CType> types,
+        CSharpMapperContext context,
         CTypedef typedef)
     {
         var name = typedef.Name;
         var originalCodeLocationComment = OriginalCodeLocationComment(typedef);
-        var underlyingTypeC = CType(types, typedef.UnderlyingType);
-        var typeC = CType(types, typedef.Name);
+        var underlyingTypeC = CType(context, typedef.UnderlyingType);
+        var typeC = CType(context, typedef.Name);
         if (typeC.Location.IsSystem && underlyingTypeC.Location.IsSystem)
         {
             var diagnostic = new SystemTypedefDiagnostic(name, typedef.Location, underlyingTypeC.Name);
             _parameters.DiagnosticsSink.Add(diagnostic);
         }
 
-        var underlyingTypeCSharp = Type(types, underlyingTypeC);
+        var underlyingTypeCSharp = Type(context, underlyingTypeC);
 
         var result = new CSharpAliasStruct(
+            context.Platform,
             name,
             originalCodeLocationComment,
             typeC.SizeOf,
@@ -551,7 +545,7 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpEnum> Enums(
-        ImmutableDictionary<string, CType> types,
+        CSharpMapperContext context,
         ImmutableArray<CEnum> enums)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpEnum>(enums.Length);
@@ -559,7 +553,7 @@ public sealed class CSharpMapper
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var enumC in enums)
         {
-            var enumCSharp = Enum(types, enumC);
+            var enumCSharp = Enum(context, enumC);
 
             if (_ignoredNames.Contains(enumCSharp.Name))
             {
@@ -574,16 +568,17 @@ public sealed class CSharpMapper
     }
 
     private CSharpEnum Enum(
-        ImmutableDictionary<string, CType> types,
+        CSharpMapperContext context,
         CEnum @enum)
     {
         var name = @enum.Name;
         var originalCodeLocationComment = OriginalCodeLocationComment(@enum);
-        var cIntegerType = CType(types, @enum.IntegerType);
-        var integerType = Type(types, cIntegerType);
-        var values = EnumValues(@enum.Values);
+        var cIntegerType = CType(context, @enum.IntegerType);
+        var integerType = Type(context, cIntegerType);
+        var values = EnumValues(context, @enum.Values);
 
         var result = new CSharpEnum(
+            context.Platform,
             name,
             originalCodeLocationComment,
             cIntegerType.SizeOf,
@@ -592,14 +587,15 @@ public sealed class CSharpMapper
         return result;
     }
 
-    private ImmutableArray<CSharpEnumValue> EnumValues(ImmutableArray<CEnumValue> enumValues)
+    private ImmutableArray<CSharpEnumValue> EnumValues(
+        CSharpMapperContext context, ImmutableArray<CEnumValue> enumValues)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpEnumValue>(enumValues.Length);
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var enumValue in enumValues)
         {
-            var @enum = EnumValue(enumValue);
+            var @enum = EnumValue(context, enumValue);
             builder.Add(@enum);
         }
 
@@ -607,13 +603,15 @@ public sealed class CSharpMapper
         return result;
     }
 
-    private CSharpEnumValue EnumValue(CEnumValue enumValue)
+    private CSharpEnumValue EnumValue(
+        CSharpMapperContext context, CEnumValue enumValue)
     {
         var name = enumValue.Name;
         var originalCodeLocationComment = OriginalCodeLocationComment(enumValue);
         var value = enumValue.Value;
 
         var result = new CSharpEnumValue(
+            context.Platform,
             name,
             originalCodeLocationComment,
             null,
@@ -622,7 +620,8 @@ public sealed class CSharpMapper
         return result;
     }
 
-    private ImmutableArray<CSharpConstant> Constants(ImmutableArray<CMacroDefinition> constants)
+    private ImmutableArray<CSharpConstant> Constants(
+        CSharpMapperContext context, ImmutableArray<CMacroDefinition> constants)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpConstant>(constants.Length);
 
@@ -636,7 +635,7 @@ public sealed class CSharpMapper
                 continue;
             }
 
-            var constant = Constant(macroObject, lookup);
+            var constant = Constant(context, macroObject, lookup);
             if (constant == null)
             {
                 var diagnostic = new TranspileMacroObjectFailureDiagnostic(macroObject.Name, macroObject.Location);
@@ -654,6 +653,7 @@ public sealed class CSharpMapper
     }
 
     private CSharpConstant? Constant(
+        CSharpMapperContext context,
         CMacroDefinition macroDefinition,
         Dictionary<string, CSharpConstant> lookup)
     {
@@ -732,6 +732,7 @@ public sealed class CSharpMapper
         }
 
         var result = new CSharpConstant(
+            context.Platform,
             macroDefinition.Name,
             originalCodeLocationComment,
             null,
@@ -803,11 +804,11 @@ var x = {value};
     }
 
     private CSharpType Type(
-        ImmutableDictionary<string, CType> types,
+        CSharpMapperContext context,
         CType cType,
         string? typeName = null)
     {
-        var typeName2 = typeName ?? TypeName(types, cType);
+        var typeName2 = typeName ?? TypeName(context, cType);
         var sizeOf = cType.SizeOf;
         var alignOf = cType.AlignOf ?? 0;
         var fixedBufferSize = cType.ArraySize ?? 0;
@@ -825,12 +826,12 @@ var x = {value};
     }
 
     private string TypeName(
-        ImmutableDictionary<string, CType> types,
+        CSharpMapperContext context,
         CType type)
     {
         if (type.Kind == CKind.FunctionPointer)
         {
-            return TypeNameMapFunctionPointer(types, type);
+            return TypeNameMapFunctionPointer(context, type);
         }
 
         var name = type.Name;
@@ -857,7 +858,7 @@ var x = {value};
     }
 
     private string TypeNameMapFunctionPointer(
-        ImmutableDictionary<string, CType> types,
+        CSharpMapperContext context,
         CType typeC)
     {
         if (typeC.Kind == CKind.Typedef)
@@ -879,8 +880,8 @@ var x = {value};
         var indexOfFirstParentheses = typeC.Name.IndexOf('(', StringComparison.InvariantCulture);
         var returnTypeStringC = typeC.Name.Substring(0, indexOfFirstParentheses)
             .Replace(" *", "*", StringComparison.InvariantCulture).Trim();
-        var returnTypeC = CType(types, returnTypeStringC);
-        var returnTypeCSharp = Type(types, returnTypeC);
+        var returnTypeC = CType(context, returnTypeStringC);
+        var returnTypeCSharp = Type(context, returnTypeC);
         var returnTypeNameCSharpOriginal = returnTypeCSharp.Name ?? string.Empty;
         var returnTypeNameCSharp = returnTypeNameCSharpOriginal.Replace("*", "Ptr", StringComparison.InvariantCulture);
         var returnTypeStringCapitalized = char.ToUpper(returnTypeNameCSharp[0], CultureInfo.InvariantCulture) +
@@ -893,8 +894,8 @@ var x = {value};
             .Select(x => x.Trim()).ToArray();
         foreach (var typeNameC in parameterStringsC)
         {
-            var parameterTypeC = CType(types, typeNameC);
-            var parameterTypeCSharp = Type(types, parameterTypeC);
+            var parameterTypeC = CType(context, typeNameC);
+            var parameterTypeCSharp = Type(context, parameterTypeC);
 
             if (parameterTypeC.Name == "void" && parameterTypeC.Location.IsSystem)
             {

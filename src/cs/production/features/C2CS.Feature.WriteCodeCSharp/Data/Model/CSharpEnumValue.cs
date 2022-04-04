@@ -8,11 +8,12 @@ public sealed class CSharpEnumValue : CSharpNode
     public readonly long Value;
 
     public CSharpEnumValue(
+        TargetPlatform platform,
         string name,
         string codeLocationComment,
         int? sizeOf,
         long value)
-        : base(name, codeLocationComment, sizeOf)
+        : base(platform, name, codeLocationComment, sizeOf)
     {
         Value = value;
     }

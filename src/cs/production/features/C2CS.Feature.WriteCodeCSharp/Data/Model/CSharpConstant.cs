@@ -10,12 +10,13 @@ public sealed class CSharpConstant : CSharpNode
     public readonly string Value;
 
     public CSharpConstant(
+        TargetPlatform platform,
         string name,
         string codeLocationComment,
         int? sizeOf,
         string type,
         string value)
-        : base(name, codeLocationComment, sizeOf)
+        : base(platform, name, codeLocationComment, sizeOf)
     {
         Type = type;
         Value = value;

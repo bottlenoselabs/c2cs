@@ -24,41 +24,56 @@ namespace C2CS;
 /// </summary>
 [PublicAPI]
 [JsonConverter(typeof(NativePlatformJsonConverter))]
-public record struct NativePlatform(string Target)
+public record struct TargetPlatform(string TargetName)
 {
-    internal string Target = Target;
+    internal string TargetName = TargetName;
 
     /// <summary>
     ///     The runtime operating system.
     /// </summary>
-    public NativeOperatingSystem OperatingSystem = ParseTargetOperatingSystem(Target);
+    public NativeOperatingSystem OperatingSystem = ParseTargetOperatingSystem(TargetName);
 
     /// <summary>
     ///     The runtime computer architecture.
     /// </summary>
-    public NativeArchitecture Architecture = ParseTargetArchitecture(Target);
+    public NativeArchitecture Architecture = ParseTargetArchitecture(TargetName);
 
     /// <summary>
     ///     Unknown runtime platform.
     /// </summary>
-    public static readonly NativePlatform Unknown = new("unknown-unknown-unknown");
+    public static readonly TargetPlatform Unknown = new("unknown-unknown-unknown");
 
     #region Windows
 
     /// <summary>
-    ///     x86 Windows (32-bit, Windows 7+).
+    ///     x86 Windows (32-bit, Windows 7+) using Microsoft's compiler and linker.
     /// </summary>
-    public static readonly NativePlatform i686_pc_windows = new("i686-pc-windows");
+    public static readonly TargetPlatform i686_pc_windows_msvc = new("i686-pc-windows-msvc");
 
     /// <summary>
-    ///     x64 Windows (64-bit, Windows 7+).
+    ///     x64 Windows (64-bit, Windows 7+) using Microsoft's compiler and linker.
     /// </summary>
-    public static readonly NativePlatform x86_64_pc_windows = new("x86_64-pc-windows");
+    public static readonly TargetPlatform x86_64_pc_windows_msvc = new("x86_64-pc-windows-msvc");
 
     /// <summary>
-    ///     ARM64 Windows (64-bit).
+    ///     ARM64 Windows (64-bit) using Microsoft's compiler and linker.
     /// </summary>
-    public static readonly NativePlatform aarch64_pc_windows = new("aarch64-pc-windows");
+    public static readonly TargetPlatform aarch64_pc_windows_msvc = new("aarch64-pc-windows-msvc");
+
+    /// <summary>
+    ///     x86 Windows (32-bit, Windows 7+) using GNU's Compiler Collection (GCC).
+    /// </summary>
+    public static readonly TargetPlatform i686_pc_windows_gnu = new("i686-pc-windows-gnu");
+
+    /// <summary>
+    ///     x64 Windows (64-bit, Windows 7+) using GNU's Compiler Collection (GCC).
+    /// </summary>
+    public static readonly TargetPlatform x86_64_pc_windows_gnu = new("x86_64-pc-windows-gnu");
+
+    /// <summary>
+    ///     ARM64 Windows (64-bit) using GNU's Compiler Collection (GCC).
+    /// </summary>
+    public static readonly TargetPlatform aarch64_pc_windows_gnu = new("aarch64-pc-windows-gnu");
 
     #endregion
 
@@ -67,17 +82,17 @@ public record struct NativePlatform(string Target)
     /// <summary>
     ///     x86 Linux (32-bit, kernel 2.6.32+, glibc 2.11+).
     /// </summary>
-    public static readonly NativePlatform i686_unknown_linux_gnu = new("i686-unknown-linux-gnu");
+    public static readonly TargetPlatform i686_unknown_linux_gnu = new("i686-unknown-linux-gnu");
 
     /// <summary>
     ///     x64 Linux (64-bit, kernel 2.6.32+, glibc 2.11+).
     /// </summary>
-    public static readonly NativePlatform x86_64_unknown_linux_gnu = new("x86_64-unknown-linux-gnu");
+    public static readonly TargetPlatform x86_64_unknown_linux_gnu = new("x86_64-unknown-linux-gnu");
 
     /// <summary>
     ///     ARM64 Linux (64-bit, kernel 4.2, glibc 2.17+).
     /// </summary>
-    public static readonly NativePlatform aarch64_unknown_linux_gnu = new("aarch64-unknown-linux-gnu");
+    public static readonly TargetPlatform aarch64_unknown_linux_gnu = new("aarch64-unknown-linux-gnu");
 
     #endregion
 
@@ -86,17 +101,17 @@ public record struct NativePlatform(string Target)
     /// <summary>
     ///     x86 macOS (32-bit, 10.7+, Lion+).
     /// </summary>
-    public static readonly NativePlatform i686_apple_darwin = new("i686-apple-darwin");
+    public static readonly TargetPlatform i686_apple_darwin = new("i686-apple-darwin");
 
     /// <summary>
     ///     x64 macOS (64-bit, 10.7+, Lion+).
     /// </summary>
-    public static readonly NativePlatform x86_64_apple_darwin = new("x86_64-apple-darwin");
+    public static readonly TargetPlatform x86_64_apple_darwin = new("x86_64-apple-darwin");
 
     /// <summary>
     ///     ARM64 macOS (64-bit, 11.0+, Big Sur+).
     /// </summary>
-    public static readonly NativePlatform aarch64_apple_darwin = new("aarch64-apple-darwin");
+    public static readonly TargetPlatform aarch64_apple_darwin = new("aarch64-apple-darwin");
 
     #endregion
 
@@ -105,17 +120,17 @@ public record struct NativePlatform(string Target)
     /// <summary>
     ///     ARM64 iOS (64-bit).
     /// </summary>
-    public static readonly NativePlatform aarch64_apple_ios = new("aarch64-apple-ios");
+    public static readonly TargetPlatform aarch64_apple_ios = new("aarch64-apple-ios");
 
     /// <summary>
     ///     ARM64 iOS simulator (64-bit).
     /// </summary>
-    public static readonly NativePlatform aarch64_apple_ios_sim = new("aarch64-apple-ios-sim");
+    public static readonly TargetPlatform aarch64_apple_ios_sim = new("aarch64-apple-ios-sim");
 
     /// <summary>
     ///     x64 iOS (64-bit).
     /// </summary>
-    public static readonly NativePlatform x86_64_apple_ios = new("x86_64-apple-ios");
+    public static readonly TargetPlatform x86_64_apple_ios = new("x86_64-apple-ios");
 
     #endregion
 
@@ -124,7 +139,7 @@ public record struct NativePlatform(string Target)
     /// <summary>
     ///     ARM64 Android (64-bit).
     /// </summary>
-    public static readonly NativePlatform aarch64_linux_android = new("aarch64-linux-android");
+    public static readonly TargetPlatform aarch64_linux_android = new("aarch64-linux-android");
 
     #endregion
 
@@ -133,12 +148,12 @@ public record struct NativePlatform(string Target)
     /// <summary>
     ///     WebAssembly (32-bit).
     /// </summary>
-    public static readonly NativePlatform wasm32_unknown_unknown = new("wasm32-unknown-unknown");
+    public static readonly TargetPlatform wasm32_unknown_unknown = new("wasm32-unknown-unknown");
 
     /// <summary>
     ///     WebAssembly via Emscripten (32-bit).
     /// </summary>
-    public static readonly NativePlatform wasm32_unknown_emscripten = new("wasm32-unknown-emscripten");
+    public static readonly TargetPlatform wasm32_unknown_emscripten = new("wasm32-unknown-emscripten");
 
     #endregion
 
@@ -147,7 +162,7 @@ public record struct NativePlatform(string Target)
     /// <summary>
     ///     PlayStation 4 (64-bit).
     /// </summary>
-    public static readonly NativePlatform x86_64_scei_ps4 = new("x86_64-scei-ps4");
+    public static readonly TargetPlatform x86_64_scei_ps4 = new("x86_64-scei-ps4");
 
     #endregion
 
@@ -156,7 +171,7 @@ public record struct NativePlatform(string Target)
     /// <summary>
     ///     Nintendo 3DS (32-bit).
     /// </summary>
-    public static readonly NativePlatform armv6k_nintendo_3ds = new("armv6k-nintendo-3ds");
+    public static readonly TargetPlatform armv6k_nintendo_3ds = new("armv6k-nintendo-3ds");
 
 	#endregion
 
@@ -236,7 +251,7 @@ public record struct NativePlatform(string Target)
 
         if (targetTriple.Contains("-scei-ps4", StringComparison.InvariantCultureIgnoreCase))
         {
-            return NativeOperatingSystem.PlayStation;
+            return NativeOperatingSystem.PlayStation4;
         }
 
         if (targetTriple.Contains("-nintendo_3ds", StringComparison.InvariantCultureIgnoreCase))
@@ -254,6 +269,6 @@ public record struct NativePlatform(string Target)
 
     public override string ToString()
     {
-        return Target;
+        return TargetName;
     }
 }

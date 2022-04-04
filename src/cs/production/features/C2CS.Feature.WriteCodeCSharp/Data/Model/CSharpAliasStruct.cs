@@ -8,11 +8,12 @@ public sealed class CSharpAliasStruct : CSharpNode
     public readonly CSharpType UnderlyingType;
 
     public CSharpAliasStruct(
+        TargetPlatform platform,
         string name,
         string codeLocationComment,
         int? sizeOf,
         CSharpType underlyingType)
-        : base(name, codeLocationComment, sizeOf)
+        : base(platform, name, codeLocationComment, sizeOf)
     {
         UnderlyingType = underlyingType;
     }

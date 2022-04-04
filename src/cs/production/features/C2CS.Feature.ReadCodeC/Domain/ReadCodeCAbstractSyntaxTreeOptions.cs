@@ -11,7 +11,7 @@ public sealed class ReadCodeCAbstractSyntaxTreeOptions
 
     public bool IsEnabledFindSystemHeaders { get; init; }
 
-    public NativePlatform TargetPlatform { get; init; }
+    public TargetPlatform TargetPlatform { get; init; }
 
     public ImmutableArray<string> IncludeDirectories { get; init; }
 

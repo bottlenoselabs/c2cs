@@ -12,6 +12,7 @@ public sealed class CSharpStructField : CSharpNode
     public readonly CSharpType Type;
 
     public CSharpStructField(
+        TargetPlatform platform,
         string name,
         string codeLocationComment,
         int? sizeOf,
@@ -19,7 +20,7 @@ public sealed class CSharpStructField : CSharpNode
         int offset,
         int padding,
         bool isWrapped)
-        : base(name, codeLocationComment, sizeOf)
+        : base(platform, name, codeLocationComment, sizeOf)
     {
         Type = type;
         Offset = offset;

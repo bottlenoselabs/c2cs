@@ -9,7 +9,7 @@ namespace C2CS.Feature.WriteCodeCSharp.Domain.CodeGenerator;
 
 public sealed class BuilderCSharpAbstractSyntaxTree
 {
-    private readonly HashSet<NativePlatform> _platforms = new();
+    private readonly HashSet<TargetPlatform> _platforms = new();
     private readonly Dictionary<string, List<PlatformCandidateNode>> _candidateNodesByName = new();
 
     private readonly ImmutableArray<CSharpFunction>.Builder _agnosticFunctions = ImmutableArray.CreateBuilder<CSharpFunction>();
@@ -20,15 +20,15 @@ public sealed class BuilderCSharpAbstractSyntaxTree
     private readonly ImmutableArray<CSharpEnum>.Builder _agnosticEnums = ImmutableArray.CreateBuilder<CSharpEnum>();
     private readonly ImmutableArray<CSharpConstant>.Builder _agnosticConstants = ImmutableArray.CreateBuilder<CSharpConstant>();
 
-    private readonly Dictionary<NativePlatform, ImmutableArray<CSharpFunction>.Builder> _functionsByPlatform = new();
-    private readonly Dictionary<NativePlatform, ImmutableArray<CSharpFunctionPointer>.Builder> _functionPointersByPlatform = new();
-    private readonly Dictionary<NativePlatform, ImmutableArray<CSharpStruct>.Builder> _structsByPlatform = new();
-    private readonly Dictionary<NativePlatform, ImmutableArray<CSharpAliasStruct>.Builder> _aliasStructsByPlatform = new();
-    private readonly Dictionary<NativePlatform, ImmutableArray<CSharpOpaqueStruct>.Builder> _opaqueStructsByPlatform = new();
-    private readonly Dictionary<NativePlatform, ImmutableArray<CSharpEnum>.Builder> _enumsByPlatform = new();
-    private readonly Dictionary<NativePlatform, ImmutableArray<CSharpConstant>.Builder> _constantsByPlatform = new();
+    private readonly Dictionary<TargetPlatform, ImmutableArray<CSharpFunction>.Builder> _functionsByPlatform = new();
+    private readonly Dictionary<TargetPlatform, ImmutableArray<CSharpFunctionPointer>.Builder> _functionPointersByPlatform = new();
+    private readonly Dictionary<TargetPlatform, ImmutableArray<CSharpStruct>.Builder> _structsByPlatform = new();
+    private readonly Dictionary<TargetPlatform, ImmutableArray<CSharpAliasStruct>.Builder> _aliasStructsByPlatform = new();
+    private readonly Dictionary<TargetPlatform, ImmutableArray<CSharpOpaqueStruct>.Builder> _opaqueStructsByPlatform = new();
+    private readonly Dictionary<TargetPlatform, ImmutableArray<CSharpEnum>.Builder> _enumsByPlatform = new();
+    private readonly Dictionary<TargetPlatform, ImmutableArray<CSharpConstant>.Builder> _constantsByPlatform = new();
 
-    public void Add(NativePlatform platform, CSharpNodes nodes)
+    public void Add(TargetPlatform platform, CSharpNodes nodes)
     {
         AddPlatform(platform);
         AddCandidateFunctions(platform, nodes.Functions);
@@ -40,7 +40,7 @@ public sealed class BuilderCSharpAbstractSyntaxTree
         AddCandidateConstants(platform, nodes.Constants);
     }
 
-    private void AddPlatform(NativePlatform platform)
+    private void AddPlatform(TargetPlatform platform)
     {
         var alreadyAdded = _platforms.Contains(platform);
         if (alreadyAdded)
@@ -82,7 +82,8 @@ public sealed class BuilderCSharpAbstractSyntaxTree
         }
 
         var allAreSame = true;
-        var firstNode = platformNodes.First().CSharpNode;
+        var firstPlatform = platformNodes.First();
+        var firstNode = firstPlatform.CSharpNode;
         foreach (var platformNode in platformNodes)
         {
             var canBeMerged = CanMergeNodes(platformNode.CSharpNode, firstNode);
@@ -112,6 +113,7 @@ public sealed class BuilderCSharpAbstractSyntaxTree
     {
         if (!firstNode.Equals(secondNode))
         {
+            var result = firstNode.Equals(secondNode);
             return false;
         }
 
@@ -134,9 +136,9 @@ public sealed class BuilderCSharpAbstractSyntaxTree
         return sharedNodes;
     }
 
-    private ImmutableArray<(NativePlatform Platform, CSharpNodes Nodes)> PlatformSpecificNodes()
+    private ImmutableArray<(TargetPlatform Platform, CSharpNodes Nodes)> PlatformSpecificNodes()
     {
-        var builder = ImmutableArray.CreateBuilder<(NativePlatform, CSharpNodes)>();
+        var builder = ImmutableArray.CreateBuilder<(TargetPlatform, CSharpNodes)>();
         foreach (var platform in _platforms)
         {
             var platformNodes = BuildPlatformNodes(platform);
@@ -152,7 +154,7 @@ public sealed class BuilderCSharpAbstractSyntaxTree
         return platformSpecificNodes;
     }
 
-    private CSharpNodes? BuildPlatformNodes(NativePlatform platform)
+    private CSharpNodes? BuildPlatformNodes(TargetPlatform platform)
     {
         var functions = _functionsByPlatform[platform].ToImmutableArray();
         var functionPointers = _functionPointersByPlatform[platform].ToImmutableArray();
@@ -188,7 +190,7 @@ public sealed class BuilderCSharpAbstractSyntaxTree
     }
 
     private void AddCandidateFunctions(
-        NativePlatform platform, ImmutableArray<CSharpFunction> functions)
+        TargetPlatform platform, ImmutableArray<CSharpFunction> functions)
     {
         foreach (var function in functions)
         {
@@ -197,7 +199,7 @@ public sealed class BuilderCSharpAbstractSyntaxTree
     }
 
     private void AddCandidateFunctionPointers(
-        NativePlatform platform, ImmutableArray<CSharpFunctionPointer> functionPointers)
+        TargetPlatform platform, ImmutableArray<CSharpFunctionPointer> functionPointers)
     {
         foreach (var functionPointer in functionPointers)
         {
@@ -206,7 +208,7 @@ public sealed class BuilderCSharpAbstractSyntaxTree
     }
 
     private void AddCandidateStructs(
-        NativePlatform platform, ImmutableArray<CSharpStruct> structs)
+        TargetPlatform platform, ImmutableArray<CSharpStruct> structs)
     {
         foreach (var @struct in structs)
         {
@@ -215,7 +217,7 @@ public sealed class BuilderCSharpAbstractSyntaxTree
     }
 
     private void AddCandidateAliasStructs(
-        NativePlatform platform, ImmutableArray<CSharpAliasStruct> aliasStructs)
+        TargetPlatform platform, ImmutableArray<CSharpAliasStruct> aliasStructs)
     {
         foreach (var aliasStruct in aliasStructs)
         {
@@ -224,7 +226,7 @@ public sealed class BuilderCSharpAbstractSyntaxTree
     }
 
     private void AddOpaqueStructs(
-        NativePlatform platform, ImmutableArray<CSharpOpaqueStruct> opaqueDataTypes)
+        TargetPlatform platform, ImmutableArray<CSharpOpaqueStruct> opaqueDataTypes)
     {
         foreach (var opaqueType in opaqueDataTypes)
         {
@@ -233,7 +235,7 @@ public sealed class BuilderCSharpAbstractSyntaxTree
     }
 
     private void AddCandidateEnums(
-        NativePlatform platform, ImmutableArray<CSharpEnum> enums)
+        TargetPlatform platform, ImmutableArray<CSharpEnum> enums)
     {
         foreach (var @enum in enums)
         {
@@ -242,7 +244,7 @@ public sealed class BuilderCSharpAbstractSyntaxTree
     }
 
     private void AddCandidateConstants(
-        NativePlatform platform, ImmutableArray<CSharpConstant> constants)
+        TargetPlatform platform, ImmutableArray<CSharpConstant> constants)
     {
         foreach (var constant in constants)
         {
@@ -250,7 +252,7 @@ public sealed class BuilderCSharpAbstractSyntaxTree
         }
     }
 
-    private void AddCandidateNode(NativePlatform platform, CSharpNode node)
+    private void AddCandidateNode(TargetPlatform platform, CSharpNode node)
     {
         var candidateNode = new PlatformCandidateNode
         {
@@ -298,7 +300,7 @@ public sealed class BuilderCSharpAbstractSyntaxTree
         }
     }
 
-    private void CreatePlatformSpecificNode(NativePlatform platform, CSharpNode node)
+    private void CreatePlatformSpecificNode(TargetPlatform platform, CSharpNode node)
     {
         switch (node)
         {
@@ -326,43 +328,43 @@ public sealed class BuilderCSharpAbstractSyntaxTree
         }
     }
 
-    private void AddNodeFunction(NativePlatform? platform, CSharpFunction node)
+    private void AddNodeFunction(TargetPlatform? platform, CSharpFunction node)
     {
         var builder = platform != null ? _functionsByPlatform[platform.Value] : _agnosticFunctions;
         builder.Add(node);
     }
 
-    private void AddNodeFunctionPointer(NativePlatform? platform, CSharpFunctionPointer node)
+    private void AddNodeFunctionPointer(TargetPlatform? platform, CSharpFunctionPointer node)
     {
         var builder = platform != null ? _functionPointersByPlatform[platform.Value] : _agnosticFunctionPointers;
         builder.Add(node);
     }
 
-    private void AddNodeStruct(NativePlatform? platform, CSharpStruct node)
+    private void AddNodeStruct(TargetPlatform? platform, CSharpStruct node)
     {
         var builder = platform != null ? _structsByPlatform[platform.Value] : _agnosticStructs;
         builder.Add(node);
     }
 
-    private void AddNodeAliasStruct(NativePlatform? platform, CSharpAliasStruct node)
+    private void AddNodeAliasStruct(TargetPlatform? platform, CSharpAliasStruct node)
     {
         var builder = platform != null ? _aliasStructsByPlatform[platform.Value] : _agnosticAliasStructs;
         builder.Add(node);
     }
 
-    private void AddNodeOpaqueStruct(NativePlatform? platform, CSharpOpaqueStruct node)
+    private void AddNodeOpaqueStruct(TargetPlatform? platform, CSharpOpaqueStruct node)
     {
         var builder = platform != null ? _opaqueStructsByPlatform[platform.Value] : _agnosticOpaqueStructs;
         builder.Add(node);
     }
 
-    private void AddNodeEnum(NativePlatform? platform, CSharpEnum node)
+    private void AddNodeEnum(TargetPlatform? platform, CSharpEnum node)
     {
         var builder = platform != null ? _enumsByPlatform[platform.Value] : _agnosticEnums;
         builder.Add(node);
     }
 
-    private void AddNodeConstant(NativePlatform? platform, CSharpConstant node)
+    private void AddNodeConstant(TargetPlatform? platform, CSharpConstant node)
     {
         var builder = platform != null ? _constantsByPlatform[platform.Value] : _agnosticConstants;
         builder.Add(node);
@@ -370,7 +372,7 @@ public sealed class BuilderCSharpAbstractSyntaxTree
 
     private record struct PlatformCandidateNode
     {
-        public NativePlatform Platform;
+        public TargetPlatform Platform;
         public CSharpNode CSharpNode;
     }
 }

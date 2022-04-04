@@ -68,7 +68,7 @@ public static class Native
         }
     }
 
-    public static NativePlatform Platform
+    public static TargetPlatform Platform
     {
         get
         {
@@ -77,21 +77,21 @@ public static class Native
 
             return operatingSystem switch
             {
-                NativeOperatingSystem.Windows when architecture == NativeArchitecture.X64 => NativePlatform
-                    .x86_64_pc_windows,
-                NativeOperatingSystem.Windows when architecture == NativeArchitecture.X86 => NativePlatform
-                    .i686_pc_windows,
-                NativeOperatingSystem.Windows when architecture == NativeArchitecture.ARM64 => NativePlatform
-                    .aarch64_pc_windows,
-                NativeOperatingSystem.macOS when architecture == NativeArchitecture.ARM64 => NativePlatform
+                NativeOperatingSystem.Windows when architecture == NativeArchitecture.X64 => TargetPlatform
+                    .x86_64_pc_windows_gnu,
+                NativeOperatingSystem.Windows when architecture == NativeArchitecture.X86 => TargetPlatform
+                    .i686_pc_windows_gnu,
+                NativeOperatingSystem.Windows when architecture == NativeArchitecture.ARM64 => TargetPlatform
+                    .aarch64_pc_windows_gnu,
+                NativeOperatingSystem.macOS when architecture == NativeArchitecture.ARM64 => TargetPlatform
                     .aarch64_apple_ios,
-                NativeOperatingSystem.macOS when architecture == NativeArchitecture.X64 => NativePlatform
+                NativeOperatingSystem.macOS when architecture == NativeArchitecture.X64 => TargetPlatform
                     .x86_64_apple_darwin,
-                NativeOperatingSystem.Linux when architecture == NativeArchitecture.X64 => NativePlatform
+                NativeOperatingSystem.Linux when architecture == NativeArchitecture.X64 => TargetPlatform
                     .x86_64_unknown_linux_gnu,
-                NativeOperatingSystem.Linux when architecture == NativeArchitecture.X86 => NativePlatform
+                NativeOperatingSystem.Linux when architecture == NativeArchitecture.X86 => TargetPlatform
                     .i686_unknown_linux_gnu,
-                NativeOperatingSystem.Linux when architecture == NativeArchitecture.ARM64 => NativePlatform
+                NativeOperatingSystem.Linux when architecture == NativeArchitecture.ARM64 => TargetPlatform
                     .aarch64_unknown_linux_gnu,
                 _ => throw new InvalidOperationException("Unknown platform host.")
             };
@@ -120,7 +120,7 @@ public static class Native
             NativeOperatingSystem.Linux => ".so",
             NativeOperatingSystem.FreeBSD => ".so",
             NativeOperatingSystem.Android => ".so",
-            NativeOperatingSystem.PlayStation => ".so",
+            NativeOperatingSystem.PlayStation4 => ".so",
             NativeOperatingSystem.Browser => throw new NotImplementedException(),
             NativeOperatingSystem.Switch => throw new NotImplementedException(),
             NativeOperatingSystem.DualScreen3D => throw new NotImplementedException(),
@@ -152,7 +152,7 @@ public static class Native
             case NativeOperatingSystem.Linux:
             case NativeOperatingSystem.FreeBSD:
             case NativeOperatingSystem.Android:
-            case NativeOperatingSystem.PlayStation:
+            case NativeOperatingSystem.PlayStation4:
                 return "lib";
             case NativeOperatingSystem.Browser:
             case NativeOperatingSystem.Switch:

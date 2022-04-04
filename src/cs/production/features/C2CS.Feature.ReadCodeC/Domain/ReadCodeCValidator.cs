@@ -77,7 +77,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         return filePath;
     }
 
-    private static string VerifyOutputFilePath(string? outputFileDirectory, NativePlatform nativePlatform)
+    private static string VerifyOutputFilePath(string? outputFileDirectory, TargetPlatform targetPlatform)
     {
         string directoryPath;
         // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
@@ -90,18 +90,18 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
             directoryPath = Path.GetFullPath(outputFileDirectory);
         }
 
-        var defaultFilePath = Path.Combine(directoryPath, nativePlatform + ".json");
+        var defaultFilePath = Path.Combine(directoryPath, targetPlatform + ".json");
         return defaultFilePath;
     }
 
-    private static NativePlatform VerifyTargetPlatform(string? targetPlatformString)
+    private static TargetPlatform VerifyTargetPlatform(string? targetPlatformString)
     {
         if (string.IsNullOrEmpty(targetPlatformString))
         {
             throw new UseCaseException("Platform can not be null.");
         }
 
-        var platform = new NativePlatform(targetPlatformString);
+        var platform = new TargetPlatform(targetPlatformString);
 
         if (platform.Architecture == NativeArchitecture.Unknown && platform.OperatingSystem == NativeOperatingSystem.Unknown)
         {

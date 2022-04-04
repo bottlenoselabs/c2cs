@@ -6,10 +6,11 @@ namespace C2CS.Feature.WriteCodeCSharp.Data.Model;
 public sealed class CSharpOpaqueStruct : CSharpNode
 {
     public CSharpOpaqueStruct(
+        TargetPlatform platform,
         string name,
         string codeLocationComment,
         int? sizeOf)
-        : base(name, codeLocationComment, sizeOf)
+        : base(platform, name, codeLocationComment, sizeOf)
     {
     }
 

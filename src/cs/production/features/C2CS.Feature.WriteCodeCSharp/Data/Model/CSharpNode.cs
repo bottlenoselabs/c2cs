@@ -5,24 +5,25 @@ namespace C2CS.Feature.WriteCodeCSharp.Data.Model;
 
 public abstract class CSharpNode : IEquatable<CSharpNode>
 {
+    public readonly TargetPlatform Platform;
+
     public readonly string Name;
 
     public readonly string CodeLocationComment;
 
     public readonly int? SizeOf;
 
-    protected CSharpNode(string? name, string? codeLocationComment, int? sizeOf)
+    protected CSharpNode(TargetPlatform platform, string? name, string? codeLocationComment, int? sizeOf)
     {
+        Platform = platform;
         Name = string.IsNullOrEmpty(name) ? string.Empty : name;
         CodeLocationComment = string.IsNullOrEmpty(codeLocationComment) ? string.Empty : codeLocationComment;
         SizeOf = sizeOf;
     }
 
-    // Required for debugger string with records
-    // ReSharper disable once RedundantOverriddenMember
     public override string ToString()
     {
-        return $"{Name} {CodeLocationComment}";
+        return $"{Name} {CodeLocationComment} {Platform}";
     }
 
     public virtual bool Equals(CSharpNode? other)
@@ -37,7 +38,13 @@ public abstract class CSharpNode : IEquatable<CSharpNode>
             return true;
         }
 
-        return Name == other.Name && SizeOf == other.SizeOf;
+        var result = Name == other.Name && SizeOf == other.SizeOf;
+        if (!result)
+        {
+            Console.WriteLine();
+        }
+
+        return result;
     }
 
     public override bool Equals(object? obj)

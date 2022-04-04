@@ -20,7 +20,7 @@ public sealed class ClangTranslationUnitExplorerContext
 
     public ImmutableArray<string> FunctionNamesWhitelist { get; }
 
-    public NativePlatform NativePlatform { get; }
+    public TargetPlatform TargetPlatform { get; }
 
     internal readonly List<CEnum> Enums = new();
     internal readonly ArrayDeque<ClangTranslationUnitExplorerNode> FrontierGeneral = new();
@@ -45,14 +45,14 @@ public sealed class ClangTranslationUnitExplorerContext
         ImmutableArray<string> ignoredFiles,
         ImmutableArray<string> opaqueTypeNames,
         ImmutableArray<string> functionNamesWhitelist,
-        NativePlatform nativePlatform)
+        TargetPlatform targetPlatform)
     {
         Diagnostics = diagnostics;
         IncludeDirectories = includeDirectories;
         IgnoredFiles = ignoredFiles;
         OpaqueTypesNames = opaqueTypeNames;
         FunctionNamesWhitelist = functionNamesWhitelist;
-        NativePlatform = nativePlatform;
+        TargetPlatform = targetPlatform;
     }
 
     private static HashSet<string> DefaultSystemIgnoredTypeNames()

@@ -8,11 +8,12 @@ public sealed class CSharpFunctionParameter : CSharpNode
     public readonly CSharpType Type;
 
     public CSharpFunctionParameter(
+        TargetPlatform platform,
         string name,
         string codeLocationComment,
         int? sizeOf,
         CSharpType type)
-        : base(name, codeLocationComment, sizeOf)
+        : base(platform, name, codeLocationComment, sizeOf)
     {
         Type = type;
     }

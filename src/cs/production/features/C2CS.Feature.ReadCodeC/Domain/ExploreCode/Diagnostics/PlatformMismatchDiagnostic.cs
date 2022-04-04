@@ -7,13 +7,13 @@ namespace C2CS.Feature.ReadCodeC.Domain.ExploreCode.Diagnostics;
 
 public sealed class PlatformMismatchDiagnostic : Diagnostic
 {
-    public PlatformMismatchDiagnostic(string actualPlatformName, string expectedPlatformName)
-        : base(DiagnosticSeverity.Error, CreateMessage(actualPlatformName, expectedPlatformName))
+    public PlatformMismatchDiagnostic(TargetPlatform actualPlatform, TargetPlatform expectedPlatform)
+        : base(DiagnosticSeverity.Error, CreateMessage(actualPlatform, expectedPlatform))
     {
     }
 
-    private static string CreateMessage(string actualPlatformName, string expectedPlatformName)
+    private static string CreateMessage(TargetPlatform actualPlatform, TargetPlatform expectedPlatform)
     {
-        return $"The C library was expected to have runtime of platform '{expectedPlatformName}' but the header file specified a runtime platform of '{actualPlatformName}'.";
+        return $"The C library was expected to have runtime of platform '{expectedPlatform}' but the header file specified a runtime platform of '{actualPlatform}'.";
     }
 }

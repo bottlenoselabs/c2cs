@@ -80,7 +80,7 @@ public sealed class ReadCodeCUseCase : UseCase<
         bool automaticallyFindSystemHeaders,
         ImmutableArray<string> includeDirectories,
         ImmutableArray<string> defines,
-        NativePlatform targetPlatform,
+        TargetPlatform targetPlatform,
         ImmutableArray<string> clangArguments)
     {
         BeginStep($"Parse {targetPlatform}");
@@ -114,7 +114,7 @@ public sealed class ReadCodeCUseCase : UseCase<
         ImmutableArray<string> excludedHeaderFiles,
         ImmutableArray<string> opaqueTypeNames,
         ImmutableArray<string> functionNamesWhitelist,
-        NativePlatform platform)
+        TargetPlatform platform)
     {
         BeginStep($"Extract {platform}");
 
@@ -133,7 +133,7 @@ public sealed class ReadCodeCUseCase : UseCase<
     }
 
     private void Write(
-        string outputFilePath, CAbstractSyntaxTree abstractSyntaxTree, NativePlatform platform)
+        string outputFilePath, CAbstractSyntaxTree abstractSyntaxTree, TargetPlatform platform)
     {
         BeginStep($"Write {platform}");
         var cJsonSerializer = _services.GetService<CJsonSerializer>()!;

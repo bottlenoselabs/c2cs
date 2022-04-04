@@ -12,12 +12,13 @@ public sealed class CSharpFunctionPointer : CSharpNode
     public readonly CSharpType ReturnType;
 
     public CSharpFunctionPointer(
+        TargetPlatform platform,
         string name,
         string codeLocationComment,
         int? sizeOf,
         CSharpType returnType,
         ImmutableArray<CSharpFunctionPointerParameter> parameters)
-        : base(name, codeLocationComment, sizeOf)
+        : base(platform, name, codeLocationComment, sizeOf)
     {
         Parameters = parameters;
         ReturnType = returnType;

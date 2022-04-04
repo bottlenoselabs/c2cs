@@ -9,6 +9,6 @@ public sealed record CSharpAbstractSyntaxTree
 {
     public CSharpNodes PlatformAgnosticNodes { get; init; } = null!;
 
-    public ImmutableArray<(NativePlatform Platform, CSharpNodes Nodes)> PlatformSpecificNodes { get; init; } =
-        ImmutableArray<(NativePlatform Platform, CSharpNodes Nodes)>.Empty;
+    public ImmutableArray<(TargetPlatform Platform, CSharpNodes Nodes)> PlatformSpecificNodes { get; init; } =
+        ImmutableArray<(TargetPlatform Platform, CSharpNodes Nodes)>.Empty;
 }
