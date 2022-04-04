@@ -1,9 +1,9 @@
 #if defined(_WIN32)
-    #if defined(_M_AMD64) || defined(_M_X64)
+    #if defined(__x86_64__) || defined(_M_AMD64) || defined(_M_X64)
         #define C2CS_RUNTIME_PLATFORM_NAME "x86_64-pc-windows"
-    #elif defined(_M_IX86)
+    #elif defined(i386) || defined(__i386__) || defined(__i386) || defined(_M_IX86)
         #define C2CS_RUNTIME_PLATFORM_NAME "i686-pc-windows"
-    #elif defined(_M_ARM64)
+    #elif defined(__aarch64__) || defined(_M_ARM64)
         #define C2CS_RUNTIME_PLATFORM_NAME "aarch64-pc-windows"
     #else
         #error "Failed to determine runtime platform name: Unknown computer architecture for Windows."
