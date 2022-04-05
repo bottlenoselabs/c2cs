@@ -130,7 +130,7 @@ public class ExtractAbstractSyntaxTreeCIntegrationTests : IntegrationTest
         foreach (var ast in _fixture.AbstractSyntaxTrees)
         {
             Assert.True(ast.EnumsByName.TryGetValue(nameof(enum_force_uint32), out var value));
-            Assert.True(value!.IntegerType == "signed int");
+            Assert.True(value!.IntegerType == "unsigned int");
             Assert.True(!value.Values.IsDefaultOrEmpty);
         }
     }
