@@ -1,7 +1,7 @@
 #!/bin/bash
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-INSTALL_DIR="$DIR/../../lib"
+INSTALL_DIR="$DIR/../lib"
 
 mkdir -p "$INSTALL_DIR"
 

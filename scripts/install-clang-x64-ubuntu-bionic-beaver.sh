@@ -2,7 +2,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 DOWNLOAD_DIR="/tmp/c2cs"
-INSTALL_DIR="$DIR/../../lib"
+INSTALL_DIR="$DIR/../lib"
 
 mkdir -p "$DOWNLOAD_DIR"
 mkdir -p "$INSTALL_DIR"

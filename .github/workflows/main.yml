@@ -33,17 +33,17 @@ jobs:
     - name: "Install Clang: Windows"
       if: matrix.platform.os == 'windows-latest'
       run: |
-        bash ${{ github.workspace }}/.github/scripts/install-clang-x64-windows.sh
+        bash ${{ github.workspace }}/scripts/install-clang-x64-windows.sh
   
     - name: "Install Clang: Linux"
       if: matrix.platform.os == 'ubuntu-18.04'
       run: |
-        bash ${{ github.workspace }}/.github/scripts/install-clang-x64-ubuntu-bionic-beaver.sh
+        bash ${{ github.workspace }}/scripts/install-clang-x64-ubuntu-bionic-beaver.sh
 
     - name: "Install Clang: macOS"
       if: matrix.platform.os == 'macos-latest'
       run: |
-        bash ${{ github.workspace }}/.github/scripts/install-clang-macos.sh
+        bash ${{ github.workspace }}/scripts/install-clang-macos.sh
 
     - name: ".NET"
       uses: bottlenoselabs/github-actions-dotnet@v2
