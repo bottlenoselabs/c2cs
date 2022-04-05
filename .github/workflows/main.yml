@@ -34,7 +34,7 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install gcc-multilib
+        sudo apt-get install clang gcc-multilib
 
     - name: ".NET"
       uses: bottlenoselabs/github-actions-dotnet@v2

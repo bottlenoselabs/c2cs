@@ -39,8 +39,8 @@ public sealed class ClangInstaller
                 _clangNativeLibraryPath = operatingSystem switch
                 {
                     NativeOperatingSystem.Windows => InstallWindows(),
-                    NativeOperatingSystem.Linux => InstallLinux(),
-                    NativeOperatingSystem.macOS => InstallMacOs(),
+                    NativeOperatingSystem.Linux => Linux(),
+                    NativeOperatingSystem.macOS => MacOs(),
                     _ => string.Empty
                 };
             }
@@ -75,18 +75,22 @@ public sealed class ClangInstaller
         return filePath;
     }
 
-    private string InstallLinux()
+    private string Linux()
     {
-        var filePath = _fileSystem.Path.Combine(AppContext.BaseDirectory, "libclang.so");
-        if (!_fileSystem.File.Exists(filePath))
+        var output = "find / -name libclang.so* 2>/dev/null".ShellCaptureOutput();
+        var filePaths = output.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+        Array.Sort(filePaths, StringComparer.InvariantCultureIgnoreCase);
+
+        if (filePaths.Length == 0)
         {
-            DownloadLibClang("ubuntu.20.04-x64", filePath);
+            throw new InvalidOperationException(
+                "Please install Clang for Linux. This will install `libclang.so`. For Debian-based linux distributions used the command `apt-get update && apt-get install clang`.");
         }
 
-        return filePath;
+        return filePaths[0];
     }
 
-    private string InstallMacOs()
+    private string MacOs()
     {
         const string filePath = "/Library/Developer/CommandLineTools/usr/lib/libclang.dylib";
         if (!_fileSystem.File.Exists(filePath))
