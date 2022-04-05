@@ -17,9 +17,5 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
-    
-    <ItemGroup>
-      <Folder Include="my_c_library\ast" />
-    </ItemGroup>
 
 </Project>

@@ -689,26 +689,18 @@ public sealed class ClangTranslationUnitExplorer
         context.Names.Add(functionPointer.Name);
     }
 
-    private bool TypeNameIsValid(ClangTranslationUnitExplorerContext context, CXType type, string typeName)
+    private bool TypeNameIsValid(ClangTranslationUnitExplorerContext context, string typeName)
     {
-        if (context.ValidTypeNames.TryGetValue(typeName, out var value))
+        if (context.ValidTypeNames.TryGetValue(typeName, out var isValid))
         {
-            return value;
+            return isValid;
         }
 
-        var isSystem = type.IsSystem();
         var isIgnored = context.SystemIgnoredTypeNames.Contains(typeName);
-        if (isSystem && isIgnored)
-        {
-            value = false;
-        }
-        else
-        {
-            value = true;
-        }
+        isValid = !isIgnored;
 
-        context.ValidTypeNames.Add(typeName, value);
-        return value;
+        context.ValidTypeNames.Add(typeName, isValid);
+        return isValid;
     }
 
     private bool IsNewType(ClangTranslationUnitExplorerContext context, string typeName, CXType type, CXCursor cursor)
@@ -1201,7 +1193,7 @@ public sealed class ClangTranslationUnitExplorer
             elementSize = (int)clang_Type_getSizeOf(elementType);
         }
 
-        var location = isSystemType ? CLocation.System : Location(context, declaration, type);
+        var location = Location(context, declaration, type);
 
         var cType = new CType
         {
@@ -1379,7 +1371,7 @@ public sealed class ClangTranslationUnitExplorer
             return;
         }
 
-        var isValidTypeName = TypeNameIsValid(context, type, typeName);
+        var isValidTypeName = TypeNameIsValid(context, typeName);
         if (!isValidTypeName)
         {
             return;
@@ -1498,23 +1490,6 @@ public sealed class ClangTranslationUnitExplorer
         if (string.IsNullOrEmpty(typeName))
         {
             throw new UseCaseException($"Type name was not found for '{kind}'.");
-        }
-
-        if (kind == CKind.Enum)
-        {
-            typeName = typeName switch
-            {
-                "unsigned char" or "char" => "signed char",
-                "short" or "unsigned short" => "signed short",
-                "short int" or "unsigned short int" => "signed short int",
-                "unsigned" => "signed",
-                "int" or "unsigned int" => "signed int",
-                "long" or "unsigned long" => "signed long",
-                "long int" or "unsigned long int" => "signed long int",
-                "long long" or "unsigned long long" => "signed long long",
-                "long long int" or "unsigned long long int" => "signed long long int",
-                _ => typeName
-            };
         }
 
         return typeName;

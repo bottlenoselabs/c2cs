@@ -30,7 +30,6 @@ internal class CommandLineInterface : RootCommand
 
         var configurationOption = new Option<string>(
             new[] { "--configurationFilePath", "-c" },
-            () => "config.json",
             "File path of the configuration `.json` file.")
         {
             IsRequired = false
@@ -63,6 +62,11 @@ internal class CommandLineInterface : RootCommand
 
     private void HandleAbstractSyntaxTreesC(string configurationFilePath)
     {
+        if (string.IsNullOrEmpty(configurationFilePath))
+        {
+            configurationFilePath = "config.json";
+        }
+
         var configuration = _configurationJsonSerializer.Read(configurationFilePath);
         var request = configuration.ReadC;
         if (request == null)
@@ -76,6 +80,11 @@ internal class CommandLineInterface : RootCommand
 
     private void HandleBindgenCSharp(string configurationFilePath)
     {
+        if (string.IsNullOrEmpty(configurationFilePath))
+        {
+            configurationFilePath = "config.json";
+        }
+
         var configuration = _configurationJsonSerializer.Read(configurationFilePath);
         var request = configuration.WriteCSharp;
         if (request == null)

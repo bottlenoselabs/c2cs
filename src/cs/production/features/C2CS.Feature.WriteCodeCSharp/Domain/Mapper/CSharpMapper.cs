@@ -841,11 +841,11 @@ var x = {value};
         if (name.EndsWith("*", StringComparison.InvariantCulture) ||
             name.EndsWith("]", StringComparison.InvariantCulture))
         {
-            typeName = TypeNameMapPointer(type, elementTypeSize, type.Location.IsSystem);
+            typeName = TypeNameMapPointer(type, elementTypeSize);
         }
         else
         {
-            typeName = TypeNameMapElement(name, elementTypeSize, type.Location.IsSystem);
+            typeName = TypeNameMapElement(name, elementTypeSize);
         }
 
         // TODO: https://github.com/lithiumtoast/c2cs/issues/15
@@ -918,7 +918,7 @@ var x = {value};
         return functionPointerNameCSharp;
     }
 
-    private string TypeNameMapPointer(CType type, int sizeOf, bool isSystem)
+    private string TypeNameMapPointer(CType type, int sizeOf)
     {
         var pointerTypeName = type.Name;
 
@@ -959,22 +959,17 @@ var x = {value};
 
         var elementTypeName = pointerTypeName.TrimEnd('*');
         var pointersTypeName = pointerTypeName[elementTypeName.Length..];
-        var mappedElementTypeName = TypeNameMapElement(elementTypeName, sizeOf, isSystem);
+        var mappedElementTypeName = TypeNameMapElement(elementTypeName, sizeOf);
         pointerTypeName = mappedElementTypeName + pointersTypeName;
 
         return pointerTypeName;
     }
 
-    private string TypeNameMapElement(string typeName, int sizeOf, bool isSystem)
+    private string TypeNameMapElement(string typeName, int sizeOf)
     {
-        if (!isSystem)
+        if (_userTypeNameAliases.TryGetValue(typeName, out var aliasName))
         {
-            if (_userTypeNameAliases.TryGetValue(typeName, out var aliasName))
-            {
-                return aliasName;
-            }
-
-            return typeName;
+            return aliasName;
         }
 
         if (_parameters.SystemTypeNameAliases.TryGetValue(typeName, out var mappedSystemTypeName))

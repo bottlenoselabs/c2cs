@@ -5,7 +5,7 @@
 
 void hello_world(void)
 {
-    printf("Hello, World!\n");
+    printf("Hello world from C!\n");
 }
 
 void pass_string(const char* s)

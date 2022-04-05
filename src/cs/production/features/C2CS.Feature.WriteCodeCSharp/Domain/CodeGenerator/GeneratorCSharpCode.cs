@@ -537,13 +537,24 @@ public struct {aliasStruct.Name}
 
     private static EnumDeclarationSyntax Enum(CSharpEnum @enum)
     {
-        var values = EnumValues(@enum.IntegerType.Name ?? string.Empty, @enum.Values);
+        var enumName = @enum.Name;
+        var enumSizeOf = @enum.SizeOf!.Value;
+        var enumIntegerTypeName = enumSizeOf switch
+        {
+            1 => "sbyte",
+            2 => "short",
+            4 => "int",
+            8 => "long",
+            _ => throw new NotImplementedException($"The enum size is not supported: '{enumName}' of size {@enum.SizeOf}.")
+        };
+
+        var values = EnumValues(enumIntegerTypeName, @enum.Values);
         var valuesString = values.Select(x => x.ToFullString());
         var members = string.Join(",\n", valuesString);
 
         var code = $@"
 {@enum.CodeLocationComment}
-public enum {@enum.Name} : {@enum.IntegerType}
+public enum {enumName} : {enumIntegerTypeName}
     {{
         {members}
     }}
@@ -554,13 +565,13 @@ public enum {@enum.Name} : {@enum.IntegerType}
     }
 
     private static EnumMemberDeclarationSyntax[] EnumValues(
-        string enumTypeName, ImmutableArray<CSharpEnumValue> values)
+        string enumIntegerTypeName, ImmutableArray<CSharpEnumValue> values)
     {
         var builder = ImmutableArray.CreateBuilder<EnumMemberDeclarationSyntax>(values.Length);
 
         foreach (var value in values)
         {
-            var enumEqualsValue = EmitEnumEqualsValue(value.Value, enumTypeName);
+            var enumEqualsValue = EmitEnumEqualsValue(value.Value, enumIntegerTypeName);
             var member = EnumMemberDeclaration(value.Name)
                 .WithEqualsValue(enumEqualsValue);
 
@@ -570,13 +581,15 @@ public enum {@enum.Name} : {@enum.IntegerType}
         return builder.ToArray();
     }
 
-    private static EqualsValueClauseSyntax EmitEnumEqualsValue(long value, string enumTypeName)
+    private static EqualsValueClauseSyntax EmitEnumEqualsValue(long value, string enumIntegerTypeName)
     {
-        var literalToken = enumTypeName switch
+        var literalToken = enumIntegerTypeName switch
         {
+            "sbyte" => Literal((sbyte)value),
+            "short" => Literal((short)value),
             "int" => Literal((int)value),
-            "uint" => Literal((uint)value),
-            _ => throw new NotImplementedException($"The enum type is not yet supported: {enumTypeName}.")
+            "long" => Literal(value),
+            _ => throw new NotImplementedException($"The enum integer type name is not supported: {enumIntegerTypeName}.")
         };
 
         return EqualsValueClause(LiteralExpression(SyntaxKind.NumericLiteralExpression, literalToken));
