@@ -77,17 +77,14 @@ public sealed class ClangInstaller
 
     private string Linux()
     {
-        var output = "find / -name libclang.so* 2>/dev/null".ShellCaptureOutput();
-        var filePaths = output.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
-        Array.Sort(filePaths, StringComparer.InvariantCultureIgnoreCase);
-
-        if (filePaths.Length == 0)
+        const string filePath = "/usr/lib/llvm-10/lib/libclang.so.1";
+        if (!_fileSystem.File.Exists(filePath))
         {
             throw new InvalidOperationException(
                 "Please install Clang for Linux. This will install `libclang.so`. For Debian-based linux distributions used the command `apt-get update && apt-get install clang`.");
         }
 
-        return filePaths[0];
+        return filePath;
     }
 
     private string MacOs()
