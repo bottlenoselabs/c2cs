@@ -14,7 +14,7 @@ public sealed class ClangInstaller
     private bool _isInstalled;
     private readonly object _lock = new();
 
-    private string _clangNativeLibraryPath = null!;
+    private string _clangNativeLibraryFilePath = null!;
     private readonly ILogger _logger;
     private readonly IFileSystem _fileSystem;
 
@@ -30,25 +30,11 @@ public sealed class ClangInstaller
         {
             if (_isInstalled)
             {
-                _logger.InstallClangSuccess();
+                _logger.InstallClangSuccessAlreadyInstalled();
                 return;
             }
 
-            try
-            {
-                _clangNativeLibraryPath = operatingSystem switch
-                {
-                    NativeOperatingSystem.Windows => InstallWindows(),
-                    NativeOperatingSystem.Linux => Linux(),
-                    NativeOperatingSystem.macOS => MacOs(),
-                    _ => string.Empty
-                };
-            }
-            catch (Exception e)
-            {
-                _logger.InstallClangFailed(e);
-                throw;
-            }
+            _clangNativeLibraryFilePath = GetClangFilePath(operatingSystem);
 
             try
             {
@@ -64,82 +50,92 @@ public sealed class ClangInstaller
         }
     }
 
-    private string InstallWindows()
+    private string GetClangFilePath(NativeOperatingSystem operatingSystem)
     {
-        var filePath = _fileSystem.Path.Combine(AppContext.BaseDirectory, "libclang.dll");
-        if (!_fileSystem.File.Exists(filePath))
+        string result;
+
+        try
         {
-            DownloadLibClang("win-x64", filePath);
+            result = operatingSystem switch
+            {
+                NativeOperatingSystem.Windows => GetClangFilePathWindows(),
+                NativeOperatingSystem.Linux => GetClangFilePathLinux(),
+                NativeOperatingSystem.macOS => GetClangFilePathMacOs(),
+                _ => string.Empty
+            };
+        }
+        catch (Exception e)
+        {
+            _logger.InstallClangFailed(e);
+            throw;
         }
 
-        return filePath;
+        return result;
     }
 
-    private string Linux()
+    private string GetClangFilePathWindows()
     {
-        const string filePath = "/usr/lib/llvm-10/lib/libclang.so.1";
-        if (!_fileSystem.File.Exists(filePath))
+        var filePaths = new[]
         {
-            throw new InvalidOperationException(
-                "Please install Clang for Linux. This will install `libclang.so`. For Debian-based linux distributions used the command `apt-get update && apt-get install clang`.");
-        }
+            Path.Combine(AppContext.BaseDirectory, "libclang.dll"),
+            Path.Combine(AppContext.BaseDirectory, "clang.dll"),
+            @"C:\Program Files\LLVM\bin\libclang.dll" // choco install llvm
+        };
 
-        return filePath;
+        const string errorMessage = "`libclang.dll` or `clang.dll` is missing. Please put a `libclang.dll` or `clang.dll` file next to this application or install Clang for Windows. To install Clang for Windows using Chocolatey, use the command `choco install llvm`.";
+        return SearchForClangFilePath(errorMessage, filePaths);
     }
 
-    private string MacOs()
+    private string GetClangFilePathLinux()
     {
-        const string filePath = "/Library/Developer/CommandLineTools/usr/lib/libclang.dylib";
-        if (!_fileSystem.File.Exists(filePath))
+        var filePaths = new[]
         {
-            throw new InvalidOperationException(
-                "Please install CommandLineTools for macOS. This will install `libclang.dylib`. Use the command `xcode-select --install`.");
-        }
+            Path.Combine(AppContext.BaseDirectory, "libclang.so"),
+            "/usr/lib/llvm-10/lib/libclang.so.1" // apt-get install clang
+        };
 
-        return filePath;
+        const string errorMessage = "`libclang.so`is missing. Please put a `libclang.so` file next to this application or install Clang for Linux. To install Clang for Debian-based linux distributions, use the command `apt-get update && apt-get install clang`.";
+        return SearchForClangFilePath(errorMessage, filePaths);
     }
 
-    private void DownloadLibClang(string runtimeIdentifier, string target)
+    private string GetClangFilePathMacOs()
     {
-        var zipFilePath = _fileSystem.Path.Combine(AppContext.BaseDirectory, "libclang.zip");
-        if (_fileSystem.File.Exists(zipFilePath))
+        var filePaths = new[]
         {
-            _fileSystem.File.Delete(zipFilePath);
-        }
+            Path.Combine(AppContext.BaseDirectory, "libclang.dylib"),
+            "/Library/Developer/CommandLineTools/usr/lib/libclang.dylib" // xcode-select --install
+        };
 
-        DownloadFile(
-            $"https://www.nuget.org/api/v2/package/libclang.runtime.{runtimeIdentifier}",
-            zipFilePath);
-
-        var extractDirectory = _fileSystem.Path.Combine(AppContext.BaseDirectory, "libclang");
-        if (_fileSystem.Directory.Exists(extractDirectory))
-        {
-            _fileSystem.Directory.Delete(extractDirectory, true);
-        }
-
-        _fileSystem.Directory.CreateDirectory(extractDirectory);
-        ZipFile.ExtractToDirectory(zipFilePath, extractDirectory);
-
-        var fileExtension = _fileSystem.Path.GetExtension(target);
-        _fileSystem.File.Copy(
-            _fileSystem.Path.Combine(extractDirectory, $"runtimes/{runtimeIdentifier}/native/libclang{fileExtension}"),
-            target);
+        const string errorMessage = "`libclang.dylib` is missing. Please put a `libclang.dylib` file next to this application or install CommandLineTools for macOS using the command `xcode-select --install`.";
+        return SearchForClangFilePath(errorMessage, filePaths);
     }
 
-    private void DownloadFile(string url, string filePath)
+    private string SearchForClangFilePath(string errorMessage, params string[] filePaths)
     {
-        using var client = new HttpClient();
-        var uri = new Uri(url);
-        using var response = client.GetStreamAsync(uri).Result;
-        using var fileStream = _fileSystem.File.Create(filePath);
-        response.CopyToAsync(fileStream).Wait();
+        var installedFilePath = string.Empty;
+        foreach (var filePath in filePaths)
+        {
+            if (!_fileSystem.File.Exists(filePath))
+            {
+                continue;
+            }
+
+            installedFilePath = filePath;
+        }
+
+        if (string.IsNullOrEmpty(installedFilePath))
+        {
+            throw new InvalidOperationException(errorMessage);
+        }
+
+        return installedFilePath;
     }
 
     private IntPtr ResolveClang(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
     {
-        if (!NativeLibrary.TryLoad(_clangNativeLibraryPath, out var handle))
+        if (!NativeLibrary.TryLoad(_clangNativeLibraryFilePath, out var handle))
         {
-            throw new ClangException($"Could not load libclang: {_clangNativeLibraryPath}");
+            throw new ClangException($"Could not load libclang: {_clangNativeLibraryFilePath}");
         }
 
         return handle;

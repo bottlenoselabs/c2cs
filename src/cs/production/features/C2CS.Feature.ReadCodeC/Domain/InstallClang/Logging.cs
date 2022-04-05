@@ -13,13 +13,19 @@ internal static class Logging
         LoggerMessage.Define(
             LogLevel.Trace,
             LoggingEventRegistry.CreateEventIdentifier("Install Clang: Failed."),
-            "- Failed.");
+            "- Failed");
 
     private static readonly Action<ILogger, Exception> ActionSuccess =
         LoggerMessage.Define(
             LogLevel.Trace,
             LoggingEventRegistry.CreateEventIdentifier("Install Clang: Success"),
             "- Success");
+
+    private static readonly Action<ILogger, Exception> ActionSuccessAlreadyInstalled =
+        LoggerMessage.Define(
+            LogLevel.Trace,
+            LoggingEventRegistry.CreateEventIdentifier("Install Clang: Success, already installed"),
+            "- Success, already installed");
 
     public static void InstallClangFailed(this ILogger logger, Exception exception)
     {
@@ -29,5 +35,10 @@ internal static class Logging
     public static void InstallClangSuccess(this ILogger logger)
     {
         ActionSuccess(logger, null!);
+    }
+
+    public static void InstallClangSuccessAlreadyInstalled(this ILogger logger)
+    {
+        ActionSuccessAlreadyInstalled(logger, null!);
     }
 }

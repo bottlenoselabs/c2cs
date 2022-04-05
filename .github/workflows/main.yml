@@ -15,7 +15,7 @@ jobs:
         platform:
         - { name: Windows x64 (mingw64), os: windows-latest, shell: 'msys2 {0}', msystem: mingw64, msys-env: mingw-w64-x86_64 }
         - { name: Windows x64,           os: windows-latest, shell: bash }
-        - { name: Linux x64,             os: ubuntu-20.04,   shell: bash }
+        - { name: Linux x64,             os: ubuntu-18.04,   shell: bash }
         - { name: macOS x64,             os: macos-latest,   shell: bash }
     steps:
 
@@ -29,12 +29,21 @@ jobs:
           ${{ matrix.platform.msys-env }}-cmake
           ${{ matrix.platform.msys-env }}-ninja
           ${{ matrix.platform.msys-env }}-pkg-config
-  
-    - name: "Install Linux dependencies"
-      if: runner.os == 'Linux'
+
+    - name: "Install Clang: Windows"
+      if: ${{ matrix.platform.os }} == 'windows-latest'
       run: |
-        sudo apt-get update
-        sudo apt-get install clang gcc-multilib
+        bash ./.github/scripts/install-clang-x64-windows.sh
+  
+    - name: "Install Clang: Linux"
+      if: ${{ matrix.platform.os }} == 'ubuntu-18.04'
+      run: |
+        bash ./.github/scripts/install-clang-x64-ubuntu-bionic-beaver.sh
+
+    - name: "Install Clang: macOS"
+      if: ${{ matrix.platform.os }} == 'macos-latest'
+      run: |
+        bash ./.github/scripts/install-clang-macos.sh
 
     - name: ".NET"
       uses: bottlenoselabs/github-actions-dotnet@v2
