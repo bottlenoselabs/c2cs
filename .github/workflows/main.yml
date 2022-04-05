@@ -31,17 +31,17 @@ jobs:
           ${{ matrix.platform.msys-env }}-pkg-config
 
     - name: "Install Clang: Windows"
-      if: '${{ matrix.platform.os }}' == 'windows-latest'
+      if: matrix.platform.os == 'windows-latest'
       run: |
         bash ./.github/scripts/install-clang-x64-windows.sh
   
     - name: "Install Clang: Linux"
-      if: '${{ matrix.platform.os }}' == 'ubuntu-18.04'
+      if: matrix.platform.os == 'ubuntu-18.04'
       run: |
         bash ./.github/scripts/install-clang-x64-ubuntu-bionic-beaver.sh
 
     - name: "Install Clang: macOS"
-      if: '${{ matrix.platform.os }}' == 'macos-latest'
+      if: matrix.platform.os == 'macos-latest'
       run: |
         bash ./.github/scripts/install-clang-macos.sh
 
