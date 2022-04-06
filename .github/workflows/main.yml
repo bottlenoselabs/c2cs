@@ -30,22 +30,33 @@ jobs:
           ${{ matrix.platform.msys-env }}-ninja
           ${{ matrix.platform.msys-env }}-pkg-config
 
+    - name: "Clone Git repository"
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        submodules: 'recursive'
+
     - name: "Install Clang: Windows"
       if: matrix.platform.os == 'windows-latest'
-      run: bash ${{ github.workspace }}/scripts/install-clang-x64-windows.sh
+      run: |
+        ls ${{ github.workspace }}
+        ${{ github.workspace }}/scripts/install-clang-x64-windows.sh
   
     - name: "Install Clang: Linux"
       if: matrix.platform.os == 'ubuntu-18.04'
-      run: ls ${{ github.workspace }}
+      run: |
+        ls ${{ github.workspace }}
+        ${{ github.workspace }}/scripts/install-clang-x64-ubuntu-bionic-beaver.sh
 
     - name: "Install Clang: macOS"
       if: matrix.platform.os == 'macos-latest'
-      run: ls ${{ github.workspace }}
+      run: |
+        ls ${{ github.workspace }}
+        ${{ github.workspace }}/scripts/install-clang-macos.sh
 
     - name: ".NET"
-      uses: bottlenoselabs/github-actions-dotnet@v2
+      uses: bottlenoselabs/github-actions-dotnet@v3
       with:
-        repository: '${{ github.repository }}'
         dotnet-sdk-version: '6.0.x'
         is-enabled-pack: 'true'
         upload-myget-org: "${{ github.event_name == 'push' || startsWith(github.ref, 'refs/tags/v') }}"
