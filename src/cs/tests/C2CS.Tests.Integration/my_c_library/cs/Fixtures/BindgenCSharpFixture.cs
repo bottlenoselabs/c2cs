@@ -27,7 +27,14 @@ public sealed class BindgenCSharpFixture
     {
         Assert.True(!ast.AbstractSyntaxTrees.IsDefaultOrEmpty);
 
-        var configuration = configurationJsonSerializer.Read("my_c_library/config.json");
+        var configurationFilePath = Native.OperatingSystem switch
+        {
+            NativeOperatingSystem.Windows => "my_c_library/config_windows.json",
+            NativeOperatingSystem.Linux => "my_c_library/config_linux.json",
+            NativeOperatingSystem.macOS => "my_c_library/config_macos.json",
+            _ => throw new InvalidOperationException()
+        };
+        var configuration = configurationJsonSerializer.Read(configurationFilePath);
         var request = configuration.WriteCSharp;
         Assert.True(request != null);
 

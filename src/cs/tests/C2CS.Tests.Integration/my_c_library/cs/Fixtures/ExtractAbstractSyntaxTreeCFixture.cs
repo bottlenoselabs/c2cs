@@ -1,6 +1,7 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System;
 using System.Collections.Immutable;
 using C2CS.Data.Serialization;
 using C2CS.Feature.ReadCodeC;
@@ -28,7 +29,14 @@ public sealed class ExtractAbstractSyntaxTreeCFixture
         CJsonSerializer cJsonSerializer,
         ConfigurationJsonSerializer configurationJsonSerializer)
     {
-        var configuration = configurationJsonSerializer.Read("my_c_library/config.json");
+        var configurationFilePath = Native.OperatingSystem switch
+        {
+            NativeOperatingSystem.Windows => "my_c_library/config_windows.json",
+            NativeOperatingSystem.Linux => "my_c_library/config_linux.json",
+            NativeOperatingSystem.macOS => "my_c_library/config_macos.json",
+            _ => throw new InvalidOperationException()
+        };
+        var configuration = configurationJsonSerializer.Read(configurationFilePath);
         var configurationReadC = configuration.ReadC;
         var output = useCase.Execute(configurationReadC!);
         AbstractSyntaxTrees = ParseAbstractSyntaxTrees(output, cJsonSerializer);
