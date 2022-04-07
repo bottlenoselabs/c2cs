@@ -14,7 +14,7 @@ jobs:
       matrix:
         platform:
         - { name: Windows x64 (mingw64), os: windows-latest, shell: 'msys2 {0}', msystem: mingw64, msys-env: mingw-w64-x86_64 }
-        - { name: Windows x64,           os: windows-latest, shell: pwsh }
+        - { name: Windows x64,           os: windows-latest, shell: bash }
         - { name: Linux x64,             os: ubuntu-18.04,   shell: bash }
         - { name: macOS x64,             os: macos-latest,   shell: bash }
     steps:
