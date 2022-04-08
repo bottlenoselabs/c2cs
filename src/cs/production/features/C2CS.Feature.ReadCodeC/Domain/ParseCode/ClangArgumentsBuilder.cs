@@ -178,7 +178,7 @@ public class ClangArgumentsBuilder
                 $"Unable to find a Windows SDK version. Expected a Windows SDK version at '{sdkDirectoryPath}'. Do you need install the a software development kit for Windows? https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk/");
         }
 
-        var systemIncludeCommandLineArgSdk = $@"-isystem{sdkHighestVersionDirectoryPath}\ucrt";
+        var systemIncludeCommandLineArgSdk = $@"{sdkHighestVersionDirectoryPath}\ucrt";
         directories.Add(systemIncludeCommandLineArgSdk);
 
         var vsWhereFilePath =
@@ -233,7 +233,7 @@ public class ClangArgumentsBuilder
                 $"Unable to find a version of clang. Expected a version of clang at '{commandLineToolsClangDirectoryPath}'. Do you need to install CommandLineTools for macOS?");
         }
 
-        var systemIncludeCommandLineArgClang = $"-isystem{clangHighestVersionDirectoryPath}/include";
+        var systemIncludeCommandLineArgClang = $"{clangHighestVersionDirectoryPath}/include";
         directories.Add(systemIncludeCommandLineArgClang);
     }
 
