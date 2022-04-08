@@ -17,6 +17,9 @@ jobs:
         - { name: Windows x64,           os: windows-latest, shell: bash }
         - { name: Linux x64,             os: ubuntu-18.04,   shell: bash }
         - { name: macOS x64,             os: macos-latest,   shell: bash }
+    defaults:
+      run:
+        shell: ${{ matrix.platform.shell }}
     steps:
 
     - name: "Set up MSYS2"
