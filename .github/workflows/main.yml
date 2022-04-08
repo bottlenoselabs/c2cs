@@ -62,6 +62,7 @@ jobs:
         dotnet-sdk-version: '6.0.x'
         gitversion-working-directory: '${{ github.workspace }}'
         is-enabled-pack: 'true'
+        solution-or-project: '${{ github.workspace }}/C2CS.sln'
         upload-myget-org: "${{ github.event_name == 'push' || startsWith(github.ref, 'refs/tags/v') }}"
         upload-nuget-org: "${{ startsWith(github.ref, 'refs/tags/v') }}"
         myget-access-token: '${{ secrets.MYGET_ACCESS_TOKEN }}'
