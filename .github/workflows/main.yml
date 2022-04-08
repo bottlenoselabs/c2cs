@@ -31,7 +31,7 @@ jobs:
           ${{ matrix.platform.msys-env }}-pkg-config
 
     - name: "Clone Git repository"
-      uses: actions/checkout@v2
+      uses: actions/checkout@v1
       with:
         fetch-depth: 0
         submodules: 'recursive'
