@@ -112,6 +112,7 @@ public sealed class ClangInstaller
             }
 
             installedFilePath = filePath;
+            break;
         }
 
         if (string.IsNullOrEmpty(installedFilePath))
