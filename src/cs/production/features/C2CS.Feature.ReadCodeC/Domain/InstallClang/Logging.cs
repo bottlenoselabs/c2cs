@@ -15,30 +15,30 @@ internal static class Logging
             LoggingEventRegistry.CreateEventIdentifier("Install Clang: Failed."),
             "- Failed");
 
-    private static readonly Action<ILogger, Exception> ActionSuccess =
-        LoggerMessage.Define(
+    private static readonly Action<ILogger, string, Exception> ActionSuccess =
+        LoggerMessage.Define<string>(
             LogLevel.Trace,
             LoggingEventRegistry.CreateEventIdentifier("Install Clang: Success"),
-            "- Success");
+            "- Success, file path: {FilePath}");
 
-    private static readonly Action<ILogger, Exception> ActionSuccessAlreadyInstalled =
-        LoggerMessage.Define(
+    private static readonly Action<ILogger, string, Exception> ActionSuccessAlreadyInstalled =
+        LoggerMessage.Define<string>(
             LogLevel.Trace,
             LoggingEventRegistry.CreateEventIdentifier("Install Clang: Success, already installed"),
-            "- Success, already installed");
+            "- Success, already installed, file path: {FilePath}");
 
     public static void InstallClangFailed(this ILogger logger, Exception exception)
     {
         ActionFailed(logger, exception);
     }
 
-    public static void InstallClangSuccess(this ILogger logger)
+    public static void InstallClangSuccess(this ILogger logger, string filePath)
     {
-        ActionSuccess(logger, null!);
+        ActionSuccess(logger, filePath, null!);
     }
 
-    public static void InstallClangSuccessAlreadyInstalled(this ILogger logger)
+    public static void InstallClangSuccessAlreadyInstalled(this ILogger logger, string filePath)
     {
-        ActionSuccessAlreadyInstalled(logger, null!);
+        ActionSuccessAlreadyInstalled(logger, filePath, null!);
     }
 }

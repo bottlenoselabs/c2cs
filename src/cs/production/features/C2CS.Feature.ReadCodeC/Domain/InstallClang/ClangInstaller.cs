@@ -30,22 +30,13 @@ public sealed class ClangInstaller
         {
             if (_isInstalled)
             {
-                _logger.InstallClangSuccessAlreadyInstalled();
+                _logger.InstallClangSuccessAlreadyInstalled(_clangNativeLibraryFilePath);
                 return;
             }
 
             _clangNativeLibraryFilePath = GetClangFilePath(operatingSystem);
-
-            try
-            {
-                NativeLibrary.SetDllImportResolver(typeof(bottlenoselabs.clang).Assembly, ResolveClang);
-            }
-            catch (InvalidOperationException)
-            {
-                // already set; ignore
-            }
-
-            _logger.InstallClangSuccess();
+            NativeLibrary.SetDllImportResolver(typeof(bottlenoselabs.clang).Assembly, ResolveClang);
+            _logger.InstallClangSuccess(_clangNativeLibraryFilePath);
             _isInstalled = true;
         }
     }
