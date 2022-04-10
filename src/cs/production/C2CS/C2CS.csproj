@@ -50,13 +50,4 @@
         <ProjectReference Include="../infrastructure/clang-cs/clang-cs.csproj" />
     </ItemGroup>
 
-    <!-- Dynamic link libraries -->
-    <ItemGroup>
-        <None Include="$(GitRepositoryPath)/lib/**/*.*">
-            <LinkBase>%(RecursiveDir)</LinkBase>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-            <Pack>false</Pack>
-        </None>
-    </ItemGroup>
-
 </Project>
