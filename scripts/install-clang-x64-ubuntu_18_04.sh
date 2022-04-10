@@ -9,7 +9,7 @@ mkdir -p "$INSTALL_DIR"
 
 cd $DOWNLOAD_DIR
 curl -OL https://www.nuget.org/api/v2/package/libclang.runtime.ubuntu.18.04-x64
-tar -xf "libclang.runtime.ubuntu.18.04-x64"
+unzip "libclang.runtime.ubuntu.18.04-x64"
 cd $DIR
 
 cp "$DOWNLOAD_DIR/runtimes/ubuntu.18.04-x64/native/libclang.so" "$INSTALL_DIR/libclang.so"
