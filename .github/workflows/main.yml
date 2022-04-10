@@ -59,12 +59,12 @@ jobs:
     - name: ".NET"
       uses: bottlenoselabs/github-actions-dotnet@v3
       with:
-        dotnet-sdk-version: '6.0.x'
-        solution-or-project: '${{ github.workspace }}/C2CS.sln'
-        is-enabled-upload-myget: '${{ github.event_name == 'push' || startsWith(github.ref, 'refs/tags/v') }}'
-        is-enabled-upload-nuget: '${{ startsWith(github.ref, 'refs/tags/v') }}'
-        myget-access-token: '${{ secrets.MYGET_ACCESS_TOKEN }}'
-        nuget-access-token: '${{ secrets.NUGET_ACCESS_TOKEN }}'
+        dotnet-sdk-version: "6.0.x"
+        solution-or-project: "${{ github.workspace }}/C2CS.sln }}"
+        is-enabled-upload-myget: "${{ github.event_name == 'push' || startsWith(github.ref, 'refs/tags/v') }}"
+        is-enabled-upload-nuget: "${{ startsWith(github.ref, 'refs/tags/v') }}"
+        myget-access-token: "${{ secrets.MYGET_ACCESS_TOKEN }}"
+        nuget-access-token: "${{ secrets.NUGET_ACCESS_TOKEN }}"
 
     - uses: actions/upload-artifact@v3
       if: ${{ failure() }}
