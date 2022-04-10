@@ -42,27 +42,27 @@ jobs:
     - name: "Install Clang: Windows"
       if: matrix.platform.os == 'windows-latest'
       run: |
-        source ${{ github.workspace }}\scripts\install-clang-x64-windows.sh
+        source "${{ github.workspace }}\scripts\install-clang-x64-windows.sh"
   
     - name: "Install Clang: Linux"
       if: matrix.platform.os == 'ubuntu-latest'
       run: |
         sudo apt-get update
         sudo apt-get install gcc-multilib
-        source ${{ github.workspace }}/scripts/install-clang-x64-ubuntu_20_04.sh
+        source "${{ github.workspace }}/scripts/install-clang-x64-ubuntu_20_04.sh"
 
     - name: "Install Clang: macOS"
       if: matrix.platform.os == 'macos-latest'
       run: |
-        source ${{ github.workspace }}/scripts/install-clang-macos.sh
+        source "${{ github.workspace }}/scripts/install-clang-macos.sh"
 
     - name: ".NET"
       uses: bottlenoselabs/github-actions-dotnet@v3
       with:
         dotnet-sdk-version: "6.0.x"
         solution-or-project: "${{ github.workspace }}/C2CS.sln"
-        is-enabled-upload-myget: "${{ github.event_name == 'push' || startsWith(github.ref, 'refs/tags/v') }}"
-        is-enabled-upload-nuget: "${{ startsWith(github.ref, 'refs/tags/v') }}"
+        is-enabled-upload-myget: "${{ matrix.platform.os == 'ubuntu-latest' && ( github.event_name == 'push' || startsWith(github.ref, 'refs/tags/v') ) }}"
+        is-enabled-upload-nuget: "${{ matrix.platform.os == 'ubuntu-latest' && startsWith(github.ref, 'refs/tags/v') }}"
         myget-access-token: "${{ secrets.MYGET_ACCESS_TOKEN }}"
         nuget-access-token: "${{ secrets.NUGET_ACCESS_TOKEN }}"
 
