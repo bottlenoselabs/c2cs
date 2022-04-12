@@ -3,8 +3,8 @@
   "ast": {
     "input_file": "my_c_library/c/include/my_c_library.h",
     "platforms": {
-      "aarch64-pc-windows-gnu": {},
-      "x86_64-pc-windows-gnu": {}
+      "aarch64-pc-windows-msvc": {},
+      "x86_64-pc-windows-msvc": {}
     }
   },
   "cs": {
