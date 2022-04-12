@@ -9,7 +9,7 @@ mkdir -p "$INSTALL_DIR"
 
 cd $DOWNLOAD_DIR
 curl -OL https://www.nuget.org/api/v2/package/libclang.runtime.win-x64
-bash `unzip "libclang.runtime.win-x64"`
+unzip "libclang.runtime.win-x64"
 cd $DIR
 
 cp "$DOWNLOAD_DIR/runtimes/win-x64/native/libclang.dll" "$INSTALL_DIR/libclang.dll"

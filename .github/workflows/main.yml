@@ -32,6 +32,7 @@ jobs:
           ${{ matrix.platform.msys-env }}-cmake
           ${{ matrix.platform.msys-env }}-ninja
           ${{ matrix.platform.msys-env }}-pkg-config
+          unzip
 
     - name: "Clone Git repository"
       uses: actions/checkout@v1
