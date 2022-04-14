@@ -1,5 +1,5 @@
 assembly-versioning-scheme: None
-mode: ContinuousDeployment
+mode: Mainline
 tag-prefix: "[vV]"
 continuous-delivery-fallback-tag: ""
 branches: {}
