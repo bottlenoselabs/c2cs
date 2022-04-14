@@ -4,12 +4,7 @@ C to C# library bindings code generator. In go `.h` file, out come `.cs` file.
 
 ## Documentation
 
-For documentation see the [docs/README.md](docs/README.md). This includes:
-
-- [How to install `C2CS`](docs/README.md#install)
-- [How to use `C2CS`](docs/README.md#how-to-use).
-- [How to build `C2CS` and the examples from source](docs/README.md#building-from-source).
-- [Examples](docs/README.md#examples).
+For documentation on how to install, use, or build `C2CS` see the [docs/README.md](docs/README.md).
 
 ## Background: Why?
 
@@ -24,13 +19,15 @@ If you are not familiar already with interoperability of C/C++ with C#, it's ass
 
 ### Solution
 
-Automatically generate the bindings by compiling/parsing a C `.h` file. Essentially, the C public programmer application interface (API, those functions you want to call) is tranpiled to C# for the target application binary interface (ABI, operating- system/architecture combo) for use via platform invoke (P/Invoke). 
+Automatically generate the bindings by compiling/parsing a C `.h` file. The C API (application programmer interface; those functions you want to call) is tranpiled to C# for the target ABI (application binary interface; a Clang target triple `arch-vendor-os-environment`, e.g. `x86_64-pc-windows-msvc`) for use via P/Invoke (platform invoke).
 
-This includes all C extern functions which are transpiled to `static` methods respecitively in C# using `DllImport` attribute. Also includes transpiling all the C types to C# which are found through transitive property to the extern functions such as: `struct`s, `enum`s, and `const`s. C# `struct`s are generated instead of `class`es on purpose to achieve 1-1 bit-representation of C to C# types called *blittable* types. The reason for blittable types is to achieve pass-through marshalling and active avoidance of the Garbage Collector in C# for best possible runtime performance and portability when doing interoperability with C.
+Includes all C extern functions which are transpiled to `static` methods respecitively in C# using `DllImport` attribute. The C types which are found through transitive property to the extern functions such as: `struct`s, `enum`s, and `const`s are also transpiled to C#. C# `struct`s are generated instead of `class`es on purpose to achieve 1-1 bit-representation of C to C# types called *blittable* types. The reason for blittable types is to achieve pass-through marshalling and active avoidance of the Garbage Collector in C# for best possible runtime performance and portability when doing interoperability with C.
 
 This is all accomplished by using [libclang](https://clang.llvm.org/docs/Tooling.html) for parsing C and [Roslyn](https://github.com/dotnet/roslyn) for generating C#. All naming is left as found in the C header `.h` file(s).
 
-![c2cs|width=400px](./docs/c2cs.png)
+<p align="center">
+  <img width="460" src="./docs/c2cs.png">
+</p>
 
 ### Limitations
 

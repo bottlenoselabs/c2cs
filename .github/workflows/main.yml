@@ -8,15 +8,71 @@ on:
 jobs:
   dotnet-job:
     name: ".NET"
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.platform.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+        - { name: Windows x64 (mingw64), os: windows-latest, shell: 'msys2 {0}', msystem: mingw64, msys-env: mingw-w64-x86_64 }
+        - { name: Windows x64,           os: windows-latest, shell: bash }
+        # Using Ubuntu 18.04 because of GitHub Actions Runner bug: https://github.com/actions/runner/issues/1819#issuecomment-1098641309
+        - { name: Linux x64,             os: ubuntu-18.04,   shell: bash }
+        - { name: macOS x64,             os: macos-latest,   shell: bash }
+    defaults:
+      run:
+        shell: ${{ matrix.platform.shell }}
     steps:
-      - uses: bottlenoselabs/github-actions-dotnet@v2
-        with:
-          repository: '${{ github.repository }}'
-          dotnet-sdk-version: '6.0.x'
-          is-enabled-pack: 'true'
-          upload-myget-org: "${{ github.event_name == 'push' || startsWith(github.ref, 'refs/tags/v') }}"
-          upload-nuget-org: "${{ startsWith(github.ref, 'refs/tags/v') }}"
-          myget-access-token: '${{ secrets.MYGET_ACCESS_TOKEN }}'
-          nuget-access-token: '${{ secrets.NUGET_ACCESS_TOKEN }}'
+
+    - name: "Set up MSYS2"
+      if: matrix.platform.shell == 'msys2 {0}'
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: ${{ matrix.platform.msystem }}
+        install: >-
+          ${{ matrix.platform.msys-env }}-gcc
+          ${{ matrix.platform.msys-env }}-cmake
+          ${{ matrix.platform.msys-env }}-ninja
+          ${{ matrix.platform.msys-env }}-pkg-config
+          unzip
+
+    - name: "Clone Git repository"
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 0
+        submodules: 'recursive'
+
+    - name: "Install Clang: Windows"
+      if: matrix.platform.os == 'windows-latest'
+      run: |
+        source "${{ github.workspace }}\scripts\install-clang-x64-windows.sh"
+  
+    - name: "Install Clang: Linux"
+      if: matrix.platform.os == 'ubuntu-18.04'
+      run: |
+        sudo apt-get update
+        sudo apt-get install gcc-multilib
+        source "${{ github.workspace }}/scripts/install-clang-x64-ubuntu_18_04.sh"
+
+    - name: "Install Clang: macOS"
+      if: matrix.platform.os == 'macos-latest'
+      run: |
+        source "${{ github.workspace }}/scripts/install-clang-macos.sh"
+
+    - name: ".NET"
+      uses: bottlenoselabs/github-actions-dotnet@v3
+      with:
+        dotnet-sdk-version: "6.0.x"
+        solution-or-project: "${{ github.workspace }}/C2CS.sln"
+        is-enabled-upload-myget: "${{ matrix.platform.os == 'ubuntu-18.04' && ( github.event_name == 'push' || startsWith(github.ref, 'refs/tags/v') ) }}"
+        is-enabled-upload-nuget: "${{ matrix.platform.os == 'ubuntu-18.04' && startsWith(github.ref, 'refs/tags/v') }}"
+        myget-access-token: "${{ secrets.MYGET_ACCESS_TOKEN }}"
+        nuget-access-token: "${{ secrets.NUGET_ACCESS_TOKEN }}"
+
+    - uses: actions/upload-artifact@v3
+      if: ${{ failure() }}
+      with:
+        name: "Failing Test Data ${{ matrix.platform.name }}"
+        path: |
+          ${{ github.workspace }}/bin/*Tests*/**/*.cs
+          ${{ github.workspace }}/bin/*Tests*/**/ast/*.json
 

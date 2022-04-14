@@ -25,26 +25,26 @@ namespace my_c_library_namespace
         private const string LibraryName = "my_c_library";
 
         // Function @ my_c_library.h:21:28
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void hello_world();
 
         // Function @ my_c_library.h:22:28
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void pass_string(CString s);
 
         // Function @ my_c_library.h:23:28
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void pass_integers_by_value(ushort a, int b, ulong c);
 
         // Function @ my_c_library.h:24:28
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void pass_integers_by_reference(ushort* a, int* b, ulong* c);
 
         // Function @ my_c_library.h:25:28
-        [DllImport(LibraryName)]
+        [DllImport(LibraryName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void pass_enum(my_enum_week_day e);
 
-        // Enum @ my_c_library.h:19:3
+        // Enum @ my_c_library.h:11:14
         public enum my_enum_week_day : int
         {
             MY_ENUM_WEEK_DAY_UNKNOWN = 0,

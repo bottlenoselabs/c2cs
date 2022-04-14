@@ -12,12 +12,11 @@ internal static class Program
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
         if (!BuildLibrary(rootDirectory))
         {
-            // Error building C library
+            Console.WriteLine("Error building C library");
             return;
         }
 
         GenerateBindingsCSharp();
-        // GenerateBindingsCSharp(rootDirectory);
     }
 
     private static bool BuildLibrary(string rootDirectory)
@@ -30,19 +29,6 @@ internal static class Program
 
     private static void GenerateBindingsCSharp()
     {
-        C2CS.Program.Main();
+        C2CS.Program.Main(Array.Empty<string>());
     }
-
-// private static void GenerateBindingsCSharp(string rootDirectory)
-//     {
-//         var arguments = @$"
-// cs
-// {rootDirectory}/src/cs/examples/helloworld/helloworld-c/my_c_library/ast/ast.json
-// -n
-// my_c_library_namespace
-// ";
-//         var argumentsArray =
-//             arguments.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-//         C2CS.Program.Main(argumentsArray);
-//     }
 }

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- MSBuild project settings -->
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <RootNamespace>C2CS</RootNamespace>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <!-- MSBuild.Tools project settings -->
+    <PropertyGroup>
+        <EnableCodeCoverage>false</EnableCodeCoverage>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="JsonSchema.Net.Generation" Version="1.8.3" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.1.0" />
+    </ItemGroup>
+
+</Project>
