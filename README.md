@@ -25,7 +25,9 @@ Includes all C extern functions which are transpiled to `static` methods respeci
 
 This is all accomplished by using [libclang](https://clang.llvm.org/docs/Tooling.html) for parsing C and [Roslyn](https://github.com/dotnet/roslyn) for generating C#. All naming is left as found in the C header `.h` file(s).
 
-![c2cs|width=400px](./docs/c2cs.png)
+<p align="center">
+  <img width="460" src="./docs/c2cs.png">
+</p>
 
 ### Limitations
 
