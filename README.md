@@ -4,12 +4,7 @@ C to C# library bindings code generator. In go `.h` file, out come `.cs` file.
 
 ## Documentation
 
-For documentation see the [docs/README.md](docs/README.md). This includes:
-
-- [How to install `C2CS`](docs/README.md#install)
-- [How to use `C2CS`](docs/README.md#how-to-use).
-- [How to build `C2CS` and the examples from source](docs/README.md#building-from-source).
-- [Examples](docs/README.md#examples).
+For documentation on how to install, use, or build `C2CS` see the [docs/README.md](docs/README.md).
 
 ## Background: Why?
 
