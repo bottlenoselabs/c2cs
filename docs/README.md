@@ -1,13 +1,26 @@
 # Documentation
 
-Here you will find documentation for `C2CS` including:
+Here you will find documentation for `C2CS`:
 
-- [Installing `C2CS`](#installing-c2cs)
-- [How to use `C2CS`](#how-to-use-c2cs).
-- [How to use `C2CS.Runtime`](#how-to-use-c2csruntime).
-- [How to build `C2CS` from source](#building-c2cs-from-source).
-- [How to debug `C2CS` from source](#debugging-c2cs-from-source)
-- [Examples](#examples).
+- [Documentation](#documentation)
+  - [Installing `C2CS`](#installing-c2cs)
+    - [Latest release](#latest-release)
+    - [Latest pre-release](#latest-pre-release)
+  - [How to use `C2CS`](#how-to-use-c2cs)
+    - [Configuration `.json` properties](#configuration-json-properties)
+  - [Cross-parsing with `C2CS`](#cross-parsing-with-c2cs)
+  - [How to use `C2CS.Runtime`](#how-to-use-c2csruntime)
+    - [Custom C# project properties for `C2CS.Runtime`](#custom-c-project-properties-for-c2csruntime)
+      - [`SIZEOF_WCHAR_T`:](#sizeof_wchar_t)
+  - [Building `C2CS` from source](#building-c2cs-from-source)
+    - [Prerequisites](#prerequisites)
+    - [Visual Studio / Rider / MonoDevelop](#visual-studio--rider--monodevelop)
+    - [Command Line Interface (CLI)](#command-line-interface-cli)
+  - [Debugging `C2CS` from source](#debugging-c2cs-from-source)
+    - [Debugging using logging](#debugging-using-logging)
+  - [Examples](#examples)
+    - [Hello world](#hello-world)
+    - [libclang](#libclang)
 
 ## Installing `C2CS`
 
@@ -40,10 +53,35 @@ To generate bindings for a C library you need to use a configuration `.json` fil
   "$schema": "https://github.com/bottlenoselabs/c2cs/schema.json",
   "directory": "path/to/my_c_library/ast",
   "ast": {
+    "input_file": "path/to/my_c_library/include/my_c_library.h"
+  },
+  "cs": {
+    "output_file": "path/to/my_c_library/cs/my_c_library.cs"
+  }
+}
+```
+
+By default running `c2cs` via terminal will search for a `config.json` file in the current directory. If you want to use a specific `.json` file, specify the file path as the first argument: `c2cs -c myConfig.json`.
+
+### Configuration `.json` properties
+
+The configuration properties are documented in the schema file: https://github.com/bottlenoselabs/c2cs/schema.json. By adding the schema to your JSON file, as seen in the example above, you can get intellisense in Visual Studio Code or your text editor of choice.
+
+## Cross-parsing with `C2CS`
+
+What if you want to generate bindings for each platform in one `.cs` file? Cross-parsing is the way to do that.
+
+Let's take a look at a more complicated example by adding multiple target platforms to generate C# bindings for. (Omitting this information generates C# bindings using the host platform as the target.) Each target platform is a [Clang "target triple"](https://clang.llvm.org/docs/CrossCompilation.html) in the form of `arch-vendor-os[-environment]`. This is basically "cross-parsing" (as opposed to cross-compilation) of the C header `.h` file.
+
+```json
+{
+  "$schema": "https://github.com/bottlenoselabs/c2cs/schema.json",
+  "directory": "path/to/my_c_library/ast",
+  "ast": {
     "input_file": "path/to/my_c_library/include/my_c_library.h",
     "platforms": {
-      "aarch64-pc-windows": {},
-      "x86_64-pc-windows": {},
+      "aarch64-pc-windows-msvc": {},
+      "x86_64-pc-windows-msvc": {},
       "aarch64-apple-darwin": {},
       "x86_64-apple-darwin": {},
       "aarch64-unknown-linux-gnu": {},
@@ -56,81 +94,71 @@ To generate bindings for a C library you need to use a configuration `.json` fil
 }
 ```
 
-By default running `c2cs` via terminal will search for a `config.json` file in the current directory. If you want to use a specific `.json` file, specify the file path as the first argument: `c2cs -c myConfig.json`.
+The only problem with this approach is that sometimes a Clang "target triple" may not not be available or work correctly with your version of Clang that is installed for your host operating system.
+- macOS Apple Sillicon `aarch64-apple-darwin` may not be understood in your version of Clang that is installed.
+- I found a bug where "cross-parsing" from Ubuntu 20.04 as the host `x86_64-unknown-linux-gnu` to Windows `x86_64-pc-windows-msvc` results in wrong type size information.
+  
+Thus, what I recommend is that different configuration files are used for each host to parse the C header `.h` file. Then use `c2cs ast -c config_ast_x.json` to generate the ASTs (abstract syntax trees) for each Clang target triple.
 
-### Configuration `.json` properties
+`config_ast_windows.json`
+```json
+{
+  "$schema": "https://github.com/bottlenoselabs/c2cs/schema.json",
+  "directory": "path/to/my_c_library/ast",
+  "ast": {
+    "input_file": "path/to/my_c_library/include/my_c_library.h",
+    "platforms": {
+      "aarch64-pc-windows-msvc": {},
+      "x86_64-pc-windows-msvc": {}
+    }
+  }
+}
+```
 
-#### `inputFilePath`
+`config_ast_macos.json`
+```json
+{
+  "$schema": "https://github.com/bottlenoselabs/c2cs/schema.json",
+  "directory": "path/to/my_c_library/ast",
+  "ast": {
+    "input_file": "path/to/my_c_library/include/my_c_library.h",
+    "platforms": {
+      "aarch64-apple-darwin": {},
+      "x86_64-apple-darwin": {},
+      "aarch64-apple-ios": {}
+    }
+  }
+}
+```
 
-Path of the input `.h` header file.
+`config_ast_linux.json`
+```json
+{
+  "$schema": "https://github.com/bottlenoselabs/c2cs/schema.json",
+  "directory": "path/to/my_c_library/ast",
+  "ast": {
+    "input_file": "path/to/my_c_library/include/my_c_library.h",
+    "platforms": {
+      "aarch64-unknown-linux-gnu": {},
+      "x86_64-unknown-linux-gnu": {},
+      "aarch64-linux-android": {}
+    }
+  }
+}
+```
 
-#### `outputFilePath`
+Once the AST files are generated, move them all over to any operating system and generate the C# bindings for all of them at once using `c2cs cs -c config_cs.json`.
 
-Path of the output C# `.cs` file. If not specified, defaults to a file path using the current directory, a file name without extension that matches the `inputFilePath`, and a `.cs` file name extension.
-
-#### `abstractSyntaxTreeOutputFilePath`
-
-Path of the intermediate output abstract syntax tree `.json` file. If not specified, defaults to a random temporary file.
-
-#### `libraryName`
-
-The name of the dynamic link library (without the file extension) used for platform invoke (P/Invoke) with C#. If not specified, the library name is the same as the name of the `inputFilePath` without the directory name and without the file extension.
-
-#### `namespaceName`
-
-The name of the namespace to be used for the C# static class. If not specified, the namespace is the same as the `libraryName`.
-
-#### `className`
-
-The name of the C# static class. If not specified, the class name is the same as the `libraryName`.
-
-#### `headerCodeRegionFilePath`
-
-Path of the text file which to add the file's contents to the top of the C# file. Useful for comments, extra namespace using statements, or additional code that needs to be added to the generated C# file.
-
-#### `footerCodeRegionFilePath`
-
-Path of the text file which to add the file's contents to the bottom of the C# file. Useful for comments or additional code that needs to be added to the generated C# file.
-
-#### `mappedTypeNames`
-
-Pairs of strings for re-mapping type names. Each pair has source name and a target name. The source name may be found when parsing C code and get mapped to the target name when generating C# code. Does not change the type's bit layout.
-
-#### `isEnabledFindSdk`
-
-Determines whether the software development kit (SDK) for C/C++ is attempted to be found. Default is `true`. If `true`, the C/C++ header files for the current operating system are attempted to be found. In such a case, if the C/C++ header files can not be found, then an error is generated which halts the program. If `false`, the C/C++ header files will likely be missing causing Clang to generate parsing errors which also halts the program. In such a case, the missing C/C++ header files can be supplied to Clang using `clangArguments` such as `"-isystemPATH/TO/SYSTEM/HEADER/DIRECTORY"`.
-
-#### `machineBitWidth`
-
-The bit width of the computer architecture to use when parsing C code. Default is `null`. If `null`, the bit width of host operating system's computer architecture is used. E.g. the default for x64 Windows is `64`. Possible values are `null`, `32` where pointers are 4 bytes, or `64` where pointers are 8 bytes.
-
-#### `includeDirectories`
-
-Search directory paths to use for `#include` usages when parsing C code. If `null`, uses the directory path of `inputFilePath`.
-
-#### `defines`
-
-Object-like macros to use when parsing C code.
-
-#### `excludedHeaderFiles`
-
-C header file names to exclude. File names are relative to `includeDirectories`.
-
-#### `ignoredTypeNames`
-
-Type names that may be found when parsing C code that will be ignored when generating C# code. Types are ignored after mapping type names using `mappedTypeNames`.
-
-#### `opaqueTypeNames`
-
-Type names that may be found when parsing C code that will be interpreted as opaque types. Opaque types are often used with a pointer to hide the information about the bit layout behind the pointer.
-
-#### `functionNamesWhitelist`
-
-The C function names to explicitly include when parsing C code. Default is `null`. If `null`, no white list applies to which all C function names that are found are eligible for C# code generation. Note that C function names which are excluded also exclude any transitive types.
-
-#### `clangArguments`
-
-Additional Clang arguments to use when parsing C code.
+`config_cs.json`
+```json
+{
+  "$schema": "https://github.com/bottlenoselabs/c2cs/schema.json",
+  "directory": "path/to/my_c_library/ast",
+  "cs": {
+    "output_file": "path/to/my_c_library/cs/my_c_library.cs"
+  }
+}
+```
 
 ## How to use `C2CS.Runtime`
 
