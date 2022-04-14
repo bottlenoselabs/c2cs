@@ -12,7 +12,9 @@ internal static class Program
         var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../.."));
         if (!BuildLibrary(rootDirectory))
         {
+#pragma warning disable CA1303
             Console.WriteLine("Error building C library");
+#pragma warning restore CA1303
             return;
         }
 
