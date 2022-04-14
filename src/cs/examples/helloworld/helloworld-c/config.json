@@ -1,19 +1,12 @@
 {
-  "inputFilePath": "../../../../src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h",
-  "outputFilePath": "../../../../src/cs/examples/helloworld/helloworld-cs/my_c_library.cs",
-  "abstractSyntaxTreeOutputFilePath": null,
-  "libraryName": null,
-  "namespaceName": "my_c_library_namespace",
-  "className": null,
-  "headerCodeRegionFilePath": null,
-  "footerCodeRegionFilePath": null,
-  "mappedTypeNames": null,
-  "isEnabledFindSdk": true,
-  "machineBitWidth": null,
-  "includeDirectories": null,
-  "defines": null,
-  "excludedHeaderFiles": null,
-  "ignoredTypeNames": null,
-  "opaqueTypeNames": null,
-  "clangArguments": null
+  "//schema": "Use `https://www.github.com/bottlenoselabs/c2cs/schema.json` or `path/to/c2cs/schema.json` for the schema. You can generate the schema at any time by using `c2cs schema` in terminal.",
+  "$schema": "../../../../../schema.json",
+  "directory": "../../../../src/cs/examples/helloworld/helloworld-c/my_c_library/ast",
+  "ast": {
+    "input_file": "../../../../src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h"
+  },
+  "cs": {
+    "output_file": "../../../../src/cs/examples/helloworld/helloworld-cs/my_c_library.cs",
+    "namespace_name": "my_c_library_namespace"
+  }
 }

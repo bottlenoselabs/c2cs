@@ -11,11 +11,12 @@
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
 
-    <!-- My-MSBuild project settings -->
+    <!-- MSBuild.Tools project settings -->
     <PropertyGroup>
-        <EnableAnalyzers>false</EnableAnalyzers>
+        <EnableAnalyzers>true</EnableAnalyzers>
         <EnableAnalyzersStyleCop>false</EnableAnalyzersStyleCop>
         <EnableRootNamespace>false</EnableRootNamespace>
+        <EnableCodeCoverage>false</EnableCodeCoverage>
     </PropertyGroup>
 
 </Project>

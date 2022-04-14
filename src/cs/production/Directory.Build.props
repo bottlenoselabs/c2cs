@@ -9,7 +9,7 @@
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
-    <!-- My-MSBuild project settings -->
+    <!-- bottlenose.MSBuild.Tools settings -->
     <PropertyGroup>
         <EnableAnalyzers>true</EnableAnalyzers>
         <EnableAnalyzersStyleCop>true</EnableAnalyzersStyleCop>

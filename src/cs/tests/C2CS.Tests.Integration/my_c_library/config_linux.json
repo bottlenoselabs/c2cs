@@ -1,0 +1,14 @@
+{
+  "directory": "my_c_library/c/ast",
+  "ast": {
+    "input_file": "my_c_library/c/include/my_c_library.h",
+    "platforms": {
+      "aarch64-unknown-linux-gnu": {},
+      "x86_64-unknown-linux-gnu": {}
+    }
+  },
+  "cs": {
+    "output_file": "my_c_library/c/my_c_library.cs",
+    "namespace": "bottlenoselabs"
+  }
+}
