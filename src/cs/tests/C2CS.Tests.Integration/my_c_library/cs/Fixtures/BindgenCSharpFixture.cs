@@ -35,10 +35,10 @@ public sealed class BindgenCSharpFixture
             _ => throw new InvalidOperationException()
         };
         var configuration = configurationJsonSerializer.Read(configurationFilePath);
-        var request = configuration.WriteCSharp;
-        Assert.True(request != null);
+        var configurationWriteCSharp = configuration.WriteCSharp;
+        Assert.True(configurationWriteCSharp != null);
 
-        var output = useCase.Execute(request!);
+        var output = useCase.Execute(configurationWriteCSharp!);
         Assert.True(output != null);
         var input = output!.Input;
 
