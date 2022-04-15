@@ -263,65 +263,6 @@ public static unsafe class ClangExtensions
         return result;
     }
 
-    public static CLocation FileLocation(this CXType type, CXCursor cursor)
-    {
-        var declaration = type.IsPrimitive() ? cursor : clang_getTypeDeclaration(type);
-        return FileLocation(declaration);
-    }
-
-    public static CLocation FileLocation(this CXCursor cursor)
-    {
-        if (cursor.kind == CXCursorKind.CXCursor_TranslationUnit)
-        {
-            var filePath = cursor.Name();
-            return new CLocation
-            {
-                FileName = Path.GetFileName(filePath),
-                FilePath = filePath
-            };
-        }
-
-        var location = clang_getCursorLocation(cursor);
-        CXFile file;
-        ulong lineNumber;
-        ulong columnNumber;
-        ulong offset;
-
-        clang_getFileLocation(location, &file, &lineNumber, &columnNumber, &offset);
-
-        var isInSystemHeader = clang_Location_isInSystemHeader(location) > 0U;
-        if (isInSystemHeader)
-        {
-            return CLocation.System;
-        }
-
-        var isPrimitive = clang_getCursorType(cursor).IsPrimitive();
-        if (isPrimitive)
-        {
-            return CLocation.System;
-        }
-
-        var handle = (IntPtr)file.Data;
-        if (handle == IntPtr.Zero)
-        {
-            return new CLocation
-            {
-                FileName = string.Empty
-            };
-        }
-
-        var fileName = clang_getFileName(file);
-        string fileNamePath = clang_getCString(fileName);
-
-        return new CLocation
-        {
-            FileName = Path.GetFileName(fileNamePath),
-            FilePath = string.IsNullOrEmpty(fileNamePath) ? string.Empty : Path.GetFullPath(fileNamePath),
-            LineNumber = (int)lineNumber,
-            LineColumn = (int)columnNumber
-        };
-    }
-
     private readonly struct VisitInstance
     {
         public readonly VisitPredicate Predicate;

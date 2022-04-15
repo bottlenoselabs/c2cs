@@ -47,7 +47,7 @@ public sealed class ClangTranslationUnitExplorer
         CXTranslationUnit translationUnit)
     {
         var cursor = clang_getTranslationUnitCursor(translationUnit);
-        var location = Location(context, cursor);
+        var location = Location(context, cursor, default, false);
 
         var functions = context.Functions.ToImmutableArray();
         var functionPointers = context.FunctionPointers.ToImmutableArray();
@@ -81,7 +81,7 @@ public sealed class ClangTranslationUnitExplorer
         var cursor = clang_getTranslationUnitCursor(translationUnit);
 
         var type = clang_getCursorType(cursor);
-        var location = Location(context, cursor);
+        var location = CLocation.TranslationUnit;
 
         _logger.ExploreCodeTranslationUnit(location.FileName);
         AddExplorerNode(
@@ -178,7 +178,7 @@ public sealed class ClangTranslationUnitExplorer
             return IsIgnored(context, elementType, cursor);
         }
 
-        var fileLocation = kind == CKind.MacroDefinition ? Location(context, cursor) : Location(context, cursor, actualType);
+        var fileLocation = Location(context, cursor, actualType, false);
         if (string.IsNullOrEmpty(fileLocation.FileName))
         {
             var up = new UseCaseException(
@@ -227,12 +227,6 @@ public sealed class ClangTranslationUnitExplorer
                 {
                     return false;
                 }
-
-                var location = cursor.FileLocation();
-                if (string.IsNullOrEmpty(location.FileName))
-                {
-                    return false;
-                }
             }
             else
             {
@@ -272,14 +266,14 @@ public sealed class ClangTranslationUnitExplorer
 
         if (kind == CKind.MacroDefinition)
         {
-            var location = Location(context, cursor);
+            var location = Location(context, cursor, default, false);
             AddExplorerNode(context, kind, location, parentNode, cursor, default, name, string.Empty);
         }
         else
         {
             var type = clang_getCursorType(cursor);
-            var location = Location(context, cursor, type);
             var typeName = TypeName(parentNode.TypeName!, kind, type, cursor);
+            var location = Location(context, cursor, type, false);
 
             var isIgnored = IsIgnored(context, type, cursor);
             if (isIgnored)
@@ -528,6 +522,11 @@ public sealed class ClangTranslationUnitExplorer
         CLocation location,
         ClangTranslationUnitExplorerNode parentNode)
     {
+        if (typeName == "my_enum_week_day")
+        {
+            Console.WriteLine();
+        }
+
         if (context.Names.Contains(typeName))
         {
             return;
@@ -542,9 +541,10 @@ public sealed class ClangTranslationUnitExplorer
         }
 
         var integerType = clang_getEnumDeclIntegerType(typeCursor);
+        var integerDeclaration = clang_getTypeDeclaration(integerType);
         var integerTypeName = TypeName(parentNode.TypeName!, CKind.Enum, integerType, cursor);
 
-        VisitType(context, parentNode, cursor, cursor, integerType, integerTypeName);
+        VisitType(context, parentNode, integerDeclaration, cursor, integerType, integerTypeName);
 
         var enumValues = CreateEnumValues(context, typeCursor);
 
@@ -830,7 +830,7 @@ public sealed class ClangTranslationUnitExplorer
         var typeName = TypeName(parentNode.TypeName!, kind, typeActual, cursor);
 
         VisitType(context, parentNode, cursor, cursor, type, typeName);
-        var codeLocation = Location(context, cursor, type);
+        var codeLocation = Location(context, cursor, type, false);
 
         return new CFunctionParameter
         {
@@ -903,7 +903,7 @@ public sealed class ClangTranslationUnitExplorer
         ClangTranslationUnitExplorerNode parentNode)
     {
         var type = clang_getCursorType(cursor);
-        var codeLocation = Location(context, cursor, type);
+        var codeLocation = Location(context, cursor, type, false);
         var name = cursor.Name();
 
         var (kind, actualType) = TypeKind(type);
@@ -1012,7 +1012,7 @@ public sealed class ClangTranslationUnitExplorer
     {
         var name = cursor.Name();
         var type = clang_getCursorType(cursor);
-        var codeLocation = Location(context, cursor, type);
+        var codeLocation = Location(context, cursor, type, false);
         var (kind, actualType) = TypeKind(type);
         var typeName = TypeName(recordName, kind, actualType, cursor);
 
@@ -1095,7 +1095,7 @@ public sealed class ClangTranslationUnitExplorer
         if (pointeeType.kind == CXTypeKind.CXType_FunctionProto)
         {
             var typeName = TypeName(parentTypeName, CKind.FunctionPointer, pointeeType, cursor);
-            var location = Location(context, cursor, type);
+            var location = Location(context, cursor, type, false);
             return CreateFunctionPointer(context, typeName, cursor, parentNode, pointeeType, location);
         }
 
@@ -1110,7 +1110,7 @@ public sealed class ClangTranslationUnitExplorer
         CXType type,
         ClangTranslationUnitExplorerNode parentNode)
     {
-        var location = Location(context, cursor, type);
+        var location = Location(context, cursor, type, false);
         var typeName = TypeName(parentTypeName, CKind.Record, type, cursor);
 
         var recordFields = CreateRecordFields(context, typeName, cursor, parentNode);
@@ -1194,7 +1194,7 @@ public sealed class ClangTranslationUnitExplorer
             elementSize = (int)clang_Type_getSizeOf(elementType);
         }
 
-        var location = Location(context, declaration, type);
+        var location = Location(context, declaration, type, true);
 
         var cType = new CType
         {
@@ -1247,7 +1247,7 @@ public sealed class ClangTranslationUnitExplorer
             case CKind.Pointer:
                 return (int)clang_Type_getSizeOf(underlyingType);
             default:
-                var location = Location(context, clang_getTypeDeclaration(type), type);
+                var location = Location(context, clang_getTypeDeclaration(type), type, false);
                 throw new UseCaseException(
                     $"Unexpected case when determining size for Clang type: {location}. Please submit an issue on GitHub!");
         }
@@ -1362,11 +1362,6 @@ public sealed class ClangTranslationUnitExplorer
         CXType type,
         string typeName)
     {
-        if (cursor.kind == CXCursorKind.CXCursor_NoDeclFound)
-        {
-            throw new UseCaseException("NoDecl cursor.");
-        }
-
         if (!IsNewType(context, typeName, type, cursor))
         {
             return;
@@ -1422,7 +1417,7 @@ public sealed class ClangTranslationUnitExplorer
                 locationCursor = originalCursor;
             }
 
-            var location = Location(context, locationCursor);
+            var location = Location(context, locationCursor, type, true);
             AddExplorerNode(
                 context,
                 kind,
@@ -1439,7 +1434,7 @@ public sealed class ClangTranslationUnitExplorer
         ClangTranslationUnitExplorerContext context, ClangTranslationUnitExplorerNode parentNode, CXType type, string typeName)
     {
         var typedefCursor = clang_getTypeDeclaration(type);
-        var location = Location(context, typedefCursor);
+        var location = Location(context, typedefCursor, type, false);
         AddExplorerNode(context, CKind.Typedef, location, parentNode, typedefCursor, type, string.Empty, typeName);
     }
 
@@ -1496,35 +1491,87 @@ public sealed class ClangTranslationUnitExplorer
         return typeName;
     }
 
-    private CLocation Location(ClangTranslationUnitExplorerContext context, CXCursor cursor, CXType? type = null)
+    private CLocation Location(ClangTranslationUnitExplorerContext context, CXCursor cursor, CXType type, bool drillDown)
     {
-        CLocation location;
-        if (type == null)
+        var location = FileLocation(cursor, type, drillDown);
+
+        if (string.IsNullOrEmpty(location.FilePath))
         {
-            location = cursor.FileLocation();
-        }
-        else
-        {
-            location = type.Value.FileLocation(cursor);
-            if (string.IsNullOrEmpty(location.FileName))
-            {
-                location = cursor.FileLocation();
-            }
+            return location;
         }
 
-        if (!string.IsNullOrEmpty(location.FilePath))
+        foreach (var includeDirectory in context.IncludeDirectories)
         {
-            foreach (var includeDirectory in context.IncludeDirectories)
+            if (location.FilePath.Contains(includeDirectory, StringComparison.InvariantCulture))
             {
-                if (location.FilePath.Contains(includeDirectory, StringComparison.InvariantCulture))
-                {
-                    location.FilePath = location.FilePath
-                        .Replace(includeDirectory, string.Empty, StringComparison.InvariantCulture).Trim('/', '\\');
-                    break;
-                }
+                location.FilePath = location.FilePath
+                    .Replace(includeDirectory, string.Empty, StringComparison.InvariantCulture).Trim('/', '\\');
+                break;
             }
         }
 
         return location;
+    }
+
+    private static CLocation FileLocationTranslationUnit(
+        CXCursor declaration,
+        int lineNumber,
+        int columnNumber)
+    {
+        var translationUnit = clang_Cursor_getTranslationUnit(declaration);
+        var cursor = clang_getTranslationUnitCursor(translationUnit);
+        var spelling = clang_getCursorSpelling(cursor);
+        string filePath = clang_getCString(spelling);
+        return new CLocation
+        {
+            FileName = Path.GetFileName(filePath),
+            FilePath = filePath,
+            LineNumber = lineNumber,
+            LineColumn = columnNumber
+        };
+    }
+
+    private static unsafe CLocation FileLocation(CXCursor cursor, CXType type, bool drillDown)
+    {
+        if (cursor.kind == CXCursorKind.CXCursor_TranslationUnit)
+        {
+            return CLocation.TranslationUnit;
+        }
+
+        if (drillDown && type.kind == CXTypeKind.CXType_Pointer)
+        {
+            return CLocation.Pointer;
+        }
+
+        var isPrimitive = type.IsPrimitive();
+        if (drillDown && isPrimitive)
+        {
+            return CLocation.System;
+        }
+
+        var location = clang_getCursorLocation(cursor);
+        CXFile file;
+        ulong lineNumber;
+        ulong columnNumber;
+        ulong offset;
+
+        clang_getFileLocation(location, &file, &lineNumber, &columnNumber, &offset);
+
+        var handle = (IntPtr)file.Data;
+        if (handle == IntPtr.Zero)
+        {
+            return FileLocationTranslationUnit(cursor, (int)lineNumber, (int)columnNumber);
+        }
+
+        var fileName = clang_getFileName(file);
+        string fileNamePath = clang_getCString(fileName);
+
+        return new CLocation
+        {
+            FileName = Path.GetFileName(fileNamePath),
+            FilePath = string.IsNullOrEmpty(fileNamePath) ? string.Empty : Path.GetFullPath(fileNamePath),
+            LineNumber = (int)lineNumber,
+            LineColumn = (int)columnNumber
+        };
     }
 }

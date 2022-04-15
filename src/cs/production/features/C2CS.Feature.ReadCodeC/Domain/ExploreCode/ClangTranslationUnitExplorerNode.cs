@@ -34,6 +34,10 @@ internal sealed class ClangTranslationUnitExplorerNode
             {
                 Location = CLocation.System;
             }
+            else if (cursor.kind == CXCursorKind.CXCursor_TranslationUnit)
+            {
+                Location = CLocation.TranslationUnit;
+            }
             else
             {
                 throw new NotImplementedException();

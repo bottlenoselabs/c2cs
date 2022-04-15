@@ -10,9 +10,19 @@ namespace C2CS.Feature.ReadCodeC.Data.Model;
 public record struct CLocation : IComparable<CLocation>
 {
 #pragma warning disable CA2211
+    public static CLocation TranslationUnit = new()
+    {
+        IsTranslationUnit = true
+    };
+
     public static CLocation System = new()
     {
         IsSystem = true
+    };
+
+    public static CLocation Pointer = new()
+    {
+        IsPointer = true
     };
 #pragma warning restore CA2211
 
@@ -30,6 +40,12 @@ public record struct CLocation : IComparable<CLocation>
 
     [JsonIgnore]
     public bool IsSystem { get; set; }
+
+    [JsonIgnore]
+    public bool IsTranslationUnit { get; set; }
+
+    [JsonIgnore]
+    public bool IsPointer { get; set; }
 
     public override string ToString()
     {
