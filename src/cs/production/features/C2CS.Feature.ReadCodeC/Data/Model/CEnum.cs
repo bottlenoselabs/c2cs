@@ -5,26 +5,26 @@ using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
-namespace C2CS.Feature.ReadCodeC.Data;
+namespace C2CS.Feature.ReadCodeC.Data.Model;
 
 // NOTE: Properties are required for System.Text.Json serialization
-public record CFunction : CNodeWithLocation
+public record CEnum : CNodeWithLocation
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonPropertyName("callingConvention")]
-    public CFunctionCallingConvention CallingConvention { get; set; } = CFunctionCallingConvention.Cdecl;
+    [JsonPropertyName("type")]
+    public string Type { get; set; } = string.Empty;
 
-    [JsonPropertyName("returnType")]
-    public string ReturnType { get; set; } = null!;
+    [JsonPropertyName("typeInteger")]
+    public string IntegerType { get; set; } = string.Empty;
 
-    [JsonPropertyName("parameters")]
-    public ImmutableArray<CFunctionParameter> Parameters { get; set; } = ImmutableArray<CFunctionParameter>.Empty;
+    [JsonPropertyName("values")]
+    public ImmutableArray<CEnumValue> Values { get; set; } = ImmutableArray<CEnumValue>.Empty;
 
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {
-        return $"FunctionExtern '{Name}' @ {Location}";
+        return $"Enum '{Type}': {IntegerType} @ {Location}";
     }
 }

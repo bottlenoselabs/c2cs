@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Text.Json.Serialization;
+using C2CS.Feature.ReadCodeC.Data.Model;
 
 namespace C2CS.Feature.ReadCodeC.Data.Serialization;
 

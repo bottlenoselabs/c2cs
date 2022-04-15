@@ -3,6 +3,7 @@
 
 using System.Collections.Immutable;
 using C2CS.Feature.ReadCodeC.Data;
+using C2CS.Feature.ReadCodeC.Data.Model;
 
 namespace C2CS.Feature.WriteCodeCSharp.Domain.Mapper;
 

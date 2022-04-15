@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using C2CS.Feature.ReadCodeC.Data;
+using C2CS.Feature.ReadCodeC.Data.Model;
 using static bottlenoselabs.clang;
 
 namespace C2CS.Feature.ReadCodeC.Domain;

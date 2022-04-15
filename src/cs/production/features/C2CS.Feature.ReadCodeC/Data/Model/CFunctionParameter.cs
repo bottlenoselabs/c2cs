@@ -4,20 +4,20 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
-namespace C2CS.Feature.ReadCodeC.Data;
+namespace C2CS.Feature.ReadCodeC.Data.Model;
 
 // NOTE: Properties are required for System.Text.Json serialization
-public record CTypedef : CNodeWithLocation
+public record CFunctionParameter : CNodeWithLocation
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonPropertyName("underlyingType")]
-    public string UnderlyingType { get; set; } = string.Empty;
+    [JsonPropertyName("type")]
+    public string Type { get; set; } = string.Empty;
 
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {
-        return $"Record '{Name}': {UnderlyingType} @ {Location}";
+        return $"FunctionExternParameter '{Name}': {Type} @ {Location}";
     }
 }

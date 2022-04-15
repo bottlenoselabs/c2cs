@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using C2CS.Feature.ReadCodeC.Data;
+using C2CS.Feature.ReadCodeC.Data.Model;
 using C2CS.Feature.WriteCodeCSharp.Data.Model;
 using C2CS.Feature.WriteCodeCSharp.Domain.Mapper.Diagnostics;
 using C2CS.Foundation.UseCases.Exceptions;

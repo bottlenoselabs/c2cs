@@ -4,20 +4,20 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
-namespace C2CS.Feature.ReadCodeC.Data;
+namespace C2CS.Feature.ReadCodeC.Data.Model;
 
 // NOTE: Properties are required for System.Text.Json serialization
-public record CEnumValue : CNode
+public record CTypedef : CNodeWithLocation
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonPropertyName("value")]
-    public long Value { get; set; }
+    [JsonPropertyName("underlyingType")]
+    public string UnderlyingType { get; set; } = string.Empty;
 
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {
-        return $"EnumValue '{Name}' = {Value}";
+        return $"Record '{Name}': {UnderlyingType} @ {Location}";
     }
 }

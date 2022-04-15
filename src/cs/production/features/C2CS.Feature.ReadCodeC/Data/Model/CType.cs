@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using C2CS.Feature.ReadCodeC.Data.Serialization;
 
-namespace C2CS.Feature.ReadCodeC.Data;
+namespace C2CS.Feature.ReadCodeC.Data.Model;
 
 // NOTE: Properties are required for System.Text.Json serialization
 public class CType

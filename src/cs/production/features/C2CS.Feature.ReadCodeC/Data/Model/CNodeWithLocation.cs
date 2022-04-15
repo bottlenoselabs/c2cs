@@ -4,7 +4,7 @@
 using System.Text.Json.Serialization;
 using C2CS.Feature.ReadCodeC.Data.Serialization;
 
-namespace C2CS.Feature.ReadCodeC.Data;
+namespace C2CS.Feature.ReadCodeC.Data.Model;
 
 public abstract record CNodeWithLocation : CNode
 {

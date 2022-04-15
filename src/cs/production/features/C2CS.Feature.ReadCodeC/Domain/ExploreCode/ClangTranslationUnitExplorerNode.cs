@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using C2CS.Feature.ReadCodeC.Data;
+using C2CS.Feature.ReadCodeC.Data.Model;
 using static bottlenoselabs.clang;
 
 namespace C2CS.Feature.ReadCodeC.Domain.ExploreCode;

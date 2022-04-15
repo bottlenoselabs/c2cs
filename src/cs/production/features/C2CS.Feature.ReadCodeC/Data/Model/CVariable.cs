@@ -4,16 +4,19 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
-namespace C2CS.Feature.ReadCodeC.Data;
+namespace C2CS.Feature.ReadCodeC.Data.Model;
 
-public record COpaqueType : CNodeWithLocation
+public record CVariable : CNodeWithLocation
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
+    [JsonPropertyName("type")]
+    public string Type { get; set; } = string.Empty;
+
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {
-        return $"OpaqueType '{Name}' @ {Location}";
+        return $"Variable '{Name}': {Type} @ {Location}";
     }
 }

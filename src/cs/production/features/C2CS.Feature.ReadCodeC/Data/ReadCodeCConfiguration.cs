@@ -13,6 +13,10 @@ namespace C2CS.Feature.ReadCodeC.Data;
 [PublicAPI]
 public sealed class ReadCodeCConfiguration : UseCaseConfiguration
 {
+    [JsonPropertyName("OutputFileDirectory")]
+    [Json.Schema.Generation.Description("Path of the output abstract syntax tree directory. The directory will contain one or more generated abstract syntax tree `.json` files which each have a file name of the target platform.")]
+    public string? OutputFileDirectory { get; set; }
+
     [JsonPropertyName("input_file")]
     [Json.Schema.Generation.Description("Path of the input `.h` header file containing C code.")]
     public string? InputFilePath { get; set; }

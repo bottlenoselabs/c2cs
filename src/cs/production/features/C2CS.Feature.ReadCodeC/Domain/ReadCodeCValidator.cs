@@ -27,7 +27,8 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         foreach (var (targetPlatformString, configurationAbstractSyntaxTree) in configuration.ConfigurationAbstractSyntaxTrees)
         {
             var targetPlatform = VerifyTargetPlatform(targetPlatformString);
-            var outputFilePath = VerifyOutputFilePath(configurationAbstractSyntaxTree?.OutputFileDirectory, targetPlatform);
+            var outputFilePath = VerifyOutputFilePath(
+                configurationAbstractSyntaxTree?.OutputFileDirectory ?? configuration.OutputFileDirectory, targetPlatform);
             var isEnabledFindSystemHeaders = configurationAbstractSyntaxTree?.IsEnabledFindSystemHeaders ?? true;
             var includeDirectories =
                 VerifyIncludeDirectories(configurationAbstractSyntaxTree?.IncludeDirectories, inputFilePath);

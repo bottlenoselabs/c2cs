@@ -61,7 +61,17 @@ public sealed class ConfigurationJsonSerializer
     private static void Polyfill(Configuration configuration)
     {
         var requestExtractC = configuration.ReadC;
-        if (requestExtractC?.ConfigurationAbstractSyntaxTrees != null)
+        if (requestExtractC == null)
+        {
+            return;
+        }
+
+        if (string.IsNullOrEmpty(requestExtractC.OutputFileDirectory))
+        {
+            requestExtractC.OutputFileDirectory = configuration.InputOutputFileDirectory;
+        }
+
+        if (requestExtractC.ConfigurationAbstractSyntaxTrees != null)
         {
             foreach (var (_, extractAbstractSyntaxTreeC) in requestExtractC.ConfigurationAbstractSyntaxTrees)
             {

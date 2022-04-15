@@ -3,6 +3,7 @@
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using C2CS.Feature.ReadCodeC.Data.Model;
 
 namespace C2CS.Feature.ReadCodeC.Data.Serialization;
 

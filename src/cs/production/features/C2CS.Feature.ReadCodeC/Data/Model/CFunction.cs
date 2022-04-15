@@ -5,27 +5,26 @@ using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
-namespace C2CS.Feature.ReadCodeC.Data;
+namespace C2CS.Feature.ReadCodeC.Data.Model;
 
 // NOTE: Properties are required for System.Text.Json serialization
-public record CFunctionPointer : CNodeWithLocation
+public record CFunction : CNodeWithLocation
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonPropertyName("type")]
-    public string Type { get; set; } = string.Empty;
+    [JsonPropertyName("callingConvention")]
+    public CFunctionCallingConvention CallingConvention { get; set; } = CFunctionCallingConvention.Cdecl;
 
     [JsonPropertyName("returnType")]
-    public string ReturnType { get; set; } = string.Empty;
+    public string ReturnType { get; set; } = null!;
 
     [JsonPropertyName("parameters")]
-    public ImmutableArray<CFunctionPointerParameter> Parameters { get; set; } =
-        ImmutableArray<CFunctionPointerParameter>.Empty;
+    public ImmutableArray<CFunctionParameter> Parameters { get; set; } = ImmutableArray<CFunctionParameter>.Empty;
 
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {
-        return $"FunctionPointer {Type} @ {Location}";
+        return $"FunctionExtern '{Name}' @ {Location}";
     }
 }

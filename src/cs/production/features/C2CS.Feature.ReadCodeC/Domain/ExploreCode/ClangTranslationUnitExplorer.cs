@@ -4,6 +4,7 @@
 using System.Collections.Immutable;
 using System.Diagnostics;
 using C2CS.Feature.ReadCodeC.Data;
+using C2CS.Feature.ReadCodeC.Data.Model;
 using C2CS.Feature.ReadCodeC.Domain.ExploreCode.Diagnostics;
 using C2CS.Foundation.UseCases.Exceptions;
 using Microsoft.Extensions.Logging;

@@ -3,6 +3,7 @@
 
 using System.Collections.Immutable;
 using C2CS.Feature.ReadCodeC.Data;
+using C2CS.Feature.ReadCodeC.Data.Model;
 using C2CS.Foundation;
 using C2CS.Foundation.Diagnostics;
 
