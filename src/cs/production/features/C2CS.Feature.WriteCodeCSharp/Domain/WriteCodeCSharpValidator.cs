@@ -54,12 +54,13 @@ public sealed class WriteCodeCSharpValidator : UseCaseValidator<WriteCodeCSharpC
         }
         else
         {
-            if (!_fileSystem.Directory.Exists(inputDirectoryPath))
+            var fullInputDirectoryPath = _fileSystem.Path.GetFullPath(inputDirectoryPath);
+            if (!_fileSystem.Directory.Exists(fullInputDirectoryPath))
             {
-                throw new UseCaseException($"The abstract syntax tree input directory '{inputDirectoryPath}' does not exist.");
+                throw new UseCaseException($"The abstract syntax tree input directory '{fullInputDirectoryPath}' does not exist.");
             }
 
-            directoryPath = inputDirectoryPath;
+            directoryPath = fullInputDirectoryPath;
         }
 
         var builder = ImmutableArray.CreateBuilder<string>();
