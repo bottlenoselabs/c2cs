@@ -10,19 +10,9 @@ namespace C2CS.Feature.ReadCodeC.Data.Model;
 public record struct CLocation : IComparable<CLocation>
 {
 #pragma warning disable CA2211
-    public static CLocation TranslationUnit = new()
+    public static CLocation Null = new()
     {
-        IsTranslationUnit = true
-    };
-
-    public static CLocation System = new()
-    {
-        IsSystem = true
-    };
-
-    public static CLocation Pointer = new()
-    {
-        IsPointer = true
+        IsNull = true
     };
 #pragma warning restore CA2211
 
@@ -39,20 +29,14 @@ public record struct CLocation : IComparable<CLocation>
     public int LineColumn { get; set; }
 
     [JsonIgnore]
-    public bool IsSystem { get; set; }
-
-    [JsonIgnore]
-    public bool IsTranslationUnit { get; set; }
-
-    [JsonIgnore]
-    public bool IsPointer { get; set; }
+    public bool IsNull { get; set; }
 
     public override string ToString()
     {
 #pragma warning disable CA1308
-        if (IsSystem)
+        if (IsNull)
         {
-            return nameof(System);
+            return nameof(Null);
         }
 #pragma warning restore CA1308
 

@@ -27,27 +27,7 @@ internal sealed class ClangTranslationUnitExplorerNode
         string? typeName)
     {
         Kind = kind;
-
-        if (string.IsNullOrEmpty(location.FileName))
-        {
-            if (type.IsPrimitive())
-            {
-                Location = CLocation.System;
-            }
-            else if (cursor.kind == CXCursorKind.CXCursor_TranslationUnit)
-            {
-                Location = CLocation.TranslationUnit;
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-        }
-        else
-        {
-            Location = location;
-        }
-
+        Location = location;
         Parent = parent;
         Cursor = cursor;
         Type = type;

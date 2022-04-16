@@ -18,12 +18,12 @@ public class CLocationJsonConverter : JsonConverter<CLocation>
             return JsonSerializer.Deserialize<CLocation>(ref reader, options);
         }
 
-        return CLocation.System;
+        return CLocation.Null;
     }
 
     public override void Write(Utf8JsonWriter writer, CLocation value, JsonSerializerOptions options)
     {
-        if (value.IsSystem)
+        if (value.IsNull)
         {
             writer.WriteNullValue();
         }

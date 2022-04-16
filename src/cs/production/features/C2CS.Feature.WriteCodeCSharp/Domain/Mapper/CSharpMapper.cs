@@ -526,7 +526,7 @@ public sealed class CSharpMapper
         var originalCodeLocationComment = OriginalCodeLocationComment(typedef);
         var underlyingTypeC = CType(context, typedef.UnderlyingType);
         var typeC = CType(context, typedef.Name);
-        if (typeC.Location.IsSystem && underlyingTypeC.Location.IsSystem)
+        if (typeC.Location.IsNull && underlyingTypeC.Location.IsNull)
         {
             var diagnostic = new SystemTypedefDiagnostic(name, typedef.Location, underlyingTypeC.Name);
             _parameters.DiagnosticsSink.Add(diagnostic);
@@ -896,7 +896,7 @@ var x = {value};
             var parameterTypeC = CType(context, typeNameC);
             var parameterTypeCSharp = Type(context, parameterTypeC);
 
-            if (parameterTypeC.Name == "void" && parameterTypeC.Location.IsSystem)
+            if (parameterTypeC.Name == "void" && parameterTypeC.Location.IsNull)
             {
                 continue;
             }

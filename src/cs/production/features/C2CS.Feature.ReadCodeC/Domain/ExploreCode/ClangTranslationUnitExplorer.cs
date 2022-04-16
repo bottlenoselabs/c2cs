@@ -81,7 +81,7 @@ public sealed class ClangTranslationUnitExplorer
         var cursor = clang_getTranslationUnitCursor(translationUnit);
 
         var type = clang_getCursorType(cursor);
-        var location = CLocation.TranslationUnit;
+        var location = CLocation.Null;
 
         _logger.ExploreCodeTranslationUnit(location.FileName);
         AddExplorerNode(
@@ -1493,7 +1493,7 @@ public sealed class ClangTranslationUnitExplorer
 
     private CLocation Location(ClangTranslationUnitExplorerContext context, CXCursor cursor, CXType type, bool drillDown)
     {
-        var location = FileLocation(cursor, type, drillDown);
+        var location = Location(cursor, type, drillDown);
 
         if (string.IsNullOrEmpty(location.FilePath))
         {
@@ -1513,7 +1513,7 @@ public sealed class ClangTranslationUnitExplorer
         return location;
     }
 
-    private static CLocation FileLocationTranslationUnit(
+    private static CLocation LocationInTranslationUnit(
         CXCursor declaration,
         int lineNumber,
         int columnNumber)
@@ -1531,22 +1531,36 @@ public sealed class ClangTranslationUnitExplorer
         };
     }
 
-    private static unsafe CLocation FileLocation(CXCursor cursor, CXType type, bool drillDown)
+    private static unsafe CLocation Location(CXCursor cursor, CXType type, bool drillDown)
     {
         if (cursor.kind == CXCursorKind.CXCursor_TranslationUnit)
         {
-            return CLocation.TranslationUnit;
+            return CLocation.Null;
         }
 
-        if (drillDown && type.kind == CXTypeKind.CXType_Pointer)
+        if (drillDown)
         {
-            return CLocation.Pointer;
-        }
+            if (type.kind == CXTypeKind.CXType_Pointer)
+            {
+                return CLocation.Null;
+            }
 
-        var isPrimitive = type.IsPrimitive();
-        if (drillDown && isPrimitive)
-        {
-            return CLocation.System;
+            var isPrimitive = type.IsPrimitive();
+            if (isPrimitive)
+            {
+                return CLocation.Null;
+            }
+
+            if (cursor.kind == CXCursorKind.CXCursor_TypedefDecl && type.kind == CXTypeKind.CXType_Typedef)
+            {
+                var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
+                var underlyingCursor = clang_getTypeDeclaration(underlyingType);
+                var underlyingLocation = Location(underlyingCursor, underlyingType, true);
+                if (!underlyingLocation.IsNull)
+                {
+                    return underlyingLocation;
+                }
+            }
         }
 
         var location = clang_getCursorLocation(cursor);
@@ -1560,16 +1574,18 @@ public sealed class ClangTranslationUnitExplorer
         var handle = (IntPtr)file.Data;
         if (handle == IntPtr.Zero)
         {
-            return FileLocationTranslationUnit(cursor, (int)lineNumber, (int)columnNumber);
+            return LocationInTranslationUnit(cursor, (int)lineNumber, (int)columnNumber);
         }
 
-        var fileName = clang_getFileName(file);
-        string fileNamePath = clang_getCString(fileName);
+        var clangFileName = clang_getFileName(file);
+        string fileNamePath = clang_getCString(clangFileName);
+        var fileName = Path.GetFileName(fileNamePath);
+        var fullFilePath = string.IsNullOrEmpty(fileNamePath) ? string.Empty : Path.GetFullPath(fileNamePath);
 
         return new CLocation
         {
-            FileName = Path.GetFileName(fileNamePath),
-            FilePath = string.IsNullOrEmpty(fileNamePath) ? string.Empty : Path.GetFullPath(fileNamePath),
+            FileName = fileName,
+            FilePath = fullFilePath,
             LineNumber = (int)lineNumber,
             LineColumn = (int)columnNumber
         };
