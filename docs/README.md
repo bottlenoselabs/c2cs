@@ -1,8 +1,8 @@
 # Documentation
 
-Here you will find documentation for `C2CS`:
-
 - [Documentation](#documentation)
+  - [Supported platforms](#supported-platforms)
+  - [Lessons Learned](#lessons-learned)
   - [Installing `C2CS`](#installing-c2cs)
     - [Latest release](#latest-release)
     - [Latest pre-release](#latest-pre-release)
@@ -21,6 +21,14 @@ Here you will find documentation for `C2CS`:
   - [Examples](#examples)
     - [Hello world](#hello-world)
     - [libclang](#libclang)
+
+## Supported platforms
+
+See [SUPPORTED-PLATFORMS.md](./SUPPORTED-PLATFORMS.md).
+
+## Lessons Learned
+
+See [LESSONS-LEARNED.md](./LESSONS-LEARNED.md).
 
 ## Installing `C2CS`
 
