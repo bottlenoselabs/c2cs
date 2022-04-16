@@ -4,7 +4,8 @@
     "input_file": "my_c_library/c/include/my_c_library.h",
     "platforms": {
       "aarch64-apple-darwin": {},
-      "x86_64-apple-darwin": {}
+      "x86_64-apple-darwin": {},
+      "aarch64-apple-ios": {}
     }
   },
   "cs": {
