@@ -94,6 +94,7 @@ public sealed class ClangInstaller
         var filePaths = new[]
         {
             Path.Combine(AppContext.BaseDirectory, "libclang.dylib"),
+            "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libclang.dylib", // XCode
             "/Library/Developer/CommandLineTools/usr/lib/libclang.dylib" // xcode-select --install
         };
 

@@ -14,6 +14,6 @@ public sealed class PlatformMismatchDiagnostic : Diagnostic
 
     private static string CreateMessage(TargetPlatform actualPlatform, TargetPlatform expectedPlatform)
     {
-        return $"The C library was expected to have runtime of platform '{expectedPlatform}' but the header file specified a runtime platform of '{actualPlatform}'.";
+        return $"The C header file was expected be for platform '{expectedPlatform}' but was for '{actualPlatform}'.";
     }
 }

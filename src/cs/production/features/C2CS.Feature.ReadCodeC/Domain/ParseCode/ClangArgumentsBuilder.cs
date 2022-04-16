@@ -3,6 +3,7 @@
 
 using System.Collections.Immutable;
 using System.IO.Abstractions;
+using C2CS.Foundation.UseCases.Exceptions;
 
 namespace C2CS.Feature.ReadCodeC.Domain.ParseCode;
 
@@ -129,17 +130,33 @@ public class ClangArgumentsBuilder
         {
             case NativeOperatingSystem.Windows:
             {
-                SystemIncludeDirectoriesWindowsHost(directories);
+                if (targetOperatingSystem == NativeOperatingSystem.Windows)
+                {
+                    SystemIncludeDirectoriesTargetWindows(directories);
+                }
+                else
+                {
+                    throw new NotImplementedException($"Unknown target operating system for Windows: {targetOperatingSystem}");
+                }
+
                 break;
             }
 
             case NativeOperatingSystem.macOS:
             {
-                SystemIncludesDirectoriesMacOsHost(directories);
+                // SystemIncludesDirectoriesHostMacOs(directories);
 
                 if (targetOperatingSystem == NativeOperatingSystem.macOS)
                 {
-                    SystemIncludesDirectoriesMacOsTarget(directories);
+                    SystemIncludesDirectoriesTargetMacOs(directories);
+                }
+                else if (targetOperatingSystem == NativeOperatingSystem.iOS)
+                {
+                    SystemIncludesDirectoriesTargetIPhoneOs(directories);
+                }
+                else
+                {
+                    throw new NotImplementedException($"Unknown target operating system for macOS: {targetOperatingSystem}");
                 }
 
                 break;
@@ -147,7 +164,15 @@ public class ClangArgumentsBuilder
 
             case NativeOperatingSystem.Linux:
             {
-                SystemIncludeDirectoriesLinuxHost(directories);
+                if (targetOperatingSystem == NativeOperatingSystem.Linux)
+                {
+                    SystemIncludeDirectoriesLinuxTarget(directories);
+                }
+                else
+                {
+                    throw new NotImplementedException($"Unknown target operating system for Linux: {targetOperatingSystem}");
+                }
+
                 break;
             }
         }
@@ -155,13 +180,13 @@ public class ClangArgumentsBuilder
         return directories.ToImmutable();
     }
 
-    private void SystemIncludeDirectoriesLinuxHost(ImmutableArray<string>.Builder directories)
+    private void SystemIncludeDirectoriesLinuxTarget(ImmutableArray<string>.Builder directories)
     {
         directories.Add("/usr/include");
         directories.Add("/usr/include/x86_64-linux-gnu");
     }
 
-    private void SystemIncludeDirectoriesWindowsHost(ImmutableArray<string>.Builder directories)
+    private void SystemIncludeDirectoriesTargetWindows(ImmutableArray<string>.Builder directories)
     {
         var sdkDirectoryPath =
             Environment.ExpandEnvironmentVariables(@"%ProgramFiles(x86)%\Windows Kits\10\Include");
@@ -216,7 +241,7 @@ public class ClangArgumentsBuilder
         directories.Add(mscvIncludeDirectoryPath);
     }
 
-    private void SystemIncludesDirectoriesMacOsHost(ImmutableArray<string>.Builder directories)
+    private void SystemIncludesDirectoriesHostMacOs(ImmutableArray<string>.Builder directories)
     {
         if (!_fileSystem.Directory.Exists("/Library/Developer/CommandLineTools"))
         {
@@ -237,14 +262,27 @@ public class ClangArgumentsBuilder
         directories.Add(systemIncludeCommandLineArgClang);
     }
 
-    private void SystemIncludesDirectoriesMacOsTarget(ImmutableArray<string>.Builder directories)
+    private void SystemIncludesDirectoriesTargetMacOs(ImmutableArray<string>.Builder directories)
     {
         var softwareDevelopmentKitDirectoryPath =
             "xcrun --sdk macosx --show-sdk-path".ShellCaptureOutput();
         if (!_fileSystem.Directory.Exists(softwareDevelopmentKitDirectoryPath))
         {
             throw new ClangException(
-                "Please install XCode for macOS. This will install the software development kit (SDK) which gives access to common C/C++/ObjC headers.");
+                "Please install XCode for macOS. This will install the software development kit (SDK) for macOS which gives access to common C/C++/ObjC headers.");
+        }
+
+        directories.Add($"{softwareDevelopmentKitDirectoryPath}/usr/include");
+    }
+
+    private void SystemIncludesDirectoriesTargetIPhoneOs(ImmutableArray<string>.Builder directories)
+    {
+        var softwareDevelopmentKitDirectoryPath =
+            "xcrun --sdk iphoneos --show-sdk-path".ShellCaptureOutput();
+        if (!_fileSystem.Directory.Exists(softwareDevelopmentKitDirectoryPath))
+        {
+            throw new ClangException(
+                "Please install XCode for macOS. This will install the software development kit (SDK) for iOS which gives access to common C/C++/ObjC headers.");
         }
 
         directories.Add($"{softwareDevelopmentKitDirectoryPath}/usr/include");

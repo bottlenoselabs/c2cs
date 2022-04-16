@@ -31,7 +31,7 @@
 #elif defined(__APPLE__) && defined(__MACH__)
     #if __has_include("TargetConditionals.h")
         #include <TargetConditionals.h>
-        #if TARGET_OS_MAC
+        #if TARGET_OS_OSX
             #if TARGET_CPU_X86
                 #define C2CS_RUNTIME_TARGET_PLATFORM_NAME "i686-apple-darwin"
             #elif TARGET_CPU_X86_64
