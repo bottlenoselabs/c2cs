@@ -95,10 +95,21 @@ Let's take a look at a more complicated example by adding multiple target platfo
 ```
 
 The only problem with this approach is that sometimes a Clang "target triple" may not not be available or work correctly with your version of Clang that is installed for your host operating system.
-- macOS Apple Sillicon `aarch64-apple-darwin` may not be understood in your version of Clang that is installed.
-- I found a bug where "cross-parsing" from Ubuntu 20.04 as the host `x86_64-unknown-linux-gnu` to Windows `x86_64-pc-windows-msvc` results in wrong type size information.
+
+1. The target for macOS Apple Sillicon `aarch64-apple-darwin` may not be understood in your version of Clang that is installed.
+2. Using the system headers from one operating system to target another operating system may be incorrect. For example, `uint64_t` is defined on Linux in `/usr/include/bits/stdint-uintn.h` as the following:
+```c
+typedef __uint64_t uint64_t;
+```
+This is a type alias to `/usr/include/bits/types.h`:
+```c
+typedef unsigned long int __uint64_t;
+```
+The problem is that on Windows `unsigned long int` is 4 bytes while on Linux it's 8 bytes. By using the system headers from Linux for cross-parsing Windows, the wrong type size is reported for `uint64_t` as 4 bytes.
   
-Thus, what I recommend is that different configuration files are used for each host to parse the C header `.h` file. Then use `c2cs ast -c config_ast_x.json` to generate the ASTs (abstract syntax trees) for each Clang target triple.
+The solution is to use the correct system headers. In this case to pass the Windows headers to Clang when executing on Linux as the host operating system. The issue is that access to these system headers are only generally easily available from the correct host operating system such as Windows, macOS, or Linux.
+
+Thus, what I recommend is that different configuration files are used for each host operating system to parse the C header `.h` file. Then use `c2cs ast -c config_ast_x.json` to generate the ASTs (abstract syntax trees) for each Clang target triple.
 
 `config_ast_windows.json`
 ```json
