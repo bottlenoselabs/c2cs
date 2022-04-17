@@ -8,17 +8,17 @@ using JetBrains.Annotations;
 namespace C2CS.Feature.ReadCodeC.Data;
 
 [PublicAPI]
-public sealed class ReadCodeCConfigurationAbstractSyntaxTree
+public sealed class ReadCodeCConfigurationPlatform
 {
     [JsonIgnore]
     public string? OutputFileDirectory { get; set; }
 
-    [JsonPropertyName("find_system_headers")]
-    [Json.Schema.Generation.Description("Determines whether system C/C++ headers are attempted to be found and passed to Clang. Default is `true`.")]
-    public bool? IsEnabledFindSystemHeaders { get; set; } = true;
+    [JsonPropertyName("system_include_directories")]
+    [Json.Schema.Generation.Description("The directories to search for system header files of the target platform.")]
+    public ImmutableArray<string?>? SystemIncludeDirectories { get; set; }
 
-    [JsonPropertyName("include")]
-    [Json.Schema.Generation.Description("Search directory paths to use for `#include` usages when parsing C code.")]
+    [JsonPropertyName("include_directories")]
+    [Json.Schema.Generation.Description("The directories to search for user or library header files.")]
     public ImmutableArray<string?>? IncludeDirectories { get; set; }
 
     [JsonPropertyName("defines")]

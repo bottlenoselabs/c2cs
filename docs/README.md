@@ -1,8 +1,8 @@
 # Documentation
 
-Here you will find documentation for `C2CS`:
-
 - [Documentation](#documentation)
+  - [Supported platforms](#supported-platforms)
+  - [Lessons Learned](#lessons-learned)
   - [Installing `C2CS`](#installing-c2cs)
     - [Latest release](#latest-release)
     - [Latest pre-release](#latest-pre-release)
@@ -21,6 +21,14 @@ Here you will find documentation for `C2CS`:
   - [Examples](#examples)
     - [Hello world](#hello-world)
     - [libclang](#libclang)
+
+## Supported platforms
+
+See [SUPPORTED-PLATFORMS.md](./SUPPORTED-PLATFORMS.md).
+
+## Lessons Learned
+
+See [LESSONS-LEARNED.md](./LESSONS-LEARNED.md).
 
 ## Installing `C2CS`
 
@@ -69,9 +77,9 @@ The configuration properties are documented in the schema file: https://github.c
 
 ## Cross-parsing with `C2CS`
 
-What if you want to generate bindings for each platform in one `.cs` file? Cross-parsing is the way to do that.
+What if you want to generate bindings for each platform in one `.cs` file? "Cross-parsing" is the way to do that.
 
-Let's take a look at a more complicated example by adding multiple target platforms to generate C# bindings for. (Omitting this information generates C# bindings using the host platform as the target.) Each target platform is a [Clang "target triple"](https://clang.llvm.org/docs/CrossCompilation.html) in the form of `arch-vendor-os[-environment]`. This is basically "cross-parsing" (as opposed to cross-compilation) of the C header `.h` file.
+Let's take a look at a more complicated example by adding multiple target platforms to generate C# bindings for. (Omitting this information generates C# bindings using the host platform as the target.) Each target platform is a [Clang "target triple"](https://clang.llvm.org/docs/CrossCompilation.html) in the form of `arch-vendor-os[-environment]`. This instructs Clang that we want to cross-compile the C header `.h` file.
 
 ```json
 {
@@ -94,22 +102,9 @@ Let's take a look at a more complicated example by adding multiple target platfo
 }
 ```
 
-The only problem with this approach is that sometimes a Clang "target triple" may not not be available or work correctly with your version of Clang that is installed for your host operating system.
+There is a problem with this though; all the system headers not being generally available for cross compilation as explained here [SUPPORTED-PLATFORMS.md#restrictive-or-closed-source-system-headers](./SUPPORTED-PLATFORMS.md#restrictive-or-closed-source-system-headers).
 
-1. The target for macOS Apple Sillicon `aarch64-apple-darwin` may not be understood in your version of Clang that is installed.
-2. Using the system headers from one operating system to target another operating system may be incorrect. For example, `uint64_t` is defined on Linux in `/usr/include/bits/stdint-uintn.h` as the following:
-```c
-typedef __uint64_t uint64_t;
-```
-This is a type alias to `/usr/include/bits/types.h`:
-```c
-typedef unsigned long int __uint64_t;
-```
-The problem is that on Windows `unsigned long int` is 4 bytes while on Linux it's 8 bytes. By using the system headers from Linux for cross-parsing Windows, the wrong type size is reported for `uint64_t` as 4 bytes.
-  
-The solution is to use the correct system headers. In this case to pass the Windows headers to Clang when executing on Linux as the host operating system. The issue is that access to these system headers are only generally easily available from the correct host operating system such as Windows, macOS, or Linux.
-
-Thus, what I recommend is that different configuration files are used for each host operating system to parse the C header `.h` file. Then use `c2cs ast -c config_ast_x.json` to generate the ASTs (abstract syntax trees) for each Clang target triple.
+What is recommended is that different configuration files are used for each host operating system where the system headers are available. Use `c2cs ast -c config_ast_x.json` with one the files below for each operating system.
 
 `config_ast_windows.json`
 ```json
@@ -135,8 +130,7 @@ Thus, what I recommend is that different configuration files are used for each h
     "input_file": "path/to/my_c_library/include/my_c_library.h",
     "platforms": {
       "aarch64-apple-darwin": {},
-      "x86_64-apple-darwin": {},
-      "aarch64-apple-ios": {}
+      "x86_64-apple-darwin": {}
     }
   }
 }
@@ -151,14 +145,13 @@ Thus, what I recommend is that different configuration files are used for each h
     "input_file": "path/to/my_c_library/include/my_c_library.h",
     "platforms": {
       "aarch64-unknown-linux-gnu": {},
-      "x86_64-unknown-linux-gnu": {},
-      "aarch64-linux-android": {}
+      "x86_64-unknown-linux-gnu": {}
     }
   }
 }
 ```
 
-Once the AST files are generated, move them all over to any operating system and generate the C# bindings for all of them at once using `c2cs cs -c config_cs.json`.
+Once the AST files are generated, move or copy them all over to any operating system and generate the C# bindings for all of them at once using `c2cs cs -c config_cs.json`.
 
 `config_cs.json`
 ```json

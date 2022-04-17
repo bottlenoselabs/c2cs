@@ -41,7 +41,7 @@
             #else
                 #error "Failed to determine runtime platform name: Unknown computer architecture for macOS."
             #endif
-        #elif TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
+        #elif TARGET_OS_IOS
             #if TARGET_CPU_X86_64
                 #define C2CS_RUNTIME_TARGET_PLATFORM_NAME "x86_64-apple-ios"
             #elif TARGET_CPU_ARM64

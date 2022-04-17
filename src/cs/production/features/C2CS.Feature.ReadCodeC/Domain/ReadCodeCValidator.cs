@@ -16,33 +16,34 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         var inputFilePath = VerifyInputFilePath(configuration.InputFilePath);
 
         var optionsBuilder = ImmutableArray.CreateBuilder<ReadCodeCAbstractSyntaxTreeOptions>();
-        if (configuration.ConfigurationAbstractSyntaxTrees == null)
+        if (configuration.ConfigurationPlatforms == null)
         {
-            var abstractSyntaxTreeRequests = new Dictionary<string, ReadCodeCConfigurationAbstractSyntaxTree?>();
+            var abstractSyntaxTreeRequests = new Dictionary<string, ReadCodeCConfigurationPlatform?>();
             var targetPlatform = Native.Platform;
             abstractSyntaxTreeRequests.Add(targetPlatform.ToString(), null);
-            configuration.ConfigurationAbstractSyntaxTrees = abstractSyntaxTreeRequests;
+            configuration.ConfigurationPlatforms = abstractSyntaxTreeRequests;
         }
 
-        foreach (var (targetPlatformString, configurationAbstractSyntaxTree) in configuration.ConfigurationAbstractSyntaxTrees)
+        foreach (var (targetPlatformString, configurationPlatform) in configuration.ConfigurationPlatforms)
         {
             var targetPlatform = VerifyTargetPlatform(targetPlatformString);
             var outputFilePath = VerifyOutputFilePath(
-                configurationAbstractSyntaxTree?.OutputFileDirectory ?? configuration.OutputFileDirectory, targetPlatform);
-            var isEnabledFindSystemHeaders = configurationAbstractSyntaxTree?.IsEnabledFindSystemHeaders ?? true;
+                configurationPlatform?.OutputFileDirectory ?? configuration.OutputFileDirectory, targetPlatform);
+            var systemIncludeDirectories =
+                VerifyImmutableArray(configurationPlatform?.SystemIncludeDirectories);
             var includeDirectories =
-                VerifyIncludeDirectories(configurationAbstractSyntaxTree?.IncludeDirectories, inputFilePath);
-            var excludedHeaderFiles = VerifyImmutableArray(configurationAbstractSyntaxTree?.ExcludedHeaderFiles);
-            var opaqueTypeNames = VerifyImmutableArray(configurationAbstractSyntaxTree?.OpaqueTypeNames);
-            var functionNamesWhitelist = VerifyImmutableArray(configurationAbstractSyntaxTree?.FunctionNamesWhiteList);
-            var clangDefines = VerifyImmutableArray(configurationAbstractSyntaxTree?.Defines);
-            var clangArguments = VerifyImmutableArray(configurationAbstractSyntaxTree?.ClangArguments);
+                VerifyIncludeDirectories(configurationPlatform?.IncludeDirectories, inputFilePath);
+            var excludedHeaderFiles = VerifyImmutableArray(configurationPlatform?.ExcludedHeaderFiles);
+            var opaqueTypeNames = VerifyImmutableArray(configurationPlatform?.OpaqueTypeNames);
+            var functionNamesWhitelist = VerifyImmutableArray(configurationPlatform?.FunctionNamesWhiteList);
+            var clangDefines = VerifyImmutableArray(configurationPlatform?.Defines);
+            var clangArguments = VerifyImmutableArray(configurationPlatform?.ClangArguments);
 
             var inputAbstractSyntaxTree = new ReadCodeCAbstractSyntaxTreeOptions
             {
                 TargetPlatform = targetPlatform,
                 OutputFilePath = outputFilePath,
-                IsEnabledFindSystemHeaders = isEnabledFindSystemHeaders,
+                SystemIncludeDirectories = systemIncludeDirectories,
                 IncludeDirectories = includeDirectories,
                 ExcludedHeaderFiles = excludedHeaderFiles,
                 OpaqueTypeNames = opaqueTypeNames,

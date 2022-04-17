@@ -71,9 +71,9 @@ public sealed class ConfigurationJsonSerializer
             requestExtractC.OutputFileDirectory = configuration.InputOutputFileDirectory;
         }
 
-        if (requestExtractC.ConfigurationAbstractSyntaxTrees != null)
+        if (requestExtractC.ConfigurationPlatforms != null)
         {
-            foreach (var (_, extractAbstractSyntaxTreeC) in requestExtractC.ConfigurationAbstractSyntaxTrees)
+            foreach (var (_, extractAbstractSyntaxTreeC) in requestExtractC.ConfigurationPlatforms)
             {
                 if (extractAbstractSyntaxTreeC != null)
                 {
@@ -90,7 +90,7 @@ public sealed class ConfigurationJsonSerializer
     }
 
     private static void PolyfillExtractAbstractSyntaxTreeC(
-        Configuration configuration, ReadCodeCConfigurationAbstractSyntaxTree extract)
+        Configuration configuration, ReadCodeCConfigurationPlatform extract)
     {
         if (string.IsNullOrEmpty(extract.OutputFileDirectory))
         {

@@ -46,12 +46,12 @@ public record struct TargetPlatform(string TargetName)
     #region Windows
 
     /// <summary>
-    ///     x86 Windows (32-bit, Windows 7+) using Microsoft's compiler and linker.
+    ///     X86 Windows (32-bit, Windows 7+) using Microsoft's compiler and linker.
     /// </summary>
     public static readonly TargetPlatform i686_pc_windows_msvc = new("i686-pc-windows-msvc");
 
     /// <summary>
-    ///     x64 Windows (64-bit, Windows 7+) using Microsoft's compiler and linker.
+    ///     X64 Windows (64-bit, Windows 7+) using Microsoft's compiler and linker.
     /// </summary>
     public static readonly TargetPlatform x86_64_pc_windows_msvc = new("x86_64-pc-windows-msvc");
 
@@ -61,12 +61,12 @@ public record struct TargetPlatform(string TargetName)
     public static readonly TargetPlatform aarch64_pc_windows_msvc = new("aarch64-pc-windows-msvc");
 
     /// <summary>
-    ///     x86 Windows (32-bit, Windows 7+) using GNU's Compiler Collection (GCC).
+    ///     X86 Windows (32-bit, Windows 7+) using GNU's Compiler Collection (GCC).
     /// </summary>
     public static readonly TargetPlatform i686_pc_windows_gnu = new("i686-pc-windows-gnu");
 
     /// <summary>
-    ///     x64 Windows (64-bit, Windows 7+) using GNU's Compiler Collection (GCC).
+    ///     X64 Windows (64-bit, Windows 7+) using GNU's Compiler Collection (GCC).
     /// </summary>
     public static readonly TargetPlatform x86_64_pc_windows_gnu = new("x86_64-pc-windows-gnu");
 
@@ -80,12 +80,12 @@ public record struct TargetPlatform(string TargetName)
     #region Linux
 
     /// <summary>
-    ///     x86 Linux (32-bit, kernel 2.6.32+, glibc 2.11+).
+    ///     X86 Linux (32-bit, kernel 2.6.32+, glibc 2.11+).
     /// </summary>
     public static readonly TargetPlatform i686_unknown_linux_gnu = new("i686-unknown-linux-gnu");
 
     /// <summary>
-    ///     x64 Linux (64-bit, kernel 2.6.32+, glibc 2.11+).
+    ///     X64 Linux (64-bit, kernel 2.6.32+, glibc 2.11+).
     /// </summary>
     public static readonly TargetPlatform x86_64_unknown_linux_gnu = new("x86_64-unknown-linux-gnu");
 
@@ -99,12 +99,12 @@ public record struct TargetPlatform(string TargetName)
     #region macOS
 
     /// <summary>
-    ///     x86 macOS (32-bit, 10.7+, Lion+).
+    ///     X86 macOS (32-bit, 10.7+, Lion+).
     /// </summary>
     public static readonly TargetPlatform i686_apple_darwin = new("i686-apple-darwin");
 
     /// <summary>
-    ///     x64 macOS (64-bit, 10.7+, Lion+).
+    ///     X64 macOS (64-bit, 10.7+, Lion+).
     /// </summary>
     public static readonly TargetPlatform x86_64_apple_darwin = new("x86_64-apple-darwin");
 
@@ -128,7 +128,7 @@ public record struct TargetPlatform(string TargetName)
     public static readonly TargetPlatform aarch64_apple_ios_sim = new("aarch64-apple-ios-sim");
 
     /// <summary>
-    ///     x64 iOS (64-bit).
+    ///     X64 iOS (64-bit).
     /// </summary>
     public static readonly TargetPlatform x86_64_apple_ios = new("x86_64-apple-ios");
 
@@ -140,6 +140,21 @@ public record struct TargetPlatform(string TargetName)
     ///     ARM64 Android (64-bit).
     /// </summary>
     public static readonly TargetPlatform aarch64_linux_android = new("aarch64-linux-android");
+
+    /// <summary>
+    ///     ARM32 (ARMv7) Android (32-bit).
+    /// </summary>
+    public static readonly TargetPlatform arm_linux_androideabi = new("arm-linux-androideabi");
+
+    /// <summary>
+    ///     X86 Android (32-bit).
+    /// </summary>
+    public static readonly TargetPlatform i686_linux_android = new("i686-linux-android");
+
+    /// <summary>
+    ///     X64 Android (64-bit).
+    /// </summary>
+    public static readonly TargetPlatform x86_64_linux_android = new("x86_64-linux-android");
 
     #endregion
 

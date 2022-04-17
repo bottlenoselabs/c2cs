@@ -7,13 +7,13 @@ namespace C2CS.Feature.ReadCodeC.Domain.ExploreCode.Diagnostics;
 
 public sealed class PlatformMismatchDiagnostic : Diagnostic
 {
-    public PlatformMismatchDiagnostic(TargetPlatform actualPlatform, TargetPlatform expectedPlatform)
-        : base(DiagnosticSeverity.Error, CreateMessage(actualPlatform, expectedPlatform))
+    public PlatformMismatchDiagnostic(TargetPlatform actual, TargetPlatform expected)
+        : base(DiagnosticSeverity.Error, CreateMessage(actual, expected))
     {
     }
 
-    private static string CreateMessage(TargetPlatform actualPlatform, TargetPlatform expectedPlatform)
+    private static string CreateMessage(TargetPlatform actual, TargetPlatform expected)
     {
-        return $"The C header file was expected be for platform '{expectedPlatform}' but was for '{actualPlatform}'.";
+        return $"The C header file was expected be for platform '{expected}' but was for '{actual}'.";
     }
 }
