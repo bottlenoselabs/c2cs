@@ -39,7 +39,7 @@ public sealed class ReadCodeCUseCase : UseCase<
         {
             var translationUnit = Parse(
                 input.InputFilePath,
-                options.IsEnabledFindSystemHeaders,
+                options.SystemIncludeDirectories,
                 options.IncludeDirectories,
                 options.ClangDefines,
                 options.TargetPlatform,
@@ -78,8 +78,8 @@ public sealed class ReadCodeCUseCase : UseCase<
 
     private CXTranslationUnit? Parse(
         string inputFilePath,
-        bool automaticallyFindSystemHeaders,
-        ImmutableArray<string> includeDirectories,
+        ImmutableArray<string> systemIncludeDirectories,
+        ImmutableArray<string> userIncludeDirectories,
         ImmutableArray<string> defines,
         TargetPlatform targetPlatform,
         ImmutableArray<string> clangArguments)
@@ -89,8 +89,9 @@ public sealed class ReadCodeCUseCase : UseCase<
         var clangArgumentsBuilder = _services.GetService<ClangArgumentsBuilder>()!;
 
         var arguments = clangArgumentsBuilder.Build(
-            automaticallyFindSystemHeaders,
-            includeDirectories,
+            Diagnostics,
+            systemIncludeDirectories,
+            userIncludeDirectories,
             defines,
             targetPlatform,
             clangArguments);

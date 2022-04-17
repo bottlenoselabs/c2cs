@@ -39,11 +39,6 @@ public abstract class CSharpNode : IEquatable<CSharpNode>
         }
 
         var result = Name == other.Name && SizeOf == other.SizeOf;
-        if (!result)
-        {
-            Console.WriteLine();
-        }
-
         return result;
     }
 

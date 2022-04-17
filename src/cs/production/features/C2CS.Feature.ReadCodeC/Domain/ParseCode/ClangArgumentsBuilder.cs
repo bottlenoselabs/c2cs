@@ -3,7 +3,8 @@
 
 using System.Collections.Immutable;
 using System.IO.Abstractions;
-using C2CS.Foundation.UseCases.Exceptions;
+using C2CS.Feature.ReadCodeC.Domain.ParseCode.Diagnostics;
+using C2CS.Foundation.Diagnostics;
 
 namespace C2CS.Feature.ReadCodeC.Domain.ParseCode;
 
@@ -17,8 +18,9 @@ public class ClangArgumentsBuilder
     }
 
     public ImmutableArray<string>? Build(
-        bool automaticallyFindSystemHeaders,
-        ImmutableArray<string> includeDirectories,
+        DiagnosticsSink diagnostics,
+        ImmutableArray<string> systemIncludeDirectories,
+        ImmutableArray<string> userIncludeDirectories,
         ImmutableArray<string> defines,
         TargetPlatform targetPlatform,
         ImmutableArray<string> additionalArgs)
@@ -26,16 +28,11 @@ public class ClangArgumentsBuilder
         var args = ImmutableArray.CreateBuilder<string>();
 
         AddDefaults(args, targetPlatform);
-        AddUserIncludes(args, includeDirectories);
+        AddUserIncludeDirectories(args, userIncludeDirectories);
         AddDefines(args, defines);
         AddTargetTriple(args, targetPlatform);
         AddAdditionalArgs(args, additionalArgs);
-
-        if (automaticallyFindSystemHeaders)
-        {
-            var systemIncludeDirectories = SystemIncludeDirectories(targetPlatform);
-            AddSystemIncludeDirectories(args, systemIncludeDirectories);
-        }
+        AddSystemIncludeDirectories(args, targetPlatform, systemIncludeDirectories, diagnostics);
 
         return args.ToImmutable();
     }
@@ -63,7 +60,7 @@ public class ClangArgumentsBuilder
         args.Add("-fno-blocks");
     }
 
-    private void AddUserIncludes(
+    private void AddUserIncludeDirectories(
         ImmutableArray<string>.Builder args, ImmutableArray<string> includeDirectories)
     {
         if (includeDirectories.IsDefaultOrEmpty)
@@ -106,16 +103,42 @@ public class ClangArgumentsBuilder
     }
 
     private void AddSystemIncludeDirectories(
-        ImmutableArray<string>.Builder args, ImmutableArray<string> directories)
+        ImmutableArray<string>.Builder args,
+        TargetPlatform targetPlatform,
+        ImmutableArray<string> directories,
+        DiagnosticsSink diagnostics)
     {
-        foreach (var directory in directories)
+        ImmutableArray<string> systemIncludeDirectories;
+        if (directories.IsDefaultOrEmpty)
         {
-            if (!_fileSystem.Directory.Exists(directory))
-            {
-                continue;
-            }
+            systemIncludeDirectories = SystemIncludeDirectories(targetPlatform);
+        }
+        else
+        {
+            systemIncludeDirectories = directories;
+        }
 
-            args.Add($"-isystem{directory}");
+        var builder = ImmutableArray.CreateBuilder<string>();
+        foreach (var directory in systemIncludeDirectories)
+        {
+            if (_fileSystem.Directory.Exists(directory))
+            {
+                builder.Add(directory);
+            }
+        }
+
+        var systemIncludeDirectoriesThatExist = builder.ToImmutableArray();
+        if (systemIncludeDirectoriesThatExist.IsDefaultOrEmpty)
+        {
+            var diagnostic = new MissingSystemHeadersDiagnostic(targetPlatform);
+            diagnostics.Add(diagnostic);
+        }
+        else
+        {
+            foreach (var directory in systemIncludeDirectoriesThatExist)
+            {
+                args.Add($"-isystem{directory}");
+            }
         }
     }
 
@@ -134,29 +157,19 @@ public class ClangArgumentsBuilder
                 {
                     SystemIncludeDirectoriesTargetWindows(directories);
                 }
-                else
-                {
-                    throw new NotImplementedException($"Unknown target operating system for Windows: {targetOperatingSystem}");
-                }
 
                 break;
             }
 
             case NativeOperatingSystem.macOS:
             {
-                // SystemIncludesDirectoriesHostMacOs(directories);
-
                 if (targetOperatingSystem == NativeOperatingSystem.macOS)
                 {
-                    SystemIncludesDirectoriesTargetMacOs(directories);
+                    SystemIncludesDirectoriesTargetMac(directories);
                 }
                 else if (targetOperatingSystem == NativeOperatingSystem.iOS)
                 {
-                    SystemIncludesDirectoriesTargetIPhoneOs(directories);
-                }
-                else
-                {
-                    throw new NotImplementedException($"Unknown target operating system for macOS: {targetOperatingSystem}");
+                    SystemIncludesDirectoriesTargetIPhone(directories);
                 }
 
                 break;
@@ -166,11 +179,7 @@ public class ClangArgumentsBuilder
             {
                 if (targetOperatingSystem == NativeOperatingSystem.Linux)
                 {
-                    SystemIncludeDirectoriesLinuxTarget(directories);
-                }
-                else
-                {
-                    throw new NotImplementedException($"Unknown target operating system for Linux: {targetOperatingSystem}");
+                    SystemIncludeDirectoriesTargetLinux(directories);
                 }
 
                 break;
@@ -180,7 +189,7 @@ public class ClangArgumentsBuilder
         return directories.ToImmutable();
     }
 
-    private void SystemIncludeDirectoriesLinuxTarget(ImmutableArray<string>.Builder directories)
+    private void SystemIncludeDirectoriesTargetLinux(ImmutableArray<string>.Builder directories)
     {
         directories.Add("/usr/include");
         directories.Add("/usr/include/x86_64-linux-gnu");
@@ -262,7 +271,7 @@ public class ClangArgumentsBuilder
         directories.Add(systemIncludeCommandLineArgClang);
     }
 
-    private void SystemIncludesDirectoriesTargetMacOs(ImmutableArray<string>.Builder directories)
+    private void SystemIncludesDirectoriesTargetMac(ImmutableArray<string>.Builder directories)
     {
         var softwareDevelopmentKitDirectoryPath =
             "xcrun --sdk macosx --show-sdk-path".ShellCaptureOutput();
@@ -275,7 +284,7 @@ public class ClangArgumentsBuilder
         directories.Add($"{softwareDevelopmentKitDirectoryPath}/usr/include");
     }
 
-    private void SystemIncludesDirectoriesTargetIPhoneOs(ImmutableArray<string>.Builder directories)
+    private void SystemIncludesDirectoriesTargetIPhone(ImmutableArray<string>.Builder directories)
     {
         var softwareDevelopmentKitDirectoryPath =
             "xcrun --sdk iphoneos --show-sdk-path".ShellCaptureOutput();

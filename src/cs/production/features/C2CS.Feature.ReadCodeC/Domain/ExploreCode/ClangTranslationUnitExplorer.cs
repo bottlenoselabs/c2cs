@@ -82,8 +82,9 @@ public sealed class ClangTranslationUnitExplorer
 
         var type = clang_getCursorType(cursor);
         var location = CLocation.Null;
+        var filePath = cursor.Name(); // name of translation unit cursor is the file path
 
-        _logger.ExploreCodeTranslationUnit(location.FileName);
+        _logger.ExploreCodeTranslationUnit(filePath);
         AddExplorerNode(
             context,
             CKind.TranslationUnit,
@@ -522,11 +523,6 @@ public sealed class ClangTranslationUnitExplorer
         CLocation location,
         ClangTranslationUnitExplorerNode parentNode)
     {
-        if (typeName == "my_enum_week_day")
-        {
-            Console.WriteLine();
-        }
-
         if (context.Names.Contains(typeName))
         {
             return;

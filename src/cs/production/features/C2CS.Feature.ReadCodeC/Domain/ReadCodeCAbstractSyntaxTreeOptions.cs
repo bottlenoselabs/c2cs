@@ -9,9 +9,9 @@ public sealed class ReadCodeCAbstractSyntaxTreeOptions
 {
     public string OutputFilePath { get; init; } = string.Empty;
 
-    public bool IsEnabledFindSystemHeaders { get; init; }
-
     public TargetPlatform TargetPlatform { get; init; }
+
+    public ImmutableArray<string> SystemIncludeDirectories { get; init; }
 
     public ImmutableArray<string> IncludeDirectories { get; init; }
 
