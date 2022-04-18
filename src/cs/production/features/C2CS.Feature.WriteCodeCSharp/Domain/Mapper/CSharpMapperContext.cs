@@ -12,8 +12,10 @@ public class CSharpMapperContext
     public readonly TargetPlatform Platform;
 
     public readonly ImmutableDictionary<string, CType> TypesByName;
+    public readonly ImmutableDictionary<string, CUnion> UnionsByName;
 
-    public CSharpMapperContext(TargetPlatform platform, ImmutableArray<CType> types)
+    public CSharpMapperContext(
+        TargetPlatform platform, ImmutableArray<CType> types, ImmutableArray<CUnion> unions)
     {
         Platform = platform;
 
@@ -24,5 +26,13 @@ public class CSharpMapperContext
         }
 
         TypesByName = typesByNameBuilder.ToImmutable();
+
+        var unionsByNameBuilder = ImmutableDictionary.CreateBuilder<string, CUnion>();
+        foreach (var union in unions)
+        {
+            unionsByNameBuilder.Add(union.Name, union);
+        }
+
+        UnionsByName = unionsByNameBuilder.ToImmutable();
     }
 }

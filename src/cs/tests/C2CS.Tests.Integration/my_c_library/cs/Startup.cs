@@ -10,7 +10,7 @@ public static class Startup
 {
     public static void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton<ExtractAbstractSyntaxTreeCFixture>();
-        services.AddSingleton<BindgenCSharpFixture>();
+        services.AddSingleton<ReadCodeCFixture>();
+        services.AddSingleton<WriteCodeCSharpFixture>();
     }
 }

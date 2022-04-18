@@ -281,12 +281,12 @@ public struct {functionPointerName}
 
         foreach (var @struct in structs)
         {
-            var member = EmitStruct(@struct);
+            var member = Struct(@struct);
             members.Add(member);
         }
     }
 
-    private StructDeclarationSyntax EmitStruct(CSharpStruct @struct, bool isNested = false)
+    private StructDeclarationSyntax Struct(CSharpStruct @struct, bool isNested = false)
     {
         var memberSyntaxes = StructMembers(
             @struct.Name, @struct.Fields, @struct.NestedStructs);
@@ -318,10 +318,13 @@ public struct {@struct.Name}
     {
         var builder = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
 
-        foreach (var field in fields)
+        for (var index = 0; index < fields.Length; index++)
         {
+            var field = fields[index];
+
             if (!field.Type.IsArray)
             {
+                var isLastField = index == fields.Length;
                 var fieldMember = StructField(field);
                 builder.Add(fieldMember);
             }
@@ -338,7 +341,7 @@ public struct {@struct.Name}
 
         foreach (var nestedStruct in nestedStructs)
         {
-            var syntax = EmitStruct(nestedStruct, true);
+            var syntax = Struct(nestedStruct, true);
             builder.Add(syntax);
         }
 

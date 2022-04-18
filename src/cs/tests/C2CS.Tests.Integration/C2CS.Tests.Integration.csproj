@@ -6,6 +6,8 @@
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
         <RootNamespace>C2CS.IntegrationTests</RootNamespace>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
+        <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
         <NoWarn>$(NoWarn);CA1707;CA2000;SA1300;IDE1006;CA1034;CA1051;CA1062;CA1724</NoWarn>
     </PropertyGroup>
 
@@ -34,10 +36,10 @@
     <!-- Copy C code files-->
     <ItemGroup>
         <Content Include="my_c_library/c/**/*">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Content Include="my_c_library/config*.json">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
 

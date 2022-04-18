@@ -16,16 +16,16 @@ public class CType
     [JsonPropertyName("kind")]
     public CKind Kind { get; set; } = CKind.Unknown;
 
-    [JsonPropertyName("sizeOf")]
+    [JsonPropertyName("size_of")]
     public int SizeOf { get; set; }
 
-    [JsonPropertyName("alignOf")]
+    [JsonPropertyName("align_of")]
     public int? AlignOf { get; set; }
 
-    [JsonPropertyName("sizeOfElement")]
+    [JsonPropertyName("size_of_element")]
     public int? ElementSize { get; set; }
 
-    [JsonPropertyName("arraySize")]
+    [JsonPropertyName("array_size")]
     public int? ArraySize { get; set; }
 
     [JsonPropertyName("location")]

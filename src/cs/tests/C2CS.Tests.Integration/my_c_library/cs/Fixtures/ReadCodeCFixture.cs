@@ -5,16 +5,14 @@ using System;
 using System.Collections.Immutable;
 using C2CS.Data.Serialization;
 using C2CS.Feature.ReadCodeC;
-using C2CS.Feature.ReadCodeC.Data;
 using C2CS.Feature.ReadCodeC.Data.Model;
 using C2CS.Feature.ReadCodeC.Data.Serialization;
 using C2CS.Feature.ReadCodeC.Domain;
-using C2CS.Serialization;
 using Xunit;
 
 namespace C2CS.IntegrationTests.my_c_library.Fixtures;
 
-public sealed class ExtractAbstractSyntaxTreeCFixture
+public sealed class ReadCodeCFixture
 {
     public readonly ImmutableArray<AbstractSyntaxTreeFixtureData> AbstractSyntaxTrees;
 
@@ -23,9 +21,11 @@ public sealed class ExtractAbstractSyntaxTreeCFixture
         public ImmutableDictionary<string, CFunction> FunctionsByName { get; init; } = ImmutableDictionary<string, CFunction>.Empty;
 
         public ImmutableDictionary<string, CEnum> EnumsByName { get; init; } = ImmutableDictionary<string, CEnum>.Empty;
+
+        public ImmutableDictionary<string, CStruct> StructsByName { get; init; } = ImmutableDictionary<string, CStruct>.Empty;
     }
 
-    public ExtractAbstractSyntaxTreeCFixture(
+    public ReadCodeCFixture(
         ReadCodeCUseCase useCase,
         CJsonSerializer cJsonSerializer,
         ConfigurationJsonSerializer configurationJsonSerializer)
@@ -63,11 +63,13 @@ public sealed class ExtractAbstractSyntaxTreeCFixture
             var ast = cJsonSerializer.Read(options.OutputFilePath);
             var functionsByName = ast.Functions.ToImmutableDictionary(x => x.Name, x => x);
             var enumsByName = ast.Enums.ToImmutableDictionary(x => x.Name, x => x);
+            var structsByName = ast.Structs.ToImmutableDictionary(x => x.Name);
 
             var data = new AbstractSyntaxTreeFixtureData
             {
                 FunctionsByName = functionsByName,
-                EnumsByName = enumsByName
+                EnumsByName = enumsByName,
+                StructsByName = structsByName
             };
 
             builder.Add(data);
@@ -82,7 +84,7 @@ public sealed class ExtractAbstractSyntaxTreeCFixture
 
         foreach (var abstractSyntaxTree in AbstractSyntaxTrees)
         {
-            Assert.True(abstractSyntaxTree.FunctionsByName.TryGetValue("c2cs_get_runtime_platform_name", out var function));
+            Assert.True(abstractSyntaxTree.FunctionsByName.TryGetValue("pinvoke_get_platform_name", out var function));
             Assert.Equal(CFunctionCallingConvention.Cdecl, function!.CallingConvention);
             Assert.Equal("char*", function.ReturnType);
             Assert.True(function.Parameters.IsDefaultOrEmpty);

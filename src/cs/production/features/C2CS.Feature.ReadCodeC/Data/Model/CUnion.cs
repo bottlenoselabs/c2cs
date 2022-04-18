@@ -8,24 +8,26 @@ using System.Text.Json.Serialization;
 namespace C2CS.Feature.ReadCodeC.Data.Model;
 
 // NOTE: Properties are required for System.Text.Json serialization
-public record CFunctionPointer : CNodeWithLocation
+public record CUnion : CNodeWithLocation
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonPropertyName("type")]
-    public string Type { get; set; } = string.Empty;
+    [JsonPropertyName("parent_name")]
+    public string ParentName { get; set; } = string.Empty;
 
-    [JsonPropertyName("return_type")]
-    public string ReturnType { get; set; } = string.Empty;
+    [JsonPropertyName("size_of")]
+    public int SizeOf { get; set; }
 
-    [JsonPropertyName("parameters")]
-    public ImmutableArray<CFunctionPointerParameter> Parameters { get; set; } =
-        ImmutableArray<CFunctionPointerParameter>.Empty;
+    [JsonPropertyName("align_of")]
+    public int AlignOf { get; set; }
+
+    [JsonPropertyName("fields")]
+    public ImmutableArray<CUnionField> Fields { get; set; } = ImmutableArray<CUnionField>.Empty;
 
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {
-        return $"FunctionPointer {Type} @ {Location}";
+        return $"Union {Name} @ {Location}";
     }
 }

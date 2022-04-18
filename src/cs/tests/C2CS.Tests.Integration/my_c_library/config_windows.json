@@ -2,6 +2,8 @@
   "directory": "my_c_library/c/ast",
   "ast": {
     "input_file": "my_c_library/c/include/my_c_library.h",
+    "include_directories": [
+      "../../../../src/c/production/C2CS/include"],
     "platforms": {
       "aarch64-pc-windows-msvc": {},
       "x86_64-pc-windows-msvc": {}

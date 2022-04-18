@@ -3,7 +3,6 @@
 
 using System.Collections.Immutable;
 using System.Diagnostics;
-using C2CS.Feature.ReadCodeC.Data;
 using C2CS.Feature.ReadCodeC.Data.Model;
 using C2CS.Feature.ReadCodeC.Domain.ExploreCode.Diagnostics;
 using C2CS.Foundation.UseCases.Exceptions;
@@ -51,7 +50,8 @@ public sealed class ClangTranslationUnitExplorer
 
         var functions = context.Functions.ToImmutableArray();
         var functionPointers = context.FunctionPointers.ToImmutableArray();
-        var records = context.Records.ToImmutableArray();
+        var unions = context.Unions.ToImmutableArray();
+        var structs = context.Structs.ToImmutableArray();
         var enums = context.Enums.ToImmutableArray();
         var opaqueTypes = context.OpaqueDataTypes.ToImmutableArray();
         var typedefs = context.Typedefs.ToImmutableArray();
@@ -64,7 +64,8 @@ public sealed class ClangTranslationUnitExplorer
             Platform = context.TargetPlatform,
             Functions = functions,
             FunctionPointers = functionPointers,
-            Records = records,
+            Unions = unions,
+            Structs = structs,
             Enums = enums,
             OpaqueTypes = opaqueTypes,
             Typedefs = typedefs,
@@ -120,10 +121,10 @@ public sealed class ClangTranslationUnitExplorer
                 ExploreTranslationUnit(context, node);
                 break;
             case CKind.Variable:
-                ExploreVariable(context, node.Name!, node.TypeName!, node.Cursor, node.Type, node.Location, node.Parent!);
+                ExploreVariable(context, node.CursorName!, node.TypeName!, node.Cursor, node.Type, node.Location, node.Parent!);
                 break;
             case CKind.Function:
-                ExploreFunction(context, node.Name!, node.Cursor, node.Type, node.Location, node.Parent!);
+                ExploreFunction(context, node.CursorName!, node.Cursor, node.Type, node.Location, node.Parent!);
                 break;
             case CKind.Typedef:
                 ExploreTypedef(context, node, node.Parent!);
@@ -263,17 +264,17 @@ public sealed class ClangTranslationUnitExplorer
             throw up;
         }
 
-        var name = cursor.Name();
+        var cursorName = cursor.Name();
 
         if (kind == CKind.MacroDefinition)
         {
             var location = Location(context, cursor, default, false);
-            AddExplorerNode(context, kind, location, parentNode, cursor, default, name, string.Empty);
+            AddExplorerNode(context, kind, location, parentNode, cursor, default, cursorName, string.Empty);
         }
         else
         {
             var type = clang_getCursorType(cursor);
-            var typeName = TypeName(parentNode.TypeName!, kind, type, cursor);
+            var typeName = Name(parentNode.TypeName!, kind, type, cursor);
             var location = Location(context, cursor, type, false);
 
             var isIgnored = IsIgnored(context, type, cursor);
@@ -288,7 +289,7 @@ public sealed class ClangTranslationUnitExplorer
             }
             else
             {
-                AddExplorerNode(context, kind, location, parentNode, cursor, type, name, typeName);
+                AddExplorerNode(context, kind, location, parentNode, cursor, type, cursorName, typeName);
             }
         }
     }
@@ -300,7 +301,7 @@ public sealed class ClangTranslationUnitExplorer
         var (kind, type) = TypeKind(elementType);
         var typeCursor = clang_getTypeDeclaration(type);
         var cursor = typeCursor.kind == CXCursorKind.CXCursor_NoDeclFound ? node.Cursor : typeCursor;
-        var typeName = TypeName(node.TypeName!, kind, type, typeCursor);
+        var typeName = Name(node.TypeName!, kind, type, typeCursor);
         VisitType(context, node, cursor, node.Cursor, type, typeName);
     }
 
@@ -310,13 +311,13 @@ public sealed class ClangTranslationUnitExplorer
         var pointeeType = clang_getPointeeType(node.Type);
         var (kind, type) = TypeKind(pointeeType);
         var typeCursor = clang_getTypeDeclaration(type);
-        var typeName = TypeName(node.TypeName!, kind, type, typeCursor);
+        var typeName = Name(node.TypeName!, kind, type, typeCursor);
         VisitType(context, node, typeCursor, typeCursor, type, typeName);
     }
 
     private void ExploreMacro(ClangTranslationUnitExplorerContext context, ClangTranslationUnitExplorerNode node)
     {
-        var name = node.Name!;
+        var name = node.CursorName!;
         if (context.Names.Contains(name))
         {
             var diagnostic = new MacroAlreadyExistsDiagnostic(name);
@@ -428,7 +429,7 @@ public sealed class ClangTranslationUnitExplorer
             return;
         }
 
-        if (name == "C2CS_RUNTIME_TARGET_PLATFORM_NAME")
+        if (name == "PINVOKE_TARGET_PLATFORM_NAME")
         {
             var actualPlatformName = tokens.Length != 1 ? string.Empty : tokens[0].Replace("\"", string.Empty, StringComparison.InvariantCulture);
             var actualPlatform = new TargetPlatform(actualPlatformName);
@@ -439,6 +440,11 @@ public sealed class ClangTranslationUnitExplorer
                 context.Diagnostics.Add(diagnostic);
             }
 
+            return;
+        }
+
+        if (name.StartsWith("PINVOKE_TARGET", StringComparison.InvariantCulture))
+        {
             return;
         }
 
@@ -496,7 +502,7 @@ public sealed class ClangTranslationUnitExplorer
         var callingConvention = CreateFunctionCallingConvention(type);
         var resultType = clang_getCursorResultType(cursor);
         var (kind, actualType) = TypeKind(resultType);
-        var resultTypeName = TypeName(parentNode.TypeName!, kind, actualType, cursor);
+        var resultTypeName = Name(parentNode.TypeName!, kind, actualType, cursor);
 
         VisitType(context, parentNode, cursor, cursor, resultType, resultTypeName);
 
@@ -538,7 +544,7 @@ public sealed class ClangTranslationUnitExplorer
 
         var integerType = clang_getEnumDeclIntegerType(typeCursor);
         var integerDeclaration = clang_getTypeDeclaration(integerType);
-        var integerTypeName = TypeName(parentNode.TypeName!, CKind.Enum, integerType, cursor);
+        var integerTypeName = Name(parentNode.TypeName!, CKind.Enum, integerType, cursor);
 
         VisitType(context, parentNode, integerDeclaration, cursor, integerType, integerTypeName);
 
@@ -558,7 +564,9 @@ public sealed class ClangTranslationUnitExplorer
     }
 
     private void ExploreRecord(
-        ClangTranslationUnitExplorerContext context, ClangTranslationUnitExplorerNode node, ClangTranslationUnitExplorerNode parentNode)
+        ClangTranslationUnitExplorerContext context,
+        ClangTranslationUnitExplorerNode node,
+        ClangTranslationUnitExplorerNode parentNode)
     {
         var typeName = node.TypeName!;
         var location = node.Location;
@@ -572,35 +580,51 @@ public sealed class ClangTranslationUnitExplorer
         _logger.ExploreCodeRecord(typeName);
 
         var cursor = node.Cursor;
+        var type = clang_getCursorType(cursor);
 
-        var fields = CreateRecordFields(context, typeName, cursor, parentNode);
-        var nestedNodes = CreateNestedNodes(context, typeName, cursor, node);
+        var nestedNodes = ImmutableArray<CNode>.Empty; // CreateRecordNestedNodes(context, typeName, cursor, parentNode.Cursor, node);
 
-        var nestedRecords = nestedNodes.Where(x => x is CRecord).Cast<CRecord>().ToImmutableArray();
+        var nestedRecords = nestedNodes.Where(x => x is CUnion).Cast<CUnion>().ToImmutableArray();
 
         var typeCursor = clang_getTypeDeclaration(node.Type);
         var isUnion = typeCursor.kind == CXCursorKind.CXCursor_UnionDecl;
+        var sizeOf = (int)clang_Type_getSizeOf(type);
+        var alignOf = (int)clang_Type_getAlignOf(type);
 
-        var record = new CRecord
+        if (isUnion)
         {
-            Location = location,
-            IsUnion = isUnion,
-            Name = typeName,
-            Fields = fields,
-            NestedRecords = nestedRecords
-        };
+            var fields = CreateUnionFields(context, cursor, node);
 
-        var isAnonymous = clang_Cursor_isAnonymous(typeCursor) > 0;
-        if (isAnonymous)
+            var union = new CUnion
+            {
+                Location = location,
+                Name = typeName,
+                ParentName = parentNode.TypeName ?? string.Empty,
+                Fields = fields,
+                SizeOf = sizeOf,
+                AlignOf = alignOf
+            };
+
+            context.Unions.Add(union);
+        }
+        else
         {
-            // if it's the case that the record's type is anonymous then it must be a struct/union without a name
-            //  which is already inside another struct; thus, it will be properly stored in that parent struct and
-            //  should not be added directly here
-            return;
+            var fields = CreateStructFields(context, cursor, node);
+
+            var @struct = new CStruct
+            {
+                Location = location,
+                Name = typeName,
+                ParentName = parentNode.TypeName ?? string.Empty,
+                Fields = fields,
+                SizeOf = sizeOf,
+                AlignOf = alignOf
+            };
+
+            context.Structs.Add(@struct);
         }
 
-        context.Records.Add(record);
-        context.Names.Add(record.Name);
+        context.Names.Add(typeName);
     }
 
     private void ExploreTypedef(
@@ -637,7 +661,7 @@ public sealed class ClangTranslationUnitExplorer
 
         _logger.ExploreCodeTypedef(typeName);
 
-        var aliasTypeName = TypeName(parentNode.TypeName!, aliasKind, aliasType, cursor);
+        var aliasTypeName = Name(parentNode.TypeName!, aliasKind, aliasType, cursor);
         VisitType(context, parentNode, cursor, node.Cursor, aliasType, aliasTypeName);
 
         var typedef = new CTypedef
@@ -700,7 +724,8 @@ public sealed class ClangTranslationUnitExplorer
         return isValid;
     }
 
-    private bool IsNewType(ClangTranslationUnitExplorerContext context, string typeName, CXType type, CXCursor cursor)
+    private bool IsNewType(
+        ClangTranslationUnitExplorerContext context, string typeName, CXType type, CXCursor cursor)
     {
         if (string.IsNullOrEmpty(typeName))
         {
@@ -747,7 +772,7 @@ public sealed class ClangTranslationUnitExplorer
         ClangTranslationUnitExplorerNode? parent,
         CXCursor cursor,
         CXType type,
-        string name,
+        string cursorName,
         string typeName)
     {
         if (kind != CKind.TranslationUnit &&
@@ -770,7 +795,7 @@ public sealed class ClangTranslationUnitExplorer
             parent,
             cursor,
             type,
-            name,
+            cursorName,
             typeName);
 
         if (kind == CKind.MacroDefinition)
@@ -823,7 +848,7 @@ public sealed class ClangTranslationUnitExplorer
         var name = cursor.Name();
 
         var (kind, typeActual) = TypeKind(type);
-        var typeName = TypeName(parentNode.TypeName!, kind, typeActual, cursor);
+        var typeName = Name(parentNode.TypeName!, kind, typeActual, cursor);
 
         VisitType(context, parentNode, cursor, cursor, type, typeName);
         var codeLocation = Location(context, cursor, type, false);
@@ -848,7 +873,7 @@ public sealed class ClangTranslationUnitExplorer
 
         var returnType = clang_getResultType(type);
         var (kind, actualReturnType) = TypeKind(returnType);
-        var returnTypeName = TypeName(parentNode.TypeName!, kind, actualReturnType, cursor);
+        var returnTypeName = Name(parentNode.TypeName!, kind, actualReturnType, cursor);
         VisitType(context, parentNode, cursor, cursor, returnType, returnTypeName);
 
         var name = string.Empty;
@@ -858,7 +883,7 @@ public sealed class ClangTranslationUnitExplorer
             var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
             var pointeeType = clang_getPointeeType(underlyingType);
             var functionProtoType = pointeeType.kind == CXTypeKind.CXType_Invalid ? underlyingType : pointeeType;
-            typeName = TypeName(parentNode.TypeName!, CKind.FunctionPointer, functionProtoType, cursor);
+            typeName = Name(parentNode.TypeName!, CKind.FunctionPointer, functionProtoType, cursor);
         }
 
         var functionPointer = new CFunctionPointer
@@ -903,7 +928,7 @@ public sealed class ClangTranslationUnitExplorer
         var name = cursor.Name();
 
         var (kind, actualType) = TypeKind(type);
-        var typeName = TypeName(parentNode.TypeName!, kind, actualType, cursor);
+        var typeName = Name(parentNode.TypeName!, kind, actualType, cursor);
 
         VisitType(context, parentNode, cursor, cursor, type, typeName);
 
@@ -915,120 +940,215 @@ public sealed class ClangTranslationUnitExplorer
         };
     }
 
-    private ImmutableArray<CRecordField> CreateRecordFields(
+    private ImmutableArray<CUnionField> CreateUnionFields(
         ClangTranslationUnitExplorerContext context,
-        string recordName,
-        CXCursor cursor,
+        CXCursor unionCursor,
         ClangTranslationUnitExplorerNode parentNode)
     {
-        var builder = ImmutableArray.CreateBuilder<CRecordField>();
+        var builder = ImmutableArray.CreateBuilder<CUnionField>();
 
-        var underlyingCursor = ClangUnderlyingCursor(cursor);
-
-        var type = clang_getCursorType(underlyingCursor);
-        var typeCursor = clang_getTypeDeclaration(type);
-        if (typeCursor.kind == CXCursorKind.CXCursor_UnionDecl ||
-            typeCursor.kind == CXCursorKind.CXCursor_StructDecl)
+        if (unionCursor.kind != CXCursorKind.CXCursor_UnionDecl)
         {
-            underlyingCursor = typeCursor;
+            throw new ClangException($"Expected a union cursor but found: {unionCursor.kind}");
         }
 
-        var fieldCursors = underlyingCursor.GetDescendents((child, _) =>
-            child.kind == CXCursorKind.CXCursor_FieldDecl);
+        var fieldCursors = unionCursor.GetDescendents((child, _) =>
+            child.kind is CXCursorKind.CXCursor_FieldDecl or CXCursorKind.CXCursor_UnionDecl);
 
-        foreach (var fieldCursor in fieldCursors)
+        for (var i = 0; i < fieldCursors.Length; i++)
         {
-            var recordField = CreateRecordField(context, recordName, fieldCursor, parentNode);
-            builder.Add(recordField);
+            var fieldCursor = fieldCursors[i];
+            var nextRecordField = CreateUnionField(context, parentNode, fieldCursor, i);
+            builder.Add(nextRecordField);
         }
-
-        CalculatePaddingForStructFields(context, cursor, builder);
 
         var result = builder.ToImmutable();
         return result;
     }
 
-    private void CalculatePaddingForStructFields(
+    private ImmutableArray<CStructField> CreateStructFields(
         ClangTranslationUnitExplorerContext context,
-        CXCursor cursor,
-        ImmutableArray<CRecordField>.Builder builder)
-    {
-        for (var i = 1; i < builder.Count; i++)
-        {
-            var recordField = builder[i];
-            var fieldPrevious = builder[i - 1];
-            var typeName = Value(fieldPrevious.Type);
-            var type = context.TypesByName[typeName];
-            var fieldPreviousTypeSizeOf = type.SizeOf;
-            var expectedFieldOffset = fieldPrevious.Offset + fieldPreviousTypeSizeOf;
-            var hasPadding = recordField.Offset != 0 && recordField.Offset != expectedFieldOffset;
-            if (!hasPadding)
-            {
-                continue;
-            }
-
-            var padding = recordField.Offset - expectedFieldOffset;
-            builder[i - 1].Padding = padding;
-        }
-
-        if (builder.Count >= 1)
-        {
-            var fieldLast = builder[^1];
-            var cursorType = clang_getCursorType(cursor);
-            var recordSize = (int)clang_Type_getSizeOf(cursorType);
-            var typeName = Value(fieldLast.Type);
-            var type = context.TypesByName[typeName];
-            var fieldLastTypeSize = type.SizeOf;
-            var expectedLastFieldOffset = recordSize - fieldLastTypeSize;
-            if (fieldLast.Offset != expectedLastFieldOffset)
-            {
-                var padding = expectedLastFieldOffset - fieldLast.Offset;
-                builder[^1].Padding = padding;
-            }
-        }
-    }
-
-    private string Value(string typeName)
-    {
-        if (typeName.EndsWith("*", StringComparison.InvariantCulture))
-        {
-            var pointeeTypeName = typeName.TrimEnd('*');
-            var result2 = Value(pointeeTypeName);
-            return typeName.Replace(pointeeTypeName, result2, StringComparison.InvariantCulture);
-        }
-
-        return typeName;
-    }
-
-    private CRecordField CreateRecordField(
-        ClangTranslationUnitExplorerContext context,
-        string recordName,
-        CXCursor cursor,
+        CXCursor structCursor,
         ClangTranslationUnitExplorerNode parentNode)
     {
-        var name = cursor.Name();
+        var builder = ImmutableArray.CreateBuilder<CStructField>();
+
+        var underlyingRecordCursor = ClangUnderlyingCursor(structCursor);
+        var type = clang_getCursorType(underlyingRecordCursor);
+        var typeCursor = clang_getTypeDeclaration(type);
+        if (typeCursor.kind is CXCursorKind.CXCursor_UnionDecl or CXCursorKind.CXCursor_StructDecl)
+        {
+            underlyingRecordCursor = typeCursor;
+        }
+
+        if (underlyingRecordCursor.kind != CXCursorKind.CXCursor_StructDecl)
+        {
+            throw new ClangException($"Expected a struct cursor but found: {underlyingRecordCursor.kind}");
+        }
+
+        var fieldCursors = underlyingRecordCursor.GetDescendents((child, _) =>
+            child.kind is CXCursorKind.CXCursor_FieldDecl or CXCursorKind.CXCursor_UnionDecl);
+
+        if (fieldCursors.Length > 0)
+        {
+            // Clang does not provide a way to get the padding of a field; we need to do it ourselves.
+            // To calculate the padding of a field, work backwards from the last field to the first field using the offsets and sizes reported by Clang.
+
+            var lastFieldCursor = fieldCursors[^1];
+            var lastRecordField = CreateStructField(
+                context, parentNode, lastFieldCursor, underlyingRecordCursor, fieldCursors.Length - 1, null);
+            builder.Add(lastRecordField);
+
+            for (var i = fieldCursors.Length - 2; i >= 0; i--)
+            {
+                var nextField = builder[^1];
+                var fieldCursor = fieldCursors[i];
+                var field = CreateStructField(
+                    context, parentNode, fieldCursor, underlyingRecordCursor, i, nextField);
+                builder.Add(field);
+            }
+
+            // CalculatePaddingForStructFields(cursor, builder);
+        }
+
+        builder.Reverse();
+        var result = builder.ToImmutable();
+        return result;
+    }
+
+    // private void CalculatePaddingForStructFields(
+    //     CXCursor cursor,
+    //     ImmutableArray<CUnionField>.Builder builder)
+    // {
+    //     for (var i = 1; i < builder.Count; i++)
+    //     {
+    //         var recordField = builder[i];
+    //         var fieldPrevious = builder[i - 1];
+    //         var fieldPreviousSizeOf = fieldPrevious.SizeOf;
+    //         var expectedFieldOffset = fieldPrevious.OffsetOf + fieldPreviousSizeOf;
+    //         var hasPadding = recordField.OffsetOf != 0 && recordField.OffsetOf != expectedFieldOffset;
+    //         if (!hasPadding)
+    //         {
+    //             continue;
+    //         }
+    //
+    //         var padding = recordField.OffsetOf - expectedFieldOffset;
+    //         builder[i - 1].Padding = padding;
+    //     }
+    //
+    //     if (builder.Count >= 1)
+    //     {
+    //         var fieldLast = builder[^1];
+    //         var cursorType = clang_getCursorType(cursor);
+    //         var recordSize = (int)clang_Type_getSizeOf(cursorType);
+    //         var fieldLastTypeSize = fieldLast.SizeOf;
+    //         var expectedLastFieldOffset = recordSize - fieldLastTypeSize;
+    //         if (fieldLast.OffsetOf != expectedLastFieldOffset)
+    //         {
+    //             var padding = expectedLastFieldOffset - fieldLast.OffsetOf;
+    //             builder[^1].Padding = padding;
+    //         }
+    //     }
+    // }
+
+    private CUnionField CreateUnionField(
+        ClangTranslationUnitExplorerContext context,
+        ClangTranslationUnitExplorerNode parentNode,
+        CXCursor cursor,
+        int fieldIndex)
+    {
+        var fieldName = cursor.Name();
         var type = clang_getCursorType(cursor);
         var codeLocation = Location(context, cursor, type, false);
         var (kind, actualType) = TypeKind(type);
-        var typeName = TypeName(recordName, kind, actualType, cursor);
+        var parentRecordName = parentNode.TypeName;
+        var typeName = Name(parentRecordName, kind, actualType, cursor, fieldIndex);
 
         VisitType(context, parentNode, cursor, cursor, type, typeName);
 
-        var offset = (int)(clang_Cursor_getOffsetOfField(cursor) / 8);
+        var sizeOf = (int)clang_Type_getSizeOf(type);
 
-        return new CRecordField
+        return new CUnionField
         {
-            Name = name,
+            Name = fieldName,
             Location = codeLocation,
             Type = typeName,
-            Offset = offset
+            SizeOf = sizeOf
         };
     }
 
-    private ImmutableArray<CNode> CreateNestedNodes(
+    private CStructField CreateStructField(
+        ClangTranslationUnitExplorerContext context,
+        ClangTranslationUnitExplorerNode parentNode,
+        CXCursor cursor,
+        CXCursor parentCursor,
+        int fieldIndex,
+        CStructField? nextField)
+    {
+        var fieldName = cursor.Name();
+        var type = clang_getCursorType(cursor);
+        var codeLocation = Location(context, cursor, type, false);
+        var (kind, actualType) = TypeKind(type);
+        var parentRecordName = parentNode.TypeName;
+        var typeName = Name(parentRecordName, kind, actualType, cursor, fieldIndex);
+
+        VisitType(context, parentNode, cursor, cursor, type, typeName);
+
+        var sizeOf = (int)clang_Type_getSizeOf(type);
+
+        var offsetOfBits = (int)clang_Cursor_getOffsetOfField(cursor);
+        int offsetOf;
+        if (cursor.kind == CXCursorKind.CXCursor_UnionDecl)
+        {
+            offsetOf = 0;
+        }
+        else
+        {
+            if (offsetOfBits < 0 || (fieldIndex != 0 && offsetOfBits == 0))
+            {
+                if (nextField == null)
+                {
+                    offsetOf = 0;
+                }
+                else
+                {
+                    offsetOf = nextField.OffsetOf - sizeOf;
+                }
+            }
+            else
+            {
+                offsetOf = offsetOfBits / 8;
+            }
+        }
+
+        int paddingOf;
+        if (nextField == null)
+        {
+            var parentType = clang_getCursorType(parentCursor);
+            var parentSize = (int)clang_Type_getSizeOf(parentType);
+            paddingOf = parentSize - offsetOf - sizeOf;
+        }
+        else
+        {
+            paddingOf = nextField.OffsetOf - offsetOf - sizeOf;
+        }
+
+        return new CStructField
+        {
+            Name = fieldName,
+            Location = codeLocation,
+            Type = typeName,
+            OffsetOf = offsetOf,
+            PaddingOf = paddingOf,
+            SizeOf = sizeOf
+        };
+    }
+
+    private ImmutableArray<CNode> CreateRecordNestedNodes(
         ClangTranslationUnitExplorerContext context,
         string parentTypeName,
         CXCursor cursor,
+        CXCursor parentCursor,
         ClangTranslationUnitExplorerNode parentNode)
     {
         var builder = ImmutableArray.CreateBuilder<CNode>();
@@ -1036,33 +1156,31 @@ public sealed class ClangTranslationUnitExplorer
         var underlyingCursor = ClangUnderlyingCursor(cursor);
         var type = clang_getCursorType(underlyingCursor);
         var typeCursor = clang_getTypeDeclaration(type);
-        if (typeCursor.kind == CXCursorKind.CXCursor_UnionDecl ||
-            typeCursor.kind == CXCursorKind.CXCursor_StructDecl)
+        if (typeCursor.kind is
+            CXCursorKind.CXCursor_UnionDecl or
+            CXCursorKind.CXCursor_StructDecl)
         {
             underlyingCursor = typeCursor;
         }
 
-        var nestedCursors = underlyingCursor.GetDescendents((child, _) =>
+        var anonymousCursors = underlyingCursor.GetDescendents((child, _) =>
         {
-            if (child.kind != CXCursorKind.CXCursor_FieldDecl)
+            if (child.kind != CXCursorKind.CXCursor_FieldDecl &&
+                child.kind != CXCursorKind.CXCursor_UnionDecl)
             {
                 return false;
             }
 
-            var type = clang_getCursorType(child);
-            var typeDeclaration = clang_getTypeDeclaration(type);
+            var childType = clang_getCursorType(child);
+            var typeDeclaration = clang_getTypeDeclaration(childType);
             var isAnonymous = clang_Cursor_isAnonymous(typeDeclaration) > 0;
-            if (isAnonymous)
-            {
-                return true;
-            }
-
-            return false;
+            return isAnonymous;
         });
 
-        foreach (var nestedCursor in nestedCursors)
+        foreach (var anonymousCursor in anonymousCursors)
         {
-            var record = CreateNestedNode(context, parentTypeName, nestedCursor, parentNode);
+            var record = CreateNestedNode(
+                context, parentTypeName, anonymousCursor, cursor, parentNode);
             builder.Add(record);
         }
 
@@ -1078,19 +1196,20 @@ public sealed class ClangTranslationUnitExplorer
         ClangTranslationUnitExplorerContext context,
         string parentTypeName,
         CXCursor cursor,
+        CXCursor parentCursor,
         ClangTranslationUnitExplorerNode parentNode)
     {
         var type = clang_getCursorType(cursor);
         var isPointer = type.kind == CXTypeKind.CXType_Pointer;
         if (!isPointer)
         {
-            return CreateNestedStruct(context, parentTypeName, cursor, type, parentNode);
+            return CreateNestedRecord(context, parentTypeName, cursor, type, parentNode);
         }
 
         var pointeeType = clang_getPointeeType(type);
         if (pointeeType.kind == CXTypeKind.CXType_FunctionProto)
         {
-            var typeName = TypeName(parentTypeName, CKind.FunctionPointer, pointeeType, cursor);
+            var typeName = Name(parentTypeName, CKind.FunctionPointer, pointeeType, cursor);
             var location = Location(context, cursor, type, false);
             return CreateFunctionPointer(context, typeName, cursor, parentNode, pointeeType, location);
         }
@@ -1099,31 +1218,45 @@ public sealed class ClangTranslationUnitExplorer
         throw up;
     }
 
-    private CNode CreateNestedStruct(
+    private CNode CreateNestedRecord(
         ClangTranslationUnitExplorerContext context,
         string parentTypeName,
-        CXCursor cursor,
+        CXCursor recordCursor,
         CXType type,
         ClangTranslationUnitExplorerNode parentNode)
     {
-        var location = Location(context, cursor, type, false);
-        var typeName = TypeName(parentTypeName, CKind.Record, type, cursor);
+        var location = Location(context, recordCursor, type, false);
+        var typeName = Name(parentTypeName, CKind.Record, type, recordCursor);
 
-        var recordFields = CreateRecordFields(context, typeName, cursor, parentNode);
-        var nestedNodes = CreateNestedNodes(context, typeName, cursor, parentNode);
-        var nestedRecords = nestedNodes.Where(x => x is CRecord).Cast<CRecord>().ToImmutableArray();
+        // var nestedNodes = ImmutableArray<CNode>.Empty; // CreateRecordNestedNodes(context, typeName, cursor, parentNode);
+        // var nestedRecords = nestedNodes.Where(x => x is CUnion).Cast<CUnion>().ToImmutableArray();
 
         var typeCursor = clang_getTypeDeclaration(type);
         var isUnion = typeCursor.kind == CXCursorKind.CXCursor_UnionDecl;
-
-        return new CRecord
+        if (isUnion)
         {
-            Location = location,
-            IsUnion = isUnion,
-            Name = typeName,
-            Fields = recordFields,
-            NestedRecords = nestedRecords
-        };
+            var unionFields = CreateUnionFields(context, recordCursor, parentNode);
+
+            return new CUnion
+            {
+                Location = location,
+                Name = typeName,
+                ParentName = parentTypeName,
+                Fields = unionFields
+            };
+        }
+        else
+        {
+            var recordFields = CreateStructFields(context, recordCursor, parentNode);
+
+            return new CStruct
+            {
+                Location = location,
+                Name = typeName,
+                ParentName = parentTypeName,
+                Fields = recordFields
+            };
+        }
     }
 
     private ImmutableArray<CEnumValue> CreateEnumValues(ClangTranslationUnitExplorerContext context, CXCursor cursor)
@@ -1384,7 +1517,7 @@ public sealed class ClangTranslationUnitExplorer
             var (pointeeKind, pointeeKindType) = TypeKind(pointeeType);
             var pointeeCursor = clang_getTypeDeclaration(pointeeType);
             var pointeeCursor2 = pointeeCursor.kind == CXCursorKind.CXCursor_NoDeclFound ? cursor : pointeeCursor;
-            var pointeeTypeName = TypeName(parentNode.TypeName!, pointeeKind, pointeeKindType, pointeeCursor2);
+            var pointeeTypeName = Name(parentNode.TypeName!, pointeeKind, pointeeKindType, pointeeCursor2);
             VisitType(
                 context,
                 parentNode,
@@ -1427,28 +1560,41 @@ public sealed class ClangTranslationUnitExplorer
     }
 
     private void VisitTypedef(
-        ClangTranslationUnitExplorerContext context, ClangTranslationUnitExplorerNode parentNode, CXType type, string typeName)
+        ClangTranslationUnitExplorerContext context,
+        ClangTranslationUnitExplorerNode parentNode,
+        CXType type,
+        string typeName)
     {
         var typedefCursor = clang_getTypeDeclaration(type);
         var location = Location(context, typedefCursor, type, false);
         AddExplorerNode(context, CKind.Typedef, location, parentNode, typedefCursor, type, string.Empty, typeName);
     }
 
-    private string TypeName(string? parentTypeName, CKind kind, CXType type, CXCursor cursor)
+    private string Name(
+        string? parentName,
+        CKind kind,
+        CXType type,
+        CXCursor cursor,
+        int index = 0)
     {
         var typeCursor = clang_getTypeDeclaration(type);
-        var isAnonymous = clang_Cursor_isAnonymous(typeCursor) != 0;
-        if (isAnonymous && !string.IsNullOrEmpty(parentTypeName))
+        var isAnonymous = clang_Cursor_isAnonymous(typeCursor) > 0;
+
+        if (isAnonymous && !string.IsNullOrEmpty(parentName))
         {
             var anonymousCursor = clang_getTypeDeclaration(type);
             var cursorName = cursor.Name();
+            if (string.IsNullOrEmpty(cursorName))
+            {
+                return $"{parentName}_ANONYMOUSFIELD{index}";
+            }
 
             switch (anonymousCursor.kind)
             {
                 case CXCursorKind.CXCursor_UnionDecl:
-                    return $"{parentTypeName}_{cursorName}";
+                    return $"{parentName}_{cursorName}";
                 case CXCursorKind.CXCursor_StructDecl:
-                    return $"{parentTypeName}_{cursorName}";
+                    return $"{parentName}_{cursorName}";
                 default:
                 {
                     // pretty sure this case is not possible, but it's better safe than sorry!
@@ -1458,7 +1604,7 @@ public sealed class ClangTranslationUnitExplorer
             }
         }
 
-        var typeName = kind switch
+        var name = kind switch
         {
             CKind.Primitive => type.Name(),
             CKind.Pointer => type.Name(),
@@ -1476,15 +1622,15 @@ public sealed class ClangTranslationUnitExplorer
         if (type.kind == CXTypeKind.CXType_ConstantArray)
         {
             var arraySize = clang_getArraySize(type);
-            typeName = $"{typeName}[{arraySize}]";
+            name = $"{name}[{arraySize}]";
         }
 
-        if (string.IsNullOrEmpty(typeName))
+        if (string.IsNullOrEmpty(name))
         {
             throw new UseCaseException($"Type name was not found for '{kind}'.");
         }
 
-        return typeName;
+        return name;
     }
 
     private CLocation Location(ClangTranslationUnitExplorerContext context, CXCursor cursor, CXType type, bool drillDown)

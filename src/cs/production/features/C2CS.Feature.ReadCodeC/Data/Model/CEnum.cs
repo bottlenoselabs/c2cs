@@ -16,7 +16,7 @@ public record CEnum : CNodeWithLocation
     [JsonPropertyName("type")]
     public string Type { get; set; } = string.Empty;
 
-    [JsonPropertyName("typeInteger")]
+    [JsonPropertyName("type_integer")]
     public string IntegerType { get; set; } = string.Empty;
 
     [JsonPropertyName("values")]

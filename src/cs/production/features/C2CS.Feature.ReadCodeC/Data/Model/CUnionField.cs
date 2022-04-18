@@ -1,31 +1,26 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace C2CS.Feature.ReadCodeC.Data.Model;
 
 // NOTE: Properties are required for System.Text.Json serialization
-public record CRecord : CNodeWithLocation
+public record CUnionField : CNodeWithLocation
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonPropertyName("isUnion")]
-    public bool IsUnion { get; set; }
+    [JsonPropertyName("type")]
+    public string Type { get; set; } = string.Empty;
 
-    [JsonPropertyName("fields")]
-    public ImmutableArray<CRecordField> Fields { get; set; } = ImmutableArray<CRecordField>.Empty;
-
-    [JsonPropertyName("nestedRecords")]
-    public ImmutableArray<CRecord> NestedRecords { get; set; } = ImmutableArray<CRecord>.Empty;
+    [JsonPropertyName("size_of")]
+    public int SizeOf { get; set; }
 
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {
-        var kind = IsUnion ? "Union" : "Struct";
-        return $"{kind} {Name} @ {Location}";
+        return $"Union Field '{Name}': {Type} @ {Location}";
     }
 }

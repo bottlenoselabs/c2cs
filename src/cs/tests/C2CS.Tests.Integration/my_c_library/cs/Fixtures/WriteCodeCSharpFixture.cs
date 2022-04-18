@@ -14,16 +14,16 @@ using Xunit;
 
 namespace C2CS.IntegrationTests.my_c_library.Fixtures;
 
-public sealed class BindgenCSharpFixture
+public sealed class WriteCodeCSharpFixture
 {
-    public readonly ImmutableDictionary<string, MethodDeclarationSyntax> FunctionsByName;
-    public readonly ImmutableDictionary<string, EnumDeclarationSyntax> EnumsByName;
+    private readonly ImmutableDictionary<string, MethodDeclarationSyntax> _functionsByName;
+    private readonly ImmutableDictionary<string, EnumDeclarationSyntax> _enumsByName;
 
-    public BindgenCSharpFixture(
+    public WriteCodeCSharpFixture(
         WriteCodeCSharpUseCase useCase,
         IFileSystem fileSystem,
         ConfigurationJsonSerializer configurationJsonSerializer,
-        ExtractAbstractSyntaxTreeCFixture ast)
+        ReadCodeCFixture ast)
     {
         Assert.True(!ast.AbstractSyntaxTrees.IsDefaultOrEmpty);
 
@@ -42,8 +42,8 @@ public sealed class BindgenCSharpFixture
         Assert.True(output != null);
         var input = output!.Input;
 
-        Assert.True(output.IsSuccessful);
-        Assert.True(output.Diagnostics.Length == 0);
+        Assert.True(output.IsSuccessful, "Writing C# code failed.");
+        Assert.True(output.Diagnostics.Length == 0, "Diagnostics were reported when writing C# code.");
 
         var code = fileSystem.File.ReadAllText(input.OutputFilePath);
         var compilationUnitSyntax = CSharpSyntaxTree.ParseText(code).GetCompilationUnitRoot();
@@ -74,7 +74,21 @@ public sealed class BindgenCSharpFixture
             }
         }
 
-        FunctionsByName = methodsByNameBuilder.ToImmutable();
-        EnumsByName = enumsByNameBuilder.ToImmutable();
+        _functionsByName = methodsByNameBuilder.ToImmutable();
+        _enumsByName = enumsByNameBuilder.ToImmutable();
+    }
+
+    public EnumDeclarationSyntax GetEnum(string name)
+    {
+        var exists = _enumsByName.TryGetValue(name, out var value);
+        Assert.True(exists, $"The enum `{name}` does not exist.");
+        return value!;
+    }
+
+    public MethodDeclarationSyntax GetFunction(string name)
+    {
+        var exists = _functionsByName.TryGetValue(name, out var value);
+        Assert.True(exists, $"The function `{name}` does not exist.");
+        return value!;
     }
 }

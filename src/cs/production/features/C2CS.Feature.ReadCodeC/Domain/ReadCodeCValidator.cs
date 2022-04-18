@@ -24,6 +24,8 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
             configuration.ConfigurationPlatforms = abstractSyntaxTreeRequests;
         }
 
+        var includeDirectories = VerifyIncludeDirectories(configuration.IncludeDirectories, inputFilePath);
+
         foreach (var (targetPlatformString, configurationPlatform) in configuration.ConfigurationPlatforms)
         {
             var targetPlatform = VerifyTargetPlatform(targetPlatformString);
@@ -31,8 +33,8 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
                 configurationPlatform?.OutputFileDirectory ?? configuration.OutputFileDirectory, targetPlatform);
             var systemIncludeDirectories =
                 VerifyImmutableArray(configurationPlatform?.SystemIncludeDirectories);
-            var includeDirectories =
-                VerifyIncludeDirectories(configurationPlatform?.IncludeDirectories, inputFilePath);
+            var includeDirectoriesPlatform =
+                VerifyIncludeDirectoriesPlatform(configurationPlatform?.IncludeDirectories, inputFilePath, includeDirectories);
             var excludedHeaderFiles = VerifyImmutableArray(configurationPlatform?.ExcludedHeaderFiles);
             var opaqueTypeNames = VerifyImmutableArray(configurationPlatform?.OpaqueTypeNames);
             var functionNamesWhitelist = VerifyImmutableArray(configurationPlatform?.FunctionNamesWhiteList);
@@ -44,7 +46,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
                 TargetPlatform = targetPlatform,
                 OutputFilePath = outputFilePath,
                 SystemIncludeDirectories = systemIncludeDirectories,
-                IncludeDirectories = includeDirectories,
+                IncludeDirectories = includeDirectoriesPlatform,
                 ExcludedHeaderFiles = excludedHeaderFiles,
                 OpaqueTypeNames = opaqueTypeNames,
                 FunctionNamesWhitelist = functionNamesWhitelist,
@@ -155,6 +157,16 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
             }
         }
 
+        return result;
+    }
+
+    private static ImmutableArray<string> VerifyIncludeDirectoriesPlatform(
+        ImmutableArray<string?>? includeDirectoriesPlatform,
+        string inputFilePath,
+        ImmutableArray<string> includeDirectoriesNonPlatform)
+    {
+        var directoriesPlatform = VerifyIncludeDirectories(includeDirectoriesPlatform, inputFilePath);
+        var result = directoriesPlatform.AddRange(includeDirectoriesNonPlatform);
         return result;
     }
 
