@@ -1,0 +1,9 @@
+{
+  "name": "function_void_enum",
+  "return_type_name": "void",
+  "parameters": [
+    {
+      "type_name": "enum_force_uint32"
+    }
+  ]
+}

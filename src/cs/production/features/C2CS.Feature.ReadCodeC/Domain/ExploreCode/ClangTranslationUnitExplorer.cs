@@ -593,7 +593,7 @@ public sealed class ClangTranslationUnitExplorer
 
         if (isUnion)
         {
-            var fields = CreateUnionFields(context, cursor, node);
+            var fields = CreateUnionFields(context, typeCursor, node);
 
             var union = new CUnion
             {

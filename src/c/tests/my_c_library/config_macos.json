@@ -1,9 +1,10 @@
 {
-  "directory": "my_c_library/c/ast",
+  "directory": "./ast",
   "ast": {
-    "input_file": "my_c_library/c/include/my_c_library.h",
+    "input_file": "./include/my_c_library.h",
     "include_directories": [
-      "../../../../src/c/production/C2CS/include"],
+      "../../production/C2CS/include"
+    ],
     "platforms": {
       "aarch64-apple-darwin": {},
       "x86_64-apple-darwin": {},

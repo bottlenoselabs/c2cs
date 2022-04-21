@@ -44,7 +44,7 @@ void function_void_enum(const enum_force_uint32 e)
     printf("\n");
 }
 
-void function_void_struct_fields_with_union(const struct_fields_with_union s)
+void function_void_struct_union(const struct_union s)
 {
     uint64_t x = s.union1.a + s.union1.b + s.union1.c + s.union1.d;
     uint64_t y = s.union2.a + s.union2.b + s.union2.c + s.union2.d;

@@ -1,22 +1,23 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
 using C2CS.Feature.ReadCodeC.Data.Model;
 using C2CS.IntegrationTests.my_c_library.Fixtures;
+using C2CS.Tests.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace C2CS.IntegrationTests.my_c_library;
 
 [Trait("Integration", "my_c_library")]
-public class ReadCodeCIntegrationTests : IntegrationTest
+public class ReadCodeCTests : CLibraryIntegrationTest
 {
     private readonly ReadCodeCFixture _fixture;
 
-    public ReadCodeCIntegrationTests()
+    public ReadCodeCTests()
+        : base("my_c_library")
     {
-        _fixture = Services.GetService<ReadCodeCFixture>()!;
+        _fixture = TestHost.Services.GetService<ReadCodeCFixture>()!;
         _fixture.AssertPlatform();
     }
 
@@ -26,8 +27,10 @@ public class ReadCodeCIntegrationTests : IntegrationTest
         Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
         foreach (var ast in _fixture.AbstractSyntaxTrees)
         {
-            Assert.True(ast.EnumsByName.TryGetValue(nameof(enum_force_uint32), out var value));
-            Assert.True(value!.IntegerType == "unsigned int" || value.IntegerType == "int");
+            const string name = nameof(enum_force_uint32);
+            var value = ast.GetEnum(name);
+
+            Assert.True(value.IntegerType == "unsigned int" || value.IntegerType == "int");
             Assert.True(!value.Values.IsDefaultOrEmpty);
         }
     }
@@ -38,9 +41,10 @@ public class ReadCodeCIntegrationTests : IntegrationTest
         Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
         foreach (var ast in _fixture.AbstractSyntaxTrees)
         {
-            Assert.True(ast.FunctionsByName.TryGetValue(nameof(function_void_void), out var value));
+            const string name = nameof(function_void_void);
+            var value = ast.GetFunction(name);
 
-            Assert.True(value!.CallingConvention == CFunctionCallingConvention.Cdecl);
+            Assert.True(value.CallingConvention == CFunctionCallingConvention.Cdecl);
             Assert.True(value.ReturnType == "void");
             Assert.True(value.Parameters.IsDefaultOrEmpty);
         }
@@ -52,9 +56,10 @@ public class ReadCodeCIntegrationTests : IntegrationTest
         Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
         foreach (var ast in _fixture.AbstractSyntaxTrees)
         {
-            Assert.True(ast.FunctionsByName.TryGetValue(nameof(function_void_string), out var value));
+            const string name = nameof(function_void_string);
+            var value = ast.GetFunction(name);
 
-            Assert.True(value!.CallingConvention == CFunctionCallingConvention.Cdecl);
+            Assert.True(value.CallingConvention == CFunctionCallingConvention.Cdecl);
             Assert.True(value.ReturnType == "void");
 
             Assert.True(!value.Parameters.IsDefaultOrEmpty);
@@ -71,9 +76,10 @@ public class ReadCodeCIntegrationTests : IntegrationTest
         Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
         foreach (var ast in _fixture.AbstractSyntaxTrees)
         {
-            Assert.True(ast.FunctionsByName.TryGetValue(nameof(function_void_uint16_int32_uint64), out var value));
+            const string name = nameof(function_void_uint16_int32_uint64);
+            var value = ast.GetFunction(name);
 
-            Assert.True(value!.CallingConvention == CFunctionCallingConvention.Cdecl);
+            Assert.True(value.CallingConvention == CFunctionCallingConvention.Cdecl);
             Assert.True(value.ReturnType == "void");
 
             Assert.True(!value.Parameters.IsDefaultOrEmpty);
@@ -96,11 +102,10 @@ public class ReadCodeCIntegrationTests : IntegrationTest
         Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
         foreach (var ast in _fixture.AbstractSyntaxTrees)
         {
-            Assert.True(ast.FunctionsByName.TryGetValue(
-                nameof(function_void_uint16ptr_int32ptr_uint64ptr),
-                out var value));
+            const string name = nameof(function_void_uint16ptr_int32ptr_uint64ptr);
+            var value = ast.GetFunction(name);
 
-            Assert.True(value!.CallingConvention == CFunctionCallingConvention.Cdecl);
+            Assert.True(value.CallingConvention == CFunctionCallingConvention.Cdecl);
             Assert.True(value.ReturnType == "void");
 
             Assert.True(!value.Parameters.IsDefaultOrEmpty);
@@ -123,9 +128,10 @@ public class ReadCodeCIntegrationTests : IntegrationTest
         Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
         foreach (var ast in _fixture.AbstractSyntaxTrees)
         {
-            Assert.True(ast.FunctionsByName.TryGetValue(nameof(function_void_enum), out var value));
+            const string name = nameof(function_void_enum);
+            var value = ast.GetFunction(name);
 
-            Assert.True(value!.CallingConvention == CFunctionCallingConvention.Cdecl);
+            Assert.True(value.CallingConvention == CFunctionCallingConvention.Cdecl);
             Assert.True(value.ReturnType == "void");
 
             Assert.True(!value.Parameters.IsDefaultOrEmpty);
@@ -137,24 +143,24 @@ public class ReadCodeCIntegrationTests : IntegrationTest
     }
 
     [Fact]
-    public void function_void_struct_union()
+    public void function_void_struct_union_anonymous()
     {
         Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
         foreach (var ast in _fixture.AbstractSyntaxTrees)
         {
-            Assert.True(ast.FunctionsByName.TryGetValue(nameof(function_void_struct_union), out var value));
+            const string name = nameof(function_void_struct_union_anonymous);
+            var function = ast.GetFunction(name);
 
-            Assert.True(value!.CallingConvention == CFunctionCallingConvention.Cdecl);
-            Assert.True(value.ReturnType == "void");
+            Assert.True(function.CallingConvention == CFunctionCallingConvention.Cdecl);
+            Assert.True(function.ReturnType == "void");
 
-            Assert.True(!value.Parameters.IsDefaultOrEmpty);
-            Assert.True(value.Parameters.Length == 1);
+            Assert.True(!function.Parameters.IsDefaultOrEmpty);
+            Assert.True(function.Parameters.Length == 1);
 
-            var firstParameter = value.Parameters[0];
-            Assert.True(firstParameter.Type == "struct_union");
+            var firstParameter = function.Parameters[0];
+            Assert.True(firstParameter.Type == "struct_union_anonymous");
 
-            Assert.True(ast.StructsByName.TryGetValue("struct_union", out var structType));
-            Console.WriteLine(structType);
+            var @struct = ast.GetStruct("struct_union_anonymous");
         }
     }
 }

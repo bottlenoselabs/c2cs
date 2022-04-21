@@ -1,0 +1,15 @@
+{
+  "name": "function_void_uint16_int32_uint64",
+  "return_type_name": "void",
+  "parameters": [
+    {
+      "type_name": "ushort"
+    },
+    {
+      "type_name": "int"
+    },
+    {
+      "type_name": "ulong"
+    }
+  ]
+}

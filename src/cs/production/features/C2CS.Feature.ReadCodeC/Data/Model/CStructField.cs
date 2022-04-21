@@ -15,10 +15,10 @@ public record CStructField : CNodeWithLocation
     [JsonPropertyName("type")]
     public string Type { get; set; } = string.Empty;
 
-    [JsonPropertyName("offset")]
+    [JsonPropertyName("offset_of")]
     public int OffsetOf { get; set; }
 
-    [JsonPropertyName("padding")]
+    [JsonPropertyName("padding_of")]
     public int PaddingOf { get; set; }
 
     [JsonPropertyName("size_of")]

@@ -30,26 +30,17 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\production\C2CS\C2CS.csproj" />
+        <ProjectReference Include="../../production/C2CS/C2CS.csproj" />
+        <ProjectReference Include="../C2CS.Tests.Common/C2CS.Tests.Common.csproj" />
     </ItemGroup>
     
     <!-- Copy C code files-->
     <ItemGroup>
-        <Content Include="my_c_library/c/**/*">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="my_c_library/config*.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
+        <None Include="$(GitRepositoryPath)/src/c/**/*.*" CopyToOutputDirectory="PreserveNewest" LinkBase="c" />
+        <None Update="my_c_library/Data/**/*.*" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
-
-    <!-- Dynamic link libraries -->
     <ItemGroup>
-        <None Include="$(GitRepositoryPath)/lib/**/*.*">
-            <LinkBase>%(RecursiveDir)</LinkBase>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-            <Pack>false</Pack>
-        </None>
+      <Folder Include="my_c_library\Data" />
     </ItemGroup>
 
 </Project>

@@ -18,11 +18,40 @@ public sealed class ReadCodeCFixture
 
     public sealed class AbstractSyntaxTreeFixtureData
     {
-        public ImmutableDictionary<string, CFunction> FunctionsByName { get; init; } = ImmutableDictionary<string, CFunction>.Empty;
+        private readonly ImmutableDictionary<string, CFunction> _functionsByName;
+        private readonly ImmutableDictionary<string, CEnum> _enumsByName;
+        private readonly ImmutableDictionary<string, CStruct> _structsByName;
 
-        public ImmutableDictionary<string, CEnum> EnumsByName { get; init; } = ImmutableDictionary<string, CEnum>.Empty;
+        public AbstractSyntaxTreeFixtureData(
+            ImmutableDictionary<string, CFunction> functionsByName,
+            ImmutableDictionary<string, CEnum> enumsByName,
+            ImmutableDictionary<string, CStruct> structsByName)
+        {
+            _functionsByName = functionsByName;
+            _enumsByName = enumsByName;
+            _structsByName = structsByName;
+        }
 
-        public ImmutableDictionary<string, CStruct> StructsByName { get; init; } = ImmutableDictionary<string, CStruct>.Empty;
+        public CFunction GetFunction(string name)
+        {
+            var exists = _functionsByName.TryGetValue(name, out var value);
+            Assert.True(exists, $"The function `{name}` does not exist.");
+            return value!;
+        }
+
+        public CEnum GetEnum(string name)
+        {
+            var exists = _enumsByName.TryGetValue(name, out var value);
+            Assert.True(exists, $"The enum `{name}` does not exist.");
+            return value!;
+        }
+
+        public CStruct GetStruct(string name)
+        {
+            var exists = _structsByName.TryGetValue(name, out var value);
+            Assert.True(exists, $"The struct `{name}` does not exist.");
+            return value!;
+        }
     }
 
     public ReadCodeCFixture(
@@ -32,9 +61,9 @@ public sealed class ReadCodeCFixture
     {
         var configurationFilePath = Native.OperatingSystem switch
         {
-            NativeOperatingSystem.Windows => "my_c_library/config_windows.json",
-            NativeOperatingSystem.Linux => "my_c_library/config_linux.json",
-            NativeOperatingSystem.macOS => "my_c_library/config_macos.json",
+            NativeOperatingSystem.Windows => "c/tests/my_c_library/config_windows.json",
+            NativeOperatingSystem.Linux => "c/tests/my_c_library/config_linux.json",
+            NativeOperatingSystem.macOS => "c/tests/my_c_library/config_macos.json",
             _ => throw new InvalidOperationException()
         };
         var configuration = configurationJsonSerializer.Read(configurationFilePath);
@@ -65,12 +94,8 @@ public sealed class ReadCodeCFixture
             var enumsByName = ast.Enums.ToImmutableDictionary(x => x.Name, x => x);
             var structsByName = ast.Structs.ToImmutableDictionary(x => x.Name);
 
-            var data = new AbstractSyntaxTreeFixtureData
-            {
-                FunctionsByName = functionsByName,
-                EnumsByName = enumsByName,
-                StructsByName = structsByName
-            };
+            var data = new AbstractSyntaxTreeFixtureData(
+                functionsByName, enumsByName, structsByName);
 
             builder.Add(data);
         }
@@ -84,8 +109,8 @@ public sealed class ReadCodeCFixture
 
         foreach (var abstractSyntaxTree in AbstractSyntaxTrees)
         {
-            Assert.True(abstractSyntaxTree.FunctionsByName.TryGetValue("pinvoke_get_platform_name", out var function));
-            Assert.Equal(CFunctionCallingConvention.Cdecl, function!.CallingConvention);
+            var function = abstractSyntaxTree.GetFunction("pinvoke_get_platform_name");
+            Assert.Equal(CFunctionCallingConvention.Cdecl, function.CallingConvention);
             Assert.Equal("char*", function.ReturnType);
             Assert.True(function.Parameters.IsDefaultOrEmpty);
         }

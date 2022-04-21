@@ -1,0 +1,9 @@
+{
+  "name": "function_void_struct_union_anonymous",
+  "return_type_name": "void",
+  "parameters": [
+    {
+      "type_name": "struct_union_anonymous"
+    }
+  ]
+}

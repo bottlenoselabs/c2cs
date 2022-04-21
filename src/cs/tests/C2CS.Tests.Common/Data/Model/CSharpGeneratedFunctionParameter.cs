@@ -1,11 +1,12 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
+using System.Text.Json.Serialization;
 
-namespace C2CS.IntegrationTests;
+namespace C2CS.Tests.Common.Data.Model;
 
-public abstract class IntegrationTest
+public class CSharpGeneratedFunctionParameter
 {
-    protected static IServiceProvider Services => TestHost.Services;
+    [JsonPropertyName("type_name")]
+    public string TypeName { get; set; } = string.Empty;
 }
