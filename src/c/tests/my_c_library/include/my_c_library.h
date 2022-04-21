@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include "pinvoke_helper.h" // /src/cs/production/C2CS/include/pinvoke_helper.h
+#include "pinvoke_helper.h" // /src/c/production/c2cs/include/pinvoke_helper.h
 
 typedef enum enum_force_uint32 {
     ENUM_FORCE_UINT32_DAY_UNKNOWN,

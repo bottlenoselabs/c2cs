@@ -1,13 +1,20 @@
 {
   "name": "struct_union_anonymous",
+  "layout": {
+    "kind": "LayoutKind.Explicit",
+    "size": 16,
+    "pack": 8
+  },
   "fields": [
     {
       "name": "union_field_1",
-      "type_name": "struct_leaf_integers_small_to_large"
+      "type_name": "struct_leaf_integers_small_to_large",
+      "offset_of": 0
     },
     {
       "name": "union_field_2",
-      "type_name": "struct_leaf_integers_large_to_small"
+      "type_name": "struct_leaf_integers_large_to_small",
+      "offset_of": 0
     }
   ]
 }

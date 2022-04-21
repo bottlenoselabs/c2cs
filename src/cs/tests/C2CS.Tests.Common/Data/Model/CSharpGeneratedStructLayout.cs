@@ -7,14 +7,14 @@ using JetBrains.Annotations;
 namespace C2CS.Tests.Common.Data.Model;
 
 [PublicAPI]
-public class CSharpGeneratedStructField
+public class CSharpGeneratedStructLayout
 {
-    [JsonPropertyName("name")]
-    public string Name { get; set; } = string.Empty;
+    [JsonPropertyName("kind")]
+    public string LayoutKind { get; set; } = string.Empty;
 
-    [JsonPropertyName("type_name")]
-    public string TypeName { get; set; } = string.Empty;
+    [JsonPropertyName("size")]
+    public int Size { get; set; }
 
-    [JsonPropertyName("offset_of")]
-    public int OffsetOf { get; set; }
+    [JsonPropertyName("pack")]
+    public int Pack { get; set; }
 }

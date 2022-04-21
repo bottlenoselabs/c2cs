@@ -1,13 +1,20 @@
 {
   "name": "struct_union_named",
+  "layout": {
+    "kind": "LayoutKind.Explicit",
+    "size": 16,
+    "pack": 8
+  },
   "fields": [
     {
       "name": "fields",
-      "type_name": "fields"
+      "type_name": "fields",
+      "offset_of": 0
     },
     {
       "name": "fields",
-      "type_name": "fields"
+      "type_name": "fields",
+      "offset_of": 0
     }
   ]
 }

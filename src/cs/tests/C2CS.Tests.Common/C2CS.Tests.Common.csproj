@@ -7,6 +7,11 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <!-- MSBuild.Tools project settings -->
+    <PropertyGroup>
+        <EnableCodeCoverage>false</EnableCodeCoverage>
+    </PropertyGroup>
+
     <!-- NuGet package references -->
     <ItemGroup>
         <PackageReference Include="System.IO.Abstractions" Version="16.1.25" />

@@ -13,6 +13,9 @@ public class CSharpGeneratedStruct
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
+    [JsonPropertyName("layout")]
+    public CSharpGeneratedStructLayout Layout { get; set; } = null!;
+
     [JsonPropertyName("fields")]
     public ImmutableArray<CSharpGeneratedStructField> Fields { get; set; } = ImmutableArray<CSharpGeneratedStructField>.Empty;
 }

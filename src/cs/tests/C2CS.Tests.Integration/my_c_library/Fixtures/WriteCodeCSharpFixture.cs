@@ -2,10 +2,13 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using System.Globalization;
 using System.IO.Abstractions;
+using System.Linq;
 using C2CS.Data.Serialization;
 using C2CS.Feature.WriteCodeCSharp;
 using C2CS.Tests.Common.Data.Model;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Xunit;
@@ -44,7 +47,18 @@ public sealed class WriteCodeCSharpFixture
         Assert.True(output.Diagnostics.Length == 0, "Diagnostics were reported when writing C# code.");
 
         var code = fileSystem.File.ReadAllText(input.OutputFilePath);
-        var compilationUnitSyntax = CSharpSyntaxTree.ParseText(code).GetCompilationUnitRoot();
+        var syntaxTree = CSharpSyntaxTree.ParseText(code);
+
+        var diagnostics = syntaxTree.GetDiagnostics().ToImmutableArray();
+        var errors = diagnostics.Where(x => x.Severity == DiagnosticSeverity.Error).ToImmutableArray();
+        Assert.True(errors.Length == 0, "The code has diagnostic errors.");
+        var warnings = diagnostics.Where(x => x.Severity == DiagnosticSeverity.Warning).ToImmutableArray();
+        Assert.True(warnings.Length == 0, "The code has diagnostic warnings.");
+        var otherDiagnostics = diagnostics.Where(x =>
+            x.Severity != DiagnosticSeverity.Error && x.Severity != DiagnosticSeverity.Warning).ToImmutableArray();
+        Assert.True(otherDiagnostics.Length == 0, "The code has diagnostics which are not errors or warnings.");
+
+        var compilationUnitSyntax = syntaxTree.GetCompilationUnitRoot();
 
         Assert.True(compilationUnitSyntax.Members.Count == 1);
         var @namespace = compilationUnitSyntax.Members[0] as NamespaceDeclarationSyntax;
@@ -175,10 +189,12 @@ public sealed class WriteCodeCSharpFixture
     {
         var name = syntaxNode.Identifier.Text;
         var fields = StructFields(syntaxNode);
+        var layout = StructLayout(syntaxNode);
 
         var result = new CSharpGeneratedStruct
         {
             Name = name,
+            Layout = layout,
             Fields = fields
         };
         return result;
@@ -207,11 +223,13 @@ public sealed class WriteCodeCSharpFixture
         var variableSyntaxNode = syntaxNode.Declaration;
         var name = variableSyntaxNode.Variables[0].Identifier.Text;
         var typeName = variableSyntaxNode.Type.ToString();
+        var offsetOf = FieldOffsetOf(name, syntaxNode);
 
         var result = new CSharpGeneratedStructField
         {
             Name = name,
-            TypeName = typeName
+            TypeName = typeName,
+            OffsetOf = offsetOf!.Value
         };
 
         return result;
@@ -236,5 +254,62 @@ public sealed class WriteCodeCSharpFixture
         var exists = _structsByName.TryGetValue(name, out var value);
         Assert.True(exists, $"The struct `{name}` does not exist.");
         return value!;
+    }
+
+    private CSharpGeneratedStructLayout StructLayout(StructDeclarationSyntax syntaxNode)
+    {
+        var attribute = GetAttribute("StructLayout", syntaxNode);
+        var arguments = attribute.ArgumentList!.Arguments;
+
+        var layoutKind = arguments[0].Expression.ToFullString();
+        var sizeOfString = arguments[1].Expression.ToFullString();
+        var sizeOf = int.Parse(sizeOfString, CultureInfo.InvariantCulture);
+        var packOfString = arguments[2].Expression.ToFullString();
+        var packOf = int.Parse(packOfString, CultureInfo.InvariantCulture);
+
+        var result = new CSharpGeneratedStructLayout
+        {
+            LayoutKind = layoutKind,
+            Size = sizeOf,
+            Pack = packOf
+        };
+        return result;
+    }
+
+    private int? FieldOffsetOf(string name, FieldDeclarationSyntax syntaxNode)
+    {
+        int? offsetOf = null;
+
+        var attribute = GetAttribute("FieldOffset", syntaxNode);
+        var expression = attribute.ArgumentList!.Arguments[0].Expression;
+        if (expression is LiteralExpressionSyntax literalExpression)
+        {
+            offsetOf = int.Parse(literalExpression.Token.ValueText, CultureInfo.InvariantCulture);
+        }
+
+        Assert.True(offsetOf != null, $"The field `{name}` does not have an offset.");
+
+        return offsetOf;
+    }
+
+    private AttributeSyntax GetAttribute(string name, MemberDeclarationSyntax syntaxNode)
+    {
+        AttributeSyntax? result = null;
+
+        foreach (var attributeList in syntaxNode.AttributeLists)
+        {
+            foreach (var attribute in attributeList.Attributes)
+            {
+                var attributeName = attribute.Name.ToString();
+                if (attributeName == name)
+                {
+                    result = attribute;
+                }
+            }
+        }
+
+        Assert.True(result != null, $"The attribute `{name}` does not exist.");
+
+        return result!;
     }
 }

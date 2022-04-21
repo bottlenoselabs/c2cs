@@ -1,8 +1,6 @@
 TODO
 
-1. Load C# code for integration write tests.
-2. Calculate struct layout for write tests.
-3. Check that code compiles with no errors for write tests.
+- Fix named unions reading C code.
 
 NuGet packages:
 *-dev: package source code into NuGet package as use that as reference
