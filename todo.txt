@@ -1,0 +1,9 @@
+TODO
+
+1. Load C# code for integration write tests.
+2. Calculate struct layout for write tests.
+3. Check that code compiles with no errors for write tests.
+
+NuGet packages:
+*-dev: package source code into NuGet package as use that as reference
+*: package compiled source code as binaries and use as that as reference
