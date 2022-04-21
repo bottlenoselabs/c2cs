@@ -1,4 +1,5 @@
 // Provides macros, types, and functions that make P/Invoke with C# easier.
+#pragma once
 
 #if defined(__APPLE__) && __has_include("TargetConditionals.h")
     #include <TargetConditionals.h>
@@ -88,7 +89,9 @@
     #define PINVOKE_API_DECL extern
 #endif
 
+// ReSharper disable once CppNonInlineFunctionDefinitionInHeaderFile
 PINVOKE_API_DECL const char* pinvoke_get_platform_name()
 {
+    // ReSharper disable once CppZeroConstantCanBeReplacedWithNullptr
     return PINVOKE_TARGET_NAME;
 }
