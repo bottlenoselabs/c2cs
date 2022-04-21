@@ -11,7 +11,7 @@
     }
   },
   "cs": {
-    "output_file": "my_c_library/c/my_c_library.cs",
+    "output_file": "./my_c_library.cs",
     "namespace": "bottlenoselabs"
   }
 }

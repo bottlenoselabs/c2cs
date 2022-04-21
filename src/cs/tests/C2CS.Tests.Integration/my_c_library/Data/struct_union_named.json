@@ -1,3 +1,13 @@
 {
-  "name": "struct_union_named"
+  "name": "struct_union_named",
+  "fields": [
+    {
+      "name": "fields",
+      "type_name": "fields"
+    },
+    {
+      "name": "fields",
+      "type_name": "fields"
+    }
+  ]
 }

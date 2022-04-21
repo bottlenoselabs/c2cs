@@ -92,17 +92,6 @@ public sealed class WriteCodeCSharpFixture
         _structsByName = structsByNameBuilder.ToImmutable();
     }
 
-    private CSharpGeneratedStruct Struct(StructDeclarationSyntax syntaxNode)
-    {
-        var name = syntaxNode.Identifier.Text;
-
-        var result = new CSharpGeneratedStruct()
-        {
-            Name = name
-        };
-        return result;
-    }
-
     private CSharpGeneratedFunction Function(MethodDeclarationSyntax syntaxNode)
     {
         var name = syntaxNode.Identifier.Text;
@@ -122,9 +111,9 @@ public sealed class WriteCodeCSharpFixture
     {
         var builder = ImmutableArray.CreateBuilder<CSharpGeneratedFunctionParameter>();
 
-        foreach (var syntaxNodeChild in syntaxNode.ParameterList.Parameters)
+        foreach (var syntaxNodeParameter in syntaxNode.ParameterList.Parameters)
         {
-            var parameter = FunctionParameter(syntaxNodeChild);
+            var parameter = FunctionParameter(syntaxNodeParameter);
             builder.Add(parameter);
         }
 
@@ -160,9 +149,9 @@ public sealed class WriteCodeCSharpFixture
     private ImmutableArray<CSharpGeneratedEnumMember> EnumMembers(EnumDeclarationSyntax syntaxNode)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpGeneratedEnumMember>();
-        foreach (var syntaxNodeChild in syntaxNode.Members)
+        foreach (var syntaxNodeEnumMember in syntaxNode.Members)
         {
-            var enumMember = EnumMember(syntaxNodeChild);
+            var enumMember = EnumMember(syntaxNodeEnumMember);
             builder.Add(enumMember);
         }
 
@@ -182,17 +171,63 @@ public sealed class WriteCodeCSharpFixture
         return result;
     }
 
-    public CSharpGeneratedEnum GetEnum(string name)
+    private CSharpGeneratedStruct Struct(StructDeclarationSyntax syntaxNode)
     {
-        var exists = _enumsByName.TryGetValue(name, out var value);
-        Assert.True(exists, $"The enum `{name}` does not exist.");
-        return value!;
+        var name = syntaxNode.Identifier.Text;
+        var fields = StructFields(syntaxNode);
+
+        var result = new CSharpGeneratedStruct
+        {
+            Name = name,
+            Fields = fields
+        };
+        return result;
+    }
+
+    private ImmutableArray<CSharpGeneratedStructField> StructFields(StructDeclarationSyntax syntaxNode)
+    {
+        var builder = ImmutableArray.CreateBuilder<CSharpGeneratedStructField>();
+
+        foreach (var syntaxNodeMember in syntaxNode.Members)
+        {
+            if (syntaxNodeMember is not FieldDeclarationSyntax syntaxNodeField)
+            {
+                continue;
+            }
+
+            var field = StructField(syntaxNodeField);
+            builder.Add(field);
+        }
+
+        return builder.ToImmutable();
+    }
+
+    private CSharpGeneratedStructField StructField(FieldDeclarationSyntax syntaxNode)
+    {
+        var variableSyntaxNode = syntaxNode.Declaration;
+        var name = variableSyntaxNode.Variables[0].Identifier.Text;
+        var typeName = variableSyntaxNode.Type.ToString();
+
+        var result = new CSharpGeneratedStructField
+        {
+            Name = name,
+            TypeName = typeName
+        };
+
+        return result;
     }
 
     public CSharpGeneratedFunction GetFunction(string name)
     {
         var exists = _functionsByName.TryGetValue(name, out var value);
         Assert.True(exists, $"The function `{name}` does not exist.");
+        return value!;
+    }
+
+    public CSharpGeneratedEnum GetEnum(string name)
+    {
+        var exists = _enumsByName.TryGetValue(name, out var value);
+        Assert.True(exists, $"The enum `{name}` does not exist.");
         return value!;
     }
 

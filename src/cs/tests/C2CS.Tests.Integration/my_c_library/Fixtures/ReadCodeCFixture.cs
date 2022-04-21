@@ -59,13 +59,10 @@ public sealed class ReadCodeCFixture
         CJsonSerializer cJsonSerializer,
         ConfigurationJsonSerializer configurationJsonSerializer)
     {
-        var configurationFilePath = Native.OperatingSystem switch
-        {
-            NativeOperatingSystem.Windows => "c/tests/my_c_library/config_windows.json",
-            NativeOperatingSystem.Linux => "c/tests/my_c_library/config_linux.json",
-            NativeOperatingSystem.macOS => "c/tests/my_c_library/config_macos.json",
-            _ => throw new InvalidOperationException()
-        };
+#pragma warning disable CA1308
+        var os = Native.OperatingSystem.ToString().ToLowerInvariant();
+#pragma warning restore CA1308
+        var configurationFilePath = $"c/tests/my_c_library/config_{os}.json";
         var configuration = configurationJsonSerializer.Read(configurationFilePath);
         var configurationReadC = configuration.ReadC;
         var output = useCase.Execute(configurationReadC!);

@@ -25,11 +25,6 @@
         <PackageDescription>C to C# library bindings code generator. In go .h file, out come .cs file.</PackageDescription>
     </PropertyGroup>
 
-    <!-- Copy C code files-->
-    <ItemGroup>
-        <None Include="$(GitRepositoryPath)/src/c/production/C2CS/**/*.*" CopyToOutputDirectory="PreserveNewest" LinkBase="C" />
-    </ItemGroup>
-
     <!-- NuGet package references -->
     <ItemGroup>
         <PackageReference Include="JsonSchema.Net" Version="2.0.0" />

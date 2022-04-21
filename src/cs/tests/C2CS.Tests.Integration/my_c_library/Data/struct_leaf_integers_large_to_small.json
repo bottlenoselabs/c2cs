@@ -1,3 +1,21 @@
 {
-  "name": "struct_leaf_integers_large_to_small"
+  "name": "struct_leaf_integers_large_to_small",
+  "fields": [
+    {
+      "name": "struct_field_1",
+      "type_name": "long"
+    },
+    {
+      "name": "struct_field_2",
+      "type_name": "int"
+    },
+    {
+      "name": "struct_field_3",
+      "type_name": "short"
+    },
+    {
+      "name": "struct_field_4",
+      "type_name": "sbyte"
+    }
+  ]
 }
