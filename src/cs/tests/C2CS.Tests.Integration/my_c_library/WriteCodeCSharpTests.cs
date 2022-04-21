@@ -51,6 +51,17 @@ public class WriteCodeCSharpTests : CLibraryIntegrationTest
         AssertValue(name, value);
     }
 
+    [Theory]
+    [InlineData("struct_union_anonymous")]
+    [InlineData("struct_union_named")]
+    [InlineData("struct_leaf_integers_small_to_large")]
+    [InlineData("struct_leaf_integers_large_to_small")]
+    public void Struct(string name)
+    {
+        var value = _fixture.GetStruct(name);
+        AssertValue(name, value);
+    }
+
     private void AssertValue<T>(string name, T value)
     {
         if (_regenerateDataFiles)
@@ -66,7 +77,7 @@ public class WriteCodeCSharpTests : CLibraryIntegrationTest
     private void RegenerateDataFile<T>(string name, T value, [CallerFilePath] string? sourceCodeFilePath = null)
     {
         var directory = _fileSystem.Path.GetDirectoryName(sourceCodeFilePath);
-        var jsonFilePath = _fileSystem.Path.Combine(directory, "Data", name, $"{name}.json");
+        var jsonFilePath = _fileSystem.Path.Combine(directory, "Data", $"{name}.json");
         _serializer.WriteToFile(jsonFilePath, value);
     }
 }

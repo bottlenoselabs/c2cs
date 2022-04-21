@@ -18,6 +18,7 @@ public sealed class WriteCodeCSharpFixture
 {
     private readonly ImmutableDictionary<string, CSharpGeneratedFunction> _functionsByName;
     private readonly ImmutableDictionary<string, CSharpGeneratedEnum> _enumsByName;
+    private readonly ImmutableDictionary<string, CSharpGeneratedStruct> _structsByName;
 
     public WriteCodeCSharpFixture(
         WriteCodeCSharpUseCase useCase,
@@ -57,22 +58,30 @@ public sealed class WriteCodeCSharpFixture
 
         var methodsByNameBuilder = ImmutableDictionary.CreateBuilder<string, CSharpGeneratedFunction>();
         var enumsByNameBuilder = ImmutableDictionary.CreateBuilder<string, CSharpGeneratedEnum>();
+        var structsByNameBuilder = ImmutableDictionary.CreateBuilder<string, CSharpGeneratedStruct>();
 
         foreach (var member in @class.Members)
         {
             switch (member)
             {
-                case MethodDeclarationSyntax method:
+                case MethodDeclarationSyntax syntaxNode:
                 {
-                    var value = Function(method);
-                    methodsByNameBuilder.Add(method.Identifier.Text, value);
+                    var value = Function(syntaxNode);
+                    methodsByNameBuilder.Add(syntaxNode.Identifier.Text, value);
                     break;
                 }
 
-                case EnumDeclarationSyntax @enum:
+                case EnumDeclarationSyntax syntaxNode:
                 {
-                    var value = Enum(@enum);
-                    enumsByNameBuilder.Add(@enum.Identifier.Text, value);
+                    var value = Enum(syntaxNode);
+                    enumsByNameBuilder.Add(syntaxNode.Identifier.Text, value);
+                    break;
+                }
+
+                case StructDeclarationSyntax syntaxNode:
+                {
+                    var value = Struct(syntaxNode);
+                    structsByNameBuilder.Add(syntaxNode.Identifier.Text, value);
                     break;
                 }
             }
@@ -80,6 +89,18 @@ public sealed class WriteCodeCSharpFixture
 
         _functionsByName = methodsByNameBuilder.ToImmutable();
         _enumsByName = enumsByNameBuilder.ToImmutable();
+        _structsByName = structsByNameBuilder.ToImmutable();
+    }
+
+    private CSharpGeneratedStruct Struct(StructDeclarationSyntax syntaxNode)
+    {
+        var name = syntaxNode.Identifier.Text;
+
+        var result = new CSharpGeneratedStruct()
+        {
+            Name = name
+        };
+        return result;
     }
 
     private CSharpGeneratedFunction Function(MethodDeclarationSyntax syntaxNode)
@@ -172,6 +193,13 @@ public sealed class WriteCodeCSharpFixture
     {
         var exists = _functionsByName.TryGetValue(name, out var value);
         Assert.True(exists, $"The function `{name}` does not exist.");
+        return value!;
+    }
+
+    public CSharpGeneratedStruct GetStruct(string name)
+    {
+        var exists = _structsByName.TryGetValue(name, out var value);
+        Assert.True(exists, $"The struct `{name}` does not exist.");
         return value!;
     }
 }
