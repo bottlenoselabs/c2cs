@@ -36,7 +36,7 @@
     #elif PINVOKE_TARGET_CPU_ARM64
         #define PINVOKE_TARGET_NAME "aarch64-pc-windows-gnu"
     #else
-        #error "Failed to determine runtime platform name: Unknown computer architecture for Windows."
+        #error "Unknown computer architecture for Windows (GNU)."
     #endif
 #elif PINVOKE_TARGET_OS_WINDOWS && PINVOKE_TARGET_ENV_MSVC
     #if PINVOKE_TARGET_CPU_X64
@@ -46,7 +46,7 @@
     #elif PINVOKE_TARGET_CPU_ARM64
         #define PINVOKE_TARGET_NAME "aarch64-pc-windows-msvc"
     #else
-        #error "Unknown computer architecture for Windows."
+        #error "Unknown computer architecture for Windows (Microsoft Visual C++)."
     #endif
 #elif PINVOKE_TARGET_OS_LINUX
     #if PINVOKE_TARGET_CPU_X64
