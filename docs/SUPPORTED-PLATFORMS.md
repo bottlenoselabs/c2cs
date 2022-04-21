@@ -95,8 +95,8 @@ The main reason for statically linking a C library is "security" but it's really
 ### Platform Matrix Notes
 
 |Column|Notes|
-|:-:|:-:|:-:|
-|Open|The ability to read C code for the target platform from a different host platform. If a platform has an `✅` here it means the system headers can be distributed to other platforms under a free and open-source license. If a platform has an `❌` here it means the system header files part of the target platform have to be made manually accessible to `C2CS` to read C code for the target platform from a different target platform.|
+|:-:|-|
+|Open|The ability to read C code for the target platform from a different host platform. If a platform has an `✅` here it means the system headers can be distributed to other platforms under a free and open-source license. If a platform has an `❌` here it means the system header files part of the target platform have to be made manually accessible to `C2CS` to read C code for the target platform from a different host platform.|
 |OS|The operating system of the target platform.|
 |Arch|The computer architecture (a.k.a instruction set architecture) of the target platform|
 |SDE|The software development environment (SDE) required to build native libraries for the target platform.|
