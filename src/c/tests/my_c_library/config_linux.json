@@ -3,7 +3,7 @@
   "ast": {
     "input_file": "./include/my_c_library.h",
     "include_directories": [
-      "../../production/C2CS/include"
+      "../../production/c2cs/include"
     ],
     "platforms": {
       "aarch64-unknown-linux-gnu": {},
