@@ -15,152 +15,54 @@ public class ReadCodeCTests : CLibraryIntegrationTest
     private readonly ReadCodeCFixture _fixture;
 
     public ReadCodeCTests()
-        : base("my_c_library")
+        : base(TestHost.Services, "my_c_library", "Data/C", true)
     {
         _fixture = TestHost.Services.GetService<ReadCodeCFixture>()!;
-        _fixture.AssertPlatform();
+        _fixture.AssertTargetPlatforms();
     }
 
-    [Fact]
-    public void enum_force_uint32()
+    [Theory]
+    [InlineData("enum_force_uint32")]
+    public void Enum(string name)
     {
-        Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
-        foreach (var ast in _fixture.AbstractSyntaxTrees)
+        Assert.True(_fixture.Contexts.Length > 0);
+        foreach (var context in _fixture.Contexts)
         {
-            const string name = nameof(enum_force_uint32);
-            var value = ast.GetEnum(name);
-
-            Assert.True(value.IntegerType == "unsigned int" || value.IntegerType == "int");
-            Assert.True(!value.Values.IsDefaultOrEmpty);
+            var value = context.GetEnum(name);
+            AssertValue(name, value, $"{context.TargetPlatform}/Enums");
         }
     }
 
-    [Fact]
-    public void function_void_void()
+    [Theory]
+    [InlineData("function_void_void")]
+    [InlineData("function_void_string")]
+    [InlineData("function_void_uint16_int32_uint64")]
+    [InlineData("function_void_uint16ptr_int32ptr_uint64ptr")]
+    [InlineData("function_void_enum")]
+    [InlineData("function_void_struct_union_anonymous")]
+    [InlineData("function_void_struct_union_named")]
+    public void Function(string name)
     {
-        Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
-        foreach (var ast in _fixture.AbstractSyntaxTrees)
+        Assert.True(_fixture.Contexts.Length > 0);
+        foreach (var context in _fixture.Contexts)
         {
-            const string name = nameof(function_void_void);
-            var value = ast.GetFunction(name);
-
-            Assert.True(value.CallingConvention == CFunctionCallingConvention.Cdecl);
-            Assert.True(value.ReturnType == "void");
-            Assert.True(value.Parameters.IsDefaultOrEmpty);
+            var value = context.GetFunction(name);
+            AssertValue(name, value, $"{context.TargetPlatform}/Functions");
         }
     }
 
-    [Fact]
-    public void function_void_string()
+    [Theory]
+    [InlineData("struct_union_anonymous")]
+    [InlineData("struct_union_named")]
+    [InlineData("struct_leaf_integers_small_to_large")]
+    [InlineData("struct_leaf_integers_large_to_small")]
+    public void Struct(string name)
     {
-        Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
-        foreach (var ast in _fixture.AbstractSyntaxTrees)
+        Assert.True(_fixture.Contexts.Length > 0);
+        foreach (var context in _fixture.Contexts)
         {
-            const string name = nameof(function_void_string);
-            var value = ast.GetFunction(name);
-
-            Assert.True(value.CallingConvention == CFunctionCallingConvention.Cdecl);
-            Assert.True(value.ReturnType == "void");
-
-            Assert.True(!value.Parameters.IsDefaultOrEmpty);
-            Assert.True(value.Parameters.Length == 1);
-
-            var parameter = value.Parameters[0];
-            Assert.True(parameter.Type == "char*");
-        }
-    }
-
-    [Fact]
-    public void function_void_uint16_int32_uint64()
-    {
-        Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
-        foreach (var ast in _fixture.AbstractSyntaxTrees)
-        {
-            const string name = nameof(function_void_uint16_int32_uint64);
-            var value = ast.GetFunction(name);
-
-            Assert.True(value.CallingConvention == CFunctionCallingConvention.Cdecl);
-            Assert.True(value.ReturnType == "void");
-
-            Assert.True(!value.Parameters.IsDefaultOrEmpty);
-            Assert.True(value.Parameters.Length == 3);
-
-            var firstParameter = value.Parameters[0];
-            Assert.True(firstParameter.Type == "uint16_t");
-
-            var secondParameter = value.Parameters[1];
-            Assert.True(secondParameter.Type == "int32_t");
-
-            var thirdParameter = value.Parameters[2];
-            Assert.True(thirdParameter.Type == "uint64_t");
-        }
-    }
-
-    [Fact]
-    public void function_void_uint16ptr_int32ptr_uint64ptr()
-    {
-        Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
-        foreach (var ast in _fixture.AbstractSyntaxTrees)
-        {
-            const string name = nameof(function_void_uint16ptr_int32ptr_uint64ptr);
-            var value = ast.GetFunction(name);
-
-            Assert.True(value.CallingConvention == CFunctionCallingConvention.Cdecl);
-            Assert.True(value.ReturnType == "void");
-
-            Assert.True(!value.Parameters.IsDefaultOrEmpty);
-            Assert.True(value.Parameters.Length == 3);
-
-            var firstParameter = value.Parameters[0];
-            Assert.True(firstParameter.Type == "uint16_t*");
-
-            var secondParameter = value.Parameters[1];
-            Assert.True(secondParameter.Type == "int32_t*");
-
-            var thirdParameter = value.Parameters[2];
-            Assert.True(thirdParameter.Type == "uint64_t*");
-        }
-    }
-
-    [Fact]
-    public void function_void_enum()
-    {
-        Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
-        foreach (var ast in _fixture.AbstractSyntaxTrees)
-        {
-            const string name = nameof(function_void_enum);
-            var value = ast.GetFunction(name);
-
-            Assert.True(value.CallingConvention == CFunctionCallingConvention.Cdecl);
-            Assert.True(value.ReturnType == "void");
-
-            Assert.True(!value.Parameters.IsDefaultOrEmpty);
-            Assert.True(value.Parameters.Length == 1);
-
-            var firstParameter = value.Parameters[0];
-            Assert.True(firstParameter.Type == "enum_force_uint32");
-        }
-    }
-
-    [Fact]
-    public void function_void_struct_union_anonymous()
-    {
-        Assert.True(_fixture.AbstractSyntaxTrees.Length > 0);
-        foreach (var ast in _fixture.AbstractSyntaxTrees)
-        {
-            const string name = nameof(function_void_struct_union_anonymous);
-            var function = ast.GetFunction(name);
-
-            Assert.True(function.CallingConvention == CFunctionCallingConvention.Cdecl);
-            Assert.True(function.ReturnType == "void");
-
-            Assert.True(!function.Parameters.IsDefaultOrEmpty);
-            Assert.True(function.Parameters.Length == 1);
-
-            var firstParameter = function.Parameters[0];
-            Assert.True(firstParameter.Type == "struct_union_anonymous");
-
-            var @struct = ast.GetStruct("struct_union_anonymous");
+            var value = context.GetStruct(name);
+            AssertValue(name, value, $"{context.TargetPlatform}/Structs");
         }
     }
 }

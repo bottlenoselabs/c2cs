@@ -37,10 +37,7 @@
     <!-- Copy C code files-->
     <ItemGroup>
         <None Include="$(GitRepositoryPath)/src/c/**/*.*" CopyToOutputDirectory="PreserveNewest" LinkBase="c" />
-        <None Update="my_c_library/Data/**/*.*" CopyToOutputDirectory="PreserveNewest" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="my_c_library\Data" />
+        <None Include="my_c_library/Data/**/*.*" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 
 </Project>

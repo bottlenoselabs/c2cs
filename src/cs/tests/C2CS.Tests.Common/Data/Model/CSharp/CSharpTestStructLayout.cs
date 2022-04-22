@@ -4,10 +4,10 @@
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
-namespace C2CS.Tests.Common.Data.Model;
+namespace C2CS.Tests.Common.Data.Model.CSharp;
 
 [PublicAPI]
-public class CSharpGeneratedStructLayout
+public class CSharpTestStructLayout
 {
     [JsonPropertyName("kind")]
     public string LayoutKind { get; set; } = string.Empty;

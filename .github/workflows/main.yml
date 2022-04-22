@@ -69,10 +69,10 @@ jobs:
         nuget-access-token: "${{ secrets.NUGET_ACCESS_TOKEN }}"
 
     - uses: actions/upload-artifact@v3
-      if: ${{ failure() }}
+      if: ${{ always() }}
       with:
-        name: "Failing Test Data ${{ matrix.platform.name }}"
+        name: "Test Data ${{ matrix.platform.name }}"
         path: |
           ${{ github.workspace }}/bin/*Tests*/**/*.cs
-          ${{ github.workspace }}/bin/*Tests*/**/ast/*.json
+          ${{ github.workspace }}/bin/*Tests*/**/*.json
 

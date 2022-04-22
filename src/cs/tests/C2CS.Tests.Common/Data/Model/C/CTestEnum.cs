@@ -5,17 +5,17 @@ using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
-namespace C2CS.Tests.Common.Data.Model;
+namespace C2CS.Tests.Common.Data.Model.C;
 
 [PublicAPI]
-public class CSharpGeneratedStruct
+public class CTestEnum
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonPropertyName("layout")]
-    public CSharpGeneratedStructLayout Layout { get; set; } = null!;
+    [JsonPropertyName("type_integer")]
+    public string IntegerType { get; set; } = string.Empty;
 
-    [JsonPropertyName("fields")]
-    public ImmutableArray<CSharpGeneratedStructField> Fields { get; set; } = ImmutableArray<CSharpGeneratedStructField>.Empty;
+    [JsonPropertyName("values")]
+    public ImmutableArray<CTestEnumValue> Values { get; set; } = ImmutableArray<CTestEnumValue>.Empty;
 }

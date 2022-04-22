@@ -4,17 +4,14 @@
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
-namespace C2CS.Tests.Common.Data.Model;
+namespace C2CS.Tests.Common.Data.Model.CSharp;
 
 [PublicAPI]
-public class CSharpGeneratedStructField
+public class CSharpTestEnumMember
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonPropertyName("type_name")]
-    public string TypeName { get; set; } = string.Empty;
-
-    [JsonPropertyName("offset_of")]
-    public int OffsetOf { get; set; }
+    [JsonPropertyName("value")]
+    public string Value { get; set; } = string.Empty;
 }

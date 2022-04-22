@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using C2CS.IntegrationTests.my_c_library.Fixtures;
-using C2CS.Tests.Common.Data.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace C2CS.IntegrationTests.my_c_library;
@@ -11,8 +10,6 @@ public static class Startup
 {
     public static void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton<CSharpGeneratedJsonSerializer>();
-
         services.AddSingleton<ReadCodeCFixture>();
         services.AddSingleton<WriteCodeCSharpFixture>();
     }

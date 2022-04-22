@@ -5,17 +5,17 @@ using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
-namespace C2CS.Tests.Common.Data.Model;
+namespace C2CS.Tests.Common.Data.Model.CSharp;
 
 [PublicAPI]
-public class CSharpGeneratedFunction
+public class CSharpTestEnum
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonPropertyName("return_type_name")]
-    public string ReturnTypeName { get; set; } = string.Empty;
+    [JsonPropertyName("base_type")]
+    public string BaseType { get; set; } = string.Empty;
 
-    [JsonPropertyName("parameters")]
-    public ImmutableArray<CSharpGeneratedFunctionParameter> Parameters { get; set; }
+    [JsonPropertyName("members")]
+    public ImmutableArray<CSharpTestEnumMember> Members { get; set; } = ImmutableArray<CSharpTestEnumMember>.Empty;
 }
