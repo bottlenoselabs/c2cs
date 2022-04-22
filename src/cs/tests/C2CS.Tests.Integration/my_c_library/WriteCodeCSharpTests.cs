@@ -11,19 +11,19 @@ namespace C2CS.IntegrationTests.my_c_library;
 [Trait("Integration", "my_c_library")]
 public class WriteCodeCSharpTests : CLibraryIntegrationTest
 {
-    private readonly WriteCodeCSharpFixture _fixture;
+    private readonly WriteCodeCSharpFixtureContext _context;
 
     public WriteCodeCSharpTests()
         : base(TestHost.Services, "my_c_library", "Data/CSharp", true)
     {
-        _fixture = TestHost.Services.GetService<WriteCodeCSharpFixture>()!;
+        _context = TestHost.Services.GetService<WriteCodeCSharpFixture>()!.Context;
     }
 
     [Theory]
     [InlineData("enum_force_uint32")]
     public void Enum(string name)
     {
-        var value = _fixture.GetEnum(name);
+        var value = _context.GetEnum(name);
         AssertValue(name, value, "Enums");
     }
 
@@ -37,7 +37,7 @@ public class WriteCodeCSharpTests : CLibraryIntegrationTest
     [InlineData("function_void_struct_union_named")]
     public void Function(string name)
     {
-        var value = _fixture.GetFunction(name);
+        var value = _context.GetFunction(name);
         AssertValue(name, value, "Functions");
     }
 
@@ -48,7 +48,7 @@ public class WriteCodeCSharpTests : CLibraryIntegrationTest
     [InlineData("struct_leaf_integers_large_to_small")]
     public void Struct(string name)
     {
-        var value = _fixture.GetStruct(name);
+        var value = _context.GetStruct(name);
         AssertValue(name, value, "Structs");
     }
 }

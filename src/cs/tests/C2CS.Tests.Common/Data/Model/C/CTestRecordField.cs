@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 namespace C2CS.Tests.Common.Data.Model.C;
 
 [PublicAPI]
-public class CTestStructField
+public class CTestRecordField
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;

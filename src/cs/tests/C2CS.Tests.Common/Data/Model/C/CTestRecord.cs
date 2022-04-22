@@ -8,7 +8,7 @@ using JetBrains.Annotations;
 namespace C2CS.Tests.Common.Data.Model.C;
 
 [PublicAPI]
-public class CTestStruct
+public class CTestRecord
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
@@ -22,6 +22,12 @@ public class CTestStruct
     [JsonPropertyName("align_of")]
     public int AlignOf { get; set; }
 
+    [JsonPropertyName("is_union")]
+    public bool IsUnion { get; set; }
+
+    [JsonIgnore]
+    public bool IsStruct => !IsUnion;
+
     [JsonPropertyName("fields")]
-    public ImmutableArray<CTestStructField> Fields { get; set; } = ImmutableArray<CTestStructField>.Empty;
+    public ImmutableArray<CTestRecordField> Fields { get; set; } = ImmutableArray<CTestRecordField>.Empty;
 }

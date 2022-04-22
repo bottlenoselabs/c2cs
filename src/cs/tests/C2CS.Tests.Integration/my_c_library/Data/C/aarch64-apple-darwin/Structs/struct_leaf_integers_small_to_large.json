@@ -3,6 +3,7 @@
   "parent_name": "struct_union_anonymous_ANONYMOUSFIELD0",
   "size_of": 16,
   "align_of": 8,
+  "is_union": false,
   "fields": [
     {
       "name": "struct_field_1",

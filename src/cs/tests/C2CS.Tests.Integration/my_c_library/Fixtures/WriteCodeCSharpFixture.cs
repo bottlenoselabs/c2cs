@@ -20,9 +20,7 @@ namespace C2CS.IntegrationTests.my_c_library.Fixtures;
 
 public sealed class WriteCodeCSharpFixture
 {
-    private readonly ImmutableDictionary<string, CSharpTestFunction> _functionsByName;
-    private readonly ImmutableDictionary<string, CSharpTestEnum> _enumsByName;
-    private readonly ImmutableDictionary<string, CSharpTestStruct> _structsByName;
+    public WriteCodeCSharpFixtureContext Context { get; }
 
     public WriteCodeCSharpFixture(
         WriteCodeCSharpUseCase useCase,
@@ -81,37 +79,38 @@ public sealed class WriteCodeCSharpFixture
             {
                 case MethodDeclarationSyntax syntaxNode:
                 {
-                    var value = TestFunction(syntaxNode);
+                    var value = CreateTestFunction(syntaxNode);
                     methodsByNameBuilder.Add(syntaxNode.Identifier.Text, value);
                     break;
                 }
 
                 case EnumDeclarationSyntax syntaxNode:
                 {
-                    var value = TestEnum(syntaxNode);
+                    var value = CreateTestEnum(syntaxNode);
                     enumsByNameBuilder.Add(syntaxNode.Identifier.Text, value);
                     break;
                 }
 
                 case StructDeclarationSyntax syntaxNode:
                 {
-                    var value = TestStruct(syntaxNode);
+                    var value = CreateTestStruct(syntaxNode);
                     structsByNameBuilder.Add(syntaxNode.Identifier.Text, value);
                     break;
                 }
             }
         }
 
-        _functionsByName = methodsByNameBuilder.ToImmutable();
-        _enumsByName = enumsByNameBuilder.ToImmutable();
-        _structsByName = structsByNameBuilder.ToImmutable();
+        Context = new WriteCodeCSharpFixtureContext(
+            methodsByNameBuilder.ToImmutable(),
+            enumsByNameBuilder.ToImmutable(),
+            structsByNameBuilder.ToImmutable());
     }
 
-    private CSharpTestFunction TestFunction(MethodDeclarationSyntax syntaxNode)
+    private CSharpTestFunction CreateTestFunction(MethodDeclarationSyntax syntaxNode)
     {
         var name = syntaxNode.Identifier.Text;
         var returnTypeName = syntaxNode.ReturnType.ToString();
-        var parameters = TestFunctionParameters(syntaxNode);
+        var parameters = CreateTestFunctionParameters(syntaxNode);
 
         var result = new CSharpTestFunction
         {
@@ -122,20 +121,20 @@ public sealed class WriteCodeCSharpFixture
         return result;
     }
 
-    private ImmutableArray<CSharpTestFunctionParameter> TestFunctionParameters(MethodDeclarationSyntax syntaxNode)
+    private ImmutableArray<CSharpTestFunctionParameter> CreateTestFunctionParameters(MethodDeclarationSyntax syntaxNode)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpTestFunctionParameter>();
 
         foreach (var syntaxNodeParameter in syntaxNode.ParameterList.Parameters)
         {
-            var parameter = TestFunctionParameter(syntaxNodeParameter);
+            var parameter = CreateTestFunctionParameter(syntaxNodeParameter);
             builder.Add(parameter);
         }
 
         return builder.ToImmutable();
     }
 
-    private CSharpTestFunctionParameter TestFunctionParameter(ParameterSyntax syntaxNode)
+    private CSharpTestFunctionParameter CreateTestFunctionParameter(ParameterSyntax syntaxNode)
     {
         var typeName = syntaxNode.Type?.ToString() ?? string.Empty;
 
@@ -146,11 +145,11 @@ public sealed class WriteCodeCSharpFixture
         return result;
     }
 
-    private CSharpTestEnum TestEnum(EnumDeclarationSyntax syntaxNode)
+    private CSharpTestEnum CreateTestEnum(EnumDeclarationSyntax syntaxNode)
     {
         var name = syntaxNode.Identifier.Text;
         var baseType = syntaxNode.BaseList!.Types[0].Type.ToString();
-        var enumMembers = TestEnumMembers(syntaxNode);
+        var enumMembers = CreateTestEnumMembers(syntaxNode);
 
         var result = new CSharpTestEnum
         {
@@ -161,19 +160,19 @@ public sealed class WriteCodeCSharpFixture
         return result;
     }
 
-    private ImmutableArray<CSharpTestEnumMember> TestEnumMembers(EnumDeclarationSyntax syntaxNode)
+    private ImmutableArray<CSharpTestEnumMember> CreateTestEnumMembers(EnumDeclarationSyntax syntaxNode)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpTestEnumMember>();
         foreach (var syntaxNodeEnumMember in syntaxNode.Members)
         {
-            var enumMember = TestEnumMember(syntaxNodeEnumMember);
+            var enumMember = CreateTestEnumMember(syntaxNodeEnumMember);
             builder.Add(enumMember);
         }
 
         return builder.ToImmutable();
     }
 
-    private CSharpTestEnumMember TestEnumMember(EnumMemberDeclarationSyntax syntaxNode)
+    private CSharpTestEnumMember CreateTestEnumMember(EnumMemberDeclarationSyntax syntaxNode)
     {
         var name = syntaxNode.Identifier.ValueText;
         var value = syntaxNode.EqualsValue!.Value.GetText().ToString().Trim();
@@ -186,11 +185,11 @@ public sealed class WriteCodeCSharpFixture
         return result;
     }
 
-    private CSharpTestStruct TestStruct(StructDeclarationSyntax syntaxNode)
+    private CSharpTestStruct CreateTestStruct(StructDeclarationSyntax syntaxNode)
     {
         var name = syntaxNode.Identifier.Text;
-        var fields = TestStructFields(syntaxNode);
-        var layout = StructLayout(syntaxNode);
+        var fields = CreateTestStructFields(syntaxNode);
+        var layout = CreateTestStructLayout(syntaxNode);
 
         var result = new CSharpTestStruct
         {
@@ -201,7 +200,7 @@ public sealed class WriteCodeCSharpFixture
         return result;
     }
 
-    private ImmutableArray<CSharpTestStructField> TestStructFields(StructDeclarationSyntax syntaxNode)
+    private ImmutableArray<CSharpTestStructField> CreateTestStructFields(StructDeclarationSyntax syntaxNode)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpTestStructField>();
 
@@ -212,14 +211,14 @@ public sealed class WriteCodeCSharpFixture
                 continue;
             }
 
-            var field = TestStructField(syntaxNodeField);
+            var field = CreateTestStructField(syntaxNodeField);
             builder.Add(field);
         }
 
         return builder.ToImmutable();
     }
 
-    private CSharpTestStructField TestStructField(FieldDeclarationSyntax syntaxNode)
+    private CSharpTestStructField CreateTestStructField(FieldDeclarationSyntax syntaxNode)
     {
         var variableSyntaxNode = syntaxNode.Declaration;
         var name = variableSyntaxNode.Variables[0].Identifier.Text;
@@ -236,28 +235,7 @@ public sealed class WriteCodeCSharpFixture
         return result;
     }
 
-    public CSharpTestFunction GetFunction(string name)
-    {
-        var exists = _functionsByName.TryGetValue(name, out var value);
-        Assert.True(exists, $"The function `{name}` does not exist.");
-        return value!;
-    }
-
-    public CSharpTestEnum GetEnum(string name)
-    {
-        var exists = _enumsByName.TryGetValue(name, out var value);
-        Assert.True(exists, $"The enum `{name}` does not exist.");
-        return value!;
-    }
-
-    public CSharpTestStruct GetStruct(string name)
-    {
-        var exists = _structsByName.TryGetValue(name, out var value);
-        Assert.True(exists, $"The struct `{name}` does not exist.");
-        return value!;
-    }
-
-    private CSharpTestStructLayout StructLayout(StructDeclarationSyntax syntaxNode)
+    private CSharpTestStructLayout CreateTestStructLayout(StructDeclarationSyntax syntaxNode)
     {
         var attribute = GetAttribute("StructLayout", syntaxNode);
         var arguments = attribute.ArgumentList!.Arguments;

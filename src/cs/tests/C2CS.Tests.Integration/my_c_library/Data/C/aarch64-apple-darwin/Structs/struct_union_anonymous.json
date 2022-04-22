@@ -3,6 +3,7 @@
   "parent_name": "",
   "size_of": 16,
   "align_of": 8,
+  "is_union": false,
   "fields": [
     {
       "name": "",

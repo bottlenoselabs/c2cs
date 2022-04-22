@@ -1,7 +1,6 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using C2CS.Data.Serialization;
 using C2CS.Feature.ReadCodeC;
@@ -9,7 +8,6 @@ using C2CS.Feature.ReadCodeC.Data.Model;
 using C2CS.Feature.ReadCodeC.Data.Serialization;
 using C2CS.Feature.ReadCodeC.Domain;
 using C2CS.Tests.Common.Data.Model.C;
-using Xunit;
 
 namespace C2CS.IntegrationTests.my_c_library.Fixtures;
 
@@ -50,9 +48,9 @@ public sealed class ReadCodeCFixture
             }
 
             var ast = cJsonSerializer.Read(options.OutputFilePath);
-            var functions = TestFunctions(ast);
-            var enums = TestEnums(ast);
-            var structs = TestStructs(ast);
+            var functions = CreateTestFunctions(ast);
+            var enums = CreateTestEnums(ast);
+            var structs = CreateTestRecords(ast);
 
             var data = new ReadCodeCFixtureContext(
                 ast.Platform,
@@ -66,22 +64,22 @@ public sealed class ReadCodeCFixture
         return builder.ToImmutable();
     }
 
-    private static ImmutableDictionary<string, CTestFunction> TestFunctions(CAbstractSyntaxTree ast)
+    private static ImmutableDictionary<string, CTestFunction> CreateTestFunctions(CAbstractSyntaxTree ast)
     {
         var builder = ImmutableDictionary.CreateBuilder<string, CTestFunction>();
 
         foreach (var function in ast.Functions)
         {
-            var result = TestFunction(function);
+            var result = CreateTestFunction(function);
             builder.Add(result.Name, result);
         }
 
         return builder.ToImmutable();
     }
 
-    private static CTestFunction TestFunction(CFunction value)
+    private static CTestFunction CreateTestFunction(CFunction value)
     {
-        var parameters = TestFunctionParameters(value.Parameters);
+        var parameters = CreateTestFunctionParameters(value.Parameters);
 
         var result = new CTestFunction
         {
@@ -95,20 +93,21 @@ public sealed class ReadCodeCFixture
         return result;
     }
 
-    private static ImmutableArray<CTestFunctionParameter> TestFunctionParameters(ImmutableArray<CFunctionParameter> values)
+    private static ImmutableArray<CTestFunctionParameter> CreateTestFunctionParameters(
+        ImmutableArray<CFunctionParameter> values)
     {
         var builder = ImmutableArray.CreateBuilder<CTestFunctionParameter>();
 
         foreach (var value in values)
         {
-            var result = TestFunctionParameter(value);
+            var result = CreateTestFunctionParameter(value);
             builder.Add(result);
         }
 
         return builder.ToImmutable();
     }
 
-    private static CTestFunctionParameter TestFunctionParameter(CFunctionParameter value)
+    private static CTestFunctionParameter CreateTestFunctionParameter(CFunctionParameter value)
     {
         var result = new CTestFunctionParameter
         {
@@ -119,22 +118,22 @@ public sealed class ReadCodeCFixture
         return result;
     }
 
-    private static ImmutableDictionary<string, CTestEnum> TestEnums(CAbstractSyntaxTree ast)
+    private static ImmutableDictionary<string, CTestEnum> CreateTestEnums(CAbstractSyntaxTree ast)
     {
         var builder = ImmutableDictionary.CreateBuilder<string, CTestEnum>();
 
         foreach (var @enum in ast.Enums)
         {
-            var result = TestEnum(@enum);
+            var result = CreateTestEnum(@enum);
             builder.Add(result.Name, result);
         }
 
         return builder.ToImmutable();
     }
 
-    private static CTestEnum TestEnum(CEnum value)
+    private static CTestEnum CreateTestEnum(CEnum value)
     {
-        var values = TestEnumValues(value.Values);
+        var values = CreateTestEnumValues(value.Values);
 
         var result = new CTestEnum
         {
@@ -145,20 +144,20 @@ public sealed class ReadCodeCFixture
         return result;
     }
 
-    private static ImmutableArray<CTestEnumValue> TestEnumValues(ImmutableArray<CEnumValue> values)
+    private static ImmutableArray<CTestEnumValue> CreateTestEnumValues(ImmutableArray<CEnumValue> values)
     {
         var builder = ImmutableArray.CreateBuilder<CTestEnumValue>();
 
         foreach (var value in values)
         {
-            var result = TestEnumValue(value);
+            var result = CreateTestEnumValue(value);
             builder.Add(result);
         }
 
         return builder.ToImmutable();
     }
 
-    private static CTestEnumValue TestEnumValue(CEnumValue value)
+    private static CTestEnumValue CreateTestEnumValue(CEnumValue value)
     {
         var result = new CTestEnumValue
         {
@@ -168,52 +167,59 @@ public sealed class ReadCodeCFixture
         return result;
     }
 
-    private static ImmutableDictionary<string, CTestStruct> TestStructs(CAbstractSyntaxTree ast)
+    private static ImmutableDictionary<string, CTestRecord> CreateTestRecords(CAbstractSyntaxTree ast)
     {
-        var builder = ImmutableDictionary.CreateBuilder<string, CTestStruct>();
+        var builder = ImmutableDictionary.CreateBuilder<string, CTestRecord>();
 
         foreach (var value in ast.Structs)
         {
-            var result = TestStruct(value);
+            var result = CreateTestRecordStruct(value);
+            builder.Add(result.Name, result);
+        }
+
+        foreach (var value in ast.Unions)
+        {
+            var result = CreateTestRecordUnion(value);
             builder.Add(result.Name, result);
         }
 
         return builder.ToImmutable();
     }
 
-    private static CTestStruct TestStruct(CStruct value)
+    private static CTestRecord CreateTestRecordStruct(CStruct value)
     {
         var name = value.Name;
-        var fields = TestStructFields(value.Fields);
+        var fields = CreateTestStructFields(value.Fields);
 
-        var result = new CTestStruct
+        var result = new CTestRecord
         {
             Name = name,
             ParentName = value.ParentName,
             SizeOf = value.SizeOf,
             AlignOf = value.AlignOf,
-            Fields = fields
+            Fields = fields,
+            IsUnion = false
         };
 
         return result;
     }
 
-    private static ImmutableArray<CTestStructField> TestStructFields(ImmutableArray<CStructField> values)
+    private static ImmutableArray<CTestRecordField> CreateTestStructFields(ImmutableArray<CStructField> values)
     {
-        var builder = ImmutableArray.CreateBuilder<CTestStructField>();
+        var builder = ImmutableArray.CreateBuilder<CTestRecordField>();
 
         foreach (var value in values)
         {
-            var result = TestStructField(value);
+            var result = CreateTestRecordField(value);
             builder.Add(result);
         }
 
         return builder.ToImmutable();
     }
 
-    private static CTestStructField TestStructField(CStructField value)
+    private static CTestRecordField CreateTestRecordField(CStructField value)
     {
-        var result = new CTestStructField
+        var result = new CTestRecordField
         {
             Name = value.Name,
             TypeName = value.Type,
@@ -225,16 +231,48 @@ public sealed class ReadCodeCFixture
         return result;
     }
 
-    public void AssertTargetPlatforms()
+    private static CTestRecord CreateTestRecordUnion(CUnion value)
     {
-        Assert.True(Contexts.Length > 0);
+        var name = value.Name;
+        var fields = CreateTestUnionFields(value.Fields);
 
-        foreach (var abstractSyntaxTree in Contexts)
+        var result = new CTestRecord
         {
-            var function = abstractSyntaxTree.GetFunction("pinvoke_get_platform_name");
-            Assert.Equal("cdecl", function.CallingConvention);
-            Assert.Equal("char*", function.ReturnTypeName);
-            Assert.True(function.Parameters.IsDefaultOrEmpty);
+            Name = name,
+            ParentName = value.ParentName,
+            SizeOf = value.SizeOf,
+            AlignOf = value.AlignOf,
+            Fields = fields,
+            IsUnion = false
+        };
+
+        return result;
+    }
+
+    private static ImmutableArray<CTestRecordField> CreateTestUnionFields(ImmutableArray<CUnionField> values)
+    {
+        var builder = ImmutableArray.CreateBuilder<CTestRecordField>();
+
+        foreach (var value in values)
+        {
+            var result = CreateTestUnionField(value);
+            builder.Add(result);
         }
+
+        return builder.ToImmutable();
+    }
+
+    private static CTestRecordField CreateTestUnionField(CUnionField value)
+    {
+        var result = new CTestRecordField
+        {
+            Name = value.Name,
+            TypeName = value.Type,
+            OffsetOf = 0,
+            PaddingOf = 0,
+            SizeOf = value.SizeOf
+        };
+
+        return result;
     }
 }

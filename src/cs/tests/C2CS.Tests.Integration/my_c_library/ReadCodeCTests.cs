@@ -1,7 +1,7 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using C2CS.Feature.ReadCodeC.Data.Model;
+using System.Collections.Immutable;
 using C2CS.IntegrationTests.my_c_library.Fixtures;
 using C2CS.Tests.Common;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,21 +12,20 @@ namespace C2CS.IntegrationTests.my_c_library;
 [Trait("Integration", "my_c_library")]
 public class ReadCodeCTests : CLibraryIntegrationTest
 {
-    private readonly ReadCodeCFixture _fixture;
+    private readonly ImmutableArray<ReadCodeCFixtureContext> _contexts;
 
     public ReadCodeCTests()
         : base(TestHost.Services, "my_c_library", "Data/C", true)
     {
-        _fixture = TestHost.Services.GetService<ReadCodeCFixture>()!;
-        _fixture.AssertTargetPlatforms();
+        _contexts = TestHost.Services.GetService<ReadCodeCFixture>()!.Contexts;
     }
 
     [Theory]
     [InlineData("enum_force_uint32")]
     public void Enum(string name)
     {
-        Assert.True(_fixture.Contexts.Length > 0);
-        foreach (var context in _fixture.Contexts)
+        Assert.True(_contexts.Length > 0);
+        foreach (var context in _contexts)
         {
             var value = context.GetEnum(name);
             AssertValue(name, value, $"{context.TargetPlatform}/Enums");
@@ -43,8 +42,8 @@ public class ReadCodeCTests : CLibraryIntegrationTest
     [InlineData("function_void_struct_union_named")]
     public void Function(string name)
     {
-        Assert.True(_fixture.Contexts.Length > 0);
-        foreach (var context in _fixture.Contexts)
+        Assert.True(_contexts.Length > 0);
+        foreach (var context in _contexts)
         {
             var value = context.GetFunction(name);
             AssertValue(name, value, $"{context.TargetPlatform}/Functions");
@@ -58,10 +57,10 @@ public class ReadCodeCTests : CLibraryIntegrationTest
     [InlineData("struct_leaf_integers_large_to_small")]
     public void Struct(string name)
     {
-        Assert.True(_fixture.Contexts.Length > 0);
-        foreach (var context in _fixture.Contexts)
+        Assert.True(_contexts.Length > 0);
+        foreach (var context in _contexts)
         {
-            var value = context.GetStruct(name);
+            var value = context.GetRecord(name);
             AssertValue(name, value, $"{context.TargetPlatform}/Structs");
         }
     }
