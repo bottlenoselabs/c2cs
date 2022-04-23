@@ -75,10 +75,11 @@ public sealed class CSharpMapper
 
     private CSharpNodes CSharpNodes(CAbstractSyntaxTree ast)
     {
-        var context = new CSharpMapperContext(ast.Platform, ast.Types, ast.Unions);
+        var context = new CSharpMapperContext(ast.Platform, ast.Types, ast.Records);
+        var topLevelRecords = ast.Records.Where(x => string.IsNullOrEmpty(x.ParentName)).ToImmutableArray();
 
         var functions = Functions(context, ast.Functions);
-        var structs = Structs(context, ast.Unions, ast.Structs);
+        var structs = Structs(context, topLevelRecords);
         // Typedefs need to be processed first as they can generate aliases on the fly
         var aliasStructs = AliasStructs(context, ast.Typedefs);
         var functionPointers = FunctionPointers(context, ast.FunctionPointers);
@@ -328,96 +329,40 @@ public sealed class CSharpMapper
 
     private ImmutableArray<CSharpStruct> Structs(
         CSharpMapperContext context,
-        ImmutableArray<CUnion> unions,
-        ImmutableArray<CStruct> structs)
+        ImmutableArray<CRecord> records)
     {
-        var builder = ImmutableArray.CreateBuilder<CSharpStruct>(unions.Length);
+        var results = ImmutableArray.CreateBuilder<CSharpStruct>(records.Length);
 
-        foreach (var @struct in structs)
+        foreach (var record in records)
         {
-            if (_builtinAliases.Contains(@struct.Name) ||
-                _ignoredNames.Contains(@struct.Name))
+            if (_builtinAliases.Contains(record.Name) ||
+                _ignoredNames.Contains(record.Name))
             {
                 // short circuit, prevents emitting the type
                 continue;
             }
 
-            var structCSharp = Struct(context, @struct);
-            if (_ignoredNames.Contains(structCSharp.Name))
+            var item = Struct(context, record);
+            if (_ignoredNames.Contains(item.Name))
             {
                 continue;
             }
 
-            builder.Add(structCSharp);
+            results.Add(item);
         }
 
-        var result = builder.ToImmutable();
-        return result;
-    }
-
-    private ImmutableArray<CSharpStructField> UnionFields(
-        CSharpMapperContext context,
-        ImmutableArray<CUnionField> fields,
-        int offsetOf)
-    {
-        var builder = ImmutableArray.CreateBuilder<CSharpStructField>(fields.Length);
-
-        // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-        foreach (var field in fields)
-        {
-            var structFieldCSharp = UnionField(context, field, offsetOf);
-            builder.Add(structFieldCSharp);
-        }
-
-        var result = builder.ToImmutable();
-        return result;
-    }
-
-    private CSharpStructField UnionField(
-        CSharpMapperContext context,
-        CUnionField unionField,
-        int offsetOf)
-    {
-        var name = SanitizeIdentifier(unionField.Name);
-        var codeLocationComment = OriginalCodeLocationComment(unionField);
-        var typeC = CType(context, unionField.Type);
-
-        CSharpType typeCSharp;
-        if (typeC.Kind == CKind.FunctionPointer)
-        {
-            var functionPointerName = TypeNameMapFunctionPointer(context, typeC);
-            typeCSharp = Type(context, typeC, functionPointerName);
-        }
-        else
-        {
-            typeCSharp = Type(context, typeC);
-        }
-
-        const int padding = 0;
-        var isWrapped = typeCSharp.IsArray && !IsValidFixedBufferType(typeCSharp.Name ?? string.Empty);
-
-        var result = new CSharpStructField(
-            context.Platform,
-            name,
-            codeLocationComment,
-            typeC.SizeOf,
-            typeCSharp,
-            offsetOf,
-            padding,
-            isWrapped);
-
-        return result;
+        return results.ToImmutable();
     }
 
     private CSharpStruct Struct(
         CSharpMapperContext context,
-        CStruct @struct)
+        CRecord record)
     {
-        var originalCodeLocationComment = OriginalCodeLocationComment(@struct);
-        var typeC = CType(context, @struct.Name);
+        var originalCodeLocationComment = OriginalCodeLocationComment(record);
+        var typeC = CType(context, record.Name);
         var typeCSharp = Type(context, typeC);
-        var fields = StructFields(context, @struct.Fields);
-        var nestedStructs = ImmutableArray<CSharpStruct>.Empty; // NestedStructs(context, record.NestedRecords);
+        var (fields, nestedRecords) = StructFields(context, record.Name, record.Fields);
+        var nestedStructs = Structs(context, nestedRecords);
 
         return new CSharpStruct(
             context.Platform,
@@ -428,42 +373,44 @@ public sealed class CSharpMapper
             nestedStructs);
     }
 
-    private ImmutableArray<CSharpStructField> StructFields(
+    private (ImmutableArray<CSharpStructField> Fields, ImmutableArray<CRecord> NestedRecords) StructFields(
         CSharpMapperContext context,
-        ImmutableArray<CStructField> fields)
+        string structName,
+        ImmutableArray<CRecordField> fields)
     {
-        var builder = ImmutableArray.CreateBuilder<CSharpStructField>(fields.Length);
+        var resultFields = ImmutableArray.CreateBuilder<CSharpStructField>(fields.Length);
+        var resultNestedRecords = ImmutableArray.CreateBuilder<CRecord>();
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var field in fields)
         {
-            if (string.IsNullOrEmpty(field.Name))
+            if (string.IsNullOrEmpty(field.Name) && context.RecordsByName.TryGetValue(field.Type, out var @struct))
             {
-                if (context.UnionsByName.TryGetValue(field.Type, out var value))
-                {
-                    var unionFields = UnionFields(context, value.Fields, field.OffsetOf);
-                    builder.AddRange(unionFields);
-                }
-                else
-                {
-                    var up = new UseCaseException("Field with no name.");
-                    throw up;
-                }
+                var (nestedFields, _) = StructFields(context, structName, @struct.Fields);
+                resultFields.AddRange(nestedFields);
             }
             else
             {
                 var structFieldCSharp = StructField(context, field);
-                builder.Add(structFieldCSharp);
+                if (context.RecordsByName.TryGetValue(field.Type, out var record))
+                {
+                    if (record.ParentName == structName)
+                    {
+                        resultNestedRecords.Add(record);
+                    }
+                }
+
+                resultFields.Add(structFieldCSharp);
             }
         }
 
-        var result = builder.ToImmutable();
+        var result = (resultFields.ToImmutable(), resultNestedRecords.ToImmutable());
         return result;
     }
 
     private CSharpStructField StructField(
         CSharpMapperContext context,
-        CStructField field)
+        CRecordField field)
     {
         var name = SanitizeIdentifier(field.Name);
         var codeLocationComment = OriginalCodeLocationComment(field);
@@ -490,34 +437,12 @@ public sealed class CSharpMapper
             codeLocationComment,
             typeC.SizeOf,
             typeCSharp,
-            offset,
-            padding,
+            offset ?? 0,
+            padding ?? 0,
             isWrapped);
 
         return result;
     }
-
-    // private ImmutableArray<CSharpStruct> NestedStructs(
-    //     CSharpMapperContext context,
-    //     ImmutableArray<CUnion> records)
-    // {
-    //     var builder = ImmutableArray.CreateBuilder<CSharpStruct>(records.Length);
-    //
-    //     // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-    //     foreach (var record in records)
-    //     {
-    //         var structCSharp = Struct(context, record);
-    //         if (_ignoredNames.Contains(structCSharp.Name))
-    //         {
-    //             continue;
-    //         }
-    //
-    //         builder.Add(structCSharp);
-    //     }
-    //
-    //     var result = builder.ToImmutable();
-    //     return result;
-    // }
 
     private ImmutableArray<CSharpOpaqueStruct> OpaqueDataTypes(
         CSharpMapperContext context,
@@ -1137,8 +1062,7 @@ var x = {value};
     {
         var kindString = node switch
         {
-            CUnion => "Union",
-            CStruct => "Struct",
+            CRecord record => record.RecordKind.ToString(),
             _ => node.Kind.ToString()
         };
 

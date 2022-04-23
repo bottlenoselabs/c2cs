@@ -174,25 +174,19 @@ public sealed class ReadCodeCFixture
     {
         var builder = ImmutableDictionary.CreateBuilder<string, CTestRecord>();
 
-        foreach (var value in ast.Structs)
+        foreach (var value in ast.Records)
         {
-            var result = CreateTestRecordStruct(value);
-            builder.Add(result.Name, result);
-        }
-
-        foreach (var value in ast.Unions)
-        {
-            var result = CreateTestRecordUnion(value);
+            var result = CreateTestRecord(value);
             builder.Add(result.Name, result);
         }
 
         return builder.ToImmutable();
     }
 
-    private static CTestRecord CreateTestRecordStruct(CStruct value)
+    private static CTestRecord CreateTestRecord(CRecord value)
     {
         var name = value.Name;
-        var fields = CreateTestStructFields(value.Fields);
+        var fields = CreateTestRecordFields(value.Fields);
 
         var result = new CTestRecord
         {
@@ -207,7 +201,7 @@ public sealed class ReadCodeCFixture
         return result;
     }
 
-    private static ImmutableArray<CTestRecordField> CreateTestStructFields(ImmutableArray<CStructField> values)
+    private static ImmutableArray<CTestRecordField> CreateTestRecordFields(ImmutableArray<CRecordField> values)
     {
         var builder = ImmutableArray.CreateBuilder<CTestRecordField>();
 
@@ -220,7 +214,7 @@ public sealed class ReadCodeCFixture
         return builder.ToImmutable();
     }
 
-    private static CTestRecordField CreateTestRecordField(CStructField value)
+    private static CTestRecordField CreateTestRecordField(CRecordField value)
     {
         var result = new CTestRecordField
         {
@@ -228,51 +222,6 @@ public sealed class ReadCodeCFixture
             TypeName = value.Type,
             OffsetOf = value.OffsetOf,
             PaddingOf = value.PaddingOf,
-            SizeOf = value.SizeOf
-        };
-
-        return result;
-    }
-
-    private static CTestRecord CreateTestRecordUnion(CUnion value)
-    {
-        var name = value.Name;
-        var fields = CreateTestUnionFields(value.Fields);
-
-        var result = new CTestRecord
-        {
-            Name = name,
-            ParentName = value.ParentName,
-            SizeOf = value.SizeOf,
-            AlignOf = value.AlignOf,
-            Fields = fields,
-            IsUnion = false
-        };
-
-        return result;
-    }
-
-    private static ImmutableArray<CTestRecordField> CreateTestUnionFields(ImmutableArray<CUnionField> values)
-    {
-        var builder = ImmutableArray.CreateBuilder<CTestRecordField>();
-
-        foreach (var value in values)
-        {
-            var result = CreateTestUnionField(value);
-            builder.Add(result);
-        }
-
-        return builder.ToImmutable();
-    }
-
-    private static CTestRecordField CreateTestUnionField(CUnionField value)
-    {
-        var result = new CTestRecordField
-        {
-            Name = value.Name,
-            TypeName = value.Type,
-            OffsetOf = 0,
-            PaddingOf = 0,
             SizeOf = value.SizeOf
         };
 

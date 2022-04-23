@@ -318,26 +318,7 @@ public struct {@struct.Name}
     {
         var builder = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
 
-        for (var index = 0; index < fields.Length; index++)
-        {
-            var field = fields[index];
-
-            if (!field.Type.IsArray)
-            {
-                var isLastField = index == fields.Length;
-                var fieldMember = StructField(field);
-                builder.Add(fieldMember);
-            }
-            else
-            {
-                var fieldMember = EmitStructFieldFixedBuffer(field);
-                builder.Add(fieldMember);
-
-                var methodMember = StructFieldFixedBufferProperty(
-                    structName, field);
-                builder.Add(methodMember);
-            }
-        }
+        StructFields(structName, fields, builder);
 
         foreach (var nestedStruct in nestedStructs)
         {
@@ -347,6 +328,30 @@ public struct {@struct.Name}
 
         var structMembers = builder.ToArray();
         return structMembers;
+    }
+
+    private void StructFields(
+        string structName, ImmutableArray<CSharpStructField> fields, ImmutableArray<MemberDeclarationSyntax>.Builder builder)
+    {
+        for (var index = 0; index < fields.Length; index++)
+        {
+            var field = fields[index];
+
+            if (field.Type.IsArray)
+            {
+                var fieldMember = EmitStructFieldFixedBuffer(field);
+                builder.Add(fieldMember);
+
+                var methodMember = StructFieldFixedBufferProperty(
+                    structName, field);
+                builder.Add(methodMember);
+            }
+            else
+            {
+                var fieldMember = StructField(field);
+                builder.Add(fieldMember);
+            }
+        }
     }
 
     private static FieldDeclarationSyntax StructField(CSharpStructField field)

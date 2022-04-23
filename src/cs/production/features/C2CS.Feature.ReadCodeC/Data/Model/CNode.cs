@@ -41,7 +41,7 @@ public abstract record CNode : IComparable<CNode>
             CFunction => CKind.Function,
             CFunctionPointer => CKind.FunctionPointer,
             COpaqueType => CKind.OpaqueType,
-            CUnion => CKind.Record,
+            CRecord => CKind.Record,
             CTypedef => CKind.Typedef,
             CVariable => CKind.Variable,
             CMacroDefinition => CKind.MacroDefinition,

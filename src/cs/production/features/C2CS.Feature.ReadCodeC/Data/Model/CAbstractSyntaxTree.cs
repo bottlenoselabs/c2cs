@@ -21,11 +21,8 @@ public record CAbstractSyntaxTree
     [JsonPropertyName("function_pointers")]
     public ImmutableArray<CFunctionPointer> FunctionPointers { get; set; } = ImmutableArray<CFunctionPointer>.Empty;
 
-    [JsonPropertyName("unions")]
-    public ImmutableArray<CUnion> Unions { get; set; } = ImmutableArray<CUnion>.Empty;
-
-    [JsonPropertyName("structs")]
-    public ImmutableArray<CStruct> Structs { get; set; } = ImmutableArray<CStruct>.Empty;
+    [JsonPropertyName("records")]
+    public ImmutableArray<CRecord> Records { get; set; } = ImmutableArray<CRecord>.Empty;
 
     [JsonPropertyName("enums")]
     public ImmutableArray<CEnum> Enums { get; set; } = ImmutableArray<CEnum>.Empty;

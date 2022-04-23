@@ -28,6 +28,9 @@ public class CType
     [JsonPropertyName("array_size")]
     public int? ArraySize { get; set; }
 
+    [JsonPropertyName("is_anonymous")]
+    public bool IsAnonymous { get; set; }
+
     [JsonPropertyName("location")]
     [JsonConverter(typeof(CLocationJsonConverter))]
     public CLocation Location { get; set; }
