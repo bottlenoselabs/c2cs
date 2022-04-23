@@ -21,4 +21,9 @@ public class CTestFunction
 
     [JsonPropertyName("parameters")]
     public ImmutableArray<CTestFunctionParameter> Parameters { get; set; }
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }

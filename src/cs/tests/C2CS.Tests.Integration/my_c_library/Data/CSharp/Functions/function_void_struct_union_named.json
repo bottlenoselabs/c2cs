@@ -3,6 +3,7 @@
   "return_type_name": "void",
   "parameters": [
     {
+      "name": "s",
       "type_name": "struct_union_named"
     }
   ]

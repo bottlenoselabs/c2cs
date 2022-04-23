@@ -7,6 +7,14 @@ namespace C2CS.Tests.Common.Data.Model.CSharp;
 
 public class CSharpTestFunctionParameter
 {
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
+
     [JsonPropertyName("type_name")]
     public string TypeName { get; set; } = string.Empty;
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }

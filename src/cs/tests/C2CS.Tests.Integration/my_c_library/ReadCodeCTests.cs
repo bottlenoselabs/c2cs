@@ -18,13 +18,13 @@ public class ReadCodeCTests : CLibraryIntegrationTest
         : base(TestHost.Services, "my_c_library", "Data/C", true)
     {
         _contexts = TestHost.Services.GetService<ReadCodeCFixture>()!.Contexts;
+        Assert.True(_contexts.Length > 0, "Failed to read C code.");
     }
 
     [Theory]
     [InlineData("enum_force_uint32")]
     public void Enum(string name)
     {
-        Assert.True(_contexts.Length > 0);
         foreach (var context in _contexts)
         {
             var value = context.GetEnum(name);
@@ -39,10 +39,11 @@ public class ReadCodeCTests : CLibraryIntegrationTest
     [InlineData("function_void_uint16ptr_int32ptr_uint64ptr")]
     [InlineData("function_void_enum")]
     [InlineData("function_void_struct_union_anonymous")]
+    [InlineData("function_void_struct_union_anonymous_with_field_name")]
     [InlineData("function_void_struct_union_named")]
+    [InlineData("function_void_struct_union_named_empty")]
     public void Function(string name)
     {
-        Assert.True(_contexts.Length > 0);
         foreach (var context in _contexts)
         {
             var value = context.GetFunction(name);
@@ -52,12 +53,13 @@ public class ReadCodeCTests : CLibraryIntegrationTest
 
     [Theory]
     [InlineData("struct_union_anonymous")]
+    [InlineData("struct_union_anonymous_with_field_name")]
     [InlineData("struct_union_named")]
+    [InlineData("struct_union_named_empty")]
     [InlineData("struct_leaf_integers_small_to_large")]
     [InlineData("struct_leaf_integers_large_to_small")]
     public void Struct(string name)
     {
-        Assert.True(_contexts.Length > 0);
         foreach (var context in _contexts)
         {
             var value = context.GetRecord(name);

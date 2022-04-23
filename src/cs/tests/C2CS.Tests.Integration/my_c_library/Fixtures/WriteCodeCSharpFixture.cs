@@ -136,10 +136,12 @@ public sealed class WriteCodeCSharpFixture
 
     private CSharpTestFunctionParameter CreateTestFunctionParameter(ParameterSyntax syntaxNode)
     {
+        var name = syntaxNode.Identifier.ValueText;
         var typeName = syntaxNode.Type?.ToString() ?? string.Empty;
 
         var result = new CSharpTestFunctionParameter
         {
+            Name = name,
             TypeName = typeName
         };
         return result;

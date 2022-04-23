@@ -23,4 +23,9 @@ public class CTestRecordField
 
     [JsonPropertyName("size_of")]
     public int SizeOf { get; set; }
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }

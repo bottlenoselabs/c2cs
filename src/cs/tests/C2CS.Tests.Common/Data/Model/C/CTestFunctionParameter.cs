@@ -14,4 +14,9 @@ public class CTestFunctionParameter
 
     [JsonPropertyName("type_name")]
     public string TypeName { get; set; } = string.Empty;
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }

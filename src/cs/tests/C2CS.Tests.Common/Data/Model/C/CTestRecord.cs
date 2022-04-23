@@ -30,4 +30,9 @@ public class CTestRecord
 
     [JsonPropertyName("fields")]
     public ImmutableArray<CTestRecordField> Fields { get; set; } = ImmutableArray<CTestRecordField>.Empty;
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }

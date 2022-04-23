@@ -1,0 +1,16 @@
+{
+  "name": "struct_union_anonymous_with_field_name",
+  "parent_name": "",
+  "size_of": 16,
+  "align_of": 8,
+  "is_union": false,
+  "fields": [
+    {
+      "name": "fields",
+      "type_name": "struct_union_anonymous_with_field_name_ANONYMOUSFIELD0",
+      "offset_of": 0,
+      "padding_of": 0,
+      "size_of": 16
+    }
+  ]
+}

@@ -14,4 +14,9 @@ public class CSharpTestEnumMember
 
     [JsonPropertyName("value")]
     public string Value { get; set; } = string.Empty;
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }

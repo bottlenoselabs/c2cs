@@ -3,6 +3,7 @@
   "return_type_name": "void",
   "parameters": [
     {
+      "name": "e",
       "type_name": "enum_force_uint32"
     }
   ]

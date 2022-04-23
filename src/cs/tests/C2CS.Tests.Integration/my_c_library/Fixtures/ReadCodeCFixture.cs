@@ -2,11 +2,13 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using System.Linq;
 using C2CS.Data.Serialization;
 using C2CS.Feature.ReadCodeC;
 using C2CS.Feature.ReadCodeC.Data.Model;
 using C2CS.Feature.ReadCodeC.Data.Serialization;
 using C2CS.Feature.ReadCodeC.Domain;
+using C2CS.Foundation.Diagnostics;
 using C2CS.Tests.Common.Data.Model.C;
 
 namespace C2CS.IntegrationTests.my_c_library.Fixtures;
@@ -27,13 +29,14 @@ public sealed class ReadCodeCFixture
         var configuration = configurationJsonSerializer.Read(configurationFilePath);
         var configurationReadC = configuration.ReadC;
         var output = useCase.Execute(configurationReadC!);
-        Contexts = ParseAbstractSyntaxTrees(output, cJsonSerializer);
+        Contexts = GetContexts(output, cJsonSerializer);
     }
 
-    private ImmutableArray<ReadCodeCFixtureContext> ParseAbstractSyntaxTrees(
-        ReadCodeCOutput output, CJsonSerializer cJsonSerializer)
+    private ImmutableArray<ReadCodeCFixtureContext> GetContexts(
+        ReadCodeCOutput output, CJsonSerializer jsonSerializer)
     {
-        if (!output.IsSuccessful || output.Diagnostics.Length != 0)
+        if (!output.IsSuccessful ||
+            output.Diagnostics.Any(x => x.Severity is DiagnosticSeverity.Error or DiagnosticSeverity.Panic))
         {
             return ImmutableArray<ReadCodeCFixtureContext>.Empty;
         }
@@ -47,7 +50,7 @@ public sealed class ReadCodeCFixture
                 continue;
             }
 
-            var ast = cJsonSerializer.Read(options.OutputFilePath);
+            var ast = jsonSerializer.Read(options.OutputFilePath);
             var functions = CreateTestFunctions(ast);
             var enums = CreateTestEnums(ast);
             var structs = CreateTestRecords(ast);

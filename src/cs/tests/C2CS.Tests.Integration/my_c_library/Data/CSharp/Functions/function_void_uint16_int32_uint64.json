@@ -3,12 +3,15 @@
   "return_type_name": "void",
   "parameters": [
     {
+      "name": "a",
       "type_name": "ushort"
     },
     {
+      "name": "b",
       "type_name": "int"
     },
     {
+      "name": "c",
       "type_name": "ulong"
     }
   ]

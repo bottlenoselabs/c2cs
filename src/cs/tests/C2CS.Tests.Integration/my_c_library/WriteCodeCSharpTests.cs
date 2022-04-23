@@ -34,7 +34,9 @@ public class WriteCodeCSharpTests : CLibraryIntegrationTest
     [InlineData("function_void_uint16ptr_int32ptr_uint64ptr")]
     [InlineData("function_void_enum")]
     [InlineData("function_void_struct_union_anonymous")]
+    [InlineData("function_void_struct_union_anonymous_with_field_name")]
     [InlineData("function_void_struct_union_named")]
+    [InlineData("function_void_struct_union_named_empty")]
     public void Function(string name)
     {
         var value = _context.GetFunction(name);
@@ -43,7 +45,9 @@ public class WriteCodeCSharpTests : CLibraryIntegrationTest
 
     [Theory]
     [InlineData("struct_union_anonymous")]
+    [InlineData("struct_union_anonymous_with_field_name")]
     [InlineData("struct_union_named")]
+    [InlineData("struct_union_named_empty")]
     [InlineData("struct_leaf_integers_small_to_large")]
     [InlineData("struct_leaf_integers_large_to_small")]
     public void Struct(string name)

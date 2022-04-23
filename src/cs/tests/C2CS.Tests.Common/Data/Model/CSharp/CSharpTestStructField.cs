@@ -17,4 +17,9 @@ public class CSharpTestStructField
 
     [JsonPropertyName("offset_of")]
     public int OffsetOf { get; set; }
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }

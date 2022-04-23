@@ -18,4 +18,9 @@ public class CSharpTestFunction
 
     [JsonPropertyName("parameters")]
     public ImmutableArray<CSharpTestFunctionParameter> Parameters { get; set; }
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }

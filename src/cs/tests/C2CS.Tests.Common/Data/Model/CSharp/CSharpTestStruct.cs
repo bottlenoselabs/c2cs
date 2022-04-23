@@ -18,4 +18,9 @@ public class CSharpTestStruct
 
     [JsonPropertyName("fields")]
     public ImmutableArray<CSharpTestStructField> Fields { get; set; } = ImmutableArray<CSharpTestStructField>.Empty;
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }

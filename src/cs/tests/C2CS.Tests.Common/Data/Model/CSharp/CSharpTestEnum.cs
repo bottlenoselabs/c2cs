@@ -18,4 +18,9 @@ public class CSharpTestEnum
 
     [JsonPropertyName("members")]
     public ImmutableArray<CSharpTestEnumMember> Members { get; set; } = ImmutableArray<CSharpTestEnumMember>.Empty;
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }

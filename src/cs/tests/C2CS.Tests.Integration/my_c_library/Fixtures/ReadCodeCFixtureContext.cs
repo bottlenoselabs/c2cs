@@ -67,8 +67,8 @@ public sealed class ReadCodeCFixtureContext
             $"C record `{record.Name} does not have an alignment of which is positive.");
 
         Assert.True(
-            record.SizeOf > 0,
-            $"C record `{record.SizeOf} does not have an size of of which is positive.");
+            record.SizeOf >= 0,
+            $"C record `{record.SizeOf} does not have an size of of which is positive or zero.");
 
         if (record.IsStruct)
         {

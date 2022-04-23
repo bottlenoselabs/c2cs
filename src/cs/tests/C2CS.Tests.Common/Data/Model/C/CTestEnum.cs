@@ -18,4 +18,9 @@ public class CTestEnum
 
     [JsonPropertyName("values")]
     public ImmutableArray<CTestEnumValue> Values { get; set; } = ImmutableArray<CTestEnumValue>.Empty;
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }

@@ -1,0 +1,15 @@
+{
+  "name": "struct_union_anonymous_with_field_name",
+  "layout": {
+    "kind": "LayoutKind.Explicit",
+    "size": 16,
+    "pack": 8
+  },
+  "fields": [
+    {
+      "name": "fields",
+      "type_name": "struct_union_anonymous_with_field_name_ANONYMOUSFIELD0",
+      "offset_of": 0
+    }
+  ]
+}
