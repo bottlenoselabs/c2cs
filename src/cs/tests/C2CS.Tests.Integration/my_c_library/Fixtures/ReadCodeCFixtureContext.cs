@@ -81,20 +81,22 @@ public sealed class ReadCodeCFixtureContext
 
     private void AssertRecordField(CTestRecord record, CTestRecordField field, List<string> namesLookup)
     {
+        var recordKindName = record.IsUnion ? "union" : "struct";
+
         Assert.False(
             namesLookup.Contains(field.Name),
-            $"C record `{record.Name}` already has a field named `{field.Name}`.");
+            $"C {recordKindName} `{record.Name}` already has a field named `{field.Name}`.");
         namesLookup.Add(field.Name);
 
         Assert.True(
             field.OffsetOf >= 0,
-            $"C record `{record.Name} field `{field.Name}` does not have an offset of which is positive or zero.");
+            $"C {recordKindName} `{record.Name} field `{field.Name}` does not have an offset of which is positive or zero.");
         Assert.True(
             field.PaddingOf >= 0,
-            $"C record `{record.Name} field `{field.Name}` does not have an padding of which is positive or zero.");
+            $"C {recordKindName} `{record.Name} field `{field.Name}` does not have an padding of which is positive or zero.");
         Assert.True(
             field.SizeOf > 0,
-            $"C record `{record.Name} field `{field.Name}` does not have a size of which is positive.");
+            $"C {recordKindName} `{record.Name} field `{field.Name}` does not have a size of which is positive.");
 
         if (record.IsUnion)
         {
