@@ -11,9 +11,9 @@ public sealed record CSharpType
 
     public int SizeOf { get; init; }
 
-    public int AlignOf { get; init; }
+    public int? AlignOf { get; init; }
 
-    public int ArraySize { get; init; }
+    public int? ArraySize { get; init; }
 
     public bool IsArray => ArraySize > 0;
 

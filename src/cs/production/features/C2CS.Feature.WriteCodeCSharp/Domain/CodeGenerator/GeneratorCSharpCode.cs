@@ -281,12 +281,12 @@ public struct {functionPointerName}
 
         foreach (var @struct in structs)
         {
-            var member = EmitStruct(@struct);
+            var member = Struct(@struct);
             members.Add(member);
         }
     }
 
-    private StructDeclarationSyntax EmitStruct(CSharpStruct @struct, bool isNested = false)
+    private StructDeclarationSyntax Struct(CSharpStruct @struct, bool isNested = false)
     {
         var memberSyntaxes = StructMembers(
             @struct.Name, @struct.Fields, @struct.NestedStructs);
@@ -318,14 +318,26 @@ public struct {@struct.Name}
     {
         var builder = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
 
-        foreach (var field in fields)
+        StructFields(structName, fields, builder);
+
+        foreach (var nestedStruct in nestedStructs)
         {
-            if (!field.Type.IsArray)
-            {
-                var fieldMember = StructField(field);
-                builder.Add(fieldMember);
-            }
-            else
+            var syntax = Struct(nestedStruct, true);
+            builder.Add(syntax);
+        }
+
+        var structMembers = builder.ToArray();
+        return structMembers;
+    }
+
+    private void StructFields(
+        string structName, ImmutableArray<CSharpStructField> fields, ImmutableArray<MemberDeclarationSyntax>.Builder builder)
+    {
+        for (var index = 0; index < fields.Length; index++)
+        {
+            var field = fields[index];
+
+            if (field.Type.IsArray)
             {
                 var fieldMember = EmitStructFieldFixedBuffer(field);
                 builder.Add(fieldMember);
@@ -334,16 +346,12 @@ public struct {@struct.Name}
                     structName, field);
                 builder.Add(methodMember);
             }
+            else
+            {
+                var fieldMember = StructField(field);
+                builder.Add(fieldMember);
+            }
         }
-
-        foreach (var nestedStruct in nestedStructs)
-        {
-            var syntax = EmitStruct(nestedStruct, true);
-            builder.Add(syntax);
-        }
-
-        var structMembers = builder.ToArray();
-        return structMembers;
     }
 
     private static FieldDeclarationSyntax StructField(CSharpStructField field)

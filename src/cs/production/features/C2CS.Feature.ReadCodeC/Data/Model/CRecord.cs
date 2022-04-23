@@ -13,19 +13,24 @@ public record CRecord : CNodeWithLocation
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonPropertyName("isUnion")]
-    public bool IsUnion { get; set; }
+    [JsonPropertyName("parent_name")]
+    public string ParentName { get; set; } = string.Empty;
+
+    [JsonPropertyName("record_kind")]
+    public CRecordKind RecordKind { get; set; }
+
+    [JsonPropertyName("size_of")]
+    public int SizeOf { get; set; }
+
+    [JsonPropertyName("align_of")]
+    public int AlignOf { get; set; }
 
     [JsonPropertyName("fields")]
     public ImmutableArray<CRecordField> Fields { get; set; } = ImmutableArray<CRecordField>.Empty;
 
-    [JsonPropertyName("nestedRecords")]
-    public ImmutableArray<CRecord> NestedRecords { get; set; } = ImmutableArray<CRecord>.Empty;
-
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {
-        var kind = IsUnion ? "Union" : "Struct";
-        return $"{kind} {Name} @ {Location}";
+        return $"{RecordKind} {Name} @ {Location}";
     }
 }

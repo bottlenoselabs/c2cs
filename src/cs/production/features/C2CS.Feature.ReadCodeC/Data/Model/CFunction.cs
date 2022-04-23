@@ -13,10 +13,10 @@ public record CFunction : CNodeWithLocation
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonPropertyName("callingConvention")]
+    [JsonPropertyName("calling_convention")]
     public CFunctionCallingConvention CallingConvention { get; set; } = CFunctionCallingConvention.Cdecl;
 
-    [JsonPropertyName("returnType")]
+    [JsonPropertyName("return_type")]
     public string ReturnType { get; set; } = null!;
 
     [JsonPropertyName("parameters")]

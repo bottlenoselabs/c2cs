@@ -27,7 +27,7 @@ public class CJsonSerializer
             {
                 new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
             },
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         };
         _context = new CJsonSerializerContext(serializerOptions);
     }

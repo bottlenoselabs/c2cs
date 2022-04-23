@@ -1,0 +1,19 @@
+{
+  "name": "function_void_uint16ptr_int32ptr_uint64ptr",
+  "calling_convention": "cdecl",
+  "return_type_name": "void",
+  "parameters": [
+    {
+      "name": "a",
+      "type_name": "uint16_t*"
+    },
+    {
+      "name": "b",
+      "type_name": "int32_t*"
+    },
+    {
+      "name": "c",
+      "type_name": "uint64_t*"
+    }
+  ]
+}

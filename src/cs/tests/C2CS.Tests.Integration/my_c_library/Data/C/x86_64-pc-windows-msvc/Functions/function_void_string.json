@@ -1,0 +1,11 @@
+{
+  "name": "function_void_string",
+  "calling_convention": "cdecl",
+  "return_type_name": "void",
+  "parameters": [
+    {
+      "name": "s",
+      "type_name": "char*"
+    }
+  ]
+}

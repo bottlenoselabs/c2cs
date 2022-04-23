@@ -18,7 +18,7 @@ public record CAbstractSyntaxTree
     [JsonPropertyName("functions")]
     public ImmutableArray<CFunction> Functions { get; set; } = ImmutableArray<CFunction>.Empty;
 
-    [JsonPropertyName("functionPointers")]
+    [JsonPropertyName("function_pointers")]
     public ImmutableArray<CFunctionPointer> FunctionPointers { get; set; } = ImmutableArray<CFunctionPointer>.Empty;
 
     [JsonPropertyName("records")]
@@ -27,7 +27,7 @@ public record CAbstractSyntaxTree
     [JsonPropertyName("enums")]
     public ImmutableArray<CEnum> Enums { get; set; } = ImmutableArray<CEnum>.Empty;
 
-    [JsonPropertyName("opaqueTypes")]
+    [JsonPropertyName("opaque_types")]
     public ImmutableArray<COpaqueType> OpaqueTypes { get; set; } = ImmutableArray<COpaqueType>.Empty;
 
     [JsonPropertyName("typedefs")]

@@ -9,12 +9,12 @@ namespace C2CS.Feature.ReadCodeC.Domain.ExploreCode;
 
 internal sealed class ClangTranslationUnitExplorerNode
 {
-    public readonly CXCursor Cursor;
     public readonly CKind Kind;
     public readonly CLocation Location;
-    public readonly string? Name;
     public readonly ClangTranslationUnitExplorerNode? Parent;
+    public readonly CXCursor Cursor;
     public readonly CXType Type;
+    public readonly string? CursorName;
     public readonly string? TypeName;
 
     public ClangTranslationUnitExplorerNode(
@@ -23,7 +23,7 @@ internal sealed class ClangTranslationUnitExplorerNode
         ClangTranslationUnitExplorerNode? parent,
         CXCursor cursor,
         CXType type,
-        string? name,
+        string? cursorName,
         string? typeName)
     {
         Kind = kind;
@@ -31,7 +31,7 @@ internal sealed class ClangTranslationUnitExplorerNode
         Parent = parent;
         Cursor = cursor;
         Type = type;
-        Name = name;
+        CursorName = cursorName;
         TypeName = typeName;
     }
 

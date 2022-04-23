@@ -46,7 +46,7 @@ public sealed class ConfigurationJsonSerializer
             var fileContents = _fileSystem.File.ReadAllText(fullFilePath);
             var configuration = JsonSerializer.Deserialize(fileContents, _serializerContext.Configuration)!;
 
-            Polyfill(configuration);
+            Polyfill(fullFilePath, configuration);
 
             _logger.ConfigurationLoadSuccess(fullFilePath);
             return configuration;
@@ -58,51 +58,65 @@ public sealed class ConfigurationJsonSerializer
         }
     }
 
-    private static void Polyfill(Configuration configuration)
+    private void Polyfill(string filePath, Configuration configuration)
     {
-        var requestExtractC = configuration.ReadC;
-        if (requestExtractC == null)
+        var configurationReadC = configuration.ReadC;
+        if (configurationReadC != null)
         {
-            return;
+            PolyfillConfigurationReadC(filePath, configuration, configurationReadC);
         }
 
-        if (string.IsNullOrEmpty(requestExtractC.OutputFileDirectory))
+        var configurationWriteCSharp = configuration.WriteCSharp;
+        if (configurationWriteCSharp != null)
         {
-            requestExtractC.OutputFileDirectory = configuration.InputOutputFileDirectory;
+            PolyfillConfigurationWriteCSharp(filePath, configuration, configurationWriteCSharp);
+        }
+    }
+
+    private void PolyfillConfigurationReadC(
+        string filePath, Configuration configuration, ReadCodeCConfiguration read)
+    {
+        if (string.IsNullOrEmpty(read.OutputFileDirectory))
+        {
+            read.OutputFileDirectory = configuration.InputOutputFileDirectory;
         }
 
-        if (requestExtractC.ConfigurationPlatforms != null)
+        if (string.IsNullOrEmpty(read.WorkingDirectory))
         {
-            foreach (var (_, extractAbstractSyntaxTreeC) in requestExtractC.ConfigurationPlatforms)
+            read.WorkingDirectory = _fileSystem.Path.GetDirectoryName(filePath);
+        }
+
+        if (read.ConfigurationPlatforms != null)
+        {
+            foreach (var (_, extractAbstractSyntaxTreeC) in read.ConfigurationPlatforms)
             {
                 if (extractAbstractSyntaxTreeC != null)
                 {
-                    PolyfillExtractAbstractSyntaxTreeC(configuration, extractAbstractSyntaxTreeC);
+                    PolyfillConfigurationReadCPlatform(configuration, extractAbstractSyntaxTreeC);
                 }
             }
         }
-
-        var requestBindgenCSharp = configuration.WriteCSharp;
-        if (requestBindgenCSharp != null)
-        {
-            PolyfillBindgenCSharp(configuration, requestBindgenCSharp);
-        }
     }
 
-    private static void PolyfillExtractAbstractSyntaxTreeC(
-        Configuration configuration, ReadCodeCConfigurationPlatform extract)
+    private void PolyfillConfigurationReadCPlatform(
+        Configuration configuration, ReadCodeCConfigurationPlatform platform)
     {
-        if (string.IsNullOrEmpty(extract.OutputFileDirectory))
+        if (string.IsNullOrEmpty(platform.OutputFileDirectory))
         {
-            extract.OutputFileDirectory = configuration.InputOutputFileDirectory;
+            platform.OutputFileDirectory = configuration.InputOutputFileDirectory;
         }
     }
 
-    private static void PolyfillBindgenCSharp(Configuration configuration, WriteCodeCSharpConfiguration write)
+    private void PolyfillConfigurationWriteCSharp(string filePath, Configuration configuration, WriteCodeCSharpConfiguration write)
     {
         if (string.IsNullOrEmpty(write.InputFileDirectory))
         {
             write.InputFileDirectory = configuration.InputOutputFileDirectory;
+        }
+
+        if (string.IsNullOrEmpty(write.WorkingDirectory))
+        {
+            write.WorkingDirectory = _fileSystem.Path.GetDirectoryName(filePath);
         }
     }
 }

@@ -1,6 +1,7 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 using C2CS.Foundation.UseCases;
 using JetBrains.Annotations;
@@ -20,6 +21,10 @@ public sealed class ReadCodeCConfiguration : UseCaseConfiguration
     [JsonPropertyName("input_file")]
     [Json.Schema.Generation.Description("Path of the input `.h` header file containing C code.")]
     public string? InputFilePath { get; set; }
+
+    [JsonPropertyName("include_directories")]
+    [Json.Schema.Generation.Description("The directories to search for non-system header files.")]
+    public ImmutableArray<string?>? IncludeDirectories { get; set; }
 
     [JsonPropertyName("platforms")]
     [Json.Schema.Generation.Description("The target platform configurations for extracting the abstract syntax trees. Each target platform is a Clang target triple. See the C2CS docs for more details about what target platforms are available.")]

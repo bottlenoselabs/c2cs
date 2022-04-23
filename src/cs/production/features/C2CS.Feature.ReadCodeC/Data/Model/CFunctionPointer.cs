@@ -16,7 +16,7 @@ public record CFunctionPointer : CNodeWithLocation
     [JsonPropertyName("type")]
     public string Type { get; set; } = string.Empty;
 
-    [JsonPropertyName("returnType")]
+    [JsonPropertyName("return_type")]
     public string ReturnType { get; set; } = string.Empty;
 
     [JsonPropertyName("parameters")]

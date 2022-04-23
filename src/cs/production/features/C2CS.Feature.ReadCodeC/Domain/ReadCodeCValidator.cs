@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using System.IO.Abstractions;
 using C2CS.Feature.ReadCodeC.Data;
 using C2CS.Foundation;
 using C2CS.Foundation.UseCases;
@@ -11,6 +12,13 @@ namespace C2CS.Feature.ReadCodeC.Domain;
 
 public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration, ReadCodeCInput>
 {
+    private readonly IFileSystem _fileSystem;
+
+    public ReadCodeCValidator(IFileSystem fileSystem)
+    {
+        _fileSystem = fileSystem;
+    }
+
     public override ReadCodeCInput Validate(ReadCodeCConfiguration configuration)
     {
         var inputFilePath = VerifyInputFilePath(configuration.InputFilePath);
@@ -24,6 +32,8 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
             configuration.ConfigurationPlatforms = abstractSyntaxTreeRequests;
         }
 
+        var includeDirectories = VerifyIncludeDirectories(configuration.IncludeDirectories, inputFilePath);
+
         foreach (var (targetPlatformString, configurationPlatform) in configuration.ConfigurationPlatforms)
         {
             var targetPlatform = VerifyTargetPlatform(targetPlatformString);
@@ -31,8 +41,8 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
                 configurationPlatform?.OutputFileDirectory ?? configuration.OutputFileDirectory, targetPlatform);
             var systemIncludeDirectories =
                 VerifyImmutableArray(configurationPlatform?.SystemIncludeDirectories);
-            var includeDirectories =
-                VerifyIncludeDirectories(configurationPlatform?.IncludeDirectories, inputFilePath);
+            var includeDirectoriesPlatform =
+                VerifyIncludeDirectoriesPlatform(configurationPlatform?.IncludeDirectories, inputFilePath, includeDirectories);
             var excludedHeaderFiles = VerifyImmutableArray(configurationPlatform?.ExcludedHeaderFiles);
             var opaqueTypeNames = VerifyImmutableArray(configurationPlatform?.OpaqueTypeNames);
             var functionNamesWhitelist = VerifyImmutableArray(configurationPlatform?.FunctionNamesWhiteList);
@@ -44,7 +54,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
                 TargetPlatform = targetPlatform,
                 OutputFilePath = outputFilePath,
                 SystemIncludeDirectories = systemIncludeDirectories,
-                IncludeDirectories = includeDirectories,
+                IncludeDirectories = includeDirectoriesPlatform,
                 ExcludedHeaderFiles = excludedHeaderFiles,
                 OpaqueTypeNames = opaqueTypeNames,
                 FunctionNamesWhitelist = functionNamesWhitelist,
@@ -62,16 +72,16 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         };
     }
 
-    private static string VerifyInputFilePath(string? inputFilePath)
+    private string VerifyInputFilePath(string? inputFilePath)
     {
         if (string.IsNullOrEmpty(inputFilePath))
         {
             throw new ConfigurationException("The input file can not be null, empty, or whitespace.");
         }
 
-        var filePath = Path.GetFullPath(inputFilePath);
+        var filePath = _fileSystem.Path.GetFullPath(inputFilePath);
 
-        if (!File.Exists(filePath))
+        if (!_fileSystem.File.Exists(filePath))
         {
             throw new UseCaseException($"The input file does not exist: `{filePath}`.");
         }
@@ -79,24 +89,24 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         return filePath;
     }
 
-    private static string VerifyOutputFilePath(string? outputFileDirectory, TargetPlatform targetPlatform)
+    private string VerifyOutputFilePath(string? outputFileDirectory, TargetPlatform targetPlatform)
     {
         string directoryPath;
         // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
         if (string.IsNullOrEmpty(outputFileDirectory))
         {
-            directoryPath = Path.Combine(Environment.CurrentDirectory, "ast");
+            directoryPath = _fileSystem.Path.Combine(Environment.CurrentDirectory, "ast");
         }
         else
         {
-            directoryPath = Path.GetFullPath(outputFileDirectory);
+            directoryPath = _fileSystem.Path.GetFullPath(outputFileDirectory);
         }
 
-        var defaultFilePath = Path.Combine(directoryPath, targetPlatform + ".json");
+        var defaultFilePath = _fileSystem.Path.Combine(directoryPath, targetPlatform + ".json");
         return defaultFilePath;
     }
 
-    private static TargetPlatform VerifyTargetPlatform(string? targetPlatformString)
+    private TargetPlatform VerifyTargetPlatform(string? targetPlatformString)
     {
         if (string.IsNullOrEmpty(targetPlatformString))
         {
@@ -123,7 +133,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         return platform;
     }
 
-    private static ImmutableArray<string> VerifyIncludeDirectories(
+    private ImmutableArray<string> VerifyIncludeDirectories(
         ImmutableArray<string?>? includeDirectories,
         string inputFilePath)
     {
@@ -131,7 +141,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
 
         if (result.IsDefaultOrEmpty)
         {
-            var directoryPath = Path.GetDirectoryName(inputFilePath)!;
+            var directoryPath = _fileSystem.Path.GetDirectoryName(inputFilePath)!;
             if (string.IsNullOrEmpty(directoryPath))
             {
                 directoryPath = Environment.CurrentDirectory;
@@ -139,17 +149,17 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
 
             result = new[]
             {
-                Path.GetFullPath(directoryPath)
+                _fileSystem.Path.GetFullPath(directoryPath)
             }.ToImmutableArray();
         }
         else
         {
-            result = result.Select(Path.GetFullPath).ToImmutableArray();
+            result = result.Select(_fileSystem.Path.GetFullPath).ToImmutableArray();
         }
 
         foreach (var includeDirectory in result)
         {
-            if (!Directory.Exists(includeDirectory))
+            if (!_fileSystem.Directory.Exists(includeDirectory))
             {
                 throw new UseCaseException($"The include directory does not exist: `{includeDirectory}`.");
             }
@@ -158,7 +168,17 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         return result;
     }
 
-    private static ImmutableArray<string> VerifyImmutableArray(ImmutableArray<string?>? array)
+    private ImmutableArray<string> VerifyIncludeDirectoriesPlatform(
+        ImmutableArray<string?>? includeDirectoriesPlatform,
+        string inputFilePath,
+        ImmutableArray<string> includeDirectoriesNonPlatform)
+    {
+        var directoriesPlatform = VerifyIncludeDirectories(includeDirectoriesPlatform, inputFilePath);
+        var result = directoriesPlatform.AddRange(includeDirectoriesNonPlatform);
+        return result;
+    }
+
+    private ImmutableArray<string> VerifyImmutableArray(ImmutableArray<string?>? array)
     {
         if (array == null || array.Value.IsDefaultOrEmpty)
         {

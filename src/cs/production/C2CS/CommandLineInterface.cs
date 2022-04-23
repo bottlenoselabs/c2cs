@@ -68,14 +68,14 @@ internal class CommandLineInterface : RootCommand
         }
 
         var configuration = _configurationJsonSerializer.Read(configurationFilePath);
-        var request = configuration.ReadC;
-        if (request == null)
+        var configurationReadC = configuration.ReadC;
+        if (configurationReadC == null)
         {
             return;
         }
 
         var useCase = _serviceProvider.GetService<ReadCodeCUseCase>()!;
-        useCase.Execute(request);
+        useCase.Execute(configurationReadC);
     }
 
     private void HandleBindgenCSharp(string configurationFilePath)
@@ -86,14 +86,14 @@ internal class CommandLineInterface : RootCommand
         }
 
         var configuration = _configurationJsonSerializer.Read(configurationFilePath);
-        var request = configuration.WriteCSharp;
-        if (request == null)
+        var configurationWriteCSharp = configuration.WriteCSharp;
+        if (configurationWriteCSharp == null)
         {
             return;
         }
 
         var useCase = _serviceProvider.GetService<WriteCodeCSharpUseCase>()!;
-        useCase.Execute(request);
+        useCase.Execute(configurationWriteCSharp);
     }
 
     private static void GenerateSchema()

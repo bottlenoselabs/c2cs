@@ -12,12 +12,12 @@ public record CTypedef : CNodeWithLocation
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonPropertyName("underlyingType")]
+    [JsonPropertyName("underlying_type")]
     public string UnderlyingType { get; set; } = string.Empty;
 
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {
-        return $"Record '{Name}': {UnderlyingType} @ {Location}";
+        return $"Typedef '{Name}': {UnderlyingType} @ {Location}";
     }
 }

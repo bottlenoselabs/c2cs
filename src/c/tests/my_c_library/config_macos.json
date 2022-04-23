@@ -1,0 +1,18 @@
+{
+  "directory": "./ast",
+  "ast": {
+    "input_file": "./include/my_c_library.h",
+    "include_directories": [
+      "../../production/c2cs/include"
+    ],
+    "platforms": {
+      "aarch64-apple-darwin": {},
+      "x86_64-apple-darwin": {},
+      "aarch64-apple-ios": {}
+    }
+  },
+  "cs": {
+    "output_file": "./my_c_library.cs",
+    "namespace": "bottlenoselabs"
+  }
+}

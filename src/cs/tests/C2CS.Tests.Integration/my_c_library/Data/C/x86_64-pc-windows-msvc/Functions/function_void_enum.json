@@ -1,0 +1,11 @@
+{
+  "name": "function_void_enum",
+  "calling_convention": "cdecl",
+  "return_type_name": "void",
+  "parameters": [
+    {
+      "name": "e",
+      "type_name": "enum_force_uint32"
+    }
+  ]
+}

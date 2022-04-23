@@ -25,7 +25,7 @@
         <PackageDescription>C to C# library bindings code generator. In go .h file, out come .cs file.</PackageDescription>
     </PropertyGroup>
 
-    <!-- NuGet packaage references -->
+    <!-- NuGet package references -->
     <ItemGroup>
         <PackageReference Include="JsonSchema.Net" Version="2.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />

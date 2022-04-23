@@ -15,15 +15,18 @@ public record CRecordField : CNodeWithLocation
     [JsonPropertyName("type")]
     public string Type { get; set; } = string.Empty;
 
-    [JsonPropertyName("offset")]
-    public int Offset { get; set; }
+    [JsonPropertyName("size_of")]
+    public int SizeOf { get; set; }
 
-    [JsonPropertyName("padding")]
-    public int Padding { get; set; }
+    [JsonPropertyName("offset_of")]
+    public int? OffsetOf { get; set; }
+
+    [JsonPropertyName("padding_of")]
+    public int? PaddingOf { get; set; }
 
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {
-        return $"RecordField '{Name}': {Type} @ {Location}";
+        return $"Struct Field '{Name}': {Type} @ {Location}";
     }
 }

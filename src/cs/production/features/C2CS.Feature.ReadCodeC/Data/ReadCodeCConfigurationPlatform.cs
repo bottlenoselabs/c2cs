@@ -18,7 +18,7 @@ public sealed class ReadCodeCConfigurationPlatform
     public ImmutableArray<string?>? SystemIncludeDirectories { get; set; }
 
     [JsonPropertyName("include_directories")]
-    [Json.Schema.Generation.Description("The directories to search for user or library header files.")]
+    [Json.Schema.Generation.Description("The directories to search for non-system header files specific to the target platform.")]
     public ImmutableArray<string?>? IncludeDirectories { get; set; }
 
     [JsonPropertyName("defines")]
