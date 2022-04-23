@@ -1,9 +1,0 @@
-{
-  "name": "struct_union_named_empty",
-  "layout": {
-    "kind": "LayoutKind.Explicit",
-    "size": 0,
-    "pack": 1
-  },
-  "fields": []
-}

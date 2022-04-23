@@ -1,8 +1,0 @@
-{
-  "name": "struct_union_named_empty",
-  "parent_name": "",
-  "size_of": 0,
-  "align_of": 1,
-  "is_union": false,
-  "fields": []
-}
