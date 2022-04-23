@@ -1,0 +1,16 @@
+{
+  "name": "struct_union_named_empty",
+  "parent_name": "",
+  "size_of": 16,
+  "align_of": 8,
+  "is_union": false,
+  "fields": [
+    {
+      "name": "struct_union_named_empty_fields",
+      "type_name": "struct_union_named_empty_fields",
+      "offset_of": 0,
+      "padding_of": 0,
+      "size_of": 16
+    }
+  ]
+}
