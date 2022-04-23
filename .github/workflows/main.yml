@@ -69,7 +69,6 @@ jobs:
         nuget-access-token: "${{ secrets.NUGET_ACCESS_TOKEN }}"
 
     - uses: actions/upload-artifact@v3
-      if: ${{ always() }}
       with:
         name: "Test Data ${{ matrix.platform.name }}"
         path: |
