@@ -3,6 +3,7 @@
 
 using System.Collections.Immutable;
 using System.Globalization;
+using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using C2CS.Data.Serialization;
@@ -100,7 +101,17 @@ public sealed class WriteCodeCSharpFixture
             }
         }
 
+        var compilation = CSharpCompilation.Create(
+            "TestAssemblyName",
+            new[] { syntaxTree },
+            new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, allowUnsafe: true));
+        using var dllStream = new MemoryStream();
+        using var pdbStream = new MemoryStream();
+        var emitResult = compilation.Emit(dllStream, pdbStream);
+
         Context = new WriteCodeCSharpFixtureContext(
+            emitResult,
             methodsByNameBuilder.ToImmutable(),
             enumsByNameBuilder.ToImmutable(),
             structsByNameBuilder.ToImmutable());

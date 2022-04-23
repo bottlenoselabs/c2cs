@@ -3,6 +3,7 @@
 
 using C2CS.IntegrationTests.my_c_library.Fixtures;
 using C2CS.Tests.Common;
+using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -54,5 +55,19 @@ public class WriteCodeCSharpTests : CLibraryIntegrationTest
     {
         var value = _context.GetStruct(name);
         AssertValue(name, value, "Structs");
+    }
+
+    [Fact]
+    public void Compiles()
+    {
+        var emitResult = _context.EmitResult;
+        Assert.True(emitResult.Success, "C# code did not compile successfully.");
+
+        foreach (var diagnostic in emitResult.Diagnostics)
+        {
+            var isWarningOrError = diagnostic.Severity != DiagnosticSeverity.Warning &&
+                                   diagnostic.Severity != DiagnosticSeverity.Error;
+            Assert.True(isWarningOrError, $"C# code compilation diagnostic: {diagnostic}.");
+        }
     }
 }

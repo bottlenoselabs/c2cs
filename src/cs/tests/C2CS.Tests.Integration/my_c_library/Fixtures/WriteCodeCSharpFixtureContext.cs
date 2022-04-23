@@ -3,6 +3,7 @@
 
 using System.Collections.Immutable;
 using C2CS.Tests.Common.Data.Model.CSharp;
+using Microsoft.CodeAnalysis.Emit;
 using Xunit;
 
 namespace C2CS.IntegrationTests.my_c_library.Fixtures;
@@ -13,11 +14,15 @@ public class WriteCodeCSharpFixtureContext
     private readonly ImmutableDictionary<string, CSharpTestEnum> _testEnums;
     private readonly ImmutableDictionary<string, CSharpTestStruct> _testStructs;
 
+    public EmitResult EmitResult { get; }
+
     public WriteCodeCSharpFixtureContext(
+        EmitResult emitResult,
         ImmutableDictionary<string, CSharpTestFunction> testFunctions,
         ImmutableDictionary<string, CSharpTestEnum> testEnums,
         ImmutableDictionary<string, CSharpTestStruct> testStructs)
     {
+        EmitResult = emitResult;
         _testFunctions = testFunctions;
         _testEnums = testEnums;
         _testStructs = testStructs;
