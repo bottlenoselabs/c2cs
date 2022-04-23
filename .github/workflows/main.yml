@@ -69,7 +69,7 @@ jobs:
         nuget-access-token: "${{ secrets.NUGET_ACCESS_TOKEN }}"
 
     - name: "Snipe test files"
-    - uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v3
       with:
         name: "Test Data ${{ matrix.platform.name }}"
         path: |
