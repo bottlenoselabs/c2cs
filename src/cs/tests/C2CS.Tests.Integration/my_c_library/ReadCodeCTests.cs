@@ -15,7 +15,7 @@ public class ReadCodeCTests : CLibraryIntegrationTest
     private readonly ImmutableArray<ReadCodeCFixtureContext> _contexts;
 
     public ReadCodeCTests()
-        : base(TestHost.Services, "my_c_library", "Data/C", false)
+        : base(TestHost.Services, "my_c_library", "Data/C", true)
     {
         _contexts = TestHost.Services.GetService<ReadCodeCFixture>()!.Contexts;
         Assert.True(_contexts.Length > 0, "Failed to read C code.");
@@ -34,6 +34,35 @@ public class ReadCodeCTests : CLibraryIntegrationTest
 
     [Theory]
     [InlineData("function_void_void")]
+    [InlineData("function_void_intptr")]
+    [InlineData("function_void_intptr_1")]
+    [InlineData("function_void_intptr_2")]
+    [InlineData("function_void_intptr_3")]
+    [InlineData("function_void_intptr_4")]
+    [InlineData("function_void_intptr_5")]
+    [InlineData("function_void_intptr_6")]
+    [InlineData("function_void_intptr_7")]
+    [InlineData("function_void_intptr_8")]
+    [InlineData("function_void_intptr_9")]
+    [InlineData("function_void_intptr_10")]
+    [InlineData("function_void_intptr_11")]
+    [InlineData("function_void_intptr_12")]
+    [InlineData("function_void_intptr_13")]
+    [InlineData("function_void_intptr_14")]
+    [InlineData("function_void_intptr_15")]
+    [InlineData("function_void_intptr_16")]
+    [InlineData("function_void_intptr_17")]
+    [InlineData("function_void_intptr_18")]
+    [InlineData("function_void_intptr_19")]
+    [InlineData("function_void_intptr_20")]
+    [InlineData("function_void_intptr_21")]
+    [InlineData("function_void_intptr_22")]
+    [InlineData("function_void_intptr_23")]
+    [InlineData("function_void_intptr_24")]
+    [InlineData("function_void_intptr_25")]
+    [InlineData("function_void_intptr_26")]
+    [InlineData("function_void_intptr_27")]
+    [InlineData("function_void_intptr_28")]
     [InlineData("function_void_string")]
     [InlineData("function_void_uint16_int32_uint64")]
     [InlineData("function_void_uint16ptr_int32ptr_uint64ptr")]

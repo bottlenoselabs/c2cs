@@ -1,0 +1,11 @@
+{
+  "name": "function_void_intptr_13",
+  "calling_convention": "cdecl",
+  "return_type_name": "void",
+  "parameters": [
+    {
+      "name": "ptr",
+      "type_name": "int*"
+    }
+  ]
+}
