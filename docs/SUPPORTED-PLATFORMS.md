@@ -96,7 +96,7 @@ The main reason for statically linking a C library is "security" but it's really
 
 |Column|Notes|
 |:-:|-|
-|Open|The ability to read C code for the target platform from a different host platform. If a platform has an `✅` here it means the system headers can be distributed to other platforms under a free and open-source license. If a platform has an `❌` here it means the system header files part of the target platform have to be made manually accessible to `C2CS` to read C code for the target platform from a different host platform.|
+|Open|The ability to read C code for the target platform from a different host platform. If a platform has an `🔓` here it means the system headers can be distributed to other platforms under a free and open-source license. If a platform has an `🔒` here it means the system header files part of the target platform have to be made manually accessible to `C2CS` to read C code for the target platform from a different host platform.|
 |OS|The operating system of the target platform.|
 |Arch|The computer architecture (a.k.a instruction set architecture) of the target platform|
 |SDE|The software development environment (SDE) required to build native libraries for the target platform.|
@@ -108,24 +108,24 @@ For simplicity, `ARM32` and some other computer architectures are not listed her
 
 |Open|OS|Arch|SDE|Clang Target|.NET RID|
 |:-:|:-:|:-:|:-:|:-:|:-:|
-|✅|Windows|`ARM64`|[MinGW](https://en.wikipedia.org/wiki/MinGW)|`aarch64-pc-windows-gnu`|`win-arm64`
-|✅|Windows|`X64`|[MinGW](https://en.wikipedia.org/wiki/MinGW)|`x86_64-pc-windows-gnu`|`win-x64`
-|✅|Windows|`X86`|[MinGW](https://en.wikipedia.org/wiki/MinGW)|`i686-pc-windows-gnu`|`win-x86`
-|❌<sup>1</sup>|Windows|`ARM64`|[MSVC](https://en.wikipedia.org/wiki/Microsoft_Visual_C%2B%2B)|`aarch64-pc-windows-msvc`|`win-arm64`
-|❌<sup>1</sup>|Windows|`X64`|[MSVC](https://en.wikipedia.org/wiki/Microsoft_Visual_C%2B%2B)|`x86_64-pc-windows-msvc`|`win-x64`
-|❌<sup>1</sup>|Windows|`X86`|[MSVC](https://en.wikipedia.org/wiki/Microsoft_Visual_C%2B%2B)|`i686-pc-windows-msvc`|`win-x86`
-|❌<sup>2</sup>|macOS|`ARM64`|[XCode](https://en.wikipedia.org/wiki/Xcode)|`aarch64-apple-darwin`|`osx-arm64`
-|❌<sup>2</sup>|macOS|`X64`|[XCode](https://en.wikipedia.org/wiki/Xcode)|`x86_64-apple-darwin`|`osx-x64`
-|❌<sup>2</sup>|macOS|`X86`|[XCode](https://en.wikipedia.org/wiki/Xcode)|`i686-apple-darwin`|`osx-x86`
-|✅|Linux (kernel)|`ARM64`|[CMake](https://en.wikipedia.org/wiki/CMake) recommended|`aarch64-unknown-linux-gnu`|`linux-arm64`
-|✅|Linux (kernel)|`X64`|[CMake](https://en.wikipedia.org/wiki/CMake) recommended|`x86_64-unknown-linux-gnu`|`linux-x64`
-|✅|Linux (kernel)|`X86`|[CMake](https://en.wikipedia.org/wiki/CMake) recommended|`i686-unknown-linux-gnu`|`linux-x86`
-|❌<sup>2</sup>|iOS|`ARM64`|[XCode](https://en.wikipedia.org/wiki/Xcode)|`aarch64-apple-ios`|`ios-arm64`
-|❌<sup>2</sup>|iOS|`X64`|[XCode](https://en.wikipedia.org/wiki/Xcode)|`x86_64-apple-ios`|`ios-x64`
-|❌<sup>2</sup>|tvOS|`ARM64`|[XCode](https://en.wikipedia.org/wiki/Xcode)|`aarch64-apple-tvos`|`tvos-arm64`
-|❌<sup>2</sup>|tvOS|`X64`|[XCode](https://en.wikipedia.org/wiki/Xcode)|`x86_64-apple-tvos`|`tvos-x64`
-|❌<sup>3</sup>|Android|`ARM64`|[Android Studio](https://en.wikipedia.org/wiki/Android_Studio)|`aarch64-linux-android`|`android-arm64`
-|❌<sup>3</sup>|Android|`X64`|[Android Studio](https://en.wikipedia.org/wiki/Android_Studio)|`x86_64-linux-android`|`android-x64`
+|🔓|Windows|`ARM64`|[MinGW](https://en.wikipedia.org/wiki/MinGW)|`aarch64-pc-windows-gnu`|`win-arm64`
+|🔓|Windows|`X64`|[MinGW](https://en.wikipedia.org/wiki/MinGW)|`x86_64-pc-windows-gnu`|`win-x64`
+|🔓|Windows|`X86`|[MinGW](https://en.wikipedia.org/wiki/MinGW)|`i686-pc-windows-gnu`|`win-x86`
+|🔒<sup>1</sup>|Windows|`ARM64`|[MSVC](https://en.wikipedia.org/wiki/Microsoft_Visual_C%2B%2B)|`aarch64-pc-windows-msvc`|`win-arm64`
+|🔒<sup>1</sup>|Windows|`X64`|[MSVC](https://en.wikipedia.org/wiki/Microsoft_Visual_C%2B%2B)|`x86_64-pc-windows-msvc`|`win-x64`
+|🔒<sup>1</sup>|Windows|`X86`|[MSVC](https://en.wikipedia.org/wiki/Microsoft_Visual_C%2B%2B)|`i686-pc-windows-msvc`|`win-x86`
+|🔒<sup>2</sup>|macOS|`ARM64`|[XCode](https://en.wikipedia.org/wiki/Xcode)|`aarch64-apple-darwin`|`osx-arm64`
+|🔒<sup>2</sup>|macOS|`X64`|[XCode](https://en.wikipedia.org/wiki/Xcode)|`x86_64-apple-darwin`|`osx-x64`
+|🔒<sup>2</sup>|macOS|`X86`|[XCode](https://en.wikipedia.org/wiki/Xcode)|`i686-apple-darwin`|`osx-x86`
+|🔓|Linux (kernel)|`ARM64`|[CMake](https://en.wikipedia.org/wiki/CMake) recommended|`aarch64-unknown-linux-gnu`|`linux-arm64`
+|🔓|Linux (kernel)|`X64`|[CMake](https://en.wikipedia.org/wiki/CMake) recommended|`x86_64-unknown-linux-gnu`|`linux-x64`
+|🔓|Linux (kernel)|`X86`|[CMake](https://en.wikipedia.org/wiki/CMake) recommended|`i686-unknown-linux-gnu`|`linux-x86`
+|🔒<sup>2</sup>|iOS|`ARM64`|[XCode](https://en.wikipedia.org/wiki/Xcode)|`aarch64-apple-ios`|`ios-arm64`
+|🔒<sup>2</sup>|iOS|`X64`|[XCode](https://en.wikipedia.org/wiki/Xcode)|`x86_64-apple-ios`|`ios-x64`
+|🔒<sup>2</sup>|tvOS|`ARM64`|[XCode](https://en.wikipedia.org/wiki/Xcode)|`aarch64-apple-tvos`|`tvos-arm64`
+|🔒<sup>2</sup>|tvOS|`X64`|[XCode](https://en.wikipedia.org/wiki/Xcode)|`x86_64-apple-tvos`|`tvos-x64`
+|🔒<sup>3</sup>|Android|`ARM64`|[Android Studio](https://en.wikipedia.org/wiki/Android_Studio)|`aarch64-linux-android`|`android-arm64`
+|🔒<sup>3</sup>|Android|`X64`|[Android Studio](https://en.wikipedia.org/wiki/Android_Studio)|`x86_64-linux-android`|`android-x64`
 
 <sup>1</sup>: Microsoft does not allow distribution of their software development kits (SDKs) for Windows due to their [Microsoft Software License Terms](https://docs.microsoft.com/en-us/legal/windows-sdk/redist). You can [download and install the SDKs here](https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/). You will find the important directories on your machine at `%ProgramFiles(x86)%\Windows Kits\10\Include`.
 
