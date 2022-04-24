@@ -1,0 +1,10 @@
+{
+  "name": "function_void_intptr_10",
+  "return_type_name": "void",
+  "parameters": [
+    {
+      "name": "ptr",
+      "type_name": "int*"
+    }
+  ]
+}
