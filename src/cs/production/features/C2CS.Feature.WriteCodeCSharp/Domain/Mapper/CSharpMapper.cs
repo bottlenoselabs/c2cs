@@ -75,7 +75,7 @@ public sealed class CSharpMapper
 
     private CSharpNodes CSharpNodes(CAbstractSyntaxTree ast)
     {
-        var context = new CSharpMapperContext(ast.Platform, ast.Types, ast.Records);
+        var context = new CSharpMapperContext(ast.Platform, ast.Types, ast.Records, ast.FunctionPointers);
         var topLevelRecords = ast.Records.Where(x => string.IsNullOrEmpty(x.ParentName)).ToImmutableArray();
 
         var functions = Functions(context, ast.Functions);
@@ -158,6 +158,7 @@ public sealed class CSharpMapper
         {
             CFunctionCallingConvention.Cdecl => Data.Model.CSharpFunctionCallingConvention.Cdecl,
             CFunctionCallingConvention.StdCall => Data.Model.CSharpFunctionCallingConvention.StdCall,
+            CFunctionCallingConvention.FastCall => Data.Model.CSharpFunctionCallingConvention.FastCall,
             _ => throw new ArgumentOutOfRangeException(
                 nameof(callingConvention), callingConvention, null)
         };
@@ -267,7 +268,7 @@ public sealed class CSharpMapper
     {
         var typeName = string.IsNullOrEmpty(functionPointer.Name) ? functionPointer.Type : functionPointer.Name;
         var typeC = CType(context, typeName);
-        var typeNameCSharp = TypeNameMapFunctionPointer(context, typeC);
+        var typeNameCSharp = TypeNameMapFunctionPointer(context, typeC, functionPointer);
 
         var originalCodeLocationComment = OriginalCodeLocationComment(functionPointer);
         var returnTypeC = CType(context, functionPointer.ReturnType);
@@ -419,7 +420,8 @@ public sealed class CSharpMapper
         CSharpType typeCSharp;
         if (typeC.Kind == CKind.FunctionPointer)
         {
-            var functionPointerName = TypeNameMapFunctionPointer(context, typeC);
+            var functionPointer = context.FunctionPointersByName[typeC.Name];
+            var functionPointerName = TypeNameMapFunctionPointer(context, typeC, functionPointer);
             typeCSharp = Type(context, typeC, functionPointerName);
         }
         else
@@ -736,6 +738,8 @@ public sealed class CSharpMapper
         return result;
     }
 
+    private readonly string _dotNetPath = Terminal.DotNetPath();
+
     private (string Type, string Value)? GetMacroExpressionTypeAndValue(
         ImmutableArray<string> tokens, IReadOnlyDictionary<string, CSharpConstant> lookup)
     {
@@ -755,7 +759,6 @@ using System;
 var x = {value};
 ".Trim();
 
-        var dotNetPath = Terminal.DotNetPath();
         var syntaxTree = CSharpSyntaxTree.ParseText(code);
         var variableDeclarations = syntaxTree.GetRoot().DescendantNodesAndSelf().OfType<VariableDeclarationSyntax>();
         var variables = variableDeclarations.Last().Variables;
@@ -773,9 +776,9 @@ var x = {value};
         }
 
         var expression = variableInitializer.Value;
-        var mscorlib = MetadataReference.CreateFromFile(Path.Combine(dotNetPath, "mscorlib.dll"));
+        var mscorlib = MetadataReference.CreateFromFile(Path.Combine(_dotNetPath, "mscorlib.dll"));
         var privateCoreLib =
-            MetadataReference.CreateFromFile(Path.Combine(dotNetPath, "System.Private.CoreLib.dll"));
+            MetadataReference.CreateFromFile(Path.Combine(_dotNetPath, "System.Private.CoreLib.dll"));
         var compilation = CSharpCompilation.Create("Assembly")
             .AddReferences(mscorlib, privateCoreLib)
             .AddSyntaxTrees(syntaxTree);
@@ -826,7 +829,8 @@ var x = {value};
     {
         if (type.Kind == CKind.FunctionPointer)
         {
-            return TypeNameMapFunctionPointer(context, type);
+            var functionPointer = context.FunctionPointersByName[type.Name];
+            return TypeNameMapFunctionPointer(context, type, functionPointer);
         }
 
         var name = type.Name;
@@ -853,28 +857,33 @@ var x = {value};
 
     private string TypeNameMapFunctionPointer(
         CSharpMapperContext context,
-        CType typeC)
+        CType type,
+        CFunctionPointer functionPointer)
     {
-        if (typeC.Kind == CKind.Typedef)
+        if (type.Kind == CKind.Typedef)
         {
-            return typeC.Name;
+            return type.Name;
         }
 
-        if (typeC.Kind != CKind.FunctionPointer)
+        if (type.Kind != CKind.FunctionPointer)
         {
-            var up = new UseCaseException($"Expected type to be function pointer but type is '{typeC.Kind}'.");
+            var up = new UseCaseException($"Expected type to be function pointer but type is '{type.Kind}'.");
             throw up;
         }
 
-        if (_generatedFunctionPointersNamesByCNames.TryGetValue(typeC.Name, out var functionPointerNameCSharp))
+        if (_generatedFunctionPointersNamesByCNames.TryGetValue(type.Name, out var functionPointerName))
         {
-            return functionPointerNameCSharp;
+            return functionPointerName;
         }
 
-        var indexOfFirstParentheses = typeC.Name.IndexOf('(', StringComparison.InvariantCulture);
-        var returnTypeStringC = typeC.Name.Substring(0, indexOfFirstParentheses)
-            .Replace(" *", "*", StringComparison.InvariantCulture).Trim();
-        var returnTypeC = CType(context, returnTypeStringC);
+        functionPointerName = CreateFunctionPointerName(context, functionPointer);
+        _generatedFunctionPointersNamesByCNames.Add(type.Name, functionPointerName);
+        return functionPointerName;
+    }
+
+    private string CreateFunctionPointerName(CSharpMapperContext context, CFunctionPointer functionPointer)
+    {
+        var returnTypeC = CType(context, functionPointer.ReturnType);
         var returnTypeCSharp = Type(context, returnTypeC);
         var returnTypeNameCSharpOriginal = returnTypeCSharp.Name ?? string.Empty;
         var returnTypeNameCSharp = returnTypeNameCSharpOriginal.Replace("*", "Ptr", StringComparison.InvariantCulture);
@@ -882,20 +891,10 @@ var x = {value};
                                           returnTypeNameCSharp.Substring(1);
 
         var parameterStringsCSharp = new List<string>();
-        var parameterStringsC = typeC.Name.Substring(indexOfFirstParentheses)
-            .Trim('(', ')').Split(',', StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => x.Replace(" *", "*", StringComparison.InvariantCulture))
-            .Select(x => x.Trim()).ToArray();
-        foreach (var typeNameC in parameterStringsC)
+        foreach (var parameter in functionPointer.Parameters)
         {
-            var parameterTypeC = CType(context, typeNameC);
+            var parameterTypeC = CType(context, parameter.Type);
             var parameterTypeCSharp = Type(context, parameterTypeC);
-
-            if (parameterTypeC.Name == "void" && parameterTypeC.Location.IsNull)
-            {
-                continue;
-            }
-
             var typeNameCSharpOriginal = parameterTypeCSharp.Name ?? string.Empty;
             var typeNameCSharp = typeNameCSharpOriginal.Replace("*", "Ptr", StringComparison.InvariantCulture);
             var typeNameCSharpCapitalized =
@@ -904,11 +903,8 @@ var x = {value};
         }
 
         var parameterStringsCSharpJoined = string.Join('_', parameterStringsCSharp);
-        functionPointerNameCSharp =
-            $"FnPtr_{parameterStringsCSharpJoined}_{returnTypeStringCapitalized}"
-                .Replace("__", "_", StringComparison.InvariantCulture);
-        _generatedFunctionPointersNamesByCNames.Add(typeC.Name, functionPointerNameCSharp);
-
+        var functionPointerNameCSharp = $"FnPtr_{parameterStringsCSharpJoined}_{returnTypeStringCapitalized}"
+            .Replace("__", "_", StringComparison.InvariantCulture);
         return functionPointerNameCSharp;
     }
 
@@ -953,11 +949,15 @@ var x = {value};
 
         var elementTypeName = pointerTypeName.TrimEnd('*');
         var pointersTypeName = pointerTypeName[elementTypeName.Length..];
+        if (elementTypeName.Length == 0)
+        {
+            return "void" + pointersTypeName;
+        }
+
         var elementType = CType(context, elementTypeName);
         var mappedElementTypeName = TypeNameMapElement(elementType.Name, elementType.SizeOf);
-        pointerTypeName = mappedElementTypeName + pointersTypeName;
-
-        return pointerTypeName;
+        var result = mappedElementTypeName + pointersTypeName;
+        return result;
     }
 
     private string TypeNameMapElement(string typeName, int sizeOf)
@@ -1001,6 +1001,7 @@ var x = {value};
                 return "UIntPtr";
             case "intptr_t":
                 return "IntPtr";
+
             case "unsigned char":
             case "unsigned short":
             case "unsigned short int":
@@ -1012,6 +1013,7 @@ var x = {value};
             case "unsigned long long int":
             case "size_t":
                 return TypeNameMapUnsignedInteger(sizeOf);
+
             case "signed char":
             case "short":
             case "short int":
@@ -1029,6 +1031,12 @@ var x = {value};
             case "signed long long int":
             case "ssize_t":
                 return TypeNameMapSignedInteger(sizeOf);
+
+            case "float":
+            case "double":
+            case "long double":
+                return TypeNameMapFloatingPoint(sizeOf);
+
             default:
                 return typeName;
         }
@@ -1054,6 +1062,17 @@ var x = {value};
             2 => "short",
             4 => "int",
             8 => "long",
+            _ => throw new InvalidOperationException()
+        };
+    }
+
+    private string TypeNameMapFloatingPoint(int sizeOf)
+    {
+        return sizeOf switch
+        {
+            4 => "float",
+            8 => "double",
+            16 => "decimal",
             _ => throw new InvalidOperationException()
         };
     }

@@ -209,6 +209,7 @@ namespace {namespaceName}
         {
             CSharpFunctionCallingConvention.Cdecl => "CallingConvention = CallingConvention.Cdecl",
             CSharpFunctionCallingConvention.StdCall => "CallingConvention = CallingConvention.StdCall",
+            CSharpFunctionCallingConvention.FastCall => "CallingConvention = CallingConvention.FastCall",
             _ => string.Empty,
         };
         var dllImportParameters = string.Join(',', "LibraryName", callingConvention);
@@ -368,27 +369,9 @@ public {field.Type.Name} {field.Name};
     private static FieldDeclarationSyntax EmitStructFieldFixedBuffer(
         CSharpStructField field)
     {
-        string typeName;
-
-        if (field.IsWrapped)
-        {
-            typeName = field.Type.AlignOf switch
-            {
-                1 => "byte",
-                2 => "ushort",
-                4 => "uint",
-                8 => "ulong",
-                _ => throw new InvalidOperationException()
-            };
-        }
-        else
-        {
-            typeName = field.Type.Name ?? string.Empty;
-        }
-
         var code = $@"
 [FieldOffset({field.Offset})] // size = {field.Type.SizeOf}, padding = {field.Padding}
-public fixed {typeName} {field.BackingFieldName}[{field.Type.SizeOf}/{field.Type.AlignOf}]; // {field.Type.OriginalName}
+public fixed byte {field.BackingFieldName}[{field.Type.SizeOf}]; // {field.Type.OriginalName}
 ".Trim();
 
         return ParseMemberCode<FieldDeclarationSyntax>(code);

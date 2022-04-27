@@ -88,23 +88,25 @@ public sealed class ConfigurationJsonSerializer
 
         if (read.ConfigurationPlatforms != null)
         {
-            foreach (var (_, extractAbstractSyntaxTreeC) in read.ConfigurationPlatforms)
+            foreach (var (_, configurationPlatform) in read.ConfigurationPlatforms)
             {
-                if (extractAbstractSyntaxTreeC != null)
+                if (configurationPlatform != null)
                 {
-                    PolyfillConfigurationReadCPlatform(configuration, extractAbstractSyntaxTreeC);
+                    PolyfillConfigurationReadCPlatform(configuration, read, configurationPlatform);
                 }
             }
         }
     }
 
     private void PolyfillConfigurationReadCPlatform(
-        Configuration configuration, ReadCodeCConfigurationPlatform platform)
+        Configuration configuration, ReadCodeCConfiguration read, ReadCodeCConfigurationPlatform platform)
     {
         if (string.IsNullOrEmpty(platform.OutputFileDirectory))
         {
             platform.OutputFileDirectory = configuration.InputOutputFileDirectory;
         }
+
+        platform.IsEnabledLocationFullPaths ??= read.IsEnabledLocationFullPaths;
     }
 
     private void PolyfillConfigurationWriteCSharp(string filePath, Configuration configuration, WriteCodeCSharpConfiguration write)

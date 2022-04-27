@@ -3,6 +3,8 @@
 
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Reflection.Metadata;
+using System.Text;
 using bottlenoselabs;
 using C2CS.Feature.ReadCodeC.Data.Model;
 using C2CS.Feature.ReadCodeC.Domain.ExploreCode.Diagnostics;
@@ -50,7 +52,7 @@ public sealed class ClangTranslationUnitExplorer
         var location = Location(context, cursor, default, false);
 
         var functions = context.Functions.ToImmutableArray();
-        var functionPointers = context.FunctionPointers.ToImmutableArray();
+        var functionPointers = context.FunctionPointersByName.Values.ToImmutableArray();
         var records = context.Records.ToImmutableArray();
         var enums = context.Enums.ToImmutableArray();
         var opaqueTypes = context.OpaqueDataTypes.ToImmutableArray();
@@ -568,7 +570,6 @@ public sealed class ClangTranslationUnitExplorer
         ClangTranslationUnitExplorerNode parentNode)
     {
         var typeName = node.TypeName!;
-
         var location = node.Location;
 
         if (context.OpaqueTypesNames.Contains(typeName))
@@ -583,7 +584,8 @@ public sealed class ClangTranslationUnitExplorer
         var type = clang_getCursorType(cursor);
 
         var typeCursor = clang_getTypeDeclaration(node.Type);
-        var isUnion = typeCursor.kind == CXCursorKind.CXCursor_UnionDecl;
+        var typeUnderlyingCursor = ClangUnderlyingCursor(typeCursor);
+        var isUnion = typeUnderlyingCursor.kind == CXCursorKind.CXCursor_UnionDecl;
         var sizeOf = (int)clang_Type_getSizeOf(type);
         var alignOf = (int)clang_Type_getAlignOf(type);
         var isAnonymous = clang_Cursor_isAnonymous(typeCursor) > 0;
@@ -591,7 +593,7 @@ public sealed class ClangTranslationUnitExplorer
 
         if (isUnion)
         {
-            var fields = CreateUnionFields(context, typeCursor, node);
+            var fields = CreateUnionFields(context, typeUnderlyingCursor, node);
 
             var union = new CRecord
             {
@@ -608,7 +610,7 @@ public sealed class ClangTranslationUnitExplorer
         }
         else
         {
-            var fields = CreateStructFields(context, cursor, node);
+            var fields = CreateStructFields(context, typeUnderlyingCursor, node);
 
             var @struct = new CRecord
             {
@@ -697,17 +699,25 @@ public sealed class ClangTranslationUnitExplorer
         CLocation location,
         ClangTranslationUnitExplorerNode parentNode)
     {
-        _logger.ExploreCodeFunctionPointer(typeName);
-
-        if (type.kind == CXTypeKind.CXType_Pointer)
+        var name = GetFunctionPointerName(cursor, type);
+        if (context.FunctionPointersByName.ContainsKey(name))
         {
-            type = clang_getPointeeType(type);
+            return;
         }
 
-        var functionPointer = CreateFunctionPointer(context, typeName, cursor, parentNode, type, location);
+        var functionPointer = CreateFunctionPointer(context, name, typeName, cursor, parentNode, type, location);
+        context.FunctionPointersByName.Add(name, functionPointer);
+    }
 
-        context.FunctionPointers.Add(functionPointer);
-        context.Names.Add(functionPointer.Name);
+    private string GetFunctionPointerName(CXCursor cursor, CXType type)
+    {
+        if (cursor.kind == CXCursorKind.CXCursor_TypedefDecl)
+        {
+            return cursor.Name();
+        }
+
+        var result = type.Name();
+        return result;
     }
 
     private bool TypeNameIsValid(ClangTranslationUnitExplorerContext context, string typeName)
@@ -815,6 +825,7 @@ public sealed class ClangTranslationUnitExplorer
         {
             CXCallingConv.CXCallingConv_C => CFunctionCallingConvention.Cdecl,
             CXCallingConv.CXCallingConv_X86StdCall => CFunctionCallingConvention.StdCall,
+            CXCallingConv.CXCallingConv_X86FastCall => CFunctionCallingConvention.FastCall,
             _ => throw new UseCaseException($"Unknown calling convention '{callingConvention}'.")
         };
 
@@ -846,9 +857,11 @@ public sealed class ClangTranslationUnitExplorer
     {
         var type = clang_getCursorType(cursor);
         var name = cursor.Name();
+
         var typeName = Name(parentNode.TypeName!, type, cursor);
 
         VisitType(context, parentNode, cursor, cursor, type, typeName);
+
         var codeLocation = Location(context, cursor, type, false);
 
         return new CFunctionParameter
@@ -861,6 +874,7 @@ public sealed class ClangTranslationUnitExplorer
 
     private CFunctionPointer CreateFunctionPointer(
         ClangTranslationUnitExplorerContext context,
+        string name,
         string typeName,
         CXCursor cursor,
         ClangTranslationUnitExplorerNode parentNode,
@@ -873,10 +887,8 @@ public sealed class ClangTranslationUnitExplorer
         var returnTypeName = Name(parentNode.TypeName!, returnType, cursor);
         VisitType(context, parentNode, cursor, cursor, returnType, returnTypeName);
 
-        var name = string.Empty;
         if (cursor.kind == CXCursorKind.CXCursor_TypedefDecl)
         {
-            name = cursor.Name();
             var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
             var pointeeType = clang_getPointeeType(underlyingType);
             var functionProtoType = pointeeType.kind == CXTypeKind.CXType_Invalid ? underlyingType : pointeeType;
@@ -980,14 +992,15 @@ public sealed class ClangTranslationUnitExplorer
         }
 
         var fieldCursors = RecordFieldCursors(underlyingRecordCursor);
-        if (fieldCursors.Length > 0)
+        var fieldCursorsLength = fieldCursors.Length;
+        if (fieldCursorsLength > 0)
         {
             // Clang does not provide a way to get the padding of a field; we need to do it ourselves.
             // To calculate the padding of a field, work backwards from the last field to the first field using the offsets and sizes reported by Clang.
 
             var lastFieldCursor = fieldCursors[^1];
             var lastRecordField = CreateStructField(
-                context, parentNode, lastFieldCursor, underlyingRecordCursor, fieldCursors.Length - 1, null);
+                context, parentNode, lastFieldCursor, underlyingRecordCursor, fieldCursorsLength - 1, null);
             builder.Add(lastRecordField);
 
             for (var i = fieldCursors.Length - 2; i >= 0; i--)
@@ -1109,6 +1122,7 @@ public sealed class ClangTranslationUnitExplorer
         CRecordField? nextField)
     {
         var fieldName = cursor.Name();
+
         var type = clang_getCursorType(cursor);
         var codeLocation = Location(context, cursor, type, false);
         var parentRecordName = parentNode.TypeName;
@@ -1424,9 +1438,9 @@ public sealed class ClangTranslationUnitExplorer
         {
             var pointeeType = clang_getPointeeType(kindType);
             var (_, pointeeKindType) = TypeKind(pointeeType);
-            var pointeeCursor = clang_getTypeDeclaration(pointeeType);
+            var pointeeCursor = clang_getTypeDeclaration(pointeeKindType);
             var pointeeCursor2 = pointeeCursor.kind == CXCursorKind.CXCursor_NoDeclFound ? cursor : pointeeCursor;
-            var pointeeTypeName = Name(parentNode.TypeName!, pointeeType, pointeeCursor2);
+            var pointeeTypeName = Name(parentNode.TypeName!, pointeeKindType, pointeeCursor2);
             VisitType(
                 context,
                 parentNode,
@@ -1493,15 +1507,20 @@ public sealed class ClangTranslationUnitExplorer
         var name = type.Name();
         var typeCursor = clang_getTypeDeclaration(type);
 
+        var isAnonymous = clang_Cursor_isAnonymous(typeCursor) > 0;
+        if (isAnonymous)
+        {
+            return $"{parentName}_ANONYMOUSFIELD{index}";
+        }
+
+        if (name.Contains("(unnamed at ", StringComparison.InvariantCulture))
+        {
+            return $"{parentName}_UNNAMEDFIELD{index}";
+        }
+
         var isUnion = typeCursor.kind == CXCursorKind.CXCursor_UnionDecl;
         if (isUnion)
         {
-            var isAnonymous = clang_Cursor_isAnonymous(typeCursor) > 0;
-            if (isAnonymous)
-            {
-                return $"{parentName}_ANONYMOUSFIELD{index}";
-            }
-
             var unionName = typeCursor.Name();
             if (string.IsNullOrEmpty(unionName))
             {
@@ -1546,10 +1565,13 @@ public sealed class ClangTranslationUnitExplorer
 
         foreach (var includeDirectory in context.IncludeDirectories)
         {
-            if (location.FilePath.Contains(includeDirectory, StringComparison.InvariantCulture))
+            if (context.IsEnabledLocationFullPaths)
             {
-                location.FilePath = location.FilePath
-                    .Replace(includeDirectory, string.Empty, StringComparison.InvariantCulture).Trim('/', '\\');
+                location.FilePath = location.FilePath;
+            }
+            else if (location.FilePath.Contains(includeDirectory, StringComparison.InvariantCulture))
+            {
+                location.FilePath = location.FilePath.Replace(includeDirectory, string.Empty, StringComparison.InvariantCulture).Trim('/', '\\');
                 break;
             }
         }

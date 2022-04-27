@@ -56,7 +56,8 @@ public sealed class ReadCodeCUseCase : UseCase<
                 options.ExcludedHeaderFiles,
                 options.OpaqueTypeNames,
                 options.FunctionNamesWhitelist,
-                options.TargetPlatform);
+                options.TargetPlatform,
+                options.IsEnabledLocationFullPaths);
 
             Write(options.OutputFilePath, abstractSyntaxTreeC, options.TargetPlatform);
 
@@ -116,7 +117,8 @@ public sealed class ReadCodeCUseCase : UseCase<
         ImmutableArray<string> excludedHeaderFiles,
         ImmutableArray<string> opaqueTypeNames,
         ImmutableArray<string> functionNamesWhitelist,
-        TargetPlatform platform)
+        TargetPlatform platform,
+        bool isEnabledLocationFullPaths)
     {
         BeginStep($"Extract {platform}");
 
@@ -126,7 +128,8 @@ public sealed class ReadCodeCUseCase : UseCase<
             excludedHeaderFiles,
             opaqueTypeNames,
             functionNamesWhitelist,
-            platform);
+            platform,
+            isEnabledLocationFullPaths);
         var clangExplorer = _services.GetService<ClangTranslationUnitExplorer>()!;
         var result = clangExplorer.AbstractSyntaxTree(context, translationUnit);
 

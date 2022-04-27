@@ -6,5 +6,6 @@ namespace C2CS.Feature.ReadCodeC.Data.Model;
 public enum CFunctionCallingConvention
 {
     Cdecl = 0,
-    StdCall = 1
+    StdCall = 1,
+    FastCall = 2
 }

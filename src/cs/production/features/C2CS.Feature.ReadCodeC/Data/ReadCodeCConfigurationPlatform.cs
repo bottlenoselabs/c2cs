@@ -40,4 +40,8 @@ public sealed class ReadCodeCConfigurationPlatform
     [Json.Schema.Generation.Description("Additional Clang arguments to use when parsing C code.")]
     [JsonPropertyName("clang_arguments")]
     public ImmutableArray<string?>? ClangArguments { get; set; }
+
+    [JsonPropertyName("is_enabled_location_full_paths")]
+    [Json.Schema.Generation.Description("Determines whether to show the the path of header code locations with full paths or relative paths. Use `true` to use the full path for header locations. Use `false` or `null` or omit this property to show only relative file paths.")]
+    public bool? IsEnabledLocationFullPaths { get; set; }
 }

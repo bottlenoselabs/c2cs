@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using C2CS.Feature.ReadCodeC.Data;
@@ -115,6 +116,11 @@ public static unsafe class ClangExtensions
 
     private static string SanitizeClangName(string result)
     {
+        if (string.IsNullOrEmpty(result))
+        {
+            return string.Empty;
+        }
+
         if (result.Contains("struct ", StringComparison.InvariantCulture))
         {
             result = result.Replace("struct ", string.Empty, StringComparison.InvariantCulture);
@@ -133,6 +139,11 @@ public static unsafe class ClangExtensions
         if (result.Contains("const ", StringComparison.InvariantCulture))
         {
             result = result.Replace("const ", string.Empty, StringComparison.InvariantCulture);
+        }
+
+        if (result.Contains("*const", StringComparison.InvariantCulture))
+        {
+            result = result.Replace("*const", "*", StringComparison.InvariantCulture);
         }
 
         return result;
@@ -158,6 +169,7 @@ public static unsafe class ClangExtensions
             CXTypeKind.CXType_LongLong => true,
             CXTypeKind.CXType_Float => true,
             CXTypeKind.CXType_Double => true,
+            CXTypeKind.CXType_LongDouble => true,
             _ => false
         };
     }
@@ -173,7 +185,9 @@ public static unsafe class ClangExtensions
 
         string result;
 
-        if (type.IsPrimitive() || type.kind == CXTypeKind.CXType_FunctionProto)
+        var isPrimitive = type.IsPrimitive();
+        var isFunctionPointer = type.kind == CXTypeKind.CXType_FunctionProto;
+        if (isPrimitive || isFunctionPointer)
         {
             result = spelling;
         }
@@ -185,6 +199,11 @@ public static unsafe class ClangExtensions
             {
                 case CXTypeKind.CXType_Pointer:
                     var pointeeType = clang_getPointeeType(type);
+                    if (pointeeType.kind == CXTypeKind.CXType_Attributed)
+                    {
+                        pointeeType = clang_Type_getModifiedType(pointeeType);
+                    }
+
                     var pointeeCursor = clang_getTypeDeclaration(pointeeType);
                     if (pointeeCursor.kind == CXCursorKind.CXCursor_NoDeclFound &&
                         pointeeType.kind == CXTypeKind.CXType_FunctionProto)

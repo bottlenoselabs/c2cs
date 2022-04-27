@@ -8,4 +8,5 @@ public enum CSharpFunctionCallingConvention
     Default = 0,
     Cdecl = 1,
     StdCall = 2,
+    FastCall = 3
 }

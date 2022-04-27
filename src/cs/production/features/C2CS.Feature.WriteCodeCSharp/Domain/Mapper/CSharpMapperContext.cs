@@ -14,13 +14,20 @@ public class CSharpMapperContext
 
     public readonly ImmutableDictionary<string, CRecord> RecordsByName;
 
+    public readonly ImmutableDictionary<string, CFunctionPointer> FunctionPointersByName;
+
     public CSharpMapperContext(
-        TargetPlatform platform, ImmutableArray<CType> types, ImmutableArray<CRecord> records)
+        TargetPlatform platform,
+        ImmutableArray<CType> types,
+        ImmutableArray<CRecord> records,
+        ImmutableArray<CFunctionPointer> functionPointers)
     {
         Platform = platform;
         TypesByName = types
             .ToImmutableDictionary(x => x.Name);
         RecordsByName = records
+            .ToImmutableDictionary(x => x.Name);
+        FunctionPointersByName = functionPointers
             .ToImmutableDictionary(x => x.Name);
     }
 }

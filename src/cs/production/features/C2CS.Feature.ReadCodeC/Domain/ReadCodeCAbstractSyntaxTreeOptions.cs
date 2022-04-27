@@ -24,4 +24,6 @@ public sealed class ReadCodeCAbstractSyntaxTreeOptions
     public ImmutableArray<string> ClangDefines { get; init; }
 
     public ImmutableArray<string> ClangArguments { get; init; }
+
+    public bool IsEnabledLocationFullPaths { get; init; }
 }
