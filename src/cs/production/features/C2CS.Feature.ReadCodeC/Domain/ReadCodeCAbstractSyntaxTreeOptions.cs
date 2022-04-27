@@ -26,4 +26,6 @@ public sealed class ReadCodeCAbstractSyntaxTreeOptions
     public ImmutableArray<string> ClangArguments { get; init; }
 
     public bool IsEnabledLocationFullPaths { get; init; }
+
+    public bool IsEnabledMacroObjects { get; init; }
 }

@@ -207,43 +207,49 @@ public sealed class ClangTranslationUnitExplorer
     private void ExploreTranslationUnit(
         ClangTranslationUnitExplorerContext context, ClangTranslationUnitExplorerNode node)
     {
-        var interestingCursors = node.Cursor.GetDescendents(IsCursorOfInterest);
+        var interestingCursors = node.Cursor.GetDescendents((child, parent) => IsCursorOfInterest(context, child, parent));
         foreach (var cursor in interestingCursors)
         {
             VisitTranslationUnitCursor(context, node, cursor);
         }
+    }
 
-        static bool IsCursorOfInterest(CXCursor cursor, CXCursor cursorParent)
+    private bool IsCursorOfInterest(ClangTranslationUnitExplorerContext context, CXCursor cursor, CXCursor cursorParent)
+    {
+        var kind = clang_getCursorKind(cursor);
+        if (kind != CXCursorKind.CXCursor_FunctionDecl &&
+            kind != CXCursorKind.CXCursor_VarDecl &&
+            kind != CXCursorKind.CXCursor_EnumDecl &&
+            kind != CXCursorKind.CXCursor_MacroDefinition)
         {
-            var kind = clang_getCursorKind(cursor);
-            if (kind != CXCursorKind.CXCursor_FunctionDecl &&
-                kind != CXCursorKind.CXCursor_VarDecl &&
-                kind != CXCursorKind.CXCursor_EnumDecl &&
-                kind != CXCursorKind.CXCursor_MacroDefinition)
+            return false;
+        }
+
+        if (kind == CXCursorKind.CXCursor_MacroDefinition)
+        {
+            if (!context.IsEnabledMacroObjects)
             {
                 return false;
             }
 
-            if (kind == CXCursorKind.CXCursor_MacroDefinition)
+            var isMacroBuiltIn = clang_Cursor_isMacroBuiltin(cursor) > 0;
+            if (isMacroBuiltIn)
             {
-                if (clang_Cursor_isMacroBuiltin(cursor) != 0)
-                {
-                    return false;
-                }
+                return false;
             }
-            else
-            {
-                var linkage = clang_getCursorLinkage(cursor);
-                var isExternallyLinked = linkage == CXLinkageKind.CXLinkage_External;
-                if (!isExternallyLinked)
-                {
-                    return false;
-                }
-            }
-
-            var isSystemCursor = cursor.IsSystem();
-            return !isSystemCursor;
         }
+        else
+        {
+            var linkage = clang_getCursorLinkage(cursor);
+            var isExternallyLinked = linkage == CXLinkageKind.CXLinkage_External;
+            if (!isExternallyLinked)
+            {
+                return false;
+            }
+        }
+
+        var isSystemCursor = cursor.IsSystem();
+        return !isSystemCursor;
     }
 
     private void VisitTranslationUnitCursor(

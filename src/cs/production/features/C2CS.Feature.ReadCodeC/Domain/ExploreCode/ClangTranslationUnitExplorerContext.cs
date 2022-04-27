@@ -25,6 +25,8 @@ public sealed class ClangTranslationUnitExplorerContext
 
     public bool IsEnabledLocationFullPaths { get; }
 
+    public bool IsEnabledMacroObjects { get; }
+
     internal readonly List<CEnum> Enums = new();
     internal readonly ArrayDeque<ClangTranslationUnitExplorerNode> FrontierGeneral = new();
     internal readonly ArrayDeque<ClangTranslationUnitExplorerNode> FrontierMacros = new();
@@ -49,7 +51,8 @@ public sealed class ClangTranslationUnitExplorerContext
         ImmutableArray<string> opaqueTypeNames,
         ImmutableArray<string> functionNamesWhitelist,
         TargetPlatform targetPlatform,
-        bool isEnabledLocationFullPaths)
+        bool isEnabledLocationFullPaths,
+        bool isEnabledMacroObjects)
     {
         Diagnostics = diagnostics;
         IncludeDirectories = includeDirectories;
@@ -58,6 +61,7 @@ public sealed class ClangTranslationUnitExplorerContext
         FunctionNamesWhitelist = functionNamesWhitelist;
         TargetPlatform = targetPlatform;
         IsEnabledLocationFullPaths = isEnabledLocationFullPaths;
+        IsEnabledMacroObjects = isEnabledMacroObjects;
     }
 
     private static HashSet<string> DefaultSystemIgnoredTypeNames()

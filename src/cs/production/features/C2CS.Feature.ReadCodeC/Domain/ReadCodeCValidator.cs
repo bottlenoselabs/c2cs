@@ -49,6 +49,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
             var clangDefines = VerifyImmutableArray(configurationPlatform?.Defines);
             var clangArguments = VerifyImmutableArray(configurationPlatform?.ClangArguments);
             var isEnabledLocationFullPaths = configurationPlatform?.IsEnabledLocationFullPaths ?? false;
+            var isEnabledMacroObjects = configurationPlatform?.IsEnabledMacroObjects ?? true;
 
             var inputAbstractSyntaxTree = new ReadCodeCAbstractSyntaxTreeOptions
             {
@@ -61,7 +62,8 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
                 FunctionNamesWhitelist = functionNamesWhitelist,
                 ClangDefines = clangDefines,
                 ClangArguments = clangArguments,
-                IsEnabledLocationFullPaths = isEnabledLocationFullPaths
+                IsEnabledLocationFullPaths = isEnabledLocationFullPaths,
+                IsEnabledMacroObjects = isEnabledMacroObjects
             };
 
             optionsBuilder.Add(inputAbstractSyntaxTree);

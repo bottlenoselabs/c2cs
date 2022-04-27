@@ -107,6 +107,7 @@ public sealed class ConfigurationJsonSerializer
         }
 
         platform.IsEnabledLocationFullPaths ??= read.IsEnabledLocationFullPaths;
+        platform.IsEnabledMacroObjects ??= read.IsEnabledMacroObjects;
     }
 
     private void PolyfillConfigurationWriteCSharp(string filePath, Configuration configuration, WriteCodeCSharpConfiguration write)
