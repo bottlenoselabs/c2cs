@@ -221,9 +221,7 @@ public sealed class TranslationUnitExplorer
     {
         if (string.IsNullOrEmpty(location.FileName))
         {
-            var up = new UseCaseException(
-                "Unexpected null or empty file path.");
-            throw up;
+            return false;
         }
 
         foreach (var includeDirectory in context.UserIncludeDirectories)
@@ -651,12 +649,12 @@ public sealed class TranslationUnitExplorer
         ExplorerNode node,
         ExplorerNode parentNode)
     {
-        var typeName = node.TypeName!;
+        var name = node.TypeName!;
         var location = node.Location;
 
-        if (context.Options.OpaqueTypesNames.Contains(typeName))
+        if (context.Options.OpaqueTypesNames.Contains(name))
         {
-            ExploreOpaqueType(context, typeName, location);
+            ExploreOpaqueType(context, name, location);
             return;
         }
 
@@ -673,19 +671,17 @@ public sealed class TranslationUnitExplorer
         switch (aliasKind)
         {
             case CKind.Enum:
-                ExploreEnum(context, typeName, aliasCursor, aliasType, location, parentNode);
+                ExploreEnum(context, name, aliasCursor, aliasType, location, parentNode);
                 return;
             case CKind.Record:
                 ExploreRecord(context, node, parentNode);
                 return;
             case CKind.FunctionPointer:
-                var functionPointerTypeName = aliasType.Name();
-                ExploreFunctionPointer(
-                    context, functionPointerTypeName, aliasCursor, aliasType, location, parentNode);
+                ExploreFunctionPointer(context, name, aliasCursor, aliasType, location, parentNode);
                 return;
         }
 
-        _logger.ExploreCodeTypedef(typeName);
+        _logger.ExploreCodeTypedef(name);
 
         var aliasTypeName = Name(parentNode.TypeName!, aliasType, aliasCursor);
         var aliasLocation = Location(context, aliasCursor, aliasType);
@@ -696,7 +692,7 @@ public sealed class TranslationUnitExplorer
 
         var typedef = new CTypedef
         {
-            Name = typeName,
+            Name = name,
             Location = location,
             UnderlyingTypeName = aliasTypeName,
             UnderlyingTypeKind = aliasKind,
@@ -739,7 +735,7 @@ public sealed class TranslationUnitExplorer
 
         if (!context.Types.ContainsKey(typeName))
         {
-            var typeC = Type(context, typeName, cursor, type, CKind.FunctionPointer);
+            var typeC = Type(context, typeName, type, CKind.FunctionPointer);
             context.Types.Add(typeName, typeC);
         }
     }
@@ -809,12 +805,12 @@ public sealed class TranslationUnitExplorer
                     return false;
                 }
 
-                typeC = Type(context, typeName, cursor, type, kind);
+                typeC = Type(context, typeName, type, kind);
                 context.Types[typeName] = typeC;
                 return true;
             }
 
-            typeC = Type(context, typeName, cursor, type, kind);
+            typeC = Type(context, typeName, type, kind);
             context.Types.Add(typeName, typeC);
 
             return true;
@@ -1265,14 +1261,15 @@ public sealed class TranslationUnitExplorer
         };
     }
 
-    private CType Type(ExplorerContext context, string typeName, CXCursor cursor, CXType type, CKind kind)
+    private CType Type(ExplorerContext context, string typeName, CXType type, CKind kind)
     {
-        var declaration = clang_getTypeDeclaration(type);
-        if (declaration.kind == CXCursorKind.CXCursor_NoDeclFound)
+        if (type.kind == CXTypeKind.CXType_Attributed)
         {
-            declaration = cursor;
+            var typeCandidate = clang_Type_getModifiedType(type);
+            return Type(context, typeName, typeCandidate, kind);
         }
 
+        var cursor = clang_getTypeDeclaration(type);
         var sizeOf = SizeOf(context, type);
         var alignOfValue = (int)clang_Type_getAlignOf(type);
         int? alignOf = alignOfValue >= 0 ? alignOfValue : null;
@@ -1287,8 +1284,8 @@ public sealed class TranslationUnitExplorer
             elementSize = SizeOf(context, elementType);
         }
 
-        var location = Location(context, declaration, type, true);
-        var isAnonymous = clang_Cursor_isAnonymous(declaration) > 0;
+        var location = Location(context, cursor, type);
+        var isAnonymous = clang_Cursor_isAnonymous(cursor) > 0;
 
         var name = typeName;
         if (IsBlocked(context, type, location, kind, string.Empty, typeName))
