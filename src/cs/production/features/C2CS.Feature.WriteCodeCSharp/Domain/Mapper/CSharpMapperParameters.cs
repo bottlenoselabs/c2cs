@@ -39,7 +39,7 @@ public sealed class CSharpMapperParameters
     private static void AddSystemTypes(IDictionary<string, string> aliases)
     {
         AddSystemTypesWindows(aliases);
-        AddSystemTypesLinux(aliases);
+        // AddSystemTypesLinux(aliases);
         AddSystemTypesDarwin(aliases);
     }
 
@@ -53,27 +53,6 @@ public sealed class CSharpMapperParameters
         aliases.Add("SInt32", "int");
         aliases.Add("UInt64", "ulong");
         aliases.Add("SInt64", "long");
-
-        aliases.Add("__uint32_t", "uint");
-        aliases.Add("__uint16_t", "ushort");
-        aliases.Add("__uint8_t", "byte");
-        aliases.Add("__int32_t", "int");
-
-        aliases.Add("__darwin_pthread_t", "nint");
-        aliases.Add("__darwin_uid_t", "uint");
-        aliases.Add("__darwin_pid_t", "int");
-        aliases.Add("__darwin_gid_t", "uint");
-        aliases.Add("__darwin_socklen_t", "uint");
-        aliases.Add("__darwin_time_t", "nint");
-    }
-
-    private static void AddSystemTypesLinux(IDictionary<string, string> aliases)
-    {
-        aliases.Add("__gid_t", "uint");
-        aliases.Add("__uid_t", "uint");
-        aliases.Add("__pid_t", "int");
-        aliases.Add("__socklen_t", "uint");
-        aliases.Add("__time_t", "nint");
     }
 
     private static void AddSystemTypesWindows(IDictionary<string, string> aliases)
