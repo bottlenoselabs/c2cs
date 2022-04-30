@@ -254,11 +254,12 @@ public sealed class BuilderCSharpAbstractSyntaxTree
             CSharpNode = node
         };
 
-        var isFirstTimeEncountered = !_candidateNodes.TryGetValue(node.CodeLocationComment, out var nodes);
+        var key = node.Name + ":" + node.CodeLocationComment;
+        var isFirstTimeEncountered = !_candidateNodes.TryGetValue(key, out var nodes);
         if (isFirstTimeEncountered)
         {
             nodes = new List<PlatformCandidateNode> { candidateNode };
-            _candidateNodes.Add(node.Name + ":" + node.CodeLocationComment, nodes);
+            _candidateNodes.Add(key, nodes);
         }
         else
         {
