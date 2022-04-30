@@ -14,7 +14,7 @@ namespace C2CS.Feature.ReadCodeC.Data;
 [PublicAPI]
 public sealed class ReadCodeCConfiguration : UseCaseConfiguration
 {
-    [JsonPropertyName("OutputFileDirectory")]
+    [JsonPropertyName("output_file_directory")]
     [Json.Schema.Generation.Description("Path of the output abstract syntax tree directory. The directory will contain one or more generated abstract syntax tree `.json` files which each have a file name of the target platform.")]
     public string? OutputFileDirectory { get; set; }
 
@@ -22,17 +22,45 @@ public sealed class ReadCodeCConfiguration : UseCaseConfiguration
     [Json.Schema.Generation.Description("Path of the input `.h` header file containing C code.")]
     public string? InputFilePath { get; set; }
 
-    [JsonPropertyName("include_directories")]
+    [JsonPropertyName("user_include_directories")]
     [Json.Schema.Generation.Description("The directories to search for non-system header files.")]
-    public ImmutableArray<string?>? IncludeDirectories { get; set; }
+    public ImmutableArray<string?>? UserIncludeDirectories { get; set; }
+
+    [JsonPropertyName("system_include_directories")]
+    [Json.Schema.Generation.Description("The directories to search for system header files.")]
+    public ImmutableArray<string?>? SystemIncludeDirectories { get; set; }
+
+    [JsonPropertyName("function_names_allowed")]
+    [Json.Schema.Generation.Description("The C function names to explicitly include when parsing C code. Default is `null`. If `null`, all functions found may be included. Note that C function names which are excluded may also exclude any transitive types.")]
+    public ImmutableArray<string?>? FunctionNamesAllowed { get; set; }
+
+    [JsonPropertyName("opaque_type_names")]
+    [Json.Schema.Generation.Description("Type names that may be found when parsing C code that will be interpreted as opaque types. Opaque types are often used with a pointer to hide the information about the bit layout behind the pointer.")]
+    public ImmutableArray<string?>? OpaqueTypeNames { get; set; }
 
     [JsonPropertyName("is_enabled_location_full_paths")]
-    [Json.Schema.Generation.Description("Determines whether to show the the path of header code locations with full paths or relative paths. Use `true` to use the full path for header locations. Use `false` or `null` or omit this property to show only relative file paths.")]
+    [Json.Schema.Generation.Description("Determines whether to show the the path of header code locations with full paths or relative paths. Use `true` to use the full path for header locations. Use `false` or omit this property to show only relative file paths.")]
     public bool? IsEnabledLocationFullPaths { get; set; }
 
     [JsonPropertyName("is_enabled_macro_objects")]
     [Json.Schema.Generation.Description("Determines whether to include or exclude macro objects. Use `true` or omit this property to include macro objects. Use `false` to exclude macro objects.")]
     public bool? IsEnabledMacroObjects { get; set; }
+
+    [JsonPropertyName("is_enabled_variables")]
+    [Json.Schema.Generation.Description("Determines whether to include or exclude variables. Use `true` or omit this property to include variables. Use `false` to exclude variables.")]
+    public bool? IsEnabledVariables { get; set; }
+
+    [JsonPropertyName("is_enabled_allow_names_with_prefixed_underscore")]
+    [Json.Schema.Generation.Description("Determines whether to include or exclude functions, enums, structs, typedefs, etc with a prefixed underscore; such declarations are sometimes considered 'non public'. Use `true` to include declarations with a prefixed underscore. Use `false` or omit this property to exclude declarations with a prefixed underscore.")]
+    public bool? IsEnabledAllowNamesWithPrefixedUnderscore { get; set; }
+
+    [JsonPropertyName("is_enabled_system_declarations")]
+    [Json.Schema.Generation.Description("Determines whether to include or exclude system declarations. Use `true` to include system functions, enums, typedefs, records, etc. Use `false` or omit this property to exclude system declarations.")]
+    public bool? IsEnabledSystemDeclarations { get; set; }
+
+    [JsonPropertyName("is_enabled_find_target_platform_system_headers")]
+    [Json.Schema.Generation.Description("Determines whether to automatically find and append the system headers for the target platform. Use `true` or omit this property to automatically find and append system headers for the target platform. Use `false` to not find and append system headers for the target platform.")]
+    public bool? IsEnabledFindSystemHeaders { get; set; }
 
     [JsonPropertyName("platforms")]
     [Json.Schema.Generation.Description("The target platform configurations for extracting the abstract syntax trees. Each target platform is a Clang target triple. See the C2CS docs for more details about what target platforms are available.")]

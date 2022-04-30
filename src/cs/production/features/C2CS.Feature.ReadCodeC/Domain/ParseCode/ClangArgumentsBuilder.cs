@@ -19,20 +19,18 @@ public class ClangArgumentsBuilder
 
     public ImmutableArray<string>? Build(
         DiagnosticsSink diagnostics,
-        ImmutableArray<string> systemIncludeDirectories,
-        ImmutableArray<string> userIncludeDirectories,
-        ImmutableArray<string> defines,
         TargetPlatform targetPlatform,
-        ImmutableArray<string> additionalArgs)
+        ParseOptions options)
     {
         var args = ImmutableArray.CreateBuilder<string>();
 
         AddDefaults(args, targetPlatform);
-        AddUserIncludeDirectories(args, userIncludeDirectories);
-        AddDefines(args, defines);
+        AddUserIncludeDirectories(args, options.UserIncludeDirectories);
+        AddDefines(args, options.MacroObjectsDefines);
         AddTargetTriple(args, targetPlatform);
-        AddAdditionalArgs(args, additionalArgs);
-        AddSystemIncludeDirectories(args, targetPlatform, systemIncludeDirectories, diagnostics);
+        AddAdditionalArgs(args, options.AdditionalArguments);
+        AddSystemIncludeDirectories(
+            args, targetPlatform, options.SystemIncludeDirectories, options.IsEnabledFindSystemHeaders, diagnostics);
 
         return args.ToImmutable();
     }
@@ -106,12 +104,13 @@ public class ClangArgumentsBuilder
         ImmutableArray<string>.Builder args,
         TargetPlatform targetPlatform,
         ImmutableArray<string> directories,
+        bool isEnabledFindSystemHeaders,
         DiagnosticsSink diagnostics)
     {
         ImmutableArray<string> systemIncludeDirectories;
-        if (directories.IsDefaultOrEmpty)
+        if (isEnabledFindSystemHeaders)
         {
-            systemIncludeDirectories = SystemIncludeDirectories(targetPlatform);
+            systemIncludeDirectories = SystemIncludeDirectories(targetPlatform, directories);
         }
         else
         {
@@ -142,7 +141,9 @@ public class ClangArgumentsBuilder
         }
     }
 
-    private ImmutableArray<string> SystemIncludeDirectories(TargetPlatform targetPlatform)
+    private ImmutableArray<string> SystemIncludeDirectories(
+        TargetPlatform targetPlatform,
+        ImmutableArray<string> manualSystemIncludeDirectories)
     {
         var hostOperatingSystem = Native.OperatingSystem;
         var targetOperatingSystem = targetPlatform.OperatingSystem;
@@ -186,6 +187,7 @@ public class ClangArgumentsBuilder
             }
         }
 
+        directories.AddRange(manualSystemIncludeDirectories);
         return directories.ToImmutable();
     }
 
@@ -250,27 +252,6 @@ public class ClangArgumentsBuilder
         directories.Add(mscvIncludeDirectoryPath);
     }
 
-    private void SystemIncludesDirectoriesHostMacOs(ImmutableArray<string>.Builder directories)
-    {
-        if (!_fileSystem.Directory.Exists("/Library/Developer/CommandLineTools"))
-        {
-            throw new ClangException(
-                "Please install CommandLineTools for macOS. This will install Clang. Use the command `xcode-select --install`.");
-        }
-
-        const string commandLineToolsClangDirectoryPath = "/Library/Developer/CommandLineTools/usr/lib/clang";
-        var clangHighestVersionDirectoryPath =
-            GetHighestVersionDirectoryPathFrom(commandLineToolsClangDirectoryPath);
-        if (string.IsNullOrEmpty(clangHighestVersionDirectoryPath))
-        {
-            throw new ClangException(
-                $"Unable to find a version of clang. Expected a version of clang at '{commandLineToolsClangDirectoryPath}'. Do you need to install CommandLineTools for macOS?");
-        }
-
-        var systemIncludeCommandLineArgClang = $"{clangHighestVersionDirectoryPath}/include";
-        directories.Add(systemIncludeCommandLineArgClang);
-    }
-
     private void SystemIncludesDirectoriesTargetMac(ImmutableArray<string>.Builder directories)
     {
         var softwareDevelopmentKitDirectoryPath =
@@ -278,7 +259,7 @@ public class ClangArgumentsBuilder
         if (!_fileSystem.Directory.Exists(softwareDevelopmentKitDirectoryPath))
         {
             throw new ClangException(
-                "Please install XCode for macOS. This will install the software development kit (SDK) for macOS which gives access to common C/C++/ObjC headers.");
+                "Please install XCode or CommandLineTools for macOS. This will install the software development kit (SDK) for macOS which gives access to common C/C++/ObjC headers.");
         }
 
         directories.Add($"{softwareDevelopmentKitDirectoryPath}/usr/include");

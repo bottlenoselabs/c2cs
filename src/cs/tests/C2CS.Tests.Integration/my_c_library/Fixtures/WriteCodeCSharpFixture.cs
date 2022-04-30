@@ -43,7 +43,7 @@ public sealed class WriteCodeCSharpFixture
         Assert.True(output != null);
         var input = output!.Input;
 
-        Assert.True(output.IsSuccessful, "Writing C# code failed.");
+        Assert.True(output.IsSuccess, "Writing C# code failed.");
         Assert.True(output.Diagnostics.Length == 0, "Diagnostics were reported when writing C# code.");
 
         var code = fileSystem.File.ReadAllText(input.OutputFilePath);

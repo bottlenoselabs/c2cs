@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 namespace C2CS.Feature.ReadCodeC.Data.Model;
 
 // NOTE: Properties are required for System.Text.Json serialization
-public record CFunctionPointerParameter : CNodeWithLocation
+public record CFunctionPointerParameter : CNode
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
@@ -15,9 +15,12 @@ public record CFunctionPointerParameter : CNodeWithLocation
     [JsonPropertyName("type")]
     public string Type { get; set; } = null!;
 
+    [JsonPropertyName("type_size_of")]
+    public int TypeSizeOf { get; set; }
+
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {
-        return $"FunctionPointerParameter '{Name}': {Type} @ {Location}";
+        return $"FunctionPointerParameter '{Name}': {Type}";
     }
 }

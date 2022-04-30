@@ -10,7 +10,7 @@ namespace C2CS.Feature.WriteCodeCSharp.Domain.CodeGenerator;
 public sealed class BuilderCSharpAbstractSyntaxTree
 {
     private readonly HashSet<TargetPlatform> _platforms = new();
-    private readonly Dictionary<string, List<PlatformCandidateNode>> _candidateNodesByName = new();
+    private readonly Dictionary<string, List<PlatformCandidateNode>> _candidateNodesByLocation = new();
 
     private readonly ImmutableArray<CSharpFunction>.Builder _agnosticFunctions = ImmutableArray.CreateBuilder<CSharpFunction>();
     private readonly ImmutableArray<CSharpFunctionPointer>.Builder _agnosticFunctionPointers = ImmutableArray.CreateBuilder<CSharpFunctionPointer>();
@@ -60,7 +60,7 @@ public sealed class BuilderCSharpAbstractSyntaxTree
 
     public CSharpAbstractSyntaxTree Build()
     {
-        foreach (var (_, nodes) in _candidateNodesByName)
+        foreach (var (_, nodes) in _candidateNodesByLocation)
         {
             CreateNodes(nodes);
         }
@@ -111,13 +111,7 @@ public sealed class BuilderCSharpAbstractSyntaxTree
 
     private bool CanMergeNodes(CSharpNode firstNode, CSharpNode secondNode)
     {
-        if (!firstNode.Equals(secondNode))
-        {
-            var result = firstNode.Equals(secondNode);
-            return false;
-        }
-
-        return true;
+        return firstNode.Equals(secondNode);
     }
 
     private CSharpNodes PlatformAgnosticNodes()
@@ -260,11 +254,11 @@ public sealed class BuilderCSharpAbstractSyntaxTree
             CSharpNode = node
         };
 
-        var isFirstTimeEncounteredName = !_candidateNodesByName.TryGetValue(node.Name, out var nodes);
-        if (isFirstTimeEncounteredName)
+        var isFirstTimeEncountered = !_candidateNodesByLocation.TryGetValue(node.CodeLocationComment, out var nodes);
+        if (isFirstTimeEncountered)
         {
             nodes = new List<PlatformCandidateNode> { candidateNode };
-            _candidateNodesByName.Add(node.Name, nodes);
+            _candidateNodesByLocation.Add(node.CodeLocationComment, nodes);
         }
         else
         {

@@ -102,7 +102,7 @@ public abstract class UseCase<TConfiguration, TInput, TOutput>
 
         response.Complete(Diagnostics.GetAll());
 
-        if (response.IsSuccessful)
+        if (response.IsSuccess)
         {
             Logger.UseCaseSucceeded(timeSpan);
         }

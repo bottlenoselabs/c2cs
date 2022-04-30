@@ -35,7 +35,7 @@ public sealed class ReadCodeCFixture
     private ImmutableArray<ReadCodeCFixtureContext> GetContexts(
         ReadCodeCOutput output, CJsonSerializer jsonSerializer)
     {
-        if (!output.IsSuccessful ||
+        if (!output.IsSuccess ||
             output.Diagnostics.Any(x => x.Severity is DiagnosticSeverity.Error or DiagnosticSeverity.Panic))
         {
             return ImmutableArray<ReadCodeCFixtureContext>.Empty;
@@ -71,7 +71,7 @@ public sealed class ReadCodeCFixture
     {
         var builder = ImmutableDictionary.CreateBuilder<string, CTestFunction>();
 
-        foreach (var function in ast.Functions)
+        foreach (var function in ast.Functions.Values)
         {
             var result = CreateTestFunction(function);
             builder.Add(result.Name, result);
@@ -125,7 +125,7 @@ public sealed class ReadCodeCFixture
     {
         var builder = ImmutableDictionary.CreateBuilder<string, CTestEnum>();
 
-        foreach (var @enum in ast.Enums)
+        foreach (var @enum in ast.Enums.Values)
         {
             var result = CreateTestEnum(@enum);
             builder.Add(result.Name, result);
@@ -174,7 +174,7 @@ public sealed class ReadCodeCFixture
     {
         var builder = ImmutableDictionary.CreateBuilder<string, CTestRecord>();
 
-        foreach (var value in ast.Records)
+        foreach (var value in ast.Records.Values)
         {
             var result = CreateTestRecord(value);
             builder.Add(result.Name, result);

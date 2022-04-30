@@ -10,24 +10,21 @@ public class CSharpMapperContext
 {
     public readonly TargetPlatform Platform;
 
-    public readonly ImmutableDictionary<string, CType> TypesByName;
+    public readonly ImmutableDictionary<string, CType> Types;
 
-    public readonly ImmutableDictionary<string, CRecord> RecordsByName;
+    public readonly ImmutableDictionary<string, CRecord> Records;
 
-    public readonly ImmutableDictionary<string, CFunctionPointer> FunctionPointersByName;
+    public readonly ImmutableDictionary<string, CFunctionPointer> FunctionPointers;
 
     public CSharpMapperContext(
         TargetPlatform platform,
-        ImmutableArray<CType> types,
-        ImmutableArray<CRecord> records,
-        ImmutableArray<CFunctionPointer> functionPointers)
+        ImmutableDictionary<string, CType> types,
+        ImmutableDictionary<string, CRecord> records,
+        ImmutableDictionary<string, CFunctionPointer> functionPointers)
     {
         Platform = platform;
-        TypesByName = types
-            .ToImmutableDictionary(x => x.Name);
-        RecordsByName = records
-            .ToImmutableDictionary(x => x.Name);
-        FunctionPointersByName = functionPointers
-            .ToImmutableDictionary(x => x.Name);
+        Types = types;
+        Records = records;
+        FunctionPointers = functionPointers;
     }
 }

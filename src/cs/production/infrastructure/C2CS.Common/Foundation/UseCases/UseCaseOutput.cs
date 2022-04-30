@@ -8,7 +8,7 @@ namespace C2CS.Foundation.UseCases;
 
 public abstract class UseCaseOutput<TInput>
 {
-    public bool IsSuccessful { get; private set; }
+    public bool IsSuccess { get; private set; }
 
     public TInput Input { get; internal set; } = default!;
 
@@ -17,7 +17,7 @@ public abstract class UseCaseOutput<TInput>
     internal void Complete(ImmutableArray<Diagnostic> diagnostics)
     {
         Diagnostics = diagnostics;
-        IsSuccessful = CalculateIsSuccessful(diagnostics);
+        IsSuccess = CalculateIsSuccessful(diagnostics);
     }
 
     private static bool CalculateIsSuccessful(ImmutableArray<Diagnostic> diagnostics)

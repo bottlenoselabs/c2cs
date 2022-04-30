@@ -15,6 +15,7 @@ public enum CKind
     FunctionPointer,
     FunctionPointerParameter,
     Record,
+    RecordField,
     Enum,
     EnumValue,
     OpaqueType,

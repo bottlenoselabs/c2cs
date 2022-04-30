@@ -35,15 +35,12 @@ public sealed class ReadCodeCUseCase : UseCase<
 
         var builder = ImmutableArray.CreateBuilder<ReadCodeCAbstractSyntaxTreeOptions>();
 
-        foreach (var options in input.AbstractSyntaxTreesOptions)
+        foreach (var options in input.AbstractSyntaxTreesOptionsList)
         {
             var translationUnit = Parse(
                 input.InputFilePath,
-                options.SystemIncludeDirectories,
-                options.IncludeDirectories,
-                options.ClangDefines,
                 options.TargetPlatform,
-                options.ClangArguments);
+                options.ParseOptions);
 
             if (!translationUnit.HasValue)
             {
@@ -52,13 +49,9 @@ public sealed class ReadCodeCUseCase : UseCase<
 
             var abstractSyntaxTreeC = Explore(
                 translationUnit.Value,
-                options.IncludeDirectories,
-                options.ExcludedHeaderFiles,
-                options.OpaqueTypeNames,
-                options.FunctionNamesWhitelist,
                 options.TargetPlatform,
-                options.IsEnabledLocationFullPaths,
-                options.IsEnabledMacroObjects);
+                options.ExploreOptions,
+                options.ParseOptions.UserIncludeDirectories);
 
             Write(options.OutputFilePath, abstractSyntaxTreeC, options.TargetPlatform);
 
@@ -80,11 +73,8 @@ public sealed class ReadCodeCUseCase : UseCase<
 
     private CXTranslationUnit? Parse(
         string inputFilePath,
-        ImmutableArray<string> systemIncludeDirectories,
-        ImmutableArray<string> userIncludeDirectories,
-        ImmutableArray<string> defines,
         TargetPlatform targetPlatform,
-        ImmutableArray<string> clangArguments)
+        ParseOptions options)
     {
         BeginStep($"Parse {targetPlatform}");
 
@@ -92,11 +82,8 @@ public sealed class ReadCodeCUseCase : UseCase<
 
         var arguments = clangArgumentsBuilder.Build(
             Diagnostics,
-            systemIncludeDirectories,
-            userIncludeDirectories,
-            defines,
             targetPlatform,
-            clangArguments);
+            options);
 
         if (arguments == null)
         {
@@ -104,7 +91,7 @@ public sealed class ReadCodeCUseCase : UseCase<
             return null;
         }
 
-        var parser = _services.GetService<ClangTranslationUnitParser>()!;
+        var parser = _services.GetService<TranslationUnitParser>()!;
         var result = parser.Parse(
             Diagnostics, inputFilePath, arguments.Value);
 
@@ -114,27 +101,16 @@ public sealed class ReadCodeCUseCase : UseCase<
 
     private CAbstractSyntaxTree Explore(
         CXTranslationUnit translationUnit,
-        ImmutableArray<string> includeDirectories,
-        ImmutableArray<string> excludedHeaderFiles,
-        ImmutableArray<string> opaqueTypeNames,
-        ImmutableArray<string> functionNamesWhitelist,
         TargetPlatform platform,
-        bool isEnabledLocationFullPaths,
-        bool isEnabledMacroObjects)
+        ExploreOptions options,
+        ImmutableArray<string> userIncludeDirectories)
     {
         BeginStep($"Extract {platform}");
 
-        var context = new ClangTranslationUnitExplorerContext(
-            Diagnostics,
-            includeDirectories,
-            excludedHeaderFiles,
-            opaqueTypeNames,
-            functionNamesWhitelist,
-            platform,
-            isEnabledLocationFullPaths,
-            isEnabledMacroObjects);
-        var clangExplorer = _services.GetService<ClangTranslationUnitExplorer>()!;
-        var result = clangExplorer.AbstractSyntaxTree(context, translationUnit);
+        var context = new ExplorerContext(Diagnostics, platform, options, userIncludeDirectories);
+        var clangExplorer = _services.GetService<TranslationUnitExplorer>()!;
+        var result = clangExplorer.AbstractSyntaxTree(
+            context, translationUnit);
 
         EndStep();
         return result;

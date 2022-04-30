@@ -20,8 +20,8 @@ public static class Startup
         // Logic
         services.AddSingleton<ClangInstaller>();
         services.AddSingleton<ClangArgumentsBuilder>();
-        services.AddSingleton<ClangTranslationUnitParser>();
-        services.AddSingleton<ClangTranslationUnitExplorer>();
+        services.AddSingleton<TranslationUnitParser>();
+        services.AddSingleton<TranslationUnitExplorer>();
 
         // Use case
         services.AddTransient<ReadCodeCUseCase>();

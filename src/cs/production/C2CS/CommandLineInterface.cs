@@ -34,11 +34,12 @@ internal class CommandLineInterface : RootCommand
         {
             IsRequired = false
         };
+        this.SetHandler<string>(Handle, configurationOption);
 
         var abstractSyntaxTreeCommand = new Command(
             "ast", "Dump the abstract syntax tree of a C `.h` file to one or more `.json` files per platform.");
         abstractSyntaxTreeCommand.AddOption(configurationOption);
-        abstractSyntaxTreeCommand.SetHandler<string>(HandleAbstractSyntaxTreesC, configurationOption);
+        abstractSyntaxTreeCommand.SetHandler<string>(filePath => HandleAbstractSyntaxTreesC(filePath), configurationOption);
         AddCommand(abstractSyntaxTreeCommand);
 
         var bindgenCSharpCommand = new Command(
@@ -50,17 +51,19 @@ internal class CommandLineInterface : RootCommand
         var configurationGenerateSchemaCommand = new Command(
             "schema", "Generate the `schema.json` file for the configuration in the working directory.");
         configurationGenerateSchemaCommand.SetHandler(GenerateSchema);
-        this.SetHandler<string>(Handle, configurationOption);
         AddCommand(configurationGenerateSchemaCommand);
     }
 
     private void Handle(string configurationFilePath)
     {
-        HandleAbstractSyntaxTreesC(configurationFilePath);
-        HandleBindgenCSharp(configurationFilePath);
+        var isSuccess = HandleAbstractSyntaxTreesC(configurationFilePath);
+        if (isSuccess)
+        {
+            HandleBindgenCSharp(configurationFilePath);
+        }
     }
 
-    private void HandleAbstractSyntaxTreesC(string configurationFilePath)
+    private bool HandleAbstractSyntaxTreesC(string configurationFilePath)
     {
         if (string.IsNullOrEmpty(configurationFilePath))
         {
@@ -71,11 +74,13 @@ internal class CommandLineInterface : RootCommand
         var configurationReadC = configuration.ReadC;
         if (configurationReadC == null)
         {
-            return;
+            return false;
         }
 
         var useCase = _serviceProvider.GetService<ReadCodeCUseCase>()!;
-        useCase.Execute(configurationReadC);
+        var response = useCase.Execute(configurationReadC);
+
+        return response.IsSuccess;
     }
 
     private void HandleBindgenCSharp(string configurationFilePath)

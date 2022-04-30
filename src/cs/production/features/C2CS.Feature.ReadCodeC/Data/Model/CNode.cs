@@ -47,7 +47,8 @@ public abstract record CNode : IComparable<CNode>
             CTypedef => CKind.Typedef,
             CVariable => CKind.Variable,
             CMacroDefinition => CKind.MacroDefinition,
-            _ => CKind.Unknown
+            CRecordField => CKind.RecordField,
+            _ => throw new NotImplementedException()
         };
     }
 

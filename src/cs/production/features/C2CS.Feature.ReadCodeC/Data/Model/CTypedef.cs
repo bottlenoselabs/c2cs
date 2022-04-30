@@ -12,12 +12,21 @@ public record CTypedef : CNodeWithLocation
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonPropertyName("underlying_type")]
-    public string UnderlyingType { get; set; } = string.Empty;
+    [JsonPropertyName("underlying_type_name")]
+    public string UnderlyingTypeName { get; set; } = string.Empty;
+
+    [JsonPropertyName("underlying_type_kind")]
+    public CKind UnderlyingTypeKind { get; set; }
+
+    [JsonPropertyName("underlying_type_size_of")]
+    public int UnderlyingTypeSizeOf { get; set; }
+
+    [JsonPropertyName("underlying_type_align_of")]
+    public int UnderlyingTypeAlignOf { get; set; }
 
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {
-        return $"Typedef '{Name}': {UnderlyingType} @ {Location}";
+        return $"Typedef '{Name}': {UnderlyingTypeName} @ {Location}";
     }
 }

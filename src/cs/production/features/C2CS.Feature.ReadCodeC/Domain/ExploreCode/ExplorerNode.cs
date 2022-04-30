@@ -7,20 +7,20 @@ using static bottlenoselabs.clang;
 
 namespace C2CS.Feature.ReadCodeC.Domain.ExploreCode;
 
-internal sealed class ClangTranslationUnitExplorerNode
+internal sealed class ExplorerNode
 {
     public readonly CKind Kind;
     public readonly CLocation Location;
-    public readonly ClangTranslationUnitExplorerNode? Parent;
+    public readonly ExplorerNode? Parent;
     public readonly CXCursor Cursor;
     public readonly CXType Type;
     public readonly string? CursorName;
     public readonly string? TypeName;
 
-    public ClangTranslationUnitExplorerNode(
+    public ExplorerNode(
         CKind kind,
         CLocation location,
-        ClangTranslationUnitExplorerNode? parent,
+        ExplorerNode? parent,
         CXCursor cursor,
         CXType type,
         string? cursorName,

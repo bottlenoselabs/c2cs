@@ -65,48 +65,6 @@ public static unsafe class ClangExtensions
         return CXChildVisitResult.CXChildVisit_Continue;
     }
 
-    public static bool IsSystem(this CXCursor cursor)
-    {
-        var location = clang_getCursorLocation(cursor);
-        var isInSystemHeader = clang_Location_isInSystemHeader(location) > 0U;
-        return isInSystemHeader;
-    }
-
-    public static bool IsSystem(this CXType type)
-    {
-        var kind = type.kind;
-
-        if (type.IsPrimitive())
-        {
-            return true;
-        }
-
-        switch (kind)
-        {
-            case CXTypeKind.CXType_Pointer:
-                var pointeeType = clang_getPointeeType(type);
-                return IsSystem(pointeeType);
-            case CXTypeKind.CXType_ConstantArray:
-            case CXTypeKind.CXType_IncompleteArray:
-                var elementType = clang_getElementType(type);
-                return IsSystem(elementType);
-            case CXTypeKind.CXType_Typedef:
-            case CXTypeKind.CXType_Elaborated:
-            case CXTypeKind.CXType_Record:
-            case CXTypeKind.CXType_Enum:
-            case CXTypeKind.CXType_FunctionProto:
-                var declaration = clang_getTypeDeclaration(type);
-                return IsSystem(declaration);
-            case CXTypeKind.CXType_FunctionNoProto:
-                return false;
-            case CXTypeKind.CXType_Attributed:
-                var modifiedType = clang_Type_getModifiedType(type);
-                return IsSystem(modifiedType);
-            default:
-                throw new NotImplementedException();
-        }
-    }
-
     public static string Name(this CXCursor clangCursor)
     {
         var spelling = clang_getCursorSpelling(clangCursor);

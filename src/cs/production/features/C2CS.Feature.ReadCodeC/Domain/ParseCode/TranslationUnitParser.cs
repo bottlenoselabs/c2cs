@@ -9,11 +9,11 @@ using static bottlenoselabs.clang;
 
 namespace C2CS.Feature.ReadCodeC.Domain.ParseCode;
 
-public sealed class ClangTranslationUnitParser
+public sealed class TranslationUnitParser
 {
     private readonly ILogger _logger;
 
-    public ClangTranslationUnitParser(ILogger logger)
+    public TranslationUnitParser(ILogger logger)
     {
         _logger = logger;
     }

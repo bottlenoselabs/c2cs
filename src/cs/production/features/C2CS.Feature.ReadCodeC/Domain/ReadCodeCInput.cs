@@ -9,5 +9,5 @@ public sealed class ReadCodeCInput
 {
     public string InputFilePath { get; init; } = string.Empty;
 
-    public ImmutableArray<ReadCodeCAbstractSyntaxTreeOptions> AbstractSyntaxTreesOptions { get; set; }
+    public ImmutableArray<ReadCodeCAbstractSyntaxTreeOptions> AbstractSyntaxTreesOptionsList { get; set; }
 }

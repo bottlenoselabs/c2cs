@@ -85,29 +85,6 @@ public sealed class ConfigurationJsonSerializer
         {
             read.WorkingDirectory = _fileSystem.Path.GetDirectoryName(filePath);
         }
-
-        if (read.ConfigurationPlatforms != null)
-        {
-            foreach (var (_, configurationPlatform) in read.ConfigurationPlatforms)
-            {
-                if (configurationPlatform != null)
-                {
-                    PolyfillConfigurationReadCPlatform(configuration, read, configurationPlatform);
-                }
-            }
-        }
-    }
-
-    private void PolyfillConfigurationReadCPlatform(
-        Configuration configuration, ReadCodeCConfiguration read, ReadCodeCConfigurationPlatform platform)
-    {
-        if (string.IsNullOrEmpty(platform.OutputFileDirectory))
-        {
-            platform.OutputFileDirectory = configuration.InputOutputFileDirectory;
-        }
-
-        platform.IsEnabledLocationFullPaths ??= read.IsEnabledLocationFullPaths;
-        platform.IsEnabledMacroObjects ??= read.IsEnabledMacroObjects;
     }
 
     private void PolyfillConfigurationWriteCSharp(string filePath, Configuration configuration, WriteCodeCSharpConfiguration write)

@@ -10,6 +10,10 @@ namespace C2CS.Feature.ReadCodeC.Data.Model;
 // NOTE: Properties are required for System.Text.Json serialization
 public class CType
 {
+#pragma warning disable CA2211
+    public static CType Empty = new();
+#pragma warning restore CA2211
+
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 

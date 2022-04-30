@@ -12,13 +12,14 @@ public sealed class CSharpStruct : CSharpNode
     public readonly CSharpType Type;
 
     public CSharpStruct(
+        string name,
         TargetPlatform platform,
         string codeLocationComment,
         int? sizeOf,
         CSharpType type,
         ImmutableArray<CSharpStructField> fields,
         ImmutableArray<CSharpStruct> nestedStructs)
-        : base(platform, type.Name, codeLocationComment, sizeOf)
+        : base(platform, name, codeLocationComment, sizeOf)
     {
         Fields = fields;
         NestedStructs = nestedStructs;

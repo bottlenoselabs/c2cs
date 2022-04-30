@@ -38,8 +38,6 @@ public sealed class CSharpMapperParameters
 
     private static void AddSystemTypes(IDictionary<string, string> aliases)
     {
-        aliases.Add("wchar_t", string.Empty); // remove
-
         AddSystemTypesWindows(aliases);
         AddSystemTypesLinux(aliases);
         AddSystemTypesDarwin(aliases);
@@ -47,6 +45,15 @@ public sealed class CSharpMapperParameters
 
     private static void AddSystemTypesDarwin(IDictionary<string, string> aliases)
     {
+        aliases.Add("UInt8", "byte");
+        aliases.Add("SInt8", "sbyte");
+        aliases.Add("UInt16", "ushort");
+        aliases.Add("SInt16", "short");
+        aliases.Add("UInt32", "uint");
+        aliases.Add("SInt32", "int");
+        aliases.Add("UInt64", "ulong");
+        aliases.Add("SInt64", "long");
+
         aliases.Add("__uint32_t", "uint");
         aliases.Add("__uint16_t", "ushort");
         aliases.Add("__uint8_t", "byte");
@@ -57,9 +64,6 @@ public sealed class CSharpMapperParameters
         aliases.Add("__darwin_pid_t", "int");
         aliases.Add("__darwin_gid_t", "uint");
         aliases.Add("__darwin_socklen_t", "uint");
-        aliases.Add("_opaque_pthread_t", string.Empty); // remove
-        aliases.Add("__darwin_pthread_handler_rec", string.Empty); // remove
-        aliases.Add("__darwin_wchar_t", string.Empty); // remove
         aliases.Add("__darwin_time_t", "nint");
     }
 
@@ -118,7 +122,5 @@ public sealed class CSharpMapperParameters
         aliases.Add("HINSTANCE", "nint"); // A handle to an instance
         aliases.Add("HWND", "nint"); // A handle to a window
         aliases.Add("SOCKET", "nint"); // A handle to a socket
-        aliases.Add("HINSTANCE__", string.Empty); // remove
-        aliases.Add("HWND__", string.Empty); // remove
     }
 }

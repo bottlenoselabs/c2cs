@@ -1,7 +1,8 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System.Collections.Immutable;
+using C2CS.Feature.ReadCodeC.Domain.ExploreCode;
+using C2CS.Feature.ReadCodeC.Domain.ParseCode;
 
 namespace C2CS.Feature.ReadCodeC.Domain;
 
@@ -11,21 +12,7 @@ public sealed class ReadCodeCAbstractSyntaxTreeOptions
 
     public TargetPlatform TargetPlatform { get; init; }
 
-    public ImmutableArray<string> SystemIncludeDirectories { get; init; }
+    public ExploreOptions ExploreOptions { get; init; } = null!;
 
-    public ImmutableArray<string> IncludeDirectories { get; init; }
-
-    public ImmutableArray<string> ExcludedHeaderFiles { get; init; }
-
-    public ImmutableArray<string> OpaqueTypeNames { get; init; }
-
-    public ImmutableArray<string> FunctionNamesWhitelist { get; init; }
-
-    public ImmutableArray<string> ClangDefines { get; init; }
-
-    public ImmutableArray<string> ClangArguments { get; init; }
-
-    public bool IsEnabledLocationFullPaths { get; init; }
-
-    public bool IsEnabledMacroObjects { get; init; }
+    public ParseOptions ParseOptions { get; init; } = null!;
 }

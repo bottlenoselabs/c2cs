@@ -4,6 +4,8 @@
 using System.Collections.Immutable;
 using System.IO.Abstractions;
 using C2CS.Feature.ReadCodeC.Data;
+using C2CS.Feature.ReadCodeC.Domain.ExploreCode;
+using C2CS.Feature.ReadCodeC.Domain.ParseCode;
 using C2CS.Foundation;
 using C2CS.Foundation.UseCases;
 using C2CS.Foundation.UseCases.Exceptions;
@@ -22,7 +24,19 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
     public override ReadCodeCInput Validate(ReadCodeCConfiguration configuration)
     {
         var inputFilePath = VerifyInputFilePath(configuration.InputFilePath);
+        var optionsList = OptionsList(configuration, inputFilePath);
 
+        return new ReadCodeCInput
+        {
+            InputFilePath = inputFilePath,
+            AbstractSyntaxTreesOptionsList = optionsList
+        };
+    }
+
+    private ImmutableArray<ReadCodeCAbstractSyntaxTreeOptions> OptionsList(
+        ReadCodeCConfiguration configuration,
+        string inputFilePath)
+    {
         var optionsBuilder = ImmutableArray.CreateBuilder<ReadCodeCAbstractSyntaxTreeOptions>();
         if (configuration.ConfigurationPlatforms == null)
         {
@@ -32,48 +46,61 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
             configuration.ConfigurationPlatforms = abstractSyntaxTreeRequests;
         }
 
-        var includeDirectories = VerifyIncludeDirectories(configuration.IncludeDirectories, inputFilePath);
-
         foreach (var (targetPlatformString, configurationPlatform) in configuration.ConfigurationPlatforms)
         {
-            var targetPlatform = VerifyTargetPlatform(targetPlatformString);
-            var outputFilePath = VerifyOutputFilePath(
-                configurationPlatform?.OutputFileDirectory ?? configuration.OutputFileDirectory, targetPlatform);
-            var systemIncludeDirectories =
-                VerifyImmutableArray(configurationPlatform?.SystemIncludeDirectories);
-            var includeDirectoriesPlatform =
-                VerifyIncludeDirectoriesPlatform(configurationPlatform?.IncludeDirectories, inputFilePath, includeDirectories);
-            var excludedHeaderFiles = VerifyImmutableArray(configurationPlatform?.ExcludedHeaderFiles);
-            var opaqueTypeNames = VerifyImmutableArray(configurationPlatform?.OpaqueTypeNames);
-            var functionNamesWhitelist = VerifyImmutableArray(configurationPlatform?.FunctionNamesWhiteList);
-            var clangDefines = VerifyImmutableArray(configurationPlatform?.Defines);
-            var clangArguments = VerifyImmutableArray(configurationPlatform?.ClangArguments);
-            var isEnabledLocationFullPaths = configurationPlatform?.IsEnabledLocationFullPaths ?? false;
-            var isEnabledMacroObjects = configurationPlatform?.IsEnabledMacroObjects ?? true;
-
-            var inputAbstractSyntaxTree = new ReadCodeCAbstractSyntaxTreeOptions
-            {
-                TargetPlatform = targetPlatform,
-                OutputFilePath = outputFilePath,
-                SystemIncludeDirectories = systemIncludeDirectories,
-                IncludeDirectories = includeDirectoriesPlatform,
-                ExcludedHeaderFiles = excludedHeaderFiles,
-                OpaqueTypeNames = opaqueTypeNames,
-                FunctionNamesWhitelist = functionNamesWhitelist,
-                ClangDefines = clangDefines,
-                ClangArguments = clangArguments,
-                IsEnabledLocationFullPaths = isEnabledLocationFullPaths,
-                IsEnabledMacroObjects = isEnabledMacroObjects
-            };
-
-            optionsBuilder.Add(inputAbstractSyntaxTree);
+            var options = Options(configuration, targetPlatformString, configurationPlatform, inputFilePath);
+            optionsBuilder.Add(options);
         }
 
-        return new ReadCodeCInput
+        return optionsBuilder.ToImmutable();
+    }
+
+    private ReadCodeCAbstractSyntaxTreeOptions Options(
+        ReadCodeCConfiguration configuration,
+        string targetPlatformString,
+        ReadCodeCConfigurationPlatform? configurationPlatform,
+        string inputFilePath)
+    {
+        var userIncludeDirectories = VerifyIncludeDirectories(configuration.UserIncludeDirectories, inputFilePath);
+        var systemIncludeDirectories = VerifyImmutableArray(configuration.SystemIncludeDirectories);
+        var targetPlatform = VerifyTargetPlatform(targetPlatformString);
+        var outputFilePath = VerifyOutputFilePath(configuration.OutputFileDirectory, targetPlatform);
+        var systemIncludeDirectoriesPlatform =
+            VerifySystemDirectoriesPlatform(configurationPlatform?.SystemIncludeDirectories, systemIncludeDirectories);
+        var userIncludeDirectoriesPlatform =
+            VerifyIncludeDirectoriesPlatform(configurationPlatform?.UserIncludeDirectories, inputFilePath, userIncludeDirectories);
+        var excludedHeaderFiles = VerifyImmutableArray(configurationPlatform?.HeaderFilesBlocked);
+        var opaqueTypeNames = VerifyImmutableArray(configuration.OpaqueTypeNames);
+        var functionNamesAllowed = VerifyImmutableArray(configuration.FunctionNamesAllowed);
+        var clangDefines = VerifyImmutableArray(configurationPlatform?.Defines);
+        var clangArguments = VerifyImmutableArray(configurationPlatform?.ClangArguments);
+
+        var inputAbstractSyntaxTree = new ReadCodeCAbstractSyntaxTreeOptions
         {
-            InputFilePath = inputFilePath,
-            AbstractSyntaxTreesOptions = optionsBuilder.ToImmutable()
+            TargetPlatform = targetPlatform,
+            OutputFilePath = outputFilePath,
+            ExploreOptions = new ExploreOptions
+            {
+                HeaderFilesBlocked = excludedHeaderFiles,
+                OpaqueTypesNames = opaqueTypeNames,
+                FunctionNamesAllowed = functionNamesAllowed,
+                IsEnabledLocationFullPaths = configuration.IsEnabledLocationFullPaths ?? false,
+                IsEnabledMacroObjects = configuration.IsEnabledMacroObjects ?? true,
+                IsEnabledVariables = configuration.IsEnabledVariables ?? true,
+                IsEnabledAllowNamesWithPrefixedUnderscore = configuration.IsEnabledAllowNamesWithPrefixedUnderscore ?? false,
+                IsEnabledSystemDeclarations = configuration.IsEnabledSystemDeclarations ?? false
+            },
+            ParseOptions = new ParseOptions
+            {
+                UserIncludeDirectories = userIncludeDirectoriesPlatform,
+                SystemIncludeDirectories = systemIncludeDirectoriesPlatform,
+                MacroObjectsDefines = clangDefines,
+                AdditionalArguments = clangArguments,
+                IsEnabledFindSystemHeaders = configuration.IsEnabledFindSystemHeaders ?? true
+            }
         };
+
+        return inputAbstractSyntaxTree;
     }
 
     private string VerifyInputFilePath(string? inputFilePath)
@@ -177,7 +204,21 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         string inputFilePath,
         ImmutableArray<string> includeDirectoriesNonPlatform)
     {
+        if (includeDirectoriesPlatform == null || includeDirectoriesPlatform.Value.IsDefaultOrEmpty)
+        {
+            return includeDirectoriesNonPlatform;
+        }
+
         var directoriesPlatform = VerifyIncludeDirectories(includeDirectoriesPlatform, inputFilePath);
+        var result = directoriesPlatform.AddRange(includeDirectoriesNonPlatform);
+        return result;
+    }
+
+    private ImmutableArray<string> VerifySystemDirectoriesPlatform(
+        ImmutableArray<string?>? includeDirectoriesPlatform,
+        ImmutableArray<string> includeDirectoriesNonPlatform)
+    {
+        var directoriesPlatform = VerifyImmutableArray(includeDirectoriesPlatform);
         var result = directoriesPlatform.AddRange(includeDirectoriesNonPlatform);
         return result;
     }

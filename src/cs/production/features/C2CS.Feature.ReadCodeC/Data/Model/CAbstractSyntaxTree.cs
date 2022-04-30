@@ -16,29 +16,29 @@ public record CAbstractSyntaxTree
     public TargetPlatform Platform { get; set; } = TargetPlatform.Unknown;
 
     [JsonPropertyName("functions")]
-    public ImmutableArray<CFunction> Functions { get; set; } = ImmutableArray<CFunction>.Empty;
+    public ImmutableDictionary<string, CFunction> Functions { get; set; } = ImmutableDictionary<string, CFunction>.Empty;
 
     [JsonPropertyName("function_pointers")]
-    public ImmutableArray<CFunctionPointer> FunctionPointers { get; set; } = ImmutableArray<CFunctionPointer>.Empty;
+    public ImmutableDictionary<string, CFunctionPointer> FunctionPointers { get; set; } = ImmutableDictionary<string, CFunctionPointer>.Empty;
 
     [JsonPropertyName("records")]
-    public ImmutableArray<CRecord> Records { get; set; } = ImmutableArray<CRecord>.Empty;
+    public ImmutableDictionary<string, CRecord> Records { get; set; } = ImmutableDictionary<string, CRecord>.Empty;
 
     [JsonPropertyName("enums")]
-    public ImmutableArray<CEnum> Enums { get; set; } = ImmutableArray<CEnum>.Empty;
+    public ImmutableDictionary<string, CEnum> Enums { get; set; } = ImmutableDictionary<string, CEnum>.Empty;
 
     [JsonPropertyName("opaque_types")]
-    public ImmutableArray<COpaqueType> OpaqueTypes { get; set; } = ImmutableArray<COpaqueType>.Empty;
+    public ImmutableDictionary<string, COpaqueType> OpaqueTypes { get; set; } = ImmutableDictionary<string, COpaqueType>.Empty;
 
     [JsonPropertyName("typedefs")]
-    public ImmutableArray<CTypedef> Typedefs { get; set; } = ImmutableArray<CTypedef>.Empty;
+    public ImmutableDictionary<string, CTypedef> Typedefs { get; set; } = ImmutableDictionary<string, CTypedef>.Empty;
 
     [JsonPropertyName("variables")]
-    public ImmutableArray<CVariable> Variables { get; set; } = ImmutableArray<CVariable>.Empty;
+    public ImmutableDictionary<string, CVariable> Variables { get; set; } = ImmutableDictionary<string, CVariable>.Empty;
 
     [JsonPropertyName("types")]
-    public ImmutableArray<CType> Types { get; set; } = ImmutableArray<CType>.Empty;
+    public ImmutableDictionary<string, CType> Types { get; set; } = ImmutableDictionary<string, CType>.Empty;
 
     [JsonPropertyName("constants")]
-    public ImmutableArray<CMacroDefinition> Constants { get; set; } = ImmutableArray<CMacroDefinition>.Empty;
+    public ImmutableDictionary<string, CMacroDefinition> Constants { get; set; } = ImmutableDictionary<string, CMacroDefinition>.Empty;
 }

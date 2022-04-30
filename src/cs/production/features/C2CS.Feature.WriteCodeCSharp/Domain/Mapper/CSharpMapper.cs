@@ -45,8 +45,7 @@ public sealed class CSharpMapper
                 or "long"
                 or "ulong"
                 or "CBool"
-                or "CChar"
-                or "CCharWide")
+                or "CChar")
             {
                 builtinAliases.Add(typeAlias.Source);
             }
@@ -76,16 +75,23 @@ public sealed class CSharpMapper
     private CSharpNodes CSharpNodes(CAbstractSyntaxTree ast)
     {
         var context = new CSharpMapperContext(ast.Platform, ast.Types, ast.Records, ast.FunctionPointers);
-        var topLevelRecords = ast.Records.Where(x => string.IsNullOrEmpty(x.ParentName)).ToImmutableArray();
+        var functionsC = ast.Functions.Values.ToImmutableArray();
+        var functionNamesC = ast.Functions.Keys.ToImmutableHashSet();
+        var functionPointersC = ast.FunctionPointers.Values.ToImmutableArray();
+        var recordsC = ast.Records.Values.Where(x => string.IsNullOrEmpty(x.ParentName)).ToImmutableArray();
+        var typedefsC = ast.Typedefs.Values.ToImmutableArray();
+        var opaqueTypesC = ast.OpaqueTypes.Values.ToImmutableArray();
+        var enumsC = ast.Enums.Values.ToImmutableArray();
+        var constantsC = ast.Constants.Values.ToImmutableArray();
 
-        var functions = Functions(context, ast.Functions);
-        var structs = Structs(context, topLevelRecords);
+        var functions = Functions(context, functionsC);
+        var structs = Structs(context, recordsC, functionNamesC);
         // Typedefs need to be processed first as they can generate aliases on the fly
-        var aliasStructs = AliasStructs(context, ast.Typedefs);
-        var functionPointers = FunctionPointers(context, ast.FunctionPointers);
-        var opaqueDataTypes = OpaqueDataTypes(context, ast.OpaqueTypes);
-        var enums = Enums(context, ast.Enums);
-        var constants = Constants(context, ast.Constants);
+        var aliasStructs = AliasStructs(context, typedefsC);
+        var functionPointers = FunctionPointers(context, functionPointersC);
+        var opaqueDataTypes = OpaqueDataTypes(context, opaqueTypesC);
+        var enums = Enums(context, enumsC);
+        var constants = Constants(context, constantsC);
 
         var nodes = new CSharpNodes
         {
@@ -107,8 +113,9 @@ public sealed class CSharpMapper
         var builder = ImmutableArray.CreateBuilder<CSharpFunction>(clangFunctionExterns.Length);
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-        foreach (var clangFunctionExtern in clangFunctionExterns)
+        for (var index = 0; index < clangFunctionExterns.Length; index++)
         {
+            var clangFunctionExtern = clangFunctionExterns[index];
             var functionExtern = Function(context, clangFunctionExtern);
             builder.Add(functionExtern);
         }
@@ -142,13 +149,7 @@ public sealed class CSharpMapper
 
     private static CType CType(CSharpMapperContext context, string typeName)
     {
-        if (context.TypesByName.TryGetValue(typeName, out var type))
-        {
-            return type;
-        }
-
-        var up = new UseCaseException($"Expected a type with the name '{typeName}' but it was not found.");
-        throw up;
+        return context.Types.TryGetValue(typeName, out var type) ? type : ReadCodeC.Data.Model.CType.Empty;
     }
 
     private static CSharpFunctionCallingConvention CSharpFunctionCallingConvention(
@@ -250,11 +251,17 @@ public sealed class CSharpMapper
         ImmutableArray<CFunctionPointer> functionPointers)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpFunctionPointer>(functionPointers.Length);
+        var names = new Dictionary<string, CFunctionPointer>();
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var functionPointer in functionPointers)
         {
-            var functionPointerCSharp = FunctionPointer(context, functionPointer);
+            var functionPointerCSharp = FunctionPointer(context, names, functionPointer);
+            if (functionPointerCSharp == null)
+            {
+                continue;
+            }
+
             builder.Add(functionPointerCSharp);
         }
 
@@ -262,13 +269,19 @@ public sealed class CSharpMapper
         return result;
     }
 
-    private CSharpFunctionPointer FunctionPointer(
+    private CSharpFunctionPointer? FunctionPointer(
         CSharpMapperContext context,
+        Dictionary<string, CFunctionPointer> names,
         CFunctionPointer functionPointer)
     {
         var typeName = string.IsNullOrEmpty(functionPointer.Name) ? functionPointer.Type : functionPointer.Name;
         var typeC = CType(context, typeName);
         var typeNameCSharp = TypeNameMapFunctionPointer(context, typeC, functionPointer);
+        if (names.ContainsKey(typeNameCSharp))
+        {
+            // This can happen if there is attributes on the function pointer return type or parameters.
+            return null;
+        }
 
         var originalCodeLocationComment = OriginalCodeLocationComment(functionPointer);
         var returnTypeC = CType(context, functionPointer.ReturnType);
@@ -282,6 +295,8 @@ public sealed class CSharpMapper
             typeC.SizeOf,
             returnTypeCSharp,
             parameters);
+
+        names.Add(typeNameCSharp, functionPointer);
 
         return result;
     }
@@ -330,7 +345,8 @@ public sealed class CSharpMapper
 
     private ImmutableArray<CSharpStruct> Structs(
         CSharpMapperContext context,
-        ImmutableArray<CRecord> records)
+        ImmutableArray<CRecord> records,
+        ImmutableHashSet<string> functionNames)
     {
         var results = ImmutableArray.CreateBuilder<CSharpStruct>(records.Length);
 
@@ -343,7 +359,7 @@ public sealed class CSharpMapper
                 continue;
             }
 
-            var item = Struct(context, record);
+            var item = Struct(context, record, functionNames);
             if (_ignoredNames.Contains(item.Name))
             {
                 continue;
@@ -357,15 +373,23 @@ public sealed class CSharpMapper
 
     private CSharpStruct Struct(
         CSharpMapperContext context,
-        CRecord record)
+        CRecord record,
+        ImmutableHashSet<string> functionNames)
     {
         var originalCodeLocationComment = OriginalCodeLocationComment(record);
         var typeC = CType(context, record.Name);
         var typeCSharp = Type(context, typeC);
         var (fields, nestedRecords) = StructFields(context, record.Name, record.Fields);
-        var nestedStructs = Structs(context, nestedRecords);
+        var nestedStructs = Structs(context, nestedRecords, functionNames);
+
+        var name = typeCSharp.Name!;
+        if (functionNames.Contains(record.Name))
+        {
+            name = typeCSharp.Name + "_";
+        }
 
         return new CSharpStruct(
+            name,
             context.Platform,
             originalCodeLocationComment,
             typeC.SizeOf,
@@ -385,7 +409,7 @@ public sealed class CSharpMapper
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var field in fields)
         {
-            if (string.IsNullOrEmpty(field.Name) && context.RecordsByName.TryGetValue(field.Type, out var @struct))
+            if (string.IsNullOrEmpty(field.Name) && context.Records.TryGetValue(field.Type, out var @struct))
             {
                 var (nestedFields, _) = StructFields(context, structName, @struct.Fields);
                 resultFields.AddRange(nestedFields);
@@ -393,7 +417,7 @@ public sealed class CSharpMapper
             else
             {
                 var structFieldCSharp = StructField(context, field);
-                if (context.RecordsByName.TryGetValue(field.Type, out var record))
+                if (context.Records.TryGetValue(field.Type, out var record))
                 {
                     if (record.ParentName == structName)
                     {
@@ -420,7 +444,7 @@ public sealed class CSharpMapper
         CSharpType typeCSharp;
         if (typeC.Kind == CKind.FunctionPointer)
         {
-            var functionPointer = context.FunctionPointersByName[typeC.Name];
+            var functionPointer = context.FunctionPointers[typeC.Name];
             var functionPointerName = TypeNameMapFunctionPointer(context, typeC, functionPointer);
             typeCSharp = Type(context, typeC, functionPointerName);
         }
@@ -520,22 +544,37 @@ public sealed class CSharpMapper
         CTypedef typedef)
     {
         var name = typedef.Name;
-        var originalCodeLocationComment = OriginalCodeLocationComment(typedef);
-        var underlyingTypeC = CType(context, typedef.UnderlyingType);
-        var typeC = CType(context, typedef.Name);
-        if (typeC.Location.IsNull && underlyingTypeC.Location.IsNull)
-        {
-            var diagnostic = new SystemTypedefDiagnostic(name, typedef.Location, underlyingTypeC.Name);
-            _parameters.DiagnosticsSink.Add(diagnostic);
-        }
 
-        var underlyingTypeCSharp = Type(context, underlyingTypeC);
+        CSharpType underlyingTypeCSharp;
+        var originalCodeLocationComment = OriginalCodeLocationComment(typedef);
+        var underlyingTypeC = CType(context, typedef.UnderlyingTypeName);
+        if (underlyingTypeC == ReadCodeC.Data.Model.CType.Empty && typedef.UnderlyingTypeKind == CKind.Pointer)
+        {
+            underlyingTypeCSharp = new CSharpType
+            {
+                Name = "void*",
+                SizeOf = typedef.UnderlyingTypeSizeOf,
+                AlignOf = typedef.UnderlyingTypeAlignOf,
+                OriginalName = typedef.UnderlyingTypeName
+            };
+        }
+        else
+        {
+            var typeC = CType(context, typedef.Name);
+            if (typeC.Location.IsNull && underlyingTypeC.Location.IsNull)
+            {
+                var diagnostic = new SystemTypedefDiagnostic(name, typedef.Location, underlyingTypeC.Name);
+                _parameters.DiagnosticsSink.Add(diagnostic);
+            }
+
+            underlyingTypeCSharp = Type(context, underlyingTypeC);
+        }
 
         var result = new CSharpAliasStruct(
             context.Platform,
             name,
             originalCodeLocationComment,
-            typeC.SizeOf,
+            typedef.UnderlyingTypeSizeOf,
             underlyingTypeCSharp);
 
         return result;
@@ -829,7 +868,7 @@ var x = {value};
     {
         if (type.Kind == CKind.FunctionPointer)
         {
-            var functionPointer = context.FunctionPointersByName[type.Name];
+            var functionPointer = context.FunctionPointers[type.Name];
             return TypeNameMapFunctionPointer(context, type, functionPointer);
         }
 
@@ -976,8 +1015,6 @@ var x = {value};
         {
             case "char":
                 return "CChar";
-            case "wchar_t":
-                return "CWideChar";
             case "bool":
             case "_Bool":
                 return "CBool";

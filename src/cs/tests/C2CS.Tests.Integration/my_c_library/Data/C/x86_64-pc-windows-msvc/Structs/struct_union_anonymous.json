@@ -7,7 +7,7 @@
   "fields": [
     {
       "name": "",
-      "type_name": "struct_union_anonymous_ANONYMOUSFIELD0",
+      "type_name": "struct_union_anonymous_ANONYMOUS_FIELD0",
       "offset_of": 0,
       "padding_of": 0,
       "size_of": 16
