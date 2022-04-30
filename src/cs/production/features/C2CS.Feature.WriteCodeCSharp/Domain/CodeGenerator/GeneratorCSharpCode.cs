@@ -186,7 +186,7 @@ namespace {namespaceName}
             var shouldIgnore = false;
             foreach (var cSharpFunctionExternParameter in functionExtern.Parameters)
             {
-                if (cSharpFunctionExternParameter.Type.Name == "va_list")
+                if (cSharpFunctionExternParameter.TypeName == "va_list")
                 {
                     shouldIgnore = true;
                     break;
@@ -215,7 +215,7 @@ namespace {namespaceName}
         var dllImportParameters = string.Join(',', "LibraryName", callingConvention);
 
         var parameterStrings = function.Parameters.Select(
-            x => $@"{x.Type.Name} {x.Name}");
+            x => $@"{x.TypeName} {x.Name}");
         var parameters = string.Join(',', parameterStrings);
 
         var code = $@"
@@ -296,7 +296,7 @@ public struct {functionPointerName}
 
         var code = $@"
 {@struct.CodeLocationComment}
-[StructLayout(LayoutKind.Explicit, Size = {@struct.Type.SizeOf}, Pack = {@struct.Type.AlignOf})]
+[StructLayout(LayoutKind.Explicit, Size = {@struct.SizeOf}, Pack = {@struct.AlignOf})]
 public struct {@struct.Name}
 {{
 	{members}
@@ -435,7 +435,7 @@ public Span<{elementType}> {field.Name}
 		fixed ({structName}*@this = &this)
 		{{
 			var pointer = &@this->{field.BackingFieldName}[0];
-			var span = new Span<{elementType}>(pointer, {field.Type.ArraySize});
+			var span = new Span<{elementType}>(pointer, {field.Type.ArraySizeOf});
 			return span;
 		}}
 	}}

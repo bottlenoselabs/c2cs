@@ -14,12 +14,18 @@ public sealed class ExplorerContext
 
     public TargetPlatform TargetPlatform { get; }
 
-    public ImmutableArray<string> UserIncludeDirectories { get; init; }
+    public ImmutableArray<string> UserIncludeDirectories { get; }
 
     public ExploreOptions Options { get; }
 
     internal readonly HashSet<string> VisitedFunctionNames = new();
     internal readonly HashSet<string> VisitedFunctionPointerNames = new();
+    internal readonly HashSet<string> VisitedPrimitiveNames = new();
+    internal readonly HashSet<string> VisitedPointerNames = new();
+    internal readonly HashSet<string> VisitedRecordNames = new();
+    internal readonly HashSet<string> VisitedTypedefNames = new();
+    internal readonly HashSet<string> VisitedArrayNames = new();
+    internal readonly HashSet<string> VisitedOpaqueTypeNames = new();
 
     internal readonly Dictionary<string, CFunctionPointer> FunctionPointers = new();
     internal readonly Dictionary<string, CFunction> Functions = new();
@@ -29,7 +35,6 @@ public sealed class ExplorerContext
     internal readonly Dictionary<string, COpaqueType> OpaqueDataTypes = new();
     internal readonly Dictionary<string, CTypedef> Typedefs = new();
     internal readonly Dictionary<string, CVariable> Variables = new();
-    internal readonly Dictionary<string, CType> Types = new();
 
     internal readonly ArrayDeque<ExplorerNode> FrontierGeneral = new();
     internal readonly ArrayDeque<ExplorerNode> FrontierMacros = new();

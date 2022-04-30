@@ -15,10 +15,9 @@ public sealed class CSharpEnum : CSharpNode
         TargetPlatform platform,
         string name,
         string codeLocationComment,
-        int? sizeOf,
         CSharpType integerType,
         ImmutableArray<CSharpEnumValue> values)
-        : base(platform, name, codeLocationComment, sizeOf)
+        : base(platform, name, codeLocationComment, integerType.SizeOf)
     {
         IntegerType = integerType;
         Values = values;

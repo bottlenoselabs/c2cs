@@ -13,7 +13,7 @@ public record CFunctionParameter : CNodeWithLocation
     public string Name { get; set; } = string.Empty;
 
     [JsonPropertyName("type")]
-    public string Type { get; set; } = string.Empty;
+    public CType Type { get; set; } = null!;
 
     [ExcludeFromCodeCoverage]
     public override string ToString()

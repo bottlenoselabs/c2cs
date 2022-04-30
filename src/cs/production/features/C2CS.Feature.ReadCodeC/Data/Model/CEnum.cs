@@ -13,11 +13,8 @@ public record CEnum : CNodeWithLocation
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonPropertyName("type")]
-    public string Type { get; set; } = string.Empty;
-
     [JsonPropertyName("type_integer")]
-    public string IntegerType { get; set; } = string.Empty;
+    public CType IntegerType { get; set; } = null!;
 
     [JsonPropertyName("values")]
     public ImmutableArray<CEnumValue> Values { get; set; } = ImmutableArray<CEnumValue>.Empty;
@@ -25,6 +22,6 @@ public record CEnum : CNodeWithLocation
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {
-        return $"Enum '{Type}': {IntegerType} @ {Location}";
+        return $"Enum '{Name}': {IntegerType} @ {Location}";
     }
 }

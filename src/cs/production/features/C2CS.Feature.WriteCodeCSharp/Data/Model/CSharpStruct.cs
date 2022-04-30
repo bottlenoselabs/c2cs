@@ -9,21 +9,22 @@ public sealed class CSharpStruct : CSharpNode
 {
     public readonly ImmutableArray<CSharpStructField> Fields;
     public readonly ImmutableArray<CSharpStruct> NestedStructs;
-    public readonly CSharpType Type;
+
+    public int AlignOf;
 
     public CSharpStruct(
         string name,
         TargetPlatform platform,
         string codeLocationComment,
-        int? sizeOf,
-        CSharpType type,
+        int sizeOf,
+        int alignOf,
         ImmutableArray<CSharpStructField> fields,
         ImmutableArray<CSharpStruct> nestedStructs)
         : base(platform, name, codeLocationComment, sizeOf)
     {
+        AlignOf = alignOf;
         Fields = fields;
         NestedStructs = nestedStructs;
-        Type = type;
     }
 
     public override bool Equals(CSharpNode? other)
@@ -33,8 +34,7 @@ public sealed class CSharpStruct : CSharpNode
             return false;
         }
 
-        return Type == other2.Type &&
-               Fields.SequenceEqual(other2.Fields) &&
+        return Fields.SequenceEqual(other2.Fields) &&
                NestedStructs.SequenceEqual(other2.NestedStructs);
     }
 }

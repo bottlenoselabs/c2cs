@@ -13,10 +13,7 @@ public record CRecordField : CNodeWithLocation
     public string Name { get; set; } = string.Empty;
 
     [JsonPropertyName("type")]
-    public string Type { get; set; } = string.Empty;
-
-    [JsonPropertyName("size_of")]
-    public int SizeOf { get; set; }
+    public CType Type { get; set; } = null!;
 
     [JsonPropertyName("offset_of")]
     public int? OffsetOf { get; set; }

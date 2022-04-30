@@ -10,20 +10,16 @@ public class CSharpMapperContext
 {
     public readonly TargetPlatform Platform;
 
-    public readonly ImmutableDictionary<string, CType> Types;
-
     public readonly ImmutableDictionary<string, CRecord> Records;
 
     public readonly ImmutableDictionary<string, CFunctionPointer> FunctionPointers;
 
     public CSharpMapperContext(
         TargetPlatform platform,
-        ImmutableDictionary<string, CType> types,
         ImmutableDictionary<string, CRecord> records,
         ImmutableDictionary<string, CFunctionPointer> functionPointers)
     {
         Platform = platform;
-        Types = types;
         Records = records;
         FunctionPointers = functionPointers;
     }

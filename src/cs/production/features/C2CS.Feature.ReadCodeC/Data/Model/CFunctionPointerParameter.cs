@@ -13,10 +13,7 @@ public record CFunctionPointerParameter : CNode
     public string Name { get; set; } = string.Empty;
 
     [JsonPropertyName("type")]
-    public string Type { get; set; } = null!;
-
-    [JsonPropertyName("type_size_of")]
-    public int TypeSizeOf { get; set; }
+    public CType Type { get; set; } = null!;
 
     [ExcludeFromCodeCoverage]
     public override string ToString()

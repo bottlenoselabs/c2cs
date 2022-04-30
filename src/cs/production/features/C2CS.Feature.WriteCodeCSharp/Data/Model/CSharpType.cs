@@ -5,7 +5,7 @@ namespace C2CS.Feature.WriteCodeCSharp.Data.Model;
 
 public sealed record CSharpType
 {
-    public string? Name { get; init; }
+    public string Name { get; init; } = string.Empty;
 
     public string? OriginalName { get; init; }
 
@@ -13,9 +13,9 @@ public sealed record CSharpType
 
     public int? AlignOf { get; init; }
 
-    public int? ArraySize { get; init; }
+    public int? ArraySizeOf { get; init; }
 
-    public bool IsArray => ArraySize > 0;
+    public bool IsArray => ArraySizeOf > 0;
 
     public override string ToString()
     {

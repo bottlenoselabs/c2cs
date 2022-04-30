@@ -90,7 +90,7 @@ public sealed class ReadCodeCFixture
 #pragma warning disable CA1308
             CallingConvention = value.CallingConvention.ToString().ToLowerInvariant(),
 #pragma warning restore CA1308
-            ReturnTypeName = value.ReturnType,
+            ReturnTypeName = value.ReturnType.Name,
             Parameters = parameters
         };
         return result;
@@ -115,7 +115,7 @@ public sealed class ReadCodeCFixture
         var result = new CTestFunctionParameter
         {
             Name = value.Name,
-            TypeName = value.Type
+            TypeName = value.Type.Name
         };
 
         return result;
@@ -141,7 +141,7 @@ public sealed class ReadCodeCFixture
         var result = new CTestEnum
         {
             Name = value.Name,
-            IntegerType = value.IntegerType,
+            IntegerType = value.IntegerType.Name,
             Values = values
         };
         return result;
@@ -219,10 +219,10 @@ public sealed class ReadCodeCFixture
         var result = new CTestRecordField
         {
             Name = value.Name,
-            TypeName = value.Type,
+            TypeName = value.Type.Name,
             OffsetOf = value.OffsetOf,
             PaddingOf = value.PaddingOf,
-            SizeOf = value.SizeOf
+            SizeOf = value.Type.SizeOf
         };
 
         return result;

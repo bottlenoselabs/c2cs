@@ -14,10 +14,10 @@ public record CFunctionPointer : CNodeWithLocation
     public string Name { get; set; } = string.Empty;
 
     [JsonPropertyName("type")]
-    public string Type { get; set; } = string.Empty;
+    public CType Type { get; set; } = null!;
 
     [JsonPropertyName("return_type")]
-    public string ReturnType { get; set; } = string.Empty;
+    public CType ReturnType { get; set; } = null!;
 
     [JsonPropertyName("parameters")]
     public ImmutableArray<CFunctionPointerParameter> Parameters { get; set; } =

@@ -17,7 +17,7 @@ public record CFunction : CNodeWithLocation
     public CFunctionCallingConvention CallingConvention { get; set; } = CFunctionCallingConvention.Cdecl;
 
     [JsonPropertyName("return_type")]
-    public string ReturnType { get; set; } = null!;
+    public CType ReturnType { get; set; } = null!;
 
     [JsonPropertyName("parameters")]
     public ImmutableArray<CFunctionParameter> Parameters { get; set; } = ImmutableArray<CFunctionParameter>.Empty;

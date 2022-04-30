@@ -5,17 +5,17 @@ namespace C2CS.Feature.WriteCodeCSharp.Data.Model;
 
 public sealed class CSharpFunctionParameter : CSharpNode
 {
-    public readonly CSharpType Type;
+    public readonly string TypeName;
 
     public CSharpFunctionParameter(
         TargetPlatform platform,
         string name,
         string codeLocationComment,
         int? sizeOf,
-        CSharpType type)
+        string typeName)
         : base(platform, name, codeLocationComment, sizeOf)
     {
-        Type = type;
+        TypeName = typeName;
     }
 
     public override bool Equals(CSharpNode? other)
@@ -25,7 +25,7 @@ public sealed class CSharpFunctionParameter : CSharpNode
             return false;
         }
 
-        var result = Type == other2.Type;
+        var result = TypeName == other2.TypeName;
         return result;
     }
 }

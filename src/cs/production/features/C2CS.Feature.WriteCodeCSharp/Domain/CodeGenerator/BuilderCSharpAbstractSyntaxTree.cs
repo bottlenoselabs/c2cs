@@ -10,7 +10,7 @@ namespace C2CS.Feature.WriteCodeCSharp.Domain.CodeGenerator;
 public sealed class BuilderCSharpAbstractSyntaxTree
 {
     private readonly HashSet<TargetPlatform> _platforms = new();
-    private readonly Dictionary<string, List<PlatformCandidateNode>> _candidateNodesByLocation = new();
+    private readonly Dictionary<string, List<PlatformCandidateNode>> _candidateNodes = new();
 
     private readonly ImmutableArray<CSharpFunction>.Builder _agnosticFunctions = ImmutableArray.CreateBuilder<CSharpFunction>();
     private readonly ImmutableArray<CSharpFunctionPointer>.Builder _agnosticFunctionPointers = ImmutableArray.CreateBuilder<CSharpFunctionPointer>();
@@ -60,7 +60,7 @@ public sealed class BuilderCSharpAbstractSyntaxTree
 
     public CSharpAbstractSyntaxTree Build()
     {
-        foreach (var (_, nodes) in _candidateNodesByLocation)
+        foreach (var (_, nodes) in _candidateNodes)
         {
             CreateNodes(nodes);
         }
@@ -254,11 +254,11 @@ public sealed class BuilderCSharpAbstractSyntaxTree
             CSharpNode = node
         };
 
-        var isFirstTimeEncountered = !_candidateNodesByLocation.TryGetValue(node.CodeLocationComment, out var nodes);
+        var isFirstTimeEncountered = !_candidateNodes.TryGetValue(node.CodeLocationComment, out var nodes);
         if (isFirstTimeEncountered)
         {
             nodes = new List<PlatformCandidateNode> { candidateNode };
-            _candidateNodesByLocation.Add(node.CodeLocationComment, nodes);
+            _candidateNodes.Add(node.Name + ":" + node.CodeLocationComment, nodes);
         }
         else
         {

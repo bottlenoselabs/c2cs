@@ -11,6 +11,9 @@ public record COpaqueType : CNodeWithLocation
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
+    [JsonPropertyName("size_of")]
+    public int SizeOf { get; set; }
+
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {

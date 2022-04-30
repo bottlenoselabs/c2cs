@@ -30,14 +30,17 @@ public class CType
     public int? ElementSize { get; set; }
 
     [JsonPropertyName("array_size")]
-    public int? ArraySize { get; set; }
+    public int? ArraySizeOf { get; set; }
 
     [JsonPropertyName("is_anonymous")]
-    public bool IsAnonymous { get; set; }
+    public bool? IsAnonymous { get; set; }
 
     [JsonPropertyName("location")]
     [JsonConverter(typeof(CLocationJsonConverter))]
     public CLocation Location { get; set; }
+
+    [JsonPropertyName("inner_type")]
+    public CType? InnerType { get; set; }
 
     [ExcludeFromCodeCoverage]
     public override string ToString()
