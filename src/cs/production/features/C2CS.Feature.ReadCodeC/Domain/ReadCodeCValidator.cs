@@ -61,14 +61,20 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         ReadCodeCConfigurationPlatform? configurationPlatform,
         string inputFilePath)
     {
-        var userIncludeDirectories = VerifyIncludeDirectories(configuration.UserIncludeDirectories, inputFilePath);
         var systemIncludeDirectories = VerifyImmutableArray(configuration.SystemIncludeDirectories);
-        var targetPlatform = VerifyTargetPlatform(targetPlatformString);
-        var outputFilePath = VerifyOutputFilePath(configuration.OutputFileDirectory, targetPlatform);
         var systemIncludeDirectoriesPlatform =
             VerifySystemDirectoriesPlatform(configurationPlatform?.SystemIncludeDirectories, systemIncludeDirectories);
+
+        var userIncludeDirectories = VerifyIncludeDirectories(configuration.UserIncludeDirectories, inputFilePath);
         var userIncludeDirectoriesPlatform =
             VerifyIncludeDirectoriesPlatform(configurationPlatform?.UserIncludeDirectories, inputFilePath, userIncludeDirectories);
+
+        var frameworks = VerifyImmutableArray(configuration.Frameworks);
+        var frameworksPlatform = VerifyFrameworks(configurationPlatform?.Frameworks, frameworks);
+
+        var targetPlatform = VerifyTargetPlatform(targetPlatformString);
+        var outputFilePath = VerifyOutputFilePath(configuration.OutputFileDirectory, targetPlatform);
+
         var excludedHeaderFiles = VerifyImmutableArray(configurationPlatform?.HeaderFilesBlocked);
         var opaqueTypeNames = VerifyImmutableArray(configuration.OpaqueTypeNames);
         var functionNamesAllowed = VerifyImmutableArray(configuration.FunctionNamesAllowed);
@@ -98,7 +104,8 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
                 SystemIncludeDirectories = systemIncludeDirectoriesPlatform,
                 MacroObjectsDefines = clangDefines,
                 AdditionalArguments = clangArguments,
-                IsEnabledFindSystemHeaders = configuration.IsEnabledFindSystemHeaders ?? true
+                IsEnabledFindSystemHeaders = configuration.IsEnabledFindSystemHeaders ?? true,
+                Frameworks = frameworksPlatform
             }
         };
 
@@ -222,6 +229,14 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
     {
         var directoriesPlatform = VerifyImmutableArray(includeDirectoriesPlatform);
         var result = directoriesPlatform.AddRange(includeDirectoriesNonPlatform);
+        return result;
+    }
+
+    private ImmutableArray<string> VerifyFrameworks(
+        ImmutableArray<string?>? platformFrameworks, ImmutableArray<string> frameworksNonPlatform)
+    {
+        var directoriesPlatform = VerifyImmutableArray(platformFrameworks);
+        var result = directoriesPlatform.AddRange(frameworksNonPlatform);
         return result;
     }
 

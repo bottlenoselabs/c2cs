@@ -3,6 +3,7 @@
 
 using System.Collections.Immutable;
 using System.IO.Abstractions;
+using System.Reflection;
 using C2CS.Feature.ReadCodeC.Domain.ParseCode.Diagnostics;
 using C2CS.Foundation.Diagnostics;
 
@@ -11,6 +12,7 @@ namespace C2CS.Feature.ReadCodeC.Domain.ParseCode;
 public class ClangArgumentsBuilder
 {
     private readonly IFileSystem _fileSystem;
+    private readonly List<FileSystemInfo> _temporaryLinkPaths = new();
 
     public ClangArgumentsBuilder(IFileSystem fileSystem)
     {
@@ -30,9 +32,22 @@ public class ClangArgumentsBuilder
         AddTargetTriple(args, targetPlatform);
         AddAdditionalArgs(args, options.AdditionalArguments);
         AddSystemIncludeDirectories(
-            args, targetPlatform, options.SystemIncludeDirectories, options.IsEnabledFindSystemHeaders, diagnostics);
+            args,
+            targetPlatform,
+            options.SystemIncludeDirectories,
+            options.Frameworks,
+            options.IsEnabledFindSystemHeaders,
+            diagnostics);
 
         return args.ToImmutable();
+    }
+
+    public void Cleanup()
+    {
+        foreach (var linkPath in _temporaryLinkPaths)
+        {
+            linkPath.Delete();
+        }
     }
 
     private void AddTargetTriple(ImmutableArray<string>.Builder args, TargetPlatform platform)
@@ -104,13 +119,14 @@ public class ClangArgumentsBuilder
         ImmutableArray<string>.Builder args,
         TargetPlatform targetPlatform,
         ImmutableArray<string> directories,
+        ImmutableArray<string> frameworks,
         bool isEnabledFindSystemHeaders,
         DiagnosticsSink diagnostics)
     {
         ImmutableArray<string> systemIncludeDirectories;
         if (isEnabledFindSystemHeaders)
         {
-            systemIncludeDirectories = SystemIncludeDirectories(targetPlatform, directories);
+            systemIncludeDirectories = SystemIncludeDirectories(targetPlatform, directories, frameworks);
         }
         else
         {
@@ -143,7 +159,8 @@ public class ClangArgumentsBuilder
 
     private ImmutableArray<string> SystemIncludeDirectories(
         TargetPlatform targetPlatform,
-        ImmutableArray<string> manualSystemIncludeDirectories)
+        ImmutableArray<string> manualSystemIncludeDirectories,
+        ImmutableArray<string> frameworks)
     {
         var hostOperatingSystem = Native.OperatingSystem;
         var targetOperatingSystem = targetPlatform.OperatingSystem;
@@ -166,11 +183,11 @@ public class ClangArgumentsBuilder
             {
                 if (targetOperatingSystem == NativeOperatingSystem.macOS)
                 {
-                    SystemIncludesDirectoriesTargetMac(directories);
+                    SystemIncludesDirectoriesTargetMac(directories, frameworks);
                 }
                 else if (targetOperatingSystem == NativeOperatingSystem.iOS)
                 {
-                    SystemIncludesDirectoriesTargetIPhone(directories);
+                    SystemIncludesDirectoriesTargetIPhone(directories, frameworks);
                 }
 
                 break;
@@ -252,30 +269,34 @@ public class ClangArgumentsBuilder
         directories.Add(mscvIncludeDirectoryPath);
     }
 
-    private void SystemIncludesDirectoriesTargetMac(ImmutableArray<string>.Builder directories)
+    private void SystemIncludesDirectoriesTargetMac(
+        ImmutableArray<string>.Builder directories, ImmutableArray<string> frameworks)
     {
-        var softwareDevelopmentKitDirectoryPath =
+        var sdkPath =
             "xcrun --sdk macosx --show-sdk-path".ShellCaptureOutput();
-        if (!_fileSystem.Directory.Exists(softwareDevelopmentKitDirectoryPath))
+        if (!_fileSystem.Directory.Exists(sdkPath))
         {
             throw new ClangException(
                 "Please install XCode or CommandLineTools for macOS. This will install the software development kit (SDK) for macOS which gives access to common C/C++/ObjC headers.");
         }
 
-        directories.Add($"{softwareDevelopmentKitDirectoryPath}/usr/include");
+        directories.Add($"{sdkPath}/usr/include");
+        AddFrameworks(directories, frameworks, sdkPath);
     }
 
-    private void SystemIncludesDirectoriesTargetIPhone(ImmutableArray<string>.Builder directories)
+    private void SystemIncludesDirectoriesTargetIPhone(
+        ImmutableArray<string>.Builder directories, ImmutableArray<string> frameworks)
     {
-        var softwareDevelopmentKitDirectoryPath =
+        var sdkPath =
             "xcrun --sdk iphoneos --show-sdk-path".ShellCaptureOutput();
-        if (!_fileSystem.Directory.Exists(softwareDevelopmentKitDirectoryPath))
+        if (!_fileSystem.Directory.Exists(sdkPath))
         {
             throw new ClangException(
                 "Please install XCode for macOS. This will install the software development kit (SDK) for iOS which gives access to common C/C++/ObjC headers.");
         }
 
-        directories.Add($"{softwareDevelopmentKitDirectoryPath}/usr/include");
+        directories.Add($"{sdkPath}/usr/include");
+        AddFrameworks(directories, frameworks, sdkPath);
     }
 
     private string GetHighestVersionDirectoryPathFrom(string sdkDirectoryPath)
@@ -303,5 +324,57 @@ public class ClangArgumentsBuilder
         }
 
         return result;
+    }
+
+    private void AddFrameworks(
+        ImmutableArray<string>.Builder directories, ImmutableArray<string> frameworks, string sdkPath)
+    {
+        var frameworkLinks = new List<(string FrameworkName, string LinkTargetPath)>();
+        foreach (var framework in frameworks)
+        {
+            var systemFrameworkPath = Path.Combine(
+                sdkPath, "System", "Library", "Frameworks", framework + ".framework", "Headers");
+            if (_fileSystem.Directory.Exists(systemFrameworkPath))
+            {
+                frameworkLinks.Add((framework, systemFrameworkPath));
+            }
+        }
+
+        if (frameworkLinks.Count > 0)
+        {
+            var temporarySystemIncludesDirectory = GetTemporarySystemIncludesDirectory();
+            if (!directories.Contains(temporarySystemIncludesDirectory))
+            {
+                directories.Add(temporarySystemIncludesDirectory);
+            }
+
+            foreach (var (frameworkName, linkTargetPath) in frameworkLinks)
+            {
+                var linkPath = _fileSystem.Path.Combine(temporarySystemIncludesDirectory, frameworkName);
+                FileSystemInfo fileInfo = new FileInfo(linkPath);
+                if (fileInfo.LinkTarget != null)
+                {
+                    fileInfo.Delete();
+                }
+
+                fileInfo = File.CreateSymbolicLink(linkPath, linkTargetPath);
+                _temporaryLinkPaths.Add(fileInfo);
+            }
+        }
+    }
+
+    private string GetTemporarySystemIncludesDirectory()
+    {
+        var path = _fileSystem.Path;
+        var directory = _fileSystem.Directory;
+
+        var directoryName = Assembly.GetEntryAssembly()!.GetName().Name;
+        var temporaryPath = path.Combine(path.GetTempPath(), directoryName);
+        if (!directory.Exists(temporaryPath))
+        {
+            directory.CreateDirectory(temporaryPath);
+        }
+
+        return temporaryPath;
     }
 }

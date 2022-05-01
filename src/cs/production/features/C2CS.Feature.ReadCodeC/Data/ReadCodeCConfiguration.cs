@@ -75,4 +75,6 @@ public sealed class ReadCodeCConfiguration : UseCaseConfiguration
 #pragma warning disable CA2227
     public Dictionary<string, ReadCodeCConfigurationPlatform?>? ConfigurationPlatforms { get; set; }
 #pragma warning restore CA2227
+
+    public ImmutableArray<string?>? Frameworks { get; set; }
 }

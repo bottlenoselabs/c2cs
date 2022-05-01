@@ -16,4 +16,6 @@ public class ParseOptions
     public ImmutableArray<string> AdditionalArguments { get; init; }
 
     public bool IsEnabledFindSystemHeaders { get; init; }
+
+    public ImmutableArray<string> Frameworks { get; init; }
 }

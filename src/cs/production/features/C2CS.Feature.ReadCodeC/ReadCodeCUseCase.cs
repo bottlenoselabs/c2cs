@@ -95,6 +95,8 @@ public sealed class ReadCodeCUseCase : UseCase<
         var result = parser.Parse(
             Diagnostics, inputFilePath, arguments.Value);
 
+        clangArgumentsBuilder.Cleanup();
+
         EndStep();
         return result;
     }

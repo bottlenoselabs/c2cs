@@ -29,4 +29,8 @@ public sealed class ReadCodeCConfigurationPlatform
     [Json.Schema.Generation.Description("Additional Clang arguments to use when parsing C code.")]
     [JsonPropertyName("clang_arguments")]
     public ImmutableArray<string?>? ClangArguments { get; set; }
+
+    [Json.Schema.Generation.Description("Names of libraries and/or interfaces for macOS, iOS, tvOS or watchOS.")]
+    [JsonPropertyName("frameworks")]
+    public ImmutableArray<string?>? Frameworks { get; set; }
 }

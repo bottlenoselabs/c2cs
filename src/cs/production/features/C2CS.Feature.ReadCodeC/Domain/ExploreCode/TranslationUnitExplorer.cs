@@ -5,7 +5,6 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using C2CS.Feature.ReadCodeC.Data.Model;
 using C2CS.Feature.ReadCodeC.Domain.ExploreCode.Diagnostics;
-using C2CS.Foundation;
 using C2CS.Foundation.UseCases.Exceptions;
 using Microsoft.Extensions.Logging;
 using static bottlenoselabs.clang;
@@ -663,6 +662,12 @@ public sealed class TranslationUnitExplorer
 
     private void ExploreTypedef(ExplorerContext context, ExplorerNode node)
     {
+        var typedefCursor = node.Cursor;
+        if (typedefCursor.kind != CXCursorKind.CXCursor_TypedefDecl)
+        {
+            throw new ClangException($"Expected a typedef declaration but found: {typedefCursor.kind}");
+        }
+
         var name = node.TypeName;
         var location = node.Location;
 
@@ -672,17 +677,13 @@ public sealed class TranslationUnitExplorer
             return;
         }
 
-        var typedefCursor = node.Cursor;
-        if (typedefCursor.kind != CXCursorKind.CXCursor_TypedefDecl)
-        {
-            throw new ClangException($"Expected a typedef declaration but found: {typedefCursor.kind}");
-        }
-
         var aliasTypeCandidate = clang_getTypedefDeclUnderlyingType(node.Cursor);
-        var (aliasKind, aliasType) = TypeKind(context, aliasTypeCandidate);
+        var (aliasTypeKind, aliasType) = TypeKind(context, aliasTypeCandidate);
         var aliasCursor = clang_getTypeDeclaration(aliasType);
+        var aliasTypeName = TypeName(aliasType, node.Parent?.TypeName);
+        var aliasLocation = Location(context, aliasCursor, aliasType);
 
-        switch (aliasKind)
+        switch (aliasTypeKind)
         {
             case CKind.Enum:
                 ExploreEnum(context, name, aliasCursor, aliasType, location, node.Parent);
@@ -697,21 +698,46 @@ public sealed class TranslationUnitExplorer
                 return;
         }
 
+        bool shouldVisitAliasType;
+        string mappedAliasTypeName;
+        CXType mappedAliasType;
+        CKind mappedAliasTypeKind;
+        if (IsBlocked(context, aliasType, aliasLocation, aliasTypeKind, string.Empty, aliasTypeName))
+        {
+            var isMapped = TryMapBlockedType(
+                context,
+                aliasTypeKind,
+                aliasTypeName,
+                aliasType,
+                out mappedAliasTypeName,
+                out mappedAliasType,
+                out mappedAliasTypeKind);
+            shouldVisitAliasType = !isMapped;
+        }
+        else
+        {
+            mappedAliasTypeName = aliasTypeName;
+            mappedAliasType = aliasType;
+            mappedAliasTypeKind = aliasTypeKind;
+            shouldVisitAliasType = true;
+        }
+
         _logger.ExploreCodeTypedef(name);
 
-        var aliasTypeName = TypeName(aliasType, node.Parent?.TypeName);
-        var aliasLocation = Location(context, aliasCursor, aliasType);
-        VisitType(
-            context,
-            node.Parent,
-            aliasCursor,
-            aliasType,
-            aliasTypeCandidate,
-            aliasTypeName,
-            aliasLocation,
-            aliasKind);
+        if (shouldVisitAliasType)
+        {
+            VisitType(
+                context,
+                node.Parent,
+                aliasCursor,
+                aliasType,
+                aliasTypeCandidate,
+                aliasTypeName,
+                aliasLocation,
+                aliasTypeKind);
+        }
 
-        var aliasTypeC = CreateType(context, aliasTypeName, aliasType, aliasTypeCandidate, aliasKind);
+        var aliasTypeC = CreateType(context, mappedAliasTypeName, mappedAliasType, aliasTypeCandidate, mappedAliasTypeKind);
 
         var typedef = new CTypedef
         {
@@ -721,6 +747,56 @@ public sealed class TranslationUnitExplorer
         };
 
         context.Typedefs.Add(typedef.Name, typedef);
+    }
+
+    private bool TryMapBlockedType(
+        ExplorerContext context,
+        CKind typeKind,
+        string typeName,
+        CXType type,
+        out string mappedTypeName,
+        out CXType mappedType,
+        out CKind mappedTypeKind)
+    {
+        switch (typeKind)
+        {
+            case CKind.Primitive:
+                mappedTypeName = typeName;
+                mappedType = type;
+                mappedTypeKind = typeKind;
+                return true;
+
+            case CKind.Pointer:
+            {
+                var pointerIndex = typeName.IndexOf('*', StringComparison.InvariantCulture);
+                var pointerTypeName = typeName[pointerIndex..];
+                mappedTypeName = "void" + pointerTypeName;
+                mappedType = type;
+                mappedTypeKind = typeKind;
+                return true;
+            }
+
+            case CKind.Typedef:
+            {
+                var canonicalTypeCandidate = clang_getCanonicalType(type);
+                var (canonicalTypeKind, canonicalType) = TypeKind(context, canonicalTypeCandidate);
+                var canonicalTypeName = TypeName(canonicalType, typeName);
+                return TryMapBlockedType(
+                    context,
+                    canonicalTypeKind,
+                    canonicalTypeName,
+                    canonicalType,
+                    out mappedTypeName,
+                    out mappedType,
+                    out mappedTypeKind);
+            }
+
+            default:
+                mappedTypeName = typeName;
+                mappedType = type;
+                mappedTypeKind = typeKind;
+                return false;
+        }
     }
 
     private void ExploreOpaqueType(
