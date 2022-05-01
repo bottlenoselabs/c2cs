@@ -19,6 +19,8 @@ public class ExploreOptions
 
     public bool IsEnabledVariables{ get; init; }
 
+    public bool IsEnabledEnumsDangling { get; init; }
+
     public bool IsEnabledAllowNamesWithPrefixedUnderscore { get; init; }
 
     public bool IsEnabledSystemDeclarations { get; init; }

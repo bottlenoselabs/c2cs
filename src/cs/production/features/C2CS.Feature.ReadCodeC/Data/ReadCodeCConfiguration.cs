@@ -30,11 +30,11 @@ public sealed class ReadCodeCConfiguration : UseCaseConfiguration
     [Json.Schema.Generation.Description("The directories to search for system header files.")]
     public ImmutableArray<string?>? SystemIncludeDirectories { get; set; }
 
-    [JsonPropertyName("function_names_allowed")]
+    [JsonPropertyName("functions_allowed")]
     [Json.Schema.Generation.Description("The C function names to explicitly include when parsing C code. Default is `null`. If `null`, all functions found may be included. Note that C function names which are excluded may also exclude any transitive types.")]
     public ImmutableArray<string?>? FunctionNamesAllowed { get; set; }
 
-    [JsonPropertyName("opaque_type_names")]
+    [JsonPropertyName("opaque_types")]
     [Json.Schema.Generation.Description("Type names that may be found when parsing C code that will be interpreted as opaque types. Opaque types are often used with a pointer to hide the information about the bit layout behind the pointer.")]
     public ImmutableArray<string?>? OpaqueTypeNames { get; set; }
 
@@ -49,6 +49,10 @@ public sealed class ReadCodeCConfiguration : UseCaseConfiguration
     [JsonPropertyName("is_enabled_variables")]
     [Json.Schema.Generation.Description("Determines whether to include or exclude variables. Use `true` or omit this property to include variables. Use `false` to exclude variables.")]
     public bool? IsEnabledVariables { get; set; }
+
+    [JsonPropertyName("is_enabled_enums_dangling")]
+    [Json.Schema.Generation.Description("Determines whether to include or exclude enums that are transitive to a function or variable. Use `true` to include dangling enums. Use `false` or omit this property to exclude dangling enums.")]
+    public bool? IsEnabledEnumsDangling { get; set; }
 
     [JsonPropertyName("is_enabled_allow_names_with_prefixed_underscore")]
     [Json.Schema.Generation.Description("Determines whether to include or exclude functions, enums, structs, typedefs, etc with a prefixed underscore; such declarations are sometimes considered 'non public'. Use `true` to include declarations with a prefixed underscore. Use `false` or omit this property to exclude declarations with a prefixed underscore.")]

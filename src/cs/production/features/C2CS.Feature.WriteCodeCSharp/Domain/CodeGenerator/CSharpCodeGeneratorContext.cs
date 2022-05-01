@@ -7,13 +7,13 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace C2CS.Feature.WriteCodeCSharp.Domain.CodeGenerator;
 
-public class GeneratorCSharpCodeContext
+public class CSharpCodeGeneratorContext
 {
     public ImmutableArray<MemberDeclarationSyntax>.Builder Members { get; }
 
     public ImmutableDictionary<string, CSharpStruct> StructsByName { get; }
 
-    public GeneratorCSharpCodeContext(ImmutableArray<CSharpStruct> structs)
+    public CSharpCodeGeneratorContext(ImmutableArray<CSharpStruct> structs)
     {
         Members = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
         StructsByName = structs.ToImmutableDictionary(x => x.Name);

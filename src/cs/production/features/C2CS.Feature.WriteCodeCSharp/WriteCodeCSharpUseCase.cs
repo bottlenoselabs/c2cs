@@ -111,7 +111,7 @@ public sealed class WriteCodeCSharpUseCase : UseCase<WriteCodeCSharpConfiguratio
     {
         BeginStep("Generate code");
 
-        var codeGenerator = new GeneratorCSharpCode(
+        var codeGenerator = new CSharpCodeGenerator(
             className, libraryName, namespaceName, headerCodeRegion, footerCodeRegion);
         var result = codeGenerator.EmitCode(abstractSyntaxTree);
 

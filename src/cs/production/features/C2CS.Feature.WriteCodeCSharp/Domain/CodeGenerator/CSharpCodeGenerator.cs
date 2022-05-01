@@ -14,7 +14,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace C2CS.Feature.WriteCodeCSharp.Domain.CodeGenerator;
 
-public sealed class GeneratorCSharpCode
+public sealed class CSharpCodeGenerator
 {
     private readonly string _className;
     private readonly string _libraryName;
@@ -22,7 +22,7 @@ public sealed class GeneratorCSharpCode
     private readonly string _headerCodeRegion;
     private readonly string _footerCodeRegion;
 
-    public GeneratorCSharpCode(
+    public CSharpCodeGenerator(
         string className,
         string libraryName,
         string namespaceName,
@@ -80,7 +80,9 @@ public sealed class GeneratorCSharpCode
             _headerCodeRegion,
             _footerCodeRegion,
             members.ToArray());
-        return compilationUnit.ToFullString();
+
+        var code = compilationUnit.ToFullString().Trim();
+        return code;
     }
 
     private static CompilationUnitSyntax CompilationUnit(

@@ -119,8 +119,7 @@ public sealed class TranslationUnitExplorer
                 ExploreRecord(context, node);
                 break;
             case CKind.FunctionPointer:
-                ExploreFunctionPointer(
-                    context, node.CursorName, node.Cursor, node.Type, node.ContainerType, node.Location, node.Parent!);
+                ExploreFunctionPointer(context, node);
                 break;
             case CKind.Array:
                 ExploreArray(context, node);
@@ -744,22 +743,16 @@ public sealed class TranslationUnitExplorer
         context.OpaqueDataTypes.Add(opaqueDataType.Name, opaqueDataType);
     }
 
-    private void ExploreFunctionPointer(
-        ExplorerContext context,
-        string name,
-        CXCursor cursor,
-        CXType type,
-        CXType containerType,
-        CLocation location,
-        ExplorerNode parentNode)
+    private void ExploreFunctionPointer(ExplorerContext context, ExplorerNode node)
     {
+        var name = node.CursorName;
         if (context.FunctionPointers.ContainsKey(name))
         {
             return;
         }
 
-        var typeName = type.Name();
-        var functionPointer = CreateFunctionPointer(context, name, typeName, cursor, parentNode, type, containerType, location);
+        var typeName = node.Type.Name();
+        var functionPointer = CreateFunctionPointer(context, node, name, typeName, node.Cursor, node.Parent, node.Type, node.ContainerType, node.Location);
         context.FunctionPointers.Add(name, functionPointer);
     }
 
@@ -946,16 +939,17 @@ public sealed class TranslationUnitExplorer
 
     private CFunctionPointer CreateFunctionPointer(
         ExplorerContext context,
+        ExplorerNode node,
         string name,
         string typeName,
         CXCursor cursor,
-        ExplorerNode parentNode,
+        ExplorerNode? parentNode,
         CXType type,
         CXType containerType,
         CLocation location)
     {
         var functionPointerParameters = CreateFunctionPointerParameters(
-            context, type, parentNode);
+            context, type, node);
 
         if (type.kind == CXTypeKind.CXType_Attributed)
         {
@@ -964,7 +958,7 @@ public sealed class TranslationUnitExplorer
 
         var returnTypeCandidate = clang_getResultType(type);
         var (returnTypeKind, returnType) = TypeKind(context, returnTypeCandidate);
-        var returnTypeName = TypeName(returnType, parentNode.TypeName);
+        var returnTypeName = TypeName(returnType, parentNode?.TypeName);
         var returnTypeCursor = clang_getTypeDeclaration(returnType);
         var returnTypeLocation = Location(context, returnTypeCursor, returnType);
         VisitType(
@@ -982,7 +976,7 @@ public sealed class TranslationUnitExplorer
             var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
             var pointeeType = clang_getPointeeType(underlyingType);
             var functionProtoType = pointeeType.kind == CXTypeKind.CXType_Invalid ? underlyingType : pointeeType;
-            typeName = TypeName(functionProtoType, parentNode.TypeName);
+            typeName = TypeName(functionProtoType, parentNode?.TypeName);
         }
 
         var typeC = CreateType(context, typeName, type, containerType, CKind.FunctionPointer);
@@ -1856,6 +1850,11 @@ public sealed class TranslationUnitExplorer
         {
             var up = new UseCaseException($"Unexpected type for enum '{type.kind}'.");
             throw up;
+        }
+
+        if (!context.Options.IsEnabledEnumsDangling && parentNode == null)
+        {
+            return;
         }
 
         var name = type.Name();
