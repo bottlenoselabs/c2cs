@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using C2CS.Feature.ReadCodeC.Data.Model;
 using C2CS.Feature.ReadCodeC.Domain.ExploreCode.Diagnostics;
+using C2CS.Foundation;
 using C2CS.Foundation.UseCases.Exceptions;
 using Microsoft.Extensions.Logging;
 using static bottlenoselabs.clang;
@@ -75,15 +76,21 @@ public sealed class TranslationUnitExplorer
 
     private void Explore(ExplorerContext context)
     {
-        while (context.FrontierGeneral.Count > 0)
-        {
-            var node = context.FrontierGeneral.PopFront()!;
-            ExploreNode(context, node);
-        }
-
         while (context.FrontierMacros.Count > 0)
         {
             var node = context.FrontierMacros.PopFront()!;
+            ExploreNode(context, node);
+        }
+
+        while (context.FrontierApi.Count > 0)
+        {
+            var node = context.FrontierApi.PopFront()!;
+            ExploreNode(context, node);
+        }
+
+        while (context.FrontierTypes.Count > 0)
+        {
+            var node = context.FrontierTypes.PopFront()!;
             ExploreNode(context, node);
         }
     }
@@ -862,14 +869,15 @@ public sealed class TranslationUnitExplorer
             cursorName,
             typeName);
 
-        if (kind == CKind.MacroDefinition)
+        var frontier = kind switch
         {
-            context.FrontierMacros.PushBack(node);
-        }
-        else
-        {
-            context.FrontierGeneral.PushBack(node);
-        }
+            CKind.MacroDefinition => context.FrontierMacros,
+            CKind.Function => context.FrontierApi,
+            CKind.Variable => context.FrontierApi,
+            _ => context.FrontierTypes,
+        };
+
+        frontier.PushBack(node);
     }
 
     private static CFunctionCallingConvention CreateFunctionCallingConvention(CXType type)

@@ -36,8 +36,10 @@ public sealed class ExplorerContext
     internal readonly Dictionary<string, CTypedef> Typedefs = new();
     internal readonly Dictionary<string, CVariable> Variables = new();
 
-    internal readonly ArrayDeque<ExplorerNode> FrontierGeneral = new();
     internal readonly ArrayDeque<ExplorerNode> FrontierMacros = new();
+    internal readonly ArrayDeque<ExplorerNode> FrontierApi = new();
+    internal readonly ArrayDeque<ExplorerNode> FrontierTypes = new();
+
     internal readonly HashSet<string> MacroFunctionLikeNames = new();
     internal readonly HashSet<string> SystemIgnoredTypeNames = DefaultSystemIgnoredTypeNames();
     internal readonly Dictionary<string, bool> ValidTypeNames = new();
