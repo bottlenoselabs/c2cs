@@ -53,6 +53,7 @@ public sealed class CSharpMapperParameters
         aliases.Add("SInt32", "int");
         aliases.Add("UInt64", "ulong");
         aliases.Add("SInt64", "long");
+        aliases.Add("Boolean", "CBool");
     }
 
     private static void AddSystemTypesWindows(IDictionary<string, string> aliases)
