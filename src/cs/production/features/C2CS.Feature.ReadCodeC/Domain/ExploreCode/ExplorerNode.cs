@@ -14,6 +14,7 @@ internal sealed class ExplorerNode
     public readonly ExplorerNode? Parent;
     public readonly CXCursor Cursor;
     public readonly CXType Type;
+    public readonly CXType ContainerType;
     public readonly string? CursorName;
     public readonly string? TypeName;
 
@@ -23,6 +24,7 @@ internal sealed class ExplorerNode
         ExplorerNode? parent,
         CXCursor cursor,
         CXType type,
+        CXType containerType,
         string? cursorName,
         string? typeName)
     {
@@ -31,6 +33,7 @@ internal sealed class ExplorerNode
         Parent = parent;
         Cursor = cursor;
         Type = type;
+        ContainerType = containerType;
         CursorName = cursorName;
         TypeName = typeName;
     }
