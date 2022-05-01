@@ -76,5 +76,7 @@ public sealed class ReadCodeCConfiguration : UseCaseConfiguration
     public Dictionary<string, ReadCodeCConfigurationPlatform?>? ConfigurationPlatforms { get; set; }
 #pragma warning restore CA2227
 
+    [Json.Schema.Generation.Description("Names of libraries and/or interfaces for macOS, iOS, tvOS or watchOS.")]
+    [JsonPropertyName("frameworks")]
     public ImmutableArray<string?>? Frameworks { get; set; }
 }
