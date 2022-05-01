@@ -1406,9 +1406,9 @@ public sealed class TranslationUnitExplorer
         }
 
         var sizeOf = SizeOf(context, containerType);
-        var alignOfValue = (int)clang_Type_getAlignOf(type);
+        var alignOfValue = (int)clang_Type_getAlignOf(containerType);
         int? alignOf = alignOfValue >= 0 ? alignOfValue : null;
-        var arraySizeValue = (int)clang_getArraySize(type);
+        var arraySizeValue = (int)clang_getArraySize(containerType);
         int? arraySize = arraySizeValue >= 0 ? arraySizeValue : null;
 
         int? elementSize = null;
