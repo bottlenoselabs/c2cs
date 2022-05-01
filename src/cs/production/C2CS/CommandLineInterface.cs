@@ -39,11 +39,14 @@ internal class CommandLineInterface : RootCommand
         var abstractSyntaxTreeCommand = new Command(
             "ast", "Dump the abstract syntax tree of a C `.h` file to one or more `.json` files per platform.");
         abstractSyntaxTreeCommand.AddOption(configurationOption);
-        abstractSyntaxTreeCommand.SetHandler<string>(filePath => HandleAbstractSyntaxTreesC(filePath), configurationOption);
+        abstractSyntaxTreeCommand.SetHandler<string>(
+            filePath => HandleAbstractSyntaxTreesC(filePath),
+            configurationOption);
         AddCommand(abstractSyntaxTreeCommand);
 
         var bindgenCSharpCommand = new Command(
-            "cs", "Generate a C# bindings `.cs` file from one or more C abstract syntax tree `.json` files per platform.");
+            "cs",
+            "Generate a C# bindings `.cs` file from one or more C abstract syntax tree `.json` files per platform.");
         bindgenCSharpCommand.AddOption(configurationOption);
         bindgenCSharpCommand.SetHandler<string>(HandleBindgenCSharp, configurationOption);
         AddCommand(bindgenCSharpCommand);

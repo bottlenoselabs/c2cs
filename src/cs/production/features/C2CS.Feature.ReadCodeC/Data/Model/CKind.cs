@@ -6,7 +6,6 @@ namespace C2CS.Feature.ReadCodeC.Data.Model;
 public enum CKind
 {
     Unknown = 0,
-    TranslationUnit,
     Primitive,
     Pointer,
     Array,

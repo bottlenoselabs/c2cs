@@ -15,8 +15,8 @@ internal sealed class ExplorerNode
     public readonly CXCursor Cursor;
     public readonly CXType Type;
     public readonly CXType ContainerType;
-    public readonly string? CursorName;
-    public readonly string? TypeName;
+    public readonly string CursorName;
+    public readonly string TypeName;
 
     public ExplorerNode(
         CKind kind,
@@ -25,8 +25,8 @@ internal sealed class ExplorerNode
         CXCursor cursor,
         CXType type,
         CXType containerType,
-        string? cursorName,
-        string? typeName)
+        string cursorName,
+        string typeName)
     {
         Kind = kind;
         Location = location;
