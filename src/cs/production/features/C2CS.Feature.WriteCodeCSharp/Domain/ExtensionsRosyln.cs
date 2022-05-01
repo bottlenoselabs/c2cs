@@ -11,29 +11,50 @@ namespace C2CS.Feature.WriteCodeCSharp.Domain;
 [PublicAPI]
 public static class ExtensionsRosyln
 {
-    public static T AddRegion<T>(this T node, string regionName)
+    public static T AddRegionStart<T>(this T node, string regionName, bool addDoubleTrailingNewLine)
         where T : SyntaxNode
     {
-        var nodeLeadingTrivia = node.GetLeadingTrivia();
-        var nodeTrailingTrivia = node.GetTrailingTrivia();
-        var leadingTrivia = nodeLeadingTrivia
-            .Insert(0, CarriageReturnLineFeed)
-            .Insert(1, GetRegionLeadingTrivia(regionName))
-            .Insert(2, CarriageReturnLineFeed)
-            .Insert(3, CarriageReturnLineFeed);
-        var trailingTrivia = nodeTrailingTrivia
-            .Insert(0, CarriageReturnLineFeed)
-            .Insert(1, CarriageReturnLineFeed)
-            .Insert(2, GetRegionTrailingTrivia())
-            .Insert(3, CarriageReturnLineFeed);
+        var trivia = node.GetLeadingTrivia();
+        var index = 0;
 
-        return node.WithLeadingTrivia(leadingTrivia).WithTrailingTrivia(trailingTrivia);
+        trivia = trivia
+            .Insert(index++, CarriageReturnLineFeed)
+            .Insert(index++, GetRegionLeadingTrivia(regionName));
+
+        if (addDoubleTrailingNewLine)
+        {
+            trivia = trivia
+                .Insert(index++, CarriageReturnLineFeed)
+                .Insert(index, CarriageReturnLineFeed);
+        }
+        else
+        {
+            trivia = trivia
+                .Insert(index, CarriageReturnLineFeed);
+        }
+
+        return node.WithLeadingTrivia(trivia);
     }
 
-    private static SyntaxTrivia GetRegionLeadingTrivia(string regionName)
+    public static T AddRegionEnd<T>(this T node)
+        where T : SyntaxNode
+    {
+        var trivia = node.GetTrailingTrivia();
+        var index = 0;
+
+        trivia = trivia
+            .Insert(index++, CarriageReturnLineFeed)
+            .Insert(index++, CarriageReturnLineFeed);
+
+        trivia = trivia.Insert(index, GetRegionTrailingTrivia());
+
+        return node.WithTrailingTrivia(trivia);
+    }
+
+    private static SyntaxTrivia GetRegionLeadingTrivia(string regionName, bool isActive = true)
     {
         return Trivia(
-            RegionDirectiveTrivia(true)
+            RegionDirectiveTrivia(isActive)
                 .WithEndOfDirectiveToken(
                     Token(
                         TriviaList(PreprocessingMessage($" {regionName}")),
@@ -41,8 +62,8 @@ public static class ExtensionsRosyln
                         TriviaList())));
     }
 
-    private static SyntaxTrivia GetRegionTrailingTrivia()
+    private static SyntaxTrivia GetRegionTrailingTrivia(bool isActive = true)
     {
-        return Trivia(EndRegionDirectiveTrivia(true));
+        return Trivia(EndRegionDirectiveTrivia(isActive));
     }
 }

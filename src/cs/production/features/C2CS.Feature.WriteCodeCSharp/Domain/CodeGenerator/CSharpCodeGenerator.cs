@@ -3,7 +3,6 @@
 
 using System.Collections.Immutable;
 using System.Reflection;
-using C2CS.Feature.WriteCodeCSharp.Data;
 using C2CS.Feature.WriteCodeCSharp.Data.Model;
 using C2CS.Foundation.UseCases.Exceptions;
 using Microsoft.CodeAnalysis;
@@ -41,13 +40,7 @@ public sealed class CSharpCodeGenerator
         var members = new List<MemberDeclarationSyntax>();
 
         var sharedNodes = abstractSyntaxTree.PlatformAgnosticNodes;
-        FunctionExterns(members, sharedNodes.Functions);
-        FunctionPointers(members, sharedNodes.FunctionPointers);
-        Structs(members, sharedNodes.Structs);
-        OpaqueDataTypes(members, sharedNodes.OpaqueStructs);
-        Typedefs(members, sharedNodes.AliasStructs);
-        Enums(members, sharedNodes.Enums);
-        Constants(members, sharedNodes.Constants);
+        AddNodes(sharedNodes, members);
 
         var platformSpecificNodes = abstractSyntaxTree.PlatformSpecificNodes;
         if (!platformSpecificNodes.IsDefaultOrEmpty)
@@ -55,14 +48,7 @@ public sealed class CSharpCodeGenerator
             foreach (var (platform, nodes) in platformSpecificNodes)
             {
                 var platformSpecificMembers = new List<MemberDeclarationSyntax>();
-
-                FunctionExterns(platformSpecificMembers, nodes.Functions);
-                FunctionPointers(platformSpecificMembers, nodes.FunctionPointers);
-                Structs(platformSpecificMembers, nodes.Structs);
-                OpaqueDataTypes(platformSpecificMembers, nodes.OpaqueStructs);
-                Typedefs(platformSpecificMembers, nodes.AliasStructs);
-                Enums(platformSpecificMembers, nodes.Enums);
-                Constants(platformSpecificMembers, nodes.Constants);
+                AddNodes(nodes, platformSpecificMembers);
 
                 var platformSpecificClassName = platform.ToString().Replace("-", "_", StringComparison.InvariantCulture);
                 var platformSpecificClass = ClassDeclaration(platformSpecificClassName)
@@ -83,6 +69,34 @@ public sealed class CSharpCodeGenerator
 
         var code = compilationUnit.ToFullString().Trim();
         return code;
+    }
+
+    private void AddNodes(CSharpNodes nodes, List<MemberDeclarationSyntax> members)
+    {
+        var membersApi = new List<MemberDeclarationSyntax>();
+        var membersTypes = new List<MemberDeclarationSyntax>();
+
+        FunctionExterns(membersApi, nodes.Functions);
+        if (membersApi.Count > 0)
+        {
+            membersApi[0] = membersApi[0].AddRegionStart("API", false);
+            membersApi[^1] = membersApi[^1].AddRegionEnd();
+        }
+
+        FunctionPointers(membersTypes, nodes.FunctionPointers);
+        Structs(membersTypes, nodes.Structs);
+        OpaqueDataTypes(membersTypes, nodes.OpaqueStructs);
+        Typedefs(membersTypes, nodes.AliasStructs);
+        Enums(membersTypes, nodes.Enums);
+        Constants(membersTypes, nodes.Constants);
+        if (membersTypes.Count > 0)
+        {
+            membersTypes[0] = membersTypes[0].AddRegionStart("Types", false);
+            membersTypes[^1] = membersTypes[^1].AddRegionEnd();
+        }
+
+        members.AddRange(membersApi);
+        members.AddRange(membersTypes);
     }
 
     private static CompilationUnitSyntax CompilationUnit(
@@ -135,7 +149,8 @@ public sealed class CSharpCodeGenerator
         var runtimeClass = ClassDeclaration("Runtime")
             .AddModifiers(Token(SyntaxKind.PublicKeyword), Token(SyntaxKind.StaticKeyword))
             .AddMembers(members)
-            .AddRegion("C2CS.Runtime");
+            .AddRegionStart("C2CS.Runtime", true)
+            .AddRegionEnd();
         return runtimeClass;
     }
 
@@ -184,22 +199,6 @@ namespace {namespaceName}
     {
         foreach (var functionExtern in functionExterns)
         {
-            // https://github.com/lithiumtoast/c2cs/issues/15
-            var shouldIgnore = false;
-            foreach (var cSharpFunctionExternParameter in functionExtern.Parameters)
-            {
-                if (cSharpFunctionExternParameter.TypeName == "va_list")
-                {
-                    shouldIgnore = true;
-                    break;
-                }
-            }
-
-            if (shouldIgnore)
-            {
-                continue;
-            }
-
             var member = FunctionExtern(functionExtern);
             members.Add(member);
         }
