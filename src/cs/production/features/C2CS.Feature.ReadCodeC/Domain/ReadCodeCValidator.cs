@@ -86,7 +86,8 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
                 FunctionNamesAllowed = functionNamesAllowed,
                 IsEnabledLocationFullPaths = configuration.IsEnabledLocationFullPaths ?? false,
                 IsEnabledMacroObjects = configuration.IsEnabledMacroObjects ?? true,
-                IsEnabledVariables = configuration.IsEnabledVariables ?? true,
+                IsEnabledFunctions = configuration.IsEnabledFunctions ?? true,
+                IsEnabledVariables = false, // TODO: transpile variables
                 IsEnabledEnumsDangling = configuration.IsEnabledEnumsDangling ?? false,
                 IsEnabledAllowNamesWithPrefixedUnderscore = configuration.IsEnabledAllowNamesWithPrefixedUnderscore ?? false,
                 IsEnabledSystemDeclarations = configuration.IsEnabledSystemDeclarations ?? false

@@ -1779,6 +1779,11 @@ public sealed class TranslationUnitExplorer
             throw up;
         }
 
+        if (!context.Options.IsEnabledFunctions)
+        {
+            return;
+        }
+
         var name = cursor.Name();
 
         if (context.VisitedFunctionNames.Contains(name))

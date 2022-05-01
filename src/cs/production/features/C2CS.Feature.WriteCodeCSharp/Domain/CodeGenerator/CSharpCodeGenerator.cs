@@ -337,10 +337,8 @@ public struct {@struct.Name}
     private void StructFields(
         string structName, ImmutableArray<CSharpStructField> fields, ImmutableArray<MemberDeclarationSyntax>.Builder builder)
     {
-        for (var index = 0; index < fields.Length; index++)
+        foreach (var field in fields)
         {
-            var field = fields[index];
-
             if (field.Type.IsArray)
             {
                 var fieldMember = EmitStructFieldFixedBuffer(field);
@@ -422,7 +420,7 @@ public string {field.Name}
         }
         else
         {
-            var fieldTypeName = field.Type.Name ?? string.Empty;
+            var fieldTypeName = field.Type.Name;
             var elementType = fieldTypeName[..^1];
             if (elementType.EndsWith('*'))
             {

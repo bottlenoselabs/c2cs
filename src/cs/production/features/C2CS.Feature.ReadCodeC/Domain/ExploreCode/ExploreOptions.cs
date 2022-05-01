@@ -17,7 +17,9 @@ public class ExploreOptions
 
     public bool IsEnabledMacroObjects { get; init; }
 
-    public bool IsEnabledVariables{ get; init; }
+    public bool IsEnabledFunctions { get; init; }
+
+    public bool IsEnabledVariables { get; init; }
 
     public bool IsEnabledEnumsDangling { get; init; }
 

@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
-using C2CS.Feature.WriteCodeCSharp.Data;
 using C2CS.Feature.WriteCodeCSharp.Data.Model;
 
 namespace C2CS.Feature.WriteCodeCSharp.Domain.CodeGenerator;
