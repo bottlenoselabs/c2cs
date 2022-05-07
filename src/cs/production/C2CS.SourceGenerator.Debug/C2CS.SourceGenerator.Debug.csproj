@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- MSBuild project settings -->
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>C2CS</RootNamespace>
+    </PropertyGroup>
+
+    <!-- NuGet references -->
+    <ItemGroup>
+      <PackageReference Include="Buildalyzer" Version="4.1.3" />
+      <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.1.0" />
+      <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.1.0" />
+    </ItemGroup>
+
+    <!-- Project references -->
+    <ItemGroup>
+      <ProjectReference Include="../C2CS.SourceGenerator/C2CS.SourceGenerator.csproj" />
+    </ItemGroup>
+
+</Project>

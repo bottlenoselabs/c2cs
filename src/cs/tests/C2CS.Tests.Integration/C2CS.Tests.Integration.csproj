@@ -30,7 +30,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="../../production/C2CS/C2CS.csproj" />
+        <ProjectReference Include="..\..\production\C2CS.CommandLineInterface\C2CS.CommandLineInterface.csproj" />
         <ProjectReference Include="../C2CS.Tests.Common/C2CS.Tests.Common.csproj" />
     </ItemGroup>
     

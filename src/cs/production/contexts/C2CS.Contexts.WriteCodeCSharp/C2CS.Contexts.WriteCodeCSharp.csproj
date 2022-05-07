@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- MSBuild project settings -->
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <NoWarn>$(NoWarn);CA1724</NoWarn>
+    </PropertyGroup>
+
+    <!-- Project references -->
+    <ItemGroup>
+        <ProjectReference Include="../../infrastructure/C2CS.Infrastructure.Common/C2CS.Infrastructure.Common.csproj" />
+        <ProjectReference Include="..\..\infrastructure\Bindgen.Runtime\Bindgen.Runtime.csproj" />
+        <ProjectReference Include="../C2CS.Contexts.ReadCodeC/C2CS.Contexts.ReadCodeC.csproj" />
+    </ItemGroup>
+
+    <!-- NuGet references -->
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0-1.final" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.2.0-1.final" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.2.0-1.final" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+        <PackageReference Include="System.IO.Abstractions" Version="16.1.25" />
+    </ItemGroup>
+
+</Project>

@@ -3,11 +3,11 @@
 
 using System.Collections.Immutable;
 using System.Linq;
+using C2CS.Contexts.ReadCodeC;
+using C2CS.Contexts.ReadCodeC.Data.Model;
+using C2CS.Contexts.ReadCodeC.Data.Serialization;
+using C2CS.Contexts.ReadCodeC.Domain;
 using C2CS.Data.Serialization;
-using C2CS.Feature.ReadCodeC;
-using C2CS.Feature.ReadCodeC.Data.Model;
-using C2CS.Feature.ReadCodeC.Data.Serialization;
-using C2CS.Feature.ReadCodeC.Domain;
 using C2CS.Foundation.Diagnostics;
 using C2CS.Tests.Common.Data.Model.C;
 
@@ -18,16 +18,16 @@ public sealed class ReadCodeCFixture
     public readonly ImmutableArray<ReadCodeCFixtureContext> Contexts;
 
     public ReadCodeCFixture(
-        ReadCodeCUseCase useCase,
+        UseCase useCase,
         CJsonSerializer cJsonSerializer,
-        ConfigurationJsonSerializer configurationJsonSerializer)
+        BindgenConfigurationJsonSerializer configurationJsonSerializer)
     {
 #pragma warning disable CA1308
         var os = Native.OperatingSystem.ToString().ToLowerInvariant();
 #pragma warning restore CA1308
         var configurationFilePath = $"c/tests/my_c_library/config_{os}.json";
         var configuration = configurationJsonSerializer.Read(configurationFilePath);
-        var configurationReadC = configuration.ReadC;
+        var configurationReadC = configuration.ReadCCode;
         var output = useCase.Execute(configurationReadC!);
         Contexts = GetContexts(output, cJsonSerializer);
     }
@@ -90,7 +90,7 @@ public sealed class ReadCodeCFixture
 #pragma warning disable CA1308
             CallingConvention = value.CallingConvention.ToString().ToLowerInvariant(),
 #pragma warning restore CA1308
-            ReturnTypeName = value.ReturnType.Name,
+            ReturnTypeName = value.ReturnTypeInfo.Name,
             Parameters = parameters
         };
         return result;
@@ -115,7 +115,7 @@ public sealed class ReadCodeCFixture
         var result = new CTestFunctionParameter
         {
             Name = value.Name,
-            TypeName = value.Type.Name
+            TypeName = value.TypeInfo.Name
         };
 
         return result;
@@ -141,7 +141,7 @@ public sealed class ReadCodeCFixture
         var result = new CTestEnum
         {
             Name = value.Name,
-            IntegerType = value.IntegerType.Name,
+            IntegerType = value.IntegerTypeInfo.Name,
             Values = values
         };
         return result;
@@ -219,10 +219,10 @@ public sealed class ReadCodeCFixture
         var result = new CTestRecordField
         {
             Name = value.Name,
-            TypeName = value.Type.Name,
+            TypeName = value.TypeInfo.Name,
             OffsetOf = value.OffsetOf,
             PaddingOf = value.PaddingOf,
-            SizeOf = value.Type.SizeOf
+            SizeOf = value.TypeInfo.SizeOf
         };
 
         return result;
