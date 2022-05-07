@@ -13,9 +13,6 @@ public class CTestRecord
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonPropertyName("parent_name")]
-    public string ParentName { get; set; } = string.Empty;
-
     [JsonPropertyName("size_of")]
     public int SizeOf { get; set; }
 

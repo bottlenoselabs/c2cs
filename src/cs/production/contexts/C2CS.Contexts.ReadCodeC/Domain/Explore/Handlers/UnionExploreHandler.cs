@@ -27,7 +27,6 @@ public sealed class UnionExploreHandler : RecordExploreHandler
 
     private CRecord Union(ExploreContext context, ExploreInfoNode info)
     {
-        var parentName = info.Parent?.Name ?? string.Empty;
         var fields = UnionFields(context, info.Cursor, info);
 
         var result = new CRecord
@@ -35,7 +34,6 @@ public sealed class UnionExploreHandler : RecordExploreHandler
             RecordKind = CRecordKind.Union,
             Location = info.Location,
             Name = info.TypeName,
-            ParentName = parentName,
             Fields = fields,
             SizeOf = info.SizeOf,
             AlignOf = info.AlignOf

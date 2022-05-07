@@ -28,6 +28,6 @@ public record CRecordField : CNodeWithLocation
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {
-        return $"Struct Field '{Name}': {TypeInfo} @ {Location}";
+        return $"Record field '{Name}': {TypeInfo} @ {Location}";
     }
 }

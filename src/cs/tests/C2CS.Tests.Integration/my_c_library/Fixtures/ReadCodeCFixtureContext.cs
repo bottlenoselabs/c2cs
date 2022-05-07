@@ -15,15 +15,19 @@ public sealed class ReadCodeCFixtureContext
     private readonly ImmutableDictionary<string, CTestEnum> _enumsByName;
     private readonly ImmutableDictionary<string, CTestRecord> _recordsByName;
 
-    public string TargetPlatform { get; }
+    public string TargetPlatformRequested { get; }
+
+    public string TargetPlatformActual { get; }
 
     public ReadCodeCFixtureContext(
-        TargetPlatform targetPlatform,
+        TargetPlatform targetPlatformRequested,
+        TargetPlatform targetPlatformActual,
         ImmutableDictionary<string, CTestFunction> functionsByName,
         ImmutableDictionary<string, CTestEnum> enumsByName,
         ImmutableDictionary<string, CTestRecord> recordsByName)
     {
-        TargetPlatform = targetPlatform.ToString();
+        TargetPlatformRequested = targetPlatformRequested.ToString();
+        TargetPlatformActual = targetPlatformActual.ToString();
         _functionsByName = functionsByName;
         _enumsByName = enumsByName;
         _recordsByName = recordsByName;

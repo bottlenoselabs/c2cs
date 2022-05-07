@@ -1,6 +1,5 @@
 {
   "name": "struct_leaf_integers_large_to_small",
-  "parent_name": "",
   "size_of": 16,
   "align_of": 8,
   "is_union": false,

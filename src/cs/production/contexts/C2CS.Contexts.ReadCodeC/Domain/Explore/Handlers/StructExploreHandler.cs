@@ -27,14 +27,12 @@ public sealed class StructExploreHandler : RecordExploreHandler
 
     private CRecord Struct(ExploreContext context, ExploreInfoNode info)
     {
-        var parentName = info.Parent?.Name ?? string.Empty;
         var fields = StructFields(context, info);
         var record = new CRecord
         {
             RecordKind = CRecordKind.Struct,
             Location = info.Location,
             Name = info.Name,
-            ParentName = parentName,
             Fields = fields,
             SizeOf = info.SizeOf,
             AlignOf = info.AlignOf

@@ -101,7 +101,8 @@ public sealed class UseCase : UseCase<
         BeginStep($"{platform}");
 
         var explorer = _services.GetService<Explorer>()!;
-        var result = explorer.AbstractSyntaxTree(options, userIncludeDirectories, translationUnit);
+        var result = explorer.AbstractSyntaxTree(
+            platform, options, userIncludeDirectories, translationUnit);
 
         EndStep();
         return result;

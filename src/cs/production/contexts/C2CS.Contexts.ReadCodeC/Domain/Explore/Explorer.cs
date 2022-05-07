@@ -44,10 +44,12 @@ public sealed partial class Explorer
     {
         var result = new Dictionary<CKind, ExploreHandler>
         {
+            { CKind.Macro, services.GetService<MacroExploreHandler>()! },
             { CKind.Variable, services.GetService<VariableExploreHandler>()! },
             { CKind.Function, services.GetService<FunctionExploreHandler>()! },
+            { CKind.Struct, services.GetService<StructExploreHandler>()! },
+            { CKind.Union, services.GetService<UnionExploreHandler>()! },
             { CKind.Enum, services.GetService<EnumExploreHandler>()! },
-            { CKind.Macro, services.GetService<MacroExploreHandler>()! },
             { CKind.TypeAlias, services.GetService<TypeAliasExploreHandler>()! },
             { CKind.Array, services.GetService<ArrayExploreHandler>()! },
             { CKind.Pointer, services.GetService<PointerExploreHandler>()! },
@@ -57,13 +59,15 @@ public sealed partial class Explorer
     }
 
     public CAbstractSyntaxTree AbstractSyntaxTree(
+        TargetPlatform targetPlatform,
         ExplorerOptions options,
         ImmutableArray<string> userIncludeDirectories,
         CXTranslationUnit translationUnit)
     {
         CAbstractSyntaxTree result;
 
-        var context = new ExploreContext(translationUnit, options, EnqueueVisitInfoNode, userIncludeDirectories);
+        var context = new ExploreContext(
+            targetPlatform, translationUnit, options, EnqueueVisitInfoNode, userIncludeDirectories);
 
         try
         {
@@ -98,7 +102,8 @@ public sealed partial class Explorer
         var result = new CAbstractSyntaxTree
         {
             FileName = context.FilePath,
-            Platform = context.TargetPlatform,
+            PlatformRequested = context.TargetPlatformRequested,
+            PlatformActual = context.TargetPlatformActual,
             MacroObjects = macroObjects,
             Variables = variables,
             Functions = functions,
@@ -216,7 +221,8 @@ public sealed partial class Explorer
             case CKind.Function:
                 FoundFunction((CFunction)node);
                 break;
-            case CKind.Record:
+            case CKind.Struct:
+            case CKind.Union:
                 FoundRecord((CRecord)node);
                 break;
             case CKind.Enum:

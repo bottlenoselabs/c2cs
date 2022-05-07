@@ -10,9 +10,6 @@ namespace C2CS.Contexts.ReadCodeC.Data.Model;
 // NOTE: Properties are required for System.Text.Json serialization
 public record CRecord : CNodeWithLocation
 {
-    [JsonPropertyName("parent_name")]
-    public string ParentName { get; set; } = string.Empty;
-
     [JsonPropertyName("record_kind")]
     public CRecordKind RecordKind { get; set; }
 

@@ -28,7 +28,7 @@ public class ReadCodeCTests : CLibraryIntegrationTest
         foreach (var context in _contexts)
         {
             var value = context.GetEnum(name);
-            AssertValue(name, value, $"{context.TargetPlatform}/Enums");
+            AssertValue(name, value, $"{context.TargetPlatformRequested}/Enums");
         }
     }
 
@@ -75,7 +75,7 @@ public class ReadCodeCTests : CLibraryIntegrationTest
         foreach (var context in _contexts)
         {
             var value = context.GetFunction(name);
-            AssertValue(name, value, $"{context.TargetPlatform}/Functions");
+            AssertValue(name, value, $"{context.TargetPlatformRequested}/Functions");
         }
     }
 
@@ -90,7 +90,7 @@ public class ReadCodeCTests : CLibraryIntegrationTest
         foreach (var context in _contexts)
         {
             var value = context.GetRecord(name);
-            AssertValue(name, value, $"{context.TargetPlatform}/Structs");
+            AssertValue(name, value, $"{context.TargetPlatformRequested}/Structs");
         }
     }
 }

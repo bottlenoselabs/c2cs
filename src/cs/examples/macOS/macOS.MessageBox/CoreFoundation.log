@@ -9,7 +9,7 @@ info: C2CS.Data.Serialization.BindgenConfigurationJsonSerializer[0]
 info: C2CS.Contexts.ReadCodeC.UseCase[2]
       - Use case started
 fail: C2CS.Contexts.ReadCodeC.UseCase[4]
-      - Use case failed in 0.069 seconds
+      - Use case failed in 0.094 seconds
 crit: C2CS.Contexts.ReadCodeC.UseCase[8]
       - Panic The input file can not be null, empty, or whitespace.
          at C2CS.Contexts.ReadCodeC.Domain.ReadCodeCValidator.VerifyInputFilePath(String inputFilePath) in /Users/lstranks/Programming/c2cs/src/cs/production/contexts/C2CS.Contexts.ReadCodeC/Domain/ReadCodeCValidator.cs:line 118

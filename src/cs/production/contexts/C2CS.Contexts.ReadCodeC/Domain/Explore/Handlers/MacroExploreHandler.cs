@@ -65,6 +65,12 @@ public sealed class MacroExploreHandler : ExploreHandler<CMacroObject>
             return false;
         }
 
+        // Assume that macros starting with names of the C helper macros are not interesting for bindgen
+        if (name.StartsWith("PINVOKE_TARGET_", StringComparison.InvariantCulture))
+        {
+            return false;
+        }
+
         // if (name == "PINVOKE_TARGET_PLATFORM_NAME")
         // {
         //     var actualPlatformName = tokens.Length != 1 ? string.Empty : tokens[0].Replace("\"", string.Empty, StringComparison.InvariantCulture);

@@ -56,7 +56,8 @@ public sealed class ReadCodeCFixture
             var structs = CreateTestRecords(ast);
 
             var data = new ReadCodeCFixtureContext(
-                ast.Platform,
+                ast.PlatformRequested,
+                ast.PlatformActual,
                 functions,
                 enums,
                 structs);
@@ -191,7 +192,6 @@ public sealed class ReadCodeCFixture
         var result = new CTestRecord
         {
             Name = name,
-            ParentName = value.ParentName,
             SizeOf = value.SizeOf,
             AlignOf = value.AlignOf,
             Fields = fields,

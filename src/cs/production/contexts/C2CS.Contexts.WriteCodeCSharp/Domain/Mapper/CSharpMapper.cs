@@ -65,7 +65,7 @@ public sealed class CSharpMapper
         foreach (var ast in abstractSyntaxTrees)
         {
             var platformNodes = CSharpNodes(ast);
-            builder.Add(ast.Platform, platformNodes);
+            builder.Add(ast.PlatformRequested, platformNodes);
         }
 
         return builder.ToImmutable();
@@ -73,11 +73,11 @@ public sealed class CSharpMapper
 
     private CSharpNodes CSharpNodes(CAbstractSyntaxTree ast)
     {
-        var context = new CSharpMapperContext(ast.Platform, ast.Records, ast.FunctionPointers);
+        var context = new CSharpMapperContext(ast.PlatformRequested, ast.Records, ast.FunctionPointers);
         var functionsC = ast.Functions.Values.ToImmutableArray();
         var functionNamesC = ast.Functions.Keys.ToImmutableHashSet();
         var functionPointersC = ast.FunctionPointers.Values.ToImmutableArray();
-        var recordsC = ast.Records.Values.Where(x => string.IsNullOrEmpty(x.ParentName)).ToImmutableArray();
+        var recordsC = ast.Records.Values.ToImmutableArray();
         var typeAliasesC = ast.TypeAliases.Values.ToImmutableArray();
         var opaqueTypesC = ast.OpaqueTypes.Values.ToImmutableArray();
         var enumsC = ast.Enums.Values.ToImmutableArray();
@@ -411,28 +411,35 @@ public sealed class CSharpMapper
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var field in fields)
         {
-            if (string.IsNullOrEmpty(field.Name) && context.Records.TryGetValue(field.TypeInfo.Name, out var @struct))
-            {
-                var (nestedFields, _) = StructFields(context, structName, @struct.Fields);
-                resultFields.AddRange(nestedFields);
-            }
-            else
-            {
-                var structFieldCSharp = StructField(context, field);
-                if (context.Records.TryGetValue(field.TypeInfo.Name, out var record))
-                {
-                    if (record.ParentName == structName)
-                    {
-                        resultNestedRecords.Add(record);
-                    }
-                }
-
-                resultFields.Add(structFieldCSharp);
-            }
+            StructField(context, structName, field, resultFields, resultNestedRecords);
         }
 
         var result = (resultFields.ToImmutable(), resultNestedRecords.ToImmutable());
         return result;
+    }
+
+    private void StructField(
+        CSharpMapperContext context,
+        string structName,
+        CRecordField field,
+        ImmutableArray<CSharpStructField>.Builder resultFields,
+        ImmutableArray<CRecord>.Builder resultNestedRecords)
+    {
+        if (string.IsNullOrEmpty(field.Name) && context.Records.TryGetValue(field.TypeInfo.Name, out var @struct))
+        {
+            var (nestedFields, _) = StructFields(context, structName, @struct.Fields);
+            resultFields.AddRange(nestedFields);
+        }
+        else
+        {
+            var structFieldCSharp = StructField(context, field);
+            if (context.Records.TryGetValue(field.TypeInfo.Name, out var record))
+            {
+                resultNestedRecords.Add(record);
+            }
+
+            resultFields.Add(structFieldCSharp);
+        }
     }
 
     private CSharpStructField StructField(

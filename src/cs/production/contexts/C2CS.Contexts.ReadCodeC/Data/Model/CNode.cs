@@ -12,7 +12,7 @@ public abstract record CNode : IComparable<CNode>
     public string Name { get; set; } = string.Empty;
 
     [JsonIgnore]
-    public CKind Kind => GetKind();
+    public CKind Kind => GetKind(this);
 
     public int CompareTo(CNode? other)
     {
@@ -35,7 +35,7 @@ public abstract record CNode : IComparable<CNode>
         return 0;
     }
 
-    private CKind GetKind()
+    private CKind GetKind(CNode node)
     {
         return this switch
         {
@@ -46,7 +46,7 @@ public abstract record CNode : IComparable<CNode>
             CFunctionPointer => CKind.FunctionPointer,
             CFunctionPointerParameter => CKind.FunctionPointerParameter,
             COpaqueType => CKind.OpaqueType,
-            CRecord => CKind.Record,
+            CRecord => ((CRecord)node).RecordKind == CRecordKind.Struct ? CKind.Struct : CKind.Union,
             CTypeAlias => CKind.TypeAlias,
             CVariable => CKind.Variable,
             CMacroObject => CKind.Macro,

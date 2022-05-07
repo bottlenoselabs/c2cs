@@ -12,8 +12,11 @@ public record CAbstractSyntaxTree
     [JsonPropertyName("fileName")]
     public string FileName { get; set; } = string.Empty;
 
-    [JsonPropertyName("platform")]
-    public TargetPlatform Platform { get; set; } = TargetPlatform.Unknown;
+    [JsonPropertyName("platform_requested")]
+    public TargetPlatform PlatformRequested { get; set; } = TargetPlatform.Unknown;
+
+    [JsonPropertyName("platform_actual")]
+    public TargetPlatform PlatformActual { get; set; } = TargetPlatform.Unknown;
 
     [JsonPropertyName("macro_objects")]
     public ImmutableDictionary<string, CMacroObject> MacroObjects { get; set; } = ImmutableDictionary<string, CMacroObject>.Empty;

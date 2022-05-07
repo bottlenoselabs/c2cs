@@ -17,13 +17,16 @@ public sealed partial class ExploreContext
 
     public ImmutableArray<string> UserIncludeDirectories { get; }
 
-    public TargetPlatform TargetPlatform { get; }
+    public TargetPlatform TargetPlatformRequested { get; }
+
+    public TargetPlatform TargetPlatformActual { get; }
 
     public int PointerSize { get; }
 
     public string FilePath { get; }
 
     public ExploreContext(
+        TargetPlatform targetPlatformRequested,
         CXTranslationUnit translationUnit,
         ExplorerOptions options,
         Action<ExploreInfoNode> enqueueVisitNode,
@@ -31,7 +34,8 @@ public sealed partial class ExploreContext
     {
         var targetPlatformInfo = GetTargetPlatform(translationUnit);
         FilePath = GetFilePath(translationUnit);
-        TargetPlatform = targetPlatformInfo.TargetPlatform;
+        TargetPlatformRequested = targetPlatformRequested;
+        TargetPlatformActual = targetPlatformInfo.TargetPlatform;
         PointerSize = targetPlatformInfo.PointerWidth / 8;
         Options = options;
         _enqueueVisitNode = enqueueVisitNode;
@@ -58,7 +62,9 @@ public sealed partial class ExploreContext
 
     private string TypeName(CKind kind, CXType type, string? parentName, int fieldIndex = 0)
     {
-        if (kind == CKind.Macro)
+        if (kind is
+            CKind.Macro or
+            CKind.Function)
         {
             return string.Empty;
         }
@@ -243,7 +249,8 @@ public sealed partial class ExploreContext
             var (underlyingTypeKind, underlyingType) = TypeKind(underlyingTypeCandidate);
             if (underlyingTypeKind is
                 CKind.Enum or
-                CKind.Record or
+                CKind.Struct or
+                CKind.Union or
                 CKind.FunctionPointer)
             {
                 return VisitType(underlyingType, parentInfo);
@@ -332,35 +339,13 @@ public sealed partial class ExploreContext
             case CXTypeKind.CXType_Enum:
                 return (CKind.Enum, cursorType);
             case CXTypeKind.CXType_Record:
-                var sizeOfRecord = clang_Type_getSizeOf(cursorType);
-                return sizeOfRecord == -2 ? (CKind.OpaqueType, cursorType) : (CKind.Record, cursorType);
+                return TypeKindRecord(cursorType, cursor.kind);
             case CXTypeKind.CXType_Typedef:
-                var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
-                if (underlyingType.kind == CXTypeKind.CXType_Pointer)
-                {
-                    return (CKind.TypeAlias, cursorType);
-                }
-
-                var (_, aliasType) = TypeKind(underlyingType);
-                var sizeOfAlias = clang_Type_getSizeOf(aliasType);
-                return sizeOfAlias == -2 ? (CKind.OpaqueType, cursorType) : (CKind.TypeAlias, cursorType);
-
+                return TypeKindTypeAlias(cursor, cursorType);
             case CXTypeKind.CXType_FunctionNoProto or CXTypeKind.CXType_FunctionProto:
                 return (CKind.Function, cursorType);
             case CXTypeKind.CXType_Pointer:
-                var pointeeType = clang_getPointeeType(cursorType);
-                if (pointeeType.kind == CXTypeKind.CXType_Attributed)
-                {
-                    pointeeType = clang_Type_getModifiedType(pointeeType);
-                }
-
-                if (pointeeType.kind is CXTypeKind.CXType_FunctionProto or CXTypeKind.CXType_FunctionNoProto)
-                {
-                    return (CKind.FunctionPointer, pointeeType);
-                }
-
-                return (CKind.Pointer, cursorType);
-
+                return TypeKindPointer(cursorType);
             case CXTypeKind.CXType_Attributed:
                 var modifiedType = clang_Type_getModifiedType(cursorType);
                 return TypeKind(modifiedType);
@@ -377,6 +362,48 @@ public sealed partial class ExploreContext
 
         var up = new UseCaseException($"Unknown type kind '{type.kind}'.");
         throw up;
+    }
+
+    private static (CKind Kind, CXType Type) TypeKindRecord(CXType cursorType, CXCursorKind cursorKind)
+    {
+        var sizeOfRecord = clang_Type_getSizeOf(cursorType);
+        if (sizeOfRecord == -2)
+        {
+            return (CKind.OpaqueType, cursorType);
+        }
+
+        var kind = cursorKind == CXCursorKind.CXCursor_StructDecl ? CKind.Struct : CKind.Union;
+        return (kind, cursorType);
+    }
+
+    private (CKind Kind, CXType Type) TypeKindTypeAlias(CXCursor cursor, CXType cursorType)
+    {
+        var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
+        if (underlyingType.kind == CXTypeKind.CXType_Pointer)
+        {
+            return (CKind.TypeAlias, cursorType);
+        }
+
+        var (_, aliasType) = TypeKind(underlyingType);
+        var sizeOfAlias = clang_Type_getSizeOf(aliasType);
+        var kind = sizeOfAlias == -2 ? CKind.OpaqueType : CKind.TypeAlias;
+        return (kind, cursorType);
+    }
+
+    private static (CKind Kind, CXType Type) TypeKindPointer(CXType cursorType)
+    {
+        var pointeeType = clang_getPointeeType(cursorType);
+        if (pointeeType.kind == CXTypeKind.CXType_Attributed)
+        {
+            pointeeType = clang_Type_getModifiedType(pointeeType);
+        }
+
+        if (pointeeType.kind is CXTypeKind.CXType_FunctionProto or CXTypeKind.CXType_FunctionNoProto)
+        {
+            return (CKind.FunctionPointer, pointeeType);
+        }
+
+        return (CKind.Pointer, cursorType);
     }
 
     private CTypeInfo CreateType(string typeName, CXType type, CXType containerType, CKind kind)
@@ -460,21 +487,10 @@ public sealed partial class ExploreContext
 
     private int SizeOf(CKind kind, CXType type)
     {
-        if (type.kind is CXTypeKind.CXType_FunctionProto or CXTypeKind.CXType_FunctionNoProto)
-        {
-            var up = new UseCaseException("Unexpected kind for size.");
-            throw up;
-        }
-
         var sizeOf = (int)clang_Type_getSizeOf(type);
         if (sizeOf >= 0)
         {
             return sizeOf;
-        }
-
-        if (sizeOf != -2)
-        {
-            throw new UseCaseException("Unexpected size for Clang type. Please submit an issue on GitHub!");
         }
 
         switch (kind)
@@ -486,9 +502,7 @@ public sealed partial class ExploreContext
             case CKind.Array:
                 return PointerSize;
             default:
-                var location = Location(clang_getTypeDeclaration(type), type);
-                throw new UseCaseException(
-                    $"Unexpected case when determining size for Clang type: {location}. Please submit an issue on GitHub!");
+                return sizeOf;
         }
     }
 
@@ -510,6 +524,8 @@ public sealed partial class ExploreContext
         var typeNameActual = TypeName(kind, type, parentInfo?.Name, fieldIndex);
         var nameActual = !string.IsNullOrEmpty(name) ? name : typeNameActual;
         var location = Location(cursor, type);
+        var sizeOf = SizeOf(kind, type);
+        var alignOf = (int)clang_Type_getAlignOf(type);
 
         var result = new ExploreInfoNode
         {
@@ -519,7 +535,9 @@ public sealed partial class ExploreContext
             Type = type,
             Cursor = cursor,
             Location = location,
-            Parent = parentInfo
+            Parent = parentInfo,
+            SizeOf = sizeOf,
+            AlignOf = alignOf
         };
 
         return result;
