@@ -13,4 +13,8 @@
         <ProjectReference Include="$(GitRepositoryPath)/src/cs/production/C2CS.SourceGenerator/C2CS.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
     </ItemGroup>
 
+    <ItemGroup>
+      <EmbeddedResource Include="appsettings.json" />
+    </ItemGroup>
+
 </Project>

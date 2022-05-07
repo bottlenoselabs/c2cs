@@ -2,9 +2,15 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.CommandLine;
 using System.IO.Abstractions;
+using System.Linq;
+using System.Reflection;
 using C2CS.Data.Serialization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -25,8 +31,27 @@ public static class Startup
     public static IHostBuilder BuildHostCommon(this IHostBuilder builder, string[]? args = null)
     {
         return builder
+            .ConfigureAppConfiguration(ConfigureAppConfiguration)
             .ConfigureLogging(ConfigureLogging)
             .ConfigureServices(services => ConfigureServices(services, args));
+    }
+
+    private static void ConfigureAppConfiguration(IConfigurationBuilder builder)
+    {
+        AddDefaultConfiguration(builder);
+    }
+
+    private static void AddDefaultConfiguration(IConfigurationBuilder builder)
+    {
+        var sources = builder.Sources.ToImmutableArray();
+        builder.Sources.Clear();
+        var jsonStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("C2CS.appsettings.json");
+        builder.AddJsonStream(jsonStream);
+
+        foreach (var originalSource in sources)
+        {
+            builder.Add(originalSource);
+        }
     }
 
     private static void ConfigureLogging(HostBuilderContext context, ILoggingBuilder builder)

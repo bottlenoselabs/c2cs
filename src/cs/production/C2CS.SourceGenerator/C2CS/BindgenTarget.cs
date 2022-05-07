@@ -40,6 +40,11 @@ public class BindgenTarget
             result = attribute.WorkingDirectory!;
         }
 
+        if (string.IsNullOrEmpty(result))
+        {
+            result = Environment.CurrentDirectory;
+        }
+
         var info = Directory.CreateDirectory(result);
         return info.Exists ? info.FullName : string.Empty;
     }

@@ -76,7 +76,7 @@ public class BindgenSourceGenerator : ISourceGenerator
     private Terminal.ShellOutput Bindgen(BindgenTarget target)
     {
         var command = $"{_programFilePath} -c {target.ConfigurationFilePath}";
-        var shellOutput = command.ExecuteShell();
+        var shellOutput = command.ExecuteShell(workingDirectory: target.WorkingDirectory);
         File.WriteAllText(target.OutputLogFilePath, shellOutput.Output);
         return shellOutput;
     }
