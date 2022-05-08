@@ -21,37 +21,35 @@ public sealed class MacroExploreHandler : ExploreHandler<CMacroObject>
     {
     }
 
-    public override CMacroObject? Explore(ExploreContext context, ExploreInfoNode info)
+    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
     {
+        if (!context.Options.IsEnabledMacroObjects)
+        {
+            return false;
+        }
+
         if (info.Parent != null)
         {
             LogFailureUnexpectedParent(info.Parent.Name);
-            return null;
+            return false;
         }
 
         if (!IsAllowed(context, info))
         {
-            return null;
+            return false;
         }
 
+        return true;
+    }
+
+    public override CMacroObject Explore(ExploreContext context, ExploreInfoNode info)
+    {
         var macroObject = MacroObject(info);
         return macroObject;
     }
 
     private static bool IsAllowed(ExploreContext context, ExploreInfoNode info)
     {
-        // Function-like macros currently not implemented
-        // https://github.com/lithiumtoast/c2cs/issues/35
-        if (clang_Cursor_isMacroFunctionLike(info.Cursor) > 0)
-        {
-            return false;
-        }
-
-        if (!context.Options.IsEnabledMacroObjects)
-        {
-            return false;
-        }
-
         var name = info.Name;
         // Assume that macros with a name which starts with an underscore are not supposed to be exposed in the public API
         if (name.StartsWith("_", StringComparison.InvariantCulture))
@@ -88,7 +86,7 @@ public sealed class MacroExploreHandler : ExploreHandler<CMacroObject>
         return true;
     }
 
-    private CMacroObject? MacroObject(ExploreInfoNode info)
+    private CMacroObject MacroObject(ExploreInfoNode info)
     {
         // clang doesn't have a thing where we can easily get a value of a macro
         // we need to:
@@ -111,7 +109,12 @@ public sealed class MacroExploreHandler : ExploreHandler<CMacroObject>
             if (macroIsFlag)
             {
                 clang_disposeTokens(translationUnit, tokensC, tokensCount);
-                return null;
+                return new CMacroObject
+                {
+                    Name = info.Name,
+                    Tokens = ImmutableArray<string>.Empty,
+                    Location = info.Location
+                };
             }
 
             tokens = new string[tokensCount - 1];

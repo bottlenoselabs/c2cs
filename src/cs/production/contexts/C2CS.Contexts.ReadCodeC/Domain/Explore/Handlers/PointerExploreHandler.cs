@@ -20,6 +20,11 @@ public sealed class PointerExploreHandler : ExploreHandler<CPointer>
     {
     }
 
+    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
+    {
+        return true;
+    }
+
     public override CPointer Explore(ExploreContext context, ExploreInfoNode info)
     {
         var pointer = Pointer(context, info);

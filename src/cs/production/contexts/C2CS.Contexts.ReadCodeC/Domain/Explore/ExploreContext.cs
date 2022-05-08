@@ -10,8 +10,9 @@ namespace C2CS.Contexts.ReadCodeC.Domain.Explore;
 
 public sealed partial class ExploreContext
 {
-    private readonly Action<ExploreInfoNode> _enqueueVisitNode;
+    private readonly Action<ExploreContext, CKind, ExploreInfoNode> _enqueueVisitNode;
     private readonly HashSet<string> _enqueuedVisitedTypeNames = new();
+    private readonly ImmutableDictionary<string, string> _linkedPaths;
 
     public ExplorerOptions Options { get; }
 
@@ -29,8 +30,9 @@ public sealed partial class ExploreContext
         TargetPlatform targetPlatformRequested,
         CXTranslationUnit translationUnit,
         ExplorerOptions options,
-        Action<ExploreInfoNode> enqueueVisitNode,
-        ImmutableArray<string> userIncludeDirectories)
+        Action<ExploreContext, CKind, ExploreInfoNode> enqueueVisitNode,
+        ImmutableArray<string> userIncludeDirectories,
+        ImmutableDictionary<string, string> linkedPaths)
     {
         var targetPlatformInfo = GetTargetPlatform(translationUnit);
         FilePath = GetFilePath(translationUnit);
@@ -40,6 +42,7 @@ public sealed partial class ExploreContext
         Options = options;
         _enqueueVisitNode = enqueueVisitNode;
         UserIncludeDirectories = userIncludeDirectories;
+        _linkedPaths = linkedPaths;
     }
 
     private static (TargetPlatform TargetPlatform, int PointerWidth) GetTargetPlatform(CXTranslationUnit translationUnit)
@@ -126,6 +129,16 @@ public sealed partial class ExploreContext
         if (string.IsNullOrEmpty(location.FilePath))
         {
             return location;
+        }
+
+        foreach (var (linkedDirectory, targetDirectory) in _linkedPaths)
+        {
+            if (location.FilePath.Contains(linkedDirectory, StringComparison.InvariantCulture))
+            {
+                location.FilePath = location.FilePath
+                    .Replace(linkedDirectory, targetDirectory, StringComparison.InvariantCulture).Trim('/', '\\');
+                break;
+            }
         }
 
         if (!Options.IsEnabledLocationFullPaths)
@@ -243,6 +256,13 @@ public sealed partial class ExploreContext
         var name = cursor.Name();
 
         var visitInfo = CreateVisitInfoNode(kind, name, cursor, type, parentInfo, fieldIndex);
+        if (Options.OpaqueTypesNames.Contains(name))
+        {
+            EnqueueVisitInfoNode(CKind.OpaqueType, cursor, type, visitInfo);
+            var typeInfoOpaque = CreateType(CKind.OpaqueType, visitInfo.TypeName, type, typeCandidate);
+            return typeInfoOpaque;
+        }
+
         if (kind == CKind.TypeAlias)
         {
             var underlyingTypeCandidate = clang_getTypedefDeclUnderlyingType(cursor);
@@ -257,19 +277,19 @@ public sealed partial class ExploreContext
             }
         }
 
-        EnqueueVisitInfoNode(cursor, type, visitInfo);
-        var typeInfo = CreateType(visitInfo.TypeName, type, typeCandidate, kind);
+        EnqueueVisitInfoNode(kind, cursor, type, visitInfo);
+        var typeInfo = CreateType(kind, visitInfo.TypeName, type, typeCandidate);
         return typeInfo;
     }
 
-    private void EnqueueVisitInfoNode(CXCursor cursor, CXType type, ExploreInfoNode exploreInfo)
+    private void EnqueueVisitInfoNode(CKind kind, CXCursor cursor, CXType type, ExploreInfoNode exploreInfo)
     {
         if (!CanEnqueueVisitInfoNode(exploreInfo.TypeName, cursor, type))
         {
             return;
         }
 
-        _enqueueVisitNode(exploreInfo);
+        _enqueueVisitNode(this, kind, exploreInfo);
     }
 
     private bool CanEnqueueVisitInfoNode(string typeName, CXCursor cursor, CXType type)
@@ -406,12 +426,12 @@ public sealed partial class ExploreContext
         return (CKind.Pointer, cursorType);
     }
 
-    private CTypeInfo CreateType(string typeName, CXType type, CXType containerType, CKind kind)
+    private CTypeInfo CreateType(CKind kind, string typeName, CXType type, CXType containerType)
     {
         if (type.kind == CXTypeKind.CXType_Attributed)
         {
             var typeCandidate = clang_Type_getModifiedType(type);
-            return CreateType(typeName, typeCandidate, containerType, kind);
+            return CreateType(kind, typeName, typeCandidate, containerType);
         }
 
         var sizeOf = SizeOf(kind, containerType);
@@ -452,14 +472,14 @@ public sealed partial class ExploreContext
             var pointeeTypeCandidate = clang_getPointeeType(type);
             var (pointeeTypeKind, pointeeType) = TypeKind(pointeeTypeCandidate);
             var pointeeTypeName = pointeeType.Name();
-            innerType = CreateType(pointeeTypeName, pointeeType, pointeeTypeCandidate, pointeeTypeKind);
+            innerType = CreateType(pointeeTypeKind, pointeeTypeName, pointeeType, pointeeTypeCandidate);
         }
         else if (kind is CKind.Array)
         {
             var elementTypeCandidate = clang_getArrayElementType(type);
             var (elementTypeKind, elementType) = TypeKind(elementTypeCandidate);
             var elementTypeName = elementType.Name();
-            innerType = CreateType(elementTypeName, elementType, elementTypeCandidate, elementTypeKind);
+            innerType = CreateType(elementTypeKind, elementTypeName, elementType, elementTypeCandidate);
         }
 
         var cType = new CTypeInfo

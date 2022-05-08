@@ -1,21 +1,29 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System.Collections.Immutable;
 using System.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace C2CS;
 
-public class BindgenSyntaxReceiver : ISyntaxReceiver
+public class BindgenSyntaxReceiver : ISyntaxContextReceiver
 {
 #pragma warning disable CA1002
     public List<BindgenTarget> Targets { get; } = new();
 #pragma warning restore CA1002
 
-    public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
+    public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
     {
-        if (syntaxNode is not ClassDeclarationSyntax @class)
+        var node = context.Node;
+        if (node is not ClassDeclarationSyntax @class)
+        {
+            return;
+        }
+
+        var sourceCodeFilePath = @class.SyntaxTree.FilePath;
+        if (sourceCodeFilePath.EndsWith(".g.cs", StringComparison.InvariantCultureIgnoreCase))
         {
             return;
         }
@@ -26,19 +34,131 @@ public class BindgenSyntaxReceiver : ISyntaxReceiver
             return;
         }
 
-        foreach (var attributeList in @class.AttributeLists)
+        var fullName = context.SemanticModel.GetDeclaredSymbol(node)!.ToDisplayString();
+        var fullNameLastDotIndex = fullName.LastIndexOf('.');
+        var namespaceName = fullName.Substring(0, fullNameLastDotIndex);
+        var className = @class.Identifier.ValueText;
+        var symbol = context.SemanticModel.GetDeclaredSymbol(node);
+        var attributes = symbol!.GetAttributes();
+        var bindgenTargetData = BindgenTarget(attributes);
+        if (bindgenTargetData == null)
         {
-            foreach (var attribute in attributeList.Attributes)
+            return;
+        }
+
+        var bindgenAttribute = bindgenTargetData.Value.Item1;
+        var bindgenAttributes = bindgenTargetData.Value.Item2;
+
+        var workingDirectory = GetWorkingDirectory(sourceCodeFilePath, bindgenAttribute.WorkingDirectory);
+        var headerInputFilePath = GetHeaderInputFilePath(workingDirectory, bindgenAttribute.HeaderInputFile);
+        var configurationFilePath =
+            GetConfigurationFilePath(workingDirectory, className, bindgenAttribute.ConfigurationFileName);
+        var outputLogFilePath = GetOutputLogFilePath(workingDirectory, className, bindgenAttribute.OutputLogFileName);
+
+        var configuration = new BindgenTargetConfiguration
+        {
+            InputFilePath = headerInputFilePath,
+            ClassName = className,
+            LibraryName = bindgenAttribute.LibraryName,
+            NamespaceName = namespaceName,
+            Attributes = bindgenAttributes
+        };
+
+        var target = new BindgenTarget
+        {
+            WorkingDirectory = workingDirectory,
+            ConfigurationFilePath = configurationFilePath,
+            OutputLogFilePath = outputLogFilePath,
+            CSharpInputFilePath = sourceCodeFilePath,
+            Configuration = configuration,
+            AddAsSource = bindgenAttribute.AddAsSource
+        };
+
+        Targets.Add(target);
+    }
+
+    private static string GetWorkingDirectory(string sourceCodeFilePath, string? workingDirectoryCandidate)
+    {
+        string result;
+
+        if (string.IsNullOrEmpty(workingDirectoryCandidate))
+        {
+            result = Path.GetDirectoryName(sourceCodeFilePath) ?? string.Empty;
+        }
+        else
+        {
+            result = workingDirectoryCandidate!;
+        }
+
+        var info = Directory.CreateDirectory(result);
+        return info.Exists ? info.FullName : string.Empty;
+    }
+
+    private static string GetHeaderInputFilePath(string workingDirectory, string file)
+    {
+        var filePath = file;
+        if (!File.Exists(filePath))
+        {
+            filePath = Path.Combine(workingDirectory, file);
+        }
+
+        return filePath;
+    }
+
+    private static string GetConfigurationFilePath(
+        string workingDirectory,
+        string className,
+        string configurationFileName)
+    {
+        var fileName = !string.IsNullOrEmpty(configurationFileName) ?
+            configurationFileName : $"{className}.json";
+        return Path.Combine(workingDirectory, fileName);
+    }
+
+    private static string GetOutputLogFilePath(
+        string workingDirectory,
+        string className,
+        string? outputLogFileName)
+    {
+        var fileName = !string.IsNullOrEmpty(outputLogFileName) ?
+            outputLogFileName : $"{className}.log";
+        return Path.Combine(workingDirectory, fileName);
+    }
+
+    private static (BindgenAttribute, BindgenTargetConfigurationAttributes)? BindgenTarget(
+        ImmutableArray<AttributeData> attributes)
+    {
+        BindgenAttribute? bindgenAttribute = null;
+        var functionAttributes = ImmutableArray.CreateBuilder<BindgenFunctionAttribute>();
+
+        foreach (var attribute in attributes)
+        {
+            var attributeName = attribute.AttributeClass!.Name;
+            switch (attributeName)
             {
-                var attributeName = attribute.Name.ToFullString();
-                if (attributeName == "Bindgen")
+                case nameof(BindgenAttribute):
+                    bindgenAttribute = CreateAttribute<BindgenAttribute>(attribute);
+                    break;
+                case nameof(BindgenFunctionAttribute):
                 {
-                    var bindgenAttribute = CreateAttribute<BindgenAttribute>(attribute);
-                    var target = new BindgenTarget(@class, bindgenAttribute);
-                    Targets.Add(target);
+                    var functionAttribute = CreateAttribute<BindgenFunctionAttribute>(attribute);
+                    functionAttributes.Add(functionAttribute);
+                    break;
                 }
             }
         }
+
+        if (bindgenAttribute == null)
+        {
+            return null;
+        }
+
+        var targetAttributes = new BindgenTargetConfigurationAttributes
+        {
+            Functions = functionAttributes.ToImmutable()
+        };
+
+        return (bindgenAttribute, targetAttributes);
     }
 
     private static bool IsPartial(MemberDeclarationSyntax member)
@@ -56,31 +176,57 @@ public class BindgenSyntaxReceiver : ISyntaxReceiver
         return isPartial;
     }
 
-    private static T CreateAttribute<T>(AttributeSyntax attributeSyntax)
-        where T : Attribute, new()
+    private static T CreateAttribute<T>(AttributeData attribute)
+        where T : Attribute
     {
-        var result = new T();
+        T result;
+        if (attribute.ConstructorArguments.IsDefaultOrEmpty)
+        {
+            result = Activator.CreateInstance<T>();
+        }
+        else
+        {
+            var argumentValues = attribute.ConstructorArguments.Select(x => x.Value);
+            result = (T)Activator.CreateInstance(typeof(T), argumentValues);
+        }
 
-        if (attributeSyntax.ArgumentList == null)
+        if (attribute.NamedArguments.IsDefaultOrEmpty)
         {
             return result;
         }
 
-        foreach (var argument in attributeSyntax.ArgumentList.Arguments)
+        var type = result.GetType();
+        foreach (var argument in attribute.NamedArguments)
         {
-            var propertyParsed = argument.ToFullString().Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-            var propertyName = propertyParsed[0].Trim();
-            var propertyValueRaw = propertyParsed[1].Trim();
-#pragma warning disable IDE0057
-            var propertyValue = propertyValueRaw.Substring(1, propertyValueRaw.Length - 2);
-#pragma warning restore IDE0057
-            var property = result.GetType().GetRuntimeProperty(propertyName);
-            if (property != null)
+            var propertyName = argument.Key;
+            var property = type.GetRuntimeProperty(propertyName);
+            if (property == null)
             {
-                property.SetValue(result, propertyValue);
+                continue;
             }
+
+            var propertyValue = TypedConstantValue(argument.Value);
+            property.SetValue(result, propertyValue);
         }
 
         return result;
+    }
+
+    private static object TypedConstantValue(TypedConstant typedConstant)
+    {
+        if (typedConstant.Kind != TypedConstantKind.Array)
+        {
+            return typedConstant.Value!;
+        }
+
+        var elementType = typedConstant.Values[0].Value!.GetType();
+        var array = Array.CreateInstance(elementType, typedConstant.Values.Length);
+        for (var i = 0; i < typedConstant.Values.Length; i++)
+        {
+            var value = TypedConstantValue(typedConstant.Values[i]);
+            array.SetValue(value, i);
+        }
+
+        return array;
     }
 }

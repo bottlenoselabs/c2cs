@@ -20,31 +20,26 @@ public sealed class VariableExploreHandler : ExploreHandler<CVariable>
 
     protected override ExploreKindTypes ExpectedTypes => ExploreKindTypes.Any;
 
-    public override CVariable? Explore(ExploreContext context, ExploreInfoNode info)
-    {
-        if (info.Parent != null)
-        {
-            LogFailureUnexpectedParent(info.Parent.Name);
-            return null;
-        }
-
-        if (!IsAllowed(context))
-        {
-            return null;
-        }
-
-        var variable = Variable(info);
-        return variable;
-    }
-
-    private static bool IsAllowed(ExploreContext context)
+    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
     {
         if (!context.Options.IsEnabledVariables)
         {
             return false;
         }
 
+        if (info.Parent != null)
+        {
+            LogFailureUnexpectedParent(info.Parent.Name);
+            return false;
+        }
+
         return true;
+    }
+
+    public override CVariable Explore(ExploreContext context, ExploreInfoNode info)
+    {
+        var variable = Variable(info);
+        return variable;
     }
 
     private static CVariable Variable(ExploreInfoNode info)

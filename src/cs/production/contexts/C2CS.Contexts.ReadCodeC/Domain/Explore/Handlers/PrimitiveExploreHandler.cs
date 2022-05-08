@@ -42,6 +42,11 @@ public sealed class PrimitiveExploreHandler : ExploreHandler<CPrimitive>
     {
     }
 
+    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
+    {
+        return true;
+    }
+
     public override CPrimitive Explore(ExploreContext context, ExploreInfoNode info)
     {
         var result = Primitive(context, info);

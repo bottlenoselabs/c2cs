@@ -51,6 +51,7 @@ public sealed partial class Explorer
             { CKind.Union, services.GetService<UnionExploreHandler>()! },
             { CKind.Enum, services.GetService<EnumExploreHandler>()! },
             { CKind.TypeAlias, services.GetService<TypeAliasExploreHandler>()! },
+            { CKind.FunctionPointer, services.GetService<FunctionPointerExploreHandler>()! },
             { CKind.Array, services.GetService<ArrayExploreHandler>()! },
             { CKind.Pointer, services.GetService<PointerExploreHandler>()! },
             { CKind.Primitive, services.GetService<PrimitiveExploreHandler>()! }
@@ -62,12 +63,13 @@ public sealed partial class Explorer
         TargetPlatform targetPlatform,
         ExplorerOptions options,
         ImmutableArray<string> userIncludeDirectories,
-        CXTranslationUnit translationUnit)
+        CXTranslationUnit translationUnit,
+        ImmutableDictionary<string, string> linkedPaths)
     {
         CAbstractSyntaxTree result;
 
         var context = new ExploreContext(
-            targetPlatform, translationUnit, options, EnqueueVisitInfoNode, userIncludeDirectories);
+            targetPlatform, translationUnit, options, EnqueueVisitInfoNode, userIncludeDirectories, linkedPaths);
 
         try
         {
@@ -175,8 +177,8 @@ public sealed partial class Explorer
         while (frontier.Count > 0)
         {
             var node = frontier.PopFront()!;
-            var explored = ExploreNode(context, node);
-            if (explored)
+            var isExplored = ExploreNode(context, node);
+            if (isExplored)
             {
                 exploredCount++;
             }
@@ -185,22 +187,11 @@ public sealed partial class Explorer
         return exploredCount;
     }
 
-    private bool ExploreNode(ExploreContext context, ExploreInfoNode exploreNode)
+    private bool ExploreNode(ExploreContext context, ExploreInfoNode node)
     {
-        var handlerExists = _handlers.TryGetValue(exploreNode.Kind, out var handler);
-        if (!handlerExists || handler == null)
-        {
-            var up = new NotImplementedException($"The handler for kind of '{exploreNode.Kind}' was not found.");
-            throw up;
-        }
-
-        var node = handler.Visit(context, exploreNode);
-        if (node == null)
-        {
-            return false;
-        }
-
-        FoundNode(node);
+        var handler = GetHandler(node.Kind, node);
+        var x = handler.Visit(context, node);
+        FoundNode(x);
         return true;
     }
 
@@ -465,6 +456,35 @@ public sealed partial class Explorer
             return;
         }
 
+        if (kind == CKind.Macro)
+        {
+            // Function-like macros currently not implemented
+            // https://github.com/lithiumtoast/c2cs/issues/35
+            if (clang_Cursor_isMacroFunctionLike(cursor) > 0)
+            {
+                return;
+            }
+
+            if (!context.Options.IsEnabledMacroObjects)
+            {
+                return;
+            }
+        }
+        else if (kind == CKind.Variable)
+        {
+            if (!context.Options.IsEnabledVariables)
+            {
+                return;
+            }
+        }
+        else if (kind == CKind.Function)
+        {
+            if (!context.Options.IsEnabledFunctions)
+            {
+                return;
+            }
+        }
+
         var type = clang_getCursorType(cursor);
 
         if (type.kind == CXTypeKind.CXType_Unexposed)
@@ -489,12 +509,12 @@ public sealed partial class Explorer
         string name = clang_getCString(spelling);
 
         var visitInfo = context.CreateVisitInfoNode(kind, name, cursor, type, null);
-        EnqueueVisitInfoNode(visitInfo);
+        EnqueueVisitInfoNode(context, kind, visitInfo);
     }
 
-    private void EnqueueVisitInfoNode(ExploreInfoNode node)
+    private void EnqueueVisitInfoNode(ExploreContext context, CKind kind, ExploreInfoNode node)
     {
-        var frontier = node.Kind switch
+        var frontier = kind switch
         {
             CKind.Macro => _frontierMacros,
             CKind.Variable => _frontierVariables,
@@ -502,7 +522,13 @@ public sealed partial class Explorer
             _ => _frontierTypes,
         };
 
-        LogEnqueue(node.Kind, node.Name, node.Location);
+        var handler = GetHandler(kind, node);
+        if (!handler.CanVisitInternal(context, node))
+        {
+            return;
+        }
+
+        LogEnqueue(kind, node.Name, node.Location);
 
         frontier.PushBack(node);
     }
@@ -556,6 +582,18 @@ public sealed partial class Explorer
     //             return false;
     //     }
     // }
+
+    private ExploreHandler GetHandler(CKind kind, ExploreInfoNode node)
+    {
+        var handlerExists = _handlers.TryGetValue(kind, out var handler);
+        if (handlerExists && handler != null)
+        {
+            return handler;
+        }
+
+        var up = new NotImplementedException($"The handler for kind of '{node.Kind}' was not found.");
+        throw up;
+    }
 
     private string GetFunctionPointerName(CXCursor cursor, CXType type)
     {

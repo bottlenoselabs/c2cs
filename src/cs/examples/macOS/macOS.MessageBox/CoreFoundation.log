@@ -1,4 +1,25 @@
-2022-07-05 23:10:39 info: C2CS.Data.Serialization.BindgenConfigurationJsonSerializer[0] Configuration load: Success. Path: /Users/lstranks/Programming/c2cs/src/cs/examples/macOS/macOS.MessageBox/CoreFoundation.json.
-2022-07-05 23:10:39 info: C2CS.Contexts.ReadCodeC.UseCase[2] - Use case started
-2022-07-05 23:10:39 fail: C2CS.Contexts.ReadCodeC.UseCase[4] - Use case failed in 0.064 seconds
-2022-07-05 23:10:39 crit: C2CS.Contexts.ReadCodeC.UseCase[8] - Panic The input file can not be null, empty, or whitespace.    at C2CS.Contexts.ReadCodeC.Domain.ReadCodeCValidator.VerifyInputFilePath(String inputFilePath) in /Users/lstranks/Programming/c2cs/src/cs/production/contexts/C2CS.Contexts.ReadCodeC/Domain/ReadCodeCValidator.cs:line 118    at C2CS.Contexts.ReadCodeC.Domain.ReadCodeCValidator.Validate(ReadCodeCConfiguration configuration) in /Users/lstranks/Programming/c2cs/src/cs/production/contexts/C2CS.Contexts.ReadCodeC/Domain/ReadCodeCValidator.cs:line 25    at C2CS.Foundation.UseCases.UseCase`3.Execute(TConfiguration configuration) in /Users/lstranks/Programming/c2cs/src/cs/production/infrastructure/C2CS.Infrastructure.Common/Foundation/UseCases/UseCase.cs:line 51
+2022-08-05 19:54:41 dbug: Microsoft.Extensions.Hosting.Internal.Host[1] Hosting starting
+2022-08-05 19:54:41 info: Microsoft.Hosting.Lifetime[0] Application started. Press Ctrl+C to shut down.
+2022-08-05 19:54:41 info: Microsoft.Hosting.Lifetime[0] Hosting environment: Production
+2022-08-05 19:54:41 info: Microsoft.Hosting.Lifetime[0] Content root path: /Users/lstranks/Programming/c2cs/src/cs/examples/macOS/macOS.MessageBox
+2022-08-05 19:54:41 dbug: Microsoft.Extensions.Hosting.Internal.Host[2] Hosting started
+2022-08-05 19:54:41 info: C2CS.Data.Serialization.BindgenConfigurationJsonSerializer[0] Configuration load: Success. Path: /Users/lstranks/Programming/c2cs/src/cs/examples/macOS/macOS.MessageBox/CoreFoundation.json.
+2022-08-05 19:54:41 info: C2CS.Contexts.ReadCodeC.UseCase[2] - Use case started
+2022-08-05 19:54:41 info: C2CS.Contexts.ReadCodeC.UseCase[3] - Use case success in 0.002 seconds
+2022-08-05 19:54:41 info: C2CS.Data.Serialization.BindgenConfigurationJsonSerializer[0] Configuration load: Success. Path: /Users/lstranks/Programming/c2cs/src/cs/examples/macOS/macOS.MessageBox/CoreFoundation.json.
+2022-08-05 19:54:41 info: C2CS.Contexts.WriteCodeCSharp.UseCase[2] - Use case started
+2022-08-05 19:54:41 info: C2CS.Contexts.WriteCodeCSharp.UseCase[5] => Load - Use case step started
+2022-08-05 19:54:41 info: C2CS.Contexts.WriteCodeCSharp.UseCase[6] => Load - Use case step success in 0.000 seconds
+2022-08-05 19:54:41 info: C2CS.Contexts.WriteCodeCSharp.UseCase[5] => Map platform specific nodes - Use case step started
+2022-08-05 19:54:41 info: C2CS.Contexts.WriteCodeCSharp.UseCase[6] => Map platform specific nodes - Use case step success in 0.137 seconds
+2022-08-05 19:54:41 info: C2CS.Contexts.WriteCodeCSharp.UseCase[5] => Split/flatten platform specific nodes - Use case step started
+2022-08-05 19:54:41 info: C2CS.Contexts.WriteCodeCSharp.UseCase[6] => Split/flatten platform specific nodes - Use case step success in 0.003 seconds
+2022-08-05 19:54:41 info: C2CS.Contexts.WriteCodeCSharp.UseCase[5] => Generate code - Use case step started
+2022-08-05 19:54:43 info: C2CS.Contexts.WriteCodeCSharp.UseCase[6] => Generate code - Use case step success in 1.399 seconds
+2022-08-05 19:54:43 info: C2CS.Contexts.WriteCodeCSharp.UseCase[5] => Write file - Use case step started
+/Users/lstranks/Programming/c2cs/src/cs/examples/macOS/macOS.MessageBox/CoreFoundation.g.cs
+2022-08-05 19:54:43 info: C2CS.Contexts.WriteCodeCSharp.UseCase[6] => Write file - Use case step success in 0.005 seconds
+2022-08-05 19:54:43 info: C2CS.Contexts.WriteCodeCSharp.UseCase[3] - Use case success in 1.708 seconds
+2022-08-05 19:54:43 info: Microsoft.Hosting.Lifetime[0] Application is shutting down...
+2022-08-05 19:54:43 dbug: Microsoft.Extensions.Hosting.Internal.Host[3] Hosting stopping
+2022-08-05 19:54:43 dbug: Microsoft.Extensions.Hosting.Internal.Host[4] Hosting stopped

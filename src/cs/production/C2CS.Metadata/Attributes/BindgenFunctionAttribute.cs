@@ -8,17 +8,7 @@ namespace C2CS;
 [PublicAPI]
 // ReSharper disable once RedundantAttributeUsageProperty
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public sealed class BindgenAttribute : Attribute
+public sealed class BindgenFunctionAttribute : Attribute
 {
-    public string? WorkingDirectory { get; set; }
-
-    public string ConfigurationFileName { get; set; } = string.Empty;
-
-    public string OutputLogFileName { get; set; } = string.Empty;
-
-    public string LibraryName { get; set; } = string.Empty;
-
-    public string HeaderInputFile { get; set; } = string.Empty;
-
-    public bool AddAsSource { get; set; }
+    public string Name { get; set; } = string.Empty;
 }

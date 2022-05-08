@@ -34,6 +34,11 @@ public sealed class FunctionPointerExploreHandler : ExploreHandler<CFunctionPoin
     {
     }
 
+    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
+    {
+        return true;
+    }
+
     public override CFunctionPointer Explore(ExploreContext context, ExploreInfoNode info)
     {
         var functionPointer = FunctionPointer(context, info);

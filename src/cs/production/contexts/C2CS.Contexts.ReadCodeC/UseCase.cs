@@ -32,18 +32,19 @@ public sealed class UseCase : UseCase<
 
         foreach (var options in input.AbstractSyntaxTreesOptionsList)
         {
-            var translationUnit = Parse(
+            var parseResult = Parse(
                 input.InputFilePath,
                 options.TargetPlatform,
                 options.ParseOptions);
 
-            if (!translationUnit.HasValue)
+            if (!parseResult.HasValue)
             {
                 continue;
             }
 
             var abstractSyntaxTreeC = Explore(
-                translationUnit.Value,
+                parseResult.Value.TranslationUnit,
+                parseResult.Value.LinkedPaths,
                 options.TargetPlatform,
                 options.ExplorerOptions,
                 options.ParseOptions.UserIncludeDirectories);
@@ -56,7 +57,7 @@ public sealed class UseCase : UseCase<
         output.AbstractSyntaxTreesOptions = builder.ToImmutable();
     }
 
-    private CXTranslationUnit? Parse(
+    private (CXTranslationUnit TranslationUnit, ImmutableDictionary<string, string> LinkedPaths)? Parse(
         string inputFilePath,
         TargetPlatform targetPlatform,
         ParseOptions options)
@@ -86,14 +87,16 @@ public sealed class UseCase : UseCase<
         var result = parser.Parse(
             Diagnostics, inputFilePath, arguments.Value);
 
+        var linkedPaths = clangArgumentsBuilder.GetLinkedPaths();
         clangArgumentsBuilder.Cleanup();
 
         EndStep();
-        return result;
+        return (result, linkedPaths);
     }
 
     private CAbstractSyntaxTree Explore(
         CXTranslationUnit translationUnit,
+        ImmutableDictionary<string, string> linkedPaths,
         TargetPlatform platform,
         ExplorerOptions options,
         ImmutableArray<string> userIncludeDirectories)
@@ -102,7 +105,7 @@ public sealed class UseCase : UseCase<
 
         var explorer = _services.GetService<Explorer>()!;
         var result = explorer.AbstractSyntaxTree(
-            platform, options, userIncludeDirectories, translationUnit);
+            platform, options, userIncludeDirectories, translationUnit, linkedPaths);
 
         EndStep();
         return result;

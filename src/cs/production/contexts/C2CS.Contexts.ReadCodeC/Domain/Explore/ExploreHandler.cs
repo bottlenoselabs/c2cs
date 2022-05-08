@@ -10,8 +10,8 @@ using static bottlenoselabs.clang;
 public abstract class ExploreHandler<TNode> : ExploreHandler
     where TNode : CNode
 {
-    protected ExploreHandler(ILogger<ExploreHandler<TNode>> logger)
-        : base(logger)
+    protected ExploreHandler(ILogger<ExploreHandler<TNode>> logger, bool logAlreadyExplored = true)
+        : base(logger, logAlreadyExplored)
     {
     }
 }
@@ -20,53 +20,65 @@ public abstract partial class ExploreHandler
 {
     private readonly ILogger<ExploreHandler> _logger;
     private readonly Dictionary<string, CLocation> _visitedNames = new();
+    private readonly bool _logAlreadyExplored;
 
     protected abstract ExploreKindCursors ExpectedCursors { get; }
 
     protected abstract ExploreKindTypes ExpectedTypes { get; }
 
-    protected ExploreHandler(ILogger<ExploreHandler> logger)
+    protected ExploreHandler(ILogger<ExploreHandler> logger, bool logAlreadyExplored = true)
     {
         _logger = logger;
+        _logAlreadyExplored = logAlreadyExplored;
     }
 
-    public CNode? Visit(ExploreContext context, ExploreInfoNode info)
+    public CNode Visit(ExploreContext context, ExploreInfoNode info)
+    {
+        LogExploring(info.Kind, info.Name, info.Location);
+        var result = Explore(context, info);
+        LogSuccess(info.Kind, info.Name, info.Location);
+        return result;
+    }
+
+    internal bool CanVisitInternal(ExploreContext context, ExploreInfoNode info)
     {
         if (!IsExpectedCursor(info))
         {
             LogFailureUnexpectedCursor(info.Cursor.kind);
-            return null;
+            return false;
         }
 
         if (!IsExpectedType(info))
         {
             LogFailureUnexpectedType(info.Type.kind);
-            return null;
+            return false;
+        }
+
+        if (!IsAllowed(context, info))
+        {
+            return false;
         }
 
         if (IsAlreadyVisited(info.Name, info.Location, out var firstLocation))
         {
-            LogAlreadyExplored(info.Kind, info.Name, firstLocation);
-            return null;
+            if (_logAlreadyExplored)
+            {
+                LogAlreadyExplored(info.Kind, info.Name, firstLocation);
+            }
+
+            return false;
         }
 
-        // if (context.Options.OpaqueTypesNames.Contains(name))
-        // {
-        //     OnFoundOpaqueType(context, name, node.Type, location);
-        //     return;
-        // }
-
-        LogExploring(info.Kind, info.Name, info.Location);
-        var result = Explore(context, info);
-        if (result == null)
+        if (!CanVisit(context, info))
         {
             LogIgnored(info.Kind, info.Name, info.Location);
-            return null;
+            return false;
         }
 
-        LogSuccess(info.Kind, info.Name, info.Location);
-        return result;
+        return true;
     }
+
+    protected abstract bool CanVisit(ExploreContext context, ExploreInfoNode info);
 
     private bool IsExpectedCursor(ExploreInfoNode info)
     {
@@ -89,7 +101,7 @@ public abstract partial class ExploreHandler
         return false;
     }
 
-    private bool IsAlreadyVisited(string name, CLocation location, out CLocation firstLocation)
+    protected bool IsAlreadyVisited(string name, CLocation location, out CLocation firstLocation)
     {
         var result = _visitedNames.TryGetValue(name, out firstLocation);
         if (!result)
@@ -100,7 +112,17 @@ public abstract partial class ExploreHandler
         return result;
     }
 
-    public abstract CNode? Explore(ExploreContext context, ExploreInfoNode info);
+    private static bool IsAllowed(ExploreContext context, ExploreInfoNode info)
+    {
+        if (!context.Options.IsEnabledAllowNamesWithPrefixedUnderscore)
+        {
+            return !info.Name.StartsWith("_", StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        return true;
+    }
+
+    public abstract CNode Explore(ExploreContext context, ExploreInfoNode info);
 
     [LoggerMessage(0, LogLevel.Error, "- Unexpected cursor kind '{Kind}'")]
     private partial void LogFailureUnexpectedCursor(CXCursorKind kind);

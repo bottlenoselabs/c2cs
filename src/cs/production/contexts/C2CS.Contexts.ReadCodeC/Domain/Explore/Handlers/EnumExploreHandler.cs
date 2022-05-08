@@ -21,6 +21,11 @@ public sealed class EnumExploreHandler : ExploreHandler<CEnum>
     {
     }
 
+    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
+    {
+        return true;
+    }
+
     public override CEnum Explore(ExploreContext context, ExploreInfoNode info)
     {
         var @enum = Enum(context, info);

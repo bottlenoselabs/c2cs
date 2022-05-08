@@ -5,8 +5,6 @@ using System;
 using System.CommandLine;
 using System.IO;
 using System.Text.Json;
-using C2CS.Contexts.ReadCodeC;
-using C2CS.Contexts.WriteCodeCSharp;
 using C2CS.Data.Serialization;
 using Json.Schema;
 using Json.Schema.Generation;

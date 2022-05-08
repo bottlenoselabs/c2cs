@@ -2,10 +2,10 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace C2CS;
 
@@ -28,56 +28,68 @@ public class BindgenSourceGenerator : ISourceGenerator
             return;
         }
 
-        TargetsGenerateCode(context, targets.Value);
+        GenerateCodeTargets(context, targets.Value);
     }
 
-    private void TargetsGenerateCode(
+    private void GenerateCodeTargets(
         GeneratorExecutionContext context, ImmutableArray<BindgenTarget> targets)
     {
         foreach (var target in targets)
         {
-            TargetGenerateCode(context, target);
+            GenerateCodeTarget(context, target);
         }
     }
 
-    private void TargetGenerateCode(
+    private void GenerateCodeTarget(
         GeneratorExecutionContext context, BindgenTarget target)
     {
-        var configuration = CreateConfiguration(target);
+        var className = target.Configuration.ClassName;
+
+        var outputFileName = Path.GetFileNameWithoutExtension(target.CSharpInputFilePath) + ".g.cs";
+        var sourceCodeDirectoryPath = target.AddAsSource ? GetTemporaryAppDirectory() : Path.GetDirectoryName(target.CSharpInputFilePath)!;
+        var outputFilePath = Path.Combine(sourceCodeDirectoryPath, outputFileName);
+
+        var configuration = CreateConfiguration(target.WorkingDirectory, outputFilePath, target.Configuration);
         WriteConfiguration(target.ConfigurationFilePath, configuration);
-        var shellOutput = Bindgen(target);
+
+        var shellOutput = Bindgen(target.WorkingDirectory, target.ConfigurationFilePath, target.OutputLogFilePath);
         if (shellOutput.ExitCode != 0)
         {
             context.ReportDiagnostic(Diagnostic.Create(
                 Diagnostics.BindgenFailed,
                 Location.None,
-                target.ClassName,
+                className,
                 target.ConfigurationFilePath,
                 target.OutputLogFilePath));
             return;
         }
 
         var sourceCodeFilePath = configuration.WriteCSharpCode?.OutputFilePath;
-        if (string.IsNullOrEmpty(sourceCodeFilePath))
+        var sourceCodeFileInfo = new FileInfo(sourceCodeFilePath!);
+        if (!sourceCodeFileInfo.Exists)
         {
             context.ReportDiagnostic(Diagnostic.Create(
                 Diagnostics.BindgenNoSourceCode,
                 Location.None,
-                target.ClassName,
+                className,
                 target.ConfigurationFilePath,
                 target.OutputLogFilePath));
             return;
         }
 
-        var sourceCode = File.ReadAllText(sourceCodeFilePath);
-        context.AddSource(target.ClassName + ".g.cs", sourceCode);
+        if (target.AddAsSource)
+        {
+            var sourceCode = File.ReadAllText(sourceCodeFileInfo.FullName);
+            var fileName = Path.GetFileName(sourceCodeFileInfo.FullName);
+            context.AddSource(fileName, sourceCode);
+        }
     }
 
-    private Terminal.ShellOutput Bindgen(BindgenTarget target)
+    private Terminal.ShellOutput Bindgen(string workingDirectory, string configurationFilePath, string outputLogFilePath)
     {
-        var command = $"{_programFilePath} -c {target.ConfigurationFilePath}";
-        var shellOutput = command.ExecuteShell(workingDirectory: target.WorkingDirectory);
-        File.WriteAllText(target.OutputLogFilePath, shellOutput.Output);
+        var command = $"-c {configurationFilePath}";
+        var shellOutput = command.ExecuteShell(workingDirectory, _programFilePath);
+        File.WriteAllText(outputLogFilePath, shellOutput.Output);
         return shellOutput;
     }
 
@@ -94,7 +106,7 @@ public class BindgenSourceGenerator : ISourceGenerator
 
     private ImmutableArray<BindgenTarget>? Targets(GeneratorExecutionContext context)
     {
-        if (context.SyntaxReceiver is not BindgenSyntaxReceiver bindgenSyntaxReceiver)
+        if (context.SyntaxContextReceiver is not BindgenSyntaxReceiver bindgenSyntaxReceiver)
         {
             return null;
         }
@@ -112,19 +124,48 @@ public class BindgenSourceGenerator : ISourceGenerator
         return bindgenSyntaxReceiver.Targets.ToImmutableArray();
     }
 
-    private BindgenConfiguration CreateConfiguration(BindgenTarget target)
+    private static BindgenConfiguration CreateConfiguration(
+        string workingDirectory, string outputFilePath, BindgenTargetConfiguration configuration)
     {
+        var configurationPlatforms = new Dictionary<string, ReadCCodeConfigurationPlatform?>();
+
+        var read = new ReadCodeCConfiguration
+        {
+            WorkingDirectory = workingDirectory,
+            InputFilePath = configuration.InputFilePath,
+            ConfigurationPlatforms = configurationPlatforms
+        };
+
+        var write = new WriteCodeCSharpConfiguration
+        {
+            WorkingDirectory = workingDirectory,
+            LibraryName = configuration.LibraryName,
+            ClassName = configuration.ClassName,
+            NamespaceName = configuration.NamespaceName,
+            OutputFilePath = outputFilePath
+        };
+
         var result = new BindgenConfiguration
         {
-            ReadCCode = new ReadCodeCConfiguration
-            {
-                WorkingDirectory = target.WorkingDirectory
-            },
-            WriteCSharpCode = new WriteCodeCSharpConfiguration
-            {
-                WorkingDirectory = target.WorkingDirectory
-            }
+            ReadCCode = read,
+            WriteCSharpCode = write
         };
+
+        var functionNamesAllowed = ImmutableArray.CreateBuilder<string?>();
+        foreach (var functionAttribute in configuration.Attributes.Functions)
+        {
+            // var exists = configurationPlatforms.TryGetValue(functionAttribute.TargetPlatform, out var configurationPlatform);
+            // if (!exists)
+            // {
+            //     configurationPlatform = new ReadCCodeConfigurationPlatform();
+            //     configurationPlatforms.Add(functionAttribute.TargetPlatform, configurationPlatform);
+            // }
+
+            functionNamesAllowed.Add(functionAttribute.Name);
+        }
+
+        read.FunctionNamesAllowed = functionNamesAllowed.ToImmutable();
+
         return result;
     }
 
@@ -165,5 +206,17 @@ public class BindgenSourceGenerator : ISourceGenerator
         //     var (output, _) = "command -v c2cs".ShellCaptureOutput();
         //     return output;
         // }
+    }
+
+    private string GetTemporaryAppDirectory()
+    {
+        var directoryName = Assembly.GetEntryAssembly()!.GetName().Name;
+        var temporaryPath = Path.Combine(Path.GetTempPath(), directoryName);
+        if (!Directory.Exists(temporaryPath))
+        {
+            Directory.CreateDirectory(temporaryPath);
+        }
+
+        return temporaryPath;
     }
 }

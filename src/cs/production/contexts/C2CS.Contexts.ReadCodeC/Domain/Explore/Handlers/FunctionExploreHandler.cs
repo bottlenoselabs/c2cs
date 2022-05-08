@@ -12,45 +12,42 @@ namespace C2CS.Contexts.ReadCodeC.Domain.Explore.Handlers;
 [UsedImplicitly]
 public sealed class FunctionExploreHandler : ExploreHandler<CFunction>
 {
-    // NOTE: Function visiting by name.
-    //  When a header file contains the declaration of the function, it may later be implemented in the same header
-    //  file or another header file. When this happens there will be two function declaration cursors with the same
-    //  name even if they have the same type signature (result type and parameter types).
-
     protected override ExploreKindCursors ExpectedCursors { get; } = ExploreKindCursors.Is(CXCursorKind.CXCursor_FunctionDecl);
 
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Either(
         CXTypeKind.CXType_FunctionProto, CXTypeKind.CXType_FunctionNoProto);
 
     public FunctionExploreHandler(ILogger<FunctionExploreHandler> logger)
-        : base(logger)
+        : base(logger, false)
     {
+        // NOTE: Function visiting by name.
+        //  When a header file contains the declaration of the function, it may later be implemented in the same header
+        //  file or another header file. When this happens there will be two function declaration cursors with the same
+        //  name even if they have the same type signature (result type and parameter types).
+        //  For this reason, do not log if already visited.
     }
 
-    private static bool IsAllowed(ExploreContext context, ExploreInfoNode info)
+    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
     {
         if (!context.Options.IsEnabledFunctions)
         {
             return false;
         }
 
-        return context.Options.FunctionNamesAllowed.IsDefaultOrEmpty ||
-               context.Options.FunctionNamesAllowed.Contains(info.Name);
-    }
-
-    public override CFunction? Explore(ExploreContext context, ExploreInfoNode info)
-    {
         if (info.Parent != null)
         {
             LogFailureUnexpectedParent(info.Parent.Name);
-            return null;
+            return false;
         }
 
-        if (!IsAllowed(context, info))
-        {
-            return null;
-        }
+        var functionNamesAllowed = context.Options.FunctionNamesAllowed;
+        var isAllowedName = !functionNamesAllowed.IsDefaultOrEmpty &&
+                            functionNamesAllowed.Contains(info.Name);
+        return isAllowedName;
+    }
 
+    public override CFunction Explore(ExploreContext context, ExploreInfoNode info)
+    {
         var function = Function(context, info);
         return function;
     }

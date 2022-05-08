@@ -42,6 +42,17 @@ public class ClangArgumentsBuilder
         return args.ToImmutable();
     }
 
+    public ImmutableDictionary<string, string> GetLinkedPaths()
+    {
+        var builder = ImmutableDictionary.CreateBuilder<string, string>();
+        foreach (var linkPath in _temporaryLinkPaths)
+        {
+            builder.Add(linkPath.FullName, linkPath.LinkTarget!);
+        }
+
+        return builder.ToImmutable();
+    }
+
     public void Cleanup()
     {
         foreach (var linkPath in _temporaryLinkPaths)

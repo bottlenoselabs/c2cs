@@ -19,6 +19,11 @@ public sealed class ArrayExploreHandler : ExploreHandler<CArray>
     {
     }
 
+    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
+    {
+        return true;
+    }
+
     public override CArray Explore(ExploreContext context, ExploreInfoNode info)
     {
         var array = Array(context, info);

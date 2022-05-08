@@ -19,6 +19,11 @@ public sealed class OpaqueTypeExploreHandler : ExploreHandler<COpaqueType>
     {
     }
 
+    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
+    {
+        return true;
+    }
+
     public override COpaqueType Explore(ExploreContext context, ExploreInfoNode info)
     {
         var opaqueDataType = OpaqueDataType(info);

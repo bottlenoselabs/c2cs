@@ -20,7 +20,12 @@ public class TypeAliasExploreHandler : ExploreHandler<CTypeAlias>
     {
     }
 
-    public override CTypeAlias? Explore(ExploreContext context, ExploreInfoNode info)
+    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
+    {
+        return true;
+    }
+
+    public override CTypeAlias Explore(ExploreContext context, ExploreInfoNode info)
     {
         var typeAlias = TypeAlias(context, info);
         return typeAlias;

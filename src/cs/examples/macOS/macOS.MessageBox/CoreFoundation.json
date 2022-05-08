@@ -1,4 +1,15 @@
 {
-  "ast": {},
-  "cs": {}
+  "ast": {
+    "input_file": "/Users/lstranks/Programming/c2cs/src/cs/examples/macOS/macOS.MessageBox/header.h",
+    "functions_allowed": [
+      "CFUserNotificationDisplayAlert"
+    ],
+    "platforms": {}
+  },
+  "cs": {
+    "output_file": "/Users/lstranks/Programming/c2cs/src/cs/examples/macOS/macOS.MessageBox/CoreFoundation.g.cs",
+    "library_name": "",
+    "namespace_name": "macOS.MessageBox",
+    "class_name": "CoreFoundation"
+  }
 }

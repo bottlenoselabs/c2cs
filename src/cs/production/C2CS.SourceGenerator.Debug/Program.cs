@@ -22,7 +22,7 @@ public static class Program
         foreach (var sourceCodeFilePath in result.SourceFiles)
         {
             var sourceCode = File.ReadAllText(sourceCodeFilePath);
-            var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
+            var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode, path: sourceCodeFilePath);
             syntaxTrees.Add(syntaxTree);
         }
 
@@ -42,6 +42,11 @@ public static class Program
 
         driver.RunGeneratorsAndUpdateCompilation(
             compilation, out var outputCompilation, out var diagnostics);
+
+        foreach (var diagnostic in diagnostics)
+        {
+            Console.Write(diagnostic);
+        }
 
         return 0;
     }

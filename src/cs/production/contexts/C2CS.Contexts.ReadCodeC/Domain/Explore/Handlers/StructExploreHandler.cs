@@ -19,6 +19,11 @@ public sealed class StructExploreHandler : RecordExploreHandler
     {
     }
 
+    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
+    {
+        return true;
+    }
+
     public override CRecord Explore(ExploreContext context, ExploreInfoNode info)
     {
         var @struct = Struct(context, info);

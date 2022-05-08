@@ -5,7 +5,8 @@ using C2CS;
 
 namespace macOS.MessageBox;
 
-[Bindgen]
+[Bindgen(HeaderInputFile = "header.h", AddAsSource = false)]
+[BindgenFunction(Name = "CFUserNotificationDisplayAlert")]
 public partial class CoreFoundation
 {
 }
