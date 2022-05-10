@@ -5,6 +5,7 @@ using System;
 using System.IO.Abstractions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using C2CS.Contexts.WriteCodeCSharp.Data;
 using C2CS.Foundation.Data.Serialization;
 using Microsoft.Extensions.Logging;
 

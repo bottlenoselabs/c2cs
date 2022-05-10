@@ -7,5 +7,7 @@ namespace C2CS;
 
 public class BindgenTargetConfigurationAttributes
 {
+    public ImmutableArray<BindgenTargetPlatformAttribute> TargetPlatforms { get; set; } = ImmutableArray<BindgenTargetPlatformAttribute>.Empty;
+
     public ImmutableArray<BindgenFunctionAttribute> Functions { get; set; } = ImmutableArray<BindgenFunctionAttribute>.Empty;
 }

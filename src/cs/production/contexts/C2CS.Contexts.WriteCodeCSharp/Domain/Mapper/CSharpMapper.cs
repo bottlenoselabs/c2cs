@@ -846,7 +846,7 @@ var x = {value};
         CSharpMapperContext context,
         CTypeInfo typeInfo)
     {
-        if (typeInfo.Kind == CKind.FunctionPointer)
+        if (typeInfo!.Kind == CKind.FunctionPointer)
         {
             var functionPointer = context.FunctionPointers[typeInfo.Name];
             return TypeNameCSharpFunctionPointer(context, typeInfo.Name, functionPointer);
@@ -964,7 +964,12 @@ var x = {value};
             return "void" + pointersTypeName;
         }
 
-        var mappedElementTypeName = TypeNameCSharpRaw(elementTypeName, innerTypeInfo.SizeOf);
+        if (innerTypeInfo == null)
+        {
+            Console.WriteLine();
+        }
+
+        var mappedElementTypeName = TypeNameCSharpRaw(elementTypeName, innerTypeInfo!.SizeOf);
         var result = mappedElementTypeName + pointersTypeName;
         return result;
     }

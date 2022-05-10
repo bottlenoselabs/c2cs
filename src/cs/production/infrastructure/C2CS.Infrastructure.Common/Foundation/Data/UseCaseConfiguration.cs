@@ -3,12 +3,12 @@
 
 using System.Text.Json.Serialization;
 
-namespace C2CS;
+namespace C2CS.Foundation.Data;
 
 /// <summary>
 ///     Represents un-sanitized input for execution of a use case.
 /// </summary>
-public class BaseConfiguration
+public class UseCaseConfiguration
 {
     /// <summary>
     ///     The working directory to use. Default is <c>null</c>. If <c>null</c>, the current directory is used.

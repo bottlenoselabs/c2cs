@@ -2,13 +2,27 @@
   "ast": {
     "input_file": "/Users/lstranks/Programming/c2cs/src/cs/examples/macOS/macOS.MessageBox/header.h",
     "functions_allowed": [
-      "CFUserNotificationDisplayAlert"
+      "CFUserNotificationDisplayAlert",
+      "CFStringCreateWithCString",
+      "CFRelease"
     ],
-    "platforms": {}
+    "is_enabled_system_declarations": true,
+    "platforms": {
+      "aarch64-apple-darwin": {
+        "frameworks": [
+          "CoreFoundation"
+        ]
+      },
+      "x86_64-apple-darwin": {
+        "frameworks": [
+          "CoreFoundation"
+        ]
+      }
+    }
   },
   "cs": {
     "output_file": "/Users/lstranks/Programming/c2cs/src/cs/examples/macOS/macOS.MessageBox/CoreFoundation.g.cs",
-    "library_name": "",
+    "library_name": "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
     "namespace_name": "macOS.MessageBox",
     "class_name": "CoreFoundation"
   }

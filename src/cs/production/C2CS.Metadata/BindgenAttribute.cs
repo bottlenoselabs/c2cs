@@ -21,4 +21,6 @@ public sealed class BindgenAttribute : Attribute
     public string HeaderInputFile { get; set; } = string.Empty;
 
     public bool AddAsSource { get; set; }
+
+    public bool IsEnabledSystemDeclarations { get; set; }
 }

@@ -21,20 +21,14 @@ public sealed class MacroExploreHandler : ExploreHandler<CMacroObject>
     {
     }
 
-    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
+    protected override bool CanVisit(ExploreContext context, string name)
     {
         if (!context.Options.IsEnabledMacroObjects)
         {
             return false;
         }
 
-        if (info.Parent != null)
-        {
-            LogFailureUnexpectedParent(info.Parent.Name);
-            return false;
-        }
-
-        if (!IsAllowed(context, info))
+        if (!IsAllowed(name))
         {
             return false;
         }
@@ -48,9 +42,8 @@ public sealed class MacroExploreHandler : ExploreHandler<CMacroObject>
         return macroObject;
     }
 
-    private static bool IsAllowed(ExploreContext context, ExploreInfoNode info)
+    private static bool IsAllowed(string name)
     {
-        var name = info.Name;
         // Assume that macros with a name which starts with an underscore are not supposed to be exposed in the public API
         if (name.StartsWith("_", StringComparison.InvariantCulture))
         {

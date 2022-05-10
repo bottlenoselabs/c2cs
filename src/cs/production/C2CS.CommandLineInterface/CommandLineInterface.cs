@@ -5,6 +5,7 @@ using System;
 using System.CommandLine;
 using System.IO;
 using System.Text.Json;
+using C2CS.Data;
 using C2CS.Data.Serialization;
 using Json.Schema;
 using Json.Schema.Generation;

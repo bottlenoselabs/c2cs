@@ -3,6 +3,7 @@
 
 using System.Collections.Immutable;
 using System.Text.Json.Serialization;
+using C2CS.Foundation.Data;
 using JetBrains.Annotations;
 
 namespace C2CS;
@@ -11,7 +12,7 @@ namespace C2CS;
 // NOTE: This class is considered un-sanitized input; all strings and other types could be null.
 // NOTE: This class must have a unique name across namespaces for usage in System.Text.Json source generators.
 [PublicAPI]
-public sealed class ReadCodeCConfiguration : BaseConfiguration
+public sealed class ReadCodeCConfiguration : UseCaseConfiguration
 {
     [JsonPropertyName("output_file_directory")]
     [Json.Schema.Generation.Description("Path of the output abstract syntax tree directory. The directory will contain one or more generated abstract syntax tree `.json` files which each have a file name of the target platform.")]
@@ -42,7 +43,7 @@ public sealed class ReadCodeCConfiguration : BaseConfiguration
     public bool? IsEnabledLocationFullPaths { get; set; }
 
     [JsonPropertyName("is_enabled_macro_objects")]
-    [Json.Schema.Generation.Description("Determines whether to include or exclude macro objects. Use `true` or omit this property to include macro objects. Use `false` to exclude macro objects.")]
+    [Json.Schema.Generation.Description("Determines whether to include or exclude macro objects. Use `true` to include macro objects. Use `false` or omit this property to exclude macro objects.")]
     public bool? IsEnabledMacroObjects { get; set; }
 
     [JsonPropertyName("is_enabled_functions")]
@@ -72,7 +73,7 @@ public sealed class ReadCodeCConfiguration : BaseConfiguration
     [JsonPropertyName("platforms")]
     [Json.Schema.Generation.Description("The target platform configurations for extracting the abstract syntax trees. Each target platform is a Clang target triple. See the C2CS docs for more details about what target platforms are available.")]
 #pragma warning disable CA2227
-    public Dictionary<string, ReadCCodeConfigurationPlatform?>? ConfigurationPlatforms { get; set; }
+    public Dictionary<string, ReadCodeCConfigurationPlatform?>? ConfigurationPlatforms { get; set; }
 #pragma warning restore CA2227
 
     [Json.Schema.Generation.Description("Names of libraries and/or interfaces for macOS, iOS, tvOS or watchOS.")]

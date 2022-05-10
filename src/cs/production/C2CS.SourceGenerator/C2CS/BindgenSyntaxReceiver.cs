@@ -61,7 +61,8 @@ public class BindgenSyntaxReceiver : ISyntaxContextReceiver
             ClassName = className,
             LibraryName = bindgenAttribute.LibraryName,
             NamespaceName = namespaceName,
-            Attributes = bindgenAttributes
+            Attributes = bindgenAttributes,
+            IsEnabledSystemDeclarations = bindgenAttribute.IsEnabledSystemDeclarations
         };
 
         var target = new BindgenTarget
@@ -129,6 +130,7 @@ public class BindgenSyntaxReceiver : ISyntaxContextReceiver
         ImmutableArray<AttributeData> attributes)
     {
         BindgenAttribute? bindgenAttribute = null;
+        var targetPlatformAttributes = ImmutableArray.CreateBuilder<BindgenTargetPlatformAttribute>();
         var functionAttributes = ImmutableArray.CreateBuilder<BindgenFunctionAttribute>();
 
         foreach (var attribute in attributes)
@@ -138,6 +140,10 @@ public class BindgenSyntaxReceiver : ISyntaxContextReceiver
             {
                 case nameof(BindgenAttribute):
                     bindgenAttribute = CreateAttribute<BindgenAttribute>(attribute);
+                    break;
+                case nameof(BindgenTargetPlatformAttribute):
+                    var targetPlatformAttribute = CreateAttribute<BindgenTargetPlatformAttribute>(attribute);
+                    targetPlatformAttributes.Add(targetPlatformAttribute);
                     break;
                 case nameof(BindgenFunctionAttribute):
                 {
@@ -155,6 +161,7 @@ public class BindgenSyntaxReceiver : ISyntaxContextReceiver
 
         var targetAttributes = new BindgenTargetConfigurationAttributes
         {
+            TargetPlatforms = targetPlatformAttributes.ToImmutable(),
             Functions = functionAttributes.ToImmutable()
         };
 

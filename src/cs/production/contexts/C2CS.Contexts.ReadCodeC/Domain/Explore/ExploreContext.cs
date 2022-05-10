@@ -10,8 +10,8 @@ namespace C2CS.Contexts.ReadCodeC.Domain.Explore;
 
 public sealed partial class ExploreContext
 {
-    private readonly Action<ExploreContext, CKind, ExploreInfoNode> _enqueueVisitNode;
-    private readonly HashSet<string> _enqueuedVisitedTypeNames = new();
+    private readonly ImmutableDictionary<CKind, ExploreHandler> _handlers;
+    private readonly Action<ExploreContext, CKind, ExploreInfoNode> _tryEnqueueVisitNode;
     private readonly ImmutableDictionary<string, string> _linkedPaths;
 
     public ExplorerOptions Options { get; }
@@ -27,10 +27,11 @@ public sealed partial class ExploreContext
     public string FilePath { get; }
 
     public ExploreContext(
+        ImmutableDictionary<CKind, ExploreHandler> handlers,
         TargetPlatform targetPlatformRequested,
         CXTranslationUnit translationUnit,
         ExplorerOptions options,
-        Action<ExploreContext, CKind, ExploreInfoNode> enqueueVisitNode,
+        Action<ExploreContext, CKind, ExploreInfoNode> tryEnqueueVisitNode,
         ImmutableArray<string> userIncludeDirectories,
         ImmutableDictionary<string, string> linkedPaths)
     {
@@ -40,9 +41,10 @@ public sealed partial class ExploreContext
         TargetPlatformActual = targetPlatformInfo.TargetPlatform;
         PointerSize = targetPlatformInfo.PointerWidth / 8;
         Options = options;
-        _enqueueVisitNode = enqueueVisitNode;
+        _tryEnqueueVisitNode = tryEnqueueVisitNode;
         UserIncludeDirectories = userIncludeDirectories;
         _linkedPaths = linkedPaths;
+        _handlers = handlers;
     }
 
     private static (TargetPlatform TargetPlatform, int PointerWidth) GetTargetPlatform(CXTranslationUnit translationUnit)
@@ -249,17 +251,33 @@ public sealed partial class ExploreContext
         };
     }
 
-    public CTypeInfo VisitType(CXType typeCandidate, ExploreInfoNode? parentInfo, int fieldIndex = 0)
+    public CTypeInfo? VisitType(CXType typeCandidate, ExploreInfoNode? parentInfo, int fieldIndex = 0)
     {
         var (kind, type) = TypeKind(typeCandidate);
         var cursor = clang_getTypeDeclaration(type);
         var name = cursor.Name();
 
-        var visitInfo = CreateVisitInfoNode(kind, name, cursor, type, parentInfo, fieldIndex);
+        var info = CreateVisitInfoNode(kind, name, cursor, type, parentInfo, fieldIndex);
+        var handler = GetHandler(kind);
+        if (handler.IsBlocked(this, info.TypeName, info.Cursor))
+        {
+            if (info.Parent == null)
+            {
+                return null;
+            }
+
+            if (info.Parent.Kind == CKind.TypeAlias && info.Kind == CKind.Pointer)
+            {
+                return CTypeInfo.VoidPointer(PointerSize);
+            }
+
+            return null;
+        }
+
         if (Options.OpaqueTypesNames.Contains(name))
         {
-            EnqueueVisitInfoNode(CKind.OpaqueType, cursor, type, visitInfo);
-            var typeInfoOpaque = CreateType(CKind.OpaqueType, visitInfo.TypeName, type, typeCandidate);
+            TryEnqueueVisitInfoNode(CKind.OpaqueType, info);
+            var typeInfoOpaque = CreateTypeInfo(CKind.OpaqueType, info.TypeName, type, typeCandidate);
             return typeInfoOpaque;
         }
 
@@ -271,78 +289,24 @@ public sealed partial class ExploreContext
                 CKind.Enum or
                 CKind.Struct or
                 CKind.Union or
-                CKind.FunctionPointer)
+                CKind.FunctionPointer or
+                CKind.Pointer)
             {
-                return VisitType(underlyingType, parentInfo);
+                TryEnqueueVisitInfoNode(kind, info);
+                var underlyingTypeInfo = VisitType(underlyingType, info)!;
+                var typeAliasTypeInfo = CreateTypeInfoTypeAlias(info.TypeName, underlyingTypeInfo);
+                return typeAliasTypeInfo;
             }
         }
 
-        EnqueueVisitInfoNode(kind, cursor, type, visitInfo);
-        var typeInfo = CreateType(kind, visitInfo.TypeName, type, typeCandidate);
+        TryEnqueueVisitInfoNode(kind, info);
+        var typeInfo = CreateTypeInfo(kind, info.TypeName, type, typeCandidate);
         return typeInfo;
     }
 
-    private void EnqueueVisitInfoNode(CKind kind, CXCursor cursor, CXType type, ExploreInfoNode exploreInfo)
+    private void TryEnqueueVisitInfoNode(CKind kind, ExploreInfoNode exploreInfo)
     {
-        if (!CanEnqueueVisitInfoNode(exploreInfo.TypeName, cursor, type))
-        {
-            return;
-        }
-
-        _enqueueVisitNode(this, kind, exploreInfo);
-    }
-
-    private bool CanEnqueueVisitInfoNode(string typeName, CXCursor cursor, CXType type)
-    {
-        if (_enqueuedVisitedTypeNames.Contains(typeName))
-        {
-            return false;
-        }
-
-        _enqueuedVisitedTypeNames.Add(typeName);
-
-        switch (type.kind)
-        {
-            case CXTypeKind.CXType_Pointer:
-                return CanEnqueueVisitInfoNodePointer(type);
-            case CXTypeKind.CXType_ConstantArray or CXTypeKind.CXType_IncompleteArray:
-                return CanEnqueueVisitInfoNodeArray(type);
-        }
-
-        if (!Options.IsEnabledSystemDeclarations)
-        {
-            var cursorLocation = clang_getCursorLocation(cursor);
-            var isSystemCursor = clang_Location_isInSystemHeader(cursorLocation) > 0;
-            return !isSystemCursor;
-        }
-
-        return true;
-    }
-
-    private bool CanEnqueueVisitInfoNodeArray(CXType type)
-    {
-        var elementType = clang_getElementType(type);
-        var cursor = clang_getTypeDeclaration(elementType);
-        if (cursor.kind == CXCursorKind.CXCursor_NoDeclFound)
-        {
-            return true;
-        }
-
-        var typeName = type.Name();
-        return CanEnqueueVisitInfoNode(typeName, cursor, elementType);
-    }
-
-    private bool CanEnqueueVisitInfoNodePointer(CXType type)
-    {
-        var pointeeType = clang_getPointeeType(type);
-        var cursor = clang_getTypeDeclaration(pointeeType);
-        if (cursor.kind == CXCursorKind.CXCursor_NoDeclFound)
-        {
-            return true;
-        }
-
-        var typeName = pointeeType.Name();
-        return CanEnqueueVisitInfoNode(typeName, cursor, pointeeType);
+        _tryEnqueueVisitNode(this, kind, exploreInfo);
     }
 
     private (CKind Kind, CXType Type) TypeKind(CXType type)
@@ -426,12 +390,12 @@ public sealed partial class ExploreContext
         return (CKind.Pointer, cursorType);
     }
 
-    private CTypeInfo CreateType(CKind kind, string typeName, CXType type, CXType containerType)
+    private CTypeInfo CreateTypeInfo(CKind kind, string typeName, CXType type, CXType containerType)
     {
         if (type.kind == CXTypeKind.CXType_Attributed)
         {
             var typeCandidate = clang_Type_getModifiedType(type);
-            return CreateType(kind, typeName, typeCandidate, containerType);
+            return CreateTypeInfo(kind, typeName, typeCandidate, containerType);
         }
 
         var sizeOf = SizeOf(kind, containerType);
@@ -452,39 +416,25 @@ public sealed partial class ExploreContext
         var location = Location(locationCursor, type);
         var isAnonymous = clang_Cursor_isAnonymous(locationCursor) > 0;
 
-        var name = typeName;
-        // if (IsBlocked(context, type, location, kind, string.Empty, typeName))
-        // {
-        //     if (kind == CKind.Pointer)
-        //     {
-        //         var pointeeTypeName = typeName.TrimEnd('*');
-        //         name = name.Replace(pointeeTypeName, "void", StringComparison.InvariantCulture);
-        //     }
-        //     else
-        //     {
-        //         throw new NotImplementedException();
-        //     }
-        // }
-
         CTypeInfo? innerType = null;
         if (kind is CKind.Pointer)
         {
             var pointeeTypeCandidate = clang_getPointeeType(type);
             var (pointeeTypeKind, pointeeType) = TypeKind(pointeeTypeCandidate);
             var pointeeTypeName = pointeeType.Name();
-            innerType = CreateType(pointeeTypeKind, pointeeTypeName, pointeeType, pointeeTypeCandidate);
+            innerType = CreateTypeInfo(pointeeTypeKind, pointeeTypeName, pointeeType, pointeeTypeCandidate);
         }
         else if (kind is CKind.Array)
         {
             var elementTypeCandidate = clang_getArrayElementType(type);
             var (elementTypeKind, elementType) = TypeKind(elementTypeCandidate);
             var elementTypeName = elementType.Name();
-            innerType = CreateType(elementTypeKind, elementTypeName, elementType, elementTypeCandidate);
+            innerType = CreateTypeInfo(elementTypeKind, elementTypeName, elementType, elementTypeCandidate);
         }
 
         var cType = new CTypeInfo
         {
-            Name = name,
+            Name = typeName,
             Kind = kind,
             SizeOf = sizeOf,
             AlignOf = alignOf,
@@ -503,6 +453,24 @@ public sealed partial class ExploreContext
         // }
 
         return cType;
+    }
+
+    private CTypeInfo CreateTypeInfoTypeAlias(string typeName, CTypeInfo underlyingTypeInfo)
+    {
+        var typeInfo = new CTypeInfo
+        {
+            Name = typeName,
+            Kind = CKind.Pointer,
+            SizeOf = PointerSize,
+            AlignOf = PointerSize,
+            ElementSize = null,
+            ArraySizeOf = null,
+            Location = CLocation.NoLocation,
+            IsAnonymous = null,
+            InnerType = underlyingTypeInfo
+        };
+
+        return typeInfo;
     }
 
     private int SizeOf(CKind kind, CXType type)
@@ -561,5 +529,29 @@ public sealed partial class ExploreContext
         };
 
         return result;
+    }
+
+    public bool CanVisit(CKind kind, ExploreInfoNode node)
+    {
+        var handler = GetHandler(kind);
+        return handler.CanVisitInternal(this, node);
+    }
+
+    public CNode Explore(ExploreInfoNode node)
+    {
+        var handler = GetHandler(node.Kind);
+        return handler.ExploreInternal(this, node);
+    }
+
+    private ExploreHandler GetHandler(CKind kind)
+    {
+        var handlerExists = _handlers.TryGetValue(kind, out var handler);
+        if (handlerExists && handler != null)
+        {
+            return handler;
+        }
+
+        var up = new NotImplementedException($"The handler for kind of '{kind}' was not found.");
+        throw up;
     }
 }

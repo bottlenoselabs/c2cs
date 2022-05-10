@@ -11,7 +11,34 @@ namespace C2CS.Contexts.ReadCodeC.Data.Model;
 public class CTypeInfo
 {
 #pragma warning disable CA2211
-    public static CTypeInfo Empty = new();
+    public static readonly CTypeInfo Empty = new();
+
+    public static readonly CTypeInfo Void = new()
+    {
+        Name = "void",
+        Kind = CKind.Primitive,
+        SizeOf = 0,
+        AlignOf = null,
+        ArraySizeOf = null,
+        Location = CLocation.NoLocation,
+        IsAnonymous = null
+    };
+
+    public static CTypeInfo VoidPointer(int pointerSize)
+    {
+        return new CTypeInfo
+        {
+            Name = "void*",
+            Kind = CKind.Pointer,
+            SizeOf = pointerSize,
+            AlignOf = pointerSize,
+            ElementSize = null,
+            ArraySizeOf = null,
+            Location = CLocation.NoLocation,
+            IsAnonymous = null,
+            InnerType = Void
+        };
+    }
 #pragma warning restore CA2211
 
     [JsonPropertyName("name")]

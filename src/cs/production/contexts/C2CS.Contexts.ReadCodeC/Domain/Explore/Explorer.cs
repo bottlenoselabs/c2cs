@@ -14,7 +14,6 @@ namespace C2CS.Contexts.ReadCodeC.Domain.Explore;
 public sealed partial class Explorer
 {
     private readonly ILogger<Explorer> _logger;
-
     private readonly ImmutableDictionary<CKind, ExploreHandler> _handlers;
 
     private readonly List<CMacroObject> _macroObjects = new();
@@ -69,7 +68,7 @@ public sealed partial class Explorer
         CAbstractSyntaxTree result;
 
         var context = new ExploreContext(
-            targetPlatform, translationUnit, options, EnqueueVisitInfoNode, userIncludeDirectories, linkedPaths);
+            _handlers, targetPlatform, translationUnit, options, TryEnqueueVisitInfoNode, userIncludeDirectories, linkedPaths);
 
         try
         {
@@ -187,11 +186,10 @@ public sealed partial class Explorer
         return exploredCount;
     }
 
-    private bool ExploreNode(ExploreContext context, ExploreInfoNode node)
+    private bool ExploreNode(ExploreContext context, ExploreInfoNode visitInfo)
     {
-        var handler = GetHandler(node.Kind, node);
-        var x = handler.Visit(context, node);
-        FoundNode(x);
+        var node = context.Explore(visitInfo);
+        FoundNode(node);
         return true;
     }
 
@@ -298,96 +296,6 @@ public sealed partial class Explorer
         _primitives.Add(node);
     }
 
-    // internal bool IsBlocked(
-    //     CXType type,
-    //     CLocation location,
-    //     CKind kind,
-    //     string cursorName,
-    //     string typeName)
-    // {
-    //     switch (kind)
-    //     {
-    //         case CKind.Primitive:
-    //             return false;
-    //         case CKind.Array:
-    //         {
-    //             if (type.kind == CXTypeKind.CXType_Attributed)
-    //             {
-    //                 type = clang_Type_getModifiedType(type);
-    //             }
-    //
-    //             var elementTypeCandidate = clang_getElementType(type);
-    //             var (elementKind, elementType) = TypeKind(elementTypeCandidate);
-    //             var elementCursor = clang_getTypeDeclaration(elementType);
-    //             var elementLocation = Location(elementCursor, elementType);
-    //             var elementTypeName = elementType.Name();
-    //             return IsBlocked(elementType, elementLocation, elementKind, string.Empty, elementTypeName);
-    //         }
-    //
-    //         case CKind.Pointer:
-    //         {
-    //             if (type.kind == CXTypeKind.CXType_Attributed)
-    //             {
-    //                 type = clang_Type_getModifiedType(type);
-    //             }
-    //
-    //             var pointerTypeCandidate = clang_getPointeeType(type);
-    //             var (pointeeKind, pointeeType) = TypeKind(pointerTypeCandidate);
-    //             var pointerCursor = clang_getTypeDeclaration(pointeeType);
-    //             var pointeeLocation = Location(pointerCursor, pointeeType);
-    //             var pointeeTypeName = pointeeType.Name();
-    //             return IsBlocked(pointeeType, pointeeLocation, pointeeKind, string.Empty, pointeeTypeName);
-    //         }
-    //     }
-    //
-    //     if (!Options.IsEnabledAllowNamesWithPrefixedUnderscore)
-    //     {
-    //         if (IsBlockedNamed(cursorName, typeName))
-    //         {
-    //             return true;
-    //         }
-    //     }
-    //
-    //     return IsBlockedLocation(location);
-    // }
-
-    // private static bool IsBlockedNamed(string cursorName, string typeName)
-    // {
-    //     if (cursorName.StartsWith("_", StringComparison.InvariantCulture))
-    //     {
-    //         return true;
-    //     }
-    //
-    //     if (typeName.StartsWith("_", StringComparison.InvariantCulture))
-    //     {
-    //         return true;
-    //     }
-    //
-    //     return false;
-    // }
-    //
-    // private bool IsBlockedLocation(CLocation location)
-    // {
-    //     if (string.IsNullOrEmpty(location.FileName))
-    //     {
-    //         return false;
-    //     }
-    //
-    //     foreach (var includeDirectory in UserIncludeDirectories)
-    //     {
-    //         if (!location.FileName.Contains(includeDirectory, StringComparison.InvariantCulture))
-    //         {
-    //             continue;
-    //         }
-    //
-    //         location.FileName = location.FileName
-    //             .Replace(includeDirectory, string.Empty, StringComparison.InvariantCulture).Trim('/', '\\');
-    //         break;
-    //     }
-    //
-    //     return Options.HeaderFilesBlocked.Contains(location.FileName);
-    // }
-
     private void VisitTranslationUnit(ExploreContext context, CXTranslationUnit translationUnit)
     {
         var translationUnitCursor = clang_getTranslationUnitCursor(translationUnit);
@@ -429,13 +337,6 @@ public sealed partial class Explorer
             }
         }
 
-        if (!options.IsEnabledSystemDeclarations)
-        {
-            var cursorLocation = clang_getCursorLocation(cursor);
-            var isSystemCursor = clang_Location_isInSystemHeader(cursorLocation) > 0;
-            return !isSystemCursor;
-        }
-
         return true;
     }
 
@@ -461,25 +362,6 @@ public sealed partial class Explorer
             // Function-like macros currently not implemented
             // https://github.com/lithiumtoast/c2cs/issues/35
             if (clang_Cursor_isMacroFunctionLike(cursor) > 0)
-            {
-                return;
-            }
-
-            if (!context.Options.IsEnabledMacroObjects)
-            {
-                return;
-            }
-        }
-        else if (kind == CKind.Variable)
-        {
-            if (!context.Options.IsEnabledVariables)
-            {
-                return;
-            }
-        }
-        else if (kind == CKind.Function)
-        {
-            if (!context.Options.IsEnabledFunctions)
             {
                 return;
             }
@@ -509,10 +391,10 @@ public sealed partial class Explorer
         string name = clang_getCString(spelling);
 
         var visitInfo = context.CreateVisitInfoNode(kind, name, cursor, type, null);
-        EnqueueVisitInfoNode(context, kind, visitInfo);
+        TryEnqueueVisitInfoNode(context, kind, visitInfo);
     }
 
-    private void EnqueueVisitInfoNode(ExploreContext context, CKind kind, ExploreInfoNode node)
+    private void TryEnqueueVisitInfoNode(ExploreContext context, CKind kind, ExploreInfoNode node)
     {
         var frontier = kind switch
         {
@@ -522,77 +404,21 @@ public sealed partial class Explorer
             _ => _frontierTypes,
         };
 
-        var handler = GetHandler(kind, node);
-        if (!handler.CanVisitInternal(context, node))
+        switch (kind)
+        {
+            case CKind.Macro when !context.Options.IsEnabledMacroObjects:
+            case CKind.Variable when !context.Options.IsEnabledVariables:
+            case CKind.Function when !context.Options.IsEnabledFunctions:
+                return;
+        }
+
+        if (!context.CanVisit(kind, node))
         {
             return;
         }
 
         LogEnqueue(kind, node.Name, node.Location);
-
         frontier.PushBack(node);
-    }
-
-    // private bool TryMapBlockedType(
-    //     ExplorerContext context,
-    //     CKind typeKind,
-    //     string typeName,
-    //     CXType type,
-    //     out string mappedTypeName,
-    //     out CXType mappedType,
-    //     out CKind mappedTypeKind)
-    // {
-    //     switch (typeKind)
-    //     {
-    //         case CKind.Primitive:
-    //             mappedTypeName = typeName;
-    //             mappedType = type;
-    //             mappedTypeKind = typeKind;
-    //             return true;
-    //
-    //         case CKind.Pointer:
-    //         {
-    //             var pointerIndex = typeName.IndexOf('*', StringComparison.InvariantCulture);
-    //             var pointerTypeName = typeName[pointerIndex..];
-    //             mappedTypeName = "void" + pointerTypeName;
-    //             mappedType = type;
-    //             mappedTypeKind = typeKind;
-    //             return true;
-    //         }
-    //
-    //         case CKind.Typedef:
-    //         {
-    //             var canonicalTypeCandidate = clang_getCanonicalType(type);
-    //             var (canonicalTypeKind, canonicalType) = context.TypeKind(canonicalTypeCandidate);
-    //             var canonicalTypeName = TypeName(canonicalType, typeName);
-    //             return TryMapBlockedType(
-    //                 context,
-    //                 canonicalTypeKind,
-    //                 canonicalTypeName,
-    //                 canonicalType,
-    //                 out mappedTypeName,
-    //                 out mappedType,
-    //                 out mappedTypeKind);
-    //         }
-    //
-    //         default:
-    //             mappedTypeName = typeName;
-    //             mappedType = type;
-    //             mappedTypeKind = typeKind;
-    //             return false;
-    //     }
-    // }
-
-    private ExploreHandler GetHandler(CKind kind, ExploreInfoNode node)
-    {
-        var handlerExists = _handlers.TryGetValue(kind, out var handler);
-        if (handlerExists && handler != null)
-        {
-            return handler;
-        }
-
-        var up = new NotImplementedException($"The handler for kind of '{node.Kind}' was not found.");
-        throw up;
     }
 
     private string GetFunctionPointerName(CXCursor cursor, CXType type)

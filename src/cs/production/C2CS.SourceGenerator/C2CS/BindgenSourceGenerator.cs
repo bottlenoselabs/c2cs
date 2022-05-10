@@ -5,6 +5,8 @@ using System.Collections.Immutable;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using C2CS.Contexts.WriteCodeCSharp.Data;
+using C2CS.Data;
 using Microsoft.CodeAnalysis;
 
 namespace C2CS;
@@ -127,13 +129,14 @@ public class BindgenSourceGenerator : ISourceGenerator
     private static BindgenConfiguration CreateConfiguration(
         string workingDirectory, string outputFilePath, BindgenTargetConfiguration configuration)
     {
-        var configurationPlatforms = new Dictionary<string, ReadCCodeConfigurationPlatform?>();
+        var configurationPlatforms = new Dictionary<string, ReadCodeCConfigurationPlatform?>();
 
         var read = new ReadCodeCConfiguration
         {
             WorkingDirectory = workingDirectory,
             InputFilePath = configuration.InputFilePath,
-            ConfigurationPlatforms = configurationPlatforms
+            ConfigurationPlatforms = configurationPlatforms,
+            IsEnabledSystemDeclarations = configuration.IsEnabledSystemDeclarations
         };
 
         var write = new WriteCodeCSharpConfiguration
@@ -151,17 +154,22 @@ public class BindgenSourceGenerator : ISourceGenerator
             WriteCSharpCode = write
         };
 
-        var functionNamesAllowed = ImmutableArray.CreateBuilder<string?>();
-        foreach (var functionAttribute in configuration.Attributes.Functions)
+        foreach (var attribute in configuration.Attributes.TargetPlatforms)
         {
-            // var exists = configurationPlatforms.TryGetValue(functionAttribute.TargetPlatform, out var configurationPlatform);
-            // if (!exists)
-            // {
-            //     configurationPlatform = new ReadCCodeConfigurationPlatform();
-            //     configurationPlatforms.Add(functionAttribute.TargetPlatform, configurationPlatform);
-            // }
+            var exists = configurationPlatforms.TryGetValue(attribute.Name, out var configurationPlatform);
+            if (!exists)
+            {
+                configurationPlatform = new ReadCodeCConfigurationPlatform();
+                configurationPlatforms.Add(attribute.Name, configurationPlatform);
+            }
 
-            functionNamesAllowed.Add(functionAttribute.Name);
+            configurationPlatform!.Frameworks = attribute.Frameworks.Cast<string?>().ToImmutableArray();
+        }
+
+        var functionNamesAllowed = ImmutableArray.CreateBuilder<string?>();
+        foreach (var attribute in configuration.Attributes.Functions)
+        {
+            functionNamesAllowed.Add(attribute.Name);
         }
 
         read.FunctionNamesAllowed = functionNamesAllowed.ToImmutable();

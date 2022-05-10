@@ -27,22 +27,16 @@ public sealed class FunctionExploreHandler : ExploreHandler<CFunction>
         //  For this reason, do not log if already visited.
     }
 
-    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
+    protected override bool CanVisit(ExploreContext context, string name)
     {
         if (!context.Options.IsEnabledFunctions)
         {
             return false;
         }
 
-        if (info.Parent != null)
-        {
-            LogFailureUnexpectedParent(info.Parent.Name);
-            return false;
-        }
-
         var functionNamesAllowed = context.Options.FunctionNamesAllowed;
         var isAllowedName = !functionNamesAllowed.IsDefaultOrEmpty &&
-                            functionNamesAllowed.Contains(info.Name);
+                            functionNamesAllowed.Contains(name);
         return isAllowedName;
     }
 
@@ -87,7 +81,7 @@ public sealed class FunctionExploreHandler : ExploreHandler<CFunction>
         ExploreContext context, ExploreInfoNode info)
     {
         var resultType = clang_getCursorResultType(info.Cursor);
-        return context.VisitType(resultType, info);
+        return context.VisitType(resultType, info)!;
     }
 
     private ImmutableArray<CFunctionParameter> FunctionParameters(
@@ -115,11 +109,11 @@ public sealed class FunctionExploreHandler : ExploreHandler<CFunction>
     {
         var name = context.CursorName(parameterCursor);
         var parameterType = clang_getCursorType(parameterCursor);
-        var parameterTypeInfo = context.VisitType(parameterType, parentInfo);
+        var parameterTypeInfo = context.VisitType(parameterType, parentInfo)!;
         var functionExternParameter = new CFunctionParameter
         {
             Name = name,
-            Location = parameterTypeInfo.Location,
+            Location = parameterTypeInfo!.Location,
             TypeInfo = parameterTypeInfo
         };
         return functionExternParameter;

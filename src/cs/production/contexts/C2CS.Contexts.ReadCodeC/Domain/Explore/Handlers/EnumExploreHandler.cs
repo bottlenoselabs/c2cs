@@ -21,11 +21,6 @@ public sealed class EnumExploreHandler : ExploreHandler<CEnum>
     {
     }
 
-    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
-    {
-        return true;
-    }
-
     public override CEnum Explore(ExploreContext context, ExploreInfoNode info)
     {
         var @enum = Enum(context, info);
@@ -50,7 +45,7 @@ public sealed class EnumExploreHandler : ExploreHandler<CEnum>
     private static CTypeInfo IntegerTypeInfo(ExploreContext context, ExploreInfoNode info)
     {
         var integerType = clang_getEnumDeclIntegerType(info.Cursor);
-        var typeInfo = context.VisitType(integerType, info);
+        var typeInfo = context.VisitType(integerType, info)!;
         return typeInfo;
     }
 

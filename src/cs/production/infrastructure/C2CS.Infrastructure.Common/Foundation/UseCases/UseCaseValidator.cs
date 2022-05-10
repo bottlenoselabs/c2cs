@@ -6,7 +6,7 @@ using C2CS.Foundation.Data;
 namespace C2CS.Foundation.UseCases;
 
 public abstract class UseCaseValidator<TConfiguration, TInput>
-    where TConfiguration : BaseConfiguration
+    where TConfiguration : UseCaseConfiguration
 {
     public abstract TInput Validate(TConfiguration configuration);
 }

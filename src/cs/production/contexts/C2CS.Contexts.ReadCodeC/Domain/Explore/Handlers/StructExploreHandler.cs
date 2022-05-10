@@ -19,11 +19,6 @@ public sealed class StructExploreHandler : RecordExploreHandler
     {
     }
 
-    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
-    {
-        return true;
-    }
-
     public override CRecord Explore(ExploreContext context, ExploreInfoNode info)
     {
         var @struct = Struct(context, info);
@@ -88,7 +83,7 @@ public sealed class StructExploreHandler : RecordExploreHandler
         var fieldName = context.CursorName(fieldCursor);
         var type = clang_getCursorType(fieldCursor);
         var location = context.Location(fieldCursor, type);
-        var typeInfo = context.VisitType(type, parentInfo, fieldIndex);
+        var typeInfo = context.VisitType(type, parentInfo, fieldIndex)!;
         var (offsetOf, paddingOf) = FieldLayout(
             fieldCursor, fieldIndex, nextField?.OffsetOf, parentInfo.SizeOf, typeInfo.SizeOf);
 

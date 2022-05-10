@@ -34,11 +34,6 @@ public sealed class FunctionPointerExploreHandler : ExploreHandler<CFunctionPoin
     {
     }
 
-    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
-    {
-        return true;
-    }
-
     public override CFunctionPointer Explore(ExploreContext context, ExploreInfoNode info)
     {
         var functionPointer = FunctionPointer(context, info);
@@ -47,7 +42,7 @@ public sealed class FunctionPointerExploreHandler : ExploreHandler<CFunctionPoin
 
     private static CFunctionPointer FunctionPointer(ExploreContext context, ExploreInfoNode info)
     {
-        var typeInfo = context.VisitType(info.Type, info.Parent);
+        var typeInfo = context.VisitType(info.Type, info.Parent)!;
         var returnTypeInfo = FunctionPointerReturnType(context, info);
         var parameters = FunctionPointerParameters(context, info);
 
@@ -65,7 +60,7 @@ public sealed class FunctionPointerExploreHandler : ExploreHandler<CFunctionPoin
     private static CTypeInfo FunctionPointerReturnType(ExploreContext context, ExploreInfoNode info)
     {
         var returnType = clang_getResultType(info.Type);
-        var returnTypeInfo = context.VisitType(returnType, info.Parent);
+        var returnTypeInfo = context.VisitType(returnType, info.Parent)!;
         return returnTypeInfo;
     }
 
@@ -92,7 +87,7 @@ public sealed class FunctionPointerExploreHandler : ExploreHandler<CFunctionPoin
         CXType parameterType,
         ExploreInfoNode parentInfo)
     {
-        var parameterTypeInfo = context.VisitType(parameterType, parentInfo);
+        var parameterTypeInfo = context.VisitType(parameterType, parentInfo)!;
         var result = new CFunctionPointerParameter
         {
             Name = string.Empty,

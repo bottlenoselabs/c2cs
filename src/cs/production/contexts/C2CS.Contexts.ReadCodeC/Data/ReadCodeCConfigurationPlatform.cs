@@ -8,7 +8,7 @@ using JetBrains.Annotations;
 namespace C2CS;
 
 [PublicAPI]
-public sealed class ReadCCodeConfigurationPlatform
+public sealed class ReadCodeCConfigurationPlatform
 {
     [JsonPropertyName("user_include_directories")]
     [Json.Schema.Generation.Description("The directories to search for non-system header files specific to the target platform.")]

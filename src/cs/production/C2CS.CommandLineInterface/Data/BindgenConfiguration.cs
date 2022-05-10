@@ -2,9 +2,10 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Text.Json.Serialization;
+using C2CS.Contexts.WriteCodeCSharp.Data;
 using JetBrains.Annotations;
 
-namespace C2CS;
+namespace C2CS.Data;
 
 // NOTE: Properties are required for System.Text.Json serialization
 // NOTE: This class is considered un-sanitized input; all strings and other types could be null.

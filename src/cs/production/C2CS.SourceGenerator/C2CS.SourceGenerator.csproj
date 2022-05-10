@@ -30,8 +30,23 @@
         <Compile Include="../C2CS.Metadata/**/*.cs">
             <Link>Polyfill/C2CS/Metadata/%(RecursiveDir)%(Filename)%(Extension)</Link>
         </Compile>
-        <Compile Include="..\infrastructure\C2CS.Infrastructure.Common\Native\Terminal.cs">
-          <Link>Polyfill\C2CS\Terminal.cs</Link>
+        <Compile Include="../infrastructure/C2CS.Infrastructure.Common/Foundation/Data/UseCaseConfiguration.cs">
+            <Link>Polyfill/C2CS/Configurations/UseCaseConfiguration.cs</Link>
+        </Compile>
+        <Compile Include="../contexts/C2CS.Contexts.ReadCodeC/Data/ReadCodeCConfiguration.cs">
+            <Link>Polyfill/C2CS/Configurations/ReadCodeCConfiguration.cs</Link>
+        </Compile>
+        <Compile Include="../contexts/C2CS.Contexts.ReadCodeC/Data/ReadCodeCConfigurationPlatform.cs">
+            <Link>Polyfill/C2CS/Configurations/ReadCodeCConfigurationPlatform.cs</Link>
+        </Compile>
+        <Compile Include="../contexts/C2CS.Contexts.WriteCodeCSharp/Data/WriteCodeCSharpConfiguration.cs">
+          <Link>Polyfill/C2CS/Configurations/WriteCodeCSharpConfiguration.cs</Link>
+        </Compile>
+        <Compile Include="../C2CS.CommandLineInterface/Data/BindgenConfiguration.cs">
+            <Link>Polyfill/C2CS/Configurations/BindgenConfiguration.cs</Link>
+        </Compile>
+        <Compile Include="../infrastructure/C2CS.Infrastructure.Common/Native/Terminal.cs">
+          <Link>Polyfill/C2CS/Terminal.cs</Link>
         </Compile>
     </ItemGroup>
 

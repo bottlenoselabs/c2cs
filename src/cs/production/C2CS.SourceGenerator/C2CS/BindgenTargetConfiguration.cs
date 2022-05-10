@@ -14,4 +14,6 @@ public class BindgenTargetConfiguration
     public string LibraryName { get; set; } = string.Empty;
 
     public BindgenTargetConfigurationAttributes Attributes { get; set; } = null!;
+
+    public bool IsEnabledSystemDeclarations { get; set; }
 }

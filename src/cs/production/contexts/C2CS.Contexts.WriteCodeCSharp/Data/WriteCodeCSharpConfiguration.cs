@@ -3,14 +3,15 @@
 
 using System.Collections.Immutable;
 using System.Text.Json.Serialization;
+using C2CS.Foundation.Data;
 using JetBrains.Annotations;
 
-namespace C2CS;
+namespace C2CS.Contexts.WriteCodeCSharp.Data;
 
 // NOTE: Properties are required for System.Text.Json serialization
 // NOTE: This class must have a unique name across namespaces for usage in System.Text.Json source generators.
 [PublicAPI]
-public sealed class WriteCodeCSharpConfiguration : BaseConfiguration
+public sealed class WriteCodeCSharpConfiguration : UseCaseConfiguration
 {
     [JsonIgnore]
     [Json.Schema.Generation.Description("Path of the input abstract syntax tree directory. The directory should contain one or more previously generated abstract syntax tree `.json` files which each have a file name of the target platform.")]

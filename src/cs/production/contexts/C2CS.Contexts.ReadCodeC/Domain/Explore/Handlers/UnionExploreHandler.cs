@@ -19,11 +19,6 @@ public sealed class UnionExploreHandler : RecordExploreHandler
 
     protected override ExploreKindCursors ExpectedCursors { get; } = ExploreKindCursors.Is(CXCursorKind.CXCursor_UnionDecl);
 
-    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
-    {
-        return true;
-    }
-
     public override CRecord Explore(ExploreContext context, ExploreInfoNode info)
     {
         var union = Union(context, info);
@@ -74,7 +69,7 @@ public sealed class UnionExploreHandler : RecordExploreHandler
         var name = context.CursorName(cursor);
         var type = clang_getCursorType(cursor);
         var location = context.Location(cursor, type);
-        var typeInfo = context.VisitType(type, parentInfo, fieldIndex);
+        var typeInfo = context.VisitType(type, parentInfo, fieldIndex)!;
 
         var result = new CRecordField
         {

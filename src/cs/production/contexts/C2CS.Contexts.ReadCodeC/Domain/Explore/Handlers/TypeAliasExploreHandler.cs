@@ -16,13 +16,8 @@ public class TypeAliasExploreHandler : ExploreHandler<CTypeAlias>
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Is(CXTypeKind.CXType_Typedef);
 
     public TypeAliasExploreHandler(ILogger<TypeAliasExploreHandler> logger)
-        : base(logger)
+        : base(logger, false)
     {
-    }
-
-    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
-    {
-        return true;
     }
 
     public override CTypeAlias Explore(ExploreContext context, ExploreInfoNode info)
@@ -34,7 +29,7 @@ public class TypeAliasExploreHandler : ExploreHandler<CTypeAlias>
     private static CTypeAlias TypeAlias(ExploreContext context, ExploreInfoNode info)
     {
         var aliasType = clang_getTypedefDeclUnderlyingType(info.Cursor);
-        var aliasTypeInfo = context.VisitType(aliasType, info);
+        var aliasTypeInfo = context.VisitType(aliasType, info)!;
 
         var typedef = new CTypeAlias
         {

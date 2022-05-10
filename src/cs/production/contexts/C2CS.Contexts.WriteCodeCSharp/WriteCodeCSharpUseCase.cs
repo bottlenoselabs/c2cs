@@ -4,6 +4,7 @@
 using System.Collections.Immutable;
 using C2CS.Contexts.ReadCodeC.Data.Model;
 using C2CS.Contexts.ReadCodeC.Data.Serialization;
+using C2CS.Contexts.WriteCodeCSharp.Data;
 using C2CS.Contexts.WriteCodeCSharp.Data.Model;
 using C2CS.Contexts.WriteCodeCSharp.Domain;
 using C2CS.Contexts.WriteCodeCSharp.Domain.CodeGenerator;

@@ -3,6 +3,7 @@
 
 using System;
 using System.Diagnostics;
+using C2CS.Foundation.Data;
 using C2CS.Foundation.Diagnostics;
 using C2CS.Foundation.UseCases.Exceptions;
 using JetBrains.Annotations;
@@ -12,7 +13,7 @@ namespace C2CS.Foundation.UseCases;
 
 [PublicAPI]
 public abstract class UseCase<TConfiguration, TInput, TOutput>
-    where TConfiguration : BaseConfiguration
+    where TConfiguration : UseCaseConfiguration
     where TOutput : UseCaseOutput<TInput>, new()
 {
     public readonly ILogger<UseCase<TConfiguration, TInput, TOutput>> Logger;

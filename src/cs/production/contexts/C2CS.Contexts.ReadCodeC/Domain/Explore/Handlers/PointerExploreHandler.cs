@@ -20,11 +20,6 @@ public sealed class PointerExploreHandler : ExploreHandler<CPointer>
     {
     }
 
-    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
-    {
-        return true;
-    }
-
     public override CPointer Explore(ExploreContext context, ExploreInfoNode info)
     {
         var pointer = Pointer(context, info);
@@ -34,7 +29,7 @@ public sealed class PointerExploreHandler : ExploreHandler<CPointer>
     private static CPointer Pointer(ExploreContext context, ExploreInfoNode info)
     {
         var type = clang_getPointeeType(info.Type);
-        var typeInfo = context.VisitType(type, info.Parent);
+        var typeInfo = context.VisitType(type, info.Parent)!;
 
         var result = new CPointer
         {

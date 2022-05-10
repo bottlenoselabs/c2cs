@@ -6,8 +6,7 @@ using JetBrains.Annotations;
 namespace C2CS;
 
 [PublicAPI]
-// ReSharper disable once RedundantAttributeUsageProperty
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
 public sealed class BindgenFunctionAttribute : Attribute
 {
     public string Name { get; set; } = string.Empty;

@@ -19,11 +19,6 @@ public sealed class ArrayExploreHandler : ExploreHandler<CArray>
     {
     }
 
-    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
-    {
-        return true;
-    }
-
     public override CArray Explore(ExploreContext context, ExploreInfoNode info)
     {
         var array = Array(context, info);
@@ -33,7 +28,7 @@ public sealed class ArrayExploreHandler : ExploreHandler<CArray>
     private static CArray Array(ExploreContext context, ExploreInfoNode info)
     {
         var type = clang_getElementType(info.Type);
-        var typeInfo = context.VisitType(type, info.Parent);
+        var typeInfo = context.VisitType(type, info.Parent)!;
 
         var result = new CArray
         {

@@ -39,7 +39,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         var optionsBuilder = ImmutableArray.CreateBuilder<ReadCodeCAbstractSyntaxTreeOptions>();
         if (configuration.ConfigurationPlatforms == null)
         {
-            var abstractSyntaxTreeRequests = new Dictionary<string, ReadCCodeConfigurationPlatform?>();
+            var abstractSyntaxTreeRequests = new Dictionary<string, ReadCodeCConfigurationPlatform?>();
             var targetPlatform = Native.Platform;
             abstractSyntaxTreeRequests.Add(targetPlatform.ToString(), null);
             configuration.ConfigurationPlatforms = abstractSyntaxTreeRequests;
@@ -57,7 +57,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
     private ReadCodeCAbstractSyntaxTreeOptions Options(
         ReadCodeCConfiguration configuration,
         string targetPlatformString,
-        ReadCCodeConfigurationPlatform? configurationPlatform,
+        ReadCodeCConfigurationPlatform? configurationPlatform,
         string inputFilePath)
     {
         var systemIncludeDirectories = VerifyImmutableArray(configuration.SystemIncludeDirectories);
@@ -90,7 +90,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
                 OpaqueTypesNames = opaqueTypeNames,
                 FunctionNamesAllowed = functionNamesAllowed,
                 IsEnabledLocationFullPaths = configuration.IsEnabledLocationFullPaths ?? false,
-                IsEnabledMacroObjects = configuration.IsEnabledMacroObjects ?? true,
+                IsEnabledMacroObjects = configuration.IsEnabledMacroObjects ?? false,
                 IsEnabledFunctions = configuration.IsEnabledFunctions ?? true,
                 IsEnabledVariables = false, // TODO: transpile variables
                 IsEnabledEnumsDangling = configuration.IsEnabledEnumsDangling ?? false,

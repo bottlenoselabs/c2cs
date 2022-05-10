@@ -38,13 +38,8 @@ public sealed class PrimitiveExploreHandler : ExploreHandler<CPrimitive>
         CXTypeKind.CXType_LongDouble);
 
     public PrimitiveExploreHandler(ILogger<PrimitiveExploreHandler> logger)
-        : base(logger)
+        : base(logger, false)
     {
-    }
-
-    protected override bool CanVisit(ExploreContext context, ExploreInfoNode info)
-    {
-        return true;
     }
 
     public override CPrimitive Explore(ExploreContext context, ExploreInfoNode info)
@@ -55,7 +50,7 @@ public sealed class PrimitiveExploreHandler : ExploreHandler<CPrimitive>
 
     private static CPrimitive Primitive(ExploreContext context, ExploreInfoNode info)
     {
-        var typeInfo = context.VisitType(info.Type, info.Parent);
+        var typeInfo = context.VisitType(info.Type, info.Parent)!;
 
         var result = new CPrimitive
         {

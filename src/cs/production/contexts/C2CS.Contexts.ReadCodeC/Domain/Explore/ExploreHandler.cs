@@ -32,53 +32,71 @@ public abstract partial class ExploreHandler
         _logAlreadyExplored = logAlreadyExplored;
     }
 
-    public CNode Visit(ExploreContext context, ExploreInfoNode info)
+    internal CNode ExploreInternal(ExploreContext context, ExploreInfoNode node)
     {
-        LogExploring(info.Kind, info.Name, info.Location);
-        var result = Explore(context, info);
-        LogSuccess(info.Kind, info.Name, info.Location);
+        LogExploring(node.Kind, node.Name, node.Location);
+        var result = Explore(context, node);
+        LogSuccess(node.Kind, node.Name, node.Location);
         return result;
     }
 
-    internal bool CanVisitInternal(ExploreContext context, ExploreInfoNode info)
+    internal bool CanVisitInternal(ExploreContext context, ExploreInfoNode node)
     {
-        if (!IsExpectedCursor(info))
+        if (!IsExpectedCursor(node))
         {
-            LogFailureUnexpectedCursor(info.Cursor.kind);
+            LogFailureUnexpectedCursor(node.Cursor.kind);
             return false;
         }
 
-        if (!IsExpectedType(info))
+        if (!IsExpectedType(node))
         {
-            LogFailureUnexpectedType(info.Type.kind);
+            LogFailureUnexpectedType(node.Type.kind);
             return false;
         }
 
-        if (!IsAllowed(context, info))
+        if (!IsAllowed(context, node.Name, node.Cursor))
         {
             return false;
         }
 
-        if (IsAlreadyVisited(info.Name, info.Location, out var firstLocation))
+        if (IsAlreadyVisited(node.Name, out var firstLocation))
         {
             if (_logAlreadyExplored)
             {
-                LogAlreadyExplored(info.Kind, info.Name, firstLocation);
+                LogAlreadyVisited(node.Kind, node.Name, firstLocation);
             }
 
             return false;
         }
 
-        if (!CanVisit(context, info))
+        if (!CanVisit(context, node.Name))
         {
-            LogIgnored(info.Kind, info.Name, info.Location);
             return false;
         }
 
+        MarkAsVisited(node);
         return true;
     }
 
-    protected abstract bool CanVisit(ExploreContext context, ExploreInfoNode info);
+    internal bool IsBlocked(ExploreContext context, string name, CXCursor cursor)
+    {
+        if (!IsAllowed(context, name, cursor))
+        {
+            return true;
+        }
+
+        if (!CanVisit(context, name))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected virtual bool CanVisit(ExploreContext context, string name)
+    {
+        return true;
+    }
 
     private bool IsExpectedCursor(ExploreInfoNode info)
     {
@@ -101,22 +119,29 @@ public abstract partial class ExploreHandler
         return false;
     }
 
-    protected bool IsAlreadyVisited(string name, CLocation location, out CLocation firstLocation)
+    private bool IsAlreadyVisited(string name, out CLocation firstLocation)
     {
         var result = _visitedNames.TryGetValue(name, out firstLocation);
-        if (!result)
-        {
-            _visitedNames.Add(name, location);
-        }
-
         return result;
     }
 
-    private static bool IsAllowed(ExploreContext context, ExploreInfoNode info)
+    private void MarkAsVisited(ExploreInfoNode info)
     {
+        _visitedNames.Add(info.Name, info.Location);
+    }
+
+    private static bool IsAllowed(ExploreContext context, string name, CXCursor cursor)
+    {
+        if (!context.Options.IsEnabledSystemDeclarations)
+        {
+            var cursorLocation = clang_getCursorLocation(cursor);
+            var isSystemCursor = clang_Location_isInSystemHeader(cursorLocation) > 0;
+            return !isSystemCursor;
+        }
+
         if (!context.Options.IsEnabledAllowNamesWithPrefixedUnderscore)
         {
-            return !info.Name.StartsWith("_", StringComparison.InvariantCultureIgnoreCase);
+            return !name.StartsWith("_", StringComparison.InvariantCultureIgnoreCase);
         }
 
         return true;
@@ -130,18 +155,12 @@ public abstract partial class ExploreHandler
     [LoggerMessage(1, LogLevel.Error, "- Unexpected type kind '{Kind}'")]
     private partial void LogFailureUnexpectedType(CXTypeKind kind);
 
-    [LoggerMessage(2, LogLevel.Error, "- Unexpected parent '{ParentName}'")]
-    public partial void LogFailureUnexpectedParent(string parentName);
-
-    [LoggerMessage(3, LogLevel.Debug, "- Exploring {Kind} '{Name}' ({Location})'")]
+    [LoggerMessage(2, LogLevel.Debug, "- Exploring {Kind} '{Name}' ({Location})'")]
     public partial void LogExploring(CKind kind, string name, CLocation location);
 
-    [LoggerMessage(4, LogLevel.Error, "- Already explored {Kind} '{Name}' ({Location})")]
-    public partial void LogAlreadyExplored(CKind kind, string name, CLocation location);
+    [LoggerMessage(3, LogLevel.Error, "- Already visited {Kind} '{Name}' ({Location})")]
+    public partial void LogAlreadyVisited(CKind kind, string name, CLocation location);
 
-    [LoggerMessage(5, LogLevel.Debug, "- Ignored {Kind} '{Name}' ({Location})")]
-    public partial void LogIgnored(CKind kind, string name, CLocation location);
-
-    [LoggerMessage(6, LogLevel.Debug, "- Explored {Kind} '{Name}' ({Location})'")]
+    [LoggerMessage(4, LogLevel.Debug, "- Explored {Kind} '{Name}' ({Location})'")]
     public partial void LogSuccess(CKind kind, string name, CLocation location);
 }
