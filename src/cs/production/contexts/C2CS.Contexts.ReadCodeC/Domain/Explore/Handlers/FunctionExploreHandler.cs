@@ -35,9 +35,7 @@ public sealed class FunctionExploreHandler : ExploreHandler<CFunction>
         }
 
         var functionNamesAllowed = context.Options.FunctionNamesAllowed;
-        var isAllowedName = !functionNamesAllowed.IsDefaultOrEmpty &&
-                            functionNamesAllowed.Contains(name);
-        return isAllowedName;
+        return functionNamesAllowed.IsDefaultOrEmpty || functionNamesAllowed.Contains(name);
     }
 
     public override CFunction Explore(ExploreContext context, ExploreInfoNode info)
@@ -110,6 +108,12 @@ public sealed class FunctionExploreHandler : ExploreHandler<CFunction>
         var name = context.CursorName(parameterCursor);
         var parameterType = clang_getCursorType(parameterCursor);
         var parameterTypeInfo = context.VisitType(parameterType, parentInfo)!;
+        if (parameterTypeInfo == null)
+        {
+            parameterTypeInfo = context.VisitType(parameterType, parentInfo)!;
+            Console.WriteLine();
+        }
+
         var functionExternParameter = new CFunctionParameter
         {
             Name = name,

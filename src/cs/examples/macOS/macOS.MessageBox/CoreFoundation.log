@@ -1,71 +1,8 @@
-2022-10-05 02:19:10 info: Microsoft.Hosting.Lifetime[0] Application started. Press Ctrl+C to shut down.
-2022-10-05 02:19:10 info: Microsoft.Hosting.Lifetime[0] Hosting environment: Production
-2022-10-05 02:19:10 info: Microsoft.Hosting.Lifetime[0] Content root path: /Users/lstranks/Programming/c2cs/src/cs/examples/macOS/macOS.MessageBox
-2022-10-05 02:19:10 info: C2CS.Data.Serialization.BindgenConfigurationJsonSerializer[0] Configuration load: Success. Path: /Users/lstranks/Programming/c2cs/src/cs/examples/macOS/macOS.MessageBox/CoreFoundation.json.
-2022-10-05 02:19:10 info: C2CS.Contexts.ReadCodeC.UseCase[2] - Use case started
-2022-10-05 02:19:10 info: C2CS.Contexts.ReadCodeC.UseCase[5] => Parse aarch64-apple-darwin - Use case step started
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.UseCase[6] => Parse aarch64-apple-darwin - Use case step success in 0.194 seconds
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.UseCase[5] => aarch64-apple-darwin - Use case step started
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[3] => aarch64-apple-darwin - Exploring 0 macros: 
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[4] => aarch64-apple-darwin - Found 0 macros: 
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[5] => aarch64-apple-darwin - Exploring 0 variables: 
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[6] => aarch64-apple-darwin - Found 0 variables: 
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[7] => aarch64-apple-darwin - Exploring 3 functions: CFRelease, CFStringCreateWithCString, CFUserNotificationDisplayAlert
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found Function 'CFRelease' (CFBase.h:669:6 (Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers/CFBase.h))
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found Function 'CFStringCreateWithCString' (CFString.h:222:13 (Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers/CFString.h))
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found Function 'CFUserNotificationDisplayAlert' (CFUserNotification.h:102:8 (Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers/CFUserNotification.h))
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[8] => aarch64-apple-darwin - Found 3 functions: CFRelease, CFStringCreateWithCString, CFUserNotificationDisplayAlert
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[9] => aarch64-apple-darwin - Exploring 12 types: void, CFTypeRef, void*, CFStringRef, CFAllocatorRef, char*, CFStringEncoding, SInt32, CFTimeInterval, CFOptionFlags, CFURLRef, CFOptionFlags*
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found Primitive 'void' (NoLocation)
-2022-10-05 02:19:11 fail: C2CS.Contexts.ReadCodeC.Domain.Explore.Handlers.PointerExploreHandler[3] => aarch64-apple-darwin - Already visited Pointer 'void*' (NoLocation)
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found TypeAlias 'CFTypeRef' (CFBase.h:479:42 (Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers/CFBase.h))
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found Pointer 'void*' (NoLocation)
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found TypeAlias 'CFStringRef' (CFBase.h:481:61 (Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers/CFBase.h))
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found TypeAlias 'CFAllocatorRef' (CFBase.h:545:58 (Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers/CFBase.h))
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found Pointer 'char*' (NoLocation)
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found TypeAlias 'CFStringEncoding' (CFString.h:99:16 (Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers/CFString.h))
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found TypeAlias 'SInt32' (MacTypes.h:122:41 (/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/include/MacTypes.h))
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found TypeAlias 'CFTimeInterval' (CFDate.h:18:16 (Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers/CFDate.h))
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found TypeAlias 'CFOptionFlags' (CFBase.h:473:23 (Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers/CFBase.h))
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found TypeAlias 'CFURLRef' (CFURL.h:27:55 (Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers/CFURL.h))
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found Pointer 'CFOptionFlags*' (NoLocation)
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found Primitive 'char' (NoLocation)
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found TypeAlias 'UInt32' (MacTypes.h:121:41 (/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/include/MacTypes.h))
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found Primitive 'int' (NoLocation)
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found Primitive 'double' (NoLocation)
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found Primitive 'unsigned long' (NoLocation)
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[12] => aarch64-apple-darwin - Found Primitive 'unsigned int' (NoLocation)
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[10] => aarch64-apple-darwin - Found 18 types: CFTypeRef, CFStringRef, CFAllocatorRef, CFStringEncoding, SInt32, CFTimeInterval, CFOptionFlags, CFURLRef, UInt32, void*, char*, CFOptionFlags*, void, char, int, double, unsigned long, unsigned int
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.UseCase[6] => aarch64-apple-darwin - Use case step success in 0.072 seconds
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.UseCase[5] => Write aarch64-apple-darwin - Use case step started
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.UseCase[6] => Write aarch64-apple-darwin - Use case step success in 0.083 seconds
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.UseCase[5] => Parse x86_64-apple-darwin - Use case step started
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.UseCase[6] => Parse x86_64-apple-darwin - Use case step success in 0.080 seconds
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.UseCase[5] => x86_64-apple-darwin - Use case step started
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[3] => x86_64-apple-darwin - Exploring 0 macros: 
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[4] => x86_64-apple-darwin - Found 0 macros: 
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[5] => x86_64-apple-darwin - Exploring 0 variables: 
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[6] => x86_64-apple-darwin - Found 0 variables: 
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[7] => x86_64-apple-darwin - Exploring 0 functions: 
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[8] => x86_64-apple-darwin - Found 0 functions: CFRelease, CFStringCreateWithCString, CFUserNotificationDisplayAlert
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[9] => x86_64-apple-darwin - Exploring 0 types: 
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.Domain.Explore.Explorer[10] => x86_64-apple-darwin - Found 0 types: CFTypeRef, CFStringRef, CFAllocatorRef, CFStringEncoding, SInt32, CFTimeInterval, CFOptionFlags, CFURLRef, UInt32, void*, char*, CFOptionFlags*, void, char, int, double, unsigned long, unsigned int
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.UseCase[6] => x86_64-apple-darwin - Use case step success in 0.015 seconds
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.UseCase[5] => Write x86_64-apple-darwin - Use case step started
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.UseCase[6] => Write x86_64-apple-darwin - Use case step success in 0.000 seconds
-2022-10-05 02:19:11 info: C2CS.Contexts.ReadCodeC.UseCase[3] - Use case success in 0.500 seconds
-2022-10-05 02:19:11 info: C2CS.Data.Serialization.BindgenConfigurationJsonSerializer[0] Configuration load: Success. Path: /Users/lstranks/Programming/c2cs/src/cs/examples/macOS/macOS.MessageBox/CoreFoundation.json.
-2022-10-05 02:19:11 info: C2CS.Contexts.WriteCodeCSharp.UseCase[2] - Use case started
-2022-10-05 02:19:11 info: C2CS.Contexts.WriteCodeCSharp.UseCase[5] => Load - Use case step started
-2022-10-05 02:19:11 info: C2CS.Contexts.WriteCodeCSharp.UseCase[6] => Load - Use case step success in 0.019 seconds
-2022-10-05 02:19:11 info: C2CS.Contexts.WriteCodeCSharp.UseCase[5] => Map platform specific nodes - Use case step started
-2022-10-05 02:19:11 info: C2CS.Contexts.WriteCodeCSharp.UseCase[6] => Map platform specific nodes - Use case step success in 0.062 seconds
-2022-10-05 02:19:11 info: C2CS.Contexts.WriteCodeCSharp.UseCase[5] => Split/flatten platform specific nodes - Use case step started
-2022-10-05 02:19:11 info: C2CS.Contexts.WriteCodeCSharp.UseCase[6] => Split/flatten platform specific nodes - Use case step success in 0.010 seconds
-2022-10-05 02:19:11 info: C2CS.Contexts.WriteCodeCSharp.UseCase[5] => Generate code - Use case step started
-2022-10-05 02:19:12 info: C2CS.Contexts.WriteCodeCSharp.UseCase[6] => Generate code - Use case step success in 1.046 seconds
-2022-10-05 02:19:12 info: C2CS.Contexts.WriteCodeCSharp.UseCase[5] => Write file - Use case step started
-/Users/lstranks/Programming/c2cs/src/cs/examples/macOS/macOS.MessageBox/CoreFoundation.g.cs
-2022-10-05 02:19:12 info: C2CS.Contexts.WriteCodeCSharp.UseCase[6] => Write file - Use case step success in 0.001 seconds
-2022-10-05 02:19:12 info: C2CS.Contexts.WriteCodeCSharp.UseCase[3] - Use case success in 1.195 seconds
-2022-10-05 02:19:12 info: Microsoft.Hosting.Lifetime[0] Application is shutting down...
+2022-11-05 00:06:38 info: Microsoft.Hosting.Lifetime[0] Application started. Press Ctrl+C to shut down.
+2022-11-05 00:06:38 info: Microsoft.Hosting.Lifetime[0] Hosting environment: Production
+2022-11-05 00:06:38 info: Microsoft.Hosting.Lifetime[0] Content root path: /Users/lstranks/Programming/c2cs/src/cs/examples/macos/macOS.MessageBox
+2022-11-05 00:06:38 info: C2CS.Data.Serialization.BindgenConfigurationJsonSerializer[0] Configuration load: Success. Path: /Users/lstranks/Programming/c2cs/src/cs/examples/macOS/macOS.MessageBox/CoreFoundation.json.
+2022-11-05 00:06:38 info: C2CS.Contexts.ReadCodeC.UseCase[2] - Use case started
+2022-11-05 00:06:38 fail: C2CS.Contexts.ReadCodeC.UseCase[4] - Use case failed in 0.077 seconds
+2022-11-05 00:06:38 crit: C2CS.Contexts.ReadCodeC.UseCase[8] - Panic  The input file does not exist: `/Users/lstranks/Programming/c2cs/src/cs/examples/macOS/macOS.MessageBox`.    at C2CS.Contexts.ReadCodeC.Domain.ReadCodeCValidator.VerifyInputFilePath(String inputFilePath) in /Users/lstranks/Programming/c2cs/src/cs/production/contexts/C2CS.Contexts.ReadCodeC/Domain/ReadCodeCValidator.cs:line 125    at C2CS.Contexts.ReadCodeC.Domain.ReadCodeCValidator.Validate(ReadCodeCConfiguration configuration) in /Users/lstranks/Programming/c2cs/src/cs/production/contexts/C2CS.Contexts.ReadCodeC/Domain/ReadCodeCValidator.cs:line 25    at C2CS.Foundation.UseCases.UseCase`3.Execute(TConfiguration configuration) in /Users/lstranks/Programming/c2cs/src/cs/production/infrastructure/C2CS.Infrastructure.Common/Foundation/UseCases/UseCase.cs:line 52
+2022-11-05 00:06:38 info: Microsoft.Hosting.Lifetime[0] Application is shutting down...

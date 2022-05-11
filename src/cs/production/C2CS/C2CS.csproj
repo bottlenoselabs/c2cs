@@ -27,7 +27,6 @@
 
     <!-- NuGet package references -->
     <ItemGroup>
-        <PackageReference Include="JsonSchema.Net" Version="2.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
         <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
@@ -46,7 +45,7 @@
         <ProjectReference Include="../contexts/C2CS.Contexts.WriteCodeCSharp/C2CS.Contexts.WriteCodeCSharp.csproj" />
         <ProjectReference Include="../contexts/C2CS.Contexts.ReadCodeC/C2CS.Contexts.ReadCodeC.csproj" />
         <ProjectReference Include="../contexts/C2CS.Contexts.BuildLibraryC/C2CS.Contexts.BuildLibraryC.csproj" />
-        <ProjectReference Include="..\infrastructure\Bindgen.Runtime\Bindgen.Runtime.csproj" />
+        <ProjectReference Include="..\infrastructure\C2CS.Infrastructure.Runtime\C2CS.Infrastructure.Runtime.csproj" />
         <ProjectReference Include="../infrastructure/C2CS.Infrastructure.Clang/C2CS.Infrastructure.Clang.csproj" />
     </ItemGroup>
 

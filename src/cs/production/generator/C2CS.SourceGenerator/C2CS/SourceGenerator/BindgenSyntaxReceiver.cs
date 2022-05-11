@@ -3,10 +3,16 @@
 
 using System.Collections.Immutable;
 using System.Reflection;
+using C2CS.Contexts.WriteCodeCSharp.Data;
+using C2CS.Data;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace C2CS;
+namespace C2CS.SourceGenerator;
+
+// TODO:
+//  2. Change AST directory; directory has be unique for the class name, even if it's going to be deleted after.
+//  3. Remove the `header.h` file in macOS example; use CoreFoundation filepath directly.
 
 public class BindgenSyntaxReceiver : ISyntaxContextReceiver
 {
@@ -40,42 +46,14 @@ public class BindgenSyntaxReceiver : ISyntaxContextReceiver
         var className = @class.Identifier.ValueText;
         var symbol = context.SemanticModel.GetDeclaredSymbol(node);
         var attributes = symbol!.GetAttributes();
-        var bindgenTargetData = BindgenTarget(attributes);
-        if (bindgenTargetData == null)
+        var bindgenTarget = BindgenTarget(
+            className, namespaceName, sourceCodeFilePath, attributes);
+        if (bindgenTarget == null)
         {
             return;
         }
 
-        var bindgenAttribute = bindgenTargetData.Value.Item1;
-        var bindgenAttributes = bindgenTargetData.Value.Item2;
-
-        var workingDirectory = GetWorkingDirectory(sourceCodeFilePath, bindgenAttribute.WorkingDirectory);
-        var headerInputFilePath = GetHeaderInputFilePath(workingDirectory, bindgenAttribute.HeaderInputFile);
-        var configurationFilePath =
-            GetConfigurationFilePath(workingDirectory, className, bindgenAttribute.ConfigurationFileName);
-        var outputLogFilePath = GetOutputLogFilePath(workingDirectory, className, bindgenAttribute.OutputLogFileName);
-
-        var configuration = new BindgenTargetConfiguration
-        {
-            InputFilePath = headerInputFilePath,
-            ClassName = className,
-            LibraryName = bindgenAttribute.LibraryName,
-            NamespaceName = namespaceName,
-            Attributes = bindgenAttributes,
-            IsEnabledSystemDeclarations = bindgenAttribute.IsEnabledSystemDeclarations
-        };
-
-        var target = new BindgenTarget
-        {
-            WorkingDirectory = workingDirectory,
-            ConfigurationFilePath = configurationFilePath,
-            OutputLogFilePath = outputLogFilePath,
-            CSharpInputFilePath = sourceCodeFilePath,
-            Configuration = configuration,
-            AddAsSource = bindgenAttribute.AddAsSource
-        };
-
-        Targets.Add(target);
+        Targets.Add(bindgenTarget);
     }
 
     private static string GetWorkingDirectory(string sourceCodeFilePath, string? workingDirectoryCandidate)
@@ -108,26 +86,53 @@ public class BindgenSyntaxReceiver : ISyntaxContextReceiver
 
     private static string GetConfigurationFilePath(
         string workingDirectory,
-        string className,
-        string configurationFileName)
+        string className)
     {
-        var fileName = !string.IsNullOrEmpty(configurationFileName) ?
-            configurationFileName : $"{className}.json";
-        return Path.Combine(workingDirectory, fileName);
+        return Path.Combine(workingDirectory, $"{className}.json");
     }
 
     private static string GetOutputLogFilePath(
         string workingDirectory,
-        string className,
-        string? outputLogFileName)
+        string className)
     {
-        var fileName = !string.IsNullOrEmpty(outputLogFileName) ?
-            outputLogFileName : $"{className}.log";
-        return Path.Combine(workingDirectory, fileName);
+        return Path.Combine(workingDirectory, $"{className}.log");
     }
 
-    private static (BindgenAttribute, BindgenTargetConfigurationAttributes)? BindgenTarget(
+    private static string GetOutputAbstractSyntaxTreeDirectory(string workingDirectory)
+    {
+        return Path.Combine(workingDirectory, "ast");
+    }
+
+    private static BindgenTarget? BindgenTarget(
+        string className,
+        string namespaceName,
+        string sourceCodeFilePath,
         ImmutableArray<AttributeData> attributes)
+    {
+        var bindgenAttributes = BindgenAttributes(attributes);
+        if (bindgenAttributes == null)
+        {
+            return null;
+        }
+
+        var workingDirectory = GetWorkingDirectory(sourceCodeFilePath, bindgenAttributes.Bindgen.WorkingDirectory);
+        var outputConfigurationFilePath = GetConfigurationFilePath(workingDirectory, className);
+        var outputLogFilePath = GetOutputLogFilePath(workingDirectory, className);
+        var configuration = CreateConfiguration(
+            workingDirectory, className, namespaceName, sourceCodeFilePath, bindgenAttributes);
+
+        var target = new BindgenTarget
+        {
+            WorkingDirectory = workingDirectory,
+            OutputConfigurationFilePath = outputConfigurationFilePath,
+            OutputLogFilePath = outputLogFilePath,
+            Configuration = configuration
+        };
+
+        return target;
+    }
+
+    private static BindgenAttributes? BindgenAttributes(ImmutableArray<AttributeData> attributes)
     {
         BindgenAttribute? bindgenAttribute = null;
         var targetPlatformAttributes = ImmutableArray.CreateBuilder<BindgenTargetPlatformAttribute>();
@@ -159,13 +164,75 @@ public class BindgenSyntaxReceiver : ISyntaxContextReceiver
             return null;
         }
 
-        var targetAttributes = new BindgenTargetConfigurationAttributes
+        var result = new BindgenAttributes
         {
-            TargetPlatforms = targetPlatformAttributes.ToImmutable(),
-            Functions = functionAttributes.ToImmutable()
+            Bindgen = bindgenAttribute,
+            TargetPlatforms = targetPlatformAttributes.ToImmutableArray(),
+            Functions = functionAttributes.ToImmutableArray()
         };
 
-        return (bindgenAttribute, targetAttributes);
+        return result;
+    }
+
+    private static BindgenConfiguration CreateConfiguration(
+        string workingDirectory,
+        string className,
+        string namespaceName,
+        string sourceCodeFilePath,
+        BindgenAttributes attributes)
+    {
+        var inputCFilePath = GetHeaderInputFilePath(workingDirectory, attributes.Bindgen.HeaderInputFile);
+        var outputAbstractSyntaxTreeDirectory = GetOutputAbstractSyntaxTreeDirectory(workingDirectory);
+        var outputFileName = Path.GetFileNameWithoutExtension(sourceCodeFilePath) + ".g.cs";
+        var sourceCodeDirectoryPath = Path.GetDirectoryName(sourceCodeFilePath)!;
+        var outputCSharpFilePath = Path.Combine(sourceCodeDirectoryPath, outputFileName);
+        var configurationPlatforms = new Dictionary<string, ReadCodeCConfigurationPlatform?>();
+
+        var readCodeC = new ReadCodeCConfiguration
+        {
+            WorkingDirectory = workingDirectory,
+            InputFilePath = inputCFilePath,
+            IsEnabledSystemDeclarations = attributes.Bindgen.IsEnabledSystemDeclarations,
+            ConfigurationPlatforms = configurationPlatforms
+        };
+
+        var writeCodeCSharp = new WriteCodeCSharpConfiguration
+        {
+            WorkingDirectory = workingDirectory,
+            OutputFilePath = outputCSharpFilePath,
+            ClassName = className,
+            NamespaceName = namespaceName,
+            LibraryName = attributes.Bindgen.LibraryName
+        };
+
+        var configuration = new BindgenConfiguration
+        {
+            InputOutputFileDirectory = outputAbstractSyntaxTreeDirectory,
+            ReadCCode = readCodeC,
+            WriteCSharpCode = writeCodeCSharp
+        };
+
+        foreach (var attribute in attributes.TargetPlatforms)
+        {
+            var exists = configurationPlatforms.TryGetValue(attribute.Name, out var configurationPlatform);
+            if (!exists)
+            {
+                configurationPlatform = new ReadCodeCConfigurationPlatform();
+                configurationPlatforms.Add(attribute.Name, configurationPlatform);
+            }
+
+            configurationPlatform!.Frameworks = attribute.Frameworks.Cast<string?>().ToImmutableArray();
+        }
+
+        var functionNamesAllowed = ImmutableArray.CreateBuilder<string?>();
+        foreach (var attribute in attributes.Functions)
+        {
+            functionNamesAllowed.Add(attribute.Name);
+        }
+
+        readCodeC.FunctionNamesAllowed = functionNamesAllowed.ToImmutable();
+
+        return configuration;
     }
 
     private static bool IsPartial(MemberDeclarationSyntax member)

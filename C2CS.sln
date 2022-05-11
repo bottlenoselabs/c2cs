@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-c", "src\cs\exam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-cs", "src\cs\examples\helloworld\helloworld-cs\helloworld-cs.csproj", "{3549CD6F-971A-4456-8F80-EFC826AECC04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.CommandLineInterface", "src\cs\production\C2CS.CommandLineInterface\C2CS.CommandLineInterface.csproj", "{2E53A130-519C-4C5F-8D76-86CEA17A160F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS", "src\cs\production\C2CS\C2CS.csproj", "{2E53A130-519C-4C5F-8D76-86CEA17A160F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{995D2D9A-AAF6-4034-8625-5BB812C2870F}"
 EndProject
@@ -30,27 +30,32 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Infrastructure.Clang",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Infrastructure.Clang.Generator", "src\cs\production\infrastructure\C2CS.Infrastructure.Clang.Generator\C2CS.Infrastructure.Clang.Generator.csproj", "{E206B026-28AB-41D9-8B44-A3EC8A216FA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bindgen.Runtime", "src\cs\production\infrastructure\Bindgen.Runtime\Bindgen.Runtime.csproj", "{C3ACC4B9-2573-4171-BA52-959725A74D25}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Infrastructure.Runtime", "src\cs\production\infrastructure\C2CS.Infrastructure.Runtime\C2CS.Infrastructure.Runtime.csproj", "{C3ACC4B9-2573-4171-BA52-959725A74D25}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Infrastructure.Common", "src\cs\production\infrastructure\C2CS.Infrastructure.Common\C2CS.Infrastructure.Common.csproj", "{9500EF1F-4F03-4D02-99E6-5140C806EB0C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Tests.Common", "src\cs\tests\C2CS.Tests.Common\C2CS.Tests.Common.csproj", "{53404802-59DE-4703-B0AF-C2ACC98F7F2F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "macOS", "macOS", "{5B171977-D7D2-49AB-8D1F-F5831A2E8983}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "macos", "macos", "{5B171977-D7D2-49AB-8D1F-F5831A2E8983}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "macOS.MessageBox", "src\cs\examples\macOS\macOS.MessageBox\macOS.MessageBox.csproj", "{235C4BC1-5FDB-44AF-89CE-8709E744B8C1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.SourceGenerator", "src\cs\production\C2CS.SourceGenerator\C2CS.SourceGenerator.csproj", "{BFA91150-DDBC-4A4B-A4C1-95AA19E62D60}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.SourceGenerator.Debug", "src\cs\production\C2CS.SourceGenerator.Debug\C2CS.SourceGenerator.Debug.csproj", "{551969E8-7251-44F7-A716-AD0A30C70C37}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Metadata", "src\cs\production\C2CS.Metadata\C2CS.Metadata.csproj", "{11734511-EFEB-49CD-9B14-7AA05147CDF8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Contexts.WriteCodeCSharp", "src\cs\production\contexts\C2CS.Contexts.WriteCodeCSharp\C2CS.Contexts.WriteCodeCSharp.csproj", "{06788D2C-2634-42BC-B677-25AACF93E275}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Contexts.ReadCodeC", "src\cs\production\contexts\C2CS.Contexts.ReadCodeC\C2CS.Contexts.ReadCodeC.csproj", "{B366D01D-10B5-4583-B697-82C2C1CFCCB1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Contexts.BuildLibraryC", "src\cs\production\contexts\C2CS.Contexts.BuildLibraryC\C2CS.Contexts.BuildLibraryC.csproj", "{3BFF236C-631A-4A13-92E3-A612678FF8BC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "generator", "generator", "{8F78AA4E-DC86-4574-ACC5-AD0366CE0E32}"
+	ProjectSection(SolutionItems) = preProject
+		src\cs\production\generator\README.md = src\cs\production\generator\README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.SourceGenerator", "src\cs\production\generator\C2CS.SourceGenerator\C2CS.SourceGenerator.csproj", "{27FE6AF5-AE60-4F5C-9D7B-EBD45E10504D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.SourceGenerator.Debug", "src\cs\production\generator\C2CS.SourceGenerator.Debug\C2CS.SourceGenerator.Debug.csproj", "{EA300498-7CA8-42A2-B6E9-F7EB635622F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.SourceGenerator.Metadata", "src\cs\production\generator\C2CS.SourceGenerator.Metadata\C2CS.SourceGenerator.Metadata.csproj", "{7A6E636F-7FEC-4504-9C2A-2326C33033F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -98,18 +103,6 @@ Global
 		{235C4BC1-5FDB-44AF-89CE-8709E744B8C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{235C4BC1-5FDB-44AF-89CE-8709E744B8C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{235C4BC1-5FDB-44AF-89CE-8709E744B8C1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BFA91150-DDBC-4A4B-A4C1-95AA19E62D60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BFA91150-DDBC-4A4B-A4C1-95AA19E62D60}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BFA91150-DDBC-4A4B-A4C1-95AA19E62D60}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BFA91150-DDBC-4A4B-A4C1-95AA19E62D60}.Release|Any CPU.Build.0 = Release|Any CPU
-		{551969E8-7251-44F7-A716-AD0A30C70C37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{551969E8-7251-44F7-A716-AD0A30C70C37}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{551969E8-7251-44F7-A716-AD0A30C70C37}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{551969E8-7251-44F7-A716-AD0A30C70C37}.Release|Any CPU.Build.0 = Release|Any CPU
-		{11734511-EFEB-49CD-9B14-7AA05147CDF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{11734511-EFEB-49CD-9B14-7AA05147CDF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{11734511-EFEB-49CD-9B14-7AA05147CDF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{11734511-EFEB-49CD-9B14-7AA05147CDF8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{06788D2C-2634-42BC-B677-25AACF93E275}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{06788D2C-2634-42BC-B677-25AACF93E275}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06788D2C-2634-42BC-B677-25AACF93E275}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -122,6 +115,18 @@ Global
 		{3BFF236C-631A-4A13-92E3-A612678FF8BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BFF236C-631A-4A13-92E3-A612678FF8BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BFF236C-631A-4A13-92E3-A612678FF8BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27FE6AF5-AE60-4F5C-9D7B-EBD45E10504D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27FE6AF5-AE60-4F5C-9D7B-EBD45E10504D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27FE6AF5-AE60-4F5C-9D7B-EBD45E10504D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27FE6AF5-AE60-4F5C-9D7B-EBD45E10504D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA300498-7CA8-42A2-B6E9-F7EB635622F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA300498-7CA8-42A2-B6E9-F7EB635622F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA300498-7CA8-42A2-B6E9-F7EB635622F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA300498-7CA8-42A2-B6E9-F7EB635622F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A6E636F-7FEC-4504-9C2A-2326C33033F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A6E636F-7FEC-4504-9C2A-2326C33033F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A6E636F-7FEC-4504-9C2A-2326C33033F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A6E636F-7FEC-4504-9C2A-2326C33033F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{69316361-0268-46E8-ADE6-89102DEB3166} = {E5C474A9-491B-4719-B253-09F93D5CEA5B}
@@ -138,11 +143,12 @@ Global
 		{53404802-59DE-4703-B0AF-C2ACC98F7F2F} = {995D2D9A-AAF6-4034-8625-5BB812C2870F}
 		{5B171977-D7D2-49AB-8D1F-F5831A2E8983} = {E5C474A9-491B-4719-B253-09F93D5CEA5B}
 		{235C4BC1-5FDB-44AF-89CE-8709E744B8C1} = {5B171977-D7D2-49AB-8D1F-F5831A2E8983}
-		{BFA91150-DDBC-4A4B-A4C1-95AA19E62D60} = {0B6FBBF3-28F7-4374-9CDD-3C8B1DFD2AB8}
-		{551969E8-7251-44F7-A716-AD0A30C70C37} = {0B6FBBF3-28F7-4374-9CDD-3C8B1DFD2AB8}
-		{11734511-EFEB-49CD-9B14-7AA05147CDF8} = {0B6FBBF3-28F7-4374-9CDD-3C8B1DFD2AB8}
 		{06788D2C-2634-42BC-B677-25AACF93E275} = {FF3312B1-10D2-4B8A-AD43-3F6D9CE5E61F}
 		{B366D01D-10B5-4583-B697-82C2C1CFCCB1} = {FF3312B1-10D2-4B8A-AD43-3F6D9CE5E61F}
 		{3BFF236C-631A-4A13-92E3-A612678FF8BC} = {FF3312B1-10D2-4B8A-AD43-3F6D9CE5E61F}
+		{8F78AA4E-DC86-4574-ACC5-AD0366CE0E32} = {0B6FBBF3-28F7-4374-9CDD-3C8B1DFD2AB8}
+		{27FE6AF5-AE60-4F5C-9D7B-EBD45E10504D} = {8F78AA4E-DC86-4574-ACC5-AD0366CE0E32}
+		{EA300498-7CA8-42A2-B6E9-F7EB635622F6} = {8F78AA4E-DC86-4574-ACC5-AD0366CE0E32}
+		{7A6E636F-7FEC-4504-9C2A-2326C33033F6} = {8F78AA4E-DC86-4574-ACC5-AD0366CE0E32}
 	EndGlobalSection
 EndGlobal

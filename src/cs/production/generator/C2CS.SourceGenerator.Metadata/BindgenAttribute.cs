@@ -12,15 +12,13 @@ public sealed class BindgenAttribute : Attribute
 {
     public string? WorkingDirectory { get; set; }
 
-    public string ConfigurationFileName { get; set; } = string.Empty;
+    public string OutputFileDirectory { get; set; } = string.Empty;
 
-    public string OutputLogFileName { get; set; } = string.Empty;
+    public bool IsEnabledDeleteOutput { get; set; } = true;
 
     public string LibraryName { get; set; } = string.Empty;
 
     public string HeaderInputFile { get; set; } = string.Empty;
-
-    public bool AddAsSource { get; set; }
 
     public bool IsEnabledSystemDeclarations { get; set; }
 }

@@ -394,8 +394,13 @@ public sealed partial class Explorer
         TryEnqueueVisitInfoNode(context, kind, visitInfo);
     }
 
-    private void TryEnqueueVisitInfoNode(ExploreContext context, CKind kind, ExploreInfoNode node)
+    private void TryEnqueueVisitInfoNode(ExploreContext context, CKind kind, ExploreInfoNode info)
     {
+        if (info.Name == "struct_union_named")
+        {
+            Console.WriteLine();
+        }
+
         var frontier = kind switch
         {
             CKind.Macro => _frontierMacros,
@@ -412,13 +417,13 @@ public sealed partial class Explorer
                 return;
         }
 
-        if (!context.CanVisit(kind, node))
+        if (!context.CanVisit(kind, info))
         {
             return;
         }
 
-        LogEnqueue(kind, node.Name, node.Location);
-        frontier.PushBack(node);
+        LogEnqueue(kind, info.Name, info.Location);
+        frontier.PushBack(info);
     }
 
     private string GetFunctionPointerName(CXCursor cursor, CXType type)

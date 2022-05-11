@@ -3,7 +3,7 @@
 
 using Microsoft.CodeAnalysis;
 
-namespace C2CS;
+namespace C2CS.SourceGenerator;
 
 internal static class Diagnostics
 {

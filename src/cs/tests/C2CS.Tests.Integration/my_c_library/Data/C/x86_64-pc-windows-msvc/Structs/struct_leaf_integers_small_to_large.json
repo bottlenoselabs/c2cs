@@ -6,28 +6,28 @@
   "fields": [
     {
       "name": "struct_field_1",
-      "type_name": "int8_t",
+      "type_name": "signed char",
       "offset_of": 0,
       "padding_of": 1,
       "size_of": 1
     },
     {
       "name": "struct_field_2",
-      "type_name": "int16_t",
+      "type_name": "short",
       "offset_of": 2,
       "padding_of": 0,
       "size_of": 2
     },
     {
       "name": "struct_field_3",
-      "type_name": "int32_t",
+      "type_name": "int",
       "offset_of": 4,
       "padding_of": 0,
       "size_of": 4
     },
     {
       "name": "struct_field_4",
-      "type_name": "int64_t",
+      "type_name": "long long",
       "offset_of": 8,
       "padding_of": 0,
       "size_of": 8

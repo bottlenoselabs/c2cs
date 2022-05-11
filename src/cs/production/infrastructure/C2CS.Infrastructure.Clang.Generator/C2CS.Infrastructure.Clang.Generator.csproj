@@ -14,7 +14,7 @@
 
     <!-- Project references -->
     <ItemGroup>
-        <ProjectReference Include="..\..\C2CS.CommandLineInterface\C2CS.CommandLineInterface.csproj" />
+        <ProjectReference Include="..\..\C2CS\C2CS.csproj" />
     </ItemGroup>
     
     <!-- Copy config-->

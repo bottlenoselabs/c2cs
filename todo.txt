@@ -1,7 +1,5 @@
 TODO
 
-- Fix named unions reading C code.
-
 NuGet packages:
 *-dev: package source code into NuGet package as use that as reference
 *: package compiled source code as binaries and use as that as reference

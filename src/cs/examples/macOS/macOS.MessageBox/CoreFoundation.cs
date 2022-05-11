@@ -8,7 +8,6 @@ namespace macOS.MessageBox;
 [Bindgen(
     HeaderInputFile = "header.h",
     LibraryName = "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
-    AddAsSource = false,
     IsEnabledSystemDeclarations = true)]
 [BindgenTargetPlatform(Name = "aarch64-apple-darwin", Frameworks = new[] { "CoreFoundation" })]
 [BindgenTargetPlatform(Name = "x86_64-apple-darwin", Frameworks = new[] { "CoreFoundation" })]

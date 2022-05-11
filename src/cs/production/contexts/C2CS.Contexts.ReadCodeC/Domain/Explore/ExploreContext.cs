@@ -261,17 +261,7 @@ public sealed partial class ExploreContext
         var handler = GetHandler(kind);
         if (handler.IsBlocked(this, info.TypeName, info.Cursor))
         {
-            if (info.Parent == null)
-            {
-                return null;
-            }
-
-            if (info.Parent.Kind == CKind.TypeAlias && info.Kind == CKind.Pointer)
-            {
-                return CTypeInfo.VoidPointer(PointerSize);
-            }
-
-            return null;
+            return CreateTypeInfoBlocked(info);
         }
 
         if (Options.OpaqueTypesNames.Contains(name))
@@ -289,8 +279,14 @@ public sealed partial class ExploreContext
                 CKind.Enum or
                 CKind.Struct or
                 CKind.Union or
-                CKind.FunctionPointer or
-                CKind.Pointer)
+                CKind.FunctionPointer)
+            {
+                var underlyingTypeInfo = VisitType(underlyingType, info)!;
+                var typeAliasTypeInfo = CreateTypeInfoTypeAlias(info.TypeName, underlyingTypeInfo);
+                return typeAliasTypeInfo;
+            }
+
+            if (underlyingTypeKind is CKind.Pointer)
             {
                 TryEnqueueVisitInfoNode(kind, info);
                 var underlyingTypeInfo = VisitType(underlyingType, info)!;
@@ -453,6 +449,33 @@ public sealed partial class ExploreContext
         // }
 
         return cType;
+    }
+
+    private CTypeInfo? CreateTypeInfoBlocked(ExploreInfoNode info)
+    {
+        if (info.Parent == null)
+        {
+            return null;
+        }
+
+        if (info.Parent.Kind == CKind.TypeAlias && info.Kind == CKind.Pointer)
+        {
+            return CTypeInfo.VoidPointer(PointerSize);
+        }
+
+        if (info.Kind == CKind.TypeAlias)
+        {
+            var underlyingType = clang_getTypedefDeclUnderlyingType(info.Cursor);
+            var underlyingTypeInfo = VisitType(underlyingType, info);
+            if (underlyingTypeInfo == null)
+            {
+                return null;
+            }
+
+            return underlyingTypeInfo;
+        }
+
+        return null;
     }
 
     private CTypeInfo CreateTypeInfoTypeAlias(string typeName, CTypeInfo underlyingTypeInfo)

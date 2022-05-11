@@ -10,7 +10,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="$(GitRepositoryPath)/src/cs/production/C2CS.SourceGenerator/C2CS.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
+        <ProjectReference Include="$(GitRepositoryPath)/src/cs/production/generator/C2CS.SourceGenerator/C2CS.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <ProjectReference Include="$(GitRepositoryPath)/src/cs/production/generator/C2CS.SourceGenerator.Metadata/C2CS.SourceGenerator.Metadata.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -20,8 +20,23 @@ public class TypeAliasExploreHandler : ExploreHandler<CTypeAlias>
     {
     }
 
+    protected override bool CanVisit(ExploreContext context, string name)
+    {
+        if (name == "struct_union_named")
+        {
+            Console.WriteLine();
+        }
+
+        return base.CanVisit(context, name);
+    }
+
     public override CTypeAlias Explore(ExploreContext context, ExploreInfoNode info)
     {
+        if (info.Name == "struct_union_named")
+        {
+            Console.WriteLine();
+        }
+
         var typeAlias = TypeAlias(context, info);
         return typeAlias;
     }
