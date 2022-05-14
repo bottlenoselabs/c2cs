@@ -7,23 +7,23 @@ namespace C2CS.Contexts.ReadCodeC.Domain.Explore;
 
 public class ExplorerOptions
 {
-    public ImmutableArray<string> HeaderFilesBlocked { get; init; }
+    public ImmutableArray<string> HeaderFilesBlocked { get; set; }
 
-    public ImmutableArray<string> OpaqueTypesNames { get; init; }
+    public ImmutableArray<string> OpaqueTypesNames { get; set; }
 
-    public ImmutableArray<string> FunctionNamesAllowed { get; init; }
+    public ImmutableArray<string> FunctionNamesAllowed { get; set; }
 
-    public bool IsEnabledLocationFullPaths { get; init; }
+    public bool IsEnabledLocationFullPaths { get; set; }
 
-    public bool IsEnabledMacroObjects { get; init; }
+    public bool IsEnabledMacroObjects { get; set; }
 
-    public bool IsEnabledFunctions { get; init; }
+    public bool IsEnabledFunctions { get; set; }
 
-    public bool IsEnabledVariables { get; init; }
+    public bool IsEnabledVariables { get; set; }
 
-    public bool IsEnabledEnumsDangling { get; init; }
+    public bool IsEnabledEnumsDangling { get; set; }
 
-    public bool IsEnabledAllowNamesWithPrefixedUnderscore { get; init; }
+    public bool IsEnabledAllowNamesWithPrefixedUnderscore { get; set; }
 
-    public bool IsEnabledSystemDeclarations { get; init; }
+    public bool IsEnabledSystemDeclarations { get; set; }
 }

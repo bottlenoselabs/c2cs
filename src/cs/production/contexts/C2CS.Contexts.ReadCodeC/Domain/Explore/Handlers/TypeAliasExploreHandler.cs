@@ -30,7 +30,7 @@ public class TypeAliasExploreHandler : ExploreHandler<CTypeAlias>
         return base.CanVisit(context, name);
     }
 
-    public override CTypeAlias Explore(ExploreContext context, ExploreInfoNode info)
+    public override CNode Explore(ExploreContext context, ExploreInfoNode info)
     {
         if (info.Name == "struct_union_named")
         {

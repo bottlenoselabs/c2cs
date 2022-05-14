@@ -83,7 +83,7 @@ public sealed partial class ExploreContext
             return $"{parentName}_ANONYMOUS_FIELD{fieldIndex}";
         }
 
-        if (name.Contains("(unnamed at ", StringComparison.InvariantCulture))
+        if (name.Contains("(unnamed at "))
         {
             return $"{parentName}_UNNAMED_FIELD{fieldIndex}";
         }
@@ -133,12 +133,14 @@ public sealed partial class ExploreContext
             return location;
         }
 
-        foreach (var (linkedDirectory, targetDirectory) in _linkedPaths)
+        foreach (var keyValuePair in _linkedPaths)
         {
-            if (location.FilePath.Contains(linkedDirectory, StringComparison.InvariantCulture))
+            var linkedDirectory = keyValuePair.Key;
+            var targetDirectory = keyValuePair.Value;
+            if (location.FilePath.Contains(linkedDirectory))
             {
                 location.FilePath = location.FilePath
-                    .Replace(linkedDirectory, targetDirectory, StringComparison.InvariantCulture).Trim('/', '\\');
+                    .Replace(linkedDirectory, targetDirectory).Trim('/', '\\');
                 break;
             }
         }
@@ -147,10 +149,10 @@ public sealed partial class ExploreContext
         {
             foreach (var directory in UserIncludeDirectories)
             {
-                if (location.FilePath.Contains(directory, StringComparison.InvariantCulture))
+                if (location.FilePath.Contains(directory))
                 {
                     location.FilePath = location.FilePath
-                        .Replace(directory, string.Empty, StringComparison.InvariantCulture).Trim('/', '\\');
+                        .Replace(directory, string.Empty).Trim('/', '\\');
                     break;
                 }
             }

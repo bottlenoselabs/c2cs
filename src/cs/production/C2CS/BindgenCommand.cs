@@ -1,32 +1,27 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
 using System.CommandLine;
-using System.IO;
 using System.Text.Json;
 using C2CS.Data;
-using C2CS.Data.Serialization;
 using Json.Schema;
 using Json.Schema.Generation;
-using Microsoft.Extensions.DependencyInjection;
-using UseCase = C2CS.Contexts.WriteCodeCSharp.UseCase;
 
 namespace C2CS;
 
-internal class CommandLineInterface : RootCommand
+public class BindgenCommand : RootCommand
 {
-    private readonly BindgenConfigurationJsonSerializer _configurationJsonSerializer;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly Bindgen _bindgen;
 
-    public CommandLineInterface(
-        BindgenConfigurationJsonSerializer configurationJsonSerializer,
-        IServiceProvider serviceProvider)
+    public BindgenCommand(Bindgen bindgen)
         : base("C2CS - C to C# bindings code generator.")
     {
-        _configurationJsonSerializer = configurationJsonSerializer;
-        _serviceProvider = serviceProvider;
+        _bindgen = bindgen;
+        Initialize();
+    }
 
+    private void Initialize()
+    {
         var configurationOption = new Option<string>(
             new[] { "--configurationFilePath", "-c" },
             "File path of the configuration `.json` file.")
@@ -60,49 +55,17 @@ internal class CommandLineInterface : RootCommand
 
     private void Handle(string configurationFilePath)
     {
-        var isSuccess = HandleAbstractSyntaxTreesC(configurationFilePath);
-        if (isSuccess)
-        {
-            HandleBindgenCSharp(configurationFilePath);
-        }
+        _bindgen.Execute(configurationFilePath);
     }
 
-    private bool HandleAbstractSyntaxTreesC(string configurationFilePath)
+    private void HandleAbstractSyntaxTreesC(string configurationFilePath)
     {
-        if (string.IsNullOrEmpty(configurationFilePath))
-        {
-            configurationFilePath = "config.json";
-        }
-
-        var configuration = _configurationJsonSerializer.Read(configurationFilePath);
-        var configurationReadC = configuration.ReadCCode;
-        if (configurationReadC == null)
-        {
-            return false;
-        }
-
-        var useCase = _serviceProvider.GetService<Contexts.ReadCodeC.UseCase>()!;
-        var response = useCase.Execute(configurationReadC);
-
-        return response.IsSuccess;
+        _bindgen.ReadCodeC(configurationFilePath);
     }
 
     private void HandleBindgenCSharp(string configurationFilePath)
     {
-        if (string.IsNullOrEmpty(configurationFilePath))
-        {
-            configurationFilePath = "config.json";
-        }
-
-        var configuration = _configurationJsonSerializer.Read(configurationFilePath);
-        var configurationWriteCSharp = configuration.WriteCSharpCode;
-        if (configurationWriteCSharp == null)
-        {
-            return;
-        }
-
-        var useCase = _serviceProvider.GetService<UseCase>()!;
-        useCase.Execute(configurationWriteCSharp);
+        _bindgen.WriteCodeCSharp(configurationFilePath);
     }
 
     private static void GenerateSchema()

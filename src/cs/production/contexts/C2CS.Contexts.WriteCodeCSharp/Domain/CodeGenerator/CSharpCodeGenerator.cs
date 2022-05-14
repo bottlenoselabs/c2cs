@@ -51,7 +51,7 @@ public sealed class CSharpCodeGenerator
                 var platformSpecificMembers = new List<MemberDeclarationSyntax>();
                 EmitNodes(nodes, platformSpecificMembers);
 
-                var platformSpecificClassName = platform.ToString().Replace("-", "_", StringComparison.InvariantCulture);
+                var platformSpecificClassName = platform.ToString().Replace("-", "_");
                 var platformSpecificClass = ClassDeclaration(platformSpecificClassName)
                     .AddModifiers(Token(SyntaxKind.PublicKeyword), Token(SyntaxKind.StaticKeyword))
                     .AddMembers(platformSpecificMembers.ToArray());
@@ -81,7 +81,7 @@ public sealed class CSharpCodeGenerator
         if (membersApi.Count > 0)
         {
             membersApi[0] = membersApi[0].AddRegionStart("API", false);
-            membersApi[^1] = membersApi[^1].AddRegionEnd();
+            membersApi[membersApi.Count - 1] = membersApi[membersApi.Count - 1].AddRegionEnd();
         }
 
         FunctionPointers(membersTypes, nodes.FunctionPointers);
@@ -93,7 +93,7 @@ public sealed class CSharpCodeGenerator
         if (membersTypes.Count > 0)
         {
             membersTypes[0] = membersTypes[0].AddRegionStart("Types", false);
-            membersTypes[^1] = membersTypes[^1].AddRegionEnd();
+            membersTypes[membersTypes.Count - 1] = membersTypes[membersTypes.Count - 1].AddRegionEnd();
         }
 
         members.AddRange(membersApi);
@@ -216,11 +216,11 @@ namespace {namespaceName}
             CSharpFunctionCallingConvention.FastCall => "CallingConvention = CallingConvention.FastCall",
             _ => string.Empty,
         };
-        var dllImportParameters = string.Join(',', "LibraryName", callingConvention);
+        var dllImportParameters = string.Join(",", "LibraryName", callingConvention);
 
         var parameterStrings = function.Parameters.Select(
             x => $@"{x.TypeName} {x.Name}");
-        var parameters = string.Join(',', parameterStrings);
+        var parameters = string.Join(",", parameterStrings);
 
         var code = $@"
 {function.CodeLocationComment}
@@ -254,7 +254,7 @@ public static extern {function.ReturnType.Name} {function.Name}({parameters});
         var parameterStrings = functionPointer.Parameters
             .Select(x => $"{x.Type}")
             .Append($"{functionPointer.ReturnType.Name}");
-        var parameters = string.Join(',', parameterStrings);
+        var parameters = string.Join(",", parameterStrings);
         var functionPointerName = functionPointer.Name;
 
         var code = $@"
@@ -422,8 +422,8 @@ public string {field.Name}
         else
         {
             var fieldTypeName = field.Type.Name;
-            var elementType = fieldTypeName[..^1];
-            if (elementType.EndsWith('*'))
+            var elementType = fieldTypeName.Substring(0, fieldTypeName.Length - 1);
+            if (elementType.EndsWith("*", StringComparison.InvariantCulture))
             {
                 // ReSharper disable once StringLiteralTypo
                 elementType = "nint";

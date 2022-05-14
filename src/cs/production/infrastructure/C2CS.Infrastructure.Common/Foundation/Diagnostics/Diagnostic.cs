@@ -60,7 +60,7 @@ public abstract class Diagnostic
             return typeName;
         }
 
-        return typeName.Replace("Diagnostic", string.Empty, StringComparison.InvariantCulture);
+        return typeName.Replace("Diagnostic", string.Empty);
     }
 
     internal void Log(ILogger logger)

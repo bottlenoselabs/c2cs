@@ -18,4 +18,8 @@
       <EmbeddedResource Include="appsettings.json" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="generated/**/*" />
+    </ItemGroup>
+
 </Project>

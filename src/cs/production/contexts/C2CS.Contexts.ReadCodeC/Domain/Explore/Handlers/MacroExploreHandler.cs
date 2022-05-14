@@ -36,7 +36,7 @@ public sealed class MacroExploreHandler : ExploreHandler<CMacroObject>
         return true;
     }
 
-    public override CMacroObject Explore(ExploreContext context, ExploreInfoNode info)
+    public override CNode Explore(ExploreContext context, ExploreInfoNode info)
     {
         var macroObject = MacroObject(info);
         return macroObject;
@@ -117,7 +117,7 @@ public sealed class MacroExploreHandler : ExploreHandler<CMacroObject>
                 var cString = (string)clang_getCString(spelling);
 
                 // CLANG BUG?: https://github.com/FNA-XNA/FAudio/blob/b84599a5e6d7811b02329709a166a337de158c5e/include/FAPOBase.h#L90
-                if (cString.StartsWith('\\'))
+                if (cString.StartsWith("\\", StringComparison.InvariantCulture))
                 {
                     cString = cString.TrimStart('\\');
                 }
@@ -131,7 +131,7 @@ public sealed class MacroExploreHandler : ExploreHandler<CMacroObject>
         // Remove redundant parenthesis
         if (tokens.Length > 2)
         {
-            if (tokens[0] == "(" && tokens[^1] == ")")
+            if (tokens[0] == "(" && tokens[tokens.Length - 1] == ")")
             {
                 var newTokens = new string[tokens.Length - 2];
                 Array.Copy(tokens, 1, newTokens, 0, tokens.Length - 2);

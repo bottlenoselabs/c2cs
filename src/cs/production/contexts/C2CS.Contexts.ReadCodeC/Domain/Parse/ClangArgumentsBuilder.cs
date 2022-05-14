@@ -12,7 +12,7 @@ namespace C2CS.Contexts.ReadCodeC.Domain.Parse;
 public class ClangArgumentsBuilder
 {
     private readonly IFileSystem _fileSystem;
-    private readonly List<FileSystemInfo> _temporaryLinkPaths = new();
+    private readonly List<(string Path, string TargetPath)> _temporaryLinkPaths = new();
 
     public ClangArgumentsBuilder(IFileSystem fileSystem)
     {
@@ -47,7 +47,7 @@ public class ClangArgumentsBuilder
         var builder = ImmutableDictionary.CreateBuilder<string, string>();
         foreach (var linkPath in _temporaryLinkPaths)
         {
-            builder.Add(linkPath.FullName, linkPath.LinkTarget!);
+            builder.Add(linkPath.Path, linkPath.TargetPath);
         }
 
         return builder.ToImmutable();
@@ -57,7 +57,7 @@ public class ClangArgumentsBuilder
     {
         foreach (var linkPath in _temporaryLinkPaths)
         {
-            linkPath.Delete();
+            File.Delete(linkPath.Path);
         }
     }
 
@@ -292,7 +292,7 @@ public class ClangArgumentsBuilder
         }
 
         directories.Add($"{sdkPath}/usr/include");
-        AddFrameworks(directories, frameworks, sdkPath);
+        AddAppleFrameworks(directories, frameworks, sdkPath);
     }
 
     private void SystemIncludesDirectoriesTargetIPhone(
@@ -307,7 +307,7 @@ public class ClangArgumentsBuilder
         }
 
         directories.Add($"{sdkPath}/usr/include");
-        AddFrameworks(directories, frameworks, sdkPath);
+        AddAppleFrameworks(directories, frameworks, sdkPath);
     }
 
     private string GetHighestVersionDirectoryPathFrom(string sdkDirectoryPath)
@@ -319,7 +319,7 @@ public class ClangArgumentsBuilder
         foreach (var directoryPath in versionDirectoryPaths)
         {
             var versionStringIndex = directoryPath.LastIndexOf(_fileSystem.Path.DirectorySeparatorChar);
-            var versionString = directoryPath[(versionStringIndex + 1)..];
+            var versionString = directoryPath.Substring(versionStringIndex + 1);
             if (!Version.TryParse(versionString, out var version))
             {
                 continue;
@@ -337,7 +337,7 @@ public class ClangArgumentsBuilder
         return result;
     }
 
-    private void AddFrameworks(
+    private void AddAppleFrameworks(
         ImmutableArray<string>.Builder directories, ImmutableArray<string> frameworks, string sdkPath)
     {
         var frameworkLinks = new List<(string FrameworkName, string LinkTargetPath)>();
@@ -359,17 +359,22 @@ public class ClangArgumentsBuilder
                 directories.Add(temporarySystemIncludesDirectory);
             }
 
-            foreach (var (frameworkName, linkTargetPath) in frameworkLinks)
+            foreach (var (frameworkName, linkOriginalPath) in frameworkLinks)
             {
                 var linkPath = _fileSystem.Path.Combine(temporarySystemIncludesDirectory, frameworkName);
+
                 FileSystemInfo fileInfo = new FileInfo(linkPath);
-                if (fileInfo.LinkTarget != null)
+                if (fileInfo.Exists)
                 {
                     fileInfo.Delete();
                 }
 
-                fileInfo = File.CreateSymbolicLink(linkPath, linkTargetPath);
-                _temporaryLinkPaths.Add(fileInfo);
+                var createSymbolicLinkCommand = $"ln -s {linkOriginalPath} {linkPath}";
+                var output = createSymbolicLinkCommand.ExecuteShell();
+                if (output.ExitCode == 0)
+                {
+                    _temporaryLinkPaths.Add((linkPath, linkOriginalPath));
+                }
             }
         }
     }

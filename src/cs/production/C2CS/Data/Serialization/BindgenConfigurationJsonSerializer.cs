@@ -1,7 +1,6 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
 using System.IO.Abstractions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -11,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace C2CS.Data.Serialization;
 
-public sealed class BindgenConfigurationJsonSerializer
+public sealed partial class BindgenConfigurationJsonSerializer
 {
     private readonly ILogger<BindgenConfigurationJsonSerializer> _logger;
     private readonly IFileSystem _fileSystem;
@@ -47,12 +46,12 @@ public sealed class BindgenConfigurationJsonSerializer
 
             Polyfill(fullFilePath, configuration);
 
-            _logger.ConfigurationLoadSuccess(fullFilePath);
+            LogLoadSuccess(fullFilePath);
             return configuration;
         }
         catch (Exception e)
         {
-            _logger.ConfigurationLoadFailure(fullFilePath, e);
+            LogLoadFailure(fullFilePath, e);
             throw;
         }
     }
@@ -98,4 +97,10 @@ public sealed class BindgenConfigurationJsonSerializer
             write.WorkingDirectory = _fileSystem.Path.GetDirectoryName(filePath);
         }
     }
+
+    [LoggerMessage(0, LogLevel.Information, "Configuration load: Success. Path: {FilePath}.")]
+    private partial void LogLoadSuccess(string filePath);
+
+    [LoggerMessage(1, LogLevel.Information, "Configuration load. Failed. Path: {FilePath}.")]
+    private partial void LogLoadFailure(string filePath, Exception exception);
 }

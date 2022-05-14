@@ -13,7 +13,7 @@ public abstract class CSharpNode : IEquatable<CSharpNode>
 
     public readonly int? SizeOf;
 
-    protected CSharpNode(TargetPlatform platform, string? name, string? codeLocationComment, int? sizeOf)
+    protected CSharpNode(TargetPlatform platform, string name, string codeLocationComment, int? sizeOf)
     {
         Platform = platform;
         Name = string.IsNullOrEmpty(name) ? string.Empty : name;

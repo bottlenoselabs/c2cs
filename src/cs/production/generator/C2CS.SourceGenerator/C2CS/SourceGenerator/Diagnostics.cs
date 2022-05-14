@@ -26,7 +26,7 @@ internal static class Diagnostics
     public static readonly DiagnosticDescriptor BindgenFailed = new(
         id: "BINDGEN003",
         title: "Bindgen error",
-        messageFormat: "Failed to generate bindings for partial class '{0}'. Configuration file path: '{1}'. Log: '{2}'.",
+        messageFormat: "Failed to generate bindings for partial class '{0}'. Configuration: '{1}'. Log: '{2}'.",
         category: "Bindgen",
         DiagnosticSeverity.Error,
         isEnabledByDefault: true);
@@ -34,7 +34,15 @@ internal static class Diagnostics
     public static readonly DiagnosticDescriptor BindgenNoSourceCode = new(
         id: "BINDGEN004",
         title: "Bindgen no output",
-        messageFormat: "Bindgen program succeeded for partial class '{0}' but there is no C# source code output. Configuration file path: '{1}'. Log: '{2}'.",
+        messageFormat: "Bindgen program succeeded for partial class '{0}' but there is no C# source code output. Configuration: '{1}'. Log: '{2}'.",
+        category: "Bindgen",
+        DiagnosticSeverity.Warning,
+        isEnabledByDefault: true);
+
+    public static readonly DiagnosticDescriptor BindgenHeaderNotFound = new(
+        id: "BINDGEN005",
+        title: "Bindgen no C header file",
+        messageFormat: "Could not find a C header file '{0}'",
         category: "Bindgen",
         DiagnosticSeverity.Warning,
         isEnabledByDefault: true);

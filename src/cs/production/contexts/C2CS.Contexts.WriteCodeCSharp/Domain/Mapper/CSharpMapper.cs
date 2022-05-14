@@ -235,7 +235,7 @@ public sealed class CSharpMapper
         var typeCSharpNameBase = typeCSharpName.TrimEnd('*');
         if (typeCSharpNameBase == functionName)
         {
-            typeCSharpName = typeCSharpName.Replace(typeCSharpNameBase, typeCSharpNameBase + "_", StringComparison.InvariantCulture);
+            typeCSharpName = typeCSharpName.Replace(typeCSharpNameBase, typeCSharpNameBase + "_");
         }
 
         var functionParameterCSharp = new CSharpFunctionParameter(
@@ -688,16 +688,20 @@ public sealed class CSharpMapper
         {
             var token = tokens[i];
 
-            foreach (var (typeName, typeNameAlias) in _parameters.SystemTypeNameAliases)
+            foreach (var keyValuePair in _parameters.SystemTypeNameAliases)
             {
+                var typeName = keyValuePair.Key;
+                var typeNameAlias = keyValuePair.Value;
                 if (token == typeName)
                 {
                     token = tokens[i] = typeNameAlias;
                 }
             }
 
-            foreach (var (typeName, typeNameAlias) in _userTypeNameAliases)
+            foreach (var keyValuePair in _userTypeNameAliases)
             {
+                var typeName = keyValuePair.Key;
+                var typeNameAlias = keyValuePair.Value;
                 if (token == typeName)
                 {
                     token = tokens[i] = typeNameAlias;
@@ -711,11 +715,11 @@ public sealed class CSharpMapper
 
             if (token.ToUpper(CultureInfo.InvariantCulture).EndsWith("ULL", StringComparison.InvariantCulture))
             {
-                var possibleIntegerToken = token[..^3];
+                var possibleIntegerToken = token.Substring(0, token.Length - 3);
 
                 if (possibleIntegerToken.StartsWith("0x", StringComparison.InvariantCulture))
                 {
-                    possibleIntegerToken = possibleIntegerToken[2..];
+                    possibleIntegerToken = possibleIntegerToken.Substring(2);
                     if (ulong.TryParse(
                             possibleIntegerToken,
                             NumberStyles.HexNumber,
@@ -896,7 +900,7 @@ var x = {value};
     {
         var returnTypeC = functionPointer.ReturnTypeInfo;
         var returnTypeNameCSharpOriginal = TypeNameCSharp(context, returnTypeC);
-        var returnTypeNameCSharp = returnTypeNameCSharpOriginal.Replace("*", "Ptr", StringComparison.InvariantCulture);
+        var returnTypeNameCSharp = returnTypeNameCSharpOriginal.Replace("*", "Ptr");
         var returnTypeStringCapitalized = char.ToUpper(returnTypeNameCSharp[0], CultureInfo.InvariantCulture) +
                                           returnTypeNameCSharp.Substring(1);
 
@@ -906,15 +910,15 @@ var x = {value};
             var nameCSharp = TypeNameCSharp(context, parameter.TypeInfo);
             var typeCSharp = TypeCSharp(nameCSharp, parameter.TypeInfo);
             var typeNameCSharpOriginal = typeCSharp.Name;
-            var typeNameCSharp = typeNameCSharpOriginal.Replace("*", "Ptr", StringComparison.InvariantCulture);
+            var typeNameCSharp = typeNameCSharpOriginal.Replace("*", "Ptr");
             var typeNameCSharpCapitalized =
-                char.ToUpper(typeNameCSharp[0], CultureInfo.InvariantCulture) + typeNameCSharp[1..];
+                char.ToUpper(typeNameCSharp[0], CultureInfo.InvariantCulture) + typeNameCSharp.Substring(1);
             parameterStringsCSharp.Add(typeNameCSharpCapitalized);
         }
 
-        var parameterStringsCSharpJoined = string.Join('_', parameterStringsCSharp);
+        var parameterStringsCSharpJoined = string.Join("_", parameterStringsCSharp);
         var functionPointerNameCSharp = $"FnPtr_{parameterStringsCSharpJoined}_{returnTypeStringCapitalized}"
-            .Replace("__", "_", StringComparison.InvariantCulture);
+            .Replace("__", "_");
         return functionPointerNameCSharp;
     }
 
@@ -925,7 +929,7 @@ var x = {value};
         // Replace [] with *
         while (true)
         {
-            var x = pointerTypeName.IndexOf('[', StringComparison.InvariantCulture);
+            var x = pointerTypeName.IndexOf('[');
 
             if (x == -1)
             {
@@ -934,39 +938,36 @@ var x = {value};
 
             var y = pointerTypeName.IndexOf(']', x);
 
-            pointerTypeName = pointerTypeName[..x] + "*" + pointerTypeName[(y + 1)..];
+            var a = pointerTypeName.Substring(0, x) + "*";
+            var b = pointerTypeName.Substring(y + 1, pointerTypeName.Length);
+            pointerTypeName = a + b;
         }
 
         if (pointerTypeName.StartsWith("char*", StringComparison.InvariantCulture))
         {
-            return pointerTypeName.Replace("char*", "CString", StringComparison.InvariantCulture);
+            return pointerTypeName.Replace("char*", "CString");
         }
 
         if (pointerTypeName.StartsWith("wchar_t*", StringComparison.InvariantCulture))
         {
-            return pointerTypeName.Replace("wchar_t*", "CStringWide", StringComparison.InvariantCulture);
+            return pointerTypeName.Replace("wchar_t*", "CStringWide");
         }
 
         if (pointerTypeName.StartsWith("FILE*", StringComparison.InvariantCulture))
         {
-            return pointerTypeName.Replace("FILE*", "nint", StringComparison.InvariantCulture);
+            return pointerTypeName.Replace("FILE*", "nint");
         }
 
         if (pointerTypeName.StartsWith("DIR*", StringComparison.InvariantCulture))
         {
-            return pointerTypeName.Replace("DIR*", "nint", StringComparison.InvariantCulture);
+            return pointerTypeName.Replace("DIR*", "nint");
         }
 
         var elementTypeName = pointerTypeName.TrimEnd('*');
-        var pointersTypeName = pointerTypeName[elementTypeName.Length..];
+        var pointersTypeName = pointerTypeName.Substring(elementTypeName.Length);
         if (elementTypeName.Length == 0)
         {
             return "void" + pointersTypeName;
-        }
-
-        if (innerTypeInfo == null)
-        {
-            Console.WriteLine();
         }
 
         var mappedElementTypeName = TypeNameCSharpRaw(elementTypeName, innerTypeInfo!.SizeOf);
@@ -1227,23 +1228,23 @@ var x = {value};
             runtimesString.Split(new[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
         foreach (var fullRuntimeString in runtimeStrings)
         {
-            var parse = fullRuntimeString.Split(" [", StringSplitOptions.RemoveEmptyEntries);
+            var parse = fullRuntimeString.Split(new[] {" [" }, StringSplitOptions.RemoveEmptyEntries);
             var runtimeString = parse[0];
-            var runtimeStringParse = runtimeString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            var runtimeStringParse = runtimeString.Split(new[] {' ' }, StringSplitOptions.RemoveEmptyEntries);
             var runtimeName = runtimeStringParse[0];
             var runtimeVersionString = runtimeStringParse[1];
             var runtimePath = parse[1].Trim(']');
 
-            if (!runtimeName.Contains("Microsoft.NETCore.App", StringComparison.InvariantCulture))
+            if (!runtimeName.Contains("Microsoft.NETCore.App"))
             {
                 continue;
             }
 
-            var versionCharIndexHyphen = runtimeVersionString.IndexOf('-', StringComparison.InvariantCulture);
+            var versionCharIndexHyphen = runtimeVersionString.IndexOf('-');
             if (versionCharIndexHyphen != -1)
             {
                 // can possibly happen for release candidates of .NET
-                runtimeVersionString = runtimeVersionString[..versionCharIndexHyphen];
+                runtimeVersionString = runtimeVersionString.Substring(0, versionCharIndexHyphen);
             }
 
             var candidateVersion = Version.Parse(runtimeVersionString);

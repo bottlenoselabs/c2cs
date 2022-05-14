@@ -26,7 +26,7 @@ public sealed class CSharpStructField : CSharpNode
         Offset = offset;
         Padding = padding;
         IsWrapped = isWrapped;
-        BackingFieldName = name.StartsWith("@", StringComparison.InvariantCulture) ? $"_{name[1..]}" : $"_{name}";
+        BackingFieldName = name.StartsWith("@", StringComparison.InvariantCulture) ? $"_{name.Substring(1)}" : $"_{name}";
     }
 
     public override bool Equals(CSharpNode? other)

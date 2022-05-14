@@ -1,19 +1,15 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.CommandLine;
 using System.IO.Abstractions;
-using System.Linq;
 using System.Reflection;
-using C2CS.Data.Serialization;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using BindgenConfigurationJsonSerializer = C2CS.Data.Serialization.BindgenConfigurationJsonSerializer;
 
 namespace C2CS;
 
@@ -65,8 +61,8 @@ public static class Startup
     {
         services.AddSingleton(new CommandLineArgumentsProvider(args ?? Environment.GetCommandLineArgs()));
         services.AddSingleton<IFileSystem, FileSystem>();
-        services.AddHostedService<CommandLineService>();
-        services.AddSingleton<RootCommand, CommandLineInterface>();
+        services.AddHostedService<CommandLineHost>();
+        services.AddSingleton<RootCommand, BindgenCommand>();
         services.AddSingleton<BindgenConfigurationJsonSerializer>();
 
         Contexts.ReadCodeC.Startup.ConfigureServices(services);

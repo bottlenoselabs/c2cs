@@ -7,8 +7,8 @@ namespace C2CS.Contexts.WriteCodeCSharp.Data.Model;
 
 public sealed record CSharpAbstractSyntaxTree
 {
-    public CSharpNodes PlatformAgnosticNodes { get; init; } = null!;
+    public CSharpNodes PlatformAgnosticNodes { get; set; } = null!;
 
-    public ImmutableArray<(TargetPlatform Platform, CSharpNodes Nodes)> PlatformSpecificNodes { get; init; } =
+    public ImmutableArray<(TargetPlatform Platform, CSharpNodes Nodes)> PlatformSpecificNodes { get; set; } =
         ImmutableArray<(TargetPlatform Platform, CSharpNodes Nodes)>.Empty;
 }

@@ -5,10 +5,14 @@ using C2CS;
 
 namespace macOS.MessageBox;
 
+#pragma warning disable SA1114
+
 [Bindgen(
-    HeaderInputFile = "header.h",
+    OutputDirectory = "./generated",
+    HeaderInputFile = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreFoundation.framework/Versions/A/Headers/CoreFoundation.h",
     LibraryName = "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
-    IsEnabledSystemDeclarations = true)]
+    IsEnabledSystemDeclarations = true,
+    IsEnabledAddAsSource = false)]
 [BindgenTargetPlatform(Name = "aarch64-apple-darwin", Frameworks = new[] { "CoreFoundation" })]
 [BindgenTargetPlatform(Name = "x86_64-apple-darwin", Frameworks = new[] { "CoreFoundation" })]
 [BindgenFunction(Name = "CFUserNotificationDisplayAlert")]

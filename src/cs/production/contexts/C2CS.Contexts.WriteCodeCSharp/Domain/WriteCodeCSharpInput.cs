@@ -9,21 +9,21 @@ namespace C2CS.Contexts.WriteCodeCSharp.Domain;
 
 public sealed class WriteCodeCSharpInput
 {
-    public ImmutableArray<string> InputFilePaths { get; init; }
+    public ImmutableArray<string> InputFilePaths { get; set; }
 
-    public string OutputFilePath { get; init; } = string.Empty;
+    public string OutputFilePath { get; set; } = string.Empty;
 
-    public ImmutableArray<CSharpTypeAlias> TypeAliases { get; init; }
+    public ImmutableArray<CSharpTypeAlias> TypeAliases { get; set; }
 
-    public ImmutableArray<string> IgnoredNames { get; init; }
+    public ImmutableArray<string> IgnoredNames { get; set; }
 
-    public string LibraryName { get; init; } = string.Empty;
+    public string LibraryName { get; set; } = string.Empty;
 
-    public string ClassName { get; init; } = string.Empty;
+    public string ClassName { get; set; } = string.Empty;
 
-    public string NamespaceName { get; init; } = string.Empty;
+    public string NamespaceName { get; set; } = string.Empty;
 
-    public string HeaderCodeRegion { get; init; } = string.Empty;
+    public string HeaderCodeRegion { get; set; } = string.Empty;
 
-    public string FooterCodeRegion { get; init; } = string.Empty;
+    public string FooterCodeRegion { get; set; } = string.Empty;
 }

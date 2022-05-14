@@ -13,7 +13,7 @@ public class BindgenTarget
 
     public string OutputConfigurationFilePath { get; set; } = string.Empty;
 
-    public bool IsEnabledDeleteOutput { get; set; }
+    public bool AddAsSource { get; set; } = true;
 
     public BindgenConfiguration Configuration { get; set; } = null!;
 }

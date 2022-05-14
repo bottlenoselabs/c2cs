@@ -8,11 +8,11 @@ namespace C2CS.Contexts.ReadCodeC.Domain;
 
 public sealed class ReadCodeCAbstractSyntaxTreeOptions
 {
-    public string OutputFilePath { get; init; } = string.Empty;
+    public string OutputFilePath { get; set; } = string.Empty;
 
-    public TargetPlatform TargetPlatform { get; init; }
+    public TargetPlatform TargetPlatform { get; set; }
 
-    public ExplorerOptions ExplorerOptions { get; init; } = null!;
+    public ExplorerOptions ExplorerOptions { get; set; } = null!;
 
-    public ParseOptions ParseOptions { get; init; } = null!;
+    public ParseOptions ParseOptions { get; set; } = null!;
 }

@@ -59,8 +59,9 @@ public sealed class BuilderCSharpAbstractSyntaxTree
 
     public CSharpAbstractSyntaxTree Build()
     {
-        foreach (var (_, nodes) in _candidateNodes)
+        foreach (var keyValuePair in _candidateNodes)
         {
+            var nodes = keyValuePair.Value;
             CreateNodes(nodes);
         }
 

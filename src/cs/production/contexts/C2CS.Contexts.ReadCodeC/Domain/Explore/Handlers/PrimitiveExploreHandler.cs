@@ -42,7 +42,7 @@ public sealed class PrimitiveExploreHandler : ExploreHandler<CPrimitive>
     {
     }
 
-    public override CPrimitive Explore(ExploreContext context, ExploreInfoNode info)
+    public override CNode Explore(ExploreContext context, ExploreInfoNode info)
     {
         var result = Primitive(context, info);
         return result;

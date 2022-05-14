@@ -3,7 +3,7 @@
 
 using System.IO.Abstractions;
 using System.Reflection;
-using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.Contexts.ReadCodeC.Domain.Parse;
@@ -13,9 +13,9 @@ public sealed partial class ClangInstaller
     private bool _isInstalled;
     private readonly object _lock = new();
 
-    private string _clangNativeLibraryFilePath = null!;
     private readonly IFileSystem _fileSystem;
     private readonly ILogger<ClangInstaller> _logger;
+    private string _clangNativeLibraryFilePath = string.Empty;
 
     public ClangInstaller(
         ILogger<ClangInstaller> logger, IFileSystem fileSystem)
@@ -44,8 +44,8 @@ public sealed partial class ClangInstaller
                 }
 
                 _clangNativeLibraryFilePath = filePath;
-                NativeLibrary.SetDllImportResolver(typeof(bottlenoselabs.clang).Assembly, ResolveClang);
-                LogSuccessInstalled(_clangNativeLibraryFilePath);
+                LoadFunctions(filePath);
+                LogSuccessInstalled(filePath);
                 _isInstalled = true;
                 return true;
             }
@@ -55,6 +55,37 @@ public sealed partial class ClangInstaller
             LogException(e);
             return false;
         }
+    }
+
+    private void LoadFunctions(string libraryFilePath)
+    {
+        var previousCurrentDirectory = Environment.CurrentDirectory;
+        var installDirectoryPath = Path.GetDirectoryName(libraryFilePath);
+        Environment.CurrentDirectory = installDirectoryPath;
+
+        var type = typeof(bottlenoselabs.clang);
+        const BindingFlags bindingAttributes = BindingFlags.DeclaredOnly |
+                                               BindingFlags.NonPublic |
+                                               BindingFlags.Public |
+                                               BindingFlags.Instance |
+                                               BindingFlags.Static;
+        var methods = type.GetMethods(bindingAttributes);
+        foreach (var method in methods)
+        {
+            if (method.ContainsGenericParameters)
+            {
+                continue;
+            }
+
+            if ((method.Attributes & MethodAttributes.Abstract) == MethodAttributes.Abstract)
+            {
+                continue;
+            }
+
+            RuntimeHelpers.PrepareMethod(method.MethodHandle);
+        }
+
+        Environment.CurrentDirectory = previousCurrentDirectory;
     }
 
     private string GetClangFilePath(NativeOperatingSystem operatingSystem)
@@ -136,15 +167,15 @@ public sealed partial class ClangInstaller
         return installedFilePath;
     }
 
-    private IntPtr ResolveClang(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
-    {
-        if (!NativeLibrary.TryLoad(_clangNativeLibraryFilePath, out var handle))
-        {
-            throw new ClangException($"Could not load libclang: {_clangNativeLibraryFilePath}");
-        }
-
-        return handle;
-    }
+    // private IntPtr ResolveClang(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
+    // {
+    //     if (!NativeLibrary.TryLoad(_clangNativeLibraryFilePath, out var handle))
+    //     {
+    //         throw new ClangException($"Could not load libclang: {_clangNativeLibraryFilePath}");
+    //     }
+    //
+    //     return handle;
+    // }
 
     [LoggerMessage(0, LogLevel.Critical, "- Exception")]
     private partial void LogException(Exception exception);

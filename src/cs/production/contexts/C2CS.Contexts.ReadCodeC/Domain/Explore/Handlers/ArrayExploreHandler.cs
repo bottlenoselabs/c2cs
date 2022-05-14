@@ -19,7 +19,7 @@ public sealed class ArrayExploreHandler : ExploreHandler<CArray>
     {
     }
 
-    public override CArray Explore(ExploreContext context, ExploreInfoNode info)
+    public override CNode Explore(ExploreContext context, ExploreInfoNode info)
     {
         var array = Array(context, info);
         return array;

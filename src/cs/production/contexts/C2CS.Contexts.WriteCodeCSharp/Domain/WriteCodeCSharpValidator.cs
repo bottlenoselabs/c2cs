@@ -71,7 +71,7 @@ public sealed class WriteCodeCSharpValidator : UseCaseValidator<WriteCodeCSharpC
         foreach (var filePath in filePaths)
         {
             var fileName = _fileSystem.Path.GetFileName(filePath);
-            var platformString = fileName.Replace(".json", string.Empty, StringComparison.InvariantCulture);
+            var platformString = fileName.Replace(".json", string.Empty);
             var platform = new TargetPlatform(platformString);
             if (platform == TargetPlatform.Unknown)
             {
@@ -134,12 +134,12 @@ public sealed class WriteCodeCSharpValidator : UseCaseValidator<WriteCodeCSharpC
 
     private static string LibraryName(string? libraryName, string className)
     {
-        return !string.IsNullOrEmpty(libraryName) ? libraryName : className;
+        return !string.IsNullOrEmpty(libraryName) ? libraryName! : className;
     }
 
     private static string Namespace(string? @namespace, string libraryName)
     {
-        return !string.IsNullOrEmpty(@namespace) ? @namespace : libraryName;
+        return !string.IsNullOrEmpty(@namespace) ? @namespace! : libraryName;
     }
 
     private static string ClassName(string? className, string outputFilePath)
@@ -148,14 +148,14 @@ public sealed class WriteCodeCSharpValidator : UseCaseValidator<WriteCodeCSharpC
         if (string.IsNullOrEmpty(className))
         {
             var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(outputFilePath);
-            var firstIndexOfPeriod = fileNameWithoutExtension.IndexOf('.', StringComparison.InvariantCulture);
+            var firstIndexOfPeriod = fileNameWithoutExtension.IndexOf('.');
             result = firstIndexOfPeriod == -1
                 ? fileNameWithoutExtension
-                : fileNameWithoutExtension[..firstIndexOfPeriod];
+                : fileNameWithoutExtension.Substring(0, firstIndexOfPeriod);
         }
         else
         {
-            result = className;
+            result = className!;
         }
 
         return result;

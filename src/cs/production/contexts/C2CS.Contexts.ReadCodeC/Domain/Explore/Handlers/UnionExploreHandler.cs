@@ -19,7 +19,7 @@ public sealed class UnionExploreHandler : RecordExploreHandler
 
     protected override ExploreKindCursors ExpectedCursors { get; } = ExploreKindCursors.Is(CXCursorKind.CXCursor_UnionDecl);
 
-    public override CRecord Explore(ExploreContext context, ExploreInfoNode info)
+    public override CNode Explore(ExploreContext context, ExploreInfoNode info)
     {
         var union = Union(context, info);
         return union;

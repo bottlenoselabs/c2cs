@@ -2,14 +2,14 @@
 
     <!-- MSBuild project settings -->
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
         <RootNamespace />
+        <TargetFramework>netstandard2.0</TargetFramework>
     </PropertyGroup>
 
     <!-- MSBuild.Tools project settings -->
     <PropertyGroup>
-        <EnableCodeCoverage>false</EnableCodeCoverage>
+        <EnableCodeCoverage>true</EnableCodeCoverage>
     </PropertyGroup>
 
     <!-- Project references -->

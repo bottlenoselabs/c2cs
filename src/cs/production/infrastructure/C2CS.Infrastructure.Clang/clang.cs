@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using C2CS;
 using static bottlenoselabs.clang.Runtime;
 
 namespace bottlenoselabs
@@ -1368,91 +1369,91 @@ namespace bottlenoselabs
         [StructLayout(LayoutKind.Sequential)]
         public struct CXCursorVisitor
         {
-            public delegate* unmanaged<CXCursor, CXCursor, CXClientData, CXChildVisitResult> Pointer;
+            public IntPtr Pointer;
         }
 
         // FunctionPointer @ Null
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_VoidPtr_Void
         {
-            public delegate* unmanaged<void*, void> Pointer;
+            public delegate* unmanaged[Cdecl]<void*, void> Pointer;
         }
 
         // FunctionPointer @ Index.h:5980:16 (clang-c/Index.h)
         [StructLayout(LayoutKind.Sequential)]
         public struct CXInclusionVisitor
         {
-            public delegate* unmanaged<CXFile, CXSourceLocation*, uint, CXClientData, void> Pointer;
+            public delegate* unmanaged[Cdecl]<CXFile, CXSourceLocation*, uint, CXClientData, void> Pointer;
         }
 
         // FunctionPointer @ Index.h:6797:32 (clang-c/Index.h)
         [StructLayout(LayoutKind.Sequential)]
         public struct CXFieldVisitor
         {
-            public delegate* unmanaged<CXCursor, CXClientData, CXVisitorResult> Pointer;
+            public delegate* unmanaged[Cdecl]<CXCursor, CXClientData, CXVisitorResult> Pointer;
         }
 
         // FunctionPointer @ Null
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_VoidPtr_CXCursor_CXSourceRange_CXVisitorResult
         {
-            public delegate* unmanaged<void*, CXCursor, CXSourceRange, CXVisitorResult> Pointer;
+            public delegate* unmanaged[Cdecl]<void*, CXCursor, CXSourceRange, CXVisitorResult> Pointer;
         }
 
         // FunctionPointer @ Null
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_CXClientData_CXIdxEntityRefInfoPtr_Void
         {
-            public delegate* unmanaged<CXClientData, CXIdxEntityRefInfo*, void> Pointer;
+            public delegate* unmanaged[Cdecl]<CXClientData, CXIdxEntityRefInfo*, void> Pointer;
         }
 
         // FunctionPointer @ Null
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_CXClientData_CXIdxDeclInfoPtr_Void
         {
-            public delegate* unmanaged<CXClientData, CXIdxDeclInfo*, void> Pointer;
+            public delegate* unmanaged[Cdecl]<CXClientData, CXIdxDeclInfo*, void> Pointer;
         }
 
         // FunctionPointer @ Null
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_CXClientData_VoidPtr_CXIdxClientContainer
         {
-            public delegate* unmanaged<CXClientData, void*, CXIdxClientContainer> Pointer;
+            public delegate* unmanaged[Cdecl]<CXClientData, void*, CXIdxClientContainer> Pointer;
         }
 
         // FunctionPointer @ Null
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_CXClientData_CXIdxImportedASTFileInfoPtr_CXIdxClientASTFile
         {
-            public delegate* unmanaged<CXClientData, CXIdxImportedASTFileInfo*, CXIdxClientASTFile> Pointer;
+            public delegate* unmanaged[Cdecl]<CXClientData, CXIdxImportedASTFileInfo*, CXIdxClientASTFile> Pointer;
         }
 
         // FunctionPointer @ Null
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_CXClientData_CXIdxIncludedFileInfoPtr_CXIdxClientFile
         {
-            public delegate* unmanaged<CXClientData, CXIdxIncludedFileInfo*, CXIdxClientFile> Pointer;
+            public delegate* unmanaged[Cdecl]<CXClientData, CXIdxIncludedFileInfo*, CXIdxClientFile> Pointer;
         }
 
         // FunctionPointer @ Null
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_CXClientData_CXFile_VoidPtr_CXIdxClientFile
         {
-            public delegate* unmanaged<CXClientData, CXFile, void*, CXIdxClientFile> Pointer;
+            public delegate* unmanaged[Cdecl]<CXClientData, CXFile, void*, CXIdxClientFile> Pointer;
         }
 
         // FunctionPointer @ Null
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_CXClientData_CXDiagnosticSet_VoidPtr_Void
         {
-            public delegate* unmanaged<CXClientData, CXDiagnosticSet, void*, void> Pointer;
+            public delegate* unmanaged[Cdecl]<CXClientData, CXDiagnosticSet, void*, void> Pointer;
         }
 
         // FunctionPointer @ Null
         [StructLayout(LayoutKind.Sequential)]
         public struct FnPtr_CXClientData_VoidPtr_Int
         {
-            public delegate* unmanaged<CXClientData, void*, int> Pointer;
+            public delegate* unmanaged[Cdecl]<CXClientData, void*, int> Pointer;
         }
 
         // Struct @ CXString.h:40:3 (clang-c/CXString.h)
@@ -4048,9 +4049,9 @@ namespace bottlenoselabs
                 /// </summary>
                 public static void FreeAllStrings()
                 {
-                    foreach (var (ptr, _) in PointersToStrings)
+                    foreach (var keyValuePair in PointersToStrings)
                     {
-                        Marshal.FreeHGlobal(ptr);
+                        Marshal.FreeHGlobal(keyValuePair.Key);
                     }
 
                     // We can not guarantee that the application has not a strong reference the string since it was allocated,

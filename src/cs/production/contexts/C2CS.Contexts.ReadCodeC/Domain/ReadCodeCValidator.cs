@@ -45,8 +45,10 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
             configuration.ConfigurationPlatforms = abstractSyntaxTreeRequests;
         }
 
-        foreach (var (targetPlatformString, configurationPlatform) in configuration.ConfigurationPlatforms)
+        foreach (var keyValurPair in configuration.ConfigurationPlatforms)
         {
+            var targetPlatformString = keyValurPair.Key;
+            var configurationPlatform = keyValurPair.Value;
             var options = Options(configuration, targetPlatformString, configurationPlatform, inputFilePath);
             optionsBuilder.Add(options);
         }

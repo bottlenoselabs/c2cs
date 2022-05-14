@@ -87,8 +87,10 @@ public sealed class UseCase : UseCase<WriteCodeCSharpConfiguration, WriteCodeCSh
         BeginStep("Split/flatten platform specific nodes");
 
         var abstractSyntaxTreeBuilder = new BuilderCSharpAbstractSyntaxTree();
-        foreach (var (platform, nodes) in nodesByPlatform)
+        foreach (var keyValuePair in nodesByPlatform)
         {
+            var platform = keyValuePair.Key;
+            var nodes = keyValuePair.Value;
             abstractSyntaxTreeBuilder.Add(platform, nodes);
         }
 

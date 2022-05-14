@@ -2,10 +2,10 @@
 
     <!-- MSBuild project settings -->
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <NoWarn>$(NoWarn);CA1724</NoWarn>
+        <TargetFramework>netstandard2.0</TargetFramework>
     </PropertyGroup>
 
     <!-- Project references -->
@@ -17,9 +17,10 @@
 
     <!-- NuGet references -->
     <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0-1.final" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.2.0-1.final" />
-        <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.2.0-1.final" />
+        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.0.1" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.0.1" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
         <PackageReference Include="System.IO.Abstractions" Version="16.1.25" />
     </ItemGroup>

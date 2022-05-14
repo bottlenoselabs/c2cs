@@ -12,39 +12,19 @@ public static class Native
     {
         get
         {
-            if (System.OperatingSystem.IsWindows())
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 return NativeOperatingSystem.Windows;
             }
 
-            if (System.OperatingSystem.IsMacOS())
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 return NativeOperatingSystem.macOS;
             }
 
-            if (System.OperatingSystem.IsLinux())
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 return NativeOperatingSystem.Linux;
-            }
-
-            if (System.OperatingSystem.IsAndroid())
-            {
-                return NativeOperatingSystem.Android;
-            }
-
-            if (System.OperatingSystem.IsIOS())
-            {
-                return NativeOperatingSystem.iOS;
-            }
-
-            if (System.OperatingSystem.IsTvOS())
-            {
-                return NativeOperatingSystem.tvOS;
-            }
-
-            if (System.OperatingSystem.IsBrowser())
-            {
-                return NativeOperatingSystem.Browser;
             }
 
             return NativeOperatingSystem.Unknown;
@@ -61,8 +41,6 @@ public static class Native
                 System.Runtime.InteropServices.Architecture.Arm => NativeArchitecture.ARM32,
                 System.Runtime.InteropServices.Architecture.X86 => NativeArchitecture.X86,
                 System.Runtime.InteropServices.Architecture.X64 => NativeArchitecture.X64,
-                System.Runtime.InteropServices.Architecture.Wasm => NativeArchitecture.WASM32,
-                System.Runtime.InteropServices.Architecture.S390x => NativeArchitecture.Unknown,
                 _ => NativeArchitecture.Unknown
             };
         }

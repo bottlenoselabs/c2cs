@@ -38,7 +38,7 @@ public sealed class FunctionExploreHandler : ExploreHandler<CFunction>
         return functionNamesAllowed.IsDefaultOrEmpty || functionNamesAllowed.Contains(name);
     }
 
-    public override CFunction Explore(ExploreContext context, ExploreInfoNode info)
+    public override CNode Explore(ExploreContext context, ExploreInfoNode info)
     {
         var function = Function(context, info);
         return function;

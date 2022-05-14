@@ -10,23 +10,23 @@ namespace C2CS.Contexts.ReadCodeC.Domain.Explore;
 public class ExploreInfoNode
 #pragma warning restore CA1815
 {
-    public CKind Kind { get; init; }
+    public CKind Kind { get; set; }
 
-    public string Name { get; init; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
 
-    public string TypeName { get; init; } = string.Empty;
+    public string TypeName { get; set; } = string.Empty;
 
-    public CXCursor Cursor { get; init; }
+    public CXCursor Cursor { get; set; }
 
-    public CXType Type { get; init; }
+    public CXType Type { get; set; }
 
-    public CLocation Location { get; init; }
+    public CLocation Location { get; set; }
 
-    public int SizeOf { get; init; }
+    public int SizeOf { get; set; }
 
-    public int AlignOf { get; init; }
+    public int AlignOf { get; set; }
 
-    public ExploreInfoNode? Parent { get; init; }
+    public ExploreInfoNode? Parent { get; set; }
 
     public override string ToString()
     {

@@ -2,10 +2,14 @@
 
     <!-- MSBuild project settings -->
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <NoWarn>$(NoWarn);CA1724;CA1031</NoWarn>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <EnableCodeCoverage>true</EnableCodeCoverage>
     </PropertyGroup>
 
     <!-- Project references -->

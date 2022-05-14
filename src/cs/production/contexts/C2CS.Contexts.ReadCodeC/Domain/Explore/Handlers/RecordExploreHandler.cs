@@ -43,7 +43,7 @@ public abstract class RecordExploreHandler : ExploreHandler<CRecord>
         }
 
         var filteredFieldCursors = ImmutableArray.CreateBuilder<CXCursor>();
-        filteredFieldCursors.Add(fieldCursors[^1]);
+        filteredFieldCursors.Add(fieldCursors[fieldCursors.Length - 1]);
 
         for (var index = fieldCursors.Length - 2; index >= 0; index--)
         {

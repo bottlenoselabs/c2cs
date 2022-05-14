@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using Buildalyzer;
+using Buildalyzer.Environment;
 using C2CS.SourceGenerator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -34,11 +35,14 @@ public static class Program
             metadataReferences.Add(metadataReference);
         }
 
-        var options = new CSharpCompilationOptions(OutputKind.ConsoleApplication);
+        var options = new CSharpCompilationOptions(
+            OutputKind.ConsoleApplication,
+            deterministic: true,
+            optimizationLevel: OptimizationLevel.Debug);
         var compilation = CSharpCompilation.Create(
             "cs", syntaxTrees, metadataReferences, options);
 
-        var generator = new BindgenSourceGenerator();
+        var generator = new BindgenGenerator();
         var driver = CSharpGeneratorDriver.Create(generator);
 
         driver.RunGeneratorsAndUpdateCompilation(

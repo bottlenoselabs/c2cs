@@ -7,15 +7,15 @@ namespace C2CS.Contexts.ReadCodeC.Domain.Parse;
 
 public class ParseOptions
 {
-    public ImmutableArray<string> UserIncludeDirectories { get; init; }
+    public ImmutableArray<string> UserIncludeDirectories { get; set; }
 
-    public ImmutableArray<string> SystemIncludeDirectories { get; init; }
+    public ImmutableArray<string> SystemIncludeDirectories { get; set; }
 
-    public ImmutableArray<string> MacroObjectsDefines { get; init; }
+    public ImmutableArray<string> MacroObjectsDefines { get; set; }
 
-    public ImmutableArray<string> AdditionalArguments { get; init; }
+    public ImmutableArray<string> AdditionalArguments { get; set; }
 
-    public bool IsEnabledFindSystemHeaders { get; init; }
+    public bool IsEnabledFindSystemHeaders { get; set; }
 
-    public ImmutableArray<string> Frameworks { get; init; }
+    public ImmutableArray<string> Frameworks { get; set; }
 }

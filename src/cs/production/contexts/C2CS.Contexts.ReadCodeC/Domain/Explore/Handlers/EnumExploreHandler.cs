@@ -21,7 +21,7 @@ public sealed class EnumExploreHandler : ExploreHandler<CEnum>
     {
     }
 
-    public override CEnum Explore(ExploreContext context, ExploreInfoNode info)
+    public override CNode Explore(ExploreContext context, ExploreInfoNode info)
     {
         var @enum = Enum(context, info);
         return @enum;

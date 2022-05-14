@@ -30,7 +30,7 @@ public sealed class VariableExploreHandler : ExploreHandler<CVariable>
         return true;
     }
 
-    public override CVariable Explore(ExploreContext context, ExploreInfoNode info)
+    public override CNode Explore(ExploreContext context, ExploreInfoNode info)
     {
         var variable = Variable(info);
         return variable;

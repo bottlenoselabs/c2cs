@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
@@ -18,12 +19,9 @@ public static unsafe class ClangExtensions
     private static VisitInstance[] _visitInstances = Array.Empty<VisitInstance>();
     private static int _visitsCount;
 
-    private static readonly CXCursorVisitor Visit;
-
-    static ClangExtensions()
-    {
-        Visit.Pointer = &Visitor;
-    }
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate CXChildVisitResult DelegateVisit(CXCursor child, CXCursor parent, CXClientData clientData);
 
     [SuppressMessage("Microsoft.Performance", "CA1806:DoNotIgnoreMethodResults", Justification = "Result is useless.")]
     public static ImmutableArray<CXCursor> GetDescendents(
@@ -40,7 +38,11 @@ public static unsafe class ClangExtensions
 
         var clientData = default(CXClientData);
         clientData.Data = (void*)_visitsCount;
-        clang_visitChildren(cursor, Visit, clientData);
+
+        CXCursorVisitor visitor;
+        DelegateVisit visitorDelegate = Visitor;
+        visitor.Pointer = Marshal.GetFunctionPointerForDelegate(visitorDelegate);
+        clang_visitChildren(cursor, visitor, clientData);
 
         Interlocked.Decrement(ref _visitsCount);
 
@@ -48,21 +50,28 @@ public static unsafe class ClangExtensions
         return result;
     }
 
-    [UnmanagedCallersOnly]
     private static CXChildVisitResult Visitor(CXCursor child, CXCursor parent, CXClientData clientData)
     {
-        var index = (int)clientData.Data;
-        var data = _visitInstances[index - 1];
-
-        var result = data.Predicate(child, parent);
-        if (!result)
+        try
         {
+            var index = (int)clientData.Data;
+            var data = _visitInstances[index - 1];
+
+            var result = data.Predicate(child, parent);
+            if (!result)
+            {
+                return CXChildVisitResult.CXChildVisit_Continue;
+            }
+
+            data.NodeBuilder.Add(child);
+
             return CXChildVisitResult.CXChildVisit_Continue;
         }
-
-        data.NodeBuilder.Add(child);
-
-        return CXChildVisitResult.CXChildVisit_Continue;
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return CXChildVisitResult.CXChildVisit_Break;
+        }
     }
 
     public static string Name(this CXCursor clangCursor)
@@ -79,29 +88,29 @@ public static unsafe class ClangExtensions
             return string.Empty;
         }
 
-        if (result.Contains("struct ", StringComparison.InvariantCulture))
+        if (result.Contains("struct "))
         {
-            result = result.Replace("struct ", string.Empty, StringComparison.InvariantCulture);
+            result = result.Replace("struct ", string.Empty);
         }
 
-        if (result.Contains("union ", StringComparison.InvariantCulture))
+        if (result.Contains("union "))
         {
-            result = result.Replace("union ", string.Empty, StringComparison.InvariantCulture);
+            result = result.Replace("union ", string.Empty);
         }
 
-        if (result.Contains("enum ", StringComparison.InvariantCulture))
+        if (result.Contains("enum "))
         {
-            result = result.Replace("enum ", string.Empty, StringComparison.InvariantCulture);
+            result = result.Replace("enum ", string.Empty);
         }
 
-        if (result.Contains("const ", StringComparison.InvariantCulture))
+        if (result.Contains("const "))
         {
-            result = result.Replace("const ", string.Empty, StringComparison.InvariantCulture);
+            result = result.Replace("const ", string.Empty);
         }
 
-        if (result.Contains("*const", StringComparison.InvariantCulture))
+        if (result.Contains("*const"))
         {
-            result = result.Replace("*const", "*", StringComparison.InvariantCulture);
+            result = result.Replace("*const", "*");
         }
 
         return result;

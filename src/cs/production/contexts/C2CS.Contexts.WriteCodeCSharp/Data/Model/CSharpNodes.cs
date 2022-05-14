@@ -7,17 +7,17 @@ namespace C2CS.Contexts.WriteCodeCSharp.Data.Model;
 
 public sealed record CSharpNodes
 {
-    public ImmutableArray<CSharpFunction> Functions { get; init; }
+    public ImmutableArray<CSharpFunction> Functions { get; set; }
 
-    public ImmutableArray<CSharpFunctionPointer> FunctionPointers { get; init; }
+    public ImmutableArray<CSharpFunctionPointer> FunctionPointers { get; set; }
 
-    public ImmutableArray<CSharpStruct> Structs { get; init; }
+    public ImmutableArray<CSharpStruct> Structs { get; set; }
 
-    public ImmutableArray<CSharpAliasStruct> AliasStructs { get; init; }
+    public ImmutableArray<CSharpAliasStruct> AliasStructs { get; set; }
 
-    public ImmutableArray<CSharpOpaqueStruct> OpaqueStructs { get; init; }
+    public ImmutableArray<CSharpOpaqueStruct> OpaqueStructs { get; set; }
 
-    public ImmutableArray<CSharpEnum> Enums { get; init; }
+    public ImmutableArray<CSharpEnum> Enums { get; set; }
 
-    public ImmutableArray<CSharpConstant> Constants { get; init; }
+    public ImmutableArray<CSharpConstant> Constants { get; set; }
 }

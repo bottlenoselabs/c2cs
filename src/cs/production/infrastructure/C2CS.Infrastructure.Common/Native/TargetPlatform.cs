@@ -24,9 +24,9 @@ namespace C2CS;
 /// </summary>
 [PublicAPI]
 [JsonConverter(typeof(NativePlatformJsonConverter))]
-public record struct TargetPlatform(string TargetName)
+public record struct TargetPlatform(string? TargetName)
 {
-    internal string TargetName = TargetName;
+    internal string? TargetName = TargetName;
 
     /// <summary>
     ///     The runtime operating system.
@@ -190,8 +190,13 @@ public record struct TargetPlatform(string TargetName)
 
 	#endregion
 
-    private static NativeArchitecture ParseTargetArchitecture(string targetTriple)
+    private static NativeArchitecture ParseTargetArchitecture(string? targetTriple)
     {
+        if (targetTriple == null)
+        {
+            return NativeArchitecture.Unknown;
+        }
+
         if (targetTriple.StartsWith("aarch64-", StringComparison.InvariantCultureIgnoreCase) ||
             targetTriple.StartsWith("arm64-", StringComparison.InvariantCultureIgnoreCase))
         {
@@ -228,49 +233,54 @@ public record struct TargetPlatform(string TargetName)
         return NativeArchitecture.Unknown;
     }
 
-    private static NativeOperatingSystem ParseTargetOperatingSystem(string targetTriple)
+    private static NativeOperatingSystem ParseTargetOperatingSystem(string? targetTriple)
     {
-        if (targetTriple.Contains("-pc-windows", StringComparison.InvariantCultureIgnoreCase))
+        if (targetTriple == null)
+        {
+            return NativeOperatingSystem.Unknown;
+        }
+
+        if (targetTriple.Contains("-pc-windows"))
         {
             return NativeOperatingSystem.Windows;
         }
 
-        if (targetTriple.Contains("-unknown-linux", StringComparison.InvariantCultureIgnoreCase))
+        if (targetTriple.Contains("-unknown-linux"))
         {
             return NativeOperatingSystem.Linux;
         }
 
-        if (targetTriple.Contains("-apple-darwin", StringComparison.InvariantCultureIgnoreCase))
+        if (targetTriple.Contains("-apple-darwin"))
         {
             return NativeOperatingSystem.macOS;
         }
 
-        if (targetTriple.Contains("-apple-ios", StringComparison.InvariantCultureIgnoreCase))
+        if (targetTriple.Contains("-apple-ios"))
         {
             return NativeOperatingSystem.iOS;
         }
 
-        if (targetTriple.Contains("-apple-tvos", StringComparison.InvariantCultureIgnoreCase))
+        if (targetTriple.Contains("-apple-tvos"))
         {
             return NativeOperatingSystem.tvOS;
         }
 
-        if (targetTriple.Contains("-unknown-freebsd", StringComparison.InvariantCultureIgnoreCase))
+        if (targetTriple.Contains("-unknown-freebsd"))
         {
             return NativeOperatingSystem.FreeBSD;
         }
 
-        if (targetTriple.Contains("-linux-android", StringComparison.InvariantCultureIgnoreCase))
+        if (targetTriple.Contains("-linux-android"))
         {
             return NativeOperatingSystem.Android;
         }
 
-        if (targetTriple.Contains("-scei-ps4", StringComparison.InvariantCultureIgnoreCase))
+        if (targetTriple.Contains("-scei-ps4"))
         {
             return NativeOperatingSystem.PlayStation4;
         }
 
-        if (targetTriple.Contains("-nintendo_3ds", StringComparison.InvariantCultureIgnoreCase))
+        if (targetTriple.Contains("-nintendo_3ds"))
         {
             return NativeOperatingSystem.DualScreen3D;
         }
@@ -285,6 +295,6 @@ public record struct TargetPlatform(string TargetName)
 
     public override string ToString()
     {
-        return TargetName;
+        return TargetName ?? string.Empty;
     }
 }

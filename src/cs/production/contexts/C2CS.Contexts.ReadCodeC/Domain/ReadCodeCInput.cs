@@ -7,7 +7,7 @@ namespace C2CS.Contexts.ReadCodeC.Domain;
 
 public sealed class ReadCodeCInput
 {
-    public string InputFilePath { get; init; } = string.Empty;
+    public string InputFilePath { get; set; } = string.Empty;
 
     public ImmutableArray<ReadCodeCAbstractSyntaxTreeOptions> AbstractSyntaxTreesOptionsList { get; set; }
 }

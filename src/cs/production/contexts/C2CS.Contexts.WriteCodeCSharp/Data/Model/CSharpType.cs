@@ -5,15 +5,15 @@ namespace C2CS.Contexts.WriteCodeCSharp.Data.Model;
 
 public sealed record CSharpType
 {
-    public string Name { get; init; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
 
-    public string? OriginalName { get; init; }
+    public string? OriginalName { get; set; }
 
-    public int SizeOf { get; init; }
+    public int SizeOf { get; set; }
 
-    public int? AlignOf { get; init; }
+    public int? AlignOf { get; set; }
 
-    public int? ArraySizeOf { get; init; }
+    public int? ArraySizeOf { get; set; }
 
     public bool IsArray => ArraySizeOf > 0;
 

@@ -16,11 +16,11 @@ public sealed class PointerExploreHandler : ExploreHandler<CPointer>
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Is(CXTypeKind.CXType_Pointer);
 
     public PointerExploreHandler(ILogger<PointerExploreHandler> logger)
-        : base(logger)
+        : base(logger, false)
     {
     }
 
-    public override CPointer Explore(ExploreContext context, ExploreInfoNode info)
+    public override CNode Explore(ExploreContext context, ExploreInfoNode info)
     {
         var pointer = Pointer(context, info);
         return pointer;

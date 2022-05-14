@@ -20,7 +20,7 @@ public static class CMake
             throw new DirectoryNotFoundException(cMakeDirectoryPath);
         }
 
-        var libraryOutputDirectoryPathNormalized = libraryOutputDirectoryPath.Replace("\\", "/", StringComparison.InvariantCulture);
+        var libraryOutputDirectoryPathNormalized = libraryOutputDirectoryPath.Replace("\\", "/");
         var result = $"cmake -S . -B cmake-build-release -DCMAKE_BUILD_TYPE=Release -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY={libraryOutputDirectoryPathNormalized} -DCMAKE_LIBRARY_OUTPUT_DIRECTORY={libraryOutputDirectoryPathNormalized} -DCMAKE_RUNTIME_OUTPUT_DIRECTORY={libraryOutputDirectoryPathNormalized} -DCMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE={libraryOutputDirectoryPathNormalized}"
             .ExecuteShell(cMakeDirectoryPath, windowsUsePowerShell: false);
         if (result.ExitCode != 0)
@@ -48,14 +48,14 @@ public static class CMake
         foreach (var outputFilePath in outputFilePaths)
         {
             var targetFilePath = outputFilePath.Replace(
-                    outputDirectoryPath, libraryOutputDirectoryPath, StringComparison.InvariantCulture);
+                    outputDirectoryPath, libraryOutputDirectoryPath);
             var targetFileName = Path.GetFileName(targetFilePath);
 
             if (operatingSystem == NativeOperatingSystem.Windows)
             {
                 if (targetFileName.StartsWith("lib", StringComparison.InvariantCulture))
                 {
-                    targetFileName = targetFileName[3..];
+                    targetFileName = targetFileName.Substring(3);
                 }
             }
 

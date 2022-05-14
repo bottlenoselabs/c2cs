@@ -19,7 +19,7 @@ public sealed class StructExploreHandler : RecordExploreHandler
     {
     }
 
-    public override CRecord Explore(ExploreContext context, ExploreInfoNode info)
+    public override CNode Explore(ExploreContext context, ExploreInfoNode info)
     {
         var @struct = Struct(context, info);
         return @struct;
@@ -53,14 +53,14 @@ public sealed class StructExploreHandler : RecordExploreHandler
             // Clang does not provide a way to get the padding of a field; we need to do it ourselves.
             // To calculate the padding of a field, work backwards from the last field to the first field using the offsets and sizes reported by Clang.
 
-            var lastFieldCursor = fieldCursors[^1];
+            var lastFieldCursor = fieldCursors[fieldCursors.Length - 1];
             var lastRecordField = StructField(
                 context, structInfo, lastFieldCursor, fieldCursorsLength - 1, null);
             builder.Add(lastRecordField);
 
             for (var i = fieldCursors.Length - 2; i >= 0; i--)
             {
-                var nextField = builder[^1];
+                var nextField = builder[builder.Count - 1];
                 var fieldCursor = fieldCursors[i];
                 var field = StructField(
                     context, structInfo, fieldCursor, i, nextField);

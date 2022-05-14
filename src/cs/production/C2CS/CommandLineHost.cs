@@ -3,20 +3,20 @@
 
 using System;
 using System.CommandLine;
-using System.CommandLine.Help;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Microsoft.Extensions.Hosting;
 
 namespace C2CS;
 
-internal sealed class CommandLineService : IHostedService
+public sealed class CommandLineHost : IHostedService
 {
     private readonly IHostApplicationLifetime _applicationLifetime;
     private readonly string[] _commandLineArguments;
     private readonly RootCommand _rootCommand;
 
-    public CommandLineService(
+    public CommandLineHost(
         IHostApplicationLifetime applicationLifetime,
         CommandLineArgumentsProvider commandLineArgumentsProvider,
         RootCommand command)
