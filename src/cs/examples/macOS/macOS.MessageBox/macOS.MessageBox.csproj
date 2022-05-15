@@ -9,10 +9,10 @@
         <MSBuildTreatWarningsAsErrors>false</MSBuildTreatWarningsAsErrors>
     </PropertyGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="$(GitRepositoryPath)/src/cs/production/generator/C2CS.SourceGenerator/C2CS.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-        <ProjectReference Include="$(GitRepositoryPath)/src/cs/production/generator/C2CS.SourceGenerator.Metadata/C2CS.SourceGenerator.Metadata.csproj" />
-    </ItemGroup>
+<!--    <ItemGroup>-->
+<!--        <ProjectReference Include="$(GitRepositoryPath)/src/cs/production/generator/C2CS.SourceGenerator/C2CS.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />-->
+<!--        <ProjectReference Include="$(GitRepositoryPath)/src/cs/production/generator/C2CS.SourceGenerator.Metadata/C2CS.SourceGenerator.Metadata.csproj" />-->
+<!--    </ItemGroup>-->
 
     <ItemGroup>
       <EmbeddedResource Include="appsettings.json" />
