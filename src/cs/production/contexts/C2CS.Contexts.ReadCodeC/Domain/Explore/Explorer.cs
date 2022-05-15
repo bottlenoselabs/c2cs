@@ -50,10 +50,11 @@ public sealed partial class Explorer
             { CKind.Union, services.GetService<UnionExploreHandler>()! },
             { CKind.Enum, services.GetService<EnumExploreHandler>()! },
             { CKind.TypeAlias, services.GetService<TypeAliasExploreHandler>()! },
+            { CKind.OpaqueType, services.GetService<OpaqueTypeExploreHandler>()! },
             { CKind.FunctionPointer, services.GetService<FunctionPointerExploreHandler>()! },
             { CKind.Array, services.GetService<ArrayExploreHandler>()! },
             { CKind.Pointer, services.GetService<PointerExploreHandler>()! },
-            { CKind.Primitive, services.GetService<PrimitiveExploreHandler>()! }
+            { CKind.Primitive, services.GetService<PrimitiveExploreHandler>()! },
         };
         return result.ToImmutableDictionary();
     }

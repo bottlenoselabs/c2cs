@@ -17,7 +17,7 @@ public sealed class EnumExploreHandler : ExploreHandler<CEnum>
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Is(CXTypeKind.CXType_Enum);
 
     public EnumExploreHandler(ILogger<EnumExploreHandler> logger)
-        : base(logger)
+        : base(logger, false)
     {
     }
 

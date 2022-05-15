@@ -53,6 +53,7 @@ public abstract record CNode : IComparable<CNode>
             CRecordField => CKind.RecordField,
             CPrimitive => CKind.Primitive,
             CPointer => CKind.Pointer,
+            CArray => CKind.Array,
             _ => throw new NotImplementedException($"The kind of mapping for '{GetType()}' is not implemented.")
         };
     }

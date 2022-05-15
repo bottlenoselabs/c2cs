@@ -251,9 +251,14 @@ public sealed partial class ExploreContext
         };
     }
 
-    public CTypeInfo? VisitType(CXType typeCandidate, ExploreInfoNode? parentInfo, int fieldIndex = 0)
+    public CTypeInfo? VisitType(CXType typeCandidate, ExploreInfoNode? parentInfo, int fieldIndex = 0, CKind? kindHint = null)
     {
-        var (kind, type) = TypeKind(typeCandidate);
+        var (kind, type) = TypeKind(typeCandidate, parentInfo?.Kind);
+        if (kindHint != null && kind != kindHint)
+        {
+            kind = kindHint.Value;
+        }
+
         var cursor = clang_getTypeDeclaration(type);
         var name = cursor.Name();
 
@@ -274,7 +279,7 @@ public sealed partial class ExploreContext
         if (kind == CKind.TypeAlias)
         {
             var underlyingTypeCandidate = clang_getTypedefDeclUnderlyingType(cursor);
-            var (underlyingTypeKind, underlyingType) = TypeKind(underlyingTypeCandidate);
+            var (underlyingTypeKind, underlyingType) = TypeKind(underlyingTypeCandidate, kind);
             if (underlyingTypeKind is
                 CKind.Enum or
                 CKind.Struct or
@@ -305,7 +310,7 @@ public sealed partial class ExploreContext
         _tryEnqueueVisitNode(this, kind, exploreInfo);
     }
 
-    private (CKind Kind, CXType Type) TypeKind(CXType type)
+    private (CKind Kind, CXType Type) TypeKind(CXType type, CKind? parentKind)
     {
         var cursor = clang_getTypeDeclaration(type);
         var cursorType = cursor.kind != CXCursorKind.CXCursor_NoDeclFound ? clang_getCursorType(cursor) : type;
@@ -321,27 +326,32 @@ public sealed partial class ExploreContext
             case CXTypeKind.CXType_Record:
                 return TypeKindRecord(cursorType, cursor.kind);
             case CXTypeKind.CXType_Typedef:
-                return TypeKindTypeAlias(cursor, cursorType);
+                return TypeKindTypeAlias(cursor, cursorType, parentKind);
             case CXTypeKind.CXType_FunctionNoProto or CXTypeKind.CXType_FunctionProto:
-                return (CKind.Function, cursorType);
+                return TypeKindFunction(parentKind, cursorType);
             case CXTypeKind.CXType_Pointer:
                 return TypeKindPointer(cursorType);
             case CXTypeKind.CXType_Attributed:
                 var modifiedType = clang_Type_getModifiedType(cursorType);
-                return TypeKind(modifiedType);
+                return TypeKind(modifiedType, parentKind);
             case CXTypeKind.CXType_Elaborated:
                 var namedType = clang_Type_getNamedType(cursorType);
-                return TypeKind(namedType);
+                return TypeKind(namedType, parentKind);
             case CXTypeKind.CXType_ConstantArray:
             case CXTypeKind.CXType_IncompleteArray:
                 return (CKind.Array, cursorType);
             case CXTypeKind.CXType_Unexposed:
                 var canonicalType = clang_getCanonicalType(type);
-                return TypeKind(canonicalType);
+                return TypeKind(canonicalType, parentKind);
         }
 
         var up = new UseCaseException($"Unknown type kind '{type.kind}'.");
         throw up;
+    }
+
+    private static (CKind Kind, CXType Type) TypeKindFunction(CKind? parentKind, CXType cursorType)
+    {
+        return parentKind == CKind.TypeAlias ? (CKind.FunctionPointer, cursorType) : (CKind.Function, cursorType);
     }
 
     private static (CKind Kind, CXType Type) TypeKindRecord(CXType cursorType, CXCursorKind cursorKind)
@@ -356,7 +366,7 @@ public sealed partial class ExploreContext
         return (kind, cursorType);
     }
 
-    private (CKind Kind, CXType Type) TypeKindTypeAlias(CXCursor cursor, CXType cursorType)
+    private (CKind Kind, CXType Type) TypeKindTypeAlias(CXCursor cursor, CXType cursorType, CKind? parentKind)
     {
         var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
         if (underlyingType.kind == CXTypeKind.CXType_Pointer)
@@ -364,7 +374,7 @@ public sealed partial class ExploreContext
             return (CKind.TypeAlias, cursorType);
         }
 
-        var (_, aliasType) = TypeKind(underlyingType);
+        var (_, aliasType) = TypeKind(underlyingType, parentKind);
         var sizeOfAlias = clang_Type_getSizeOf(aliasType);
         var kind = sizeOfAlias == -2 ? CKind.OpaqueType : CKind.TypeAlias;
         return (kind, cursorType);
@@ -403,7 +413,7 @@ public sealed partial class ExploreContext
         int? elementSize = null;
         if (kind == CKind.Array)
         {
-            var (arrayKind, arrayType) = TypeKind(type);
+            var (arrayKind, arrayType) = TypeKind(type, kind);
             var elementType = clang_getElementType(arrayType);
             elementSize = SizeOf(arrayKind, elementType);
         }
@@ -416,14 +426,14 @@ public sealed partial class ExploreContext
         if (kind is CKind.Pointer)
         {
             var pointeeTypeCandidate = clang_getPointeeType(type);
-            var (pointeeTypeKind, pointeeType) = TypeKind(pointeeTypeCandidate);
+            var (pointeeTypeKind, pointeeType) = TypeKind(pointeeTypeCandidate, kind);
             var pointeeTypeName = pointeeType.Name();
             innerType = CreateTypeInfo(pointeeTypeKind, pointeeTypeName, pointeeType, pointeeTypeCandidate);
         }
         else if (kind is CKind.Array)
         {
             var elementTypeCandidate = clang_getArrayElementType(type);
-            var (elementTypeKind, elementType) = TypeKind(elementTypeCandidate);
+            var (elementTypeKind, elementType) = TypeKind(elementTypeCandidate, kind);
             var elementTypeName = elementType.Name();
             innerType = CreateTypeInfo(elementTypeKind, elementTypeName, elementType, elementTypeCandidate);
         }
@@ -459,6 +469,11 @@ public sealed partial class ExploreContext
         }
 
         if (info.Parent.Kind == CKind.TypeAlias && info.Kind == CKind.Pointer)
+        {
+            return CTypeInfo.VoidPointer(PointerSize);
+        }
+
+        if (info.TypeName == "va_list")
         {
             return CTypeInfo.VoidPointer(PointerSize);
         }

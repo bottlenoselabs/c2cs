@@ -15,7 +15,7 @@ public sealed class ArrayExploreHandler : ExploreHandler<CArray>
         CXTypeKind.CXType_ConstantArray, CXTypeKind.CXType_IncompleteArray);
 
     public ArrayExploreHandler(ILogger<ArrayExploreHandler> logger)
-        : base(logger)
+        : base(logger, false)
     {
     }
 

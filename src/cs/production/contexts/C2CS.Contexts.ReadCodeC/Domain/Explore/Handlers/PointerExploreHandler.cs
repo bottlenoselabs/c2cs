@@ -16,7 +16,7 @@ public sealed class PointerExploreHandler : ExploreHandler<CPointer>
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Is(CXTypeKind.CXType_Pointer);
 
     public PointerExploreHandler(ILogger<PointerExploreHandler> logger)
-        : base(logger)
+        : base(logger, false)
     {
     }
 

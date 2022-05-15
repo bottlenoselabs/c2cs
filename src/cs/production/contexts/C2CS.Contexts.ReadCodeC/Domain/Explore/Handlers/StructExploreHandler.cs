@@ -15,7 +15,7 @@ public sealed class StructExploreHandler : RecordExploreHandler
     protected override ExploreKindCursors ExpectedCursors { get; } = ExploreKindCursors.Is(CXCursorKind.CXCursor_StructDecl);
 
     public StructExploreHandler(ILogger<StructExploreHandler> logger)
-        : base(logger)
+        : base(logger, false)
     {
     }
 

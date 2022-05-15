@@ -32,6 +32,11 @@ public sealed class CSharpMapper
 
         foreach (var typeAlias in parameters.TypeAliases)
         {
+            if (string.IsNullOrEmpty(typeAlias.Source) || string.IsNullOrEmpty(typeAlias.Target))
+            {
+                continue;
+            }
+
             userAliases.Add(typeAlias.Source, typeAlias.Target);
 
             if (typeAlias.Target
@@ -962,11 +967,6 @@ var x = {value};
         if (elementTypeName.Length == 0)
         {
             return "void" + pointersTypeName;
-        }
-
-        if (innerTypeInfo == null)
-        {
-            Console.WriteLine();
         }
 
         var mappedElementTypeName = TypeNameCSharpRaw(elementTypeName, innerTypeInfo!.SizeOf);

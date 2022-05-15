@@ -41,11 +41,11 @@ public sealed class WriteCodeCSharpConfiguration : UseCaseConfiguration
     [Json.Schema.Generation.Description("Path of the text file which to add the file's contents to the bottom of the C# file. Useful for comments or additional code that needs to be added to the generated C# file.")]
     public string? FooterCodeRegionFilePath { get; set; }
 
-    [JsonPropertyName("mapped")]
-    [Json.Schema.Generation.Description("Pairs of strings for re-mapping type names. Each pair has source name and a target name. Does not change the bit layout of types.")]
-    public ImmutableArray<(string Source, string Target)>? MappedTypeNames { get; set; }
+    [JsonPropertyName("mapped_names")]
+    [Json.Schema.Generation.Description("Pairs of strings for re-mapping names. Each pair has source name and a target name. Does not change the bit layout of types.")]
+    public ImmutableArray<WriteCodeCSharpConfigurationMappedName>? MappedNames { get; set; }
 
-    [JsonPropertyName("ignored")]
+    [JsonPropertyName("ignored_names")]
     [Json.Schema.Generation.Description("Names of types, functions, enums, constants, or anything else that may be found when parsing C code that will be ignored when generating C# code. Type names are ignored after mapping type names using `MappedTypeNames` property.")]
     public ImmutableArray<string?>? IgnoredNames { get; set; }
 }

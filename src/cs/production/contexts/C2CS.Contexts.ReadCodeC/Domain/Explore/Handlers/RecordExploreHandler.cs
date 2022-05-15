@@ -12,8 +12,8 @@ public abstract class RecordExploreHandler : ExploreHandler<CRecord>
 {
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Is(CXTypeKind.CXType_Record);
 
-    protected RecordExploreHandler(ILogger<RecordExploreHandler> logger)
-        : base(logger)
+    protected RecordExploreHandler(ILogger<RecordExploreHandler> logger, bool logAlreadyExplored = true)
+        : base(logger, logAlreadyExplored)
     {
     }
 

@@ -30,7 +30,7 @@ public sealed class FunctionPointerExploreHandler : ExploreHandler<CFunctionPoin
         CXTypeKind.CXType_FunctionProto, CXTypeKind.CXType_FunctionNoProto);
 
     public FunctionPointerExploreHandler(ILogger<FunctionPointerExploreHandler> logger)
-        : base(logger)
+        : base(logger, false)
     {
     }
 
@@ -42,7 +42,7 @@ public sealed class FunctionPointerExploreHandler : ExploreHandler<CFunctionPoin
 
     private static CFunctionPointer FunctionPointer(ExploreContext context, ExploreInfoNode info)
     {
-        var typeInfo = context.VisitType(info.Type, info.Parent)!;
+        var typeInfo = context.VisitType(info.Type, info.Parent, kindHint: CKind.FunctionPointer)!;
         var returnTypeInfo = FunctionPointerReturnType(context, info);
         var parameters = FunctionPointerParameters(context, info);
 

@@ -26,7 +26,7 @@ public sealed class WriteCodeCSharpValidator : UseCaseValidator<WriteCodeCSharpC
         var className = ClassName(configuration.ClassName, outputFilePath);
         var libraryName = LibraryName(configuration.LibraryName, className);
         var namespaceName = Namespace(configuration.NamespaceName, libraryName);
-        var typeAliases = TypeAliases(configuration.MappedTypeNames);
+        var typeAliases = TypeAliases(configuration.MappedNames);
         var ignoredNames = IgnoredTypeNames(configuration.IgnoredNames);
         var headerCodeRegion = HeaderCodeRegion(configuration.HeaderCodeRegionFilePath);
         var footerCodeRegion = FooterCodeRegion(configuration.FooterCodeRegionFilePath);
@@ -98,20 +98,20 @@ public sealed class WriteCodeCSharpValidator : UseCaseValidator<WriteCodeCSharpC
     }
 
     private static ImmutableArray<CSharpTypeAlias> TypeAliases(
-        ImmutableArray<(string Source, string Target)>? mappedTypeNames)
+        ImmutableArray<WriteCodeCSharpConfigurationMappedName>? mappedNames)
     {
-        if (mappedTypeNames == null || mappedTypeNames.Value.IsDefaultOrEmpty)
+        if (mappedNames == null || mappedNames.Value.IsDefaultOrEmpty)
         {
             return ImmutableArray<CSharpTypeAlias>.Empty;
         }
 
         var builder = ImmutableArray.CreateBuilder<CSharpTypeAlias>();
-        foreach (var (source, target) in mappedTypeNames)
+        foreach (var mappedName in mappedNames)
         {
-            var typeAlias = new CSharpTypeAlias()
+            var typeAlias = new CSharpTypeAlias
             {
-                Source = source,
-                Target = target
+                Source = mappedName.Source,
+                Target = mappedName.Target
             };
             builder.Add(typeAlias);
         }

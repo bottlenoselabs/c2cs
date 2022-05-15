@@ -136,12 +136,19 @@ public abstract partial class ExploreHandler
         {
             var cursorLocation = clang_getCursorLocation(cursor);
             var isSystemCursor = clang_Location_isInSystemHeader(cursorLocation) > 0;
-            return !isSystemCursor;
+            if (isSystemCursor)
+            {
+                return false;
+            }
         }
 
         if (!context.Options.IsEnabledAllowNamesWithPrefixedUnderscore)
         {
-            return !name.StartsWith("_", StringComparison.InvariantCultureIgnoreCase);
+            var namesStartsWithUnderscore = name.StartsWith("_", StringComparison.InvariantCultureIgnoreCase);
+            if (namesStartsWithUnderscore)
+            {
+                return false;
+            }
         }
 
         return true;

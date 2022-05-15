@@ -15,7 +15,7 @@ public sealed class OpaqueTypeExploreHandler : ExploreHandler<COpaqueType>
     protected override ExploreKindTypes ExpectedTypes => ExploreKindTypes.Any;
 
     public OpaqueTypeExploreHandler(ILogger<OpaqueTypeExploreHandler> logger)
-        : base(logger)
+        : base(logger, false)
     {
     }
 
