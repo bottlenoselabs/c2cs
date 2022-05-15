@@ -5,7 +5,6 @@ using System.Collections.Immutable;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using C2CS.Contexts.WriteCodeCSharp.Data;
 using C2CS.Data;
 using Microsoft.CodeAnalysis;
 
@@ -47,18 +46,31 @@ public class BindgenSourceGenerator : ISourceGenerator
         GeneratorExecutionContext context,
         BindgenTarget target)
     {
-        var className = target.Configuration.WriteCSharpCode!.ClassName;
-        WriteConfiguration(target.OutputConfigurationFilePath, target.Configuration);
+        if (target.Configuration.ReadCCode == null || target.Configuration.WriteCSharpCode == null)
+        {
+            return;
+        }
 
-        var shellOutput = Bindgen(target.WorkingDirectory, target.OutputConfigurationFilePath, target.OutputLogFilePath);
+        var inputFilePath = target.Configuration.ReadCCode.InputFilePath;
+        if (string.IsNullOrEmpty(inputFilePath) || !File.Exists(inputFilePath))
+        {
+            return;
+        }
+
+        var className = target.Configuration.WriteCSharpCode!.ClassName;
+        var outputConfigurationFilePath = Path.Combine(target.OutputDirectory, $"{className}.json");
+        var outputLogFilePath = Path.Combine(target.OutputDirectory, $"{className}.log");
+        WriteConfiguration(outputConfigurationFilePath, target.Configuration);
+
+        var shellOutput = Bindgen(target.WorkingDirectory, outputConfigurationFilePath, outputLogFilePath);
         if (shellOutput.ExitCode != 0)
         {
             context.ReportDiagnostic(Diagnostic.Create(
                 Diagnostics.BindgenFailed,
                 Location.None,
                 className,
-                target.OutputConfigurationFilePath,
-                target.OutputLogFilePath));
+                outputConfigurationFilePath,
+                outputLogFilePath));
             return;
         }
 
@@ -70,12 +82,12 @@ public class BindgenSourceGenerator : ISourceGenerator
                 Diagnostics.BindgenNoSourceCode,
                 Location.None,
                 className,
-                target.OutputConfigurationFilePath,
-                target.OutputLogFilePath));
+                outputConfigurationFilePath,
+                outputLogFilePath));
             return;
         }
 
-        if (target.IsEnabledDeleteOutput)
+        if (target.IsEnabledAddAsSource)
         {
             var sourceCode = File.ReadAllText(sourceCodeFileInfo.FullName);
             var fileName = Path.GetFileName(sourceCodeFileInfo.FullName);

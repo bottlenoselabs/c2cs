@@ -123,9 +123,9 @@ public sealed partial class Explorer
         var totalCount = _frontierMacros.Count;
         var macroNamesToExplore = string.Join(", ", _frontierMacros.Select(x => x.Name));
         LogExploringMacros(totalCount, macroNamesToExplore);
-        var exploredCount = ExploreFrontier(context, _frontierMacros);
-        var macroNamesFound = string.Join(", ", _macroObjects.Select(x => x.Name));
-        LogFoundMacros(exploredCount, macroNamesFound);
+        var macroNamesFound = _macroObjects.Select(x => x.Name).ToArray();
+        var macroNamesFoundString = string.Join(", ", _macroObjects.Select(x => x.Name));
+        LogFoundMacros(macroNamesFound.Length, macroNamesFoundString);
     }
 
     private void ExploreVariables(ExploreContext context)
@@ -133,9 +133,9 @@ public sealed partial class Explorer
         var totalCount = _frontierVariables.Count;
         var variableNamesToExplore = string.Join(", ", _frontierVariables.Select(x => x.Name));
         LogExploringVariables(totalCount, variableNamesToExplore);
-        var exploredCount = ExploreFrontier(context, _frontierVariables);
-        var variableNamesFound = string.Join(", ", _variables.Select(x => x.Name));
-        LogFoundVariables(exploredCount, variableNamesFound);
+        var variableNamesFound = _variables.Select(x => x.Name).ToArray();
+        var variableNamesFoundString = string.Join(", ", variableNamesFound);
+        LogFoundVariables(variableNamesFound.Length, variableNamesFoundString);
     }
 
     private void ExploreFunctions(ExploreContext context)
@@ -143,9 +143,10 @@ public sealed partial class Explorer
         var totalCount = _frontierFunctions.Count;
         var functionNamesToExplore = string.Join(", ", _frontierFunctions.Select(x => x.Name));
         LogExploringFunctions(totalCount, functionNamesToExplore);
-        var exploredCount = ExploreFrontier(context, _frontierFunctions);
-        var functionNamesFound = string.Join(", ", _functions.Select(x => x.Name));
-        LogFoundFunctions(exploredCount, functionNamesFound);
+        ExploreFrontier(context, _frontierFunctions);
+        var functionNamesFound = _functions.Select(x => x.Name).ToArray();
+        var functionNamesFoundString = string.Join(", ", functionNamesFound);
+        LogFoundFunctions(functionNamesFound.Length, functionNamesFoundString);
     }
 
     private void ExploreTypes(ExploreContext context)
@@ -153,7 +154,7 @@ public sealed partial class Explorer
         var totalCount = _frontierTypes.Count;
         var typeNamesToExplore = string.Join(", ", _frontierTypes.Select(x => x.Name));
         LogExploringTypes(totalCount, typeNamesToExplore);
-        var exploredCount = ExploreFrontier(context, _frontierTypes);
+        ExploreFrontier(context, _frontierTypes);
 
         var typeNamesFound = new List<string>();
         typeNamesFound.AddRange(_records.Select(x => x.Name));
@@ -166,24 +167,17 @@ public sealed partial class Explorer
         typeNamesFound.AddRange(_primitives.Select(x => x.Name));
         var typeNamesFoundJoined = string.Join(", ", typeNamesFound);
 
-        LogFoundTypes(exploredCount, typeNamesFoundJoined);
+        LogFoundTypes(typeNamesFound.Count, typeNamesFoundJoined);
     }
 
-    private int ExploreFrontier(
+    private void ExploreFrontier(
         ExploreContext context, ArrayDeque<ExploreInfoNode> frontier)
     {
-        var exploredCount = 0;
         while (frontier.Count > 0)
         {
             var node = frontier.PopFront()!;
-            var isExplored = ExploreNode(context, node);
-            if (isExplored)
-            {
-                exploredCount++;
-            }
+            ExploreNode(context, node);
         }
-
-        return exploredCount;
     }
 
     private bool ExploreNode(ExploreContext context, ExploreInfoNode visitInfo)
@@ -396,11 +390,6 @@ public sealed partial class Explorer
 
     private void TryEnqueueVisitInfoNode(ExploreContext context, CKind kind, ExploreInfoNode info)
     {
-        if (info.Name == "struct_union_named")
-        {
-            Console.WriteLine();
-        }
-
         var frontier = kind switch
         {
             CKind.Macro => _frontierMacros,

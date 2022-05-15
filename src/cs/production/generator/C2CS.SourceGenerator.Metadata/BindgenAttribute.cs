@@ -12,9 +12,9 @@ public sealed class BindgenAttribute : Attribute
 {
     public string? WorkingDirectory { get; set; }
 
-    public string OutputFileDirectory { get; set; } = string.Empty;
+    public string OutputDirectory { get; set; } = string.Empty;
 
-    public bool IsEnabledDeleteOutput { get; set; } = true;
+    public bool IsEnabledAddAsSource { get; set; } = true;
 
     public string LibraryName { get; set; } = string.Empty;
 

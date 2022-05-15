@@ -29,6 +29,11 @@ public class BindgenSyntaxReceiver : ISyntaxContextReceiver
         }
 
         var sourceCodeFilePath = @class.SyntaxTree.FilePath;
+        if (!File.Exists(sourceCodeFilePath))
+        {
+            return;
+        }
+
         if (sourceCodeFilePath.EndsWith(".g.cs", StringComparison.InvariantCultureIgnoreCase))
         {
             return;
@@ -36,6 +41,12 @@ public class BindgenSyntaxReceiver : ISyntaxContextReceiver
 
         var isPartial = IsPartial(@class);
         if (!isPartial)
+        {
+            return;
+        }
+
+        var hasBindgenAttribute = HasBindgenAttribute(@class);
+        if (!hasBindgenAttribute)
         {
             return;
         }
@@ -84,23 +95,24 @@ public class BindgenSyntaxReceiver : ISyntaxContextReceiver
         return filePath;
     }
 
-    private static string GetConfigurationFilePath(
-        string workingDirectory,
-        string className)
+    private static string GetOutputDirectory(string workingDirectory, string outputDirectory)
     {
-        return Path.Combine(workingDirectory, $"{className}.json");
+        if (string.IsNullOrEmpty(outputDirectory))
+        {
+            return workingDirectory;
+        }
+
+        var result = !Path.IsPathRooted(outputDirectory) ? Path.GetFullPath(Path.Combine(workingDirectory, outputDirectory)) : outputDirectory;
+
+        // Create directory if it does not already exist
+        Directory.CreateDirectory(result);
+
+        return result;
     }
 
-    private static string GetOutputLogFilePath(
-        string workingDirectory,
-        string className)
+    private static string GetOutputAbstractSyntaxTreeDirectory(string outputDirectory)
     {
-        return Path.Combine(workingDirectory, $"{className}.log");
-    }
-
-    private static string GetOutputAbstractSyntaxTreeDirectory(string workingDirectory)
-    {
-        return Path.Combine(workingDirectory, "ast");
+        return Path.Combine(outputDirectory, "ast");
     }
 
     private static BindgenTarget? BindgenTarget(
@@ -116,17 +128,16 @@ public class BindgenSyntaxReceiver : ISyntaxContextReceiver
         }
 
         var workingDirectory = GetWorkingDirectory(sourceCodeFilePath, bindgenAttributes.Bindgen.WorkingDirectory);
-        var outputConfigurationFilePath = GetConfigurationFilePath(workingDirectory, className);
-        var outputLogFilePath = GetOutputLogFilePath(workingDirectory, className);
+        var outputDirectory = GetOutputDirectory(workingDirectory, bindgenAttributes.Bindgen.OutputDirectory);
         var configuration = CreateConfiguration(
-            workingDirectory, className, namespaceName, sourceCodeFilePath, bindgenAttributes);
+            workingDirectory, outputDirectory, className, namespaceName, sourceCodeFilePath, bindgenAttributes);
 
         var target = new BindgenTarget
         {
             WorkingDirectory = workingDirectory,
-            OutputConfigurationFilePath = outputConfigurationFilePath,
-            OutputLogFilePath = outputLogFilePath,
-            Configuration = configuration
+            OutputDirectory = outputDirectory,
+            Configuration = configuration,
+            IsEnabledAddAsSource = bindgenAttributes.Bindgen.IsEnabledAddAsSource
         };
 
         return target;
@@ -176,16 +187,16 @@ public class BindgenSyntaxReceiver : ISyntaxContextReceiver
 
     private static BindgenConfiguration CreateConfiguration(
         string workingDirectory,
+        string outputDirectory,
         string className,
         string namespaceName,
         string sourceCodeFilePath,
         BindgenAttributes attributes)
     {
         var inputCFilePath = GetHeaderInputFilePath(workingDirectory, attributes.Bindgen.HeaderInputFile);
-        var outputAbstractSyntaxTreeDirectory = GetOutputAbstractSyntaxTreeDirectory(workingDirectory);
+        var outputAbstractSyntaxTreeDirectory = GetOutputAbstractSyntaxTreeDirectory(outputDirectory);
         var outputFileName = Path.GetFileNameWithoutExtension(sourceCodeFilePath) + ".g.cs";
-        var sourceCodeDirectoryPath = Path.GetDirectoryName(sourceCodeFilePath)!;
-        var outputCSharpFilePath = Path.Combine(sourceCodeDirectoryPath, outputFileName);
+        var outputCSharpFilePath = Path.Combine(outputDirectory, outputFileName);
         var configurationPlatforms = new Dictionary<string, ReadCodeCConfigurationPlatform?>();
 
         var readCodeC = new ReadCodeCConfiguration
@@ -248,6 +259,27 @@ public class BindgenSyntaxReceiver : ISyntaxContextReceiver
         }
 
         return isPartial;
+    }
+
+    private static bool HasBindgenAttribute(ClassDeclarationSyntax @class)
+    {
+        var hasBindgenAttribute = false;
+        foreach (var attributeList in @class.AttributeLists)
+        {
+            foreach (var attribute in attributeList.Attributes)
+            {
+                var attributeName = attribute.Name.ToFullString();
+                if (attributeName is not ("Bindgen" or "BindgenAttribute"))
+                {
+                    continue;
+                }
+
+                hasBindgenAttribute = true;
+                break;
+            }
+        }
+
+        return hasBindgenAttribute;
     }
 
     private static T CreateAttribute<T>(AttributeData attribute)

@@ -9,11 +9,9 @@ public class BindgenTarget
 {
     public string WorkingDirectory { get; set; } = string.Empty;
 
-    public string OutputLogFilePath { get; set; } = string.Empty;
+    public string OutputDirectory { get; set; } = string.Empty;
 
-    public string OutputConfigurationFilePath { get; set; } = string.Empty;
-
-    public bool IsEnabledDeleteOutput { get; set; }
+    public bool IsEnabledAddAsSource { get; set; }
 
     public BindgenConfiguration Configuration { get; set; } = null!;
 }
