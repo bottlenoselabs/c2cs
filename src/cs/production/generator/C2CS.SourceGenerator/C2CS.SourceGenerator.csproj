@@ -39,14 +39,17 @@
         <Compile Include="../../contexts/C2CS.Contexts.WriteCodeCSharp/Data/WriteCodeCSharpConfiguration.cs">
           <Link>C2CS/Configurations/WriteCodeCSharpConfiguration.cs</Link>
         </Compile>
+        <Compile Include="../../contexts/C2CS.Contexts.WriteCodeCSharp/Data/WriteCodeCSharpConfigurationMappedName.cs">
+            <Link>C2CS/Configurations/WriteCodeCSharpConfigurationMappedName.cs</Link>
+        </Compile>
         <Compile Include="../../infrastructure/C2CS.Infrastructure.Common/Native/Terminal.cs">
           <Link>C2CS/Terminal.cs</Link>
         </Compile>
         <Compile Include="../C2CS.SourceGenerator.Metadata/**/*.cs">
             <Link>C2CS/Metadata/%(RecursiveDir)%(Filename)%(Extension)</Link>
         </Compile>
-        <Compile Include="..\..\C2CS\Data\BindgenConfiguration.cs">
-          <Link>C2CS\Configurations\BindgenConfiguration.cs</Link>
+        <Compile Include="../../C2CS/Data/BindgenConfiguration.cs">
+          <Link>C2CS/Configurations/BindgenConfiguration.cs</Link>
         </Compile>
     </ItemGroup>
 
