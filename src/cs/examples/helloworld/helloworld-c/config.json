@@ -7,6 +7,6 @@
   },
   "cs": {
     "output_file": "../../../../src/cs/examples/helloworld/helloworld-cs/my_c_library.cs",
-    "namespace_name": "my_c_library_namespace"
+    "namespace": "my_c_library_namespace"
   }
 }

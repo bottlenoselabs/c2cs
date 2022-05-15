@@ -20,6 +20,6 @@
   },
   "cs": {
     "output_file": "./MessageBox.cs",
-    "namespace_name": "bottlenoselabs"
+    "namespace": "bottlenoselabs"
   }
 }

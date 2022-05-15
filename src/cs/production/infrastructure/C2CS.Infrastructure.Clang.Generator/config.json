@@ -8,6 +8,6 @@
   },
   "cs": {
     "output_file": "../../../../src/cs/production/infrastructure/C2CS.Infrastructure.Clang/clang.cs",
-    "namespace_name": "bottlenoselabs"
+    "namespace": "bottlenoselabs"
   }
 }

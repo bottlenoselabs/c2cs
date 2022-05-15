@@ -25,7 +25,7 @@ public sealed class WriteCodeCSharpConfiguration : UseCaseConfiguration
     [Json.Schema.Generation.Description("The name of the dynamic link library (without the file extension) used for platform invoke (P/Invoke) with C#. If not specified, the library name is the same as the name of the `OutputFilePath` property without the directory name and without the file extension.")]
     public string? LibraryName { get; set; }
 
-    [JsonPropertyName("namespace_name")]
+    [JsonPropertyName("namespace")]
     [Json.Schema.Generation.Description("The name of the namespace to be used for the C# static class. If not specified, the namespace is the same as the `LibraryName` property.")]
     public string? NamespaceName { get; set; }
 
