@@ -272,27 +272,35 @@ public sealed partial class Parser
             readerLineNumber++;
         }
 
-        var locationString = line.TrimStart('/');
-        var locationStringParse = locationString.Split(':');
-        var locationFilePath = locationStringParse[0].Trim();
-        if (!int.TryParse(locationStringParse[1], out var locationLineNumber))
+        var locationString = line.TrimStart('/').Trim();
+        var lineIndex = locationString.IndexOf(':', StringComparison.InvariantCulture);
+        var columnIndex = locationString.LastIndexOf(":", StringComparison.InvariantCulture);
+        var filePathIndex = locationString.IndexOf('(', StringComparison.InvariantCulture);
+
+        int columnIndexEnd;
+        if (filePathIndex == -1)
         {
-            // TODO: Fix
-            Console.WriteLine();
+            columnIndexEnd = locationString.Length - 1;
+        }
+        else
+        {
+            columnIndexEnd = filePathIndex - 1;
         }
 
-        if (!int.TryParse(locationStringParse[2], out var locationLineColumn))
-        {
-            // TODO: Fix
-            Console.WriteLine();
-        }
+        var lineString = locationString[(lineIndex + 1) .. columnIndex];
+        var columnString = locationString[(columnIndex + 1) .. columnIndexEnd];
+        var fileNameString = locationString[..lineIndex];
+
+        var filePathString = filePathIndex == -1 ? fileNameString : locationString[(filePathIndex + 1)..^1];
+        var lineNumber = int.Parse(lineString, CultureInfo.InvariantCulture);
+        var lineColumn = int.Parse(columnString, CultureInfo.InvariantCulture);
 
         var actualLocation = new CLocation
         {
-            FileName = Path.GetFileName(locationFilePath),
-            FilePath = locationFilePath,
-            LineNumber = locationLineNumber,
-            LineColumn = locationLineColumn
+            FileName = fileNameString,
+            FilePath = filePathString,
+            LineNumber = lineNumber,
+            LineColumn = lineColumn
         };
         return actualLocation;
     }
