@@ -16,7 +16,6 @@ public sealed partial class Explorer
     private readonly ILogger<Explorer> _logger;
     private readonly ImmutableDictionary<CKind, ExploreHandler> _handlers;
 
-    private readonly List<CMacroObject> _macroObjects = new();
     private readonly List<CVariable> _variables = new();
     private readonly List<CFunction> _functions = new();
     private readonly List<CRecord> _records = new();
@@ -26,9 +25,9 @@ public sealed partial class Explorer
     private readonly List<CFunctionPointer> _functionPointers = new();
     private readonly List<CPointer> _pointers = new();
     private readonly List<CArray> _arrays = new();
+    private readonly List<CEnumConstant> _enumConstants = new();
     private readonly List<CPrimitive> _primitives = new();
 
-    private readonly ArrayDeque<ExploreInfoNode> _frontierMacros = new();
     private readonly ArrayDeque<ExploreInfoNode> _frontierVariables = new();
     private readonly ArrayDeque<ExploreInfoNode> _frontierFunctions = new();
     private readonly ArrayDeque<ExploreInfoNode> _frontierTypes = new();
@@ -43,18 +42,18 @@ public sealed partial class Explorer
     {
         var result = new Dictionary<CKind, ExploreHandler>
         {
-            { CKind.Macro, services.GetService<MacroExploreHandler>()! },
-            { CKind.Variable, services.GetService<VariableExploreHandler>()! },
-            { CKind.Function, services.GetService<FunctionExploreHandler>()! },
-            { CKind.Struct, services.GetService<StructExploreHandler>()! },
-            { CKind.Union, services.GetService<UnionExploreHandler>()! },
-            { CKind.Enum, services.GetService<EnumExploreHandler>()! },
-            { CKind.TypeAlias, services.GetService<TypeAliasExploreHandler>()! },
-            { CKind.OpaqueType, services.GetService<OpaqueTypeExploreHandler>()! },
-            { CKind.FunctionPointer, services.GetService<FunctionPointerExploreHandler>()! },
-            { CKind.Array, services.GetService<ArrayExploreHandler>()! },
-            { CKind.Pointer, services.GetService<PointerExploreHandler>()! },
-            { CKind.Primitive, services.GetService<PrimitiveExploreHandler>()! },
+            { CKind.EnumConstant, services.GetService<EnumConstantExplorer>()! },
+            { CKind.Variable, services.GetService<VariableExplorer>()! },
+            { CKind.Function, services.GetService<FunctionExplorer>()! },
+            { CKind.Struct, services.GetService<StructExplorer>()! },
+            { CKind.Union, services.GetService<UnionExplorer>()! },
+            { CKind.Enum, services.GetService<EnumExplorer>()! },
+            { CKind.TypeAlias, services.GetService<TypeAliasExplorer>()! },
+            { CKind.OpaqueType, services.GetService<OpaqueTypeExplorer>()! },
+            { CKind.FunctionPointer, services.GetService<FunctionPointerExplorer>()! },
+            { CKind.Array, services.GetService<ArrayExplorer>()! },
+            { CKind.Pointer, services.GetService<PointerExplorer>()! },
+            { CKind.Primitive, services.GetService<PrimitiveExplorer>()! },
         };
         return result.ToImmutableDictionary();
     }
@@ -62,6 +61,7 @@ public sealed partial class Explorer
     public CAbstractSyntaxTree AbstractSyntaxTree(
         TargetPlatform targetPlatform,
         ExplorerOptions options,
+        ImmutableArray<CMacroObject> macroObjects,
         ImmutableArray<string> userIncludeDirectories,
         CXTranslationUnit translationUnit,
         ImmutableDictionary<string, string> linkedPaths)
@@ -74,11 +74,10 @@ public sealed partial class Explorer
         try
         {
             VisitTranslationUnit(context, translationUnit);
-            ExploreMacros(context);
             ExploreVariables(context);
             ExploreFunctions(context);
             ExploreTypes(context);
-            result = CollectAbstractSyntaxTree(context);
+            result = CollectAbstractSyntaxTree(context, macroObjects);
         }
         catch (Exception e)
         {
@@ -90,43 +89,51 @@ public sealed partial class Explorer
         return result;
     }
 
-    private CAbstractSyntaxTree CollectAbstractSyntaxTree(ExploreContext context)
+    private CAbstractSyntaxTree CollectAbstractSyntaxTree(
+        ExploreContext context,
+        ImmutableArray<CMacroObject> macroObjects)
     {
-        var macroObjects = _macroObjects.ToImmutableDictionary(x => x.Name);
+        _variables.Sort();
         var variables = _variables.ToImmutableDictionary(x => x.Name);
+
+        _functions.Sort();
         var functions = _functions.ToImmutableDictionary(x => x.Name);
+
+        _records.Sort();
         var records = _records.ToImmutableDictionary(x => x.Name);
+
+        _enums.Sort();
         var enums = _enums.ToImmutableDictionary(x => x.Name);
+
+        _typeAliases.Sort();
         var typeAliases = _typeAliases.ToImmutableDictionary(x => x.Name);
+
+        _opaqueTypes.Sort();
         var opaqueTypes = _opaqueTypes.ToImmutableDictionary(x => x.Name);
+
+        _functionPointers.Sort();
         var functionPointers = _functionPointers.ToImmutableDictionary(x => x.Name);
+
+        _enumConstants.Sort();
+        var enumConstants = _enumConstants.ToImmutableDictionary(x => x.Name);
 
         var result = new CAbstractSyntaxTree
         {
             FileName = context.FilePath,
             PlatformRequested = context.TargetPlatformRequested,
             PlatformActual = context.TargetPlatformActual,
-            MacroObjects = macroObjects,
+            MacroObjects = macroObjects.ToImmutableDictionary(x => x.Name),
             Variables = variables,
             Functions = functions,
             Records = records,
             Enums = enums,
             TypeAliases = typeAliases,
             OpaqueTypes = opaqueTypes,
-            FunctionPointers = functionPointers
+            FunctionPointers = functionPointers,
+            EnumConstants = enumConstants
         };
 
         return result;
-    }
-
-    private void ExploreMacros(ExploreContext context)
-    {
-        var totalCount = _frontierMacros.Count;
-        var macroNamesToExplore = string.Join(", ", _frontierMacros.Select(x => x.Name));
-        LogExploringMacros(totalCount, macroNamesToExplore);
-        var macroNamesFound = _macroObjects.Select(x => x.Name).ToArray();
-        var macroNamesFoundString = string.Join(", ", _macroObjects.Select(x => x.Name));
-        LogFoundMacros(macroNamesFound.Length, macroNamesFoundString);
     }
 
     private void ExploreVariables(ExploreContext context)
@@ -134,6 +141,7 @@ public sealed partial class Explorer
         var totalCount = _frontierVariables.Count;
         var variableNamesToExplore = string.Join(", ", _frontierVariables.Select(x => x.Name));
         LogExploringVariables(totalCount, variableNamesToExplore);
+        ExploreFrontier(context, _frontierVariables);
         var variableNamesFound = _variables.Select(x => x.Name).ToArray();
         var variableNamesFoundString = string.Join(", ", variableNamesFound);
         LogFoundVariables(variableNamesFound.Length, variableNamesFoundString);
@@ -165,6 +173,7 @@ public sealed partial class Explorer
         typeNamesFound.AddRange(_functionPointers.Select(x => x.Name));
         typeNamesFound.AddRange(_pointers.Select(x => x.Name));
         typeNamesFound.AddRange(_arrays.Select(x => x.Name));
+        typeNamesFound.AddRange(_enumConstants.Select(x => x.Name));
         typeNamesFound.AddRange(_primitives.Select(x => x.Name));
         var typeNamesFoundJoined = string.Join(", ", typeNamesFound);
 
@@ -181,11 +190,10 @@ public sealed partial class Explorer
         }
     }
 
-    private bool ExploreNode(ExploreContext context, ExploreInfoNode visitInfo)
+    private void ExploreNode(ExploreContext context, ExploreInfoNode visitInfo)
     {
         var node = context.Explore(visitInfo);
         FoundNode(node);
-        return true;
     }
 
     private void FoundNode(CNode node)
@@ -196,9 +204,6 @@ public sealed partial class Explorer
         // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
         switch (node.Kind)
         {
-            case CKind.Macro:
-                FoundMacro((CMacroObject)node);
-                break;
             case CKind.Variable:
                 FoundVariable((CVariable)node);
                 break;
@@ -227,6 +232,9 @@ public sealed partial class Explorer
             case CKind.Array:
                 FoundArray((CArray)node);
                 break;
+            case CKind.EnumConstant:
+                FoundEnumConstant((CEnumConstant)node);
+                break;
             case CKind.Primitive:
                 FoundPrimitive((CPrimitive)node);
                 break;
@@ -234,11 +242,6 @@ public sealed partial class Explorer
                 var up = new NotImplementedException($"Found a node of kind '{node.Kind}' but do not know how to add it.");
                 throw up;
         }
-    }
-
-    private void FoundMacro(CMacroObject node)
-    {
-        _macroObjects.Add(node);
     }
 
     private void FoundVariable(CVariable node)
@@ -286,6 +289,11 @@ public sealed partial class Explorer
         _arrays.Add(node);
     }
 
+    private void FoundEnumConstant(CEnumConstant node)
+    {
+        _enumConstants.Add(node);
+    }
+
     private void FoundPrimitive(CPrimitive node)
     {
         _primitives.Add(node);
@@ -308,31 +316,19 @@ public sealed partial class Explorer
         var kind = clang_getCursorKind(cursor);
         if (kind != CXCursorKind.CXCursor_FunctionDecl &&
             kind != CXCursorKind.CXCursor_VarDecl &&
-            kind != CXCursorKind.CXCursor_EnumDecl &&
-            kind != CXCursorKind.CXCursor_MacroDefinition)
+            kind != CXCursorKind.CXCursor_EnumDecl)
         {
             return false;
         }
 
-        if (kind == CXCursorKind.CXCursor_MacroDefinition)
+        if (kind == CXCursorKind.CXCursor_EnumDecl)
         {
-            var isMacroBuiltIn = clang_Cursor_isMacroBuiltin(cursor) > 0;
-            if (isMacroBuiltIn)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            var linkage = clang_getCursorLinkage(cursor);
-            var isExternallyLinked = linkage == CXLinkageKind.CXLinkage_External;
-            if (!isExternallyLinked)
-            {
-                return false;
-            }
+            return true;
         }
 
-        return true;
+        var linkage = clang_getCursorLinkage(cursor);
+        var isExternallyLinked = linkage == CXLinkageKind.CXLinkage_External;
+        return isExternallyLinked;
     }
 
     private void VisitTopLevelCursor(ExploreContext context, CXCursor cursor)
@@ -342,7 +338,6 @@ public sealed partial class Explorer
             CXCursorKind.CXCursor_FunctionDecl => CKind.Function,
             CXCursorKind.CXCursor_VarDecl => CKind.Variable,
             CXCursorKind.CXCursor_EnumDecl => CKind.Enum,
-            CXCursorKind.CXCursor_MacroDefinition => CKind.Macro,
             _ => CKind.Unknown
         };
 
@@ -350,16 +345,6 @@ public sealed partial class Explorer
         {
             LogUnexpectedTopLevelCursor(cursor.kind);
             return;
-        }
-
-        if (kind == CKind.Macro)
-        {
-            // Function-like macros currently not implemented
-            // https://github.com/lithiumtoast/c2cs/issues/35
-            if (clang_Cursor_isMacroFunctionLike(cursor) > 0)
-            {
-                return;
-            }
         }
 
         var type = clang_getCursorType(cursor);
@@ -382,18 +367,31 @@ public sealed partial class Explorer
             return;
         }
 
-        var spelling = clang_getCursorSpelling(cursor);
-        string name = clang_getCString(spelling);
-
+        var name = clang_getCursorSpelling(cursor).String();
+        var isAnonymous = clang_Cursor_isAnonymous(cursor) > 0;
         var visitInfo = context.CreateVisitInfoNode(kind, name, cursor, type, null);
-        TryEnqueueVisitInfoNode(context, kind, visitInfo);
+
+        if (kind == CKind.Enum && isAnonymous)
+        {
+            var enumConstants = cursor.GetDescendents(static (cursor, _) => cursor.kind == CXCursorKind.CXCursor_EnumConstantDecl);
+            var enumIntegerType = clang_getEnumDeclIntegerType(cursor);
+            foreach (var enumConstant in enumConstants)
+            {
+                var enumConstantName = enumConstant.Name();
+                var enumConstantVisitInfo = context.CreateVisitInfoNode(CKind.EnumConstant, enumConstantName, enumConstant, enumIntegerType, visitInfo);
+                TryEnqueueVisitInfoNode(context, CKind.EnumConstant, enumConstantVisitInfo);
+            }
+        }
+        else
+        {
+            TryEnqueueVisitInfoNode(context, kind, visitInfo);
+        }
     }
 
     private void TryEnqueueVisitInfoNode(ExploreContext context, CKind kind, ExploreInfoNode info)
     {
         var frontier = kind switch
         {
-            CKind.Macro => _frontierMacros,
             CKind.Variable => _frontierVariables,
             CKind.Function => _frontierFunctions,
             _ => _frontierTypes,
@@ -401,7 +399,6 @@ public sealed partial class Explorer
 
         switch (kind)
         {
-            case CKind.Macro when !context.Options.IsEnabledMacroObjects:
             case CKind.Variable when !context.Options.IsEnabledVariables:
             case CKind.Function when !context.Options.IsEnabledFunctions:
                 return;
@@ -434,11 +431,11 @@ public sealed partial class Explorer
     [LoggerMessage(2, LogLevel.Debug, "- Success")]
     public partial void LogSuccess();
 
-    [LoggerMessage(3, LogLevel.Information, "- Exploring {Count} macros: {Names}")]
-    public partial void LogExploringMacros(int count, string names);
-
-    [LoggerMessage(4, LogLevel.Information, "- Found {FoundCount} macros: {Names}")]
-    public partial void LogFoundMacros(int foundCount, string names);
+    // [LoggerMessage(3, LogLevel.Information, "- Exploring {Count} macros: {Names}")]
+    // public partial void LogExploringMacros(int count, string names);
+    //
+    // [LoggerMessage(4, LogLevel.Information, "- Found {FoundCount} macros: {Names}")]
+    // public partial void LogFoundMacros(int foundCount, string names);
 
     [LoggerMessage(5, LogLevel.Information, "- Exploring {Count} variables: {Names}")]
     public partial void LogExploringVariables(int count, string names);

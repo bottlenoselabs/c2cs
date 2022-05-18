@@ -52,7 +52,7 @@ public sealed partial class ExploreContext
         var targetInfo = clang_getTranslationUnitTargetInfo(translationUnit);
         var targetInfoTriple = clang_TargetInfo_getTriple(targetInfo);
         var pointerWidth = clang_TargetInfo_getPointerWidth(targetInfo);
-        string platformString = clang_getCString(targetInfoTriple);
+        var platformString = targetInfoTriple.String();
         var platform = new TargetPlatform(platformString);
         clang_TargetInfo_dispose(targetInfo);
         return (platform, pointerWidth);
@@ -61,28 +61,37 @@ public sealed partial class ExploreContext
     private string GetFilePath(CXTranslationUnit translationUnit)
     {
         var translationUnitSpelling = clang_getTranslationUnitSpelling(translationUnit);
-        string result = clang_getCString(translationUnitSpelling);
-        return result;
+        return translationUnitSpelling.String();
     }
 
     private string TypeName(CKind kind, CXType type, string? parentName, int fieldIndex = 0)
     {
         if (kind is
-            CKind.Macro or
+            CKind.MacroObject or
             CKind.Function)
         {
             return string.Empty;
         }
 
-        var name = type.Name();
         var typeCursor = clang_getTypeDeclaration(type);
-
         var isAnonymous = clang_Cursor_isAnonymous(typeCursor) > 0;
         if (isAnonymous)
         {
-            return $"{parentName}_ANONYMOUS_FIELD{fieldIndex}";
+            if (kind == CKind.Enum)
+            {
+                return TypeNameEnumAnonymous(typeCursor);
+            }
+            else if (kind == CKind.RecordField)
+            {
+                return $"{parentName}_ANONYMOUS_FIELD{fieldIndex}";
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
+        var name = type.Name();
         if (name.Contains("(unnamed at ", StringComparison.InvariantCulture))
         {
             return $"{parentName}_UNNAMED_FIELD{fieldIndex}";
@@ -124,131 +133,54 @@ public sealed partial class ExploreContext
         return name;
     }
 
-    public CLocation Location(CXCursor cursor, CXType type)
+    private static string TypeNameEnumAnonymous(CXCursor typeCursor)
     {
-        var location = Location2(cursor, type, false);
-
-        if (string.IsNullOrEmpty(location.FilePath))
+        var enumConstants =
+            typeCursor.GetDescendents(static (cursor, _) => cursor.kind == CXCursorKind.CXCursor_EnumConstantDecl);
+        if (enumConstants.Length <= 1)
         {
-            return location;
+            /* Example C code; this enum should have it's single member promoted as a macro object.
+enum {
+  noErr                         = 0
+};
+             */
+            return string.Empty;
         }
 
-        foreach (var (linkedDirectory, targetDirectory) in _linkedPaths)
-        {
-            if (location.FilePath.Contains(linkedDirectory, StringComparison.InvariantCulture))
-            {
-                location.FilePath = location.FilePath
-                    .Replace(linkedDirectory, targetDirectory, StringComparison.InvariantCulture).Trim('/', '\\');
-                break;
-            }
-        }
+        var enumConstantNames = enumConstants.Select(x => x.Name()).ToImmutableArray();
+        var enumConstantNamesBuffer = enumConstantNames.ToArray();
 
-        if (!Options.IsEnabledLocationFullPaths)
+        while (true)
         {
-            foreach (var directory in UserIncludeDirectories)
+            for (var i = 0; i < enumConstantNames.Length; i++)
             {
-                if (location.FilePath.Contains(directory, StringComparison.InvariantCulture))
+                var name2 = enumConstantNamesBuffer[i];
+                if (name2.Length == 0)
                 {
-                    location.FilePath = location.FilePath
-                        .Replace(directory, string.Empty, StringComparison.InvariantCulture).Trim('/', '\\');
-                    break;
+                    /* Example C code; this enum should have every enum constant value handled as a macro object.
+enum {
+  normal                        = 0,
+  bold                          = 1,
+  italic                        = 2,
+  underline                     = 4,
+  outline                       = 8,
+  shadow                        = 0x10,
+  condense                      = 0x20,
+  extend                        = 0x40
+};
+                     */
+                    return string.Empty;
                 }
+
+                enumConstantNamesBuffer[i] = name2[..^1];
             }
-        }
 
-        return location;
-    }
-
-    private unsafe CLocation Location2(CXCursor cursor, CXType type, bool drillDown)
-    {
-        if (cursor.kind == CXCursorKind.CXCursor_TranslationUnit)
-        {
-            return CLocation.NoLocation;
-        }
-
-        if (cursor.kind != CXCursorKind.CXCursor_FunctionDecl &&
-            type.kind is CXTypeKind.CXType_FunctionProto or CXTypeKind.CXType_FunctionNoProto)
-        {
-            return CLocation.NoLocation;
-        }
-
-        if (type.kind is
-            CXTypeKind.CXType_Pointer or
-            CXTypeKind.CXType_ConstantArray or
-            CXTypeKind.CXType_IncompleteArray)
-        {
-            return CLocation.NoLocation;
-        }
-
-        if (type.IsPrimitive())
-        {
-            return CLocation.NoLocation;
-        }
-
-        if (cursor.kind == CXCursorKind.CXCursor_NoDeclFound)
-        {
-            var up = new UseCaseException("Expected a valid cursor when getting the location.");
-            throw up;
-        }
-
-        if (drillDown)
-        {
-            if (cursor.kind == CXCursorKind.CXCursor_TypedefDecl && type.kind == CXTypeKind.CXType_Typedef)
+            var allAreSame = !enumConstantNamesBuffer.Distinct().Skip(1).Any();
+            if (allAreSame)
             {
-                var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
-                var underlyingCursor = clang_getTypeDeclaration(underlyingType);
-                var underlyingLocation = Location2(underlyingCursor, underlyingType, true);
-                if (!underlyingLocation.IsNull)
-                {
-                    return underlyingLocation;
-                }
+                return enumConstantNamesBuffer[0];
             }
         }
-
-        var location = clang_getCursorLocation(cursor);
-        CXFile file;
-        uint lineNumber;
-        uint columnNumber;
-        uint offset;
-
-        clang_getFileLocation(location, &file, &lineNumber, &columnNumber, &offset);
-
-        var handle = (IntPtr)file.Data;
-        if (handle == IntPtr.Zero)
-        {
-            return LocationInTranslationUnit(cursor, (int)lineNumber, (int)columnNumber);
-        }
-
-        var clangFileName = clang_getFileName(file);
-        string fileNamePath = clang_getCString(clangFileName);
-        var fileName = Path.GetFileName(fileNamePath);
-        var fullFilePath = string.IsNullOrEmpty(fileNamePath) ? string.Empty : Path.GetFullPath(fileNamePath);
-
-        return new CLocation
-        {
-            FileName = fileName,
-            FilePath = fullFilePath,
-            LineNumber = (int)lineNumber,
-            LineColumn = (int)columnNumber
-        };
-    }
-
-    private static CLocation LocationInTranslationUnit(
-        CXCursor declaration,
-        int lineNumber,
-        int columnNumber)
-    {
-        var translationUnit = clang_Cursor_getTranslationUnit(declaration);
-        var cursor = clang_getTranslationUnitCursor(translationUnit);
-        var spelling = clang_getCursorSpelling(cursor);
-        string filePath = clang_getCString(spelling);
-        return new CLocation
-        {
-            FileName = Path.GetFileName(filePath),
-            FilePath = filePath,
-            LineNumber = lineNumber,
-            LineColumn = columnNumber
-        };
     }
 
     public CTypeInfo? VisitType(CXType typeCandidate, ExploreInfoNode? parentInfo, int fieldIndex = 0, CKind? kindHint = null)
@@ -461,6 +393,11 @@ public sealed partial class ExploreContext
         return cType;
     }
 
+    public CLocation Location(CXCursor cursor, CXType type)
+    {
+        return cursor.Location(type, _linkedPaths, Options.IsEnabledLocationFullPaths ? UserIncludeDirectories : ImmutableArray<string>.Empty);
+    }
+
     private CTypeInfo? CreateTypeInfoBlocked(ExploreInfoNode info)
     {
         if (info.Parent == null)
@@ -534,8 +471,7 @@ public sealed partial class ExploreContext
 
     public string CursorName(CXCursor cursor)
     {
-        var spelling = clang_getCursorSpelling(cursor);
-        string result = clang_getCString(spelling);
+        var result = clang_getCursorSpelling(cursor).String();
         return result;
     }
 
@@ -547,9 +483,9 @@ public sealed partial class ExploreContext
         ExploreInfoNode? parentInfo,
         int fieldIndex = 0)
     {
+        var location = Location(cursor, type);
         var typeNameActual = TypeName(kind, type, parentInfo?.Name, fieldIndex);
         var nameActual = !string.IsNullOrEmpty(name) ? name : typeNameActual;
-        var location = Location(cursor, type);
         var sizeOf = SizeOf(kind, type);
         var alignOf = (int)clang_Type_getAlignOf(type);
 

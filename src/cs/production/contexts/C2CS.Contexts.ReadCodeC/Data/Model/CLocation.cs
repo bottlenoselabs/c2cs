@@ -22,6 +22,9 @@ public record struct CLocation : IComparable<CLocation>
     [JsonPropertyName("filePath")]
     public string FilePath { get; set; }
 
+    [JsonIgnore]
+    public string FullFilePath { get; set; }
+
     [JsonPropertyName("line")]
     public int LineNumber { get; set; }
 

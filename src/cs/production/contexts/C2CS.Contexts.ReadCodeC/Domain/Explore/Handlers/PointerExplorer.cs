@@ -9,13 +9,13 @@ using static bottlenoselabs.clang;
 namespace C2CS.Contexts.ReadCodeC.Domain.Explore.Handlers;
 
 [UsedImplicitly]
-public sealed class PointerExploreHandler : ExploreHandler<CPointer>
+public sealed class PointerExplorer : ExploreHandler<CPointer>
 {
     protected override ExploreKindCursors ExpectedCursors => ExploreKindCursors.Any;
 
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Is(CXTypeKind.CXType_Pointer);
 
-    public PointerExploreHandler(ILogger<PointerExploreHandler> logger)
+    public PointerExplorer(ILogger<PointerExplorer> logger)
         : base(logger, false)
     {
     }

@@ -17,7 +17,7 @@ public sealed class BindgenConfiguration
     [Json.Schema.Generation.Description("Path of the input and output abstract syntax tree directory. By default, the directory will be used to write a `.json` file for each target platform's abstract syntax tree that has been extracted. By default, the same abstract syntax tree `.json` files will then be read when generating C# code.")]
     public string? InputOutputFileDirectory { get; set; }
 
-    [JsonPropertyName("ast")]
+    [JsonPropertyName("c")]
     [Json.Schema.Generation.Description("The configuration for reading the `.h` C header file.")]
     public ReadCodeCConfiguration? ReadCCode { get; set; }
 

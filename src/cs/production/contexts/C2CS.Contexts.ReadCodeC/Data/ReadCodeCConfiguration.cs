@@ -34,6 +34,14 @@ public sealed class ReadCodeCConfiguration : UseCaseConfiguration
     [Json.Schema.Generation.Description("The C function names to explicitly include when parsing C code. Default is `null`. If `null`, all functions found may be included. Note that C function names which are excluded may also exclude any transitive types.")]
     public ImmutableArray<string?>? FunctionNamesAllowed { get; set; }
 
+    [JsonPropertyName("macro_objects_allowed")]
+    [Json.Schema.Generation.Description("The C macro object names to explicitly include when parsing C code. Default is `null`. If `null`, all macro objects found may be included.")]
+    public ImmutableArray<string?>? MacroObjectNamesAllowed { get; set; }
+
+    [JsonPropertyName("enum_constants_allowed")]
+    [Json.Schema.Generation.Description("The C enum constant names to explicitly include when parsing C code. Default is `null`. If `null`, all enum constants found may be included.")]
+    public ImmutableArray<string?>? EnumConstantNamesAllowed { get; set; }
+
     [JsonPropertyName("opaque_types")]
     [Json.Schema.Generation.Description("Type names that may be found when parsing C code that will be interpreted as opaque types. Opaque types are often used with a pointer to hide the information about the bit layout behind the pointer.")]
     public ImmutableArray<string?>? OpaqueTypeNames { get; set; }
@@ -42,13 +50,17 @@ public sealed class ReadCodeCConfiguration : UseCaseConfiguration
     [Json.Schema.Generation.Description("Determines whether to show the the path of header code locations with full paths or relative paths. Use `true` to use the full path for header locations. Use `false` or omit this property to show only relative file paths.")]
     public bool? IsEnabledLocationFullPaths { get; set; }
 
+    [JsonPropertyName("is_enabled_functions")]
+    [Json.Schema.Generation.Description("Determines whether to include or exclude functions. Use `true` or omit this property to include functions. Use `false` to exclude functions.")]
+    public bool? IsEnabledFunctions { get; set; }
+
     [JsonPropertyName("is_enabled_macro_objects")]
     [Json.Schema.Generation.Description("Determines whether to include or exclude macro objects. Use `true` to include macro objects. Use `false` or omit this property to exclude macro objects.")]
     public bool? IsEnabledMacroObjects { get; set; }
 
-    [JsonPropertyName("is_enabled_functions")]
-    [Json.Schema.Generation.Description("Determines whether to include or exclude functions. Use `true` or omit this property to include functions. Use `false` to exclude functions.")]
-    public bool? IsEnabledFunctions { get; set; }
+    [JsonPropertyName("is_enabled_enum_constants")]
+    [Json.Schema.Generation.Description("Determines whether to include or exclude enum constants. Use `true` to include enum constants. Use `false` or omit this property to exclude enum constants.")]
+    public bool? IsEnabledEnumConstants { get; set; }
 
     [JsonPropertyName("is_enabled_variables")]
     [Json.Schema.Generation.Description("Determines whether to include or exclude variables. Use `true` or omit this property to include variables. Use `false` to exclude variables.")]

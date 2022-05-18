@@ -19,5 +19,7 @@ public sealed record CSharpNodes
 
     public ImmutableArray<CSharpEnum> Enums { get; init; }
 
-    public ImmutableArray<CSharpConstant> Constants { get; init; }
+    public ImmutableArray<CSharpMacroObject> MacroObjects { get; init; }
+
+    public ImmutableArray<CSharpEnumConstant> EnumConstants { get; init; }
 }

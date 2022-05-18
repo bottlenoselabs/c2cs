@@ -21,5 +21,6 @@ public enum CKind
     OpaqueType,
     TypeAlias,
     Variable,
-    Macro
+    MacroObject,
+    EnumConstant
 }

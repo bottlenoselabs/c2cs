@@ -9,7 +9,7 @@ using static bottlenoselabs.clang;
 namespace C2CS.Contexts.ReadCodeC.Domain.Explore.Handlers;
 
 [UsedImplicitly]
-public sealed class PrimitiveExploreHandler : ExploreHandler<CPrimitive>
+public sealed class PrimitiveExplorer : ExploreHandler<CPrimitive>
 {
     protected override ExploreKindCursors ExpectedCursors => ExploreKindCursors.Any;
 
@@ -37,7 +37,7 @@ public sealed class PrimitiveExploreHandler : ExploreHandler<CPrimitive>
         CXTypeKind.CXType_Double,
         CXTypeKind.CXType_LongDouble);
 
-    public PrimitiveExploreHandler(ILogger<PrimitiveExploreHandler> logger)
+    public PrimitiveExplorer(ILogger<PrimitiveExplorer> logger)
         : base(logger, false)
     {
     }

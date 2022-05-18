@@ -1,6 +1,6 @@
 {
   "directory": "./ast",
-  "ast": {
+  "c": {
     "input_file": "./include/my_c_library.h",
     "user_include_directories": [
       "../../production/c2cs/include"

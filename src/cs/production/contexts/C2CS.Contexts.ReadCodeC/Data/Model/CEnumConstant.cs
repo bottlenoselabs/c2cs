@@ -6,8 +6,16 @@ using System.Text.Json.Serialization;
 
 namespace C2CS.Contexts.ReadCodeC.Data.Model;
 
-public record CMacroObject : CNodeWithLocation
+// NOTE: Properties are required for System.Text.Json serialization
+public record CEnumConstant : CNodeWithLocation
 {
+    [JsonPropertyName("name")]
+    public new string Name
+    {
+        get => base.Name;
+        set => base.Name = value;
+    }
+
     [JsonPropertyName("type")]
     public CTypeInfo Type { get; set; } = null!;
 
@@ -17,6 +25,6 @@ public record CMacroObject : CNodeWithLocation
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {
-        return $"Macro '{Name}' : {Value} @ {Location}";
+        return $"EnumValue '{Name}' = {Value}";
     }
 }

@@ -3955,20 +3955,31 @@ namespace bottlenoselabs
                 ///     Converts a UTF-16 <see cref="string" /> to a C style string (one dimensional byte array terminated by a
                 ///     <c>0x0</c>) by allocating and copying if not already cached.
                 /// </summary>
-                /// <param name="str">The <see cref="string" />.</param>
+                /// <param name="stringValue">The <see cref="string" />.</param>
                 /// <returns>A C string pointer.</returns>
-                public static CString CString(string str)
+                public static CString CString(string stringValue)
                 {
-                    var hash = Djb2(str);
+                    var hash = Djb2(stringValue);
                     if (StringHashesToPointers.TryGetValue(hash, out var r))
                     {
                         return r;
                     }
 
                     // ReSharper disable once JoinDeclarationAndInitializer
-                    var pointer = Marshal.StringToHGlobalAnsi(str);
+                    var pointer = Marshal.StringToHGlobalAnsi(stringValue);
                     StringHashesToPointers.Add(hash, new CString(pointer));
-                    PointersToStrings.Add(pointer, str);
+
+                    if (!PointersToStrings.TryGetValue(pointer, out var existingStringValue))
+                    {
+                        PointersToStrings.Add(pointer, stringValue);   
+                    }
+                    else
+                    {
+                        if (existingStringValue != stringValue)
+                        {
+                            PointersToStrings[pointer] = stringValue;
+                        }
+                    }
 
                     return new CString(pointer);
                 }
@@ -3977,20 +3988,31 @@ namespace bottlenoselabs
                 ///     Converts a C string pointer (one dimensional byte array terminated by a
                 ///     <c>0x0</c>) for a specified <see cref="string" /> by allocating and copying if not already cached.
                 /// </summary>
-                /// <param name="str">The <see cref="string" />.</param>
+                /// <param name="stringValue">The <see cref="string" />.</param>
                 /// <returns>A C string pointer.</returns>
-                public static CStringWide CStringWide(string str)
+                public static CStringWide CStringWide(string stringValue)
                 {
-                    var hash = Djb2(str);
+                    var hash = Djb2(stringValue);
                     if (StringHashesToPointersWide.TryGetValue(hash, out var r))
                     {
                         return r;
                     }
 
                     // ReSharper disable once JoinDeclarationAndInitializer
-                    var pointer = Marshal.StringToHGlobalUni(str);
+                    var pointer = Marshal.StringToHGlobalUni(stringValue);
                     StringHashesToPointersWide.Add(hash, new CStringWide(pointer));
-                    PointersToStringsWide.Add(pointer, str);
+  
+                    if (!PointersToStringsWide.TryGetValue(pointer, out var existingStringValue))
+                    {
+                        PointersToStringsWide.Add(pointer, stringValue);   
+                    }
+                    else
+                    {
+                        if (existingStringValue != stringValue)
+                        {
+                            PointersToStringsWide[pointer] = stringValue;
+                        }
+                    }
 
                     return new CStringWide(pointer);
                 }
@@ -4094,6 +4116,23 @@ namespace bottlenoselabs
                     }
 
                     Marshal.FreeHGlobal(value);
+                    var hash = Djb2(value);
+                    StringHashesToPointers.Remove(hash);
+                    PointersToStrings.Remove(value._pointer);
+                }
+
+                /// <summary>
+                ///     Releases reference to the <see cref="string" /> object which happened during
+                ///     <see cref="String" /> or <see cref="CString" />. Does <b>not</b> garbage collect.
+                /// </summary>
+                /// <param name="value">The string.</param>
+                public static void ClearCString(CString value)
+                {
+                    if (!PointersToStrings.ContainsKey(value._pointer))
+                    {
+                        return;
+                    }
+
                     var hash = Djb2(value);
                     StringHashesToPointers.Remove(hash);
                     PointersToStrings.Remove(value._pointer);

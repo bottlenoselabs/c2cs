@@ -89,7 +89,9 @@ public sealed class CSharpCodeGenerator
         OpaqueDataTypes(membersTypes, nodes.OpaqueStructs);
         Typedefs(membersTypes, nodes.AliasStructs);
         Enums(membersTypes, nodes.Enums);
-        Constants(membersTypes, nodes.Constants);
+        MacroObjects(membersTypes, nodes.MacroObjects);
+        EnumConstants(membersTypes, nodes.EnumConstants);
+
         if (membersTypes.Count > 0)
         {
             membersTypes[0] = membersTypes[0].AddRegionStart("Types", false);
@@ -148,10 +150,11 @@ public sealed class CSharpCodeGenerator
 
         var members = builderMembers.ToArray();
 
-        var runtimeClass = ClassDeclaration("Runtime")
+        const string runtimeClassName = "Runtime";
+        var runtimeClass = ClassDeclaration(runtimeClassName)
             .AddModifiers(Token(SyntaxKind.PublicKeyword), Token(SyntaxKind.StaticKeyword))
             .AddMembers(members)
-            .AddRegionStart(assemblyName, true)
+            .AddRegionStart(runtimeClassName, true)
             .AddRegionEnd();
         return runtimeClass;
     }
@@ -588,27 +591,65 @@ public enum {enumName} : {enumIntegerTypeName}
         return EqualsValueClause(LiteralExpression(SyntaxKind.NumericLiteralExpression, literalToken));
     }
 
-    private static void Constants(
+    private static void MacroObjects(
         List<MemberDeclarationSyntax> members,
-        ImmutableArray<CSharpConstant> constants)
+        ImmutableArray<CSharpMacroObject> macroObjects)
     {
-        if (constants.IsDefaultOrEmpty)
+        if (macroObjects.IsDefaultOrEmpty)
         {
             return;
         }
 
-        foreach (var constant in constants)
+        foreach (var macroObject in macroObjects)
         {
-            var field = Constant(constant);
+            var field = MacroObject(macroObject);
             members.Add(field);
         }
     }
 
-    private static FieldDeclarationSyntax Constant(CSharpConstant constant)
+    private static FieldDeclarationSyntax MacroObject(CSharpMacroObject macroObject)
+    {
+        string code;
+        if (macroObject.IsConstant)
+        {
+            code = $@"
+{macroObject.CodeLocationComment}
+public const {macroObject.Type} {macroObject.Name} = {macroObject.Value};
+";
+        }
+        else
+        {
+            code = $@"
+{macroObject.CodeLocationComment}
+public static {macroObject.Type} {macroObject.Name} = {macroObject.Value};
+";
+        }
+
+        var member = ParseMemberCode<FieldDeclarationSyntax>(code);
+        return member;
+    }
+
+    private void EnumConstants(
+        List<MemberDeclarationSyntax> members,
+        ImmutableArray<CSharpEnumConstant> enumConstants)
+    {
+        if (enumConstants.IsDefaultOrEmpty)
+        {
+            return;
+        }
+
+        foreach (var enumConstant in enumConstants)
+        {
+            var field = EnumConstant(enumConstant);
+            members.Add(field);
+        }
+    }
+
+    private static FieldDeclarationSyntax EnumConstant(CSharpEnumConstant enumConstant)
     {
         var code = $@"
-{constant.CodeLocationComment}
-public const {constant.Type} {constant.Name} = {constant.Value};
+{enumConstant.CodeLocationComment}
+public const {enumConstant.Type} {enumConstant.Name} = {enumConstant.Value};
 ";
 
         var member = ParseMemberCode<FieldDeclarationSyntax>(code);

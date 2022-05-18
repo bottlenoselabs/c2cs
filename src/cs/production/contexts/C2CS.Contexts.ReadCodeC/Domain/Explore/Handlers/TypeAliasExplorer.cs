@@ -9,13 +9,13 @@ using static bottlenoselabs.clang;
 namespace C2CS.Contexts.ReadCodeC.Domain.Explore.Handlers;
 
 [UsedImplicitly]
-public class TypeAliasExploreHandler : ExploreHandler<CTypeAlias>
+public class TypeAliasExplorer : ExploreHandler<CTypeAlias>
 {
     protected override ExploreKindCursors ExpectedCursors { get; } = ExploreKindCursors.Is(CXCursorKind.CXCursor_TypedefDecl);
 
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Is(CXTypeKind.CXType_Typedef);
 
-    public TypeAliasExploreHandler(ILogger<TypeAliasExploreHandler> logger)
+    public TypeAliasExplorer(ILogger<TypeAliasExplorer> logger)
         : base(logger, false)
     {
     }

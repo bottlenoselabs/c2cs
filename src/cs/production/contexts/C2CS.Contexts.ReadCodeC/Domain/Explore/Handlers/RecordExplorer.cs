@@ -8,11 +8,11 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.Contexts.ReadCodeC.Domain.Explore.Handlers;
 using static bottlenoselabs.clang;
 
-public abstract class RecordExploreHandler : ExploreHandler<CRecord>
+public abstract class RecordExplorer : ExploreHandler<CRecord>
 {
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Is(CXTypeKind.CXType_Record);
 
-    protected RecordExploreHandler(ILogger<RecordExploreHandler> logger, bool logAlreadyExplored = true)
+    protected RecordExplorer(ILogger<RecordExplorer> logger, bool logAlreadyExplored = true)
         : base(logger, logAlreadyExplored)
     {
     }

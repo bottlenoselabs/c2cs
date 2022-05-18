@@ -2,10 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
-using C2CS.Contexts.ReadCodeC.Data;
 using C2CS.Contexts.ReadCodeC.Data.Model;
 using static bottlenoselabs.clang;
 
@@ -19,17 +17,21 @@ public static unsafe class ClangExtensions
     private static int _visitsCount;
 
     private static readonly CXCursorVisitor Visit;
+    private static readonly CXCursorVisitor VisitRecursive;
+    private static readonly VisitPredicate EmptyPredicate = static (_, _) => true;
 
     static ClangExtensions()
     {
         Visit.Pointer = &Visitor;
+        VisitRecursive.Pointer = &VisitorRecursive;
     }
 
     [SuppressMessage("Microsoft.Performance", "CA1806:DoNotIgnoreMethodResults", Justification = "Result is useless.")]
     public static ImmutableArray<CXCursor> GetDescendents(
-        this CXCursor cursor, VisitPredicate predicate)
+        this CXCursor cursor, VisitPredicate? predicate = null)
     {
-        var visitData = new VisitInstance(predicate);
+        var predicate2 = predicate ?? EmptyPredicate;
+        var visitData = new VisitInstance(predicate2);
         var visitsCount = Interlocked.Increment(ref _visitsCount);
         if (visitsCount > _visitInstances.Length)
         {
@@ -45,6 +47,14 @@ public static unsafe class ClangExtensions
         Interlocked.Decrement(ref _visitsCount);
 
         var result = visitData.NodeBuilder.ToImmutable();
+        return result;
+    }
+
+    public static string String(this CXString cxString)
+    {
+        var cString = clang_getCString(cxString);
+        var result = Marshal.PtrToStringAnsi(cString)!;
+        clang_disposeString(cxString);
         return result;
     }
 
@@ -65,10 +75,183 @@ public static unsafe class ClangExtensions
         return CXChildVisitResult.CXChildVisit_Continue;
     }
 
+    [SuppressMessage("Microsoft.Performance", "CA1806:DoNotIgnoreMethodResults", Justification = "Result is useless.")]
+    public static ImmutableArray<CXCursor> GetDescendentsRecursive(
+        this CXCursor cursor, VisitPredicate predicate)
+    {
+        var visitData = new VisitInstance(predicate);
+        var visitsCount = Interlocked.Increment(ref _visitsCount);
+        if (visitsCount > _visitInstances.Length)
+        {
+            Array.Resize(ref _visitInstances, visitsCount * 2);
+        }
+
+        _visitInstances[visitsCount - 1] = visitData;
+
+        var clientData = default(CXClientData);
+        clientData.Data = (void*)_visitsCount;
+        clang_visitChildren(cursor, VisitRecursive, clientData);
+
+        Interlocked.Decrement(ref _visitsCount);
+
+        var result = visitData.NodeBuilder.ToImmutable();
+        return result;
+    }
+
+    [SuppressMessage("Microsoft.Performance", "CA1806:DoNotIgnoreMethodResults", Justification = "Result is useless.")]
+    [UnmanagedCallersOnly]
+    private static CXChildVisitResult VisitorRecursive(CXCursor child, CXCursor parent, CXClientData clientData)
+    {
+        var index = (int)clientData.Data;
+        var data = _visitInstances[index - 1];
+
+        var result = data.Predicate(child, parent);
+        if (!result)
+        {
+            return CXChildVisitResult.CXChildVisit_Continue;
+        }
+
+        clang_visitChildren(child, VisitRecursive, clientData);
+
+        data.NodeBuilder.Add(child);
+
+        return CXChildVisitResult.CXChildVisit_Continue;
+    }
+
+    public static CLocation Location(
+        this CXCursor cursor,
+        CXType? type,
+        ImmutableDictionary<string, string>? linkedPaths,
+        ImmutableArray<string>? userIncludeDirectories)
+    {
+        if (cursor.kind == CXCursorKind.CXCursor_TranslationUnit)
+        {
+            return CLocation.NoLocation;
+        }
+
+        if (type != null)
+        {
+            if (cursor.kind != CXCursorKind.CXCursor_FunctionDecl &&
+                type.Value.kind is CXTypeKind.CXType_FunctionProto or CXTypeKind.CXType_FunctionNoProto)
+            {
+                return CLocation.NoLocation;
+            }
+
+            if (type.Value.kind is
+                CXTypeKind.CXType_Pointer or
+                CXTypeKind.CXType_ConstantArray or
+                CXTypeKind.CXType_IncompleteArray)
+            {
+                return CLocation.NoLocation;
+            }
+
+            if (type.Value.IsPrimitive())
+            {
+                return CLocation.NoLocation;
+            }
+        }
+
+        if (cursor.kind == CXCursorKind.CXCursor_NoDeclFound)
+        {
+            var up = new InvalidOperationException("Expected a valid cursor when getting the location.");
+            throw up;
+        }
+
+        // if (drillDown)
+        // {
+        //     if (cursor.kind == CXCursorKind.CXCursor_TypedefDecl && type.kind == CXTypeKind.CXType_Typedef)
+        //     {
+        //         var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
+        //         var underlyingCursor = clang_getTypeDeclaration(underlyingType);
+        //         var underlyingLocation = Location2(underlyingCursor, underlyingType, true);
+        //         if (!underlyingLocation.IsNull)
+        //         {
+        //             return underlyingLocation;
+        //         }
+        //     }
+        // }
+
+        var locationSource = clang_getCursorLocation(cursor);
+        CXFile file;
+        uint lineNumber;
+        uint columnNumber;
+        uint offset;
+
+        clang_getFileLocation(locationSource, &file, &lineNumber, &columnNumber, &offset);
+
+        var handle = (IntPtr)file.Data;
+        if (handle == IntPtr.Zero)
+        {
+            return LocationInTranslationUnit(cursor, (int)lineNumber, (int)columnNumber);
+        }
+
+        var fileNamePath = clang_getFileName(file).String();
+        var fileName = Path.GetFileName(fileNamePath);
+        var fullFilePath = string.IsNullOrEmpty(fileNamePath) ? string.Empty : Path.GetFullPath(fileNamePath);
+
+        var location = new CLocation
+        {
+            FileName = fileName,
+            FilePath = fullFilePath,
+            FullFilePath = fullFilePath,
+            LineNumber = (int)lineNumber,
+            LineColumn = (int)columnNumber
+        };
+
+        if (string.IsNullOrEmpty(location.FilePath))
+        {
+            return location;
+        }
+
+        if (linkedPaths != null)
+        {
+            foreach (var (linkedDirectory, targetDirectory) in linkedPaths)
+            {
+                if (location.FilePath.Contains(linkedDirectory, StringComparison.InvariantCulture))
+                {
+                    location.FilePath = location.FilePath
+                        .Replace(linkedDirectory, targetDirectory, StringComparison.InvariantCulture).Trim('/', '\\');
+                    break;
+                }
+            }
+        }
+
+        if (userIncludeDirectories != null)
+        {
+            foreach (var directory in userIncludeDirectories)
+            {
+                if (location.FilePath.Contains(directory, StringComparison.InvariantCulture))
+                {
+                    location.FilePath = location.FilePath
+                        .Replace(directory, string.Empty, StringComparison.InvariantCulture).Trim('/', '\\');
+                    break;
+                }
+            }
+        }
+
+        return location;
+    }
+
+    private static CLocation LocationInTranslationUnit(
+        CXCursor declaration,
+        int lineNumber,
+        int columnNumber)
+    {
+        var translationUnit = clang_Cursor_getTranslationUnit(declaration);
+        var cursor = clang_getTranslationUnitCursor(translationUnit);
+        var filePath = clang_getCursorSpelling(cursor).String();
+        return new CLocation
+        {
+            FileName = Path.GetFileName(filePath),
+            FilePath = filePath,
+            LineNumber = lineNumber,
+            LineColumn = columnNumber
+        };
+    }
+
     public static string Name(this CXCursor clangCursor)
     {
-        var spelling = clang_getCursorSpelling(clangCursor);
-        string result = clang_getCString(spelling);
+        var result = clang_getCursorSpelling(clangCursor).String();
         return SanitizeClangName(result);
     }
 
@@ -134,8 +317,7 @@ public static unsafe class ClangExtensions
 
     public static string Name(this CXType type, CXCursor? cursor = null)
     {
-        var spellingC = clang_getTypeSpelling(type);
-        string spelling = clang_getCString(spellingC);
+        var spelling = clang_getTypeSpelling(type).String();
         if (string.IsNullOrEmpty(spelling))
         {
             return string.Empty;
@@ -167,8 +349,7 @@ public static unsafe class ClangExtensions
                         pointeeType.kind == CXTypeKind.CXType_FunctionProto)
                     {
                         // Function pointer without a declaration, this can happen when the type is field or a param
-                        var functionProtoSpellingC = clang_getTypeSpelling(pointeeType);
-                        string functionProtoSpelling = clang_getCString(functionProtoSpellingC);
+                        var functionProtoSpelling = clang_getTypeSpelling(pointeeType).String();
                         result = functionProtoSpelling;
                     }
                     else
@@ -227,10 +408,7 @@ public static unsafe class ClangExtensions
 
     private static string NameInternal(this CXType clangType)
     {
-        var spelling = clang_getTypeSpelling(clangType);
-
-        var resultC = clang_getCString(spelling);
-        var result = Runtime.CStrings.String(resultC);
+        var result = clang_getTypeSpelling(clangType).String();
         if (string.IsNullOrEmpty(result))
         {
             return string.Empty;

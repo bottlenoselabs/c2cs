@@ -36,7 +36,7 @@ internal class CommandLineInterface : RootCommand
         AddGlobalOption(configurationOption);
 
         var abstractSyntaxTreeCommand = new Command(
-            "ast", "Dump the abstract syntax tree of a C `.h` file to one or more `.json` files per platform.");
+            "c", "Dump the abstract syntax tree of a C `.h` file to one or more `.json` files per platform.");
         abstractSyntaxTreeCommand.AddOption(configurationOption);
         abstractSyntaxTreeCommand.SetHandler<string>(
             filePath => HandleAbstractSyntaxTreesC(filePath),

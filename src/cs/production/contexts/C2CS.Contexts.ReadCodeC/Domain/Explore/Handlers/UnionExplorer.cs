@@ -10,9 +10,9 @@ using static bottlenoselabs.clang;
 namespace C2CS.Contexts.ReadCodeC.Domain.Explore.Handlers;
 
 [UsedImplicitly]
-public sealed class UnionExploreHandler : RecordExploreHandler
+public sealed class UnionExplorer : RecordExplorer
 {
-    public UnionExploreHandler(ILogger<UnionExploreHandler> logger)
+    public UnionExplorer(ILogger<UnionExplorer> logger)
         : base(logger)
     {
     }

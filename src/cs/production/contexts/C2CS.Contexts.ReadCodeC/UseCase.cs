@@ -37,17 +37,20 @@ public sealed class UseCase : UseCase<
                 options.TargetPlatform,
                 options.ParseOptions);
 
-            if (!parseResult.HasValue)
+            if (parseResult == null)
             {
                 continue;
             }
 
             var abstractSyntaxTreeC = Explore(
-                parseResult.Value.TranslationUnit,
-                parseResult.Value.LinkedPaths,
+                parseResult.TranslationUnit,
+                parseResult.LinkedPaths,
+                parseResult.MacroObjects,
                 options.TargetPlatform,
                 options.ExplorerOptions,
                 options.ParseOptions.UserIncludeDirectories);
+
+            clang_disposeTranslationUnit(parseResult.TranslationUnit);
 
             Write(options.OutputFilePath, abstractSyntaxTreeC, options.TargetPlatform);
 
@@ -57,7 +60,7 @@ public sealed class UseCase : UseCase<
         output.AbstractSyntaxTreesOptions = builder.ToImmutable();
     }
 
-    private (CXTranslationUnit TranslationUnit, ImmutableDictionary<string, string> LinkedPaths)? Parse(
+    private ParseResult? Parse(
         string inputFilePath,
         TargetPlatform targetPlatform,
         ParseOptions options)
@@ -71,32 +74,29 @@ public sealed class UseCase : UseCase<
             return null;
         }
 
-        var clangArgumentsBuilder = _services.GetService<ClangArgumentsBuilder>()!;
-        var arguments = clangArgumentsBuilder.Build(
-            Diagnostics,
-            targetPlatform,
-            options);
-
-        if (arguments == null)
-        {
-            EndStep();
-            return null;
-        }
-
         var parser = _services.GetService<Parser>()!;
-        var result = parser.Parse(
-            Diagnostics, inputFilePath, arguments.Value);
+        var translationUnit = parser.TranslationUnit(
+            inputFilePath, Diagnostics, targetPlatform, options);
+        var macroObjects = parser.MacroObjects(translationUnit, Diagnostics, targetPlatform, options);
+        var linkedPaths = parser.GetLinkedPaths();
 
-        var linkedPaths = clangArgumentsBuilder.GetLinkedPaths();
-        clangArgumentsBuilder.Cleanup();
+        var result = new ParseResult
+        {
+            TranslationUnit = translationUnit,
+            MacroObjects = macroObjects,
+            LinkedPaths = linkedPaths
+        };
+
+        parser.Cleanup();
 
         EndStep();
-        return (result, linkedPaths);
+        return result;
     }
 
     private CAbstractSyntaxTree Explore(
         CXTranslationUnit translationUnit,
         ImmutableDictionary<string, string> linkedPaths,
+        ImmutableArray<CMacroObject> macroObjects,
         TargetPlatform platform,
         ExplorerOptions options,
         ImmutableArray<string> userIncludeDirectories)
@@ -105,7 +105,7 @@ public sealed class UseCase : UseCase<
 
         var explorer = _services.GetService<Explorer>()!;
         var result = explorer.AbstractSyntaxTree(
-            platform, options, userIncludeDirectories, translationUnit, linkedPaths);
+            platform, options, macroObjects, userIncludeDirectories, translationUnit, linkedPaths);
 
         EndStep();
         return result;

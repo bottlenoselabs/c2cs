@@ -1,7 +1,7 @@
 {
   "$schema": "./../../../../../schema.json",
   "directory": "./ast",
-  "ast": {
+  "c": {
     "input_file": "./include/messagebox.h",
     "is_enabled_system_declarations": true,
     "is_enabled_macro_objects": false,

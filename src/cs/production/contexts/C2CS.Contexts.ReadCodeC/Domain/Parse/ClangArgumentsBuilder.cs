@@ -19,14 +19,15 @@ public class ClangArgumentsBuilder
         _fileSystem = fileSystem;
     }
 
-    public ImmutableArray<string>? Build(
+    public ImmutableArray<string> Build(
         DiagnosticsSink diagnostics,
         TargetPlatform targetPlatform,
-        ParseOptions options)
+        ParseOptions options,
+        bool isCPlusPlus)
     {
         var args = ImmutableArray.CreateBuilder<string>();
 
-        AddDefaults(args, targetPlatform);
+        AddDefaults(args, targetPlatform, isCPlusPlus);
         AddUserIncludeDirectories(args, options.UserIncludeDirectories);
         AddDefines(args, options.MacroObjectsDefines);
         AddTargetTriple(args, targetPlatform);
@@ -67,24 +68,40 @@ public class ClangArgumentsBuilder
         args.Add(targetTripleString);
     }
 
-    private void AddDefaults(ImmutableArray<string>.Builder args, TargetPlatform platform)
+    private static void AddDefaults(ImmutableArray<string>.Builder args, TargetPlatform platform, bool isCPlusPlus)
     {
-        args.Add("--language=c");
-
-        if (platform.OperatingSystem == NativeOperatingSystem.Linux)
+        if (isCPlusPlus)
         {
-            args.Add("--std=gnu11");
+            args.Add("--language=c++");
+
+            if (platform.OperatingSystem == NativeOperatingSystem.Linux)
+            {
+                args.Add("--std=gnu++11");
+            }
+            else
+            {
+                args.Add("--std=c++11");
+            }
         }
         else
         {
-            args.Add("--std=c11");
-        }
+            args.Add("--language=c");
 
-        args.Add("-Wno-pragma-once-outside-header");
-        args.Add("-fno-blocks");
+            if (platform.OperatingSystem == NativeOperatingSystem.Linux)
+            {
+                args.Add("--std=gnu11");
+            }
+            else
+            {
+                args.Add("--std=c11");
+            }
+
+            args.Add("-fblocks");
+            args.Add("-Wno-pragma-once-outside-header");
+        }
     }
 
-    private void AddUserIncludeDirectories(
+    private static void AddUserIncludeDirectories(
         ImmutableArray<string>.Builder args, ImmutableArray<string> includeDirectories)
     {
         if (includeDirectories.IsDefaultOrEmpty)
@@ -99,7 +116,7 @@ public class ClangArgumentsBuilder
         }
     }
 
-    private void AddDefines(ImmutableArray<string>.Builder args, ImmutableArray<string> defines)
+    private static void AddDefines(ImmutableArray<string>.Builder args, ImmutableArray<string> defines)
     {
         if (defines.IsDefaultOrEmpty)
         {
@@ -113,7 +130,7 @@ public class ClangArgumentsBuilder
         }
     }
 
-    private void AddAdditionalArgs(ImmutableArray<string>.Builder args, ImmutableArray<string> additionalArgs)
+    private static void AddAdditionalArgs(ImmutableArray<string>.Builder args, ImmutableArray<string> additionalArgs)
     {
         if (additionalArgs.IsDefaultOrEmpty)
         {
@@ -219,7 +236,7 @@ public class ClangArgumentsBuilder
         return directories.ToImmutable();
     }
 
-    private void SystemIncludeDirectoriesTargetLinux(ImmutableArray<string>.Builder directories)
+    private static void SystemIncludeDirectoriesTargetLinux(ImmutableArray<string>.Builder directories)
     {
         directories.Add("/usr/include");
         directories.Add("/usr/include/x86_64-linux-gnu");

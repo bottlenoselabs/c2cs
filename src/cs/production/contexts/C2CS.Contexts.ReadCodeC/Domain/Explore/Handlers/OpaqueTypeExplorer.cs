@@ -8,13 +8,13 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.Contexts.ReadCodeC.Domain.Explore.Handlers;
 
 [UsedImplicitly]
-public sealed class OpaqueTypeExploreHandler : ExploreHandler<COpaqueType>
+public sealed class OpaqueTypeExplorer : ExploreHandler<COpaqueType>
 {
     protected override ExploreKindCursors ExpectedCursors => ExploreKindCursors.Any;
 
     protected override ExploreKindTypes ExpectedTypes => ExploreKindTypes.Any;
 
-    public OpaqueTypeExploreHandler(ILogger<OpaqueTypeExploreHandler> logger)
+    public OpaqueTypeExplorer(ILogger<OpaqueTypeExplorer> logger)
         : base(logger, false)
     {
     }

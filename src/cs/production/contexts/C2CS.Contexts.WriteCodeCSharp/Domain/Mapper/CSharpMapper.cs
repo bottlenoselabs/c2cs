@@ -6,8 +6,6 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using C2CS.Contexts.ReadCodeC.Data.Model;
 using C2CS.Contexts.WriteCodeCSharp.Data.Model;
-using C2CS.Contexts.WriteCodeCSharp.Domain.Mapper.Diagnostics;
-using C2CS.Foundation.UseCases.Exceptions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -86,7 +84,8 @@ public sealed class CSharpMapper
         var typeAliasesC = ast.TypeAliases.Values.ToImmutableArray();
         var opaqueTypesC = ast.OpaqueTypes.Values.ToImmutableArray();
         var enumsC = ast.Enums.Values.ToImmutableArray();
-        var constantsC = ast.MacroObjects.Values.ToImmutableArray();
+        var macroObjectsC = ast.MacroObjects.Values.ToImmutableArray();
+        var enumConstantsC = ast.EnumConstants.Values.ToImmutableArray();
 
         var functions = Functions(context, functionsC);
         var structs = Structs(context, recordsC, functionNamesC);
@@ -95,7 +94,8 @@ public sealed class CSharpMapper
         var functionPointers = FunctionPointers(context, functionPointersC);
         var opaqueDataTypes = OpaqueDataTypes(context, opaqueTypesC);
         var enums = Enums(context, enumsC);
-        var constants = Constants(context, constantsC);
+        var macroObjects = MacroObjects(context, macroObjectsC);
+        var enumConstants = EnumConstants(context, enumConstantsC);
 
         var nodes = new CSharpNodes
         {
@@ -105,7 +105,8 @@ public sealed class CSharpMapper
             AliasStructs = aliasStructs,
             OpaqueStructs = opaqueDataTypes,
             Enums = enums,
-            Constants = constants
+            MacroObjects = macroObjects,
+            EnumConstants = enumConstants,
         };
         return nodes;
     }
@@ -120,8 +121,8 @@ public sealed class CSharpMapper
         for (var index = 0; index < clangFunctionExterns.Length; index++)
         {
             var clangFunctionExtern = clangFunctionExterns[index];
-            var functionExtern = FunctionCSharp(context, clangFunctionExtern);
-            builder.Add(functionExtern);
+            var value = FunctionCSharp(context, clangFunctionExtern);
+            builder.Add(value);
         }
 
         var result = builder.ToImmutable();
@@ -177,9 +178,9 @@ public sealed class CSharpMapper
         {
             var parameterName = CSharpUniqueParameterName(functionExternParameterC.Name, parameterNames);
             parameterNames.Add(parameterName);
-            var functionParameterCSharp =
+            var value =
                 FunctionParameter(context, functionName, functionExternParameterC, parameterName);
-            builder.Add(functionParameterCSharp);
+            builder.Add(value);
         }
 
         var result = builder.ToImmutable();
@@ -263,13 +264,13 @@ public sealed class CSharpMapper
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var functionPointer in functionPointers)
         {
-            var functionPointerCSharp = FunctionPointer(context, names, functionPointer);
-            if (functionPointerCSharp == null)
+            var value = FunctionPointer(context, names, functionPointer);
+            if (value == null)
             {
                 continue;
             }
 
-            builder.Add(functionPointerCSharp);
+            builder.Add(value);
         }
 
         var result = builder.ToImmutable();
@@ -322,9 +323,9 @@ public sealed class CSharpMapper
         {
             var parameterName = CSharpUniqueParameterName(functionPointerParameterC.Name, parameterNames);
             parameterNames.Add(parameterName);
-            var functionExternParameterCSharp =
+            var value =
                 FunctionPointerParameter(context, functionPointerParameterC, parameterName);
-            builder.Add(functionExternParameterCSharp);
+            builder.Add(value);
         }
 
         var result = builder.ToImmutable();
@@ -368,13 +369,13 @@ public sealed class CSharpMapper
                 continue;
             }
 
-            var item = Struct(context, record, functionNames);
-            if (_ignoredNames.Contains(item.Name))
+            var value = Struct(context, record, functionNames);
+            if (_ignoredNames.Contains(value.Name))
             {
                 continue;
             }
 
-            results.Add(item);
+            results.Add(value);
         }
 
         return results.ToImmutable();
@@ -432,18 +433,18 @@ public sealed class CSharpMapper
     {
         if (string.IsNullOrEmpty(field.Name) && context.Records.TryGetValue(field.TypeInfo.Name, out var @struct))
         {
-            var (nestedFields, _) = StructFields(context, structName, @struct.Fields);
-            resultFields.AddRange(nestedFields);
+            var (value, _) = StructFields(context, structName, @struct.Fields);
+            resultFields.AddRange(value);
         }
         else
         {
-            var structFieldCSharp = StructField(context, field);
+            var value = StructField(context, field);
             if (context.Records.TryGetValue(field.TypeInfo.Name, out var record))
             {
                 resultNestedRecords.Add(record);
             }
 
-            resultFields.Add(structFieldCSharp);
+            resultFields.Add(value);
         }
     }
 
@@ -494,14 +495,14 @@ public sealed class CSharpMapper
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var opaqueDataTypeC in opaqueDataTypes)
         {
-            var opaqueDataTypeCSharp = OpaqueDataStruct(context, opaqueDataTypeC);
+            var value = OpaqueDataStruct(context, opaqueDataTypeC);
 
-            if (_ignoredNames.Contains(opaqueDataTypeCSharp.Name))
+            if (_ignoredNames.Contains(value.Name))
             {
                 continue;
             }
 
-            builder.Add(opaqueDataTypeCSharp);
+            builder.Add(value);
         }
 
         var result = builder.ToImmutable();
@@ -539,13 +540,13 @@ public sealed class CSharpMapper
                 continue;
             }
 
-            var aliasStruct = AliasStruct(context, typedef);
-            if (_ignoredNames.Contains(aliasStruct.Name))
+            var value = AliasStruct(context, typedef);
+            if (_ignoredNames.Contains(value.Name))
             {
                 continue;
             }
 
-            builder.Add(aliasStruct);
+            builder.Add(value);
         }
 
         var result = builder.ToImmutable();
@@ -582,14 +583,13 @@ public sealed class CSharpMapper
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var enumC in enums)
         {
-            var enumCSharp = Enum(context, enumC);
-
-            if (_ignoredNames.Contains(enumCSharp.Name))
+            var value = Enum(context, enumC);
+            if (_ignoredNames.Contains(value.Name))
             {
                 continue;
             }
 
-            builder.Add(enumCSharp);
+            builder.Add(value);
         }
 
         var result = builder.ToImmutable();
@@ -624,8 +624,8 @@ public sealed class CSharpMapper
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var enumValue in enumValues)
         {
-            var @enum = EnumValue(context, enumValue);
-            builder.Add(@enum);
+            var value = EnumValue(context, enumValue);
+            builder.Add(value);
         }
 
         var result = builder.ToImmutable();
@@ -649,188 +649,81 @@ public sealed class CSharpMapper
         return result;
     }
 
-    private ImmutableArray<CSharpConstant> Constants(
-        CSharpMapperContext context, ImmutableArray<CMacroObject> constants)
+    private ImmutableArray<CSharpMacroObject> MacroObjects(
+        CSharpMapperContext context, ImmutableArray<CMacroObject> macroObjects)
     {
-        var builder = ImmutableArray.CreateBuilder<CSharpConstant>(constants.Length);
-
-        var lookup = new Dictionary<string, CSharpConstant>();
+        var builder = ImmutableArray.CreateBuilder<CSharpMacroObject>(macroObjects.Length);
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-        foreach (var macroObject in constants)
+        foreach (var macroObject in macroObjects)
         {
             if (_ignoredNames.Contains(macroObject.Name))
             {
                 continue;
             }
 
-            var constant = Constant(context, macroObject, lookup);
-            if (constant == null)
-            {
-                var diagnostic = new TranspileMacroObjectFailureDiagnostic(macroObject.Name, macroObject.Location);
-                _parameters.DiagnosticsSink.Add(diagnostic);
-            }
-            else
-            {
-                builder.Add(constant);
-                lookup.Add(constant.Name, constant);
-            }
+            var value = MacroObject(context, macroObject);
+            builder.Add(value);
         }
 
         var result = builder.ToImmutable();
         return result;
     }
 
-    private CSharpConstant? Constant(
+    private CSharpMacroObject MacroObject(
         CSharpMapperContext context,
-        CMacroObject macro,
-        Dictionary<string, CSharpConstant> lookup)
+        CMacroObject macro)
     {
         var originalCodeLocationComment = OriginalCodeLocationComment(macro);
-        var tokens = macro.Tokens.ToArray();
+        var typeName = TypeNameCSharp(context, macro.Type);
 
-        for (var i = 0; i < tokens.Length; i++)
-        {
-            var token = tokens[i];
+        var typeKind = macro.Type.Kind;
+        var isConstant = typeKind is CKind.Primitive or CKind.Pointer;
 
-            foreach (var (typeName, typeNameAlias) in _parameters.SystemTypeNameAliases)
-            {
-                if (token == typeName)
-                {
-                    token = tokens[i] = typeNameAlias;
-                }
-            }
-
-            foreach (var (typeName, typeNameAlias) in _userTypeNameAliases)
-            {
-                if (token == typeName)
-                {
-                    token = tokens[i] = typeNameAlias;
-                }
-            }
-
-            if (token == "size_t")
-            {
-                token = tokens[i] = "ulong";
-            }
-
-            if (token.ToUpper(CultureInfo.InvariantCulture).EndsWith("ULL", StringComparison.InvariantCulture))
-            {
-                var possibleIntegerToken = token[..^3];
-
-                if (possibleIntegerToken.StartsWith("0x", StringComparison.InvariantCulture))
-                {
-                    possibleIntegerToken = possibleIntegerToken[2..];
-                    if (ulong.TryParse(
-                            possibleIntegerToken,
-                            NumberStyles.HexNumber,
-                            CultureInfo.InvariantCulture,
-                            out _))
-                    {
-                        token = tokens[i] = $"0x{possibleIntegerToken}UL";
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-                else
-                {
-                    if (ulong.TryParse(possibleIntegerToken, NumberStyles.Integer, CultureInfo.InvariantCulture, out _))
-                    {
-                        token = tokens[i] = $"{possibleIntegerToken}UL";
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-        }
-
-        var typeValue = GetMacroExpressionTypeAndValue(tokens.ToImmutableArray(), lookup);
-        if (typeValue == null)
-        {
-            return null;
-        }
-
-        var (type, value) = typeValue.Value;
-        if (type == "?")
-        {
-            return null;
-        }
-
-        var result = new CSharpConstant(
+        var result = new CSharpMacroObject(
             context.Platform,
             macro.Name,
             originalCodeLocationComment,
-            null,
-            type,
-            value);
+            macro.Type.SizeOf,
+            typeName,
+            macro.Value,
+            isConstant);
         return result;
     }
 
-    private readonly string _dotNetPath = DotNetPath();
-
-    private (string Type, string Value)? GetMacroExpressionTypeAndValue(
-        ImmutableArray<string> tokens, IReadOnlyDictionary<string, CSharpConstant> lookup)
+    private ImmutableArray<CSharpEnumConstant> EnumConstants(CSharpMapperContext context, ImmutableArray<CEnumConstant> enumConstants)
     {
-        var dependentMacros = new List<string>();
-        foreach (var token in tokens)
+        var builder = ImmutableArray.CreateBuilder<CSharpEnumConstant>(enumConstants.Length);
+
+        // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+        foreach (var enumConstant in enumConstants)
         {
-            if (lookup.TryGetValue(token, out var dependentMacro))
+            if (_ignoredNames.Contains(enumConstant.Name))
             {
-                dependentMacros.Add($"var {dependentMacro.Name} = {dependentMacro.Value};");
+                continue;
             }
+
+            var value = EnumConstant(context, enumConstant);
+            builder.Add(value);
         }
 
-        var value = string.Join(string.Empty, tokens);
-        var code = @$"
-using System;
-{string.Join("\n", dependentMacros)}
-var x = {value};
-".Trim();
+        var result = builder.ToImmutable();
+        return result;
+    }
 
-        var syntaxTree = CSharpSyntaxTree.ParseText(code);
-        var variableDeclarations = syntaxTree.GetRoot().DescendantNodesAndSelf().OfType<VariableDeclarationSyntax>();
-        var variables = variableDeclarations.Last().Variables;
-        if (variables.Count > 1)
-        {
-            // something is wrong with the macro; it's probably not an object-like macro
-            return null;
-        }
+    private CSharpEnumConstant EnumConstant(CSharpMapperContext context, CEnumConstant enumConstant)
+    {
+        var originalCodeLocationComment = OriginalCodeLocationComment(enumConstant);
+        var typeName = TypeNameCSharp(context, enumConstant.Type);
 
-        var variable = variables.Single();
-        var variableInitializer = variable.Initializer;
-        if (variableInitializer == null)
-        {
-            return null;
-        }
-
-        var expression = variableInitializer.Value;
-        var mscorlib = MetadataReference.CreateFromFile(Path.Combine(_dotNetPath, "mscorlib.dll"));
-        var privateCoreLib =
-            MetadataReference.CreateFromFile(Path.Combine(_dotNetPath, "System.Private.CoreLib.dll"));
-        var compilation = CSharpCompilation.Create("Assembly")
-            .AddReferences(mscorlib, privateCoreLib)
-            .AddSyntaxTrees(syntaxTree);
-        var semanticModel = compilation.GetSemanticModel(syntaxTree);
-        var typeInfo = semanticModel.GetTypeInfo(expression);
-
-        if (typeInfo.ConvertedType == null)
-        {
-            return null;
-        }
-
-        var type = typeInfo.ConvertedType!.ToString()!;
-
-        if (value.StartsWith("(uint)-", StringComparison.InvariantCulture) ||
-            value.StartsWith("(ulong)-", StringComparison.InvariantCulture))
-        {
-            value = $"unchecked({value})";
-        }
-
-        return (type, value);
+        var result = new CSharpEnumConstant(
+            context.Platform,
+            enumConstant.Name,
+            originalCodeLocationComment,
+            enumConstant.Type.SizeOf,
+            typeName,
+            enumConstant.Value);
+        return result;
     }
 
     private CSharpType TypeCSharp(string nameCSharp, CTypeInfo typeInfo)
@@ -851,7 +744,7 @@ var x = {value};
         CSharpMapperContext context,
         CTypeInfo typeInfo)
     {
-        if (typeInfo!.Kind == CKind.FunctionPointer)
+        if (typeInfo.Kind == CKind.FunctionPointer)
         {
             var functionPointer = context.FunctionPointers[typeInfo.Name];
             return TypeNameCSharpFunctionPointer(context, typeInfo.Name, functionPointer);

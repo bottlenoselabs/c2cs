@@ -10,7 +10,7 @@ using static bottlenoselabs.clang;
 namespace C2CS.Contexts.ReadCodeC.Domain.Explore.Handlers;
 
 [UsedImplicitly]
-public sealed class FunctionPointerExploreHandler : ExploreHandler<CFunctionPointer>
+public sealed class FunctionPointerExplorer : ExploreHandler<CFunctionPointer>
 {
     // NOTE: Function pointer visiting by name.
     //  (1) A typedef can be an alias to a function pointer. Typedefs are declarations, declarations always have a
@@ -29,7 +29,7 @@ public sealed class FunctionPointerExploreHandler : ExploreHandler<CFunctionPoin
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Either(
         CXTypeKind.CXType_FunctionProto, CXTypeKind.CXType_FunctionNoProto);
 
-    public FunctionPointerExploreHandler(ILogger<FunctionPointerExploreHandler> logger)
+    public FunctionPointerExplorer(ILogger<FunctionPointerExplorer> logger)
         : base(logger, false)
     {
     }

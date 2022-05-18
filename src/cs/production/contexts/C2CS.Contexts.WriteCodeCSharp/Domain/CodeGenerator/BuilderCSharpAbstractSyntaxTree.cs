@@ -17,7 +17,8 @@ public sealed class BuilderCSharpAbstractSyntaxTree
     private readonly ImmutableArray<CSharpAliasStruct>.Builder _agnosticAliasStructs = ImmutableArray.CreateBuilder<CSharpAliasStruct>();
     private readonly ImmutableArray<CSharpOpaqueStruct>.Builder _agnosticOpaqueStructs = ImmutableArray.CreateBuilder<CSharpOpaqueStruct>();
     private readonly ImmutableArray<CSharpEnum>.Builder _agnosticEnums = ImmutableArray.CreateBuilder<CSharpEnum>();
-    private readonly ImmutableArray<CSharpConstant>.Builder _agnosticConstants = ImmutableArray.CreateBuilder<CSharpConstant>();
+    private readonly ImmutableArray<CSharpMacroObject>.Builder _agnosticMacroObjects = ImmutableArray.CreateBuilder<CSharpMacroObject>();
+    private readonly ImmutableArray<CSharpEnumConstant>.Builder _agnosticEnumConstants = ImmutableArray.CreateBuilder<CSharpEnumConstant>();
 
     private readonly Dictionary<TargetPlatform, ImmutableArray<CSharpFunction>.Builder> _functionsByPlatform = new();
     private readonly Dictionary<TargetPlatform, ImmutableArray<CSharpFunctionPointer>.Builder> _functionPointersByPlatform = new();
@@ -25,7 +26,8 @@ public sealed class BuilderCSharpAbstractSyntaxTree
     private readonly Dictionary<TargetPlatform, ImmutableArray<CSharpAliasStruct>.Builder> _aliasStructsByPlatform = new();
     private readonly Dictionary<TargetPlatform, ImmutableArray<CSharpOpaqueStruct>.Builder> _opaqueStructsByPlatform = new();
     private readonly Dictionary<TargetPlatform, ImmutableArray<CSharpEnum>.Builder> _enumsByPlatform = new();
-    private readonly Dictionary<TargetPlatform, ImmutableArray<CSharpConstant>.Builder> _constantsByPlatform = new();
+    private readonly Dictionary<TargetPlatform, ImmutableArray<CSharpMacroObject>.Builder> _macroObjectsByPlatform = new();
+    private readonly Dictionary<TargetPlatform, ImmutableArray<CSharpEnumConstant>.Builder> _enumConstantsByPlatform = new();
 
     public void Add(TargetPlatform platform, CSharpNodes nodes)
     {
@@ -36,7 +38,8 @@ public sealed class BuilderCSharpAbstractSyntaxTree
         AddCandidateAliasStructs(platform, nodes.AliasStructs);
         AddOpaqueStructs(platform, nodes.OpaqueStructs);
         AddCandidateEnums(platform, nodes.Enums);
-        AddCandidateConstants(platform, nodes.Constants);
+        AddCandidateMacroObjects(platform, nodes.MacroObjects);
+        AddCandidateEnumConstants(platform, nodes.EnumConstants);
     }
 
     private void AddPlatform(TargetPlatform platform)
@@ -53,8 +56,9 @@ public sealed class BuilderCSharpAbstractSyntaxTree
         _structsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpStruct>();
         _aliasStructsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpAliasStruct>();
         _enumsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpEnum>();
-        _constantsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpConstant>();
+        _macroObjectsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpMacroObject>();
         _opaqueStructsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpOpaqueStruct>();
+        _enumConstantsByPlatform[platform] = ImmutableArray.CreateBuilder<CSharpEnumConstant>();
     }
 
     public CSharpAbstractSyntaxTree Build()
@@ -123,7 +127,8 @@ public sealed class BuilderCSharpAbstractSyntaxTree
             AliasStructs = _agnosticAliasStructs.ToImmutable(),
             OpaqueStructs = _agnosticOpaqueStructs.ToImmutable(),
             Enums = _agnosticEnums.ToImmutable(),
-            Constants = _agnosticConstants.ToImmutable()
+            MacroObjects = _agnosticMacroObjects.ToImmutable(),
+            EnumConstants = _agnosticEnumConstants.ToImmutable()
         };
 
         return sharedNodes;
@@ -155,7 +160,8 @@ public sealed class BuilderCSharpAbstractSyntaxTree
         var aliasStructs = _aliasStructsByPlatform[platform].ToImmutableArray();
         var opaqueStructs = _opaqueStructsByPlatform[platform].ToImmutableArray();
         var enums = _enumsByPlatform[platform].ToImmutableArray();
-        var constants = _constantsByPlatform[platform].ToImmutableArray();
+        var macroObjects = _macroObjectsByPlatform[platform].ToImmutableArray();
+        var enumConstants = _enumConstantsByPlatform[platform].ToImmutableArray();
 
         if (functions.IsDefaultOrEmpty &&
             functionPointers.IsDefaultOrEmpty &&
@@ -163,7 +169,8 @@ public sealed class BuilderCSharpAbstractSyntaxTree
             aliasStructs.IsDefaultOrEmpty &&
             opaqueStructs.IsDefaultOrEmpty &&
             enums.IsDefaultOrEmpty &&
-            constants.IsDefaultOrEmpty)
+            macroObjects.IsDefaultOrEmpty &&
+            enumConstants.IsDefaultOrEmpty)
         {
             return null;
         }
@@ -176,7 +183,8 @@ public sealed class BuilderCSharpAbstractSyntaxTree
             AliasStructs = aliasStructs,
             OpaqueStructs = opaqueStructs,
             Enums = enums,
-            Constants = constants
+            MacroObjects = macroObjects,
+            EnumConstants = enumConstants
         };
 
         return nodes;
@@ -185,63 +193,72 @@ public sealed class BuilderCSharpAbstractSyntaxTree
     private void AddCandidateFunctions(
         TargetPlatform platform, ImmutableArray<CSharpFunction> functions)
     {
-        foreach (var function in functions)
+        foreach (var value in functions)
         {
-            AddCandidateNode(platform, function);
+            AddCandidateNode(platform, value);
         }
     }
 
     private void AddCandidateFunctionPointers(
         TargetPlatform platform, ImmutableArray<CSharpFunctionPointer> functionPointers)
     {
-        foreach (var functionPointer in functionPointers)
+        foreach (var value in functionPointers)
         {
-            AddCandidateNode(platform, functionPointer);
+            AddCandidateNode(platform, value);
         }
     }
 
     private void AddCandidateStructs(
         TargetPlatform platform, ImmutableArray<CSharpStruct> structs)
     {
-        foreach (var @struct in structs)
+        foreach (var value in structs)
         {
-            AddCandidateNode(platform, @struct);
+            AddCandidateNode(platform, value);
         }
     }
 
     private void AddCandidateAliasStructs(
         TargetPlatform platform, ImmutableArray<CSharpAliasStruct> aliasStructs)
     {
-        foreach (var aliasStruct in aliasStructs)
+        foreach (var value in aliasStructs)
         {
-            AddCandidateNode(platform, aliasStruct);
+            AddCandidateNode(platform, value);
         }
     }
 
     private void AddOpaqueStructs(
         TargetPlatform platform, ImmutableArray<CSharpOpaqueStruct> opaqueDataTypes)
     {
-        foreach (var opaqueType in opaqueDataTypes)
+        foreach (var value in opaqueDataTypes)
         {
-            AddCandidateNode(platform, opaqueType);
+            AddCandidateNode(platform, value);
         }
     }
 
     private void AddCandidateEnums(
         TargetPlatform platform, ImmutableArray<CSharpEnum> enums)
     {
-        foreach (var @enum in enums)
+        foreach (var value in enums)
         {
-            AddCandidateNode(platform, @enum);
+            AddCandidateNode(platform, value);
         }
     }
 
-    private void AddCandidateConstants(
-        TargetPlatform platform, ImmutableArray<CSharpConstant> constants)
+    private void AddCandidateMacroObjects(
+        TargetPlatform platform, ImmutableArray<CSharpMacroObject> constants)
     {
-        foreach (var constant in constants)
+        foreach (var value in constants)
         {
-            AddCandidateNode(platform, constant);
+            AddCandidateNode(platform, value);
+        }
+    }
+
+    private void AddCandidateEnumConstants(
+        TargetPlatform platform, ImmutableArray<CSharpEnumConstant> enumConstants)
+    {
+        foreach (var value in enumConstants)
+        {
+            AddCandidateNode(platform, value);
         }
     }
 
@@ -288,9 +305,14 @@ public sealed class BuilderCSharpAbstractSyntaxTree
             case CSharpEnum @enum:
                 AddNodeEnum(null, @enum);
                 break;
-            case CSharpConstant constant:
-                AddNodeConstant(null, constant);
+            case CSharpMacroObject macroObject:
+                AddNodeMacroObject(null, macroObject);
                 break;
+            case CSharpEnumConstant enumConstant:
+                AddNodeEnumConstant(null, enumConstant);
+                break;
+            default:
+                throw new NotImplementedException();
         }
     }
 
@@ -316,9 +338,14 @@ public sealed class BuilderCSharpAbstractSyntaxTree
             case CSharpEnum @enum:
                 AddNodeEnum(platform, @enum);
                 break;
-            case CSharpConstant constant:
-                AddNodeConstant(platform, constant);
+            case CSharpMacroObject macroObject:
+                AddNodeMacroObject(platform, macroObject);
                 break;
+            case CSharpEnumConstant enumConstant:
+                AddNodeEnumConstant(platform, enumConstant);
+                break;
+            default:
+                throw new NotImplementedException();
         }
     }
 
@@ -358,9 +385,15 @@ public sealed class BuilderCSharpAbstractSyntaxTree
         builder.Add(node);
     }
 
-    private void AddNodeConstant(TargetPlatform? platform, CSharpConstant node)
+    private void AddNodeMacroObject(TargetPlatform? platform, CSharpMacroObject node)
     {
-        var builder = platform != null ? _constantsByPlatform[platform.Value] : _agnosticConstants;
+        var builder = platform != null ? _macroObjectsByPlatform[platform.Value] : _agnosticMacroObjects;
+        builder.Add(node);
+    }
+
+    private void AddNodeEnumConstant(TargetPlatform? platform, CSharpEnumConstant node)
+    {
+        var builder = platform != null ? _enumConstantsByPlatform[platform.Value] : _agnosticEnumConstants;
         builder.Add(node);
     }
 

@@ -7,14 +7,14 @@ using static bottlenoselabs.clang;
 
 namespace C2CS.Contexts.ReadCodeC.Domain.Explore.Handlers;
 
-public sealed class ArrayExploreHandler : ExploreHandler<CArray>
+public sealed class ArrayExplorer : ExploreHandler<CArray>
 {
     protected override ExploreKindCursors ExpectedCursors => ExploreKindCursors.Any;
 
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Either(
         CXTypeKind.CXType_ConstantArray, CXTypeKind.CXType_IncompleteArray);
 
-    public ArrayExploreHandler(ILogger<ArrayExploreHandler> logger)
+    public ArrayExplorer(ILogger<ArrayExplorer> logger)
         : base(logger, false)
     {
     }

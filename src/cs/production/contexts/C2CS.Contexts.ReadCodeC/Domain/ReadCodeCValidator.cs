@@ -77,6 +77,8 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         var excludedHeaderFiles = VerifyImmutableArray(configurationPlatform?.HeaderFilesBlocked);
         var opaqueTypeNames = VerifyImmutableArray(configuration.OpaqueTypeNames);
         var functionNamesAllowed = VerifyImmutableArray(configuration.FunctionNamesAllowed);
+        var macroObjectNamesAllowed = VerifyImmutableArray(configuration.MacroObjectNamesAllowed);
+        var enumConstantNamesAllowed = VerifyImmutableArray(configuration.EnumConstantNamesAllowed);
         var clangDefines = VerifyImmutableArray(configurationPlatform?.Defines);
         var clangArguments = VerifyImmutableArray(configurationPlatform?.ClangArguments);
 
@@ -89,10 +91,11 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
                 HeaderFilesBlocked = excludedHeaderFiles,
                 OpaqueTypesNames = opaqueTypeNames,
                 FunctionNamesAllowed = functionNamesAllowed,
+                EnumConstantNamesAllowed = enumConstantNamesAllowed,
                 IsEnabledLocationFullPaths = configuration.IsEnabledLocationFullPaths ?? false,
-                IsEnabledMacroObjects = configuration.IsEnabledMacroObjects ?? false,
                 IsEnabledFunctions = configuration.IsEnabledFunctions ?? true,
-                IsEnabledVariables = false, // TODO: transpile variables
+                IsEnabledVariables = false, // TODO: transpile variables,
+                IsEnabledEnumConstants = configuration.IsEnabledEnumConstants ?? true,
                 IsEnabledEnumsDangling = configuration.IsEnabledEnumsDangling ?? false,
                 IsEnabledAllowNamesWithPrefixedUnderscore = configuration.IsEnabledAllowNamesWithPrefixedUnderscore ?? false,
                 IsEnabledSystemDeclarations = configuration.IsEnabledSystemDeclarations ?? false
@@ -104,7 +107,10 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
                 MacroObjectsDefines = clangDefines,
                 AdditionalArguments = clangArguments,
                 IsEnabledFindSystemHeaders = configuration.IsEnabledFindSystemHeaders ?? true,
-                Frameworks = frameworksPlatform
+                Frameworks = frameworksPlatform,
+                IsEnabledSystemDeclarations = configuration.IsEnabledSystemDeclarations ?? false,
+                IsEnabledMacroObjects = configuration.IsEnabledMacroObjects ?? false,
+                MacroObjectNamesAllowed = macroObjectNamesAllowed,
             }
         };
 

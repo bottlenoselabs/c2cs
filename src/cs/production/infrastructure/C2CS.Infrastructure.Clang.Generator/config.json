@@ -1,6 +1,6 @@
 {
   "directory": "./ast",
-  "ast": {
+  "c": {
     "input_file": "../../../../ext/clang/include/clang-c/Index.h",
     "user_include_directories": [
       "../../../../ext/clang/include"

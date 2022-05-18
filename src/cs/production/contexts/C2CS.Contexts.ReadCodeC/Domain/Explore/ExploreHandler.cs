@@ -42,6 +42,11 @@ public abstract partial class ExploreHandler
 
     internal bool CanVisitInternal(ExploreContext context, ExploreInfoNode node)
     {
+        if (string.IsNullOrEmpty(node.Name))
+        {
+            throw new NotImplementedException();
+        }
+
         if (!IsExpectedCursor(node))
         {
             LogFailureUnexpectedCursor(node.Cursor.kind);

@@ -32,7 +32,12 @@ public abstract record CNode : IComparable<CNode>
 
     protected virtual int CompareToInternal(CNode? other)
     {
-        return 0;
+        if (other == null)
+        {
+            return 0;
+        }
+
+        return string.Compare(Name, other.Name, StringComparison.Ordinal);
     }
 
     private CKind GetKind(CNode node)
@@ -49,11 +54,12 @@ public abstract record CNode : IComparable<CNode>
             CRecord => ((CRecord)node).RecordKind == CRecordKind.Struct ? CKind.Struct : CKind.Union,
             CTypeAlias => CKind.TypeAlias,
             CVariable => CKind.Variable,
-            CMacroObject => CKind.Macro,
+            CMacroObject => CKind.MacroObject,
             CRecordField => CKind.RecordField,
             CPrimitive => CKind.Primitive,
             CPointer => CKind.Pointer,
             CArray => CKind.Array,
+            CEnumConstant => CKind.EnumConstant,
             _ => throw new NotImplementedException($"The kind of mapping for '{GetType()}' is not implemented.")
         };
     }

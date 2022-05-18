@@ -3,28 +3,32 @@
 
 namespace C2CS.Contexts.WriteCodeCSharp.Data.Model;
 
-public sealed class CSharpConstant : CSharpNode
+public sealed class CSharpMacroObject : CSharpNode
 {
     public readonly string Type;
 
     public readonly string Value;
 
-    public CSharpConstant(
+    public readonly bool IsConstant;
+
+    public CSharpMacroObject(
         TargetPlatform platform,
         string name,
         string codeLocationComment,
         int? sizeOf,
         string type,
-        string value)
+        string value,
+        bool isConstant)
         : base(platform, name, codeLocationComment, sizeOf)
     {
         Type = type;
         Value = value;
+        IsConstant = isConstant;
     }
 
     public override bool Equals(CSharpNode? other)
     {
-        if (!base.Equals(other) || other is not CSharpConstant other2)
+        if (!base.Equals(other) || other is not CSharpMacroObject other2)
         {
             return false;
         }

@@ -10,14 +10,14 @@ using static bottlenoselabs.clang;
 namespace C2CS.Contexts.ReadCodeC.Domain.Explore.Handlers;
 
 [UsedImplicitly]
-public sealed class FunctionExploreHandler : ExploreHandler<CFunction>
+public sealed class FunctionExplorer : ExploreHandler<CFunction>
 {
     protected override ExploreKindCursors ExpectedCursors { get; } = ExploreKindCursors.Is(CXCursorKind.CXCursor_FunctionDecl);
 
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Either(
         CXTypeKind.CXType_FunctionProto, CXTypeKind.CXType_FunctionNoProto);
 
-    public FunctionExploreHandler(ILogger<FunctionExploreHandler> logger)
+    public FunctionExplorer(ILogger<FunctionExplorer> logger)
         : base(logger, false)
     {
         // NOTE: Function visiting by name.
@@ -34,8 +34,8 @@ public sealed class FunctionExploreHandler : ExploreHandler<CFunction>
             return false;
         }
 
-        var functionNamesAllowed = context.Options.FunctionNamesAllowed;
-        return functionNamesAllowed.IsDefaultOrEmpty || functionNamesAllowed.Contains(name);
+        var namesAllowed = context.Options.FunctionNamesAllowed;
+        return namesAllowed.IsDefaultOrEmpty || namesAllowed.Contains(name);
     }
 
     public override CFunction Explore(ExploreContext context, ExploreInfoNode info)

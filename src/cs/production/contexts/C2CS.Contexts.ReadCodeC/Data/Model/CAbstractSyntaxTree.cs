@@ -41,4 +41,7 @@ public record CAbstractSyntaxTree
 
     [JsonPropertyName("function_pointers")]
     public ImmutableDictionary<string, CFunctionPointer> FunctionPointers { get; set; } = ImmutableDictionary<string, CFunctionPointer>.Empty;
+
+    [JsonPropertyName("enum_constants")]
+    public ImmutableDictionary<string, CEnumConstant> EnumConstants { get; set; } = ImmutableDictionary<string, CEnumConstant>.Empty;
 }
