@@ -64,7 +64,7 @@ public sealed partial class ExploreContext
         return translationUnitSpelling.String();
     }
 
-    private string TypeName(CKind kind, CXType type, string? parentName, int fieldIndex = 0)
+    private string TypeName(CKind kind, CXType type, string? parentName, int? fieldIndex = null)
     {
         if (kind is
             CKind.MacroObject or
@@ -73,50 +73,19 @@ public sealed partial class ExploreContext
             return string.Empty;
         }
 
+        var isField = fieldIndex != null;
+
         var typeCursor = clang_getTypeDeclaration(type);
         var isAnonymous = clang_Cursor_isAnonymous(typeCursor) > 0;
         if (isAnonymous)
         {
-            if (kind == CKind.Enum)
-            {
-                return TypeNameEnumAnonymous(typeCursor);
-            }
-            else if (kind == CKind.RecordField)
-            {
-                return $"{parentName}_ANONYMOUS_FIELD{fieldIndex}";
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
+            return TypeNameAnonymous(kind, parentName, fieldIndex, isField, typeCursor);
         }
 
         var name = type.Name();
         if (name.Contains("(unnamed at ", StringComparison.InvariantCulture))
         {
             return $"{parentName}_UNNAMED_FIELD{fieldIndex}";
-        }
-
-        var isUnion = typeCursor.kind == CXCursorKind.CXCursor_UnionDecl;
-        if (isUnion)
-        {
-            var unionName = typeCursor.Name();
-            if (string.IsNullOrEmpty(unionName))
-            {
-                switch (typeCursor.kind)
-                {
-                    case CXCursorKind.CXCursor_UnionDecl:
-                        return $"{parentName}_{unionName}";
-                    case CXCursorKind.CXCursor_StructDecl:
-                        return $"{parentName}_{unionName}";
-                    default:
-                    {
-                        // pretty sure this case is not possible, but it's better safe than sorry!
-                        var up = new UseCaseException($"Unknown anonymous cursor kind '{typeCursor.kind}'");
-                        throw up;
-                    }
-                }
-            }
         }
 
         if (type.kind == CXTypeKind.CXType_ConstantArray)
@@ -133,7 +102,33 @@ public sealed partial class ExploreContext
         return name;
     }
 
-    private static string TypeNameEnumAnonymous(CXCursor typeCursor)
+    private static string TypeNameAnonymous(
+        CKind kind,
+        string? parentName,
+        int? fieldIndex,
+        bool isField,
+        CXCursor typeCursor)
+    {
+        if (isField)
+        {
+            return $"{parentName}_ANONYMOUS_FIELD{fieldIndex}";
+        }
+
+        if (kind == CKind.Enum)
+        {
+            return TypeNameAnonymousEnum(typeCursor);
+        }
+
+        if (kind == CKind.Union)
+        {
+            var unionName = typeCursor.Name();
+            return $"{parentName}_{unionName}";
+        }
+
+        return string.Empty;
+    }
+
+    private static string TypeNameAnonymousEnum(CXCursor typeCursor)
     {
         var enumConstants =
             typeCursor.GetDescendents(static (cursor, _) => cursor.kind == CXCursorKind.CXCursor_EnumConstantDecl);
@@ -183,7 +178,8 @@ enum {
         }
     }
 
-    public CTypeInfo? VisitType(CXType typeCandidate, ExploreInfoNode? parentInfo, int fieldIndex = 0, CKind? kindHint = null)
+    public CTypeInfo? VisitType(
+        CXType typeCandidate, ExploreInfoNode? parentInfo, int? fieldIndex = null, CKind? kindHint = null)
     {
         var (kind, type) = TypeKind(typeCandidate, parentInfo?.Kind);
         if (kindHint != null && kind != kindHint)
@@ -481,7 +477,7 @@ enum {
         CXCursor cursor,
         CXType type,
         ExploreInfoNode? parentInfo,
-        int fieldIndex = 0)
+        int? fieldIndex = null)
     {
         var location = Location(cursor, type);
         var typeNameActual = TypeName(kind, type, parentInfo?.Name, fieldIndex);
