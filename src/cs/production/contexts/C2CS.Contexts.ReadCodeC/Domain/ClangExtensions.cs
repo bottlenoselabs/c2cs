@@ -315,6 +315,45 @@ public static unsafe class ClangExtensions
         };
     }
 
+    public static bool IsSignedPrimitive(this CXType type)
+    {
+        if (!IsPrimitive(type))
+        {
+            return false;
+        }
+
+        return type.kind switch
+        {
+            CXTypeKind.CXType_Char_S => true,
+            CXTypeKind.CXType_SChar => true,
+            CXTypeKind.CXType_Char_U => true,
+            CXTypeKind.CXType_Short => true,
+            CXTypeKind.CXType_Int => true,
+            CXTypeKind.CXType_Long => true,
+            CXTypeKind.CXType_LongLong => true,
+            _ => false
+        };
+    }
+
+    public static bool IsUnsignedPrimitive(this CXType type)
+    {
+        if (!IsPrimitive(type))
+        {
+            return false;
+        }
+
+        return type.kind switch
+        {
+            CXTypeKind.CXType_Char_U => true,
+            CXTypeKind.CXType_UChar => true,
+            CXTypeKind.CXType_UShort => true,
+            CXTypeKind.CXType_UInt => true,
+            CXTypeKind.CXType_ULong => true,
+            CXTypeKind.CXType_ULongLong => true,
+            _ => false
+        };
+    }
+
     public static string Name(this CXType type, CXCursor? cursor = null)
     {
         var spelling = clang_getTypeSpelling(type).String();

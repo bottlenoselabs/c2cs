@@ -675,18 +675,30 @@ public sealed class CSharpMapper
         CMacroObject macro)
     {
         var originalCodeLocationComment = OriginalCodeLocationComment(macro);
-        var typeName = TypeNameCSharp(context, macro.Type);
 
         var typeKind = macro.Type.Kind;
-        var isConstant = typeKind is CKind.Primitive or CKind.Pointer;
+        var isConstant = typeKind is CKind.Primitive;
+        var typeSize = macro.Type.SizeOf;
+
+        var typeName = TypeNameCSharp(context, macro.Type);
+        if (typeName == "CString")
+        {
+            typeName = "string";
+        }
+
+        var value = macro.Value;
+        if (typeName == "float")
+        {
+            value += "f";
+        }
 
         var result = new CSharpMacroObject(
             context.Platform,
             macro.Name,
             originalCodeLocationComment,
-            macro.Type.SizeOf,
+            typeSize,
             typeName,
-            macro.Value,
+            value,
             isConstant);
         return result;
     }

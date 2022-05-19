@@ -171,12 +171,12 @@ public sealed partial class Parser
         }
 
         using var streamReader = new StreamReader(filePath);
-        var result = GetMacroObjects(translationUnit, streamReader);
+        var result = MacroObjects(translationUnit, streamReader);
         clang_disposeTranslationUnit(translationUnit);
         return result;
     }
 
-    private ImmutableArray<CMacroObject> GetMacroObjects(CXTranslationUnit translationUnit, StreamReader reader)
+    private ImmutableArray<CMacroObject> MacroObjects(CXTranslationUnit translationUnit, StreamReader reader)
     {
         var builder = ImmutableArray.CreateBuilder<CMacroObject>();
 
@@ -193,7 +193,7 @@ public sealed partial class Parser
             var variableName = variable.Name();
             var macroName = variableName.Replace("variable_", string.Empty, StringComparison.InvariantCultureIgnoreCase);
             var cursor = variable.GetDescendents().FirstOrDefault();
-            var macro = Macro(macroName, cursor, reader, ref readerLineNumber);
+            var macro = MacroObject(macroName, cursor, reader, ref readerLineNumber);
             if (macro == null)
             {
                 continue;
@@ -205,17 +205,18 @@ public sealed partial class Parser
         return builder.ToImmutable();
     }
 
-    private static CMacroObject? Macro(string name, CXCursor cursor, StreamReader reader, ref int readerLineNumber)
+    private static CMacroObject? MacroObject(string name, CXCursor cursor, StreamReader reader, ref int readerLineNumber)
     {
-        var macroValue = EvaluateMacroValue(cursor);
-        if (macroValue == null)
+        var type = clang_getCursorType(cursor);
+
+        var value = EvaluateMacroValue(cursor, type);
+        if (value == null)
         {
             return null;
         }
 
         var location = MacroLocation(cursor, reader, ref readerLineNumber);
 
-        var type = clang_getCursorType(cursor);
         var kind = MacroTypeKind(type);
         var typeName = type.Name();
         var sizeOf = (int)clang_Type_getSizeOf(type);
@@ -229,7 +230,7 @@ public sealed partial class Parser
         var macro = new CMacroObject
         {
             Name = name,
-            Value = macroValue,
+            Value = value,
             Type = typeInfo,
             Location = location
         };
@@ -305,7 +306,7 @@ public sealed partial class Parser
         return actualLocation;
     }
 
-    private static string? EvaluateMacroValue(CXCursor cursor)
+    private static string? EvaluateMacroValue(CXCursor cursor, CXType type)
     {
         var evaluateResult = clang_Cursor_Evaluate(cursor);
         var kind = clang_EvalResult_getKind(evaluateResult);
@@ -317,8 +318,18 @@ public sealed partial class Parser
                 return null;
             case CXEvalResultKind.CXEval_Int:
             {
-                var integerValue = clang_EvalResult_getAsInt(evaluateResult);
-                value = integerValue.ToString(CultureInfo.InvariantCulture);
+                var canonicalType = clang_getCanonicalType(type);
+                if (canonicalType.IsSignedPrimitive())
+                {
+                    var integerValueSigned = clang_EvalResult_getAsInt(evaluateResult);
+                    value = integerValueSigned.ToString(CultureInfo.InvariantCulture);
+                }
+                else
+                {
+                    var integerValueUnsigned = clang_EvalResult_getAsUnsigned(evaluateResult);
+                    value = integerValueUnsigned.ToString(CultureInfo.InvariantCulture);
+                }
+
                 break;
             }
 
