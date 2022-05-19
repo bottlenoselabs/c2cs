@@ -280,7 +280,7 @@ public sealed partial class Parser
         int columnIndexEnd;
         if (filePathIndex == -1)
         {
-            columnIndexEnd = locationString.Length - 1;
+            columnIndexEnd = locationString.Length;
         }
         else
         {
