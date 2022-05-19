@@ -149,6 +149,11 @@ public abstract partial class ExploreHandler
 
         if (!context.Options.IsEnabledAllowNamesWithPrefixedUnderscore)
         {
+            if (name == "_Bool")
+            {
+                return true;
+            }
+
             var namesStartsWithUnderscore = name.StartsWith("_", StringComparison.InvariantCultureIgnoreCase);
             if (namesStartsWithUnderscore)
             {
