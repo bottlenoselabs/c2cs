@@ -188,7 +188,15 @@ enum {
         }
 
         var cursor = clang_getTypeDeclaration(type);
-        var name = cursor.Name();
+        string name;
+        if (kind == CKind.FunctionPointer && parentInfo!.Kind == CKind.TypeAlias)
+        {
+            name = parentInfo.Name;
+        }
+        else
+        {
+            name = cursor.Name();
+        }
 
         var info = CreateVisitInfoNode(kind, name, cursor, type, parentInfo, fieldIndex);
         var handler = GetHandler(kind);
@@ -214,7 +222,7 @@ enum {
                 CKind.Union or
                 CKind.FunctionPointer)
             {
-                var underlyingTypeInfo = VisitType(underlyingType, info)!;
+                var underlyingTypeInfo = VisitType(underlyingType, info, kindHint: underlyingTypeKind)!;
                 var typeAliasTypeInfo = CreateTypeInfoTypeAlias(info.TypeName, underlyingTypeInfo);
                 return typeAliasTypeInfo;
             }
@@ -431,7 +439,7 @@ enum {
         var typeInfo = new CTypeInfo
         {
             Name = typeName,
-            Kind = CKind.Pointer,
+            Kind = CKind.TypeAlias,
             SizeOf = PointerSize,
             AlignOf = PointerSize,
             ElementSize = null,

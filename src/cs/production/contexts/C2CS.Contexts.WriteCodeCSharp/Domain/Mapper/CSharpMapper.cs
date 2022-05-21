@@ -6,9 +6,6 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using C2CS.Contexts.ReadCodeC.Data.Model;
 using C2CS.Contexts.WriteCodeCSharp.Data.Model;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace C2CS.Contexts.WriteCodeCSharp.Domain.Mapper;
 

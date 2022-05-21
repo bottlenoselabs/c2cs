@@ -369,7 +369,7 @@ public sealed partial class Explorer
 
         var name = clang_getCursorSpelling(cursor).String();
         var isAnonymous = clang_Cursor_isAnonymous(cursor) > 0;
-        var visitInfo = context.CreateVisitInfoNode(kind, name, cursor, type, null);
+        var info = context.CreateVisitInfoNode(kind, name, cursor, type, null);
 
         if (kind == CKind.Enum && isAnonymous)
         {
@@ -378,13 +378,13 @@ public sealed partial class Explorer
             foreach (var enumConstant in enumConstants)
             {
                 var enumConstantName = enumConstant.Name();
-                var enumConstantVisitInfo = context.CreateVisitInfoNode(CKind.EnumConstant, enumConstantName, enumConstant, enumIntegerType, visitInfo);
+                var enumConstantVisitInfo = context.CreateVisitInfoNode(CKind.EnumConstant, enumConstantName, enumConstant, enumIntegerType, info);
                 TryEnqueueVisitInfoNode(context, CKind.EnumConstant, enumConstantVisitInfo);
             }
         }
         else
         {
-            TryEnqueueVisitInfoNode(context, kind, visitInfo);
+            TryEnqueueVisitInfoNode(context, kind, info);
         }
     }
 
@@ -411,15 +411,6 @@ public sealed partial class Explorer
 
         LogEnqueue(kind, info.Name, info.Location);
         frontier.PushBack(info);
-    }
-
-    private string GetFunctionPointerName(CXCursor cursor, CXType type)
-    {
-        return cursor.kind switch
-        {
-            CXCursorKind.CXCursor_TypedefDecl => cursor.Name(),
-            _ => type.Name()
-        };
     }
 
     [LoggerMessage(0, LogLevel.Error, "- Expected a top level translation unit declaration (function, variable, enum, or macro) but found '{Kind}'")]
