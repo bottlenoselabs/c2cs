@@ -6,9 +6,8 @@ using System.Globalization;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
+using C2CS.Contexts.WriteCodeCSharp;
 using C2CS.Data.Serialization;
-using C2CS.Feature.WriteCodeCSharp;
-using C2CS.Tests.Common.Data.Model;
 using C2CS.Tests.Common.Data.Model.CSharp;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -24,9 +23,9 @@ public sealed class WriteCodeCSharpFixture
     public WriteCodeCSharpFixtureContext Context { get; }
 
     public WriteCodeCSharpFixture(
-        WriteCodeCSharpUseCase useCase,
+        UseCase useCase,
         IFileSystem fileSystem,
-        ConfigurationJsonSerializer configurationJsonSerializer,
+        BindgenConfigurationJsonSerializer configurationJsonSerializer,
         ReadCodeCFixture ast)
     {
         Assert.True(!ast.Contexts.IsDefaultOrEmpty);
@@ -36,14 +35,14 @@ public sealed class WriteCodeCSharpFixture
 #pragma warning restore CA1308
         var configurationFilePath = $"c/tests/my_c_library/config_{os}.json";
         var configuration = configurationJsonSerializer.Read(configurationFilePath);
-        var configurationWriteCSharp = configuration.WriteCSharp;
+        var configurationWriteCSharp = configuration.WriteCSharpCode;
         Assert.True(configurationWriteCSharp != null);
 
         var output = useCase.Execute(configurationWriteCSharp!);
         Assert.True(output != null);
         var input = output!.Input;
 
-        Assert.True(output.IsSuccessful, "Writing C# code failed.");
+        Assert.True(output.IsSuccess, "Writing C# code failed.");
         Assert.True(output.Diagnostics.Length == 0, "Diagnostics were reported when writing C# code.");
 
         var code = fileSystem.File.ReadAllText(input.OutputFilePath);

@@ -2,13 +2,18 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.CommandLine;
 using System.IO.Abstractions;
+using System.Linq;
+using System.Reflection;
 using C2CS.Data.Serialization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 
 namespace C2CS;
 
@@ -17,6 +22,7 @@ public static class Startup
     public static IHost CreateHost(string[] args)
     {
         return new HostBuilder()
+            .ConfigureDefaults(args)
             .UseConsoleLifetime()
             .BuildHostCommon(args)
             .Build();
@@ -25,35 +31,46 @@ public static class Startup
     public static IHostBuilder BuildHostCommon(this IHostBuilder builder, string[]? args = null)
     {
         return builder
-            .ConfigureServices(services => ConfigureServices(services, args))
-            .UseServiceProviderFactory(new DefaultServiceProviderFactory(new ServiceProviderOptions
-            {
-                ValidateScopes = true,
-                ValidateOnBuild = true
-            }));
+            .ConfigureAppConfiguration(ConfigureAppConfiguration)
+            .ConfigureLogging(ConfigureLogging)
+            .ConfigureServices(services => ConfigureServices(services, args));
+    }
+
+    private static void ConfigureAppConfiguration(IConfigurationBuilder builder)
+    {
+        AddDefaultConfiguration(builder);
+    }
+
+    private static void AddDefaultConfiguration(IConfigurationBuilder builder)
+    {
+        var sources = builder.Sources.ToImmutableArray();
+        builder.Sources.Clear();
+        var jsonStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("C2CS.appsettings.json");
+        builder.AddJsonStream(jsonStream);
+
+        foreach (var originalSource in sources)
+        {
+            builder.Add(originalSource);
+        }
+    }
+
+    private static void ConfigureLogging(HostBuilderContext context, ILoggingBuilder builder)
+    {
+        builder.ClearProviders();
+        builder.AddSimpleConsole();
+        builder.AddConfiguration(context.Configuration.GetSection("Logging"));
     }
 
     private static void ConfigureServices(IServiceCollection services, string[]? args)
     {
-        services.AddSingleton<IFileSystem, FileSystem>();
         services.AddSingleton(new CommandLineArgumentsProvider(args ?? Environment.GetCommandLineArgs()));
-        services.AddLogging(x =>
-            x.AddSimpleConsole(options =>
-            {
-                options.ColorBehavior = LoggerColorBehavior.Enabled;
-                options.SingleLine = true;
-                options.IncludeScopes = true;
-                options.UseUtcTimestamp = true;
-                options.TimestampFormat = "yyyy-dd-MM HH:mm:ss ";
-            }));
-        services.AddSingleton(x =>
-            x.GetRequiredService<ILoggerProvider>().CreateLogger(string.Empty));
+        services.AddSingleton<IFileSystem, FileSystem>();
         services.AddHostedService<CommandLineService>();
         services.AddSingleton<RootCommand, CommandLineInterface>();
-        services.AddSingleton<ConfigurationJsonSerializer>();
+        services.AddSingleton<BindgenConfigurationJsonSerializer>();
 
-        Feature.ReadCodeC.Startup.ConfigureServices(services);
-        Feature.WriteCodeCSharp.Startup.ConfigureServices(services);
-        Feature.BuildLibraryC.Startup.ConfigureServices(services);
+        Contexts.ReadCodeC.Startup.ConfigureServices(services);
+        Contexts.WriteCodeCSharp.Startup.ConfigureServices(services);
+        Contexts.BuildLibraryC.Startup.ConfigureServices(services);
     }
 }

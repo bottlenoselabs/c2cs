@@ -1,0 +1,25 @@
+{
+  "$schema": "./../../../../../schema.json",
+  "directory": "./ast",
+  "c": {
+    "input_file": "./include/messagebox.h",
+    "is_enabled_system_declarations": true,
+    "is_enabled_macro_objects": false,
+    "is_enabled_variables": false,
+    "functions_allowed": [
+      "CFUserNotificationDisplayAlert"
+    ],
+    "frameworks": [
+      "CoreFoundation"
+    ],
+    "platforms": {
+      "i686-apple-darwin": {},
+      "x86_64-apple-darwin": {},
+      "aarch64-apple-darwin": {}
+    }
+  },
+  "cs": {
+    "output_file": "./MessageBox.cs",
+    "namespace": "bottlenoselabs"
+  }
+}

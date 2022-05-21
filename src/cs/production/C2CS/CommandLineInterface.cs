@@ -7,21 +7,20 @@ using System.IO;
 using System.Text.Json;
 using C2CS.Data;
 using C2CS.Data.Serialization;
-using C2CS.Feature.ReadCodeC;
-using C2CS.Feature.WriteCodeCSharp;
 using Json.Schema;
 using Json.Schema.Generation;
 using Microsoft.Extensions.DependencyInjection;
+using UseCase = C2CS.Contexts.WriteCodeCSharp.UseCase;
 
 namespace C2CS;
 
 internal class CommandLineInterface : RootCommand
 {
-    private readonly ConfigurationJsonSerializer _configurationJsonSerializer;
+    private readonly BindgenConfigurationJsonSerializer _configurationJsonSerializer;
     private readonly IServiceProvider _serviceProvider;
 
     public CommandLineInterface(
-        ConfigurationJsonSerializer configurationJsonSerializer,
+        BindgenConfigurationJsonSerializer configurationJsonSerializer,
         IServiceProvider serviceProvider)
         : base("C2CS - C to C# bindings code generator.")
     {
@@ -34,15 +33,19 @@ internal class CommandLineInterface : RootCommand
         {
             IsRequired = false
         };
+        AddGlobalOption(configurationOption);
 
         var abstractSyntaxTreeCommand = new Command(
-            "ast", "Dump the abstract syntax tree of a C `.h` file to one or more `.json` files per platform.");
+            "c", "Dump the abstract syntax tree of a C `.h` file to one or more `.json` files per platform.");
         abstractSyntaxTreeCommand.AddOption(configurationOption);
-        abstractSyntaxTreeCommand.SetHandler<string>(HandleAbstractSyntaxTreesC, configurationOption);
+        abstractSyntaxTreeCommand.SetHandler<string>(
+            filePath => HandleAbstractSyntaxTreesC(filePath),
+            configurationOption);
         AddCommand(abstractSyntaxTreeCommand);
 
         var bindgenCSharpCommand = new Command(
-            "cs", "Generate a C# bindings `.cs` file from one or more C abstract syntax tree `.json` files per platform.");
+            "cs",
+            "Generate a C# bindings `.cs` file from one or more C abstract syntax tree `.json` files per platform.");
         bindgenCSharpCommand.AddOption(configurationOption);
         bindgenCSharpCommand.SetHandler<string>(HandleBindgenCSharp, configurationOption);
         AddCommand(bindgenCSharpCommand);
@@ -50,17 +53,21 @@ internal class CommandLineInterface : RootCommand
         var configurationGenerateSchemaCommand = new Command(
             "schema", "Generate the `schema.json` file for the configuration in the working directory.");
         configurationGenerateSchemaCommand.SetHandler(GenerateSchema);
-        this.SetHandler<string>(Handle, configurationOption);
         AddCommand(configurationGenerateSchemaCommand);
+
+        this.SetHandler<string>(Handle, configurationOption);
     }
 
     private void Handle(string configurationFilePath)
     {
-        HandleAbstractSyntaxTreesC(configurationFilePath);
-        HandleBindgenCSharp(configurationFilePath);
+        var isSuccess = HandleAbstractSyntaxTreesC(configurationFilePath);
+        if (isSuccess)
+        {
+            HandleBindgenCSharp(configurationFilePath);
+        }
     }
 
-    private void HandleAbstractSyntaxTreesC(string configurationFilePath)
+    private bool HandleAbstractSyntaxTreesC(string configurationFilePath)
     {
         if (string.IsNullOrEmpty(configurationFilePath))
         {
@@ -68,14 +75,16 @@ internal class CommandLineInterface : RootCommand
         }
 
         var configuration = _configurationJsonSerializer.Read(configurationFilePath);
-        var configurationReadC = configuration.ReadC;
+        var configurationReadC = configuration.ReadCCode;
         if (configurationReadC == null)
         {
-            return;
+            return false;
         }
 
-        var useCase = _serviceProvider.GetService<ReadCodeCUseCase>()!;
-        useCase.Execute(configurationReadC);
+        var useCase = _serviceProvider.GetService<Contexts.ReadCodeC.UseCase>()!;
+        var response = useCase.Execute(configurationReadC);
+
+        return response.IsSuccess;
     }
 
     private void HandleBindgenCSharp(string configurationFilePath)
@@ -86,19 +95,19 @@ internal class CommandLineInterface : RootCommand
         }
 
         var configuration = _configurationJsonSerializer.Read(configurationFilePath);
-        var configurationWriteCSharp = configuration.WriteCSharp;
+        var configurationWriteCSharp = configuration.WriteCSharpCode;
         if (configurationWriteCSharp == null)
         {
             return;
         }
 
-        var useCase = _serviceProvider.GetService<WriteCodeCSharpUseCase>()!;
+        var useCase = _serviceProvider.GetService<UseCase>()!;
         useCase.Execute(configurationWriteCSharp);
     }
 
     private static void GenerateSchema()
     {
-        var schemaBuilder = new JsonSchemaBuilder().FromType<Configuration>();
+        var schemaBuilder = new JsonSchemaBuilder().FromType<BindgenConfiguration>();
         var schema = schemaBuilder.Build();
         var json = JsonSerializer.Serialize(schema);
         File.WriteAllText("schema.json", json);

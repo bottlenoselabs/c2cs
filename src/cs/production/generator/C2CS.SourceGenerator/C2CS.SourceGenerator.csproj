@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- MSBuild project settings -->
+    <PropertyGroup>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <TargetFramework>netstandard2.0</TargetFramework> <!-- Needs to be `netstandard2.0` or it will not work -->
+        <RootNamespace />
+        <NoWarn>$(NoWarn);RS2007;RS2008</NoWarn>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+    </PropertyGroup>
+
+    <!-- NuGet package references -->
+    <ItemGroup>
+        <PackageReference Include="System.Collections.Immutable" Version="6.0.0" PrivateAssets="all" GeneratePathProperty="true" />
+        <PackageReference Include="System.Text.Json" Version="6.0.3" PrivateAssets="all" GeneratePathProperty="true" />
+    </ItemGroup>
+    
+    <!-- Required NuGet package references for Source Generators -->
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+    
+    <!-- Include the Metadata project files as link because there is an issue with Source Generators being only for target framework netstandard2.0 -->
+    <ItemGroup>
+        <Compile Include="../../infrastructure/C2CS.Infrastructure.Common/Foundation/Data/UseCaseConfiguration.cs">
+            <Link>C2CS/Configurations/UseCaseConfiguration.cs</Link>
+        </Compile>
+        <Compile Include="../../contexts/C2CS.Contexts.ReadCodeC/Data/ReadCodeCConfiguration.cs">
+            <Link>C2CS/Configurations/ReadCodeCConfiguration.cs</Link>
+        </Compile>
+        <Compile Include="../../contexts/C2CS.Contexts.ReadCodeC/Data/ReadCodeCConfigurationPlatform.cs">
+            <Link>C2CS/Configurations/ReadCodeCConfigurationPlatform.cs</Link>
+        </Compile>
+        <Compile Include="../../contexts/C2CS.Contexts.WriteCodeCSharp/Data/WriteCodeCSharpConfiguration.cs">
+          <Link>C2CS/Configurations/WriteCodeCSharpConfiguration.cs</Link>
+        </Compile>
+        <Compile Include="../../contexts/C2CS.Contexts.WriteCodeCSharp/Data/WriteCodeCSharpConfigurationMappedName.cs">
+            <Link>C2CS/Configurations/WriteCodeCSharpConfigurationMappedName.cs</Link>
+        </Compile>
+        <Compile Include="../../infrastructure/C2CS.Infrastructure.Common/Native/Terminal.cs">
+          <Link>C2CS/Terminal.cs</Link>
+        </Compile>
+        <Compile Include="../C2CS.SourceGenerator.Metadata/**/*.cs">
+            <Link>C2CS/Metadata/%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </Compile>
+        <Compile Include="../../C2CS/Data/BindgenConfiguration.cs">
+          <Link>C2CS/Configurations/BindgenConfiguration.cs</Link>
+        </Compile>
+    </ItemGroup>
+
+</Project>

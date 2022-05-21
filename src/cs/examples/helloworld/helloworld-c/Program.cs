@@ -26,7 +26,7 @@ internal static class Program
         var cMakeDirectoryPath =
             Path.GetFullPath($"{rootDirectory}/src/cs/examples/helloworld/helloworld-c/my_c_library");
         var targetLibraryDirectoryPath = Path.GetFullPath($"{rootDirectory}/src/cs/examples/helloworld/helloworld-cs");
-        return Terminal.CMake(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
+        return CMake.Build(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
     }
 
     private static void GenerateBindingsCSharp()

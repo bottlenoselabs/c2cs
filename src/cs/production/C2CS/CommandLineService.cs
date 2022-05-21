@@ -12,12 +12,12 @@ namespace C2CS;
 
 internal sealed class CommandLineService : IHostedService
 {
-    private readonly IApplicationLifetime _applicationLifetime;
+    private readonly IHostApplicationLifetime _applicationLifetime;
     private readonly string[] _commandLineArguments;
     private readonly RootCommand _rootCommand;
 
     public CommandLineService(
-        IApplicationLifetime applicationLifetime,
+        IHostApplicationLifetime applicationLifetime,
         CommandLineArgumentsProvider commandLineArgumentsProvider,
         RootCommand command)
     {

@@ -3,11 +3,11 @@
 
 using System.Collections.Immutable;
 using System.Linq;
+using C2CS.Contexts.ReadCodeC;
+using C2CS.Contexts.ReadCodeC.Data.Model;
+using C2CS.Contexts.ReadCodeC.Data.Serialization;
+using C2CS.Contexts.ReadCodeC.Domain;
 using C2CS.Data.Serialization;
-using C2CS.Feature.ReadCodeC;
-using C2CS.Feature.ReadCodeC.Data.Model;
-using C2CS.Feature.ReadCodeC.Data.Serialization;
-using C2CS.Feature.ReadCodeC.Domain;
 using C2CS.Foundation.Diagnostics;
 using C2CS.Tests.Common.Data.Model.C;
 
@@ -18,16 +18,16 @@ public sealed class ReadCodeCFixture
     public readonly ImmutableArray<ReadCodeCFixtureContext> Contexts;
 
     public ReadCodeCFixture(
-        ReadCodeCUseCase useCase,
+        UseCase useCase,
         CJsonSerializer cJsonSerializer,
-        ConfigurationJsonSerializer configurationJsonSerializer)
+        BindgenConfigurationJsonSerializer configurationJsonSerializer)
     {
 #pragma warning disable CA1308
         var os = Native.OperatingSystem.ToString().ToLowerInvariant();
 #pragma warning restore CA1308
         var configurationFilePath = $"c/tests/my_c_library/config_{os}.json";
         var configuration = configurationJsonSerializer.Read(configurationFilePath);
-        var configurationReadC = configuration.ReadC;
+        var configurationReadC = configuration.ReadCCode;
         var output = useCase.Execute(configurationReadC!);
         Contexts = GetContexts(output, cJsonSerializer);
     }
@@ -35,7 +35,7 @@ public sealed class ReadCodeCFixture
     private ImmutableArray<ReadCodeCFixtureContext> GetContexts(
         ReadCodeCOutput output, CJsonSerializer jsonSerializer)
     {
-        if (!output.IsSuccessful ||
+        if (!output.IsSuccess ||
             output.Diagnostics.Any(x => x.Severity is DiagnosticSeverity.Error or DiagnosticSeverity.Panic))
         {
             return ImmutableArray<ReadCodeCFixtureContext>.Empty;
@@ -56,7 +56,8 @@ public sealed class ReadCodeCFixture
             var structs = CreateTestRecords(ast);
 
             var data = new ReadCodeCFixtureContext(
-                ast.Platform,
+                ast.PlatformRequested,
+                ast.PlatformActual,
                 functions,
                 enums,
                 structs);
@@ -71,7 +72,7 @@ public sealed class ReadCodeCFixture
     {
         var builder = ImmutableDictionary.CreateBuilder<string, CTestFunction>();
 
-        foreach (var function in ast.Functions)
+        foreach (var function in ast.Functions.Values)
         {
             var result = CreateTestFunction(function);
             builder.Add(result.Name, result);
@@ -90,7 +91,7 @@ public sealed class ReadCodeCFixture
 #pragma warning disable CA1308
             CallingConvention = value.CallingConvention.ToString().ToLowerInvariant(),
 #pragma warning restore CA1308
-            ReturnTypeName = value.ReturnType,
+            ReturnTypeName = value.ReturnTypeInfo.Name,
             Parameters = parameters
         };
         return result;
@@ -115,7 +116,7 @@ public sealed class ReadCodeCFixture
         var result = new CTestFunctionParameter
         {
             Name = value.Name,
-            TypeName = value.Type
+            TypeName = value.TypeInfo.Name
         };
 
         return result;
@@ -125,7 +126,7 @@ public sealed class ReadCodeCFixture
     {
         var builder = ImmutableDictionary.CreateBuilder<string, CTestEnum>();
 
-        foreach (var @enum in ast.Enums)
+        foreach (var @enum in ast.Enums.Values)
         {
             var result = CreateTestEnum(@enum);
             builder.Add(result.Name, result);
@@ -141,7 +142,7 @@ public sealed class ReadCodeCFixture
         var result = new CTestEnum
         {
             Name = value.Name,
-            IntegerType = value.IntegerType,
+            IntegerType = value.IntegerTypeInfo.Name,
             Values = values
         };
         return result;
@@ -174,7 +175,7 @@ public sealed class ReadCodeCFixture
     {
         var builder = ImmutableDictionary.CreateBuilder<string, CTestRecord>();
 
-        foreach (var value in ast.Records)
+        foreach (var value in ast.Records.Values)
         {
             var result = CreateTestRecord(value);
             builder.Add(result.Name, result);
@@ -191,7 +192,6 @@ public sealed class ReadCodeCFixture
         var result = new CTestRecord
         {
             Name = name,
-            ParentName = value.ParentName,
             SizeOf = value.SizeOf,
             AlignOf = value.AlignOf,
             Fields = fields,
@@ -219,10 +219,10 @@ public sealed class ReadCodeCFixture
         var result = new CTestRecordField
         {
             Name = value.Name,
-            TypeName = value.Type,
+            TypeName = value.TypeInfo.Name,
             OffsetOf = value.OffsetOf,
             PaddingOf = value.PaddingOf,
-            SizeOf = value.SizeOf
+            SizeOf = value.TypeInfo.SizeOf
         };
 
         return result;
