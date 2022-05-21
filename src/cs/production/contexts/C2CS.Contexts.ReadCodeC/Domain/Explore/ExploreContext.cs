@@ -198,18 +198,16 @@ enum {
             name = cursor.Name();
         }
 
+        if (Options.OpaqueTypesNames.Contains(name))
+        {
+            kind = CKind.OpaqueType;
+        }
+
         var info = CreateVisitInfoNode(kind, name, cursor, type, parentInfo, fieldIndex);
         var handler = GetHandler(kind);
         if (handler.IsBlocked(this, info.TypeName, info.Cursor))
         {
             return CreateTypeInfoBlocked(info);
-        }
-
-        if (Options.OpaqueTypesNames.Contains(name))
-        {
-            TryEnqueueVisitInfoNode(CKind.OpaqueType, info);
-            var typeInfoOpaque = CreateTypeInfo(CKind.OpaqueType, info.TypeName, type, typeCandidate);
-            return typeInfoOpaque;
         }
 
         if (kind == CKind.TypeAlias)

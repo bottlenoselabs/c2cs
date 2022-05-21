@@ -86,7 +86,7 @@ public sealed class CSharpCodeGenerator
 
         FunctionPointers(membersTypes, nodes.FunctionPointers);
         Structs(membersTypes, nodes.Structs);
-        OpaqueDataTypes(membersTypes, nodes.OpaqueStructs);
+        OpaqueTypes(membersTypes, nodes.OpaqueStructs);
         Typedefs(membersTypes, nodes.AliasStructs);
         Enums(membersTypes, nodes.Enums);
         MacroObjects(membersTypes, nodes.MacroObjects);
@@ -451,7 +451,7 @@ public Span<{elementType}> {field.Name}
         return ParseMemberCode<PropertyDeclarationSyntax>(code);
     }
 
-    private static void OpaqueDataTypes(
+    private static void OpaqueTypes(
         List<MemberDeclarationSyntax> members,
         ImmutableArray<CSharpOpaqueStruct> opaqueDataTypes)
     {
