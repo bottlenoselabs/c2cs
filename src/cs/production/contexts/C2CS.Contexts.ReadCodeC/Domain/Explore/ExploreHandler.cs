@@ -59,7 +59,7 @@ public abstract partial class ExploreHandler
             return false;
         }
 
-        if (!IsAllowed(context, info.Name, info.Cursor))
+        if (!IsAllowed(context, info.Kind, info.Name, info.Cursor))
         {
             return false;
         }
@@ -83,9 +83,9 @@ public abstract partial class ExploreHandler
         return true;
     }
 
-    internal bool IsBlocked(ExploreContext context, string name, CXCursor cursor, ExploreInfoNode? parentInfo)
+    internal bool IsBlocked(ExploreContext context, CKind kind, string name, CXCursor cursor, ExploreInfoNode? parentInfo)
     {
-        if (!IsAllowed(context, name, cursor))
+        if (!IsAllowed(context, kind, name, cursor))
         {
             return true;
         }
@@ -135,7 +135,7 @@ public abstract partial class ExploreHandler
         _visitedNames.Add(info.Name, info.Location);
     }
 
-    private static bool IsAllowed(ExploreContext context, string name, CXCursor cursor)
+    private static bool IsAllowed(ExploreContext context, CKind kind, string name, CXCursor cursor)
     {
         if (!context.Options.IsEnabledSystemDeclarations)
         {
@@ -149,7 +149,13 @@ public abstract partial class ExploreHandler
 
         if (!context.Options.IsEnabledAllowNamesWithPrefixedUnderscore)
         {
-            if (name == "_Bool")
+            if (kind == CKind.FunctionPointer)
+            {
+                return true;
+            }
+
+            var nameWithoutPointers = name.TrimEnd('*');
+            if (nameWithoutPointers == "_Bool")
             {
                 return true;
             }

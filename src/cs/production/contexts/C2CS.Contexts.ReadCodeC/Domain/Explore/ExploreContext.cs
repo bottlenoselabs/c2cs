@@ -205,7 +205,7 @@ enum {
 
         var info = CreateVisitInfoNode(kind, name, cursor, type, parentInfo, fieldIndex);
         var handler = GetHandler(kind);
-        if (handler.IsBlocked(this, info.TypeName, info.Cursor, info.Parent))
+        if (handler.IsBlocked(this, info.Kind, info.TypeName, info.Cursor, info.Parent))
         {
             return CreateTypeInfoBlocked(info);
         }
