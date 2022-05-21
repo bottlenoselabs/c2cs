@@ -109,7 +109,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
                 IsEnabledFindSystemHeaders = configuration.IsEnabledFindSystemHeaders ?? true,
                 Frameworks = frameworksPlatform,
                 IsEnabledSystemDeclarations = configuration.IsEnabledSystemDeclarations ?? false,
-                IsEnabledMacroObjects = configuration.IsEnabledMacroObjects ?? false,
+                IsEnabledMacroObjects = configuration.IsEnabledMacroObjects ?? true,
                 MacroObjectNamesAllowed = macroObjectNamesAllowed,
             }
         };

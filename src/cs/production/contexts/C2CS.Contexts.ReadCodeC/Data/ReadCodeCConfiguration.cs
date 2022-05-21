@@ -55,7 +55,7 @@ public sealed class ReadCodeCConfiguration : UseCaseConfiguration
     public bool? IsEnabledFunctions { get; set; }
 
     [JsonPropertyName("is_enabled_macro_objects")]
-    [Json.Schema.Generation.Description("Determines whether to include or exclude macro objects. Use `true` to include macro objects. Use `false` or omit this property to exclude macro objects.")]
+    [Json.Schema.Generation.Description("Determines whether to include or exclude macro objects. Use `true` or omit this property to include macro objects. Use `false` to exclude macro objects.")]
     public bool? IsEnabledMacroObjects { get; set; }
 
     [JsonPropertyName("is_enabled_enum_constants")]
