@@ -32,65 +32,65 @@ public abstract partial class ExploreHandler
         _logAlreadyExplored = logAlreadyExplored;
     }
 
-    internal CNode ExploreInternal(ExploreContext context, ExploreInfoNode node)
+    internal CNode ExploreInternal(ExploreContext context, ExploreInfoNode info)
     {
-        LogExploring(node.Kind, node.Name, node.Location);
-        var result = Explore(context, node);
-        LogSuccess(node.Kind, node.Name, node.Location);
+        LogExploring(info.Kind, info.Name, info.Location);
+        var result = Explore(context, info);
+        LogSuccess(info.Kind, info.Name, info.Location);
         return result;
     }
 
-    internal bool CanVisitInternal(ExploreContext context, ExploreInfoNode node)
+    internal bool CanVisitInternal(ExploreContext context, ExploreInfoNode info)
     {
-        if (string.IsNullOrEmpty(node.Name))
+        if (string.IsNullOrEmpty(info.Name))
         {
             throw new NotImplementedException();
         }
 
-        if (!IsExpectedCursor(node))
+        if (!IsExpectedCursor(info))
         {
-            LogFailureUnexpectedCursor(node.Cursor.kind);
+            LogFailureUnexpectedCursor(info.Cursor.kind);
             return false;
         }
 
-        if (!IsExpectedType(node))
+        if (!IsExpectedType(info))
         {
-            LogFailureUnexpectedType(node.Type.kind);
+            LogFailureUnexpectedType(info.Type.kind);
             return false;
         }
 
-        if (!IsAllowed(context, node.Name, node.Cursor))
+        if (!IsAllowed(context, info.Name, info.Cursor))
         {
             return false;
         }
 
-        if (IsAlreadyVisited(node.Name, out var firstLocation))
+        if (IsAlreadyVisited(info.Name, out var firstLocation))
         {
             if (_logAlreadyExplored)
             {
-                LogAlreadyVisited(node.Kind, node.Name, firstLocation);
+                LogAlreadyVisited(info.Kind, info.Name, firstLocation);
             }
 
             return false;
         }
 
-        if (!CanVisit(context, node.Name))
+        if (!CanVisit(context, info.Name, info.Parent))
         {
             return false;
         }
 
-        MarkAsVisited(node);
+        MarkAsVisited(info);
         return true;
     }
 
-    internal bool IsBlocked(ExploreContext context, string name, CXCursor cursor)
+    internal bool IsBlocked(ExploreContext context, string name, CXCursor cursor, ExploreInfoNode? parentInfo)
     {
         if (!IsAllowed(context, name, cursor))
         {
             return true;
         }
 
-        if (!CanVisit(context, name))
+        if (!CanVisit(context, name, parentInfo))
         {
             return true;
         }
@@ -98,7 +98,7 @@ public abstract partial class ExploreHandler
         return false;
     }
 
-    protected virtual bool CanVisit(ExploreContext context, string name)
+    protected virtual bool CanVisit(ExploreContext context, string name, ExploreInfoNode? parentInfo)
     {
         return true;
     }

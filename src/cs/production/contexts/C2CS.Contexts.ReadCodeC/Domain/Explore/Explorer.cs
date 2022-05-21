@@ -190,9 +190,9 @@ public sealed partial class Explorer
         }
     }
 
-    private void ExploreNode(ExploreContext context, ExploreInfoNode visitInfo)
+    private void ExploreNode(ExploreContext context, ExploreInfoNode info)
     {
-        var node = context.Explore(visitInfo);
+        var node = context.Explore(info);
         FoundNode(node);
     }
 
@@ -316,7 +316,8 @@ public sealed partial class Explorer
         var kind = clang_getCursorKind(cursor);
         if (kind != CXCursorKind.CXCursor_FunctionDecl &&
             kind != CXCursorKind.CXCursor_VarDecl &&
-            kind != CXCursorKind.CXCursor_EnumDecl)
+            kind != CXCursorKind.CXCursor_EnumDecl &&
+            kind != CXCursorKind.CXCursor_TypedefDecl)
         {
             return false;
         }
@@ -338,6 +339,7 @@ public sealed partial class Explorer
             CXCursorKind.CXCursor_FunctionDecl => CKind.Function,
             CXCursorKind.CXCursor_VarDecl => CKind.Variable,
             CXCursorKind.CXCursor_EnumDecl => CKind.Enum,
+            CXCursorKind.CXCursor_TypedefDecl => CKind.TypeAlias,
             _ => CKind.Unknown
         };
 
@@ -381,6 +383,10 @@ public sealed partial class Explorer
                 var enumConstantVisitInfo = context.CreateVisitInfoNode(CKind.EnumConstant, enumConstantName, enumConstant, enumIntegerType, info);
                 TryEnqueueVisitInfoNode(context, CKind.EnumConstant, enumConstantVisitInfo);
             }
+        }
+        else if (kind == CKind.TypeAlias)
+        {
+            context.VisitType(type, null);
         }
         else
         {

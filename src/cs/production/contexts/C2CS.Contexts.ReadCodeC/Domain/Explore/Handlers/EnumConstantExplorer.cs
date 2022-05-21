@@ -22,7 +22,7 @@ public class EnumConstantExplorer : ExploreHandler<CEnumConstant>
     {
     }
 
-    protected override bool CanVisit(ExploreContext context, string name)
+    protected override bool CanVisit(ExploreContext context, string name, ExploreInfoNode? parentInfo)
     {
         if (!context.Options.IsEnabledEnumConstants)
         {

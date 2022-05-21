@@ -27,7 +27,7 @@ public sealed class FunctionExplorer : ExploreHandler<CFunction>
         //  For this reason, do not log if already visited.
     }
 
-    protected override bool CanVisit(ExploreContext context, string name)
+    protected override bool CanVisit(ExploreContext context, string name, ExploreInfoNode? parentInfo)
     {
         if (!context.Options.IsEnabledFunctions)
         {
