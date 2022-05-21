@@ -383,15 +383,15 @@ public sealed class CSharpMapper
         CRecord record,
         ImmutableHashSet<string> functionNames)
     {
-        var originalCodeLocationComment = OriginalCodeLocationComment(record);
-        var (fields, nestedRecords) = StructFields(context, record.Name, record.Fields);
-        var nestedStructs = Structs(context, nestedRecords, functionNames);
-
         var name = record.Name;
         if (functionNames.Contains(record.Name))
         {
             name = record.Name + "_";
         }
+
+        var originalCodeLocationComment = OriginalCodeLocationComment(record);
+        var (fields, nestedRecords) = StructFields(context, record.Name, record.Fields);
+        var nestedStructs = Structs(context, nestedRecords, functionNames);
 
         return new CSharpStruct(
             name,
@@ -410,6 +410,8 @@ public sealed class CSharpMapper
     {
         var resultFields = ImmutableArray.CreateBuilder<CSharpStructField>(fields.Length);
         var resultNestedRecords = ImmutableArray.CreateBuilder<CRecord>();
+
+        var names = new HashSet<string>();
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var field in fields)
@@ -438,7 +440,10 @@ public sealed class CSharpMapper
             var value = StructField(context, field);
             if (context.Records.TryGetValue(field.TypeInfo.Name, out var record))
             {
-                resultNestedRecords.Add(record);
+                if (!resultNestedRecords.Contains(record))
+                {
+                    resultNestedRecords.Add(record);
+                }
             }
 
             resultFields.Add(value);
