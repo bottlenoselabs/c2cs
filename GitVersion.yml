@@ -6,7 +6,7 @@ branches:
   develop:
     regex: '^main$'
   main:
-    regex: ''
+    regex: '^notused$'
 ignore:
   sha: []
 merge-message-formats: {}
