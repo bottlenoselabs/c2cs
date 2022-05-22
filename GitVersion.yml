@@ -4,7 +4,7 @@ tag-prefix: "[vV]"
 continuous-delivery-fallback-tag: ""
 branches:
   develop:
-    regex: ^main$
+    regex: "^main$"
 ignore:
   sha: []
 merge-message-formats: {}
