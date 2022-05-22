@@ -44,8 +44,7 @@
     <ItemGroup>
         <ProjectReference Include="../contexts/C2CS.Contexts.WriteCodeCSharp/C2CS.Contexts.WriteCodeCSharp.csproj" />
         <ProjectReference Include="../contexts/C2CS.Contexts.ReadCodeC/C2CS.Contexts.ReadCodeC.csproj" />
-        <ProjectReference Include="../contexts/C2CS.Contexts.BuildLibraryC/C2CS.Contexts.BuildLibraryC.csproj" />
-        <ProjectReference Include="..\infrastructure\C2CS.Infrastructure.Runtime\C2CS.Infrastructure.Runtime.csproj" />
+        <ProjectReference Include="../infrastructure/C2CS.Infrastructure.Runtime/C2CS.Infrastructure.Runtime.csproj" />
         <ProjectReference Include="../infrastructure/C2CS.Infrastructure.Clang/C2CS.Infrastructure.Clang.csproj" />
     </ItemGroup>
 

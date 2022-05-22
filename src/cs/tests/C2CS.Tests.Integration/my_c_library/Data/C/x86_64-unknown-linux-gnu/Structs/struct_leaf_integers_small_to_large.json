@@ -27,7 +27,7 @@
     },
     {
       "name": "struct_field_4",
-      "type_name": "long long",
+      "type_name": "long",
       "offset_of": 8,
       "padding_of": 0,
       "size_of": 8

@@ -6,16 +6,19 @@ using System.IO.Abstractions;
 using System.Reflection;
 using C2CS.Contexts.ReadCodeC.Domain.Parse.Diagnostics;
 using C2CS.Foundation.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 namespace C2CS.Contexts.ReadCodeC.Domain.Parse;
 
-public class ClangArgumentsBuilder
+public partial class ClangArgumentsBuilder
 {
+    private readonly ILogger<ClangArgumentsBuilder> _logger;
     private readonly IFileSystem _fileSystem;
     private readonly List<FileSystemInfo> _temporaryLinkPaths = new();
 
-    public ClangArgumentsBuilder(IFileSystem fileSystem)
+    public ClangArgumentsBuilder(ILogger<ClangArgumentsBuilder> logger, IFileSystem fileSystem)
     {
+        _logger = logger;
         _fileSystem = fileSystem;
     }
 
@@ -168,6 +171,10 @@ public class ClangArgumentsBuilder
             {
                 builder.Add(directory);
             }
+            else
+            {
+                LogMissingSystemIncludeDirectory(directory);
+            }
         }
 
         var systemIncludeDirectoriesThatExist = builder.ToImmutableArray();
@@ -191,43 +198,27 @@ public class ClangArgumentsBuilder
         ImmutableArray<string> frameworks)
     {
         var hostOperatingSystem = Native.OperatingSystem;
+        var hostArchitecture = Native.Architecture;
         var targetOperatingSystem = targetPlatform.OperatingSystem;
-
         var directories = ImmutableArray.CreateBuilder<string>();
 
         switch (hostOperatingSystem)
         {
             case NativeOperatingSystem.Windows:
             {
-                if (targetOperatingSystem == NativeOperatingSystem.Windows)
-                {
-                    SystemIncludeDirectoriesTargetWindows(directories);
-                }
-
+                SystemIncludeDirectoriesHostWindows(targetOperatingSystem, directories);
                 break;
             }
 
             case NativeOperatingSystem.macOS:
             {
-                if (targetOperatingSystem == NativeOperatingSystem.macOS)
-                {
-                    SystemIncludesDirectoriesTargetMac(directories, frameworks);
-                }
-                else if (targetOperatingSystem == NativeOperatingSystem.iOS)
-                {
-                    SystemIncludesDirectoriesTargetIPhone(directories, frameworks);
-                }
-
+                SystemIncludeDirectoriesHostMac(frameworks, targetOperatingSystem, directories);
                 break;
             }
 
             case NativeOperatingSystem.Linux:
             {
-                if (targetOperatingSystem == NativeOperatingSystem.Linux)
-                {
-                    SystemIncludeDirectoriesTargetLinux(directories);
-                }
-
+                SystemIncludeDirectoriesHostLinux(targetPlatform, targetOperatingSystem, hostArchitecture, directories);
                 break;
             }
         }
@@ -236,10 +227,40 @@ public class ClangArgumentsBuilder
         return directories.ToImmutable();
     }
 
-    private static void SystemIncludeDirectoriesTargetLinux(ImmutableArray<string>.Builder directories)
+    private void SystemIncludeDirectoriesHostWindows(
+        NativeOperatingSystem targetSystem, ImmutableArray<string>.Builder directories)
     {
-        directories.Add("/usr/include");
-        directories.Add("/usr/include/x86_64-linux-gnu");
+        if (targetSystem == NativeOperatingSystem.Windows)
+        {
+            SystemIncludeDirectoriesTargetWindows(directories);
+        }
+    }
+
+    private void SystemIncludeDirectoriesHostMac(
+        ImmutableArray<string> frameworks,
+        NativeOperatingSystem targetSystem,
+        ImmutableArray<string>.Builder directories)
+    {
+        if (targetSystem == NativeOperatingSystem.macOS)
+        {
+            SystemIncludesDirectoriesTargetMac(directories, frameworks);
+        }
+        else if (targetSystem == NativeOperatingSystem.iOS)
+        {
+            SystemIncludesDirectoriesTargetIPhone(directories, frameworks);
+        }
+    }
+
+    private static void SystemIncludeDirectoriesHostLinux(
+        TargetPlatform targetPlatform,
+        NativeOperatingSystem targetSystem,
+        NativeArchitecture hostArchitecture,
+        ImmutableArray<string>.Builder directories)
+    {
+        if (targetSystem == NativeOperatingSystem.Linux)
+        {
+            SystemIncludeDirectoriesTargetLinux(hostArchitecture, targetPlatform.Architecture, directories);
+        }
     }
 
     private void SystemIncludeDirectoriesTargetWindows(ImmutableArray<string>.Builder directories)
@@ -327,6 +348,50 @@ public class ClangArgumentsBuilder
         AddFrameworks(directories, frameworks, sdkPath);
     }
 
+    private static void SystemIncludeDirectoriesTargetLinux(
+        NativeArchitecture hostArchitecture,
+        NativeArchitecture targetArchitecture,
+        ImmutableArray<string>.Builder directories)
+    {
+        // Cross platform headers are in: /usr/[ARCH]-linux-gnu/include
+        //  For Ubuntu, cross platform toolchain (includes headers) are installed via packages:
+        //  - gcc-x86-64-linux-gnu (ARCH = x86_64)
+        //  - gcc-aarch64-linux-gnu (ARCH = aarch64)
+        //  - gcc-i686-linux-gnu (ARCH = i686)
+        // Host headers are in /usr/include/[ARCH]-linux-gnu
+
+        if (targetArchitecture == hostArchitecture)
+        {
+            if (targetArchitecture == NativeArchitecture.X64)
+            {
+                directories.Add("/usr/include/x86_64-linux-gnu");
+            }
+            else if (targetArchitecture == NativeArchitecture.ARM64)
+            {
+                directories.Add("/usr/include/aarch64-linux-gnu");
+            }
+            else if (targetArchitecture == NativeArchitecture.X86)
+            {
+                directories.Add("/usr/include/i686-linux-gnu");
+            }
+        }
+        else
+        {
+            if (targetArchitecture == NativeArchitecture.X64)
+            {
+                directories.Add("/usr/x86_64-linux-gnu/include");
+            }
+            else if (targetArchitecture == NativeArchitecture.ARM64)
+            {
+                directories.Add("/usr/aarch64-linux-gnu/include");
+            }
+            else if (targetArchitecture == NativeArchitecture.X86)
+            {
+                directories.Add("/usr/i686-linux-gnu/include");
+            }
+        }
+    }
+
     private string GetHighestVersionDirectoryPathFrom(string sdkDirectoryPath)
     {
         var versionDirectoryPaths = _fileSystem.Directory.EnumerateDirectories(sdkDirectoryPath);
@@ -405,4 +470,7 @@ public class ClangArgumentsBuilder
 
         return temporaryPath;
     }
+
+    [LoggerMessage(0, LogLevel.Warning, "- Could not find system include directory: {DirectoryPath}")]
+    private partial void LogMissingSystemIncludeDirectory(string directoryPath);
 }

@@ -2,15 +2,12 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.CommandLine;
 using System.IO.Abstractions;
-using System.Linq;
 using System.Reflection;
 using C2CS.Data.Serialization;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -71,6 +68,5 @@ public static class Startup
 
         Contexts.ReadCodeC.Startup.ConfigureServices(services);
         Contexts.WriteCodeCSharp.Startup.ConfigureServices(services);
-        Contexts.BuildLibraryC.Startup.ConfigureServices(services);
     }
 }

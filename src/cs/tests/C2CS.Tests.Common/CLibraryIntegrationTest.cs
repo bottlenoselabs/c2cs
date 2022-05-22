@@ -58,7 +58,8 @@ public abstract class CLibraryIntegrationTest
 
 		var jsonActual = WriteValueToString(value);
 		var jsonExpected = ReadTestFileContents(jsonFilePath);
-		Assert.Equal(jsonExpected, jsonActual);
+		var userMessage = jsonFilePath + ": Assert.Equal() Failure";
+		AssertX.Equal(jsonExpected, jsonActual, userMessage);
 	}
 
 	private void RegenerateDataFile<T>(string filePath, T value)

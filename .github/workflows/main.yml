@@ -36,7 +36,7 @@ jobs:
       if: matrix.platform.os == 'ubuntu-18.04'
       run: |
         sudo apt-get update
-        sudo apt-get install gcc-multilib
+        sudo apt-get install gcc-aarch64-linux-gnu
         source "${{ github.workspace }}/scripts/install-clang-x64-ubuntu_18_04.sh"
 
     - name: "Install Clang: macOS"

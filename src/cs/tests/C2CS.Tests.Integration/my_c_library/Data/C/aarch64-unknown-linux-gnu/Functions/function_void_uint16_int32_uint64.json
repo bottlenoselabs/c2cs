@@ -13,7 +13,7 @@
     },
     {
       "name": "c",
-      "type_name": "unsigned long long"
+      "type_name": "unsigned long"
     }
   ]
 }

@@ -5,6 +5,8 @@ continuous-delivery-fallback-tag: ""
 branches:
   develop:
     regex: '^main$'
+    increment: Patch
+    tag: 'alpha'
   main:
     regex: '^notused$'
 ignore:
