@@ -23,10 +23,9 @@ jobs:
     steps:
 
     - name: "Clone Git repository"
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
       with:
         fetch-depth: 0
-        submodules: 'recursive'
 
     - name: "Install Clang: Windows"
       if: matrix.platform.os == 'windows-latest'
