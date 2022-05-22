@@ -2,6 +2,9 @@ assembly-versioning-scheme: None
 mode: ContinuousDeployment
 tag-prefix: "[vV]"
 continuous-delivery-fallback-tag: ""
+branches:
+  develop:
+    regex: ^main$
 ignore:
   sha: []
 merge-message-formats: {}
