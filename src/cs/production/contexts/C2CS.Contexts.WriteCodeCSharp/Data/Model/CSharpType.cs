@@ -3,7 +3,7 @@
 
 namespace C2CS.Contexts.WriteCodeCSharp.Data.Model;
 
-public sealed record CSharpType
+public sealed record CSharpType : IEquatable<CSharpType>
 {
     public string Name { get; init; } = string.Empty;
 
@@ -20,5 +20,29 @@ public sealed record CSharpType
     public override string ToString()
     {
         return string.IsNullOrEmpty(Name) ? string.Empty : Name;
+    }
+
+    public bool Equals(CSharpType? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        var isEqual = Name == other.Name &&
+                      SizeOf == other.SizeOf &&
+                      AlignOf == other.AlignOf &&
+                      ArraySizeOf == other.ArraySizeOf;
+        return isEqual;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Name, SizeOf, AlignOf, ArraySizeOf);
     }
 }

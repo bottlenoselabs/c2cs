@@ -486,6 +486,11 @@ enum {
         int? fieldIndex = null)
     {
         var location = Location(cursor, type);
+        if (location.IsNull && parentInfo?.Kind == CKind.TypeAlias)
+        {
+            location = parentInfo.Location;
+        }
+
         var typeNameActual = TypeName(kind, type, parentInfo?.Name, fieldIndex);
         var nameActual = !string.IsNullOrEmpty(name) ? name : typeNameActual;
         var sizeOf = SizeOf(kind, type);
