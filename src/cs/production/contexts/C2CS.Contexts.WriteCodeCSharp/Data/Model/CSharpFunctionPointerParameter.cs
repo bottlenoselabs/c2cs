@@ -23,4 +23,11 @@ public sealed class CSharpFunctionPointerParameter : CSharpNode
 
         return Type == other2.Type;
     }
+
+    public override int GetHashCode()
+    {
+        var baseHashCode = base.GetHashCode();
+        var hashCode = HashCode.Combine(baseHashCode, Type);
+        return hashCode;
+    }
 }

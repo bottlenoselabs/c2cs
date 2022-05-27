@@ -23,4 +23,11 @@ public sealed class CSharpOpaqueStruct : CSharpNode
 
         return true;
     }
+
+    public override int GetHashCode()
+    {
+        var baseHashCode = base.GetHashCode();
+        var hashCode = HashCode.Combine(baseHashCode);
+        return hashCode;
+    }
 }

@@ -59,6 +59,7 @@ public abstract class CSharpNode : IEquatable<CSharpNode>
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Name, CodeLocationComment, SizeOf);
+        var hashCode = HashCode.Combine(Name, SizeOf);
+        return hashCode;
     }
 }

@@ -34,4 +34,12 @@ public sealed class CSharpFunctionPointer : CSharpNode
         return ReturnType == other2.ReturnType &&
                Parameters.SequenceEqual(other2.Parameters);
     }
+
+    public override int GetHashCode()
+    {
+        var baseHashCode = base.GetHashCode();
+        var parametersHashCode = HashCodeExtensions.HashCode(Parameters);
+        var hashCode = HashCode.Combine(baseHashCode, ReturnType, parametersHashCode);
+        return hashCode;
+    }
 }

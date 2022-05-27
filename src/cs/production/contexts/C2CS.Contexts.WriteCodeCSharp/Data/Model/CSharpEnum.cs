@@ -33,4 +33,13 @@ public sealed class CSharpEnum : CSharpNode
         return IntegerType == other2.IntegerType &&
                Values.SequenceEqual(other2.Values);
     }
+
+    public override int GetHashCode()
+    {
+        var baseHashCode = base.GetHashCode();
+        var integerTypeHashCode = IntegerType.GetHashCode();
+        var valuesHashCode = HashCodeExtensions.HashCode(Values);
+        var hashCode = HashCode.Combine(baseHashCode, integerTypeHashCode, valuesHashCode);
+        return hashCode;
+    }
 }

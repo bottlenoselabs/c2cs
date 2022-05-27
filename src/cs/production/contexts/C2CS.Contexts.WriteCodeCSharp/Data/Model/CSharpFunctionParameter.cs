@@ -28,4 +28,11 @@ public sealed class CSharpFunctionParameter : CSharpNode
         var result = TypeName == other2.TypeName;
         return result;
     }
+
+    public override int GetHashCode()
+    {
+        var baseHashCode = base.GetHashCode();
+        var hashCode = HashCode.Combine(baseHashCode, TypeName);
+        return hashCode;
+    }
 }

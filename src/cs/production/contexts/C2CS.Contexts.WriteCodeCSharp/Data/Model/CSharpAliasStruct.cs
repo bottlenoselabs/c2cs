@@ -27,4 +27,11 @@ public sealed class CSharpAliasStruct : CSharpNode
 
         return UnderlyingType == other2.UnderlyingType;
     }
+
+    public override int GetHashCode()
+    {
+        var baseHashCode = base.GetHashCode();
+        var hashCode = HashCode.Combine(baseHashCode, UnderlyingType);
+        return hashCode;
+    }
 }

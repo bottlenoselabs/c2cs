@@ -27,4 +27,11 @@ public sealed class CSharpEnumValue : CSharpNode
 
         return Value == other2.Value;
     }
+
+    public override int GetHashCode()
+    {
+        var baseHashCode = base.GetHashCode();
+        var hashCode = HashCode.Combine(baseHashCode, Value);
+        return hashCode;
+    }
 }

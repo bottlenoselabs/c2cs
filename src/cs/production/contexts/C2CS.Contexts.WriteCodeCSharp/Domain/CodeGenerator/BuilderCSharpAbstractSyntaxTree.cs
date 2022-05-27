@@ -270,7 +270,7 @@ public sealed class BuilderCSharpAbstractSyntaxTree
             CSharpNode = node
         };
 
-        var key = node.Name + ":" + node.CodeLocationComment;
+        var key = node.Name + ":" + node.GetHashCode();
         var isFirstTimeEncountered = !_candidateNodes.TryGetValue(key, out var nodes);
         if (isFirstTimeEncountered)
         {
