@@ -43,6 +43,7 @@ public sealed record CSharpType : IEquatable<CSharpType>
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Name, SizeOf, AlignOf, ArraySizeOf);
+        var hashCode = HashCode.Combine(Name, SizeOf, AlignOf, ArraySizeOf);
+        return hashCode;
     }
 }

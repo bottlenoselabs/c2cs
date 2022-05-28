@@ -411,8 +411,6 @@ public sealed class CSharpMapper
         var resultFields = ImmutableArray.CreateBuilder<CSharpStructField>(fields.Length);
         var resultNestedRecords = ImmutableArray.CreateBuilder<CRecord>();
 
-        var names = new HashSet<string>();
-
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var field in fields)
         {
@@ -438,12 +436,13 @@ public sealed class CSharpMapper
         else
         {
             var value = StructField(context, field);
+
             if (context.Records.TryGetValue(field.TypeInfo.Name, out var record))
             {
-                if (!resultNestedRecords.Contains(record))
-                {
-                    resultNestedRecords.Add(record);
-                }
+                // if (!resultNestedRecords.Contains(record))
+                // {
+                //     resultNestedRecords.Add(record);
+                // }
             }
 
             resultFields.Add(value);
@@ -605,7 +604,7 @@ public sealed class CSharpMapper
         var name = @enum.Name;
         var originalCodeLocationComment = OriginalCodeLocationComment(@enum);
         var integerTypeC = @enum.IntegerTypeInfo;
-        var integerNameCSharp = TypeNameCSharp(context, integerTypeC);
+        var integerNameCSharp = TypeNameCSharp(context, integerTypeC, true);
         var integerType = TypeCSharp(integerNameCSharp, integerTypeC);
         var values = EnumValues(context, @enum.Values);
 
@@ -756,7 +755,8 @@ public sealed class CSharpMapper
 
     private string TypeNameCSharp(
         CSharpMapperContext context,
-        CTypeInfo typeInfo)
+        CTypeInfo typeInfo,
+        bool forceUnsigned = false)
     {
         if (typeInfo.Kind == CKind.FunctionPointer)
         {
@@ -772,7 +772,7 @@ public sealed class CSharpMapper
         }
         else
         {
-            result = TypeNameCSharpRaw(typeInfo.Name, typeInfo.SizeOf);
+            result = TypeNameCSharpRaw(typeInfo.Name, typeInfo.SizeOf, forceUnsigned);
         }
 
         // TODO: https://github.com/lithiumtoast/c2cs/issues/15
@@ -881,7 +881,7 @@ public sealed class CSharpMapper
         return result;
     }
 
-    private string TypeNameCSharpRaw(string typeName, int sizeOf)
+    private string TypeNameCSharpRaw(string typeName, int sizeOf, bool forceUnsignedInteger = false)
     {
         if (_userTypeNameAliases.TryGetValue(typeName, out var aliasName))
         {
@@ -949,7 +949,7 @@ public sealed class CSharpMapper
             case "long long int":
             case "signed long long int":
             case "ssize_t":
-                return TypeNameMapSignedInteger(sizeOf);
+                return forceUnsignedInteger ? TypeNameMapUnsignedInteger(sizeOf) : TypeNameMapSignedInteger(sizeOf);
 
             case "float":
             case "double":

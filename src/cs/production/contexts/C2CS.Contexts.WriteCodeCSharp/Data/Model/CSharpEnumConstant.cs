@@ -32,4 +32,11 @@ public sealed class CSharpEnumConstant : CSharpNode
         return Type == other2.Type &&
                Value == other2.Value;
     }
+
+    public override int GetHashCode()
+    {
+        var baseHashCode = base.GetHashCode();
+        var hashCode = HashCode.Combine(baseHashCode, Type, Value);
+        return hashCode;
+    }
 }

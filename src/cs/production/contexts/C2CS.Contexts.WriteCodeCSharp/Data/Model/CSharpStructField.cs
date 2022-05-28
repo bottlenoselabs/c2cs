@@ -42,4 +42,11 @@ public sealed class CSharpStructField : CSharpNode
                Padding == other2.Padding &&
                Type == other2.Type;
     }
+
+    public override int GetHashCode()
+    {
+        var baseHashCOde = base.GetHashCode();
+        var hashCode = HashCode.Combine(baseHashCOde, BackingFieldName, IsWrapped, Offset, Padding, Type);
+        return hashCode;
+    }
 }

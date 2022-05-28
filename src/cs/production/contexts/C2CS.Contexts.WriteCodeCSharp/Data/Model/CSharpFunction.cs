@@ -41,4 +41,12 @@ public sealed class CSharpFunction : CSharpNode
 
         return result;
     }
+
+    public override int GetHashCode()
+    {
+        var baseHashCode = base.GetHashCode();
+        var parameters = HashCodeExtensions.HashCode(Parameters);
+        var hashCode = HashCode.Combine(baseHashCode, CallingConvention, ReturnType, parameters);
+        return hashCode;
+    }
 }
