@@ -6,7 +6,7 @@ using C2CS.Contexts.ReadCodeC.Domain.Parse;
 
 namespace C2CS.Contexts.ReadCodeC.Domain;
 
-public sealed class ReadCodeCAbstractSyntaxTreeOptions
+public sealed class ReadCodeCAbstractSyntaxTreeInput
 {
     public string OutputFilePath { get; init; } = string.Empty;
 

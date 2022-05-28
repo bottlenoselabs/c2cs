@@ -28,7 +28,7 @@ public sealed class UseCase : UseCase<
 
     protected override void Execute(ReadCodeCInput input, ReadCodeCOutput output)
     {
-        var builder = ImmutableArray.CreateBuilder<ReadCodeCAbstractSyntaxTreeOptions>();
+        var builder = ImmutableArray.CreateBuilder<ReadCodeCAbstractSyntaxTreeInput>();
 
         foreach (var options in input.AbstractSyntaxTreesOptionsList)
         {

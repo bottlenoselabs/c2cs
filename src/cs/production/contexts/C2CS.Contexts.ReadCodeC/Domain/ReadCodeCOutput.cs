@@ -8,5 +8,5 @@ namespace C2CS.Contexts.ReadCodeC.Domain;
 
 public sealed class ReadCodeCOutput : UseCaseOutput<ReadCodeCInput>
 {
-    public ImmutableArray<ReadCodeCAbstractSyntaxTreeOptions> AbstractSyntaxTreesOptions { get; set; }
+    public ImmutableArray<ReadCodeCAbstractSyntaxTreeInput> AbstractSyntaxTreesOptions { get; set; }
 }

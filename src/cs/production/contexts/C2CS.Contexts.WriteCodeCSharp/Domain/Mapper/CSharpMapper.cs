@@ -11,21 +11,21 @@ namespace C2CS.Contexts.WriteCodeCSharp.Domain.Mapper;
 
 public sealed class CSharpMapper
 {
-    private readonly CSharpMapperParameters _parameters;
+    private readonly CSharpMapperOptions _options;
 
     private readonly ImmutableHashSet<string> _builtinAliases;
     private readonly Dictionary<string, string> _generatedFunctionPointersNamesByCNames = new();
     private readonly ImmutableHashSet<string> _ignoredNames;
     private readonly ImmutableDictionary<string, string> _userTypeNameAliases;
 
-    public CSharpMapper(CSharpMapperParameters parameters)
+    public CSharpMapper(CSharpMapperOptions options)
     {
-        _parameters = parameters;
+        _options = options;
 
         var userAliases = new Dictionary<string, string>();
         var builtinAliases = new HashSet<string>();
 
-        foreach (var typeAlias in parameters.TypeAliases)
+        foreach (var typeAlias in options.TypeAliases)
         {
             if (string.IsNullOrEmpty(typeAlias.Source) || string.IsNullOrEmpty(typeAlias.Target))
             {
@@ -52,8 +52,8 @@ public sealed class CSharpMapper
 
         _userTypeNameAliases = userAliases.ToImmutableDictionary();
         _builtinAliases = builtinAliases.ToImmutableHashSet();
-        _ignoredNames = parameters.IgnoredTypeNames
-            .Concat(parameters.SystemTypeNameAliases.Keys)
+        _ignoredNames = options.IgnoredTypeNames
+            .Concat(options.SystemTypeNameAliases.Keys)
             .ToImmutableHashSet();
     }
 
@@ -888,7 +888,7 @@ public sealed class CSharpMapper
             return aliasName;
         }
 
-        if (_parameters.SystemTypeNameAliases.TryGetValue(typeName, out var mappedSystemTypeName))
+        if (_options.SystemTypeNameAliases.TryGetValue(typeName, out var mappedSystemTypeName))
         {
             return mappedSystemTypeName;
         }

@@ -4,6 +4,7 @@
 using System.Collections.Immutable;
 using C2CS.Contexts.WriteCodeCSharp.Data;
 using C2CS.Contexts.WriteCodeCSharp.Data.Model;
+using C2CS.Contexts.WriteCodeCSharp.Domain.CodeGenerator;
 
 namespace C2CS.Contexts.WriteCodeCSharp.Domain;
 
@@ -17,13 +18,5 @@ public sealed class WriteCodeCSharpInput
 
     public ImmutableArray<string> IgnoredNames { get; init; }
 
-    public string LibraryName { get; init; } = string.Empty;
-
-    public string ClassName { get; init; } = string.Empty;
-
-    public string NamespaceName { get; init; } = string.Empty;
-
-    public string HeaderCodeRegion { get; init; } = string.Empty;
-
-    public string FooterCodeRegion { get; init; } = string.Empty;
+    public CSharpCodeGeneratorOptions Options { get; init; } = null!;
 }

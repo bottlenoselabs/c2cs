@@ -32,11 +32,11 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         };
     }
 
-    private ImmutableArray<ReadCodeCAbstractSyntaxTreeOptions> OptionsList(
+    private ImmutableArray<ReadCodeCAbstractSyntaxTreeInput> OptionsList(
         ReadCodeCConfiguration configuration,
         string inputFilePath)
     {
-        var optionsBuilder = ImmutableArray.CreateBuilder<ReadCodeCAbstractSyntaxTreeOptions>();
+        var optionsBuilder = ImmutableArray.CreateBuilder<ReadCodeCAbstractSyntaxTreeInput>();
         if (configuration.ConfigurationPlatforms == null)
         {
             var abstractSyntaxTreeRequests = new Dictionary<string, ReadCodeCConfigurationPlatform?>();
@@ -54,7 +54,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         return optionsBuilder.ToImmutable();
     }
 
-    private ReadCodeCAbstractSyntaxTreeOptions Options(
+    private ReadCodeCAbstractSyntaxTreeInput Options(
         ReadCodeCConfiguration configuration,
         string targetPlatformString,
         ReadCodeCConfigurationPlatform? configurationPlatform,
@@ -82,7 +82,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         var clangDefines = VerifyImmutableArray(configurationPlatform?.Defines);
         var clangArguments = VerifyImmutableArray(configurationPlatform?.ClangArguments);
 
-        var inputAbstractSyntaxTree = new ReadCodeCAbstractSyntaxTreeOptions
+        var inputAbstractSyntaxTree = new ReadCodeCAbstractSyntaxTreeInput
         {
             TargetPlatform = targetPlatform,
             OutputFilePath = outputFilePath,

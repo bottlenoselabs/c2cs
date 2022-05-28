@@ -9,7 +9,6 @@ using C2CS.Contexts.WriteCodeCSharp.Data.Model;
 using C2CS.Contexts.WriteCodeCSharp.Domain;
 using C2CS.Contexts.WriteCodeCSharp.Domain.CodeGenerator;
 using C2CS.Contexts.WriteCodeCSharp.Domain.Mapper;
-using C2CS.Foundation.Diagnostics;
 using C2CS.Foundation.UseCases;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -31,18 +30,10 @@ public sealed class UseCase : UseCase<WriteCodeCSharpConfiguration, WriteCodeCSh
         var nodesPerPlatform = MapCNodesToCSharpNodes(
             abstractSyntaxTreesC,
             input.TypeAliases,
-            input.IgnoredNames,
-            Diagnostics);
+            input.IgnoredNames);
 
         var abstractSyntaxTreeCSharp = AbstractSyntaxTree(nodesPerPlatform);
-
-        var code = GenerateCSharpCode(
-            abstractSyntaxTreeCSharp,
-            input.ClassName,
-            input.LibraryName,
-            input.NamespaceName,
-            input.HeaderCodeRegion,
-            input.FooterCodeRegion);
+        var code = GenerateCSharpCode(abstractSyntaxTreeCSharp, input.Options);
 
         WriteCSharpCodeToFileStorage(input.OutputFilePath, code);
     }
@@ -68,12 +59,11 @@ public sealed class UseCase : UseCase<WriteCodeCSharpConfiguration, WriteCodeCSh
     private ImmutableDictionary<TargetPlatform, CSharpNodes> MapCNodesToCSharpNodes(
         ImmutableArray<CAbstractSyntaxTree> abstractSyntaxTrees,
         ImmutableArray<CSharpTypeAlias> typeAliases,
-        ImmutableArray<string> ignoredTypeNames,
-        DiagnosticsSink diagnostics)
+        ImmutableArray<string> ignoredTypeNames)
     {
         BeginStep("Map platform specific nodes");
 
-        var mapperParameters = new CSharpMapperParameters(typeAliases, ignoredTypeNames, diagnostics);
+        var mapperParameters = new CSharpMapperOptions(typeAliases, ignoredTypeNames);
         var mapper = new CSharpMapper(mapperParameters);
         var result = mapper.Map(abstractSyntaxTrees);
 
@@ -99,18 +89,11 @@ public sealed class UseCase : UseCase<WriteCodeCSharpConfiguration, WriteCodeCSh
         return result;
     }
 
-    private string GenerateCSharpCode(
-        CSharpAbstractSyntaxTree abstractSyntaxTree,
-        string className,
-        string libraryName,
-        string namespaceName,
-        string headerCodeRegion,
-        string footerCodeRegion)
+    private string GenerateCSharpCode(CSharpAbstractSyntaxTree abstractSyntaxTree, CSharpCodeGeneratorOptions options)
     {
         BeginStep("Generate code");
 
-        var codeGenerator = new CSharpCodeGenerator(
-            className, libraryName, namespaceName, headerCodeRegion, footerCodeRegion);
+        var codeGenerator = new CSharpCodeGenerator(options);
         var result = codeGenerator.EmitCode(abstractSyntaxTree);
 
         EndStep();

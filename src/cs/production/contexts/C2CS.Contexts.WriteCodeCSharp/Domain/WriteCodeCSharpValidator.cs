@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.IO.Abstractions;
 using C2CS.Contexts.WriteCodeCSharp.Data;
 using C2CS.Contexts.WriteCodeCSharp.Data.Model;
+using C2CS.Contexts.WriteCodeCSharp.Domain.CodeGenerator;
 using C2CS.Foundation.UseCases;
 using C2CS.Foundation.UseCases.Exceptions;
 
@@ -35,13 +36,16 @@ public sealed class WriteCodeCSharpValidator : UseCaseValidator<WriteCodeCSharpC
         {
             InputFilePaths = inputFilePaths,
             OutputFilePath = outputFilePath,
-            ClassName = className,
-            LibraryName = libraryName,
-            NamespaceName = namespaceName,
+            Options = new CSharpCodeGeneratorOptions
+            {
+                ClassName = className,
+                LibraryName = libraryName,
+                NamespaceName = namespaceName,
+                HeaderCodeRegion = headerCodeRegion,
+                FooterCodeRegion = footerCodeRegion
+            },
             TypeAliases = typeAliases,
-            IgnoredNames = ignoredNames,
-            HeaderCodeRegion = headerCodeRegion,
-            FooterCodeRegion = footerCodeRegion
+            IgnoredNames = ignoredNames
         };
     }
 

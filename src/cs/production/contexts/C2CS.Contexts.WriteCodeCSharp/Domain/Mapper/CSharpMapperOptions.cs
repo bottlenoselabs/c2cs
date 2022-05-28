@@ -8,24 +8,20 @@ using C2CS.Foundation.Diagnostics;
 
 namespace C2CS.Contexts.WriteCodeCSharp.Domain.Mapper;
 
-public sealed class CSharpMapperParameters
+public sealed class CSharpMapperOptions
 {
     public ImmutableArray<CSharpTypeAlias> TypeAliases { get; }
 
     public ImmutableArray<string> IgnoredTypeNames { get; }
 
-    public DiagnosticsSink DiagnosticsSink { get; }
-
     public ImmutableDictionary<string, string> SystemTypeNameAliases { get; }
 
-    public CSharpMapperParameters(
+    public CSharpMapperOptions(
         ImmutableArray<CSharpTypeAlias> typeAliases,
-        ImmutableArray<string> ignoredTypeNames,
-        DiagnosticsSink diagnostics)
+        ImmutableArray<string> ignoredTypeNames)
     {
         TypeAliases = typeAliases;
         IgnoredTypeNames = ignoredTypeNames;
-        DiagnosticsSink = diagnostics;
         SystemTypeNameAliases = GetSystemTypeNameAliases().ToImmutableDictionary();
     }
 

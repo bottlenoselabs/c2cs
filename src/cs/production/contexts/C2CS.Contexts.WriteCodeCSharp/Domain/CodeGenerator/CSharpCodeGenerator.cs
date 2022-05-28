@@ -16,24 +16,11 @@ namespace C2CS.Contexts.WriteCodeCSharp.Domain.CodeGenerator;
 
 public sealed class CSharpCodeGenerator
 {
-    private readonly string _className;
-    private readonly string _libraryName;
-    private readonly string _namespaceName;
-    private readonly string _headerCodeRegion;
-    private readonly string _footerCodeRegion;
+    private readonly CSharpCodeGeneratorOptions _options;
 
-    public CSharpCodeGenerator(
-        string className,
-        string libraryName,
-        string namespaceName,
-        string headerCodeRegion,
-        string footerCodeRegion)
+    public CSharpCodeGenerator(CSharpCodeGeneratorOptions options)
     {
-        _className = className;
-        _libraryName = libraryName;
-        _namespaceName = namespaceName;
-        _headerCodeRegion = headerCodeRegion;
-        _footerCodeRegion = footerCodeRegion;
+        _options = options;
     }
 
     public string EmitCode(CSharpAbstractSyntaxTree abstractSyntaxTree)
@@ -60,13 +47,7 @@ public sealed class CSharpCodeGenerator
             }
         }
 
-        var compilationUnit = CompilationUnit(
-            _className,
-            _libraryName,
-            _namespaceName,
-            _headerCodeRegion,
-            _footerCodeRegion,
-            members.ToArray());
+        var compilationUnit = CompilationUnit(_options, members.ToArray());
 
         var code = compilationUnit.ToFullString().Trim();
         return code;
@@ -103,15 +84,9 @@ public sealed class CSharpCodeGenerator
     }
 
     private static CompilationUnitSyntax CompilationUnit(
-        string className,
-        string libraryName,
-        string namespaceName,
-        string headerCodeRegion,
-        string footerCodeRegion,
-        MemberDeclarationSyntax[] members)
+        CSharpCodeGeneratorOptions options, MemberDeclarationSyntax[] members)
     {
-        var code = CompilationUnitTemplateCode(
-            className, libraryName, namespaceName, headerCodeRegion, footerCodeRegion);
+        var code = CompilationUnitTemplateCode(options);
         var syntaxTree = ParseSyntaxTree(code);
         var compilationUnit = syntaxTree.GetCompilationUnitRoot();
         var namespaceDeclaration = (NamespaceDeclarationSyntax)compilationUnit.Members[0];
@@ -159,12 +134,7 @@ public sealed class CSharpCodeGenerator
         return runtimeClass;
     }
 
-    private static string CompilationUnitTemplateCode(
-        string className,
-        string libraryName,
-        string namespaceName,
-        string headerCodeRegion,
-        string footerCodeRegion)
+    private static string CompilationUnitTemplateCode(CSharpCodeGeneratorOptions options)
     {
         var dateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss \"GMT\"zzz", CultureInfo.InvariantCulture);
         var version = Assembly.GetEntryAssembly()!.GetName().Version;
@@ -185,16 +155,16 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using static {namespaceName}.{className}.Runtime;
-{headerCodeRegion}
-namespace {namespaceName}
+using static {options.NamespaceName}.{options.ClassName}.Runtime;
+{options.HeaderCodeRegion}
+namespace {options.NamespaceName}
 {{
-    public static unsafe partial class {className}
+    public static unsafe partial class {options.ClassName}
     {{
-        private const string LibraryName = ""{libraryName}"";
+        private const string LibraryName = ""{options.LibraryName}"";
     }}
 }}
-{footerCodeRegion}
+{options.FooterCodeRegion}
 ";
         return code;
     }
