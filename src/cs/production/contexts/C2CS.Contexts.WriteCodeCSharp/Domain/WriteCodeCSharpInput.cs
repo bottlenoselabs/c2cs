@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using C2CS.Contexts.WriteCodeCSharp.Data;
 using C2CS.Contexts.WriteCodeCSharp.Data.Model;
 using C2CS.Contexts.WriteCodeCSharp.Domain.CodeGenerator;
+using C2CS.Contexts.WriteCodeCSharp.Domain.Mapper;
 
 namespace C2CS.Contexts.WriteCodeCSharp.Domain;
 
@@ -14,9 +15,7 @@ public sealed class WriteCodeCSharpInput
 
     public string OutputFilePath { get; init; } = string.Empty;
 
-    public ImmutableArray<CSharpTypeAlias> TypeAliases { get; init; }
+    public CSharpMapperOptions MapperOptions { get; init; } = null!;
 
-    public ImmutableArray<string> IgnoredNames { get; init; }
-
-    public CSharpCodeGeneratorOptions Options { get; init; } = null!;
+    public CSharpCodeGeneratorOptions GeneratorOptions { get; init; } = null!;
 }

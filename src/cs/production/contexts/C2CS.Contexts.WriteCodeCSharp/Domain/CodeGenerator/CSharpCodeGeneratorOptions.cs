@@ -14,4 +14,8 @@ public sealed class CSharpCodeGeneratorOptions
     public string HeaderCodeRegion { get; init; } = string.Empty;
 
     public string FooterCodeRegion { get; init; } = string.Empty;
+
+    public bool IsEnabledPreCompile { get; init; }
+
+    public bool IsEnabledFunctionPointers { get; init; }
 }

@@ -23,8 +23,5 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
         <PackageReference Include="System.IO.Abstractions" Version="16.1.25" />
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Domain\Mapper\Diagnostics" />
-    </ItemGroup>
 
 </Project>

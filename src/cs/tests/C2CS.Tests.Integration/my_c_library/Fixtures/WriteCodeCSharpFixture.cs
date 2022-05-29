@@ -62,12 +62,12 @@ public sealed class WriteCodeCSharpFixture
         Assert.True(compilationUnitSyntax.Members.Count == 1);
         var @namespace = compilationUnitSyntax.Members[0] as NamespaceDeclarationSyntax;
         Assert.True(@namespace != null);
-        Assert.True(@namespace!.Name.ToString() == input.Options.NamespaceName);
+        Assert.True(@namespace!.Name.ToString() == input.GeneratorOptions.NamespaceName);
 
         Assert.True(@namespace.Members.Count == 1);
         var @class = @namespace.Members[0] as ClassDeclarationSyntax;
         Assert.True(@class != null);
-        Assert.True(@class!.Identifier.ToString() == input.Options.ClassName);
+        Assert.True(@class!.Identifier.ToString() == input.GeneratorOptions.ClassName);
 
         var methodsByNameBuilder = ImmutableDictionary.CreateBuilder<string, CSharpTestFunction>();
         var enumsByNameBuilder = ImmutableDictionary.CreateBuilder<string, CSharpTestEnum>();

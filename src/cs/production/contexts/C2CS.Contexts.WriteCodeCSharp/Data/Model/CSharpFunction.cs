@@ -14,14 +14,14 @@ public sealed class CSharpFunction : CSharpNode
     public readonly CSharpType ReturnType;
 
     public CSharpFunction(
-        TargetPlatform platform,
+        ImmutableArray<TargetPlatform> platforms,
         string name,
         string codeLocationComment,
         int? sizeOf,
         CSharpFunctionCallingConvention callingConvention,
         CSharpType returnType,
         ImmutableArray<CSharpFunctionParameter> parameters)
-        : base(platform, name, codeLocationComment, sizeOf)
+        : base(platforms, name, codeLocationComment, sizeOf)
     {
         CallingConvention = callingConvention;
         ReturnType = returnType;

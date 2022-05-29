@@ -6,6 +6,8 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using C2CS.Contexts.ReadCodeC.Data.Model;
 using C2CS.Contexts.WriteCodeCSharp.Data.Model;
+using C2CS.Contexts.WriteCodeCSharp.Domain.CodeGenerator.Diagnostics;
+using C2CS.Foundation.Diagnostics;
 
 namespace C2CS.Contexts.WriteCodeCSharp.Domain.Mapper;
 
@@ -17,6 +19,12 @@ public sealed class CSharpMapper
     private readonly Dictionary<string, string> _generatedFunctionPointersNamesByCNames = new();
     private readonly ImmutableHashSet<string> _ignoredNames;
     private readonly ImmutableDictionary<string, string> _userTypeNameAliases;
+
+    private record struct PlatformCandidateNode
+    {
+        public TargetPlatform Platform;
+        public CSharpNode CSharpNode;
+    }
 
     public CSharpMapper(CSharpMapperOptions options)
     {
@@ -52,26 +60,286 @@ public sealed class CSharpMapper
 
         _userTypeNameAliases = userAliases.ToImmutableDictionary();
         _builtinAliases = builtinAliases.ToImmutableHashSet();
-        _ignoredNames = options.IgnoredTypeNames
-            .Concat(options.SystemTypeNameAliases.Keys)
+        _ignoredNames = options.IgnoredNames
+            .Concat(options.SystemTypeAliases.Keys)
             .ToImmutableHashSet();
     }
 
-    public ImmutableDictionary<TargetPlatform, CSharpNodes> Map(
-        ImmutableArray<CAbstractSyntaxTree> abstractSyntaxTrees)
+    public CSharpAbstractSyntaxTree Map(
+        DiagnosticsSink diagnostics, ImmutableArray<CAbstractSyntaxTree> abstractSyntaxTrees)
     {
-        var builder = ImmutableDictionary.CreateBuilder<TargetPlatform, CSharpNodes>();
+        var candidateNodesBuilder = ImmutableDictionary.CreateBuilder<string, ImmutableArray<PlatformCandidateNode>.Builder>();
 
-        foreach (var ast in abstractSyntaxTrees)
+        foreach (var cAbstractSyntaxTree in abstractSyntaxTrees)
         {
-            var platformNodes = CSharpNodes(ast);
-            builder.Add(ast.PlatformRequested, platformNodes);
+            AddCandidateNodes(cAbstractSyntaxTree, candidateNodesBuilder);
         }
 
-        return builder.ToImmutable();
+        var platformsCandidateNodes = candidateNodesBuilder
+            .Values.Select(x => x.ToImmutableArray()).ToImmutableArray();
+
+        var functions = ImmutableArray.CreateBuilder<CSharpFunction>();
+        var functionPointers = ImmutableArray.CreateBuilder<CSharpFunctionPointer>();
+        var structs = ImmutableArray.CreateBuilder<CSharpStruct>();
+        var aliasStructs = ImmutableArray.CreateBuilder<CSharpAliasStruct>();
+        var opaqueStructs = ImmutableArray.CreateBuilder<CSharpOpaqueStruct>();
+        var enums = ImmutableArray.CreateBuilder<CSharpEnum>();
+        var macroObjects = ImmutableArray.CreateBuilder<CSharpMacroObject>();
+        var enumConstants = ImmutableArray.CreateBuilder<CSharpEnumConstant>();
+
+        foreach (var platformCandidateNodes in platformsCandidateNodes)
+        {
+            var node = MergePlatformCandidateNodes(diagnostics, platformCandidateNodes);
+            switch (node)
+            {
+                case CSharpFunction function:
+                    functions.Add(function);
+                    break;
+                case CSharpFunctionPointer functionPointer:
+                    functionPointers.Add(functionPointer);
+                    break;
+                case CSharpStruct @struct:
+                    structs.Add(@struct);
+                    break;
+                case CSharpAliasStruct aliasStruct:
+                    aliasStructs.Add(aliasStruct);
+                    break;
+                case CSharpOpaqueStruct opaqueStruct:
+                    opaqueStructs.Add(opaqueStruct);
+                    break;
+                case CSharpEnum @enum:
+                    enums.Add(@enum);
+                    break;
+                case CSharpMacroObject macroObject:
+                    macroObjects.Add(macroObject);
+                    break;
+                case CSharpEnumConstant enumConstant:
+                    enumConstants.Add(enumConstant);
+                    break;
+            }
+        }
+
+        var ast = new CSharpAbstractSyntaxTree
+        {
+            Functions = functions.ToImmutable(),
+            FunctionPointers = functionPointers.ToImmutable(),
+            Structs = structs.ToImmutable(),
+            AliasStructs = aliasStructs.ToImmutable(),
+            OpaqueStructs = opaqueStructs.ToImmutable(),
+            Enums = enums.ToImmutable(),
+            MacroObjects = macroObjects.ToImmutable(),
+            EnumConstants = enumConstants.ToImmutable()
+        };
+
+        return ast;
     }
 
-    private CSharpNodes CSharpNodes(CAbstractSyntaxTree ast)
+    private CSharpNode? MergePlatformCandidateNodes(
+        DiagnosticsSink diagnostics, ImmutableArray<PlatformCandidateNode> platformNodes)
+    {
+        if (platformNodes.IsDefaultOrEmpty)
+        {
+            return null;
+        }
+
+        var allCanMerge = true;
+        var firstPlatformNode = platformNodes.First();
+        var firstNode = firstPlatformNode.CSharpNode;
+        foreach (var platformNode in platformNodes)
+        {
+            var canMerge = platformNode.CSharpNode.Equals(firstNode);
+            if (canMerge)
+            {
+                continue;
+            }
+
+            allCanMerge = false;
+            break;
+        }
+
+        if (allCanMerge)
+        {
+            return MergeNodes(platformNodes);
+        }
+
+        var platforms = platformNodes
+            .Select(x => x.Platform).ToArray();
+        var diagnostic = new CSharpMergePlatformNodesDiagnostic(firstNode.Name, platforms);
+        diagnostics.Add(diagnostic);
+        return null;
+    }
+
+    private CSharpNode MergeNodes(ImmutableArray<PlatformCandidateNode> nodes)
+    {
+        var firstNode = nodes.First().CSharpNode;
+        var platforms = nodes.Select(x => x.Platform).ToImmutableArray();
+        switch (firstNode)
+        {
+            case CSharpFunction:
+                return MergeFunction(nodes, platforms);
+            case CSharpFunctionPointer:
+                return MergeFunctionPointer(nodes, platforms);
+            case CSharpStruct:
+                return MergeStruct(nodes, platforms);
+            case CSharpAliasStruct:
+                return MergeAliasStruct(nodes, platforms);
+            case CSharpOpaqueStruct:
+                return MergeOpaqueStruct(nodes, platforms);
+            case CSharpEnum @enum:
+                return MergeEnum(nodes, platforms);
+            case CSharpMacroObject macroObject:
+                return MergeMacroObject(nodes, platforms);
+            case CSharpEnumConstant enumConstant:
+                return MergeEnumConstant(nodes, platforms);
+            default:
+                throw new NotImplementedException();
+        }
+    }
+
+    private CSharpFunction MergeFunction(
+        ImmutableArray<PlatformCandidateNode> nodes,
+        ImmutableArray<TargetPlatform> platforms)
+    {
+        var node = (CSharpFunction)nodes.First().CSharpNode;
+        var mergedNode = new CSharpFunction(
+            platforms,
+            node.Name,
+            node.CodeLocationComment,
+            node.SizeOf,
+            node.CallingConvention,
+            node.ReturnType,
+            node.Parameters);
+        return mergedNode;
+    }
+
+    private CSharpFunctionPointer MergeFunctionPointer(
+        ImmutableArray<PlatformCandidateNode> nodes,
+        ImmutableArray<TargetPlatform> platforms)
+    {
+        var node = (CSharpFunctionPointer)nodes.First().CSharpNode;
+        var newNode = new CSharpFunctionPointer(
+            platforms,
+            node.Name,
+            node.CodeLocationComment,
+            node.SizeOf,
+            node.ReturnType,
+            node.Parameters);
+        return newNode;
+    }
+
+    private CSharpStruct MergeStruct(
+        ImmutableArray<PlatformCandidateNode> nodes,
+        ImmutableArray<TargetPlatform> platforms)
+    {
+        var node = (CSharpStruct)nodes.First().CSharpNode;
+        var newNode = new CSharpStruct(
+            platforms,
+            node.Name,
+            node.CodeLocationComment,
+            node.SizeOf!.Value,
+            node.AlignOf,
+            node.Fields,
+            node.NestedStructs);
+        return newNode;
+    }
+
+    private CSharpAliasStruct MergeAliasStruct(
+        ImmutableArray<PlatformCandidateNode> nodes,
+        ImmutableArray<TargetPlatform> platforms)
+    {
+        var node = (CSharpAliasStruct)nodes.First().CSharpNode;
+        var newNode = new CSharpAliasStruct(
+            platforms,
+            node.Name,
+            node.CodeLocationComment,
+            node.SizeOf,
+            node.UnderlyingType);
+        return newNode;
+    }
+
+    private CSharpOpaqueStruct MergeOpaqueStruct(
+        ImmutableArray<PlatformCandidateNode> nodes,
+        ImmutableArray<TargetPlatform> platforms)
+    {
+        var node = (CSharpOpaqueStruct)nodes.First().CSharpNode;
+        var newNode = new CSharpOpaqueStruct(
+            platforms,
+            node.Name,
+            node.CodeLocationComment,
+            node.SizeOf);
+        return newNode;
+    }
+
+    private CSharpEnum MergeEnum(
+        ImmutableArray<PlatformCandidateNode> nodes,
+        ImmutableArray<TargetPlatform> platforms)
+    {
+        var node = (CSharpEnum)nodes.First().CSharpNode;
+        var newNode = new CSharpEnum(
+            platforms,
+            node.Name,
+            node.CodeLocationComment,
+            node.IntegerType,
+            node.Values);
+        return newNode;
+    }
+
+    private CSharpMacroObject MergeMacroObject(
+        ImmutableArray<PlatformCandidateNode> nodes,
+        ImmutableArray<TargetPlatform> platforms)
+    {
+        var node = (CSharpMacroObject)nodes.First().CSharpNode;
+        var newNode = new CSharpMacroObject(
+            platforms,
+            node.Name,
+            node.CodeLocationComment,
+            node.SizeOf,
+            node.Type,
+            node.Value,
+            node.IsConstant);
+        return newNode;
+    }
+
+    private CSharpEnumConstant MergeEnumConstant(
+        ImmutableArray<PlatformCandidateNode> nodes,
+        ImmutableArray<TargetPlatform> platforms)
+    {
+        var node = (CSharpEnumConstant)nodes.First().CSharpNode;
+        var newNode = new CSharpEnumConstant(
+            platforms,
+            node.Name,
+            node.CodeLocationComment,
+            node.SizeOf,
+            node.Type,
+            node.Value);
+        return newNode;
+    }
+
+    private void AddCandidateNode(
+        TargetPlatform platform,
+        CSharpNode node,
+        ImmutableDictionary<string, ImmutableArray<PlatformCandidateNode>.Builder>.Builder candidateNodes)
+    {
+        var candidateNode = new PlatformCandidateNode
+        {
+            Platform = platform,
+            CSharpNode = node
+        };
+
+        var key = node.Name + ":" + node.GetHashCode();
+        var isFirstTimeEncountered = !candidateNodes.TryGetValue(key, out var nodes);
+        if (isFirstTimeEncountered)
+        {
+            nodes = ImmutableArray.CreateBuilder<PlatformCandidateNode>();
+            candidateNodes.Add(key, nodes);
+        }
+
+        nodes!.Add(candidateNode);
+    }
+
+    private void AddCandidateNodes(
+        CAbstractSyntaxTree ast,
+        ImmutableDictionary<string, ImmutableArray<PlatformCandidateNode>.Builder>.Builder builder)
     {
         var context = new CSharpMapperContext(ast.PlatformRequested, ast.Records, ast.FunctionPointers);
         var functionsC = ast.Functions.Values.ToImmutableArray();
@@ -86,26 +354,110 @@ public sealed class CSharpMapper
 
         var functions = Functions(context, functionsC);
         var structs = Structs(context, recordsC, functionNamesC);
-        // Typedefs need to be processed first as they can generate aliases on the fly
         var aliasStructs = AliasStructs(context, typeAliasesC);
         var functionPointers = FunctionPointers(context, functionPointersC);
-        var opaqueDataTypes = OpaqueDataTypes(context, opaqueTypesC);
+        var opaqueStructs = OpaqueStructs(context, opaqueTypesC);
         var enums = Enums(context, enumsC);
         var macroObjects = MacroObjects(context, macroObjectsC);
         var enumConstants = EnumConstants(context, enumConstantsC);
 
-        var nodes = new CSharpNodes
+        var platform = ast.PlatformRequested;
+        AddCandidateFunctions(platform, functions, builder);
+        AddCandidateStructs(platform, structs, builder);
+        AddCandidateAliasStructs(platform, aliasStructs, builder);
+        AddCandidateFunctionPointers(platform, functionPointers, builder);
+        AddCandidateOpaqueStructs(platform, opaqueStructs, builder);
+        AddCandidateEnums(platform, enums, builder);
+        AddCandidateMacroObjects(platform, macroObjects, builder);
+        AddCandidateEnumConstants(platform, enumConstants, builder);
+    }
+
+    private void AddCandidateFunctions(
+        TargetPlatform platform,
+        ImmutableArray<CSharpFunction> functions,
+        ImmutableDictionary<string, ImmutableArray<PlatformCandidateNode>.Builder>.Builder builder)
+    {
+        foreach (var value in functions)
         {
-            Functions = functions,
-            FunctionPointers = functionPointers,
-            Structs = structs,
-            AliasStructs = aliasStructs,
-            OpaqueStructs = opaqueDataTypes,
-            Enums = enums,
-            MacroObjects = macroObjects,
-            EnumConstants = enumConstants,
-        };
-        return nodes;
+            AddCandidateNode(platform, value, builder);
+        }
+    }
+
+    private void AddCandidateFunctionPointers(
+        TargetPlatform platform,
+        ImmutableArray<CSharpFunctionPointer> functionPointers,
+        ImmutableDictionary<string, ImmutableArray<PlatformCandidateNode>.Builder>.Builder builder)
+    {
+        foreach (var value in functionPointers)
+        {
+            AddCandidateNode(platform, value, builder);
+        }
+    }
+
+    private void AddCandidateStructs(
+        TargetPlatform platform,
+        ImmutableArray<CSharpStruct> structs,
+        ImmutableDictionary<string, ImmutableArray<PlatformCandidateNode>.Builder>.Builder builder)
+    {
+        foreach (var value in structs)
+        {
+            AddCandidateNode(platform, value, builder);
+        }
+    }
+
+    private void AddCandidateAliasStructs(
+        TargetPlatform platform,
+        ImmutableArray<CSharpAliasStruct> aliasStructs,
+        ImmutableDictionary<string, ImmutableArray<PlatformCandidateNode>.Builder>.Builder builder)
+    {
+        foreach (var value in aliasStructs)
+        {
+            AddCandidateNode(platform, value, builder);
+        }
+    }
+
+    private void AddCandidateOpaqueStructs(
+        TargetPlatform platform,
+        ImmutableArray<CSharpOpaqueStruct> opaqueDataTypes,
+        ImmutableDictionary<string, ImmutableArray<PlatformCandidateNode>.Builder>.Builder builder)
+    {
+        foreach (var value in opaqueDataTypes)
+        {
+            AddCandidateNode(platform, value, builder);
+        }
+    }
+
+    private void AddCandidateEnums(
+        TargetPlatform platform,
+        ImmutableArray<CSharpEnum> enums,
+        ImmutableDictionary<string, ImmutableArray<PlatformCandidateNode>.Builder>.Builder builder)
+    {
+        foreach (var value in enums)
+        {
+            AddCandidateNode(platform, value, builder);
+        }
+    }
+
+    private void AddCandidateMacroObjects(
+        TargetPlatform platform,
+        ImmutableArray<CSharpMacroObject> constants,
+        ImmutableDictionary<string, ImmutableArray<PlatformCandidateNode>.Builder>.Builder builder)
+    {
+        foreach (var value in constants)
+        {
+            AddCandidateNode(platform, value, builder);
+        }
+    }
+
+    private void AddCandidateEnumConstants(
+        TargetPlatform platform,
+        ImmutableArray<CSharpEnumConstant> enumConstants,
+        ImmutableDictionary<string, ImmutableArray<PlatformCandidateNode>.Builder>.Builder builder)
+    {
+        foreach (var value in enumConstants)
+        {
+            AddCandidateNode(platform, value, builder);
+        }
     }
 
     private ImmutableArray<CSharpFunction> Functions(
@@ -136,7 +488,7 @@ public sealed class CSharpMapper
         var parameters = CSharpFunctionParameters(context, name, cFunction.Parameters);
 
         var result = new CSharpFunction(
-            context.Platform,
+            ImmutableArray.Create(context.Platform),
             name,
             originalCodeLocationComment,
             null,
@@ -242,7 +594,7 @@ public sealed class CSharpMapper
         }
 
         var functionParameterCSharp = new CSharpFunctionParameter(
-            context.Platform,
+            ImmutableArray.Create(context.Platform),
             name,
             originalCodeLocationComment,
             typeC.SizeOf,
@@ -295,7 +647,7 @@ public sealed class CSharpMapper
         var parameters = FunctionPointerParameters(context, functionPointer.Parameters);
 
         var result = new CSharpFunctionPointer(
-            context.Platform,
+            ImmutableArray.Create(context.Platform),
             typeNameCSharp,
             originalCodeLocationComment,
             functionPointerType.SizeOf,
@@ -341,7 +693,7 @@ public sealed class CSharpMapper
         var typeCSharp = TypeCSharp(nameCSharp, typeC);
 
         var result = new CSharpFunctionPointerParameter(
-            context.Platform,
+            ImmutableArray.Create(context.Platform),
             name,
             originalCodeLocationComment,
             typeC.SizeOf,
@@ -394,8 +746,8 @@ public sealed class CSharpMapper
         var nestedStructs = Structs(context, nestedRecords, functionNames);
 
         return new CSharpStruct(
+            ImmutableArray.Create(context.Platform),
             name,
-            context.Platform,
             originalCodeLocationComment,
             record.SizeOf,
             record.AlignOf,
@@ -475,7 +827,7 @@ public sealed class CSharpMapper
         var isWrapped = typeCSharp.IsArray && !IsValidFixedBufferType(typeCSharp.Name);
 
         var result = new CSharpStructField(
-            context.Platform,
+            ImmutableArray.Create(context.Platform),
             name,
             codeLocationComment,
             typeC.SizeOf,
@@ -487,7 +839,7 @@ public sealed class CSharpMapper
         return result;
     }
 
-    private ImmutableArray<CSharpOpaqueStruct> OpaqueDataTypes(
+    private ImmutableArray<CSharpOpaqueStruct> OpaqueStructs(
         CSharpMapperContext context,
         ImmutableArray<COpaqueType> opaqueDataTypes)
     {
@@ -518,7 +870,7 @@ public sealed class CSharpMapper
         var originalCodeLocationComment = OriginalCodeLocationComment(opaqueType);
 
         var opaqueTypeCSharp = new CSharpOpaqueStruct(
-            context.Platform,
+            ImmutableArray.Create(context.Platform),
             nameCSharp,
             originalCodeLocationComment,
             opaqueType.SizeOf);
@@ -566,7 +918,7 @@ public sealed class CSharpMapper
         var underlyingTypeCSharp = TypeCSharp(underlyingNameCSharp, underlyingTypeC);
 
         var result = new CSharpAliasStruct(
-            context.Platform,
+            ImmutableArray.Create(context.Platform),
             name,
             originalCodeLocationComment,
             underlyingTypeC.SizeOf,
@@ -609,7 +961,7 @@ public sealed class CSharpMapper
         var values = EnumValues(context, @enum.Values);
 
         var result = new CSharpEnum(
-            context.Platform,
+            ImmutableArray.Create(context.Platform),
             name,
             originalCodeLocationComment,
             integerType,
@@ -641,7 +993,7 @@ public sealed class CSharpMapper
         var value = enumValue.Value;
 
         var result = new CSharpEnumValue(
-            context.Platform,
+            ImmutableArray.Create(context.Platform),
             name,
             originalCodeLocationComment,
             null,
@@ -694,7 +1046,7 @@ public sealed class CSharpMapper
         }
 
         var result = new CSharpMacroObject(
-            context.Platform,
+            ImmutableArray.Create(context.Platform),
             macro.Name,
             originalCodeLocationComment,
             typeSize,
@@ -730,7 +1082,7 @@ public sealed class CSharpMapper
         var typeName = TypeNameCSharp(context, enumConstant.Type);
 
         var result = new CSharpEnumConstant(
-            context.Platform,
+            ImmutableArray.Create(context.Platform),
             enumConstant.Name,
             originalCodeLocationComment,
             enumConstant.Type.SizeOf,
@@ -888,7 +1240,7 @@ public sealed class CSharpMapper
             return aliasName;
         }
 
-        if (_options.SystemTypeNameAliases.TryGetValue(typeName, out var mappedSystemTypeName))
+        if (_options.SystemTypeAliases.TryGetValue(typeName, out var mappedSystemTypeName))
         {
             return mappedSystemTypeName;
         }

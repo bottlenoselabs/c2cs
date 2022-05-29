@@ -48,4 +48,12 @@ public sealed class WriteCodeCSharpConfiguration : UseCaseConfiguration
     [JsonPropertyName("ignored_names")]
     [Json.Schema.Generation.Description("Names of types, functions, enums, constants, or anything else that may be found when parsing C code that will be ignored when generating C# code. Type names are ignored after mapping type names using `MappedTypeNames` property.")]
     public ImmutableArray<string?>? IgnoredNames { get; set; }
+
+    [JsonPropertyName("is_enabled_pre_compile")]
+    [Json.Schema.Generation.Description("Determines whether to pre-compile (pre-JIT) the C# API on setup (first load). Use `true` or omit this property to pre-compile the C# API code. Use `false` to disable pre-compile of the C# API code. Note that if using the C# bindings in the context of NativeAOT this should be disabled.")]
+    public bool? IsEnabledPreCompile { get; set; }
+
+    [JsonPropertyName("is_enabled_function_pointers")]
+    [Json.Schema.Generation.Description("Determines whether to use C# 9 function pointers or C# delegates for C function pointers. Use `true` or omit this property generate C function pointers as C# 9 function pointers. Use `false` to fallback to generate C function pointers as C# delegates. Note that C# delegates are not recommended in comparison to C# function pointers as they require more setup, teardown, and memory allocations.")]
+    public bool? IsEnabledFunctionPointers { get; set; }
 }

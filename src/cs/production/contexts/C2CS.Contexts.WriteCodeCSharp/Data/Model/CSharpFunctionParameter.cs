@@ -1,6 +1,8 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System.Collections.Immutable;
+
 namespace C2CS.Contexts.WriteCodeCSharp.Data.Model;
 
 public sealed class CSharpFunctionParameter : CSharpNode
@@ -8,12 +10,12 @@ public sealed class CSharpFunctionParameter : CSharpNode
     public readonly string TypeName;
 
     public CSharpFunctionParameter(
-        TargetPlatform platform,
+        ImmutableArray<TargetPlatform> platforms,
         string name,
         string codeLocationComment,
         int? sizeOf,
         string typeName)
-        : base(platform, name, codeLocationComment, sizeOf)
+        : base(platforms, name, codeLocationComment, sizeOf)
     {
         TypeName = typeName;
     }

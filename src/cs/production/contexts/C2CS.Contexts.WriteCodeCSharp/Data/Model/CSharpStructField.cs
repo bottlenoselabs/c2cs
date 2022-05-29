@@ -1,6 +1,8 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System.Collections.Immutable;
+
 namespace C2CS.Contexts.WriteCodeCSharp.Data.Model;
 
 public sealed class CSharpStructField : CSharpNode
@@ -12,7 +14,7 @@ public sealed class CSharpStructField : CSharpNode
     public readonly CSharpType Type;
 
     public CSharpStructField(
-        TargetPlatform platform,
+        ImmutableArray<TargetPlatform> platforms,
         string name,
         string codeLocationComment,
         int? sizeOf,
@@ -20,7 +22,7 @@ public sealed class CSharpStructField : CSharpNode
         int offset,
         int padding,
         bool isWrapped)
-        : base(platform, name, codeLocationComment, sizeOf)
+        : base(platforms, name, codeLocationComment, sizeOf)
     {
         Type = type;
         Offset = offset;

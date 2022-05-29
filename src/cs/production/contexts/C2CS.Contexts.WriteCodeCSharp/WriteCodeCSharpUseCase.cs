@@ -29,18 +29,16 @@ public sealed class UseCase : UseCase<WriteCodeCSharpConfiguration, WriteCodeCSh
 
         var nodesPerPlatform = MapCNodesToCSharpNodes(
             abstractSyntaxTreesC,
-            input.TypeAliases,
-            input.IgnoredNames);
+            input.MapperOptions);
 
-        var abstractSyntaxTreeCSharp = AbstractSyntaxTree(nodesPerPlatform);
-        var code = GenerateCSharpCode(abstractSyntaxTreeCSharp, input.Options);
+        var code = GenerateCSharpCode(nodesPerPlatform, input.GeneratorOptions);
 
         WriteCSharpCodeToFileStorage(input.OutputFilePath, code);
     }
 
     private ImmutableArray<CAbstractSyntaxTree> LoadCAbstractSyntaxTrees(ImmutableArray<string> filePaths)
     {
-        BeginStep("Load");
+        BeginStep("Load C abstract syntax trees");
 
         var cJsonSerializer = Services.GetService<CJsonSerializer>()!;
 
@@ -56,42 +54,25 @@ public sealed class UseCase : UseCase<WriteCodeCSharpConfiguration, WriteCodeCSh
         return builder.ToImmutable();
     }
 
-    private ImmutableDictionary<TargetPlatform, CSharpNodes> MapCNodesToCSharpNodes(
+    private CSharpAbstractSyntaxTree MapCNodesToCSharpNodes(
         ImmutableArray<CAbstractSyntaxTree> abstractSyntaxTrees,
-        ImmutableArray<CSharpTypeAlias> typeAliases,
-        ImmutableArray<string> ignoredTypeNames)
+        CSharpMapperOptions options)
     {
-        BeginStep("Map platform specific nodes");
+        BeginStep("Map C syntax tree nodes to C#");
 
-        var mapperParameters = new CSharpMapperOptions(typeAliases, ignoredTypeNames);
-        var mapper = new CSharpMapper(mapperParameters);
-        var result = mapper.Map(abstractSyntaxTrees);
+        var mapper = new CSharpMapper(options);
+        var result = mapper.Map(Diagnostics, abstractSyntaxTrees);
 
         EndStep();
 
         return result;
     }
 
-    private CSharpAbstractSyntaxTree AbstractSyntaxTree(ImmutableDictionary<TargetPlatform, CSharpNodes> nodesByPlatform)
+    private string GenerateCSharpCode(
+        CSharpAbstractSyntaxTree abstractSyntaxTree,
+        CSharpCodeGeneratorOptions options)
     {
-        BeginStep("Split/flatten platform specific nodes");
-
-        var abstractSyntaxTreeBuilder = new BuilderCSharpAbstractSyntaxTree();
-        foreach (var (platform, nodes) in nodesByPlatform)
-        {
-            abstractSyntaxTreeBuilder.Add(platform, nodes);
-        }
-
-        var result = abstractSyntaxTreeBuilder.Build();
-
-        EndStep();
-
-        return result;
-    }
-
-    private string GenerateCSharpCode(CSharpAbstractSyntaxTree abstractSyntaxTree, CSharpCodeGeneratorOptions options)
-    {
-        BeginStep("Generate code");
+        BeginStep("Generate C# code");
 
         var codeGenerator = new CSharpCodeGenerator(options);
         var result = codeGenerator.EmitCode(abstractSyntaxTree);
@@ -104,10 +85,9 @@ public sealed class UseCase : UseCase<WriteCodeCSharpConfiguration, WriteCodeCSh
     private void WriteCSharpCodeToFileStorage(
         string outputFilePath, string codeCSharp)
     {
-        BeginStep("Write file");
+        BeginStep("Write C# code to file");
 
         File.WriteAllText(outputFilePath, codeCSharp);
-        Console.WriteLine(outputFilePath);
 
         EndStep();
     }

@@ -7,8 +7,19 @@ namespace C2CS.Contexts.WriteCodeCSharp.Data.Model;
 
 public sealed record CSharpAbstractSyntaxTree
 {
-    public CSharpNodes PlatformAgnosticNodes { get; init; } = null!;
+    public ImmutableArray<CSharpFunction> Functions { get; init; }
 
-    public ImmutableArray<(TargetPlatform Platform, CSharpNodes Nodes)> PlatformSpecificNodes { get; init; } =
-        ImmutableArray<(TargetPlatform Platform, CSharpNodes Nodes)>.Empty;
+    public ImmutableArray<CSharpFunctionPointer> FunctionPointers { get; init; }
+
+    public ImmutableArray<CSharpStruct> Structs { get; init; }
+
+    public ImmutableArray<CSharpAliasStruct> AliasStructs { get; init; }
+
+    public ImmutableArray<CSharpOpaqueStruct> OpaqueStructs { get; init; }
+
+    public ImmutableArray<CSharpEnum> Enums { get; init; }
+
+    public ImmutableArray<CSharpMacroObject> MacroObjects { get; init; }
+
+    public ImmutableArray<CSharpEnumConstant> EnumConstants { get; init; }
 }

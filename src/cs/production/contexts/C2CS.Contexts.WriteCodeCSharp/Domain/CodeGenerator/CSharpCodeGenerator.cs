@@ -27,25 +27,7 @@ public sealed class CSharpCodeGenerator
     {
         var members = new List<MemberDeclarationSyntax>();
 
-        var sharedNodes = abstractSyntaxTree.PlatformAgnosticNodes;
-        EmitNodes(sharedNodes, members);
-
-        var platformSpecificNodes = abstractSyntaxTree.PlatformSpecificNodes;
-        if (!platformSpecificNodes.IsDefaultOrEmpty)
-        {
-            foreach (var (platform, nodes) in platformSpecificNodes)
-            {
-                var platformSpecificMembers = new List<MemberDeclarationSyntax>();
-                EmitNodes(nodes, platformSpecificMembers);
-
-                var platformSpecificClassName = platform.ToString().Replace("-", "_", StringComparison.InvariantCulture);
-                var platformSpecificClass = ClassDeclaration(platformSpecificClassName)
-                    .AddModifiers(Token(SyntaxKind.PublicKeyword), Token(SyntaxKind.StaticKeyword))
-                    .AddMembers(platformSpecificMembers.ToArray());
-
-                members.Add(platformSpecificClass);
-            }
-        }
+        EmitNodes(abstractSyntaxTree, members);
 
         var compilationUnit = CompilationUnit(_options, members.ToArray());
 
@@ -53,34 +35,48 @@ public sealed class CSharpCodeGenerator
         return code;
     }
 
-    private void EmitNodes(CSharpNodes nodes, List<MemberDeclarationSyntax> members)
+    private void EmitNodes(CSharpAbstractSyntaxTree abstractSyntaxTree, List<MemberDeclarationSyntax> members)
     {
         var membersApi = new List<MemberDeclarationSyntax>();
         var membersTypes = new List<MemberDeclarationSyntax>();
 
-        FunctionExterns(membersApi, nodes.Functions);
-        if (membersApi.Count > 0)
-        {
-            membersApi[0] = membersApi[0].AddRegionStart("API", false);
-            membersApi[^1] = membersApi[^1].AddRegionEnd();
-        }
-
-        FunctionPointers(membersTypes, nodes.FunctionPointers);
-        Structs(membersTypes, nodes.Structs);
-        OpaqueTypes(membersTypes, nodes.OpaqueStructs);
-        Typedefs(membersTypes, nodes.AliasStructs);
-        Enums(membersTypes, nodes.Enums);
-        MacroObjects(membersTypes, nodes.MacroObjects);
-        EnumConstants(membersTypes, nodes.EnumConstants);
-
-        if (membersTypes.Count > 0)
-        {
-            membersTypes[0] = membersTypes[0].AddRegionStart("Types", false);
-            membersTypes[^1] = membersTypes[^1].AddRegionEnd();
-        }
+        EmitNodesApi(abstractSyntaxTree, membersApi);
+        EmitNodesTypes(abstractSyntaxTree, membersTypes);
 
         members.AddRange(membersApi);
         members.AddRange(membersTypes);
+    }
+
+    private void EmitNodesApi(CSharpAbstractSyntaxTree abstractSyntaxTree, List<MemberDeclarationSyntax> members)
+    {
+        FunctionExterns(members, abstractSyntaxTree.Functions);
+
+        if (members.Count <= 0)
+        {
+            return;
+        }
+
+        members[0] = members[0].AddRegionStart("API", false);
+        members[^1] = members[^1].AddRegionEnd();
+    }
+
+    private void EmitNodesTypes(CSharpAbstractSyntaxTree abstractSyntaxTree, List<MemberDeclarationSyntax> members)
+    {
+        FunctionPointers(members, abstractSyntaxTree.FunctionPointers);
+        Structs(members, abstractSyntaxTree.Structs);
+        OpaqueTypes(members, abstractSyntaxTree.OpaqueStructs);
+        Typedefs(members, abstractSyntaxTree.AliasStructs);
+        Enums(members, abstractSyntaxTree.Enums);
+        MacroObjects(members, abstractSyntaxTree.MacroObjects);
+        EnumConstants(members, abstractSyntaxTree.EnumConstants);
+
+        if (members.Count <= 0)
+        {
+            return;
+        }
+
+        members[0] = members[0].AddRegionStart("Types", false);
+        members[^1] = members[^1].AddRegionEnd();
     }
 
     private static CompilationUnitSyntax CompilationUnit(
@@ -108,7 +104,6 @@ public sealed class CSharpCodeGenerator
         var builderMembers = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
 
         var assembly = typeof(CBool).Assembly;
-        var assemblyName = assembly.GetName().Name!;
         var manifestResourcesNames = assembly.GetManifestResourceNames();
         foreach (var resourceName in manifestResourcesNames)
         {

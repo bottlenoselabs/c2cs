@@ -1,7 +1,6 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System.Collections;
 using System.Collections.Immutable;
 
 namespace C2CS.Contexts.WriteCodeCSharp.Data.Model;
@@ -14,14 +13,14 @@ public sealed class CSharpStruct : CSharpNode
     public int AlignOf;
 
     public CSharpStruct(
+        ImmutableArray<TargetPlatform> platforms,
         string name,
-        TargetPlatform platform,
         string codeLocationComment,
         int sizeOf,
         int alignOf,
         ImmutableArray<CSharpStructField> fields,
         ImmutableArray<CSharpStruct> nestedStructs)
-        : base(platform, name, codeLocationComment, sizeOf)
+        : base(platforms, name, codeLocationComment, sizeOf)
     {
         AlignOf = alignOf;
         Fields = fields;

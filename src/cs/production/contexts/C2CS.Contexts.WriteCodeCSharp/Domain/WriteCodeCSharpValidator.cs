@@ -6,6 +6,7 @@ using System.IO.Abstractions;
 using C2CS.Contexts.WriteCodeCSharp.Data;
 using C2CS.Contexts.WriteCodeCSharp.Data.Model;
 using C2CS.Contexts.WriteCodeCSharp.Domain.CodeGenerator;
+using C2CS.Contexts.WriteCodeCSharp.Domain.Mapper;
 using C2CS.Foundation.UseCases;
 using C2CS.Foundation.UseCases.Exceptions;
 
@@ -31,21 +32,28 @@ public sealed class WriteCodeCSharpValidator : UseCaseValidator<WriteCodeCSharpC
         var ignoredNames = IgnoredTypeNames(configuration.IgnoredNames);
         var headerCodeRegion = HeaderCodeRegion(configuration.HeaderCodeRegionFilePath);
         var footerCodeRegion = FooterCodeRegion(configuration.FooterCodeRegionFilePath);
+        var isEnabledPreCompile = configuration.IsEnabledPreCompile ?? true;
+        var isEnabledFunctionPointers = configuration.IsEnabledFunctionPointers ?? true;
 
         return new WriteCodeCSharpInput
         {
             InputFilePaths = inputFilePaths,
             OutputFilePath = outputFilePath,
-            Options = new CSharpCodeGeneratorOptions
+            MapperOptions = new CSharpMapperOptions
+            {
+                TypeAliases = typeAliases,
+                IgnoredNames = ignoredNames
+            },
+            GeneratorOptions = new CSharpCodeGeneratorOptions
             {
                 ClassName = className,
                 LibraryName = libraryName,
                 NamespaceName = namespaceName,
                 HeaderCodeRegion = headerCodeRegion,
-                FooterCodeRegion = footerCodeRegion
-            },
-            TypeAliases = typeAliases,
-            IgnoredNames = ignoredNames
+                FooterCodeRegion = footerCodeRegion,
+                IsEnabledPreCompile = isEnabledPreCompile,
+                IsEnabledFunctionPointers = isEnabledFunctionPointers
+            }
         };
     }
 
