@@ -2,9 +2,19 @@
 
 ### Marshalling
 
-There exist hidden costs for interoperability in C#. How to avoid them?
+There exist hidden costs and gotchas for interoperability in C#. How to avoid them?
 
-For C#, the Common Language Runtime (CLR) marshals data between managed and unmanaged contexts (forwards and possibly backwards). In layman's terms, marshalling is transforming the bit representation of a data structure to be correct for the target programming language. For best performance, at worse, marshalling should be minimal, and at best, marshalling should be pass-through. Pass through is the ideal situation when considering performance because both languages agree on the bit representation of data structures without any further processing. C# calls such data structures "blittable". (The sense of the word "blit" means the rapid copying of a block of memory; the word comes from the [bit-block transfer (bit-blit) data operation commonly found in computer graphics](https://en.wikipedia.org/wiki/Bit_blit).) However, to achieve blittable data structures in C#, the garbage collector (GC) is avoided. Why? Because class instances in C# are objects which the allocation of bits can't be controlled precisely by the developer; it's an "implementation detail."
+For C#, the Common Language Runtime (CLR) marshals data between managed and unmanaged contexts (forwards and possibly backwards). In layman's terms, marshalling is transforming the bit representation of a data structure to be correct for the target programming language. For best performance, at worse, marshalling should be minimal, and at best, marshalling should be pass-through.
+
+#### Performance
+
+Pass through is the ideal situation when considering performance because both languages agree on the bit representation of data structures without any further processing. C# calls such data structures "blittable". (The sense of the word "blit" means the rapid copying of a block of memory; the word comes from the [bit-block transfer (bit-blit) data operation commonly found in computer graphics](https://en.wikipedia.org/wiki/Bit_blit).) However, to achieve blittable data structures in C#, the garbage collector (GC) is avoided. Why? Because class instances in C# are `Object`s which the allocation of bits can't be controlled precisely by the developer; it's an "implementation detail."
+
+#### Simplicity
+
+The rules of [Microsoft: default marshalling behaviour](https://docs.microsoft.com/en-us/dotnet/framework/interop/default-marshalling-behavior) and the [Mono: default marshalling behaviour](https://www.mono-project.com/docs/advanced/pinvoke/#classes-and-structures-as-return-values) are unintuitive for C# classes. It requires the developer to learn specific knowledge and follow the rules for correct interoperability of `class`es, such as avoiding a double-free. The problem with this is that most developers have not and likely will not learn the nuances because (1) P/Invoke of `class`es does not come up that often and (2) it adds to the list of "all the little details to know to wield the power of C# properly" which leads to complexity for the developer. What is more simple and thus reduces complexity for the developer is pass-through marshalling of blittable C# structs because it follows and leverages one's existing knowledge and expectations of how C works. The catch is that the developer is then responsible for memory management of C# blittable structs as if they were coding in C. However, the cost of manually doing memory management is worth it because there are no hidden allocations or control flow done by the Common Language Runtime (CLR) on your behalf. When something goes wrong with interoperability with a C library, making things as simple as possible to understand for as many people as possible is the fastest way to solve the problem.
+
+For these two reasons, (1) performance, and (2) simplicity, I recommend using only blittable `struct`s for interopability to C from C# to which `C2CS` follows this when generating C# code.
 
 ### The garbage collector is a software industry hack
 
