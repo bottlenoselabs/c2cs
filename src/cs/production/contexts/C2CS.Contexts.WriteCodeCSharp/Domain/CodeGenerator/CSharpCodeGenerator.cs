@@ -4,6 +4,7 @@
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Reflection;
+using System.Text;
 using C2CS.Contexts.WriteCodeCSharp.Data.Model;
 using C2CS.Foundation.UseCases.Exceptions;
 using Microsoft.CodeAnalysis;
@@ -25,29 +26,104 @@ public sealed class CSharpCodeGenerator
 
     public string EmitCode(CSharpAbstractSyntaxTree abstractSyntaxTree)
     {
-        var members = new List<MemberDeclarationSyntax>();
+        var builder = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
+        AddSyntaxNodes(abstractSyntaxTree, builder);
 
-        EmitNodes(abstractSyntaxTree, members);
-
-        var compilationUnit = CompilationUnit(_options, members.ToArray());
+        var members = builder.ToImmutable();
+        var compilationUnit = CompilationUnit(_options, members);
 
         var code = compilationUnit.ToFullString().Trim();
         return code;
     }
 
-    private void EmitNodes(CSharpAbstractSyntaxTree abstractSyntaxTree, List<MemberDeclarationSyntax> members)
+    private void AddSyntaxNodes(
+        CSharpAbstractSyntaxTree abstractSyntaxTree, ImmutableArray<MemberDeclarationSyntax>.Builder builder)
     {
         var membersApi = new List<MemberDeclarationSyntax>();
         var membersTypes = new List<MemberDeclarationSyntax>();
 
-        EmitNodesApi(abstractSyntaxTree, membersApi);
-        EmitNodesTypes(abstractSyntaxTree, membersTypes);
+        AddSyntaxNodesApi(abstractSyntaxTree, membersApi);
+        AddSyntaxNodesTypes(abstractSyntaxTree, membersTypes);
 
-        members.AddRange(membersApi);
-        members.AddRange(membersTypes);
+        builder.AddRange(membersApi);
+        builder.AddRange(membersTypes);
+
+        AddSyntaxNodesSetupTeardown(builder);
     }
 
-    private void EmitNodesApi(CSharpAbstractSyntaxTree abstractSyntaxTree, List<MemberDeclarationSyntax> members)
+    private void AddSyntaxNodesSetupTeardown(
+        ImmutableArray<MemberDeclarationSyntax>.Builder builder)
+    {
+        var setupMethod = SetupMethod();
+        var preCompileMethod = PreCompileMethod();
+
+        var teardownMethod = TeardownMethod();
+
+        setupMethod = setupMethod.AddRegionStart("Setup & Teardown", false);
+        teardownMethod = teardownMethod.AddRegionEnd();
+
+        builder.Add(setupMethod);
+        builder.Add(preCompileMethod);
+        builder.Add(teardownMethod);
+    }
+
+    private MethodDeclarationSyntax SetupMethod()
+    {
+        var setupCode = $@"
+public static void Setup()
+{{
+    PreCompile();
+}}
+";
+        PreCompileMethod();
+
+        var member = ParseMemberCode<MethodDeclarationSyntax>(setupCode);
+        return member;
+    }
+
+    private MethodDeclarationSyntax PreCompileMethod()
+    {
+        var preCompileCode = !_options.IsEnabledPreCompile ? @"
+public static void PreCompile()
+{
+}
+" : $@"
+public static void PreCompile()
+{{
+    var methods = typeof({_options.ClassName}).GetMethods(
+        System.Reflection.BindingFlags.DeclaredOnly |
+        System.Reflection.BindingFlags.NonPublic |
+        System.Reflection.BindingFlags.Public |
+        System.Reflection.BindingFlags.Instance |
+        System.Reflection.BindingFlags.Static);
+
+    foreach (var method in methods)
+    {{
+        if (method.GetMethodBody() == null)
+        {{
+            RuntimeHelpers.PrepareMethod(method.MethodHandle);   
+        }}
+    }}
+}}
+".Trim();
+
+        var member = ParseMemberCode<MethodDeclarationSyntax>(preCompileCode);
+        return member;
+    }
+
+    private static MethodDeclarationSyntax TeardownMethod()
+    {
+        var code = $@"
+public static void Teardown()
+{{
+}}
+";
+
+        var member = ParseMemberCode<MethodDeclarationSyntax>(code);
+        return member;
+    }
+
+    private void AddSyntaxNodesApi(CSharpAbstractSyntaxTree abstractSyntaxTree, List<MemberDeclarationSyntax> members)
     {
         FunctionExterns(members, abstractSyntaxTree.Functions);
 
@@ -60,7 +136,7 @@ public sealed class CSharpCodeGenerator
         members[^1] = members[^1].AddRegionEnd();
     }
 
-    private void EmitNodesTypes(CSharpAbstractSyntaxTree abstractSyntaxTree, List<MemberDeclarationSyntax> members)
+    private void AddSyntaxNodesTypes(CSharpAbstractSyntaxTree abstractSyntaxTree, List<MemberDeclarationSyntax> members)
     {
         FunctionPointers(members, abstractSyntaxTree.FunctionPointers);
         Structs(members, abstractSyntaxTree.Structs);
@@ -80,7 +156,7 @@ public sealed class CSharpCodeGenerator
     }
 
     private static CompilationUnitSyntax CompilationUnit(
-        CSharpCodeGeneratorOptions options, MemberDeclarationSyntax[] members)
+        CSharpCodeGeneratorOptions options, ImmutableArray<MemberDeclarationSyntax> members)
     {
         var code = CompilationUnitTemplateCode(options);
         var syntaxTree = ParseSyntaxTree(code);
@@ -90,7 +166,7 @@ public sealed class CSharpCodeGenerator
         var runtimeClassDeclaration = RuntimeClass();
 
         var classDeclarationWithMembers = classDeclaration
-            .AddMembers(members)
+            .AddMembers(members.ToArray())
             .AddMembers(runtimeClassDeclaration);
 
         var newCompilationUnit = compilationUnit.ReplaceNode(classDeclaration, classDeclarationWithMembers);

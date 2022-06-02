@@ -7,6 +7,8 @@ internal static class Program
 {
     private static unsafe void Main()
     {
+        Setup();
+
         hello_world();
         pass_string("Hello world from C#!");
         pass_integers_by_value(65449, -255, 24242);
