@@ -260,9 +260,9 @@ enum {
             case CXTypeKind.CXType_Record:
                 return TypeKindRecord(cursorType, cursor.kind);
             case CXTypeKind.CXType_Typedef:
-                return TypeKindTypeAlias(cursor, cursorType, parentKind);
+                return TypeKindTypeAlias(parentKind, cursor, cursorType);
             case CXTypeKind.CXType_FunctionNoProto or CXTypeKind.CXType_FunctionProto:
-                return TypeKindFunction(parentKind, cursorType);
+                return TypeKindFunction(parentKind, cursor, cursorType);
             case CXTypeKind.CXType_Pointer:
                 return TypeKindPointer(cursorType);
             case CXTypeKind.CXType_Attributed:
@@ -283,8 +283,13 @@ enum {
         throw up;
     }
 
-    private static (CKind Kind, CXType Type) TypeKindFunction(CKind? parentKind, CXType cursorType)
+    private static (CKind Kind, CXType Type) TypeKindFunction(CKind? parentKind, CXCursor cursor, CXType cursorType)
     {
+        if (cursor.kind == CXCursorKind.CXCursor_NoDeclFound)
+        {
+            return (CKind.FunctionPointer, cursorType);
+        }
+
         return parentKind == CKind.TypeAlias ? (CKind.FunctionPointer, cursorType) : (CKind.Function, cursorType);
     }
 
@@ -300,7 +305,7 @@ enum {
         return (kind, cursorType);
     }
 
-    private (CKind Kind, CXType Type) TypeKindTypeAlias(CXCursor cursor, CXType cursorType, CKind? parentKind)
+    private (CKind Kind, CXType Type) TypeKindTypeAlias(CKind? parentKind, CXCursor cursor, CXType cursorType)
     {
         var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
         if (underlyingType.kind == CXTypeKind.CXType_Pointer)
