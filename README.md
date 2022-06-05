@@ -6,6 +6,13 @@ C to C# library bindings code generator. In go `.h` file, out come `.cs` file.
 
 For documentation on supported platforms, limitations, how to install `C2CS`, how to use `C2CS`, how to build `C2CS`, etc, see the [docs/README.md](docs/README.md).
 
+## C# bindings of C libraries using C2CS
+
+|C library|C# bindings|
+|:-:|:-:|
+|[flecs](https://github.com/SanderMertens/flecs)|https://github.com/flecs-hub/flecs-cs|
+|[sokol](https://github.com/floooh/sokol)|https://github.com/bottlenoselabs/sokol-cs|
+
 ## Background: Why?
 
 ### Problem
