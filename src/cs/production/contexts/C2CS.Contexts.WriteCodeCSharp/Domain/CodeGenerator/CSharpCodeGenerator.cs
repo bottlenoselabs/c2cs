@@ -287,21 +287,23 @@ public static extern {function.ReturnType.Name} {function.Name}({parameters});
 
         foreach (var functionPointer in functionPointers)
         {
-            var member = FunctionPointer(functionPointer);
-            members.Add(member);
+            var functionPointerSyntax = FunctionPointer(functionPointer);
+            members.Add(functionPointerSyntax);
         }
     }
 
-    private StructDeclarationSyntax FunctionPointer(
-        CSharpFunctionPointer functionPointer, bool isNested = false)
+    private StructDeclarationSyntax FunctionPointer(CSharpFunctionPointer functionPointer)
     {
-        var parameterStrings = functionPointer.Parameters
-            .Select(x => $"{x.Type}")
-            .Append($"{functionPointer.ReturnType.Name}");
-        var parameters = string.Join(',', parameterStrings);
         var functionPointerName = functionPointer.Name;
 
-        var code = $@"
+        string code;
+        if (_options.IsEnabledFunctionPointers)
+        {
+            var parameterStrings = functionPointer.Parameters
+                .Select(x => $"{x.Type}")
+                .Append($"{functionPointer.ReturnType.Name}");
+            var parameters = string.Join(',', parameterStrings);
+            code = $@"
 {functionPointer.CodeLocationComment}
 [StructLayout(LayoutKind.Sequential)]
 public struct {functionPointerName}
@@ -309,13 +311,46 @@ public struct {functionPointerName}
 	public delegate* unmanaged <{parameters}> Pointer;
 }}
 ";
-
-        if (isNested)
+        }
+        else
         {
-            code = code.Trim();
+            var parameterStrings = functionPointer.Parameters
+                .Select(x => $"{x.Type} {x.Name}");
+            var parameters = string.Join(',', parameterStrings);
+            code = $@"
+{functionPointer.CodeLocationComment}
+[StructLayout(LayoutKind.Sequential)]
+public struct {functionPointerName}
+{{
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public unsafe delegate {functionPointer.ReturnType.Name} @delegate({parameters});
+
+    public IntPtr Pointer;
+
+    public {functionPointerName}(@delegate d) 
+     {{
+         Pointer = Marshal.GetFunctionPointerForDelegate(d);
+     }}
+}}
+";
         }
 
         var member = ParseMemberCode<StructDeclarationSyntax>(code);
+        return member;
+    }
+
+    private MemberDeclarationSyntax FunctionPointerDelegate(CSharpFunctionPointer functionPointer)
+    {
+        var parameterStrings = functionPointer.Parameters
+            .Select(x => $"{x.Type} {x.Name}");
+        var parameters = string.Join(',', parameterStrings);
+        var functionPointerName = functionPointer.Name;
+        var code = $@"
+ [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+ public unsafe delegate {functionPointer.ReturnType.Name} delegate_{functionPointerName}({parameters});
+ ";
+
+        var member = ParseMemberCode<DelegateDeclarationSyntax>(code);
         return member;
     }
 

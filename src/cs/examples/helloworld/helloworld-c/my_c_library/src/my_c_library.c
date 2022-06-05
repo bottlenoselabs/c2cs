@@ -8,6 +8,16 @@ void hello_world(void)
     printf("Hello world from C!\n");
 }
 
+void invoke_callback(void f(const char*), const char* s)
+{
+    if (f == 0)
+    {
+        return;
+    }
+
+    f(s);
+}
+
 void pass_string(const char* s)
 {
     printf("%s\n", s);

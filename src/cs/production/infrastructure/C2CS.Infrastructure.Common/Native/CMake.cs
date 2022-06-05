@@ -25,6 +25,7 @@ public static class CMake
             .ExecuteShell(cMakeDirectoryPath, windowsUsePowerShell: false);
         if (result.ExitCode != 0)
         {
+            Console.Write(result.Output);
             return false;
         }
 
@@ -32,6 +33,7 @@ public static class CMake
             .ExecuteShell(cMakeDirectoryPath, windowsUsePowerShell: false);
         if (result.ExitCode != 0)
         {
+            Console.Write(result.Output);
             return false;
         }
 

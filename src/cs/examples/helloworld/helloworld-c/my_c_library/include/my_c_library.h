@@ -19,6 +19,7 @@ typedef enum my_enum_week_day {
 } my_enum_week_day;
 
 MY_C_LIBRARY_API_DECL void hello_world(void);
+MY_C_LIBRARY_API_DECL void invoke_callback(void f(const char*), const char* s);
 MY_C_LIBRARY_API_DECL void pass_string(const char* s);
 MY_C_LIBRARY_API_DECL void pass_integers_by_value(uint16_t a, int32_t b, uint64_t c);
 MY_C_LIBRARY_API_DECL void pass_integers_by_reference(const uint16_t* a, const int32_t* b, const uint64_t* c);
