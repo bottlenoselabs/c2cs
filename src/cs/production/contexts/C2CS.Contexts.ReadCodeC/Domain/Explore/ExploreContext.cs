@@ -457,6 +457,11 @@ enum {
 
     private int SizeOf(CKind kind, CXType type)
     {
+        if (kind == CKind.OpaqueType)
+        {
+            return 0;
+        }
+
         var sizeOf = (int)clang_Type_getSizeOf(type);
         if (sizeOf >= 0)
         {
@@ -466,7 +471,6 @@ enum {
         switch (kind)
         {
             case CKind.Primitive:
-            case CKind.OpaqueType:
                 return 0;
             case CKind.Pointer:
             case CKind.Array:
