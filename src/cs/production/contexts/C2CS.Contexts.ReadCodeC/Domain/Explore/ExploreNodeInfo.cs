@@ -24,7 +24,7 @@ public class ExploreInfoNode
 
     public int SizeOf { get; init; }
 
-    public int AlignOf { get; init; }
+    public int? AlignOf { get; init; }
 
     public ExploreInfoNode? Parent { get; init; }
 

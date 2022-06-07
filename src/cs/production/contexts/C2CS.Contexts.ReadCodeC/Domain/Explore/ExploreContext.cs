@@ -344,8 +344,7 @@ enum {
         }
 
         var sizeOf = SizeOf(kind, containerType);
-        var alignOfValue = (int)clang_Type_getAlignOf(containerType);
-        int? alignOf = alignOfValue >= 0 ? alignOfValue : null;
+        var alignOf = AlignOf(kind, containerType);
         var arraySizeValue = (int)clang_getArraySize(containerType);
         int? arraySize = arraySizeValue >= 0 ? arraySizeValue : null;
 
@@ -367,6 +366,11 @@ enum {
             var pointeeTypeCandidate = clang_getPointeeType(type);
             var (pointeeTypeKind, pointeeType) = TypeKind(pointeeTypeCandidate, kind);
             var pointeeTypeName = pointeeType.Name();
+            if (Options.OpaqueTypesNames.Contains(pointeeTypeName))
+            {
+                pointeeTypeKind = CKind.OpaqueType;
+            }
+
             innerType = CreateTypeInfo(pointeeTypeKind, pointeeTypeName, pointeeType, pointeeTypeCandidate);
         }
         else if (kind is CKind.Array)
@@ -374,6 +378,11 @@ enum {
             var elementTypeCandidate = clang_getArrayElementType(type);
             var (elementTypeKind, elementType) = TypeKind(elementTypeCandidate, kind);
             var elementTypeName = elementType.Name();
+            if (Options.OpaqueTypesNames.Contains(elementTypeName))
+            {
+                elementTypeKind = CKind.OpaqueType;
+            }
+
             innerType = CreateTypeInfo(elementTypeKind, elementTypeName, elementType, elementTypeCandidate);
         }
 
@@ -480,6 +489,18 @@ enum {
         }
     }
 
+    private int? AlignOf(CKind kind, CXType containerType)
+    {
+        if (kind == CKind.OpaqueType)
+        {
+            return null;
+        }
+
+        var alignOfValue = (int)clang_Type_getAlignOf(containerType);
+        int? alignOf = alignOfValue >= 0 ? alignOfValue : null;
+        return alignOf;
+    }
+
     public string CursorName(CXCursor cursor)
     {
         var result = clang_getCursorSpelling(cursor).String();
@@ -503,7 +524,7 @@ enum {
         var typeNameActual = TypeName(kind, type, parentInfo?.Name, fieldIndex);
         var nameActual = !string.IsNullOrEmpty(name) ? name : typeNameActual;
         var sizeOf = SizeOf(kind, type);
-        var alignOf = (int)clang_Type_getAlignOf(type);
+        var alignOf = AlignOf(kind, type);
 
         var result = new ExploreInfoNode
         {
