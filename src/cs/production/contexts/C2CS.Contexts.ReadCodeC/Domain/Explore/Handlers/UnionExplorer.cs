@@ -36,7 +36,7 @@ public sealed class UnionExplorer : RecordExplorer
             Name = info.TypeName,
             Fields = fields,
             SizeOf = info.SizeOf,
-            AlignOf = info.AlignOf
+            AlignOf = info.AlignOf!.Value
         };
         return result;
     }

@@ -10,9 +10,8 @@ public sealed class CSharpOpaqueStruct : CSharpNode
     public CSharpOpaqueStruct(
         ImmutableArray<TargetPlatform> platforms,
         string name,
-        string codeLocationComment,
-        int? sizeOf)
-        : base(platforms, name, codeLocationComment, sizeOf)
+        string codeLocationComment)
+        : base(platforms, name, codeLocationComment, null)
     {
     }
 

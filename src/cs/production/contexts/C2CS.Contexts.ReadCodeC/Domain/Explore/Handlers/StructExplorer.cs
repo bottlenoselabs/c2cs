@@ -35,7 +35,7 @@ public sealed class StructExplorer : RecordExplorer
             Name = info.Name,
             Fields = fields,
             SizeOf = info.SizeOf,
-            AlignOf = info.AlignOf
+            AlignOf = info.AlignOf!.Value
         };
         return record;
     }

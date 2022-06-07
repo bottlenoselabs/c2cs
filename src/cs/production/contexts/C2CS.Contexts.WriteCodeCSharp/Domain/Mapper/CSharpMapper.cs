@@ -265,8 +265,7 @@ public sealed class CSharpMapper
         var newNode = new CSharpOpaqueStruct(
             platforms,
             node.Name,
-            node.CodeLocationComment,
-            node.SizeOf);
+            node.CodeLocationComment);
         return newNode;
     }
 
@@ -872,8 +871,7 @@ public sealed class CSharpMapper
         var opaqueTypeCSharp = new CSharpOpaqueStruct(
             ImmutableArray.Create(context.Platform),
             nameCSharp,
-            originalCodeLocationComment,
-            opaqueType.SizeOf);
+            originalCodeLocationComment);
 
         return opaqueTypeCSharp;
     }
