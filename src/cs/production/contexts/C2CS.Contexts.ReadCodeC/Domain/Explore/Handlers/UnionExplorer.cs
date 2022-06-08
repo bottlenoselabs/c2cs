@@ -13,7 +13,7 @@ namespace C2CS.Contexts.ReadCodeC.Domain.Explore.Handlers;
 public sealed class UnionExplorer : RecordExplorer
 {
     public UnionExplorer(ILogger<UnionExplorer> logger)
-        : base(logger)
+        : base(logger, false)
     {
     }
 
