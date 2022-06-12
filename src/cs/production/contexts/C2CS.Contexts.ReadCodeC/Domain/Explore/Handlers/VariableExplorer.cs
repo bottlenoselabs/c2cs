@@ -22,7 +22,7 @@ public sealed class VariableExplorer : ExploreHandler<CVariable>
 
     protected override bool CanVisit(ExploreContext context, string name, ExploreInfoNode? parentInfo)
     {
-        if (!context.Options.IsEnabledVariables)
+        if (!context.ExploreOptions.IsEnabledVariables)
         {
             return false;
         }

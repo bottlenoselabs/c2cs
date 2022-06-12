@@ -74,7 +74,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         var targetPlatform = VerifyTargetPlatform(targetPlatformString);
         var outputFilePath = VerifyOutputFilePath(configuration.OutputFileDirectory, targetPlatform);
 
-        var excludedHeaderFiles = VerifyImmutableArray(configurationPlatform?.HeaderFilesBlocked);
+        var excludedHeaderFiles = VerifyImmutableArray(configurationPlatform?.HeaderFilesBlocked).ToImmutableHashSet();
         var opaqueTypeNames = VerifyImmutableArray(configuration.OpaqueTypeNames);
         var functionNamesAllowed = VerifyImmutableArray(configuration.FunctionNamesAllowed);
         var macroObjectNamesAllowed = VerifyImmutableArray(configuration.MacroObjectNamesAllowed);
@@ -86,7 +86,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         {
             TargetPlatform = targetPlatform,
             OutputFilePath = outputFilePath,
-            ExplorerOptions = new ExplorerOptions
+            ExplorerOptions = new ExploreOptions
             {
                 HeaderFilesBlocked = excludedHeaderFiles,
                 OpaqueTypesNames = opaqueTypeNames,

@@ -3,6 +3,8 @@
 
 using System.Collections.Immutable;
 using C2CS.Contexts.ReadCodeC.Data.Model;
+using C2CS.Contexts.ReadCodeC.Domain.Parse;
+using C2CS.Foundation.Diagnostics;
 using C2CS.Foundation.UseCases.Exceptions;
 using static bottlenoselabs.clang;
 
@@ -14,9 +16,11 @@ public sealed partial class ExploreContext
     private readonly Action<ExploreContext, CKind, ExploreInfoNode> _tryEnqueueVisitNode;
     private readonly ImmutableDictionary<string, string> _linkedPaths;
 
-    public ExplorerOptions Options { get; }
+    public DiagnosticCollection Diagnostics { get; }
 
-    public ImmutableArray<string> UserIncludeDirectories { get; }
+    public ExploreOptions ExploreOptions { get; }
+
+    public ParseOptions ParseOptions { get; }
 
     public TargetPlatform TargetPlatformRequested { get; }
 
@@ -24,25 +28,30 @@ public sealed partial class ExploreContext
 
     public int PointerSize { get; }
 
+    public CXTranslationUnit TranslationUnit { get; }
+
     public string FilePath { get; }
 
     public ExploreContext(
+        DiagnosticCollection diagnostics,
         ImmutableDictionary<CKind, ExploreHandler> handlers,
         TargetPlatform targetPlatformRequested,
         CXTranslationUnit translationUnit,
-        ExplorerOptions options,
+        ExploreOptions exploreExploreOptions,
+        ParseOptions parseOptions,
         Action<ExploreContext, CKind, ExploreInfoNode> tryEnqueueVisitNode,
-        ImmutableArray<string> userIncludeDirectories,
         ImmutableDictionary<string, string> linkedPaths)
     {
-        var targetPlatformInfo = GetTargetPlatform(translationUnit);
+        Diagnostics = diagnostics;
         FilePath = GetFilePath(translationUnit);
         TargetPlatformRequested = targetPlatformRequested;
+        var targetPlatformInfo = GetTargetPlatform(translationUnit);
         TargetPlatformActual = targetPlatformInfo.TargetPlatform;
         PointerSize = targetPlatformInfo.PointerWidth / 8;
-        Options = options;
+        TranslationUnit = translationUnit;
+        ExploreOptions = exploreExploreOptions;
+        ParseOptions = parseOptions;
         _tryEnqueueVisitNode = tryEnqueueVisitNode;
-        UserIncludeDirectories = userIncludeDirectories;
         _linkedPaths = linkedPaths;
         _handlers = handlers;
     }
@@ -198,7 +207,7 @@ enum {
             name = cursor.Name();
         }
 
-        if (Options.OpaqueTypesNames.Contains(name))
+        if (ExploreOptions.OpaqueTypesNames.Contains(name))
         {
             kind = CKind.OpaqueType;
         }
@@ -366,7 +375,8 @@ enum {
             var pointeeTypeCandidate = clang_getPointeeType(type);
             var (pointeeTypeKind, pointeeType) = TypeKind(pointeeTypeCandidate, kind);
             var pointeeTypeName = pointeeType.Name();
-            if (Options.OpaqueTypesNames.Contains(pointeeTypeName))
+
+            if (ExploreOptions.OpaqueTypesNames.Contains(pointeeTypeName))
             {
                 pointeeTypeKind = CKind.OpaqueType;
             }
@@ -378,7 +388,7 @@ enum {
             var elementTypeCandidate = clang_getArrayElementType(type);
             var (elementTypeKind, elementType) = TypeKind(elementTypeCandidate, kind);
             var elementTypeName = elementType.Name();
-            if (Options.OpaqueTypesNames.Contains(elementTypeName))
+            if (ExploreOptions.OpaqueTypesNames.Contains(elementTypeName))
             {
                 elementTypeKind = CKind.OpaqueType;
             }
@@ -411,7 +421,7 @@ enum {
 
     public CLocation Location(CXCursor cursor, CXType type)
     {
-        return cursor.Location(type, _linkedPaths, Options.IsEnabledLocationFullPaths ? UserIncludeDirectories : ImmutableArray<string>.Empty);
+        return cursor.Location(type, _linkedPaths, ExploreOptions.IsEnabledLocationFullPaths ? ParseOptions.UserIncludeDirectories : ImmutableArray<string>.Empty);
     }
 
     private CTypeInfo? CreateTypeInfoBlocked(ExploreInfoNode info)

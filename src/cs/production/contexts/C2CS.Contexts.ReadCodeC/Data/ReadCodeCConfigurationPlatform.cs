@@ -23,7 +23,7 @@ public sealed class ReadCodeCConfigurationPlatform
     public ImmutableArray<string?>? Defines { get; set; }
 
     [JsonPropertyName("header_files_blocked")]
-    [Json.Schema.Generation.Description("C header file paths to exclude. File paths are relative to the `IncludeDirectories` property.")]
+    [Json.Schema.Generation.Description("C header file paths to exclude from generating root nodes such as functions or variables. File paths are relative to the `IncludeDirectories` property. Because the way libclang works this does not block transitive files. In other words it only blocks files where the declarations ares defined.")]
     public ImmutableArray<string?>? HeaderFilesBlocked { get; set; }
 
     [Json.Schema.Generation.Description("Additional Clang arguments to use when parsing C code.")]

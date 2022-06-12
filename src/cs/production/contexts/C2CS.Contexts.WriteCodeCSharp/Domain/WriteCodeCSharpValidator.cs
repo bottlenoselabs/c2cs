@@ -79,7 +79,7 @@ public sealed class WriteCodeCSharpValidator : UseCaseValidator<WriteCodeCSharpC
         }
 
         var builder = ImmutableArray.CreateBuilder<string>();
-        var filePaths = _fileSystem.Directory.EnumerateFiles(directoryPath);
+        var filePaths = _fileSystem.Directory.EnumerateFiles(directoryPath, "*.json");
         foreach (var filePath in filePaths)
         {
             var fileName = _fileSystem.Path.GetFileName(filePath);

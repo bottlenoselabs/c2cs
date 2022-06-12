@@ -42,6 +42,12 @@ public sealed class ReadCodeCFixtureContext
         return value!;
     }
 
+    public CTestFunction? TryGetFunction(string name)
+    {
+        var exists = _functionsByName.TryGetValue(name, out var value);
+        return !exists ? null : value;
+    }
+
     public CTestEnum GetEnum(string name)
     {
         var exists = _enumsByName.TryGetValue(name, out var value);
@@ -55,6 +61,18 @@ public sealed class ReadCodeCFixtureContext
         Assert.True(exists, $"The record `{name}` does not exist.");
         AssertRecord(value!);
         return value!;
+    }
+
+    public CTestRecord? TryGetRecord(string name)
+    {
+        var exists = _recordsByName.TryGetValue(name, out var value);
+        if (!exists)
+        {
+            return null;
+        }
+
+        AssertRecord(value!);
+        return value;
     }
 
     private void AssertRecord(CTestRecord record)

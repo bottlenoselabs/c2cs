@@ -19,6 +19,12 @@ public class ReadCodeCTests : CLibraryIntegrationTest
     {
         _contexts = TestHost.Services.GetService<ReadCodeCFixture>()!.Contexts;
         Assert.True(_contexts.Length > 0, "Failed to read C code.");
+
+        foreach (var context in _contexts)
+        {
+            var functionIgnored = context.TryGetFunction("function_ignored");
+            Assert.True(functionIgnored == null);
+        }
     }
 
     [Theory]

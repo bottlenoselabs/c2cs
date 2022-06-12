@@ -66,7 +66,7 @@ public sealed class CSharpMapper
     }
 
     public CSharpAbstractSyntaxTree Map(
-        DiagnosticsSink diagnostics, ImmutableArray<CAbstractSyntaxTree> abstractSyntaxTrees)
+        DiagnosticCollection diagnostics, ImmutableArray<CAbstractSyntaxTree> abstractSyntaxTrees)
     {
         var candidateNodesBuilder = ImmutableDictionary.CreateBuilder<string, ImmutableArray<PlatformCandidateNode>.Builder>();
 
@@ -135,7 +135,7 @@ public sealed class CSharpMapper
     }
 
     private CSharpNode? MergePlatformCandidateNodes(
-        DiagnosticsSink diagnostics, ImmutableArray<PlatformCandidateNode> platformNodes)
+        DiagnosticCollection diagnostics, ImmutableArray<PlatformCandidateNode> platformNodes)
     {
         if (platformNodes.IsDefaultOrEmpty)
         {

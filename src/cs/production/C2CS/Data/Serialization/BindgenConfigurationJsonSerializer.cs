@@ -84,6 +84,36 @@ public sealed class BindgenConfigurationJsonSerializer
         {
             read.WorkingDirectory = _fileSystem.Path.GetDirectoryName(filePath);
         }
+
+        if (read.ConfigurationPlatforms != null)
+        {
+			foreach (var (_, platform) in read.ConfigurationPlatforms)
+            {
+                if (platform == null)
+                {
+                    continue;
+                }
+
+                PolyfillConfigurationReadCPlatform(read, platform);
+            }
+        }
+    }
+
+    private static void PolyfillConfigurationReadCPlatform(
+        ReadCodeCConfiguration read,
+        ReadCodeCConfigurationPlatform platform)
+    {
+        if (platform.HeaderFilesBlocked == null || platform.HeaderFilesBlocked.Value.IsDefaultOrEmpty)
+        {
+            platform.HeaderFilesBlocked = read.HeaderFilesBlocked;
+        }
+        else
+        {
+            if (read.HeaderFilesBlocked != null && !read.HeaderFilesBlocked.Value.IsDefaultOrEmpty)
+            {
+                platform.HeaderFilesBlocked = platform.HeaderFilesBlocked.Value.AddRange(read.HeaderFilesBlocked.Value);
+            }
+        }
     }
 
     private void PolyfillConfigurationWriteCSharp(string filePath, BindgenConfiguration configuration, WriteCodeCSharpConfiguration write)

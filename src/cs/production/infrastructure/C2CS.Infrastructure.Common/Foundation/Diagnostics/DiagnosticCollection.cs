@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 namespace C2CS.Foundation.Diagnostics;
 
 [PublicAPI]
-public sealed class DiagnosticsSink
+public sealed class DiagnosticCollection
 {
     private readonly List<Diagnostic> _diagnostics = new();
 

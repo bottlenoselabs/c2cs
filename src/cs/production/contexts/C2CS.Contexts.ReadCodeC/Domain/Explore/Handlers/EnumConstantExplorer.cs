@@ -24,12 +24,12 @@ public class EnumConstantExplorer : ExploreHandler<CEnumConstant>
 
     protected override bool CanVisit(ExploreContext context, string name, ExploreInfoNode? parentInfo)
     {
-        if (!context.Options.IsEnabledEnumConstants)
+        if (!context.ExploreOptions.IsEnabledEnumConstants)
         {
             return false;
         }
 
-        var namedAllowed = context.Options.EnumConstantNamesAllowed;
+        var namedAllowed = context.ExploreOptions.EnumConstantNamesAllowed;
         return namedAllowed.IsDefaultOrEmpty || namedAllowed.Contains(name);
     }
 

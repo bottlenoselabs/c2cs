@@ -25,66 +25,80 @@ public sealed partial class Parser
         _clangArgumentsBuilder = clangArgumentsBuilder;
     }
 
+    public void CleanUp()
+    {
+        _clangArgumentsBuilder.CleanUp();
+    }
+
     public CXTranslationUnit TranslationUnit(
         string filePath,
-        DiagnosticsSink diagnosticsSink,
+        DiagnosticCollection diagnosticsCollection,
         TargetPlatform targetPlatform,
-        ParseOptions options)
+        ParseOptions options,
+        out ImmutableDictionary<string, string> linkedPaths,
+        bool ignoreDiagnostics = false,
+        bool keepGoing = false)
     {
-        var arguments = _clangArgumentsBuilder.Build(
-            diagnosticsSink,
+        var argumentsBuilderResult = _clangArgumentsBuilder.Build(
+            diagnosticsCollection,
             targetPlatform,
             options,
+            false,
             false);
 
+        linkedPaths = argumentsBuilderResult.LinkedPaths;
+        var arguments = argumentsBuilderResult.Arguments;
         var argumentsString = string.Join(" ", arguments);
 
-        if (!TryParseTranslationUnit(filePath, arguments, out var translationUnit))
+        if (!TryParseTranslationUnit(filePath, arguments, out var translationUnit, true, keepGoing))
         {
             var up = new ClangException();
             LogFailureInvalidArguments(filePath, argumentsString, up);
             throw up;
         }
 
-        var clangDiagnostics = GetClangDiagnostics(translationUnit);
         var isSuccess = true;
-        if (!clangDiagnostics.IsDefaultOrEmpty)
+        if (!ignoreDiagnostics)
         {
-            var defaultDisplayOptions = clang_defaultDiagnosticDisplayOptions();
-            foreach (var clangDiagnostic in clangDiagnostics)
+            var clangDiagnostics = GetClangDiagnostics(translationUnit);
+            if (!clangDiagnostics.IsDefaultOrEmpty)
             {
-                var clangString = clang_formatDiagnostic(clangDiagnostic, defaultDisplayOptions);
-                var diagnosticString = clangString.String();
-                var severity = clang_getDiagnosticSeverity(clangDiagnostic);
-
-                var diagnosticSeverity = severity switch
+                var defaultDisplayOptions = clang_defaultDiagnosticDisplayOptions();
+                foreach (var clangDiagnostic in clangDiagnostics)
                 {
-                    CXDiagnosticSeverity.CXDiagnostic_Fatal => DiagnosticSeverity.Panic,
-                    CXDiagnosticSeverity.CXDiagnostic_Error => DiagnosticSeverity.Error,
-                    CXDiagnosticSeverity.CXDiagnostic_Warning => DiagnosticSeverity.Warning,
-                    CXDiagnosticSeverity.CXDiagnostic_Note => DiagnosticSeverity.Information,
-                    CXDiagnosticSeverity.CXDiagnostic_Ignored => DiagnosticSeverity.Information,
-                    _ => DiagnosticSeverity.Error
-                };
+                    var clangString = clang_formatDiagnostic(clangDiagnostic, defaultDisplayOptions);
+                    var diagnosticString = clangString.String();
+                    var severity = clang_getDiagnosticSeverity(clangDiagnostic);
 
-                if (severity == CXDiagnosticSeverity.CXDiagnostic_Error ||
-                    severity == CXDiagnosticSeverity.CXDiagnostic_Fatal)
-                {
-                    isSuccess = false;
+                    var diagnosticSeverity = severity switch
+                    {
+                        CXDiagnosticSeverity.CXDiagnostic_Fatal => DiagnosticSeverity.Panic,
+                        CXDiagnosticSeverity.CXDiagnostic_Error => DiagnosticSeverity.Error,
+                        CXDiagnosticSeverity.CXDiagnostic_Warning => DiagnosticSeverity.Warning,
+                        CXDiagnosticSeverity.CXDiagnostic_Note => DiagnosticSeverity.Information,
+                        CXDiagnosticSeverity.CXDiagnostic_Ignored => DiagnosticSeverity.Information,
+                        _ => DiagnosticSeverity.Error
+                    };
+
+                    if (severity == CXDiagnosticSeverity.CXDiagnostic_Error ||
+                        severity == CXDiagnosticSeverity.CXDiagnostic_Fatal)
+                    {
+                        isSuccess = false;
+                    }
+
+                    var diagnostic = new ClangTranslationUnitParserDiagnostic(diagnosticSeverity, diagnosticString);
+                    diagnosticsCollection.Add(diagnostic);
                 }
-
-                var diagnostic = new ClangTranslationUnitParserDiagnostic(diagnosticSeverity, diagnosticString);
-                diagnosticsSink.Add(diagnostic);
             }
-        }
 
-        if (isSuccess)
-        {
-            LogSuccessDiagnostics(filePath, argumentsString, clangDiagnostics.Length);
-        }
-        else
-        {
-            LogFailureDiagnostics(filePath, argumentsString, clangDiagnostics.Length);
+            if (isSuccess)
+            {
+                LogSuccessDiagnostics(filePath, argumentsString, clangDiagnostics.Length);
+            }
+            else
+            {
+                LogFailureDiagnostics(filePath, argumentsString, clangDiagnostics.Length);
+            }
         }
 
         return translationUnit;
@@ -94,17 +108,25 @@ public sealed partial class Parser
         string filePath,
         ImmutableArray<string> commandLineArgs,
         out CXTranslationUnit translationUnit,
-        bool skipFunctionBodies = true)
+        bool skipFunctionBodies = true,
+        bool keepGoing = false)
     {
         // ReSharper disable BitwiseOperatorOnEnumWithoutFlags
-        uint options = 0x00001000 | // CXTranslationUnit_IncludeAttributedTypes
-                             0x00004000 | // CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles
-                             0x1 | // CXTranslationUnit_DetailedPreprocessingRecord
-                             0x0;
+        uint options = 0x0 |
+                       0x1 | // CXTranslationUnit_DetailedPreprocessingRecord
+                       0x1000 | // CXTranslationUnit_IncludeAttributedTypes
+                       0x2000 | // CXTranslationUnit_VisitImplicitAttributes
+                       0x4000 | // CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles
+                       0x0;
 
         if (skipFunctionBodies)
         {
-            options |= 0x00000040; // CXTranslationUnit_SkipFunctionBodies
+            options |= 0x40; // CXTranslationUnit_SkipFunctionBodies
+        }
+
+        if (keepGoing)
+        {
+            options |= 0x200; // CXTranslationUnit_KeepGoing
         }
 
         var index = clang_createIndex(0, 0);
@@ -129,26 +151,42 @@ public sealed partial class Parser
         return result;
     }
 
-    public ImmutableArray<CMacroObject> MacroObjects(
+    public ImmutableArray<MacroObjectCandidate> MacroObjectCandidates(
         CXTranslationUnit translationUnit,
-        DiagnosticsSink diagnosticsSink,
+        DiagnosticCollection diagnostics,
         TargetPlatform targetPlatform,
         ParseOptions options)
     {
         if (!options.IsEnabledMacroObjects)
         {
-            return ImmutableArray<CMacroObject>.Empty;
+            return ImmutableArray<MacroObjectCandidate>.Empty;
         }
 
-        var arguments = _clangArgumentsBuilder.Build(
-            diagnosticsSink,
+        var argumentsBuilderResult = _clangArgumentsBuilder.Build(
+            diagnostics,
             targetPlatform,
             options,
+            false,
             true);
-
-        var linkedPaths = _clangArgumentsBuilder.GetLinkedPaths();
-        var cursors = MacroObjectCursors(translationUnit, options);
+        var linkedPaths = argumentsBuilderResult.LinkedPaths;
+        var cursors = MacroObjectCursors(translationUnit, options, linkedPaths);
         var macroObjectCandidates = MacroObjectCandidates(options, cursors, linkedPaths);
+        return macroObjectCandidates;
+    }
+
+    public ImmutableArray<CMacroObject> MacroObjects(
+        ImmutableArray<MacroObjectCandidate> macroObjectCandidates,
+        DiagnosticCollection diagnostics,
+        TargetPlatform targetPlatform,
+        ParseOptions options)
+    {
+        var argumentsBuilderResult = _clangArgumentsBuilder.Build(
+            diagnostics,
+            targetPlatform,
+            options,
+            true,
+            false);
+        var arguments = argumentsBuilderResult.Arguments;
         var filePath = WriteMacroObjectsFile(macroObjectCandidates);
         var macroObjects = Macros(arguments, filePath);
 
@@ -162,7 +200,7 @@ public sealed partial class Parser
         string filePath)
     {
         var argumentsString = string.Join(" ", arguments);
-        var parsedTranslationUnit = TryParseTranslationUnit(filePath, arguments, out var translationUnit, false);
+        var parsedTranslationUnit = TryParseTranslationUnit(filePath, arguments, out var translationUnit, false, true);
         if (!parsedTranslationUnit)
         {
             var up = new ClangException();
@@ -529,15 +567,25 @@ int main(void)
         return result;
     }
 
-    private static ImmutableArray<CXCursor> MacroObjectCursors(CXTranslationUnit translationUnit, ParseOptions options)
+    private static ImmutableArray<CXCursor> MacroObjectCursors(
+        CXTranslationUnit translationUnit,
+        ParseOptions options,
+        ImmutableDictionary<string, string> linkedPaths)
     {
         var translationUnitCursor = clang_getTranslationUnitCursor(translationUnit);
+        var fileLocation = translationUnitCursor.Location(null, linkedPaths, options.UserIncludeDirectories);
+
         var cursors = translationUnitCursor.GetDescendents(
-            (child, _) => IsMacroOfInterest(child, options));
+            (child, _) => IsMacroOfInterest(child, fileLocation.FullFilePath, linkedPaths, options));
+
         return cursors;
     }
 
-    private static bool IsMacroOfInterest(CXCursor cursor, ParseOptions options)
+    private static bool IsMacroOfInterest(
+        CXCursor cursor,
+        string headerFilePath,
+        ImmutableDictionary<string, string> linkedPaths,
+        ParseOptions options)
     {
         var kind = clang_getCursorKind(cursor);
         if (kind != CXCursorKind.CXCursor_MacroDefinition)
@@ -567,6 +615,12 @@ int main(void)
             return false;
         }
 
+        var location = cursor.Location(null, linkedPaths, options.UserIncludeDirectories);
+        if (location.FilePath != headerFilePath)
+        {
+            return false;
+        }
+
         var name = cursor.Name();
         if (name.StartsWith("_", StringComparison.InvariantCulture))
         {
@@ -586,16 +640,6 @@ int main(void)
         }
 
         return true;
-    }
-
-    public ImmutableDictionary<string, string> GetLinkedPaths()
-    {
-        return _clangArgumentsBuilder.GetLinkedPaths();
-    }
-
-    public void Cleanup()
-    {
-        _clangArgumentsBuilder.Cleanup();
     }
 
     private static ImmutableArray<CXDiagnostic> GetClangDiagnostics(CXTranslationUnit translationUnit)

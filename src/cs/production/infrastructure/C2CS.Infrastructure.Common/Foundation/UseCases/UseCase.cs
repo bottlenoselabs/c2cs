@@ -17,22 +17,19 @@ public abstract class UseCase<TConfiguration, TInput, TOutput>
     where TOutput : UseCaseOutput<TInput>, new()
 {
     public readonly ILogger<UseCase<TConfiguration, TInput, TOutput>> Logger;
-    public readonly IServiceProvider Services;
 
     private IDisposable? _loggerScopeStep;
     private readonly Stopwatch _stopwatch;
     private readonly Stopwatch _stepStopwatch;
     private readonly UseCaseValidator<TConfiguration, TInput> _validator;
 
-    protected DiagnosticsSink Diagnostics { get; } = new();
+    protected DiagnosticCollection Diagnostics { get; } = new();
 
     protected UseCase(
         ILogger<UseCase<TConfiguration, TInput, TOutput>> logger,
-        IServiceProvider services,
         UseCaseValidator<TConfiguration, TInput> validator)
     {
         Logger = logger;
-        Services = services;
         _stopwatch = new Stopwatch();
         _stepStopwatch = new Stopwatch();
         _validator = validator;
