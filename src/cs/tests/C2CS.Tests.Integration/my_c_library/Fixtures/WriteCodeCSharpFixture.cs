@@ -8,7 +8,9 @@ using System.IO.Abstractions;
 using System.Linq;
 using C2CS.Contexts.WriteCodeCSharp;
 using C2CS.Data.Serialization;
+using C2CS.Tests.Common;
 using C2CS.Tests.Common.Data.Model.CSharp;
+using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -18,7 +20,8 @@ using Xunit;
 
 namespace C2CS.IntegrationTests.my_c_library.Fixtures;
 
-public sealed class WriteCodeCSharpFixture
+[PublicAPI]
+public sealed class WriteCodeCSharpFixture : TestFixture
 {
     public WriteCodeCSharpFixtureContext Context { get; }
 

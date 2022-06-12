@@ -5,15 +5,18 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using C2CS.Tests.Common.Data.Model.C;
+using JetBrains.Annotations;
 using Xunit;
 
 namespace C2CS.IntegrationTests.my_c_library.Fixtures;
 
+[PublicAPI]
 public sealed class ReadCodeCFixtureContext
 {
-    private readonly ImmutableDictionary<string, CTestFunction> _functionsByName;
-    private readonly ImmutableDictionary<string, CTestEnum> _enumsByName;
-    private readonly ImmutableDictionary<string, CTestRecord> _recordsByName;
+    private readonly ImmutableDictionary<string, CTestFunction> _functions;
+    private readonly ImmutableDictionary<string, CTestEnum> _enums;
+    private readonly ImmutableDictionary<string, CTestRecord> _records;
+    private readonly ImmutableDictionary<string, CTestMacroObject> _macroObjects;
 
     public string TargetPlatformRequested { get; }
 
@@ -22,42 +25,50 @@ public sealed class ReadCodeCFixtureContext
     public ReadCodeCFixtureContext(
         TargetPlatform targetPlatformRequested,
         TargetPlatform targetPlatformActual,
-        ImmutableDictionary<string, CTestFunction> functionsByName,
-        ImmutableDictionary<string, CTestEnum> enumsByName,
-        ImmutableDictionary<string, CTestRecord> recordsByName)
+        ImmutableDictionary<string, CTestFunction> functions,
+        ImmutableDictionary<string, CTestEnum> enums,
+        ImmutableDictionary<string, CTestRecord> records,
+        ImmutableDictionary<string, CTestMacroObject> macroObjectsByName)
     {
         TargetPlatformRequested = targetPlatformRequested.ToString();
         TargetPlatformActual = targetPlatformActual.ToString();
-        _functionsByName = functionsByName;
-        _enumsByName = enumsByName;
-        _recordsByName = recordsByName;
+        _functions = functions;
+        _enums = enums;
+        _records = records;
+        _macroObjects = macroObjectsByName;
 
         AssertPInvokePlatformNameFunction();
     }
 
     public CTestFunction GetFunction(string name)
     {
-        var exists = _functionsByName.TryGetValue(name, out var value);
+        var exists = _functions.TryGetValue(name, out var value);
         Assert.True(exists, $"The function `{name}` does not exist.");
         return value!;
     }
 
     public CTestFunction? TryGetFunction(string name)
     {
-        var exists = _functionsByName.TryGetValue(name, out var value);
-        return !exists ? null : value;
+        var exists = _functions.TryGetValue(name, out var value);
+        return exists ? value : null;
     }
 
     public CTestEnum GetEnum(string name)
     {
-        var exists = _enumsByName.TryGetValue(name, out var value);
+        var exists = _enums.TryGetValue(name, out var value);
         Assert.True(exists, $"The enum `{name}` does not exist.");
         return value!;
     }
 
+    public CTestEnum? TryGetEnum(string name)
+    {
+        var exists = _enums.TryGetValue(name, out var value);
+        return exists ? value : null;
+    }
+
     public CTestRecord GetRecord(string name)
     {
-        var exists = _recordsByName.TryGetValue(name, out var value);
+        var exists = _records.TryGetValue(name, out var value);
         Assert.True(exists, $"The record `{name}` does not exist.");
         AssertRecord(value!);
         return value!;
@@ -65,7 +76,7 @@ public sealed class ReadCodeCFixtureContext
 
     public CTestRecord? TryGetRecord(string name)
     {
-        var exists = _recordsByName.TryGetValue(name, out var value);
+        var exists = _records.TryGetValue(name, out var value);
         if (!exists)
         {
             return null;
@@ -73,6 +84,19 @@ public sealed class ReadCodeCFixtureContext
 
         AssertRecord(value!);
         return value;
+    }
+
+    public CTestMacroObject GetMacroObject(string name)
+    {
+        var exists = _macroObjects.TryGetValue(name, out var value);
+        Assert.True(exists, $"The macro object `{name}` does not exist.");
+        return value!;
+    }
+
+    public CTestMacroObject? TryGetMacroObject(string name)
+    {
+        var exists = _macroObjects.TryGetValue(name, out var value);
+        return exists ? value : null;
     }
 
     private void AssertRecord(CTestRecord record)
