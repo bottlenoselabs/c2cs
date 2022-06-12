@@ -15,7 +15,7 @@ public class WriteCodeCSharp : CLibraryIntegrationTest
     private readonly WriteCodeCSharpFixtureContext _context;
 
     public WriteCodeCSharp()
-        : base(TestHost.Services, "my_c_library", "Data/CSharp", false)
+        : base(TestHost.Services, "my_c_library", "Data/CSharp", true)
     {
         _context = TestHost.Services.GetService<WriteCodeCSharpFixture>()!.Context;
     }
@@ -82,6 +82,14 @@ public class WriteCodeCSharp : CLibraryIntegrationTest
     {
         var value = _context.GetStruct(name);
         AssertValue(name, value, "Structs");
+    }
+
+    [Theory]
+    [InlineData("MY_CONSTANT")]
+    public void MacroObject(string name)
+    {
+        var value = _context.GetMacroObject(name);
+        AssertValue(name, value, "MacroObjects");
     }
 
     [Fact]

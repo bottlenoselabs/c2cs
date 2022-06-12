@@ -4,7 +4,7 @@
 #include "pinvoke_helper.h" // /src/c/production/c2cs/include/pinvoke_helper.h
 #include "parent_header.h"
 
-#define MY_CONSTANT = 1;
+#define MY_CONSTANT 1
 
 typedef enum enum_force_uint32 {
     ENUM_FORCE_UINT32_DAY_UNKNOWN,

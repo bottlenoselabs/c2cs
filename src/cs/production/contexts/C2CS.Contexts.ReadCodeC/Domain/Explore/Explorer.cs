@@ -206,7 +206,7 @@ public sealed partial class Explorer
         var macroObjectCandidates = _macroObjectCandidates.ToImmutableArray();
         var macroObjects = _parser.MacroObjects(
             macroObjectCandidates, context.Diagnostics, context.TargetPlatformRequested, context.ParseOptions);
-        var macroNamesFound = _macroObjectCandidates.Select(macroObject => macroObject.Name).ToArray();
+        var macroNamesFound = macroObjects.Select(macroObject => macroObject.Name).ToArray();
         var macroNamesFoundString = string.Join(", ", macroNamesFound);
         LogFoundMacros(macroNamesFound.Length, macroNamesFoundString);
         return macroObjects;

@@ -75,6 +75,7 @@ public sealed class WriteCodeCSharpFixture : TestFixture
         var methodsByNameBuilder = ImmutableDictionary.CreateBuilder<string, CSharpTestFunction>();
         var enumsByNameBuilder = ImmutableDictionary.CreateBuilder<string, CSharpTestEnum>();
         var structsByNameBuilder = ImmutableDictionary.CreateBuilder<string, CSharpTestStruct>();
+        var macroObjectsByNameBuilder = ImmutableDictionary.CreateBuilder<string, CSharpTestMacroObject>();
 
         foreach (var member in @class.Members)
         {
@@ -100,6 +101,19 @@ public sealed class WriteCodeCSharpFixture : TestFixture
                     structsByNameBuilder.Add(syntaxNode.Identifier.Text, value);
                     break;
                 }
+
+                case FieldDeclarationSyntax syntaxNode:
+                {
+                    var fieldName = syntaxNode.Declaration.Variables[0].Identifier.Text;
+                    if (fieldName == "LibraryName")
+                    {
+                        continue;
+                    }
+
+                    var value = CreateTestMacroObject(syntaxNode, fieldName);
+                    macroObjectsByNameBuilder.Add(fieldName, value);
+                    break;
+                }
             }
         }
 
@@ -116,7 +130,8 @@ public sealed class WriteCodeCSharpFixture : TestFixture
             emitResult,
             methodsByNameBuilder.ToImmutable(),
             enumsByNameBuilder.ToImmutable(),
-            structsByNameBuilder.ToImmutable());
+            structsByNameBuilder.ToImmutable(),
+            macroObjectsByNameBuilder.ToImmutable());
     }
 
     private CSharpTestFunction CreateTestFunction(MethodDeclarationSyntax syntaxNode)
@@ -266,6 +281,20 @@ public sealed class WriteCodeCSharpFixture : TestFixture
             LayoutKind = layoutKind,
             Size = sizeOf,
             Pack = packOf
+        };
+        return result;
+    }
+
+    private CSharpTestMacroObject CreateTestMacroObject(FieldDeclarationSyntax syntaxNode, string fieldName)
+    {
+        var typeName = syntaxNode.Declaration.Type.ToString();
+        var value = syntaxNode.Declaration.Variables[0].Initializer!.Value.ToString();
+
+        var result = new CSharpTestMacroObject
+        {
+            Name = fieldName,
+            TypeName = typeName,
+            Value = value
         };
         return result;
     }

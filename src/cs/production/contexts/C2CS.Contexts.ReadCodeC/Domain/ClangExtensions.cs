@@ -55,8 +55,6 @@ public static unsafe class ClangExtensions
         var index = (int)clientData.Data;
         var data = _visitChildInstances[index - 1];
 
-        var name = child.Name();
-
         if (data.SameFile)
         {
             var location = clang_getCursorLocation(child);

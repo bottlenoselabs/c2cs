@@ -169,7 +169,7 @@ public sealed partial class Parser
             false,
             true);
         var linkedPaths = argumentsBuilderResult.LinkedPaths;
-        var cursors = MacroObjectCursors(translationUnit, options, linkedPaths);
+        var cursors = MacroObjectCursors(translationUnit, options);
         var macroObjectCandidates = MacroObjectCandidates(options, cursors, linkedPaths);
         return macroObjectCandidates;
     }
@@ -455,7 +455,7 @@ int main(void)
                 continue;
             }
 
-            writer.WriteLine("// " + macroObjectCandidate.Location);
+            writer.WriteLine("\t// " + macroObjectCandidate.Location);
             writer.Write("\tauto variable_");
             writer.Write(macroObjectCandidate.Name);
             writer.Write(" = ");
@@ -538,6 +538,7 @@ int main(void)
             for (var i = 1; i < (int)tokensCount; i++)
             {
                 var tokenString = clang_getTokenSpelling(translationUnit, tokensC[i]).String();
+                var tokenKind = clang_getTokenKind(tokensC[i]);
 
                 // CLANG BUG?: https://github.com/FNA-XNA/FAudio/blob/b84599a5e6d7811b02329709a166a337de158c5e/include/FAPOBase.h#L90
                 if (tokenString.StartsWith('\\'))
@@ -569,22 +570,18 @@ int main(void)
 
     private static ImmutableArray<CXCursor> MacroObjectCursors(
         CXTranslationUnit translationUnit,
-        ParseOptions options,
-        ImmutableDictionary<string, string> linkedPaths)
+        ParseOptions options)
     {
         var translationUnitCursor = clang_getTranslationUnitCursor(translationUnit);
-        var fileLocation = translationUnitCursor.Location(null, linkedPaths, options.UserIncludeDirectories);
 
         var cursors = translationUnitCursor.GetDescendents(
-            (child, _) => IsMacroOfInterest(child, fileLocation.FullFilePath, linkedPaths, options));
+            (child, _) => IsMacroOfInterest(child, options));
 
         return cursors;
     }
 
     private static bool IsMacroOfInterest(
         CXCursor cursor,
-        string headerFilePath,
-        ImmutableDictionary<string, string> linkedPaths,
         ParseOptions options)
     {
         var kind = clang_getCursorKind(cursor);
@@ -611,12 +608,6 @@ int main(void)
 
         var isMacroFunction = clang_Cursor_isMacroFunctionLike(cursor) > 0;
         if (isMacroFunction)
-        {
-            return false;
-        }
-
-        var location = cursor.Location(null, linkedPaths, options.UserIncludeDirectories);
-        if (location.FilePath != headerFilePath)
         {
             return false;
         }
