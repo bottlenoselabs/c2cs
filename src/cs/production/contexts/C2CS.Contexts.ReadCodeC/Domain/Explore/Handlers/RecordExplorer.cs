@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using System.Runtime.InteropServices;
 using C2CS.Contexts.ReadCodeC.Data.Model;
 using Microsoft.Extensions.Logging;
 
@@ -17,7 +18,7 @@ public abstract class RecordExplorer : ExploreHandler<CRecord>
     {
     }
 
-    protected ImmutableArray<CXCursor> RecordFieldCursors(CXCursor recordCursor)
+    protected ImmutableArray<CXCursor> RecordFieldCursors(CXType type)
     {
         // We need to consider unions because they could be anonymous.
         //  Case 1: If the union has no tag (identifier) and has no member name (field name), the union should be promoted to an anonymous field.
@@ -30,13 +31,7 @@ public abstract class RecordExplorer : ExploreHandler<CRecord>
         // Thus, the solution here is to filter out the unions or structs that match to a field, leaving behind the anonymous structs or unions that need to get promoted.
         //  I.e. return only cursors which are fields, except for case 1.
 
-        var fieldCursors = recordCursor.GetDescendents((child, _) =>
-        {
-            var isField = child.kind == CXCursorKind.CXCursor_FieldDecl;
-            var isUnion = child.kind == CXCursorKind.CXCursor_UnionDecl;
-            return isField || isUnion;
-        });
-
+        var fieldCursors = type.GetFields();
         if (fieldCursors.IsDefaultOrEmpty)
         {
             return ImmutableArray<CXCursor>.Empty;

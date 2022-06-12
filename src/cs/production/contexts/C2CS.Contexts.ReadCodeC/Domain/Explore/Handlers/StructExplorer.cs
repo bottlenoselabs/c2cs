@@ -42,11 +42,10 @@ public sealed class StructExplorer : RecordExplorer
 
     private ImmutableArray<CRecordField> StructFields(
         ExploreContext context,
-        ExploreInfoNode structInfo)
+        ExploreInfoNode info)
     {
         var builder = ImmutableArray.CreateBuilder<CRecordField>();
-
-        var fieldCursors = RecordFieldCursors(structInfo.Cursor);
+        var fieldCursors = RecordFieldCursors(info.Type);
         var fieldCursorsLength = fieldCursors.Length;
         if (fieldCursorsLength > 0)
         {
@@ -55,7 +54,7 @@ public sealed class StructExplorer : RecordExplorer
 
             var lastFieldCursor = fieldCursors[^1];
             var lastRecordField = StructField(
-                context, structInfo, lastFieldCursor, fieldCursorsLength - 1, null);
+                context, info, lastFieldCursor, fieldCursorsLength - 1, null);
             builder.Add(lastRecordField);
 
             for (var i = fieldCursors.Length - 2; i >= 0; i--)
@@ -63,7 +62,7 @@ public sealed class StructExplorer : RecordExplorer
                 var nextField = builder[^1];
                 var fieldCursor = fieldCursors[i];
                 var field = StructField(
-                    context, structInfo, fieldCursor, i, nextField);
+                    context, info, fieldCursor, i, nextField);
                 builder.Add(field);
             }
         }

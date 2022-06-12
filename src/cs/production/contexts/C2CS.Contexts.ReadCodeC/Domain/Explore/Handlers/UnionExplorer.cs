@@ -27,7 +27,7 @@ public sealed class UnionExplorer : RecordExplorer
 
     private CRecord Union(ExploreContext context, ExploreInfoNode info)
     {
-        var fields = UnionFields(context, info.Cursor, info);
+        var fields = UnionFields(context, info.Type, info);
 
         var result = new CRecord
         {
@@ -43,12 +43,12 @@ public sealed class UnionExplorer : RecordExplorer
 
     private ImmutableArray<CRecordField> UnionFields(
         ExploreContext context,
-        CXCursor cursor,
+        CXType type,
         ExploreInfoNode parentInfo)
     {
         var builder = ImmutableArray.CreateBuilder<CRecordField>();
 
-        var fieldCursors = RecordFieldCursors(cursor);
+        var fieldCursors = RecordFieldCursors(type);
         for (var i = 0; i < fieldCursors.Length; i++)
         {
             var fieldCursor = fieldCursors[i];
