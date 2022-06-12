@@ -1,3 +1,0 @@
-# Generator
-
-Source generator.
