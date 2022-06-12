@@ -15,7 +15,7 @@ public class ReadCodeC : CLibraryIntegrationTest
     private readonly ImmutableArray<ReadCodeCFixtureContext> _contexts;
 
     public ReadCodeC()
-        : base(TestHost.Services, "my_c_library", "Data/C", true)
+        : base(TestHost.Services, "my_c_library", "Data/C", false)
     {
         _contexts = TestHost.Services.GetService<ReadCodeCFixture>()!.Contexts;
         Assert.True(_contexts.Length > 0, "Failed to read C code.");
