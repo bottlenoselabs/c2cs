@@ -22,15 +22,16 @@ public partial class ClangArgumentsBuilder
         _fileSystem = fileSystem;
     }
 
-    public ImmutableArray<string> Build(
-        DiagnosticsSink diagnostics,
+    public ClangArgumentsBuilderResult Build(
+        DiagnosticCollection diagnostics,
         TargetPlatform targetPlatform,
         ParseOptions options,
-        bool isCPlusPlus)
+        bool isCPlusPlus,
+        bool ignoreWarnings)
     {
         var args = ImmutableArray.CreateBuilder<string>();
 
-        AddDefaults(args, targetPlatform, isCPlusPlus);
+        AddDefaults(args, targetPlatform, isCPlusPlus, ignoreWarnings);
         AddUserIncludeDirectories(args, options.UserIncludeDirectories);
         AddDefines(args, options.MacroObjectsDefines);
         AddTargetTriple(args, targetPlatform);
@@ -43,10 +44,21 @@ public partial class ClangArgumentsBuilder
             options.IsEnabledFindSystemHeaders,
             diagnostics);
 
-        return args.ToImmutable();
+        var arguments = args.ToImmutable();
+        var linkedPaths = GetLinkedPaths();
+        var result = new ClangArgumentsBuilderResult(arguments, linkedPaths);
+        return result;
     }
 
-    public ImmutableDictionary<string, string> GetLinkedPaths()
+    public void CleanUp()
+    {
+        foreach (var linkPath in _temporaryLinkPaths)
+        {
+            linkPath.Delete();
+        }
+    }
+
+    private ImmutableDictionary<string, string> GetLinkedPaths()
     {
         var builder = ImmutableDictionary.CreateBuilder<string, string>();
         foreach (var linkPath in _temporaryLinkPaths)
@@ -57,21 +69,17 @@ public partial class ClangArgumentsBuilder
         return builder.ToImmutable();
     }
 
-    public void Cleanup()
-    {
-        foreach (var linkPath in _temporaryLinkPaths)
-        {
-            linkPath.Delete();
-        }
-    }
-
     private void AddTargetTriple(ImmutableArray<string>.Builder args, TargetPlatform platform)
     {
         var targetTripleString = $"--target={platform}";
         args.Add(targetTripleString);
     }
 
-    private static void AddDefaults(ImmutableArray<string>.Builder args, TargetPlatform platform, bool isCPlusPlus)
+    private static void AddDefaults(
+        ImmutableArray<string>.Builder args,
+        TargetPlatform platform,
+        bool isCPlusPlus,
+        bool ignoreWarnings)
     {
         if (isCPlusPlus)
         {
@@ -101,6 +109,11 @@ public partial class ClangArgumentsBuilder
 
             args.Add("-fblocks");
             args.Add("-Wno-pragma-once-outside-header");
+        }
+
+        if (ignoreWarnings)
+        {
+            args.Add("-Wno-everything");
         }
     }
 
@@ -152,7 +165,7 @@ public partial class ClangArgumentsBuilder
         ImmutableArray<string> directories,
         ImmutableArray<string> frameworks,
         bool isEnabledFindSystemHeaders,
-        DiagnosticsSink diagnostics)
+        DiagnosticCollection diagnostics)
     {
         ImmutableArray<string> systemIncludeDirectories;
         if (isEnabledFindSystemHeaders)

@@ -5,9 +5,9 @@ using System.Collections.Immutable;
 
 namespace C2CS.Contexts.ReadCodeC.Domain.Explore;
 
-public class ExplorerOptions
+public class ExploreOptions
 {
-    public ImmutableArray<string> HeaderFilesBlocked { get; init; } = ImmutableArray<string>.Empty;
+    public ImmutableHashSet<string> HeaderFilesBlocked { get; init; } = ImmutableHashSet<string>.Empty;
 
     public ImmutableArray<string> OpaqueTypesNames { get; init; } = ImmutableArray<string>.Empty;
 

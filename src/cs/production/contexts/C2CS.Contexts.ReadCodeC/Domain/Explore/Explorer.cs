@@ -2,9 +2,12 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using System.Text;
 using C2CS.Contexts.ReadCodeC.Data.Model;
 using C2CS.Contexts.ReadCodeC.Domain.Explore.Handlers;
+using C2CS.Contexts.ReadCodeC.Domain.Parse;
 using C2CS.Foundation;
+using C2CS.Foundation.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using static bottlenoselabs.clang;
@@ -15,7 +18,9 @@ public sealed partial class Explorer
 {
     private readonly ILogger<Explorer> _logger;
     private readonly ImmutableDictionary<CKind, ExploreHandler> _handlers;
+    private readonly Parser _parser;
 
+    private readonly HashSet<string> _visitedIncludeFilePaths = new();
     private readonly List<CVariable> _variables = new();
     private readonly List<CFunction> _functions = new();
     private readonly List<CRecord> _records = new();
@@ -27,15 +32,17 @@ public sealed partial class Explorer
     private readonly List<CArray> _arrays = new();
     private readonly List<CEnumConstant> _enumConstants = new();
     private readonly List<CPrimitive> _primitives = new();
+    private readonly List<MacroObjectCandidate> _macroObjectCandidates = new();
 
     private readonly ArrayDeque<ExploreInfoNode> _frontierVariables = new();
     private readonly ArrayDeque<ExploreInfoNode> _frontierFunctions = new();
     private readonly ArrayDeque<ExploreInfoNode> _frontierTypes = new();
 
-    public Explorer(IServiceProvider services, ILogger<Explorer> logger)
+    public Explorer(IServiceProvider services, ILogger<Explorer> logger, Parser parser)
     {
         _logger = logger;
         _handlers = CreateHandlers(services);
+        _parser = parser;
     }
 
     private static ImmutableDictionary<CKind, ExploreHandler> CreateHandlers(IServiceProvider services)
@@ -59,63 +66,64 @@ public sealed partial class Explorer
     }
 
     public CAbstractSyntaxTree AbstractSyntaxTree(
+        string headerFilePath,
+        DiagnosticCollection diagnostics,
         TargetPlatform targetPlatform,
-        ExplorerOptions options,
-        ImmutableArray<CMacroObject> macroObjects,
-        ImmutableArray<string> userIncludeDirectories,
-        CXTranslationUnit translationUnit,
-        ImmutableDictionary<string, string> linkedPaths)
+        ParseOptions parseOptions,
+        ExploreOptions exploreOptions)
     {
         CAbstractSyntaxTree result;
 
+        var translationUnit = _parser.TranslationUnit(
+            headerFilePath, diagnostics, targetPlatform, parseOptions, out var linkedPaths);
+
         var context = new ExploreContext(
-            _handlers, targetPlatform, translationUnit, options, TryEnqueueVisitInfoNode, userIncludeDirectories, linkedPaths);
+            diagnostics,
+            _handlers,
+            targetPlatform,
+            translationUnit,
+            exploreOptions,
+            parseOptions,
+            TryEnqueueVisitInfoNode,
+            linkedPaths);
 
         try
         {
-            VisitTranslationUnit(context, translationUnit);
+            VisitTranslationUnit(context, translationUnit, headerFilePath);
             ExploreVariables(context);
             ExploreFunctions(context);
             ExploreTypes(context);
-            result = CollectAbstractSyntaxTree(context, macroObjects);
+            result = CollectAbstractSyntaxTree(context);
         }
         catch (Exception e)
         {
+            CleanUp(context);
             LogFailure(e);
             throw;
         }
 
+        CleanUp(context);
         LogSuccess();
         return result;
     }
 
-    private CAbstractSyntaxTree CollectAbstractSyntaxTree(
-        ExploreContext context,
-        ImmutableArray<CMacroObject> macroObjects)
+    private void CleanUp(ExploreContext context)
     {
-        _variables.Sort();
-        var variables = _variables.ToImmutableDictionary(x => x.Name);
+        clang_disposeTranslationUnit(context.TranslationUnit);
+        _parser.CleanUp();
+    }
 
-        _functions.Sort();
-        var functions = _functions.ToImmutableDictionary(x => x.Name);
-
-        _records.Sort();
-        var records = _records.ToImmutableDictionary(x => x.Name);
-
-        _enums.Sort();
-        var enums = _enums.ToImmutableDictionary(x => x.Name);
-
-        _typeAliases.Sort();
-        var typeAliases = _typeAliases.ToImmutableDictionary(x => x.Name);
-
-        _opaqueTypes.Sort();
-        var opaqueTypes = _opaqueTypes.ToImmutableDictionary(x => x.Name);
-
-        _functionPointers.Sort();
-        var functionPointers = _functionPointers.ToImmutableDictionary(x => x.Name);
-
-        _enumConstants.Sort();
-        var enumConstants = _enumConstants.ToImmutableDictionary(x => x.Name);
+    private CAbstractSyntaxTree CollectAbstractSyntaxTree(ExploreContext context)
+    {
+        var macroObjects = CollectMacroObjects(context);
+        var variables = CollectVariables();
+        var functions = CollectFunctions();
+        var records = CollectRecords();
+        var enums = CollectEnums();
+        var typeAliases = CollectTypeAliases();
+        var opaqueTypes = CollectOpaqueTypes();
+        var functionPointers = CollectFunctionPointers();
+        var enumConstants = CollectEnumConstants();
 
         var result = new CAbstractSyntaxTree
         {
@@ -134,6 +142,74 @@ public sealed partial class Explorer
         };
 
         return result;
+    }
+
+    private ImmutableDictionary<string, CEnumConstant> CollectEnumConstants()
+    {
+        _enumConstants.Sort();
+        var enumConstants = _enumConstants.ToImmutableDictionary(x => x.Name);
+        return enumConstants;
+    }
+
+    private ImmutableDictionary<string, CFunctionPointer> CollectFunctionPointers()
+    {
+        _functionPointers.Sort();
+        var functionPointers = _functionPointers.ToImmutableDictionary(x => x.Name);
+        return functionPointers;
+    }
+
+    private ImmutableDictionary<string, COpaqueType> CollectOpaqueTypes()
+    {
+        _opaqueTypes.Sort();
+        var opaqueTypes = _opaqueTypes.ToImmutableDictionary(x => x.Name);
+        return opaqueTypes;
+    }
+
+    private ImmutableDictionary<string, CTypeAlias> CollectTypeAliases()
+    {
+        _typeAliases.Sort();
+        var typeAliases = _typeAliases.ToImmutableDictionary(x => x.Name);
+        return typeAliases;
+    }
+
+    private ImmutableDictionary<string, CEnum> CollectEnums()
+    {
+        _enums.Sort();
+        var enums = _enums.ToImmutableDictionary(x => x.Name);
+        return enums;
+    }
+
+    private ImmutableDictionary<string, CRecord> CollectRecords()
+    {
+        _records.Sort();
+        var records = _records.ToImmutableDictionary(x => x.Name);
+        return records;
+    }
+
+    private ImmutableDictionary<string, CFunction> CollectFunctions()
+    {
+        _functions.Sort();
+        var functions = _functions.ToImmutableDictionary(x => x.Name);
+        return functions;
+    }
+
+    private ImmutableDictionary<string, CVariable> CollectVariables()
+    {
+        _variables.Sort();
+        var variables = _variables.ToImmutableDictionary(x => x.Name);
+        return variables;
+    }
+
+    private ImmutableArray<CMacroObject> CollectMacroObjects(ExploreContext context)
+    {
+        LogExploringMacros();
+        var macroObjectCandidates = _macroObjectCandidates.ToImmutableArray();
+        var macroObjects = _parser.MacroObjects(
+            macroObjectCandidates, context.Diagnostics, context.TargetPlatformRequested, context.ParseOptions);
+        var macroNamesFound = macroObjects.Select(macroObject => macroObject.Name).ToArray();
+        var macroNamesFoundString = string.Join(", ", macroNamesFound);
+        LogFoundMacros(macroNamesFound.Length, macroNamesFoundString);
+        return macroObjects;
     }
 
     private void ExploreVariables(ExploreContext context)
@@ -299,19 +375,100 @@ public sealed partial class Explorer
         _primitives.Add(node);
     }
 
-    private void VisitTranslationUnit(ExploreContext context, CXTranslationUnit translationUnit)
+    private void VisitTranslationUnit(ExploreContext context, CXTranslationUnit translationUnit, string filePath)
     {
+        VisitMacroCandidates(context, translationUnit, filePath);
+
         var translationUnitCursor = clang_getTranslationUnitCursor(translationUnit);
         var cursors = translationUnitCursor.GetDescendents(
-            (child, _) => IsTopLevelCursorOfInterest(child, context.Options));
+            (child, _) => IsTopLevelCursorOfInterest(child));
 
         foreach (var cursor in cursors)
         {
             VisitTopLevelCursor(context, cursor);
         }
+
+        VisitIncludes(context, translationUnit);
+
+        LogVisitedTranslationUnit(filePath);
     }
 
-    private static bool IsTopLevelCursorOfInterest(CXCursor cursor, ExplorerOptions options)
+    private void VisitMacroCandidates(ExploreContext context, CXTranslationUnit translationUnit, string filePath)
+    {
+        var macroObjectCandidates = _parser.MacroObjectCandidates(
+            translationUnit, context.Diagnostics, context.TargetPlatformRequested, context.ParseOptions);
+        foreach (var macroObjectCandidate in macroObjectCandidates)
+        {
+            _macroObjectCandidates.Add(macroObjectCandidate);
+        }
+    }
+
+    private void VisitIncludes(ExploreContext context, CXTranslationUnit translationUnit)
+    {
+        var translationUnitCursor = clang_getTranslationUnitCursor(translationUnit);
+        var includeCursors = translationUnitCursor.GetDescendents(static (child, _) =>
+            child.kind == CXCursorKind.CXCursor_InclusionDirective);
+
+        var stringBuilder = new StringBuilder();
+
+        foreach (var includeCursor in includeCursors)
+        {
+            var cursorExtent = clang_getCursorExtent(includeCursor);
+            unsafe
+            {
+                var tokensC = (CXToken*)0;
+                uint tokensCount = 0;
+                clang_tokenize(translationUnit, cursorExtent, &tokensC, &tokensCount);
+                for (var i = 0; i < tokensCount; i++)
+                {
+                    var tokenString = clang_getTokenSpelling(translationUnit, tokensC[i]).String();
+                    stringBuilder.Append(tokenString);
+                }
+
+                clang_disposeTokens(translationUnit, tokensC, tokensCount);
+            }
+
+            var line = stringBuilder.ToString();
+            stringBuilder.Clear();
+            var isSystem = line.Contains('<', StringComparison.InvariantCulture);
+            if (isSystem && !context.ExploreOptions.IsEnabledSystemDeclarations)
+            {
+                continue;
+            }
+
+            var file = clang_getIncludedFile(includeCursor);
+            var filePath = clang_getFileName(file).String();
+            if (_visitedIncludeFilePaths.Contains(filePath))
+            {
+                continue;
+            }
+
+            _visitedIncludeFilePaths.Add(filePath);
+            VisitInclude(context, filePath);
+        }
+    }
+
+    private void VisitInclude(ExploreContext context, string headerFilePath)
+    {
+        var headerFileName = Path.GetFileName(headerFilePath);
+        if (context.ExploreOptions.HeaderFilesBlocked.Contains(headerFileName))
+        {
+            return;
+        }
+
+        var includeTranslationUnit = _parser.TranslationUnit(
+            headerFilePath,
+            context.Diagnostics,
+            context.TargetPlatformRequested,
+            context.ParseOptions,
+            out _,
+            true,
+            true);
+
+        VisitTranslationUnit(context, includeTranslationUnit, headerFilePath);
+    }
+
+    private static bool IsTopLevelCursorOfInterest(CXCursor cursor)
     {
         var kind = clang_getCursorKind(cursor);
         if (kind != CXCursorKind.CXCursor_FunctionDecl &&
@@ -364,7 +521,7 @@ public sealed partial class Explorer
             type = clang_Type_getModifiedType(type);
         }
 
-        if (kind == CKind.Enum && !context.Options.IsEnabledEnumsDangling)
+        if (kind == CKind.Enum && !context.ExploreOptions.IsEnabledEnumsDangling)
         {
             return;
         }
@@ -372,6 +529,11 @@ public sealed partial class Explorer
         var name = clang_getCursorSpelling(cursor).String();
         var isAnonymous = clang_Cursor_isAnonymous(cursor) > 0;
         var info = context.CreateVisitInfoNode(kind, name, cursor, type, null);
+
+        if (context.ExploreOptions.HeaderFilesBlocked.Contains(info.Location.FileName))
+        {
+            return;
+        }
 
         if (kind == CKind.Enum && isAnonymous)
         {
@@ -405,8 +567,8 @@ public sealed partial class Explorer
 
         switch (kind)
         {
-            case CKind.Variable when !context.Options.IsEnabledVariables:
-            case CKind.Function when !context.Options.IsEnabledFunctions:
+            case CKind.Variable when !context.ExploreOptions.IsEnabledVariables:
+            case CKind.Function when !context.ExploreOptions.IsEnabledFunctions:
                 return;
         }
 
@@ -428,33 +590,36 @@ public sealed partial class Explorer
     [LoggerMessage(2, LogLevel.Debug, "- Success")]
     public partial void LogSuccess();
 
-    // [LoggerMessage(3, LogLevel.Information, "- Exploring {Count} macros: {Names}")]
-    // public partial void LogExploringMacros(int count, string names);
-    //
-    // [LoggerMessage(4, LogLevel.Information, "- Found {FoundCount} macros: {Names}")]
-    // public partial void LogFoundMacros(int foundCount, string names);
+    [LoggerMessage(3, LogLevel.Information, "- Visited translation unit: {FilePath}")]
+    public partial void LogVisitedTranslationUnit(string filePath);
 
-    [LoggerMessage(5, LogLevel.Information, "- Exploring {Count} variables: {Names}")]
+    [LoggerMessage(4, LogLevel.Information, "- Exploring macros")]
+    public partial void LogExploringMacros();
+
+    [LoggerMessage(5, LogLevel.Information, "- Found {FoundCount} macros: {Names}")]
+    public partial void LogFoundMacros(int foundCount, string names);
+
+    [LoggerMessage(6, LogLevel.Information, "- Exploring {Count} variables: {Names}")]
     public partial void LogExploringVariables(int count, string names);
 
-    [LoggerMessage(6, LogLevel.Information, "- Found {FoundCount} variables: {Names}")]
+    [LoggerMessage(7, LogLevel.Information, "- Found {FoundCount} variables: {Names}")]
     public partial void LogFoundVariables(int foundCount, string names);
 
-    [LoggerMessage(7, LogLevel.Information, "- Exploring {Count} functions: {Names}")]
+    [LoggerMessage(8, LogLevel.Information, "- Exploring {Count} functions: {Names}")]
     public partial void LogExploringFunctions(int count, string names);
 
-    [LoggerMessage(8, LogLevel.Information, "- Found {FoundCount} functions: {Names}")]
+    [LoggerMessage(9, LogLevel.Information, "- Found {FoundCount} functions: {Names}")]
     public partial void LogFoundFunctions(int foundCount, string names);
 
-    [LoggerMessage(9, LogLevel.Information, "- Exploring {Count} types: {Names}")]
+    [LoggerMessage(10, LogLevel.Information, "- Exploring {Count} types: {Names}")]
     public partial void LogExploringTypes(int count, string names);
 
-    [LoggerMessage(10, LogLevel.Information, "- Found {FoundCount} types: {Names}")]
+    [LoggerMessage(11, LogLevel.Information, "- Found {FoundCount} types: {Names}")]
     public partial void LogFoundTypes(int foundCount, string names);
 
-    [LoggerMessage(11, LogLevel.Debug, "- Enqueued {Kind} '{Name}' ({Location})")]
+    [LoggerMessage(12, LogLevel.Debug, "- Enqueued {Kind} '{Name}' ({Location})")]
     public partial void LogEnqueue(CKind kind, string name, CLocation location);
 
-    [LoggerMessage(12, LogLevel.Information, "- Found {Kind} '{Name}' ({Location})")]
+    [LoggerMessage(13, LogLevel.Information, "- Found {Kind} '{Name}' ({Location})")]
     public partial void LogFoundNode(CKind kind, string name, CLocation location);
 }

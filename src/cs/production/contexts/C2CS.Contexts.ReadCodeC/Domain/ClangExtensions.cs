@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using C2CS.Contexts.ReadCodeC.Data.Model;
 using static bottlenoselabs.clang;
@@ -11,43 +10,122 @@ namespace C2CS.Contexts.ReadCodeC.Domain;
 
 public static unsafe class ClangExtensions
 {
-    public delegate bool VisitPredicate(CXCursor child, CXCursor parent);
+    public delegate bool VisitChildPredicate(CXCursor child, CXCursor parent);
 
-    private static VisitInstance[] _visitInstances = Array.Empty<VisitInstance>();
-    private static int _visitsCount;
+    private static VisitChildInstance[] _visitChildInstances = new VisitChildInstance[512];
+    private static int _visitChildCount;
 
-    private static readonly CXCursorVisitor Visit;
-    private static readonly CXCursorVisitor VisitRecursive;
-    private static readonly VisitPredicate EmptyPredicate = static (_, _) => true;
+    private static readonly CXCursorVisitor VisitorChildren;
+    private static readonly CXCursorVisitor VisitorChildrenRecursive;
+    private static readonly VisitChildPredicate EmptyPredicate = static (_, _) => true;
 
     static ClangExtensions()
     {
-        Visit.Pointer = &Visitor;
-        VisitRecursive.Pointer = &VisitorRecursive;
+        VisitorChildren.Pointer = &VisitChild;
+        VisitorChildrenRecursive.Pointer = &VisitChildRecursive;
     }
 
-    [SuppressMessage("Microsoft.Performance", "CA1806:DoNotIgnoreMethodResults", Justification = "Result is useless.")]
     public static ImmutableArray<CXCursor> GetDescendents(
-        this CXCursor cursor, VisitPredicate? predicate = null)
+        this CXCursor cursor, VisitChildPredicate? predicate = null, bool sameFile = true)
     {
         var predicate2 = predicate ?? EmptyPredicate;
-        var visitData = new VisitInstance(predicate2);
-        var visitsCount = Interlocked.Increment(ref _visitsCount);
-        if (visitsCount > _visitInstances.Length)
+        var visitData = new VisitChildInstance(predicate2, sameFile);
+        var visitsCount = Interlocked.Increment(ref _visitChildCount);
+        if (visitsCount > _visitChildInstances.Length)
         {
-            Array.Resize(ref _visitInstances, visitsCount * 2);
+            Array.Resize(ref _visitChildInstances, visitsCount * 2);
         }
 
-        _visitInstances[visitsCount - 1] = visitData;
+        _visitChildInstances[visitsCount - 1] = visitData;
 
         var clientData = default(CXClientData);
-        clientData.Data = (void*)_visitsCount;
-        clang_visitChildren(cursor, Visit, clientData);
+        clientData.Data = (void*)_visitChildCount;
+        clang_visitChildren(cursor, VisitorChildren, clientData);
 
-        Interlocked.Decrement(ref _visitsCount);
+        Interlocked.Decrement(ref _visitChildCount);
 
         var result = visitData.NodeBuilder.ToImmutable();
+        visitData.NodeBuilder.Clear();
         return result;
+    }
+
+    [UnmanagedCallersOnly]
+    private static CXChildVisitResult VisitChild(CXCursor child, CXCursor parent, CXClientData clientData)
+    {
+        var index = (int)clientData.Data;
+        var data = _visitChildInstances[index - 1];
+
+        if (data.SameFile)
+        {
+            var location = clang_getCursorLocation(child);
+            var isFromMainFile = clang_Location_isFromMainFile(location) > 0;
+            if (!isFromMainFile)
+            {
+                return CXChildVisitResult.CXChildVisit_Continue;
+            }
+        }
+
+        var result = data.Predicate(child, parent);
+        if (!result)
+        {
+            return CXChildVisitResult.CXChildVisit_Continue;
+        }
+
+        data.NodeBuilder.Add(child);
+
+        return CXChildVisitResult.CXChildVisit_Continue;
+    }
+
+    public static ImmutableArray<CXCursor> GetDescendentsRecursive(
+        this CXCursor cursor, VisitChildPredicate predicate, bool sameFile = true)
+    {
+        var visitData = new VisitChildInstance(predicate, sameFile);
+        var visitsCount = Interlocked.Increment(ref _visitChildCount);
+        if (visitsCount > _visitChildInstances.Length)
+        {
+            Array.Resize(ref _visitChildInstances, visitsCount * 2);
+        }
+
+        _visitChildInstances[visitsCount - 1] = visitData;
+
+        var clientData = default(CXClientData);
+        clientData.Data = (void*)_visitChildCount;
+        clang_visitChildren(cursor, VisitorChildrenRecursive, clientData);
+
+        Interlocked.Decrement(ref _visitChildCount);
+
+        var result = visitData.NodeBuilder.ToImmutable();
+        visitData.NodeBuilder.Clear();
+        return result;
+    }
+
+    [UnmanagedCallersOnly]
+    private static CXChildVisitResult VisitChildRecursive(CXCursor child, CXCursor parent, CXClientData clientData)
+    {
+        var index = (int)clientData.Data;
+        var data = _visitChildInstances[index - 1];
+
+        if (data.SameFile)
+        {
+            var location = clang_getCursorLocation(child);
+            var isFromMainFile = clang_Location_isFromMainFile(location) > 0;
+            if (isFromMainFile)
+            {
+                return CXChildVisitResult.CXChildVisit_Continue;
+            }
+        }
+
+        var result = data.Predicate(child, parent);
+        if (!result)
+        {
+            return CXChildVisitResult.CXChildVisit_Continue;
+        }
+
+        clang_visitChildren(child, VisitorChildrenRecursive, clientData);
+
+        data.NodeBuilder.Add(child);
+
+        return CXChildVisitResult.CXChildVisit_Continue;
     }
 
     public static string String(this CXString cxString)
@@ -56,66 +134,6 @@ public static unsafe class ClangExtensions
         var result = Marshal.PtrToStringAnsi(cString)!;
         clang_disposeString(cxString);
         return result;
-    }
-
-    [UnmanagedCallersOnly]
-    private static CXChildVisitResult Visitor(CXCursor child, CXCursor parent, CXClientData clientData)
-    {
-        var index = (int)clientData.Data;
-        var data = _visitInstances[index - 1];
-
-        var result = data.Predicate(child, parent);
-        if (!result)
-        {
-            return CXChildVisitResult.CXChildVisit_Continue;
-        }
-
-        data.NodeBuilder.Add(child);
-
-        return CXChildVisitResult.CXChildVisit_Continue;
-    }
-
-    [SuppressMessage("Microsoft.Performance", "CA1806:DoNotIgnoreMethodResults", Justification = "Result is useless.")]
-    public static ImmutableArray<CXCursor> GetDescendentsRecursive(
-        this CXCursor cursor, VisitPredicate predicate)
-    {
-        var visitData = new VisitInstance(predicate);
-        var visitsCount = Interlocked.Increment(ref _visitsCount);
-        if (visitsCount > _visitInstances.Length)
-        {
-            Array.Resize(ref _visitInstances, visitsCount * 2);
-        }
-
-        _visitInstances[visitsCount - 1] = visitData;
-
-        var clientData = default(CXClientData);
-        clientData.Data = (void*)_visitsCount;
-        clang_visitChildren(cursor, VisitRecursive, clientData);
-
-        Interlocked.Decrement(ref _visitsCount);
-
-        var result = visitData.NodeBuilder.ToImmutable();
-        return result;
-    }
-
-    [SuppressMessage("Microsoft.Performance", "CA1806:DoNotIgnoreMethodResults", Justification = "Result is useless.")]
-    [UnmanagedCallersOnly]
-    private static CXChildVisitResult VisitorRecursive(CXCursor child, CXCursor parent, CXClientData clientData)
-    {
-        var index = (int)clientData.Data;
-        var data = _visitInstances[index - 1];
-
-        var result = data.Predicate(child, parent);
-        if (!result)
-        {
-            return CXChildVisitResult.CXChildVisit_Continue;
-        }
-
-        clang_visitChildren(child, VisitRecursive, clientData);
-
-        data.NodeBuilder.Add(child);
-
-        return CXChildVisitResult.CXChildVisit_Continue;
     }
 
     public static CLocation Location(
@@ -157,21 +175,18 @@ public static unsafe class ClangExtensions
             throw up;
         }
 
-        // if (drillDown)
-        // {
-        //     if (cursor.kind == CXCursorKind.CXCursor_TypedefDecl && type.kind == CXTypeKind.CXType_Typedef)
-        //     {
-        //         var underlyingType = clang_getTypedefDeclUnderlyingType(cursor);
-        //         var underlyingCursor = clang_getTypeDeclaration(underlyingType);
-        //         var underlyingLocation = Location2(underlyingCursor, underlyingType, true);
-        //         if (!underlyingLocation.IsNull)
-        //         {
-        //             return underlyingLocation;
-        //         }
-        //     }
-        // }
-
         var locationSource = clang_getCursorLocation(cursor);
+        var translationUnit = clang_Cursor_getTranslationUnit(cursor);
+        var location = GetLocation(locationSource, translationUnit, linkedPaths, userIncludeDirectories);
+        return location;
+    }
+
+    private static CLocation GetLocation(
+        CXSourceLocation locationSource,
+        CXTranslationUnit? translationUnit = null,
+        ImmutableDictionary<string, string>? linkedPaths = null,
+        ImmutableArray<string>? userIncludeDirectories = null)
+    {
         CXFile file;
         uint lineNumber;
         uint columnNumber;
@@ -182,7 +197,12 @@ public static unsafe class ClangExtensions
         var handle = (IntPtr)file.Data;
         if (handle == IntPtr.Zero)
         {
-            return LocationInTranslationUnit(cursor, (int)lineNumber, (int)columnNumber);
+            if (!translationUnit.HasValue)
+            {
+                return CLocation.NoLocation;
+            }
+
+            return LocationInTranslationUnit(translationUnit.Value, (int)lineNumber, (int)columnNumber);
         }
 
         var fileNamePath = clang_getFileName(file).String();
@@ -233,11 +253,10 @@ public static unsafe class ClangExtensions
     }
 
     private static CLocation LocationInTranslationUnit(
-        CXCursor declaration,
+        CXTranslationUnit translationUnit,
         int lineNumber,
         int columnNumber)
     {
-        var translationUnit = clang_Cursor_getTranslationUnit(declaration);
         var cursor = clang_getTranslationUnitCursor(translationUnit);
         var filePath = clang_getCursorSpelling(cursor).String();
         return new CLocation
@@ -457,15 +476,17 @@ public static unsafe class ClangExtensions
         return result;
     }
 
-    private readonly struct VisitInstance
+    private readonly struct VisitChildInstance
     {
-        public readonly VisitPredicate Predicate;
+        public readonly VisitChildPredicate Predicate;
         public readonly ImmutableArray<CXCursor>.Builder NodeBuilder;
+        public readonly bool SameFile;
 
-        public VisitInstance(VisitPredicate predicate)
+        public VisitChildInstance(VisitChildPredicate predicate, bool sameFile)
         {
             Predicate = predicate;
             NodeBuilder = ImmutableArray.CreateBuilder<CXCursor>();
+            SameFile = sameFile;
         }
     }
 }

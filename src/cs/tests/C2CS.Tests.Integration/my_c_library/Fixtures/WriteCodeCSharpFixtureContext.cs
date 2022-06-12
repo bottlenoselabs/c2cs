@@ -10,42 +10,52 @@ namespace C2CS.IntegrationTests.my_c_library.Fixtures;
 
 public class WriteCodeCSharpFixtureContext
 {
-    private readonly ImmutableDictionary<string, CSharpTestFunction> _testFunctions;
-    private readonly ImmutableDictionary<string, CSharpTestEnum> _testEnums;
-    private readonly ImmutableDictionary<string, CSharpTestStruct> _testStructs;
+    private readonly ImmutableDictionary<string, CSharpTestFunction> _functions;
+    private readonly ImmutableDictionary<string, CSharpTestEnum> _enums;
+    private readonly ImmutableDictionary<string, CSharpTestStruct> _structs;
+    private readonly ImmutableDictionary<string, CSharpTestMacroObject> _macroObjects;
 
     public EmitResult EmitResult { get; }
 
     public WriteCodeCSharpFixtureContext(
         EmitResult emitResult,
-        ImmutableDictionary<string, CSharpTestFunction> testFunctions,
-        ImmutableDictionary<string, CSharpTestEnum> testEnums,
-        ImmutableDictionary<string, CSharpTestStruct> testStructs)
+        ImmutableDictionary<string, CSharpTestFunction> functions,
+        ImmutableDictionary<string, CSharpTestEnum> enums,
+        ImmutableDictionary<string, CSharpTestStruct> structs,
+        ImmutableDictionary<string, CSharpTestMacroObject> macroObjects)
     {
         EmitResult = emitResult;
-        _testFunctions = testFunctions;
-        _testEnums = testEnums;
-        _testStructs = testStructs;
+        _functions = functions;
+        _enums = enums;
+        _structs = structs;
+        _macroObjects = macroObjects;
     }
 
     public CSharpTestFunction GetFunction(string name)
     {
-        var exists = _testFunctions.TryGetValue(name, out var value);
+        var exists = _functions.TryGetValue(name, out var value);
         Assert.True(exists, $"The function `{name}` does not exist.");
         return value!;
     }
 
     public CSharpTestEnum GetEnum(string name)
     {
-        var exists = _testEnums.TryGetValue(name, out var value);
+        var exists = _enums.TryGetValue(name, out var value);
         Assert.True(exists, $"The enum `{name}` does not exist.");
         return value!;
     }
 
     public CSharpTestStruct GetStruct(string name)
     {
-        var exists = _testStructs.TryGetValue(name, out var value);
+        var exists = _structs.TryGetValue(name, out var value);
         Assert.True(exists, $"The struct `{name}` does not exist.");
+        return value!;
+    }
+
+    public CSharpTestMacroObject GetMacroObject(string name)
+    {
+        var exists = _macroObjects.TryGetValue(name, out var value);
+        Assert.True(exists, $"The macro object `{name}` does not exist.");
         return value!;
     }
 }

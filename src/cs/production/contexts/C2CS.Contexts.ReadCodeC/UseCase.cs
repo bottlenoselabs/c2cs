@@ -7,50 +7,49 @@ using C2CS.Contexts.ReadCodeC.Data.Serialization;
 using C2CS.Contexts.ReadCodeC.Domain;
 using C2CS.Contexts.ReadCodeC.Domain.Explore;
 using C2CS.Contexts.ReadCodeC.Domain.Parse;
+using C2CS.Foundation.Diagnostics;
 using C2CS.Foundation.UseCases;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using static bottlenoselabs.clang;
 
 namespace C2CS.Contexts.ReadCodeC;
 
 public sealed class UseCase : UseCase<
     ReadCodeCConfiguration, ReadCodeCInput, ReadCodeCOutput>
 {
-    private readonly IServiceProvider _services;
+    private readonly ClangInstaller _clangInstaller;
+    private readonly Explorer _explorer;
+    private readonly CJsonSerializer _serializer;
 
     public UseCase(
-        ILogger<UseCase> logger, IServiceProvider services, ReadCodeCValidator validator)
-        : base(logger, services, validator)
+        ILogger<UseCase> logger,
+        ReadCodeCValidator validator,
+        ClangInstaller clangInstaller,
+        Explorer explorer,
+        CJsonSerializer serializer)
+        : base(logger, validator)
     {
-        _services = services;
+        _clangInstaller = clangInstaller;
+        _explorer = explorer;
+        _serializer = serializer;
     }
 
     protected override void Execute(ReadCodeCInput input, ReadCodeCOutput output)
     {
         var builder = ImmutableArray.CreateBuilder<ReadCodeCAbstractSyntaxTreeInput>();
 
+        if (!InstallClang())
+        {
+            return;
+        }
+
         foreach (var options in input.AbstractSyntaxTreesOptionsList)
         {
-            var parseResult = Parse(
-                input.InputFilePath,
-                options.TargetPlatform,
-                options.ParseOptions);
-
-            if (parseResult == null)
-            {
-                continue;
-            }
-
             var abstractSyntaxTreeC = Explore(
-                parseResult.TranslationUnit,
-                parseResult.LinkedPaths,
-                parseResult.MacroObjects,
+                input.InputFilePath,
+                Diagnostics,
                 options.TargetPlatform,
-                options.ExplorerOptions,
-                options.ParseOptions.UserIncludeDirectories);
-
-            clang_disposeTranslationUnit(parseResult.TranslationUnit);
+                options.ParseOptions,
+                options.ExplorerOptions);
 
             Write(options.OutputFilePath, abstractSyntaxTreeC, options.TargetPlatform);
 
@@ -60,52 +59,31 @@ public sealed class UseCase : UseCase<
         output.AbstractSyntaxTreesOptions = builder.ToImmutable();
     }
 
-    private ParseResult? Parse(
-        string inputFilePath,
-        TargetPlatform targetPlatform,
-        ParseOptions options)
+    private bool InstallClang()
     {
-        BeginStep($"Parse {targetPlatform}");
+        BeginStep($"Install Clang");
 
-        var installer = _services.GetService<ClangInstaller>()!;
-        var isInstalled = installer.Install(Native.OperatingSystem);
-        if (!isInstalled)
-        {
-            return null;
-        }
-
-        var parser = _services.GetService<Parser>()!;
-        var translationUnit = parser.TranslationUnit(
-            inputFilePath, Diagnostics, targetPlatform, options);
-        var macroObjects = parser.MacroObjects(translationUnit, Diagnostics, targetPlatform, options);
-        var linkedPaths = parser.GetLinkedPaths();
-
-        var result = new ParseResult
-        {
-            TranslationUnit = translationUnit,
-            MacroObjects = macroObjects,
-            LinkedPaths = linkedPaths
-        };
-
-        parser.Cleanup();
+        var isInstalled = _clangInstaller.Install(Native.OperatingSystem);
 
         EndStep();
-        return result;
+        return isInstalled;
     }
 
     private CAbstractSyntaxTree Explore(
-        CXTranslationUnit translationUnit,
-        ImmutableDictionary<string, string> linkedPaths,
-        ImmutableArray<CMacroObject> macroObjects,
+        string headerFilePath,
+        DiagnosticCollection diagnostics,
         TargetPlatform platform,
-        ExplorerOptions options,
-        ImmutableArray<string> userIncludeDirectories)
+        ParseOptions parseOptions,
+        ExploreOptions exploreOptions)
     {
         BeginStep($"{platform}");
 
-        var explorer = _services.GetService<Explorer>()!;
-        var result = explorer.AbstractSyntaxTree(
-            platform, options, macroObjects, userIncludeDirectories, translationUnit, linkedPaths);
+        var result = _explorer.AbstractSyntaxTree(
+            headerFilePath,
+            diagnostics,
+            platform,
+            parseOptions,
+            exploreOptions);
 
         EndStep();
         return result;
@@ -115,8 +93,9 @@ public sealed class UseCase : UseCase<
         string outputFilePath, CAbstractSyntaxTree abstractSyntaxTree, TargetPlatform platform)
     {
         BeginStep($"Write {platform}");
-        var cJsonSerializer = _services.GetService<CJsonSerializer>()!;
-        cJsonSerializer.Write(abstractSyntaxTree, outputFilePath);
+
+        _serializer.Write(abstractSyntaxTree, outputFilePath);
+
         EndStep();
     }
 }

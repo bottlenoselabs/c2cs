@@ -17,10 +17,13 @@ namespace C2CS.Contexts.WriteCodeCSharp;
 
 public sealed class UseCase : UseCase<WriteCodeCSharpConfiguration, WriteCodeCSharpInput, WriteCodeCSharpOutput>
 {
+    private CJsonSerializer _serializer;
+
     public UseCase(
-        ILogger<UseCase> logger, IServiceProvider services, WriteCodeCSharpValidator validator)
-        : base(logger, services, validator)
+        ILogger<UseCase> logger, WriteCodeCSharpValidator validator, CJsonSerializer serializer)
+        : base(logger, validator)
     {
+        _serializer = serializer;
     }
 
     protected override void Execute(WriteCodeCSharpInput input, WriteCodeCSharpOutput output)
@@ -40,12 +43,10 @@ public sealed class UseCase : UseCase<WriteCodeCSharpConfiguration, WriteCodeCSh
     {
         BeginStep("Load C abstract syntax trees");
 
-        var cJsonSerializer = Services.GetService<CJsonSerializer>()!;
-
         var builder = ImmutableArray.CreateBuilder<CAbstractSyntaxTree>();
         foreach (var filePath in filePaths)
         {
-            var ast = cJsonSerializer.Read(filePath);
+            var ast = _serializer.Read(filePath);
             builder.Add(ast);
         }
 

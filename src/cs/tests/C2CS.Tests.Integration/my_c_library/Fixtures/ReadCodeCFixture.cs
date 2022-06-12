@@ -9,11 +9,14 @@ using C2CS.Contexts.ReadCodeC.Data.Serialization;
 using C2CS.Contexts.ReadCodeC.Domain;
 using C2CS.Data.Serialization;
 using C2CS.Foundation.Diagnostics;
+using C2CS.Tests.Common;
 using C2CS.Tests.Common.Data.Model.C;
+using JetBrains.Annotations;
 
 namespace C2CS.IntegrationTests.my_c_library.Fixtures;
 
-public sealed class ReadCodeCFixture
+[PublicAPI]
+public sealed class ReadCodeCFixture : TestFixture
 {
     public readonly ImmutableArray<ReadCodeCFixtureContext> Contexts;
 
@@ -54,13 +57,15 @@ public sealed class ReadCodeCFixture
             var functions = CreateTestFunctions(ast);
             var enums = CreateTestEnums(ast);
             var structs = CreateTestRecords(ast);
+            var macroObjects = CreateMacroObjects(ast);
 
             var data = new ReadCodeCFixtureContext(
                 ast.PlatformRequested,
                 ast.PlatformActual,
                 functions,
                 enums,
-                structs);
+                structs,
+                macroObjects);
 
             builder.Add(data);
         }
@@ -223,6 +228,31 @@ public sealed class ReadCodeCFixture
             OffsetOf = value.OffsetOf,
             PaddingOf = value.PaddingOf,
             SizeOf = value.TypeInfo.SizeOf
+        };
+
+        return result;
+    }
+
+    private ImmutableDictionary<string, CTestMacroObject> CreateMacroObjects(CAbstractSyntaxTree ast)
+    {
+        var builder = ImmutableDictionary.CreateBuilder<string, CTestMacroObject>();
+
+        foreach (var value in ast.MacroObjects.Values)
+        {
+            var result = CreateMacroObject(value);
+            builder.Add(result.Name, result);
+        }
+
+        return builder.ToImmutable();
+    }
+
+    private CTestMacroObject CreateMacroObject(CMacroObject value)
+    {
+        var result = new CTestMacroObject
+        {
+            Name = value.Name,
+            TypeName = value.Type.Name,
+            Value = value.Value
         };
 
         return result;

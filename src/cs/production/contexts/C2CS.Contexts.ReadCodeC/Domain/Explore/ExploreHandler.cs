@@ -137,7 +137,7 @@ public abstract partial class ExploreHandler
 
     private static bool IsAllowed(ExploreContext context, CKind kind, string name, CXCursor cursor)
     {
-        if (!context.Options.IsEnabledSystemDeclarations)
+        if (!context.ExploreOptions.IsEnabledSystemDeclarations)
         {
             var cursorLocation = clang_getCursorLocation(cursor);
             var isSystemCursor = clang_Location_isInSystemHeader(cursorLocation) > 0;
@@ -147,7 +147,7 @@ public abstract partial class ExploreHandler
             }
         }
 
-        if (!context.Options.IsEnabledAllowNamesWithPrefixedUnderscore)
+        if (!context.ExploreOptions.IsEnabledAllowNamesWithPrefixedUnderscore)
         {
             if (kind == CKind.FunctionPointer)
             {

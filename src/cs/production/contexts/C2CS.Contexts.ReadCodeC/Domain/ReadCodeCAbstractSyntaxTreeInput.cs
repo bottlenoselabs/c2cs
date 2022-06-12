@@ -12,7 +12,7 @@ public sealed class ReadCodeCAbstractSyntaxTreeInput
 
     public TargetPlatform TargetPlatform { get; init; }
 
-    public ExplorerOptions ExplorerOptions { get; init; } = null!;
+    public ExploreOptions ExplorerOptions { get; init; } = null!;
 
     public ParseOptions ParseOptions { get; init; } = null!;
 }

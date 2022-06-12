@@ -4,10 +4,10 @@
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
-namespace C2CS.Tests.Common.Data.Model.CSharp;
+namespace C2CS.Tests.Common.Data.Model.C;
 
 [PublicAPI]
-public class CSharpTestFunctionParameter
+public class CTestMacroObject
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
@@ -15,8 +15,6 @@ public class CSharpTestFunctionParameter
     [JsonPropertyName("type_name")]
     public string TypeName { get; set; } = string.Empty;
 
-    public override string ToString()
-    {
-        return Name;
-    }
+    [JsonPropertyName("value")]
+    public string Value { get; set; } = string.Empty;
 }

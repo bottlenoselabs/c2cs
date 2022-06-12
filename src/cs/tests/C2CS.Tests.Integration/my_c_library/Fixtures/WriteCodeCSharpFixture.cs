@@ -8,7 +8,9 @@ using System.IO.Abstractions;
 using System.Linq;
 using C2CS.Contexts.WriteCodeCSharp;
 using C2CS.Data.Serialization;
+using C2CS.Tests.Common;
 using C2CS.Tests.Common.Data.Model.CSharp;
+using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -18,7 +20,8 @@ using Xunit;
 
 namespace C2CS.IntegrationTests.my_c_library.Fixtures;
 
-public sealed class WriteCodeCSharpFixture
+[PublicAPI]
+public sealed class WriteCodeCSharpFixture : TestFixture
 {
     public WriteCodeCSharpFixtureContext Context { get; }
 
@@ -72,6 +75,7 @@ public sealed class WriteCodeCSharpFixture
         var methodsByNameBuilder = ImmutableDictionary.CreateBuilder<string, CSharpTestFunction>();
         var enumsByNameBuilder = ImmutableDictionary.CreateBuilder<string, CSharpTestEnum>();
         var structsByNameBuilder = ImmutableDictionary.CreateBuilder<string, CSharpTestStruct>();
+        var macroObjectsByNameBuilder = ImmutableDictionary.CreateBuilder<string, CSharpTestMacroObject>();
 
         foreach (var member in @class.Members)
         {
@@ -97,6 +101,19 @@ public sealed class WriteCodeCSharpFixture
                     structsByNameBuilder.Add(syntaxNode.Identifier.Text, value);
                     break;
                 }
+
+                case FieldDeclarationSyntax syntaxNode:
+                {
+                    var fieldName = syntaxNode.Declaration.Variables[0].Identifier.Text;
+                    if (fieldName == "LibraryName")
+                    {
+                        continue;
+                    }
+
+                    var value = CreateTestMacroObject(syntaxNode, fieldName);
+                    macroObjectsByNameBuilder.Add(fieldName, value);
+                    break;
+                }
             }
         }
 
@@ -113,7 +130,8 @@ public sealed class WriteCodeCSharpFixture
             emitResult,
             methodsByNameBuilder.ToImmutable(),
             enumsByNameBuilder.ToImmutable(),
-            structsByNameBuilder.ToImmutable());
+            structsByNameBuilder.ToImmutable(),
+            macroObjectsByNameBuilder.ToImmutable());
     }
 
     private CSharpTestFunction CreateTestFunction(MethodDeclarationSyntax syntaxNode)
@@ -263,6 +281,20 @@ public sealed class WriteCodeCSharpFixture
             LayoutKind = layoutKind,
             Size = sizeOf,
             Pack = packOf
+        };
+        return result;
+    }
+
+    private CSharpTestMacroObject CreateTestMacroObject(FieldDeclarationSyntax syntaxNode, string fieldName)
+    {
+        var typeName = syntaxNode.Declaration.Type.ToString();
+        var value = syntaxNode.Declaration.Variables[0].Initializer!.Value.ToString();
+
+        var result = new CSharpTestMacroObject
+        {
+            Name = fieldName,
+            TypeName = typeName,
+            Value = value
         };
         return result;
     }

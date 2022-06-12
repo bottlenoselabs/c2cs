@@ -2,6 +2,13 @@ name: "main"
 
 on:
   push:
+    branches:    
+      - main
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    branches:    
+      - main
     paths-ignore:
       - '**.md'
 
@@ -54,10 +61,10 @@ jobs:
         myget-access-token: "${{ secrets.MYGET_ACCESS_TOKEN }}"
         nuget-access-token: "${{ secrets.NUGET_ACCESS_TOKEN }}"
 
-    # - name: "Snipe test files"
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: "Test Data ${{ matrix.platform.name }}"
-    #     path: |
-    #       ${{ github.workspace }}/src/cs/tests/*Tests*/**/*.json
+    - name: "Snipe test files"
+      uses: actions/upload-artifact@v3
+      with:
+        name: "Test Data ${{ matrix.platform.name }}"
+        path: |
+          ${{ github.workspace }}/src/cs/tests/*Tests*/**/*.json
 
