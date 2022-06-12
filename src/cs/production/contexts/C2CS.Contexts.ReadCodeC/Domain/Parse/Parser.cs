@@ -313,7 +313,7 @@ public sealed partial class Parser
 
         var locationString = line.TrimStart('/').Trim();
         var lineIndex = locationString.IndexOf(':', StringComparison.InvariantCulture);
-        var columnIndex = locationString.LastIndexOf(":", StringComparison.InvariantCulture);
+        var columnIndex = locationString.IndexOf(":", lineIndex + 1, StringComparison.InvariantCulture);
         var filePathIndex = locationString.IndexOf('(', StringComparison.InvariantCulture);
 
         int columnIndexEnd;
