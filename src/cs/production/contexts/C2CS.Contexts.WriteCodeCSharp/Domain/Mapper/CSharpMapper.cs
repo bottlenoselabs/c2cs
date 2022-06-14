@@ -1270,11 +1270,6 @@ public sealed class CSharpMapper
             return "void" + pointersTypeName;
         }
 
-        if (innerTypeInfo == null)
-        {
-            throw new InvalidOperationException("a");
-        }
-
         var mappedElementTypeName = TypeNameCSharpRaw(elementTypeName, innerTypeInfo.SizeOf);
         var result = mappedElementTypeName + pointersTypeName;
         return result;

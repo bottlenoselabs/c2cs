@@ -18,29 +18,6 @@ public abstract class RecordExplorer : ExploreHandler<CRecord>
     {
     }
 
-    public static ImmutableArray<CXCursor> FieldCursorsFromCursor(CXCursor cursor)
-    {
-        // We need to consider unions because they could be anonymous.
-        //  Case 1: If the union has no tag (identifier) and has no member name (field name), the union should be promoted to an anonymous field.
-        //  Case 2: If the union has no tag (identifier) and has a member name (field name), it should be included as a normal field.
-        //  Case 3: If the union has a tag (identifier) and has no member name (field name), it should not be included at all as a field. (Dangling union.)
-        //  Case 4: If the union has a tag (identifier) and has a member name (field name), it should be included as a normal field.
-        // The problem is that C allows unions or structs to be declared inside the body of the union or struct.
-        // This makes matching type identifiers to field names slightly difficult as Clang reports back the fields, unions, and structs for a given struct or union.
-        // However, the unions and structs reported are always before the field for the matching union or struct, if there is one.
-        // Thus, the solution here is to filter out the unions or structs that match to a field, leaving behind the anonymous structs or unions that need to get promoted.
-        //  I.e. return only cursors which are fields, except for case 1.
-
-        var cursors = cursor.GetDescendents(static (child, _) => true);
-        if (cursors.IsDefaultOrEmpty)
-        {
-            return ImmutableArray<CXCursor>.Empty;
-        }
-
-        var result = FieldCursors(cursors);
-        return result;
-    }
-
     public static ImmutableArray<CXCursor> FieldCursorsFromType(CXType type)
     {
         var cursors = type.GetFields();
