@@ -3,6 +3,7 @@
 
 using System.Collections.Immutable;
 using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 using C2CS.Contexts.ReadCodeC.Data.Model;
 using C2CS.Contexts.WriteCodeCSharp.Data.Model;
@@ -19,6 +20,7 @@ public sealed class CSharpMapper
     private readonly Dictionary<string, string> _generatedFunctionPointersNamesByCNames = new();
     private readonly ImmutableHashSet<string> _ignoredNames;
     private readonly ImmutableDictionary<string, string> _userTypeNameAliases;
+    private readonly StringBuilder _stringBuilder = new();
 
     private record struct PlatformCandidateNode
     {
@@ -173,24 +175,25 @@ public sealed class CSharpMapper
     {
         var firstNode = nodes.First().CSharpNode;
         var platforms = nodes.Select(x => x.Platform).ToImmutableArray();
+        var codeLocationComment = MergeCodeLocationComment(nodes);
         switch (firstNode)
         {
             case CSharpFunction:
-                return MergeFunction(nodes, platforms);
+                return MergeFunction(nodes, platforms, codeLocationComment);
             case CSharpFunctionPointer:
-                return MergeFunctionPointer(nodes, platforms);
+                return MergeFunctionPointer(nodes, platforms, codeLocationComment);
             case CSharpStruct:
-                return MergeStruct(nodes, platforms);
+                return MergeStruct(nodes, platforms, codeLocationComment);
             case CSharpAliasStruct:
-                return MergeAliasStruct(nodes, platforms);
+                return MergeAliasStruct(nodes, platforms, codeLocationComment);
             case CSharpOpaqueStruct:
-                return MergeOpaqueStruct(nodes, platforms);
+                return MergeOpaqueStruct(nodes, platforms, codeLocationComment);
             case CSharpEnum @enum:
-                return MergeEnum(nodes, platforms);
+                return MergeEnum(nodes, platforms, codeLocationComment);
             case CSharpMacroObject macroObject:
-                return MergeMacroObject(nodes, platforms);
+                return MergeMacroObject(nodes, platforms, codeLocationComment);
             case CSharpEnumConstant enumConstant:
-                return MergeEnumConstant(nodes, platforms);
+                return MergeEnumConstant(nodes, platforms, codeLocationComment);
             default:
                 throw new NotImplementedException();
         }
@@ -198,13 +201,14 @@ public sealed class CSharpMapper
 
     private CSharpFunction MergeFunction(
         ImmutableArray<PlatformCandidateNode> nodes,
-        ImmutableArray<TargetPlatform> platforms)
+        ImmutableArray<TargetPlatform> platforms,
+        string codeLocationComment)
     {
         var node = (CSharpFunction)nodes.First().CSharpNode;
         var mergedNode = new CSharpFunction(
             platforms,
             node.Name,
-            node.CodeLocationComment,
+            codeLocationComment,
             node.SizeOf,
             node.CallingConvention,
             node.ReturnType,
@@ -214,13 +218,14 @@ public sealed class CSharpMapper
 
     private CSharpFunctionPointer MergeFunctionPointer(
         ImmutableArray<PlatformCandidateNode> nodes,
-        ImmutableArray<TargetPlatform> platforms)
+        ImmutableArray<TargetPlatform> platforms,
+        string codeLocationComment)
     {
         var node = (CSharpFunctionPointer)nodes.First().CSharpNode;
         var newNode = new CSharpFunctionPointer(
             platforms,
             node.Name,
-            node.CodeLocationComment,
+            codeLocationComment,
             node.SizeOf,
             node.ReturnType,
             node.Parameters);
@@ -229,13 +234,14 @@ public sealed class CSharpMapper
 
     private CSharpStruct MergeStruct(
         ImmutableArray<PlatformCandidateNode> nodes,
-        ImmutableArray<TargetPlatform> platforms)
+        ImmutableArray<TargetPlatform> platforms,
+        string codeLocationComment)
     {
         var node = (CSharpStruct)nodes.First().CSharpNode;
         var newNode = new CSharpStruct(
             platforms,
             node.Name,
-            node.CodeLocationComment,
+            codeLocationComment,
             node.SizeOf!.Value,
             node.AlignOf,
             node.Fields,
@@ -245,13 +251,14 @@ public sealed class CSharpMapper
 
     private CSharpAliasStruct MergeAliasStruct(
         ImmutableArray<PlatformCandidateNode> nodes,
-        ImmutableArray<TargetPlatform> platforms)
+        ImmutableArray<TargetPlatform> platforms,
+        string codeLocationComment)
     {
         var node = (CSharpAliasStruct)nodes.First().CSharpNode;
         var newNode = new CSharpAliasStruct(
             platforms,
             node.Name,
-            node.CodeLocationComment,
+            codeLocationComment,
             node.SizeOf,
             node.UnderlyingType);
         return newNode;
@@ -259,25 +266,27 @@ public sealed class CSharpMapper
 
     private CSharpOpaqueStruct MergeOpaqueStruct(
         ImmutableArray<PlatformCandidateNode> nodes,
-        ImmutableArray<TargetPlatform> platforms)
+        ImmutableArray<TargetPlatform> platforms,
+        string codeLocationComment)
     {
         var node = (CSharpOpaqueStruct)nodes.First().CSharpNode;
         var newNode = new CSharpOpaqueStruct(
             platforms,
             node.Name,
-            node.CodeLocationComment);
+            codeLocationComment);
         return newNode;
     }
 
     private CSharpEnum MergeEnum(
         ImmutableArray<PlatformCandidateNode> nodes,
-        ImmutableArray<TargetPlatform> platforms)
+        ImmutableArray<TargetPlatform> platforms,
+        string codeLocationComment)
     {
         var node = (CSharpEnum)nodes.First().CSharpNode;
         var newNode = new CSharpEnum(
             platforms,
             node.Name,
-            node.CodeLocationComment,
+            codeLocationComment,
             node.IntegerType,
             node.Values);
         return newNode;
@@ -285,13 +294,14 @@ public sealed class CSharpMapper
 
     private CSharpMacroObject MergeMacroObject(
         ImmutableArray<PlatformCandidateNode> nodes,
-        ImmutableArray<TargetPlatform> platforms)
+        ImmutableArray<TargetPlatform> platforms,
+        string codeLocationComment)
     {
         var node = (CSharpMacroObject)nodes.First().CSharpNode;
         var newNode = new CSharpMacroObject(
             platforms,
             node.Name,
-            node.CodeLocationComment,
+            codeLocationComment,
             node.SizeOf,
             node.Type,
             node.Value,
@@ -301,17 +311,51 @@ public sealed class CSharpMapper
 
     private CSharpEnumConstant MergeEnumConstant(
         ImmutableArray<PlatformCandidateNode> nodes,
-        ImmutableArray<TargetPlatform> platforms)
+        ImmutableArray<TargetPlatform> platforms,
+        string codeLocationComment)
     {
         var node = (CSharpEnumConstant)nodes.First().CSharpNode;
         var newNode = new CSharpEnumConstant(
             platforms,
             node.Name,
-            node.CodeLocationComment,
+            codeLocationComment,
             node.SizeOf,
             node.Type,
             node.Value);
         return newNode;
+    }
+
+    private string MergeCodeLocationComment(ImmutableArray<PlatformCandidateNode> nodes)
+    {
+        _stringBuilder.Clear();
+
+        var firstNode = nodes.First();
+        var locationParse = firstNode.CSharpNode.CodeLocationComment.Split(' ');
+        var kindString = locationParse[1];
+        var fileLocation = locationParse[3];
+
+        _stringBuilder.Append("// ");
+        _stringBuilder.Append(kindString);
+        _stringBuilder.Append(" @ ");
+        _stringBuilder.Append(fileLocation);
+
+        foreach (var node in nodes)
+        {
+            _stringBuilder.Append("\n//\t");
+            _stringBuilder.Append(node.Platform);
+
+            var nodeLocationParse = node.CSharpNode.CodeLocationComment.Split(' ');
+            if (nodeLocationParse.Length >= 5)
+            {
+                var filePath = nodeLocationParse[4];
+                _stringBuilder.Append(' ');
+                _stringBuilder.Append(filePath);
+            }
+        }
+
+        var result = _stringBuilder.ToString();
+        _stringBuilder.Clear();
+        return result;
     }
 
     private void AddCandidateNode(
@@ -1118,7 +1162,7 @@ public sealed class CSharpMapper
 
         if (typeInfo.Kind is CKind.Pointer or CKind.Array)
         {
-            result = TypeNameCSharpPointer(typeInfo.Name, typeInfo.InnerType!);
+            result = TypeNameCSharpPointer(typeInfo.Name, typeInfo.InnerTypeInfo!);
         }
         else
         {
@@ -1180,7 +1224,7 @@ public sealed class CSharpMapper
         return functionPointerNameCSharp;
     }
 
-    private string TypeNameCSharpPointer(string typeName, CTypeInfo innerTypeInfo)
+    private string TypeNameCSharpPointer(string typeName, CTypeInfo? innerTypeInfo)
     {
         var pointerTypeName = typeName;
 
@@ -1226,7 +1270,12 @@ public sealed class CSharpMapper
             return "void" + pointersTypeName;
         }
 
-        var mappedElementTypeName = TypeNameCSharpRaw(elementTypeName, innerTypeInfo!.SizeOf);
+        if (innerTypeInfo == null)
+        {
+            throw new InvalidOperationException("a");
+        }
+
+        var mappedElementTypeName = TypeNameCSharpRaw(elementTypeName, innerTypeInfo.SizeOf);
         var result = mappedElementTypeName + pointersTypeName;
         return result;
     }

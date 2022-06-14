@@ -18,7 +18,7 @@ public abstract class RecordExplorer : ExploreHandler<CRecord>
     {
     }
 
-    protected ImmutableArray<CXCursor> RecordFieldCursors(CXType type)
+    public static ImmutableArray<CXCursor> FieldCursorsFromCursor(CXCursor cursor)
     {
         // We need to consider unions because they could be anonymous.
         //  Case 1: If the union has no tag (identifier) and has no member name (field name), the union should be promoted to an anonymous field.
@@ -31,12 +31,30 @@ public abstract class RecordExplorer : ExploreHandler<CRecord>
         // Thus, the solution here is to filter out the unions or structs that match to a field, leaving behind the anonymous structs or unions that need to get promoted.
         //  I.e. return only cursors which are fields, except for case 1.
 
-        var fieldCursors = type.GetFields();
-        if (fieldCursors.IsDefaultOrEmpty)
+        var cursors = cursor.GetDescendents(static (child, _) => true);
+        if (cursors.IsDefaultOrEmpty)
         {
             return ImmutableArray<CXCursor>.Empty;
         }
 
+        var result = FieldCursors(cursors);
+        return result;
+    }
+
+    public static ImmutableArray<CXCursor> FieldCursorsFromType(CXType type)
+    {
+        var cursors = type.GetFields();
+        if (cursors.IsDefaultOrEmpty)
+        {
+            return ImmutableArray<CXCursor>.Empty;
+        }
+
+        var result = FieldCursors(cursors);
+        return result;
+    }
+
+    private static ImmutableArray<CXCursor> FieldCursors(ImmutableArray<CXCursor> fieldCursors)
+    {
         var filteredFieldCursors = ImmutableArray.CreateBuilder<CXCursor>();
         filteredFieldCursors.Add(fieldCursors[^1]);
 
@@ -69,6 +87,7 @@ public abstract class RecordExplorer : ExploreHandler<CRecord>
             filteredFieldCursors.Reverse();
         }
 
-        return filteredFieldCursors.ToImmutableArray();
+        var result = filteredFieldCursors.ToImmutableArray();
+        return result;
     }
 }

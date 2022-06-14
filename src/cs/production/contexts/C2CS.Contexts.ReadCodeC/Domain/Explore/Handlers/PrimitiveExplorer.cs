@@ -50,7 +50,7 @@ public sealed class PrimitiveExplorer : ExploreHandler<CPrimitive>
 
     private static CPrimitive Primitive(ExploreContext context, ExploreInfoNode info)
     {
-        var typeInfo = context.VisitType(info.Type, info.Parent)!;
+        var typeInfo = context.VisitType(info.Type, info)!;
 
         var result = new CPrimitive
         {

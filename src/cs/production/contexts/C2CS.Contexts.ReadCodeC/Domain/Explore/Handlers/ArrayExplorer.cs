@@ -28,7 +28,7 @@ public sealed class ArrayExplorer : ExploreHandler<CArray>
     private static CArray Array(ExploreContext context, ExploreInfoNode info)
     {
         var type = clang_getElementType(info.Type);
-        var typeInfo = context.VisitType(type, info.Parent)!;
+        var typeInfo = context.VisitType(type, info)!;
 
         var result = new CArray
         {

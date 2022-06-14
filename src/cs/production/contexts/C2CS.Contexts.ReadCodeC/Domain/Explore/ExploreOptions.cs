@@ -28,4 +28,6 @@ public class ExploreOptions
     public bool IsEnabledAllowNamesWithPrefixedUnderscore { get; init; }
 
     public bool IsEnabledSystemDeclarations { get; init; }
+
+    public ImmutableHashSet<string> PassThroughTypeNames { get; init; } = ImmutableHashSet<string>.Empty;
 }

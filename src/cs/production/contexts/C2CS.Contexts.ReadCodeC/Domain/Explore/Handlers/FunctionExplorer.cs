@@ -107,12 +107,17 @@ public sealed class FunctionExplorer : ExploreHandler<CFunction>
     {
         var name = context.CursorName(parameterCursor);
         var parameterType = clang_getCursorType(parameterCursor);
-        var parameterTypeInfo = context.VisitType(parameterType, parentInfo)!;
+
+        var parameterTypeInfo = context.VisitType(parameterType, parentInfo);
+        if (parameterTypeInfo == null)
+        {
+            throw new ClangException("Null type.");
+        }
 
         var functionExternParameter = new CFunctionParameter
         {
             Name = name,
-            Location = parameterTypeInfo!.Location,
+            Location = parameterTypeInfo.Location,
             TypeInfo = parameterTypeInfo
         };
         return functionExternParameter;

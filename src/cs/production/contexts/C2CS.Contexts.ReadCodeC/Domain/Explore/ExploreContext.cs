@@ -2,7 +2,10 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using System.Text;
 using C2CS.Contexts.ReadCodeC.Data.Model;
+using C2CS.Contexts.ReadCodeC.Domain.Explore.Diagnostics;
+using C2CS.Contexts.ReadCodeC.Domain.Explore.Handlers;
 using C2CS.Contexts.ReadCodeC.Domain.Parse;
 using C2CS.Foundation.Diagnostics;
 using C2CS.Foundation.UseCases.Exceptions;
@@ -73,17 +76,17 @@ public sealed partial class ExploreContext
         return translationUnitSpelling.String();
     }
 
-    private string TypeName(CKind kind, CXType type, string? parentName, int? fieldIndex = null)
+    private string TypeName(CKind kind, CXType type, string? parentName, CKind? parentKind, int? fieldIndex = null)
     {
-        if (kind is
-            CKind.MacroObject or
-            CKind.Function)
+        switch (kind)
         {
-            return string.Empty;
+            case CKind.MacroObject or CKind.Function:
+                return string.Empty;
+            case CKind.FunctionPointer when !string.IsNullOrEmpty(parentName) && parentKind == CKind.TypeAlias:
+                return parentName;
         }
 
         var isField = fieldIndex != null;
-
         var typeCursor = clang_getTypeDeclaration(type);
         var isAnonymous = clang_Cursor_isAnonymous(typeCursor) > 0;
         if (isAnonymous)
@@ -188,69 +191,36 @@ enum {
     }
 
     public CTypeInfo? VisitType(
-        CXType typeCandidate, ExploreInfoNode? parentInfo, int? fieldIndex = null, CKind? kindHint = null)
+        CXType typeCandidate,
+        ExploreInfoNode? rootInfo,
+        int? fieldIndex = null,
+        CKind? kindHint = null)
     {
-        var (kind, type) = TypeKind(typeCandidate, parentInfo?.Kind);
+        var (kind, type) = TypeKind(typeCandidate, rootInfo?.Kind);
         if (kindHint != null && kind != kindHint)
         {
             kind = kindHint.Value;
         }
 
-        var cursor = clang_getTypeDeclaration(type);
-        string name;
-        if (kind == CKind.FunctionPointer && parentInfo!.Kind == CKind.TypeAlias)
+        while (rootInfo != null && rootInfo.Location == CLocation.NoLocation)
         {
-            name = parentInfo.Name;
-        }
-        else
-        {
-            name = cursor.Name();
+            rootInfo = rootInfo.Parent;
         }
 
-        if (ExploreOptions.OpaqueTypesNames.Contains(name))
+        var cursor = clang_getTypeDeclaration(type);
+        var typeName = TypeName(kind, type, rootInfo?.Name, rootInfo?.Kind, fieldIndex);
+        if (ExploreOptions.OpaqueTypesNames.Contains(typeName))
         {
             kind = CKind.OpaqueType;
         }
 
-        var info = CreateVisitInfoNode(kind, name, cursor, type, parentInfo, fieldIndex);
-        var handler = GetHandler(kind);
-        if (handler.IsBlocked(this, info.Kind, info.TypeName, info.Cursor, info.Parent))
-        {
-            return CreateTypeInfoBlocked(info);
-        }
-
-        if (kind == CKind.TypeAlias)
-        {
-            var underlyingTypeCandidate = clang_getTypedefDeclUnderlyingType(cursor);
-            var (underlyingTypeKind, underlyingType) = TypeKind(underlyingTypeCandidate, kind);
-            if (underlyingTypeKind is
-                CKind.Enum or
-                CKind.Struct or
-                CKind.Union or
-                CKind.FunctionPointer)
-            {
-                var underlyingTypeInfo = VisitType(underlyingType, info, kindHint: underlyingTypeKind)!;
-                var typeAliasTypeInfo = CreateTypeInfoTypeAlias(info.TypeName, underlyingTypeInfo);
-                return typeAliasTypeInfo;
-            }
-
-            if (underlyingTypeKind is CKind.Pointer)
-            {
-                TryEnqueueVisitInfoNode(kind, info);
-                var underlyingTypeInfo = VisitType(underlyingType, info)!;
-                var typeAliasTypeInfo = CreateTypeInfoTypeAlias(info.TypeName, underlyingTypeInfo);
-                return typeAliasTypeInfo;
-            }
-        }
-
-        TryEnqueueVisitInfoNode(kind, info);
-        var typeInfo = CreateTypeInfo(kind, info.TypeName, type, typeCandidate);
+        var typeInfo = VisitTypeInternal(kind, typeName, type, typeCandidate, cursor, rootInfo, null);
         return typeInfo;
     }
 
-    private void TryEnqueueVisitInfoNode(CKind kind, ExploreInfoNode exploreInfo)
+    private void TryEnqueueVisitInfoNode(CKind kind, ExploreInfoNode info)
     {
-        _tryEnqueueVisitNode(this, kind, exploreInfo);
+        _tryEnqueueVisitNode(this, kind, info);
     }
 
     private (CKind Kind, CXType Type) TypeKind(CXType type, CKind? parentKind)
@@ -344,16 +314,166 @@ enum {
         return (CKind.Pointer, cursorType);
     }
 
-    private CTypeInfo CreateTypeInfo(CKind kind, string typeName, CXType type, CXType containerType)
+    internal bool IsAllowed(CKind kind, string name, CXCursor cursor, CXType type)
+    {
+        var location = Location(cursor, type);
+        var fileName = Path.GetFileName(location.FullFilePath);
+        if (ExploreOptions.HeaderFilesBlocked.Contains(fileName))
+        {
+            return false;
+        }
+
+        if (!ExploreOptions.IsEnabledSystemDeclarations)
+        {
+            var cursorLocation = clang_getCursorLocation(cursor);
+            var isSystemCursor = clang_Location_isInSystemHeader(cursorLocation) > 0;
+            if (isSystemCursor)
+            {
+                return false;
+            }
+        }
+
+        if (!ExploreOptions.IsEnabledAllowNamesWithPrefixedUnderscore)
+        {
+            if (kind == CKind.FunctionPointer)
+            {
+                return true;
+            }
+
+            var nameWithoutPointers = name.TrimEnd('*');
+            if (nameWithoutPointers == "_Bool")
+            {
+                return true;
+            }
+
+            var namesStartsWithUnderscore = name.StartsWith("_", StringComparison.InvariantCultureIgnoreCase);
+            if (namesStartsWithUnderscore)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private CTypeInfo? VisitTypeInternal(
+        CKind kind,
+        string typeName,
+        CXType type,
+        CXType containerType,
+        CXCursor cursor,
+        ExploreInfoNode? rootNode,
+        bool? parentIsFromBlockedHeader)
     {
         if (type.kind == CXTypeKind.CXType_Attributed)
         {
             var typeCandidate = clang_Type_getModifiedType(type);
-            return CreateTypeInfo(kind, typeName, typeCandidate, containerType);
+            var typeCandidateCursor = clang_getTypeDeclaration(typeCandidate);
+            return VisitTypeInternal(kind, typeName, typeCandidate, containerType, typeCandidateCursor, rootNode, parentIsFromBlockedHeader);
         }
 
-        var sizeOf = SizeOf(kind, containerType);
-        var alignOf = AlignOf(kind, containerType);
+        var locationCursor = clang_getTypeDeclaration(type);
+        var location = Location(locationCursor, type);
+
+        var isFromBlockedHeader = false;
+        if (!IsAllowed(kind, typeName, cursor, containerType))
+        {
+            if (parentIsFromBlockedHeader.HasValue && parentIsFromBlockedHeader.Value)
+            {
+                return null;
+            }
+
+            if (typeName == "va_list")
+            {
+                return CTypeInfo.VoidPointer(PointerSize);
+            }
+
+            if (rootNode != null)
+            {
+                var cursorLocation = clang_getCursorLocation(cursor);
+                var isSystemCursor = clang_Location_isInSystemHeader(cursorLocation) > 0;
+                var isPassThrough = ExploreOptions.PassThroughTypeNames.Contains(typeName);
+                if (!isSystemCursor && !isPassThrough)
+                {
+                    var diagnostic = new TypeFromBlockedHeaderDiagnostic(typeName, location, rootNode.Location);
+                    Diagnostics.Add(diagnostic);
+                }
+            }
+
+            isFromBlockedHeader = true;
+        }
+
+        int sizeOf;
+        int? alignOf;
+        CTypeInfo? innerType = null;
+        if (kind is CKind.Pointer)
+        {
+            var pointeeTypeCandidate = clang_getPointeeType(type);
+            var (pointeeTypeKind, pointeeType) = TypeKind(pointeeTypeCandidate, kind);
+            var pointeeTypeName = pointeeType.Name();
+            var pointeeTypeCursor = clang_getTypeDeclaration(pointeeType);
+
+            if (ExploreOptions.OpaqueTypesNames.Contains(pointeeTypeName))
+            {
+                pointeeTypeKind = CKind.OpaqueType;
+            }
+
+            innerType = VisitTypeInternal(
+                pointeeTypeKind, pointeeTypeName, pointeeType, pointeeTypeCandidate, pointeeTypeCursor, rootNode, isFromBlockedHeader);
+            sizeOf = PointerSize;
+            alignOf = PointerSize;
+        }
+        else if (kind is CKind.Array)
+        {
+            var elementTypeCandidate = clang_getArrayElementType(type);
+            var (elementTypeKind, elementType) = TypeKind(elementTypeCandidate, kind);
+            var elementTypeName = elementType.Name();
+            var elementTypeCursor = clang_getTypeDeclaration(elementType);
+
+            if (ExploreOptions.OpaqueTypesNames.Contains(elementTypeName))
+            {
+                elementTypeKind = CKind.OpaqueType;
+            }
+
+            innerType = VisitTypeInternal(elementTypeKind, elementTypeName, elementType, elementTypeCandidate, elementTypeCursor, rootNode, isFromBlockedHeader);
+            sizeOf = PointerSize;
+            alignOf = PointerSize;
+        }
+        else if (kind is CKind.TypeAlias)
+        {
+            var aliasTypeCandidate = clang_getTypedefDeclUnderlyingType(cursor);
+            var (aliasTypeKind, aliasType) = TypeKind(aliasTypeCandidate, kind);
+            var aliasTypeName = aliasType.Name();
+            var aliasTypeCursor = clang_getTypeDeclaration(aliasType);
+
+            if (ExploreOptions.OpaqueTypesNames.Contains(aliasTypeName))
+            {
+                aliasTypeKind = CKind.OpaqueType;
+            }
+
+            innerType = VisitTypeInternal(aliasTypeKind, aliasTypeName, aliasType, aliasTypeCandidate, aliasTypeCursor, rootNode, isFromBlockedHeader);
+            if (innerType != null)
+            {
+                if (innerType.Kind == CKind.OpaqueType)
+                {
+                    return innerType;
+                }
+
+                sizeOf = innerType.SizeOf;
+                alignOf = innerType.AlignOf;
+            }
+            else
+            {
+                sizeOf = SizeOf(kind, aliasType);
+                alignOf = AlignOf(kind, aliasType);
+            }
+        }
+        else
+        {
+            sizeOf = SizeOf(kind, containerType);
+            alignOf = AlignOf(kind, containerType);
+        }
+
         var arraySizeValue = (int)clang_getArraySize(containerType);
         int? arraySize = arraySizeValue >= 0 ? arraySizeValue : null;
 
@@ -365,38 +485,9 @@ enum {
             elementSize = SizeOf(arrayKind, elementType);
         }
 
-        var locationCursor = clang_getTypeDeclaration(type);
-        var location = Location(locationCursor, type);
         var isAnonymous = clang_Cursor_isAnonymous(locationCursor) > 0;
 
-        CTypeInfo? innerType = null;
-        if (kind is CKind.Pointer)
-        {
-            var pointeeTypeCandidate = clang_getPointeeType(type);
-            var (pointeeTypeKind, pointeeType) = TypeKind(pointeeTypeCandidate, kind);
-            var pointeeTypeName = pointeeType.Name();
-
-            if (ExploreOptions.OpaqueTypesNames.Contains(pointeeTypeName))
-            {
-                pointeeTypeKind = CKind.OpaqueType;
-            }
-
-            innerType = CreateTypeInfo(pointeeTypeKind, pointeeTypeName, pointeeType, pointeeTypeCandidate);
-        }
-        else if (kind is CKind.Array)
-        {
-            var elementTypeCandidate = clang_getArrayElementType(type);
-            var (elementTypeKind, elementType) = TypeKind(elementTypeCandidate, kind);
-            var elementTypeName = elementType.Name();
-            if (ExploreOptions.OpaqueTypesNames.Contains(elementTypeName))
-            {
-                elementTypeKind = CKind.OpaqueType;
-            }
-
-            innerType = CreateTypeInfo(elementTypeKind, elementTypeName, elementType, elementTypeCandidate);
-        }
-
-        var cType = new CTypeInfo
+        var typeInfo = new CTypeInfo
         {
             Name = typeName,
             Kind = kind,
@@ -406,72 +497,26 @@ enum {
             ArraySizeOf = arraySize,
             Location = location,
             IsAnonymous = isAnonymous ? true : null,
-            InnerType = innerType
+            InnerTypeInfo = innerType
         };
 
-        var fileName = location.FileName;
-        // if (context.Options.HeaderFilesBlocked.Contains(fileName))
-        // {
-        //     var diagnostic = new TypeFromIgnoredHeaderDiagnostic(typeName, fileName);
-        //     context.Diagnostics.Add(diagnostic);
-        // }
+        if (typeInfo.Kind == CKind.TypeAlias && typeInfo.InnerTypeInfo != null &&
+            typeInfo.Name == typeInfo.InnerTypeInfo.Name)
+        {
+            return typeInfo;
+        }
 
-        return cType;
+        var visitInfo = CreateVisitInfoNode(typeInfo, cursor, type, rootNode);
+        TryEnqueueVisitInfoNode(visitInfo.Kind, visitInfo);
+        return typeInfo;
     }
 
     public CLocation Location(CXCursor cursor, CXType type)
     {
-        return cursor.Location(type, _linkedPaths, ExploreOptions.IsEnabledLocationFullPaths ? ParseOptions.UserIncludeDirectories : ImmutableArray<string>.Empty);
-    }
-
-    private CTypeInfo? CreateTypeInfoBlocked(ExploreInfoNode info)
-    {
-        if (info.Parent == null)
-        {
-            return null;
-        }
-
-        if (info.Parent.Kind == CKind.TypeAlias && info.Kind == CKind.Pointer)
-        {
-            return CTypeInfo.VoidPointer(PointerSize);
-        }
-
-        if (info.TypeName == "va_list")
-        {
-            return CTypeInfo.VoidPointer(PointerSize);
-        }
-
-        if (info.Kind == CKind.TypeAlias)
-        {
-            var underlyingType = clang_getTypedefDeclUnderlyingType(info.Cursor);
-            var underlyingTypeInfo = VisitType(underlyingType, info);
-            if (underlyingTypeInfo == null)
-            {
-                return null;
-            }
-
-            return underlyingTypeInfo;
-        }
-
-        return null;
-    }
-
-    private CTypeInfo CreateTypeInfoTypeAlias(string typeName, CTypeInfo underlyingTypeInfo)
-    {
-        var typeInfo = new CTypeInfo
-        {
-            Name = typeName,
-            Kind = CKind.TypeAlias,
-            SizeOf = PointerSize,
-            AlignOf = PointerSize,
-            ElementSize = null,
-            ArraySizeOf = null,
-            Location = CLocation.NoLocation,
-            IsAnonymous = null,
-            InnerType = underlyingTypeInfo
-        };
-
-        return typeInfo;
+        var userIncludeDirectories = ExploreOptions.IsEnabledLocationFullPaths
+            ? ImmutableArray<string>.Empty
+            : ParseOptions.UserIncludeDirectories;
+        return cursor.Location(type, _linkedPaths, userIncludeDirectories);
     }
 
     private int SizeOf(CKind kind, CXType type)
@@ -517,13 +562,30 @@ enum {
         return result;
     }
 
-    public ExploreInfoNode CreateVisitInfoNode(
-        CKind kind,
-        string name,
+    private static ExploreInfoNode CreateVisitInfoNode(
+        CTypeInfo typeInfo,
         CXCursor cursor,
         CXType type,
-        ExploreInfoNode? parentInfo,
-        int? fieldIndex = null)
+        ExploreInfoNode? parentInfo)
+    {
+        var result = new ExploreInfoNode
+        {
+            Kind = typeInfo.Kind,
+            Name = typeInfo.Name,
+            TypeName = typeInfo.Name,
+            Type = type,
+            Cursor = cursor,
+            Location = typeInfo.Location,
+            Parent = parentInfo,
+            SizeOf = typeInfo.SizeOf,
+            AlignOf = typeInfo.AlignOf
+        };
+
+        return result;
+    }
+
+    public ExploreInfoNode CreateVisitInfoNode(
+        CKind kind, string name, CXCursor cursor, CXType type, ExploreInfoNode? parentInfo)
     {
         var location = Location(cursor, type);
         if (location.IsNull && parentInfo?.Kind == CKind.TypeAlias)
@@ -531,7 +593,7 @@ enum {
             location = parentInfo.Location;
         }
 
-        var typeNameActual = TypeName(kind, type, parentInfo?.Name, fieldIndex);
+        var typeNameActual = TypeName(kind, type, parentInfo?.Name, null);
         var nameActual = !string.IsNullOrEmpty(name) ? name : typeNameActual;
         var sizeOf = SizeOf(kind, type);
         var alignOf = AlignOf(kind, type);

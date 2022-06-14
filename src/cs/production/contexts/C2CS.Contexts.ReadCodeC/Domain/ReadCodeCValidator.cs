@@ -82,6 +82,8 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         var clangDefines = VerifyImmutableArray(configurationPlatform?.Defines);
         var clangArguments = VerifyImmutableArray(configurationPlatform?.ClangArguments);
 
+        var passThroughTypedNames = VerifyImmutableArray(configuration.PassThroughTypeNames).ToImmutableHashSet();
+
         var inputAbstractSyntaxTree = new ReadCodeCAbstractSyntaxTreeInput
         {
             TargetPlatform = targetPlatform,
@@ -98,7 +100,8 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
                 IsEnabledEnumConstants = configuration.IsEnabledEnumConstants ?? true,
                 IsEnabledEnumsDangling = configuration.IsEnabledEnumsDangling ?? false,
                 IsEnabledAllowNamesWithPrefixedUnderscore = configuration.IsEnabledAllowNamesWithPrefixedUnderscore ?? false,
-                IsEnabledSystemDeclarations = configuration.IsEnabledSystemDeclarations ?? false
+                IsEnabledSystemDeclarations = configuration.IsEnabledSystemDeclarations ?? false,
+                PassThroughTypeNames = passThroughTypedNames
             },
             ParseOptions = new ParseOptions
             {

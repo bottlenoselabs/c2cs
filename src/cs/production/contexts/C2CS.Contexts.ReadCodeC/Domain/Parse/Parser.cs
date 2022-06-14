@@ -311,7 +311,7 @@ public sealed partial class Parser
             readerLineNumber++;
         }
 
-        var locationString = line.TrimStart('/').Trim();
+        var locationString = line.Trim().TrimStart('/').Trim();
         var lineIndex = locationString.IndexOf(':', StringComparison.InvariantCulture);
         var columnIndex = locationString.IndexOf(":", lineIndex + 1, StringComparison.InvariantCulture);
         var filePathIndex = locationString.IndexOf('(', StringComparison.InvariantCulture);
@@ -538,7 +538,6 @@ int main(void)
             for (var i = 1; i < (int)tokensCount; i++)
             {
                 var tokenString = clang_getTokenSpelling(translationUnit, tokensC[i]).String();
-                var tokenKind = clang_getTokenKind(tokensC[i]);
 
                 // CLANG BUG?: https://github.com/FNA-XNA/FAudio/blob/b84599a5e6d7811b02329709a166a337de158c5e/include/FAPOBase.h#L90
                 if (tokenString.StartsWith('\\'))

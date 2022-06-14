@@ -5,15 +5,15 @@
   "parameters": [
     {
       "name": "a",
-      "type_name": "unsigned short"
+      "type_name": "uint16_t"
     },
     {
       "name": "b",
-      "type_name": "int"
+      "type_name": "int32_t"
     },
     {
       "name": "c",
-      "type_name": "unsigned long long"
+      "type_name": "uint64_t"
     }
   ]
 }

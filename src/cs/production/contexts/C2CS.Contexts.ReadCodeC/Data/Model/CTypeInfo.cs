@@ -11,8 +11,6 @@ namespace C2CS.Contexts.ReadCodeC.Data.Model;
 public class CTypeInfo
 {
 #pragma warning disable CA2211
-    public static readonly CTypeInfo Empty = new();
-
     public static readonly CTypeInfo Void = new()
     {
         Name = "void",
@@ -36,7 +34,7 @@ public class CTypeInfo
             ArraySizeOf = null,
             Location = CLocation.NoLocation,
             IsAnonymous = null,
-            InnerType = Void
+            InnerTypeInfo = Void
         };
     }
 #pragma warning restore CA2211
@@ -67,11 +65,39 @@ public class CTypeInfo
     public CLocation Location { get; set; }
 
     [JsonPropertyName("inner_type")]
-    public CTypeInfo? InnerType { get; set; }
+    public CTypeInfo? InnerTypeInfo { get; set; }
 
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {
         return Name;
     }
+
+// #pragma warning disable CA1815
+// #pragma warning disable CA1034
+// #pragma warning disable SA1307
+//     // ReSharper disable InconsistentNaming
+//     [StructLayout(LayoutKind.Explicit, Size = 32, Pack = 8)]
+//     public unsafe struct CXCursor
+//     {
+//         [FieldOffset(0)] // size = 4, padding = 0
+//         public readonly clang.CXCursorKind kind;
+//
+//         [FieldOffset(4)] // size = 4, padding = 0
+//         public readonly int xdata;
+//
+//         [FieldOffset(8)] // size = 24, padding = 0
+//         public fixed byte _data[24]; // void*[3]
+//     }
+//
+//     [StructLayout(LayoutKind.Explicit, Size = 24, Pack = 8)]
+//     public unsafe struct CXType
+//     {
+//         [FieldOffset(0)] // size = 4, padding = 4
+//
+//         public clang.CXTypeKind kind;
+//
+//         [FieldOffset(8)] // size = 16, padding = 0
+//         public fixed byte _data[16]; // void*[2]
+//     }
 }
