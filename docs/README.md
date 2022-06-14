@@ -83,7 +83,7 @@ Let's take a look at a more complicated example by adding multiple target platfo
 
 ```json
 {
-  "$schema": "https://github.com/bottlenoselabs/c2cs/schema.json",
+  "$schema": "https://raw.githubusercontent.com/bottlenoselabs/c2cs/main/schema.json",
   "directory": "path/to/my_c_library/ast",
   "cs": {
     "input_file": "path/to/my_c_library/include/my_c_library.h",
@@ -109,7 +109,7 @@ What is recommended is that different configuration files are used for each host
 `config_ast_windows.json`
 ```json
 {
-  "$schema": "https://github.com/bottlenoselabs/c2cs/schema.json",
+  "$schema": "https://raw.githubusercontent.com/bottlenoselabs/c2cs/main/schema.json",
   "directory": "path/to/my_c_library/ast",
   "cs": {
     "input_file": "path/to/my_c_library/include/my_c_library.h",
@@ -124,7 +124,7 @@ What is recommended is that different configuration files are used for each host
 `config_ast_macos.json`
 ```json
 {
-  "$schema": "https://github.com/bottlenoselabs/c2cs/schema.json",
+  "$schema": "https://raw.githubusercontent.com/bottlenoselabs/c2cs/main/schema.json",
   "directory": "path/to/my_c_library/ast",
   "cs": {
     "input_file": "path/to/my_c_library/include/my_c_library.h",
@@ -139,7 +139,7 @@ What is recommended is that different configuration files are used for each host
 `config_ast_linux.json`
 ```json
 {
-  "$schema": "https://github.com/bottlenoselabs/c2cs/schema.json",
+  "$schema": "https://raw.githubusercontent.com/bottlenoselabs/c2cs/main/schema.json",
   "directory": "path/to/my_c_library/ast",
   "cs": {
     "input_file": "path/to/my_c_library/include/my_c_library.h",
@@ -156,7 +156,7 @@ Once the AST files are generated, move or copy them all over to any operating sy
 `config_cs.json`
 ```json
 {
-  "$schema": "https://github.com/bottlenoselabs/c2cs/schema.json",
+  "$schema": "https://raw.githubusercontent.com/bottlenoselabs/c2cs/main/schema.json",
   "directory": "path/to/my_c_library/ast",
   "cs": {
     "output_file": "path/to/my_c_library/cs/my_c_library.cs"
@@ -214,55 +214,27 @@ Open `./C2CS.sln`
 
 ### Debugging using logging
 
-Structured logging is added for sanity checking of normal/expected operation. It is also extremely helpful for diagnosing or digging into a problem. In more advanced situations it is used for automated black box testing. Any log can easily be identifiable back to the code via a quick search.
+By default `C2CS` has logs enabled for `Information` level. To enable logs for `Debug` level place the following `appsettings.json` file beside `C2CS` or in the current directory where `C2CS` is being run from. You can also change some other settings for logs through this file.
 
-An example of some logging output for console:
-
+```json
+{
+    "Logging": {
+        "Console": {
+            "LogLevel": {
+                "Default": "Warning",
+                "C2CS": "Debug"
+            },
+            "FormatterOptions": {
+                "ColorBehavior": "Enabled",
+                "SingleLine": true,
+                "IncludeScopes": true,
+                "TimestampFormat": "yyyy-dd-MM HH:mm:ss ",
+                "UseUtcTimestamp": true
+            }
+        }
+    }
+}
 ```
-2022-31-03 01:54:24 info: [0] Configuration load: Success. Path: path/to/c2cs/bin/helloworld-c/Debug/net6.0/config.json.
-2022-31-03 01:54:24 info: [2] => Extract AST C - Started
-2022-31-03 01:54:24 info: [5] => Extract AST C => Install Clang macOS - Step started
-2022-31-03 01:54:24 trce: [8] => Extract AST C => Install Clang macOS - Success
-2022-31-03 01:54:24 info: [6] => Extract AST C => Install Clang macOS - Step finished in 0.001 seconds
-2022-31-03 01:54:24 info: [5] => Extract AST C => Parse x86_64-pc-windows - Step started
-2022-31-03 01:54:25 trce: [10] => Extract AST C => Parse x86_64-pc-windows - Success. Path: path/to/c2cs/src/cs/examples/helloworld/helloworld-c/my_c_library/include/my_c_library.h ; Clang arguments: --language=c --std=c11 -Wno-pragma-once-outside-header -fno-blocks --include-directory=/Users/lstranks/Programming/bottlenose/c2cs/src/cs/examples/helloworld/helloworld-c/my_c_library/include --target=x86_64-pc-windows ; Diagnostics: 0
-2022-31-03 01:54:25 info: [6] => Extract AST C => Parse x86_64-pc-windows - Step finished in 0.119 seconds
-2022-31-03 01:54:25 info: [5] => Extract AST C => Extract x86_64-pc-windows - Step started
-2022-31-03 01:54:25 trce: [13] => Extract AST C => Extract x86_64-pc-windows - Translation unit my_c_library.h
-2022-31-03 01:54:25 trce: [17] => Extract AST C => Extract x86_64-pc-windows - Enum my_enum_week_day
-2022-31-03 01:54:25 trce: [22] => Extract AST C => Extract x86_64-pc-windows - Type signed int
-2022-31-03 01:54:25 trce: [16] => Extract AST C => Extract x86_64-pc-windows - Function hello_world
-2022-31-03 01:54:25 trce: [22] => Extract AST C => Extract x86_64-pc-windows - Type void
-2022-31-03 01:54:25 trce: [16] => Extract AST C => Extract x86_64-pc-windows - Function pass_string
-2022-31-03 01:54:25 trce: [22] => Extract AST C => Extract x86_64-pc-windows - Type char*
-2022-31-03 01:54:25 trce: [22] => Extract AST C => Extract x86_64-pc-windows - Type char
-2022-31-03 01:54:25 trce: [16] => Extract AST C => Extract x86_64-pc-windows - Function pass_integers_by_value
-2022-31-03 01:54:25 trce: [16] => Extract AST C => Extract x86_64-pc-windows - Function pass_integers_by_reference
-2022-31-03 01:54:25 trce: [22] => Extract AST C => Extract x86_64-pc-windows - Type uint16_t*
-2022-31-03 01:54:25 trce: [22] => Extract AST C => Extract x86_64-pc-windows - Type int32_t*
-2022-31-03 01:54:25 trce: [22] => Extract AST C => Extract x86_64-pc-windows - Type uint64_t*
-2022-31-03 01:54:25 trce: [16] => Extract AST C => Extract x86_64-pc-windows - Function pass_enum
-2022-31-03 01:54:25 trce: [12] => Extract AST C => Extract x86_64-pc-windows - Success
-2022-31-03 01:54:25 info: [6] => Extract AST C => Extract x86_64-pc-windows - Step finished in 0.026 seconds
-2022-31-03 01:54:25 info: [5] => Extract AST C => Write x86_64-pc-windows - Step started
-2022-31-03 01:54:25 trce: [25] => Extract AST C => Write x86_64-pc-windows - Write abstract syntax tree C: Success. Path: path/to/c2cs/src/cs/examples/helloworld/helloworld-c/my_c_library/ast/x86_64-pc-windows.json
-2022-31-03 01:54:25 info: [6] => Extract AST C => Write x86_64-pc-windows - Step finished in 0.086 seconds
-...
-2022-31-03 01:54:25 info: [3] => Extract AST C - Success in 0.495 seconds
-```
-
-Things to notice from left to right:
-
-- Date
-- Time
-- Log level:
-    -  `trce` stands for "trace". Ignorable at a glance; used for verbose information about what the program is doing exactly.
-    -  `info`. Used for general higher level information about what the program is doing. Good for building automation tests from logging.
-    -  `warn` stands for "warning". Suspicious; indicative of an expected but undesired outcome. Does not halt the program.
-    -  `error`. Unacceptable; indicative of an unexpected result which should get fixed. Does not halt the program.
-    -  `crit`. Crash; gracefully exit the program with a stack trace.
-- `[number]`: Used for automated tests and otherwise quick searching. Each kind of log is easily identifiable by a unique numeric identifier. E.g., when any use case begins it is 2. When any use case end successfully it is 3.
-- `=>`: The scope of the log. Helps keep track of the context of the log. Scopes can be nested with more than one `=>`. E.g. there is a scope for the use case of "Extract AST C" and a scope for "Extract x86_64-pc-windows". `x86_64-pc-windows` is the target platform to parse the C code with Clang.
 
 ## Examples
 
