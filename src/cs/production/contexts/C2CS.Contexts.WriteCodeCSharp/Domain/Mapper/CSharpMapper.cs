@@ -1224,7 +1224,7 @@ public sealed class CSharpMapper
         return functionPointerNameCSharp;
     }
 
-    private string TypeNameCSharpPointer(string typeName, CTypeInfo? innerTypeInfo)
+    private string TypeNameCSharpPointer(string typeName, CTypeInfo innerTypeInfo)
     {
         var pointerTypeName = typeName;
 
