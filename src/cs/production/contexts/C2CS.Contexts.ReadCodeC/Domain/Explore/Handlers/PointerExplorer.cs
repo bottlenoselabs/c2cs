@@ -29,7 +29,7 @@ public sealed class PointerExplorer : ExploreHandler<CPointer>
     private static CPointer Pointer(ExploreContext context, ExploreInfoNode info)
     {
         var type = clang_getPointeeType(info.Type);
-        var typeInfo = context.VisitType(type, info.Parent)!;
+        var typeInfo = context.VisitType(type, info)!;
 
         var result = new CPointer
         {

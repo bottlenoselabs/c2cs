@@ -45,7 +45,7 @@ public sealed class StructExplorer : RecordExplorer
         ExploreInfoNode info)
     {
         var builder = ImmutableArray.CreateBuilder<CRecordField>();
-        var fieldCursors = RecordFieldCursors(info.Type);
+        var fieldCursors = FieldCursorsFromType(info.Type);
         var fieldCursorsLength = fieldCursors.Length;
         if (fieldCursorsLength > 0)
         {

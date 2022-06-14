@@ -377,6 +377,8 @@ public sealed partial class Explorer
 
     private void VisitTranslationUnit(ExploreContext context, CXTranslationUnit translationUnit, string filePath)
     {
+        LogVisitingTranslationUnit(filePath);
+
         VisitMacroCandidates(context, translationUnit, filePath);
 
         var translationUnitCursor = clang_getTranslationUnitCursor(translationUnit);
@@ -590,36 +592,39 @@ public sealed partial class Explorer
     [LoggerMessage(2, LogLevel.Debug, "- Success")]
     public partial void LogSuccess();
 
-    [LoggerMessage(3, LogLevel.Information, "- Visited translation unit: {FilePath}")]
+    [LoggerMessage(3, LogLevel.Debug, "- Visiting translation unit: {FilePath}")]
+    public partial void LogVisitingTranslationUnit(string filePath);
+
+    [LoggerMessage(4, LogLevel.Information, "- Visited translation unit: {FilePath}")]
     public partial void LogVisitedTranslationUnit(string filePath);
 
-    [LoggerMessage(4, LogLevel.Information, "- Exploring macros")]
+    [LoggerMessage(5, LogLevel.Information, "- Exploring macros")]
     public partial void LogExploringMacros();
 
-    [LoggerMessage(5, LogLevel.Information, "- Found {FoundCount} macros: {Names}")]
+    [LoggerMessage(6, LogLevel.Information, "- Found {FoundCount} macros: {Names}")]
     public partial void LogFoundMacros(int foundCount, string names);
 
-    [LoggerMessage(6, LogLevel.Information, "- Exploring {Count} variables: {Names}")]
+    [LoggerMessage(7, LogLevel.Information, "- Exploring {Count} variables: {Names}")]
     public partial void LogExploringVariables(int count, string names);
 
-    [LoggerMessage(7, LogLevel.Information, "- Found {FoundCount} variables: {Names}")]
+    [LoggerMessage(8, LogLevel.Information, "- Found {FoundCount} variables: {Names}")]
     public partial void LogFoundVariables(int foundCount, string names);
 
-    [LoggerMessage(8, LogLevel.Information, "- Exploring {Count} functions: {Names}")]
+    [LoggerMessage(9, LogLevel.Information, "- Exploring {Count} functions: {Names}")]
     public partial void LogExploringFunctions(int count, string names);
 
-    [LoggerMessage(9, LogLevel.Information, "- Found {FoundCount} functions: {Names}")]
+    [LoggerMessage(10, LogLevel.Information, "- Found {FoundCount} functions: {Names}")]
     public partial void LogFoundFunctions(int foundCount, string names);
 
-    [LoggerMessage(10, LogLevel.Information, "- Exploring {Count} types: {Names}")]
+    [LoggerMessage(11, LogLevel.Information, "- Exploring {Count} types: {Names}")]
     public partial void LogExploringTypes(int count, string names);
 
-    [LoggerMessage(11, LogLevel.Information, "- Found {FoundCount} types: {Names}")]
+    [LoggerMessage(12, LogLevel.Information, "- Found {FoundCount} types: {Names}")]
     public partial void LogFoundTypes(int foundCount, string names);
 
-    [LoggerMessage(12, LogLevel.Debug, "- Enqueued {Kind} '{Name}' ({Location})")]
+    [LoggerMessage(13, LogLevel.Debug, "- Enqueued {Kind} '{Name}' ({Location})")]
     public partial void LogEnqueue(CKind kind, string name, CLocation location);
 
-    [LoggerMessage(13, LogLevel.Information, "- Found {Kind} '{Name}' ({Location})")]
+    [LoggerMessage(14, LogLevel.Information, "- Found {Kind} '{Name}' ({Location})")]
     public partial void LogFoundNode(CKind kind, string name, CLocation location);
 }

@@ -103,4 +103,8 @@ public sealed class ReadCodeCConfiguration : UseCaseConfiguration
     [Json.Schema.Generation.Description("Names of libraries and/or interfaces for macOS, iOS, tvOS or watchOS.")]
     [JsonPropertyName("frameworks")]
     public ImmutableArray<string?>? Frameworks { get; set; }
+
+    [Json.Schema.Generation.Description("Type names which can come from blocked header files but are passed through without creating diagnostics.")]
+    [JsonPropertyName("pass_through_types")]
+    public ImmutableArray<string?>? PassThroughTypeNames { get; set; }
 }

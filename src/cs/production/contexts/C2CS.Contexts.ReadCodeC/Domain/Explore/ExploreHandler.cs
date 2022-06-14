@@ -59,7 +59,7 @@ public abstract partial class ExploreHandler
             return false;
         }
 
-        if (!IsAllowed(context, info.Kind, info.Name, info.Cursor))
+        if (!context.IsAllowed(info.Kind, info.Name, info.Cursor, info.Type))
         {
             return false;
         }
@@ -83,9 +83,15 @@ public abstract partial class ExploreHandler
         return true;
     }
 
-    internal bool IsBlocked(ExploreContext context, CKind kind, string name, CXCursor cursor, ExploreInfoNode? parentInfo)
+    internal bool IsBlocked(
+        ExploreContext context,
+        CKind kind,
+        string name,
+        CXCursor cursor,
+        CXType type,
+        ExploreInfoNode? parentInfo)
     {
-        if (!IsAllowed(context, kind, name, cursor))
+        if (!context.IsAllowed(kind, name, cursor, type))
         {
             return true;
         }
@@ -133,41 +139,6 @@ public abstract partial class ExploreHandler
     private void MarkAsVisited(ExploreInfoNode info)
     {
         _visitedNames.Add(info.Name, info.Location);
-    }
-
-    private static bool IsAllowed(ExploreContext context, CKind kind, string name, CXCursor cursor)
-    {
-        if (!context.ExploreOptions.IsEnabledSystemDeclarations)
-        {
-            var cursorLocation = clang_getCursorLocation(cursor);
-            var isSystemCursor = clang_Location_isInSystemHeader(cursorLocation) > 0;
-            if (isSystemCursor)
-            {
-                return false;
-            }
-        }
-
-        if (!context.ExploreOptions.IsEnabledAllowNamesWithPrefixedUnderscore)
-        {
-            if (kind == CKind.FunctionPointer)
-            {
-                return true;
-            }
-
-            var nameWithoutPointers = name.TrimEnd('*');
-            if (nameWithoutPointers == "_Bool")
-            {
-                return true;
-            }
-
-            var namesStartsWithUnderscore = name.StartsWith("_", StringComparison.InvariantCultureIgnoreCase);
-            if (namesStartsWithUnderscore)
-            {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     public abstract CNode Explore(ExploreContext context, ExploreInfoNode info);

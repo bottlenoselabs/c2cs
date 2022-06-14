@@ -42,7 +42,7 @@ public sealed class FunctionPointerExplorer : ExploreHandler<CFunctionPointer>
 
     private static CFunctionPointer FunctionPointer(ExploreContext context, ExploreInfoNode info)
     {
-        var typeInfo = context.VisitType(info.Type, info.Parent, kindHint: CKind.FunctionPointer)!;
+        var typeInfo = context.VisitType(info.Type, info, kindHint: CKind.FunctionPointer)!;
         var returnTypeInfo = FunctionPointerReturnType(context, info);
         var parameters = FunctionPointerParameters(context, info);
 
@@ -60,7 +60,7 @@ public sealed class FunctionPointerExplorer : ExploreHandler<CFunctionPointer>
     private static CTypeInfo FunctionPointerReturnType(ExploreContext context, ExploreInfoNode info)
     {
         var returnType = clang_getResultType(info.Type);
-        var returnTypeInfo = context.VisitType(returnType, info.Parent)!;
+        var returnTypeInfo = context.VisitType(returnType, info)!;
         return returnTypeInfo;
     }
 

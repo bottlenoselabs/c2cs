@@ -41,7 +41,7 @@ public class EnumConstantExplorer : ExploreHandler<CEnumConstant>
 
     private CEnumConstant EnumConstant(ExploreContext context, ExploreInfoNode info)
     {
-        var typeInfo = context.VisitType(info.Type, info.Parent)!;
+        var typeInfo = context.VisitType(info.Type, info)!;
         var value = clang_getEnumConstantDeclValue(info.Cursor).ToString(CultureInfo.InvariantCulture);
 
         var result = new CEnumConstant

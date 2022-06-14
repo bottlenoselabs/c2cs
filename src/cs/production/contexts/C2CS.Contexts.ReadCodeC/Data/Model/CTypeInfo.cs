@@ -11,8 +11,6 @@ namespace C2CS.Contexts.ReadCodeC.Data.Model;
 public class CTypeInfo
 {
 #pragma warning disable CA2211
-    public static readonly CTypeInfo Empty = new();
-
     public static readonly CTypeInfo Void = new()
     {
         Name = "void",
@@ -36,7 +34,7 @@ public class CTypeInfo
             ArraySizeOf = null,
             Location = CLocation.NoLocation,
             IsAnonymous = null,
-            InnerType = Void
+            InnerTypeInfo = Void
         };
     }
 #pragma warning restore CA2211
@@ -67,7 +65,7 @@ public class CTypeInfo
     public CLocation Location { get; set; }
 
     [JsonPropertyName("inner_type")]
-    public CTypeInfo? InnerType { get; set; }
+    public CTypeInfo? InnerTypeInfo { get; set; }
 
     [ExcludeFromCodeCoverage]
     public override string ToString()

@@ -47,8 +47,8 @@ public sealed class UnionExplorer : RecordExplorer
         ExploreInfoNode parentInfo)
     {
         var builder = ImmutableArray.CreateBuilder<CRecordField>();
+        var fieldCursors = FieldCursorsFromType(type);
 
-        var fieldCursors = RecordFieldCursors(type);
         for (var i = 0; i < fieldCursors.Length; i++)
         {
             var fieldCursor = fieldCursors[i];
