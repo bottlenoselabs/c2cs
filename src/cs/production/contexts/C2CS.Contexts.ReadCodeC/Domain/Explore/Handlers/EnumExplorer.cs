@@ -23,11 +23,6 @@ public sealed class EnumExplorer : ExploreHandler<CEnum>
 
     public override CEnum Explore(ExploreContext context, ExploreInfoNode info)
     {
-        if (info.Name == "ecs_iter_kind_t")
-        {
-            Console.WriteLine();
-        }
-
         var @enum = Enum(context, info);
         return @enum;
     }
