@@ -4,6 +4,8 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using C2CS.Contexts.ReadCodeC.Domain.Explore;
+using C2CS.Contexts.ReadCodeC.Domain.Parse;
 using C2CS.Tests.Common.Data.Model.C;
 using JetBrains.Annotations;
 using Xunit;
@@ -22,7 +24,13 @@ public sealed class ReadCodeCFixtureContext
 
     public string TargetPlatformActual { get; }
 
+    public ExploreOptions ExploreOptions { get; }
+
+    public ParseOptions ParseOptions { get; }
+
     public ReadCodeCFixtureContext(
+        ExploreOptions exploreOptions,
+        ParseOptions parseOptions,
         TargetPlatform targetPlatformRequested,
         TargetPlatform targetPlatformActual,
         ImmutableDictionary<string, CTestFunction> functions,
@@ -30,6 +38,8 @@ public sealed class ReadCodeCFixtureContext
         ImmutableDictionary<string, CTestRecord> records,
         ImmutableDictionary<string, CTestMacroObject> macroObjectsByName)
     {
+        ExploreOptions = exploreOptions;
+        ParseOptions = parseOptions;
         TargetPlatformRequested = targetPlatformRequested.ToString();
         TargetPlatformActual = targetPlatformActual.ToString();
         _functions = functions;

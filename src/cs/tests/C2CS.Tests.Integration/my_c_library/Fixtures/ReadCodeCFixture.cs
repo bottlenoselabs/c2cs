@@ -46,20 +46,22 @@ public sealed class ReadCodeCFixture : TestFixture
 
         var builder = ImmutableArray.CreateBuilder<ReadCodeCFixtureContext>();
 
-        foreach (var options in output.AbstractSyntaxTreesOptions)
+        foreach (var input in output.AbstractSyntaxTreesOptions)
         {
-            if (string.IsNullOrEmpty(options.OutputFilePath))
+            if (string.IsNullOrEmpty(input.OutputFilePath))
             {
                 continue;
             }
 
-            var ast = jsonSerializer.Read(options.OutputFilePath);
+            var ast = jsonSerializer.Read(input.OutputFilePath);
             var functions = CreateTestFunctions(ast);
             var enums = CreateTestEnums(ast);
             var structs = CreateTestRecords(ast);
             var macroObjects = CreateMacroObjects(ast);
 
             var data = new ReadCodeCFixtureContext(
+                input.ExplorerOptions,
+                input.ParseOptions,
                 ast.PlatformRequested,
                 ast.PlatformActual,
                 functions,

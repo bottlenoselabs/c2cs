@@ -384,7 +384,7 @@ public sealed partial class Explorer
         var isEnabledSingleHeader = context.ParseOptions.IsEnabledSingleHeader;
         var translationUnitCursor = clang_getTranslationUnitCursor(translationUnit);
         var cursors = translationUnitCursor.GetDescendents(
-            (child, _) => IsTopLevelCursorOfInterest(child), isEnabledSingleHeader);
+            (child, _) => IsTopLevelCursorOfInterest(child), !isEnabledSingleHeader);
 
         foreach (var cursor in cursors)
         {
@@ -460,12 +460,6 @@ public sealed partial class Explorer
 
     private static bool IsTopLevelCursorOfInterest(CXCursor cursor)
     {
-        var name2 = cursor.Name();
-        if (name2 == "sapp_sgcontext")
-        {
-            Console.WriteLine();
-        }
-
         var kind = clang_getCursorKind(cursor);
         if (kind != CXCursorKind.CXCursor_FunctionDecl &&
             kind != CXCursorKind.CXCursor_VarDecl &&
