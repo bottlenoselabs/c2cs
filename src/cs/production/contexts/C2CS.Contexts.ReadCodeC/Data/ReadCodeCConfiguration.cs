@@ -91,12 +91,16 @@ public sealed class ReadCodeCConfiguration : UseCaseConfiguration
     public bool? IsEnabledSystemDeclarations { get; set; }
 
     [JsonPropertyName("is_enabled_find_system_headers")]
-    [Json.Schema.Generation.Description("Determines whether to automatically find and append the system headers for the target platform. Use `true` or omit this property to automatically find and append system headers for the target platform. Use `false` to not find and append system headers for the target platform.")]
+    [Json.Schema.Generation.Description("Determines whether to automatically find and append the system headers for the target platform. Use `true` to automatically find and append system headers for the target platform. Use `false` to not find and append system headers for the target platform. Default is `true`.")]
     public bool? IsEnabledFindSystemHeaders { get; set; }
 
     [JsonPropertyName("header_files_blocked")]
-    [Json.Schema.Generation.Description("C header file paths to exclude from generating root nodes such as functions or variables. File paths are relative to the `IncludeDirectories` property. Because the way libclang works this does not block transitive files. In other words it only blocks files where the declarations ares defined.")]
+    [Json.Schema.Generation.Description("C header file paths to exclude from generating root nodes such as functions or variables. File paths are relative to the `IncludeDirectories` property.")]
     public ImmutableArray<string?>? HeaderFilesBlocked { get; set; }
+
+    [Json.Schema.Generation.Description("Determines whether to parse the main input header file and all inclusions as if it were a single translation unit. Use `true` to parse the the main input header file as if it were a single translation unit. Use `false` to parse each translation unit independently. Default is `true`.")]
+    [JsonPropertyName("is_enabled_single_header")]
+    public bool? IsEnabledSingleHeader { get; set; }
 
     [JsonPropertyName("platforms")]
     [Json.Schema.Generation.Description("The target platform configurations for extracting the abstract syntax trees. Each target platform is a Clang target triple. See the C2CS docs for more details about what target platforms are available.")]

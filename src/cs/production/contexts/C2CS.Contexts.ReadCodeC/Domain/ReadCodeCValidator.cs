@@ -115,6 +115,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
                 Frameworks = frameworksPlatform,
                 IsEnabledSystemDeclarations = configuration.IsEnabledSystemDeclarations ?? false,
                 IsEnabledMacroObjects = configuration.IsEnabledMacroObjects ?? true,
+                IsEnabledSingleHeader = configuration.IsEnabledSingleHeader ?? true,
                 MacroObjectNamesAllowed = macroObjectNamesAllowed,
             }
         };

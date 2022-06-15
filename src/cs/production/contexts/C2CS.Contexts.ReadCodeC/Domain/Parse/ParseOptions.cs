@@ -24,4 +24,6 @@ public class ParseOptions
     public bool IsEnabledSystemDeclarations { get; init; }
 
     public bool IsEnabledMacroObjects { get; init; }
+
+    public bool IsEnabledSingleHeader { get; init; }
 }
