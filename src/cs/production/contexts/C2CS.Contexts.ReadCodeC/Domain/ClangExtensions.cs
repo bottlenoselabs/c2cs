@@ -3,6 +3,7 @@
 
 using System.Collections.Immutable;
 using System.Runtime.InteropServices;
+using System.Text;
 using C2CS.Contexts.ReadCodeC.Data.Model;
 using static bottlenoselabs.clang;
 
@@ -18,12 +19,14 @@ public static unsafe class ClangExtensions
     private static int _visitFieldsCount;
 
     private static readonly CXCursorVisitor VisitorChild;
+    private static readonly CXCursorVisitor VisitorAttribute;
     private static readonly CXFieldVisitor VisitorField;
     private static readonly VisitChildPredicate EmptyPredicate = static (_, _) => true;
 
     static ClangExtensions()
     {
         VisitorChild.Pointer = &VisitChild;
+        VisitorAttribute.Pointer = &VisitAttribute;
         VisitorField.Pointer = &VisitField;
     }
 
@@ -77,6 +80,58 @@ public static unsafe class ClangExtensions
         return CXChildVisitResult.CXChildVisit_Continue;
     }
 
+    public static ImmutableArray<CXCursor> GetAttributes(
+        this CXCursor cursor, VisitChildPredicate? predicate = null)
+    {
+        var hasAttributes = clang_Cursor_hasAttrs(cursor) > 0;
+        if (!hasAttributes)
+        {
+            return ImmutableArray<CXCursor>.Empty;
+        }
+
+        var predicate2 = predicate ?? EmptyPredicate;
+        var visitData = new VisitChildInstance(predicate2, false);
+        var visitsCount = Interlocked.Increment(ref _visitChildCount);
+        if (visitsCount > _visitChildInstances.Length)
+        {
+            Array.Resize(ref _visitChildInstances, visitsCount * 2);
+        }
+
+        _visitChildInstances[visitsCount - 1] = visitData;
+
+        var clientData = default(CXClientData);
+        clientData.Data = (void*)_visitChildCount;
+        clang_visitChildren(cursor, VisitorAttribute, clientData);
+
+        Interlocked.Decrement(ref _visitChildCount);
+        var result = visitData.CursorBuilder.ToImmutable();
+        visitData.CursorBuilder.Clear();
+        return result;
+    }
+
+    [UnmanagedCallersOnly]
+    private static CXChildVisitResult VisitAttribute(CXCursor child, CXCursor parent, CXClientData clientData)
+    {
+        var index = (int)clientData.Data;
+        var data = _visitChildInstances[index - 1];
+
+        /*var isAttribute = clang_isAttribute(child.kind) > 0;
+        if (!isAttribute)
+        {
+            return CXChildVisitResult.CXChildVisit_Continue;
+        }*/
+
+        var result = data.Predicate(child, parent);
+        if (!result)
+        {
+            return CXChildVisitResult.CXChildVisit_Continue;
+        }
+
+        data.CursorBuilder.Add(child);
+
+        return CXChildVisitResult.CXChildVisit_Continue;
+    }
+
     public static ImmutableArray<CXCursor> GetFields(this CXType type)
     {
 #pragma warning disable SA1129
@@ -117,11 +172,11 @@ public static unsafe class ClangExtensions
         return result;
     }
 
-    public static CLocation Location(
+    public static CLocation GetLocation(
         this CXCursor cursor,
-        CXType? type,
-        ImmutableDictionary<string, string>? linkedPaths,
-        ImmutableArray<string>? userIncludeDirectories)
+        CXType? type = null,
+        ImmutableDictionary<string, string>? linkedPaths = null,
+        ImmutableArray<string>? userIncludeDirectories = null)
     {
         if (cursor.kind == CXCursorKind.CXCursor_TranslationUnit)
         {
@@ -454,6 +509,36 @@ public static unsafe class ClangExtensions
         }
 
         result = SanitizeClangName(result);
+        return result;
+    }
+
+    public static string GetCode(
+        this CXCursor cursor,
+        StringBuilder? stringBuilder = null)
+    {
+        if (stringBuilder == null)
+        {
+            stringBuilder = new StringBuilder();
+        }
+        else
+        {
+            stringBuilder.Clear();
+        }
+
+        var translationUnit = clang_Cursor_getTranslationUnit(cursor);
+        var cursorExtent = clang_getCursorExtent(cursor);
+        var tokens = (CXToken*)0;
+        uint tokensCount = 0;
+        clang_tokenize(translationUnit, cursorExtent, &tokens, &tokensCount);
+        for (var i = 0; i < tokensCount; i++)
+        {
+            var tokenString = clang_getTokenSpelling(translationUnit, tokens[i]).String();
+            stringBuilder.Append(tokenString);
+        }
+
+        clang_disposeTokens(translationUnit, tokens, tokensCount);
+        var result = stringBuilder.ToString();
+        stringBuilder.Clear();
         return result;
     }
 

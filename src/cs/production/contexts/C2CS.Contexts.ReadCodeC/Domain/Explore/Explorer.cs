@@ -415,24 +415,8 @@ public sealed partial class Explorer
 
         foreach (var includeCursor in includeCursors)
         {
-            var cursorExtent = clang_getCursorExtent(includeCursor);
-            unsafe
-            {
-                var tokensC = (CXToken*)0;
-                uint tokensCount = 0;
-                clang_tokenize(translationUnit, cursorExtent, &tokensC, &tokensCount);
-                for (var i = 0; i < tokensCount; i++)
-                {
-                    var tokenString = clang_getTokenSpelling(translationUnit, tokensC[i]).String();
-                    stringBuilder.Append(tokenString);
-                }
-
-                clang_disposeTokens(translationUnit, tokensC, tokensCount);
-            }
-
-            var line = stringBuilder.ToString();
-            stringBuilder.Clear();
-            var isSystem = line.Contains('<', StringComparison.InvariantCulture);
+            var code = includeCursor.GetCode(stringBuilder);
+            var isSystem = code.Contains('<', StringComparison.InvariantCulture);
             if (isSystem && !context.ExploreOptions.IsEnabledSystemDeclarations)
             {
                 continue;
@@ -487,8 +471,9 @@ public sealed partial class Explorer
         }
 
         var linkage = clang_getCursorLinkage(cursor);
-        var isExternallyLinked = linkage == CXLinkageKind.CXLinkage_External;
-        return isExternallyLinked;
+        var visibility = clang_getCursorVisibility(cursor);
+        var isExported = linkage == CXLinkageKind.CXLinkage_External && visibility == CXVisibilityKind.CXVisibility_Default;
+        return isExported;
     }
 
     private void VisitTopLevelCursor(ExploreContext context, CXCursor cursor)

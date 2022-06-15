@@ -516,7 +516,7 @@ enum {
         var userIncludeDirectories = ExploreOptions.IsEnabledLocationFullPaths
             ? ImmutableArray<string>.Empty
             : ParseOptions.UserIncludeDirectories;
-        return cursor.Location(type, _linkedPaths, userIncludeDirectories);
+        return cursor.GetLocation(type, _linkedPaths, userIncludeDirectories);
     }
 
     private int SizeOf(CKind kind, CXType type)

@@ -15,7 +15,7 @@ public class ParseOptions
 
     public ImmutableArray<string> AdditionalArguments { get; init; } = ImmutableArray<string>.Empty;
 
-    public ImmutableArray<string> MacroObjectNamesAllowed { get; init; } = ImmutableArray<string>.Empty;
+    public ImmutableHashSet<string> MacroObjectNamesAllowed { get; init; } = ImmutableHashSet<string>.Empty;
 
     public bool IsEnabledFindSystemHeaders { get; init; }
 

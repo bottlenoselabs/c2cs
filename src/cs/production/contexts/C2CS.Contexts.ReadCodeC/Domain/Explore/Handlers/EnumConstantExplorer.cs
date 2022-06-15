@@ -29,8 +29,19 @@ public class EnumConstantExplorer : ExploreHandler<CEnumConstant>
             return false;
         }
 
-        var namedAllowed = context.ExploreOptions.EnumConstantNamesAllowed;
-        return namedAllowed.IsDefaultOrEmpty || namedAllowed.Contains(name);
+        var options = context.ExploreOptions;
+
+        if (options.EnumConstantNamesAllowed.Contains(name))
+        {
+            return true;
+        }
+
+        if (!options.EnumConstantNamesAllowed.IsEmpty)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public override CEnumConstant Explore(ExploreContext context, ExploreInfoNode info)

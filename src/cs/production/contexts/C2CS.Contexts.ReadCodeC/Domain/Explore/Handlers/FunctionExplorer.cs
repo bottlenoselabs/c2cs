@@ -34,8 +34,24 @@ public sealed class FunctionExplorer : ExploreHandler<CFunction>
             return false;
         }
 
-        var namesAllowed = context.ExploreOptions.FunctionNamesAllowed;
-        return namesAllowed.IsDefaultOrEmpty || namesAllowed.Contains(name);
+        var options = context.ExploreOptions;
+
+        if (options.FunctionNamesAllowed.Contains(name))
+        {
+            return true;
+        }
+
+        if (!options.FunctionNamesAllowed.IsEmpty)
+        {
+            return false;
+        }
+
+        if (options.FunctionNamesBlocked.Contains(name))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public override CFunction Explore(ExploreContext context, ExploreInfoNode info)

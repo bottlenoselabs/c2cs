@@ -75,10 +75,11 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
         var outputFilePath = VerifyOutputFilePath(configuration.OutputFileDirectory, targetPlatform);
 
         var excludedHeaderFiles = VerifyImmutableArray(configurationPlatform?.HeaderFilesBlocked).ToImmutableHashSet();
-        var opaqueTypeNames = VerifyImmutableArray(configuration.OpaqueTypeNames);
-        var functionNamesAllowed = VerifyImmutableArray(configuration.FunctionNamesAllowed);
-        var macroObjectNamesAllowed = VerifyImmutableArray(configuration.MacroObjectNamesAllowed);
-        var enumConstantNamesAllowed = VerifyImmutableArray(configuration.EnumConstantNamesAllowed);
+        var opaqueTypeNames = VerifyImmutableArray(configuration.OpaqueTypeNames).ToImmutableHashSet();
+        var functionNamesAllowed = VerifyImmutableArray(configuration.FunctionNamesAllowed).ToImmutableHashSet();
+        var functionNamesBlocked = VerifyImmutableArray(configuration.FunctionNamesBlocked).ToImmutableHashSet();
+        var macroObjectNamesAllowed = VerifyImmutableArray(configuration.MacroObjectNamesAllowed).ToImmutableHashSet();
+        var enumConstantNamesAllowed = VerifyImmutableArray(configuration.EnumConstantNamesAllowed).ToImmutableHashSet();
         var clangDefines = VerifyImmutableArray(configurationPlatform?.Defines);
         var clangArguments = VerifyImmutableArray(configurationPlatform?.ClangArguments);
 
@@ -93,6 +94,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
                 HeaderFilesBlocked = excludedHeaderFiles,
                 OpaqueTypesNames = opaqueTypeNames,
                 FunctionNamesAllowed = functionNamesAllowed,
+                FunctionNamesBlocked = functionNamesBlocked,
                 EnumConstantNamesAllowed = enumConstantNamesAllowed,
                 IsEnabledLocationFullPaths = configuration.IsEnabledLocationFullPaths ?? false,
                 IsEnabledFunctions = configuration.IsEnabledFunctions ?? true,
