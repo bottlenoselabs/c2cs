@@ -18,12 +18,14 @@ public static unsafe class ClangExtensions
     private static int _visitFieldsCount;
 
     private static readonly CXCursorVisitor VisitorChild;
+    private static readonly CXCursorVisitor VisitorAttribute;
     private static readonly CXFieldVisitor VisitorField;
     private static readonly VisitChildPredicate EmptyPredicate = static (_, _) => true;
 
     static ClangExtensions()
     {
         VisitorChild.Pointer = &VisitChild;
+        VisitorAttribute.Pointer = &VisitAttribute;
         VisitorField.Pointer = &VisitField;
     }
 
@@ -64,6 +66,58 @@ public static unsafe class ClangExtensions
             {
                 return CXChildVisitResult.CXChildVisit_Continue;
             }
+        }
+
+        var result = data.Predicate(child, parent);
+        if (!result)
+        {
+            return CXChildVisitResult.CXChildVisit_Continue;
+        }
+
+        data.CursorBuilder.Add(child);
+
+        return CXChildVisitResult.CXChildVisit_Continue;
+    }
+
+    public static ImmutableArray<CXCursor> GetAttributes(
+        this CXCursor cursor, VisitChildPredicate? predicate = null)
+    {
+        var hasAttributes = clang_Cursor_hasAttrs(cursor) > 0;
+        if (!hasAttributes)
+        {
+            return ImmutableArray<CXCursor>.Empty;
+        }
+
+        var predicate2 = predicate ?? EmptyPredicate;
+        var visitData = new VisitChildInstance(predicate2, false);
+        var visitsCount = Interlocked.Increment(ref _visitChildCount);
+        if (visitsCount > _visitChildInstances.Length)
+        {
+            Array.Resize(ref _visitChildInstances, visitsCount * 2);
+        }
+
+        _visitChildInstances[visitsCount - 1] = visitData;
+
+        var clientData = default(CXClientData);
+        clientData.Data = (void*)_visitChildCount;
+        clang_visitChildren(cursor, VisitorAttribute, clientData);
+
+        Interlocked.Decrement(ref _visitChildCount);
+        var result = visitData.CursorBuilder.ToImmutable();
+        visitData.CursorBuilder.Clear();
+        return result;
+    }
+
+    [UnmanagedCallersOnly]
+    private static CXChildVisitResult VisitAttribute(CXCursor child, CXCursor parent, CXClientData clientData)
+    {
+        var index = (int)clientData.Data;
+        var data = _visitChildInstances[index - 1];
+
+        var isAttribute = clang_isAttribute(child.kind) > 0;
+        if (!isAttribute)
+        {
+            return CXChildVisitResult.CXChildVisit_Continue;
         }
 
         var result = data.Predicate(child, parent);
@@ -119,9 +173,9 @@ public static unsafe class ClangExtensions
 
     public static CLocation Location(
         this CXCursor cursor,
-        CXType? type,
-        ImmutableDictionary<string, string>? linkedPaths,
-        ImmutableArray<string>? userIncludeDirectories)
+        CXType? type = null,
+        ImmutableDictionary<string, string>? linkedPaths = null,
+        ImmutableArray<string>? userIncludeDirectories = null)
     {
         if (cursor.kind == CXCursorKind.CXCursor_TranslationUnit)
         {
