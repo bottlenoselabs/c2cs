@@ -9,11 +9,13 @@ public class ExploreOptions
 {
     public ImmutableHashSet<string> HeaderFilesBlocked { get; init; } = ImmutableHashSet<string>.Empty;
 
-    public ImmutableArray<string> OpaqueTypesNames { get; init; } = ImmutableArray<string>.Empty;
+    public ImmutableHashSet<string> OpaqueTypesNames { get; init; } = ImmutableHashSet<string>.Empty;
 
-    public ImmutableArray<string> FunctionNamesAllowed { get; init; } = ImmutableArray<string>.Empty;
+    public ImmutableHashSet<string> FunctionNamesAllowed { get; init; } = ImmutableHashSet<string>.Empty;
 
-    public ImmutableArray<string> EnumConstantNamesAllowed { get; init; } = ImmutableArray<string>.Empty;
+    public ImmutableHashSet<string> FunctionNamesBlocked { get; init; } = ImmutableHashSet<string>.Empty;
+
+    public ImmutableHashSet<string> EnumConstantNamesAllowed { get; init; } = ImmutableHashSet<string>.Empty;
 
     public bool IsEnabledLocationFullPaths { get; init; }
 

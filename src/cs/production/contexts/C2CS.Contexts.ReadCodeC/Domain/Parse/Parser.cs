@@ -295,7 +295,7 @@ public sealed partial class Parser
 
     private static CLocation MacroLocation(CXCursor cursor, StreamReader reader, ref int readerLineNumber)
     {
-        var location = cursor.Location(null, null, null);
+        var location = cursor.GetLocation(null, null, null);
         var locationCommentLineNumber = location.LineNumber - 1;
 
         if (readerLineNumber > locationCommentLineNumber)
@@ -496,19 +496,19 @@ int main(void)
 
     private static MacroObjectCandidate? MacroObjectCandidate(
         CXCursor cursor,
-        ImmutableArray<string> macroObjectNamesAllowed,
+        ImmutableHashSet<string> macroObjectNamesAllowed,
         ImmutableDictionary<string, string> linkedPaths,
         ImmutableArray<string>? userIncludeDirectories)
     {
         var name = cursor.Name();
 
-        var isAllowed = macroObjectNamesAllowed.IsDefaultOrEmpty || macroObjectNamesAllowed.Contains(name);
+        var isAllowed = macroObjectNamesAllowed.Contains(name) || macroObjectNamesAllowed.IsEmpty;
         if (!isAllowed)
         {
             return null;
         }
 
-        var location = cursor.Location(null, linkedPaths, userIncludeDirectories);
+        var location = cursor.GetLocation(null, linkedPaths, userIncludeDirectories);
 
         // clang doesn't have a thing where we can easily get a value of a macro
         // we need to:

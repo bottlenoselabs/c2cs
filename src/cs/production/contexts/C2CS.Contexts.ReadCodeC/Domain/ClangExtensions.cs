@@ -3,6 +3,7 @@
 
 using System.Collections.Immutable;
 using System.Runtime.InteropServices;
+using System.Text;
 using C2CS.Contexts.ReadCodeC.Data.Model;
 using static bottlenoselabs.clang;
 
@@ -114,11 +115,11 @@ public static unsafe class ClangExtensions
         var index = (int)clientData.Data;
         var data = _visitChildInstances[index - 1];
 
-        var isAttribute = clang_isAttribute(child.kind) > 0;
+        /*var isAttribute = clang_isAttribute(child.kind) > 0;
         if (!isAttribute)
         {
             return CXChildVisitResult.CXChildVisit_Continue;
-        }
+        }*/
 
         var result = data.Predicate(child, parent);
         if (!result)
@@ -171,7 +172,7 @@ public static unsafe class ClangExtensions
         return result;
     }
 
-    public static CLocation Location(
+    public static CLocation GetLocation(
         this CXCursor cursor,
         CXType? type = null,
         ImmutableDictionary<string, string>? linkedPaths = null,
@@ -508,6 +509,36 @@ public static unsafe class ClangExtensions
         }
 
         result = SanitizeClangName(result);
+        return result;
+    }
+
+    public static string GetCode(
+        this CXCursor cursor,
+        StringBuilder? stringBuilder = null)
+    {
+        if (stringBuilder == null)
+        {
+            stringBuilder = new StringBuilder();
+        }
+        else
+        {
+            stringBuilder.Clear();
+        }
+
+        var translationUnit = clang_Cursor_getTranslationUnit(cursor);
+        var cursorExtent = clang_getCursorExtent(cursor);
+        var tokens = (CXToken*)0;
+        uint tokensCount = 0;
+        clang_tokenize(translationUnit, cursorExtent, &tokens, &tokensCount);
+        for (var i = 0; i < tokensCount; i++)
+        {
+            var tokenString = clang_getTokenSpelling(translationUnit, tokens[i]).String();
+            stringBuilder.Append(tokenString);
+        }
+
+        clang_disposeTokens(translationUnit, tokens, tokensCount);
+        var result = stringBuilder.ToString();
+        stringBuilder.Clear();
         return result;
     }
 

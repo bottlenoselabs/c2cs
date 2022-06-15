@@ -34,15 +34,19 @@ public sealed class ReadCodeCConfiguration : UseCaseConfiguration
     [Json.Schema.Generation.Description("Determines whether to include or exclude functions. Use `true` or to include functions. Use `false` to exclude functions. Default is `true`. See the `functions` property to control which ones are explicitly allowed.")]
     public bool? IsEnabledFunctions { get; set; }
 
-    [JsonPropertyName("functions")]
+    [JsonPropertyName("functions_allowed")]
     [Json.Schema.Generation.Description("The function names to explicitly include. Default is `null`. If `null`, all functions found may be included only if `is_enabled_functions` is `true`. Note that function which are excluded may also exclude any transitive types.")]
     public ImmutableArray<string?>? FunctionNamesAllowed { get; set; }
+
+    [JsonPropertyName("functions_blocked")]
+    [Json.Schema.Generation.Description("The function names to explicitly exclude. Default is `null`. Note that function which are excluded may also exclude any transitive types.")]
+    public ImmutableArray<string?>? FunctionNamesBlocked { get; set; }
 
     [JsonPropertyName("is_enabled_variables")]
     [Json.Schema.Generation.Description("Determines whether to include or exclude variables. Use `true` to include variables. Use `false` to exclude variables. Default is `true`. See the `variables` property to control which ones are explicitly allowed.")]
     public bool? IsEnabledVariables { get; set; }
 
-    [JsonPropertyName("variables")]
+    [JsonPropertyName("variables_allowed")]
     [Json.Schema.Generation.Description("The variable names to explicitly include. Default is `null`. If `null`, all variables found may be included only if `is_enabled_variables` is `true`. Note that variables which are excluded may also exclude any transitive types.")]
     public ImmutableArray<string?>? VariableNamesAllowed { get; set; }
 
@@ -50,7 +54,7 @@ public sealed class ReadCodeCConfiguration : UseCaseConfiguration
     [Json.Schema.Generation.Description("Determines whether to include or exclude macro objects. Use `true` to include macro objects. Use `false` to exclude all macro objects. Default is `true`. See the `macro_objects` property to control which ones are explicitly allowed.")]
     public bool? IsEnabledMacroObjects { get; set; }
 
-    [JsonPropertyName("macro_objects")]
+    [JsonPropertyName("macro_objects_allowed")]
     [Json.Schema.Generation.Description("The macro object names to explicitly include. Default is `null`. If `null`, all macro objects found may be included only if `is_enabled_macro_objects` is `true`. Note that macro objects which are excluded may also exclude any transitive types.")]
     public ImmutableArray<string?>? MacroObjectNamesAllowed { get; set; }
 
@@ -58,7 +62,7 @@ public sealed class ReadCodeCConfiguration : UseCaseConfiguration
     [Json.Schema.Generation.Description("Determines whether to include or exclude enum constants. Use `true` to include enum constants. Use `false` to exclude all enum constants. Default is `false`. See the `enum_constants` property to control which ones are explicitly allowed.")]
     public bool? IsEnabledEnumConstants { get; set; }
 
-    [JsonPropertyName("enum_constants")]
+    [JsonPropertyName("enum_constants_allowed")]
     [Json.Schema.Generation.Description("The enum constant names to explicitly include. Default is `null`. If `null`, all enum constants found may be included only if `is_enabled_enum_constants` is `true`.")]
     public ImmutableArray<string?>? EnumConstantNamesAllowed { get; set; }
 
@@ -66,9 +70,9 @@ public sealed class ReadCodeCConfiguration : UseCaseConfiguration
     [Json.Schema.Generation.Description("Determines whether to include or exclude enums that are independent to a root node such as a function or variable. Use `true` to include dangling enums. Use `false` to exclude all dangling enums. Default is `false`. See the `dangling_enums` property to control which ones are explicitly allowed.")]
     public bool? IsEnabledEnumsDangling { get; set; }
 
-    [JsonPropertyName("dangling_enums")]
+    [JsonPropertyName("dangling_enums_allowed")]
     [Json.Schema.Generation.Description("The dangling enum names to explicitly include. Default is `null`. If `null`, all dangling enums found may be included only if `is_enabled_dangling_enums` is `true`.")]
-    public ImmutableArray<string?>? DanglingEnumNames { get; set; }
+    public ImmutableArray<string?>? DanglingEnumNamesAllowed { get; set; }
 
     [JsonPropertyName("opaque_types")]
     [Json.Schema.Generation.Description("Type names that may be found when parsing C code that will be re-interpreted as opaque types. Opaque types are often used with a pointer to hide the information about the bit layout behind the pointer.")]
