@@ -29,6 +29,11 @@ public sealed class FunctionExplorer : ExploreHandler<CFunction>
 
     protected override bool CanVisit(ExploreContext context, string name, ExploreInfoNode? parentInfo)
     {
+        if (name == "function_ignored")
+        {
+            Console.WriteLine();
+        }
+
         if (!context.ExploreOptions.IsEnabledFunctions)
         {
             return false;

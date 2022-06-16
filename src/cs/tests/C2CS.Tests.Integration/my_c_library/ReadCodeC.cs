@@ -22,8 +22,11 @@ public class ReadCodeC : CLibraryIntegrationTest
 
         foreach (var context in _contexts)
         {
-            var functionIgnored = context.TryGetFunction("function_ignored");
-            Assert.True(functionIgnored == null);
+            if (!context.ParseOptions.IsEnabledSingleHeader)
+            {
+                var functionIgnored = context.TryGetFunction("function_ignored");
+                Assert.True(functionIgnored == null);
+            }
         }
     }
 

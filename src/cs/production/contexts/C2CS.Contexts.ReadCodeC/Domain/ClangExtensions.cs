@@ -31,10 +31,10 @@ public static unsafe class ClangExtensions
     }
 
     public static ImmutableArray<CXCursor> GetDescendents(
-        this CXCursor cursor, VisitChildPredicate? predicate = null, bool sameFile = true)
+        this CXCursor cursor, VisitChildPredicate? predicate = null, bool mustBeFromSameFile = true)
     {
         var predicate2 = predicate ?? EmptyPredicate;
-        var visitData = new VisitChildInstance(predicate2, sameFile);
+        var visitData = new VisitChildInstance(predicate2, mustBeFromSameFile);
         var visitsCount = Interlocked.Increment(ref _visitChildCount);
         if (visitsCount > _visitChildInstances.Length)
         {
@@ -59,7 +59,7 @@ public static unsafe class ClangExtensions
         var index = (int)clientData.Data;
         var data = _visitChildInstances[index - 1];
 
-        if (data.SameFile)
+        if (data.MustBeFromSameFile)
         {
             var location = clang_getCursorLocation(child);
             var isFromMainFile = clang_Location_isFromMainFile(location) > 0;
@@ -546,13 +546,13 @@ public static unsafe class ClangExtensions
     {
         public readonly VisitChildPredicate Predicate;
         public readonly ImmutableArray<CXCursor>.Builder CursorBuilder;
-        public readonly bool SameFile;
+        public readonly bool MustBeFromSameFile;
 
-        public VisitChildInstance(VisitChildPredicate predicate, bool sameFile)
+        public VisitChildInstance(VisitChildPredicate predicate, bool mustBeFromSameFile)
         {
             Predicate = predicate;
             CursorBuilder = ImmutableArray.CreateBuilder<CXCursor>();
-            SameFile = sameFile;
+            MustBeFromSameFile = mustBeFromSameFile;
         }
     }
 

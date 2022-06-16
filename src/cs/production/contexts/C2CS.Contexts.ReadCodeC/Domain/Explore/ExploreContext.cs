@@ -143,7 +143,9 @@ public sealed partial class ExploreContext
     private static string TypeNameAnonymousEnum(CXCursor typeCursor)
     {
         var enumConstants =
-            typeCursor.GetDescendents(static (cursor, _) => cursor.kind == CXCursorKind.CXCursor_EnumConstantDecl);
+            typeCursor.GetDescendents(
+                static (cursor, _) => cursor.kind == CXCursorKind.CXCursor_EnumConstantDecl,
+                false);
         if (enumConstants.Length <= 1)
         {
             /* Example C code; this enum should have it's single member promoted as a macro object.

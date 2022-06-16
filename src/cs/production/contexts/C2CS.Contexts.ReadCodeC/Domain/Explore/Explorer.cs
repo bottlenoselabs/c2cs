@@ -381,16 +381,20 @@ public sealed partial class Explorer
 
         VisitMacroCandidates(context, translationUnit, filePath);
 
+        var isEnabledSingleHeader = context.ParseOptions.IsEnabledSingleHeader;
         var translationUnitCursor = clang_getTranslationUnitCursor(translationUnit);
         var cursors = translationUnitCursor.GetDescendents(
-            (child, _) => IsTopLevelCursorOfInterest(child));
+            (child, _) => IsTopLevelCursorOfInterest(child), !isEnabledSingleHeader);
 
         foreach (var cursor in cursors)
         {
             VisitTopLevelCursor(context, cursor);
         }
 
-        VisitIncludes(context, translationUnit);
+        if (!isEnabledSingleHeader)
+        {
+            VisitIncludes(context, translationUnit);
+        }
 
         LogVisitedTranslationUnit(filePath);
     }
@@ -408,8 +412,8 @@ public sealed partial class Explorer
     private void VisitIncludes(ExploreContext context, CXTranslationUnit translationUnit)
     {
         var translationUnitCursor = clang_getTranslationUnitCursor(translationUnit);
-        var includeCursors = translationUnitCursor.GetDescendents(static (child, _) =>
-            child.kind == CXCursorKind.CXCursor_InclusionDirective);
+        var includeCursors = translationUnitCursor.GetDescendents(
+            static (child, _) => child.kind == CXCursorKind.CXCursor_InclusionDirective);
 
         var stringBuilder = new StringBuilder();
 
@@ -494,7 +498,6 @@ public sealed partial class Explorer
         }
 
         var type = clang_getCursorType(cursor);
-
         if (type.kind == CXTypeKind.CXType_Unexposed)
         {
             // CXType_Unexposed: A type whose specific kind is not exposed via this interface (libclang).
@@ -524,7 +527,9 @@ public sealed partial class Explorer
 
         if (kind == CKind.Enum && isAnonymous)
         {
-            var enumConstants = cursor.GetDescendents(static (cursor, _) => cursor.kind == CXCursorKind.CXCursor_EnumConstantDecl);
+            var enumConstants = cursor.GetDescendents(
+                static (cursor, _) => cursor.kind == CXCursorKind.CXCursor_EnumConstantDecl,
+                false);
             var enumIntegerType = clang_getEnumDeclIntegerType(cursor);
             foreach (var enumConstant in enumConstants)
             {
