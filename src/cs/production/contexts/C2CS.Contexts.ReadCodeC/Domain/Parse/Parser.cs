@@ -573,8 +573,10 @@ int main(void)
     {
         var translationUnitCursor = clang_getTranslationUnitCursor(translationUnit);
 
+        var isEnabledSingleHeader = options.IsEnabledSingleHeader;
         var cursors = translationUnitCursor.GetDescendents(
-            (child, _) => IsMacroOfInterest(child, options));
+            (child, _) => IsMacroOfInterest(child, options),
+            !isEnabledSingleHeader);
 
         return cursors;
     }
