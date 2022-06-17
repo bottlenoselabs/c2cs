@@ -8,8 +8,9 @@ For documentation on supported platforms, limitations, how to install `C2CS`, ho
 
 ## C# bindings of C libraries using C2CS
 
-|C library|C# bindings|
-|:-:|:-:|
+
+| C library  | C# bindings |
+|:----------:|:-----------:|
 |[flecs](https://github.com/SanderMertens/flecs)|https://github.com/flecs-hub/flecs-cs|
 |[sokol](https://github.com/floooh/sokol)|https://github.com/bottlenoselabs/sokol-cs|
 |[SDL](https://github.com/libsdl-org/SDL)|https://github.com/bottlenoselabs/SDL-cs|
