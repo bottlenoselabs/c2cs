@@ -103,39 +103,49 @@ public sealed class StructExplorer : RecordExplorer
         int parentSizeOf,
         int fieldTypeSizeOf)
     {
-        var fieldOffsetOf = (int)clang_Cursor_getOffsetOfField(fieldCursor) / 8;
         int offsetOf;
-        if (fieldCursor.kind == CXCursorKind.CXCursor_UnionDecl)
+        int paddingOf;
+
+        var isBitField = clang_Cursor_isBitField(fieldCursor) > 0;
+        if (isBitField)
         {
             offsetOf = 0;
+            paddingOf = 0;
         }
         else
         {
-            if (fieldOffsetOf < 0 || (fieldIndex != 0 && fieldOffsetOf == 0))
+            var fieldOffsetOf = (int)clang_Cursor_getOffsetOfField(fieldCursor) / 8;
+            if (fieldCursor.kind == CXCursorKind.CXCursor_UnionDecl)
             {
-                if (nextFieldOffsetOf == null)
-                {
-                    offsetOf = 0;
-                }
-                else
-                {
-                    offsetOf = nextFieldOffsetOf.Value - fieldTypeSizeOf;
-                }
+                offsetOf = 0;
             }
             else
             {
-                offsetOf = fieldOffsetOf;
+                if (fieldOffsetOf < 0 || (fieldIndex != 0 && fieldOffsetOf == 0))
+                {
+                    if (nextFieldOffsetOf == null)
+                    {
+                        offsetOf = 0;
+                    }
+                    else
+                    {
+                        offsetOf = nextFieldOffsetOf.Value - fieldTypeSizeOf;
+                    }
+                }
+                else
+                {
+                    offsetOf = fieldOffsetOf;
+                }
             }
-        }
 
-        int paddingOf;
-        if (nextFieldOffsetOf == null)
-        {
-            paddingOf = parentSizeOf - offsetOf - fieldTypeSizeOf;
-        }
-        else
-        {
-            paddingOf = nextFieldOffsetOf.Value - offsetOf - fieldTypeSizeOf;
+            if (nextFieldOffsetOf == null)
+            {
+                paddingOf = parentSizeOf - offsetOf - fieldTypeSizeOf;
+            }
+            else
+            {
+                paddingOf = nextFieldOffsetOf.Value - offsetOf - fieldTypeSizeOf;
+            }
         }
 
         return (offsetOf, paddingOf);
