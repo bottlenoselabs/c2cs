@@ -54,7 +54,7 @@ dotnet nuget locals all --clear
 
 ## How to use `C2CS`
 
-To generate bindings for a C library you need to use a configuration `.json` file which specifies the input to C2CS. See the next sub-section below for documention on each property. See the [Hello World `config.json` file](src/cs/examples/helloworld/helloworld-c/config.json) for an example with annotated comments.
+To generate bindings for a C library you need to use a configuration `.json` file which specifies the input to `C2CS`. See the next sub-section below for documention on each property. See the [Hello World `config.json` file](src/cs/examples/helloworld/helloworld-c/config.json) for an example with annotated comments.
 
 ```json
 {
