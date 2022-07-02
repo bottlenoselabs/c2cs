@@ -10,7 +10,7 @@ public static class Startup
 {
     public static void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton<UseCase>();
+        services.AddSingleton<WriteCodeCSharpUseCase>();
         services.AddSingleton<WriteCodeCSharpValidator>();
     }
 }

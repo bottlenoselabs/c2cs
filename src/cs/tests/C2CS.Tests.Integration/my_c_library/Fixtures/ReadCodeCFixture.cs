@@ -21,7 +21,7 @@ public sealed class ReadCodeCFixture : TestFixture
     public readonly ImmutableArray<ReadCodeCFixtureContext> Contexts;
 
     public ReadCodeCFixture(
-        UseCase useCase,
+        ReadCodeCUseCase useCase,
         CJsonSerializer cJsonSerializer,
         BindgenConfigurationJsonSerializer configurationJsonSerializer)
     {

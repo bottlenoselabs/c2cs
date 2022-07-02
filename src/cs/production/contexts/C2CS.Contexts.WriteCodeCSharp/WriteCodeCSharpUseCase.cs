@@ -15,12 +15,12 @@ using Microsoft.Extensions.Logging;
 
 namespace C2CS.Contexts.WriteCodeCSharp;
 
-public sealed class UseCase : UseCase<WriteCodeCSharpConfiguration, WriteCodeCSharpInput, WriteCodeCSharpOutput>
+public sealed class WriteCodeCSharpUseCase : UseCase<WriteCodeCSharpConfiguration, WriteCodeCSharpInput, WriteCodeCSharpOutput>
 {
     private CJsonSerializer _serializer;
 
-    public UseCase(
-        ILogger<UseCase> logger, WriteCodeCSharpValidator validator, CJsonSerializer serializer)
+    public WriteCodeCSharpUseCase(
+        ILogger<WriteCodeCSharpUseCase> logger, WriteCodeCSharpValidator validator, CJsonSerializer serializer)
         : base(logger, validator)
     {
         _serializer = serializer;
@@ -57,11 +57,11 @@ public sealed class UseCase : UseCase<WriteCodeCSharpConfiguration, WriteCodeCSh
 
     private CSharpAbstractSyntaxTree MapCNodesToCSharpNodes(
         ImmutableArray<CAbstractSyntaxTree> abstractSyntaxTrees,
-        CSharpMapperOptions options)
+        CSharpCodeMapperOptions options)
     {
         BeginStep("Map C syntax tree nodes to C#");
 
-        var mapper = new CSharpMapper(options);
+        var mapper = new CSharpCodeMapper(options);
         var result = mapper.Map(Diagnostics, abstractSyntaxTrees);
 
         EndStep();

@@ -26,7 +26,7 @@ public sealed class WriteCodeCSharpFixture : TestFixture
     public WriteCodeCSharpFixtureContext Context { get; }
 
     public WriteCodeCSharpFixture(
-        UseCase useCase,
+        WriteCodeCSharpUseCase useCase,
         IFileSystem fileSystem,
         BindgenConfigurationJsonSerializer configurationJsonSerializer,
         ReadCodeCFixture ast)

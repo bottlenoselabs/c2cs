@@ -18,10 +18,10 @@ public sealed class BindgenConfiguration
     public string? InputOutputFileDirectory { get; set; }
 
     [JsonPropertyName("c")]
-    [Json.Schema.Generation.Description("The configuration for reading the `.h` C header file.")]
+    [Json.Schema.Generation.Description("The configuration for reading the `.h` C header file as input of bindgen.")]
     public ReadCodeCConfiguration? ReadCCode { get; set; }
 
     [JsonPropertyName("cs")]
-    [Json.Schema.Generation.Description("The configuration for writing the `.cs` C# source code file.")]
+    [Json.Schema.Generation.Description("The configuration for writing the `.cs` C# source code file as output of bindgen.")]
     public WriteCodeCSharpConfiguration? WriteCSharpCode { get; set; }
 }

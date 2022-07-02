@@ -5,12 +5,12 @@ using System;
 using System.CommandLine;
 using System.IO;
 using System.Text.Json;
+using C2CS.Contexts.WriteCodeCSharp;
 using C2CS.Data;
 using C2CS.Data.Serialization;
 using Json.Schema;
 using Json.Schema.Generation;
 using Microsoft.Extensions.DependencyInjection;
-using UseCase = C2CS.Contexts.WriteCodeCSharp.UseCase;
 
 namespace C2CS;
 
@@ -81,7 +81,7 @@ internal class CommandLineInterface : RootCommand
             return false;
         }
 
-        var useCase = _serviceProvider.GetService<Contexts.ReadCodeC.UseCase>()!;
+        var useCase = _serviceProvider.GetService<Contexts.ReadCodeC.ReadCodeCUseCase>()!;
         var response = useCase.Execute(configurationReadC);
 
         return response.IsSuccess;
@@ -101,7 +101,7 @@ internal class CommandLineInterface : RootCommand
             return;
         }
 
-        var useCase = _serviceProvider.GetService<UseCase>()!;
+        var useCase = _serviceProvider.GetService<WriteCodeCSharpUseCase>()!;
         useCase.Execute(configurationWriteCSharp);
     }
 

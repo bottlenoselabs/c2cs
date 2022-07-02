@@ -12,9 +12,9 @@ using C2CS.Foundation.Diagnostics;
 
 namespace C2CS.Contexts.WriteCodeCSharp.Domain.Mapper;
 
-public sealed class CSharpMapper
+public sealed class CSharpCodeMapper
 {
-    private readonly CSharpMapperOptions _options;
+    private readonly CSharpCodeMapperOptions _options;
 
     private readonly ImmutableHashSet<string> _builtinAliases;
     private readonly Dictionary<string, string> _generatedFunctionPointersNamesByCNames = new();
@@ -28,7 +28,7 @@ public sealed class CSharpMapper
         public CSharpNode CSharpNode;
     }
 
-    public CSharpMapper(CSharpMapperOptions options)
+    public CSharpCodeMapper(CSharpCodeMapperOptions options)
     {
         _options = options;
 
@@ -384,7 +384,7 @@ public sealed class CSharpMapper
         CAbstractSyntaxTree ast,
         ImmutableDictionary<string, ImmutableArray<PlatformCandidateNode>.Builder>.Builder builder)
     {
-        var context = new CSharpMapperContext(ast.PlatformRequested, ast.Records, ast.FunctionPointers);
+        var context = new CSharpCodeMapperContext(ast.PlatformRequested, ast.Records, ast.FunctionPointers);
         var functionsC = ast.Functions.Values.ToImmutableArray();
         var functionNamesC = ast.Functions.Keys.ToImmutableHashSet();
         var functionPointersC = ast.FunctionPointers.Values.ToImmutableArray();
@@ -504,7 +504,7 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpFunction> Functions(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         ImmutableArray<CFunction> clangFunctionExterns)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpFunction>(clangFunctionExterns.Length);
@@ -521,7 +521,7 @@ public sealed class CSharpMapper
         return result;
     }
 
-    private CSharpFunction FunctionCSharp(CSharpMapperContext context, CFunction cFunction)
+    private CSharpFunction FunctionCSharp(CSharpCodeMapperContext context, CFunction cFunction)
     {
         var name = cFunction.Name;
         var originalCodeLocationComment = OriginalCodeLocationComment(cFunction);
@@ -558,7 +558,7 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpFunctionParameter> CSharpFunctionParameters(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         string functionName,
         ImmutableArray<CFunctionParameter> functionParameters)
     {
@@ -618,7 +618,7 @@ public sealed class CSharpMapper
     }
 
     private CSharpFunctionParameter FunctionParameter(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         string functionName,
         CFunctionParameter functionParameter,
         string parameterName)
@@ -647,7 +647,7 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpFunctionPointer> FunctionPointers(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         ImmutableArray<CFunctionPointer> functionPointers)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpFunctionPointer>(functionPointers.Length);
@@ -670,7 +670,7 @@ public sealed class CSharpMapper
     }
 
     private CSharpFunctionPointer? FunctionPointer(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         Dictionary<string, CFunctionPointer> names,
         CFunctionPointer functionPointer)
     {
@@ -703,7 +703,7 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpFunctionPointerParameter> FunctionPointerParameters(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         ImmutableArray<CFunctionPointerParameter> functionPointerParameters)
     {
         var builder =
@@ -725,7 +725,7 @@ public sealed class CSharpMapper
     }
 
     private CSharpFunctionPointerParameter FunctionPointerParameter(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         CFunctionPointerParameter functionPointerParameter,
         string parameterName)
     {
@@ -746,7 +746,7 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpStruct> Structs(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         ImmutableArray<CRecord> records,
         ImmutableHashSet<string> functionNames)
     {
@@ -774,7 +774,7 @@ public sealed class CSharpMapper
     }
 
     private CSharpStruct Struct(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         CRecord record,
         ImmutableHashSet<string> functionNames)
     {
@@ -799,7 +799,7 @@ public sealed class CSharpMapper
     }
 
     private (ImmutableArray<CSharpStructField> Fields, ImmutableArray<CRecord> NestedRecords) StructFields(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         string structName,
         ImmutableArray<CRecordField> fields)
     {
@@ -817,7 +817,7 @@ public sealed class CSharpMapper
     }
 
     private void StructField(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         string structName,
         CRecordField field,
         ImmutableArray<CSharpStructField>.Builder resultFields,
@@ -845,7 +845,7 @@ public sealed class CSharpMapper
     }
 
     private CSharpStructField StructField(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         CRecordField field)
     {
         var name = SanitizeIdentifier(field.Name);
@@ -883,7 +883,7 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpOpaqueStruct> OpaqueStructs(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         ImmutableArray<COpaqueType> opaqueDataTypes)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpOpaqueStruct>(opaqueDataTypes.Length);
@@ -906,7 +906,7 @@ public sealed class CSharpMapper
     }
 
     private CSharpOpaqueStruct OpaqueDataStruct(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         COpaqueType opaqueType)
     {
         var nameCSharp = TypeNameCSharpRaw(opaqueType.Name, opaqueType.SizeOf);
@@ -921,7 +921,7 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpAliasStruct> AliasStructs(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         ImmutableArray<CTypeAlias> typedefs)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpAliasStruct>(typedefs.Length);
@@ -949,7 +949,7 @@ public sealed class CSharpMapper
     }
 
     private CSharpAliasStruct AliasStruct(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         CTypeAlias typeAlias)
     {
         var name = typeAlias.Name;
@@ -970,7 +970,7 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpEnum> Enums(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         ImmutableArray<CEnum> enums)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpEnum>(enums.Length);
@@ -992,7 +992,7 @@ public sealed class CSharpMapper
     }
 
     private CSharpEnum Enum(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         CEnum @enum)
     {
         var name = @enum.Name;
@@ -1012,7 +1012,7 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpEnumValue> EnumValues(
-        CSharpMapperContext context, ImmutableArray<CEnumValue> enumValues)
+        CSharpCodeMapperContext context, ImmutableArray<CEnumValue> enumValues)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpEnumValue>(enumValues.Length);
 
@@ -1028,7 +1028,7 @@ public sealed class CSharpMapper
     }
 
     private CSharpEnumValue EnumValue(
-        CSharpMapperContext context, CEnumValue enumValue)
+        CSharpCodeMapperContext context, CEnumValue enumValue)
     {
         var name = enumValue.Name;
         var originalCodeLocationComment = OriginalCodeLocationComment(enumValue);
@@ -1045,7 +1045,7 @@ public sealed class CSharpMapper
     }
 
     private ImmutableArray<CSharpMacroObject> MacroObjects(
-        CSharpMapperContext context, ImmutableArray<CMacroObject> macroObjects)
+        CSharpCodeMapperContext context, ImmutableArray<CMacroObject> macroObjects)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpMacroObject>(macroObjects.Length);
 
@@ -1066,7 +1066,7 @@ public sealed class CSharpMapper
     }
 
     private CSharpMacroObject MacroObject(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         CMacroObject macro)
     {
         var originalCodeLocationComment = OriginalCodeLocationComment(macro);
@@ -1098,7 +1098,7 @@ public sealed class CSharpMapper
         return result;
     }
 
-    private ImmutableArray<CSharpEnumConstant> EnumConstants(CSharpMapperContext context, ImmutableArray<CEnumConstant> enumConstants)
+    private ImmutableArray<CSharpEnumConstant> EnumConstants(CSharpCodeMapperContext context, ImmutableArray<CEnumConstant> enumConstants)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpEnumConstant>(enumConstants.Length);
 
@@ -1118,7 +1118,7 @@ public sealed class CSharpMapper
         return result;
     }
 
-    private CSharpEnumConstant EnumConstant(CSharpMapperContext context, CEnumConstant enumConstant)
+    private CSharpEnumConstant EnumConstant(CSharpCodeMapperContext context, CEnumConstant enumConstant)
     {
         var originalCodeLocationComment = OriginalCodeLocationComment(enumConstant);
         var typeName = TypeNameCSharp(context, enumConstant.Type);
@@ -1148,7 +1148,7 @@ public sealed class CSharpMapper
     }
 
     private string TypeNameCSharp(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         CTypeInfo typeInfo,
         bool forceUnsigned = false)
     {
@@ -1179,7 +1179,7 @@ public sealed class CSharpMapper
     }
 
     private string TypeNameCSharpFunctionPointer(
-        CSharpMapperContext context,
+        CSharpCodeMapperContext context,
         string typeName,
         CFunctionPointer functionPointer)
     {
@@ -1198,7 +1198,7 @@ public sealed class CSharpMapper
         return functionPointerName;
     }
 
-    private string CreateFunctionPointerName(CSharpMapperContext context, CFunctionPointer functionPointer)
+    private string CreateFunctionPointerName(CSharpCodeMapperContext context, CFunctionPointer functionPointer)
     {
         var returnTypeC = functionPointer.ReturnTypeInfo;
         var returnTypeNameCSharpOriginal = TypeNameCSharp(context, returnTypeC);

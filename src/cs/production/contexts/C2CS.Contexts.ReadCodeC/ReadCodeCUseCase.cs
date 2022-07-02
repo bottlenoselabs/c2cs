@@ -13,15 +13,15 @@ using Microsoft.Extensions.Logging;
 
 namespace C2CS.Contexts.ReadCodeC;
 
-public sealed class UseCase : UseCase<
+public sealed class ReadCodeCUseCase : UseCase<
     ReadCodeCConfiguration, ReadCodeCInput, ReadCodeCOutput>
 {
     private readonly ClangInstaller _clangInstaller;
     private readonly Explorer _explorer;
     private readonly CJsonSerializer _serializer;
 
-    public UseCase(
-        ILogger<UseCase> logger,
+    public ReadCodeCUseCase(
+        ILogger<ReadCodeCUseCase> logger,
         ReadCodeCValidator validator,
         ClangInstaller clangInstaller,
         Explorer explorer,

@@ -15,7 +15,7 @@ public sealed class WriteCodeCSharpInput
 
     public string OutputFilePath { get; init; } = string.Empty;
 
-    public CSharpMapperOptions MapperOptions { get; init; } = null!;
+    public CSharpCodeMapperOptions MapperOptions { get; init; } = null!;
 
     public CSharpCodeGeneratorOptions GeneratorOptions { get; init; } = null!;
 }

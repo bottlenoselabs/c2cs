@@ -6,7 +6,7 @@ using C2CS.Contexts.WriteCodeCSharp.Data.Model;
 
 namespace C2CS.Contexts.WriteCodeCSharp.Domain.Mapper;
 
-public sealed class CSharpMapperOptions
+public sealed class CSharpCodeMapperOptions
 {
     public ImmutableArray<CSharpTypeAlias> TypeAliases { get; init; }
 
@@ -14,7 +14,7 @@ public sealed class CSharpMapperOptions
 
     public ImmutableDictionary<string, string> SystemTypeAliases { get; }
 
-    public CSharpMapperOptions()
+    public CSharpCodeMapperOptions()
     {
         SystemTypeAliases = GetSystemTypeNameAliases().ToImmutableDictionary();
     }

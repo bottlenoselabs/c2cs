@@ -7,18 +7,17 @@ using C2CS.Contexts.WriteCodeCSharp.Data;
 using C2CS.Contexts.WriteCodeCSharp.Data.Model;
 using C2CS.Contexts.WriteCodeCSharp.Domain.CodeGenerator;
 using C2CS.Contexts.WriteCodeCSharp.Domain.Mapper;
+using C2CS.Domain;
 using C2CS.Foundation.UseCases;
 using C2CS.Foundation.UseCases.Exceptions;
 
 namespace C2CS.Contexts.WriteCodeCSharp.Domain;
 
-public sealed class WriteCodeCSharpValidator : UseCaseValidator<WriteCodeCSharpConfiguration, WriteCodeCSharpInput>
+public sealed class WriteCodeCSharpValidator : WriteCodeValidator<WriteCodeCSharpConfiguration, WriteCodeCSharpInput>
 {
-    private readonly IFileSystem _fileSystem;
-
     public WriteCodeCSharpValidator(IFileSystem fileSystem)
+        : base(fileSystem)
     {
-        _fileSystem = fileSystem;
     }
 
     public override WriteCodeCSharpInput Validate(WriteCodeCSharpConfiguration configuration)
@@ -39,7 +38,7 @@ public sealed class WriteCodeCSharpValidator : UseCaseValidator<WriteCodeCSharpC
         {
             InputFilePaths = inputFilePaths,
             OutputFilePath = outputFilePath,
-            MapperOptions = new CSharpMapperOptions
+            MapperOptions = new CSharpCodeMapperOptions
             {
                 TypeAliases = typeAliases,
                 IgnoredNames = ignoredNames
@@ -55,58 +54,6 @@ public sealed class WriteCodeCSharpValidator : UseCaseValidator<WriteCodeCSharpC
                 IsEnabledFunctionPointers = isEnabledFunctionPointers
             }
         };
-    }
-
-    private ImmutableArray<string> InputFilePaths(string? inputDirectoryPath)
-    {
-        string directoryPath;
-        if (string.IsNullOrWhiteSpace(inputDirectoryPath))
-        {
-            directoryPath = _fileSystem.Path.Combine(Environment.CurrentDirectory, "ast");
-        }
-        else
-        {
-            directoryPath = _fileSystem.Path.GetFullPath(inputDirectoryPath);
-        }
-
-        if (!_fileSystem.Directory.Exists(directoryPath))
-        {
-            var directory = _fileSystem.Directory.CreateDirectory(directoryPath);
-            if (!directory.Exists)
-            {
-                throw new UseCaseException($"The abstract syntax tree input directory '{directoryPath}' does not exist.");
-            }
-        }
-
-        var builder = ImmutableArray.CreateBuilder<string>();
-        var filePaths = _fileSystem.Directory.EnumerateFiles(directoryPath, "*.json");
-        foreach (var filePath in filePaths)
-        {
-            var fileName = _fileSystem.Path.GetFileName(filePath);
-            var platformString = fileName.Replace(".json", string.Empty, StringComparison.InvariantCulture);
-            var platform = new TargetPlatform(platformString);
-            if (platform == TargetPlatform.Unknown)
-            {
-                throw new UseCaseException($"Unknown platform '{platform}' for abstract syntax tree.");
-            }
-
-            builder.Add(filePath);
-        }
-
-        return builder.ToImmutable();
-    }
-
-    private string OutputFilePath(string? outputFilePath)
-    {
-        if (string.IsNullOrEmpty(outputFilePath))
-        {
-            throw new UseCaseException($"The output file path can not be an empty or null string.");
-        }
-
-        var result = _fileSystem.Path.GetFullPath(outputFilePath);
-        var directoryPath = _fileSystem.Path.GetDirectoryName(outputFilePath);
-        _fileSystem.Directory.CreateDirectory(directoryPath);
-        return result;
     }
 
     private static ImmutableArray<CSharpTypeAlias> TypeAliases(

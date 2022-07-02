@@ -6,7 +6,7 @@ using C2CS.Contexts.ReadCodeC.Data.Model;
 
 namespace C2CS.Contexts.WriteCodeCSharp.Domain.Mapper;
 
-public class CSharpMapperContext
+public class CSharpCodeMapperContext
 {
     public readonly TargetPlatform Platform;
 
@@ -14,7 +14,7 @@ public class CSharpMapperContext
 
     public readonly ImmutableDictionary<string, CFunctionPointer> FunctionPointers;
 
-    public CSharpMapperContext(
+    public CSharpCodeMapperContext(
         TargetPlatform platform,
         ImmutableDictionary<string, CRecord> records,
         ImmutableDictionary<string, CFunctionPointer> functionPointers)
