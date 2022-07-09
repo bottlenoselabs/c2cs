@@ -1,6 +1,6 @@
 # C2CS
 
-C to C# library bindings code generator. In go `.h` file, out come `.cs` file.
+C to C# library bindings code generator. In go `.h` file, out come `.cs` file. First class support for Apple platforms and hardware.
 
 ## Documentation
 
@@ -20,11 +20,17 @@ For documentation on supported platforms, limitations, how to install `C2CS`, ho
 
 ### Problem
 
-When creating applications with C# (especially games), it's sometimes necessary to dip down into C/C++ for better raw performance and overall better portability of various different low-level APIs accross various platforms. (This is what FNA does today and what [MonoGame will be doing in the future](https://github.com/MonoGame/MonoGame/issues/7523#issuecomment-865808668).) However, the problem is that maintaining the C# bindings becomes time consuming, error-prone, and in some cases quite tricky.
+When creating applications with C# (especially games), it's sometimes necessary to dip down into the C/C++ language for better raw performance and overall better portability of various different low-level APIs accross various platforms. (This is what FNA does today and what [MonoGame will be doing in the future](https://github.com/MonoGame/MonoGame/issues/7523#issuecomment-865808668).) However, the problem is that maintaining the C# bindings by hand becomes time consuming, error-prone, and in some cases quite tricky.
+
+Note that generating bindings from C++, ObjectiveC, or other languages are not considered as part of the problem scope because they do not align to specific goals. Though, perhaps [Zig](https://ziglang.org) or some other language may emerge in the future as superior to C for such goals.
+
+- Portability. For better or worse, C is the industry's standard portable assembler. Writing the native library in the C language and building it for multiple targets such as Windows, macOS, Linux, iOS, Android, etc, is the path of least resistance, especially for more non-traditional targets such as RaspberryPi, WebAssembly or consoles.
+- Interopability. The C language, specfically the usage of data structures and functions in limited scope, is a common demonitor between C and many other languages including C#. This makes interaction between C and C# (and other languages) not only correct but as fast and efficient as possible.
+- Maintainability. Writing and maintaining a C code project is arguably simpler, especially if targeting multiple platforms, due to C being a relatively small language in comparison to C++/ObjectiveC. This makes the C language arguably easier to learn and work, especially if limited in scope such as avoiding the use of macros. This is important for open-source projects (in contrast to proprietary-enterprise-like projects) where one of the barriers to development is knowledge sharing at scale.
 
 ### Solution
 
-Automate the generation the C# bindings by compiling/parsing a C `.h` file. The C API (application programmer interface; those functions you want to call) is tranpiled to C# for the target platform (a Clang target triple `arch-vendor-os-environment`) for use via P/Invoke (platform invoke).
+Automate the generation of the C# bindings by compiling/parsing a C `.h` file. The C API (application programmer interface; those functions you want to call) is tranpiled to C# for the target platform (a Clang target triple `arch-vendor-os-environment`) for use via P/Invoke (platform invoke).
 
 All C extern functions which are transpiled to `static` methods in C# using `DllImport` attribute. Includes the C types which are found through transitive property to the extern functions such as: `struct`s, `enum`s, and `const`s. C# `struct`s are generated instead of `class`es on purpose to achieve 1-1 bit-representation of C to C# types called *blittable* types. For more details why blittable types matter see [docs/LESSONS-LEARNED.md#marshalling](./docs/LESSONS-LEARNED.md#marshalling). What's additionally neat about having a 1-1 bit-representation is that `C2CS` can find [padding, "holes", or "slop"](http://www.catb.org/esr/structure-packing/#_padding) in C structs similiar to what [`pa_hole` can do on Linux](https://linux.die.net/man/1/pahole).
 
@@ -38,9 +44,9 @@ For more details on why `C2CS` is structured into `ast` and `cs` see [docs/SUPPO
 
 ### Limitations
 
-1. .NET 5+ is recommended because C# 9 function pointers are recommended. The usage of C# 9 function pointers can be turned off and a fallback to using delegates for function pointers can be used. This allows bindings to be created for versions of .NET before .NET 5. However, this can have consequences on performance due to use of the Garbage Collector getting involved for using delegates in C# to do callbacks from C; your milage may vary.
+1. .NET 5+ is recommended because C# 9 function pointers are recommended. The usage of C# 9 function pointers can be turned off and a fallback to using delegates for function pointers can be used. This allows bindings to be created for versions of .NET before .NET 5. However, this can have consequences on performance due to use of the Garbage Collector getting involved for using delegates in C# to do callbacks from C. Your milage may vary.
 
-2. C2CS does not work for every C library. This is due to some technical limitations where some C libraries are not "bindgen-friendly".
+2. `C2CS` does not work for every C library. This is due to some technical limitations where some C libraries are not "bindgen-friendly".
 
 #### What does it mean for a C library to be bindgen-friendly?
 
@@ -84,25 +90,23 @@ Note that the internals of the C library is irrelevant and to which this list do
 
 <sup>10</sup>: For support with `va_list` see https://github.com/lithiumtoast/c2cs/issues/15.
 
-<sup>11</sup>: `wchar_t*` is mapped to `CStringWide` which is an opaque pointer, that is fine. What is not fine is that `wchar_t` itself is a problem for cross-platform because by default it is 2 bytes on Windows and 4 bytes on Linux (it also be 1 byte on some embedded systems or otherwise different on various hardware). It can be forced to be the same across hardware using the `-fshort-wchar` compiler flag for Clang, but this has consequences. Some hardware vendors enforce that all linked objects must use the same `wchar_t` size, including libraries. It is then not possible or at very least unstable to link an object file compiled with `-fshort-wchar`, with another object file that is compiled without `-fshort-wchar` such as standard libraries. The approach taken for `C2CS` is to use either 1, 2 or 4 for the C# mapped type `CCharWide` that is blittable to `wchar_t`. The exact size of bytes depend on the target operating system by default but can be overriden by specifying the property `SIZEOF_WCHAR_T` to a value of `1`, `2`, or `4` in your C# project. For more information on how this works, please see [How to use `C2CS.Runtime` - Custom C# project properties for `C2CS.Runtime`](docs/README.md#custom-c-project-properties-for-c2csruntime). Note however that if any of your public header structs use `wchar_t` then the resulting struct may be different sizes across platforms. In such a case it is no different than pointers limitation mentioned earlier in terms of a solution.
+<sup>11</sup>: `wchar_t*` is mapped to `CStringWide` which is an opaque pointer, that is fine. What is not fine is that `wchar_t` itself by default is is 2 bytes on Windows and 4 bytes on Linux (it also be 1 byte on some embedded systems or otherwise different on various hardware). It can be forced to be the same across hardware using the `-fshort-wchar` compiler flag for Clang, but this has consequences. Some hardware vendors enforce that all linked objects must use the same `wchar_t` size, including libraries. It is then not possible or at very least unstable to link an object file compiled with `-fshort-wchar`, with another object file that is compiled without `-fshort-wchar` such as standard libraries. The approach taken for `C2CS` is to use either 1, 2 or 4 for the C# mapped type `CCharWide` that is blittable to `wchar_t`. The exact size of bytes depend on the target operating system by default but can be overriden by specifying the property `SIZEOF_WCHAR_T` to a value of `1`, `2`, or `4` in your C# project. For more information on how this works, please see [How to use `C2CS.Runtime` - Custom C# project properties for `C2CS.Runtime`](docs/README.md#custom-c-project-properties-for-c2csruntime). Note however that if any of your public header structs use `wchar_t` then the resulting struct may be different sizes across platforms. In such a case it is no different than pointers limitation mentioned earlier in terms of a solution.
 
 #### What do I do if I want to generate bindings for a non bindgen-friendly C library?
 
 Options:
 
-1. Change the library so that the **external linkage** becomes bindgen-friendly. E.g. removing C++, removing macros, etc.
-2. Use either ClangSharp bindgen tool (https://github.com/dotnet/ClangSharp) or https://github.com/InfectedLibraries/Biohazrd as a framework to generate bindings.
+1. Change the library so that the **external linkage** becomes bindgen-friendly according the above list.
+2. Consider a similar project which solves your problem. (See next section.)
 
 ### Other similar projects
 
-Mentioned here for completeness. I do believe you should be aware of other approaches to this problem and see if they make more sense to you.
+Mentioned here for completeness. I do believe you should be aware of other approaches to this problem and see if they make more sense to you. Keep in the mind that the goals of `C2CS` is for strictly creating cross-platform C# bindings for C in the context of real-time applications and games. Most of the solutions below are not aligned to the goals of `C2CS` because they are either focusing on specific platforms, are for C++ / ObjectiveC, or are not considering the context of real-time applications / games.
 
-- https://github.com/dotnet/runtimelab/tree/feature/DllImportGenerator
-- https://github.com/microsoft/ClangSharp
-- [Xamarin's Objective Sharpie](https://docs.microsoft.com/en-us/xamarin/cross-platform/macios/binding/objective-sharpie/)
-- https://github.com/SharpGenTools/SharpGenTools
-- https://github.com/xoofx/CppAst.NET
-- https://github.com/rds1983/Sichem
+- https://github.com/dotnet/runtimelab/tree/feature/DllImportGenerator & https://github.com/microsoft/ClangSharp: The "Microsoft way"<sup>tm</sup> of generating C# bindings for C/C++ with a first class support for C++, Windows, and MSCV. In my experience, non Windows platforms such as Linux and macOS and non-MSCV compilers are not really considered "first class" by Microsoft even if they are or are eventually supported. I would recommend you use this solution over `C2CS` if you are looking to generate C# bindings for C/C++ in the context of a business/enterprise application, especially for Windows.
+- [Xamarin's Objective Sharpie](https://docs.microsoft.com/en-us/xamarin/cross-platform/macios/binding/objective-sharpie/): The Mono team's (now Xamarin's) tool for generating C# bindings for C/ObjectiveC with first class support for ObjectiveC, macOS, and Clang. I would recommend you use this solution over `C2CS` if you are looking to generate C# bindings for C/ObjectiveC in the context of business/enterprise applications, especially for Apple platforms such as macOS and iOS. 
+- https://github.com/SharpGenTools/SharpGenTools: Tool for generating C# bindings for C++ with a focus on performance.
+- https://github.com/xoofx/CppAst.NET: Tool for parsing C/C++ header files. You could write your own C# bindings generator using this.
 
 ## License
 
