@@ -5,9 +5,7 @@ using System.IO.Abstractions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using FluentAssertions;
-using FluentAssertions.Equivalency.Tracing;
 using Microsoft.Extensions.DependencyInjection;
-using Xunit;
 
 namespace C2CS.Tests.Common;
 

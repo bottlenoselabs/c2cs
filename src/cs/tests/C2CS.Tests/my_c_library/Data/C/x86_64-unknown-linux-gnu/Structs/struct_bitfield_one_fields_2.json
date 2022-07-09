@@ -13,10 +13,10 @@
     },
     {
       "name": "bitfield",
-      "type_name": "int32_t",
+      "type_name": "int8_t",
       "offset_of": 4,
       "padding_of": 3,
-      "size_of": 4
+      "size_of": 1
     }
   ]
 }
