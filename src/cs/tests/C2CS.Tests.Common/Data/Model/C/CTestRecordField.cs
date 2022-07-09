@@ -19,7 +19,7 @@ public class CTestRecordField
     public int OffsetOf { get; set; }
 
     [JsonPropertyName("padding_of")]
-    public int? PaddingOf { get; set; }
+    public int PaddingOf { get; set; }
 
     [JsonPropertyName("size_of")]
     public int SizeOf { get; set; }

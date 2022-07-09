@@ -865,8 +865,8 @@ public sealed class CSharpCodeMapper
             typeCSharp = TypeCSharp(nameCSharp, typeC);
         }
 
-        var offset = field.OffsetOf;
-        var padding = field.PaddingOf;
+        var offsetOf = field.OffsetOf;
+        var paddingOf = field.PaddingOf ?? 0;
         var isWrapped = typeCSharp.IsArray && !IsValidFixedBufferType(typeCSharp.Name);
 
         var result = new CSharpStructField(
@@ -875,8 +875,8 @@ public sealed class CSharpCodeMapper
             codeLocationComment,
             typeC.SizeOf,
             typeCSharp,
-            offset,
-            padding ?? 0,
+            offsetOf,
+            paddingOf,
             isWrapped);
 
         return result;

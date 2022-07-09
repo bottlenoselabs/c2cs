@@ -228,7 +228,7 @@ public sealed class ReadCodeCFixture : TestFixture
             Name = value.Name,
             TypeName = value.TypeInfo.Name,
             OffsetOf = value.OffsetOf,
-            PaddingOf = value.PaddingOf,
+            PaddingOf = value.PaddingOf ?? 0,
             SizeOf = value.TypeInfo.SizeOf
         };
 

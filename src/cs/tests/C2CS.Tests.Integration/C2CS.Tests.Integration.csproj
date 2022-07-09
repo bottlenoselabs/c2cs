@@ -39,12 +39,6 @@
     <ItemGroup>
         <None Include="$(GitRepositoryPath)/src/c/**/*.*" CopyToOutputDirectory="PreserveNewest" LinkBase="c" />
         <None Include="my_c_library/Data/**/*.*" CopyToOutputDirectory="PreserveNewest" />
-        <None Update="..\..\..\c\tests\my_c_library\include\struct_bitfields_one_field.h">
-          <Link>c\tests\my_c_library\include\struct_bitfields_one_field.h</Link>
-        </None>
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="my_c_library\Data" />
     </ItemGroup>
 
 </Project>

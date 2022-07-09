@@ -4,6 +4,7 @@
 using System.Collections.Immutable;
 using bottlenoselabs;
 using C2CS.Contexts.ReadCodeC.Data.Model;
+using C2CS.Contexts.ReadCodeC.Domain.Explore.Diagnostics;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 using static bottlenoselabs.clang;
@@ -43,31 +44,66 @@ public sealed class StructExplorer : RecordExplorer
 
     private ImmutableArray<CRecordField> StructFields(
         ExploreContext context,
-        ExploreInfoNode info)
+        ExploreInfoNode structInfo)
     {
         var builder = ImmutableArray.CreateBuilder<CRecordField>();
-        var fieldCursors = FieldCursorsFromType(info.Type);
+        var fieldCursors = FieldCursorsFromType(structInfo.Type);
         var fieldCursorsLength = fieldCursors.Length;
         if (fieldCursorsLength > 0)
         {
             for (var i = 0; i < fieldCursors.Length; i++)
             {
                 var fieldCursor = fieldCursors[i];
-                var field = StructField(context, info, fieldCursor, i);
+                var field = StructField(context, structInfo, fieldCursor, i);
                 builder.Add(field);
             }
 
-            CalculatePaddingOf(info.SizeOf, builder);
+            CalculatePaddingOf(context, structInfo, builder);
         }
 
         var result = builder.ToImmutable();
         return result;
     }
 
-    private static void CalculatePaddingOf(int sizeOf, ImmutableArray<CRecordField>.Builder fields)
+    private CRecordField StructField(
+        ExploreContext context,
+        ExploreInfoNode structInfo,
+        CXCursor fieldCursor,
+        int fieldIndex)
+    {
+        var fieldName = context.CursorName(fieldCursor);
+        var type = clang_getCursorType(fieldCursor);
+        var location = context.Location(fieldCursor, type);
+        var typeInfo = context.VisitType(type, structInfo, fieldIndex)!;
+        var offsetOf = (int)clang_Cursor_getOffsetOfField(fieldCursor) / 8;
+
+        var isBitField = clang_Cursor_isBitField(fieldCursor) > 0;
+        var bitWidthOf = clang_getFieldDeclBitWidth(fieldCursor);
+        var byteWidthOf = isBitField ? bitWidthOf / 8 : typeInfo.SizeOf;
+
+        return new CRecordField
+        {
+            Name = fieldName,
+            Location = location,
+            TypeInfo = typeInfo,
+            OffsetOf = offsetOf,
+            ByteWidthOf = byteWidthOf,
+            PaddingOf = 0 // Set later
+        };
+    }
+
+    private void CalculatePaddingOf(
+        ExploreContext context,
+        ExploreInfoNode structInfo,
+        ImmutableArray<CRecordField>.Builder fields)
     {
         var sizeSoFar = 0;
         var packedSoFar = 0;
+
+        if (structInfo.Name == "ImFontAtlas")
+        {
+            Console.WriteLine();
+        }
 
         CRecordField? lastHoleField = null;
         for (var i = 0; i < fields.Count; i++)
@@ -85,12 +121,6 @@ public sealed class StructExplorer : RecordExplorer
                 packedSoFar = field.OffsetOf + field.ByteWidthOf;
             }
 
-            var potentialPaddingOf = Math.Abs(sizeSoFar - packedSoFar);
-            if (potentialPaddingOf == 0)
-            {
-                continue;
-            }
-
             var canTightlyPack = lastHoleField != null && lastHoleField.PaddingOf >= field.ByteWidthOf;
             if (canTightlyPack)
             {
@@ -98,53 +128,50 @@ public sealed class StructExplorer : RecordExplorer
             }
             else
             {
-                lastHoleField = field;
-                lastHoleField.PaddingOf = potentialPaddingOf;
+                var potentialPaddingOf = Math.Abs(sizeSoFar - packedSoFar);
+                if (potentialPaddingOf == 0)
+                {
+                    lastHoleField = null;
+                }
+                else
+                {
+                    lastHoleField = field;
+                    lastHoleField.PaddingOf = potentialPaddingOf;
+                }
             }
         }
 
         var lastField = fields.Count == 0 ? null : fields[^1];
         if (lastField != null)
         {
-            var paddingOf = sizeOf - sizeSoFar;
+            var paddingOf = structInfo.SizeOf - sizeSoFar;
             if (paddingOf > 0)
             {
                 if (lastHoleField == null || paddingOf < lastField.ByteWidthOf)
                 {
                     lastField.PaddingOf = paddingOf;
-                }
-                else
-                {
-                    lastHoleField.PaddingOf -= lastField.ByteWidthOf;
+
+                    if (lastField.PaddingOf < 0)
+                    {
+                        Console.WriteLine();
+                    }
                 }
             }
         }
-    }
 
-    private CRecordField StructField(
-        ExploreContext context,
-        ExploreInfoNode parentInfo,
-        CXCursor fieldCursor,
-        int fieldIndex)
-    {
-        var fieldName = context.CursorName(fieldCursor);
-        var type = clang_getCursorType(fieldCursor);
-        var location = context.Location(fieldCursor, type);
-        var typeInfo = context.VisitType(type, parentInfo, fieldIndex)!;
-        var offsetOf = (int)clang_Cursor_getOffsetOfField(fieldCursor) / 8;
-
-        var isBitField = clang_Cursor_isBitField(fieldCursor) > 0;
-        var bitWidthOf = clang_getFieldDeclBitWidth(fieldCursor);
-        var byteWidthOf = isBitField ? bitWidthOf / 8 : typeInfo.SizeOf;
-
-        return new CRecordField
+        foreach (var field in fields)
         {
-            Name = fieldName,
-            Location = location,
-            TypeInfo = typeInfo,
-            OffsetOf = offsetOf,
-            ByteWidthOf = byteWidthOf,
-            PaddingOf = 0 // Set later
-        };
+            if (field.PaddingOf < 0)
+            {
+                var diagnostic =
+                    new StructFieldNegativePaddingOfDiagnostic(field.Name, field.Location, field.PaddingOf!.Value);
+                context.Diagnostics.Add(diagnostic);
+            }
+
+            if (field.PaddingOf == 0)
+            {
+                field.PaddingOf = null;
+            }
+        }
     }
 }
