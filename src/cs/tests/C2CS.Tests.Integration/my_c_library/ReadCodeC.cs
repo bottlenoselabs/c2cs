@@ -94,6 +94,9 @@ public class ReadCodeC : CLibraryIntegrationTest
     [InlineData("struct_union_named")]
     [InlineData("struct_leaf_integers_small_to_large")]
     [InlineData("struct_leaf_integers_large_to_small")]
+    [InlineData("struct_bitfield_one_fields_1")]
+    [InlineData("struct_bitfield_one_fields_2")]
+    [InlineData("struct_bitfield_one_fields_3")]
     public void Struct(string name)
     {
         foreach (var context in _contexts)

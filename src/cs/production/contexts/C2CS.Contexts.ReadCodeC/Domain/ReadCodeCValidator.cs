@@ -98,7 +98,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReadCodeCConfiguration
                 EnumConstantNamesAllowed = enumConstantNamesAllowed,
                 IsEnabledLocationFullPaths = configuration.IsEnabledLocationFullPaths ?? false,
                 IsEnabledFunctions = configuration.IsEnabledFunctions ?? true,
-                IsEnabledVariables = false, // TODO: transpile variables,
+                IsEnabledVariables = configuration.IsEnabledVariables ?? true,
                 IsEnabledEnumConstants = configuration.IsEnabledEnumConstants ?? true,
                 IsEnabledEnumsDangling = configuration.IsEnabledEnumsDangling ?? false,
                 IsEnabledAllowNamesWithPrefixedUnderscore = configuration.IsEnabledAllowNamesWithPrefixedUnderscore ?? false,

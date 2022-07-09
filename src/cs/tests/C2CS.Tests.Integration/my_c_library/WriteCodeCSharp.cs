@@ -96,7 +96,6 @@ public class WriteCodeCSharp : CLibraryIntegrationTest
     public void Compiles()
     {
         var emitResult = _context.EmitResult;
-        Assert.True(emitResult.Success, "C# code did not compile successfully.");
 
         foreach (var diagnostic in emitResult.Diagnostics)
         {
@@ -104,5 +103,7 @@ public class WriteCodeCSharp : CLibraryIntegrationTest
                                    diagnostic.Severity != DiagnosticSeverity.Error;
             Assert.True(isWarningOrError, $"C# code compilation diagnostic: {diagnostic}.");
         }
+
+        Assert.True(emitResult.Success, "C# code did not compile successfully.");
     }
 }

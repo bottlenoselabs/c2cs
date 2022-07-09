@@ -38,7 +38,7 @@ public sealed class CSharpEnum : CSharpNode
     {
         var baseHashCode = base.GetHashCode();
         var integerTypeHashCode = IntegerType.GetHashCode();
-        var valuesHashCode = HashCodeExtensions.HashCode(Values);
+        var valuesHashCode = Values.GetHashCodeMembers();
         var hashCode = HashCode.Combine(baseHashCode, integerTypeHashCode, valuesHashCode);
         return hashCode;
     }

@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
 using C2CS.Contexts.ReadCodeC.Domain.Explore;
 using C2CS.Contexts.ReadCodeC.Domain.Parse;
@@ -66,7 +67,7 @@ public sealed class ReadCodeCFixtureContext
     public CTestEnum GetEnum(string name)
     {
         var exists = _enums.TryGetValue(name, out var value);
-        Assert.True(exists, $"The enum `{name}` does not exist.");
+        Assert.True(exists, $"The enum `{name}` does not exist: {TargetPlatformRequested}");
         return value!;
     }
 
@@ -79,7 +80,7 @@ public sealed class ReadCodeCFixtureContext
     public CTestRecord GetRecord(string name)
     {
         var exists = _records.TryGetValue(name, out var value);
-        Assert.True(exists, $"The record `{name}` does not exist.");
+        Assert.True(exists, $"The record `{name}` does not exist: {TargetPlatformRequested}");
         AssertRecord(value!);
         return value!;
     }
@@ -99,7 +100,7 @@ public sealed class ReadCodeCFixtureContext
     public CTestMacroObject GetMacroObject(string name)
     {
         var exists = _macroObjects.TryGetValue(name, out var value);
-        Assert.True(exists, $"The macro object `{name}` does not exist.");
+        Assert.True(exists, $"The macro object `{name}` does not exist: {TargetPlatformRequested}");
         return value!;
     }
 
@@ -125,14 +126,6 @@ public sealed class ReadCodeCFixtureContext
         Assert.True(
             record.SizeOf >= 0,
             $"C record `{record.SizeOf} does not have an size of of which is positive or zero.");
-
-        if (record.IsStruct)
-        {
-            var expectedSize = record.Fields.Sum(x => x.SizeOf + x.PaddingOf);
-            Assert.True(
-                expectedSize == record.SizeOf,
-                $"C struct `{record.Name}` size does not match the total size of it's fields.");
-        }
     }
 
     private void AssertRecordField(CTestRecord record, CTestRecordField field, List<string> namesLookup)

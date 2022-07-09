@@ -9,8 +9,7 @@ public sealed class CSharpStruct : CSharpNode
 {
     public readonly ImmutableArray<CSharpStructField> Fields;
     public readonly ImmutableArray<CSharpStruct> NestedStructs;
-
-    public int AlignOf;
+    public readonly int AlignOf;
 
     public CSharpStruct(
         ImmutableArray<TargetPlatform> platforms,
@@ -41,8 +40,8 @@ public sealed class CSharpStruct : CSharpNode
     public override int GetHashCode()
     {
         var baseHashCode = base.GetHashCode();
-        var fieldsHashCode = HashCodeExtensions.HashCode(Fields);
-        var nestedStructsHashCode = HashCodeExtensions.HashCode(NestedStructs);
+        var fieldsHashCode = Fields.GetHashCodeMembers();
+        var nestedStructsHashCode = NestedStructs.GetHashCodeMembers();
         var hashCode = HashCode.Combine(baseHashCode, fieldsHashCode, nestedStructsHashCode);
         return hashCode;
     }

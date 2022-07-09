@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
+using System.Reflection;
 using C2CS.Contexts.WriteCodeCSharp;
 using C2CS.Data.Serialization;
 using C2CS.Tests.Common;
@@ -117,11 +118,14 @@ public sealed class WriteCodeCSharpFixture : TestFixture
             }
         }
 
+        var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+                .WithPlatform(Platform.AnyCpu)
+                .WithAllowUnsafe(true);
         var compilation = CSharpCompilation.Create(
             "TestAssemblyName",
             new[] { syntaxTree },
             new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
-            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, allowUnsafe: true));
+            compilationOptions);
         using var dllStream = new MemoryStream();
         using var pdbStream = new MemoryStream();
         var emitResult = compilation.Emit(dllStream, pdbStream);

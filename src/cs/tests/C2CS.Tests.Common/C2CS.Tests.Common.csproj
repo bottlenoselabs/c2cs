@@ -14,6 +14,7 @@
 
     <!-- NuGet package references -->
     <ItemGroup>
+        <PackageReference Include="FluentAssertions" Version="6.7.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
         <PackageReference Include="System.IO.Abstractions" Version="16.1.25" />
         <PackageReference Include="xunit.assert" Version="2.4.1" />
@@ -26,6 +27,9 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <Pack>false</Pack>
         </None>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\production\infrastructure\C2CS.Infrastructure.Common\C2CS.Infrastructure.Common.csproj" />
     </ItemGroup>
 
 </Project>

@@ -875,7 +875,7 @@ public sealed class CSharpCodeMapper
             codeLocationComment,
             typeC.SizeOf,
             typeCSharp,
-            offset ?? 0,
+            offset,
             padding ?? 0,
             isWrapped);
 

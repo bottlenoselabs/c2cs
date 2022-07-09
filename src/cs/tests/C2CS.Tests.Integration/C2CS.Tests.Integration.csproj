@@ -17,6 +17,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="FluentAssertions" Version="6.7.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
         <PackageReference Include="xunit" Version="2.4.1" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -38,6 +39,9 @@
     <ItemGroup>
         <None Include="$(GitRepositoryPath)/src/c/**/*.*" CopyToOutputDirectory="PreserveNewest" LinkBase="c" />
         <None Include="my_c_library/Data/**/*.*" CopyToOutputDirectory="PreserveNewest" />
+        <None Update="..\..\..\c\tests\my_c_library\include\struct_bitfields_one_field.h">
+          <Link>c\tests\my_c_library\include\struct_bitfields_one_field.h</Link>
+        </None>
     </ItemGroup>
     <ItemGroup>
       <Folder Include="my_c_library\Data" />

@@ -474,6 +474,12 @@ public sealed partial class Explorer
             return true;
         }
 
+        var name2 = cursor.Name();
+        if (name2 == "struct_bitfield_one_fields")
+        {
+            Console.WriteLine();
+        }
+
         var linkage = clang_getCursorLinkage(cursor);
         var visibility = clang_getCursorVisibility(cursor);
         var isExported = linkage == CXLinkageKind.CXLinkage_External && visibility == CXVisibilityKind.CXVisibility_Default;

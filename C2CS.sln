@@ -44,6 +44,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Contexts.WriteCodeCSha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Contexts.ReadCodeC", "src\cs\production\contexts\C2CS.Contexts.ReadCodeC\C2CS.Contexts.ReadCodeC.csproj", "{B366D01D-10B5-4583-B697-82C2C1CFCCB1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_", "_", "{9AD6A243-676B-4013-B275-F33215F82B77}"
+	ProjectSection(SolutionItems) = preProject
+		TODO.md = TODO.md
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

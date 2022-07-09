@@ -8,7 +8,7 @@ namespace C2CS;
 
 public static class HashCodeExtensions
 {
-    public static int HashCode<T>(ImmutableArray<T> immutableArray, IEqualityComparer<T>? comparer = null)
+    public static int GetHashCodeMembers<T>(this ImmutableArray<T> immutableArray, IEqualityComparer<T>? comparer = null)
     {
         var nestedStructsHashCode = 0;
 
