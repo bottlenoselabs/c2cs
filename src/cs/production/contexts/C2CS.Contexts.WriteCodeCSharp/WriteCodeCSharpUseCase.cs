@@ -8,16 +8,19 @@ using C2CS.Contexts.WriteCodeCSharp.Data;
 using C2CS.Contexts.WriteCodeCSharp.Data.Model;
 using C2CS.Contexts.WriteCodeCSharp.Domain;
 using C2CS.Contexts.WriteCodeCSharp.Domain.CodeGenerator;
+using C2CS.Contexts.WriteCodeCSharp.Domain.CodeGenerator.Diagnostics;
 using C2CS.Contexts.WriteCodeCSharp.Domain.Mapper;
 using C2CS.Foundation.UseCases;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.Logging;
+using DiagnosticSeverity = Microsoft.CodeAnalysis.DiagnosticSeverity;
 
 namespace C2CS.Contexts.WriteCodeCSharp;
 
 public sealed class WriteCodeCSharpUseCase : UseCase<WriteCodeCSharpConfiguration, WriteCodeCSharpInput, WriteCodeCSharpOutput>
 {
-    private CJsonSerializer _serializer;
+    private readonly CJsonSerializer _serializer;
 
     public WriteCodeCSharpUseCase(
         ILogger<WriteCodeCSharpUseCase> logger, WriteCodeCSharpValidator validator, CJsonSerializer serializer)
@@ -35,6 +38,8 @@ public sealed class WriteCodeCSharpUseCase : UseCase<WriteCodeCSharpConfiguratio
             input.MapperOptions);
 
         var code = GenerateCSharpCode(nodesPerPlatform, input.GeneratorOptions);
+
+        VerifyCSharpCodeCompiles(code);
 
         WriteCSharpCodeToFileStorage(input.OutputFilePath, code);
     }
@@ -81,6 +86,32 @@ public sealed class WriteCodeCSharpUseCase : UseCase<WriteCodeCSharpConfiguratio
         EndStep();
 
         return result;
+    }
+
+    private void VerifyCSharpCodeCompiles(string codeCSharp)
+    {
+        BeginStep("Verify C# code compiles");
+
+        var syntaxTree = CSharpSyntaxTree.ParseText(codeCSharp);
+        var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+            .WithPlatform(Platform.AnyCpu)
+            .WithAllowUnsafe(true);
+        var compilation = CSharpCompilation.Create(
+            "TestAssemblyName",
+            new[] { syntaxTree },
+            new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
+            compilationOptions);
+        using var dllStream = new MemoryStream();
+        using var pdbStream = new MemoryStream();
+        var emitResult = compilation.Emit(dllStream, pdbStream);
+
+        foreach (var diagnostic in emitResult.Diagnostics)
+        {
+            var isError = diagnostic.Severity != DiagnosticSeverity.Error;
+            Diagnostics.Add(new CSharpCompileDiagnostic(isError, diagnostic));
+        }
+
+        EndStep();
     }
 
     private void WriteCSharpCodeToFileStorage(
