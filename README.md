@@ -26,7 +26,7 @@ When creating applications with C# (especially games), it's sometimes necessary 
 
 Automate the generation the C# bindings by compiling/parsing a C `.h` file. The C API (application programmer interface; those functions you want to call) is tranpiled to C# for the target platform (a Clang target triple `arch-vendor-os-environment`) for use via P/Invoke (platform invoke).
 
-All C extern functions which are transpiled to `static` methods in C# using `DllImport` attribute. Includes the C types which are found through transitive property to the extern functions such as: `struct`s, `enum`s, and `const`s. C# `struct`s are generated instead of `class`es on purpose to achieve 1-1 bit-representation of C to C# types called *blittable* types. For more details why blittable types matter see [docs/LESSONS-LEARNED.md#marshalling](./docs/LESSONS-LEARNED.md#marshalling).
+All C extern functions which are transpiled to `static` methods in C# using `DllImport` attribute. Includes the C types which are found through transitive property to the extern functions such as: `struct`s, `enum`s, and `const`s. C# `struct`s are generated instead of `class`es on purpose to achieve 1-1 bit-representation of C to C# types called *blittable* types. For more details why blittable types matter see [docs/LESSONS-LEARNED.md#marshalling](./docs/LESSONS-LEARNED.md#marshalling). What's additionally neat about having a 1-1 bit-representation is that `C2CS` can find ["holes" or "slop"](http://www.catb.org/esr/structure-packing/#_padding) in C structs similiar to what [`pa_hole` can do on Linux](https://linux.die.net/man/1/pahole).
 
 This is all accomplished by using [libclang](https://clang.llvm.org/docs/Tooling.html) for parsing C and [Roslyn](https://github.com/dotnet/roslyn) for generating C#. All naming is left as found in the C header `.h` file(s).
 
@@ -38,7 +38,7 @@ For more details on why `C2CS` is structured into `ast` and `cs` see [docs/SUPPO
 
 ### Limitations
 
-1. .NET 5+ is recommended because C# 9 function pointers are recommended. This can be turned off and a fallback to using delegates for function pointers can be used. This allows bindings to be created for versions of .NET before .NET 5. However, this can have consequences on performance due to use of the Garbage Collector getting involved for delegates; your milage may vary.
+1. .NET 5+ is recommended because C# 9 function pointers are recommended. The usage of C# 9 function pointers can be turned off and a fallback to using delegates for function pointers can be used. This allows bindings to be created for versions of .NET before .NET 5. However, this can have consequences on performance due to use of the Garbage Collector getting involved for using delegates in C# to do callbacks from C; your milage may vary.
 
 2. C2CS does not work for every C library. This is due to some technical limitations where some C libraries are not "bindgen-friendly".
 
