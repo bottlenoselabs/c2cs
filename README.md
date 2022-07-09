@@ -26,7 +26,7 @@ Note that generating bindings from C++, ObjectiveC, or other languages are not c
 
 - Portability. For better or worse, C is the industry's standard portable assembler. Writing the native library in the C language and building it for multiple targets such as Windows, macOS, Linux, iOS, Android, etc, is the path of least resistance, especially for more non-traditional targets such as RaspberryPi, WebAssembly or consoles.
 - Interopability. The C language, specfically the usage of data structures and functions in limited scope, is a common demonitor between C and many other languages including C#. This makes interaction between C and C# (and other languages) not only correct but as fast and efficient as possible.
-- Maintainability. Writing and maintaining a C code project is arguably simpler, especially if targeting multiple platforms, due to C being a relatively small language in comparison to C++/ObjectiveC. This makes the C language arguably easier to learn and work, especially if limited in scope such as avoiding the use of macros. This is important for open-source projects (in contrast to proprietary-enterprise-like projects) where one of the barriers to development is knowledge sharing at scale.
+- Maintainability. Writing and maintaining a C code project is arguably simpler, especially if targeting multiple platforms, due to C being a relatively small language in comparison to C++/ObjectiveC. This makes the C language arguably easier to learn and work with, especially if limited in scope such as avoiding the use of macros. This is important for open-source projects (in contrast to proprietary-enterprise-like projects) where one of the barriers to development is knowledge sharing at scale in a decentralized fashion.
 
 ### Solution
 
