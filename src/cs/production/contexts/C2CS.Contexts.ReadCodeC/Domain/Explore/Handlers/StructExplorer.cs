@@ -100,15 +100,11 @@ public sealed class StructExplorer : RecordExplorer
         var sizeSoFar = 0;
         var packedSoFar = 0;
 
-        if (structInfo.Name == "ImFontAtlas")
-        {
-            Console.WriteLine();
-        }
-
         CRecordField? lastHoleField = null;
         for (var i = 0; i < fields.Count; i++)
         {
             var field = fields[i];
+
             var nextField = i + 1 >= fields.Count ? null : fields[i + 1];
 
             sizeSoFar = packedSoFar + field.TypeInfo.SizeOf;
@@ -150,11 +146,6 @@ public sealed class StructExplorer : RecordExplorer
                 if (lastHoleField == null || paddingOf < lastField.ByteWidthOf)
                 {
                     lastField.PaddingOf = paddingOf;
-
-                    if (lastField.PaddingOf < 0)
-                    {
-                        Console.WriteLine();
-                    }
                 }
             }
         }
