@@ -82,7 +82,7 @@ In the case of **dynamic loading**, said function has to additionally be resolve
 
 #### Dynamic linking
 
-With the advancement of ahead-of-time compilation in Mono and .NET 5 ([NativeAOT](https://github.com/dotnet/runtimelab/tree/feature/NativeAOT)), **dynamic linking** can be achieved instead of **dynamic loading** resulting in *direct* platform invoke (P/Invoke) which has better performance by lack of the *indirection* use of the extra pointer. The feature is called ["DirectPInvoke"](https://github.com/dotnet/runtimelab/blob/feature/NativeAOT/docs/using-nativeaot/interop.md).
+With the advancement of ahead-of-time compilation in Mono and .NET 5 ([NativeAOT](https://github.com/dotnet/runtimelab/tree/feature/NativeAOT)), **dynamic linking** can be achieved instead of **dynamic loading** resulting in *direct* platform invoke (P/Invoke) which has better performance by lack of the *indirection* use of the extra pointer. The feature is called ["DirectPInvoke"](https://github.com/dotnet/runtimelab/blob/feature/NativeAOT/docs/using-nativeaot/interop.md). The only limitation is that the `DllImport` attribute must be used.
 
 ### Static linking
 

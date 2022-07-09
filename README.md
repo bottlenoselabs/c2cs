@@ -26,7 +26,7 @@ When creating applications with C# (especially games), it's sometimes necessary 
 
 Automate the generation the C# bindings by compiling/parsing a C `.h` file. The C API (application programmer interface; those functions you want to call) is tranpiled to C# for the target platform (a Clang target triple `arch-vendor-os-environment`) for use via P/Invoke (platform invoke).
 
-All C extern functions which are transpiled to `static` methods in C# using `DllImport` attribute. Includes the C types which are found through transitive property to the extern functions such as: `struct`s, `enum`s, and `const`s. C# `struct`s are generated instead of `class`es on purpose to achieve 1-1 bit-representation of C to C# types called *blittable* types. For more details why blittable types matter see [docs/LESSONS-LEARNED.md#marshalling](./docs/LESSONS-LEARNED.md#marshalling). What's additionally neat about having a 1-1 bit-representation is that `C2CS` can find ["holes" or "slop"](http://www.catb.org/esr/structure-packing/#_padding) in C structs similiar to what [`pa_hole` can do on Linux](https://linux.die.net/man/1/pahole).
+All C extern functions which are transpiled to `static` methods in C# using `DllImport` attribute. Includes the C types which are found through transitive property to the extern functions such as: `struct`s, `enum`s, and `const`s. C# `struct`s are generated instead of `class`es on purpose to achieve 1-1 bit-representation of C to C# types called *blittable* types. For more details why blittable types matter see [docs/LESSONS-LEARNED.md#marshalling](./docs/LESSONS-LEARNED.md#marshalling). What's additionally neat about having a 1-1 bit-representation is that `C2CS` can find [padding, "holes", or "slop"](http://www.catb.org/esr/structure-packing/#_padding) in C structs similiar to what [`pa_hole` can do on Linux](https://linux.die.net/man/1/pahole).
 
 This is all accomplished by using [libclang](https://clang.llvm.org/docs/Tooling.html) for parsing C and [Roslyn](https://github.com/dotnet/roslyn) for generating C#. All naming is left as found in the C header `.h` file(s).
 
@@ -44,7 +44,9 @@ For more details on why `C2CS` is structured into `ast` and `cs` see [docs/SUPPO
 
 #### What does it mean for a C library to be bindgen-friendly?
 
-Everything in the [**external linkage**](https://stackoverflow.com/questions/1358400/what-is-external-linkage-and-internal-linkage) of the C API is subject to the following list. Note that the internal guts of the C library is irrelevant and to which this list does not apply. In this sense it is then possible to use C++ internally but then only expose a C interface for interoperability with C#. This list may be updated as more things are discovered.
+Everything in the [**external linkage**](https://stackoverflow.com/questions/1358400/what-is-external-linkage-and-internal-linkage) of the C API is subject to the following list. Think of it as the check list to creating a bindgen friendly, cross-platform, C library for P/Invoke in C#.
+
+Note that the internals of the C library is irrelevant and to which this list does not apply. In this sense it is then possible to use C++/ObjectiveC behind a implementation file (`.cpp` or `.m` respectively) or reference C++/ObjectiveC from a C implementation file (`.c`). All that `C2CS` needs is the C interface file (`.h`) for interoperability with C#.
 
 |Supported|Description|
 |:-:|-|
@@ -58,13 +60,11 @@ Everything in the [**external linkage**](https://stackoverflow.com/questions/135
 |:white_check_mark:|Typedefs. (a.k.a, type aliases.)|
 |:o:|Function-like macros.<sup>7</sup>|
 |:white_check_mark:|Object-like macros.<sup>8</sup>|
-|:x:|C++.|
-|:x:|Objective-C.|
 |:o:|Implicit types.<sup>9</sup>|
 |:x:|`va_list`<sup>10</sup>|
 |:white_check_mark:|`wchar_t`<sup>11</sup>|
 
-<sup>1</sup>: `dlsym` on Unix and `GetProcAddress` on Windows allow getting the address of a variable exported for shared libraries (`.dll`/`.dylib`/`.so`). However, there is no way to do the same for statically linked libraries. There is also no alternative for `DllImport` in C# for extern variables. The recommended simplest solution to expose variable externs to C# from C is to instead create "getter" and/or "setter" function externs. Thus, exposing variable externs are a work in progress and not currently supported; they will most likely have to not use `DllImport` which breaks the standard.
+<sup>1</sup>: There is no alternative for `DllImport` attribute in C# for extern variables. The recommended simplest solution to expose variable externs to C# from C is to instead create "getter" and/or "setter" functions which just return the value of the variable. It is technically possible to not use `DllImport` and instead use `dlsym` on Unix and `GetProcAddress` on Windows allow getting the address of a variable exported for shared libraries (`.dll`/`.dylib`/`.so`). However, this is only possible for dynamic loading and not possible for statically linked libraries. See [docs/SUPPORTED-PLATFORMS.md: Calling C platform code from your .NET application](docs/SUPPORTED-PLATFORMS.md) for more details about dynamic loading and static linking. Thus, variable externs are not supported.
 
 <sup>2</sup>: Enums are forced to be signed type in C#. This is allow for better convergence accross platforms such as Windows, macOS, and Linux because enums can be signed or unsigned depending on the toolchain/platform.
 
