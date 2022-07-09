@@ -4,8 +4,8 @@
 using System.IO.Abstractions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using Xunit;
 
 namespace C2CS.Tests.Common;
 
@@ -43,23 +43,23 @@ public abstract class CLibraryIntegrationTest
 
 	protected void AssertValue<T>(string name, T value, string directory)
 	{
+		var relativeJsonFilePath = _fileSystem.Path.Combine(_libraryName, _dataDirectoryPath, directory, $"{name}.json");
 		string jsonFilePath;
 		if (_regenerateDataFiles)
 		{
-			jsonFilePath = _fileSystem.Path.Combine(
-				_sourceDirectoryPath, _libraryName, _dataDirectoryPath, directory, $"{name}.json");
+			jsonFilePath = _fileSystem.Path.Combine(_sourceDirectoryPath, relativeJsonFilePath);
 			RegenerateDataFile(jsonFilePath, value);
 		}
 		else
 		{
-			jsonFilePath = _fileSystem.Path.Combine(
-				AppContext.BaseDirectory, _libraryName, _dataDirectoryPath, directory, $"{name}.json");
+			jsonFilePath = _fileSystem.Path.Combine(AppContext.BaseDirectory, relativeJsonFilePath);
 		}
 
-		var jsonActual = WriteValueToString(value);
-		var jsonExpected = ReadTestFileContents(jsonFilePath);
-		var userMessage = jsonFilePath + ": Assert.Equal() Failure";
-		AssertX.Equal(jsonExpected, jsonActual, userMessage);
+		var expectedValue = ReadValueFromFile<T>(jsonFilePath);
+		value.Should().BeEquivalentTo(
+			expectedValue,
+			o => o.ComparingByMembers<T>(),
+			$"because that is what the JSON file has `{jsonFilePath}`");
 	}
 
 	private void RegenerateDataFile<T>(string filePath, T value)
@@ -67,9 +67,10 @@ public abstract class CLibraryIntegrationTest
 		WriteValueToFile(filePath, value);
 	}
 
-	private string ReadTestFileContents(string filePath)
+	private T? ReadValueFromFile<T>(string filePath)
 	{
-		return File.ReadAllText(filePath);
+		var fileContents = File.ReadAllText(filePath);
+		return JsonSerializer.Deserialize<T>(fileContents, _jsonSerializerOptions);
 	}
 
 	private void WriteValueToFile<T>(string filePath, T value)
@@ -93,7 +94,7 @@ public abstract class CLibraryIntegrationTest
 			_fileSystem.File.Delete(fullFilePath);
 		}
 
-		var fileContents = WriteValueToString(value);
+		var fileContents = WriteValueToDocument(value);
 
 		using var fileStream = _fileSystem.File.OpenWrite(fullFilePath);
 		using var textWriter = new StreamWriter(fileStream);
@@ -102,9 +103,8 @@ public abstract class CLibraryIntegrationTest
 		fileStream.Close();
 	}
 
-	private string WriteValueToString<T>(T value)
+	private JsonDocument WriteValueToDocument<T>(T value)
 	{
-		var fileContents = JsonSerializer.Serialize(value, _jsonSerializerOptions);
-		return fileContents;
+		return JsonSerializer.SerializeToDocument(value, _jsonSerializerOptions);
 	}
 }

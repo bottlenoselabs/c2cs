@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 /// <summary>
-///     The collection of utility methods for interoperability with C style strings in C#.
+///     Utility methods for interoperability with C style strings in C#.
 /// </summary>
 public static unsafe class CStrings
 {

@@ -13,7 +13,7 @@ using static bottlenoselabs.clang;
 
 namespace C2CS.Contexts.ReadCodeC.Domain.Explore;
 
-public sealed partial class ExploreContext
+public sealed class ExploreContext
 {
     private readonly ImmutableDictionary<CKind, ExploreHandler> _handlers;
     private readonly Action<ExploreContext, CKind, ExploreInfoNode> _tryEnqueueVisitNode;
@@ -485,6 +485,11 @@ enum {
             var (arrayKind, arrayType) = TypeKind(type, kind);
             var elementType = clang_getElementType(arrayType);
             elementSize = SizeOf(arrayKind, elementType);
+
+            if (type.kind == CXTypeKind.CXType_ConstantArray)
+            {
+                sizeOf = arraySize!.Value * elementSize.Value;
+            }
         }
 
         var isAnonymous = clang_Cursor_isAnonymous(locationCursor) > 0;

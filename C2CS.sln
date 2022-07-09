@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS", "src\cs\production\C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{995D2D9A-AAF6-4034-8625-5BB812C2870F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Tests.Integration", "src\cs\tests\C2CS.Tests.Integration\C2CS.Tests.Integration.csproj", "{3C179AE6-E9B5-4B89-B441-863FF393CC85}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Tests", "src\cs\tests\C2CS.Tests\C2CS.Tests.csproj", "{3C179AE6-E9B5-4B89-B441-863FF393CC85}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "contexts", "contexts", "{FF3312B1-10D2-4B8A-AD43-3F6D9CE5E61F}"
 	ProjectSection(SolutionItems) = preProject
@@ -43,6 +43,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Contexts.WriteCodeCSharp", "src\cs\production\contexts\C2CS.Contexts.WriteCodeCSharp\C2CS.Contexts.WriteCodeCSharp.csproj", "{06788D2C-2634-42BC-B677-25AACF93E275}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Contexts.ReadCodeC", "src\cs\production\contexts\C2CS.Contexts.ReadCodeC\C2CS.Contexts.ReadCodeC.csproj", "{B366D01D-10B5-4583-B697-82C2C1CFCCB1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_", "_", "{9AD6A243-676B-4013-B275-F33215F82B77}"
+	ProjectSection(SolutionItems) = preProject
+		TODO.md = TODO.md
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -183,7 +183,7 @@ public static unsafe class ClangExtensions
             return CLocation.NoLocation;
         }
 
-        if (type != null)
+        if (cursor.kind != CXCursorKind.CXCursor_FieldDecl && type != null)
         {
             if (cursor.kind != CXCursorKind.CXCursor_FunctionDecl &&
                 type.Value.kind is CXTypeKind.CXType_FunctionProto or CXTypeKind.CXType_FunctionNoProto)

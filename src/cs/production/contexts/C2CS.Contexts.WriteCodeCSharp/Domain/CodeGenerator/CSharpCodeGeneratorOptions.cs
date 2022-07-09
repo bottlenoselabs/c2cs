@@ -18,4 +18,6 @@ public sealed class CSharpCodeGeneratorOptions
     public bool IsEnabledPreCompile { get; init; }
 
     public bool IsEnabledFunctionPointers { get; init; }
+
+    public bool IsEnabledDllImport { get; init; }
 }

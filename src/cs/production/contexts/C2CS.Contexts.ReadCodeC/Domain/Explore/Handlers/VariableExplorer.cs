@@ -12,7 +12,7 @@ namespace C2CS.Contexts.ReadCodeC.Domain.Explore.Handlers;
 public sealed class VariableExplorer : ExploreHandler<CVariable>
 {
     public VariableExplorer(ILogger<VariableExplorer> logger)
-        : base(logger)
+        : base(logger, false)
     {
     }
 

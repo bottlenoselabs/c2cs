@@ -55,27 +55,35 @@ public sealed class CSharpCodeGenerator
         ImmutableArray<MemberDeclarationSyntax>.Builder builder)
     {
         var setupMethod = SetupMethod();
-        var preCompileMethod = PreCompileMethod();
+        setupMethod = setupMethod.AddRegionStart("Setup & Teardown", false);
+        builder.Add(setupMethod);
 
         var teardownMethod = TeardownMethod();
-
-        setupMethod = setupMethod.AddRegionStart("Setup & Teardown", false);
         teardownMethod = teardownMethod.AddRegionEnd();
 
-        builder.Add(setupMethod);
-        builder.Add(preCompileMethod);
+        if (_options.IsEnabledPreCompile)
+        {
+            var preCompileMethod = PreCompileMethod();
+            builder.Add(preCompileMethod);
+        }
+
         builder.Add(teardownMethod);
     }
 
     private MethodDeclarationSyntax SetupMethod()
     {
+        var setupCodeMethodContents = _options.IsEnabledPreCompile
+            ? @"
+PreCompile();
+".Trim() :
+            string.Empty;
+
         var setupCode = $@"
 public static void Setup()
 {{
-    PreCompile();
+    {setupCodeMethodContents}
 }}
 ";
-        PreCompileMethod();
 
         var member = ParseMemberCode<MethodDeclarationSyntax>(setupCode);
         return member;
@@ -83,12 +91,8 @@ public static void Setup()
 
     private MethodDeclarationSyntax PreCompileMethod()
     {
-        var preCompileCode = !_options.IsEnabledPreCompile ? @"
-public static void PreCompile()
-{
-}
-" : $@"
-public static void PreCompile()
+        var preCompileCode = $@"
+private static void PreCompile()
 {{
     var methods = typeof({_options.ClassName}).GetMethods(
         System.Reflection.BindingFlags.DeclaredOnly |
@@ -105,7 +109,7 @@ public static void PreCompile()
         }}
     }}
 }}
-".Trim();
+";
 
         var member = ParseMemberCode<MethodDeclarationSyntax>(preCompileCode);
         return member;

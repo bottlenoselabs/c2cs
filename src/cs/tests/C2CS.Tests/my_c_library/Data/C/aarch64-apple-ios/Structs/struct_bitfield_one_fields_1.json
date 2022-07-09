@@ -1,0 +1,15 @@
+{
+  "name": "struct_bitfield_one_fields_1",
+  "size_of": 1,
+  "align_of": 1,
+  "is_union": false,
+  "fields": [
+    {
+      "name": "bitfield",
+      "type_name": "int8_t",
+      "offset_of": 0,
+      "padding_of": 0,
+      "size_of": 1
+    }
+  ]
+}

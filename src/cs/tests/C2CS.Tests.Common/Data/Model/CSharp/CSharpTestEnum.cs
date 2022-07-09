@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
 namespace C2CS.Tests.Common.Data.Model.CSharp;
+#pragma warning disable CA1036
 
 [PublicAPI]
 public class CSharpTestEnum
@@ -18,9 +19,4 @@ public class CSharpTestEnum
 
     [JsonPropertyName("members")]
     public ImmutableArray<CSharpTestEnumMember> Members { get; set; } = ImmutableArray<CSharpTestEnumMember>.Empty;
-
-    public override string ToString()
-    {
-        return Name;
-    }
 }

@@ -56,4 +56,7 @@ public sealed class WriteCodeCSharpConfiguration : UseCaseConfiguration
     [JsonPropertyName("is_enabled_function_pointers")]
     [Json.Schema.Generation.Description("Determines whether to use C# 9 function pointers or C# delegates for C function pointers. Use `true` or omit this property generate C function pointers as C# 9 function pointers. Use `false` to fallback to generate C function pointers as C# delegates. Note that C# delegates are not recommended in comparison to C# function pointers as they require more setup, teardown, and memory allocations.")]
     public bool? IsEnabledFunctionPointers { get; set; }
+
+    [JsonPropertyName("is_enabled_dllimport")]
+    public bool? IsEnabledDllImport { get; set; }
 }

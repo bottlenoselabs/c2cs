@@ -4,6 +4,8 @@
 #include "pinvoke_helper.h" // /src/c/production/c2cs/include/pinvoke_helper.h
 #include "parent_header.h"
 
+#include "struct_bitfields.h"
+
 #define MY_CONSTANT 1
 
 typedef enum enum_force_uint32 {
