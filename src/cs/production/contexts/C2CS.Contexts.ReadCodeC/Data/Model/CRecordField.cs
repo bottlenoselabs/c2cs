@@ -22,12 +22,6 @@ public record CRecordField : CNodeWithLocation
     [JsonPropertyName("offset_of")]
     public int OffsetOf { get; set; }
 
-    [JsonPropertyName("padding_of")]
-    public int? PaddingOf { get; set; }
-
-    [JsonPropertyName("bit_width_of")]
-    public int ByteWidthOf { get; set; }
-
     [ExcludeFromCodeCoverage]
     public override string ToString()
     {
