@@ -20,7 +20,7 @@ For documentation on supported platforms, limitations, how to install `C2CS`, ho
 
 ### Problem
 
-When creating applications with C# (especially games), it's sometimes necessary to dip down into the C/C++ language for better raw performance and overall better portability of various different low-level APIs accross various platforms. (This is what FNA does today and what [MonoGame will be doing in the future](https://github.com/MonoGame/MonoGame/issues/7523#issuecomment-865808668).) However, the problem is that maintaining the C# bindings by hand becomes time consuming, error-prone, and in some cases quite tricky.
+When creating applications with C# (especially games), it's sometimes necessary to dip down into the C/C++ language for better raw performance and overall better portability of different low-level APIs accross platforms. This is what FNA does today and what [MonoGame will be doing in the future](https://github.com/MonoGame/MonoGame/issues/7523#issuecomment-865808668). However, the problem is that maintaining the C# bindings by hand becomes time consuming, error-prone, and in some cases quite tricky.
 
 Note that generating bindings from C++, ObjectiveC, or other languages are not considered as part of the problem scope because they do not align to specific goals. Though, perhaps [Zig](https://ziglang.org) or some other language may emerge in the future as superior to C for such goals.
 
@@ -30,11 +30,11 @@ Note that generating bindings from C++, ObjectiveC, or other languages are not c
 
 ### Solution
 
-Automate the generation of the C# bindings by compiling/parsing a C `.h` file. The C API (application programmer interface; those functions you want to call) is tranpiled to C# for the target platform (a Clang target triple `arch-vendor-os-environment`) for use via P/Invoke (platform invoke).
+Automate the generation of the C# bindings by compiling/parsing a C `.h` file. The C API (application programmer interface; those functions you want to call) is transpiled to C# for the target platform (a Clang target triple `arch-vendor-os-environment`) for use via P/Invoke (platform invoke).
 
 All C extern functions which are transpiled to `static` methods in C# using `DllImport` attribute. Includes the C types which are found through transitive property to the extern functions such as: `struct`s, `enum`s, and `const`s. C# `struct`s are generated instead of `class`es on purpose to achieve 1-1 bit-representation of C to C# types called *blittable* types. For more details why blittable types matter see [docs/LESSONS-LEARNED.md#marshalling](./docs/LESSONS-LEARNED.md#marshalling).
 
-This is all accomplished by using [libclang](https://clang.llvm.org/docs/Tooling.html) for parsing C and [Roslyn](https://github.com/dotnet/roslyn) for generating C#. All naming is left as found in the C header `.h` file(s).
+This is accomplished by using [libclang](https://clang.llvm.org/docs/Tooling.html) for parsing C and [Roslyn](https://github.com/dotnet/roslyn) for generating C#. All naming is left as found in the C header `.h` file(s).
 
 <p align="center">
   <img width="460" src="./docs/c2cs.png">
