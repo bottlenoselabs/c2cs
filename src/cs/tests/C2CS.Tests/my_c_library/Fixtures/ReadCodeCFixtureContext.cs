@@ -3,8 +3,6 @@
 
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics;
-using System.Linq;
 using C2CS.Contexts.ReadCodeC.Domain.Explore;
 using C2CS.Contexts.ReadCodeC.Domain.Parse;
 using C2CS.Tests.Common.Data.Model.C;
@@ -141,9 +139,6 @@ public sealed class ReadCodeCFixtureContext
             field.OffsetOf >= 0,
             $"C {recordKindName} `{record.Name} field `{field.Name}` does not have an offset of which is positive or zero.");
         Assert.True(
-            field.PaddingOf >= 0,
-            $"C {recordKindName} `{record.Name} field `{field.Name}` does not have an padding of which is positive or zero.");
-        Assert.True(
             field.SizeOf > 0,
             $"C {recordKindName} `{record.Name} field `{field.Name}` does not have a size of which is positive.");
 
@@ -152,9 +147,6 @@ public sealed class ReadCodeCFixtureContext
             Assert.True(
                 field.OffsetOf == 0,
                 $"C union `{record.Name} field `{field.Name}` does not have an offset of zero.");
-            Assert.True(
-                field.PaddingOf == 0,
-                $"C union `{record.Name} field `{field.Name}` does not have a padding of zero.");
             Assert.True(
                 field.SizeOf == record.SizeOf,
                 $"C union `{record.Name} field `{field.Name}` does not have a size that matches the union.");

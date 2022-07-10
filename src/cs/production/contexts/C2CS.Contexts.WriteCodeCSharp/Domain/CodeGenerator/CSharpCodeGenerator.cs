@@ -443,7 +443,7 @@ public struct {@struct.Name}
     private static FieldDeclarationSyntax StructField(CSharpStructField field)
     {
         var code = $@"
-[FieldOffset({field.Offset})] // size = {field.Type.SizeOf}, padding = {field.Padding}
+[FieldOffset({field.OffsetOf})] // size = {field.Type.SizeOf}
 public {field.Type.Name} {field.Name};
 ".Trim();
 
@@ -455,7 +455,7 @@ public {field.Type.Name} {field.Name};
         CSharpStructField field)
     {
         var code = $@"
-[FieldOffset({field.Offset})] // size = {field.Type.SizeOf}, padding = {field.Padding}
+[FieldOffset({field.OffsetOf})] // size = {field.Type.SizeOf}
 public fixed byte {field.BackingFieldName}[{field.Type.SizeOf}]; // {field.Type.OriginalName}
 ".Trim();
 

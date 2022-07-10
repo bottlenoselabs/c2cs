@@ -866,7 +866,6 @@ public sealed class CSharpCodeMapper
         }
 
         var offsetOf = field.OffsetOf;
-        var paddingOf = field.PaddingOf ?? 0;
         var isWrapped = typeCSharp.IsArray && !IsValidFixedBufferType(typeCSharp.Name);
 
         var result = new CSharpStructField(
@@ -876,7 +875,6 @@ public sealed class CSharpCodeMapper
             typeC.SizeOf,
             typeCSharp,
             offsetOf,
-            paddingOf,
             isWrapped);
 
         return result;

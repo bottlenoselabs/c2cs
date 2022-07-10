@@ -3,7 +3,6 @@
 
 using System.Collections.Immutable;
 using C2CS.Contexts.ReadCodeC.Data.Model;
-using C2CS.Contexts.ReadCodeC.Domain.Explore.Diagnostics;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 using static bottlenoselabs.clang;
@@ -56,8 +55,6 @@ public sealed class StructExplorer : RecordExplorer
                 var field = StructField(context, structInfo, fieldCursor, i);
                 builder.Add(field);
             }
-
-            CalculatePaddingOf(context, structInfo, builder);
         }
 
         var result = builder.ToImmutable();
@@ -76,92 +73,12 @@ public sealed class StructExplorer : RecordExplorer
         var typeInfo = context.VisitType(type, structInfo, fieldIndex)!;
         var offsetOf = (int)clang_Cursor_getOffsetOfField(fieldCursor) / 8;
 
-        var isBitField = clang_Cursor_isBitField(fieldCursor) > 0;
-        var bitWidthOf = clang_getFieldDeclBitWidth(fieldCursor);
-        var byteWidthOf = isBitField ? bitWidthOf / 8 : typeInfo.SizeOf;
-
         return new CRecordField
         {
             Name = fieldName,
             Location = location,
             TypeInfo = typeInfo,
             OffsetOf = offsetOf,
-            ByteWidthOf = byteWidthOf,
-            PaddingOf = 0 // Set later
         };
-    }
-
-    private void CalculatePaddingOf(
-        ExploreContext context,
-        ExploreInfoNode structInfo,
-        ImmutableArray<CRecordField>.Builder fields)
-    {
-        var sizeSoFar = 0;
-        var packedSoFar = 0;
-
-        CRecordField? lastHoleField = null;
-        for (var i = 0; i < fields.Count; i++)
-        {
-            var field = fields[i];
-
-            var nextField = i + 1 >= fields.Count ? null : fields[i + 1];
-
-            sizeSoFar = packedSoFar + field.TypeInfo.SizeOf;
-            if (nextField != null)
-            {
-                packedSoFar = nextField.OffsetOf; // Use Clang's reported
-            }
-            else
-            {
-                packedSoFar = field.OffsetOf + field.ByteWidthOf;
-            }
-
-            var canTightlyPack = lastHoleField != null && lastHoleField.PaddingOf >= field.ByteWidthOf;
-            if (canTightlyPack)
-            {
-                lastHoleField!.PaddingOf -= field.ByteWidthOf;
-            }
-            else
-            {
-                var potentialPaddingOf = Math.Abs(sizeSoFar - packedSoFar);
-                if (potentialPaddingOf == 0)
-                {
-                    lastHoleField = null;
-                }
-                else
-                {
-                    lastHoleField = field;
-                    lastHoleField.PaddingOf = potentialPaddingOf;
-                }
-            }
-        }
-
-        var lastField = fields.Count == 0 ? null : fields[^1];
-        if (lastField != null)
-        {
-            var paddingOf = structInfo.SizeOf - sizeSoFar;
-            if (paddingOf > 0)
-            {
-                if (lastHoleField == null || paddingOf < lastField.ByteWidthOf)
-                {
-                    lastField.PaddingOf = paddingOf;
-                }
-            }
-        }
-
-        foreach (var field in fields)
-        {
-            if (field.PaddingOf < 0)
-            {
-                var diagnostic =
-                    new StructFieldNegativePaddingOfDiagnostic(field.Name, field.Location, field.PaddingOf!.Value);
-                context.Diagnostics.Add(diagnostic);
-            }
-
-            if (field.PaddingOf == 0)
-            {
-                field.PaddingOf = null;
-            }
-        }
     }
 }
