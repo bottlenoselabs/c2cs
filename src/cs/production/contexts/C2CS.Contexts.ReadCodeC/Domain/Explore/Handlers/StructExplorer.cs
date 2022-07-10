@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
-using bottlenoselabs;
 using C2CS.Contexts.ReadCodeC.Data.Model;
 using C2CS.Contexts.ReadCodeC.Domain.Explore.Diagnostics;
 using JetBrains.Annotations;

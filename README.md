@@ -60,8 +60,8 @@ Note that the internals of the C library is irrelevant and to which this list do
 |:x:|Variable externs.<sup>1</sup>|
 |:white_check_mark:|Function prototypes. (a.k.a., function pointers.)|
 |:white_check_mark:|Enums<sup>2</sup>.|
-|:white_check_mark:|Structs.<sup>3 & 4 & 5</sup>|
-|:white_check_mark:|Unions.<sup>3 & 5</sup>|
+|:white_check_mark:|Structs.<sup>3 & 4</sup>|
+|:white_check_mark:|Unions.<sup>3 & 4 & 5</sup>|
 |:white_check_mark:|Opaque types.<sup>6</sup>|
 |:white_check_mark:|Typedefs. (a.k.a, type aliases.)|
 |:o:|Function-like macros.<sup>7</sup>|
@@ -76,7 +76,7 @@ Note that the internals of the C library is irrelevant and to which this list do
 
 <sup>3</sup>: Distinguishing between public/private struct (and union) fields is not possible automatically. If the record is transtive to a function extern then it will be transpiled as if all the fields were public. In some cases this may not be appropriate to which there is the following options. Either, use proper information hiding with C headers so the private fields are not in transtive property to a public function extern, or use pointers to access the struct and manually specify the struct as an opaque type for input to `C2CS`. Option 2 is the approach taken for generating bindings for https://github.com/libuv/libuv because `libuv` makes use of mixing public/private struct fields and struct inheritance.
 
-<sup>5</sup>: Struct (and union) bitfields may be packed differently across compilers (e.g. GCC vs MSCV). To achieve tightly packed behaviour which is consistent do use the smallest data type bitwidth in bytes for the bits. E.g. for 1-8 bits use `uint8_t` not `uint16_t` or greater.
+<sup>4</sup>: Struct (and union) bitfields may have different bit layouts across different compilers (e.g. GCC vs MSCV). Is is advised to not use bitfields because generating C# bindings that are cross-platform works best when there is consisent bit layout for records across compilers. In other words, bitfields *may* break portability and thus platform specific bindings may be required.
 
 <sup>5</sup>: C# allows for unions using explicit layout of struct fields. Anonymous unions are transpiled to a struct.
 

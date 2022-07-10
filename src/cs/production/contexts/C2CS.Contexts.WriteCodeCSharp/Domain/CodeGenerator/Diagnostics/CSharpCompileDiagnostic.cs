@@ -7,8 +7,8 @@ namespace C2CS.Contexts.WriteCodeCSharp.Domain.CodeGenerator.Diagnostics;
 
 public sealed class CSharpCompileDiagnostic : Diagnostic
 {
-    public CSharpCompileDiagnostic(bool isError, Microsoft.CodeAnalysis.Diagnostic diagnostic)
-        : base(isError ? DiagnosticSeverity.Error : DiagnosticSeverity.Warning, CreateMessage(diagnostic))
+    public CSharpCompileDiagnostic(Microsoft.CodeAnalysis.Diagnostic diagnostic)
+        : base(DiagnosticSeverity.Error, CreateMessage(diagnostic))
     {
     }
 

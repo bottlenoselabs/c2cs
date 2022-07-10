@@ -107,8 +107,14 @@ public sealed class WriteCodeCSharpUseCase : UseCase<WriteCodeCSharpConfiguratio
 
         foreach (var diagnostic in emitResult.Diagnostics)
         {
-            var isError = diagnostic.Severity != DiagnosticSeverity.Error;
-            Diagnostics.Add(new CSharpCompileDiagnostic(isError, diagnostic));
+            // Obviously errors should be considered, but should warnings be considered too? Yes, yes they should. Some warnings can be indicative of bindings which are not correct.
+            var isErrorOrWarning = diagnostic.Severity is DiagnosticSeverity.Error or DiagnosticSeverity.Warning;
+            if (!isErrorOrWarning)
+            {
+                continue;
+            }
+
+            Diagnostics.Add(new CSharpCompileDiagnostic(diagnostic));
         }
 
         EndStep();
