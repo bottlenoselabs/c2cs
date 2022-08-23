@@ -20,7 +20,7 @@ For documentation on supported platforms, limitations, how to install `C2CS`, ho
 
 ### Problem
 
-When creating applications with C# (especially games), it's sometimes necessary to dip down into the C/C++ language for better raw performance and overall better portability of different low-level APIs accross platforms. This is what FNA does today and what [MonoGame will be doing in the future](https://github.com/MonoGame/MonoGame/issues/7523#issuecomment-865808668). However, the problem is that maintaining the C# bindings by hand becomes time consuming, error-prone, and in some cases quite tricky.
+When creating applications with C# (especially games), it's sometimes necessary to dip down into the C language for better raw performance and overall better portability of different low-level APIs accross platforms. This is what FNA does today and what [MonoGame will be doing in the future](https://github.com/MonoGame/MonoGame/issues/7523#issuecomment-865808668). However, the problem is that maintaining the C# bindings by hand becomes time consuming, error-prone, and in some cases quite tricky.
 
 Note that generating bindings from C++, ObjectiveC, or other languages are not considered as part of the problem scope because they do not align to specific goals. Though, perhaps [Zig](https://ziglang.org) or some other language may emerge in the future as superior to C for such goals.
 
