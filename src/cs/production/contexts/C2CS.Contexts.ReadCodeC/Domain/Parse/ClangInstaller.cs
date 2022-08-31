@@ -91,6 +91,7 @@ public sealed partial class ClangInstaller
         {
             // ReSharper disable StringLiteralTypo
             Path.Combine(AppContext.BaseDirectory, "libclang.so"),
+            "/usr/lib/libclang.so",
             "/usr/lib/llvm-10/lib/libclang.so.1" // apt-get install clang
             // ReSharper restore StringLiteralTypo
         };
