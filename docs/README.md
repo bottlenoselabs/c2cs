@@ -60,7 +60,7 @@ To generate bindings for a C library you need to use a configuration `.json` fil
 {
   "$schema": "https://github.com/bottlenoselabs/c2cs/schema.json",
   "directory": "path/to/my_c_library/ast",
-  "cs": {
+  "c": {
     "input_file": "path/to/my_c_library/include/my_c_library.h"
   },
   "cs": {
@@ -85,7 +85,7 @@ Let's take a look at a more complicated example by adding multiple target platfo
 {
   "$schema": "https://raw.githubusercontent.com/bottlenoselabs/c2cs/main/schema.json",
   "directory": "path/to/my_c_library/ast",
-  "cs": {
+  "c": {
     "input_file": "path/to/my_c_library/include/my_c_library.h",
     "platforms": {
       "aarch64-pc-windows-msvc": {},
@@ -111,7 +111,7 @@ What is recommended is that different configuration files are used for each host
 {
   "$schema": "https://raw.githubusercontent.com/bottlenoselabs/c2cs/main/schema.json",
   "directory": "path/to/my_c_library/ast",
-  "cs": {
+  "c": {
     "input_file": "path/to/my_c_library/include/my_c_library.h",
     "platforms": {
       "aarch64-pc-windows-msvc": {},
@@ -126,7 +126,7 @@ What is recommended is that different configuration files are used for each host
 {
   "$schema": "https://raw.githubusercontent.com/bottlenoselabs/c2cs/main/schema.json",
   "directory": "path/to/my_c_library/ast",
-  "cs": {
+  "c": {
     "input_file": "path/to/my_c_library/include/my_c_library.h",
     "platforms": {
       "aarch64-apple-darwin": {},
@@ -141,7 +141,7 @@ What is recommended is that different configuration files are used for each host
 {
   "$schema": "https://raw.githubusercontent.com/bottlenoselabs/c2cs/main/schema.json",
   "directory": "path/to/my_c_library/ast",
-  "cs": {
+  "c": {
     "input_file": "path/to/my_c_library/include/my_c_library.h",
     "platforms": {
       "aarch64-unknown-linux-gnu": {},
