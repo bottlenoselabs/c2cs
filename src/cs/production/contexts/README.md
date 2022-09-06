@@ -1,3 +1,0 @@
-# Contexts
-
-Bounded contexts.
