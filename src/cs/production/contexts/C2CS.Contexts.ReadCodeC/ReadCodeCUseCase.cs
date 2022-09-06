@@ -2,11 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
-using C2CS.Contexts.ReadCodeC.Data.Model;
-using C2CS.Contexts.ReadCodeC.Data.Serialization;
-using C2CS.Contexts.ReadCodeC.Domain;
-using C2CS.Contexts.ReadCodeC.Domain.Explore;
-using C2CS.Contexts.ReadCodeC.Domain.Parse;
+using C2CS.Configuration;
+using C2CS.Contexts.ReadCodeC.Explore;
+using C2CS.Contexts.ReadCodeC.Parse;
+using C2CS.Data.C.Model;
+using C2CS.Data.C.Serialization;
 using C2CS.Foundation.Diagnostics;
 using C2CS.Foundation.UseCases;
 using Microsoft.Extensions.Logging;
@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.Contexts.ReadCodeC;
 
 public sealed class ReadCodeCUseCase : UseCase<
-    ReadCodeCConfiguration, ReadCodeCInput, ReadCodeCOutput>
+    ConfigurationReadCodeC, ReadCodeCInput, ReadCodeCOutput>
 {
     private readonly ClangInstaller _clangInstaller;
     private readonly Explorer _explorer;
@@ -61,7 +61,7 @@ public sealed class ReadCodeCUseCase : UseCase<
 
     private bool InstallClang()
     {
-        BeginStep($"Install Clang");
+        BeginStep("Install Clang");
 
         var isInstalled = _clangInstaller.Install(Native.OperatingSystem);
 

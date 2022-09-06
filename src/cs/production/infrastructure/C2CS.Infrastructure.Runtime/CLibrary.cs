@@ -13,6 +13,51 @@ using System.Runtime.InteropServices;
 /// </summary>
 public static class CLibrary
 {
+    private static bool IsWindows
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get =>
+#if NET5_0_OR_GREATER
+            OperatingSystem.IsWindows();
+#elif NETFRAMEWORK || NETSTANDARD || NETCOREAPP
+            RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+#else
+            false;
+#endif
+    }
+
+    private static bool IsDarwin
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get =>
+#if NET5_0_OR_GREATER
+            OperatingSystem.IsMacOS() ||
+            OperatingSystem.IsMacCatalyst() ||
+            OperatingSystem.IsIOS() ||
+            OperatingSystem.IsTvOS() ||
+            OperatingSystem.IsWatchOS();
+#elif NETFRAMEWORK || NETSTANDARD || NETCOREAPP
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+#else
+            false;
+#endif
+    }
+
+    private static bool IsLinux
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get =>
+#if NET5_0_OR_GREATER
+            OperatingSystem.IsLinux() ||
+            OperatingSystem.IsFreeBSD() ||
+            OperatingSystem.IsAndroid();
+#elif NETFRAMEWORK || NETSTANDARD || NETCOREAPP
+            RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+#else
+            false;
+#endif
+    }
+
     /// <summary>
     ///     Loads a C shared library (`.dll`/`.dylib`/`.so`) into the application's memory space given the C
     ///     library's file name, partially qualified file path, or a fully qualified file path.
@@ -94,51 +139,6 @@ public static class CLibrary
         return IntPtr.Zero;
     }
 
-    private static bool IsWindows
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get =>
-#if NET5_0_OR_GREATER
-            OperatingSystem.IsWindows();
-#elif NETFRAMEWORK || NETSTANDARD || NETCOREAPP
-            RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-#else
-            false;
-#endif
-    }
-
-    private static bool IsDarwin
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get =>
-#if NET5_0_OR_GREATER
-            OperatingSystem.IsMacOS() || 
-            OperatingSystem.IsMacCatalyst() ||
-            OperatingSystem.IsIOS() || 
-            OperatingSystem.IsTvOS() ||
-            OperatingSystem.IsWatchOS();
-#elif NETFRAMEWORK || NETSTANDARD || NETCOREAPP
-            RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-#else
-            false;
-#endif
-    }
-
-    private static bool IsLinux
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get =>
-#if NET5_0_OR_GREATER
-            OperatingSystem.IsLinux() ||
-            OperatingSystem.IsFreeBSD() ||
-            OperatingSystem.IsAndroid();
-#elif NETFRAMEWORK || NETSTANDARD || NETCOREAPP
-            RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
-#else
-            false;
-#endif
-    }
-
     [System.Security.SuppressUnmanagedCodeSecurity]
     private static class libdl
     {
@@ -173,7 +173,7 @@ public static class CLibrary
     private static class Kernel32
     {
         private const string LibraryName = "kernel32";
-        
+
         [DllImport(LibraryName, CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi,
             ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr LoadLibrary(string fileName);

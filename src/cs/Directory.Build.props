@@ -1,14 +1,15 @@
 <Project>
 
-    <!-- MSBuild settings -->
-    <PropertyGroup>
-        <BaseOutputPath>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), .gitignore))/bin/$(MSBuildProjectName)</BaseOutputPath>
-        <BaseIntermediateOutputPath>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), .gitignore))/obj/$(MSBuildProjectName)/$(Configuration)</BaseIntermediateOutputPath>
-        <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
-    </PropertyGroup>
+	<!-- MSBuild settings -->
+	<PropertyGroup>
+		<BaseOutputPath>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), .gitignore))/bin/$(MSBuildProjectName)</BaseOutputPath>
+		<BaseIntermediateOutputPath>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), .gitignore))/obj/$(MSBuildProjectName)/$(Configuration)</BaseIntermediateOutputPath>
+		<MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
+		<NoWarn>$(NoWarn);CA1014</NoWarn>
+	</PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="bottlenoselabs.MSBuild.Tools" Version="1.1.2" PrivateAssets="all" />
-    </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="bottlenoselabs.MSBuild.Tools" Version="1.1.6" PrivateAssets="all"/>
+	</ItemGroup>
 
 </Project>

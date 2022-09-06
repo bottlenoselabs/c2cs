@@ -6,7 +6,7 @@ using System.Collections.Immutable;
 using System.CommandLine;
 using System.IO.Abstractions;
 using System.Reflection;
-using C2CS.Data.Serialization;
+using C2CS.Plugins;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -62,9 +62,9 @@ public static class Startup
     {
         services.AddSingleton(new CommandLineArgumentsProvider(args ?? Environment.GetCommandLineArgs()));
         services.AddSingleton<IFileSystem, FileSystem>();
-        services.AddHostedService<CommandLineService>();
+        services.AddHostedService<CommandLineHost>();
         services.AddSingleton<RootCommand, CommandLineInterface>();
-        services.AddSingleton<BindgenConfigurationJsonSerializer>();
+        services.AddSingleton<PluginsHost>();
 
         Contexts.ReadCodeC.Startup.ConfigureServices(services);
         Contexts.WriteCodeCSharp.Startup.ConfigureServices(services);

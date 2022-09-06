@@ -7,7 +7,7 @@ namespace macOS.MessageBox;
 
 public static class Program
 {
-    private static unsafe void Main()
+    private static void Main()
     {
         // CFTimeInterval timeout = default;
         // CFOptionFlags flags = 1;

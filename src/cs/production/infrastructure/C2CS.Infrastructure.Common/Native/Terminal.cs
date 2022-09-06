@@ -15,16 +15,6 @@ namespace C2CS;
 [PublicAPI]
 public static class Terminal
 {
-#pragma warning disable CA1034
-    [PublicAPI]
-    public class ShellOutput
-#pragma warning restore CA1034
-    {
-        public int ExitCode { get; set; }
-
-        public string Output { get; set; } = string.Empty;
-    }
-
     public static ShellOutput ExecuteShell(
         this string command,
         string? workingDirectory = null,
@@ -155,5 +145,15 @@ public static class Terminal
         }
 
         return string.Empty;
+    }
+
+#pragma warning disable CA1034
+    [PublicAPI]
+    public class ShellOutput
+#pragma warning restore CA1034
+    {
+        public int ExitCode { get; set; }
+
+        public string Output { get; set; } = string.Empty;
     }
 }

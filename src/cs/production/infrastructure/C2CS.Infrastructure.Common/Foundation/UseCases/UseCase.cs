@@ -2,8 +2,9 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
-using C2CS.Foundation.Data;
+using C2CS.Configuration;
 using C2CS.Foundation.Diagnostics;
 using C2CS.Foundation.UseCases.Exceptions;
 using JetBrains.Annotations;
@@ -12,28 +13,29 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.Foundation.UseCases;
 
 [PublicAPI]
-public abstract class UseCase<TConfiguration, TInput, TOutput>
-    where TConfiguration : UseCaseConfiguration
+public abstract class UseCase<TConfiguration, TInput, TOutput> : UseCase
+    where TConfiguration : ConfigurationUseCase
     where TOutput : UseCaseOutput<TInput>, new()
 {
+    private readonly Stopwatch _stepStopwatch;
+    private readonly Stopwatch _stopwatch;
+    private readonly UseCaseValidator<TConfiguration, TInput> _validator;
     public readonly ILogger<UseCase<TConfiguration, TInput, TOutput>> Logger;
 
     private IDisposable? _loggerScopeStep;
-    private readonly Stopwatch _stopwatch;
-    private readonly Stopwatch _stepStopwatch;
-    private readonly UseCaseValidator<TConfiguration, TInput> _validator;
-
-    protected DiagnosticCollection Diagnostics { get; } = new();
 
     protected UseCase(
         ILogger<UseCase<TConfiguration, TInput, TOutput>> logger,
         UseCaseValidator<TConfiguration, TInput> validator)
+        : base(logger)
     {
         Logger = logger;
         _stopwatch = new Stopwatch();
         _stepStopwatch = new Stopwatch();
         _validator = validator;
     }
+
+    protected DiagnosticCollection Diagnostics { get; } = new();
 
     [DebuggerHidden]
     public TOutput Execute(TConfiguration configuration)
@@ -80,7 +82,7 @@ public abstract class UseCase<TConfiguration, TInput, TOutput>
         _stopwatch.Reset();
         _stepStopwatch.Reset();
         GarbageCollect();
-        Logger.UseCaseStarted();
+        LogUseCaseStarted();
         _stopwatch.Start();
     }
 
@@ -93,16 +95,33 @@ public abstract class UseCase<TConfiguration, TInput, TOutput>
 
         if (response.IsSuccess)
         {
-            Logger.UseCaseSucceeded(timeSpan);
+            LogUseCaseSuccess(timeSpan);
         }
         else
         {
-            Logger.UseCaseFailed(timeSpan);
+            LogUseCaseFailure(timeSpan);
         }
 
         foreach (var diagnostic in response.Diagnostics)
         {
-            diagnostic.Log(Logger);
+            var name = diagnostic.GetName();
+            var message = diagnostic.Message;
+
+            var logLevel = diagnostic.Severity switch
+            {
+                DiagnosticSeverity.Information => LogLevel.Information,
+                DiagnosticSeverity.Warning => LogLevel.Warning,
+                DiagnosticSeverity.Error => LogLevel.Error,
+                DiagnosticSeverity.Panic => LogLevel.Critical,
+                _ => LogLevel.Information
+            };
+
+#pragma warning disable CA1848
+#pragma warning disable CA2254
+            // ReSharper disable once TemplateIsNotCompileTimeConstantProblem
+            Logger.Log(logLevel, $"- {name} {message}");
+#pragma warning restore CA2254
+#pragma warning restore CA1848
         }
 
         GarbageCollect();
@@ -119,7 +138,7 @@ public abstract class UseCase<TConfiguration, TInput, TOutput>
         _stepStopwatch.Reset();
         _loggerScopeStep = Logger.BeginScope(stepName);
         GarbageCollect();
-        Logger.UseCaseStepStarted();
+        LogUseCaseStepStarted();
         _stepStopwatch.Start();
     }
 
@@ -131,11 +150,11 @@ public abstract class UseCase<TConfiguration, TInput, TOutput>
         var isSuccess = !Diagnostics.HasFaulted;
         if (isSuccess)
         {
-            Logger.UseCaseStepSucceeded(timeSpan);
+            LogUseCaseStepSuccess(timeSpan);
         }
         else
         {
-            Logger.UseCaseStepFailed(timeSpan);
+            LogUseCaseStepFailure(timeSpan);
         }
 
         _loggerScopeStep?.Dispose();
@@ -154,4 +173,33 @@ public abstract class UseCase<TConfiguration, TInput, TOutput>
         GC.WaitForPendingFinalizers();
         GC.Collect();
     }
+}
+
+[EditorBrowsable(EditorBrowsableState.Never)]
+public partial class UseCase
+{
+    private readonly ILogger<UseCase> _logger;
+
+    protected UseCase(ILogger<UseCase> logger)
+    {
+        _logger = logger;
+    }
+
+    [LoggerMessage(0, LogLevel.Information, "- Use case started")]
+    protected partial void LogUseCaseStarted();
+
+    [LoggerMessage(1, LogLevel.Information, @"- Use case success in {Elapsed:s\\.ffff} seconds")]
+    protected partial void LogUseCaseSuccess(TimeSpan elapsed);
+
+    [LoggerMessage(2, LogLevel.Information, @"- Use case failed in {Elapsed:s\\.ffff} seconds")]
+    protected partial void LogUseCaseFailure(TimeSpan elapsed);
+
+    [LoggerMessage(3, LogLevel.Information, "- Use case step started")]
+    protected partial void LogUseCaseStepStarted();
+
+    [LoggerMessage(4, LogLevel.Information, @"- Use case step success in {Elapsed:s\\.ffff} seconds")]
+    protected partial void LogUseCaseStepSuccess(TimeSpan elapsed);
+
+    [LoggerMessage(5, LogLevel.Information, @"- Use case step failed in {Elapsed:s\\.ffff} seconds")]
+    protected partial void LogUseCaseStepFailure(TimeSpan elapsed);
 }

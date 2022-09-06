@@ -4,112 +4,132 @@
 using System;
 using System.CommandLine;
 using System.IO;
-using System.Text.Json;
+using C2CS.Contexts.ReadCodeC;
 using C2CS.Contexts.WriteCodeCSharp;
-using C2CS.Data;
-using C2CS.Data.Serialization;
-using Json.Schema;
-using Json.Schema.Generation;
+using C2CS.Plugins;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace C2CS;
 
-internal class CommandLineInterface : RootCommand
+internal partial class CommandLineInterface : RootCommand
 {
-    private readonly BindgenConfigurationJsonSerializer _configurationJsonSerializer;
+    private ILogger<CommandLineInterface> _logger;
+    private readonly PluginsHost _pluginsHost;
     private readonly IServiceProvider _serviceProvider;
 
+    private IPluginBindgen? _pluginBindgenConfiguration;
+
+    private bool _pluginsAreLoaded;
+
     public CommandLineInterface(
-        BindgenConfigurationJsonSerializer configurationJsonSerializer,
-        IServiceProvider serviceProvider)
+        IServiceProvider serviceProvider,
+        PluginsHost pluginsHost,
+        ILogger<CommandLineInterface> logger)
         : base("C2CS - C to C# bindings code generator.")
     {
-        _configurationJsonSerializer = configurationJsonSerializer;
         _serviceProvider = serviceProvider;
+        _pluginsHost = pluginsHost;
+        _logger = logger;
 
-        var configurationOption = new Option<string>(
-            new[] { "--configurationFilePath", "-c" },
-            "File path of the configuration `.json` file.")
+        var pluginsDirectoryPathOption = new Option<string?>(
+            new[] { "--plugins", "-p" },
+            "File path of the plugins folder.")
         {
             IsRequired = false
         };
-        AddGlobalOption(configurationOption);
+        AddGlobalOption(pluginsDirectoryPathOption);
 
         var abstractSyntaxTreeCommand = new Command(
             "c", "Dump the abstract syntax tree of a C `.h` file to one or more `.json` files per platform.");
-        abstractSyntaxTreeCommand.AddOption(configurationOption);
+        abstractSyntaxTreeCommand.AddOption(pluginsDirectoryPathOption);
         abstractSyntaxTreeCommand.SetHandler<string>(
-            filePath => HandleAbstractSyntaxTreesC(filePath),
-            configurationOption);
+            pluginsDirectoryPath => HandleReadCodeC(pluginsDirectoryPath),
+            pluginsDirectoryPathOption);
         AddCommand(abstractSyntaxTreeCommand);
 
         var bindgenCSharpCommand = new Command(
             "cs",
             "Generate a C# bindings `.cs` file from one or more C abstract syntax tree `.json` files per platform.");
-        bindgenCSharpCommand.AddOption(configurationOption);
-        bindgenCSharpCommand.SetHandler<string>(HandleBindgenCSharp, configurationOption);
+        bindgenCSharpCommand.AddOption(pluginsDirectoryPathOption);
+        bindgenCSharpCommand.SetHandler<string>(HandleWriteCSharpCode, pluginsDirectoryPathOption);
         AddCommand(bindgenCSharpCommand);
 
-        var configurationGenerateSchemaCommand = new Command(
-            "schema", "Generate the `schema.json` file for the configuration in the working directory.");
-        configurationGenerateSchemaCommand.SetHandler(GenerateSchema);
-        AddCommand(configurationGenerateSchemaCommand);
-
-        this.SetHandler<string>(Handle, configurationOption);
+        this.SetHandler<string>(Handle, pluginsDirectoryPathOption);
     }
 
-    private void Handle(string configurationFilePath)
+    private void TryLoadPlugins(string? pluginsDirectoryPath)
     {
-        var isSuccess = HandleAbstractSyntaxTreesC(configurationFilePath);
-        if (isSuccess)
-        {
-            HandleBindgenCSharp(configurationFilePath);
-        }
-    }
-
-    private bool HandleAbstractSyntaxTreesC(string configurationFilePath)
-    {
-        if (string.IsNullOrEmpty(configurationFilePath))
-        {
-            configurationFilePath = "config.json";
-        }
-
-        var configuration = _configurationJsonSerializer.Read(configurationFilePath);
-        var configurationReadC = configuration.ReadCCode;
-        if (configurationReadC == null)
-        {
-            return false;
-        }
-
-        var useCase = _serviceProvider.GetService<Contexts.ReadCodeC.ReadCodeCUseCase>()!;
-        var response = useCase.Execute(configurationReadC);
-
-        return response.IsSuccess;
-    }
-
-    private void HandleBindgenCSharp(string configurationFilePath)
-    {
-        if (string.IsNullOrEmpty(configurationFilePath))
-        {
-            configurationFilePath = "config.json";
-        }
-
-        var configuration = _configurationJsonSerializer.Read(configurationFilePath);
-        var configurationWriteCSharp = configuration.WriteCSharpCode;
-        if (configurationWriteCSharp == null)
+        if (_pluginsAreLoaded)
         {
             return;
         }
 
-        var useCase = _serviceProvider.GetService<WriteCodeCSharpUseCase>()!;
-        useCase.Execute(configurationWriteCSharp);
+        _pluginsHost.LoadPlugins(pluginsDirectoryPath ?? Path.Combine(Environment.CurrentDirectory, "plugins"));
+
+        foreach (var pluginContext in _pluginsHost.Plugins)
+        {
+            if (pluginContext.Assembly == null)
+            {
+                LogInvalidPluginNoAssembly(pluginContext.Name);
+                continue;
+            }
+
+            var pluginBindgenConfiguration = pluginContext.CreateExportedInterfaceInstance<IPluginBindgen>();
+            if (pluginBindgenConfiguration == null)
+            {
+                LogInvalidPluginNoBindenConfiguration(pluginContext.Name);
+                continue;
+            }
+
+            _pluginBindgenConfiguration = pluginBindgenConfiguration;
+            break;
+        }
+
+        _pluginsAreLoaded = true;
     }
 
-    private static void GenerateSchema()
+    private void Handle(string? pluginsDirectoryPath)
     {
-        var schemaBuilder = new JsonSchemaBuilder().FromType<BindgenConfiguration>();
-        var schema = schemaBuilder.Build();
-        var json = JsonSerializer.Serialize(schema);
-        File.WriteAllText("schema.json", json);
+        var isSuccessReadCodeC = HandleReadCodeC(pluginsDirectoryPath);
+        if (isSuccessReadCodeC)
+        {
+            HandleWriteCSharpCode(pluginsDirectoryPath);
+        }
     }
+
+    private bool HandleReadCodeC(string? pluginsDirectoryPath)
+    {
+        TryLoadPlugins(pluginsDirectoryPath);
+
+        var useCase = _serviceProvider.GetService<ReadCodeCUseCase>()!;
+        var configuration = _pluginBindgenConfiguration?.Configuration.ReadCCode;
+        if (configuration == null)
+        {
+            return false;
+        }
+
+        var response = useCase.Execute(configuration);
+        return response.IsSuccess;
+    }
+
+    private void HandleWriteCSharpCode(string? pluginsDirectoryPath)
+    {
+        TryLoadPlugins(pluginsDirectoryPath);
+
+        var useCase = _serviceProvider.GetService<WriteCodeCSharpUseCase>()!;
+        var configuration = _pluginBindgenConfiguration?.Configuration.WriteCSharpCode;
+        if (configuration == null)
+        {
+            return;
+        }
+
+        useCase.Execute(configuration);
+    }
+
+    [LoggerMessage(0, LogLevel.Error, "- Plugin '{PluginName}' is invalid. There is no loaded Assembly.")]
+    private partial void LogInvalidPluginNoAssembly(string pluginName);
+
+    [LoggerMessage(1, LogLevel.Error, "- Plugin '{PluginName}' is invalid. Could not find the type 'IPluginBindgenConfiguration'.")]
+    private partial void LogInvalidPluginNoBindenConfiguration(string pluginName);
 }

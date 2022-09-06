@@ -15,7 +15,7 @@ trim_trailing_whitespace = true
 
 # C# files
 [*.cs]
-indent_style = tab
+indent_style = space
 
 # Visual Studio Solution files
 [*.sln]

@@ -2,31 +2,40 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
-using C2CS.Contexts.ReadCodeC.Data.Model;
-using C2CS.Contexts.ReadCodeC.Data.Serialization;
-using C2CS.Contexts.WriteCodeCSharp.Data;
-using C2CS.Contexts.WriteCodeCSharp.Data.Model;
-using C2CS.Contexts.WriteCodeCSharp.Domain;
-using C2CS.Contexts.WriteCodeCSharp.Domain.CodeGenerator;
-using C2CS.Contexts.WriteCodeCSharp.Domain.CodeGenerator.Diagnostics;
-using C2CS.Contexts.WriteCodeCSharp.Domain.Mapper;
+using System.IO.Abstractions;
+using C2CS.Configuration;
+using C2CS.Contexts.WriteCodeCSharp.CodeGenerator;
+using C2CS.Contexts.WriteCodeCSharp.CodeGenerator.Diagnostics;
+using C2CS.Contexts.WriteCodeCSharp.Mapper;
+using C2CS.Data.C.Model;
+using C2CS.Data.C.Serialization;
+using C2CS.Data.CSharp.Model;
 using C2CS.Foundation.UseCases;
+using C2CS.Plugins;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.Logging;
-using DiagnosticSeverity = Microsoft.CodeAnalysis.DiagnosticSeverity;
 
 namespace C2CS.Contexts.WriteCodeCSharp;
 
-public sealed class WriteCodeCSharpUseCase : UseCase<WriteCodeCSharpConfiguration, WriteCodeCSharpInput, WriteCodeCSharpOutput>
+public sealed class
+    WriteCodeCSharpUseCase : UseCase<ConfigurationWriteCodeCSharp, WriteCodeCSharpInput, WriteCodeCSharpOutput>
 {
+    private readonly PluginsHost _pluginsHost;
     private readonly CJsonSerializer _serializer;
+    private readonly IFileSystem _fileSystem;
 
     public WriteCodeCSharpUseCase(
-        ILogger<WriteCodeCSharpUseCase> logger, WriteCodeCSharpValidator validator, CJsonSerializer serializer)
+        ILogger<WriteCodeCSharpUseCase> logger,
+        WriteCodeCSharpValidator validator,
+        CJsonSerializer serializer,
+        PluginsHost pluginsHost,
+        IFileSystem fileSystem)
         : base(logger, validator)
     {
         _serializer = serializer;
+        _pluginsHost = pluginsHost;
+        _fileSystem = fileSystem;
     }
 
     protected override void Execute(WriteCodeCSharpInput input, WriteCodeCSharpOutput output)
@@ -38,10 +47,9 @@ public sealed class WriteCodeCSharpUseCase : UseCase<WriteCodeCSharpConfiguratio
             input.MapperOptions);
 
         var code = GenerateCSharpCode(nodesPerPlatform, input.GeneratorOptions);
-
-        VerifyCSharpCodeCompiles(code);
-
         WriteCSharpCodeToFileStorage(input.OutputFilePath, code);
+
+        VerifyCSharpCodeCompiles(input.OutputFilePath, code);
     }
 
     private ImmutableArray<CAbstractSyntaxTree> LoadCAbstractSyntaxTrees(ImmutableArray<string> filePaths)
@@ -88,7 +96,7 @@ public sealed class WriteCodeCSharpUseCase : UseCase<WriteCodeCSharpConfiguratio
         return result;
     }
 
-    private void VerifyCSharpCodeCompiles(string codeCSharp)
+    private void VerifyCSharpCodeCompiles(string outputFilePath, string codeCSharp)
     {
         BeginStep("Verify C# code compiles");
 
@@ -114,7 +122,7 @@ public sealed class WriteCodeCSharpUseCase : UseCase<WriteCodeCSharpConfiguratio
                 continue;
             }
 
-            Diagnostics.Add(new CSharpCompileDiagnostic(diagnostic));
+            Diagnostics.Add(new CSharpCompileDiagnostic(outputFilePath, diagnostic));
         }
 
         EndStep();

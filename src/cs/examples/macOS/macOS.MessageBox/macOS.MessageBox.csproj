@@ -1,21 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>net6.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <NoWarn>$(NoWarn);CS1591</NoWarn>
-        <MSBuildTreatWarningsAsErrors>false</MSBuildTreatWarningsAsErrors>
-    </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<NoWarn>$(NoWarn);CS1591</NoWarn>
+		<MSBuildTreatWarningsAsErrors>false</MSBuildTreatWarningsAsErrors>
+	</PropertyGroup>
 
-<!--    <ItemGroup>-->
-<!--        <ProjectReference Include="$(GitRepositoryPath)/src/cs/production/generator/C2CS.SourceGenerator/C2CS.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />-->
-<!--        <ProjectReference Include="$(GitRepositoryPath)/src/cs/production/generator/C2CS.SourceGenerator.Metadata/C2CS.SourceGenerator.Metadata.csproj" />-->
-<!--    </ItemGroup>-->
+	<!--    <ItemGroup>-->
+	<!--        <ProjectReference Include="$(GitRepositoryPath)/src/cs/production/generator/C2CS.SourceGenerator/C2CS.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />-->
+	<!--        <ProjectReference Include="$(GitRepositoryPath)/src/cs/production/generator/C2CS.SourceGenerator.Metadata/C2CS.SourceGenerator.Metadata.csproj" />-->
+	<!--    </ItemGroup>-->
 
-    <ItemGroup>
-      <EmbeddedResource Include="appsettings.json" />
-    </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="appsettings.json"/>
+	</ItemGroup>
 
 </Project>

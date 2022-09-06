@@ -3,10 +3,9 @@
 
 using System.Collections.Immutable;
 using System.Reflection;
-using C2CS.Contexts.ReadCodeC.Data.Serialization;
-using C2CS.Contexts.ReadCodeC.Domain;
-using C2CS.Contexts.ReadCodeC.Domain.Explore;
-using C2CS.Contexts.ReadCodeC.Domain.Parse;
+using C2CS.Contexts.ReadCodeC.Explore;
+using C2CS.Contexts.ReadCodeC.Parse;
+using C2CS.Data.C.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace C2CS.Contexts.ReadCodeC;

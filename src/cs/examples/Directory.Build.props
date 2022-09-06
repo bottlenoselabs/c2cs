@@ -1,22 +1,20 @@
 <Project>
 
-    <Import Project="../Directory.Build.props"/>
+	<Import Project="../Directory.Build.props"/>
 
-    <!-- MSBuild project settings -->
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>net5.0</TargetFramework>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    </PropertyGroup>
+	<!-- MSBuild project settings -->
+	<PropertyGroup>
+		<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<NoWarn>$(NoWarn);CS1591;CS1707</NoWarn>
+	</PropertyGroup>
 
-    <!-- MSBuild.Tools project settings -->
-    <PropertyGroup>
-        <EnableAnalyzers>true</EnableAnalyzers>
-        <EnableAnalyzersStyleCop>false</EnableAnalyzersStyleCop>
-        <EnableRootNamespace>false</EnableRootNamespace>
-        <EnableCodeCoverage>false</EnableCodeCoverage>
-    </PropertyGroup>
+	<!-- MSBuild.Tools project settings -->
+	<PropertyGroup>
+		<EnableAnalyzers>true</EnableAnalyzers>
+		<EnableAnalyzersStyleCop>false</EnableAnalyzersStyleCop>
+		<EnableRootNamespace>false</EnableRootNamespace>
+		<EnableCodeCoverage>false</EnableCodeCoverage>
+	</PropertyGroup>
 
 </Project>
