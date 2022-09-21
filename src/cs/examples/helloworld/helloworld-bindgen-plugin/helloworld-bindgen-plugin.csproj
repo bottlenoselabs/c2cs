@@ -8,6 +8,7 @@
 		<OutputType>Library</OutputType>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 	</PropertyGroup>
 
 	<PropertyGroup>

@@ -5,7 +5,7 @@ using C2CS.Configuration;
 
 namespace C2CS;
 
-public interface IPluginBindgen
+public interface IBindgenController
 {
     ConfigurationBindgen Configuration { get; }
 }

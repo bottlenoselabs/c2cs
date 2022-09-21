@@ -6,11 +6,11 @@ using C2CS.Configuration;
 using JetBrains.Annotations;
 
 [PublicAPI]
-public class PluginBindgen : IPluginBindgen
+public class BindgenController : IBindgenController
 {
     public ConfigurationBindgen Configuration { get; } = new();
 
-    public PluginBindgen()
+    public BindgenController()
     {
         Configuration.InputOutputFileDirectory =
             "../../../src/cs/examples/helloworld/helloworld-my_c_library/my_c_library/ast";

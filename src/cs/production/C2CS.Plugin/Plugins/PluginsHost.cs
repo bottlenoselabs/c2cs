@@ -35,34 +35,46 @@ public partial class PluginsHost
 
         foreach (var pluginDirectoryPath in pluginDirectoryPaths)
         {
-            var pluginName = Path.GetFileName(pluginDirectoryPath);
-            var pluginAssemblyFilePath = Path.Combine(pluginDirectoryPath, pluginName + ".dll");
-            if (!File.Exists(pluginAssemblyFilePath))
+            var pluginContext = LoadPlugin(pluginDirectoryPath);
+            if (pluginContext == null)
             {
-                LogLoadPluginFailureFileDoesNotExist(pluginName, pluginAssemblyFilePath);
                 continue;
             }
 
-            var plugin = new PluginContext(pluginAssemblyFilePath);
-            try
-            {
-                plugin.Load();
-                builder.Add(plugin);
-                LogLoadPluginSuccess(pluginName, pluginAssemblyFilePath);
-            }
-#pragma warning disable CA1031
-            catch (Exception e)
-#pragma warning restore CA1031
-            {
-                // log and swallow exception
-                // the failure to load a plugin is not critical enough for the program to stop execution
-                LogLoadPluginFailure(e, pluginName, pluginsDirectoryPath);
-            }
+            builder.Add(pluginContext);
         }
 
         Plugins = builder.ToImmutable();
         LogLoadPluginsFinish(pluginsDirectoryPath, Plugins.Length);
         return Plugins.Length > 0;
+    }
+
+    private PluginContext? LoadPlugin(string pluginDirectoryPath)
+    {
+        var pluginName = Path.GetFileName(pluginDirectoryPath);
+        var pluginAssemblyFilePath = Path.Combine(pluginDirectoryPath, pluginName + ".dll");
+        if (!File.Exists(pluginAssemblyFilePath))
+        {
+            LogLoadPluginFailureFileDoesNotExist(pluginName, pluginAssemblyFilePath);
+            return null;
+        }
+
+        var plugin = new PluginContext(pluginAssemblyFilePath);
+        try
+        {
+            plugin.Load();
+            LogLoadPluginSuccess(pluginName, pluginAssemblyFilePath);
+            return plugin;
+        }
+#pragma warning disable CA1031
+        catch (Exception e)
+#pragma warning restore CA1031
+        {
+            // log and swallow exception
+            // the failure to load a plugin is not critical enough for the program to stop execution
+            LogLoadPluginFailure(e, pluginName, pluginAssemblyFilePath);
+            return null;
+        }
     }
 
     [LoggerMessage(0, LogLevel.Information, "- Loading plugins from directory: {PluginsDirectoryPath}")]

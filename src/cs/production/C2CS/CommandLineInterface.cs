@@ -18,7 +18,7 @@ internal partial class CommandLineInterface : RootCommand
     private readonly PluginsHost _pluginsHost;
     private readonly IServiceProvider _serviceProvider;
 
-    private IPluginBindgen? _pluginBindgenConfiguration;
+    private IBindgenController? _pluginBindgenConfiguration;
 
     private bool _pluginsAreLoaded;
 
@@ -75,7 +75,7 @@ internal partial class CommandLineInterface : RootCommand
                 continue;
             }
 
-            var pluginBindgenConfiguration = pluginContext.CreateExportedInterfaceInstance<IPluginBindgen>();
+            var pluginBindgenConfiguration = pluginContext.CreateExportedInterfaceInstance<IBindgenController>();
             if (pluginBindgenConfiguration == null)
             {
                 LogInvalidPluginNoBindenConfiguration(pluginContext.Name);
