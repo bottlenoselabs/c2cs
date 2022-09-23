@@ -36,11 +36,64 @@ All C extern functions which are transpiled to `static` methods in C# using `Dll
 
 This is accomplished by using [libclang](https://clang.llvm.org/docs/Tooling.html) for parsing C and [Roslyn](https://github.com/dotnet/roslyn) for generating C#. All naming is left as found in the C header `.h` file(s).
 
-<p align="center">
-  <img width="460" src="./docs/c2cs.png">
-</p>
+```mermaid
+graph LR
 
-For more details on why `C2CS` is structured into `ast` and `cs` see [docs/SUPPORTED-PLATFORMS.md#restrictive-or-closed-source-system-headers](./docs/SUPPORTED-PLATFORMS.md#restrictive-or-closed-source-system-headers).
+    subgraph C library
+
+    A(cross platform C header file <br>.h)
+
+    end
+
+    subgraph C2CS: c
+
+    A -.->|Windows| B[Parse <br> AST]
+    A -.->|macOS| C[Parse <br> AST]
+    A -.->|Linux| D[Parse <br> AST]
+    A -.->|iOS| E[Parse <br> AST]
+    A -.->|Android| F[Parse <br> AST]
+    A -.->|other| G[Parse <br> AST]
+
+    end
+
+    subgraph Artifacts
+
+    B -.-> H(.json)
+    C -.-> I(.json)
+    D -.-> J(.json)
+    E -.-> K(.json)
+    F -.-> L(.json)
+    G -.-> M(.json)
+
+    end
+
+    subgraph C2CS: cs
+
+    H -.-> N[Map C to C#]
+    I -.-> O[Map C to C#]
+    J -.-> P[Map C to C#]
+    K -.-> Q[Map C to C#]
+    L -.-> R[Map C to C#]
+    M -.-> S[Map C to C#]
+
+    N --> Y[C# code <br> generator]
+    O --> Y
+    P --> Y
+    Q --> Y
+    R --> Y
+    S --> Y
+
+
+    end
+
+    subgraph .NET app
+
+    Y -.-> Z(C# source code <br> .cs)
+
+    end
+```
+
+For more details on why `C2CS` is structured into `c` and `cs` see [docs/SUPPORTED-PLATFORMS.md#restrictive-or-closed-source-system-headers](./docs/SUPPORTED-PLATFORMS.md#restrictive-or-closed-source-system-headers).
 
 ### Limitations
 
