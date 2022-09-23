@@ -41,54 +41,72 @@ graph LR
 
     subgraph C library
 
-    A(cross platform C header file <br>.h)
+    C_HEADER(cross platform C header file <br> .h)
+    C_SOURCE(C/C++/ObjC source code <br> .c/.cpp/.m)
+
+    C_HEADER --- C_SOURCE
 
     end
 
     subgraph C2CS: c
 
-    A -.->|Windows| B[Parse <br> AST]
-    A -.->|macOS| C[Parse <br> AST]
-    A -.->|Linux| D[Parse <br> AST]
-    A -.->|iOS| E[Parse <br> AST]
-    A -.->|Android| F[Parse <br> AST]
-    A -.->|other| G[Parse <br> AST]
+    C2CS_PARSE_AST_WINDOWS[Parse <br> abstract syntax tree]
+    C2CS_PARSE_AST_MACOS[Parse <br> abstract ayntax tree]
+    C2CS_PARSE_AST_LINUX[Parse <br> abstract ayntax tree]
+
+    C_HEADER -.-> |Windows| C2CS_PARSE_AST_WINDOWS
+    C_HEADER -.-> |macOS| C2CS_PARSE_AST_MACOS
+    C_HEADER -.-> |Linux| C2CS_PARSE_AST_LINUX
 
     end
 
     subgraph Artifacts
 
-    B -.-> H(.json)
-    C -.-> I(.json)
-    D -.-> J(.json)
-    E -.-> K(.json)
-    F -.-> L(.json)
-    G -.-> M(.json)
+    C_COMPILED_WINDOWS(compiled code DLL <br> .dll)
+    C_COMPILED_MACOS(compiled code DLL <br> .dylib)
+    C_COMPILED_LINUX(compiled code DLL <br> .so)
+    
+    C_HEADER -.-> |Windows| C_COMPILED_WINDOWS
+    C_SOURCE -.-> |Windows| C_COMPILED_WINDOWS
+
+    C_HEADER -.-> |macOS| C_COMPILED_MACOS
+    C_SOURCE -.-> |macOS| C_COMPILED_MACOS
+
+    C_HEADER -.-> |Linux| C_COMPILED_LINUX
+    C_SOURCE -.-> |Linux| C_COMPILED_LINUX
+
+    JSON_AST_WINDOWS(Extracted abstract syntax tree <br> .json)
+    JSON_AST_MACOS(Extracted abstract syntax tree <br> .json)
+    JSON_AST_LINUX(Extracted abstract syntax tree <br> .json)
+
+    C2CS_PARSE_AST_WINDOWS -.-> |Windows| JSON_AST_WINDOWS
+    C2CS_PARSE_AST_MACOS -.-> |macOS| JSON_AST_MACOS
+    C2CS_PARSE_AST_LINUX -.-> |Linux| JSON_AST_LINUX
 
     end
 
     subgraph C2CS: cs
 
-    H -.-> N[Map C to C#]
-    I -.-> O[Map C to C#]
-    J -.-> P[Map C to C#]
-    K -.-> Q[Map C to C#]
-    L -.-> R[Map C to C#]
-    M -.-> S[Map C to C#]
+    CS_MAP_WINDOWS[Map C to C#]
+    CS_MAP_MACOS[Map C to C#]
+    CS_MAP_LINUX[Map C to C#]
 
-    N --> Y[C# code <br> generator]
-    O --> Y
-    P --> Y
-    Q --> Y
-    R --> Y
-    S --> Y
+    JSON_AST_WINDOWS -.-> |Any OS| CS_MAP_WINDOWS
+    JSON_AST_MACOS -.-> |Any OS| CS_MAP_MACOS
+    JSON_AST_LINUX -.-> |Any OS| CS_MAP_LINUX
 
+    CS_MAP_WINDOWS --> CS_CODE_GENERATOR[C# code <br> generator]
+    CS_MAP_MACOS --> CS_CODE_GENERATOR
+    CS_MAP_LINUX --> CS_CODE_GENERATOR
 
     end
 
     subgraph .NET app
 
-    Y -.-> Z(C# source code <br> .cs)
+    C_COMPILED_WINDOWS === |Windows| CS_SOURCE
+    C_COMPILED_MACOS === |macoS| CS_SOURCE
+    C_COMPILED_LINUX === |Linux| CS_SOURCE
+    CS_CODE_GENERATOR -.-> CS_SOURCE(C# source code <br> .cs)
 
     end
 ```
