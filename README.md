@@ -60,11 +60,15 @@ graph LR
 
     end
 
-    subgraph Artifacts
+    subgraph Native library
 
-    C_COMPILED_WINDOWS(compiled code DLL <br> .dll)
-    C_COMPILED_MACOS(compiled code DLL <br> .dylib)
-    C_COMPILED_LINUX(compiled code DLL <br> .so)
+    C_COMPILED_WINDOWS(compiled code <br> .dll)
+    C_COMPILED_MACOS(compiled code <br> .dylib)
+    C_COMPILED_LINUX(compiled code <br> .so)
+
+    end
+
+    subgraph Artifacts
     
     C_HEADER -.-> |Windows| C_COMPILED_WINDOWS
     C_SOURCE -.-> |Windows| C_COMPILED_WINDOWS
