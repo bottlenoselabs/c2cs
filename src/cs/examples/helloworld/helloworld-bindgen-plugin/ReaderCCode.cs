@@ -12,7 +12,7 @@ public class ReaderCCode : IReaderCCode
 
     public bool IsOpaqueTypeName(string aliasTypeName)
     {
-        return true;
+        return false;
     }
 
     public bool CanVisitFunction(string name)
