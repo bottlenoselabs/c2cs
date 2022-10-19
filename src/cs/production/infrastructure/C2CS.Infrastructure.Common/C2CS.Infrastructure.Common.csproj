@@ -15,14 +15,14 @@
 
 	<!-- Project references -->
 	<ItemGroup>
-		<ProjectReference Include="../../C2CS.Plugin/C2CS.Plugin.csproj"/>
+		<ProjectReference Include="..\..\C2CS\C2CS.csproj" />
 	</ItemGroup>
 
 	<!-- NuGet package references -->
 	<ItemGroup>
-		<PackageReference Include="JsonSchema.Net.Generation" Version="2.0.0"/>
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0"/>
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0"/>
+		<PackageReference Include="JsonSchema.Net.Generation" Version="2.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
 	</ItemGroup>
 
 </Project>

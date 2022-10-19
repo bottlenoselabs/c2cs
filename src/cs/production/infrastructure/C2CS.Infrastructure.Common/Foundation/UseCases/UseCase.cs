@@ -4,29 +4,29 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using C2CS.Configuration;
 using C2CS.Foundation.Diagnostics;
 using C2CS.Foundation.UseCases.Exceptions;
+using C2CS.Options;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.Foundation.UseCases;
 
 [PublicAPI]
-public abstract class UseCase<TConfiguration, TInput, TOutput> : UseCase
-    where TConfiguration : ConfigurationUseCase
+public abstract class UseCase<TOptions, TInput, TOutput> : UseCase
+    where TOptions : UseCaseOptions
     where TOutput : UseCaseOutput<TInput>, new()
 {
     private readonly Stopwatch _stepStopwatch;
     private readonly Stopwatch _stopwatch;
-    private readonly UseCaseValidator<TConfiguration, TInput> _validator;
-    public readonly ILogger<UseCase<TConfiguration, TInput, TOutput>> Logger;
+    private readonly UseCaseValidator<TOptions, TInput> _validator;
+    public readonly ILogger<UseCase<TOptions, TInput, TOutput>> Logger;
 
     private IDisposable? _loggerScopeStep;
 
     protected UseCase(
-        ILogger<UseCase<TConfiguration, TInput, TOutput>> logger,
-        UseCaseValidator<TConfiguration, TInput> validator)
+        ILogger<UseCase<TOptions, TInput, TOutput>> logger,
+        UseCaseValidator<TOptions, TInput> validator)
         : base(logger)
     {
         Logger = logger;
@@ -38,17 +38,17 @@ public abstract class UseCase<TConfiguration, TInput, TOutput> : UseCase
     protected DiagnosticCollection Diagnostics { get; } = new();
 
     [DebuggerHidden]
-    public TOutput Execute(TConfiguration configuration)
+    public TOutput Execute(TOptions options)
     {
         var output = new TOutput();
 
         var previousCurrentDirectory = Environment.CurrentDirectory;
-        Environment.CurrentDirectory = configuration.WorkingDirectory ?? Environment.CurrentDirectory;
+        Environment.CurrentDirectory = options.WorkingFileDirectory ?? Environment.CurrentDirectory;
 
         Begin();
         try
         {
-            output.Input = _validator.Validate(configuration);
+            output.Input = _validator.Validate(options);
             Execute(output.Input, output);
         }
         catch (UseCaseStepFailedException)

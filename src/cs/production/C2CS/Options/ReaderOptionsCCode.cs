@@ -4,11 +4,11 @@
 using System.Collections.Immutable;
 using JetBrains.Annotations;
 
-namespace C2CS.Configuration;
+namespace C2CS.Options;
 
 // NOTE: This class is considered un-sanitized input; all strings and other types could be null.
 [PublicAPI]
-public sealed class ConfigurationReadCodeC : ConfigurationUseCase
+public sealed class ReaderOptionsCCode : UseCaseOptions
 {
     /// <summary>
     ///     The path of the output abstract syntax tree directory.
@@ -35,61 +35,6 @@ public sealed class ConfigurationReadCodeC : ConfigurationUseCase
     ///     The directories to search for system header files.
     /// </summary>
     public ImmutableArray<string>? SystemIncludeDirectories { get; set; }
-
-    /// <summary>
-    ///     Determines whether to include or exclude functions.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Use <c>true</c> to include functions. Use <c>false</c> to exclude functions. Default is <c>true</c>. See
-    ///         <see cref="FunctionNamesAllowed" /> and <see cref="FunctionNamesBlocked" /> to control which ones are
-    ///         explicitly allowed.
-    ///     </para>
-    /// </remarks>
-    public bool? IsEnabledFunctions { get; set; }
-
-    /// <summary>
-    ///     The function names to explicitly include.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Default is <c>null</c>. If <c>null</c>, all functions found may be included only if
-    ///         <see cref="IsEnabledFunctions" /> is <c>true</c> and <see cref="FunctionNamesBlocked" /> is <c>null</c>.
-    ///         Note that functions which are excluded may also exclude any transitive types.
-    ///     </para>
-    /// </remarks>
-    public ImmutableArray<string>? FunctionNamesAllowed { get; set; }
-
-    /// <summary>
-    ///     The function names to explicitly exclude.
-    /// </summary>
-    /// <remarks>
-    ///     <para>Default is <c>null</c>. Note that function which are excluded may also exclude any transitive types.</para>
-    /// </remarks>
-    public ImmutableArray<string>? FunctionNamesBlocked { get; set; }
-
-    /// <summary>
-    ///     Determines whether to include or exclude variables.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Default is <c>true</c>. Use <c>true</c> to include variables. Use <c>false</c> to exclude variables. Use
-    ///         <see cref="VariableNamesAllowed" /> to control which ones are explicitly allowed.
-    ///     </para>
-    /// </remarks>
-    public bool? IsEnabledVariables { get; set; }
-
-    /// <summary>
-    ///     The variable names to explicitly include.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Default is <c>null</c>. If <c>null</c>, all variables found may be included only if
-    ///         <see cref="IsEnabledVariables" /> is <c>true</c>. Note that variables which are excluded may also
-    ///         exclude any transitive types.
-    ///     </para>
-    /// </remarks>
-    public ImmutableArray<string>? VariableNamesAllowed { get; set; }
 
     /// <summary>
     ///     Determines whether to include or exclude macro objects.
@@ -236,7 +181,7 @@ public sealed class ConfigurationReadCodeC : ConfigurationUseCase
     /// <summary>
     ///     The target platform configurations for extracting the abstract syntax trees.
     /// </summary>
-    public ImmutableDictionary<TargetPlatform, ConfigurationReadCodeCPlatform>? Platforms { get; set; }
+    public ImmutableDictionary<TargetPlatform, ReaderOptionsCCodePlatform>? Platforms { get; set; }
 
     /// <summary>
     ///     The names of libraries and/or interfaces for macOS, iOS, tvOS or watchOS.

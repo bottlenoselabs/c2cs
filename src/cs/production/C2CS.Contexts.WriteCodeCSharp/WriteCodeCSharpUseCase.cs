@@ -3,7 +3,6 @@
 
 using System.Collections.Immutable;
 using System.IO.Abstractions;
-using C2CS.Configuration;
 using C2CS.Contexts.WriteCodeCSharp.CodeGenerator;
 using C2CS.Contexts.WriteCodeCSharp.CodeGenerator.Diagnostics;
 using C2CS.Contexts.WriteCodeCSharp.Mapper;
@@ -11,6 +10,7 @@ using C2CS.Data.C.Model;
 using C2CS.Data.C.Serialization;
 using C2CS.Data.CSharp.Model;
 using C2CS.Foundation.UseCases;
+using C2CS.Options;
 using C2CS.Plugins;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -19,9 +19,9 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.Contexts.WriteCodeCSharp;
 
 public sealed class
-    WriteCodeCSharpUseCase : UseCase<ConfigurationWriteCodeCSharp, WriteCodeCSharpInput, WriteCodeCSharpOutput>
+    WriteCodeCSharpUseCase : UseCase<WriterOptionsCSharpCode, WriteCodeCSharpInput, WriteCodeCSharpOutput>
 {
-    private readonly PluginsHost _pluginsHost;
+    private readonly PluginHost _pluginHost;
     private readonly CJsonSerializer _serializer;
     private readonly IFileSystem _fileSystem;
 
@@ -29,12 +29,12 @@ public sealed class
         ILogger<WriteCodeCSharpUseCase> logger,
         WriteCodeCSharpValidator validator,
         CJsonSerializer serializer,
-        PluginsHost pluginsHost,
+        PluginHost pluginHost,
         IFileSystem fileSystem)
         : base(logger, validator)
     {
         _serializer = serializer;
-        _pluginsHost = pluginsHost;
+        _pluginHost = pluginHost;
         _fileSystem = fileSystem;
     }
 

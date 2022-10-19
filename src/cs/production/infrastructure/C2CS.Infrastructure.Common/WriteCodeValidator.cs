@@ -4,16 +4,16 @@
 using System;
 using System.Collections.Immutable;
 using System.IO.Abstractions;
-using C2CS.Configuration;
 using C2CS.Foundation.UseCases;
 using C2CS.Foundation.UseCases.Exceptions;
+using C2CS.Options;
 using JetBrains.Annotations;
 
 namespace C2CS;
 
 [PublicAPI]
 public abstract class WriteCodeValidator<TConfiguration, TInput> : UseCaseValidator<TConfiguration, TInput>
-    where TConfiguration : ConfigurationUseCase
+    where TConfiguration : UseCaseOptions
 {
     protected WriteCodeValidator(IFileSystem fileSystem)
     {

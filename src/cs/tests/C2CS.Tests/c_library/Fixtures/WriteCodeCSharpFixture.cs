@@ -6,8 +6,8 @@ using System.Globalization;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
-using C2CS.Configuration;
 using C2CS.Contexts.WriteCodeCSharp;
+using C2CS.Options;
 using C2CS.Tests.Common;
 using C2CS.Tests.Common.Data.Model.CSharp;
 using JetBrains.Annotations;
@@ -23,16 +23,13 @@ namespace C2CS.IntegrationTests.c_library.Fixtures;
 [PublicAPI]
 public sealed class WriteCodeCSharpFixture : TestFixture
 {
-    private ConfigurationBindgen CreateConfiguration()
+    private WriterOptionsCSharpCode CreateConfiguration()
     {
-        var result = new ConfigurationBindgen
+        var result = new WriterOptionsCSharpCode
         {
-            InputOutputFileDirectory = "./ast",
-            WriteCSharpCode =
-            {
-                OutputFilePath = "./my_c_library.cs",
-                NamespaceName = "bottlenoselabs"
-            }
+            InputFileDirectory = "./ast",
+            OutputFilePath = "./my_c_library.cs",
+            NamespaceName = "bottlenoselabs"
         };
 
         return result;
@@ -45,10 +42,7 @@ public sealed class WriteCodeCSharpFixture : TestFixture
     {
         Assert.True(!ast.Contexts.IsDefaultOrEmpty);
         var configuration = CreateConfiguration();
-        var configurationWriteCSharp = configuration.WriteCSharpCode;
-        Assert.True(configurationWriteCSharp != null);
-
-        var output = useCase.Execute(configurationWriteCSharp!);
+        var output = useCase.Execute(configuration!);
         Assert.True(output != null);
         var input = output!.Input;
 

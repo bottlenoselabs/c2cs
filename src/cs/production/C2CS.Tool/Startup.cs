@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Immutable;
 using System.CommandLine;
+using System.IO;
 using System.IO.Abstractions;
 using System.Reflection;
 using C2CS.Plugins;
@@ -16,6 +17,8 @@ namespace C2CS;
 
 public static class Startup
 {
+    internal static readonly PluginHost PluginHost = new(new Logger<PluginHost>(new LoggerFactory()));
+
     public static IHost CreateHost(string[] args)
     {
         return new HostBuilder()
@@ -64,9 +67,53 @@ public static class Startup
         services.AddSingleton<IFileSystem, FileSystem>();
         services.AddHostedService<CommandLineHost>();
         services.AddSingleton<RootCommand, CommandLineInterface>();
-        services.AddSingleton<PluginsHost>();
+        services.AddSingleton<PluginHost>();
 
         Contexts.ReadCodeC.Startup.ConfigureServices(services);
         Contexts.WriteCodeCSharp.Startup.ConfigureServices(services);
+
+        TryLoadPlugins(services, string.Empty);
+    }
+
+    private static void TryLoadPlugins(IServiceCollection services, string? pluginsFileDirectoryPath)
+    {
+        var searchFileDirectoryPath = pluginsFileDirectoryPath ?? Path.Combine(Environment.CurrentDirectory, "plugins");
+        PluginHost.LoadPlugins(searchFileDirectoryPath);
+
+        foreach (var pluginContext in PluginHost.Plugins)
+        {
+            var isPluginLoaded = TryLoadPlugin(services, pluginContext);
+            if (isPluginLoaded)
+            {
+                // Only load first valid plugin
+                break;
+            }
+        }
+    }
+
+    private static bool TryLoadPlugin(IServiceCollection services, PluginContext pluginContext)
+    {
+        if (pluginContext.Assembly == null)
+        {
+            return false;
+        }
+
+        var readerCCode = pluginContext.CreateExportedInterfaceInstance<IReaderCCode>();
+        if (readerCCode == null)
+        {
+            return false;
+        }
+
+        services.AddSingleton(readerCCode);
+
+        var writerCSharpCode = pluginContext.CreateExportedInterfaceInstance<IWriterCSharpCode>();
+        if (writerCSharpCode == null)
+        {
+            return false;
+        }
+
+        services.AddSingleton(writerCSharpCode);
+
+        return false;
     }
 }

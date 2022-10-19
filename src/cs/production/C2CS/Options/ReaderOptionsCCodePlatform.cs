@@ -4,21 +4,21 @@
 using System.Collections.Immutable;
 using JetBrains.Annotations;
 
-namespace C2CS.Configuration;
+namespace C2CS.Options;
 
 // NOTE: This class is considered un-sanitized input; all strings and other types could be null.
 [PublicAPI]
-public sealed class ConfigurationReadCodeCPlatform
+public sealed class ReaderOptionsCCodePlatform
 {
     /// <summary>
     ///     The directories to search for non-system header files specific to the target platform.
     /// </summary>
-    public ImmutableArray<string>? UserIncludeDirectories { get; set; }
+    public ImmutableArray<string>? UserIncludeFileDirectories { get; set; }
 
     /// <summary>
     ///     The directories to search for system header files of the target platform.
     /// </summary>
-    public ImmutableArray<string>? SystemIncludeDirectories { get; set; }
+    public ImmutableArray<string>? SystemIncludeFileDirectories { get; set; }
 
     /// <summary>
     ///     The object-like macros to use when parsing C code.
@@ -29,7 +29,7 @@ public sealed class ConfigurationReadCodeCPlatform
     ///     C header file paths to exclude from generating root nodes such as functions or variables.
     /// </summary>
     /// <remarks>
-    ///     <para>File paths are relative to <see cref="UserIncludeDirectories" />.</para>
+    ///     <para>File paths are relative to <see cref="UserIncludeFileDirectories" />.</para>
     ///     <para>
     ///         Because the way libclang works this does not block transitive files. In other words it only blocks files
     ///         where the declarations ares defined.

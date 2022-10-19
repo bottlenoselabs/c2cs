@@ -1,11 +1,11 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using C2CS.Configuration;
+using C2CS.Options;
 
 namespace C2CS;
 
-public interface IBindgenController
+public interface IWriterCSharpCode
 {
-    ConfigurationBindgen Configuration { get; }
+    WriterOptionsCSharpCode? Options { get; set; }
 }

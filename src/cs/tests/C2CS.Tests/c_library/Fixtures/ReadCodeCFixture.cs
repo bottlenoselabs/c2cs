@@ -3,11 +3,11 @@
 
 using System.Collections.Immutable;
 using System.Linq;
-using C2CS.Configuration;
 using C2CS.Contexts.ReadCodeC;
 using C2CS.Data.C.Model;
 using C2CS.Data.C.Serialization;
 using C2CS.Foundation.Diagnostics;
+using C2CS.Options;
 using C2CS.Tests.Common;
 using C2CS.Tests.Common.Data.Model.C;
 using JetBrains.Annotations;
@@ -17,17 +17,14 @@ namespace C2CS.IntegrationTests.c_library.Fixtures;
 [PublicAPI]
 public sealed class ReadCodeCFixture : TestFixture
 {
-    private ConfigurationBindgen CreateConfiguration()
+    private ReaderOptionsCCode CreateConfiguration()
     {
-        var result = new ConfigurationBindgen
+        var result = new ReaderOptionsCCode
         {
-            InputOutputFileDirectory = "./c/tests/c_library/ast",
-            ReadCCode =
-            {
-                InputFilePath = "./c/tests/c_library/include/_main.h",
-                UserIncludeDirectories = new[] { "./c/production/c2cs/include" }.ToImmutableArray(),
-                HeaderFilesBlocked = new[] { "parent_header.h" }.ToImmutableArray()
-            }
+            OutputFileDirectory = "./c/tests/c_library/ast",
+            InputFilePath = "./c/tests/c_library/include/_main.h",
+            UserIncludeDirectories = new[] { "./c/production/c2cs/include" }.ToImmutableArray(),
+            HeaderFilesBlocked = new[] { "parent_header.h" }.ToImmutableArray()
         };
 
         var platforms = ImmutableArray<TargetPlatform>.Empty;
@@ -58,13 +55,13 @@ public sealed class ReadCodeCFixture : TestFixture
             }.ToImmutableArray();
         }
 
-        var builder = ImmutableDictionary.CreateBuilder<TargetPlatform, ConfigurationReadCodeCPlatform>();
+        var builder = ImmutableDictionary.CreateBuilder<TargetPlatform, ReaderOptionsCCodePlatform>();
         foreach (var platform in platforms)
         {
-            builder.Add(platform, new ConfigurationReadCodeCPlatform());
+            builder.Add(platform, new ReaderOptionsCCodePlatform());
         }
 
-        result.ReadCCode.Platforms = builder.ToImmutable();
+        result.Platforms = builder.ToImmutable();
 
         return result;
     }
@@ -72,11 +69,11 @@ public sealed class ReadCodeCFixture : TestFixture
     public readonly ImmutableArray<ReadCodeCFixtureContext> Contexts;
 
     public ReadCodeCFixture(
-        ReadCodeCUseCase useCase,
+        UseCaseReadCodeC useCase,
         CJsonSerializer cJsonSerializer)
     {
         var configuration = CreateConfiguration();
-        var output = useCase.Execute(configuration.ReadCCode);
+        var output = useCase.Execute(configuration);
         Contexts = GetContexts(output, cJsonSerializer);
     }
 

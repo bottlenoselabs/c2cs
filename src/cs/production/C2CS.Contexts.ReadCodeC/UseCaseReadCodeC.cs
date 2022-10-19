@@ -2,26 +2,26 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
-using C2CS.Configuration;
 using C2CS.Contexts.ReadCodeC.Explore;
 using C2CS.Contexts.ReadCodeC.Parse;
 using C2CS.Data.C.Model;
 using C2CS.Data.C.Serialization;
 using C2CS.Foundation.Diagnostics;
 using C2CS.Foundation.UseCases;
+using C2CS.Options;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.Contexts.ReadCodeC;
 
-public sealed class ReadCodeCUseCase : UseCase<
-    ConfigurationReadCodeC, ReadCodeCInput, ReadCodeCOutput>
+public sealed class UseCaseReadCodeC : UseCase<
+    ReaderOptionsCCode, ReadCodeCInput, ReadCodeCOutput>
 {
     private readonly ClangInstaller _clangInstaller;
     private readonly Explorer _explorer;
     private readonly CJsonSerializer _serializer;
 
-    public ReadCodeCUseCase(
-        ILogger<ReadCodeCUseCase> logger,
+    public UseCaseReadCodeC(
+        ILogger<UseCaseReadCodeC> logger,
         ReadCodeCValidator validator,
         ClangInstaller clangInstaller,
         Explorer explorer,

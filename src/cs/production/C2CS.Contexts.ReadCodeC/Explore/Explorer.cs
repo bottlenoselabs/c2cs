@@ -38,8 +38,15 @@ public sealed partial class Explorer
 
     private readonly HashSet<string> _visitedIncludeFilePaths = new();
 
-    public Explorer(IServiceProvider services, ILogger<Explorer> logger, Parser parser)
+    private readonly IReaderCCode _readerCodeC;
+
+    public Explorer(
+        IReaderCCode readerCodeC,
+        IServiceProvider services,
+        ILogger<Explorer> logger,
+        Parser parser)
     {
+        _readerCodeC = readerCodeC;
         _logger = logger;
         _handlers = CreateHandlers(services);
         _parser = parser;
@@ -78,6 +85,7 @@ public sealed partial class Explorer
             headerFilePath, diagnostics, targetPlatform, parseOptions, out var linkedPaths);
 
         var context = new ExploreContext(
+            _readerCodeC,
             diagnostics,
             _handlers,
             targetPlatform,
@@ -570,13 +578,6 @@ public sealed partial class Explorer
             _ => _frontierTypes
         };
 
-        switch (kind)
-        {
-            case CKind.Variable when !context.ExploreOptions.IsEnabledVariables:
-            case CKind.Function when !context.ExploreOptions.IsEnabledFunctions:
-                return;
-        }
-
         if (!context.CanVisit(kind, info))
         {
             return;
@@ -586,8 +587,7 @@ public sealed partial class Explorer
         frontier.PushBack(info);
     }
 
-    [LoggerMessage(0, LogLevel.Error,
-        "- Expected a top level translation unit declaration (function, variable, enum, or macro) but found '{Kind}'")]
+    [LoggerMessage(0, LogLevel.Error, "- Expected a top level translation unit declaration (function, variable, enum, or macro) but found '{Kind}'")]
     public partial void LogUnexpectedTopLevelCursor(CXCursorKind kind);
 
     [LoggerMessage(1, LogLevel.Error, "- Failure")]

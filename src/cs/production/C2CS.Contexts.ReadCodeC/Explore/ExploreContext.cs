@@ -17,7 +17,10 @@ public sealed class ExploreContext
     private readonly ImmutableDictionary<string, string> _linkedPaths;
     private readonly Action<ExploreContext, CKind, ExploreInfoNode> _tryEnqueueVisitNode;
 
+    public readonly IReaderCCode Reader;
+
     public ExploreContext(
+        IReaderCCode reader,
         DiagnosticCollection diagnostics,
         ImmutableDictionary<CKind, ExploreHandler> handlers,
         TargetPlatform targetPlatformRequested,
@@ -27,6 +30,7 @@ public sealed class ExploreContext
         Action<ExploreContext, CKind, ExploreInfoNode> tryEnqueueVisitNode,
         ImmutableDictionary<string, string> linkedPaths)
     {
+        Reader = reader;
         Diagnostics = diagnostics;
         FilePath = GetFilePath(translationUnit);
         TargetPlatformRequested = targetPlatformRequested;
@@ -217,7 +221,7 @@ extend                        = 0x40
 
         var cursor = clang_getTypeDeclaration(type);
         var typeName = TypeName(kind, type, rootInfo?.Name, rootInfo?.Kind, fieldIndex);
-        if (ExploreOptions.OpaqueTypesNames.Contains(typeName))
+        if (Reader.IsOpaqueTypeName(typeName))
         {
             kind = CKind.OpaqueType;
         }
@@ -451,7 +455,7 @@ extend                        = 0x40
             var pointeeTypeName = pointeeType.Name();
             var pointeeTypeCursor = clang_getTypeDeclaration(pointeeType);
 
-            if (ExploreOptions.OpaqueTypesNames.Contains(pointeeTypeName))
+            if (Reader.IsOpaqueTypeName(pointeeTypeName))
             {
                 pointeeTypeKind = CKind.OpaqueType;
             }
@@ -474,7 +478,7 @@ extend                        = 0x40
             var elementTypeName = elementType.Name();
             var elementTypeCursor = clang_getTypeDeclaration(elementType);
 
-            if (ExploreOptions.OpaqueTypesNames.Contains(elementTypeName))
+            if (Reader.IsOpaqueTypeName(elementTypeName))
             {
                 elementTypeKind = CKind.OpaqueType;
             }
@@ -497,7 +501,7 @@ extend                        = 0x40
             var aliasTypeName = aliasType.Name();
             var aliasTypeCursor = clang_getTypeDeclaration(aliasType);
 
-            if (ExploreOptions.OpaqueTypesNames.Contains(aliasTypeName))
+            if (Reader.IsOpaqueTypeName(aliasTypeName))
             {
                 aliasTypeKind = CKind.OpaqueType;
             }

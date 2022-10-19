@@ -30,29 +30,8 @@ public sealed class FunctionExplorer : ExploreHandler<CFunction>
 
     protected override bool CanVisit(ExploreContext context, string name, ExploreInfoNode? parentInfo)
     {
-        if (!context.ExploreOptions.IsEnabledFunctions)
-        {
-            return false;
-        }
-
-        var options = context.ExploreOptions;
-
-        if (options.FunctionNamesAllowed.Contains(name))
-        {
-            return true;
-        }
-
-        if (!options.FunctionNamesAllowed.IsEmpty)
-        {
-            return false;
-        }
-
-        if (options.FunctionNamesBlocked.Contains(name))
-        {
-            return false;
-        }
-
-        return true;
+        var result = context.Reader.CanVisitFunction(name);
+        return result;
     }
 
     public override CFunction Explore(ExploreContext context, ExploreInfoNode info)

@@ -4,11 +4,11 @@
 using System.Collections.Immutable;
 using JetBrains.Annotations;
 
-namespace C2CS.Configuration;
+namespace C2CS.Options;
 
 // NOTE: This class is considered un-sanitized input; all strings and other types could be null.
 [PublicAPI]
-public sealed class ConfigurationWriteCodeCSharp : ConfigurationUseCase
+public sealed class WriterOptionsCSharpCode : UseCaseOptions
 {
     /// <summary>
     ///     The path of the input abstract syntax tree directory. The directory should contain one or more previously
@@ -77,7 +77,7 @@ public sealed class ConfigurationWriteCodeCSharp : ConfigurationUseCase
     /// <remarks>
     ///     <para><see cref="MappedNames" /> does not change the bit layout of types.</para>
     /// </remarks>
-    public ImmutableArray<ConfigurationWriteCodeCSharpMappedName>? MappedNames { get; set; }
+    public ImmutableArray<WriterOptionsCSharpCodeMappedName>? MappedNames { get; set; }
 
     /// <summary>
     ///     The names of types, functions, enums, constants, or anything else that may be found when parsing C code that

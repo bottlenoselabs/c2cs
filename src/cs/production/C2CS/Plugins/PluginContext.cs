@@ -27,6 +27,9 @@ public class PluginContext
         Name = Path.GetFileNameWithoutExtension(assemblyFilePath);
     }
 
+    /// <summary>
+    ///     The name of the plugin.
+    /// </summary>
     public string Name { get; private set; }
 
     /// <summary>

@@ -6,14 +6,14 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<RootNamespace />
-		<AssemblyName>helloworld-my-c-library</AssemblyName>
+		<AssemblyName>helloworld-compile-my-c-library</AssemblyName>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 	</PropertyGroup>
 
 	<!-- Project references -->
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\production\C2CS\C2CS.csproj" />
+		<ProjectReference Include="..\..\..\production\C2CS.Tool\C2CS.Tool.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -8,22 +8,22 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.Plugins;
 
 [PublicAPI]
-public partial class PluginsHost
+public partial class PluginHost
 {
-    private readonly ILogger<PluginsHost> _logger;
+    private readonly ILogger<PluginHost> _logger;
 
-    public PluginsHost(ILogger<PluginsHost> logger)
+    public PluginHost(ILogger<PluginHost> logger)
     {
         _logger = logger;
     }
 
     public ImmutableArray<PluginContext> Plugins { get; private set; } = ImmutableArray<PluginContext>.Empty;
 
-    public bool LoadPlugins(string? pluginsSearchDirectoryPath = null)
+    public bool LoadPlugins(string? searchDirectoryPath = null)
     {
         var builder = ImmutableArray.CreateBuilder<PluginContext>();
 
-        var pluginsDirectoryPath = pluginsSearchDirectoryPath ?? Path.Combine(AppContext.BaseDirectory, "plugins");
+        var pluginsDirectoryPath = searchDirectoryPath ?? Path.Combine(AppContext.BaseDirectory, "plugins");
         if (!Directory.Exists(pluginsDirectoryPath))
         {
             return false;

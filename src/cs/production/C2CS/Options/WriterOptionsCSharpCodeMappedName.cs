@@ -3,13 +3,13 @@
 
 using JetBrains.Annotations;
 
-namespace C2CS.Configuration;
+namespace C2CS.Options;
 
 /// <summary>
 ///     A pair of source and target names for renaming.
 /// </summary>
 [PublicAPI]
-public sealed class ConfigurationWriteCodeCSharpMappedName
+public sealed class WriterOptionsCSharpCodeMappedName
 {
     /// <summary>
     ///     The name to rename.

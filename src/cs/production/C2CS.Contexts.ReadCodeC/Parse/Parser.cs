@@ -17,12 +17,16 @@ public sealed partial class Parser
     private readonly ClangArgumentsBuilder _clangArgumentsBuilder;
     private readonly ILogger<Parser> _logger;
 
+    public readonly IReaderCCode IcCodeReader;
+
     public Parser(
+        IReaderCCode icCodeReader,
         ILogger<Parser> logger,
         ClangArgumentsBuilder clangArgumentsBuilder)
     {
         _logger = logger;
         _clangArgumentsBuilder = clangArgumentsBuilder;
+        IcCodeReader = icCodeReader;
     }
 
     public void CleanUp()
@@ -484,7 +488,7 @@ int main(void)
         return tempFilePath;
     }
 
-    private static ImmutableArray<MacroObjectCandidate> MacroObjectCandidates(
+    private ImmutableArray<MacroObjectCandidate> MacroObjectCandidates(
         ParseOptions options, ImmutableArray<CXCursor> cursors, ImmutableDictionary<string, string> linkedPaths)
     {
         var macroObjectsBuilder = ImmutableArray.CreateBuilder<MacroObjectCandidate>();
@@ -492,7 +496,6 @@ int main(void)
         {
             var macroObjectCandidate = MacroObjectCandidate(
                 cursor,
-                options.MacroObjectNamesAllowed,
                 linkedPaths,
                 options.UserIncludeDirectories);
             if (macroObjectCandidate == null)
@@ -506,21 +509,20 @@ int main(void)
         return macroObjectsBuilder.ToImmutable();
     }
 
-    private static MacroObjectCandidate? MacroObjectCandidate(
+    private MacroObjectCandidate? MacroObjectCandidate(
         CXCursor cursor,
-        ImmutableHashSet<string> macroObjectNamesAllowed,
-        ImmutableDictionary<string, string> linkedPaths,
+        ImmutableDictionary<string, string> linkedFileDirectoryPaths,
         ImmutableArray<string>? userIncludeDirectories)
     {
         var name = cursor.Name();
 
-        var isAllowed = macroObjectNamesAllowed.Contains(name) || macroObjectNamesAllowed.IsEmpty;
+        var isAllowed = IcCodeReader.IsMacroObjectNameAllowed(name);
         if (!isAllowed)
         {
             return null;
         }
 
-        var location = cursor.GetLocation(null, linkedPaths, userIncludeDirectories);
+        var location = cursor.GetLocation(null, linkedFileDirectoryPaths, userIncludeDirectories);
 
         // clang doesn't have a thing where we can easily get a value of a macro
         // we need to:

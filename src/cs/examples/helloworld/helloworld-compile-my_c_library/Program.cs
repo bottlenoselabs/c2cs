@@ -23,14 +23,18 @@ internal static class Program
 
     private static bool BuildLibrary(string rootDirectory)
     {
+        var thisApplicationAssemblyFilePath = typeof(Program).Assembly.Location;
+        var thisApplicationAssemblyMainFileDirectory = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(thisApplicationAssemblyFilePath)!, ".."));
+        var thisApplicationName = Path.GetFileName(thisApplicationAssemblyMainFileDirectory);
         var cMakeDirectoryPath =
-            Path.GetFullPath($"{rootDirectory}/src/cs/examples/helloworld/helloworld-my_c_library/my_c_library");
+            Path.GetFullPath($"{rootDirectory}/src/cs/examples/helloworld/{thisApplicationName}/my_c_library");
         var targetLibraryDirectoryPath = Path.GetFullPath($"{rootDirectory}/src/cs/examples/helloworld/helloworld-app");
         return CMake.Build(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
     }
 
     private static void GenerateBindingsCSharp()
     {
-        C2CS.Program.Main(Array.Empty<string>());
+        var parameters = Array.Empty<string>();
+        C2CS.Program.Main(parameters);
     }
 }

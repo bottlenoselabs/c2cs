@@ -175,7 +175,7 @@ public static unsafe class ClangExtensions
     public static CLocation GetLocation(
         this CXCursor cursor,
         CXType? type = null,
-        ImmutableDictionary<string, string>? linkedPaths = null,
+        ImmutableDictionary<string, string>? linkedFileDirectoryPaths = null,
         ImmutableArray<string>? userIncludeDirectories = null)
     {
         if (cursor.kind == CXCursorKind.CXCursor_TranslationUnit)
@@ -213,14 +213,14 @@ public static unsafe class ClangExtensions
 
         var locationSource = clang_getCursorLocation(cursor);
         var translationUnit = clang_Cursor_getTranslationUnit(cursor);
-        var location = GetLocation(locationSource, translationUnit, linkedPaths, userIncludeDirectories);
+        var location = GetLocation(locationSource, translationUnit, linkedFileDirectoryPaths, userIncludeDirectories);
         return location;
     }
 
     private static CLocation GetLocation(
         CXSourceLocation locationSource,
         CXTranslationUnit? translationUnit = null,
-        ImmutableDictionary<string, string>? linkedPaths = null,
+        ImmutableDictionary<string, string>? linkedFileDirectoryPaths = null,
         ImmutableArray<string>? userIncludeDirectories = null)
     {
         CXFile file;
@@ -259,9 +259,9 @@ public static unsafe class ClangExtensions
             return location;
         }
 
-        if (linkedPaths != null)
+        if (linkedFileDirectoryPaths != null)
         {
-            foreach (var (linkedDirectory, targetDirectory) in linkedPaths)
+            foreach (var (linkedDirectory, targetDirectory) in linkedFileDirectoryPaths)
             {
                 if (location.FilePath.Contains(linkedDirectory, StringComparison.InvariantCulture))
                 {

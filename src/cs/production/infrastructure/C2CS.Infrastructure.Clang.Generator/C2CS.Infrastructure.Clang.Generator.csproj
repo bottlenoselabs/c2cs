@@ -4,7 +4,7 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<OutputType>Exe</OutputType>
-		<RootNamespace/>
+		<RootNamespace />
 	</PropertyGroup>
 
 	<!-- MSBuild.Tools project settings -->
@@ -14,7 +14,7 @@
 
 	<!-- Project references -->
 	<ItemGroup>
-		<ProjectReference Include="..\..\C2CS\C2CS.csproj"/>
+		<ProjectReference Include="..\..\C2CS.Tool\C2CS.Tool.csproj" />
 	</ItemGroup>
 
 	<!-- Copy config-->

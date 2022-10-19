@@ -6,6 +6,7 @@ using System.Reflection;
 using C2CS.Contexts.ReadCodeC.Explore;
 using C2CS.Contexts.ReadCodeC.Parse;
 using C2CS.Data.C.Serialization;
+using C2CS.Plugins;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace C2CS.Contexts.ReadCodeC;
@@ -24,7 +25,7 @@ public static class Startup
         services.AddSingleton<Explorer>();
 
         // Use case
-        services.AddTransient<ReadCodeCUseCase>();
+        services.AddTransient<UseCaseReadCodeC>();
         services.AddSingleton<ReadCodeCValidator>();
 
         AddExploreHandlers(services);

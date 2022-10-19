@@ -5,7 +5,6 @@ using System;
 using System.CommandLine;
 using System.Threading;
 using System.Threading.Tasks;
-using C2CS.Plugins;
 using Microsoft.Extensions.Hosting;
 
 namespace C2CS;
@@ -14,19 +13,16 @@ internal sealed class CommandLineHost : IHostedService
 {
     private readonly IHostApplicationLifetime _applicationLifetime;
     private readonly string[] _commandLineArguments;
-    private readonly PluginsHost _pluginsHost;
     private readonly RootCommand _rootCommand;
 
     public CommandLineHost(
         IHostApplicationLifetime applicationLifetime,
         CommandLineArgumentsProvider commandLineArgumentsProvider,
-        RootCommand command,
-        PluginsHost pluginsHost)
+        RootCommand command)
     {
         _applicationLifetime = applicationLifetime;
         _commandLineArguments = commandLineArgumentsProvider.CommandLineArguments;
         _rootCommand = command;
-        _pluginsHost = pluginsHost;
     }
 
     public Task StartAsync(CancellationToken cancellationToken)

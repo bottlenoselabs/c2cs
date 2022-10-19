@@ -3,21 +3,21 @@
 
 using System.Collections.Immutable;
 using System.IO.Abstractions;
-using C2CS.Configuration;
 using C2CS.Contexts.WriteCodeCSharp.CodeGenerator;
 using C2CS.Contexts.WriteCodeCSharp.Mapper;
 using C2CS.Data.CSharp.Model;
+using C2CS.Options;
 
 namespace C2CS.Contexts.WriteCodeCSharp;
 
-public sealed class WriteCodeCSharpValidator : WriteCodeValidator<ConfigurationWriteCodeCSharp, WriteCodeCSharpInput>
+public sealed class WriteCodeCSharpValidator : WriteCodeValidator<WriterOptionsCSharpCode, WriteCodeCSharpInput>
 {
     public WriteCodeCSharpValidator(IFileSystem fileSystem)
         : base(fileSystem)
     {
     }
 
-    public override WriteCodeCSharpInput Validate(ConfigurationWriteCodeCSharp configuration)
+    public override WriteCodeCSharpInput Validate(WriterOptionsCSharpCode configuration)
     {
         var inputFilePaths = InputFilePaths(configuration.InputFileDirectory);
         var outputFilePath = OutputFilePath(configuration.OutputFilePath);
@@ -54,7 +54,7 @@ public sealed class WriteCodeCSharpValidator : WriteCodeValidator<ConfigurationW
     }
 
     private static ImmutableArray<CSharpTypeAlias> TypeAliases(
-        ImmutableArray<ConfigurationWriteCodeCSharpMappedName>? mappedNames)
+        ImmutableArray<WriterOptionsCSharpCodeMappedName>? mappedNames)
     {
         if (mappedNames == null || mappedNames.Value.IsDefaultOrEmpty)
         {

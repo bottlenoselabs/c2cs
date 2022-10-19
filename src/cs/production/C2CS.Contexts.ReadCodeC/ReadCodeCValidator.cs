@@ -3,16 +3,16 @@
 
 using System.Collections.Immutable;
 using System.IO.Abstractions;
-using C2CS.Configuration;
 using C2CS.Contexts.ReadCodeC.Explore;
 using C2CS.Contexts.ReadCodeC.Parse;
 using C2CS.Foundation;
 using C2CS.Foundation.UseCases;
 using C2CS.Foundation.UseCases.Exceptions;
+using C2CS.Options;
 
 namespace C2CS.Contexts.ReadCodeC;
 
-public sealed class ReadCodeCValidator : UseCaseValidator<ConfigurationReadCodeC, ReadCodeCInput>
+public sealed class ReadCodeCValidator : UseCaseValidator<ReaderOptionsCCode, ReadCodeCInput>
 {
     private readonly IFileSystem _fileSystem;
 
@@ -21,7 +21,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ConfigurationReadCodeC
         _fileSystem = fileSystem;
     }
 
-    public override ReadCodeCInput Validate(ConfigurationReadCodeC configuration)
+    public override ReadCodeCInput Validate(ReaderOptionsCCode configuration)
     {
         var inputFilePath = VerifyInputFilePath(configuration.InputFilePath);
         var optionsList = OptionsList(configuration, inputFilePath);
@@ -34,15 +34,15 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ConfigurationReadCodeC
     }
 
     private ImmutableArray<ReadCodeCAbstractSyntaxTreeInput> OptionsList(
-        ConfigurationReadCodeC configuration,
+        ReaderOptionsCCode configuration,
         string inputFilePath)
     {
         var optionsBuilder = ImmutableArray.CreateBuilder<ReadCodeCAbstractSyntaxTreeInput>();
         if (configuration.Platforms == null)
         {
-            var abstractSyntaxTreeRequests = new Dictionary<TargetPlatform, ConfigurationReadCodeCPlatform>();
+            var abstractSyntaxTreeRequests = new Dictionary<TargetPlatform, ReaderOptionsCCodePlatform>();
             var targetPlatform = Native.Platform;
-            abstractSyntaxTreeRequests.Add(targetPlatform, new ConfigurationReadCodeCPlatform());
+            abstractSyntaxTreeRequests.Add(targetPlatform, new ReaderOptionsCCodePlatform());
             configuration.Platforms = abstractSyntaxTreeRequests.ToImmutableDictionary();
         }
 
@@ -56,19 +56,19 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ConfigurationReadCodeC
     }
 
     private ReadCodeCAbstractSyntaxTreeInput Options(
-        ConfigurationReadCodeC configuration,
+        ReaderOptionsCCode configuration,
         TargetPlatform targetPlatform,
-        ConfigurationReadCodeCPlatform configurationPlatform,
+        ReaderOptionsCCodePlatform configurationPlatform,
         string inputFilePath)
     {
         var systemIncludeDirectories = VerifyImmutableArray(configuration.SystemIncludeDirectories);
         var systemIncludeDirectoriesPlatform =
-            VerifySystemDirectoriesPlatform(configurationPlatform?.SystemIncludeDirectories, systemIncludeDirectories);
+            VerifySystemDirectoriesPlatform(configurationPlatform?.SystemIncludeFileDirectories, systemIncludeDirectories);
 
         var userIncludeDirectories = VerifyIncludeDirectories(configuration.UserIncludeDirectories, inputFilePath);
         var userIncludeDirectoriesPlatform =
             VerifyIncludeDirectoriesPlatform(
-                configurationPlatform?.UserIncludeDirectories,
+                configurationPlatform?.UserIncludeFileDirectories,
                 inputFilePath,
                 userIncludeDirectories);
 
@@ -78,9 +78,6 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ConfigurationReadCodeC
         var outputFilePath = VerifyOutputFilePath(configuration.OutputFileDirectory, targetPlatform);
 
         var excludedHeaderFiles = VerifyImmutableArray(configurationPlatform?.HeaderFilesBlocked).ToImmutableHashSet();
-        var opaqueTypeNames = VerifyImmutableArray(configuration.OpaqueTypeNames).ToImmutableHashSet();
-        var functionNamesAllowed = VerifyImmutableArray(configuration.FunctionNamesAllowed).ToImmutableHashSet();
-        var functionNamesBlocked = VerifyImmutableArray(configuration.FunctionNamesBlocked).ToImmutableHashSet();
         var macroObjectNamesAllowed = VerifyImmutableArray(configuration.MacroObjectNamesAllowed).ToImmutableHashSet();
         var enumConstantNamesAllowed =
             VerifyImmutableArray(configuration.EnumConstantNamesAllowed).ToImmutableHashSet();
@@ -96,13 +93,8 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ConfigurationReadCodeC
             ExplorerOptions = new ExploreOptions
             {
                 HeaderFilesBlocked = excludedHeaderFiles,
-                OpaqueTypesNames = opaqueTypeNames,
-                FunctionNamesAllowed = functionNamesAllowed,
-                FunctionNamesBlocked = functionNamesBlocked,
                 EnumConstantNamesAllowed = enumConstantNamesAllowed,
                 IsEnabledLocationFullPaths = configuration.IsEnabledLocationFullPaths ?? false,
-                IsEnabledFunctions = configuration.IsEnabledFunctions ?? true,
-                IsEnabledVariables = configuration.IsEnabledVariables ?? true,
                 IsEnabledEnumConstants = configuration.IsEnabledEnumConstants ?? true,
                 IsEnabledEnumsDangling = configuration.IsEnabledEnumsDangling ?? false,
                 IsEnabledAllowNamesWithPrefixedUnderscore =

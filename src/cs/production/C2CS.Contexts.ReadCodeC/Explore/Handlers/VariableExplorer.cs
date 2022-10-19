@@ -23,12 +23,8 @@ public sealed class VariableExplorer : ExploreHandler<CVariable>
 
     protected override bool CanVisit(ExploreContext context, string name, ExploreInfoNode? parentInfo)
     {
-        if (!context.ExploreOptions.IsEnabledVariables)
-        {
-            return false;
-        }
-
-        return true;
+        var result = context.Reader.CanVisitVariable(name);
+        return result;
     }
 
     public override CVariable Explore(ExploreContext context, ExploreInfoNode info)

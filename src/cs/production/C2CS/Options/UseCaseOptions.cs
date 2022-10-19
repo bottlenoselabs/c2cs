@@ -4,13 +4,13 @@
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
-namespace C2CS.Configuration;
+namespace C2CS.Options;
 
 /// <summary>
 ///     Represents un-sanitized input for execution of a use case.
 /// </summary>
 [PublicAPI]
-public class ConfigurationUseCase
+public class UseCaseOptions
 {
     /// <summary>
     ///     The working directory to use.
@@ -19,5 +19,5 @@ public class ConfigurationUseCase
     ///     <para>Default is <c>null</c>. If <c>null</c>, the current directory is used.</para>
     /// </remarks>
     [JsonIgnore]
-    public string? WorkingDirectory { get; set; }
+    public string? WorkingFileDirectory { get; set; }
 }
