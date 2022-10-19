@@ -13,7 +13,7 @@
 
 	<PropertyGroup>
 		<!-- GitRepositoryPath is a custom property unique to bottlenoselabs -->
-		<OutputPath>$(GitRepositoryPath)/bin/helloworld-compile-my_c_library/$(Configuration)/plugins/$(MSBuildProjectName)</OutputPath>
+		<OutputPath>$(GitRepositoryPath)/bin/helloworld-compile-c-library-and-generate-bindings/$(Configuration)/plugins/$(MSBuildProjectName)</OutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>

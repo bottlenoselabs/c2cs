@@ -17,7 +17,7 @@ namespace C2CS.IntegrationTests.c_library.Fixtures;
 [PublicAPI]
 public sealed class ReadCodeCFixture : TestFixture
 {
-    private ReaderOptionsCCode CreateConfiguration()
+    private ReaderOptionsCCode CreateOptions()
     {
         var result = new ReaderOptionsCCode
         {
@@ -72,7 +72,7 @@ public sealed class ReadCodeCFixture : TestFixture
         UseCaseReadCodeC useCase,
         CJsonSerializer cJsonSerializer)
     {
-        var configuration = CreateConfiguration();
+        var configuration = CreateOptions();
         var output = useCase.Execute(configuration);
         Contexts = GetContexts(output, cJsonSerializer);
     }

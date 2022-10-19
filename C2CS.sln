@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "helloworld", "helloworld", 
 		src\cs\examples\helloworld\README.md = src\cs\examples\helloworld\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-compile-my_c_library", "src\cs\examples\helloworld\helloworld-compile-my_c_library\helloworld-compile-my_c_library.csproj", "{1DD50076-2E66-4EC4-99AA-D8F2539EF48D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-compile-c-library-and-generate-bindings", "src\cs\examples\helloworld\helloworld-compile-c-library-and-generate-bindings\helloworld-compile-c-library-and-generate-bindings.csproj", "{1DD50076-2E66-4EC4-99AA-D8F2539EF48D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-app", "src\cs\examples\helloworld\helloworld-app\helloworld-app.csproj", "{3549CD6F-971A-4456-8F80-EFC826AECC04}"
 EndProject
@@ -46,7 +46,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_", "_", "{9AD6A243-676B-40
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS", "src\cs\production\C2CS\C2CS.csproj", "{D26CD772-2BDA-4CF0-89E8-7A03598A3A41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-bindgen", "src\cs\examples\helloworld\helloworld-bindgen\helloworld-bindgen.csproj", "{FD083D84-FCE0-4313-9BCF-35203E3520DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-bindgen-plugin", "src\cs\examples\helloworld\helloworld-bindgen-plugin\helloworld-bindgen-plugin.csproj", "{FD083D84-FCE0-4313-9BCF-35203E3520DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Contexts.WriteCodeCSharp", "src\cs\production\C2CS.Contexts.WriteCodeCSharp\C2CS.Contexts.WriteCodeCSharp.csproj", "{00B88E51-C2CE-4997-92B0-0FC323DDBD5E}"
 EndProject

@@ -17,19 +17,19 @@ public sealed class WriteCodeCSharpValidator : WriteCodeValidator<WriterOptionsC
     {
     }
 
-    public override WriteCodeCSharpInput Validate(WriterOptionsCSharpCode configuration)
+    public override WriteCodeCSharpInput Validate(WriterOptionsCSharpCode options)
     {
-        var inputFilePaths = InputFilePaths(configuration.InputFileDirectory);
-        var outputFilePath = OutputFilePath(configuration.OutputFilePath);
-        var className = ClassName(configuration.ClassName, outputFilePath);
-        var libraryName = LibraryName(configuration.LibraryName, className);
-        var namespaceName = Namespace(configuration.NamespaceName, libraryName);
-        var typeAliases = TypeAliases(configuration.MappedNames);
-        var ignoredNames = IgnoredTypeNames(configuration.IgnoredNames);
-        var headerCodeRegion = HeaderCodeRegion(configuration.HeaderCodeRegionFilePath);
-        var footerCodeRegion = FooterCodeRegion(configuration.FooterCodeRegionFilePath);
-        var isEnabledPreCompile = configuration.IsEnabledPreCompile ?? true;
-        var isEnabledFunctionPointers = configuration.IsEnabledFunctionPointers ?? true;
+        var inputFilePaths = InputFilePaths(options.InputFileDirectory);
+        var outputFilePath = OutputFilePath(options.OutputFilePath);
+        var className = ClassName(options.ClassName, outputFilePath);
+        var libraryName = LibraryName(options.LibraryName, className);
+        var namespaceName = Namespace(options.NamespaceName, libraryName);
+        var typeAliases = TypeAliases(options.MappedNames);
+        var ignoredNames = IgnoredTypeNames(options.IgnoredNames);
+        var headerCodeRegion = HeaderCodeRegion(options.HeaderCodeRegionFilePath);
+        var footerCodeRegion = FooterCodeRegion(options.FooterCodeRegionFilePath);
+        var isEnabledPreCompile = options.IsEnabledPreCompile ?? true;
+        var isEnabledFunctionPointers = options.IsEnabledFunctionPointers ?? true;
 
         return new WriteCodeCSharpInput
         {

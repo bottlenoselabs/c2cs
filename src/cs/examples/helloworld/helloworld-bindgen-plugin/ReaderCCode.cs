@@ -33,9 +33,9 @@ public class ReaderCCode : IReaderCCode
     public ReaderCCode()
     {
         Options.InputFilePath =
-            "../../../src/cs/examples/helloworld/helloworld-my_c_library/my_c_library/include/my_c_library.h";
+            "../../../src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/my_c_library/include/my_c_library.h";
         Options.OutputFileDirectory =
-            "../../../src/cs/examples/helloworld/helloworld-my_c_library/my_c_library/ast";
+            "../../../src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/my_c_library/ast";
     }
 
     public virtual bool CanVisitFunction()

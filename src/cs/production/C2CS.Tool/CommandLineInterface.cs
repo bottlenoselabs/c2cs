@@ -27,13 +27,13 @@ internal partial class CommandLineInterface : RootCommand
 
         var abstractSyntaxTreeCommand = new Command(
             "c", "Dump the abstract syntax tree of a C `.h` file to one or more `.json` files per platform.");
-        abstractSyntaxTreeCommand.SetHandler(() => HandleReadCodeC());
+        abstractSyntaxTreeCommand.SetHandler(() => HandleReadCCode());
         AddCommand(abstractSyntaxTreeCommand);
 
         var bindgenCSharpCommand = new Command(
             "cs",
             "Generate a C# bindings `.cs` file from one or more C abstract syntax tree `.json` files per platform.");
-        bindgenCSharpCommand.SetHandler(HandleWriteCSharpCode);
+        bindgenCSharpCommand.SetHandler(() => HandleWriteCSharpCode());
         AddCommand(bindgenCSharpCommand);
 
         this.SetHandler(Handle);
@@ -43,14 +43,18 @@ internal partial class CommandLineInterface : RootCommand
     {
         CheckPlugins();
 
-        var isSuccessReadCodeC = HandleReadCodeC();
-        if (isSuccessReadCodeC)
+        var isSuccessReadCCode = HandleReadCCode();
+        if (!isSuccessReadCCode)
         {
-            HandleWriteCSharpCode();
+            // TODO: Log
+            return;
         }
+
+        var isSuccessWriteCSharpCode = HandleWriteCSharpCode();
+        // TODO: Log
     }
 
-    private bool HandleReadCodeC()
+    private bool HandleReadCCode()
     {
         CheckPlugins();
 
@@ -58,10 +62,11 @@ internal partial class CommandLineInterface : RootCommand
         if (readerCCode == null)
         {
             LogPluginNotFoundNoReaderCCode();
+            return false;
         }
 
         var useCase = _serviceProvider.GetService<UseCaseReadCodeC>()!;
-        var options = readerCCode!.Options;
+        var options = readerCCode.Options;
         if (options == null)
         {
             return false;
@@ -71,22 +76,24 @@ internal partial class CommandLineInterface : RootCommand
         return response.IsSuccess;
     }
 
-    private void HandleWriteCSharpCode()
+    private bool HandleWriteCSharpCode()
     {
         var writerCSharpCode = _serviceProvider.GetService<IWriterCSharpCode>();
         if (writerCSharpCode == null)
         {
             LogPluginNotFoundNoWriterCSharp();
+            return false;
         }
 
         var useCase = _serviceProvider.GetService<WriteCodeCSharpUseCase>()!;
-        var options = writerCSharpCode!.Options;
+        var options = writerCSharpCode.Options;
         if (options == null)
         {
-            return;
+            return false;
         }
 
-        useCase.Execute(options);
+        var response = useCase.Execute(options);
+        return response.IsSuccess;
     }
 
     private void CheckPlugins()
@@ -97,10 +104,10 @@ internal partial class CommandLineInterface : RootCommand
         }
 
         var pluginHost = Startup.PluginHost;
-        if (!pluginHost.Plugins.IsDefaultOrEmpty)
+        if (pluginHost.Plugins.IsDefaultOrEmpty)
         {
-            // TODO: Fallback to .JSON files.
-            throw new NotImplementedException();
+            LogNoPluginsFound();
+            return;
         }
 
         foreach (var plugin in pluginHost.Plugins)
@@ -114,12 +121,15 @@ internal partial class CommandLineInterface : RootCommand
         _pluginsChecked = true;
     }
 
-    [LoggerMessage(0, LogLevel.Error, "- Plugin '{PluginName}' is invalid. There is no loaded Assembly.")]
+    [LoggerMessage(0, LogLevel.Error, "- No plugins were found. Please see https://github.com/bottlenoselabs/c2cs for documentation.")]
+    private partial void LogNoPluginsFound();
+
+    [LoggerMessage(1, LogLevel.Error, "- Plugin '{PluginName}' is invalid. There is no loaded Assembly.")]
     private partial void LogInvalidPluginNoAssembly(string pluginName);
 
-    [LoggerMessage(1, LogLevel.Error, "- No plugin was found with a type '" + nameof(IReaderCCode) + "'.")]
+    [LoggerMessage(2, LogLevel.Error, "- No plugin was found with a type '" + nameof(IReaderCCode) + "'.")]
     private partial void LogPluginNotFoundNoReaderCCode();
 
-    [LoggerMessage(2, LogLevel.Error, "- No plugin was found with a type '" + nameof(IWriterCSharpCode) + "'.")]
+    [LoggerMessage(3, LogLevel.Error, "- No plugin was found with a type '" + nameof(IWriterCSharpCode) + "'.")]
     private partial void LogPluginNotFoundNoWriterCSharp();
 }

@@ -77,7 +77,12 @@ public static class Startup
 
     private static void TryLoadPlugins(IServiceCollection services, string? pluginsFileDirectoryPath)
     {
-        var searchFileDirectoryPath = pluginsFileDirectoryPath ?? Path.Combine(Environment.CurrentDirectory, "plugins");
+        var searchFileDirectoryPath = pluginsFileDirectoryPath;
+        if (string.IsNullOrEmpty(searchFileDirectoryPath))
+        {
+            searchFileDirectoryPath = Path.Combine(Environment.CurrentDirectory, "plugins");
+        }
+
         PluginHost.LoadPlugins(searchFileDirectoryPath);
 
         foreach (var pluginContext in PluginHost.Plugins)

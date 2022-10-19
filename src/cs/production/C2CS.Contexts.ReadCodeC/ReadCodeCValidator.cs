@@ -21,10 +21,10 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReaderOptionsCCode, Re
         _fileSystem = fileSystem;
     }
 
-    public override ReadCodeCInput Validate(ReaderOptionsCCode configuration)
+    public override ReadCodeCInput Validate(ReaderOptionsCCode options)
     {
-        var inputFilePath = VerifyInputFilePath(configuration.InputFilePath);
-        var optionsList = OptionsList(configuration, inputFilePath);
+        var inputFilePath = VerifyInputFilePath(options.InputFilePath);
+        var optionsList = OptionsList(options, inputFilePath);
 
         return new ReadCodeCInput
         {

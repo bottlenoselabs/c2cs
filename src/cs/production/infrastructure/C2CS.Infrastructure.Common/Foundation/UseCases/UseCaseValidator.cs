@@ -8,5 +8,5 @@ namespace C2CS.Foundation.UseCases;
 public abstract class UseCaseValidator<TConfiguration, TInput>
     where TConfiguration : UseCaseOptions
 {
-    public abstract TInput Validate(TConfiguration configuration);
+    public abstract TInput Validate(TConfiguration options);
 }
