@@ -44,7 +44,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_", "_", "{9AD6A243-676B-40
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS", "src\cs\production\C2CS\C2CS.csproj", "{D26CD772-2BDA-4CF0-89E8-7A03598A3A41}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Plugin", "src\cs\production\C2CS.Plugin\C2CS.Plugin.csproj", "{D26CD772-2BDA-4CF0-89E8-7A03598A3A41}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-bindgen-plugin", "src\cs\examples\helloworld\helloworld-bindgen-plugin\helloworld-bindgen-plugin.csproj", "{FD083D84-FCE0-4313-9BCF-35203E3520DB}"
 EndProject

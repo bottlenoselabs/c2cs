@@ -17,7 +17,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\production\C2CS\C2CS.csproj">
+		<ProjectReference Include="..\..\..\production\C2CS.Plugin\C2CS.Plugin.csproj">
 			<Private>false</Private>
 			<ExcludeAssets>runtime</ExcludeAssets>
 		</ProjectReference>
