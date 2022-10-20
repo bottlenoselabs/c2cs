@@ -8,7 +8,7 @@ namespace C2CS.Options;
 
 // NOTE: This class is considered un-sanitized input; all strings and other types could be null.
 [PublicAPI]
-public sealed class ReaderOptionsCCodePlatform
+public sealed class ReaderCCodeOptionsPlatform
 {
     /// <summary>
     ///     The directories to search for non-system header files specific to the target platform.

@@ -8,7 +8,7 @@ using JetBrains.Annotations;
 [PublicAPI]
 public class ReaderCCode : IReaderCCode
 {
-    public ReaderOptionsCCode Options { get; } = new();
+    public ReaderCCodeOptions Options { get; } = new();
 
     public bool IsOpaqueTypeName(string aliasTypeName)
     {

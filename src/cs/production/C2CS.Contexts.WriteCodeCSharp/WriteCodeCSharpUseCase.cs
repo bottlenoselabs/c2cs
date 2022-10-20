@@ -19,7 +19,7 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.Contexts.WriteCodeCSharp;
 
 public sealed class
-    WriteCodeCSharpUseCase : UseCase<WriterOptionsCSharpCode, WriteCodeCSharpInput, WriteCodeCSharpOutput>
+    WriteCodeCSharpUseCase : UseCase<WriterCSharpCodeOptions, WriteCodeCSharpInput, WriteCodeCSharpOutput>
 {
     private readonly PluginHost _pluginHost;
     private readonly CJsonSerializer _serializer;

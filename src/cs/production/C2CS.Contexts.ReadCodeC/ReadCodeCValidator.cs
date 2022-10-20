@@ -12,7 +12,7 @@ using C2CS.Options;
 
 namespace C2CS.Contexts.ReadCodeC;
 
-public sealed class ReadCodeCValidator : UseCaseValidator<ReaderOptionsCCode, ReadCodeCInput>
+public sealed class ReadCodeCValidator : UseCaseValidator<ReaderCCodeOptions, ReadCodeCInput>
 {
     private readonly IFileSystem _fileSystem;
 
@@ -21,7 +21,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReaderOptionsCCode, Re
         _fileSystem = fileSystem;
     }
 
-    public override ReadCodeCInput Validate(ReaderOptionsCCode options)
+    public override ReadCodeCInput Validate(ReaderCCodeOptions options)
     {
         var inputFilePath = VerifyInputFilePath(options.InputHeaderFilePath);
         var optionsList = OptionsList(options, inputFilePath);
@@ -34,15 +34,15 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReaderOptionsCCode, Re
     }
 
     private ImmutableArray<ReadCodeCAbstractSyntaxTreeInput> OptionsList(
-        ReaderOptionsCCode configuration,
+        ReaderCCodeOptions configuration,
         string inputFilePath)
     {
         var optionsBuilder = ImmutableArray.CreateBuilder<ReadCodeCAbstractSyntaxTreeInput>();
         if (configuration.Platforms == null)
         {
-            var abstractSyntaxTreeRequests = new Dictionary<TargetPlatform, ReaderOptionsCCodePlatform>();
+            var abstractSyntaxTreeRequests = new Dictionary<TargetPlatform, ReaderCCodeOptionsPlatform>();
             var targetPlatform = Native.Platform;
-            abstractSyntaxTreeRequests.Add(targetPlatform, new ReaderOptionsCCodePlatform());
+            abstractSyntaxTreeRequests.Add(targetPlatform, new ReaderCCodeOptionsPlatform());
             configuration.Platforms = abstractSyntaxTreeRequests.ToImmutableDictionary();
         }
 
@@ -56,9 +56,9 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReaderOptionsCCode, Re
     }
 
     private ReadCodeCAbstractSyntaxTreeInput Options(
-        ReaderOptionsCCode configuration,
+        ReaderCCodeOptions configuration,
         TargetPlatform targetPlatform,
-        ReaderOptionsCCodePlatform configurationPlatform,
+        ReaderCCodeOptionsPlatform configurationPlatform,
         string inputFilePath)
     {
         var systemIncludeDirectories = VerifyImmutableArray(configuration.SystemIncludeDirectories);

@@ -7,5 +7,5 @@ namespace C2CS;
 
 public interface IWriterCSharpCode
 {
-    WriterOptionsCSharpCode? Options { get; set; }
+    WriterCSharpCodeOptions? Options { get; set; }
 }

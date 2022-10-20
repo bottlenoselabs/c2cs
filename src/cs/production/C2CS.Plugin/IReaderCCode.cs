@@ -7,7 +7,7 @@ namespace C2CS;
 
 public interface IReaderCCode
 {
-    ReaderOptionsCCode? Options { get; }
+    ReaderCCodeOptions? Options { get; }
 
     bool IsOpaqueTypeName(string aliasTypeName)
     {

@@ -10,14 +10,14 @@ using C2CS.Options;
 
 namespace C2CS.Contexts.WriteCodeCSharp;
 
-public sealed class WriteCodeCSharpValidator : WriteCodeValidator<WriterOptionsCSharpCode, WriteCodeCSharpInput>
+public sealed class WriteCodeCSharpValidator : WriteCodeValidator<WriterCSharpCodeOptions, WriteCodeCSharpInput>
 {
     public WriteCodeCSharpValidator(IFileSystem fileSystem)
         : base(fileSystem)
     {
     }
 
-    public override WriteCodeCSharpInput Validate(WriterOptionsCSharpCode options)
+    public override WriteCodeCSharpInput Validate(WriterCSharpCodeOptions options)
     {
         var inputFilePaths = InputFilePaths(options.InputAbstractSyntaxTreesFileDirectory);
         var outputFilePath = OutputFilePath(options.OutputCSharpCodeFilePath);
@@ -54,7 +54,7 @@ public sealed class WriteCodeCSharpValidator : WriteCodeValidator<WriterOptionsC
     }
 
     private static ImmutableArray<CSharpTypeAlias> TypeAliases(
-        ImmutableArray<WriterOptionsCSharpCodeMappedName>? mappedNames)
+        ImmutableArray<WriterCSharpCodeOptionsMappedName>? mappedNames)
     {
         if (mappedNames == null || mappedNames.Value.IsDefaultOrEmpty)
         {

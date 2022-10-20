@@ -8,7 +8,7 @@ namespace C2CS.Options;
 
 // NOTE: This class is considered un-sanitized input; all strings and other types could be null.
 [PublicAPI]
-public sealed class WriterOptionsCSharpCode : UseCaseOptions
+public sealed class WriterCSharpCodeOptions : UseCaseOptions
 {
     /// <summary>
     ///     The path of the input abstract syntax tree directory. The directory should contain one or more previously
@@ -77,7 +77,7 @@ public sealed class WriterOptionsCSharpCode : UseCaseOptions
     /// <remarks>
     ///     <para><see cref="MappedNames" /> does not change the bit layout of types.</para>
     /// </remarks>
-    public ImmutableArray<WriterOptionsCSharpCodeMappedName>? MappedNames { get; set; }
+    public ImmutableArray<WriterCSharpCodeOptionsMappedName>? MappedNames { get; set; }
 
     /// <summary>
     ///     The names of types, functions, enums, constants, or anything else that may be found when parsing C code that

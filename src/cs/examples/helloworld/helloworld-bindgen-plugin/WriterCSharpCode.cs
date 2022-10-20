@@ -6,7 +6,7 @@ using C2CS.Options;
 
 public class WriterCSharpCode : IWriterCSharpCode
 {
-    public WriterOptionsCSharpCode? Options { get; set; } = new();
+    public WriterCSharpCodeOptions? Options { get; set; } = new();
 
     public WriterCSharpCode()
     {

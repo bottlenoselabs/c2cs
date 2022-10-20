@@ -8,7 +8,7 @@ namespace C2CS.Options;
 
 // NOTE: This class is considered un-sanitized input; all strings and other types could be null.
 [PublicAPI]
-public sealed class ReaderOptionsCCode : UseCaseOptions
+public sealed class ReaderCCodeOptions : UseCaseOptions
 {
     /// <summary>
     ///     The path of the output abstract syntax tree directory.
@@ -181,7 +181,7 @@ public sealed class ReaderOptionsCCode : UseCaseOptions
     /// <summary>
     ///     The target platform configurations for extracting the abstract syntax trees.
     /// </summary>
-    public ImmutableDictionary<TargetPlatform, ReaderOptionsCCodePlatform>? Platforms { get; set; }
+    public ImmutableDictionary<TargetPlatform, ReaderCCodeOptionsPlatform>? Platforms { get; set; }
 
     /// <summary>
     ///     The names of libraries and/or interfaces for macOS, iOS, tvOS or watchOS.

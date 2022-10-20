@@ -7,16 +7,16 @@ namespace C2CS.IntegrationTests.c_library.Fixtures.CSharp;
 
 public class WriteCSharpCodeFixtureWriter : IWriterCSharpCode
 {
-    public WriterOptionsCSharpCode? Options { get; set; }
+    public WriterCSharpCodeOptions? Options { get; set; }
 
     public WriteCSharpCodeFixtureWriter()
     {
         Options = CreateOptions();
     }
 
-    private WriterOptionsCSharpCode CreateOptions()
+    private WriterCSharpCodeOptions CreateOptions()
     {
-        var result = new WriterOptionsCSharpCode
+        var result = new WriterCSharpCodeOptions
         {
             InputAbstractSyntaxTreesFileDirectory = "./c/tests/c_library/ast",
             OutputCSharpCodeFilePath = "./my_c_library.cs",

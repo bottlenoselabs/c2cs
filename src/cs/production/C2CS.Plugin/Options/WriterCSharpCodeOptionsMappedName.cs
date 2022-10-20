@@ -9,7 +9,7 @@ namespace C2CS.Options;
 ///     A pair of source and target names for renaming.
 /// </summary>
 [PublicAPI]
-public sealed class WriterOptionsCSharpCodeMappedName
+public sealed class WriterCSharpCodeOptionsMappedName
 {
     /// <summary>
     ///     The name to rename.

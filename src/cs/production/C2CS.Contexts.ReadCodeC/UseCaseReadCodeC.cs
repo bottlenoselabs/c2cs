@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.Contexts.ReadCodeC;
 
 public sealed class UseCaseReadCodeC : UseCase<
-    ReaderOptionsCCode, ReadCodeCInput, ReadCodeCOutput>
+    ReaderCCodeOptions, ReadCodeCInput, ReadCodeCOutput>
 {
     private readonly ClangInstaller _clangInstaller;
     private readonly Explorer _explorer;

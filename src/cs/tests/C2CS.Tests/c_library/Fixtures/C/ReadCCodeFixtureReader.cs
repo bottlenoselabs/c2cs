@@ -8,16 +8,16 @@ namespace C2CS.IntegrationTests.c_library.Fixtures.C;
 
 public class ReadCCodeFixtureReader : IReaderCCode
 {
-    public ReaderOptionsCCode? Options { get; }
+    public ReaderCCodeOptions? Options { get; }
 
     public ReadCCodeFixtureReader()
     {
         Options = CreateOptions();
     }
 
-    private static ReaderOptionsCCode CreateOptions()
+    private static ReaderCCodeOptions CreateOptions()
     {
-        var result = new ReaderOptionsCCode
+        var result = new ReaderCCodeOptions
         {
             InputHeaderFilePath = "./c/tests/c_library/include/_main.h",
             OutputAbstractSyntaxTreesFileDirectory = "./c/tests/c_library/ast",
@@ -53,10 +53,10 @@ public class ReadCCodeFixtureReader : IReaderCCode
             }.ToImmutableArray();
         }
 
-        var builder = ImmutableDictionary.CreateBuilder<TargetPlatform, ReaderOptionsCCodePlatform>();
+        var builder = ImmutableDictionary.CreateBuilder<TargetPlatform, ReaderCCodeOptionsPlatform>();
         foreach (var platform in platforms)
         {
-            builder.Add(platform, new ReaderOptionsCCodePlatform());
+            builder.Add(platform, new ReaderCCodeOptionsPlatform());
         }
 
         result.Platforms = builder.ToImmutable();
