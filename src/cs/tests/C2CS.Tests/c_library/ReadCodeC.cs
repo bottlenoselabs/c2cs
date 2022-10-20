@@ -3,6 +3,7 @@
 
 using System.Collections.Immutable;
 using C2CS.IntegrationTests.c_library.Fixtures;
+using C2CS.IntegrationTests.c_library.Fixtures.C;
 using C2CS.Tests.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -12,12 +13,12 @@ namespace C2CS.IntegrationTests.c_library;
 [Trait("Integration", "c_library")]
 public class ReadCodeC : CLibraryIntegrationTest
 {
-    private readonly ImmutableArray<ReadCodeCFixtureContext> _contexts;
+    private readonly ImmutableArray<ReadCCodeFixtureContext> _contexts;
 
     public ReadCodeC()
         : base(TestHost.Services, "c_library", "Data/C", false)
     {
-        _contexts = TestHost.Services.GetService<ReadCodeCFixture>()!.Contexts;
+        _contexts = TestHost.Services.GetService<ReadCCodeFixture>()!.Contexts;
         Assert.True(_contexts.Length > 0, "Failed to read C code.");
 
         foreach (var context in _contexts)

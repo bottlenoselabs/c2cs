@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using C2CS.Contexts.WriteCodeCSharp;
+using C2CS.IntegrationTests.c_library.Fixtures.C;
 using C2CS.Options;
 using C2CS.Tests.Common;
 using C2CS.Tests.Common.Data.Model.CSharp;
@@ -18,31 +19,19 @@ using Xunit;
 
 // ReSharper disable ParameterOnlyUsedForPreconditionCheck.Local
 
-namespace C2CS.IntegrationTests.c_library.Fixtures;
+namespace C2CS.IntegrationTests.c_library.Fixtures.CSharp;
 
 [PublicAPI]
-public sealed class WriteCodeCSharpFixture : TestFixture
+public sealed class WriteCSharpCodeFixture : TestFixture
 {
-    private WriterOptionsCSharpCode CreateConfiguration()
-    {
-        var result = new WriterOptionsCSharpCode
-        {
-            InputFileDirectory = "./ast",
-            OutputFilePath = "./my_c_library.cs",
-            NamespaceName = "bottlenoselabs"
-        };
-
-        return result;
-    }
-
-    public WriteCodeCSharpFixture(
+    public WriteCSharpCodeFixture(
         WriteCodeCSharpUseCase useCase,
         IFileSystem fileSystem,
-        ReadCodeCFixture ast)
+        ReadCCodeFixture ast,
+        IWriterCSharpCode writerCSharpCode)
     {
         Assert.True(!ast.Contexts.IsDefaultOrEmpty);
-        var configuration = CreateConfiguration();
-        var output = useCase.Execute(configuration!);
+        var output = useCase.Execute(writerCSharpCode.Options!);
         Assert.True(output != null);
         var input = output!.Input;
 
@@ -130,7 +119,7 @@ public sealed class WriteCodeCSharpFixture : TestFixture
         using var pdbStream = new MemoryStream();
         var emitResult = compilation.Emit(dllStream, pdbStream);
 
-        Context = new WriteCodeCSharpFixtureContext(
+        Context = new WriteCSharpCodeFixtureContext(
             emitResult,
             methodsByNameBuilder.ToImmutable(),
             enumsByNameBuilder.ToImmutable(),
@@ -138,7 +127,7 @@ public sealed class WriteCodeCSharpFixture : TestFixture
             macroObjectsByNameBuilder.ToImmutable());
     }
 
-    public WriteCodeCSharpFixtureContext Context { get; }
+    public WriteCSharpCodeFixtureContext Context { get; }
 
     private CSharpTestFunction CreateTestFunction(MethodDeclarationSyntax syntaxNode)
     {

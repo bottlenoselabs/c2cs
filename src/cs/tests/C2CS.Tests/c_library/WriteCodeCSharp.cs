@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using C2CS.IntegrationTests.c_library.Fixtures;
+using C2CS.IntegrationTests.c_library.Fixtures.CSharp;
 using C2CS.Tests.Common;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,12 +13,12 @@ namespace C2CS.IntegrationTests.c_library;
 [Trait("Integration", "c_library")]
 public class WriteCodeCSharp : CLibraryIntegrationTest
 {
-    private readonly WriteCodeCSharpFixtureContext _context;
+    private readonly WriteCSharpCodeFixtureContext _context;
 
     public WriteCodeCSharp()
         : base(TestHost.Services, "c_library", "Data/CSharp", false)
     {
-        _context = TestHost.Services.GetService<WriteCodeCSharpFixture>()!.Context;
+        _context = TestHost.Services.GetService<WriteCSharpCodeFixture>()!.Context;
     }
 
     [Theory]

@@ -9,11 +9,23 @@ public interface IReaderCCode
 {
     ReaderOptionsCCode? Options { get; }
 
-    bool IsOpaqueTypeName(string aliasTypeName);
+    bool IsOpaqueTypeName(string aliasTypeName)
+    {
+        return false;
+    }
 
-    bool CanVisitFunction(string name);
+    bool CanVisitFunction(string name)
+    {
+        return true;
+    }
 
-    bool CanVisitVariable(string name);
+    bool CanVisitVariable(string name)
+    {
+        return true;
+    }
 
-    bool IsMacroObjectNameAllowed(string name);
+    bool IsMacroObjectNameAllowed(string name)
+    {
+        return true;
+    }
 }

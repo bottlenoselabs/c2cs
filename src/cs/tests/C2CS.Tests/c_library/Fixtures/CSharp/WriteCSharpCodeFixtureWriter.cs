@@ -1,0 +1,28 @@
+// Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
+
+using C2CS.Options;
+
+namespace C2CS.IntegrationTests.c_library.Fixtures.CSharp;
+
+public class WriteCSharpCodeFixtureWriter : IWriterCSharpCode
+{
+    public WriterOptionsCSharpCode? Options { get; set; }
+
+    public WriteCSharpCodeFixtureWriter()
+    {
+        Options = CreateOptions();
+    }
+
+    private WriterOptionsCSharpCode CreateOptions()
+    {
+        var result = new WriterOptionsCSharpCode
+        {
+            InputFileDirectory = "./c/tests/c_library/ast",
+            OutputFilePath = "./my_c_library.cs",
+            NamespaceName = "bottlenoselabs"
+        };
+
+        return result;
+    }
+}

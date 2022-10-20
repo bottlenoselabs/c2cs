@@ -6,16 +6,16 @@ using C2CS.Tests.Common.Data.Model.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using Xunit;
 
-namespace C2CS.IntegrationTests.c_library.Fixtures;
+namespace C2CS.IntegrationTests.c_library.Fixtures.CSharp;
 
-public class WriteCodeCSharpFixtureContext
+public class WriteCSharpCodeFixtureContext
 {
     private readonly ImmutableDictionary<string, CSharpTestEnum> _enums;
     private readonly ImmutableDictionary<string, CSharpTestFunction> _functions;
     private readonly ImmutableDictionary<string, CSharpTestMacroObject> _macroObjects;
     private readonly ImmutableDictionary<string, CSharpTestStruct> _structs;
 
-    public WriteCodeCSharpFixtureContext(
+    public WriteCSharpCodeFixtureContext(
         EmitResult emitResult,
         ImmutableDictionary<string, CSharpTestFunction> functions,
         ImmutableDictionary<string, CSharpTestEnum> enums,

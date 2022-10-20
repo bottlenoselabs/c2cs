@@ -9,17 +9,17 @@ using C2CS.Tests.Common.Data.Model.C;
 using JetBrains.Annotations;
 using Xunit;
 
-namespace C2CS.IntegrationTests.c_library.Fixtures;
+namespace C2CS.IntegrationTests.c_library.Fixtures.C;
 
 [PublicAPI]
-public sealed class ReadCodeCFixtureContext
+public sealed class ReadCCodeFixtureContext
 {
     private readonly ImmutableDictionary<string, CTestEnum> _enums;
     private readonly ImmutableDictionary<string, CTestFunction> _functions;
     private readonly ImmutableDictionary<string, CTestMacroObject> _macroObjects;
     private readonly ImmutableDictionary<string, CTestRecord> _records;
 
-    public ReadCodeCFixtureContext(
+    public ReadCCodeFixtureContext(
         ExploreOptions exploreOptions,
         ParseOptions parseOptions,
         TargetPlatform targetPlatformRequested,

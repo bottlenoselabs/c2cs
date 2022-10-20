@@ -7,86 +7,37 @@ using C2CS.Contexts.ReadCodeC;
 using C2CS.Data.C.Model;
 using C2CS.Data.C.Serialization;
 using C2CS.Foundation.Diagnostics;
-using C2CS.Options;
 using C2CS.Tests.Common;
 using C2CS.Tests.Common.Data.Model.C;
 using JetBrains.Annotations;
 
-namespace C2CS.IntegrationTests.c_library.Fixtures;
+namespace C2CS.IntegrationTests.c_library.Fixtures.C;
 
 [PublicAPI]
-public sealed class ReadCodeCFixture : TestFixture
+
+public sealed class ReadCCodeFixture : TestFixture
 {
-    private ReaderOptionsCCode CreateOptions()
-    {
-        var result = new ReaderOptionsCCode
-        {
-            OutputFileDirectory = "./c/tests/c_library/ast",
-            InputFilePath = "./c/tests/c_library/include/_main.h",
-            UserIncludeDirectories = new[] { "./c/production/c2cs/include" }.ToImmutableArray(),
-            HeaderFilesBlocked = new[] { "parent_header.h" }.ToImmutableArray()
-        };
+    public readonly ImmutableArray<ReadCCodeFixtureContext> Contexts;
 
-        var platforms = ImmutableArray<TargetPlatform>.Empty;
-        var hostOperatingSystem = Native.OperatingSystem;
-        if (hostOperatingSystem == NativeOperatingSystem.Windows)
-        {
-            platforms = new[]
-            {
-                TargetPlatform.aarch64_pc_windows_msvc,
-                TargetPlatform.x86_64_pc_windows_msvc
-            }.ToImmutableArray();
-        }
-        else if (hostOperatingSystem == NativeOperatingSystem.macOS)
-        {
-            platforms = new[]
-            {
-                TargetPlatform.aarch64_apple_darwin,
-                TargetPlatform.aarch64_apple_ios,
-                TargetPlatform.x86_64_apple_darwin
-            }.ToImmutableArray();
-        }
-        else if (hostOperatingSystem == NativeOperatingSystem.Linux)
-        {
-            platforms = new[]
-            {
-                TargetPlatform.aarch64_unknown_linux_gnu,
-                TargetPlatform.x86_64_unknown_linux_gnu
-            }.ToImmutableArray();
-        }
-
-        var builder = ImmutableDictionary.CreateBuilder<TargetPlatform, ReaderOptionsCCodePlatform>();
-        foreach (var platform in platforms)
-        {
-            builder.Add(platform, new ReaderOptionsCCodePlatform());
-        }
-
-        result.Platforms = builder.ToImmutable();
-
-        return result;
-    }
-
-    public readonly ImmutableArray<ReadCodeCFixtureContext> Contexts;
-
-    public ReadCodeCFixture(
+    public ReadCCodeFixture(
         UseCaseReadCodeC useCase,
-        CJsonSerializer cJsonSerializer)
+        CJsonSerializer cJsonSerializer,
+        IReaderCCode readerCCode)
     {
-        var configuration = CreateOptions();
-        var output = useCase.Execute(configuration);
+        var output = useCase.Execute(readerCCode.Options!);
         Contexts = GetContexts(output, cJsonSerializer);
     }
 
-    private ImmutableArray<ReadCodeCFixtureContext> GetContexts(
+    private ImmutableArray<ReadCCodeFixtureContext> GetContexts(
         ReadCodeCOutput output, CJsonSerializer jsonSerializer)
     {
         if (!output.IsSuccess ||
             output.Diagnostics.Any(x => x.Severity is DiagnosticSeverity.Error or DiagnosticSeverity.Panic))
         {
-            return ImmutableArray<ReadCodeCFixtureContext>.Empty;
+            return ImmutableArray<ReadCCodeFixtureContext>.Empty;
         }
 
-        var builder = ImmutableArray.CreateBuilder<ReadCodeCFixtureContext>();
+        var builder = ImmutableArray.CreateBuilder<ReadCCodeFixtureContext>();
 
         foreach (var input in output.AbstractSyntaxTreesOptions)
         {
@@ -101,7 +52,7 @@ public sealed class ReadCodeCFixture : TestFixture
             var structs = CreateTestRecords(ast);
             var macroObjects = CreateMacroObjects(ast);
 
-            var data = new ReadCodeCFixtureContext(
+            var data = new ReadCCodeFixtureContext(
                 input.ExplorerOptions,
                 input.ParseOptions,
                 ast.PlatformRequested,
