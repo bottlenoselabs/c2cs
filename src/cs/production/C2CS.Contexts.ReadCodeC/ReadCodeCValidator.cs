@@ -23,7 +23,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReaderOptionsCCode, Re
 
     public override ReadCodeCInput Validate(ReaderOptionsCCode options)
     {
-        var inputFilePath = VerifyInputFilePath(options.InputFilePath);
+        var inputFilePath = VerifyInputFilePath(options.InputHeaderFilePath);
         var optionsList = OptionsList(options, inputFilePath);
 
         return new ReadCodeCInput
@@ -75,7 +75,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReaderOptionsCCode, Re
         var frameworks = VerifyImmutableArray(configuration.Frameworks);
         var frameworksPlatform = VerifyFrameworks(configurationPlatform?.Frameworks, frameworks);
 
-        var outputFilePath = VerifyOutputFilePath(configuration.OutputFileDirectory, targetPlatform);
+        var outputFilePath = VerifyOutputFilePath(configuration.OutputAbstractSyntaxTreesFileDirectory, targetPlatform);
 
         var excludedHeaderFiles = VerifyImmutableArray(configurationPlatform?.HeaderFilesBlocked).ToImmutableHashSet();
         var macroObjectNamesAllowed = VerifyImmutableArray(configuration.MacroObjectNamesAllowed).ToImmutableHashSet();

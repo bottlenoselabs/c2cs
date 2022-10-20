@@ -19,8 +19,8 @@ public class ReadCCodeFixtureReader : IReaderCCode
     {
         var result = new ReaderOptionsCCode
         {
-            InputFilePath = "./c/tests/c_library/include/_main.h",
-            OutputFileDirectory = "./c/tests/c_library/ast",
+            InputHeaderFilePath = "./c/tests/c_library/include/_main.h",
+            OutputAbstractSyntaxTreesFileDirectory = "./c/tests/c_library/ast",
             UserIncludeDirectories = new[] { "./c/production/c2cs/include" }.ToImmutableArray(),
             HeaderFilesBlocked = new[] { "parent_header.h" }.ToImmutableArray()
         };

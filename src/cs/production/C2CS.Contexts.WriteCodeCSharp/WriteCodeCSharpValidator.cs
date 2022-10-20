@@ -19,8 +19,8 @@ public sealed class WriteCodeCSharpValidator : WriteCodeValidator<WriterOptionsC
 
     public override WriteCodeCSharpInput Validate(WriterOptionsCSharpCode options)
     {
-        var inputFilePaths = InputFilePaths(options.InputFileDirectory);
-        var outputFilePath = OutputFilePath(options.OutputFilePath);
+        var inputFilePaths = InputFilePaths(options.InputAbstractSyntaxTreesFileDirectory);
+        var outputFilePath = OutputFilePath(options.OutputCSharpCodeFilePath);
         var className = ClassName(options.ClassName, outputFilePath);
         var libraryName = LibraryName(options.LibraryName, className);
         var namespaceName = Namespace(options.NamespaceName, libraryName);

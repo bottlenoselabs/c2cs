@@ -14,12 +14,12 @@ public sealed class WriterOptionsCSharpCode : UseCaseOptions
     ///     The path of the input abstract syntax tree directory. The directory should contain one or more previously
     ///     generated abstract syntax tree `.json` files which each have a file name of the target platform.
     /// </summary>
-    public string? InputFileDirectory { get; set; }
+    public string? InputAbstractSyntaxTreesFileDirectory { get; set; }
 
     /// <summary>
     ///     The path of the output C# `.cs` file.
     /// </summary>
-    public string? OutputFilePath { get; set; }
+    public string? OutputCSharpCodeFilePath { get; set; }
 
     /// <summary>
     ///     The name of the dynamic link library (without the file extension) used for platform invoke (P/Invoke) with
@@ -27,7 +27,7 @@ public sealed class WriterOptionsCSharpCode : UseCaseOptions
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         Default is <c>null</c>. If <see cref="LibraryName" /> is <c>null</c>, the file name of <see cref="OutputFilePath" /> without
+    ///         Default is <c>null</c>. If <see cref="LibraryName" /> is <c>null</c>, the file name of <see cref="OutputCSharpCodeFilePath" /> without
     ///         the file extension is used.
     ///     </para>
     /// </remarks>

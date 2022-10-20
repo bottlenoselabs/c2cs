@@ -18,8 +18,8 @@ public class WriteCSharpCodeFixtureWriter : IWriterCSharpCode
     {
         var result = new WriterOptionsCSharpCode
         {
-            InputFileDirectory = "./c/tests/c_library/ast",
-            OutputFilePath = "./my_c_library.cs",
+            InputAbstractSyntaxTreesFileDirectory = "./c/tests/c_library/ast",
+            OutputCSharpCodeFilePath = "./my_c_library.cs",
             NamespaceName = "bottlenoselabs"
         };
 

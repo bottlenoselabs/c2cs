@@ -10,9 +10,9 @@ public class WriterCSharpCode : IWriterCSharpCode
 
     public WriterCSharpCode()
     {
-        Options!.InputFileDirectory =
+        Options!.InputAbstractSyntaxTreesFileDirectory =
             "../../../src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/my_c_library/ast";
-        Options.OutputFilePath =
+        Options.OutputCSharpCodeFilePath =
             "../../../src/cs/examples/helloworld/helloworld-app/my_c_library.cs";
         Options.NamespaceName = "my_c_library_namespace";
     }

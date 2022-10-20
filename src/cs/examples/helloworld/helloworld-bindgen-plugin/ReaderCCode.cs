@@ -32,9 +32,9 @@ public class ReaderCCode : IReaderCCode
 
     public ReaderCCode()
     {
-        Options.InputFilePath =
+        Options.InputHeaderFilePath =
             "../../../src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/my_c_library/include/my_c_library.h";
-        Options.OutputFileDirectory =
+        Options.OutputAbstractSyntaxTreesFileDirectory =
             "../../../src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/my_c_library/ast";
     }
 

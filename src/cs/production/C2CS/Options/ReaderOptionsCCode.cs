@@ -19,12 +19,12 @@ public sealed class ReaderOptionsCCode : UseCaseOptions
     ///         file name of the target platform.
     ///     </para>
     /// </remarks>
-    public string? OutputFileDirectory { get; set; }
+    public string? OutputAbstractSyntaxTreesFileDirectory { get; set; }
 
     /// <summary>
     ///     The path of the input `.h` header file containing C code.
     /// </summary>
-    public string? InputFilePath { get; set; }
+    public string? InputHeaderFilePath { get; set; }
 
     /// <summary>
     ///     The directories to search for non-system header files.
