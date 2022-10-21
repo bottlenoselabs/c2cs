@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<!-- MSBuild project settings -->
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<RootNamespace>C2CS</RootNamespace>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<!-- MSBuild.Tools project settings -->
+	<PropertyGroup>
+		<EnableCodeCoverage>false</EnableCodeCoverage>
+	</PropertyGroup>
+
+	<!-- Project references -->
+	<ItemGroup>
+		<ProjectReference Include="..\..\C2CS.Plugin\C2CS.Plugin.csproj" />
+	</ItemGroup>
+
+	<!-- NuGet package references -->
+	<ItemGroup>
+		<PackageReference Include="JsonSchema.Net.Generation" Version="2.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+	</ItemGroup>
+
+</Project>

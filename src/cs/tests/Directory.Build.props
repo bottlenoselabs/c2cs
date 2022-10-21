@@ -1,18 +1,18 @@
 <Project>
 
-    <Import Project="../Directory.Build.props"/>
+	<Import Project="../Directory.Build.props"/>
 
-    <!-- MSBuild project settings -->
-    <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <LangVersion>latest</LangVersion>
-    </PropertyGroup>
+	<!-- MSBuild project settings -->
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
 
-    <!-- bottlenose.MSBuild.Tools project settings -->
-    <PropertyGroup>
-        <EnableAnalyzers>true</EnableAnalyzers>
-        <EnableAnalyzersStyleCop>true</EnableAnalyzersStyleCop>
-    </PropertyGroup>
+	<!-- bottlenose.MSBuild.Tools project settings -->
+	<PropertyGroup>
+		<EnableAnalyzers>true</EnableAnalyzers>
+		<EnableAnalyzersStyleCop>true</EnableAnalyzersStyleCop>
+	</PropertyGroup>
 
 </Project>

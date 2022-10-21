@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>C2CS</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+		<PackageReference Include="System.IO.Abstractions" Version="17.1.1" />
+	</ItemGroup>
+
+	<!-- NuGet -->
+	<PropertyGroup>
+		<IsPackable>true</IsPackable>
+		<RepositoryUrl>https://github.com/bottlenoselabs/c2cs</RepositoryUrl>
+		<PackageDescription>C2CS plugin base library. Add this package to your project to create a plugin for C2CS.</PackageDescription>
+	</PropertyGroup>
+
+</Project>
