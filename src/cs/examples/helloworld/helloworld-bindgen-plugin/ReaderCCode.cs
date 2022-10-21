@@ -8,27 +8,7 @@ using JetBrains.Annotations;
 [PublicAPI]
 public class ReaderCCode : IReaderCCode
 {
-    public ReaderCCodeOptions Options { get; } = new();
-
-    public bool IsOpaqueTypeName(string aliasTypeName)
-    {
-        return false;
-    }
-
-    public bool CanVisitFunction(string name)
-    {
-        return true;
-    }
-
-    public bool CanVisitVariable(string name)
-    {
-        return true;
-    }
-
-    public bool IsMacroObjectNameAllowed(string name)
-    {
-        return true;
-    }
+    public ReaderCCodeOptions Options { get; set; } = new();
 
     public ReaderCCode()
     {
@@ -36,10 +16,5 @@ public class ReaderCCode : IReaderCCode
             "../../../src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/my_c_library/include/my_c_library.h";
         Options.OutputAbstractSyntaxTreesFileDirectory =
             "../../../src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/my_c_library/ast";
-    }
-
-    public virtual bool CanVisitFunction()
-    {
-        return true;
     }
 }

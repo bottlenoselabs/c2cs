@@ -9,7 +9,7 @@ public interface IReaderCCode
 {
     ReaderCCodeOptions? Options { get; }
 
-    bool IsOpaqueTypeName(string aliasTypeName)
+    bool IsOpaqueTypeName(string name)
     {
         return false;
     }

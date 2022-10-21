@@ -72,10 +72,10 @@ public static class Startup
         Contexts.ReadCodeC.Startup.ConfigureServices(services);
         Contexts.WriteCodeCSharp.Startup.ConfigureServices(services);
 
-        TryLoadPlugins(services, string.Empty);
+        TryLoadPlugins(services);
     }
 
-    private static void TryLoadPlugins(IServiceCollection services, string? pluginsFileDirectoryPath)
+    private static void TryLoadPlugins(IServiceCollection services, string? pluginsFileDirectoryPath = null)
     {
         var searchFileDirectoryPath = pluginsFileDirectoryPath;
         if (string.IsNullOrEmpty(searchFileDirectoryPath))
