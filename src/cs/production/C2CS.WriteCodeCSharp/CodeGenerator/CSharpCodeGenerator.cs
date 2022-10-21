@@ -12,7 +12,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace C2CS.Contexts.WriteCodeCSharp.CodeGenerator;
+namespace C2CS.WriteCodeCSharp.CodeGenerator;
 
 public sealed class CSharpCodeGenerator
 {

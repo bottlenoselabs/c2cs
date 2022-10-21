@@ -69,8 +69,8 @@ public static class Startup
         services.AddSingleton<RootCommand, CommandLineInterface>();
         services.AddSingleton<PluginHost>();
 
-        Contexts.ReadCodeC.Startup.ConfigureServices(services);
-        Contexts.WriteCodeCSharp.Startup.ConfigureServices(services);
+        ReadCodeC.Startup.ConfigureServices(services);
+        WriteCodeCSharp.Startup.ConfigureServices(services);
 
         TryLoadPlugins(services);
     }
@@ -83,6 +83,7 @@ public static class Startup
             searchFileDirectoryPath = Path.Combine(Environment.CurrentDirectory, "plugins");
         }
 
+        Console.WriteLine("Searching for plugins in the file directory: " + searchFileDirectoryPath);
         PluginHost.LoadPlugins(searchFileDirectoryPath);
 
         foreach (var pluginContext in PluginHost.Plugins)

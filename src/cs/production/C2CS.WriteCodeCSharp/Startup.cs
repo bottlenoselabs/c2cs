@@ -3,7 +3,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace C2CS.Contexts.WriteCodeCSharp;
+namespace C2CS.WriteCodeCSharp;
 
 public static class Startup
 {

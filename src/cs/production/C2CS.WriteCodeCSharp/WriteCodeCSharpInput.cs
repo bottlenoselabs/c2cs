@@ -2,10 +2,10 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
-using C2CS.Contexts.WriteCodeCSharp.CodeGenerator;
-using C2CS.Contexts.WriteCodeCSharp.Mapper;
+using C2CS.WriteCodeCSharp.CodeGenerator;
+using C2CS.WriteCodeCSharp.Mapper;
 
-namespace C2CS.Contexts.WriteCodeCSharp;
+namespace C2CS.WriteCodeCSharp;
 
 public sealed class WriteCodeCSharpInput
 {

@@ -3,7 +3,7 @@
 
 using System.Collections.Immutable;
 
-namespace C2CS.Contexts.ReadCodeC;
+namespace C2CS.ReadCodeC;
 
 public sealed class ReadCodeCInput
 {

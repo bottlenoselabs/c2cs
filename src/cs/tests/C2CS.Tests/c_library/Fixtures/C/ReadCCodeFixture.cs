@@ -3,9 +3,9 @@
 
 using System.Collections.Immutable;
 using System.Linq;
-using C2CS.Contexts.ReadCodeC;
 using C2CS.Data.C.Model;
 using C2CS.Data.C.Serialization;
+using C2CS.ReadCodeC;
 using C2CS.Tests.Common;
 using C2CS.Tests.Common.Data.Model.C;
 using JetBrains.Annotations;

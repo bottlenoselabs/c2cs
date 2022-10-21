@@ -4,12 +4,12 @@
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using C2CS.Contexts.ReadCodeC.Parse.Diagnostics;
 using C2CS.Data.C.Model;
+using C2CS.ReadCodeC.Parse.Diagnostics;
 using Microsoft.Extensions.Logging;
 using static bottlenoselabs.clang;
 
-namespace C2CS.Contexts.ReadCodeC.Parse;
+namespace C2CS.ReadCodeC.Parse;
 
 public sealed partial class Parser
 {

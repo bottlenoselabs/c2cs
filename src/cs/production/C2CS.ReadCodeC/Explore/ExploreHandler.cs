@@ -5,7 +5,7 @@ using C2CS.Data.C.Model;
 using Microsoft.Extensions.Logging;
 using static bottlenoselabs.clang;
 
-namespace C2CS.Contexts.ReadCodeC.Explore;
+namespace C2CS.ReadCodeC.Explore;
 
 public abstract class ExploreHandler<TNode> : ExploreHandler
     where TNode : CNode

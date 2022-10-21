@@ -8,7 +8,7 @@ using C2CS.Foundation.UseCases.Exceptions;
 using C2CS.Options;
 using JetBrains.Annotations;
 
-namespace C2CS.Contexts.WriteCodeCSharp;
+namespace C2CS.WriteCodeCSharp;
 
 [PublicAPI]
 public abstract class WriteCodeValidator<TOptions, TInput> : UseCaseValidator<TOptions, TInput>

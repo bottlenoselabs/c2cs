@@ -3,8 +3,8 @@
 
 using System;
 using System.CommandLine;
-using C2CS.Contexts.ReadCodeC;
-using C2CS.Contexts.WriteCodeCSharp;
+using C2CS.ReadCodeC;
+using C2CS.WriteCodeCSharp;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -12,10 +12,8 @@ namespace C2CS;
 
 internal partial class CommandLineInterface : RootCommand
 {
-    private ILogger<CommandLineInterface> _logger;
+    private readonly ILogger<CommandLineInterface> _logger;
     private readonly IServiceProvider _serviceProvider;
-
-    private bool _pluginsChecked;
 
     public CommandLineInterface(
         IServiceProvider serviceProvider,
@@ -27,87 +25,71 @@ internal partial class CommandLineInterface : RootCommand
 
         var abstractSyntaxTreeCommand = new Command(
             "c", "Dump the abstract syntax tree of a C `.h` file to one or more `.json` files per platform.");
-        abstractSyntaxTreeCommand.SetHandler(() => HandleReadCCode());
+        abstractSyntaxTreeCommand.SetHandler(HandleReadCCode);
         AddCommand(abstractSyntaxTreeCommand);
 
         var bindgenCSharpCommand = new Command(
             "cs",
             "Generate a C# bindings `.cs` file from one or more C abstract syntax tree `.json` files per platform.");
-        bindgenCSharpCommand.SetHandler(() => HandleWriteCSharpCode());
+        bindgenCSharpCommand.SetHandler(HandleWriteCSharpCode);
         AddCommand(bindgenCSharpCommand);
-
-        this.SetHandler(Handle);
     }
 
-    private void Handle()
+    private void HandleReadCCode()
     {
-        CheckPlugins();
-
-        var isSuccessReadCCode = HandleReadCCode();
-        if (!isSuccessReadCCode)
+        if (!CheckPlugins())
         {
-            // TODO: Log
             return;
         }
-
-        var isSuccessWriteCSharpCode = HandleWriteCSharpCode();
-        // TODO: Log
-    }
-
-    private bool HandleReadCCode()
-    {
-        CheckPlugins();
 
         var readerCCode = _serviceProvider.GetService<IReaderCCode>();
         if (readerCCode == null)
         {
             LogPluginNotFoundNoReaderCCode();
-            return false;
+            return;
         }
 
         var useCase = _serviceProvider.GetService<UseCaseReadCodeC>()!;
         var options = readerCCode.Options;
         if (options == null)
         {
-            return false;
+            return;
         }
 
         var response = useCase.Execute(options);
-        return response.IsSuccess;
     }
 
-    private bool HandleWriteCSharpCode()
+    private void HandleWriteCSharpCode()
     {
+        if (!CheckPlugins())
+        {
+            return;
+        }
+
         var writerCSharpCode = _serviceProvider.GetService<IWriterCSharpCode>();
         if (writerCSharpCode == null)
         {
             LogPluginNotFoundNoWriterCSharp();
-            return false;
+            return;
         }
 
         var useCase = _serviceProvider.GetService<WriteCodeCSharpUseCase>()!;
         var options = writerCSharpCode.Options;
         if (options == null)
         {
-            return false;
-        }
-
-        var response = useCase.Execute(options);
-        return response.IsSuccess;
-    }
-
-    private void CheckPlugins()
-    {
-        if (_pluginsChecked)
-        {
             return;
         }
 
+        var response = useCase.Execute(options);
+    }
+
+    private bool CheckPlugins()
+    {
         var pluginHost = Startup.PluginHost;
         if (pluginHost.Plugins.IsDefaultOrEmpty)
         {
             LogNoPluginsFound();
-            return;
+            return false;
         }
 
         foreach (var plugin in pluginHost.Plugins)
@@ -118,7 +100,7 @@ internal partial class CommandLineInterface : RootCommand
             }
         }
 
-        _pluginsChecked = true;
+        return true;
     }
 
     [LoggerMessage(0, LogLevel.Error, "- No plugins were found. Please see https://github.com/bottlenoselabs/c2cs for documentation.")]

@@ -5,7 +5,7 @@ using C2CS.Data.C.Model;
 using Microsoft.Extensions.Logging;
 using static bottlenoselabs.clang;
 
-namespace C2CS.Contexts.ReadCodeC.Explore.Handlers;
+namespace C2CS.ReadCodeC.Explore.Handlers;
 
 public sealed class ArrayExplorer : ExploreHandler<CArray>
 {

@@ -3,14 +3,13 @@
 
 using System.Collections.Immutable;
 using System.IO.Abstractions;
-using C2CS.Contexts.ReadCodeC.Explore;
-using C2CS.Contexts.ReadCodeC.Parse;
-using C2CS.Foundation;
 using C2CS.Foundation.UseCases;
 using C2CS.Foundation.UseCases.Exceptions;
 using C2CS.Options;
+using C2CS.ReadCodeC.Explore;
+using C2CS.ReadCodeC.Parse;
 
-namespace C2CS.Contexts.ReadCodeC;
+namespace C2CS.ReadCodeC;
 
 public sealed class ReadCodeCValidator : UseCaseValidator<ReaderCCodeOptions, ReadCodeCInput>
 {

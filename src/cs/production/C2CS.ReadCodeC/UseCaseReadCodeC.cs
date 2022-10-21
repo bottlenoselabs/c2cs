@@ -2,15 +2,15 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
-using C2CS.Contexts.ReadCodeC.Explore;
-using C2CS.Contexts.ReadCodeC.Parse;
 using C2CS.Data.C.Model;
 using C2CS.Data.C.Serialization;
 using C2CS.Foundation.UseCases;
 using C2CS.Options;
+using C2CS.ReadCodeC.Explore;
+using C2CS.ReadCodeC.Parse;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS.Contexts.ReadCodeC;
+namespace C2CS.ReadCodeC;
 
 public sealed class UseCaseReadCodeC : UseCase<
     ReaderCCodeOptions, ReadCodeCInput, ReadCodeCOutput>

@@ -5,7 +5,7 @@ using C2CS.Data.C.Model;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS.Contexts.ReadCodeC.Explore.Handlers;
+namespace C2CS.ReadCodeC.Explore.Handlers;
 
 [UsedImplicitly]
 public sealed class OpaqueTypeExplorer : ExploreHandler<COpaqueType>

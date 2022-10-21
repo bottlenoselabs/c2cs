@@ -6,7 +6,7 @@ using C2CS.Data.C.Model;
 using Microsoft.Extensions.Logging;
 using static bottlenoselabs.clang;
 
-namespace C2CS.Contexts.ReadCodeC.Explore.Handlers;
+namespace C2CS.ReadCodeC.Explore.Handlers;
 
 public abstract class RecordExplorer : ExploreHandler<CRecord>
 {

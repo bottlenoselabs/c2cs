@@ -5,11 +5,11 @@ using System.Collections.Immutable;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
-using C2CS.Contexts.WriteCodeCSharp.CodeGenerator.Diagnostics;
 using C2CS.Data.C.Model;
 using C2CS.Data.CSharp.Model;
+using C2CS.WriteCodeCSharp.CodeGenerator.Diagnostics;
 
-namespace C2CS.Contexts.WriteCodeCSharp.Mapper;
+namespace C2CS.WriteCodeCSharp.Mapper;
 
 public sealed class CSharpCodeMapper
 {

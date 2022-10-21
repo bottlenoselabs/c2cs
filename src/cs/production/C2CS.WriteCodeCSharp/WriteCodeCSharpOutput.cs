@@ -3,7 +3,7 @@
 
 using C2CS.Foundation.UseCases;
 
-namespace C2CS.Contexts.WriteCodeCSharp;
+namespace C2CS.WriteCodeCSharp;
 
 public sealed class WriteCodeCSharpOutput : UseCaseOutput<WriteCodeCSharpInput>
 {

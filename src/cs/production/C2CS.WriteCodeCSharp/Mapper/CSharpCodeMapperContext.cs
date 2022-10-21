@@ -4,7 +4,7 @@
 using System.Collections.Immutable;
 using C2CS.Data.C.Model;
 
-namespace C2CS.Contexts.WriteCodeCSharp.Mapper;
+namespace C2CS.WriteCodeCSharp.Mapper;
 
 public class CSharpCodeMapperContext
 {

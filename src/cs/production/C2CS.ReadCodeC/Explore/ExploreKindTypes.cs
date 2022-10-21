@@ -4,7 +4,7 @@
 using System.Collections.Immutable;
 using static bottlenoselabs.clang;
 
-namespace C2CS.Contexts.ReadCodeC.Explore;
+namespace C2CS.ReadCodeC.Explore;
 
 public class ExploreKindTypes
 {

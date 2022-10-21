@@ -4,10 +4,10 @@
 using System.Collections.Immutable;
 using System.IO.Abstractions;
 using System.Reflection;
-using C2CS.Contexts.ReadCodeC.Parse.Diagnostics;
+using C2CS.ReadCodeC.Parse.Diagnostics;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS.Contexts.ReadCodeC.Parse;
+namespace C2CS.ReadCodeC.Parse;
 
 public sealed partial class ClangArgumentsBuilder
 {

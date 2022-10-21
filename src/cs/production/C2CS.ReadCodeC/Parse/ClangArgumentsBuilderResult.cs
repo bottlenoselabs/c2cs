@@ -3,7 +3,7 @@
 
 using System.Collections.Immutable;
 
-namespace C2CS.Contexts.ReadCodeC.Parse;
+namespace C2CS.ReadCodeC.Parse;
 
 public class ClangArgumentsBuilderResult
 {

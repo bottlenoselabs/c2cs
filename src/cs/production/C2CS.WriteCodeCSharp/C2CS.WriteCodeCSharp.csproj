@@ -6,7 +6,6 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<NoWarn>$(NoWarn);CA1724</NoWarn>
-		<RootNamespace>C2CS.Contexts.WriteCodeCSharp</RootNamespace>
 	</PropertyGroup>
 
 	<!-- Project references -->

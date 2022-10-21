@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace C2CS.Contexts.WriteCodeCSharp;
+namespace C2CS.WriteCodeCSharp;
 
 [PublicAPI]
 public static class ExtensionsRoslyn

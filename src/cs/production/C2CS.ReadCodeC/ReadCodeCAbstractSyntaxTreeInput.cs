@@ -1,10 +1,10 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using C2CS.Contexts.ReadCodeC.Explore;
-using C2CS.Contexts.ReadCodeC.Parse;
+using C2CS.ReadCodeC.Explore;
+using C2CS.ReadCodeC.Parse;
 
-namespace C2CS.Contexts.ReadCodeC;
+namespace C2CS.ReadCodeC;
 
 public sealed class ReadCodeCAbstractSyntaxTreeInput
 {

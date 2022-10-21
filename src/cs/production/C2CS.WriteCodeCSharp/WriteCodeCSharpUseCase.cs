@@ -3,20 +3,20 @@
 
 using System.Collections.Immutable;
 using System.IO.Abstractions;
-using C2CS.Contexts.WriteCodeCSharp.CodeGenerator;
-using C2CS.Contexts.WriteCodeCSharp.CodeGenerator.Diagnostics;
-using C2CS.Contexts.WriteCodeCSharp.Mapper;
 using C2CS.Data.C.Model;
 using C2CS.Data.C.Serialization;
 using C2CS.Data.CSharp.Model;
 using C2CS.Foundation.UseCases;
 using C2CS.Options;
 using C2CS.Plugins;
+using C2CS.WriteCodeCSharp.CodeGenerator;
+using C2CS.WriteCodeCSharp.CodeGenerator.Diagnostics;
+using C2CS.WriteCodeCSharp.Mapper;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS.Contexts.WriteCodeCSharp;
+namespace C2CS.WriteCodeCSharp;
 
 public sealed class
     WriteCodeCSharpUseCase : UseCase<WriterCSharpCodeOptions, WriteCodeCSharpInput, WriteCodeCSharpOutput>

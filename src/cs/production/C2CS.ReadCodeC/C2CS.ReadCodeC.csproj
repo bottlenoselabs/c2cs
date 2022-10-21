@@ -6,7 +6,6 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<NoWarn>$(NoWarn);CA1724;CA1031;CA1806</NoWarn>
-		<RootNamespace>C2CS.Contexts.ReadCodeC</RootNamespace>
 	</PropertyGroup>
 
 	<!-- Project references -->

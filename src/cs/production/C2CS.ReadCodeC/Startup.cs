@@ -3,13 +3,12 @@
 
 using System.Collections.Immutable;
 using System.Reflection;
-using C2CS.Contexts.ReadCodeC.Explore;
-using C2CS.Contexts.ReadCodeC.Parse;
 using C2CS.Data.C.Serialization;
-using C2CS.Plugins;
+using C2CS.ReadCodeC.Explore;
+using C2CS.ReadCodeC.Parse;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace C2CS.Contexts.ReadCodeC;
+namespace C2CS.ReadCodeC;
 
 public static class Startup
 {

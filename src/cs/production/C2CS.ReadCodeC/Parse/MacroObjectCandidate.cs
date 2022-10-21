@@ -4,7 +4,7 @@
 using System.Collections.Immutable;
 using C2CS.Data.C.Model;
 
-namespace C2CS.Contexts.ReadCodeC.Parse;
+namespace C2CS.ReadCodeC.Parse;
 
 public class MacroObjectCandidate
 {

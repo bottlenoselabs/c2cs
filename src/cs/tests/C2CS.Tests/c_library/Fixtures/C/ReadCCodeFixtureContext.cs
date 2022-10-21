@@ -3,8 +3,8 @@
 
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using C2CS.Contexts.ReadCodeC.Explore;
-using C2CS.Contexts.ReadCodeC.Parse;
+using C2CS.ReadCodeC.Explore;
+using C2CS.ReadCodeC.Parse;
 using C2CS.Tests.Common.Data.Model.C;
 using JetBrains.Annotations;
 using Xunit;

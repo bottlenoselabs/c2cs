@@ -3,7 +3,7 @@
 
 using C2CS.Data.C.Model;
 
-namespace C2CS.Contexts.ReadCodeC.Explore.Diagnostics;
+namespace C2CS.ReadCodeC.Explore.Diagnostics;
 
 public sealed class TypeFromBlockedHeaderDiagnostic : Diagnostic
 {

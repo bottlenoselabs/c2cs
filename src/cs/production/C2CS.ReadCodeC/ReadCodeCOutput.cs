@@ -4,7 +4,7 @@
 using System.Collections.Immutable;
 using C2CS.Foundation.UseCases;
 
-namespace C2CS.Contexts.ReadCodeC;
+namespace C2CS.ReadCodeC;
 
 public sealed class ReadCodeCOutput : UseCaseOutput<ReadCodeCInput>
 {

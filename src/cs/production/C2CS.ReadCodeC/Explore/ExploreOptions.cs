@@ -3,7 +3,7 @@
 
 using System.Collections.Immutable;
 
-namespace C2CS.Contexts.ReadCodeC.Explore;
+namespace C2CS.ReadCodeC.Explore;
 
 public class ExploreOptions
 {

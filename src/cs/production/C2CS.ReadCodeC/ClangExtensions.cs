@@ -7,7 +7,7 @@ using System.Text;
 using C2CS.Data.C.Model;
 using static bottlenoselabs.clang;
 
-namespace C2CS.Contexts.ReadCodeC;
+namespace C2CS.ReadCodeC;
 
 public static unsafe class ClangExtensions
 {

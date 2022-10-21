@@ -3,12 +3,12 @@
 
 using System.Collections.Immutable;
 using System.IO.Abstractions;
-using C2CS.Contexts.WriteCodeCSharp.CodeGenerator;
-using C2CS.Contexts.WriteCodeCSharp.Mapper;
 using C2CS.Data.CSharp.Model;
 using C2CS.Options;
+using C2CS.WriteCodeCSharp.CodeGenerator;
+using C2CS.WriteCodeCSharp.Mapper;
 
-namespace C2CS.Contexts.WriteCodeCSharp;
+namespace C2CS.WriteCodeCSharp;
 
 public sealed class WriteCodeCSharpValidator : WriteCodeValidator<WriterCSharpCodeOptions, WriteCodeCSharpInput>
 {

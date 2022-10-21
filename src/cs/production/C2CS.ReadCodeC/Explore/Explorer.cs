@@ -3,15 +3,15 @@
 
 using System.Collections.Immutable;
 using System.Text;
-using C2CS.Contexts.ReadCodeC.Explore.Handlers;
-using C2CS.Contexts.ReadCodeC.Parse;
 using C2CS.Data.C.Model;
 using C2CS.Foundation;
+using C2CS.ReadCodeC.Explore.Handlers;
+using C2CS.ReadCodeC.Parse;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using static bottlenoselabs.clang;
 
-namespace C2CS.Contexts.ReadCodeC.Explore;
+namespace C2CS.ReadCodeC.Explore;
 
 public sealed partial class Explorer
 {

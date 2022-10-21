@@ -4,7 +4,7 @@
 using C2CS.Data.C.Model;
 using static bottlenoselabs.clang;
 
-namespace C2CS.Contexts.ReadCodeC.Explore;
+namespace C2CS.ReadCodeC.Explore;
 
 #pragma warning disable CA1815
 public class ExploreInfoNode

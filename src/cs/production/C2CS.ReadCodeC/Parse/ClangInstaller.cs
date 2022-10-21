@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using bottlenoselabs;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS.Contexts.ReadCodeC.Parse;
+namespace C2CS.ReadCodeC.Parse;
 
 public sealed partial class ClangInstaller
 {
