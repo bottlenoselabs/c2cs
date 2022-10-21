@@ -27,28 +27,28 @@
 
 	<!-- NuGet package references -->
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1"/>
-		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="6.0.0"/>
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1"/>
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0"/>
-		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0"/>
-		<PackageReference Include="System.CommandLine" Version="2.0.0-beta3.22114.1"/>
-		<PackageReference Include="System.Text.Json" Version="6.0.3"/>
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
+		<PackageReference Include="System.CommandLine" Version="2.0.0-beta3.22114.1" />
+		<PackageReference Include="System.Text.Json" Version="6.0.3" />
 		<!-- NativeAOT for macOS is, at this time of commit, busted for osx-arm64 (Apple Sillicon laptop/desktop). Expected to be fixed in .NET 7: https://github.com/dotnet/runtime/issues/61231 -->
 		<!-- <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="7.0.0-*" /> -->
 	</ItemGroup>
 
 	<!-- Project references -->
 	<ItemGroup>
-		<ProjectReference Include="../C2CS.Contexts.WriteCodeCSharp/C2CS.Contexts.WriteCodeCSharp.csproj"/>
-		<ProjectReference Include="../C2CS.Contexts.ReadCodeC/C2CS.Contexts.ReadCodeC.csproj"/>
-		<ProjectReference Include="../C2CS.Runtime/C2CS.Runtime.csproj"/>
-		<ProjectReference Include="../infrastructure/C2CS.Infrastructure.Clang/C2CS.Infrastructure.Clang.csproj"/>
+		<ProjectReference Include="..\C2CS.WriteCodeCSharp\C2CS.WriteCodeCSharp.csproj" />
+		<ProjectReference Include="..\C2CS.ReadCodeC\C2CS.ReadCodeC.csproj" />
+		<ProjectReference Include="../C2CS.Runtime/C2CS.Runtime.csproj" />
+		<ProjectReference Include="../infrastructure/C2CS.Infrastructure.Clang/C2CS.Infrastructure.Clang.csproj" />
 	</ItemGroup>
 
 	<!-- Configuration settings -->
 	<ItemGroup>
-		<EmbeddedResource Include="appsettings.json"/>
+		<EmbeddedResource Include="appsettings.json" />
 	</ItemGroup>
 
 </Project>

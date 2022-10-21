@@ -46,9 +46,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Plugin", "src\cs\produ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-bindgen-plugin", "src\cs\examples\helloworld\helloworld-bindgen-plugin\helloworld-bindgen-plugin.csproj", "{FD083D84-FCE0-4313-9BCF-35203E3520DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Contexts.WriteCodeCSharp", "src\cs\production\C2CS.Contexts.WriteCodeCSharp\C2CS.Contexts.WriteCodeCSharp.csproj", "{00B88E51-C2CE-4997-92B0-0FC323DDBD5E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.WriteCodeCSharp", "src\cs\production\C2CS.WriteCodeCSharp\C2CS.WriteCodeCSharp.csproj", "{00B88E51-C2CE-4997-92B0-0FC323DDBD5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Contexts.ReadCodeC", "src\cs\production\C2CS.Contexts.ReadCodeC\C2CS.Contexts.ReadCodeC.csproj", "{C7DC3BDD-00C6-40A3-94B5-F101F8EEC5CC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.ReadCodeC", "src\cs\production\C2CS.ReadCodeC\C2CS.ReadCodeC.csproj", "{C7DC3BDD-00C6-40A3-94B5-F101F8EEC5CC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Runtime", "src\cs\production\C2CS.Runtime\C2CS.Runtime.csproj", "{F7183DF5-5C13-4AC4-8216-1A9ED1732D49}"
 EndProject
