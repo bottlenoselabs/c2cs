@@ -19,7 +19,7 @@ public sealed class ReaderCCodeOptions : UseCaseOptions
     ///         file name of the target platform.
     ///     </para>
     /// </remarks>
-    public string? OutputAbstractSyntaxTreesFileDirectory { get; set; }
+    public string? OutputAbstractSyntaxTreesFileDirectory { get; set; } = "./ast";
 
     /// <summary>
     ///     The path of the input `.h` header file containing C code.

@@ -14,7 +14,7 @@ public sealed class WriterCSharpCodeOptions : UseCaseOptions
     ///     The path of the input abstract syntax tree directory. The directory should contain one or more previously
     ///     generated abstract syntax tree `.json` files which each have a file name of the target platform.
     /// </summary>
-    public string? InputAbstractSyntaxTreesFileDirectory { get; set; }
+    public string? InputAbstractSyntaxTreesFileDirectory { get; set; } = "./ast";
 
     /// <summary>
     ///     The path of the output C# `.cs` file.
