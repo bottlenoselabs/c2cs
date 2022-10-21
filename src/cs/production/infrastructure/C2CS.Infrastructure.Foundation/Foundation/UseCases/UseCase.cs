@@ -4,7 +4,6 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using C2CS.Foundation.Diagnostics;
 using C2CS.Foundation.UseCases.Exceptions;
 using C2CS.Options;
 using JetBrains.Annotations;

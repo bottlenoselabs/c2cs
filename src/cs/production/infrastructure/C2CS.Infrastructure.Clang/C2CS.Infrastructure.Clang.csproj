@@ -4,7 +4,7 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
-		<RootNamespace/>
+		<RootNamespace />
 	</PropertyGroup>
 
 	<!-- MSBuild.Tools project settings -->
@@ -14,7 +14,7 @@
 
 	<!-- Project references -->
 	<ItemGroup>
-		<ProjectReference Include="..\C2CS.Infrastructure.Common\C2CS.Infrastructure.Common.csproj"/>
+		<ProjectReference Include="..\C2CS.Infrastructure.Foundation\C2CS.Infrastructure.Foundation.csproj" />
 	</ItemGroup>
 
 </Project>

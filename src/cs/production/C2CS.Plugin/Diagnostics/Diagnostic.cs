@@ -1,10 +1,9 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
 using JetBrains.Annotations;
 
-namespace C2CS.Foundation.Diagnostics;
+namespace C2CS;
 
 /// <summary>
 ///     Program runtime feedback that is not necessarily a run-time exception.
@@ -24,16 +23,20 @@ public abstract class Diagnostic
     }
 
     /// <summary>
-    ///     The severity of the <see cref="Diagnostic" />.
+    ///     The severity of this <see cref="Diagnostic" />.
     /// </summary>
     public DiagnosticSeverity Severity { get; }
 
     /// <summary>
-    ///     The message of the <see cref="Diagnostic" />.
+    ///     The message of this <see cref="Diagnostic" />.
     /// </summary>
     public string Message { get; } = string.Empty;
 
-    protected internal string GetName()
+    /// <summary>
+    ///     Gets the name of this <see cref="Diagnostic" />.
+    /// </summary>
+    /// <returns>A <see cref="string" /> representing the name of this <see cref="Diagnostic" />.</returns>
+    public string GetName()
     {
         var type = GetType();
         var typeName = type.Name;

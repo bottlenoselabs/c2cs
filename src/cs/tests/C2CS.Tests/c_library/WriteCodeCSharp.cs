@@ -100,8 +100,8 @@ public class WriteCodeCSharp : CLibraryIntegrationTest
 
         foreach (var diagnostic in emitResult.Diagnostics)
         {
-            var isWarningOrError = diagnostic.Severity != DiagnosticSeverity.Warning &&
-                                   diagnostic.Severity != DiagnosticSeverity.Error;
+            var isWarningOrError = diagnostic.Severity != Microsoft.CodeAnalysis.DiagnosticSeverity.Warning &&
+                                   diagnostic.Severity != Microsoft.CodeAnalysis.DiagnosticSeverity.Error;
             Assert.True(isWarningOrError, $"C# code compilation diagnostic: {diagnostic}.");
         }
 

@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using C2CS.Data.C.Model;
-using C2CS.Foundation.Diagnostics;
 
 namespace C2CS.Contexts.ReadCodeC.Explore.Diagnostics;
 

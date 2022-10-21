@@ -8,7 +8,6 @@ using System.Text.RegularExpressions;
 using C2CS.Contexts.WriteCodeCSharp.CodeGenerator.Diagnostics;
 using C2CS.Data.C.Model;
 using C2CS.Data.CSharp.Model;
-using C2CS.Foundation.Diagnostics;
 
 namespace C2CS.Contexts.WriteCodeCSharp.Mapper;
 

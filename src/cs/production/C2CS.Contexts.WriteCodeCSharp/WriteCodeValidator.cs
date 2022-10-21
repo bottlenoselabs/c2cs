@@ -1,7 +1,6 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
 using System.Collections.Immutable;
 using System.IO.Abstractions;
 using C2CS.Foundation.UseCases;
@@ -9,11 +8,11 @@ using C2CS.Foundation.UseCases.Exceptions;
 using C2CS.Options;
 using JetBrains.Annotations;
 
-namespace C2CS;
+namespace C2CS.Contexts.WriteCodeCSharp;
 
 [PublicAPI]
-public abstract class WriteCodeValidator<TConfiguration, TInput> : UseCaseValidator<TConfiguration, TInput>
-    where TConfiguration : UseCaseOptions
+public abstract class WriteCodeValidator<TOptions, TInput> : UseCaseValidator<TOptions, TInput>
+    where TOptions : UseCaseOptions
 {
     protected WriteCodeValidator(IFileSystem fileSystem)
     {

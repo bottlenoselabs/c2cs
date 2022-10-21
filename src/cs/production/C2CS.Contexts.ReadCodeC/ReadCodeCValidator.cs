@@ -124,7 +124,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReaderCCodeOptions, Re
     {
         if (string.IsNullOrEmpty(inputFilePath))
         {
-            throw new ConfigurationException("The input file can not be null, empty, or whitespace.");
+            throw new UseCaseException("The input file can not be null, empty, or whitespace.");
         }
 
         var filePath = _fileSystem.Path.GetFullPath(inputFilePath);

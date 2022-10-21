@@ -6,7 +6,6 @@ using C2CS.Contexts.ReadCodeC.Explore;
 using C2CS.Contexts.ReadCodeC.Parse;
 using C2CS.Data.C.Model;
 using C2CS.Data.C.Serialization;
-using C2CS.Foundation.Diagnostics;
 using C2CS.Foundation.UseCases;
 using C2CS.Options;
 using Microsoft.Extensions.Logging;

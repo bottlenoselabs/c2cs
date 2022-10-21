@@ -116,7 +116,8 @@ public sealed class
         foreach (var diagnostic in emitResult.Diagnostics)
         {
             // Obviously errors should be considered, but should warnings be considered too? Yes, yes they should. Some warnings can be indicative of bindings which are not correct.
-            var isErrorOrWarning = diagnostic.Severity is DiagnosticSeverity.Error or DiagnosticSeverity.Warning;
+            var isErrorOrWarning = diagnostic.Severity is
+                Microsoft.CodeAnalysis.DiagnosticSeverity.Error or Microsoft.CodeAnalysis.DiagnosticSeverity.Warning;
             if (!isErrorOrWarning)
             {
                 continue;

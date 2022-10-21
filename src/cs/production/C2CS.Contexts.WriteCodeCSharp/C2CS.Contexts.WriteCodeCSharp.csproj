@@ -10,8 +10,8 @@
 
 	<!-- Project references -->
 	<ItemGroup>
-		<ProjectReference Include="../infrastructure/C2CS.Infrastructure.Common/C2CS.Infrastructure.Common.csproj" />
-		<ProjectReference Include="../infrastructure/C2CS.Infrastructure.Runtime/C2CS.Infrastructure.Runtime.csproj" />
+		<ProjectReference Include="../infrastructure/C2CS.Infrastructure.Foundation/C2CS.Infrastructure.Foundation.csproj" />
+		<ProjectReference Include="../C2CS.Runtime/C2CS.Runtime.csproj" />
 		<ProjectReference Include="../C2CS.Contexts.ReadCodeC/C2CS.Contexts.ReadCodeC.csproj" />
 	</ItemGroup>
 

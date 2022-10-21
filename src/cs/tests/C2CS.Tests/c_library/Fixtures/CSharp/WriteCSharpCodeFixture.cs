@@ -42,12 +42,12 @@ public sealed class WriteCSharpCodeFixture : TestFixture
         var syntaxTree = CSharpSyntaxTree.ParseText(code);
 
         var diagnostics = syntaxTree.GetDiagnostics().ToImmutableArray();
-        var errors = diagnostics.Where(x => x.Severity == DiagnosticSeverity.Error).ToImmutableArray();
+        var errors = diagnostics.Where(x => x.Severity == Microsoft.CodeAnalysis.DiagnosticSeverity.Error).ToImmutableArray();
         Assert.True(errors.Length == 0, "The code has diagnostic errors.");
-        var warnings = diagnostics.Where(x => x.Severity == DiagnosticSeverity.Warning).ToImmutableArray();
+        var warnings = diagnostics.Where(x => x.Severity == Microsoft.CodeAnalysis.DiagnosticSeverity.Warning).ToImmutableArray();
         Assert.True(warnings.Length == 0, "The code has diagnostic warnings.");
         var otherDiagnostics = diagnostics.Where(x =>
-            x.Severity != DiagnosticSeverity.Error && x.Severity != DiagnosticSeverity.Warning).ToImmutableArray();
+            x.Severity != Microsoft.CodeAnalysis.DiagnosticSeverity.Error && x.Severity != Microsoft.CodeAnalysis.DiagnosticSeverity.Warning).ToImmutableArray();
         Assert.True(otherDiagnostics.Length == 0, "The code has diagnostics which are not errors or warnings.");
 
         var compilationUnitSyntax = syntaxTree.GetCompilationUnitRoot();

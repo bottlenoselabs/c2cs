@@ -42,7 +42,7 @@
 	<ItemGroup>
 		<ProjectReference Include="../C2CS.Contexts.WriteCodeCSharp/C2CS.Contexts.WriteCodeCSharp.csproj"/>
 		<ProjectReference Include="../C2CS.Contexts.ReadCodeC/C2CS.Contexts.ReadCodeC.csproj"/>
-		<ProjectReference Include="../infrastructure/C2CS.Infrastructure.Runtime/C2CS.Infrastructure.Runtime.csproj"/>
+		<ProjectReference Include="../C2CS.Runtime/C2CS.Runtime.csproj"/>
 		<ProjectReference Include="../infrastructure/C2CS.Infrastructure.Clang/C2CS.Infrastructure.Clang.csproj"/>
 	</ItemGroup>
 
