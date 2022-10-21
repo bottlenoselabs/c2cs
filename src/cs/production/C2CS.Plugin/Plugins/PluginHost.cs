@@ -17,17 +17,22 @@ public partial class PluginHost
         _logger = logger;
     }
 
+    public string? SearchedFileDirectory { get; private set; }
+
     public ImmutableArray<PluginContext> Plugins { get; private set; } = ImmutableArray<PluginContext>.Empty;
 
-    public bool LoadPlugins(string? searchDirectoryPath = null)
+    public bool LoadPlugins(string? searchFileDirectoryPath = null)
     {
         var builder = ImmutableArray.CreateBuilder<PluginContext>();
 
-        var pluginsDirectoryPath = searchDirectoryPath ?? Path.Combine(AppContext.BaseDirectory, "plugins");
+        var pluginsDirectoryPath = searchFileDirectoryPath ?? Path.Combine(AppContext.BaseDirectory, "plugins");
         if (!Directory.Exists(pluginsDirectoryPath))
         {
+            SearchedFileDirectory = string.Empty;
             return false;
         }
+
+        SearchedFileDirectory = searchFileDirectoryPath!;
 
         var pluginDirectoryPaths = Directory.GetDirectories(pluginsDirectoryPath);
 

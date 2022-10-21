@@ -83,7 +83,6 @@ public static class Startup
             searchFileDirectoryPath = Path.Combine(Environment.CurrentDirectory, "plugins");
         }
 
-        Console.WriteLine("Searching for plugins in the file directory: " + searchFileDirectoryPath);
         PluginHost.LoadPlugins(searchFileDirectoryPath);
 
         foreach (var pluginContext in PluginHost.Plugins)

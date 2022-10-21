@@ -3,6 +3,7 @@
 
 using System;
 using System.CommandLine;
+using C2CS.Plugins;
 using C2CS.ReadCodeC;
 using C2CS.WriteCodeCSharp;
 using Microsoft.Extensions.DependencyInjection;
@@ -86,6 +87,14 @@ internal partial class CommandLineInterface : RootCommand
     private bool CheckPlugins()
     {
         var pluginHost = Startup.PluginHost;
+
+        if (pluginHost.SearchedFileDirectory == null)
+        {
+            return false;
+        }
+
+        LogSearchedForPlugins(pluginHost.SearchedFileDirectory);
+
         if (pluginHost.Plugins.IsDefaultOrEmpty)
         {
             LogNoPluginsFound();
@@ -103,15 +112,18 @@ internal partial class CommandLineInterface : RootCommand
         return true;
     }
 
-    [LoggerMessage(0, LogLevel.Error, "- No plugins were found. Please see https://github.com/bottlenoselabs/c2cs for documentation.")]
+    [LoggerMessage(0, LogLevel.Information, "- Searched for plugins in file directory: {PluginsSearchFileDirectory}.")]
+    private partial void LogSearchedForPlugins(string pluginsSearchFileDirectory);
+
+    [LoggerMessage(1, LogLevel.Error, "- No plugins were found. Please see https://github.com/bottlenoselabs/c2cs for documentation.")]
     private partial void LogNoPluginsFound();
 
-    [LoggerMessage(1, LogLevel.Error, "- Plugin '{PluginName}' is invalid. There is no loaded Assembly.")]
+    [LoggerMessage(2, LogLevel.Error, "- Plugin '{PluginName}' is invalid. There is no loaded Assembly.")]
     private partial void LogInvalidPluginNoAssembly(string pluginName);
 
-    [LoggerMessage(2, LogLevel.Error, "- No plugin was found with a type '" + nameof(IReaderCCode) + "'.")]
+    [LoggerMessage(3, LogLevel.Error, "- No plugin was found with a type '" + nameof(IReaderCCode) + "'.")]
     private partial void LogPluginNotFoundNoReaderCCode();
 
-    [LoggerMessage(3, LogLevel.Error, "- No plugin was found with a type '" + nameof(IWriterCSharpCode) + "'.")]
+    [LoggerMessage(4, LogLevel.Error, "- No plugin was found with a type '" + nameof(IWriterCSharpCode) + "'.")]
     private partial void LogPluginNotFoundNoWriterCSharp();
 }
