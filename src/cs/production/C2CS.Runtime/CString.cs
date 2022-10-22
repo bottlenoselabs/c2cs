@@ -38,7 +38,7 @@ public readonly unsafe struct CString : IEquatable<CString>
     /// <param name="s">The string value.</param>
     public CString(string s)
     {
-        _pointer = CStrings.CString(s);
+        _pointer = FromString(s)._pointer;
     }
 
     /// <summary>
@@ -114,57 +114,70 @@ public readonly unsafe struct CString : IEquatable<CString>
     }
 
     /// <summary>
-    ///     Performs an implicit conversion from a <see cref="CString" /> to a <see cref="string" />.
+    ///     Performs an explicit conversion from a <see cref="CString" /> to a <see cref="string" />.
     /// </summary>
     /// <param name="value">The <see cref="CString" />.</param>
     /// <returns>
     ///     The resulting <see cref="string" />.
     /// </returns>
-    public static implicit operator string(CString value)
+    public static explicit operator string(CString value)
     {
         return ToString(value);
     }
 
     /// <summary>
-    ///     Performs an implicit conversion from a <see cref="CString" /> to a <see cref="string" />.
+    ///     Converts a C style string (ANSI or UTF-8) of type `char` (one dimensional byte array
+    ///     terminated by a <c>0x0</c>) to a UTF-16 <see cref="string" /> by allocating and copying.
     /// </summary>
-    /// <param name="value">The <see cref="CString" />.</param>
-    /// <returns>
-    ///     The resulting <see cref="string" />.
-    /// </returns>
+    /// <param name="value">A pointer to the C string.</param>
+    /// <returns>A <see cref="string" /> equivalent of <paramref name="value" />.</returns>
     public static string ToString(CString value)
     {
-        return CStrings.String(value);
+        if (value.IsNull)
+        {
+            return string.Empty;
+        }
+
+        // calls ASM/C/C++ functions to calculate length and then "FastAllocate" the string with the GC
+        // https://mattwarren.org/2016/05/31/Strings-and-the-CLR-a-Special-Relationship/
+        var result = Marshal.PtrToStringAnsi(value._pointer);
+
+        if (string.IsNullOrEmpty(result))
+        {
+            return string.Empty;
+        }
+
+        return result;
     }
 
     /// <summary>
-    ///     Performs an implicit conversion from a <see cref="string" /> to a <see cref="CString" />.
+    ///     Performs an explicit conversion from a <see cref="string" /> to a <see cref="CString" />.
     /// </summary>
     /// <param name="s">The <see cref="string" />.</param>
     /// <returns>
     ///     The resulting <see cref="CString" />.
     /// </returns>
-    public static implicit operator CString(string s)
+    public static explicit operator CString(string s)
     {
         return FromString(s);
     }
 
     /// <summary>
-    ///     Performs an implicit conversion from a <see cref="string" /> to a <see cref="CString" />.
+    ///     Converts a UTF-16 <see cref="string" /> to a C style string (one dimensional byte array terminated by a
+    ///     <c>0x0</c>) by allocating and copying if not already cached.
     /// </summary>
-    /// <param name="s">The <see cref="string" />.</param>
-    /// <returns>
-    ///     The resulting <see cref="CString" />.
-    /// </returns>
-    public static CString FromString(string s)
+    /// <param name="str">The <see cref="string" />.</param>
+    /// <returns>A C string pointer.</returns>
+    public static CString FromString(string str)
     {
-        return CStrings.CString(s);
+        var pointer = Marshal.StringToHGlobalAnsi(str);
+        return new CString(pointer);
     }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return CStrings.String(this);
+        return ToString(this);
     }
 
     /// <inheritdoc />

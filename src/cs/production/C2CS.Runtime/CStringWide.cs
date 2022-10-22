@@ -38,7 +38,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// <param name="s">The string value.</param>
     public CStringWide(string s)
     {
-        _pointer = CStrings.CStringWide(s);
+        _pointer = FromString(s)._pointer;
     }
 
     /// <summary>
@@ -114,57 +114,70 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     }
 
     /// <summary>
-    ///     Performs an implicit conversion from a <see cref="CStringWide" /> to a <see cref="string" />.
+    ///     Performs an explicit conversion from a <see cref="CStringWide" /> to a <see cref="string" />.
     /// </summary>
     /// <param name="value">The <see cref="CStringWide" />.</param>
     /// <returns>
     ///     The resulting <see cref="string" />.
     /// </returns>
-    public static implicit operator string(CStringWide value)
+    public static explicit operator string(CStringWide value)
     {
         return ToString(value);
     }
 
     /// <summary>
-    ///     Performs an implicit conversion from a <see cref="CStringWide" /> to a <see cref="string" />.
+    ///     Converts a C style string (unicode) of type `wchar_t` (one dimensional ushort array
+    ///     terminated by a <c>0x0</c>) to a UTF-16 <see cref="string" /> by allocating and copying.
     /// </summary>
-    /// <param name="value">The <see cref="CStringWide" />.</param>
-    /// <returns>
-    ///     The resulting <see cref="string" />.
-    /// </returns>
+    /// <param name="value">A pointer to the C string.</param>
+    /// <returns>A <see cref="string" /> equivalent of <paramref name="value" />.</returns>
     public static string ToString(CStringWide value)
     {
-        return CStrings.StringWide(value);
+        if (value.IsNull)
+        {
+            return string.Empty;
+        }
+
+        // calls ASM/C/C++ functions to calculate length and then "FastAllocate" the string with the GC
+        // https://mattwarren.org/2016/05/31/Strings-and-the-CLR-a-Special-Relationship/
+        var result = Marshal.PtrToStringUni(value._pointer);
+
+        if (string.IsNullOrEmpty(result))
+        {
+            return string.Empty;
+        }
+
+        return result;
     }
 
     /// <summary>
-    ///     Performs an implicit conversion from a <see cref="string" /> to a <see cref="CStringWide" />.
+    ///     Performs an explicit conversion from a <see cref="string" /> to a <see cref="CStringWide" />.
     /// </summary>
     /// <param name="s">The <see cref="string" />.</param>
     /// <returns>
     ///     The resulting <see cref="CStringWide" />.
     /// </returns>
-    public static implicit operator CStringWide(string s)
+    public static explicit operator CStringWide(string s)
     {
         return FromString(s);
     }
 
     /// <summary>
-    ///     Performs an implicit conversion from a <see cref="string" /> to a <see cref="CStringWide" />.
+    ///     Converts a C string pointer (one dimensional byte array terminated by a
+    ///     <c>0x0</c>) for a specified <see cref="string" /> by allocating and copying if not already cached.
     /// </summary>
-    /// <param name="s">The <see cref="string" />.</param>
-    /// <returns>
-    ///     The resulting <see cref="CStringWide" />.
-    /// </returns>
-    public static CStringWide FromString(string s)
+    /// <param name="str">The <see cref="string" />.</param>
+    /// <returns>A C string pointer.</returns>
+    public static CStringWide FromString(string str)
     {
-        return CStrings.CStringWide(s);
+        var pointer = Marshal.StringToHGlobalUni(str);
+        return new CStringWide(pointer);
     }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return CStrings.StringWide(this);
+        return ToString(this);
     }
 
     /// <inheritdoc />
