@@ -149,7 +149,18 @@ For more details on why `C2CS` is structured into `c` and `cs` see [docs/SUPPORT
    for versions of .NET before .NET 5. However, this can have consequences on performance due to use of the Garbage
    Collector getting involved for using delegates in C# to do callbacks from C. Your milage may vary.
 
-2. `C2CS` does not work for every C library. This is due to some technical limitations where some C libraries are not "
+2. Strings. In C# `char` is 2 bytes. In C `char` is 1 byte. This makes things tricky. There is a `CString` for ANSI C strings (`char*`) and `CStringWide` for UNICODE C strings (`wchar_t*`). Please pay attention to the following notes about converting back and forth between C# strings and C strings.
+
+`explicit CString(string value)`: C# string to C char* allocates **UNMANAGED MEMORY** and copies the C# string into said memory using `Marshal.StringToHGlobalAnsi`.
+`explicit CStringWide(string value)`: C# string to C wchar_t* allocates **UNMANAGED MEMORY** and copies the C# string into said memory using `Marshal.StringToHGlobalUni`.
+`explicit string(CString value)`: C char* to C# string allocates **MANAGED MEMORY** and copies the C string into said memory using `Marshal.PtrToStringAnsi`.
+`explicit string(CStringWide value)`: C wchar_t* to C# string allocates **MANAGED MEMORY** and copies the C string into said memory using `Marshal.PtrToStringUni`.
+
+For **UNMANAGED MEMORY**, it is upon the developer to handle freeing the unmanaged C string at an appropriate time using `Marshal.FreeHGlobal`. Failure to comply may result in a memory leak.
+
+For **MANAGED MEMORY**, the garbage collector will generally clean up after you. What this means is that when there are no more roots to the C# string, the garbage collector when under memory pressure may decide to free said memory. However, this may result in halting your C# application temporarily (either on the main thread or on a separate thread) causing stutter or lag. If this is unacceptable please consider caching your strings.
+
+3. `C2CS` does not work for every C library. This is due to some technical limitations where some C libraries are not "
    bindgen-friendly".
 
 #### What does it mean for a C library to be bindgen-friendly?
