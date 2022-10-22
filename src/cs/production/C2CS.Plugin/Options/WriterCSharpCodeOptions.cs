@@ -116,4 +116,15 @@ public sealed class WriterCSharpCodeOptions : UseCaseOptions
     ///     </para>
     /// </remarks>
     public bool? IsEnabledFunctionPointers { get; set; } = true;
+
+    /// <summary>
+    ///     Determines whether to verify the generated C# code compiles without warnings or errors.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Default is <c>true</c>. Use <c>true</c> to verify the generated C# code compiles without warnings or
+    ///         errors. Use <c>false</c> to disable verifying that the generated C# code compiles.
+    ///     </para>
+    /// </remarks>
+    public bool? IsEnabledVerifyCSharpCodeCompiles { get; set; } = true;
 }

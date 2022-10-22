@@ -2,13 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
-using System.IO.Abstractions;
 using C2CS.Data.C.Model;
 using C2CS.Data.C.Serialization;
 using C2CS.Data.CSharp.Model;
 using C2CS.Foundation.UseCases;
 using C2CS.Options;
-using C2CS.Plugins;
 using C2CS.WriteCodeCSharp.CodeGenerator;
 using C2CS.WriteCodeCSharp.CodeGenerator.Diagnostics;
 using C2CS.WriteCodeCSharp.Mapper;
@@ -21,21 +19,15 @@ namespace C2CS.WriteCodeCSharp;
 public sealed class
     WriteCodeCSharpUseCase : UseCase<WriterCSharpCodeOptions, WriteCodeCSharpInput, WriteCodeCSharpOutput>
 {
-    private readonly PluginHost _pluginHost;
     private readonly CJsonSerializer _serializer;
-    private readonly IFileSystem _fileSystem;
 
     public WriteCodeCSharpUseCase(
         ILogger<WriteCodeCSharpUseCase> logger,
         WriteCodeCSharpValidator validator,
-        CJsonSerializer serializer,
-        PluginHost pluginHost,
-        IFileSystem fileSystem)
+        CJsonSerializer serializer)
         : base(logger, validator)
     {
         _serializer = serializer;
-        _pluginHost = pluginHost;
-        _fileSystem = fileSystem;
     }
 
     protected override void Execute(WriteCodeCSharpInput input, WriteCodeCSharpOutput output)
@@ -49,7 +41,10 @@ public sealed class
         var code = GenerateCSharpCode(nodesPerPlatform, input.GeneratorOptions);
         WriteCSharpCodeToFileStorage(input.OutputFilePath, code);
 
-        VerifyCSharpCodeCompiles(input.OutputFilePath, code);
+        if (input.GeneratorOptions.IsEnabledVerifyCSharpCodeCompiles)
+        {
+            VerifyCSharpCodeCompiles(input.OutputFilePath, code);
+        }
     }
 
     private ImmutableArray<CAbstractSyntaxTree> LoadCAbstractSyntaxTrees(ImmutableArray<string> filePaths)

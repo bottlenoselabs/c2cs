@@ -30,6 +30,7 @@ public sealed class WriteCodeCSharpValidator : WriteCodeValidator<WriterCSharpCo
         var footerCodeRegion = FooterCodeRegion(options.FooterCodeRegionFilePath);
         var isEnabledPreCompile = options.IsEnabledPreCompile ?? true;
         var isEnabledFunctionPointers = options.IsEnabledFunctionPointers ?? true;
+        var isEnabledVerifyCSharpCodeCompiles = options.IsEnabledVerifyCSharpCodeCompiles ?? true;
 
         return new WriteCodeCSharpInput
         {
@@ -48,7 +49,8 @@ public sealed class WriteCodeCSharpValidator : WriteCodeValidator<WriterCSharpCo
                 HeaderCodeRegion = headerCodeRegion,
                 FooterCodeRegion = footerCodeRegion,
                 IsEnabledPreCompile = isEnabledPreCompile,
-                IsEnabledFunctionPointers = isEnabledFunctionPointers
+                IsEnabledFunctionPointers = isEnabledFunctionPointers,
+                IsEnabledVerifyCSharpCodeCompiles = isEnabledVerifyCSharpCodeCompiles
             }
         };
     }
