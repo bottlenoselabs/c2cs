@@ -4,6 +4,7 @@
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Reflection;
+using System.Text;
 using C2CS.Data.CSharp.Model;
 using C2CS.Foundation.UseCases.Exceptions;
 using Microsoft.CodeAnalysis;
@@ -128,7 +129,7 @@ public static void Teardown()
 
     private void AddSyntaxNodesApi(CSharpAbstractSyntaxTree abstractSyntaxTree, List<MemberDeclarationSyntax> members)
     {
-        FunctionExterns(members, abstractSyntaxTree.Functions);
+        Functions(members, abstractSyntaxTree.Functions);
 
         if (members.Count <= 0)
         {
@@ -243,40 +244,48 @@ namespace {options.NamespaceName}
         return code;
     }
 
-    private void FunctionExterns(
+    private void Functions(
         List<MemberDeclarationSyntax> members,
         ImmutableArray<CSharpFunction> functionExterns)
     {
         foreach (var functionExtern in functionExterns)
         {
-            var member = FunctionExtern(functionExtern);
+            var member = Function(functionExtern);
             members.Add(member);
         }
     }
 
-    private MethodDeclarationSyntax FunctionExtern(CSharpFunction function)
+    private MethodDeclarationSyntax Function(CSharpFunction function)
     {
-        var callingConvention = function.CallingConvention switch
-        {
-            CSharpFunctionCallingConvention.Cdecl => "CallingConvention = CallingConvention.Cdecl",
-            CSharpFunctionCallingConvention.StdCall => "CallingConvention = CallingConvention.StdCall",
-            CSharpFunctionCallingConvention.FastCall => "CallingConvention = CallingConvention.FastCall",
-            _ => string.Empty
-        };
+        var callingConvention = FunctionCallingConvention(function.CallingConvention);
         var dllImportParameters = string.Join(',', "LibraryName", callingConvention);
 
         var parameterStrings = function.Parameters.Select(
             x => $@"{x.TypeName} {x.Name}");
         var parameters = string.Join(',', parameterStrings);
 
+        var attributesString = AttributesToString(function.Attributes);
+
         var code = $@"
-{function.CodeLocationComment}
+{attributesString}
 [DllImport({dllImportParameters})]
 public static extern {function.ReturnType.Name} {function.Name}({parameters});
 ";
 
         var member = ParseMemberCode<MethodDeclarationSyntax>(code);
         return member;
+    }
+
+    private static string FunctionCallingConvention(CSharpFunctionCallingConvention callingConvention)
+    {
+        var result = callingConvention switch
+        {
+            CSharpFunctionCallingConvention.Cdecl => "CallingConvention = CallingConvention.Cdecl",
+            CSharpFunctionCallingConvention.StdCall => "CallingConvention = CallingConvention.StdCall",
+            CSharpFunctionCallingConvention.FastCall => "CallingConvention = CallingConvention.FastCall",
+            _ => string.Empty
+        };
+        return result;
     }
 
     private void FunctionPointers(
@@ -298,6 +307,7 @@ public static extern {function.ReturnType.Name} {function.Name}({parameters});
     private StructDeclarationSyntax FunctionPointer(CSharpFunctionPointer functionPointer)
     {
         var functionPointerName = functionPointer.Name;
+        var attributesString = AttributesToString(functionPointer.Attributes);
 
         string code;
         if (_options.IsEnabledFunctionPointers)
@@ -307,7 +317,7 @@ public static extern {function.ReturnType.Name} {function.Name}({parameters});
                 .Append($"{functionPointer.ReturnType.Name}");
             var parameters = string.Join(',', parameterStrings);
             code = $@"
-{functionPointer.CodeLocationComment}
+{attributesString}
 [StructLayout(LayoutKind.Sequential)]
 public struct {functionPointerName}
 {{
@@ -321,7 +331,7 @@ public struct {functionPointerName}
                 .Select(x => $"{x.Type} {x.Name}");
             var parameters = string.Join(',', parameterStrings);
             code = $@"
-{functionPointer.CodeLocationComment}
+{attributesString}
 [StructLayout(LayoutKind.Sequential)]
 public struct {functionPointerName}
 {{
@@ -339,21 +349,6 @@ public struct {functionPointerName}
         }
 
         var member = ParseMemberCode<StructDeclarationSyntax>(code);
-        return member;
-    }
-
-    private MemberDeclarationSyntax FunctionPointerDelegate(CSharpFunctionPointer functionPointer)
-    {
-        var parameterStrings = functionPointer.Parameters
-            .Select(x => $"{x.Type} {x.Name}");
-        var parameters = string.Join(',', parameterStrings);
-        var functionPointerName = functionPointer.Name;
-        var code = $@"
- [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
- public unsafe delegate {functionPointer.ReturnType.Name} delegate_{functionPointerName}({parameters});
- ";
-
-        var member = ParseMemberCode<DelegateDeclarationSyntax>(code);
         return member;
     }
 
@@ -379,9 +374,10 @@ public struct {functionPointerName}
             @struct.Name, @struct.Fields, @struct.NestedStructs);
         var memberStrings = memberSyntaxes.Select(x => x.ToFullString());
         var members = string.Join("\n\n", memberStrings);
+        var attributesString = AttributesToString(@struct.Attributes);
 
         var code = $@"
-{@struct.CodeLocationComment}
+{attributesString}
 [StructLayout(LayoutKind.Explicit, Size = {@struct.SizeOf}, Pack = {@struct.AlignOf})]
 public struct {@struct.Name}
 {{
@@ -441,9 +437,12 @@ public struct {@struct.Name}
         }
     }
 
-    private static FieldDeclarationSyntax StructField(CSharpStructField field)
+    private FieldDeclarationSyntax StructField(CSharpStructField field)
     {
+        var attributesString = AttributesToString(field.Attributes);
+
         var code = $@"
+{attributesString}
 [FieldOffset({field.OffsetOf})] // size = {field.Type.SizeOf}
 public {field.Type.Name} {field.Name};
 ".Trim();
@@ -452,10 +451,13 @@ public {field.Type.Name} {field.Name};
         return member;
     }
 
-    private static FieldDeclarationSyntax EmitStructFieldFixedBuffer(
+    private FieldDeclarationSyntax EmitStructFieldFixedBuffer(
         CSharpStructField field)
     {
+        var attributesString = AttributesToString(field.Attributes);
+
         var code = $@"
+{attributesString}
 [FieldOffset({field.OffsetOf})] // size = {field.Type.SizeOf}
 public fixed byte {field.BackingFieldName}[{field.Type.SizeOf}]; // {field.Type.OriginalName}
 ".Trim();
@@ -531,7 +533,7 @@ public Span<{elementType}> {field.Name}
         return ParseMemberCode<PropertyDeclarationSyntax>(code);
     }
 
-    private static void OpaqueTypes(
+    private void OpaqueTypes(
         List<MemberDeclarationSyntax> members,
         ImmutableArray<CSharpOpaqueStruct> opaqueDataTypes)
     {
@@ -547,10 +549,12 @@ public Span<{elementType}> {field.Name}
         }
     }
 
-    private static StructDeclarationSyntax EmitOpaqueStruct(CSharpOpaqueStruct opaqueStruct)
+    private StructDeclarationSyntax EmitOpaqueStruct(CSharpOpaqueStruct opaqueStruct)
     {
+        var attributesString = AttributesToString(opaqueStruct.Attributes);
+
         var code = $@"
-{opaqueStruct.CodeLocationComment}
+{attributesString}
 [StructLayout(LayoutKind.Sequential)]
 public struct {opaqueStruct.Name}
 {{
@@ -560,7 +564,7 @@ public struct {opaqueStruct.Name}
         return ParseMemberCode<StructDeclarationSyntax>(code);
     }
 
-    private static void Typedefs(
+    private void Typedefs(
         List<MemberDeclarationSyntax> members,
         ImmutableArray<CSharpAliasStruct> typedefs)
     {
@@ -576,14 +580,16 @@ public struct {opaqueStruct.Name}
         }
     }
 
-    private static StructDeclarationSyntax Typedef(CSharpAliasStruct aliasStruct)
+    private StructDeclarationSyntax Typedef(CSharpAliasStruct aliasStruct)
     {
+        var attributesString = AttributesToString(aliasStruct.Attributes);
+
         var code = $@"
-{aliasStruct.CodeLocationComment}
+{attributesString}
 [StructLayout(LayoutKind.Explicit, Size = {aliasStruct.UnderlyingType.SizeOf}, Pack = {aliasStruct.UnderlyingType.AlignOf})]
 public struct {aliasStruct.Name}
 {{
-	[FieldOffset(0)] // size = {aliasStruct.UnderlyingType.SizeOf}, padding = 0
+	[FieldOffset(0)]
     public {aliasStruct.UnderlyingType.Name} Data;
 
 	public static implicit operator {aliasStruct.UnderlyingType.Name}({aliasStruct.Name} data) => data.Data;
@@ -595,7 +601,7 @@ public struct {aliasStruct.Name}
         return member;
     }
 
-    private static void Enums(
+    private void Enums(
         List<MemberDeclarationSyntax> members,
         ImmutableArray<CSharpEnum> enums)
     {
@@ -611,8 +617,10 @@ public struct {aliasStruct.Name}
         }
     }
 
-    private static EnumDeclarationSyntax Enum(CSharpEnum @enum)
+    private EnumDeclarationSyntax Enum(CSharpEnum @enum)
     {
+        var attributesString = AttributesToString(@enum.Attributes);
+
         var enumName = @enum.Name;
         var enumSizeOf = @enum.SizeOf!.Value;
         var enumIntegerTypeName = enumSizeOf switch
@@ -630,7 +638,7 @@ public struct {aliasStruct.Name}
         var members = string.Join(",\n", valuesString);
 
         var code = $@"
-{@enum.CodeLocationComment}
+{attributesString}
 public enum {enumName} : {enumIntegerTypeName}
     {{
         {members}
@@ -673,7 +681,7 @@ public enum {enumName} : {enumIntegerTypeName}
         return EqualsValueClause(LiteralExpression(SyntaxKind.NumericLiteralExpression, literalToken));
     }
 
-    private static void MacroObjects(
+    private void MacroObjects(
         List<MemberDeclarationSyntax> members,
         ImmutableArray<CSharpMacroObject> macroObjects)
     {
@@ -689,20 +697,22 @@ public enum {enumName} : {enumIntegerTypeName}
         }
     }
 
-    private static FieldDeclarationSyntax MacroObject(CSharpMacroObject macroObject)
+    private FieldDeclarationSyntax MacroObject(CSharpMacroObject macroObject)
     {
+        var attributesString = AttributesToString(macroObject.Attributes);
+
         string code;
         if (macroObject.IsConstant)
         {
             code = $@"
-{macroObject.CodeLocationComment}
+{attributesString}
 public const {macroObject.Type} {macroObject.Name} = {macroObject.Value};
 ";
         }
         else
         {
             code = $@"
-{macroObject.CodeLocationComment}
+{attributesString}
 public static {macroObject.Type} {macroObject.Name} = {macroObject.Value};
 ";
         }
@@ -727,15 +737,84 @@ public static {macroObject.Type} {macroObject.Name} = {macroObject.Value};
         }
     }
 
-    private static FieldDeclarationSyntax EnumConstant(CSharpEnumConstant enumConstant)
+    private FieldDeclarationSyntax EnumConstant(CSharpEnumConstant enumConstant)
     {
+        var attributesString = AttributesToString(enumConstant.Attributes);
+
         var code = $@"
-{enumConstant.CodeLocationComment}
+{attributesString}
 public const {enumConstant.Type} {enumConstant.Name} = {enumConstant.Value};
 ";
 
         var member = ParseMemberCode<FieldDeclarationSyntax>(code);
         return member;
+    }
+
+    private string AttributesToString(ImmutableArray<Attribute> attributes)
+    {
+        var stringBuilder = new StringBuilder();
+
+        for (var i = 0; i < attributes.Length; i++)
+        {
+            var attribute = attributes[i];
+            var attributeSyntax = Attribute(attribute);
+            stringBuilder.Append('[');
+            stringBuilder.Append(attributeSyntax.ToFullString());
+            stringBuilder.Append(']');
+
+            if (i != attributes.Length - 1)
+            {
+                stringBuilder.AppendLine();
+            }
+        }
+
+        var result = stringBuilder.ToString();
+        return result;
+    }
+
+    private static AttributeSyntax Attribute(Attribute attribute)
+    {
+        var attributeType = attribute.GetType();
+        var attributeName = attributeType.Name.Replace("Attribute", string.Empty, StringComparison.InvariantCulture);
+        var attributeNameSyntax = ParseName(attributeName);
+
+        var builderAttributeArgumentSyntax = new List<AttributeArgumentSyntax>();
+
+        var attributeProperties = attributeType.GetProperties();
+        foreach (var propertyInfo in attributeProperties)
+        {
+            if (propertyInfo.Name == "TypeId")
+            {
+                continue;
+            }
+
+            var propertyValue = propertyInfo.GetValue(attribute);
+            string expression;
+
+            if (propertyInfo.PropertyType == typeof(string))
+            {
+                var propertyValueString = propertyValue as string;
+                if (string.IsNullOrEmpty(propertyValueString))
+                {
+                    continue;
+                }
+
+                var propertyValueStringEscaped = SymbolDisplay.FormatLiteral(propertyValueString, true);
+                expression = $"{propertyInfo.Name} = {propertyValueStringEscaped}";
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+
+            var attributeArgumentSyntax = AttributeArgument(ParseExpression(expression));
+
+            builderAttributeArgumentSyntax.Add(attributeArgumentSyntax);
+        }
+
+        var attributeArgumentListSyntax = AttributeArgumentList(SeparatedList(builderAttributeArgumentSyntax));
+        var attributeSyntax = SyntaxFactory.Attribute(attributeNameSyntax, attributeArgumentListSyntax);
+        return attributeSyntax;
     }
 
     private static T ParseMemberCode<T>(string memberCode)

@@ -12,10 +12,12 @@ public sealed class CSharpEnumValue : CSharpNode
     public CSharpEnumValue(
         ImmutableArray<TargetPlatform> platforms,
         string name,
-        string codeLocationComment,
+        string cKind,
+        string cCodeLocation,
         int? sizeOf,
-        long value)
-        : base(platforms, name, codeLocationComment, sizeOf)
+        long value,
+        ImmutableArray<Attribute> attributes)
+        : base(platforms, name, cKind, cCodeLocation, sizeOf, attributes)
     {
         Value = value;
     }

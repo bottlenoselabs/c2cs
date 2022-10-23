@@ -107,23 +107,28 @@ internal partial class CommandLineInterface : RootCommand
             {
                 LogInvalidPluginNoAssembly(plugin.Name);
             }
+
+            LogPluginFound(plugin.Name);
         }
 
         return true;
     }
 
-    [LoggerMessage(0, LogLevel.Information, "- Searched for plugins in file directory: {PluginsSearchFileDirectory}.")]
+    [LoggerMessage(0, LogLevel.Information, "- Searched for plugins in file directory: {PluginsSearchFileDirectory}")]
     private partial void LogSearchedForPlugins(string pluginsSearchFileDirectory);
 
-    [LoggerMessage(1, LogLevel.Error, "- No plugins were found. Please see https://github.com/bottlenoselabs/c2cs for documentation.")]
+    [LoggerMessage(1, LogLevel.Error, "- No plugins were found; please see https://github.com/bottlenoselabs/c2cs for documentation")]
     private partial void LogNoPluginsFound();
 
-    [LoggerMessage(2, LogLevel.Error, "- Plugin '{PluginName}' is invalid. There is no loaded Assembly.")]
+    [LoggerMessage(2, LogLevel.Error, "- Plugin '{PluginName}' is invalid: no loaded assembly")]
     private partial void LogInvalidPluginNoAssembly(string pluginName);
 
-    [LoggerMessage(3, LogLevel.Error, "- No plugin was found with a type '" + nameof(IReaderCCode) + "'.")]
+    [LoggerMessage(3, LogLevel.Error, "- No plugin was found with a type '" + nameof(IReaderCCode) + "'")]
     private partial void LogPluginNotFoundNoReaderCCode();
 
-    [LoggerMessage(4, LogLevel.Error, "- No plugin was found with a type '" + nameof(IWriterCSharpCode) + "'.")]
+    [LoggerMessage(4, LogLevel.Error, "- No plugin was found with a type '" + nameof(IWriterCSharpCode) + "'")]
     private partial void LogPluginNotFoundNoWriterCSharp();
+
+    [LoggerMessage(5, LogLevel.Information, "- Plugin found: {PluginName}")]
+    private partial void LogPluginFound(string pluginName);
 }

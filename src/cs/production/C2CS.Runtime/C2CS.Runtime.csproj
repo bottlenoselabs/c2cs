@@ -3,7 +3,7 @@
 	<!-- MSBuild project settings -->
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<RootNamespace/>
+		<RootNamespace />
 	</PropertyGroup>
 
 	<!-- MSBuild.Tools settings -->
@@ -13,7 +13,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="$(MSBuildThisFileDirectory)/**/*.cs"/>
+		<EmbeddedResource Include="$(MSBuildThisFileDirectory)/**/*.cs" />
 	</ItemGroup>
 
 </Project>

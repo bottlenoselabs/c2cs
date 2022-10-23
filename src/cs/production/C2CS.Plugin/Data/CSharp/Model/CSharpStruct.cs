@@ -14,12 +14,14 @@ public sealed class CSharpStruct : CSharpNode
     public CSharpStruct(
         ImmutableArray<TargetPlatform> platforms,
         string name,
-        string codeLocationComment,
+        string cKind,
+        string cCodeLocation,
         int sizeOf,
         int alignOf,
         ImmutableArray<CSharpStructField> fields,
-        ImmutableArray<CSharpStruct> nestedStructs)
-        : base(platforms, name, codeLocationComment, sizeOf)
+        ImmutableArray<CSharpStruct> nestedStructs,
+        ImmutableArray<Attribute> attributes)
+        : base(platforms, name, cKind, cCodeLocation, sizeOf, attributes)
     {
         AlignOf = alignOf;
         Fields = fields;
