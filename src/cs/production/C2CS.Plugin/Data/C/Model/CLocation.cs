@@ -66,23 +66,14 @@ public record struct CLocation : IComparable<CLocation>
         }
 #pragma warning restore CA1308
 
-        var fileName = FileName;
-        if (Native.OperatingSystem == NativeOperatingSystem.Windows)
-        {
-            fileName = fileName.Replace(
-                Path.PathSeparator.ToString(),
-                $"{Path.PathSeparator}{Path.PathSeparator}",
-                StringComparison.InvariantCulture);
-        }
-
         if (LineNumber == 0 && LineColumn == 0)
         {
-            return $"{fileName}";
+            return $"{FileName}";
         }
 
         return string.IsNullOrEmpty(FilePath) || FilePath == FileName
-            ? $"{fileName}:{LineNumber}:{LineColumn}"
-            : $"{fileName}:{LineNumber}:{LineColumn} ({FilePath})";
+            ? $"{FileName}:{LineNumber}:{LineColumn}"
+            : $"{FileName}:{LineNumber}:{LineColumn} ({FilePath})";
     }
 
     public static bool operator <(CLocation first, CLocation second)

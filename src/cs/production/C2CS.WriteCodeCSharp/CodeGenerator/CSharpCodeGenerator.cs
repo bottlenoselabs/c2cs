@@ -799,7 +799,8 @@ public const {enumConstant.Type} {enumConstant.Name} = {enumConstant.Value};
                     continue;
                 }
 
-                expression = $"{propertyInfo.Name} = \"{propertyValue}\"";
+                var propertyValueStringEscaped = SymbolDisplay.FormatLiteral(propertyValueString, true);
+                expression = $"{propertyInfo.Name} = {propertyValueStringEscaped}";
             }
             else
             {
