@@ -589,7 +589,7 @@ public struct {opaqueStruct.Name}
 [StructLayout(LayoutKind.Explicit, Size = {aliasStruct.UnderlyingType.SizeOf}, Pack = {aliasStruct.UnderlyingType.AlignOf})]
 public struct {aliasStruct.Name}
 {{
-	[FieldOffset(0)] // size = {aliasStruct.UnderlyingType.SizeOf}, padding = 0
+	[FieldOffset(0)]
     public {aliasStruct.UnderlyingType.Name} Data;
 
 	public static implicit operator {aliasStruct.UnderlyingType.Name}({aliasStruct.Name} data) => data.Data;
