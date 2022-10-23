@@ -15,12 +15,14 @@ public sealed class CSharpStructField : CSharpNode
     public CSharpStructField(
         ImmutableArray<TargetPlatform> platforms,
         string name,
-        string codeLocationComment,
+        string cKind,
+        string cCodeLocation,
         int? sizeOf,
         CSharpType type,
         int offsetOf,
-        bool isWrapped)
-        : base(platforms, name, codeLocationComment, sizeOf)
+        bool isWrapped,
+        ImmutableArray<Attribute> attributes)
+        : base(platforms, name, cKind, cCodeLocation, sizeOf, attributes)
     {
         Type = type;
         OffsetOf = offsetOf;

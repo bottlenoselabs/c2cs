@@ -12,10 +12,12 @@ public sealed class CSharpAliasStruct : CSharpNode
     public CSharpAliasStruct(
         ImmutableArray<TargetPlatform> platforms,
         string name,
-        string codeLocationComment,
+        string cKind,
+        string cCodeLocation,
         int? sizeOf,
-        CSharpType underlyingType)
-        : base(platforms, name, codeLocationComment, sizeOf)
+        CSharpType underlyingType,
+        ImmutableArray<Attribute> attributes)
+        : base(platforms, name, cKind, cCodeLocation, sizeOf, attributes)
     {
         UnderlyingType = underlyingType;
     }

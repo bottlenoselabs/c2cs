@@ -16,12 +16,14 @@ public sealed class CSharpFunction : CSharpNode
     public CSharpFunction(
         ImmutableArray<TargetPlatform> platforms,
         string name,
-        string codeLocationComment,
+        string cKind,
+        string cCodeLocation,
         int? sizeOf,
         CSharpFunctionCallingConvention callingConvention,
         CSharpType returnType,
-        ImmutableArray<CSharpFunctionParameter> parameters)
-        : base(platforms, name, codeLocationComment, sizeOf)
+        ImmutableArray<CSharpFunctionParameter> parameters,
+        ImmutableArray<Attribute> attributes)
+        : base(platforms, name, cKind, cCodeLocation, sizeOf, attributes)
     {
         CallingConvention = callingConvention;
         ReturnType = returnType;

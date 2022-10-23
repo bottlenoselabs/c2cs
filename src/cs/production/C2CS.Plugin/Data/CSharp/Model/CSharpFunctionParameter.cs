@@ -12,10 +12,12 @@ public sealed class CSharpFunctionParameter : CSharpNode
     public CSharpFunctionParameter(
         ImmutableArray<TargetPlatform> platforms,
         string name,
-        string codeLocationComment,
+        string cKind,
+        string cCodeLocation,
         int? sizeOf,
-        string typeName)
-        : base(platforms, name, codeLocationComment, sizeOf)
+        string typeName,
+        ImmutableArray<Attribute> attributes)
+        : base(platforms, name, cKind, cCodeLocation, sizeOf, attributes)
     {
         TypeName = typeName;
     }

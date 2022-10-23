@@ -14,11 +14,13 @@ public sealed class CSharpEnumConstant : CSharpNode
     public CSharpEnumConstant(
         ImmutableArray<TargetPlatform> platforms,
         string name,
-        string codeLocationComment,
+        string cKind,
+        string cCodeLocation,
         int? sizeOf,
         string type,
-        string value)
-        : base(platforms, name, codeLocationComment, sizeOf)
+        string value,
+        ImmutableArray<Attribute> attributes)
+        : base(platforms, name, cKind, cCodeLocation, sizeOf, attributes)
     {
         Type = type;
         Value = value;

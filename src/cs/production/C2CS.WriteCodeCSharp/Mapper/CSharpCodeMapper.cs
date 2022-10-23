@@ -3,7 +3,6 @@
 
 using System.Collections.Immutable;
 using System.Globalization;
-using System.Text;
 using System.Text.RegularExpressions;
 using C2CS.Data.C.Model;
 using C2CS.Data.CSharp.Model;
@@ -17,7 +16,6 @@ public sealed class CSharpCodeMapper
     private readonly Dictionary<string, string> _generatedFunctionPointersNamesByCNames = new();
     private readonly ImmutableHashSet<string> _ignoredNames;
     private readonly CSharpCodeMapperOptions _options;
-    private readonly StringBuilder _stringBuilder = new();
     private readonly ImmutableDictionary<string, string> _userTypeNameAliases;
 
     public CSharpCodeMapper(CSharpCodeMapperOptions options)
@@ -169,25 +167,26 @@ public sealed class CSharpCodeMapper
     {
         var firstNode = nodes.First().CSharpNode;
         var platforms = nodes.Select(x => x.Platform).ToImmutableArray();
-        var codeLocationComment = MergeCodeLocationComment(nodes);
+        var attributes = MergedAttributes(nodes);
+
         switch (firstNode)
         {
             case CSharpFunction:
-                return MergeFunction(nodes, platforms, codeLocationComment);
+                return MergeFunction(nodes, platforms, attributes);
             case CSharpFunctionPointer:
-                return MergeFunctionPointer(nodes, platforms, codeLocationComment);
+                return MergeFunctionPointer(nodes, platforms, attributes);
             case CSharpStruct:
-                return MergeStruct(nodes, platforms, codeLocationComment);
+                return MergeStruct(nodes, platforms, attributes);
             case CSharpAliasStruct:
-                return MergeAliasStruct(nodes, platforms, codeLocationComment);
+                return MergeAliasStruct(nodes, platforms, attributes);
             case CSharpOpaqueStruct:
-                return MergeOpaqueStruct(nodes, platforms, codeLocationComment);
+                return MergeOpaqueStruct(nodes, platforms, attributes);
             case CSharpEnum:
-                return MergeEnum(nodes, platforms, codeLocationComment);
+                return MergeEnum(nodes, platforms, attributes);
             case CSharpMacroObject:
-                return MergeMacroObject(nodes, platforms, codeLocationComment);
+                return MergeMacroObject(nodes, platforms, attributes);
             case CSharpEnumConstant:
-                return MergeEnumConstant(nodes, platforms, codeLocationComment);
+                return MergeEnumConstant(nodes, platforms, attributes);
             default:
                 throw new NotImplementedException();
         }
@@ -196,159 +195,163 @@ public sealed class CSharpCodeMapper
     private CSharpFunction MergeFunction(
         ImmutableArray<PlatformCandidateNode> nodes,
         ImmutableArray<TargetPlatform> platforms,
-        string codeLocationComment)
+        ImmutableArray<Attribute> attributes)
     {
         var node = (CSharpFunction)nodes.First().CSharpNode;
         var mergedNode = new CSharpFunction(
             platforms,
             node.Name,
-            codeLocationComment,
+            node.CKind,
+            node.CCodeLocation,
             node.SizeOf,
             node.CallingConvention,
             node.ReturnType,
-            node.Parameters);
+            node.Parameters,
+            attributes);
         return mergedNode;
     }
 
     private CSharpFunctionPointer MergeFunctionPointer(
         ImmutableArray<PlatformCandidateNode> nodes,
         ImmutableArray<TargetPlatform> platforms,
-        string codeLocationComment)
+        ImmutableArray<Attribute> attributes)
     {
         var node = (CSharpFunctionPointer)nodes.First().CSharpNode;
         var newNode = new CSharpFunctionPointer(
             platforms,
             node.Name,
-            codeLocationComment,
+            node.CKind,
+            node.CCodeLocation,
             node.SizeOf,
             node.ReturnType,
-            node.Parameters);
+            node.Parameters,
+            attributes);
         return newNode;
     }
 
     private CSharpStruct MergeStruct(
         ImmutableArray<PlatformCandidateNode> nodes,
         ImmutableArray<TargetPlatform> platforms,
-        string codeLocationComment)
+        ImmutableArray<Attribute> attributes)
     {
         var node = (CSharpStruct)nodes.First().CSharpNode;
         var newNode = new CSharpStruct(
             platforms,
             node.Name,
-            codeLocationComment,
+            node.CKind,
+            node.CCodeLocation,
             node.SizeOf!.Value,
             node.AlignOf,
             node.Fields,
-            node.NestedStructs);
+            node.NestedStructs,
+            node.Attributes);
         return newNode;
     }
 
     private CSharpAliasStruct MergeAliasStruct(
         ImmutableArray<PlatformCandidateNode> nodes,
         ImmutableArray<TargetPlatform> platforms,
-        string codeLocationComment)
+        ImmutableArray<Attribute> attributes)
     {
         var node = (CSharpAliasStruct)nodes.First().CSharpNode;
         var newNode = new CSharpAliasStruct(
             platforms,
             node.Name,
-            codeLocationComment,
+            node.CKind,
+            node.CCodeLocation,
             node.SizeOf,
-            node.UnderlyingType);
+            node.UnderlyingType,
+            attributes);
         return newNode;
     }
 
     private CSharpOpaqueStruct MergeOpaqueStruct(
         ImmutableArray<PlatformCandidateNode> nodes,
         ImmutableArray<TargetPlatform> platforms,
-        string codeLocationComment)
+        ImmutableArray<Attribute> attributes)
     {
         var node = (CSharpOpaqueStruct)nodes.First().CSharpNode;
         var newNode = new CSharpOpaqueStruct(
             platforms,
             node.Name,
-            codeLocationComment);
+            node.CKind,
+            node.CCodeLocation,
+            attributes);
         return newNode;
     }
 
     private CSharpEnum MergeEnum(
         ImmutableArray<PlatformCandidateNode> nodes,
         ImmutableArray<TargetPlatform> platforms,
-        string codeLocationComment)
+        ImmutableArray<Attribute> attributes)
     {
         var node = (CSharpEnum)nodes.First().CSharpNode;
         var newNode = new CSharpEnum(
             platforms,
             node.Name,
-            codeLocationComment,
+            node.CKind,
+            node.CCodeLocation,
             node.IntegerType,
-            node.Values);
+            node.Values,
+            attributes);
         return newNode;
     }
 
     private CSharpMacroObject MergeMacroObject(
         ImmutableArray<PlatformCandidateNode> nodes,
         ImmutableArray<TargetPlatform> platforms,
-        string codeLocationComment)
+        ImmutableArray<Attribute> attributes)
     {
         var node = (CSharpMacroObject)nodes.First().CSharpNode;
         var newNode = new CSharpMacroObject(
             platforms,
             node.Name,
-            codeLocationComment,
+            node.CKind,
+            node.CCodeLocation,
             node.SizeOf,
             node.Type,
             node.Value,
-            node.IsConstant);
+            node.IsConstant,
+            attributes);
         return newNode;
     }
 
     private CSharpEnumConstant MergeEnumConstant(
         ImmutableArray<PlatformCandidateNode> nodes,
         ImmutableArray<TargetPlatform> platforms,
-        string codeLocationComment)
+        ImmutableArray<Attribute> attributes)
     {
         var node = (CSharpEnumConstant)nodes.First().CSharpNode;
         var newNode = new CSharpEnumConstant(
             platforms,
             node.Name,
-            codeLocationComment,
+            node.CKind,
+            node.CCodeLocation,
             node.SizeOf,
             node.Type,
-            node.Value);
+            node.Value,
+            attributes);
         return newNode;
     }
 
-    private string MergeCodeLocationComment(ImmutableArray<PlatformCandidateNode> nodes)
+    private ImmutableArray<Attribute> MergedAttributes(ImmutableArray<PlatformCandidateNode> nodes)
     {
-        _stringBuilder.Clear();
-
-        var firstNode = nodes.First();
-        var locationParse = firstNode.CSharpNode.CodeLocationComment.Split(' ');
-        var kindString = locationParse[1];
-        var fileLocation = locationParse[3];
-
-        _stringBuilder.Append("// ");
-        _stringBuilder.Append(kindString);
-        _stringBuilder.Append(" @ ");
-        _stringBuilder.Append(fileLocation);
+        var builder = ImmutableArray.CreateBuilder<Attribute>();
 
         foreach (var node in nodes)
         {
-            _stringBuilder.Append("\n//\t");
-            _stringBuilder.Append(node.Platform);
+            builder.AddRange(node.CSharpNode.Attributes);
 
-            var nodeLocationParse = node.CSharpNode.CodeLocationComment.Split(' ');
-            if (nodeLocationParse.Length >= 5)
+            var platformAttribute = new CNodeAttribute
             {
-                var filePath = nodeLocationParse[4];
-                _stringBuilder.Append(' ');
-                _stringBuilder.Append(filePath);
-            }
+                Kind = node.CSharpNode.CKind,
+                PlatformName = node.Platform.ToString(),
+                Location = node.CSharpNode.CCodeLocation,
+            };
+            builder.Add(platformAttribute);
         }
 
-        var result = _stringBuilder.ToString();
-        _stringBuilder.Clear();
+        var result = builder.ToImmutable();
         return result;
     }
 
@@ -517,20 +520,24 @@ public sealed class CSharpCodeMapper
     private CSharpFunction FunctionCSharp(CSharpCodeMapperContext context, CFunction cFunction)
     {
         var name = cFunction.Name;
-        var originalCodeLocationComment = OriginalCodeLocationComment(cFunction);
+        var cKindString = CKindString(cFunction);
+        var cCodeLocation = CCodeLocation(cFunction);
         var returnTypeNameCSharp = TypeNameCSharp(context, cFunction.ReturnTypeInfo);
         var returnType = TypeCSharp(returnTypeNameCSharp, cFunction.ReturnTypeInfo);
         var callingConvention = CSharpFunctionCallingConvention(cFunction.CallingConvention);
         var parameters = CSharpFunctionParameters(context, name, cFunction.Parameters);
+        var attributes = ImmutableArray<Attribute>.Empty;
 
         var result = new CSharpFunction(
             ImmutableArray.Create(context.Platform),
             name,
-            originalCodeLocationComment,
+            cKindString,
+            cCodeLocation,
             null,
             callingConvention,
             returnType,
-            parameters);
+            parameters,
+            attributes);
 
         return result;
     }
@@ -617,7 +624,8 @@ public sealed class CSharpCodeMapper
         string parameterName)
     {
         var name = SanitizeIdentifier(parameterName);
-        var originalCodeLocationComment = OriginalCodeLocationComment(functionParameter);
+        var cKindString = CKindString(functionParameter);
+        var cCodeLocation = CCodeLocation(functionParameter);
         var typeC = functionParameter.TypeInfo;
         var nameCSharp = TypeNameCSharp(context, typeC);
         var typeCSharp = TypeCSharp(nameCSharp, typeC);
@@ -632,12 +640,16 @@ public sealed class CSharpCodeMapper
                 StringComparison.InvariantCulture);
         }
 
+        var attributes = ImmutableArray<Attribute>.Empty;
+
         var functionParameterCSharp = new CSharpFunctionParameter(
             ImmutableArray.Create(context.Platform),
             name,
-            originalCodeLocationComment,
+            cKindString,
+            cCodeLocation,
             typeC.SizeOf,
-            typeCSharpName);
+            typeCSharpName,
+            attributes);
 
         return functionParameterCSharp;
     }
@@ -678,20 +690,24 @@ public sealed class CSharpCodeMapper
             return null;
         }
 
-        var originalCodeLocationComment = OriginalCodeLocationComment(functionPointer);
+        var cKindString = CKindString(functionPointer);
+        var cCodeLocation = CCodeLocation(functionPointer);
         var returnTypeC = functionPointer.ReturnTypeInfo;
         var returnTypeNameCSharp = TypeNameCSharp(context, returnTypeC);
         var returnTypeCSharp = TypeCSharp(returnTypeNameCSharp, returnTypeC);
 
         var parameters = FunctionPointerParameters(context, functionPointer.Parameters);
+        var attributes = ImmutableArray<Attribute>.Empty;
 
         var result = new CSharpFunctionPointer(
             ImmutableArray.Create(context.Platform),
             typeNameCSharp,
-            originalCodeLocationComment,
+            cKindString,
+            cCodeLocation,
             functionPointerType.SizeOf,
             returnTypeCSharp,
-            parameters);
+            parameters,
+            attributes);
 
         names.Add(typeNameCSharp, functionPointer);
 
@@ -726,17 +742,22 @@ public sealed class CSharpCodeMapper
         string parameterName)
     {
         var name = SanitizeIdentifier(parameterName);
-        var originalCodeLocationComment = OriginalCodeLocationComment(functionPointerParameter);
+        var cKindString = CKindString(functionPointerParameter);
+        var cCodeLocation = CCodeLocation(functionPointerParameter);
         var typeC = functionPointerParameter.TypeInfo;
         var nameCSharp = TypeNameCSharp(context, typeC);
         var typeCSharp = TypeCSharp(nameCSharp, typeC);
 
+        var attributes = ImmutableArray<Attribute>.Empty;
+
         var result = new CSharpFunctionPointerParameter(
             ImmutableArray.Create(context.Platform),
             name,
-            originalCodeLocationComment,
+            cKindString,
+            cCodeLocation,
             typeC.SizeOf,
-            typeCSharp);
+            typeCSharp,
+            attributes);
 
         return result;
     }
@@ -780,18 +801,23 @@ public sealed class CSharpCodeMapper
             name = record.Name + "_";
         }
 
-        var originalCodeLocationComment = OriginalCodeLocationComment(record);
+        var cKindString = CKindString(record);
+        var cCodeLocation = CCodeLocation(record);
         var (fields, nestedRecords) = StructFields(context, record.Name, record.Fields);
         var nestedStructs = Structs(context, nestedRecords, functionNames);
+
+        var attributes = ImmutableArray<Attribute>.Empty;
 
         return new CSharpStruct(
             ImmutableArray.Create(context.Platform),
             name,
-            originalCodeLocationComment,
+            cKindString,
+            cCodeLocation,
             record.SizeOf,
             record.AlignOf,
             fields,
-            nestedStructs);
+            nestedStructs,
+            attributes);
     }
 
     private (ImmutableArray<CSharpStructField> Fields, ImmutableArray<CRecord> NestedRecords) StructFields(
@@ -835,7 +861,8 @@ public sealed class CSharpCodeMapper
         CRecordField field)
     {
         var name = SanitizeIdentifier(field.Name);
-        var codeLocationComment = OriginalCodeLocationComment(field);
+        var cKindString = CKindString(field);
+        var codeLocationComment = CCodeLocation(field);
         var typeC = field.TypeInfo;
 
         CSharpType typeCSharp;
@@ -854,14 +881,18 @@ public sealed class CSharpCodeMapper
         var offsetOf = field.OffsetOf;
         var isWrapped = typeCSharp.IsArray && !IsValidFixedBufferType(typeCSharp.Name);
 
+        var attributes = ImmutableArray<Attribute>.Empty;
+
         var result = new CSharpStructField(
             ImmutableArray.Create(context.Platform),
             name,
+            cKindString,
             codeLocationComment,
             typeC.SizeOf,
             typeCSharp,
             offsetOf,
-            isWrapped);
+            isWrapped,
+            attributes);
 
         return result;
     }
@@ -894,12 +925,17 @@ public sealed class CSharpCodeMapper
         COpaqueType opaqueType)
     {
         var nameCSharp = TypeNameCSharpRaw(opaqueType.Name, opaqueType.SizeOf);
-        var originalCodeLocationComment = OriginalCodeLocationComment(opaqueType);
+        var cKindString = CKindString(opaqueType);
+        var cCodeLocation = CCodeLocation(opaqueType);
+
+        var attributes = ImmutableArray<Attribute>.Empty;
 
         var opaqueTypeCSharp = new CSharpOpaqueStruct(
             ImmutableArray.Create(context.Platform),
             nameCSharp,
-            originalCodeLocationComment);
+            cKindString,
+            cCodeLocation,
+            attributes);
 
         return opaqueTypeCSharp;
     }
@@ -938,17 +974,22 @@ public sealed class CSharpCodeMapper
     {
         var name = typeAlias.Name;
 
-        var originalCodeLocationComment = OriginalCodeLocationComment(typeAlias);
+        var cKindString = CKindString(typeAlias);
+        var cCodeLocation = CCodeLocation(typeAlias);
         var underlyingTypeC = typeAlias.UnderlyingTypeInfo;
         var underlyingNameCSharp = TypeNameCSharp(context, underlyingTypeC);
         var underlyingTypeCSharp = TypeCSharp(underlyingNameCSharp, underlyingTypeC);
 
+        var attributes = ImmutableArray<Attribute>.Empty;
+
         var result = new CSharpAliasStruct(
             ImmutableArray.Create(context.Platform),
             name,
-            originalCodeLocationComment,
+            cKindString,
+            cCodeLocation,
             underlyingTypeC.SizeOf,
-            underlyingTypeCSharp);
+            underlyingTypeCSharp,
+            attributes);
 
         return result;
     }
@@ -980,18 +1021,23 @@ public sealed class CSharpCodeMapper
         CEnum @enum)
     {
         var name = @enum.Name;
-        var originalCodeLocationComment = OriginalCodeLocationComment(@enum);
+        var cKindString = CKindString(@enum);
+        var cCodeLocation = CCodeLocation(@enum);
         var integerTypeC = @enum.IntegerTypeInfo;
         var integerNameCSharp = TypeNameCSharp(context, integerTypeC, true);
         var integerType = TypeCSharp(integerNameCSharp, integerTypeC);
         var values = EnumValues(context, @enum.Values);
 
+        var attributes = ImmutableArray<Attribute>.Empty;
+
         var result = new CSharpEnum(
             ImmutableArray.Create(context.Platform),
             name,
-            originalCodeLocationComment,
+            cKindString,
+            cCodeLocation,
             integerType,
-            values);
+            values,
+            attributes);
         return result;
     }
 
@@ -1015,15 +1061,20 @@ public sealed class CSharpCodeMapper
         CSharpCodeMapperContext context, CEnumValue enumValue)
     {
         var name = enumValue.Name;
-        var originalCodeLocationComment = OriginalCodeLocationComment(enumValue);
+        var cKindString = CKindString(enumValue);
+        var cCodeLocation = CCodeLocation(enumValue);
         var value = enumValue.Value;
+
+        var attributes = ImmutableArray<Attribute>.Empty;
 
         var result = new CSharpEnumValue(
             ImmutableArray.Create(context.Platform),
             name,
-            originalCodeLocationComment,
+            cKindString,
+            cCodeLocation,
             null,
-            value);
+            value,
+            attributes);
 
         return result;
     }
@@ -1053,7 +1104,8 @@ public sealed class CSharpCodeMapper
         CSharpCodeMapperContext context,
         CMacroObject macro)
     {
-        var originalCodeLocationComment = OriginalCodeLocationComment(macro);
+        var cKindString = CKindString(macro);
+        var cCodeLocation = CCodeLocation(macro);
 
         var typeKind = macro.Type.Kind;
         var isConstant = typeKind is CKind.Primitive;
@@ -1071,14 +1123,18 @@ public sealed class CSharpCodeMapper
             value += "f";
         }
 
+        var attributes = ImmutableArray<Attribute>.Empty;
+
         var result = new CSharpMacroObject(
             ImmutableArray.Create(context.Platform),
             macro.Name,
-            originalCodeLocationComment,
+            cKindString,
+            cCodeLocation,
             typeSize,
             typeName,
             value,
-            isConstant);
+            isConstant,
+            attributes);
         return result;
     }
 
@@ -1106,16 +1162,21 @@ public sealed class CSharpCodeMapper
 
     private CSharpEnumConstant EnumConstant(CSharpCodeMapperContext context, CEnumConstant enumConstant)
     {
-        var originalCodeLocationComment = OriginalCodeLocationComment(enumConstant);
+        var cKindString = CKindString(enumConstant);
+        var cCodeLocation = CCodeLocation(enumConstant);
         var typeName = TypeNameCSharp(context, enumConstant.Type);
+
+        var attributes = ImmutableArray<Attribute>.Empty;
 
         var result = new CSharpEnumConstant(
             ImmutableArray.Create(context.Platform),
             enumConstant.Name,
-            originalCodeLocationComment,
+            cKindString,
+            cCodeLocation,
             enumConstant.Type.SizeOf,
             typeName,
-            enumConstant.Value);
+            enumConstant.Value,
+            attributes);
         return result;
     }
 
@@ -1375,21 +1436,25 @@ public sealed class CSharpCodeMapper
         };
     }
 
-    private static string OriginalCodeLocationComment(CNode node)
+    private static string CCodeLocation(CNode node)
+    {
+        if (node is not CNodeWithLocation nodeWithLocation)
+        {
+            return string.Empty;
+        }
+
+        var location = nodeWithLocation.Location.ToString();
+        return location;
+    }
+
+    private static string CKindString(CNode node)
     {
         var kindString = node switch
         {
             CRecord record => record.RecordKind.ToString(),
             _ => node.Kind.ToString()
         };
-
-        if (node is not CNodeWithLocation nodeWithLocation)
-        {
-            return $"// {kindString}";
-        }
-
-        var location = nodeWithLocation.Location;
-        return $"// {kindString} @ " + location;
+        return kindString;
     }
 
     private static string SanitizeIdentifier(string name)

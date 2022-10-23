@@ -34,7 +34,10 @@ internal static class Program
 
     private static void GenerateBindingsCSharp()
     {
-        var parameters = Array.Empty<string>();
-        C2CS.Program.Main(parameters);
+        var parametersReadCCode = new[] { "c" };
+        C2CS.Program.Main(parametersReadCCode);
+
+        var parametersWriteCSharpCode = new[] { "cs" };
+        C2CS.Program.Main(parametersWriteCSharpCode);
     }
 }

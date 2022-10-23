@@ -7,23 +7,27 @@ namespace C2CS.Data.CSharp.Model;
 
 public abstract class CSharpNode : IEquatable<CSharpNode>
 {
-    public readonly string CodeLocationComment;
-
+    public readonly string CKind;
+    public readonly string CCodeLocation;
     public readonly string Name;
     public readonly ImmutableArray<TargetPlatform> Platforms;
-
     public readonly int? SizeOf;
+    public readonly ImmutableArray<Attribute> Attributes;
 
     protected CSharpNode(
         ImmutableArray<TargetPlatform> platforms,
         string? name,
-        string? codeLocationComment,
-        int? sizeOf)
+        string? cKind,
+        string? cCodeLocation,
+        int? sizeOf,
+        ImmutableArray<Attribute> attributes)
     {
         Platforms = platforms;
         Name = string.IsNullOrEmpty(name) ? string.Empty : name;
-        CodeLocationComment = string.IsNullOrEmpty(codeLocationComment) ? string.Empty : codeLocationComment;
+        CKind = string.IsNullOrEmpty(cKind) ? string.Empty : cKind;
+        CCodeLocation = string.IsNullOrEmpty(cCodeLocation) ? string.Empty : cCodeLocation;
         SizeOf = sizeOf;
+        Attributes = attributes;
     }
 
     public virtual bool Equals(CSharpNode? other)
@@ -44,7 +48,7 @@ public abstract class CSharpNode : IEquatable<CSharpNode>
 
     public override string ToString()
     {
-        return $"{Name} {CodeLocationComment} {Platforms}";
+        return $"{Name} {CCodeLocation} {Platforms}";
     }
 
     public override bool Equals(object? obj)

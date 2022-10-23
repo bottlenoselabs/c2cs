@@ -10,8 +10,14 @@ public sealed class CSharpFunctionPointerParameter : CSharpNode
     public readonly CSharpType Type;
 
     public CSharpFunctionPointerParameter(
-        ImmutableArray<TargetPlatform> platforms, string name, string codeLocationComment, int? sizeOf, CSharpType type)
-        : base(platforms, name, codeLocationComment, sizeOf)
+        ImmutableArray<TargetPlatform> platforms,
+        string name,
+        string cKind,
+        string cCodeLocation,
+        int? sizeOf,
+        CSharpType type,
+        ImmutableArray<Attribute> attributes)
+        : base(platforms, name, cKind, cCodeLocation, sizeOf, attributes)
     {
         Type = type;
     }

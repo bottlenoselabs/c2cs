@@ -15,12 +15,14 @@ public sealed class CSharpMacroObject : CSharpNode
     public CSharpMacroObject(
         ImmutableArray<TargetPlatform> platforms,
         string name,
-        string codeLocationComment,
+        string cKind,
+        string cCodeLocation,
         int? sizeOf,
         string type,
         string value,
-        bool isConstant)
-        : base(platforms, name, codeLocationComment, sizeOf)
+        bool isConstant,
+        ImmutableArray<Attribute> attributes)
+        : base(platforms, name, cKind, cCodeLocation, sizeOf, attributes)
     {
         Type = type;
         Value = value;

@@ -14,10 +14,12 @@ public sealed class CSharpEnum : CSharpNode
     public CSharpEnum(
         ImmutableArray<TargetPlatform> platforms,
         string name,
-        string codeLocationComment,
+        string cKind,
+        string cCodeLocation,
         CSharpType integerType,
-        ImmutableArray<CSharpEnumValue> values)
-        : base(platforms, name, codeLocationComment, integerType.SizeOf)
+        ImmutableArray<CSharpEnumValue> values,
+        ImmutableArray<Attribute> attributes)
+        : base(platforms, name, cKind, cCodeLocation, integerType.SizeOf, attributes)
     {
         IntegerType = integerType;
         Values = values;

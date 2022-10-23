@@ -62,7 +62,7 @@ public record struct CLocation : IComparable<CLocation>
 #pragma warning disable CA1308
         if (IsNull)
         {
-            return nameof(NoLocation);
+            return string.Empty;
         }
 #pragma warning restore CA1308
 

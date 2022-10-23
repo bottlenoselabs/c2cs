@@ -13,7 +13,11 @@ internal static class Program
         Setup();
 
         hw_hello_world();
-        hw_pass_string("Hello world from C#!");
+
+        var cString1 = (CString)"Hello world from C#!";
+        hw_pass_string(cString1);
+        Marshal.FreeHGlobal(cString1);
+
         hw_pass_integers_by_value(65449, -255, 24242);
 
         ushort a = 65449;
@@ -23,7 +27,9 @@ internal static class Program
 
         var callback = default(FnPtr_CString_Void);
         callback.Pointer = &Callback;
-        hw_invoke_callback(callback, "Hello from callback!");
+        var cString2 = (CString)"Hello from callback!";
+        hw_invoke_callback(callback, cString2);
+        Marshal.FreeHGlobal(cString2);
     }
 
     [UnmanagedCallersOnly]
@@ -31,10 +37,8 @@ internal static class Program
     {
         // This C# function is called from C
 
-        // Get the cached string and print it
+        // Get the string and print it
         var str = param.ToString();
         Console.WriteLine(str);
-        // Free the cached string
-        CStrings.FreeCString(param);
     }
 }
