@@ -345,7 +345,7 @@ public sealed class CSharpCodeMapper
             var platformAttribute = new CNodeAttribute
             {
                 Kind = node.CSharpNode.CKind,
-                PlatformName = node.Platform.ToString(),
+                Platform = node.Platform.ToString(),
                 Location = node.CSharpNode.CCodeLocation,
             };
             builder.Add(platformAttribute);

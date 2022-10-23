@@ -9,7 +9,7 @@ public sealed class CNodeAttribute : Attribute
 {
     public string Kind { get; set; } = string.Empty;
 
-    public string PlatformName { get; set; } = string.Empty;
+    public string Platform { get; set; } = string.Empty;
 
     public string Location { get; set; } = string.Empty;
 
