@@ -112,6 +112,15 @@ public sealed class CSharpCodeMapper
             }
         }
 
+        functions.Sort(CompareCSharpNodes);
+        functionPointers.Sort(CompareCSharpNodes);
+        structs.Sort(CompareCSharpNodes);
+        aliasStructs.Sort(CompareCSharpNodes);
+        opaqueStructs.Sort(CompareCSharpNodes);
+        enums.Sort(CompareCSharpNodes);
+        macroObjects.Sort(CompareCSharpNodes);
+        enumConstants.Sort(CompareCSharpNodes);
+
         var ast = new CSharpAbstractSyntaxTree
         {
             Functions = functions.ToImmutable(),
@@ -125,6 +134,12 @@ public sealed class CSharpCodeMapper
         };
 
         return ast;
+    }
+
+    private int CompareCSharpNodes(CSharpNode nodeA, CSharpNode nodeB)
+    {
+        var locationComparison = string.Compare(nodeA.CCodeLocation, nodeB.CCodeLocation, StringComparison.Ordinal);
+        return locationComparison;
     }
 
     private CSharpNode? MergePlatformCandidateNodes(
