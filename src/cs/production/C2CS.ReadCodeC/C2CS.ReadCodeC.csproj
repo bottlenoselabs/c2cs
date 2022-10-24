@@ -10,10 +10,13 @@
 
 	<!-- Project references -->
 	<ItemGroup>
-		<ProjectReference Include="..\infrastructure\C2CS.Infrastructure.Foundation\C2CS.Infrastructure.Foundation.csproj" />
-		<ProjectReference Include="../infrastructure/C2CS.Infrastructure.Clang/C2CS.Infrastructure.Clang.csproj" />
+		<ProjectReference Include="../C2CS.Clang/C2CS.Clang.csproj" />
+		<ProjectReference Include="../C2CS.Plugin/C2CS.Plugin.csproj" />
 	</ItemGroup>
 
 	<!-- NuGet references -->
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
+	</ItemGroup>
 
 </Project>

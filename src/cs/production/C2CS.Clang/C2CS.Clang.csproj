@@ -12,9 +12,4 @@
 		<EnableCodeCoverage>false</EnableCodeCoverage>
 	</PropertyGroup>
 
-	<!-- Project references -->
-	<ItemGroup>
-		<ProjectReference Include="..\C2CS.Infrastructure.Foundation\C2CS.Infrastructure.Foundation.csproj" />
-	</ItemGroup>
-
 </Project>
