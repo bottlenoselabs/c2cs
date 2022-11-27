@@ -16,7 +16,7 @@ public class WriteCodeCSharp : CLibraryIntegrationTest
     private readonly WriteCSharpCodeFixtureContext _context;
 
     public WriteCodeCSharp()
-        : base(TestHost.Services, "c_library", "Data/CSharp", true)
+        : base(TestHost.Services, "c_library", "Data/CSharp", false)
     {
         _context = TestHost.Services.GetService<WriteCSharpCodeFixture>()!.Context;
     }
