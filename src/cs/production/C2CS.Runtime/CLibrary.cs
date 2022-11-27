@@ -140,7 +140,9 @@ public static class CLibrary
     }
 
     [System.Security.SuppressUnmanagedCodeSecurity]
+#pragma warning disable CS8981
     private static class libdl
+#pragma warning restore CS8981
     {
         private const string LibraryName = "libdl";
 

@@ -3,7 +3,6 @@
 
 using System;
 using System.CommandLine;
-using C2CS.Plugins;
 using C2CS.ReadCodeC;
 using C2CS.WriteCodeCSharp;
 using Microsoft.Extensions.DependencyInjection;
