@@ -38,7 +38,7 @@ public sealed class WriteCodeCSharpValidator : WriteCodeValidator<WriterCSharpCo
             OutputFilePath = outputFilePath,
             MapperOptions = new CSharpCodeMapperOptions
             {
-                TypeAliases = typeAliases,
+                TypeRenames = typeAliases,
                 IgnoredNames = ignoredNames
             },
             GeneratorOptions = new CSharpCodeGeneratorOptions
@@ -55,18 +55,18 @@ public sealed class WriteCodeCSharpValidator : WriteCodeValidator<WriterCSharpCo
         };
     }
 
-    private static ImmutableArray<CSharpTypeAlias> TypeAliases(
+    private static ImmutableArray<CSharpTypeRename> TypeAliases(
         ImmutableArray<WriterCSharpCodeOptionsMappedName>? mappedNames)
     {
         if (mappedNames == null || mappedNames.Value.IsDefaultOrEmpty)
         {
-            return ImmutableArray<CSharpTypeAlias>.Empty;
+            return ImmutableArray<CSharpTypeRename>.Empty;
         }
 
-        var builder = ImmutableArray.CreateBuilder<CSharpTypeAlias>();
+        var builder = ImmutableArray.CreateBuilder<CSharpTypeRename>();
         foreach (var mappedName in mappedNames)
         {
-            var typeAlias = new CSharpTypeAlias
+            var typeAlias = new CSharpTypeRename
             {
                 Source = mappedName.Source,
                 Target = mappedName.Target

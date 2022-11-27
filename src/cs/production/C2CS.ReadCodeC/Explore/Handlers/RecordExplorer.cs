@@ -8,7 +8,7 @@ using static bottlenoselabs.clang;
 
 namespace C2CS.ReadCodeC.Explore.Handlers;
 
-public abstract class RecordExplorer : ExploreHandler<CRecord>
+public abstract class RecordExplorer : ExploreNodeHandler<CRecord>
 {
     protected RecordExplorer(ILogger<RecordExplorer> logger, bool logAlreadyExplored = true)
         : base(logger, logAlreadyExplored)

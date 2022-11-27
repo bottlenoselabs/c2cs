@@ -13,13 +13,13 @@ public sealed record CSharpAbstractSyntaxTree
 
     public ImmutableArray<CSharpStruct> Structs { get; init; }
 
-    public ImmutableArray<CSharpAliasStruct> AliasStructs { get; init; }
+    public ImmutableArray<CSharpAliasType> AliasStructs { get; init; }
 
-    public ImmutableArray<CSharpOpaqueStruct> OpaqueStructs { get; init; }
+    public ImmutableArray<CSharpOpaqueType> OpaqueStructs { get; init; }
 
     public ImmutableArray<CSharpEnum> Enums { get; init; }
 
     public ImmutableArray<CSharpMacroObject> MacroObjects { get; init; }
 
-    public ImmutableArray<CSharpEnumConstant> EnumConstants { get; init; }
+    public ImmutableArray<CSharpConstant> Constants { get; init; }
 }

@@ -5,37 +5,32 @@ using System.Collections.Immutable;
 
 namespace C2CS.Data.CSharp.Model;
 
-public sealed class CSharpFunctionPointerParameter : CSharpNode
+public sealed class CSharpOpaqueType : CSharpNode
 {
-    public readonly CSharpType Type;
-
-    public CSharpFunctionPointerParameter(
+    public CSharpOpaqueType(
         ImmutableArray<TargetPlatform> platforms,
         string name,
         string cKind,
         string cCodeLocation,
-        int? sizeOf,
-        CSharpType type,
         ImmutableArray<Attribute> attributes)
-        : base(platforms, name, cKind, cCodeLocation, sizeOf, attributes)
+        : base(platforms, name, cKind, cCodeLocation, null, attributes)
     {
-        Type = type;
     }
 
     public override bool Equals(CSharpNode? other)
     {
-        if (!base.Equals(other) || other is not CSharpFunctionPointerParameter other2)
+        if (!base.Equals(other) || other is not CSharpOpaqueType)
         {
             return false;
         }
 
-        return Type == other2.Type;
+        return true;
     }
 
     public override int GetHashCode()
     {
         var baseHashCode = base.GetHashCode();
-        var hashCode = HashCode.Combine(baseHashCode, Type);
+        var hashCode = HashCode.Combine(baseHashCode);
         return hashCode;
     }
 }

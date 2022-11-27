@@ -31,6 +31,9 @@ public class CTypeInfo
     [JsonPropertyName("is_anonymous")]
     public bool? IsAnonymous { get; set; }
 
+    [JsonPropertyName("is_const")]
+    public bool IsConst { get; set; }
+
     [JsonPropertyName("location")]
     [JsonConverter(typeof(CLocationJsonConverter))]
     public CLocation Location { get; set; }

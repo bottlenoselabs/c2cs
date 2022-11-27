@@ -332,16 +332,6 @@ public static unsafe class ClangExtensions
             result = result.Replace("enum ", string.Empty, StringComparison.InvariantCulture);
         }
 
-        if (result.Contains("const ", StringComparison.InvariantCulture))
-        {
-            result = result.Replace("const ", string.Empty, StringComparison.InvariantCulture);
-        }
-
-        if (result.Contains("*const", StringComparison.InvariantCulture))
-        {
-            result = result.Replace("*const", "*", StringComparison.InvariantCulture);
-        }
-
         return result;
     }
 
@@ -540,6 +530,18 @@ public static unsafe class ClangExtensions
         var result = stringBuilder.ToString();
         stringBuilder.Clear();
         return result;
+    }
+
+    public static bool IsConst(this CXCursor cursor)
+    {
+        var type = clang_getCursorType(cursor);
+        return IsConst(type);
+    }
+
+    public static bool IsConst(this CXType type)
+    {
+        var isConstQualifiedType = clang_isConstQualifiedType(type) > 0;
+        return isConstQualifiedType;
     }
 
     private readonly struct VisitChildInstance

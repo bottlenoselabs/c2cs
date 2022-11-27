@@ -9,7 +9,7 @@ using static bottlenoselabs.clang;
 namespace C2CS.ReadCodeC.Explore.Handlers;
 
 [UsedImplicitly]
-public sealed class PointerExplorer : ExploreHandler<CPointer>
+public sealed class PointerExplorer : ExploreNodeHandler<CPointer>
 {
     public PointerExplorer(ILogger<PointerExplorer> logger)
         : base(logger, false)

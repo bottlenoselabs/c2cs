@@ -10,7 +10,7 @@ using static bottlenoselabs.clang;
 namespace C2CS.ReadCodeC.Explore.Handlers;
 
 [UsedImplicitly]
-public sealed class EnumExplorer : ExploreHandler<CEnum>
+public sealed class EnumExplorer : ExploreNodeHandler<CEnum>
 {
     public EnumExplorer(ILogger<EnumExplorer> logger)
         : base(logger, false)

@@ -7,7 +7,7 @@ using static bottlenoselabs.clang;
 
 namespace C2CS.ReadCodeC.Explore.Handlers;
 
-public sealed class ArrayExplorer : ExploreHandler<CArray>
+public sealed class ArrayExplorer : ExploreNodeHandler<CArray>
 {
     public ArrayExplorer(ILogger<ArrayExplorer> logger)
         : base(logger, false)

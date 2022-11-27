@@ -7,10 +7,10 @@ using static bottlenoselabs.clang;
 
 namespace C2CS.ReadCodeC.Explore;
 
-public abstract class ExploreHandler<TNode> : ExploreHandler
+public abstract class ExploreNodeHandler<TNode> : ExploreHandler
     where TNode : CNode
 {
-    protected ExploreHandler(ILogger<ExploreHandler<TNode>> logger, bool logAlreadyExplored = true)
+    protected ExploreNodeHandler(ILogger<ExploreNodeHandler<TNode>> logger, bool logAlreadyExplored = true)
         : base(logger, logAlreadyExplored)
     {
     }
@@ -81,27 +81,6 @@ public abstract partial class ExploreHandler
 
         MarkAsVisited(info);
         return true;
-    }
-
-    internal bool IsBlocked(
-        ExploreContext context,
-        CKind kind,
-        string name,
-        CXCursor cursor,
-        CXType type,
-        ExploreInfoNode? parentInfo)
-    {
-        if (!context.IsAllowed(kind, name, cursor, type))
-        {
-            return true;
-        }
-
-        if (!CanVisit(context, name, parentInfo))
-        {
-            return true;
-        }
-
-        return false;
     }
 
     protected virtual bool CanVisit(ExploreContext context, string name, ExploreInfoNode? parentInfo)

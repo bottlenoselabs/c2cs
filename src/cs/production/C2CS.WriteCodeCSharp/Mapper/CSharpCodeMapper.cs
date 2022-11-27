@@ -25,7 +25,7 @@ public sealed class CSharpCodeMapper
         var userAliases = new Dictionary<string, string>();
         var builtinAliases = new HashSet<string>();
 
-        foreach (var typeAlias in options.TypeAliases)
+        foreach (var typeAlias in options.TypeRenames)
         {
             if (string.IsNullOrEmpty(typeAlias.Source) || string.IsNullOrEmpty(typeAlias.Target))
             {
@@ -74,11 +74,11 @@ public sealed class CSharpCodeMapper
         var functions = ImmutableArray.CreateBuilder<CSharpFunction>();
         var functionPointers = ImmutableArray.CreateBuilder<CSharpFunctionPointer>();
         var structs = ImmutableArray.CreateBuilder<CSharpStruct>();
-        var aliasStructs = ImmutableArray.CreateBuilder<CSharpAliasStruct>();
-        var opaqueStructs = ImmutableArray.CreateBuilder<CSharpOpaqueStruct>();
+        var aliasStructs = ImmutableArray.CreateBuilder<CSharpAliasType>();
+        var opaqueStructs = ImmutableArray.CreateBuilder<CSharpOpaqueType>();
         var enums = ImmutableArray.CreateBuilder<CSharpEnum>();
         var macroObjects = ImmutableArray.CreateBuilder<CSharpMacroObject>();
-        var enumConstants = ImmutableArray.CreateBuilder<CSharpEnumConstant>();
+        var enumConstants = ImmutableArray.CreateBuilder<CSharpConstant>();
 
         foreach (var platformCandidateNodes in platformsCandidateNodes)
         {
@@ -94,10 +94,10 @@ public sealed class CSharpCodeMapper
                 case CSharpStruct @struct:
                     structs.Add(@struct);
                     break;
-                case CSharpAliasStruct aliasStruct:
+                case CSharpAliasType aliasStruct:
                     aliasStructs.Add(aliasStruct);
                     break;
-                case CSharpOpaqueStruct opaqueStruct:
+                case CSharpOpaqueType opaqueStruct:
                     opaqueStructs.Add(opaqueStruct);
                     break;
                 case CSharpEnum @enum:
@@ -106,7 +106,7 @@ public sealed class CSharpCodeMapper
                 case CSharpMacroObject macroObject:
                     macroObjects.Add(macroObject);
                     break;
-                case CSharpEnumConstant enumConstant:
+                case CSharpConstant enumConstant:
                     enumConstants.Add(enumConstant);
                     break;
             }
@@ -130,7 +130,7 @@ public sealed class CSharpCodeMapper
             OpaqueStructs = opaqueStructs.ToImmutable(),
             Enums = enums.ToImmutable(),
             MacroObjects = macroObjects.ToImmutable(),
-            EnumConstants = enumConstants.ToImmutable()
+            Constants = enumConstants.ToImmutable()
         };
 
         return ast;
@@ -192,15 +192,15 @@ public sealed class CSharpCodeMapper
                 return MergeFunctionPointer(nodes, platforms, attributes);
             case CSharpStruct:
                 return MergeStruct(nodes, platforms, attributes);
-            case CSharpAliasStruct:
+            case CSharpAliasType:
                 return MergeAliasStruct(nodes, platforms, attributes);
-            case CSharpOpaqueStruct:
+            case CSharpOpaqueType:
                 return MergeOpaqueStruct(nodes, platforms, attributes);
             case CSharpEnum:
                 return MergeEnum(nodes, platforms, attributes);
             case CSharpMacroObject:
                 return MergeMacroObject(nodes, platforms, attributes);
-            case CSharpEnumConstant:
+            case CSharpConstant:
                 return MergeEnumConstant(nodes, platforms, attributes);
             default:
                 throw new NotImplementedException();
@@ -220,7 +220,7 @@ public sealed class CSharpCodeMapper
             node.CCodeLocation,
             node.SizeOf,
             node.CallingConvention,
-            node.ReturnType,
+            node.ReturnTypeInfo,
             node.Parameters,
             attributes);
         return mergedNode;
@@ -238,7 +238,7 @@ public sealed class CSharpCodeMapper
             node.CKind,
             node.CCodeLocation,
             node.SizeOf,
-            node.ReturnType,
+            node.ReturnTypeInfo,
             node.Parameters,
             attributes);
         return newNode;
@@ -263,30 +263,30 @@ public sealed class CSharpCodeMapper
         return newNode;
     }
 
-    private CSharpAliasStruct MergeAliasStruct(
+    private CSharpAliasType MergeAliasStruct(
         ImmutableArray<PlatformCandidateNode> nodes,
         ImmutableArray<TargetPlatform> platforms,
         ImmutableArray<Attribute> attributes)
     {
-        var node = (CSharpAliasStruct)nodes.First().CSharpNode;
-        var newNode = new CSharpAliasStruct(
+        var node = (CSharpAliasType)nodes.First().CSharpNode;
+        var newNode = new CSharpAliasType(
             platforms,
             node.Name,
             node.CKind,
             node.CCodeLocation,
             node.SizeOf,
-            node.UnderlyingType,
+            node.UnderlyingTypeInfo,
             attributes);
         return newNode;
     }
 
-    private CSharpOpaqueStruct MergeOpaqueStruct(
+    private CSharpOpaqueType MergeOpaqueStruct(
         ImmutableArray<PlatformCandidateNode> nodes,
         ImmutableArray<TargetPlatform> platforms,
         ImmutableArray<Attribute> attributes)
     {
-        var node = (CSharpOpaqueStruct)nodes.First().CSharpNode;
-        var newNode = new CSharpOpaqueStruct(
+        var node = (CSharpOpaqueType)nodes.First().CSharpNode;
+        var newNode = new CSharpOpaqueType(
             platforms,
             node.Name,
             node.CKind,
@@ -306,7 +306,7 @@ public sealed class CSharpCodeMapper
             node.Name,
             node.CKind,
             node.CCodeLocation,
-            node.IntegerType,
+            node.IntegerTypeInfo,
             node.Values,
             attributes);
         return newNode;
@@ -331,13 +331,13 @@ public sealed class CSharpCodeMapper
         return newNode;
     }
 
-    private CSharpEnumConstant MergeEnumConstant(
+    private CSharpConstant MergeEnumConstant(
         ImmutableArray<PlatformCandidateNode> nodes,
         ImmutableArray<TargetPlatform> platforms,
         ImmutableArray<Attribute> attributes)
     {
-        var node = (CSharpEnumConstant)nodes.First().CSharpNode;
-        var newNode = new CSharpEnumConstant(
+        var node = (CSharpConstant)nodes.First().CSharpNode;
+        var newNode = new CSharpConstant(
             platforms,
             node.Name,
             node.CKind,
@@ -462,7 +462,7 @@ public sealed class CSharpCodeMapper
 
     private void AddCandidateAliasStructs(
         TargetPlatform platform,
-        ImmutableArray<CSharpAliasStruct> aliasStructs,
+        ImmutableArray<CSharpAliasType> aliasStructs,
         ImmutableDictionary<string, ImmutableArray<PlatformCandidateNode>.Builder>.Builder builder)
     {
         foreach (var value in aliasStructs)
@@ -473,7 +473,7 @@ public sealed class CSharpCodeMapper
 
     private void AddCandidateOpaqueStructs(
         TargetPlatform platform,
-        ImmutableArray<CSharpOpaqueStruct> opaqueDataTypes,
+        ImmutableArray<CSharpOpaqueType> opaqueDataTypes,
         ImmutableDictionary<string, ImmutableArray<PlatformCandidateNode>.Builder>.Builder builder)
     {
         foreach (var value in opaqueDataTypes)
@@ -506,7 +506,7 @@ public sealed class CSharpCodeMapper
 
     private void AddCandidateEnumConstants(
         TargetPlatform platform,
-        ImmutableArray<CSharpEnumConstant> enumConstants,
+        ImmutableArray<CSharpConstant> enumConstants,
         ImmutableDictionary<string, ImmutableArray<PlatformCandidateNode>.Builder>.Builder builder)
     {
         foreach (var value in enumConstants)
@@ -729,12 +729,12 @@ public sealed class CSharpCodeMapper
         return result;
     }
 
-    private ImmutableArray<CSharpFunctionPointerParameter> FunctionPointerParameters(
+    private ImmutableArray<CSharpParameter> FunctionPointerParameters(
         CSharpCodeMapperContext context,
         ImmutableArray<CFunctionPointerParameter> functionPointerParameters)
     {
         var builder =
-            ImmutableArray.CreateBuilder<CSharpFunctionPointerParameter>(functionPointerParameters.Length);
+            ImmutableArray.CreateBuilder<CSharpParameter>(functionPointerParameters.Length);
         var parameterNames = new List<string>();
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
@@ -751,7 +751,7 @@ public sealed class CSharpCodeMapper
         return result;
     }
 
-    private CSharpFunctionPointerParameter FunctionPointerParameter(
+    private CSharpParameter FunctionPointerParameter(
         CSharpCodeMapperContext context,
         CFunctionPointerParameter functionPointerParameter,
         string parameterName)
@@ -765,7 +765,7 @@ public sealed class CSharpCodeMapper
 
         var attributes = ImmutableArray<Attribute>.Empty;
 
-        var result = new CSharpFunctionPointerParameter(
+        var result = new CSharpParameter(
             ImmutableArray.Create(context.Platform),
             name,
             cKindString,
@@ -880,21 +880,21 @@ public sealed class CSharpCodeMapper
         var codeLocationComment = CCodeLocation(field);
         var typeC = field.TypeInfo;
 
-        CSharpType typeCSharp;
+        CSharpTypeInfo typeInfoCSharp;
         if (typeC.Kind == CKind.FunctionPointer)
         {
             var functionPointer = context.FunctionPointers[typeC.Name];
             var functionPointerName = TypeNameCSharpFunctionPointer(context, typeC.Name, functionPointer);
-            typeCSharp = TypeCSharp(functionPointerName, typeC);
+            typeInfoCSharp = TypeCSharp(functionPointerName, typeC);
         }
         else
         {
             var nameCSharp = TypeNameCSharp(context, typeC);
-            typeCSharp = TypeCSharp(nameCSharp, typeC);
+            typeInfoCSharp = TypeCSharp(nameCSharp, typeC);
         }
 
         var offsetOf = field.OffsetOf;
-        var isWrapped = typeCSharp.IsArray && !IsValidFixedBufferType(typeCSharp.Name);
+        var isWrapped = typeInfoCSharp.IsArray && !IsValidFixedBufferType(typeInfoCSharp.Name);
 
         var attributes = ImmutableArray<Attribute>.Empty;
 
@@ -904,7 +904,7 @@ public sealed class CSharpCodeMapper
             cKindString,
             codeLocationComment,
             typeC.SizeOf,
-            typeCSharp,
+            typeInfoCSharp,
             offsetOf,
             isWrapped,
             attributes);
@@ -912,11 +912,11 @@ public sealed class CSharpCodeMapper
         return result;
     }
 
-    private ImmutableArray<CSharpOpaqueStruct> OpaqueStructs(
+    private ImmutableArray<CSharpOpaqueType> OpaqueStructs(
         CSharpCodeMapperContext context,
         ImmutableArray<COpaqueType> opaqueDataTypes)
     {
-        var builder = ImmutableArray.CreateBuilder<CSharpOpaqueStruct>(opaqueDataTypes.Length);
+        var builder = ImmutableArray.CreateBuilder<CSharpOpaqueType>(opaqueDataTypes.Length);
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var opaqueDataTypeC in opaqueDataTypes)
@@ -935,7 +935,7 @@ public sealed class CSharpCodeMapper
         return result;
     }
 
-    private CSharpOpaqueStruct OpaqueDataStruct(
+    private CSharpOpaqueType OpaqueDataStruct(
         CSharpCodeMapperContext context,
         COpaqueType opaqueType)
     {
@@ -945,7 +945,7 @@ public sealed class CSharpCodeMapper
 
         var attributes = ImmutableArray<Attribute>.Empty;
 
-        var opaqueTypeCSharp = new CSharpOpaqueStruct(
+        var opaqueTypeCSharp = new CSharpOpaqueType(
             ImmutableArray.Create(context.Platform),
             nameCSharp,
             cKindString,
@@ -955,11 +955,11 @@ public sealed class CSharpCodeMapper
         return opaqueTypeCSharp;
     }
 
-    private ImmutableArray<CSharpAliasStruct> AliasStructs(
+    private ImmutableArray<CSharpAliasType> AliasStructs(
         CSharpCodeMapperContext context,
         ImmutableArray<CTypeAlias> typedefs)
     {
-        var builder = ImmutableArray.CreateBuilder<CSharpAliasStruct>(typedefs.Length);
+        var builder = ImmutableArray.CreateBuilder<CSharpAliasType>(typedefs.Length);
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var typedef in typedefs)
@@ -983,7 +983,7 @@ public sealed class CSharpCodeMapper
         return result;
     }
 
-    private CSharpAliasStruct AliasStruct(
+    private CSharpAliasType AliasStruct(
         CSharpCodeMapperContext context,
         CTypeAlias typeAlias)
     {
@@ -997,7 +997,7 @@ public sealed class CSharpCodeMapper
 
         var attributes = ImmutableArray<Attribute>.Empty;
 
-        var result = new CSharpAliasStruct(
+        var result = new CSharpAliasType(
             ImmutableArray.Create(context.Platform),
             name,
             cKindString,
@@ -1153,11 +1153,11 @@ public sealed class CSharpCodeMapper
         return result;
     }
 
-    private ImmutableArray<CSharpEnumConstant> EnumConstants(
+    private ImmutableArray<CSharpConstant> EnumConstants(
         CSharpCodeMapperContext context,
         ImmutableArray<CEnumConstant> enumConstants)
     {
-        var builder = ImmutableArray.CreateBuilder<CSharpEnumConstant>(enumConstants.Length);
+        var builder = ImmutableArray.CreateBuilder<CSharpConstant>(enumConstants.Length);
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var enumConstant in enumConstants)
@@ -1175,7 +1175,7 @@ public sealed class CSharpCodeMapper
         return result;
     }
 
-    private CSharpEnumConstant EnumConstant(CSharpCodeMapperContext context, CEnumConstant enumConstant)
+    private CSharpConstant EnumConstant(CSharpCodeMapperContext context, CEnumConstant enumConstant)
     {
         var cKindString = CKindString(enumConstant);
         var cCodeLocation = CCodeLocation(enumConstant);
@@ -1183,7 +1183,7 @@ public sealed class CSharpCodeMapper
 
         var attributes = ImmutableArray<Attribute>.Empty;
 
-        var result = new CSharpEnumConstant(
+        var result = new CSharpConstant(
             ImmutableArray.Create(context.Platform),
             enumConstant.Name,
             cKindString,
@@ -1195,15 +1195,23 @@ public sealed class CSharpCodeMapper
         return result;
     }
 
-    private CSharpType TypeCSharp(string nameCSharp, CTypeInfo typeInfo)
+    private CSharpTypeInfo TypeCSharp(string nameCSharp, CTypeInfo typeInfo)
     {
-        var result = new CSharpType
+        var attributesBuilder = ImmutableArray.CreateBuilder<Attribute>();
+        if (typeInfo.IsConst)
+        {
+            var constAttribute = new CConstAttribute();
+            attributesBuilder.Add(constAttribute);
+        }
+
+        var result = new CSharpTypeInfo
         {
             Name = nameCSharp,
             OriginalName = typeInfo.Name,
             SizeOf = typeInfo.SizeOf,
             AlignOf = typeInfo.AlignOf,
-            ArraySizeOf = typeInfo.ArraySizeOf
+            ArraySizeOf = typeInfo.ArraySizeOf,
+            Attributes = attributesBuilder.ToImmutable()
         };
 
         return result;
@@ -1220,23 +1228,33 @@ public sealed class CSharpCodeMapper
             return TypeNameCSharpFunctionPointer(context, typeInfo.Name, functionPointer);
         }
 
-        string result;
+        var typeName = typeInfo.Name;
+        if (typeName.Contains("const ", StringComparison.InvariantCulture))
+        {
+            typeName = typeName.Replace("const ", string.Empty, StringComparison.InvariantCulture);
+        }
+
+        if (typeName.Contains("*const", StringComparison.InvariantCulture))
+        {
+            typeName = typeName.Replace("*const", "*", StringComparison.InvariantCulture);
+        }
+
         if (typeInfo.Kind is CKind.Pointer or CKind.Array)
         {
-            result = TypeNameCSharpPointer(typeInfo.Name, typeInfo.InnerTypeInfo!);
+            typeName = TypeNameCSharpPointer(typeName, typeInfo.InnerTypeInfo!);
         }
         else
         {
-            result = TypeNameCSharpRaw(typeInfo.Name, typeInfo.SizeOf, forceUnsigned);
+            typeName = TypeNameCSharpRaw(typeName, typeInfo.SizeOf, forceUnsigned);
         }
 
         // TODO: https://github.com/lithiumtoast/c2cs/issues/15
-        if (result == "va_list")
+        if (typeName == "va_list")
         {
-            result = "nint";
+            typeName = "nint";
         }
 
-        return result;
+        return typeName;
     }
 
     private string TypeNameCSharpFunctionPointer(

@@ -10,7 +10,7 @@ using static bottlenoselabs.clang;
 namespace C2CS.ReadCodeC.Explore.Handlers;
 
 [UsedImplicitly]
-public sealed class FunctionExplorer : ExploreHandler<CFunction>
+public sealed class FunctionExplorer : ExploreNodeHandler<CFunction>
 {
     public FunctionExplorer(ILogger<FunctionExplorer> logger)
         : base(logger, false)

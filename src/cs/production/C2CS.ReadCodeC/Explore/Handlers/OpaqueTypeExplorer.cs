@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.ReadCodeC.Explore.Handlers;
 
 [UsedImplicitly]
-public sealed class OpaqueTypeExplorer : ExploreHandler<COpaqueType>
+public sealed class OpaqueTypeExplorer : ExploreNodeHandler<COpaqueType>
 {
     public OpaqueTypeExplorer(ILogger<OpaqueTypeExplorer> logger)
         : base(logger, false)

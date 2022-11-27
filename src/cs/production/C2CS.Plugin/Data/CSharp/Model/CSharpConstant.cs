@@ -5,13 +5,13 @@ using System.Collections.Immutable;
 
 namespace C2CS.Data.CSharp.Model;
 
-public sealed class CSharpEnumConstant : CSharpNode
+public sealed class CSharpConstant : CSharpNode
 {
     public readonly string Type;
 
     public readonly string Value;
 
-    public CSharpEnumConstant(
+    public CSharpConstant(
         ImmutableArray<TargetPlatform> platforms,
         string name,
         string cKind,
@@ -28,7 +28,7 @@ public sealed class CSharpEnumConstant : CSharpNode
 
     public override bool Equals(CSharpNode? other)
     {
-        if (!base.Equals(other) || other is not CSharpEnumConstant other2)
+        if (!base.Equals(other) || other is not CSharpConstant other2)
         {
             return false;
         }

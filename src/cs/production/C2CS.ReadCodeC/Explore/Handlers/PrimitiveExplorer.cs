@@ -9,7 +9,7 @@ using static bottlenoselabs.clang;
 namespace C2CS.ReadCodeC.Explore.Handlers;
 
 [UsedImplicitly]
-public sealed class PrimitiveExplorer : ExploreHandler<CPrimitive>
+public sealed class PrimitiveExplorer : ExploreNodeHandler<CPrimitive>
 {
     public PrimitiveExplorer(ILogger<PrimitiveExplorer> logger)
         : base(logger, false)

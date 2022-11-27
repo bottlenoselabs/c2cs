@@ -7,9 +7,9 @@ namespace C2CS.Data.CSharp.Model;
 
 public sealed class CSharpFunctionPointer : CSharpNode
 {
-    public readonly ImmutableArray<CSharpFunctionPointerParameter> Parameters;
+    public readonly ImmutableArray<CSharpParameter> Parameters;
 
-    public readonly CSharpType ReturnType;
+    public readonly CSharpTypeInfo ReturnTypeInfo;
 
     public CSharpFunctionPointer(
         ImmutableArray<TargetPlatform> platforms,
@@ -17,13 +17,13 @@ public sealed class CSharpFunctionPointer : CSharpNode
         string cKind,
         string cCodeLocation,
         int? sizeOf,
-        CSharpType returnType,
-        ImmutableArray<CSharpFunctionPointerParameter> parameters,
+        CSharpTypeInfo returnTypeInfo,
+        ImmutableArray<CSharpParameter> parameters,
         ImmutableArray<Attribute> attributes)
         : base(platforms, name, cKind, cCodeLocation, sizeOf, attributes)
     {
         Parameters = parameters;
-        ReturnType = returnType;
+        ReturnTypeInfo = returnTypeInfo;
     }
 
     public override bool Equals(CSharpNode? other)
@@ -33,7 +33,7 @@ public sealed class CSharpFunctionPointer : CSharpNode
             return false;
         }
 
-        return ReturnType == other2.ReturnType &&
+        return ReturnTypeInfo == other2.ReturnTypeInfo &&
                Parameters.SequenceEqual(other2.Parameters);
     }
 
@@ -41,7 +41,7 @@ public sealed class CSharpFunctionPointer : CSharpNode
     {
         var baseHashCode = base.GetHashCode();
         var parametersHashCode = Parameters.GetHashCodeMembers();
-        var hashCode = HashCode.Combine(baseHashCode, ReturnType, parametersHashCode);
+        var hashCode = HashCode.Combine(baseHashCode, ReturnTypeInfo, parametersHashCode);
         return hashCode;
     }
 }

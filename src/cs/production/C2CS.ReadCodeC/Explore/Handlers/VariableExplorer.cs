@@ -9,7 +9,7 @@ using static bottlenoselabs.clang;
 namespace C2CS.ReadCodeC.Explore.Handlers;
 
 [UsedImplicitly]
-public sealed class VariableExplorer : ExploreHandler<CVariable>
+public sealed class VariableExplorer : ExploreNodeHandler<CVariable>
 {
     public VariableExplorer(ILogger<VariableExplorer> logger)
         : base(logger, false)
