@@ -5,7 +5,7 @@
   "parameters": [
     {
       "name": "s",
-      "type_name": "char*"
+      "type_name": "const char*"
     }
   ]
 }

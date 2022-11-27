@@ -5,7 +5,7 @@
   "parameters": [
     {
       "name": "",
-      "type_name": "int*"
+      "type_name": "const int*"
     }
   ]
 }
