@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 namespace C2CS.Data.CSharp.Model;
 
 // NOTE: Properties are required for System.Text.Json serialization
-public sealed class CSharpTypeAlias
+public sealed class CSharpTypeRename
 {
     [JsonPropertyName("source")]
     public string Source { get; set; } = string.Empty;

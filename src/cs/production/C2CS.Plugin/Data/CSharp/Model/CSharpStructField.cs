@@ -10,7 +10,7 @@ public sealed class CSharpStructField : CSharpNode
     public readonly string BackingFieldName;
     public readonly bool IsWrapped;
     public readonly int OffsetOf;
-    public readonly CSharpType Type;
+    public readonly CSharpTypeInfo TypeInfo;
 
     public CSharpStructField(
         ImmutableArray<TargetPlatform> platforms,
@@ -18,13 +18,13 @@ public sealed class CSharpStructField : CSharpNode
         string cKind,
         string cCodeLocation,
         int? sizeOf,
-        CSharpType type,
+        CSharpTypeInfo typeInfo,
         int offsetOf,
         bool isWrapped,
         ImmutableArray<Attribute> attributes)
         : base(platforms, name, cKind, cCodeLocation, sizeOf, attributes)
     {
-        Type = type;
+        TypeInfo = typeInfo;
         OffsetOf = offsetOf;
         IsWrapped = isWrapped;
         BackingFieldName = name.StartsWith("@", StringComparison.InvariantCulture) ? $"_{name[1..]}" : $"_{name}";
@@ -40,13 +40,13 @@ public sealed class CSharpStructField : CSharpNode
         return BackingFieldName == other2.BackingFieldName &&
                IsWrapped == other2.IsWrapped &&
                OffsetOf == other2.OffsetOf &&
-               Type == other2.Type;
+               TypeInfo == other2.TypeInfo;
     }
 
     public override int GetHashCode()
     {
         var baseHashCOde = base.GetHashCode();
-        var hashCode = HashCode.Combine(baseHashCOde, BackingFieldName, IsWrapped, OffsetOf, Type);
+        var hashCode = HashCode.Combine(baseHashCOde, BackingFieldName, IsWrapped, OffsetOf, TypeInfo);
         return hashCode;
     }
 }

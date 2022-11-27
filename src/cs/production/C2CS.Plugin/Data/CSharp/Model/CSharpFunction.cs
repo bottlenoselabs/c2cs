@@ -11,7 +11,7 @@ public sealed class CSharpFunction : CSharpNode
 
     public readonly ImmutableArray<CSharpFunctionParameter> Parameters;
 
-    public readonly CSharpType ReturnType;
+    public readonly CSharpTypeInfo ReturnTypeInfo;
 
     public CSharpFunction(
         ImmutableArray<TargetPlatform> platforms,
@@ -20,13 +20,13 @@ public sealed class CSharpFunction : CSharpNode
         string cCodeLocation,
         int? sizeOf,
         CSharpFunctionCallingConvention callingConvention,
-        CSharpType returnType,
+        CSharpTypeInfo returnTypeInfo,
         ImmutableArray<CSharpFunctionParameter> parameters,
         ImmutableArray<Attribute> attributes)
         : base(platforms, name, cKind, cCodeLocation, sizeOf, attributes)
     {
         CallingConvention = callingConvention;
-        ReturnType = returnType;
+        ReturnTypeInfo = returnTypeInfo;
         Parameters = parameters;
     }
 
@@ -38,7 +38,7 @@ public sealed class CSharpFunction : CSharpNode
         }
 
         var result = CallingConvention == other2.CallingConvention &&
-                     ReturnType == other2.ReturnType &&
+                     ReturnTypeInfo == other2.ReturnTypeInfo &&
                      Parameters.SequenceEqual(other2.Parameters);
 
         return result;
@@ -48,7 +48,7 @@ public sealed class CSharpFunction : CSharpNode
     {
         var baseHashCode = base.GetHashCode();
         var parameters = Parameters.GetHashCodeMembers();
-        var hashCode = HashCode.Combine(baseHashCode, CallingConvention, ReturnType, parameters);
+        var hashCode = HashCode.Combine(baseHashCode, CallingConvention, ReturnTypeInfo, parameters);
         return hashCode;
     }
 }

@@ -13,7 +13,7 @@ public sealed class CSharpCodeMapperOptions
         SystemTypeAliases = GetSystemTypeNameAliases().ToImmutableDictionary();
     }
 
-    public ImmutableArray<CSharpTypeAlias> TypeAliases { get; init; }
+    public ImmutableArray<CSharpTypeRename> TypeRenames { get; init; }
 
     public ImmutableArray<string> IgnoredNames { get; init; }
 
@@ -26,71 +26,71 @@ public sealed class CSharpCodeMapperOptions
         return aliases;
     }
 
-    private static void AddSystemTypes(IDictionary<string, string> aliases)
+    private static void AddSystemTypes(IDictionary<string, string> renames)
     {
-        AddSystemTypesWindows(aliases);
+        AddSystemTypesWindows(renames);
         // AddSystemTypesLinux(aliases);
-        AddSystemTypesDarwin(aliases);
+        AddSystemTypesDarwin(renames);
     }
 
-    private static void AddSystemTypesDarwin(IDictionary<string, string> aliases)
+    private static void AddSystemTypesDarwin(IDictionary<string, string> renames)
     {
-        aliases.Add("UInt8", "byte");
-        aliases.Add("SInt8", "sbyte");
-        aliases.Add("UInt16", "ushort");
-        aliases.Add("SInt16", "short");
-        aliases.Add("UInt32", "uint");
-        aliases.Add("SInt32", "int");
-        aliases.Add("UInt64", "ulong");
-        aliases.Add("SInt64", "long");
-        aliases.Add("Boolean", "CBool");
+        renames.Add("UInt8", "byte");
+        renames.Add("SInt8", "sbyte");
+        renames.Add("UInt16", "ushort");
+        renames.Add("SInt16", "short");
+        renames.Add("UInt32", "uint");
+        renames.Add("SInt32", "int");
+        renames.Add("UInt64", "ulong");
+        renames.Add("SInt64", "long");
+        renames.Add("Boolean", "CBool");
     }
 
-    private static void AddSystemTypesWindows(IDictionary<string, string> aliases)
+    private static void AddSystemTypesWindows(IDictionary<string, string> renames)
     {
-        aliases.Add("BOOL", "int"); // A int boolean
-        aliases.Add("BOOLEAN", "CBool"); // A byte boolean
-        aliases.Add("BYTE", "byte"); // An unsigned char (8-bits)
-        aliases.Add("CCHAR", "byte"); // An 8-bit ANSI char
-        aliases.Add("CHAR", "byte"); // An 8-bit ANSI char
+        renames.Add("BOOL", "int"); // A int boolean
+        renames.Add("BOOLEAN", "CBool"); // A byte boolean
+        renames.Add("BYTE", "byte"); // An unsigned char (8-bits)
+        renames.Add("CCHAR", "byte"); // An 8-bit ANSI char
+        renames.Add("CHAR", "byte"); // An 8-bit ANSI char
 
         // Unsigned integers
-        aliases.Add("UINT8", "byte");
-        aliases.Add("UINT16", "ushort");
-        aliases.Add("UINT32", "uint");
-        aliases.Add("UINT64", "ulong");
-        aliases.Add("DWORD", "uint");
-        aliases.Add("ULONG", "uint");
-        aliases.Add("UINT", "uint");
-        aliases.Add("ULONGLONG", "ulong");
+        renames.Add("UINT8", "byte");
+        renames.Add("UINT16", "ushort");
+        renames.Add("UINT32", "uint");
+        renames.Add("UINT64", "ulong");
+        renames.Add("DWORD", "uint");
+        renames.Add("ULONG", "uint");
+        renames.Add("UINT", "uint");
+        renames.Add("ULONGLONG", "ulong");
 
         // Signed integers
-        aliases.Add("INT8", "sbyte");
-        aliases.Add("INT16", "short");
-        aliases.Add("INT32", "int");
-        aliases.Add("INT64", "long");
-        aliases.Add("LONG", "int");
-        aliases.Add("INT", "int");
-        aliases.Add("LONGLONG", "long");
+        renames.Add("INT8", "sbyte");
+        renames.Add("INT16", "short");
+        renames.Add("INT32", "int");
+        renames.Add("INT64", "long");
+        renames.Add("LONG", "int");
+        renames.Add("INT", "int");
+        renames.Add("LONGLONG", "long");
 
         // 32 bits on 32-bit machine, 64-bits on 64-bit machine
-        aliases.Add("LONG_PTR", "nint");
-        aliases.Add("ULONG_PTR", "nint");
-        aliases.Add("UINT_PTR", "nint");
-        aliases.Add("INT_PTR", "nint");
+        renames.Add("LONG_PTR", "nint");
+        renames.Add("ULONG_PTR", "nint");
+        renames.Add("UINT_PTR", "nint");
+        renames.Add("INT_PTR", "nint");
 
         // Parameters
-        aliases.Add("LPARAM", "nint"); // A message parameter (LONG_PTR)
-        aliases.Add("WPARAM", "nint"); // A message parameter (UINT_PTR)
+        renames.Add("LPARAM", "nint"); // A message parameter (LONG_PTR)
+        renames.Add("WPARAM", "nint"); // A message parameter (UINT_PTR)
 
         // Pointers
-        aliases.Add("LPVOID", "nint"); // A pointer to any type
-        aliases.Add("LPINT", "nint"); // A pointer to an INT
+        renames.Add("LPVOID", "nint"); // A pointer to any type
+        renames.Add("LPINT", "nint"); // A pointer to an INT
 
         // Handles
-        aliases.Add("HANDLE", "nint"); // A handle to an object
-        aliases.Add("HINSTANCE", "nint"); // A handle to an instance
-        aliases.Add("HWND", "nint"); // A handle to a window
-        aliases.Add("SOCKET", "nint"); // A handle to a socket
+        renames.Add("HANDLE", "nint"); // A handle to an object
+        renames.Add("HINSTANCE", "nint"); // A handle to an instance
+        renames.Add("HWND", "nint"); // A handle to a window
+        renames.Add("SOCKET", "nint"); // A handle to a socket
     }
 }

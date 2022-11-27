@@ -5,32 +5,37 @@ using System.Collections.Immutable;
 
 namespace C2CS.Data.CSharp.Model;
 
-public sealed class CSharpOpaqueStruct : CSharpNode
+public sealed class CSharpAliasType : CSharpNode
 {
-    public CSharpOpaqueStruct(
+    public readonly CSharpTypeInfo UnderlyingTypeInfo;
+
+    public CSharpAliasType(
         ImmutableArray<TargetPlatform> platforms,
         string name,
         string cKind,
         string cCodeLocation,
+        int? sizeOf,
+        CSharpTypeInfo underlyingTypeInfo,
         ImmutableArray<Attribute> attributes)
-        : base(platforms, name, cKind, cCodeLocation, null, attributes)
+        : base(platforms, name, cKind, cCodeLocation, sizeOf, attributes)
     {
+        UnderlyingTypeInfo = underlyingTypeInfo;
     }
 
     public override bool Equals(CSharpNode? other)
     {
-        if (!base.Equals(other) || other is not CSharpOpaqueStruct)
+        if (!base.Equals(other) || other is not CSharpAliasType other2)
         {
             return false;
         }
 
-        return true;
+        return UnderlyingTypeInfo == other2.UnderlyingTypeInfo;
     }
 
     public override int GetHashCode()
     {
         var baseHashCode = base.GetHashCode();
-        var hashCode = HashCode.Combine(baseHashCode);
+        var hashCode = HashCode.Combine(baseHashCode, UnderlyingTypeInfo);
         return hashCode;
     }
 }

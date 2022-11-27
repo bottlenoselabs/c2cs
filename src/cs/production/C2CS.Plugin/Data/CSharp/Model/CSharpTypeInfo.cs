@@ -1,9 +1,11 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System.Collections.Immutable;
+
 namespace C2CS.Data.CSharp.Model;
 
-public sealed class CSharpType : IEquatable<CSharpType>
+public sealed class CSharpTypeInfo : IEquatable<CSharpTypeInfo>
 {
     public string Name { get; init; } = string.Empty;
 
@@ -17,7 +19,9 @@ public sealed class CSharpType : IEquatable<CSharpType>
 
     public bool IsArray => ArraySizeOf > 0;
 
-    public bool Equals(CSharpType? other)
+    public ImmutableArray<Attribute> Attributes { get; init; }
+
+    public bool Equals(CSharpTypeInfo? other)
     {
         if (ReferenceEquals(null, other))
         {
@@ -43,10 +47,10 @@ public sealed class CSharpType : IEquatable<CSharpType>
 
     public override bool Equals(object? obj)
     {
-        return Equals(obj as CSharpType);
+        return Equals(obj as CSharpTypeInfo);
     }
 
-    public static bool operator ==(CSharpType? a, CSharpType? b)
+    public static bool operator ==(CSharpTypeInfo? a, CSharpTypeInfo? b)
     {
         if (a is null)
         {
@@ -61,7 +65,7 @@ public sealed class CSharpType : IEquatable<CSharpType>
         return a.Equals(b);
     }
 
-    public static bool operator !=(CSharpType? a, CSharpType? b) => !(a == b);
+    public static bool operator !=(CSharpTypeInfo? a, CSharpTypeInfo? b) => !(a == b);
 
     public override int GetHashCode()
     {

@@ -37,13 +37,13 @@ See [LESSONS-LEARNED.md](./LESSONS-LEARNED.md).
 ### Latest release
 
 ```bash
-dotnet tool install bottlenoselabs.c2cs --global 
+dotnet tool install bottlenoselabs.c2cs.tool --global 
 ```
 
 ### Latest pre-release
 
 ```bash
-dotnet tool install bottlenoselabs.c2cs --global --add-source https://www.myget.org/F/bottlenoselabs/api/v3/index.json --version "*-*"
+dotnet tool install bottlenoselabs.c2cs.tool --global --add-source https://www.myget.org/F/bottlenoselabs/api/v3/index.json --version "*-*"
 ```
 
 - 💡 For a specific pre-release, including a specific pull-request or the latest Git commit of the `main` branch, see: https://www.myget.org/feed/bottlenoselabs/package/nuget/bottlenoselabs.C2CS.
@@ -54,115 +54,25 @@ dotnet nuget locals all --clear
 
 ## How to use `C2CS`
 
-To generate bindings for a C library you need to use a configuration `.json` file which specifies the input to `C2CS`. See the next sub-section below for documention on each property. See the [Hello World `config.json` file](src/cs/examples/helloworld/helloworld-c/config.json) for an example with annotated comments.
+To generate bindings for a C library you need to setup a C# project library plugin which specifies input and controls bindgen. See the [helloworld-bindgen-plugin.csproj](../src/cs/examples/helloworld/helloworld-bindgen-plugin/helloworld-bindgen-plugin.csproj) for an example.
 
-```json
-{
-  "$schema": "https://github.com/bottlenoselabs/c2cs/schema.json",
-  "directory": "path/to/my_c_library/ast",
-  "c": {
-    "input_file": "path/to/my_c_library/include/my_c_library.h"
-  },
-  "cs": {
-    "output_file": "path/to/my_c_library/cs/my_c_library.cs"
-  }
-}
-```
+### Build your plugin
 
-By default running `c2cs` via terminal will search for a `config.json` file in the current directory. If you want to use a specific `.json` file, specify the file path as the first argument: `c2cs -c myConfig.json`.
+Build a C# library plugin and drop its binary output folder into a `plugins` directory of where you wish to execute `c2cs` from. In other words, if the current directory where you execute `c2cs` from is `.`, you need to have a directory `./plugins`. See the below image as an example.
 
-### Configuration `.json` properties
+![hello-world-plugin](./images/1.png)
 
-The configuration properties are documented in the schema file: https://github.com/bottlenoselabs/c2cs/schema.json. By adding the schema to your JSON file, as seen in the example above, you can get intellisense in Visual Studio Code or your text editor of choice.
+Note that `.deps.json` file is required as it is used to know of dependencies to resolve and load when the plugin is loaded itself. Additionally the property `EnableDynamicLoading` must be `true`, see https://docs.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#enabledynamicloading for more details.
 
-## Cross-parsing with `C2CS`
+When `c2cs` startups it will load your C# library plugin (and any dependencies) and use its code to control and configure bindgen. There are two magic interfaces which are important here: `IReaderCCode` and `IWriterCSharpCode`.
 
-What if you want to generate bindings for each platform in one `.cs` file? "Cross-parsing" is the way to do that.
+- `IReaderCCode`: In the C# project library plugin implement the `IReaderCCode` interface. This is the plugin for reading C code. The `IReaderCCode` is documented via XML comments. For an example of how to implement and use `IReaderCCode` see [helloworld-bindgen-plugin/ReaderCCode](../src/cs/examples/helloworld/helloworld-bindgen-plugin/ReaderCCode.cs).
 
-Let's take a look at a more complicated example by adding multiple target platforms to generate C# bindings for. (Omitting this information generates C# bindings using the host platform as the target.) Each target platform is a [Clang "target triple"](https://clang.llvm.org/docs/CrossCompilation.html) in the form of `arch-vendor-os[-environment]`. This instructs Clang that we want to cross-compile the C header `.h` file.
+- `IWriterCSharpCode`: In the C# project library plugin implement the `IWriterCSharpCode` interface. This is the plugin for writing C# code. The `IWriterCSharpCode` is documented via XML comments. For an example of how to implement and use `IWriterCSharpCode` see [helloworld-bindgen-plugin/WriterCSharpCode.cs](../src/cs/examples/helloworld/helloworld-bindgen-plugin/WriterCSharpCode.cs).
 
-```json
-{
-  "$schema": "https://raw.githubusercontent.com/bottlenoselabs/c2cs/main/schema.json",
-  "directory": "path/to/my_c_library/ast",
-  "c": {
-    "input_file": "path/to/my_c_library/include/my_c_library.h",
-    "platforms": {
-      "aarch64-pc-windows-msvc": {},
-      "x86_64-pc-windows-msvc": {},
-      "aarch64-apple-darwin": {},
-      "x86_64-apple-darwin": {},
-      "aarch64-unknown-linux-gnu": {},
-      "x86_64-unknown-linux-gnu": {}
-    }
-  },
-  "cs": {
-    "output_file": "path/to/my_c_library/cs/my_c_library.cs"
-  }
-}
-```
+### Execute `c2cs`
 
-There is a problem with this though; all the system headers not being generally available for cross compilation as explained here [SUPPORTED-PLATFORMS.md#restrictive-or-closed-source-system-headers](./SUPPORTED-PLATFORMS.md#restrictive-or-closed-source-system-headers).
-
-What is recommended is that different configuration files are used for each host operating system where the system headers are available. Use `c2cs ast -c config_ast_x.json` with one the files below for each operating system.
-
-`config_ast_windows.json`
-```json
-{
-  "$schema": "https://raw.githubusercontent.com/bottlenoselabs/c2cs/main/schema.json",
-  "directory": "path/to/my_c_library/ast",
-  "c": {
-    "input_file": "path/to/my_c_library/include/my_c_library.h",
-    "platforms": {
-      "aarch64-pc-windows-msvc": {},
-      "x86_64-pc-windows-msvc": {}
-    }
-  }
-}
-```
-
-`config_ast_macos.json`
-```json
-{
-  "$schema": "https://raw.githubusercontent.com/bottlenoselabs/c2cs/main/schema.json",
-  "directory": "path/to/my_c_library/ast",
-  "c": {
-    "input_file": "path/to/my_c_library/include/my_c_library.h",
-    "platforms": {
-      "aarch64-apple-darwin": {},
-      "x86_64-apple-darwin": {}
-    }
-  }
-}
-```
-
-`config_ast_linux.json`
-```json
-{
-  "$schema": "https://raw.githubusercontent.com/bottlenoselabs/c2cs/main/schema.json",
-  "directory": "path/to/my_c_library/ast",
-  "c": {
-    "input_file": "path/to/my_c_library/include/my_c_library.h",
-    "platforms": {
-      "aarch64-unknown-linux-gnu": {},
-      "x86_64-unknown-linux-gnu": {}
-    }
-  }
-}
-```
-
-Once the AST files are generated, move or copy them all over to any operating system and generate the C# bindings for all of them at once using `c2cs cs -c config_cs.json`.
-
-`config_cs.json`
-```json
-{
-  "$schema": "https://raw.githubusercontent.com/bottlenoselabs/c2cs/main/schema.json",
-  "directory": "path/to/my_c_library/ast",
-  "cs": {
-    "output_file": "path/to/my_c_library/cs/my_c_library.cs"
-  }
-}
-```
+Run `c2cs` from terminal. If you wish to generate just the abstract syntax tree `.json` files use `c2cs c`. To generate the C# code from the `.json` files use `c2cs cs`.
 
 ## How to use `C2CS.Runtime`
 

@@ -95,17 +95,12 @@ public abstract class CLibraryIntegrationTest
             _fileSystem.File.Delete(fullFilePath);
         }
 
-        var fileContents = WriteValueToDocument(value);
+        var fileContents = JsonSerializer.Serialize(value, _jsonSerializerOptions);
 
         using var fileStream = _fileSystem.File.OpenWrite(fullFilePath);
         using var textWriter = new StreamWriter(fileStream);
         textWriter.Write(fileContents);
         textWriter.Close();
         fileStream.Close();
-    }
-
-    private JsonDocument WriteValueToDocument<T>(T value)
-    {
-        return JsonSerializer.SerializeToDocument(value, _jsonSerializerOptions);
     }
 }

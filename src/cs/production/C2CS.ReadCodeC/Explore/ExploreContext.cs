@@ -552,6 +552,7 @@ extend                        = 0x40
         }
 
         var isAnonymous = clang_Cursor_isAnonymous(locationCursor) > 0;
+        var isConst = containerType.IsConst();
 
         var typeInfo = new CTypeInfo
         {
@@ -563,6 +564,7 @@ extend                        = 0x40
             ArraySizeOf = arraySize,
             Location = location,
             IsAnonymous = isAnonymous ? true : null,
+            IsConst = isConst,
             InnerTypeInfo = innerType
         };
 

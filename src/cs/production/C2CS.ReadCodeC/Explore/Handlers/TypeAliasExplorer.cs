@@ -9,7 +9,7 @@ using static bottlenoselabs.clang;
 namespace C2CS.ReadCodeC.Explore.Handlers;
 
 [UsedImplicitly]
-public class TypeAliasExplorer : ExploreHandler<CTypeAlias>
+public class TypeAliasExplorer : ExploreNodeHandler<CTypeAlias>
 {
     public TypeAliasExplorer(ILogger<TypeAliasExplorer> logger)
         : base(logger, false)

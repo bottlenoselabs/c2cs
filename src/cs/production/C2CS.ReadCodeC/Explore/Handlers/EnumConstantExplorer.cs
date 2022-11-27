@@ -8,7 +8,7 @@ using static bottlenoselabs.clang;
 
 namespace C2CS.ReadCodeC.Explore.Handlers;
 
-public class EnumConstantExplorer : ExploreHandler<CEnumConstant>
+public class EnumConstantExplorer : ExploreNodeHandler<CEnumConstant>
 {
     public EnumConstantExplorer(
         ILogger<EnumConstantExplorer> logger)

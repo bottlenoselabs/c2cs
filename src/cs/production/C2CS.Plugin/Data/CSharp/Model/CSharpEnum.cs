@@ -7,7 +7,7 @@ namespace C2CS.Data.CSharp.Model;
 
 public sealed class CSharpEnum : CSharpNode
 {
-    public readonly CSharpType IntegerType;
+    public readonly CSharpTypeInfo IntegerTypeInfo;
 
     public readonly ImmutableArray<CSharpEnumValue> Values;
 
@@ -16,12 +16,12 @@ public sealed class CSharpEnum : CSharpNode
         string name,
         string cKind,
         string cCodeLocation,
-        CSharpType integerType,
+        CSharpTypeInfo integerTypeInfo,
         ImmutableArray<CSharpEnumValue> values,
         ImmutableArray<Attribute> attributes)
-        : base(platforms, name, cKind, cCodeLocation, integerType.SizeOf, attributes)
+        : base(platforms, name, cKind, cCodeLocation, integerTypeInfo.SizeOf, attributes)
     {
-        IntegerType = integerType;
+        IntegerTypeInfo = integerTypeInfo;
         Values = values;
     }
 
@@ -32,14 +32,14 @@ public sealed class CSharpEnum : CSharpNode
             return false;
         }
 
-        return IntegerType == other2.IntegerType &&
+        return IntegerTypeInfo == other2.IntegerTypeInfo &&
                Values.SequenceEqual(other2.Values);
     }
 
     public override int GetHashCode()
     {
         var baseHashCode = base.GetHashCode();
-        var integerTypeHashCode = IntegerType.GetHashCode();
+        var integerTypeHashCode = IntegerTypeInfo.GetHashCode();
         var valuesHashCode = Values.GetHashCodeMembers();
         var hashCode = HashCode.Combine(baseHashCode, integerTypeHashCode, valuesHashCode);
         return hashCode;

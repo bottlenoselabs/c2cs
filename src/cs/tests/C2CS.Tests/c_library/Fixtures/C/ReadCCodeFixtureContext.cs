@@ -157,7 +157,7 @@ public sealed class ReadCCodeFixtureContext
     {
         var function = GetFunction("pinvoke_get_platform_name");
         Assert.Equal("cdecl", function.CallingConvention);
-        Assert.Equal("char*", function.ReturnTypeName);
+        Assert.Equal("const char*", function.ReturnTypeName);
         Assert.True(function.Parameters.IsDefaultOrEmpty);
     }
 }

@@ -20,14 +20,17 @@ public sealed class
     WriteCodeCSharpUseCase : UseCase<WriterCSharpCodeOptions, WriteCodeCSharpInput, WriteCodeCSharpOutput>
 {
     private readonly CJsonSerializer _serializer;
+    private readonly IServiceProvider _services;
 
     public WriteCodeCSharpUseCase(
         ILogger<WriteCodeCSharpUseCase> logger,
         WriteCodeCSharpValidator validator,
-        CJsonSerializer serializer)
+        CJsonSerializer serializer,
+        IServiceProvider services)
         : base(logger, validator)
     {
         _serializer = serializer;
+        _services = services;
     }
 
     protected override void Execute(WriteCodeCSharpInput input, WriteCodeCSharpOutput output)
@@ -83,7 +86,7 @@ public sealed class
     {
         BeginStep("Generate C# code");
 
-        var codeGenerator = new CSharpCodeGenerator(options);
+        var codeGenerator = new CSharpCodeGenerator(_services, options);
         var result = codeGenerator.EmitCode(abstractSyntaxTree);
 
         EndStep();

@@ -10,7 +10,6 @@
 
 	<!-- Project references -->
 	<ItemGroup>
-		<ProjectReference Include="../infrastructure/C2CS.Infrastructure.Foundation/C2CS.Infrastructure.Foundation.csproj" />
 		<ProjectReference Include="../C2CS.Runtime/C2CS.Runtime.csproj" />
 		<ProjectReference Include="..\C2CS.ReadCodeC\C2CS.ReadCodeC.csproj" />
 	</ItemGroup>
