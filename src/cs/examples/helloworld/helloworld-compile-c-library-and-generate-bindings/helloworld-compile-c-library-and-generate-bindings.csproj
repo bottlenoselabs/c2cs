@@ -3,7 +3,7 @@
 	<!-- MSBuild project settings -->
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<RootNamespace />
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>

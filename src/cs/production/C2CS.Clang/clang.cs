@@ -11,6 +11,7 @@
 
 #nullable enable
 #pragma warning disable 1591
+#pragma warning disable CS8981
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -20,8 +21,8 @@ using static bottlenoselabs.clang.Runtime;
 
 namespace bottlenoselabs
 {
-	public static unsafe partial class clang
-	{
+    public static unsafe partial class clang
+    {
 		// Enum @ Index.h:4109:6 (clang-c/Index.h)
 		public enum CX_CXXAccessSpecifier : int
 		{
