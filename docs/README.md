@@ -32,7 +32,7 @@ See [LESSONS-LEARNED.md](./LESSONS-LEARNED.md).
 
 ## Installing `C2CS`
 
-`C2CS` is distributed as a NuGet tool. To get started all you need is the .NET software development kit to access `dotnet tool`.
+`C2CS` is distributed as a NuGet tool. To get started, the .NET 7 software development kit (SDK) is required.
 
 ### Latest release
 
