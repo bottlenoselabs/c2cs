@@ -45,7 +45,7 @@ public static class Startup
     {
         var sources = builder.Sources.ToImmutableArray();
         builder.Sources.Clear();
-        var jsonStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("C2CS.appsettings.json");
+        var jsonStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("C2CS.appsettings.json")!;
         builder.AddJsonStream(jsonStream);
 
         foreach (var originalSource in sources)
