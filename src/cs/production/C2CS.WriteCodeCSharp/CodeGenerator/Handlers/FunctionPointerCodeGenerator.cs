@@ -36,7 +36,7 @@ public sealed class FunctionPointerCodeGenerator : GenerateCodeHandler<CSharpFun
     {
         var attributesString = context.GenerateCodeAttributes(node.Attributes);
         var parameterTypesString = context.GenerateCodeParameters(node.Parameters, false);
-        var parameterTypesAndReturnTypeString = $"{parameterTypesString}, {node.ReturnTypeInfo.Name}";
+        var parameterTypesAndReturnTypeString = string.IsNullOrEmpty(parameterTypesString) ? node.ReturnTypeInfo.Name : $"{parameterTypesString}, {node.ReturnTypeInfo.Name}";
 
         var code = $@"
 {attributesString}

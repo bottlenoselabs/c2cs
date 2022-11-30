@@ -4,6 +4,7 @@
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
 		<OutputType>Exe</OutputType>
+		<Nullable>enable</Nullable>
 		<RootNamespace>C2CS</RootNamespace>
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
@@ -27,15 +28,13 @@
 
 	<!-- NuGet package references -->
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+		<PackageReference Include="System.Text.Json" Version="7.0.0" />
 		<PackageReference Include="System.CommandLine" Version="2.0.0-beta3.22114.1" />
-		<PackageReference Include="System.Text.Json" Version="6.0.3" />
-		<!-- NativeAOT for macOS is, at this time of commit, busted for osx-arm64 (Apple Sillicon laptop/desktop). Expected to be fixed in .NET 7: https://github.com/dotnet/runtime/issues/61231 -->
-		<!-- <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="7.0.0-*" /> -->
 	</ItemGroup>
 
 	<!-- Project references -->
