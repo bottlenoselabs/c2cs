@@ -94,7 +94,15 @@ public sealed partial class ClangInstaller
             // ReSharper disable StringLiteralTypo
             Path.Combine(AppContext.BaseDirectory, "libclang.so"),
             "/usr/lib/libclang.so",
-            "/usr/lib/llvm-10/lib/libclang.so.1" // apt-get install clang
+
+            // found via running the following command on Ubuntu 20.04
+            "/usr/lib/llvm-14/lib/libclang.so.1",
+            "/usr/lib/llvm-13/lib/libclang.so.1",
+            "/usr/lib/llvm-12/lib/libclang.so.1",
+
+            // legacy fills
+            "/usr/lib/llvm-11/lib/libclang.so.1",
+            "/usr/lib/llvm-10/lib/libclang.so.1"
             // ReSharper restore StringLiteralTypo
         };
 
