@@ -24,8 +24,8 @@ public static class Startup
         services.AddSingleton<Explorer>();
 
         // Use case
-        services.AddTransient<UseCaseReadCodeC>();
-        services.AddSingleton<ReadCodeCValidator>();
+        services.AddTransient<MainFeature>();
+        services.AddSingleton<InputValidator>();
 
         AddExploreHandlers(services);
     }

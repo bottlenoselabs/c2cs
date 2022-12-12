@@ -3,8 +3,6 @@
 
 using System;
 using System.CommandLine;
-using C2CS.ReadCodeC;
-using C2CS.WriteCodeCSharp;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -49,7 +47,7 @@ internal partial class CommandLineInterface : RootCommand
             return;
         }
 
-        var useCase = _serviceProvider.GetService<UseCaseReadCodeC>()!;
+        var useCase = _serviceProvider.GetService<ReadCodeC.MainFeature>()!;
         var options = readerCCode.Options;
         if (options == null)
         {
@@ -73,7 +71,7 @@ internal partial class CommandLineInterface : RootCommand
             return;
         }
 
-        var useCase = _serviceProvider.GetService<WriteCodeCSharpUseCase>()!;
+        var useCase = _serviceProvider.GetService<WriteCodeCSharp.MainFeature>()!;
         var options = writerCSharpCode.Options;
         if (options == null)
         {

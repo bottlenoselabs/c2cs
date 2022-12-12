@@ -5,6 +5,6 @@ using C2CS.Foundation.UseCases;
 
 namespace C2CS.WriteCodeCSharp;
 
-public sealed class WriteCodeCSharpOutput : UseCaseOutput<WriteCodeCSharpInput>
+public sealed class Output : UseCaseOutput<Input>
 {
 }

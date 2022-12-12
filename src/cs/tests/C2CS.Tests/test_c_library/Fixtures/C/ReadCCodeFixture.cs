@@ -19,16 +19,16 @@ public sealed class ReadCCodeFixture : TestFixture
     public readonly ImmutableArray<ReadCCodeFixtureContext> Contexts;
 
     public ReadCCodeFixture(
-        UseCaseReadCodeC useCase,
+        MainFeature feature,
         CJsonSerializer cJsonSerializer,
         IReaderCCode readerCCode)
     {
-        var output = useCase.Execute(readerCCode.Options!);
+        var output = feature.Execute(readerCCode.Options!);
         Contexts = GetContexts(output, cJsonSerializer);
     }
 
     private ImmutableArray<ReadCCodeFixtureContext> GetContexts(
-        ReadCodeCOutput output, CJsonSerializer jsonSerializer)
+        Output output, CJsonSerializer jsonSerializer)
     {
         if (!output.IsSuccess ||
             output.Diagnostics.Any(x => x.Severity is DiagnosticSeverity.Error or DiagnosticSeverity.Panic))

@@ -11,26 +11,26 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.Foundation.UseCases;
 
 [PublicAPI]
-public abstract class UseCase<TOptions, TInput, TOutput> : UseCase
+public abstract class Feature<TOptions, TInput, TOutput> : UseCase
     where TOptions : UseCaseOptions
     where TOutput : UseCaseOutput<TInput>, new()
 {
     private readonly Stopwatch _stepStopwatch;
     private readonly Stopwatch _stopwatch;
-    private readonly UseCaseValidator<TOptions, TInput> _validator;
-    public readonly ILogger<UseCase<TOptions, TInput, TOutput>> Logger;
+    private readonly InputValidator<TOptions, TInput> _inputValidator;
+    public readonly ILogger<Feature<TOptions, TInput, TOutput>> Logger;
 
     private IDisposable? _loggerScopeStep;
 
-    protected UseCase(
-        ILogger<UseCase<TOptions, TInput, TOutput>> logger,
-        UseCaseValidator<TOptions, TInput> validator)
+    protected Feature(
+        ILogger<Feature<TOptions, TInput, TOutput>> logger,
+        InputValidator<TOptions, TInput> inputValidator)
         : base(logger)
     {
         Logger = logger;
         _stopwatch = new Stopwatch();
         _stepStopwatch = new Stopwatch();
-        _validator = validator;
+        _inputValidator = inputValidator;
     }
 
     protected DiagnosticCollection Diagnostics { get; } = new();
@@ -46,7 +46,7 @@ public abstract class UseCase<TOptions, TInput, TOutput> : UseCase
         Begin();
         try
         {
-            output.Input = _validator.Validate(options);
+            output.Input = _inputValidator.Validate(options);
             Execute(output.Input, output);
         }
         catch (UseCaseStepFailedException)

@@ -12,29 +12,29 @@ using Microsoft.Extensions.Logging;
 
 namespace C2CS.ReadCodeC;
 
-public sealed class UseCaseReadCodeC : UseCase<
-    ReaderCCodeOptions, ReadCodeCInput, ReadCodeCOutput>
+public sealed class MainFeature : Feature<
+    ReaderCCodeOptions, Input, Output>
 {
     private readonly ClangInstaller _clangInstaller;
     private readonly Explorer _explorer;
     private readonly CJsonSerializer _serializer;
 
-    public UseCaseReadCodeC(
-        ILogger<UseCaseReadCodeC> logger,
-        ReadCodeCValidator validator,
+    public MainFeature(
+        ILogger<MainFeature> logger,
+        InputValidator inputValidator,
         ClangInstaller clangInstaller,
         Explorer explorer,
         CJsonSerializer serializer)
-        : base(logger, validator)
+        : base(logger, inputValidator)
     {
         _clangInstaller = clangInstaller;
         _explorer = explorer;
         _serializer = serializer;
     }
 
-    protected override void Execute(ReadCodeCInput input, ReadCodeCOutput output)
+    protected override void Execute(Input input, Output output)
     {
-        var builder = ImmutableArray.CreateBuilder<ReadCodeCAbstractSyntaxTreeInput>();
+        var builder = ImmutableArray.CreateBuilder<InputAbstractSyntaxTree>();
 
         if (!InstallClang())
         {

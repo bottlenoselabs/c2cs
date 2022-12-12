@@ -6,7 +6,7 @@ using C2CS.Foundation.UseCases;
 
 namespace C2CS.ReadCodeC;
 
-public sealed class ReadCodeCOutput : UseCaseOutput<ReadCodeCInput>
+public sealed class Output : UseCaseOutput<Input>
 {
-    public ImmutableArray<ReadCodeCAbstractSyntaxTreeInput> AbstractSyntaxTreesOptions { get; set; }
+    public ImmutableArray<InputAbstractSyntaxTree> AbstractSyntaxTreesOptions { get; set; }
 }

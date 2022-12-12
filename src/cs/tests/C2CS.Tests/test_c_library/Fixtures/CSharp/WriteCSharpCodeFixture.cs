@@ -24,13 +24,13 @@ namespace C2CS.Tests.test_c_library.Fixtures.CSharp;
 public sealed class WriteCSharpCodeFixture : TestFixture
 {
     public WriteCSharpCodeFixture(
-        WriteCodeCSharpUseCase useCase,
+        MainFeature feature,
         IFileSystem fileSystem,
         ReadCCodeFixture ast,
         IWriterCSharpCode writerCSharpCode)
     {
         Assert.True(!ast.Contexts.IsDefaultOrEmpty);
-        var output = useCase.Execute(writerCSharpCode.Options!);
+        var output = feature.Execute(writerCSharpCode.Options!);
         Assert.True(output != null);
         var input = output!.Input;
 

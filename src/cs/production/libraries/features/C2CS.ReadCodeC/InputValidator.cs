@@ -11,32 +11,32 @@ using C2CS.ReadCodeC.Parse;
 
 namespace C2CS.ReadCodeC;
 
-public sealed class ReadCodeCValidator : UseCaseValidator<ReaderCCodeOptions, ReadCodeCInput>
+public sealed class InputValidator : InputValidator<ReaderCCodeOptions, Input>
 {
     private readonly IFileSystem _fileSystem;
 
-    public ReadCodeCValidator(IFileSystem fileSystem)
+    public InputValidator(IFileSystem fileSystem)
     {
         _fileSystem = fileSystem;
     }
 
-    public override ReadCodeCInput Validate(ReaderCCodeOptions options)
+    public override Input Validate(ReaderCCodeOptions options)
     {
         var inputFilePath = VerifyInputFilePath(options.InputHeaderFilePath);
         var optionsList = OptionsList(options, inputFilePath);
 
-        return new ReadCodeCInput
+        return new Input
         {
             InputFilePath = inputFilePath,
             AbstractSyntaxTreesOptionsList = optionsList
         };
     }
 
-    private ImmutableArray<ReadCodeCAbstractSyntaxTreeInput> OptionsList(
+    private ImmutableArray<InputAbstractSyntaxTree> OptionsList(
         ReaderCCodeOptions configuration,
         string inputFilePath)
     {
-        var optionsBuilder = ImmutableArray.CreateBuilder<ReadCodeCAbstractSyntaxTreeInput>();
+        var optionsBuilder = ImmutableArray.CreateBuilder<InputAbstractSyntaxTree>();
         if (configuration.Platforms == null)
         {
             var abstractSyntaxTreeRequests = new Dictionary<TargetPlatform, ReaderCCodeOptionsPlatform>();
@@ -54,7 +54,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReaderCCodeOptions, Re
         return optionsBuilder.ToImmutable();
     }
 
-    private ReadCodeCAbstractSyntaxTreeInput Options(
+    private InputAbstractSyntaxTree Options(
         ReaderCCodeOptions configuration,
         TargetPlatform targetPlatform,
         ReaderCCodeOptionsPlatform configurationPlatform,
@@ -85,7 +85,7 @@ public sealed class ReadCodeCValidator : UseCaseValidator<ReaderCCodeOptions, Re
 
         var passThroughTypedNames = VerifyImmutableArray(configuration.PassThroughTypeNames).ToImmutableHashSet();
 
-        var inputAbstractSyntaxTree = new ReadCodeCAbstractSyntaxTreeInput
+        var inputAbstractSyntaxTree = new InputAbstractSyntaxTree
         {
             TargetPlatform = targetPlatform,
             OutputFilePath = outputFilePath,

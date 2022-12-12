@@ -5,7 +5,7 @@ using C2CS.Options;
 
 namespace C2CS.Foundation.UseCases;
 
-public abstract class UseCaseValidator<TConfiguration, TInput>
+public abstract class InputValidator<TConfiguration, TInput>
     where TConfiguration : UseCaseOptions
 {
     public abstract TInput Validate(TConfiguration options);

@@ -12,8 +12,8 @@ public static class Startup
 {
     public static void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton<WriteCodeCSharpUseCase>();
-        services.AddSingleton<WriteCodeCSharpValidator>();
+        services.AddSingleton<MainFeature>();
+        services.AddSingleton<InputValidator>();
 
         AddGenerateCodeHandlers(services);
     }

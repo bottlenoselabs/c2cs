@@ -7,7 +7,7 @@ using C2CS.WriteCodeCSharp.Mapper;
 
 namespace C2CS.WriteCodeCSharp;
 
-public sealed class WriteCodeCSharpInput
+public sealed class Input
 {
     public ImmutableArray<string> InputFilePaths { get; init; }
 

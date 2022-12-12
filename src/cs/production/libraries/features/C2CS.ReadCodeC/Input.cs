@@ -5,9 +5,9 @@ using System.Collections.Immutable;
 
 namespace C2CS.ReadCodeC;
 
-public sealed class ReadCodeCInput
+public sealed class Input
 {
     public string InputFilePath { get; init; } = string.Empty;
 
-    public ImmutableArray<ReadCodeCAbstractSyntaxTreeInput> AbstractSyntaxTreesOptionsList { get; set; }
+    public ImmutableArray<InputAbstractSyntaxTree> AbstractSyntaxTreesOptionsList { get; set; }
 }

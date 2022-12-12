@@ -17,14 +17,14 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.WriteCodeCSharp;
 
 public sealed class
-    WriteCodeCSharpUseCase : UseCase<WriterCSharpCodeOptions, WriteCodeCSharpInput, WriteCodeCSharpOutput>
+    MainFeature : Feature<WriterCSharpCodeOptions, Input, Output>
 {
     private readonly CJsonSerializer _serializer;
     private readonly IServiceProvider _services;
 
-    public WriteCodeCSharpUseCase(
-        ILogger<WriteCodeCSharpUseCase> logger,
-        WriteCodeCSharpValidator validator,
+    public MainFeature(
+        ILogger<MainFeature> logger,
+        InputValidator validator,
         CJsonSerializer serializer,
         IServiceProvider services)
         : base(logger, validator)
@@ -33,7 +33,7 @@ public sealed class
         _services = services;
     }
 
-    protected override void Execute(WriteCodeCSharpInput input, WriteCodeCSharpOutput output)
+    protected override void Execute(Input input, Output output)
     {
         var abstractSyntaxTreesC = LoadCAbstractSyntaxTrees(input.InputFilePaths);
 
