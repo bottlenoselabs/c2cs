@@ -6,9 +6,9 @@ using System.Globalization;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
-using C2CS.IntegrationTests.c_library.Fixtures.C;
 using C2CS.Tests.Common;
 using C2CS.Tests.Common.Data.Model.CSharp;
+using C2CS.Tests.test_c_library.Fixtures.C;
 using C2CS.WriteCodeCSharp;
 using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
@@ -18,7 +18,7 @@ using Xunit;
 
 // ReSharper disable ParameterOnlyUsedForPreconditionCheck.Local
 
-namespace C2CS.IntegrationTests.c_library.Fixtures.CSharp;
+namespace C2CS.Tests.test_c_library.Fixtures.CSharp;
 
 [PublicAPI]
 public sealed class WriteCSharpCodeFixture : TestFixture

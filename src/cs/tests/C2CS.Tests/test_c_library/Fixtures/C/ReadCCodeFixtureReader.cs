@@ -4,7 +4,7 @@
 using System.Collections.Immutable;
 using C2CS.Options;
 
-namespace C2CS.IntegrationTests.c_library.Fixtures.C;
+namespace C2CS.Tests.test_c_library.Fixtures.C;
 
 public class ReadCCodeFixtureReader : IReaderCCode
 {
@@ -19,8 +19,8 @@ public class ReadCCodeFixtureReader : IReaderCCode
     {
         var result = new ReaderCCodeOptions
         {
-            InputHeaderFilePath = "./c/tests/c_library/include/_main.h",
-            OutputAbstractSyntaxTreesFileDirectory = "./c/tests/c_library/ast",
+            InputHeaderFilePath = "./c/tests/test_c_library/include/_main.h",
+            OutputAbstractSyntaxTreesFileDirectory = "./c/tests/test_c_library/ast",
             UserIncludeDirectories = new[] { "./c/production/c2cs/include" }.ToImmutableArray(),
             HeaderFilesBlocked = new[] { "parent_header.h" }.ToImmutableArray()
         };

@@ -10,7 +10,7 @@ using C2CS.Tests.Common;
 using C2CS.Tests.Common.Data.Model.C;
 using JetBrains.Annotations;
 
-namespace C2CS.IntegrationTests.c_library.Fixtures.C;
+namespace C2CS.Tests.test_c_library.Fixtures.C;
 
 [PublicAPI]
 

@@ -3,7 +3,7 @@
 
 using C2CS.Options;
 
-namespace C2CS.IntegrationTests.c_library.Fixtures.CSharp;
+namespace C2CS.Tests.test_c_library.Fixtures.CSharp;
 
 public class WriteCSharpCodeFixtureWriter : IWriterCSharpCode
 {
@@ -18,7 +18,7 @@ public class WriteCSharpCodeFixtureWriter : IWriterCSharpCode
     {
         var result = new WriterCSharpCodeOptions
         {
-            InputAbstractSyntaxTreesFileDirectory = "./c/tests/c_library/ast",
+            InputAbstractSyntaxTreesFileDirectory = "./c/tests/test_c_library/ast",
             OutputCSharpCodeFilePath = "./my_c_library.cs",
             NamespaceName = "bottlenoselabs"
         };

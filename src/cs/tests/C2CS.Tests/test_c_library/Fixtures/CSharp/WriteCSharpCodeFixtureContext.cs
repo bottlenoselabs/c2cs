@@ -6,7 +6,7 @@ using C2CS.Tests.Common.Data.Model.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using Xunit;
 
-namespace C2CS.IntegrationTests.c_library.Fixtures.CSharp;
+namespace C2CS.Tests.test_c_library.Fixtures.CSharp;
 
 public class WriteCSharpCodeFixtureContext
 {

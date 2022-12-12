@@ -10,8 +10,8 @@
 
 	<!-- Project references -->
 	<ItemGroup>
-		<ProjectReference Include="../C2CS.Clang/C2CS.Clang.csproj" />
-		<ProjectReference Include="../C2CS.Plugin/C2CS.Plugin.csproj" />
+		<ProjectReference Include="../../C2CS.Plugin/C2CS.Plugin.csproj" />
+		<ProjectReference Include="../../infrastructure/C2CS.Clang/C2CS.Clang.csproj" />
 	</ItemGroup>
 
 	<!-- NuGet references -->

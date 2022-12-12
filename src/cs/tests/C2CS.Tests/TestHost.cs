@@ -4,7 +4,7 @@
 using System;
 using Microsoft.Extensions.Hosting;
 
-namespace C2CS.IntegrationTests;
+namespace C2CS.Tests;
 
 public static class TestHost
 {

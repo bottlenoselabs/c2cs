@@ -1,32 +1,44 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using C2CS.IntegrationTests.c_library.Fixtures;
-using C2CS.IntegrationTests.c_library.Fixtures.CSharp;
+using System.Collections.Immutable;
 using C2CS.Tests.Common;
-using Microsoft.CodeAnalysis;
+using C2CS.Tests.test_c_library.Fixtures.C;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace C2CS.IntegrationTests.c_library;
+namespace C2CS.Tests.test_c_library;
 
 [Trait("Integration", "c_library")]
-public class WriteCodeCSharp : CLibraryIntegrationTest
+public class ReadCodeC : CLibraryIntegrationTest
 {
-    private readonly WriteCSharpCodeFixtureContext _context;
+    private readonly ImmutableArray<ReadCCodeFixtureContext> _contexts;
 
-    public WriteCodeCSharp()
-        : base(TestHost.Services, "c_library", "Data/CSharp", false)
+    public ReadCodeC()
+        : base(TestHost.Services, "test_c_library", "Data/C", false)
     {
-        _context = TestHost.Services.GetService<WriteCSharpCodeFixture>()!.Context;
+        _contexts = TestHost.Services.GetService<ReadCCodeFixture>()!.Contexts;
+        Assert.True(_contexts.Length > 0, "Failed to read C code.");
+
+        foreach (var context in _contexts)
+        {
+            if (!context.ParseOptions.IsEnabledSingleHeader)
+            {
+                var functionIgnored = context.TryGetFunction("function_ignored");
+                Assert.True(functionIgnored == null);
+            }
+        }
     }
 
     [Theory]
     [InlineData("enum_force_uint32")]
     public void Enum(string name)
     {
-        var value = _context.GetEnum(name);
-        AssertValue(name, value, "Enums");
+        foreach (var context in _contexts)
+        {
+            var value = context.GetEnum(name);
+            AssertValue(name, value, $"{context.TargetPlatformRequested}/Enums");
+        }
     }
 
     [Theory]
@@ -69,8 +81,11 @@ public class WriteCodeCSharp : CLibraryIntegrationTest
     [InlineData("function_void_struct_union_named")]
     public void Function(string name)
     {
-        var value = _context.GetFunction(name);
-        AssertValue(name, value, "Functions");
+        foreach (var context in _contexts)
+        {
+            var value = context.GetFunction(name);
+            AssertValue(name, value, $"{context.TargetPlatformRequested}/Functions");
+        }
     }
 
     [Theory]
@@ -79,32 +94,26 @@ public class WriteCodeCSharp : CLibraryIntegrationTest
     [InlineData("struct_union_named")]
     [InlineData("struct_leaf_integers_small_to_large")]
     [InlineData("struct_leaf_integers_large_to_small")]
+    [InlineData("struct_bitfield_one_fields_1")]
+    [InlineData("struct_bitfield_one_fields_2")]
+    [InlineData("struct_bitfield_one_fields_3")]
     public void Struct(string name)
     {
-        var value = _context.GetStruct(name);
-        AssertValue(name, value, "Structs");
+        foreach (var context in _contexts)
+        {
+            var value = context.GetRecord(name);
+            AssertValue(name, value, $"{context.TargetPlatformRequested}/Structs");
+        }
     }
 
     [Theory]
     [InlineData("MY_CONSTANT")]
     public void MacroObject(string name)
     {
-        var value = _context.GetMacroObject(name);
-        AssertValue(name, value, "MacroObjects");
-    }
-
-    [Fact]
-    public void Compiles()
-    {
-        var emitResult = _context.EmitResult;
-
-        foreach (var diagnostic in emitResult.Diagnostics)
+        foreach (var context in _contexts)
         {
-            var isWarningOrError = diagnostic.Severity != Microsoft.CodeAnalysis.DiagnosticSeverity.Warning &&
-                                   diagnostic.Severity != Microsoft.CodeAnalysis.DiagnosticSeverity.Error;
-            Assert.True(isWarningOrError, $"C# code compilation diagnostic: {diagnostic}.");
+            var value = context.GetMacroObject(name);
+            AssertValue(name, value, $"{context.TargetPlatformRequested}/MacroObjects");
         }
-
-        Assert.True(emitResult.Success, "C# code did not compile successfully.");
     }
 }

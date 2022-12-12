@@ -10,8 +10,8 @@
 
 	<!-- Project references -->
 	<ItemGroup>
-		<ProjectReference Include="../C2CS.Runtime/C2CS.Runtime.csproj" />
-		<ProjectReference Include="../C2CS.ReadCodeC/C2CS.ReadCodeC.csproj" />
+	  <ProjectReference Include="../../C2CS.Plugin/C2CS.Plugin.csproj" />
+	  <ProjectReference Include="../../infrastructure/C2CS.Runtime/C2CS.Runtime.csproj" />
 	</ItemGroup>
 
 	<!-- NuGet references -->
