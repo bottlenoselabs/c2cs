@@ -1249,7 +1249,7 @@ public sealed class CSharpCodeMapper
 
         if (typeInfo.Kind is CKind.Pointer or CKind.Array)
         {
-            typeName = TypeNameCSharpPointer(typeName, typeInfo.InnerTypeInfo!);
+            typeName = TypeNameCSharpPointer(typeName, typeInfo.InnerTypeInfo);
         }
         else
         {
@@ -1311,7 +1311,7 @@ public sealed class CSharpCodeMapper
         return functionPointerNameCSharp;
     }
 
-    private string TypeNameCSharpPointer(string typeName, CTypeInfo innerTypeInfo)
+    private string TypeNameCSharpPointer(string typeName, CTypeInfo? innerTypeInfo)
     {
         var pointerTypeName = typeName;
 
@@ -1355,6 +1355,11 @@ public sealed class CSharpCodeMapper
         if (elementTypeName.Length == 0)
         {
             return "void" + pointersTypeName;
+        }
+
+        if (innerTypeInfo == null)
+        {
+            return "void*";
         }
 
         var mappedElementTypeName = TypeNameCSharpRaw(elementTypeName, innerTypeInfo.SizeOf);

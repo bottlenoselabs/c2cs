@@ -85,12 +85,12 @@ internal sealed partial class CommandLineInterface : RootCommand
     {
         var pluginHost = Startup.PluginHost;
 
-        if (pluginHost.SearchedFileDirectory == null)
+        if (string.IsNullOrEmpty(pluginHost.LastSearchedFileDirectoryPath))
         {
             return false;
         }
 
-        LogSearchedForPlugins(pluginHost.SearchedFileDirectory);
+        LogSearchedForPlugins(pluginHost.LastSearchedFileDirectoryPath);
 
         if (pluginHost.Plugins.IsDefaultOrEmpty)
         {

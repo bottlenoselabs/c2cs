@@ -83,7 +83,7 @@ public static class Startup
             searchFileDirectoryPath = Path.Combine(Environment.CurrentDirectory, "plugins");
         }
 
-        PluginHost.LoadPlugins(searchFileDirectoryPath);
+        PluginHost.TryLoadPlugins(searchFileDirectoryPath);
 
         foreach (var pluginContext in PluginHost.Plugins)
         {
