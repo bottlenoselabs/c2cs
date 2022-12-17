@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<!-- MSBuild project settings -->
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<OutputType>Exe</OutputType>
+		<Nullable>enable</Nullable>
+		<RootNamespace>C2CS</RootNamespace>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+		<NoWarn>$(NoWarn);CA1724;CA1812</NoWarn>
+		<RuntimeIdentifiers>win-x64;osx-x64;osx-arm64;linux-x64</RuntimeIdentifiers>
+	</PropertyGroup>
+
+	<!-- MSBuild.Tools project settings -->
+	<PropertyGroup>
+		<EnableCodeCoverage>false</EnableCodeCoverage>
+	</PropertyGroup>
+
+	<!-- NuGet -->
+	<PropertyGroup>
+		<IsPackable>true</IsPackable>
+		<PackAsTool>true</PackAsTool>
+		<ToolCommandName>c2cs</ToolCommandName>
+		<RepositoryUrl>https://github.com/bottlenoselabs/c2cs</RepositoryUrl>
+		<PackageDescription>C to C# library bindings code generator. In go .h file, out come .cs file.</PackageDescription>
+	</PropertyGroup>
+
+	<!-- NuGet package references -->
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+		<PackageReference Include="System.Text.Json" Version="7.0.0" />
+		<PackageReference Include="System.CommandLine" Version="2.0.0-beta3.22114.1" />
+	</ItemGroup>
+
+	<!-- Project references -->
+	<ItemGroup>
+		<ProjectReference Include="..\..\libraries\C2CS.Features.ReadCodeC\C2CS.Features.ReadCodeC.csproj" />
+		<ProjectReference Include="..\..\libraries\C2CS.Features.WriteCodeCSharp\C2CS.Features.WriteCodeCSharp.csproj" />
+		<ProjectReference Include="..\..\libraries\C2CS.Plugin\C2CS.Plugin.csproj" />
+	</ItemGroup>
+
+	<!-- Configuration settings -->
+	<ItemGroup>
+		<EmbeddedResource Include="appsettings.json" />
+	</ItemGroup>
+
+</Project>
