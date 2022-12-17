@@ -138,8 +138,16 @@ public sealed class CSharpCodeMapper
 
     private int CompareCSharpNodes(CSharpNode nodeA, CSharpNode nodeB)
     {
-        var locationComparison = string.Compare(nodeA.CCodeLocation, nodeB.CCodeLocation, StringComparison.Ordinal);
-        return locationComparison;
+        var result = 0;
+
+        result = string.Compare(nodeA.CCodeLocation, nodeB.CCodeLocation, StringComparison.Ordinal);
+        if (result != 0)
+        {
+            return result;
+        }
+
+        result = string.Compare(nodeA.Name, nodeB.Name, StringComparison.Ordinal);
+        return result;
     }
 
     private CSharpNode? MergePlatformCandidateNodes(
