@@ -47,7 +47,7 @@ internal partial class CommandLineInterface : RootCommand
             return;
         }
 
-        var useCase = _serviceProvider.GetService<ReadCodeC.MainFeature>()!;
+        var useCase = _serviceProvider.GetService<ReadCodeC.Main>()!;
         var options = readerCCode.Options;
         if (options == null)
         {
@@ -71,7 +71,7 @@ internal partial class CommandLineInterface : RootCommand
             return;
         }
 
-        var useCase = _serviceProvider.GetService<WriteCodeCSharp.MainFeature>()!;
+        var useCase = _serviceProvider.GetService<WriteCodeCSharp.Main>()!;
         var options = writerCSharpCode.Options;
         if (options == null)
         {

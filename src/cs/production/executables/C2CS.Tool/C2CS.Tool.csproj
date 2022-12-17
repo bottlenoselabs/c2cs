@@ -39,9 +39,9 @@
 
 	<!-- Project references -->
 	<ItemGroup>
+		<ProjectReference Include="..\..\libraries\C2CS.Features.ReadCodeC\C2CS.Features.ReadCodeC.csproj" />
+		<ProjectReference Include="..\..\libraries\C2CS.Features.WriteCodeCSharp\C2CS.Features.WriteCodeCSharp.csproj" />
 		<ProjectReference Include="..\..\libraries\C2CS.Plugin\C2CS.Plugin.csproj" />
-		<ProjectReference Include="..\..\libraries\features\C2CS.ReadCodeC\C2CS.ReadCodeC.csproj" />
-		<ProjectReference Include="..\..\libraries\features\C2CS.WriteCodeCSharp\C2CS.WriteCodeCSharp.csproj" />
 	</ItemGroup>
 
 	<!-- Configuration settings -->

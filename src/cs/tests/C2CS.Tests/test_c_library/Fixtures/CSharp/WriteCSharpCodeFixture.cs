@@ -24,7 +24,7 @@ namespace C2CS.Tests.test_c_library.Fixtures.CSharp;
 public sealed class WriteCSharpCodeFixture : TestFixture
 {
     public WriteCSharpCodeFixture(
-        MainFeature feature,
+        Main feature,
         IFileSystem fileSystem,
         ReadCCodeFixture ast,
         IWriterCSharpCode writerCSharpCode)

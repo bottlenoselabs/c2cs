@@ -8,7 +8,7 @@ namespace C2CS.Options;
 
 // NOTE: This class is considered un-sanitized input; all strings and other types could be null.
 [PublicAPI]
-public sealed class WriterCSharpCodeOptions : UseCaseOptions
+public sealed class WriterCSharpCodeOptions : ExecutorOptions
 {
     /// <summary>
     ///     The path of the input abstract syntax tree directory. The directory should contain one or more previously

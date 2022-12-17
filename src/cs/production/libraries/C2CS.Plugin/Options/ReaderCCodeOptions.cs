@@ -8,7 +8,7 @@ namespace C2CS.Options;
 
 // NOTE: This class is considered un-sanitized input; all strings and other types could be null.
 [PublicAPI]
-public sealed class ReaderCCodeOptions : UseCaseOptions
+public sealed class ReaderCCodeOptions : ExecutorOptions
 {
     /// <summary>
     ///     The path of the output abstract syntax tree directory.

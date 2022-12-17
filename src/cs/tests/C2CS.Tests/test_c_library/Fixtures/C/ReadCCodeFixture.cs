@@ -6,6 +6,7 @@ using System.Linq;
 using C2CS.Data.C.Model;
 using C2CS.Data.C.Serialization;
 using C2CS.ReadCodeC;
+using C2CS.ReadCodeC.Data;
 using C2CS.Tests.Common;
 using C2CS.Tests.Common.Data.Model.C;
 using JetBrains.Annotations;
@@ -19,7 +20,7 @@ public sealed class ReadCCodeFixture : TestFixture
     public readonly ImmutableArray<ReadCCodeFixtureContext> Contexts;
 
     public ReadCCodeFixture(
-        MainFeature feature,
+        Main feature,
         CJsonSerializer cJsonSerializer,
         IReaderCCode readerCCode)
     {
@@ -38,7 +39,7 @@ public sealed class ReadCCodeFixture : TestFixture
 
         var builder = ImmutableArray.CreateBuilder<ReadCCodeFixtureContext>();
 
-        foreach (var input in output.AbstractSyntaxTreesOptions)
+        foreach (var input in output.AbstractSyntaxTrees)
         {
             if (string.IsNullOrEmpty(input.OutputFilePath))
             {

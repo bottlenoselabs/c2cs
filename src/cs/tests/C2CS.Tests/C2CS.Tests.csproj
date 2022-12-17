@@ -35,8 +35,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\production\executables\C2CS.Tool\C2CS.Tool.csproj" />
 		<ProjectReference Include="..\..\production\libraries\C2CS.Plugin\C2CS.Plugin.csproj" />
-		<ProjectReference Include="..\..\production\libraries\features\C2CS.ReadCodeC\C2CS.ReadCodeC.csproj" />
-		<ProjectReference Include="..\..\production\libraries\features\C2CS.WriteCodeCSharp\C2CS.WriteCodeCSharp.csproj" />
 		<ProjectReference Include="..\C2CS.Tests.Common\C2CS.Tests.Common.csproj" />
 	</ItemGroup>
 
