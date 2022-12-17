@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace C2CS;
 
-internal partial class CommandLineInterface : RootCommand
+internal sealed partial class CommandLineInterface : RootCommand
 {
     private readonly ILogger<CommandLineInterface> _logger;
     private readonly IServiceProvider _serviceProvider;
