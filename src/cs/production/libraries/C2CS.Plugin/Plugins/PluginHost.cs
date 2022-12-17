@@ -17,27 +17,23 @@ public partial class PluginHost
         _logger = logger;
     }
 
-    public string? SearchedFileDirectory { get; private set; }
-
     public ImmutableArray<PluginContext> Plugins { get; private set; } = ImmutableArray<PluginContext>.Empty;
 
-    public bool LoadPlugins(string? searchFileDirectoryPath = null)
-    {
-        var builder = ImmutableArray.CreateBuilder<PluginContext>();
+    public string LastSearchedFileDirectoryPath { get; private set; } = string.Empty;
 
-        var pluginsDirectoryPath = searchFileDirectoryPath ?? Path.Combine(AppContext.BaseDirectory, "plugins");
-        if (!Directory.Exists(pluginsDirectoryPath))
+    public bool TryLoadPlugins(string? searchFileDirectoryPath = null)
+    {
+        var defaultSearchFileDirectoryPath = Path.Combine(AppContext.BaseDirectory, "plugins");
+        LastSearchedFileDirectoryPath = searchFileDirectoryPath ??= defaultSearchFileDirectoryPath;
+        if (!Directory.Exists(searchFileDirectoryPath))
         {
-            SearchedFileDirectory = string.Empty;
             return false;
         }
 
-        SearchedFileDirectory = searchFileDirectoryPath!;
+        var pluginDirectoryPaths = Directory.GetDirectories(searchFileDirectoryPath);
+        LogLoadPluginsStart(searchFileDirectoryPath);
 
-        var pluginDirectoryPaths = Directory.GetDirectories(pluginsDirectoryPath);
-
-        LogLoadPluginsStart(pluginsDirectoryPath);
-
+        var builder = ImmutableArray.CreateBuilder<PluginContext>();
         foreach (var pluginDirectoryPath in pluginDirectoryPaths)
         {
             var pluginContext = LoadPlugin(pluginDirectoryPath);
@@ -50,7 +46,7 @@ public partial class PluginHost
         }
 
         Plugins = builder.ToImmutable();
-        LogLoadPluginsFinish(pluginsDirectoryPath, Plugins.Length);
+        LogLoadPluginsFinish(searchFileDirectoryPath, Plugins.Length);
         return Plugins.Length > 0;
     }
 
