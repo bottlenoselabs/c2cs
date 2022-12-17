@@ -6,7 +6,7 @@ using System.Runtime.Loader;
 
 namespace C2CS.Plugins;
 
-internal class PluginLoadContext : AssemblyLoadContext
+internal sealed class PluginLoadContext : AssemblyLoadContext
 {
     // the resolver helps us find dependencies
     private readonly AssemblyDependencyResolver _resolver;
