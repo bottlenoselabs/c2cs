@@ -24,7 +24,7 @@ public sealed class ReadCCodeFixture : TestFixture
         CJsonSerializer cJsonSerializer,
         IReaderCCode readerCCode)
     {
-        var output = feature.Execute(readerCCode.Options!);
+        var output = feature.Execute(readerCCode.Options);
         Contexts = GetContexts(output, cJsonSerializer);
     }
 

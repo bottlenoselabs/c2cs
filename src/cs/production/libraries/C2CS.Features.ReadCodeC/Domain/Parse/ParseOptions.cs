@@ -7,6 +7,8 @@ namespace C2CS.ReadCodeC.Domain.Parse;
 
 public class ParseOptions
 {
+    public ImmutableHashSet<string> HeaderFilesBlocked { get; init; } = ImmutableHashSet<string>.Empty;
+
     public ImmutableArray<string> UserIncludeDirectories { get; init; } = ImmutableArray<string>.Empty;
 
     public ImmutableArray<string> SystemIncludeDirectories { get; init; } = ImmutableArray<string>.Empty;

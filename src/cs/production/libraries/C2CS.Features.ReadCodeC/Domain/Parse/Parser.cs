@@ -13,19 +13,19 @@ namespace C2CS.ReadCodeC.Domain.Parse;
 
 public sealed partial class Parser
 {
-    private readonly Domain.Parse.ClangArgumentsBuilder _clangArgumentsBuilder;
+    private readonly ClangArgumentsBuilder _clangArgumentsBuilder;
     private readonly ILogger<Parser> _logger;
 
-    public readonly IReaderCCode IcCodeReader;
+    public readonly IReaderCCode CodeReader;
 
     public Parser(
-        IReaderCCode icCodeReader,
+        IReaderCCode codeReader,
         ILogger<Parser> logger,
-        Domain.Parse.ClangArgumentsBuilder clangArgumentsBuilder)
+        ClangArgumentsBuilder clangArgumentsBuilder)
     {
         _logger = logger;
         _clangArgumentsBuilder = clangArgumentsBuilder;
-        IcCodeReader = icCodeReader;
+        CodeReader = codeReader;
     }
 
     public void CleanUp()
@@ -191,7 +191,7 @@ public sealed partial class Parser
             false);
         var arguments = argumentsBuilderResult.Arguments;
         var filePath = WriteMacroObjectsFile(macroObjectCandidates);
-        var macroObjects = Macros(arguments, filePath);
+        var macroObjects = Macros(options, arguments, filePath);
 
         File.Delete(filePath);
         var result = macroObjects.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.Ordinal));
@@ -199,6 +199,7 @@ public sealed partial class Parser
     }
 
     private ImmutableArray<CMacroObject> Macros(
+        ParseOptions options,
         ImmutableArray<string> arguments,
         string filePath)
     {
@@ -212,12 +213,13 @@ public sealed partial class Parser
         }
 
         using var streamReader = new StreamReader(filePath);
-        var result = MacroObjects(translationUnit, streamReader);
+        var result = MacroObjects(options, translationUnit, streamReader);
         clang_disposeTranslationUnit(translationUnit);
         return result;
     }
 
-    private ImmutableArray<CMacroObject> MacroObjects(CXTranslationUnit translationUnit, StreamReader reader)
+    private ImmutableArray<CMacroObject> MacroObjects(
+        ParseOptions options, CXTranslationUnit translationUnit, StreamReader reader)
     {
         var builder = ImmutableArray.CreateBuilder<CMacroObject>();
 
@@ -238,7 +240,7 @@ public sealed partial class Parser
             var macroName =
                 variableName.Replace("variable_", string.Empty, StringComparison.InvariantCultureIgnoreCase);
             var cursor = variable.GetDescendents().FirstOrDefault();
-            var macro = MacroObject(macroName, cursor, reader, ref readerLineNumber);
+            var macro = MacroObject(options, macroName, cursor, reader, ref readerLineNumber);
             if (macro == null)
             {
                 continue;
@@ -250,7 +252,8 @@ public sealed partial class Parser
         return builder.ToImmutable();
     }
 
-    private static CMacroObject? MacroObject(
+    private CMacroObject? MacroObject(
+        ParseOptions options,
         string name,
         CXCursor cursor,
         StreamReader reader,
@@ -265,6 +268,11 @@ public sealed partial class Parser
         }
 
         var location = MacroLocation(cursor, reader, ref readerLineNumber);
+        var headerFilesBlocked = options.HeaderFilesBlocked;
+        if (headerFilesBlocked.Contains(location.FileName))
+        {
+            return null;
+        }
 
         var kind = MacroTypeKind(type);
         var typeName = type.Name();
@@ -515,7 +523,7 @@ int main(void)
     {
         var name = cursor.Name();
 
-        var isAllowed = IcCodeReader.IsMacroObjectNameAllowed(name);
+        var isAllowed = CodeReader.IsMacroObjectNameAllowed(name);
         if (!isAllowed)
         {
             return null;

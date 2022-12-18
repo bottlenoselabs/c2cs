@@ -102,6 +102,7 @@ public sealed class InputValidator : ExecutorInputValidator<ReaderCCodeOptions, 
             },
             ParseOptions = new ParseOptions
             {
+                HeaderFilesBlocked = headerFilesBlocked,
                 UserIncludeDirectories = userIncludeDirectoriesPlatform,
                 SystemIncludeDirectories = systemIncludeDirectoriesPlatform,
                 MacroObjectsDefines = clangDefines,
