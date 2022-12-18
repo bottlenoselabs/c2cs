@@ -1140,6 +1140,11 @@ public sealed class CSharpCodeMapper
             typeName = "string";
         }
 
+        if (typeName == "CBool")
+        {
+            typeName = "int";
+        }
+
         var value = macro.Value;
         if (typeName == "float")
         {
