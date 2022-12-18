@@ -104,7 +104,7 @@ public sealed class FunctionExplorer : ExploreNodeHandler<CFunction>
         return result;
     }
 
-    private static CFunctionParameter? FunctionParameter(
+    private static CFunctionParameter FunctionParameter(
         ExploreContext context,
         CXCursor parameterCursor,
         ExploreInfoNode parentInfo)
@@ -113,11 +113,6 @@ public sealed class FunctionExplorer : ExploreNodeHandler<CFunction>
         var parameterType = clang_getCursorType(parameterCursor);
 
         var parameterTypeInfo = context.VisitType(parameterType, parentInfo);
-        if (parameterTypeInfo == null)
-        {
-            return null;
-        }
-
         var functionExternParameter = new CFunctionParameter
         {
             Name = name,

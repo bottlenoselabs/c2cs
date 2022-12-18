@@ -82,10 +82,7 @@ public sealed class InputValidator : ExecutorInputValidator<ReaderCCodeOptions, 
         {
             TargetPlatform = targetPlatform,
             OutputFilePath = outputFilePath,
-            ExplorerOptions = new ExploreOptions
-            {
-                IsEnabledSystemDeclarations = configuration.IsEnabledSystemDeclarations ?? false
-            },
+            ExplorerOptions = new ExploreOptions(),
             ParseOptions = new ParseOptions
             {
                 UserIncludeDirectories = userIncludeDirectoriesPlatform,
@@ -94,7 +91,6 @@ public sealed class InputValidator : ExecutorInputValidator<ReaderCCodeOptions, 
                 AdditionalArguments = clangArguments,
                 IsEnabledFindSystemHeaders = configuration.IsEnabledFindSystemHeaders ?? true,
                 Frameworks = frameworksPlatform,
-                IsEnabledSystemDeclarations = configuration.IsEnabledSystemDeclarations ?? false,
                 IsEnabledSingleHeader = configuration.IsEnabledSingleHeader ?? true
             }
         };

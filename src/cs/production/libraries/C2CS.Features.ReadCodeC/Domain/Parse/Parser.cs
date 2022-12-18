@@ -602,16 +602,6 @@ int main(void)
             return false;
         }
 
-        if (!options.IsEnabledSystemDeclarations)
-        {
-            var locationSource = clang_getCursorLocation(cursor);
-            var isMacroSystem = clang_Location_isInSystemHeader(locationSource) > 0;
-            if (isMacroSystem)
-            {
-                return false;
-            }
-        }
-
         var isMacroFunction = clang_Cursor_isMacroFunctionLike(cursor) > 0;
         if (isMacroFunction)
         {

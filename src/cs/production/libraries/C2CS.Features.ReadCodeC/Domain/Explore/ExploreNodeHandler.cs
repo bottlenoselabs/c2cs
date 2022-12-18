@@ -66,11 +66,6 @@ public abstract partial class ExploreHandler
             return false;
         }
 
-        if (!context.IsAllowed(info.Kind, info.Name, info.Cursor, info.Type))
-        {
-            return false;
-        }
-
         if (IsAlreadyVisited(info.Name, out var firstLocation))
         {
             if (_logAlreadyExplored)

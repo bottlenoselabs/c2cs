@@ -389,7 +389,7 @@ public sealed class CSharpCodeMapper
             CSharpNode = node
         };
 
-        var key = node.Name + ":" + node.GetHashCode();
+        var key = node.Name + ":" + node.CKind + ":" + node.SizeOf;
         var isFirstTimeEncountered = !candidateNodes.TryGetValue(key, out var nodes);
         if (isFirstTimeEncountered)
         {

@@ -19,7 +19,5 @@ public class ParseOptions
 
     public ImmutableArray<string> Frameworks { get; init; }
 
-    public bool IsEnabledSystemDeclarations { get; init; }
-
     public bool IsEnabledSingleHeader { get; init; }
 }

@@ -60,17 +60,6 @@ public sealed class ReaderCCodeOptions : ExecutorOptions
     public bool? IsEnabledAllowNamesWithPrefixedUnderscore { get; set; }
 
     /// <summary>
-    ///     Determines whether to include or exclude system declarations (functions, enums, typedefs, records, etc).
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Default is `false`. Use <c>true</c> to include system declarations. Use `false` to exclude system
-    ///         declarations.
-    ///     </para>
-    /// </remarks>
-    public bool? IsEnabledSystemDeclarations { get; set; }
-
-    /// <summary>
     ///     Determines whether to automatically find and append the system headers for the target platform.
     /// </summary>
     /// <remarks>

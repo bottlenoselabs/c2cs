@@ -426,17 +426,8 @@ public sealed partial class Explorer
         var includeCursors = translationUnitCursor.GetDescendents(
             static (child, _) => child.kind == CXCursorKind.CXCursor_InclusionDirective);
 
-        var stringBuilder = new StringBuilder();
-
         foreach (var includeCursor in includeCursors)
         {
-            var code = includeCursor.GetCode(stringBuilder);
-            var isSystem = code.Contains('<', StringComparison.InvariantCulture);
-            if (isSystem && !context.ExploreOptions.IsEnabledSystemDeclarations)
-            {
-                continue;
-            }
-
             var file = clang_getIncludedFile(includeCursor);
             var filePath = clang_getFileName(file).String();
             if (_visitedIncludeFilePaths.Contains(filePath))

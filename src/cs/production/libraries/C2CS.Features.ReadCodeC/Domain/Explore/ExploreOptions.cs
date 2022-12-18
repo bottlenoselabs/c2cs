@@ -5,5 +5,4 @@ namespace C2CS.ReadCodeC.Domain.Explore;
 
 public class ExploreOptions
 {
-    public bool IsEnabledSystemDeclarations { get; init; }
 }

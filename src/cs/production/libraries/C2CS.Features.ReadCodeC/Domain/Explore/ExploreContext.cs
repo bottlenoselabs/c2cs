@@ -201,7 +201,7 @@ extend                        = 0x40
         }
     }
 
-    public CTypeInfo? VisitType(
+    public CTypeInfo VisitType(
         CXType typeCandidate,
         ExploreInfoNode? rootInfo,
         int? fieldIndex = null,
@@ -221,7 +221,7 @@ extend                        = 0x40
         var cursor = clang_getTypeDeclaration(type);
         var typeName = TypeName(kind, type, rootInfo?.Name, rootInfo?.Kind, fieldIndex);
 
-        var typeInfo = VisitTypeInternal(kind, typeName, type, typeCandidate, cursor, rootInfo, null);
+        var typeInfo = VisitTypeInternal(kind, typeName, type, typeCandidate, cursor, rootInfo);
 
         return typeInfo;
     }
@@ -339,36 +339,19 @@ extend                        = 0x40
         return (CKind.Pointer, cursorType);
     }
 
-    internal bool IsAllowed(
-        CKind kind,
-        string name,
-        CXCursor cursor,
-        CXType type)
-    {
-        var location = Location(cursor, type);
-
-        if (!ExploreOptions.IsEnabledSystemDeclarations)
-        {
-            var cursorLocation = clang_getCursorLocation(cursor);
-            var isSystemCursor = clang_Location_isInSystemHeader(cursorLocation) > 0;
-            if (isSystemCursor)
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private CTypeInfo? VisitTypeInternal(
+    private CTypeInfo VisitTypeInternal(
         CKind kind,
         string typeName,
         CXType type,
         CXType containerType,
         CXCursor cursor,
-        ExploreInfoNode? rootNode,
-        bool? parentIsFromBlockedHeader)
+        ExploreInfoNode? rootNode)
     {
+        if (typeName == "va_list")
+        {
+            return CTypeInfo.VoidPointer(PointerSize);
+        }
+
         if (type.kind == CXTypeKind.CXType_Attributed)
         {
             var typeCandidate = clang_Type_getModifiedType(type);
@@ -379,28 +362,11 @@ extend                        = 0x40
                 typeCandidate,
                 containerType,
                 typeCandidateCursor,
-                rootNode,
-                parentIsFromBlockedHeader);
+                rootNode);
         }
 
         var locationCursor = clang_getTypeDeclaration(type);
         var location = Location(locationCursor, type);
-
-        var isFromBlockedHeader = false;
-        if (!IsAllowed(kind, typeName, cursor, containerType))
-        {
-            if (parentIsFromBlockedHeader.HasValue && parentIsFromBlockedHeader.Value)
-            {
-                return null;
-            }
-
-            if (typeName == "va_list")
-            {
-                return CTypeInfo.VoidPointer(PointerSize);
-            }
-
-            isFromBlockedHeader = true;
-        }
 
         int sizeOf;
         int? alignOf;
@@ -418,8 +384,7 @@ extend                        = 0x40
                 pointeeType,
                 pointeeTypeCandidate,
                 pointeeTypeCursor,
-                rootNode,
-                isFromBlockedHeader);
+                rootNode);
             sizeOf = PointerSize;
             alignOf = PointerSize;
         }
@@ -436,8 +401,7 @@ extend                        = 0x40
                 elementType,
                 elementTypeCandidate,
                 elementTypeCursor,
-                rootNode,
-                isFromBlockedHeader);
+                rootNode);
             sizeOf = PointerSize;
             alignOf = PointerSize;
         }
@@ -454,23 +418,15 @@ extend                        = 0x40
                 aliasType,
                 aliasTypeCandidate,
                 aliasTypeCursor,
-                rootNode,
-                isFromBlockedHeader);
-            if (innerType != null)
-            {
-                if (innerType.Kind == CKind.OpaqueType)
-                {
-                    return innerType;
-                }
+                rootNode);
 
-                sizeOf = innerType.SizeOf;
-                alignOf = innerType.AlignOf;
-            }
-            else
+            if (innerType.Kind == CKind.OpaqueType)
             {
-                sizeOf = SizeOf(kind, aliasType);
-                alignOf = AlignOf(kind, aliasType);
+                return innerType;
             }
+
+            sizeOf = innerType.SizeOf;
+            alignOf = innerType.AlignOf;
         }
         else
         {
