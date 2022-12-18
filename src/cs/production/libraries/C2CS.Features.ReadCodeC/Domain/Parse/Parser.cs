@@ -160,11 +160,6 @@ public sealed partial class Parser
         TargetPlatform targetPlatform,
         ParseOptions options)
     {
-        if (!options.IsEnabledMacroObjects)
-        {
-            return ImmutableArray<MacroObjectCandidate>.Empty;
-        }
-
         var argumentsBuilderResult = _clangArgumentsBuilder.Build(
             diagnostics,
             targetPlatform,
@@ -268,11 +263,6 @@ public sealed partial class Parser
         }
 
         var location = MacroLocation(cursor, reader, ref readerLineNumber);
-        var headerFilesBlocked = options.HeaderFilesBlocked;
-        if (headerFilesBlocked.Contains(location.FileName))
-        {
-            return null;
-        }
 
         var kind = MacroTypeKind(type);
         var typeName = type.Name();
@@ -522,14 +512,7 @@ int main(void)
         ImmutableArray<string>? userIncludeDirectories)
     {
         var name = cursor.Name();
-
-        var isAllowed = CodeReader.IsMacroObjectNameAllowed(name);
-        if (!isAllowed)
-        {
-            return null;
-        }
-
-        var location = cursor.GetLocation(null, linkedFileDirectoryPaths, userIncludeDirectories);
+        var location = cursor.GetLocation(null, linkedFileDirectoryPaths);
 
         // clang doesn't have a thing where we can easily get a value of a macro
         // we need to:

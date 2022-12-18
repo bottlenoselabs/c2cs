@@ -175,8 +175,7 @@ public static unsafe class ClangExtensions
     public static CLocation GetLocation(
         this CXCursor cursor,
         CXType? type = null,
-        ImmutableDictionary<string, string>? linkedFileDirectoryPaths = null,
-        ImmutableArray<string>? userIncludeDirectories = null)
+        ImmutableDictionary<string, string>? linkedFileDirectoryPaths = null)
     {
         if (cursor.kind == CXCursorKind.CXCursor_TranslationUnit)
         {
@@ -213,15 +212,14 @@ public static unsafe class ClangExtensions
 
         var locationSource = clang_getCursorLocation(cursor);
         var translationUnit = clang_Cursor_getTranslationUnit(cursor);
-        var location = GetLocation(locationSource, translationUnit, linkedFileDirectoryPaths, userIncludeDirectories);
+        var location = GetLocation(locationSource, translationUnit, linkedFileDirectoryPaths);
         return location;
     }
 
     private static CLocation GetLocation(
         CXSourceLocation locationSource,
         CXTranslationUnit? translationUnit = null,
-        ImmutableDictionary<string, string>? linkedFileDirectoryPaths = null,
-        ImmutableArray<string>? userIncludeDirectories = null)
+        ImmutableDictionary<string, string>? linkedFileDirectoryPaths = null)
     {
         CXFile file;
         uint lineNumber;
@@ -267,19 +265,6 @@ public static unsafe class ClangExtensions
                 {
                     location.FilePath = location.FilePath
                         .Replace(linkedDirectory, targetDirectory, StringComparison.InvariantCulture).Trim('/', '\\');
-                    break;
-                }
-            }
-        }
-
-        if (userIncludeDirectories != null)
-        {
-            foreach (var directory in userIncludeDirectories)
-            {
-                if (location.FilePath.Contains(directory, StringComparison.InvariantCulture))
-                {
-                    location.FilePath = location.FilePath
-                        .Replace(directory, string.Empty, StringComparison.InvariantCulture).Trim('/', '\\');
                     break;
                 }
             }

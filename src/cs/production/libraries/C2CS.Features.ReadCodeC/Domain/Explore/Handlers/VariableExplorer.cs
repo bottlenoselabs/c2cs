@@ -21,12 +21,6 @@ public sealed class VariableExplorer : ExploreNodeHandler<CVariable>
 
     protected override ExploreKindTypes ExpectedTypes => ExploreKindTypes.Any;
 
-    protected override bool CanVisit(ExploreContext context, string name, ExploreInfoNode? parentInfo)
-    {
-        var result = context.Reader.CanVisitVariable(name);
-        return result;
-    }
-
     public override CVariable Explore(ExploreContext context, ExploreInfoNode info)
     {
         var variable = Variable(info);

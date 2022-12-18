@@ -8,24 +8,4 @@ namespace C2CS;
 public interface IReaderCCode
 {
     ReaderCCodeOptions Options { get; }
-
-    bool IsOpaqueTypeName(string name)
-    {
-        return false;
-    }
-
-    bool CanVisitFunction(string name)
-    {
-        return true;
-    }
-
-    bool CanVisitVariable(string name)
-    {
-        return true;
-    }
-
-    bool IsMacroObjectNameAllowed(string name)
-    {
-        return true;
-    }
 }

@@ -220,12 +220,9 @@ extend                        = 0x40
 
         var cursor = clang_getTypeDeclaration(type);
         var typeName = TypeName(kind, type, rootInfo?.Name, rootInfo?.Kind, fieldIndex);
-        if (Reader.IsOpaqueTypeName(typeName))
-        {
-            kind = CKind.OpaqueType;
-        }
 
         var typeInfo = VisitTypeInternal(kind, typeName, type, typeCandidate, cursor, rootInfo, null);
+
         return typeInfo;
     }
 
@@ -349,38 +346,12 @@ extend                        = 0x40
         CXType type)
     {
         var location = Location(cursor, type);
-        var fileName = Path.GetFileName(location.FullFilePath);
-        if (ExploreOptions.HeaderFilesBlocked.Contains(fileName))
-        {
-            return false;
-        }
 
         if (!ExploreOptions.IsEnabledSystemDeclarations)
         {
             var cursorLocation = clang_getCursorLocation(cursor);
             var isSystemCursor = clang_Location_isInSystemHeader(cursorLocation) > 0;
             if (isSystemCursor)
-            {
-                return false;
-            }
-        }
-
-        if (!ExploreOptions.IsEnabledAllowNamesWithPrefixedUnderscore)
-        {
-            if (kind == CKind.FunctionPointer)
-            {
-                return true;
-            }
-
-            var nameWithoutPointers = name.TrimEnd('*');
-            if (nameWithoutPointers == "_Bool")
-            {
-                return true;
-            }
-
-            var namesStartsWithUnderscore =
-                name.StartsWith("_", StringComparison.InvariantCultureIgnoreCase);
-            if (namesStartsWithUnderscore)
             {
                 return false;
             }
@@ -428,19 +399,6 @@ extend                        = 0x40
                 return CTypeInfo.VoidPointer(PointerSize);
             }
 
-            if (rootNode != null)
-            {
-                var cursorLocation = clang_getCursorLocation(cursor);
-                var isSystemCursor = clang_Location_isInSystemHeader(cursorLocation) > 0;
-                var isPassThrough = ExploreOptions.PassThroughTypeNames.Contains(typeName);
-                if (!isSystemCursor && !isPassThrough)
-                {
-                    var diagnostic =
-                        new TypeFromBlockedHeaderDiagnostic(typeName, location, rootNode.Location);
-                    Diagnostics.Add(diagnostic);
-                }
-            }
-
             isFromBlockedHeader = true;
         }
 
@@ -453,11 +411,6 @@ extend                        = 0x40
             var (pointeeTypeKind, pointeeType) = TypeKind(pointeeTypeCandidate, kind);
             var pointeeTypeName = pointeeType.Name();
             var pointeeTypeCursor = clang_getTypeDeclaration(pointeeType);
-
-            if (Reader.IsOpaqueTypeName(pointeeTypeName))
-            {
-                pointeeTypeKind = CKind.OpaqueType;
-            }
 
             innerType = VisitTypeInternal(
                 pointeeTypeKind,
@@ -477,11 +430,6 @@ extend                        = 0x40
             var elementTypeName = elementType.Name();
             var elementTypeCursor = clang_getTypeDeclaration(elementType);
 
-            if (Reader.IsOpaqueTypeName(elementTypeName))
-            {
-                elementTypeKind = CKind.OpaqueType;
-            }
-
             innerType = VisitTypeInternal(
                 elementTypeKind,
                 elementTypeName,
@@ -499,11 +447,6 @@ extend                        = 0x40
             var (aliasTypeKind, aliasType) = TypeKind(aliasTypeCandidate, kind);
             var aliasTypeName = aliasType.Name();
             var aliasTypeCursor = clang_getTypeDeclaration(aliasType);
-
-            if (Reader.IsOpaqueTypeName(aliasTypeName))
-            {
-                aliasTypeKind = CKind.OpaqueType;
-            }
 
             innerType = VisitTypeInternal(
                 aliasTypeKind,
@@ -583,10 +526,7 @@ extend                        = 0x40
         CXCursor cursor,
         CXType type)
     {
-        var userIncludeDirectories = ExploreOptions.IsEnabledLocationFullPaths
-            ? ImmutableArray<string>.Empty
-            : ParseOptions.UserIncludeDirectories;
-        return cursor.GetLocation(type, _linkedPaths, userIncludeDirectories);
+        return cursor.GetLocation(type, _linkedPaths);
     }
 
     private int SizeOf(
@@ -700,7 +640,7 @@ extend                        = 0x40
         return handler.CanVisitInternal(this, node);
     }
 
-    public CNode Explore(ExploreInfoNode node)
+    public CNode? Explore(ExploreInfoNode node)
     {
         var handler = GetHandler(node.Kind);
         return handler.ExploreInternal(this, node);
