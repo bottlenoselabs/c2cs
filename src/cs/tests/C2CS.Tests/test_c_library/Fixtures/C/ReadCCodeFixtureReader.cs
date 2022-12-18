@@ -8,7 +8,7 @@ namespace C2CS.Tests.test_c_library.Fixtures.C;
 
 public class ReadCCodeFixtureReader : IReaderCCode
 {
-    public ReaderCCodeOptions? Options { get; }
+    public ReaderCCodeOptions Options { get; }
 
     public ReadCCodeFixtureReader()
     {

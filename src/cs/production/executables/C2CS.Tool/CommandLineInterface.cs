@@ -49,11 +49,6 @@ internal sealed partial class CommandLineInterface : RootCommand
 
         var useCase = _serviceProvider.GetService<ReadCodeC.Main>()!;
         var options = readerCCode.Options;
-        if (options == null)
-        {
-            return;
-        }
-
         var response = useCase.Execute(options);
     }
 

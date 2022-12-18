@@ -89,6 +89,11 @@ public sealed class FunctionExplorer : ExploreNodeHandler<CFunction>
         {
             var parameterCursor = clang_Cursor_getArgument(info.Cursor, i);
             var functionParameter = FunctionParameter(context, parameterCursor, info);
+            if (functionParameter == null)
+            {
+                continue;
+            }
+
             builder.Add(functionParameter);
         }
 
@@ -96,7 +101,7 @@ public sealed class FunctionExplorer : ExploreNodeHandler<CFunction>
         return result;
     }
 
-    private static CFunctionParameter FunctionParameter(
+    private static CFunctionParameter? FunctionParameter(
         ExploreContext context,
         CXCursor parameterCursor,
         ExploreInfoNode parentInfo)
@@ -107,7 +112,19 @@ public sealed class FunctionExplorer : ExploreNodeHandler<CFunction>
         var parameterTypeInfo = context.VisitType(parameterType, parentInfo);
         if (parameterTypeInfo == null)
         {
-            throw new ClangException("Null type.");
+            return null;
+        }
+
+        var typeInfo = parameterTypeInfo;
+        while (typeInfo != null)
+        {
+            var headerFilesBlocked = context.ExploreOptions.HeaderFilesBlocked;
+            if (headerFilesBlocked.Contains(typeInfo.Location.FileName))
+            {
+                return null;
+            }
+
+            typeInfo = typeInfo.InnerTypeInfo;
         }
 
         var functionExternParameter = new CFunctionParameter
