@@ -22,28 +22,6 @@ public class EnumConstantExplorer : ExploreNodeHandler<CEnumConstant>
     protected override ExploreKindTypes ExpectedTypes { get; } =
         ExploreKindTypes.Either(CXTypeKind.CXType_Int, CXTypeKind.CXType_UInt, CXTypeKind.CXType_ULong);
 
-    protected override bool CanVisit(ExploreContext context, string name, ExploreInfoNode? parentInfo)
-    {
-        if (!context.ExploreOptions.IsEnabledEnumConstants)
-        {
-            return false;
-        }
-
-        var options = context.ExploreOptions;
-
-        if (options.EnumConstantNamesAllowed.Contains(name))
-        {
-            return true;
-        }
-
-        if (!options.EnumConstantNamesAllowed.IsEmpty)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
     public override CEnumConstant Explore(ExploreContext context, ExploreInfoNode info)
     {
         var enumConstant = EnumConstant(context, info);

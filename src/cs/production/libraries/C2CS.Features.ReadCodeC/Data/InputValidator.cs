@@ -75,14 +75,8 @@ public sealed class InputValidator : ExecutorInputValidator<ReaderCCodeOptions, 
 
         var outputFilePath = VerifyOutputFilePath(configuration.OutputAbstractSyntaxTreesFileDirectory, targetPlatform);
 
-        var headerFilesBlocked = VerifyBlockedHeaderFiles(configuration, configurationPlatform);
-        var macroObjectNamesAllowed = VerifyImmutableArray(configuration.MacroObjectNamesAllowed).ToImmutableHashSet();
-        var enumConstantNamesAllowed =
-            VerifyImmutableArray(configuration.EnumConstantNamesAllowed).ToImmutableHashSet();
         var clangDefines = VerifyImmutableArray(configurationPlatform?.Defines);
         var clangArguments = VerifyImmutableArray(configurationPlatform?.ClangArguments);
-
-        var passThroughTypedNames = VerifyImmutableArray(configuration.PassThroughTypeNames).ToImmutableHashSet();
 
         var inputAbstractSyntaxTree = new InputAbstractSyntaxTree
         {
@@ -90,19 +84,10 @@ public sealed class InputValidator : ExecutorInputValidator<ReaderCCodeOptions, 
             OutputFilePath = outputFilePath,
             ExplorerOptions = new ExploreOptions
             {
-                HeaderFilesBlocked = headerFilesBlocked,
-                EnumConstantNamesAllowed = enumConstantNamesAllowed,
-                IsEnabledLocationFullPaths = configuration.IsEnabledLocationFullPaths ?? false,
-                IsEnabledEnumConstants = configuration.IsEnabledEnumConstants ?? true,
-                IsEnabledEnumsDangling = configuration.IsEnabledEnumsDangling ?? false,
-                IsEnabledAllowNamesWithPrefixedUnderscore =
-                    configuration.IsEnabledAllowNamesWithPrefixedUnderscore ?? false,
-                IsEnabledSystemDeclarations = configuration.IsEnabledSystemDeclarations ?? false,
-                PassThroughTypeNames = passThroughTypedNames
+                IsEnabledSystemDeclarations = configuration.IsEnabledSystemDeclarations ?? false
             },
             ParseOptions = new ParseOptions
             {
-                HeaderFilesBlocked = headerFilesBlocked,
                 UserIncludeDirectories = userIncludeDirectoriesPlatform,
                 SystemIncludeDirectories = systemIncludeDirectoriesPlatform,
                 MacroObjectsDefines = clangDefines,
@@ -110,9 +95,7 @@ public sealed class InputValidator : ExecutorInputValidator<ReaderCCodeOptions, 
                 IsEnabledFindSystemHeaders = configuration.IsEnabledFindSystemHeaders ?? true,
                 Frameworks = frameworksPlatform,
                 IsEnabledSystemDeclarations = configuration.IsEnabledSystemDeclarations ?? false,
-                IsEnabledMacroObjects = configuration.IsEnabledMacroObjects ?? true,
-                IsEnabledSingleHeader = configuration.IsEnabledSingleHeader ?? true,
-                MacroObjectNamesAllowed = macroObjectNamesAllowed
+                IsEnabledSingleHeader = configuration.IsEnabledSingleHeader ?? true
             }
         };
 
@@ -221,37 +204,6 @@ public sealed class InputValidator : ExecutorInputValidator<ReaderCCodeOptions, 
         var directoriesPlatform = VerifyImmutableArray(platformFrameworks);
         var result = directoriesPlatform.AddRange(frameworksNonPlatform);
         return result;
-    }
-
-    private ImmutableHashSet<string> VerifyBlockedHeaderFiles(
-        ReaderCCodeOptions options,
-        ReaderCCodeOptionsPlatform? optionsPlatform)
-    {
-        var headerFilesBlocked = ImmutableHashSet.CreateBuilder<string>();
-
-        if (options.HeaderFilesBlocked != null)
-        {
-            foreach (var headerFileBlocked in options.HeaderFilesBlocked)
-            {
-                if (!string.IsNullOrEmpty(headerFileBlocked))
-                {
-                    headerFilesBlocked.Add(headerFileBlocked);
-                }
-            }
-        }
-
-        if (optionsPlatform != null && optionsPlatform.HeaderFilesBlocked != null)
-        {
-            foreach (var headerFileBlocked in optionsPlatform.HeaderFilesBlocked)
-            {
-                if (!string.IsNullOrEmpty(headerFileBlocked))
-                {
-                    headerFilesBlocked.Add(headerFileBlocked);
-                }
-            }
-        }
-
-        return headerFilesBlocked.ToImmutable();
     }
 
     private static ImmutableArray<string> VerifyImmutableArray(ImmutableArray<string>? array)

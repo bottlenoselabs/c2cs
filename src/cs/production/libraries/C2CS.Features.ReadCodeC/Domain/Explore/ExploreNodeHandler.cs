@@ -81,17 +81,7 @@ public abstract partial class ExploreHandler
             return false;
         }
 
-        if (!CanVisit(context, info.Name, info.Parent))
-        {
-            return false;
-        }
-
         MarkAsVisited(info);
-        return true;
-    }
-
-    protected virtual bool CanVisit(ExploreContext context, string name, ExploreInfoNode? parentInfo)
-    {
         return true;
     }
 

@@ -28,12 +28,6 @@ public sealed class FunctionExplorer : ExploreNodeHandler<CFunction>
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Either(
         CXTypeKind.CXType_FunctionProto, CXTypeKind.CXType_FunctionNoProto);
 
-    protected override bool CanVisit(ExploreContext context, string name, ExploreInfoNode? parentInfo)
-    {
-        var result = context.Reader.CanVisitFunction(name);
-        return result;
-    }
-
     public override CFunction? Explore(ExploreContext context, ExploreInfoNode info)
     {
         var function = Function(context, info);

@@ -451,12 +451,6 @@ public sealed partial class Explorer
 
     private void VisitInclude(ExploreContext context, string headerFilePath)
     {
-        var headerFileName = Path.GetFileName(headerFilePath);
-        if (context.ExploreOptions.HeaderFilesBlocked.Contains(headerFileName))
-        {
-            return;
-        }
-
         var includeTranslationUnit = _parser.TranslationUnit(
             headerFilePath,
             context.Diagnostics,
@@ -529,19 +523,9 @@ public sealed partial class Explorer
             type = clang_Type_getModifiedType(type);
         }
 
-        if (kind == CKind.Enum && !context.ExploreOptions.IsEnabledEnumsDangling)
-        {
-            return;
-        }
-
         var name = clang_getCursorSpelling(cursor).String();
         var isAnonymous = clang_Cursor_isAnonymous(cursor) > 0;
         var info = context.CreateVisitInfoNode(kind, name, cursor, type, null);
-
-        if (context.ExploreOptions.HeaderFilesBlocked.Contains(info.Location.FileName))
-        {
-            return;
-        }
 
         if (kind == CKind.Enum && isAnonymous)
         {
