@@ -75,7 +75,7 @@ public sealed class InputValidator : ExecutorInputValidator<ReaderCCodeOptions, 
 
         var outputFilePath = VerifyOutputFilePath(configuration.OutputAbstractSyntaxTreesFileDirectory, targetPlatform);
 
-        var excludedHeaderFiles = VerifyImmutableArray(configurationPlatform?.HeaderFilesBlocked).ToImmutableHashSet();
+        var headerFilesBlocked = VerifyBlockedHeaderFiles(configuration, configurationPlatform);
         var macroObjectNamesAllowed = VerifyImmutableArray(configuration.MacroObjectNamesAllowed).ToImmutableHashSet();
         var enumConstantNamesAllowed =
             VerifyImmutableArray(configuration.EnumConstantNamesAllowed).ToImmutableHashSet();
@@ -90,7 +90,7 @@ public sealed class InputValidator : ExecutorInputValidator<ReaderCCodeOptions, 
             OutputFilePath = outputFilePath,
             ExplorerOptions = new ExploreOptions
             {
-                HeaderFilesBlocked = excludedHeaderFiles,
+                HeaderFilesBlocked = headerFilesBlocked,
                 EnumConstantNamesAllowed = enumConstantNamesAllowed,
                 IsEnabledLocationFullPaths = configuration.IsEnabledLocationFullPaths ?? false,
                 IsEnabledEnumConstants = configuration.IsEnabledEnumConstants ?? true,
@@ -220,6 +220,37 @@ public sealed class InputValidator : ExecutorInputValidator<ReaderCCodeOptions, 
         var directoriesPlatform = VerifyImmutableArray(platformFrameworks);
         var result = directoriesPlatform.AddRange(frameworksNonPlatform);
         return result;
+    }
+
+    private ImmutableHashSet<string> VerifyBlockedHeaderFiles(
+        ReaderCCodeOptions options,
+        ReaderCCodeOptionsPlatform? optionsPlatform)
+    {
+        var headerFilesBlocked = ImmutableHashSet.CreateBuilder<string>();
+
+        if (options.HeaderFilesBlocked != null)
+        {
+            foreach (var headerFileBlocked in options.HeaderFilesBlocked)
+            {
+                if (!string.IsNullOrEmpty(headerFileBlocked))
+                {
+                    headerFilesBlocked.Add(headerFileBlocked);
+                }
+            }
+        }
+
+        if (optionsPlatform != null && optionsPlatform.HeaderFilesBlocked != null)
+        {
+            foreach (var headerFileBlocked in optionsPlatform.HeaderFilesBlocked)
+            {
+                if (!string.IsNullOrEmpty(headerFileBlocked))
+                {
+                    headerFilesBlocked.Add(headerFileBlocked);
+                }
+            }
+        }
+
+        return headerFilesBlocked.ToImmutable();
     }
 
     private static ImmutableArray<string> VerifyImmutableArray(ImmutableArray<string>? array)
