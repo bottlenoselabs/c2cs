@@ -26,18 +26,6 @@ public sealed class ReaderCCodeOptionsPlatform
     public ImmutableArray<string>? Defines { get; set; }
 
     /// <summary>
-    ///     C header file paths to exclude from generating root nodes such as functions or variables.
-    /// </summary>
-    /// <remarks>
-    ///     <para>File paths are relative to <see cref="UserIncludeFileDirectories" />.</para>
-    ///     <para>
-    ///         Because the way libclang works this does not block transitive files. In other words it only blocks files
-    ///         where the declarations ares defined.
-    ///     </para>
-    /// </remarks>
-    public ImmutableArray<string>? HeaderFilesBlocked { get; set; }
-
-    /// <summary>
     ///     The additional Clang arguments to use when parsing C code.
     /// </summary>
     public ImmutableArray<string>? ClangArguments { get; set; }
