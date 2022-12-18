@@ -226,6 +226,20 @@ extend                        = 0x40
         }
 
         var typeInfo = VisitTypeInternal(kind, typeName, type, typeCandidate, cursor, rootInfo, null);
+
+        // Is blocked?
+        var typeInfo2 = typeInfo;
+        while (typeInfo2 != null)
+        {
+            var headerFilesBlocked = ExploreOptions.HeaderFilesBlocked;
+            if (headerFilesBlocked.Contains(typeInfo2.Location.FileName))
+            {
+                return null;
+            }
+
+            typeInfo2 = typeInfo2.InnerTypeInfo;
+        }
+
         return typeInfo;
     }
 
@@ -700,7 +714,7 @@ extend                        = 0x40
         return handler.CanVisitInternal(this, node);
     }
 
-    public CNode Explore(ExploreInfoNode node)
+    public CNode? Explore(ExploreInfoNode node)
     {
         var handler = GetHandler(node.Kind);
         return handler.ExploreInternal(this, node);

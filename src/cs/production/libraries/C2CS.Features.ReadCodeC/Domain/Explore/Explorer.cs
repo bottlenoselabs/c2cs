@@ -276,7 +276,10 @@ public sealed partial class Explorer
     private void ExploreNode(ExploreContext context, ExploreInfoNode info)
     {
         var node = context.Explore(info);
-        FoundNode(node);
+        if (node != null)
+        {
+            FoundNode(node);
+        }
     }
 
     private void FoundNode(CNode node)

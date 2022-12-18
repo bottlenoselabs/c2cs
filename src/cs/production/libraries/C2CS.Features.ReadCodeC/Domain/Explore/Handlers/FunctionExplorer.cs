@@ -34,17 +34,26 @@ public sealed class FunctionExplorer : ExploreNodeHandler<CFunction>
         return result;
     }
 
-    public override CFunction Explore(ExploreContext context, ExploreInfoNode info)
+    public override CFunction? Explore(ExploreContext context, ExploreInfoNode info)
     {
         var function = Function(context, info);
         return function;
     }
 
-    private CFunction Function(ExploreContext context, ExploreInfoNode info)
+    private CFunction? Function(ExploreContext context, ExploreInfoNode info)
     {
         var callingConvention = FunctionCallingConvention(info.Type);
         var returnTypeInfo = FunctionReturnType(context, info);
+        if (returnTypeInfo == null)
+        {
+            return null;
+        }
+
         var parameters = FunctionParameters(context, info);
+        if (parameters == null)
+        {
+            return null;
+        }
 
         var result = new CFunction
         {
@@ -52,7 +61,7 @@ public sealed class FunctionExplorer : ExploreNodeHandler<CFunction>
             Location = info.Location,
             CallingConvention = callingConvention,
             ReturnTypeInfo = returnTypeInfo,
-            Parameters = parameters
+            Parameters = parameters.Value
         };
         return result;
     }
@@ -71,14 +80,14 @@ public sealed class FunctionExplorer : ExploreNodeHandler<CFunction>
         return result;
     }
 
-    private static CTypeInfo FunctionReturnType(
+    private static CTypeInfo? FunctionReturnType(
         ExploreContext context, ExploreInfoNode info)
     {
         var resultType = clang_getCursorResultType(info.Cursor);
         return context.VisitType(resultType, info)!;
     }
 
-    private ImmutableArray<CFunctionParameter> FunctionParameters(
+    private ImmutableArray<CFunctionParameter>? FunctionParameters(
         ExploreContext context,
         ExploreInfoNode info)
     {
@@ -91,7 +100,7 @@ public sealed class FunctionExplorer : ExploreNodeHandler<CFunction>
             var functionParameter = FunctionParameter(context, parameterCursor, info);
             if (functionParameter == null)
             {
-                continue;
+                return null;
             }
 
             builder.Add(functionParameter);
@@ -113,18 +122,6 @@ public sealed class FunctionExplorer : ExploreNodeHandler<CFunction>
         if (parameterTypeInfo == null)
         {
             return null;
-        }
-
-        var typeInfo = parameterTypeInfo;
-        while (typeInfo != null)
-        {
-            var headerFilesBlocked = context.ExploreOptions.HeaderFilesBlocked;
-            if (headerFilesBlocked.Contains(typeInfo.Location.FileName))
-            {
-                return null;
-            }
-
-            typeInfo = typeInfo.InnerTypeInfo;
         }
 
         var functionExternParameter = new CFunctionParameter

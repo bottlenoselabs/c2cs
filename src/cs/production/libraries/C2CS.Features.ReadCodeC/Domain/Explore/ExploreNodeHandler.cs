@@ -32,11 +32,18 @@ public abstract partial class ExploreHandler
 
     protected abstract ExploreKindTypes ExpectedTypes { get; }
 
-    internal CNode ExploreInternal(ExploreContext context, ExploreInfoNode info)
+    internal CNode? ExploreInternal(ExploreContext context, ExploreInfoNode info)
     {
         LogExploring(info.Kind, info.Name, info.Location);
         var result = Explore(context, info);
-        LogSuccess(info.Kind, info.Name, info.Location);
+
+        if (result == null)
+        {
+            LogExplored(info.Kind, info.Name, info.Location);
+            return null;
+        }
+
+        LogSkipped(info.Kind, info.Name, info.Location);
         return result;
     }
 
@@ -120,7 +127,7 @@ public abstract partial class ExploreHandler
         _visitedNames.Add(info.Name, info.Location);
     }
 
-    public abstract CNode Explore(ExploreContext context, ExploreInfoNode info);
+    public abstract CNode? Explore(ExploreContext context, ExploreInfoNode info);
 
     [LoggerMessage(0, LogLevel.Error, "- Unexpected cursor kind '{Kind}'")]
     private partial void LogFailureUnexpectedCursor(CXCursorKind kind);
@@ -135,5 +142,8 @@ public abstract partial class ExploreHandler
     public partial void LogAlreadyVisited(CKind kind, string name, CLocation location);
 
     [LoggerMessage(4, LogLevel.Debug, "- Explored {Kind} '{Name}' ({Location})'")]
-    public partial void LogSuccess(CKind kind, string name, CLocation location);
+    public partial void LogExplored(CKind kind, string name, CLocation location);
+
+    [LoggerMessage(5, LogLevel.Debug, "- Skipped {Kind} '{Name}' ({Location})'")]
+    public partial void LogSkipped(CKind kind, string name, CLocation location);
 }
