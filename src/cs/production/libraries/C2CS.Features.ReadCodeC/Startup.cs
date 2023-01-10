@@ -27,8 +27,8 @@ public static class Startup
         services.AddSingleton<Explorer>();
 
         // Use case
-        services.AddTransient<Main>();
-        services.AddSingleton<InputValidator>();
+        services.AddTransient<FeatureReadCodeC>();
+        services.AddSingleton<ReadCodeCInputValidator>();
 
         AddExploreHandlers(services);
     }

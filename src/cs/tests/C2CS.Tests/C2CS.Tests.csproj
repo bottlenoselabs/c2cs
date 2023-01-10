@@ -35,13 +35,16 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\production\executables\C2CS.Tool\C2CS.Tool.csproj" />
 		<ProjectReference Include="..\..\production\libraries\C2CS.Plugin\C2CS.Plugin.csproj" />
-		<ProjectReference Include="..\C2CS.Tests.Common\C2CS.Tests.Common.csproj" />
 	</ItemGroup>
 
-	<!-- Copy C code files-->
+	<!-- Copy data test files to output -->
 	<ItemGroup>
-		<None Include="$(GitRepositoryPath)/src/c/**/*.*" CopyToOutputDirectory="PreserveNewest" LinkBase="c" />
-		<None Include="test_c_library/Data/**/*.*" CopyToOutputDirectory="PreserveNewest" />
+	  <None Update="C\Data\Values\**\*.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+		<None Update="CSharp\Data\Values\**\*.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 </Project>

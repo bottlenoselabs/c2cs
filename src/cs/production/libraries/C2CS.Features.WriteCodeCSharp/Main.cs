@@ -8,6 +8,7 @@ using C2CS.Data.CSharp.Model;
 using C2CS.Foundation.Executors;
 using C2CS.Options;
 using C2CS.WriteCodeCSharp.Data;
+using C2CS.WriteCodeCSharp.Data.Models;
 using C2CS.WriteCodeCSharp.Domain.CodeGenerator;
 using C2CS.WriteCodeCSharp.Domain.CodeGenerator.Diagnostics;
 using C2CS.WriteCodeCSharp.Domain.Mapper;
@@ -17,14 +18,14 @@ using Microsoft.Extensions.Logging;
 
 namespace C2CS.WriteCodeCSharp;
 
-public sealed class Main : Executor<WriterCSharpCodeOptions, Input, Output>
+public sealed class FeatureWriteCodeCSharp : Executor<WriterCSharpCodeOptions, WriteCodeCSharpInput, WriteCodeCSharpOutput>
 {
     private readonly CJsonSerializer _serializer;
     private readonly IServiceProvider _services;
 
-    public Main(
-        ILogger<Main> logger,
-        InputValidator validator,
+    public FeatureWriteCodeCSharp(
+        ILogger<FeatureWriteCodeCSharp> logger,
+        WriteCodeCSharpInputValidator validator,
         CJsonSerializer serializer,
         IServiceProvider services)
         : base(logger, validator)
@@ -33,7 +34,7 @@ public sealed class Main : Executor<WriterCSharpCodeOptions, Input, Output>
         _services = services;
     }
 
-    protected override void Execute(Input input, Output output)
+    protected override void Execute(WriteCodeCSharpInput input, WriteCodeCSharpOutput output)
     {
         var abstractSyntaxTreesC = LoadCAbstractSyntaxTrees(input.InputFilePaths);
 

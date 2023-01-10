@@ -47,7 +47,7 @@ internal sealed partial class CommandLineInterface : RootCommand
             return;
         }
 
-        var useCase = _serviceProvider.GetService<ReadCodeC.Main>()!;
+        var useCase = _serviceProvider.GetService<ReadCodeC.FeatureReadCodeC>()!;
         var options = readerCCode.Options;
         var response = useCase.Execute(options);
     }
@@ -66,7 +66,7 @@ internal sealed partial class CommandLineInterface : RootCommand
             return;
         }
 
-        var useCase = _serviceProvider.GetService<WriteCodeCSharp.Main>()!;
+        var useCase = _serviceProvider.GetService<WriteCodeCSharp.FeatureWriteCodeCSharp>()!;
         var options = writerCSharpCode.Options;
         if (options == null)
         {

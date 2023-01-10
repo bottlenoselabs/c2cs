@@ -7,6 +7,7 @@ using C2CS.Data.C.Model;
 using C2CS.Foundation;
 using C2CS.ReadCodeC.Domain.Explore.Handlers;
 using C2CS.ReadCodeC.Domain.Parse;
+using C2CS.ReadCodeC.Infrastructure.Clang;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using static bottlenoselabs.clang;

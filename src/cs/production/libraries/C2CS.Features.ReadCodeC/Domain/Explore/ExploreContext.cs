@@ -6,6 +6,7 @@ using C2CS.Data.C.Model;
 using C2CS.Foundation.Executors;
 using C2CS.ReadCodeC.Domain.Explore.Diagnostics;
 using C2CS.ReadCodeC.Domain.Parse;
+using C2CS.ReadCodeC.Infrastructure.Clang;
 using static bottlenoselabs.clang;
 
 namespace C2CS.ReadCodeC.Domain.Explore;

@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using C2CS.Data.C.Model;
 using C2CS.ReadCodeC.Domain.Parse.Diagnostics;
+using C2CS.ReadCodeC.Infrastructure.Clang;
 using Microsoft.Extensions.Logging;
 using static bottlenoselabs.clang;
 

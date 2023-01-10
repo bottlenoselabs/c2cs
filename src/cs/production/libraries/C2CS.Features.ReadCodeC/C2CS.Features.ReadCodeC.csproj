@@ -7,6 +7,7 @@
 		<Nullable>enable</Nullable>
 		<NoWarn>$(NoWarn);CA1724;CA1031;CA1806</NoWarn>
 		<RootNamespace>C2CS.ReadCodeC</RootNamespace>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<!-- Project references -->

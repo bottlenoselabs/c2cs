@@ -3,6 +3,7 @@
 
 using System.Collections.Immutable;
 using C2CS.Data.C.Model;
+using C2CS.ReadCodeC.Infrastructure.Clang;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 using static bottlenoselabs.clang;

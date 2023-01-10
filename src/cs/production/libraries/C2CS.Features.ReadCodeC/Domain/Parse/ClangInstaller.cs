@@ -5,6 +5,7 @@ using System.IO.Abstractions;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using bottlenoselabs;
+using C2CS.ReadCodeC.Infrastructure.Clang;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.ReadCodeC.Domain.Parse;
