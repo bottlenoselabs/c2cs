@@ -20,7 +20,7 @@ public sealed class StructExplorer : RecordExplorer
     protected override ExploreKindCursors ExpectedCursors { get; } =
         ExploreKindCursors.Is(CXCursorKind.CXCursor_StructDecl);
 
-    public override CRecord Explore(ExploreContext context, ExploreInfoNode info)
+    protected override CRecord Explore(ExploreContext context, ExploreInfoNode info)
     {
         var @struct = Struct(context, info);
         return @struct;

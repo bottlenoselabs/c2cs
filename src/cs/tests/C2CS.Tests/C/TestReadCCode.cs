@@ -20,7 +20,7 @@ namespace C2CS.Tests.C;
 [Trait("C", "C")]
 public class TestReadCCode : TestBase
 {
-    public static TheoryData<string> Enums() => new ()
+    public static TheoryData<string> Enums() => new()
     {
         "EnumForceUInt32"
     };

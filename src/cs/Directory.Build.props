@@ -29,4 +29,14 @@
         <NoWarn>$(NoWarn);CS1591</NoWarn>
     </PropertyGroup>
 
+    <!-- StyleCop -->
+    <ItemGroup>
+    	<PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
+		    <PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+        <GlobalAnalyzerConfigFiles Include="$(MSBuildThisFileDirectory)/StyleCop.globalconfig" />
+        <AdditionalFiles Include="$(MSBuildThisFileDirectory)/StyleCop.json" Link="StyleCop.json" Visible="false" />
+    </ItemGroup>
+
 </Project>

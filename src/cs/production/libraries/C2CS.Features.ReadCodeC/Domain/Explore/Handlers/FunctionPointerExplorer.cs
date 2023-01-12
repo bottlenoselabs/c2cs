@@ -34,7 +34,7 @@ public sealed class FunctionPointerExplorer : ExploreNodeHandler<CFunctionPointe
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Either(
         CXTypeKind.CXType_FunctionProto, CXTypeKind.CXType_FunctionNoProto);
 
-    public override CFunctionPointer Explore(ExploreContext context, ExploreInfoNode info)
+    protected override CFunctionPointer Explore(ExploreContext context, ExploreInfoNode info)
     {
         var functionPointer = FunctionPointer(context, info);
         return functionPointer;

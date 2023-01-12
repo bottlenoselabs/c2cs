@@ -19,7 +19,7 @@ public sealed class OpaqueTypeExplorer : ExploreNodeHandler<COpaqueType>
 
     protected override ExploreKindTypes ExpectedTypes => ExploreKindTypes.Any;
 
-    public override COpaqueType Explore(ExploreContext context, ExploreInfoNode info)
+    protected override COpaqueType Explore(ExploreContext context, ExploreInfoNode info)
     {
         var opaqueDataType = OpaqueDataType(info);
         return opaqueDataType;

@@ -53,33 +53,6 @@ public static unsafe class ClangExtensions
         return result;
     }
 
-    [UnmanagedCallersOnly]
-    private static CXChildVisitResult VisitChild(CXCursor child, CXCursor parent, CXClientData clientData)
-    {
-        var index = (int)clientData.Data;
-        var data = _visitChildInstances[index - 1];
-
-        if (data.MustBeFromSameFile)
-        {
-            var location = clang_getCursorLocation(child);
-            var isFromMainFile = clang_Location_isFromMainFile(location) > 0;
-            if (!isFromMainFile)
-            {
-                return CXChildVisitResult.CXChildVisit_Continue;
-            }
-        }
-
-        var result = data.Predicate(child, parent);
-        if (!result)
-        {
-            return CXChildVisitResult.CXChildVisit_Continue;
-        }
-
-        data.CursorBuilder.Add(child);
-
-        return CXChildVisitResult.CXChildVisit_Continue;
-    }
-
     public static ImmutableArray<CXCursor> GetAttributes(
         this CXCursor cursor, VisitChildPredicate? predicate = null)
     {
@@ -109,29 +82,6 @@ public static unsafe class ClangExtensions
         return result;
     }
 
-    [UnmanagedCallersOnly]
-    private static CXChildVisitResult VisitAttribute(CXCursor child, CXCursor parent, CXClientData clientData)
-    {
-        var index = (int)clientData.Data;
-        var data = _visitChildInstances[index - 1];
-
-        /*var isAttribute = clang_isAttribute(child.kind) > 0;
-        if (!isAttribute)
-        {
-            return CXChildVisitResult.CXChildVisit_Continue;
-        }*/
-
-        var result = data.Predicate(child, parent);
-        if (!result)
-        {
-            return CXChildVisitResult.CXChildVisit_Continue;
-        }
-
-        data.CursorBuilder.Add(child);
-
-        return CXChildVisitResult.CXChildVisit_Continue;
-    }
-
     public static ImmutableArray<CXCursor> GetFields(this CXType type)
     {
 #pragma warning disable SA1129
@@ -153,15 +103,6 @@ public static unsafe class ClangExtensions
         var result = visitData.CursorBuilder.ToImmutable();
         visitData.CursorBuilder.Clear();
         return result;
-    }
-
-    [UnmanagedCallersOnly]
-    private static CXVisitorResult VisitField(CXCursor cursor, CXClientData clientData)
-    {
-        var index = (int)clientData.Data;
-        var data = _visitFieldsInstances[index - 1];
-        data.CursorBuilder.Add(cursor);
-        return CXVisitorResult.CXVisit_Continue;
     }
 
     public static string String(this CXString cxString)
@@ -216,108 +157,10 @@ public static unsafe class ClangExtensions
         return location;
     }
 
-    private static CLocation GetLocation(
-        CXSourceLocation locationSource,
-        CXTranslationUnit? translationUnit = null,
-        ImmutableDictionary<string, string>? linkedFileDirectoryPaths = null)
-    {
-        CXFile file;
-        uint lineNumber;
-        uint columnNumber;
-        uint offset;
-
-        clang_getFileLocation(locationSource, &file, &lineNumber, &columnNumber, &offset);
-
-        var handle = (IntPtr)file.Data;
-        if (handle == IntPtr.Zero)
-        {
-            if (!translationUnit.HasValue)
-            {
-                return CLocation.NoLocation;
-            }
-
-            return LocationInTranslationUnit(translationUnit.Value, (int)lineNumber, (int)columnNumber);
-        }
-
-        var fileNamePath = clang_getFileName(file).String();
-        var fileName = Path.GetFileName(fileNamePath);
-        var fullFilePath = string.IsNullOrEmpty(fileNamePath) ? string.Empty : Path.GetFullPath(fileNamePath);
-
-        var location = new CLocation
-        {
-            FileName = fileName,
-            FilePath = fullFilePath,
-            FullFilePath = fullFilePath,
-            LineNumber = (int)lineNumber,
-            LineColumn = (int)columnNumber
-        };
-
-        if (string.IsNullOrEmpty(location.FilePath))
-        {
-            return location;
-        }
-
-        if (linkedFileDirectoryPaths != null)
-        {
-            foreach (var (linkedDirectory, targetDirectory) in linkedFileDirectoryPaths)
-            {
-                if (location.FilePath.Contains(linkedDirectory, StringComparison.InvariantCulture))
-                {
-                    location.FilePath = location.FilePath
-                        .Replace(linkedDirectory, targetDirectory, StringComparison.InvariantCulture).Trim('/', '\\');
-                    break;
-                }
-            }
-        }
-
-        return location;
-    }
-
-    private static CLocation LocationInTranslationUnit(
-        CXTranslationUnit translationUnit,
-        int lineNumber,
-        int columnNumber)
-    {
-        var cursor = clang_getTranslationUnitCursor(translationUnit);
-        var filePath = clang_getCursorSpelling(cursor).String();
-        return new CLocation
-        {
-            FileName = Path.GetFileName(filePath),
-            FilePath = filePath,
-            LineNumber = lineNumber,
-            LineColumn = columnNumber
-        };
-    }
-
     public static string Name(this CXCursor clangCursor)
     {
         var result = clang_getCursorSpelling(clangCursor).String();
         return SanitizeClangName(result);
-    }
-
-    private static string SanitizeClangName(string result)
-    {
-        if (string.IsNullOrEmpty(result))
-        {
-            return string.Empty;
-        }
-
-        if (result.Contains("struct ", StringComparison.InvariantCulture))
-        {
-            result = result.Replace("struct ", string.Empty, StringComparison.InvariantCulture);
-        }
-
-        if (result.Contains("union ", StringComparison.InvariantCulture))
-        {
-            result = result.Replace("union ", string.Empty, StringComparison.InvariantCulture);
-        }
-
-        if (result.Contains("enum ", StringComparison.InvariantCulture))
-        {
-            result = result.Replace("enum ", string.Empty, StringComparison.InvariantCulture);
-        }
-
-        return result;
     }
 
     public static bool IsPrimitive(this CXType type)
@@ -475,18 +318,6 @@ public static unsafe class ClangExtensions
         return result;
     }
 
-    private static string NameInternal(this CXType clangType)
-    {
-        var result = clang_getTypeSpelling(clangType).String();
-        if (string.IsNullOrEmpty(result))
-        {
-            return string.Empty;
-        }
-
-        result = SanitizeClangName(result);
-        return result;
-    }
-
     public static string GetCode(
         this CXCursor cursor,
         StringBuilder? stringBuilder = null)
@@ -527,6 +358,175 @@ public static unsafe class ClangExtensions
     {
         var isConstQualifiedType = clang_isConstQualifiedType(type) > 0;
         return isConstQualifiedType;
+    }
+
+    [UnmanagedCallersOnly]
+    private static CXChildVisitResult VisitChild(CXCursor child, CXCursor parent, CXClientData clientData)
+    {
+        var index = (int)clientData.Data;
+        var data = _visitChildInstances[index - 1];
+
+        if (data.MustBeFromSameFile)
+        {
+            var location = clang_getCursorLocation(child);
+            var isFromMainFile = clang_Location_isFromMainFile(location) > 0;
+            if (!isFromMainFile)
+            {
+                return CXChildVisitResult.CXChildVisit_Continue;
+            }
+        }
+
+        var result = data.Predicate(child, parent);
+        if (!result)
+        {
+            return CXChildVisitResult.CXChildVisit_Continue;
+        }
+
+        data.CursorBuilder.Add(child);
+
+        return CXChildVisitResult.CXChildVisit_Continue;
+    }
+
+    [UnmanagedCallersOnly]
+    private static CXChildVisitResult VisitAttribute(CXCursor child, CXCursor parent, CXClientData clientData)
+    {
+        var index = (int)clientData.Data;
+        var data = _visitChildInstances[index - 1];
+
+        /*var isAttribute = clang_isAttribute(child.kind) > 0;
+        if (!isAttribute)
+        {
+            return CXChildVisitResult.CXChildVisit_Continue;
+        }*/
+
+        var result = data.Predicate(child, parent);
+        if (!result)
+        {
+            return CXChildVisitResult.CXChildVisit_Continue;
+        }
+
+        data.CursorBuilder.Add(child);
+
+        return CXChildVisitResult.CXChildVisit_Continue;
+    }
+
+    [UnmanagedCallersOnly]
+    private static CXVisitorResult VisitField(CXCursor cursor, CXClientData clientData)
+    {
+        var index = (int)clientData.Data;
+        var data = _visitFieldsInstances[index - 1];
+        data.CursorBuilder.Add(cursor);
+        return CXVisitorResult.CXVisit_Continue;
+    }
+
+    private static CLocation GetLocation(
+        CXSourceLocation locationSource,
+        CXTranslationUnit? translationUnit = null,
+        ImmutableDictionary<string, string>? linkedFileDirectoryPaths = null)
+    {
+        CXFile file;
+        uint lineNumber;
+        uint columnNumber;
+        uint offset;
+
+        clang_getFileLocation(locationSource, &file, &lineNumber, &columnNumber, &offset);
+
+        var handle = (IntPtr)file.Data;
+        if (handle == IntPtr.Zero)
+        {
+            if (!translationUnit.HasValue)
+            {
+                return CLocation.NoLocation;
+            }
+
+            return LocationInTranslationUnit(translationUnit.Value, (int)lineNumber, (int)columnNumber);
+        }
+
+        var fileNamePath = clang_getFileName(file).String();
+        var fileName = Path.GetFileName(fileNamePath);
+        var fullFilePath = string.IsNullOrEmpty(fileNamePath) ? string.Empty : Path.GetFullPath(fileNamePath);
+
+        var location = new CLocation
+        {
+            FileName = fileName,
+            FilePath = fullFilePath,
+            FullFilePath = fullFilePath,
+            LineNumber = (int)lineNumber,
+            LineColumn = (int)columnNumber
+        };
+
+        if (string.IsNullOrEmpty(location.FilePath))
+        {
+            return location;
+        }
+
+        if (linkedFileDirectoryPaths != null)
+        {
+            foreach (var (linkedDirectory, targetDirectory) in linkedFileDirectoryPaths)
+            {
+                if (location.FilePath.Contains(linkedDirectory, StringComparison.InvariantCulture))
+                {
+                    location.FilePath = location.FilePath
+                        .Replace(linkedDirectory, targetDirectory, StringComparison.InvariantCulture).Trim('/', '\\');
+                    break;
+                }
+            }
+        }
+
+        return location;
+    }
+
+    private static CLocation LocationInTranslationUnit(
+        CXTranslationUnit translationUnit,
+        int lineNumber,
+        int columnNumber)
+    {
+        var cursor = clang_getTranslationUnitCursor(translationUnit);
+        var filePath = clang_getCursorSpelling(cursor).String();
+        return new CLocation
+        {
+            FileName = Path.GetFileName(filePath),
+            FilePath = filePath,
+            LineNumber = lineNumber,
+            LineColumn = columnNumber
+        };
+    }
+
+    private static string SanitizeClangName(string result)
+    {
+        if (string.IsNullOrEmpty(result))
+        {
+            return string.Empty;
+        }
+
+        if (result.Contains("struct ", StringComparison.InvariantCulture))
+        {
+            result = result.Replace("struct ", string.Empty, StringComparison.InvariantCulture);
+        }
+
+        if (result.Contains("union ", StringComparison.InvariantCulture))
+        {
+            result = result.Replace("union ", string.Empty, StringComparison.InvariantCulture);
+        }
+
+        if (result.Contains("enum ", StringComparison.InvariantCulture))
+        {
+            result = result.Replace("enum ", string.Empty, StringComparison.InvariantCulture);
+        }
+
+        return result;
+    }
+
+    private static string NameInternal(this CXType clangType)
+    {
+        var result = clang_getTypeSpelling(clangType).String();
+        if (string.IsNullOrEmpty(result))
+        {
+            return string.Empty;
+        }
+
+        result = SanitizeClangName(result);
+        return result;
     }
 
     private readonly struct VisitChildInstance

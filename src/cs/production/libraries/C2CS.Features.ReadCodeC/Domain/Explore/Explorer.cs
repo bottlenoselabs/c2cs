@@ -52,26 +52,6 @@ public sealed partial class Explorer
         _parser = parser;
     }
 
-    private static ImmutableDictionary<CKind, Domain.Explore.ExploreHandler> CreateHandlers(IServiceProvider services)
-    {
-        var result = new Dictionary<CKind, Domain.Explore.ExploreHandler>
-        {
-            { CKind.EnumConstant, services.GetService<EnumConstantExplorer>()! },
-            { CKind.Variable, services.GetService<VariableExplorer>()! },
-            { CKind.Function, services.GetService<FunctionExplorer>()! },
-            { CKind.Struct, services.GetService<StructExplorer>()! },
-            { CKind.Union, services.GetService<UnionExplorer>()! },
-            { CKind.Enum, services.GetService<EnumExplorer>()! },
-            { CKind.TypeAlias, services.GetService<TypeAliasExplorer>()! },
-            { CKind.OpaqueType, services.GetService<OpaqueTypeExplorer>()! },
-            { CKind.FunctionPointer, services.GetService<FunctionPointerExplorer>()! },
-            { CKind.Array, services.GetService<ArrayExplorer>()! },
-            { CKind.Pointer, services.GetService<PointerExplorer>()! },
-            { CKind.Primitive, services.GetService<PrimitiveExplorer>()! }
-        };
-        return result.ToImmutableDictionary();
-    }
-
     public CAbstractSyntaxTree AbstractSyntaxTree(
         string headerFilePath,
         DiagnosticCollection diagnostics,
@@ -113,6 +93,26 @@ public sealed partial class Explorer
         CleanUp(context);
         LogSuccess();
         return result;
+    }
+
+    private static ImmutableDictionary<CKind, ExploreHandler> CreateHandlers(IServiceProvider services)
+    {
+        var result = new Dictionary<CKind, ExploreHandler>
+        {
+            { CKind.EnumConstant, services.GetService<EnumConstantExplorer>()! },
+            { CKind.Variable, services.GetService<VariableExplorer>()! },
+            { CKind.Function, services.GetService<FunctionExplorer>()! },
+            { CKind.Struct, services.GetService<StructExplorer>()! },
+            { CKind.Union, services.GetService<UnionExplorer>()! },
+            { CKind.Enum, services.GetService<EnumExplorer>()! },
+            { CKind.TypeAlias, services.GetService<TypeAliasExplorer>()! },
+            { CKind.OpaqueType, services.GetService<OpaqueTypeExplorer>()! },
+            { CKind.FunctionPointer, services.GetService<FunctionPointerExplorer>()! },
+            { CKind.Array, services.GetService<ArrayExplorer>()! },
+            { CKind.Pointer, services.GetService<PointerExplorer>()! },
+            { CKind.Primitive, services.GetService<PrimitiveExplorer>()! }
+        };
+        return result.ToImmutableDictionary();
     }
 
     private void CleanUp(ExploreContext context)
@@ -575,47 +575,47 @@ public sealed partial class Explorer
     }
 
     [LoggerMessage(0, LogLevel.Error, "- Expected a top level translation unit declaration (function, variable, enum, or macro) but found '{Kind}'")]
-    public partial void LogUnexpectedTopLevelCursor(CXCursorKind kind);
+    private partial void LogUnexpectedTopLevelCursor(CXCursorKind kind);
 
     [LoggerMessage(1, LogLevel.Error, "- Failure")]
-    public partial void LogFailure(Exception exception);
+    private partial void LogFailure(Exception exception);
 
     [LoggerMessage(2, LogLevel.Debug, "- Success")]
-    public partial void LogSuccess();
+    private partial void LogSuccess();
 
     [LoggerMessage(3, LogLevel.Debug, "- Visiting translation unit: {FilePath}")]
-    public partial void LogVisitingTranslationUnit(string filePath);
+    private partial void LogVisitingTranslationUnit(string filePath);
 
     [LoggerMessage(4, LogLevel.Information, "- Visited translation unit: {FilePath}")]
-    public partial void LogVisitedTranslationUnit(string filePath);
+    private partial void LogVisitedTranslationUnit(string filePath);
 
     [LoggerMessage(5, LogLevel.Information, "- Exploring macros")]
-    public partial void LogExploringMacros();
+    private partial void LogExploringMacros();
 
     [LoggerMessage(6, LogLevel.Information, "- Found {FoundCount} macros: {Names}")]
-    public partial void LogFoundMacros(int foundCount, string names);
+    private partial void LogFoundMacros(int foundCount, string names);
 
     [LoggerMessage(7, LogLevel.Information, "- Exploring {Count} variables: {Names}")]
-    public partial void LogExploringVariables(int count, string names);
+    private partial void LogExploringVariables(int count, string names);
 
     [LoggerMessage(8, LogLevel.Information, "- Found {FoundCount} variables: {Names}")]
-    public partial void LogFoundVariables(int foundCount, string names);
+    private partial void LogFoundVariables(int foundCount, string names);
 
     [LoggerMessage(9, LogLevel.Information, "- Exploring {Count} functions: {Names}")]
-    public partial void LogExploringFunctions(int count, string names);
+    private partial void LogExploringFunctions(int count, string names);
 
     [LoggerMessage(10, LogLevel.Information, "- Found {FoundCount} functions: {Names}")]
-    public partial void LogFoundFunctions(int foundCount, string names);
+    private partial void LogFoundFunctions(int foundCount, string names);
 
     [LoggerMessage(11, LogLevel.Information, "- Exploring {Count} types: {Names}")]
-    public partial void LogExploringTypes(int count, string names);
+    private partial void LogExploringTypes(int count, string names);
 
     [LoggerMessage(12, LogLevel.Information, "- Found {FoundCount} types: {Names}")]
-    public partial void LogFoundTypes(int foundCount, string names);
+    private partial void LogFoundTypes(int foundCount, string names);
 
     [LoggerMessage(13, LogLevel.Debug, "- Enqueued {Kind} '{Name}' ({Location})")]
-    public partial void LogEnqueue(CKind kind, string name, CLocation location);
+    private partial void LogEnqueue(CKind kind, string name, CLocation location);
 
     [LoggerMessage(14, LogLevel.Information, "- Found {Kind} '{Name}' ({Location})")]
-    public partial void LogFoundNode(CKind kind, string name, CLocation location);
+    private partial void LogFoundNode(CKind kind, string name, CLocation location);
 }

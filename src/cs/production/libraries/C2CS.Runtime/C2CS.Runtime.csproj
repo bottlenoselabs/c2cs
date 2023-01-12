@@ -6,12 +6,7 @@
 		<RootNamespace />
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Nullable>enable</Nullable>
-	</PropertyGroup>
-
-	<!-- MSBuild.Tools settings -->
-	<PropertyGroup>
-		<EnableCodeCoverage>false</EnableCodeCoverage>
-		<EnableAnalyzers>false</EnableAnalyzers>
+		<GenerateDocumentationFile>flase</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

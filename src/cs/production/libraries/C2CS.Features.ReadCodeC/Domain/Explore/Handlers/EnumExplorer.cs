@@ -23,7 +23,7 @@ public sealed class EnumExplorer : ExploreNodeHandler<CEnum>
 
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Is(CXTypeKind.CXType_Enum);
 
-    public override CEnum Explore(ExploreContext context, ExploreInfoNode info)
+    protected override CEnum Explore(ExploreContext context, ExploreInfoNode info)
     {
         var @enum = Enum(context, info);
         return @enum;

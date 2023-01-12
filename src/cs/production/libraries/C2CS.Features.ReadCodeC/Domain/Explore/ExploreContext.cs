@@ -13,11 +13,11 @@ namespace C2CS.ReadCodeC.Domain.Explore;
 
 public sealed class ExploreContext
 {
+    public readonly IReaderCCode Reader;
+
     private readonly ImmutableDictionary<CKind, ExploreHandler> _handlers;
     private readonly ImmutableDictionary<string, string> _linkedPaths;
     private readonly Action<ExploreContext, CKind, ExploreInfoNode> _tryEnqueueVisitNode;
-
-    public readonly IReaderCCode Reader;
 
     public ExploreContext(
         IReaderCCode reader,
@@ -60,6 +60,113 @@ public sealed class ExploreContext
     public CXTranslationUnit TranslationUnit { get; }
 
     public string FilePath { get; }
+
+    public CTypeInfo? VisitType(
+        CXType typeCandidate,
+        ExploreInfoNode? rootInfo,
+        int? fieldIndex = null,
+        CKind? kindHint = null)
+    {
+        var (kind, type) = TypeKind(typeCandidate, rootInfo?.Kind);
+        if (kindHint != null && kind != kindHint)
+        {
+            kind = kindHint.Value;
+        }
+
+        while (rootInfo != null && rootInfo.Location == CLocation.NoLocation)
+        {
+            rootInfo = rootInfo.Parent;
+        }
+
+        var cursor = clang_getTypeDeclaration(type);
+        var typeName = TypeName(kind, type, rootInfo?.Name, rootInfo?.Kind, fieldIndex);
+
+        var typeInfo = VisitTypeInternal(kind, typeName, type, typeCandidate, cursor, rootInfo, null);
+
+        return typeInfo;
+    }
+
+    public CLocation Location(
+        CXCursor cursor,
+        CXType type)
+    {
+        return cursor.GetLocation(type, _linkedPaths);
+    }
+
+    public string CursorName(CXCursor cursor)
+    {
+        var result = clang_getCursorSpelling(cursor).String();
+        return result;
+    }
+
+    public ExploreInfoNode CreateVisitInfoNode(
+        CKind kind,
+        string name,
+        CXCursor cursor,
+        CXType type,
+        ExploreInfoNode? parentInfo)
+    {
+        var location = Location(cursor, type);
+        if (location.IsNull && parentInfo?.Kind == CKind.TypeAlias)
+        {
+            location = parentInfo.Location;
+        }
+
+        var typeNameActual = TypeName(kind, type, parentInfo?.Name, null);
+        var nameActual = !string.IsNullOrEmpty(name) ? name : typeNameActual;
+        var sizeOf = SizeOf(kind, type);
+        var alignOf = AlignOf(kind, type);
+
+        var result = new ExploreInfoNode
+        {
+            Kind = kind,
+            Name = nameActual,
+            TypeName = typeNameActual,
+            Type = type,
+            Cursor = cursor,
+            Location = location,
+            Parent = parentInfo,
+            SizeOf = sizeOf,
+            AlignOf = alignOf
+        };
+
+        return result;
+    }
+
+    public bool CanVisit(
+        CKind kind,
+        ExploreInfoNode node)
+    {
+        var handler = GetHandler(kind);
+        return handler.CanVisitInternal(this, node);
+    }
+
+    public CNode? Explore(ExploreInfoNode node)
+    {
+        var handler = GetHandler(node.Kind);
+        return handler.ExploreInternal(this, node);
+    }
+
+    internal bool IsAllowed(
+        CKind kind,
+        string name,
+        CXCursor cursor,
+        CXType type)
+    {
+        var location = Location(cursor, type);
+
+        if (!ExploreOptions.IsEnabledSystemDeclarations)
+        {
+            var cursorLocation = clang_getCursorLocation(cursor);
+            var isSystemCursor = clang_Location_isInSystemHeader(cursorLocation) > 0;
+            if (isSystemCursor)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     private static (TargetPlatform TargetPlatform, int PointerWidth) GetTargetPlatform(
         CXTranslationUnit translationUnit)
@@ -202,31 +309,6 @@ extend                        = 0x40
         }
     }
 
-    public CTypeInfo? VisitType(
-        CXType typeCandidate,
-        ExploreInfoNode? rootInfo,
-        int? fieldIndex = null,
-        CKind? kindHint = null)
-    {
-        var (kind, type) = TypeKind(typeCandidate, rootInfo?.Kind);
-        if (kindHint != null && kind != kindHint)
-        {
-            kind = kindHint.Value;
-        }
-
-        while (rootInfo != null && rootInfo.Location == CLocation.NoLocation)
-        {
-            rootInfo = rootInfo.Parent;
-        }
-
-        var cursor = clang_getTypeDeclaration(type);
-        var typeName = TypeName(kind, type, rootInfo?.Name, rootInfo?.Kind, fieldIndex);
-
-        var typeInfo = VisitTypeInternal(kind, typeName, type, typeCandidate, cursor, rootInfo, null);
-
-        return typeInfo;
-    }
-
     private void TryEnqueueVisitInfoNode(
         CKind kind,
         ExploreInfoNode info)
@@ -338,27 +420,6 @@ extend                        = 0x40
         }
 
         return (CKind.Pointer, cursorType);
-    }
-
-    internal bool IsAllowed(
-        CKind kind,
-        string name,
-        CXCursor cursor,
-        CXType type)
-    {
-        var location = Location(cursor, type);
-
-        if (!ExploreOptions.IsEnabledSystemDeclarations)
-        {
-            var cursorLocation = clang_getCursorLocation(cursor);
-            var isSystemCursor = clang_Location_isInSystemHeader(cursorLocation) > 0;
-            if (isSystemCursor)
-            {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     private CTypeInfo? VisitTypeInternal(
@@ -523,13 +584,6 @@ extend                        = 0x40
         return typeInfo;
     }
 
-    public CLocation Location(
-        CXCursor cursor,
-        CXType type)
-    {
-        return cursor.GetLocation(type, _linkedPaths);
-    }
-
     private int SizeOf(
         CKind kind,
         CXType type)
@@ -571,12 +625,6 @@ extend                        = 0x40
         return alignOf;
     }
 
-    public string CursorName(CXCursor cursor)
-    {
-        var result = clang_getCursorSpelling(cursor).String();
-        return result;
-    }
-
     private static ExploreInfoNode CreateVisitInfoNode(
         CTypeInfo typeInfo,
         CXCursor cursor,
@@ -597,54 +645,6 @@ extend                        = 0x40
         };
 
         return result;
-    }
-
-    public ExploreInfoNode CreateVisitInfoNode(
-        CKind kind,
-        string name,
-        CXCursor cursor,
-        CXType type,
-        ExploreInfoNode? parentInfo)
-    {
-        var location = Location(cursor, type);
-        if (location.IsNull && parentInfo?.Kind == CKind.TypeAlias)
-        {
-            location = parentInfo.Location;
-        }
-
-        var typeNameActual = TypeName(kind, type, parentInfo?.Name, null);
-        var nameActual = !string.IsNullOrEmpty(name) ? name : typeNameActual;
-        var sizeOf = SizeOf(kind, type);
-        var alignOf = AlignOf(kind, type);
-
-        var result = new ExploreInfoNode
-        {
-            Kind = kind,
-            Name = nameActual,
-            TypeName = typeNameActual,
-            Type = type,
-            Cursor = cursor,
-            Location = location,
-            Parent = parentInfo,
-            SizeOf = sizeOf,
-            AlignOf = alignOf
-        };
-
-        return result;
-    }
-
-    public bool CanVisit(
-        CKind kind,
-        ExploreInfoNode node)
-    {
-        var handler = GetHandler(kind);
-        return handler.CanVisitInternal(this, node);
-    }
-
-    public CNode? Explore(ExploreInfoNode node)
-    {
-        var handler = GetHandler(node.Kind);
-        return handler.ExploreInternal(this, node);
     }
 
     private ExploreHandler GetHandler(CKind kind)

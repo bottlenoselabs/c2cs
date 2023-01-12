@@ -55,6 +55,46 @@ public partial class CJsonSerializer
         return result;
     }
 
+    public void Write(CAbstractSyntaxTree abstractSyntaxTree, string filePath)
+    {
+        var fullFilePath = _fileSystem.Path.GetFullPath(filePath);
+
+        var outputDirectory = _fileSystem.Path.GetDirectoryName(fullFilePath)!;
+        if (string.IsNullOrEmpty(outputDirectory))
+        {
+            outputDirectory = AppContext.BaseDirectory;
+            fullFilePath = Path.Combine(Environment.CurrentDirectory, fullFilePath);
+        }
+
+        try
+        {
+            if (!_fileSystem.Directory.Exists(outputDirectory))
+            {
+                _fileSystem.Directory.CreateDirectory(outputDirectory);
+            }
+
+            if (_fileSystem.File.Exists(fullFilePath))
+            {
+                _fileSystem.File.Delete(fullFilePath);
+            }
+
+            var fileContents = JsonSerializer.Serialize(abstractSyntaxTree, _context.Options);
+
+            using var fileStream = _fileSystem.File.OpenWrite(fullFilePath);
+            using var textWriter = new StreamWriter(fileStream);
+            textWriter.Write(fileContents);
+            textWriter.Close();
+            fileStream.Close();
+
+            LogWriteSuccess(fullFilePath);
+        }
+        catch (Exception e)
+        {
+            LogWriteFailure(e, fullFilePath);
+            throw;
+        }
+    }
+
     private void FillNames(CAbstractSyntaxTree abstractSyntaxTree)
     {
         foreach (var keyValuePair in abstractSyntaxTree.MacroObjects)
@@ -98,46 +138,6 @@ public partial class CJsonSerializer
         }
     }
 
-    public void Write(CAbstractSyntaxTree abstractSyntaxTree, string filePath)
-    {
-        var fullFilePath = _fileSystem.Path.GetFullPath(filePath);
-
-        var outputDirectory = _fileSystem.Path.GetDirectoryName(fullFilePath)!;
-        if (string.IsNullOrEmpty(outputDirectory))
-        {
-            outputDirectory = AppContext.BaseDirectory;
-            fullFilePath = Path.Combine(Environment.CurrentDirectory, fullFilePath);
-        }
-
-        try
-        {
-            if (!_fileSystem.Directory.Exists(outputDirectory))
-            {
-                _fileSystem.Directory.CreateDirectory(outputDirectory);
-            }
-
-            if (_fileSystem.File.Exists(fullFilePath))
-            {
-                _fileSystem.File.Delete(fullFilePath);
-            }
-
-            var fileContents = JsonSerializer.Serialize(abstractSyntaxTree, _context.Options);
-
-            using var fileStream = _fileSystem.File.OpenWrite(fullFilePath);
-            using var textWriter = new StreamWriter(fileStream);
-            textWriter.Write(fileContents);
-            textWriter.Close();
-            fileStream.Close();
-
-            LogWriteSuccess(fullFilePath);
-        }
-        catch (Exception e)
-        {
-            LogWriteFailure(e, fullFilePath);
-            throw;
-        }
-    }
-
     [LoggerMessage(0, LogLevel.Information, "- Read abstract syntax tree C: Success. Path: {FilePath}")]
     private partial void LogReadSuccess(string filePath);
 
@@ -148,5 +148,5 @@ public partial class CJsonSerializer
     private partial void LogWriteSuccess(string filePath);
 
     [LoggerMessage(3, LogLevel.Error, "- Write abstract syntax tree C. Failed. Path: {FilePath}")]
-    public partial void LogWriteFailure(Exception exception, string filePath);
+    private partial void LogWriteFailure(Exception exception, string filePath);
 }

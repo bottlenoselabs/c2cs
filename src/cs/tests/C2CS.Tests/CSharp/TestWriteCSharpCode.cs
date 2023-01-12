@@ -28,7 +28,7 @@ public sealed class TestWriteCSharpCode : TestBase
     private readonly IFileSystem _fileSystem;
     private readonly TestFixtureWriteCSharpCode _fixture;
 
-    public static TheoryData<string> Enums() => new ()
+    public static TheoryData<string> Enums() => new()
     {
         "EnumForceUInt32"
     };
@@ -95,7 +95,8 @@ public sealed class TestWriteCSharpCode : TestBase
         return fixture;
     }
 
-    private TestWriteCSharpCodeAbstractSyntaxTree AbstractSyntaxTree(SyntaxTree syntaxTree,
+    private TestWriteCSharpCodeAbstractSyntaxTree AbstractSyntaxTree(
+        SyntaxTree syntaxTree,
         WriteCodeCSharpInput input)
     {
         var compilationUnitSyntax = syntaxTree.GetCompilationUnitRoot();
@@ -117,7 +118,11 @@ public sealed class TestWriteCSharpCode : TestBase
 
         foreach (var member in @class.Members)
         {
-            CreateTestNode(member, methodsByNameBuilder, enumsByNameBuilder, structsByNameBuilder,
+            CreateTestNode(
+                member,
+                methodsByNameBuilder,
+                enumsByNameBuilder,
+                structsByNameBuilder,
                 macroObjectsByNameBuilder);
         }
 
@@ -145,7 +150,8 @@ public sealed class TestWriteCSharpCode : TestBase
         return emitResult;
     }
 
-    private void CreateTestNode(MemberDeclarationSyntax member,
+    private void CreateTestNode(
+        MemberDeclarationSyntax member,
         ImmutableDictionary<string, CSharpTestFunction>.Builder methodsByNameBuilder,
         ImmutableDictionary<string, CSharpTestEnum>.Builder enumsByNameBuilder,
         ImmutableDictionary<string, CSharpTestStruct>.Builder structsByNameBuilder,

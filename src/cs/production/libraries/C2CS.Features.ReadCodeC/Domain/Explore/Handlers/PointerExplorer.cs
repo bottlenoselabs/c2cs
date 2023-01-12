@@ -20,7 +20,7 @@ public sealed class PointerExplorer : ExploreNodeHandler<CPointer>
 
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Is(CXTypeKind.CXType_Pointer);
 
-    public override CPointer Explore(ExploreContext context, ExploreInfoNode info)
+    protected override CPointer Explore(ExploreContext context, ExploreInfoNode info)
     {
         var pointer = Pointer(context, info);
         return pointer;

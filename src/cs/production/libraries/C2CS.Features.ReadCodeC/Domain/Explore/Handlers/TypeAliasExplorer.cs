@@ -21,7 +21,7 @@ public class TypeAliasExplorer : ExploreNodeHandler<CTypeAlias>
 
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Is(CXTypeKind.CXType_Typedef);
 
-    public override CTypeAlias Explore(ExploreContext context, ExploreInfoNode info)
+    protected override CTypeAlias Explore(ExploreContext context, ExploreInfoNode info)
     {
         var typeAlias = TypeAlias(context, info);
         return typeAlias;

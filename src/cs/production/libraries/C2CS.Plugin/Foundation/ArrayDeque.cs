@@ -186,36 +186,6 @@ public sealed class ArrayDeque<T> : IList<T>
         throw new NotImplementedException();
     }
 
-    void ICollection<T>.CopyTo(T[] array, int arrayIndex)
-    {
-        CopyTo(array, arrayIndex);
-    }
-
-    private void SetCapacity(int value)
-    {
-        if (value == Capacity)
-        {
-            return;
-        }
-
-        if (value < Count)
-        {
-            Count = value;
-        }
-
-        if (value == 0)
-        {
-            _elements = Array.Empty<T>();
-            return;
-        }
-
-        var elements = new T[value];
-        CopyTo(elements, 0);
-
-        _frontArrayIndex = 0;
-        _elements = elements;
-    }
-
     /// <summary>
     ///     Adds an element to the front of the <see cref="ArrayDeque{T}" />.
     /// </summary>
@@ -338,6 +308,36 @@ public sealed class ArrayDeque<T> : IList<T>
     public T? PeekBack()
     {
         return Get(Count - 1);
+    }
+
+    void ICollection<T>.CopyTo(T[] array, int arrayIndex)
+    {
+        CopyTo(array, arrayIndex);
+    }
+
+    private void SetCapacity(int value)
+    {
+        if (value == Capacity)
+        {
+            return;
+        }
+
+        if (value < Count)
+        {
+            Count = value;
+        }
+
+        if (value == 0)
+        {
+            _elements = Array.Empty<T>();
+            return;
+        }
+
+        var elements = new T[value];
+        CopyTo(elements, 0);
+
+        _frontArrayIndex = 0;
+        _elements = elements;
     }
 
     private void CopyTo(T[] array, int arrayIndex)

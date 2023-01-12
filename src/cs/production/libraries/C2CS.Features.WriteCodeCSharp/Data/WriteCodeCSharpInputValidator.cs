@@ -13,7 +13,7 @@ using JetBrains.Annotations;
 
 namespace C2CS.WriteCodeCSharp.Data;
 
-public sealed class WriteCodeCSharpInputValidator : InputValidator<WriterCSharpCodeOptions, WriteCodeCSharpInput>
+public sealed class WriteCodeCSharpInputValidator : WriteCodeCSharpInputValidator<WriterCSharpCodeOptions, WriteCodeCSharpInput>
 {
     public WriteCodeCSharpInputValidator(IFileSystem fileSystem)
         : base(fileSystem)
@@ -146,10 +146,10 @@ public sealed class WriteCodeCSharpInputValidator : InputValidator<WriterCSharpC
 }
 
 [PublicAPI]
-public abstract class InputValidator<TOptions, TInput> : ExecutorInputValidator<TOptions, TInput>
+public abstract class WriteCodeCSharpInputValidator<TOptions, TInput> : ExecutorInputValidator<TOptions, TInput>
     where TOptions : ExecutorOptions
 {
-    protected InputValidator(IFileSystem fileSystem)
+    protected WriteCodeCSharpInputValidator(IFileSystem fileSystem)
     {
         FileSystem = fileSystem;
     }
