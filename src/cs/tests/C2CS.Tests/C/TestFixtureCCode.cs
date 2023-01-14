@@ -5,11 +5,11 @@ using System.Collections.Immutable;
 
 namespace C2CS.Tests.C;
 
-public class TestFixtureReadCCode
+public class TestFixtureCCode
 {
-    public ImmutableArray<TestReadCCodeAbstractSyntaxTree> AbstractSyntaxTrees { get; }
+    public ImmutableArray<TestCCodeAbstractSyntaxTree> AbstractSyntaxTrees { get; }
 
-    public TestFixtureReadCCode(ImmutableArray<TestReadCCodeAbstractSyntaxTree> abstractSyntaxTrees)
+    public TestFixtureCCode(ImmutableArray<TestCCodeAbstractSyntaxTree> abstractSyntaxTrees)
     {
         AbstractSyntaxTrees = abstractSyntaxTrees;
     }

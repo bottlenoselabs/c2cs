@@ -13,10 +13,12 @@ public static class Startup
     {
         SourceDirectory.SetPath();
 
-        services.AddSingleton<TestReadCCode>();
+        services.AddSingleton<CMake.CMakeLibraryBuilder>();
+
+        services.AddSingleton<TestCCode>();
         services.AddSingleton<IReaderCCode>(new TestReaderCCode());
 
-        services.AddSingleton<TestWriteCSharpCode>();
+        services.AddSingleton<TestCSharpCode>();
         services.AddSingleton<IWriterCSharpCode>(new TestWriterCSharpCode());
     }
 }

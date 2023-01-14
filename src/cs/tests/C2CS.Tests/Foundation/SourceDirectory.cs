@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace C2CS.Tests.Foundation;
 
-public static class SourceDirectory
+public static class SourceDirectory // Hack; used to get the path of the test with XUnit.
 {
     public static string Path { get; private set; } = string.Empty;
 

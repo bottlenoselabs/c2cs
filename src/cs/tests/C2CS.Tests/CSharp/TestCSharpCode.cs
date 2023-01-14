@@ -6,27 +6,31 @@ using System.Globalization;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
+using System.Reflection;
 using C2CS.Tests.CSharp.Data.Models;
 using C2CS.Tests.Foundation;
+using C2CS.Tests.Foundation.CMake;
+using C2CS.Tests.Foundation.Roslyn;
 using C2CS.WriteCodeCSharp;
 using C2CS.WriteCodeCSharp.Data.Models;
 using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Emit;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace C2CS.Tests.CSharp;
 
 [PublicAPI]
-public sealed class TestWriteCSharpCode : TestBase
+public sealed class TestCSharpCode : TestBase
 {
     private readonly FeatureWriteCodeCSharp _feature;
     private readonly IWriterCSharpCode _writerCSharpCode;
     private readonly IFileSystem _fileSystem;
-    private readonly TestFixtureWriteCSharpCode _fixture;
+    private readonly CMakeLibraryBuilder _cMakeLibraryBuilder;
+
+    private readonly TestFixtureCSharpCode _fixture;
 
     public static TheoryData<string> Enums() => new()
     {
@@ -44,30 +48,22 @@ public sealed class TestWriteCSharpCode : TestBase
     [Fact]
     public void Compiles()
     {
-        var emitResult = _fixture.EmitResult;
-
-        foreach (var diagnostic in emitResult.Diagnostics)
-        {
-            var isWarningOrError = diagnostic.Severity != Microsoft.CodeAnalysis.DiagnosticSeverity.Warning &&
-                                   diagnostic.Severity != Microsoft.CodeAnalysis.DiagnosticSeverity.Error;
-            Assert.True(isWarningOrError, $"C# code compilation diagnostic: {diagnostic}.");
-        }
-
-        Assert.True(emitResult.Success, "C# code did not compile successfully.");
+        _fixture.AssertCompiles();
     }
 
-    public TestWriteCSharpCode()
+    public TestCSharpCode()
         : base("CSharp/Data/Values", false)
     {
         var services = TestHost.Services;
         _feature = services.GetService<FeatureWriteCodeCSharp>()!;
         _fileSystem = services.GetService<IFileSystem>()!;
         _writerCSharpCode = services.GetService<IWriterCSharpCode>()!;
+        _cMakeLibraryBuilder = services.GetService<CMakeLibraryBuilder>()!;
 
         _fixture = GetFixture();
     }
 
-    private TestFixtureWriteCSharpCode GetFixture()
+    private TestFixtureCSharpCode GetFixture()
     {
         var output = _feature.Execute(_writerCSharpCode.Options!);
         Assert.True(output != null);
@@ -89,13 +85,24 @@ public sealed class TestWriteCSharpCode : TestBase
         Assert.True(otherDiagnostics.Length == 0, "The code has diagnostics which are not errors or warnings.");
 
         var ast = AbstractSyntaxTree(syntaxTree, input);
-        var emitResult = EmitResult(syntaxTree);
+        var cSharpBuildResult = CSharpBuildResult(syntaxTree);
+        var cCodeBuildResult = CCodeBuildResult();
 
-        var fixture = new TestFixtureWriteCSharpCode(emitResult, ast);
+        var fixture = new TestFixtureCSharpCode(ast, cSharpBuildResult, cCodeBuildResult);
         return fixture;
     }
 
-    private TestWriteCSharpCodeAbstractSyntaxTree AbstractSyntaxTree(
+    private CCodeBuildResult CCodeBuildResult()
+    {
+        const string cMakeDirectoryPath = "../../../../src/c/tests/_container_library/";
+        const string libraryOutputDirectoryPath = ".";
+        var result = _cMakeLibraryBuilder.BuildLibrary(cMakeDirectoryPath, libraryOutputDirectoryPath);
+        Assert.True(result.IsSuccess);
+
+        return result;
+    }
+
+    private TestCSharpCodeAbstractSyntaxTree AbstractSyntaxTree(
         SyntaxTree syntaxTree,
         WriteCodeCSharpInput input)
     {
@@ -126,7 +133,7 @@ public sealed class TestWriteCSharpCode : TestBase
                 macroObjectsByNameBuilder);
         }
 
-        var ast = new TestWriteCSharpCodeAbstractSyntaxTree(
+        var ast = new TestCSharpCodeAbstractSyntaxTree(
             enumsByNameBuilder.ToImmutable(),
             methodsByNameBuilder.ToImmutable(),
             macroObjectsByNameBuilder.ToImmutable(),
@@ -134,7 +141,7 @@ public sealed class TestWriteCSharpCode : TestBase
         return ast;
     }
 
-    private static EmitResult EmitResult(SyntaxTree syntaxTree)
+    private static CSharpCodeBuildResult CSharpBuildResult(SyntaxTree syntaxTree)
     {
         var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
             .WithPlatform(Platform.AnyCpu)
@@ -147,7 +154,11 @@ public sealed class TestWriteCSharpCode : TestBase
         using var dllStream = new MemoryStream();
         using var pdbStream = new MemoryStream();
         var emitResult = compilation.Emit(dllStream, pdbStream);
-        return emitResult;
+
+        var assembly = Assembly.Load(dllStream.ToArray());
+
+        var cSharpCodeBuiltResult = new CSharpCodeBuildResult(emitResult, assembly);
+        return cSharpCodeBuiltResult;
     }
 
     private void CreateTestNode(

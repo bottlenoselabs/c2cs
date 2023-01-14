@@ -19,7 +19,8 @@ public class TestWriterCSharpCode : IWriterCSharpCode
         var result = new WriterCSharpCodeOptions
         {
             InputAbstractSyntaxTreesFileDirectory = "./c/tests/_container_library/ast",
-            OutputCSharpCodeFilePath = "./my_c_library.cs",
+            OutputCSharpCodeFilePath = "./_container_library.cs",
+            LibraryName = "_container_library",
             NamespaceName = "bottlenoselabs"
         };
 

@@ -17,8 +17,7 @@ using Xunit;
 namespace C2CS.Tests.C;
 
 [PublicAPI]
-[Trait("C", "C")]
-public class TestReadCCode : TestBase
+public class TestCCode : TestBase
 {
     public static TheoryData<string> Enums() => new()
     {
@@ -41,11 +40,11 @@ public class TestReadCCode : TestBase
     private readonly CJsonSerializer _jsonSerializer;
     private readonly IFileSystem _fileSystem;
 
-    private readonly TestFixtureReadCCode _fixture;
+    private readonly TestFixtureCCode _fixture;
 
-    public ImmutableArray<TestReadCCodeAbstractSyntaxTree> AbstractSyntaxTrees => _fixture.AbstractSyntaxTrees;
+    public ImmutableArray<TestCCodeAbstractSyntaxTree> AbstractSyntaxTrees => _fixture.AbstractSyntaxTrees;
 
-    public TestReadCCode()
+    public TestCCode()
         : base("C/Data/Values", false)
     {
         var services = TestHost.Services;
@@ -58,26 +57,26 @@ public class TestReadCCode : TestBase
         _fixture = GetFixture();
     }
 
-    private TestFixtureReadCCode GetFixture()
+    private TestFixtureCCode GetFixture()
     {
         var abstractSyntaxTrees = GetAbstractSyntaxTrees();
         Assert.True(abstractSyntaxTrees.Length > 0, "Failed to read C code.");
 
-        var fixture = new TestFixtureReadCCode(abstractSyntaxTrees);
+        var fixture = new TestFixtureCCode(abstractSyntaxTrees);
         return fixture;
     }
 
-    private ImmutableArray<TestReadCCodeAbstractSyntaxTree> GetAbstractSyntaxTrees()
+    private ImmutableArray<TestCCodeAbstractSyntaxTree> GetAbstractSyntaxTrees()
     {
         var output = _feature.Execute(_readerCCode.Options);
 
         if (!output.IsSuccess ||
             output.Diagnostics.Any(x => x.Severity is DiagnosticSeverity.Error or DiagnosticSeverity.Panic))
         {
-            return ImmutableArray<TestReadCCodeAbstractSyntaxTree>.Empty;
+            return ImmutableArray<TestCCodeAbstractSyntaxTree>.Empty;
         }
 
-        var builder = ImmutableArray.CreateBuilder<TestReadCCodeAbstractSyntaxTree>();
+        var builder = ImmutableArray.CreateBuilder<TestCCodeAbstractSyntaxTree>();
 
         foreach (var input in output.AbstractSyntaxTrees)
         {
@@ -88,7 +87,7 @@ public class TestReadCCode : TestBase
         return builder.ToImmutable();
     }
 
-    private TestReadCCodeAbstractSyntaxTree GetAbstractSyntaxTree(ReadCodeCInputAbstractSyntaxTree input)
+    private TestCCodeAbstractSyntaxTree GetAbstractSyntaxTree(ReadCodeCInputAbstractSyntaxTree input)
     {
         var ast = _jsonSerializer.Read(input.OutputFilePath);
         var functions = CreateTestFunctions(ast);
@@ -96,7 +95,7 @@ public class TestReadCCode : TestBase
         var structs = CreateTestRecords(ast);
         var macroObjects = CreateTestMacroObjects(ast);
 
-        var data = new TestReadCCodeAbstractSyntaxTree(
+        var data = new TestCCodeAbstractSyntaxTree(
             input.ExplorerOptions,
             input.ParseOptions,
             ast.PlatformRequested,

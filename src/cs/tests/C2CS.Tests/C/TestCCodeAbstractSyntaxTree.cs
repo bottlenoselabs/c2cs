@@ -12,14 +12,14 @@ using Xunit;
 namespace C2CS.Tests.C;
 
 [PublicAPI]
-public sealed class TestReadCCodeAbstractSyntaxTree
+public sealed class TestCCodeAbstractSyntaxTree
 {
     private readonly ImmutableDictionary<string, CTestEnum> _enums;
     private readonly ImmutableDictionary<string, CTestFunction> _functions;
     private readonly ImmutableDictionary<string, CTestMacroObject> _macroObjects;
     private readonly ImmutableDictionary<string, CTestRecord> _records;
 
-    public TestReadCCodeAbstractSyntaxTree(
+    public TestCCodeAbstractSyntaxTree(
         ExploreOptions exploreOptions,
         ParseOptions parseOptions,
         TargetPlatform targetPlatformRequested,

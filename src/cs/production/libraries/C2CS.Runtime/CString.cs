@@ -167,7 +167,7 @@ public readonly unsafe struct CString : IEquatable<CString>
 
     /// <summary>
     ///     Converts a UTF-16 <see cref="string" /> to a C style string (one dimensional byte array terminated by a
-    ///     <c>0x0</c>) by allocating and copying if not already cached.
+    ///     <c>0x0</c>) by allocating and copying.
     /// </summary>
     /// <param name="str">The <see cref="string" />.</param>
     /// <returns>A C string pointer.</returns>
