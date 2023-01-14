@@ -38,6 +38,7 @@ public sealed class TestCSharpCode : TestBase
 
     public static TheoryData<string> Enums() => new()
     {
+        "EnumForceUInt16",
         "EnumForceUInt32",
         "EnumForceUInt64"
     };
@@ -57,7 +58,7 @@ public sealed class TestCSharpCode : TestBase
     }
 
     public TestCSharpCode()
-        : base("CSharp/Data/Values", false)
+        : base("CSharp/Data/Values", true)
     {
         var services = TestHost.Services;
         _readerCCode = services.GetService<IReaderCCode>()!;

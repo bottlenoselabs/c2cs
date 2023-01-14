@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using C2CS.Data.C.Model;
@@ -21,9 +22,16 @@ public class TestCCode : TestBase
 {
     public static TheoryData<string> Enums() => new()
     {
+        "EnumForceUInt16",
         "EnumForceUInt32",
         "EnumForceUInt64"
     };
+
+    [Fact]
+    public void Reads()
+    {
+        Assert.True(_fixture.AbstractSyntaxTrees.Length != 0, "Failed to read C code.");
+    }
 
     [Theory]
     [MemberData(nameof(Enums))]
@@ -46,7 +54,7 @@ public class TestCCode : TestBase
     public ImmutableArray<TestCCodeAbstractSyntaxTree> AbstractSyntaxTrees => _fixture.AbstractSyntaxTrees;
 
     public TestCCode()
-        : base("C/Data/Values", false)
+        : base("C/Data/Values", true)
     {
         var services = TestHost.Services;
 
@@ -71,8 +79,14 @@ public class TestCCode : TestBase
     {
         var output = _feature.Execute(_readerCCode.Options);
 
-        if (!output.IsSuccess ||
-            output.Diagnostics.Any(x => x.Severity is DiagnosticSeverity.Error or DiagnosticSeverity.Panic))
+        foreach (var diagnostic in output.Diagnostics)
+        {
+            Assert.True(
+                diagnostic.Severity != DiagnosticSeverity.Error && diagnostic.Severity != DiagnosticSeverity.Panic,
+                $"C code diagnostic: {diagnostic.Message}");
+        }
+
+        if (!output.IsSuccess)
         {
             return ImmutableArray<TestCCodeAbstractSyntaxTree>.Empty;
         }
