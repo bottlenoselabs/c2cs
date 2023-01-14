@@ -14,9 +14,11 @@ public static class Startup
         services.AddSingleton<CMake.CMakeLibraryBuilder>();
 
         services.AddSingleton<TestCCode>();
+        services.AddSingleton<TestFixtureCCode>();
         services.AddSingleton<IReaderCCode>(new TestReaderCCode());
 
         services.AddSingleton<TestCSharpCode>();
+        services.AddSingleton<TestFixtureCSharpCode>();
         services.AddSingleton<IWriterCSharpCode>(new TestWriterCSharpCode());
     }
 }
