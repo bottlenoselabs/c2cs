@@ -38,6 +38,7 @@ public sealed class TestCSharpCode : TestBase
 
     public static TheoryData<string> Enums() => new()
     {
+        "EnumForceUInt8",
         "EnumForceUInt16",
         "EnumForceUInt32",
         "EnumForceUInt64"
