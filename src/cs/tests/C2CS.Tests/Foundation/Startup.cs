@@ -11,8 +11,6 @@ public static class Startup
 {
     public static void ConfigureServices(IServiceCollection services)
     {
-        SourceDirectory.SetPath();
-
         services.AddSingleton<CMake.CMakeLibraryBuilder>();
 
         services.AddSingleton<TestCCode>();

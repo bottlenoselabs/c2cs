@@ -7,7 +7,7 @@ typedef enum EnumForceUInt32 {
     ENUM_FORCE_UINT32_DAY_WEDNESDAY,
     ENUM_FORCE_UINT32_DAY_THURSDAY,
     ENUM_FORCE_UINT32_DAY_FRIDAY,
-    _ENUM_FORCE_UINT32 = 0x7FFFFFFF
+    _ENUM_FORCE_UINT32 = 0xffffffffffffffffL
 } EnumForceUInt32;
 
 PINVOKE_API_DECL void EnumForceUInt32__print_EnumForceUInt32(const EnumForceUInt32 e)

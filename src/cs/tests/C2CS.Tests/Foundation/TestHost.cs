@@ -15,7 +15,7 @@ public static class TestHost
     private static IHostBuilder HostBuilder()
     {
         var result = new HostBuilder()
-            .BuildHostCommon().ConfigureServices(Foundation.Startup.ConfigureServices);
+            .BuildHostCommon().ConfigureServices(Startup.ConfigureServices);
 
         return result;
     }

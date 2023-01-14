@@ -1,6 +1,6 @@
 {
   "name": "EnumForceUInt32",
-  "type_integer": "unsigned int",
+  "type_integer": "unsigned long",
   "values": [
     {
       "name": "ENUM_FORCE_UINT32_DAY_UNKNOWN",
@@ -28,7 +28,7 @@
     },
     {
       "name": "_ENUM_FORCE_UINT32",
-      "value": 2147483647
+      "value": -1
     }
   ]
 }

@@ -28,7 +28,7 @@
     },
     {
       "name": "_ENUM_FORCE_UINT32",
-      "value": 2147483647
+      "value": -1
     }
   ]
 }

@@ -28,7 +28,7 @@ public abstract class TestBase
         Services = TestHost.Services;
 
         _fileSystem = Services.GetService<IFileSystem>()!;
-        _sourceDirectoryPath = SourceDirectory.Path;
+        _sourceDirectoryPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../src/cs/tests/C2CS.Tests"));
         _regenerateDataFiles = regenerateDataFiles;
 
         _jsonSerializerOptions = new JsonSerializerOptions

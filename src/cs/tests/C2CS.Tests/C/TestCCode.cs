@@ -21,7 +21,8 @@ public class TestCCode : TestBase
 {
     public static TheoryData<string> Enums() => new()
     {
-        "EnumForceUInt32"
+        "EnumForceUInt32",
+        "EnumForceUInt64"
     };
 
     [Theory]

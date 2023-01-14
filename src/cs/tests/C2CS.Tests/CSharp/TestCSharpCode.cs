@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Reflection;
+using C2CS.ReadCodeC;
 using C2CS.Tests.CSharp.Data.Models;
 using C2CS.Tests.Foundation;
 using C2CS.Tests.Foundation.CMake;
@@ -25,8 +26,11 @@ namespace C2CS.Tests.CSharp;
 [PublicAPI]
 public sealed class TestCSharpCode : TestBase
 {
-    private readonly FeatureWriteCodeCSharp _feature;
+    private readonly IReaderCCode _readerCCode;
     private readonly IWriterCSharpCode _writerCSharpCode;
+
+    private readonly FeatureReadCodeC _featureReadCCode;
+    private readonly FeatureWriteCodeCSharp _featureWriteCodeCSharp;
     private readonly IFileSystem _fileSystem;
     private readonly CMakeLibraryBuilder _cMakeLibraryBuilder;
 
@@ -34,7 +38,8 @@ public sealed class TestCSharpCode : TestBase
 
     public static TheoryData<string> Enums() => new()
     {
-        "EnumForceUInt32"
+        "EnumForceUInt32",
+        "EnumForceUInt64"
     };
 
     [Theory]
@@ -55,9 +60,12 @@ public sealed class TestCSharpCode : TestBase
         : base("CSharp/Data/Values", false)
     {
         var services = TestHost.Services;
-        _feature = services.GetService<FeatureWriteCodeCSharp>()!;
-        _fileSystem = services.GetService<IFileSystem>()!;
+        _readerCCode = services.GetService<IReaderCCode>()!;
         _writerCSharpCode = services.GetService<IWriterCSharpCode>()!;
+
+        _featureReadCCode = services.GetService<FeatureReadCodeC>()!;
+        _featureWriteCodeCSharp = services.GetService<FeatureWriteCodeCSharp>()!;
+        _fileSystem = services.GetService<IFileSystem>()!;
         _cMakeLibraryBuilder = services.GetService<CMakeLibraryBuilder>()!;
 
         _fixture = GetFixture();
@@ -65,12 +73,16 @@ public sealed class TestCSharpCode : TestBase
 
     private TestFixtureCSharpCode GetFixture()
     {
-        var output = _feature.Execute(_writerCSharpCode.Options!);
-        Assert.True(output != null);
-        var input = output!.Input;
+        var outputReadC = _featureReadCCode.Execute(_readerCCode.Options);
+        Assert.True(outputReadC != null);
+        Assert.True(outputReadC!.IsSuccess, $"Failed to read C code.");
 
-        Assert.True(output.Diagnostics.Length == 0, "Diagnostics were reported when writing C# code.");
-        Assert.True(output.IsSuccess, "Writing C# code failed.");
+        var outputWriteCSharp = _featureWriteCodeCSharp.Execute(_writerCSharpCode.Options!);
+        Assert.True(outputWriteCSharp != null);
+        var input = outputWriteCSharp!.Input;
+
+        Assert.True(outputWriteCSharp.Diagnostics.Length == 0, "Diagnostics were reported when writing C# code.");
+        Assert.True(outputWriteCSharp.IsSuccess, "Writing C# code failed.");
 
         var code = _fileSystem.File.ReadAllText(input.OutputFilePath);
 

@@ -35,8 +35,17 @@ public class CMakeLibraryBuilder
         }
 
         var outputDirectoryPath = _path.Combine(cMakeDirectoryPath, "bin");
-        _directory.Delete(_path.Combine(cMakeDirectoryPathFull, "cmake-build-release"), true);
-        _directory.Delete(outputDirectoryPath, true);
+
+        var cMakeBuildDirectoryPath = _path.Combine(cMakeDirectoryPathFull, "cmake-build-release");
+        if (_directory.Exists(cMakeBuildDirectoryPath))
+        {
+            _directory.Delete(_path.Combine(cMakeDirectoryPathFull, "cmake-build-release"), true);
+        }
+
+        if (_directory.Exists(outputDirectoryPath))
+        {
+            _directory.Delete(outputDirectoryPath, true);
+        }
 
         var result =
             $"cmake -S . -B cmake-build-release -DCMAKE_BUILD_TYPE=Release"

@@ -1,6 +1,7 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System;
 using C2CS.Tests.CSharp.Data.Models;
 using C2CS.Tests.Foundation.CMake;
 using C2CS.Tests.Foundation.Roslyn;
@@ -49,24 +50,7 @@ public class TestFixtureCSharpCode
         Assert.True(enumType != null, $"The enum type `{name}` does not exist.");
         var enumValues = enumType!.GetEnumValues();
 
-        var enumPrintMethodName = $"{name}__print_{name}";
-        var enumPrintMethod = _cSharpCodeBuildResult.ClassType.GetMethod(enumPrintMethodName);
-        Assert.True(enumPrintMethod != null, $"The enum method `{enumPrintMethodName}` does not exist.");
-        foreach (var enumValue in enumValues)
-        {
-            var enumPrintMethodResult = enumPrintMethod!.Invoke(null, new[] { enumValue });
-            Assert.True(enumPrintMethodResult == null, $"Unexpected result from enum print method `{enumPrintMethodName}`");
-        }
-
-        var enumReturnMethodName = $"{name}__return_{name}";
-        var enumReturnMethod = _cSharpCodeBuildResult.ClassType.GetMethod(enumReturnMethodName);
-        Assert.True(enumReturnMethod != null, $"The enum method `{enumReturnMethodName}` does not exist.");
-
-        foreach (var enumValue in enumValues)
-        {
-            var enumReturnMethodResult = enumReturnMethod!.Invoke(null, new[] { enumValue });
-            Assert.True(enumReturnMethodResult!.Equals(enumValue), $"Unexpected result from enum return method `{enumReturnMethodName}`");
-        }
+        AssertPInvokeEnum(name, enumValues);
 
         return value!;
     }
@@ -90,5 +74,31 @@ public class TestFixtureCSharpCode
         var exists = _abstractSyntaxTree.MacroObjects.TryGetValue(name, out var value);
         Assert.True(exists, $"The macro object `{name}` does not exist.");
         return value!;
+    }
+
+    private void AssertPInvokeEnum(string name, Array enumValues)
+    {
+        // TODO: Inter process communication
+
+        var enumPrintMethodName = $"{name}__print_{name}";
+        var enumPrintMethod = _cSharpCodeBuildResult.ClassType.GetMethod(enumPrintMethodName);
+        Assert.True(enumPrintMethod != null, $"The enum method `{enumPrintMethodName}` does not exist.");
+        foreach (var enumValue in enumValues)
+        {
+            var enumPrintMethodResult = enumPrintMethod!.Invoke(null, new[] { enumValue });
+            Assert.True(enumPrintMethodResult == null, $"Unexpected result from enum print method `{enumPrintMethodName}`");
+        }
+
+        var enumReturnMethodName = $"{name}__return_{name}";
+        var enumReturnMethod = _cSharpCodeBuildResult.ClassType.GetMethod(enumReturnMethodName);
+        Assert.True(enumReturnMethod != null, $"The enum method `{enumReturnMethodName}` does not exist.");
+
+        foreach (var enumValue in enumValues)
+        {
+            var enumReturnMethodResult = enumReturnMethod!.Invoke(null, new[] { enumValue });
+            Assert.True(
+                enumReturnMethodResult!.Equals(enumValue),
+                $"Unexpected result from enum return method `{enumReturnMethodName}`");
+        }
     }
 }
