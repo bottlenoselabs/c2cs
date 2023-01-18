@@ -39,19 +39,19 @@ jobs:
     - name: "Install Clang: Windows"
       if: matrix.platform.os == 'windows-latest'
       run: |
-        source "${{ github.workspace }}\scripts\install-clang-x64-windows.sh"
+        source "${{ github.workspace }}\.github\scripts\install-clang-x64-windows.sh"
   
     - name: "Install Clang: Linux"
       if: matrix.platform.os == 'ubuntu-18.04'
       run: |
         sudo apt-get update
         sudo apt-get install gcc-aarch64-linux-gnu
-        source "${{ github.workspace }}/scripts/install-clang-x64-ubuntu_18_04.sh"
+        source "${{ github.workspace }}/.github/scripts/install-clang-x64-ubuntu_18_04.sh"
 
     - name: "Install Clang: macOS"
       if: matrix.platform.os == 'macos-latest'
       run: |
-        source "${{ github.workspace }}/scripts/install-clang-macos.sh"
+        source "${{ github.workspace }}/.github/scripts/install-clang-macos.sh"
 
     - name: ".NET"
       uses: bottlenoselabs/github-actions-dotnet@v3
