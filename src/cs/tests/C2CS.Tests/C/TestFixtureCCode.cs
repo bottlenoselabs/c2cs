@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
-using System.IO.Abstractions;
 using C2CS.Data.C.Model;
 using C2CS.Data.C.Serialization;
 using C2CS.ReadCodeC;

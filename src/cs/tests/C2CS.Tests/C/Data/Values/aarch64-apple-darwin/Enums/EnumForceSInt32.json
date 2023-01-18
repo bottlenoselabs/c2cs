@@ -1,0 +1,34 @@
+{
+  "name": "EnumForceSInt32",
+  "type_integer": "unsigned int",
+  "values": [
+    {
+      "name": "ENUM_FORCE_SINT32_DAY_UNKNOWN",
+      "value": 0
+    },
+    {
+      "name": "ENUM_FORCE_SINT32_DAY_MONDAY",
+      "value": 1
+    },
+    {
+      "name": "ENUM_FORCE_SINT32_DAY_TUESDAY",
+      "value": 2
+    },
+    {
+      "name": "ENUM_FORCE_SINT32_DAY_WEDNESDAY",
+      "value": 3
+    },
+    {
+      "name": "ENUM_FORCE_SINT32_DAY_THURSDAY",
+      "value": 4
+    },
+    {
+      "name": "ENUM_FORCE_SINT32_DAY_FRIDAY",
+      "value": 5
+    },
+    {
+      "name": "_ENUM_FORCE_SINT32",
+      "value": 8388607
+    }
+  ]
+}
