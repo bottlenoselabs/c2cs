@@ -147,12 +147,15 @@ public static class CLibrary
         private const string LibraryName = "libdl";
 
         [DllImport(LibraryName, CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)] // silence CA5392
         public static extern IntPtr dlopen(string fileName, int flags);
 
         [DllImport(LibraryName, CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)] // silence CA5392
         public static extern IntPtr dlsym(IntPtr handle, string name);
 
         [DllImport(LibraryName, CallingConvention = CallingConvention.StdCall)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)] // silence CA5392
         public static extern int dlclose(IntPtr handle);
     }
 
@@ -162,12 +165,15 @@ public static class CLibrary
         private const string LibraryName = "libSystem";
 
         [DllImport(LibraryName, CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)] // silence CA5392
         public static extern IntPtr dlopen(string fileName, int flags);
 
         [DllImport(LibraryName, CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)] // silence CA5392
         public static extern IntPtr dlsym(IntPtr handle, string name);
 
         [DllImport(LibraryName, CallingConvention = CallingConvention.StdCall)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)] // silence CA5392
         public static extern int dlclose(IntPtr handle);
     }
 
@@ -178,13 +184,16 @@ public static class CLibrary
 
         [DllImport(LibraryName, CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi,
             ExactSpelling = true, SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         public static extern IntPtr LoadLibrary(string fileName);
 
         [DllImport(LibraryName, CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi,
             ExactSpelling = true, SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         public static extern IntPtr GetProcAddress(IntPtr module, string procName);
 
         [DllImport(LibraryName, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         public static extern int FreeLibrary(IntPtr module);
     }
 }
