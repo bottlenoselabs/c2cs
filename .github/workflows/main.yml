@@ -23,8 +23,7 @@ jobs:
       matrix:
         platform:
         - { name: Windows x64,           os: windows-latest, shell: bash }
-        # Using Ubuntu 18.04 because of GitHub Actions Runner bug: https://github.com/actions/runner/issues/1819#issuecomment-1098641309
-        - { name: Linux x64,             os: ubuntu-18.04,   shell: bash }
+        - { name: Linux x64,             os: ubuntu-latest,  shell: bash }
         - { name: macOS x64,             os: macos-latest,   shell: bash }
     defaults:
       run:
@@ -42,16 +41,10 @@ jobs:
         source "${{ github.workspace }}\.github\scripts\install-clang-x64-windows.sh"
   
     - name: "Install Clang: Linux"
-      if: matrix.platform.os == 'ubuntu-18.04'
+      if: matrix.platform.os == 'ubuntu-latest'
       run: |
         sudo apt-get update
-        sudo apt-get install gcc-aarch64-linux-gnu clang
-        source "${{ github.workspace }}/.github/scripts/install-clang-x64-ubuntu_18_04.sh"
-
-    - name: "Install Clang: macOS"
-      if: matrix.platform.os == 'macos-latest'
-      run: |
-        source "${{ github.workspace }}/.github/scripts/install-clang-macos.sh"
+        sudo apt-get install gcc-aarch64-linux-gnu llvm-14 clang-14
 
     - name: ".NET"
       uses: bottlenoselabs/github-actions-dotnet@v3
