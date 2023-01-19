@@ -90,7 +90,7 @@ public sealed partial class ClangInstaller
         }
 
         var errorMessage =
-            $"`libclang.dll` or `clang.dll` is missing. {string.Join(',', filePaths)}\nPlease put a `libclang.dll` or `clang.dll` file next to this application or install Clang for Windows. To install Clang for Windows using Chocolatey, use the command `choco install llvm`.";
+            $"`libclang.dll` or `clang.dll` is missing. Tried searching the following paths: \"{string.Join(", ", filePaths)}\". Please put a `libclang.dll` or `clang.dll` file next to this application or install Clang for Windows. To install Clang for Windows using Chocolatey, use the command `choco install llvm`.";
         throw new InvalidOperationException(errorMessage);
     }
 
@@ -120,7 +120,7 @@ public sealed partial class ClangInstaller
         }
 
         var errorMessage =
-            $"`libclang.so`is missing. Tried searching the following paths: {string.Join(',', filePaths)}\nPlease put a `libclang.so` file next to this application or install Clang for Linux. To install Clang for Debian-based linux distributions, use the command `apt-get update && apt-get install clang`.";
+            $"`libclang.so`is missing. Tried searching the following paths: \"{string.Join(", ", filePaths)}\". Please put a `libclang.so` file next to this application or install Clang for Linux. To install Clang for Debian-based linux distributions, use the command `apt-get update && apt-get install clang`.";
         throw new InvalidOperationException(errorMessage);
     }
 
@@ -142,7 +142,7 @@ public sealed partial class ClangInstaller
         }
 
         var errorMessage =
-            $"`libclang.dylib` is missing. Tried searching the following paths: {string.Join(',', filePaths)}\nPlease put a `libclang.dylib` file next to this application or install CommandLineTools for macOS using the command `xcode-select --install`.";
+            $"`libclang.dylib` is missing. Tried searching the following paths: \"{string.Join(", ", filePaths)}\". Please put a `libclang.dylib` file next to this application or install CommandLineTools for macOS using the command `xcode-select --install`.";
         throw new InvalidOperationException(errorMessage);
     }
 
