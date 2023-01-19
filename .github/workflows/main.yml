@@ -46,6 +46,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install gcc-aarch64-linux-gnu clang
+        source "${{ github.workspace }}/.github/scripts/install-clang-x64-ubuntu_18_04.sh"
 
     - name: "Install Clang: macOS"
       if: matrix.platform.os == 'macos-latest'
