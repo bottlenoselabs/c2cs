@@ -179,9 +179,9 @@ public sealed partial class ClangInstaller
     [LoggerMessage(1, LogLevel.Error, "- Failure, could not determine path to libclang")]
     private partial void LogFailure();
 
-    [LoggerMessage(2, LogLevel.Debug, "- Success, installed, file path: {FilePath}")]
+    [LoggerMessage(2, LogLevel.Information, "- Success, installed, file path: {FilePath}")]
     private partial void LogSuccessInstalled(string filePath);
 
-    [LoggerMessage(3, LogLevel.Debug, "- Success, already installed, file path: {FilePath}")]
+    [LoggerMessage(3, LogLevel.Information, "- Success, already installed, file path: {FilePath}")]
     private partial void LogAlreadyInstalled(string filePath);
 }
