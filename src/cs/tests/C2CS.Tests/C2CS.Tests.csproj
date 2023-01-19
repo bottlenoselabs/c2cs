@@ -46,5 +46,13 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
+	
+	<!-- Clang native library -->
+	<ItemGroup>
+	  <None Include="..\..\..\..\lib\*.*">
+	    <Link>%(Filename)%(Extension)</Link>
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 
 </Project>
