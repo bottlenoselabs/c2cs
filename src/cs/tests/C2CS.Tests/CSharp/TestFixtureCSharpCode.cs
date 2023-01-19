@@ -79,6 +79,9 @@ public sealed class TestFixtureCSharpCode
         }
 
         Assert.True(emitResult.Success, "C# code did not compile successfully.");
+
+        var setupMethod = _cSharpCodeBuildResult.ClassType.GetMethod("Setup");
+        setupMethod!.Invoke(null, null);
     }
 
     public CSharpTestEnum GetEnum(string name)
