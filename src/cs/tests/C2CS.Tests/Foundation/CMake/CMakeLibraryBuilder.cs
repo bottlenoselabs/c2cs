@@ -4,17 +4,20 @@
 using System;
 using System.IO;
 using System.IO.Abstractions;
+using Microsoft.Extensions.Logging;
 
 namespace C2CS.Tests.Foundation.CMake;
 
-public class CMakeLibraryBuilder
+public partial class CMakeLibraryBuilder
 {
+    private readonly ILogger<CMakeLibraryBuilder> _logger;
     private readonly IDirectory _directory;
     private readonly IPath _path;
     private readonly IFile _file;
 
-    public CMakeLibraryBuilder(IFileSystem fileSystem)
+    public CMakeLibraryBuilder(ILogger<CMakeLibraryBuilder> logger, IFileSystem fileSystem)
     {
+        _logger = logger;
         _directory = fileSystem.Directory;
         _path = fileSystem.Path;
         _file = fileSystem.File;
@@ -25,6 +28,7 @@ public class CMakeLibraryBuilder
         var cMakeDirectoryPathFull = _path.GetFullPath(cMakeDirectoryPath);
         if (!_directory.Exists(cMakeDirectoryPathFull))
         {
+            LogCMakeDirectoryDoesNotExist(cMakeDirectoryPath);
             return CCodeBuildResult.Failure;
         }
 
@@ -34,7 +38,7 @@ public class CMakeLibraryBuilder
             _directory.CreateDirectory(libraryOutputDirectoryPathFull);
         }
 
-        var outputDirectoryPath = _path.Combine(cMakeDirectoryPath, "bin");
+        var outputDirectoryPath = Path.GetFullPath(_path.Combine(cMakeDirectoryPath, "bin"));
 
         var cMakeBuildDirectoryPath = _path.Combine(cMakeDirectoryPathFull, "cmake-build-release");
         if (_directory.Exists(cMakeBuildDirectoryPath))
@@ -52,7 +56,7 @@ public class CMakeLibraryBuilder
                 .ExecuteShell(cMakeDirectoryPathFull, windowsUsePowerShell: false);
         if (result.ExitCode != 0)
         {
-            Console.Write(result.Output);
+            LogCMakeGenerationFailed(result.Output);
             return CCodeBuildResult.Failure;
         }
 
@@ -60,11 +64,19 @@ public class CMakeLibraryBuilder
             .ExecuteShell(cMakeDirectoryPathFull, windowsUsePowerShell: false);
         if (result.ExitCode != 0)
         {
-            Console.Write(result.Output);
+            LogCMakeBuildFailed(result.Output);
             return CCodeBuildResult.Failure;
         }
 
-        var outputFilePaths = _directory.EnumerateFiles(outputDirectoryPath, "*.*");
+        var dynamicLinkLibraryFileSearchPattern = Native.OperatingSystem switch
+        {
+            NativeOperatingSystem.Windows => "*.dll",
+            NativeOperatingSystem.macOS => "*.dylib",
+            NativeOperatingSystem.Linux => "*.so",
+            _ => "*.*"
+        };
+
+        var outputFilePaths = _directory.EnumerateFiles(outputDirectoryPath, dynamicLinkLibraryFileSearchPattern, SearchOption.AllDirectories);
         foreach (var outputFilePath in outputFilePaths)
         {
             var outputFileName = _path.GetFileName(outputFilePath);
@@ -75,4 +87,13 @@ public class CMakeLibraryBuilder
         var buildResult = new CCodeBuildResult(true);
         return buildResult;
     }
+
+    [LoggerMessage(0, LogLevel.Error, "- The top level CMake directory does not exist: {DirectoryPath}")]
+    private partial void LogCMakeDirectoryDoesNotExist(string directoryPath);
+
+    [LoggerMessage(1, LogLevel.Error, "- Generating CMake build files failed: \n{Output}\n")]
+    private partial void LogCMakeGenerationFailed(string output);
+
+    [LoggerMessage(2, LogLevel.Error, "- CMake build failed: \n{Output}\n")]
+    private partial void LogCMakeBuildFailed(string output);
 }
