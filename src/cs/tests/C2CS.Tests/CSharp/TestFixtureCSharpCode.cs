@@ -8,6 +8,7 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using C2CS.Tests.C;
 using C2CS.Tests.CSharp.Data.Models;
 using C2CS.Tests.Foundation;
@@ -210,8 +211,28 @@ public sealed class TestFixtureCSharpCode
 
         var assembly = Assembly.Load(dllStream.ToArray());
 
+        NativeLibrary.SetDllImportResolver(assembly, NativeLibraryResolver);
+
         var cSharpCodeBuiltResult = new CSharpCodeBuildResult(emitResult, assembly);
         return cSharpCodeBuiltResult;
+    }
+
+    private static nint NativeLibraryResolver(
+        string libraryName,
+        Assembly assembly,
+        DllImportSearchPath? searchPath)
+    {
+        var fileName = Native.OperatingSystem switch
+        {
+            NativeOperatingSystem.Windows => "container_library.dll",
+            NativeOperatingSystem.macOS => "lib_container_library.dylib",
+            NativeOperatingSystem.Linux => "lib_container_library.so",
+            _ => throw new NotImplementedException()
+        };
+
+        var filePath = Path.Combine(AppContext.BaseDirectory, fileName);
+        var handle = NativeLibrary.Load(filePath);
+        return handle;
     }
 
     private void CreateTestNode(
