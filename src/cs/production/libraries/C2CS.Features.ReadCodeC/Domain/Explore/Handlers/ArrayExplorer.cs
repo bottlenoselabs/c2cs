@@ -19,7 +19,7 @@ public sealed class ArrayExplorer : ExploreNodeHandler<CArray>
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Either(
         CXTypeKind.CXType_ConstantArray, CXTypeKind.CXType_IncompleteArray);
 
-    public override CArray Explore(ExploreContext context, ExploreInfoNode info)
+    protected override CArray Explore(ExploreContext context, ExploreInfoNode info)
     {
         var array = Array(context, info);
         return array;

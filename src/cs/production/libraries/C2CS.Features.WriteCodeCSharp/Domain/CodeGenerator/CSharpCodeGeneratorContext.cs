@@ -38,6 +38,24 @@ public sealed class CSharpCodeGeneratorContext
         throw up;
     }
 
+    public MemberDeclarationSyntax GenerateCodeMemberSyntax<T>(T node)
+        where T : CSharpNode
+    {
+        var type = typeof(T);
+        if (!_handlers.TryGetValue(type, out var handler))
+        {
+            throw new ExecutorException($"A handler '{nameof(GenerateCodeHandler)}' does not exist for the type '{type.FullName ?? type.Name}'.");
+        }
+
+        var syntax = handler.GenerateCode(this, node);
+        if (syntax is not MemberDeclarationSyntax memberSyntax)
+        {
+            throw new ExecutorException($"The handler '{nameof(GenerateCodeHandler)}' did not return a '{nameof(MemberDeclarationSyntax)}' for the type '{type.FullName ?? type.Name}'.");
+        }
+
+        return memberSyntax;
+    }
+
     public string GenerateCodeParameters(ImmutableArray<CSharpParameter> parameters, bool includeNames = true)
     {
         for (var i = 0; i < parameters.Length; i++)
@@ -137,23 +155,5 @@ public sealed class CSharpCodeGeneratorContext
             SyntaxFactory.SeparatedList(builderAttributeArgumentSyntax));
         var attributeSyntax = SyntaxFactory.Attribute(attributeNameSyntax, attributeArgumentListSyntax);
         return attributeSyntax;
-    }
-
-    public MemberDeclarationSyntax GenerateCodeMemberSyntax<T>(T node)
-        where T : CSharpNode
-    {
-        var type = typeof(T);
-        if (!_handlers.TryGetValue(type, out var handler))
-        {
-            throw new ExecutorException($"A handler '{nameof(GenerateCodeHandler)}' does not exist for the type '{type.FullName ?? type.Name}'.");
-        }
-
-        var syntax = handler.GenerateCode(this, node);
-        if (syntax is not MemberDeclarationSyntax memberSyntax)
-        {
-            throw new ExecutorException($"The handler '{nameof(GenerateCodeHandler)}' did not return a '{nameof(MemberDeclarationSyntax)}' for the type '{type.FullName ?? type.Name}'.");
-        }
-
-        return memberSyntax;
     }
 }

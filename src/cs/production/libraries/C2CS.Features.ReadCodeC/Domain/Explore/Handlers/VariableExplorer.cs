@@ -21,7 +21,7 @@ public sealed class VariableExplorer : ExploreNodeHandler<CVariable>
 
     protected override ExploreKindTypes ExpectedTypes => ExploreKindTypes.Any;
 
-    public override CVariable Explore(ExploreContext context, ExploreInfoNode info)
+    protected override CVariable Explore(ExploreContext context, ExploreInfoNode info)
     {
         var variable = Variable(info);
         return variable;

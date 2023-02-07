@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.IO.Abstractions;
 using System.Reflection;
 using C2CS.ReadCodeC.Domain.Parse.Diagnostics;
+using C2CS.ReadCodeC.Infrastructure.Clang;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.ReadCodeC.Domain.Parse;
@@ -32,7 +33,7 @@ public sealed partial class ClangArgumentsBuilder
 
         AddDefaults(args, targetPlatform, isCPlusPlus, ignoreWarnings);
         AddUserIncludeDirectories(args, options.UserIncludeDirectories);
-        AddDefines(args, options.MacroObjectsDefines);
+        AddDefines(args, options.MacroObjectDefines);
         AddTargetTriple(args, targetPlatform);
         AddAdditionalArgs(args, options.AdditionalArguments);
         AddSystemIncludeDirectories(

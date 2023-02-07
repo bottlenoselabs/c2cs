@@ -42,7 +42,7 @@ public sealed class PrimitiveExplorer : ExploreNodeHandler<CPrimitive>
         CXTypeKind.CXType_Double,
         CXTypeKind.CXType_LongDouble);
 
-    public override CPrimitive Explore(ExploreContext context, ExploreInfoNode info)
+    protected override CPrimitive Explore(ExploreContext context, ExploreInfoNode info)
     {
         var result = Primitive(context, info);
         return result;

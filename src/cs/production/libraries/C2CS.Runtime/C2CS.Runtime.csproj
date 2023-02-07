@@ -4,12 +4,9 @@
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
 		<RootNamespace />
-	</PropertyGroup>
-
-	<!-- MSBuild.Tools settings -->
-	<PropertyGroup>
-		<EnableCodeCoverage>false</EnableCodeCoverage>
-		<EnableAnalyzers>false</EnableAnalyzers>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Nullable>enable</Nullable>
+		<GenerateDocumentationFile>flase</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

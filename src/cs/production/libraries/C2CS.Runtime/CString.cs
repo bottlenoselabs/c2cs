@@ -1,3 +1,6 @@
+// Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
+
 using System;
 using System.Runtime.InteropServices;
 
@@ -164,7 +167,7 @@ public readonly unsafe struct CString : IEquatable<CString>
 
     /// <summary>
     ///     Converts a UTF-16 <see cref="string" /> to a C style string (one dimensional byte array terminated by a
-    ///     <c>0x0</c>) by allocating and copying if not already cached.
+    ///     <c>0x0</c>) by allocating and copying.
     /// </summary>
     /// <param name="str">The <see cref="string" />.</param>
     /// <returns>A C string pointer.</returns>

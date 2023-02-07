@@ -1,7 +1,7 @@
-using System;
+// Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-#pragma warning disable CS1591
-#pragma warning disable SA1600
+using System;
 
 [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.ReturnValue)]
 public sealed class CConstAttribute : Attribute

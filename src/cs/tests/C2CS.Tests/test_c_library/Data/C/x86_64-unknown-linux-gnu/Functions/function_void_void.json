@@ -1,6 +1,0 @@
-{
-  "name": "function_void_void",
-  "calling_convention": "cdecl",
-  "return_type_name": "void",
-  "parameters": []
-}

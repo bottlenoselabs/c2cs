@@ -5,6 +5,7 @@ using System.IO.Abstractions;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using bottlenoselabs;
+using C2CS.ReadCodeC.Infrastructure.Clang;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.ReadCodeC.Domain.Parse;
@@ -82,9 +83,15 @@ public sealed partial class ClangInstaller
             // ReSharper restore StringLiteralTypo
         };
 
-        const string errorMessage =
-            "`libclang.dll` or `clang.dll` is missing. Please put a `libclang.dll` or `clang.dll` file next to this application or install Clang for Windows. To install Clang for Windows using Chocolatey, use the command `choco install llvm`.";
-        return SearchForClangFilePath(errorMessage, filePaths);
+        var result = SearchForClangFilePath(filePaths);
+        if (!string.IsNullOrEmpty(result))
+        {
+            return result;
+        }
+
+        var errorMessage =
+            $"`libclang.dll` or `clang.dll` is missing. Tried searching the following paths: \"{string.Join(", ", filePaths)}\". Please put a `libclang.dll` or `clang.dll` file next to this application or install Clang for Windows. To install Clang for Windows using Chocolatey, use the command `choco install llvm`.";
+        throw new InvalidOperationException(errorMessage);
     }
 
     private string GetClangFilePathLinux()
@@ -106,9 +113,15 @@ public sealed partial class ClangInstaller
             // ReSharper restore StringLiteralTypo
         };
 
-        const string errorMessage =
-            "`libclang.so`is missing. Please put a `libclang.so` file next to this application or install Clang for Linux. To install Clang for Debian-based linux distributions, use the command `apt-get update && apt-get install clang`.";
-        return SearchForClangFilePath(errorMessage, filePaths);
+        var result = SearchForClangFilePath(filePaths);
+        if (!string.IsNullOrEmpty(result))
+        {
+            return result;
+        }
+
+        var errorMessage =
+            $"`libclang.so`is missing. Tried searching the following paths: \"{string.Join(", ", filePaths)}\". Please put a `libclang.so` file next to this application or install Clang for Linux. To install Clang for Debian-based linux distributions, use the command `apt-get update && apt-get install clang`.";
+        throw new InvalidOperationException(errorMessage);
     }
 
     private string GetClangFilePathMacOs()
@@ -122,12 +135,18 @@ public sealed partial class ClangInstaller
             // ReSharper restore StringLiteralTypo
         };
 
-        const string errorMessage =
-            "`libclang.dylib` is missing. Please put a `libclang.dylib` file next to this application or install CommandLineTools for macOS using the command `xcode-select --install`.";
-        return SearchForClangFilePath(errorMessage, filePaths);
+        var result = SearchForClangFilePath(filePaths);
+        if (!string.IsNullOrEmpty(result))
+        {
+            return result;
+        }
+
+        var errorMessage =
+            $"`libclang.dylib` is missing. Tried searching the following paths: \"{string.Join(", ", filePaths)}\". Please put a `libclang.dylib` file next to this application or install CommandLineTools for macOS using the command `xcode-select --install`.";
+        throw new InvalidOperationException(errorMessage);
     }
 
-    private string SearchForClangFilePath(string errorMessage, params string[] filePaths)
+    private string? SearchForClangFilePath(params string[] filePaths)
     {
         var installedFilePath = string.Empty;
         foreach (var filePath in filePaths)
@@ -139,11 +158,6 @@ public sealed partial class ClangInstaller
 
             installedFilePath = filePath;
             break;
-        }
-
-        if (string.IsNullOrEmpty(installedFilePath))
-        {
-            throw new InvalidOperationException(errorMessage);
         }
 
         return installedFilePath;
@@ -165,9 +179,9 @@ public sealed partial class ClangInstaller
     [LoggerMessage(1, LogLevel.Error, "- Failure, could not determine path to libclang")]
     private partial void LogFailure();
 
-    [LoggerMessage(2, LogLevel.Debug, "- Success, installed, file path: {FilePath}")]
+    [LoggerMessage(2, LogLevel.Information, "- Success, installed, file path: {FilePath}")]
     private partial void LogSuccessInstalled(string filePath);
 
-    [LoggerMessage(3, LogLevel.Debug, "- Success, already installed, file path: {FilePath}")]
+    [LoggerMessage(3, LogLevel.Information, "- Success, already installed, file path: {FilePath}")]
     private partial void LogAlreadyInstalled(string filePath);
 }

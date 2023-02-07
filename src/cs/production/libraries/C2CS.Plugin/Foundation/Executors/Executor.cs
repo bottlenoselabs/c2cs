@@ -23,7 +23,7 @@ public abstract class Executor<TOptions, TInput, TOutput> : Executor
     private readonly Stopwatch _stepStopwatch;
     private readonly Stopwatch _stopwatch;
     private readonly ExecutorInputValidator<TOptions, TInput> _inputValidator;
-    public readonly ILogger<Executor<TOptions, TInput, TOutput>> Logger;
+    private readonly ILogger<Executor<TOptions, TInput, TOutput>> _logger;
 
     private IDisposable? _loggerScopeStep;
 
@@ -32,7 +32,7 @@ public abstract class Executor<TOptions, TInput, TOutput> : Executor
         ExecutorInputValidator<TOptions, TInput> inputValidator)
         : base(logger)
     {
-        Logger = logger;
+        _logger = logger;
         _stopwatch = new Stopwatch();
         _stepStopwatch = new Stopwatch();
         _inputValidator = inputValidator;
@@ -76,6 +76,35 @@ public abstract class Executor<TOptions, TInput, TOutput> : Executor
 
     protected abstract void Execute(TInput input, TOutput output);
 
+    protected void BeginStep(string stepName)
+    {
+        _stepStopwatch.Reset();
+        _loggerScopeStep = _logger.BeginScope(stepName);
+        GarbageCollect();
+        LogStepStarted();
+        _stepStopwatch.Start();
+    }
+
+    protected void EndStep()
+    {
+        _stepStopwatch.Stop();
+        var timeSpan = _stepStopwatch.Elapsed;
+
+        var isSuccess = !Diagnostics.HasFaulted;
+        if (isSuccess)
+        {
+            LogStepSuccess(timeSpan);
+        }
+        else
+        {
+            LogStepFailure(timeSpan);
+        }
+
+        _loggerScopeStep?.Dispose();
+        _loggerScopeStep = null;
+        GarbageCollect();
+    }
+
     private void Begin()
     {
         _stopwatch.Reset();
@@ -118,7 +147,7 @@ public abstract class Executor<TOptions, TInput, TOutput> : Executor
 #pragma warning disable CA1848
 #pragma warning disable CA2254
             // ReSharper disable once TemplateIsNotCompileTimeConstantProblem
-            Logger.Log(logLevel, $"- {name} {message}");
+            _logger.Log(logLevel, $"- {name} {message}");
 #pragma warning restore CA2254
 #pragma warning restore CA1848
         }
@@ -130,35 +159,6 @@ public abstract class Executor<TOptions, TInput, TOutput> : Executor
     {
         var diagnostic = new DiagnosticPanic(e);
         Diagnostics.Add(diagnostic);
-    }
-
-    protected void BeginStep(string stepName)
-    {
-        _stepStopwatch.Reset();
-        _loggerScopeStep = Logger.BeginScope(stepName);
-        GarbageCollect();
-        LogStepStarted();
-        _stepStopwatch.Start();
-    }
-
-    protected void EndStep()
-    {
-        _stepStopwatch.Stop();
-        var timeSpan = _stepStopwatch.Elapsed;
-
-        var isSuccess = !Diagnostics.HasFaulted;
-        if (isSuccess)
-        {
-            LogStepSuccess(timeSpan);
-        }
-        else
-        {
-            LogStepFailure(timeSpan);
-        }
-
-        _loggerScopeStep?.Dispose();
-        _loggerScopeStep = null;
-        GarbageCollect();
     }
 
     private static void GarbageCollect()

@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using C2CS.Data.C.Model;
 using C2CS.ReadCodeC.Domain.Parse.Diagnostics;
+using C2CS.ReadCodeC.Infrastructure.Clang;
 using Microsoft.Extensions.Logging;
 using static bottlenoselabs.clang;
 
@@ -13,10 +14,10 @@ namespace C2CS.ReadCodeC.Domain.Parse;
 
 public sealed partial class Parser
 {
+    public readonly IReaderCCode CodeReader;
+
     private readonly ClangArgumentsBuilder _clangArgumentsBuilder;
     private readonly ILogger<Parser> _logger;
-
-    public readonly IReaderCCode CodeReader;
 
     public Parser(
         IReaderCCode codeReader,
@@ -105,53 +106,6 @@ public sealed partial class Parser
         }
 
         return translationUnit;
-    }
-
-    private static unsafe bool TryParseTranslationUnit(
-        string filePath,
-        ImmutableArray<string> commandLineArgs,
-        out CXTranslationUnit translationUnit,
-        bool skipFunctionBodies = true,
-        bool keepGoing = false)
-    {
-        // ReSharper disable BitwiseOperatorOnEnumWithoutFlags
-        uint options = 0x0 |
-                       0x1 | // CXTranslationUnit_DetailedPreprocessingRecord
-                       0x1000 | // CXTranslationUnit_IncludeAttributedTypes
-                       0x2000 | // CXTranslationUnit_VisitImplicitAttributes
-                       0x4000 | // CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles
-                       0x0;
-
-        if (skipFunctionBodies)
-        {
-            options |= 0x40; // CXTranslationUnit_SkipFunctionBodies
-        }
-
-        if (keepGoing)
-        {
-            options |= 0x200; // CXTranslationUnit_KeepGoing
-        }
-
-        var index = clang_createIndex(0, 0);
-        var cSourceFilePath = Runtime.CStrings.CString(filePath);
-        var cCommandLineArgs = Runtime.CStrings.CStringArray(commandLineArgs.AsSpan());
-
-        CXErrorCode errorCode;
-        fixed (CXTranslationUnit* translationUnitPointer = &translationUnit)
-        {
-            errorCode = clang_parseTranslationUnit2(
-                index,
-                cSourceFilePath,
-                cCommandLineArgs,
-                commandLineArgs.Length,
-                (CXUnsavedFile*)IntPtr.Zero,
-                0,
-                options,
-                translationUnitPointer);
-        }
-
-        var result = errorCode == CXErrorCode.CXError_Success;
-        return result;
     }
 
     public ImmutableArray<MacroObjectCandidate> MacroObjectCandidates(
@@ -335,8 +289,8 @@ public sealed partial class Parser
             columnIndexEnd = filePathIndex - 1;
         }
 
-        var lineString = locationString[(lineIndex + 1) .. columnIndex];
-        var columnString = locationString[(columnIndex + 1) .. columnIndexEnd];
+        var lineString = locationString[(lineIndex + 1).. columnIndex];
+        var columnString = locationString[(columnIndex + 1).. columnIndexEnd];
         var fileNameString = locationString[..lineIndex];
 
         var filePathString = filePathIndex == -1 ? fileNameString : locationString[(filePathIndex + 1)..^1];
@@ -653,6 +607,53 @@ int main(void)
         return builder.ToImmutable();
     }
 
+    private static unsafe bool TryParseTranslationUnit(
+        string filePath,
+        ImmutableArray<string> commandLineArgs,
+        out CXTranslationUnit translationUnit,
+        bool skipFunctionBodies = true,
+        bool keepGoing = false)
+    {
+        // ReSharper disable BitwiseOperatorOnEnumWithoutFlags
+        uint options = 0x0 |
+                       0x1 | // CXTranslationUnit_DetailedPreprocessingRecord
+                       0x1000 | // CXTranslationUnit_IncludeAttributedTypes
+                       0x2000 | // CXTranslationUnit_VisitImplicitAttributes
+                       0x4000 | // CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles
+                       0x0;
+
+        if (skipFunctionBodies)
+        {
+            options |= 0x40; // CXTranslationUnit_SkipFunctionBodies
+        }
+
+        if (keepGoing)
+        {
+            options |= 0x200; // CXTranslationUnit_KeepGoing
+        }
+
+        var index = clang_createIndex(0, 0);
+        var cSourceFilePath = Runtime.CStrings.CString(filePath);
+        var cCommandLineArgs = Runtime.CStrings.CStringArray(commandLineArgs.AsSpan());
+
+        CXErrorCode errorCode;
+        fixed (CXTranslationUnit* translationUnitPointer = &translationUnit)
+        {
+            errorCode = clang_parseTranslationUnit2(
+                index,
+                cSourceFilePath,
+                cCommandLineArgs,
+                commandLineArgs.Length,
+                (CXUnsavedFile*)IntPtr.Zero,
+                0,
+                options,
+                translationUnitPointer);
+        }
+
+        var result = errorCode == CXErrorCode.CXError_Success;
+        return result;
+    }
+
     [LoggerMessage(0, LogLevel.Error,
         "- Failed. The arguments are incorrect or invalid. Path: {FilePath} ; Clang arguments: {Arguments}")]
     private partial void LogFailureInvalidArguments(string filePath, string arguments, Exception exception);
@@ -663,5 +664,5 @@ int main(void)
 
     [LoggerMessage(2, LogLevel.Error,
         "- Failed. One or more Clang diagnostics are reported when parsing that are an error or fatal. Path: {FilePath} ; Clang arguments: {Arguments} ; Diagnostics: {DiagnosticsCount}")]
-    public partial void LogFailureDiagnostics(string filePath, string arguments, int diagnosticsCount);
+    private partial void LogFailureDiagnostics(string filePath, string arguments, int diagnosticsCount);
 }

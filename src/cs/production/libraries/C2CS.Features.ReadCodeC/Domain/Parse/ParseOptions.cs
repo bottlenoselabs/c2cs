@@ -11,7 +11,7 @@ public class ParseOptions
 
     public ImmutableArray<string> SystemIncludeDirectories { get; init; } = ImmutableArray<string>.Empty;
 
-    public ImmutableArray<string> MacroObjectsDefines { get; init; } = ImmutableArray<string>.Empty;
+    public ImmutableArray<string> MacroObjectDefines { get; init; } = ImmutableArray<string>.Empty;
 
     public ImmutableArray<string> AdditionalArguments { get; init; } = ImmutableArray<string>.Empty;
 
