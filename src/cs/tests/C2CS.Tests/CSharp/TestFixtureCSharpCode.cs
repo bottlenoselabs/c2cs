@@ -224,7 +224,7 @@ public sealed class TestFixtureCSharpCode
     {
         var fileName = Native.OperatingSystem switch
         {
-            NativeOperatingSystem.Windows => "container_library.dll",
+            NativeOperatingSystem.Windows => "_container_library.dll",
             NativeOperatingSystem.macOS => "lib_container_library.dylib",
             NativeOperatingSystem.Linux => "lib_container_library.so",
             _ => throw new NotImplementedException()
