@@ -82,6 +82,7 @@ public partial class CMakeLibraryBuilder
             var outputFileName = _path.GetFileName(outputFilePath);
             var outputFilePathCopy = _path.Combine(libraryOutputDirectoryPathFull, outputFileName);
             _file.Copy(outputFilePath, outputFilePathCopy, true);
+            LogCMakeBuildSuccess(outputFilePathCopy);
         }
 
         var buildResult = new CCodeBuildResult(true);
@@ -96,4 +97,7 @@ public partial class CMakeLibraryBuilder
 
     [LoggerMessage(2, LogLevel.Error, "- CMake build failed: \n{Output}\n")]
     private partial void LogCMakeBuildFailed(string output);
+
+    [LoggerMessage(3, LogLevel.Information, "- CMake build success. Copied output file to: {FilePath}")]
+    private partial void LogCMakeBuildSuccess(string filePath);
 }
