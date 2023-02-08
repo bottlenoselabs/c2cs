@@ -8,14 +8,11 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
-using bottlenoselabs;
 using C2CS.Data.CSharp.Model;
 using C2CS.WriteCodeCSharp.Domain.CodeGenerator.Handlers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.Extensions.DependencyInjection;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using Formatter = Microsoft.CodeAnalysis.Formatting.Formatter;
@@ -227,7 +224,7 @@ public static void Teardown()
         var manifestResourcesNames = assembly.GetManifestResourceNames();
         foreach (var resourceName in manifestResourcesNames)
         {
-            if (!resourceName.EndsWith(".cs"))
+            if (!resourceName.EndsWith(".cs", StringComparison.InvariantCulture))
             {
                 continue;
             }
