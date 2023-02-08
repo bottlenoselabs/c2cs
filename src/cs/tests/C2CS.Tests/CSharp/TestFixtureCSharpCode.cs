@@ -46,7 +46,7 @@ public sealed class TestFixtureCSharpCode
         Assert.True(outputWriteCSharp != null);
         var input = outputWriteCSharp!.Input;
 
-        Assert.True(outputWriteCSharp.Diagnostics.Length == 0, "Diagnostics were reported when writing C# code.");
+        Assert.True(outputWriteCSharp.Diagnostics.Length == 0, $"Diagnostics were reported when writing C# code: {input.OutputFilePath}");
         Assert.True(outputWriteCSharp.IsSuccess, "Writing C# code failed.");
 
         var code = fileSystem.File.ReadAllText(input.OutputFilePath);

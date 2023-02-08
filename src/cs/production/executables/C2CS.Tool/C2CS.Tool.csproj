@@ -8,8 +8,9 @@
 		<RootNamespace>C2CS</RootNamespace>
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
-		<NoWarn>$(NoWarn);CA1724;CA1812</NoWarn>
+		<NoWarn>$(NoWarn);CA1724;CA1806;CA1812;</NoWarn>
 		<RuntimeIdentifiers>win-x64;osx-x64;osx-arm64;linux-x64</RuntimeIdentifiers>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<!-- NuGet -->
@@ -17,6 +18,7 @@
 		<IsPackable>true</IsPackable>
 		<PackageOutputPath>$(GitRepositoryPath)/nupkg</PackageOutputPath>
 		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/bottlenoselabs/c2cs</RepositoryUrl>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageId>bottlenoselabs.C2CS.Tool</PackageId>
 		<PackageDescription>C to C# library bindings code generator. In go .h file, out come .cs file.</PackageDescription>
@@ -35,6 +37,8 @@
 
 	<!-- NuGet package references -->
 	<ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.4.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
@@ -46,14 +50,22 @@
 
 	<!-- Project references -->
 	<ItemGroup>
-		<ProjectReference Include="..\..\libraries\C2CS.Features.ReadCodeC\C2CS.Features.ReadCodeC.csproj" />
-		<ProjectReference Include="..\..\libraries\C2CS.Features.WriteCodeCSharp\C2CS.Features.WriteCodeCSharp.csproj" />
 		<ProjectReference Include="..\..\libraries\C2CS.Plugin\C2CS.Plugin.csproj" />
 	</ItemGroup>
 
 	<!-- Configuration settings -->
 	<ItemGroup>
 		<EmbeddedResource Include="appsettings.json" />
+	</ItemGroup>
+
+	<!-- C2CS.Runtime -->
+	<ItemGroup>
+		<Compile Include="..\..\libraries\C2CS.Runtime\**\*.cs">
+			<Link>Runtime\%(RecursiveDir)/%(FileName)%(Extension)</Link>
+		</Compile>
+		<EmbeddedResource Include="..\..\libraries\C2CS.Runtime\**\*.cs">
+				<Visible>false</Visible>
+		</EmbeddedResource>
 	</ItemGroup>
 
 </Project>
