@@ -223,10 +223,15 @@ public static void Teardown()
     {
         var builderMembers = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
 
-        var assembly = typeof(clang.Runtime.CBool).Assembly;
+        var assembly = typeof(CBool).Assembly;
         var manifestResourcesNames = assembly.GetManifestResourceNames();
         foreach (var resourceName in manifestResourcesNames)
         {
+            if (!resourceName.EndsWith(".cs"))
+            {
+                continue;
+            }
+
             using var stream = assembly.GetManifestResourceStream(resourceName);
             using var streamReader = new StreamReader(stream!);
             var code = streamReader.ReadToEnd();

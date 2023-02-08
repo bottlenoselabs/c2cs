@@ -60,9 +60,12 @@
 
 	<!-- C2CS.Runtime -->
 	<ItemGroup>
-		<Compile Include="..\..\libraries\C2CS.Runtime\Attributes\**\*.cs">
-			<Link>Runtime\Attributes\%(RecursiveDir)/%(FileName)%(Extension)</Link>
+		<Compile Include="..\..\libraries\C2CS.Runtime\**\*.cs">
+			<Link>Runtime\%(RecursiveDir)/%(FileName)%(Extension)</Link>
 		</Compile>
+		<EmbeddedResource Include="..\..\libraries\C2CS.Runtime\**\*.cs">
+				<Visible>false</Visible>
+		</EmbeddedResource>
 	</ItemGroup>
 
 </Project>

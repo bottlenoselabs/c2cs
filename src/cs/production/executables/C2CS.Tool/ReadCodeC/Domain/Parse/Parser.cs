@@ -637,8 +637,8 @@ int main(void)
         }
 
         var index = clang_createIndex(0, 0);
-        var cSourceFilePath = Runtime.CStrings.CString(filePath);
-        var cCommandLineArgs = Runtime.CStrings.CStringArray(commandLineArgs.AsSpan());
+        var cSourceFilePath = CString.FromString(filePath);
+        var cCommandLineArgs = CStrings.CStringArray(commandLineArgs.AsSpan());
 
         CXErrorCode errorCode;
         fixed (CXTranslationUnit* translationUnitPointer = &translationUnit)
