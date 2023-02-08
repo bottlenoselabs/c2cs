@@ -17,6 +17,7 @@
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageId>bottlenoselabs.C2CS.Plugin</PackageId>
 		<PackageDescription>Control bindgen of bottlenoselabs.C2CS.Tool using C# code. C2CS plugin base library. Add this package to your project to create a plugin for C2CS.</PackageDescription>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 
 	<!-- NuGet -->
