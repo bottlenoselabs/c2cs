@@ -30,34 +30,26 @@ public sealed partial class ClangInstaller
 
     public bool Install(NativeOperatingSystem operatingSystem)
     {
-        try
+        lock (_lock)
         {
-            lock (_lock)
+            if (_isInstalled)
             {
-                if (_isInstalled)
-                {
-                    LogAlreadyInstalled(_clangNativeLibraryFilePath);
-                    return true;
-                }
-
-                var filePath = GetClangFilePath(operatingSystem);
-                if (string.IsNullOrEmpty(filePath))
-                {
-                    LogFailure();
-                    return false;
-                }
-
-                _clangNativeLibraryFilePath = filePath;
-                NativeLibrary.SetDllImportResolver(typeof(clang).Assembly, ResolveClang);
-                LogSuccessInstalled(_clangNativeLibraryFilePath);
-                _isInstalled = true;
+                LogAlreadyInstalled(_clangNativeLibraryFilePath);
                 return true;
             }
-        }
-        catch (Exception e)
-        {
-            LogException(e);
-            return false;
+
+            var filePath = GetClangFilePath(operatingSystem);
+            if (string.IsNullOrEmpty(filePath))
+            {
+                LogFailure();
+                return false;
+            }
+
+            _clangNativeLibraryFilePath = filePath;
+            NativeLibrary.SetDllImportResolver(typeof(clang).Assembly, ResolveClang);
+            LogSuccessInstalled(_clangNativeLibraryFilePath);
+            _isInstalled = true;
+            return true;
         }
     }
 
@@ -175,15 +167,12 @@ public sealed partial class ClangInstaller
         return handle;
     }
 
-    [LoggerMessage(0, LogLevel.Critical, "- Exception")]
-    private partial void LogException(Exception exception);
-
-    [LoggerMessage(1, LogLevel.Error, "- Failure, could not determine path to libclang")]
+    [LoggerMessage(0, LogLevel.Error, "- Failure, could not determine path to libclang")]
     private partial void LogFailure();
 
-    [LoggerMessage(2, LogLevel.Information, "- Success, installed, file path: {FilePath}")]
+    [LoggerMessage(1, LogLevel.Information, "- Success, installed, file path: {FilePath}")]
     private partial void LogSuccessInstalled(string filePath);
 
-    [LoggerMessage(3, LogLevel.Information, "- Success, already installed, file path: {FilePath}")]
+    [LoggerMessage(2, LogLevel.Information, "- Success, already installed, file path: {FilePath}")]
     private partial void LogAlreadyInstalled(string filePath);
 }
