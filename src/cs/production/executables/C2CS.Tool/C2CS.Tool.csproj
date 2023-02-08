@@ -11,7 +11,6 @@
 		<NoWarn>$(NoWarn);CA1724;CA1806;CA1812;</NoWarn>
 		<RuntimeIdentifiers>win-x64;osx-x64;osx-arm64;linux-x64</RuntimeIdentifiers>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<RestoreProjectStyle>DotnetTool</RestoreProjectStyle>
 	</PropertyGroup>
 
 	<!-- NuGet -->
