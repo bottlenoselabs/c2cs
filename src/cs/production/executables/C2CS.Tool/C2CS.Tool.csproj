@@ -11,19 +11,22 @@
 		<NoWarn>$(NoWarn);CA1724;CA1806;CA1812;</NoWarn>
 		<RuntimeIdentifiers>win-x64;osx-x64;osx-arm64;linux-x64</RuntimeIdentifiers>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<RestoreProjectStyle>DotnetTool</RestoreProjectStyle>
 	</PropertyGroup>
 
 	<!-- NuGet -->
 	<PropertyGroup>
+		<PackAsTool>true</PackAsTool>
 		<IsPackable>true</IsPackable>
 		<PackageOutputPath>$(GitRepositoryPath)/nupkg</PackageOutputPath>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/bottlenoselabs/c2cs</RepositoryUrl>
 		<PackageIcon>icon.png</PackageIcon>
-		<PackageId>bottlenoselabs.C2CS.Tool</PackageId>
+		<PackageId>bottlenoselabs.C2CS.Tool2</PackageId>
 		<PackageDescription>C to C# library bindings code generator. In go .h file, out come .cs file.</PackageDescription>
 		<ToolCommandName>c2cs</ToolCommandName>
 		<NoWarn>$(NoWarn);NU5104</NoWarn>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 
 	<!-- NuGet -->
