@@ -12,19 +12,26 @@
 		<RuntimeIdentifiers>win-x64;osx-x64;osx-arm64;linux-x64</RuntimeIdentifiers>
 	</PropertyGroup>
 
-	<!-- MSBuild.Tools project settings -->
-	<PropertyGroup>
-		<EnableCodeCoverage>false</EnableCodeCoverage>
-	</PropertyGroup>
-
 	<!-- NuGet -->
 	<PropertyGroup>
 		<IsPackable>true</IsPackable>
-		<PackAsTool>true</PackAsTool>
-		<ToolCommandName>c2cs</ToolCommandName>
-		<RepositoryUrl>https://github.com/bottlenoselabs/c2cs</RepositoryUrl>
+		<PackageOutputPath>$(GitRepositoryPath)/nupkg</PackageOutputPath>
+		<RepositoryType>git</RepositoryType>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageId>bottlenoselabs.C2CS.Tool</PackageId>
 		<PackageDescription>C to C# library bindings code generator. In go .h file, out come .cs file.</PackageDescription>
+		<ToolCommandName>c2cs</ToolCommandName>
+		<NoWarn>$(NoWarn);NU5104</NoWarn>
 	</PropertyGroup>
+
+	<!-- NuGet -->
+	<ItemGroup>
+		<Content Include="$(GitRepositoryPath)/icon.png">
+			<Pack>true</Pack>
+			<PackagePath>icon.png</PackagePath>
+			<Link>Properties/bottlenoselabs/icon.png</Link>
+		</Content>
+	</ItemGroup>
 
 	<!-- NuGet package references -->
 	<ItemGroup>

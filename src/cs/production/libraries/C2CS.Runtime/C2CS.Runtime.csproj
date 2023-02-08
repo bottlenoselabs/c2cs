@@ -9,6 +9,11 @@
 		<GenerateDocumentationFile>flase</GenerateDocumentationFile>
 	</PropertyGroup>
 
+	<!-- NuGet -->
+	<PropertyGroup>
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<EmbeddedResource Include="$(MSBuildThisFileDirectory)/**/*.cs" />
 	</ItemGroup>
