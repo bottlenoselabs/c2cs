@@ -8,6 +8,25 @@
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 	</PropertyGroup>
 
+	<!-- NuGet -->
+	<PropertyGroup>
+		<IsPackable>true</IsPackable>
+		<PackageOutputPath>$(GitRepositoryPath)/nupkg</PackageOutputPath>
+		<RepositoryType>git</RepositoryType>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageId>bottlenoselabs.C2CS.Plugin</PackageId>
+		<PackageDescription>Control bindgen of bottlenoselabs.C2CS.Tool using C# code.</PackageDescription>
+	</PropertyGroup>
+
+	<!-- NuGet -->
+	<ItemGroup>
+		<Content Include="$(GitRepositoryPath)/icon.png">
+			<Pack>true</Pack>
+			<PackagePath>icon.png</PackagePath>
+			<Link>Properties/bottlenoselabs/icon.png</Link>
+		</Content>
+	</ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
 		<PackageReference Include="System.IO.Abstractions" Version="17.1.1" />

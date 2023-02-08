@@ -10,6 +10,11 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
+	<!-- NuGet -->
+	<PropertyGroup>
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+
 	<!-- Project references -->
 	<ItemGroup>
 		<ProjectReference Include="../C2CS.Plugin/C2CS.Plugin.csproj" />

@@ -9,6 +9,11 @@
 		<RootNamespace>C2CS.WriteCodeCSharp</RootNamespace>
 	</PropertyGroup>
 
+	<!-- NuGet -->
+	<PropertyGroup>
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+
 	<!-- Project references -->
 	<ItemGroup>
 	  <ProjectReference Include="../C2CS.Plugin/C2CS.Plugin.csproj" />
