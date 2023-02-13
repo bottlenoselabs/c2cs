@@ -119,7 +119,8 @@ public static unsafe class ClangExtensions
     public static CLocation GetLocation(
         this CXCursor cursor,
         CXType? type = null,
-        ImmutableDictionary<string, string>? linkedFileDirectoryPaths = null)
+        ImmutableDictionary<string, string>? linkedFileDirectoryPaths = null,
+        ImmutableArray<string>? includeDirectories = null)
     {
         if (cursor.kind == CXCursorKind.CXCursor_TranslationUnit)
         {
@@ -156,7 +157,7 @@ public static unsafe class ClangExtensions
 
         var locationSource = clang_getCursorLocation(cursor);
         var translationUnit = clang_Cursor_getTranslationUnit(cursor);
-        var location = GetLocation(locationSource, translationUnit, linkedFileDirectoryPaths);
+        var location = GetLocation(locationSource, translationUnit, linkedFileDirectoryPaths, includeDirectories);
         return location;
     }
 
@@ -425,7 +426,8 @@ public static unsafe class ClangExtensions
     private static CLocation GetLocation(
         CXSourceLocation locationSource,
         CXTranslationUnit? translationUnit = null,
-        ImmutableDictionary<string, string>? linkedFileDirectoryPaths = null)
+        ImmutableDictionary<string, string>? linkedFileDirectoryPaths = null,
+        ImmutableArray<string>? includeDirectories = null)
     {
         CXFile file;
         uint lineNumber;
@@ -472,6 +474,18 @@ public static unsafe class ClangExtensions
                     location.FilePath = location.FilePath
                         .Replace(linkedDirectory, targetDirectory, StringComparison.InvariantCulture).Trim('/', '\\');
                     break;
+                }
+            }
+        }
+
+        if (includeDirectories != null)
+        {
+            foreach (var includeDirectory in includeDirectories)
+            {
+                if (location.FilePath.Contains(includeDirectory, StringComparison.InvariantCulture))
+                {
+                    location.FilePath = location.FilePath
+                        .Replace(includeDirectory, string.Empty);
                 }
             }
         }

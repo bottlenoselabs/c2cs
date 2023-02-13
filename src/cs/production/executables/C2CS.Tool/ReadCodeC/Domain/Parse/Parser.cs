@@ -220,7 +220,7 @@ public sealed partial class Parser
             return null;
         }
 
-        var location = MacroLocation(cursor, reader, ref readerLineNumber);
+        var location = MacroLocation(cursor, reader, ref readerLineNumber, options.UserIncludeDirectories);
 
         var kind = MacroTypeKind(type);
         var typeName = type.Name();
@@ -260,9 +260,13 @@ public sealed partial class Parser
         };
     }
 
-    private static CLocation MacroLocation(CXCursor cursor, StreamReader reader, ref int readerLineNumber)
+    private CLocation MacroLocation(
+        CXCursor cursor,
+        StreamReader reader,
+        ref int readerLineNumber,
+        ImmutableArray<string> userIncludeDirectories)
     {
-        var location = cursor.GetLocation();
+        var location = cursor.GetLocation(includeDirectories: userIncludeDirectories);
         var locationCommentLineNumber = location.LineNumber - 1;
 
         if (readerLineNumber > locationCommentLineNumber)

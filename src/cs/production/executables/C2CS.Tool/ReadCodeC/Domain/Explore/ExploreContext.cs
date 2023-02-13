@@ -6,7 +6,6 @@ using System.Collections.Immutable;
 using System.Linq;
 using C2CS.Data.C.Model;
 using C2CS.Foundation.Executors;
-using C2CS.ReadCodeC.Domain.Explore.Diagnostics;
 using C2CS.ReadCodeC.Domain.Parse;
 using C2CS.ReadCodeC.Infrastructure.Clang;
 using static bottlenoselabs.clang;
@@ -92,7 +91,7 @@ public sealed class ExploreContext
         CXCursor cursor,
         CXType type)
     {
-        return cursor.GetLocation(type, _linkedPaths);
+        return cursor.GetLocation(type, _linkedPaths, ParseOptions.UserIncludeDirectories);
     }
 
     public string CursorName(CXCursor cursor)
@@ -149,14 +148,8 @@ public sealed class ExploreContext
         return handler.ExploreInternal(this, node);
     }
 
-    internal bool IsAllowed(
-        CKind kind,
-        string name,
-        CXCursor cursor,
-        CXType type)
+    internal bool IsAllowed(CXCursor cursor)
     {
-        var location = Location(cursor, type);
-
         if (!ExploreOptions.IsEnabledSystemDeclarations)
         {
             var cursorLocation = clang_getCursorLocation(cursor);
@@ -451,7 +444,7 @@ extend                        = 0x40
         var location = Location(locationCursor, type);
 
         var isFromBlockedHeader = false;
-        if (!IsAllowed(kind, typeName, cursor, containerType))
+        if (!IsAllowed(cursor))
         {
             if (parentIsFromBlockedHeader.HasValue && parentIsFromBlockedHeader.Value)
             {
