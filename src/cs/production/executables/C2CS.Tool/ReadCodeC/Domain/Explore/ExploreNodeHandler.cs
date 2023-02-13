@@ -68,7 +68,7 @@ public abstract partial class ExploreHandler
             return false;
         }
 
-        if (!context.IsAllowed(info.Kind, info.Name, info.Cursor, info.Type))
+        if (!context.IsAllowed(info.Cursor))
         {
             return false;
         }
