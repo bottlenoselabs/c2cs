@@ -485,7 +485,7 @@ public static unsafe class ClangExtensions
                 if (location.FilePath.Contains(includeDirectory, StringComparison.InvariantCulture))
                 {
                     location.FilePath = location.FilePath
-                        .Replace(includeDirectory, string.Empty);
+                        .Replace(includeDirectory, string.Empty, StringComparison.InvariantCulture);
                 }
             }
         }
