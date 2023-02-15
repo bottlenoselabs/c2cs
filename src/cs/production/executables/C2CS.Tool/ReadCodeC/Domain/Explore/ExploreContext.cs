@@ -74,15 +74,16 @@ public sealed class ExploreContext
             kind = kindHint.Value;
         }
 
-        while (rootInfo != null && rootInfo.Location == CLocation.NoLocation)
-        {
-            rootInfo = rootInfo.Parent;
-        }
-
         var cursor = clang_getTypeDeclaration(type);
         var typeName = TypeName(kind, type, rootInfo?.Name, rootInfo?.Kind, fieldIndex);
 
-        var typeInfo = VisitTypeInternal(kind, typeName, type, typeCandidate, cursor, rootInfo, null);
+        var rootInfoWithLocation = rootInfo;
+        while (rootInfoWithLocation != null && rootInfoWithLocation.Location == CLocation.NoLocation)
+        {
+            rootInfoWithLocation = rootInfoWithLocation.Parent;
+        }
+
+        var typeInfo = VisitTypeInternal(kind, typeName, type, typeCandidate, cursor, rootInfoWithLocation, null);
 
         return typeInfo;
     }

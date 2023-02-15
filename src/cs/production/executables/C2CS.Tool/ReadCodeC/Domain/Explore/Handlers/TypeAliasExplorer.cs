@@ -21,16 +21,21 @@ public class TypeAliasExplorer : ExploreNodeHandler<CTypeAlias>
 
     protected override ExploreKindTypes ExpectedTypes { get; } = ExploreKindTypes.Is(CXTypeKind.CXType_Typedef);
 
-    protected override CTypeAlias Explore(ExploreContext context, ExploreInfoNode info)
+    protected override CTypeAlias? Explore(ExploreContext context, ExploreInfoNode info)
     {
         var typeAlias = TypeAlias(context, info);
         return typeAlias;
     }
 
-    private static CTypeAlias TypeAlias(ExploreContext context, ExploreInfoNode info)
+    private static CTypeAlias? TypeAlias(ExploreContext context, ExploreInfoNode info)
     {
         var aliasType = clang_getTypedefDeclUnderlyingType(info.Cursor);
         var aliasTypeInfo = context.VisitType(aliasType, info)!;
+
+        if (aliasTypeInfo.Name == info.Name && aliasTypeInfo.Kind == CKind.FunctionPointer)
+        {
+            return null;
+        }
 
         var typedef = new CTypeAlias
         {
