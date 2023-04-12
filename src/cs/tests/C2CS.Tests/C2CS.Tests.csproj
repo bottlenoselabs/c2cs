@@ -8,7 +8,9 @@
 		<RootNamespace>C2CS.Tests</RootNamespace>
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<NoWarn>$(NoWarn);CA1707;CA2000;SA1300;IDE1006;CA1034;CA1051;CA1062;CA1724</NoWarn>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<!-- MSBuild.Tools project settings -->
@@ -18,9 +20,11 @@
 
 	<ItemGroup>
 		<PackageReference Include="FluentAssertions" Version="6.7.0" />
+		<PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+		<PackageReference Include="TestableIO.System.IO.Abstractions" Version="19.2.4" />
 		<PackageReference Include="xunit" Version="2.4.1" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -32,11 +36,6 @@
 		</PackageReference>
 	</ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\..\production\executables\C2CS.Tool\C2CS.Tool.csproj" />
-		<ProjectReference Include="..\..\production\libraries\C2CS.Plugin\C2CS.Plugin.csproj" />
-	</ItemGroup>
-
 	<!-- Copy data test files to output -->
 	<ItemGroup>
 	  <None Update="C\Data\Values\**\*.json">
@@ -44,6 +43,9 @@
 	  </None>
 		<None Update="CSharp\Data\Values\**\*.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="appsettings.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 	
@@ -53,6 +55,9 @@
 	    <Link>%(Filename)%(Extension)</Link>
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\production\C2CS.Tool\C2CS.Tool.csproj" />
 	</ItemGroup>
 
 </Project>

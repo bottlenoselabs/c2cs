@@ -10,12 +10,12 @@ typedef enum EnumForceSInt8 {
     _ENUM_FORCE_SINT8 = 0x7F
 } EnumForceSInt8;
 
-PINVOKE_API_DECL void EnumForceSInt8__print_EnumForceSInt8(const EnumForceSInt8 e)
+FFI_API_DECL void EnumForceSInt8__print_EnumForceSInt8(const EnumForceSInt8 e)
 {
     printf("%d\n", e); // Print used for testing
 }
 
-PINVOKE_API_DECL EnumForceSInt8 EnumForceSInt8__return_EnumForceSInt8(const EnumForceSInt8 e)
+FFI_API_DECL EnumForceSInt8 EnumForceSInt8__return_EnumForceSInt8(const EnumForceSInt8 e)
 {
     return e;
 }
