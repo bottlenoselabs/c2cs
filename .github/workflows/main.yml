@@ -46,6 +46,10 @@ jobs:
         sudo apt-get update
         sudo apt-get install gcc-aarch64-linux-gnu llvm-14 clang-14
 
+    - name: "Install CAstFfi"
+        shell: bash
+        run: dotnet tool install --global bottlenoselabs.CAstFfi.Tool
+
     - name: ".NET"
       uses: bottlenoselabs/github-actions-dotnet@v3
       with:
