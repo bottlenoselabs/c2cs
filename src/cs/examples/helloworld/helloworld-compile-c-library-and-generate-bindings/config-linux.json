@@ -1,0 +1,10 @@
+{
+  "inputFilePath": "./my_c_library/include/my_c_library.h",
+  "userIncludeDirectories": [
+    "./my_c_library/include"
+  ],
+  "platforms": {
+    "x86_64-unknown-linux-gnu": {},
+    "aarch64-unknown-linux-gnu": {}
+  }
+}
