@@ -4,14 +4,12 @@
   - [Supported platforms](#supported-platforms)
   - [Lessons Learned](#lessons-learned)
   - [Installing `C2CS`](#installing-c2cs)
-    - [Latest release](#latest-release)
-    - [Latest pre-release](#latest-pre-release)
+    - [Latest release of `C2CS`](#latest-release-of-c2cs)
+    - [Latest pre-release of `C2CS`](#latest-pre-release-of-c2cs)
   - [How to use `C2CS`](#how-to-use-c2cs)
-    - [Configuration `.json` properties](#configuration-json-properties)
-  - [Cross-parsing with `C2CS`](#cross-parsing-with-c2cs)
+    - [Installing and using `CAstFfi`](#installing-and-using-castffi)
+    - [Execute `c2cs`](#execute-c2cs)
   - [How to use `C2CS.Runtime`](#how-to-use-c2csruntime)
-    - [Custom C# project properties for `C2CS.Runtime`](#custom-c-project-properties-for-c2csruntime)
-      - [`SIZEOF_WCHAR_T`:](#sizeof_wchar_t)
   - [Building `C2CS` from source](#building-c2cs-from-source)
     - [Prerequisites](#prerequisites)
     - [Visual Studio / Rider / MonoDevelop](#visual-studio--rider--monodevelop)
@@ -20,7 +18,6 @@
     - [Debugging using logging](#debugging-using-logging)
   - [Examples](#examples)
     - [Hello world](#hello-world)
-    - [libclang](#libclang)
 
 ## Supported platforms
 
