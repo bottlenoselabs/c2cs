@@ -16,8 +16,16 @@ public abstract class ToolOutput<TInput>
     internal void Complete(ImmutableArray<Diagnostic> diagnostics)
     {
         Diagnostics = diagnostics;
-        IsSuccess = CalculateIsSuccessful(diagnostics);
-        OnComplete();
+
+        if (Input != null)
+        {
+            IsSuccess = CalculateIsSuccessful(diagnostics);
+            OnComplete();
+        }
+        else
+        {
+            IsSuccess = false;
+        }
     }
 
     protected abstract void OnComplete();
