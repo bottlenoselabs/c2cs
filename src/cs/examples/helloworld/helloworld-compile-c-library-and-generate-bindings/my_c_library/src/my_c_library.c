@@ -35,14 +35,14 @@ void hw_pass_integers_by_reference(const uint16_t* a, const int32_t* b, const ui
     printf("%lu\n", sum);
 }
 
-void hw_pass_enum(const my_enum_week_day e)
+void hw_pass_enum(const hw_my_enum_week_day e)
 {
     switch (e)
     {
-        case MY_ENUM_WEEK_DAY_UNKNOWN:
+        case HW_MY_ENUM_WEEK_DAY_UNKNOWN:
             printf("UNKNOWN");
             break;
-        case MY_ENUM_WEEK_DAY_MONDAY:
+        case HW_MY_ENUM_WEEK_DAY_MONDAY:
             printf("MONDAY");
             break;
         default:

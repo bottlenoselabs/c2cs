@@ -1,0 +1,11 @@
+{
+  "inputFilePath": "../../../c/tests/_container_library/main.c",
+  "userIncludeDirectories": [
+    "../../../c/production/ffi_helper/include",
+    "../../../c/tests/_container_library"
+  ],
+  "platforms": {
+    "aarch64-apple-darwin": {},
+    "x86_64-apple-darwin": {}
+  }
+}

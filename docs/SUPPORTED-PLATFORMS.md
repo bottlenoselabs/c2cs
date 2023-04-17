@@ -23,13 +23,13 @@ A platform is defined as a combination of instruction set architecture a.k.a "co
 
 Note that pointers such as `void*` can have different sizes across target computer architectures. E.g., `X86` pointers are 4 bytes and `X64` (aswell as `ARM64`) pointers are 8 bytes. This means that if you need to support different word size computer architectures you will need to have seperate bindings for each, even if they are the same operating system.
 
-That being said, 64-bit word size is pretty ubiquitous on Windows these days, at least for gaming, as you can see from [Steam hardware survey where 64-bit is 99%+](https://store.steampowered.com/hwsurvey/directx/). Additionally, you can see that the ["trend" is that 64-bit is becoming standard over time with 32-bit getting dropped](https://en.wikipedia.org/wiki/64-bit_computing#64-bit_operating_system_timeline). If you are planning on targeting modern machines, I would advise just forgeting about target platforms with 32-bit computer architectures such as `X86` and `ARM32`.
+That being said, 64-bit word size is pretty ubiquitous on Windows these days, at least for gaming, as you can see from [Steam hardware survey where 64-bit is 99%+](https://store.steampowered.com/hwsurvey/directx/). Additionally, you can see that the ["trend" is that 64-bit is becoming standard over time with 32-bit getting dropped](https://en.wikipedia.org/wiki/64-bit_computing#64-bit_operating_system_timeline). If you are planning on targeting modern machines, I would advise making your life simple and just forgeting about target platforms with 32-bit computer architectures such as `X86` and `ARM32` and instead only target 64-bit machines.
 
 ## Generating C# code for a platform
 
 Support for generating C# code of a C library for different target platforms is dependent on three things:
-1. A ["Clang target triple"](https://clang.llvm.org/docs/CrossCompilation.html) (a.k.a. "target"). Targets are identified by a string in a specific format of `arch-vendor-os-environment` and passed to Clang which informs how to read C code.
-2. System C header `.h` files of the target platform . The root directory of where the files are located need to be passed to Clang to read C code correctly. The files are often distributed with a software development environment (SDE) or additional downloadable components to the SDE in a form of a software development kit (SDK).
+1. A ["Clang target triple"](https://clang.llvm.org/docs/CrossCompilation.html) (a.k.a. "target platform"). Target platforms are identified by a string in a specific format of `arch-vendor-os-environment` and passed to Clang which informs how to read C code.
+2. System C header `.h` files of the target platform. The root directory of where the files are located need to be passed to Clang to read C code correctly. The files are often distributed with a software development environment (SDE) or additional downloadable components to the SDE in a form of a software development kit (SDK).
 3. A [.NET runtime identifiers (RID)](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog) for building and running a .NET application for the target platform. The correct .NET runtime identifier must match to the corresponding Clang target for the target platform.
 
 ### About system C headers files

@@ -3,41 +3,79 @@
 
 using System;
 using System.IO;
-using C2CS;
+using System.IO.Abstractions;
+using C2CS.Foundation.CMake;
+using C2CS.Native;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+
+#pragma warning disable CA1303
 
 internal static class Program
 {
     private static void Main()
     {
-        var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../.."));
-        if (!BuildLibrary(rootDirectory))
-        {
-#pragma warning disable CA1303
-            Console.WriteLine("Error building C library");
-#pragma warning restore CA1303
-            return;
-        }
-
-        GenerateBindingsCSharp();
-    }
-
-    private static bool BuildLibrary(string rootDirectory)
-    {
         var thisApplicationAssemblyFilePath = typeof(Program).Assembly.Location;
         var thisApplicationAssemblyMainFileDirectory = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(thisApplicationAssemblyFilePath)!, ".."));
         var thisApplicationName = Path.GetFileName(thisApplicationAssemblyMainFileDirectory);
-        var cMakeDirectoryPath =
-            Path.GetFullPath($"{rootDirectory}/src/cs/examples/helloworld/{thisApplicationName}/my_c_library");
-        var targetLibraryDirectoryPath = Path.GetFullPath($"{rootDirectory}/src/cs/examples/helloworld/helloworld-app");
-        return CMake.Build(rootDirectory, cMakeDirectoryPath, targetLibraryDirectoryPath);
+        var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../.."));
+        var sourceDirectoryPath =
+            Path.GetFullPath(Path.Combine(rootDirectory, "src", "cs", "examples", "helloworld", thisApplicationName));
+
+        if (!BuildLibrary(rootDirectory, sourceDirectoryPath))
+        {
+            Console.WriteLine("Error building C library");
+            return;
+        }
+
+        if (!GenerateBindingsCSharp(rootDirectory, sourceDirectoryPath))
+        {
+            Console.WriteLine("Error generating C# code");
+        }
     }
 
-    private static void GenerateBindingsCSharp()
+    private static bool BuildLibrary(string rootDirectory, string sourceDirectoryPath)
     {
-        var parametersReadCCode = new[] { "c" };
-        C2CS.Program.Main(parametersReadCCode);
+        var cMakeDirectoryPath =
+            Path.GetFullPath(Path.Combine(sourceDirectoryPath, "my_c_library"));
+        var targetLibraryDirectoryPath = Path.GetFullPath(Path.Combine(rootDirectory, "src", "cs", "examples", "helloworld", "helloworld-app"));
 
-        var parametersWriteCSharpCode = new[] { "cs" };
-        C2CS.Program.Main(parametersWriteCSharpCode);
+        var logger = new Logger<CMakeLibraryBuilder>(NullLoggerFactory.Instance);
+        var fileSystem = new FileSystem();
+        var cmakeLibraryBuilder = new CMakeLibraryBuilder(logger, fileSystem);
+        return cmakeLibraryBuilder.BuildLibrary(cMakeDirectoryPath, targetLibraryDirectoryPath);
+    }
+
+    private static bool GenerateBindingsCSharp(string rootDirectory, string sourceDirectoryPath)
+    {
+        var bindgenConfigFileName = NativeUtility.OperatingSystem switch
+        {
+            NativeOperatingSystem.Windows => "config-windows.json",
+            NativeOperatingSystem.macOS => "config-macos.json",
+            NativeOperatingSystem.Linux => "config-linux.json",
+            _ => throw new NotImplementedException()
+        };
+
+        var bindgenConfigFilePath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, bindgenConfigFileName));
+
+        var extractShellOutput = $"castffi extract --config {bindgenConfigFilePath}".ExecuteShell();
+        if (extractShellOutput.ExitCode != 0)
+        {
+            return false;
+        }
+
+        var abstractSyntaxTreeDirectoryPath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "ast"));
+        var mergedAbstractSyntaxTreeFilePath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "ast", "cross-platform.json"));
+        var astShellOutput = $"castffi merge --inputDirectoryPath {abstractSyntaxTreeDirectoryPath} --outputFilePath {mergedAbstractSyntaxTreeFilePath}".ExecuteShell();
+        if (astShellOutput.ExitCode != 0)
+        {
+            return false;
+        }
+
+        var configGenerateCSharpCodeFilePath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "config-cs.json"));
+        var parametersGenerateCSharpCode = new[] { "--config", configGenerateCSharpCodeFilePath };
+        C2CS.Program.Main(parametersGenerateCSharpCode);
+
+        return true;
     }
 }

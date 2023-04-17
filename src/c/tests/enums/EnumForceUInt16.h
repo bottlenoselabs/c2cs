@@ -10,12 +10,12 @@ typedef enum EnumForceUInt16 {
     _ENUM_FORCE_UINT16 = 0xFFFF
 } EnumForceUInt16;
 
-PINVOKE_API_DECL void EnumForceUInt16__print_EnumForceUInt16(const EnumForceUInt16 e)
+FFI_API_DECL void EnumForceUInt16__print_EnumForceUInt16(const EnumForceUInt16 e)
 {
     printf("%d\n", e); // Print used for testing
 }
 
-PINVOKE_API_DECL EnumForceUInt16 EnumForceUInt16__return_EnumForceUInt16(const EnumForceUInt16 e)
+FFI_API_DECL EnumForceUInt16 EnumForceUInt16__return_EnumForceUInt16(const EnumForceUInt16 e)
 {
     return e;
 }
