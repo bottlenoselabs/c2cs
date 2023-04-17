@@ -34,13 +34,13 @@ See [LESSONS-LEARNED.md](./LESSONS-LEARNED.md).
 
 `C2CS` is distributed as a NuGet tool. To get started, the .NET 7 software development kit (SDK) is required.
 
-### Latest release
+### Latest release of `C2CS`
 
 ```bash
 dotnet tool install bottlenoselabs.c2cs.tool --global 
 ```
 
-### Latest pre-release
+### Latest pre-release of `C2CS`
 
 ```bash
 dotnet tool install bottlenoselabs.c2cs.tool --global --add-source https://www.myget.org/F/bottlenoselabs/api/v3/index.json --version "*-*"
@@ -54,51 +54,31 @@ dotnet nuget locals all --clear
 
 ## How to use `C2CS`
 
-To generate bindings for a C library you need to setup a C# project library plugin which specifies input and controls bindgen. See the [helloworld-bindgen-plugin.csproj](../src/cs/examples/helloworld/helloworld-bindgen-plugin/helloworld-bindgen-plugin.csproj) for an example.
+To generate C# bindings for a C library you need to install and use the `CAstFfi` tool and setup a couple configuration files. See the [`helloworld`](../src/cs/examples/helloworld/) example projects for an example.
 
-### Build your plugin
+### Installing and using `CAstFfi`
 
-Build a C# library plugin and drop its binary output folder into a `plugins` directory of where you wish to execute `c2cs` from. In other words, if the current directory where you execute `c2cs` from is `.`, you need to have a directory `./plugins`. See the below image as an example.
+See the auxiliary project `Getting Started` section: https://github.com/bottlenoselabs/CAstFfi#getting-started. 
 
-![hello-world-plugin](./images/1.png)
+You should extract all the platform specific abstract syntax trees you wish to have as target platforms. See the [`helloworld-compile-c-library-and-generate-bindings`](../src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/) for example configuration files for Windows, macOS, and Linux platforms.
 
-Note that `.deps.json` file is required as it is used to know of dependencies to resolve and load when the plugin is loaded itself. Additionally the property `EnableDynamicLoading` must be `true`, see https://docs.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#enabledynamicloading for more details.
+Once all the platform abstract syntax trees are extracted to a directory, merge them together into a cross-platform abstract syntax tree using `CAstFfi merge` option.
 
-When `c2cs` startups it will load your C# library plugin (and any dependencies) and use its code to control and configure bindgen. There are two magic interfaces which are important here: `IReaderCCode` and `IWriterCSharpCode`.
-
-- `IReaderCCode`: In the C# project library plugin implement the `IReaderCCode` interface. This is the plugin for reading C code. The `IReaderCCode` is documented via XML comments. For an example of how to implement and use `IReaderCCode` see [helloworld-bindgen-plugin/ReaderCCode](../src/cs/examples/helloworld/helloworld-bindgen-plugin/ReaderCCode.cs).
-
-- `IWriterCSharpCode`: In the C# project library plugin implement the `IWriterCSharpCode` interface. This is the plugin for writing C# code. The `IWriterCSharpCode` is documented via XML comments. For an example of how to implement and use `IWriterCSharpCode` see [helloworld-bindgen-plugin/WriterCSharpCode.cs](../src/cs/examples/helloworld/helloworld-bindgen-plugin/WriterCSharpCode.cs).
+Once you have a cross-platform abstract syntax tree, you are ready to use `c2cs`.
 
 ### Execute `c2cs`
 
-Run `c2cs` from terminal. If you wish to generate just the abstract syntax tree `.json` files use `c2cs c`. To generate the C# code from the `.json` files use `c2cs cs`.
+Run `c2cs --config` from terminal specifying a configuration file. See the [`config-cs.json`](../src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/config-cs.json) for an example in the `helloworld-compile-c-library-and-generate-bindings` example.
 
 ## How to use `C2CS.Runtime`
 
 The `C2CS.Runtime` C# code is directly added to the bottom of the generated bindings in a class named `Runtime` with a C# region named `C2CS.Runtime`. The `Runtime` static class contains helper structs, methods, and other kind of "glue" that make interoperability with C in C# easier and more idiomatic.
 
-### Custom C# project properties for `C2CS.Runtime`
-
-#### `SIZEOF_WCHAR_T`:
-
-The following only applies and is of interest to you if you are using `wchar_t` directly in the public C header. Note that `wchar_t*` does not apply, it has to be directly using `wchar_t`. 
-
-Use a value of `1`, `2`, or `4` to specify the backing byte field size of `CCharWide`. `CCharWide` in C# is intended to be blittable to `wchar_t` in C. There is no default value set for `SIZEOF_WCHAR_T` but the default size of `CCharWide` is 2. This is incorrect on some platforms like Linux.
-
-To set it:
-
-```xml
-<PropertyGroup>
-  <SIZEOF_WCHAR_T>2</SIZEOF_WCHAR_T>
-</PropertyGroup>
-```  
-
 ## Building `C2CS` from source
 
 ### Prerequisites
 
-1. Install [.NET 6](https://dotnet.microsoft.com/download).
+1. Install [.NET 7 SDK](https://dotnet.microsoft.com/download).
 2. Install build tools for C/C++.
     - Windows:
       1. Install Git Bash. (Usually installed with Git for Windows: https://git-scm.com/downloads.)
@@ -154,13 +134,5 @@ Here you will find examples of C libraries being demonstrated with `C2CS` as smo
 
 Hello world example of callings C functions from C#. This is meant to be minimalistic to demonstrate the minimum required things to get this working.
 
-1. Run the C# project [`helloworld-c`](/src/cs/examples/helloworld/helloworld-c/Program.cs). This builds the example shared library and generate the bindings for the [`my_c_library`](/src/cs/examples/helloworld/helloworld-c/my_c_library) C project. The C# bindings will be written to [`my_c_library.cs`](/src/cs/examples/helloworld/helloworld-cs/my_c_library.cs).
-2. Run the C# project [`helloworld-cs`](/src/cs/examples/helloworld/helloworld-cs/Program.cs). You should see output to the console of C functions being called from C#.
-
-### [libclang](./001_LIBCLANG.md)
-
-`C2CS` uses bindings generated for libclang using `C2CS`. In this sense, the `C2CS` project eats it's own dogfood.
-
-Run the C# project [`clang-c`](/src/dotnet/prod/libclang-c/Program.cs) to build the shared library and generate the bindings. This project is not like other examples because the generated bindings are used as part of C2CS in the next build. This means that C2CS generates bindings for libclang which then can generate bindings for libclang.
-
-If you just want to see the bindings, you can take a look at [`libclang.cs`](/src/dotnet/prod/libclang-cs/libclang.cs).
+1. Run the C# project [`helloworld-compile-c-library-and-generate-bindings`](../src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/Program.cs). This builds the example shared library and generate the bindings for the [`my_c_library`](../src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/my_c_library/) C project. The C# bindings will be written to [`my_c_library.cs`](../src/cs/examples/helloworld/helloworld-app/my_c_library.cs).
+2. Run the C# project [`helloworld-cs`](../src/cs/examples/helloworld/helloworld-app/Program.cs). You should see output to the console of C functions being called from C#.
