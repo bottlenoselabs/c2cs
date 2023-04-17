@@ -72,10 +72,10 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
 
         var fullFilePath = _fileSystem.Path.GetFullPath(filePath);
 
-        if (!_fileSystem.File.Exists(filePath))
+        if (!_fileSystem.File.Exists(fullFilePath))
         {
             throw new ToolInputSanitizationException(
-                $"The cross-platform abstract syntax tree input file path '{filePath}' does not exist.");
+                $"The cross-platform abstract syntax tree input file path '{fullFilePath}' does not exist.");
         }
 
         return fullFilePath;
