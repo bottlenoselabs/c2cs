@@ -38,7 +38,7 @@
 
 	<!-- NuGet package references -->
 	<ItemGroup>
-		<PackageReference Include="bottlenoselabs.CAstFfi.Data" Version="1.2.3" />
+		<PackageReference Include="bottlenoselabs.CAstFfi.Data" Version="1.2.6" />
 		<PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.4.0" />
