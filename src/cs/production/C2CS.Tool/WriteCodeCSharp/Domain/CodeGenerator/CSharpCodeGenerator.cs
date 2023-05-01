@@ -266,13 +266,16 @@ public static void Teardown()
 // ReSharper disable All
 
 #nullable enable
-#pragma warning disable 1591
+#pragma warning disable CS1591
+#pragma warning disable CS8981
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using static {options.NamespaceName}.{options.ClassName}.Runtime;
+[assembly: DefaultDllImportSearchPathsAttribute(DllImportSearchPath.AssemblyDirectory)]
+
 {options.HeaderCodeRegion}
 namespace {options.NamespaceName}
 {{
