@@ -484,12 +484,12 @@ public sealed class CSharpCodeMapper
 
     private ImmutableArray<CSharpOpaqueType> OpaqueStructs(
         CSharpCodeMapperContext context,
-        ImmutableArray<COpaqueType> opaqueDataTypes)
+        ImmutableArray<COpaqueType> cOpaqueDataTypes)
     {
-        var builder = ImmutableArray.CreateBuilder<CSharpOpaqueType>(opaqueDataTypes.Length);
+        var builder = ImmutableArray.CreateBuilder<CSharpOpaqueType>(cOpaqueDataTypes.Length);
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-        foreach (var opaqueDataTypeC in opaqueDataTypes)
+        foreach (var opaqueDataTypeC in cOpaqueDataTypes)
         {
             var value = OpaqueDataStruct(opaqueDataTypeC);
 
@@ -505,10 +505,17 @@ public sealed class CSharpCodeMapper
         return builder.ToImmutable();
     }
 
-    private CSharpOpaqueType OpaqueDataStruct(COpaqueType opaqueType)
+    private CSharpOpaqueType OpaqueDataStruct(COpaqueType cOpaqueType)
     {
-        var nameCSharp = TypeNameCSharpRaw(opaqueType.Name, opaqueType.SizeOf);
-        var attributes = ImmutableArray<Attribute>.Empty;
+        var nameCSharp = TypeNameCSharpRaw(cOpaqueType.Name, cOpaqueType.SizeOf);
+        var attributes = new Attribute[]
+        {
+            new CNodeAttribute
+            {
+                Kind = cOpaqueType.Kind.ToString()
+            }
+        }.ToImmutableArray();
+
         var opaqueTypeCSharp = new CSharpOpaqueType(nameCSharp, attributes);
         return opaqueTypeCSharp;
     }
