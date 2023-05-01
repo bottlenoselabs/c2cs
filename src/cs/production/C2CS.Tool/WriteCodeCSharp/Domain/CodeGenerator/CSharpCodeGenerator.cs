@@ -274,7 +274,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using static {options.NamespaceName}.{options.ClassName}.Runtime;
-[assembly: DefaultDllImportSearchPathsAttribute(DllImportSearchPath.AssemblyDirectory)]
+[assembly: DefaultDllImportSearchPathsAttribute(DllImportSearchPath.SafeDirectories)]
 
 {options.HeaderCodeRegion}
 namespace {options.NamespaceName}
