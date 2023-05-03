@@ -2,16 +2,19 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using C2CS.Features.BuildCLibrary.Domain;
+using C2CS.Features.BuildCLibrary.Input;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace C2CS.Tests.Foundation;
+namespace C2CS.Features.BuildCLibrary;
 
 public static class Startup
 {
-    public static void ConfigureServices(IServiceCollection services)
+    public static void ConfigureServices(this IServiceCollection services)
     {
+        services.AddSingleton<BuildCLibraryCommand>();
+        services.AddSingleton<BuildCLibraryTool>();
+        services.AddSingleton<BuildCLibraryInputSanitizer>();
+
         services.AddSingleton<CMakeLibraryBuilder>();
-        services.AddSingleton<TestCSharpCode>();
-        services.AddSingleton<TestFixtureCSharpCode>();
     }
 }

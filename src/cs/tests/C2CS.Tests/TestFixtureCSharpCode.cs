@@ -8,12 +8,14 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using C2CS.Foundation.CMake;
+using C2CS.Features.BuildCLibrary;
+using C2CS.Features.BuildCLibrary.Domain;
+using C2CS.Features.BuildCLibrary.Input.Sanitized;
+using C2CS.Features.WriteCodeCSharp;
+using C2CS.Features.WriteCodeCSharp.Output;
 using C2CS.Native;
 using C2CS.Tests.Data.Models;
 using C2CS.Tests.Foundation;
-using C2CS.WriteCodeCSharp;
-using C2CS.WriteCodeCSharp.Output;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -120,7 +122,12 @@ public sealed class TestFixtureCSharpCode
         var cMakeDirectoryPath =
             Path.GetFullPath(Path.Combine(sourceDirectoryPath, "..", "..", "..", "..", "src", "c", "tests", "_container_library"));
 
-        var result = cmakeLibraryBuilder.BuildLibrary(cMakeDirectoryPath, AppContext.BaseDirectory);
+        var input = new BuildCLibraryInput
+        {
+            CMakeDirectoryPath = cMakeDirectoryPath,
+            OutputDirectoryPath = AppContext.BaseDirectory
+        };
+        var result = cmakeLibraryBuilder.BuildLibrary(input);
         Assert.True(result, "Failed to build C library.");
     }
 
