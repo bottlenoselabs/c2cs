@@ -3,10 +3,11 @@
 
 using System.IO;
 using System.IO.Abstractions;
+using C2CS.Features.BuildCLibrary.Input.Sanitized;
 using C2CS.Native;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS.Foundation.CMake;
+namespace C2CS.Features.BuildCLibrary.Domain;
 
 public partial class CMakeLibraryBuilder
 {
@@ -23,22 +24,22 @@ public partial class CMakeLibraryBuilder
         _file = fileSystem.File;
     }
 
-    public bool BuildLibrary(string cMakeDirectoryPath, string libraryOutputDirectoryPath)
+    public bool BuildLibrary(BuildCLibraryInput input)
     {
-        var cMakeDirectoryPathFull = _path.GetFullPath(cMakeDirectoryPath);
+        var cMakeDirectoryPathFull = _path.GetFullPath(input.CMakeDirectoryPath);
         if (!_directory.Exists(cMakeDirectoryPathFull))
         {
-            LogCMakeDirectoryDoesNotExist(cMakeDirectoryPath);
+            LogCMakeDirectoryDoesNotExist(input.CMakeDirectoryPath);
             return false;
         }
 
-        var libraryOutputDirectoryPathFull = _path.GetFullPath(libraryOutputDirectoryPath);
+        var libraryOutputDirectoryPathFull = _path.GetFullPath(input.OutputDirectoryPath);
         if (!_directory.Exists(libraryOutputDirectoryPathFull))
         {
             _directory.CreateDirectory(libraryOutputDirectoryPathFull);
         }
 
-        var outputDirectoryPath = Path.GetFullPath(_path.Combine(cMakeDirectoryPath, "bin"));
+        var outputDirectoryPath = Path.GetFullPath(_path.Combine(input.CMakeDirectoryPath, "bin"));
 
         var cMakeBuildDirectoryPath = _path.Combine(cMakeDirectoryPathFull, "cmake-build-release");
         if (_directory.Exists(cMakeBuildDirectoryPath))
@@ -51,13 +52,26 @@ public partial class CMakeLibraryBuilder
             _directory.Delete(outputDirectoryPath, true);
         }
 
-        var result = "cmake -S . -B cmake-build-release -DCMAKE_BUILD_TYPE=Release"
+        var cMakeArguments = new[]
+        {
+            "-DCMAKE_BUILD_TYPE=Release",
+            $"-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY={outputDirectoryPath}",
+            $"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={outputDirectoryPath}",
+            $"-DCMAKE_RUNTIME_OUTPUT_DIRECTORY={outputDirectoryPath}"
+        };
+        var cMakeArgumentsString = string.Join(" ", cMakeArguments);
+
+        var cMakeGenerateBuildFilesCommand = $"cmake -S . -B cmake-build-release {cMakeArgumentsString}";
+        LogCMakeGeneratingBuildFiles(cMakeGenerateBuildFilesCommand);
+        var result = cMakeGenerateBuildFilesCommand
                 .ExecuteShell(cMakeDirectoryPathFull, windowsUsePowerShell: false);
         if (result.ExitCode != 0)
         {
-            LogCMakeGenerationFailed(result.Output);
+            LogCMakeGeneratingBuildFilesFailed(result.Output);
             return false;
         }
+
+        LogCMakeGeneratingBuildFilesSuccess();
 
         result = "cmake --build cmake-build-release --config Release"
             .ExecuteShell(cMakeDirectoryPathFull, windowsUsePowerShell: false);
@@ -84,18 +98,29 @@ public partial class CMakeLibraryBuilder
             LogCMakeBuildSuccess(outputFilePathCopy);
         }
 
+        if (input.DeleteBuildFiles)
+        {
+            _directory.Delete(_path.Combine(cMakeDirectoryPathFull, "cmake-build-release"), true);
+        }
+
         return true;
     }
 
     [LoggerMessage(0, LogLevel.Error, "- The top level CMake directory does not exist: {DirectoryPath}")]
     private partial void LogCMakeDirectoryDoesNotExist(string directoryPath);
 
-    [LoggerMessage(1, LogLevel.Error, "- Generating CMake build files failed: \n{Output}\n")]
-    private partial void LogCMakeGenerationFailed(string output);
-
-    [LoggerMessage(2, LogLevel.Error, "- CMake build failed: \n{Output}\n")]
+    [LoggerMessage(1, LogLevel.Error, "- CMake build failed. Output: \n{Output}\n")]
     private partial void LogCMakeBuildFailed(string output);
 
-    [LoggerMessage(3, LogLevel.Information, "- CMake build success. Copied output file to: {FilePath}")]
+    [LoggerMessage(2, LogLevel.Information, "- CMake build success. Copied output file to: {FilePath}")]
     private partial void LogCMakeBuildSuccess(string filePath);
+
+    [LoggerMessage(3, LogLevel.Information, "- CMake generating build files. Command: {Command}")]
+    private partial void LogCMakeGeneratingBuildFiles(string command);
+
+    [LoggerMessage(4, LogLevel.Error, "- Generating CMake build files failed. Output: \n{Output}\n")]
+    private partial void LogCMakeGeneratingBuildFilesFailed(string output);
+
+    [LoggerMessage(5, LogLevel.Information, "- Generating CMake build files success.")]
+    private partial void LogCMakeGeneratingBuildFilesSuccess();
 }

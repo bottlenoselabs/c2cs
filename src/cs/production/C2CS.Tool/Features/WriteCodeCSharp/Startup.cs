@@ -14,6 +14,7 @@ public static class Startup
 {
     public static void ConfigureServices(IServiceCollection services)
     {
+        services.AddSingleton<WriteCodeCSharpCommand>();
         services.AddSingleton<WriteCodeCSharpTool>();
         services.AddSingleton<WriteCodeCSharpInputSanitizer>();
 

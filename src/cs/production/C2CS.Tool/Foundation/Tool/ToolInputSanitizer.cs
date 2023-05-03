@@ -4,7 +4,6 @@
 namespace C2CS.Foundation.Tool;
 
 public abstract class ToolInputSanitizer<TUnsanitizedInput, TInput>
-    where TUnsanitizedInput : ToolUnsanitizedInput
 {
     public abstract TInput Sanitize(TUnsanitizedInput unsanitizedInput);
 }

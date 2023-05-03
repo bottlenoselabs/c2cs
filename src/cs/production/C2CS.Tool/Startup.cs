@@ -7,6 +7,7 @@ using System.CommandLine;
 using System.IO;
 using System.IO.Abstractions;
 using System.Reflection;
+using C2CS.Foundation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -75,5 +76,6 @@ public static class Startup
         services.AddSingleton<RootCommand, CommandLineInterface>();
 
         Features.WriteCodeCSharp.Startup.ConfigureServices(services);
+        Features.BuildCLibrary.Startup.ConfigureServices(services);
     }
 }

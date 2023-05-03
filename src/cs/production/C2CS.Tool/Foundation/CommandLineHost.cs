@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 
-namespace C2CS;
+namespace C2CS.Foundation;
 
 internal sealed class CommandLineHost : IHostedService
 {
