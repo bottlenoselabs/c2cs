@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.CommandLine;
-using C2CS.WriteCodeCSharp;
+using C2CS.Features.WriteCodeCSharp;
 
 namespace C2CS;
 

@@ -68,5 +68,8 @@
 				<Visible>false</Visible>
 		</EmbeddedResource>
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Features\BuildCLibrary\" />
+	</ItemGroup>
 
 </Project>
