@@ -1,6 +1,7 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -111,9 +112,9 @@ public partial class CMakeLibraryBuilder
         var fullCMakeArguments = new[]
         {
             "-DCMAKE_BUILD_TYPE=Release",
-            $"-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY={cMakeOutputDirectoryPath}",
-            $"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={cMakeOutputDirectoryPath}",
-            $"-DCMAKE_RUNTIME_OUTPUT_DIRECTORY={cMakeOutputDirectoryPath}"
+            $"-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=\"{cMakeOutputDirectoryPath}\"",
+            $"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=\"{cMakeOutputDirectoryPath}\"",
+            $"-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=\"{cMakeOutputDirectoryPath}\""
         }.Concat(cMakeArguments);
         var cMakeArgumentsString = string.Join(" ", fullCMakeArguments);
 
