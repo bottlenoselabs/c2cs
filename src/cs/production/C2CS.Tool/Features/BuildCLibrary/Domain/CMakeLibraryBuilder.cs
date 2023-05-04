@@ -33,8 +33,9 @@ public partial class CMakeLibraryBuilder
         if (_directory.Exists(cMakeOutputDirectoryPath))
         {
             _directory.Delete(cMakeOutputDirectoryPath, true);
-            _directory.CreateDirectory(cMakeOutputDirectoryPath);
         }
+
+        _directory.CreateDirectory(cMakeOutputDirectoryPath);
 
         var cMakeBuildDirectoryPath = _path.Combine(input.CMakeDirectoryPath, "cmake-build-release");
         if (_directory.Exists(cMakeBuildDirectoryPath))
