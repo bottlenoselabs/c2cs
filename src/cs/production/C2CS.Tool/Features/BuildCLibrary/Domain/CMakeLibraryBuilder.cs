@@ -2,8 +2,10 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.IO.Abstractions;
+using System.Linq;
 using C2CS.Features.BuildCLibrary.Input.Sanitized;
 using C2CS.Native;
 using Microsoft.Extensions.Logging;
@@ -40,7 +42,7 @@ public partial class CMakeLibraryBuilder
             _directory.Delete(cMakeBuildDirectoryPath, true);
         }
 
-        if (!GenerateCMakeBuildFiles(input.CMakeDirectoryPath, cMakeOutputDirectoryPath))
+        if (!GenerateCMakeBuildFiles(input.CMakeDirectoryPath, cMakeOutputDirectoryPath, input.CMakeArguments))
         {
             return false;
         }
@@ -102,16 +104,17 @@ public partial class CMakeLibraryBuilder
 
     private bool GenerateCMakeBuildFiles(
         string cMakeDirectoryPath,
-        string cMakeOutputDirectoryPath)
+        string cMakeOutputDirectoryPath,
+        ImmutableArray<string> cMakeArguments)
     {
-        var cMakeArguments = new[]
+        var fullCMakeArguments = new[]
         {
             "-DCMAKE_BUILD_TYPE=Release",
             $"-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY={cMakeOutputDirectoryPath}",
             $"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={cMakeOutputDirectoryPath}",
             $"-DCMAKE_RUNTIME_OUTPUT_DIRECTORY={cMakeOutputDirectoryPath}"
-        };
-        var cMakeArgumentsString = string.Join(" ", cMakeArguments);
+        }.Concat(cMakeArguments);
+        var cMakeArgumentsString = string.Join(" ", fullCMakeArguments);
 
         var cMakeGenerateBuildFilesCommand = $"cmake -S . -B cmake-build-release {cMakeArgumentsString}";
         LogCMakeGeneratingBuildFiles(cMakeGenerateBuildFilesCommand);

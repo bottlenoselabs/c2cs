@@ -1,6 +1,7 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 using C2CS.Foundation.Tool;
 using JetBrains.Annotations;
@@ -22,6 +23,12 @@ public class BuildCLibraryOptions : ToolUnsanitizedInput
     /// </summary>
     [JsonPropertyName("outputDirectoryPath")]
     public string? OutputDirectoryPath { get; set; }
+
+    /// <summary>
+    ///     Additional CMake arguments when generating build files.
+    /// </summary>
+    [JsonPropertyName("cMakeArguments")]
+    public ImmutableArray<string?>? CMakeArguments { get; set; }
 
     /// <summary>
     ///     Determines whether to delete CMake build files after they are no longer required.
