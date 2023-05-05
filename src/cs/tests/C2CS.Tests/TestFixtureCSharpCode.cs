@@ -39,7 +39,7 @@ public sealed class TestFixtureCSharpCode
         var bindgenConfigFilePath = GetBindgenConfigFilePath(sourceDirectoryPath);
         GenerateCAbstractSyntaxTree(bindgenConfigFilePath, sourceDirectoryPath);
 
-        BuildCLibrary(sourceDirectoryPath);
+        BuildCLibrary(sourceDirectoryPath, ImmutableArray<string>.Empty);
         var outputWriteCSharp = GenerateCSharpCode(sourceDirectoryPath);
         var compileCSharpCodeResult = CompileCSharpCode(outputWriteCSharp.OutputFilePath);
 
@@ -114,7 +114,7 @@ public sealed class TestFixtureCSharpCode
         return value!;
     }
 
-    private static void BuildCLibrary(string sourceDirectoryPath)
+    private static void BuildCLibrary(string sourceDirectoryPath, ImmutableArray<string> additionalCMakeArguments)
     {
         var services = TestHost.Services;
         var cmakeLibraryBuilder = services.GetService<CMakeLibraryBuilder>()!;
@@ -127,7 +127,7 @@ public sealed class TestFixtureCSharpCode
             CMakeDirectoryPath = cMakeDirectoryPath,
             OutputDirectoryPath = AppContext.BaseDirectory
         };
-        var result = cmakeLibraryBuilder.BuildLibrary(input);
+        var result = cmakeLibraryBuilder.BuildLibrary(input, additionalCMakeArguments);
         Assert.True(result, "Failed to build C library.");
     }
 
