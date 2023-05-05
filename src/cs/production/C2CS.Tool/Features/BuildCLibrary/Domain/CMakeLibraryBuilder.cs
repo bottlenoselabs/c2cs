@@ -28,7 +28,9 @@ public partial class CMakeLibraryBuilder
         _file = fileSystem.File;
     }
 
-    public bool BuildLibrary(BuildCLibraryInput input)
+    public bool BuildLibrary(
+        BuildCLibraryInput input,
+        ImmutableArray<string> additionalCMakeArguments)
     {
         var cMakeOutputDirectoryPath = _path.GetFullPath(_path.Combine(input.CMakeDirectoryPath, "bin"));
         if (_directory.Exists(cMakeOutputDirectoryPath))
@@ -44,7 +46,8 @@ public partial class CMakeLibraryBuilder
             _directory.Delete(cMakeBuildDirectoryPath, true);
         }
 
-        if (!GenerateCMakeBuildFiles(input.CMakeDirectoryPath, cMakeOutputDirectoryPath, input.CMakeArguments))
+        if (!GenerateCMakeBuildFiles(
+                input.CMakeDirectoryPath, cMakeOutputDirectoryPath, input.CMakeArguments, additionalCMakeArguments))
         {
             return false;
         }
@@ -107,15 +110,19 @@ public partial class CMakeLibraryBuilder
     private bool GenerateCMakeBuildFiles(
         string cMakeDirectoryPath,
         string cMakeOutputDirectoryPath,
-        ImmutableArray<string> cMakeArguments)
+        ImmutableArray<string> cMakeArguments,
+        ImmutableArray<string> commandLineCMakeArguments)
     {
+        var expandedCommandLineCMakeArguments = commandLineCMakeArguments.Select(x => $"-D{x}");
+
         var fullCMakeArguments = new[]
         {
             "-DCMAKE_BUILD_TYPE=Release",
             $"-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=\"{cMakeOutputDirectoryPath}\"",
             $"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=\"{cMakeOutputDirectoryPath}\"",
             $"-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=\"{cMakeOutputDirectoryPath}\""
-        }.Concat(cMakeArguments);
+        }.Concat(cMakeArguments).Concat(expandedCommandLineCMakeArguments);
+
         var cMakeArgumentsString = string.Join(" ", fullCMakeArguments);
 
         var cMakeGenerateBuildFilesCommand = $"cmake -S . -B cmake-build-release {cMakeArgumentsString}";

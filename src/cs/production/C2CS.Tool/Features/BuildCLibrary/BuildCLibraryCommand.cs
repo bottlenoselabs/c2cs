@@ -2,7 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.CommandLine;
+using System.Linq;
 using JetBrains.Annotations;
 
 namespace C2CS.Features.BuildCLibrary;
@@ -24,11 +28,22 @@ public sealed class BuildCLibraryCommand : Command
         configurationFilePathOption.SetDefaultValue("config.json");
         AddOption(configurationFilePathOption);
 
-        this.SetHandler(Main, configurationFilePathOption);
+        var additionalCMakeArgumentsOption = new Option<string?[]>(
+            "--cmake-arguments", "CMake arguments provided on command line instead of in the configuration file.")
+        {
+            AllowMultipleArgumentsPerToken = true
+        };
+        AddOption(additionalCMakeArgumentsOption);
+
+        this.SetHandler(Main, configurationFilePathOption, additionalCMakeArgumentsOption);
     }
 
-    private void Main(string configurationFilePath)
+    private void Main(string configurationFilePath, string?[] additionalCMakeArguments)
     {
+        // Hack: Property injection for command line CMake arguments
+        _tool.AdditionalCMakeArguments = additionalCMakeArguments
+            .Where(x => !string.IsNullOrEmpty(x)).Cast<string>().ToImmutableArray();
+
         var output = _tool.Run(configurationFilePath);
         if (!output.IsSuccess)
         {
