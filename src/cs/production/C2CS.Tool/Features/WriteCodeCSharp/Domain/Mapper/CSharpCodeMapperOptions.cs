@@ -20,6 +20,8 @@ public sealed class CSharpCodeMapperOptions
 
     public ImmutableDictionary<string, string> SystemTypeAliases { get; }
 
+    public bool IsEnabledLibraryImportAttribute { get; init; }
+
     private static Dictionary<string, string> GetSystemTypeNameAliases()
     {
         var aliases = new Dictionary<string, string>();

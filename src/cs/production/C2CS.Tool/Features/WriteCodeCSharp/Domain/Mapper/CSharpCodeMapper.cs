@@ -937,10 +937,10 @@ public sealed class CSharpCodeMapper
         switch (typeName)
         {
             case "char":
-                return "CChar";
+                return _options.IsEnabledLibraryImportAttribute ? "char" : "CChar";
             case "bool":
             case "_Bool":
-                return "CBool";
+                return _options.IsEnabledLibraryImportAttribute ? "bool" : "CBool";
             case "int8_t":
                 return "sbyte";
             case "uint8_t":

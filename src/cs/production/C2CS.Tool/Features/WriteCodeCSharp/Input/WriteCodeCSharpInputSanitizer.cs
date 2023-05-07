@@ -35,9 +35,11 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
         var ignoredNames = IgnoredTypeNames(unsanitizedInput.IgnoredNames);
         var headerCodeRegion = HeaderCodeRegion(unsanitizedInput.HeaderCodeRegionFilePath);
         var footerCodeRegion = FooterCodeRegion(unsanitizedInput.FooterCodeRegionFilePath);
-        var isEnabledPreCompile = unsanitizedInput.IsEnabledPreCompile ?? true;
         var isEnabledFunctionPointers = unsanitizedInput.IsEnabledFunctionPointers ?? true;
         var isEnabledVerifyCSharpCodeCompiles = unsanitizedInput.IsEnabledVerifyCSharpCodeCompiles ?? true;
+        var isEnabledGenerateCSharpRuntimeCode = unsanitizedInput.IsEnabledGeneratingRuntimeCode ?? true;
+        var isEnabledLibraryImportAttribute = unsanitizedInput.IsEnabledLibraryImport ?? true;
+        var isEnabledPointersAsReferences = unsanitizedInput.IsEnabledPointersAsReferences ?? true;
 
         return new WriteCodeCSharpInput
         {
@@ -55,9 +57,11 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
                 NamespaceName = namespaceName,
                 HeaderCodeRegion = headerCodeRegion,
                 FooterCodeRegion = footerCodeRegion,
-                IsEnabledPreCompile = isEnabledPreCompile,
                 IsEnabledFunctionPointers = isEnabledFunctionPointers,
-                IsEnabledVerifyCSharpCodeCompiles = isEnabledVerifyCSharpCodeCompiles
+                IsEnabledVerifyCSharpCodeCompiles = isEnabledVerifyCSharpCodeCompiles,
+                IsEnabledGenerateCSharpRuntimeCode = isEnabledGenerateCSharpRuntimeCode,
+                IsEnabledLibraryImportAttribute = isEnabledLibraryImportAttribute,
+                IsEnabledPointersAsReferences = isEnabledPointersAsReferences
             }
         };
     }

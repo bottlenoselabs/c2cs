@@ -101,19 +101,6 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     public ImmutableArray<string?>? IgnoredNames { get; set; }
 
     /// <summary>
-    ///     Determines whether to pre-compile (pre-JIT) the C# API on setup (first load).
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Default is <c>true</c>. Use <c>true</c> to pre-compile the C# API code. Use <c>false</c> to disable
-    ///         pre-compile of the C# API code. Note that if using the C# bindings in the context of NativeAOT this
-    ///         should be disabled.
-    ///     </para>
-    /// </remarks>
-    [JsonPropertyName("isEnabledPreCompile")]
-    public bool? IsEnabledPreCompile { get; set; } = true;
-
-    /// <summary>
     ///     Determines whether to use C# 9 function pointers or C# delegates for C function pointers.
     /// </summary>
     /// <remarks>
@@ -140,4 +127,51 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     /// </remarks>
     [JsonPropertyName("isEnabledVerifyCSharpCodeCompiles")]
     public bool? IsEnabledVerifyCSharpCodeCompiles { get; set; } = true;
+
+    /// <summary>
+    ///     Determines whether to enable generating the C# runtime glue code.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Default is <c>false</c>. Use <c>true</c> to generate C# runtime glue code. Use <c>false</c> to disable
+    ///         generating C# runtime glue code.
+    ///     </para>
+    /// </remarks>
+    [JsonPropertyName("isEnabledGeneratingRuntimeCode")]
+    public bool? IsEnabledGeneratingRuntimeCode { get; set; } = true;
+
+    /// <summary>
+    ///     Determines whether to enable C# source code generation using
+    ///     <see cref="System.Runtime.InteropServices.LibraryImportAttribute" /> or
+    ///     <see cref="System.Runtime.InteropServices.DllImportAttribute" />.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Default is <c>true</c>. Use <c>true</c> to generate C# source code using
+    ///         <see cref="System.Runtime.InteropServices.LibraryImportAttribute" /> . Use <c>false</c> to generate C#
+    ///         source code using <see cref="System.Runtime.InteropServices.DllImportAttribute" />.
+    ///     </para>
+    ///     <para>
+    ///         The <see cref="System.Runtime.InteropServices.LibraryImportAttribute" /> is only available in .NET 7.
+    ///         The advantages of using <see cref="System.Runtime.InteropServices.LibraryImportAttribute" /> over
+    ///         <see cref="System.Runtime.InteropServices.DllImportAttribute" /> is that source generators are used to
+    ///         create stubs at compile time instead of runtime. This can increase performance due to IL trimming and
+    ///         inlining; make debugging easier with cleaner stack traces; and adds support for full NativeAOT scenarios
+    ///         where the <see cref="System.Runtime.InteropServices.DllImportAttribute" /> is not available.
+    ///     </para>
+    /// </remarks>
+    [JsonPropertyName("isEnabledLibraryImport")]
+    public bool? IsEnabledLibraryImport { get; set; } = true;
+
+    /// <summary>
+    ///     Determines whether to enable generating the C# unsafe pointers as references where ever possible.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Default is <c>true</c>. Use <c>true</c> to generate references instead of C# unsafe pointers where ever
+    ///         possible. Use <c>false</c> to always use C# unsafe pointers.
+    ///     </para>
+    /// </remarks>
+    [JsonPropertyName("isEnabledPointersAsReferences")]
+    public bool? IsEnabledPointersAsReferences { get; set; } = true;
 }

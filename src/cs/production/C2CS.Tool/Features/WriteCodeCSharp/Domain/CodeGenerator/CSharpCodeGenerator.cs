@@ -77,85 +77,6 @@ public sealed class CSharpCodeGenerator
 
         builder.AddRange(membersApi);
         builder.AddRange(membersTypes);
-
-        AddSetupTeardown(context, builder);
-    }
-
-    private void AddSetupTeardown(
-        CSharpCodeGeneratorContext context,
-        ImmutableArray<MemberDeclarationSyntax>.Builder builder)
-    {
-        var setupMethod = SetupMethod(context);
-        setupMethod = setupMethod.AddRegionStart("Setup & Teardown", false);
-        builder.Add(setupMethod);
-
-        var teardownMethod = TeardownMethod(context);
-        teardownMethod = teardownMethod.AddRegionEnd();
-
-        if (_options.IsEnabledPreCompile)
-        {
-            var preCompileMethod = PreCompileMethod(context);
-            builder.Add(preCompileMethod);
-        }
-
-        builder.Add(teardownMethod);
-    }
-
-    private MethodDeclarationSyntax SetupMethod(CSharpCodeGeneratorContext context)
-    {
-        var setupCodeMethodContents = _options.IsEnabledPreCompile
-            ? @"
-PreCompile();
-".Trim()
-            : string.Empty;
-
-        var setupCode = $@"
-public static void Setup()
-{{
-    {setupCodeMethodContents}
-}}
-";
-
-        var member = context.ParseMemberCode<MethodDeclarationSyntax>(setupCode);
-        return member;
-    }
-
-    private MethodDeclarationSyntax PreCompileMethod(CSharpCodeGeneratorContext context)
-    {
-        var preCompileCode = $@"
-private static void PreCompile()
-{{
-    var methods = typeof({_options.ClassName}).GetMethods(
-        System.Reflection.BindingFlags.DeclaredOnly |
-        System.Reflection.BindingFlags.NonPublic |
-        System.Reflection.BindingFlags.Public |
-        System.Reflection.BindingFlags.Instance |
-        System.Reflection.BindingFlags.Static);
-
-    foreach (var method in methods)
-    {{
-        if (method.GetMethodBody() == null)
-        {{
-            RuntimeHelpers.PrepareMethod(method.MethodHandle);
-        }}
-    }}
-}}
-";
-
-        var member = context.ParseMemberCode<MethodDeclarationSyntax>(preCompileCode);
-        return member;
-    }
-
-    private static MethodDeclarationSyntax TeardownMethod(CSharpCodeGeneratorContext context)
-    {
-        var code = @"
-public static void Teardown()
-{
-}
-";
-
-        var member = context.ParseMemberCode<MethodDeclarationSyntax>(code);
-        return member;
     }
 
     private void AddApi(
@@ -196,7 +117,7 @@ public static void Teardown()
         members[^1] = members[^1].AddRegionEnd();
     }
 
-    private static CompilationUnitSyntax CompilationUnit(
+    private CompilationUnitSyntax CompilationUnit(
         CSharpCodeGeneratorOptions options, ImmutableArray<MemberDeclarationSyntax> members)
     {
         var code = CompilationUnitTemplateCode(options);
@@ -204,11 +125,13 @@ public static void Teardown()
         var compilationUnit = syntaxTree.GetCompilationUnitRoot();
         var namespaceDeclaration = (NamespaceDeclarationSyntax)compilationUnit.Members[0];
         var classDeclaration = (ClassDeclarationSyntax)namespaceDeclaration.Members[0];
-        var runtimeClassDeclaration = RuntimeClass();
+        var classDeclarationWithMembers = classDeclaration.AddMembers(members.ToArray());
 
-        var classDeclarationWithMembers = classDeclaration
-            .AddMembers(members.ToArray())
-            .AddMembers(runtimeClassDeclaration);
+        if (_options.IsEnabledGenerateCSharpRuntimeCode)
+        {
+            var runtimeClassDeclaration = RuntimeClass();
+            classDeclarationWithMembers = classDeclarationWithMembers.AddMembers(runtimeClassDeclaration);
+        }
 
         var newCompilationUnit = compilationUnit.ReplaceNode(classDeclaration, classDeclarationWithMembers);
         using var workspace = new AdhocWorkspace();
@@ -274,9 +197,15 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using static {options.NamespaceName}.{options.ClassName}.Runtime;
-[assembly: DefaultDllImportSearchPathsAttribute(DllImportSearchPath.SafeDirectories)]
 
 {options.HeaderCodeRegion}
+
+[assembly: DefaultDllImportSearchPathsAttribute(DllImportSearchPath.SafeDirectories)]
+
+#if NET7_0_OR_GREATER
+[assembly: DisableRuntimeMarshalling]
+#endif
+
 namespace {options.NamespaceName}
 {{
     public static unsafe partial class {options.ClassName}
