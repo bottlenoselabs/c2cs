@@ -16,10 +16,11 @@ public sealed class CSharpEnum : CSharpNode
 
     public CSharpEnum(
         string name,
+        string nameSpace,
         CSharpTypeInfo integerTypeInfo,
         ImmutableArray<CSharpEnumValue> values,
         ImmutableArray<Attribute> attributes)
-        : base(name, integerTypeInfo.SizeOf, attributes)
+        : base(name, nameSpace, integerTypeInfo.SizeOf, attributes)
     {
         IntegerTypeInfo = integerTypeInfo;
         Values = values;

@@ -12,10 +12,11 @@ public sealed class CSharpParameter : CSharpNode
 
     public CSharpParameter(
         string name,
+        string nameSpace,
         int? sizeOf,
         CSharpTypeInfo typeInfo,
         ImmutableArray<Attribute> attributes)
-        : base(name, sizeOf, attributes)
+        : base(name, nameSpace, sizeOf, attributes)
     {
         TypeInfo = typeInfo;
     }

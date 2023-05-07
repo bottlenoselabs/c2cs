@@ -12,10 +12,11 @@ public sealed class CSharpAliasType : CSharpNode
 
     public CSharpAliasType(
         string name,
+        string className,
         int? sizeOf,
         CSharpTypeInfo underlyingTypeInfo,
         ImmutableArray<Attribute> attributes)
-        : base(name, sizeOf, attributes)
+        : base(name, className, sizeOf, attributes)
     {
         UnderlyingTypeInfo = underlyingTypeInfo;
     }

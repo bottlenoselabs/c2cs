@@ -16,11 +16,12 @@ public sealed class CSharpFunctionPointer : CSharpNode
 
     public CSharpFunctionPointer(
         string name,
+        string nameSpace,
         int? sizeOf,
         CSharpTypeInfo returnTypeInfo,
         ImmutableArray<CSharpParameter> parameters,
         ImmutableArray<Attribute> attributes)
-        : base(name, sizeOf, attributes)
+        : base(name, nameSpace, sizeOf, attributes)
     {
         Parameters = parameters;
         ReturnTypeInfo = returnTypeInfo;

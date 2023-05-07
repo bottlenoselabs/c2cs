@@ -15,12 +15,13 @@ public sealed class CSharpStructField : CSharpNode
 
     public CSharpStructField(
         string name,
+        string className,
         int? sizeOf,
         CSharpTypeInfo typeInfo,
         int offsetOf,
         bool isWrapped,
         ImmutableArray<Attribute> attributes)
-        : base(name, sizeOf, attributes)
+        : base(name, className, sizeOf, attributes)
     {
         TypeInfo = typeInfo;
         OffsetOf = offsetOf;

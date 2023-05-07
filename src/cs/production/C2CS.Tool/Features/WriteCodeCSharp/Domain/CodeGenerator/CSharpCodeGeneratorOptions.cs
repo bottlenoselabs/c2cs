@@ -24,4 +24,6 @@ public sealed class CSharpCodeGeneratorOptions
     public bool IsEnabledLibraryImportAttribute { get; init; }
 
     public bool IsEnabledPointersAsReferences { get; init; }
+
+    public bool IsEnabledAssemblyAttributes { get; init; }
 }

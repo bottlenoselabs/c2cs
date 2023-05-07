@@ -14,13 +14,15 @@ public sealed class CSharpCodeMapperOptions
         SystemTypeAliases = GetSystemTypeNameAliases().ToImmutableDictionary();
     }
 
-    public ImmutableArray<CSharpTypeRename> TypeRenames { get; init; }
+    public ImmutableArray<CSharpMappedName> MappedTypeNames { get; init; }
 
     public ImmutableArray<string> IgnoredNames { get; init; }
 
     public ImmutableDictionary<string, string> SystemTypeAliases { get; }
 
     public bool IsEnabledLibraryImportAttribute { get; init; }
+
+    public ImmutableArray<CSharpMappedName> MappedCNamespaces { get; init; }
 
     private static Dictionary<string, string> GetSystemTypeNameAliases()
     {

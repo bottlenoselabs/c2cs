@@ -9,15 +9,18 @@ namespace C2CS.Features.WriteCodeCSharp.Data;
 public abstract class CSharpNode : IEquatable<CSharpNode>, IComparable<CSharpNode>
 {
     public readonly string Name;
+    public readonly string ClassName;
     public readonly int? SizeOf;
     public readonly ImmutableArray<Attribute> Attributes;
 
     protected CSharpNode(
-        string? name,
+        string name,
+        string className,
         int? sizeOf,
         ImmutableArray<Attribute> attributes)
     {
-        Name = string.IsNullOrEmpty(name) ? string.Empty : name;
+        Name = name;
+        ClassName = className;
         SizeOf = sizeOf;
         Attributes = attributes;
     }

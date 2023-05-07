@@ -18,12 +18,13 @@ public sealed class CSharpFunction : CSharpNode
 
     public CSharpFunction(
         string name,
+        string className,
         int? sizeOf,
         CSharpFunctionCallingConvention callingConvention,
         CSharpTypeInfo returnTypeInfo,
         ImmutableArray<CSharpFunctionParameter> parameters,
         ImmutableArray<Attribute> attributes)
-        : base(name, sizeOf, attributes)
+        : base(name, className, sizeOf, attributes)
     {
         CallingConvention = callingConvention;
         ReturnTypeInfo = returnTypeInfo;

@@ -15,12 +15,13 @@ public sealed class CSharpMacroObject : CSharpNode
 
     public CSharpMacroObject(
         string name,
+        string nameSpace,
         int? sizeOf,
         string type,
         string value,
         bool isConstant,
         ImmutableArray<Attribute> attributes)
-        : base(name, sizeOf, attributes)
+        : base(name, nameSpace, sizeOf, attributes)
     {
         Type = type;
         Value = value;

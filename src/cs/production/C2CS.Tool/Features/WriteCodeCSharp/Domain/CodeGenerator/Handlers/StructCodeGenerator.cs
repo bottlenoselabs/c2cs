@@ -30,10 +30,14 @@ public class StructCodeGenerator : GenerateCodeHandler<CSharpStruct>
         var members = string.Join("\n\n", memberStrings);
         var attributesString = context.GenerateCodeAttributes(@struct.Attributes);
 
+        var x = @struct.Name;
+        var y = x.LastIndexOf('.');
+        var z = y == -1 ? x : x[(y + 1)..];
+
         var code = $@"
 {attributesString}
 [StructLayout(LayoutKind.Explicit, Size = {@struct.SizeOf}, Pack = {@struct.AlignOf})]
-public struct {@struct.Name}
+public struct {z}
 {{
 	{members}
 }}

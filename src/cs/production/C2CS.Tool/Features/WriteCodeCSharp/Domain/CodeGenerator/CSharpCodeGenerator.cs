@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using C2CS.Features.WriteCodeCSharp.Data;
 using C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator.Handlers;
 using Microsoft.CodeAnalysis;
@@ -19,7 +19,7 @@ using Formatter = Microsoft.CodeAnalysis.Formatting.Formatter;
 
 namespace C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator;
 
-public sealed class CSharpCodeGenerator
+public sealed partial class CSharpCodeGenerator
 {
     private readonly IServiceProvider _services;
     private readonly CSharpCodeGeneratorOptions _options;
@@ -37,10 +37,10 @@ public sealed class CSharpCodeGenerator
         var handlers = CreateHandlers(_services);
         var context = new CSharpCodeGeneratorContext(handlers, _options);
 
-        var builder = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
+        var builder = new Dictionary<string, List<MemberDeclarationSyntax>>();
         AddSyntaxNodes(context, abstractSyntaxTree, builder);
 
-        var members = builder.ToImmutable();
+        var members = builder.ToImmutableSortedDictionary();
         var compilationUnit = CompilationUnit(_options, members);
 
         var code = compilationUnit.ToFullString().Trim();
@@ -67,73 +67,110 @@ public sealed class CSharpCodeGenerator
     private void AddSyntaxNodes(
         CSharpCodeGeneratorContext context,
         CSharpAbstractSyntaxTree abstractSyntaxTree,
-        ImmutableArray<MemberDeclarationSyntax>.Builder builder)
+        Dictionary<string, List<MemberDeclarationSyntax>> builder)
     {
-        var membersApi = new List<MemberDeclarationSyntax>();
-        var membersTypes = new List<MemberDeclarationSyntax>();
+        var builderMembersApiByClassName = new Dictionary<string, List<MemberDeclarationSyntax>>();
+        var builderMembersTypesByClassName = new Dictionary<string, List<MemberDeclarationSyntax>>();
 
-        AddApi(abstractSyntaxTree, membersApi, context);
-        AddTypes(abstractSyntaxTree, membersTypes, context);
+        AddApi(abstractSyntaxTree, builderMembersApiByClassName, context);
+        AddTypes(abstractSyntaxTree, builderMembersTypesByClassName, context);
 
-        builder.AddRange(membersApi);
-        builder.AddRange(membersTypes);
+        foreach (var (className, membersApi) in builderMembersApiByClassName)
+        {
+            if (!builder.TryGetValue(className, out var members))
+            {
+                members = new List<MemberDeclarationSyntax>();
+                builder.Add(className, members);
+            }
+
+            members.AddRange(membersApi);
+        }
+
+        foreach (var (className, membersTypes) in builderMembersTypesByClassName)
+        {
+            if (!builder.TryGetValue(className, out var members))
+            {
+                members = new List<MemberDeclarationSyntax>();
+                builder.Add(className, members);
+            }
+
+            members.AddRange(membersTypes);
+        }
     }
 
     private void AddApi(
         CSharpAbstractSyntaxTree abstractSyntaxTree,
-        List<MemberDeclarationSyntax> members,
+        Dictionary<string, List<MemberDeclarationSyntax>> membersByClassName,
         CSharpCodeGeneratorContext context)
     {
-        Add(abstractSyntaxTree.Functions, members, context);
+        Add(abstractSyntaxTree.Functions, membersByClassName, context);
 
-        if (members.Count <= 0)
+        foreach (var (_, members) in membersByClassName)
         {
-            return;
+            members[0] = members[0].AddRegionStart("API", false);
+            members[^1] = members[^1].AddRegionEnd();
         }
-
-        members[0] = members[0].AddRegionStart("API", false);
-        members[^1] = members[^1].AddRegionEnd();
     }
 
     private void AddTypes(
         CSharpAbstractSyntaxTree abstractSyntaxTree,
-        List<MemberDeclarationSyntax> members,
+        Dictionary<string, List<MemberDeclarationSyntax>> membersByClassName,
         CSharpCodeGeneratorContext context)
     {
-        Add(abstractSyntaxTree.FunctionPointers, members, context);
-        Add(abstractSyntaxTree.Structs, members, context);
-        Add(abstractSyntaxTree.Enums, members, context);
-        Add(abstractSyntaxTree.OpaqueStructs, members, context);
-        Add(abstractSyntaxTree.AliasStructs, members, context);
-        Add(abstractSyntaxTree.MacroObjects, members, context);
-        Add(abstractSyntaxTree.Constants, members, context);
+        Add(abstractSyntaxTree.FunctionPointers, membersByClassName, context);
+        Add(abstractSyntaxTree.Structs, membersByClassName, context);
+        Add(abstractSyntaxTree.Enums, membersByClassName, context);
+        Add(abstractSyntaxTree.OpaqueStructs, membersByClassName, context);
+        Add(abstractSyntaxTree.AliasStructs, membersByClassName, context);
+        Add(abstractSyntaxTree.MacroObjects, membersByClassName, context);
+        Add(abstractSyntaxTree.Constants, membersByClassName, context);
 
-        if (members.Count <= 0)
+        foreach (var (_, members) in membersByClassName)
         {
-            return;
+            members[0] = members[0].AddRegionStart("Types", false);
+            members[^1] = members[^1].AddRegionEnd();
         }
-
-        members[0] = members[0].AddRegionStart("Types", false);
-        members[^1] = members[^1].AddRegionEnd();
     }
 
     private CompilationUnitSyntax CompilationUnit(
-        CSharpCodeGeneratorOptions options, ImmutableArray<MemberDeclarationSyntax> members)
+        CSharpCodeGeneratorOptions options,
+        ImmutableSortedDictionary<string, List<MemberDeclarationSyntax>> membersByClassName)
     {
         var code = CompilationUnitTemplateCode(options);
         var syntaxTree = ParseSyntaxTree(code);
         var compilationUnit = syntaxTree.GetCompilationUnitRoot();
-        var namespaceDeclaration = (NamespaceDeclarationSyntax)compilationUnit.Members[0];
-        var classDeclaration = (ClassDeclarationSyntax)namespaceDeclaration.Members[0];
-        var classDeclarationWithMembers = classDeclaration.AddMembers(members.ToArray());
+        var rootNamespace = (FileScopedNamespaceDeclarationSyntax)compilationUnit.Members[0];
+        var rootClassDeclarationOriginal = (ClassDeclarationSyntax)rootNamespace.Members[0];
+        var rootClassDeclarationWithMembers = rootClassDeclarationOriginal;
+
+        foreach (var (className, classMembers) in membersByClassName)
+        {
+            if (string.IsNullOrEmpty(className))
+            {
+                rootClassDeclarationWithMembers = rootClassDeclarationWithMembers.AddMembers(classMembers.ToArray());
+            }
+            else
+            {
+                var classCode = @$"
+public static unsafe partial class {className}
+{{
+}}
+";
+                var classDeclaration = (ClassDeclarationSyntax)ParseMemberDeclaration(classCode)!;
+                var classDeclarationWithMembers = classDeclaration.AddMembers(classMembers.ToArray());
+                rootClassDeclarationWithMembers = rootClassDeclarationWithMembers.AddMembers(classDeclarationWithMembers);
+            }
+        }
 
         if (_options.IsEnabledGenerateCSharpRuntimeCode)
         {
             var runtimeClassDeclaration = RuntimeClass();
-            classDeclarationWithMembers = classDeclarationWithMembers.AddMembers(runtimeClassDeclaration);
+            rootClassDeclarationWithMembers = rootClassDeclarationWithMembers.AddMembers(runtimeClassDeclaration);
         }
 
-        var newCompilationUnit = compilationUnit.ReplaceNode(classDeclaration, classDeclarationWithMembers);
+        var newCompilationUnit = compilationUnit.ReplaceNode(
+            rootClassDeclarationOriginal,
+            rootClassDeclarationWithMembers);
         using var workspace = new AdhocWorkspace();
         var newCompilationUnitFormatted = (CompilationUnitSyntax)Formatter.Format(newCompilationUnit, workspace);
         return newCompilationUnitFormatted;
@@ -176,6 +213,17 @@ public sealed class CSharpCodeGenerator
 
     private static string CompilationUnitTemplateCode(CSharpCodeGeneratorOptions options)
     {
+        var assemblyAttributesCode = string.Empty;
+        if (options.IsEnabledAssemblyAttributes)
+        {
+            assemblyAttributesCode = @"
+[assembly: DefaultDllImportSearchPathsAttribute(DllImportSearchPath.SafeDirectories)]
+#if NET7_0_OR_GREATER
+[assembly: DisableRuntimeMarshalling]
+#endif
+";
+        }
+
         var dateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss \"GMT\"zzz", CultureInfo.InvariantCulture);
         var version = Assembly.GetEntryAssembly()!.GetName().Version;
         var code = $@"
@@ -199,28 +247,25 @@ using System.Runtime.CompilerServices;
 using static {options.NamespaceName}.{options.ClassName}.Runtime;
 
 {options.HeaderCodeRegion}
+{assemblyAttributesCode}
 
-[assembly: DefaultDllImportSearchPathsAttribute(DllImportSearchPath.SafeDirectories)]
+namespace {options.NamespaceName};
 
-#if NET7_0_OR_GREATER
-[assembly: DisableRuntimeMarshalling]
-#endif
-
-namespace {options.NamespaceName}
+public static unsafe partial class {options.ClassName}
 {{
-    public static unsafe partial class {options.ClassName}
-    {{
-        private const string LibraryName = ""{options.LibraryName}"";
-    }}
+    private const string LibraryName = ""{options.LibraryName}"";
 }}
+
 {options.FooterCodeRegion}
 ";
-        return code;
+
+        var replacedCode = MultipleNewLinesRegex().Replace(code, "\n\n");
+        return replacedCode;
     }
 
-    private void Add<TCSharpNode>(
+    private static void Add<TCSharpNode>(
         ImmutableArray<TCSharpNode> nodes,
-        List<MemberDeclarationSyntax> members,
+        Dictionary<string, List<MemberDeclarationSyntax>> members,
         CSharpCodeGeneratorContext context)
         where TCSharpNode : CSharpNode
     {
@@ -231,8 +276,17 @@ namespace {options.NamespaceName}
 
         foreach (var node in nodes)
         {
+            if (!members.TryGetValue(node.ClassName, out var builder))
+            {
+                builder = new List<MemberDeclarationSyntax>();
+                members.Add(node.ClassName, builder);
+            }
+
             var member = context.GenerateCodeMemberSyntax(node);
-            members.Add(member);
+            builder.Add(member);
         }
     }
+
+    [GeneratedRegex("(\\n){2,}")]
+    private static partial Regex MultipleNewLinesRegex();
 }

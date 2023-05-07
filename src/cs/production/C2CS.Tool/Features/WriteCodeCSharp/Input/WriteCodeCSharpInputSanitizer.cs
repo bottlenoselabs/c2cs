@@ -30,8 +30,8 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
         var outputFilePath = OutputFilePath(unsanitizedInput.OutputCSharpCodeFilePath);
         var className = ClassName(unsanitizedInput.ClassName, outputFilePath);
         var libraryName = LibraryName(unsanitizedInput.LibraryName, className);
-        var namespaceName = Namespace(unsanitizedInput.NamespaceName, libraryName);
-        var typeAliases = TypeAliases(unsanitizedInput.MappedNames);
+        var namespaceName = NamespaceName(unsanitizedInput.NamespaceName, libraryName);
+        var mappedTypeNames = MappedNames(unsanitizedInput.MappedNames);
         var ignoredNames = IgnoredTypeNames(unsanitizedInput.IgnoredNames);
         var headerCodeRegion = HeaderCodeRegion(unsanitizedInput.HeaderCodeRegionFilePath);
         var footerCodeRegion = FooterCodeRegion(unsanitizedInput.FooterCodeRegionFilePath);
@@ -39,7 +39,9 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
         var isEnabledVerifyCSharpCodeCompiles = unsanitizedInput.IsEnabledVerifyCSharpCodeCompiles ?? true;
         var isEnabledGenerateCSharpRuntimeCode = unsanitizedInput.IsEnabledGeneratingRuntimeCode ?? true;
         var isEnabledLibraryImportAttribute = unsanitizedInput.IsEnabledLibraryImport ?? true;
-        var isEnabledPointersAsReferences = unsanitizedInput.IsEnabledPointersAsReferences ?? true;
+        var isEnabledPointersAsReferences = unsanitizedInput.IsEnabledPointersAsReferencesInFunctions ?? true;
+        var mappedCNamespaces = MappedNames(unsanitizedInput.MappedCNamespaces);
+        var isEnabledAssemblyAttributes = unsanitizedInput.IsEnabledAssemblyAttributes ?? true;
 
         return new WriteCodeCSharpInput
         {
@@ -47,8 +49,9 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
             OutputFilePath = outputFilePath,
             MapperOptions = new CSharpCodeMapperOptions
             {
-                TypeRenames = typeAliases,
-                IgnoredNames = ignoredNames
+                MappedTypeNames = mappedTypeNames,
+                IgnoredNames = ignoredNames,
+                MappedCNamespaces = mappedCNamespaces
             },
             GeneratorOptions = new CSharpCodeGeneratorOptions
             {
@@ -61,7 +64,8 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
                 IsEnabledVerifyCSharpCodeCompiles = isEnabledVerifyCSharpCodeCompiles,
                 IsEnabledGenerateCSharpRuntimeCode = isEnabledGenerateCSharpRuntimeCode,
                 IsEnabledLibraryImportAttribute = isEnabledLibraryImportAttribute,
-                IsEnabledPointersAsReferences = isEnabledPointersAsReferences
+                IsEnabledPointersAsReferences = isEnabledPointersAsReferences,
+                IsEnabledAssemblyAttributes = isEnabledAssemblyAttributes
             }
         };
     }
@@ -103,15 +107,15 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
         return result;
     }
 
-    private static ImmutableArray<CSharpTypeRename> TypeAliases(
+    private static ImmutableArray<CSharpMappedName> MappedNames(
         ImmutableArray<WriteCSharpCodeOptionsMappedName>? mappedNames)
     {
         if (mappedNames == null || mappedNames.Value.IsDefaultOrEmpty)
         {
-            return ImmutableArray<CSharpTypeRename>.Empty;
+            return ImmutableArray<CSharpMappedName>.Empty;
         }
 
-        var builder = ImmutableArray.CreateBuilder<CSharpTypeRename>();
+        var builder = ImmutableArray.CreateBuilder<CSharpMappedName>();
         foreach (var mappedName in mappedNames)
         {
             if (string.IsNullOrEmpty(mappedName.Source) || string.IsNullOrEmpty(mappedName.Target))
@@ -119,7 +123,7 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
                 continue;
             }
 
-            var typeAlias = new CSharpTypeRename
+            var typeAlias = new CSharpMappedName
             {
                 Source = mappedName.Source,
                 Target = mappedName.Target
@@ -148,7 +152,7 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
         return !string.IsNullOrEmpty(libraryName) ? libraryName : className;
     }
 
-    private static string Namespace(string? @namespace, string libraryName)
+    private static string NamespaceName(string? @namespace, string libraryName)
     {
         return !string.IsNullOrEmpty(@namespace) ? @namespace : libraryName;
     }

@@ -58,7 +58,7 @@ public static extern {node.ReturnTypeInfo.Name} {node.Name}({parametersString});
 {attributesString}
 [LibraryImport({libraryImportParametersString})]
 [UnmanagedCallConv(CallConvs = new[] {{ typeof({callingConvention}) }})]
-public static partial {node.ReturnTypeInfo.Name} {node.Name}({parametersString});
+public static partial {node.ReturnTypeInfo.FullName} {node.Name}({parametersString});
 ";
         }
 

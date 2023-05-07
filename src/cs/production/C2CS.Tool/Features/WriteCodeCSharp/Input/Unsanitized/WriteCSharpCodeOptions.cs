@@ -89,6 +89,12 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     public ImmutableArray<WriteCSharpCodeOptionsMappedName>? MappedNames { get; set; }
 
     /// <summary>
+    ///     The pairs of strings for re-mapping C namespaces to C# namespaces.
+    /// </summary>
+    [JsonPropertyName("mappedCNamespaces")]
+    public ImmutableArray<WriteCSharpCodeOptionsMappedName>? MappedCNamespaces { get; set; }
+
+    /// <summary>
     ///     The names of types, functions, enums, constants, or anything else that may be found when parsing C code that
     ///     will be ignored when generating C# code.
     /// </summary>
@@ -164,7 +170,7 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     public bool? IsEnabledLibraryImport { get; set; } = true;
 
     /// <summary>
-    ///     Determines whether to enable generating the C# unsafe pointers as references where ever possible.
+    ///     Determines whether to enable generating the C# unsafe pointers as references in functions.
     /// </summary>
     /// <remarks>
     ///     <para>
@@ -172,6 +178,19 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     ///         possible. Use <c>false</c> to always use C# unsafe pointers.
     ///     </para>
     /// </remarks>
-    [JsonPropertyName("isEnabledPointersAsReferences")]
-    public bool? IsEnabledPointersAsReferences { get; set; } = true;
+    [JsonPropertyName("isEnabledPointersAsReferencesInFunctions")]
+    public bool? IsEnabledPointersAsReferencesInFunctions { get; set; } = true;
+
+    /// <summary>
+    ///     Determines whether to enable generating the C# assembly attribute usages at the scope of the main namespace.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Default is <c>true</c>. Use <c>true</c> to enabled generation of assembly attributes usages which are
+    ///         applied at the scope of the main namespace. Use <c>false</c> to disable generation of assembly attribute
+    ///         usages.
+    ///     </para>
+    /// </remarks>
+    [JsonPropertyName("isEnabledAssemblyAttributes")]
+    public bool? IsEnabledAssemblyAttributes { get; set; } = true;
 }

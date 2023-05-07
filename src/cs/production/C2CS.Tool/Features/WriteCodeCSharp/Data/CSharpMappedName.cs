@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 namespace C2CS.Features.WriteCodeCSharp.Data;
 
 // NOTE: Properties are required for System.Text.Json serialization
-public sealed class CSharpTypeRename
+public sealed class CSharpMappedName
 {
     [JsonPropertyName("source")]
     public string Source { get; set; } = string.Empty;

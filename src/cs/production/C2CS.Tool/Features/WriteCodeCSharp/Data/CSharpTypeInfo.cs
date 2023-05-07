@@ -10,6 +10,10 @@ public sealed class CSharpTypeInfo : IEquatable<CSharpTypeInfo>
 {
     public string Name { get; init; } = string.Empty;
 
+    public string ClassName { get; init; } = string.Empty;
+
+    public string FullName => string.IsNullOrEmpty(ClassName) ? Name : ClassName + "." + Name;
+
     public string? OriginalName { get; init; }
 
     public int SizeOf { get; init; }

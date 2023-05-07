@@ -12,10 +12,11 @@ public sealed class CSharpEnumValue : CSharpNode
 
     public CSharpEnumValue(
         string name,
+        string className,
         int? sizeOf,
         long value,
         ImmutableArray<Attribute> attributes)
-        : base(name, sizeOf, attributes)
+        : base(name, className, sizeOf, attributes)
     {
         Value = value;
     }
