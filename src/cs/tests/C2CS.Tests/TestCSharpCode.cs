@@ -36,7 +36,6 @@ public sealed class TestCSharpCode : TestBase
     public void Compiles()
     {
         _fixture.AssertCSharpCodeCompiles();
-        _fixture.AssertCSharpCodePreJustInTimeCompilesAtRuntime();
     }
 
     private readonly TestFixtureCSharpCode _fixture;

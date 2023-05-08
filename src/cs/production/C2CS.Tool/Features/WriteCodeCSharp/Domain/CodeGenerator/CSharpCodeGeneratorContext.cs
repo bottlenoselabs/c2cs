@@ -71,14 +71,7 @@ public sealed class CSharpCodeGeneratorContext
                 _stringBuilder.Append(' ');
             }
 
-            if (string.IsNullOrEmpty(parameter.TypeInfo.ClassName))
-            {
-                _stringBuilder.Append(parameter.TypeInfo.Name);
-            }
-            else
-            {
-                _stringBuilder.Append(parameter.TypeInfo.ClassName + "." + parameter.TypeInfo.Name);
-            }
+            _stringBuilder.Append(parameter.TypeInfo.FullName);
 
             if (includeNames)
             {

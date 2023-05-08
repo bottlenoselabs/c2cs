@@ -30,14 +30,14 @@ public class FunctionCodeGenerator : GenerateCodeHandler<CSharpFunction>
         if (!context.Options.IsEnabledLibraryImportAttribute)
         {
             var callingConvention = FunctionCallingConventionDllImport(node.CallingConvention);
-            var dllImportParametersString = string.Join(',', "LibraryName", callingConvention);
+            var dllImportParametersString = string.Join(',', "LibraryName", $"EntryPoint = \"{node.CName}\"", callingConvention);
 
             var attributesString = context.GenerateCodeAttributes(node.Attributes);
 
             code = $@"
 {attributesString}
 [DllImport({dllImportParametersString})]
-public static extern {node.ReturnTypeInfo.Name} {node.Name}({parametersString});
+public static extern {node.ReturnTypeInfo.FullName} {node.Name}({parametersString});
 ";
         }
         else
@@ -45,7 +45,7 @@ public static extern {node.ReturnTypeInfo.Name} {node.Name}({parametersString});
             var callingConvention = FunctionCallingConventionLibraryImport(node.CallingConvention);
             var attributesString = context.GenerateCodeAttributes(node.Attributes);
 
-            var libraryImportParameters = new List<string> { "LibraryName" };
+            var libraryImportParameters = new List<string> { "LibraryName", $"EntryPoint = \"{node.CName}\"" };
             if (node.ReturnTypeInfo.Name == "string" ||
                 parametersString.Contains("string", StringComparison.InvariantCulture))
             {

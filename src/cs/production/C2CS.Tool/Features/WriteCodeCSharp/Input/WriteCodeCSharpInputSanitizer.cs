@@ -38,10 +38,11 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
         var isEnabledFunctionPointers = unsanitizedInput.IsEnabledFunctionPointers ?? true;
         var isEnabledVerifyCSharpCodeCompiles = unsanitizedInput.IsEnabledVerifyCSharpCodeCompiles ?? true;
         var isEnabledGenerateCSharpRuntimeCode = unsanitizedInput.IsEnabledGeneratingRuntimeCode ?? true;
-        var isEnabledLibraryImportAttribute = unsanitizedInput.IsEnabledLibraryImport ?? true;
-        var isEnabledPointersAsReferences = unsanitizedInput.IsEnabledPointersAsReferencesInFunctions ?? true;
+        var isEnabledLibraryImportAttribute = unsanitizedInput.IsEnabledLibraryImport ?? false;
+        var isEnabledPointersAsReferences = unsanitizedInput.IsEnabledPointersAsReferencesInFunctions ?? false;
         var mappedCNamespaces = MappedNames(unsanitizedInput.MappedCNamespaces);
         var isEnabledAssemblyAttributes = unsanitizedInput.IsEnabledAssemblyAttributes ?? true;
+        var isEnabledIdiomaticCSharp = unsanitizedInput.IsEnabledIdiomaticCSharp ?? false;
 
         return new WriteCodeCSharpInput
         {
@@ -51,7 +52,8 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
             {
                 MappedTypeNames = mappedTypeNames,
                 IgnoredNames = ignoredNames,
-                MappedCNamespaces = mappedCNamespaces
+                MappedCNamespaces = mappedCNamespaces,
+                IsEnabledIdiomaticCSharp = isEnabledIdiomaticCSharp
             },
             GeneratorOptions = new CSharpCodeGeneratorOptions
             {
@@ -65,7 +67,7 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
                 IsEnabledGenerateCSharpRuntimeCode = isEnabledGenerateCSharpRuntimeCode,
                 IsEnabledLibraryImportAttribute = isEnabledLibraryImportAttribute,
                 IsEnabledPointersAsReferences = isEnabledPointersAsReferences,
-                IsEnabledAssemblyAttributes = isEnabledAssemblyAttributes
+                IsEnabledAssemblyAttributes = isEnabledAssemblyAttributes,
             }
         };
     }

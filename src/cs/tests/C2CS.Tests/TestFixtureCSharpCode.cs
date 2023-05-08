@@ -70,14 +70,6 @@ public sealed class TestFixtureCSharpCode
         Assert.True(_emitResult!.Success, "Generated C# code did not compile successfully.");
     }
 
-    public void AssertCSharpCodePreJustInTimeCompilesAtRuntime()
-    {
-        Assert.True(_classType != null, $"The class `{ClassName}` does not exist.");
-        var setupMethod = _classType!.GetMethod("Setup");
-        var setupMethodResult = setupMethod!.Invoke(null, null);
-        Assert.True(setupMethodResult == null);
-    }
-
     public CSharpTestEnum GetEnum(string name)
     {
         var exists = _abstractSyntaxTree.Enums.TryGetValue(name, out var value);
@@ -224,7 +216,7 @@ public sealed class TestFixtureCSharpCode
         var generatorOptions = output.Input.GeneratorOptions;
 
         Assert.True(compilationUnitSyntax.Members.Count == 1);
-        var @namespace = compilationUnitSyntax.Members[0] as NamespaceDeclarationSyntax;
+        var @namespace = compilationUnitSyntax.Members[0] as FileScopedNamespaceDeclarationSyntax;
         Assert.True(@namespace != null);
         Assert.True(@namespace!.Name.ToString() == generatorOptions.NamespaceName);
 

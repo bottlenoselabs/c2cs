@@ -153,7 +153,7 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         Default is <c>true</c>. Use <c>true</c> to generate C# source code using
+    ///         Default is <c>false</c>. Use <c>true</c> to generate C# source code using
     ///         <see cref="System.Runtime.InteropServices.LibraryImportAttribute" /> . Use <c>false</c> to generate C#
     ///         source code using <see cref="System.Runtime.InteropServices.DllImportAttribute" />.
     ///     </para>
@@ -167,19 +167,19 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     ///     </para>
     /// </remarks>
     [JsonPropertyName("isEnabledLibraryImport")]
-    public bool? IsEnabledLibraryImport { get; set; } = true;
+    public bool? IsEnabledLibraryImport { get; set; } = false;
 
     /// <summary>
     ///     Determines whether to enable generating the C# unsafe pointers as references in functions.
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         Default is <c>true</c>. Use <c>true</c> to generate references instead of C# unsafe pointers where ever
+    ///         Default is <c>false</c>. Use <c>true</c> to generate references instead of C# unsafe pointers where ever
     ///         possible. Use <c>false</c> to always use C# unsafe pointers.
     ///     </para>
     /// </remarks>
     [JsonPropertyName("isEnabledPointersAsReferencesInFunctions")]
-    public bool? IsEnabledPointersAsReferencesInFunctions { get; set; } = true;
+    public bool? IsEnabledPointersAsReferencesInFunctions { get; set; } = false;
 
     /// <summary>
     ///     Determines whether to enable generating the C# assembly attribute usages at the scope of the main namespace.
@@ -193,4 +193,17 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     /// </remarks>
     [JsonPropertyName("isEnabledAssemblyAttributes")]
     public bool? IsEnabledAssemblyAttributes { get; set; } = true;
+
+    /// <summary>
+    ///     Determines whether to enable generating idiomatic C#.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Default is <c>false</c>. Use <c>true</c> to enabled generation of idiomatic C# which includes converting
+    ///         converting C `snake_case` names to C# `PascalCase` names. Use <c>false</c> to leave names as they are
+    ///         found in C.
+    ///     </para>
+    /// </remarks>
+    [JsonPropertyName("isEnabledIdiomaticCSharp")]
+    public bool? IsEnabledIdiomaticCSharp { get; set; } = false;
 }

@@ -1,6 +1,7 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System;
 using System.Collections.Immutable;
 using System.Linq;
 using C2CS.Features.WriteCodeCSharp.Data;
@@ -30,14 +31,15 @@ public class StructCodeGenerator : GenerateCodeHandler<CSharpStruct>
         var members = string.Join("\n\n", memberStrings);
         var attributesString = context.GenerateCodeAttributes(@struct.Attributes);
 
-        var x = @struct.Name;
-        var y = x.LastIndexOf('.');
-        var z = y == -1 ? x : x[(y + 1)..];
+        if (@struct.Name == "sapp_event")
+        {
+            Console.WriteLine();
+        }
 
         var code = $@"
 {attributesString}
 [StructLayout(LayoutKind.Explicit, Size = {@struct.SizeOf}, Pack = {@struct.AlignOf})]
-public struct {z}
+public struct {@struct.Name}
 {{
 	{members}
 }}

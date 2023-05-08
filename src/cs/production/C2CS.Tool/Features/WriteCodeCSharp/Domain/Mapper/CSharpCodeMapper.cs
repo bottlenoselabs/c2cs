@@ -108,7 +108,12 @@ public sealed class CSharpCodeMapper
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var function in functions)
         {
-            var value = FunctionCSharp(context, function);
+            if (_ignoredNames.Contains(function.Name))
+            {
+                continue;
+            }
+
+            var value = Function(context, function);
             builder.Add(value);
         }
 
@@ -116,7 +121,7 @@ public sealed class CSharpCodeMapper
         return builder.ToImmutable();
     }
 
-    private CSharpFunction FunctionCSharp(CSharpCodeMapperContext context, CFunction cFunction)
+    private CSharpFunction Function(CSharpCodeMapperContext context, CFunction cFunction)
     {
         var nameCSharp = cFunction.Name;
         var returnTypeCSharp = TypeCSharp(context, cFunction.ReturnTypeInfo);
@@ -124,10 +129,12 @@ public sealed class CSharpCodeMapper
         var parameters = CSharpFunctionParameters(context, nameCSharp, cFunction.Parameters);
         var attributes = Attributes(cFunction);
         var className = ClassName(nameCSharp, out var nameCSharpMapped);
+        var nameCSharpFinal = IdiomaticName(nameCSharpMapped, false);
 
         var result = new CSharpFunction(
-            nameCSharpMapped,
+            nameCSharpFinal,
             className,
+            cFunction.Name,
             null,
             callingConvention,
             returnTypeCSharp,
@@ -215,14 +222,14 @@ public sealed class CSharpCodeMapper
     private CSharpFunctionParameter FunctionParameter(
         CSharpCodeMapperContext context,
         string functionName,
-        CFunctionParameter functionParameter,
+        CFunctionParameter cFunctionParameter,
         string parameterName)
     {
         var name = SanitizeIdentifier(parameterName);
-        var typeC = functionParameter.TypeInfo;
+        var typeC = cFunctionParameter.TypeInfo;
         var typeCSharp = TypeCSharp(context, typeC);
 
-        var typeCSharpName = typeCSharp.Name;
+        var typeCSharpName = typeCSharp.FullName;
         var typeCSharpNameBase = typeCSharpName.TrimEnd('*');
         if (typeCSharpNameBase == functionName)
         {
@@ -237,6 +244,7 @@ public sealed class CSharpCodeMapper
         var functionParameterCSharp = new CSharpFunctionParameter(
             name,
             typeCSharp.ClassName,
+            cFunctionParameter.Name,
             typeC.SizeOf,
             typeCSharpName,
             attributes);
@@ -292,6 +300,7 @@ public sealed class CSharpCodeMapper
         var result = new CSharpFunctionPointer(
             typeNameCSharpMapped,
             className,
+            cFunctionPointer.Name,
             functionPointerType.SizeOf,
             returnTypeCSharp,
             parameters,
@@ -337,6 +346,7 @@ public sealed class CSharpCodeMapper
         var result = new CSharpParameter(
             name,
             typeCSharp.ClassName,
+            cFunctionPointerParameter.Name,
             typeC.SizeOf,
             typeCSharp,
             attributes);
@@ -387,11 +397,13 @@ public sealed class CSharpCodeMapper
         var (fields, nestedRecords) = StructFields(context, cRecord.Name, cRecord.Fields);
         var nestedStructs = Structs(context, nestedRecords, functionNames);
         var attributes = Attributes(cRecord);
-        var nameSpace = ClassName(name, out var nameNamespaced);
+        var className = ClassName(name, out var nameCSharpMapped);
+        var cSharpNameFinal = IdiomaticName(nameCSharpMapped, false);
 
         return new CSharpStruct(
-            nameNamespaced,
-            nameSpace,
+            cSharpNameFinal,
+            className,
+            cRecord.Name,
             cRecord.SizeOf,
             cRecord.AlignOf,
             fields,
@@ -439,7 +451,8 @@ public sealed class CSharpCodeMapper
         CSharpCodeMapperContext context,
         CRecordField cField)
     {
-        var name = SanitizeIdentifier(cField.Name);
+        var nameCSharp = SanitizeIdentifier(cField.Name);
+        var nameCSharpFinal = IdiomaticName(nameCSharp, false);
         var typeC = cField.TypeInfo;
         var typeInfoCSharp = TypeCSharp(context, typeC);
         var offsetOf = cField.OffsetOf;
@@ -447,8 +460,9 @@ public sealed class CSharpCodeMapper
         var attributes = ImmutableArray<Attribute>.Empty;
 
         var result = new CSharpStructField(
-            name,
+            nameCSharpFinal,
             typeInfoCSharp.ClassName,
+            cField.Name,
             typeC.SizeOf,
             typeInfoCSharp,
             offsetOf,
@@ -486,11 +500,13 @@ public sealed class CSharpCodeMapper
         var nameCSharp = TypeNameCSharpRaw(cOpaqueType.Name, cOpaqueType.SizeOf);
         var attributes = Attributes(cOpaqueType);
         var className = ClassName(
-            nameCSharp, out var nameCSharpNamespaced);
+            nameCSharp, out var nameCSharpMapped);
+        var nameCSharpFinal = IdiomaticName(nameCSharpMapped, false);
 
         var opaqueTypeCSharp = new CSharpOpaqueType(
-            nameCSharpNamespaced,
+            nameCSharpFinal,
             className,
+            cOpaqueType.Name,
             attributes);
         return opaqueTypeCSharp;
     }
@@ -532,11 +548,13 @@ public sealed class CSharpCodeMapper
         var attributes = Attributes(cTypeAlias);
         var className = ClassName(
             cTypeAlias.Name,
-            out var nameCSharpMapped);
+            out var cSharpNameMapped);
+        var cSharpNameFinal = IdiomaticName(cSharpNameMapped, false);
 
         var result = new CSharpAliasType(
-            nameCSharpMapped,
+            cSharpNameFinal,
             className,
+            cTypeAlias.Name,
             underlyingTypeC.SizeOf,
             underlyingTypeCSharp,
             attributes);
@@ -572,13 +590,15 @@ public sealed class CSharpCodeMapper
     {
         var integerTypeC = cEnum.IntegerTypeInfo;
         var integerType = TypeCSharp(context, integerTypeC);
-        var values = EnumValues(context, cEnum.Values);
         var attributes = Attributes(cEnum);
-        var nameSpace = ClassName(cEnum.Name, out var nameCSharpNamespaced);
+        var className = ClassName(cEnum.Name, out var cSharpNameMapped);
+        var cSharpNameFinal = IdiomaticName(cSharpNameMapped, false);
+        var values = EnumValues(context, cEnum.Values, cSharpNameFinal);
 
         var result = new CSharpEnum(
-            nameCSharpNamespaced,
-            nameSpace,
+            cSharpNameFinal,
+            className,
+            cEnum.Name,
             integerType,
             values,
             attributes);
@@ -586,14 +606,14 @@ public sealed class CSharpCodeMapper
     }
 
     private ImmutableArray<CSharpEnumValue> EnumValues(
-        CSharpCodeMapperContext context, ImmutableArray<CEnumValue> enumValues)
+        CSharpCodeMapperContext context, ImmutableArray<CEnumValue> enumValues, string cSharpEnumName)
     {
         var builder = ImmutableArray.CreateBuilder<CSharpEnumValue>(enumValues.Length);
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var enumValue in enumValues)
         {
-            var value = EnumValue(context, enumValue);
+            var value = EnumValue(context, enumValue, cSharpEnumName);
             builder.Add(value);
         }
 
@@ -602,17 +622,21 @@ public sealed class CSharpCodeMapper
     }
 
     private CSharpEnumValue EnumValue(
-        CSharpCodeMapperContext context, CEnumValue cEnumValue)
+        CSharpCodeMapperContext context,
+        CEnumValue cEnumValue,
+        string cSharpEnumName)
     {
-        var name = cEnumValue.Name;
+        var cSharpName = cEnumValue.Name;
         var value = cEnumValue.Value;
         var attributes = ImmutableArray<Attribute>.Empty;
-        var nameSpace = ClassName(
-            name, out var cSharpNameName);
+        var className = ClassName(
+            cSharpName, out var cSharpNameName);
+        var cSharpNameFinal = IdiomaticName(cSharpNameName, false, cSharpEnumName);
 
         var result = new CSharpEnumValue(
-            cSharpNameName,
-            nameSpace,
+            cSharpNameFinal,
+            className,
+            cEnumValue.Name,
             null,
             value,
             attributes);
@@ -667,11 +691,13 @@ public sealed class CSharpCodeMapper
         }
 
         var attributes = Attributes(cMacroObject);
-        var nameSpace = ClassName(cMacroObject.Name, out var nameNamespaced);
+        var className = ClassName(cMacroObject.Name, out var cSharpNameMapped);
+        var cSharpNameFinal = IdiomaticName(cSharpNameMapped, false, isMacroObject: true);
 
         var result = new CSharpMacroObject(
-            nameNamespaced,
-            nameSpace,
+            cSharpNameFinal,
+            className,
+            cMacroObject.Name,
             typeSize,
             typeName,
             value,
@@ -706,11 +732,13 @@ public sealed class CSharpCodeMapper
     {
         var typeNameCSharp = TypeNameCSharp(context, cEnumConstant.TypeInfo);
         var attributes = Attributes(cEnumConstant);
-        var nameSpace = ClassName(cEnumConstant.Name, out var nameCSharpNamespaced);
+        var className = ClassName(cEnumConstant.Name, out var cSharpNameMapped);
+        var cSharpNameFinal = IdiomaticName(cSharpNameMapped, false);
 
         var result = new CSharpConstant(
-            nameCSharpNamespaced,
-            nameSpace,
+            cSharpNameFinal,
+            className,
+            cEnumConstant.Name,
             cEnumConstant.TypeInfo.SizeOf,
             typeNameCSharp,
             cEnumConstant.Value,
@@ -731,7 +759,21 @@ public sealed class CSharpCodeMapper
                 typeName.StartsWith("_" + mappedName.Source, StringComparison.InvariantCultureIgnoreCase))
             {
                 nameSpace = mappedName.Target;
-                mappedTypeName = typeName[mappedName.Source.Length..];
+                var mappedTypeNameCandidate = typeName[mappedName.Source.Length..];
+
+                var firstPointerIndex = mappedTypeNameCandidate.IndexOf('*', StringComparison.InvariantCulture);
+                if (firstPointerIndex == -1)
+                {
+                    mappedTypeName = SanitizeIdentifier(mappedTypeNameCandidate);
+                }
+                else
+                {
+                    var identifierCandidate = mappedTypeNameCandidate[..firstPointerIndex];
+                    var pointersTrailing = mappedTypeNameCandidate[firstPointerIndex..];
+                    var identifier = SanitizeIdentifier(identifierCandidate);
+                    mappedTypeName = identifier + pointersTrailing;
+                }
+
                 break;
             }
         }
@@ -752,11 +794,12 @@ public sealed class CSharpCodeMapper
             attributesBuilder.Add(constAttribute);
         }
 
-        var className = ClassName(nameCSharp, out var nameCSharpNameSpaced);
+        var className = ClassName(nameCSharp, out var nameCSharpMapped);
+        var nameCSharpFinal = IdiomaticName(nameCSharpMapped, true);
 
         var result = new CSharpTypeInfo
         {
-            Name = nameCSharpNameSpaced,
+            Name = nameCSharpFinal,
             ClassName = className,
             OriginalName = typeInfo.Name,
             SizeOf = typeInfo.SizeOf,
@@ -766,6 +809,91 @@ public sealed class CSharpCodeMapper
         };
 
         return result;
+    }
+
+    private string IdiomaticName(string name, bool isType, string enumName = "", bool isMacroObject = false)
+    {
+        if (!_options.IsEnabledIdiomaticCSharp)
+        {
+            return name;
+        }
+
+        string identifier;
+        var pointersTrailing = string.Empty;
+
+        var firstPointerIndex = name.IndexOf('*', StringComparison.InvariantCulture);
+        if (firstPointerIndex == -1)
+        {
+            identifier = name;
+        }
+        else
+        {
+            identifier = name[..firstPointerIndex];
+            pointersTrailing = name[firstPointerIndex..];
+        }
+
+        if (!string.IsNullOrEmpty(enumName))
+        {
+            var enumNameUpperCase = enumName.ToUpperInvariant();
+            var identifierUpperCase = identifier.ToUpperInvariant();
+            if (identifierUpperCase.StartsWith(enumNameUpperCase, StringComparison.InvariantCulture) ||
+                identifierUpperCase.StartsWith("_" + enumNameUpperCase, StringComparison.InvariantCulture))
+            {
+                identifier = identifier[(enumName.Length + 1)..];
+                identifier = char.ToUpper(identifier[0], CultureInfo.InvariantCulture) +
+                             identifier[1..].ToLowerInvariant();
+            }
+        }
+
+        if (isType)
+        {
+            if (identifier
+                is "bool"
+                or "char"
+                or "byte"
+                or "sbyte"
+                or "short"
+                or "ushort"
+                or "int"
+                or "uint"
+                or "long"
+                or "ulong"
+                or "float"
+                or "decimal"
+                or "void"
+                or "CBool"
+                or "CString"
+                or "CStringWide")
+            {
+                return identifier + pointersTrailing;
+            }
+        }
+
+        if (string.IsNullOrEmpty(enumName) && identifier.StartsWith("FnPtr", StringComparison.InvariantCulture))
+        {
+            return identifier + pointersTrailing;
+        }
+
+        var parts = identifier.Split(new[] { '_', '.', '@' }, StringSplitOptions.RemoveEmptyEntries);
+        var partsCapitalized = parts.Select(x =>
+        {
+            if (isMacroObject)
+            {
+                return char.ToUpper(x[0], CultureInfo.InvariantCulture) + x[1..].ToLowerInvariant();
+            }
+            else
+            {
+                return char.ToUpper(x[0], CultureInfo.InvariantCulture) + x[1..];
+            }
+        });
+        var identifierIdiomatic = string.Join(string.Empty, partsCapitalized);
+
+        if (char.IsNumber(identifierIdiomatic[0]))
+        {
+            identifierIdiomatic = "_" + identifier;
+        }
+
+        return identifierIdiomatic + pointersTrailing;
     }
 
     private string TypeNameCSharp(
@@ -843,7 +971,7 @@ public sealed class CSharpCodeMapper
             var typeCSharp = TypeCSharp(context, parameter.TypeInfo);
             var typeNameCSharpOriginal = string.IsNullOrEmpty(typeCSharp.ClassName) ? typeCSharp.Name : typeCSharp.ClassName + "." + typeCSharp.Name;
             var typeNameCSharp = typeNameCSharpOriginal.Replace("*", "Ptr", StringComparison.InvariantCulture);
-            var typeNameCSharpParts = typeNameCSharp.Split(new[] { '_', '.' }, StringSplitOptions.RemoveEmptyEntries);
+            var typeNameCSharpParts = typeNameCSharp.Split(new[] { '_', '.', '@' }, StringSplitOptions.RemoveEmptyEntries);
             var typeNameCSharpPartsCapitalized = typeNameCSharpParts.Select(x =>
                 char.ToUpper(x[0], CultureInfo.InvariantCulture) + x[1..]);
             var typeNameParameter = string.Join(string.Empty, typeNameCSharpPartsCapitalized);

@@ -14,12 +14,13 @@ public sealed class CSharpConstant : CSharpNode
 
     public CSharpConstant(
         string name,
-        string classNameSpace,
+        string className,
+        string cName,
         int? sizeOf,
         string type,
         string value,
         ImmutableArray<Attribute> attributes)
-        : base(name, classNameSpace, sizeOf, attributes)
+        : base(name, className, cName, sizeOf, attributes)
     {
         Type = type;
         Value = value;

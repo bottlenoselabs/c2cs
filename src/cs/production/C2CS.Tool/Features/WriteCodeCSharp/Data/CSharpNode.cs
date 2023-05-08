@@ -10,17 +10,20 @@ public abstract class CSharpNode : IEquatable<CSharpNode>, IComparable<CSharpNod
 {
     public readonly string Name;
     public readonly string ClassName;
+    public readonly string CName;
     public readonly int? SizeOf;
     public readonly ImmutableArray<Attribute> Attributes;
 
     protected CSharpNode(
         string name,
         string className,
+        string cName,
         int? sizeOf,
         ImmutableArray<Attribute> attributes)
     {
         Name = name;
         ClassName = className;
+        CName = cName;
         SizeOf = sizeOf;
         Attributes = attributes;
     }

@@ -24,6 +24,8 @@ public sealed class CSharpCodeMapperOptions
 
     public ImmutableArray<CSharpMappedName> MappedCNamespaces { get; init; }
 
+    public bool IsEnabledIdiomaticCSharp { get; init; }
+
     private static Dictionary<string, string> GetSystemTypeNameAliases()
     {
         var aliases = new Dictionary<string, string>();
