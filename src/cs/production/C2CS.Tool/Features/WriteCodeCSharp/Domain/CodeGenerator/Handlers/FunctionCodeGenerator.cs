@@ -92,25 +92,6 @@ public static partial {node.ReturnTypeInfo.FullName} {node.Name}({parametersStri
 
     private static string ParameterSelector(CSharpCodeGeneratorContext context, CSharpFunctionParameter parameter)
     {
-        if (!context.Options.IsEnabledPointersAsReferences)
-        {
-            return $@"{parameter.TypeName} {parameter.Name}";
-        }
-
-        var firstPointerIndex = parameter.TypeName.IndexOf('*', StringComparison.InvariantCulture);
-        var lastPointerIndex = parameter.TypeName.LastIndexOf('*');
-        if ((firstPointerIndex == -1 && lastPointerIndex == -1) || firstPointerIndex != lastPointerIndex)
-        {
-            return $@"{parameter.TypeName} {parameter.Name}";
-        }
-
-        var identifier = parameter.TypeName[..lastPointerIndex];
-        if (identifier == "void")
-        {
-            return $@"{parameter.TypeName} {parameter.Name}";
-        }
-
-        var result = $@"ref {identifier} {parameter.Name}";
-        return result;
+        return $@"{parameter.TypeName} {parameter.Name}";
     }
 }

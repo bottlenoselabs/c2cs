@@ -222,12 +222,9 @@ public static unsafe partial class {className}
 #endif
 ";
 
-            if (!options.IsEnabledLibraryImportAttribute)
-            {
-                assemblyAttributesCode += @"
+            assemblyAttributesCode += @"
 [assembly: DefaultDllImportSearchPathsAttribute(DllImportSearchPath.SafeDirectories)]
 ";
-            }
         }
 
         var dateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss \"GMT\"zzz", CultureInfo.InvariantCulture);

@@ -240,9 +240,10 @@ public sealed class CSharpCodeMapper
         }
 
         var attributes = ImmutableArray<Attribute>.Empty;
+        var nameFinal = IdiomaticName(name, false);
 
         var functionParameterCSharp = new CSharpFunctionParameter(
-            name,
+            nameFinal,
             typeCSharp.ClassName,
             cFunctionParameter.Name,
             typeC.SizeOf,
@@ -296,9 +297,10 @@ public sealed class CSharpCodeMapper
         var className = ClassName(
             typeNameCSharp,
             out var typeNameCSharpMapped);
+        var typeNameCSharpFinal = IdiomaticName(typeNameCSharpMapped, false);
 
         var result = new CSharpFunctionPointer(
-            typeNameCSharpMapped,
+            typeNameCSharpFinal,
             className,
             cFunctionPointer.Name,
             functionPointerType.SizeOf,
