@@ -240,7 +240,7 @@ public sealed class CSharpCodeMapper
         }
 
         var attributes = ImmutableArray<Attribute>.Empty;
-        var nameFinal = IdiomaticName(name, false);
+        var nameFinal = IdiomaticName(name, false, isParameter: true);
 
         var functionParameterCSharp = new CSharpFunctionParameter(
             nameFinal,
@@ -813,7 +813,7 @@ public sealed class CSharpCodeMapper
         return result;
     }
 
-    private string IdiomaticName(string name, bool isType, string enumName = "", bool isMacroObject = false)
+    private string IdiomaticName(string name, bool isType, string enumName = "", bool isMacroObject = false, bool isParameter = false)
     {
         if (!_options.IsEnabledIdiomaticCSharp)
         {
@@ -884,11 +884,16 @@ public sealed class CSharpCodeMapper
             {
                 return char.ToUpper(x[0], CultureInfo.InvariantCulture) + x[1..].ToLowerInvariant();
             }
-            else
-            {
-                return char.ToUpper(x[0], CultureInfo.InvariantCulture) + x[1..];
-            }
-        });
+
+            return char.ToUpper(x[0], CultureInfo.InvariantCulture) + x[1..];
+        }).ToArray();
+
+        if (isParameter)
+        {
+            partsCapitalized[0] = char.ToLower(partsCapitalized[0][0], CultureInfo.InvariantCulture) +
+                                  partsCapitalized[0][1..];
+        }
+
         var identifierIdiomatic = string.Join(string.Empty, partsCapitalized);
 
         if (char.IsNumber(identifierIdiomatic[0]))
