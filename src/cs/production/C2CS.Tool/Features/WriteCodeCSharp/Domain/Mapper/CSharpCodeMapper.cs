@@ -896,6 +896,11 @@ public sealed class CSharpCodeMapper
 
         var identifierIdiomatic = string.Join(string.Empty, partsCapitalized);
 
+        if (isParameter)
+        {
+            identifierIdiomatic = SanitizeIdentifier(identifierIdiomatic);
+        }
+
         if (char.IsNumber(identifierIdiomatic[0]))
         {
             identifierIdiomatic = "_" + identifier;
