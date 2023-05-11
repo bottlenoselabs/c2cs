@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Text;
 using C2CS.Features.WriteCodeCSharp.Data;
 using C2CS.Foundation.Tool;
@@ -16,15 +17,23 @@ public sealed class CSharpCodeGeneratorContext
 {
     private readonly StringBuilder _stringBuilder = new();
     private readonly ImmutableDictionary<Type, GenerateCodeHandler> _handlers;
+    private readonly ImmutableHashSet<string> _fullNamesAlreadyExisting;
 
     public CSharpCodeGeneratorOptions Options { get; }
 
     public CSharpCodeGeneratorContext(
         ImmutableDictionary<Type, GenerateCodeHandler> handlers,
-        CSharpCodeGeneratorOptions options)
+        CSharpCodeGeneratorOptions options,
+        ImmutableArray<CSharpFunction> cSharpFunctions)
     {
         _handlers = handlers;
         Options = options;
+        _fullNamesAlreadyExisting = cSharpFunctions.Select(x => x.FullName).ToImmutableHashSet();
+    }
+
+    public bool NameAlreadyExists(string fullName)
+    {
+        return _fullNamesAlreadyExisting.Contains(fullName);
     }
 
     public T ParseMemberCode<T>(string code)

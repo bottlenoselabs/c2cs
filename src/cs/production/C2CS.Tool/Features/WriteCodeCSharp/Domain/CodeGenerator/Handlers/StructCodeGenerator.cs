@@ -31,11 +31,6 @@ public class StructCodeGenerator : GenerateCodeHandler<CSharpStruct>
         var members = string.Join("\n\n", memberStrings);
         var attributesString = context.GenerateCodeAttributes(@struct.Attributes);
 
-        if (@struct.Name == "sapp_event")
-        {
-            Console.WriteLine();
-        }
-
         var code = $@"
 {attributesString}
 [StructLayout(LayoutKind.Explicit, Size = {@struct.SizeOf}, Pack = {@struct.AlignOf})]
@@ -108,7 +103,7 @@ public struct {@struct.Name}
         var code = $@"
 {attributesString}
 [FieldOffset({field.OffsetOf})] // size = {field.TypeInfo.SizeOf}
-public {field.TypeInfo.Name} {field.Name};
+public {field.TypeInfo.FullName} {field.Name};
 ".Trim();
 
         var member = context.ParseMemberCode<FieldDeclarationSyntax>(code);
@@ -181,7 +176,7 @@ public string {field.Name}
             }
 
             code = $@"
-public Span<{elementType}> {field.Name}
+public readonly Span<{elementType}> {field.Name}
 {{
 	get
 	{{

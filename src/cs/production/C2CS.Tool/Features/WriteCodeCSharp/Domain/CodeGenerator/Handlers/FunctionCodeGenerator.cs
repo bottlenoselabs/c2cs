@@ -90,21 +90,27 @@ public static partial {node.ReturnTypeInfo.FullName} {node.Name}({parametersStri
         return result;
     }
 
-    private static string ParameterSelector(CSharpCodeGeneratorContext context, CSharpFunctionParameter x)
+    private static string ParameterSelector(CSharpCodeGeneratorContext context, CSharpFunctionParameter parameter)
     {
         if (!context.Options.IsEnabledPointersAsReferences)
         {
-            return $@"{x.TypeName} {x.Name}";
+            return $@"{parameter.TypeName} {parameter.Name}";
         }
 
-        var firstPointerIndex = x.TypeName.IndexOf('*', StringComparison.InvariantCulture);
-        var lastPointerIndex = x.TypeName.LastIndexOf('*');
+        var firstPointerIndex = parameter.TypeName.IndexOf('*', StringComparison.InvariantCulture);
+        var lastPointerIndex = parameter.TypeName.LastIndexOf('*');
         if ((firstPointerIndex == -1 && lastPointerIndex == -1) || firstPointerIndex != lastPointerIndex)
         {
-            return $@"{x.TypeName} {x.Name}";
+            return $@"{parameter.TypeName} {parameter.Name}";
         }
 
-        var result = $@"ref {x.TypeName[..lastPointerIndex]} {x.Name}";
+        var identifier = parameter.TypeName[..lastPointerIndex];
+        if (identifier == "void")
+        {
+            return $@"{parameter.TypeName} {parameter.Name}";
+        }
+
+        var result = $@"ref {identifier} {parameter.Name}";
         return result;
     }
 }

@@ -170,18 +170,6 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     public bool? IsEnabledLibraryImport { get; set; } = false;
 
     /// <summary>
-    ///     Determines whether to enable generating the C# unsafe pointers as references in functions.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Default is <c>false</c>. Use <c>true</c> to generate references instead of C# unsafe pointers where ever
-    ///         possible. Use <c>false</c> to always use C# unsafe pointers.
-    ///     </para>
-    /// </remarks>
-    [JsonPropertyName("isEnabledPointersAsReferencesInFunctions")]
-    public bool? IsEnabledPointersAsReferencesInFunctions { get; set; } = false;
-
-    /// <summary>
     ///     Determines whether to enable generating the C# assembly attribute usages at the scope of the main namespace.
     /// </summary>
     /// <remarks>

@@ -39,7 +39,6 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
         var isEnabledVerifyCSharpCodeCompiles = unsanitizedInput.IsEnabledVerifyCSharpCodeCompiles ?? true;
         var isEnabledGenerateCSharpRuntimeCode = unsanitizedInput.IsEnabledGeneratingRuntimeCode ?? true;
         var isEnabledLibraryImportAttribute = unsanitizedInput.IsEnabledLibraryImport ?? false;
-        var isEnabledPointersAsReferences = unsanitizedInput.IsEnabledPointersAsReferencesInFunctions ?? false;
         var mappedCNamespaces = MappedNames(unsanitizedInput.MappedCNamespaces);
         var isEnabledAssemblyAttributes = unsanitizedInput.IsEnabledAssemblyAttributes ?? true;
         var isEnabledIdiomaticCSharp = unsanitizedInput.IsEnabledIdiomaticCSharp ?? false;
@@ -66,7 +65,6 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
                 IsEnabledVerifyCSharpCodeCompiles = isEnabledVerifyCSharpCodeCompiles,
                 IsEnabledGenerateCSharpRuntimeCode = isEnabledGenerateCSharpRuntimeCode,
                 IsEnabledLibraryImportAttribute = isEnabledLibraryImportAttribute,
-                IsEnabledPointersAsReferences = isEnabledPointersAsReferences,
                 IsEnabledAssemblyAttributes = isEnabledAssemblyAttributes,
             }
         };

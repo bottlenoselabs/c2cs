@@ -35,7 +35,7 @@ public sealed partial class CSharpCodeGenerator
     public string EmitCode(CSharpAbstractSyntaxTree abstractSyntaxTree)
     {
         var handlers = CreateHandlers(_services);
-        var context = new CSharpCodeGeneratorContext(handlers, _options);
+        var context = new CSharpCodeGeneratorContext(handlers, _options, abstractSyntaxTree.Functions);
 
         var builder = new Dictionary<string, List<MemberDeclarationSyntax>>();
         AddSyntaxNodes(context, abstractSyntaxTree, builder);
@@ -217,11 +217,17 @@ public static unsafe partial class {className}
         if (options.IsEnabledAssemblyAttributes)
         {
             assemblyAttributesCode = @"
-[assembly: DefaultDllImportSearchPathsAttribute(DllImportSearchPath.SafeDirectories)]
 #if NET7_0_OR_GREATER
 [assembly: DisableRuntimeMarshalling]
 #endif
 ";
+
+            if (!options.IsEnabledLibraryImportAttribute)
+            {
+                assemblyAttributesCode += @"
+[assembly: DefaultDllImportSearchPathsAttribute(DllImportSearchPath.SafeDirectories)]
+";
+            }
         }
 
         var dateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss \"GMT\"zzz", CultureInfo.InvariantCulture);

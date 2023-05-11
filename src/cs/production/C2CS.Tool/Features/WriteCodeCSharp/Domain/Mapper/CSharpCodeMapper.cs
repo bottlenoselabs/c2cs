@@ -875,6 +875,7 @@ public sealed class CSharpCodeMapper
         }
 
         var parts = identifier.Split(new[] { '_', '.', '@' }, StringSplitOptions.RemoveEmptyEntries);
+
         var partsCapitalized = parts.Select(x =>
         {
             if (isMacroObject)
@@ -960,18 +961,21 @@ public sealed class CSharpCodeMapper
     private string CreateFunctionPointerName(CSharpCodeMapperContext context, CFunctionPointer functionPointer)
     {
         var returnTypeC = functionPointer.ReturnTypeInfo;
-        var returnTypeNameCSharpOriginal = TypeNameCSharp(context, returnTypeC);
-        var returnTypeNameCSharp = returnTypeNameCSharpOriginal.Replace("*", "Ptr", StringComparison.InvariantCulture);
-        var returnTypeStringCapitalized = char.ToUpper(returnTypeNameCSharp[0], CultureInfo.InvariantCulture) +
-                                          returnTypeNameCSharp[1..];
+        var returnTypeCSharp = TypeCSharp(context, returnTypeC);
+        var returnTypeNameCSharp = returnTypeCSharp.FullName.Replace("*", "Ptr", StringComparison.InvariantCulture);
+        var returnTypeNameCSharpParts = returnTypeNameCSharp.Split(new[] { '_', '.', '@' }, StringSplitOptions.RemoveEmptyEntries);
+
+        var returnTypeNameCSharpPartsCapitalized = returnTypeNameCSharpParts.Select(x =>
+            char.ToUpper(x[0], CultureInfo.InvariantCulture) + x[1..]);
+        var returnTypeNameCSharpPartsJoined = string.Join(string.Empty, returnTypeNameCSharpPartsCapitalized);
 
         var parameterStringsCSharp = new List<string>();
         foreach (var parameter in functionPointer.Parameters)
         {
             var typeCSharp = TypeCSharp(context, parameter.TypeInfo);
-            var typeNameCSharpOriginal = string.IsNullOrEmpty(typeCSharp.ClassName) ? typeCSharp.Name : typeCSharp.ClassName + "." + typeCSharp.Name;
-            var typeNameCSharp = typeNameCSharpOriginal.Replace("*", "Ptr", StringComparison.InvariantCulture);
+            var typeNameCSharp = typeCSharp.FullName.Replace("*", "Ptr", StringComparison.InvariantCulture);
             var typeNameCSharpParts = typeNameCSharp.Split(new[] { '_', '.', '@' }, StringSplitOptions.RemoveEmptyEntries);
+
             var typeNameCSharpPartsCapitalized = typeNameCSharpParts.Select(x =>
                 char.ToUpper(x[0], CultureInfo.InvariantCulture) + x[1..]);
             var typeNameParameter = string.Join(string.Empty, typeNameCSharpPartsCapitalized);
@@ -979,7 +983,7 @@ public sealed class CSharpCodeMapper
         }
 
         var parameterStringsCSharpJoined = string.Join('_', parameterStringsCSharp);
-        var functionPointerNameCSharp = $"FnPtr_{parameterStringsCSharpJoined}_{returnTypeStringCapitalized}"
+        var functionPointerNameCSharp = $"FnPtr_{parameterStringsCSharpJoined}_{returnTypeNameCSharpPartsJoined}"
             .Replace("__", "_", StringComparison.InvariantCulture)
             .Replace(".", string.Empty, StringComparison.InvariantCulture);
         return functionPointerNameCSharp;

@@ -10,6 +10,7 @@ public abstract class CSharpNode : IEquatable<CSharpNode>, IComparable<CSharpNod
 {
     public readonly string Name;
     public readonly string ClassName;
+    public readonly string FullName;
     public readonly string CName;
     public readonly int? SizeOf;
     public readonly ImmutableArray<Attribute> Attributes;
@@ -23,6 +24,7 @@ public abstract class CSharpNode : IEquatable<CSharpNode>, IComparable<CSharpNod
     {
         Name = name;
         ClassName = className;
+        FullName = string.IsNullOrEmpty(className) ? name : className + "." + name;
         CName = cName;
         SizeOf = sizeOf;
         Attributes = attributes;

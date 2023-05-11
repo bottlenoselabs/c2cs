@@ -20,19 +20,25 @@ public class MacroCodeGenerator : GenerateCodeHandler<CSharpMacroObject>
     {
         var attributesString = context.GenerateCodeAttributes(node.Attributes);
 
+        var name = node.Name;
+        if (context.NameAlreadyExists(node.FullName))
+        {
+            name = "_" + name;
+        }
+
         string code;
         if (node.IsConstant)
         {
             code = $@"
 {attributesString}
-public const {node.Type} {node.Name} = {node.Value};
+public const {node.Type} {name} = {node.Value};
 ";
         }
         else
         {
             code = $@"
 {attributesString}
-public static {node.Type} {node.Name} = {node.Value};
+public static {node.Type} {name} = {node.Value};
 ";
         }
 
