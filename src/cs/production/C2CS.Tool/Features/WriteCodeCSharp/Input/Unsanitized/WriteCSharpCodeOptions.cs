@@ -89,6 +89,12 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     public ImmutableArray<WriteCSharpCodeOptionsMappedName>? MappedNames { get; set; }
 
     /// <summary>
+    ///     The pairs of strings for re-mapping C namespaces to C# namespaces.
+    /// </summary>
+    [JsonPropertyName("mappedCNamespaces")]
+    public ImmutableArray<WriteCSharpCodeOptionsMappedName>? MappedCNamespaces { get; set; }
+
+    /// <summary>
     ///     The names of types, functions, enums, constants, or anything else that may be found when parsing C code that
     ///     will be ignored when generating C# code.
     /// </summary>
@@ -99,19 +105,6 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     /// </remarks>
     [JsonPropertyName("ignoredNames")]
     public ImmutableArray<string?>? IgnoredNames { get; set; }
-
-    /// <summary>
-    ///     Determines whether to pre-compile (pre-JIT) the C# API on setup (first load).
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Default is <c>true</c>. Use <c>true</c> to pre-compile the C# API code. Use <c>false</c> to disable
-    ///         pre-compile of the C# API code. Note that if using the C# bindings in the context of NativeAOT this
-    ///         should be disabled.
-    ///     </para>
-    /// </remarks>
-    [JsonPropertyName("isEnabledPreCompile")]
-    public bool? IsEnabledPreCompile { get; set; } = true;
 
     /// <summary>
     ///     Determines whether to use C# 9 function pointers or C# delegates for C function pointers.
@@ -140,4 +133,65 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     /// </remarks>
     [JsonPropertyName("isEnabledVerifyCSharpCodeCompiles")]
     public bool? IsEnabledVerifyCSharpCodeCompiles { get; set; } = true;
+
+    /// <summary>
+    ///     Determines whether to enable generating the C# runtime glue code.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Default is <c>false</c>. Use <c>true</c> to generate C# runtime glue code. Use <c>false</c> to disable
+    ///         generating C# runtime glue code.
+    ///     </para>
+    /// </remarks>
+    [JsonPropertyName("isEnabledGeneratingRuntimeCode")]
+    public bool? IsEnabledGeneratingRuntimeCode { get; set; } = true;
+
+    /// <summary>
+    ///     Determines whether to enable C# source code generation using
+    ///     <see cref="System.Runtime.InteropServices.LibraryImportAttribute" /> or
+    ///     <see cref="System.Runtime.InteropServices.DllImportAttribute" />.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Default is <c>false</c>. Use <c>true</c> to generate C# source code using
+    ///         <see cref="System.Runtime.InteropServices.LibraryImportAttribute" /> . Use <c>false</c> to generate C#
+    ///         source code using <see cref="System.Runtime.InteropServices.DllImportAttribute" />.
+    ///     </para>
+    ///     <para>
+    ///         The <see cref="System.Runtime.InteropServices.LibraryImportAttribute" /> is only available in .NET 7.
+    ///         The advantages of using <see cref="System.Runtime.InteropServices.LibraryImportAttribute" /> over
+    ///         <see cref="System.Runtime.InteropServices.DllImportAttribute" /> is that source generators are used to
+    ///         create stubs at compile time instead of runtime. This can increase performance due to IL trimming and
+    ///         inlining; make debugging easier with cleaner stack traces; and adds support for full NativeAOT scenarios
+    ///         where the <see cref="System.Runtime.InteropServices.DllImportAttribute" /> is not available.
+    ///     </para>
+    /// </remarks>
+    [JsonPropertyName("isEnabledLibraryImport")]
+    public bool? IsEnabledLibraryImport { get; set; } = false;
+
+    /// <summary>
+    ///     Determines whether to enable generating the C# assembly attribute usages at the scope of the main namespace.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Default is <c>true</c>. Use <c>true</c> to enabled generation of assembly attributes usages which are
+    ///         applied at the scope of the main namespace. Use <c>false</c> to disable generation of assembly attribute
+    ///         usages.
+    ///     </para>
+    /// </remarks>
+    [JsonPropertyName("isEnabledAssemblyAttributes")]
+    public bool? IsEnabledAssemblyAttributes { get; set; } = true;
+
+    /// <summary>
+    ///     Determines whether to enable generating idiomatic C#.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Default is <c>false</c>. Use <c>true</c> to enabled generation of idiomatic C# which includes converting
+    ///         converting C `snake_case` names to C# `PascalCase` names. Use <c>false</c> to leave names as they are
+    ///         found in C.
+    ///     </para>
+    /// </remarks>
+    [JsonPropertyName("isEnabledIdiomaticCSharp")]
+    public bool? IsEnabledIdiomaticCSharp { get; set; } = false;
 }

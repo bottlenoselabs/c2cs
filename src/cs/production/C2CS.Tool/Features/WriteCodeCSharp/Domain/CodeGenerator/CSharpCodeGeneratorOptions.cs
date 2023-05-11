@@ -15,9 +15,15 @@ public sealed class CSharpCodeGeneratorOptions
 
     public string FooterCodeRegion { get; init; } = string.Empty;
 
-    public bool IsEnabledPreCompile { get; init; }
-
     public bool IsEnabledFunctionPointers { get; init; }
 
     public bool IsEnabledVerifyCSharpCodeCompiles { get; init; }
+
+    public bool IsEnabledGenerateCSharpRuntimeCode { get; init; }
+
+    public bool IsEnabledLibraryImportAttribute { get; init; }
+
+    public bool IsEnabledPointersAsReferences { get; init; }
+
+    public bool IsEnabledAssemblyAttributes { get; init; }
 }

@@ -36,7 +36,7 @@ public sealed class FunctionPointerCodeGenerator : GenerateCodeHandler<CSharpFun
     {
         var attributesString = context.GenerateCodeAttributes(node.Attributes);
         var parameterTypesString = context.GenerateCodeParameters(node.Parameters, false);
-        var parameterTypesAndReturnTypeString = string.IsNullOrEmpty(parameterTypesString) ? node.ReturnTypeInfo.Name : $"{parameterTypesString}, {node.ReturnTypeInfo.Name}";
+        var parameterTypesAndReturnTypeString = string.IsNullOrEmpty(parameterTypesString) ? node.ReturnTypeInfo.FullName : $"{parameterTypesString}, {node.ReturnTypeInfo.FullName}";
 
         var code = $@"
 {attributesString}
@@ -60,7 +60,7 @@ public struct {node.Name}
 public struct {node.Name}
 {{
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate {node.ReturnTypeInfo.Name} @delegate({parameterTypesString});
+    public unsafe delegate {node.ReturnTypeInfo.FullName} @delegate({parameterTypesString});
 
     public IntPtr Pointer;
 

@@ -10,8 +10,10 @@ public sealed class CSharpOpaqueType : CSharpNode
 {
     public CSharpOpaqueType(
         string name,
+        string className,
+        string cName,
         ImmutableArray<Attribute> attributes)
-        : base(name, null, attributes)
+        : base(name, className, cName, null, attributes)
     {
     }
 
