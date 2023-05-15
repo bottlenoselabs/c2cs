@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 ///     A pointer value type of bytes that represent a string; the C type `char*`.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public readonly unsafe struct CString : IEquatable<CString>
+public readonly unsafe struct CString : IEquatable<CString>, IDisposable
 {
     internal readonly nint _pointer;
 
@@ -45,7 +45,15 @@ public readonly unsafe struct CString : IEquatable<CString>
     }
 
     /// <summary>
-    ///     Performs an explicit conversion from a <see cref="IntPtr" /> to a <see cref="CString" />.
+    ///     Attempts to free the memory pointed by the <see cref="CString "/>.
+    /// </summary>
+    public void Dispose()
+    {
+        Marshal.FreeHGlobal(_pointer);
+    }
+
+    /// <summary>
+    ///     Performs an explicit conversion from an <see cref="IntPtr" /> to a <see cref="CString" />.
     /// </summary>
     /// <param name="value">The pointer value.</param>
     /// <returns>
@@ -57,7 +65,7 @@ public readonly unsafe struct CString : IEquatable<CString>
     }
 
     /// <summary>
-    ///     Performs an explicit conversion from a <see cref="IntPtr" /> to a <see cref="CString" />.
+    ///     Performs an explicit conversion from an <see cref="IntPtr" /> to a <see cref="CString" />.
     /// </summary>
     /// <param name="value">The pointer value.</param>
     /// <returns>
