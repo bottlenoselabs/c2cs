@@ -100,11 +100,35 @@ public struct {@struct.Name}
     {
         var attributesString = context.GenerateCodeAttributes(field.Attributes);
 
-        var code = $@"
+        string code;
+        if (field.TypeInfo.Name == "CString")
+        {
+            code = $@"
+{attributesString}
+[FieldOffset({field.OffsetOf})] // size = {field.TypeInfo.SizeOf}
+public {field.TypeInfo.FullName} _{field.Name};
+
+public string {field.Name}
+{{
+	get
+	{{
+        return Runtime.CString.ToString(_{field.Name});
+	}}
+    set
+    {{
+        _{field.Name} = Runtime.CString.FromString(value);
+    }}
+}}
+".Trim();
+        }
+        else
+        {
+            code = $@"
 {attributesString}
 [FieldOffset({field.OffsetOf})] // size = {field.TypeInfo.SizeOf}
 public {field.TypeInfo.FullName} {field.Name};
 ".Trim();
+        }
 
         var member = context.ParseMemberCode<FieldDeclarationSyntax>(code);
         return member;
