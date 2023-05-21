@@ -39,5 +39,22 @@ public class BuildCLibraryOptions : ToolUnsanitizedInput
     ///         <c>false</c> to keep CMake build files after building the C library.
     ///     </para>
     /// </remarks>
-    public bool? DeleteBuildFiles { get; set; }
+    [JsonPropertyName("isEnabledDeleteBuildFiles")]
+    public bool? IsEnabledDeleteBuildFiles { get; set; }
+
+    /// <summary>
+    ///     Determines whether to build the C shared library with debug symbols.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Default is <c>false</c>. Use <c>true</c> to build the C shared library with debug symbols. Use
+    ///         <c>false</c> to build the C shared library without debug symbols.
+    ///     </para>
+    ///     <para>
+    ///         Including debug symbols can be helpful for doing diagnostics with a C shared library such as
+    ///         attaching a native debugger or printing extra information to standard out or standard error at runtime.
+    ///     </para>
+    /// </remarks>
+    [JsonPropertyName("isEnabledDebugBuild")]
+    public bool? IsEnabledDebugBuild { get; set; }
 }

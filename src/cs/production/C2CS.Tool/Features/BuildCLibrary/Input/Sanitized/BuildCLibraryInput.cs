@@ -13,5 +13,7 @@ public class BuildCLibraryInput
 
     public ImmutableArray<string> CMakeArguments { get; init; } = ImmutableArray<string>.Empty;
 
-    public bool DeleteBuildFiles { get; init; } = true;
+    public bool IsEnabledDeleteBuildFiles { get; init; } = true;
+
+    public bool IsEnabledDebugBuild { get; init; }
 }

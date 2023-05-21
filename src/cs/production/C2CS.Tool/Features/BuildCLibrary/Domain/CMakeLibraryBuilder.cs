@@ -47,7 +47,11 @@ public partial class CMakeLibraryBuilder
         }
 
         if (!GenerateCMakeBuildFiles(
-                input.CMakeDirectoryPath, cMakeOutputDirectoryPath, input.CMakeArguments, additionalCMakeArguments))
+                input.IsEnabledDebugBuild,
+                input.CMakeDirectoryPath,
+                cMakeOutputDirectoryPath,
+                input.CMakeArguments,
+                additionalCMakeArguments))
         {
             return false;
         }
@@ -57,7 +61,7 @@ public partial class CMakeLibraryBuilder
             return false;
         }
 
-        if (input.DeleteBuildFiles)
+        if (input.IsEnabledDeleteBuildFiles)
         {
             _directory.Delete(cMakeBuildDirectoryPath, true);
         }
@@ -88,10 +92,27 @@ public partial class CMakeLibraryBuilder
         };
 
         var copiedOutputFilePaths = new List<string>();
-        var outputFilePaths = _directory.EnumerateFiles(
+        var outputFilePaths = _directory.GetFiles(
             cMakeOutputDirectoryPath,
             dynamicLinkLibraryFileSearchPattern,
             SearchOption.AllDirectories);
+
+        if (OperatingSystem.IsMacOS())
+        {
+            foreach (var outputFilePath in outputFilePaths)
+            {
+                var installNameToolCommandDeleteRPath =
+                    $"install_name_tool -delete_rpath {cMakeOutputDirectoryPath} {outputFilePath}";
+                installNameToolCommandDeleteRPath
+                    .ExecuteShell(cMakeDirectoryPath, windowsUsePowerShell: false);
+
+                var installNameToolCommandAddRPath =
+                    $"install_name_tool -add_rpath @executable_path/. {outputFilePath}";
+                installNameToolCommandAddRPath
+                    .ExecuteShell(cMakeDirectoryPath, windowsUsePowerShell: false);
+            }
+        }
+
         foreach (var outputFilePath in outputFilePaths)
         {
             var outputFileName = _path.GetFileName(outputFilePath);
@@ -108,6 +129,7 @@ public partial class CMakeLibraryBuilder
     }
 
     private bool GenerateCMakeBuildFiles(
+        bool isEnabledDebugBuild,
         string cMakeDirectoryPath,
         string cMakeOutputDirectoryPath,
         ImmutableArray<string> cMakeArguments,
@@ -117,7 +139,7 @@ public partial class CMakeLibraryBuilder
 
         var fullCMakeArguments = new[]
         {
-            "-DCMAKE_BUILD_TYPE=Release",
+            isEnabledDebugBuild ? "-DCMAKE_BUILD_TYPE=Debug" : "-DCMAKE_BUILD_TYPE=Release",
             $"-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=\"{cMakeOutputDirectoryPath}\"",
             $"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=\"{cMakeOutputDirectoryPath}\"",
             $"-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=\"{cMakeOutputDirectoryPath}\""
@@ -142,18 +164,18 @@ public partial class CMakeLibraryBuilder
     [LoggerMessage(0, LogLevel.Information, "- CMake generating build files. Command: {Command}")]
     private partial void LogCMakeGeneratingBuildFiles(string command);
 
-    [LoggerMessage(1, LogLevel.Error, "- Generating CMake build files failed. Output: \n{Output}\n")]
+    [LoggerMessage(1, LogLevel.Error, "- Output: \n{Output}\nGenerating CMake build files failed.")]
     private partial void LogCMakeGeneratingBuildFilesFailed(string output);
 
-    [LoggerMessage(2, LogLevel.Information, "- Generating CMake build files success. Output: \n{Output}\n")]
+    [LoggerMessage(2, LogLevel.Information, "- Output: \n{Output}\nGenerating CMake build files success.")]
     private partial void LogCMakeGeneratingBuildFilesSuccess(string output);
 
     [LoggerMessage(3, LogLevel.Information, "- CMake building shared library. Command: {Command}")]
     private partial void LogCMakeBuildingLibrary(string command);
 
-    [LoggerMessage(4, LogLevel.Error, "- CMake building shared library failed. Output: \n{Output}\n")]
+    [LoggerMessage(4, LogLevel.Error, "- Output: \n{Output}\nCMake building shared library failed.")]
     private partial void LogCMakeBuildingLibraryFailed(string output);
 
-    [LoggerMessage(5, LogLevel.Information, "- CMake building shared library success. Copied output files to: {FilePaths}. Output: \n{Output}\n")]
+    [LoggerMessage(5, LogLevel.Information, "- Output: \n{Output}\nCMake building shared library success. Copied output files to: {FilePaths}.")]
     private partial void LogCMakeBuildingLibrarySuccess(string filePaths, string output);
 }

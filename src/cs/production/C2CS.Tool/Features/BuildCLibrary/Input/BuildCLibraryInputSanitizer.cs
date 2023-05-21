@@ -28,14 +28,16 @@ public class BuildCLibraryInputSanitizer : ToolInputSanitizer<BuildCLibraryOptio
         var cMakeDirectoryPath = CMakeDirectoryPath(unsanitizedInput);
         var outputDirectoryPath = OutputDirectoryPath(unsanitizedInput);
         var cMakeArguments = CMakeArguments(unsanitizedInput);
-        var deleteBuildFiles = DeleteBuildFiles(unsanitizedInput);
+        var isEnabledDeleteBuildFiles = unsanitizedInput.IsEnabledDeleteBuildFiles ?? true;
+        var isEnabledDebugBuild = unsanitizedInput.IsEnabledDebugBuild ?? false;
 
         var result = new BuildCLibraryInput
         {
             CMakeDirectoryPath = cMakeDirectoryPath,
             OutputDirectoryPath = outputDirectoryPath,
             CMakeArguments = cMakeArguments,
-            DeleteBuildFiles = deleteBuildFiles
+            IsEnabledDeleteBuildFiles = isEnabledDeleteBuildFiles,
+            IsEnabledDebugBuild = isEnabledDebugBuild
         };
         return result;
     }
@@ -66,11 +68,6 @@ public class BuildCLibraryInputSanitizer : ToolInputSanitizer<BuildCLibraryOptio
     private ImmutableArray<string> CMakeArguments(BuildCLibraryOptions unsanitizedInput)
     {
         return VerifyImmutableArray(unsanitizedInput.CMakeArguments);
-    }
-
-    private static bool DeleteBuildFiles(BuildCLibraryOptions unsanitizedInput)
-    {
-        return unsanitizedInput.DeleteBuildFiles ?? true;
     }
 
     private static ImmutableArray<string> VerifyImmutableArray(ImmutableArray<string?>? array)
