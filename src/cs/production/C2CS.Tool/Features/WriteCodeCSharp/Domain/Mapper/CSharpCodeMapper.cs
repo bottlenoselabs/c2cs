@@ -872,6 +872,7 @@ public sealed class CSharpCodeMapper
                 or "float"
                 or "decimal"
                 or "void"
+                or "nint"
                 or "CBool"
                 or "CString"
                 or "CStringWide")
