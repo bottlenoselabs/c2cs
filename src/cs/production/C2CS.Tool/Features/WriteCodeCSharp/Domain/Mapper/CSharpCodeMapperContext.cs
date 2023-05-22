@@ -12,11 +12,15 @@ public class CSharpCodeMapperContext
 
     public readonly ImmutableDictionary<string, CRecord> Records;
 
+    public readonly ImmutableHashSet<string> EnumNames;
+
     public CSharpCodeMapperContext(
         ImmutableDictionary<string, CRecord> records,
-        ImmutableDictionary<string, CFunctionPointer> functionPointers)
+        ImmutableDictionary<string, CFunctionPointer> functionPointers,
+        ImmutableHashSet<string> enumNames)
     {
         Records = records;
         FunctionPointers = functionPointers;
+        EnumNames = enumNames;
     }
 }

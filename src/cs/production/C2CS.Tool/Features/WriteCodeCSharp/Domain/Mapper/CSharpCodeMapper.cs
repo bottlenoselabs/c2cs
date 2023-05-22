@@ -64,7 +64,10 @@ public sealed class CSharpCodeMapper
     public CSharpAbstractSyntaxTree Map(
         DiagnosticCollection diagnostics, CAbstractSyntaxTreeCrossPlatform astC)
     {
-        var context = new CSharpCodeMapperContext(astC.Records, astC.FunctionPointers);
+        var enumNames = astC.Enums.Values.Select(x => x.Name.TrimEnd('_')).ToImmutableHashSet();
+        var context = new CSharpCodeMapperContext(
+            astC.Records, astC.FunctionPointers, enumNames);
+
         var functionsC = astC.Functions.Values.ToImmutableArray();
         var functionNamesC = astC.Functions.Keys.ToImmutableHashSet();
         var functionPointersC = astC.FunctionPointers.Values.ToImmutableArray();
@@ -77,10 +80,10 @@ public sealed class CSharpCodeMapper
 
         var functions = Functions(context, functionsC);
         var structs = Structs(context, recordsC, functionNamesC);
+        var enums = Enums(context, enumsC);
         var aliasStructs = AliasStructs(context, typeAliasesC);
         var functionPointers = FunctionPointers(context, functionPointersC);
         var opaqueStructs = OpaqueStructs(context, opaqueTypesC);
-        var enums = Enums(context, enumsC);
         var macroObjects = MacroObjects(context, macroObjectsC);
         var enumConstants = EnumConstants(context, enumConstantsC);
 
@@ -525,6 +528,12 @@ public sealed class CSharpCodeMapper
             if (_builtinAliases.Contains(typedef.Name) ||
                 _ignoredNames.Contains(typedef.Name))
             {
+                continue;
+            }
+
+            if (context.EnumNames.Contains(typedef.Name))
+            {
+                // Skip if there is already an enum with the same name
                 continue;
             }
 
