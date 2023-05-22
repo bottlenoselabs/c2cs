@@ -194,4 +194,16 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     /// </remarks>
     [JsonPropertyName("isEnabledIdiomaticCSharp")]
     public bool? IsEnabledIdiomaticCSharp { get; set; } = false;
+
+    /// <summary>
+    ///     Determines whether to parse enum value names as upper-case when generating idiomatic C#.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Default is <c>true</c>. Use <c>true</c> to enable parsing of enum value names as upper-case during
+    ///         generation of idiomatic C#. Use <c>false</c> to leave enum value names as they are found in C.
+    ///     </para>
+    /// </remarks>
+    [JsonPropertyName("isEnabledEnumValueNamesUpperCase")]
+    public bool? IsEnabledEnumValueNamesUpperCase { get; set; } = true;
 }

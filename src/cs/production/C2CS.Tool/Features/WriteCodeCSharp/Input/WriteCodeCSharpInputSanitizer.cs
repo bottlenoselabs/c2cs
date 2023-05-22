@@ -42,6 +42,7 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
         var mappedCNamespaces = MappedNames(unsanitizedInput.MappedCNamespaces);
         var isEnabledAssemblyAttributes = unsanitizedInput.IsEnabledAssemblyAttributes ?? true;
         var isEnabledIdiomaticCSharp = unsanitizedInput.IsEnabledIdiomaticCSharp ?? false;
+        var isEnabledEnumValueNamesUpperCase = unsanitizedInput.IsEnabledEnumValueNamesUpperCase ?? true;
 
         return new WriteCodeCSharpInput
         {
@@ -52,7 +53,8 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
                 MappedTypeNames = mappedTypeNames,
                 IgnoredNames = ignoredNames,
                 MappedCNamespaces = mappedCNamespaces,
-                IsEnabledIdiomaticCSharp = isEnabledIdiomaticCSharp
+                IsEnabledIdiomaticCSharp = isEnabledIdiomaticCSharp,
+                IsEnabledEnumValueNamesUpperCase = isEnabledEnumValueNamesUpperCase
             },
             GeneratorOptions = new CSharpCodeGeneratorOptions
             {

@@ -845,14 +845,25 @@ public sealed class CSharpCodeMapper
 
         if (!string.IsNullOrEmpty(enumName))
         {
-            var enumNameUpperCase = enumName.ToUpperInvariant();
-            var identifierUpperCase = identifier.ToUpperInvariant();
-            if (identifierUpperCase.StartsWith(enumNameUpperCase, StringComparison.InvariantCulture) ||
-                identifierUpperCase.StartsWith("_" + enumNameUpperCase, StringComparison.InvariantCulture))
+            if (_options.IsEnabledEnumValueNamesUpperCase)
             {
-                identifier = identifier[(enumName.Length + 1)..];
-                identifier = char.ToUpper(identifier[0], CultureInfo.InvariantCulture) +
-                             identifier[1..].ToLowerInvariant();
+                var enumNameUpperCase = enumName.ToUpperInvariant();
+                var identifierUpperCase = identifier.ToUpperInvariant();
+                if (identifierUpperCase.StartsWith(enumNameUpperCase, StringComparison.InvariantCulture) ||
+                    identifierUpperCase.StartsWith("_" + enumNameUpperCase, StringComparison.InvariantCulture))
+                {
+                    identifier = identifier[(enumName.Length + 1)..];
+                    identifier = char.ToUpper(identifier[0], CultureInfo.InvariantCulture) +
+                                 identifier[1..].ToLowerInvariant();
+                }
+            }
+            else
+            {
+                if (identifier.StartsWith(enumName, StringComparison.InvariantCulture) ||
+                    identifier.StartsWith("_" + enumName, StringComparison.InvariantCulture))
+                {
+                    identifier = identifier[(enumName.Length + 1)..];
+                }
             }
         }
 

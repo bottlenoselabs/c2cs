@@ -26,6 +26,8 @@ public sealed class CSharpCodeMapperOptions
 
     public bool IsEnabledIdiomaticCSharp { get; init; }
 
+    public bool IsEnabledEnumValueNamesUpperCase { get; init; }
+
     private static Dictionary<string, string> GetSystemTypeNameAliases()
     {
         var aliases = new Dictionary<string, string>();
