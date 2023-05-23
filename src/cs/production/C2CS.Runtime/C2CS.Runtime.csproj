@@ -3,10 +3,10 @@
 	<!-- MSBuild project settings -->
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
-		<RootNamespace />
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Nullable>enable</Nullable>
 		<GenerateDocumentationFile>flase</GenerateDocumentationFile>
+		<RootNamespace>bottlenoselabs.C2CS.Runtime</RootNamespace>
 	</PropertyGroup>
 
 	<!-- NuGet -->

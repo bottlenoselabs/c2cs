@@ -144,7 +144,7 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     ///     </para>
     /// </remarks>
     [JsonPropertyName("isEnabledGeneratingRuntimeCode")]
-    public bool? IsEnabledGeneratingRuntimeCode { get; set; } = true;
+    public bool? IsEnabledGeneratingRuntimeCode { get; set; }
 
     /// <summary>
     ///     Determines whether to enable C# source code generation using

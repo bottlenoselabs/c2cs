@@ -247,7 +247,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using static {options.NamespaceName}.{options.ClassName}.Runtime;
+{(options.IsEnabledGenerateCSharpRuntimeCode ? $"using static {options.NamespaceName}.{options.ClassName}.Runtime;" : "using static bottlenoselabs.C2CS.Runtime")}
 
 {options.HeaderCodeRegion}
 {assemblyAttributesCode}

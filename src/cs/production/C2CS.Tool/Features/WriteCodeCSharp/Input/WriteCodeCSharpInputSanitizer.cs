@@ -37,7 +37,7 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
         var footerCodeRegion = FooterCodeRegion(unsanitizedInput.FooterCodeRegionFilePath);
         var isEnabledFunctionPointers = unsanitizedInput.IsEnabledFunctionPointers ?? true;
         var isEnabledVerifyCSharpCodeCompiles = unsanitizedInput.IsEnabledVerifyCSharpCodeCompiles ?? true;
-        var isEnabledGenerateCSharpRuntimeCode = unsanitizedInput.IsEnabledGeneratingRuntimeCode ?? true;
+        var isEnabledGenerateCSharpRuntimeCode = unsanitizedInput.IsEnabledGeneratingRuntimeCode ?? false;
         var isEnabledLibraryImportAttribute = unsanitizedInput.IsEnabledLibraryImport ?? false;
         var mappedCNamespaces = MappedNames(unsanitizedInput.MappedCNamespaces);
         var isEnabledAssemblyAttributes = unsanitizedInput.IsEnabledAssemblyAttributes ?? true;
