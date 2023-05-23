@@ -139,8 +139,9 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         Default is <c>false</c>. Use <c>true</c> to generate C# runtime glue code. Use <c>false</c> to disable
-    ///         generating C# runtime glue code.
+    ///         Default is <c>false</c>. Use <c>true</c> to generate C# runtime glue code as part of bindgen. Use
+    ///         <c>false</c> to disable generating C# runtime glue code as part of bindgen and use the NuGet package
+    ///         'bottlenoselabs.C2CS.Runtime' instead.
     ///     </para>
     /// </remarks>
     [JsonPropertyName("isEnabledGeneratingRuntimeCode")]
