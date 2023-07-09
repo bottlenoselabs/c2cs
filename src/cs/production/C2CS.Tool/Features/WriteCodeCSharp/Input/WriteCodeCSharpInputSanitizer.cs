@@ -28,7 +28,7 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
     {
         var inputFilePath = InputFilePath(unsanitizedInput.InputAbstractSyntaxTreeFilePath);
         var outputFileDirectory = OutputFileDirectory(unsanitizedInput.OutputCSharpCodeFileDirectory);
-        var className = ClassName(unsanitizedInput.ClassName, outputFileDirectory);
+        var className = ClassName(unsanitizedInput.ClassName);
         var libraryName = LibraryName(unsanitizedInput.LibraryName, className);
         var namespaceName = NamespaceName(unsanitizedInput.NamespaceName, libraryName);
         var mappedTypeNames = MappedNames(unsanitizedInput.MappedNames);
@@ -158,23 +158,15 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
         return !string.IsNullOrEmpty(@namespace) ? @namespace : libraryName;
     }
 
-    private static string ClassName(string? className, string outputFilePath)
+    private static string ClassName(string? className)
     {
-        string result;
         if (string.IsNullOrEmpty(className))
         {
-            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(outputFilePath);
-            var firstIndexOfPeriod = fileNameWithoutExtension.IndexOf('.', StringComparison.InvariantCulture);
-            result = firstIndexOfPeriod == -1
-                ? fileNameWithoutExtension
-                : fileNameWithoutExtension[..firstIndexOfPeriod];
-        }
-        else
-        {
-            result = className;
+            throw new ToolInputSanitizationException(
+                $"The class name can not be an empty or null string.");
         }
 
-        return result;
+        return className;
     }
 
     private static string HeaderCodeRegion(string? headerCodeRegionFilePath)
