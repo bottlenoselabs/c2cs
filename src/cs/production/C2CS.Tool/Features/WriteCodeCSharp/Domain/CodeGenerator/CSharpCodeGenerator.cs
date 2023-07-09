@@ -300,7 +300,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using bottlenoselabs.C2CS.Runtime;
+using bottlenoselabs.C2CS;
 using static bottlenoselabs.C2CS.Runtime;
 #endregion
 ";
