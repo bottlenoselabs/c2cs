@@ -5,6 +5,7 @@ using System;
 using System.Collections.Immutable;
 using System.IO;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -15,14 +16,16 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 namespace C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator;
 
 [PublicAPI]
-public static class ExtensionsRoslyn
+public static partial class ExtensionsRoslyn
 {
-    public static T Format<T>(this T syntaxNode)
+    public static string Format<T>(this T syntaxNode)
         where T : SyntaxNode
     {
         using var workspace = new AdhocWorkspace();
-        var newCompilationUnitFormatted = (T)Formatter.Format(syntaxNode, workspace);
-        return newCompilationUnitFormatted;
+        var compilationUnitFormatted = (T)Formatter.Format(syntaxNode, workspace);
+        var code = compilationUnitFormatted.ToFullString();
+        var finalCode = MultipleNewLinesRegex().Replace(code, "\n\n");
+        return finalCode;
     }
 
     public static ImmutableArray<MemberDeclarationSyntax> GetManifestResourceMemberDeclarations(this Assembly assembly)
@@ -106,4 +109,7 @@ public static class ExtensionsRoslyn
     {
         return Trivia(EndRegionDirectiveTrivia(isActive));
     }
+
+    [GeneratedRegex("(\\n){2,}")]
+    private static partial Regex MultipleNewLinesRegex();
 }

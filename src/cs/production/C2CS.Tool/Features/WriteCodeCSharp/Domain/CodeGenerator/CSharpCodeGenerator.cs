@@ -99,8 +99,7 @@ public sealed partial class CSharpCodeGenerator
         AddSyntaxNodes(context, abstractSyntaxTree, membersBuilder);
 
         var members = membersBuilder.ToImmutableSortedDictionary();
-        var compilationUnit = CompilationUnit(_options, members);
-        var code = compilationUnit.ToFullString().Trim();
+        var code = CompilationUnitCode(_options, members);
 
         var codeDocument = new CSharpProjectDocument
         {
@@ -196,7 +195,7 @@ public sealed partial class CSharpCodeGenerator
         }
     }
 
-    private CompilationUnitSyntax CompilationUnit(
+    private string CompilationUnitCode(
         CSharpCodeGeneratorOptions options,
         ImmutableSortedDictionary<string, List<MemberDeclarationSyntax>> membersByClassName)
     {
@@ -213,7 +212,6 @@ public static unsafe partial class {options.ClassName}
 
 {options.FooterCodeRegion}
 ";
-        code = MultipleNewLinesRegex().Replace(code, "\n\n");
 
         var syntaxTree = ParseSyntaxTree(code);
         var compilationUnit = syntaxTree.GetCompilationUnitRoot();
@@ -243,8 +241,8 @@ public static unsafe partial class {className}
         var newCompilationUnit = compilationUnit.ReplaceNode(
             rootClassDeclarationOriginal,
             rootClassDeclarationWithMembers);
-        var newCompilationUnitFormatted = newCompilationUnit.Format();
-        return newCompilationUnitFormatted;
+        var formattedCode = newCompilationUnit.Format();
+        return formattedCode;
     }
 
     private CSharpProjectDocument EmitRuntimeCodeDocument()
@@ -271,8 +269,7 @@ public static unsafe partial class Runtime
         var newCompilationUnit = compilationUnitCode.ReplaceNode(
             rootClassDeclarationOriginal,
             rootClassDeclarationWithMembers);
-        var newCompilationUnitFormatted = newCompilationUnit.Format();
-        var code = newCompilationUnitFormatted.ToFullString();
+        var code = newCompilationUnit.Format();
 
         var document = new CSharpProjectDocument
         {
@@ -332,7 +329,4 @@ using static bottlenoselabs.C2CS.Runtime;
             builder.Add(member);
         }
     }
-
-    [GeneratedRegex("(\\n){2,}")]
-    private static partial Regex MultipleNewLinesRegex();
 }
