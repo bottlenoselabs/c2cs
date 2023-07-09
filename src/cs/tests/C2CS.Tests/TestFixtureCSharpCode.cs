@@ -41,7 +41,7 @@ public sealed class TestFixtureCSharpCode
 
         BuildCLibrary(sourceDirectoryPath, ImmutableArray<string>.Empty);
         var outputWriteCSharp = GenerateCSharpCode(sourceDirectoryPath);
-        var compileCSharpCodeResult = CompileCSharpCode(outputWriteCSharp.OutputFilePath);
+        var compileCSharpCodeResult = CompileCSharpCode(outputWriteCSharp.OutputFileDirectory);
 
         _assembly = compileCSharpCodeResult.Assembly;
         if (_assembly != null)
@@ -147,7 +147,7 @@ public sealed class TestFixtureCSharpCode
         var configGenerateCSharpCodeFilePath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "config-cs.json"));
         var outputWriteCSharp = writeCodeCSharpTool.Run(configGenerateCSharpCodeFilePath);
         Assert.True(outputWriteCSharp != null);
-        Assert.True(outputWriteCSharp!.Diagnostics.Length == 0, $"Diagnostics were reported when writing C# code: {outputWriteCSharp.OutputFilePath}");
+        Assert.True(outputWriteCSharp!.Diagnostics.Length == 0, $"Diagnostics were reported when writing C# code: {outputWriteCSharp.OutputFileDirectory}");
         Assert.True(outputWriteCSharp.IsSuccess, "Writing C# code failed.");
         return outputWriteCSharp;
     }
@@ -210,7 +210,7 @@ public sealed class TestFixtureCSharpCode
     private TestCSharpCodeAbstractSyntaxTree CreateCSharpAbstractSyntaxTree(
         WriteCodeCSharpOutput output)
     {
-        var code = File.ReadAllText(output.OutputFilePath);
+        var code = File.ReadAllText(output.OutputFileDirectory);
         var syntaxTree = CSharpSyntaxTree.ParseText(code);
         var compilationUnitSyntax = syntaxTree.GetCompilationUnitRoot();
         var generatorOptions = output.Input.GeneratorOptions;

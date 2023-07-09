@@ -8,10 +8,10 @@ namespace C2CS.Features.WriteCodeCSharp.Output;
 
 public class WriteCodeCSharpOutput : ToolOutput<WriteCodeCSharpInput>
 {
-    public string OutputFilePath { get; private set; } = string.Empty;
+    public string OutputFileDirectory { get; private set; } = string.Empty;
 
     protected override void OnComplete()
     {
-        OutputFilePath = Input.OutputFilePath;
+        OutputFileDirectory = Input.OutputFileDirectory;
     }
 }

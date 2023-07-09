@@ -15,7 +15,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.DependencyInjection;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
-using Formatter = Microsoft.CodeAnalysis.Formatting.Formatter;
 
 namespace C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator;
 
@@ -24,27 +23,92 @@ public sealed partial class CSharpCodeGenerator
     private readonly IServiceProvider _services;
     private readonly CSharpCodeGeneratorOptions _options;
 
+    private readonly string _dateTimeStamp;
+    private readonly string _versionStamp;
+
     public CSharpCodeGenerator(
         IServiceProvider services,
         CSharpCodeGeneratorOptions options)
     {
         _services = services;
         _options = options;
+
+        _dateTimeStamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss \"GMT\"zzz", CultureInfo.InvariantCulture);
+        _versionStamp = Assembly.GetEntryAssembly()!.GetName().Version!.ToString();
     }
 
-    public string EmitCode(CSharpAbstractSyntaxTree abstractSyntaxTree)
+    public CSharpProject Emit(
+        CSharpAbstractSyntaxTree abstractSyntaxTree)
     {
-        var handlers = CreateHandlers(_services);
-        var context = new CSharpCodeGeneratorContext(handlers, _options, abstractSyntaxTree.Functions);
+        var generateCodeHandlers = CreateHandlers(_services);
+        var context = new CSharpCodeGeneratorContext(generateCodeHandlers, _options, abstractSyntaxTree.Functions);
+        var documentsBuilder = ImmutableArray.CreateBuilder<CSharpProjectDocument>();
 
-        var builder = new Dictionary<string, List<MemberDeclarationSyntax>>();
-        AddSyntaxNodes(context, abstractSyntaxTree, builder);
+        var codeDocument = EmitCodeDocument(abstractSyntaxTree, context);
+        documentsBuilder.Add(codeDocument);
 
-        var members = builder.ToImmutableSortedDictionary();
+        if (_options.IsEnabledGenerateCSharpRuntimeCode)
+        {
+            var runtimeCodeDocument = EmitRuntimeCodeDocument();
+            documentsBuilder.Add(runtimeCodeDocument);
+        }
+
+        if (_options.IsEnabledGenerateAssemblyAttributes)
+        {
+            var assemblyAttributesCodeDocument = EmitAssemblyAttributesCodeDocument();
+            documentsBuilder.Add(assemblyAttributesCodeDocument);
+        }
+
+        var project = new CSharpProject
+        {
+            Documents = documentsBuilder.ToImmutable()
+        };
+
+        return project;
+    }
+
+    private CSharpProjectDocument EmitAssemblyAttributesCodeDocument()
+    {
+        var code = @"// To disable generating this file set `isEnabledGenerateAssemblyAttributes` to `false` in the config file for generating C# code."
+                           + CodeDocumentTemplate();
+
+        code += @"
+#if NET7_0_OR_GREATER
+[assembly: DisableRuntimeMarshalling]
+#endif
+";
+
+        code += @"
+[assembly: DefaultDllImportSearchPathsAttribute(DllImportSearchPath.SafeDirectories)]
+";
+
+        var document = new CSharpProjectDocument
+        {
+            FileName = "AssemblyAttributes.gen.cs",
+            Contents = code
+        };
+
+        return document;
+    }
+
+    private CSharpProjectDocument EmitCodeDocument(
+        CSharpAbstractSyntaxTree abstractSyntaxTree,
+        CSharpCodeGeneratorContext context)
+    {
+        var membersBuilder = new Dictionary<string, List<MemberDeclarationSyntax>>();
+        AddSyntaxNodes(context, abstractSyntaxTree, membersBuilder);
+
+        var members = membersBuilder.ToImmutableSortedDictionary();
         var compilationUnit = CompilationUnit(_options, members);
-
         var code = compilationUnit.ToFullString().Trim();
-        return code;
+
+        var codeDocument = new CSharpProjectDocument
+        {
+            FileName = $"{_options.ClassName}.gen.cs",
+            Contents = code
+        };
+
+        return codeDocument;
     }
 
     private ImmutableDictionary<Type, GenerateCodeHandler> CreateHandlers(IServiceProvider services)
@@ -136,7 +200,21 @@ public sealed partial class CSharpCodeGenerator
         CSharpCodeGeneratorOptions options,
         ImmutableSortedDictionary<string, List<MemberDeclarationSyntax>> membersByClassName)
     {
-        var code = CompilationUnitTemplateCode(options);
+        var code = CodeDocumentTemplate();
+        code += @$"
+{options.HeaderCodeRegion}
+
+namespace {options.NamespaceName};
+
+public static unsafe partial class {options.ClassName}
+{{
+    private const string LibraryName = ""{options.LibraryName}"";
+}}
+
+{options.FooterCodeRegion}
+";
+        code = MultipleNewLinesRegex().Replace(code, "\n\n");
+
         var syntaxTree = ParseSyntaxTree(code);
         var compilationUnit = syntaxTree.GetCompilationUnitRoot();
         var rootNamespace = (FileScopedNamespaceDeclarationSyntax)compilationUnit.Members[0];
@@ -162,83 +240,61 @@ public static unsafe partial class {className}
             }
         }
 
-        if (_options.IsEnabledGenerateCSharpRuntimeCode)
-        {
-            var runtimeClassDeclaration = RuntimeClass();
-            rootClassDeclarationWithMembers = rootClassDeclarationWithMembers.AddMembers(runtimeClassDeclaration);
-        }
-
         var newCompilationUnit = compilationUnit.ReplaceNode(
             rootClassDeclarationOriginal,
             rootClassDeclarationWithMembers);
-        using var workspace = new AdhocWorkspace();
-        var newCompilationUnitFormatted = (CompilationUnitSyntax)Formatter.Format(newCompilationUnit, workspace);
+        var newCompilationUnitFormatted = newCompilationUnit.Format();
         return newCompilationUnitFormatted;
     }
 
-    private static ClassDeclarationSyntax RuntimeClass()
+    private CSharpProjectDocument EmitRuntimeCodeDocument()
     {
-        var builderMembers = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
+        var templateCode = @"// To disable generating this file set `isEnabledGeneratingRuntimeCode` to `false` in the config file for generating C# code."
+                           + CodeDocumentTemplate();
+        templateCode += @"
 
-        var assembly = typeof(CBool).Assembly;
-        var manifestResourcesNames = assembly.GetManifestResourceNames();
-        foreach (var resourceName in manifestResourcesNames)
+namespace bottlenoselabs.C2CS;
+
+public static unsafe partial class Runtime
+{
+}
+";
+
+        var compilationUnitCode = ParseSyntaxTree(templateCode).GetCompilationUnitRoot();
+        var rootNamespace = (FileScopedNamespaceDeclarationSyntax)compilationUnitCode.Members[0];
+        var rootClassDeclarationOriginal = (ClassDeclarationSyntax)rootNamespace.Members[0];
+        var rootClassDeclarationWithMembers = rootClassDeclarationOriginal;
+
+        var members = typeof(CBool).Assembly.GetManifestResourceMemberDeclarations();
+        rootClassDeclarationWithMembers = rootClassDeclarationWithMembers.WithMembers(rootClassDeclarationWithMembers.Members.AddRange(members));
+
+        var newCompilationUnit = compilationUnitCode.ReplaceNode(
+            rootClassDeclarationOriginal,
+            rootClassDeclarationWithMembers);
+        var newCompilationUnitFormatted = newCompilationUnit.Format();
+        var code = newCompilationUnitFormatted.ToFullString();
+
+        var document = new CSharpProjectDocument
         {
-            if (!resourceName.EndsWith(".cs", StringComparison.InvariantCulture))
-            {
-                continue;
-            }
+            FileName = "Runtime.gen.cs",
+            Contents = code
+        };
 
-            using var stream = assembly.GetManifestResourceStream(resourceName);
-            using var streamReader = new StreamReader(stream!);
-            var code = streamReader.ReadToEnd();
-            var syntaxTree = ParseSyntaxTree(code);
-            var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
-            foreach (var member in compilationUnit.Members)
-            {
-                builderMembers.Add(member);
-            }
-        }
-
-        var members = builderMembers.ToArray();
-
-        const string runtimeClassName = "Runtime";
-        var runtimeClass = ClassDeclaration(runtimeClassName)
-            .AddModifiers(Token(SyntaxKind.PublicKeyword), Token(SyntaxKind.StaticKeyword))
-            .AddMembers(members)
-            .AddRegionStart(runtimeClassName, true)
-            .AddRegionEnd();
-        return runtimeClass;
+        return document;
     }
 
-    private static string CompilationUnitTemplateCode(CSharpCodeGeneratorOptions options)
+    private string CodeDocumentTemplate()
     {
-        var assemblyAttributesCode = string.Empty;
-        if (options.IsEnabledAssemblyAttributes)
-        {
-            assemblyAttributesCode = @"
-#if NET7_0_OR_GREATER
-[assembly: DisableRuntimeMarshalling]
-#endif
-";
-
-            assemblyAttributesCode += @"
-[assembly: DefaultDllImportSearchPathsAttribute(DllImportSearchPath.SafeDirectories)]
-";
-        }
-
-        var dateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss \"GMT\"zzz", CultureInfo.InvariantCulture);
-        var version = Assembly.GetEntryAssembly()!.GetName().Version;
         var code = $@"
 // <auto-generated>
-//  This code was generated by the following tool on {dateTime}:
-//      https://github.com/bottlenoselabs/c2cs (v{version})
+//  This code was generated by the following tool on {_dateTimeStamp}:
+//      https://github.com/bottlenoselabs/c2cs (v{_versionStamp})
 //
-//  Changes to this file may cause incorrect behavior and will be lost if the code is
-//      regenerated. To extend or add functionality use a partial class in a new file.
+//  Changes to this file may cause incorrect behavior and will be lost if the code is regenerated.
 // </auto-generated>
 // ReSharper disable All
 
+#region Template
 #nullable enable
 #pragma warning disable CS1591
 #pragma warning disable CS8981
@@ -247,23 +303,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-{(options.IsEnabledGenerateCSharpRuntimeCode ? $"using static {options.NamespaceName}.{options.ClassName}.Runtime;" : "using static bottlenoselabs.C2CS.Runtime")}
-
-{options.HeaderCodeRegion}
-{assemblyAttributesCode}
-
-namespace {options.NamespaceName};
-
-public static unsafe partial class {options.ClassName}
-{{
-    private const string LibraryName = ""{options.LibraryName}"";
-}}
-
-{options.FooterCodeRegion}
+using static bottlenoselabs.C2CS.Runtime;
+#endregion
 ";
-
-        var replacedCode = MultipleNewLinesRegex().Replace(code, "\n\n");
-        return replacedCode;
+        return code;
     }
 
     private static void Add<TCSharpNode>(

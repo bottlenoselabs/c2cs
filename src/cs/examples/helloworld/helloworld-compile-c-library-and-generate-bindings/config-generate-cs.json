@@ -1,6 +1,6 @@
 {
   "inputFilePath": "./ast/cross-platform.json",
-  "outputFilePath": "./../helloworld-app/my_c_library.cs",
+  "outputFileDirectory": "./../helloworld-app/Generated",
   "namespaceName": "my_c_library_namespace",
   "className": "my_c_library"
 }

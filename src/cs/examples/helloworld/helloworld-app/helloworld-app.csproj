@@ -9,6 +9,7 @@
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 
 	<!-- Copy native libraries -->

@@ -27,8 +27,8 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
     public override WriteCodeCSharpInput Sanitize(WriteCSharpCodeOptions unsanitizedInput)
     {
         var inputFilePath = InputFilePath(unsanitizedInput.InputAbstractSyntaxTreeFilePath);
-        var outputFilePath = OutputFilePath(unsanitizedInput.OutputCSharpCodeFilePath);
-        var className = ClassName(unsanitizedInput.ClassName, outputFilePath);
+        var outputFileDirectory = OutputFileDirectory(unsanitizedInput.OutputCSharpCodeFileDirectory);
+        var className = ClassName(unsanitizedInput.ClassName, outputFileDirectory);
         var libraryName = LibraryName(unsanitizedInput.LibraryName, className);
         var namespaceName = NamespaceName(unsanitizedInput.NamespaceName, libraryName);
         var mappedTypeNames = MappedNames(unsanitizedInput.MappedNames);
@@ -37,17 +37,17 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
         var footerCodeRegion = FooterCodeRegion(unsanitizedInput.FooterCodeRegionFilePath);
         var isEnabledFunctionPointers = unsanitizedInput.IsEnabledFunctionPointers ?? true;
         var isEnabledVerifyCSharpCodeCompiles = unsanitizedInput.IsEnabledVerifyCSharpCodeCompiles ?? true;
-        var isEnabledGenerateCSharpRuntimeCode = unsanitizedInput.IsEnabledGeneratingRuntimeCode ?? false;
+        var isEnabledGenerateCSharpRuntimeCode = unsanitizedInput.IsEnabledGeneratingRuntimeCode ?? true;
         var isEnabledLibraryImportAttribute = unsanitizedInput.IsEnabledLibraryImport ?? false;
         var mappedCNamespaces = MappedNames(unsanitizedInput.MappedCNamespaces);
-        var isEnabledAssemblyAttributes = unsanitizedInput.IsEnabledAssemblyAttributes ?? true;
+        var isEnabledGenerateAssemblyAttributes = unsanitizedInput.IsEnabledGenerateAssemblyAttributes ?? true;
         var isEnabledIdiomaticCSharp = unsanitizedInput.IsEnabledIdiomaticCSharp ?? false;
         var isEnabledEnumValueNamesUpperCase = unsanitizedInput.IsEnabledEnumValueNamesUpperCase ?? true;
 
         return new WriteCodeCSharpInput
         {
             InputFilePath = inputFilePath,
-            OutputFilePath = outputFilePath,
+            OutputFileDirectory = outputFileDirectory,
             MapperOptions = new CSharpCodeMapperOptions
             {
                 MappedTypeNames = mappedTypeNames,
@@ -67,7 +67,7 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
                 IsEnabledVerifyCSharpCodeCompiles = isEnabledVerifyCSharpCodeCompiles,
                 IsEnabledGenerateCSharpRuntimeCode = isEnabledGenerateCSharpRuntimeCode,
                 IsEnabledLibraryImportAttribute = isEnabledLibraryImportAttribute,
-                IsEnabledAssemblyAttributes = isEnabledAssemblyAttributes,
+                IsEnabledGenerateAssemblyAttributes = isEnabledGenerateAssemblyAttributes,
             }
         };
     }
@@ -91,22 +91,21 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
         return fullFilePath;
     }
 
-    private string OutputFilePath(string? outputFilePath)
+    private string OutputFileDirectory(string? outputFileDirectory)
     {
-        if (string.IsNullOrEmpty(outputFilePath))
+        if (string.IsNullOrEmpty(outputFileDirectory))
         {
-            throw new ToolInputSanitizationException("The output file path can not be an empty or null string.");
+            throw new ToolInputSanitizationException("The output file directory can not be an empty or null string.");
         }
 
-        var result = _fileSystem.Path.GetFullPath(outputFilePath);
-        var directoryPath = _fileSystem.Path.GetDirectoryName(outputFilePath);
+        var fullDirectoryPath = _fileSystem.Path.GetFullPath(outputFileDirectory);
 
-        if (!string.IsNullOrEmpty(directoryPath))
+        if (!string.IsNullOrEmpty(fullDirectoryPath))
         {
-            _fileSystem.Directory.CreateDirectory(directoryPath!);
+            _fileSystem.Directory.CreateDirectory(fullDirectoryPath!);
         }
 
-        return result;
+        return fullDirectoryPath;
     }
 
     private static ImmutableArray<CSharpMappedName> MappedNames(
