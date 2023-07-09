@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
@@ -41,7 +42,7 @@ public sealed class TestFixtureCSharpCode
 
         BuildCLibrary(sourceDirectoryPath, ImmutableArray<string>.Empty);
         var outputWriteCSharp = GenerateCSharpCode(sourceDirectoryPath);
-        var compileCSharpCodeResult = CompileCSharpCode(outputWriteCSharp.OutputFilePath);
+        var compileCSharpCodeResult = CompileCSharpCode(outputWriteCSharp.OutputFileDirectory);
 
         _assembly = compileCSharpCodeResult.Assembly;
         if (_assembly != null)
@@ -147,23 +148,25 @@ public sealed class TestFixtureCSharpCode
         var configGenerateCSharpCodeFilePath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "config-cs.json"));
         var outputWriteCSharp = writeCodeCSharpTool.Run(configGenerateCSharpCodeFilePath);
         Assert.True(outputWriteCSharp != null);
-        Assert.True(outputWriteCSharp!.Diagnostics.Length == 0, $"Diagnostics were reported when writing C# code: {outputWriteCSharp.OutputFilePath}");
+        Assert.True(outputWriteCSharp!.Diagnostics.Length == 0, $"Diagnostics were reported when writing C# code: {outputWriteCSharp.OutputFileDirectory}");
         Assert.True(outputWriteCSharp.IsSuccess, "Writing C# code failed.");
         return outputWriteCSharp;
     }
 
-    private static (Assembly? Assembly, EmitResult? EmitResult) CompileCSharpCode(string cSharpCodeFilePath)
+    private static (Assembly? Assembly, EmitResult? EmitResult) CompileCSharpCode(string directoryPath)
     {
+        var filesCSharp = Directory.GetFiles(directoryPath, "*.cs");
+        var syntaxTrees = filesCSharp.Select(File.ReadAllText)
+            .Select(code => CSharpSyntaxTree.ParseText(code));
+
         try
         {
-            var code = File.ReadAllText(cSharpCodeFilePath);
-            var syntaxTree = CSharpSyntaxTree.ParseText(code);
             var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
                 .WithPlatform(Platform.AnyCpu)
                 .WithAllowUnsafe(true);
             var compilation = CSharpCompilation.Create(
                 "TestAssemblyName",
-                new[] { syntaxTree },
+                syntaxTrees,
                 new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
                 compilationOptions);
             using var dllStream = new MemoryStream();
@@ -210,7 +213,9 @@ public sealed class TestFixtureCSharpCode
     private TestCSharpCodeAbstractSyntaxTree CreateCSharpAbstractSyntaxTree(
         WriteCodeCSharpOutput output)
     {
-        var code = File.ReadAllText(output.OutputFilePath);
+        var codeFilePath =
+            Path.Combine(output.OutputFileDirectory, $"{output.Input.GeneratorOptions.ClassName}.gen.cs");
+        var code = File.ReadAllText(codeFilePath);
         var syntaxTree = CSharpSyntaxTree.ParseText(code);
         var compilationUnitSyntax = syntaxTree.GetCompilationUnitRoot();
         var generatorOptions = output.Input.GeneratorOptions;

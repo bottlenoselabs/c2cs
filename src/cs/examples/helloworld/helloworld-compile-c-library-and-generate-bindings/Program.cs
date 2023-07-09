@@ -28,7 +28,7 @@ internal static class Program
             return;
         }
 
-        if (!GenerateBindingsCSharp(rootDirectory, sourceDirectoryPath))
+        if (!GenerateBindingsCSharp(sourceDirectoryPath))
         {
             Console.WriteLine("Error generating C# code");
         }
@@ -41,7 +41,7 @@ internal static class Program
         return C2CS.Program.Main(parameters) == 0;
     }
 
-    private static bool GenerateBindingsCSharp(string rootDirectory, string sourceDirectoryPath)
+    private static bool GenerateBindingsCSharp(string sourceDirectoryPath)
     {
         var bindgenConfigFileName = NativeUtility.OperatingSystem switch
         {

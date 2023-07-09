@@ -10,7 +10,7 @@ public sealed class WriteCodeCSharpInput
 {
     public string InputFilePath { get; init; } = string.Empty;
 
-    public string OutputFilePath { get; init; } = string.Empty;
+    public string OutputFileDirectory { get; init; } = string.Empty;
 
     public CSharpCodeMapperOptions MapperOptions { get; init; } = null!;
 

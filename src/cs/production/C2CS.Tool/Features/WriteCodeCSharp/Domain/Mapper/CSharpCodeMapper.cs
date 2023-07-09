@@ -21,6 +21,9 @@ public sealed class CSharpCodeMapper
     private readonly CSharpCodeMapperOptions _options;
     private readonly ImmutableDictionary<string, string> _userTypeNameAliases;
 
+    private static readonly string[] IgnoredNames = { "FFI_PLATFORM_NAME" };
+    private static readonly char[] IdentifierSeparatorCharacters = { '_', '.', '@' };
+
     public CSharpCodeMapper(CSharpCodeMapperOptions options)
     {
         _options = options;
@@ -57,7 +60,7 @@ public sealed class CSharpCodeMapper
         _builtinAliases = builtinAliases.ToImmutableHashSet();
         _ignoredNames = options.IgnoredNames
             .Concat(options.SystemTypeAliases.Keys)
-            .Concat(new[] { "FFI_PLATFORM_NAME" })
+            .Concat(IgnoredNames)
             .ToImmutableHashSet();
     }
 
@@ -897,7 +900,7 @@ public sealed class CSharpCodeMapper
             return identifier + pointersTrailing;
         }
 
-        var parts = identifier.Split(new[] { '_', '.', '@' }, StringSplitOptions.RemoveEmptyEntries);
+        var parts = identifier.Split(IdentifierSeparatorCharacters, StringSplitOptions.RemoveEmptyEntries);
 
         var partsCapitalized = parts.Select(x =>
         {
@@ -996,7 +999,7 @@ public sealed class CSharpCodeMapper
         var returnTypeC = functionPointer.ReturnTypeInfo;
         var returnTypeCSharp = TypeCSharp(context, returnTypeC);
         var returnTypeNameCSharp = returnTypeCSharp.FullName.Replace("*", "Ptr", StringComparison.InvariantCulture);
-        var returnTypeNameCSharpParts = returnTypeNameCSharp.Split(new[] { '_', '.', '@' }, StringSplitOptions.RemoveEmptyEntries);
+        var returnTypeNameCSharpParts = returnTypeNameCSharp.Split(IdentifierSeparatorCharacters, StringSplitOptions.RemoveEmptyEntries);
 
         var returnTypeNameCSharpPartsCapitalized = returnTypeNameCSharpParts.Select(x =>
             char.ToUpper(x[0], CultureInfo.InvariantCulture) + x[1..]);
@@ -1007,7 +1010,7 @@ public sealed class CSharpCodeMapper
         {
             var typeCSharp = TypeCSharp(context, parameter.TypeInfo);
             var typeNameCSharp = typeCSharp.FullName.Replace("*", "Ptr", StringComparison.InvariantCulture);
-            var typeNameCSharpParts = typeNameCSharp.Split(new[] { '_', '.', '@' }, StringSplitOptions.RemoveEmptyEntries);
+            var typeNameCSharpParts = typeNameCSharp.Split(IdentifierSeparatorCharacters, StringSplitOptions.RemoveEmptyEntries);
 
             var typeNameCSharpPartsCapitalized = typeNameCSharpParts.Select(x =>
                 char.ToUpper(x[0], CultureInfo.InvariantCulture) + x[1..]);

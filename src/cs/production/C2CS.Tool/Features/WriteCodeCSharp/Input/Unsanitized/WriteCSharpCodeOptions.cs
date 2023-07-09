@@ -21,8 +21,8 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     /// <summary>
     ///     The path of the output C# `.cs` file.
     /// </summary>
-    [JsonPropertyName("outputFilePath")]
-    public string? OutputCSharpCodeFilePath { get; set; }
+    [JsonPropertyName("outputFileDirectory")]
+    public string? OutputCSharpCodeFileDirectory { get; set; }
 
     /// <summary>
     ///     The name of the dynamic link library (without the file extension) used for platform invoke (P/Invoke) with
@@ -31,7 +31,7 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     /// <remarks>
     ///     <para>
     ///         Default is <c>null</c>. If <see cref="LibraryName" /> is <c>null</c>, the file name of
-    ///         <see cref="OutputCSharpCodeFilePath" /> without the file extension is used.
+    ///         <see cref="OutputCSharpCodeFileDirectory" /> without the file extension is used.
     ///     </para>
     /// </remarks>
     [JsonPropertyName("libraryName")]
@@ -139,13 +139,12 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         Default is <c>false</c>. Use <c>true</c> to generate C# runtime glue code as part of bindgen. Use
-    ///         <c>false</c> to disable generating C# runtime glue code as part of bindgen and use the NuGet package
-    ///         'bottlenoselabs.C2CS.Runtime' instead.
+    ///         Default is <c>true</c>. Use <c>true</c> to generate C# runtime glue code as part of bindgen. Use
+    ///         <c>false</c> to disable generating C# runtime glue code.
     ///     </para>
     /// </remarks>
     [JsonPropertyName("isEnabledGeneratingRuntimeCode")]
-    public bool? IsEnabledGeneratingRuntimeCode { get; set; }
+    public bool? IsEnabledGeneratingRuntimeCode { get; set; } = true;
 
     /// <summary>
     ///     Determines whether to enable C# source code generation using
@@ -180,8 +179,8 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     ///         usages.
     ///     </para>
     /// </remarks>
-    [JsonPropertyName("isEnabledAssemblyAttributes")]
-    public bool? IsEnabledAssemblyAttributes { get; set; } = true;
+    [JsonPropertyName("isEnabledGenerateAssemblyAttributes")]
+    public bool? IsEnabledGenerateAssemblyAttributes { get; set; } = true;
 
     /// <summary>
     ///     Determines whether to enable generating idiomatic C#.

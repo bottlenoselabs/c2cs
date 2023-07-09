@@ -3,15 +3,13 @@
 
 using System;
 using System.Runtime.InteropServices;
+using static bottlenoselabs.C2CS.Runtime;
 using static my_c_library_namespace.my_c_library;
-using static my_c_library_namespace.my_c_library.Runtime;
 
 internal static class Program
 {
     private static unsafe void Main()
     {
-        Setup();
-
         hw_hello_world();
 
         var cString1 = (CString)"Hello world from C#!";

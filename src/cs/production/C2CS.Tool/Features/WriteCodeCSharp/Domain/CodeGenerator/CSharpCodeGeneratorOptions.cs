@@ -21,7 +21,7 @@ public sealed class CSharpCodeGeneratorOptions
 
     public bool IsEnabledGenerateCSharpRuntimeCode { get; init; }
 
-    public bool IsEnabledLibraryImportAttribute { get; init; }
+    public bool IsEnabledGenerateAssemblyAttributes { get; init; }
 
-    public bool IsEnabledAssemblyAttributes { get; init; }
+    public bool IsEnabledLibraryImportAttribute { get; init; }
 }

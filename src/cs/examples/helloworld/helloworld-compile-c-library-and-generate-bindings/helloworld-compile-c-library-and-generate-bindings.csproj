@@ -8,14 +8,15 @@
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 
-	<!-- Project references -->
+	<!-- NuGet package references -->
 	<ItemGroup>
 		<PackageReference Include="System.IO.Abstractions" Version="19.2.4" />
 	</ItemGroup>
-	
-	<!-- NuGet package references -->
+
+	<!-- Project references -->
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\production\C2CS.Tool\C2CS.Tool.csproj" />
 	</ItemGroup>

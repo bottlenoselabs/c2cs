@@ -2,8 +2,10 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
+using System.Linq;
 using C2CS.Features.WriteCodeCSharp.Data;
 using C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator;
 using C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator.Diagnostics;
@@ -43,12 +45,12 @@ public sealed class WriteCodeCSharpTool : Tool<WriteCSharpCodeOptions, WriteCode
             abstractSyntaxTreesC,
             input.MapperOptions);
 
-        var code = GenerateCSharpCode(nodesPerPlatform, input.GeneratorOptions);
-        WriteCSharpCodeToFileStorage(input.OutputFilePath, code);
+        var project = GenerateCSharpLibrary(nodesPerPlatform, input.GeneratorOptions);
+        WriteFilesToStorage(input.OutputFileDirectory, project);
 
         if (input.GeneratorOptions.IsEnabledVerifyCSharpCodeCompiles)
         {
-            VerifyCSharpCodeCompiles(input.OutputFilePath, code);
+            VerifyCSharpCodeCompiles(input.OutputFileDirectory, project);
         }
     }
 
@@ -77,31 +79,55 @@ public sealed class WriteCodeCSharpTool : Tool<WriteCSharpCodeOptions, WriteCode
         return result;
     }
 
-    private string GenerateCSharpCode(
+    private CSharpProject GenerateCSharpLibrary(
         CSharpAbstractSyntaxTree abstractSyntaxTree,
         CSharpCodeGeneratorOptions options)
     {
-        BeginStep("Generate C# code");
+        BeginStep("Generate C# library files");
 
         var codeGenerator = new CSharpCodeGenerator(_services, options);
-        var result = codeGenerator.EmitCode(abstractSyntaxTree);
+        var project = codeGenerator.Emit(abstractSyntaxTree);
 
         EndStep();
 
-        return result;
+        return project;
     }
 
-    private void VerifyCSharpCodeCompiles(string outputFilePath, string codeCSharp)
+    private void WriteFilesToStorage(
+        string outputFileDirectory,
+        CSharpProject project)
+    {
+        BeginStep("Write generated files to storage");
+
+        foreach (var document in project.Documents)
+        {
+            var fullFilePath = Path.GetFullPath(Path.Combine(outputFileDirectory, document.FileName));
+            File.WriteAllText(fullFilePath, document.Contents);
+        }
+
+        EndStep();
+    }
+
+    private void VerifyCSharpCodeCompiles(string outputFilePath, CSharpProject project)
     {
         BeginStep("Verify C# code compiles");
 
-        var syntaxTree = CSharpSyntaxTree.ParseText(codeCSharp);
+        var cSharpDocuments = project.Documents.Where(x =>
+            x.FileName.EndsWith(".cs", StringComparison.InvariantCulture));
+
+        var syntaxTrees = new List<SyntaxTree>();
+        foreach (var cSharpDocument in cSharpDocuments)
+        {
+            var sharpSyntaxTree = CSharpSyntaxTree.ParseText(cSharpDocument.Contents);
+            syntaxTrees.Add(sharpSyntaxTree);
+        }
+
         var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
             .WithPlatform(Platform.AnyCpu)
             .WithAllowUnsafe(true);
         var compilation = CSharpCompilation.Create(
             "TestAssemblyName",
-            new[] { syntaxTree },
+            syntaxTrees,
             new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
             compilationOptions);
         using var dllStream = new MemoryStream();
@@ -120,16 +146,6 @@ public sealed class WriteCodeCSharpTool : Tool<WriteCSharpCodeOptions, WriteCode
 
             Diagnostics.Add(new CSharpCompileDiagnostic(outputFilePath, diagnostic));
         }
-
-        EndStep();
-    }
-
-    private void WriteCSharpCodeToFileStorage(
-        string outputFilePath, string codeCSharp)
-    {
-        BeginStep("Write C# code to file");
-
-        File.WriteAllText(outputFilePath, codeCSharp);
 
         EndStep();
     }
