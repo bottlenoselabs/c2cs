@@ -1,6 +1,6 @@
 {
   "inputFilePath": "./ast/cross-platform.json",
-  "outputFilePath": "./_container_library.gen.cs",
+  "outputFileDirectory": "./",
   "libraryName": "_container_library",
   "namespaceName": "bottlenoselabs",
   "isEnabledGeneratingRuntimeCode": true

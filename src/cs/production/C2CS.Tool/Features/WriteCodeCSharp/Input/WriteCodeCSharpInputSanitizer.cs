@@ -95,7 +95,7 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
     {
         if (string.IsNullOrEmpty(outputFileDirectory))
         {
-            throw new ToolInputSanitizationException("The output file directory can not be an empty or null string.");
+            outputFileDirectory = Environment.CurrentDirectory;
         }
 
         var fullDirectoryPath = _fileSystem.Path.GetFullPath(outputFileDirectory);
