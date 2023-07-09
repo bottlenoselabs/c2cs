@@ -1,0 +1,8 @@
+# NOTE: Requires .NET 5 SDK (VS2019 16.8 or later)
+# https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files#global-analyzerconfig
+is_global = true
+
+# StyleCop Rules
+## Description: StyleCop code analysis rules for C# projects.
+dotnet_diagnostic.SA1401.severity = none
+dotnet_diagnostic.SA1402.severity = none

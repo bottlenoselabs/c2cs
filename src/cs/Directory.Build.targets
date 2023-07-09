@@ -1,16 +1,3 @@
 <Project>
 
-    <!-- Move .DotSettings shared file into Properties/ folder -->
-    <PropertyGroup>
-        <DotSettingsFilePath>$(MSBuildProjectFile).DotSettings</DotSettingsFilePath>
-    </PropertyGroup>
-    <ItemGroup>
-        <None Update="$(DotSettingsFilePath)" Condition="Exists('$(DotSettingsFilePath)')">
-            <Visible>false</Visible>
-        </None>
-        <None Include="$(DotSettingsFilePath)" Condition="Exists('$(DotSettingsFilePath)')">
-            <Link>Properties/$(DotSettingsFilePath)</Link>
-        </None>
-    </ItemGroup>
-
 </Project>

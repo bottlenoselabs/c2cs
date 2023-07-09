@@ -3,6 +3,9 @@
 
 using System;
 
+/// <summary>
+///     Specifies a C `const` for a parameter or return value.
+/// </summary>
 [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.ReturnValue)]
 public sealed class CConstAttribute : Attribute
 {

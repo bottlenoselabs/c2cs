@@ -3,8 +3,14 @@
 
 using System;
 
+/// <summary>
+///     Specifies a C node with a specific kind for a C# type.
+/// </summary>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Method | AttributeTargets.Enum | AttributeTargets.Field)]
 public sealed class CNodeAttribute : Attribute
 {
+    /// <summary>
+    ///     Gets or sets the C node kind.
+    /// </summary>
     public string Kind { get; set; } = string.Empty;
 }

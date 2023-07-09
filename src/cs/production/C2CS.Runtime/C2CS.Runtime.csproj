@@ -5,7 +5,7 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Nullable>enable</Nullable>
-		<GenerateDocumentationFile>flase</GenerateDocumentationFile>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<RootNamespace>bottlenoselabs.C2CS.Runtime</RootNamespace>
 	</PropertyGroup>
 
