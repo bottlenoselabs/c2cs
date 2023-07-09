@@ -12,8 +12,8 @@
 		<NoWarn>$(NoWarn);CA1707;CA2000;SA1300;IDE1006;CA1034;CA1051;CA1062;CA1724</NoWarn>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
-
-	<!-- MSBuild.Tools project settings -->
+	
+	<!-- bottlenoselabs.Common.Tools project settings -->
 	<PropertyGroup>
 		<EnableCodeCoverage>false</EnableCodeCoverage>
 	</PropertyGroup>
