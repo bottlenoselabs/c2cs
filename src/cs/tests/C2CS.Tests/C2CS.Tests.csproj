@@ -36,22 +36,9 @@
 		</PackageReference>
 	</ItemGroup>
 
-	<!-- Copy data test files to output -->
-	<ItemGroup>
-	  <None Update="C\Data\Values\**\*.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-		<None Update="CSharp\Data\Values\**\*.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="appsettings.json">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
-	
 	<!-- Clang native library -->
 	<ItemGroup>
-	  <None Include="..\..\..\..\lib\*.*">
+	  <None Include="$(GitRepositoryPath)\lib\*.*">
 	    <Link>%(Filename)%(Extension)</Link>
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
